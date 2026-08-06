@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://dataflowbench.dev/schemas/case/v1",
+  "title": "DataFlowBench case v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "id", "track", "language", "feature_tags", "fixture_files", "source_anchors", "sink_anchors", "expected_flows", "expected_nonflows", "expected_analysis_capability", "execution_budget", "fixture_provenance", "tool_model_references"],
+  "properties": {
+    "schema_version": { "const": 1 },
+    "id": { "type": "string", "pattern": "^dfb-[a-z0-9-]+$" },
+    "track": { "enum": ["value-flow", "taint", "typestate", "performance"] },
+    "language": { "type": "string", "minLength": 1 },
+    "feature_tags": { "type": "array", "minItems": 1, "uniqueItems": true, "items": { "enum": ["intraprocedural", "interprocedural-one-hop", "interprocedural-deep", "heap-access-path", "recursive", "exceptional", "modeled-external", "ambiguous-dispatch", "sanitized", "summary-required"] } },
+    "fixture_files": { "type": "array", "minItems": 1, "items": { "type": "string" } },
+    "source_anchors": { "$ref": "#/$defs/anchors" },
+    "sink_anchors": { "$ref": "#/$defs/anchors" },
+    "expected_flows": { "$ref": "#/$defs/flows" },
+    "expected_nonflows": { "$ref": "#/$defs/flows" },
+    "witness_checkpoints": { "type": "array", "items": { "type": "string", "pattern": "^DFB-" } },
+    "expected_analysis_capability": { "type": "object", "additionalProperties": false, "required": ["kind"], "properties": { "kind": { "type": "string" }, "notes": { "type": "string" } } },
+    "execution_budget": { "type": "object", "additionalProperties": false, "required": ["wall_clock_seconds"], "properties": { "wall_clock_seconds": { "type": "integer", "minimum": 1 }, "peak_memory_mb": { "type": "integer", "minimum": 1 } } },
+    "fixture_provenance": { "type": "object", "additionalProperties": false, "required": ["kind", "origin", "revision", "license"], "properties": { "kind": { "enum": ["authored", "imported"] }, "origin": { "type": "string" }, "revision": { "type": "string" }, "license": { "type": "string" } } },
+    "tool_model_references": { "type": "object", "additionalProperties": { "type": "object", "additionalProperties": false, "properties": { "policy": { "type": "string" }, "unsupported_reason": { "type": "string" } } } }
+  },
+  "$defs": {
+    "anchors": { "type": "array", "minItems": 1, "items": { "type": "object", "additionalProperties": false, "required": ["marker", "file"], "properties": { "marker": { "type": "string", "pattern": "^DFB-" }, "file": { "type": "string" }, "line_hint": { "type": "integer", "minimum": 1 } } } },
+    "flows": { "type": "array", "items": { "type": "object", "additionalProperties": false, "required": ["source", "sink"], "properties": { "source": { "type": "string", "pattern": "^DFB-" }, "sink": { "type": "string", "pattern": "^DFB-" } } } }
+  }
+}

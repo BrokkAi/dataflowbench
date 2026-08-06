@@ -1,0 +1,10 @@
+{
+  "schema_version": 1, "id": "dfb-taint-java-explicit-negative", "track": "taint", "language": "java",
+  "feature_tags": ["intraprocedural"], "fixture_files": ["ExplicitNegative.java"],
+  "source_anchors": [{"marker": "DFB-SOURCE: explicit-negative-input", "file": "ExplicitNegative.java", "line_hint": 4}],
+  "sink_anchors": [{"marker": "DFB-SINK: explicit-negative-sink", "file": "ExplicitNegative.java", "line_hint": 8}],
+  "expected_flows": [], "expected_nonflows": [{"source": "DFB-SOURCE: explicit-negative-input", "sink": "DFB-SINK: explicit-negative-sink"}],
+  "witness_checkpoints": [], "expected_analysis_capability": {"kind": "intraprocedural-taint"}, "execution_budget": {"wall_clock_seconds": 60, "peak_memory_mb": 512},
+  "fixture_provenance": {"kind": "authored", "origin": "DataFlowBench", "revision": "initial", "license": "MIT"},
+  "tool_model_references": {"bifrost": {"policy": "adapters/bifrost/policies/explicit-negative.rqlp"}}
+}
