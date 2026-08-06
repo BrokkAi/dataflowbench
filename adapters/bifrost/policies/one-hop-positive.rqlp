@@ -1,0 +1,9 @@
+(policy
+  :schema-version 1
+  :id "dataflowbench.taint.one-hop-positive"
+  :name "DataFlowBench one-hop Java taint"
+  :message "Untrusted data reaches the one-hop benchmark sink"
+  :severity warning
+  :analysis (analysis :type taint :mode may
+    :sources (endpoint-set :entries [(source :id input :display-name "benchmark input" :categories [input.user-controlled] :selector (rql :schema-version 1 (language java (call :callee (name "oneHopUntrustedInput")))) :bind return-value :labels [attacker-controlled])])
+    :sinks (endpoint-set :entries [(sink :id sink :display-name "benchmark sink" :categories [data.sensitive] :selector (rql :schema-version 1 (language java (call :callee (name "recordOneHop")))) :dangerous-operand (argument :index 0) :accepts [attacker-controlled])])) )

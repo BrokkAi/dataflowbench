@@ -1,0 +1,10 @@
+{
+  "schema_version": 1, "id": "dfb-taint-java-modeled-external", "track": "taint", "language": "java",
+  "feature_tags": ["modeled-external", "summary-required"], "fixture_files": ["ModeledExternalUnsupported.java"],
+  "source_anchors": [{"marker": "DFB-SOURCE: external-input", "file": "ModeledExternalUnsupported.java", "line_hint": 4}],
+  "sink_anchors": [{"marker": "DFB-SINK: external-sink", "file": "ModeledExternalUnsupported.java", "line_hint": 8}],
+  "expected_flows": [{"source": "DFB-SOURCE: external-input", "sink": "DFB-SINK: external-sink"}], "expected_nonflows": [],
+  "expected_analysis_capability": {"kind": "external-summary-activation", "notes": "Requires an explicitly activated external semantic-model catalog."}, "execution_budget": {"wall_clock_seconds": 60, "peak_memory_mb": 512},
+  "fixture_provenance": {"kind": "authored", "origin": "DataFlowBench", "revision": "initial", "license": "MIT"},
+  "tool_model_references": {"bifrost": {"unsupported_reason": "Bifrost's standalone policy CLI has no ambient external semantic-model catalog; this requires an embedding with explicit activation."}}
+}
