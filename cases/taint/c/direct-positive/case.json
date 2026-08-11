@@ -1,0 +1,61 @@
+{
+  "schema_version": 2,
+  "id": "dfb-taint-c-direct-positive",
+  "template_id": "dfb-template-direct-propagation",
+  "polarity": "positive",
+  "score_tier": "core",
+  "track": "taint",
+  "language": "c",
+  "semantic_dimensions": [
+    "local-flow"
+  ],
+  "feature_tags": [
+    "intraprocedural"
+  ],
+  "model_profile": "benchmark-controlled",
+  "fixture_files": [
+    "direct_flow.c"
+  ],
+  "source_anchors": [
+    {
+      "marker": "DFB-SOURCE: direct-input",
+      "file": "direct_flow.c"
+    }
+  ],
+  "sink_anchors": [
+    {
+      "marker": "DFB-SINK: direct-sink",
+      "file": "direct_flow.c"
+    }
+  ],
+  "expected_flows": [
+    {
+      "source": "DFB-SOURCE: direct-input",
+      "sink": "DFB-SINK: direct-sink"
+    }
+  ],
+  "expected_nonflows": [],
+  "witness_checkpoints": [
+    "DFB-SOURCE: direct-input",
+    "DFB-SINK: direct-sink"
+  ],
+  "expected_analysis_capability": {
+    "kind": "intraprocedural-taint"
+  },
+  "execution_budget": {
+    "wall_clock_seconds": 60,
+    "peak_memory_mb": 512
+  },
+  "fixture_provenance": {
+    "kind": "authored",
+    "origin": "DataFlowBench",
+    "revision": "m1a-direct-core",
+    "license": "MIT"
+  },
+  "tool_model_references": {
+    "bifrost": {
+      "policy": "adapters/bifrost/policies/core-direct.rqlp"
+    }
+  }
+}
+

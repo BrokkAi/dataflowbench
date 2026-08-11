@@ -5,5 +5,6 @@
   :message "Untrusted data reaches the explicit-negative benchmark sink"
   :severity warning
   :analysis (analysis :type taint :mode may
+    :call-modeling (call-modeling :unmodeled optimistic)
     :sources (endpoint-set :entries [(source :id input :display-name "benchmark input" :categories [input.user-controlled] :selector (rql :schema-version 1 (language java (call :callee (name "explicitNegativeUntrustedInput")))) :bind return-value :labels [attacker-controlled])])
     :sinks (endpoint-set :entries [(sink :id sink :display-name "benchmark sink" :categories [data.sensitive] :selector (rql :schema-version 1 (language java (call :callee (name "recordExplicitNegative")))) :dangerous-operand (argument :index 0) :accepts [attacker-controlled])])) )
