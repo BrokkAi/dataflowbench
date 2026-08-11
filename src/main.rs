@@ -4,6 +4,7 @@ use jsonschema::JSONSchema;
 use serde_json::{Value, json};
 use sha2::{Digest, Sha256};
 use std::{
+    collections::BTreeMap,
     fs,
     path::{Path, PathBuf},
     process::Command,
@@ -12,6 +13,8 @@ use std::{
 use walkdir::WalkDir;
 
 const ADAPTER_VERSION: &str = env!("CARGO_PKG_VERSION");
+type CorePairKey<'a> = (&'a str, &'a str, &'a str, &'a str);
+type CorePairCases<'a> = Vec<(&'a Path, &'a str)>;
 
 #[derive(Parser)]
 #[command(name = "dataflowbench")]
@@ -74,13 +77,69 @@ fn validate_cases() -> Result<()> {
     if paths.is_empty() {
         bail!("no case.json files found beneath cases/");
     }
+    let mut cases = Vec::new();
     for path in &paths {
         let value: Value = serde_json::from_str(&fs::read_to_string(path)?)?;
         validate_value(&compiled, &value, path)?;
+        validate_case_contract(path, &value)?;
         validate_markers(path, &value)?;
         validate_fixture_files(path, &value)?;
+        cases.push((path.clone(), value));
     }
+    validate_balanced_core_pairs(&cases)?;
     println!("validated {} cases", paths.len());
+    Ok(())
+}
+
+fn validate_case_contract(path: &Path, value: &Value) -> Result<()> {
+    let expected_flows = value["expected_flows"]
+        .as_array()
+        .expect("schema validated");
+    let expected_nonflows = value["expected_nonflows"]
+        .as_array()
+        .expect("schema validated");
+    match value["polarity"].as_str().expect("schema validated") {
+        "positive" if expected_flows.is_empty() || !expected_nonflows.is_empty() => bail!(
+            "{}: positive cases require expected_flows and forbid expected_nonflows",
+            path.display()
+        ),
+        "negative" if !expected_flows.is_empty() || expected_nonflows.is_empty() => bail!(
+            "{}: negative cases require expected_nonflows and forbid expected_flows",
+            path.display()
+        ),
+        _ => Ok(()),
+    }
+}
+
+fn validate_balanced_core_pairs(cases: &[(PathBuf, Value)]) -> Result<()> {
+    let mut pairs: BTreeMap<CorePairKey<'_>, CorePairCases<'_>> = BTreeMap::new();
+    for (path, case) in cases {
+        if case["score_tier"] != "core" {
+            continue;
+        }
+        let key = (
+            case["track"].as_str().expect("schema validated"),
+            case["language"].as_str().expect("schema validated"),
+            case["template_id"].as_str().expect("schema validated"),
+            case["model_profile"].as_str().expect("schema validated"),
+        );
+        pairs
+            .entry(key)
+            .or_default()
+            .push((path, case["polarity"].as_str().expect("schema validated")));
+    }
+    for ((track, language, template, model_profile), cases) in pairs {
+        let positives = cases
+            .iter()
+            .filter(|(_, polarity)| *polarity == "positive")
+            .count();
+        let negatives = cases.len() - positives;
+        if positives != 1 || negatives != 1 {
+            bail!(
+                "core pair {track}/{language}/{template}/{model_profile} requires exactly one positive and one negative; found {positives} positive and {negatives} negative"
+            );
+        }
+    }
     Ok(())
 }
 
@@ -125,8 +184,8 @@ fn validate_reports() -> Result<()> {
         .collect();
     paths.sort();
     for path in &paths {
-        let report: Value = serde_json::from_str(&fs::read_to_string(&path)?)?;
-        validate_value(&compiled, &report, &path)?;
+        let report: Value = serde_json::from_str(&fs::read_to_string(path)?)?;
+        validate_value(&compiled, &report, path)?;
         for result in report["results"].as_array().expect("schema validated") {
             let raw = result["raw_output"].as_str().expect("schema validated");
             if !Path::new(raw).is_file() {
@@ -377,6 +436,28 @@ mod tests {
         )
         .unwrap()
         .1
-        .contains(&"Bifrost reported incomplete analysis: partial_discovery".to_string()));
+            .contains(&"Bifrost reported incomplete analysis: partial_discovery".to_string()));
+    }
+
+    #[test]
+    fn core_templates_require_one_positive_and_one_negative() {
+        let case = |polarity| {
+            json!({
+                "track": "taint",
+                "language": "java",
+                "template_id": "dfb-template-direct-propagation",
+                "model_profile": "benchmark-controlled",
+                "score_tier": "core",
+                "polarity": polarity
+            })
+        };
+        let balanced = vec![
+            (PathBuf::from("positive.json"), case("positive")),
+            (PathBuf::from("negative.json"), case("negative")),
+        ];
+        assert!(validate_balanced_core_pairs(&balanced).is_ok());
+
+        let unbalanced = vec![(PathBuf::from("positive.json"), case("positive"))];
+        assert!(validate_balanced_core_pairs(&unbalanced).is_err());
     }
 }
