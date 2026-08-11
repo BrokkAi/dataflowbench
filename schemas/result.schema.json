@@ -4,10 +4,10 @@
   "title": "DataFlowBench normalized result v1",
   "type": "object",
   "additionalProperties": false,
-  "required": ["schema_version", "tool", "tool_version", "adapter_version", "configuration_hash", "fixture_revision", "started_at_unix_seconds", "ended_at_unix_seconds", "cold_or_warm", "results"],
+  "required": ["schema_version", "tool", "tool_version", "tool_build_identity", "adapter_version", "configuration_hash", "fixture_revision", "started_at_unix_seconds", "ended_at_unix_seconds", "cold_or_warm", "results"],
   "properties": {
     "schema_version": { "const": 1 },
-    "tool": { "type": "string" }, "tool_version": { "type": "string" }, "adapter_version": { "type": "string" }, "configuration_hash": { "type": "string" }, "fixture_revision": { "type": "string" },
+    "tool": { "type": "string" }, "tool_version": { "type": "string" }, "tool_build_identity": { "type": "string" }, "adapter_version": { "type": "string" }, "configuration_hash": { "type": "string" }, "fixture_revision": { "type": "string" },
     "started_at_unix_seconds": { "type": "integer" }, "ended_at_unix_seconds": { "type": "integer" }, "cold_or_warm": { "enum": ["cold", "warm"] },
     "results": { "type": "array", "items": { "type": "object", "additionalProperties": false, "required": ["case_id", "outcome", "source_anchors", "sink_anchors", "witness_checkpoints", "diagnostics", "duration_ms", "raw_output"], "properties": { "case_id": { "type": "string" }, "outcome": { "enum": ["reached", "not-reached", "inconclusive", "unsupported", "runner-error"] }, "source_anchors": { "type": "array", "items": { "type": "string" } }, "sink_anchors": { "type": "array", "items": { "type": "string" } }, "witness_checkpoints": { "type": "array", "items": { "type": "string" } }, "diagnostics": { "type": "array", "items": { "type": "string" } }, "duration_ms": { "type": "integer", "minimum": 0 }, "peak_memory_mb": { "type": ["integer", "null"], "minimum": 1 }, "raw_output": { "type": "string" } } } }
   }

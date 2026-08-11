@@ -12,24 +12,30 @@ design discussion, external infrastructure, or parallel ownership.
 - Reject unbalanced future core templates during validation.
 - Document benchmark provenance and scoring before publishing scores.
 
-## M1: Java propagation kernel
+## M1: breadth baseline and Java propagation kernel
 
-Author 16 benchmark-controlled templates, with one positive and one negative
-case per template. Use four equally sized strata:
+First establish one balanced, benchmark-controlled direct-propagation pair in
+every language/dialect supported by the Bifrost CLI. This 26-assertion breadth
+baseline catches adapter, parser, and language-routing failures before deeper
+language work begins.
+
+Then author 16 Java benchmark-controlled templates, with one positive and one
+negative case per template. Use four equally sized strata:
 
 1. local propagation and flow-sensitive kills;
 2. calls, returns, and context separation;
 3. heap, field, alias, and object separation;
 4. branches, loops, exceptions, and other control transfers.
 
-The resulting 32 assertions form the first scored core. Run Bifrost, CodeQL,
-and Joern adapters; add OpenTaint when its neutral JVM-rule path is reproducible.
+The resulting 32 Java assertions form the first deep scored core. Test Bifrost
+first; add CodeQL and Joern adapters after the fixture contract stabilizes, and
+add OpenTaint when its neutral JVM-rule path is reproducible.
 
 ## M2: cross-language parity
 
 Port the same 16 templates to JavaScript and Python without changing their
-semantic intent. The shared core contains 96 assertions across three languages.
-Language-only constructs live in `language-extension` scorecards.
+semantic intent, then extend parity language by language where the construct is
+meaningful. Language-only constructs live in `language-extension` scorecards.
 
 ## M3: taint modeling
 

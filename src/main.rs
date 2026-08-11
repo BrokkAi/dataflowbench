@@ -4,7 +4,7 @@ use jsonschema::JSONSchema;
 use serde_json::{Value, json};
 use sha2::{Digest, Sha256};
 use std::{
-    collections::BTreeMap,
+    collections::{BTreeMap, BTreeSet},
     fs,
     path::{Path, PathBuf},
     process::Command,
@@ -204,10 +204,11 @@ fn run_bifrost_smoke(binary: &Path) -> Result<()> {
     let started = now_seconds()?;
     let version =
         command_output(Command::new(binary).arg("--version")).unwrap_or_else(|_| "unknown".into());
-    let revision = command_output(Command::new("git").args(["rev-parse", "HEAD"]))
-        .unwrap_or_else(|_| "uncommitted".into());
+    let build_identity = command_output(Command::new(binary).arg("--build-identity"))
+        .unwrap_or_else(|_| "unknown".into());
+    let revision = fixture_revision()?;
     let mut results = Vec::new();
-    let mut hashes = Vec::new();
+    let mut policy_paths = BTreeSet::new();
     for path in case_paths() {
         let case: Value = serde_json::from_str(&fs::read_to_string(&path)?)?;
         let id = case["id"].as_str().expect("schema validated");
@@ -228,7 +229,7 @@ fn run_bifrost_smoke(binary: &Path) -> Result<()> {
             let policy = model["policy"]
                 .as_str()
                 .context("Bifrost case lacks policy reference")?;
-            hashes.push(fs::read(policy)?);
+            policy_paths.insert(PathBuf::from(policy));
             let workspace = materialize_bifrost_workspace(&path, &case, policy)?;
             let status = Command::new(binary)
                 .arg("--root")
@@ -237,7 +238,7 @@ fn run_bifrost_smoke(binary: &Path) -> Result<()> {
                 .arg("policy.rqlp")
                 .args([
                     "--evaluation-date",
-                    "2026-08-06",
+                    "2026-08-11",
                     "--format",
                     "json",
                     "--fail-on",
@@ -262,10 +263,11 @@ fn run_bifrost_smoke(binary: &Path) -> Result<()> {
         }));
     }
     let mut hasher = Sha256::new();
-    for bytes in hashes {
-        hasher.update(bytes);
+    for path in policy_paths {
+        hasher.update(path.to_string_lossy().as_bytes());
+        hasher.update(fs::read(path)?);
     }
-    let report = json!({"schema_version": 1, "tool": "bifrost", "tool_version": version, "adapter_version": ADAPTER_VERSION, "configuration_hash": format!("{:x}", hasher.finalize()), "fixture_revision": revision, "started_at_unix_seconds": started, "ended_at_unix_seconds": now_seconds()?, "cold_or_warm": "cold", "results": results});
+    let report = json!({"schema_version": 1, "tool": "bifrost", "tool_version": version, "tool_build_identity": build_identity, "adapter_version": ADAPTER_VERSION, "configuration_hash": format!("{:x}", hasher.finalize()), "fixture_revision": revision, "started_at_unix_seconds": started, "ended_at_unix_seconds": now_seconds()?, "cold_or_warm": "cold", "results": results});
     fs::write(
         "reports/bifrost-smoke.json",
         serde_json::to_string_pretty(&report)? + "\n",
@@ -275,9 +277,31 @@ fn run_bifrost_smoke(binary: &Path) -> Result<()> {
     Ok(())
 }
 
+fn fixture_revision() -> Result<String> {
+    let mut hasher = Sha256::new();
+    for path in case_paths() {
+        hasher.update(path.to_string_lossy().as_bytes());
+        let case_bytes = fs::read(&path)?;
+        hasher.update(&case_bytes);
+        let case: Value = serde_json::from_slice(&case_bytes)?;
+        let root = path.parent().expect("case path has parent");
+        for fixture in case["fixture_files"].as_array().expect("schema validated") {
+            let fixture = fixture.as_str().expect("schema validated");
+            hasher.update(fixture.as_bytes());
+            hasher.update(fs::read(root.join(fixture))?);
+        }
+    }
+    Ok(format!("sha256:{:x}", hasher.finalize()))
+}
+
 fn materialize_bifrost_workspace(case_path: &Path, case: &Value, policy: &str) -> Result<PathBuf> {
     let id = case["id"].as_str().expect("schema validated");
-    let workspace = Path::new("target/dataflowbench-bifrost-smoke").join(id);
+    // Keep generated workspaces outside this repository. Bifrost honors the
+    // repository's ignore rules, so placing fixtures below ignored `target/`
+    // would make an otherwise valid run index zero source files.
+    let workspace = std::env::temp_dir()
+        .join("dataflowbench-bifrost-smoke")
+        .join(id);
     if workspace.exists() {
         fs::remove_dir_all(&workspace).with_context(|| format!("clear {}", workspace.display()))?;
     }
