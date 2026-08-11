@@ -15,6 +15,12 @@ Native rules, models, commands, and documented limitations belong under that
 tool's `adapters/` directory. Do not turn unsupported or inconclusive execution
 into a `not-reached` result.
 
+Every `core` semantic template requires exactly one positive and one negative
+case for the same track, language, and model profile. Give negatives an explicit
+mechanism; do not satisfy the balance contract with a large class of trivial
+safe literals. Use `calibration` while adapter plumbing or a pair is incomplete.
+See [the scoring contract](docs/scoring.md).
+
 ## Validation
 
 ```bash

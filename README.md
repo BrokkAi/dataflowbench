@@ -19,6 +19,11 @@ whole-program soundness, general path feasibility, every language feature, or
 real-project accuracy. Unsupported and inconclusive outcomes are kept separate
 from `not-reached`, so a tool is never penalized outside its documented scope.
 
+Scored cases are balanced semantic pairs: every language-neutral `core`
+template has one positive and one minimally different negative for each
+language and model profile. The bootstrap fixtures are calibration cases and do
+not yet constitute a score. See the [scoring contract](docs/scoring.md).
+
 External tools are compared respectfully: publish their exact version, settings,
 supported dimensions, normalized outcomes, and raw evidence. Semgrep CE stays
 in its supported local-analysis profile; OpenTaint stays in its Java/Kotlin
@@ -44,7 +49,8 @@ runner treats that as successful evidence rather than a runner failure.
 ## Add a case or adapter
 
 Copy the shape in `cases/taint/java/`, keep marker anchors stable, and validate
-the case. The schema is versioned and deliberately analyzer-neutral. Read the
+the case. The schema is versioned and deliberately analyzer-neutral. A `core`
+case will not validate until its opposite-polarity partner exists. Read the
 [fixture provenance rules](docs/fixture-provenance.md), then put a native rule
 or model in `adapters/<tool>/`; add a command and normalization mapping in the
 [adapter contract](docs/adapters.md) before publishing a result.
@@ -62,8 +68,10 @@ provenance. The initial fixtures are authored in this repository.
 
 ## Roadmap
 
-The next slices add value-flow, typestate, and performance cases; Bifrost,
-CodeQL, Semgrep CE, and OpenTaint adapters; cross-language fixtures; witness
-quality checks; and reproducible performance environments. A large real-project
-corpus, a custom query language, a general framework, a typestate solver, and a
-combined leaderboard are intentionally out of scope.
+The [milestone plan](docs/milestones.md) starts with a balanced 16-template Java
+propagation kernel, ports that exact core to JavaScript and Python, then adds
+separately scored taint-modeling and real-project slices. The
+[benchmark-source inventory](docs/benchmark-sources.md) records suites used as
+design inputs. A large real-project corpus, a custom query language, a general
+framework, a typestate solver, and a combined leaderboard are intentionally out
+of scope.
