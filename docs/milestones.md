@@ -36,12 +36,12 @@ add OpenTaint when its neutral JVM-rule path is reproducible.
 The 26-assertion language breadth baseline is implemented. A four-template Java
 vertical slice now exercises one balanced pair from every planned stratum:
 
-| Template | Primary dimensions | Bifrost v0.9.5 result |
-| --- | --- | --- |
-| Local overwrite kill | local flow, flow sensitivity | positive reached; negative false positive |
-| Call-context separation | interprocedural flow, context sensitivity | positive reached; negative not reached |
-| Object separation | heap/field and object sensitivity | both inconclusive (`partial_discovery`) |
-| Infeasible branch | local flow, path sensitivity | positive reached; negative false positive |
+| Template | Primary dimensions | Bifrost v0.9.5 | CodeQL v2.26.3 |
+| --- | --- | --- | --- |
+| Local overwrite kill | local flow, flow sensitivity | negative false positive | pair correct |
+| Call-context separation | interprocedural flow, context sensitivity | pair correct | pair correct |
+| Object separation | heap/field and object sensitivity | both inconclusive (`partial_discovery`) | pair correct |
+| Infeasible branch | local flow, path sensitivity | negative false positive | pair correct |
 
 These are benchmark results, not adapter expectations: complete false positives
 remain `reached`, while incomplete analysis remains `inconclusive`. Twelve more
