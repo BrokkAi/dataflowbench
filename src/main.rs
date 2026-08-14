@@ -31,6 +31,12 @@ enum Commands {
         #[arg(long, default_value = "bifrost")]
         bifrost: PathBuf,
     },
+    RunCodeqlJavaVertical {
+        #[arg(long, default_value = "codeql")]
+        codeql: PathBuf,
+        #[arg(long)]
+        codeql_packs: Option<PathBuf>,
+    },
 }
 
 fn main() -> Result<()> {
@@ -38,6 +44,10 @@ fn main() -> Result<()> {
         Commands::Validate => validate_cases(),
         Commands::ValidateReports => validate_reports(),
         Commands::RunBifrostSmoke { bifrost } => run_bifrost_smoke(&bifrost),
+        Commands::RunCodeqlJavaVertical {
+            codeql,
+            codeql_packs,
+        } => run_codeql_java_vertical(&codeql, codeql_packs.as_deref()),
     }
 }
 
@@ -316,6 +326,291 @@ fn run_bifrost_smoke(binary: &Path) -> Result<()> {
     Ok(())
 }
 
+fn run_codeql_java_vertical(binary: &Path, packs: Option<&Path>) -> Result<()> {
+    validate_cases()?;
+    let raw_dir = Path::new("reports/raw/codeql");
+    fs::create_dir_all(raw_dir)?;
+    let started = now_seconds()?;
+    let version_output = command_output(Command::new(binary).args(["version", "--format=json"]))
+        .context("read CodeQL version")?;
+    let version_json: Value =
+        serde_json::from_str(&version_output).context("parse CodeQL version JSON")?;
+    let version = version_json["version"]
+        .as_str()
+        .context("CodeQL version JSON lacks version")?
+        .to_string();
+    let build_identity = version_json["sha"]
+        .as_str()
+        .map(|sha| format!("codeql-cli:{sha}"))
+        .context("CodeQL version JSON lacks build sha")?;
+    let revision = fixture_revision()?;
+    let mut results = Vec::new();
+    let mut query_paths = BTreeSet::new();
+
+    for path in case_paths() {
+        let case: Value = serde_json::from_str(&fs::read_to_string(&path)?)?;
+        let model = &case["tool_model_references"]["codeql"];
+        if !model.is_object() {
+            continue;
+        }
+        let id = case["id"].as_str().expect("schema validated");
+        let start = Instant::now();
+        let (outcome, diagnostics, raw_path) = if let Some(reason) =
+            model["unsupported_reason"].as_str()
+        {
+            let raw_path = raw_dir.join(format!("{id}.json"));
+            fs::write(
+                &raw_path,
+                serde_json::to_string_pretty(
+                    &json!({"adapter": "codeql", "case_id": id, "state": "unsupported", "reason": reason, "evidence_kind": "adapter-capability-declaration"}),
+                )? + "\n",
+            )?;
+            ("unsupported", vec![reason.to_string()], raw_path)
+        } else {
+            let query = model["query"]
+                .as_str()
+                .context("CodeQL case lacks query reference")?;
+            query_paths.insert(PathBuf::from(query));
+            run_codeql_case(binary, packs, &path, &case, Path::new(query), raw_dir)?
+        };
+        results.push(json!({
+            "case_id": id, "outcome": outcome,
+            "source_anchors": case["source_anchors"].as_array().unwrap().iter().map(|v| v["marker"].clone()).collect::<Vec<_>>(),
+            "sink_anchors": case["sink_anchors"].as_array().unwrap().iter().map(|v| v["marker"].clone()).collect::<Vec<_>>(),
+            "witness_checkpoints": [], "diagnostics": diagnostics,
+            "duration_ms": start.elapsed().as_millis() as u64, "peak_memory_mb": Value::Null,
+            "raw_output": raw_path.to_string_lossy()
+        }));
+    }
+    if results.is_empty() {
+        bail!("no cases declare a CodeQL model reference");
+    }
+
+    let mut configuration_paths = query_paths;
+    configuration_paths.insert(PathBuf::from("adapters/codeql/qlpack.yml"));
+    configuration_paths.insert(PathBuf::from("adapters/codeql/codeql-pack.lock.yml"));
+    let configuration_hash = hash_paths(&configuration_paths)?;
+    let report = json!({
+        "schema_version": 1,
+        "tool": "codeql",
+        "tool_version": version,
+        "tool_build_identity": build_identity,
+        "adapter_version": ADAPTER_VERSION,
+        "configuration_hash": configuration_hash,
+        "fixture_revision": revision,
+        "started_at_unix_seconds": started,
+        "ended_at_unix_seconds": now_seconds()?,
+        "cold_or_warm": "cold",
+        "results": results
+    });
+    fs::write(
+        "reports/codeql-java-vertical.json",
+        serde_json::to_string_pretty(&report)? + "\n",
+    )?;
+    validate_reports()?;
+    println!("wrote reports/codeql-java-vertical.json");
+    Ok(())
+}
+
+fn run_codeql_case(
+    binary: &Path,
+    packs: Option<&Path>,
+    case_path: &Path,
+    case: &Value,
+    query: &Path,
+    raw_dir: &Path,
+) -> Result<(&'static str, Vec<String>, PathBuf)> {
+    let id = case["id"].as_str().expect("schema validated");
+    let workspace = materialize_codeql_workspace(case_path, case)?;
+    let database_root = std::env::temp_dir().join("dataflowbench-codeql-databases");
+    fs::create_dir_all(&database_root)?;
+    let database = database_root.join(id);
+    if database.exists() {
+        fs::remove_dir_all(&database).with_context(|| format!("clear {}", database.display()))?;
+    }
+    for stale in [
+        raw_dir.join(format!("{id}.sarif.json")),
+        raw_dir.join(format!("{id}-error.json")),
+    ] {
+        if stale.exists() {
+            fs::remove_file(&stale).with_context(|| format!("clear {}", stale.display()))?;
+        }
+    }
+    let classes = workspace.join("classes");
+    fs::create_dir_all(&classes)?;
+    let fixture_names = case["fixture_files"]
+        .as_array()
+        .expect("schema validated")
+        .iter()
+        .map(|fixture| fixture.as_str().expect("schema validated"))
+        .collect::<Vec<_>>();
+    let build_command = format!("javac -d classes {}", fixture_names.join(" "));
+    let create = Command::new(binary)
+        .arg("database")
+        .arg("create")
+        .arg(&database)
+        .arg("--language=java")
+        .arg(format!("--source-root={}", workspace.display()))
+        .arg(format!("--command={build_command}"))
+        .arg("--overwrite")
+        .output()
+        .context("create CodeQL database")?;
+    if !create.status.success() {
+        let error = write_codeql_error(raw_dir, id, "database-create", &create)?;
+        clear_codeql_case_artifacts(&workspace, &database)?;
+        return Ok(error);
+    }
+
+    let raw_path = raw_dir.join(format!("{id}.sarif.json"));
+    let mut analyze = Command::new(binary);
+    analyze
+        .arg("database")
+        .arg("analyze")
+        .arg(&database)
+        .arg(query)
+        .arg("--format=sarif-latest")
+        .arg(format!("--output={}", raw_path.display()))
+        .arg("--rerun");
+    if let Some(packs) = packs {
+        analyze.arg(format!("--additional-packs={}", packs.display()));
+    }
+    let analyzed = analyze.output().context("analyze CodeQL database")?;
+    if !analyzed.status.success() {
+        let error = write_codeql_error(raw_dir, id, "database-analyze", &analyzed)?;
+        clear_codeql_case_artifacts(&workspace, &database)?;
+        return Ok(error);
+    }
+    let sarif: Value = serde_json::from_str(&fs::read_to_string(&raw_path)?)?;
+    let execution_errors = sarif_execution_errors(&sarif);
+    if !execution_errors.is_empty() {
+        clear_codeql_case_artifacts(&workspace, &database)?;
+        return Ok(("runner-error", execution_errors, raw_path));
+    }
+    let result_count = sarif_result_count(&sarif);
+    let diagnostics = sarif_messages(&sarif);
+    let outcome = if result_count == 0 {
+        "not-reached"
+    } else {
+        "reached"
+    };
+    clear_codeql_case_artifacts(&workspace, &database)?;
+    Ok((outcome, diagnostics, raw_path))
+}
+
+fn clear_codeql_case_artifacts(workspace: &Path, database: &Path) -> Result<()> {
+    for path in [database, workspace] {
+        if path.exists() {
+            fs::remove_dir_all(path).with_context(|| format!("clear {}", path.display()))?;
+        }
+    }
+    Ok(())
+}
+
+fn materialize_codeql_workspace(case_path: &Path, case: &Value) -> Result<PathBuf> {
+    let id = case["id"].as_str().expect("schema validated");
+    let workspace = std::env::temp_dir()
+        .join("dataflowbench-codeql-workspaces")
+        .join(id);
+    if workspace.exists() {
+        fs::remove_dir_all(&workspace).with_context(|| format!("clear {}", workspace.display()))?;
+    }
+    fs::create_dir_all(&workspace)?;
+    let fixture_root = case_path.parent().expect("case path has parent");
+    for fixture in case["fixture_files"].as_array().expect("schema validated") {
+        let fixture = fixture.as_str().expect("schema validated");
+        fs::copy(fixture_root.join(fixture), workspace.join(fixture))?;
+    }
+    Ok(workspace)
+}
+
+fn write_codeql_error(
+    raw_dir: &Path,
+    id: &str,
+    stage: &str,
+    output: &std::process::Output,
+) -> Result<(&'static str, Vec<String>, PathBuf)> {
+    let raw_path = raw_dir.join(format!("{id}-error.json"));
+    let stderr = String::from_utf8_lossy(&output.stderr).trim().to_string();
+    let stdout = String::from_utf8_lossy(&output.stdout).trim().to_string();
+    let diagnostic = format!("CodeQL {stage} failed with status {}", output.status);
+    fs::write(
+        &raw_path,
+        serde_json::to_string_pretty(&json!({
+            "adapter": "codeql",
+            "case_id": id,
+            "state": "runner-error",
+            "stage": stage,
+            "status": output.status.code(),
+            "stdout": stdout,
+            "stderr": stderr
+        }))? + "\n",
+    )?;
+    Ok(("runner-error", vec![diagnostic], raw_path))
+}
+
+fn sarif_result_count(sarif: &Value) -> usize {
+    sarif["runs"]
+        .as_array()
+        .into_iter()
+        .flatten()
+        .map(|run| run["results"].as_array().map_or(0, Vec::len))
+        .sum()
+}
+
+fn sarif_messages(sarif: &Value) -> Vec<String> {
+    let mut messages = sarif["runs"]
+        .as_array()
+        .into_iter()
+        .flatten()
+        .flat_map(|run| run["results"].as_array().into_iter().flatten())
+        .filter_map(|result| result["message"]["text"].as_str())
+        .map(str::to_string)
+        .collect::<Vec<_>>();
+    messages.sort();
+    messages.dedup();
+    messages
+}
+
+fn sarif_execution_errors(sarif: &Value) -> Vec<String> {
+    let mut errors = Vec::new();
+    for invocation in sarif["runs"]
+        .as_array()
+        .into_iter()
+        .flatten()
+        .flat_map(|run| run["invocations"].as_array().into_iter().flatten())
+    {
+        if invocation["executionSuccessful"] == false {
+            errors.push("CodeQL SARIF reports unsuccessful execution".to_string());
+        }
+        for notification in invocation["toolExecutionNotifications"]
+            .as_array()
+            .into_iter()
+            .flatten()
+        {
+            if notification["level"] == "error" {
+                errors.push(
+                    notification["message"]["text"]
+                        .as_str()
+                        .unwrap_or("CodeQL SARIF contains an execution error")
+                        .to_string(),
+                );
+            }
+        }
+    }
+    errors.sort();
+    errors.dedup();
+    errors
+}
+
+fn hash_paths(paths: &BTreeSet<PathBuf>) -> Result<String> {
+    let mut hasher = Sha256::new();
+    for path in paths {
+        hasher.update(path.to_string_lossy().as_bytes());
+        hasher.update(fs::read(path).with_context(|| format!("read {}", path.display()))?);
+    }
+    Ok(format!("{:x}", hasher.finalize()))
+}
+
 fn fixture_revision() -> Result<String> {
     let mut hasher = Sha256::new();
     for path in case_paths() {
@@ -541,5 +836,44 @@ mod tests {
         case["source_anchors"][0]["line_hint"] = json!(4);
         case["witness_checkpoints"] = json!(["DFB-WITNESS: absent"]);
         assert!(validate_markers(path, &case).is_err());
+    }
+
+    #[test]
+    fn sarif_normalization_counts_results_and_deduplicates_messages() {
+        let sarif = json!({
+            "runs": [
+                {"results": [
+                    {"message": {"text": "flow found"}},
+                    {"message": {"text": "flow found"}}
+                ]},
+                {"results": []}
+            ]
+        });
+        assert_eq!(sarif_result_count(&sarif), 2);
+        assert_eq!(sarif_messages(&sarif), vec!["flow found"]);
+    }
+
+    #[test]
+    fn sarif_execution_errors_prevent_clean_negative_interpretation() {
+        let sarif = json!({
+            "runs": [{
+                "results": [],
+                "invocations": [{
+                    "executionSuccessful": false,
+                    "toolExecutionNotifications": [{
+                        "level": "error",
+                        "message": {"text": "query evaluation failed"}
+                    }]
+                }]
+            }]
+        });
+        assert_eq!(sarif_result_count(&sarif), 0);
+        assert_eq!(
+            sarif_execution_errors(&sarif),
+            vec![
+                "CodeQL SARIF reports unsuccessful execution",
+                "query evaluation failed"
+            ]
+        );
     }
 }
