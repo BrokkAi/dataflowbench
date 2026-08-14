@@ -21,18 +21,22 @@ Run from the repository root:
 cargo run -- run-bifrost-smoke --bifrost /path/to/bifrost
 ```
 
-## Interim retained snapshot
+## Retained v0.9.5 snapshot
 
-The report currently checked in is an interim result for DataFlowBench commit
-`2200a45e1f1dd28791545823ba4ee3afe9eaaf22`, produced by the exact Bifrost build
-`adc504b3a98e00e3acb65c9b0d52a5d9734b6b2d`. It retains 8 `reached`, 8
-`not-reached`, 11 `inconclusive`, and 1 `unsupported` outcomes while
-[Bifrost #1951](https://github.com/BrokkAi/bifrost/issues/1951) tracks the
-cross-language production-taint parity work.
+The report currently checked in was produced from DataFlowBench `origin/main`
+at `97020c0f09a4671feeee15748ab25a93d257f9f8` with the exact Bifrost v0.9.5
+build `a3ca30bd3fb994cc07db4abf47a2c796854882ca`. It retains 13 `reached`, 12
+`not-reached`, 2 `inconclusive`, and 1 `unsupported` outcomes. All 25 decisive
+executable outcomes match their expected polarity. The previous v0.9.1
+snapshot retained 8 `reached`, 8 `not-reached`, 11 `inconclusive`, and 1
+`unsupported` outcomes.
 
-This snapshot is not a final accuracy result. In particular, Ruby's positive
-case reports a complete zero-finding result even though its bare source call is
-not selected; that is an unsafe result, not a valid clean negative, and is
-tracked by [Bifrost #1956](https://github.com/BrokkAi/bifrost/issues/1956).
-Likewise, incomplete results are not false negatives: they retain typed
-`partial_discovery` evidence and cannot support a clean absence claim.
+The remaining inconclusive pair is Ruby. Its positive case retains a finding
+and witnesses, while both positive and negative cases report
+`partial_discovery` because the procedure value-flow snapshot for `run` is
+unknown. Both benchmark calls retain one target, but their dispatch outcomes
+remain `unproven` with `open` coverage because Ruby monkeypatching and
+`method_missing` keep the target set non-exhaustive. This preserves the
+distinction between a candidate positive, a safe negative, and incomplete
+evidence. [Bifrost #1951](https://github.com/BrokkAi/bifrost/issues/1951)
+tracks the final cross-language production-taint acceptance work.
