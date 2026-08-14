@@ -156,10 +156,20 @@ fn validate_fixture_files(path: &Path, value: &Value) -> Result<()> {
 
 fn validate_markers(path: &Path, value: &Value) -> Result<()> {
     let parent = path.parent().expect("case path has parent");
+    let fixtures = value["fixture_files"].as_array().expect("schema validated");
     for field in ["source_anchors", "sink_anchors"] {
         for anchor in value[field].as_array().expect("schema validated") {
             let file = anchor["file"].as_str().expect("schema validated");
             let marker = anchor["marker"].as_str().expect("schema validated");
+            if !fixtures
+                .iter()
+                .any(|fixture| fixture.as_str() == Some(file))
+            {
+                bail!(
+                    "{}: anchor file {file:?} is not listed in fixture_files",
+                    path.display()
+                );
+            }
             let body = fs::read_to_string(parent.join(file))
                 .with_context(|| format!("read fixture {file}"))?;
             if !body.contains(marker) {
@@ -168,6 +178,35 @@ fn validate_markers(path: &Path, value: &Value) -> Result<()> {
                     path.display()
                 );
             }
+            if let Some(line_hint) = anchor["line_hint"].as_u64() {
+                let hinted_line = body.lines().nth(line_hint as usize - 1);
+                if !hinted_line.is_some_and(|line| line.contains(marker)) {
+                    bail!(
+                        "{}: marker {marker:?} is not on hinted line {line_hint} in {file}",
+                        path.display()
+                    );
+                }
+            }
+        }
+    }
+    for checkpoint in value["witness_checkpoints"]
+        .as_array()
+        .into_iter()
+        .flatten()
+    {
+        let checkpoint = checkpoint.as_str().expect("schema validated");
+        let mut occurrences = 0;
+        for fixture in fixtures {
+            let fixture = fixture.as_str().expect("schema validated");
+            let body = fs::read_to_string(parent.join(fixture))
+                .with_context(|| format!("read fixture {fixture}"))?;
+            occurrences += body.matches(checkpoint).count();
+        }
+        if occurrences != 1 {
+            bail!(
+                "{}: witness checkpoint {checkpoint:?} must occur exactly once across fixture_files; found {occurrences}",
+                path.display()
+            );
         }
     }
     Ok(())
@@ -338,15 +377,10 @@ fn normalize_bifrost(
         (false, 0) => "not-reached",
         (false, _) => "reached",
     };
-    let checkpoints = if finding_count > 0 {
-        case["witness_checkpoints"]
-            .as_array()
-            .cloned()
-            .unwrap_or_default()
-    } else {
-        Vec::new()
-    };
-    Ok((outcome, report_diagnostics, checkpoints))
+    // The raw Bifrost report retains witnesses, but the adapter does not yet
+    // prove their locations against canonical DFB markers. Do not turn
+    // expected checkpoints from the case into observed result evidence.
+    Ok((outcome, report_diagnostics, Vec::new()))
 }
 
 fn incompleteness_reasons(value: &Value) -> Vec<String> {
@@ -464,6 +498,17 @@ mod tests {
     }
 
     #[test]
+    fn normalizer_does_not_synthesize_witness_checkpoints() {
+        let case = json!({
+            "expected_flows": [{"source": "DFB-SOURCE: input", "sink": "DFB-SINK: sink"}],
+            "witness_checkpoints": ["DFB-WITNESS: relay"]
+        });
+        let normalized = normalize_bifrost(&case, &json!({"findings": [{}]}), Some(0)).unwrap();
+        assert_eq!(normalized.0, "reached");
+        assert!(normalized.2.is_empty());
+    }
+
+    #[test]
     fn core_templates_require_one_positive_and_one_negative() {
         let case = |polarity| {
             json!({
@@ -483,5 +528,18 @@ mod tests {
 
         let unbalanced = vec![(PathBuf::from("positive.json"), case("positive"))];
         assert!(validate_balanced_core_pairs(&unbalanced).is_err());
+    }
+
+    #[test]
+    fn marker_validation_rejects_stale_metadata() {
+        let path = Path::new("cases/taint/java/direct-positive/case.json");
+        let mut case: Value = serde_json::from_str(&fs::read_to_string(path).unwrap()).unwrap();
+
+        case["source_anchors"][0]["line_hint"] = json!(1);
+        assert!(validate_markers(path, &case).is_err());
+
+        case["source_anchors"][0]["line_hint"] = json!(4);
+        case["witness_checkpoints"] = json!(["DFB-WITNESS: absent"]);
+        assert!(validate_markers(path, &case).is_err());
     }
 }

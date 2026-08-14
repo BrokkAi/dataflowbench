@@ -1,0 +1,31 @@
+{
+  "schema_version": 2,
+  "id": "dfb-taint-java-local-overwrite-negative",
+  "template_id": "dfb-template-local-overwrite-kill",
+  "polarity": "negative",
+  "negative_mechanism": "overwrite-kill",
+  "score_tier": "core",
+  "track": "taint",
+  "language": "java",
+  "semantic_dimensions": ["local-flow", "flow-sensitivity"],
+  "feature_tags": ["intraprocedural"],
+  "model_profile": "benchmark-controlled",
+  "fixture_files": ["LocalOverwriteNegative.java"],
+  "source_anchors": [
+    {"marker": "DFB-SOURCE: local-overwrite-input", "file": "LocalOverwriteNegative.java", "line_hint": 4}
+  ],
+  "sink_anchors": [
+    {"marker": "DFB-SINK: local-overwrite-sink", "file": "LocalOverwriteNegative.java", "line_hint": 8}
+  ],
+  "expected_flows": [],
+  "expected_nonflows": [
+    {"source": "DFB-SOURCE: local-overwrite-input", "sink": "DFB-SINK: local-overwrite-sink"}
+  ],
+  "witness_checkpoints": [],
+  "expected_analysis_capability": {"kind": "flow-sensitive-intraprocedural-taint"},
+  "execution_budget": {"wall_clock_seconds": 60, "peak_memory_mb": 512},
+  "fixture_provenance": {"kind": "authored", "origin": "DataFlowBench", "revision": "initial", "license": "MIT"},
+  "tool_model_references": {
+    "bifrost": {"policy": "adapters/bifrost/policies/core-java-vertical.rqlp"}
+  }
+}
