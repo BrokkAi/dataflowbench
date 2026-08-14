@@ -30,7 +30,7 @@ External tools are compared respectfully: publish their exact version, settings,
 supported dimensions, normalized outcomes, and raw evidence. Semgrep CE stays
 in its supported local-analysis profile; OpenTaint stays in its Java/Kotlin
 profile. SootUp is a possible JVM reference framework, not a first-version
-adapter.
+adapter. CodeQL is implemented for the four-template Java vertical slice.
 
 ## Quick start
 
@@ -60,6 +60,8 @@ or model in `adapters/<tool>/`; add a command and normalization mapping in the
 
 Reproduce a checked-in example with `cargo run -- validate-reports`; recreate a
 fresh Bifrost report with the quick-start command and compare its raw evidence.
+The [CodeQL adapter guide](adapters/codeql/README.md) documents the pinned CLI,
+Java pack, and command for reproducing its retained vertical-slice report.
 
 ## Licenses and provenance
 

@@ -13,7 +13,7 @@ The initial adapter plan is:
 | Tool | Initial profile | Status |
 | --- | --- | --- |
 | Bifrost | Java policy CLI taint slice | Implemented smoke adapter |
-| CodeQL | Java data-flow configuration | Planned |
+| CodeQL | Four-template Java taint vertical slice | Implemented adapter |
 | Semgrep CE | Supported local analysis only | Planned |
 | OpenTaint | Java and Kotlin profile | Planned |
 
