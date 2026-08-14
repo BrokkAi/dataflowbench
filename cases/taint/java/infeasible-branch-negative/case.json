@@ -1,0 +1,31 @@
+{
+  "schema_version": 2,
+  "id": "dfb-taint-java-infeasible-branch-negative",
+  "template_id": "dfb-template-infeasible-branch",
+  "polarity": "negative",
+  "negative_mechanism": "infeasible-path",
+  "score_tier": "core",
+  "track": "taint",
+  "language": "java",
+  "semantic_dimensions": ["local-flow", "path-sensitivity"],
+  "feature_tags": ["intraprocedural"],
+  "model_profile": "benchmark-controlled",
+  "fixture_files": ["InfeasibleBranchNegative.java"],
+  "source_anchors": [
+    {"marker": "DFB-SOURCE: infeasible-branch-input", "file": "InfeasibleBranchNegative.java", "line_hint": 4}
+  ],
+  "sink_anchors": [
+    {"marker": "DFB-SINK: infeasible-branch-sink", "file": "InfeasibleBranchNegative.java", "line_hint": 8}
+  ],
+  "expected_flows": [],
+  "expected_nonflows": [
+    {"source": "DFB-SOURCE: infeasible-branch-input", "sink": "DFB-SINK: infeasible-branch-sink"}
+  ],
+  "witness_checkpoints": [],
+  "expected_analysis_capability": {"kind": "path-sensitive-intraprocedural-taint"},
+  "execution_budget": {"wall_clock_seconds": 60, "peak_memory_mb": 512},
+  "fixture_provenance": {"kind": "authored", "origin": "DataFlowBench", "revision": "initial", "license": "MIT"},
+  "tool_model_references": {
+    "bifrost": {"policy": "adapters/bifrost/policies/core-java-vertical.rqlp"}
+  }
+}

@@ -1,14 +1,14 @@
 {
   "adapter_version": "0.1.0",
   "cold_or_warm": "cold",
-  "configuration_hash": "a2f6d43a99cf3ce2035683dd7290e8bdd2849adfe1d08724855825c7b28a679d",
-  "ended_at_unix_seconds": 1786692994,
-  "fixture_revision": "sha256:34be0fd1f5575f6354814ad8ac1df08f2856379fda7a6ef0372ae5af5e1cc606",
+  "configuration_hash": "2fcb6e90ec61f5439f3591fb3a5ea1f704d5e7333cf2d705bef30206c02b0406",
+  "ended_at_unix_seconds": 1786703474,
+  "fixture_revision": "sha256:af6d6bb9c7ca8b930196494aa7753907c4fc49f6cca6d0a034c8dab86ff21014",
   "results": [
     {
       "case_id": "dfb-taint-c-direct-negative",
       "diagnostics": [],
-      "duration_ms": 171,
+      "duration_ms": 264,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost/dfb-taint-c-direct-negative.json",
@@ -25,7 +25,7 @@
       "diagnostics": [
         "Controlled input reaches the direct benchmark sink"
       ],
-      "duration_ms": 73,
+      "duration_ms": 66,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost/dfb-taint-c-direct-positive.json",
@@ -35,15 +35,12 @@
       "source_anchors": [
         "DFB-SOURCE: direct-input"
       ],
-      "witness_checkpoints": [
-        "DFB-SOURCE: direct-input",
-        "DFB-SINK: direct-sink"
-      ]
+      "witness_checkpoints": []
     },
     {
       "case_id": "dfb-taint-cpp-direct-negative",
       "diagnostics": [],
-      "duration_ms": 64,
+      "duration_ms": 50,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost/dfb-taint-cpp-direct-negative.json",
@@ -60,7 +57,7 @@
       "diagnostics": [
         "Controlled input reaches the direct benchmark sink"
       ],
-      "duration_ms": 67,
+      "duration_ms": 63,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost/dfb-taint-cpp-direct-positive.json",
@@ -70,15 +67,12 @@
       "source_anchors": [
         "DFB-SOURCE: direct-input"
       ],
-      "witness_checkpoints": [
-        "DFB-SOURCE: direct-input",
-        "DFB-SINK: direct-sink"
-      ]
+      "witness_checkpoints": []
     },
     {
       "case_id": "dfb-taint-csharp-direct-negative",
       "diagnostics": [],
-      "duration_ms": 72,
+      "duration_ms": 55,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost/dfb-taint-csharp-direct-negative.json",
@@ -95,7 +89,7 @@
       "diagnostics": [
         "Controlled input reaches the direct benchmark sink"
       ],
-      "duration_ms": 55,
+      "duration_ms": 62,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost/dfb-taint-csharp-direct-positive.json",
@@ -105,15 +99,12 @@
       "source_anchors": [
         "DFB-SOURCE: direct-input"
       ],
-      "witness_checkpoints": [
-        "DFB-SOURCE: direct-input",
-        "DFB-SINK: direct-sink"
-      ]
+      "witness_checkpoints": []
     },
     {
       "case_id": "dfb-taint-go-direct-negative",
       "diagnostics": [],
-      "duration_ms": 48,
+      "duration_ms": 155,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost/dfb-taint-go-direct-negative.json",
@@ -130,7 +121,7 @@
       "diagnostics": [
         "Controlled input reaches the direct benchmark sink"
       ],
-      "duration_ms": 57,
+      "duration_ms": 54,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost/dfb-taint-go-direct-positive.json",
@@ -140,17 +131,46 @@
       "source_anchors": [
         "DFB-SOURCE: direct-input"
       ],
-      "witness_checkpoints": [
-        "DFB-SOURCE: direct-input",
-        "DFB-SINK: direct-sink"
-      ]
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-java-call-context-negative",
+      "diagnostics": [],
+      "duration_ms": 53,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/bifrost/dfb-taint-java-call-context-negative.json",
+      "sink_anchors": [
+        "DFB-SINK: call-context-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: call-context-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-java-call-context-positive",
+      "diagnostics": [
+        "Controlled input reaches the benchmark sink"
+      ],
+      "duration_ms": 76,
+      "outcome": "reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/bifrost/dfb-taint-java-call-context-positive.json",
+      "sink_anchors": [
+        "DFB-SINK: call-context-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: call-context-input"
+      ],
+      "witness_checkpoints": []
     },
     {
       "case_id": "dfb-taint-java-direct-positive",
       "diagnostics": [
         "Untrusted data reaches the direct benchmark sink"
       ],
-      "duration_ms": 142,
+      "duration_ms": 68,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost/dfb-taint-java-direct-positive.json",
@@ -160,15 +180,12 @@
       "source_anchors": [
         "DFB-SOURCE: direct-input"
       ],
-      "witness_checkpoints": [
-        "DFB-SOURCE: direct-input",
-        "DFB-SINK: direct-sink"
-      ]
+      "witness_checkpoints": []
     },
     {
       "case_id": "dfb-taint-java-explicit-negative",
       "diagnostics": [],
-      "duration_ms": 102,
+      "duration_ms": 55,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost/dfb-taint-java-explicit-negative.json",
@@ -177,6 +194,74 @@
       ],
       "source_anchors": [
         "DFB-SOURCE: explicit-negative-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-java-infeasible-branch-negative",
+      "diagnostics": [
+        "Controlled input reaches the benchmark sink"
+      ],
+      "duration_ms": 66,
+      "outcome": "reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/bifrost/dfb-taint-java-infeasible-branch-negative.json",
+      "sink_anchors": [
+        "DFB-SINK: infeasible-branch-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: infeasible-branch-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-java-infeasible-branch-positive",
+      "diagnostics": [
+        "Controlled input reaches the benchmark sink"
+      ],
+      "duration_ms": 57,
+      "outcome": "reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/bifrost/dfb-taint-java-infeasible-branch-positive.json",
+      "sink_anchors": [
+        "DFB-SINK: infeasible-branch-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: infeasible-branch-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-java-local-overwrite-negative",
+      "diagnostics": [
+        "Controlled input reaches the benchmark sink"
+      ],
+      "duration_ms": 66,
+      "outcome": "reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/bifrost/dfb-taint-java-local-overwrite-negative.json",
+      "sink_anchors": [
+        "DFB-SINK: local-overwrite-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: local-overwrite-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-java-local-overwrite-positive",
+      "diagnostics": [
+        "Controlled input reaches the benchmark sink"
+      ],
+      "duration_ms": 63,
+      "outcome": "reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/bifrost/dfb-taint-java-local-overwrite-positive.json",
+      "sink_anchors": [
+        "DFB-SINK: local-overwrite-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: local-overwrite-input"
       ],
       "witness_checkpoints": []
     },
@@ -198,11 +283,47 @@
       "witness_checkpoints": []
     },
     {
+      "case_id": "dfb-taint-java-object-separation-negative",
+      "diagnostics": [
+        "Bifrost reported incomplete analysis: partial_discovery",
+        "taint discovery is incomplete: procedure value-flow snapshot for ObjectSeparationNegative.java:ObjectSeparationNegative.java.ObjectSeparationNegative.run is unknown"
+      ],
+      "duration_ms": 48,
+      "outcome": "inconclusive",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/bifrost/dfb-taint-java-object-separation-negative.json",
+      "sink_anchors": [
+        "DFB-SINK: object-separation-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: object-separation-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-java-object-separation-positive",
+      "diagnostics": [
+        "Bifrost reported incomplete analysis: partial_discovery",
+        "taint discovery is incomplete: procedure value-flow snapshot for ObjectSeparationPositive.java:ObjectSeparationPositive.java.ObjectSeparationPositive.run is unknown"
+      ],
+      "duration_ms": 51,
+      "outcome": "inconclusive",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/bifrost/dfb-taint-java-object-separation-positive.json",
+      "sink_anchors": [
+        "DFB-SINK: object-separation-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: object-separation-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
       "case_id": "dfb-taint-java-one-hop-positive",
       "diagnostics": [
         "Untrusted data reaches the one-hop benchmark sink"
       ],
-      "duration_ms": 70,
+      "duration_ms": 52,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost/dfb-taint-java-one-hop-positive.json",
@@ -212,16 +333,12 @@
       "source_anchors": [
         "DFB-SOURCE: one-hop-input"
       ],
-      "witness_checkpoints": [
-        "DFB-SOURCE: one-hop-input",
-        "DFB-WITNESS: one-hop-relay",
-        "DFB-SINK: one-hop-sink"
-      ]
+      "witness_checkpoints": []
     },
     {
       "case_id": "dfb-taint-javascript-direct-negative",
       "diagnostics": [],
-      "duration_ms": 58,
+      "duration_ms": 134,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost/dfb-taint-javascript-direct-negative.json",
@@ -238,7 +355,7 @@
       "diagnostics": [
         "Controlled input reaches the direct benchmark sink"
       ],
-      "duration_ms": 76,
+      "duration_ms": 57,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost/dfb-taint-javascript-direct-positive.json",
@@ -248,15 +365,12 @@
       "source_anchors": [
         "DFB-SOURCE: direct-input"
       ],
-      "witness_checkpoints": [
-        "DFB-SOURCE: direct-input",
-        "DFB-SINK: direct-sink"
-      ]
+      "witness_checkpoints": []
     },
     {
       "case_id": "dfb-taint-kotlin-direct-negative",
       "diagnostics": [],
-      "duration_ms": 66,
+      "duration_ms": 49,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost/dfb-taint-kotlin-direct-negative.json",
@@ -273,7 +387,7 @@
       "diagnostics": [
         "Controlled input reaches the direct benchmark sink"
       ],
-      "duration_ms": 65,
+      "duration_ms": 62,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost/dfb-taint-kotlin-direct-positive.json",
@@ -283,15 +397,12 @@
       "source_anchors": [
         "DFB-SOURCE: direct-input"
       ],
-      "witness_checkpoints": [
-        "DFB-SOURCE: direct-input",
-        "DFB-SINK: direct-sink"
-      ]
+      "witness_checkpoints": []
     },
     {
       "case_id": "dfb-taint-php-direct-negative",
       "diagnostics": [],
-      "duration_ms": 71,
+      "duration_ms": 56,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost/dfb-taint-php-direct-negative.json",
@@ -308,7 +419,7 @@
       "diagnostics": [
         "Controlled input reaches the direct benchmark sink"
       ],
-      "duration_ms": 97,
+      "duration_ms": 145,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost/dfb-taint-php-direct-positive.json",
@@ -318,15 +429,12 @@
       "source_anchors": [
         "DFB-SOURCE: direct-input"
       ],
-      "witness_checkpoints": [
-        "DFB-SOURCE: direct-input",
-        "DFB-SINK: direct-sink"
-      ]
+      "witness_checkpoints": []
     },
     {
       "case_id": "dfb-taint-python-direct-negative",
       "diagnostics": [],
-      "duration_ms": 80,
+      "duration_ms": 56,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost/dfb-taint-python-direct-negative.json",
@@ -343,7 +451,7 @@
       "diagnostics": [
         "Controlled input reaches the direct benchmark sink"
       ],
-      "duration_ms": 58,
+      "duration_ms": 82,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost/dfb-taint-python-direct-positive.json",
@@ -353,10 +461,7 @@
       "source_anchors": [
         "DFB-SOURCE: direct-input"
       ],
-      "witness_checkpoints": [
-        "DFB-SOURCE: direct-input",
-        "DFB-SINK: direct-sink"
-      ]
+      "witness_checkpoints": []
     },
     {
       "case_id": "dfb-taint-ruby-direct-negative",
@@ -364,7 +469,7 @@
         "Bifrost reported incomplete analysis: partial_discovery",
         "taint discovery is incomplete: procedure value-flow snapshot for direct_flow.rb:direct_flow.rb.run is unknown"
       ],
-      "duration_ms": 64,
+      "duration_ms": 56,
       "outcome": "inconclusive",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost/dfb-taint-ruby-direct-negative.json",
@@ -383,7 +488,7 @@
         "Controlled input reaches the direct benchmark sink",
         "taint discovery is incomplete: procedure value-flow snapshot for direct_flow.rb:direct_flow.rb.run is unknown"
       ],
-      "duration_ms": 56,
+      "duration_ms": 54,
       "outcome": "inconclusive",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost/dfb-taint-ruby-direct-positive.json",
@@ -398,7 +503,7 @@
     {
       "case_id": "dfb-taint-rust-direct-negative",
       "diagnostics": [],
-      "duration_ms": 86,
+      "duration_ms": 83,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost/dfb-taint-rust-direct-negative.json",
@@ -415,7 +520,7 @@
       "diagnostics": [
         "Controlled input reaches the direct benchmark sink"
       ],
-      "duration_ms": 66,
+      "duration_ms": 67,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost/dfb-taint-rust-direct-positive.json",
@@ -425,15 +530,12 @@
       "source_anchors": [
         "DFB-SOURCE: direct-input"
       ],
-      "witness_checkpoints": [
-        "DFB-SOURCE: direct-input",
-        "DFB-SINK: direct-sink"
-      ]
+      "witness_checkpoints": []
     },
     {
       "case_id": "dfb-taint-scala-direct-negative",
       "diagnostics": [],
-      "duration_ms": 64,
+      "duration_ms": 55,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost/dfb-taint-scala-direct-negative.json",
@@ -450,7 +552,7 @@
       "diagnostics": [
         "Controlled input reaches the direct benchmark sink"
       ],
-      "duration_ms": 63,
+      "duration_ms": 81,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost/dfb-taint-scala-direct-positive.json",
@@ -460,15 +562,12 @@
       "source_anchors": [
         "DFB-SOURCE: direct-input"
       ],
-      "witness_checkpoints": [
-        "DFB-SOURCE: direct-input",
-        "DFB-SINK: direct-sink"
-      ]
+      "witness_checkpoints": []
     },
     {
       "case_id": "dfb-taint-typescript-direct-negative",
       "diagnostics": [],
-      "duration_ms": 53,
+      "duration_ms": 55,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost/dfb-taint-typescript-direct-negative.json",
@@ -485,7 +584,7 @@
       "diagnostics": [
         "Controlled input reaches the direct benchmark sink"
       ],
-      "duration_ms": 50,
+      "duration_ms": 60,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost/dfb-taint-typescript-direct-positive.json",
@@ -495,14 +594,11 @@
       "source_anchors": [
         "DFB-SOURCE: direct-input"
       ],
-      "witness_checkpoints": [
-        "DFB-SOURCE: direct-input",
-        "DFB-SINK: direct-sink"
-      ]
+      "witness_checkpoints": []
     }
   ],
   "schema_version": 1,
-  "started_at_unix_seconds": 1786692992,
+  "started_at_unix_seconds": 1786703471,
   "tool": "bifrost",
   "tool_build_identity": "a3ca30bd3fb994cc07db4abf47a2c796854882ca",
   "tool_version": "bifrost 0.9.5"

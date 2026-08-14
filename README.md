@@ -5,8 +5,9 @@ typestate, witness quality, and data-flow performance across languages and
 static-analysis tools. It is an experimental first version, not a leaderboard.
 
 It has four distinct tracks: `value-flow`, `taint`, `typestate`, and
-`performance`. The first scored slice is a balanced direct-flow pair across 13
-language/dialect entries in the `taint` track. It
+`performance`. The first scored slice includes a balanced direct-flow pair
+across 13 language/dialect entries and a four-template Java propagation
+vertical slice in the `taint` track. It
 measures correctness, capability coverage, witness quality, and performance
 separately; it deliberately does not calculate a combined score or declare a
 tool a winner.
@@ -73,7 +74,8 @@ provenance. The initial fixtures are authored in this repository.
 The [milestone plan](docs/milestones.md) starts with a one-template breadth
 baseline across Bifrost's supported languages, deepens that into a balanced
 16-template Java propagation kernel, then expands cross-language parity and
-adds separately scored taint-modeling and real-project slices. The
+adds separately scored taint-modeling and real-project slices. Four Java
+templates now exercise that kernel end to end. The
 [benchmark-source inventory](docs/benchmark-sources.md) records suites used as
 design inputs. A large real-project corpus, a custom query language, a general
 framework, a typestate solver, and a combined leaderboard are intentionally out
