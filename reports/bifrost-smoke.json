@@ -2,13 +2,13 @@
   "adapter_version": "0.1.0",
   "cold_or_warm": "cold",
   "configuration_hash": "a2f6d43a99cf3ce2035683dd7290e8bdd2849adfe1d08724855825c7b28a679d",
-  "ended_at_unix_seconds": 1786466870,
+  "ended_at_unix_seconds": 1786692994,
   "fixture_revision": "sha256:34be0fd1f5575f6354814ad8ac1df08f2856379fda7a6ef0372ae5af5e1cc606",
   "results": [
     {
       "case_id": "dfb-taint-c-direct-negative",
       "diagnostics": [],
-      "duration_ms": 99,
+      "duration_ms": 171,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost/dfb-taint-c-direct-negative.json",
@@ -25,7 +25,7 @@
       "diagnostics": [
         "Controlled input reaches the direct benchmark sink"
       ],
-      "duration_ms": 84,
+      "duration_ms": 73,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost/dfb-taint-c-direct-positive.json",
@@ -42,12 +42,9 @@
     },
     {
       "case_id": "dfb-taint-cpp-direct-negative",
-      "diagnostics": [
-        "Bifrost reported incomplete analysis: partial_discovery",
-        "taint discovery is incomplete: procedure value-flow snapshot for direct_flow.cpp:direct_flow.cpp.run is unknown"
-      ],
-      "duration_ms": 66,
-      "outcome": "inconclusive",
+      "diagnostics": [],
+      "duration_ms": 64,
+      "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost/dfb-taint-cpp-direct-negative.json",
       "sink_anchors": [
@@ -61,12 +58,10 @@
     {
       "case_id": "dfb-taint-cpp-direct-positive",
       "diagnostics": [
-        "Bifrost reported incomplete analysis: partial_discovery",
-        "Controlled input reaches the direct benchmark sink",
-        "taint discovery is incomplete: procedure value-flow snapshot for direct_flow.cpp:direct_flow.cpp.run is unknown"
+        "Controlled input reaches the direct benchmark sink"
       ],
-      "duration_ms": 83,
-      "outcome": "inconclusive",
+      "duration_ms": 67,
+      "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost/dfb-taint-cpp-direct-positive.json",
       "sink_anchors": [
@@ -75,12 +70,15 @@
       "source_anchors": [
         "DFB-SOURCE: direct-input"
       ],
-      "witness_checkpoints": []
+      "witness_checkpoints": [
+        "DFB-SOURCE: direct-input",
+        "DFB-SINK: direct-sink"
+      ]
     },
     {
       "case_id": "dfb-taint-csharp-direct-negative",
       "diagnostics": [],
-      "duration_ms": 63,
+      "duration_ms": 72,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost/dfb-taint-csharp-direct-negative.json",
@@ -97,7 +95,7 @@
       "diagnostics": [
         "Controlled input reaches the direct benchmark sink"
       ],
-      "duration_ms": 69,
+      "duration_ms": 55,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost/dfb-taint-csharp-direct-positive.json",
@@ -115,7 +113,7 @@
     {
       "case_id": "dfb-taint-go-direct-negative",
       "diagnostics": [],
-      "duration_ms": 65,
+      "duration_ms": 48,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost/dfb-taint-go-direct-negative.json",
@@ -132,7 +130,7 @@
       "diagnostics": [
         "Controlled input reaches the direct benchmark sink"
       ],
-      "duration_ms": 72,
+      "duration_ms": 57,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost/dfb-taint-go-direct-positive.json",
@@ -152,7 +150,7 @@
       "diagnostics": [
         "Untrusted data reaches the direct benchmark sink"
       ],
-      "duration_ms": 70,
+      "duration_ms": 142,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost/dfb-taint-java-direct-positive.json",
@@ -170,7 +168,7 @@
     {
       "case_id": "dfb-taint-java-explicit-negative",
       "diagnostics": [],
-      "duration_ms": 57,
+      "duration_ms": 102,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost/dfb-taint-java-explicit-negative.json",
@@ -204,7 +202,7 @@
       "diagnostics": [
         "Untrusted data reaches the one-hop benchmark sink"
       ],
-      "duration_ms": 82,
+      "duration_ms": 70,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost/dfb-taint-java-one-hop-positive.json",
@@ -222,12 +220,9 @@
     },
     {
       "case_id": "dfb-taint-javascript-direct-negative",
-      "diagnostics": [
-        "Bifrost reported incomplete analysis: partial_discovery",
-        "taint discovery is incomplete: procedure value-flow snapshot for DirectFlow.js:DirectFlow.js.run is unknown"
-      ],
-      "duration_ms": 62,
-      "outcome": "inconclusive",
+      "diagnostics": [],
+      "duration_ms": 58,
+      "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost/dfb-taint-javascript-direct-negative.json",
       "sink_anchors": [
@@ -241,12 +236,10 @@
     {
       "case_id": "dfb-taint-javascript-direct-positive",
       "diagnostics": [
-        "Bifrost reported incomplete analysis: partial_discovery",
-        "Controlled input reaches the direct benchmark sink",
-        "taint discovery is incomplete: procedure value-flow snapshot for DirectFlow.js:DirectFlow.js.run is unknown"
+        "Controlled input reaches the direct benchmark sink"
       ],
-      "duration_ms": 73,
-      "outcome": "inconclusive",
+      "duration_ms": 76,
+      "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost/dfb-taint-javascript-direct-positive.json",
       "sink_anchors": [
@@ -255,16 +248,16 @@
       "source_anchors": [
         "DFB-SOURCE: direct-input"
       ],
-      "witness_checkpoints": []
+      "witness_checkpoints": [
+        "DFB-SOURCE: direct-input",
+        "DFB-SINK: direct-sink"
+      ]
     },
     {
       "case_id": "dfb-taint-kotlin-direct-negative",
-      "diagnostics": [
-        "Bifrost reported incomplete analysis: partial_discovery",
-        "taint discovery is incomplete: procedure value-flow snapshot for DirectFlow.kt:DirectFlow.kt.DirectFlow.run is unknown"
-      ],
-      "duration_ms": 62,
-      "outcome": "inconclusive",
+      "diagnostics": [],
+      "duration_ms": 66,
+      "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost/dfb-taint-kotlin-direct-negative.json",
       "sink_anchors": [
@@ -278,12 +271,10 @@
     {
       "case_id": "dfb-taint-kotlin-direct-positive",
       "diagnostics": [
-        "Bifrost reported incomplete analysis: partial_discovery",
-        "Controlled input reaches the direct benchmark sink",
-        "taint discovery is incomplete: procedure value-flow snapshot for DirectFlow.kt:DirectFlow.kt.DirectFlow.run is unknown"
+        "Controlled input reaches the direct benchmark sink"
       ],
-      "duration_ms": 70,
-      "outcome": "inconclusive",
+      "duration_ms": 65,
+      "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost/dfb-taint-kotlin-direct-positive.json",
       "sink_anchors": [
@@ -292,12 +283,15 @@
       "source_anchors": [
         "DFB-SOURCE: direct-input"
       ],
-      "witness_checkpoints": []
+      "witness_checkpoints": [
+        "DFB-SOURCE: direct-input",
+        "DFB-SINK: direct-sink"
+      ]
     },
     {
       "case_id": "dfb-taint-php-direct-negative",
       "diagnostics": [],
-      "duration_ms": 62,
+      "duration_ms": 71,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost/dfb-taint-php-direct-negative.json",
@@ -314,7 +308,7 @@
       "diagnostics": [
         "Controlled input reaches the direct benchmark sink"
       ],
-      "duration_ms": 70,
+      "duration_ms": 97,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost/dfb-taint-php-direct-positive.json",
@@ -332,7 +326,7 @@
     {
       "case_id": "dfb-taint-python-direct-negative",
       "diagnostics": [],
-      "duration_ms": 57,
+      "duration_ms": 80,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost/dfb-taint-python-direct-negative.json",
@@ -349,7 +343,7 @@
       "diagnostics": [
         "Controlled input reaches the direct benchmark sink"
       ],
-      "duration_ms": 66,
+      "duration_ms": 58,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost/dfb-taint-python-direct-positive.json",
@@ -370,7 +364,7 @@
         "Bifrost reported incomplete analysis: partial_discovery",
         "taint discovery is incomplete: procedure value-flow snapshot for direct_flow.rb:direct_flow.rb.run is unknown"
       ],
-      "duration_ms": 57,
+      "duration_ms": 64,
       "outcome": "inconclusive",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost/dfb-taint-ruby-direct-negative.json",
@@ -384,9 +378,13 @@
     },
     {
       "case_id": "dfb-taint-ruby-direct-positive",
-      "diagnostics": [],
-      "duration_ms": 57,
-      "outcome": "not-reached",
+      "diagnostics": [
+        "Bifrost reported incomplete analysis: partial_discovery",
+        "Controlled input reaches the direct benchmark sink",
+        "taint discovery is incomplete: procedure value-flow snapshot for direct_flow.rb:direct_flow.rb.run is unknown"
+      ],
+      "duration_ms": 56,
+      "outcome": "inconclusive",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost/dfb-taint-ruby-direct-positive.json",
       "sink_anchors": [
@@ -400,7 +398,7 @@
     {
       "case_id": "dfb-taint-rust-direct-negative",
       "diagnostics": [],
-      "duration_ms": 63,
+      "duration_ms": 86,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost/dfb-taint-rust-direct-negative.json",
@@ -417,7 +415,7 @@
       "diagnostics": [
         "Controlled input reaches the direct benchmark sink"
       ],
-      "duration_ms": 70,
+      "duration_ms": 66,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost/dfb-taint-rust-direct-positive.json",
@@ -434,12 +432,9 @@
     },
     {
       "case_id": "dfb-taint-scala-direct-negative",
-      "diagnostics": [
-        "Bifrost reported incomplete analysis: partial_discovery",
-        "taint discovery is incomplete: procedure value-flow snapshot for DirectFlow.scala:DirectFlow.scala.DirectFlow.run is unknown"
-      ],
-      "duration_ms": 67,
-      "outcome": "inconclusive",
+      "diagnostics": [],
+      "duration_ms": 64,
+      "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost/dfb-taint-scala-direct-negative.json",
       "sink_anchors": [
@@ -453,12 +448,10 @@
     {
       "case_id": "dfb-taint-scala-direct-positive",
       "diagnostics": [
-        "Bifrost reported incomplete analysis: partial_discovery",
-        "Controlled input reaches the direct benchmark sink",
-        "taint discovery is incomplete: procedure value-flow snapshot for DirectFlow.scala:DirectFlow.scala.DirectFlow.run is unknown"
+        "Controlled input reaches the direct benchmark sink"
       ],
-      "duration_ms": 80,
-      "outcome": "inconclusive",
+      "duration_ms": 63,
+      "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost/dfb-taint-scala-direct-positive.json",
       "sink_anchors": [
@@ -467,16 +460,16 @@
       "source_anchors": [
         "DFB-SOURCE: direct-input"
       ],
-      "witness_checkpoints": []
+      "witness_checkpoints": [
+        "DFB-SOURCE: direct-input",
+        "DFB-SINK: direct-sink"
+      ]
     },
     {
       "case_id": "dfb-taint-typescript-direct-negative",
-      "diagnostics": [
-        "Bifrost reported incomplete analysis: partial_discovery",
-        "taint discovery is incomplete: procedure value-flow snapshot for DirectFlow.ts:DirectFlow.ts.run is unknown"
-      ],
-      "duration_ms": 60,
-      "outcome": "inconclusive",
+      "diagnostics": [],
+      "duration_ms": 53,
+      "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost/dfb-taint-typescript-direct-negative.json",
       "sink_anchors": [
@@ -490,12 +483,10 @@
     {
       "case_id": "dfb-taint-typescript-direct-positive",
       "diagnostics": [
-        "Bifrost reported incomplete analysis: partial_discovery",
-        "Controlled input reaches the direct benchmark sink",
-        "taint discovery is incomplete: procedure value-flow snapshot for DirectFlow.ts:DirectFlow.ts.run is unknown"
+        "Controlled input reaches the direct benchmark sink"
       ],
-      "duration_ms": 70,
-      "outcome": "inconclusive",
+      "duration_ms": 50,
+      "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost/dfb-taint-typescript-direct-positive.json",
       "sink_anchors": [
@@ -504,12 +495,15 @@
       "source_anchors": [
         "DFB-SOURCE: direct-input"
       ],
-      "witness_checkpoints": []
+      "witness_checkpoints": [
+        "DFB-SOURCE: direct-input",
+        "DFB-SINK: direct-sink"
+      ]
     }
   ],
   "schema_version": 1,
-  "started_at_unix_seconds": 1786466868,
+  "started_at_unix_seconds": 1786692992,
   "tool": "bifrost",
-  "tool_build_identity": "adc504b3a98e00e3acb65c9b0d52a5d9734b6b2d",
-  "tool_version": "bifrost 0.9.1"
+  "tool_build_identity": "a3ca30bd3fb994cc07db4abf47a2c796854882ca",
+  "tool_version": "bifrost 0.9.5"
 }
