@@ -1,0 +1,35 @@
+{
+  "schema_version": 2,
+  "id": "dfb-taint-java-loop-carried-positive",
+  "template_id": "dfb-template-loop-carried-kill",
+  "polarity": "positive",
+  "score_tier": "core",
+  "track": "taint",
+  "language": "java",
+  "semantic_dimensions": ["local-flow", "flow-sensitivity", "path-sensitivity"],
+  "feature_tags": ["intraprocedural"],
+  "model_profile": "benchmark-controlled",
+  "fixture_files": ["LoopCarriedPositive.java"],
+  "source_anchors": [
+    {"marker": "DFB-SOURCE: loop-carried-input", "file": "LoopCarriedPositive.java", "line_hint": 4}
+  ],
+  "sink_anchors": [
+    {"marker": "DFB-SINK: loop-carried-sink", "file": "LoopCarriedPositive.java", "line_hint": 8}
+  ],
+  "expected_flows": [
+    {"source": "DFB-SOURCE: loop-carried-input", "sink": "DFB-SINK: loop-carried-sink"}
+  ],
+  "expected_nonflows": [],
+  "witness_checkpoints": [
+    "DFB-SOURCE: loop-carried-input",
+    "DFB-WITNESS: loop-carried-value",
+    "DFB-SINK: loop-carried-sink"
+  ],
+  "expected_analysis_capability": {"kind": "flow-sensitive-loop-taint"},
+  "execution_budget": {"wall_clock_seconds": 60, "peak_memory_mb": 512},
+  "fixture_provenance": {"kind": "authored", "origin": "DataFlowBench", "revision": "initial", "license": "MIT"},
+  "tool_model_references": {
+    "bifrost": {"policy": "adapters/bifrost/policies/core-java-kernel.rqlp"},
+    "codeql": {"query": "adapters/codeql/queries/JavaKernel.ql"}
+  }
+}

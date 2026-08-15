@@ -33,19 +33,23 @@ add OpenTaint when its neutral JVM-rule path is reproducible.
 
 ### Current M1 status
 
-The 26-assertion language breadth baseline is implemented. A four-template Java
-vertical slice now exercises one balanced pair from every planned stratum:
+The 26-assertion language breadth baseline and the complete 16-template Java
+propagation kernel are implemented. The 32 Java assertions are balanced evenly
+across the four planned strata:
 
-| Template | Primary dimensions | Bifrost v0.9.5 | CodeQL v2.26.3 |
+| Stratum | Templates | Bifrost v0.9.5 | CodeQL v2.26.3 |
 | --- | --- | --- | --- |
-| Local overwrite kill | local flow, flow sensitivity | negative false positive | pair correct |
-| Call-context separation | interprocedural flow, context sensitivity | pair correct | pair correct |
-| Object separation | heap/field and object sensitivity | both inconclusive (`partial_discovery`) | pair correct |
-| Infeasible branch | local flow, path sensitivity | negative false positive | pair correct |
+| Local propagation and kills | direct, overwrite, multi-step, expression | 6/8 correct | 7/8 correct |
+| Calls and returns | call context, argument position, one-hop return, two-hop return | 8/8 correct | 8/8 correct |
+| Heap and separation | objects, fields, aliases, arrays | 8/8 inconclusive | 6/8 correct |
+| Control transfers | infeasible branch, branch join, loop kill, exception catch | 3/6 decisive correct; 2 inconclusive | 6/8 correct |
 
 These are benchmark results, not adapter expectations: complete false positives
-remain `reached`, while incomplete analysis remains `inconclusive`. Twelve more
-balanced Java templates are required to complete the planned deep core.
+remain `reached`, while incomplete analysis remains `inconclusive`. In total,
+Bifrost has 17 correct and 5 incorrect results among 22 decisive Java outcomes,
+with 10 inconclusive. CodeQL has 27 correct and 5 incorrect results across all
+32 assertions. The deep Java core is complete; M2 begins by porting these same
+semantics to JavaScript and Python.
 
 ## M2: cross-language parity
 

@@ -1,10 +1,10 @@
 /**
- * @name DataFlowBench Java vertical slice
- * @description Finds benchmark-controlled taint flow from dfb_source return values to dfb_sink argument zero.
+ * @name DataFlowBench Java propagation kernel
+ * @description Finds benchmark-controlled taint flow between the Java kernel's source and sink methods.
  * @kind path-problem
  * @problem.severity warning
  * @precision high
- * @id dataflowbench/java-vertical-slice
+ * @id dataflowbench/java-propagation-kernel
  * @tags security
  */
 
@@ -15,14 +15,14 @@ import semmle.code.java.dataflow.TaintTracking
 module DataFlowBenchConfig implements DataFlow::ConfigSig {
   predicate isSource(DataFlow::Node source) {
     exists(MethodCall call |
-      call.getMethod().hasName("dfb_source") and
+      call.getMethod().getName() = ["dfb_source", "directUntrustedInput", "explicitNegativeUntrustedInput"] and
       source.asExpr() = call
     )
   }
 
   predicate isSink(DataFlow::Node sink) {
     exists(MethodCall call |
-      call.getMethod().hasName("dfb_sink") and
+      call.getMethod().getName() = ["dfb_sink", "recordDirect", "recordExplicitNegative"] and
       sink.asExpr() = call.getArgument(0)
     )
   }

@@ -1,0 +1,7 @@
+{
+  "schema_version": 2, "id": "dfb-taint-java-return-relay-two-hop-positive", "template_id": "dfb-template-return-relay-two-hop", "polarity": "positive", "score_tier": "core", "track": "taint", "language": "java",
+  "semantic_dimensions": ["interprocedural-flow"], "feature_tags": ["interprocedural-deep"], "model_profile": "benchmark-controlled", "fixture_files": ["ReturnRelayTwoHopPositive.java"],
+  "source_anchors": [{"marker": "DFB-SOURCE: return-two-hop-input", "file": "ReturnRelayTwoHopPositive.java", "line_hint": 4}], "sink_anchors": [{"marker": "DFB-SINK: return-two-hop-sink", "file": "ReturnRelayTwoHopPositive.java", "line_hint": 16}],
+  "expected_flows": [{"source": "DFB-SOURCE: return-two-hop-input", "sink": "DFB-SINK: return-two-hop-sink"}], "expected_nonflows": [], "witness_checkpoints": ["DFB-SOURCE: return-two-hop-input", "DFB-WITNESS: return-two-hop-first", "DFB-WITNESS: return-two-hop-second", "DFB-SINK: return-two-hop-sink"],
+  "expected_analysis_capability": {"kind": "two-hop-interprocedural-return-taint"}, "execution_budget": {"wall_clock_seconds": 60, "peak_memory_mb": 512}, "fixture_provenance": {"kind": "authored", "origin": "DataFlowBench", "revision": "initial", "license": "MIT"}, "tool_model_references": {"bifrost": {"policy": "adapters/bifrost/policies/core-java-kernel.rqlp"}, "codeql": {"query": "adapters/codeql/queries/JavaKernel.ql"}}
+}
