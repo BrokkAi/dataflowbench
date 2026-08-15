@@ -31,7 +31,7 @@ enum Commands {
         #[arg(long, default_value = "bifrost")]
         bifrost: PathBuf,
     },
-    RunCodeqlJavaVertical {
+    RunCodeqlJavaKernel {
         #[arg(long, default_value = "codeql")]
         codeql: PathBuf,
         #[arg(long)]
@@ -44,10 +44,10 @@ fn main() -> Result<()> {
         Commands::Validate => validate_cases(),
         Commands::ValidateReports => validate_reports(),
         Commands::RunBifrostSmoke { bifrost } => run_bifrost_smoke(&bifrost),
-        Commands::RunCodeqlJavaVertical {
+        Commands::RunCodeqlJavaKernel {
             codeql,
             codeql_packs,
-        } => run_codeql_java_vertical(&codeql, codeql_packs.as_deref()),
+        } => run_codeql_java_kernel(&codeql, codeql_packs.as_deref()),
     }
 }
 
@@ -326,7 +326,7 @@ fn run_bifrost_smoke(binary: &Path) -> Result<()> {
     Ok(())
 }
 
-fn run_codeql_java_vertical(binary: &Path, packs: Option<&Path>) -> Result<()> {
+fn run_codeql_java_kernel(binary: &Path, packs: Option<&Path>) -> Result<()> {
     validate_cases()?;
     let raw_dir = Path::new("reports/raw/codeql");
     fs::create_dir_all(raw_dir)?;
@@ -404,11 +404,11 @@ fn run_codeql_java_vertical(binary: &Path, packs: Option<&Path>) -> Result<()> {
         "results": results
     });
     fs::write(
-        "reports/codeql-java-vertical.json",
+        "reports/codeql-java-kernel.json",
         serde_json::to_string_pretty(&report)? + "\n",
     )?;
     validate_reports()?;
-    println!("wrote reports/codeql-java-vertical.json");
+    println!("wrote reports/codeql-java-kernel.json");
     Ok(())
 }
 

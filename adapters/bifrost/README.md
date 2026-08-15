@@ -11,9 +11,9 @@ as if they were observed evidence.
 The core smoke slice applies one balanced direct-flow template to all 13
 currently supported language/dialect entries: C, C++, C#, Go, Java,
 JavaScript, Kotlin, PHP, Python, Ruby, Rust, Scala, and TypeScript. A Java
-vertical slice adds balanced overwrite-kill, call-context, object-separation,
-and infeasible-branch templates; the Java calibration slice also covers
-one-hop helper flow. Generated workspaces live outside the repository so
+propagation kernel adds 16 balanced templates across local, call/return, heap,
+and control-flow strata; the Java calibration slice also covers one-hop helper
+flow. Generated workspaces live outside the repository so
 repository ignore rules cannot hide fixtures from Bifrost's indexer. Sanitizer
 lowering is a future Bifrost CLI capability.
 External semantic-model activation requires an embedding
@@ -30,12 +30,13 @@ cargo run -- run-bifrost-smoke --bifrost /path/to/bifrost
 ## Retained v0.9.5 snapshot
 
 The report currently checked in was produced with the exact Bifrost v0.9.5
-build `a3ca30bd3fb994cc07db4abf47a2c796854882ca`. It retains 18 `reached`, 13
-`not-reached`, 4 `inconclusive`, and 1 `unsupported` outcomes. Of 31 decisive
-executable outcomes, 29 match their expected polarity. The overwrite-kill and
-infeasible-branch negatives are complete, proven false positives. The two
-object-separation cases are inconclusive because the procedure value-flow
-snapshot for `run` is unknown.
+build `a3ca30bd3fb994cc07db4abf47a2c796854882ca`. It retains 26 `reached`, 19
+`not-reached`, 12 `inconclusive`, and 1 `unsupported` outcomes. Within the
+32-assertion Java core, 17 of 22 decisive outcomes match their expected
+polarity and 10 are inconclusive. The expression positive is a false negative;
+the overwrite-kill, infeasible-branch, branch-join, and loop-kill negatives are
+false positives. All eight heap assertions and both exception assertions are
+inconclusive because their procedure value-flow snapshots are incomplete.
 
 The other inconclusive pair is Ruby. Its positive case retains a finding and
 witnesses, while both positive and negative cases report

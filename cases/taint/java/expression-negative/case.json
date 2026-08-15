@@ -1,0 +1,9 @@
+{
+  "schema_version": 2, "id": "dfb-taint-java-expression-negative", "template_id": "dfb-template-arithmetic-expression-propagation", "polarity": "negative", "negative_mechanism": "unrelated-value",
+  "score_tier": "core", "track": "taint", "language": "java",
+  "semantic_dimensions": ["local-flow"], "feature_tags": ["intraprocedural"], "model_profile": "benchmark-controlled",
+  "fixture_files": ["ExpressionNegative.java"], "source_anchors": [{"marker": "DFB-SOURCE: expression-negative-input", "file": "ExpressionNegative.java", "line_hint": 4}], "sink_anchors": [{"marker": "DFB-SINK: expression-negative-sink", "file": "ExpressionNegative.java", "line_hint": 8}],
+  "expected_flows": [], "expected_nonflows": [{"source": "DFB-SOURCE: expression-negative-input", "sink": "DFB-SINK: expression-negative-sink"}], "witness_checkpoints": [],
+  "expected_analysis_capability": {"kind": "expression-propagating-intraprocedural-taint"}, "execution_budget": {"wall_clock_seconds": 60, "peak_memory_mb": 512},
+  "fixture_provenance": {"kind": "authored", "origin": "DataFlowBench", "revision": "initial", "license": "MIT"}, "tool_model_references": {"bifrost": {"policy": "adapters/bifrost/policies/core-java-kernel.rqlp"}, "codeql": {"query": "adapters/codeql/queries/JavaKernel.ql"}}
+}
