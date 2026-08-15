@@ -6,8 +6,8 @@ static-analysis tools. It is an experimental first version, not a leaderboard.
 
 It has four distinct tracks: `value-flow`, `taint`, `typestate`, and
 `performance`. The first scored slice includes a balanced direct-flow pair
-across 13 language/dialect entries and a four-template Java propagation
-vertical slice in the `taint` track. It
+across 13 language/dialect entries and a 16-template Java propagation kernel in
+the `taint` track. It
 measures correctness, capability coverage, witness quality, and performance
 separately; it deliberately does not calculate a combined score or declare a
 tool a winner.
@@ -30,7 +30,7 @@ External tools are compared respectfully: publish their exact version, settings,
 supported dimensions, normalized outcomes, and raw evidence. Semgrep CE stays
 in its supported local-analysis profile; OpenTaint stays in its Java/Kotlin
 profile. SootUp is a possible JVM reference framework, not a first-version
-adapter. CodeQL is implemented for the four-template Java vertical slice.
+adapter. CodeQL is implemented for the full Java propagation kernel.
 
 ## Quick start
 
@@ -40,6 +40,8 @@ cargo test
 cargo run -- validate
 cargo run -- validate-reports
 cargo run -- run-bifrost-smoke --bifrost /path/to/current-bifrost
+cargo run -- run-codeql-java-kernel --codeql /path/to/codeql \
+  --codeql-packs /path/to/codeql-packs
 ```
 
 The last command requires a current Bifrost build with policy CLI support (the
@@ -61,7 +63,7 @@ or model in `adapters/<tool>/`; add a command and normalization mapping in the
 Reproduce a checked-in example with `cargo run -- validate-reports`; recreate a
 fresh Bifrost report with the quick-start command and compare its raw evidence.
 The [CodeQL adapter guide](adapters/codeql/README.md) documents the pinned CLI,
-Java pack, and command for reproducing its retained vertical-slice report.
+Java pack, and command for reproducing its retained kernel report.
 
 ## Licenses and provenance
 
@@ -76,7 +78,7 @@ provenance. The initial fixtures are authored in this repository.
 The [milestone plan](docs/milestones.md) starts with a one-template breadth
 baseline across Bifrost's supported languages, deepens that into a balanced
 16-template Java propagation kernel, then expands cross-language parity and
-adds separately scored taint-modeling and real-project slices. Four Java
+adds separately scored taint-modeling and real-project slices. All 16 Java
 templates now exercise that kernel end to end. The
 [benchmark-source inventory](docs/benchmark-sources.md) records suites used as
 design inputs. A large real-project corpus, a custom query language, a general
