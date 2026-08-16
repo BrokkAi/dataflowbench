@@ -39,17 +39,18 @@ across the four planned strata:
 
 | Stratum | Templates | Bifrost v0.9.5 | CodeQL v2.26.3 |
 | --- | --- | --- | --- |
-| Local propagation and kills | direct, overwrite, multi-step, expression | 6/8 correct | 7/8 correct |
+| Local propagation and kills | direct, overwrite, multi-step, expression | 8/8 correct | 7/8 correct |
 | Calls and returns | call context, argument position, one-hop return, two-hop return | 8/8 correct | 8/8 correct |
-| Heap and separation | objects, fields, aliases, arrays | 8/8 inconclusive | 6/8 correct |
-| Control transfers | infeasible branch, branch join, loop kill, exception catch | 3/6 decisive correct; 2 inconclusive | 6/8 correct |
+| Heap and separation | objects, fields, aliases, arrays | 8/8 correct | 6/8 correct |
+| Control transfers | infeasible branch, branch join, loop kill, exception catch | 8/8 correct | 6/8 correct |
 
 These are benchmark results, not adapter expectations: complete false positives
 remain `reached`, while incomplete analysis remains `inconclusive`. In total,
-Bifrost has 17 correct and 5 incorrect results among 22 decisive Java outcomes,
-with 10 inconclusive. CodeQL has 27 correct and 5 incorrect results across all
-32 assertions. The deep Java core is complete; M2 begins by porting these same
-semantics to JavaScript and Python.
+Bifrost has 32 correct results across all 32 Java-core assertions. Its only
+remaining inconclusive outcomes are the Ruby direct-flow pair; the modeled
+external Java case remains explicitly unsupported. CodeQL has 27 correct and
+5 incorrect results across all 32 assertions. The deep Java core is complete;
+M2 begins by porting these same semantics to JavaScript and Python.
 
 ## M2: cross-language parity
 
