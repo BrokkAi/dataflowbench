@@ -30,15 +30,12 @@ cargo run -- run-bifrost-smoke --bifrost /path/to/bifrost
 ## Retained v0.9.5 snapshot
 
 The report currently checked in was produced with the exact Bifrost v0.9.5
-build `a3ca30bd3fb994cc07db4abf47a2c796854882ca`. It retains 26 `reached`, 19
-`not-reached`, 12 `inconclusive`, and 1 `unsupported` outcomes. Within the
-32-assertion Java core, 17 of 22 decisive outcomes match their expected
-polarity and 10 are inconclusive. The expression positive is a false negative;
-the overwrite-kill, infeasible-branch, branch-join, and loop-kill negatives are
-false positives. All eight heap assertions and both exception assertions are
-inconclusive because their procedure value-flow snapshots are incomplete.
+build `0b0c5c0e2d84eb7fc75baa486f6111623b13507c`. It retains 28 `reached`, 27
+`not-reached`, 2 `inconclusive`, and 1 `unsupported` outcomes. All 32
+assertions in the Java core match their expected polarity (16 positive flows
+reached and 16 negative flows not reached).
 
-The other inconclusive pair is Ruby. Its positive case retains a finding and
+The remaining inconclusive pair is Ruby. Its positive case retains a finding and
 witnesses, while both positive and negative cases report
 `partial_discovery` because the procedure value-flow snapshot for `run` is
 unknown. Both benchmark calls retain one target, but their dispatch outcomes
