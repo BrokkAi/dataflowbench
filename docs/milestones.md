@@ -90,6 +90,26 @@ Keep the Python, Java, and direct-flow result populations separate; a partial
 or unsupported Python path remains capability evidence rather than a negative.
 Language-only constructs live in `language-extension` scorecards.
 
+The Python CodeQL vertical slice is defined independently of the Bifrost
+results. Its runner selects exactly the 32 Python core assertions (16 balanced
+positive/negative template pairs), creates one isolated database per case, and
+retains a dedicated normalized report at `reports/codeql-python-kernel.json`
+plus raw SARIF under `reports/raw/codeql-python-kernel/`. Source and sink anchors from
+the case metadata remain attached to each normalized result. The five outcome
+states remain distinct, so incomplete analysis is `inconclusive`, unsupported
+coverage is `unsupported`, and execution failures are `runner-error` rather
+than `not-reached`. The validated Python CodeQL run used CodeQL CLI 2.26.3
+build `7d097a43199effe04ecd9c6bd3ad9bb02a45b3d7` with
+`codeql/python-all@7.2.3`: all 32 assertions produced 14 `reached` and 18
+`not-reached` outcomes, with no `inconclusive`, `unsupported`, or
+`runner-error`; 28/32 matched the expected polarity. The mismatches were
+false negatives for `alias-propagation-positive`, `array-element-positive`,
+and `exception-catch-positive`, and a false positive for
+`loop-carried-negative`. This evidence is limited to the Python core kernel.
+The Python query pack is separate from the Java pack: it lives under
+`adapters/codeql/python/` and owns the Python query plus its database-schema
+dependency.
+
 ## M3: taint modeling
 
 Add balanced categories for sources and sinks, propagators, sanitizers, opaque
