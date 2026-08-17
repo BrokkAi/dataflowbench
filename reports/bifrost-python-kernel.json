@@ -2,16 +2,16 @@
   "adapter_version": "0.1.0",
   "cold_or_warm": "cold",
   "configuration_hash": "8ffa260f17d570afc01df63034130d26f19afe260949b2fadee3f27af6f26a98",
-  "ended_at_unix_seconds": 1786948685,
-  "fixture_revision": "sha256:bd40af8b4dea2f8c26fbb7222af62ed0e3e20da06b262c04394ebb78884ddbb1",
+  "ended_at_unix_seconds": 1786976898,
+  "fixture_revision": "sha256:b68d393719bb8eb1ecdf252fbf115f9f596093ae7c2fc358a99f3239acef5e98",
   "results": [
     {
       "case_id": "dfb-taint-python-alias-propagation-negative",
       "diagnostics": [
         "Bifrost reported incomplete analysis: capability_incomplete",
-        "taint discovery is incomplete: procedure value-flow snapshot for alias_propagation.py:alias_propagation.py.run is unsupported (assignments)"
+        "taint discovery is incomplete: procedure value-flow snapshot for alias_propagation.py:alias_propagation.py.run is unsupported"
       ],
-      "duration_ms": 132,
+      "duration_ms": 61,
       "outcome": "inconclusive",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-python-kernel/dfb-taint-python-alias-propagation-negative.json",
@@ -27,9 +27,9 @@
       "case_id": "dfb-taint-python-alias-propagation-positive",
       "diagnostics": [
         "Bifrost reported incomplete analysis: capability_incomplete",
-        "taint discovery is incomplete: procedure value-flow snapshot for alias_propagation.py:alias_propagation.py.run is unsupported (assignments)"
+        "taint discovery is incomplete: procedure value-flow snapshot for alias_propagation.py:alias_propagation.py.run is unsupported"
       ],
-      "duration_ms": 47,
+      "duration_ms": 86,
       "outcome": "inconclusive",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-python-kernel/dfb-taint-python-alias-propagation-positive.json",
@@ -44,7 +44,7 @@
     {
       "case_id": "dfb-taint-python-argument-position-negative",
       "diagnostics": [],
-      "duration_ms": 51,
+      "duration_ms": 61,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-python-kernel/dfb-taint-python-argument-position-negative.json",
@@ -61,7 +61,7 @@
       "diagnostics": [
         "Controlled input reaches the benchmark sink"
       ],
-      "duration_ms": 73,
+      "duration_ms": 71,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-python-kernel/dfb-taint-python-argument-position-positive.json",
@@ -76,7 +76,7 @@
     {
       "case_id": "dfb-taint-python-arithmetic-expression-negative",
       "diagnostics": [],
-      "duration_ms": 47,
+      "duration_ms": 51,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-python-kernel/dfb-taint-python-arithmetic-expression-negative.json",
@@ -91,7 +91,7 @@
     {
       "case_id": "dfb-taint-python-arithmetic-expression-positive",
       "diagnostics": [],
-      "duration_ms": 47,
+      "duration_ms": 65,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-python-kernel/dfb-taint-python-arithmetic-expression-positive.json",
@@ -107,9 +107,9 @@
       "case_id": "dfb-taint-python-array-element-negative",
       "diagnostics": [
         "Bifrost reported incomplete analysis: capability_incomplete",
-        "taint discovery is incomplete: procedure value-flow snapshot for array_element.py:array_element.py.run is unsupported (assignments)"
+        "taint discovery is incomplete: procedure value-flow snapshot for array_element.py:array_element.py.run is unsupported"
       ],
-      "duration_ms": 41,
+      "duration_ms": 46,
       "outcome": "inconclusive",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-python-kernel/dfb-taint-python-array-element-negative.json",
@@ -125,9 +125,9 @@
       "case_id": "dfb-taint-python-array-element-positive",
       "diagnostics": [
         "Bifrost reported incomplete analysis: capability_incomplete",
-        "taint discovery is incomplete: procedure value-flow snapshot for array_element.py:array_element.py.run is unsupported (assignments)"
+        "taint discovery is incomplete: procedure value-flow snapshot for array_element.py:array_element.py.run is unsupported"
       ],
-      "duration_ms": 50,
+      "duration_ms": 52,
       "outcome": "inconclusive",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-python-kernel/dfb-taint-python-array-element-positive.json",
@@ -141,9 +141,11 @@
     },
     {
       "case_id": "dfb-taint-python-branch-join-negative",
-      "diagnostics": [],
-      "duration_ms": 48,
-      "outcome": "not-reached",
+      "diagnostics": [
+        "Controlled input reaches the benchmark sink"
+      ],
+      "duration_ms": 60,
+      "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-python-kernel/dfb-taint-python-branch-join-negative.json",
       "sink_anchors": [
@@ -159,7 +161,7 @@
       "diagnostics": [
         "Controlled input reaches the benchmark sink"
       ],
-      "duration_ms": 52,
+      "duration_ms": 68,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-python-kernel/dfb-taint-python-branch-join-positive.json",
@@ -174,7 +176,7 @@
     {
       "case_id": "dfb-taint-python-call-context-negative",
       "diagnostics": [],
-      "duration_ms": 47,
+      "duration_ms": 58,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-python-kernel/dfb-taint-python-call-context-negative.json",
@@ -191,7 +193,7 @@
       "diagnostics": [
         "Controlled input reaches the benchmark sink"
       ],
-      "duration_ms": 65,
+      "duration_ms": 86,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-python-kernel/dfb-taint-python-call-context-positive.json",
@@ -206,7 +208,7 @@
     {
       "case_id": "dfb-taint-python-direct-negative",
       "diagnostics": [],
-      "duration_ms": 50,
+      "duration_ms": 65,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-python-kernel/dfb-taint-python-direct-negative.json",
@@ -223,7 +225,7 @@
       "diagnostics": [
         "Controlled input reaches the benchmark sink"
       ],
-      "duration_ms": 55,
+      "duration_ms": 67,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-python-kernel/dfb-taint-python-direct-positive.json",
@@ -239,9 +241,9 @@
       "case_id": "dfb-taint-python-exception-catch-negative",
       "diagnostics": [
         "Bifrost reported incomplete analysis: capability_incomplete",
-        "taint discovery is incomplete: procedure value-flow snapshot for exception_catch.py:exception_catch.py.run is unsupported (exceptional_control_flow)"
+        "taint discovery is incomplete: procedure value-flow snapshot for exception_catch.py:exception_catch.py.run is unsupported"
       ],
-      "duration_ms": 51,
+      "duration_ms": 54,
       "outcome": "inconclusive",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-python-kernel/dfb-taint-python-exception-catch-negative.json",
@@ -257,9 +259,9 @@
       "case_id": "dfb-taint-python-exception-catch-positive",
       "diagnostics": [
         "Bifrost reported incomplete analysis: capability_incomplete",
-        "taint discovery is incomplete: procedure value-flow snapshot for exception_catch.py:exception_catch.py.run is unsupported (exceptional_control_flow)"
+        "taint discovery is incomplete: procedure value-flow snapshot for exception_catch.py:exception_catch.py.run is unsupported"
       ],
-      "duration_ms": 45,
+      "duration_ms": 66,
       "outcome": "inconclusive",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-python-kernel/dfb-taint-python-exception-catch-positive.json",
@@ -276,7 +278,7 @@
       "diagnostics": [
         "Controlled input reaches the benchmark sink"
       ],
-      "duration_ms": 66,
+      "duration_ms": 72,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-python-kernel/dfb-taint-python-infeasible-branch-negative.json",
@@ -293,7 +295,7 @@
       "diagnostics": [
         "Controlled input reaches the benchmark sink"
       ],
-      "duration_ms": 56,
+      "duration_ms": 63,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-python-kernel/dfb-taint-python-infeasible-branch-positive.json",
@@ -308,7 +310,7 @@
     {
       "case_id": "dfb-taint-python-local-chain-negative",
       "diagnostics": [],
-      "duration_ms": 43,
+      "duration_ms": 58,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-python-kernel/dfb-taint-python-local-chain-negative.json",
@@ -325,7 +327,7 @@
       "diagnostics": [
         "Controlled input reaches the benchmark sink"
       ],
-      "duration_ms": 69,
+      "duration_ms": 84,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-python-kernel/dfb-taint-python-local-chain-positive.json",
@@ -339,9 +341,11 @@
     },
     {
       "case_id": "dfb-taint-python-local-overwrite-negative",
-      "diagnostics": [],
-      "duration_ms": 47,
-      "outcome": "not-reached",
+      "diagnostics": [
+        "Controlled input reaches the benchmark sink"
+      ],
+      "duration_ms": 73,
+      "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-python-kernel/dfb-taint-python-local-overwrite-negative.json",
       "sink_anchors": [
@@ -357,7 +361,7 @@
       "diagnostics": [
         "Controlled input reaches the benchmark sink"
       ],
-      "duration_ms": 56,
+      "duration_ms": 114,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-python-kernel/dfb-taint-python-local-overwrite-positive.json",
@@ -376,7 +380,7 @@
         "Controlled input reaches the benchmark sink",
         "taint discovery is incomplete: procedure value-flow snapshot for loop_carried.py:loop_carried.py.run is unknown"
       ],
-      "duration_ms": 65,
+      "duration_ms": 110,
       "outcome": "inconclusive",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-python-kernel/dfb-taint-python-loop-carried-negative.json",
@@ -395,7 +399,7 @@
         "Controlled input reaches the benchmark sink",
         "taint discovery is incomplete: procedure value-flow snapshot for loop_carried.py:loop_carried.py.run is unknown"
       ],
-      "duration_ms": 56,
+      "duration_ms": 112,
       "outcome": "inconclusive",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-python-kernel/dfb-taint-python-loop-carried-positive.json",
@@ -411,9 +415,9 @@
       "case_id": "dfb-taint-python-object-separation-negative",
       "diagnostics": [
         "Bifrost reported incomplete analysis: capability_incomplete",
-        "taint discovery is incomplete: procedure value-flow snapshot for object_separation.py:object_separation.py.run is unsupported (assignments)"
+        "taint discovery is incomplete: procedure value-flow snapshot for object_separation.py:object_separation.py.run is unsupported"
       ],
-      "duration_ms": 49,
+      "duration_ms": 68,
       "outcome": "inconclusive",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-python-kernel/dfb-taint-python-object-separation-negative.json",
@@ -429,9 +433,9 @@
       "case_id": "dfb-taint-python-object-separation-positive",
       "diagnostics": [
         "Bifrost reported incomplete analysis: capability_incomplete",
-        "taint discovery is incomplete: procedure value-flow snapshot for object_separation.py:object_separation.py.run is unsupported (assignments)"
+        "taint discovery is incomplete: procedure value-flow snapshot for object_separation.py:object_separation.py.run is unsupported"
       ],
-      "duration_ms": 47,
+      "duration_ms": 84,
       "outcome": "inconclusive",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-python-kernel/dfb-taint-python-object-separation-positive.json",
@@ -446,7 +450,7 @@
     {
       "case_id": "dfb-taint-python-return-relay-one-hop-negative",
       "diagnostics": [],
-      "duration_ms": 49,
+      "duration_ms": 81,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-python-kernel/dfb-taint-python-return-relay-one-hop-negative.json",
@@ -463,7 +467,7 @@
       "diagnostics": [
         "Controlled input reaches the benchmark sink"
       ],
-      "duration_ms": 58,
+      "duration_ms": 77,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-python-kernel/dfb-taint-python-return-relay-one-hop-positive.json",
@@ -478,7 +482,7 @@
     {
       "case_id": "dfb-taint-python-return-relay-two-hop-negative",
       "diagnostics": [],
-      "duration_ms": 46,
+      "duration_ms": 60,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-python-kernel/dfb-taint-python-return-relay-two-hop-negative.json",
@@ -495,7 +499,7 @@
       "diagnostics": [
         "Controlled input reaches the benchmark sink"
       ],
-      "duration_ms": 62,
+      "duration_ms": 100,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-python-kernel/dfb-taint-python-return-relay-two-hop-positive.json",
@@ -511,9 +515,9 @@
       "case_id": "dfb-taint-python-same-object-field-negative",
       "diagnostics": [
         "Bifrost reported incomplete analysis: capability_incomplete",
-        "taint discovery is incomplete: procedure value-flow snapshot for same_object_field.py:same_object_field.py.run is unsupported (assignments)"
+        "taint discovery is incomplete: procedure value-flow snapshot for same_object_field.py:same_object_field.py.run is unsupported"
       ],
-      "duration_ms": 40,
+      "duration_ms": 68,
       "outcome": "inconclusive",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-python-kernel/dfb-taint-python-same-object-field-negative.json",
@@ -529,9 +533,9 @@
       "case_id": "dfb-taint-python-same-object-field-positive",
       "diagnostics": [
         "Bifrost reported incomplete analysis: capability_incomplete",
-        "taint discovery is incomplete: procedure value-flow snapshot for same_object_field.py:same_object_field.py.run is unsupported (assignments)"
+        "taint discovery is incomplete: procedure value-flow snapshot for same_object_field.py:same_object_field.py.run is unsupported"
       ],
-      "duration_ms": 42,
+      "duration_ms": 92,
       "outcome": "inconclusive",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-python-kernel/dfb-taint-python-same-object-field-positive.json",
@@ -545,8 +549,8 @@
     }
   ],
   "schema_version": 1,
-  "started_at_unix_seconds": 1786948683,
+  "started_at_unix_seconds": 1786976896,
   "tool": "bifrost",
-  "tool_build_identity": "0b0c5c0e2d84eb7fc75baa486f6111623b13507c",
-  "tool_version": "bifrost 0.9.5"
+  "tool_build_identity": "c2116609f5fc1be318c8fb76fb83763cf326bab6",
+  "tool_version": "bifrost 0.10.2"
 }

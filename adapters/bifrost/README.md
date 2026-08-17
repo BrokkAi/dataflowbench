@@ -38,31 +38,38 @@ and evaluated through Bifrost's path-based policy CLI (`--root` plus
 `--policy-file`). A report with incomplete runs is normalized as `inconclusive`
 even when it contains no findings; it is never interpreted as a negative.
 
-## Retained v0.9.5 snapshot
+## Retained v0.10.2 snapshot
 
-The checked-in `reports/bifrost-smoke.json` was produced with the exact
-Bifrost v0.9.5 build `0b0c5c0e2d84eb7fc75baa486f6111623b13507c`. It contains 88
-normalized results: 39 `reached`, 42 `not-reached`, 6 `inconclusive`, and 1
-`unsupported`. Every result's `raw_output` points to its retained per-case
-Bifrost JSON under `reports/raw/bifrost/`; the normalized report and raw
-reports are separate evidence layers. Raw completion and diagnostic fields are
-never replaced with a synthetic `not-reached` outcome, and normalized witness
-checkpoints remain empty until the adapter can prove their locations.
+The checked-in `reports/bifrost-smoke.json` was produced with Bifrost v0.10.2,
+build identity `c2116609f5fc1be318c8fb76fb83763cf326bab6`. The exact binary
+SHA-256 is
+`93b55dd20c283c278f586e8c8e6ad6bf0e9f5f08165b56096e110af0450d0873`.
+The smoke report contains 118 normalized results: 50 `reached`, 37
+`not-reached`, 30 `inconclusive`, and 1 `unsupported`. Every result's
+`raw_output` points to its retained per-case Bifrost JSON under
+`reports/raw/bifrost/`; the normalized report and raw reports are separate
+evidence layers. Raw completion and diagnostic fields are never replaced with
+a synthetic `not-reached` outcome, and normalized witness checkpoints remain
+empty until the adapter can prove their locations.
 
-All 32 assertions in the Java propagation kernel match their expected polarity
-(16 positive flows reached and 16 negative flows not reached). The 32
-JavaScript parity assertions normalize to 12 `reached`, 16 `not-reached`, and 4
-`inconclusive`. Against the canonical case polarity, 22 of the 28 complete
-JavaScript outcomes match and 6 do not: positive expression, array-element,
-object-separation, and same-object-field cases are false negatives; negative
-infeasible-branch and loop-carried-kill cases are false positives.
+The 32-case Java kernel has 14 `reached`, 8 `not-reached`, and 10
+`inconclusive` outcomes, with 17/32 assertions matching expected polarity
+(17 of 22 decisive outcomes). The 32-case Python kernel has 12
+`reached`, 8 `not-reached`, and 12
+`inconclusive`, with 16/32 assertions matching expected polarity
+(16 of 20 decisive outcomes). Its dedicated report is
+`reports/bifrost-python-kernel.json` and raw evidence is under
+`reports/raw/bifrost-python-kernel/`. The 32-case
+JavaScript kernel has 14 `reached`, 12 `not-reached`, and 6 `inconclusive`,
+with 19/32 assertions matching expected polarity (19 of 26 decisive outcomes).
+This v0.10.2 evidence matches v0.10.1 case-for-case, but does not restore the
+complete Java correctness observed in the v0.9.5 snapshot.
 
-The JavaScript alias-propagation pair is `inconclusive` because Bifrost reports
-`partial_discovery` (the procedure value-flow snapshot is unknown). The
-exception-catch pair is `inconclusive` because the run reports
-`capability_incomplete` for `exceptional_control_flow`. These four incomplete
-outcomes are not negative results. The other two inconclusive outcomes are the
-Ruby direct-flow pair, whose positive and negative runs retain
-`partial_discovery` evidence; the modeled-external Java calibration case is
-the single explicit `unsupported` result. [Bifrost #1951](https://github.com/BrokkAi/bifrost/issues/1951)
+The JavaScript alias-propagation and array-element pairs retain
+`partial_discovery` evidence, while the exception-catch pair retains
+`capability_incomplete` evidence; all six remain `inconclusive`. The Java
+heap/separation and exception pairs and the Python heap/control-flow pairs
+likewise remain `inconclusive`, never negative results. The Ruby direct-flow
+pair retains `partial_discovery` evidence, and the modeled-external Java
+calibration case is the single explicit `unsupported` result. [Bifrost #1951](https://github.com/BrokkAi/bifrost/issues/1951)
 tracks the final cross-language production-taint acceptance work.

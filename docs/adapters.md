@@ -136,14 +136,16 @@ negatives for `alias-propagation-positive`, `array-element-positive`, and
 `exception-catch-positive`, and a false positive for `loop-carried-negative`.
 These results cover only the Python core kernel.
 
-The checked-in Bifrost snapshot (`reports/bifrost-smoke.json`) contains 88
-normalized results from Bifrost 0.9.5 build
-`0b0c5c0e2d84eb7fc75baa486f6111623b13507c`: 39 `reached`, 42 `not-reached`, 6
-`inconclusive`, and 1 `unsupported`. The JavaScript profile contributes 32
-balanced assertions using the Java template IDs and the
-`adapters/bifrost/policies/core-javascript-kernel.rqlp` policy. Its current
-outcomes are 12 `reached`, 16 `not-reached`, and 4 `inconclusive`; 22 complete
-outcomes match the expected polarity and 6 complete outcomes do not. The four
+The checked-in Bifrost snapshot (`reports/bifrost-smoke.json`) contains 118
+normalized results from Bifrost v0.10.2 build identity
+`c2116609f5fc1be318c8fb76fb83763cf326bab6`: 50 `reached`, 37 `not-reached`, 30
+`inconclusive`, and 1 `unsupported`. The pinned binary has SHA-256
+`93b55dd20c283c278f586e8c8e6ad6bf0e9f5f08165b56096e110af0450d0873`.
+The Java, Python, and JavaScript 32-assertion profiles have respectively
+17/32 assertions matching expected polarity (17 of 22 decisive outcomes),
+16/32 (16 of 20 decisive outcomes), and 19/32 (19 of 26 decisive outcomes);
 incomplete runs remain `inconclusive`, never synthesized as `not-reached` or
-counted as false negatives. See the [Bifrost adapter notes](../adapters/bifrost/README.md)
-for raw-report separation and the per-template mismatch breakdown.
+counted as false negatives. The v0.10.2 outcomes match v0.10.1 case-for-case,
+but do not restore the complete Java correctness observed in v0.9.5. See the
+[Bifrost adapter notes](../adapters/bifrost/README.md) for raw-report
+separation and the per-template mismatch breakdown.

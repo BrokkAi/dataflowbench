@@ -3587,7 +3587,7 @@ mod tests {
     }
 
     #[test]
-    fn checked_reports_keep_separate_fixture_revisions() {
+    fn checked_reports_match_declared_fixture_revisions() {
         let bifrost: Value =
             serde_json::from_str(&fs::read_to_string("reports/bifrost-smoke.json").unwrap())
                 .unwrap();
@@ -3595,23 +3595,31 @@ mod tests {
             &fs::read_to_string("reports/bifrost-python-kernel.json").unwrap(),
         )
         .unwrap();
-        let codeql: Value =
-            serde_json::from_str(&fs::read_to_string("reports/codeql-java-kernel.json").unwrap())
-                .unwrap();
-        let revisions = [
-            &bifrost["fixture_revision"],
-            &python["fixture_revision"],
-            &codeql["fixture_revision"],
-        ]
-        .into_iter()
-        .map(|revision| revision.as_str().unwrap())
-        .collect::<BTreeSet<_>>();
-        assert_eq!(revisions.len(), 3);
-        assert!(revisions.iter().all(|revision| {
-            revision
-                .strip_prefix("sha256:")
-                .is_some_and(|digest| digest.len() == 64)
-        }));
+        let current_revision = fixture_revision().unwrap();
+        assert_eq!(bifrost["fixture_revision"], current_revision);
+        assert_eq!(python["fixture_revision"], current_revision);
+
+        for report in [&bifrost, &python] {
+            let revision = report["fixture_revision"].as_str().unwrap();
+            assert!(
+                revision
+                    .strip_prefix("sha256:")
+                    .is_some_and(|digest| digest.len() == 64)
+            );
+        }
+        for path in [
+            "reports/codeql-java-kernel.json",
+            "reports/codeql-javascript-kernel.json",
+            "reports/codeql-python-kernel.json",
+        ] {
+            let report: Value = serde_json::from_str(&fs::read_to_string(path).unwrap()).unwrap();
+            let revision = report["fixture_revision"].as_str().unwrap();
+            assert!(
+                revision
+                    .strip_prefix("sha256:")
+                    .is_some_and(|digest| digest.len() == 64)
+            );
+        }
     }
 
     #[test]
