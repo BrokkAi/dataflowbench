@@ -6,8 +6,8 @@ static-analysis tools. It is an experimental first version, not a leaderboard.
 
 It has four distinct tracks: `value-flow`, `taint`, `typestate`, and
 `performance`. The first scored slice includes a balanced direct-flow pair
-across 13 language/dialect entries and a 16-template Java propagation kernel in
-the `taint` track. It
+across 13 language/dialect entries, a 16-template Java propagation kernel, and
+the matching 16-template JavaScript parity kernel in the `taint` track. It
 measures correctness, capability coverage, witness quality, and performance
 separately; it deliberately does not calculate a combined score or declare a
 tool a winner.
@@ -44,12 +44,24 @@ cargo run -- run-codeql-java-kernel --codeql /path/to/codeql \
   --codeql-packs /path/to/codeql-packs
 ```
 
-The last command requires a current Bifrost build with policy CLI support (the
-checked-out sibling repository is suitable) and executes Bifrost's real policy
-CLI against the positive and negative fixtures, retains raw JSON in
-`reports/raw/bifrost/`, and writes
-`reports/bifrost-smoke.json`. Bifrost returns exit status 1 for a finding; the
-runner treats that as successful evidence rather than a runner failure.
+The Bifrost smoke command requires a current Bifrost build with policy CLI
+support (the checked-out sibling repository is suitable) and executes
+Bifrost's real policy CLI against the selected positive and negative fixtures,
+including the Java and JavaScript kernels. It retains raw JSON in
+`reports/raw/bifrost/` and writes `reports/bifrost-smoke.json`. Bifrost returns
+exit status 1 for a finding; the runner treats that as successful evidence
+rather than a runner failure. The separate CodeQL command requires a CodeQL
+CLI and Java pack checkout and runs the pinned Java-kernel adapter.
+
+The checked-in Bifrost snapshot contains 88 normalized results: 39 `reached`,
+42 `not-reached`, 6 `inconclusive`, and 1 `unsupported`, from Bifrost 0.9.5
+build `0b0c5c0e2d84eb7fc75baa486f6111623b13507c`. All 32 Java-kernel
+assertions match their expected polarity. The 32 JavaScript-kernel assertions
+have 22 matching complete outcomes, 6 complete polarity mismatches, and 4
+`inconclusive` outcomes; the latter are incomplete analysis and are never
+translated into negative results. See the [Bifrost adapter evidence](adapters/bifrost/README.md)
+and the [JavaScript adaptation matrix](docs/javascript-kernel.md) for the
+per-slice breakdown and retained raw-report contract.
 
 ## Add a case or adapter
 
@@ -77,9 +89,10 @@ provenance. The initial fixtures are authored in this repository.
 
 The [milestone plan](docs/milestones.md) starts with a one-template breadth
 baseline across Bifrost's supported languages, deepens that into a balanced
-16-template Java propagation kernel, then expands cross-language parity and
-adds separately scored taint-modeling and real-project slices. All 16 Java
-templates now exercise that kernel end to end. The
+16-template Java propagation kernel, and now carries the same template IDs
+into a JavaScript parity kernel. It then expands cross-language parity and
+adds separately scored taint-modeling and real-project slices. All 16 Java and
+JavaScript templates have balanced positive/negative cases. The
 [benchmark-source inventory](docs/benchmark-sources.md) records suites used as
 design inputs. A large real-project corpus, a custom query language, a general
 framework, a typestate solver, and a combined leaderboard are intentionally out

@@ -1,0 +1,63 @@
+{
+  "schema_version": 2,
+  "id": "dfb-taint-javascript-return-relay-one-hop-positive",
+  "template_id": "dfb-template-return-relay-one-hop",
+  "polarity": "positive",
+  "score_tier": "core",
+  "track": "taint",
+  "language": "javascript",
+  "semantic_dimensions": [
+    "interprocedural-flow"
+  ],
+  "feature_tags": [
+    "interprocedural-one-hop"
+  ],
+  "model_profile": "benchmark-controlled",
+  "fixture_files": [
+    "ReturnRelayOneHopPositive.js"
+  ],
+  "source_anchors": [
+    {
+      "marker": "DFB-SOURCE: return-one-hop-input",
+      "file": "ReturnRelayOneHopPositive.js",
+      "line_hint": 1
+    }
+  ],
+  "sink_anchors": [
+    {
+      "marker": "DFB-SINK: return-one-hop-sink",
+      "file": "ReturnRelayOneHopPositive.js",
+      "line_hint": 9
+    }
+  ],
+  "expected_flows": [
+    {
+      "source": "DFB-SOURCE: return-one-hop-input",
+      "sink": "DFB-SINK: return-one-hop-sink"
+    }
+  ],
+  "expected_nonflows": [],
+  "witness_checkpoints": [
+    "DFB-SOURCE: return-one-hop-input",
+    "DFB-WITNESS: return-one-hop-relay",
+    "DFB-SINK: return-one-hop-sink"
+  ],
+  "expected_analysis_capability": {
+    "kind": "interprocedural-return-taint"
+  },
+  "execution_budget": {
+    "wall_clock_seconds": 60,
+    "peak_memory_mb": 512
+  },
+  "fixture_provenance": {
+    "kind": "authored",
+    "origin": "DataFlowBench",
+    "revision": "m2-javascript-kernel",
+    "license": "MIT"
+  },
+  "tool_model_references": {
+    "bifrost": {
+      "policy": "adapters/bifrost/policies/core-javascript-kernel.rqlp"
+    }
+  }
+}
