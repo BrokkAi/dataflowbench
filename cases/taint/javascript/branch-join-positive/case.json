@@ -1,0 +1,65 @@
+{
+  "schema_version": 2,
+  "id": "dfb-taint-javascript-branch-join-positive",
+  "template_id": "dfb-template-branch-join",
+  "polarity": "positive",
+  "score_tier": "core",
+  "track": "taint",
+  "language": "javascript",
+  "semantic_dimensions": [
+    "local-flow",
+    "flow-sensitivity",
+    "path-sensitivity"
+  ],
+  "feature_tags": [
+    "intraprocedural"
+  ],
+  "model_profile": "benchmark-controlled",
+  "fixture_files": [
+    "BranchJoinPositive.js"
+  ],
+  "source_anchors": [
+    {
+      "marker": "DFB-SOURCE: branch-join-input",
+      "file": "BranchJoinPositive.js",
+      "line_hint": 1
+    }
+  ],
+  "sink_anchors": [
+    {
+      "marker": "DFB-SINK: branch-join-sink",
+      "file": "BranchJoinPositive.js",
+      "line_hint": 5
+    }
+  ],
+  "expected_flows": [
+    {
+      "source": "DFB-SOURCE: branch-join-input",
+      "sink": "DFB-SINK: branch-join-sink"
+    }
+  ],
+  "expected_nonflows": [],
+  "witness_checkpoints": [
+    "DFB-SOURCE: branch-join-input",
+    "DFB-WITNESS: branch-join-value",
+    "DFB-SINK: branch-join-sink"
+  ],
+  "expected_analysis_capability": {
+    "kind": "path-sensitive-intraprocedural-taint"
+  },
+  "execution_budget": {
+    "wall_clock_seconds": 60,
+    "peak_memory_mb": 512
+  },
+  "fixture_provenance": {
+    "kind": "authored",
+    "origin": "DataFlowBench",
+    "revision": "m2-javascript-kernel",
+    "license": "MIT"
+  },
+  "tool_model_references": {
+    "bifrost": {
+      "policy": "adapters/bifrost/policies/core-javascript-kernel.rqlp"
+    }
+  }
+}

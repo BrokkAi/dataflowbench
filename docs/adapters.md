@@ -12,7 +12,7 @@ The initial adapter plan is:
 
 | Tool | Initial profile | Status |
 | --- | --- | --- |
-| Bifrost | Breadth baseline and Java propagation kernel | Implemented smoke adapter |
+| Bifrost | Breadth baseline, Java propagation kernel, and JavaScript parity kernel | Implemented smoke adapter |
 | CodeQL | 16-template Java propagation kernel | Implemented adapter |
 | Semgrep CE | Supported local analysis only | Planned |
 | OpenTaint | Java and Kotlin profile | Planned |
@@ -21,3 +21,15 @@ No adapter may synthesize a tool result. If a supported case cannot complete,
 emit `inconclusive` or `runner-error` with the raw evidence. If it is outside a
 documented tool profile, emit `unsupported`; it is excluded from false-negative
 interpretation.
+
+The checked-in Bifrost snapshot (`reports/bifrost-smoke.json`) contains 88
+normalized results from Bifrost 0.9.5 build
+`0b0c5c0e2d84eb7fc75baa486f6111623b13507c`: 39 `reached`, 42 `not-reached`, 6
+`inconclusive`, and 1 `unsupported`. The JavaScript profile contributes 32
+balanced assertions using the Java template IDs and the
+`adapters/bifrost/policies/core-javascript-kernel.rqlp` policy. Its current
+outcomes are 12 `reached`, 16 `not-reached`, and 4 `inconclusive`; 22 complete
+outcomes match the expected polarity and 6 complete outcomes do not. The four
+incomplete runs remain `inconclusive`, never synthesized as `not-reached` or
+counted as false negatives. See the [Bifrost adapter notes](../adapters/bifrost/README.md)
+for raw-report separation and the per-template mismatch breakdown.

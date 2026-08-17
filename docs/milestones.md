@@ -46,17 +46,46 @@ across the four planned strata:
 
 These are benchmark results, not adapter expectations: complete false positives
 remain `reached`, while incomplete analysis remains `inconclusive`. In total,
-Bifrost has 32 correct results across all 32 Java-core assertions. Its only
-remaining inconclusive outcomes are the Ruby direct-flow pair; the modeled
-external Java case remains explicitly unsupported. CodeQL has 27 correct and
-5 incorrect results across all 32 assertions. The deep Java core is complete;
-M2 begins by porting these same semantics to JavaScript and Python.
+Bifrost has 32 correct results across all 32 Java-core assertions. Its remaining
+breadth inconclusive outcomes are Ruby's direct-flow pair; the
+modeled external Java case remains explicitly unsupported. CodeQL has 27
+correct and 5 incorrect results across all 32 assertions. The deep Java core is
+complete.
+
+The JavaScript parity kernel is also implemented: it has the same 16
+`template_id` values as Java and exactly one positive and one negative `core`
+case for each template. The current retained Bifrost snapshot is evidence of
+the adapter and analyzer behavior, not a claim that every JavaScript template
+is already correct:
+
+| Stratum | Templates | Bifrost outcomes | Polarity result |
+| --- | --- | --- | --- |
+| Local propagation and kills | direct, overwrite, multi-step, expression | 3 `reached`, 5 `not-reached` | 7/8 correct; 1 false negative |
+| Calls and returns | call context, argument position, one-hop return, two-hop return | 4 `reached`, 4 `not-reached` | 8/8 correct |
+| Heap and separation | objects, fields, aliases, arrays | 0 `reached`, 6 `not-reached`, 2 `inconclusive` | 3/8 correct; 3 false negatives; 2 inconclusive |
+| Control transfers | infeasible branch, branch join, loop kill, exception catch | 5 `reached`, 1 `not-reached`, 2 `inconclusive` | 4/8 correct; 2 false positives; 2 inconclusive |
+
+Across the 32 JavaScript assertions, 12 are `reached`, 16 are
+`not-reached`, and 4 are `inconclusive`; 22 complete outcomes match the
+canonical polarity and 6 do not. The alias-propagation pair is inconclusive
+because Bifrost reports `partial_discovery`; the exception-catch pair is
+inconclusive because exceptional control flow is unsupported by this run. The
+four incomplete outcomes are not negative results and are excluded from false-
+negative interpretation. The complete mismatches remain reportable evidence:
+positive expression, array-element, object-separation, and same-object-field
+cases are false negatives, while the negative infeasible-branch and
+loop-carried cases are false positives. See the [JavaScript adaptation
+matrix](javascript-kernel.md) for the syntax-level adaptations.
+
+M2 therefore continues with analyzer follow-ups for this JavaScript slice and
+then ports the same semantics to Python.
 
 ## M2: cross-language parity
 
-Port the same 16 templates to JavaScript and Python without changing their
-semantic intent, then extend parity language by language where the construct is
-meaningful. Language-only constructs live in `language-extension` scorecards.
+The same 16 templates are now ported to JavaScript without changing their
+semantic intent. Port them to Python next, then extend parity language by
+language where the construct is meaningful. Language-only constructs live in
+`language-extension` scorecards.
 
 ## M3: taint modeling
 
