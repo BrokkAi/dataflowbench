@@ -19,13 +19,15 @@
   "source_anchors": [
     {
       "marker": "DFB-SOURCE: direct-input",
-      "file": "direct_flow.py"
+      "file": "direct_flow.py",
+      "line_hint": 1
     }
   ],
   "sink_anchors": [
     {
       "marker": "DFB-SINK: direct-sink",
-      "file": "direct_flow.py"
+      "file": "direct_flow.py",
+      "line_hint": 5
     }
   ],
   "expected_flows": [
@@ -54,8 +56,7 @@
   },
   "tool_model_references": {
     "bifrost": {
-      "policy": "adapters/bifrost/policies/core-direct.rqlp"
+      "policy": "adapters/bifrost/policies/core-python-kernel.rqlp"
     }
   }
 }
-

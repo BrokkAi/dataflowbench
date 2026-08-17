@@ -6,11 +6,13 @@ static-analysis tools. It is an experimental first version, not a leaderboard.
 
 It has four distinct tracks: `value-flow`, `taint`, `typestate`, and
 `performance`. The first scored slice includes a balanced direct-flow pair
-across 13 language/dialect entries, a 16-template Java propagation kernel, and
-the matching 16-template JavaScript parity kernel in the `taint` track. It
-measures correctness, capability coverage, witness quality, and performance
-separately; it deliberately does not calculate a combined score or declare a
-tool a winner.
+across 13 language/dialect entries and balanced 16-template Java, JavaScript,
+and Python propagation kernels in the `taint` track. Python parity uses the
+same language-neutral template IDs with Python-specific fixture spellings and
+a separate result population; the [Python kernel contract](docs/python-kernel.md)
+records those adaptations. DataFlowBench measures correctness, capability
+coverage, witness quality, and performance separately; it deliberately does
+not calculate a combined score or declare a tool a winner.
 
 ## What it measures—and does not
 
@@ -38,6 +40,7 @@ adapter. CodeQL is implemented for the full Java propagation kernel.
 cargo fmt --check
 cargo test
 cargo run -- validate
+python3 scripts/validate-python-kernel.py
 cargo run -- validate-reports
 cargo run -- run-bifrost-smoke --bifrost /path/to/current-bifrost
 cargo run -- run-codeql-java-kernel --codeql /path/to/codeql \
@@ -74,6 +77,8 @@ or model in `adapters/<tool>/`; add a command and normalization mapping in the
 
 Reproduce a checked-in example with `cargo run -- validate-reports`; recreate a
 fresh Bifrost report with the quick-start command and compare its raw evidence.
+The Python kernel check enforces the exact 16-template positive/negative
+population independently of any analyzer output.
 The [CodeQL adapter guide](adapters/codeql/README.md) documents the pinned CLI,
 Java pack, and command for reproducing its retained kernel report.
 
@@ -88,11 +93,11 @@ provenance. The initial fixtures are authored in this repository.
 ## Roadmap
 
 The [milestone plan](docs/milestones.md) starts with a one-template breadth
-baseline across Bifrost's supported languages, deepens that into a balanced
-16-template Java propagation kernel, and now carries the same template IDs
-into a JavaScript parity kernel. It then expands cross-language parity and
-adds separately scored taint-modeling and real-project slices. All 16 Java and
-JavaScript templates have balanced positive/negative cases. The
+baseline across Bifrost's supported languages, deepens that into balanced
+16-template Java, JavaScript, and Python propagation kernels, then expands
+cross-language parity and adds separately scored taint-modeling and real-project
+slices. All three kernels preserve the same semantic IDs with balanced
+positive/negative cases and separate retained evidence. The
 [benchmark-source inventory](docs/benchmark-sources.md) records suites used as
 design inputs. A large real-project corpus, a custom query language, a general
 framework, a typestate solver, and a combined leaderboard are intentionally out

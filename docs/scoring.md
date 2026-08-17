@@ -4,7 +4,9 @@ DataFlowBench scores semantic templates, not raw fixture counts. A template is a
 language-neutral scenario identified by `template_id`. Every scored `core`
 template must have exactly one positive and one minimally different negative
 case for each language and model profile. Validation rejects an incomplete or
-duplicated core pair.
+duplicated core pair. The Python parity population is additionally required to
+contain the exact 16 IDs in the [Python kernel contract](python-kernel.md), so
+an omitted template cannot be hidden by a balanced but smaller subset.
 
 `calibration` cases exercise schemas and adapters but do not contribute to a
 correctness score. `language-extension` and `real-project` cases have their own
@@ -28,6 +30,22 @@ Reports publish, at minimum:
 Raw assertion counts may be shown for auditability but are not micro-averaged
 into a headline score. Taint, value-flow, typestate, witness quality, and
 performance remain separate scorecards.
+
+## Separate result populations
+
+The direct-flow breadth baseline, the 16-template Java kernel, the
+16-template Python kernel, and calibration-only cases have separate
+denominators and result sections. The direct baseline checks language routing
+and adapter plumbing; Java and Python parity test the deep semantic kernel;
+calibration cases exercise capabilities such as one-hop helpers or activated
+external summaries without changing a core denominator. Results from one
+population are not evidence that another population completed successfully.
+
+An analyzer may report a candidate finding with incomplete discovery or an
+incomplete witness. That evidence remains `inconclusive` until the tool proves
+the required path. It must not be normalized to `not-reached` merely because
+no complete witness was emitted; this prevents incomplete analysis from being
+counted as a negative.
 
 ## Model profiles
 
