@@ -21,6 +21,25 @@ const CODEQL_JAVASCRIPT_RAW_DIR: &str = "reports/raw/codeql-javascript";
 const CODEQL_JAVASCRIPT_REPORT: &str = "reports/codeql-javascript-kernel.json";
 const CODEQL_JAVASCRIPT_CASE_COUNT: usize = 32;
 const CODEQL_JAVASCRIPT_TEMPLATE_COUNT: usize = 16;
+const CODEQL_PYTHON_QUERY: &str = "adapters/codeql/python/queries/PythonKernel.ql";
+const CODEQL_PYTHON_TEMPLATE_IDS: [&str; 16] = [
+    "dfb-template-alias-propagation-separation",
+    "dfb-template-argument-position-separation",
+    "dfb-template-arithmetic-expression-propagation",
+    "dfb-template-array-element-separation",
+    "dfb-template-branch-join",
+    "dfb-template-call-context-separation",
+    "dfb-template-direct-propagation",
+    "dfb-template-exception-catch",
+    "dfb-template-infeasible-branch",
+    "dfb-template-local-multi-step-chain",
+    "dfb-template-local-overwrite-kill",
+    "dfb-template-loop-carried-kill",
+    "dfb-template-object-separation",
+    "dfb-template-return-relay-one-hop",
+    "dfb-template-return-relay-two-hop",
+    "dfb-template-same-object-field-separation",
+];
 
 #[derive(Parser)]
 #[command(name = "dataflowbench")]
@@ -61,6 +80,13 @@ enum Commands {
         #[arg(long)]
         codeql_packs: Option<PathBuf>,
     },
+    /// Run the Python propagation kernel through the Python CodeQL extractor.
+    RunCodeqlPythonKernel {
+        #[arg(long, default_value = "codeql")]
+        codeql: PathBuf,
+        #[arg(long)]
+        codeql_packs: Option<PathBuf>,
+    },
 }
 
 fn main() -> Result<()> {
@@ -78,6 +104,10 @@ fn main() -> Result<()> {
             codeql,
             codeql_packs,
         } => run_codeql_javascript_kernel(&codeql, codeql_packs.as_deref()),
+        Commands::RunCodeqlPythonKernel {
+            codeql,
+            codeql_packs,
+        } => run_codeql_python_kernel(&codeql, codeql_packs.as_deref()),
     }
 }
 
@@ -1170,6 +1200,21 @@ fn write_bifrost_error(
     Ok(())
 }
 
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+enum CodeqlLanguage {
+    Java,
+    Python,
+}
+
+impl CodeqlLanguage {
+    fn cli_name(self) -> &'static str {
+        match self {
+            Self::Java => "java",
+            Self::Python => "python",
+        }
+    }
+}
+
 fn run_codeql_java_kernel(binary: &Path, packs: Option<&Path>) -> Result<()> {
     validate_cases()?;
     let raw_dir = Path::new("reports/raw/codeql");
@@ -1350,6 +1395,79 @@ fn run_codeql_javascript_kernel(binary: &Path, packs: Option<&Path>) -> Result<(
     )?;
     validate_reports()?;
     println!("wrote {CODEQL_JAVASCRIPT_REPORT}");
+    Ok(())
+}
+
+fn run_codeql_python_kernel(binary: &Path, packs: Option<&Path>) -> Result<()> {
+    validate_cases()?;
+    let selected = codeql_python_cases()?;
+    let raw_dir = Path::new("reports/raw/codeql-python-kernel");
+    fs::create_dir_all(raw_dir)?;
+    let started = now_seconds()?;
+    let version_output = command_output(Command::new(binary).args(["version", "--format=json"]))
+        .context("read CodeQL version")?;
+    let version_json: Value =
+        serde_json::from_str(&version_output).context("parse CodeQL version JSON")?;
+    let version = version_json["version"]
+        .as_str()
+        .context("CodeQL version JSON lacks version")?
+        .to_string();
+    let build_identity = version_json["sha"]
+        .as_str()
+        .map(|sha| format!("codeql-cli:{sha}"))
+        .context("CodeQL version JSON lacks build sha")?;
+    let revision = fixture_revision()?;
+    let mut results = Vec::with_capacity(selected.len());
+    let mut query_paths = BTreeSet::new();
+
+    for (path, case) in selected {
+        let id = case["id"].as_str().expect("schema validated");
+        let model = &case["tool_model_references"]["codeql"];
+        let query = model["query"]
+            .as_str()
+            .context("Python CodeQL case lacks query reference")?;
+        query_paths.insert(PathBuf::from(query));
+        let start = Instant::now();
+        let (outcome, diagnostics, raw_path) = run_codeql_case_for_language(
+            binary,
+            packs,
+            &path,
+            &case,
+            Path::new(query),
+            raw_dir,
+            CodeqlLanguage::Python,
+        )?;
+        results.push(codeql_result(
+            &case,
+            id,
+            outcome,
+            diagnostics,
+            start.elapsed(),
+            &raw_path,
+        ));
+    }
+
+    let configuration_paths = codeql_python_configuration_paths(&query_paths);
+    let configuration_hash = hash_paths(&configuration_paths)?;
+    let report = json!({
+        "schema_version": 1,
+        "tool": "codeql",
+        "tool_version": version,
+        "tool_build_identity": build_identity,
+        "adapter_version": ADAPTER_VERSION,
+        "configuration_hash": configuration_hash,
+        "fixture_revision": revision,
+        "started_at_unix_seconds": started,
+        "ended_at_unix_seconds": now_seconds()?,
+        "cold_or_warm": "cold",
+        "results": results
+    });
+    fs::write(
+        "reports/codeql-python-kernel.json",
+        serde_json::to_string_pretty(&report)? + "\n",
+    )?;
+    validate_reports()?;
+    println!("wrote reports/codeql-python-kernel.json");
     Ok(())
 }
 
@@ -1948,7 +2066,134 @@ fn javascript_sarif_result_match(
 fn sarif_uri_matches_file(uri: &str, file: &str) -> bool {
     let uri = uri.replace('\\', "/");
     let uri = uri.split(['?', '#']).next().unwrap_or(&uri);
-    uri == file || uri.ends_with(&format!("/{file}"))
+    let uri = uri.strip_prefix("file://").unwrap_or(uri);
+    let uri = uri.trim_start_matches('/');
+    let normalize = |path: &str| path.trim_start_matches("./").replace('\\', "/");
+    let uri = normalize(uri);
+    let file = normalize(file);
+    uri == file
+        || uri.ends_with(&format!("/{file}"))
+        || Path::new(&uri).file_name().and_then(|name| name.to_str())
+            == Path::new(&file).file_name().and_then(|name| name.to_str())
+}
+
+fn selected_codeql_python_case(case: &Value) -> bool {
+    case["language"] == "python"
+        && case["track"] == "taint"
+        && case["score_tier"] == "core"
+        && case["tool_model_references"]["codeql"]["query"]
+            .as_str()
+            .is_some_and(|query| query == CODEQL_PYTHON_QUERY)
+}
+
+fn codeql_python_cases() -> Result<Vec<(PathBuf, Value)>> {
+    let mut all_cases = Vec::new();
+    for path in case_paths() {
+        let case: Value = serde_json::from_str(&fs::read_to_string(&path)?)?;
+        if selected_codeql_python_case(&case) {
+            all_cases.push((path, case));
+        }
+    }
+    let query = validate_codeql_python_population(&all_cases)?;
+    if !query.is_file() {
+        bail!("Python CodeQL query does not exist: {}", query.display());
+    }
+    Ok(all_cases)
+}
+
+fn validate_codeql_python_population(cases: &[(PathBuf, Value)]) -> Result<PathBuf> {
+    if cases.len() != 32 {
+        bail!(
+            "Python CodeQL kernel must select exactly 32 core assertions; found {}",
+            cases.len()
+        );
+    }
+    let mut pairs: BTreeMap<(&str, &str), (usize, usize)> = BTreeMap::new();
+    let mut model_profiles = BTreeSet::new();
+    let mut queries = BTreeSet::new();
+    for (path, case) in cases {
+        if !selected_codeql_python_case(case) {
+            bail!(
+                "Python CodeQL selection contains a non-core or non-Python case: {}",
+                path.display()
+            );
+        }
+        let template = case["template_id"]
+            .as_str()
+            .context("Python CodeQL case lacks template_id")?;
+        let profile = case["model_profile"]
+            .as_str()
+            .context("Python CodeQL case lacks model_profile")?;
+        model_profiles.insert(profile);
+        let query = case["tool_model_references"]["codeql"]["query"]
+            .as_str()
+            .context("Python CodeQL case lacks query reference")?;
+        queries.insert(PathBuf::from(query));
+        let entry = pairs.entry((template, profile)).or_default();
+        match case["polarity"].as_str() {
+            Some("positive") => entry.0 += 1,
+            Some("negative") => entry.1 += 1,
+            Some(other) => bail!("{} has unsupported polarity {other:?}", path.display()),
+            None => bail!("{} lacks polarity", path.display()),
+        }
+    }
+    let expected_templates = CODEQL_PYTHON_TEMPLATE_IDS
+        .iter()
+        .copied()
+        .collect::<BTreeSet<_>>();
+    let actual_templates = pairs
+        .keys()
+        .map(|(template, _)| *template)
+        .collect::<BTreeSet<_>>();
+    if actual_templates != expected_templates {
+        let missing = expected_templates
+            .difference(&actual_templates)
+            .copied()
+            .collect::<Vec<_>>();
+        let unexpected = actual_templates
+            .difference(&expected_templates)
+            .copied()
+            .collect::<Vec<_>>();
+        bail!(
+            "Python CodeQL kernel template set mismatch (missing={missing:?}, unexpected={unexpected:?})"
+        );
+    }
+    if pairs.len() != 16 {
+        bail!(
+            "Python CodeQL kernel must contain exactly 16 balanced templates; found {}",
+            pairs.len()
+        );
+    }
+    if pairs
+        .values()
+        .any(|(positive, negative)| *positive != 1 || *negative != 1)
+    {
+        bail!("Python CodeQL kernel requires one positive and one negative per template");
+    }
+    if model_profiles.len() != 1 {
+        bail!("Python CodeQL kernel must use one model profile across all 32 cases");
+    }
+    if queries.len() != 1 {
+        bail!("Python CodeQL kernel must use one query across all 32 cases");
+    }
+    let query = queries.into_iter().next().expect("one query validated");
+    Ok(query)
+}
+
+fn codeql_python_configuration_paths(query_paths: &BTreeSet<PathBuf>) -> BTreeSet<PathBuf> {
+    let mut paths = query_paths.clone();
+    for candidate in [
+        "adapters/codeql/python/qlpack.yml",
+        "adapters/codeql/python/codeql-pack.lock.yml",
+    ]
+    .into_iter()
+    .map(PathBuf::from)
+    {
+        if candidate.is_file() {
+            paths.insert(candidate);
+        }
+    }
+    paths
 }
 
 fn run_codeql_case(
@@ -1958,6 +2203,26 @@ fn run_codeql_case(
     case: &Value,
     query: &Path,
     raw_dir: &Path,
+) -> Result<(&'static str, Vec<String>, PathBuf)> {
+    run_codeql_case_for_language(
+        binary,
+        packs,
+        case_path,
+        case,
+        query,
+        raw_dir,
+        CodeqlLanguage::Java,
+    )
+}
+
+fn run_codeql_case_for_language(
+    binary: &Path,
+    packs: Option<&Path>,
+    case_path: &Path,
+    case: &Value,
+    query: &Path,
+    raw_dir: &Path,
+    language: CodeqlLanguage,
 ) -> Result<(&'static str, Vec<String>, PathBuf)> {
     let id = case["id"].as_str().expect("schema validated");
     let workspace = materialize_codeql_workspace(case_path, case)?;
@@ -1975,25 +2240,23 @@ fn run_codeql_case(
             fs::remove_file(&stale).with_context(|| format!("clear {}", stale.display()))?;
         }
     }
-    let classes = workspace.join("classes");
-    fs::create_dir_all(&classes)?;
-    let fixture_names = case["fixture_files"]
-        .as_array()
-        .expect("schema validated")
-        .iter()
-        .map(|fixture| fixture.as_str().expect("schema validated"))
-        .collect::<Vec<_>>();
-    let build_command = format!("javac -d classes {}", fixture_names.join(" "));
-    let create = Command::new(binary)
-        .arg("database")
-        .arg("create")
-        .arg(&database)
-        .arg("--language=java")
-        .arg(format!("--source-root={}", workspace.display()))
-        .arg(format!("--command={build_command}"))
-        .arg("--overwrite")
-        .output()
-        .context("create CodeQL database")?;
+    let mut create_command = Command::new(binary);
+    if language == CodeqlLanguage::Java {
+        let classes = workspace.join("classes");
+        fs::create_dir_all(&classes)?;
+    }
+    create_command.args(codeql_database_create_args(
+        &database, &workspace, case, language,
+    )?);
+    let create = match create_command.output() {
+        Ok(output) => output,
+        Err(error) => {
+            let diagnostic = format!("failed to run CodeQL database create: {error}");
+            let raw_path = write_codeql_spawn_error(raw_dir, id, "database-create", &diagnostic)?;
+            clear_codeql_case_artifacts(&workspace, &database)?;
+            return Ok(("runner-error", vec![diagnostic], raw_path));
+        }
+    };
     if !create.status.success() {
         let error = write_codeql_error(raw_dir, id, "database-create", &create)?;
         clear_codeql_case_artifacts(&workspace, &database)?;
@@ -2013,24 +2276,53 @@ fn run_codeql_case(
     if let Some(packs) = packs {
         analyze.arg(format!("--additional-packs={}", packs.display()));
     }
-    let analyzed = analyze.output().context("analyze CodeQL database")?;
+    let analyzed = match analyze.output() {
+        Ok(output) => output,
+        Err(error) => {
+            let diagnostic = format!("failed to run CodeQL database analyze: {error}");
+            let raw_path = write_codeql_spawn_error(raw_dir, id, "database-analyze", &diagnostic)?;
+            clear_codeql_case_artifacts(&workspace, &database)?;
+            return Ok(("runner-error", vec![diagnostic], raw_path));
+        }
+    };
     if !analyzed.status.success() {
         let error = write_codeql_error(raw_dir, id, "database-analyze", &analyzed)?;
         clear_codeql_case_artifacts(&workspace, &database)?;
         return Ok(error);
     }
-    let sarif: Value = serde_json::from_str(&fs::read_to_string(&raw_path)?)?;
+    let sarif_text = match fs::read_to_string(&raw_path) {
+        Ok(text) => text,
+        Err(error) => {
+            let (outcome, diagnostics, error_path) =
+                codeql_missing_sarif_error(raw_dir, id, &raw_path, &error)?;
+            clear_codeql_case_artifacts(&workspace, &database)?;
+            return Ok((outcome, diagnostics, error_path));
+        }
+    };
+    let sarif: Value = match serde_json::from_str(&sarif_text) {
+        Ok(sarif) => sarif,
+        Err(error) => {
+            let diagnostic = format!("parse CodeQL SARIF {}: {error}", raw_path.display());
+            clear_codeql_case_artifacts(&workspace, &database)?;
+            return Ok(("runner-error", vec![diagnostic], raw_path));
+        }
+    };
     let execution_errors = sarif_execution_errors(&sarif);
     if !execution_errors.is_empty() {
         clear_codeql_case_artifacts(&workspace, &database)?;
         return Ok(("runner-error", execution_errors, raw_path));
     }
-    let result_count = sarif_result_count(&sarif);
-    let diagnostics = sarif_messages(&sarif);
-    let outcome = if result_count == 0 {
-        "not-reached"
+    let (outcome, diagnostics) = if language == CodeqlLanguage::Python {
+        normalize_python_codeql_sarif(case, &sarif)
     } else {
-        "reached"
+        let result_count = sarif_result_count(&sarif);
+        let diagnostics = sarif_messages(&sarif);
+        let outcome = if result_count == 0 {
+            "not-reached"
+        } else {
+            "reached"
+        };
+        (outcome, diagnostics)
     };
     clear_codeql_case_artifacts(&workspace, &database)?;
     Ok((outcome, diagnostics, raw_path))
@@ -2085,6 +2377,167 @@ fn write_codeql_error(
         }))? + "\n",
     )?;
     Ok(("runner-error", vec![diagnostic], raw_path))
+}
+
+fn write_codeql_spawn_error(
+    raw_dir: &Path,
+    id: &str,
+    stage: &str,
+    diagnostic: &str,
+) -> Result<PathBuf> {
+    let raw_path = raw_dir.join(format!("{id}-error.json"));
+    fs::write(
+        &raw_path,
+        serde_json::to_string_pretty(&json!({
+            "adapter": "codeql",
+            "case_id": id,
+            "state": "runner-error",
+            "stage": stage,
+            "diagnostic": diagnostic,
+            "evidence_kind": "retained-process-diagnostics"
+        }))? + "\n",
+    )?;
+    Ok(raw_path)
+}
+
+fn codeql_missing_sarif_error(
+    raw_dir: &Path,
+    id: &str,
+    raw_path: &Path,
+    error: &std::io::Error,
+) -> Result<(&'static str, Vec<String>, PathBuf)> {
+    let diagnostic = format!("read CodeQL SARIF {}: {error}", raw_path.display());
+    let error_path = write_codeql_spawn_error(raw_dir, id, "database-analyze", &diagnostic)?;
+    Ok(("runner-error", vec![diagnostic], error_path))
+}
+
+fn codeql_database_create_args(
+    database: &Path,
+    workspace: &Path,
+    case: &Value,
+    language: CodeqlLanguage,
+) -> Result<Vec<String>> {
+    let mut args = vec![
+        "database".to_string(),
+        "create".to_string(),
+        database.to_string_lossy().into_owned(),
+        format!("--language={}", language.cli_name()),
+        format!("--source-root={}", workspace.display()),
+        "--overwrite".to_string(),
+    ];
+    match language {
+        CodeqlLanguage::Java => {
+            let fixture_names = case["fixture_files"]
+                .as_array()
+                .context("CodeQL case lacks fixture_files")?
+                .iter()
+                .map(|fixture| {
+                    fixture
+                        .as_str()
+                        .context("CodeQL fixture_files must contain strings")
+                })
+                .collect::<Result<Vec<_>>>()?;
+            let build_command = format!("javac -d classes {}", fixture_names.join(" "));
+            args.push(format!("--command={build_command}"));
+        }
+        CodeqlLanguage::Python => args.push("--build-mode=none".to_string()),
+    }
+    Ok(args)
+}
+
+fn normalize_python_codeql_sarif(case: &Value, sarif: &Value) -> (&'static str, Vec<String>) {
+    let mut diagnostics = sarif_messages(sarif);
+    let Some(runs) = sarif["runs"].as_array() else {
+        diagnostics.push("CodeQL SARIF is missing its runs array".to_string());
+        diagnostics.sort();
+        diagnostics.dedup();
+        return ("runner-error", diagnostics);
+    };
+    if runs.is_empty() {
+        diagnostics.push("CodeQL SARIF contains no analysis runs".to_string());
+        diagnostics.sort();
+        diagnostics.dedup();
+        return ("runner-error", diagnostics);
+    }
+    if runs.iter().any(|run| run["results"].as_array().is_none()) {
+        diagnostics.push("CodeQL SARIF contains a run without a results array".to_string());
+        diagnostics.sort();
+        diagnostics.dedup();
+        return ("runner-error", diagnostics);
+    }
+    let results = runs
+        .iter()
+        .flat_map(|run| run["results"].as_array().into_iter().flatten())
+        .collect::<Vec<_>>();
+    if results.is_empty() {
+        return ("not-reached", diagnostics);
+    }
+
+    let mut anchored_findings = 0;
+    let mut unmappable_findings = 0;
+    for result in results {
+        let Some(locations) = result["locations"].as_array() else {
+            unmappable_findings += 1;
+            continue;
+        };
+        let mut has_valid_location = false;
+        let mut maps_to_sink = false;
+        for location in locations {
+            let Some(uri) = location["physicalLocation"]["artifactLocation"]["uri"].as_str() else {
+                continue;
+            };
+            let Some(line) = location["physicalLocation"]["region"]["startLine"].as_u64() else {
+                continue;
+            };
+            if line == 0 {
+                continue;
+            }
+            has_valid_location = true;
+            if python_sink_anchor_matches(case, uri) {
+                maps_to_sink = true;
+            }
+        }
+        if maps_to_sink {
+            anchored_findings += 1;
+        } else {
+            unmappable_findings += 1;
+            if !has_valid_location {
+                diagnostics
+                    .push("CodeQL SARIF finding has no usable physical location".to_string());
+            }
+        }
+    }
+    if anchored_findings > 0 {
+        if unmappable_findings > 0 {
+            diagnostics.push(format!(
+                "CodeQL SARIF retained {unmappable_findings} finding(s) that did not map to a canonical Python sink anchor"
+            ));
+        }
+        diagnostics.sort();
+        diagnostics.dedup();
+        ("reached", diagnostics)
+    } else {
+        diagnostics.push(
+            "CodeQL SARIF findings could not be mapped to a canonical Python sink anchor; analysis evidence is incomplete"
+                .to_string(),
+        );
+        diagnostics.sort();
+        diagnostics.dedup();
+        ("inconclusive", diagnostics)
+    }
+}
+
+fn python_sink_anchor_matches(case: &Value, uri: &str) -> bool {
+    case["sink_anchors"]
+        .as_array()
+        .into_iter()
+        .flatten()
+        .any(|anchor| {
+            let Some(file) = anchor["file"].as_str() else {
+                return false;
+            };
+            sarif_uri_matches_file(uri, file)
+        })
 }
 
 fn sarif_result_count(sarif: &Value) -> usize {
@@ -2955,6 +3408,158 @@ mod tests {
         assert_eq!(
             CODEQL_JAVASCRIPT_QUERY,
             "adapters/codeql/javascript/queries/JavaScriptKernel.ql"
+        );
+    }
+
+    #[test]
+    fn python_codeql_population_requires_exact_balanced_32() {
+        let mut cases = Vec::new();
+        for index in 0..16 {
+            for polarity in ["positive", "negative"] {
+                cases.push((
+                    PathBuf::from(format!("case-{index}-{polarity}.json")),
+                    json!({
+                        "id": format!("dfb-taint-python-template-{index}-{polarity}"),
+                        "template_id": CODEQL_PYTHON_TEMPLATE_IDS[index],
+                        "polarity": polarity,
+                        "score_tier": "core",
+                        "track": "taint",
+                        "language": "python",
+                        "model_profile": "benchmark-controlled",
+                        "tool_model_references": {
+                            "codeql": {"query": CODEQL_PYTHON_QUERY}
+                        }
+                    }),
+                ));
+            }
+        }
+        // Population validation is metadata-only; the checked-in query path
+        // is verified by the command-facing selection helper.
+        assert_eq!(
+            validate_codeql_python_population(&cases).unwrap(),
+            PathBuf::from("adapters/codeql/python/queries/PythonKernel.ql")
+        );
+        let mut drifted = cases.clone();
+        drifted[0].1["template_id"] = json!("dfb-template-unapproved-drift");
+        assert!(validate_codeql_python_population(&drifted).is_err());
+        cases.pop();
+        assert!(validate_codeql_python_population(&cases).is_err());
+    }
+
+    #[test]
+    fn python_codeql_selection_requires_canonical_query() {
+        let mut case = json!({
+            "language": "python",
+            "track": "taint",
+            "score_tier": "core",
+            "tool_model_references": {"codeql": {"query": CODEQL_PYTHON_QUERY}}
+        });
+        assert!(selected_codeql_python_case(&case));
+        case["tool_model_references"]["codeql"]["query"] =
+            json!("adapters/codeql/python/queries/OtherKernel.ql");
+        assert!(!selected_codeql_python_case(&case));
+    }
+
+    #[test]
+    fn codeql_database_creation_uses_language_specific_build_modes() {
+        let case = json!({"fixture_files": ["direct_flow.py"]});
+        let python_args = codeql_database_create_args(
+            Path::new("/tmp/python-db"),
+            Path::new("/tmp/python-workspace"),
+            &case,
+            CodeqlLanguage::Python,
+        )
+        .unwrap();
+        assert!(python_args.iter().any(|arg| arg == "--language=python"));
+        assert!(python_args.iter().any(|arg| arg == "--build-mode=none"));
+        assert!(!python_args.iter().any(|arg| arg.starts_with("--command=")));
+
+        let java_args = codeql_database_create_args(
+            Path::new("/tmp/java-db"),
+            Path::new("/tmp/java-workspace"),
+            &case,
+            CodeqlLanguage::Java,
+        )
+        .unwrap();
+        assert!(java_args.iter().any(|arg| arg == "--language=java"));
+        assert!(
+            java_args
+                .iter()
+                .any(|arg| arg == "--command=javac -d classes direct_flow.py")
+        );
+        assert!(!java_args.iter().any(|arg| arg == "--build-mode=none"));
+    }
+
+    #[test]
+    fn codeql_missing_sarif_keeps_runner_error_evidence() {
+        let root = std::env::temp_dir().join(format!(
+            "dataflowbench-codeql-missing-sarif-test-{}-{}",
+            std::process::id(),
+            SystemTime::now()
+                .duration_since(UNIX_EPOCH)
+                .unwrap()
+                .as_nanos()
+        ));
+        fs::create_dir_all(&root).unwrap();
+        let raw_path = root.join("case.sarif.json");
+        let read_error = fs::read_to_string(&raw_path).unwrap_err();
+        let (outcome, diagnostics, evidence_path) =
+            codeql_missing_sarif_error(&root, "case", &raw_path, &read_error).unwrap();
+
+        assert_eq!(outcome, "runner-error");
+        assert!(diagnostics[0].contains("read CodeQL SARIF"));
+        assert_eq!(evidence_path, root.join("case-error.json"));
+        let evidence: Value =
+            serde_json::from_str(&fs::read_to_string(&evidence_path).unwrap()).unwrap();
+        assert_eq!(evidence["state"], "runner-error");
+        assert_eq!(evidence["stage"], "database-analyze");
+        fs::remove_dir_all(root).unwrap();
+    }
+
+    #[test]
+    fn python_codeql_sarif_requires_a_canonical_sink_anchor() {
+        let case = json!({
+            "sink_anchors": [{"file": "direct_flow.py", "line_hint": 5}]
+        });
+        let reached = json!({
+            "runs": [{"results": [{
+                "message": {"text": "flow"},
+                "locations": [{"physicalLocation": {
+                    "artifactLocation": {"uri": "file:///tmp/codeql/direct_flow.py"},
+                    "region": {"startLine": 11}
+                }}]
+            }]}]
+        });
+        assert_eq!(normalize_python_codeql_sarif(&case, &reached).0, "reached");
+
+        let wrong_file = json!({
+            "runs": [{"results": [{
+                "message": {"text": "unrelated finding"},
+                "locations": [{"physicalLocation": {
+                    "artifactLocation": {"uri": "other_fixture.py"},
+                    "region": {"startLine": 4}
+                }}]
+            }]}]
+        });
+        assert_eq!(
+            normalize_python_codeql_sarif(&case, &wrong_file).0,
+            "inconclusive"
+        );
+
+        let clean = json!({"runs": [{"results": []}]});
+        assert_eq!(
+            normalize_python_codeql_sarif(&case, &clean).0,
+            "not-reached"
+        );
+
+        let malformed = json!({"runs": [{"results": [{}]}]});
+        assert_eq!(
+            normalize_python_codeql_sarif(&case, &malformed).0,
+            "inconclusive"
+        );
+        assert_eq!(
+            normalize_python_codeql_sarif(&case, &json!({"runs": []})).0,
+            "runner-error"
         );
     }
 

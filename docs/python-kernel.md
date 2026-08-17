@@ -110,6 +110,58 @@ Reports keep these populations separate:
 4. One-hop helper flow and modeled-external cases are calibration evidence and
    do not change any core denominator.
 
+## Python CodeQL adapter
+
+The Python CodeQL adapter is language-scoped. It selects exactly the 32 Python
+core assertions under `cases/taint/python/`: the 16 template IDs in this
+contract, with exactly one `positive` and one `negative` case for each. It
+selects cases by their Python language, taint track, core score tier, and
+`codeql` model reference; it never uses the Java kernel or the direct-flow
+breadth population as a proxy.
+
+Java and Python use separate CodeQL query packs. The Java pack remains under
+`adapters/codeql/`, while the Python pack is rooted at
+`adapters/codeql/python/` and owns `queries/PythonKernel.ql` plus its Python
+database-schema dependency.
+
+The reproducible command requires CodeQL CLI v2.26.3 and the pinned Python
+pack `codeql/python-all@7.2.3`:
+
+```bash
+codeql pack install adapters/codeql/python --search-path /path/to/codeql-packs
+codeql pack ls adapters/codeql/python --search-path /path/to/codeql-packs
+cargo run -- run-codeql-python-kernel \
+  --codeql /path/to/codeql \
+  --codeql-packs /path/to/codeql-packs
+```
+
+The runner creates an isolated Python database for each selected case, runs
+`adapters/codeql/python/queries/PythonKernel.ql`, and retains the complete SARIF for
+each case under `reports/raw/codeql-python-kernel/`. It writes the dedicated
+normalized report to `reports/codeql-python-kernel.json`; the Java report and
+`reports/raw/codeql/` are separate populations. Normalized results carry the
+case's source and sink anchor markers, while the retained SARIF supplies the
+CodeQL locations and diagnostic evidence used for the outcome.
+
+The adapter preserves the five-state result model. A complete SARIF finding
+for the case's anchored source-to-sink assertion is `reached`; a complete
+successful analysis with no such finding is `not-reached`; partial discovery,
+missing proof, or incomplete analysis is `inconclusive`; an unsupported
+language/model capability is `unsupported`; and database, query, SARIF, or
+runner failures are `runner-error`. Incomplete or failed runs are never
+normalized as `not-reached`.
+
+The validated Python CodeQL run used CodeQL CLI 2.26.3 build
+`7d097a43199effe04ecd9c6bd3ad9bb02a45b3d7` with
+`codeql/python-all@7.2.3`. Its dedicated report contains all 32 selected
+assertions: 14 `reached` and 18 `not-reached`, with no `inconclusive`,
+`unsupported`, or `runner-error` outcomes. 28/32 outcomes match the expected
+polarity. The four mismatches are false negatives for
+`alias-propagation-positive`, `array-element-positive`, and
+`exception-catch-positive`, plus a false positive for `loop-carried-negative`.
+This evidence is limited to the Python core kernel and does not establish
+results for Java, other languages, or non-core populations.
+
 Publish tool version, build identity, configuration, fixture revision, raw
 evidence, and normalized outcomes for each population. Do not average Java,
 Python, direct breadth, and calibration results into one score, and do not

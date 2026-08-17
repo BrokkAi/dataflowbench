@@ -14,7 +14,7 @@ The initial adapter plan is:
 | Tool | Initial profile | Status |
 | --- | --- | --- |
 | Bifrost | Breadth baseline and Java, JavaScript, and Python propagation kernels | Implemented smoke adapter; kernel runs are reported separately |
-| CodeQL | 16-template Java and JavaScript propagation kernels | Java and JavaScript runners implemented as separate language-scoped populations |
+| CodeQL | 16-template Java, JavaScript, and Python propagation kernels | Java, JavaScript, and Python runners implemented as separate language-scoped populations |
 | Semgrep CE | Supported local analysis only | Planned |
 | OpenTaint | Java and Kotlin profile | Planned |
 
@@ -94,6 +94,47 @@ select only its language and retain the exact raw output for those cases; it
 must not use a direct-flow result or a Java result as a proxy for JavaScript.
 The Python kernel's 16-template balance and construct adaptations are defined
 in the [Python kernel contract](python-kernel.md).
+
+### CodeQL Python slice
+
+The Python CodeQL command selects exactly the 32 `core` taint cases in
+`cases/taint/python/`: one positive and one negative assertion for each of the
+16 balanced template IDs. Each case's `tool_model_references.codeql.query`
+must point to `adapters/codeql/python/queries/PythonKernel.ql`; Java cases and the
+13-language direct-flow baseline are excluded. The command creates a fresh
+Python database per case and writes `reports/codeql-python-kernel.json` plus
+one retained raw SARIF or runner-error artifact per selected case under
+`reports/raw/codeql-python-kernel/`.
+
+The Java and Python query packs are separate: Java uses the pack rooted at
+`adapters/codeql/`, while Python uses `adapters/codeql/python/`, including its
+language-specific database-schema dependency. Installing or resolving one
+pack must not silently substitute the other language's pack.
+
+Reproduce it with CodeQL CLI v2.26.3 and the pinned Python pack
+`codeql/python-all@7.2.3`:
+
+```bash
+codeql pack install adapters/codeql/python --search-path /path/to/codeql-packs
+codeql pack ls adapters/codeql/python --search-path /path/to/codeql-packs
+cargo run -- run-codeql-python-kernel \
+  --codeql /path/to/codeql \
+  --codeql-packs /path/to/codeql-packs
+```
+
+The normalized result copies the case's source and sink anchors and uses the
+SARIF finding/diagnostic evidence to classify the anchored assertion. The
+adapter retains `reached`, `not-reached`, `inconclusive`, `unsupported`, and
+`runner-error` distinctly: incomplete or failed analysis is never a negative
+result, and raw SARIF is retained even when normalization cannot complete.
+The validated Python run used CodeQL CLI 2.26.3 build
+`7d097a43199effe04ecd9c6bd3ad9bb02a45b3d7` with
+`codeql/python-all@7.2.3`. Its 32 results are 14 `reached` and 18
+`not-reached`, with no `inconclusive`, `unsupported`, or `runner-error`
+outcomes; 28/32 match the expected polarity. The mismatches are false
+negatives for `alias-propagation-positive`, `array-element-positive`, and
+`exception-catch-positive`, and a false positive for `loop-carried-negative`.
+These results cover only the Python core kernel.
 
 The checked-in Bifrost snapshot (`reports/bifrost-smoke.json`) contains 88
 normalized results from Bifrost 0.9.5 build

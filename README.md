@@ -34,7 +34,8 @@ External tools are compared respectfully: publish their exact version, settings,
 supported dimensions, normalized outcomes, and raw evidence. Semgrep CE stays
 in its supported local-analysis profile; OpenTaint stays in its Java/Kotlin
 profile. SootUp is a possible JVM reference framework, not a first-version
-adapter. CodeQL is implemented for the full Java propagation kernel.
+adapter. CodeQL is implemented for the Java propagation kernel and has a
+language-scoped Python command for the separate 32-assertion Python kernel.
 
 ## Quick start
 
@@ -47,6 +48,8 @@ cargo run -- validate-reports
 cargo run -- run-bifrost-smoke --bifrost /path/to/current-bifrost
 cargo run -- run-codeql-java-kernel --codeql /path/to/codeql \
   --codeql-packs /path/to/codeql-packs
+cargo run -- run-codeql-python-kernel --codeql /path/to/codeql \
+  --codeql-packs /path/to/codeql-packs
 ```
 
 The Bifrost smoke command requires a current Bifrost build with policy CLI
@@ -55,8 +58,29 @@ Bifrost's real policy CLI against the selected positive and negative fixtures,
 including the Java and JavaScript kernels. It retains raw JSON in
 `reports/raw/bifrost/` and writes `reports/bifrost-smoke.json`. Bifrost returns
 exit status 1 for a finding; the runner treats that as successful evidence
-rather than a runner failure. The separate CodeQL command requires a CodeQL
-CLI and Java pack checkout and runs the pinned Java-kernel adapter.
+rather than a runner failure. The CodeQL commands require a CodeQL CLI and the
+corresponding pinned language pack: the Java command runs only the Java kernel,
+while the Python command selects exactly the 32 Python core assertions and
+runs the Python-specific query.
+
+The Java and Python CodeQL query packs are separate. Install the Java pack from
+`adapters/codeql/` for the Java command and the Python pack from
+`adapters/codeql/python/` for the Python command; each pack resolves its own
+language-specific database-schema dependency.
+
+The Python CodeQL command writes `reports/codeql-python-kernel.json` and keeps
+one raw SARIF or runner-error artifact per selected case under
+`reports/raw/codeql-python-kernel/`. It preserves source/sink anchor metadata and the
+five outcomes `reached`, `not-reached`, `inconclusive`, `unsupported`, and
+`runner-error`; incomplete or failed analysis is never normalized as a
+negative. The validated Python run used CodeQL CLI 2.26.3 build
+`7d097a43199effe04ecd9c6bd3ad9bb02a45b3d7` with
+`codeql/python-all@7.2.3`. Its 32 results are 14 `reached` and 18
+`not-reached`, with no `inconclusive`, `unsupported`, or `runner-error`
+outcomes; 28/32 match the expected polarity. The mismatches are false
+negatives for `alias-propagation-positive`, `array-element-positive`, and
+`exception-catch-positive`, plus a false positive for `loop-carried-negative`.
+This evidence is limited to the Python core kernel.
 
 The checked-in Bifrost snapshot contains 88 normalized results: 39 `reached`,
 42 `not-reached`, 6 `inconclusive`, and 1 `unsupported`, from Bifrost 0.9.5
@@ -82,7 +106,9 @@ fresh Bifrost report with the quick-start command and compare its raw evidence.
 The Python kernel check enforces the exact 16-template positive/negative
 population independently of any analyzer output.
 The [CodeQL adapter guide](adapters/codeql/README.md) documents the pinned CLI,
-Java pack, and command for reproducing its retained kernel report.
+language packs, and commands for reproducing retained kernel reports. The
+[Python kernel contract](docs/python-kernel.md) defines the exact 16-template,
+32-assertion selection and its anchor-based result semantics.
 
 ## Licenses and provenance
 
