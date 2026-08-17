@@ -29,7 +29,7 @@ Reports publish, at minimum:
 
 Raw assertion counts may be shown for auditability but are not micro-averaged
 into a headline score. Taint, value-flow, typestate, witness quality, and
-performance remain separate scorecards.
+performance remain separate score dimensions and scorecards.
 
 ## Separate result populations
 

@@ -4,15 +4,17 @@ DataFlowBench is an analyzer-neutral benchmark for value flow, taint tracking,
 typestate, witness quality, and data-flow performance across languages and
 static-analysis tools. It is an experimental first version, not a leaderboard.
 
-It has four distinct tracks: `value-flow`, `taint`, `typestate`, and
-`performance`. The first scored slice includes a balanced direct-flow pair
-across 13 language/dialect entries and balanced 16-template Java, JavaScript,
-and Python propagation kernels in the `taint` track. Python parity uses the
-same language-neutral template IDs with Python-specific fixture spellings and
-a separate result population; the [Python kernel contract](docs/python-kernel.md)
-records those adaptations. DataFlowBench measures correctness, capability
-coverage, witness quality, and performance separately; it deliberately does
-not calculate a combined score or declare a tool a winner.
+The current scored slice has four distinct semantic tracks: `value-flow`,
+`taint`, `typestate`, and `performance`. Reports preserve five independent
+score dimensions—those tracks plus `witness`—without pooling them. The first
+scored slice includes a balanced direct-flow pair across 13 language/dialect
+entries and balanced 16-template Java, JavaScript, and Python propagation
+kernels in the `taint` track. Python parity uses the same language-neutral
+template IDs with Python-specific fixture spellings and a separate result
+population; the [Python kernel contract](docs/python-kernel.md) records those
+adaptations. DataFlowBench measures correctness, capability coverage, witness
+quality, and performance separately; it deliberately does not calculate a
+combined score or declare a tool a winner.
 
 ## What it measures—and does not
 
@@ -102,3 +104,17 @@ positive/negative cases and separate retained evidence. The
 design inputs. A large real-project corpus, a custom query language, a general
 framework, a typestate solver, and a combined leaderboard are intentionally out
 of scope.
+
+## Freeze release evidence
+
+Before using benchmark results in a release or website claim, create an
+immutable `freeze/v1` manifest and validate it from a clean checkout:
+
+```bash
+cargo run -- validate-freeze reports/freeze.json
+```
+
+The [freeze contract](docs/freeze.md) explains the bound benchmark revision,
+case and fixture digests, adapter identities, normalized reports, retained raw
+evidence, claim partitions, exclusions, and the rule that corrected results
+create a new freeze instead of rewriting an old one.
