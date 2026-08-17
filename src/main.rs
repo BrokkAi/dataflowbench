@@ -16,6 +16,12 @@ const ADAPTER_VERSION: &str = env!("CARGO_PKG_VERSION");
 type CorePairKey<'a> = (&'a str, &'a str, &'a str, &'a str);
 type CorePairCases<'a> = Vec<(&'a Path, &'a str)>;
 
+const CODEQL_JAVASCRIPT_QUERY: &str = "adapters/codeql/javascript/queries/JavaScriptKernel.ql";
+const CODEQL_JAVASCRIPT_RAW_DIR: &str = "reports/raw/codeql-javascript";
+const CODEQL_JAVASCRIPT_REPORT: &str = "reports/codeql-javascript-kernel.json";
+const CODEQL_JAVASCRIPT_CASE_COUNT: usize = 32;
+const CODEQL_JAVASCRIPT_TEMPLATE_COUNT: usize = 16;
+
 #[derive(Parser)]
 #[command(name = "dataflowbench")]
 struct Cli {
@@ -49,6 +55,12 @@ enum Commands {
         #[arg(long)]
         codeql_packs: Option<PathBuf>,
     },
+    RunCodeqlJavascriptKernel {
+        #[arg(long, default_value = "codeql")]
+        codeql: PathBuf,
+        #[arg(long)]
+        codeql_packs: Option<PathBuf>,
+    },
 }
 
 fn main() -> Result<()> {
@@ -62,6 +74,10 @@ fn main() -> Result<()> {
             codeql,
             codeql_packs,
         } => run_codeql_java_kernel(&codeql, codeql_packs.as_deref()),
+        Commands::RunCodeqlJavascriptKernel {
+            codeql,
+            codeql_packs,
+        } => run_codeql_javascript_kernel(&codeql, codeql_packs.as_deref()),
     }
 }
 
@@ -1177,10 +1193,10 @@ fn run_codeql_java_kernel(binary: &Path, packs: Option<&Path>) -> Result<()> {
 
     for path in case_paths() {
         let case: Value = serde_json::from_str(&fs::read_to_string(&path)?)?;
-        let model = &case["tool_model_references"]["codeql"];
-        if !model.is_object() {
+        if !selected_codeql_java_case(&case) {
             continue;
         }
+        let model = &case["tool_model_references"]["codeql"];
         let id = case["id"].as_str().expect("schema validated");
         let start = Instant::now();
         let (outcome, diagnostics, raw_path) = if let Some(reason) =
@@ -1238,6 +1254,701 @@ fn run_codeql_java_kernel(binary: &Path, packs: Option<&Path>) -> Result<()> {
     validate_reports()?;
     println!("wrote reports/codeql-java-kernel.json");
     Ok(())
+}
+
+fn selected_codeql_java_case(case: &Value) -> bool {
+    case["language"] == "java"
+        && case["track"] == "taint"
+        && case["score_tier"] == "core"
+        && case["tool_model_references"]["codeql"].is_object()
+}
+
+/// Run the JavaScript-only CodeQL kernel. This deliberately does not reuse the
+/// Java selector or its database/raw-output roots: CodeQL has shared standard
+/// libraries, but the benchmark adapters must remain language-scoped.
+fn run_codeql_javascript_kernel(binary: &Path, packs: Option<&Path>) -> Result<()> {
+    validate_cases()?;
+    let selected = select_codeql_javascript_cases()?;
+    let raw_dir = Path::new(CODEQL_JAVASCRIPT_RAW_DIR);
+    fs::create_dir_all(raw_dir)?;
+    let started = now_seconds()?;
+    let version_output = command_output(Command::new(binary).args(["version", "--format=json"]))
+        .context("read CodeQL version")?;
+    let version_json: Value =
+        serde_json::from_str(&version_output).context("parse CodeQL version JSON")?;
+    let version = version_json["version"]
+        .as_str()
+        .context("CodeQL version JSON lacks version")?
+        .to_string();
+    let build_identity = version_json["sha"]
+        .as_str()
+        .map(|sha| format!("codeql-cli:{sha}"))
+        .context("CodeQL version JSON lacks build sha")?;
+    let revision = fixture_revision()?;
+    let mut results = Vec::with_capacity(selected.len());
+    let mut query_paths = BTreeSet::new();
+
+    for (path, case) in selected {
+        let model = &case["tool_model_references"]["codeql"];
+        let id = case["id"].as_str().expect("schema validated");
+        let start = Instant::now();
+        let (outcome, diagnostics, raw_path) =
+            if let Some(reason) = model["unsupported_reason"].as_str() {
+                let raw_path = raw_dir.join(format!("{id}.json"));
+                fs::write(
+                    &raw_path,
+                    serde_json::to_string_pretty(&json!({
+                        "adapter": "codeql-javascript",
+                        "case_id": id,
+                        "state": "unsupported",
+                        "reason": reason,
+                        "evidence_kind": "adapter-capability-declaration"
+                    }))? + "\n",
+                )?;
+                ("unsupported", vec![reason.to_string()], raw_path)
+            } else {
+                let query = model["query"]
+                    .as_str()
+                    .context("JavaScript CodeQL case lacks query reference")?;
+                query_paths.insert(PathBuf::from(query));
+                run_codeql_javascript_case(binary, packs, &path, &case, Path::new(query), raw_dir)?
+            };
+        results.push(codeql_result(
+            &case,
+            id,
+            outcome,
+            diagnostics,
+            start.elapsed(),
+            &raw_path,
+        ));
+    }
+
+    let mut configuration_paths = query_paths;
+    configuration_paths.insert(PathBuf::from(CODEQL_JAVASCRIPT_QUERY));
+    configuration_paths.insert(PathBuf::from("adapters/codeql/javascript/qlpack.yml"));
+    let javascript_lock = PathBuf::from("adapters/codeql/javascript/codeql-pack.lock.yml");
+    if javascript_lock.is_file() {
+        configuration_paths.insert(javascript_lock);
+    }
+    let configuration_hash = hash_paths(&configuration_paths)?;
+    let report = json!({
+        "schema_version": 1,
+        "tool": "codeql",
+        "tool_version": version,
+        "tool_build_identity": build_identity,
+        "adapter_version": ADAPTER_VERSION,
+        "configuration_hash": configuration_hash,
+        "fixture_revision": revision,
+        "started_at_unix_seconds": started,
+        "ended_at_unix_seconds": now_seconds()?,
+        "cold_or_warm": "cold",
+        "results": results
+    });
+    fs::write(
+        CODEQL_JAVASCRIPT_REPORT,
+        serde_json::to_string_pretty(&report)? + "\n",
+    )?;
+    validate_reports()?;
+    println!("wrote {CODEQL_JAVASCRIPT_REPORT}");
+    Ok(())
+}
+
+fn codeql_result(
+    case: &Value,
+    id: &str,
+    outcome: &str,
+    diagnostics: Vec<String>,
+    duration: std::time::Duration,
+    raw_path: &Path,
+) -> Value {
+    json!({
+        "case_id": id,
+        "outcome": outcome,
+        "source_anchors": case["source_anchors"].as_array().unwrap().iter().map(|v| v["marker"].clone()).collect::<Vec<_>>(),
+        "sink_anchors": case["sink_anchors"].as_array().unwrap().iter().map(|v| v["marker"].clone()).collect::<Vec<_>>(),
+        "witness_checkpoints": [],
+        "diagnostics": diagnostics,
+        "duration_ms": duration.as_millis() as u64,
+        "peak_memory_mb": Value::Null,
+        "raw_output": raw_path.to_string_lossy()
+    })
+}
+
+fn select_codeql_javascript_cases() -> Result<Vec<(PathBuf, Value)>> {
+    let mut selected = Vec::new();
+    for path in case_paths() {
+        let case: Value = serde_json::from_str(&fs::read_to_string(&path)?)?;
+        if !javascript_core_case(&case) {
+            continue;
+        }
+        let model = &case["tool_model_references"]["codeql"];
+        if !model.is_object() {
+            bail!(
+                "JavaScript core case {} lacks a CodeQL model reference",
+                case["id"]
+            );
+        }
+        if !model["unsupported_reason"].is_string() {
+            let query = model["query"].as_str().with_context(|| {
+                format!(
+                    "JavaScript core case {} lacks a CodeQL query reference",
+                    case["id"]
+                )
+            })?;
+            if query != CODEQL_JAVASCRIPT_QUERY {
+                bail!(
+                    "JavaScript core case {} references non-JavaScript CodeQL query {query:?}",
+                    case["id"]
+                );
+            }
+        } else if let Some(query) = model["query"].as_str()
+            && query != CODEQL_JAVASCRIPT_QUERY
+        {
+            bail!(
+                "JavaScript core case {} references non-JavaScript CodeQL query {query:?}",
+                case["id"]
+            );
+        }
+        selected.push((path, case));
+    }
+    if selected.len() != CODEQL_JAVASCRIPT_CASE_COUNT {
+        bail!(
+            "JavaScript CodeQL kernel must select exactly {} core assertions; found {}",
+            CODEQL_JAVASCRIPT_CASE_COUNT,
+            selected.len()
+        );
+    }
+    let mut templates = BTreeMap::<&str, (usize, usize)>::new();
+    for (_, case) in &selected {
+        let template = case["template_id"].as_str().expect("schema validated");
+        let counts = templates.entry(template).or_default();
+        if case["polarity"] == "positive" {
+            counts.0 += 1;
+        } else {
+            counts.1 += 1;
+        }
+    }
+    if templates.len() != CODEQL_JAVASCRIPT_TEMPLATE_COUNT
+        || templates
+            .values()
+            .any(|(positive, negative)| *positive != 1 || *negative != 1)
+    {
+        bail!(
+            "JavaScript CodeQL kernel must contain {} balanced templates; found {templates:?}",
+            CODEQL_JAVASCRIPT_TEMPLATE_COUNT
+        );
+    }
+    Ok(selected)
+}
+
+fn javascript_core_case(case: &Value) -> bool {
+    case["language"] == "javascript" && case["track"] == "taint" && case["score_tier"] == "core"
+}
+
+fn run_codeql_javascript_case(
+    binary: &Path,
+    packs: Option<&Path>,
+    case_path: &Path,
+    case: &Value,
+    query: &Path,
+    raw_dir: &Path,
+) -> Result<(&'static str, Vec<String>, PathBuf)> {
+    let id = case["id"].as_str().expect("schema validated");
+    let workspace = materialize_codeql_javascript_workspace(case_path, case)?;
+    let database_root = std::env::temp_dir().join("dataflowbench-codeql-javascript-databases");
+    fs::create_dir_all(&database_root)?;
+    let database = database_root.join(id);
+    if database.exists() {
+        fs::remove_dir_all(&database).with_context(|| format!("clear {}", database.display()))?;
+    }
+    let raw_path = raw_dir.join(format!("{id}.sarif.json"));
+    let error_path = raw_dir.join(format!("{id}-error.json"));
+    for stale in [&raw_path, &error_path] {
+        if stale.exists() {
+            fs::remove_file(stale).with_context(|| format!("clear {}", stale.display()))?;
+        }
+    }
+
+    let result = (|| {
+        let create = Command::new(binary)
+            .arg("database")
+            .arg("create")
+            .arg(&database)
+            .arg("--language=javascript")
+            .arg(format!("--source-root={}", workspace.display()))
+            .arg("--overwrite")
+            .output();
+        let create = match create {
+            Ok(output) => output,
+            Err(error) => {
+                let diagnostic = format!(
+                    "failed to run CodeQL JavaScript database create with {}: {error}",
+                    binary.display()
+                );
+                let error_path = write_codeql_javascript_spawn_error(
+                    raw_dir,
+                    id,
+                    "database-create",
+                    &diagnostic,
+                )?;
+                return Ok(("runner-error", vec![diagnostic], error_path));
+            }
+        };
+        if !create.status.success() {
+            return write_codeql_javascript_error(raw_dir, id, "database-create", &create, None);
+        }
+
+        let mut analyze = Command::new(binary);
+        analyze
+            .arg("database")
+            .arg("analyze")
+            .arg(&database)
+            .arg(query)
+            .arg("--format=sarif-latest")
+            .arg(format!("--output={}", raw_path.display()))
+            .arg("--rerun");
+        if let Some(packs) = packs {
+            analyze.arg(format!("--additional-packs={}", packs.display()));
+        }
+        let analyzed = match analyze.output() {
+            Ok(output) => output,
+            Err(error) => {
+                let diagnostic = format!(
+                    "failed to run CodeQL JavaScript database analyze with {}: {error}",
+                    binary.display()
+                );
+                let error_path = write_codeql_javascript_spawn_error(
+                    raw_dir,
+                    id,
+                    "database-analyze",
+                    &diagnostic,
+                )?;
+                return Ok(("runner-error", vec![diagnostic], error_path));
+            }
+        };
+        if !analyzed.status.success() {
+            return write_codeql_javascript_error(
+                raw_dir,
+                id,
+                "database-analyze",
+                &analyzed,
+                raw_path.is_file().then_some(raw_path.as_path()),
+            );
+        }
+        if !raw_path.is_file() {
+            let diagnostic = "CodeQL JavaScript analysis produced no SARIF output".to_string();
+            let error_path =
+                write_codeql_javascript_spawn_error(raw_dir, id, "database-analyze", &diagnostic)?;
+            return Ok(("runner-error", vec![diagnostic], error_path));
+        }
+
+        let raw = match fs::read_to_string(&raw_path) {
+            Ok(raw) => raw,
+            Err(error) => {
+                return Ok((
+                    "runner-error",
+                    vec![format!("read CodeQL SARIF {}: {error}", raw_path.display())],
+                    raw_path,
+                ));
+            }
+        };
+        let sarif: Value = match serde_json::from_str(&raw) {
+            Ok(sarif) => sarif,
+            Err(error) => {
+                return Ok((
+                    "runner-error",
+                    vec![format!(
+                        "parse CodeQL SARIF {}: {error}",
+                        raw_path.display()
+                    )],
+                    raw_path,
+                ));
+            }
+        };
+        let execution_errors = sarif_execution_errors(&sarif);
+        if !execution_errors.is_empty() {
+            return Ok(("runner-error", execution_errors, raw_path));
+        }
+        if !sarif["runs"]
+            .as_array()
+            .is_some_and(|runs| !runs.is_empty())
+        {
+            return Ok((
+                "runner-error",
+                vec!["CodeQL SARIF contains no analysis runs".to_string()],
+                raw_path,
+            ));
+        }
+        let mut diagnostics = sarif_messages(&sarif);
+        let (outcome, anchor_diagnostics) = javascript_sarif_outcome(case_path, case, &sarif);
+        diagnostics.extend(anchor_diagnostics);
+        diagnostics.sort();
+        diagnostics.dedup();
+        Ok((outcome, diagnostics, raw_path))
+    })();
+
+    let cleanup = clear_codeql_case_artifacts(&workspace, &database);
+    match (result, cleanup) {
+        (Ok((outcome, diagnostics, raw_path)), Ok(())) => Ok((outcome, diagnostics, raw_path)),
+        (Ok((_, mut diagnostics, raw_path)), Err(error)) => {
+            diagnostics.push(format!(
+                "CodeQL JavaScript artifact cleanup failed: {error}"
+            ));
+            diagnostics.sort();
+            diagnostics.dedup();
+            Ok(("runner-error", diagnostics, raw_path))
+        }
+        (Err(error), Ok(())) => Err(error),
+        (Err(error), Err(cleanup_error)) => Err(error.context(format!(
+            "CodeQL JavaScript artifact cleanup also failed: {cleanup_error}"
+        ))),
+    }
+}
+
+fn materialize_codeql_javascript_workspace(case_path: &Path, case: &Value) -> Result<PathBuf> {
+    let id = case["id"].as_str().expect("schema validated");
+    let workspace = std::env::temp_dir()
+        .join("dataflowbench-codeql-javascript-workspaces")
+        .join(id);
+    if workspace.exists() {
+        fs::remove_dir_all(&workspace).with_context(|| format!("clear {}", workspace.display()))?;
+    }
+    fs::create_dir_all(&workspace)?;
+    let fixture_root = case_path.parent().expect("case path has parent");
+    for fixture in case["fixture_files"].as_array().expect("schema validated") {
+        let fixture = fixture.as_str().expect("schema validated");
+        fs::copy(fixture_root.join(fixture), workspace.join(fixture))?;
+    }
+    Ok(workspace)
+}
+
+fn write_codeql_javascript_error(
+    raw_dir: &Path,
+    id: &str,
+    stage: &str,
+    output: &std::process::Output,
+    raw_path: Option<&Path>,
+) -> Result<(&'static str, Vec<String>, PathBuf)> {
+    let error_path = raw_dir.join(format!("{id}-error.json"));
+    let stderr = String::from_utf8_lossy(&output.stderr).trim().to_string();
+    let stdout = String::from_utf8_lossy(&output.stdout).trim().to_string();
+    let diagnostic = format!(
+        "CodeQL JavaScript {stage} failed with status {}",
+        output.status
+    );
+    fs::write(
+        &error_path,
+        serde_json::to_string_pretty(&json!({
+            "adapter": "codeql-javascript",
+            "case_id": id,
+            "state": "runner-error",
+            "stage": stage,
+            "status": output.status.code(),
+            "stdout": stdout,
+            "stderr": stderr,
+            "evidence_kind": "retained-process-diagnostics"
+        }))? + "\n",
+    )?;
+    Ok((
+        "runner-error",
+        vec![diagnostic],
+        raw_path.unwrap_or(&error_path).to_path_buf(),
+    ))
+}
+
+fn write_codeql_javascript_spawn_error(
+    raw_dir: &Path,
+    id: &str,
+    stage: &str,
+    diagnostic: &str,
+) -> Result<PathBuf> {
+    let error_path = raw_dir.join(format!("{id}-error.json"));
+    fs::write(
+        &error_path,
+        serde_json::to_string_pretty(&json!({
+            "adapter": "codeql-javascript",
+            "case_id": id,
+            "state": "runner-error",
+            "stage": stage,
+            "diagnostic": diagnostic,
+            "evidence_kind": "retained-process-diagnostics"
+        }))? + "\n",
+    )?;
+    Ok(error_path)
+}
+
+#[derive(Clone, Debug, PartialEq, Eq)]
+struct JavascriptSinkAnchor {
+    file: String,
+    marker_line: u64,
+    function_name: String,
+    callsite_lines: BTreeSet<u64>,
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+enum SarifAnchorMatch {
+    Matched,
+    Unmatched,
+    Ambiguous,
+}
+
+fn javascript_sarif_outcome(
+    case_path: &Path,
+    case: &Value,
+    sarif: &Value,
+) -> (&'static str, Vec<String>) {
+    if sarif_result_count(sarif) == 0 {
+        return ("not-reached", Vec::new());
+    }
+    let sink_locations = match javascript_sink_locations(case_path, case) {
+        Ok(locations) => locations,
+        Err(reason) => {
+            return (
+                "inconclusive",
+                vec![format!(
+                    "cannot prove SARIF finding against sink anchor: {reason}"
+                )],
+            );
+        }
+    };
+    let mut matched = 0;
+    let mut unmatched = 0;
+    let mut ambiguous = 0;
+    for result in sarif["runs"]
+        .as_array()
+        .into_iter()
+        .flatten()
+        .flat_map(|run| run["results"].as_array().into_iter().flatten())
+    {
+        match javascript_sarif_result_match(result, &sink_locations) {
+            SarifAnchorMatch::Matched => matched += 1,
+            SarifAnchorMatch::Unmatched => unmatched += 1,
+            SarifAnchorMatch::Ambiguous => ambiguous += 1,
+        }
+    }
+    if ambiguous > 0 {
+        return (
+            "inconclusive",
+            vec![format!(
+                "{ambiguous} SARIF finding(s) have ambiguous sink-anchor locations"
+            )],
+        );
+    }
+    if matched > 0 {
+        return ("reached", Vec::new());
+    }
+    (
+        "inconclusive",
+        vec![format!(
+            "{unmatched} SARIF finding(s) did not match the case sink anchor"
+        )],
+    )
+}
+
+fn javascript_sink_locations(
+    case_path: &Path,
+    case: &Value,
+) -> std::result::Result<Vec<JavascriptSinkAnchor>, String> {
+    let fixture_root = case_path
+        .parent()
+        .ok_or_else(|| "case path has no parent".to_string())?;
+    let mut locations = Vec::new();
+    for anchor in case["sink_anchors"]
+        .as_array()
+        .ok_or_else(|| "case has no sink anchors".to_string())?
+    {
+        let file = anchor["file"]
+            .as_str()
+            .ok_or_else(|| "sink anchor lacks file".to_string())?;
+        let marker = anchor["marker"]
+            .as_str()
+            .ok_or_else(|| "sink anchor lacks marker".to_string())?;
+        let body = fs::read_to_string(fixture_root.join(file))
+            .map_err(|error| format!("read sink fixture {file}: {error}"))?;
+        let hinted_line = anchor["line_hint"].as_u64();
+        let lines = body
+            .lines()
+            .enumerate()
+            .filter_map(|(index, line)| line.contains(marker).then_some(index as u64 + 1))
+            .collect::<Vec<_>>();
+        let line = if let Some(line) = hinted_line {
+            if !lines.contains(&line) {
+                return Err(format!("marker {marker:?} is not on hinted line {line}"));
+            }
+            line
+        } else if lines.len() == 1 {
+            lines[0]
+        } else {
+            return Err(format!(
+                "marker {marker:?} has {} possible lines",
+                lines.len()
+            ));
+        };
+        let declaration = body
+            .lines()
+            .nth(line as usize - 1)
+            .ok_or_else(|| format!("sink anchor line {line} is outside {file}"))?;
+        let function_name = javascript_function_name(declaration, marker)
+            .ok_or_else(|| format!("sink marker {marker:?} is not on a function declaration"))?;
+        let callsite_lines = body
+            .lines()
+            .enumerate()
+            .filter_map(|(index, candidate)| {
+                let candidate_line = index as u64 + 1;
+                (candidate_line != line && javascript_function_call(candidate, &function_name))
+                    .then_some(candidate_line)
+            })
+            .collect::<BTreeSet<_>>();
+        if callsite_lines.is_empty() {
+            return Err(format!(
+                "sink function {function_name} has no callsites in {file}"
+            ));
+        }
+        locations.push(JavascriptSinkAnchor {
+            file: file.to_string(),
+            marker_line: line,
+            function_name,
+            callsite_lines,
+        });
+    }
+    if locations.is_empty() {
+        return Err("case has no resolvable sink locations".to_string());
+    }
+    if locations
+        .iter()
+        .map(|location| (&location.file, location.marker_line))
+        .collect::<BTreeSet<_>>()
+        .len()
+        != locations.len()
+    {
+        return Err("case contains duplicate sink anchors".to_string());
+    }
+    Ok(locations)
+}
+
+fn javascript_function_name(line: &str, marker: &str) -> Option<String> {
+    let marker_start = line.find(marker)?;
+    let declaration = &line[..marker_start];
+    let function_start = declaration
+        .match_indices("function")
+        .filter(|(start, _)| {
+            let before = declaration[..*start].chars().next_back();
+            let after = declaration[*start + "function".len()..].chars().next();
+            !before.is_some_and(javascript_identifier_char)
+                && !after.is_some_and(javascript_identifier_char)
+        })
+        .map(|(start, _)| start)
+        .last()?;
+    let mut name = declaration[function_start + "function".len()..].trim_start();
+    if let Some(rest) = name.strip_prefix('*') {
+        name = rest.trim_start();
+    }
+    let end = name
+        .char_indices()
+        .find_map(|(index, character)| (!javascript_identifier_char(character)).then_some(index))
+        .unwrap_or(name.len());
+    (end > 0).then(|| name[..end].to_string())
+}
+
+fn javascript_identifier_char(character: char) -> bool {
+    character == '_' || character == '$' || character.is_ascii_alphanumeric()
+}
+
+fn javascript_function_call(line: &str, function_name: &str) -> bool {
+    let line = javascript_code_without_literals(line);
+    let mut search_from = 0;
+    while let Some(offset) = line[search_from..].find(function_name) {
+        let start = search_from + offset;
+        let end = start + function_name.len();
+        let before = line[..start].chars().next_back();
+        let after = line[end..]
+            .chars()
+            .find(|character| !character.is_whitespace());
+        let preceded_by_member = before == Some('.') || before == Some('?');
+        if !before.is_some_and(javascript_identifier_char)
+            && !preceded_by_member
+            && after == Some('(')
+        {
+            let prefix = line[..start].trim_end();
+            if !prefix.ends_with("function") {
+                return true;
+            }
+        }
+        search_from = end;
+    }
+    false
+}
+
+fn javascript_code_without_literals(line: &str) -> String {
+    let mut output = String::with_capacity(line.len());
+    let mut quote = None;
+    let mut escaped = false;
+    let mut characters = line.chars().peekable();
+    while let Some(character) = characters.next() {
+        if let Some(active_quote) = quote {
+            if escaped {
+                escaped = false;
+            } else if character == '\\' {
+                escaped = true;
+            } else if character == active_quote {
+                quote = None;
+            }
+            output.push(' ');
+            continue;
+        }
+        if character == '/' && characters.peek() == Some(&'/') {
+            break;
+        }
+        if matches!(character, '\'' | '"' | '`') {
+            quote = Some(character);
+            output.push(' ');
+        } else {
+            output.push(character);
+        }
+    }
+    output
+}
+
+fn javascript_sarif_result_match(
+    result: &Value,
+    sink_locations: &[JavascriptSinkAnchor],
+) -> SarifAnchorMatch {
+    let Some(locations) = result["locations"].as_array() else {
+        return SarifAnchorMatch::Ambiguous;
+    };
+    if locations.is_empty() {
+        return SarifAnchorMatch::Ambiguous;
+    }
+    let mut matches = BTreeSet::new();
+    let mut malformed = false;
+    for location in locations {
+        let Some(uri) = location["physicalLocation"]["artifactLocation"]["uri"].as_str() else {
+            malformed = true;
+            continue;
+        };
+        let Some(line) = location["physicalLocation"]["region"]["startLine"].as_u64() else {
+            malformed = true;
+            continue;
+        };
+        for (index, anchor) in sink_locations.iter().enumerate() {
+            if sarif_uri_matches_file(uri, &anchor.file) && anchor.callsite_lines.contains(&line) {
+                matches.insert(index);
+            }
+        }
+    }
+    if malformed || matches.len() > 1 {
+        SarifAnchorMatch::Ambiguous
+    } else if matches.len() == 1 {
+        SarifAnchorMatch::Matched
+    } else {
+        SarifAnchorMatch::Unmatched
+    }
+}
+
+fn sarif_uri_matches_file(uri: &str, file: &str) -> bool {
+    let uri = uri.replace('\\', "/");
+    let uri = uri.split(['?', '#']).next().unwrap_or(&uri);
+    uri == file || uri.ends_with(&format!("/{file}"))
 }
 
 fn run_codeql_case(
@@ -2070,6 +2781,180 @@ mod tests {
                 "CodeQL SARIF reports unsuccessful execution",
                 "query evaluation failed"
             ]
+        );
+    }
+
+    #[test]
+    fn javascript_core_selection_is_exactly_32_balanced_assertions() {
+        let mut selected = Vec::new();
+        for path in case_paths() {
+            let case: Value = serde_json::from_str(&fs::read_to_string(path).unwrap()).unwrap();
+            if javascript_core_case(&case) {
+                selected.push(case);
+            }
+        }
+        assert_eq!(selected.len(), CODEQL_JAVASCRIPT_CASE_COUNT);
+        let mut templates = BTreeMap::<String, (usize, usize)>::new();
+        for case in selected {
+            let counts = templates
+                .entry(case["template_id"].as_str().unwrap().to_string())
+                .or_default();
+            if case["polarity"] == "positive" {
+                counts.0 += 1;
+            } else {
+                counts.1 += 1;
+            }
+        }
+        assert_eq!(templates.len(), CODEQL_JAVASCRIPT_TEMPLATE_COUNT);
+        assert!(
+            templates
+                .values()
+                .all(|(positive, negative)| *positive == 1 && *negative == 1)
+        );
+    }
+
+    #[test]
+    fn java_and_javascript_codeql_selectors_are_language_disjoint() {
+        let mut java = 0;
+        let mut javascript = 0;
+        for path in case_paths() {
+            let case: Value = serde_json::from_str(&fs::read_to_string(path).unwrap()).unwrap();
+            if selected_codeql_java_case(&case) {
+                java += 1;
+                assert_eq!(case["language"], "java");
+            }
+            if javascript_core_case(&case) {
+                javascript += 1;
+                assert_eq!(case["language"], "javascript");
+            }
+        }
+        assert_eq!(java, 32);
+        assert_eq!(javascript, CODEQL_JAVASCRIPT_CASE_COUNT);
+    }
+
+    #[test]
+    fn javascript_core_selection_is_language_and_track_scoped() {
+        let javascript = json!({
+            "language": "javascript",
+            "track": "taint",
+            "score_tier": "core"
+        });
+        assert!(javascript_core_case(&javascript));
+        for language in ["typescript", "java", "python"] {
+            let mut other = javascript.clone();
+            other["language"] = json!(language);
+            assert!(!javascript_core_case(&other));
+        }
+        let mut other = javascript.clone();
+        other["track"] = json!("value-flow");
+        assert!(!javascript_core_case(&other));
+        other["track"] = json!("taint");
+        other["score_tier"] = json!("calibration");
+        assert!(!javascript_core_case(&other));
+    }
+
+    #[test]
+    fn javascript_sarif_mapping_requires_the_sink_file_and_line() {
+        let root = std::env::temp_dir().join(format!(
+            "dataflowbench-javascript-anchor-test-{}-{}",
+            std::process::id(),
+            SystemTime::now()
+                .duration_since(UNIX_EPOCH)
+                .unwrap()
+                .as_nanos()
+        ));
+        fs::create_dir_all(&root).unwrap();
+        let case_path = root.join("case.json");
+        fs::write(
+            root.join("fixture.js"),
+            "function sink(value) {} // DFB-SINK: sink\nfunction other(value) {}\nother(input);\nsink(input);\n",
+        )
+        .unwrap();
+        let case = json!({
+            "sink_anchors": [{
+                "marker": "DFB-SINK: sink",
+                "file": "fixture.js",
+                "line_hint": 1
+            }]
+        });
+        let matching = json!({
+            "runs": [{"results": [{"locations": [{"physicalLocation": {
+                "artifactLocation": {"uri": "file:///tmp/work/fixture.js"},
+                "region": {"startLine": 4}
+            }}]}]}]
+        });
+        assert_eq!(
+            javascript_sarif_outcome(&case_path, &case, &matching).0,
+            "reached"
+        );
+        let wrong_line = json!({
+            "runs": [{"results": [{"locations": [{"physicalLocation": {
+                "artifactLocation": {"uri": "fixture.js"},
+                "region": {"startLine": 3}
+            }}]}]}]
+        });
+        assert_eq!(
+            javascript_sarif_outcome(&case_path, &case, &wrong_line).0,
+            "inconclusive"
+        );
+        let missing_location = json!({
+            "runs": [{"results": [{"message": {"text": "flow"}}]}]
+        });
+        assert_eq!(
+            javascript_sarif_outcome(&case_path, &case, &missing_location).0,
+            "inconclusive"
+        );
+        let no_results = json!({"runs": [{"results": []}]});
+        assert_eq!(
+            javascript_sarif_outcome(&case_path, &case, &no_results).0,
+            "not-reached"
+        );
+        fs::remove_dir_all(root).unwrap();
+    }
+
+    #[test]
+    fn javascript_sarif_ambiguous_locations_stay_inconclusive() {
+        let root = std::env::temp_dir().join(format!(
+            "dataflowbench-javascript-ambiguous-anchor-test-{}-{}",
+            std::process::id(),
+            SystemTime::now()
+                .duration_since(UNIX_EPOCH)
+                .unwrap()
+                .as_nanos()
+        ));
+        fs::create_dir_all(&root).unwrap();
+        let case_path = root.join("case.json");
+        fs::write(
+            root.join("fixture.js"),
+            "// DFB-SINK: duplicate\n// DFB-SINK: duplicate\n",
+        )
+        .unwrap();
+        let case = json!({
+            "sink_anchors": [{"marker": "DFB-SINK: duplicate", "file": "fixture.js"}]
+        });
+        let sarif = json!({
+            "runs": [{"results": [{"locations": [{"physicalLocation": {
+                "artifactLocation": {"uri": "fixture.js"},
+                "region": {"startLine": 1}
+            }}]}]}]
+        });
+        assert_eq!(
+            javascript_sarif_outcome(&case_path, &case, &sarif).0,
+            "inconclusive"
+        );
+        fs::remove_dir_all(root).unwrap();
+    }
+
+    #[test]
+    fn javascript_codeql_report_paths_are_dedicated() {
+        assert_eq!(CODEQL_JAVASCRIPT_RAW_DIR, "reports/raw/codeql-javascript");
+        assert_eq!(
+            CODEQL_JAVASCRIPT_REPORT,
+            "reports/codeql-javascript-kernel.json"
+        );
+        assert_eq!(
+            CODEQL_JAVASCRIPT_QUERY,
+            "adapters/codeql/javascript/queries/JavaScriptKernel.ql"
         );
     }
 

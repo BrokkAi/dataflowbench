@@ -30,6 +30,84 @@ All JavaScript fixtures use the benchmark-controlled `dfb_source` and
 its JavaScript kernel policy, but fixture metadata remains analyzer-neutral and
 retains only observed evidence in reports.
 
+## CodeQL selection and reproduction
+
+The CodeQL JavaScript vertical slice is exactly the 32 `taint`/`core` cases
+under `cases/taint/javascript/`: the 16 template rows above multiplied by one
+positive and one negative assertion. Every selected manifest points to the
+dedicated query:
+
+```text
+adapters/codeql/javascript/queries/JavaScriptKernel.ql
+```
+
+The query is owned by the dedicated JavaScript CodeQL pack manifest at
+`adapters/codeql/javascript/qlpack.yml`, even though CodeQL's standard library
+can cover both JavaScript and TypeScript syntax.
+
+The runner must not select TypeScript cases, calibration cases, Java cases, or
+the direct-flow breadth population. Run it with an already-installed CodeQL
+CLI and local pack directory:
+
+```bash
+cargo run -- run-codeql-javascript-kernel \
+  --codeql /path/to/codeql \
+  --codeql-packs /path/to/codeql-packs
+```
+
+The command creates one cold JavaScript CodeQL database per case from the
+declared fixture files, runs the dedicated query, and cleans temporary
+database/workspace artifacts after retaining evidence. It writes the
+language-specific normalized report to
+`reports/codeql-javascript-kernel.json` and raw SARIF/runner diagnostics to
+`reports/raw/codeql-javascript/`. The retained run used CodeQL CLI 2.26.3,
+build SHA `7d097a43199effe04ecd9c6bd3ad9bb02a45b3d7`, with official
+`github/codeql` tag `codeql-cli/v2.26.3` at source commit
+`44a68d3a47fcbcd6a6a76ec7d1c1b3a1a28b201e`, and
+`codeql/javascript-all@2.9.0` from the committed lock. Registry retrieval of
+the 2.9.0 pack was unavailable in the test environment, so the tested command
+used the matching official source workspace root via `--codeql-packs` (or an
+equivalent matching bundle pack root):
+
+```bash
+CODEQL=/path/to/codeql-v2.26.3/codeql
+CODEQL_SOURCE_ROOT=/private/tmp/codeql-source-v2.26.3
+cargo run -- run-codeql-javascript-kernel \
+  --codeql "$CODEQL" \
+  --codeql-packs "$CODEQL_SOURCE_ROOT"
+```
+
+The normalized report records the exact CLI version/build and configuration
+hash discovered during the run. A matching official source workspace or
+bundle is a valid reproduction input when registry retrieval is unavailable.
+
+## Anchor evidence and result semantics
+
+CodeQL query results are evidence, not ground truth by themselves. The runner
+reconciles SARIF result locations with the case's `DFB-SINK:` anchor; that
+marker identifies the anchored sink declaration/function. The SARIF result
+must be in the same anchor file at the callsite to that sink identity, but it
+need not be on the marker's exact line. Query path evidence identifies the
+`DFB-SOURCE:` to sink flow, and normalized results retain both anchor sets. A
+successful, anchor-backed finding is `reached`; a successful analysis with no
+matching finding is `not-reached`. Missing or incomplete location evidence is
+`inconclusive`, while an explicitly unsupported capability is `unsupported`
+and a database, query, SARIF, or runner failure is `runner-error`.
+
+None of `inconclusive`, `unsupported`, or `runner-error` may be normalized to
+`not-reached`, and none may be counted as a semantic negative. This keeps
+execution health separate from the polarity of the 16 balanced assertions.
+
+The retained JavaScript snapshot has 32 results: 15 `reached` and 17
+`not-reached`, with zero `inconclusive`, `unsupported`, or `runner-error`
+outcomes. Twenty-nine of 32 match expected polarity. The false negatives are
+`dfb-taint-javascript-alias-propagation-positive` and
+`dfb-taint-javascript-expression-positive`; the false positive is
+`dfb-taint-javascript-loop-carried-negative`. All 32 retained raw outputs are
+SARIF files with zero error files, and normalized `witness_checkpoints` are
+empty for every case. The configuration hash is
+`a038e39eb93d6fc674ab59cf2e4de5b3608f1d7b294c19da75ce1bd041c75ac5`.
+
 The Java kernel also has two calibration cases that are intentionally outside
 this sixteen-template scored slice. `dfb-template-one-hop-relay` is a simpler
 helper-flow calibration covered by the scored return-relay template, and
