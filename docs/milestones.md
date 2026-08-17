@@ -82,10 +82,13 @@ then ports the same semantics to Python.
 
 ## M2: cross-language parity
 
-The same 16 templates are now ported to JavaScript without changing their
-semantic intent. Port them to Python next, then extend parity language by
-language where the construct is meaningful. Language-only constructs live in
-`language-extension` scorecards.
+The same 16 templates are now ported to JavaScript and Python without changing
+their semantic intent. Extend parity language by language where each construct
+is meaningful. The Python adaptation rules, exact template population, and
+modeled-external boundary are recorded in the [Python kernel contract](python-kernel.md).
+Keep the Python, Java, and direct-flow result populations separate; a partial
+or unsupported Python path remains capability evidence rather than a negative.
+Language-only constructs live in `language-extension` scorecards.
 
 ## M3: taint modeling
 
