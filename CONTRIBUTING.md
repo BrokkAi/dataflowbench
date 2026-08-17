@@ -32,3 +32,18 @@ cargo run -- validate-reports
 
 Run `cargo run -- run-bifrost-smoke --bifrost /path/to/bifrost` when Bifrost is
 available. Review the retained raw JSON before committing an updated report.
+
+## Immutable freezes
+
+Release and website claims must name a validated `freeze/v1` manifest. Run
+`cargo run -- validate-freeze reports/freeze.json` from the exact clean Git
+checkout named by the manifest. The validator checks case and fixture bytes,
+adapter configuration and analyzer identities, normalized reports, and every
+retained raw-evidence digest. Keep taint, value-flow, typestate, witness, and
+performance dimensions separate, and never pool benchmark-controlled with
+tool-native profiles. `inconclusive`, `unsupported`, and `runner-error` are
+evidence outcomes, not clean negatives.
+
+If a result is corrected, publish a new freeze with new revision and digests;
+do not rewrite the previously published manifest or replace its evidence.
+See the [freeze contract](docs/freeze.md).
