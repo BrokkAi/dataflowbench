@@ -12,7 +12,7 @@ The initial adapter plan is:
 
 | Tool | Initial profile | Status |
 | --- | --- | --- |
-| Bifrost | Breadth baseline, Java propagation kernel, and JavaScript parity kernel | Implemented smoke adapter |
+| Bifrost | Breadth baseline and Java, JavaScript, and Python propagation kernels | Implemented smoke adapter; kernel runs are reported separately |
 | CodeQL | 16-template Java propagation kernel | Implemented adapter |
 | Semgrep CE | Supported local analysis only | Planned |
 | OpenTaint | Java and Kotlin profile | Planned |
@@ -33,3 +33,10 @@ outcomes match the expected polarity and 6 complete outcomes do not. The four
 incomplete runs remain `inconclusive`, never synthesized as `not-reached` or
 counted as false negatives. See the [Bifrost adapter notes](../adapters/bifrost/README.md)
 for raw-report separation and the per-template mismatch breakdown.
+
+The direct-flow breadth run, Java kernel run, JavaScript kernel evidence, and
+Python kernel run are distinct
+adapter populations. A kernel command must select only its language and retain
+the exact raw output for those cases; it must not use a direct-flow result or a
+Java result as a proxy for Python. The Python kernel's 16-template balance and
+construct adaptations are defined in the [Python kernel contract](python-kernel.md).

@@ -31,6 +31,12 @@ enum Commands {
         #[arg(long, default_value = "bifrost")]
         bifrost: PathBuf,
     },
+    /// Run the Python propagation kernel without mixing it with the Java
+    /// kernel or the cross-language direct-flow calibration cases.
+    RunBifrostPythonKernel {
+        #[arg(long, default_value = "bifrost")]
+        bifrost: PathBuf,
+    },
     RunCodeqlJavaKernel {
         #[arg(long, default_value = "codeql")]
         codeql: PathBuf,
@@ -44,6 +50,7 @@ fn main() -> Result<()> {
         Commands::Validate => validate_cases(),
         Commands::ValidateReports => validate_reports(),
         Commands::RunBifrostSmoke { bifrost } => run_bifrost_smoke(&bifrost),
+        Commands::RunBifrostPythonKernel { bifrost } => run_bifrost_python_kernel(&bifrost),
         Commands::RunCodeqlJavaKernel {
             codeql,
             codeql_packs,
@@ -158,8 +165,6 @@ fn validate_javascript_kernel_balance(cases: &[(PathBuf, Value)]) -> Result<()> 
     let java_templates = core_templates_for_language(cases, "java");
     let javascript_templates = core_templates_for_language(cases, "javascript");
 
-    // Keep the bootstrap repository valid before the JavaScript parity slice is
-    // present, while making a partially added JavaScript kernel fail loudly.
     if javascript_templates.is_empty() {
         return Ok(());
     }
@@ -299,10 +304,32 @@ fn validate_reports() -> Result<()> {
     Ok(())
 }
 
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+enum BifrostRun {
+    Smoke,
+    PythonKernel,
+}
+
 fn run_bifrost_smoke(binary: &Path) -> Result<()> {
+    run_bifrost(binary, BifrostRun::Smoke)
+}
+
+fn run_bifrost_python_kernel(binary: &Path) -> Result<()> {
+    run_bifrost(binary, BifrostRun::PythonKernel)
+}
+
+fn run_bifrost(binary: &Path, run: BifrostRun) -> Result<()> {
     validate_cases()?;
-    let selected_paths = bifrost_case_paths()?;
-    let raw_dir = Path::new("reports/raw/bifrost");
+    let (raw_dir, report_path) = match run {
+        BifrostRun::Smoke => (
+            Path::new("reports/raw/bifrost"),
+            Path::new("reports/bifrost-smoke.json"),
+        ),
+        BifrostRun::PythonKernel => (
+            Path::new("reports/raw/bifrost-python-kernel"),
+            Path::new("reports/bifrost-python-kernel.json"),
+        ),
+    };
     fs::create_dir_all(raw_dir)?;
     let started = now_seconds()?;
     let version =
@@ -312,11 +339,20 @@ fn run_bifrost_smoke(binary: &Path) -> Result<()> {
     let revision = fixture_revision()?;
     let mut results = Vec::new();
     let mut policy_paths = BTreeSet::new();
-    for path in selected_paths {
+    let mut selected_cases = 0;
+    for path in case_paths() {
         let case: Value = serde_json::from_str(&fs::read_to_string(&path)?)?;
+        if !selected_bifrost_case(&case, run) {
+            continue;
+        }
+        selected_cases += 1;
         let id = case["id"].as_str().expect("schema validated");
         let model = &case["tool_model_references"]["bifrost"];
         let raw_path = raw_dir.join(format!("{id}.json"));
+        if raw_path.exists() {
+            fs::remove_file(&raw_path)
+                .with_context(|| format!("clear stale raw output {}", raw_path.display()))?;
+        }
         let start = Instant::now();
         let (outcome, diagnostics, checkpoints) = if let Some(reason) =
             model["unsupported_reason"].as_str()
@@ -334,7 +370,8 @@ fn run_bifrost_smoke(binary: &Path) -> Result<()> {
                 .context("Bifrost case lacks policy reference")?;
             policy_paths.insert(PathBuf::from(policy));
             let workspace = materialize_bifrost_workspace(&path, &case, policy)?;
-            let status = Command::new(binary)
+            let mut command = Command::new(binary);
+            command
                 .arg("--root")
                 .arg(&workspace)
                 .arg("--policy-file")
@@ -348,57 +385,155 @@ fn run_bifrost_smoke(binary: &Path) -> Result<()> {
                     "never",
                     "--output",
                 ])
-                .arg(&raw_path)
-                .status()
-                .with_context(|| format!("run {}", binary.display()))?;
-            let raw = fs::read_to_string(&raw_path)
-                .with_context(|| format!("read {}", raw_path.display()))?;
-            let report: Value = serde_json::from_str(&raw).context("parse Bifrost JSON report")?;
-            normalize_bifrost(&case, &report, status.code())?
+                .arg(&raw_path);
+            let output = match command.output() {
+                Ok(output) => output,
+                Err(error) => {
+                    let diagnostic = format!("failed to run {}: {error}", binary.display());
+                    write_bifrost_error(&raw_path, id, None, "spawn", "", &diagnostic)?;
+                    results.push(bifrost_result(
+                        &case,
+                        id,
+                        "runner-error",
+                        vec![diagnostic],
+                        Vec::new(),
+                        start.elapsed(),
+                        &raw_path,
+                    ));
+                    continue;
+                }
+            };
+            let status_code = output.status.code();
+            if !raw_path.is_file() {
+                let stdout = String::from_utf8_lossy(&output.stdout);
+                let stderr = String::from_utf8_lossy(&output.stderr);
+                let diagnostic = format!(
+                    "Bifrost policy execution produced no JSON report (status {})",
+                    output.status
+                );
+                write_bifrost_error(
+                    &raw_path,
+                    id,
+                    status_code,
+                    "evaluate",
+                    stdout.trim(),
+                    &format!("{}\n{}", diagnostic, stderr.trim()),
+                )?;
+                ("runner-error", vec![diagnostic], Vec::new())
+            } else {
+                let raw = fs::read_to_string(&raw_path)
+                    .with_context(|| format!("read {}", raw_path.display()))?;
+                match serde_json::from_str(&raw) {
+                    Ok(report) => normalize_bifrost(&case, &report, status_code)?,
+                    Err(error) => {
+                        let diagnostic =
+                            format!("parse Bifrost JSON report {}: {error}", raw_path.display());
+                        ("runner-error", vec![diagnostic], Vec::new())
+                    }
+                }
+            }
         };
-        results.push(json!({
-            "case_id": id, "outcome": outcome,
-            "source_anchors": case["source_anchors"].as_array().unwrap().iter().map(|v| v["marker"].clone()).collect::<Vec<_>>(),
-            "sink_anchors": case["sink_anchors"].as_array().unwrap().iter().map(|v| v["marker"].clone()).collect::<Vec<_>>(),
-            "witness_checkpoints": checkpoints, "diagnostics": diagnostics,
-            "duration_ms": start.elapsed().as_millis() as u64, "peak_memory_mb": Value::Null,
-            "raw_output": raw_path.to_string_lossy()
-        }));
+        results.push(bifrost_result(
+            &case,
+            id,
+            outcome,
+            diagnostics,
+            checkpoints,
+            start.elapsed(),
+            &raw_path,
+        ));
     }
-    let mut hasher = Sha256::new();
-    for path in policy_paths {
-        hasher.update(path.to_string_lossy().as_bytes());
-        hasher.update(fs::read(path)?);
+    if selected_cases == 0 {
+        let selection = match run {
+            BifrostRun::Smoke => "Bifrost smoke",
+            BifrostRun::PythonKernel => "Bifrost Python kernel",
+        };
+        bail!("no cases selected for {selection}");
     }
-    let report = json!({"schema_version": 1, "tool": "bifrost", "tool_version": version, "tool_build_identity": build_identity, "adapter_version": ADAPTER_VERSION, "configuration_hash": format!("{:x}", hasher.finalize()), "fixture_revision": revision, "started_at_unix_seconds": started, "ended_at_unix_seconds": now_seconds()?, "cold_or_warm": "cold", "results": results});
-    fs::write(
-        "reports/bifrost-smoke.json",
-        serde_json::to_string_pretty(&report)? + "\n",
-    )?;
+    let configuration_hash = hash_paths(&policy_paths)?;
+    let report = json!({
+        "schema_version": 1,
+        "tool": "bifrost",
+        "tool_version": version,
+        "tool_build_identity": build_identity,
+        "adapter_version": ADAPTER_VERSION,
+        "configuration_hash": configuration_hash,
+        "fixture_revision": revision,
+        "started_at_unix_seconds": started,
+        "ended_at_unix_seconds": now_seconds()?,
+        "cold_or_warm": "cold",
+        "results": results
+    });
+    fs::write(report_path, serde_json::to_string_pretty(&report)? + "\n")?;
     validate_reports()?;
-    println!("wrote reports/bifrost-smoke.json");
+    println!("wrote {}", report_path.display());
     Ok(())
 }
 
-fn bifrost_case_paths() -> Result<Vec<PathBuf>> {
-    let mut selected = Vec::new();
-    for path in case_paths() {
-        let case: Value = serde_json::from_str(
-            &fs::read_to_string(&path).with_context(|| format!("read {}", path.display()))?,
-        )?;
-        if has_bifrost_model_reference(&case) {
-            selected.push(path);
+fn selected_bifrost_case(case: &Value, run: BifrostRun) -> bool {
+    match run {
+        BifrostRun::Smoke => has_bifrost_model_reference(case),
+        BifrostRun::PythonKernel => {
+            case["language"] == "python"
+                && case["track"] == "taint"
+                && case["score_tier"] == "core"
+                && (case["tool_model_references"]["bifrost"]["policy"]
+                    .as_str()
+                    .is_some_and(|policy| policy.ends_with("core-python-kernel.rqlp"))
+                    || case["tool_model_references"]["bifrost"]["unsupported_reason"].is_string())
         }
     }
-    if selected.is_empty() {
-        bail!("no cases declare a Bifrost model reference");
-    }
-    Ok(selected)
 }
 
 fn has_bifrost_model_reference(case: &Value) -> bool {
     let model = &case["tool_model_references"]["bifrost"];
     model.is_object() && (model["policy"].is_string() || model["unsupported_reason"].is_string())
+}
+
+fn bifrost_result(
+    case: &Value,
+    id: &str,
+    outcome: &str,
+    diagnostics: Vec<String>,
+    checkpoints: Vec<Value>,
+    duration: std::time::Duration,
+    raw_path: &Path,
+) -> Value {
+    json!({
+        "case_id": id,
+        "outcome": outcome,
+        "source_anchors": case["source_anchors"].as_array().unwrap().iter().map(|v| v["marker"].clone()).collect::<Vec<_>>(),
+        "sink_anchors": case["sink_anchors"].as_array().unwrap().iter().map(|v| v["marker"].clone()).collect::<Vec<_>>(),
+        "witness_checkpoints": checkpoints,
+        "diagnostics": diagnostics,
+        "duration_ms": duration.as_millis() as u64,
+        "peak_memory_mb": Value::Null,
+        "raw_output": raw_path.to_string_lossy()
+    })
+}
+
+fn write_bifrost_error(
+    raw_path: &Path,
+    id: &str,
+    status: Option<i32>,
+    stage: &str,
+    stdout: &str,
+    stderr: &str,
+) -> Result<()> {
+    fs::write(
+        raw_path,
+        serde_json::to_string_pretty(&json!({
+            "adapter": "bifrost",
+            "case_id": id,
+            "state": "runner-error",
+            "stage": stage,
+            "status": status,
+            "stdout": stdout,
+            "stderr": stderr,
+            "evidence_kind": "retained-process-diagnostics"
+        }))? + "\n",
+    )?;
+    Ok(())
 }
 
 fn run_codeql_java_kernel(binary: &Path, packs: Option<&Path>) -> Result<()> {
@@ -730,37 +865,29 @@ fn normalize_bifrost(
     status: Option<i32>,
 ) -> Result<(&'static str, Vec<String>, Vec<Value>)> {
     let mut report_diagnostics = diagnostics(report);
-    let incomplete_reasons = incompleteness_reasons(report);
-    report_diagnostics.extend(incomplete_reasons.iter().cloned());
+    let incompleteness = incompleteness_reasons(report);
+    report_diagnostics.extend(incompleteness.iter().cloned());
     report_diagnostics.sort();
     report_diagnostics.dedup();
-    if status == Some(2) || !incomplete_reasons.is_empty() {
+    // Bifrost reserves exit status 2 for an unreliable/inconclusive run. It
+    // takes precedence over finding absence, even if the report is sparse.
+    if status == Some(2) {
+        if incompleteness.is_empty() {
+            report_diagnostics.push("Bifrost exited with inconclusive status 2".to_string());
+        }
         return Ok(("inconclusive", report_diagnostics, Vec::new()));
     }
-    match status {
-        Some(0 | 1) => {}
-        Some(status) => {
-            report_diagnostics.push(format!(
-                "Bifrost exited with unexpected policy status {status}"
-            ));
-            report_diagnostics.sort();
-            report_diagnostics.dedup();
-            return Ok(("runner-error", report_diagnostics, Vec::new()));
-        }
-        None => {
-            report_diagnostics.push(
-                "Bifrost process exited without a status code (likely terminated by a signal)"
-                    .to_string(),
-            );
-            report_diagnostics.sort();
-            report_diagnostics.dedup();
-            return Ok(("runner-error", report_diagnostics, Vec::new()));
-        }
+    if !report["runs"]
+        .as_array()
+        .is_some_and(|runs| !runs.is_empty())
+    {
+        report_diagnostics.push("Bifrost report contains no evaluation runs".to_string());
+        return Ok(("runner-error", report_diagnostics, Vec::new()));
     }
-    if !report["runs"].is_array() || report["runs"].as_array().is_some_and(Vec::is_empty) {
-        report_diagnostics.push("Bifrost report contains no analysis runs".to_string());
-        report_diagnostics.sort();
-        report_diagnostics.dedup();
+    if !incompleteness.is_empty() {
+        return Ok(("inconclusive", report_diagnostics, Vec::new()));
+    }
+    if !matches!(status, Some(0 | 1)) {
         return Ok(("runner-error", report_diagnostics, Vec::new()));
     }
     let finding_count = count_findings(report);
@@ -781,32 +908,33 @@ fn normalize_bifrost(
 }
 
 fn incompleteness_reasons(value: &Value) -> Vec<String> {
-    value["runs"]
-        .as_array()
-        .into_iter()
-        .flatten()
-        .flat_map(|run| {
-            let completion = &run["completion"];
-            let completion_type = completion["type"].as_str();
-            if completion_type == Some("complete") {
-                return Vec::new().into_iter();
-            }
-            let reasons = completion["reasons"]
-                .as_array()
-                .into_iter()
-                .flatten()
-                .filter_map(Value::as_str)
-                .map(|reason| format!("Bifrost reported incomplete analysis: {reason}"))
-                .collect::<Vec<_>>();
-            if reasons.is_empty() {
-                let state = completion_type.unwrap_or("missing completion state");
-                vec![format!("Bifrost reported incomplete analysis: {state}")]
-            } else {
-                reasons
-            }
+    let mut reasons = Vec::new();
+    for run in value["runs"].as_array().into_iter().flatten() {
+        let Some(completion_type) = run["completion"]["type"].as_str() else {
+            continue;
+        };
+        if completion_type == "complete" {
+            continue;
+        }
+        let mut run_reasons = run["completion"]["reasons"]
+            .as_array()
             .into_iter()
-        })
-        .collect()
+            .flatten()
+            .filter_map(Value::as_str)
+            .map(str::to_string)
+            .collect::<Vec<_>>();
+        if run_reasons.is_empty() {
+            run_reasons.push(format!("completion_type={completion_type}"));
+        }
+        reasons.extend(
+            run_reasons
+                .into_iter()
+                .map(|reason| format!("Bifrost reported incomplete analysis: {reason}")),
+        );
+    }
+    reasons.sort();
+    reasons.dedup();
+    reasons
 }
 
 fn count_findings(value: &Value) -> usize {
@@ -880,22 +1008,28 @@ mod tests {
     #[test]
     fn normalizer_keeps_negative_and_unsupported_distinct() {
         let negative = json!({"expected_flows": []});
-        let complete_empty = json!({
-            "runs": [{"completion": {"type": "complete"}, "findings": []}]
-        });
-        let complete_finding = json!({
-            "runs": [{"completion": {"type": "complete"}, "findings": [{}]}]
-        });
         assert_eq!(
-            normalize_bifrost(&negative, &complete_empty, Some(0))
-                .unwrap()
-                .0,
+            normalize_bifrost(
+                &negative,
+                &json!({
+                    "runs": [{"completion": {"type": "complete"}, "findings": []}]
+                }),
+                Some(0)
+            )
+            .unwrap()
+            .0,
             "not-reached"
         );
         assert_eq!(
-            normalize_bifrost(&negative, &complete_finding, Some(0))
-                .unwrap()
-                .0,
+            normalize_bifrost(
+                &negative,
+                &json!({
+                    "runs": [{"completion": {"type": "complete"}, "findings": [{}]}]
+                }),
+                Some(0)
+            )
+            .unwrap()
+            .0,
             "reached"
         );
         assert_eq!(
@@ -918,44 +1052,102 @@ mod tests {
             "expected_flows": [{"source": "DFB-SOURCE: input", "sink": "DFB-SINK: sink"}],
             "witness_checkpoints": ["DFB-WITNESS: relay"]
         });
-        let report = json!({
-            "runs": [{"completion": {"type": "complete"}, "findings": [{}]}]
-        });
-        let normalized = normalize_bifrost(&case, &report, Some(0)).unwrap();
+        let normalized = normalize_bifrost(
+            &case,
+            &json!({
+                "runs": [{"completion": {"type": "complete"}, "findings": [{}]}]
+            }),
+            Some(0),
+        )
+        .unwrap();
         assert_eq!(normalized.0, "reached");
         assert!(normalized.2.is_empty());
     }
 
     #[test]
-    fn normalizer_never_converts_incomplete_analysis_to_not_reached() {
+    fn incomplete_or_unexpected_bifrost_status_never_becomes_clean_negative() {
         let negative = json!({"expected_flows": []});
-        let report = json!({
+        let incomplete = json!({
             "runs": [{
                 "completion": {"type": "inconclusive", "reasons": ["partial_discovery"]},
                 "findings": []
             }]
         });
-        let normalized = normalize_bifrost(&negative, &report, Some(0)).unwrap();
-        assert_eq!(normalized.0, "inconclusive");
-
-        let missing_report = normalize_bifrost(&negative, &json!({}), Some(0)).unwrap();
-        assert_eq!(missing_report.0, "runner-error");
+        assert_eq!(
+            normalize_bifrost(&negative, &incomplete, Some(0))
+                .unwrap()
+                .0,
+            "inconclusive"
+        );
+        assert_eq!(
+            normalize_bifrost(
+                &negative,
+                &json!({"runs": [{"completion": {"type": "complete"}, "findings": []}]}),
+                Some(9)
+            )
+            .unwrap()
+            .0,
+            "runner-error"
+        );
+        assert_eq!(
+            normalize_bifrost(&negative, &json!({"findings": []}), Some(0))
+                .unwrap()
+                .0,
+            "runner-error"
+        );
     }
 
     #[test]
-    fn bifrost_selection_requires_a_policy_or_explicit_unsupported_reason() {
-        let policy = json!({
-            "tool_model_references": {"bifrost": {"policy": "policy.rqlp"}}
+    fn python_kernel_selection_is_separate_from_direct_and_java() {
+        let python_kernel = json!({
+            "language": "python",
+            "track": "taint",
+            "score_tier": "core",
+            "tool_model_references": {
+                "bifrost": {"policy": "adapters/bifrost/policies/core-python-kernel.rqlp"}
+            }
         });
-        let unsupported = json!({
-            "tool_model_references": {"bifrost": {"unsupported_reason": "not modeled"}}
+        let python_direct = json!({
+            "language": "python",
+            "track": "taint",
+            "score_tier": "core",
+            "tool_model_references": {
+                "bifrost": {"policy": "adapters/bifrost/policies/core-direct.rqlp"}
+            }
         });
-        let absent = json!({"tool_model_references": {}});
-        let empty = json!({"tool_model_references": {"bifrost": {}}});
-        assert!(has_bifrost_model_reference(&policy));
-        assert!(has_bifrost_model_reference(&unsupported));
-        assert!(!has_bifrost_model_reference(&absent));
-        assert!(!has_bifrost_model_reference(&empty));
+        let java_kernel = json!({
+            "language": "java",
+            "track": "taint",
+            "score_tier": "core",
+            "tool_model_references": {
+                "bifrost": {"policy": "adapters/bifrost/policies/core-python-kernel.rqlp"}
+            }
+        });
+        let python_unsupported = json!({
+            "language": "python",
+            "track": "taint",
+            "score_tier": "core",
+            "tool_model_references": {
+                "bifrost": {"unsupported_reason": "requires an external model catalog"}
+            }
+        });
+        assert!(selected_bifrost_case(
+            &python_kernel,
+            BifrostRun::PythonKernel
+        ));
+        assert!(!selected_bifrost_case(
+            &python_direct,
+            BifrostRun::PythonKernel
+        ));
+        assert!(!selected_bifrost_case(
+            &java_kernel,
+            BifrostRun::PythonKernel
+        ));
+        assert!(selected_bifrost_case(
+            &python_unsupported,
+            BifrostRun::PythonKernel
+        ));
+        assert!(selected_bifrost_case(&python_direct, BifrostRun::Smoke));
     }
 
     #[test]
