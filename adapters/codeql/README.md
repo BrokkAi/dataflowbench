@@ -1,10 +1,21 @@
 # CodeQL adapter
 
 The CodeQL adapter runs language-scoped benchmark kernels against canonical
-fixtures. Java and JavaScript have separate selections, query paths, normalized
-reports, and retained raw-evidence directories. The JavaScript query may use
-CodeQL libraries shared with TypeScript, but this adapter slice selects only
-JavaScript cases; TypeScript is a future, separate population.
+fixtures. Java, JavaScript, and Python have separate selections, query paths,
+normalized reports, and retained raw-evidence directories. The JavaScript query
+may use CodeQL libraries shared with TypeScript, but this adapter slice selects
+only JavaScript cases; TypeScript is a future, separate population.
+
+The checked-in query packs contain the Java, JavaScript, and Python kernel
+queries. Each query uses that language's CodeQL data-flow API and the
+benchmark-controlled `dfb_source()`/`dfb_sink(value)` contract; the Python query is
+`python/queries/PythonKernel.ql` in its own Python database-schema pack.
+
+The Java kernel adapter creates one CodeQL database per canonical case,
+compiles the fixture with its real `javac` build, runs the pinned
+`dataflowbench/codeql-java` query pack, retains SARIF, and normalizes only the
+presence or absence of query results. It does not treat query compilation,
+database creation, or analysis failures as negative results.
 
 ## JavaScript kernel
 
@@ -131,3 +142,93 @@ current adapter records anchor-backed flow outcomes while retaining path
 evidence in SARIF rather than fabricating normalized witness markers. Its
 configuration hash is
 `a038e39eb93d6fc674ab59cf2e4de5b3608f1d7b294c19da75ce1bd041c75ac5`.
+
+## Python kernel
+
+The Python query selects exactly the 32 core assertions (the 16 balanced
+templates): every benchmark `dfb_source()` call is a source, and argument zero
+of every benchmark `dfb_sink(value)` call is a sink. It does not match fixture
+names or treat an absent finding as an execution success. The Python dependency
+is pinned to `codeql/python-all@7.2.3`, the compatible pack released for CodeQL
+CLI v2.26.3 (CLI build `7d097a43199effe04ecd9c6bd3ad9bb02a45b3d7`; Python pack
+build SHA `44a68d3a47fcbcd6a6a76ec7d1c1b3a1a28b201e`).
+
+The Python query is a `problem` query over `flow(source, sink)`, selecting the
+sink location for each reached flow. CodeQL CLI v2.26.3 emits the result
+location and message for this query but no `codeFlows`; the retained SARIF
+therefore remains the authoritative raw location evidence.
+
+On the direct positive and direct negative fixtures, the problem query produced
+one result at `direct_flow.py:10:14` and zero results respectively; the positive
+SARIF result has no `codeFlows`. Exact-path end-to-end analysis took 64.30
+seconds (positive) and 85.39 seconds (negative), including query-plan
+compilation. This was materially faster than the path-query baseline observed
+at approximately 4m10s compile plus 10.5s evaluation on the positive fixture.
+
+With the CLI and packs in explicit locations, assemble one CodeQL bundle for
+the Python pack. The bundle manifest is required because `--additional-packs`
+accepts a pack root or a `.codeqlmanifest.json` bundle, while `pack download`
+stores versioned packs below a `codeql/<name>/<version>` directory:
+
+```bash
+CODEQL=/private/tmp/dataflowbench-codeql-v2.26.3/codeql/codeql
+PACKS=/private/tmp/dataflowbench-codeql-v2.26.3/packs
+BUNDLE=/private/tmp/dataflowbench-codeql-v2.26.3/python-pack-bundle
+
+# Download the pinned direct and transitive packs into PACKS.
+$CODEQL pack download --dir "$PACKS" \
+  codeql/python-all@7.2.3 codeql/concepts@0.0.29 \
+  codeql/controlflow@2.0.39 codeql/dataflow@2.1.11 \
+  codeql/mad@1.0.55 codeql/regex@1.0.55 codeql/ssa@2.0.31 \
+  codeql/threat-models@1.0.55 codeql/tutorial@1.0.55 \
+  codeql/typetracking@2.0.39 codeql/util@2.0.42 \
+  codeql/xml@1.0.55 codeql/yaml@1.0.55
+
+# Build one explicit bundle for the runner's single --codeql-packs argument.
+rm -rf "$BUNDLE"
+mkdir -p "$BUNDLE/qlpacks/codeql"
+for pack in concepts controlflow dataflow mad regex ssa threat-models tutorial \
+  typetracking util xml yaml python-all; do
+  cp -R "$PACKS/codeql/$pack" "$BUNDLE/qlpacks/codeql/"
+done
+cp /private/tmp/dataflowbench-codeql-v2.26.3/codeql/.codeqlmanifest.json \
+  "$BUNDLE/.codeqlmanifest.json"
+
+$CODEQL pack ci adapters/codeql/python --additional-packs "$BUNDLE"
+$CODEQL query compile adapters/codeql/python/queries/PythonKernel.ql \
+  --additional-packs "$BUNDLE"
+cargo run -- run-codeql-python-kernel \
+  --codeql /private/tmp/dataflowbench-codeql-v2.26.3/codeql/codeql \
+  --codeql-packs "$BUNDLE"
+```
+
+The Python run writes its normalized report to
+`reports/codeql-python-kernel.json` and retains raw SARIF in the dedicated
+`reports/raw/codeql-python-kernel/` directory. Database creation, query
+compilation, or analysis failures remain `runner-error`; they are never normalized as
+`not-reached`. An unsupported case remains `unsupported`, while a successfully
+executed query with no SARIF flow is `not-reached`. The full compile above
+populates the compilation cache before the runner starts, so per-case analysis
+does not repeat query compilation. Every case still uses an isolated cold
+database; no database or compiled fixture is reused across the pair.
+
+## Retained v2.26.3 snapshot
+
+The checked-in report uses CodeQL CLI v2.26.3 build
+`7d097a43199effe04ecd9c6bd3ad9bb02a45b3d7` with
+`codeql/java-all@9.2.3`. Of 32 assertions, 15 are `reached` and 17 are
+`not-reached`; 27 match their expected polarity. The expression, alias, and
+exception positives are false negatives, while the array-element and loop-kill
+negatives are false positives. Each case uses an isolated cold database; no
+database or compiled fixture is reused across the pair. The adapter removes
+temporary databases and workspaces after retaining SARIF.
+
+The retained Python snapshot uses the same CodeQL CLI v2.26.3 build
+`7d097a43199effe04ecd9c6bd3ad9bb02a45b3d7` with `codeql/python-all@7.2.3`.
+All 32 Python assertions executed with ordinary reached/not-reached outcomes:
+14 are `reached` and 18 are `not-reached`, with 28/32 matching the expected
+polarity. The false negatives are the alias-propagation positive,
+array-element positive, and exception-catch positive; the loop-carried negative
+is a false positive. No special or error outcomes occurred. Every Python case
+uses an isolated cold database, with no database or compiled fixture reused
+across the pair.
