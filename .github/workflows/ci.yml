@@ -24,3 +24,18 @@ jobs:
       - run: cargo run -- validate
       - run: cargo run -- validate-reports
       - run: cargo run -- generate-results --manifest reports/freeze.json --output-directory results --check
+  site:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: docs
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: docs/package-lock.json
+      - run: npm ci
+      - run: npm run check
+      - run: npm run build

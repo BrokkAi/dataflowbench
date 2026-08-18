@@ -1,0 +1,68 @@
+---
+import {
+  percentCell,
+  type ScoreTier,
+  type RateFraction,
+} from '../data/snapshots';
+
+interface Props {
+  tier: ScoreTier;
+}
+
+const { tier } = Astro.props;
+
+function fraction(rate: RateFraction | null): string {
+  return rate === null
+    ? 'n/a'
+    : `${rate.numerator}/${rate.denominator} (${rate.percent}%)`;
+}
+---
+
+<div class="table-scroll">
+  <table>
+    <thead>
+      <tr>
+        <th>Semantic dimension</th>
+        <th>TP</th>
+        <th>FN</th>
+        <th>FP</th>
+        <th>TN</th>
+        <th>Inconclusive</th>
+        <th>Unsupported</th>
+        <th>Runner error</th>
+        <th>TPR</th>
+        <th>FPR</th>
+        <th>TPR (template macro)</th>
+        <th>FPR (template macro)</th>
+      </tr>
+    </thead>
+    <tbody>
+      {
+        tier.semantic_dimensions.map((dimension) => (
+          <tr>
+            <td>
+              <code>{dimension.name}</code>
+            </td>
+            <td>{dimension.counts.true_positives}</td>
+            <td>{dimension.counts.false_negatives}</td>
+            <td>{dimension.counts.false_positives}</td>
+            <td>{dimension.counts.true_negatives}</td>
+            <td>{dimension.counts.inconclusive}</td>
+            <td>{dimension.counts.unsupported}</td>
+            <td>{dimension.counts.runner_errors}</td>
+            <td>{fraction(dimension.true_positive_rate)}</td>
+            <td>{fraction(dimension.false_positive_rate)}</td>
+            <td>{percentCell(dimension.template_macro.true_positive_rate_percent)}</td>
+            <td>{percentCell(dimension.template_macro.false_positive_rate_percent)}</td>
+          </tr>
+        ))
+      }
+    </tbody>
+  </table>
+</div>
+
+<style>
+  .table-scroll {
+    overflow-x: auto;
+  }
+</style>

@@ -1,0 +1,60 @@
+---
+import {
+  evidenceUrl,
+  shortDigest,
+  type ScoreTier,
+  type Snapshot,
+} from '../data/snapshots';
+
+interface Props {
+  snapshot: Snapshot;
+  tier: ScoreTier;
+}
+
+const { snapshot, tier } = Astro.props;
+---
+
+<div class="table-scroll">
+  <table>
+    <thead>
+      <tr>
+        <th>Template</th>
+        <th>Case</th>
+        <th>Polarity</th>
+        <th>Outcome</th>
+        <th>Classification</th>
+        <th>Raw evidence</th>
+      </tr>
+    </thead>
+    <tbody>
+      {
+        tier.cases.map((result) => (
+          <tr>
+            <td>
+              <code>{result.template_id.replace('dfb-template-', '')}</code>
+            </td>
+            <td>
+              <code>{result.case_id}</code>
+            </td>
+            <td>{result.polarity}</td>
+            <td>
+              <code>{result.outcome}</code>
+            </td>
+            <td>{result.classification}</td>
+            <td>
+              <a href={evidenceUrl(snapshot, result.raw_evidence.path)}>
+                <code>{shortDigest(result.raw_evidence.sha256)}…</code>
+              </a>
+            </td>
+          </tr>
+        ))
+      }
+    </tbody>
+  </table>
+</div>
+
+<style>
+  .table-scroll {
+    overflow-x: auto;
+  }
+</style>
