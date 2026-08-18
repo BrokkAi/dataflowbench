@@ -1,0 +1,86 @@
+---
+import {
+  evidenceUrl,
+  percentCell,
+  shortDigest,
+  type Scorecard,
+  type Snapshot,
+} from '../data/snapshots';
+
+interface Props {
+  snapshot: Snapshot;
+  scorecard: Scorecard;
+}
+
+const { snapshot, scorecard } = Astro.props;
+const { adapter } = scorecard;
+---
+
+<section>
+  <h3 id={scorecard.id}><code>{scorecard.id}</code></h3>
+  <p>
+    {adapter.tool} <code>{adapter.tool_version}</code> (build
+    <code>{shortDigest(adapter.build_identity.replace('codeql-cli:', ''))}</code>, adapter
+    <code>{adapter.adapter_version}</code>) — track <code>{scorecard.track}</code>,
+    dimension <code>{scorecard.dimension}</code>, model profile
+    <code>{scorecard.model_profile}</code>. Normalized report:
+    <a href={evidenceUrl(snapshot, scorecard.report.path)}
+      ><code>{scorecard.report.path}</code></a
+    >
+    (<code>{shortDigest(scorecard.report.sha256)}…</code>).
+  </p>
+  <div class="table-scroll">
+    <table>
+      <thead>
+        <tr>
+          <th>Language</th>
+          <th>Tier</th>
+          <th>Cases</th>
+          <th>Reached</th>
+          <th>Not reached</th>
+          <th>Inconclusive</th>
+          <th>Unsupported</th>
+          <th>Runner error</th>
+          <th>TPR (macro)</th>
+          <th>FPR (macro)</th>
+        </tr>
+      </thead>
+      <tbody>
+        {
+          scorecard.languages.map((language) =>
+            language.score_tiers.map((tier) => (
+              <tr>
+                <td>
+                  <code>{language.language}</code>
+                </td>
+                <td>{tier.score_tier}</td>
+                <td>{tier.outcome_coverage.total}</td>
+                <td>{tier.outcome_coverage['reached'] ?? 0}</td>
+                <td>{tier.outcome_coverage['not-reached'] ?? 0}</td>
+                <td>{tier.outcome_coverage['inconclusive'] ?? 0}</td>
+                <td>{tier.outcome_coverage['unsupported'] ?? 0}</td>
+                <td>{tier.outcome_coverage['runner-error'] ?? 0}</td>
+                <td>
+                  {tier.scored
+                    ? percentCell(tier.dimension_macro.true_positive_rate_percent)
+                    : 'not scored'}
+                </td>
+                <td>
+                  {tier.scored
+                    ? percentCell(tier.dimension_macro.false_positive_rate_percent)
+                    : 'not scored'}
+                </td>
+              </tr>
+            )),
+          )
+        }
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<style>
+  .table-scroll {
+    overflow-x: auto;
+  }
+</style>

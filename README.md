@@ -161,3 +161,17 @@ cargo run -- generate-results --manifest reports/freeze.json --output-directory 
 The [result generation contract](docs/results.md) describes the byte-stable
 JSON and Markdown artifacts, their scorecard partitions, and the `--check`
 mode that proves checked-in artifacts match the freeze they cite.
+
+## Website
+
+The public site at <https://brokkai.github.io/dataflowbench> is an Astro
+Starlight package in `docs/`; every number it shows is rendered from the
+generated `results/results.json`, never hand-authored. Develop locally with:
+
+```bash
+npm --prefix docs install
+npm --prefix docs run dev
+```
+
+CI runs `npm ci`, `npm run check`, and `npm run build`; deployment to GitHub
+Pages is manual via the “Deploy site” workflow.
