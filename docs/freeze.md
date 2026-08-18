@@ -35,7 +35,25 @@ and performance evidence remains in independent scorecards.
 ## Freeze lifecycle
 
 Create the manifest in a clean checkout after the benchmark and adapter inputs
-are fixed. Keep the manifest and all retained evidence immutable once used for
+are fixed:
+
+```bash
+cargo run -- create-freeze --report reports/<normalized-report>.json --scope release --release vX.Y.Z
+```
+
+`create-freeze` assembles the manifest from committed normalized reports,
+computing every case, fixture, report, and raw-evidence digest, and validates
+all evidence before writing. Because a commit cannot contain its own hash, the
+manifest records the *evidence* commit and is committed on top of it:
+validation accepts a `benchmark.revision` that is the checkout HEAD or one of
+its ancestors, while the manifest digests — not the revision equality — carry
+the byte-immutability guarantee for every referenced artifact. Release and
+website claims additionally require a `v`-prefixed tag whose commit contains
+the frozen revision. The flow is: commit evidence, run `create-freeze`, commit
+the manifest (and any generated result artifacts), then run `validate-freeze`
+from the clean checkout.
+
+Keep the manifest and all retained evidence immutable once used for
 a release or website claim. A corrected result is a new freeze: it receives a
 new benchmark revision/release (and new digests), while the old manifest and
 its evidence remain available for audit. Never rewrite an old freeze in place
