@@ -14,8 +14,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          # Freeze validation resolves the frozen evidence revision and the
+          # release tag, so the full history and tags must be present.
+          fetch-depth: 0
       - uses: dtolnay/rust-toolchain@stable
       - run: cargo fmt --check
       - run: cargo test
       - run: cargo run -- validate
       - run: cargo run -- validate-reports
+      - run: cargo run -- generate-results --manifest reports/freeze.json --output-directory results --check

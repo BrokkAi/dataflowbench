@@ -385,8 +385,15 @@ fn validate_reports() -> Result<()> {
         .filter(|path| path.is_file() && path.extension().is_some_and(|ext| ext == "json"))
         .collect();
     paths.sort();
+    let mut validated = 0usize;
     for path in &paths {
         let report: Value = serde_json::from_str(&fs::read_to_string(path)?)?;
+        // Freeze manifests live beside normalized reports but follow their
+        // own contract; validate-freeze owns them.
+        if report.get("benchmark").is_some() && report.get("claim").is_some() {
+            continue;
+        }
+        validated += 1;
         validate_value(&compiled, &report, path)?;
         for result in report["results"].as_array().expect("schema validated") {
             let raw = result["raw_output"].as_str().expect("schema validated");
@@ -395,7 +402,7 @@ fn validate_reports() -> Result<()> {
             }
         }
     }
-    println!("validated {} reports", paths.len());
+    println!("validated {validated} reports");
     Ok(())
 }
 
