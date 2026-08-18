@@ -1,0 +1,53 @@
+---
+title: Snapshot v0.2.0
+description: Breadth baseline plus the Java, JavaScript, and Python propagation kernels for both analyzers.
+---
+
+import SnapshotBanner from '../../../../components/SnapshotBanner.astro';
+import { snapshots, evidenceUrl } from '../../../../data/snapshots';
+
+export const snapshot = snapshots.find((s) => s.version === 'v0.2.0');
+
+<SnapshotBanner snapshot={snapshot} />
+
+The second immutable DataFlowBench snapshot: the cross-language direct-flow
+breadth baseline plus the 16-template Java, JavaScript, and Python
+propagation kernels — now with CodeQL evidence for all three kernel
+languages — on the `taint` track under the `benchmark-controlled` model
+profile.
+
+## Claim
+
+- Scope: <code>{snapshot.results.claim.scope}</code>
+- Tracks: {snapshot.results.claim.tracks.map((t) => <code>{t}</code>)}
+- Score tiers: {snapshot.results.claim.score_tiers.map((t) => <code>{t} </code>)}
+- Model profiles: {snapshot.results.claim.model_profiles.map((p) => <code>{p} </code>)}
+- Exclusions: {snapshot.results.claim.exclusions.length === 0 ? 'none' : ''}
+
+{snapshot.results.claim.exclusions.length > 0 && (
+  <table>
+    <thead>
+      <tr><th>Case</th><th>Reason</th></tr>
+    </thead>
+    <tbody>
+      {snapshot.results.claim.exclusions.map((exclusion) => (
+        <tr>
+          <td><code>{exclusion.id}</code></td>
+          <td>{exclusion.reason}</td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+)}
+
+## Bound evidence
+
+Freeze manifest: <a href={evidenceUrl(snapshot, snapshot.results.manifest.path)}><code>{snapshot.results.manifest.path}</code></a>
+— every case, fixture, normalized report, and raw-evidence file is
+digest-bound; `cargo run -- validate-freeze reports/freeze.json` re-verifies
+all of it.
+
+Continue to [analyzers](/dataflowbench/snapshots/v0-2-0/analyzers/),
+[languages](/dataflowbench/snapshots/v0-2-0/languages/),
+[semantic templates](/dataflowbench/snapshots/v0-2-0/templates/), or
+[case evidence](/dataflowbench/snapshots/v0-2-0/evidence/).
