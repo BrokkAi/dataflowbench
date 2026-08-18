@@ -42,5 +42,6 @@ its evidence remain available for audit. Never rewrite an old freeze in place
 or silently replace a report behind an existing digest.
 
 The validator intentionally does not generate result pages or scores. Result
-generation belongs to the later publication workflow and must consume a
-successfully validated freeze.
+generation belongs to the publication workflow in [results.md](results.md):
+`generate-results` consumes a successfully validated freeze and derives every
+published artifact from its evidence.
