@@ -195,9 +195,10 @@ const codeqlVersion = scorecards.find((card) => card.adapter.tool === 'codeql')!
   <p class="label">Short answer</p>
   <p class="verdict">
     Bifrost routes direct flows almost everywhere. On the deep propagation
-    kernels, CodeQL decides more assertions correctly in every language;
-    Bifrost finds more true flows but is less precise, and often reports
-    incomplete analysis instead of an answer.
+    kernels, CodeQL decides more assertions correctly in every language —
+    Bifrost finds more true flows in Java and Python but is far less precise,
+    trails across the board on JavaScript, and often reports incomplete
+    analysis instead of an answer.
   </p>
   <p>
     Each 16-template kernel poses {kernels[0]?.bifrost.total} balanced
