@@ -421,6 +421,15 @@ const caseCount = snapshot.results.scorecards
     border-radius: 0.75rem;
     padding: 1rem 1.25rem;
   }
+  /* Starlight's content flow adds margin-top to sibling blocks, which
+     offsets every grid item after the first. */
+  .stat-grid > .stat-card,
+  .tile-grid > .tile,
+  .tile p,
+  .stat-card > .label,
+  .stat-card > .caption {
+    margin-top: 0 !important;
+  }
   .stat-pair {
     display: flex;
     align-items: flex-start;
