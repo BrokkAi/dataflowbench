@@ -14,7 +14,6 @@ import {
 const snapshot = currentSnapshot;
 const scorecards = snapshot.results.scorecards;
 const bifrost = scorecards.find((card) => card.adapter.tool === 'bifrost')!;
-const codeql = scorecards.find((card) => card.adapter.tool === 'codeql')!;
 
 function tierOf(
   scorecard: Scorecard,
@@ -64,8 +63,34 @@ function statsOf(tier: ScoreTier): TierStats {
   };
 }
 
-const bifrostJava = statsOf(tierOf(bifrost, 'java', 'core')!);
-const codeqlJava = statsOf(tierOf(codeql, 'java', 'core')!);
+// One kernel comparison per CodeQL scorecard language, paired with Bifrost's
+// same-language core tier from its all-case population.
+interface Kernel {
+  language: string;
+  bifrostTier: ScoreTier;
+  codeqlTier: ScoreTier;
+  bifrost: TierStats;
+  codeql: TierStats;
+}
+const kernels: Kernel[] = [];
+for (const card of scorecards) {
+  if (card.adapter.tool !== 'codeql') continue;
+  for (const language of card.languages) {
+    const codeqlTier = language.score_tiers.find(
+      (tier) => tier.score_tier === 'core',
+    );
+    const bifrostTier = tierOf(bifrost, language.language, 'core');
+    if (!codeqlTier || !bifrostTier) continue;
+    kernels.push({
+      language: language.language,
+      bifrostTier,
+      codeqlTier,
+      bifrost: statsOf(bifrostTier),
+      codeql: statsOf(codeqlTier),
+    });
+  }
+}
+kernels.sort((left, right) => left.language.localeCompare(right.language));
 
 // Direct-flow breadth: the direct-propagation template pair per language.
 const directTemplate = 'dfb-template-direct-propagation';
@@ -106,9 +131,7 @@ breadth.sort((left, right) => left.language.localeCompare(right.language));
 const breadthCorrect = breadth.filter((row) => row.correct).length;
 const breadthIncomplete = breadth.filter((row) => row.incomplete);
 
-// Java kernel, template by template, both analyzers side by side.
-const kernelTierBifrost = tierOf(bifrost, 'java', 'core')!;
-const kernelTierCodeql = tierOf(codeql, 'java', 'core')!;
+// Per-kernel template outcomes, both analyzers side by side.
 interface KernelRow {
   template: string;
   bifrostPositive: string;
@@ -116,33 +139,35 @@ interface KernelRow {
   codeqlPositive: string;
   codeqlNegative: string;
 }
-const kernelRows = new Map<string, KernelRow>();
-function fillKernel(
-  tier: ScoreTier,
-  positiveKey: 'bifrostPositive' | 'codeqlPositive',
-  negativeKey: 'bifrostNegative' | 'codeqlNegative',
-) {
-  for (const result of tier.cases) {
-    const template = result.template_id.replace('dfb-template-', '');
-    const row =
-      kernelRows.get(template) ??
-      ({
-        template,
-        bifrostPositive: '—',
-        bifrostNegative: '—',
-        codeqlPositive: '—',
-        codeqlNegative: '—',
-      } satisfies KernelRow);
-    if (result.polarity === 'positive') row[positiveKey] = result.outcome;
-    else row[negativeKey] = result.outcome;
-    kernelRows.set(template, row);
-  }
+function kernelTable(kernel: Kernel): KernelRow[] {
+  const rows = new Map<string, KernelRow>();
+  const fill = (
+    tier: ScoreTier,
+    positiveKey: 'bifrostPositive' | 'codeqlPositive',
+    negativeKey: 'bifrostNegative' | 'codeqlNegative',
+  ) => {
+    for (const result of tier.cases) {
+      const template = result.template_id.replace('dfb-template-', '');
+      const row =
+        rows.get(template) ??
+        ({
+          template,
+          bifrostPositive: '—',
+          bifrostNegative: '—',
+          codeqlPositive: '—',
+          codeqlNegative: '—',
+        } satisfies KernelRow);
+      if (result.polarity === 'positive') row[positiveKey] = result.outcome;
+      else row[negativeKey] = result.outcome;
+      rows.set(template, row);
+    }
+  };
+  fill(kernel.bifrostTier, 'bifrostPositive', 'bifrostNegative');
+  fill(kernel.codeqlTier, 'codeqlPositive', 'codeqlNegative');
+  return [...rows.values()].sort((left, right) =>
+    left.template.localeCompare(right.template),
+  );
 }
-fillKernel(kernelTierBifrost, 'bifrostPositive', 'bifrostNegative');
-fillKernel(kernelTierCodeql, 'codeqlPositive', 'codeqlNegative');
-const kernelTable = [...kernelRows.values()].sort((left, right) =>
-  left.template.localeCompare(right.template),
-);
 
 const outcomeClass = (polarity: 'positive' | 'negative', outcome: string) => {
   if (polarity === 'positive' && outcome === 'reached') return 'good';
@@ -155,6 +180,11 @@ const caseCount = snapshot.results.scorecards
   .flatMap((card) => card.languages)
   .flatMap((language) => language.score_tiers)
   .reduce((sum, tier) => sum + tier.cases.length, 0);
+
+const templateCount = kernels.length > 0 ? kernelTable(kernels[0]!).length : 0;
+const bifrostVersion = bifrost.adapter.tool_version.replace('bifrost ', '');
+const codeqlVersion = scorecards.find((card) => card.adapter.tool === 'codeql')!
+  .adapter.tool_version;
 ---
 
 <p class="eyebrow">
@@ -164,20 +194,27 @@ const caseCount = snapshot.results.scorecards
 <aside class="short-answer">
   <p class="label">Short answer</p>
   <p class="verdict">
-    Bifrost routes direct flows almost everywhere. On the deep Java kernel,
-    CodeQL decides more assertions correctly; Bifrost finds more true flows
-    but is far less precise, and often reports incomplete analysis instead of
-    an answer.
+    Bifrost routes direct flows almost everywhere. On the deep propagation
+    kernels, CodeQL decides more assertions correctly in every language;
+    Bifrost finds more true flows but is less precise, and often reports
+    incomplete analysis instead of an answer.
   </p>
   <p>
-    On the shared 32-assertion Java propagation kernel, Bifrost decided
-    <strong>{bifrostJava.correct} of {bifrostJava.total}</strong> assertions
-    correctly (TPR {percentCell(bifrostJava.tpr)}, FPR {percentCell(bifrostJava.fpr)},
-    {bifrostJava.incomplete} inconclusive), while CodeQL decided
-    <strong>{codeqlJava.correct} of {codeqlJava.total}</strong> correctly (TPR
-    {percentCell(codeqlJava.tpr)}, FPR {percentCell(codeqlJava.fpr)}, no incomplete
-    outcomes). On the direct-flow breadth baseline, Bifrost answered both
-    assertions correctly in <strong>{breadthCorrect} of {breadth.length}</strong>
+    Each 16-template kernel poses {kernels[0]?.bifrost.total} balanced
+    assertions per language.
+    {kernels.map((kernel, index) => (
+      <>
+        {index > 0 && ' '}On <strong>{kernel.language}</strong>, Bifrost
+        decided <strong>{kernel.bifrost.correct} of {kernel.bifrost.total}</strong>
+        correctly (TPR {percentCell(kernel.bifrost.tpr)}, FPR
+        {' '}{percentCell(kernel.bifrost.fpr)}, {kernel.bifrost.incomplete} incomplete)
+        against CodeQL's <strong>{kernel.codeql.correct} of {kernel.codeql.total}</strong>
+        {' '}(TPR {percentCell(kernel.codeql.tpr)}, FPR
+        {' '}{percentCell(kernel.codeql.fpr)}, {kernel.codeql.incomplete} incomplete).
+      </>
+    ))}
+    {' '}On the direct-flow breadth baseline, Bifrost answered both assertions
+    correctly in <strong>{breadthCorrect} of {breadth.length}</strong>
     languages{breadthIncomplete.length > 0
       ? ` (${breadthIncomplete.map((row) => row.language).join(', ')}: inconclusive, which is reported as coverage — not as a wrong answer).`
       : '.'}
@@ -185,23 +222,26 @@ const caseCount = snapshot.results.scorecards
 </aside>
 
 <div class="stat-grid">
-  <div class="stat-card">
-    <p class="label">Java kernel · correct decisions</p>
-    <div class="stat-pair">
-      <div>
-        <p class="who">Bifrost</p>
-        <p class="big">{bifrostJava.correct}<span class="of">/{bifrostJava.total}</span></p>
+  {kernels.map((kernel) => (
+    <div class="stat-card">
+      <p class="label">{kernel.language} kernel · correct decisions</p>
+      <div class="stat-pair">
+        <div>
+          <p class="who">Bifrost</p>
+          <p class="big">{kernel.bifrost.correct}<span class="of">/{kernel.bifrost.total}</span></p>
+        </div>
+        <div>
+          <p class="who alt">CodeQL</p>
+          <p class="big alt">{kernel.codeql.correct}<span class="of">/{kernel.codeql.total}</span></p>
+        </div>
       </div>
-      <div>
-        <p class="who alt">CodeQL</p>
-        <p class="big alt">{codeqlJava.correct}<span class="of">/{codeqlJava.total}</span></p>
-      </div>
+      <p class="caption">
+        {kernel.bifrost.incomplete + kernel.codeql.incomplete > 0
+          ? `incomplete outcomes (${kernel.bifrost.incomplete} Bifrost, ${kernel.codeql.incomplete} CodeQL) are excluded from correctness, not counted against it`
+          : 'all outcomes definitive'}
+      </p>
     </div>
-    <p class="caption">
-      16 balanced template pairs; incomplete outcomes ({bifrostJava.incomplete} for
-      Bifrost) are excluded from correctness, not counted against it
-    </p>
-  </div>
+  ))}
   <div class="stat-card">
     <p class="label">Direct-flow breadth · languages fully correct</p>
     <div class="stat-pair">
@@ -216,69 +256,69 @@ const caseCount = snapshot.results.scorecards
   </div>
 </div>
 
-<h2>Java kernel, template by template</h2>
+<h2>Kernels, template by template</h2>
 
 <p>
   Each row is one semantic scenario with a balanced pair: the flow exists
   (positive) and a minimally different variant where it does not (negative). A
   sound-and-precise analyzer reads <code class="good">reached</code> /
-  <code class="good">not-reached</code>.
+  <code class="good">not-reached</code>. Read the two analyzers' columns
+  independently — DataFlowBench publishes no combined leaderboard, and the
+  scorecards stay separate under the <code>benchmark-controlled</code> model
+  profile.
 </p>
 
-<div class="table-scroll">
-  <table>
-    <thead>
-      <tr>
-        <th rowspan="2">Template</th>
-        <th colspan="2">Bifrost {bifrost.adapter.tool_version.replace('bifrost ', '')}</th>
-        <th colspan="2">CodeQL {codeql.adapter.tool_version}</th>
-      </tr>
-      <tr>
-        <th>positive</th>
-        <th>negative</th>
-        <th>positive</th>
-        <th>negative</th>
-      </tr>
-    </thead>
-    <tbody>
-      {
-        kernelTable.map((row) => (
+{kernels.map((kernel) => (
+  <>
+    <h3>{kernel.language}</h3>
+    <div class="table-scroll">
+      <table>
+        <thead>
           <tr>
-            <td>
-              <code>{row.template}</code>
-            </td>
-            <td>
-              <code class={outcomeClass('positive', row.bifrostPositive)}>
-                {row.bifrostPositive}
-              </code>
-            </td>
-            <td>
-              <code class={outcomeClass('negative', row.bifrostNegative)}>
-                {row.bifrostNegative}
-              </code>
-            </td>
-            <td>
-              <code class={outcomeClass('positive', row.codeqlPositive)}>
-                {row.codeqlPositive}
-              </code>
-            </td>
-            <td>
-              <code class={outcomeClass('negative', row.codeqlNegative)}>
-                {row.codeqlNegative}
-              </code>
-            </td>
+            <th rowspan="2">Template</th>
+            <th colspan="2">Bifrost {bifrostVersion}</th>
+            <th colspan="2">CodeQL {codeqlVersion}</th>
           </tr>
-        ))
-      }
-    </tbody>
-  </table>
-</div>
-
-<p class="caption">
-  Read the two analyzers' columns independently — DataFlowBench publishes no
-  combined leaderboard, and the two remain separate scorecards under the
-  <code>benchmark-controlled</code> model profile.
-</p>
+          <tr>
+            <th>positive</th>
+            <th>negative</th>
+            <th>positive</th>
+            <th>negative</th>
+          </tr>
+        </thead>
+        <tbody>
+          {kernelTable(kernel).map((row) => (
+            <tr>
+              <td>
+                <code>{row.template}</code>
+              </td>
+              <td>
+                <code class={outcomeClass('positive', row.bifrostPositive)}>
+                  {row.bifrostPositive}
+                </code>
+              </td>
+              <td>
+                <code class={outcomeClass('negative', row.bifrostNegative)}>
+                  {row.bifrostNegative}
+                </code>
+              </td>
+              <td>
+                <code class={outcomeClass('positive', row.codeqlPositive)}>
+                  {row.codeqlPositive}
+                </code>
+              </td>
+              <td>
+                <code class={outcomeClass('negative', row.codeqlNegative)}>
+                  {row.codeqlNegative}
+                </code>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  </>
+))}
 
 <h2>Direct-flow breadth, language by language</h2>
 
@@ -333,9 +373,9 @@ const caseCount = snapshot.results.scorecards
 
 <p>
   This snapshot's bounded claim covers the synthetic direct-flow breadth
-  baseline and the 16-template Java propagation kernel on the
-  <code>taint</code> track. It does not estimate real-project accuracy,
-  tool-native model coverage, other languages' kernel behavior, or
+  baseline and the 16-template Java, JavaScript, and Python propagation
+  kernels on the <code>taint</code> track. It does not estimate real-project
+  accuracy, tool-native model coverage, other languages' kernel behavior, or
   performance. <code>inconclusive</code>, <code>unsupported</code>, and
   <code>runner-error</code> are capability coverage and are never converted
   into clean negatives.
@@ -351,8 +391,8 @@ const caseCount = snapshot.results.scorecards
     <p class="caption">languages in the breadth baseline</p>
   </div>
   <div class="tile">
-    <p class="big">{kernelTable.length}</p>
-    <p class="caption">semantic templates in the Java kernel</p>
+    <p class="big">{kernels.length}×{templateCount}</p>
+    <p class="caption">kernel languages × semantic templates</p>
   </div>
   <div class="tile">
     <p class="big">{snapshot.version}</p>
