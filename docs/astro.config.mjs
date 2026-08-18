@@ -13,6 +13,7 @@ export default defineConfig({
   integrations: [
     starlight({
       title: 'DataFlowBench',
+      favicon: '/favicon.svg',
       description:
         'Analyzer-neutral benchmark for data-flow analysis, published exclusively from immutable freeze evidence.',
       customCss: ['./src/styles/custom.css'],
