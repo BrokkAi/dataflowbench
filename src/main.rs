@@ -58,6 +58,24 @@ enum Commands {
         #[arg(default_value = "reports/freeze.json")]
         manifest: PathBuf,
     },
+    /// Assemble a freeze/v1 manifest from committed normalized reports.
+    CreateFreeze {
+        /// Normalized report paths, repository-relative. Repeatable.
+        #[arg(long = "report", required = true)]
+        reports: Vec<PathBuf>,
+        /// Claim scope: development, release, or website.
+        #[arg(long, default_value = "development")]
+        scope: String,
+        /// Release name; release and website scopes require a v-prefixed tag.
+        #[arg(long, default_value = "development")]
+        release: String,
+        /// Frozen evidence revision; defaults to the checkout HEAD.
+        #[arg(long)]
+        revision: Option<String>,
+        /// Manifest destination, relative to the repository root.
+        #[arg(long, default_value = "reports/freeze.json")]
+        output: PathBuf,
+    },
     /// Generate audited result artifacts from a validated freeze manifest.
     GenerateResults {
         /// Freeze manifest, relative to the repository root.
@@ -106,6 +124,13 @@ fn main() -> Result<()> {
         Commands::Validate => validate_cases(),
         Commands::ValidateReports => validate_reports(),
         Commands::ValidateFreeze { manifest } => validate_freeze(&manifest),
+        Commands::CreateFreeze {
+            reports,
+            scope,
+            release,
+            revision,
+            output,
+        } => create_freeze(&reports, &scope, &release, revision.as_deref(), &output),
         Commands::GenerateResults {
             manifest,
             output_directory,
@@ -588,8 +613,12 @@ fn validate_freeze_git_state(
     scope: &str,
 ) -> Result<()> {
     let head = git_output(root, ["rev-parse", "HEAD"])?;
-    if head != revision {
-        bail!("freeze revision {revision} does not match checkout HEAD {head}");
+    // A commit cannot contain its own hash, so the manifest commit (and any
+    // later commit adding generated artifacts) validates against the frozen
+    // evidence commit as an ancestor. Byte immutability of every referenced
+    // artifact is enforced separately through the manifest digests.
+    if head != revision && !git_is_ancestor(root, revision, &head)? {
+        bail!("freeze revision {revision} is not checkout HEAD {head} or one of its ancestors");
     }
     let status = git_output(root, ["status", "--porcelain", "--untracked-files=all"])?;
     if !status.is_empty() {
@@ -603,11 +632,24 @@ fn validate_freeze_git_state(
             root,
             ["rev-parse", &format!("refs/tags/{release}^{{commit}}")],
         )?;
-        if tag_revision != revision {
-            bail!("release {release} does not point at freeze revision {revision}");
+        if tag_revision != revision && !git_is_ancestor(root, revision, &tag_revision)? {
+            bail!("release {release} does not contain freeze revision {revision}");
         }
     }
     Ok(())
+}
+
+fn git_is_ancestor(root: &Path, ancestor: &str, descendant: &str) -> Result<bool> {
+    let output = Command::new("git")
+        .current_dir(root)
+        .args(["merge-base", "--is-ancestor", ancestor, descendant])
+        .output()
+        .context("run git merge-base --is-ancestor")?;
+    match output.status.code() {
+        Some(0) => Ok(true),
+        Some(1) => Ok(false),
+        _ => bail!("cannot resolve freeze revision {ancestor} in this checkout"),
+    }
 }
 
 fn git_output<const N: usize>(root: &Path, args: [&str; N]) -> Result<String> {
@@ -978,6 +1020,265 @@ fn raw_special_outcome(raw: &Value) -> Option<&'static str> {
         return Some("runner-error");
     }
     None
+}
+
+fn create_freeze(
+    reports: &[PathBuf],
+    scope: &str,
+    release: &str,
+    revision: Option<&str>,
+    output: &PathBuf,
+) -> Result<()> {
+    let root = repository_root()?;
+    let output_path = if output.is_absolute() {
+        output.clone()
+    } else {
+        root.join(output)
+    };
+    let revision = git_output(
+        root.as_path(),
+        [
+            "rev-parse",
+            &format!("{}^{{commit}}", revision.unwrap_or("HEAD")),
+        ],
+    )
+    .context("resolve freeze revision")?;
+    let manifest = build_freeze_manifest(&root, reports, scope, release, &revision)?;
+    let mut bytes = serde_json::to_vec_pretty(&manifest)?;
+    bytes.push(b'\n');
+    if let Some(parent) = output_path.parent() {
+        fs::create_dir_all(parent)
+            .with_context(|| format!("create manifest directory {}", parent.display()))?;
+    }
+    fs::write(&output_path, bytes)
+        .with_context(|| format!("write freeze manifest {}", output_path.display()))?;
+    // Full evidence validation; the git state check runs once the manifest is
+    // committed, because writing the manifest itself dirties the checkout.
+    validate_freeze_at(&root, &output_path, false)?;
+    println!(
+        "wrote freeze manifest {}; commit it, then run validate-freeze to bind the checkout",
+        output_path.display()
+    );
+    Ok(())
+}
+
+/// Assemble a freeze/v1 manifest from committed normalized reports. Every
+/// digest is computed from current bytes; validation of the result against
+/// the full contract is the caller's responsibility.
+fn build_freeze_manifest(
+    root: &Path,
+    reports: &[PathBuf],
+    scope: &str,
+    release: &str,
+    revision: &str,
+) -> Result<Value> {
+    if reports.is_empty() {
+        bail!("create-freeze requires at least one --report");
+    }
+
+    // Index every case in the repository by ID, with repository-relative paths.
+    let mut case_index = BTreeMap::new();
+    for entry in WalkDir::new(root.join("cases")) {
+        let entry = entry.context("walk cases directory")?;
+        if !entry.file_type().is_file() || entry.file_name() != "case.json" {
+            continue;
+        }
+        let bytes = fs::read(entry.path())
+            .with_context(|| format!("read case {}", entry.path().display()))?;
+        let case: Value = serde_json::from_slice(&bytes)
+            .with_context(|| format!("parse case {}", entry.path().display()))?;
+        let relative = entry
+            .path()
+            .strip_prefix(root)
+            .expect("walked under repository root")
+            .to_string_lossy()
+            .replace('\\', "/");
+        let id = required_string(&case, "id", &relative)?.to_string();
+        if case_index.insert(id.clone(), (relative, case)).is_some() {
+            bail!("case ID {id} appears in more than one case file");
+        }
+    }
+
+    let digest_file = |relative: &str| -> Result<String> {
+        let bytes = fs::read(root.join(relative))
+            .with_context(|| format!("read freeze artifact {relative}"))?;
+        Ok(format!("{:x}", Sha256::digest(&bytes)))
+    };
+
+    let mut selected_case_ids = BTreeSet::new();
+    let mut frozen_reports = Vec::new();
+    let mut adapter_values = Vec::new();
+    let mut declared_fixture_revisions = BTreeSet::new();
+    for report_path in reports {
+        if report_path.is_absolute() {
+            bail!(
+                "report paths must be repository-relative: {}",
+                report_path.display()
+            );
+        }
+        let relative = report_path.to_string_lossy().replace('\\', "/");
+        let bytes = fs::read(root.join(&relative))
+            .with_context(|| format!("read normalized report {relative}"))?;
+        let report: Value = serde_json::from_slice(&bytes)
+            .with_context(|| format!("parse normalized report {relative}"))?;
+        let report_sha256 = format!("{:x}", Sha256::digest(&bytes));
+        declared_fixture_revisions
+            .insert(required_string(&report, "fixture_revision", &relative)?.to_string());
+
+        let adapter_id = Path::new(&relative)
+            .file_stem()
+            .map(|stem| stem.to_string_lossy().to_string())
+            .filter(|stem| !stem.is_empty())
+            .with_context(|| format!("derive adapter ID from report path {relative}"))?;
+
+        let mut case_ids = BTreeSet::new();
+        let mut outcomes = BTreeMap::new();
+        let mut raw_evidence = BTreeMap::new();
+        let mut tracks = BTreeSet::new();
+        let mut profiles = BTreeSet::new();
+        for result in report["results"].as_array().into_iter().flatten() {
+            let case_id = required_string(result, "case_id", &relative)?;
+            if !case_ids.insert(case_id.to_string()) {
+                bail!("normalized report {relative} lists case {case_id} more than once");
+            }
+            let (_, case) = case_index
+                .get(case_id)
+                .with_context(|| format!("report {relative} references unknown case {case_id}"))?;
+            tracks.insert(required_string(case, "track", case_id)?.to_string());
+            profiles.insert(required_string(case, "model_profile", case_id)?.to_string());
+            outcomes.insert(
+                case_id.to_string(),
+                required_string(result, "outcome", case_id)?.to_string(),
+            );
+            let raw_path = required_string(result, "raw_output", case_id)?;
+            raw_evidence.insert(
+                case_id.to_string(),
+                json!({
+                    "case_id": case_id,
+                    "path": raw_path,
+                    "sha256": digest_file(raw_path)?,
+                }),
+            );
+            selected_case_ids.insert(case_id.to_string());
+        }
+        if case_ids.is_empty() {
+            bail!("normalized report {relative} contains no results");
+        }
+        let (track, profile) = match (tracks.len(), profiles.len()) {
+            (1, 1) => (
+                tracks.first().expect("one track").clone(),
+                profiles.first().expect("one profile").clone(),
+            ),
+            _ => bail!(
+                "normalized report {relative} pools tracks {tracks:?} or model profiles {profiles:?}; a freeze binds one partition per report"
+            ),
+        };
+
+        adapter_values.push(json!({
+            "id": adapter_id,
+            "tool": required_string(&report, "tool", &relative)?,
+            "tool_version": required_string(&report, "tool_version", &relative)?,
+            "build_identity": required_string(&report, "tool_build_identity", &relative)?,
+            "adapter_version": required_string(&report, "adapter_version", &relative)?,
+            "configuration_hash": required_string(&report, "configuration_hash", &relative)?,
+            "track": track,
+            "dimension": track,
+            "model_profile": profile,
+        }));
+        frozen_reports.push(json!({
+            "path": relative,
+            "sha256": report_sha256,
+            "normalized_report_sha256": report_sha256,
+            "adapter": adapter_id,
+            "track": track,
+            "dimension": track,
+            "model_profile": profile,
+            "case_ids": case_ids.iter().collect::<Vec<_>>(),
+            "outcomes": outcomes
+                .iter()
+                .map(|(case_id, outcome)| json!({"case_id": case_id, "outcome": outcome}))
+                .collect::<Vec<_>>(),
+            "raw_evidence": raw_evidence.values().collect::<Vec<_>>(),
+        }));
+    }
+
+    let mut case_values = Vec::new();
+    let mut selected_paths = Vec::new();
+    let mut tracks = BTreeSet::new();
+    let mut tiers = BTreeSet::new();
+    let mut profiles = BTreeSet::new();
+    for case_id in &selected_case_ids {
+        let (relative, case) = &case_index[case_id];
+        let mut fixture_digests = Vec::new();
+        for fixture in case["fixture_files"].as_array().into_iter().flatten() {
+            let fixture = fixture
+                .as_str()
+                .with_context(|| format!("case {case_id} fixture file must be a string"))?;
+            let fixture_path = Path::new(relative)
+                .parent()
+                .with_context(|| format!("case path {relative} has no parent"))?
+                .join(fixture)
+                .to_string_lossy()
+                .replace('\\', "/");
+            fixture_digests.push(json!({
+                "path": fixture_path,
+                "sha256": digest_file(&fixture_path)?,
+            }));
+        }
+        tracks.insert(required_string(case, "track", case_id)?.to_string());
+        tiers.insert(required_string(case, "score_tier", case_id)?.to_string());
+        profiles.insert(required_string(case, "model_profile", case_id)?.to_string());
+        case_values.push(json!({
+            "id": case_id,
+            "path": relative,
+            "sha256": digest_file(relative)?,
+            "fixture_digests": fixture_digests,
+            "track": case["track"],
+            "score_tier": case["score_tier"],
+            "model_profile": case["model_profile"],
+            "template_id": case["template_id"],
+            "polarity": case["polarity"],
+        }));
+        selected_paths.push((relative.clone(), root.join(relative)));
+    }
+    let fixture_revision = fixture_revision_for_manifest_cases(root, &selected_paths)?;
+    if declared_fixture_revisions != BTreeSet::from([fixture_revision.clone()]) {
+        bail!(
+            "normalized reports declare fixture revisions {declared_fixture_revisions:?}, but the selected cases hash to {fixture_revision}; re-run the adapters against the current fixtures"
+        );
+    }
+
+    let dimensions = frozen_reports
+        .iter()
+        .map(|report| {
+            report["dimension"]
+                .as_str()
+                .expect("dimension set above")
+                .to_string()
+        })
+        .collect::<BTreeSet<_>>();
+    Ok(json!({
+        "schema_version": 1,
+        "benchmark": {
+            "revision": revision,
+            "release": release,
+            "case_schema_version": 2,
+            "result_schema_version": 1,
+            "fixture_revision": fixture_revision,
+            "dirty": false,
+        },
+        "claim": {
+            "scope": scope,
+            "tracks": tracks.iter().collect::<Vec<_>>(),
+            "dimensions": dimensions.iter().collect::<Vec<_>>(),
+            "exclusions": [],
+            "score_tiers": tiers.iter().collect::<Vec<_>>(),
+            "model_profiles": profiles.iter().collect::<Vec<_>>(),
+        },
+        "cases": case_values,
+        "adapters": adapter_values,
+        "reports": frozen_reports,
+    }))
 }
 
 const RESULT_OUTCOME_ORDER: [&str; 5] = [
@@ -4477,6 +4778,86 @@ mod tests {
             validate_freeze_git_state(&fixture.root, &revision, "development", "development")
                 .is_err()
         );
+    }
+
+    #[test]
+    fn create_freeze_manifest_matches_validated_fixture() {
+        let fixture = FreezeFixture::new("reached", json!({"state": "complete"}));
+        let manifest = build_freeze_manifest(
+            &fixture.root,
+            &[PathBuf::from("reports/test.json")],
+            "development",
+            "development",
+            &"a".repeat(40),
+        )
+        .unwrap();
+        // The assembler reconstructs the hand-built fixture manifest exactly.
+        assert_eq!(manifest, fixture.read_manifest());
+        let assembled = fixture.root.join("reports/assembled.json");
+        fs::write(&assembled, serde_json::to_vec_pretty(&manifest).unwrap()).unwrap();
+        validate_freeze_at(&fixture.root, &assembled, false).unwrap();
+    }
+
+    #[test]
+    fn create_freeze_rejects_stale_fixture_bytes() {
+        let fixture = FreezeFixture::new("reached", json!({"state": "complete"}));
+        fs::write(fixture.root.join("cases/taint/test/flow.c"), "altered\n").unwrap();
+        let error = build_freeze_manifest(
+            &fixture.root,
+            &[PathBuf::from("reports/test.json")],
+            "development",
+            "development",
+            &"a".repeat(40),
+        )
+        .unwrap_err()
+        .to_string();
+        assert!(error.contains("re-run the adapters"), "{error}");
+    }
+
+    #[test]
+    fn freeze_git_state_accepts_ancestor_revisions_and_containing_tags() {
+        let fixture = FreezeFixture::new("reached", json!({"state": "complete"}));
+        let run_git = |args: &[&str]| {
+            assert!(
+                Command::new("git")
+                    .args([
+                        "-c",
+                        "user.email=dataflowbench-test@example.invalid",
+                        "-c",
+                        "user.name=DataFlowBench Test",
+                        "-c",
+                        "commit.gpgsign=false",
+                        "-c",
+                        "tag.gpgsign=false",
+                    ])
+                    .args(args)
+                    .current_dir(&fixture.root)
+                    .status()
+                    .unwrap()
+                    .success()
+            );
+        };
+        run_git(&["init", "-q"]);
+        run_git(&["add", "."]);
+        run_git(&["commit", "-qm", "evidence"]);
+        let evidence = git_output(&fixture.root, ["rev-parse", "HEAD"]).unwrap();
+        fs::write(fixture.root.join("later.txt"), "later\n").unwrap();
+        run_git(&["add", "."]);
+        run_git(&["commit", "-qm", "manifest"]);
+        let head = git_output(&fixture.root, ["rev-parse", "HEAD"]).unwrap();
+
+        // The evidence commit validates as an ancestor of HEAD.
+        validate_freeze_git_state(&fixture.root, &evidence, "development", "development").unwrap();
+        assert!(
+            validate_freeze_git_state(&fixture.root, &"b".repeat(40), "development", "development")
+                .is_err()
+        );
+
+        // A release tag must contain the frozen evidence revision.
+        run_git(&["tag", "v0.1.0"]);
+        validate_freeze_git_state(&fixture.root, &evidence, "v0.1.0", "release").unwrap();
+        run_git(&["tag", "v0.0.1", &evidence]);
+        assert!(validate_freeze_git_state(&fixture.root, &head, "v0.0.1", "release").is_err());
     }
 
     #[test]
