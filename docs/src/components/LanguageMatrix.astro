@@ -1,0 +1,92 @@
+---
+import { percentCell, type Snapshot } from '../data/snapshots';
+
+interface Props {
+  snapshot: Snapshot;
+}
+
+const { snapshot } = Astro.props;
+
+interface Row {
+  language: string;
+  scorecard: string;
+  tier: string;
+  scored: boolean;
+  total: number;
+  definitive: number;
+  incomplete: number;
+  tpr: string | null;
+  fpr: string | null;
+}
+
+const rows: Row[] = [];
+for (const scorecard of snapshot.results.scorecards) {
+  for (const language of scorecard.languages) {
+    for (const tier of language.score_tiers) {
+      const coverage = tier.outcome_coverage;
+      const definitive =
+        (coverage['reached'] ?? 0) + (coverage['not-reached'] ?? 0);
+      rows.push({
+        language: language.language,
+        scorecard: scorecard.id,
+        tier: tier.score_tier,
+        scored: tier.scored,
+        total: coverage.total ?? 0,
+        definitive,
+        incomplete: (coverage.total ?? 0) - definitive,
+        tpr: tier.dimension_macro.true_positive_rate_percent,
+        fpr: tier.dimension_macro.false_positive_rate_percent,
+      });
+    }
+  }
+}
+rows.sort(
+  (left, right) =>
+    left.language.localeCompare(right.language) ||
+    left.scorecard.localeCompare(right.scorecard) ||
+    left.tier.localeCompare(right.tier),
+);
+---
+
+<div class="table-scroll">
+  <table>
+    <thead>
+      <tr>
+        <th>Language</th>
+        <th>Scorecard</th>
+        <th>Tier</th>
+        <th>Cases</th>
+        <th>Definitive</th>
+        <th>Incomplete</th>
+        <th>TPR (macro)</th>
+        <th>FPR (macro)</th>
+      </tr>
+    </thead>
+    <tbody>
+      {
+        rows.map((row) => (
+          <tr>
+            <td>
+              <code>{row.language}</code>
+            </td>
+            <td>
+              <code>{row.scorecard}</code>
+            </td>
+            <td>{row.tier}</td>
+            <td>{row.total}</td>
+            <td>{row.definitive}</td>
+            <td>{row.incomplete}</td>
+            <td>{row.scored ? percentCell(row.tpr) : 'not scored'}</td>
+            <td>{row.scored ? percentCell(row.fpr) : 'not scored'}</td>
+          </tr>
+        ))
+      }
+    </tbody>
+  </table>
+</div>
+
+<style>
+  .table-scroll {
+    overflow-x: auto;
+  }
+</style>

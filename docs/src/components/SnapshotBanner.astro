@@ -1,0 +1,55 @@
+---
+import { evidenceUrl, shortDigest, type Snapshot } from '../data/snapshots';
+
+interface Props {
+  snapshot: Snapshot;
+}
+
+const { snapshot } = Astro.props;
+const { benchmark, manifest, claim } = snapshot.results;
+---
+
+<div class="snapshot-banner">
+  <p>
+    <strong>Frozen snapshot {snapshot.version}</strong>
+    {snapshot.current && <span class="current-pill">current</span>}
+  </p>
+  <ul>
+    <li>
+      Freeze ID:
+      <a href={evidenceUrl(snapshot, manifest.path)}
+        ><code>{shortDigest(manifest.sha256)}…</code></a
+      >
+      (SHA-256 of <code>{manifest.path}</code>)
+    </li>
+    <li>
+      Benchmark revision <code>{shortDigest(benchmark.revision)}</code>, release
+      <code>{benchmark.release}</code>, claim scope <code>{claim.scope}</code>
+    </li>
+    <li>
+      Fixture revision <code>{shortDigest(benchmark.fixture_revision.replace('sha256:', ''))}…</code>
+    </li>
+  </ul>
+</div>
+
+<style>
+  .snapshot-banner {
+    border: 1px solid var(--sl-color-hairline);
+    border-inline-start: 4px solid var(--sl-color-accent);
+    border-radius: 0.5rem;
+    padding: 0.75rem 1rem;
+    background: var(--sl-color-bg-sidebar);
+  }
+  .snapshot-banner ul {
+    margin: 0.25rem 0 0;
+  }
+  .current-pill {
+    display: inline-block;
+    margin-inline-start: 0.5rem;
+    padding: 0 0.5rem;
+    border-radius: 999px;
+    font-size: var(--sl-text-xs);
+    background: var(--sl-color-accent-low);
+    color: var(--sl-color-accent-high);
+  }
+</style>

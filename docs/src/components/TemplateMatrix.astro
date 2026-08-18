@@ -1,0 +1,94 @@
+---
+import type { Snapshot } from '../data/snapshots';
+
+interface Props {
+  snapshot: Snapshot;
+}
+
+const { snapshot } = Astro.props;
+
+interface Row {
+  template: string;
+  language: string;
+  scorecard: string;
+  tier: string;
+  positive: string;
+  negative: string;
+}
+
+const rows: Row[] = [];
+for (const scorecard of snapshot.results.scorecards) {
+  for (const language of scorecard.languages) {
+    for (const tier of language.score_tiers) {
+      const byTemplate = new Map<string, { positive?: string; negative?: string }>();
+      for (const result of tier.cases) {
+        const entry = byTemplate.get(result.template_id) ?? {};
+        if (result.polarity === 'positive') entry.positive = result.outcome;
+        else entry.negative = result.outcome;
+        byTemplate.set(result.template_id, entry);
+      }
+      for (const [template, outcomes] of byTemplate) {
+        rows.push({
+          template: template.replace('dfb-template-', ''),
+          language: language.language,
+          scorecard: scorecard.id,
+          tier: tier.score_tier,
+          positive: outcomes.positive ?? '—',
+          negative: outcomes.negative ?? '—',
+        });
+      }
+    }
+  }
+}
+rows.sort(
+  (left, right) =>
+    left.template.localeCompare(right.template) ||
+    left.language.localeCompare(right.language) ||
+    left.scorecard.localeCompare(right.scorecard),
+);
+---
+
+<div class="table-scroll">
+  <table>
+    <thead>
+      <tr>
+        <th>Semantic template</th>
+        <th>Language</th>
+        <th>Scorecard</th>
+        <th>Tier</th>
+        <th>Positive outcome</th>
+        <th>Negative outcome</th>
+      </tr>
+    </thead>
+    <tbody>
+      {
+        rows.map((row) => (
+          <tr>
+            <td>
+              <code>{row.template}</code>
+            </td>
+            <td>
+              <code>{row.language}</code>
+            </td>
+            <td>
+              <code>{row.scorecard}</code>
+            </td>
+            <td>{row.tier}</td>
+            <td>
+              <code>{row.positive}</code>
+            </td>
+            <td>
+              <code>{row.negative}</code>
+            </td>
+          </tr>
+        ))
+      }
+    </tbody>
+  </table>
+</div>
+
+<style>
+  .table-scroll {
+    overflow-x: auto;
+  }
+</style>

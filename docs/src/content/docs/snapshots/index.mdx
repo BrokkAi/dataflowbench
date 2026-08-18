@@ -1,0 +1,36 @@
+---
+title: Snapshots
+description: All frozen snapshots, and which one is current.
+---
+
+import { snapshots } from '../../../data/snapshots';
+
+A snapshot is an immutable freeze: corrected evidence creates a **new**
+snapshot with a new release name and digests, and old snapshots remain
+browsable for audit. The stable pointer
+[`/current`](/dataflowbench/current) always resolves to the current snapshot.
+
+<table>
+  <thead>
+    <tr>
+      <th>Snapshot</th>
+      <th>Status</th>
+      <th>Freeze ID (manifest SHA-256)</th>
+    </tr>
+  </thead>
+  <tbody>
+    {snapshots.map((snapshot) => (
+      <tr>
+        <td>
+          <a href={`/dataflowbench/snapshots/${snapshot.slug}/`}>
+            {snapshot.version}
+          </a>
+        </td>
+        <td>{snapshot.current ? 'current' : 'archived'}</td>
+        <td>
+          <code>{snapshot.results.manifest.sha256}</code>
+        </td>
+      </tr>
+    ))}
+  </tbody>
+</table>
