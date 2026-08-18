@@ -1,52 +1,9 @@
 ---
-title: DataFlowBench
+title: How good are analyzers at semantic data flow?
 description: Analyzer-neutral benchmark for data-flow analysis, published exclusively from immutable freeze evidence.
-template: splash
-hero:
-  tagline: Analyzer-neutral benchmark for data-flow analysis. Every published number derives from an immutable, digest-bound freeze — never from hand-maintained tables.
-  actions:
-    - text: Current snapshot
-      link: /dataflowbench/snapshots/v0-1-0/
-      icon: right-arrow
-    - text: Methodology
-      link: /dataflowbench/methodology/
-      variant: minimal
+tableOfContents: false
 ---
 
-import SnapshotBanner from '../../components/SnapshotBanner.astro';
-import { currentSnapshot } from '../../data/snapshots';
+import LandingResults from '../../components/LandingResults.astro';
 
-## What DataFlowBench measures
-
-DataFlowBench evaluates whether static analyzers correctly decide **semantic
-data-flow questions**: does a value from a source reach a sink, and just as
-importantly, does the analyzer stay quiet when it should? Cases are balanced
-positive/negative pairs of language-neutral **semantic templates** (aliasing,
-kills, call context, branch joins, exception paths, …) instantiated per
-language, and analyzers run them under a **benchmark-controlled** model
-profile so the engines — not the shipped model packs — are compared.
-
-Five properties keep the results honest:
-
-- **No combined leaderboard.** Taint, value-flow, typestate, witness quality,
-  and performance are independent scorecards.
-- **Model profiles never pool.** `benchmark-controlled` and `tool-native`
-  results stay separate.
-- **Incomplete is not negative.** `inconclusive`, `unsupported`, and
-  `runner-error` outcomes are capability coverage, never counted as clean
-  negatives.
-- **Explicit denominators.** Every rate is an exact fraction; headline rates
-  are macro-averages over templates, then semantic dimensions.
-- **Frozen evidence.** Numbers are generated from a validated, digest-bound
-  freeze manifest; CI rejects stale pages.
-
-## Current frozen snapshot
-
-<SnapshotBanner snapshot={currentSnapshot} />
-
-Browse the [snapshot overview](/dataflowbench/snapshots/v0-1-0/), per-
-[analyzer](/dataflowbench/snapshots/v0-1-0/analyzers/) and
-per-[language](/dataflowbench/snapshots/v0-1-0/languages/) results, the
-[semantic template matrix](/dataflowbench/snapshots/v0-1-0/templates/), and
-[case-level evidence](/dataflowbench/snapshots/v0-1-0/evidence/) with links to
-every retained raw artifact.
+<LandingResults />

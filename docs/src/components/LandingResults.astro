@@ -1,0 +1,500 @@
+---
+// The results-first landing view. Every number below is computed from the
+// generated results model of the current frozen snapshot — interpretation is
+// hand-written per snapshot, counts and rates never are.
+import {
+  currentSnapshot,
+  evidenceUrl,
+  percentCell,
+  shortDigest,
+  type ScoreTier,
+  type Scorecard,
+} from '../data/snapshots';
+
+const snapshot = currentSnapshot;
+const scorecards = snapshot.results.scorecards;
+const bifrost = scorecards.find((card) => card.adapter.tool === 'bifrost')!;
+const codeql = scorecards.find((card) => card.adapter.tool === 'codeql')!;
+
+function tierOf(
+  scorecard: Scorecard,
+  language: string,
+  tierName: string,
+): ScoreTier | undefined {
+  return scorecard.languages
+    .find((entry) => entry.language === language)
+    ?.score_tiers.find((tier) => tier.score_tier === tierName);
+}
+
+interface TierStats {
+  total: number;
+  correct: number;
+  wrong: number;
+  incomplete: number;
+  tpr: string | null;
+  fpr: string | null;
+}
+
+function statsOf(tier: ScoreTier): TierStats {
+  let correct = 0;
+  let wrong = 0;
+  let incomplete = 0;
+  for (const result of tier.cases) {
+    if (
+      result.classification === 'true-positive' ||
+      result.classification === 'true-negative'
+    ) {
+      correct += 1;
+    } else if (
+      result.classification === 'false-positive' ||
+      result.classification === 'false-negative'
+    ) {
+      wrong += 1;
+    } else {
+      incomplete += 1;
+    }
+  }
+  return {
+    total: tier.cases.length,
+    correct,
+    wrong,
+    incomplete,
+    tpr: tier.dimension_macro.true_positive_rate_percent,
+    fpr: tier.dimension_macro.false_positive_rate_percent,
+  };
+}
+
+const bifrostJava = statsOf(tierOf(bifrost, 'java', 'core')!);
+const codeqlJava = statsOf(tierOf(codeql, 'java', 'core')!);
+
+// Direct-flow breadth: the direct-propagation template pair per language.
+const directTemplate = 'dfb-template-direct-propagation';
+interface BreadthRow {
+  language: string;
+  positive: string;
+  negative: string;
+  correct: boolean;
+  incomplete: boolean;
+}
+const breadth: BreadthRow[] = [];
+for (const language of bifrost.languages) {
+  for (const tier of language.score_tiers) {
+    if (tier.score_tier !== 'core') continue;
+    const pair = tier.cases.filter(
+      (result) => result.template_id === directTemplate,
+    );
+    if (pair.length === 0) continue;
+    const positive = pair.find((result) => result.polarity === 'positive');
+    const negative = pair.find((result) => result.polarity === 'negative');
+    const classifications = pair.map((result) => result.classification);
+    breadth.push({
+      language: language.language,
+      positive: positive?.outcome ?? '—',
+      negative: negative?.outcome ?? '—',
+      correct:
+        classifications.filter(
+          (c) => c === 'true-positive' || c === 'true-negative',
+        ).length === 2,
+      incomplete: classifications.some(
+        (c) =>
+          c === 'inconclusive' || c === 'unsupported' || c === 'runner-error',
+      ),
+    });
+  }
+}
+breadth.sort((left, right) => left.language.localeCompare(right.language));
+const breadthCorrect = breadth.filter((row) => row.correct).length;
+const breadthIncomplete = breadth.filter((row) => row.incomplete);
+
+// Java kernel, template by template, both analyzers side by side.
+const kernelTierBifrost = tierOf(bifrost, 'java', 'core')!;
+const kernelTierCodeql = tierOf(codeql, 'java', 'core')!;
+interface KernelRow {
+  template: string;
+  bifrostPositive: string;
+  bifrostNegative: string;
+  codeqlPositive: string;
+  codeqlNegative: string;
+}
+const kernelRows = new Map<string, KernelRow>();
+function fillKernel(
+  tier: ScoreTier,
+  positiveKey: 'bifrostPositive' | 'codeqlPositive',
+  negativeKey: 'bifrostNegative' | 'codeqlNegative',
+) {
+  for (const result of tier.cases) {
+    const template = result.template_id.replace('dfb-template-', '');
+    const row =
+      kernelRows.get(template) ??
+      ({
+        template,
+        bifrostPositive: '—',
+        bifrostNegative: '—',
+        codeqlPositive: '—',
+        codeqlNegative: '—',
+      } satisfies KernelRow);
+    if (result.polarity === 'positive') row[positiveKey] = result.outcome;
+    else row[negativeKey] = result.outcome;
+    kernelRows.set(template, row);
+  }
+}
+fillKernel(kernelTierBifrost, 'bifrostPositive', 'bifrostNegative');
+fillKernel(kernelTierCodeql, 'codeqlPositive', 'codeqlNegative');
+const kernelTable = [...kernelRows.values()].sort((left, right) =>
+  left.template.localeCompare(right.template),
+);
+
+const outcomeClass = (polarity: 'positive' | 'negative', outcome: string) => {
+  if (polarity === 'positive' && outcome === 'reached') return 'good';
+  if (polarity === 'negative' && outcome === 'not-reached') return 'good';
+  if (outcome === 'reached' || outcome === 'not-reached') return 'bad';
+  return 'incomplete';
+};
+
+const caseCount = snapshot.results.scorecards
+  .flatMap((card) => card.languages)
+  .flatMap((language) => language.score_tiers)
+  .reduce((sum, tier) => sum + tier.cases.length, 0);
+---
+
+<p class="eyebrow">
+  Immutable evaluation · DataFlowBench {snapshot.version}
+</p>
+
+<aside class="short-answer">
+  <p class="label">Short answer</p>
+  <p class="verdict">
+    Bifrost routes direct flows almost everywhere. On the deep Java kernel,
+    CodeQL decides more assertions correctly; Bifrost finds more true flows
+    but is far less precise, and often reports incomplete analysis instead of
+    an answer.
+  </p>
+  <p>
+    On the shared 32-assertion Java propagation kernel, Bifrost decided
+    <strong>{bifrostJava.correct} of {bifrostJava.total}</strong> assertions
+    correctly (TPR {percentCell(bifrostJava.tpr)}, FPR {percentCell(bifrostJava.fpr)},
+    {bifrostJava.incomplete} inconclusive), while CodeQL decided
+    <strong>{codeqlJava.correct} of {codeqlJava.total}</strong> correctly (TPR
+    {percentCell(codeqlJava.tpr)}, FPR {percentCell(codeqlJava.fpr)}, no incomplete
+    outcomes). On the direct-flow breadth baseline, Bifrost answered both
+    assertions correctly in <strong>{breadthCorrect} of {breadth.length}</strong>
+    languages{breadthIncomplete.length > 0
+      ? ` (${breadthIncomplete.map((row) => row.language).join(', ')}: inconclusive, which is reported as coverage — not as a wrong answer).`
+      : '.'}
+  </p>
+</aside>
+
+<div class="stat-grid">
+  <div class="stat-card">
+    <p class="label">Java kernel · correct decisions</p>
+    <div class="stat-pair">
+      <div>
+        <p class="who">Bifrost</p>
+        <p class="big">{bifrostJava.correct}<span class="of">/{bifrostJava.total}</span></p>
+      </div>
+      <div>
+        <p class="who alt">CodeQL</p>
+        <p class="big alt">{codeqlJava.correct}<span class="of">/{codeqlJava.total}</span></p>
+      </div>
+    </div>
+    <p class="caption">
+      16 balanced template pairs; incomplete outcomes ({bifrostJava.incomplete} for
+      Bifrost) are excluded from correctness, not counted against it
+    </p>
+  </div>
+  <div class="stat-card">
+    <p class="label">Direct-flow breadth · languages fully correct</p>
+    <div class="stat-pair">
+      <div>
+        <p class="who">Bifrost</p>
+        <p class="big">{breadthCorrect}<span class="of">/{breadth.length}</span></p>
+      </div>
+    </div>
+    <p class="caption">
+      one positive and one negative direct-propagation assertion per language
+    </p>
+  </div>
+</div>
+
+<h2>Java kernel, template by template</h2>
+
+<p>
+  Each row is one semantic scenario with a balanced pair: the flow exists
+  (positive) and a minimally different variant where it does not (negative). A
+  sound-and-precise analyzer reads <code class="good">reached</code> /
+  <code class="good">not-reached</code>.
+</p>
+
+<div class="table-scroll">
+  <table>
+    <thead>
+      <tr>
+        <th rowspan="2">Template</th>
+        <th colspan="2">Bifrost {bifrost.adapter.tool_version.replace('bifrost ', '')}</th>
+        <th colspan="2">CodeQL {codeql.adapter.tool_version}</th>
+      </tr>
+      <tr>
+        <th>positive</th>
+        <th>negative</th>
+        <th>positive</th>
+        <th>negative</th>
+      </tr>
+    </thead>
+    <tbody>
+      {
+        kernelTable.map((row) => (
+          <tr>
+            <td>
+              <code>{row.template}</code>
+            </td>
+            <td>
+              <code class={outcomeClass('positive', row.bifrostPositive)}>
+                {row.bifrostPositive}
+              </code>
+            </td>
+            <td>
+              <code class={outcomeClass('negative', row.bifrostNegative)}>
+                {row.bifrostNegative}
+              </code>
+            </td>
+            <td>
+              <code class={outcomeClass('positive', row.codeqlPositive)}>
+                {row.codeqlPositive}
+              </code>
+            </td>
+            <td>
+              <code class={outcomeClass('negative', row.codeqlNegative)}>
+                {row.codeqlNegative}
+              </code>
+            </td>
+          </tr>
+        ))
+      }
+    </tbody>
+  </table>
+</div>
+
+<p class="caption">
+  Read the two analyzers' columns independently — DataFlowBench publishes no
+  combined leaderboard, and the two remain separate scorecards under the
+  <code>benchmark-controlled</code> model profile.
+</p>
+
+<h2>Direct-flow breadth, language by language</h2>
+
+<div class="table-scroll">
+  <table>
+    <thead>
+      <tr>
+        <th>Language</th>
+        <th>Positive assertion</th>
+        <th>Negative assertion</th>
+        <th>Verdict</th>
+      </tr>
+    </thead>
+    <tbody>
+      {
+        breadth.map((row) => (
+          <tr>
+            <td>
+              <code>{row.language}</code>
+            </td>
+            <td>
+              <code class={outcomeClass('positive', row.positive)}>{row.positive}</code>
+            </td>
+            <td>
+              <code class={outcomeClass('negative', row.negative)}>{row.negative}</code>
+            </td>
+            <td>
+              {row.correct
+                ? 'both correct'
+                : row.incomplete
+                  ? 'incomplete analysis'
+                  : 'wrong answer'}
+            </td>
+          </tr>
+        ))
+      }
+    </tbody>
+  </table>
+</div>
+
+<h2>What this result means</h2>
+
+<p>
+  DataFlowBench measures whether analyzers correctly decide semantic
+  data-flow questions — and whether they stay quiet when they should. Cases
+  are balanced positive/negative pairs of language-neutral semantic templates
+  (aliasing, kills, call context, branch joins, exception paths, …) run under
+  a <code>benchmark-controlled</code> model profile, so the engines are
+  compared under a common contract rather than through their shipped model
+  packs.
+</p>
+
+<p>
+  This snapshot's bounded claim covers the synthetic direct-flow breadth
+  baseline and the 16-template Java propagation kernel on the
+  <code>taint</code> track. It does not estimate real-project accuracy,
+  tool-native model coverage, other languages' kernel behavior, or
+  performance. <code>inconclusive</code>, <code>unsupported</code>, and
+  <code>runner-error</code> are capability coverage and are never converted
+  into clean negatives.
+</p>
+
+<div class="tile-grid">
+  <div class="tile">
+    <p class="big">{caseCount}</p>
+    <p class="caption">frozen case results</p>
+  </div>
+  <div class="tile">
+    <p class="big">{breadth.length}</p>
+    <p class="caption">languages in the breadth baseline</p>
+  </div>
+  <div class="tile">
+    <p class="big">{kernelTable.length}</p>
+    <p class="caption">semantic templates in the Java kernel</p>
+  </div>
+  <div class="tile">
+    <p class="big">{snapshot.version}</p>
+    <p class="caption">immutable evidence release</p>
+  </div>
+</div>
+
+<h2>Why these numbers are trustworthy</h2>
+
+<p>
+  Every count on this page is generated from the
+  <a href={evidenceUrl(snapshot, snapshot.results.manifest.path)}>freeze
+  manifest</a> (<code>{shortDigest(snapshot.results.manifest.sha256)}…</code>),
+  which digest-binds the benchmark revision, every case and fixture, both
+  analyzers' identities, their normalized reports, and one retained raw
+  artifact per result. CI regenerates the numbers from the manifest and fails
+  on any drift; hand-authored prose cannot override a generated count. See
+  <a href="/dataflowbench/reproduction/">reproduction</a> to verify locally,
+  or dive into the full
+  <a href={`/dataflowbench/snapshots/${snapshot.slug}/`}>snapshot</a> —
+  <a href={`/dataflowbench/snapshots/${snapshot.slug}/analyzers/`}>analyzers</a>,
+  <a href={`/dataflowbench/snapshots/${snapshot.slug}/languages/`}>languages</a>,
+  <a href={`/dataflowbench/snapshots/${snapshot.slug}/templates/`}>templates</a>,
+  and per-case
+  <a href={`/dataflowbench/snapshots/${snapshot.slug}/evidence/`}>evidence</a>.
+</p>
+
+<style>
+  .eyebrow {
+    font-family: var(--__sl-font-mono);
+    font-size: var(--sl-text-xs);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--sl-color-accent-high);
+  }
+  .short-answer {
+    border: 1px solid var(--sl-color-accent);
+    border-radius: 0.75rem;
+    padding: 1rem 1.25rem;
+    background: var(--sl-color-bg-sidebar);
+  }
+  .short-answer .label,
+  .stat-card .label {
+    font-family: var(--__sl-font-mono);
+    font-size: var(--sl-text-xs);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--sl-color-accent-high);
+    margin: 0;
+  }
+  .short-answer .verdict {
+    font-size: var(--sl-text-xl);
+    font-weight: 700;
+    line-height: 1.3;
+    margin: 0.5rem 0;
+    color: var(--sl-color-white);
+  }
+  .stat-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+  .stat-card {
+    border: 1px solid var(--sl-color-hairline);
+    border-radius: 0.75rem;
+    padding: 1rem 1.25rem;
+  }
+  .stat-pair {
+    display: flex;
+    align-items: flex-start;
+    gap: 2rem;
+    margin: 0.5rem 0;
+  }
+  .stat-pair > div {
+    flex: 0 0 auto;
+    /* Starlight's content flow adds margin-top to sibling blocks. */
+    margin-top: 0 !important;
+  }
+  .stat-pair p {
+    margin-top: 0 !important;
+  }
+  .who {
+    font-family: var(--__sl-font-mono);
+    font-size: var(--sl-text-xs);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin: 0;
+    color: var(--sl-color-accent-high);
+    border-top: 3px solid var(--sl-color-accent);
+    padding-top: 0.25rem;
+  }
+  .who.alt {
+    color: var(--sl-color-orange);
+    border-top-color: var(--sl-color-orange);
+  }
+  .big {
+    font-size: 2.25rem;
+    font-weight: 700;
+    line-height: 1.1;
+    margin: 0;
+    color: var(--sl-color-accent-high);
+  }
+  .big.alt {
+    color: var(--sl-color-orange);
+  }
+  .big .of {
+    font-size: 1.1rem;
+    color: var(--sl-color-gray-3);
+  }
+  .tile-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+  .tile {
+    border: 1px solid var(--sl-color-hairline);
+    border-radius: 0.75rem;
+    padding: 0.75rem 1rem;
+  }
+  .tile .big {
+    font-size: 1.75rem;
+  }
+  .caption {
+    font-size: var(--sl-text-sm);
+    color: var(--sl-color-gray-3);
+    margin: 0.25rem 0 0;
+  }
+  .table-scroll {
+    overflow-x: auto;
+  }
+  code.good {
+    color: var(--sl-color-green-high);
+    background: transparent;
+  }
+  code.bad {
+    color: var(--sl-color-red-high);
+    background: transparent;
+  }
+  code.incomplete {
+    color: var(--sl-color-orange-high);
+    background: transparent;
+  }
+</style>
