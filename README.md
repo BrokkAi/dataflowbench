@@ -150,3 +150,14 @@ The [freeze contract](docs/freeze.md) explains the bound benchmark revision,
 case and fixture digests, adapter identities, normalized reports, retained raw
 evidence, claim partitions, exclusions, and the rule that corrected results
 create a new freeze instead of rewriting an old one.
+
+Publishable result pages are then generated — never hand-written — from the
+validated freeze:
+
+```bash
+cargo run -- generate-results --manifest reports/freeze.json --output-directory site/results
+```
+
+The [result generation contract](docs/results.md) describes the byte-stable
+JSON and Markdown artifacts, their scorecard partitions, and the `--check`
+mode that proves checked-in artifacts match the freeze they cite.
