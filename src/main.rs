@@ -31,6 +31,10 @@ const CODEQL_KOTLIN_REPORT: &str = "reports/codeql-kotlin-kernel.json";
 const CODEQL_CSHARP_QUERY: &str = "adapters/codeql/csharp/queries/CSharpKernel.ql";
 const CODEQL_CSHARP_RAW_DIR: &str = "reports/raw/codeql-csharp-kernel";
 const CODEQL_CSHARP_REPORT: &str = "reports/codeql-csharp-kernel.json";
+const CODEQL_RUST_QUERY: &str = "adapters/codeql/rust/queries/RustKernel.ql";
+const CODEQL_RUST_RAW_DIR: &str = "reports/raw/codeql-rust-kernel";
+const CODEQL_RUST_REPORT: &str = "reports/codeql-rust-kernel.json";
+const BIFROST_RUST_POLICY: &str = "adapters/bifrost/policies/core-rust-kernel.rqlp";
 const BIFROST_CSHARP_POLICY: &str = "adapters/bifrost/policies/core-csharp-kernel.rqlp";
 /// The cross-language direct-flow breadth policy. The C# direct-propagation
 /// pair predates the C# kernel and is frozen in the published v0.2.0 evidence,
@@ -67,6 +71,35 @@ const KERNEL_TEMPLATE_IDS: [&str; 16] = [
     "dfb-template-return-relay-two-hop",
     "dfb-template-same-object-field-separation",
 ];
+/// The scored templates a Rust kernel population carries.
+///
+/// `docs/applicability-matrix.md` classifies `dfb-template-exception-catch` as
+/// **inapplicable** to Rust: panics are not the idiomatic recoverable transfer,
+/// `std::panic::catch_unwind` is not guaranteed under `panic=abort`, and the
+/// payload is type-erased as `Box<dyn Any>`. The exclusion reduces only the
+/// Rust denominator — 15 templates and 30 core assertions — and never any other
+/// language's. The `Result`/`?` construct that Rust uses instead is routed to a
+/// `language-extension` case, which is scored on its own tier and is not part
+/// of this set.
+const RUST_KERNEL_TEMPLATE_IDS: [&str; 15] = [
+    "dfb-template-alias-propagation-separation",
+    "dfb-template-argument-position-separation",
+    "dfb-template-arithmetic-expression-propagation",
+    "dfb-template-array-element-separation",
+    "dfb-template-branch-join",
+    "dfb-template-call-context-separation",
+    "dfb-template-direct-propagation",
+    "dfb-template-infeasible-branch",
+    "dfb-template-local-multi-step-chain",
+    "dfb-template-local-overwrite-kill",
+    "dfb-template-loop-carried-kill",
+    "dfb-template-object-separation",
+    "dfb-template-return-relay-one-hop",
+    "dfb-template-return-relay-two-hop",
+    "dfb-template-same-object-field-separation",
+];
+/// One positive and one negative assertion for each scored Rust template.
+const RUST_KERNEL_CASE_COUNT: usize = 2 * RUST_KERNEL_TEMPLATE_IDS.len();
 
 #[derive(Parser)]
 #[command(name = "dataflowbench")]
@@ -143,6 +176,14 @@ enum Commands {
         #[arg(long, default_value = "bifrost")]
         bifrost: PathBuf,
     },
+    /// Run the Rust propagation kernel as its own population, separate from
+    /// every other language kernel and from the direct-flow breadth slice. The
+    /// run covers the 30 core assertions plus the `Result`/`?`
+    /// `language-extension` cases, which are scored on their own tier.
+    RunBifrostRustKernel {
+        #[arg(long, default_value = "bifrost")]
+        bifrost: PathBuf,
+    },
     RunCodeqlJavaKernel {
         #[arg(long, default_value = "codeql")]
         codeql: PathBuf,
@@ -190,6 +231,16 @@ enum Commands {
         #[arg(long)]
         codeql_packs: Option<PathBuf>,
     },
+    /// Run the Rust propagation kernel through the CodeQL Rust extractor, whose
+    /// support is a public preview in the pinned CLI. Each fixture is extracted
+    /// from a generated single-crate Cargo workspace, because the extractor
+    /// only runs its semantic analyzer when it finds a Cargo manifest.
+    RunCodeqlRustKernel {
+        #[arg(long, default_value = "codeql")]
+        codeql: PathBuf,
+        #[arg(long)]
+        codeql_packs: Option<PathBuf>,
+    },
 }
 
 fn main() -> Result<()> {
@@ -216,6 +267,7 @@ fn main() -> Result<()> {
             run_bifrost(&bifrost, BifrostRun::TypescriptKernel)
         }
         Commands::RunBifrostCsharpKernel { bifrost } => run_bifrost_csharp_kernel(&bifrost),
+        Commands::RunBifrostRustKernel { bifrost } => run_bifrost(&bifrost, BifrostRun::RustKernel),
         Commands::RunCodeqlJavaKernel {
             codeql,
             codeql_packs,
@@ -241,6 +293,10 @@ fn main() -> Result<()> {
             codeql,
             codeql_packs,
         } => run_codeql_csharp_kernel(&codeql, codeql_packs.as_deref()),
+        Commands::RunCodeqlRustKernel {
+            codeql,
+            codeql_packs,
+        } => run_codeql_rust_kernel(&codeql, codeql_packs.as_deref()),
     }
 }
 
@@ -294,6 +350,7 @@ fn validate_cases() -> Result<()> {
     validate_kernel_balance(&cases, EcmaKernel::TypeScript)?;
     validate_scored_kernel_balance(&cases, "kotlin", "Kotlin")?;
     validate_scored_kernel_balance(&cases, "csharp", "C#")?;
+    validate_rust_kernel_balance(&cases)?;
     println!("validated {} cases", paths.len());
     Ok(())
 }
@@ -415,6 +472,38 @@ fn validate_scored_kernel_balance(
             .collect::<Vec<_>>();
         bail!(
             "{display} propagation kernel must preserve the scored template IDs; missing {missing:?}, unexpected {unexpected:?}"
+        );
+    }
+    Ok(())
+}
+
+/// Rust is a 15/16 kernel: `docs/applicability-matrix.md` classifies
+/// `dfb-template-exception-catch` as inapplicable, so the Rust core denominator
+/// is the 15 templates in `RUST_KERNEL_TEMPLATE_IDS`. Reintroducing the
+/// excluded template, or dropping any of the other fifteen, is rejected here
+/// rather than silently changing the denominator. The `Result`/`?`
+/// `language-extension` cases carry their own template identity and are not
+/// `core`, so they never appear in this set.
+fn validate_rust_kernel_balance(cases: &[(PathBuf, Value)]) -> Result<()> {
+    let kernel_templates = core_templates_for_language(cases, "rust");
+    if kernel_templates.is_empty() {
+        return Ok(());
+    }
+    let expected = RUST_KERNEL_TEMPLATE_IDS
+        .iter()
+        .copied()
+        .collect::<BTreeSet<_>>();
+    if kernel_templates != expected {
+        let missing = expected
+            .difference(&kernel_templates)
+            .copied()
+            .collect::<Vec<_>>();
+        let unexpected = kernel_templates
+            .difference(&expected)
+            .copied()
+            .collect::<Vec<_>>();
+        bail!(
+            "Rust propagation kernel must carry exactly the 15 applicable scored template IDs; missing {missing:?}, unexpected {unexpected:?}"
         );
     }
     Ok(())
@@ -542,6 +631,7 @@ enum BifrostRun {
     KotlinKernel,
     TypescriptKernel,
     CsharpKernel,
+    RustKernel,
 }
 fn validate_freeze(manifest: &Path) -> Result<()> {
     let root = repository_root()?;
@@ -2119,6 +2209,10 @@ fn run_bifrost(binary: &Path, run: BifrostRun) -> Result<()> {
             Path::new("reports/raw/bifrost-csharp-kernel"),
             Path::new("reports/bifrost-csharp-kernel.json"),
         ),
+        BifrostRun::RustKernel => (
+            Path::new("reports/raw/bifrost-rust-kernel"),
+            Path::new("reports/bifrost-rust-kernel.json"),
+        ),
     };
     fs::create_dir_all(raw_dir)?;
     let started = now_seconds()?;
@@ -2130,12 +2224,19 @@ fn run_bifrost(binary: &Path, run: BifrostRun) -> Result<()> {
     let mut results = Vec::new();
     let mut policy_paths = BTreeSet::new();
     let mut selected_cases = 0;
+    // Tracked separately from `selected_cases` because a run may legitimately
+    // carry `language-extension` assertions alongside the core population; only
+    // the core count is the language's scored denominator.
+    let mut selected_core_cases = 0;
     for path in case_paths() {
         let case: Value = serde_json::from_str(&fs::read_to_string(&path)?)?;
         if !selected_bifrost_case(&case, run) {
             continue;
         }
         selected_cases += 1;
+        if case["score_tier"] == "core" {
+            selected_core_cases += 1;
+        }
         let id = case["id"].as_str().expect("schema validated");
         let model = &case["tool_model_references"]["bifrost"];
         let raw_path = raw_dir.join(format!("{id}.json"));
@@ -2249,8 +2350,14 @@ fn run_bifrost(binary: &Path, run: BifrostRun) -> Result<()> {
             BifrostRun::KotlinKernel => "Bifrost Kotlin kernel",
             BifrostRun::TypescriptKernel => "Bifrost TypeScript kernel",
             BifrostRun::CsharpKernel => "Bifrost C# kernel",
+            BifrostRun::RustKernel => "Bifrost Rust kernel",
         };
         bail!("no cases selected for {selection}");
+    }
+    if run == BifrostRun::RustKernel && selected_core_cases != RUST_KERNEL_CASE_COUNT {
+        bail!(
+            "Bifrost Rust kernel must select exactly {RUST_KERNEL_CASE_COUNT} core assertions; found {selected_core_cases}"
+        );
     }
     if matches!(run, BifrostRun::KotlinKernel | BifrostRun::CsharpKernel)
         && selected_cases != KERNEL_CASE_COUNT
@@ -2330,7 +2437,42 @@ fn selected_bifrost_case(case: &Value, run: BifrostRun) -> bool {
                     })
                     || case["tool_model_references"]["bifrost"]["unsupported_reason"].is_string())
         }
+        BifrostRun::RustKernel => {
+            rust_kernel_case(case)
+                && (case["tool_model_references"]["bifrost"]["policy"]
+                    .as_str()
+                    .is_some_and(rust_kernel_policy)
+                    || case["tool_model_references"]["bifrost"]["unsupported_reason"].is_string())
+        }
     }
+}
+
+/// A Rust assertion this kernel owns: the 30 `core` assertions of the 15
+/// applicable templates, plus the `Result`/`?` `language-extension` pair. The
+/// two tiers are selected together so one run produces both, and are kept apart
+/// in the scorecards by `score_tier`; the extension never enters the core
+/// denominator.
+fn rust_kernel_case(case: &Value) -> bool {
+    case["language"] == "rust"
+        && case["track"] == "taint"
+        && (case["score_tier"] == "core" || case["score_tier"] == "language-extension")
+}
+
+fn rust_core_case(case: &Value) -> bool {
+    case["language"] == "rust" && case["track"] == "taint" && case["score_tier"] == "core"
+}
+
+/// Policies that carry a Rust kernel assertion.
+///
+/// The direct-propagation pair belongs to both the Rust kernel and the
+/// cross-language direct-flow breadth slice, and was frozen in `v0.2.0` while
+/// still declaring the language-agnostic `core-direct` policy. Freeze manifests
+/// bind those case bytes, so the kernel accepts that policy instead of
+/// rewriting published evidence; the two policies differ only by the
+/// `(language rust ...)` selector qualifier, which is redundant for a
+/// single-fixture Rust workspace.
+fn rust_kernel_policy(policy: &str) -> bool {
+    policy == BIFROST_RUST_POLICY || policy == BIFROST_DIRECT_POLICY
 }
 
 /// Policies that carry a TypeScript kernel assertion.
@@ -2481,6 +2623,10 @@ enum CodeqlLanguage<'a> {
         kotlinc: &'a Path,
     },
     CSharp,
+    /// Rust support is a public preview in the pinned CLI. The extractor takes
+    /// `--build-mode=none`, but it only runs its semantic analyzer when the
+    /// source root contains a Cargo manifest, so the runner generates one.
+    Rust,
 }
 
 impl CodeqlLanguage<'_> {
@@ -2489,6 +2635,7 @@ impl CodeqlLanguage<'_> {
             Self::Java | Self::Kotlin { .. } => "java",
             Self::Python => "python",
             Self::CSharp => "csharp",
+            Self::Rust => "rust",
         }
     }
 
@@ -2846,6 +2993,174 @@ fn run_codeql_csharp_kernel(binary: &Path, packs: Option<&Path>) -> Result<()> {
     )?;
     validate_reports()?;
     println!("wrote {CODEQL_CSHARP_REPORT}");
+    Ok(())
+}
+
+/// Run the Rust-only CodeQL kernel. Rust support is a public preview in the
+/// pinned CLI 2.26.3 (extractor `rust` 0.1.0, library pack
+/// `codeql/rust-all@0.2.19`), and that status is recorded in
+/// `docs/rust-kernel.md` alongside the results this run produces. The
+/// population is the 30 core assertions of the 15 applicable templates plus the
+/// `Result`/`?` `language-extension` pair, which is scored on its own tier.
+fn run_codeql_rust_kernel(binary: &Path, packs: Option<&Path>) -> Result<()> {
+    validate_cases()?;
+    let selected = codeql_rust_cases()?;
+    let raw_dir = Path::new(CODEQL_RUST_RAW_DIR);
+    fs::create_dir_all(raw_dir)?;
+    let started = now_seconds()?;
+    let (version, build_identity) = codeql_version_identity(binary)?;
+    let revision = fixture_revision()?;
+    let mut results = Vec::with_capacity(selected.len());
+
+    for (path, case) in selected {
+        let id = case["id"].as_str().expect("schema validated");
+        let start = Instant::now();
+        let (outcome, diagnostics, raw_path) = run_codeql_case_for_language(
+            binary,
+            packs,
+            &path,
+            &case,
+            Path::new(CODEQL_RUST_QUERY),
+            raw_dir,
+            CodeqlLanguage::Rust,
+        )?;
+        results.push(codeql_result(
+            &case,
+            id,
+            outcome,
+            diagnostics,
+            start.elapsed(),
+            &raw_path,
+        ));
+    }
+
+    let configuration_hash = hash_paths(&codeql_rust_configuration_paths())?;
+    let report = json!({
+        "schema_version": 1,
+        "tool": "codeql",
+        "tool_version": version,
+        "tool_build_identity": build_identity,
+        "adapter_version": ADAPTER_VERSION,
+        "configuration_hash": configuration_hash,
+        "fixture_revision": revision,
+        "started_at_unix_seconds": started,
+        "ended_at_unix_seconds": now_seconds()?,
+        "cold_or_warm": "cold",
+        "results": results
+    });
+    fs::write(
+        CODEQL_RUST_REPORT,
+        serde_json::to_string_pretty(&report)? + "\n",
+    )?;
+    validate_reports()?;
+    println!("wrote {CODEQL_RUST_REPORT}");
+    Ok(())
+}
+
+fn codeql_rust_cases() -> Result<Vec<(PathBuf, Value)>> {
+    let mut selected = Vec::new();
+    for path in case_paths() {
+        let case: Value = serde_json::from_str(&fs::read_to_string(&path)?)?;
+        if !rust_kernel_case(&case) {
+            continue;
+        }
+        // The direct-propagation pair predates this kernel and is frozen in the
+        // published v0.2.0 evidence without a CodeQL model reference. Any
+        // reference a Rust case does carry must name this kernel's query.
+        if let Some(query) = case["tool_model_references"]["codeql"]["query"].as_str()
+            && query != CODEQL_RUST_QUERY
+        {
+            bail!(
+                "Rust case {} references non-Rust CodeQL query {query:?}",
+                case["id"]
+            );
+        }
+        selected.push((path, case));
+    }
+    validate_rust_kernel_population(&selected, "Rust CodeQL kernel")?;
+    if !Path::new(CODEQL_RUST_QUERY).is_file() {
+        bail!("Rust CodeQL query does not exist: {CODEQL_RUST_QUERY}");
+    }
+    Ok(selected)
+}
+
+fn codeql_rust_configuration_paths() -> BTreeSet<PathBuf> {
+    let mut paths = BTreeSet::from([PathBuf::from(CODEQL_RUST_QUERY)]);
+    for candidate in [
+        "adapters/codeql/rust/qlpack.yml",
+        "adapters/codeql/rust/codeql-pack.lock.yml",
+    ]
+    .into_iter()
+    .map(PathBuf::from)
+    {
+        if candidate.is_file() {
+            paths.insert(candidate);
+        }
+    }
+    paths
+}
+
+/// Assert that a selected Rust kernel population is exactly the 15 applicable
+/// scored templates under one model profile, balanced one positive to one
+/// negative, and that anything else the run carries is a `language-extension`
+/// assertion rather than a template smuggled back into the core denominator.
+fn validate_rust_kernel_population(cases: &[(PathBuf, Value)], label: &str) -> Result<()> {
+    let core = cases
+        .iter()
+        .filter(|(_, case)| rust_core_case(case))
+        .collect::<Vec<_>>();
+    if core.len() != RUST_KERNEL_CASE_COUNT {
+        bail!(
+            "{label} must select exactly {RUST_KERNEL_CASE_COUNT} core assertions; found {}",
+            core.len()
+        );
+    }
+    for (path, case) in cases {
+        let tier = case["score_tier"]
+            .as_str()
+            .with_context(|| format!("{} lacks score_tier", path.display()))?;
+        if tier != "core" && tier != "language-extension" {
+            bail!("{label} selected {} with score tier {tier:?}", path.display());
+        }
+    }
+    let mut pairs: BTreeMap<&str, (usize, usize)> = BTreeMap::new();
+    let mut model_profiles = BTreeSet::new();
+    for (path, case) in &core {
+        let template = case["template_id"]
+            .as_str()
+            .with_context(|| format!("{} lacks template_id", path.display()))?;
+        model_profiles.insert(
+            case["model_profile"]
+                .as_str()
+                .with_context(|| format!("{} lacks model_profile", path.display()))?,
+        );
+        let entry = pairs.entry(template).or_default();
+        match case["polarity"].as_str() {
+            Some("positive") => entry.0 += 1,
+            Some("negative") => entry.1 += 1,
+            Some(other) => bail!("{} has unsupported polarity {other:?}", path.display()),
+            None => bail!("{} lacks polarity", path.display()),
+        }
+    }
+    let expected = RUST_KERNEL_TEMPLATE_IDS
+        .iter()
+        .copied()
+        .collect::<BTreeSet<_>>();
+    let actual = pairs.keys().copied().collect::<BTreeSet<_>>();
+    if actual != expected {
+        let missing = expected.difference(&actual).copied().collect::<Vec<_>>();
+        let unexpected = actual.difference(&expected).copied().collect::<Vec<_>>();
+        bail!("{label} template set mismatch (missing={missing:?}, unexpected={unexpected:?})");
+    }
+    if pairs
+        .values()
+        .any(|(positive, negative)| *positive != 1 || *negative != 1)
+    {
+        bail!("{label} requires one positive and one negative per template");
+    }
+    if model_profiles.len() != 1 {
+        bail!("{label} must use one model profile across all core cases");
+    }
     Ok(())
 }
 
@@ -3367,25 +3682,29 @@ struct SinkAnchorLocation {
 /// Anchor reconciliation is language-neutral apart from two surface questions:
 /// which function a `DFB-SINK:` marker declares, and which lines call it. One
 /// dialect covers JavaScript and TypeScript, which share the surface syntax the
-/// reconciler inspects; C# spells both differently.
+/// reconciler inspects; C# and Rust spell both differently, but identically to
+/// each other for the two questions asked here — the declared name is the
+/// identifier immediately before the parameter list, and a callsite is that
+/// identifier applied to a parenthesised argument list.
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 enum AnchorDialect {
     Ecma,
     CSharp,
+    Rust,
 }
 
 impl AnchorDialect {
     fn sink_function_name(self, declaration: &str, marker: &str) -> Option<String> {
         match self {
             Self::Ecma => ecma_function_name(declaration, marker),
-            Self::CSharp => csharp_function_name(declaration, marker),
+            Self::CSharp | Self::Rust => csharp_function_name(declaration, marker),
         }
     }
 
     fn is_call(self, line: &str, function_name: &str) -> bool {
         match self {
             Self::Ecma => ecma_function_call(line, function_name),
-            Self::CSharp => csharp_function_call(line, function_name),
+            Self::CSharp | Self::Rust => csharp_function_call(line, function_name),
         }
     }
 }
@@ -3411,6 +3730,10 @@ fn csharp_sarif_outcome(
     sarif: &Value,
 ) -> (&'static str, Vec<String>) {
     sarif_anchor_outcome(case_path, case, sarif, AnchorDialect::CSharp)
+}
+
+fn rust_sarif_outcome(case_path: &Path, case: &Value, sarif: &Value) -> (&'static str, Vec<String>) {
+    sarif_anchor_outcome(case_path, case, sarif, AnchorDialect::Rust)
 }
 
 fn sarif_anchor_outcome(
@@ -3818,6 +4141,9 @@ fn run_codeql_case_for_language(
 ) -> Result<(&'static str, Vec<String>, PathBuf)> {
     let id = case["id"].as_str().expect("schema validated");
     let workspace = materialize_codeql_workspace(case_path, case)?;
+    if matches!(language, CodeqlLanguage::Rust) {
+        write_rust_cargo_manifest(&workspace, case)?;
+    }
     let database_root = std::env::temp_dir().join("dataflowbench-codeql-databases");
     fs::create_dir_all(&database_root)?;
     let database = database_root.join(id);
@@ -3918,6 +4244,16 @@ fn run_codeql_case_for_language(
             diagnostics.dedup();
             (outcome, diagnostics)
         }
+        // Rust fixtures declare a `DFB-SINK:` function, so the finding is
+        // reconciled against that function's callsites, exactly as for C#.
+        CodeqlLanguage::Rust => {
+            let mut diagnostics = sarif_messages(&sarif);
+            let (outcome, anchor_diagnostics) = rust_sarif_outcome(case_path, case, &sarif);
+            diagnostics.extend(anchor_diagnostics);
+            diagnostics.sort();
+            diagnostics.dedup();
+            (outcome, diagnostics)
+        }
         CodeqlLanguage::Java => {
             let result_count = sarif_result_count(&sarif);
             let diagnostics = sarif_messages(&sarif);
@@ -3957,6 +4293,44 @@ fn materialize_codeql_workspace(case_path: &Path, case: &Value) -> Result<PathBu
         fs::copy(fixture_root.join(fixture), workspace.join(fixture))?;
     }
     Ok(workspace)
+}
+
+/// Give a materialized Rust workspace the Cargo manifest the CodeQL Rust
+/// extractor needs.
+///
+/// The extractor accepts `--build-mode=none` and never compiles the fixture,
+/// but with no manifest in the source root it logs "semantic analyzer
+/// unavailable (no manifest found)" and produces a syntax-only database that
+/// resolves no call targets. The manifest is generated rather than checked in
+/// so the fixtures stay single-file, exactly like every other language kernel:
+/// the case metadata lists only the `.rs` file, and the crate root points
+/// straight at it instead of moving it under `src/`, which keeps SARIF
+/// locations on the case's own anchor paths. `[workspace]` stops Cargo from
+/// walking out of the temporary directory looking for a parent workspace.
+fn write_rust_cargo_manifest(workspace: &Path, case: &Value) -> Result<()> {
+    let fixtures = codeql_fixture_names(case)?;
+    let [fixture] = fixtures[..] else {
+        bail!(
+            "Rust CodeQL case {} must declare exactly one fixture file; found {}",
+            case["id"],
+            fixtures.len()
+        );
+    };
+    let manifest = format!(
+        "[package]\n\
+         name = \"dataflowbench_case\"\n\
+         version = \"0.0.0\"\n\
+         edition = \"2021\"\n\
+         \n\
+         [[bin]]\n\
+         name = \"dataflowbench_case\"\n\
+         path = \"{fixture}\"\n\
+         \n\
+         [workspace]\n"
+    );
+    fs::write(workspace.join("Cargo.toml"), manifest)
+        .with_context(|| format!("write Cargo manifest in {}", workspace.display()))?;
+    Ok(())
 }
 
 fn write_codeql_error(
@@ -4045,9 +4419,11 @@ fn codeql_database_create_args(
                 fixtures.join(" ")
             ));
         }
-        // The Python and C# extractors both support `--build-mode=none`, so the
-        // fixtures need no project scaffolding and no restore step.
-        CodeqlLanguage::Python | CodeqlLanguage::CSharp => {
+        // The Python, C#, and Rust extractors all support `--build-mode=none`,
+        // so no fixture is compiled. Rust still needs the generated Cargo
+        // manifest in the workspace: without a manifest the extractor reports
+        // "semantic analyzer unavailable" and extracts syntax only.
+        CodeqlLanguage::Python | CodeqlLanguage::CSharp | CodeqlLanguage::Rust => {
             args.push("--build-mode=none".to_string())
         }
     }
