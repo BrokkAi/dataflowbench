@@ -1,26 +1,26 @@
 ---
-title: Snapshot v0.2.0
-description: Breadth baseline plus the Java, JavaScript, and Python propagation kernels for both analyzers.
+title: Snapshot v0.3.0
+description: Breadth baseline plus ten language propagation kernels, with CodeQL evidence for all ten.
 ---
 
 import SnapshotBanner from '../../../../components/SnapshotBanner.astro';
 import { snapshots, evidenceUrl } from '../../../../data/snapshots';
 
-export const snapshot = snapshots.find((s) => s.version === 'v0.2.0');
+export const snapshot = snapshots.find((s) => s.version === 'v0.3.0');
 
 <SnapshotBanner snapshot={snapshot} />
 
-The second immutable DataFlowBench snapshot: the cross-language direct-flow
-breadth baseline plus the 16-template Java, JavaScript, and Python
-propagation kernels — now with CodeQL evidence for all three kernel
-languages — on the `taint` track under the `benchmark-controlled` model
-profile.
+The third immutable DataFlowBench snapshot: the cross-language direct-flow
+breadth baseline plus propagation kernels in ten languages — Java,
+JavaScript, TypeScript, Python, Kotlin, C#, Go, C, C++, and Rust — with
+CodeQL evidence for all ten, on the `taint` track under the
+`benchmark-controlled` model profile.
 
-:::note[Archived snapshot]
-This snapshot has been superseded by a newer freeze — see
-[all snapshots](/dataflowbench/snapshots/). Its evidence remains immutable
-and every link below resolves against the pinned release commit.
-:::
+Core denominators differ by language and are never pooled: C and Rust have
+15-template (30-assertion) cores, because their exception-catch cell has no
+semantics-preserving native construct, and the other eight have 16-template
+(32-assertion) cores. Language-only constructs are reported separately in
+`language-extension` tiers.
 
 ## Claim
 
@@ -53,7 +53,7 @@ Freeze manifest: <a href={evidenceUrl(snapshot, snapshot.results.manifest.path)}
 digest-bound; `cargo run -- validate-freeze reports/freeze.json` re-verifies
 all of it.
 
-Continue to [analyzers](/dataflowbench/snapshots/v0-2-0/analyzers/),
-[languages](/dataflowbench/snapshots/v0-2-0/languages/),
-[semantic templates](/dataflowbench/snapshots/v0-2-0/templates/), or
-[case evidence](/dataflowbench/snapshots/v0-2-0/evidence/).
+Continue to [analyzers](/dataflowbench/snapshots/v0-3-0/analyzers/),
+[languages](/dataflowbench/snapshots/v0-3-0/languages/),
+[semantic templates](/dataflowbench/snapshots/v0-3-0/templates/), or
+[case evidence](/dataflowbench/snapshots/v0-3-0/evidence/).

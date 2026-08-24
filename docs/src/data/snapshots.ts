@@ -3,6 +3,7 @@
 // `cargo run -- generate-results` from a validated immutable freeze — never
 // from hand-authored prose. CI proves the checked-in model is current.
 import currentResults from '../../../results/results.json';
+import v020Results from './archive/v0-2-0-results.json';
 import v010Results from './archive/v0-1-0-results.json';
 
 export interface RateFraction {
@@ -126,11 +127,20 @@ export const repository = 'https://github.com/BrokkAi/dataflowbench';
 
 export const snapshots: Snapshot[] = [
   {
-    version: 'v0.2.0',
-    slug: 'v0-2-0',
+    version: 'v0.3.0',
+    slug: 'v0-3-0',
     evidenceRef: 'main',
     current: true,
     results: currentResults as unknown as ResultsModel,
+  },
+  {
+    version: 'v0.2.0',
+    slug: 'v0-2-0',
+    // Permanently pinned: the commit whose tree holds v0.2.0's manifest and
+    // retained evidence, immutable even as main moves on.
+    evidenceRef: '16d001475f65f043f77d4701c6f4821d926f390c',
+    current: false,
+    results: v020Results as unknown as ResultsModel,
   },
   {
     version: 'v0.1.0',

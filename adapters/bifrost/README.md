@@ -78,39 +78,32 @@ and evaluated through Bifrost's path-based policy CLI (`--root` plus
 `--policy-file`). A report with incomplete runs is normalized as `inconclusive`
 even when it contains no findings; it is never interpreted as a negative.
 
-## Retained v0.10.2 snapshot
+## Retained v0.10.5 snapshot
 
-The checked-in `reports/bifrost-smoke.json` was produced with Bifrost v0.10.2,
-build identity `c2116609f5fc1be318c8fb76fb83763cf326bab6`. The exact binary
-SHA-256 is
-`93b55dd20c283c278f586e8c8e6ad6bf0e9f5f08165b56096e110af0450d0873`.
-The smoke report contains 118 normalized results: 50 `reached`, 37
-`not-reached`, 30 `inconclusive`, and 1 `unsupported`. Every result's
+The checked-in `reports/bifrost-smoke.json` was produced with Bifrost v0.10.5,
+build identity `728ac69ab93224151c6c951b23d2f5bc681d8558`, and is frozen in
+the published v0.3.0 manifest.
+The smoke report contains 118 normalized results: 58 `reached`, 57
+`not-reached`, 2 `inconclusive`, and 1 `unsupported`. Every result's
 `raw_output` points to its retained per-case Bifrost JSON under
 `reports/raw/bifrost/`; the normalized report and raw reports are separate
 evidence layers. Raw completion and diagnostic fields are never replaced with
 a synthetic `not-reached` outcome, and normalized witness checkpoints remain
 empty until the adapter can prove their locations.
 
-The 32-case Java kernel has 14 `reached`, 8 `not-reached`, and 10
-`inconclusive` outcomes, with 17/32 assertions matching expected polarity
-(17 of 22 decisive outcomes). The 32-case Python kernel has 12
-`reached`, 8 `not-reached`, and 12
-`inconclusive`, with 16/32 assertions matching expected polarity
-(16 of 20 decisive outcomes). Its dedicated report is
+The 32-case Java kernel has 16 `reached` and 16 `not-reached` outcomes, with
+32/32 assertions matching expected polarity and no incomplete outcomes (under
+v0.10.2 it was 17/32). The 32-case Python kernel likewise has 16 `reached`,
+16 `not-reached`, and 32/32 matching (v0.10.2: 16/32); its dedicated report is
 `reports/bifrost-python-kernel.json` and raw evidence is under
 `reports/raw/bifrost-python-kernel/`. The 32-case
-JavaScript kernel has 14 `reached`, 12 `not-reached`, and 6 `inconclusive`,
-with 19/32 assertions matching expected polarity (19 of 26 decisive outcomes).
-This v0.10.2 evidence matches v0.10.1 case-for-case, but does not restore the
-complete Java correctness observed in the v0.9.5 snapshot.
+JavaScript kernel has 16 `reached`, 16 `not-reached`, and 32/32 matching
+(v0.10.2: 19/32). Unlike the v0.10.2 snapshot, this v0.10.5 evidence decides
+all three of these kernels completely.
 
-The seven post-freeze kernels — Kotlin, TypeScript, C#, Go, C, C++, and Rust —
-were run
-with a locally built Bifrost v0.10.5, build identity
-`728ac69ab93224151c6c951b23d2f5bc681d8558`. The frozen v0.2.0 slices above
-remain v0.10.2 evidence until the next freeze re-runs every Bifrost slice on
-one version.
+Every Bifrost slice in the v0.3.0 freeze — the smoke population and the
+Kotlin, TypeScript, C#, Go, C, C++, Python, and Rust kernels — was run on this
+one build.
 
 The 32-case Kotlin kernel has 12 `reached`, 10 `not-reached`, and 10
 `inconclusive`, with 19/32 assertions matching expected polarity (19 of 22
