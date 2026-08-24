@@ -230,22 +230,50 @@ const codeqlVersion = scorecards.find((card) => card.adapter.tool === 'codeql')!
   </p>
   <p>
     Each kernel poses one positive and one negative assertion per semantic
-    template, and each language's kernel is its own population — the {' '}
+    template, and each language's kernel is its own population — the
     {templateSizes}-template cores are never pooled or ranked against each
     other.
-    {kernels.map((kernel) => (
-      <>
-        {' '}On <strong>{kernel.language}</strong> ({kernel.templates} templates,
-        {' '}{kernel.bifrost.total} assertions), Bifrost decided
-        {' '}<strong>{kernel.bifrost.correct} of {kernel.bifrost.total}</strong>
-        {' '}correctly (TPR {percentCell(kernel.bifrost.tpr)}, FPR
-        {' '}{percentCell(kernel.bifrost.fpr)}, {kernel.bifrost.incomplete} incomplete)
-        {' '}and CodeQL <strong>{kernel.codeql.correct} of {kernel.codeql.total}</strong>
-        {' '}(TPR {percentCell(kernel.codeql.tpr)}, FPR
-        {' '}{percentCell(kernel.codeql.fpr)}, {kernel.codeql.incomplete} incomplete).
-      </>
-    ))}
-    {' '}On the direct-flow breadth baseline, Bifrost answered both assertions
+  </p>
+  <div class="table-scroll">
+    <table>
+      <thead>
+        <tr>
+          <th rowspan="2">Kernel</th>
+          <th rowspan="2">Templates</th>
+          <th colspan="4">Bifrost {bifrostVersion}</th>
+          <th colspan="4">CodeQL {codeqlVersion}</th>
+        </tr>
+        <tr>
+          <th>correct</th>
+          <th>TPR</th>
+          <th>FPR</th>
+          <th>incompl.</th>
+          <th>correct</th>
+          <th>TPR</th>
+          <th>FPR</th>
+          <th>incompl.</th>
+        </tr>
+      </thead>
+      <tbody>
+        {kernels.map((kernel) => (
+          <tr>
+            <th scope="row">{kernel.language}</th>
+            <td>{kernel.templates}</td>
+            <td><strong>{kernel.bifrost.correct}/{kernel.bifrost.total}</strong></td>
+            <td>{percentCell(kernel.bifrost.tpr)}</td>
+            <td>{percentCell(kernel.bifrost.fpr)}</td>
+            <td>{kernel.bifrost.incomplete}</td>
+            <td><strong>{kernel.codeql.correct}/{kernel.codeql.total}</strong></td>
+            <td>{percentCell(kernel.codeql.tpr)}</td>
+            <td>{percentCell(kernel.codeql.fpr)}</td>
+            <td>{kernel.codeql.incomplete}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+  <p>
+    On the direct-flow breadth baseline, Bifrost answered both assertions
     correctly in <strong>{breadthCorrect} of {breadth.length}</strong>
     languages{breadthIncomplete.length > 0
       ? ` (${breadthIncomplete.map((row) => row.language).join(', ')}: inconclusive, which is reported as coverage — not as a wrong answer).`
