@@ -1,0 +1,67 @@
+{
+  "schema_version": 2,
+  "id": "dfb-taint-rust-result-error-propagation-positive",
+  "template_id": "dfb-template-result-error-propagation",
+  "polarity": "positive",
+  "score_tier": "language-extension",
+  "track": "taint",
+  "language": "rust",
+  "semantic_dimensions": [
+    "interprocedural-flow",
+    "heap-field-sensitivity"
+  ],
+  "feature_tags": [
+    "interprocedural-one-hop",
+    "heap-access-path"
+  ],
+  "model_profile": "benchmark-controlled",
+  "fixture_files": [
+    "result_error_propagation_positive.rs"
+  ],
+  "source_anchors": [
+    {
+      "marker": "DFB-SOURCE: result-error-input",
+      "file": "result_error_propagation_positive.rs"
+    }
+  ],
+  "sink_anchors": [
+    {
+      "marker": "DFB-SINK: result-error-sink",
+      "file": "result_error_propagation_positive.rs"
+    }
+  ],
+  "expected_flows": [
+    {
+      "source": "DFB-SOURCE: result-error-input",
+      "sink": "DFB-SINK: result-error-sink"
+    }
+  ],
+  "expected_nonflows": [],
+  "witness_checkpoints": [
+    "DFB-SOURCE: result-error-input",
+    "DFB-WITNESS: result-error-raise",
+    "DFB-WITNESS: result-error-question-mark",
+    "DFB-SINK: result-error-sink"
+  ],
+  "expected_analysis_capability": {
+    "kind": "result-error-path-interprocedural-taint"
+  },
+  "execution_budget": {
+    "wall_clock_seconds": 60,
+    "peak_memory_mb": 512
+  },
+  "fixture_provenance": {
+    "kind": "authored",
+    "origin": "DataFlowBench",
+    "revision": "m2-rust-kernel",
+    "license": "MIT"
+  },
+  "tool_model_references": {
+    "bifrost": {
+      "policy": "adapters/bifrost/policies/core-rust-kernel.rqlp"
+    },
+    "codeql": {
+      "query": "adapters/codeql/rust/queries/RustKernel.ql"
+    }
+  }
+}

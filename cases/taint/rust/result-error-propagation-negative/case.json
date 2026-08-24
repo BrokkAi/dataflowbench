@@ -1,0 +1,63 @@
+{
+  "schema_version": 2,
+  "id": "dfb-taint-rust-result-error-propagation-negative",
+  "template_id": "dfb-template-result-error-propagation",
+  "polarity": "negative",
+  "negative_mechanism": "unrelated-value",
+  "score_tier": "language-extension",
+  "track": "taint",
+  "language": "rust",
+  "semantic_dimensions": [
+    "interprocedural-flow",
+    "heap-field-sensitivity"
+  ],
+  "feature_tags": [
+    "interprocedural-one-hop",
+    "heap-access-path"
+  ],
+  "model_profile": "benchmark-controlled",
+  "fixture_files": [
+    "result_error_propagation_negative.rs"
+  ],
+  "source_anchors": [
+    {
+      "marker": "DFB-SOURCE: result-error-negative-input",
+      "file": "result_error_propagation_negative.rs"
+    }
+  ],
+  "sink_anchors": [
+    {
+      "marker": "DFB-SINK: result-error-negative-sink",
+      "file": "result_error_propagation_negative.rs"
+    }
+  ],
+  "expected_flows": [],
+  "expected_nonflows": [
+    {
+      "source": "DFB-SOURCE: result-error-negative-input",
+      "sink": "DFB-SINK: result-error-negative-sink"
+    }
+  ],
+  "witness_checkpoints": [],
+  "expected_analysis_capability": {
+    "kind": "result-error-path-interprocedural-taint"
+  },
+  "execution_budget": {
+    "wall_clock_seconds": 60,
+    "peak_memory_mb": 512
+  },
+  "fixture_provenance": {
+    "kind": "authored",
+    "origin": "DataFlowBench",
+    "revision": "m2-rust-kernel",
+    "license": "MIT"
+  },
+  "tool_model_references": {
+    "bifrost": {
+      "policy": "adapters/bifrost/policies/core-rust-kernel.rqlp"
+    },
+    "codeql": {
+      "query": "adapters/codeql/rust/queries/RustKernel.ql"
+    }
+  }
+}

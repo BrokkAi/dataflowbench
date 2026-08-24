@@ -44,6 +44,10 @@ const CODEQL_GO_QUERY: &str = "adapters/codeql/go/queries/GoKernel.ql";
 const CODEQL_GO_RAW_DIR: &str = "reports/raw/codeql-go-kernel";
 const CODEQL_GO_REPORT: &str = "reports/codeql-go-kernel.json";
 const BIFROST_GO_POLICY: &str = "adapters/bifrost/policies/core-go-kernel.rqlp";
+const CODEQL_RUST_QUERY: &str = "adapters/codeql/rust/queries/RustKernel.ql";
+const CODEQL_RUST_RAW_DIR: &str = "reports/raw/codeql-rust-kernel";
+const CODEQL_RUST_REPORT: &str = "reports/codeql-rust-kernel.json";
+const BIFROST_RUST_POLICY: &str = "adapters/bifrost/policies/core-rust-kernel.rqlp";
 /// The module manifest written into every Go CodeQL workspace. The Go
 /// extractor has no `none` build mode, so it must observe a real `go build`;
 /// supplying the manifest keeps that build hermetic and offline instead of
@@ -86,12 +90,21 @@ const KERNEL_TEMPLATE_IDS: [&str; 16] = [
     "dfb-template-return-relay-two-hop",
     "dfb-template-same-object-field-separation",
 ];
-/// The C core population: the sixteen scored templates minus
-/// `dfb-template-exception-catch`, which docs/applicability-matrix.md classifies
-/// as **inapplicable** to C — no C construct transfers a typed value to a
-/// handler, and `setjmp`/`longjmp` does not preserve the template's
-/// value-carrying intent. The inapplicable cell reduces only C's denominator.
-const C_KERNEL_TEMPLATE_IDS: [&str; 15] = [
+/// The core population of a language whose exception-catch cell is
+/// inapplicable: the sixteen scored templates minus
+/// `dfb-template-exception-catch`. docs/applicability-matrix.md classifies that
+/// cell as **inapplicable** to both C and Rust, for different reasons — no C
+/// construct transfers a typed value to a handler, and `setjmp`/`longjmp` does
+/// not preserve the template's value-carrying intent; Rust's panics are not the
+/// idiomatic recoverable transfer, `std::panic::catch_unwind` is not guaranteed
+/// under `panic=abort`, and the payload is type-erased as `Box<dyn Any>`. The
+/// two exclusions land on the same template, so the two languages share one
+/// template set rather than two identical copies. An inapplicable cell reduces
+/// only its own language's denominator, never any other's; the construct each
+/// language uses instead (C's error-code return, Rust's `Result`/`?`) is routed
+/// to `language-extension` cases scored on their own tier and absent from this
+/// set.
+const KERNEL_TEMPLATE_IDS_WITHOUT_EXCEPTION_CATCH: [&str; 15] = [
     "dfb-template-alias-propagation-separation",
     "dfb-template-argument-position-separation",
     "dfb-template-arithmetic-expression-propagation",
@@ -108,8 +121,10 @@ const C_KERNEL_TEMPLATE_IDS: [&str; 15] = [
     "dfb-template-return-relay-two-hop",
     "dfb-template-same-object-field-separation",
 ];
-/// One positive and one negative assertion for each scored C template.
-const C_KERNEL_CASE_COUNT: usize = 2 * C_KERNEL_TEMPLATE_IDS.len();
+/// One positive and one negative assertion for each template a 15-template
+/// kernel scores.
+const KERNEL_CASE_COUNT_WITHOUT_EXCEPTION_CATCH: usize =
+    2 * KERNEL_TEMPLATE_IDS_WITHOUT_EXCEPTION_CATCH.len();
 
 #[derive(Parser)]
 #[command(name = "dataflowbench")]
@@ -205,6 +220,14 @@ enum Commands {
         #[arg(long, default_value = "bifrost")]
         bifrost: PathBuf,
     },
+    /// Run the Rust propagation kernel as its own population, separate from
+    /// every other language kernel and from the direct-flow breadth slice.
+    /// Rust's core denominator is 15 templates; the `Result`/`?`
+    /// `language-extension` cases run in the same slice on their own tier.
+    RunBifrostRustKernel {
+        #[arg(long, default_value = "bifrost")]
+        bifrost: PathBuf,
+    },
     RunCodeqlJavaKernel {
         #[arg(long, default_value = "codeql")]
         codeql: PathBuf,
@@ -281,6 +304,16 @@ enum Commands {
         #[arg(long)]
         codeql_packs: Option<PathBuf>,
     },
+    /// Run the Rust propagation kernel through the CodeQL Rust extractor, whose
+    /// support is a public preview in the pinned CLI. Each fixture is extracted
+    /// from a generated single-crate Cargo workspace, because the extractor
+    /// only runs its semantic analyzer when it finds a Cargo manifest.
+    RunCodeqlRustKernel {
+        #[arg(long, default_value = "codeql")]
+        codeql: PathBuf,
+        #[arg(long)]
+        codeql_packs: Option<PathBuf>,
+    },
 }
 
 fn main() -> Result<()> {
@@ -310,6 +343,7 @@ fn main() -> Result<()> {
         Commands::RunBifrostGoKernel { bifrost } => run_bifrost(&bifrost, BifrostRun::GoKernel),
         Commands::RunBifrostCKernel { bifrost } => run_bifrost(&bifrost, BifrostRun::CKernel),
         Commands::RunBifrostCppKernel { bifrost } => run_bifrost(&bifrost, BifrostRun::CppKernel),
+        Commands::RunBifrostRustKernel { bifrost } => run_bifrost(&bifrost, BifrostRun::RustKernel),
         Commands::RunCodeqlJavaKernel {
             codeql,
             codeql_packs,
@@ -348,6 +382,10 @@ fn main() -> Result<()> {
             codeql,
             codeql_packs,
         } => run_codeql_c_family_kernel(&codeql, codeql_packs.as_deref(), CFamilyKernel::Cpp),
+        Commands::RunCodeqlRustKernel {
+            codeql,
+            codeql_packs,
+        } => run_codeql_rust_kernel(&codeql, codeql_packs.as_deref()),
     }
 }
 
@@ -403,7 +441,18 @@ fn validate_cases() -> Result<()> {
     validate_scored_kernel_balance(&cases, "csharp", "C#", &KERNEL_TEMPLATE_IDS)?;
     validate_scored_kernel_balance(&cases, "go", "Go", &KERNEL_TEMPLATE_IDS)?;
     validate_scored_kernel_balance(&cases, "cpp", "C++", &KERNEL_TEMPLATE_IDS)?;
-    validate_scored_kernel_balance(&cases, "c", "C", &C_KERNEL_TEMPLATE_IDS)?;
+    validate_scored_kernel_balance(
+        &cases,
+        "c",
+        "C",
+        &KERNEL_TEMPLATE_IDS_WITHOUT_EXCEPTION_CATCH,
+    )?;
+    validate_scored_kernel_balance(
+        &cases,
+        "rust",
+        "Rust",
+        &KERNEL_TEMPLATE_IDS_WITHOUT_EXCEPTION_CATCH,
+    )?;
     println!("validated {} cases", paths.len());
     Ok(())
 }
@@ -503,9 +552,9 @@ fn validate_kernel_balance(cases: &[(PathBuf, Value)], kernel: EcmaKernel) -> Re
 /// template renamed, split, or silently dropped because the language spells a
 /// construct differently. The expected set is the language's core denominator
 /// from docs/applicability-matrix.md: sixteen templates for Kotlin, C#, Go, and
-/// C++, and fifteen for C, whose inapplicable exception-catch cell reduces only
-/// its own denominator. A language with no core cases yet is simply not a
-/// kernel population.
+/// C++, and fifteen for C and Rust, whose inapplicable exception-catch cell
+/// reduces only their own denominators. A language with no core cases yet is
+/// simply not a kernel population.
 fn validate_scored_kernel_balance(
     cases: &[(PathBuf, Value)],
     language: &str,
@@ -658,6 +707,7 @@ enum BifrostRun {
     GoKernel,
     CKernel,
     CppKernel,
+    RustKernel,
 }
 
 impl BifrostRun {
@@ -672,11 +722,12 @@ impl BifrostRun {
             Self::GoKernel => "Bifrost Go kernel",
             Self::CKernel => "Bifrost C kernel",
             Self::CppKernel => "Bifrost C++ kernel",
+            Self::RustKernel => "Bifrost Rust kernel",
         }
     }
 
     /// The core denominator a kernel run must cover exactly, or `None` for a
-    /// run whose population is defined some other way. C's
+    /// run whose population is defined some other way. The C and Rust
     /// `language-extension` cases are selected by the same run but are counted
     /// and scored separately, so they never move this number.
     fn expected_core_cases(self) -> Option<usize> {
@@ -684,7 +735,7 @@ impl BifrostRun {
             Self::KotlinKernel | Self::CsharpKernel | Self::GoKernel | Self::CppKernel => {
                 Some(KERNEL_CASE_COUNT)
             }
-            Self::CKernel => Some(C_KERNEL_CASE_COUNT),
+            Self::CKernel | Self::RustKernel => Some(KERNEL_CASE_COUNT_WITHOUT_EXCEPTION_CATCH),
             Self::Smoke | Self::PythonKernel | Self::TypescriptKernel => None,
         }
     }
@@ -2277,6 +2328,10 @@ fn run_bifrost(binary: &Path, run: BifrostRun) -> Result<()> {
             Path::new("reports/raw/bifrost-cpp-kernel"),
             Path::new("reports/bifrost-cpp-kernel.json"),
         ),
+        BifrostRun::RustKernel => (
+            Path::new("reports/raw/bifrost-rust-kernel"),
+            Path::new("reports/bifrost-rust-kernel.json"),
+        ),
     };
     fs::create_dir_all(raw_dir)?;
     let started = now_seconds()?;
@@ -2492,6 +2547,15 @@ fn selected_bifrost_case(case: &Value, run: BifrostRun) -> bool {
         }
         BifrostRun::CKernel => c_family_bifrost_case(case, CFamilyKernel::C),
         BifrostRun::CppKernel => c_family_bifrost_case(case, CFamilyKernel::Cpp),
+        BifrostRun::RustKernel => {
+            rust_kernel_case(case)
+                && (case["tool_model_references"]["bifrost"]["policy"]
+                    .as_str()
+                    .is_some_and(|policy| {
+                        policy == BIFROST_RUST_POLICY || policy == BIFROST_DIRECT_POLICY
+                    })
+                    || case["tool_model_references"]["bifrost"]["unsupported_reason"].is_string())
+        }
     }
 }
 
@@ -2702,7 +2766,7 @@ impl CFamilyKernel {
     /// The scored templates of this language's core denominator.
     fn templates(self) -> &'static [&'static str] {
         match self {
-            Self::C => &C_KERNEL_TEMPLATE_IDS,
+            Self::C => &KERNEL_TEMPLATE_IDS_WITHOUT_EXCEPTION_CATCH,
             Self::Cpp => &KERNEL_TEMPLATE_IDS,
         }
     }
@@ -2747,6 +2811,10 @@ enum CodeqlLanguage<'a> {
     /// run belongs to is decided by case selection and the kernel query, not by
     /// the extractor.
     CFamily,
+    /// Rust support is a public preview in the pinned CLI. The extractor takes
+    /// `--build-mode=none`, but it only runs its semantic analyzer when the
+    /// source root contains a Cargo manifest, so the runner generates one.
+    Rust,
 }
 
 impl CodeqlLanguage<'_> {
@@ -2757,6 +2825,7 @@ impl CodeqlLanguage<'_> {
             Self::CSharp => "csharp",
             Self::Go { .. } => "go",
             Self::CFamily => "cpp",
+            Self::Rust => "rust",
         }
     }
 
@@ -3345,6 +3414,147 @@ fn validate_c_family_population(
     Ok(())
 }
 
+/// Run the Rust-only CodeQL kernel. Rust support is a public preview in the
+/// pinned CLI 2.26.3 (extractor `rust` 0.1.0, library pack
+/// `codeql/rust-all@0.2.19`), and that status is recorded in
+/// `docs/rust-kernel.md` alongside the results this run produces. The
+/// population is the 30 core assertions of the 15 applicable templates plus the
+/// `Result`/`?` `language-extension` pair, which is scored on its own tier.
+fn run_codeql_rust_kernel(binary: &Path, packs: Option<&Path>) -> Result<()> {
+    validate_cases()?;
+    let selected = codeql_rust_cases()?;
+    let raw_dir = Path::new(CODEQL_RUST_RAW_DIR);
+    fs::create_dir_all(raw_dir)?;
+    let started = now_seconds()?;
+    let (version, build_identity) = codeql_version_identity(binary)?;
+    let revision = fixture_revision()?;
+    let mut results = Vec::with_capacity(selected.len());
+
+    for (path, case) in selected {
+        let id = case["id"].as_str().expect("schema validated");
+        let start = Instant::now();
+        let (outcome, diagnostics, raw_path) = run_codeql_case_for_language(
+            binary,
+            packs,
+            &path,
+            &case,
+            Path::new(CODEQL_RUST_QUERY),
+            raw_dir,
+            CodeqlLanguage::Rust,
+        )?;
+        results.push(codeql_result(
+            &case,
+            id,
+            outcome,
+            diagnostics,
+            start.elapsed(),
+            &raw_path,
+        ));
+    }
+
+    let configuration_hash = hash_paths(&codeql_rust_configuration_paths())?;
+    let report = json!({
+        "schema_version": 1,
+        "tool": "codeql",
+        "tool_version": version,
+        "tool_build_identity": build_identity,
+        "adapter_version": ADAPTER_VERSION,
+        "configuration_hash": configuration_hash,
+        "fixture_revision": revision,
+        "started_at_unix_seconds": started,
+        "ended_at_unix_seconds": now_seconds()?,
+        "cold_or_warm": "cold",
+        "results": results
+    });
+    fs::write(
+        CODEQL_RUST_REPORT,
+        serde_json::to_string_pretty(&report)? + "\n",
+    )?;
+    validate_reports()?;
+    println!("wrote {CODEQL_RUST_REPORT}");
+    Ok(())
+}
+
+/// A Rust assertion this kernel owns: the 30 `core` assertions of the 15
+/// applicable templates, plus the `Result`/`?` `language-extension` pair. The
+/// two tiers are selected together so one run produces both, and are kept apart
+/// in the scorecards by `score_tier`; the extension never enters the core
+/// denominator.
+fn rust_kernel_case(case: &Value) -> bool {
+    case["language"] == "rust"
+        && case["track"] == "taint"
+        && (case["score_tier"] == "core" || case["score_tier"] == "language-extension")
+}
+
+fn codeql_rust_cases() -> Result<Vec<(PathBuf, Value)>> {
+    let mut selected = Vec::new();
+    for path in case_paths() {
+        let case: Value = serde_json::from_str(&fs::read_to_string(&path)?)?;
+        if !rust_kernel_case(&case) {
+            continue;
+        }
+        // The direct-propagation pair predates this kernel and is frozen in the
+        // published v0.2.0 evidence without a CodeQL model reference. Any
+        // reference a Rust case does carry must name this kernel's query.
+        if let Some(query) = case["tool_model_references"]["codeql"]["query"].as_str()
+            && query != CODEQL_RUST_QUERY
+        {
+            bail!(
+                "Rust case {} references non-Rust CodeQL query {query:?}",
+                case["id"]
+            );
+        }
+        selected.push((path, case));
+    }
+    validate_rust_kernel_population(&selected, "Rust CodeQL kernel")?;
+    if !Path::new(CODEQL_RUST_QUERY).is_file() {
+        bail!("Rust CodeQL query does not exist: {CODEQL_RUST_QUERY}");
+    }
+    Ok(selected)
+}
+
+/// The Rust core population must be exactly the 15 applicable scored templates,
+/// balanced one positive to one negative under one model profile. The
+/// `Result`/`?` `language-extension` pair rides along in the same slice, is
+/// scored on its own scorecard, and is excluded from that count; anything on
+/// another tier is a template smuggled back into the core denominator and is
+/// rejected here.
+fn validate_rust_kernel_population(selected: &[(PathBuf, Value)], label: &str) -> Result<()> {
+    for (path, case) in selected {
+        let tier = case["score_tier"]
+            .as_str()
+            .with_context(|| format!("{} lacks score_tier", path.display()))?;
+        if tier != "core" && tier != "language-extension" {
+            bail!(
+                "{label} selected {} with score tier {tier:?}",
+                path.display()
+            );
+        }
+    }
+    let core = selected
+        .iter()
+        .filter(|(_, case)| case["score_tier"] == "core")
+        .cloned()
+        .collect::<Vec<_>>();
+    validate_kernel_population_with(&core, label, &KERNEL_TEMPLATE_IDS_WITHOUT_EXCEPTION_CATCH)
+}
+
+fn codeql_rust_configuration_paths() -> BTreeSet<PathBuf> {
+    let mut paths = BTreeSet::from([PathBuf::from(CODEQL_RUST_QUERY)]);
+    for candidate in [
+        "adapters/codeql/rust/qlpack.yml",
+        "adapters/codeql/rust/codeql-pack.lock.yml",
+    ]
+    .into_iter()
+    .map(PathBuf::from)
+    {
+        if candidate.is_file() {
+            paths.insert(candidate);
+        }
+    }
+    paths
+}
+
 fn codeql_c_family_configuration_paths(kernel: CFamilyKernel) -> BTreeSet<PathBuf> {
     let mut paths = BTreeSet::from([PathBuf::from(kernel.query())]);
     for candidate in [
@@ -3894,20 +4104,23 @@ struct SinkAnchorLocation {
 /// reconciler inspects; C# and Go spell both differently from ECMAScript but
 /// identically to each other, so they share the second dialect's rules while
 /// staying separately named populations; C and C++ declare a sink the same way
-/// again but reach a member through `.`, `->`, and `::`.
+/// again but reach a member through `.`, `->`, and `::`; Rust declares it the
+/// same way once more and reaches a member through `.` and `::`, but never
+/// `->`.
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 enum AnchorDialect {
     Ecma,
     CSharp,
     Go,
     Cpp,
+    Rust,
 }
 
 impl AnchorDialect {
     fn sink_function_name(self, declaration: &str, marker: &str) -> Option<String> {
         match self {
             Self::Ecma => ecma_function_name(declaration, marker),
-            Self::CSharp | Self::Go | Self::Cpp => {
+            Self::CSharp | Self::Go | Self::Cpp | Self::Rust => {
                 parameter_list_function_name(declaration, marker)
             }
         }
@@ -3918,6 +4131,7 @@ impl AnchorDialect {
             Self::Ecma => ecma_function_call(line, function_name),
             Self::CSharp | Self::Go => parameter_list_function_call(line, function_name),
             Self::Cpp => cpp_function_call(line, function_name),
+            Self::Rust => rust_function_call(line, function_name),
         }
     }
 }
@@ -4151,6 +4365,12 @@ fn parameter_list_function_call(line: &str, function_name: &str) -> bool {
 /// call of the free benchmark sink function the anchor declares.
 fn cpp_function_call(line: &str, function_name: &str) -> bool {
     member_prefixed_function_call(line, function_name, &['.', '>', ':'])
+}
+
+/// Rust reaches a member through `.` and a path through `::`; it has no `->`
+/// member operator, so — unlike C and C++ — `>` is not a qualifying prefix.
+fn rust_function_call(line: &str, function_name: &str) -> bool {
+    member_prefixed_function_call(line, function_name, &['.', ':'])
 }
 
 fn member_prefixed_function_call(
@@ -4399,6 +4619,9 @@ fn run_codeql_case_for_language(
         fs::write(workspace.join("go.mod"), GO_MODULE_MANIFEST)
             .with_context(|| format!("write Go module manifest in {}", workspace.display()))?;
     }
+    if matches!(language, CodeqlLanguage::Rust) {
+        write_rust_cargo_manifest(&workspace, case)?;
+    }
     create_command.args(codeql_database_create_args(
         &database, &workspace, case, language,
     )?);
@@ -4469,8 +4692,8 @@ fn run_codeql_case_for_language(
     let (outcome, diagnostics) = match language {
         CodeqlLanguage::Python => normalize_anchored_codeql_sarif(case, &sarif, "Python"),
         CodeqlLanguage::Kotlin { .. } => normalize_anchored_codeql_sarif(case, &sarif, "Kotlin"),
-        // C#, Go, C, and C++ fixtures all declare a `DFB-SINK:` function, so
-        // the finding is reconciled against that function's callsites rather
+        // C#, Go, C, C++, and Rust fixtures all declare a `DFB-SINK:` function,
+        // so the finding is reconciled against that function's callsites rather
         // than the sink file alone.
         CodeqlLanguage::CSharp => {
             callsite_anchored_outcome(case_path, case, &sarif, AnchorDialect::CSharp)
@@ -4480,6 +4703,9 @@ fn run_codeql_case_for_language(
         }
         CodeqlLanguage::CFamily => {
             callsite_anchored_outcome(case_path, case, &sarif, AnchorDialect::Cpp)
+        }
+        CodeqlLanguage::Rust => {
+            callsite_anchored_outcome(case_path, case, &sarif, AnchorDialect::Rust)
         }
         CodeqlLanguage::Java => {
             let result_count = sarif_result_count(&sarif);
@@ -4520,6 +4746,44 @@ fn materialize_codeql_workspace(case_path: &Path, case: &Value) -> Result<PathBu
         fs::copy(fixture_root.join(fixture), workspace.join(fixture))?;
     }
     Ok(workspace)
+}
+
+/// Give a materialized Rust workspace the Cargo manifest the CodeQL Rust
+/// extractor needs.
+///
+/// The extractor accepts `--build-mode=none` and never compiles the fixture,
+/// but with no manifest in the source root it logs "semantic analyzer
+/// unavailable (no manifest found)" and produces a syntax-only database that
+/// resolves no call targets. The manifest is generated rather than checked in
+/// so the fixtures stay single-file, exactly like every other language kernel:
+/// the case metadata lists only the `.rs` file, and the crate root points
+/// straight at it instead of moving it under `src/`, which keeps SARIF
+/// locations on the case's own anchor paths. `[workspace]` stops Cargo from
+/// walking out of the temporary directory looking for a parent workspace.
+fn write_rust_cargo_manifest(workspace: &Path, case: &Value) -> Result<()> {
+    let fixtures = codeql_fixture_names(case)?;
+    let [fixture] = fixtures[..] else {
+        bail!(
+            "Rust CodeQL case {} must declare exactly one fixture file; found {}",
+            case["id"],
+            fixtures.len()
+        );
+    };
+    let manifest = format!(
+        "[package]\n\
+         name = \"dataflowbench_case\"\n\
+         version = \"0.0.0\"\n\
+         edition = \"2021\"\n\
+         \n\
+         [[bin]]\n\
+         name = \"dataflowbench_case\"\n\
+         path = \"{fixture}\"\n\
+         \n\
+         [workspace]\n"
+    );
+    fs::write(workspace.join("Cargo.toml"), manifest)
+        .with_context(|| format!("write Cargo manifest in {}", workspace.display()))?;
+    Ok(())
 }
 
 fn write_codeql_error(
@@ -4608,13 +4872,17 @@ fn codeql_database_create_args(
                 fixtures.join(" ")
             ));
         }
-        // The Python, C#, and C/C++ extractors all support `--build-mode=none`,
-        // so the fixtures need no project scaffolding, no restore step, and no
-        // traced compile. For C/C++ the buildless extractor still discovers a
-        // real compiler (clang) to resolve the translation unit.
-        CodeqlLanguage::Python | CodeqlLanguage::CSharp | CodeqlLanguage::CFamily => {
-            args.push("--build-mode=none".to_string())
-        }
+        // The Python, C#, C/C++, and Rust extractors all support
+        // `--build-mode=none`, so the fixtures need no project scaffolding, no
+        // restore step, and no traced compile. For C/C++ the buildless
+        // extractor still discovers a real compiler (clang) to resolve the
+        // translation unit; Rust still needs the generated Cargo manifest in
+        // the workspace, because without a manifest the extractor reports
+        // "semantic analyzer unavailable" and extracts syntax only.
+        CodeqlLanguage::Python
+        | CodeqlLanguage::CSharp
+        | CodeqlLanguage::CFamily
+        | CodeqlLanguage::Rust => args.push("--build-mode=none".to_string()),
         // CodeQL 2.26.3 rejects `--build-mode=none` for Go. The traced build is
         // `go build ./...` over the workspace's synthesized module manifest,
         // which keeps extraction reproducible instead of letting autobuild
@@ -5844,7 +6112,7 @@ mod tests {
                 .filter(|(_, case)| case["score_tier"] == "core")
                 .count()
         };
-        assert_eq!(core(&c), C_KERNEL_CASE_COUNT);
+        assert_eq!(core(&c), KERNEL_CASE_COUNT_WITHOUT_EXCEPTION_CATCH);
         assert_eq!(core(&c), 30);
         assert_eq!(core(&cpp), KERNEL_CASE_COUNT);
         assert_eq!(core(&cpp), 32);
@@ -5857,7 +6125,10 @@ mod tests {
             .map(|(_, case)| case["template_id"].as_str().unwrap().to_string())
             .collect::<BTreeSet<_>>();
         assert!(!c_templates.contains("dfb-template-exception-catch"));
-        assert_eq!(c_templates.len(), C_KERNEL_TEMPLATE_IDS.len());
+        assert_eq!(
+            c_templates.len(),
+            KERNEL_TEMPLATE_IDS_WITHOUT_EXCEPTION_CATCH.len()
+        );
         for (_, case) in &c {
             assert_eq!(case["language"], "c");
             assert!(
@@ -5884,9 +6155,9 @@ mod tests {
     /// The C denominator is the sixteen scored templates minus the
     /// inapplicable exception-catch cell, and nothing else.
     #[test]
-    fn the_c_template_set_is_the_scored_set_without_exception_catch() {
+    fn the_reduced_template_set_is_the_scored_set_without_exception_catch() {
         let scored = KERNEL_TEMPLATE_IDS.iter().copied().collect::<BTreeSet<_>>();
-        let c = C_KERNEL_TEMPLATE_IDS
+        let c = KERNEL_TEMPLATE_IDS_WITHOUT_EXCEPTION_CATCH
             .iter()
             .copied()
             .collect::<BTreeSet<_>>();
@@ -5911,12 +6182,17 @@ mod tests {
                 }),
             )
         };
-        let balanced = C_KERNEL_TEMPLATE_IDS
+        let balanced = KERNEL_TEMPLATE_IDS_WITHOUT_EXCEPTION_CATCH
             .iter()
             .flat_map(|template| [case(template, "positive"), case(template, "negative")])
             .collect::<Vec<_>>();
         assert!(
-            validate_kernel_population_with(&balanced, "C kernel", &C_KERNEL_TEMPLATE_IDS).is_ok()
+            validate_kernel_population_with(
+                &balanced,
+                "C kernel",
+                &KERNEL_TEMPLATE_IDS_WITHOUT_EXCEPTION_CATCH
+            )
+            .is_ok()
         );
         assert!(
             validate_kernel_population_with(&balanced, "C kernel", &KERNEL_TEMPLATE_IDS).is_err()
@@ -5928,13 +6204,17 @@ mod tests {
             validate_kernel_population_with(
                 &with_exception_catch,
                 "C kernel",
-                &C_KERNEL_TEMPLATE_IDS
+                &KERNEL_TEMPLATE_IDS_WITHOUT_EXCEPTION_CATCH
             )
             .is_err()
         );
         assert!(
-            validate_kernel_population_with(&balanced[..2], "C kernel", &C_KERNEL_TEMPLATE_IDS)
-                .is_err()
+            validate_kernel_population_with(
+                &balanced[..2],
+                "C kernel",
+                &KERNEL_TEMPLATE_IDS_WITHOUT_EXCEPTION_CATCH
+            )
+            .is_err()
         );
     }
 
@@ -5968,7 +6248,7 @@ mod tests {
                 }
             }
         }
-        assert_eq!(c_core, C_KERNEL_CASE_COUNT);
+        assert_eq!(c_core, KERNEL_CASE_COUNT_WITHOUT_EXCEPTION_CATCH);
         assert_eq!(c - c_core, 2);
         assert_eq!(cpp, KERNEL_CASE_COUNT);
     }
@@ -6241,6 +6521,314 @@ mod tests {
             "\tother.dfb_sink(0)",
             "dfb_sink"
         ));
+    }
+
+    /// The Rust kernel scores 30 core assertions over 15 templates. The
+    /// excluded exception-catch cell stays excluded, and the `Result`/`?`
+    /// extension pair rides in the same slice without changing the denominator.
+    #[test]
+    fn rust_core_selection_is_exactly_30_balanced_assertions() {
+        let selected = codeql_rust_cases().unwrap();
+        let mut templates = BTreeMap::<String, (usize, usize)>::new();
+        let mut extensions = 0;
+        for (_, case) in &selected {
+            assert_eq!(case["language"], "rust");
+            assert_eq!(case["track"], "taint");
+            if case["score_tier"] == "language-extension" {
+                extensions += 1;
+                continue;
+            }
+            assert_eq!(case["score_tier"], "core");
+            let counts = templates
+                .entry(case["template_id"].as_str().unwrap().to_string())
+                .or_default();
+            if case["polarity"] == "positive" {
+                counts.0 += 1;
+            } else {
+                counts.1 += 1;
+            }
+        }
+        assert_eq!(templates.len(), 15);
+        assert_eq!(
+            templates.values().map(|(p, n)| p + n).sum::<usize>(),
+            KERNEL_CASE_COUNT_WITHOUT_EXCEPTION_CATCH
+        );
+        assert!(
+            templates
+                .values()
+                .all(|(positive, negative)| *positive == 1 && *negative == 1)
+        );
+        // The excluded template stays excluded: it reduces only Rust's
+        // denominator, and the language-extension pair replaces nothing.
+        assert!(!templates.contains_key("dfb-template-exception-catch"));
+        assert_eq!(extensions, 2);
+    }
+
+    /// C and Rust exclude the same template for different reasons, so they
+    /// share one 15-template constant instead of two identical copies. Their
+    /// language-extension cases stay distinct and never enter either core
+    /// denominator.
+    #[test]
+    fn c_and_rust_share_the_scored_set_without_exception_catch() {
+        let cases = case_paths()
+            .into_iter()
+            .map(|path| {
+                let case: Value =
+                    serde_json::from_str(&fs::read_to_string(&path).unwrap()).unwrap();
+                (path, case)
+            })
+            .collect::<Vec<_>>();
+        for language in ["c", "rust"] {
+            let core = core_templates_for_language(&cases, language);
+            assert_eq!(
+                core,
+                KERNEL_TEMPLATE_IDS_WITHOUT_EXCEPTION_CATCH
+                    .iter()
+                    .copied()
+                    .collect::<BTreeSet<_>>()
+            );
+        }
+        assert!(
+            !core_templates_for_language(&cases, "rust")
+                .contains("dfb-template-result-error-propagation")
+        );
+        let extension = cases
+            .iter()
+            .filter(|(_, case)| {
+                case["language"] == "rust" && case["score_tier"] == "language-extension"
+            })
+            .collect::<Vec<_>>();
+        assert_eq!(extension.len(), 2);
+        for (_, case) in extension {
+            assert_eq!(case["template_id"], "dfb-template-result-error-propagation");
+        }
+    }
+
+    /// A Rust population that reintroduced the excluded template, or that
+    /// smuggled a non-kernel tier into the slice, is not a Rust kernel.
+    #[test]
+    fn rust_kernel_population_rejects_the_excluded_or_a_foreign_template() {
+        let base = json!({
+            "language": "rust",
+            "track": "taint",
+            "score_tier": "core",
+            "model_profile": "benchmark-controlled"
+        });
+        let mut cases = Vec::new();
+        for template in KERNEL_TEMPLATE_IDS_WITHOUT_EXCEPTION_CATCH {
+            for polarity in ["positive", "negative"] {
+                let mut case = base.clone();
+                case["template_id"] = json!(template);
+                case["polarity"] = json!(polarity);
+                cases.push((PathBuf::from(format!("{template}-{polarity}")), case));
+            }
+        }
+        validate_rust_kernel_population(&cases, "test").unwrap();
+
+        let mut with_exception = cases.clone();
+        for polarity in ["positive", "negative"] {
+            let mut case = base.clone();
+            case["template_id"] = json!("dfb-template-exception-catch");
+            case["polarity"] = json!(polarity);
+            with_exception.push((PathBuf::from(polarity), case));
+        }
+        assert!(validate_rust_kernel_population(&with_exception, "test").is_err());
+
+        // A language-extension assertion rides along without changing the
+        // 30-assertion core denominator.
+        let mut with_extension = cases.clone();
+        let mut extension = base.clone();
+        extension["score_tier"] = json!("language-extension");
+        extension["template_id"] = json!("dfb-template-result-error-propagation");
+        extension["polarity"] = json!("positive");
+        with_extension.push((PathBuf::from("extension"), extension));
+        validate_rust_kernel_population(&with_extension, "test").unwrap();
+
+        // A calibration case is not part of this population at all.
+        let mut with_calibration = cases.clone();
+        let mut calibration = base.clone();
+        calibration["score_tier"] = json!("calibration");
+        calibration["template_id"] = json!("dfb-template-one-hop-relay");
+        calibration["polarity"] = json!("positive");
+        with_calibration.push((PathBuf::from("calibration"), calibration));
+        assert!(validate_rust_kernel_population(&with_calibration, "test").is_err());
+    }
+
+    #[test]
+    fn bifrost_rust_kernel_selects_only_rust_cases() {
+        let mut core = 0;
+        let mut extension = 0;
+        for path in case_paths() {
+            let case: Value = serde_json::from_str(&fs::read_to_string(path).unwrap()).unwrap();
+            if selected_bifrost_case(&case, BifrostRun::RustKernel) {
+                assert!(rust_kernel_case(&case));
+                if case["score_tier"] == "core" {
+                    core += 1;
+                } else {
+                    assert_eq!(case["score_tier"], "language-extension");
+                    extension += 1;
+                }
+                for other in [
+                    BifrostRun::PythonKernel,
+                    BifrostRun::KotlinKernel,
+                    BifrostRun::TypescriptKernel,
+                    BifrostRun::CsharpKernel,
+                    BifrostRun::GoKernel,
+                    BifrostRun::CKernel,
+                    BifrostRun::CppKernel,
+                ] {
+                    assert!(!selected_bifrost_case(&case, other));
+                }
+            }
+        }
+        assert_eq!(core, KERNEL_CASE_COUNT_WITHOUT_EXCEPTION_CATCH);
+        assert_eq!(
+            BifrostRun::RustKernel.expected_core_cases(),
+            Some(KERNEL_CASE_COUNT_WITHOUT_EXCEPTION_CATCH)
+        );
+        assert_eq!(extension, 2);
+    }
+
+    #[test]
+    fn rust_codeql_report_paths_are_dedicated() {
+        for other in [
+            CODEQL_KOTLIN_REPORT,
+            CODEQL_CSHARP_REPORT,
+            CODEQL_JAVASCRIPT_REPORT,
+            CODEQL_TYPESCRIPT_REPORT,
+            CODEQL_GO_REPORT,
+            CODEQL_C_REPORT,
+            CODEQL_CPP_REPORT,
+            "reports/codeql-python-kernel.json",
+        ] {
+            assert_ne!(CODEQL_RUST_REPORT, other);
+        }
+        for other in [
+            CODEQL_KOTLIN_RAW_DIR,
+            CODEQL_CSHARP_RAW_DIR,
+            CODEQL_JAVASCRIPT_RAW_DIR,
+            CODEQL_TYPESCRIPT_RAW_DIR,
+            CODEQL_GO_RAW_DIR,
+            CODEQL_C_RAW_DIR,
+            CODEQL_CPP_RAW_DIR,
+        ] {
+            assert_ne!(CODEQL_RUST_RAW_DIR, other);
+        }
+        assert_ne!(CODEQL_RUST_QUERY, CODEQL_CSHARP_QUERY);
+        assert_eq!(CodeqlLanguage::Rust.cli_name(), "rust");
+        assert!(!CodeqlLanguage::Rust.traces_jvm_compile());
+    }
+
+    #[test]
+    fn rust_codeql_databases_carry_a_generated_cargo_manifest() {
+        let case = json!({"id": "dfb-taint-rust-test", "fixture_files": ["direct_flow.rs"]});
+        let args = codeql_database_create_args(
+            Path::new("/tmp/rust-db"),
+            Path::new("/tmp/rust-workspace"),
+            &case,
+            CodeqlLanguage::Rust,
+        )
+        .unwrap();
+        assert!(args.iter().any(|arg| arg == "--language=rust"));
+        assert!(args.iter().any(|arg| arg == "--build-mode=none"));
+        assert!(!args.iter().any(|arg| arg.starts_with("--command=")));
+
+        let workspace = std::env::temp_dir().join(format!(
+            "dataflowbench-rust-manifest-test-{}-{}",
+            std::process::id(),
+            SystemTime::now()
+                .duration_since(UNIX_EPOCH)
+                .unwrap()
+                .as_nanos()
+        ));
+        fs::create_dir_all(&workspace).unwrap();
+        write_rust_cargo_manifest(&workspace, &case).unwrap();
+        let manifest = fs::read_to_string(workspace.join("Cargo.toml")).unwrap();
+        // Without a manifest the extractor logs "semantic analyzer unavailable
+        // (no manifest found)" and resolves no call targets, so the crate root
+        // must point straight at the case's single fixture file.
+        assert!(manifest.contains("path = \"direct_flow.rs\""), "{manifest}");
+        assert!(manifest.contains("[workspace]"), "{manifest}");
+
+        let two_fixtures = json!({"id": "x", "fixture_files": ["a.rs", "b.rs"]});
+        assert!(write_rust_cargo_manifest(&workspace, &two_fixtures).is_err());
+        fs::remove_dir_all(workspace).unwrap();
+    }
+
+    /// Rust declares a sink the way C#, Go, and C/C++ do, but reaches a member
+    /// through `.` and `::` only — it has no `->` operator to exclude.
+    #[test]
+    fn rust_sink_declarations_resolve_to_the_declared_function() {
+        assert_eq!(
+            parameter_list_function_name(
+                "fn dfb_sink(value: i32) {} // DFB-SINK: sink",
+                "DFB-SINK: sink"
+            )
+            .as_deref(),
+            Some("dfb_sink")
+        );
+        assert_eq!(
+            parameter_list_function_name("    let value = 0; // DFB-SINK: sink", "DFB-SINK: sink"),
+            None
+        );
+        assert!(rust_function_call("    dfb_sink(input);", "dfb_sink"));
+        assert!(rust_function_call(
+            "    dfb_sink(holder.value);",
+            "dfb_sink"
+        ));
+        assert!(!rust_function_call(
+            "    other.dfb_sink(value);",
+            "dfb_sink"
+        ));
+        assert!(!rust_function_call(
+            "    other::dfb_sink(value);",
+            "dfb_sink"
+        ));
+        assert!(!rust_function_call("    my_dfb_sink(value);", "dfb_sink"));
+        assert!(!rust_function_call("    // dfb_sink(value);", "dfb_sink"));
+
+        let root = std::env::temp_dir().join(format!(
+            "dataflowbench-rust-anchor-test-{}-{}",
+            std::process::id(),
+            SystemTime::now()
+                .duration_since(UNIX_EPOCH)
+                .unwrap()
+                .as_nanos()
+        ));
+        fs::create_dir_all(&root).unwrap();
+        let case_path = root.join("case.json");
+        fs::write(
+            root.join("fixture.rs"),
+            "fn dfb_sink(value: i32) {} // DFB-SINK: sink\nfn other(value: i32) {}\n    other(input);\n    dfb_sink(input);\n",
+        )
+        .unwrap();
+        let case = json!({
+            "sink_anchors": [{
+                "marker": "DFB-SINK: sink",
+                "file": "fixture.rs",
+                "line_hint": 1
+            }]
+        });
+        let outcome = |sarif: &Value| {
+            callsite_anchored_outcome(&case_path, &case, sarif, AnchorDialect::Rust).0
+        };
+        let matching = json!({
+            "runs": [{"results": [{"locations": [{"physicalLocation": {
+                "artifactLocation": {"uri": "fixture.rs"},
+                "region": {"startLine": 4}
+            }}]}]}]
+        });
+        assert_eq!(outcome(&matching), "reached");
+        let wrong_line = json!({
+            "runs": [{"results": [{"locations": [{"physicalLocation": {
+                "artifactLocation": {"uri": "fixture.rs"},
+                "region": {"startLine": 3}
+            }}]}]}]
+        });
+        assert_eq!(outcome(&wrong_line), "inconclusive");
+        let no_results = json!({"runs": [{"results": []}]});
+        assert_eq!(outcome(&no_results), "not-reached");
+        fs::remove_dir_all(root).unwrap();
     }
 
     #[test]

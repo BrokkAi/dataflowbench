@@ -1,9 +1,9 @@
 # CodeQL adapter
 
 The CodeQL adapter runs language-scoped benchmark kernels against canonical
-fixtures. Java, JavaScript, TypeScript, Python, Kotlin, C#, Go, C, and C++ have
-separate selections, query paths, normalized reports, and retained raw-evidence
-directories. JavaScript and TypeScript share CodeQL's `javascript` extractor
+fixtures. Java, JavaScript, TypeScript, Python, Kotlin, C#, Go, C, C++, and
+Rust have separate selections, query paths, normalized reports, and retained
+raw-evidence directories. JavaScript and TypeScript share CodeQL's `javascript` extractor
 and standard library, but they are two separate populations: each slice
 selects only its own language's cases, and each query additionally guards on
 its fixture's file extension so the result sets cannot overlap. Kotlin is
@@ -14,11 +14,14 @@ C++ share the `cpp` extractor and one pack, and are likewise two populations
 with two denominators: 16 templates (32 assertions) for C++, 15 templates (30
 assertions) for C, plus two C `language-extension` cases that never enter the C
 core denominator. Each of the two queries restricts its data-flow nodes to its
-own fixture extension.
+own fixture extension. Rust has its own extractor too, whose support is a
+**public preview** in the pinned CLI, and its own population with the same
+reduced 15-template denominator as C, plus two Rust `language-extension` cases
+that never enter the Rust core denominator.
 
 The checked-in query packs contain the Java, JavaScript, TypeScript, Python,
-Kotlin, C#, Go, C, and C++ kernel queries. Each query uses that language's CodeQL data-flow
-API and the benchmark-controlled `dfb_source()`/`dfb_sink(value)` contract; the
+Kotlin, C#, Go, C, C++, and Rust kernel queries. Each query uses that
+language's CodeQL data-flow API and the benchmark-controlled `dfb_source()`/`dfb_sink(value)` contract; the
 Python query is `python/queries/PythonKernel.ql` in its own Python
 database-schema pack, the TypeScript query is
 `typescript/queries/TypeScriptKernel.ql` in its own pack, the Kotlin query
@@ -27,7 +30,9 @@ is `kotlin/queries/KotlinKernel.ql` in its own pack pinned to the same
 `csharp/queries/CSharpKernel.ql` in its own C# pack, and the Go query is
 `go/queries/GoKernel.ql` in its own Go pack. The C and C++ queries are
 `cpp/queries/CKernel.ql` and `cpp/queries/CppKernel.ql` in one shared C-family
-pack pinned to `codeql/cpp-all@12.0.2`.
+pack pinned to `codeql/cpp-all@12.0.2`, and the Rust query is
+`rust/queries/RustKernel.ql` in its own Rust pack pinned to
+`codeql/rust-all@0.2.19`.
 
 The Java kernel adapter creates one CodeQL database per canonical case,
 compiles the fixture with its real `javac` build, runs the pinned
@@ -458,6 +463,79 @@ positives, with no exception-catch cell in the C population. Both
 are scored on their own scorecard rather than in the 30-assertion denominator.
 Its configuration hash is
 `719415b9134dfd43390ffdb76eef45f7ed022f907f22913226c22f93277b62f8`.
+
+## Rust kernel
+
+The Rust runner selects the Rust `taint` cases whose `score_tier` is `core` —
+30 assertions over the 15 templates `docs/applicability-matrix.md` classifies
+as applicable — plus the two `language-extension` assertions that carry
+`Result`/`?` error-path propagation. `exception-catch` is inapplicable to Rust
+and stays excluded, reducing only the Rust denominator; the extension pair is
+scored on its own tier and never enters the core denominator. Every selected
+case is analyzed with:
+
+```text
+adapters/codeql/rust/queries/RustKernel.ql
+```
+
+owned by the dedicated Rust pack manifest `adapters/codeql/rust/qlpack.yml`,
+pinned to `codeql/rust-all@0.2.19` — the version `codeql pack install` resolves
+for CodeQL CLI 2.26.3 — with the full transitive set committed in
+`adapters/codeql/rust/codeql-pack.lock.yml`.
+
+**Rust support is a public preview.** The pinned CLI emits no maturity flag of
+its own; what it does report, and what the lock pins, are pre-1.0 versions:
+extractor `rust` 0.1.0 and library pack `codeql/rust-all@0.2.19`, against
+1.x-and-above packs for the GA languages. Rust results in this repository are
+labelled and read as public-preview analyzer evidence. See [the Rust kernel
+contract](../../docs/rust-kernel.md).
+
+```bash
+codeql pack install adapters/codeql/rust
+cargo run -- run-codeql-rust-kernel --codeql /path/to/codeql
+```
+
+Registry retrieval of the Rust pack succeeded for the pinned CLI, so the run
+needed no `--codeql-packs` fallback.
+
+Each case gets one cold database created with `--build-mode=none`, so no
+fixture is compiled. The Rust extractor does, however, only run its semantic
+analyzer when it finds a Cargo manifest in the source root — without one it
+warns "semantic analyzer unavailable (no manifest found)" and builds a
+syntax-only database in which no call target resolves. The runner therefore
+generates a minimal single-crate `Cargo.toml` in each temporary workspace, with
+`[[bin]] path` pointing at the case's own `.rs` file so SARIF locations stay on
+the case's anchor paths. That manifest is an adapter artifact: no `Cargo.toml`
+is checked in beside any case. The runner writes
+`reports/codeql-rust-kernel.json` and retains SARIF (or raw runner diagnostics)
+under `reports/raw/codeql-rust-kernel/`. SARIF locations are reconciled with
+the case's `DFB-SINK:` anchor by resolving the declared sink function name and
+accepting a finding on a line that calls it in the same file. Rust declares a
+sink exactly as C#, Go, C, and C++ do, so it shares that declaration rule; it
+gets its own callsite rule because Rust reaches a member through `.` and a path
+through `::`, and neither is a call of the free sink function the anchor
+declares.
+
+The checked-in `reports/codeql-rust-kernel.json` contains 32 results. Its 30
+core assertions are 17 `reached` and 13 `not-reached`, with zero `inconclusive`,
+`unsupported`, or `runner-error` outcomes; 28 of 30 match the expected polarity.
+All 15 positives are `reached`, so there are no false negatives; the two
+mismatches are the array-element and loop-carried negatives, which are false
+positives here as they are for the Java, Kotlin, and C# kernels against this
+build. The alias-propagation and expression positives that are false negatives
+in every other CodeQL kernel are `reached` here.
+
+The two `language-extension` assertions are reported separately and never enter
+that denominator: both are `not-reached`, so
+`dfb-taint-rust-result-error-propagation-positive` is a false negative — the
+pinned preview analyzer does not carry the value through the `Result` error
+variant and `?` across the call boundary — and the negative is correct.
+
+All 32 raw outputs are SARIF files under `reports/raw/codeql-rust-kernel/` with
+zero error files. Per-case wall clock ran 50.8 s to 98.4 s, about 40 minutes for
+the population, because every case re-extracts the Cargo workspace's library
+sources. Its configuration hash is
+`cc2c728b66e0c273545e3531a672c0987473f3830f5df80b0839f5d04c33600b`.
 
 ## Retained v2.26.3 snapshot
 
