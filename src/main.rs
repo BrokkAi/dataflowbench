@@ -40,10 +40,21 @@ const CODEQL_CPP_REPORT: &str = "reports/codeql-cpp-kernel.json";
 const BIFROST_C_POLICY: &str = "adapters/bifrost/policies/core-c-kernel.rqlp";
 const BIFROST_CPP_POLICY: &str = "adapters/bifrost/policies/core-cpp-kernel.rqlp";
 const BIFROST_CSHARP_POLICY: &str = "adapters/bifrost/policies/core-csharp-kernel.rqlp";
-/// The cross-language direct-flow breadth policy. The C# direct-propagation
-/// pair predates the C# kernel and is frozen in the published v0.2.0 evidence,
-/// so it keeps this policy reference while still belonging to the C# kernel's
-/// 16 balanced templates.
+const CODEQL_GO_QUERY: &str = "adapters/codeql/go/queries/GoKernel.ql";
+const CODEQL_GO_RAW_DIR: &str = "reports/raw/codeql-go-kernel";
+const CODEQL_GO_REPORT: &str = "reports/codeql-go-kernel.json";
+const BIFROST_GO_POLICY: &str = "adapters/bifrost/policies/core-go-kernel.rqlp";
+/// The module manifest written into every Go CodeQL workspace. The Go
+/// extractor has no `none` build mode, so it must observe a real `go build`;
+/// supplying the manifest keeps that build hermetic and offline instead of
+/// letting autobuild synthesize one and resolve dependencies over the network.
+/// The fixtures import nothing, so the language version only has to be old
+/// enough that the installed toolchain never fetches another one.
+const GO_MODULE_MANIFEST: &str = "module dataflowbench\n\ngo 1.21\n";
+/// The cross-language direct-flow breadth policy. The C# and Go
+/// direct-propagation pairs predate their kernels and are frozen in the
+/// published v0.2.0 evidence, so they keep this policy reference while still
+/// belonging to their kernel's 16 balanced templates.
 const BIFROST_DIRECT_POLICY: &str = "adapters/bifrost/policies/core-direct.rqlp";
 /// The language-qualified Bifrost policy that every Kotlin kernel assertion is
 /// evaluated with. Two of the 32 Kotlin core assertions — the
@@ -175,6 +186,12 @@ enum Commands {
         #[arg(long, default_value = "bifrost")]
         bifrost: PathBuf,
     },
+    /// Run the Go propagation kernel as its own population, separate from every
+    /// other language kernel and from the direct-flow breadth slice.
+    RunBifrostGoKernel {
+        #[arg(long, default_value = "bifrost")]
+        bifrost: PathBuf,
+    },
     /// Run the C propagation kernel as its own population. C's core
     /// denominator is 15 templates; its `language-extension` cases run in the
     /// same slice but keep their own scorecard.
@@ -235,6 +252,18 @@ enum Commands {
         #[arg(long)]
         codeql_packs: Option<PathBuf>,
     },
+    /// Run the Go propagation kernel through the Go CodeQL extractor. The Go
+    /// extractor has no `none` build mode, so a Go toolchain must be on PATH
+    /// (or named with --go) for the traced `go build`.
+    RunCodeqlGoKernel {
+        #[arg(long, default_value = "codeql")]
+        codeql: PathBuf,
+        #[arg(long)]
+        codeql_packs: Option<PathBuf>,
+        /// Go toolchain used to trace extraction.
+        #[arg(long, default_value = "go")]
+        go: PathBuf,
+    },
     /// Run the C propagation kernel through the shared `cpp` CodeQL extractor.
     /// The extractor covers C and C++ alike, so this command selects `.c`
     /// fixtures only and analyzes them with the C-scoped kernel query.
@@ -278,6 +307,7 @@ fn main() -> Result<()> {
             run_bifrost(&bifrost, BifrostRun::TypescriptKernel)
         }
         Commands::RunBifrostCsharpKernel { bifrost } => run_bifrost_csharp_kernel(&bifrost),
+        Commands::RunBifrostGoKernel { bifrost } => run_bifrost(&bifrost, BifrostRun::GoKernel),
         Commands::RunBifrostCKernel { bifrost } => run_bifrost(&bifrost, BifrostRun::CKernel),
         Commands::RunBifrostCppKernel { bifrost } => run_bifrost(&bifrost, BifrostRun::CppKernel),
         Commands::RunCodeqlJavaKernel {
@@ -305,6 +335,11 @@ fn main() -> Result<()> {
             codeql,
             codeql_packs,
         } => run_codeql_csharp_kernel(&codeql, codeql_packs.as_deref()),
+        Commands::RunCodeqlGoKernel {
+            codeql,
+            codeql_packs,
+            go,
+        } => run_codeql_go_kernel(&codeql, codeql_packs.as_deref(), &go),
         Commands::RunCodeqlCKernel {
             codeql,
             codeql_packs,
@@ -366,6 +401,7 @@ fn validate_cases() -> Result<()> {
     validate_kernel_balance(&cases, EcmaKernel::TypeScript)?;
     validate_scored_kernel_balance(&cases, "kotlin", "Kotlin", &KERNEL_TEMPLATE_IDS)?;
     validate_scored_kernel_balance(&cases, "csharp", "C#", &KERNEL_TEMPLATE_IDS)?;
+    validate_scored_kernel_balance(&cases, "go", "Go", &KERNEL_TEMPLATE_IDS)?;
     validate_scored_kernel_balance(&cases, "cpp", "C++", &KERNEL_TEMPLATE_IDS)?;
     validate_scored_kernel_balance(&cases, "c", "C", &C_KERNEL_TEMPLATE_IDS)?;
     println!("validated {} cases", paths.len());
@@ -466,7 +502,7 @@ fn validate_kernel_balance(cases: &[(PathBuf, Value)], kernel: EcmaKernel) -> Re
 /// A ported kernel must carry its scored template identities unchanged, with no
 /// template renamed, split, or silently dropped because the language spells a
 /// construct differently. The expected set is the language's core denominator
-/// from docs/applicability-matrix.md: sixteen templates for Kotlin, C#, and
+/// from docs/applicability-matrix.md: sixteen templates for Kotlin, C#, Go, and
 /// C++, and fifteen for C, whose inapplicable exception-catch cell reduces only
 /// its own denominator. A language with no core cases yet is simply not a
 /// kernel population.
@@ -619,8 +655,39 @@ enum BifrostRun {
     KotlinKernel,
     TypescriptKernel,
     CsharpKernel,
+    GoKernel,
     CKernel,
     CppKernel,
+}
+
+impl BifrostRun {
+    /// The label a run is named by in diagnostics.
+    fn label(self) -> &'static str {
+        match self {
+            Self::Smoke => "Bifrost smoke",
+            Self::PythonKernel => "Bifrost Python kernel",
+            Self::KotlinKernel => "Bifrost Kotlin kernel",
+            Self::TypescriptKernel => "Bifrost TypeScript kernel",
+            Self::CsharpKernel => "Bifrost C# kernel",
+            Self::GoKernel => "Bifrost Go kernel",
+            Self::CKernel => "Bifrost C kernel",
+            Self::CppKernel => "Bifrost C++ kernel",
+        }
+    }
+
+    /// The core denominator a kernel run must cover exactly, or `None` for a
+    /// run whose population is defined some other way. C's
+    /// `language-extension` cases are selected by the same run but are counted
+    /// and scored separately, so they never move this number.
+    fn expected_core_cases(self) -> Option<usize> {
+        match self {
+            Self::KotlinKernel | Self::CsharpKernel | Self::GoKernel | Self::CppKernel => {
+                Some(KERNEL_CASE_COUNT)
+            }
+            Self::CKernel => Some(C_KERNEL_CASE_COUNT),
+            Self::Smoke | Self::PythonKernel | Self::TypescriptKernel => None,
+        }
+    }
 }
 fn validate_freeze(manifest: &Path) -> Result<()> {
     let root = repository_root()?;
@@ -2198,6 +2265,10 @@ fn run_bifrost(binary: &Path, run: BifrostRun) -> Result<()> {
             Path::new("reports/raw/bifrost-csharp-kernel"),
             Path::new("reports/bifrost-csharp-kernel.json"),
         ),
+        BifrostRun::GoKernel => (
+            Path::new("reports/raw/bifrost-go-kernel"),
+            Path::new("reports/bifrost-go-kernel.json"),
+        ),
         BifrostRun::CKernel => (
             Path::new("reports/raw/bifrost-c-kernel"),
             Path::new("reports/bifrost-c-kernel.json"),
@@ -2334,24 +2405,14 @@ fn run_bifrost(binary: &Path, run: BifrostRun) -> Result<()> {
         ));
     }
     if selected_cases == 0 {
-        bail!("no cases selected for {}", bifrost_run_label(run));
+        bail!("no cases selected for {}", run.label());
     }
-    // The core denominator each kernel run must cover exactly. C's
-    // `language-extension` cases are selected by the same run but are counted
-    // and scored separately, so they never move this number.
-    let expected_core_cases = match run {
-        BifrostRun::KotlinKernel | BifrostRun::CsharpKernel | BifrostRun::CppKernel => {
-            Some(KERNEL_CASE_COUNT)
-        }
-        BifrostRun::CKernel => Some(C_KERNEL_CASE_COUNT),
-        BifrostRun::Smoke | BifrostRun::PythonKernel | BifrostRun::TypescriptKernel => None,
-    };
-    if let Some(expected) = expected_core_cases
+    if let Some(expected) = run.expected_core_cases()
         && selected_core_cases != expected
     {
         bail!(
             "{} must select exactly {expected} core assertions; found {selected_core_cases}",
-            bifrost_run_label(run)
+            run.label()
         );
     }
     let configuration_hash = hash_paths(&policy_paths)?;
@@ -2372,18 +2433,6 @@ fn run_bifrost(binary: &Path, run: BifrostRun) -> Result<()> {
     validate_reports()?;
     println!("wrote {}", report_path.display());
     Ok(())
-}
-
-fn bifrost_run_label(run: BifrostRun) -> &'static str {
-    match run {
-        BifrostRun::Smoke => "Bifrost smoke",
-        BifrostRun::PythonKernel => "Bifrost Python kernel",
-        BifrostRun::KotlinKernel => "Bifrost Kotlin kernel",
-        BifrostRun::TypescriptKernel => "Bifrost TypeScript kernel",
-        BifrostRun::CsharpKernel => "Bifrost C# kernel",
-        BifrostRun::CKernel => "Bifrost C kernel",
-        BifrostRun::CppKernel => "Bifrost C++ kernel",
-    }
 }
 
 /// The Bifrost policy a run evaluates for one case.
@@ -2429,6 +2478,15 @@ fn selected_bifrost_case(case: &Value, run: BifrostRun) -> bool {
                     .as_str()
                     .is_some_and(|policy| {
                         policy == BIFROST_CSHARP_POLICY || policy == BIFROST_DIRECT_POLICY
+                    })
+                    || case["tool_model_references"]["bifrost"]["unsupported_reason"].is_string())
+        }
+        BifrostRun::GoKernel => {
+            go_core_case(case)
+                && (case["tool_model_references"]["bifrost"]["policy"]
+                    .as_str()
+                    .is_some_and(|policy| {
+                        policy == BIFROST_GO_POLICY || policy == BIFROST_DIRECT_POLICY
                     })
                     || case["tool_model_references"]["bifrost"]["unsupported_reason"].is_string())
         }
@@ -2679,6 +2737,12 @@ enum CodeqlLanguage<'a> {
         kotlinc: &'a Path,
     },
     CSharp,
+    /// The Go extractor rejects `--build-mode=none` outright; it only sees Go
+    /// sources while it traces a real `go build`, so the toolchain is carried
+    /// here the way the Kotlin compiler is.
+    Go {
+        go: &'a Path,
+    },
     /// C and C++ share CodeQL's `cpp` extractor. Which of the two populations a
     /// run belongs to is decided by case selection and the kernel query, not by
     /// the extractor.
@@ -2691,6 +2755,7 @@ impl CodeqlLanguage<'_> {
             Self::Java | Self::Kotlin { .. } => "java",
             Self::Python => "python",
             Self::CSharp => "csharp",
+            Self::Go { .. } => "go",
             Self::CFamily => "cpp",
         }
     }
@@ -3050,6 +3115,112 @@ fn run_codeql_csharp_kernel(binary: &Path, packs: Option<&Path>) -> Result<()> {
     validate_reports()?;
     println!("wrote {CODEQL_CSHARP_REPORT}");
     Ok(())
+}
+
+/// Run the Go-only CodeQL kernel. Unlike Python and C#, the Go extractor has
+/// no build-free mode, so each cold database is built from the declared fixture
+/// plus a synthesized module manifest and a traced `go build`. Findings are
+/// reconciled against the case's `DFB-SINK:` function callsites.
+fn run_codeql_go_kernel(binary: &Path, packs: Option<&Path>, go: &Path) -> Result<()> {
+    validate_cases()?;
+    let selected = codeql_go_cases()?;
+    let raw_dir = Path::new(CODEQL_GO_RAW_DIR);
+    fs::create_dir_all(raw_dir)?;
+    let started = now_seconds()?;
+    let (version, build_identity) = codeql_version_identity(binary)?;
+    let revision = fixture_revision()?;
+    let mut results = Vec::with_capacity(selected.len());
+
+    for (path, case) in selected {
+        let id = case["id"].as_str().expect("schema validated");
+        let start = Instant::now();
+        let (outcome, diagnostics, raw_path) = run_codeql_case_for_language(
+            binary,
+            packs,
+            &path,
+            &case,
+            Path::new(CODEQL_GO_QUERY),
+            raw_dir,
+            CodeqlLanguage::Go { go },
+        )?;
+        results.push(codeql_result(
+            &case,
+            id,
+            outcome,
+            diagnostics,
+            start.elapsed(),
+            &raw_path,
+        ));
+    }
+
+    let configuration_hash = hash_paths(&codeql_go_configuration_paths())?;
+    let report = json!({
+        "schema_version": 1,
+        "tool": "codeql",
+        "tool_version": version,
+        "tool_build_identity": build_identity,
+        "adapter_version": ADAPTER_VERSION,
+        "configuration_hash": configuration_hash,
+        "fixture_revision": revision,
+        "started_at_unix_seconds": started,
+        "ended_at_unix_seconds": now_seconds()?,
+        "cold_or_warm": "cold",
+        "results": results
+    });
+    fs::write(
+        CODEQL_GO_REPORT,
+        serde_json::to_string_pretty(&report)? + "\n",
+    )?;
+    validate_reports()?;
+    println!("wrote {CODEQL_GO_REPORT}");
+    Ok(())
+}
+
+fn go_core_case(case: &Value) -> bool {
+    case["language"] == "go" && case["track"] == "taint" && case["score_tier"] == "core"
+}
+
+fn codeql_go_cases() -> Result<Vec<(PathBuf, Value)>> {
+    let mut selected = Vec::new();
+    for path in case_paths() {
+        let case: Value = serde_json::from_str(&fs::read_to_string(&path)?)?;
+        if !go_core_case(&case) {
+            continue;
+        }
+        // The direct-propagation pair predates this kernel and is frozen in the
+        // published v0.2.0 evidence without a CodeQL model reference. Any
+        // reference a Go core case does carry must name this kernel's query.
+        if let Some(query) = case["tool_model_references"]["codeql"]["query"].as_str()
+            && query != CODEQL_GO_QUERY
+        {
+            bail!(
+                "Go core case {} references non-Go CodeQL query {query:?}",
+                case["id"]
+            );
+        }
+        selected.push((path, case));
+    }
+    validate_kernel_population(&selected, "Go CodeQL kernel")?;
+    if !Path::new(CODEQL_GO_QUERY).is_file() {
+        bail!("Go CodeQL query does not exist: {CODEQL_GO_QUERY}");
+    }
+    Ok(selected)
+}
+
+fn codeql_go_configuration_paths() -> BTreeSet<PathBuf> {
+    let mut paths = BTreeSet::from([PathBuf::from(CODEQL_GO_QUERY)]);
+    for candidate in [
+        "adapters/codeql/go/qlpack.yml",
+        "adapters/codeql/go/codeql-pack.lock.yml",
+    ]
+    .into_iter()
+    .map(PathBuf::from)
+    {
+        if candidate.is_file() {
+            paths.insert(candidate);
+        }
+    }
+    paths
 }
 
 /// Run one of the two C-family CodeQL kernels. C and C++ share the `cpp`
@@ -3720,12 +3891,15 @@ struct SinkAnchorLocation {
 /// Anchor reconciliation is language-neutral apart from two surface questions:
 /// which function a `DFB-SINK:` marker declares, and which lines call it. One
 /// dialect covers JavaScript and TypeScript, which share the surface syntax the
-/// reconciler inspects; C# spells both differently; C and C++ declare a sink
-/// the same way C# does but reach a member through `.`, `->`, and `::`.
+/// reconciler inspects; C# and Go spell both differently from ECMAScript but
+/// identically to each other, so they share the second dialect's rules while
+/// staying separately named populations; C and C++ declare a sink the same way
+/// again but reach a member through `.`, `->`, and `::`.
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 enum AnchorDialect {
     Ecma,
     CSharp,
+    Go,
     Cpp,
 }
 
@@ -3733,15 +3907,16 @@ impl AnchorDialect {
     fn sink_function_name(self, declaration: &str, marker: &str) -> Option<String> {
         match self {
             Self::Ecma => ecma_function_name(declaration, marker),
-            // C#, C, and C++ all declare the sink as `<type> name(<params>)`.
-            Self::CSharp | Self::Cpp => declared_function_name(declaration, marker),
+            Self::CSharp | Self::Go | Self::Cpp => {
+                parameter_list_function_name(declaration, marker)
+            }
         }
     }
 
     fn is_call(self, line: &str, function_name: &str) -> bool {
         match self {
             Self::Ecma => ecma_function_call(line, function_name),
-            Self::CSharp => csharp_function_call(line, function_name),
+            Self::CSharp | Self::Go => parameter_list_function_call(line, function_name),
             Self::Cpp => cpp_function_call(line, function_name),
         }
     }
@@ -3762,16 +3937,20 @@ fn ecma_sarif_outcome(
     sarif_anchor_outcome(case_path, case, sarif, AnchorDialect::Ecma)
 }
 
-fn csharp_sarif_outcome(
+/// Reconcile a SARIF document against the case's sink callsites and merge the
+/// query's own messages into the retained diagnostics.
+fn callsite_anchored_outcome(
     case_path: &Path,
     case: &Value,
     sarif: &Value,
+    dialect: AnchorDialect,
 ) -> (&'static str, Vec<String>) {
-    sarif_anchor_outcome(case_path, case, sarif, AnchorDialect::CSharp)
-}
-
-fn cpp_sarif_outcome(case_path: &Path, case: &Value, sarif: &Value) -> (&'static str, Vec<String>) {
-    sarif_anchor_outcome(case_path, case, sarif, AnchorDialect::Cpp)
+    let mut diagnostics = sarif_messages(sarif);
+    let (outcome, anchor_diagnostics) = sarif_anchor_outcome(case_path, case, sarif, dialect);
+    diagnostics.extend(anchor_diagnostics);
+    diagnostics.sort();
+    diagnostics.dedup();
+    (outcome, diagnostics)
 }
 
 fn sarif_anchor_outcome(
@@ -3938,10 +4117,11 @@ fn ecma_identifier_char(character: char) -> bool {
     character == '_' || character == '$' || character.is_ascii_alphanumeric()
 }
 
-/// The C#, C, and C++ sink markers all sit on a function declaration such as
-/// `static void dfb_sink(int value) { } // DFB-SINK: ...`. The declared name is
-/// the identifier immediately before the parameter list.
-fn declared_function_name(declaration: &str, marker: &str) -> Option<String> {
+/// The C#, Go, C, and C++ sink markers all sit on a declaration such as
+/// `static void dfb_sink(int value) { } // DFB-SINK: ...` or
+/// `func dfb_sink(value int) {} // DFB-SINK: ...`. In every one the declared
+/// name is the identifier immediately before the parameter list.
+fn parameter_list_function_name(declaration: &str, marker: &str) -> Option<String> {
     let marker_start = declaration.find(marker)?;
     let declaration = &declaration[..marker_start];
     let declaration = declaration.split("//").next().unwrap_or(declaration);
@@ -3950,7 +4130,7 @@ fn declared_function_name(declaration: &str, marker: &str) -> Option<String> {
     let start = name
         .char_indices()
         .rev()
-        .find(|(_, character)| !declared_identifier_char(*character))
+        .find(|(_, character)| !ascii_identifier_char(*character))
         .map(|(index, character)| index + character.len_utf8())
         .unwrap_or(0);
     let name = &name[start..];
@@ -3958,21 +4138,26 @@ fn declared_function_name(declaration: &str, marker: &str) -> Option<String> {
         .then(|| name.to_string())
 }
 
-fn declared_identifier_char(character: char) -> bool {
+fn ascii_identifier_char(character: char) -> bool {
     character == '_' || character.is_ascii_alphanumeric()
 }
 
-fn csharp_function_call(line: &str, function_name: &str) -> bool {
-    braced_function_call(line, function_name, &['.'])
+/// C# and Go reach a member through `.` only.
+fn parameter_list_function_call(line: &str, function_name: &str) -> bool {
+    member_prefixed_function_call(line, function_name, &['.'])
 }
 
 /// C and C++ reach a member through `.`, `->`, and `::`; none of those is a
 /// call of the free benchmark sink function the anchor declares.
 fn cpp_function_call(line: &str, function_name: &str) -> bool {
-    braced_function_call(line, function_name, &['.', '>', ':'])
+    member_prefixed_function_call(line, function_name, &['.', '>', ':'])
 }
 
-fn braced_function_call(line: &str, function_name: &str, member_prefixes: &[char]) -> bool {
+fn member_prefixed_function_call(
+    line: &str,
+    function_name: &str,
+    member_prefixes: &[char],
+) -> bool {
     let line = code_without_literals(line);
     let mut search_from = 0;
     while let Some(offset) = line[search_from..].find(function_name) {
@@ -3982,7 +4167,7 @@ fn braced_function_call(line: &str, function_name: &str, member_prefixes: &[char
         let after = line[end..]
             .chars()
             .find(|character| !character.is_whitespace());
-        if !before.is_some_and(declared_identifier_char)
+        if !before.is_some_and(ascii_identifier_char)
             && !before.is_some_and(|character| member_prefixes.contains(&character))
             && after == Some('(')
         {
@@ -4210,6 +4395,10 @@ fn run_codeql_case_for_language(
         let classes = workspace.join("classes");
         fs::create_dir_all(&classes)?;
     }
+    if matches!(language, CodeqlLanguage::Go { .. }) {
+        fs::write(workspace.join("go.mod"), GO_MODULE_MANIFEST)
+            .with_context(|| format!("write Go module manifest in {}", workspace.display()))?;
+    }
     create_command.args(codeql_database_create_args(
         &database, &workspace, case, language,
     )?);
@@ -4280,23 +4469,17 @@ fn run_codeql_case_for_language(
     let (outcome, diagnostics) = match language {
         CodeqlLanguage::Python => normalize_anchored_codeql_sarif(case, &sarif, "Python"),
         CodeqlLanguage::Kotlin { .. } => normalize_anchored_codeql_sarif(case, &sarif, "Kotlin"),
-        // C# fixtures declare a `DFB-SINK:` method, so the finding is
-        // reconciled against that method's callsites rather than the sink file
-        // alone.
-        // C, C++, and C# fixtures all declare a `DFB-SINK:` function, so the
-        // finding is reconciled against that function's callsites rather than
-        // the sink file alone.
-        CodeqlLanguage::CSharp | CodeqlLanguage::CFamily => {
-            let mut diagnostics = sarif_messages(&sarif);
-            let (outcome, anchor_diagnostics) = if language == CodeqlLanguage::CSharp {
-                csharp_sarif_outcome(case_path, case, &sarif)
-            } else {
-                cpp_sarif_outcome(case_path, case, &sarif)
-            };
-            diagnostics.extend(anchor_diagnostics);
-            diagnostics.sort();
-            diagnostics.dedup();
-            (outcome, diagnostics)
+        // C#, Go, C, and C++ fixtures all declare a `DFB-SINK:` function, so
+        // the finding is reconciled against that function's callsites rather
+        // than the sink file alone.
+        CodeqlLanguage::CSharp => {
+            callsite_anchored_outcome(case_path, case, &sarif, AnchorDialect::CSharp)
+        }
+        CodeqlLanguage::Go { .. } => {
+            callsite_anchored_outcome(case_path, case, &sarif, AnchorDialect::Go)
+        }
+        CodeqlLanguage::CFamily => {
+            callsite_anchored_outcome(case_path, case, &sarif, AnchorDialect::Cpp)
         }
         CodeqlLanguage::Java => {
             let result_count = sarif_result_count(&sarif);
@@ -4431,6 +4614,14 @@ fn codeql_database_create_args(
         // real compiler (clang) to resolve the translation unit.
         CodeqlLanguage::Python | CodeqlLanguage::CSharp | CodeqlLanguage::CFamily => {
             args.push("--build-mode=none".to_string())
+        }
+        // CodeQL 2.26.3 rejects `--build-mode=none` for Go. The traced build is
+        // `go build ./...` over the workspace's synthesized module manifest,
+        // which keeps extraction reproducible instead of letting autobuild
+        // write its own manifest and resolve dependencies.
+        CodeqlLanguage::Go { go } => {
+            args.push("--build-mode=manual".to_string());
+            args.push(format!("--command={} build ./...", go.display()));
         }
     }
     Ok(args)
@@ -5803,7 +5994,7 @@ mod tests {
     #[test]
     fn cpp_sink_declarations_and_callsites_resolve_through_the_cpp_dialect() {
         assert_eq!(
-            declared_function_name(
+            parameter_list_function_name(
                 "void dfb_sink(int value) {} // DFB-SINK: sink",
                 "DFB-SINK: sink"
             )
@@ -5811,7 +6002,7 @@ mod tests {
             Some("dfb_sink")
         );
         assert_eq!(
-            declared_function_name(
+            parameter_list_function_name(
                 "const char *dfb_sink(const char *value) {} // DFB-SINK: sink",
                 "DFB-SINK: sink"
             )
@@ -5864,7 +6055,7 @@ mod tests {
             }}]}]}]
         });
         assert_eq!(
-            csharp_sarif_outcome(&case_path, &case, &matching).0,
+            sarif_anchor_outcome(&case_path, &case, &matching, AnchorDialect::CSharp).0,
             "reached"
         );
         let wrong_line = json!({
@@ -5874,28 +6065,188 @@ mod tests {
             }}]}]}]
         });
         assert_eq!(
-            csharp_sarif_outcome(&case_path, &case, &wrong_line).0,
+            sarif_anchor_outcome(&case_path, &case, &wrong_line, AnchorDialect::CSharp).0,
             "inconclusive"
         );
         let missing_location = json!({
             "runs": [{"results": [{"message": {"text": "flow"}}]}]
         });
         assert_eq!(
-            csharp_sarif_outcome(&case_path, &case, &missing_location).0,
+            sarif_anchor_outcome(&case_path, &case, &missing_location, AnchorDialect::CSharp).0,
             "inconclusive"
         );
         let no_results = json!({"runs": [{"results": []}]});
         assert_eq!(
-            csharp_sarif_outcome(&case_path, &case, &no_results).0,
+            sarif_anchor_outcome(&case_path, &case, &no_results, AnchorDialect::CSharp).0,
             "not-reached"
         );
         fs::remove_dir_all(root).unwrap();
     }
 
     #[test]
+    fn go_core_selection_is_exactly_32_balanced_assertions() {
+        let selected = codeql_go_cases().unwrap();
+        assert_eq!(selected.len(), KERNEL_CASE_COUNT);
+        let mut templates = BTreeMap::<String, (usize, usize)>::new();
+        for (_, case) in &selected {
+            assert_eq!(case["language"], "go");
+            assert_eq!(case["track"], "taint");
+            assert_eq!(case["score_tier"], "core");
+            let counts = templates
+                .entry(case["template_id"].as_str().unwrap().to_string())
+                .or_default();
+            if case["polarity"] == "positive" {
+                counts.0 += 1;
+            } else {
+                counts.1 += 1;
+            }
+        }
+        assert_eq!(templates.len(), KERNEL_TEMPLATE_IDS.len());
+        assert!(
+            templates
+                .values()
+                .all(|(positive, negative)| *positive == 1 && *negative == 1)
+        );
+    }
+
+    #[test]
+    fn go_core_selection_is_language_and_track_scoped() {
+        let go = json!({
+            "language": "go",
+            "track": "taint",
+            "score_tier": "core"
+        });
+        assert!(go_core_case(&go));
+        for language in [
+            "java",
+            "javascript",
+            "typescript",
+            "python",
+            "kotlin",
+            "csharp",
+        ] {
+            let mut other = go.clone();
+            other["language"] = json!(language);
+            assert!(!go_core_case(&other));
+        }
+        let mut other = go.clone();
+        other["track"] = json!("value-flow");
+        assert!(!go_core_case(&other));
+        other["track"] = json!("taint");
+        other["score_tier"] = json!("calibration");
+        assert!(!go_core_case(&other));
+    }
+
+    #[test]
+    fn bifrost_go_kernel_selects_only_go_core_cases() {
+        let mut selected = 0;
+        for path in case_paths() {
+            let case: Value = serde_json::from_str(&fs::read_to_string(path).unwrap()).unwrap();
+            if selected_bifrost_case(&case, BifrostRun::GoKernel) {
+                selected += 1;
+                assert_eq!(case["language"], "go");
+                assert_eq!(case["score_tier"], "core");
+                for other in [
+                    BifrostRun::PythonKernel,
+                    BifrostRun::KotlinKernel,
+                    BifrostRun::TypescriptKernel,
+                    BifrostRun::CsharpKernel,
+                ] {
+                    assert!(!selected_bifrost_case(&case, other));
+                }
+            }
+        }
+        assert_eq!(selected, KERNEL_CASE_COUNT);
+    }
+
+    #[test]
+    fn go_sarif_mapping_requires_the_sink_file_and_callsite() {
+        let root = std::env::temp_dir().join(format!(
+            "dataflowbench-go-anchor-test-{}-{}",
+            std::process::id(),
+            SystemTime::now()
+                .duration_since(UNIX_EPOCH)
+                .unwrap()
+                .as_nanos()
+        ));
+        fs::create_dir_all(&root).unwrap();
+        let case_path = root.join("case.json");
+        fs::write(
+            root.join("fixture.go"),
+            "func dfb_sink(value int) {} // DFB-SINK: sink\nfunc other(value int) {}\n\tother(input)\n\tdfb_sink(input)\n",
+        )
+        .unwrap();
+        let case = json!({
+            "sink_anchors": [{
+                "marker": "DFB-SINK: sink",
+                "file": "fixture.go",
+                "line_hint": 1
+            }]
+        });
+        let matching = json!({
+            "runs": [{"results": [{"locations": [{"physicalLocation": {
+                "artifactLocation": {"uri": "file:///tmp/work/fixture.go"},
+                "region": {"startLine": 4}
+            }}]}]}]
+        });
+        assert_eq!(
+            sarif_anchor_outcome(&case_path, &case, &matching, AnchorDialect::Go).0,
+            "reached"
+        );
+        let wrong_line = json!({
+            "runs": [{"results": [{"locations": [{"physicalLocation": {
+                "artifactLocation": {"uri": "fixture.go"},
+                "region": {"startLine": 3}
+            }}]}]}]
+        });
+        assert_eq!(
+            sarif_anchor_outcome(&case_path, &case, &wrong_line, AnchorDialect::Go).0,
+            "inconclusive"
+        );
+        let no_results = json!({"runs": [{"results": []}]});
+        assert_eq!(
+            sarif_anchor_outcome(&case_path, &case, &no_results, AnchorDialect::Go).0,
+            "not-reached"
+        );
+        fs::remove_dir_all(root).unwrap();
+    }
+
+    #[test]
+    fn go_sink_declarations_resolve_to_the_declared_function() {
+        assert_eq!(
+            parameter_list_function_name(
+                "func dfb_sink(value int) {} // DFB-SINK: sink",
+                "DFB-SINK: sink"
+            )
+            .as_deref(),
+            Some("dfb_sink")
+        );
+        assert_eq!(
+            parameter_list_function_name("\tvalue := 0 // DFB-SINK: sink", "DFB-SINK: sink"),
+            None
+        );
+        assert!(parameter_list_function_call(
+            "\tdfb_sink(values[0])",
+            "dfb_sink"
+        ));
+        assert!(parameter_list_function_call(
+            "\t\t\tdfb_sink(recovered.(int))",
+            "dfb_sink"
+        ));
+        assert!(!parameter_list_function_call(
+            "\tlog(`dfb_sink(value)`)",
+            "dfb_sink"
+        ));
+        assert!(!parameter_list_function_call(
+            "\tother.dfb_sink(0)",
+            "dfb_sink"
+        ));
+    }
+
+    #[test]
     fn csharp_sink_declarations_resolve_to_the_declared_method() {
         assert_eq!(
-            declared_function_name(
+            parameter_list_function_name(
                 "    static void dfb_sink(int value) { } // DFB-SINK: sink",
                 "DFB-SINK: sink"
             )
@@ -5903,22 +6254,25 @@ mod tests {
             Some("dfb_sink")
         );
         assert_eq!(
-            declared_function_name("        int value = 0; // DFB-SINK: sink", "DFB-SINK: sink"),
+            parameter_list_function_name(
+                "        int value = 0; // DFB-SINK: sink",
+                "DFB-SINK: sink"
+            ),
             None
         );
-        assert!(csharp_function_call(
+        assert!(parameter_list_function_call(
             "        dfb_sink(values[0]);",
             "dfb_sink"
         ));
-        assert!(!csharp_function_call(
+        assert!(!parameter_list_function_call(
             "        Log(\"dfb_sink(value)\");",
             "dfb_sink"
         ));
-        assert!(!csharp_function_call(
+        assert!(!parameter_list_function_call(
             "        other.dfb_sink(0);",
             "dfb_sink"
         ));
-        assert!(!csharp_function_call(
+        assert!(!parameter_list_function_call(
             "        int dfb_sinkValue = 0;",
             "dfb_sink"
         ));
@@ -6160,6 +6514,24 @@ mod tests {
         assert!(csharp_args.iter().any(|arg| arg == "--language=csharp"));
         assert!(csharp_args.iter().any(|arg| arg == "--build-mode=none"));
         assert!(!csharp_args.iter().any(|arg| arg.starts_with("--command=")));
+
+        let go_args = codeql_database_create_args(
+            Path::new("/tmp/go-db"),
+            Path::new("/tmp/go-workspace"),
+            &case,
+            CodeqlLanguage::Go {
+                go: Path::new("/usr/local/bin/go"),
+            },
+        )
+        .unwrap();
+        assert!(go_args.iter().any(|arg| arg == "--language=go"));
+        assert!(go_args.iter().any(|arg| arg == "--build-mode=manual"));
+        assert!(
+            go_args
+                .iter()
+                .any(|arg| arg == "--command=/usr/local/bin/go build ./...")
+        );
+        assert!(!go_args.iter().any(|arg| arg == "--build-mode=none"));
     }
 
     #[test]
