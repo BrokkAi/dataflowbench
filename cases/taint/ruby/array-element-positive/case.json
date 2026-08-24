@@ -1,0 +1,66 @@
+{
+  "schema_version": 2,
+  "id": "dfb-taint-ruby-array-element-positive",
+  "template_id": "dfb-template-array-element-separation",
+  "polarity": "positive",
+  "score_tier": "core",
+  "track": "taint",
+  "language": "ruby",
+  "semantic_dimensions": [
+    "heap-field-sensitivity"
+  ],
+  "feature_tags": [
+    "heap-access-path"
+  ],
+  "model_profile": "benchmark-controlled",
+  "fixture_files": [
+    "array_element.rb"
+  ],
+  "source_anchors": [
+    {
+      "marker": "DFB-SOURCE: array-element-input",
+      "file": "array_element.rb",
+      "line_hint": 1
+    }
+  ],
+  "sink_anchors": [
+    {
+      "marker": "DFB-SINK: array-element-sink",
+      "file": "array_element.rb",
+      "line_hint": 5
+    }
+  ],
+  "expected_flows": [
+    {
+      "source": "DFB-SOURCE: array-element-input",
+      "sink": "DFB-SINK: array-element-sink"
+    }
+  ],
+  "expected_nonflows": [],
+  "witness_checkpoints": [
+    "DFB-SOURCE: array-element-input",
+    "DFB-WITNESS: array-element-store",
+    "DFB-SINK: array-element-sink"
+  ],
+  "expected_analysis_capability": {
+    "kind": "heap-array-element-sensitive-taint"
+  },
+  "execution_budget": {
+    "wall_clock_seconds": 60,
+    "peak_memory_mb": 512
+  },
+  "fixture_provenance": {
+    "kind": "authored",
+    "origin": "DataFlowBench",
+    "revision": "m2-ruby-kernel",
+    "license": "MIT"
+  },
+  "tool_model_references": {
+    "bifrost": {
+      "policy": "adapters/bifrost/policies/core-ruby-kernel.rqlp"
+    },
+    "codeql": {
+      "query": "adapters/codeql/ruby/queries/RubyKernel.ql"
+    }
+  }
+}

@@ -21,7 +21,7 @@
 //
 //   joern --script adapters/joern/queries/kernel.sc \
 //     --param inputPath=<workspace> \
-//     --param language=<JAVASRC|JSSRC|PYTHONSRC> \
+//     --param language=<JAVASRC|JSSRC|PYTHONSRC|RUBYSRC> \
 //     --param sourceName=<source function> \
 //     --param sinkName=<sink function> \
 //     --param outputPath=<raw evidence file>
@@ -83,7 +83,18 @@ def nodeJson(node: io.shiftleft.codepropertygraph.generated.nodes.AstNode): Stri
 
   val document =
     try {
-      importCode(inputPath = inputPath, projectName = "dataflowbench", language = language)
+      // Joern 4.0.432's generic `importCode(language = ...)` dispatcher has no
+      // entry for Ruby: it raises "No CPG generator exists for language:
+      // RUBYSRC" even though `rubysrc2cpg` ships in the distribution and
+      // `importCode.ruby` reports itself as available. The named frontend is
+      // the same generator reached by the same console, so Ruby is dispatched
+      // through it rather than left unanalyzable. Every other language keeps
+      // the generic path unchanged.
+      if (language == "RUBYSRC") {
+        importCode.ruby(inputPath = inputPath, projectName = "dataflowbench")
+      } else {
+        importCode(inputPath = inputPath, projectName = "dataflowbench", language = language)
+      }
       val sourceNodes = cpg.call.nameExact(sourceName).l
       // The positional arguments of the sink call. `argumentIndex > 0` drops the
       // implicit receiver that the JavaScript and Python frontends attach as

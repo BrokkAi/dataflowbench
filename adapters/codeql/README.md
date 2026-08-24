@@ -1,9 +1,9 @@
 # CodeQL adapter
 
 The CodeQL adapter runs language-scoped benchmark kernels against canonical
-fixtures. Java, JavaScript, TypeScript, Python, Kotlin, C#, Go, C, C++, and
-Rust have separate selections, query paths, normalized reports, and retained
-raw-evidence directories. JavaScript and TypeScript share CodeQL's `javascript` extractor
+fixtures. Java, JavaScript, TypeScript, Python, Kotlin, C#, Go, C, C++, Rust,
+and Ruby have separate selections, query paths, normalized reports, and
+retained raw-evidence directories. JavaScript and TypeScript share CodeQL's `javascript` extractor
 and standard library, but they are two separate populations: each slice
 selects only its own language's cases, and each query additionally guards on
 its fixture's file extension so the result sets cannot overlap. Kotlin is
@@ -17,7 +17,10 @@ core denominator. Each of the two queries restricts its data-flow nodes to its
 own fixture extension. Rust has its own extractor too, whose support is a
 **public preview** in the pinned CLI, and its own population with the same
 reduced 15-template denominator as C, plus two Rust `language-extension` cases
-that never enter the Rust core denominator.
+that never enter the Rust core denominator. Ruby has its own production extractor and its own
+16-template population; it is the primary decisive analyzer for the Ruby
+tranche, whose Bifrost coverage gate is recorded in [the Ruby kernel
+contract](../../docs/ruby-kernel.md).
 
 Scala is deliberately absent. CodeQL CLI 2.26.3 has no Scala extractor and no
 Scala library pack in any build mode, so there is no `scala/` pack, no query,
@@ -26,7 +29,7 @@ recorded in [the Scala kernel contract](../../docs/scala-kernel.md) — and
 never a negative result for any Scala assertion.
 
 The checked-in query packs contain the Java, JavaScript, TypeScript, Python,
-Kotlin, C#, Go, C, C++, and Rust kernel queries. Each query uses that
+Kotlin, C#, Go, C, C++, Rust, and Ruby kernel queries. Each query uses that
 language's CodeQL data-flow API and the benchmark-controlled `dfb_source()`/`dfb_sink(value)` contract; the
 Python query is `python/queries/PythonKernel.ql` in its own Python
 database-schema pack, the TypeScript query is
@@ -36,9 +39,11 @@ is `kotlin/queries/KotlinKernel.ql` in its own pack pinned to the same
 `csharp/queries/CSharpKernel.ql` in its own C# pack, and the Go query is
 `go/queries/GoKernel.ql` in its own Go pack. The C and C++ queries are
 `cpp/queries/CKernel.ql` and `cpp/queries/CppKernel.ql` in one shared C-family
-pack pinned to `codeql/cpp-all@12.0.2`, and the Rust query is
+pack pinned to `codeql/cpp-all@12.0.2`, the Rust query is
 `rust/queries/RustKernel.ql` in its own Rust pack pinned to
-`codeql/rust-all@0.2.19`.
+`codeql/rust-all@0.2.19`, and the Ruby query is
+`ruby/queries/RubyKernel.ql` in its own Ruby pack pinned to
+`codeql/ruby-all@6.0.3`.
 
 The Java kernel adapter creates one CodeQL database per canonical case,
 compiles the fixture with its real `javac` build, runs the pinned
@@ -542,6 +547,56 @@ zero error files. Per-case wall clock ran 50.8 s to 98.4 s, about 40 minutes for
 the population, because every case re-extracts the Cargo workspace's library
 sources. Its configuration hash is
 `cc2c728b66e0c273545e3531a672c0987473f3830f5df80b0839f5d04c33600b`.
+
+## Ruby kernel
+
+The Ruby runner selects exactly the 32 `taint` cases whose `language` is `ruby`
+and whose `score_tier` is `core`, and analyzes each with:
+
+```text
+adapters/codeql/ruby/queries/RubyKernel.ql
+```
+
+The query belongs to the dedicated Ruby pack manifest at
+`adapters/codeql/ruby/qlpack.yml`, pinned to `codeql/ruby-all@6.0.3` — the
+version `codeql pack install` resolves for CodeQL CLI 2.26.3 — with the full
+transitive set committed in `adapters/codeql/ruby/codeql-pack.lock.yml`.
+
+The Ruby direct-propagation pair predates this kernel and is frozen in the
+published manifest without a `codeql` model reference, so the selector defaults
+a Ruby core case with no reference to this kernel's query and rejects a Ruby
+core case that names any other query.
+
+`docs/applicability-matrix.md` gates the Ruby tranche on Bifrost's Ruby
+indexing, and the tranche proceeds **CodeQL-first**: this is the analyzer the
+Ruby denominator is decided by, while the Bifrost outcomes are retained as
+capability evidence and never converted into negatives. See [the Ruby kernel
+contract](../../docs/ruby-kernel.md).
+
+```bash
+codeql pack install adapters/codeql/ruby
+cargo run -- run-codeql-ruby-kernel --codeql /path/to/codeql
+```
+
+Registry retrieval of the Ruby pack succeeded for the pinned CLI, so the run
+needed no `--codeql-packs` fallback. Ruby is buildless: each case gets one cold
+database created from the declared fixture file with `--build-mode=none`, with
+no project scaffolding, no manifest, and no traced compile. The runner writes
+`reports/codeql-ruby-kernel.json` and retains SARIF (or raw runner diagnostics)
+under `reports/raw/codeql-ruby-kernel/`. SARIF locations are reconciled with
+the case's `DFB-SINK:` anchor through a Ruby-specific dialect: Ruby's parameter
+list is optional, so the declared endpoint name is read after the `def` keyword
+rather than before a parameter list, comments open with `#`, and a `.` or `::`
+prefix is not a call of the free sink method the anchor declares.
+
+The checked-in `reports/codeql-ruby-kernel.json` contains 32 results: 15
+`reached` and 17 `not-reached`, with zero `inconclusive`, `unsupported`, or
+`runner-error` outcomes. 29 of 32 match the expected polarity; the false
+negatives are the alias-propagation and exception-catch positives and the false
+positive is the loop-carried negative — the same core mismatch set the Java,
+Kotlin, C#, and Python kernels show, without the expression or array-element
+mismatches several of them add. Its configuration hash is
+`0292361f24c7b18fa59543de15e5709270a5d717f0e7fa3e61de7a9436fb59f7`.
 
 ## Retained v2.26.3 snapshot
 
