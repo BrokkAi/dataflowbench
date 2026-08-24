@@ -157,18 +157,18 @@ result; see [the Go kernel contract](../../docs/go-kernel.md).
 The 30-assertion Rust kernel, in its own report
 `reports/bifrost-rust-kernel.json` with raw evidence under
 `reports/raw/bifrost-rust-kernel/`, produces 1 `reached`, 1 `not-reached`, and
-28 `inconclusive` core results: only the direct-propagation pair is decisive,
-and both of its outcomes match the expected polarity (2 of 2 decisive outcomes,
-2 of 30 assertions). The two `language-extension` assertions are both
-`inconclusive` and are reported separately, never in the core denominator.
-Twenty of the inconclusive core results retain `partial_discovery` evidence;
-the other eight — the complete heap/separation stratum, both polarities of
-object separation, same-object field separation, alias propagation, and array
-element — retain `internal_invariant` evidence with the diagnostic "semantic IR
-gap_contract error in procedure 2: gap 8 duplicates the same scope". Eleven
-inconclusive results also carry the policy's own finding message, so Bifrost
-located candidate flows but could not complete the analysis; an incomplete run
-is `inconclusive` and is never counted as a negative.
+20 `inconclusive` and 8 `runner-error` core results: only the
+direct-propagation pair is decisive, and both of its outcomes match the
+expected polarity (2 of 2 decisive outcomes, 2 of 30 assertions). The two
+`language-extension` assertions are both `inconclusive` and are reported
+separately, never in the core denominator. The inconclusive core results
+retain `partial_discovery` evidence. The eight `runner-error` results — the
+complete heap/separation stratum, both polarities of object separation,
+same-object field separation, alias propagation, and array element — retain
+raw runs that complete as `failed` with `internal_invariant` ("semantic IR
+gap_contract error in procedure 2: gap 8 duplicates the same scoped fact"): a
+failed evaluation is an execution error, normalized as `runner-error`, and is
+never counted as a negative.
 
 The JavaScript alias-propagation and array-element pairs retain
 `partial_discovery` evidence, while the exception-catch pair retains
