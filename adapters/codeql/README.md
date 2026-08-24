@@ -252,6 +252,17 @@ negatives are false positives. Each case uses an isolated cold database; no
 database or compiled fixture is reused across the pair. The adapter removes
 temporary databases and workspaces after retaining SARIF.
 
+The retained Kotlin snapshot uses the same CodeQL CLI v2.26.3 build
+`7d097a43199effe04ecd9c6bd3ad9bb02a45b3d7` with `codeql/java-all@9.2.3`, and
+traced Kotlin extraction through kotlinc-jvm 2.4.10. All 32 Kotlin assertions
+executed with ordinary reached/not-reached outcomes: 15 are `reached` and 17
+are `not-reached`, with 27/32 matching the expected polarity and zero special
+or error outcomes. The false negatives are the expression, alias-propagation,
+and exception-catch positives; the array-element and loop-carried negatives are
+false positives — the same five mismatches the Java snapshot shows against this
+build. Its configuration hash is
+`25b92ad6190d65fd76c67da51c3ec0d638cea7699e976941c027a48700b9096e`.
+
 The retained Python snapshot uses the same CodeQL CLI v2.26.3 build
 `7d097a43199effe04ecd9c6bd3ad9bb02a45b3d7` with `codeql/python-all@7.2.3`.
 All 32 Python assertions executed with ordinary reached/not-reached outcomes:

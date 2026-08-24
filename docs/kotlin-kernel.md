@@ -158,7 +158,58 @@ execution health separate from the polarity of the 16 balanced assertions.
 
 ## Observed results
 
-<!-- RESULTS -->
+Both snapshots below cover the same 32 assertions and are two independent
+populations; they are never pooled.
+
+### CodeQL CLI 2.26.3
+
+`reports/codeql-kotlin-kernel.json` has 32 results: **15 `reached` and 17
+`not-reached`**, with zero `inconclusive`, `unsupported`, or `runner-error`
+outcomes. **27 of 32** match the expected polarity (27 of 32 decisive). The
+mismatches are:
+
+- `dfb-taint-kotlin-expression-positive` — false negative.
+- `dfb-taint-kotlin-alias-propagation-positive` — false negative.
+- `dfb-taint-kotlin-exception-catch-positive` — false negative.
+- `dfb-taint-kotlin-array-element-negative` — false positive.
+- `dfb-taint-kotlin-loop-carried-negative` — false positive.
+
+These are exactly the five mismatches the retained Java kernel snapshot shows
+against the same CodeQL CLI build, which is the expected result for a shared
+extractor and standard library. All 32 retained raw outputs are SARIF files
+with zero error files, and normalized `witness_checkpoints` are empty for every
+case. Build SHA `7d097a43199effe04ecd9c6bd3ad9bb02a45b3d7` with
+`codeql/java-all@9.2.3`; configuration hash
+`25b92ad6190d65fd76c67da51c3ec0d638cea7699e976941c027a48700b9096e`. Kotlin
+extraction traced kotlinc-jvm 2.4.10.
+
+### Bifrost v0.10.2
+
+`reports/bifrost-kotlin-kernel.json` has 32 results: **14 `reached`, 8
+`not-reached`, and 10 `inconclusive`**, with zero `unsupported` and zero
+`runner-error`. **17 of 32** assertions match the expected polarity (17 of the
+22 decisive outcomes). Build identity
+`57060b8b062330ab3e9804e1f11e17b290f9447a`; configuration hash
+`26c37db9bdfc1d848a47052d3753e1d29040f004874290641cb6b706b3a03d61`.
+
+The ten `inconclusive` results are the complete heap/separation stratum
+(`object-separation`, `same-object-field`, `alias-propagation`,
+`array-element`) and the `exception-catch` pair, both polarities. Each retains
+`partial_discovery` evidence with an explicit incompleteness reason — the
+`run` procedure's value-flow snapshot is `unknown` or `unproven`. They are
+capability coverage, not negatives, and are never counted as such. This mirrors
+the Java kernel's v0.10.2 profile.
+
+The five decisive mismatches are:
+
+- `dfb-taint-kotlin-expression-positive` — false negative.
+- `dfb-taint-kotlin-local-overwrite-negative` — false positive.
+- `dfb-taint-kotlin-branch-join-negative` — false positive.
+- `dfb-taint-kotlin-infeasible-branch-negative` — false positive.
+- `dfb-taint-kotlin-loop-carried-negative` — false positive.
+
+No fixture was adjusted to make either analyzer pass. The mismatches are
+published results.
 
 ## Re-freeze obligation
 

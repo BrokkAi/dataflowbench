@@ -72,6 +72,15 @@ with 19/32 assertions matching expected polarity (19 of 26 decisive outcomes).
 This v0.10.2 evidence matches v0.10.1 case-for-case, but does not restore the
 complete Java correctness observed in the v0.9.5 snapshot.
 
+The 32-case Kotlin kernel has 14 `reached`, 8 `not-reached`, and 10
+`inconclusive`, with 17/32 assertions matching expected polarity (17 of 22
+decisive outcomes). Its dedicated report is
+`reports/bifrost-kotlin-kernel.json` and raw evidence is under
+`reports/raw/bifrost-kotlin-kernel/`. The ten `inconclusive` results are the
+complete heap/separation stratum and the exception-catch pair, both polarities,
+each retaining `partial_discovery` evidence; they mirror the Java kernel
+profile and are never counted as negatives.
+
 The JavaScript alias-propagation and array-element pairs retain
 `partial_discovery` evidence, while the exception-catch pair retains
 `capability_incomplete` evidence; all six remain `inconclusive`. The Java
