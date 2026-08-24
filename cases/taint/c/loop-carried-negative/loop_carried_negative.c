@@ -1,0 +1,13 @@
+int dfb_source(void) { // DFB-SOURCE: loop-carried-input
+    return 1;
+}
+
+void dfb_sink(int value) {} // DFB-SINK: loop-carried-sink
+
+void run(void) {
+    int value = dfb_source();
+    for (int iteration = 0; iteration < 3; iteration++) {
+        value = 0; // DFB-WITNESS: loop-carried-value
+    }
+    dfb_sink(value);
+}
