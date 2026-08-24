@@ -15,6 +15,7 @@ The initial adapter plan is:
 | --- | --- | --- |
 | Bifrost | Breadth baseline and Java, JavaScript, and Python propagation kernels | Implemented smoke adapter; kernel runs are reported separately |
 | CodeQL | 16-template Java, JavaScript, and Python propagation kernels | Java, JavaScript, and Python runners implemented as separate language-scoped populations |
+| Joern | 16-template Java, JavaScript, and Python propagation kernels | Implemented as three separate language-scoped populations over one CPG query script |
 | Semgrep CE | Supported local analysis only | Planned |
 | OpenTaint | Java and Kotlin profile | Planned |
 
@@ -135,6 +136,39 @@ outcomes; 28/32 match the expected polarity. The mismatches are false
 negatives for `alias-propagation-positive`, `array-element-positive`, and
 `exception-catch-positive`, and a false positive for `loop-carried-negative`.
 These results cover only the Python core kernel.
+
+## Joern language populations
+
+The Joern adapter keeps Java, JavaScript, and Python as three separate
+populations. Each command selects exactly 32 `taint` cases runner-side:
+
+```text
+language == "java" | "javascript" | "python"
+track == "taint"
+score_tier == "core"
+```
+
+The v0.3.0 freeze digest-binds every `case.json` and fixture byte, so no case
+declares a Joern model reference; the per-language invocation is pinned in the
+runner instead, the way the Kotlin Bifrost run pins its policy. Each selection
+is 16 templates with one positive and one negative assertion, under one model
+profile, and the three are disjoint. Each has its own report
+(`reports/joern-<language>-kernel.json`) and its own retained-evidence root
+(`reports/raw/joern-<language>-kernel/`).
+
+One committed CPG query script, `adapters/joern/queries/kernel.sc`, serves all
+three. It is parameterized by the benchmark-controlled source and sink
+identifiers the runner reads out of each fixture's own `DFB-SOURCE:` and
+`DFB-SINK:` marker lines, and runs a single `sinks.reachableByFlows(sources)`
+under the OSS data-flow engine. There is no per-case, per-template, or
+per-polarity branching, and Joern's own default source/sink models are not
+used. Flow evidence is reconciled against the case's anchored sink callsites; a
+frontend or engine failure is `runner-error`, missing or ambiguous location
+evidence is `inconclusive`, and neither can become `not-reached`. Languages
+whose frontend is absent from the pinned distribution are recorded as
+explicitly unsupported rather than as failures. See the
+[Joern adapter notes](../adapters/joern/README.md) for the pinned version,
+frontend coverage, model assumptions, and the observed per-language results.
 
 The checked-in Bifrost snapshot (`reports/bifrost-smoke.json`) contains 118
 normalized results from Bifrost v0.10.2 build identity
