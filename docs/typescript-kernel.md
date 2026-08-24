@@ -161,26 +161,25 @@ never interpreted as a negative.
 
 ## Observed results
 
-### Bifrost v0.10.2
+### Bifrost v0.10.5
 
-The retained TypeScript Bifrost snapshot has 32 results: 14 `reached`, 12
-`not-reached`, and 6 `inconclusive`, with zero `unsupported` and zero
-`runner-error`. Nineteen of 32 assertions match the expected polarity — 19 of
-the 26 decisive outcomes. This is case-for-case identical to the JavaScript
-kernel's v0.10.2 outcome distribution.
+The retained TypeScript Bifrost snapshot has 32 results: 15 `reached`, 15
+`not-reached`, and 2 `inconclusive`, with zero `unsupported` and zero
+`runner-error`. Thirty of 32 assertions match the expected polarity — all 30
+of the decisive outcomes. There are no decisive mismatches.
 
-The six `inconclusive` results are the alias-propagation and array-element
-pairs, which retain `partial_discovery` evidence, and the exception-catch pair,
-which retains `capability_incomplete` evidence. None of them is counted as a
-negative.
+The two `inconclusive` results are the exception-catch pair, which retains
+`capability_incomplete` evidence. Neither is counted as a negative.
 
-Of the decisive mismatches, four are false positives — the branch-join,
-infeasible-branch, local-overwrite, and loop-carried negatives — and three are
-false negatives: the arithmetic-expression, object-separation, and
-same-object-field positives.
+This improves on the earlier v0.10.2 run (14 `reached`, 12 `not-reached`, 6
+`inconclusive`, 19/32 matching): the alias-propagation and array-element pairs
+became decisive and correct, and all seven earlier decisive mismatches are
+resolved. The frozen v0.2.0 JavaScript kernel evidence remains a v0.10.2
+snapshot, so the two kernels are no longer directly comparable until the next
+freeze re-runs every Bifrost slice on one version.
 
-The run used Bifrost 0.10.2, build identity
-`57060b8b062330ab3e9804e1f11e17b290f9447a`, configuration hash
+The run used Bifrost 0.10.5, build identity
+`728ac69ab93224151c6c951b23d2f5bc681d8558`, configuration hash
 `5b2489c75b433ac15ed6656d43394a17851ee5347a4b24cf00c7dff3531e3b26`.
 
 ### CodeQL 2.26.3

@@ -83,28 +83,33 @@ with 19/32 assertions matching expected polarity (19 of 26 decisive outcomes).
 This v0.10.2 evidence matches v0.10.1 case-for-case, but does not restore the
 complete Java correctness observed in the v0.9.5 snapshot.
 
-The 32-case Kotlin kernel has 14 `reached`, 8 `not-reached`, and 10
-`inconclusive`, with 17/32 assertions matching expected polarity (17 of 22
-decisive outcomes). Its dedicated report is
+The three post-freeze kernels — Kotlin, TypeScript, and C# — were re-run with
+a locally built Bifrost v0.10.5, build identity
+`728ac69ab93224151c6c951b23d2f5bc681d8558`. The frozen v0.2.0 slices above
+remain v0.10.2 evidence until the next freeze re-runs every Bifrost slice on
+one version.
+
+The 32-case Kotlin kernel has 12 `reached`, 10 `not-reached`, and 10
+`inconclusive`, with 19/32 assertions matching expected polarity (19 of 22
+decisive outcomes; under v0.10.2 it was 17/32). Its dedicated report is
 `reports/bifrost-kotlin-kernel.json` and raw evidence is under
 `reports/raw/bifrost-kotlin-kernel/`. The ten `inconclusive` results are the
 complete heap/separation stratum and the exception-catch pair, both polarities,
 each retaining `partial_discovery` evidence; they mirror the Java kernel
 profile and are never counted as negatives.
+
 The 32-case TypeScript kernel, in its own report
 `reports/bifrost-typescript-kernel.json` with raw evidence under
-`reports/raw/bifrost-typescript-kernel/`, has 14 `reached`, 12 `not-reached`,
-and 6 `inconclusive`, with 19/32 assertions matching expected polarity (19 of
-26 decisive outcomes). Its outcomes are case-for-case identical to the
-JavaScript kernel's, including the same `partial_discovery` alias-propagation
-and array-element pairs and the same `capability_incomplete` exception-catch
-pair. That run used a locally built v0.10.2 with build identity
-`57060b8b062330ab3e9804e1f11e17b290f9447a`.
+`reports/raw/bifrost-typescript-kernel/`, has 15 `reached`, 15 `not-reached`,
+and 2 `inconclusive`, with 30/32 assertions matching expected polarity — all
+30 decisive outcomes are correct. The two `inconclusive` results are the
+exception-catch pair, retaining `capability_incomplete` evidence. Under
+v0.10.2 this kernel matched 19/32; the alias-propagation and array-element
+pairs are now decisive and correct.
 
 The 32-case C# kernel, in its own report `reports/bifrost-csharp-kernel.json`
-with raw evidence under `reports/raw/bifrost-csharp-kernel/`, was produced after
-the v0.2.0 freeze with the same v0.10.2 build identity
-`57060b8b062330ab3e9804e1f11e17b290f9447a`. It contains 1 `reached`, 1
+with raw evidence under `reports/raw/bifrost-csharp-kernel/`, contains 1
+`reached`, 1
 `not-reached`, and 30 `inconclusive` results: only the direct-propagation pair
 is decisive, and both of its outcomes match the expected polarity. The 30
 inconclusive results retain `partial_discovery` (20) or `capability_incomplete`
