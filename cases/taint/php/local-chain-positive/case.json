@@ -1,0 +1,64 @@
+{
+  "schema_version": 2,
+  "id": "dfb-taint-php-local-chain-positive",
+  "template_id": "dfb-template-local-multi-step-chain",
+  "polarity": "positive",
+  "score_tier": "core",
+  "track": "taint",
+  "language": "php",
+  "semantic_dimensions": [
+    "local-flow"
+  ],
+  "feature_tags": [
+    "intraprocedural"
+  ],
+  "model_profile": "benchmark-controlled",
+  "fixture_files": [
+    "local_chain_positive.php"
+  ],
+  "source_anchors": [
+    {
+      "marker": "DFB-SOURCE: local-chain-input",
+      "file": "local_chain_positive.php",
+      "line_hint": 2
+    }
+  ],
+  "sink_anchors": [
+    {
+      "marker": "DFB-SINK: local-chain-sink",
+      "file": "local_chain_positive.php",
+      "line_hint": 6
+    }
+  ],
+  "expected_flows": [
+    {
+      "source": "DFB-SOURCE: local-chain-input",
+      "sink": "DFB-SINK: local-chain-sink"
+    }
+  ],
+  "expected_nonflows": [],
+  "witness_checkpoints": [
+    "DFB-SOURCE: local-chain-input",
+    "DFB-WITNESS: local-chain-second",
+    "DFB-WITNESS: local-chain-third",
+    "DFB-SINK: local-chain-sink"
+  ],
+  "expected_analysis_capability": {
+    "kind": "intraprocedural-multi-step-taint"
+  },
+  "execution_budget": {
+    "wall_clock_seconds": 60,
+    "peak_memory_mb": 512
+  },
+  "fixture_provenance": {
+    "kind": "authored",
+    "origin": "DataFlowBench",
+    "revision": "m2-php-kernel",
+    "license": "MIT"
+  },
+  "tool_model_references": {
+    "bifrost": {
+      "policy": "adapters/bifrost/policies/core-php-kernel.rqlp"
+    }
+  }
+}

@@ -45,12 +45,17 @@ Go, and carries the same reduced denominator as C for a different reason:
 Rust, so the Rust core population is 15 templates and 30 assertions, and the
 `Result`/`?` construct Rust uses instead is carried by a `language-extension`
 pair that the run also evaluates but never counts in the core denominator; see
-[the Rust kernel contract](../../docs/rust-kernel.md). The Scala parity slice uses
-`core-scala-kernel.rqlp` and pins that policy for its whole population the way
-the Kotlin slice does, because its direct-propagation pair is frozen naming the
-breadth policy; Scala is the first kernel with **single-analyzer coverage** —
-CodeQL 2.26.3 has no Scala extractor and the pinned Joern has no Scala source
-frontend, so Bifrost is the only tool that produces Scala results at all. See
+[the Rust kernel contract](../../docs/rust-kernel.md). The PHP parity slice uses
+`core-php-kernel.rqlp` under the same frozen-direct-pair arrangement as C#, Go,
+and Rust, and covers all 16 templates (32 core assertions); see [the PHP kernel
+contract](../../docs/php-kernel.md) for its ordered-map array adaptation and for
+why the pinned CodeQL CLI contributes no PHP results at all. The Scala parity
+slice uses `core-scala-kernel.rqlp` and pins that policy for its whole
+population the way the Kotlin slice does, because its direct-propagation pair
+is frozen naming the breadth policy; Scala is the only kernel with
+**single-analyzer coverage** — CodeQL 2.26.3 has no Scala extractor and the
+pinned Joern has no Scala source frontend, so Bifrost is the only tool that
+produces Scala results at all. See
 [the Scala kernel contract](../../docs/scala-kernel.md). Every kernel command
 selects only its own language's core assertions — 32 for the 16-template
 kernels, 30 for C and Rust — and writes a dedicated report. The Java
@@ -76,6 +81,7 @@ cargo run -- run-bifrost-go-kernel --bifrost /path/to/bifrost
 cargo run -- run-bifrost-c-kernel --bifrost /path/to/bifrost
 cargo run -- run-bifrost-cpp-kernel --bifrost /path/to/bifrost
 cargo run -- run-bifrost-rust-kernel --bifrost /path/to/bifrost
+cargo run -- run-bifrost-php-kernel --bifrost /path/to/bifrost
 ```
 
 The smoke command selects only cases with an explicit Bifrost policy or
@@ -169,6 +175,20 @@ raw runs that complete as `failed` with `internal_invariant` ("semantic IR
 gap_contract error in procedure 2: gap 8 duplicates the same scoped fact"): a
 failed evaluation is an execution error, normalized as `runner-error`, and is
 never counted as a negative.
+
+The 32-assertion PHP kernel, in its own report
+`reports/bifrost-php-kernel.json` with raw evidence under
+`reports/raw/bifrost-php-kernel/`, contains 10 `reached`, 8 `not-reached`, and
+14 `inconclusive` results, with 17 of the 18 decisive outcomes matching the
+expected polarity (17 of 32 assertions). Eight template pairs are decisive and
+correct on both halves; the one decisive mismatch is
+`dfb-taint-php-infeasible-branch-negative`, where Bifrost reports a flow through
+an `if (false)` body, the same over-approximation the Go kernel shows. The 14
+inconclusive results retain `capability_incomplete` (10 — the whole
+heap/separation stratum and the exception-catch pair) or `partial_discovery`
+(4 — the arithmetic-expression and loop-carried pairs) evidence and are never
+counted as negatives. This report was produced after the v0.3.0 freeze and is
+not bound by it; see [the PHP kernel contract](../../docs/php-kernel.md).
 
 The 32-case Scala kernel, in its own report `reports/bifrost-scala-kernel.json`
 with raw evidence under `reports/raw/bifrost-scala-kernel/`, was run on the
