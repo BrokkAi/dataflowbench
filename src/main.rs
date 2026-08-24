@@ -28,6 +28,15 @@ const CODEQL_PYTHON_QUERY: &str = "adapters/codeql/python/queries/PythonKernel.q
 const CODEQL_KOTLIN_QUERY: &str = "adapters/codeql/kotlin/queries/KotlinKernel.ql";
 const CODEQL_KOTLIN_RAW_DIR: &str = "reports/raw/codeql-kotlin-kernel";
 const CODEQL_KOTLIN_REPORT: &str = "reports/codeql-kotlin-kernel.json";
+const CODEQL_CSHARP_QUERY: &str = "adapters/codeql/csharp/queries/CSharpKernel.ql";
+const CODEQL_CSHARP_RAW_DIR: &str = "reports/raw/codeql-csharp-kernel";
+const CODEQL_CSHARP_REPORT: &str = "reports/codeql-csharp-kernel.json";
+const BIFROST_CSHARP_POLICY: &str = "adapters/bifrost/policies/core-csharp-kernel.rqlp";
+/// The cross-language direct-flow breadth policy. The C# direct-propagation
+/// pair predates the C# kernel and is frozen in the published v0.2.0 evidence,
+/// so it keeps this policy reference while still belonging to the C# kernel's
+/// 16 balanced templates.
+const BIFROST_DIRECT_POLICY: &str = "adapters/bifrost/policies/core-direct.rqlp";
 /// The language-qualified Bifrost policy that every Kotlin kernel assertion is
 /// evaluated with. Two of the 32 Kotlin core assertions — the
 /// `dfb-template-direct-propagation` pair — were frozen in v0.2.0 as part of
@@ -128,6 +137,12 @@ enum Commands {
         #[arg(long, default_value = "bifrost")]
         bifrost: PathBuf,
     },
+    /// Run the C# propagation kernel as its own population, separate from every
+    /// other language kernel and from the direct-flow breadth slice.
+    RunBifrostCsharpKernel {
+        #[arg(long, default_value = "bifrost")]
+        bifrost: PathBuf,
+    },
     RunCodeqlJavaKernel {
         #[arg(long, default_value = "codeql")]
         codeql: PathBuf,
@@ -168,6 +183,13 @@ enum Commands {
         #[arg(long, default_value = "kotlinc")]
         kotlinc: PathBuf,
     },
+    /// Run the C# propagation kernel through the C# CodeQL extractor.
+    RunCodeqlCsharpKernel {
+        #[arg(long, default_value = "codeql")]
+        codeql: PathBuf,
+        #[arg(long)]
+        codeql_packs: Option<PathBuf>,
+    },
 }
 
 fn main() -> Result<()> {
@@ -193,6 +215,7 @@ fn main() -> Result<()> {
         Commands::RunBifrostTypescriptKernel { bifrost } => {
             run_bifrost(&bifrost, BifrostRun::TypescriptKernel)
         }
+        Commands::RunBifrostCsharpKernel { bifrost } => run_bifrost_csharp_kernel(&bifrost),
         Commands::RunCodeqlJavaKernel {
             codeql,
             codeql_packs,
@@ -214,6 +237,10 @@ fn main() -> Result<()> {
             codeql_packs,
             kotlinc,
         } => run_codeql_kotlin_kernel(&codeql, codeql_packs.as_deref(), &kotlinc),
+        Commands::RunCodeqlCsharpKernel {
+            codeql,
+            codeql_packs,
+        } => run_codeql_csharp_kernel(&codeql, codeql_packs.as_deref()),
     }
 }
 
@@ -265,7 +292,8 @@ fn validate_cases() -> Result<()> {
     validate_balanced_core_pairs(&cases)?;
     validate_kernel_balance(&cases, EcmaKernel::JavaScript)?;
     validate_kernel_balance(&cases, EcmaKernel::TypeScript)?;
-    validate_kotlin_kernel_balance(&cases)?;
+    validate_scored_kernel_balance(&cases, "kotlin", "Kotlin")?;
+    validate_scored_kernel_balance(&cases, "csharp", "C#")?;
     println!("validated {} cases", paths.len());
     Ok(())
 }
@@ -361,26 +389,32 @@ fn validate_kernel_balance(cases: &[(PathBuf, Value)], kernel: EcmaKernel) -> Re
     Ok(())
 }
 
-/// The Kotlin kernel is 16/16 in docs/applicability-matrix.md: it must carry
-/// the Java template identities unchanged, with no template renamed, split, or
-/// silently dropped because Kotlin spells a construct differently.
-fn validate_kotlin_kernel_balance(cases: &[(PathBuf, Value)]) -> Result<()> {
-    let kotlin_templates = core_templates_for_language(cases, "kotlin");
-    if kotlin_templates.is_empty() {
+/// The Kotlin and C# kernels are both 16/16 in docs/applicability-matrix.md:
+/// each must carry the scored template identities unchanged, with no template
+/// renamed, split, or silently dropped because the language spells a construct
+/// differently. A language with no core cases yet is simply not a kernel
+/// population.
+fn validate_scored_kernel_balance(
+    cases: &[(PathBuf, Value)],
+    language: &str,
+    display: &str,
+) -> Result<()> {
+    let kernel_templates = core_templates_for_language(cases, language);
+    if kernel_templates.is_empty() {
         return Ok(());
     }
     let expected = KERNEL_TEMPLATE_IDS.iter().copied().collect::<BTreeSet<_>>();
-    if kotlin_templates != expected {
+    if kernel_templates != expected {
         let missing = expected
-            .difference(&kotlin_templates)
+            .difference(&kernel_templates)
             .copied()
             .collect::<Vec<_>>();
-        let unexpected = kotlin_templates
+        let unexpected = kernel_templates
             .difference(&expected)
             .copied()
             .collect::<Vec<_>>();
         bail!(
-            "Kotlin propagation kernel must preserve the scored template IDs; missing {missing:?}, unexpected {unexpected:?}"
+            "{display} propagation kernel must preserve the scored template IDs; missing {missing:?}, unexpected {unexpected:?}"
         );
     }
     Ok(())
@@ -507,6 +541,7 @@ enum BifrostRun {
     PythonKernel,
     KotlinKernel,
     TypescriptKernel,
+    CsharpKernel,
 }
 fn validate_freeze(manifest: &Path) -> Result<()> {
     let root = repository_root()?;
@@ -2057,6 +2092,10 @@ fn run_bifrost_kotlin_kernel(binary: &Path) -> Result<()> {
     run_bifrost(binary, BifrostRun::KotlinKernel)
 }
 
+fn run_bifrost_csharp_kernel(binary: &Path) -> Result<()> {
+    run_bifrost(binary, BifrostRun::CsharpKernel)
+}
+
 fn run_bifrost(binary: &Path, run: BifrostRun) -> Result<()> {
     validate_cases()?;
     let (raw_dir, report_path) = match run {
@@ -2075,6 +2114,10 @@ fn run_bifrost(binary: &Path, run: BifrostRun) -> Result<()> {
         BifrostRun::TypescriptKernel => (
             Path::new("reports/raw/bifrost-typescript-kernel"),
             Path::new("reports/bifrost-typescript-kernel.json"),
+        ),
+        BifrostRun::CsharpKernel => (
+            Path::new("reports/raw/bifrost-csharp-kernel"),
+            Path::new("reports/bifrost-csharp-kernel.json"),
         ),
     };
     fs::create_dir_all(raw_dir)?;
@@ -2205,12 +2248,20 @@ fn run_bifrost(binary: &Path, run: BifrostRun) -> Result<()> {
             BifrostRun::PythonKernel => "Bifrost Python kernel",
             BifrostRun::KotlinKernel => "Bifrost Kotlin kernel",
             BifrostRun::TypescriptKernel => "Bifrost TypeScript kernel",
+            BifrostRun::CsharpKernel => "Bifrost C# kernel",
         };
         bail!("no cases selected for {selection}");
     }
-    if run == BifrostRun::KotlinKernel && selected_cases != KERNEL_CASE_COUNT {
+    if matches!(run, BifrostRun::KotlinKernel | BifrostRun::CsharpKernel)
+        && selected_cases != KERNEL_CASE_COUNT
+    {
+        let label = if run == BifrostRun::KotlinKernel {
+            "Kotlin"
+        } else {
+            "C#"
+        };
         bail!(
-            "Bifrost Kotlin kernel must select exactly {KERNEL_CASE_COUNT} core assertions; found {selected_cases}"
+            "Bifrost {label} kernel must select exactly {KERNEL_CASE_COUNT} core assertions; found {selected_cases}"
         );
     }
     let configuration_hash = hash_paths(&policy_paths)?;
@@ -2268,6 +2319,15 @@ fn selected_bifrost_case(case: &Value, run: BifrostRun) -> bool {
                 && (case["tool_model_references"]["bifrost"]["policy"]
                     .as_str()
                     .is_some_and(typescript_kernel_policy)
+                    || case["tool_model_references"]["bifrost"]["unsupported_reason"].is_string())
+        }
+        BifrostRun::CsharpKernel => {
+            csharp_core_case(case)
+                && (case["tool_model_references"]["bifrost"]["policy"]
+                    .as_str()
+                    .is_some_and(|policy| {
+                        policy == BIFROST_CSHARP_POLICY || policy == BIFROST_DIRECT_POLICY
+                    })
                     || case["tool_model_references"]["bifrost"]["unsupported_reason"].is_string())
         }
     }
@@ -2420,6 +2480,7 @@ enum CodeqlLanguage<'a> {
     Kotlin {
         kotlinc: &'a Path,
     },
+    CSharp,
 }
 
 impl CodeqlLanguage<'_> {
@@ -2427,6 +2488,7 @@ impl CodeqlLanguage<'_> {
         match self {
             Self::Java | Self::Kotlin { .. } => "java",
             Self::Python => "python",
+            Self::CSharp => "csharp",
         }
     }
 
@@ -2726,6 +2788,112 @@ fn run_codeql_kotlin_kernel(binary: &Path, packs: Option<&Path>, kotlinc: &Path)
     validate_reports()?;
     println!("wrote {CODEQL_KOTLIN_REPORT}");
     Ok(())
+}
+
+/// Run the C#-only CodeQL kernel. The C# extractor supports
+/// `--build-mode=none`, so each fixture is extracted standalone with no project
+/// scaffolding, and findings are reconciled against the case's `DFB-SINK:`
+/// method callsites.
+fn run_codeql_csharp_kernel(binary: &Path, packs: Option<&Path>) -> Result<()> {
+    validate_cases()?;
+    let selected = codeql_csharp_cases()?;
+    let raw_dir = Path::new(CODEQL_CSHARP_RAW_DIR);
+    fs::create_dir_all(raw_dir)?;
+    let started = now_seconds()?;
+    let (version, build_identity) = codeql_version_identity(binary)?;
+    let revision = fixture_revision()?;
+    let mut results = Vec::with_capacity(selected.len());
+
+    for (path, case) in selected {
+        let id = case["id"].as_str().expect("schema validated");
+        let start = Instant::now();
+        let (outcome, diagnostics, raw_path) = run_codeql_case_for_language(
+            binary,
+            packs,
+            &path,
+            &case,
+            Path::new(CODEQL_CSHARP_QUERY),
+            raw_dir,
+            CodeqlLanguage::CSharp,
+        )?;
+        results.push(codeql_result(
+            &case,
+            id,
+            outcome,
+            diagnostics,
+            start.elapsed(),
+            &raw_path,
+        ));
+    }
+
+    let configuration_hash = hash_paths(&codeql_csharp_configuration_paths())?;
+    let report = json!({
+        "schema_version": 1,
+        "tool": "codeql",
+        "tool_version": version,
+        "tool_build_identity": build_identity,
+        "adapter_version": ADAPTER_VERSION,
+        "configuration_hash": configuration_hash,
+        "fixture_revision": revision,
+        "started_at_unix_seconds": started,
+        "ended_at_unix_seconds": now_seconds()?,
+        "cold_or_warm": "cold",
+        "results": results
+    });
+    fs::write(
+        CODEQL_CSHARP_REPORT,
+        serde_json::to_string_pretty(&report)? + "\n",
+    )?;
+    validate_reports()?;
+    println!("wrote {CODEQL_CSHARP_REPORT}");
+    Ok(())
+}
+
+fn csharp_core_case(case: &Value) -> bool {
+    case["language"] == "csharp" && case["track"] == "taint" && case["score_tier"] == "core"
+}
+
+fn codeql_csharp_cases() -> Result<Vec<(PathBuf, Value)>> {
+    let mut selected = Vec::new();
+    for path in case_paths() {
+        let case: Value = serde_json::from_str(&fs::read_to_string(&path)?)?;
+        if !csharp_core_case(&case) {
+            continue;
+        }
+        // The direct-propagation pair predates this kernel and is frozen in the
+        // published v0.2.0 evidence without a CodeQL model reference. Any
+        // reference a C# core case does carry must name this kernel's query.
+        if let Some(query) = case["tool_model_references"]["codeql"]["query"].as_str()
+            && query != CODEQL_CSHARP_QUERY
+        {
+            bail!(
+                "C# core case {} references non-C# CodeQL query {query:?}",
+                case["id"]
+            );
+        }
+        selected.push((path, case));
+    }
+    validate_kernel_population(&selected, "C# CodeQL kernel")?;
+    if !Path::new(CODEQL_CSHARP_QUERY).is_file() {
+        bail!("C# CodeQL query does not exist: {CODEQL_CSHARP_QUERY}");
+    }
+    Ok(selected)
+}
+
+fn codeql_csharp_configuration_paths() -> BTreeSet<PathBuf> {
+    let mut paths = BTreeSet::from([PathBuf::from(CODEQL_CSHARP_QUERY)]);
+    for candidate in [
+        "adapters/codeql/csharp/qlpack.yml",
+        "adapters/codeql/csharp/codeql-pack.lock.yml",
+    ]
+    .into_iter()
+    .map(PathBuf::from)
+    {
+        if candidate.is_file() {
+            paths.insert(candidate);
+        }
+    }
+    paths
 }
 
 /// The exact CLI version and build SHA every normalized CodeQL report records.
@@ -3189,11 +3357,37 @@ fn write_codeql_ecma_spawn_error(
 }
 
 #[derive(Clone, Debug, PartialEq, Eq)]
-struct EcmaSinkAnchor {
+struct SinkAnchorLocation {
     file: String,
     marker_line: u64,
     function_name: String,
     callsite_lines: BTreeSet<u64>,
+}
+
+/// Anchor reconciliation is language-neutral apart from two surface questions:
+/// which function a `DFB-SINK:` marker declares, and which lines call it. One
+/// dialect covers JavaScript and TypeScript, which share the surface syntax the
+/// reconciler inspects; C# spells both differently.
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+enum AnchorDialect {
+    Ecma,
+    CSharp,
+}
+
+impl AnchorDialect {
+    fn sink_function_name(self, declaration: &str, marker: &str) -> Option<String> {
+        match self {
+            Self::Ecma => ecma_function_name(declaration, marker),
+            Self::CSharp => csharp_function_name(declaration, marker),
+        }
+    }
+
+    fn is_call(self, line: &str, function_name: &str) -> bool {
+        match self {
+            Self::Ecma => ecma_function_call(line, function_name),
+            Self::CSharp => csharp_function_call(line, function_name),
+        }
+    }
 }
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
@@ -3208,10 +3402,27 @@ fn ecma_sarif_outcome(
     case: &Value,
     sarif: &Value,
 ) -> (&'static str, Vec<String>) {
+    sarif_anchor_outcome(case_path, case, sarif, AnchorDialect::Ecma)
+}
+
+fn csharp_sarif_outcome(
+    case_path: &Path,
+    case: &Value,
+    sarif: &Value,
+) -> (&'static str, Vec<String>) {
+    sarif_anchor_outcome(case_path, case, sarif, AnchorDialect::CSharp)
+}
+
+fn sarif_anchor_outcome(
+    case_path: &Path,
+    case: &Value,
+    sarif: &Value,
+    dialect: AnchorDialect,
+) -> (&'static str, Vec<String>) {
     if sarif_result_count(sarif) == 0 {
         return ("not-reached", Vec::new());
     }
-    let sink_locations = match ecma_sink_locations(case_path, case) {
+    let sink_locations = match sink_anchor_locations(case_path, case, dialect) {
         Ok(locations) => locations,
         Err(reason) => {
             return (
@@ -3231,7 +3442,7 @@ fn ecma_sarif_outcome(
         .flatten()
         .flat_map(|run| run["results"].as_array().into_iter().flatten())
     {
-        match ecma_sarif_result_match(result, &sink_locations) {
+        match sarif_result_anchor_match(result, &sink_locations) {
             SarifAnchorMatch::Matched => matched += 1,
             SarifAnchorMatch::Unmatched => unmatched += 1,
             SarifAnchorMatch::Ambiguous => ambiguous += 1,
@@ -3256,10 +3467,11 @@ fn ecma_sarif_outcome(
     )
 }
 
-fn ecma_sink_locations(
+fn sink_anchor_locations(
     case_path: &Path,
     case: &Value,
-) -> std::result::Result<Vec<EcmaSinkAnchor>, String> {
+    dialect: AnchorDialect,
+) -> std::result::Result<Vec<SinkAnchorLocation>, String> {
     let fixture_root = case_path
         .parent()
         .ok_or_else(|| "case path has no parent".to_string())?;
@@ -3299,14 +3511,15 @@ fn ecma_sink_locations(
             .lines()
             .nth(line as usize - 1)
             .ok_or_else(|| format!("sink anchor line {line} is outside {file}"))?;
-        let function_name = ecma_function_name(declaration, marker)
+        let function_name = dialect
+            .sink_function_name(declaration, marker)
             .ok_or_else(|| format!("sink marker {marker:?} is not on a function declaration"))?;
         let callsite_lines = body
             .lines()
             .enumerate()
             .filter_map(|(index, candidate)| {
                 let candidate_line = index as u64 + 1;
-                (candidate_line != line && ecma_function_call(candidate, &function_name))
+                (candidate_line != line && dialect.is_call(candidate, &function_name))
                     .then_some(candidate_line)
             })
             .collect::<BTreeSet<_>>();
@@ -3315,7 +3528,7 @@ fn ecma_sink_locations(
                 "sink function {function_name} has no callsites in {file}"
             ));
         }
-        locations.push(EcmaSinkAnchor {
+        locations.push(SinkAnchorLocation {
             file: file.to_string(),
             marker_line: line,
             function_name,
@@ -3364,8 +3577,51 @@ fn ecma_identifier_char(character: char) -> bool {
     character == '_' || character == '$' || character.is_ascii_alphanumeric()
 }
 
+/// The C# sink marker sits on a method declaration such as
+/// `static void dfb_sink(int value) { } // DFB-SINK: ...`. The declared name is
+/// the identifier immediately before the parameter list.
+fn csharp_function_name(declaration: &str, marker: &str) -> Option<String> {
+    let marker_start = declaration.find(marker)?;
+    let declaration = &declaration[..marker_start];
+    let declaration = declaration.split("//").next().unwrap_or(declaration);
+    let parameters = declaration.find('(')?;
+    let name = declaration[..parameters].trim_end();
+    let start = name
+        .char_indices()
+        .rev()
+        .find(|(_, character)| !csharp_identifier_char(*character))
+        .map(|(index, character)| index + character.len_utf8())
+        .unwrap_or(0);
+    let name = &name[start..];
+    (!name.is_empty() && !name.starts_with(|character: char| character.is_ascii_digit()))
+        .then(|| name.to_string())
+}
+
+fn csharp_identifier_char(character: char) -> bool {
+    character == '_' || character.is_ascii_alphanumeric()
+}
+
+fn csharp_function_call(line: &str, function_name: &str) -> bool {
+    let line = code_without_literals(line);
+    let mut search_from = 0;
+    while let Some(offset) = line[search_from..].find(function_name) {
+        let start = search_from + offset;
+        let end = start + function_name.len();
+        let before = line[..start].chars().next_back();
+        let after = line[end..]
+            .chars()
+            .find(|character| !character.is_whitespace());
+        if !before.is_some_and(csharp_identifier_char) && before != Some('.') && after == Some('(')
+        {
+            return true;
+        }
+        search_from = end;
+    }
+    false
+}
+
 fn ecma_function_call(line: &str, function_name: &str) -> bool {
-    let line = ecma_code_without_literals(line);
+    let line = code_without_literals(line);
     let mut search_from = 0;
     while let Some(offset) = line[search_from..].find(function_name) {
         let start = search_from + offset;
@@ -3386,7 +3642,11 @@ fn ecma_function_call(line: &str, function_name: &str) -> bool {
     false
 }
 
-fn ecma_code_without_literals(line: &str) -> String {
+/// Blank out string literals and drop line comments so a call-shaped substring
+/// inside a literal never counts as a callsite. The rules coincide for the
+/// dialects reconciled here: single/double/backtick quotes with backslash
+/// escapes, and `//` line comments.
+fn code_without_literals(line: &str) -> String {
     let mut output = String::with_capacity(line.len());
     let mut quote = None;
     let mut escaped = false;
@@ -3416,7 +3676,10 @@ fn ecma_code_without_literals(line: &str) -> String {
     output
 }
 
-fn ecma_sarif_result_match(result: &Value, sink_locations: &[EcmaSinkAnchor]) -> SarifAnchorMatch {
+fn sarif_result_anchor_match(
+    result: &Value,
+    sink_locations: &[SinkAnchorLocation],
+) -> SarifAnchorMatch {
     let Some(locations) = result["locations"].as_array() else {
         return SarifAnchorMatch::Ambiguous;
     };
@@ -3644,6 +3907,17 @@ fn run_codeql_case_for_language(
     let (outcome, diagnostics) = match language {
         CodeqlLanguage::Python => normalize_anchored_codeql_sarif(case, &sarif, "Python"),
         CodeqlLanguage::Kotlin { .. } => normalize_anchored_codeql_sarif(case, &sarif, "Kotlin"),
+        // C# fixtures declare a `DFB-SINK:` method, so the finding is
+        // reconciled against that method's callsites rather than the sink file
+        // alone.
+        CodeqlLanguage::CSharp => {
+            let mut diagnostics = sarif_messages(&sarif);
+            let (outcome, anchor_diagnostics) = csharp_sarif_outcome(case_path, case, &sarif);
+            diagnostics.extend(anchor_diagnostics);
+            diagnostics.sort();
+            diagnostics.dedup();
+            (outcome, diagnostics)
+        }
         CodeqlLanguage::Java => {
             let result_count = sarif_result_count(&sarif);
             let diagnostics = sarif_messages(&sarif);
@@ -3771,7 +4045,11 @@ fn codeql_database_create_args(
                 fixtures.join(" ")
             ));
         }
-        CodeqlLanguage::Python => args.push("--build-mode=none".to_string()),
+        // The Python and C# extractors both support `--build-mode=none`, so the
+        // fixtures need no project scaffolding and no restore step.
+        CodeqlLanguage::Python | CodeqlLanguage::CSharp => {
+            args.push("--build-mode=none".to_string())
+        }
     }
     Ok(args)
 }
@@ -4912,6 +5190,165 @@ mod tests {
     }
 
     #[test]
+    fn csharp_core_selection_is_exactly_32_balanced_assertions() {
+        let selected = codeql_csharp_cases().unwrap();
+        assert_eq!(selected.len(), 32);
+        let mut templates = BTreeMap::<String, (usize, usize)>::new();
+        for (_, case) in &selected {
+            assert_eq!(case["language"], "csharp");
+            assert_eq!(case["track"], "taint");
+            assert_eq!(case["score_tier"], "core");
+            let counts = templates
+                .entry(case["template_id"].as_str().unwrap().to_string())
+                .or_default();
+            if case["polarity"] == "positive" {
+                counts.0 += 1;
+            } else {
+                counts.1 += 1;
+            }
+        }
+        assert_eq!(templates.len(), 16);
+        assert!(
+            templates
+                .values()
+                .all(|(positive, negative)| *positive == 1 && *negative == 1)
+        );
+    }
+
+    #[test]
+    fn csharp_core_selection_is_language_and_track_scoped() {
+        let csharp = json!({
+            "language": "csharp",
+            "track": "taint",
+            "score_tier": "core"
+        });
+        assert!(csharp_core_case(&csharp));
+        for language in ["java", "javascript", "typescript", "python", "kotlin"] {
+            let mut other = csharp.clone();
+            other["language"] = json!(language);
+            assert!(!csharp_core_case(&other));
+        }
+        let mut other = csharp.clone();
+        other["track"] = json!("value-flow");
+        assert!(!csharp_core_case(&other));
+        other["track"] = json!("taint");
+        other["score_tier"] = json!("calibration");
+        assert!(!csharp_core_case(&other));
+    }
+
+    #[test]
+    fn bifrost_csharp_kernel_selects_only_csharp_core_cases() {
+        let mut selected = 0;
+        for path in case_paths() {
+            let case: Value = serde_json::from_str(&fs::read_to_string(path).unwrap()).unwrap();
+            if selected_bifrost_case(&case, BifrostRun::CsharpKernel) {
+                selected += 1;
+                assert_eq!(case["language"], "csharp");
+                assert_eq!(case["score_tier"], "core");
+                for other in [
+                    BifrostRun::PythonKernel,
+                    BifrostRun::KotlinKernel,
+                    BifrostRun::TypescriptKernel,
+                ] {
+                    assert!(!selected_bifrost_case(&case, other));
+                }
+            }
+        }
+        assert_eq!(selected, KERNEL_CASE_COUNT);
+    }
+
+    #[test]
+    fn csharp_sarif_mapping_requires_the_sink_file_and_callsite() {
+        let root = std::env::temp_dir().join(format!(
+            "dataflowbench-csharp-anchor-test-{}-{}",
+            std::process::id(),
+            SystemTime::now()
+                .duration_since(UNIX_EPOCH)
+                .unwrap()
+                .as_nanos()
+        ));
+        fs::create_dir_all(&root).unwrap();
+        let case_path = root.join("case.json");
+        fs::write(
+            root.join("Fixture.cs"),
+            "    static void dfb_sink(int value) { } // DFB-SINK: sink\n    static void Other(int value) { }\n        Other(input);\n        dfb_sink(input);\n",
+        )
+        .unwrap();
+        let case = json!({
+            "sink_anchors": [{
+                "marker": "DFB-SINK: sink",
+                "file": "Fixture.cs",
+                "line_hint": 1
+            }]
+        });
+        let matching = json!({
+            "runs": [{"results": [{"locations": [{"physicalLocation": {
+                "artifactLocation": {"uri": "file:///tmp/work/Fixture.cs"},
+                "region": {"startLine": 4}
+            }}]}]}]
+        });
+        assert_eq!(
+            csharp_sarif_outcome(&case_path, &case, &matching).0,
+            "reached"
+        );
+        let wrong_line = json!({
+            "runs": [{"results": [{"locations": [{"physicalLocation": {
+                "artifactLocation": {"uri": "Fixture.cs"},
+                "region": {"startLine": 3}
+            }}]}]}]
+        });
+        assert_eq!(
+            csharp_sarif_outcome(&case_path, &case, &wrong_line).0,
+            "inconclusive"
+        );
+        let missing_location = json!({
+            "runs": [{"results": [{"message": {"text": "flow"}}]}]
+        });
+        assert_eq!(
+            csharp_sarif_outcome(&case_path, &case, &missing_location).0,
+            "inconclusive"
+        );
+        let no_results = json!({"runs": [{"results": []}]});
+        assert_eq!(
+            csharp_sarif_outcome(&case_path, &case, &no_results).0,
+            "not-reached"
+        );
+        fs::remove_dir_all(root).unwrap();
+    }
+
+    #[test]
+    fn csharp_sink_declarations_resolve_to_the_declared_method() {
+        assert_eq!(
+            csharp_function_name(
+                "    static void dfb_sink(int value) { } // DFB-SINK: sink",
+                "DFB-SINK: sink"
+            )
+            .as_deref(),
+            Some("dfb_sink")
+        );
+        assert_eq!(
+            csharp_function_name("        int value = 0; // DFB-SINK: sink", "DFB-SINK: sink"),
+            None
+        );
+        assert!(csharp_function_call(
+            "        dfb_sink(values[0]);",
+            "dfb_sink"
+        ));
+        assert!(!csharp_function_call(
+            "        Log(\"dfb_sink(value)\");",
+            "dfb_sink"
+        ));
+        assert!(!csharp_function_call(
+            "        other.dfb_sink(0);",
+            "dfb_sink"
+        ));
+        assert!(!csharp_function_call(
+            "        int dfb_sinkValue = 0;",
+            "dfb_sink"
+        ));
+    }
+
+    #[test]
     fn ecma_core_selection_is_language_and_track_scoped() {
         for (kernel, language, others) in [
             (
@@ -5136,6 +5573,17 @@ mod tests {
                 .any(|arg| arg == "--command=javac -d classes direct_flow.py")
         );
         assert!(!java_args.iter().any(|arg| arg == "--build-mode=none"));
+
+        let csharp_args = codeql_database_create_args(
+            Path::new("/tmp/csharp-db"),
+            Path::new("/tmp/csharp-workspace"),
+            &case,
+            CodeqlLanguage::CSharp,
+        )
+        .unwrap();
+        assert!(csharp_args.iter().any(|arg| arg == "--language=csharp"));
+        assert!(csharp_args.iter().any(|arg| arg == "--build-mode=none"));
+        assert!(!csharp_args.iter().any(|arg| arg.starts_with("--command=")));
     }
 
     #[test]

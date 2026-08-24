@@ -1,0 +1,65 @@
+{
+  "schema_version": 2,
+  "id": "dfb-taint-csharp-local-chain-positive",
+  "template_id": "dfb-template-local-multi-step-chain",
+  "polarity": "positive",
+  "score_tier": "core",
+  "track": "taint",
+  "language": "csharp",
+  "semantic_dimensions": [
+    "local-flow"
+  ],
+  "feature_tags": [
+    "intraprocedural"
+  ],
+  "model_profile": "benchmark-controlled",
+  "fixture_files": [
+    "LocalChainPositive.cs"
+  ],
+  "source_anchors": [
+    {
+      "marker": "DFB-SOURCE: local-chain-input",
+      "file": "LocalChainPositive.cs"
+    }
+  ],
+  "sink_anchors": [
+    {
+      "marker": "DFB-SINK: local-chain-sink",
+      "file": "LocalChainPositive.cs"
+    }
+  ],
+  "expected_flows": [
+    {
+      "source": "DFB-SOURCE: local-chain-input",
+      "sink": "DFB-SINK: local-chain-sink"
+    }
+  ],
+  "expected_nonflows": [],
+  "witness_checkpoints": [
+    "DFB-SOURCE: local-chain-input",
+    "DFB-WITNESS: local-chain-second",
+    "DFB-WITNESS: local-chain-third",
+    "DFB-SINK: local-chain-sink"
+  ],
+  "expected_analysis_capability": {
+    "kind": "intraprocedural-multi-step-taint"
+  },
+  "execution_budget": {
+    "wall_clock_seconds": 60,
+    "peak_memory_mb": 512
+  },
+  "fixture_provenance": {
+    "kind": "authored",
+    "origin": "DataFlowBench",
+    "revision": "m2-csharp-kernel",
+    "license": "MIT"
+  },
+  "tool_model_references": {
+    "bifrost": {
+      "policy": "adapters/bifrost/policies/core-csharp-kernel.rqlp"
+    },
+    "codeql": {
+      "query": "adapters/codeql/csharp/queries/CSharpKernel.ql"
+    }
+  }
+}

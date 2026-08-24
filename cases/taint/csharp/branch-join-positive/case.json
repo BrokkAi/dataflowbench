@@ -1,0 +1,66 @@
+{
+  "schema_version": 2,
+  "id": "dfb-taint-csharp-branch-join-positive",
+  "template_id": "dfb-template-branch-join",
+  "polarity": "positive",
+  "score_tier": "core",
+  "track": "taint",
+  "language": "csharp",
+  "semantic_dimensions": [
+    "local-flow",
+    "flow-sensitivity",
+    "path-sensitivity"
+  ],
+  "feature_tags": [
+    "intraprocedural"
+  ],
+  "model_profile": "benchmark-controlled",
+  "fixture_files": [
+    "BranchJoinPositive.cs"
+  ],
+  "source_anchors": [
+    {
+      "marker": "DFB-SOURCE: branch-join-input",
+      "file": "BranchJoinPositive.cs"
+    }
+  ],
+  "sink_anchors": [
+    {
+      "marker": "DFB-SINK: branch-join-sink",
+      "file": "BranchJoinPositive.cs"
+    }
+  ],
+  "expected_flows": [
+    {
+      "source": "DFB-SOURCE: branch-join-input",
+      "sink": "DFB-SINK: branch-join-sink"
+    }
+  ],
+  "expected_nonflows": [],
+  "witness_checkpoints": [
+    "DFB-SOURCE: branch-join-input",
+    "DFB-WITNESS: branch-join-value",
+    "DFB-SINK: branch-join-sink"
+  ],
+  "expected_analysis_capability": {
+    "kind": "path-sensitive-intraprocedural-taint"
+  },
+  "execution_budget": {
+    "wall_clock_seconds": 60,
+    "peak_memory_mb": 512
+  },
+  "fixture_provenance": {
+    "kind": "authored",
+    "origin": "DataFlowBench",
+    "revision": "m2-csharp-kernel",
+    "license": "MIT"
+  },
+  "tool_model_references": {
+    "bifrost": {
+      "policy": "adapters/bifrost/policies/core-csharp-kernel.rqlp"
+    },
+    "codeql": {
+      "query": "adapters/codeql/csharp/queries/CSharpKernel.ql"
+    }
+  }
+}
