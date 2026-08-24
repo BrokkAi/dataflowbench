@@ -72,6 +72,21 @@ with 19/32 assertions matching expected polarity (19 of 26 decisive outcomes).
 This v0.10.2 evidence matches v0.10.1 case-for-case, but does not restore the
 complete Java correctness observed in the v0.9.5 snapshot.
 
+## Retained C# kernel snapshot
+
+`reports/bifrost-csharp-kernel.json` was produced after the v0.2.0 freeze with
+Bifrost v0.10.2, build identity `57060b8b062330ab3e9804e1f11e17b290f9447a`, and
+covers all 32 C# core assertions with raw evidence under
+`reports/raw/bifrost-csharp-kernel/`. It contains 1 `reached`, 1
+`not-reached`, and 30 `inconclusive` results: only the direct-propagation pair
+is decisive, and both of its outcomes match the expected polarity. The 30
+inconclusive results retain `partial_discovery` (20) or `capability_incomplete`
+(10) evidence with per-case diagnostics showing that Bifrost's procedure
+value-flow snapshot for the C# fixture procedure is unknown or unsupported.
+This is capability coverage, never a negative result. The same incompleteness
+reproduces under the language-agnostic `core-direct.rqlp` policy, so it is not
+an artifact of the language-qualified policy.
+
 The JavaScript alias-propagation and array-element pairs retain
 `partial_discovery` evidence, while the exception-catch pair retains
 `capability_incomplete` evidence; all six remain `inconclusive`. The Java

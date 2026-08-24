@@ -251,6 +251,14 @@ diagnostics) under `reports/raw/codeql-csharp-kernel/`. SARIF locations are
 reconciled with the case's `DFB-SINK:` anchor by resolving the declared sink
 method name and accepting a finding on a line that calls it in the same file.
 
+The checked-in `reports/codeql-csharp-kernel.json` contains 32 results: 15
+`reached` and 17 `not-reached`, with zero `inconclusive`, `unsupported`, or
+`runner-error` outcomes. 27 of 32 match the expected polarity; the false
+negatives are the alias-propagation, exception-catch, and expression positives,
+and the false positives are the array-element and loop-carried negatives — the
+same mismatch set the Java kernel shows on those templates. Its configuration
+hash is `cd5f68b8ccb2e4de27cf1606b0c9f2ee8981ce5dfdf8ee2fea08fe977a0c56c9`.
+
 ## Retained v2.26.3 snapshot
 
 The checked-in report uses CodeQL CLI v2.26.3 build

@@ -144,7 +144,60 @@ execution health separate from the polarity of the 16 balanced assertions.
 
 ## Observed results
 
-<!-- RESULTS -->
+Both retained snapshots cover all 32 C# core assertions. They are separate
+populations and are not pooled with each other or with any other language.
+
+### CodeQL, `reports/codeql-csharp-kernel.json`
+
+CodeQL CLI 2.26.3, build `codeql-cli:7d097a43199effe04ecd9c6bd3ad9bb02a45b3d7`,
+with `codeql/csharp-all@7.1.2` from the committed lock. Configuration hash
+`cd5f68b8ccb2e4de27cf1606b0c9f2ee8981ce5dfdf8ee2fea08fe977a0c56c9`.
+
+32 results: 15 `reached` and 17 `not-reached`, with zero `inconclusive`,
+`unsupported`, or `runner-error` outcomes. 27 of 32 match the expected
+polarity. The five mismatches are:
+
+- false negatives: `dfb-taint-csharp-alias-propagation-positive`,
+  `dfb-taint-csharp-exception-catch-positive`, and
+  `dfb-taint-csharp-expression-positive`;
+- false positives: `dfb-taint-csharp-array-element-negative` and
+  `dfb-taint-csharp-loop-carried-negative`.
+
+That mismatch set is exactly the one the Java kernel shows on the same
+templates with the same CLI, which is the expected outcome for a port whose
+cells are all directly applicable.
+
+All 32 retained raw outputs are SARIF files under
+`reports/raw/codeql-csharp-kernel/`, with zero error files, and normalized
+`witness_checkpoints` are empty for every case: the adapter records
+anchor-backed flow outcomes and leaves the path evidence in SARIF rather than
+fabricating observed witness markers. End-to-end per-case wall clock, including
+cold database creation, ranged from 25.5 s to 99.6 s (about 31 minutes for the
+population). The 60-second `execution_budget` on the cases describes the
+analysis budget shared with the other language kernels; C# extraction time is
+reported here rather than silently rebudgeted.
+
+### Bifrost, `reports/bifrost-csharp-kernel.json`
+
+Bifrost 0.10.2, build identity `57060b8b062330ab3e9804e1f11e17b290f9447a`.
+Configuration hash
+`f08e35507c55aad155ac8f5e8fe587c4b48ebe507efa4e73ca671ef2bea20098`; it covers
+both `core-csharp-kernel.rqlp` and the breadth `core-direct.rqlp` because the
+frozen direct pair is evaluated through the policy it declares.
+
+32 results: 1 `reached`, 1 `not-reached`, and 30 `inconclusive`. Only the
+direct-propagation pair is decisive, and both of its outcomes match the
+expected polarity — 2 of 2 decisive outcomes, 2 of 32 assertions.
+
+The 30 inconclusive results are capability evidence, never negatives. Twenty
+retain `partial_discovery` and ten retain `capability_incomplete`, each with a
+diagnostic of the form "taint discovery is incomplete: procedure value-flow
+snapshot for ... is unsupported/unknown". The ten `capability_incomplete`
+results are the heap and exception pairs (object separation, same-object field
+separation, alias propagation, array element, exception catch). Re-running one
+kernel fixture under the language-agnostic `core-direct.rqlp` policy reproduces
+the same incompleteness, so this is Bifrost's C# procedure value-flow coverage
+rather than an artifact of the language-qualified policy.
 
 ## Population boundaries
 
