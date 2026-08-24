@@ -28,7 +28,10 @@ separate population from JavaScript and the two are never mixed. The C# parity
 slice uses `core-csharp-kernel.rqlp`; its direct-propagation pair is frozen in
 the v0.2.0 evidence with the breadth `core-direct.rqlp` policy, so the C#
 selector accepts that policy too and evaluates each case through the policy it
-declares; see [the C# kernel contract](../../docs/csharp-kernel.md). Every
+declares; see [the C# kernel contract](../../docs/csharp-kernel.md). The Go
+parity slice uses `core-go-kernel.rqlp` under the same frozen-direct-pair
+arrangement; see [the Go kernel contract](../../docs/go-kernel.md) for its
+struct, pointer-alias, array, and `panic`/`recover` adaptations. Every
 kernel command selects only its own language's 32 core assertions and writes a
 dedicated report. The Java calibration slice also
 covers one-hop helper flow. Generated workspaces live outside the repository so
@@ -47,6 +50,7 @@ cargo run -- run-bifrost-python-kernel --bifrost /path/to/bifrost
 cargo run -- run-bifrost-kotlin-kernel --bifrost /path/to/bifrost
 cargo run -- run-bifrost-typescript-kernel --bifrost /path/to/bifrost
 cargo run -- run-bifrost-csharp-kernel --bifrost /path/to/bifrost
+cargo run -- run-bifrost-go-kernel --bifrost /path/to/bifrost
 ```
 
 The smoke command selects only cases with an explicit Bifrost policy or
@@ -83,7 +87,7 @@ with 19/32 assertions matching expected polarity (19 of 26 decisive outcomes).
 This v0.10.2 evidence matches v0.10.1 case-for-case, but does not restore the
 complete Java correctness observed in the v0.9.5 snapshot.
 
-The three post-freeze kernels — Kotlin, TypeScript, and C# — were re-run with
+The four post-freeze kernels — Kotlin, TypeScript, C#, and Go — were run with
 a locally built Bifrost v0.10.5, build identity
 `728ac69ab93224151c6c951b23d2f5bc681d8558`. The frozen v0.2.0 slices above
 remain v0.10.2 evidence until the next freeze re-runs every Bifrost slice on
@@ -118,6 +122,18 @@ value-flow snapshot for the C# fixture procedure is unknown or unsupported.
 This is capability coverage, never a negative result. The same incompleteness
 reproduces under the language-agnostic `core-direct.rqlp` policy, so it is not
 an artifact of the language-qualified policy.
+
+The 32-case Go kernel, in its own report `reports/bifrost-go-kernel.json` with
+raw evidence under `reports/raw/bifrost-go-kernel/`, contains 5 `reached`, 5
+`not-reached`, and 22 `inconclusive` results. Five template pairs are decisive —
+direct propagation, the local multi-step chain, call-context separation, and the
+one-hop and two-hop return relays — and all ten of those outcomes match the
+expected polarity. The 22 inconclusive results retain `partial_discovery` (12)
+or `capability_incomplete` (10) evidence; the ten are the four heap pairs
+("procedure value-flow snapshot ... is unsupported (assignments)") and the
+`panic`/`recover` exception pair, where Bifrost cannot bind the sink operand
+supplied by `recover()`. All of this is capability coverage, never a negative
+result; see [the Go kernel contract](../../docs/go-kernel.md).
 
 The JavaScript alias-propagation and array-element pairs retain
 `partial_discovery` evidence, while the exception-catch pair retains

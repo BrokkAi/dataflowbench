@@ -1,0 +1,61 @@
+{
+  "schema_version": 2,
+  "id": "dfb-taint-go-expression-negative",
+  "template_id": "dfb-template-arithmetic-expression-propagation",
+  "polarity": "negative",
+  "negative_mechanism": "unrelated-value",
+  "score_tier": "core",
+  "track": "taint",
+  "language": "go",
+  "semantic_dimensions": [
+    "local-flow"
+  ],
+  "feature_tags": [
+    "intraprocedural"
+  ],
+  "model_profile": "benchmark-controlled",
+  "fixture_files": [
+    "expression_negative.go"
+  ],
+  "source_anchors": [
+    {
+      "marker": "DFB-SOURCE: expression-negative-input",
+      "file": "expression_negative.go"
+    }
+  ],
+  "sink_anchors": [
+    {
+      "marker": "DFB-SINK: expression-negative-sink",
+      "file": "expression_negative.go"
+    }
+  ],
+  "expected_flows": [],
+  "expected_nonflows": [
+    {
+      "source": "DFB-SOURCE: expression-negative-input",
+      "sink": "DFB-SINK: expression-negative-sink"
+    }
+  ],
+  "witness_checkpoints": [],
+  "expected_analysis_capability": {
+    "kind": "expression-propagating-intraprocedural-taint"
+  },
+  "execution_budget": {
+    "wall_clock_seconds": 60,
+    "peak_memory_mb": 512
+  },
+  "fixture_provenance": {
+    "kind": "authored",
+    "origin": "DataFlowBench",
+    "revision": "m2-go-kernel",
+    "license": "MIT"
+  },
+  "tool_model_references": {
+    "bifrost": {
+      "policy": "adapters/bifrost/policies/core-go-kernel.rqlp"
+    },
+    "codeql": {
+      "query": "adapters/codeql/go/queries/GoKernel.ql"
+    }
+  }
+}
