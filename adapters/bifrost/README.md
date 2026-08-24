@@ -49,7 +49,14 @@ pair that the run also evaluates but never counts in the core denominator; see
 `core-php-kernel.rqlp` under the same frozen-direct-pair arrangement as C#, Go,
 and Rust, and covers all 16 templates (32 core assertions); see [the PHP kernel
 contract](../../docs/php-kernel.md) for its ordered-map array adaptation and for
-why the pinned CodeQL CLI contributes no PHP results at all. Every kernel command
+why the pinned CodeQL CLI contributes no PHP results at all. The Scala parity
+slice uses `core-scala-kernel.rqlp` and pins that policy for its whole
+population the way the Kotlin slice does, because its direct-propagation pair
+is frozen naming the breadth policy; Scala is the only kernel with
+**single-analyzer coverage** — CodeQL 2.26.3 has no Scala extractor and the
+pinned Joern has no Scala source frontend, so Bifrost is the only tool that
+produces Scala results at all. See
+[the Scala kernel contract](../../docs/scala-kernel.md). Every kernel command
 selects only its own language's core assertions — 32 for the 16-template
 kernels, 30 for C and Rust — and writes a dedicated report. The Java
 calibration slice also
@@ -67,6 +74,7 @@ Run from the repository root:
 cargo run -- run-bifrost-smoke --bifrost /path/to/bifrost
 cargo run -- run-bifrost-python-kernel --bifrost /path/to/bifrost
 cargo run -- run-bifrost-kotlin-kernel --bifrost /path/to/bifrost
+cargo run -- run-bifrost-scala-kernel --bifrost /path/to/bifrost
 cargo run -- run-bifrost-typescript-kernel --bifrost /path/to/bifrost
 cargo run -- run-bifrost-csharp-kernel --bifrost /path/to/bifrost
 cargo run -- run-bifrost-go-kernel --bifrost /path/to/bifrost
@@ -181,6 +189,19 @@ heap/separation stratum and the exception-catch pair) or `partial_discovery`
 (4 — the arithmetic-expression and loop-carried pairs) evidence and are never
 counted as negatives. This report was produced after the v0.3.0 freeze and is
 not bound by it; see [the PHP kernel contract](../../docs/php-kernel.md).
+
+The 32-case Scala kernel, in its own report `reports/bifrost-scala-kernel.json`
+with raw evidence under `reports/raw/bifrost-scala-kernel/`, was run on the
+same v0.10.5 build after the v0.3.0 freeze and is therefore not part of it. It
+produces 5 `reached`, 5 `not-reached`, and 22 `inconclusive` results: five
+template pairs are decisive — direct propagation, the local multi-step chain,
+call-context separation, argument-position separation, and the one-hop return
+relay — and all ten of those outcomes match the expected polarity, with no
+decisive mismatch. The 22 inconclusive results retain `partial_discovery` (18)
+or `capability_incomplete` (4) evidence; six of them additionally carry the
+policy's finding message, which an incomplete run cannot make decisive. This is
+capability coverage, never a negative result; see [the Scala kernel
+contract](../../docs/scala-kernel.md).
 
 The JavaScript alias-propagation and array-element pairs retain
 `partial_discovery` evidence, while the exception-catch pair retains
