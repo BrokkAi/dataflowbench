@@ -8,11 +8,12 @@ The current scored slice has four distinct semantic tracks: `value-flow`,
 `taint`, `typestate`, and `performance`. Reports preserve five independent
 score dimensions—those tracks plus `witness`—without pooling them. The first
 scored slice includes a balanced direct-flow pair across 13 language/dialect
-entries and balanced 16-template Java, JavaScript, and Python propagation
-kernels in the `taint` track. Python parity uses the same language-neutral
-template IDs with Python-specific fixture spellings and a separate result
-population; the [Python kernel contract](docs/python-kernel.md) records those
-adaptations. DataFlowBench measures correctness, capability coverage, witness
+entries and balanced 16-template Java, JavaScript, Python, and Kotlin
+propagation kernels in the `taint` track. Each parity kernel uses the same
+language-neutral template IDs with language-specific fixture spellings and a
+separate result population; the [Python kernel
+contract](docs/python-kernel.md) and the [Kotlin kernel
+contract](docs/kotlin-kernel.md) record those adaptations. DataFlowBench measures correctness, capability coverage, witness
 quality, and performance separately; it deliberately does not calculate a
 combined score or declare a tool a winner.
 
