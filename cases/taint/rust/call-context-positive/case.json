@@ -1,0 +1,65 @@
+{
+  "schema_version": 2,
+  "id": "dfb-taint-rust-call-context-positive",
+  "template_id": "dfb-template-call-context-separation",
+  "polarity": "positive",
+  "score_tier": "core",
+  "track": "taint",
+  "language": "rust",
+  "semantic_dimensions": [
+    "interprocedural-flow",
+    "context-sensitivity"
+  ],
+  "feature_tags": [
+    "interprocedural-one-hop"
+  ],
+  "model_profile": "benchmark-controlled",
+  "fixture_files": [
+    "call_context_positive.rs"
+  ],
+  "source_anchors": [
+    {
+      "marker": "DFB-SOURCE: call-context-input",
+      "file": "call_context_positive.rs"
+    }
+  ],
+  "sink_anchors": [
+    {
+      "marker": "DFB-SINK: call-context-sink",
+      "file": "call_context_positive.rs"
+    }
+  ],
+  "expected_flows": [
+    {
+      "source": "DFB-SOURCE: call-context-input",
+      "sink": "DFB-SINK: call-context-sink"
+    }
+  ],
+  "expected_nonflows": [],
+  "witness_checkpoints": [
+    "DFB-SOURCE: call-context-input",
+    "DFB-WITNESS: call-context-relay",
+    "DFB-SINK: call-context-sink"
+  ],
+  "expected_analysis_capability": {
+    "kind": "context-sensitive-interprocedural-taint"
+  },
+  "execution_budget": {
+    "wall_clock_seconds": 60,
+    "peak_memory_mb": 512
+  },
+  "fixture_provenance": {
+    "kind": "authored",
+    "origin": "DataFlowBench",
+    "revision": "m2-rust-kernel",
+    "license": "MIT"
+  },
+  "tool_model_references": {
+    "bifrost": {
+      "policy": "adapters/bifrost/policies/core-rust-kernel.rqlp"
+    },
+    "codeql": {
+      "query": "adapters/codeql/rust/queries/RustKernel.ql"
+    }
+  }
+}

@@ -1,0 +1,66 @@
+{
+  "schema_version": 2,
+  "id": "dfb-taint-rust-alias-propagation-positive",
+  "template_id": "dfb-template-alias-propagation-separation",
+  "polarity": "positive",
+  "score_tier": "core",
+  "track": "taint",
+  "language": "rust",
+  "semantic_dimensions": [
+    "heap-field-sensitivity",
+    "object-sensitivity"
+  ],
+  "feature_tags": [
+    "heap-access-path"
+  ],
+  "model_profile": "benchmark-controlled",
+  "fixture_files": [
+    "alias_propagation_positive.rs"
+  ],
+  "source_anchors": [
+    {
+      "marker": "DFB-SOURCE: alias-propagation-input",
+      "file": "alias_propagation_positive.rs"
+    }
+  ],
+  "sink_anchors": [
+    {
+      "marker": "DFB-SINK: alias-propagation-sink",
+      "file": "alias_propagation_positive.rs"
+    }
+  ],
+  "expected_flows": [
+    {
+      "source": "DFB-SOURCE: alias-propagation-input",
+      "sink": "DFB-SINK: alias-propagation-sink"
+    }
+  ],
+  "expected_nonflows": [],
+  "witness_checkpoints": [
+    "DFB-SOURCE: alias-propagation-input",
+    "DFB-WITNESS: alias-propagation-store",
+    "DFB-WITNESS: alias-propagation-alias",
+    "DFB-SINK: alias-propagation-sink"
+  ],
+  "expected_analysis_capability": {
+    "kind": "heap-alias-sensitive-taint"
+  },
+  "execution_budget": {
+    "wall_clock_seconds": 60,
+    "peak_memory_mb": 512
+  },
+  "fixture_provenance": {
+    "kind": "authored",
+    "origin": "DataFlowBench",
+    "revision": "m2-rust-kernel",
+    "license": "MIT"
+  },
+  "tool_model_references": {
+    "bifrost": {
+      "policy": "adapters/bifrost/policies/core-rust-kernel.rqlp"
+    },
+    "codeql": {
+      "query": "adapters/codeql/rust/queries/RustKernel.ql"
+    }
+  }
+}

@@ -1,0 +1,10 @@
+(policy
+  :schema-version 1
+  :id "dataflowbench.taint.core-rust-kernel"
+  :name "DataFlowBench Rust propagation kernel"
+  :message "Controlled input reaches the benchmark sink"
+  :severity warning
+  :analysis (analysis :type taint :mode may
+    :call-modeling (call-modeling :unmodeled optimistic)
+    :sources (endpoint-set :entries [(source :id input :display-name "benchmark input" :categories [input.user-controlled] :selector (rql :schema-version 1 (language rust (call :callee (name "dfb_source")))) :bind return-value :labels [attacker-controlled])])
+    :sinks (endpoint-set :entries [(sink :id sink :display-name "benchmark sink" :categories [data.sensitive] :selector (rql :schema-version 1 (language rust (call :callee (name "dfb_sink")))) :dangerous-operand (argument :index 0) :accepts [attacker-controlled])])) )
