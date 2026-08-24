@@ -185,7 +185,21 @@ The run used Bifrost 0.10.2, build identity
 
 ### CodeQL 2.26.3
 
-TO BE FILLED IN
+The retained TypeScript snapshot has 32 results: 15 `reached` and 17
+`not-reached`, with zero `inconclusive`, `unsupported`, or `runner-error`
+outcomes. Twenty-nine of 32 match expected polarity. The false negatives are
+`dfb-taint-typescript-alias-propagation-positive` and
+`dfb-taint-typescript-expression-positive`; the false positive is
+`dfb-taint-typescript-loop-carried-negative`. This is case-for-case identical
+to the retained JavaScript snapshot, which is the expected result for a kernel
+that differs from it by type annotations only.
+
+All 32 retained raw outputs are SARIF files under
+`reports/raw/codeql-typescript/`, with zero error files, and normalized
+`witness_checkpoints` are empty for every case — the adapter records
+anchor-backed flow outcomes and retains path evidence in SARIF rather than
+fabricating normalized witness markers. The configuration hash is
+`97949db804086b91f4737ad2e6a8ac5dab461f811a7a033250a00ced32eac54c`.
 
 ## Relationship to the other kernels
 

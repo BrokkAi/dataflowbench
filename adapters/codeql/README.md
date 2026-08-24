@@ -180,6 +180,21 @@ kernel's query. See [the TypeScript kernel
 document](../../docs/typescript-kernel.md) for the full adaptation table and
 the freeze rationale.
 
+### Retained TypeScript snapshot
+
+The checked-in `reports/codeql-typescript-kernel.json` contains 32 results: 15
+`reached` and 17 `not-reached`, with zero `inconclusive`, `unsupported`, or
+`runner-error` outcomes. Twenty-nine of 32 match expected polarity; the
+alias-propagation and arithmetic-expression positives are false negatives and
+the loop-carried negative is a false positive. That is case-for-case identical
+to the JavaScript snapshot above, as expected for fixtures that differ only by
+type annotations. All 32 raw outputs are SARIF files with zero error files.
+The run used CodeQL CLI 2.26.3, build SHA
+`7d097a43199effe04ecd9c6bd3ad9bb02a45b3d7`, with `codeql/javascript-all@2.9.0`
+resolved by `codeql pack install` from the registry — no `--codeql-packs`
+fallback was needed. Its configuration hash is
+`97949db804086b91f4737ad2e6a8ac5dab461f811a7a033250a00ced32eac54c`.
+
 ## Python kernel
 
 The Python query selects exactly the 32 core assertions (the 16 balanced
