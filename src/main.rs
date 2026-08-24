@@ -48,6 +48,10 @@ const CODEQL_RUST_QUERY: &str = "adapters/codeql/rust/queries/RustKernel.ql";
 const CODEQL_RUST_RAW_DIR: &str = "reports/raw/codeql-rust-kernel";
 const CODEQL_RUST_REPORT: &str = "reports/codeql-rust-kernel.json";
 const BIFROST_RUST_POLICY: &str = "adapters/bifrost/policies/core-rust-kernel.rqlp";
+const CODEQL_RUBY_QUERY: &str = "adapters/codeql/ruby/queries/RubyKernel.ql";
+const CODEQL_RUBY_RAW_DIR: &str = "reports/raw/codeql-ruby-kernel";
+const CODEQL_RUBY_REPORT: &str = "reports/codeql-ruby-kernel.json";
+const BIFROST_RUBY_POLICY: &str = "adapters/bifrost/policies/core-ruby-kernel.rqlp";
 /// The single Joern query script. One script serves all three Joern kernels:
 /// the benchmark-controlled endpoints are passed in per case, so nothing in it
 /// is language-, template-, or polarity-specific.
@@ -58,6 +62,8 @@ const JOERN_JAVASCRIPT_RAW_DIR: &str = "reports/raw/joern-javascript-kernel";
 const JOERN_JAVASCRIPT_REPORT: &str = "reports/joern-javascript-kernel.json";
 const JOERN_PYTHON_RAW_DIR: &str = "reports/raw/joern-python-kernel";
 const JOERN_PYTHON_REPORT: &str = "reports/joern-python-kernel.json";
+const JOERN_RUBY_RAW_DIR: &str = "reports/raw/joern-ruby-kernel";
+const JOERN_RUBY_REPORT: &str = "reports/joern-ruby-kernel.json";
 /// The module manifest written into every Go CodeQL workspace. The Go
 /// extractor has no `none` build mode, so it must observe a real `go build`;
 /// supplying the manifest keeps that build hermetic and offline instead of
@@ -238,6 +244,15 @@ enum Commands {
         #[arg(long, default_value = "bifrost")]
         bifrost: PathBuf,
     },
+    /// Run the Ruby propagation kernel as its own population, separate from
+    /// every other language kernel and from the direct-flow breadth slice.
+    /// docs/applicability-matrix.md gates this tranche on Bifrost's Ruby
+    /// indexing: whatever the run produces is retained as capability evidence
+    /// and is never converted into a negative.
+    RunBifrostRubyKernel {
+        #[arg(long, default_value = "bifrost")]
+        bifrost: PathBuf,
+    },
     RunCodeqlJavaKernel {
         #[arg(long, default_value = "codeql")]
         codeql: PathBuf,
@@ -324,6 +339,15 @@ enum Commands {
         #[arg(long)]
         codeql_packs: Option<PathBuf>,
     },
+    /// Run the Ruby propagation kernel through the CodeQL Ruby extractor. Ruby
+    /// is buildless, so each fixture is extracted standalone and findings are
+    /// reconciled against the case's `DFB-SINK:` method callsites.
+    RunCodeqlRubyKernel {
+        #[arg(long, default_value = "codeql")]
+        codeql: PathBuf,
+        #[arg(long)]
+        codeql_packs: Option<PathBuf>,
+    },
     /// Run the Java propagation kernel through Joern's `javasrc2cpg` frontend
     /// and the OSS data-flow engine, as its own population.
     RunJoernJavaKernel {
@@ -340,6 +364,12 @@ enum Commands {
     /// Run the Python propagation kernel through Joern's `pysrc2cpg` frontend,
     /// as its own population.
     RunJoernPythonKernel {
+        #[arg(long, default_value = "joern")]
+        joern: PathBuf,
+    },
+    /// Run the Ruby propagation kernel through Joern's `rubysrc2cpg` frontend,
+    /// as its own population.
+    RunJoernRubyKernel {
         #[arg(long, default_value = "joern")]
         joern: PathBuf,
     },
@@ -373,6 +403,7 @@ fn main() -> Result<()> {
         Commands::RunBifrostCKernel { bifrost } => run_bifrost(&bifrost, BifrostRun::CKernel),
         Commands::RunBifrostCppKernel { bifrost } => run_bifrost(&bifrost, BifrostRun::CppKernel),
         Commands::RunBifrostRustKernel { bifrost } => run_bifrost(&bifrost, BifrostRun::RustKernel),
+        Commands::RunBifrostRubyKernel { bifrost } => run_bifrost(&bifrost, BifrostRun::RubyKernel),
         Commands::RunCodeqlJavaKernel {
             codeql,
             codeql_packs,
@@ -415,11 +446,16 @@ fn main() -> Result<()> {
             codeql,
             codeql_packs,
         } => run_codeql_rust_kernel(&codeql, codeql_packs.as_deref()),
+        Commands::RunCodeqlRubyKernel {
+            codeql,
+            codeql_packs,
+        } => run_codeql_ruby_kernel(&codeql, codeql_packs.as_deref()),
         Commands::RunJoernJavaKernel { joern } => run_joern_kernel(&joern, JoernKernel::Java),
         Commands::RunJoernJavascriptKernel { joern } => {
             run_joern_kernel(&joern, JoernKernel::JavaScript)
         }
         Commands::RunJoernPythonKernel { joern } => run_joern_kernel(&joern, JoernKernel::Python),
+        Commands::RunJoernRubyKernel { joern } => run_joern_kernel(&joern, JoernKernel::Ruby),
     }
 }
 
@@ -487,6 +523,7 @@ fn validate_cases() -> Result<()> {
         "Rust",
         &KERNEL_TEMPLATE_IDS_WITHOUT_EXCEPTION_CATCH,
     )?;
+    validate_scored_kernel_balance(&cases, "ruby", "Ruby", &KERNEL_TEMPLATE_IDS)?;
     println!("validated {} cases", paths.len());
     Ok(())
 }
@@ -742,6 +779,7 @@ enum BifrostRun {
     CKernel,
     CppKernel,
     RustKernel,
+    RubyKernel,
 }
 
 impl BifrostRun {
@@ -757,6 +795,7 @@ impl BifrostRun {
             Self::CKernel => "Bifrost C kernel",
             Self::CppKernel => "Bifrost C++ kernel",
             Self::RustKernel => "Bifrost Rust kernel",
+            Self::RubyKernel => "Bifrost Ruby kernel",
         }
     }
 
@@ -766,9 +805,11 @@ impl BifrostRun {
     /// and scored separately, so they never move this number.
     fn expected_core_cases(self) -> Option<usize> {
         match self {
-            Self::KotlinKernel | Self::CsharpKernel | Self::GoKernel | Self::CppKernel => {
-                Some(KERNEL_CASE_COUNT)
-            }
+            Self::KotlinKernel
+            | Self::CsharpKernel
+            | Self::GoKernel
+            | Self::CppKernel
+            | Self::RubyKernel => Some(KERNEL_CASE_COUNT),
             Self::CKernel | Self::RustKernel => Some(KERNEL_CASE_COUNT_WITHOUT_EXCEPTION_CATCH),
             Self::Smoke | Self::PythonKernel | Self::TypescriptKernel => None,
         }
@@ -2366,6 +2407,10 @@ fn run_bifrost(binary: &Path, run: BifrostRun) -> Result<()> {
             Path::new("reports/raw/bifrost-rust-kernel"),
             Path::new("reports/bifrost-rust-kernel.json"),
         ),
+        BifrostRun::RubyKernel => (
+            Path::new("reports/raw/bifrost-ruby-kernel"),
+            Path::new("reports/bifrost-ruby-kernel.json"),
+        ),
     };
     fs::create_dir_all(raw_dir)?;
     let started = now_seconds()?;
@@ -2581,6 +2626,15 @@ fn selected_bifrost_case(case: &Value, run: BifrostRun) -> bool {
         }
         BifrostRun::CKernel => c_family_bifrost_case(case, CFamilyKernel::C),
         BifrostRun::CppKernel => c_family_bifrost_case(case, CFamilyKernel::Cpp),
+        BifrostRun::RubyKernel => {
+            ruby_core_case(case)
+                && (case["tool_model_references"]["bifrost"]["policy"]
+                    .as_str()
+                    .is_some_and(|policy| {
+                        policy == BIFROST_RUBY_POLICY || policy == BIFROST_DIRECT_POLICY
+                    })
+                    || case["tool_model_references"]["bifrost"]["unsupported_reason"].is_string())
+        }
         BifrostRun::RustKernel => {
             rust_kernel_case(case)
                 && (case["tool_model_references"]["bifrost"]["policy"]
@@ -2874,6 +2928,9 @@ enum CodeqlLanguage<'a> {
     /// `--build-mode=none`, but it only runs its semantic analyzer when the
     /// source root contains a Cargo manifest, so the runner generates one.
     Rust,
+    /// Ruby is buildless: the extractor parses the sources directly under
+    /// `--build-mode=none`, with no manifest, project file, or traced compile.
+    Ruby,
 }
 
 impl CodeqlLanguage<'_> {
@@ -2885,6 +2942,7 @@ impl CodeqlLanguage<'_> {
             Self::Go { .. } => "go",
             Self::CFamily => "cpp",
             Self::Rust => "rust",
+            Self::Ruby => "ruby",
         }
     }
 
@@ -3532,6 +3590,113 @@ fn run_codeql_rust_kernel(binary: &Path, packs: Option<&Path>) -> Result<()> {
     validate_reports()?;
     println!("wrote {CODEQL_RUST_REPORT}");
     Ok(())
+}
+
+/// Run the Ruby-only CodeQL kernel. `docs/applicability-matrix.md` gates the
+/// Ruby tranche on Bifrost's Ruby indexing and names CodeQL as the primary
+/// decisive analyzer, so this is the run the Ruby denominator is decided by.
+/// The Ruby extractor is buildless, so each of the 32 core assertions is
+/// extracted standalone into its own cold database.
+fn run_codeql_ruby_kernel(binary: &Path, packs: Option<&Path>) -> Result<()> {
+    validate_cases()?;
+    let selected = codeql_ruby_cases()?;
+    let raw_dir = Path::new(CODEQL_RUBY_RAW_DIR);
+    fs::create_dir_all(raw_dir)?;
+    let started = now_seconds()?;
+    let (version, build_identity) = codeql_version_identity(binary)?;
+    let revision = fixture_revision()?;
+    let mut results = Vec::with_capacity(selected.len());
+
+    for (path, case) in selected {
+        let id = case["id"].as_str().expect("schema validated");
+        let start = Instant::now();
+        let (outcome, diagnostics, raw_path) = run_codeql_case_for_language(
+            binary,
+            packs,
+            &path,
+            &case,
+            Path::new(CODEQL_RUBY_QUERY),
+            raw_dir,
+            CodeqlLanguage::Ruby,
+        )?;
+        results.push(normalized_result(
+            &case,
+            id,
+            outcome,
+            diagnostics,
+            start.elapsed(),
+            &raw_path,
+        ));
+    }
+
+    let configuration_hash = hash_paths(&codeql_ruby_configuration_paths())?;
+    let report = json!({
+        "schema_version": 1,
+        "tool": "codeql",
+        "tool_version": version,
+        "tool_build_identity": build_identity,
+        "adapter_version": ADAPTER_VERSION,
+        "configuration_hash": configuration_hash,
+        "fixture_revision": revision,
+        "started_at_unix_seconds": started,
+        "ended_at_unix_seconds": now_seconds()?,
+        "cold_or_warm": "cold",
+        "results": results
+    });
+    fs::write(
+        CODEQL_RUBY_REPORT,
+        serde_json::to_string_pretty(&report)? + "\n",
+    )?;
+    validate_reports()?;
+    println!("wrote {CODEQL_RUBY_REPORT}");
+    Ok(())
+}
+
+fn ruby_core_case(case: &Value) -> bool {
+    case["language"] == "ruby" && case["track"] == "taint" && case["score_tier"] == "core"
+}
+
+fn codeql_ruby_cases() -> Result<Vec<(PathBuf, Value)>> {
+    let mut selected = Vec::new();
+    for path in case_paths() {
+        let case: Value = serde_json::from_str(&fs::read_to_string(&path)?)?;
+        if !ruby_core_case(&case) {
+            continue;
+        }
+        // The direct-propagation pair predates this kernel and is frozen in the
+        // published v0.2.0 evidence without a CodeQL model reference. Any
+        // reference a Ruby core case does carry must name this kernel's query.
+        if let Some(query) = case["tool_model_references"]["codeql"]["query"].as_str()
+            && query != CODEQL_RUBY_QUERY
+        {
+            bail!(
+                "Ruby core case {} references non-Ruby CodeQL query {query:?}",
+                case["id"]
+            );
+        }
+        selected.push((path, case));
+    }
+    validate_kernel_population(&selected, "Ruby CodeQL kernel")?;
+    if !Path::new(CODEQL_RUBY_QUERY).is_file() {
+        bail!("Ruby CodeQL query does not exist: {CODEQL_RUBY_QUERY}");
+    }
+    Ok(selected)
+}
+
+fn codeql_ruby_configuration_paths() -> BTreeSet<PathBuf> {
+    let mut paths = BTreeSet::from([PathBuf::from(CODEQL_RUBY_QUERY)]);
+    for candidate in [
+        "adapters/codeql/ruby/qlpack.yml",
+        "adapters/codeql/ruby/codeql-pack.lock.yml",
+    ]
+    .into_iter()
+    .map(PathBuf::from)
+    {
+        if candidate.is_file() {
+            paths.insert(candidate);
+        }
+    }
+    paths
 }
 
 /// A Rust assertion this kernel owns: the 30 `core` assertions of the 15
@@ -4184,6 +4349,7 @@ enum AnchorDialect {
     Rust,
     Java,
     Python,
+    Ruby,
 }
 
 impl AnchorDialect {
@@ -4196,6 +4362,7 @@ impl AnchorDialect {
             Self::CSharp | Self::Go | Self::Cpp | Self::Rust | Self::Java | Self::Python => {
                 parameter_list_function_name(declaration, marker)
             }
+            Self::Ruby => ruby_declared_function_name(declaration, marker),
         }
     }
 
@@ -4208,6 +4375,7 @@ impl AnchorDialect {
             Self::Cpp => cpp_function_call(line, function_name),
             Self::Rust => rust_function_call(line, function_name),
             Self::Python => python_function_call(line, function_name),
+            Self::Ruby => ruby_function_call(line, function_name),
         }
     }
 }
@@ -4460,6 +4628,41 @@ fn parameter_list_function_call(line: &str, function_name: &str) -> bool {
 /// Python reaches a member through `.` only, and opens a comment with `#`.
 fn python_function_call(line: &str, function_name: &str) -> bool {
     member_prefixed_call_in(line, function_name, &['.'], CommentSyntax::Hash)
+}
+
+/// Ruby reaches a method through `.` and a constant path through `::`, and
+/// opens a comment with `#`. A parenless Ruby call carries no argument list, so
+/// it is not a sink callsite under this rule: every benchmark sink takes one
+/// positional argument and every fixture spells that call with parentheses.
+/// The receiverless source calls the fixtures do spell parenlessly are resolved
+/// from their declaration lines, never from a callsite scan.
+fn ruby_function_call(line: &str, function_name: &str) -> bool {
+    member_prefixed_call_in(line, function_name, &['.', ':'], CommentSyntax::Hash)
+}
+
+/// A Ruby endpoint marker sits on a `def` line, and Ruby's parameter list is
+/// optional: `def dfb_source # DFB-SOURCE: ...` declares a method exactly as
+/// `def dfb_sink(value) # DFB-SINK: ...` does. The declared name is therefore
+/// read after the `def` keyword rather than before a parameter list, which is
+/// the one surface rule Ruby does not share with the parameter-list dialects.
+fn ruby_declared_function_name(declaration: &str, marker: &str) -> Option<String> {
+    let marker_start = declaration.find(marker)?;
+    let declaration = &declaration[..marker_start];
+    let declaration = declaration.split('#').next().unwrap_or(declaration);
+    let (keyword, _) = declaration.match_indices("def").find(|(start, _)| {
+        let before = declaration[..*start].chars().next_back();
+        let after = declaration[*start + "def".len()..].chars().next();
+        !before.is_some_and(ascii_identifier_char)
+            && after.is_some_and(|character| character.is_whitespace())
+    })?;
+    let name = declaration[keyword + "def".len()..].trim_start();
+    let name = name.strip_prefix("self.").unwrap_or(name);
+    let end = name
+        .char_indices()
+        .find_map(|(index, character)| (!ascii_identifier_char(character)).then_some(index))
+        .unwrap_or(name.len());
+    (end > 0 && !name.starts_with(|character: char| character.is_ascii_digit()))
+        .then(|| name[..end].to_string())
 }
 
 /// C and C++ reach a member through `.`, `->`, and `::`; none of those is a
@@ -4835,6 +5038,9 @@ fn run_codeql_case_for_language(
         CodeqlLanguage::Rust => {
             callsite_anchored_outcome(case_path, case, &sarif, AnchorDialect::Rust)
         }
+        CodeqlLanguage::Ruby => {
+            callsite_anchored_outcome(case_path, case, &sarif, AnchorDialect::Ruby)
+        }
         CodeqlLanguage::Java => {
             let result_count = sarif_result_count(&sarif);
             let diagnostics = sarif_messages(&sarif);
@@ -5010,7 +5216,8 @@ fn codeql_database_create_args(
         CodeqlLanguage::Python
         | CodeqlLanguage::CSharp
         | CodeqlLanguage::CFamily
-        | CodeqlLanguage::Rust => args.push("--build-mode=none".to_string()),
+        | CodeqlLanguage::Rust
+        | CodeqlLanguage::Ruby => args.push("--build-mode=none".to_string()),
         // CodeQL 2.26.3 rejects `--build-mode=none` for Go. The traced build is
         // `go build ./...` over the workspace's synthesized module manifest,
         // which keeps extraction reproducible instead of letting autobuild
@@ -5203,6 +5410,7 @@ enum JoernKernel {
     Java,
     JavaScript,
     Python,
+    Ruby,
 }
 
 impl JoernKernel {
@@ -5211,6 +5419,7 @@ impl JoernKernel {
             Self::Java => "java",
             Self::JavaScript => "javascript",
             Self::Python => "python",
+            Self::Ruby => "ruby",
         }
     }
 
@@ -5219,18 +5428,20 @@ impl JoernKernel {
             Self::Java => "Java",
             Self::JavaScript => "JavaScript",
             Self::Python => "Python",
+            Self::Ruby => "Ruby",
         }
     }
 
     /// The `importCode` language identifier the script is invoked with, which
-    /// selects `javasrc2cpg`, `jssrc2cpg`, and `pysrc2cpg` respectively. Each
-    /// kernel names exactly one source frontend; none of the three is analyzed
-    /// through a bytecode or binary frontend.
+    /// selects `javasrc2cpg`, `jssrc2cpg`, `pysrc2cpg`, and `rubysrc2cpg`
+    /// respectively. Each kernel names exactly one source frontend; none of the
+    /// four is analyzed through a bytecode or binary frontend.
     fn frontend(self) -> &'static str {
         match self {
             Self::Java => "JAVASRC",
             Self::JavaScript => "JSSRC",
             Self::Python => "PYTHONSRC",
+            Self::Ruby => "RUBYSRC",
         }
     }
 
@@ -5239,6 +5450,7 @@ impl JoernKernel {
             Self::Java => JOERN_JAVA_REPORT,
             Self::JavaScript => JOERN_JAVASCRIPT_REPORT,
             Self::Python => JOERN_PYTHON_REPORT,
+            Self::Ruby => JOERN_RUBY_REPORT,
         }
     }
 
@@ -5247,6 +5459,7 @@ impl JoernKernel {
             Self::Java => JOERN_JAVA_RAW_DIR,
             Self::JavaScript => JOERN_JAVASCRIPT_RAW_DIR,
             Self::Python => JOERN_PYTHON_RAW_DIR,
+            Self::Ruby => JOERN_RUBY_RAW_DIR,
         }
     }
 
@@ -5255,6 +5468,7 @@ impl JoernKernel {
             Self::Java => AnchorDialect::Java,
             Self::JavaScript => AnchorDialect::Ecma,
             Self::Python => AnchorDialect::Python,
+            Self::Ruby => AnchorDialect::Ruby,
         }
     }
 
@@ -7945,6 +8159,7 @@ mod tests {
             JoernKernel::Java,
             JoernKernel::JavaScript,
             JoernKernel::Python,
+            JoernKernel::Ruby,
         ] {
             let selected = select_joern_cases(kernel).unwrap();
             assert_eq!(selected.len(), KERNEL_CASE_COUNT);
@@ -7988,6 +8203,7 @@ mod tests {
             JoernKernel::Java,
             JoernKernel::JavaScript,
             JoernKernel::Python,
+            JoernKernel::Ruby,
         ];
         let reports = kernels
             .iter()
@@ -8067,6 +8283,156 @@ mod tests {
                 sink_function: "dfb_sink".to_string()
             }
         );
+        // Ruby's source declaration carries no parameter list at all, so the
+        // endpoint name has to come from the `def` keyword rather than from an
+        // identifier before `(`.
+        assert_eq!(
+            resolve(
+                "dfb-taint-ruby-alias-propagation-positive",
+                AnchorDialect::Ruby
+            ),
+            JoernEndpoints {
+                source_function: "dfb_source".to_string(),
+                sink_function: "dfb_sink".to_string()
+            }
+        );
+    }
+
+    /// Ruby is the one dialect whose endpoint declarations may carry no
+    /// parameter list: `def dfb_source # DFB-SOURCE: ...` is a method
+    /// declaration exactly as `def dfb_sink(value) # DFB-SINK: ...` is. It
+    /// reaches a method through `.` and a constant path through `::`, and opens
+    /// comments with `#`.
+    #[test]
+    fn ruby_endpoint_declarations_resolve_through_the_ruby_dialect() {
+        assert_eq!(
+            AnchorDialect::Ruby
+                .declared_function_name("def dfb_sink(value) # DFB-SINK: sink", "DFB-SINK: sink")
+                .as_deref(),
+            Some("dfb_sink")
+        );
+        assert_eq!(
+            AnchorDialect::Ruby
+                .declared_function_name("def dfb_source # DFB-SOURCE: input", "DFB-SOURCE: input")
+                .as_deref(),
+            Some("dfb_source")
+        );
+        assert_eq!(
+            AnchorDialect::Ruby
+                .declared_function_name(
+                    "  def self.dfb_source # DFB-SOURCE: input",
+                    "DFB-SOURCE: input"
+                )
+                .as_deref(),
+            Some("dfb_source")
+        );
+        // A marker that is not on a declaration resolves to nothing rather than
+        // to a guess.
+        assert_eq!(
+            AnchorDialect::Ruby
+                .declared_function_name("  value = 0 # DFB-SINK: sink", "DFB-SINK: sink"),
+            None
+        );
+        assert_eq!(
+            AnchorDialect::Ruby
+                .declared_function_name("  undef dfb_sink # DFB-SINK: sink", "DFB-SINK: sink"),
+            None
+        );
+        assert!(AnchorDialect::Ruby.is_call("  dfb_sink(aliased.value)", "dfb_sink"));
+        assert!(!AnchorDialect::Ruby.is_call("  other.dfb_sink(value)", "dfb_sink"));
+        assert!(!AnchorDialect::Ruby.is_call("  Other::dfb_sink(value)", "dfb_sink"));
+        assert!(!AnchorDialect::Ruby.is_call("  my_dfb_sink(value)", "dfb_sink"));
+        assert!(!AnchorDialect::Ruby.is_call("  # dfb_sink(value)", "dfb_sink"));
+        assert!(!AnchorDialect::Ruby.is_call("  log(\"dfb_sink(value)\")", "dfb_sink"));
+    }
+
+    /// The Ruby kernel is its own Bifrost population. The tranche is gated on
+    /// Bifrost's Ruby indexing, so whatever this run produces is capability
+    /// evidence — but the selection itself must still be exactly the 32 Ruby
+    /// core assertions and nothing else.
+    #[test]
+    fn bifrost_ruby_kernel_selects_only_ruby_core_cases() {
+        let mut core = 0;
+        for path in case_paths() {
+            let case: Value = serde_json::from_str(&fs::read_to_string(path).unwrap()).unwrap();
+            if selected_bifrost_case(&case, BifrostRun::RubyKernel) {
+                assert!(ruby_core_case(&case));
+                core += 1;
+                for other in [
+                    BifrostRun::PythonKernel,
+                    BifrostRun::KotlinKernel,
+                    BifrostRun::TypescriptKernel,
+                    BifrostRun::CsharpKernel,
+                    BifrostRun::GoKernel,
+                    BifrostRun::CKernel,
+                    BifrostRun::CppKernel,
+                    BifrostRun::RustKernel,
+                ] {
+                    assert!(!selected_bifrost_case(&case, other));
+                }
+            } else {
+                assert!(!ruby_core_case(&case));
+            }
+        }
+        assert_eq!(core, KERNEL_CASE_COUNT);
+        assert_eq!(
+            BifrostRun::RubyKernel.expected_core_cases(),
+            Some(KERNEL_CASE_COUNT)
+        );
+    }
+
+    /// The Ruby CodeQL slice owns its own pack, query, report, and evidence
+    /// root, and is never pooled with another language's population.
+    #[test]
+    fn ruby_codeql_report_paths_are_dedicated() {
+        for other in [
+            CODEQL_KOTLIN_REPORT,
+            CODEQL_CSHARP_REPORT,
+            CODEQL_JAVASCRIPT_REPORT,
+            CODEQL_TYPESCRIPT_REPORT,
+            CODEQL_GO_REPORT,
+            CODEQL_C_REPORT,
+            CODEQL_CPP_REPORT,
+            CODEQL_RUST_REPORT,
+            "reports/codeql-python-kernel.json",
+        ] {
+            assert_ne!(CODEQL_RUBY_REPORT, other);
+        }
+        for other in [
+            CODEQL_KOTLIN_RAW_DIR,
+            CODEQL_CSHARP_RAW_DIR,
+            CODEQL_JAVASCRIPT_RAW_DIR,
+            CODEQL_TYPESCRIPT_RAW_DIR,
+            CODEQL_GO_RAW_DIR,
+            CODEQL_C_RAW_DIR,
+            CODEQL_CPP_RAW_DIR,
+            CODEQL_RUST_RAW_DIR,
+        ] {
+            assert_ne!(CODEQL_RUBY_RAW_DIR, other);
+        }
+        assert_ne!(CODEQL_RUBY_QUERY, CODEQL_PYTHON_QUERY);
+        assert_eq!(CodeqlLanguage::Ruby.cli_name(), "ruby");
+        assert!(!CodeqlLanguage::Ruby.traces_jvm_compile());
+
+        // Ruby is buildless: no traced compile, no generated manifest.
+        let case = json!({"id": "dfb-taint-ruby-test", "fixture_files": ["direct_flow.rb"]});
+        let args = codeql_database_create_args(
+            Path::new("/tmp/ruby-db"),
+            Path::new("/tmp/ruby-workspace"),
+            &case,
+            CodeqlLanguage::Ruby,
+        )
+        .unwrap();
+        assert!(args.iter().any(|arg| arg == "--language=ruby"));
+        assert!(args.iter().any(|arg| arg == "--build-mode=none"));
+        assert!(!args.iter().any(|arg| arg.starts_with("--command=")));
+
+        let selected = codeql_ruby_cases().unwrap();
+        assert_eq!(selected.len(), KERNEL_CASE_COUNT);
+        for (_, case) in &selected {
+            assert_eq!(case["language"], "ruby");
+            assert_eq!(case["score_tier"], "core");
+        }
     }
 
     /// Java declares a sink as an identifier before a parameter list and calls
