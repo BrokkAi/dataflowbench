@@ -1,0 +1,68 @@
+{
+  "schema_version": 2,
+  "id": "dfb-taint-typescript-alias-propagation-positive",
+  "template_id": "dfb-template-alias-propagation-separation",
+  "polarity": "positive",
+  "score_tier": "core",
+  "track": "taint",
+  "language": "typescript",
+  "semantic_dimensions": [
+    "heap-field-sensitivity",
+    "object-sensitivity"
+  ],
+  "feature_tags": [
+    "heap-access-path"
+  ],
+  "model_profile": "benchmark-controlled",
+  "fixture_files": [
+    "AliasPropagationPositive.ts"
+  ],
+  "source_anchors": [
+    {
+      "marker": "DFB-SOURCE: alias-propagation-input",
+      "file": "AliasPropagationPositive.ts",
+      "line_hint": 1
+    }
+  ],
+  "sink_anchors": [
+    {
+      "marker": "DFB-SINK: alias-propagation-sink",
+      "file": "AliasPropagationPositive.ts",
+      "line_hint": 5
+    }
+  ],
+  "expected_flows": [
+    {
+      "source": "DFB-SOURCE: alias-propagation-input",
+      "sink": "DFB-SINK: alias-propagation-sink"
+    }
+  ],
+  "expected_nonflows": [],
+  "witness_checkpoints": [
+    "DFB-SOURCE: alias-propagation-input",
+    "DFB-WITNESS: alias-propagation-alias",
+    "DFB-WITNESS: alias-propagation-store",
+    "DFB-SINK: alias-propagation-sink"
+  ],
+  "expected_analysis_capability": {
+    "kind": "heap-alias-sensitive-taint"
+  },
+  "execution_budget": {
+    "wall_clock_seconds": 60,
+    "peak_memory_mb": 512
+  },
+  "fixture_provenance": {
+    "kind": "authored",
+    "origin": "DataFlowBench",
+    "revision": "m2-typescript-kernel",
+    "license": "MIT"
+  },
+  "tool_model_references": {
+    "bifrost": {
+      "policy": "adapters/bifrost/policies/core-typescript-kernel.rqlp"
+    },
+    "codeql": {
+      "query": "adapters/codeql/typescript/queries/TypeScriptKernel.ql"
+    }
+  }
+}

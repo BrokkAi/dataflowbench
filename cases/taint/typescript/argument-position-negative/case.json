@@ -1,0 +1,64 @@
+{
+  "schema_version": 2,
+  "id": "dfb-taint-typescript-argument-position-negative",
+  "template_id": "dfb-template-argument-position-separation",
+  "polarity": "negative",
+  "negative_mechanism": "call-context-separation",
+  "score_tier": "core",
+  "track": "taint",
+  "language": "typescript",
+  "semantic_dimensions": [
+    "interprocedural-flow",
+    "context-sensitivity"
+  ],
+  "feature_tags": [
+    "interprocedural-one-hop"
+  ],
+  "model_profile": "benchmark-controlled",
+  "fixture_files": [
+    "ArgumentPositionNegative.ts"
+  ],
+  "source_anchors": [
+    {
+      "marker": "DFB-SOURCE: argument-position-negative-input",
+      "file": "ArgumentPositionNegative.ts",
+      "line_hint": 1
+    }
+  ],
+  "sink_anchors": [
+    {
+      "marker": "DFB-SINK: argument-position-negative-sink",
+      "file": "ArgumentPositionNegative.ts",
+      "line_hint": 9
+    }
+  ],
+  "expected_flows": [],
+  "expected_nonflows": [
+    {
+      "source": "DFB-SOURCE: argument-position-negative-input",
+      "sink": "DFB-SINK: argument-position-negative-sink"
+    }
+  ],
+  "witness_checkpoints": [],
+  "expected_analysis_capability": {
+    "kind": "argument-sensitive-interprocedural-taint"
+  },
+  "execution_budget": {
+    "wall_clock_seconds": 60,
+    "peak_memory_mb": 512
+  },
+  "fixture_provenance": {
+    "kind": "authored",
+    "origin": "DataFlowBench",
+    "revision": "m2-typescript-kernel",
+    "license": "MIT"
+  },
+  "tool_model_references": {
+    "bifrost": {
+      "policy": "adapters/bifrost/policies/core-typescript-kernel.rqlp"
+    },
+    "codeql": {
+      "query": "adapters/codeql/typescript/queries/TypeScriptKernel.ql"
+    }
+  }
+}

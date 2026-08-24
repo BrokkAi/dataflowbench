@@ -50,6 +50,8 @@ cargo run -- run-codeql-java-kernel --codeql /path/to/codeql \
   --codeql-packs /path/to/codeql-packs
 cargo run -- run-codeql-python-kernel --codeql /path/to/codeql \
   --codeql-packs /path/to/codeql-packs
+cargo run -- run-bifrost-typescript-kernel --bifrost /path/to/current-bifrost
+cargo run -- run-codeql-typescript-kernel --codeql /path/to/codeql
 ```
 
 The Bifrost smoke command requires a current Bifrost build with policy CLI
