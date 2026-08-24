@@ -1,7 +1,7 @@
 # CodeQL adapter
 
 The CodeQL adapter runs language-scoped benchmark kernels against canonical
-fixtures. Java, JavaScript, TypeScript, Python, Kotlin, and C# have separate
+fixtures. Java, JavaScript, TypeScript, Python, Kotlin, C#, and Go have separate
 selections, query paths, normalized reports, and retained raw-evidence
 directories. JavaScript and TypeScript share CodeQL's `javascript` extractor
 and standard library, but they are two separate populations: each slice
@@ -9,17 +9,18 @@ selects only its own language's cases, and each query additionally guards on
 its fixture's file extension so the result sets cannot overlap. Kotlin is
 extracted by the same `java` extractor and standard library as Java, so its
 query restricts every node to `.kt` files and its runner selects only Kotlin
-cases. C# has its own extractor and its own population.
+cases. C# and Go each have their own extractor and their own population.
 
 The checked-in query packs contain the Java, JavaScript, TypeScript, Python,
-Kotlin, and C# kernel queries. Each query uses that language's CodeQL data-flow
+Kotlin, C#, and Go kernel queries. Each query uses that language's CodeQL data-flow
 API and the benchmark-controlled `dfb_source()`/`dfb_sink(value)` contract; the
 Python query is `python/queries/PythonKernel.ql` in its own Python
 database-schema pack, the TypeScript query is
 `typescript/queries/TypeScriptKernel.ql` in its own pack, the Kotlin query
 is `kotlin/queries/KotlinKernel.ql` in its own pack pinned to the same
 `codeql/java-all@9.2.3` as the root Java pack, and the C# query is
-`csharp/queries/CSharpKernel.ql` in its own C# pack.
+`csharp/queries/CSharpKernel.ql` in its own C# pack, and the Go query is
+`go/queries/GoKernel.ql` in its own Go pack.
 
 The Java kernel adapter creates one CodeQL database per canonical case,
 compiles the fixture with its real `javac` build, runs the pinned
@@ -339,6 +340,58 @@ negatives are the alias-propagation, exception-catch, and expression positives,
 and the false positives are the array-element and loop-carried negatives — the
 same mismatch set the Java kernel shows on those templates. Its configuration
 hash is `cd5f68b8ccb2e4de27cf1606b0c9f2ee8981ce5dfdf8ee2fea08fe977a0c56c9`.
+
+## Go kernel
+
+The Go runner selects exactly the 32 `taint` cases whose `language` is `go` and
+whose `score_tier` is `core`, and analyzes each with:
+
+```text
+adapters/codeql/go/queries/GoKernel.ql
+```
+
+The query belongs to the dedicated Go pack manifest at
+`adapters/codeql/go/qlpack.yml`, pinned to `codeql/go-all@7.2.3` — the version
+`codeql pack install` resolves for CodeQL CLI 2.26.3 — with the full transitive
+set committed in `adapters/codeql/go/codeql-pack.lock.yml`.
+
+The Go direct-propagation pair predates this kernel and is frozen in the
+published v0.2.0 manifest without a `codeql` model reference, so the selector
+defaults a Go core case with no reference to this kernel's query and rejects a
+Go core case that names any other query. See
+[the Go kernel contract](../../docs/go-kernel.md).
+
+```bash
+codeql pack install adapters/codeql/go
+cargo run -- run-codeql-go-kernel --codeql /path/to/codeql --go /path/to/go
+```
+
+Registry retrieval of the Go pack succeeded for the pinned CLI, so the run
+needed no `--codeql-packs` fallback; a matching official source workspace or
+bundle pack root remains a valid input when retrieval is unavailable.
+
+CodeQL 2.26.3 rejects `--build-mode=none` for Go, so each cold database is built
+from an observed compile: the runner writes a minimal `module dataflowbench`
+manifest into the per-case workspace and traces `go build ./...` under
+`--build-mode=manual`. That is deliberately not autobuild, which would
+synthesize its own manifest and resolve dependencies over the network; the
+fixtures import nothing, so the traced build is hermetic. The manifest is
+extraction scaffolding only and is never committed beside a fixture. The runner
+writes `reports/codeql-go-kernel.json` and retains SARIF (or raw runner
+diagnostics) under `reports/raw/codeql-go-kernel/`. SARIF locations are
+reconciled with the case's `DFB-SINK:` anchor by resolving the declared sink
+function name and accepting a finding on a line that calls it in the same file.
+
+The checked-in `reports/codeql-go-kernel.json` contains 32 results: 16 `reached`
+and 16 `not-reached`, with zero `inconclusive`, `unsupported`, or `runner-error`
+outcomes, extracted through go1.26.0. 26 of 32 match the expected polarity; the
+false negatives are the alias-propagation, exception-catch, and expression
+positives, and the false positives are the array-element, loop-carried, and
+infeasible-branch negatives. The first five are the same mismatch set the Java
+and C# kernels show on those templates; the infeasible-branch false positive is
+Go-specific, and the exception-catch false negative is the capability evidence
+the `panic`/`recover` adaptation anticipates. Its configuration hash is
+`56f44b3d983f7ea1dc2fa77a796ac547b01d12535a124f0c9975d3d0b7989161`.
 
 ## Retained v2.26.3 snapshot
 
