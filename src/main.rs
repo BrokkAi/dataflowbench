@@ -22,7 +22,17 @@ const CODEQL_JAVASCRIPT_REPORT: &str = "reports/codeql-javascript-kernel.json";
 const CODEQL_JAVASCRIPT_CASE_COUNT: usize = 32;
 const CODEQL_JAVASCRIPT_TEMPLATE_COUNT: usize = 16;
 const CODEQL_PYTHON_QUERY: &str = "adapters/codeql/python/queries/PythonKernel.ql";
-const CODEQL_PYTHON_TEMPLATE_IDS: [&str; 16] = [
+const CODEQL_CSHARP_QUERY: &str = "adapters/codeql/csharp/queries/CSharpKernel.ql";
+const CODEQL_CSHARP_RAW_DIR: &str = "reports/raw/codeql-csharp-kernel";
+const CODEQL_CSHARP_REPORT: &str = "reports/codeql-csharp-kernel.json";
+const BIFROST_CSHARP_POLICY: &str = "adapters/bifrost/policies/core-csharp-kernel.rqlp";
+/// The cross-language direct-flow breadth policy. The C# direct-propagation
+/// pair predates the C# kernel and is frozen in the published v0.2.0 evidence,
+/// so it keeps this policy reference while still belonging to the C# kernel's
+/// 16 balanced templates.
+const BIFROST_DIRECT_POLICY: &str = "adapters/bifrost/policies/core-direct.rqlp";
+/// The sixteen balanced propagation templates every language kernel preserves.
+const KERNEL_TEMPLATE_IDS: [&str; 16] = [
     "dfb-template-alias-propagation-separation",
     "dfb-template-argument-position-separation",
     "dfb-template-arithmetic-expression-propagation",
@@ -98,6 +108,12 @@ enum Commands {
         #[arg(long, default_value = "bifrost")]
         bifrost: PathBuf,
     },
+    /// Run the C# propagation kernel as its own population, separate from every
+    /// other language kernel and from the direct-flow breadth slice.
+    RunBifrostCsharpKernel {
+        #[arg(long, default_value = "bifrost")]
+        bifrost: PathBuf,
+    },
     RunCodeqlJavaKernel {
         #[arg(long, default_value = "codeql")]
         codeql: PathBuf,
@@ -112,6 +128,13 @@ enum Commands {
     },
     /// Run the Python propagation kernel through the Python CodeQL extractor.
     RunCodeqlPythonKernel {
+        #[arg(long, default_value = "codeql")]
+        codeql: PathBuf,
+        #[arg(long)]
+        codeql_packs: Option<PathBuf>,
+    },
+    /// Run the C# propagation kernel through the C# CodeQL extractor.
+    RunCodeqlCsharpKernel {
         #[arg(long, default_value = "codeql")]
         codeql: PathBuf,
         #[arg(long)]
@@ -138,6 +161,7 @@ fn main() -> Result<()> {
         } => generate_results(&manifest, &output_directory, check),
         Commands::RunBifrostSmoke { bifrost } => run_bifrost_smoke(&bifrost),
         Commands::RunBifrostPythonKernel { bifrost } => run_bifrost_python_kernel(&bifrost),
+        Commands::RunBifrostCsharpKernel { bifrost } => run_bifrost_csharp_kernel(&bifrost),
         Commands::RunCodeqlJavaKernel {
             codeql,
             codeql_packs,
@@ -150,6 +174,10 @@ fn main() -> Result<()> {
             codeql,
             codeql_packs,
         } => run_codeql_python_kernel(&codeql, codeql_packs.as_deref()),
+        Commands::RunCodeqlCsharpKernel {
+            codeql,
+            codeql_packs,
+        } => run_codeql_csharp_kernel(&codeql, codeql_packs.as_deref()),
     }
 }
 
@@ -200,6 +228,7 @@ fn validate_cases() -> Result<()> {
     }
     validate_balanced_core_pairs(&cases)?;
     validate_javascript_kernel_balance(&cases)?;
+    validate_csharp_kernel_balance(&cases)?;
     println!("validated {} cases", paths.len());
     Ok(())
 }
@@ -257,10 +286,24 @@ fn validate_balanced_core_pairs(cases: &[(PathBuf, Value)]) -> Result<()> {
 }
 
 fn validate_javascript_kernel_balance(cases: &[(PathBuf, Value)]) -> Result<()> {
-    let java_templates = core_templates_for_language(cases, "java");
-    let javascript_templates = core_templates_for_language(cases, "javascript");
+    validate_kernel_template_parity(cases, "javascript", "JavaScript")
+}
 
-    if javascript_templates.is_empty() {
+fn validate_csharp_kernel_balance(cases: &[(PathBuf, Value)]) -> Result<()> {
+    validate_kernel_template_parity(cases, "csharp", "C#")
+}
+
+/// A ported kernel keeps the Java kernel's sixteen template identities. A
+/// language with no core cases yet is simply not a kernel population.
+fn validate_kernel_template_parity(
+    cases: &[(PathBuf, Value)],
+    language: &str,
+    display_name: &str,
+) -> Result<()> {
+    let java_templates = core_templates_for_language(cases, "java");
+    let ported_templates = core_templates_for_language(cases, language);
+
+    if ported_templates.is_empty() {
         return Ok(());
     }
     if java_templates.len() != 16 {
@@ -269,23 +312,23 @@ fn validate_javascript_kernel_balance(cases: &[(PathBuf, Value)]) -> Result<()> 
             java_templates.len()
         );
     }
-    if javascript_templates.len() != 16 {
+    if ported_templates.len() != 16 {
         bail!(
-            "JavaScript propagation kernel must define exactly 16 core templates; found {}",
-            javascript_templates.len()
+            "{display_name} propagation kernel must define exactly 16 core templates; found {}",
+            ported_templates.len()
         );
     }
-    if javascript_templates != java_templates {
+    if ported_templates != java_templates {
         let missing = java_templates
-            .difference(&javascript_templates)
+            .difference(&ported_templates)
             .cloned()
             .collect::<Vec<_>>();
-        let unexpected = javascript_templates
+        let unexpected = ported_templates
             .difference(&java_templates)
             .cloned()
             .collect::<Vec<_>>();
         bail!(
-            "JavaScript propagation kernel must preserve the Java template IDs; missing {missing:?}, unexpected {unexpected:?}"
+            "{display_name} propagation kernel must preserve the Java template IDs; missing {missing:?}, unexpected {unexpected:?}"
         );
     }
     Ok(())
@@ -410,6 +453,7 @@ fn validate_reports() -> Result<()> {
 enum BifrostRun {
     Smoke,
     PythonKernel,
+    CsharpKernel,
 }
 fn validate_freeze(manifest: &Path) -> Result<()> {
     let root = repository_root()?;
@@ -1956,6 +2000,10 @@ fn run_bifrost_python_kernel(binary: &Path) -> Result<()> {
     run_bifrost(binary, BifrostRun::PythonKernel)
 }
 
+fn run_bifrost_csharp_kernel(binary: &Path) -> Result<()> {
+    run_bifrost(binary, BifrostRun::CsharpKernel)
+}
+
 fn run_bifrost(binary: &Path, run: BifrostRun) -> Result<()> {
     validate_cases()?;
     let (raw_dir, report_path) = match run {
@@ -1966,6 +2014,10 @@ fn run_bifrost(binary: &Path, run: BifrostRun) -> Result<()> {
         BifrostRun::PythonKernel => (
             Path::new("reports/raw/bifrost-python-kernel"),
             Path::new("reports/bifrost-python-kernel.json"),
+        ),
+        BifrostRun::CsharpKernel => (
+            Path::new("reports/raw/bifrost-csharp-kernel"),
+            Path::new("reports/bifrost-csharp-kernel.json"),
         ),
     };
     fs::create_dir_all(raw_dir)?;
@@ -2096,6 +2148,7 @@ fn run_bifrost(binary: &Path, run: BifrostRun) -> Result<()> {
         let selection = match run {
             BifrostRun::Smoke => "Bifrost smoke",
             BifrostRun::PythonKernel => "Bifrost Python kernel",
+            BifrostRun::CsharpKernel => "Bifrost C# kernel",
         };
         bail!("no cases selected for {selection}");
     }
@@ -2129,6 +2182,17 @@ fn selected_bifrost_case(case: &Value, run: BifrostRun) -> bool {
                 && (case["tool_model_references"]["bifrost"]["policy"]
                     .as_str()
                     .is_some_and(|policy| policy.ends_with("core-python-kernel.rqlp"))
+                    || case["tool_model_references"]["bifrost"]["unsupported_reason"].is_string())
+        }
+        BifrostRun::CsharpKernel => {
+            case["language"] == "csharp"
+                && case["track"] == "taint"
+                && case["score_tier"] == "core"
+                && (case["tool_model_references"]["bifrost"]["policy"]
+                    .as_str()
+                    .is_some_and(|policy| {
+                        policy == BIFROST_CSHARP_POLICY || policy == BIFROST_DIRECT_POLICY
+                    })
                     || case["tool_model_references"]["bifrost"]["unsupported_reason"].is_string())
         }
     }
@@ -2189,6 +2253,7 @@ fn write_bifrost_error(
 enum CodeqlLanguage {
     Java,
     Python,
+    CSharp,
 }
 
 impl CodeqlLanguage {
@@ -2196,6 +2261,7 @@ impl CodeqlLanguage {
         match self {
             Self::Java => "java",
             Self::Python => "python",
+            Self::CSharp => "csharp",
         }
     }
 }
@@ -2453,6 +2519,181 @@ fn run_codeql_python_kernel(binary: &Path, packs: Option<&Path>) -> Result<()> {
     )?;
     validate_reports()?;
     println!("wrote reports/codeql-python-kernel.json");
+    Ok(())
+}
+
+fn run_codeql_csharp_kernel(binary: &Path, packs: Option<&Path>) -> Result<()> {
+    validate_cases()?;
+    let selected = codeql_csharp_cases()?;
+    let raw_dir = Path::new(CODEQL_CSHARP_RAW_DIR);
+    fs::create_dir_all(raw_dir)?;
+    let started = now_seconds()?;
+    let version_output = command_output(Command::new(binary).args(["version", "--format=json"]))
+        .context("read CodeQL version")?;
+    let version_json: Value =
+        serde_json::from_str(&version_output).context("parse CodeQL version JSON")?;
+    let version = version_json["version"]
+        .as_str()
+        .context("CodeQL version JSON lacks version")?
+        .to_string();
+    let build_identity = version_json["sha"]
+        .as_str()
+        .map(|sha| format!("codeql-cli:{sha}"))
+        .context("CodeQL version JSON lacks build sha")?;
+    let revision = fixture_revision()?;
+    let mut results = Vec::with_capacity(selected.len());
+    let query = PathBuf::from(CODEQL_CSHARP_QUERY);
+
+    for (path, case) in selected {
+        let id = case["id"].as_str().expect("schema validated");
+        let start = Instant::now();
+        let (outcome, diagnostics, raw_path) = run_codeql_case_for_language(
+            binary,
+            packs,
+            &path,
+            &case,
+            &query,
+            raw_dir,
+            CodeqlLanguage::CSharp,
+        )?;
+        results.push(codeql_result(
+            &case,
+            id,
+            outcome,
+            diagnostics,
+            start.elapsed(),
+            &raw_path,
+        ));
+    }
+
+    let configuration_hash = hash_paths(&codeql_csharp_configuration_paths())?;
+    let report = json!({
+        "schema_version": 1,
+        "tool": "codeql",
+        "tool_version": version,
+        "tool_build_identity": build_identity,
+        "adapter_version": ADAPTER_VERSION,
+        "configuration_hash": configuration_hash,
+        "fixture_revision": revision,
+        "started_at_unix_seconds": started,
+        "ended_at_unix_seconds": now_seconds()?,
+        "cold_or_warm": "cold",
+        "results": results
+    });
+    fs::write(
+        CODEQL_CSHARP_REPORT,
+        serde_json::to_string_pretty(&report)? + "\n",
+    )?;
+    validate_reports()?;
+    println!("wrote {CODEQL_CSHARP_REPORT}");
+    Ok(())
+}
+
+fn codeql_csharp_configuration_paths() -> BTreeSet<PathBuf> {
+    let mut paths = BTreeSet::from([PathBuf::from(CODEQL_CSHARP_QUERY)]);
+    for candidate in [
+        "adapters/codeql/csharp/qlpack.yml",
+        "adapters/codeql/csharp/codeql-pack.lock.yml",
+    ]
+    .into_iter()
+    .map(PathBuf::from)
+    {
+        if candidate.is_file() {
+            paths.insert(candidate);
+        }
+    }
+    paths
+}
+
+fn csharp_core_case(case: &Value) -> bool {
+    case["language"] == "csharp" && case["track"] == "taint" && case["score_tier"] == "core"
+}
+
+fn codeql_csharp_cases() -> Result<Vec<(PathBuf, Value)>> {
+    let mut selected = Vec::new();
+    for path in case_paths() {
+        let case: Value = serde_json::from_str(&fs::read_to_string(&path)?)?;
+        if !csharp_core_case(&case) {
+            continue;
+        }
+        // The direct-propagation pair predates this kernel and is frozen in the
+        // published v0.2.0 evidence without a CodeQL model reference. Any
+        // reference a C# core case does carry must name this kernel's query.
+        if let Some(query) = case["tool_model_references"]["codeql"]["query"].as_str()
+            && query != CODEQL_CSHARP_QUERY
+        {
+            bail!(
+                "C# core case {} references non-C# CodeQL query {query:?}",
+                case["id"]
+            );
+        }
+        selected.push((path, case));
+    }
+    validate_codeql_csharp_population(&selected)?;
+    if !Path::new(CODEQL_CSHARP_QUERY).is_file() {
+        bail!("C# CodeQL query does not exist: {CODEQL_CSHARP_QUERY}");
+    }
+    Ok(selected)
+}
+
+fn validate_codeql_csharp_population(cases: &[(PathBuf, Value)]) -> Result<()> {
+    if cases.len() != 32 {
+        bail!(
+            "C# CodeQL kernel must select exactly 32 core assertions; found {}",
+            cases.len()
+        );
+    }
+    let mut pairs: BTreeMap<(&str, &str), (usize, usize)> = BTreeMap::new();
+    let mut model_profiles = BTreeSet::new();
+    for (path, case) in cases {
+        let template = case["template_id"]
+            .as_str()
+            .context("C# CodeQL case lacks template_id")?;
+        let profile = case["model_profile"]
+            .as_str()
+            .context("C# CodeQL case lacks model_profile")?;
+        model_profiles.insert(profile);
+        let entry = pairs.entry((template, profile)).or_default();
+        match case["polarity"].as_str() {
+            Some("positive") => entry.0 += 1,
+            Some("negative") => entry.1 += 1,
+            Some(other) => bail!("{} has unsupported polarity {other:?}", path.display()),
+            None => bail!("{} lacks polarity", path.display()),
+        }
+    }
+    let expected_templates = KERNEL_TEMPLATE_IDS.iter().copied().collect::<BTreeSet<_>>();
+    let actual_templates = pairs
+        .keys()
+        .map(|(template, _)| *template)
+        .collect::<BTreeSet<_>>();
+    if actual_templates != expected_templates {
+        let missing = expected_templates
+            .difference(&actual_templates)
+            .copied()
+            .collect::<Vec<_>>();
+        let unexpected = actual_templates
+            .difference(&expected_templates)
+            .copied()
+            .collect::<Vec<_>>();
+        bail!(
+            "C# CodeQL kernel template set mismatch (missing={missing:?}, unexpected={unexpected:?})"
+        );
+    }
+    if pairs.len() != 16 {
+        bail!(
+            "C# CodeQL kernel must contain exactly 16 balanced templates; found {}",
+            pairs.len()
+        );
+    }
+    if pairs
+        .values()
+        .any(|(positive, negative)| *positive != 1 || *negative != 1)
+    {
+        bail!("C# CodeQL kernel requires one positive and one negative per template");
+    }
+    if model_profiles.len() != 1 {
+        bail!("C# CodeQL kernel must use one model profile across all 32 cases");
+    }
     Ok(())
 }
 
@@ -2781,11 +3022,35 @@ fn write_codeql_javascript_spawn_error(
 }
 
 #[derive(Clone, Debug, PartialEq, Eq)]
-struct JavascriptSinkAnchor {
+struct SinkAnchorLocation {
     file: String,
     marker_line: u64,
     function_name: String,
     callsite_lines: BTreeSet<u64>,
+}
+
+/// Anchor reconciliation is language-neutral apart from two surface questions:
+/// which function a `DFB-SINK:` marker declares, and which lines call it.
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+enum AnchorDialect {
+    Javascript,
+    CSharp,
+}
+
+impl AnchorDialect {
+    fn sink_function_name(self, declaration: &str, marker: &str) -> Option<String> {
+        match self {
+            Self::Javascript => javascript_function_name(declaration, marker),
+            Self::CSharp => csharp_function_name(declaration, marker),
+        }
+    }
+
+    fn is_call(self, line: &str, function_name: &str) -> bool {
+        match self {
+            Self::Javascript => javascript_function_call(line, function_name),
+            Self::CSharp => csharp_function_call(line, function_name),
+        }
+    }
 }
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
@@ -2800,10 +3065,27 @@ fn javascript_sarif_outcome(
     case: &Value,
     sarif: &Value,
 ) -> (&'static str, Vec<String>) {
+    sarif_anchor_outcome(case_path, case, sarif, AnchorDialect::Javascript)
+}
+
+fn csharp_sarif_outcome(
+    case_path: &Path,
+    case: &Value,
+    sarif: &Value,
+) -> (&'static str, Vec<String>) {
+    sarif_anchor_outcome(case_path, case, sarif, AnchorDialect::CSharp)
+}
+
+fn sarif_anchor_outcome(
+    case_path: &Path,
+    case: &Value,
+    sarif: &Value,
+    dialect: AnchorDialect,
+) -> (&'static str, Vec<String>) {
     if sarif_result_count(sarif) == 0 {
         return ("not-reached", Vec::new());
     }
-    let sink_locations = match javascript_sink_locations(case_path, case) {
+    let sink_locations = match sink_anchor_locations(case_path, case, dialect) {
         Ok(locations) => locations,
         Err(reason) => {
             return (
@@ -2823,7 +3105,7 @@ fn javascript_sarif_outcome(
         .flatten()
         .flat_map(|run| run["results"].as_array().into_iter().flatten())
     {
-        match javascript_sarif_result_match(result, &sink_locations) {
+        match sarif_result_anchor_match(result, &sink_locations) {
             SarifAnchorMatch::Matched => matched += 1,
             SarifAnchorMatch::Unmatched => unmatched += 1,
             SarifAnchorMatch::Ambiguous => ambiguous += 1,
@@ -2848,10 +3130,11 @@ fn javascript_sarif_outcome(
     )
 }
 
-fn javascript_sink_locations(
+fn sink_anchor_locations(
     case_path: &Path,
     case: &Value,
-) -> std::result::Result<Vec<JavascriptSinkAnchor>, String> {
+    dialect: AnchorDialect,
+) -> std::result::Result<Vec<SinkAnchorLocation>, String> {
     let fixture_root = case_path
         .parent()
         .ok_or_else(|| "case path has no parent".to_string())?;
@@ -2891,14 +3174,15 @@ fn javascript_sink_locations(
             .lines()
             .nth(line as usize - 1)
             .ok_or_else(|| format!("sink anchor line {line} is outside {file}"))?;
-        let function_name = javascript_function_name(declaration, marker)
+        let function_name = dialect
+            .sink_function_name(declaration, marker)
             .ok_or_else(|| format!("sink marker {marker:?} is not on a function declaration"))?;
         let callsite_lines = body
             .lines()
             .enumerate()
             .filter_map(|(index, candidate)| {
                 let candidate_line = index as u64 + 1;
-                (candidate_line != line && javascript_function_call(candidate, &function_name))
+                (candidate_line != line && dialect.is_call(candidate, &function_name))
                     .then_some(candidate_line)
             })
             .collect::<BTreeSet<_>>();
@@ -2907,7 +3191,7 @@ fn javascript_sink_locations(
                 "sink function {function_name} has no callsites in {file}"
             ));
         }
-        locations.push(JavascriptSinkAnchor {
+        locations.push(SinkAnchorLocation {
             file: file.to_string(),
             marker_line: line,
             function_name,
@@ -2957,8 +3241,51 @@ fn javascript_identifier_char(character: char) -> bool {
     character == '_' || character == '$' || character.is_ascii_alphanumeric()
 }
 
+/// The C# sink marker sits on a method declaration such as
+/// `static void dfb_sink(int value) { } // DFB-SINK: ...`. The declared name is
+/// the identifier immediately before the parameter list.
+fn csharp_function_name(declaration: &str, marker: &str) -> Option<String> {
+    let marker_start = declaration.find(marker)?;
+    let declaration = &declaration[..marker_start];
+    let declaration = declaration.split("//").next().unwrap_or(declaration);
+    let parameters = declaration.find('(')?;
+    let name = declaration[..parameters].trim_end();
+    let start = name
+        .char_indices()
+        .rev()
+        .find(|(_, character)| !csharp_identifier_char(*character))
+        .map(|(index, character)| index + character.len_utf8())
+        .unwrap_or(0);
+    let name = &name[start..];
+    (!name.is_empty() && !name.starts_with(|character: char| character.is_ascii_digit()))
+        .then(|| name.to_string())
+}
+
+fn csharp_identifier_char(character: char) -> bool {
+    character == '_' || character.is_ascii_alphanumeric()
+}
+
+fn csharp_function_call(line: &str, function_name: &str) -> bool {
+    let line = code_without_literals(line);
+    let mut search_from = 0;
+    while let Some(offset) = line[search_from..].find(function_name) {
+        let start = search_from + offset;
+        let end = start + function_name.len();
+        let before = line[..start].chars().next_back();
+        let after = line[end..]
+            .chars()
+            .find(|character| !character.is_whitespace());
+        if !before.is_some_and(csharp_identifier_char) && before != Some('.') && after == Some('(')
+        {
+            return true;
+        }
+        search_from = end;
+    }
+    false
+}
+
 fn javascript_function_call(line: &str, function_name: &str) -> bool {
-    let line = javascript_code_without_literals(line);
+    let line = code_without_literals(line);
     let mut search_from = 0;
     while let Some(offset) = line[search_from..].find(function_name) {
         let start = search_from + offset;
@@ -2982,7 +3309,7 @@ fn javascript_function_call(line: &str, function_name: &str) -> bool {
     false
 }
 
-fn javascript_code_without_literals(line: &str) -> String {
+fn code_without_literals(line: &str) -> String {
     let mut output = String::with_capacity(line.len());
     let mut quote = None;
     let mut escaped = false;
@@ -3012,9 +3339,9 @@ fn javascript_code_without_literals(line: &str) -> String {
     output
 }
 
-fn javascript_sarif_result_match(
+fn sarif_result_anchor_match(
     result: &Value,
-    sink_locations: &[JavascriptSinkAnchor],
+    sink_locations: &[SinkAnchorLocation],
 ) -> SarifAnchorMatch {
     let Some(locations) = result["locations"].as_array() else {
         return SarifAnchorMatch::Ambiguous;
@@ -3122,10 +3449,7 @@ fn validate_codeql_python_population(cases: &[(PathBuf, Value)]) -> Result<PathB
             None => bail!("{} lacks polarity", path.display()),
         }
     }
-    let expected_templates = CODEQL_PYTHON_TEMPLATE_IDS
-        .iter()
-        .copied()
-        .collect::<BTreeSet<_>>();
+    let expected_templates = KERNEL_TEMPLATE_IDS.iter().copied().collect::<BTreeSet<_>>();
     let actual_templates = pairs
         .keys()
         .map(|(template, _)| *template)
@@ -3297,17 +3621,26 @@ fn run_codeql_case_for_language(
         clear_codeql_case_artifacts(&workspace, &database)?;
         return Ok(("runner-error", execution_errors, raw_path));
     }
-    let (outcome, diagnostics) = if language == CodeqlLanguage::Python {
-        normalize_python_codeql_sarif(case, &sarif)
-    } else {
-        let result_count = sarif_result_count(&sarif);
-        let diagnostics = sarif_messages(&sarif);
-        let outcome = if result_count == 0 {
-            "not-reached"
-        } else {
-            "reached"
-        };
-        (outcome, diagnostics)
+    let (outcome, diagnostics) = match language {
+        CodeqlLanguage::Python => normalize_python_codeql_sarif(case, &sarif),
+        CodeqlLanguage::CSharp => {
+            let mut diagnostics = sarif_messages(&sarif);
+            let (outcome, anchor_diagnostics) = csharp_sarif_outcome(case_path, case, &sarif);
+            diagnostics.extend(anchor_diagnostics);
+            diagnostics.sort();
+            diagnostics.dedup();
+            (outcome, diagnostics)
+        }
+        CodeqlLanguage::Java => {
+            let result_count = sarif_result_count(&sarif);
+            let diagnostics = sarif_messages(&sarif);
+            let outcome = if result_count == 0 {
+                "not-reached"
+            } else {
+                "reached"
+            };
+            (outcome, diagnostics)
+        }
     };
     clear_codeql_case_artifacts(&workspace, &database)?;
     Ok((outcome, diagnostics, raw_path))
@@ -3425,7 +3758,11 @@ fn codeql_database_create_args(
             let build_command = format!("javac -d classes {}", fixture_names.join(" "));
             args.push(format!("--command={build_command}"));
         }
-        CodeqlLanguage::Python => args.push("--build-mode=none".to_string()),
+        // The C# extractor supports `--build-mode=none`, so the fixtures need no
+        // project scaffolding and no restore step.
+        CodeqlLanguage::Python | CodeqlLanguage::CSharp => {
+            args.push("--build-mode=none".to_string())
+        }
     }
     Ok(args)
 }
@@ -4292,6 +4629,159 @@ mod tests {
     }
 
     #[test]
+    fn csharp_core_selection_is_exactly_32_balanced_assertions() {
+        let selected = codeql_csharp_cases().unwrap();
+        assert_eq!(selected.len(), 32);
+        let mut templates = BTreeMap::<String, (usize, usize)>::new();
+        for (_, case) in &selected {
+            assert_eq!(case["language"], "csharp");
+            assert_eq!(case["track"], "taint");
+            assert_eq!(case["score_tier"], "core");
+            let counts = templates
+                .entry(case["template_id"].as_str().unwrap().to_string())
+                .or_default();
+            if case["polarity"] == "positive" {
+                counts.0 += 1;
+            } else {
+                counts.1 += 1;
+            }
+        }
+        assert_eq!(templates.len(), 16);
+        assert!(
+            templates
+                .values()
+                .all(|(positive, negative)| *positive == 1 && *negative == 1)
+        );
+    }
+
+    #[test]
+    fn csharp_core_selection_is_language_and_track_scoped() {
+        let csharp = json!({
+            "language": "csharp",
+            "track": "taint",
+            "score_tier": "core"
+        });
+        assert!(csharp_core_case(&csharp));
+        for language in ["java", "javascript", "python", "cpp"] {
+            let mut other = csharp.clone();
+            other["language"] = json!(language);
+            assert!(!csharp_core_case(&other));
+        }
+        let mut other = csharp.clone();
+        other["track"] = json!("value-flow");
+        assert!(!csharp_core_case(&other));
+        other["track"] = json!("taint");
+        other["score_tier"] = json!("calibration");
+        assert!(!csharp_core_case(&other));
+    }
+
+    #[test]
+    fn bifrost_csharp_kernel_selects_only_csharp_core_cases() {
+        let mut selected = 0;
+        for path in case_paths() {
+            let case: Value = serde_json::from_str(&fs::read_to_string(path).unwrap()).unwrap();
+            if selected_bifrost_case(&case, BifrostRun::CsharpKernel) {
+                selected += 1;
+                assert_eq!(case["language"], "csharp");
+                assert_eq!(case["score_tier"], "core");
+                assert!(!selected_bifrost_case(&case, BifrostRun::PythonKernel));
+            }
+        }
+        assert_eq!(selected, 32);
+    }
+
+    #[test]
+    fn csharp_sarif_mapping_requires_the_sink_file_and_callsite() {
+        let root = std::env::temp_dir().join(format!(
+            "dataflowbench-csharp-anchor-test-{}-{}",
+            std::process::id(),
+            SystemTime::now()
+                .duration_since(UNIX_EPOCH)
+                .unwrap()
+                .as_nanos()
+        ));
+        fs::create_dir_all(&root).unwrap();
+        let case_path = root.join("case.json");
+        fs::write(
+            root.join("Fixture.cs"),
+            "    static void dfb_sink(int value) { } // DFB-SINK: sink\n    static void Other(int value) { }\n        Other(input);\n        dfb_sink(input);\n",
+        )
+        .unwrap();
+        let case = json!({
+            "sink_anchors": [{
+                "marker": "DFB-SINK: sink",
+                "file": "Fixture.cs",
+                "line_hint": 1
+            }]
+        });
+        let matching = json!({
+            "runs": [{"results": [{"locations": [{"physicalLocation": {
+                "artifactLocation": {"uri": "file:///tmp/work/Fixture.cs"},
+                "region": {"startLine": 4}
+            }}]}]}]
+        });
+        assert_eq!(
+            csharp_sarif_outcome(&case_path, &case, &matching).0,
+            "reached"
+        );
+        let wrong_line = json!({
+            "runs": [{"results": [{"locations": [{"physicalLocation": {
+                "artifactLocation": {"uri": "Fixture.cs"},
+                "region": {"startLine": 3}
+            }}]}]}]
+        });
+        assert_eq!(
+            csharp_sarif_outcome(&case_path, &case, &wrong_line).0,
+            "inconclusive"
+        );
+        let missing_location = json!({
+            "runs": [{"results": [{"message": {"text": "flow"}}]}]
+        });
+        assert_eq!(
+            csharp_sarif_outcome(&case_path, &case, &missing_location).0,
+            "inconclusive"
+        );
+        let no_results = json!({"runs": [{"results": []}]});
+        assert_eq!(
+            csharp_sarif_outcome(&case_path, &case, &no_results).0,
+            "not-reached"
+        );
+        fs::remove_dir_all(root).unwrap();
+    }
+
+    #[test]
+    fn csharp_sink_declarations_resolve_to_the_declared_method() {
+        assert_eq!(
+            csharp_function_name(
+                "    static void dfb_sink(int value) { } // DFB-SINK: sink",
+                "DFB-SINK: sink"
+            )
+            .as_deref(),
+            Some("dfb_sink")
+        );
+        assert_eq!(
+            csharp_function_name("        int value = 0; // DFB-SINK: sink", "DFB-SINK: sink"),
+            None
+        );
+        assert!(csharp_function_call(
+            "        dfb_sink(values[0]);",
+            "dfb_sink"
+        ));
+        assert!(!csharp_function_call(
+            "        Log(\"dfb_sink(value)\");",
+            "dfb_sink"
+        ));
+        assert!(!csharp_function_call(
+            "        other.dfb_sink(0);",
+            "dfb_sink"
+        ));
+        assert!(!csharp_function_call(
+            "        int dfb_sinkValue = 0;",
+            "dfb_sink"
+        ));
+    }
+
+    #[test]
     fn javascript_sarif_mapping_requires_the_sink_file_and_line() {
         let root = std::env::temp_dir().join(format!(
             "dataflowbench-javascript-anchor-test-{}-{}",
@@ -4405,7 +4895,7 @@ mod tests {
                     PathBuf::from(format!("case-{index}-{polarity}.json")),
                     json!({
                         "id": format!("dfb-taint-python-template-{index}-{polarity}"),
-                        "template_id": CODEQL_PYTHON_TEMPLATE_IDS[index],
+                        "template_id": KERNEL_TEMPLATE_IDS[index],
                         "polarity": polarity,
                         "score_tier": "core",
                         "track": "taint",
@@ -4473,6 +4963,17 @@ mod tests {
                 .any(|arg| arg == "--command=javac -d classes direct_flow.py")
         );
         assert!(!java_args.iter().any(|arg| arg == "--build-mode=none"));
+
+        let csharp_args = codeql_database_create_args(
+            Path::new("/tmp/csharp-db"),
+            Path::new("/tmp/csharp-workspace"),
+            &case,
+            CodeqlLanguage::CSharp,
+        )
+        .unwrap();
+        assert!(csharp_args.iter().any(|arg| arg == "--language=csharp"));
+        assert!(csharp_args.iter().any(|arg| arg == "--build-mode=none"));
+        assert!(!csharp_args.iter().any(|arg| arg.starts_with("--command=")));
     }
 
     #[test]
@@ -4573,37 +5074,52 @@ mod tests {
 
     #[test]
     fn checked_reports_match_declared_fixture_revisions() {
-        let bifrost: Value =
-            serde_json::from_str(&fs::read_to_string("reports/bifrost-smoke.json").unwrap())
-                .unwrap();
-        let python: Value = serde_json::from_str(
-            &fs::read_to_string("reports/bifrost-python-kernel.json").unwrap(),
-        )
-        .unwrap();
+        // A normalized report records the fixture population it was run
+        // against. Reports frozen in a release keep that release's revision
+        // even after later languages add cases; reports produced against the
+        // current checkout must declare the current revision. Anything else is
+        // evidence that was never run against either population.
+        let freeze: Value =
+            serde_json::from_str(&fs::read_to_string("reports/freeze.json").unwrap()).unwrap();
+        let frozen_revision = freeze["benchmark"]["fixture_revision"].as_str().unwrap();
         let current_revision = fixture_revision().unwrap();
-        assert_eq!(bifrost["fixture_revision"], current_revision);
-        assert_eq!(python["fixture_revision"], current_revision);
-
-        for report in [&bifrost, &python] {
-            let revision = report["fixture_revision"].as_str().unwrap();
+        let mut checked = 0;
+        for entry in fs::read_dir("reports").unwrap() {
+            let path = entry.unwrap().path();
+            if !path.is_file() || path.extension().is_none_or(|extension| extension != "json") {
+                continue;
+            }
+            let report: Value = serde_json::from_str(&fs::read_to_string(&path).unwrap()).unwrap();
+            let Some(revision) = report["fixture_revision"].as_str() else {
+                continue;
+            };
+            checked += 1;
             assert!(
                 revision
                     .strip_prefix("sha256:")
-                    .is_some_and(|digest| digest.len() == 64)
+                    .is_some_and(|digest| digest.len() == 64),
+                "{} declares malformed fixture revision {revision}",
+                path.display()
+            );
+            assert!(
+                revision == frozen_revision || revision == current_revision,
+                "{} declares fixture revision {revision}, which is neither the frozen population {frozen_revision} nor the current one {current_revision}",
+                path.display()
             );
         }
+        assert!(checked >= 5, "expected the checked-in normalized reports");
+
+        // The C# kernel is newer than the v0.2.0 freeze, so its reports must
+        // describe the current fixture population.
         for path in [
-            "reports/codeql-java-kernel.json",
-            "reports/codeql-javascript-kernel.json",
-            "reports/codeql-python-kernel.json",
+            "reports/bifrost-csharp-kernel.json",
+            "reports/codeql-csharp-kernel.json",
         ] {
-            let report: Value = serde_json::from_str(&fs::read_to_string(path).unwrap()).unwrap();
-            let revision = report["fixture_revision"].as_str().unwrap();
-            assert!(
-                revision
-                    .strip_prefix("sha256:")
-                    .is_some_and(|digest| digest.len() == 64)
-            );
+            let Ok(text) = fs::read_to_string(path) else {
+                continue;
+            };
+            let report: Value = serde_json::from_str(&text).unwrap();
+            assert_eq!(report["fixture_revision"], current_revision, "{path}");
         }
     }
 
