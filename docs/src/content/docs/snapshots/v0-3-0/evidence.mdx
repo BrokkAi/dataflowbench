@@ -1,0 +1,27 @@
+---
+title: Case evidence — v0.3.0
+description: Every result, its classification, and its retained raw evidence.
+---
+
+import CaseEvidence from '../../../../components/CaseEvidence.astro';
+import { snapshots, evidenceUrl } from '../../../../data/snapshots';
+
+export const snapshot = snapshots.find((s) => s.version === 'v0.3.0');
+
+Every result links its retained raw-evidence artifact (SARIF or analyzer
+output), digest-bound in the
+<a href={evidenceUrl(snapshot, snapshot.results.manifest.path)}>freeze manifest</a>.
+
+{snapshot.results.scorecards.map((scorecard) =>
+  scorecard.languages.map((language) =>
+    language.score_tiers.map((tier) => (
+      <>
+        <h2>
+          <code>{scorecard.id}</code> — <code>{language.language}</code>,{' '}
+          {tier.score_tier}
+        </h2>
+        <CaseEvidence snapshot={snapshot} tier={tier} />
+      </>
+    )),
+  ),
+)}

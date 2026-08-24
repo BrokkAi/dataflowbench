@@ -1,0 +1,59 @@
+---
+title: Snapshot v0.3.0
+description: Breadth baseline plus ten language propagation kernels, with CodeQL evidence for all ten.
+---
+
+import SnapshotBanner from '../../../../components/SnapshotBanner.astro';
+import { snapshots, evidenceUrl } from '../../../../data/snapshots';
+
+export const snapshot = snapshots.find((s) => s.version === 'v0.3.0');
+
+<SnapshotBanner snapshot={snapshot} />
+
+The third immutable DataFlowBench snapshot: the cross-language direct-flow
+breadth baseline plus propagation kernels in ten languages — Java,
+JavaScript, TypeScript, Python, Kotlin, C#, Go, C, C++, and Rust — with
+CodeQL evidence for all ten, on the `taint` track under the
+`benchmark-controlled` model profile.
+
+Core denominators differ by language and are never pooled: C and Rust have
+15-template (30-assertion) cores, because their exception-catch cell has no
+semantics-preserving native construct, and the other eight have 16-template
+(32-assertion) cores. Language-only constructs are reported separately in
+`language-extension` tiers.
+
+## Claim
+
+- Scope: <code>{snapshot.results.claim.scope}</code>
+- Tracks: {snapshot.results.claim.tracks.map((t) => <code>{t}</code>)}
+- Score tiers: {snapshot.results.claim.score_tiers.map((t) => <code>{t} </code>)}
+- Model profiles: {snapshot.results.claim.model_profiles.map((p) => <code>{p} </code>)}
+- Exclusions: {snapshot.results.claim.exclusions.length === 0 ? 'none' : ''}
+
+{snapshot.results.claim.exclusions.length > 0 && (
+  <table>
+    <thead>
+      <tr><th>Case</th><th>Reason</th></tr>
+    </thead>
+    <tbody>
+      {snapshot.results.claim.exclusions.map((exclusion) => (
+        <tr>
+          <td><code>{exclusion.id}</code></td>
+          <td>{exclusion.reason}</td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+)}
+
+## Bound evidence
+
+Freeze manifest: <a href={evidenceUrl(snapshot, snapshot.results.manifest.path)}><code>{snapshot.results.manifest.path}</code></a>
+— every case, fixture, normalized report, and raw-evidence file is
+digest-bound; `cargo run -- validate-freeze reports/freeze.json` re-verifies
+all of it.
+
+Continue to [analyzers](/dataflowbench/snapshots/v0-3-0/analyzers/),
+[languages](/dataflowbench/snapshots/v0-3-0/languages/),
+[semantic templates](/dataflowbench/snapshots/v0-3-0/templates/), or
+[case evidence](/dataflowbench/snapshots/v0-3-0/evidence/).

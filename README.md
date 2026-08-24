@@ -41,8 +41,8 @@ External tools are compared respectfully: publish their exact version, settings,
 supported dimensions, normalized outcomes, and raw evidence. Semgrep CE stays
 in its supported local-analysis profile; OpenTaint stays in its Java/Kotlin
 profile. SootUp is a possible JVM reference framework, not a first-version
-adapter. CodeQL is implemented for the Java propagation kernel and has a
-language-scoped Python command for the separate 32-assertion Python kernel.
+adapter. CodeQL is implemented for all ten propagation kernels, one language-scoped
+command and one separate result population per language.
 
 ## Quick start
 
@@ -101,19 +101,14 @@ negatives for `alias-propagation-positive`, `array-element-positive`, and
 `exception-catch-positive`, plus a false positive for `loop-carried-negative`.
 This evidence is limited to the Python core kernel.
 
-The checked-in Bifrost v0.10.2 snapshot contains 118 normalized results:
-50 `reached`, 37 `not-reached`, 30 `inconclusive`, and 1 `unsupported`. It was
-produced from build identity
-`c2116609f5fc1be318c8fb76fb83763cf326bab6`, whose Bifrost binary SHA-256 is
-`93b55dd20c283c278f586e8c8e6ad6bf0e9f5f08165b56096e110af0450d0873`.
-The Java, Python, and JavaScript 32-assertion kernels have respectively 17/32
-expected-polarity matches, 5 decisive mismatches, and 10 incomplete
-`inconclusive` outcomes; 16/32, 4 decisive mismatches, and 12 incomplete
-`inconclusive` outcomes; and 19/32, 7 decisive mismatches, and 6 incomplete
-`inconclusive` outcomes. Incomplete outcomes remain distinct from decisive
-semantic mismatches and are never treated as negative results. This v0.10.2
-evidence matches the retained v0.10.1 outcomes case-for-case, and does not
-restore the complete Java correctness observed in the v0.9.5 snapshot. See the [Bifrost adapter evidence](adapters/bifrost/README.md)
+The checked-in Bifrost v0.10.5 snapshot contains 118 normalized results:
+58 `reached`, 57 `not-reached`, 2 `inconclusive`, and 1 `unsupported`. It was
+produced from build identity `728ac69ab93224151c6c951b23d2f5bc681d8558`.
+The Java, Python, and JavaScript 32-assertion kernels each have 32/32
+expected-polarity matches with no decisive mismatches and no incomplete
+outcomes; under v0.10.2 they stood at 17/32, 16/32, and 19/32. Incomplete
+outcomes remain distinct from decisive semantic mismatches and are never
+treated as negative results. See the [Bifrost adapter evidence](adapters/bifrost/README.md)
 and the [JavaScript adaptation matrix](docs/javascript-kernel.md) for the
 per-slice breakdown and retained raw-report contract.
 
@@ -137,9 +132,8 @@ language packs, and commands for reproducing retained kernel reports. The
 contract](docs/csharp-kernel.md), the [Go kernel
 contract](docs/go-kernel.md), the [C](docs/c-kernel.md) and
 [C++](docs/cpp-kernel.md) kernel contracts, and the [Rust kernel
-contract](docs/rust-kernel.md) do the same for C#, Go, C, C++, and Rust; their
-evidence postdates the v0.2.0 freeze and is not part of the published release
-numbers above.
+contract](docs/rust-kernel.md) do the same for C#, Go, C, C++, and Rust; all
+of that evidence is frozen in the published v0.3.0 release.
 
 ## Licenses and provenance
 

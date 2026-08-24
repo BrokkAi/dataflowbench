@@ -338,20 +338,23 @@ Configuration hash
 both `core-rust-kernel.rqlp` and the breadth `core-direct.rqlp`, because the
 frozen direct pair is evaluated through the policy it declares.
 
-**Core, 30 assertions:** 1 `reached`, 1 `not-reached`, and 28 `inconclusive`.
-Only the direct-propagation pair is decisive, and both of its outcomes match the
-expected polarity — 2 of 2 decisive outcomes, 2 of 30 assertions.
+**Core, 30 assertions:** 1 `reached`, 1 `not-reached`, 20 `inconclusive`, and
+8 `runner-error`. Only the direct-propagation pair is decisive, and both of its
+outcomes match the expected polarity — 2 of 2 decisive outcomes, 2 of 30
+assertions.
 
-The 28 inconclusive results are capability evidence, never negatives. Twenty
-retain `partial_discovery` with a diagnostic of the form "taint discovery is
-incomplete: procedure value-flow snapshot for ... is unsupported/unknown". The
-other eight are the entire heap/separation stratum, both polarities of object
-separation, same-object field separation, alias propagation, and array element;
-they retain `internal_invariant` with the diagnostic "taint semantic provider
-failed: semantic IR gap_contract error in procedure 2: gap 8 duplicates the same
-scope". Eleven of the 28 also carry the policy's own finding message, so Bifrost
-located candidate flows but could not complete the analysis — which is exactly
-why an incomplete run is `inconclusive` rather than `reached` or `not-reached`.
+The 20 inconclusive results retain `partial_discovery` with a diagnostic of the
+form "taint discovery is incomplete: procedure value-flow snapshot for ... is
+unsupported/unknown"; they are capability evidence, never negatives. The eight
+`runner-error` results are the entire heap/separation stratum — both polarities
+of object separation, same-object field separation, alias propagation, and
+array element. Their raw runs complete as `failed` with `internal_invariant`
+and the diagnostic "taint semantic provider failed: semantic IR gap_contract
+error in procedure 2: gap 8 duplicates the same scoped fact"; a failed
+evaluation is an execution error, so it is normalized as `runner-error` rather
+than `inconclusive`, and it is never a negative. Several results also carry the
+policy's own finding message, so Bifrost located candidate flows before the
+analysis failed or went incomplete.
 
 **Language extension, 2 assertions:** both `inconclusive`, both retaining
 `partial_discovery`. No decisive outcome, so nothing is scored on this tier for
