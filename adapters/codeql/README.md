@@ -19,6 +19,12 @@ own fixture extension. Rust has its own extractor too, whose support is a
 reduced 15-template denominator as C, plus two Rust `language-extension` cases
 that never enter the Rust core denominator.
 
+Scala is deliberately absent. CodeQL CLI 2.26.3 has no Scala extractor and no
+Scala library pack in any build mode, so there is no `scala/` pack, no query,
+and no `run-codeql-scala-kernel` command. That absence is analyzer coverage —
+recorded in [the Scala kernel contract](../../docs/scala-kernel.md) — and
+never a negative result for any Scala assertion.
+
 The checked-in query packs contain the Java, JavaScript, TypeScript, Python,
 Kotlin, C#, Go, C, C++, and Rust kernel queries. Each query uses that
 language's CodeQL data-flow API and the benchmark-controlled `dfb_source()`/`dfb_sink(value)` contract; the

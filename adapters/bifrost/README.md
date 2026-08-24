@@ -45,7 +45,13 @@ Go, and carries the same reduced denominator as C for a different reason:
 Rust, so the Rust core population is 15 templates and 30 assertions, and the
 `Result`/`?` construct Rust uses instead is carried by a `language-extension`
 pair that the run also evaluates but never counts in the core denominator; see
-[the Rust kernel contract](../../docs/rust-kernel.md). Every kernel command
+[the Rust kernel contract](../../docs/rust-kernel.md). The Scala parity slice uses
+`core-scala-kernel.rqlp` and pins that policy for its whole population the way
+the Kotlin slice does, because its direct-propagation pair is frozen naming the
+breadth policy; Scala is the first kernel with **single-analyzer coverage** —
+CodeQL 2.26.3 has no Scala extractor and the pinned Joern has no Scala source
+frontend, so Bifrost is the only tool that produces Scala results at all. See
+[the Scala kernel contract](../../docs/scala-kernel.md). Every kernel command
 selects only its own language's core assertions — 32 for the 16-template
 kernels, 30 for C and Rust — and writes a dedicated report. The Java
 calibration slice also
@@ -63,6 +69,7 @@ Run from the repository root:
 cargo run -- run-bifrost-smoke --bifrost /path/to/bifrost
 cargo run -- run-bifrost-python-kernel --bifrost /path/to/bifrost
 cargo run -- run-bifrost-kotlin-kernel --bifrost /path/to/bifrost
+cargo run -- run-bifrost-scala-kernel --bifrost /path/to/bifrost
 cargo run -- run-bifrost-typescript-kernel --bifrost /path/to/bifrost
 cargo run -- run-bifrost-csharp-kernel --bifrost /path/to/bifrost
 cargo run -- run-bifrost-go-kernel --bifrost /path/to/bifrost
@@ -162,6 +169,19 @@ raw runs that complete as `failed` with `internal_invariant` ("semantic IR
 gap_contract error in procedure 2: gap 8 duplicates the same scoped fact"): a
 failed evaluation is an execution error, normalized as `runner-error`, and is
 never counted as a negative.
+
+The 32-case Scala kernel, in its own report `reports/bifrost-scala-kernel.json`
+with raw evidence under `reports/raw/bifrost-scala-kernel/`, was run on the
+same v0.10.5 build after the v0.3.0 freeze and is therefore not part of it. It
+produces 5 `reached`, 5 `not-reached`, and 22 `inconclusive` results: five
+template pairs are decisive — direct propagation, the local multi-step chain,
+call-context separation, argument-position separation, and the one-hop return
+relay — and all ten of those outcomes match the expected polarity, with no
+decisive mismatch. The 22 inconclusive results retain `partial_discovery` (18)
+or `capability_incomplete` (4) evidence; six of them additionally carry the
+policy's finding message, which an incomplete run cannot make decisive. This is
+capability coverage, never a negative result; see [the Scala kernel
+contract](../../docs/scala-kernel.md).
 
 The JavaScript alias-propagation and array-element pairs retain
 `partial_discovery` evidence, while the exception-catch pair retains

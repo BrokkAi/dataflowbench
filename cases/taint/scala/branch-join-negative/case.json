@@ -1,0 +1,60 @@
+{
+  "schema_version": 2,
+  "id": "dfb-taint-scala-branch-join-negative",
+  "template_id": "dfb-template-branch-join",
+  "polarity": "negative",
+  "negative_mechanism": "overwrite-kill",
+  "score_tier": "core",
+  "track": "taint",
+  "language": "scala",
+  "semantic_dimensions": [
+    "local-flow",
+    "flow-sensitivity",
+    "path-sensitivity"
+  ],
+  "feature_tags": [
+    "intraprocedural"
+  ],
+  "model_profile": "benchmark-controlled",
+  "fixture_files": [
+    "BranchJoinNegative.scala"
+  ],
+  "source_anchors": [
+    {
+      "marker": "DFB-SOURCE: branch-join-input",
+      "file": "BranchJoinNegative.scala"
+    }
+  ],
+  "sink_anchors": [
+    {
+      "marker": "DFB-SINK: branch-join-sink",
+      "file": "BranchJoinNegative.scala"
+    }
+  ],
+  "expected_flows": [],
+  "expected_nonflows": [
+    {
+      "source": "DFB-SOURCE: branch-join-input",
+      "sink": "DFB-SINK: branch-join-sink"
+    }
+  ],
+  "witness_checkpoints": [],
+  "expected_analysis_capability": {
+    "kind": "path-sensitive-intraprocedural-taint"
+  },
+  "execution_budget": {
+    "wall_clock_seconds": 60,
+    "peak_memory_mb": 512
+  },
+  "fixture_provenance": {
+    "kind": "authored",
+    "origin": "DataFlowBench",
+    "revision": "m2-scala-kernel",
+    "license": "MIT"
+  },
+  "tool_model_references": {
+    "bifrost": {
+      "policy": "adapters/bifrost/policies/core-scala-kernel.rqlp"
+    }
+  }
+}
