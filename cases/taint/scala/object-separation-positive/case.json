@@ -1,0 +1,62 @@
+{
+  "schema_version": 2,
+  "id": "dfb-taint-scala-object-separation-positive",
+  "template_id": "dfb-template-object-separation",
+  "polarity": "positive",
+  "score_tier": "core",
+  "track": "taint",
+  "language": "scala",
+  "semantic_dimensions": [
+    "heap-field-sensitivity",
+    "object-sensitivity"
+  ],
+  "feature_tags": [
+    "heap-access-path"
+  ],
+  "model_profile": "benchmark-controlled",
+  "fixture_files": [
+    "ObjectSeparationPositive.scala"
+  ],
+  "source_anchors": [
+    {
+      "marker": "DFB-SOURCE: object-separation-input",
+      "file": "ObjectSeparationPositive.scala"
+    }
+  ],
+  "sink_anchors": [
+    {
+      "marker": "DFB-SINK: object-separation-sink",
+      "file": "ObjectSeparationPositive.scala"
+    }
+  ],
+  "expected_flows": [
+    {
+      "source": "DFB-SOURCE: object-separation-input",
+      "sink": "DFB-SINK: object-separation-sink"
+    }
+  ],
+  "expected_nonflows": [],
+  "witness_checkpoints": [
+    "DFB-SOURCE: object-separation-input",
+    "DFB-WITNESS: object-separation-store",
+    "DFB-SINK: object-separation-sink"
+  ],
+  "expected_analysis_capability": {
+    "kind": "heap-object-sensitive-taint"
+  },
+  "execution_budget": {
+    "wall_clock_seconds": 60,
+    "peak_memory_mb": 512
+  },
+  "fixture_provenance": {
+    "kind": "authored",
+    "origin": "DataFlowBench",
+    "revision": "m2-scala-kernel",
+    "license": "MIT"
+  },
+  "tool_model_references": {
+    "bifrost": {
+      "policy": "adapters/bifrost/policies/core-scala-kernel.rqlp"
+    }
+  }
+}

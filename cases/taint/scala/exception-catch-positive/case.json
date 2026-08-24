@@ -1,0 +1,64 @@
+{
+  "schema_version": 2,
+  "id": "dfb-taint-scala-exception-catch-positive",
+  "template_id": "dfb-template-exception-catch",
+  "polarity": "positive",
+  "score_tier": "core",
+  "track": "taint",
+  "language": "scala",
+  "semantic_dimensions": [
+    "local-flow",
+    "heap-field-sensitivity",
+    "exceptional-flow"
+  ],
+  "feature_tags": [
+    "heap-access-path",
+    "exceptional"
+  ],
+  "model_profile": "benchmark-controlled",
+  "fixture_files": [
+    "ExceptionCatchPositive.scala"
+  ],
+  "source_anchors": [
+    {
+      "marker": "DFB-SOURCE: exception-catch-input",
+      "file": "ExceptionCatchPositive.scala"
+    }
+  ],
+  "sink_anchors": [
+    {
+      "marker": "DFB-SINK: exception-catch-sink",
+      "file": "ExceptionCatchPositive.scala"
+    }
+  ],
+  "expected_flows": [
+    {
+      "source": "DFB-SOURCE: exception-catch-input",
+      "sink": "DFB-SINK: exception-catch-sink"
+    }
+  ],
+  "expected_nonflows": [],
+  "witness_checkpoints": [
+    "DFB-SOURCE: exception-catch-input",
+    "DFB-WITNESS: exception-catch-throw",
+    "DFB-SINK: exception-catch-sink"
+  ],
+  "expected_analysis_capability": {
+    "kind": "exception-sensitive-intraprocedural-taint"
+  },
+  "execution_budget": {
+    "wall_clock_seconds": 60,
+    "peak_memory_mb": 512
+  },
+  "fixture_provenance": {
+    "kind": "authored",
+    "origin": "DataFlowBench",
+    "revision": "m2-scala-kernel",
+    "license": "MIT"
+  },
+  "tool_model_references": {
+    "bifrost": {
+      "policy": "adapters/bifrost/policies/core-scala-kernel.rqlp"
+    }
+  }
+}
