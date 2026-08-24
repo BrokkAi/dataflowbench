@@ -3362,14 +3362,6 @@ fn codeql_python_cases() -> Result<Vec<(PathBuf, Value)>> {
 }
 
 fn validate_codeql_python_population(cases: &[(PathBuf, Value)]) -> Result<PathBuf> {
-    if cases.len() != 32 {
-        bail!(
-            "Python CodeQL kernel must select exactly 32 core assertions; found {}",
-            cases.len()
-        );
-    }
-    let mut pairs: BTreeMap<(&str, &str), (usize, usize)> = BTreeMap::new();
-    let mut model_profiles = BTreeSet::new();
     let mut queries = BTreeSet::new();
     for (path, case) in cases {
         if !selected_codeql_python_case(case) {
@@ -3378,60 +3370,14 @@ fn validate_codeql_python_population(cases: &[(PathBuf, Value)]) -> Result<PathB
                 path.display()
             );
         }
-        let template = case["template_id"]
-            .as_str()
-            .context("Python CodeQL case lacks template_id")?;
-        let profile = case["model_profile"]
-            .as_str()
-            .context("Python CodeQL case lacks model_profile")?;
-        model_profiles.insert(profile);
         let query = case["tool_model_references"]["codeql"]["query"]
             .as_str()
             .context("Python CodeQL case lacks query reference")?;
         queries.insert(PathBuf::from(query));
-        let entry = pairs.entry((template, profile)).or_default();
-        match case["polarity"].as_str() {
-            Some("positive") => entry.0 += 1,
-            Some("negative") => entry.1 += 1,
-            Some(other) => bail!("{} has unsupported polarity {other:?}", path.display()),
-            None => bail!("{} lacks polarity", path.display()),
-        }
     }
-    let expected_templates = KERNEL_TEMPLATE_IDS.iter().copied().collect::<BTreeSet<_>>();
-    let actual_templates = pairs
-        .keys()
-        .map(|(template, _)| *template)
-        .collect::<BTreeSet<_>>();
-    if actual_templates != expected_templates {
-        let missing = expected_templates
-            .difference(&actual_templates)
-            .copied()
-            .collect::<Vec<_>>();
-        let unexpected = actual_templates
-            .difference(&expected_templates)
-            .copied()
-            .collect::<Vec<_>>();
-        bail!(
-            "Python CodeQL kernel template set mismatch (missing={missing:?}, unexpected={unexpected:?})"
-        );
-    }
-    if pairs.len() != 16 {
-        bail!(
-            "Python CodeQL kernel must contain exactly 16 balanced templates; found {}",
-            pairs.len()
-        );
-    }
-    if pairs
-        .values()
-        .any(|(positive, negative)| *positive != 1 || *negative != 1)
-    {
-        bail!("Python CodeQL kernel requires one positive and one negative per template");
-    }
-    if model_profiles.len() != 1 {
-        bail!("Python CodeQL kernel must use one model profile across all 32 cases");
-    }
+    validate_kernel_population(cases, "Python CodeQL kernel")?;
     if queries.len() != 1 {
-        bail!("Python CodeQL kernel must use one query across all 32 cases");
+        bail!("Python CodeQL kernel must use one query across all {KERNEL_CASE_COUNT} cases");
     }
     let query = queries.into_iter().next().expect("one query validated");
     Ok(query)
