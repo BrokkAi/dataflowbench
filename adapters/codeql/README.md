@@ -1,15 +1,20 @@
 # CodeQL adapter
 
 The CodeQL adapter runs language-scoped benchmark kernels against canonical
-fixtures. Java, JavaScript, TypeScript, Python, Kotlin, and C# have separate
-selections, query paths, normalized reports, and retained raw-evidence
+fixtures. Java, JavaScript, TypeScript, Python, Kotlin, C#, C, and C++ have
+separate selections, query paths, normalized reports, and retained raw-evidence
 directories. JavaScript and TypeScript share CodeQL's `javascript` extractor
 and standard library, but they are two separate populations: each slice
 selects only its own language's cases, and each query additionally guards on
 its fixture's file extension so the result sets cannot overlap. Kotlin is
 extracted by the same `java` extractor and standard library as Java, so its
 query restricts every node to `.kt` files and its runner selects only Kotlin
-cases. C# has its own extractor and its own population.
+cases. C# has its own extractor and its own population. C and C++ share the
+`cpp` extractor and one pack, and are likewise two populations with two
+denominators: 16 templates (32 assertions) for C++, 15 templates (30
+assertions) for C, plus two C `language-extension` cases that never enter the C
+core denominator. Each of the two queries restricts its data-flow nodes to its
+own fixture extension.
 
 The checked-in query packs contain the Java, JavaScript, TypeScript, Python,
 Kotlin, and C# kernel queries. Each query uses that language's CodeQL data-flow
@@ -19,7 +24,9 @@ database-schema pack, the TypeScript query is
 `typescript/queries/TypeScriptKernel.ql` in its own pack, the Kotlin query
 is `kotlin/queries/KotlinKernel.ql` in its own pack pinned to the same
 `codeql/java-all@9.2.3` as the root Java pack, and the C# query is
-`csharp/queries/CSharpKernel.ql` in its own C# pack.
+`csharp/queries/CSharpKernel.ql` in its own C# pack. The C and C++ queries are
+`cpp/queries/CKernel.ql` and `cpp/queries/CppKernel.ql` in one shared C-family
+pack pinned to `codeql/cpp-all@12.0.2`.
 
 The Java kernel adapter creates one CodeQL database per canonical case,
 compiles the fixture with its real `javac` build, runs the pinned
@@ -339,6 +346,47 @@ negatives are the alias-propagation, exception-catch, and expression positives,
 and the false positives are the array-element and loop-carried negatives — the
 same mismatch set the Java kernel shows on those templates. Its configuration
 hash is `cd5f68b8ccb2e4de27cf1606b0c9f2ee8981ce5dfdf8ee2fea08fe977a0c56c9`.
+
+## C and C++ kernels
+
+The C++ runner selects exactly the 32 `taint`/`core` cases whose `language` is
+`cpp`; the C runner selects the 30 `taint`/`core` cases whose `language` is `c`
+plus its 2 `language-extension` cases, which are scored on their own scorecard
+and never counted in the core denominator. Each analyzes its own query:
+
+```text
+adapters/codeql/cpp/queries/CppKernel.ql
+adapters/codeql/cpp/queries/CKernel.ql
+```
+
+Both queries live in the shared pack manifest `adapters/codeql/cpp/qlpack.yml`,
+pinned to `codeql/cpp-all@12.0.2` with the full transitive set committed in
+`adapters/codeql/cpp/codeql-pack.lock.yml`. As with JavaScript and TypeScript,
+the shared extractor never merges the populations: the runner's `language`
+selector, each query's fixture-extension predicate (`c` versus `cpp`), and
+separate report and raw-evidence roots keep them disjoint, and each runner
+refuses a case that declares the other kernel's query.
+
+```bash
+codeql pack install adapters/codeql/cpp
+cargo run -- run-codeql-c-kernel --codeql /path/to/codeql
+cargo run -- run-codeql-cpp-kernel --codeql /path/to/codeql
+```
+
+Registry retrieval of the C-family pack succeeded for the pinned CLI, so the
+runs needed no `--codeql-packs` fallback. Each case gets one cold database
+created from the declared fixture file with `--build-mode=none`, which CodeQL
+2.26.3 supports for C and C++: the buildless extractor indexes the fixture and
+resolves the translation unit through a compiler discovered on the host (Apple
+clang 21.0.0 for the retained runs). No build command is traced. The runners
+write `reports/codeql-c-kernel.json` and `reports/codeql-cpp-kernel.json` and
+retain SARIF (or raw runner diagnostics) under `reports/raw/codeql-c-kernel/`
+and `reports/raw/codeql-cpp-kernel/`. SARIF locations are reconciled with the
+case's `DFB-SINK:` anchor by resolving the declared sink function name and
+accepting a finding on a line that calls it in the same file; a `.`, `->`, or
+`::` member access is not such a call. See [the C kernel
+contract](../../docs/c-kernel.md) and [the C++ kernel
+contract](../../docs/cpp-kernel.md).
 
 ## Retained v2.26.3 snapshot
 
