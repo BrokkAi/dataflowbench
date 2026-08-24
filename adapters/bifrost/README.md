@@ -28,9 +28,17 @@ separate population from JavaScript and the two are never mixed. The C# parity
 slice uses `core-csharp-kernel.rqlp`; its direct-propagation pair is frozen in
 the v0.2.0 evidence with the breadth `core-direct.rqlp` policy, so the C#
 selector accepts that policy too and evaluates each case through the policy it
-declares; see [the C# kernel contract](../../docs/csharp-kernel.md). Every
-kernel command selects only its own language's 32 core assertions and writes a
-dedicated report. The Java calibration slice also
+declares; see [the C# kernel contract](../../docs/csharp-kernel.md). The Rust
+parity slice uses `core-rust-kernel.rqlp` and is the one kernel with a reduced
+denominator: `docs/applicability-matrix.md` classifies `exception-catch` as
+inapplicable to Rust, so the Rust core population is 15 templates and 30
+assertions, and the `Result`/`?` construct Rust uses instead is carried by a
+`language-extension` pair that the run also evaluates but never counts in the
+core denominator. Like C#, its direct-propagation pair is frozen in the v0.2.0
+evidence with the breadth `core-direct.rqlp` policy, so the Rust selector
+accepts that policy too; see [the Rust kernel
+contract](../../docs/rust-kernel.md). Every other kernel command selects only
+its own language's 32 core assertions and writes a dedicated report. The Java calibration slice also
 covers one-hop helper flow. Generated workspaces live outside the repository so
 repository ignore rules cannot hide fixtures from Bifrost's indexer. Sanitizer
 lowering is a future Bifrost CLI capability.
@@ -47,6 +55,7 @@ cargo run -- run-bifrost-python-kernel --bifrost /path/to/bifrost
 cargo run -- run-bifrost-kotlin-kernel --bifrost /path/to/bifrost
 cargo run -- run-bifrost-typescript-kernel --bifrost /path/to/bifrost
 cargo run -- run-bifrost-csharp-kernel --bifrost /path/to/bifrost
+cargo run -- run-bifrost-rust-kernel --bifrost /path/to/bifrost
 ```
 
 The smoke command selects only cases with an explicit Bifrost policy or
@@ -118,6 +127,22 @@ value-flow snapshot for the C# fixture procedure is unknown or unsupported.
 This is capability coverage, never a negative result. The same incompleteness
 reproduces under the language-agnostic `core-direct.rqlp` policy, so it is not
 an artifact of the language-qualified policy.
+
+The Rust kernel, in its own report `reports/bifrost-rust-kernel.json` with raw
+evidence under `reports/raw/bifrost-rust-kernel/`, was run on the same v0.10.5
+build. Its 30 core assertions produce 1 `reached`, 1 `not-reached`, and 28
+`inconclusive` results: only the direct-propagation pair is decisive, and both
+of its outcomes match the expected polarity (2 of 2 decisive outcomes, 2 of 30
+assertions). The two `language-extension` assertions are both `inconclusive`
+and are reported separately. Twenty of the inconclusive core results retain
+`partial_discovery` evidence; the other eight — the complete heap/separation
+stratum, both polarities of object separation, same-object field separation,
+alias propagation, and array element — retain `internal_invariant` evidence
+with the diagnostic "semantic IR gap_contract error in procedure 2: gap 8
+duplicates the same scope". Eleven inconclusive results also carry the policy's
+own finding message, so Bifrost located candidate flows but could not complete
+the analysis; an incomplete run is `inconclusive` and is never counted as a
+negative.
 
 The JavaScript alias-propagation and array-element pairs retain
 `partial_discovery` evidence, while the exception-catch pair retains

@@ -3120,7 +3120,10 @@ fn validate_rust_kernel_population(cases: &[(PathBuf, Value)], label: &str) -> R
             .as_str()
             .with_context(|| format!("{} lacks score_tier", path.display()))?;
         if tier != "core" && tier != "language-extension" {
-            bail!("{label} selected {} with score tier {tier:?}", path.display());
+            bail!(
+                "{label} selected {} with score tier {tier:?}",
+                path.display()
+            );
         }
     }
     let mut pairs: BTreeMap<&str, (usize, usize)> = BTreeMap::new();
@@ -3732,7 +3735,11 @@ fn csharp_sarif_outcome(
     sarif_anchor_outcome(case_path, case, sarif, AnchorDialect::CSharp)
 }
 
-fn rust_sarif_outcome(case_path: &Path, case: &Value, sarif: &Value) -> (&'static str, Vec<String>) {
+fn rust_sarif_outcome(
+    case_path: &Path,
+    case: &Value,
+    sarif: &Value,
+) -> (&'static str, Vec<String>) {
     sarif_anchor_outcome(case_path, case, sarif, AnchorDialect::Rust)
 }
 
@@ -5722,6 +5729,254 @@ mod tests {
             "        int dfb_sinkValue = 0;",
             "dfb_sink"
         ));
+    }
+
+    #[test]
+    fn rust_core_selection_is_exactly_30_balanced_assertions() {
+        let selected = codeql_rust_cases().unwrap();
+        let mut templates = BTreeMap::<String, (usize, usize)>::new();
+        let mut extensions = 0;
+        for (_, case) in &selected {
+            assert_eq!(case["language"], "rust");
+            assert_eq!(case["track"], "taint");
+            if case["score_tier"] == "language-extension" {
+                extensions += 1;
+                continue;
+            }
+            assert_eq!(case["score_tier"], "core");
+            let counts = templates
+                .entry(case["template_id"].as_str().unwrap().to_string())
+                .or_default();
+            if case["polarity"] == "positive" {
+                counts.0 += 1;
+            } else {
+                counts.1 += 1;
+            }
+        }
+        assert_eq!(templates.len(), 15);
+        assert_eq!(templates.values().map(|(p, n)| p + n).sum::<usize>(), 30);
+        assert!(
+            templates
+                .values()
+                .all(|(positive, negative)| *positive == 1 && *negative == 1)
+        );
+        // The excluded template stays excluded: it reduces only Rust's
+        // denominator, and the language-extension pair replaces nothing.
+        assert!(!templates.contains_key("dfb-template-exception-catch"));
+        assert_eq!(extensions, 2);
+    }
+
+    #[test]
+    fn rust_language_extension_never_enters_the_core_denominator() {
+        let cases = case_paths()
+            .into_iter()
+            .map(|path| {
+                let case: Value =
+                    serde_json::from_str(&fs::read_to_string(&path).unwrap()).unwrap();
+                (path, case)
+            })
+            .collect::<Vec<_>>();
+        let core = core_templates_for_language(&cases, "rust");
+        assert_eq!(core.len(), 15);
+        assert!(!core.contains("dfb-template-result-error-propagation"));
+        let extension = cases
+            .iter()
+            .filter(|(_, case)| {
+                case["language"] == "rust" && case["score_tier"] == "language-extension"
+            })
+            .collect::<Vec<_>>();
+        assert_eq!(extension.len(), 2);
+        for (_, case) in extension {
+            assert_eq!(case["template_id"], "dfb-template-result-error-propagation");
+        }
+        validate_rust_kernel_balance(&cases).unwrap();
+    }
+
+    #[test]
+    fn rust_kernel_population_rejects_the_excluded_or_a_foreign_template() {
+        let base = json!({
+            "language": "rust",
+            "track": "taint",
+            "score_tier": "core",
+            "model_profile": "benchmark-controlled"
+        });
+        let mut cases = Vec::new();
+        for template in RUST_KERNEL_TEMPLATE_IDS {
+            for polarity in ["positive", "negative"] {
+                let mut case = base.clone();
+                case["template_id"] = json!(template);
+                case["polarity"] = json!(polarity);
+                cases.push((PathBuf::from(format!("{template}-{polarity}")), case));
+            }
+        }
+        validate_rust_kernel_population(&cases, "test").unwrap();
+
+        let mut with_exception = cases.clone();
+        for polarity in ["positive", "negative"] {
+            let mut case = base.clone();
+            case["template_id"] = json!("dfb-template-exception-catch");
+            case["polarity"] = json!(polarity);
+            with_exception.push((PathBuf::from(polarity), case));
+        }
+        assert!(validate_rust_kernel_population(&with_exception, "test").is_err());
+
+        // A language-extension assertion rides along without changing the
+        // 30-assertion core denominator.
+        let mut with_extension = cases.clone();
+        let mut extension = base.clone();
+        extension["score_tier"] = json!("language-extension");
+        extension["template_id"] = json!("dfb-template-result-error-propagation");
+        extension["polarity"] = json!("positive");
+        with_extension.push((PathBuf::from("extension"), extension));
+        validate_rust_kernel_population(&with_extension, "test").unwrap();
+
+        // A calibration case is not part of this population at all.
+        let mut with_calibration = cases.clone();
+        let mut calibration = base.clone();
+        calibration["score_tier"] = json!("calibration");
+        calibration["template_id"] = json!("dfb-template-one-hop-relay");
+        calibration["polarity"] = json!("positive");
+        with_calibration.push((PathBuf::from("calibration"), calibration));
+        assert!(validate_rust_kernel_population(&with_calibration, "test").is_err());
+    }
+
+    #[test]
+    fn bifrost_rust_kernel_selects_only_rust_cases() {
+        let mut core = 0;
+        let mut extension = 0;
+        for path in case_paths() {
+            let case: Value = serde_json::from_str(&fs::read_to_string(path).unwrap()).unwrap();
+            if selected_bifrost_case(&case, BifrostRun::RustKernel) {
+                assert_eq!(case["language"], "rust");
+                assert_eq!(case["track"], "taint");
+                if case["score_tier"] == "core" {
+                    core += 1;
+                } else {
+                    assert_eq!(case["score_tier"], "language-extension");
+                    extension += 1;
+                }
+                for other in [
+                    BifrostRun::PythonKernel,
+                    BifrostRun::KotlinKernel,
+                    BifrostRun::TypescriptKernel,
+                    BifrostRun::CsharpKernel,
+                ] {
+                    assert!(!selected_bifrost_case(&case, other));
+                }
+            }
+        }
+        assert_eq!(core, RUST_KERNEL_CASE_COUNT);
+        assert_eq!(extension, 2);
+    }
+
+    #[test]
+    fn rust_codeql_report_paths_are_dedicated() {
+        for other in [
+            CODEQL_KOTLIN_REPORT,
+            CODEQL_CSHARP_REPORT,
+            CODEQL_JAVASCRIPT_REPORT,
+            CODEQL_TYPESCRIPT_REPORT,
+            "reports/codeql-python-kernel.json",
+        ] {
+            assert_ne!(CODEQL_RUST_REPORT, other);
+        }
+        for other in [
+            CODEQL_KOTLIN_RAW_DIR,
+            CODEQL_CSHARP_RAW_DIR,
+            CODEQL_JAVASCRIPT_RAW_DIR,
+            CODEQL_TYPESCRIPT_RAW_DIR,
+        ] {
+            assert_ne!(CODEQL_RUST_RAW_DIR, other);
+        }
+        assert_ne!(CODEQL_RUST_QUERY, CODEQL_CSHARP_QUERY);
+    }
+
+    #[test]
+    fn rust_codeql_databases_carry_a_generated_cargo_manifest() {
+        let case = json!({"id": "dfb-taint-rust-test", "fixture_files": ["direct_flow.rs"]});
+        let args = codeql_database_create_args(
+            Path::new("/tmp/rust-db"),
+            Path::new("/tmp/rust-workspace"),
+            &case,
+            CodeqlLanguage::Rust,
+        )
+        .unwrap();
+        assert!(args.iter().any(|arg| arg == "--language=rust"));
+        assert!(args.iter().any(|arg| arg == "--build-mode=none"));
+        assert!(!args.iter().any(|arg| arg.starts_with("--command=")));
+
+        let workspace = std::env::temp_dir().join(format!(
+            "dataflowbench-rust-manifest-test-{}-{}",
+            std::process::id(),
+            SystemTime::now()
+                .duration_since(UNIX_EPOCH)
+                .unwrap()
+                .as_nanos()
+        ));
+        fs::create_dir_all(&workspace).unwrap();
+        write_rust_cargo_manifest(&workspace, &case).unwrap();
+        let manifest = fs::read_to_string(workspace.join("Cargo.toml")).unwrap();
+        // Without a manifest the extractor logs "semantic analyzer unavailable
+        // (no manifest found)" and resolves no call targets, so the crate root
+        // must point straight at the case's single fixture file.
+        assert!(manifest.contains("path = \"direct_flow.rs\""), "{manifest}");
+        assert!(manifest.contains("[workspace]"), "{manifest}");
+
+        let two_fixtures = json!({"id": "x", "fixture_files": ["a.rs", "b.rs"]});
+        assert!(write_rust_cargo_manifest(&workspace, &two_fixtures).is_err());
+        fs::remove_dir_all(workspace).unwrap();
+    }
+
+    #[test]
+    fn rust_sink_declarations_resolve_to_the_declared_function() {
+        let root = std::env::temp_dir().join(format!(
+            "dataflowbench-rust-anchor-test-{}-{}",
+            std::process::id(),
+            SystemTime::now()
+                .duration_since(UNIX_EPOCH)
+                .unwrap()
+                .as_nanos()
+        ));
+        fs::create_dir_all(&root).unwrap();
+        let case_path = root.join("case.json");
+        fs::write(
+            root.join("fixture.rs"),
+            "fn dfb_sink(value: i32) {} // DFB-SINK: sink\nfn other(value: i32) {}\n    other(input);\n    dfb_sink(input);\n",
+        )
+        .unwrap();
+        let case = json!({
+            "sink_anchors": [{
+                "marker": "DFB-SINK: sink",
+                "file": "fixture.rs",
+                "line_hint": 1
+            }]
+        });
+        let matching = json!({
+            "runs": [{"results": [{"locations": [{"physicalLocation": {
+                "artifactLocation": {"uri": "fixture.rs"},
+                "region": {"startLine": 4}
+            }}]}]}]
+        });
+        assert_eq!(
+            rust_sarif_outcome(&case_path, &case, &matching).0,
+            "reached"
+        );
+        let wrong_line = json!({
+            "runs": [{"results": [{"locations": [{"physicalLocation": {
+                "artifactLocation": {"uri": "fixture.rs"},
+                "region": {"startLine": 3}
+            }}]}]}]
+        });
+        assert_eq!(
+            rust_sarif_outcome(&case_path, &case, &wrong_line).0,
+            "inconclusive"
+        );
+        let no_results = json!({"runs": [{"results": []}]});
+        assert_eq!(
+            rust_sarif_outcome(&case_path, &case, &no_results).0,
+            "not-reached"
+        );
+        fs::remove_dir_all(root).unwrap();
     }
 
     #[test]

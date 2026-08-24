@@ -1,25 +1,29 @@
 # CodeQL adapter
 
 The CodeQL adapter runs language-scoped benchmark kernels against canonical
-fixtures. Java, JavaScript, TypeScript, Python, Kotlin, and C# have separate
-selections, query paths, normalized reports, and retained raw-evidence
+fixtures. Java, JavaScript, TypeScript, Python, Kotlin, C#, and Rust have
+separate selections, query paths, normalized reports, and retained raw-evidence
 directories. JavaScript and TypeScript share CodeQL's `javascript` extractor
 and standard library, but they are two separate populations: each slice
 selects only its own language's cases, and each query additionally guards on
 its fixture's file extension so the result sets cannot overlap. Kotlin is
 extracted by the same `java` extractor and standard library as Java, so its
 query restricts every node to `.kt` files and its runner selects only Kotlin
-cases. C# has its own extractor and its own population.
+cases. C# has its own extractor and its own population. Rust has its own
+extractor too, whose support is a **public preview** in the pinned CLI, and its
+own population with a reduced 15-template denominator.
 
 The checked-in query packs contain the Java, JavaScript, TypeScript, Python,
-Kotlin, and C# kernel queries. Each query uses that language's CodeQL data-flow
+Kotlin, C#, and Rust kernel queries. Each query uses that language's CodeQL data-flow
 API and the benchmark-controlled `dfb_source()`/`dfb_sink(value)` contract; the
 Python query is `python/queries/PythonKernel.ql` in its own Python
 database-schema pack, the TypeScript query is
 `typescript/queries/TypeScriptKernel.ql` in its own pack, the Kotlin query
 is `kotlin/queries/KotlinKernel.ql` in its own pack pinned to the same
 `codeql/java-all@9.2.3` as the root Java pack, and the C# query is
-`csharp/queries/CSharpKernel.ql` in its own C# pack.
+`csharp/queries/CSharpKernel.ql` in its own C# pack, and the Rust query is
+`rust/queries/RustKernel.ql` in its own Rust pack pinned to
+`codeql/rust-all@0.2.19`.
 
 The Java kernel adapter creates one CodeQL database per canonical case,
 compiles the fixture with its real `javac` build, runs the pinned
@@ -339,6 +343,58 @@ negatives are the alias-propagation, exception-catch, and expression positives,
 and the false positives are the array-element and loop-carried negatives — the
 same mismatch set the Java kernel shows on those templates. Its configuration
 hash is `cd5f68b8ccb2e4de27cf1606b0c9f2ee8981ce5dfdf8ee2fea08fe977a0c56c9`.
+
+## Rust kernel
+
+The Rust runner selects the Rust `taint` cases whose `score_tier` is `core` —
+30 assertions over the 15 templates `docs/applicability-matrix.md` classifies
+as applicable — plus the two `language-extension` assertions that carry
+`Result`/`?` error-path propagation. `exception-catch` is inapplicable to Rust
+and stays excluded, reducing only the Rust denominator; the extension pair is
+scored on its own tier and never enters the core denominator. Every selected
+case is analyzed with:
+
+```text
+adapters/codeql/rust/queries/RustKernel.ql
+```
+
+owned by the dedicated Rust pack manifest `adapters/codeql/rust/qlpack.yml`,
+pinned to `codeql/rust-all@0.2.19` — the version `codeql pack install` resolves
+for CodeQL CLI 2.26.3 — with the full transitive set committed in
+`adapters/codeql/rust/codeql-pack.lock.yml`.
+
+**Rust support is a public preview.** The pinned CLI emits no maturity flag of
+its own; what it does report, and what the lock pins, are pre-1.0 versions:
+extractor `rust` 0.1.0 and library pack `codeql/rust-all@0.2.19`, against
+1.x-and-above packs for the GA languages. Rust results in this repository are
+labelled and read as public-preview analyzer evidence. See [the Rust kernel
+contract](../../docs/rust-kernel.md).
+
+```bash
+codeql pack install adapters/codeql/rust
+cargo run -- run-codeql-rust-kernel --codeql /path/to/codeql
+```
+
+Registry retrieval of the Rust pack succeeded for the pinned CLI, so the run
+needed no `--codeql-packs` fallback.
+
+Each case gets one cold database created with `--build-mode=none`, so no
+fixture is compiled. The Rust extractor does, however, only run its semantic
+analyzer when it finds a Cargo manifest in the source root — without one it
+warns "semantic analyzer unavailable (no manifest found)" and builds a
+syntax-only database in which no call target resolves. The runner therefore
+generates a minimal single-crate `Cargo.toml` in each temporary workspace, with
+`[[bin]] path` pointing at the case's own `.rs` file so SARIF locations stay on
+the case's anchor paths. That manifest is an adapter artifact: no `Cargo.toml`
+is checked in beside any case. The runner writes
+`reports/codeql-rust-kernel.json` and retains SARIF (or raw runner diagnostics)
+under `reports/raw/codeql-rust-kernel/`. SARIF locations are reconciled with
+the case's `DFB-SINK:` anchor by resolving the declared sink function name and
+accepting a finding on a line that calls it in the same file — the same
+reconciler dialect C# uses, because Rust and C# answer its two surface
+questions identically.
+
+RUST_SNAPSHOT_PLACEHOLDER
 
 ## Retained v2.26.3 snapshot
 
