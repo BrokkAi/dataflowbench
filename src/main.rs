@@ -2588,8 +2588,20 @@ fn run_codeql_kotlin_kernel(binary: &Path, packs: Option<&Path>, kotlinc: &Path)
     Ok(())
 }
 
+/// The exact CLI version and build SHA every normalized CodeQL report records.
 fn codeql_version_identity(binary: &Path) -> Result<(String, String)> {
-    let (version, build_identity) = codeql_version_identity(binary)?;
+    let version_output = command_output(Command::new(binary).args(["version", "--format=json"]))
+        .context("read CodeQL version")?;
+    let version_json: Value =
+        serde_json::from_str(&version_output).context("parse CodeQL version JSON")?;
+    let version = version_json["version"]
+        .as_str()
+        .context("CodeQL version JSON lacks version")?
+        .to_string();
+    let build_identity = version_json["sha"]
+        .as_str()
+        .map(|sha| format!("codeql-cli:{sha}"))
+        .context("CodeQL version JSON lacks build sha")?;
     Ok((version, build_identity))
 }
 
