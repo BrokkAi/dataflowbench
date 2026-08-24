@@ -388,6 +388,24 @@ accepting a finding on a line that calls it in the same file; a `.`, `->`, or
 contract](../../docs/c-kernel.md) and [the C++ kernel
 contract](../../docs/cpp-kernel.md).
 
+The checked-in `reports/codeql-cpp-kernel.json` contains 32 results: 16
+`reached` and 16 `not-reached`, with zero `inconclusive`, `unsupported`, or
+`runner-error` outcomes, and 28 of 32 matching the expected polarity — false
+negatives on the alias-propagation and exception-catch positives, false
+positives on the array-element and loop-carried negatives. Its configuration
+hash is
+`8873a63a5898c8b6b10dc24a9fbf2fae3ed5a088faf024524b0bae50f0fc4cc0`.
+
+The checked-in `reports/codeql-c-kernel.json` contains 32 results with the same
+clean execution profile. Of the 30 core assertions, 16 are `reached` and 14 are
+`not-reached`, with 27 of 30 matching the expected polarity — the same
+alias-propagation false negative and array-element and loop-carried false
+positives, with no exception-catch cell in the C population. Both
+`language-extension` cases are `reached`, matching their positive polarity, and
+are scored on their own scorecard rather than in the 30-assertion denominator.
+Its configuration hash is
+`719415b9134dfd43390ffdb76eef45f7ed022f907f22913226c22f93277b62f8`.
+
 ## Retained v2.26.3 snapshot
 
 The checked-in report uses CodeQL CLI v2.26.3 build

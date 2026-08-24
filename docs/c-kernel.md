@@ -180,7 +180,37 @@ report is pooled with the C++ kernel or any other language.
 
 ### CodeQL, `reports/codeql-c-kernel.json`
 
-<!-- CODEQL-C-RESULTS -->
+CodeQL CLI 2.26.3, build `codeql-cli:7d097a43199effe04ecd9c6bd3ad9bb02a45b3d7`,
+with `codeql/cpp-all@12.0.2` from the committed lock and Apple clang 21.0.0
+(`clang-2100.1.1.101`) as the compiler the buildless extractor discovered.
+Configuration hash
+`719415b9134dfd43390ffdb76eef45f7ed022f907f22913226c22f93277b62f8`.
+
+32 results, with zero `inconclusive`, `unsupported`, or `runner-error`
+outcomes:
+
+- **Core (30 assertions):** 16 `reached` and 14 `not-reached`. 27 of 30 match
+  the expected polarity. The three mismatches are one false negative,
+  `dfb-taint-c-alias-propagation-positive`, and two false positives,
+  `dfb-taint-c-array-element-negative` and `dfb-taint-c-loop-carried-negative`.
+- **Language-extension (2 cases, scored separately):** both `reached`, matching
+  their positive polarity — CodeQL follows the controlled value through the
+  error-code out-parameter and through the `goto cleanup` handler's struct.
+
+The core mismatch set is the C++ set minus exception-catch, which C does not
+have: the same alias-propagation false negative and the same array-element and
+loop-carried false positives that every ported kernel shows on this CLI. C
+resolves the arithmetic-expression positive that the Java and C# kernels miss.
+
+All 32 retained raw outputs are SARIF files under
+`reports/raw/codeql-c-kernel/`, with zero error files, and normalized
+`witness_checkpoints` are empty for every case: the adapter records
+anchor-backed flow outcomes and leaves the path evidence in SARIF rather than
+fabricating observed witness markers. Per-case wall clock, including cold
+database creation, ranged from 11.1 s to 18.7 s (423 s for the population). The
+60-second `execution_budget` on the cases describes the analysis budget shared
+with the other language kernels; C extraction time is reported here rather than
+silently rebudgeted.
 
 ### Bifrost, `reports/bifrost-c-kernel.json`
 

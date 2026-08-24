@@ -160,7 +160,36 @@ other language.
 
 ### CodeQL, `reports/codeql-cpp-kernel.json`
 
-<!-- CODEQL-CPP-RESULTS -->
+CodeQL CLI 2.26.3, build `codeql-cli:7d097a43199effe04ecd9c6bd3ad9bb02a45b3d7`,
+with `codeql/cpp-all@12.0.2` from the committed lock and Apple clang 21.0.0
+(`clang-2100.1.1.101`) as the compiler the buildless extractor discovered.
+Configuration hash
+`8873a63a5898c8b6b10dc24a9fbf2fae3ed5a088faf024524b0bae50f0fc4cc0`.
+
+32 results: 16 `reached` and 16 `not-reached`, with zero `inconclusive`,
+`unsupported`, or `runner-error` outcomes. 28 of 32 match the expected polarity.
+The four mismatches are:
+
+- false negatives: `dfb-taint-cpp-alias-propagation-positive` and
+  `dfb-taint-cpp-exception-catch-positive`;
+- false positives: `dfb-taint-cpp-array-element-negative` and
+  `dfb-taint-cpp-loop-carried-negative`.
+
+That set is a subset of the five mismatches the Java and C# kernels show on the
+same templates with the same CLI: the C++ extractor resolves the
+arithmetic-expression positive that those two miss. The alias-propagation and
+exception-catch false negatives and the array-element and loop-carried false
+positives are the same cells that fail across every ported kernel.
+
+All 32 retained raw outputs are SARIF files under
+`reports/raw/codeql-cpp-kernel/`, with zero error files, and normalized
+`witness_checkpoints` are empty for every case: the adapter records
+anchor-backed flow outcomes and leaves the path evidence in SARIF rather than
+fabricating observed witness markers. Per-case wall clock, including cold
+database creation, ranged from 6.2 s to 24.8 s (306 s for the population). The
+60-second `execution_budget` on the cases describes the analysis budget shared
+with the other language kernels; C++ extraction time is reported here rather
+than silently rebudgeted.
 
 ### Bifrost, `reports/bifrost-cpp-kernel.json`
 
