@@ -1,0 +1,63 @@
+{
+  "schema_version": 2,
+  "id": "dfb-taint-cpp-branch-join-negative",
+  "template_id": "dfb-template-branch-join",
+  "polarity": "negative",
+  "negative_mechanism": "overwrite-kill",
+  "score_tier": "core",
+  "track": "taint",
+  "language": "cpp",
+  "semantic_dimensions": [
+    "local-flow",
+    "flow-sensitivity",
+    "path-sensitivity"
+  ],
+  "feature_tags": [
+    "intraprocedural"
+  ],
+  "model_profile": "benchmark-controlled",
+  "fixture_files": [
+    "branch_join_negative.cpp"
+  ],
+  "source_anchors": [
+    {
+      "marker": "DFB-SOURCE: branch-join-input",
+      "file": "branch_join_negative.cpp"
+    }
+  ],
+  "sink_anchors": [
+    {
+      "marker": "DFB-SINK: branch-join-sink",
+      "file": "branch_join_negative.cpp"
+    }
+  ],
+  "expected_flows": [],
+  "expected_nonflows": [
+    {
+      "source": "DFB-SOURCE: branch-join-input",
+      "sink": "DFB-SINK: branch-join-sink"
+    }
+  ],
+  "witness_checkpoints": [],
+  "expected_analysis_capability": {
+    "kind": "path-sensitive-intraprocedural-taint"
+  },
+  "execution_budget": {
+    "wall_clock_seconds": 60,
+    "peak_memory_mb": 512
+  },
+  "fixture_provenance": {
+    "kind": "authored",
+    "origin": "DataFlowBench",
+    "revision": "m2-cpp-kernel",
+    "license": "MIT"
+  },
+  "tool_model_references": {
+    "bifrost": {
+      "policy": "adapters/bifrost/policies/core-cpp-kernel.rqlp"
+    },
+    "codeql": {
+      "query": "adapters/codeql/cpp/queries/CppKernel.ql"
+    }
+  }
+}

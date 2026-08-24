@@ -1,0 +1,64 @@
+{
+  "schema_version": 2,
+  "id": "dfb-taint-c-same-object-field-positive",
+  "template_id": "dfb-template-same-object-field-separation",
+  "polarity": "positive",
+  "score_tier": "core",
+  "track": "taint",
+  "language": "c",
+  "semantic_dimensions": [
+    "heap-field-sensitivity"
+  ],
+  "feature_tags": [
+    "heap-access-path"
+  ],
+  "model_profile": "benchmark-controlled",
+  "fixture_files": [
+    "same_object_field_positive.c"
+  ],
+  "source_anchors": [
+    {
+      "marker": "DFB-SOURCE: same-object-field-input",
+      "file": "same_object_field_positive.c"
+    }
+  ],
+  "sink_anchors": [
+    {
+      "marker": "DFB-SINK: same-object-field-sink",
+      "file": "same_object_field_positive.c"
+    }
+  ],
+  "expected_flows": [
+    {
+      "source": "DFB-SOURCE: same-object-field-input",
+      "sink": "DFB-SINK: same-object-field-sink"
+    }
+  ],
+  "expected_nonflows": [],
+  "witness_checkpoints": [
+    "DFB-SOURCE: same-object-field-input",
+    "DFB-WITNESS: same-object-field-store",
+    "DFB-SINK: same-object-field-sink"
+  ],
+  "expected_analysis_capability": {
+    "kind": "heap-field-sensitive-taint"
+  },
+  "execution_budget": {
+    "wall_clock_seconds": 60,
+    "peak_memory_mb": 512
+  },
+  "fixture_provenance": {
+    "kind": "authored",
+    "origin": "DataFlowBench",
+    "revision": "m2-c-kernel",
+    "license": "MIT"
+  },
+  "tool_model_references": {
+    "bifrost": {
+      "policy": "adapters/bifrost/policies/core-c-kernel.rqlp"
+    },
+    "codeql": {
+      "query": "adapters/codeql/cpp/queries/CKernel.ql"
+    }
+  }
+}
