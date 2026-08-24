@@ -394,7 +394,26 @@ accepting a finding on a line that calls it in the same file — the same
 reconciler dialect C# uses, because Rust and C# answer its two surface
 questions identically.
 
-RUST_SNAPSHOT_PLACEHOLDER
+The checked-in `reports/codeql-rust-kernel.json` contains 32 results. Its 30
+core assertions are 17 `reached` and 13 `not-reached`, with zero `inconclusive`,
+`unsupported`, or `runner-error` outcomes; 28 of 30 match the expected polarity.
+All 15 positives are `reached`, so there are no false negatives; the two
+mismatches are the array-element and loop-carried negatives, which are false
+positives here as they are for the Java, Kotlin, and C# kernels against this
+build. The alias-propagation and expression positives that are false negatives
+in every other CodeQL kernel are `reached` here.
+
+The two `language-extension` assertions are reported separately and never enter
+that denominator: both are `not-reached`, so
+`dfb-taint-rust-result-error-propagation-positive` is a false negative — the
+pinned preview analyzer does not carry the value through the `Result` error
+variant and `?` across the call boundary — and the negative is correct.
+
+All 32 raw outputs are SARIF files under `reports/raw/codeql-rust-kernel/` with
+zero error files. Per-case wall clock ran 50.8 s to 98.4 s, about 40 minutes for
+the population, because every case re-extracts the Cargo workspace's library
+sources. Its configuration hash is
+`cc2c728b66e0c273545e3531a672c0987473f3830f5df80b0839f5d04c33600b`.
 
 ## Retained v2.26.3 snapshot
 

@@ -280,7 +280,88 @@ execution health separate from the polarity of the 15 balanced assertions.
 
 ## Observed results
 
-PLACEHOLDER
+Both retained snapshots cover all 30 Rust core assertions and both
+`language-extension` assertions. The three populations — Rust core, Rust
+language extension, and every other language — are separate and are not pooled.
+
+### CodeQL, `reports/codeql-rust-kernel.json`
+
+CodeQL CLI 2.26.3, build `codeql-cli:7d097a43199effe04ecd9c6bd3ad9bb02a45b3d7`,
+with `codeql/rust-all@0.2.19` from the committed lock — **public-preview
+analyzer evidence**, per the status section above. Configuration hash
+`cc2c728b66e0c273545e3531a672c0987473f3830f5df80b0839f5d04c33600b`.
+
+**Core, 30 assertions:** 17 `reached` and 13 `not-reached`, with zero
+`inconclusive`, `unsupported`, or `runner-error` outcomes. **28 of 30 match the
+expected polarity.** All 15 positives are `reached`, so there are no false
+negatives at all. The two mismatches are both false positives:
+
+- `dfb-taint-rust-array-element-negative`
+- `dfb-taint-rust-loop-carried-negative`
+
+That is the array-element and loop-carried pair of false positives the Java,
+Kotlin, and C# kernels also show against this CLI. What Rust does *not* share
+with them is their false-negative set: the alias-propagation and
+arithmetic-expression positives are false negatives for every other kernel and
+are `reached` here, as is every heap positive. On this fixture population the
+preview Rust analyzer is the most accurate of the CodeQL kernels in this
+repository — with the caveats that the denominator is 15 templates rather than
+16, that `exception-catch` (a template several other kernels miss) is not in it,
+and that a single 30-assertion population is not a general claim about the
+analyzer.
+
+**Language extension, 2 assertions:** both `not-reached`, so 1 of 2 matches the
+expected polarity. `dfb-taint-rust-result-error-propagation-positive` is a
+**false negative**: the pinned analyzer does not carry the controlled value from
+the `FlowError` field inside `Err(..)`, through the `?` propagation across the
+call boundary, to the `match` error binding at the sink. The negative is
+correctly `not-reached`. This is a real, reproducible capability observation and
+is reported on its own tier; it does not change the core denominator, and no
+fixture was adjusted to make the analyzer pass.
+
+All 32 retained raw outputs are SARIF files under
+`reports/raw/codeql-rust-kernel/`, with zero error files, and normalized
+`witness_checkpoints` are empty for every case: the adapter records anchor-backed
+flow outcomes and leaves the path evidence in SARIF rather than fabricating
+observed witness markers. End-to-end per-case wall clock, including generating
+the Cargo manifest and creating the cold database, ranged from 50.8 s to 98.4 s
+(about 40 minutes for the population). The 60-second `execution_budget` on the
+cases describes the analysis budget shared with the other language kernels; Rust
+extraction time — which includes rust-analyzer loading the manifest and library
+sources for every case — is reported here rather than silently rebudgeted.
+
+### Bifrost, `reports/bifrost-rust-kernel.json`
+
+Bifrost 0.10.5, build identity `728ac69ab93224151c6c951b23d2f5bc681d8558`.
+Configuration hash
+`36412c558da0975fe3af755c8de8628b735762f20680588b1b2ac87cfc206298`; it covers
+both `core-rust-kernel.rqlp` and the breadth `core-direct.rqlp`, because the
+frozen direct pair is evaluated through the policy it declares.
+
+**Core, 30 assertions:** 1 `reached`, 1 `not-reached`, and 28 `inconclusive`.
+Only the direct-propagation pair is decisive, and both of its outcomes match the
+expected polarity — 2 of 2 decisive outcomes, 2 of 30 assertions.
+
+The 28 inconclusive results are capability evidence, never negatives. Twenty
+retain `partial_discovery` with a diagnostic of the form "taint discovery is
+incomplete: procedure value-flow snapshot for ... is unsupported/unknown". The
+other eight are the entire heap/separation stratum, both polarities of object
+separation, same-object field separation, alias propagation, and array element;
+they retain `internal_invariant` with the diagnostic "taint semantic provider
+failed: semantic IR gap_contract error in procedure 2: gap 8 duplicates the same
+scope". Eleven of the 28 also carry the policy's own finding message, so Bifrost
+located candidate flows but could not complete the analysis — which is exactly
+why an incomplete run is `inconclusive` rather than `reached` or `not-reached`.
+
+**Language extension, 2 assertions:** both `inconclusive`, both retaining
+`partial_discovery`. No decisive outcome, so nothing is scored on this tier for
+Bifrost.
+
+This mirrors the C# kernel's Bifrost profile, where only the direct pair is
+decisive; the Rust `internal_invariant` failures on the struct and array
+fixtures are a distinct, more specific incompleteness than the C#
+`capability_incomplete` results, and are recorded as observed rather than
+diagnosed here.
 
 ## Population boundaries
 
