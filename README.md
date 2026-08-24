@@ -9,14 +9,16 @@ The current scored slice has four distinct semantic tracks: `value-flow`,
 score dimensions—those tracks plus `witness`—without pooling them. The first
 scored slice includes a balanced direct-flow pair across 13 language/dialect
 entries and balanced 16-template Java, JavaScript, TypeScript, Python, Kotlin,
-C#, and Go propagation kernels in the `taint` track. Each parity kernel uses the
+C#, Go, and C++ propagation kernels — plus a 15-template C kernel whose
+exception-catch cell is inapplicable — in the `taint` track. Each parity kernel uses the
 same language-neutral template IDs with language-specific fixture spellings and
 a separate result population; the [Python kernel
 contract](docs/python-kernel.md), the [TypeScript adaptation
 matrix](docs/typescript-kernel.md), the [Kotlin kernel
 contract](docs/kotlin-kernel.md), the [C# kernel
-contract](docs/csharp-kernel.md), and the [Go kernel
-contract](docs/go-kernel.md) record those adaptations. DataFlowBench measures correctness, capability coverage, witness
+contract](docs/csharp-kernel.md), the [Go kernel
+contract](docs/go-kernel.md), and the [C](docs/c-kernel.md) and
+[C++](docs/cpp-kernel.md) kernel contracts record those adaptations. DataFlowBench measures correctness, capability coverage, witness
 quality, and performance separately; it deliberately does not calculate a
 combined score or declare a tool a winner.
 
@@ -60,6 +62,10 @@ cargo run -- run-bifrost-csharp-kernel --bifrost /path/to/current-bifrost
 cargo run -- run-codeql-csharp-kernel --codeql /path/to/codeql
 cargo run -- run-bifrost-go-kernel --bifrost /path/to/current-bifrost
 cargo run -- run-codeql-go-kernel --codeql /path/to/codeql --go /path/to/go
+cargo run -- run-bifrost-c-kernel --bifrost /path/to/current-bifrost
+cargo run -- run-bifrost-cpp-kernel --bifrost /path/to/current-bifrost
+cargo run -- run-codeql-c-kernel --codeql /path/to/codeql
+cargo run -- run-codeql-cpp-kernel --codeql /path/to/codeql
 ```
 
 The Bifrost smoke command requires a current Bifrost build with policy CLI
@@ -125,9 +131,11 @@ The [CodeQL adapter guide](adapters/codeql/README.md) documents the pinned CLI,
 language packs, and commands for reproducing retained kernel reports. The
 [Python kernel contract](docs/python-kernel.md) defines the exact 16-template,
 32-assertion selection and its anchor-based result semantics. The [C# kernel
-contract](docs/csharp-kernel.md) and the [Go kernel
-contract](docs/go-kernel.md) do the same for C# and Go; their evidence postdates
-the v0.2.0 freeze and is not part of the published release numbers above.
+contract](docs/csharp-kernel.md), the [Go kernel
+contract](docs/go-kernel.md), and the [C](docs/c-kernel.md) and
+[C++](docs/cpp-kernel.md) kernel contracts do the same for C#, Go, C, and C++;
+their evidence postdates the v0.2.0 freeze and is not part of the published
+release numbers above.
 
 ## Licenses and provenance
 

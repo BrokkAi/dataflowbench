@@ -1,0 +1,64 @@
+{
+  "schema_version": 2,
+  "id": "dfb-taint-c-expression-positive",
+  "template_id": "dfb-template-arithmetic-expression-propagation",
+  "polarity": "positive",
+  "score_tier": "core",
+  "track": "taint",
+  "language": "c",
+  "semantic_dimensions": [
+    "local-flow"
+  ],
+  "feature_tags": [
+    "intraprocedural"
+  ],
+  "model_profile": "benchmark-controlled",
+  "fixture_files": [
+    "expression_positive.c"
+  ],
+  "source_anchors": [
+    {
+      "marker": "DFB-SOURCE: expression-input",
+      "file": "expression_positive.c"
+    }
+  ],
+  "sink_anchors": [
+    {
+      "marker": "DFB-SINK: expression-sink",
+      "file": "expression_positive.c"
+    }
+  ],
+  "expected_flows": [
+    {
+      "source": "DFB-SOURCE: expression-input",
+      "sink": "DFB-SINK: expression-sink"
+    }
+  ],
+  "expected_nonflows": [],
+  "witness_checkpoints": [
+    "DFB-SOURCE: expression-input",
+    "DFB-WITNESS: expression-computed",
+    "DFB-SINK: expression-sink"
+  ],
+  "expected_analysis_capability": {
+    "kind": "expression-propagating-intraprocedural-taint"
+  },
+  "execution_budget": {
+    "wall_clock_seconds": 60,
+    "peak_memory_mb": 512
+  },
+  "fixture_provenance": {
+    "kind": "authored",
+    "origin": "DataFlowBench",
+    "revision": "m2-c-kernel",
+    "license": "MIT"
+  },
+  "tool_model_references": {
+    "bifrost": {
+      "policy": "adapters/bifrost/policies/core-c-kernel.rqlp"
+    },
+    "codeql": {
+      "query": "adapters/codeql/cpp/queries/CKernel.ql"
+    }
+  }
+}

@@ -1,0 +1,67 @@
+{
+  "schema_version": 2,
+  "id": "dfb-taint-c-goto-cleanup-positive",
+  "template_id": "dfb-template-c-goto-cleanup-carry",
+  "polarity": "positive",
+  "score_tier": "language-extension",
+  "track": "taint",
+  "language": "c",
+  "semantic_dimensions": [
+    "local-flow",
+    "heap-field-sensitivity"
+  ],
+  "feature_tags": [
+    "intraprocedural",
+    "heap-access-path"
+  ],
+  "model_profile": "benchmark-controlled",
+  "fixture_files": [
+    "goto_cleanup_positive.c"
+  ],
+  "source_anchors": [
+    {
+      "marker": "DFB-SOURCE: goto-cleanup-input",
+      "file": "goto_cleanup_positive.c"
+    }
+  ],
+  "sink_anchors": [
+    {
+      "marker": "DFB-SINK: goto-cleanup-sink",
+      "file": "goto_cleanup_positive.c"
+    }
+  ],
+  "expected_flows": [
+    {
+      "source": "DFB-SOURCE: goto-cleanup-input",
+      "sink": "DFB-SINK: goto-cleanup-sink"
+    }
+  ],
+  "expected_nonflows": [],
+  "witness_checkpoints": [
+    "DFB-SOURCE: goto-cleanup-input",
+    "DFB-WITNESS: goto-cleanup-store",
+    "DFB-WITNESS: goto-cleanup-transfer",
+    "DFB-SINK: goto-cleanup-sink"
+  ],
+  "expected_analysis_capability": {
+    "kind": "cleanup-path-sensitive-taint"
+  },
+  "execution_budget": {
+    "wall_clock_seconds": 60,
+    "peak_memory_mb": 512
+  },
+  "fixture_provenance": {
+    "kind": "authored",
+    "origin": "DataFlowBench",
+    "revision": "m2-c-kernel",
+    "license": "MIT"
+  },
+  "tool_model_references": {
+    "bifrost": {
+      "policy": "adapters/bifrost/policies/core-c-kernel.rqlp"
+    },
+    "codeql": {
+      "query": "adapters/codeql/cpp/queries/CKernel.ql"
+    }
+  }
+}

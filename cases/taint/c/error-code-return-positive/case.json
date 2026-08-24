@@ -1,0 +1,67 @@
+{
+  "schema_version": 2,
+  "id": "dfb-taint-c-error-code-return-positive",
+  "template_id": "dfb-template-c-error-code-return-path",
+  "polarity": "positive",
+  "score_tier": "language-extension",
+  "track": "taint",
+  "language": "c",
+  "semantic_dimensions": [
+    "interprocedural-flow",
+    "flow-sensitivity"
+  ],
+  "feature_tags": [
+    "interprocedural-one-hop",
+    "heap-access-path"
+  ],
+  "model_profile": "benchmark-controlled",
+  "fixture_files": [
+    "error_code_return_positive.c"
+  ],
+  "source_anchors": [
+    {
+      "marker": "DFB-SOURCE: error-code-return-input",
+      "file": "error_code_return_positive.c"
+    }
+  ],
+  "sink_anchors": [
+    {
+      "marker": "DFB-SINK: error-code-return-sink",
+      "file": "error_code_return_positive.c"
+    }
+  ],
+  "expected_flows": [
+    {
+      "source": "DFB-SOURCE: error-code-return-input",
+      "sink": "DFB-SINK: error-code-return-sink"
+    }
+  ],
+  "expected_nonflows": [],
+  "witness_checkpoints": [
+    "DFB-SOURCE: error-code-return-input",
+    "DFB-WITNESS: error-code-return-out-parameter",
+    "DFB-WITNESS: error-code-return-status",
+    "DFB-SINK: error-code-return-sink"
+  ],
+  "expected_analysis_capability": {
+    "kind": "interprocedural-error-path-taint"
+  },
+  "execution_budget": {
+    "wall_clock_seconds": 60,
+    "peak_memory_mb": 512
+  },
+  "fixture_provenance": {
+    "kind": "authored",
+    "origin": "DataFlowBench",
+    "revision": "m2-c-kernel",
+    "license": "MIT"
+  },
+  "tool_model_references": {
+    "bifrost": {
+      "policy": "adapters/bifrost/policies/core-c-kernel.rqlp"
+    },
+    "codeql": {
+      "query": "adapters/codeql/cpp/queries/CKernel.ql"
+    }
+  }
+}

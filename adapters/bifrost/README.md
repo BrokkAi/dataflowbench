@@ -31,9 +31,16 @@ selector accepts that policy too and evaluates each case through the policy it
 declares; see [the C# kernel contract](../../docs/csharp-kernel.md). The Go
 parity slice uses `core-go-kernel.rqlp` under the same frozen-direct-pair
 arrangement; see [the Go kernel contract](../../docs/go-kernel.md) for its
-struct, pointer-alias, array, and `panic`/`recover` adaptations. Every
-kernel command selects only its own language's 32 core assertions and writes a
-dedicated report. The Java calibration slice also
+struct, pointer-alias, array, and `panic`/`recover` adaptations. The C and C++
+parity slices use `core-c-kernel.rqlp` and `core-cpp-kernel.rqlp` and are two
+separate populations with two different denominators: C++ covers all 16
+templates (32 core assertions), while C covers 15 (30 core assertions) because
+`dfb-template-exception-catch` is inapplicable to C, and its two
+`language-extension` cases run in the same slice on their own scorecard. See
+[the C kernel contract](../../docs/c-kernel.md) and [the C++ kernel
+contract](../../docs/cpp-kernel.md). Every kernel command selects only its own
+language's core assertions — 32 for the 16-template kernels, 30 for C — and
+writes a dedicated report. The Java calibration slice also
 covers one-hop helper flow. Generated workspaces live outside the repository so
 repository ignore rules cannot hide fixtures from Bifrost's indexer. Sanitizer
 lowering is a future Bifrost CLI capability.
@@ -51,6 +58,8 @@ cargo run -- run-bifrost-kotlin-kernel --bifrost /path/to/bifrost
 cargo run -- run-bifrost-typescript-kernel --bifrost /path/to/bifrost
 cargo run -- run-bifrost-csharp-kernel --bifrost /path/to/bifrost
 cargo run -- run-bifrost-go-kernel --bifrost /path/to/bifrost
+cargo run -- run-bifrost-c-kernel --bifrost /path/to/bifrost
+cargo run -- run-bifrost-cpp-kernel --bifrost /path/to/bifrost
 ```
 
 The smoke command selects only cases with an explicit Bifrost policy or
@@ -87,8 +96,8 @@ with 19/32 assertions matching expected polarity (19 of 26 decisive outcomes).
 This v0.10.2 evidence matches v0.10.1 case-for-case, but does not restore the
 complete Java correctness observed in the v0.9.5 snapshot.
 
-The four post-freeze kernels — Kotlin, TypeScript, C#, and Go — were run with
-a locally built Bifrost v0.10.5, build identity
+The six post-freeze kernels — Kotlin, TypeScript, C#, Go, C, and C++ — were run
+with a locally built Bifrost v0.10.5, build identity
 `728ac69ab93224151c6c951b23d2f5bc681d8558`. The frozen v0.2.0 slices above
 remain v0.10.2 evidence until the next freeze re-runs every Bifrost slice on
 one version.

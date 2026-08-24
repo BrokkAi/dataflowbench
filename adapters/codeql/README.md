@@ -1,18 +1,23 @@
 # CodeQL adapter
 
 The CodeQL adapter runs language-scoped benchmark kernels against canonical
-fixtures. Java, JavaScript, TypeScript, Python, Kotlin, C#, and Go have separate
-selections, query paths, normalized reports, and retained raw-evidence
+fixtures. Java, JavaScript, TypeScript, Python, Kotlin, C#, Go, C, and C++ have
+separate selections, query paths, normalized reports, and retained raw-evidence
 directories. JavaScript and TypeScript share CodeQL's `javascript` extractor
 and standard library, but they are two separate populations: each slice
 selects only its own language's cases, and each query additionally guards on
 its fixture's file extension so the result sets cannot overlap. Kotlin is
 extracted by the same `java` extractor and standard library as Java, so its
 query restricts every node to `.kt` files and its runner selects only Kotlin
-cases. C# and Go each have their own extractor and their own population.
+cases. C# and Go each have their own extractor and their own population. C and
+C++ share the `cpp` extractor and one pack, and are likewise two populations
+with two denominators: 16 templates (32 assertions) for C++, 15 templates (30
+assertions) for C, plus two C `language-extension` cases that never enter the C
+core denominator. Each of the two queries restricts its data-flow nodes to its
+own fixture extension.
 
 The checked-in query packs contain the Java, JavaScript, TypeScript, Python,
-Kotlin, C#, and Go kernel queries. Each query uses that language's CodeQL data-flow
+Kotlin, C#, Go, C, and C++ kernel queries. Each query uses that language's CodeQL data-flow
 API and the benchmark-controlled `dfb_source()`/`dfb_sink(value)` contract; the
 Python query is `python/queries/PythonKernel.ql` in its own Python
 database-schema pack, the TypeScript query is
@@ -20,7 +25,9 @@ database-schema pack, the TypeScript query is
 is `kotlin/queries/KotlinKernel.ql` in its own pack pinned to the same
 `codeql/java-all@9.2.3` as the root Java pack, and the C# query is
 `csharp/queries/CSharpKernel.ql` in its own C# pack, and the Go query is
-`go/queries/GoKernel.ql` in its own Go pack.
+`go/queries/GoKernel.ql` in its own Go pack. The C and C++ queries are
+`cpp/queries/CKernel.ql` and `cpp/queries/CppKernel.ql` in one shared C-family
+pack pinned to `codeql/cpp-all@12.0.2`.
 
 The Java kernel adapter creates one CodeQL database per canonical case,
 compiles the fixture with its real `javac` build, runs the pinned
@@ -392,6 +399,65 @@ and C# kernels show on those templates; the infeasible-branch false positive is
 Go-specific, and the exception-catch false negative is the capability evidence
 the `panic`/`recover` adaptation anticipates. Its configuration hash is
 `56f44b3d983f7ea1dc2fa77a796ac547b01d12535a124f0c9975d3d0b7989161`.
+
+## C and C++ kernels
+
+The C++ runner selects exactly the 32 `taint`/`core` cases whose `language` is
+`cpp`; the C runner selects the 30 `taint`/`core` cases whose `language` is `c`
+plus its 2 `language-extension` cases, which are scored on their own scorecard
+and never counted in the core denominator. Each analyzes its own query:
+
+```text
+adapters/codeql/cpp/queries/CppKernel.ql
+adapters/codeql/cpp/queries/CKernel.ql
+```
+
+Both queries live in the shared pack manifest `adapters/codeql/cpp/qlpack.yml`,
+pinned to `codeql/cpp-all@12.0.2` with the full transitive set committed in
+`adapters/codeql/cpp/codeql-pack.lock.yml`. As with JavaScript and TypeScript,
+the shared extractor never merges the populations: the runner's `language`
+selector, each query's fixture-extension predicate (`c` versus `cpp`), and
+separate report and raw-evidence roots keep them disjoint, and each runner
+refuses a case that declares the other kernel's query.
+
+```bash
+codeql pack install adapters/codeql/cpp
+cargo run -- run-codeql-c-kernel --codeql /path/to/codeql
+cargo run -- run-codeql-cpp-kernel --codeql /path/to/codeql
+```
+
+Registry retrieval of the C-family pack succeeded for the pinned CLI, so the
+runs needed no `--codeql-packs` fallback. Each case gets one cold database
+created from the declared fixture file with `--build-mode=none`, which CodeQL
+2.26.3 supports for C and C++: the buildless extractor indexes the fixture and
+resolves the translation unit through a compiler discovered on the host (Apple
+clang 21.0.0 for the retained runs). No build command is traced. The runners
+write `reports/codeql-c-kernel.json` and `reports/codeql-cpp-kernel.json` and
+retain SARIF (or raw runner diagnostics) under `reports/raw/codeql-c-kernel/`
+and `reports/raw/codeql-cpp-kernel/`. SARIF locations are reconciled with the
+case's `DFB-SINK:` anchor by resolving the declared sink function name and
+accepting a finding on a line that calls it in the same file; a `.`, `->`, or
+`::` member access is not such a call. See [the C kernel
+contract](../../docs/c-kernel.md) and [the C++ kernel
+contract](../../docs/cpp-kernel.md).
+
+The checked-in `reports/codeql-cpp-kernel.json` contains 32 results: 16
+`reached` and 16 `not-reached`, with zero `inconclusive`, `unsupported`, or
+`runner-error` outcomes, and 28 of 32 matching the expected polarity — false
+negatives on the alias-propagation and exception-catch positives, false
+positives on the array-element and loop-carried negatives. Its configuration
+hash is
+`8873a63a5898c8b6b10dc24a9fbf2fae3ed5a088faf024524b0bae50f0fc4cc0`.
+
+The checked-in `reports/codeql-c-kernel.json` contains 32 results with the same
+clean execution profile. Of the 30 core assertions, 16 are `reached` and 14 are
+`not-reached`, with 27 of 30 matching the expected polarity — the same
+alias-propagation false negative and array-element and loop-carried false
+positives, with no exception-catch cell in the C population. Both
+`language-extension` cases are `reached`, matching their positive polarity, and
+are scored on their own scorecard rather than in the 30-assertion denominator.
+Its configuration hash is
+`719415b9134dfd43390ffdb76eef45f7ed022f907f22913226c22f93277b62f8`.
 
 ## Retained v2.26.3 snapshot
 
