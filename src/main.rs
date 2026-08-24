@@ -48,6 +48,10 @@ const CODEQL_RUST_QUERY: &str = "adapters/codeql/rust/queries/RustKernel.ql";
 const CODEQL_RUST_RAW_DIR: &str = "reports/raw/codeql-rust-kernel";
 const CODEQL_RUST_REPORT: &str = "reports/codeql-rust-kernel.json";
 const BIFROST_RUST_POLICY: &str = "adapters/bifrost/policies/core-rust-kernel.rqlp";
+/// The language-qualified Bifrost policy for the PHP kernel. PHP has no CodeQL
+/// support in the pinned CLI at all, so Bifrost and Joern are its two analyzers;
+/// see docs/php-kernel.md.
+const BIFROST_PHP_POLICY: &str = "adapters/bifrost/policies/core-php-kernel.rqlp";
 /// The single Joern query script. One script serves all three Joern kernels:
 /// the benchmark-controlled endpoints are passed in per case, so nothing in it
 /// is language-, template-, or polarity-specific.
@@ -58,6 +62,8 @@ const JOERN_JAVASCRIPT_RAW_DIR: &str = "reports/raw/joern-javascript-kernel";
 const JOERN_JAVASCRIPT_REPORT: &str = "reports/joern-javascript-kernel.json";
 const JOERN_PYTHON_RAW_DIR: &str = "reports/raw/joern-python-kernel";
 const JOERN_PYTHON_REPORT: &str = "reports/joern-python-kernel.json";
+const JOERN_PHP_RAW_DIR: &str = "reports/raw/joern-php-kernel";
+const JOERN_PHP_REPORT: &str = "reports/joern-php-kernel.json";
 /// The module manifest written into every Go CodeQL workspace. The Go
 /// extractor has no `none` build mode, so it must observe a real `go build`;
 /// supplying the manifest keeps that build hermetic and offline instead of
@@ -238,6 +244,14 @@ enum Commands {
         #[arg(long, default_value = "bifrost")]
         bifrost: PathBuf,
     },
+    /// Run the PHP propagation kernel as its own population, separate from every
+    /// other language kernel and from the direct-flow breadth slice. The pinned
+    /// CodeQL CLI has no PHP support at all, so this is one of PHP's two
+    /// analyzer slices; the other is `run-joern-php-kernel`.
+    RunBifrostPhpKernel {
+        #[arg(long, default_value = "bifrost")]
+        bifrost: PathBuf,
+    },
     RunCodeqlJavaKernel {
         #[arg(long, default_value = "codeql")]
         codeql: PathBuf,
@@ -343,6 +357,13 @@ enum Commands {
         #[arg(long, default_value = "joern")]
         joern: PathBuf,
     },
+    /// Run the PHP propagation kernel through Joern's `php2cpg` frontend, as its
+    /// own population. `php2cpg` shells out to its bundled PHP-Parser, so a host
+    /// `php` interpreter must be on PATH.
+    RunJoernPhpKernel {
+        #[arg(long, default_value = "joern")]
+        joern: PathBuf,
+    },
 }
 
 fn main() -> Result<()> {
@@ -373,6 +394,7 @@ fn main() -> Result<()> {
         Commands::RunBifrostCKernel { bifrost } => run_bifrost(&bifrost, BifrostRun::CKernel),
         Commands::RunBifrostCppKernel { bifrost } => run_bifrost(&bifrost, BifrostRun::CppKernel),
         Commands::RunBifrostRustKernel { bifrost } => run_bifrost(&bifrost, BifrostRun::RustKernel),
+        Commands::RunBifrostPhpKernel { bifrost } => run_bifrost(&bifrost, BifrostRun::PhpKernel),
         Commands::RunCodeqlJavaKernel {
             codeql,
             codeql_packs,
@@ -420,6 +442,7 @@ fn main() -> Result<()> {
             run_joern_kernel(&joern, JoernKernel::JavaScript)
         }
         Commands::RunJoernPythonKernel { joern } => run_joern_kernel(&joern, JoernKernel::Python),
+        Commands::RunJoernPhpKernel { joern } => run_joern_kernel(&joern, JoernKernel::Php),
     }
 }
 
@@ -475,6 +498,7 @@ fn validate_cases() -> Result<()> {
     validate_scored_kernel_balance(&cases, "csharp", "C#", &KERNEL_TEMPLATE_IDS)?;
     validate_scored_kernel_balance(&cases, "go", "Go", &KERNEL_TEMPLATE_IDS)?;
     validate_scored_kernel_balance(&cases, "cpp", "C++", &KERNEL_TEMPLATE_IDS)?;
+    validate_scored_kernel_balance(&cases, "php", "PHP", &KERNEL_TEMPLATE_IDS)?;
     validate_scored_kernel_balance(
         &cases,
         "c",
@@ -742,6 +766,7 @@ enum BifrostRun {
     CKernel,
     CppKernel,
     RustKernel,
+    PhpKernel,
 }
 
 impl BifrostRun {
@@ -757,6 +782,7 @@ impl BifrostRun {
             Self::CKernel => "Bifrost C kernel",
             Self::CppKernel => "Bifrost C++ kernel",
             Self::RustKernel => "Bifrost Rust kernel",
+            Self::PhpKernel => "Bifrost PHP kernel",
         }
     }
 
@@ -766,9 +792,11 @@ impl BifrostRun {
     /// and scored separately, so they never move this number.
     fn expected_core_cases(self) -> Option<usize> {
         match self {
-            Self::KotlinKernel | Self::CsharpKernel | Self::GoKernel | Self::CppKernel => {
-                Some(KERNEL_CASE_COUNT)
-            }
+            Self::KotlinKernel
+            | Self::CsharpKernel
+            | Self::GoKernel
+            | Self::CppKernel
+            | Self::PhpKernel => Some(KERNEL_CASE_COUNT),
             Self::CKernel | Self::RustKernel => Some(KERNEL_CASE_COUNT_WITHOUT_EXCEPTION_CATCH),
             Self::Smoke | Self::PythonKernel | Self::TypescriptKernel => None,
         }
@@ -2366,6 +2394,10 @@ fn run_bifrost(binary: &Path, run: BifrostRun) -> Result<()> {
             Path::new("reports/raw/bifrost-rust-kernel"),
             Path::new("reports/bifrost-rust-kernel.json"),
         ),
+        BifrostRun::PhpKernel => (
+            Path::new("reports/raw/bifrost-php-kernel"),
+            Path::new("reports/bifrost-php-kernel.json"),
+        ),
     };
     fs::create_dir_all(raw_dir)?;
     let started = now_seconds()?;
@@ -2590,7 +2622,24 @@ fn selected_bifrost_case(case: &Value, run: BifrostRun) -> bool {
                     })
                     || case["tool_model_references"]["bifrost"]["unsupported_reason"].is_string())
         }
+        BifrostRun::PhpKernel => {
+            php_core_case(case)
+                && (case["tool_model_references"]["bifrost"]["policy"]
+                    .as_str()
+                    .is_some_and(|policy| {
+                        policy == BIFROST_PHP_POLICY || policy == BIFROST_DIRECT_POLICY
+                    })
+                    || case["tool_model_references"]["bifrost"]["unsupported_reason"].is_string())
+        }
     }
+}
+
+/// A PHP core assertion. As with the Kotlin, C#, Go, and C-family kernels, the
+/// direct-propagation pair predates this kernel and is frozen in the published
+/// v0.2.0 and v0.3.0 evidence naming the cross-language breadth policy, so that
+/// policy reference is accepted alongside the language-qualified one.
+fn php_core_case(case: &Value) -> bool {
+    case["language"] == "php" && case["track"] == "taint" && case["score_tier"] == "core"
 }
 
 /// A C or C++ case this kernel run evaluates. As with the Kotlin and C#
@@ -4184,6 +4233,7 @@ enum AnchorDialect {
     Rust,
     Java,
     Python,
+    Php,
 }
 
 impl AnchorDialect {
@@ -4193,9 +4243,13 @@ impl AnchorDialect {
     fn declared_function_name(self, declaration: &str, marker: &str) -> Option<String> {
         match self {
             Self::Ecma => ecma_function_name(declaration, marker),
-            Self::CSharp | Self::Go | Self::Cpp | Self::Rust | Self::Java | Self::Python => {
-                parameter_list_function_name(declaration, marker)
-            }
+            Self::CSharp
+            | Self::Go
+            | Self::Cpp
+            | Self::Rust
+            | Self::Java
+            | Self::Python
+            | Self::Php => parameter_list_function_name(declaration, marker),
         }
     }
 
@@ -4208,6 +4262,7 @@ impl AnchorDialect {
             Self::Cpp => cpp_function_call(line, function_name),
             Self::Rust => rust_function_call(line, function_name),
             Self::Python => python_function_call(line, function_name),
+            Self::Php => php_function_call(line, function_name),
         }
     }
 }
@@ -4219,6 +4274,9 @@ impl AnchorDialect {
 enum CommentSyntax {
     DoubleSlash,
     Hash,
+    /// PHP accepts both `//` and `#` as line-comment openers, and the kernel
+    /// fixtures may legitimately use either.
+    DoubleSlashOrHash,
 }
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
@@ -4462,6 +4520,20 @@ fn python_function_call(line: &str, function_name: &str) -> bool {
     member_prefixed_call_in(line, function_name, &['.'], CommentSyntax::Hash)
 }
 
+/// PHP reaches an instance member through `->` and a static member or class
+/// constant through `::`. Its `.` is string concatenation, not a member
+/// operator, so — unlike every other dialect here — a call preceded by `.` is a
+/// genuine call of the free benchmark function and must not be excluded. PHP
+/// opens a line comment with either `//` or `#`.
+fn php_function_call(line: &str, function_name: &str) -> bool {
+    member_prefixed_call_in(
+        line,
+        function_name,
+        &['>', ':'],
+        CommentSyntax::DoubleSlashOrHash,
+    )
+}
+
 /// C and C++ reach a member through `.`, `->`, and `::`; none of those is a
 /// call of the free benchmark sink function the anchor declares.
 fn cpp_function_call(line: &str, function_name: &str) -> bool {
@@ -4563,6 +4635,9 @@ fn code_without_literals_in(line: &str, comment: CommentSyntax) -> String {
         let opens_comment = match comment {
             CommentSyntax::DoubleSlash => character == '/' && characters.peek() == Some(&'/'),
             CommentSyntax::Hash => character == '#',
+            CommentSyntax::DoubleSlashOrHash => {
+                character == '#' || (character == '/' && characters.peek() == Some(&'/'))
+            }
         };
         if opens_comment {
             break;
@@ -5203,6 +5278,7 @@ enum JoernKernel {
     Java,
     JavaScript,
     Python,
+    Php,
 }
 
 impl JoernKernel {
@@ -5211,6 +5287,7 @@ impl JoernKernel {
             Self::Java => "java",
             Self::JavaScript => "javascript",
             Self::Python => "python",
+            Self::Php => "php",
         }
     }
 
@@ -5219,18 +5296,20 @@ impl JoernKernel {
             Self::Java => "Java",
             Self::JavaScript => "JavaScript",
             Self::Python => "Python",
+            Self::Php => "PHP",
         }
     }
 
     /// The `importCode` language identifier the script is invoked with, which
-    /// selects `javasrc2cpg`, `jssrc2cpg`, and `pysrc2cpg` respectively. Each
-    /// kernel names exactly one source frontend; none of the three is analyzed
-    /// through a bytecode or binary frontend.
+    /// selects `javasrc2cpg`, `jssrc2cpg`, `pysrc2cpg`, and `php2cpg`
+    /// respectively. Each kernel names exactly one source frontend; none of the
+    /// four is analyzed through a bytecode or binary frontend.
     fn frontend(self) -> &'static str {
         match self {
             Self::Java => "JAVASRC",
             Self::JavaScript => "JSSRC",
             Self::Python => "PYTHONSRC",
+            Self::Php => "PHP",
         }
     }
 
@@ -5239,6 +5318,7 @@ impl JoernKernel {
             Self::Java => JOERN_JAVA_REPORT,
             Self::JavaScript => JOERN_JAVASCRIPT_REPORT,
             Self::Python => JOERN_PYTHON_REPORT,
+            Self::Php => JOERN_PHP_REPORT,
         }
     }
 
@@ -5247,6 +5327,7 @@ impl JoernKernel {
             Self::Java => JOERN_JAVA_RAW_DIR,
             Self::JavaScript => JOERN_JAVASCRIPT_RAW_DIR,
             Self::Python => JOERN_PYTHON_RAW_DIR,
+            Self::Php => JOERN_PHP_RAW_DIR,
         }
     }
 
@@ -5255,6 +5336,7 @@ impl JoernKernel {
             Self::Java => AnchorDialect::Java,
             Self::JavaScript => AnchorDialect::Ecma,
             Self::Python => AnchorDialect::Python,
+            Self::Php => AnchorDialect::Php,
         }
     }
 
@@ -7177,6 +7259,60 @@ mod tests {
     }
 
     #[test]
+    fn php_core_selection_is_language_and_track_scoped() {
+        let php = json!({
+            "language": "php",
+            "track": "taint",
+            "score_tier": "core"
+        });
+        assert!(php_core_case(&php));
+        for language in ["java", "javascript", "typescript", "python", "ruby", "go"] {
+            let mut other = php.clone();
+            other["language"] = json!(language);
+            assert!(!php_core_case(&other));
+        }
+        let mut other = php.clone();
+        other["track"] = json!("value-flow");
+        assert!(!php_core_case(&other));
+        other["track"] = json!("taint");
+        other["score_tier"] = json!("calibration");
+        assert!(!php_core_case(&other));
+    }
+
+    /// PHP has no CodeQL support in the pinned CLI, so Bifrost and Joern are its
+    /// two analyzers. The Bifrost slice still may not overlap any other
+    /// language's kernel population.
+    #[test]
+    fn bifrost_php_kernel_selects_only_php_core_cases() {
+        let mut selected = 0;
+        for path in case_paths() {
+            let case: Value = serde_json::from_str(&fs::read_to_string(path).unwrap()).unwrap();
+            if selected_bifrost_case(&case, BifrostRun::PhpKernel) {
+                selected += 1;
+                assert_eq!(case["language"], "php");
+                assert_eq!(case["score_tier"], "core");
+                for other in [
+                    BifrostRun::PythonKernel,
+                    BifrostRun::KotlinKernel,
+                    BifrostRun::TypescriptKernel,
+                    BifrostRun::CsharpKernel,
+                    BifrostRun::GoKernel,
+                    BifrostRun::CKernel,
+                    BifrostRun::CppKernel,
+                    BifrostRun::RustKernel,
+                ] {
+                    assert!(!selected_bifrost_case(&case, other));
+                }
+            }
+        }
+        assert_eq!(selected, KERNEL_CASE_COUNT);
+        assert_eq!(
+            BifrostRun::PhpKernel.expected_core_cases(),
+            Some(KERNEL_CASE_COUNT)
+        );
+    }
+
+    #[test]
     fn go_sarif_mapping_requires_the_sink_file_and_callsite() {
         let root = std::env::temp_dir().join(format!(
             "dataflowbench-go-anchor-test-{}-{}",
@@ -7945,6 +8081,7 @@ mod tests {
             JoernKernel::Java,
             JoernKernel::JavaScript,
             JoernKernel::Python,
+            JoernKernel::Php,
         ] {
             let selected = select_joern_cases(kernel).unwrap();
             assert_eq!(selected.len(), KERNEL_CASE_COUNT);
@@ -7988,6 +8125,7 @@ mod tests {
             JoernKernel::Java,
             JoernKernel::JavaScript,
             JoernKernel::Python,
+            JoernKernel::Php,
         ];
         let reports = kernels
             .iter()
@@ -8067,6 +8205,51 @@ mod tests {
                 sink_function: "dfb_sink".to_string()
             }
         );
+        assert_eq!(
+            resolve(
+                "dfb-taint-php-alias-propagation-positive",
+                AnchorDialect::Php
+            ),
+            JoernEndpoints {
+                source_function: "dfb_source".to_string(),
+                sink_function: "dfb_sink".to_string()
+            }
+        );
+    }
+
+    /// PHP declares a function name before its parameter list, reaches an
+    /// instance member through `->` and a static one through `::`, and opens a
+    /// line comment with either `//` or `#`. Its `.` is string concatenation,
+    /// not a member operator, so a concatenated call is still a callsite.
+    #[test]
+    fn php_sink_declarations_and_callsites_resolve_through_the_php_dialect() {
+        assert_eq!(
+            AnchorDialect::Php
+                .declared_function_name(
+                    "function dfb_sink(string $value): void {} // DFB-SINK: sink",
+                    "DFB-SINK: sink"
+                )
+                .as_deref(),
+            Some("dfb_sink")
+        );
+        assert_eq!(
+            AnchorDialect::Php
+                .declared_function_name(
+                    "function dfb_source(): string { # DFB-SOURCE: input",
+                    "DFB-SOURCE: input"
+                )
+                .as_deref(),
+            Some("dfb_source")
+        );
+        assert!(AnchorDialect::Php.is_call("    dfb_sink($alias->value);", "dfb_sink"));
+        assert!(!AnchorDialect::Php.is_call("    $other->dfb_sink($value);", "dfb_sink"));
+        assert!(!AnchorDialect::Php.is_call("    Other::dfb_sink($value);", "dfb_sink"));
+        assert!(!AnchorDialect::Php.is_call("    my_dfb_sink($value);", "dfb_sink"));
+        assert!(!AnchorDialect::Php.is_call("    // dfb_sink($value);", "dfb_sink"));
+        assert!(!AnchorDialect::Php.is_call("    # dfb_sink($value);", "dfb_sink"));
+        assert!(!AnchorDialect::Php.is_call("    log(\"dfb_sink($value)\");", "dfb_sink"));
+        // `.` concatenates in PHP; it never qualifies a member.
+        assert!(AnchorDialect::Php.is_call("    $text = $prefix . dfb_sink($value);", "dfb_sink"));
     }
 
     /// Java declares a sink as an identifier before a parameter list and calls

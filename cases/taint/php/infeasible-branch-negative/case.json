@@ -1,0 +1,61 @@
+{
+  "schema_version": 2,
+  "id": "dfb-taint-php-infeasible-branch-negative",
+  "template_id": "dfb-template-infeasible-branch",
+  "polarity": "negative",
+  "negative_mechanism": "infeasible-path",
+  "score_tier": "core",
+  "track": "taint",
+  "language": "php",
+  "semantic_dimensions": [
+    "local-flow",
+    "path-sensitivity"
+  ],
+  "feature_tags": [
+    "intraprocedural"
+  ],
+  "model_profile": "benchmark-controlled",
+  "fixture_files": [
+    "infeasible_branch_negative.php"
+  ],
+  "source_anchors": [
+    {
+      "marker": "DFB-SOURCE: infeasible-branch-input",
+      "file": "infeasible_branch_negative.php",
+      "line_hint": 2
+    }
+  ],
+  "sink_anchors": [
+    {
+      "marker": "DFB-SINK: infeasible-branch-sink",
+      "file": "infeasible_branch_negative.php",
+      "line_hint": 6
+    }
+  ],
+  "expected_flows": [],
+  "expected_nonflows": [
+    {
+      "source": "DFB-SOURCE: infeasible-branch-input",
+      "sink": "DFB-SINK: infeasible-branch-sink"
+    }
+  ],
+  "witness_checkpoints": [],
+  "expected_analysis_capability": {
+    "kind": "path-sensitive-intraprocedural-taint"
+  },
+  "execution_budget": {
+    "wall_clock_seconds": 60,
+    "peak_memory_mb": 512
+  },
+  "fixture_provenance": {
+    "kind": "authored",
+    "origin": "DataFlowBench",
+    "revision": "m2-php-kernel",
+    "license": "MIT"
+  },
+  "tool_model_references": {
+    "bifrost": {
+      "policy": "adapters/bifrost/policies/core-php-kernel.rqlp"
+    }
+  }
+}
