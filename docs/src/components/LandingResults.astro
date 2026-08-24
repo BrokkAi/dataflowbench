@@ -221,12 +221,22 @@ const codeqlVersion = scorecards.find((card) => card.adapter.tool === 'codeql')!
 <aside class="short-answer">
   <p class="label">Short answer</p>
   <p class="verdict">
-    The two analyzers are strong in different places. Bifrost now answers the
-    Java, JavaScript and Python kernels without a single wrong or incomplete
-    result, and comes close on TypeScript; CodeQL answers every assertion in
-    all {kernels.length} kernels, with a handful of misses in each. Where
-    Bifrost's deeper semantics are not yet wired up for a language, it reports
-    incomplete analysis instead of an answer — coverage, not a wrong result.
+    Where Bifrost's semantics are wired up, it is now exact: the Java,
+    JavaScript and Python kernels complete without a single wrong or
+    incomplete result, and TypeScript is close behind. CodeQL answers every
+    assertion in all {kernels.length} kernels, with a handful of misses in
+    each. Where Bifrost's deeper semantics are not yet wired up for a
+    language, it reports incomplete analysis instead of an answer — coverage,
+    not a wrong result.
+  </p>
+  <p>
+    DataFlowBench is <a href="https://github.com/BrokkAi">BrokkAi</a>'s own
+    benchmark: we build it to measure where
+    <a href="https://brokk.ai">Bifrost</a> stands against other analyzers, and
+    to keep ourselves honest while doing it. The methodology is deliberately
+    analyzer-neutral — every number below is generated from digest-bound
+    freeze evidence that we cannot edit after the fact, misses and crashes
+    included — but the motivation is not neutral, and we would rather say so.
   </p>
   <p>
     Each kernel poses one positive and one negative assertion per semantic
