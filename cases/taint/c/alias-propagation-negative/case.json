@@ -1,0 +1,62 @@
+{
+  "schema_version": 2,
+  "id": "dfb-taint-c-alias-propagation-negative",
+  "template_id": "dfb-template-alias-propagation-separation",
+  "polarity": "negative",
+  "negative_mechanism": "object-separation",
+  "score_tier": "core",
+  "track": "taint",
+  "language": "c",
+  "semantic_dimensions": [
+    "heap-field-sensitivity",
+    "object-sensitivity"
+  ],
+  "feature_tags": [
+    "heap-access-path"
+  ],
+  "model_profile": "benchmark-controlled",
+  "fixture_files": [
+    "alias_propagation_negative.c"
+  ],
+  "source_anchors": [
+    {
+      "marker": "DFB-SOURCE: alias-propagation-input",
+      "file": "alias_propagation_negative.c"
+    }
+  ],
+  "sink_anchors": [
+    {
+      "marker": "DFB-SINK: alias-propagation-sink",
+      "file": "alias_propagation_negative.c"
+    }
+  ],
+  "expected_flows": [],
+  "expected_nonflows": [
+    {
+      "source": "DFB-SOURCE: alias-propagation-input",
+      "sink": "DFB-SINK: alias-propagation-sink"
+    }
+  ],
+  "witness_checkpoints": [],
+  "expected_analysis_capability": {
+    "kind": "heap-alias-sensitive-taint"
+  },
+  "execution_budget": {
+    "wall_clock_seconds": 60,
+    "peak_memory_mb": 512
+  },
+  "fixture_provenance": {
+    "kind": "authored",
+    "origin": "DataFlowBench",
+    "revision": "m2-c-kernel",
+    "license": "MIT"
+  },
+  "tool_model_references": {
+    "bifrost": {
+      "policy": "adapters/bifrost/policies/core-c-kernel.rqlp"
+    },
+    "codeql": {
+      "query": "adapters/codeql/cpp/queries/CKernel.ql"
+    }
+  }
+}

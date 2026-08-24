@@ -1,0 +1,65 @@
+{
+  "schema_version": 2,
+  "id": "dfb-taint-go-exception-catch-positive",
+  "template_id": "dfb-template-exception-catch",
+  "polarity": "positive",
+  "score_tier": "core",
+  "track": "taint",
+  "language": "go",
+  "semantic_dimensions": [
+    "local-flow",
+    "exceptional-flow"
+  ],
+  "feature_tags": [
+    "exceptional"
+  ],
+  "model_profile": "benchmark-controlled",
+  "fixture_files": [
+    "exception_catch_positive.go"
+  ],
+  "source_anchors": [
+    {
+      "marker": "DFB-SOURCE: exception-catch-input",
+      "file": "exception_catch_positive.go"
+    }
+  ],
+  "sink_anchors": [
+    {
+      "marker": "DFB-SINK: exception-catch-sink",
+      "file": "exception_catch_positive.go"
+    }
+  ],
+  "expected_flows": [
+    {
+      "source": "DFB-SOURCE: exception-catch-input",
+      "sink": "DFB-SINK: exception-catch-sink"
+    }
+  ],
+  "expected_nonflows": [],
+  "witness_checkpoints": [
+    "DFB-SOURCE: exception-catch-input",
+    "DFB-WITNESS: exception-catch-panic",
+    "DFB-SINK: exception-catch-sink"
+  ],
+  "expected_analysis_capability": {
+    "kind": "exception-sensitive-intraprocedural-taint"
+  },
+  "execution_budget": {
+    "wall_clock_seconds": 60,
+    "peak_memory_mb": 512
+  },
+  "fixture_provenance": {
+    "kind": "authored",
+    "origin": "DataFlowBench",
+    "revision": "m2-go-kernel",
+    "license": "MIT"
+  },
+  "tool_model_references": {
+    "bifrost": {
+      "policy": "adapters/bifrost/policies/core-go-kernel.rqlp"
+    },
+    "codeql": {
+      "query": "adapters/codeql/go/queries/GoKernel.ql"
+    }
+  }
+}

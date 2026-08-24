@@ -28,17 +28,27 @@ separate population from JavaScript and the two are never mixed. The C# parity
 slice uses `core-csharp-kernel.rqlp`; its direct-propagation pair is frozen in
 the v0.2.0 evidence with the breadth `core-direct.rqlp` policy, so the C#
 selector accepts that policy too and evaluates each case through the policy it
-declares; see [the C# kernel contract](../../docs/csharp-kernel.md). The Rust
-parity slice uses `core-rust-kernel.rqlp` and is the one kernel with a reduced
-denominator: `docs/applicability-matrix.md` classifies `exception-catch` as
-inapplicable to Rust, so the Rust core population is 15 templates and 30
-assertions, and the `Result`/`?` construct Rust uses instead is carried by a
-`language-extension` pair that the run also evaluates but never counts in the
-core denominator. Like C#, its direct-propagation pair is frozen in the v0.2.0
-evidence with the breadth `core-direct.rqlp` policy, so the Rust selector
-accepts that policy too; see [the Rust kernel
-contract](../../docs/rust-kernel.md). Every other kernel command selects only
-its own language's 32 core assertions and writes a dedicated report. The Java calibration slice also
+declares; see [the C# kernel contract](../../docs/csharp-kernel.md). The Go
+parity slice uses `core-go-kernel.rqlp` under the same frozen-direct-pair
+arrangement; see [the Go kernel contract](../../docs/go-kernel.md) for its
+struct, pointer-alias, array, and `panic`/`recover` adaptations. The C and C++
+parity slices use `core-c-kernel.rqlp` and `core-cpp-kernel.rqlp` and are two
+separate populations with two different denominators: C++ covers all 16
+templates (32 core assertions), while C covers 15 (30 core assertions) because
+`dfb-template-exception-catch` is inapplicable to C, and its two
+`language-extension` cases run in the same slice on their own scorecard. See
+[the C kernel contract](../../docs/c-kernel.md) and [the C++ kernel
+contract](../../docs/cpp-kernel.md). The Rust parity slice uses
+`core-rust-kernel.rqlp` under the same frozen-direct-pair arrangement as C# and
+Go, and carries the same reduced denominator as C for a different reason:
+`docs/applicability-matrix.md` classifies `exception-catch` as inapplicable to
+Rust, so the Rust core population is 15 templates and 30 assertions, and the
+`Result`/`?` construct Rust uses instead is carried by a `language-extension`
+pair that the run also evaluates but never counts in the core denominator; see
+[the Rust kernel contract](../../docs/rust-kernel.md). Every kernel command
+selects only its own language's core assertions — 32 for the 16-template
+kernels, 30 for C and Rust — and writes a dedicated report. The Java
+calibration slice also
 covers one-hop helper flow. Generated workspaces live outside the repository so
 repository ignore rules cannot hide fixtures from Bifrost's indexer. Sanitizer
 lowering is a future Bifrost CLI capability.
@@ -55,6 +65,9 @@ cargo run -- run-bifrost-python-kernel --bifrost /path/to/bifrost
 cargo run -- run-bifrost-kotlin-kernel --bifrost /path/to/bifrost
 cargo run -- run-bifrost-typescript-kernel --bifrost /path/to/bifrost
 cargo run -- run-bifrost-csharp-kernel --bifrost /path/to/bifrost
+cargo run -- run-bifrost-go-kernel --bifrost /path/to/bifrost
+cargo run -- run-bifrost-c-kernel --bifrost /path/to/bifrost
+cargo run -- run-bifrost-cpp-kernel --bifrost /path/to/bifrost
 cargo run -- run-bifrost-rust-kernel --bifrost /path/to/bifrost
 ```
 
@@ -92,8 +105,9 @@ with 19/32 assertions matching expected polarity (19 of 26 decisive outcomes).
 This v0.10.2 evidence matches v0.10.1 case-for-case, but does not restore the
 complete Java correctness observed in the v0.9.5 snapshot.
 
-The three post-freeze kernels — Kotlin, TypeScript, and C# — were re-run with
-a locally built Bifrost v0.10.5, build identity
+The seven post-freeze kernels — Kotlin, TypeScript, C#, Go, C, C++, and Rust —
+were run
+with a locally built Bifrost v0.10.5, build identity
 `728ac69ab93224151c6c951b23d2f5bc681d8558`. The frozen v0.2.0 slices above
 remain v0.10.2 evidence until the next freeze re-runs every Bifrost slice on
 one version.
@@ -128,21 +142,33 @@ This is capability coverage, never a negative result. The same incompleteness
 reproduces under the language-agnostic `core-direct.rqlp` policy, so it is not
 an artifact of the language-qualified policy.
 
-The Rust kernel, in its own report `reports/bifrost-rust-kernel.json` with raw
-evidence under `reports/raw/bifrost-rust-kernel/`, was run on the same v0.10.5
-build. Its 30 core assertions produce 1 `reached`, 1 `not-reached`, and 28
-`inconclusive` results: only the direct-propagation pair is decisive, and both
-of its outcomes match the expected polarity (2 of 2 decisive outcomes, 2 of 30
-assertions). The two `language-extension` assertions are both `inconclusive`
-and are reported separately. Twenty of the inconclusive core results retain
-`partial_discovery` evidence; the other eight — the complete heap/separation
-stratum, both polarities of object separation, same-object field separation,
-alias propagation, and array element — retain `internal_invariant` evidence
-with the diagnostic "semantic IR gap_contract error in procedure 2: gap 8
-duplicates the same scope". Eleven inconclusive results also carry the policy's
-own finding message, so Bifrost located candidate flows but could not complete
-the analysis; an incomplete run is `inconclusive` and is never counted as a
-negative.
+The 32-case Go kernel, in its own report `reports/bifrost-go-kernel.json` with
+raw evidence under `reports/raw/bifrost-go-kernel/`, contains 5 `reached`, 5
+`not-reached`, and 22 `inconclusive` results. Five template pairs are decisive —
+direct propagation, the local multi-step chain, call-context separation, and the
+one-hop and two-hop return relays — and all ten of those outcomes match the
+expected polarity. The 22 inconclusive results retain `partial_discovery` (12)
+or `capability_incomplete` (10) evidence; the ten are the four heap pairs
+("procedure value-flow snapshot ... is unsupported (assignments)") and the
+`panic`/`recover` exception pair, where Bifrost cannot bind the sink operand
+supplied by `recover()`. All of this is capability coverage, never a negative
+result; see [the Go kernel contract](../../docs/go-kernel.md).
+
+The 30-assertion Rust kernel, in its own report
+`reports/bifrost-rust-kernel.json` with raw evidence under
+`reports/raw/bifrost-rust-kernel/`, produces 1 `reached`, 1 `not-reached`, and
+28 `inconclusive` core results: only the direct-propagation pair is decisive,
+and both of its outcomes match the expected polarity (2 of 2 decisive outcomes,
+2 of 30 assertions). The two `language-extension` assertions are both
+`inconclusive` and are reported separately, never in the core denominator.
+Twenty of the inconclusive core results retain `partial_discovery` evidence;
+the other eight — the complete heap/separation stratum, both polarities of
+object separation, same-object field separation, alias propagation, and array
+element — retain `internal_invariant` evidence with the diagnostic "semantic IR
+gap_contract error in procedure 2: gap 8 duplicates the same scope". Eleven
+inconclusive results also carry the policy's own finding message, so Bifrost
+located candidate flows but could not complete the analysis; an incomplete run
+is `inconclusive` and is never counted as a negative.
 
 The JavaScript alias-propagation and array-element pairs retain
 `partial_discovery` evidence, while the exception-catch pair retains

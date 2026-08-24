@@ -1,0 +1,62 @@
+{
+  "schema_version": 2,
+  "id": "dfb-taint-c-call-context-negative",
+  "template_id": "dfb-template-call-context-separation",
+  "polarity": "negative",
+  "negative_mechanism": "call-context-separation",
+  "score_tier": "core",
+  "track": "taint",
+  "language": "c",
+  "semantic_dimensions": [
+    "interprocedural-flow",
+    "context-sensitivity"
+  ],
+  "feature_tags": [
+    "interprocedural-one-hop"
+  ],
+  "model_profile": "benchmark-controlled",
+  "fixture_files": [
+    "call_context_negative.c"
+  ],
+  "source_anchors": [
+    {
+      "marker": "DFB-SOURCE: call-context-input",
+      "file": "call_context_negative.c"
+    }
+  ],
+  "sink_anchors": [
+    {
+      "marker": "DFB-SINK: call-context-sink",
+      "file": "call_context_negative.c"
+    }
+  ],
+  "expected_flows": [],
+  "expected_nonflows": [
+    {
+      "source": "DFB-SOURCE: call-context-input",
+      "sink": "DFB-SINK: call-context-sink"
+    }
+  ],
+  "witness_checkpoints": [],
+  "expected_analysis_capability": {
+    "kind": "context-sensitive-interprocedural-taint"
+  },
+  "execution_budget": {
+    "wall_clock_seconds": 60,
+    "peak_memory_mb": 512
+  },
+  "fixture_provenance": {
+    "kind": "authored",
+    "origin": "DataFlowBench",
+    "revision": "m2-c-kernel",
+    "license": "MIT"
+  },
+  "tool_model_references": {
+    "bifrost": {
+      "policy": "adapters/bifrost/policies/core-c-kernel.rqlp"
+    },
+    "codeql": {
+      "query": "adapters/codeql/cpp/queries/CKernel.ql"
+    }
+  }
+}
