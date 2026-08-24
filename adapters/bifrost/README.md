@@ -16,7 +16,14 @@ and control-flow strata. The JavaScript parity slice uses the same template IDs
 and the language-qualified `core-javascript-kernel.rqlp` policy, with any
 language adaptations recorded on the canonical cases. See the [JavaScript
 adaptation matrix](../../docs/javascript-kernel.md) for the syntax mapping and
-the explicit exceptional-flow limitation. The Java calibration slice also
+the explicit exceptional-flow limitation. The Python and C# parity slices
+follow the same pattern with `core-python-kernel.rqlp` and
+`core-csharp-kernel.rqlp`; `run-bifrost-python-kernel` and
+`run-bifrost-csharp-kernel` each select only their own 32 core assertions and
+write a dedicated report. The C# direct-propagation pair is frozen in the
+v0.2.0 evidence with the breadth `core-direct.rqlp` policy, so the C# selector
+accepts that policy too and evaluates each case through the policy it declares;
+see [the C# kernel contract](../../docs/csharp-kernel.md). The Java calibration slice also
 covers one-hop helper flow. Generated workspaces live outside the repository so
 repository ignore rules cannot hide fixtures from Bifrost's indexer. Sanitizer
 lowering is a future Bifrost CLI capability.

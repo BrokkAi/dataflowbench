@@ -1,15 +1,17 @@
 # CodeQL adapter
 
 The CodeQL adapter runs language-scoped benchmark kernels against canonical
-fixtures. Java, JavaScript, and Python have separate selections, query paths,
-normalized reports, and retained raw-evidence directories. The JavaScript query
-may use CodeQL libraries shared with TypeScript, but this adapter slice selects
-only JavaScript cases; TypeScript is a future, separate population.
+fixtures. Java, JavaScript, Python, and C# have separate selections, query
+paths, normalized reports, and retained raw-evidence directories. The
+JavaScript query may use CodeQL libraries shared with TypeScript, but this
+adapter slice selects only JavaScript cases; TypeScript is a future, separate
+population.
 
-The checked-in query packs contain the Java, JavaScript, and Python kernel
+The checked-in query packs contain the Java, JavaScript, Python, and C# kernel
 queries. Each query uses that language's CodeQL data-flow API and the
 benchmark-controlled `dfb_source()`/`dfb_sink(value)` contract; the Python query is
-`python/queries/PythonKernel.ql` in its own Python database-schema pack.
+`python/queries/PythonKernel.ql` in its own Python database-schema pack, and the
+C# query is `csharp/queries/CSharpKernel.ql` in its own C# pack.
 
 The Java kernel adapter creates one CodeQL database per canonical case,
 compiles the fixture with its real `javac` build, runs the pinned
@@ -211,6 +213,43 @@ executed query with no SARIF flow is `not-reached`. The full compile above
 populates the compilation cache before the runner starts, so per-case analysis
 does not repeat query compilation. Every case still uses an isolated cold
 database; no database or compiled fixture is reused across the pair.
+
+## C# kernel
+
+The C# runner selects exactly the 32 `taint` cases whose `language` is `csharp`
+and whose `score_tier` is `core`, and analyzes each with:
+
+```text
+adapters/codeql/csharp/queries/CSharpKernel.ql
+```
+
+The query belongs to the dedicated C# pack manifest at
+`adapters/codeql/csharp/qlpack.yml`, pinned to `codeql/csharp-all@7.1.2` —
+the version `codeql pack install` resolves for CodeQL CLI 2.26.3 — with the
+full transitive set committed in `adapters/codeql/csharp/codeql-pack.lock.yml`.
+
+The C# direct-propagation pair predates this kernel and is frozen in the
+published v0.2.0 manifest without a `codeql` model reference, so the selector
+defaults a C# core case with no reference to this kernel's query and rejects a
+C# core case that names any other query. See
+[the C# kernel contract](../../docs/csharp-kernel.md).
+
+```bash
+codeql pack install adapters/codeql/csharp
+cargo run -- run-codeql-csharp-kernel --codeql /path/to/codeql
+```
+
+Registry retrieval of the C# pack succeeded for the pinned CLI, so the run
+needed no `--codeql-packs` fallback; a matching official source workspace or
+bundle pack root remains a valid input when retrieval is unavailable.
+
+Each case gets one cold database created from the declared fixture file with
+`--build-mode=none`, which the C# extractor supports, so the fixtures need no
+project scaffolding, restore, or compiler invocation. The runner writes
+`reports/codeql-csharp-kernel.json` and retains SARIF (or raw runner
+diagnostics) under `reports/raw/codeql-csharp-kernel/`. SARIF locations are
+reconciled with the case's `DFB-SINK:` anchor by resolving the declared sink
+method name and accepting a finding on a line that calls it in the same file.
 
 ## Retained v2.26.3 snapshot
 
