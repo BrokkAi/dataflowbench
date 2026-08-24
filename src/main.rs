@@ -19,8 +19,11 @@ type CorePairCases<'a> = Vec<(&'a Path, &'a str)>;
 const CODEQL_JAVASCRIPT_QUERY: &str = "adapters/codeql/javascript/queries/JavaScriptKernel.ql";
 const CODEQL_JAVASCRIPT_RAW_DIR: &str = "reports/raw/codeql-javascript";
 const CODEQL_JAVASCRIPT_REPORT: &str = "reports/codeql-javascript-kernel.json";
-const CODEQL_JAVASCRIPT_CASE_COUNT: usize = 32;
-const CODEQL_JAVASCRIPT_TEMPLATE_COUNT: usize = 16;
+const CODEQL_TYPESCRIPT_QUERY: &str = "adapters/codeql/typescript/queries/TypeScriptKernel.ql";
+const CODEQL_TYPESCRIPT_RAW_DIR: &str = "reports/raw/codeql-typescript";
+const CODEQL_TYPESCRIPT_REPORT: &str = "reports/codeql-typescript-kernel.json";
+const CODEQL_ECMA_CASE_COUNT: usize = 32;
+const CODEQL_ECMA_TEMPLATE_COUNT: usize = 16;
 const CODEQL_PYTHON_QUERY: &str = "adapters/codeql/python/queries/PythonKernel.ql";
 const CODEQL_KOTLIN_QUERY: &str = "adapters/codeql/kotlin/queries/KotlinKernel.ql";
 const CODEQL_KOTLIN_RAW_DIR: &str = "reports/raw/codeql-kotlin-kernel";
@@ -119,6 +122,12 @@ enum Commands {
         #[arg(long, default_value = "bifrost")]
         bifrost: PathBuf,
     },
+    /// Run the TypeScript propagation kernel without mixing it with the
+    /// JavaScript kernel or the cross-language direct-flow calibration cases.
+    RunBifrostTypescriptKernel {
+        #[arg(long, default_value = "bifrost")]
+        bifrost: PathBuf,
+    },
     RunCodeqlJavaKernel {
         #[arg(long, default_value = "codeql")]
         codeql: PathBuf,
@@ -126,6 +135,15 @@ enum Commands {
         codeql_packs: Option<PathBuf>,
     },
     RunCodeqlJavascriptKernel {
+        #[arg(long, default_value = "codeql")]
+        codeql: PathBuf,
+        #[arg(long)]
+        codeql_packs: Option<PathBuf>,
+    },
+    /// Run the TypeScript propagation kernel through its dedicated CodeQL
+    /// pack. The JavaScript extractor also covers TypeScript, so this command
+    /// selects `.ts` cases only and refuses JavaScript ones.
+    RunCodeqlTypescriptKernel {
         #[arg(long, default_value = "codeql")]
         codeql: PathBuf,
         #[arg(long)]
@@ -172,6 +190,9 @@ fn main() -> Result<()> {
         Commands::RunBifrostSmoke { bifrost } => run_bifrost_smoke(&bifrost),
         Commands::RunBifrostPythonKernel { bifrost } => run_bifrost_python_kernel(&bifrost),
         Commands::RunBifrostKotlinKernel { bifrost } => run_bifrost_kotlin_kernel(&bifrost),
+        Commands::RunBifrostTypescriptKernel { bifrost } => {
+            run_bifrost(&bifrost, BifrostRun::TypescriptKernel)
+        }
         Commands::RunCodeqlJavaKernel {
             codeql,
             codeql_packs,
@@ -179,7 +200,11 @@ fn main() -> Result<()> {
         Commands::RunCodeqlJavascriptKernel {
             codeql,
             codeql_packs,
-        } => run_codeql_javascript_kernel(&codeql, codeql_packs.as_deref()),
+        } => run_codeql_ecma_kernel(&codeql, codeql_packs.as_deref(), EcmaKernel::JavaScript),
+        Commands::RunCodeqlTypescriptKernel {
+            codeql,
+            codeql_packs,
+        } => run_codeql_ecma_kernel(&codeql, codeql_packs.as_deref(), EcmaKernel::TypeScript),
         Commands::RunCodeqlPythonKernel {
             codeql,
             codeql_packs,
@@ -238,7 +263,8 @@ fn validate_cases() -> Result<()> {
         cases.push((path.clone(), value));
     }
     validate_balanced_core_pairs(&cases)?;
-    validate_javascript_kernel_balance(&cases)?;
+    validate_kernel_balance(&cases, EcmaKernel::JavaScript)?;
+    validate_kernel_balance(&cases, EcmaKernel::TypeScript)?;
     validate_kotlin_kernel_balance(&cases)?;
     println!("validated {} cases", paths.len());
     Ok(())
@@ -296,36 +322,40 @@ fn validate_balanced_core_pairs(cases: &[(PathBuf, Value)]) -> Result<()> {
     Ok(())
 }
 
-fn validate_javascript_kernel_balance(cases: &[(PathBuf, Value)]) -> Result<()> {
+/// Every ported kernel must reproduce the Java template set exactly. The check
+/// is skipped while a language has no core cases at all, so a partially ported
+/// language never silently reduces its own denominator.
+fn validate_kernel_balance(cases: &[(PathBuf, Value)], kernel: EcmaKernel) -> Result<()> {
+    let display = kernel.display_name();
     let java_templates = core_templates_for_language(cases, "java");
-    let javascript_templates = core_templates_for_language(cases, "javascript");
+    let kernel_templates = core_templates_for_language(cases, kernel.language());
 
-    if javascript_templates.is_empty() {
+    if kernel_templates.is_empty() {
         return Ok(());
     }
-    if java_templates.len() != 16 {
+    if java_templates.len() != CODEQL_ECMA_TEMPLATE_COUNT {
         bail!(
-            "Java propagation kernel must define exactly 16 core templates; found {}",
+            "Java propagation kernel must define exactly {CODEQL_ECMA_TEMPLATE_COUNT} core templates; found {}",
             java_templates.len()
         );
     }
-    if javascript_templates.len() != 16 {
+    if kernel_templates.len() != CODEQL_ECMA_TEMPLATE_COUNT {
         bail!(
-            "JavaScript propagation kernel must define exactly 16 core templates; found {}",
-            javascript_templates.len()
+            "{display} propagation kernel must define exactly {CODEQL_ECMA_TEMPLATE_COUNT} core templates; found {}",
+            kernel_templates.len()
         );
     }
-    if javascript_templates != java_templates {
+    if kernel_templates != java_templates {
         let missing = java_templates
-            .difference(&javascript_templates)
+            .difference(&kernel_templates)
             .cloned()
             .collect::<Vec<_>>();
-        let unexpected = javascript_templates
+        let unexpected = kernel_templates
             .difference(&java_templates)
             .cloned()
             .collect::<Vec<_>>();
         bail!(
-            "JavaScript propagation kernel must preserve the Java template IDs; missing {missing:?}, unexpected {unexpected:?}"
+            "{display} propagation kernel must preserve the Java template IDs; missing {missing:?}, unexpected {unexpected:?}"
         );
     }
     Ok(())
@@ -476,6 +506,7 @@ enum BifrostRun {
     Smoke,
     PythonKernel,
     KotlinKernel,
+    TypescriptKernel,
 }
 fn validate_freeze(manifest: &Path) -> Result<()> {
     let root = repository_root()?;
@@ -2041,6 +2072,10 @@ fn run_bifrost(binary: &Path, run: BifrostRun) -> Result<()> {
             Path::new("reports/raw/bifrost-kotlin-kernel"),
             Path::new("reports/bifrost-kotlin-kernel.json"),
         ),
+        BifrostRun::TypescriptKernel => (
+            Path::new("reports/raw/bifrost-typescript-kernel"),
+            Path::new("reports/bifrost-typescript-kernel.json"),
+        ),
     };
     fs::create_dir_all(raw_dir)?;
     let started = now_seconds()?;
@@ -2169,6 +2204,7 @@ fn run_bifrost(binary: &Path, run: BifrostRun) -> Result<()> {
             BifrostRun::Smoke => "Bifrost smoke",
             BifrostRun::PythonKernel => "Bifrost Python kernel",
             BifrostRun::KotlinKernel => "Bifrost Kotlin kernel",
+            BifrostRun::TypescriptKernel => "Bifrost TypeScript kernel",
         };
         bail!("no cases selected for {selection}");
     }
@@ -2225,7 +2261,29 @@ fn selected_bifrost_case(case: &Value, run: BifrostRun) -> bool {
                     .is_some_and(|policy| policy.ends_with("core-python-kernel.rqlp"))
                     || case["tool_model_references"]["bifrost"]["unsupported_reason"].is_string())
         }
+        BifrostRun::TypescriptKernel => {
+            case["language"] == "typescript"
+                && case["track"] == "taint"
+                && case["score_tier"] == "core"
+                && (case["tool_model_references"]["bifrost"]["policy"]
+                    .as_str()
+                    .is_some_and(typescript_kernel_policy)
+                    || case["tool_model_references"]["bifrost"]["unsupported_reason"].is_string())
+        }
     }
+}
+
+/// Policies that carry a TypeScript kernel assertion.
+///
+/// The direct-propagation pair belongs to both the TypeScript kernel and the
+/// cross-language direct-flow breadth slice, and was frozen in `v0.2.0` while
+/// still declaring the language-agnostic `core-direct` policy. Freeze manifests
+/// bind those case bytes, so the kernel accepts that policy instead of
+/// rewriting published evidence; the two policies differ only by the
+/// `(language typescript ...)` selector qualifier, which is redundant for a
+/// single-fixture TypeScript workspace.
+fn typescript_kernel_policy(policy: &str) -> bool {
+    policy.ends_with("core-typescript-kernel.rqlp") || policy.ends_with("core-direct.rqlp")
 }
 
 fn has_bifrost_model_reference(case: &Value) -> bool {
@@ -2277,6 +2335,79 @@ fn write_bifrost_error(
         }))? + "\n",
     )?;
     Ok(())
+}
+
+/// The CodeQL JavaScript extractor covers JavaScript and TypeScript alike, so
+/// both kernels share one runner. Everything that separates the two
+/// populations — the selected case language, the owning pack and query, and
+/// the report and raw-evidence roots — hangs off this descriptor, and the
+/// selector below refuses the other language's cases outright.
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+enum EcmaKernel {
+    JavaScript,
+    TypeScript,
+}
+
+impl EcmaKernel {
+    fn language(self) -> &'static str {
+        match self {
+            Self::JavaScript => "javascript",
+            Self::TypeScript => "typescript",
+        }
+    }
+
+    fn display_name(self) -> &'static str {
+        match self {
+            Self::JavaScript => "JavaScript",
+            Self::TypeScript => "TypeScript",
+        }
+    }
+
+    fn adapter(self) -> &'static str {
+        match self {
+            Self::JavaScript => "codeql-javascript",
+            Self::TypeScript => "codeql-typescript",
+        }
+    }
+
+    fn query(self) -> &'static str {
+        match self {
+            Self::JavaScript => CODEQL_JAVASCRIPT_QUERY,
+            Self::TypeScript => CODEQL_TYPESCRIPT_QUERY,
+        }
+    }
+
+    fn raw_dir(self) -> &'static str {
+        match self {
+            Self::JavaScript => CODEQL_JAVASCRIPT_RAW_DIR,
+            Self::TypeScript => CODEQL_TYPESCRIPT_RAW_DIR,
+        }
+    }
+
+    fn report(self) -> &'static str {
+        match self {
+            Self::JavaScript => CODEQL_JAVASCRIPT_REPORT,
+            Self::TypeScript => CODEQL_TYPESCRIPT_REPORT,
+        }
+    }
+
+    fn qlpack_directory(self) -> &'static str {
+        match self {
+            Self::JavaScript => "adapters/codeql/javascript",
+            Self::TypeScript => "adapters/codeql/typescript",
+        }
+    }
+
+    /// Whether a selected case may omit its CodeQL query reference.
+    ///
+    /// The TypeScript direct-propagation pair is shared with the
+    /// cross-language direct-flow breadth slice and was frozen in `v0.2.0`
+    /// before this pack existed. Freeze manifests bind those case bytes, so
+    /// the runner defaults them to the kernel query rather than rewriting
+    /// published evidence. A declared query still has to be this kernel's.
+    fn allows_implicit_query_reference(self) -> bool {
+        matches!(self, Self::TypeScript)
+    }
 }
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
@@ -2388,13 +2519,15 @@ fn selected_codeql_java_case(case: &Value) -> bool {
         && case["tool_model_references"]["codeql"].is_object()
 }
 
-/// Run the JavaScript-only CodeQL kernel. This deliberately does not reuse the
-/// Java selector or its database/raw-output roots: CodeQL has shared standard
-/// libraries, but the benchmark adapters must remain language-scoped.
-fn run_codeql_javascript_kernel(binary: &Path, packs: Option<&Path>) -> Result<()> {
+/// Run one of the two ECMAScript-family CodeQL kernels. This deliberately does
+/// not reuse the Java selector or its database/raw-output roots: CodeQL has
+/// shared standard libraries, but the benchmark adapters must remain
+/// language-scoped. The JavaScript and TypeScript populations are likewise
+/// disjoint, each with its own pack, query, report, and raw-evidence root.
+fn run_codeql_ecma_kernel(binary: &Path, packs: Option<&Path>, kernel: EcmaKernel) -> Result<()> {
     validate_cases()?;
-    let selected = select_codeql_javascript_cases()?;
-    let raw_dir = Path::new(CODEQL_JAVASCRIPT_RAW_DIR);
+    let selected = select_codeql_ecma_cases(kernel)?;
+    let raw_dir = Path::new(kernel.raw_dir());
     fs::create_dir_all(raw_dir)?;
     let started = now_seconds()?;
     let (version, build_identity) = codeql_version_identity(binary)?;
@@ -2412,7 +2545,7 @@ fn run_codeql_javascript_kernel(binary: &Path, packs: Option<&Path>) -> Result<(
                 fs::write(
                     &raw_path,
                     serde_json::to_string_pretty(&json!({
-                        "adapter": "codeql-javascript",
+                        "adapter": kernel.adapter(),
                         "case_id": id,
                         "state": "unsupported",
                         "reason": reason,
@@ -2421,11 +2554,17 @@ fn run_codeql_javascript_kernel(binary: &Path, packs: Option<&Path>) -> Result<(
                 )?;
                 ("unsupported", vec![reason.to_string()], raw_path)
             } else {
-                let query = model["query"]
-                    .as_str()
-                    .context("JavaScript CodeQL case lacks query reference")?;
+                let query = model["query"].as_str().unwrap_or(kernel.query());
                 query_paths.insert(PathBuf::from(query));
-                run_codeql_javascript_case(binary, packs, &path, &case, Path::new(query), raw_dir)?
+                run_codeql_ecma_case(
+                    binary,
+                    packs,
+                    &path,
+                    &case,
+                    Path::new(query),
+                    raw_dir,
+                    kernel,
+                )?
             };
         results.push(codeql_result(
             &case,
@@ -2438,11 +2577,12 @@ fn run_codeql_javascript_kernel(binary: &Path, packs: Option<&Path>) -> Result<(
     }
 
     let mut configuration_paths = query_paths;
-    configuration_paths.insert(PathBuf::from(CODEQL_JAVASCRIPT_QUERY));
-    configuration_paths.insert(PathBuf::from("adapters/codeql/javascript/qlpack.yml"));
-    let javascript_lock = PathBuf::from("adapters/codeql/javascript/codeql-pack.lock.yml");
-    if javascript_lock.is_file() {
-        configuration_paths.insert(javascript_lock);
+    configuration_paths.insert(PathBuf::from(kernel.query()));
+    let qlpack_directory = Path::new(kernel.qlpack_directory());
+    configuration_paths.insert(qlpack_directory.join("qlpack.yml"));
+    let pack_lock = qlpack_directory.join("codeql-pack.lock.yml");
+    if pack_lock.is_file() {
+        configuration_paths.insert(pack_lock);
     }
     let configuration_hash = hash_paths(&configuration_paths)?;
     let report = json!({
@@ -2459,11 +2599,11 @@ fn run_codeql_javascript_kernel(binary: &Path, packs: Option<&Path>) -> Result<(
         "results": results
     });
     fs::write(
-        CODEQL_JAVASCRIPT_REPORT,
+        kernel.report(),
         serde_json::to_string_pretty(&report)? + "\n",
     )?;
     validate_reports()?;
-    println!("wrote {CODEQL_JAVASCRIPT_REPORT}");
+    println!("wrote {}", kernel.report());
     Ok(())
 }
 
@@ -2720,47 +2860,45 @@ fn codeql_result(
     })
 }
 
-fn select_codeql_javascript_cases() -> Result<Vec<(PathBuf, Value)>> {
+fn select_codeql_ecma_cases(kernel: EcmaKernel) -> Result<Vec<(PathBuf, Value)>> {
+    let display = kernel.display_name();
+    let expected_query = kernel.query();
     let mut selected = Vec::new();
     for path in case_paths() {
         let case: Value = serde_json::from_str(&fs::read_to_string(&path)?)?;
-        if !javascript_core_case(&case) {
+        if !ecma_core_case(&case, kernel) {
             continue;
         }
         let model = &case["tool_model_references"]["codeql"];
-        if !model.is_object() {
+        if !model.is_object() && !kernel.allows_implicit_query_reference() {
             bail!(
-                "JavaScript core case {} lacks a CodeQL model reference",
+                "{display} core case {} lacks a CodeQL model reference",
                 case["id"]
             );
         }
-        if !model["unsupported_reason"].is_string() {
-            let query = model["query"].as_str().with_context(|| {
-                format!(
-                    "JavaScript core case {} lacks a CodeQL query reference",
-                    case["id"]
-                )
-            })?;
-            if query != CODEQL_JAVASCRIPT_QUERY {
-                bail!(
-                    "JavaScript core case {} references non-JavaScript CodeQL query {query:?}",
-                    case["id"]
-                );
-            }
-        } else if let Some(query) = model["query"].as_str()
-            && query != CODEQL_JAVASCRIPT_QUERY
+        if !model["unsupported_reason"].is_string()
+            && model["query"].as_str().is_none()
+            && !kernel.allows_implicit_query_reference()
         {
             bail!(
-                "JavaScript core case {} references non-JavaScript CodeQL query {query:?}",
+                "{display} core case {} lacks a CodeQL query reference",
+                case["id"]
+            );
+        }
+        if let Some(query) = model["query"].as_str()
+            && query != expected_query
+        {
+            bail!(
+                "{display} core case {} references non-{display} CodeQL query {query:?}",
                 case["id"]
             );
         }
         selected.push((path, case));
     }
-    if selected.len() != CODEQL_JAVASCRIPT_CASE_COUNT {
+    if selected.len() != CODEQL_ECMA_CASE_COUNT {
         bail!(
-            "JavaScript CodeQL kernel must select exactly {} core assertions; found {}",
-            CODEQL_JAVASCRIPT_CASE_COUNT,
+            "{display} CodeQL kernel must select exactly {} core assertions; found {}",
+            CODEQL_ECMA_CASE_COUNT,
             selected.len()
         );
     }
@@ -2774,34 +2912,41 @@ fn select_codeql_javascript_cases() -> Result<Vec<(PathBuf, Value)>> {
             counts.1 += 1;
         }
     }
-    if templates.len() != CODEQL_JAVASCRIPT_TEMPLATE_COUNT
+    if templates.len() != CODEQL_ECMA_TEMPLATE_COUNT
         || templates
             .values()
             .any(|(positive, negative)| *positive != 1 || *negative != 1)
     {
         bail!(
-            "JavaScript CodeQL kernel must contain {} balanced templates; found {templates:?}",
-            CODEQL_JAVASCRIPT_TEMPLATE_COUNT
+            "{display} CodeQL kernel must contain {} balanced templates; found {templates:?}",
+            CODEQL_ECMA_TEMPLATE_COUNT
         );
     }
     Ok(selected)
 }
 
-fn javascript_core_case(case: &Value) -> bool {
-    case["language"] == "javascript" && case["track"] == "taint" && case["score_tier"] == "core"
+fn ecma_core_case(case: &Value, kernel: EcmaKernel) -> bool {
+    case["language"] == kernel.language()
+        && case["track"] == "taint"
+        && case["score_tier"] == "core"
 }
 
-fn run_codeql_javascript_case(
+fn run_codeql_ecma_case(
     binary: &Path,
     packs: Option<&Path>,
     case_path: &Path,
     case: &Value,
     query: &Path,
     raw_dir: &Path,
+    kernel: EcmaKernel,
 ) -> Result<(&'static str, Vec<String>, PathBuf)> {
     let id = case["id"].as_str().expect("schema validated");
-    let workspace = materialize_codeql_javascript_workspace(case_path, case)?;
-    let database_root = std::env::temp_dir().join("dataflowbench-codeql-javascript-databases");
+    let display = kernel.display_name();
+    let workspace = materialize_codeql_ecma_workspace(case_path, case, kernel)?;
+    let database_root = std::env::temp_dir().join(format!(
+        "dataflowbench-codeql-{}-databases",
+        kernel.language()
+    ));
     fs::create_dir_all(&database_root)?;
     let database = database_root.join(id);
     if database.exists() {
@@ -2820,6 +2965,10 @@ fn run_codeql_javascript_case(
             .arg("database")
             .arg("create")
             .arg(&database)
+            // Both kernels are extracted by CodeQL's `javascript` extractor,
+            // which also covers TypeScript syntax. The populations are kept
+            // apart by the case selector and by each query's file-extension
+            // guard, not by the extractor.
             .arg("--language=javascript")
             .arg(format!("--source-root={}", workspace.display()))
             .arg("--overwrite")
@@ -2828,20 +2977,21 @@ fn run_codeql_javascript_case(
             Ok(output) => output,
             Err(error) => {
                 let diagnostic = format!(
-                    "failed to run CodeQL JavaScript database create with {}: {error}",
+                    "failed to run CodeQL {display} database create with {}: {error}",
                     binary.display()
                 );
-                let error_path = write_codeql_javascript_spawn_error(
+                let error_path = write_codeql_ecma_spawn_error(
                     raw_dir,
                     id,
                     "database-create",
                     &diagnostic,
+                    kernel,
                 )?;
                 return Ok(("runner-error", vec![diagnostic], error_path));
             }
         };
         if !create.status.success() {
-            return write_codeql_javascript_error(raw_dir, id, "database-create", &create, None);
+            return write_codeql_ecma_error(raw_dir, id, "database-create", &create, None, kernel);
         }
 
         let mut analyze = Command::new(binary);
@@ -2860,31 +3010,38 @@ fn run_codeql_javascript_case(
             Ok(output) => output,
             Err(error) => {
                 let diagnostic = format!(
-                    "failed to run CodeQL JavaScript database analyze with {}: {error}",
+                    "failed to run CodeQL {display} database analyze with {}: {error}",
                     binary.display()
                 );
-                let error_path = write_codeql_javascript_spawn_error(
+                let error_path = write_codeql_ecma_spawn_error(
                     raw_dir,
                     id,
                     "database-analyze",
                     &diagnostic,
+                    kernel,
                 )?;
                 return Ok(("runner-error", vec![diagnostic], error_path));
             }
         };
         if !analyzed.status.success() {
-            return write_codeql_javascript_error(
+            return write_codeql_ecma_error(
                 raw_dir,
                 id,
                 "database-analyze",
                 &analyzed,
                 raw_path.is_file().then_some(raw_path.as_path()),
+                kernel,
             );
         }
         if !raw_path.is_file() {
-            let diagnostic = "CodeQL JavaScript analysis produced no SARIF output".to_string();
-            let error_path =
-                write_codeql_javascript_spawn_error(raw_dir, id, "database-analyze", &diagnostic)?;
+            let diagnostic = format!("CodeQL {display} analysis produced no SARIF output");
+            let error_path = write_codeql_ecma_spawn_error(
+                raw_dir,
+                id,
+                "database-analyze",
+                &diagnostic,
+                kernel,
+            )?;
             return Ok(("runner-error", vec![diagnostic], error_path));
         }
 
@@ -2926,7 +3083,7 @@ fn run_codeql_javascript_case(
             ));
         }
         let mut diagnostics = sarif_messages(&sarif);
-        let (outcome, anchor_diagnostics) = javascript_sarif_outcome(case_path, case, &sarif);
+        let (outcome, anchor_diagnostics) = ecma_sarif_outcome(case_path, case, &sarif);
         diagnostics.extend(anchor_diagnostics);
         diagnostics.sort();
         diagnostics.dedup();
@@ -2937,24 +3094,29 @@ fn run_codeql_javascript_case(
     match (result, cleanup) {
         (Ok((outcome, diagnostics, raw_path)), Ok(())) => Ok((outcome, diagnostics, raw_path)),
         (Ok((_, mut diagnostics, raw_path)), Err(error)) => {
-            diagnostics.push(format!(
-                "CodeQL JavaScript artifact cleanup failed: {error}"
-            ));
+            diagnostics.push(format!("CodeQL {display} artifact cleanup failed: {error}"));
             diagnostics.sort();
             diagnostics.dedup();
             Ok(("runner-error", diagnostics, raw_path))
         }
         (Err(error), Ok(())) => Err(error),
         (Err(error), Err(cleanup_error)) => Err(error.context(format!(
-            "CodeQL JavaScript artifact cleanup also failed: {cleanup_error}"
+            "CodeQL {display} artifact cleanup also failed: {cleanup_error}"
         ))),
     }
 }
 
-fn materialize_codeql_javascript_workspace(case_path: &Path, case: &Value) -> Result<PathBuf> {
+fn materialize_codeql_ecma_workspace(
+    case_path: &Path,
+    case: &Value,
+    kernel: EcmaKernel,
+) -> Result<PathBuf> {
     let id = case["id"].as_str().expect("schema validated");
     let workspace = std::env::temp_dir()
-        .join("dataflowbench-codeql-javascript-workspaces")
+        .join(format!(
+            "dataflowbench-codeql-{}-workspaces",
+            kernel.language()
+        ))
         .join(id);
     if workspace.exists() {
         fs::remove_dir_all(&workspace).with_context(|| format!("clear {}", workspace.display()))?;
@@ -2968,24 +3130,26 @@ fn materialize_codeql_javascript_workspace(case_path: &Path, case: &Value) -> Re
     Ok(workspace)
 }
 
-fn write_codeql_javascript_error(
+fn write_codeql_ecma_error(
     raw_dir: &Path,
     id: &str,
     stage: &str,
     output: &std::process::Output,
     raw_path: Option<&Path>,
+    kernel: EcmaKernel,
 ) -> Result<(&'static str, Vec<String>, PathBuf)> {
     let error_path = raw_dir.join(format!("{id}-error.json"));
     let stderr = String::from_utf8_lossy(&output.stderr).trim().to_string();
     let stdout = String::from_utf8_lossy(&output.stdout).trim().to_string();
     let diagnostic = format!(
-        "CodeQL JavaScript {stage} failed with status {}",
+        "CodeQL {} {stage} failed with status {}",
+        kernel.display_name(),
         output.status
     );
     fs::write(
         &error_path,
         serde_json::to_string_pretty(&json!({
-            "adapter": "codeql-javascript",
+            "adapter": kernel.adapter(),
             "case_id": id,
             "state": "runner-error",
             "stage": stage,
@@ -3002,17 +3166,18 @@ fn write_codeql_javascript_error(
     ))
 }
 
-fn write_codeql_javascript_spawn_error(
+fn write_codeql_ecma_spawn_error(
     raw_dir: &Path,
     id: &str,
     stage: &str,
     diagnostic: &str,
+    kernel: EcmaKernel,
 ) -> Result<PathBuf> {
     let error_path = raw_dir.join(format!("{id}-error.json"));
     fs::write(
         &error_path,
         serde_json::to_string_pretty(&json!({
-            "adapter": "codeql-javascript",
+            "adapter": kernel.adapter(),
             "case_id": id,
             "state": "runner-error",
             "stage": stage,
@@ -3024,7 +3189,7 @@ fn write_codeql_javascript_spawn_error(
 }
 
 #[derive(Clone, Debug, PartialEq, Eq)]
-struct JavascriptSinkAnchor {
+struct EcmaSinkAnchor {
     file: String,
     marker_line: u64,
     function_name: String,
@@ -3038,7 +3203,7 @@ enum SarifAnchorMatch {
     Ambiguous,
 }
 
-fn javascript_sarif_outcome(
+fn ecma_sarif_outcome(
     case_path: &Path,
     case: &Value,
     sarif: &Value,
@@ -3046,7 +3211,7 @@ fn javascript_sarif_outcome(
     if sarif_result_count(sarif) == 0 {
         return ("not-reached", Vec::new());
     }
-    let sink_locations = match javascript_sink_locations(case_path, case) {
+    let sink_locations = match ecma_sink_locations(case_path, case) {
         Ok(locations) => locations,
         Err(reason) => {
             return (
@@ -3066,7 +3231,7 @@ fn javascript_sarif_outcome(
         .flatten()
         .flat_map(|run| run["results"].as_array().into_iter().flatten())
     {
-        match javascript_sarif_result_match(result, &sink_locations) {
+        match ecma_sarif_result_match(result, &sink_locations) {
             SarifAnchorMatch::Matched => matched += 1,
             SarifAnchorMatch::Unmatched => unmatched += 1,
             SarifAnchorMatch::Ambiguous => ambiguous += 1,
@@ -3091,10 +3256,10 @@ fn javascript_sarif_outcome(
     )
 }
 
-fn javascript_sink_locations(
+fn ecma_sink_locations(
     case_path: &Path,
     case: &Value,
-) -> std::result::Result<Vec<JavascriptSinkAnchor>, String> {
+) -> std::result::Result<Vec<EcmaSinkAnchor>, String> {
     let fixture_root = case_path
         .parent()
         .ok_or_else(|| "case path has no parent".to_string())?;
@@ -3134,14 +3299,14 @@ fn javascript_sink_locations(
             .lines()
             .nth(line as usize - 1)
             .ok_or_else(|| format!("sink anchor line {line} is outside {file}"))?;
-        let function_name = javascript_function_name(declaration, marker)
+        let function_name = ecma_function_name(declaration, marker)
             .ok_or_else(|| format!("sink marker {marker:?} is not on a function declaration"))?;
         let callsite_lines = body
             .lines()
             .enumerate()
             .filter_map(|(index, candidate)| {
                 let candidate_line = index as u64 + 1;
-                (candidate_line != line && javascript_function_call(candidate, &function_name))
+                (candidate_line != line && ecma_function_call(candidate, &function_name))
                     .then_some(candidate_line)
             })
             .collect::<BTreeSet<_>>();
@@ -3150,7 +3315,7 @@ fn javascript_sink_locations(
                 "sink function {function_name} has no callsites in {file}"
             ));
         }
-        locations.push(JavascriptSinkAnchor {
+        locations.push(EcmaSinkAnchor {
             file: file.to_string(),
             marker_line: line,
             function_name,
@@ -3172,7 +3337,7 @@ fn javascript_sink_locations(
     Ok(locations)
 }
 
-fn javascript_function_name(line: &str, marker: &str) -> Option<String> {
+fn ecma_function_name(line: &str, marker: &str) -> Option<String> {
     let marker_start = line.find(marker)?;
     let declaration = &line[..marker_start];
     let function_start = declaration
@@ -3180,8 +3345,7 @@ fn javascript_function_name(line: &str, marker: &str) -> Option<String> {
         .filter(|(start, _)| {
             let before = declaration[..*start].chars().next_back();
             let after = declaration[*start + "function".len()..].chars().next();
-            !before.is_some_and(javascript_identifier_char)
-                && !after.is_some_and(javascript_identifier_char)
+            !before.is_some_and(ecma_identifier_char) && !after.is_some_and(ecma_identifier_char)
         })
         .map(|(start, _)| start)
         .last()?;
@@ -3191,17 +3355,17 @@ fn javascript_function_name(line: &str, marker: &str) -> Option<String> {
     }
     let end = name
         .char_indices()
-        .find_map(|(index, character)| (!javascript_identifier_char(character)).then_some(index))
+        .find_map(|(index, character)| (!ecma_identifier_char(character)).then_some(index))
         .unwrap_or(name.len());
     (end > 0).then(|| name[..end].to_string())
 }
 
-fn javascript_identifier_char(character: char) -> bool {
+fn ecma_identifier_char(character: char) -> bool {
     character == '_' || character == '$' || character.is_ascii_alphanumeric()
 }
 
-fn javascript_function_call(line: &str, function_name: &str) -> bool {
-    let line = javascript_code_without_literals(line);
+fn ecma_function_call(line: &str, function_name: &str) -> bool {
+    let line = ecma_code_without_literals(line);
     let mut search_from = 0;
     while let Some(offset) = line[search_from..].find(function_name) {
         let start = search_from + offset;
@@ -3211,10 +3375,7 @@ fn javascript_function_call(line: &str, function_name: &str) -> bool {
             .chars()
             .find(|character| !character.is_whitespace());
         let preceded_by_member = before == Some('.') || before == Some('?');
-        if !before.is_some_and(javascript_identifier_char)
-            && !preceded_by_member
-            && after == Some('(')
-        {
+        if !before.is_some_and(ecma_identifier_char) && !preceded_by_member && after == Some('(') {
             let prefix = line[..start].trim_end();
             if !prefix.ends_with("function") {
                 return true;
@@ -3225,7 +3386,7 @@ fn javascript_function_call(line: &str, function_name: &str) -> bool {
     false
 }
 
-fn javascript_code_without_literals(line: &str) -> String {
+fn ecma_code_without_literals(line: &str) -> String {
     let mut output = String::with_capacity(line.len());
     let mut quote = None;
     let mut escaped = false;
@@ -3255,10 +3416,7 @@ fn javascript_code_without_literals(line: &str) -> String {
     output
 }
 
-fn javascript_sarif_result_match(
-    result: &Value,
-    sink_locations: &[JavascriptSinkAnchor],
-) -> SarifAnchorMatch {
+fn ecma_sarif_result_match(result: &Value, sink_locations: &[EcmaSinkAnchor]) -> SarifAnchorMatch {
     let Some(locations) = result["locations"].as_array() else {
         return SarifAnchorMatch::Ambiguous;
     };
@@ -4505,6 +4663,100 @@ mod tests {
     }
 
     #[test]
+    fn typescript_bifrost_kernel_selection_excludes_other_languages() {
+        let kernel = json!({
+            "language": "typescript",
+            "track": "taint",
+            "score_tier": "core",
+            "tool_model_references": {
+                "bifrost": {"policy": "adapters/bifrost/policies/core-typescript-kernel.rqlp"}
+            }
+        });
+        assert!(selected_bifrost_case(&kernel, BifrostRun::TypescriptKernel));
+
+        // The frozen direct-propagation pair keeps the language-agnostic
+        // policy but is still a TypeScript kernel assertion.
+        let mut direct = kernel.clone();
+        direct["tool_model_references"]["bifrost"]["policy"] =
+            json!("adapters/bifrost/policies/core-direct.rqlp");
+        assert!(selected_bifrost_case(&direct, BifrostRun::TypescriptKernel));
+
+        for language in ["javascript", "python", "java"] {
+            let mut other = kernel.clone();
+            other["language"] = json!(language);
+            assert!(!selected_bifrost_case(&other, BifrostRun::TypescriptKernel));
+        }
+        let mut javascript_kernel = kernel.clone();
+        javascript_kernel["language"] = json!("javascript");
+        javascript_kernel["tool_model_references"]["bifrost"]["policy"] =
+            json!("adapters/bifrost/policies/core-javascript-kernel.rqlp");
+        assert!(!selected_bifrost_case(
+            &javascript_kernel,
+            BifrostRun::TypescriptKernel
+        ));
+        assert!(!selected_bifrost_case(&kernel, BifrostRun::PythonKernel));
+
+        let mut calibration = kernel.clone();
+        calibration["score_tier"] = json!("calibration");
+        assert!(!selected_bifrost_case(
+            &calibration,
+            BifrostRun::TypescriptKernel
+        ));
+        let mut unsupported = kernel.clone();
+        unsupported["tool_model_references"]["bifrost"] =
+            json!({"unsupported_reason": "requires an external model catalog"});
+        assert!(selected_bifrost_case(
+            &unsupported,
+            BifrostRun::TypescriptKernel
+        ));
+    }
+
+    #[test]
+    fn ecma_codeql_selection_refuses_the_other_kernel_query() {
+        assert_ne!(
+            EcmaKernel::JavaScript.query(),
+            EcmaKernel::TypeScript.query()
+        );
+        assert_ne!(
+            EcmaKernel::JavaScript.raw_dir(),
+            EcmaKernel::TypeScript.raw_dir()
+        );
+        assert_ne!(
+            EcmaKernel::JavaScript.report(),
+            EcmaKernel::TypeScript.report()
+        );
+        assert_eq!(
+            EcmaKernel::TypeScript.query(),
+            "adapters/codeql/typescript/queries/TypeScriptKernel.ql"
+        );
+        assert!(!EcmaKernel::JavaScript.allows_implicit_query_reference());
+
+        // The committed populations must already agree with the selector.
+        for path in case_paths() {
+            let case: Value = serde_json::from_str(&fs::read_to_string(&path).unwrap()).unwrap();
+            let query = case["tool_model_references"]["codeql"]["query"].as_str();
+            if ecma_core_case(&case, EcmaKernel::TypeScript) {
+                assert!(query.is_none_or(|query| query == EcmaKernel::TypeScript.query()));
+            }
+            if ecma_core_case(&case, EcmaKernel::JavaScript) {
+                assert_eq!(query, Some(EcmaKernel::JavaScript.query()));
+            }
+        }
+        assert_eq!(
+            select_codeql_ecma_cases(EcmaKernel::TypeScript)
+                .unwrap()
+                .len(),
+            CODEQL_ECMA_CASE_COUNT
+        );
+        assert_eq!(
+            select_codeql_ecma_cases(EcmaKernel::JavaScript)
+                .unwrap()
+                .len(),
+            CODEQL_ECMA_CASE_COUNT
+        );
+    }
+
+    #[test]
     fn core_templates_require_one_positive_and_one_negative() {
         let case = |polarity| {
             json!({
@@ -4579,72 +4831,118 @@ mod tests {
     }
 
     #[test]
-    fn javascript_core_selection_is_exactly_32_balanced_assertions() {
-        let mut selected = Vec::new();
-        for path in case_paths() {
-            let case: Value = serde_json::from_str(&fs::read_to_string(path).unwrap()).unwrap();
-            if javascript_core_case(&case) {
-                selected.push(case);
+    fn ecma_core_selections_are_exactly_32_balanced_assertions() {
+        for kernel in [EcmaKernel::JavaScript, EcmaKernel::TypeScript] {
+            let mut selected = Vec::new();
+            for path in case_paths() {
+                let case: Value = serde_json::from_str(&fs::read_to_string(path).unwrap()).unwrap();
+                if ecma_core_case(&case, kernel) {
+                    selected.push(case);
+                }
             }
-        }
-        assert_eq!(selected.len(), CODEQL_JAVASCRIPT_CASE_COUNT);
-        let mut templates = BTreeMap::<String, (usize, usize)>::new();
-        for case in selected {
-            let counts = templates
-                .entry(case["template_id"].as_str().unwrap().to_string())
-                .or_default();
-            if case["polarity"] == "positive" {
-                counts.0 += 1;
-            } else {
-                counts.1 += 1;
+            assert_eq!(selected.len(), CODEQL_ECMA_CASE_COUNT);
+            let mut templates = BTreeMap::<String, (usize, usize)>::new();
+            for case in selected {
+                let counts = templates
+                    .entry(case["template_id"].as_str().unwrap().to_string())
+                    .or_default();
+                if case["polarity"] == "positive" {
+                    counts.0 += 1;
+                } else {
+                    counts.1 += 1;
+                }
             }
+            assert_eq!(templates.len(), CODEQL_ECMA_TEMPLATE_COUNT);
+            assert!(
+                templates
+                    .values()
+                    .all(|(positive, negative)| *positive == 1 && *negative == 1)
+            );
         }
-        assert_eq!(templates.len(), CODEQL_JAVASCRIPT_TEMPLATE_COUNT);
-        assert!(
-            templates
-                .values()
-                .all(|(positive, negative)| *positive == 1 && *negative == 1)
-        );
     }
 
     #[test]
-    fn java_and_javascript_codeql_selectors_are_language_disjoint() {
+    fn java_javascript_and_typescript_codeql_selectors_are_language_disjoint() {
         let mut java = 0;
         let mut javascript = 0;
+        let mut typescript = 0;
         for path in case_paths() {
             let case: Value = serde_json::from_str(&fs::read_to_string(path).unwrap()).unwrap();
             if selected_codeql_java_case(&case) {
                 java += 1;
                 assert_eq!(case["language"], "java");
             }
-            if javascript_core_case(&case) {
+            if ecma_core_case(&case, EcmaKernel::JavaScript) {
                 javascript += 1;
                 assert_eq!(case["language"], "javascript");
+                assert!(!ecma_core_case(&case, EcmaKernel::TypeScript));
+            }
+            if ecma_core_case(&case, EcmaKernel::TypeScript) {
+                typescript += 1;
+                assert_eq!(case["language"], "typescript");
+                assert!(!ecma_core_case(&case, EcmaKernel::JavaScript));
             }
         }
         assert_eq!(java, 32);
-        assert_eq!(javascript, CODEQL_JAVASCRIPT_CASE_COUNT);
+        assert_eq!(javascript, CODEQL_ECMA_CASE_COUNT);
+        assert_eq!(typescript, CODEQL_ECMA_CASE_COUNT);
+    }
+
+    /// The JavaScript kernel selects `.js` fixtures and the TypeScript kernel
+    /// `.ts` fixtures; neither population may contain the other's extension.
+    #[test]
+    fn ecma_kernel_fixtures_carry_their_own_extension() {
+        for (kernel, extension, other) in [
+            (EcmaKernel::JavaScript, "js", "ts"),
+            (EcmaKernel::TypeScript, "ts", "js"),
+        ] {
+            for path in case_paths() {
+                let case: Value =
+                    serde_json::from_str(&fs::read_to_string(&path).unwrap()).unwrap();
+                if !ecma_core_case(&case, kernel) {
+                    continue;
+                }
+                for fixture in case["fixture_files"].as_array().unwrap() {
+                    let fixture = fixture.as_str().unwrap();
+                    assert!(fixture.ends_with(&format!(".{extension}")), "{fixture}");
+                    assert!(!fixture.ends_with(&format!(".{other}")), "{fixture}");
+                }
+            }
+        }
     }
 
     #[test]
-    fn javascript_core_selection_is_language_and_track_scoped() {
-        let javascript = json!({
-            "language": "javascript",
-            "track": "taint",
-            "score_tier": "core"
-        });
-        assert!(javascript_core_case(&javascript));
-        for language in ["typescript", "java", "python"] {
-            let mut other = javascript.clone();
-            other["language"] = json!(language);
-            assert!(!javascript_core_case(&other));
+    fn ecma_core_selection_is_language_and_track_scoped() {
+        for (kernel, language, others) in [
+            (
+                EcmaKernel::JavaScript,
+                "javascript",
+                ["typescript", "java", "python"],
+            ),
+            (
+                EcmaKernel::TypeScript,
+                "typescript",
+                ["javascript", "java", "python"],
+            ),
+        ] {
+            let selected = json!({
+                "language": language,
+                "track": "taint",
+                "score_tier": "core"
+            });
+            assert!(ecma_core_case(&selected, kernel));
+            for other_language in others {
+                let mut other = selected.clone();
+                other["language"] = json!(other_language);
+                assert!(!ecma_core_case(&other, kernel));
+            }
+            let mut other = selected.clone();
+            other["track"] = json!("value-flow");
+            assert!(!ecma_core_case(&other, kernel));
+            other["track"] = json!("taint");
+            other["score_tier"] = json!("calibration");
+            assert!(!ecma_core_case(&other, kernel));
         }
-        let mut other = javascript.clone();
-        other["track"] = json!("value-flow");
-        assert!(!javascript_core_case(&other));
-        other["track"] = json!("taint");
-        other["score_tier"] = json!("calibration");
-        assert!(!javascript_core_case(&other));
     }
 
     #[test]
@@ -4678,7 +4976,7 @@ mod tests {
             }}]}]}]
         });
         assert_eq!(
-            javascript_sarif_outcome(&case_path, &case, &matching).0,
+            ecma_sarif_outcome(&case_path, &case, &matching).0,
             "reached"
         );
         let wrong_line = json!({
@@ -4688,19 +4986,19 @@ mod tests {
             }}]}]}]
         });
         assert_eq!(
-            javascript_sarif_outcome(&case_path, &case, &wrong_line).0,
+            ecma_sarif_outcome(&case_path, &case, &wrong_line).0,
             "inconclusive"
         );
         let missing_location = json!({
             "runs": [{"results": [{"message": {"text": "flow"}}]}]
         });
         assert_eq!(
-            javascript_sarif_outcome(&case_path, &case, &missing_location).0,
+            ecma_sarif_outcome(&case_path, &case, &missing_location).0,
             "inconclusive"
         );
         let no_results = json!({"runs": [{"results": []}]});
         assert_eq!(
-            javascript_sarif_outcome(&case_path, &case, &no_results).0,
+            ecma_sarif_outcome(&case_path, &case, &no_results).0,
             "not-reached"
         );
         fs::remove_dir_all(root).unwrap();
@@ -4733,7 +5031,7 @@ mod tests {
             }}]}]}]
         });
         assert_eq!(
-            javascript_sarif_outcome(&case_path, &case, &sarif).0,
+            ecma_sarif_outcome(&case_path, &case, &sarif).0,
             "inconclusive"
         );
         fs::remove_dir_all(root).unwrap();
@@ -4749,6 +5047,15 @@ mod tests {
         assert_eq!(
             CODEQL_JAVASCRIPT_QUERY,
             "adapters/codeql/javascript/queries/JavaScriptKernel.ql"
+        );
+        assert_eq!(CODEQL_TYPESCRIPT_RAW_DIR, "reports/raw/codeql-typescript");
+        assert_eq!(
+            CODEQL_TYPESCRIPT_REPORT,
+            "reports/codeql-typescript-kernel.json"
+        );
+        assert_eq!(
+            CODEQL_TYPESCRIPT_QUERY,
+            "adapters/codeql/typescript/queries/TypeScriptKernel.ql"
         );
     }
 
