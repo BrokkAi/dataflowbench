@@ -179,7 +179,8 @@ reported here rather than silently rebudgeted.
 
 ### Bifrost, `reports/bifrost-csharp-kernel.json`
 
-Bifrost 0.10.2, build identity `57060b8b062330ab3e9804e1f11e17b290f9447a`.
+Bifrost 0.10.5, build identity `728ac69ab93224151c6c951b23d2f5bc681d8558`.
+The outcome distribution is unchanged from the earlier v0.10.2 run.
 Configuration hash
 `f08e35507c55aad155ac8f5e8fe587c4b48ebe507efa4e73ca671ef2bea20098`; it covers
 both `core-csharp-kernel.rqlp` and the breadth `core-direct.rqlp` because the

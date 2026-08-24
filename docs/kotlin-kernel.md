@@ -183,13 +183,13 @@ case. Build SHA `7d097a43199effe04ecd9c6bd3ad9bb02a45b3d7` with
 `25b92ad6190d65fd76c67da51c3ec0d638cea7699e976941c027a48700b9096e`. Kotlin
 extraction traced kotlinc-jvm 2.4.10.
 
-### Bifrost v0.10.2
+### Bifrost v0.10.5
 
-`reports/bifrost-kotlin-kernel.json` has 32 results: **14 `reached`, 8
+`reports/bifrost-kotlin-kernel.json` has 32 results: **12 `reached`, 10
 `not-reached`, and 10 `inconclusive`**, with zero `unsupported` and zero
-`runner-error`. **17 of 32** assertions match the expected polarity (17 of the
+`runner-error`. **19 of 32** assertions match the expected polarity (19 of the
 22 decisive outcomes). Build identity
-`57060b8b062330ab3e9804e1f11e17b290f9447a`; configuration hash
+`728ac69ab93224151c6c951b23d2f5bc681d8558`; configuration hash
 `26c37db9bdfc1d848a47052d3753e1d29040f004874290641cb6b706b3a03d61`.
 
 The ten `inconclusive` results are the complete heap/separation stratum
@@ -197,16 +197,18 @@ The ten `inconclusive` results are the complete heap/separation stratum
 `array-element`) and the `exception-catch` pair, both polarities. Each retains
 `partial_discovery` evidence with an explicit incompleteness reason — the
 `run` procedure's value-flow snapshot is `unknown` or `unproven`. They are
-capability coverage, not negatives, and are never counted as such. This mirrors
-the Java kernel's v0.10.2 profile.
+capability coverage, not negatives, and are never counted as such.
 
-The five decisive mismatches are:
+The three decisive mismatches are:
 
 - `dfb-taint-kotlin-expression-positive` — false negative.
-- `dfb-taint-kotlin-local-overwrite-negative` — false positive.
-- `dfb-taint-kotlin-branch-join-negative` — false positive.
 - `dfb-taint-kotlin-infeasible-branch-negative` — false positive.
 - `dfb-taint-kotlin-loop-carried-negative` — false positive.
+
+This improves on the earlier v0.10.2 run (17/32 matching, five decisive
+mismatches): the `local-overwrite` and `branch-join` negatives are now
+correctly `not-reached`. The frozen v0.2.0 Java kernel evidence remains a
+v0.10.2 snapshot until the next freeze re-runs every Bifrost slice.
 
 No fixture was adjusted to make either analyzer pass. The mismatches are
 published results.
