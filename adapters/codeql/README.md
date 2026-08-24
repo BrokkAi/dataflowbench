@@ -1,18 +1,24 @@
 # CodeQL adapter
 
 The CodeQL adapter runs language-scoped benchmark kernels against canonical
-fixtures. Java, JavaScript, TypeScript, and Python have separate selections,
-query paths, normalized reports, and retained raw-evidence directories.
-JavaScript and TypeScript share CodeQL's `javascript` extractor and standard
-library, but they are two separate populations: each slice selects only its own
-language's cases, and each query additionally guards on its fixture's file
-extension so the result sets cannot overlap.
+fixtures. Java, JavaScript, TypeScript, Python, and Kotlin have separate
+selections, query paths, normalized reports, and retained raw-evidence
+directories. JavaScript and TypeScript share CodeQL's `javascript` extractor
+and standard library, but they are two separate populations: each slice
+selects only its own language's cases, and each query additionally guards on
+its fixture's file extension so the result sets cannot overlap. Kotlin is
+extracted by the same `java` extractor and standard library as Java, so its
+query restricts every node to `.kt` files and its runner selects only Kotlin
+cases.
 
-The checked-in query packs contain the Java, JavaScript, TypeScript, and Python
-kernel queries. Each query uses that language's CodeQL data-flow API and the
-benchmark-controlled `dfb_source()`/`dfb_sink(value)` contract; the Python query is
-`python/queries/PythonKernel.ql` in its own Python database-schema pack, and the
-TypeScript query is `typescript/queries/TypeScriptKernel.ql` in its own pack.
+The checked-in query packs contain the Java, JavaScript, TypeScript, Python,
+and Kotlin kernel queries. Each query uses that language's CodeQL data-flow API
+and the benchmark-controlled `dfb_source()`/`dfb_sink(value)` contract; the
+Python query is `python/queries/PythonKernel.ql` in its own Python
+database-schema pack, the TypeScript query is
+`typescript/queries/TypeScriptKernel.ql` in its own pack, and the Kotlin query
+is `kotlin/queries/KotlinKernel.ql` in its own pack pinned to the same
+`codeql/java-all@9.2.3` as the root Java pack.
 
 The Java kernel adapter creates one CodeQL database per canonical case,
 compiles the fixture with its real `javac` build, runs the pinned
@@ -94,6 +100,30 @@ codeql database analyze /tmp/dataflowbench-js-db \
 
 The runner uses isolated, case-specific temporary paths rather than these
 illustrative names.
+
+## Kotlin kernel
+
+The Kotlin runner selects exactly the 32 `taint` cases whose `language` is
+`kotlin` and `score_tier` is `core`, and pins
+`adapters/codeql/kotlin/queries/KotlinKernel.ql` for the whole population. It
+refuses any Kotlin core case that declares a *different* CodeQL query. Two of
+the 32 — the direct-propagation pair frozen in v0.2.0 as part of the
+cross-language breadth slice — declare no CodeQL reference at all; see the
+[Kotlin kernel contract](../../docs/kotlin-kernel.md).
+
+CodeQL CLI 2.26.3 cannot extract Kotlin under `--build-mode=none`, so the
+runner traces a real `kotlinc` compile per case:
+
+```bash
+cargo run -- run-codeql-kotlin-kernel \
+  --codeql /path/to/codeql \
+  --kotlinc /path/to/kotlinc
+```
+
+It writes `reports/codeql-kotlin-kernel.json` and retains SARIF (or a raw runner
+diagnostic when CodeQL cannot produce SARIF) under
+`reports/raw/codeql-kotlin-kernel/`. Kotlin evidence is never read from the Java
+report or from `reports/raw/codeql/`.
 
 ## Evidence and outcome semantics
 
@@ -274,6 +304,17 @@ exception positives are false negatives, while the array-element and loop-kill
 negatives are false positives. Each case uses an isolated cold database; no
 database or compiled fixture is reused across the pair. The adapter removes
 temporary databases and workspaces after retaining SARIF.
+
+The retained Kotlin snapshot uses the same CodeQL CLI v2.26.3 build
+`7d097a43199effe04ecd9c6bd3ad9bb02a45b3d7` with `codeql/java-all@9.2.3`, and
+traced Kotlin extraction through kotlinc-jvm 2.4.10. All 32 Kotlin assertions
+executed with ordinary reached/not-reached outcomes: 15 are `reached` and 17
+are `not-reached`, with 27/32 matching the expected polarity and zero special
+or error outcomes. The false negatives are the expression, alias-propagation,
+and exception-catch positives; the array-element and loop-carried negatives are
+false positives — the same five mismatches the Java snapshot shows against this
+build. Its configuration hash is
+`25b92ad6190d65fd76c67da51c3ec0d638cea7699e976941c027a48700b9096e`.
 
 The retained Python snapshot uses the same CodeQL CLI v2.26.3 build
 `7d097a43199effe04ecd9c6bd3ad9bb02a45b3d7` with `codeql/python-all@7.2.3`.
