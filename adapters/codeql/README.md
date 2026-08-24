@@ -1,15 +1,18 @@
 # CodeQL adapter
 
 The CodeQL adapter runs language-scoped benchmark kernels against canonical
-fixtures. Java, JavaScript, and Python have separate selections, query paths,
-normalized reports, and retained raw-evidence directories. The JavaScript query
-may use CodeQL libraries shared with TypeScript, but this adapter slice selects
-only JavaScript cases; TypeScript is a future, separate population.
+fixtures. Java, JavaScript, TypeScript, and Python have separate selections,
+query paths, normalized reports, and retained raw-evidence directories.
+JavaScript and TypeScript share CodeQL's `javascript` extractor and standard
+library, but they are two separate populations: each slice selects only its own
+language's cases, and each query additionally guards on its fixture's file
+extension so the result sets cannot overlap.
 
-The checked-in query packs contain the Java, JavaScript, and Python kernel
-queries. Each query uses that language's CodeQL data-flow API and the
+The checked-in query packs contain the Java, JavaScript, TypeScript, and Python
+kernel queries. Each query uses that language's CodeQL data-flow API and the
 benchmark-controlled `dfb_source()`/`dfb_sink(value)` contract; the Python query is
-`python/queries/PythonKernel.ql` in its own Python database-schema pack.
+`python/queries/PythonKernel.ql` in its own Python database-schema pack, and the
+TypeScript query is `typescript/queries/TypeScriptKernel.ql` in its own pack.
 
 The Java kernel adapter creates one CodeQL database per canonical case,
 compiles the fixture with its real `javac` build, runs the pinned
@@ -142,6 +145,40 @@ current adapter records anchor-backed flow outcomes while retaining path
 evidence in SARIF rather than fabricating normalized witness markers. Its
 configuration hash is
 `a038e39eb93d6fc674ab59cf2e4de5b3608f1d7b294c19da75ce1bd041c75ac5`.
+
+## TypeScript kernel
+
+The TypeScript runner selects exactly the 32 `taint` cases whose `language` is
+`typescript` and `score_tier` is `core`, and runs:
+
+```text
+adapters/codeql/typescript/queries/TypeScriptKernel.ql
+```
+
+owned by the dedicated pack manifest `adapters/codeql/typescript/qlpack.yml`.
+That pack depends on the same `codeql/javascript-all@2.9.0` as the JavaScript
+pack, because CodeQL extracts TypeScript with its `javascript` extractor. The
+populations stay disjoint through three independent guards: the runner's
+`language` selector, each query's fixture-extension predicate (`ts` here, `js`
+in `JavaScriptKernel.ql`), and separate report and raw-evidence roots. The
+runner refuses JavaScript cases exactly as the JavaScript runner refuses
+TypeScript ones, and it refuses any selected case that declares a query other
+than its own.
+
+```bash
+cargo run -- run-codeql-typescript-kernel --codeql /path/to/codeql
+```
+
+It writes `reports/codeql-typescript-kernel.json` and retains per-case SARIF
+(or raw runner diagnostics) under `reports/raw/codeql-typescript/`.
+
+The direct-propagation pair is shared with the cross-language direct-flow
+breadth slice and was frozen in `v0.2.0` before this pack existed, so its case
+bytes carry no CodeQL query reference. Rather than rewrite frozen evidence, the
+runner defaults a selected TypeScript case with no declared query to this
+kernel's query. See [the TypeScript kernel
+document](../../docs/typescript-kernel.md) for the full adaptation table and
+the freeze rationale.
 
 ## Python kernel
 
