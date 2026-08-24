@@ -16,7 +16,12 @@ and control-flow strata. The JavaScript parity slice uses the same template IDs
 and the language-qualified `core-javascript-kernel.rqlp` policy, with any
 language adaptations recorded on the canonical cases. See the [JavaScript
 adaptation matrix](../../docs/javascript-kernel.md) for the syntax mapping and
-the explicit exceptional-flow limitation. The Java calibration slice also
+the explicit exceptional-flow limitation. The Python parity slice uses
+`core-python-kernel.rqlp`, and the Kotlin parity slice uses
+`core-kotlin-kernel.rqlp`; see the [Kotlin kernel
+contract](../../docs/kotlin-kernel.md) for its two `var`-based adaptations and
+for why the Kotlin kernel run pins its policy for the whole population rather
+than reading it from each case. The Java calibration slice also
 covers one-hop helper flow. Generated workspaces live outside the repository so
 repository ignore rules cannot hide fixtures from Bifrost's indexer. Sanitizer
 lowering is a future Bifrost CLI capability.
@@ -29,6 +34,8 @@ Run from the repository root:
 
 ```bash
 cargo run -- run-bifrost-smoke --bifrost /path/to/bifrost
+cargo run -- run-bifrost-python-kernel --bifrost /path/to/bifrost
+cargo run -- run-bifrost-kotlin-kernel --bifrost /path/to/bifrost
 ```
 
 The smoke command selects only cases with an explicit Bifrost policy or

@@ -1,15 +1,20 @@
 # CodeQL adapter
 
 The CodeQL adapter runs language-scoped benchmark kernels against canonical
-fixtures. Java, JavaScript, and Python have separate selections, query paths,
-normalized reports, and retained raw-evidence directories. The JavaScript query
-may use CodeQL libraries shared with TypeScript, but this adapter slice selects
-only JavaScript cases; TypeScript is a future, separate population.
+fixtures. Java, JavaScript, Python, and Kotlin have separate selections, query
+paths, normalized reports, and retained raw-evidence directories. The JavaScript
+query may use CodeQL libraries shared with TypeScript, but this adapter slice
+selects only JavaScript cases; TypeScript is a future, separate population.
+Kotlin is extracted by the same `java` extractor and standard library as Java,
+so its query restricts every node to `.kt` files and its runner selects only
+Kotlin cases.
 
-The checked-in query packs contain the Java, JavaScript, and Python kernel
-queries. Each query uses that language's CodeQL data-flow API and the
+The checked-in query packs contain the Java, JavaScript, Python, and Kotlin
+kernel queries. Each query uses that language's CodeQL data-flow API and the
 benchmark-controlled `dfb_source()`/`dfb_sink(value)` contract; the Python query is
-`python/queries/PythonKernel.ql` in its own Python database-schema pack.
+`python/queries/PythonKernel.ql` in its own Python database-schema pack, and the
+Kotlin query is `kotlin/queries/KotlinKernel.ql` in its own pack pinned to the
+same `codeql/java-all@9.2.3` as the root Java pack.
 
 The Java kernel adapter creates one CodeQL database per canonical case,
 compiles the fixture with its real `javac` build, runs the pinned
@@ -91,6 +96,30 @@ codeql database analyze /tmp/dataflowbench-js-db \
 
 The runner uses isolated, case-specific temporary paths rather than these
 illustrative names.
+
+## Kotlin kernel
+
+The Kotlin runner selects exactly the 32 `taint` cases whose `language` is
+`kotlin` and `score_tier` is `core`, and pins
+`adapters/codeql/kotlin/queries/KotlinKernel.ql` for the whole population. It
+refuses any Kotlin core case that declares a *different* CodeQL query. Two of
+the 32 — the direct-propagation pair frozen in v0.2.0 as part of the
+cross-language breadth slice — declare no CodeQL reference at all; see the
+[Kotlin kernel contract](../../docs/kotlin-kernel.md).
+
+CodeQL CLI 2.26.3 cannot extract Kotlin under `--build-mode=none`, so the
+runner traces a real `kotlinc` compile per case:
+
+```bash
+cargo run -- run-codeql-kotlin-kernel \
+  --codeql /path/to/codeql \
+  --kotlinc /path/to/kotlinc
+```
+
+It writes `reports/codeql-kotlin-kernel.json` and retains SARIF (or a raw runner
+diagnostic when CodeQL cannot produce SARIF) under
+`reports/raw/codeql-kotlin-kernel/`. Kotlin evidence is never read from the Java
+report or from `reports/raw/codeql/`.
 
 ## Evidence and outcome semantics
 
