@@ -31,6 +31,14 @@ const CODEQL_KOTLIN_REPORT: &str = "reports/codeql-kotlin-kernel.json";
 const CODEQL_CSHARP_QUERY: &str = "adapters/codeql/csharp/queries/CSharpKernel.ql";
 const CODEQL_CSHARP_RAW_DIR: &str = "reports/raw/codeql-csharp-kernel";
 const CODEQL_CSHARP_REPORT: &str = "reports/codeql-csharp-kernel.json";
+const CODEQL_C_QUERY: &str = "adapters/codeql/cpp/queries/CKernel.ql";
+const CODEQL_C_RAW_DIR: &str = "reports/raw/codeql-c-kernel";
+const CODEQL_C_REPORT: &str = "reports/codeql-c-kernel.json";
+const CODEQL_CPP_QUERY: &str = "adapters/codeql/cpp/queries/CppKernel.ql";
+const CODEQL_CPP_RAW_DIR: &str = "reports/raw/codeql-cpp-kernel";
+const CODEQL_CPP_REPORT: &str = "reports/codeql-cpp-kernel.json";
+const BIFROST_C_POLICY: &str = "adapters/bifrost/policies/core-c-kernel.rqlp";
+const BIFROST_CPP_POLICY: &str = "adapters/bifrost/policies/core-cpp-kernel.rqlp";
 const BIFROST_CSHARP_POLICY: &str = "adapters/bifrost/policies/core-csharp-kernel.rqlp";
 /// The cross-language direct-flow breadth policy. The C# direct-propagation
 /// pair predates the C# kernel and is frozen in the published v0.2.0 evidence,
@@ -67,6 +75,30 @@ const KERNEL_TEMPLATE_IDS: [&str; 16] = [
     "dfb-template-return-relay-two-hop",
     "dfb-template-same-object-field-separation",
 ];
+/// The C core population: the sixteen scored templates minus
+/// `dfb-template-exception-catch`, which docs/applicability-matrix.md classifies
+/// as **inapplicable** to C — no C construct transfers a typed value to a
+/// handler, and `setjmp`/`longjmp` does not preserve the template's
+/// value-carrying intent. The inapplicable cell reduces only C's denominator.
+const C_KERNEL_TEMPLATE_IDS: [&str; 15] = [
+    "dfb-template-alias-propagation-separation",
+    "dfb-template-argument-position-separation",
+    "dfb-template-arithmetic-expression-propagation",
+    "dfb-template-array-element-separation",
+    "dfb-template-branch-join",
+    "dfb-template-call-context-separation",
+    "dfb-template-direct-propagation",
+    "dfb-template-infeasible-branch",
+    "dfb-template-local-multi-step-chain",
+    "dfb-template-local-overwrite-kill",
+    "dfb-template-loop-carried-kill",
+    "dfb-template-object-separation",
+    "dfb-template-return-relay-one-hop",
+    "dfb-template-return-relay-two-hop",
+    "dfb-template-same-object-field-separation",
+];
+/// One positive and one negative assertion for each scored C template.
+const C_KERNEL_CASE_COUNT: usize = 2 * C_KERNEL_TEMPLATE_IDS.len();
 
 #[derive(Parser)]
 #[command(name = "dataflowbench")]
@@ -143,6 +175,19 @@ enum Commands {
         #[arg(long, default_value = "bifrost")]
         bifrost: PathBuf,
     },
+    /// Run the C propagation kernel as its own population. C's core
+    /// denominator is 15 templates; its `language-extension` cases run in the
+    /// same slice but keep their own scorecard.
+    RunBifrostCKernel {
+        #[arg(long, default_value = "bifrost")]
+        bifrost: PathBuf,
+    },
+    /// Run the C++ propagation kernel as its own population, never merged or
+    /// pooled with the C population.
+    RunBifrostCppKernel {
+        #[arg(long, default_value = "bifrost")]
+        bifrost: PathBuf,
+    },
     RunCodeqlJavaKernel {
         #[arg(long, default_value = "codeql")]
         codeql: PathBuf,
@@ -190,6 +235,23 @@ enum Commands {
         #[arg(long)]
         codeql_packs: Option<PathBuf>,
     },
+    /// Run the C propagation kernel through the shared `cpp` CodeQL extractor.
+    /// The extractor covers C and C++ alike, so this command selects `.c`
+    /// fixtures only and analyzes them with the C-scoped kernel query.
+    RunCodeqlCKernel {
+        #[arg(long, default_value = "codeql")]
+        codeql: PathBuf,
+        #[arg(long)]
+        codeql_packs: Option<PathBuf>,
+    },
+    /// Run the C++ propagation kernel through the shared `cpp` CodeQL
+    /// extractor, selecting `.cpp` fixtures only.
+    RunCodeqlCppKernel {
+        #[arg(long, default_value = "codeql")]
+        codeql: PathBuf,
+        #[arg(long)]
+        codeql_packs: Option<PathBuf>,
+    },
 }
 
 fn main() -> Result<()> {
@@ -216,6 +278,8 @@ fn main() -> Result<()> {
             run_bifrost(&bifrost, BifrostRun::TypescriptKernel)
         }
         Commands::RunBifrostCsharpKernel { bifrost } => run_bifrost_csharp_kernel(&bifrost),
+        Commands::RunBifrostCKernel { bifrost } => run_bifrost(&bifrost, BifrostRun::CKernel),
+        Commands::RunBifrostCppKernel { bifrost } => run_bifrost(&bifrost, BifrostRun::CppKernel),
         Commands::RunCodeqlJavaKernel {
             codeql,
             codeql_packs,
@@ -241,6 +305,14 @@ fn main() -> Result<()> {
             codeql,
             codeql_packs,
         } => run_codeql_csharp_kernel(&codeql, codeql_packs.as_deref()),
+        Commands::RunCodeqlCKernel {
+            codeql,
+            codeql_packs,
+        } => run_codeql_c_family_kernel(&codeql, codeql_packs.as_deref(), CFamilyKernel::C),
+        Commands::RunCodeqlCppKernel {
+            codeql,
+            codeql_packs,
+        } => run_codeql_c_family_kernel(&codeql, codeql_packs.as_deref(), CFamilyKernel::Cpp),
     }
 }
 
@@ -292,8 +364,10 @@ fn validate_cases() -> Result<()> {
     validate_balanced_core_pairs(&cases)?;
     validate_kernel_balance(&cases, EcmaKernel::JavaScript)?;
     validate_kernel_balance(&cases, EcmaKernel::TypeScript)?;
-    validate_scored_kernel_balance(&cases, "kotlin", "Kotlin")?;
-    validate_scored_kernel_balance(&cases, "csharp", "C#")?;
+    validate_scored_kernel_balance(&cases, "kotlin", "Kotlin", &KERNEL_TEMPLATE_IDS)?;
+    validate_scored_kernel_balance(&cases, "csharp", "C#", &KERNEL_TEMPLATE_IDS)?;
+    validate_scored_kernel_balance(&cases, "cpp", "C++", &KERNEL_TEMPLATE_IDS)?;
+    validate_scored_kernel_balance(&cases, "c", "C", &C_KERNEL_TEMPLATE_IDS)?;
     println!("validated {} cases", paths.len());
     Ok(())
 }
@@ -389,21 +463,24 @@ fn validate_kernel_balance(cases: &[(PathBuf, Value)], kernel: EcmaKernel) -> Re
     Ok(())
 }
 
-/// The Kotlin and C# kernels are both 16/16 in docs/applicability-matrix.md:
-/// each must carry the scored template identities unchanged, with no template
-/// renamed, split, or silently dropped because the language spells a construct
-/// differently. A language with no core cases yet is simply not a kernel
-/// population.
+/// A ported kernel must carry its scored template identities unchanged, with no
+/// template renamed, split, or silently dropped because the language spells a
+/// construct differently. The expected set is the language's core denominator
+/// from docs/applicability-matrix.md: sixteen templates for Kotlin, C#, and
+/// C++, and fifteen for C, whose inapplicable exception-catch cell reduces only
+/// its own denominator. A language with no core cases yet is simply not a
+/// kernel population.
 fn validate_scored_kernel_balance(
     cases: &[(PathBuf, Value)],
     language: &str,
     display: &str,
+    expected_templates: &[&str],
 ) -> Result<()> {
     let kernel_templates = core_templates_for_language(cases, language);
     if kernel_templates.is_empty() {
         return Ok(());
     }
-    let expected = KERNEL_TEMPLATE_IDS.iter().copied().collect::<BTreeSet<_>>();
+    let expected = expected_templates.iter().copied().collect::<BTreeSet<_>>();
     if kernel_templates != expected {
         let missing = expected
             .difference(&kernel_templates)
@@ -542,6 +619,8 @@ enum BifrostRun {
     KotlinKernel,
     TypescriptKernel,
     CsharpKernel,
+    CKernel,
+    CppKernel,
 }
 fn validate_freeze(manifest: &Path) -> Result<()> {
     let root = repository_root()?;
@@ -2119,6 +2198,14 @@ fn run_bifrost(binary: &Path, run: BifrostRun) -> Result<()> {
             Path::new("reports/raw/bifrost-csharp-kernel"),
             Path::new("reports/bifrost-csharp-kernel.json"),
         ),
+        BifrostRun::CKernel => (
+            Path::new("reports/raw/bifrost-c-kernel"),
+            Path::new("reports/bifrost-c-kernel.json"),
+        ),
+        BifrostRun::CppKernel => (
+            Path::new("reports/raw/bifrost-cpp-kernel"),
+            Path::new("reports/bifrost-cpp-kernel.json"),
+        ),
     };
     fs::create_dir_all(raw_dir)?;
     let started = now_seconds()?;
@@ -2130,12 +2217,16 @@ fn run_bifrost(binary: &Path, run: BifrostRun) -> Result<()> {
     let mut results = Vec::new();
     let mut policy_paths = BTreeSet::new();
     let mut selected_cases = 0;
+    let mut selected_core_cases = 0;
     for path in case_paths() {
         let case: Value = serde_json::from_str(&fs::read_to_string(&path)?)?;
         if !selected_bifrost_case(&case, run) {
             continue;
         }
         selected_cases += 1;
+        if case["score_tier"] == "core" {
+            selected_core_cases += 1;
+        }
         let id = case["id"].as_str().expect("schema validated");
         let model = &case["tool_model_references"]["bifrost"];
         let raw_path = raw_dir.join(format!("{id}.json"));
@@ -2243,25 +2334,24 @@ fn run_bifrost(binary: &Path, run: BifrostRun) -> Result<()> {
         ));
     }
     if selected_cases == 0 {
-        let selection = match run {
-            BifrostRun::Smoke => "Bifrost smoke",
-            BifrostRun::PythonKernel => "Bifrost Python kernel",
-            BifrostRun::KotlinKernel => "Bifrost Kotlin kernel",
-            BifrostRun::TypescriptKernel => "Bifrost TypeScript kernel",
-            BifrostRun::CsharpKernel => "Bifrost C# kernel",
-        };
-        bail!("no cases selected for {selection}");
+        bail!("no cases selected for {}", bifrost_run_label(run));
     }
-    if matches!(run, BifrostRun::KotlinKernel | BifrostRun::CsharpKernel)
-        && selected_cases != KERNEL_CASE_COUNT
+    // The core denominator each kernel run must cover exactly. C's
+    // `language-extension` cases are selected by the same run but are counted
+    // and scored separately, so they never move this number.
+    let expected_core_cases = match run {
+        BifrostRun::KotlinKernel | BifrostRun::CsharpKernel | BifrostRun::CppKernel => {
+            Some(KERNEL_CASE_COUNT)
+        }
+        BifrostRun::CKernel => Some(C_KERNEL_CASE_COUNT),
+        BifrostRun::Smoke | BifrostRun::PythonKernel | BifrostRun::TypescriptKernel => None,
+    };
+    if let Some(expected) = expected_core_cases
+        && selected_core_cases != expected
     {
-        let label = if run == BifrostRun::KotlinKernel {
-            "Kotlin"
-        } else {
-            "C#"
-        };
         bail!(
-            "Bifrost {label} kernel must select exactly {KERNEL_CASE_COUNT} core assertions; found {selected_cases}"
+            "{} must select exactly {expected} core assertions; found {selected_core_cases}",
+            bifrost_run_label(run)
         );
     }
     let configuration_hash = hash_paths(&policy_paths)?;
@@ -2282,6 +2372,18 @@ fn run_bifrost(binary: &Path, run: BifrostRun) -> Result<()> {
     validate_reports()?;
     println!("wrote {}", report_path.display());
     Ok(())
+}
+
+fn bifrost_run_label(run: BifrostRun) -> &'static str {
+    match run {
+        BifrostRun::Smoke => "Bifrost smoke",
+        BifrostRun::PythonKernel => "Bifrost Python kernel",
+        BifrostRun::KotlinKernel => "Bifrost Kotlin kernel",
+        BifrostRun::TypescriptKernel => "Bifrost TypeScript kernel",
+        BifrostRun::CsharpKernel => "Bifrost C# kernel",
+        BifrostRun::CKernel => "Bifrost C kernel",
+        BifrostRun::CppKernel => "Bifrost C++ kernel",
+    }
 }
 
 /// The Bifrost policy a run evaluates for one case.
@@ -2330,7 +2432,21 @@ fn selected_bifrost_case(case: &Value, run: BifrostRun) -> bool {
                     })
                     || case["tool_model_references"]["bifrost"]["unsupported_reason"].is_string())
         }
+        BifrostRun::CKernel => c_family_bifrost_case(case, CFamilyKernel::C),
+        BifrostRun::CppKernel => c_family_bifrost_case(case, CFamilyKernel::Cpp),
     }
+}
+
+/// A C or C++ case this kernel run evaluates. As with the Kotlin and C#
+/// kernels, the direct-propagation pair predates the kernel and is frozen in
+/// the published v0.2.0 evidence naming the cross-language breadth policy, so
+/// that policy reference is accepted alongside the language-qualified one.
+fn c_family_bifrost_case(case: &Value, kernel: CFamilyKernel) -> bool {
+    c_family_selected_case(case, kernel)
+        && (case["tool_model_references"]["bifrost"]["policy"]
+            .as_str()
+            .is_some_and(|policy| policy == kernel.policy() || policy == BIFROST_DIRECT_POLICY)
+            || case["tool_model_references"]["bifrost"]["unsupported_reason"].is_string())
 }
 
 /// Policies that carry a TypeScript kernel assertion.
@@ -2470,6 +2586,88 @@ impl EcmaKernel {
     }
 }
 
+/// CodeQL extracts C and C++ with one `cpp` extractor and Bifrost indexes both
+/// from one workspace, but DataFlowBench keeps them as two populations with
+/// different core denominators: 16 templates for C++, 15 for C, never merged,
+/// pooled, or macro-averaged together. Everything that separates them — the
+/// selected case language, the scored template set, the policy, the kernel
+/// query, and the report and raw-evidence roots — hangs off this descriptor.
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+enum CFamilyKernel {
+    C,
+    Cpp,
+}
+
+impl CFamilyKernel {
+    fn language(self) -> &'static str {
+        match self {
+            Self::C => "c",
+            Self::Cpp => "cpp",
+        }
+    }
+
+    fn display_name(self) -> &'static str {
+        match self {
+            Self::C => "C",
+            Self::Cpp => "C++",
+        }
+    }
+
+    fn policy(self) -> &'static str {
+        match self {
+            Self::C => BIFROST_C_POLICY,
+            Self::Cpp => BIFROST_CPP_POLICY,
+        }
+    }
+
+    fn query(self) -> &'static str {
+        match self {
+            Self::C => CODEQL_C_QUERY,
+            Self::Cpp => CODEQL_CPP_QUERY,
+        }
+    }
+
+    fn raw_dir(self) -> &'static str {
+        match self {
+            Self::C => CODEQL_C_RAW_DIR,
+            Self::Cpp => CODEQL_CPP_RAW_DIR,
+        }
+    }
+
+    fn report(self) -> &'static str {
+        match self {
+            Self::C => CODEQL_C_REPORT,
+            Self::Cpp => CODEQL_CPP_REPORT,
+        }
+    }
+
+    /// The scored templates of this language's core denominator.
+    fn templates(self) -> &'static [&'static str] {
+        match self {
+            Self::C => &C_KERNEL_TEMPLATE_IDS,
+            Self::Cpp => &KERNEL_TEMPLATE_IDS,
+        }
+    }
+
+    /// Whether this language routes its inapplicable cell to
+    /// `language-extension` cases that run in the same slice.
+    fn has_language_extension_cases(self) -> bool {
+        matches!(self, Self::C)
+    }
+}
+
+/// A case this kernel evaluates: the language's core population, plus — for C —
+/// the `language-extension` cases that stand in for the inapplicable
+/// exception-catch cell. Extension cases are scored on their own scorecard and
+/// never enter the core denominator.
+fn c_family_selected_case(case: &Value, kernel: CFamilyKernel) -> bool {
+    case["language"].as_str() == Some(kernel.language())
+        && case["track"] == "taint"
+        && (case["score_tier"] == "core"
+            || (kernel.has_language_extension_cases()
+                && case["score_tier"] == "language-extension"))
+}
+
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 enum CodeqlLanguage<'a> {
     Java,
@@ -2481,6 +2679,10 @@ enum CodeqlLanguage<'a> {
         kotlinc: &'a Path,
     },
     CSharp,
+    /// C and C++ share CodeQL's `cpp` extractor. Which of the two populations a
+    /// run belongs to is decided by case selection and the kernel query, not by
+    /// the extractor.
+    CFamily,
 }
 
 impl CodeqlLanguage<'_> {
@@ -2489,6 +2691,7 @@ impl CodeqlLanguage<'_> {
             Self::Java | Self::Kotlin { .. } => "java",
             Self::Python => "python",
             Self::CSharp => "csharp",
+            Self::CFamily => "cpp",
         }
     }
 
@@ -2849,6 +3052,144 @@ fn run_codeql_csharp_kernel(binary: &Path, packs: Option<&Path>) -> Result<()> {
     Ok(())
 }
 
+/// Run one of the two C-family CodeQL kernels. C and C++ share the `cpp`
+/// extractor and one pack, so the population separation is enforced here: each
+/// run selects only its own language's cases, analyzes them with its own
+/// extension-scoped kernel query, and writes its own report and raw-evidence
+/// directory. The two result sets are never merged.
+fn run_codeql_c_family_kernel(
+    binary: &Path,
+    packs: Option<&Path>,
+    kernel: CFamilyKernel,
+) -> Result<()> {
+    validate_cases()?;
+    let selected = codeql_c_family_cases(kernel)?;
+    let raw_dir = Path::new(kernel.raw_dir());
+    fs::create_dir_all(raw_dir)?;
+    let started = now_seconds()?;
+    let (version, build_identity) = codeql_version_identity(binary)?;
+    let revision = fixture_revision()?;
+    let mut results = Vec::with_capacity(selected.len());
+
+    for (path, case) in selected {
+        let id = case["id"].as_str().expect("schema validated");
+        let start = Instant::now();
+        let (outcome, diagnostics, raw_path) = run_codeql_case_for_language(
+            binary,
+            packs,
+            &path,
+            &case,
+            Path::new(kernel.query()),
+            raw_dir,
+            CodeqlLanguage::CFamily,
+        )?;
+        results.push(codeql_result(
+            &case,
+            id,
+            outcome,
+            diagnostics,
+            start.elapsed(),
+            &raw_path,
+        ));
+    }
+
+    let configuration_hash = hash_paths(&codeql_c_family_configuration_paths(kernel))?;
+    let report = json!({
+        "schema_version": 1,
+        "tool": "codeql",
+        "tool_version": version,
+        "tool_build_identity": build_identity,
+        "adapter_version": ADAPTER_VERSION,
+        "configuration_hash": configuration_hash,
+        "fixture_revision": revision,
+        "started_at_unix_seconds": started,
+        "ended_at_unix_seconds": now_seconds()?,
+        "cold_or_warm": "cold",
+        "results": results
+    });
+    fs::write(
+        kernel.report(),
+        serde_json::to_string_pretty(&report)? + "\n",
+    )?;
+    validate_reports()?;
+    println!("wrote {}", kernel.report());
+    Ok(())
+}
+
+fn codeql_c_family_cases(kernel: CFamilyKernel) -> Result<Vec<(PathBuf, Value)>> {
+    let display = kernel.display_name();
+    let mut selected = Vec::new();
+    for path in case_paths() {
+        let case: Value = serde_json::from_str(&fs::read_to_string(&path)?)?;
+        if !c_family_selected_case(&case, kernel) {
+            continue;
+        }
+        // The direct-propagation pair predates this kernel and is frozen in the
+        // published v0.2.0 evidence without a CodeQL model reference. Any
+        // reference a selected case does carry must name this kernel's query,
+        // so the C and C++ populations can never borrow each other's query.
+        if let Some(query) = case["tool_model_references"]["codeql"]["query"].as_str()
+            && query != kernel.query()
+        {
+            bail!(
+                "{display} case {} references non-{display} CodeQL query {query:?}",
+                case["id"]
+            );
+        }
+        selected.push((path, case));
+    }
+    validate_c_family_population(&selected, kernel)?;
+    if !Path::new(kernel.query()).is_file() {
+        bail!("{display} CodeQL query does not exist: {}", kernel.query());
+    }
+    Ok(selected)
+}
+
+/// The core population must be exactly this language's scored templates,
+/// balanced one positive to one negative. `language-extension` cases ride
+/// along in the same slice, are scored on their own scorecard, and are
+/// excluded from that count.
+fn validate_c_family_population(
+    selected: &[(PathBuf, Value)],
+    kernel: CFamilyKernel,
+) -> Result<()> {
+    let label = format!("{} kernel", kernel.display_name());
+    let core = selected
+        .iter()
+        .filter(|(_, case)| case["score_tier"] == "core")
+        .cloned()
+        .collect::<Vec<_>>();
+    validate_kernel_population_with(&core, &label, kernel.templates())?;
+    if !kernel.has_language_extension_cases() && core.len() != selected.len() {
+        bail!("{label} must select core cases only");
+    }
+    for (path, case) in selected {
+        if case["score_tier"] == "language-extension" && case["polarity"] != "positive" {
+            bail!(
+                "{}: {label} language-extension cases are authored as positives",
+                path.display()
+            );
+        }
+    }
+    Ok(())
+}
+
+fn codeql_c_family_configuration_paths(kernel: CFamilyKernel) -> BTreeSet<PathBuf> {
+    let mut paths = BTreeSet::from([PathBuf::from(kernel.query())]);
+    for candidate in [
+        "adapters/codeql/cpp/qlpack.yml",
+        "adapters/codeql/cpp/codeql-pack.lock.yml",
+    ]
+    .into_iter()
+    .map(PathBuf::from)
+    {
+        if candidate.is_file() {
+            paths.insert(candidate);
+        }
+    }
+    paths
+}
+
 fn csharp_core_case(case: &Value) -> bool {
     case["language"] == "csharp" && case["track"] == "taint" && case["score_tier"] == "core"
 }
@@ -2963,9 +3304,21 @@ fn codeql_kotlin_configuration_paths() -> BTreeSet<PathBuf> {
 /// Assert that a selected language kernel is exactly the sixteen scored
 /// templates under one model profile, balanced one positive to one negative.
 fn validate_kernel_population(cases: &[(PathBuf, Value)], label: &str) -> Result<()> {
-    if cases.len() != KERNEL_CASE_COUNT {
+    validate_kernel_population_with(cases, label, &KERNEL_TEMPLATE_IDS)
+}
+
+/// The same assertion for a language whose core denominator is not the full
+/// sixteen templates: docs/applicability-matrix.md reduces C and Rust to
+/// fifteen, and an inapplicable cell reduces only that language's denominator.
+fn validate_kernel_population_with(
+    cases: &[(PathBuf, Value)],
+    label: &str,
+    expected_templates: &[&str],
+) -> Result<()> {
+    let expected_case_count = 2 * expected_templates.len();
+    if cases.len() != expected_case_count {
         bail!(
-            "{label} must select exactly {KERNEL_CASE_COUNT} core assertions; found {}",
+            "{label} must select exactly {expected_case_count} core assertions; found {}",
             cases.len()
         );
     }
@@ -2988,7 +3341,7 @@ fn validate_kernel_population(cases: &[(PathBuf, Value)], label: &str) -> Result
             None => bail!("{} lacks polarity", path.display()),
         }
     }
-    let expected = KERNEL_TEMPLATE_IDS.iter().copied().collect::<BTreeSet<_>>();
+    let expected = expected_templates.iter().copied().collect::<BTreeSet<_>>();
     let actual = pairs.keys().copied().collect::<BTreeSet<_>>();
     if actual != expected {
         let missing = expected.difference(&actual).copied().collect::<Vec<_>>();
@@ -3002,7 +3355,7 @@ fn validate_kernel_population(cases: &[(PathBuf, Value)], label: &str) -> Result
         bail!("{label} requires one positive and one negative per template");
     }
     if model_profiles.len() != 1 {
-        bail!("{label} must use one model profile across all {KERNEL_CASE_COUNT} cases");
+        bail!("{label} must use one model profile across all {expected_case_count} cases");
     }
     Ok(())
 }
@@ -3367,18 +3720,21 @@ struct SinkAnchorLocation {
 /// Anchor reconciliation is language-neutral apart from two surface questions:
 /// which function a `DFB-SINK:` marker declares, and which lines call it. One
 /// dialect covers JavaScript and TypeScript, which share the surface syntax the
-/// reconciler inspects; C# spells both differently.
+/// reconciler inspects; C# spells both differently; C and C++ declare a sink
+/// the same way C# does but reach a member through `.`, `->`, and `::`.
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 enum AnchorDialect {
     Ecma,
     CSharp,
+    Cpp,
 }
 
 impl AnchorDialect {
     fn sink_function_name(self, declaration: &str, marker: &str) -> Option<String> {
         match self {
             Self::Ecma => ecma_function_name(declaration, marker),
-            Self::CSharp => csharp_function_name(declaration, marker),
+            // C#, C, and C++ all declare the sink as `<type> name(<params>)`.
+            Self::CSharp | Self::Cpp => declared_function_name(declaration, marker),
         }
     }
 
@@ -3386,6 +3742,7 @@ impl AnchorDialect {
         match self {
             Self::Ecma => ecma_function_call(line, function_name),
             Self::CSharp => csharp_function_call(line, function_name),
+            Self::Cpp => cpp_function_call(line, function_name),
         }
     }
 }
@@ -3411,6 +3768,10 @@ fn csharp_sarif_outcome(
     sarif: &Value,
 ) -> (&'static str, Vec<String>) {
     sarif_anchor_outcome(case_path, case, sarif, AnchorDialect::CSharp)
+}
+
+fn cpp_sarif_outcome(case_path: &Path, case: &Value, sarif: &Value) -> (&'static str, Vec<String>) {
+    sarif_anchor_outcome(case_path, case, sarif, AnchorDialect::Cpp)
 }
 
 fn sarif_anchor_outcome(
@@ -3577,10 +3938,10 @@ fn ecma_identifier_char(character: char) -> bool {
     character == '_' || character == '$' || character.is_ascii_alphanumeric()
 }
 
-/// The C# sink marker sits on a method declaration such as
+/// The C#, C, and C++ sink markers all sit on a function declaration such as
 /// `static void dfb_sink(int value) { } // DFB-SINK: ...`. The declared name is
 /// the identifier immediately before the parameter list.
-fn csharp_function_name(declaration: &str, marker: &str) -> Option<String> {
+fn declared_function_name(declaration: &str, marker: &str) -> Option<String> {
     let marker_start = declaration.find(marker)?;
     let declaration = &declaration[..marker_start];
     let declaration = declaration.split("//").next().unwrap_or(declaration);
@@ -3589,7 +3950,7 @@ fn csharp_function_name(declaration: &str, marker: &str) -> Option<String> {
     let start = name
         .char_indices()
         .rev()
-        .find(|(_, character)| !csharp_identifier_char(*character))
+        .find(|(_, character)| !declared_identifier_char(*character))
         .map(|(index, character)| index + character.len_utf8())
         .unwrap_or(0);
     let name = &name[start..];
@@ -3597,11 +3958,21 @@ fn csharp_function_name(declaration: &str, marker: &str) -> Option<String> {
         .then(|| name.to_string())
 }
 
-fn csharp_identifier_char(character: char) -> bool {
+fn declared_identifier_char(character: char) -> bool {
     character == '_' || character.is_ascii_alphanumeric()
 }
 
 fn csharp_function_call(line: &str, function_name: &str) -> bool {
+    braced_function_call(line, function_name, &['.'])
+}
+
+/// C and C++ reach a member through `.`, `->`, and `::`; none of those is a
+/// call of the free benchmark sink function the anchor declares.
+fn cpp_function_call(line: &str, function_name: &str) -> bool {
+    braced_function_call(line, function_name, &['.', '>', ':'])
+}
+
+fn braced_function_call(line: &str, function_name: &str, member_prefixes: &[char]) -> bool {
     let line = code_without_literals(line);
     let mut search_from = 0;
     while let Some(offset) = line[search_from..].find(function_name) {
@@ -3611,7 +3982,9 @@ fn csharp_function_call(line: &str, function_name: &str) -> bool {
         let after = line[end..]
             .chars()
             .find(|character| !character.is_whitespace());
-        if !before.is_some_and(csharp_identifier_char) && before != Some('.') && after == Some('(')
+        if !before.is_some_and(declared_identifier_char)
+            && !before.is_some_and(|character| member_prefixes.contains(&character))
+            && after == Some('(')
         {
             return true;
         }
@@ -3910,9 +4283,16 @@ fn run_codeql_case_for_language(
         // C# fixtures declare a `DFB-SINK:` method, so the finding is
         // reconciled against that method's callsites rather than the sink file
         // alone.
-        CodeqlLanguage::CSharp => {
+        // C, C++, and C# fixtures all declare a `DFB-SINK:` function, so the
+        // finding is reconciled against that function's callsites rather than
+        // the sink file alone.
+        CodeqlLanguage::CSharp | CodeqlLanguage::CFamily => {
             let mut diagnostics = sarif_messages(&sarif);
-            let (outcome, anchor_diagnostics) = csharp_sarif_outcome(case_path, case, &sarif);
+            let (outcome, anchor_diagnostics) = if language == CodeqlLanguage::CSharp {
+                csharp_sarif_outcome(case_path, case, &sarif)
+            } else {
+                cpp_sarif_outcome(case_path, case, &sarif)
+            };
             diagnostics.extend(anchor_diagnostics);
             diagnostics.sort();
             diagnostics.dedup();
@@ -4045,9 +4425,11 @@ fn codeql_database_create_args(
                 fixtures.join(" ")
             ));
         }
-        // The Python and C# extractors both support `--build-mode=none`, so the
-        // fixtures need no project scaffolding and no restore step.
-        CodeqlLanguage::Python | CodeqlLanguage::CSharp => {
+        // The Python, C#, and C/C++ extractors all support `--build-mode=none`,
+        // so the fixtures need no project scaffolding, no restore step, and no
+        // traced compile. For C/C++ the buildless extractor still discovers a
+        // real compiler (clang) to resolve the translation unit.
+        CodeqlLanguage::Python | CodeqlLanguage::CSharp | CodeqlLanguage::CFamily => {
             args.push("--build-mode=none".to_string())
         }
     }
@@ -5257,6 +5639,200 @@ mod tests {
         assert_eq!(selected, KERNEL_CASE_COUNT);
     }
 
+    /// C and C++ are two populations with two denominators. The C core is the
+    /// fifteen applicable templates; the C++ core is all sixteen; the C
+    /// `language-extension` cases ride along in the C slice without changing
+    /// its core denominator.
+    #[test]
+    fn c_and_cpp_core_populations_keep_their_own_denominators() {
+        let c = codeql_c_family_cases(CFamilyKernel::C).unwrap();
+        let cpp = codeql_c_family_cases(CFamilyKernel::Cpp).unwrap();
+        let core = |cases: &[(PathBuf, Value)]| {
+            cases
+                .iter()
+                .filter(|(_, case)| case["score_tier"] == "core")
+                .count()
+        };
+        assert_eq!(core(&c), C_KERNEL_CASE_COUNT);
+        assert_eq!(core(&c), 30);
+        assert_eq!(core(&cpp), KERNEL_CASE_COUNT);
+        assert_eq!(core(&cpp), 32);
+        assert_eq!(c.len() - core(&c), 2);
+        assert_eq!(cpp.len(), core(&cpp));
+
+        let c_templates = c
+            .iter()
+            .filter(|(_, case)| case["score_tier"] == "core")
+            .map(|(_, case)| case["template_id"].as_str().unwrap().to_string())
+            .collect::<BTreeSet<_>>();
+        assert!(!c_templates.contains("dfb-template-exception-catch"));
+        assert_eq!(c_templates.len(), C_KERNEL_TEMPLATE_IDS.len());
+        for (_, case) in &c {
+            assert_eq!(case["language"], "c");
+            assert!(
+                case["fixture_files"]
+                    .as_array()
+                    .unwrap()
+                    .iter()
+                    .all(|fixture| fixture.as_str().unwrap().ends_with(".c"))
+            );
+        }
+        for (_, case) in &cpp {
+            assert_eq!(case["language"], "cpp");
+            assert_eq!(case["score_tier"], "core");
+            assert!(
+                case["fixture_files"]
+                    .as_array()
+                    .unwrap()
+                    .iter()
+                    .all(|fixture| fixture.as_str().unwrap().ends_with(".cpp"))
+            );
+        }
+    }
+
+    /// The C denominator is the sixteen scored templates minus the
+    /// inapplicable exception-catch cell, and nothing else.
+    #[test]
+    fn the_c_template_set_is_the_scored_set_without_exception_catch() {
+        let scored = KERNEL_TEMPLATE_IDS.iter().copied().collect::<BTreeSet<_>>();
+        let c = C_KERNEL_TEMPLATE_IDS
+            .iter()
+            .copied()
+            .collect::<BTreeSet<_>>();
+        assert_eq!(
+            scored.difference(&c).copied().collect::<Vec<_>>(),
+            vec!["dfb-template-exception-catch"]
+        );
+        assert!(c.difference(&scored).next().is_none());
+    }
+
+    /// A C population that lost an applicable template, or gained the
+    /// inapplicable one, is not a C kernel.
+    #[test]
+    fn c_kernel_population_rejects_a_foreign_or_short_template_set() {
+        let case = |template: &str, polarity: &str| {
+            (
+                PathBuf::from(format!("cases/taint/c/{template}-{polarity}/case.json")),
+                json!({
+                    "template_id": template,
+                    "polarity": polarity,
+                    "model_profile": "benchmark-controlled"
+                }),
+            )
+        };
+        let balanced = C_KERNEL_TEMPLATE_IDS
+            .iter()
+            .flat_map(|template| [case(template, "positive"), case(template, "negative")])
+            .collect::<Vec<_>>();
+        assert!(
+            validate_kernel_population_with(&balanced, "C kernel", &C_KERNEL_TEMPLATE_IDS).is_ok()
+        );
+        assert!(
+            validate_kernel_population_with(&balanced, "C kernel", &KERNEL_TEMPLATE_IDS).is_err()
+        );
+        let mut with_exception_catch = balanced.clone();
+        with_exception_catch.push(case("dfb-template-exception-catch", "positive"));
+        with_exception_catch.push(case("dfb-template-exception-catch", "negative"));
+        assert!(
+            validate_kernel_population_with(
+                &with_exception_catch,
+                "C kernel",
+                &C_KERNEL_TEMPLATE_IDS
+            )
+            .is_err()
+        );
+        assert!(
+            validate_kernel_population_with(&balanced[..2], "C kernel", &C_KERNEL_TEMPLATE_IDS)
+                .is_err()
+        );
+    }
+
+    #[test]
+    fn bifrost_c_and_cpp_kernels_select_disjoint_populations() {
+        let mut c = 0;
+        let mut c_core = 0;
+        let mut cpp = 0;
+        for path in case_paths() {
+            let case: Value = serde_json::from_str(&fs::read_to_string(path).unwrap()).unwrap();
+            if selected_bifrost_case(&case, BifrostRun::CKernel) {
+                c += 1;
+                if case["score_tier"] == "core" {
+                    c_core += 1;
+                }
+                assert_eq!(case["language"], "c");
+                assert!(!selected_bifrost_case(&case, BifrostRun::CppKernel));
+            }
+            if selected_bifrost_case(&case, BifrostRun::CppKernel) {
+                cpp += 1;
+                assert_eq!(case["language"], "cpp");
+                assert_eq!(case["score_tier"], "core");
+                for other in [
+                    BifrostRun::CKernel,
+                    BifrostRun::CsharpKernel,
+                    BifrostRun::KotlinKernel,
+                    BifrostRun::PythonKernel,
+                    BifrostRun::TypescriptKernel,
+                ] {
+                    assert!(!selected_bifrost_case(&case, other));
+                }
+            }
+        }
+        assert_eq!(c_core, C_KERNEL_CASE_COUNT);
+        assert_eq!(c - c_core, 2);
+        assert_eq!(cpp, KERNEL_CASE_COUNT);
+    }
+
+    /// The two C-family kernels share the `cpp` extractor and one pack, so
+    /// their reports, raw-evidence roots, and queries must stay distinct.
+    #[test]
+    fn c_family_codeql_report_paths_are_dedicated() {
+        assert_ne!(CFamilyKernel::C.report(), CFamilyKernel::Cpp.report());
+        assert_ne!(CFamilyKernel::C.raw_dir(), CFamilyKernel::Cpp.raw_dir());
+        assert_ne!(CFamilyKernel::C.query(), CFamilyKernel::Cpp.query());
+        assert_ne!(CFamilyKernel::C.policy(), CFamilyKernel::Cpp.policy());
+        for kernel in [CFamilyKernel::C, CFamilyKernel::Cpp] {
+            assert!(kernel.report().starts_with("reports/codeql-"));
+            assert!(kernel.raw_dir().starts_with("reports/raw/codeql-"));
+        }
+        assert_eq!(CodeqlLanguage::CFamily.cli_name(), "cpp");
+        assert!(!CodeqlLanguage::CFamily.traces_jvm_compile());
+    }
+
+    /// C and C++ reach members through `.`, `->`, and `::`; none of those is a
+    /// call of the free sink function the `DFB-SINK:` marker declares.
+    #[test]
+    fn cpp_sink_declarations_and_callsites_resolve_through_the_cpp_dialect() {
+        assert_eq!(
+            declared_function_name(
+                "void dfb_sink(int value) {} // DFB-SINK: sink",
+                "DFB-SINK: sink"
+            )
+            .as_deref(),
+            Some("dfb_sink")
+        );
+        assert_eq!(
+            declared_function_name(
+                "const char *dfb_sink(const char *value) {} // DFB-SINK: sink",
+                "DFB-SINK: sink"
+            )
+            .as_deref(),
+            Some("dfb_sink")
+        );
+        assert!(cpp_function_call("    dfb_sink(holder.value);", "dfb_sink"));
+        assert!(cpp_function_call("    dfb_sink(alias->value);", "dfb_sink"));
+        assert!(!cpp_function_call(
+            "    other->dfb_sink(value);",
+            "dfb_sink"
+        ));
+        assert!(!cpp_function_call(
+            "    Other::dfb_sink(value);",
+            "dfb_sink"
+        ));
+        assert!(!cpp_function_call("    other.dfb_sink(value);", "dfb_sink"));
+        assert!(!cpp_function_call("    my_dfb_sink(value);", "dfb_sink"));
+        assert!(!cpp_function_call("    // dfb_sink(value);", "dfb_sink"));
+    }
+
     #[test]
     fn csharp_sarif_mapping_requires_the_sink_file_and_callsite() {
         let root = std::env::temp_dir().join(format!(
@@ -5319,7 +5895,7 @@ mod tests {
     #[test]
     fn csharp_sink_declarations_resolve_to_the_declared_method() {
         assert_eq!(
-            csharp_function_name(
+            declared_function_name(
                 "    static void dfb_sink(int value) { } // DFB-SINK: sink",
                 "DFB-SINK: sink"
             )
@@ -5327,7 +5903,7 @@ mod tests {
             Some("dfb_sink")
         );
         assert_eq!(
-            csharp_function_name("        int value = 0; // DFB-SINK: sink", "DFB-SINK: sink"),
+            declared_function_name("        int value = 0; // DFB-SINK: sink", "DFB-SINK: sink"),
             None
         );
         assert!(csharp_function_call(
