@@ -5451,7 +5451,6 @@ fn anchor_function_names(
     Ok(names)
 }
 
-#[allow(clippy::too_many_arguments)]
 fn run_joern_case(
     binary: &Path,
     script: &Path,
