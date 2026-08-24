@@ -22,7 +22,22 @@ const CODEQL_JAVASCRIPT_REPORT: &str = "reports/codeql-javascript-kernel.json";
 const CODEQL_JAVASCRIPT_CASE_COUNT: usize = 32;
 const CODEQL_JAVASCRIPT_TEMPLATE_COUNT: usize = 16;
 const CODEQL_PYTHON_QUERY: &str = "adapters/codeql/python/queries/PythonKernel.ql";
-const CODEQL_PYTHON_TEMPLATE_IDS: [&str; 16] = [
+const CODEQL_KOTLIN_QUERY: &str = "adapters/codeql/kotlin/queries/KotlinKernel.ql";
+const CODEQL_KOTLIN_RAW_DIR: &str = "reports/raw/codeql-kotlin-kernel";
+const CODEQL_KOTLIN_REPORT: &str = "reports/codeql-kotlin-kernel.json";
+/// The language-qualified Bifrost policy that every Kotlin kernel assertion is
+/// evaluated with. Two of the 32 Kotlin core assertions — the
+/// `dfb-template-direct-propagation` pair — were frozen in v0.2.0 as part of
+/// the cross-language direct-flow breadth slice, so their case metadata still
+/// names the language-neutral breadth policy. The kernel run deliberately
+/// evaluates this policy for the whole population so all 32 assertions share
+/// one configuration; see docs/kotlin-kernel.md.
+const BIFROST_KOTLIN_POLICY: &str = "adapters/bifrost/policies/core-kotlin-kernel.rqlp";
+/// One positive and one negative assertion for each scored template.
+const KERNEL_CASE_COUNT: usize = 2 * KERNEL_TEMPLATE_IDS.len();
+/// The sixteen scored propagation templates. Every language kernel preserves
+/// these identities exactly; see docs/applicability-matrix.md.
+const KERNEL_TEMPLATE_IDS: [&str; 16] = [
     "dfb-template-alias-propagation-separation",
     "dfb-template-argument-position-separation",
     "dfb-template-arithmetic-expression-propagation",
@@ -98,6 +113,12 @@ enum Commands {
         #[arg(long, default_value = "bifrost")]
         bifrost: PathBuf,
     },
+    /// Run the Kotlin propagation kernel without mixing it with the Java
+    /// kernel or any other language population.
+    RunBifrostKotlinKernel {
+        #[arg(long, default_value = "bifrost")]
+        bifrost: PathBuf,
+    },
     RunCodeqlJavaKernel {
         #[arg(long, default_value = "codeql")]
         codeql: PathBuf,
@@ -116,6 +137,18 @@ enum Commands {
         codeql: PathBuf,
         #[arg(long)]
         codeql_packs: Option<PathBuf>,
+    },
+    /// Run the Kotlin propagation kernel through the Java CodeQL extractor.
+    /// Kotlin extraction traces a real `kotlinc` compile, so a Kotlin compiler
+    /// must be on PATH (or named with --kotlinc).
+    RunCodeqlKotlinKernel {
+        #[arg(long, default_value = "codeql")]
+        codeql: PathBuf,
+        #[arg(long)]
+        codeql_packs: Option<PathBuf>,
+        /// Kotlin compiler used to trace extraction.
+        #[arg(long, default_value = "kotlinc")]
+        kotlinc: PathBuf,
     },
 }
 
@@ -138,6 +171,7 @@ fn main() -> Result<()> {
         } => generate_results(&manifest, &output_directory, check),
         Commands::RunBifrostSmoke { bifrost } => run_bifrost_smoke(&bifrost),
         Commands::RunBifrostPythonKernel { bifrost } => run_bifrost_python_kernel(&bifrost),
+        Commands::RunBifrostKotlinKernel { bifrost } => run_bifrost_kotlin_kernel(&bifrost),
         Commands::RunCodeqlJavaKernel {
             codeql,
             codeql_packs,
@@ -150,6 +184,11 @@ fn main() -> Result<()> {
             codeql,
             codeql_packs,
         } => run_codeql_python_kernel(&codeql, codeql_packs.as_deref()),
+        Commands::RunCodeqlKotlinKernel {
+            codeql,
+            codeql_packs,
+            kotlinc,
+        } => run_codeql_kotlin_kernel(&codeql, codeql_packs.as_deref(), &kotlinc),
     }
 }
 
@@ -200,6 +239,7 @@ fn validate_cases() -> Result<()> {
     }
     validate_balanced_core_pairs(&cases)?;
     validate_javascript_kernel_balance(&cases)?;
+    validate_kotlin_kernel_balance(&cases)?;
     println!("validated {} cases", paths.len());
     Ok(())
 }
@@ -286,6 +326,31 @@ fn validate_javascript_kernel_balance(cases: &[(PathBuf, Value)]) -> Result<()> 
             .collect::<Vec<_>>();
         bail!(
             "JavaScript propagation kernel must preserve the Java template IDs; missing {missing:?}, unexpected {unexpected:?}"
+        );
+    }
+    Ok(())
+}
+
+/// The Kotlin kernel is 16/16 in docs/applicability-matrix.md: it must carry
+/// the Java template identities unchanged, with no template renamed, split, or
+/// silently dropped because Kotlin spells a construct differently.
+fn validate_kotlin_kernel_balance(cases: &[(PathBuf, Value)]) -> Result<()> {
+    let kotlin_templates = core_templates_for_language(cases, "kotlin");
+    if kotlin_templates.is_empty() {
+        return Ok(());
+    }
+    let expected = KERNEL_TEMPLATE_IDS.iter().copied().collect::<BTreeSet<_>>();
+    if kotlin_templates != expected {
+        let missing = expected
+            .difference(&kotlin_templates)
+            .copied()
+            .collect::<Vec<_>>();
+        let unexpected = kotlin_templates
+            .difference(&expected)
+            .copied()
+            .collect::<Vec<_>>();
+        bail!(
+            "Kotlin propagation kernel must preserve the scored template IDs; missing {missing:?}, unexpected {unexpected:?}"
         );
     }
     Ok(())
@@ -410,6 +475,7 @@ fn validate_reports() -> Result<()> {
 enum BifrostRun {
     Smoke,
     PythonKernel,
+    KotlinKernel,
 }
 fn validate_freeze(manifest: &Path) -> Result<()> {
     let root = repository_root()?;
@@ -1956,6 +2022,10 @@ fn run_bifrost_python_kernel(binary: &Path) -> Result<()> {
     run_bifrost(binary, BifrostRun::PythonKernel)
 }
 
+fn run_bifrost_kotlin_kernel(binary: &Path) -> Result<()> {
+    run_bifrost(binary, BifrostRun::KotlinKernel)
+}
+
 fn run_bifrost(binary: &Path, run: BifrostRun) -> Result<()> {
     validate_cases()?;
     let (raw_dir, report_path) = match run {
@@ -1966,6 +2036,10 @@ fn run_bifrost(binary: &Path, run: BifrostRun) -> Result<()> {
         BifrostRun::PythonKernel => (
             Path::new("reports/raw/bifrost-python-kernel"),
             Path::new("reports/bifrost-python-kernel.json"),
+        ),
+        BifrostRun::KotlinKernel => (
+            Path::new("reports/raw/bifrost-kotlin-kernel"),
+            Path::new("reports/bifrost-kotlin-kernel.json"),
         ),
     };
     fs::create_dir_all(raw_dir)?;
@@ -2003,9 +2077,7 @@ fn run_bifrost(binary: &Path, run: BifrostRun) -> Result<()> {
             )?;
             ("unsupported", vec![reason.to_string()], Vec::new())
         } else {
-            let policy = model["policy"]
-                .as_str()
-                .context("Bifrost case lacks policy reference")?;
+            let policy = bifrost_policy_for(&case, run)?;
             policy_paths.insert(PathBuf::from(policy));
             let workspace = materialize_bifrost_workspace(&path, &case, policy)?;
             let mut command = Command::new(binary);
@@ -2096,8 +2168,14 @@ fn run_bifrost(binary: &Path, run: BifrostRun) -> Result<()> {
         let selection = match run {
             BifrostRun::Smoke => "Bifrost smoke",
             BifrostRun::PythonKernel => "Bifrost Python kernel",
+            BifrostRun::KotlinKernel => "Bifrost Kotlin kernel",
         };
         bail!("no cases selected for {selection}");
+    }
+    if run == BifrostRun::KotlinKernel && selected_cases != KERNEL_CASE_COUNT {
+        bail!(
+            "Bifrost Kotlin kernel must select exactly {KERNEL_CASE_COUNT} core assertions; found {selected_cases}"
+        );
     }
     let configuration_hash = hash_paths(&policy_paths)?;
     let report = json!({
@@ -2119,9 +2197,25 @@ fn run_bifrost(binary: &Path, run: BifrostRun) -> Result<()> {
     Ok(())
 }
 
+/// The Bifrost policy a run evaluates for one case.
+///
+/// Kernel runs pin the language-qualified policy for the whole population so
+/// that a single configuration hash covers all 32 assertions, including the
+/// two direct-propagation cases whose frozen v0.2.0 metadata still names the
+/// cross-language breadth policy.
+fn bifrost_policy_for<'a>(case: &'a Value, run: BifrostRun) -> Result<&'a str> {
+    match run {
+        BifrostRun::KotlinKernel => Ok(BIFROST_KOTLIN_POLICY),
+        _ => case["tool_model_references"]["bifrost"]["policy"]
+            .as_str()
+            .context("Bifrost case lacks policy reference"),
+    }
+}
+
 fn selected_bifrost_case(case: &Value, run: BifrostRun) -> bool {
     match run {
         BifrostRun::Smoke => has_bifrost_model_reference(case),
+        BifrostRun::KotlinKernel => kotlin_core_case(case),
         BifrostRun::PythonKernel => {
             case["language"] == "python"
                 && case["track"] == "taint"
@@ -2186,17 +2280,29 @@ fn write_bifrost_error(
 }
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
-enum CodeqlLanguage {
+enum CodeqlLanguage<'a> {
     Java,
     Python,
+    /// Kotlin is extracted by CodeQL's `java` extractor, which only sees
+    /// Kotlin sources while it traces a real compile. The traced compiler is
+    /// carried here because `--build-mode=none` extracts no Kotlin at all.
+    Kotlin {
+        kotlinc: &'a Path,
+    },
 }
 
-impl CodeqlLanguage {
+impl CodeqlLanguage<'_> {
     fn cli_name(self) -> &'static str {
         match self {
-            Self::Java => "java",
+            Self::Java | Self::Kotlin { .. } => "java",
             Self::Python => "python",
         }
+    }
+
+    /// True when the extractor is traced through a JVM compile that writes
+    /// class files into the workspace.
+    fn traces_jvm_compile(self) -> bool {
+        matches!(self, Self::Java | Self::Kotlin { .. })
     }
 }
 
@@ -2453,6 +2559,175 @@ fn run_codeql_python_kernel(binary: &Path, packs: Option<&Path>) -> Result<()> {
     )?;
     validate_reports()?;
     println!("wrote reports/codeql-python-kernel.json");
+    Ok(())
+}
+
+/// Run the Kotlin-only CodeQL kernel. Kotlin shares CodeQL's `java` extractor
+/// and standard library with the Java kernel, so the selector, query, report,
+/// and raw-evidence directory are all deliberately Kotlin-scoped: the two
+/// populations must never share a result set.
+fn run_codeql_kotlin_kernel(binary: &Path, packs: Option<&Path>, kotlinc: &Path) -> Result<()> {
+    validate_cases()?;
+    let selected = codeql_kotlin_cases()?;
+    let raw_dir = Path::new(CODEQL_KOTLIN_RAW_DIR);
+    fs::create_dir_all(raw_dir)?;
+    let started = now_seconds()?;
+    let (version, build_identity) = codeql_version_identity(binary)?;
+    let revision = fixture_revision()?;
+    let mut results = Vec::with_capacity(selected.len());
+
+    for (path, case) in selected {
+        let id = case["id"].as_str().expect("schema validated");
+        let start = Instant::now();
+        let (outcome, diagnostics, raw_path) = run_codeql_case_for_language(
+            binary,
+            packs,
+            &path,
+            &case,
+            Path::new(CODEQL_KOTLIN_QUERY),
+            raw_dir,
+            CodeqlLanguage::Kotlin { kotlinc },
+        )?;
+        results.push(codeql_result(
+            &case,
+            id,
+            outcome,
+            diagnostics,
+            start.elapsed(),
+            &raw_path,
+        ));
+    }
+
+    let configuration_hash = hash_paths(&codeql_kotlin_configuration_paths())?;
+    let report = json!({
+        "schema_version": 1,
+        "tool": "codeql",
+        "tool_version": version,
+        "tool_build_identity": build_identity,
+        "adapter_version": ADAPTER_VERSION,
+        "configuration_hash": configuration_hash,
+        "fixture_revision": revision,
+        "started_at_unix_seconds": started,
+        "ended_at_unix_seconds": now_seconds()?,
+        "cold_or_warm": "cold",
+        "results": results
+    });
+    fs::write(
+        CODEQL_KOTLIN_REPORT,
+        serde_json::to_string_pretty(&report)? + "\n",
+    )?;
+    validate_reports()?;
+    println!("wrote {CODEQL_KOTLIN_REPORT}");
+    Ok(())
+}
+
+fn codeql_version_identity(binary: &Path) -> Result<(String, String)> {
+    let version_output = command_output(Command::new(binary).args(["version", "--format=json"]))
+        .context("read CodeQL version")?;
+    let version_json: Value =
+        serde_json::from_str(&version_output).context("parse CodeQL version JSON")?;
+    let version = version_json["version"]
+        .as_str()
+        .context("CodeQL version JSON lacks version")?
+        .to_string();
+    let build_identity = version_json["sha"]
+        .as_str()
+        .map(|sha| format!("codeql-cli:{sha}"))
+        .context("CodeQL version JSON lacks build sha")?;
+    Ok((version, build_identity))
+}
+
+fn kotlin_core_case(case: &Value) -> bool {
+    case["language"] == "kotlin" && case["track"] == "taint" && case["score_tier"] == "core"
+}
+
+fn codeql_kotlin_cases() -> Result<Vec<(PathBuf, Value)>> {
+    let mut selected = Vec::new();
+    for path in case_paths() {
+        let case: Value = serde_json::from_str(&fs::read_to_string(&path)?)?;
+        if !kotlin_core_case(&case) {
+            continue;
+        }
+        // The two direct-propagation cases were frozen in v0.2.0 as part of
+        // the cross-language breadth slice and carry no CodeQL reference; any
+        // case that does declare one must name the Kotlin kernel query.
+        if let Some(query) = case["tool_model_references"]["codeql"]["query"].as_str()
+            && query != CODEQL_KOTLIN_QUERY
+        {
+            bail!(
+                "Kotlin core case {} references non-Kotlin CodeQL query {query:?}",
+                case["id"]
+            );
+        }
+        selected.push((path, case));
+    }
+    validate_kernel_population(&selected, "Kotlin CodeQL kernel")?;
+    if !Path::new(CODEQL_KOTLIN_QUERY).is_file() {
+        bail!("Kotlin CodeQL query does not exist: {CODEQL_KOTLIN_QUERY}");
+    }
+    Ok(selected)
+}
+
+fn codeql_kotlin_configuration_paths() -> BTreeSet<PathBuf> {
+    let mut paths = BTreeSet::from([PathBuf::from(CODEQL_KOTLIN_QUERY)]);
+    for candidate in [
+        "adapters/codeql/kotlin/qlpack.yml",
+        "adapters/codeql/kotlin/codeql-pack.lock.yml",
+    ]
+    .into_iter()
+    .map(PathBuf::from)
+    {
+        if candidate.is_file() {
+            paths.insert(candidate);
+        }
+    }
+    paths
+}
+
+/// Assert that a selected language kernel is exactly the sixteen scored
+/// templates under one model profile, balanced one positive to one negative.
+fn validate_kernel_population(cases: &[(PathBuf, Value)], label: &str) -> Result<()> {
+    if cases.len() != KERNEL_CASE_COUNT {
+        bail!(
+            "{label} must select exactly {KERNEL_CASE_COUNT} core assertions; found {}",
+            cases.len()
+        );
+    }
+    let mut pairs: BTreeMap<&str, (usize, usize)> = BTreeMap::new();
+    let mut model_profiles = BTreeSet::new();
+    for (path, case) in cases {
+        let template = case["template_id"]
+            .as_str()
+            .with_context(|| format!("{} lacks template_id", path.display()))?;
+        model_profiles.insert(
+            case["model_profile"]
+                .as_str()
+                .with_context(|| format!("{} lacks model_profile", path.display()))?,
+        );
+        let entry = pairs.entry(template).or_default();
+        match case["polarity"].as_str() {
+            Some("positive") => entry.0 += 1,
+            Some("negative") => entry.1 += 1,
+            Some(other) => bail!("{} has unsupported polarity {other:?}", path.display()),
+            None => bail!("{} lacks polarity", path.display()),
+        }
+    }
+    let expected = KERNEL_TEMPLATE_IDS.iter().copied().collect::<BTreeSet<_>>();
+    let actual = pairs.keys().copied().collect::<BTreeSet<_>>();
+    if actual != expected {
+        let missing = expected.difference(&actual).copied().collect::<Vec<_>>();
+        let unexpected = actual.difference(&expected).copied().collect::<Vec<_>>();
+        bail!("{label} template set mismatch (missing={missing:?}, unexpected={unexpected:?})");
+    }
+    if pairs
+        .values()
+        .any(|(positive, negative)| *positive != 1 || *negative != 1)
+    {
+        bail!("{label} requires one positive and one negative per template");
+    }
+    if model_profiles.len() != 1 {
+        bail!("{label} must use one model profile across all {KERNEL_CASE_COUNT} cases");
+    }
     Ok(())
 }
 
@@ -3122,10 +3397,7 @@ fn validate_codeql_python_population(cases: &[(PathBuf, Value)]) -> Result<PathB
             None => bail!("{} lacks polarity", path.display()),
         }
     }
-    let expected_templates = CODEQL_PYTHON_TEMPLATE_IDS
-        .iter()
-        .copied()
-        .collect::<BTreeSet<_>>();
+    let expected_templates = KERNEL_TEMPLATE_IDS.iter().copied().collect::<BTreeSet<_>>();
     let actual_templates = pairs
         .keys()
         .map(|(template, _)| *template)
@@ -3226,7 +3498,7 @@ fn run_codeql_case_for_language(
         }
     }
     let mut create_command = Command::new(binary);
-    if language == CodeqlLanguage::Java {
+    if language.traces_jvm_compile() {
         let classes = workspace.join("classes");
         fs::create_dir_all(&classes)?;
     }
@@ -3297,17 +3569,19 @@ fn run_codeql_case_for_language(
         clear_codeql_case_artifacts(&workspace, &database)?;
         return Ok(("runner-error", execution_errors, raw_path));
     }
-    let (outcome, diagnostics) = if language == CodeqlLanguage::Python {
-        normalize_python_codeql_sarif(case, &sarif)
-    } else {
-        let result_count = sarif_result_count(&sarif);
-        let diagnostics = sarif_messages(&sarif);
-        let outcome = if result_count == 0 {
-            "not-reached"
-        } else {
-            "reached"
-        };
-        (outcome, diagnostics)
+    let (outcome, diagnostics) = match language {
+        CodeqlLanguage::Python => normalize_anchored_codeql_sarif(case, &sarif, "Python"),
+        CodeqlLanguage::Kotlin { .. } => normalize_anchored_codeql_sarif(case, &sarif, "Kotlin"),
+        CodeqlLanguage::Java => {
+            let result_count = sarif_result_count(&sarif);
+            let diagnostics = sarif_messages(&sarif);
+            let outcome = if result_count == 0 {
+                "not-reached"
+            } else {
+                "reached"
+            };
+            (outcome, diagnostics)
+        }
     };
     clear_codeql_case_artifacts(&workspace, &database)?;
     Ok((outcome, diagnostics, raw_path))
@@ -3412,25 +3686,47 @@ fn codeql_database_create_args(
     ];
     match language {
         CodeqlLanguage::Java => {
-            let fixture_names = case["fixture_files"]
-                .as_array()
-                .context("CodeQL case lacks fixture_files")?
-                .iter()
-                .map(|fixture| {
-                    fixture
-                        .as_str()
-                        .context("CodeQL fixture_files must contain strings")
-                })
-                .collect::<Result<Vec<_>>>()?;
-            let build_command = format!("javac -d classes {}", fixture_names.join(" "));
-            args.push(format!("--command={build_command}"));
+            let fixtures = codeql_fixture_names(case)?;
+            args.push(format!("--command=javac -d classes {}", fixtures.join(" ")));
+        }
+        // CodeQL 2.26.3 extracts no Kotlin at all under `--build-mode=none`;
+        // the java extractor only sees Kotlin while it traces a real compile.
+        CodeqlLanguage::Kotlin { kotlinc } => {
+            let fixtures = codeql_fixture_names(case)?;
+            args.push(format!(
+                "--command={} -nowarn -d classes {}",
+                kotlinc.display(),
+                fixtures.join(" ")
+            ));
         }
         CodeqlLanguage::Python => args.push("--build-mode=none".to_string()),
     }
     Ok(args)
 }
 
-fn normalize_python_codeql_sarif(case: &Value, sarif: &Value) -> (&'static str, Vec<String>) {
+fn codeql_fixture_names(case: &Value) -> Result<Vec<&str>> {
+    case["fixture_files"]
+        .as_array()
+        .context("CodeQL case lacks fixture_files")?
+        .iter()
+        .map(|fixture| {
+            fixture
+                .as_str()
+                .context("CodeQL fixture_files must contain strings")
+        })
+        .collect()
+}
+
+/// Reconcile SARIF findings with the case's `DFB-SINK:` anchor file. A finding
+/// that lands in an anchored sink file is `reached`; findings that carry no
+/// usable location, or that never map onto a canonical sink anchor, are
+/// incomplete evidence and stay `inconclusive` rather than becoming a clean
+/// negative.
+fn normalize_anchored_codeql_sarif(
+    case: &Value,
+    sarif: &Value,
+    language: &str,
+) -> (&'static str, Vec<String>) {
     let mut diagnostics = sarif_messages(sarif);
     let Some(runs) = sarif["runs"].as_array() else {
         diagnostics.push("CodeQL SARIF is missing its runs array".to_string());
@@ -3478,7 +3774,7 @@ fn normalize_python_codeql_sarif(case: &Value, sarif: &Value) -> (&'static str, 
                 continue;
             }
             has_valid_location = true;
-            if python_sink_anchor_matches(case, uri) {
+            if sink_anchor_file_matches(case, uri) {
                 maps_to_sink = true;
             }
         }
@@ -3495,24 +3791,23 @@ fn normalize_python_codeql_sarif(case: &Value, sarif: &Value) -> (&'static str, 
     if anchored_findings > 0 {
         if unmappable_findings > 0 {
             diagnostics.push(format!(
-                "CodeQL SARIF retained {unmappable_findings} finding(s) that did not map to a canonical Python sink anchor"
+                "CodeQL SARIF retained {unmappable_findings} finding(s) that did not map to a canonical {language} sink anchor"
             ));
         }
         diagnostics.sort();
         diagnostics.dedup();
         ("reached", diagnostics)
     } else {
-        diagnostics.push(
-            "CodeQL SARIF findings could not be mapped to a canonical Python sink anchor; analysis evidence is incomplete"
-                .to_string(),
-        );
+        diagnostics.push(format!(
+            "CodeQL SARIF findings could not be mapped to a canonical {language} sink anchor; analysis evidence is incomplete"
+        ));
         diagnostics.sort();
         diagnostics.dedup();
         ("inconclusive", diagnostics)
     }
 }
 
-fn python_sink_anchor_matches(case: &Value, uri: &str) -> bool {
+fn sink_anchor_file_matches(case: &Value, uri: &str) -> bool {
     case["sink_anchors"]
         .as_array()
         .into_iter()
@@ -4149,6 +4444,153 @@ mod tests {
     }
 
     #[test]
+    fn kotlin_kernel_selection_is_separate_from_java_and_every_other_language() {
+        let kotlin_core = json!({
+            "language": "kotlin",
+            "track": "taint",
+            "score_tier": "core",
+            "tool_model_references": {
+                "bifrost": {"policy": BIFROST_KOTLIN_POLICY}
+            }
+        });
+        // Frozen v0.2.0 breadth metadata: the Kotlin kernel still selects it.
+        let kotlin_direct = json!({
+            "language": "kotlin",
+            "track": "taint",
+            "score_tier": "core",
+            "tool_model_references": {
+                "bifrost": {"policy": "adapters/bifrost/policies/core-direct.rqlp"}
+            }
+        });
+        let java_core = json!({
+            "language": "java",
+            "track": "taint",
+            "score_tier": "core",
+            "tool_model_references": {"bifrost": {"policy": BIFROST_KOTLIN_POLICY}}
+        });
+        let kotlin_calibration = json!({
+            "language": "kotlin",
+            "track": "taint",
+            "score_tier": "calibration",
+            "tool_model_references": {"bifrost": {"policy": BIFROST_KOTLIN_POLICY}}
+        });
+        assert!(selected_bifrost_case(
+            &kotlin_core,
+            BifrostRun::KotlinKernel
+        ));
+        assert!(selected_bifrost_case(
+            &kotlin_direct,
+            BifrostRun::KotlinKernel
+        ));
+        assert!(!selected_bifrost_case(&java_core, BifrostRun::KotlinKernel));
+        assert!(!selected_bifrost_case(
+            &kotlin_calibration,
+            BifrostRun::KotlinKernel
+        ));
+        assert!(!selected_bifrost_case(
+            &kotlin_core,
+            BifrostRun::PythonKernel
+        ));
+
+        // Both kernel assertions are evaluated with the language-qualified
+        // Kotlin policy, including the frozen direct pair.
+        assert_eq!(
+            bifrost_policy_for(&kotlin_direct, BifrostRun::KotlinKernel).unwrap(),
+            BIFROST_KOTLIN_POLICY
+        );
+        assert_eq!(
+            bifrost_policy_for(&kotlin_direct, BifrostRun::Smoke).unwrap(),
+            "adapters/bifrost/policies/core-direct.rqlp"
+        );
+    }
+
+    #[test]
+    fn kotlin_codeql_population_is_exactly_32_balanced_assertions() {
+        let selected = codeql_kotlin_cases().unwrap();
+        assert_eq!(selected.len(), KERNEL_CASE_COUNT);
+        let templates = selected
+            .iter()
+            .map(|(_, case)| case["template_id"].as_str().unwrap())
+            .collect::<BTreeSet<_>>();
+        assert_eq!(
+            templates,
+            KERNEL_TEMPLATE_IDS.iter().copied().collect::<BTreeSet<_>>()
+        );
+        assert!(
+            selected
+                .iter()
+                .all(|(path, _)| path.starts_with("cases/taint/kotlin"))
+        );
+    }
+
+    #[test]
+    fn kotlin_kernel_population_rejects_an_unbalanced_or_foreign_template_set() {
+        let case = |template: &str, polarity: &str| {
+            (
+                PathBuf::from(format!(
+                    "cases/taint/kotlin/{template}-{polarity}/case.json"
+                )),
+                json!({
+                    "template_id": template,
+                    "polarity": polarity,
+                    "model_profile": "benchmark-controlled"
+                }),
+            )
+        };
+        let mut balanced = Vec::new();
+        for template in KERNEL_TEMPLATE_IDS {
+            balanced.push(case(template, "positive"));
+            balanced.push(case(template, "negative"));
+        }
+        assert!(validate_kernel_population(&balanced, "Kotlin CodeQL kernel").is_ok());
+
+        let mut unbalanced = balanced.clone();
+        unbalanced[1] = case(KERNEL_TEMPLATE_IDS[0], "positive");
+        assert!(validate_kernel_population(&unbalanced, "Kotlin CodeQL kernel").is_err());
+
+        let mut foreign = balanced.clone();
+        foreign[0] = case("dfb-template-one-hop-relay", "positive");
+        assert!(validate_kernel_population(&foreign, "Kotlin CodeQL kernel").is_err());
+
+        assert!(validate_kernel_population(&balanced[..2], "Kotlin CodeQL kernel").is_err());
+    }
+
+    #[test]
+    fn kotlin_codeql_databases_trace_a_real_kotlin_compile() {
+        let case = json!({"fixture_files": ["LocalChainPositive.kt"]});
+        let args = codeql_database_create_args(
+            Path::new("/tmp/db"),
+            Path::new("/tmp/workspace"),
+            &case,
+            CodeqlLanguage::Kotlin {
+                kotlinc: Path::new("kotlinc"),
+            },
+        )
+        .unwrap();
+        assert!(args.contains(&"--language=java".to_string()));
+        assert!(
+            args.iter()
+                .any(|arg| arg == "--command=kotlinc -nowarn -d classes LocalChainPositive.kt")
+        );
+        // CodeQL 2.26.3 extracts no Kotlin under build-mode=none.
+        assert!(!args.iter().any(|arg| arg.starts_with("--build-mode")));
+    }
+
+    #[test]
+    fn kotlin_codeql_report_paths_are_dedicated() {
+        for path in [
+            CODEQL_KOTLIN_REPORT,
+            CODEQL_KOTLIN_RAW_DIR,
+            BIFROST_KOTLIN_POLICY,
+        ] {
+            assert!(path.contains("kotlin"), "{path} is not Kotlin-scoped");
+        }
+        assert_ne!(CODEQL_KOTLIN_QUERY, "adapters/codeql/queries/JavaKernel.ql");
+        assert!(Path::new(CODEQL_KOTLIN_QUERY).is_file());
+        assert!(Path::new(BIFROST_KOTLIN_POLICY).is_file());
+    }
+
+    #[test]
     fn core_templates_require_one_positive_and_one_negative() {
         let case = |polarity| {
             json!({
@@ -4405,7 +4847,7 @@ mod tests {
                     PathBuf::from(format!("case-{index}-{polarity}.json")),
                     json!({
                         "id": format!("dfb-taint-python-template-{index}-{polarity}"),
-                        "template_id": CODEQL_PYTHON_TEMPLATE_IDS[index],
+                        "template_id": KERNEL_TEMPLATE_IDS[index],
                         "polarity": polarity,
                         "score_tier": "core",
                         "track": "taint",
@@ -4515,7 +4957,10 @@ mod tests {
                 }}]
             }]}]
         });
-        assert_eq!(normalize_python_codeql_sarif(&case, &reached).0, "reached");
+        assert_eq!(
+            normalize_anchored_codeql_sarif(&case, &reached, "Python").0,
+            "reached"
+        );
 
         let wrong_file = json!({
             "runs": [{"results": [{
@@ -4527,23 +4972,23 @@ mod tests {
             }]}]
         });
         assert_eq!(
-            normalize_python_codeql_sarif(&case, &wrong_file).0,
+            normalize_anchored_codeql_sarif(&case, &wrong_file, "Python").0,
             "inconclusive"
         );
 
         let clean = json!({"runs": [{"results": []}]});
         assert_eq!(
-            normalize_python_codeql_sarif(&case, &clean).0,
+            normalize_anchored_codeql_sarif(&case, &clean, "Python").0,
             "not-reached"
         );
 
         let malformed = json!({"runs": [{"results": [{}]}]});
         assert_eq!(
-            normalize_python_codeql_sarif(&case, &malformed).0,
+            normalize_anchored_codeql_sarif(&case, &malformed, "Python").0,
             "inconclusive"
         );
         assert_eq!(
-            normalize_python_codeql_sarif(&case, &json!({"runs": []})).0,
+            normalize_anchored_codeql_sarif(&case, &json!({"runs": []}), "Python").0,
             "runner-error"
         );
     }
@@ -4571,38 +5016,37 @@ mod tests {
         );
     }
 
+    /// Every checked-in normalized report must declare the fixture revision of
+    /// the freeze it is published under. Comparing against the freeze — rather
+    /// than against `fixture_revision()` over the working tree — is the
+    /// invariant `validate_freeze` and `create_freeze` actually enforce, and it
+    /// stays meaningful while a new language kernel is authored but not yet
+    /// re-run and re-frozen. Once a release freeze is assembled, `create_freeze`
+    /// still refuses reports that predate the selected case population, so a
+    /// grown benchmark cannot be published without re-running every adapter.
     #[test]
-    fn checked_reports_match_declared_fixture_revisions() {
-        let bifrost: Value =
-            serde_json::from_str(&fs::read_to_string("reports/bifrost-smoke.json").unwrap())
-                .unwrap();
-        let python: Value = serde_json::from_str(
-            &fs::read_to_string("reports/bifrost-python-kernel.json").unwrap(),
-        )
-        .unwrap();
-        let current_revision = fixture_revision().unwrap();
-        assert_eq!(bifrost["fixture_revision"], current_revision);
-        assert_eq!(python["fixture_revision"], current_revision);
-
-        for report in [&bifrost, &python] {
-            let revision = report["fixture_revision"].as_str().unwrap();
-            assert!(
-                revision
-                    .strip_prefix("sha256:")
-                    .is_some_and(|digest| digest.len() == 64)
-            );
-        }
-        for path in [
-            "reports/codeql-java-kernel.json",
-            "reports/codeql-javascript-kernel.json",
-            "reports/codeql-python-kernel.json",
-        ] {
+    fn checked_reports_match_the_frozen_fixture_revision() {
+        let freeze: Value =
+            serde_json::from_str(&fs::read_to_string("reports/freeze.json").unwrap()).unwrap();
+        let frozen_revision = freeze["benchmark"]["fixture_revision"].as_str().unwrap();
+        assert!(
+            frozen_revision
+                .strip_prefix("sha256:")
+                .is_some_and(|digest| digest.len() == 64)
+        );
+        let frozen_reports = freeze["reports"]
+            .as_array()
+            .unwrap()
+            .iter()
+            .map(|report| report["path"].as_str().unwrap())
+            .collect::<BTreeSet<_>>();
+        assert!(!frozen_reports.is_empty());
+        for path in frozen_reports {
             let report: Value = serde_json::from_str(&fs::read_to_string(path).unwrap()).unwrap();
-            let revision = report["fixture_revision"].as_str().unwrap();
-            assert!(
-                revision
-                    .strip_prefix("sha256:")
-                    .is_some_and(|digest| digest.len() == 64)
+            assert_eq!(
+                report["fixture_revision"].as_str(),
+                Some(frozen_revision),
+                "{path} does not declare the frozen fixture revision"
             );
         }
     }

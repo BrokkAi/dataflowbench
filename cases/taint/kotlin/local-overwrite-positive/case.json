@@ -1,0 +1,65 @@
+{
+  "schema_version": 2,
+  "id": "dfb-taint-kotlin-local-overwrite-positive",
+  "template_id": "dfb-template-local-overwrite-kill",
+  "polarity": "positive",
+  "score_tier": "core",
+  "track": "taint",
+  "language": "kotlin",
+  "semantic_dimensions": [
+    "local-flow",
+    "flow-sensitivity"
+  ],
+  "feature_tags": [
+    "intraprocedural"
+  ],
+  "model_profile": "benchmark-controlled",
+  "fixture_files": [
+    "LocalOverwritePositive.kt"
+  ],
+  "source_anchors": [
+    {
+      "marker": "DFB-SOURCE: local-overwrite-input",
+      "file": "LocalOverwritePositive.kt"
+    }
+  ],
+  "sink_anchors": [
+    {
+      "marker": "DFB-SINK: local-overwrite-sink",
+      "file": "LocalOverwritePositive.kt"
+    }
+  ],
+  "expected_flows": [
+    {
+      "source": "DFB-SOURCE: local-overwrite-input",
+      "sink": "DFB-SINK: local-overwrite-sink"
+    }
+  ],
+  "expected_nonflows": [],
+  "witness_checkpoints": [
+    "DFB-SOURCE: local-overwrite-input",
+    "DFB-WITNESS: local-overwrite-preserved",
+    "DFB-SINK: local-overwrite-sink"
+  ],
+  "expected_analysis_capability": {
+    "kind": "flow-sensitive-intraprocedural-taint"
+  },
+  "execution_budget": {
+    "wall_clock_seconds": 60,
+    "peak_memory_mb": 512
+  },
+  "fixture_provenance": {
+    "kind": "authored",
+    "origin": "DataFlowBench",
+    "revision": "m2-kotlin-kernel",
+    "license": "MIT"
+  },
+  "tool_model_references": {
+    "bifrost": {
+      "policy": "adapters/bifrost/policies/core-kotlin-kernel.rqlp"
+    },
+    "codeql": {
+      "query": "adapters/codeql/kotlin/queries/KotlinKernel.ql"
+    }
+  }
+}
