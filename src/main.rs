@@ -52,7 +52,11 @@ const CODEQL_RUBY_QUERY: &str = "adapters/codeql/ruby/queries/RubyKernel.ql";
 const CODEQL_RUBY_RAW_DIR: &str = "reports/raw/codeql-ruby-kernel";
 const CODEQL_RUBY_REPORT: &str = "reports/codeql-ruby-kernel.json";
 const BIFROST_RUBY_POLICY: &str = "adapters/bifrost/policies/core-ruby-kernel.rqlp";
-/// The single Joern query script. One script serves all three Joern kernels:
+/// The language-qualified Bifrost policy for the PHP kernel. PHP has no CodeQL
+/// support in the pinned CLI at all, so Bifrost and Joern are its two analyzers;
+/// see docs/php-kernel.md.
+const BIFROST_PHP_POLICY: &str = "adapters/bifrost/policies/core-php-kernel.rqlp";
+/// The single Joern query script. One script serves every Joern kernel:
 /// the benchmark-controlled endpoints are passed in per case, so nothing in it
 /// is language-, template-, or polarity-specific.
 const JOERN_KERNEL_SCRIPT: &str = "adapters/joern/queries/kernel.sc";
@@ -64,6 +68,8 @@ const JOERN_PYTHON_RAW_DIR: &str = "reports/raw/joern-python-kernel";
 const JOERN_PYTHON_REPORT: &str = "reports/joern-python-kernel.json";
 const JOERN_RUBY_RAW_DIR: &str = "reports/raw/joern-ruby-kernel";
 const JOERN_RUBY_REPORT: &str = "reports/joern-ruby-kernel.json";
+const JOERN_PHP_RAW_DIR: &str = "reports/raw/joern-php-kernel";
+const JOERN_PHP_REPORT: &str = "reports/joern-php-kernel.json";
 /// The module manifest written into every Go CodeQL workspace. The Go
 /// extractor has no `none` build mode, so it must observe a real `go build`;
 /// supplying the manifest keeps that build hermetic and offline instead of
@@ -84,6 +90,15 @@ const BIFROST_DIRECT_POLICY: &str = "adapters/bifrost/policies/core-direct.rqlp"
 /// evaluates this policy for the whole population so all 32 assertions share
 /// one configuration; see docs/kotlin-kernel.md.
 const BIFROST_KOTLIN_POLICY: &str = "adapters/bifrost/policies/core-kotlin-kernel.rqlp";
+/// The language-qualified Bifrost policy every Scala kernel assertion is
+/// evaluated with. Scala has single-analyzer coverage: CodeQL CLI 2.26.3 has no
+/// Scala extractor at all, and the pinned Joern 4.0.432 has no Scala *source*
+/// frontend. Both absences are analyzer coverage recorded in
+/// docs/scala-kernel.md, never negative results. As with Kotlin, the frozen
+/// v0.2.0 direct-propagation pair still names the language-neutral breadth
+/// policy in its case metadata, so the run pins this policy for the whole
+/// population and all 32 assertions share one configuration.
+const BIFROST_SCALA_POLICY: &str = "adapters/bifrost/policies/core-scala-kernel.rqlp";
 /// One positive and one negative assertion for each scored template.
 const KERNEL_CASE_COUNT: usize = 2 * KERNEL_TEMPLATE_IDS.len();
 /// The sixteen scored propagation templates. Every language kernel preserves
@@ -205,6 +220,13 @@ enum Commands {
         #[arg(long, default_value = "bifrost")]
         bifrost: PathBuf,
     },
+    /// Run the Scala propagation kernel as its own population. Scala has
+    /// single-analyzer coverage — no CodeQL extractor and no Joern source
+    /// frontend — so this is the only executing adapter for it.
+    RunBifrostScalaKernel {
+        #[arg(long, default_value = "bifrost")]
+        bifrost: PathBuf,
+    },
     /// Run the TypeScript propagation kernel without mixing it with the
     /// JavaScript kernel or the cross-language direct-flow calibration cases.
     RunBifrostTypescriptKernel {
@@ -250,6 +272,14 @@ enum Commands {
     /// indexing: whatever the run produces is retained as capability evidence
     /// and is never converted into a negative.
     RunBifrostRubyKernel {
+        #[arg(long, default_value = "bifrost")]
+        bifrost: PathBuf,
+    },
+    /// Run the PHP propagation kernel as its own population, separate from every
+    /// other language kernel and from the direct-flow breadth slice. The pinned
+    /// CodeQL CLI has no PHP support at all, so this is one of PHP's two
+    /// analyzer slices; the other is `run-joern-php-kernel`.
+    RunBifrostPhpKernel {
         #[arg(long, default_value = "bifrost")]
         bifrost: PathBuf,
     },
@@ -373,6 +403,13 @@ enum Commands {
         #[arg(long, default_value = "joern")]
         joern: PathBuf,
     },
+    /// Run the PHP propagation kernel through Joern's `php2cpg` frontend, as its
+    /// own population. `php2cpg` shells out to its bundled PHP-Parser, so a host
+    /// `php` interpreter must be on PATH.
+    RunJoernPhpKernel {
+        #[arg(long, default_value = "joern")]
+        joern: PathBuf,
+    },
 }
 
 fn main() -> Result<()> {
@@ -395,6 +432,9 @@ fn main() -> Result<()> {
         Commands::RunBifrostSmoke { bifrost } => run_bifrost_smoke(&bifrost),
         Commands::RunBifrostPythonKernel { bifrost } => run_bifrost_python_kernel(&bifrost),
         Commands::RunBifrostKotlinKernel { bifrost } => run_bifrost_kotlin_kernel(&bifrost),
+        Commands::RunBifrostScalaKernel { bifrost } => {
+            run_bifrost(&bifrost, BifrostRun::ScalaKernel)
+        }
         Commands::RunBifrostTypescriptKernel { bifrost } => {
             run_bifrost(&bifrost, BifrostRun::TypescriptKernel)
         }
@@ -404,6 +444,7 @@ fn main() -> Result<()> {
         Commands::RunBifrostCppKernel { bifrost } => run_bifrost(&bifrost, BifrostRun::CppKernel),
         Commands::RunBifrostRustKernel { bifrost } => run_bifrost(&bifrost, BifrostRun::RustKernel),
         Commands::RunBifrostRubyKernel { bifrost } => run_bifrost(&bifrost, BifrostRun::RubyKernel),
+        Commands::RunBifrostPhpKernel { bifrost } => run_bifrost(&bifrost, BifrostRun::PhpKernel),
         Commands::RunCodeqlJavaKernel {
             codeql,
             codeql_packs,
@@ -456,6 +497,7 @@ fn main() -> Result<()> {
         }
         Commands::RunJoernPythonKernel { joern } => run_joern_kernel(&joern, JoernKernel::Python),
         Commands::RunJoernRubyKernel { joern } => run_joern_kernel(&joern, JoernKernel::Ruby),
+        Commands::RunJoernPhpKernel { joern } => run_joern_kernel(&joern, JoernKernel::Php),
     }
 }
 
@@ -508,9 +550,11 @@ fn validate_cases() -> Result<()> {
     validate_kernel_balance(&cases, EcmaKernel::JavaScript)?;
     validate_kernel_balance(&cases, EcmaKernel::TypeScript)?;
     validate_scored_kernel_balance(&cases, "kotlin", "Kotlin", &KERNEL_TEMPLATE_IDS)?;
+    validate_scored_kernel_balance(&cases, "scala", "Scala", &KERNEL_TEMPLATE_IDS)?;
     validate_scored_kernel_balance(&cases, "csharp", "C#", &KERNEL_TEMPLATE_IDS)?;
     validate_scored_kernel_balance(&cases, "go", "Go", &KERNEL_TEMPLATE_IDS)?;
     validate_scored_kernel_balance(&cases, "cpp", "C++", &KERNEL_TEMPLATE_IDS)?;
+    validate_scored_kernel_balance(&cases, "php", "PHP", &KERNEL_TEMPLATE_IDS)?;
     validate_scored_kernel_balance(
         &cases,
         "c",
@@ -773,6 +817,7 @@ enum BifrostRun {
     Smoke,
     PythonKernel,
     KotlinKernel,
+    ScalaKernel,
     TypescriptKernel,
     CsharpKernel,
     GoKernel,
@@ -780,6 +825,7 @@ enum BifrostRun {
     CppKernel,
     RustKernel,
     RubyKernel,
+    PhpKernel,
 }
 
 impl BifrostRun {
@@ -789,6 +835,7 @@ impl BifrostRun {
             Self::Smoke => "Bifrost smoke",
             Self::PythonKernel => "Bifrost Python kernel",
             Self::KotlinKernel => "Bifrost Kotlin kernel",
+            Self::ScalaKernel => "Bifrost Scala kernel",
             Self::TypescriptKernel => "Bifrost TypeScript kernel",
             Self::CsharpKernel => "Bifrost C# kernel",
             Self::GoKernel => "Bifrost Go kernel",
@@ -796,6 +843,7 @@ impl BifrostRun {
             Self::CppKernel => "Bifrost C++ kernel",
             Self::RustKernel => "Bifrost Rust kernel",
             Self::RubyKernel => "Bifrost Ruby kernel",
+            Self::PhpKernel => "Bifrost PHP kernel",
         }
     }
 
@@ -806,10 +854,12 @@ impl BifrostRun {
     fn expected_core_cases(self) -> Option<usize> {
         match self {
             Self::KotlinKernel
+            | Self::ScalaKernel
             | Self::CsharpKernel
             | Self::GoKernel
             | Self::CppKernel
-            | Self::RubyKernel => Some(KERNEL_CASE_COUNT),
+            | Self::RubyKernel
+            | Self::PhpKernel => Some(KERNEL_CASE_COUNT),
             Self::CKernel | Self::RustKernel => Some(KERNEL_CASE_COUNT_WITHOUT_EXCEPTION_CATCH),
             Self::Smoke | Self::PythonKernel | Self::TypescriptKernel => None,
         }
@@ -2383,6 +2433,10 @@ fn run_bifrost(binary: &Path, run: BifrostRun) -> Result<()> {
             Path::new("reports/raw/bifrost-kotlin-kernel"),
             Path::new("reports/bifrost-kotlin-kernel.json"),
         ),
+        BifrostRun::ScalaKernel => (
+            Path::new("reports/raw/bifrost-scala-kernel"),
+            Path::new("reports/bifrost-scala-kernel.json"),
+        ),
         BifrostRun::TypescriptKernel => (
             Path::new("reports/raw/bifrost-typescript-kernel"),
             Path::new("reports/bifrost-typescript-kernel.json"),
@@ -2410,6 +2464,10 @@ fn run_bifrost(binary: &Path, run: BifrostRun) -> Result<()> {
         BifrostRun::RubyKernel => (
             Path::new("reports/raw/bifrost-ruby-kernel"),
             Path::new("reports/bifrost-ruby-kernel.json"),
+        ),
+        BifrostRun::PhpKernel => (
+            Path::new("reports/raw/bifrost-php-kernel"),
+            Path::new("reports/bifrost-php-kernel.json"),
         ),
     };
     fs::create_dir_all(raw_dir)?;
@@ -2578,6 +2636,7 @@ fn run_bifrost(binary: &Path, run: BifrostRun) -> Result<()> {
 fn bifrost_policy_for<'a>(case: &'a Value, run: BifrostRun) -> Result<&'a str> {
     match run {
         BifrostRun::KotlinKernel => Ok(BIFROST_KOTLIN_POLICY),
+        BifrostRun::ScalaKernel => Ok(BIFROST_SCALA_POLICY),
         _ => case["tool_model_references"]["bifrost"]["policy"]
             .as_str()
             .context("Bifrost case lacks policy reference"),
@@ -2588,6 +2647,7 @@ fn selected_bifrost_case(case: &Value, run: BifrostRun) -> bool {
     match run {
         BifrostRun::Smoke => has_bifrost_model_reference(case) && smoke_population_case(case),
         BifrostRun::KotlinKernel => kotlin_core_case(case),
+        BifrostRun::ScalaKernel => scala_core_case(case),
         BifrostRun::PythonKernel => {
             case["language"] == "python"
                 && case["track"] == "taint"
@@ -2644,7 +2704,24 @@ fn selected_bifrost_case(case: &Value, run: BifrostRun) -> bool {
                     })
                     || case["tool_model_references"]["bifrost"]["unsupported_reason"].is_string())
         }
+        BifrostRun::PhpKernel => {
+            php_core_case(case)
+                && (case["tool_model_references"]["bifrost"]["policy"]
+                    .as_str()
+                    .is_some_and(|policy| {
+                        policy == BIFROST_PHP_POLICY || policy == BIFROST_DIRECT_POLICY
+                    })
+                    || case["tool_model_references"]["bifrost"]["unsupported_reason"].is_string())
+        }
     }
+}
+
+/// A PHP core assertion. As with the Kotlin, C#, Go, and C-family kernels, the
+/// direct-propagation pair predates this kernel and is frozen in the published
+/// v0.2.0 and v0.3.0 evidence naming the cross-language breadth policy, so that
+/// policy reference is accepted alongside the language-qualified one.
+fn php_core_case(case: &Value) -> bool {
+    case["language"] == "php" && case["track"] == "taint" && case["score_tier"] == "core"
 }
 
 /// A C or C++ case this kernel run evaluates. As with the Kotlin and C#
@@ -3863,6 +3940,17 @@ fn kotlin_core_case(case: &Value) -> bool {
     case["language"] == "kotlin" && case["track"] == "taint" && case["score_tier"] == "core"
 }
 
+/// A Scala assertion the Bifrost kernel run owns. Scala is selected the way
+/// Kotlin is — by language, track, and score tier — because its
+/// direct-propagation pair is frozen in the v0.2.0 evidence naming the
+/// cross-language breadth policy, and the run pins the language-qualified
+/// policy for the whole population instead of reading it from each case. No
+/// CodeQL or Joern counterpart exists: neither pinned tool can extract Scala
+/// source, which is coverage recorded in docs/scala-kernel.md, not a negative.
+fn scala_core_case(case: &Value) -> bool {
+    case["language"] == "scala" && case["track"] == "taint" && case["score_tier"] == "core"
+}
+
 fn codeql_kotlin_cases() -> Result<Vec<(PathBuf, Value)>> {
     let mut selected = Vec::new();
     for path in case_paths() {
@@ -4350,6 +4438,7 @@ enum AnchorDialect {
     Java,
     Python,
     Ruby,
+    Php,
 }
 
 impl AnchorDialect {
@@ -4359,9 +4448,13 @@ impl AnchorDialect {
     fn declared_function_name(self, declaration: &str, marker: &str) -> Option<String> {
         match self {
             Self::Ecma => ecma_function_name(declaration, marker),
-            Self::CSharp | Self::Go | Self::Cpp | Self::Rust | Self::Java | Self::Python => {
-                parameter_list_function_name(declaration, marker)
-            }
+            Self::CSharp
+            | Self::Go
+            | Self::Cpp
+            | Self::Rust
+            | Self::Java
+            | Self::Python
+            | Self::Php => parameter_list_function_name(declaration, marker),
             Self::Ruby => ruby_declared_function_name(declaration, marker),
         }
     }
@@ -4376,6 +4469,7 @@ impl AnchorDialect {
             Self::Rust => rust_function_call(line, function_name),
             Self::Python => python_function_call(line, function_name),
             Self::Ruby => ruby_function_call(line, function_name),
+            Self::Php => php_function_call(line, function_name),
         }
     }
 }
@@ -4387,6 +4481,9 @@ impl AnchorDialect {
 enum CommentSyntax {
     DoubleSlash,
     Hash,
+    /// PHP accepts both `//` and `#` as line-comment openers, and the kernel
+    /// fixtures may legitimately use either.
+    DoubleSlashOrHash,
 }
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
@@ -4665,6 +4762,20 @@ fn ruby_declared_function_name(declaration: &str, marker: &str) -> Option<String
         .then(|| name[..end].to_string())
 }
 
+/// PHP reaches an instance member through `->` and a static member or class
+/// constant through `::`. Its `.` is string concatenation, not a member
+/// operator, so — unlike every other dialect here — a call preceded by `.` is a
+/// genuine call of the free benchmark function and must not be excluded. PHP
+/// opens a line comment with either `//` or `#`.
+fn php_function_call(line: &str, function_name: &str) -> bool {
+    member_prefixed_call_in(
+        line,
+        function_name,
+        &['>', ':'],
+        CommentSyntax::DoubleSlashOrHash,
+    )
+}
+
 /// C and C++ reach a member through `.`, `->`, and `::`; none of those is a
 /// call of the free benchmark sink function the anchor declares.
 fn cpp_function_call(line: &str, function_name: &str) -> bool {
@@ -4766,6 +4877,9 @@ fn code_without_literals_in(line: &str, comment: CommentSyntax) -> String {
         let opens_comment = match comment {
             CommentSyntax::DoubleSlash => character == '/' && characters.peek() == Some(&'/'),
             CommentSyntax::Hash => character == '#',
+            CommentSyntax::DoubleSlashOrHash => {
+                character == '#' || (character == '/' && characters.peek() == Some(&'/'))
+            }
         };
         if opens_comment {
             break;
@@ -5402,8 +5516,8 @@ fn sarif_execution_errors(sarif: &Value) -> Vec<String> {
 
 /// One Joern kernel: a single language, its own case selection, its own
 /// frontend, its own normalized report, and its own retained-evidence root.
-/// Joern shares one CPG query language and one data-flow engine across all
-/// three, exactly as CodeQL shares a standard library; the populations are kept
+/// Joern shares one CPG query language and one data-flow engine across all of
+/// them, exactly as CodeQL shares a standard library; the populations are kept
 /// apart by the selector and the report paths, never by the engine.
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 enum JoernKernel {
@@ -5411,6 +5525,7 @@ enum JoernKernel {
     JavaScript,
     Python,
     Ruby,
+    Php,
 }
 
 impl JoernKernel {
@@ -5420,6 +5535,7 @@ impl JoernKernel {
             Self::JavaScript => "javascript",
             Self::Python => "python",
             Self::Ruby => "ruby",
+            Self::Php => "php",
         }
     }
 
@@ -5429,19 +5545,21 @@ impl JoernKernel {
             Self::JavaScript => "JavaScript",
             Self::Python => "Python",
             Self::Ruby => "Ruby",
+            Self::Php => "PHP",
         }
     }
 
     /// The `importCode` language identifier the script is invoked with, which
-    /// selects `javasrc2cpg`, `jssrc2cpg`, `pysrc2cpg`, and `rubysrc2cpg`
-    /// respectively. Each kernel names exactly one source frontend; none of the
-    /// four is analyzed through a bytecode or binary frontend.
+    /// selects `javasrc2cpg`, `jssrc2cpg`, `pysrc2cpg`, `rubysrc2cpg`, and
+    /// `php2cpg` respectively. Each kernel names exactly one source frontend;
+    /// none of the five is analyzed through a bytecode or binary frontend.
     fn frontend(self) -> &'static str {
         match self {
             Self::Java => "JAVASRC",
             Self::JavaScript => "JSSRC",
             Self::Python => "PYTHONSRC",
             Self::Ruby => "RUBYSRC",
+            Self::Php => "PHP",
         }
     }
 
@@ -5451,6 +5569,7 @@ impl JoernKernel {
             Self::JavaScript => JOERN_JAVASCRIPT_REPORT,
             Self::Python => JOERN_PYTHON_REPORT,
             Self::Ruby => JOERN_RUBY_REPORT,
+            Self::Php => JOERN_PHP_REPORT,
         }
     }
 
@@ -5460,6 +5579,7 @@ impl JoernKernel {
             Self::JavaScript => JOERN_JAVASCRIPT_RAW_DIR,
             Self::Python => JOERN_PYTHON_RAW_DIR,
             Self::Ruby => JOERN_RUBY_RAW_DIR,
+            Self::Php => JOERN_PHP_RAW_DIR,
         }
     }
 
@@ -5469,6 +5589,7 @@ impl JoernKernel {
             Self::JavaScript => AnchorDialect::Ecma,
             Self::Python => AnchorDialect::Python,
             Self::Ruby => AnchorDialect::Ruby,
+            Self::Php => AnchorDialect::Php,
         }
     }
 
@@ -6647,6 +6768,84 @@ mod tests {
     }
 
     #[test]
+    fn scala_kernel_selection_is_separate_from_every_other_language() {
+        let scala_core = json!({
+            "language": "scala",
+            "track": "taint",
+            "score_tier": "core",
+            "tool_model_references": {"bifrost": {"policy": BIFROST_SCALA_POLICY}}
+        });
+        // Frozen v0.2.0 breadth metadata: the Scala kernel still selects it.
+        let scala_direct = json!({
+            "language": "scala",
+            "track": "taint",
+            "score_tier": "core",
+            "tool_model_references": {
+                "bifrost": {"policy": "adapters/bifrost/policies/core-direct.rqlp"}
+            }
+        });
+        let kotlin_core = json!({
+            "language": "kotlin",
+            "track": "taint",
+            "score_tier": "core",
+            "tool_model_references": {"bifrost": {"policy": BIFROST_SCALA_POLICY}}
+        });
+        assert!(selected_bifrost_case(&scala_core, BifrostRun::ScalaKernel));
+        assert!(selected_bifrost_case(
+            &scala_direct,
+            BifrostRun::ScalaKernel
+        ));
+        assert!(!selected_bifrost_case(
+            &kotlin_core,
+            BifrostRun::ScalaKernel
+        ));
+        assert!(!selected_bifrost_case(
+            &scala_core,
+            BifrostRun::KotlinKernel
+        ));
+        assert!(!selected_bifrost_case(&scala_core, BifrostRun::Smoke));
+
+        // Every Scala assertion is evaluated with the language-qualified Scala
+        // policy, including the frozen direct pair, while the frozen smoke
+        // population keeps evaluating that pair through the breadth policy.
+        assert_eq!(
+            bifrost_policy_for(&scala_direct, BifrostRun::ScalaKernel).unwrap(),
+            BIFROST_SCALA_POLICY
+        );
+        assert_eq!(
+            bifrost_policy_for(&scala_direct, BifrostRun::Smoke).unwrap(),
+            "adapters/bifrost/policies/core-direct.rqlp"
+        );
+    }
+
+    /// Scala has no CodeQL and no Joern population, so the only in-repo
+    /// guarantee that its 32 assertions are complete and balanced is the
+    /// Bifrost run's own core denominator.
+    #[test]
+    fn scala_bifrost_population_is_exactly_32_balanced_assertions() {
+        let selected = case_paths()
+            .into_iter()
+            .map(|path| {
+                let case: Value =
+                    serde_json::from_str(&fs::read_to_string(&path).unwrap()).unwrap();
+                (path, case)
+            })
+            .filter(|(_, case)| scala_core_case(case))
+            .collect::<Vec<_>>();
+        assert_eq!(
+            selected.len(),
+            BifrostRun::ScalaKernel.expected_core_cases().unwrap()
+        );
+        assert!(
+            selected
+                .iter()
+                .all(|(path, _)| path.starts_with("cases/taint/scala"))
+        );
+        validate_kernel_population(&selected, "Bifrost Scala kernel").unwrap();
+        assert!(Path::new(BIFROST_SCALA_POLICY).is_file());
+    }
+
+    #[test]
     fn kotlin_codeql_population_is_exactly_32_balanced_assertions() {
         let selected = codeql_kotlin_cases().unwrap();
         assert_eq!(selected.len(), KERNEL_CASE_COUNT);
@@ -7388,6 +7587,61 @@ mod tests {
             }
         }
         assert_eq!(selected, KERNEL_CASE_COUNT);
+    }
+
+    #[test]
+    fn php_core_selection_is_language_and_track_scoped() {
+        let php = json!({
+            "language": "php",
+            "track": "taint",
+            "score_tier": "core"
+        });
+        assert!(php_core_case(&php));
+        for language in ["java", "javascript", "typescript", "python", "ruby", "go"] {
+            let mut other = php.clone();
+            other["language"] = json!(language);
+            assert!(!php_core_case(&other));
+        }
+        let mut other = php.clone();
+        other["track"] = json!("value-flow");
+        assert!(!php_core_case(&other));
+        other["track"] = json!("taint");
+        other["score_tier"] = json!("calibration");
+        assert!(!php_core_case(&other));
+    }
+
+    /// PHP has no CodeQL support in the pinned CLI, so Bifrost and Joern are its
+    /// two analyzers. The Bifrost slice still may not overlap any other
+    /// language's kernel population.
+    #[test]
+    fn bifrost_php_kernel_selects_only_php_core_cases() {
+        let mut selected = 0;
+        for path in case_paths() {
+            let case: Value = serde_json::from_str(&fs::read_to_string(path).unwrap()).unwrap();
+            if selected_bifrost_case(&case, BifrostRun::PhpKernel) {
+                selected += 1;
+                assert_eq!(case["language"], "php");
+                assert_eq!(case["score_tier"], "core");
+                for other in [
+                    BifrostRun::PythonKernel,
+                    BifrostRun::KotlinKernel,
+                    BifrostRun::TypescriptKernel,
+                    BifrostRun::CsharpKernel,
+                    BifrostRun::GoKernel,
+                    BifrostRun::CKernel,
+                    BifrostRun::CppKernel,
+                    BifrostRun::RustKernel,
+                    BifrostRun::RubyKernel,
+                ] {
+                    assert!(!selected_bifrost_case(&case, other));
+                }
+            }
+        }
+        assert_eq!(selected, KERNEL_CASE_COUNT);
+        assert_eq!(
+            BifrostRun::PhpKernel.expected_core_cases(),
+            Some(KERNEL_CASE_COUNT)
+        );
     }
 
     #[test]
@@ -8160,6 +8414,7 @@ mod tests {
             JoernKernel::JavaScript,
             JoernKernel::Python,
             JoernKernel::Ruby,
+            JoernKernel::Php,
         ] {
             let selected = select_joern_cases(kernel).unwrap();
             assert_eq!(selected.len(), KERNEL_CASE_COUNT);
@@ -8204,6 +8459,7 @@ mod tests {
             JoernKernel::JavaScript,
             JoernKernel::Python,
             JoernKernel::Ruby,
+            JoernKernel::Php,
         ];
         let reports = kernels
             .iter()
@@ -8296,6 +8552,16 @@ mod tests {
                 sink_function: "dfb_sink".to_string()
             }
         );
+        assert_eq!(
+            resolve(
+                "dfb-taint-php-alias-propagation-positive",
+                AnchorDialect::Php
+            ),
+            JoernEndpoints {
+                source_function: "dfb_source".to_string(),
+                sink_function: "dfb_sink".to_string()
+            }
+        );
     }
 
     /// Ruby is the one dialect whose endpoint declarations may carry no
@@ -8346,6 +8612,41 @@ mod tests {
         assert!(!AnchorDialect::Ruby.is_call("  log(\"dfb_sink(value)\")", "dfb_sink"));
     }
 
+    /// PHP declares a function name before its parameter list, reaches an
+    /// instance member through `->` and a static one through `::`, and opens a
+    /// line comment with either `//` or `#`. Its `.` is string concatenation,
+    /// not a member operator, so a concatenated call is still a callsite.
+    #[test]
+    fn php_sink_declarations_and_callsites_resolve_through_the_php_dialect() {
+        assert_eq!(
+            AnchorDialect::Php
+                .declared_function_name(
+                    "function dfb_sink(string $value): void {} // DFB-SINK: sink",
+                    "DFB-SINK: sink"
+                )
+                .as_deref(),
+            Some("dfb_sink")
+        );
+        assert_eq!(
+            AnchorDialect::Php
+                .declared_function_name(
+                    "function dfb_source(): string { # DFB-SOURCE: input",
+                    "DFB-SOURCE: input"
+                )
+                .as_deref(),
+            Some("dfb_source")
+        );
+        assert!(AnchorDialect::Php.is_call("    dfb_sink($alias->value);", "dfb_sink"));
+        assert!(!AnchorDialect::Php.is_call("    $other->dfb_sink($value);", "dfb_sink"));
+        assert!(!AnchorDialect::Php.is_call("    Other::dfb_sink($value);", "dfb_sink"));
+        assert!(!AnchorDialect::Php.is_call("    my_dfb_sink($value);", "dfb_sink"));
+        assert!(!AnchorDialect::Php.is_call("    // dfb_sink($value);", "dfb_sink"));
+        assert!(!AnchorDialect::Php.is_call("    # dfb_sink($value);", "dfb_sink"));
+        assert!(!AnchorDialect::Php.is_call("    log(\"dfb_sink($value)\");", "dfb_sink"));
+        // `.` concatenates in PHP; it never qualifies a member.
+        assert!(AnchorDialect::Php.is_call("    $text = $prefix . dfb_sink($value);", "dfb_sink"));
+    }
+
     /// The Ruby kernel is its own Bifrost population. The tranche is gated on
     /// Bifrost's Ruby indexing, so whatever this run produces is capability
     /// evidence — but the selection itself must still be exactly the 32 Ruby
@@ -8367,6 +8668,7 @@ mod tests {
                     BifrostRun::CKernel,
                     BifrostRun::CppKernel,
                     BifrostRun::RustKernel,
+                    BifrostRun::PhpKernel,
                 ] {
                     assert!(!selected_bifrost_case(&case, other));
                 }

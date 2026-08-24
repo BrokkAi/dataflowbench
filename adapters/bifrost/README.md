@@ -45,12 +45,23 @@ Go, and carries the same reduced denominator as C for a different reason:
 Rust, so the Rust core population is 15 templates and 30 assertions, and the
 `Result`/`?` construct Rust uses instead is carried by a `language-extension`
 pair that the run also evaluates but never counts in the core denominator; see
-[the Rust kernel contract](../../docs/rust-kernel.md). The Ruby parity slice
-uses `core-ruby-kernel.rqlp` under the same frozen-direct-pair arrangement and
-covers all 16 templates (32 core assertions); it is the one
-analyzer-coverage-gated slice, run and retained as capability evidence while
-the Ruby denominator is decided CodeQL-first, as [the Ruby kernel
-contract](../../docs/ruby-kernel.md) records. Every kernel command
+[the Rust kernel contract](../../docs/rust-kernel.md). The PHP parity slice uses
+`core-php-kernel.rqlp` under the same frozen-direct-pair arrangement as C#, Go,
+and Rust, and covers all 16 templates (32 core assertions); see [the PHP kernel
+contract](../../docs/php-kernel.md) for its ordered-map array adaptation and for
+why the pinned CodeQL CLI contributes no PHP results at all. The Ruby parity
+slice uses `core-ruby-kernel.rqlp` under that same arrangement and also covers
+all 16 templates (32 core assertions); it is the one analyzer-coverage-gated
+slice, run and retained as capability evidence while the Ruby denominator is
+decided CodeQL-first, as [the Ruby kernel
+contract](../../docs/ruby-kernel.md) records. The Scala parity
+slice uses `core-scala-kernel.rqlp` and pins that policy for its whole
+population the way the Kotlin slice does, because its direct-propagation pair
+is frozen naming the breadth policy; Scala is the only kernel with
+**single-analyzer coverage** — CodeQL 2.26.3 has no Scala extractor and the
+pinned Joern has no Scala source frontend, so Bifrost is the only tool that
+produces Scala results at all. See
+[the Scala kernel contract](../../docs/scala-kernel.md). Every kernel command
 selects only its own language's core assertions — 32 for the 16-template
 kernels, 30 for C and Rust — and writes a dedicated report. The Java
 calibration slice also
@@ -68,6 +79,7 @@ Run from the repository root:
 cargo run -- run-bifrost-smoke --bifrost /path/to/bifrost
 cargo run -- run-bifrost-python-kernel --bifrost /path/to/bifrost
 cargo run -- run-bifrost-kotlin-kernel --bifrost /path/to/bifrost
+cargo run -- run-bifrost-scala-kernel --bifrost /path/to/bifrost
 cargo run -- run-bifrost-typescript-kernel --bifrost /path/to/bifrost
 cargo run -- run-bifrost-csharp-kernel --bifrost /path/to/bifrost
 cargo run -- run-bifrost-go-kernel --bifrost /path/to/bifrost
@@ -75,6 +87,7 @@ cargo run -- run-bifrost-c-kernel --bifrost /path/to/bifrost
 cargo run -- run-bifrost-cpp-kernel --bifrost /path/to/bifrost
 cargo run -- run-bifrost-rust-kernel --bifrost /path/to/bifrost
 cargo run -- run-bifrost-ruby-kernel --bifrost /path/to/bifrost
+cargo run -- run-bifrost-php-kernel --bifrost /path/to/bifrost
 ```
 
 The smoke command selects only cases with an explicit Bifrost policy or
@@ -183,6 +196,33 @@ results retain `partial_discovery` evidence ("procedure value-flow snapshot for
 Bifrost's Ruby indexing was not modified by that tranche; the Ruby denominator
 is decided CodeQL-first instead, and none of these 32 outcomes is ever counted
 as `not-reached`. See [the Ruby kernel contract](../../docs/ruby-kernel.md).
+
+The 32-assertion PHP kernel, in its own report
+`reports/bifrost-php-kernel.json` with raw evidence under
+`reports/raw/bifrost-php-kernel/`, contains 10 `reached`, 8 `not-reached`, and
+14 `inconclusive` results, with 17 of the 18 decisive outcomes matching the
+expected polarity (17 of 32 assertions). Eight template pairs are decisive and
+correct on both halves; the one decisive mismatch is
+`dfb-taint-php-infeasible-branch-negative`, where Bifrost reports a flow through
+an `if (false)` body, the same over-approximation the Go kernel shows. The 14
+inconclusive results retain `capability_incomplete` (10 — the whole
+heap/separation stratum and the exception-catch pair) or `partial_discovery`
+(4 — the arithmetic-expression and loop-carried pairs) evidence and are never
+counted as negatives. This report was produced after the v0.3.0 freeze and is
+not bound by it; see [the PHP kernel contract](../../docs/php-kernel.md).
+
+The 32-case Scala kernel, in its own report `reports/bifrost-scala-kernel.json`
+with raw evidence under `reports/raw/bifrost-scala-kernel/`, was run on the
+same v0.10.5 build after the v0.3.0 freeze and is therefore not part of it. It
+produces 5 `reached`, 5 `not-reached`, and 22 `inconclusive` results: five
+template pairs are decisive — direct propagation, the local multi-step chain,
+call-context separation, argument-position separation, and the one-hop return
+relay — and all ten of those outcomes match the expected polarity, with no
+decisive mismatch. The 22 inconclusive results retain `partial_discovery` (18)
+or `capability_incomplete` (4) evidence; six of them additionally carry the
+policy's finding message, which an incomplete run cannot make decisive. This is
+capability coverage, never a negative result; see [the Scala kernel
+contract](../../docs/scala-kernel.md).
 
 The JavaScript alias-propagation and array-element pairs retain
 `partial_discovery` evidence, while the exception-catch pair retains

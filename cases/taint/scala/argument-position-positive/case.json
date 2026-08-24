@@ -1,0 +1,62 @@
+{
+  "schema_version": 2,
+  "id": "dfb-taint-scala-argument-position-positive",
+  "template_id": "dfb-template-argument-position-separation",
+  "polarity": "positive",
+  "score_tier": "core",
+  "track": "taint",
+  "language": "scala",
+  "semantic_dimensions": [
+    "interprocedural-flow",
+    "context-sensitivity"
+  ],
+  "feature_tags": [
+    "interprocedural-one-hop"
+  ],
+  "model_profile": "benchmark-controlled",
+  "fixture_files": [
+    "ArgumentPositionPositive.scala"
+  ],
+  "source_anchors": [
+    {
+      "marker": "DFB-SOURCE: argument-position-input",
+      "file": "ArgumentPositionPositive.scala"
+    }
+  ],
+  "sink_anchors": [
+    {
+      "marker": "DFB-SINK: argument-position-sink",
+      "file": "ArgumentPositionPositive.scala"
+    }
+  ],
+  "expected_flows": [
+    {
+      "source": "DFB-SOURCE: argument-position-input",
+      "sink": "DFB-SINK: argument-position-sink"
+    }
+  ],
+  "expected_nonflows": [],
+  "witness_checkpoints": [
+    "DFB-SOURCE: argument-position-input",
+    "DFB-WITNESS: argument-position-first",
+    "DFB-SINK: argument-position-sink"
+  ],
+  "expected_analysis_capability": {
+    "kind": "argument-sensitive-interprocedural-taint"
+  },
+  "execution_budget": {
+    "wall_clock_seconds": 60,
+    "peak_memory_mb": 512
+  },
+  "fixture_provenance": {
+    "kind": "authored",
+    "origin": "DataFlowBench",
+    "revision": "m2-scala-kernel",
+    "license": "MIT"
+  },
+  "tool_model_references": {
+    "bifrost": {
+      "policy": "adapters/bifrost/policies/core-scala-kernel.rqlp"
+    }
+  }
+}
