@@ -8,28 +8,22 @@ import {
   percentCell,
   shortDigest,
   type ScoreTier,
-  type Scorecard,
 } from '../data/snapshots';
 
 const snapshot = currentSnapshot;
 const scorecards = snapshot.results.scorecards;
-const bifrost = scorecards.find((card) => card.adapter.tool === 'bifrost')!;
-
-function tierOf(
-  scorecard: Scorecard,
-  language: string,
-  tierName: string,
-): ScoreTier | undefined {
-  return scorecard.languages
-    .find((entry) => entry.language === language)
-    ?.score_tiers.find((tier) => tier.score_tier === tierName);
-}
+// The breadth baseline is the all-language smoke population; the deep kernels
+// live in their own per-language scorecards (Java and JavaScript still ride
+// along in the smoke report). Populations are matched by case identity below,
+// never by language name alone.
+const smoke = scorecards.find((card) => card.id.startsWith('bifrost-smoke'))!;
 
 interface TierStats {
   total: number;
   correct: number;
   wrong: number;
   incomplete: number;
+  runnerErrors: number;
   tpr: string | null;
   fpr: string | null;
 }
@@ -38,7 +32,9 @@ function statsOf(tier: ScoreTier): TierStats {
   let correct = 0;
   let wrong = 0;
   let incomplete = 0;
+  let runnerErrors = 0;
   for (const result of tier.cases) {
+    if (result.classification === 'runner-error') runnerErrors += 1;
     if (
       result.classification === 'true-positive' ||
       result.classification === 'true-negative'
@@ -58,19 +54,44 @@ function statsOf(tier: ScoreTier): TierStats {
     correct,
     wrong,
     incomplete,
+    runnerErrors,
     tpr: tier.dimension_macro.true_positive_rate_percent,
     fpr: tier.dimension_macro.false_positive_rate_percent,
   };
 }
 
-// One kernel comparison per CodeQL scorecard language, paired with Bifrost's
-// same-language core tier from its all-case population.
+// One kernel comparison per CodeQL core tier, paired with the Bifrost tier
+// covering exactly the same case identifiers. Matching on the case set — not
+// on the language name — keeps 15-template and 16-template cores from ever
+// being compared against each other or pooled.
+function caseKey(tier: ScoreTier): string {
+  return tier.cases
+    .map((result) => result.case_id)
+    .sort()
+    .join('\n');
+}
+
+const bifrostTiers = new Map<string, ScoreTier>();
+for (const card of scorecards) {
+  if (card.adapter.tool !== 'bifrost') continue;
+  for (const language of card.languages) {
+    for (const tier of language.score_tiers) {
+      const key = caseKey(tier);
+      // A dedicated kernel scorecard wins over the same cases as observed in
+      // the broad smoke population.
+      if (bifrostTiers.has(key) && card.id.startsWith('bifrost-smoke')) continue;
+      bifrostTiers.set(key, tier);
+    }
+  }
+}
+
 interface Kernel {
   language: string;
   bifrostTier: ScoreTier;
   codeqlTier: ScoreTier;
   bifrost: TierStats;
   codeql: TierStats;
+  templates: number;
 }
 const kernels: Kernel[] = [];
 for (const card of scorecards) {
@@ -79,18 +100,25 @@ for (const card of scorecards) {
     const codeqlTier = language.score_tiers.find(
       (tier) => tier.score_tier === 'core',
     );
-    const bifrostTier = tierOf(bifrost, language.language, 'core');
-    if (!codeqlTier || !bifrostTier) continue;
+    if (!codeqlTier) continue;
+    const bifrostTier = bifrostTiers.get(caseKey(codeqlTier));
+    if (!bifrostTier) continue;
     kernels.push({
       language: language.language,
       bifrostTier,
       codeqlTier,
       bifrost: statsOf(bifrostTier),
       codeql: statsOf(codeqlTier),
+      templates: new Set(codeqlTier.cases.map((result) => result.template_id))
+        .size,
     });
   }
 }
 kernels.sort((left, right) => left.language.localeCompare(right.language));
+
+const templateSizes = [...new Set(kernels.map((kernel) => kernel.templates))]
+  .sort((left, right) => left - right)
+  .join('–');
 
 // Direct-flow breadth: the direct-propagation template pair per language.
 const directTemplate = 'dfb-template-direct-propagation';
@@ -102,7 +130,7 @@ interface BreadthRow {
   incomplete: boolean;
 }
 const breadth: BreadthRow[] = [];
-for (const language of bifrost.languages) {
+for (const language of smoke.languages) {
   for (const tier of language.score_tiers) {
     if (tier.score_tier !== 'core') continue;
     const pair = tier.cases.filter(
@@ -181,8 +209,7 @@ const caseCount = snapshot.results.scorecards
   .flatMap((language) => language.score_tiers)
   .reduce((sum, tier) => sum + tier.cases.length, 0);
 
-const templateCount = kernels.length > 0 ? kernelTable(kernels[0]!).length : 0;
-const bifrostVersion = bifrost.adapter.tool_version.replace('bifrost ', '');
+const bifrostVersion = smoke.adapter.tool_version.replace('bifrost ', '');
 const codeqlVersion = scorecards.find((card) => card.adapter.tool === 'codeql')!
   .adapter.tool_version;
 ---
@@ -194,22 +221,26 @@ const codeqlVersion = scorecards.find((card) => card.adapter.tool === 'codeql')!
 <aside class="short-answer">
   <p class="label">Short answer</p>
   <p class="verdict">
-    Bifrost routes direct flows almost everywhere. On the deep propagation
-    kernels, CodeQL decides more assertions correctly in every language —
-    Bifrost finds more true flows in Java and Python but is far less precise,
-    trails across the board on JavaScript, and often reports incomplete
-    analysis instead of an answer.
+    The two analyzers are strong in different places. Bifrost now answers the
+    Java, JavaScript and Python kernels without a single wrong or incomplete
+    result, and comes close on TypeScript; CodeQL answers every assertion in
+    all {kernels.length} kernels, with a handful of misses in each. Where
+    Bifrost's deeper semantics are not yet wired up for a language, it reports
+    incomplete analysis instead of an answer — coverage, not a wrong result.
   </p>
   <p>
-    Each 16-template kernel poses {kernels[0]?.bifrost.total} balanced
-    assertions per language.
-    {kernels.map((kernel, index) => (
+    Each kernel poses one positive and one negative assertion per semantic
+    template, and each language's kernel is its own population — the {' '}
+    {templateSizes}-template cores are never pooled or ranked against each
+    other.
+    {kernels.map((kernel) => (
       <>
-        {index > 0 && ' '}On <strong>{kernel.language}</strong>, Bifrost
-        decided <strong>{kernel.bifrost.correct} of {kernel.bifrost.total}</strong>
-        correctly (TPR {percentCell(kernel.bifrost.tpr)}, FPR
+        {' '}On <strong>{kernel.language}</strong> ({kernel.templates} templates,
+        {' '}{kernel.bifrost.total} assertions), Bifrost decided
+        {' '}<strong>{kernel.bifrost.correct} of {kernel.bifrost.total}</strong>
+        {' '}correctly (TPR {percentCell(kernel.bifrost.tpr)}, FPR
         {' '}{percentCell(kernel.bifrost.fpr)}, {kernel.bifrost.incomplete} incomplete)
-        against CodeQL's <strong>{kernel.codeql.correct} of {kernel.codeql.total}</strong>
+        {' '}and CodeQL <strong>{kernel.codeql.correct} of {kernel.codeql.total}</strong>
         {' '}(TPR {percentCell(kernel.codeql.tpr)}, FPR
         {' '}{percentCell(kernel.codeql.fpr)}, {kernel.codeql.incomplete} incomplete).
       </>
@@ -238,8 +269,12 @@ const codeqlVersion = scorecards.find((card) => card.adapter.tool === 'codeql')!
       </div>
       <p class="caption">
         {kernel.bifrost.incomplete + kernel.codeql.incomplete > 0
-          ? `incomplete outcomes (${kernel.bifrost.incomplete} Bifrost, ${kernel.codeql.incomplete} CodeQL) are excluded from correctness, not counted against it`
-          : 'all outcomes definitive'}
+          ? `${kernel.templates} templates · incomplete outcomes (${kernel.bifrost.incomplete} Bifrost, ${kernel.codeql.incomplete} CodeQL${
+              kernel.bifrost.runnerErrors + kernel.codeql.runnerErrors > 0
+                ? `; ${kernel.bifrost.runnerErrors + kernel.codeql.runnerErrors} of them runner errors`
+                : ''
+            }) are excluded from correctness, not counted against it`
+          : `${kernel.templates} templates · all outcomes definitive`}
       </p>
     </div>
   ))}
@@ -374,10 +409,14 @@ const codeqlVersion = scorecards.find((card) => card.adapter.tool === 'codeql')!
 
 <p>
   This snapshot's bounded claim covers the synthetic direct-flow breadth
-  baseline and the 16-template Java, JavaScript, and Python propagation
-  kernels on the <code>taint</code> track. It does not estimate real-project
-  accuracy, tool-native model coverage, other languages' kernel behavior, or
-  performance. <code>inconclusive</code>, <code>unsupported</code>, and
+  baseline and the propagation kernels of the {kernels.length} kernel
+  languages above on the <code>taint</code> track. Cores are sized per
+  language ({templateSizes} templates), so each kernel is read on its own
+  denominator; language-only constructs are reported in separate
+  <code>language-extension</code> tiers on the snapshot pages. It does not
+  estimate real-project accuracy, tool-native model coverage, other
+  languages' kernel behavior, or performance. <code>inconclusive</code>,
+  <code>unsupported</code>, and
   <code>runner-error</code> are capability coverage and are never converted
   into clean negatives.
 </p>
@@ -392,8 +431,8 @@ const codeqlVersion = scorecards.find((card) => card.adapter.tool === 'codeql')!
     <p class="caption">languages in the breadth baseline</p>
   </div>
   <div class="tile">
-    <p class="big">{kernels.length}×{templateCount}</p>
-    <p class="caption">kernel languages × semantic templates</p>
+    <p class="big">{kernels.length}</p>
+    <p class="caption">kernel languages ({templateSizes} templates each)</p>
   </div>
   <div class="tile">
     <p class="big">{snapshot.version}</p>

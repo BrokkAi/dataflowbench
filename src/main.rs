@@ -5167,6 +5167,22 @@ fn normalize_bifrost(
             return Ok(("runner-error", report_diagnostics, Vec::new()));
         }
     }
+    // A run that Bifrost itself reports as failed is an execution error, even
+    // when the process exits with the inconclusive status 2. This mirrors the
+    // freeze validator's `raw_special_outcome` precedence exactly: an
+    // explicitly inconclusive completion still outranks a failed sibling run,
+    // but a failure never normalizes to `inconclusive`.
+    let has_inconclusive_completion = report["runs"]
+        .as_array()
+        .into_iter()
+        .flatten()
+        .any(|run| run["completion"]["type"] == "inconclusive");
+    if !has_inconclusive_completion && let Some(reason) = bifrost_runner_error_reason(report) {
+        report_diagnostics.push(reason);
+        report_diagnostics.sort();
+        report_diagnostics.dedup();
+        return Ok(("runner-error", report_diagnostics, Vec::new()));
+    }
     // Bifrost reserves exit status 2 for an unreliable/inconclusive run. It
     // takes precedence over finding absence, even if the report is sparse.
     if status == Some(2) {
@@ -7699,5 +7715,30 @@ mod tests {
             }
         }
         assert_eq!(selected, 118, "the smoke population is frozen at 118 cases");
+    }
+    /// A failed Bifrost run is an execution error even under exit status 2;
+    /// this must match `raw_special_outcome` so a freeze can bind the report.
+    #[test]
+    fn failed_bifrost_completion_normalizes_to_runner_error_despite_status_2() {
+        let case = json!({"expected_flows": []});
+        let raw = json!({
+            "runs": [{
+                "completion": {"type": "failed", "reasons": ["internal_invariant"]},
+                "diagnostics": []
+            }]
+        });
+        let (outcome, _, _) = normalize_bifrost(&case, &raw, Some(2)).unwrap();
+        assert_eq!(outcome, "runner-error");
+        assert_eq!(raw_special_outcome(&raw), Some("runner-error"));
+
+        let inconclusive = json!({
+            "runs": [
+                {"completion": {"type": "inconclusive"}, "diagnostics": []},
+                {"completion": {"type": "failed"}, "diagnostics": []}
+            ]
+        });
+        let (outcome, _, _) = normalize_bifrost(&case, &inconclusive, Some(2)).unwrap();
+        assert_eq!(outcome, "inconclusive");
+        assert_eq!(raw_special_outcome(&inconclusive), Some("inconclusive"));
     }
 }

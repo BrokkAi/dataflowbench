@@ -33,6 +33,10 @@ add OpenTaint when its neutral JVM-rule path is reproducible.
 
 ### Current M1 status
 
+The figures in this section record the Bifrost v0.10.2 evidence frozen in
+releases v0.1.0 and v0.2.0; the current numbers for these kernels are in the
+M2 status section below.
+
 The 26-assertion language breadth baseline and the complete 16-template Java
 propagation kernel are implemented. The 32 Java assertions are balanced evenly
 across the four planned strata:
@@ -76,8 +80,8 @@ negatives, while the negative branch-join, infeasible-branch, local-overwrite,
 and loop-carried cases are false positives. See the [JavaScript adaptation
 matrix](javascript-kernel.md) for the syntax-level adaptations.
 
-M2 therefore continues with analyzer follow-ups for this JavaScript slice and
-then ports the same semantics to Python.
+M2 continued from this JavaScript slice by porting the same semantics to
+Python and then to the languages listed in the applicability matrix.
 
 ## M2: cross-language parity
 
@@ -117,6 +121,26 @@ and `exception-catch-positive`, and a false positive for
 The Python query pack is separate from the Java pack: it lives under
 `adapters/codeql/python/` and owns the Python query plus its database-schema
 dependency.
+
+### Current M2 status
+
+Release v0.3.0 freezes ten kernel languages — Java, JavaScript, TypeScript,
+Python, Kotlin, C#, Go, C, C++, and Rust — with both a Bifrost v0.10.5
+population and a CodeQL 2.26.3 population for each. C and Rust keep their
+15-template (30-assertion) cores from the applicability matrix; the other
+eight have 16-template (32-assertion) cores. These denominators are never
+pooled. PHP, Ruby, and Scala remain breadth-only.
+
+Core correct decisions in that freeze: Bifrost 32/32 on Java, JavaScript,
+and Python, 30/32 on TypeScript, 19/32 on Kotlin, 10/32 on Go, and 2 of the
+core assertions on C#, C++, C, and Rust, where deep propagation is still
+direct-only and the remaining cases report incomplete analysis — including
+an 8-case `runner-error` stratum on Rust (`internal_invariant`). CodeQL
+produces definitive outcomes for every kernel assertion, ranging from 26/32
+to 29/32 on the 16-template cores and 27/30 (C) and 28/30 (Rust, via the
+pre-1.0 preview extractor, with zero false negatives) on the 15-template
+cores. Ruby breadth remains inconclusive. See
+[`releases/v0.3.0.md`](releases/v0.3.0.md) for the bound evidence.
 
 ## M3: taint modeling
 
