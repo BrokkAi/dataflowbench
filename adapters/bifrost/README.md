@@ -21,11 +21,16 @@ the explicit exceptional-flow limitation. The Python parity slice uses
 `core-kotlin-kernel.rqlp`; see the [Kotlin kernel
 contract](../../docs/kotlin-kernel.md) for its two `var`-based adaptations and
 for why the Kotlin kernel run pins its policy for the whole population rather
-than reading it from each case. The TypeScript parity slice repeats
-those 16 templates against `.ts` fixtures through
-`core-typescript-kernel.rqlp`; see the [TypeScript adaptation
-matrix](../../docs/typescript-kernel.md). TypeScript is a separate population
-from JavaScript and the two are never mixed. The Java calibration slice also
+than reading it from each case. The TypeScript parity slice repeats those 16
+templates against `.ts` fixtures through `core-typescript-kernel.rqlp`; see the
+[TypeScript adaptation matrix](../../docs/typescript-kernel.md). TypeScript is a
+separate population from JavaScript and the two are never mixed. The C# parity
+slice uses `core-csharp-kernel.rqlp`; its direct-propagation pair is frozen in
+the v0.2.0 evidence with the breadth `core-direct.rqlp` policy, so the C#
+selector accepts that policy too and evaluates each case through the policy it
+declares; see [the C# kernel contract](../../docs/csharp-kernel.md). Every
+kernel command selects only its own language's 32 core assertions and writes a
+dedicated report. The Java calibration slice also
 covers one-hop helper flow. Generated workspaces live outside the repository so
 repository ignore rules cannot hide fixtures from Bifrost's indexer. Sanitizer
 lowering is a future Bifrost CLI capability.
@@ -41,6 +46,7 @@ cargo run -- run-bifrost-smoke --bifrost /path/to/bifrost
 cargo run -- run-bifrost-python-kernel --bifrost /path/to/bifrost
 cargo run -- run-bifrost-kotlin-kernel --bifrost /path/to/bifrost
 cargo run -- run-bifrost-typescript-kernel --bifrost /path/to/bifrost
+cargo run -- run-bifrost-csharp-kernel --bifrost /path/to/bifrost
 ```
 
 The smoke command selects only cases with an explicit Bifrost policy or
@@ -94,6 +100,19 @@ JavaScript kernel's, including the same `partial_discovery` alias-propagation
 and array-element pairs and the same `capability_incomplete` exception-catch
 pair. That run used a locally built v0.10.2 with build identity
 `57060b8b062330ab3e9804e1f11e17b290f9447a`.
+
+The 32-case C# kernel, in its own report `reports/bifrost-csharp-kernel.json`
+with raw evidence under `reports/raw/bifrost-csharp-kernel/`, was produced after
+the v0.2.0 freeze with the same v0.10.2 build identity
+`57060b8b062330ab3e9804e1f11e17b290f9447a`. It contains 1 `reached`, 1
+`not-reached`, and 30 `inconclusive` results: only the direct-propagation pair
+is decisive, and both of its outcomes match the expected polarity. The 30
+inconclusive results retain `partial_discovery` (20) or `capability_incomplete`
+(10) evidence with per-case diagnostics showing that Bifrost's procedure
+value-flow snapshot for the C# fixture procedure is unknown or unsupported.
+This is capability coverage, never a negative result. The same incompleteness
+reproduces under the language-agnostic `core-direct.rqlp` policy, so it is not
+an artifact of the language-qualified policy.
 
 The JavaScript alias-propagation and array-element pairs retain
 `partial_discovery` evidence, while the exception-catch pair retains

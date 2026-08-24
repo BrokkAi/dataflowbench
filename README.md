@@ -8,12 +8,14 @@ The current scored slice has four distinct semantic tracks: `value-flow`,
 `taint`, `typestate`, and `performance`. Reports preserve five independent
 score dimensions—those tracks plus `witness`—without pooling them. The first
 scored slice includes a balanced direct-flow pair across 13 language/dialect
-entries and balanced 16-template Java, JavaScript, Python, and Kotlin
-propagation kernels in the `taint` track. Each parity kernel uses the same
-language-neutral template IDs with language-specific fixture spellings and a
-separate result population; the [Python kernel
-contract](docs/python-kernel.md) and the [Kotlin kernel
-contract](docs/kotlin-kernel.md) record those adaptations. DataFlowBench measures correctness, capability coverage, witness
+entries and balanced 16-template Java, JavaScript, TypeScript, Python, Kotlin,
+and C# propagation kernels in the `taint` track. Each parity kernel uses the
+same language-neutral template IDs with language-specific fixture spellings and
+a separate result population; the [Python kernel
+contract](docs/python-kernel.md), the [TypeScript adaptation
+matrix](docs/typescript-kernel.md), the [Kotlin kernel
+contract](docs/kotlin-kernel.md), and the [C# kernel
+contract](docs/csharp-kernel.md) record those adaptations. DataFlowBench measures correctness, capability coverage, witness
 quality, and performance separately; it deliberately does not calculate a
 combined score or declare a tool a winner.
 
@@ -53,6 +55,8 @@ cargo run -- run-codeql-python-kernel --codeql /path/to/codeql \
   --codeql-packs /path/to/codeql-packs
 cargo run -- run-bifrost-typescript-kernel --bifrost /path/to/current-bifrost
 cargo run -- run-codeql-typescript-kernel --codeql /path/to/codeql
+cargo run -- run-bifrost-csharp-kernel --bifrost /path/to/current-bifrost
+cargo run -- run-codeql-csharp-kernel --codeql /path/to/codeql
 ```
 
 The Bifrost smoke command requires a current Bifrost build with policy CLI
@@ -117,7 +121,11 @@ population independently of any analyzer output.
 The [CodeQL adapter guide](adapters/codeql/README.md) documents the pinned CLI,
 language packs, and commands for reproducing retained kernel reports. The
 [Python kernel contract](docs/python-kernel.md) defines the exact 16-template,
-32-assertion selection and its anchor-based result semantics.
+32-assertion selection and its anchor-based result semantics. The [C# kernel
+contract](docs/csharp-kernel.md) does the same for C#; its evidence postdates
+the v0.2.0 freeze and is not part of the published release numbers above. The [C# kernel
+contract](docs/csharp-kernel.md) does the same for C#; its evidence postdates
+the v0.2.0 freeze and is not part of the published release numbers above.
 
 ## Licenses and provenance
 
