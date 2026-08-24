@@ -164,11 +164,11 @@ lands on the *callsite*, so matching does not require the marker's own line.
 Joern 4.0.432. The Java, JavaScript, Python, and Ruby kernels ran at fixture
 revision
 `sha256:131ef7e1cc3a22c1cf687770dbb4a1e44dac0456575ed4dad32b5196debaa710`; the
-PHP kernel was added on a separate branch and ran at
-`sha256:9630d095eb41e3d6c1aef8423e8d4381c6c601ceefb9146b5b42bc14f94ad612`.
-Every case in all five kernels executed: 160 retained evidence
-documents, zero error documents, zero `inconclusive`, `unsupported`, or
-`runner-error` outcomes.
+PHP kernel was re-run onto the merged script at
+`sha256:aee59a14f96633cf5798df6d211525ea0d10748800ba9c9ac0a3787406bd19ea`, the
+revision that also carries the Ruby fixtures. Every case in all five kernels
+executed: 160 retained evidence documents, zero error documents, zero
+`inconclusive`, `unsupported`, or `runner-error` outcomes.
 
 | Kernel | `reached` | `not-reached` | Polarity match |
 | --- | --- | --- | --- |
