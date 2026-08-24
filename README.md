@@ -114,7 +114,9 @@ population independently of any analyzer output.
 The [CodeQL adapter guide](adapters/codeql/README.md) documents the pinned CLI,
 language packs, and commands for reproducing retained kernel reports. The
 [Python kernel contract](docs/python-kernel.md) defines the exact 16-template,
-32-assertion selection and its anchor-based result semantics.
+32-assertion selection and its anchor-based result semantics. The [C# kernel
+contract](docs/csharp-kernel.md) does the same for C#; its evidence postdates
+the v0.2.0 freeze and is not part of the published release numbers above.
 
 ## Licenses and provenance
 
