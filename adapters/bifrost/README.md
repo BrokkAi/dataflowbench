@@ -45,7 +45,12 @@ Go, and carries the same reduced denominator as C for a different reason:
 Rust, so the Rust core population is 15 templates and 30 assertions, and the
 `Result`/`?` construct Rust uses instead is carried by a `language-extension`
 pair that the run also evaluates but never counts in the core denominator; see
-[the Rust kernel contract](../../docs/rust-kernel.md). Every kernel command
+[the Rust kernel contract](../../docs/rust-kernel.md). The Ruby parity slice
+uses `core-ruby-kernel.rqlp` under the same frozen-direct-pair arrangement and
+covers all 16 templates (32 core assertions); it is the one
+analyzer-coverage-gated slice, run and retained as capability evidence while
+the Ruby denominator is decided CodeQL-first, as [the Ruby kernel
+contract](../../docs/ruby-kernel.md) records. Every kernel command
 selects only its own language's core assertions — 32 for the 16-template
 kernels, 30 for C and Rust — and writes a dedicated report. The Java
 calibration slice also
@@ -69,6 +74,7 @@ cargo run -- run-bifrost-go-kernel --bifrost /path/to/bifrost
 cargo run -- run-bifrost-c-kernel --bifrost /path/to/bifrost
 cargo run -- run-bifrost-cpp-kernel --bifrost /path/to/bifrost
 cargo run -- run-bifrost-rust-kernel --bifrost /path/to/bifrost
+cargo run -- run-bifrost-ruby-kernel --bifrost /path/to/bifrost
 ```
 
 The smoke command selects only cases with an explicit Bifrost policy or
@@ -162,6 +168,21 @@ raw runs that complete as `failed` with `internal_invariant` ("semantic IR
 gap_contract error in procedure 2: gap 8 duplicates the same scoped fact"): a
 failed evaluation is an execution error, normalized as `runner-error`, and is
 never counted as a negative.
+
+The 32-case Ruby kernel, in its own report `reports/bifrost-ruby-kernel.json`
+with raw evidence under `reports/raw/bifrost-ruby-kernel/`, contains **32
+`inconclusive` results and nothing else**: no assertion is decisive, so the
+polarity match is 0 of 0 decisive outcomes. This is not a regression and not a
+negative result — it is the analyzer-coverage gate
+`docs/applicability-matrix.md` records for Ruby, now measured over the whole
+16-template population instead of only the two breadth assertions. Twenty
+results retain `partial_discovery` evidence ("procedure value-flow snapshot for
+`<fixture>.run` is unknown") and twelve retain `capability_incomplete` evidence
+— the four heap/separation pairs and the exception-catch pair ("unsupported
+(assignments)") plus the loop-carried pair ("unsupported (local_flow)").
+Bifrost's Ruby indexing was not modified by that tranche; the Ruby denominator
+is decided CodeQL-first instead, and none of these 32 outcomes is ever counted
+as `not-reached`. See [the Ruby kernel contract](../../docs/ruby-kernel.md).
 
 The JavaScript alias-propagation and array-element pairs retain
 `partial_discovery` evidence, while the exception-catch pair retains

@@ -1,10 +1,10 @@
 # Joern adapter
 
-The Joern adapter runs the Java, JavaScript, and Python propagation kernels
-through Joern's source frontends and its OSS data-flow engine. Each language is
-its own population: its own case selection, its own frontend, its own
-normalized report, and its own retained-evidence directory. Joern shares one
-CPG query language and one data-flow engine across all three, exactly as CodeQL
+The Joern adapter runs the Java, JavaScript, Python, and Ruby propagation
+kernels through Joern's source frontends and its OSS data-flow engine. Each
+language is its own population: its own case selection, its own frontend, its
+own normalized report, and its own retained-evidence directory. Joern shares one
+CPG query language and one data-flow engine across all four, exactly as CodeQL
 shares a standard library across its packs; the populations are kept apart by
 the selector and the report paths, never by the engine.
 
@@ -16,7 +16,7 @@ the selector and the report paths, never by the engine.
 | Build identity | `joern-cli:4.0.432` |
 | Installation | `/usr/local/bin/joern` → `/opt/joern/joern-cli/joern` |
 | Query script | `adapters/joern/queries/kernel.sc` |
-| Configuration hash | `2ce582b8a5d1efd4e6025153893178bfb900cce933826826d63371d632a64564` |
+| Configuration hash | `479f676518d0778d2580302ee143f35854c54999b53a1e30fc2781eadf9f082e` |
 
 The pinned distribution reports no build SHA separate from its released
 version, so the released version *is* the build identity. That is recorded
@@ -28,6 +28,7 @@ literally rather than padded with a synthetic identifier.
 cargo run -- run-joern-java-kernel       --joern /usr/local/bin/joern
 cargo run -- run-joern-javascript-kernel --joern /usr/local/bin/joern
 cargo run -- run-joern-python-kernel     --joern /usr/local/bin/joern
+cargo run -- run-joern-ruby-kernel       --joern /usr/local/bin/joern
 ```
 
 For each case the runner materializes the case's declared fixture files in an
@@ -36,7 +37,7 @@ isolated temporary workspace, then executes one non-interactive Joern process:
 ```bash
 joern --script adapters/joern/queries/kernel.sc \
   --param inputPath=<workspace> \
-  --param language=<JAVASRC|JSSRC|PYTHONSRC> \
+  --param language=<JAVASRC|JSSRC|PYTHONSRC|RUBYSRC> \
   --param sourceName=<source function> \
   --param sinkName=<sink function> \
   --param outputPath=reports/raw/joern-<language>-kernel/<case id>.json
@@ -57,7 +58,7 @@ Bifrost run pins its policy.
 Each command selects, runner-side:
 
 ```text
-language == "java" | "javascript" | "python"
+language == "java" | "javascript" | "python" | "ruby"
 track == "taint"
 score_tier == "core"
 ```
@@ -65,7 +66,7 @@ score_tier == "core"
 That is exactly 32 assertions per language — one positive and one negative for
 each of the 16 scored templates in `docs/applicability-matrix.md`, all under the
 `benchmark-controlled` model profile — enforced by the same
-`validate_kernel_population_with` check every other kernel uses. The three
+`validate_kernel_population_with` check every other kernel uses. The four
 selections are disjoint, and none of them is a CodeQL or Bifrost population.
 
 ## Tagging model
@@ -100,7 +101,25 @@ before a parameter list; members reached through `.` alone; `//` comments) are
 the same two rules C# and Go already use, but Java is a separately named
 dialect so a Java population is never reconciled by a selector spelled for
 another language. Python needs its own dialect because its comments open with
-`#`, not `//`.
+`#`, not `//`. Ruby needs its own for a stronger reason: its parameter list is
+optional, so `def dfb_source # DFB-SOURCE: ...` declares a method with no `(`
+to read a name in front of. The Ruby dialect therefore reads the declared name
+after the `def` keyword, pairs `#` comments with `.` and `::` member prefixes,
+and does not treat a parenless call as a sink callsite — every benchmark sink
+takes one positional argument and every fixture spells that call with
+parentheses.
+
+### The Ruby frontend dispatch
+
+Joern 4.0.432 ships `rubysrc2cpg` and its console reports `importCode.ruby` as
+available, but the generic `importCode(language = "RUBYSRC")` dispatcher this
+script used has no Ruby entry: it raises `No CPG generator exists for language:
+RUBYSRC` for every spelling of the identifier. The script now dispatches Ruby
+through the named `importCode.ruby` frontend — the same generator in the same
+console — and leaves every other language on the generic path unchanged. That
+changed the script's bytes, so all four kernels were re-run on the new script
+and no retained report cites a configuration hash its script no longer has. The
+Java, JavaScript, and Python outcomes reproduced case-for-case.
 
 ## Outcome semantics
 
@@ -109,7 +128,7 @@ another language. Python needs its own dialect because its comments open with
 | `reached` | Joern produced a flow whose evidence lands on a callsite of the case's own anchored sink function, in the anchored file. |
 | `not-reached` | The frontend and engine ran, both benchmark-controlled endpoints were observed in the CPG, and no flow was produced. |
 | `inconclusive` | The run completed but its evidence cannot establish the assertion: a source or sink node the query never observed, a flow with no usable or an ambiguous location, or a sink anchor the runner cannot resolve. |
-| `unsupported` | The case is outside the documented Joern profile — see the frontend coverage below. No case in the three executed kernels is `unsupported`. |
+| `unsupported` | The case is outside the documented Joern profile — see the frontend coverage below. No case in the four executed kernels is `unsupported`. |
 | `runner-error` | The Joern process failed to spawn, exited non-zero, produced no evidence document, produced unparseable evidence, or the script itself caught a frontend or engine exception. |
 
 `inconclusive`, `unsupported`, and `runner-error` are never normalized to
@@ -129,8 +148,8 @@ lands on the *callsite*, so matching does not require the marker's own line.
 ## Observed results
 
 Joern 4.0.432, fixture revision
-`sha256:1b1b8d5cd90dc4bbdb0675a5a6b6b58315d2328b157e9074f8db13e17736b816`.
-Every case in all three kernels executed: 96 retained evidence documents, zero
+`sha256:131ef7e1cc3a22c1cf687770dbb4a1e44dac0456575ed4dad32b5196debaa710`.
+Every case in all four kernels executed: 128 retained evidence documents, zero
 error documents, zero `inconclusive`, `unsupported`, or `runner-error`
 outcomes.
 
@@ -139,6 +158,7 @@ outcomes.
 | Java (`javasrc2cpg`) | 16 | 16 | 28/32 |
 | JavaScript (`jssrc2cpg`) | 18 | 14 | 26/32 |
 | Python (`pysrc2cpg`) | 16 | 16 | 28/32 |
+| Ruby (`rubysrc2cpg`) | 18 | 14 | 26/32 |
 
 Mismatches, verbatim:
 
@@ -165,14 +185,24 @@ Mismatches, verbatim:
 - `dfb-taint-python-infeasible-branch-negative`: false positive.
 - `dfb-taint-python-loop-carried-negative`: false positive.
 
-The four mismatching templates are consistent across all three languages —
+**Ruby** — `reports/joern-ruby-kernel.json`
+
+- `dfb-taint-ruby-alias-propagation-positive`: false negative.
+- `dfb-taint-ruby-exception-catch-positive`: false negative.
+- `dfb-taint-ruby-array-element-negative`: false positive.
+- `dfb-taint-ruby-infeasible-branch-negative`: false positive.
+- `dfb-taint-ruby-loop-carried-negative`: false positive.
+- `dfb-taint-ruby-same-object-field-negative`: false positive.
+
+The four mismatching templates are consistent across all four languages —
 alias propagation through a field and value transfer to an exception handler
 are missed everywhere, and the infeasible branch and the loop-carried kill are
-over-approximated everywhere — which is what a shared engine over three
-language-specific frontends should look like. JavaScript additionally
-over-approximates array-element and same-object-field separation. These are
-published as observed: no fixture was changed, no query was contorted, and no
-case was special-cased to move a result.
+over-approximated everywhere — which is what a shared engine over four
+language-specific frontends should look like. JavaScript and Ruby additionally
+over-approximate array-element and same-object-field separation, and their two
+mismatch sets are identical. These are published as observed: no fixture was
+changed, no query was contorted, and no case was special-cased to move a
+result.
 
 Normalized `witness_checkpoints` are empty for every case: the adapter records
 anchor-backed flow outcomes and retains the full element-by-element path
@@ -194,13 +224,13 @@ Installed frontends: `c2cpg`, `csharpsrc2cpg`, `ghidra2cpg`, `gosrc2cpg`,
 | Java | `javasrc2cpg` | Executed here |
 | JavaScript | `jssrc2cpg` | Executed here |
 | Python | `pysrc2cpg` | Executed here |
+| Ruby | `rubysrc2cpg` | Executed here |
 | C | `c2cpg` | Available, not yet in scope |
 | C++ | `c2cpg` | Available, not yet in scope |
 | C# | `csharpsrc2cpg` | Available, not yet in scope |
 | Go | `gosrc2cpg` | Available, not yet in scope |
 | Kotlin | `kotlin2cpg` | Available, not yet in scope |
 | PHP | `php2cpg` | Available, not yet in scope |
-| Ruby | `rubysrc2cpg` | Available, not yet in scope |
 | TypeScript | `jssrc2cpg` | Available, not yet in scope |
 | **Rust** | **none** | **Explicitly unsupported** |
 | **Scala** | **none (source)** | **Explicitly unsupported** |
