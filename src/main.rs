@@ -2311,18 +2311,7 @@ fn run_codeql_java_kernel(binary: &Path, packs: Option<&Path>) -> Result<()> {
     let raw_dir = Path::new("reports/raw/codeql");
     fs::create_dir_all(raw_dir)?;
     let started = now_seconds()?;
-    let version_output = command_output(Command::new(binary).args(["version", "--format=json"]))
-        .context("read CodeQL version")?;
-    let version_json: Value =
-        serde_json::from_str(&version_output).context("parse CodeQL version JSON")?;
-    let version = version_json["version"]
-        .as_str()
-        .context("CodeQL version JSON lacks version")?
-        .to_string();
-    let build_identity = version_json["sha"]
-        .as_str()
-        .map(|sha| format!("codeql-cli:{sha}"))
-        .context("CodeQL version JSON lacks build sha")?;
+    let (version, build_identity) = codeql_version_identity(binary)?;
     let revision = fixture_revision()?;
     let mut results = Vec::new();
     let mut query_paths = BTreeSet::new();
@@ -2408,18 +2397,7 @@ fn run_codeql_javascript_kernel(binary: &Path, packs: Option<&Path>) -> Result<(
     let raw_dir = Path::new(CODEQL_JAVASCRIPT_RAW_DIR);
     fs::create_dir_all(raw_dir)?;
     let started = now_seconds()?;
-    let version_output = command_output(Command::new(binary).args(["version", "--format=json"]))
-        .context("read CodeQL version")?;
-    let version_json: Value =
-        serde_json::from_str(&version_output).context("parse CodeQL version JSON")?;
-    let version = version_json["version"]
-        .as_str()
-        .context("CodeQL version JSON lacks version")?
-        .to_string();
-    let build_identity = version_json["sha"]
-        .as_str()
-        .map(|sha| format!("codeql-cli:{sha}"))
-        .context("CodeQL version JSON lacks build sha")?;
+    let (version, build_identity) = codeql_version_identity(binary)?;
     let revision = fixture_revision()?;
     let mut results = Vec::with_capacity(selected.len());
     let mut query_paths = BTreeSet::new();
@@ -2495,18 +2473,7 @@ fn run_codeql_python_kernel(binary: &Path, packs: Option<&Path>) -> Result<()> {
     let raw_dir = Path::new("reports/raw/codeql-python-kernel");
     fs::create_dir_all(raw_dir)?;
     let started = now_seconds()?;
-    let version_output = command_output(Command::new(binary).args(["version", "--format=json"]))
-        .context("read CodeQL version")?;
-    let version_json: Value =
-        serde_json::from_str(&version_output).context("parse CodeQL version JSON")?;
-    let version = version_json["version"]
-        .as_str()
-        .context("CodeQL version JSON lacks version")?
-        .to_string();
-    let build_identity = version_json["sha"]
-        .as_str()
-        .map(|sha| format!("codeql-cli:{sha}"))
-        .context("CodeQL version JSON lacks build sha")?;
+    let (version, build_identity) = codeql_version_identity(binary)?;
     let revision = fixture_revision()?;
     let mut results = Vec::with_capacity(selected.len());
     let mut query_paths = BTreeSet::new();
@@ -2622,18 +2589,7 @@ fn run_codeql_kotlin_kernel(binary: &Path, packs: Option<&Path>, kotlinc: &Path)
 }
 
 fn codeql_version_identity(binary: &Path) -> Result<(String, String)> {
-    let version_output = command_output(Command::new(binary).args(["version", "--format=json"]))
-        .context("read CodeQL version")?;
-    let version_json: Value =
-        serde_json::from_str(&version_output).context("parse CodeQL version JSON")?;
-    let version = version_json["version"]
-        .as_str()
-        .context("CodeQL version JSON lacks version")?
-        .to_string();
-    let build_identity = version_json["sha"]
-        .as_str()
-        .map(|sha| format!("codeql-cli:{sha}"))
-        .context("CodeQL version JSON lacks build sha")?;
+    let (version, build_identity) = codeql_version_identity(binary)?;
     Ok((version, build_identity))
 }
 
