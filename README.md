@@ -42,7 +42,8 @@ supported dimensions, normalized outcomes, and raw evidence. Semgrep CE stays
 in its supported local-analysis profile; OpenTaint stays in its Java/Kotlin
 profile. SootUp is a possible JVM reference framework, not a first-version
 adapter. CodeQL is implemented for all ten propagation kernels, one language-scoped
-command and one separate result population per language.
+command and one separate result population per language. Joern is implemented
+for the Java, JavaScript, and Python propagation kernels on the same terms.
 
 ## Quick start
 
@@ -69,6 +70,9 @@ cargo run -- run-codeql-c-kernel --codeql /path/to/codeql
 cargo run -- run-codeql-cpp-kernel --codeql /path/to/codeql
 cargo run -- run-bifrost-rust-kernel --bifrost /path/to/current-bifrost
 cargo run -- run-codeql-rust-kernel --codeql /path/to/codeql
+cargo run -- run-joern-java-kernel --joern /path/to/joern
+cargo run -- run-joern-javascript-kernel --joern /path/to/joern
+cargo run -- run-joern-python-kernel --joern /path/to/joern
 ```
 
 The Bifrost smoke command requires a current Bifrost build with policy CLI
@@ -101,6 +105,19 @@ negatives for `alias-propagation-positive`, `array-element-positive`, and
 `exception-catch-positive`, plus a false positive for `loop-carried-negative`.
 This evidence is limited to the Python core kernel.
 
+The three Joern commands require a Joern installation and no other toolchain:
+each case is a single checked-in source file with no build step. They write
+`reports/joern-<language>-kernel.json` and keep one raw evidence document per
+case under `reports/raw/joern-<language>-kernel/`. The retained snapshot used
+Joern 4.0.432 with the `javasrc2cpg`, `jssrc2cpg`, and `pysrc2cpg` frontends
+and one committed CPG query script. All 96 assertions executed with no
+`inconclusive`, `unsupported`, or `runner-error` outcome: Java 28/32,
+JavaScript 26/32, and Python 28/32 match the expected polarity. Rust and Scala
+have no source frontend in that distribution and are recorded as explicitly
+unsupported. See the [Joern adapter evidence](adapters/joern/README.md) for the
+pinned invocation, tagging model, frontend coverage, and per-language mismatch
+lists.
+
 The checked-in Bifrost v0.10.5 snapshot contains 118 normalized results:
 58 `reached`, 57 `not-reached`, 2 `inconclusive`, and 1 `unsupported`. It was
 produced from build identity `728ac69ab93224151c6c951b23d2f5bc681d8558`.
@@ -126,7 +143,9 @@ fresh Bifrost report with the quick-start command and compare its raw evidence.
 The Python kernel check enforces the exact 16-template positive/negative
 population independently of any analyzer output.
 The [CodeQL adapter guide](adapters/codeql/README.md) documents the pinned CLI,
-language packs, and commands for reproducing retained kernel reports. The
+language packs, and commands for reproducing retained kernel reports, and the
+[Joern adapter guide](adapters/joern/README.md) does the same for the pinned
+Joern distribution, its query script, and its frontend coverage. The
 [Python kernel contract](docs/python-kernel.md) defines the exact 16-template,
 32-assertion selection and its anchor-based result semantics. The [C# kernel
 contract](docs/csharp-kernel.md), the [Go kernel

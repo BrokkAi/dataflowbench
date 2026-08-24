@@ -48,6 +48,16 @@ const CODEQL_RUST_QUERY: &str = "adapters/codeql/rust/queries/RustKernel.ql";
 const CODEQL_RUST_RAW_DIR: &str = "reports/raw/codeql-rust-kernel";
 const CODEQL_RUST_REPORT: &str = "reports/codeql-rust-kernel.json";
 const BIFROST_RUST_POLICY: &str = "adapters/bifrost/policies/core-rust-kernel.rqlp";
+/// The single Joern query script. One script serves all three Joern kernels:
+/// the benchmark-controlled endpoints are passed in per case, so nothing in it
+/// is language-, template-, or polarity-specific.
+const JOERN_KERNEL_SCRIPT: &str = "adapters/joern/queries/kernel.sc";
+const JOERN_JAVA_RAW_DIR: &str = "reports/raw/joern-java-kernel";
+const JOERN_JAVA_REPORT: &str = "reports/joern-java-kernel.json";
+const JOERN_JAVASCRIPT_RAW_DIR: &str = "reports/raw/joern-javascript-kernel";
+const JOERN_JAVASCRIPT_REPORT: &str = "reports/joern-javascript-kernel.json";
+const JOERN_PYTHON_RAW_DIR: &str = "reports/raw/joern-python-kernel";
+const JOERN_PYTHON_REPORT: &str = "reports/joern-python-kernel.json";
 /// The module manifest written into every Go CodeQL workspace. The Go
 /// extractor has no `none` build mode, so it must observe a real `go build`;
 /// supplying the manifest keeps that build hermetic and offline instead of
@@ -314,6 +324,25 @@ enum Commands {
         #[arg(long)]
         codeql_packs: Option<PathBuf>,
     },
+    /// Run the Java propagation kernel through Joern's `javasrc2cpg` frontend
+    /// and the OSS data-flow engine, as its own population.
+    RunJoernJavaKernel {
+        #[arg(long, default_value = "joern")]
+        joern: PathBuf,
+    },
+    /// Run the JavaScript propagation kernel through Joern's `jssrc2cpg`
+    /// frontend. That frontend also covers TypeScript, so this command selects
+    /// JavaScript cases only and never pools the two populations.
+    RunJoernJavascriptKernel {
+        #[arg(long, default_value = "joern")]
+        joern: PathBuf,
+    },
+    /// Run the Python propagation kernel through Joern's `pysrc2cpg` frontend,
+    /// as its own population.
+    RunJoernPythonKernel {
+        #[arg(long, default_value = "joern")]
+        joern: PathBuf,
+    },
 }
 
 fn main() -> Result<()> {
@@ -386,6 +415,11 @@ fn main() -> Result<()> {
             codeql,
             codeql_packs,
         } => run_codeql_rust_kernel(&codeql, codeql_packs.as_deref()),
+        Commands::RunJoernJavaKernel { joern } => run_joern_kernel(&joern, JoernKernel::Java),
+        Commands::RunJoernJavascriptKernel { joern } => {
+            run_joern_kernel(&joern, JoernKernel::JavaScript)
+        }
+        Commands::RunJoernPythonKernel { joern } => run_joern_kernel(&joern, JoernKernel::Python),
     }
 }
 
@@ -2990,7 +3024,7 @@ fn run_codeql_ecma_kernel(binary: &Path, packs: Option<&Path>, kernel: EcmaKerne
                     kernel,
                 )?
             };
-        results.push(codeql_result(
+        results.push(normalized_result(
             &case,
             id,
             outcome,
@@ -3059,7 +3093,7 @@ fn run_codeql_python_kernel(binary: &Path, packs: Option<&Path>) -> Result<()> {
             raw_dir,
             CodeqlLanguage::Python,
         )?;
-        results.push(codeql_result(
+        results.push(normalized_result(
             &case,
             id,
             outcome,
@@ -3119,7 +3153,7 @@ fn run_codeql_kotlin_kernel(binary: &Path, packs: Option<&Path>, kotlinc: &Path)
             raw_dir,
             CodeqlLanguage::Kotlin { kotlinc },
         )?;
-        results.push(codeql_result(
+        results.push(normalized_result(
             &case,
             id,
             outcome,
@@ -3178,7 +3212,7 @@ fn run_codeql_csharp_kernel(binary: &Path, packs: Option<&Path>) -> Result<()> {
             raw_dir,
             CodeqlLanguage::CSharp,
         )?;
-        results.push(codeql_result(
+        results.push(normalized_result(
             &case,
             id,
             outcome,
@@ -3237,7 +3271,7 @@ fn run_codeql_go_kernel(binary: &Path, packs: Option<&Path>, go: &Path) -> Resul
             raw_dir,
             CodeqlLanguage::Go { go },
         )?;
-        results.push(codeql_result(
+        results.push(normalized_result(
             &case,
             id,
             outcome,
@@ -3348,7 +3382,7 @@ fn run_codeql_c_family_kernel(
             raw_dir,
             CodeqlLanguage::CFamily,
         )?;
-        results.push(codeql_result(
+        results.push(normalized_result(
             &case,
             id,
             outcome,
@@ -3467,7 +3501,7 @@ fn run_codeql_rust_kernel(binary: &Path, packs: Option<&Path>) -> Result<()> {
             raw_dir,
             CodeqlLanguage::Rust,
         )?;
-        results.push(codeql_result(
+        results.push(normalized_result(
             &case,
             id,
             outcome,
@@ -3766,7 +3800,10 @@ fn validate_kernel_population_with(
     Ok(())
 }
 
-fn codeql_result(
+/// Shape one entry of `schemas/result.schema.json`. This is pure result-schema
+/// serialization shared by every anchored adapter; the tool-specific decisions
+/// are all made before the outcome reaches it.
+fn normalized_result(
     case: &Value,
     id: &str,
     outcome: &str,
@@ -4131,7 +4168,13 @@ struct SinkAnchorLocation {
 /// staying separately named populations; C and C++ declare a sink the same way
 /// again but reach a member through `.`, `->`, and `::`; Rust declares it the
 /// same way once more and reaches a member through `.` and `::`, but never
-/// `->`.
+/// `->`. Java declares a sink as an identifier before a parameter list and
+/// reaches a member through `.` alone — the same two rules as C# and Go — but
+/// it stays a separately named dialect so a Java population is never reconciled
+/// by a selector that happens to be spelled for another language. Python
+/// declares a sink the same way again and also reaches a member through `.`
+/// alone, but its comments open with `#` rather than `//`, so it needs its own
+/// literal/comment stripping.
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 enum AnchorDialect {
     Ecma,
@@ -4139,13 +4182,18 @@ enum AnchorDialect {
     Go,
     Cpp,
     Rust,
+    Java,
+    Python,
 }
 
 impl AnchorDialect {
-    fn sink_function_name(self, declaration: &str, marker: &str) -> Option<String> {
+    /// The function name declared on the line carrying an anchor marker. The
+    /// same rule resolves a `DFB-SINK:` and a `DFB-SOURCE:` declaration: both
+    /// markers sit on the endpoint function's own declaration line.
+    fn declared_function_name(self, declaration: &str, marker: &str) -> Option<String> {
         match self {
             Self::Ecma => ecma_function_name(declaration, marker),
-            Self::CSharp | Self::Go | Self::Cpp | Self::Rust => {
+            Self::CSharp | Self::Go | Self::Cpp | Self::Rust | Self::Java | Self::Python => {
                 parameter_list_function_name(declaration, marker)
             }
         }
@@ -4154,11 +4202,23 @@ impl AnchorDialect {
     fn is_call(self, line: &str, function_name: &str) -> bool {
         match self {
             Self::Ecma => ecma_function_call(line, function_name),
-            Self::CSharp | Self::Go => parameter_list_function_call(line, function_name),
+            Self::CSharp | Self::Go | Self::Java => {
+                parameter_list_function_call(line, function_name)
+            }
             Self::Cpp => cpp_function_call(line, function_name),
             Self::Rust => rust_function_call(line, function_name),
+            Self::Python => python_function_call(line, function_name),
         }
     }
+}
+
+/// How a dialect opens a line comment. Everything else `code_without_literals`
+/// inspects — single and double quotes with backslash escapes — coincides
+/// across every dialect reconciled here.
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+enum CommentSyntax {
+    DoubleSlash,
+    Hash,
 }
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
@@ -4267,31 +4327,13 @@ fn sink_anchor_locations(
             .ok_or_else(|| "sink anchor lacks marker".to_string())?;
         let body = fs::read_to_string(fixture_root.join(file))
             .map_err(|error| format!("read sink fixture {file}: {error}"))?;
-        let hinted_line = anchor["line_hint"].as_u64();
-        let lines = body
-            .lines()
-            .enumerate()
-            .filter_map(|(index, line)| line.contains(marker).then_some(index as u64 + 1))
-            .collect::<Vec<_>>();
-        let line = if let Some(line) = hinted_line {
-            if !lines.contains(&line) {
-                return Err(format!("marker {marker:?} is not on hinted line {line}"));
-            }
-            line
-        } else if lines.len() == 1 {
-            lines[0]
-        } else {
-            return Err(format!(
-                "marker {marker:?} has {} possible lines",
-                lines.len()
-            ));
-        };
+        let line = anchor_marker_line(&body, marker, anchor["line_hint"].as_u64())?;
         let declaration = body
             .lines()
             .nth(line as usize - 1)
             .ok_or_else(|| format!("sink anchor line {line} is outside {file}"))?;
         let function_name = dialect
-            .sink_function_name(declaration, marker)
+            .declared_function_name(declaration, marker)
             .ok_or_else(|| format!("sink marker {marker:?} is not on a function declaration"))?;
         let callsite_lines = body
             .lines()
@@ -4327,6 +4369,34 @@ fn sink_anchor_locations(
         return Err("case contains duplicate sink anchors".to_string());
     }
     Ok(locations)
+}
+
+/// Resolve the single line an anchor marker sits on: the declared hint when the
+/// case supplies one, and otherwise the marker's only occurrence. An ambiguous
+/// marker is an error rather than a guess.
+fn anchor_marker_line(
+    body: &str,
+    marker: &str,
+    hinted_line: Option<u64>,
+) -> std::result::Result<u64, String> {
+    let lines = body
+        .lines()
+        .enumerate()
+        .filter_map(|(index, line)| line.contains(marker).then_some(index as u64 + 1))
+        .collect::<Vec<_>>();
+    if let Some(line) = hinted_line {
+        if !lines.contains(&line) {
+            return Err(format!("marker {marker:?} is not on hinted line {line}"));
+        }
+        return Ok(line);
+    }
+    if lines.len() == 1 {
+        return Ok(lines[0]);
+    }
+    Err(format!(
+        "marker {marker:?} has {} possible lines",
+        lines.len()
+    ))
 }
 
 fn ecma_function_name(line: &str, marker: &str) -> Option<String> {
@@ -4381,9 +4451,15 @@ fn ascii_identifier_char(character: char) -> bool {
     character == '_' || character.is_ascii_alphanumeric()
 }
 
-/// C# and Go reach a member through `.` only.
+/// C#, Go, and Java reach a member through `.` only. Java's `::` is a method
+/// reference, never a call, so it never has to be excluded here.
 fn parameter_list_function_call(line: &str, function_name: &str) -> bool {
     member_prefixed_function_call(line, function_name, &['.'])
+}
+
+/// Python reaches a member through `.` only, and opens a comment with `#`.
+fn python_function_call(line: &str, function_name: &str) -> bool {
+    member_prefixed_call_in(line, function_name, &['.'], CommentSyntax::Hash)
 }
 
 /// C and C++ reach a member through `.`, `->`, and `::`; none of those is a
@@ -4403,7 +4479,21 @@ fn member_prefixed_function_call(
     function_name: &str,
     member_prefixes: &[char],
 ) -> bool {
-    let line = code_without_literals(line);
+    member_prefixed_call_in(
+        line,
+        function_name,
+        member_prefixes,
+        CommentSyntax::DoubleSlash,
+    )
+}
+
+fn member_prefixed_call_in(
+    line: &str,
+    function_name: &str,
+    member_prefixes: &[char],
+    comment: CommentSyntax,
+) -> bool {
+    let line = code_without_literals_in(line, comment);
     let mut search_from = 0;
     while let Some(offset) = line[search_from..].find(function_name) {
         let start = search_from + offset;
@@ -4446,10 +4536,14 @@ fn ecma_function_call(line: &str, function_name: &str) -> bool {
 }
 
 /// Blank out string literals and drop line comments so a call-shaped substring
-/// inside a literal never counts as a callsite. The rules coincide for the
-/// dialects reconciled here: single/double/backtick quotes with backslash
-/// escapes, and `//` line comments.
+/// inside a literal never counts as a callsite. Single/double/backtick quotes
+/// with backslash escapes are common to every dialect reconciled here; only the
+/// comment opener differs.
 fn code_without_literals(line: &str) -> String {
+    code_without_literals_in(line, CommentSyntax::DoubleSlash)
+}
+
+fn code_without_literals_in(line: &str, comment: CommentSyntax) -> String {
     let mut output = String::with_capacity(line.len());
     let mut quote = None;
     let mut escaped = false;
@@ -4466,7 +4560,11 @@ fn code_without_literals(line: &str) -> String {
             output.push(' ');
             continue;
         }
-        if character == '/' && characters.peek() == Some(&'/') {
+        let opens_comment = match comment {
+            CommentSyntax::DoubleSlash => character == '/' && characters.peek() == Some(&'/'),
+            CommentSyntax::Hash => character == '#',
+        };
+        if opens_comment {
             break;
         }
         if matches!(character, '\'' | '"' | '`') {
@@ -4501,7 +4599,9 @@ fn sarif_result_anchor_match(
             continue;
         };
         for (index, anchor) in sink_locations.iter().enumerate() {
-            if sarif_uri_matches_file(uri, &anchor.file) && anchor.callsite_lines.contains(&line) {
+            if evidence_path_matches_file(uri, &anchor.file)
+                && anchor.callsite_lines.contains(&line)
+            {
                 matches.insert(index);
             }
         }
@@ -4515,7 +4615,10 @@ fn sarif_result_anchor_match(
     }
 }
 
-fn sarif_uri_matches_file(uri: &str, file: &str) -> bool {
+/// Does a path reported by a tool denote the case's fixture file? SARIF reports
+/// a URI and Joern reports a CPG filename; both are matched the same way,
+/// against absolute, workspace-relative, and bare-filename spellings.
+fn evidence_path_matches_file(uri: &str, file: &str) -> bool {
     let uri = uri.replace('\\', "/");
     let uri = uri.split(['?', '#']).next().unwrap_or(&uri);
     let uri = uri.strip_prefix("file://").unwrap_or(uri);
@@ -5032,7 +5135,7 @@ fn sink_anchor_file_matches(case: &Value, uri: &str) -> bool {
             let Some(file) = anchor["file"].as_str() else {
                 return false;
             };
-            sarif_uri_matches_file(uri, file)
+            evidence_path_matches_file(uri, file)
         })
 }
 
@@ -5088,6 +5191,599 @@ fn sarif_execution_errors(sarif: &Value) -> Vec<String> {
     errors.sort();
     errors.dedup();
     errors
+}
+
+/// One Joern kernel: a single language, its own case selection, its own
+/// frontend, its own normalized report, and its own retained-evidence root.
+/// Joern shares one CPG query language and one data-flow engine across all
+/// three, exactly as CodeQL shares a standard library; the populations are kept
+/// apart by the selector and the report paths, never by the engine.
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+enum JoernKernel {
+    Java,
+    JavaScript,
+    Python,
+}
+
+impl JoernKernel {
+    fn language(self) -> &'static str {
+        match self {
+            Self::Java => "java",
+            Self::JavaScript => "javascript",
+            Self::Python => "python",
+        }
+    }
+
+    fn display_name(self) -> &'static str {
+        match self {
+            Self::Java => "Java",
+            Self::JavaScript => "JavaScript",
+            Self::Python => "Python",
+        }
+    }
+
+    /// The `importCode` language identifier the script is invoked with, which
+    /// selects `javasrc2cpg`, `jssrc2cpg`, and `pysrc2cpg` respectively. Each
+    /// kernel names exactly one source frontend; none of the three is analyzed
+    /// through a bytecode or binary frontend.
+    fn frontend(self) -> &'static str {
+        match self {
+            Self::Java => "JAVASRC",
+            Self::JavaScript => "JSSRC",
+            Self::Python => "PYTHONSRC",
+        }
+    }
+
+    fn report(self) -> &'static str {
+        match self {
+            Self::Java => JOERN_JAVA_REPORT,
+            Self::JavaScript => JOERN_JAVASCRIPT_REPORT,
+            Self::Python => JOERN_PYTHON_REPORT,
+        }
+    }
+
+    fn raw_dir(self) -> &'static str {
+        match self {
+            Self::Java => JOERN_JAVA_RAW_DIR,
+            Self::JavaScript => JOERN_JAVASCRIPT_RAW_DIR,
+            Self::Python => JOERN_PYTHON_RAW_DIR,
+        }
+    }
+
+    fn dialect(self) -> AnchorDialect {
+        match self {
+            Self::Java => AnchorDialect::Java,
+            Self::JavaScript => AnchorDialect::Ecma,
+            Self::Python => AnchorDialect::Python,
+        }
+    }
+
+    fn label(self) -> String {
+        format!("Joern {} kernel", self.display_name())
+    }
+}
+
+fn joern_core_case(case: &Value, kernel: JoernKernel) -> bool {
+    case["language"] == kernel.language()
+        && case["track"] == "taint"
+        && case["score_tier"] == "core"
+}
+
+/// Select a Joern kernel population runner-side. The v0.3.0 freeze binds every
+/// `case.json` byte, so no case declares a Joern model reference; the selection
+/// is by language, track, and score tier alone, and the invocation is pinned
+/// here the way the Kotlin Bifrost run pins its policy.
+fn select_joern_cases(kernel: JoernKernel) -> Result<Vec<(PathBuf, Value)>> {
+    let mut selected = Vec::new();
+    for path in case_paths() {
+        let case: Value = serde_json::from_str(&fs::read_to_string(&path)?)?;
+        if joern_core_case(&case, kernel) {
+            selected.push((path, case));
+        }
+    }
+    validate_kernel_population_with(&selected, &kernel.label(), &KERNEL_TEMPLATE_IDS)?;
+    Ok(selected)
+}
+
+fn run_joern_kernel(binary: &Path, kernel: JoernKernel) -> Result<()> {
+    validate_cases()?;
+    let selected = select_joern_cases(kernel)?;
+    let script = Path::new(JOERN_KERNEL_SCRIPT);
+    if !script.is_file() {
+        bail!("Joern kernel script does not exist: {JOERN_KERNEL_SCRIPT}");
+    }
+    let script = fs::canonicalize(script).context("resolve the Joern kernel script")?;
+    let raw_dir = Path::new(kernel.raw_dir());
+    fs::create_dir_all(raw_dir)?;
+    let raw_root = fs::canonicalize(raw_dir).context("resolve the Joern evidence directory")?;
+    let started = now_seconds()?;
+    let (version, build_identity) = joern_version_identity(binary)?;
+    let revision = fixture_revision()?;
+    let mut results = Vec::with_capacity(selected.len());
+
+    for (path, case) in selected {
+        let id = case["id"].as_str().expect("schema validated");
+        let start = Instant::now();
+        let (outcome, diagnostics, raw_path) =
+            run_joern_case(binary, &script, &path, &case, raw_dir, &raw_root, kernel)?;
+        results.push(normalized_result(
+            &case,
+            id,
+            outcome,
+            diagnostics,
+            start.elapsed(),
+            &raw_path,
+        ));
+    }
+
+    let configuration_hash = hash_paths(&BTreeSet::from([PathBuf::from(JOERN_KERNEL_SCRIPT)]))?;
+    let report = json!({
+        "schema_version": 1,
+        "tool": "joern",
+        "tool_version": version,
+        "tool_build_identity": build_identity,
+        "adapter_version": ADAPTER_VERSION,
+        "configuration_hash": configuration_hash,
+        "fixture_revision": revision,
+        "started_at_unix_seconds": started,
+        "ended_at_unix_seconds": now_seconds()?,
+        "cold_or_warm": "cold",
+        "results": results
+    });
+    fs::write(
+        kernel.report(),
+        serde_json::to_string_pretty(&report)? + "\n",
+    )?;
+    validate_reports()?;
+    println!("wrote {}", kernel.report());
+    Ok(())
+}
+
+/// The exact Joern version every normalized Joern report records. The pinned
+/// distribution reports no separate build SHA, so the released version is the
+/// build identity.
+fn joern_version_identity(binary: &Path) -> Result<(String, String)> {
+    let output = Command::new(binary)
+        .arg("--version")
+        .stdin(std::process::Stdio::null())
+        .output()
+        .with_context(|| format!("run {} --version", binary.display()))?;
+    if !output.status.success() {
+        bail!(
+            "{} --version failed with status {}",
+            binary.display(),
+            output.status
+        );
+    }
+    let stdout = String::from_utf8_lossy(&output.stdout);
+    let version = stdout
+        .lines()
+        .find_map(|line| line.trim().strip_prefix("Version:"))
+        .map(str::trim)
+        .filter(|version| !version.is_empty())
+        .context("Joern did not report a version")?
+        .to_string();
+    let build_identity = format!("joern-cli:{version}");
+    Ok((version, build_identity))
+}
+
+/// The two benchmark-controlled endpoint identifiers of one case, read out of
+/// the fixture's own marker lines.
+#[derive(Clone, Debug, PartialEq, Eq)]
+struct JoernEndpoints {
+    source_function: String,
+    sink_function: String,
+}
+
+/// Resolve a case's source and sink function names from its anchors. The
+/// fixtures are frozen and mostly spell both `dfb_source`/`dfb_sink`, but the
+/// two Java direct-propagation assertions predate that convention, so the names
+/// are always read from the marker line rather than assumed.
+fn joern_endpoint_names(
+    case_path: &Path,
+    case: &Value,
+    dialect: AnchorDialect,
+) -> std::result::Result<JoernEndpoints, String> {
+    let sink_functions = sink_anchor_locations(case_path, case, dialect)?
+        .into_iter()
+        .map(|location| location.function_name)
+        .collect::<BTreeSet<_>>();
+    let sink_function = match sink_functions.len() {
+        1 => sink_functions.into_iter().next().expect("length checked"),
+        count => {
+            return Err(format!(
+                "case declares {count} distinct sink functions; the kernel query tags exactly one"
+            ));
+        }
+    };
+    let source_functions = anchor_function_names(case_path, case, "source_anchors", dialect)?;
+    let source_function = match source_functions.len() {
+        1 => source_functions.into_iter().next().expect("length checked"),
+        count => {
+            return Err(format!(
+                "case declares {count} distinct source functions; the kernel query tags exactly one"
+            ));
+        }
+    };
+    Ok(JoernEndpoints {
+        source_function,
+        sink_function,
+    })
+}
+
+/// The distinct function names declared on one anchor set's marker lines.
+fn anchor_function_names(
+    case_path: &Path,
+    case: &Value,
+    anchor_field: &str,
+    dialect: AnchorDialect,
+) -> std::result::Result<BTreeSet<String>, String> {
+    let fixture_root = case_path
+        .parent()
+        .ok_or_else(|| "case path has no parent".to_string())?;
+    let anchors = case[anchor_field]
+        .as_array()
+        .ok_or_else(|| format!("case has no {anchor_field}"))?;
+    let mut names = BTreeSet::new();
+    for anchor in anchors {
+        let file = anchor["file"]
+            .as_str()
+            .ok_or_else(|| format!("{anchor_field} entry lacks file"))?;
+        let marker = anchor["marker"]
+            .as_str()
+            .ok_or_else(|| format!("{anchor_field} entry lacks marker"))?;
+        let body = fs::read_to_string(fixture_root.join(file))
+            .map_err(|error| format!("read fixture {file}: {error}"))?;
+        let line = anchor_marker_line(&body, marker, anchor["line_hint"].as_u64())?;
+        let declaration = body
+            .lines()
+            .nth(line as usize - 1)
+            .ok_or_else(|| format!("anchor line {line} is outside {file}"))?;
+        names.insert(
+            dialect
+                .declared_function_name(declaration, marker)
+                .ok_or_else(|| format!("marker {marker:?} is not on a function declaration"))?,
+        );
+    }
+    if names.is_empty() {
+        return Err(format!("case has no resolvable {anchor_field}"));
+    }
+    Ok(names)
+}
+
+fn run_joern_case(
+    binary: &Path,
+    script: &Path,
+    case_path: &Path,
+    case: &Value,
+    raw_dir: &Path,
+    raw_root: &Path,
+    kernel: JoernKernel,
+) -> Result<(&'static str, Vec<String>, PathBuf)> {
+    let id = case["id"].as_str().expect("schema validated");
+    let raw_path = raw_dir.join(format!("{id}.json"));
+    let error_path = raw_dir.join(format!("{id}-error.json"));
+    for stale in [&raw_path, &error_path] {
+        if stale.exists() {
+            fs::remove_file(stale).with_context(|| format!("clear {}", stale.display()))?;
+        }
+    }
+
+    // A case whose endpoints cannot be resolved from its own markers has no
+    // usable anchor evidence. That is `inconclusive` with a retained reason; it
+    // is never a clean negative.
+    let endpoints = match joern_endpoint_names(case_path, case, kernel.dialect()) {
+        Ok(endpoints) => endpoints,
+        Err(reason) => {
+            let diagnostic =
+                format!("cannot derive the benchmark-controlled Joern endpoints: {reason}");
+            fs::write(
+                &error_path,
+                serde_json::to_string_pretty(&json!({
+                    "adapter": "joern",
+                    "case_id": id,
+                    "state": "inconclusive",
+                    "stage": "endpoint-resolution",
+                    "reason": diagnostic,
+                    "evidence_kind": "retained-anchor-resolution"
+                }))? + "\n",
+            )?;
+            return Ok(("inconclusive", vec![diagnostic], error_path));
+        }
+    };
+
+    let scratch = joern_case_scratch(kernel, id)?;
+    let workspace = scratch.join("source");
+    fs::create_dir_all(&workspace)?;
+    let fixture_root = case_path.parent().expect("case path has parent");
+    for fixture in case["fixture_files"].as_array().expect("schema validated") {
+        let fixture = fixture.as_str().expect("schema validated");
+        fs::copy(fixture_root.join(fixture), workspace.join(fixture))?;
+    }
+    let absolute_raw_path = raw_root.join(format!("{id}.json"));
+
+    let result = (|| {
+        let mut command = Command::new(binary);
+        command
+            // Joern materializes its console project under the working
+            // directory; keeping that inside the per-case scratch root means no
+            // case can observe another case's CPG.
+            .current_dir(&scratch)
+            .arg("--script")
+            .arg(script)
+            .arg("--param")
+            .arg(format!("inputPath={}", workspace.display()))
+            .arg("--param")
+            .arg(format!("language={}", kernel.frontend()))
+            .arg("--param")
+            .arg(format!("sourceName={}", endpoints.source_function))
+            .arg("--param")
+            .arg(format!("sinkName={}", endpoints.sink_function))
+            .arg("--param")
+            .arg(format!("outputPath={}", absolute_raw_path.display()))
+            .stdin(std::process::Stdio::null());
+        let output = match command.output() {
+            Ok(output) => output,
+            Err(error) => {
+                let diagnostic = format!(
+                    "failed to run the Joern {} kernel script with {}: {error}",
+                    kernel.display_name(),
+                    binary.display()
+                );
+                let path = write_joern_error(raw_dir, id, "script-spawn", &diagnostic, None)?;
+                return Ok(("runner-error", vec![diagnostic], path));
+            }
+        };
+        if !output.status.success() {
+            let diagnostic = format!(
+                "Joern {} kernel script failed with status {}",
+                kernel.display_name(),
+                output.status
+            );
+            let path =
+                write_joern_error(raw_dir, id, "script-execution", &diagnostic, Some(&output))?;
+            return Ok(("runner-error", vec![diagnostic], path));
+        }
+        if !raw_path.is_file() {
+            let diagnostic = format!(
+                "Joern {} kernel script produced no evidence document",
+                kernel.display_name()
+            );
+            let path = write_joern_error(raw_dir, id, "script-output", &diagnostic, Some(&output))?;
+            return Ok(("runner-error", vec![diagnostic], path));
+        }
+        let text = match fs::read_to_string(&raw_path) {
+            Ok(text) => text,
+            Err(error) => {
+                return Ok((
+                    "runner-error",
+                    vec![format!(
+                        "read Joern evidence {}: {error}",
+                        raw_path.display()
+                    )],
+                    raw_path.clone(),
+                ));
+            }
+        };
+        let raw: Value = match serde_json::from_str(&text) {
+            Ok(raw) => raw,
+            Err(error) => {
+                return Ok((
+                    "runner-error",
+                    vec![format!(
+                        "parse Joern evidence {}: {error}",
+                        raw_path.display()
+                    )],
+                    raw_path.clone(),
+                ));
+            }
+        };
+        let (outcome, diagnostics) = joern_flow_outcome(case_path, case, &raw, kernel.dialect());
+        Ok((outcome, diagnostics, raw_path.clone()))
+    })();
+
+    let cleanup =
+        fs::remove_dir_all(&scratch).with_context(|| format!("clear {}", scratch.display()));
+    match (result, cleanup) {
+        (Ok(normalized), Ok(())) => Ok(normalized),
+        (Ok((_, mut diagnostics, path)), Err(error)) => {
+            diagnostics.push(format!("Joern case artifact cleanup failed: {error}"));
+            diagnostics.sort();
+            diagnostics.dedup();
+            Ok(("runner-error", diagnostics, path))
+        }
+        (Err(error), Ok(())) => Err(error),
+        (Err(error), Err(cleanup_error)) => Err(error.context(format!(
+            "Joern case artifact cleanup also failed: {cleanup_error}"
+        ))),
+    }
+}
+
+fn joern_case_scratch(kernel: JoernKernel, id: &str) -> Result<PathBuf> {
+    let scratch = std::env::temp_dir()
+        .join(format!("dataflowbench-joern-{}", kernel.language()))
+        .join(id);
+    if scratch.exists() {
+        fs::remove_dir_all(&scratch).with_context(|| format!("clear {}", scratch.display()))?;
+    }
+    fs::create_dir_all(&scratch)?;
+    Ok(scratch)
+}
+
+fn write_joern_error(
+    raw_dir: &Path,
+    id: &str,
+    stage: &str,
+    diagnostic: &str,
+    output: Option<&std::process::Output>,
+) -> Result<PathBuf> {
+    let error_path = raw_dir.join(format!("{id}-error.json"));
+    let mut evidence = json!({
+        "adapter": "joern",
+        "case_id": id,
+        "state": "runner-error",
+        "stage": stage,
+        "diagnostic": diagnostic,
+        "evidence_kind": "retained-process-diagnostics"
+    });
+    if let Some(output) = output {
+        evidence["status"] = json!(output.status.code());
+        evidence["stdout"] = json!(String::from_utf8_lossy(&output.stdout).trim());
+        evidence["stderr"] = json!(String::from_utf8_lossy(&output.stderr).trim());
+    }
+    fs::write(&error_path, serde_json::to_string_pretty(&evidence)? + "\n")?;
+    Ok(error_path)
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+enum JoernFlowMatch {
+    Matched,
+    Unmatched,
+    Ambiguous,
+}
+
+/// Normalize one retained Joern evidence document.
+///
+/// A flow counts as `reached` only when one of its elements sits on a callsite
+/// of the case's own anchored sink function, in the anchored file — the same
+/// reconciliation the CodeQL C#, Go, C, C++, and Rust kernels apply to SARIF.
+/// Every other state is preserved distinctly: a script, frontend, or engine
+/// failure is `runner-error`; a run that never observed one of the two
+/// benchmark-controlled endpoints, or that produced flows with no usable
+/// location, is `inconclusive`. Only a complete run that observed both
+/// endpoints and produced no flow is `not-reached`.
+fn joern_flow_outcome(
+    case_path: &Path,
+    case: &Value,
+    raw: &Value,
+    dialect: AnchorDialect,
+) -> (&'static str, Vec<String>) {
+    match raw["state"].as_str() {
+        Some("analyzed") => {}
+        Some("runner-error") => {
+            return (
+                "runner-error",
+                vec![
+                    raw["diagnostic"]
+                        .as_str()
+                        .unwrap_or("Joern reported a runner error without a diagnostic")
+                        .to_string(),
+                ],
+            );
+        }
+        Some(other) => {
+            return (
+                "runner-error",
+                vec![format!(
+                    "Joern evidence declares unexpected state {other:?}"
+                )],
+            );
+        }
+        None => {
+            return (
+                "runner-error",
+                vec!["Joern evidence declares no state".to_string()],
+            );
+        }
+    }
+    let Some(flows) = raw["flows"].as_array() else {
+        return (
+            "runner-error",
+            vec!["Joern evidence lacks its flows array".to_string()],
+        );
+    };
+    let (Some(sources), Some(sinks)) = (
+        raw["source_node_count"].as_u64(),
+        raw["sink_node_count"].as_u64(),
+    ) else {
+        return (
+            "runner-error",
+            vec!["Joern evidence lacks its endpoint node counts".to_string()],
+        );
+    };
+    if sources == 0 || sinks == 0 {
+        return (
+            "inconclusive",
+            vec![format!(
+                "Joern resolved {sources} source node(s) and {sinks} sink node(s); the run never observed both benchmark-controlled endpoints"
+            )],
+        );
+    }
+    if flows.is_empty() {
+        return ("not-reached", Vec::new());
+    }
+    let sink_locations = match sink_anchor_locations(case_path, case, dialect) {
+        Ok(locations) => locations,
+        Err(reason) => {
+            return (
+                "inconclusive",
+                vec![format!(
+                    "cannot prove a Joern flow against the sink anchor: {reason}"
+                )],
+            );
+        }
+    };
+    let mut matched = 0;
+    let mut unmatched = 0;
+    let mut ambiguous = 0;
+    for flow in flows {
+        match joern_flow_anchor_match(flow, &sink_locations) {
+            JoernFlowMatch::Matched => matched += 1,
+            JoernFlowMatch::Unmatched => unmatched += 1,
+            JoernFlowMatch::Ambiguous => ambiguous += 1,
+        }
+    }
+    if ambiguous > 0 {
+        return (
+            "inconclusive",
+            vec![format!(
+                "{ambiguous} Joern flow(s) carry no usable or an ambiguous sink-anchor location"
+            )],
+        );
+    }
+    if matched > 0 {
+        return ("reached", Vec::new());
+    }
+    (
+        "inconclusive",
+        vec![format!(
+            "{unmatched} Joern flow(s) did not match the case sink anchor"
+        )],
+    )
+}
+
+fn joern_flow_anchor_match(flow: &Value, sink_locations: &[SinkAnchorLocation]) -> JoernFlowMatch {
+    let Some(elements) = flow["elements"].as_array() else {
+        return JoernFlowMatch::Ambiguous;
+    };
+    if elements.is_empty() {
+        return JoernFlowMatch::Ambiguous;
+    }
+    let mut matches = BTreeSet::new();
+    let mut usable = false;
+    for element in elements {
+        let (Some(file), Some(line)) = (element["file"].as_str(), element["line"].as_u64()) else {
+            continue;
+        };
+        if line == 0 {
+            continue;
+        }
+        usable = true;
+        for (index, anchor) in sink_locations.iter().enumerate() {
+            if evidence_path_matches_file(file, &anchor.file)
+                && anchor.callsite_lines.contains(&line)
+            {
+                matches.insert(index);
+            }
+        }
+    }
+    if !usable || matches.len() > 1 {
+        JoernFlowMatch::Ambiguous
+    } else if matches.len() == 1 {
+        JoernFlowMatch::Matched
+    } else {
+        JoernFlowMatch::Unmatched
+    }
 }
 
 fn hash_paths(paths: &BTreeSet<PathBuf>) -> Result<String> {
@@ -7236,6 +7932,297 @@ mod tests {
         assert_eq!(
             normalize_anchored_codeql_sarif(&case, &json!({"runs": []}), "Python").0,
             "runner-error"
+        );
+    }
+
+    /// Each Joern kernel is its own population: exactly 32 balanced core
+    /// assertions of exactly one language, with no case shared between the
+    /// three and no case borrowed from a CodeQL or Bifrost selection.
+    #[test]
+    fn joern_kernel_selections_are_language_disjoint_and_balanced() {
+        let mut populations = BTreeMap::new();
+        for kernel in [
+            JoernKernel::Java,
+            JoernKernel::JavaScript,
+            JoernKernel::Python,
+        ] {
+            let selected = select_joern_cases(kernel).unwrap();
+            assert_eq!(selected.len(), KERNEL_CASE_COUNT);
+            let mut templates = BTreeMap::<String, (usize, usize)>::new();
+            for (_, case) in &selected {
+                assert_eq!(case["language"], kernel.language());
+                assert_eq!(case["track"], "taint");
+                assert_eq!(case["score_tier"], "core");
+                assert_eq!(case["model_profile"], "benchmark-controlled");
+                let counts = templates
+                    .entry(case["template_id"].as_str().unwrap().to_string())
+                    .or_default();
+                if case["polarity"] == "positive" {
+                    counts.0 += 1;
+                } else {
+                    counts.1 += 1;
+                }
+            }
+            assert_eq!(templates.len(), KERNEL_TEMPLATE_IDS.len());
+            assert!(templates.values().all(|counts| *counts == (1, 1)));
+            populations.insert(
+                kernel.language(),
+                selected
+                    .iter()
+                    .map(|(_, case)| case["id"].as_str().unwrap().to_string())
+                    .collect::<BTreeSet<_>>(),
+            );
+        }
+        for left in populations.values() {
+            for right in populations.values() {
+                if left != right {
+                    assert!(left.is_disjoint(right));
+                }
+            }
+        }
+    }
+
+    #[test]
+    fn joern_report_paths_are_dedicated() {
+        let kernels = [
+            JoernKernel::Java,
+            JoernKernel::JavaScript,
+            JoernKernel::Python,
+        ];
+        let reports = kernels
+            .iter()
+            .map(|kernel| kernel.report())
+            .collect::<BTreeSet<_>>();
+        let raw_dirs = kernels
+            .iter()
+            .map(|kernel| kernel.raw_dir())
+            .collect::<BTreeSet<_>>();
+        let frontends = kernels
+            .iter()
+            .map(|kernel| kernel.frontend())
+            .collect::<BTreeSet<_>>();
+        assert_eq!(reports.len(), kernels.len());
+        assert_eq!(raw_dirs.len(), kernels.len());
+        assert_eq!(frontends.len(), kernels.len());
+        for kernel in kernels {
+            assert!(kernel.report().starts_with("reports/joern-"));
+            assert!(kernel.raw_dir().starts_with("reports/raw/joern-"));
+            // A Joern report must never land on a CodeQL or Bifrost path.
+            assert_ne!(kernel.report(), CODEQL_JAVASCRIPT_REPORT);
+            assert_ne!(kernel.raw_dir(), CODEQL_JAVASCRIPT_RAW_DIR);
+        }
+        assert!(Path::new(JOERN_KERNEL_SCRIPT).is_file());
+    }
+
+    /// The kernel query is parameterized by the endpoints the fixture itself
+    /// declares. Two frozen Java assertions predate the `dfb_source`/`dfb_sink`
+    /// convention, so an adapter that assumed those names would silently
+    /// analyze nothing; the runner reads both names off the marker lines.
+    #[test]
+    fn joern_endpoints_come_from_the_case_markers() {
+        let resolve = |id: &str, dialect: AnchorDialect| {
+            for path in case_paths() {
+                let case: Value =
+                    serde_json::from_str(&fs::read_to_string(&path).unwrap()).unwrap();
+                if case["id"] == id {
+                    return joern_endpoint_names(&path, &case, dialect).unwrap();
+                }
+            }
+            panic!("case {id} is absent");
+        };
+        assert_eq!(
+            resolve(
+                "dfb-taint-java-alias-propagation-positive",
+                AnchorDialect::Java
+            ),
+            JoernEndpoints {
+                source_function: "dfb_source".to_string(),
+                sink_function: "dfb_sink".to_string()
+            }
+        );
+        assert_eq!(
+            resolve("dfb-taint-java-direct-positive", AnchorDialect::Java),
+            JoernEndpoints {
+                source_function: "directUntrustedInput".to_string(),
+                sink_function: "recordDirect".to_string()
+            }
+        );
+        assert_eq!(
+            resolve(
+                "dfb-taint-javascript-alias-propagation-positive",
+                AnchorDialect::Ecma
+            ),
+            JoernEndpoints {
+                source_function: "dfb_source".to_string(),
+                sink_function: "dfb_sink".to_string()
+            }
+        );
+        assert_eq!(
+            resolve(
+                "dfb-taint-python-alias-propagation-positive",
+                AnchorDialect::Python
+            ),
+            JoernEndpoints {
+                source_function: "dfb_source".to_string(),
+                sink_function: "dfb_sink".to_string()
+            }
+        );
+    }
+
+    /// Java declares a sink as an identifier before a parameter list and calls
+    /// it unqualified; Python does the same but opens its comments with `#`.
+    #[test]
+    fn java_and_python_sink_declarations_resolve_through_their_dialects() {
+        assert_eq!(
+            AnchorDialect::Java
+                .declared_function_name(
+                    "    static void dfb_sink(int value) { } // DFB-SINK: sink",
+                    "DFB-SINK: sink"
+                )
+                .as_deref(),
+            Some("dfb_sink")
+        );
+        assert_eq!(
+            AnchorDialect::Python
+                .declared_function_name("def dfb_sink(value):  # DFB-SINK: sink", "DFB-SINK: sink")
+                .as_deref(),
+            Some("dfb_sink")
+        );
+        assert!(AnchorDialect::Java.is_call("        dfb_sink(alias.value);", "dfb_sink"));
+        assert!(!AnchorDialect::Java.is_call("        other.dfb_sink(value);", "dfb_sink"));
+        assert!(!AnchorDialect::Java.is_call("        my_dfb_sink(value);", "dfb_sink"));
+        assert!(!AnchorDialect::Java.is_call("        // dfb_sink(value);", "dfb_sink"));
+        assert!(AnchorDialect::Python.is_call("    dfb_sink(alias.value)", "dfb_sink"));
+        assert!(!AnchorDialect::Python.is_call("    other.dfb_sink(value)", "dfb_sink"));
+        // A Python comment must not be read as a callsite, even though it is
+        // not a `//` comment.
+        assert!(!AnchorDialect::Python.is_call("    # dfb_sink(value)", "dfb_sink"));
+        assert!(!AnchorDialect::Python.is_call("    log(\"dfb_sink(value)\")", "dfb_sink"));
+    }
+
+    /// A Joern flow is only `reached` when it lands on a callsite of the case's
+    /// own anchored sink function.
+    #[test]
+    fn joern_flow_evidence_requires_the_sink_callsite() {
+        let root = std::env::temp_dir().join(format!(
+            "dataflowbench-joern-anchor-test-{}-{}",
+            std::process::id(),
+            SystemTime::now()
+                .duration_since(UNIX_EPOCH)
+                .unwrap()
+                .as_nanos()
+        ));
+        fs::create_dir_all(&root).unwrap();
+        let case_path = root.join("case.json");
+        fs::write(
+            root.join("fixture.py"),
+            "def dfb_sink(value):  # DFB-SINK: sink\n    pass\n\n\ndef run():\n    other(value)\n    dfb_sink(value)\n",
+        )
+        .unwrap();
+        let case = json!({
+            "sink_anchors": [{
+                "marker": "DFB-SINK: sink",
+                "file": "fixture.py",
+                "line_hint": 1
+            }]
+        });
+        let analyzed = |flows: Value| {
+            json!({
+                "state": "analyzed",
+                "source_node_count": 1,
+                "sink_node_count": 1,
+                "flows": flows
+            })
+        };
+        let matching = analyzed(json!([{"elements": [
+            {"file": "/tmp/work/fixture.py", "line": 7, "code": "value"}
+        ]}]));
+        assert_eq!(
+            joern_flow_outcome(&case_path, &case, &matching, AnchorDialect::Python).0,
+            "reached"
+        );
+        let wrong_line = analyzed(json!([{"elements": [
+            {"file": "fixture.py", "line": 6, "code": "value"}
+        ]}]));
+        assert_eq!(
+            joern_flow_outcome(&case_path, &case, &wrong_line, AnchorDialect::Python).0,
+            "inconclusive"
+        );
+        let no_location = analyzed(json!([{"elements": [{"code": "value"}]}]));
+        assert_eq!(
+            joern_flow_outcome(&case_path, &case, &no_location, AnchorDialect::Python).0,
+            "inconclusive"
+        );
+        let empty_flow = analyzed(json!([{"elements": []}]));
+        assert_eq!(
+            joern_flow_outcome(&case_path, &case, &empty_flow, AnchorDialect::Python).0,
+            "inconclusive"
+        );
+        let clean = analyzed(json!([]));
+        assert_eq!(
+            joern_flow_outcome(&case_path, &case, &clean, AnchorDialect::Python).0,
+            "not-reached"
+        );
+        fs::remove_dir_all(root).unwrap();
+    }
+
+    /// A Joern script, frontend, or engine failure — and a run that never
+    /// observed one of the two benchmark-controlled endpoints — must never be
+    /// normalized to a clean negative.
+    #[test]
+    fn joern_runner_failures_never_become_clean_negatives() {
+        let case_path = PathBuf::from("cases/taint/python/direct-positive/case.json");
+        let case = json!({"sink_anchors": []});
+        let failed = json!({
+            "state": "runner-error",
+            "stage": "joern-script",
+            "diagnostic": "java.lang.RuntimeException: frontend failed"
+        });
+        let (outcome, diagnostics) =
+            joern_flow_outcome(&case_path, &case, &failed, AnchorDialect::Python);
+        assert_eq!(outcome, "runner-error");
+        assert!(
+            diagnostics
+                .iter()
+                .any(|line| line.contains("frontend failed"))
+        );
+        // The same document must also be refused as a downgraded negative by
+        // the freeze's raw-evidence guard.
+        assert_eq!(raw_special_outcome(&failed), Some("runner-error"));
+
+        for broken in [
+            json!({"state": "analyzed", "source_node_count": 1, "sink_node_count": 1}),
+            json!({"state": "analyzed", "flows": []}),
+            json!({"state": "surprise", "flows": []}),
+            json!({"flows": []}),
+        ] {
+            assert_eq!(
+                joern_flow_outcome(&case_path, &case, &broken, AnchorDialect::Python).0,
+                "runner-error"
+            );
+        }
+
+        for unobserved in [
+            json!({"state": "analyzed", "source_node_count": 0, "sink_node_count": 1, "flows": []}),
+            json!({"state": "analyzed", "source_node_count": 1, "sink_node_count": 0, "flows": []}),
+        ] {
+            assert_eq!(
+                joern_flow_outcome(&case_path, &case, &unobserved, AnchorDialect::Python).0,
+                "inconclusive"
+            );
+        }
+
+        // An unresolvable sink anchor keeps a produced flow inconclusive rather
+        // than crediting or discrediting it.
+        let flows = json!({
+            "state": "analyzed",
+            "source_node_count": 1,
+            "sink_node_count": 1,
+            "flows": [{"elements": [{"file": "direct_flow.py", "line": 10}]}]
+        });
+        assert_eq!(
+            joern_flow_outcome(&case_path, &case, &flows, AnchorDialect::Python).0,
+            "inconclusive"
         );
     }
 
