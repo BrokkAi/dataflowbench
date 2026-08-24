@@ -78,6 +78,15 @@ const BIFROST_DIRECT_POLICY: &str = "adapters/bifrost/policies/core-direct.rqlp"
 /// evaluates this policy for the whole population so all 32 assertions share
 /// one configuration; see docs/kotlin-kernel.md.
 const BIFROST_KOTLIN_POLICY: &str = "adapters/bifrost/policies/core-kotlin-kernel.rqlp";
+/// The language-qualified Bifrost policy every Scala kernel assertion is
+/// evaluated with. Scala has single-analyzer coverage: CodeQL CLI 2.26.3 has no
+/// Scala extractor at all, and the pinned Joern 4.0.432 has no Scala *source*
+/// frontend. Both absences are analyzer coverage recorded in
+/// docs/scala-kernel.md, never negative results. As with Kotlin, the frozen
+/// v0.2.0 direct-propagation pair still names the language-neutral breadth
+/// policy in its case metadata, so the run pins this policy for the whole
+/// population and all 32 assertions share one configuration.
+const BIFROST_SCALA_POLICY: &str = "adapters/bifrost/policies/core-scala-kernel.rqlp";
 /// One positive and one negative assertion for each scored template.
 const KERNEL_CASE_COUNT: usize = 2 * KERNEL_TEMPLATE_IDS.len();
 /// The sixteen scored propagation templates. Every language kernel preserves
@@ -196,6 +205,13 @@ enum Commands {
     /// Run the Kotlin propagation kernel without mixing it with the Java
     /// kernel or any other language population.
     RunBifrostKotlinKernel {
+        #[arg(long, default_value = "bifrost")]
+        bifrost: PathBuf,
+    },
+    /// Run the Scala propagation kernel as its own population. Scala has
+    /// single-analyzer coverage — no CodeQL extractor and no Joern source
+    /// frontend — so this is the only executing adapter for it.
+    RunBifrostScalaKernel {
         #[arg(long, default_value = "bifrost")]
         bifrost: PathBuf,
     },
@@ -365,6 +381,9 @@ fn main() -> Result<()> {
         Commands::RunBifrostSmoke { bifrost } => run_bifrost_smoke(&bifrost),
         Commands::RunBifrostPythonKernel { bifrost } => run_bifrost_python_kernel(&bifrost),
         Commands::RunBifrostKotlinKernel { bifrost } => run_bifrost_kotlin_kernel(&bifrost),
+        Commands::RunBifrostScalaKernel { bifrost } => {
+            run_bifrost(&bifrost, BifrostRun::ScalaKernel)
+        }
         Commands::RunBifrostTypescriptKernel { bifrost } => {
             run_bifrost(&bifrost, BifrostRun::TypescriptKernel)
         }
@@ -472,6 +491,7 @@ fn validate_cases() -> Result<()> {
     validate_kernel_balance(&cases, EcmaKernel::JavaScript)?;
     validate_kernel_balance(&cases, EcmaKernel::TypeScript)?;
     validate_scored_kernel_balance(&cases, "kotlin", "Kotlin", &KERNEL_TEMPLATE_IDS)?;
+    validate_scored_kernel_balance(&cases, "scala", "Scala", &KERNEL_TEMPLATE_IDS)?;
     validate_scored_kernel_balance(&cases, "csharp", "C#", &KERNEL_TEMPLATE_IDS)?;
     validate_scored_kernel_balance(&cases, "go", "Go", &KERNEL_TEMPLATE_IDS)?;
     validate_scored_kernel_balance(&cases, "cpp", "C++", &KERNEL_TEMPLATE_IDS)?;
@@ -736,6 +756,7 @@ enum BifrostRun {
     Smoke,
     PythonKernel,
     KotlinKernel,
+    ScalaKernel,
     TypescriptKernel,
     CsharpKernel,
     GoKernel,
@@ -751,6 +772,7 @@ impl BifrostRun {
             Self::Smoke => "Bifrost smoke",
             Self::PythonKernel => "Bifrost Python kernel",
             Self::KotlinKernel => "Bifrost Kotlin kernel",
+            Self::ScalaKernel => "Bifrost Scala kernel",
             Self::TypescriptKernel => "Bifrost TypeScript kernel",
             Self::CsharpKernel => "Bifrost C# kernel",
             Self::GoKernel => "Bifrost Go kernel",
@@ -766,9 +788,11 @@ impl BifrostRun {
     /// and scored separately, so they never move this number.
     fn expected_core_cases(self) -> Option<usize> {
         match self {
-            Self::KotlinKernel | Self::CsharpKernel | Self::GoKernel | Self::CppKernel => {
-                Some(KERNEL_CASE_COUNT)
-            }
+            Self::KotlinKernel
+            | Self::ScalaKernel
+            | Self::CsharpKernel
+            | Self::GoKernel
+            | Self::CppKernel => Some(KERNEL_CASE_COUNT),
             Self::CKernel | Self::RustKernel => Some(KERNEL_CASE_COUNT_WITHOUT_EXCEPTION_CATCH),
             Self::Smoke | Self::PythonKernel | Self::TypescriptKernel => None,
         }
@@ -2342,6 +2366,10 @@ fn run_bifrost(binary: &Path, run: BifrostRun) -> Result<()> {
             Path::new("reports/raw/bifrost-kotlin-kernel"),
             Path::new("reports/bifrost-kotlin-kernel.json"),
         ),
+        BifrostRun::ScalaKernel => (
+            Path::new("reports/raw/bifrost-scala-kernel"),
+            Path::new("reports/bifrost-scala-kernel.json"),
+        ),
         BifrostRun::TypescriptKernel => (
             Path::new("reports/raw/bifrost-typescript-kernel"),
             Path::new("reports/bifrost-typescript-kernel.json"),
@@ -2533,6 +2561,7 @@ fn run_bifrost(binary: &Path, run: BifrostRun) -> Result<()> {
 fn bifrost_policy_for<'a>(case: &'a Value, run: BifrostRun) -> Result<&'a str> {
     match run {
         BifrostRun::KotlinKernel => Ok(BIFROST_KOTLIN_POLICY),
+        BifrostRun::ScalaKernel => Ok(BIFROST_SCALA_POLICY),
         _ => case["tool_model_references"]["bifrost"]["policy"]
             .as_str()
             .context("Bifrost case lacks policy reference"),
@@ -2543,6 +2572,7 @@ fn selected_bifrost_case(case: &Value, run: BifrostRun) -> bool {
     match run {
         BifrostRun::Smoke => has_bifrost_model_reference(case) && smoke_population_case(case),
         BifrostRun::KotlinKernel => kotlin_core_case(case),
+        BifrostRun::ScalaKernel => scala_core_case(case),
         BifrostRun::PythonKernel => {
             case["language"] == "python"
                 && case["track"] == "taint"
@@ -3696,6 +3726,17 @@ fn codeql_version_identity(binary: &Path) -> Result<(String, String)> {
 
 fn kotlin_core_case(case: &Value) -> bool {
     case["language"] == "kotlin" && case["track"] == "taint" && case["score_tier"] == "core"
+}
+
+/// A Scala assertion the Bifrost kernel run owns. Scala is selected the way
+/// Kotlin is — by language, track, and score tier — because its
+/// direct-propagation pair is frozen in the v0.2.0 evidence naming the
+/// cross-language breadth policy, and the run pins the language-qualified
+/// policy for the whole population instead of reading it from each case. No
+/// CodeQL or Joern counterpart exists: neither pinned tool can extract Scala
+/// source, which is coverage recorded in docs/scala-kernel.md, not a negative.
+fn scala_core_case(case: &Value) -> bool {
+    case["language"] == "scala" && case["track"] == "taint" && case["score_tier"] == "core"
 }
 
 fn codeql_kotlin_cases() -> Result<Vec<(PathBuf, Value)>> {
@@ -6430,6 +6471,84 @@ mod tests {
             bifrost_policy_for(&kotlin_direct, BifrostRun::Smoke).unwrap(),
             "adapters/bifrost/policies/core-direct.rqlp"
         );
+    }
+
+    #[test]
+    fn scala_kernel_selection_is_separate_from_every_other_language() {
+        let scala_core = json!({
+            "language": "scala",
+            "track": "taint",
+            "score_tier": "core",
+            "tool_model_references": {"bifrost": {"policy": BIFROST_SCALA_POLICY}}
+        });
+        // Frozen v0.2.0 breadth metadata: the Scala kernel still selects it.
+        let scala_direct = json!({
+            "language": "scala",
+            "track": "taint",
+            "score_tier": "core",
+            "tool_model_references": {
+                "bifrost": {"policy": "adapters/bifrost/policies/core-direct.rqlp"}
+            }
+        });
+        let kotlin_core = json!({
+            "language": "kotlin",
+            "track": "taint",
+            "score_tier": "core",
+            "tool_model_references": {"bifrost": {"policy": BIFROST_SCALA_POLICY}}
+        });
+        assert!(selected_bifrost_case(&scala_core, BifrostRun::ScalaKernel));
+        assert!(selected_bifrost_case(
+            &scala_direct,
+            BifrostRun::ScalaKernel
+        ));
+        assert!(!selected_bifrost_case(
+            &kotlin_core,
+            BifrostRun::ScalaKernel
+        ));
+        assert!(!selected_bifrost_case(
+            &scala_core,
+            BifrostRun::KotlinKernel
+        ));
+        assert!(!selected_bifrost_case(&scala_core, BifrostRun::Smoke));
+
+        // Every Scala assertion is evaluated with the language-qualified Scala
+        // policy, including the frozen direct pair, while the frozen smoke
+        // population keeps evaluating that pair through the breadth policy.
+        assert_eq!(
+            bifrost_policy_for(&scala_direct, BifrostRun::ScalaKernel).unwrap(),
+            BIFROST_SCALA_POLICY
+        );
+        assert_eq!(
+            bifrost_policy_for(&scala_direct, BifrostRun::Smoke).unwrap(),
+            "adapters/bifrost/policies/core-direct.rqlp"
+        );
+    }
+
+    /// Scala has no CodeQL and no Joern population, so the only in-repo
+    /// guarantee that its 32 assertions are complete and balanced is the
+    /// Bifrost run's own core denominator.
+    #[test]
+    fn scala_bifrost_population_is_exactly_32_balanced_assertions() {
+        let selected = case_paths()
+            .into_iter()
+            .map(|path| {
+                let case: Value =
+                    serde_json::from_str(&fs::read_to_string(&path).unwrap()).unwrap();
+                (path, case)
+            })
+            .filter(|(_, case)| scala_core_case(case))
+            .collect::<Vec<_>>();
+        assert_eq!(
+            selected.len(),
+            BifrostRun::ScalaKernel.expected_core_cases().unwrap()
+        );
+        assert!(
+            selected
+                .iter()
+                .all(|(path, _)| path.starts_with("cases/taint/scala"))
+        );
+        validate_kernel_population(&selected, "Bifrost Scala kernel").unwrap();
+        assert!(Path::new(BIFROST_SCALA_POLICY).is_file());
     }
 
     #[test]
