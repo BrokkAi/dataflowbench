@@ -1,0 +1,60 @@
+{
+  "schema_version": 2,
+  "id": "dfb-taint-php-return-relay-one-hop-negative",
+  "template_id": "dfb-template-return-relay-one-hop",
+  "polarity": "negative",
+  "negative_mechanism": "unrelated-value",
+  "score_tier": "core",
+  "track": "taint",
+  "language": "php",
+  "semantic_dimensions": [
+    "interprocedural-flow"
+  ],
+  "feature_tags": [
+    "interprocedural-one-hop"
+  ],
+  "model_profile": "benchmark-controlled",
+  "fixture_files": [
+    "return_relay_one_hop_negative.php"
+  ],
+  "source_anchors": [
+    {
+      "marker": "DFB-SOURCE: return-one-hop-negative-input",
+      "file": "return_relay_one_hop_negative.php",
+      "line_hint": 2
+    }
+  ],
+  "sink_anchors": [
+    {
+      "marker": "DFB-SINK: return-one-hop-negative-sink",
+      "file": "return_relay_one_hop_negative.php",
+      "line_hint": 10
+    }
+  ],
+  "expected_flows": [],
+  "expected_nonflows": [
+    {
+      "source": "DFB-SOURCE: return-one-hop-negative-input",
+      "sink": "DFB-SINK: return-one-hop-negative-sink"
+    }
+  ],
+  "witness_checkpoints": [],
+  "expected_analysis_capability": {
+    "kind": "interprocedural-return-taint"
+  },
+  "execution_budget": {
+    "wall_clock_seconds": 60,
+    "peak_memory_mb": 512
+  },
+  "fixture_provenance": {
+    "kind": "authored",
+    "origin": "DataFlowBench",
+    "revision": "m2-php-kernel",
+    "license": "MIT"
+  },
+  "tool_model_references": {
+    "bifrost": {
+      "policy": "adapters/bifrost/policies/core-php-kernel.rqlp"
+    }
+  }
+}

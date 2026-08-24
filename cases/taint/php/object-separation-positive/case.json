@@ -1,0 +1,64 @@
+{
+  "schema_version": 2,
+  "id": "dfb-taint-php-object-separation-positive",
+  "template_id": "dfb-template-object-separation",
+  "polarity": "positive",
+  "score_tier": "core",
+  "track": "taint",
+  "language": "php",
+  "semantic_dimensions": [
+    "heap-field-sensitivity",
+    "object-sensitivity"
+  ],
+  "feature_tags": [
+    "heap-access-path"
+  ],
+  "model_profile": "benchmark-controlled",
+  "fixture_files": [
+    "object_separation_positive.php"
+  ],
+  "source_anchors": [
+    {
+      "marker": "DFB-SOURCE: object-separation-input",
+      "file": "object_separation_positive.php",
+      "line_hint": 7
+    }
+  ],
+  "sink_anchors": [
+    {
+      "marker": "DFB-SINK: object-separation-sink",
+      "file": "object_separation_positive.php",
+      "line_hint": 11
+    }
+  ],
+  "expected_flows": [
+    {
+      "source": "DFB-SOURCE: object-separation-input",
+      "sink": "DFB-SINK: object-separation-sink"
+    }
+  ],
+  "expected_nonflows": [],
+  "witness_checkpoints": [
+    "DFB-SOURCE: object-separation-input",
+    "DFB-WITNESS: object-separation-store",
+    "DFB-SINK: object-separation-sink"
+  ],
+  "expected_analysis_capability": {
+    "kind": "heap-object-sensitive-taint"
+  },
+  "execution_budget": {
+    "wall_clock_seconds": 60,
+    "peak_memory_mb": 512
+  },
+  "fixture_provenance": {
+    "kind": "authored",
+    "origin": "DataFlowBench",
+    "revision": "m2-php-kernel",
+    "license": "MIT"
+  },
+  "tool_model_references": {
+    "bifrost": {
+      "policy": "adapters/bifrost/policies/core-php-kernel.rqlp"
+    }
+  }
+}

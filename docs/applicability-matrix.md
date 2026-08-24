@@ -287,6 +287,14 @@ Joern adapter (#14) lands. Their kernel issues record Joern as the
 second-analyzer path, and must not block fixture authoring on it. The absence
 of a second analyzer is recorded as coverage, not as negative results.
 
+**Update (#50, #40).** The Joern adapter has since landed, and PHP's second
+analyzer is live: `php2cpg` decides all 32 PHP core assertions, so PHP now has
+two-analyzer coverage without any CodeQL involvement. Scala remains
+single-analyzer — the pinned Joern distribution ships no Scala *source*
+frontend, only bytecode-consuming `jimple2cpg`. See
+[the PHP kernel contract](php-kernel.md) and
+[the Joern adapter](../adapters/joern/README.md).
+
 ## Tranche plan
 
 - **Tranche 1 — near-parity, two decisive analyzers:** TypeScript, Kotlin, C#.
