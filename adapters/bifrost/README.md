@@ -16,14 +16,21 @@ and control-flow strata. The JavaScript parity slice uses the same template IDs
 and the language-qualified `core-javascript-kernel.rqlp` policy, with any
 language adaptations recorded on the canonical cases. See the [JavaScript
 adaptation matrix](../../docs/javascript-kernel.md) for the syntax mapping and
-the explicit exceptional-flow limitation. The Python and C# parity slices
-follow the same pattern with `core-python-kernel.rqlp` and
-`core-csharp-kernel.rqlp`; `run-bifrost-python-kernel` and
-`run-bifrost-csharp-kernel` each select only their own 32 core assertions and
-write a dedicated report. The C# direct-propagation pair is frozen in the
-v0.2.0 evidence with the breadth `core-direct.rqlp` policy, so the C# selector
-accepts that policy too and evaluates each case through the policy it declares;
-see [the C# kernel contract](../../docs/csharp-kernel.md). The Java calibration slice also
+the explicit exceptional-flow limitation. The Python parity slice uses
+`core-python-kernel.rqlp`, and the Kotlin parity slice uses
+`core-kotlin-kernel.rqlp`; see the [Kotlin kernel
+contract](../../docs/kotlin-kernel.md) for its two `var`-based adaptations and
+for why the Kotlin kernel run pins its policy for the whole population rather
+than reading it from each case. The TypeScript parity slice repeats those 16
+templates against `.ts` fixtures through `core-typescript-kernel.rqlp`; see the
+[TypeScript adaptation matrix](../../docs/typescript-kernel.md). TypeScript is a
+separate population from JavaScript and the two are never mixed. The C# parity
+slice uses `core-csharp-kernel.rqlp`; its direct-propagation pair is frozen in
+the v0.2.0 evidence with the breadth `core-direct.rqlp` policy, so the C#
+selector accepts that policy too and evaluates each case through the policy it
+declares; see [the C# kernel contract](../../docs/csharp-kernel.md). Every
+kernel command selects only its own language's 32 core assertions and writes a
+dedicated report. The Java calibration slice also
 covers one-hop helper flow. Generated workspaces live outside the repository so
 repository ignore rules cannot hide fixtures from Bifrost's indexer. Sanitizer
 lowering is a future Bifrost CLI capability.
@@ -36,6 +43,10 @@ Run from the repository root:
 
 ```bash
 cargo run -- run-bifrost-smoke --bifrost /path/to/bifrost
+cargo run -- run-bifrost-python-kernel --bifrost /path/to/bifrost
+cargo run -- run-bifrost-kotlin-kernel --bifrost /path/to/bifrost
+cargo run -- run-bifrost-typescript-kernel --bifrost /path/to/bifrost
+cargo run -- run-bifrost-csharp-kernel --bifrost /path/to/bifrost
 ```
 
 The smoke command selects only cases with an explicit Bifrost policy or
@@ -72,12 +83,28 @@ with 19/32 assertions matching expected polarity (19 of 26 decisive outcomes).
 This v0.10.2 evidence matches v0.10.1 case-for-case, but does not restore the
 complete Java correctness observed in the v0.9.5 snapshot.
 
-## Retained C# kernel snapshot
+The 32-case Kotlin kernel has 14 `reached`, 8 `not-reached`, and 10
+`inconclusive`, with 17/32 assertions matching expected polarity (17 of 22
+decisive outcomes). Its dedicated report is
+`reports/bifrost-kotlin-kernel.json` and raw evidence is under
+`reports/raw/bifrost-kotlin-kernel/`. The ten `inconclusive` results are the
+complete heap/separation stratum and the exception-catch pair, both polarities,
+each retaining `partial_discovery` evidence; they mirror the Java kernel
+profile and are never counted as negatives.
+The 32-case TypeScript kernel, in its own report
+`reports/bifrost-typescript-kernel.json` with raw evidence under
+`reports/raw/bifrost-typescript-kernel/`, has 14 `reached`, 12 `not-reached`,
+and 6 `inconclusive`, with 19/32 assertions matching expected polarity (19 of
+26 decisive outcomes). Its outcomes are case-for-case identical to the
+JavaScript kernel's, including the same `partial_discovery` alias-propagation
+and array-element pairs and the same `capability_incomplete` exception-catch
+pair. That run used a locally built v0.10.2 with build identity
+`57060b8b062330ab3e9804e1f11e17b290f9447a`.
 
-`reports/bifrost-csharp-kernel.json` was produced after the v0.2.0 freeze with
-Bifrost v0.10.2, build identity `57060b8b062330ab3e9804e1f11e17b290f9447a`, and
-covers all 32 C# core assertions with raw evidence under
-`reports/raw/bifrost-csharp-kernel/`. It contains 1 `reached`, 1
+The 32-case C# kernel, in its own report `reports/bifrost-csharp-kernel.json`
+with raw evidence under `reports/raw/bifrost-csharp-kernel/`, was produced after
+the v0.2.0 freeze with the same v0.10.2 build identity
+`57060b8b062330ab3e9804e1f11e17b290f9447a`. It contains 1 `reached`, 1
 `not-reached`, and 30 `inconclusive` results: only the direct-propagation pair
 is decisive, and both of its outcomes match the expected polarity. The 30
 inconclusive results retain `partial_discovery` (20) or `capability_incomplete`

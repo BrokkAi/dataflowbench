@@ -1,0 +1,62 @@
+{
+  "schema_version": 2,
+  "id": "dfb-taint-kotlin-object-separation-negative",
+  "template_id": "dfb-template-object-separation",
+  "polarity": "negative",
+  "negative_mechanism": "object-separation",
+  "score_tier": "core",
+  "track": "taint",
+  "language": "kotlin",
+  "semantic_dimensions": [
+    "heap-field-sensitivity",
+    "object-sensitivity"
+  ],
+  "feature_tags": [
+    "heap-access-path"
+  ],
+  "model_profile": "benchmark-controlled",
+  "fixture_files": [
+    "ObjectSeparationNegative.kt"
+  ],
+  "source_anchors": [
+    {
+      "marker": "DFB-SOURCE: object-separation-input",
+      "file": "ObjectSeparationNegative.kt"
+    }
+  ],
+  "sink_anchors": [
+    {
+      "marker": "DFB-SINK: object-separation-sink",
+      "file": "ObjectSeparationNegative.kt"
+    }
+  ],
+  "expected_flows": [],
+  "expected_nonflows": [
+    {
+      "source": "DFB-SOURCE: object-separation-input",
+      "sink": "DFB-SINK: object-separation-sink"
+    }
+  ],
+  "witness_checkpoints": [],
+  "expected_analysis_capability": {
+    "kind": "heap-object-sensitive-taint"
+  },
+  "execution_budget": {
+    "wall_clock_seconds": 60,
+    "peak_memory_mb": 512
+  },
+  "fixture_provenance": {
+    "kind": "authored",
+    "origin": "DataFlowBench",
+    "revision": "m2-kotlin-kernel",
+    "license": "MIT"
+  },
+  "tool_model_references": {
+    "bifrost": {
+      "policy": "adapters/bifrost/policies/core-kotlin-kernel.rqlp"
+    },
+    "codeql": {
+      "query": "adapters/codeql/kotlin/queries/KotlinKernel.ql"
+    }
+  }
+}
