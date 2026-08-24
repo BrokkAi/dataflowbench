@@ -89,6 +89,15 @@ Keep the Python, Java, and direct-flow result populations separate; a partial
 or unsupported Python path remains capability evidence rather than a negative.
 Language-only constructs live in `language-extension` scorecards.
 
+The remaining ten languages — C, C++, C#, Go, Kotlin, PHP, Ruby, Rust, Scala,
+and TypeScript — are classified in the [applicability
+matrix](applicability-matrix.md). It fixes each language's core denominator
+before any fixture is written: 15 templates for C and Rust, whose
+exception-catch cell has no semantics-preserving native construct, and 16 for
+the rest. Language-only constructs are routed to `language-extension`
+scorecards instead of being dropped, and implementation is sequenced in three
+tranches with one bounded child issue per language.
+
 The Python CodeQL vertical slice is defined independently of the Bifrost
 results. Its runner selects exactly the 32 Python core assertions (16 balanced
 positive/negative template pairs), creates one isolated database per case, and
