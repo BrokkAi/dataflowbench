@@ -2507,7 +2507,7 @@ fn bifrost_policy_for<'a>(case: &'a Value, run: BifrostRun) -> Result<&'a str> {
 
 fn selected_bifrost_case(case: &Value, run: BifrostRun) -> bool {
     match run {
-        BifrostRun::Smoke => has_bifrost_model_reference(case),
+        BifrostRun::Smoke => has_bifrost_model_reference(case) && smoke_population_case(case),
         BifrostRun::KotlinKernel => kotlin_core_case(case),
         BifrostRun::PythonKernel => {
             case["language"] == "python"
@@ -2587,6 +2587,31 @@ fn typescript_kernel_policy(policy: &str) -> bool {
 fn has_bifrost_model_reference(case: &Value) -> bool {
     let model = &case["tool_model_references"]["bifrost"];
     model.is_object() && (model["policy"].is_string() || model["unsupported_reason"].is_string())
+}
+
+/// The smoke population is frozen by contract: the 13-language direct-flow
+/// breadth pairs, the Java and JavaScript propagation kernels, the Python
+/// parity kernel, and the calibration cases — 118 cases in total. Every later
+/// language kernel has its own dedicated `run-bifrost-<language>-kernel`
+/// population, so its policy must never leak into the smoke selection even
+/// though its cases also carry Bifrost model references.
+fn smoke_population_case(case: &Value) -> bool {
+    let model = &case["tool_model_references"]["bifrost"];
+    if model["unsupported_reason"].is_string() {
+        return true;
+    }
+    const SMOKE_POLICIES: [&str; 7] = [
+        "adapters/bifrost/policies/core-direct.rqlp",
+        "adapters/bifrost/policies/direct-positive.rqlp",
+        "adapters/bifrost/policies/explicit-negative.rqlp",
+        "adapters/bifrost/policies/one-hop-positive.rqlp",
+        "adapters/bifrost/policies/core-java-kernel.rqlp",
+        "adapters/bifrost/policies/core-javascript-kernel.rqlp",
+        "adapters/bifrost/policies/core-python-kernel.rqlp",
+    ];
+    model["policy"]
+        .as_str()
+        .is_some_and(|policy| SMOKE_POLICIES.contains(&policy))
 }
 
 fn bifrost_result(
@@ -7648,5 +7673,31 @@ mod tests {
             scorecard_identifier(&mut used, "Test.Adapter", &report).unwrap(),
             "test-adapter-taint-taint-benchmark-controlled-2"
         );
+    }
+    /// The smoke population must stay pinned to its frozen 118-case contract:
+    /// dedicated language-kernel policies never leak into it.
+    #[test]
+    fn smoke_selection_is_pinned_to_the_frozen_population() {
+        let mut selected = 0usize;
+        for path in case_paths() {
+            let case: Value = serde_json::from_str(&fs::read_to_string(&path).unwrap()).unwrap();
+            if selected_bifrost_case(&case, BifrostRun::Smoke) {
+                selected += 1;
+                let policy = case["tool_model_references"]["bifrost"]["policy"].as_str();
+                if let Some(policy) = policy {
+                    assert!(
+                        !policy.contains("kotlin")
+                            && !policy.contains("typescript")
+                            && !policy.contains("csharp")
+                            && !policy.contains("go")
+                            && !policy.contains("rust")
+                            && !policy.contains("core-c-kernel")
+                            && !policy.contains("core-cpp-kernel"),
+                        "smoke selected a dedicated-kernel policy: {policy}"
+                    );
+                }
+            }
+        }
+        assert_eq!(selected, 118, "the smoke population is frozen at 118 cases");
     }
 }
