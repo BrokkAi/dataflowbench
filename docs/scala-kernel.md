@@ -25,20 +25,19 @@ negative results.
 | Heap/separation | `dfb-template-object-separation` | Two instances of a `class Holder` with a `var` field stand in for distinct Java objects. |
 | Heap/separation | `dfb-template-same-object-field-separation` | One `Holder` carries separate `tainted` and `clean` fields. |
 | Heap/separation | `dfb-template-alias-propagation-separation` | Assignment of an object reference creates the alias; a second `new Holder()` remains distinct. |
-| Heap/separation | `dfb-template-array-element-separation` | **Language-adapted in surface form.** `new Array[Int](2)` with distinct constant indices stands in for the Java `int[]`; Scala indexes with `values(0)` rather than `values[0]`. |
+| Heap/separation | `dfb-template-array-element-separation` | `new Array[Int](2)` with distinct constant indices stands in for the Java `int[]`; Scala spells element access `values(0)` rather than `values[0]`, which is surface syntax, not an adaptation. |
 | Control transfer | `dfb-template-infeasible-branch` | Literal `true`/`false` conditions make the tainted path feasible or unreachable. |
 | Control transfer | `dfb-template-branch-join` | **Language-adapted.** A statement-form `if`/`else` assigns to a `var`, rather than Scala's idiomatic expression-valued `if`; the negative overwrites on both branches, the positive leaves one path tainted. |
 | Control transfer | `dfb-template-loop-carried-kill` | **Language-adapted.** A `var` carried across a `while` loop is either overwritten or computed from. Scala has no C-style `for`, and a `for` comprehension over a range does not express a mutable carried value; a `while` loop over a `var` preserves the kill/compute distinction. |
 | Control transfer | `dfb-template-exception-catch` | Directly applicable: `class FlowException extends RuntimeException` carries an `Int` field across `throw` and a `catch { case caught: FlowException => ... }` handler. |
 
-Four cells deviate from the Java construct, exactly as
-`docs/applicability-matrix.md` classifies them:
-`dfb-template-local-overwrite-kill` and `dfb-template-loop-carried-kill`
-require `var` where Java uses a plain mutable local (and the loop is a `while`
-rather than a `for`), `dfb-template-branch-join` requires the statement form of
-`if`/`else`, and `dfb-template-array-element-separation` spells element access
-`values(i)` under `Array[T]`. Every other cell is directly applicable, matching
-the matrix exactly.
+Exactly the three cells the matrix marks adapted deviate from the Java
+construct: `dfb-template-local-overwrite-kill` and
+`dfb-template-loop-carried-kill` require `var` where Java uses a plain mutable
+local (and the loop is a `while` rather than a `for`), and
+`dfb-template-branch-join` requires the statement form of `if`/`else` rather
+than Scala's expression-valued `if`. Every other cell is directly applicable,
+matching the matrix exactly.
 
 All Scala fixtures use the benchmark-controlled `dfb_source` and `dfb_sink`
 method names inside a `package dataflowbench` object, mirroring the Scala
