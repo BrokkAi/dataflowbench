@@ -63,10 +63,16 @@ contract](../../docs/cpp-kernel.md). The Rust parity slice uses
 `core-rust-kernel.rqlp` under the same frozen-direct-pair arrangement as C# and
 Go, and carries the same reduced denominator as C for a different reason:
 `docs/applicability-matrix.md` classifies `exception-catch` as inapplicable to
-Rust, so the Rust core population is 15 templates and 30 assertions, and the
-`Result`/`?` construct Rust uses instead is carried by a `language-extension`
-pair that the run also evaluates but never counts in the core denominator; see
-[the Rust kernel contract](../../docs/rust-kernel.md). The PHP parity slice uses
+Rust. Rust's challenge-tier row has now rolled out too, so its core population
+is **27 templates and 54 assertions** — the 15 classic templates plus the 12
+challenge templates `docs/challenge-tier.md` classifies as applicable, the
+reflective-invocation cell being inapplicable to a language with no run-time
+reflection. The `Result`/`?` construct Rust uses instead of exception catch is
+carried by a `language-extension` pair that the run also evaluates but never
+counts in the core denominator; see
+[the Rust kernel contract](../../docs/rust-kernel.md). The retained Rust report
+is the classic 30 — it is freeze-bound by v0.3.0, so its expanded run is
+deferred to the v0.4.0 freeze-prep re-run rather than written here. The PHP parity slice uses
 `core-php-kernel.rqlp` under the same frozen-direct-pair arrangement as C#, Go,
 and Rust, and covers all 16 templates (32 core assertions); see [the PHP kernel
 contract](../../docs/php-kernel.md) for its ordered-map array adaptation and for
@@ -84,8 +90,9 @@ pinned Joern has no Scala source frontend, so Bifrost is the only tool that
 produces Scala results at all. See
 [the Scala kernel contract](../../docs/scala-kernel.md). Every kernel command
 selects only its own language's core assertions — 32 for the 16-template
-kernels, 30 for C and Rust, 58 for the expanded 29-template kernels, and 56
-for C++, whose expanded core is 28 templates — and writes a dedicated report. The Java
+kernels, 48 for the expanded 24-template C kernel, 54 for the expanded
+27-template Rust kernel, 56 for the expanded 28-template C++ kernel, and 58
+for the expanded 29-template kernels — and writes a dedicated report. The Java
 calibration slice also
 covers one-hop helper flow. Generated workspaces live outside the repository so
 repository ignore rules cannot hide fixtures from Bifrost's indexer. Sanitizer
@@ -312,7 +319,10 @@ same-object field separation, alias propagation, and array element — retain
 raw runs that complete as `failed` with `internal_invariant` ("semantic IR
 gap_contract error in procedure 2: gap 8 duplicates the same scoped fact"): a
 failed evaluation is an execution error, normalized as `runner-error`, and is
-never counted as a negative.
+never counted as a negative. That report is the classic 30-assertion population
+only: Rust's core is now 54 assertions, but the report is freeze-bound by
+v0.3.0, so **the expanded Bifrost Rust evidence is pending the v0.4.0
+freeze-prep re-run** and this snapshot is not an expanded-core number.
 
 The 32-case Ruby kernel, in its own report `reports/bifrost-ruby-kernel.json`
 with raw evidence under `reports/raw/bifrost-ruby-kernel/`, contains **32
