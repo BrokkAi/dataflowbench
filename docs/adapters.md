@@ -16,7 +16,7 @@ The initial adapter plan is:
 | Bifrost | Breadth baseline and Java, JavaScript, and Python propagation kernels | Implemented smoke adapter; kernel runs are reported separately |
 | CodeQL | 16-template Java, JavaScript, and Python propagation kernels | Java, JavaScript, and Python runners implemented as separate language-scoped populations |
 | Joern | Java, JavaScript, Python, Ruby, and PHP 16-template propagation kernels plus the 15-template Rust kernel | Implemented as six separate language-scoped populations over one CPG query script |
-| Semgrep CE | Supported local analysis only | Implemented as seven separate language-scoped populations over one committed taint rule per language; only the documented intraprocedural partition is scored |
+| Semgrep CE | Supported local analysis only | Implemented as eleven separate language-scoped populations over one committed taint rule per language; only the documented intraprocedural partition is scored. Four front ends are non-GA in the pinned distribution (Kotlin `beta`; Rust, C, C++ `alpha`) and the label is retained without ever changing the partition |
 | OpenTaint | Java and Kotlin profile | Planned |
 
 No adapter may synthesize a tool result. If a supported case cannot complete,
@@ -185,13 +185,32 @@ frontend coverage, model assumptions, and the observed per-language results.
 
 ## Semgrep CE language populations
 
-The Semgrep adapter keeps Java, JavaScript, TypeScript, Python, Go, Ruby, and
-PHP as seven separate populations. Each command selects exactly 32 `taint` cases
-runner-side by language, track, and score tier, exactly as the Joern kernels do,
-and each has its own report (`reports/semgrep-<language>-kernel.json`) and its
-own retained-evidence root (`reports/raw/semgrep-<language>-kernel/`). No case
-declares a Semgrep model reference: the v0.3.0 freeze digest-binds every
-`case.json` byte, so the invocation is pinned in the runner instead.
+The Semgrep adapter keeps Java, JavaScript, TypeScript, Python, Go, Ruby, PHP,
+Kotlin, Rust, C, and C++ as eleven separate populations. Each command selects
+that language's whole core `taint` population runner-side by language, track,
+and score tier, exactly as the Joern kernels do, and each has its own report
+(`reports/semgrep-<language>-kernel.json`) and its own retained-evidence root
+(`reports/raw/semgrep-<language>-kernel/`). No case declares a Semgrep model
+reference: the v0.3.0 freeze digest-binds every `case.json` byte, so the
+invocation is pinned in the runner instead.
+
+Nine of the eleven select 32 assertions. **C and Rust select 30**: their
+exception-catch cell is inapplicable in `applicability-matrix.md`, so they are
+balance-checked against the fifteen-template
+`KERNEL_TEMPLATE_IDS_WITHOUT_EXCEPTION_CATCH` set the CodeQL and Bifrost C and
+Rust kernels already use. The `score_tier == "core"` filter keeps C's
+error-code-return and goto-cleanup cases and Rust's `Result`/`?` pair — all
+`language-extension` — out of the core denominator.
+
+Four front ends are not GA in the pinned distribution. Its shipped
+`semgrep_interfaces/lang.json` records `kotlin` at `beta` and `rust`, `c`, and
+`cpp` at `alpha`; the other seven are `ga`. The label is retained on the first
+`diagnostics` entry of every normalized result and in every capability-decision
+document, the way the CodeQL adapter records its Rust extractor's public preview
+status, and it is never an input to the partition: `semgrep_capability_exclusion`
+reads only `feature_tags` and `expected_analysis_capability`, so it cannot see a
+language. Taint mode was verified to function on all four before they were wired
+up.
 
 Semgrep CE is the one adapter here whose scored population is a strict subset of
 its selected population, and that subset is defined by documentation rather than
@@ -204,23 +223,28 @@ both marked Pro. The scored profile is therefore intra-file, intraprocedural,
 flow-sensitive, path-insensitive taint — that is, the `intraprocedural`
 partition of each kernel: 7 templates and 14 assertions.
 
-The other 9 templates — the `interprocedural-one-hop`, `interprocedural-deep`,
-and `heap-access-path` partitions, 18 assertions — are `unsupported`. That
-decision is taken from each case's own `feature_tags` and
+The remaining templates — the `interprocedural-one-hop`,
+`interprocedural-deep`, and `heap-access-path` partitions, 18 assertions in a
+16-template kernel and 16 in C and Rust — are `unsupported`. That decision is
+taken from each case's own `feature_tags` and
 `expected_analysis_capability.kind` *before* Semgrep is invoked, so an
 out-of-profile case never reaches a Semgrep process and cannot produce an empty
 finding list that later reads as a false negative. Each retains a
 capability-decision document naming the documented boundary it falls outside.
-The full 32-assertion selection is still balance-checked by the same
-`validate_kernel_population_with` every other kernel uses; the bounded profile
-narrows what is scored, never what is selected.
+The whole selection is still balance-checked by the same
+`validate_kernel_population_with` every other kernel uses, against that
+language's own template set; the bounded profile narrows what is scored, never
+what is selected. The scored subset is 14 assertions in all eleven languages,
+because every intraprocedural template is applicable everywhere.
 
 Rules are benchmark-controlled and committed under `adapters/semgrep/rules/`,
 one `mode: taint` rule per language. Because endpoint identifiers vary per
 fixture, each rule carries `__DFB_SOURCE__`/`__DFB_SINK__` placeholders that the
 runner resolves per case from that fixture's own `DFB-SOURCE:` and `DFB-SINK:`
 marker lines — the same resolver the Joern kernels use. Every report's
-`configuration_hash` is a SHA-256 over all seven committed rule files, and the
+`configuration_hash` is a SHA-256 over all eleven committed rule files, so
+adding the four new ones invalidated the seven existing reports and all eleven
+kernels were re-run rather than four being appended beside a stale hash. The
 exact resolved rule each case was analyzed under is retained beside its finding
 document. `--metrics=off` and `--oss-only` are passed on every invocation, and a
 finding reporting any engine other than `OSS` is a `runner-error` rather than a
@@ -236,18 +260,28 @@ freeze's raw-evidence guard — now also refuses a Semgrep document whose `error
 array is non-empty, so a failed scan's well-formed empty `results` list can
 never be frozen next to a clean negative.
 
-All seven kernels ran on Semgrep CE 1.174.0 (`semgrep-oss:1.174.0`, Homebrew).
-Each produced 9 `reached`, 5 `not-reached`, and 18 `unsupported`, with zero
-`inconclusive` and zero `runner-error` outcomes, and 12/14 of each scored
+All eleven kernels ran on Semgrep CE 1.174.0 (`semgrep-oss:1.174.0`, Homebrew).
+Each produced 9 `reached`, 5 `not-reached`, and its whole remainder
+`unsupported` — 18 for the nine 16-template kernels, 16 for C and Rust — with
+zero `inconclusive` and zero `runner-error` outcomes, and 12/14 of each scored
 subset matching the expected polarity. Every intraprocedural positive is
-`reached` in every language; the two mismatches, identical in all seven, are
+`reached` in every language; the two mismatches, identical in all eleven, are
 false positives on `infeasible-branch-negative` and `loop-carried-negative` —
-precisely the path sensitivity the pinned CLI documents as Pro-only. C# is
-named in that CLI's own `--pro-languages` text and so cannot be run under CE at
-all; Kotlin, Scala, Rust, C, and C++ have CE parsers but were not run. See the
-[Semgrep adapter notes](../adapters/semgrep/README.md) for the pinned version,
-the documented-scope citations, the per-language partition, and the model
-assumptions.
+precisely the path sensitivity the pinned CLI documents as Pro-only. The four
+non-GA front ends score exactly what the seven GA ones score, which says the
+mismatch belongs to the shared engine rather than to any parser; it is not a
+general claim about those parsers, since the scored partition exercises only
+local propagation inside one function.
+
+C# is named in that CLI's own `--pro-languages` text and so cannot be run under
+CE at all — a tool limitation, permanent under the current pin. **Scala is
+different in kind**: the pinned distribution records `scala` at `ga`, more
+mature than three of the four languages just added, and nothing in the engine
+blocks it. It is left recorded-only because the maintainer scoped it out, and
+that is written down so its absence is never read as a Semgrep limitation. See
+the [Semgrep adapter notes](../adapters/semgrep/README.md) for the pinned
+version, the documented-scope and maturity citations, the per-language
+partition, and the model assumptions.
 
 The checked-in Bifrost snapshot (`reports/bifrost-smoke.json`) contains 118
 normalized results from Bifrost v0.10.2 build identity

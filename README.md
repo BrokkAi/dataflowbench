@@ -45,11 +45,15 @@ adapter. CodeQL is implemented for all ten propagation kernels, one language-sco
 command and one separate result population per language. Joern is implemented
 for the Java, JavaScript, Python, Ruby, PHP, and Rust propagation kernels on the
 same terms.
-Semgrep CE is implemented for seven languages as a deliberately bounded
+Semgrep CE is implemented for eleven languages as a deliberately bounded
 adapter: only the intraprocedural partition its pinned distribution documents
 the open-source taint engine as covering is scored, and the interprocedural and
 heap templates are `unsupported` by a capability decision taken from the case
-metadata before Semgrep is ever invoked.
+metadata before Semgrep is ever invoked. Four of its front ends are not GA in
+that distribution — Kotlin `beta`, Rust/C/C++ `alpha` — and the label is
+retained on every assertion without ever changing the partition. Scala is left
+recorded-only by maintainer decision rather than by any tool limitation; C# is
+Pro-only and cannot be run on CE at all.
 
 ## Quick start
 
@@ -89,6 +93,10 @@ cargo run -- run-semgrep-python-kernel --semgrep /path/to/semgrep
 cargo run -- run-semgrep-go-kernel --semgrep /path/to/semgrep
 cargo run -- run-semgrep-ruby-kernel --semgrep /path/to/semgrep
 cargo run -- run-semgrep-php-kernel --semgrep /path/to/semgrep
+cargo run -- run-semgrep-kotlin-kernel --semgrep /path/to/semgrep
+cargo run -- run-semgrep-rust-kernel --semgrep /path/to/semgrep
+cargo run -- run-semgrep-c-kernel --semgrep /path/to/semgrep
+cargo run -- run-semgrep-cpp-kernel --semgrep /path/to/semgrep
 ```
 
 The Bifrost smoke command requires a current Bifrost build with policy CLI
@@ -140,23 +148,28 @@ four Ruby cases in opposite directions at an unchanged 26/32. See the
 tagging model, frontend coverage, drift analysis, and per-language mismatch
 lists.
 
-The seven Semgrep commands require only a Semgrep CE installation. They write
-`reports/semgrep-<language>-kernel.json` and keep, per case, either the native
-`--json` finding document plus the exact resolved rule it was analyzed under, or
-a capability-decision document for a case outside the scored profile. The
-retained snapshot used Semgrep CE 1.174.0 (Homebrew) with `--oss-only` and
-`--metrics=off` on every scan. Only the 14-assertion intraprocedural partition
-of each kernel is scored — the pinned CLI documents interprocedural taint,
-cross-file taint, and path sensitivity as Pro Engine features, so the other 18
-assertions are `unsupported` rather than false negatives. All seven kernels
-produced 9 `reached`, 5 `not-reached`, and 18 `unsupported`, with no
-`inconclusive` or `runner-error` outcome and 12/14 of each scored subset
-matching the expected polarity; every intraprocedural positive was found in
-every language. The two mismatches are the same in all seven — false positives
-on the infeasible branch and the loop-carried kill, exactly the path
-sensitivity the pinned CLI sells as Pro. See the
+The eleven Semgrep commands require only a Semgrep CE installation — no
+compiler, no JVM, no `Cargo.toml`, not even for the C, C++, Rust, and Kotlin
+kernels. They write `reports/semgrep-<language>-kernel.json` and keep, per case,
+either the native `--json` finding document plus the exact resolved rule it was
+analyzed under, or a capability-decision document for a case outside the scored
+profile. The retained snapshot used Semgrep CE 1.174.0 (Homebrew) with
+`--oss-only` and `--metrics=off` on every scan. Only the 14-assertion
+intraprocedural partition of each kernel is scored — the pinned CLI documents
+interprocedural taint, cross-file taint, and path sensitivity as Pro Engine
+features, so the rest is `unsupported` rather than false negatives. All eleven
+kernels produced 9 `reached`, 5 `not-reached`, and the whole remainder
+`unsupported` (18 for the nine 16-template kernels, 16 for C and Rust, whose
+exception-catch cell is inapplicable), with no `inconclusive` or `runner-error`
+outcome and 12/14 of each scored subset matching the expected polarity; every
+intraprocedural positive was found in every language. The two mismatches are the
+same in all eleven — false positives on the infeasible branch and the
+loop-carried kill, exactly the path sensitivity the pinned CLI sells as Pro. The
+four non-GA front ends score identically to the seven GA ones on this narrow
+partition, which is a result about local propagation and not a general claim
+about those parsers. See the
 [Semgrep adapter evidence](adapters/semgrep/README.md) for the pinned version,
-the documented-scope citations, and the per-language partition.
+the documented-scope and maturity citations, and the per-language partition.
 
 The checked-in Bifrost v0.10.5 snapshot contains 118 normalized results:
 58 `reached`, 57 `not-reached`, 2 `inconclusive`, and 1 `unsupported`. It was

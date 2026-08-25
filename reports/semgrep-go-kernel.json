@@ -1,13 +1,14 @@
 {
   "adapter_version": "0.1.0",
   "cold_or_warm": "cold",
-  "configuration_hash": "9f63e0d815c646341c868a2e9ea2c0215ebe53dedaa9d01faaf52d8a2201983e",
-  "ended_at_unix_seconds": 1787644732,
+  "configuration_hash": "865d0bd2989f9ddd0b90f2d6675584e86706b109a033d4a1ac00bd21a617b100",
+  "ended_at_unix_seconds": 1787646335,
   "fixture_revision": "sha256:aee59a14f96633cf5798df6d211525ea0d10748800ba9c9ac0a3787406bd19ea",
   "results": [
     {
       "case_id": "dfb-taint-go-alias-propagation-negative",
       "diagnostics": [
+        "pinned Semgrep CE records the Go front end's maturity as \"ga\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition",
         "outside the bounded Semgrep CE profile: the case declares a heap access path; the pinned CE engine documents only \"Experimental support for basic field-sensitive taint tracking\", with index sensitivity and inter-procedural field sensitivity both recorded as Pro-only. The case requires \"heap-alias-sensitive-taint\"; the scored CE profile is the kernel's `intraprocedural` partition only."
       ],
       "duration_ms": 0,
@@ -25,6 +26,7 @@
     {
       "case_id": "dfb-taint-go-alias-propagation-positive",
       "diagnostics": [
+        "pinned Semgrep CE records the Go front end's maturity as \"ga\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition",
         "outside the bounded Semgrep CE profile: the case declares a heap access path; the pinned CE engine documents only \"Experimental support for basic field-sensitive taint tracking\", with index sensitivity and inter-procedural field sensitivity both recorded as Pro-only. The case requires \"heap-alias-sensitive-taint\"; the scored CE profile is the kernel's `intraprocedural` partition only."
       ],
       "duration_ms": 0,
@@ -42,6 +44,7 @@
     {
       "case_id": "dfb-taint-go-argument-position-negative",
       "diagnostics": [
+        "pinned Semgrep CE records the Go front end's maturity as \"ga\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition",
         "outside the bounded Semgrep CE profile: the case declares an interprocedural relay; Semgrep CE has no interprocedural taint at all (`--pro-intrafile`, \"Intra-file inter-procedural taint analysis ... Requires Semgrep Pro Engine\"). The case requires \"argument-sensitive-interprocedural-taint\"; the scored CE profile is the kernel's `intraprocedural` partition only."
       ],
       "duration_ms": 0,
@@ -59,6 +62,7 @@
     {
       "case_id": "dfb-taint-go-argument-position-positive",
       "diagnostics": [
+        "pinned Semgrep CE records the Go front end's maturity as \"ga\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition",
         "outside the bounded Semgrep CE profile: the case declares an interprocedural relay; Semgrep CE has no interprocedural taint at all (`--pro-intrafile`, \"Intra-file inter-procedural taint analysis ... Requires Semgrep Pro Engine\"). The case requires \"argument-sensitive-interprocedural-taint\"; the scored CE profile is the kernel's `intraprocedural` partition only."
       ],
       "duration_ms": 0,
@@ -76,6 +80,7 @@
     {
       "case_id": "dfb-taint-go-array-element-negative",
       "diagnostics": [
+        "pinned Semgrep CE records the Go front end's maturity as \"ga\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition",
         "outside the bounded Semgrep CE profile: the case declares a heap access path; the pinned CE engine documents only \"Experimental support for basic field-sensitive taint tracking\", with index sensitivity and inter-procedural field sensitivity both recorded as Pro-only. The case requires \"heap-array-element-sensitive-taint\"; the scored CE profile is the kernel's `intraprocedural` partition only."
       ],
       "duration_ms": 0,
@@ -93,6 +98,7 @@
     {
       "case_id": "dfb-taint-go-array-element-positive",
       "diagnostics": [
+        "pinned Semgrep CE records the Go front end's maturity as \"ga\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition",
         "outside the bounded Semgrep CE profile: the case declares a heap access path; the pinned CE engine documents only \"Experimental support for basic field-sensitive taint tracking\", with index sensitivity and inter-procedural field sensitivity both recorded as Pro-only. The case requires \"heap-array-element-sensitive-taint\"; the scored CE profile is the kernel's `intraprocedural` partition only."
       ],
       "duration_ms": 0,
@@ -109,8 +115,10 @@
     },
     {
       "case_id": "dfb-taint-go-branch-join-negative",
-      "diagnostics": [],
-      "duration_ms": 1192,
+      "diagnostics": [
+        "pinned Semgrep CE records the Go front end's maturity as \"ga\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition"
+      ],
+      "duration_ms": 2004,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/semgrep-go-kernel/dfb-taint-go-branch-join-negative.json",
@@ -124,8 +132,10 @@
     },
     {
       "case_id": "dfb-taint-go-branch-join-positive",
-      "diagnostics": [],
-      "duration_ms": 1167,
+      "diagnostics": [
+        "pinned Semgrep CE records the Go front end's maturity as \"ga\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition"
+      ],
+      "duration_ms": 2187,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/semgrep-go-kernel/dfb-taint-go-branch-join-positive.json",
@@ -140,6 +150,7 @@
     {
       "case_id": "dfb-taint-go-call-context-negative",
       "diagnostics": [
+        "pinned Semgrep CE records the Go front end's maturity as \"ga\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition",
         "outside the bounded Semgrep CE profile: the case declares an interprocedural relay; Semgrep CE has no interprocedural taint at all (`--pro-intrafile`, \"Intra-file inter-procedural taint analysis ... Requires Semgrep Pro Engine\"). The case requires \"context-sensitive-interprocedural-taint\"; the scored CE profile is the kernel's `intraprocedural` partition only."
       ],
       "duration_ms": 0,
@@ -157,6 +168,7 @@
     {
       "case_id": "dfb-taint-go-call-context-positive",
       "diagnostics": [
+        "pinned Semgrep CE records the Go front end's maturity as \"ga\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition",
         "outside the bounded Semgrep CE profile: the case declares an interprocedural relay; Semgrep CE has no interprocedural taint at all (`--pro-intrafile`, \"Intra-file inter-procedural taint analysis ... Requires Semgrep Pro Engine\"). The case requires \"context-sensitive-interprocedural-taint\"; the scored CE profile is the kernel's `intraprocedural` partition only."
       ],
       "duration_ms": 0,
@@ -173,8 +185,10 @@
     },
     {
       "case_id": "dfb-taint-go-direct-negative",
-      "diagnostics": [],
-      "duration_ms": 1185,
+      "diagnostics": [
+        "pinned Semgrep CE records the Go front end's maturity as \"ga\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition"
+      ],
+      "duration_ms": 1661,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/semgrep-go-kernel/dfb-taint-go-direct-negative.json",
@@ -188,8 +202,10 @@
     },
     {
       "case_id": "dfb-taint-go-direct-positive",
-      "diagnostics": [],
-      "duration_ms": 1195,
+      "diagnostics": [
+        "pinned Semgrep CE records the Go front end's maturity as \"ga\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition"
+      ],
+      "duration_ms": 2122,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/semgrep-go-kernel/dfb-taint-go-direct-positive.json",
@@ -204,6 +220,7 @@
     {
       "case_id": "dfb-taint-go-exception-catch-negative",
       "diagnostics": [
+        "pinned Semgrep CE records the Go front end's maturity as \"ga\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition",
         "outside the bounded Semgrep CE profile: the case declares an exceptional value transfer, which the pinned CE taint documentation nowhere claims to model. The case requires \"exception-sensitive-intraprocedural-taint\"; the scored CE profile is the kernel's `intraprocedural` partition only."
       ],
       "duration_ms": 0,
@@ -221,6 +238,7 @@
     {
       "case_id": "dfb-taint-go-exception-catch-positive",
       "diagnostics": [
+        "pinned Semgrep CE records the Go front end's maturity as \"ga\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition",
         "outside the bounded Semgrep CE profile: the case declares an exceptional value transfer, which the pinned CE taint documentation nowhere claims to model. The case requires \"exception-sensitive-intraprocedural-taint\"; the scored CE profile is the kernel's `intraprocedural` partition only."
       ],
       "duration_ms": 0,
@@ -237,8 +255,10 @@
     },
     {
       "case_id": "dfb-taint-go-expression-negative",
-      "diagnostics": [],
-      "duration_ms": 1139,
+      "diagnostics": [
+        "pinned Semgrep CE records the Go front end's maturity as \"ga\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition"
+      ],
+      "duration_ms": 2156,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/semgrep-go-kernel/dfb-taint-go-expression-negative.json",
@@ -252,8 +272,10 @@
     },
     {
       "case_id": "dfb-taint-go-expression-positive",
-      "diagnostics": [],
-      "duration_ms": 1146,
+      "diagnostics": [
+        "pinned Semgrep CE records the Go front end's maturity as \"ga\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition"
+      ],
+      "duration_ms": 2540,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/semgrep-go-kernel/dfb-taint-go-expression-positive.json",
@@ -267,8 +289,10 @@
     },
     {
       "case_id": "dfb-taint-go-infeasible-branch-negative",
-      "diagnostics": [],
-      "duration_ms": 1196,
+      "diagnostics": [
+        "pinned Semgrep CE records the Go front end's maturity as \"ga\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition"
+      ],
+      "duration_ms": 3579,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/semgrep-go-kernel/dfb-taint-go-infeasible-branch-negative.json",
@@ -282,8 +306,10 @@
     },
     {
       "case_id": "dfb-taint-go-infeasible-branch-positive",
-      "diagnostics": [],
-      "duration_ms": 1124,
+      "diagnostics": [
+        "pinned Semgrep CE records the Go front end's maturity as \"ga\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition"
+      ],
+      "duration_ms": 2296,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/semgrep-go-kernel/dfb-taint-go-infeasible-branch-positive.json",
@@ -297,8 +323,10 @@
     },
     {
       "case_id": "dfb-taint-go-local-chain-negative",
-      "diagnostics": [],
-      "duration_ms": 1173,
+      "diagnostics": [
+        "pinned Semgrep CE records the Go front end's maturity as \"ga\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition"
+      ],
+      "duration_ms": 1490,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/semgrep-go-kernel/dfb-taint-go-local-chain-negative.json",
@@ -312,8 +340,10 @@
     },
     {
       "case_id": "dfb-taint-go-local-chain-positive",
-      "diagnostics": [],
-      "duration_ms": 1199,
+      "diagnostics": [
+        "pinned Semgrep CE records the Go front end's maturity as \"ga\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition"
+      ],
+      "duration_ms": 1417,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/semgrep-go-kernel/dfb-taint-go-local-chain-positive.json",
@@ -327,8 +357,10 @@
     },
     {
       "case_id": "dfb-taint-go-local-overwrite-negative",
-      "diagnostics": [],
-      "duration_ms": 1156,
+      "diagnostics": [
+        "pinned Semgrep CE records the Go front end's maturity as \"ga\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition"
+      ],
+      "duration_ms": 1344,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/semgrep-go-kernel/dfb-taint-go-local-overwrite-negative.json",
@@ -342,8 +374,10 @@
     },
     {
       "case_id": "dfb-taint-go-local-overwrite-positive",
-      "diagnostics": [],
-      "duration_ms": 1194,
+      "diagnostics": [
+        "pinned Semgrep CE records the Go front end's maturity as \"ga\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition"
+      ],
+      "duration_ms": 1750,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/semgrep-go-kernel/dfb-taint-go-local-overwrite-positive.json",
@@ -357,8 +391,10 @@
     },
     {
       "case_id": "dfb-taint-go-loop-carried-negative",
-      "diagnostics": [],
-      "duration_ms": 1151,
+      "diagnostics": [
+        "pinned Semgrep CE records the Go front end's maturity as \"ga\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition"
+      ],
+      "duration_ms": 4044,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/semgrep-go-kernel/dfb-taint-go-loop-carried-negative.json",
@@ -372,8 +408,10 @@
     },
     {
       "case_id": "dfb-taint-go-loop-carried-positive",
-      "diagnostics": [],
-      "duration_ms": 1183,
+      "diagnostics": [
+        "pinned Semgrep CE records the Go front end's maturity as \"ga\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition"
+      ],
+      "duration_ms": 1962,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/semgrep-go-kernel/dfb-taint-go-loop-carried-positive.json",
@@ -388,6 +426,7 @@
     {
       "case_id": "dfb-taint-go-object-separation-negative",
       "diagnostics": [
+        "pinned Semgrep CE records the Go front end's maturity as \"ga\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition",
         "outside the bounded Semgrep CE profile: the case declares a heap access path; the pinned CE engine documents only \"Experimental support for basic field-sensitive taint tracking\", with index sensitivity and inter-procedural field sensitivity both recorded as Pro-only. The case requires \"heap-object-sensitive-taint\"; the scored CE profile is the kernel's `intraprocedural` partition only."
       ],
       "duration_ms": 0,
@@ -405,6 +444,7 @@
     {
       "case_id": "dfb-taint-go-object-separation-positive",
       "diagnostics": [
+        "pinned Semgrep CE records the Go front end's maturity as \"ga\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition",
         "outside the bounded Semgrep CE profile: the case declares a heap access path; the pinned CE engine documents only \"Experimental support for basic field-sensitive taint tracking\", with index sensitivity and inter-procedural field sensitivity both recorded as Pro-only. The case requires \"heap-object-sensitive-taint\"; the scored CE profile is the kernel's `intraprocedural` partition only."
       ],
       "duration_ms": 0,
@@ -422,9 +462,10 @@
     {
       "case_id": "dfb-taint-go-return-relay-one-hop-negative",
       "diagnostics": [
+        "pinned Semgrep CE records the Go front end's maturity as \"ga\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition",
         "outside the bounded Semgrep CE profile: the case declares an interprocedural relay; Semgrep CE has no interprocedural taint at all (`--pro-intrafile`, \"Intra-file inter-procedural taint analysis ... Requires Semgrep Pro Engine\"). The case requires \"interprocedural-return-taint\"; the scored CE profile is the kernel's `intraprocedural` partition only."
       ],
-      "duration_ms": 0,
+      "duration_ms": 1,
       "outcome": "unsupported",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/semgrep-go-kernel/dfb-taint-go-return-relay-one-hop-negative-unsupported.json",
@@ -439,6 +480,7 @@
     {
       "case_id": "dfb-taint-go-return-relay-one-hop-positive",
       "diagnostics": [
+        "pinned Semgrep CE records the Go front end's maturity as \"ga\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition",
         "outside the bounded Semgrep CE profile: the case declares an interprocedural relay; Semgrep CE has no interprocedural taint at all (`--pro-intrafile`, \"Intra-file inter-procedural taint analysis ... Requires Semgrep Pro Engine\"). The case requires \"interprocedural-return-taint\"; the scored CE profile is the kernel's `intraprocedural` partition only."
       ],
       "duration_ms": 0,
@@ -456,6 +498,7 @@
     {
       "case_id": "dfb-taint-go-return-relay-two-hop-negative",
       "diagnostics": [
+        "pinned Semgrep CE records the Go front end's maturity as \"ga\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition",
         "outside the bounded Semgrep CE profile: the case declares a multi-hop interprocedural relay; Semgrep CE has no interprocedural taint at all (`--pro-intrafile`, \"Intra-file inter-procedural taint analysis ... Requires Semgrep Pro Engine\"). The case requires \"two-hop-interprocedural-return-taint\"; the scored CE profile is the kernel's `intraprocedural` partition only."
       ],
       "duration_ms": 0,
@@ -473,6 +516,7 @@
     {
       "case_id": "dfb-taint-go-return-relay-two-hop-positive",
       "diagnostics": [
+        "pinned Semgrep CE records the Go front end's maturity as \"ga\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition",
         "outside the bounded Semgrep CE profile: the case declares a multi-hop interprocedural relay; Semgrep CE has no interprocedural taint at all (`--pro-intrafile`, \"Intra-file inter-procedural taint analysis ... Requires Semgrep Pro Engine\"). The case requires \"two-hop-interprocedural-return-taint\"; the scored CE profile is the kernel's `intraprocedural` partition only."
       ],
       "duration_ms": 0,
@@ -490,6 +534,7 @@
     {
       "case_id": "dfb-taint-go-same-object-field-negative",
       "diagnostics": [
+        "pinned Semgrep CE records the Go front end's maturity as \"ga\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition",
         "outside the bounded Semgrep CE profile: the case declares a heap access path; the pinned CE engine documents only \"Experimental support for basic field-sensitive taint tracking\", with index sensitivity and inter-procedural field sensitivity both recorded as Pro-only. The case requires \"heap-field-sensitive-taint\"; the scored CE profile is the kernel's `intraprocedural` partition only."
       ],
       "duration_ms": 0,
@@ -507,6 +552,7 @@
     {
       "case_id": "dfb-taint-go-same-object-field-positive",
       "diagnostics": [
+        "pinned Semgrep CE records the Go front end's maturity as \"ga\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition",
         "outside the bounded Semgrep CE profile: the case declares a heap access path; the pinned CE engine documents only \"Experimental support for basic field-sensitive taint tracking\", with index sensitivity and inter-procedural field sensitivity both recorded as Pro-only. The case requires \"heap-field-sensitive-taint\"; the scored CE profile is the kernel's `intraprocedural` partition only."
       ],
       "duration_ms": 0,
@@ -523,7 +569,7 @@
     }
   ],
   "schema_version": 1,
-  "started_at_unix_seconds": 1787644715,
+  "started_at_unix_seconds": 1787646303,
   "tool": "semgrep",
   "tool_build_identity": "semgrep-oss:1.174.0",
   "tool_version": "1.174.0"
