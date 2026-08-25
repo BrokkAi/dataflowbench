@@ -210,6 +210,12 @@ contract](docs/go-kernel.md), the [C](docs/c-kernel.md) and
 contract](docs/rust-kernel.md) do the same for C#, Go, C, C++, and Rust; all
 of that evidence is frozen in the published v0.3.0 release.
 
+The [Java kernel contract](docs/java-kernel.md) records the origin population
+and the first landed wave of the [challenge-tier
+expansion](docs/challenge-tier.md), which grows the Java core to 29 templates
+and 58 assertions. That expanded population is unreleased and is a different
+population from the v0.3.0 core; the two are never compared number to number.
+
 ## Licenses and provenance
 
 Code, schemas, adapters, tools, and authored fixtures are [MIT](LICENSE).

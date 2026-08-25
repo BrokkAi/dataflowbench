@@ -117,7 +117,7 @@ data-flow engine, with no per-case, per-template, or per-polarity branching.
 
 The two endpoint identifiers are **read out of the fixture**, never assumed.
 The runner resolves each case's `DFB-SOURCE:` and `DFB-SINK:` marker line and
-takes the function declared on it. This matters: 30 of the 32 Java assertions
+takes the function declared on it. This matters: 56 of the 58 Java assertions
 spell the endpoints `dfb_source`/`dfb_sink`, but the two frozen Java
 direct-propagation assertions predate that convention and spell them
 `directUntrustedInput`/`recordDirect` and
@@ -222,16 +222,24 @@ lands on the *callsite*, so matching does not require the marker's own line.
 ## Observed results
 
 Joern 4.0.610, build identity `joern-cli:4.0.610`. All six kernels ran on the
-same pinned distribution, the same unmodified script, and the same fixture
-revision `sha256:aee59a14f96633cf5798df6d211525ea0d10748800ba9c9ac0a3787406bd19ea`,
-so every retained Joern report carries one `tool_version` and the single
-configuration hash above. Every case in all six kernels executed: 190 retained
-evidence documents, zero error documents, zero `inconclusive`, `unsupported`,
-or `runner-error` outcomes.
+same pinned distribution and the same unmodified script, so every retained
+Joern report carries one `tool_version` and the single configuration hash
+above. Every case in all six kernels executed: 216 retained evidence documents,
+zero error documents, zero `inconclusive`, `unsupported`, or `runner-error`
+outcomes.
+
+Five kernels carry fixture revision
+`sha256:aee59a14f96633cf5798df6d211525ea0d10748800ba9c9ac0a3787406bd19ea`. The
+**Java kernel was re-run over its expanded core** and carries
+`sha256:f476894a41d283e3bcaaf5188ee08abe7886ce8e3919257403b0aa853ef718e2`:
+`fixture_revision` digests the whole case corpus, so the 26 Java
+challenge-tier cases moved it for every future run. The other five reports
+remain valid evidence for the populations they were run against and are re-run
+together at the v0.4.0 freeze prep.
 
 | Kernel | `reached` | `not-reached` | Polarity match |
 | --- | --- | --- | --- |
-| Java (`javasrc2cpg`) | 16 | 16 | 28/32 |
+| Java (`javasrc2cpg`), expanded core | 26 | 32 | 47/58 |
 | JavaScript (`jssrc2cpg`) | 18 | 14 | 26/32 |
 | Python (`pysrc2cpg`) | 16 | 16 | 28/32 |
 | Ruby (`rubysrc2cpg`) | 18 | 14 | 26/32 |
@@ -240,16 +248,50 @@ or `runner-error` outcomes.
 
 Rust's denominator is 30, not 32, because its exception-catch cell is
 inapplicable; the ratios are not comparable across a different denominator and
-are not averaged.
+are not averaged. **Java's denominator is 58** — its
+[challenge-tier expansion](../../docs/challenge-tier.md) has landed — so its
+ratio is not comparable with the five 32- and 30-assertion ones either, and a
+58-assertion Java score is never compared with the 32-assertion Java score this
+table carried before.
 
 Mismatches, verbatim:
 
-**Java** — `reports/joern-java-kernel.json`
+**Java** — `reports/joern-java-kernel.json`, 47/58 over the expanded core:
+28/32 on the classic sixteen templates and 19/26 on the challenge tier.
+
+The classic four are unchanged from the previous Java run, case for case:
 
 - `dfb-taint-java-alias-propagation-positive`: false negative.
 - `dfb-taint-java-exception-catch-positive`: false negative.
 - `dfb-taint-java-infeasible-branch-negative`: false positive.
 - `dfb-taint-java-loop-carried-negative`: false positive.
+
+The challenge seven, by stratum — A 3/6, B 5/8, C **6/6**, D 5/6:
+
+- `dfb-taint-java-reflective-invocation-positive`: false negative.
+- `dfb-taint-java-dispatch-table-positive`: false negative.
+- `dfb-taint-java-computed-property-negative`: false positive.
+- `dfb-taint-java-callback-registration-positive`: false negative.
+- `dfb-taint-java-function-field-positive`: false negative.
+- `dfb-taint-java-anonymous-implementation-negative`: false positive.
+- `dfb-taint-java-deep-relay-chain-positive`: false negative.
+
+These are approximation character, and the preregistration says so in advance
+rather than after the fact. The engine declines to resolve a callee named by a
+run-time string or fetched from a map, a field, or a list — so those positives
+are missed and their negatives are correct without the callee having been
+resolved — while it merges the two anonymous implementations of one interface
+and merges two distinct constant keys of one reflected field, producing the two
+false positives. The container stratum is answered completely.
+
+`dfb-taint-java-deep-relay-chain-positive` is a **predicted** miss, and the
+prediction is on the record before the run: this distribution's
+`io.joern.dataflowengineoss.queryengine.EngineConfig` default `maxCallDepth` is
+4, verified from the shipped jar, and the challenge chain is deliberately six
+hops. **This adapter did not raise that bound.** No `maxCallDepth` override is
+configured anywhere in the runner or the script, so the run's identity is the
+documented default; had it been raised, that would have been reported as part
+of the run's identity rather than tuned in silently.
 
 **JavaScript** — `reports/joern-javascript-kernel.json`
 
@@ -293,7 +335,8 @@ Four mismatching templates recur across the five 16-template languages — alias
 propagation through a field and value transfer to an exception handler are
 missed everywhere, and the infeasible branch and the loop-carried kill are
 over-approximated everywhere — which is what a shared engine over
-language-specific frontends should look like. Java, Python, and PHP show
+language-specific frontends should look like. Java (on its classic sixteen
+templates), Python, and PHP show
 exactly that set and nothing else; JavaScript adds array-element and
 same-object-field over-approximation; Ruby adds argument-position and
 call-context over-approximation.
@@ -317,9 +360,13 @@ The five pre-existing kernels were re-run rather than carried over, so the
 upgrade's effect on each is measured, not assumed. Four of the five reproduced
 `4.0.432` case-for-case:
 
+This comparison is over the 32-assertion classic population both pins were run
+against; Java's later expanded-core run reproduces the same classic 28/32 and
+the same four mismatches, so the row below still reads case for case.
+
 | Kernel | `4.0.432` | `4.0.610` | Drift |
 | --- | --- | --- | --- |
-| Java | 28/32 | 28/32 | none; identical mismatch set |
+| Java (classic 32) | 28/32 | 28/32 | none; identical mismatch set |
 | JavaScript | 26/32 | 26/32 | none; identical mismatch set |
 | Python | 28/32 | 28/32 | none; identical mismatch set |
 | PHP | 28/32 | 28/32 | none; identical mismatch set |

@@ -1,0 +1,19 @@
+{
+  "adapter": "semgrep",
+  "case_id": "dfb-taint-java-computed-property-negative",
+  "engine_profile": "semgrep-ce-oss-intrafile-intraprocedural-taint",
+  "evidence_kind": "retained-capability-decision",
+  "expected_analysis_capability": {
+    "kind": "computed-member-access-taint"
+  },
+  "feature_tags": [
+    "computed-access",
+    "reflective-dispatch"
+  ],
+  "language": "java",
+  "language_maturity": "ga",
+  "language_maturity_source": "semgrep_interfaces/lang.json (pinned distribution)",
+  "reason": "outside the bounded Semgrep CE profile: the case is outside the documented CE local/intraprocedural taint profile. The case requires \"computed-member-access-taint\"; the scored CE profile is the kernel's `intraprocedural` partition only.",
+  "stage": "declared-capability",
+  "state": "unsupported"
+}

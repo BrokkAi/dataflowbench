@@ -13,9 +13,9 @@ The initial adapter plan is:
 
 | Tool | Initial profile | Status |
 | --- | --- | --- |
-| Bifrost | Breadth baseline and Java, JavaScript, and Python propagation kernels | Implemented smoke adapter; kernel runs are reported separately |
+| Bifrost | Breadth baseline and Java, JavaScript, and Python propagation kernels | Implemented smoke adapter; kernel runs are reported separately, including a dedicated Java slice for its expanded core |
 | CodeQL | 16-template Java, JavaScript, and Python propagation kernels | Java, JavaScript, and Python runners implemented as separate language-scoped populations |
-| Joern | Java, JavaScript, Python, Ruby, and PHP 16-template propagation kernels plus the 15-template Rust kernel | Implemented as six separate language-scoped populations over one CPG query script |
+| Joern | Java's 29-template expanded kernel, the JavaScript, Python, Ruby, and PHP 16-template kernels, and the 15-template Rust kernel | Implemented as six separate language-scoped populations over one CPG query script |
 | Semgrep CE | Supported local analysis only | Implemented as eleven separate language-scoped populations over one committed taint rule per language; only the documented intraprocedural partition is scored. Four front ends are non-GA in the pinned distribution (Kotlin `beta`; Rust, C, C++ `alpha`) and the label is retained without ever changing the partition |
 | OpenTaint | Java and Kotlin profile | Planned |
 
@@ -24,6 +24,42 @@ emit `inconclusive` or `runner-error` with the raw evidence. If it is outside
 a documented tool profile, emit `unsupported`; it is excluded from
 false-negative interpretation. An incomplete or failed run must never become
 `not-reached` merely because the SARIF result list is empty.
+
+## Challenge-tier rollout mechanics
+
+[The challenge-tier preregistration](challenge-tier.md) adds thirteen templates
+to the core, language by language, in waves. `CHALLENGE_ROLLOUT` in
+`src/main.rs` is the machine-readable form of that plan: one row per language,
+carrying the applicable challenge templates the preregistered matrix fixes for
+it — thirteen for most languages, twelve for C++ and Rust, nine for C — and a
+`rolled_out` flag.
+
+A wave's change is small by construction. It lands that language's fixtures and
+flips exactly one `rolled_out` flag; every population check in the binary then
+reads that language's denominator from `expanded_core_templates`, which is its
+classic sixteen (or fifteen) templates plus its applicable challenge set. The
+per-language balance checks, the Bifrost `expected_core_cases` guard, and the
+Joern, Semgrep, and CodeQL kernel selections all take the denominator from that
+one function, so nothing else in the adapter layer has to know about the tier.
+
+Two invariants are enforced rather than trusted:
+
+- **A rollout expands one language only.** A language whose flag is still down
+  keeps exactly the denominator it was published with, and a committed
+  challenge case whose language has not flipped is a validation failure.
+- **The Bifrost smoke population never grows.** A challenge case of an
+  already-smoke-covered language declares that language's kernel policy, so it
+  would otherwise join the smoke slice and move a number the v0.3.0 freeze
+  binds. `smoke_population_case` excludes the challenge tier outright and the
+  smoke population stays pinned at its frozen 118 cases; challenge evidence
+  lives in the dedicated `run-bifrost-<language>-kernel` slices.
+
+Because the tier folds into `core` rather than forming a new score tier, an
+expanded-core number and a v0.3.0 core number are different populations of the
+same name and are never compared. Where an expanded-population re-run would
+have to overwrite a freeze-bound report, the run is deferred to the next
+freeze-prep re-run and the deferral is recorded in that language's kernel
+contract, so a reader never mistakes deferral for absence of coverage.
 
 ## CodeQL language populations
 
@@ -225,7 +261,8 @@ partition of each kernel: 7 templates and 14 assertions.
 
 The remaining templates — the `interprocedural-one-hop`,
 `interprocedural-deep`, and `heap-access-path` partitions, 18 assertions in a
-16-template kernel and 16 in C and Rust — are `unsupported`. That decision is
+16-template kernel, 16 in C and Rust, and 44 in Java's 29-template expanded
+core — are `unsupported`. That decision is
 taken from each case's own `feature_tags` and
 `expected_analysis_capability.kind` *before* Semgrep is invoked, so an
 out-of-profile case never reaches a Semgrep process and cannot produce an empty
@@ -235,7 +272,9 @@ The whole selection is still balance-checked by the same
 `validate_kernel_population_with` every other kernel uses, against that
 language's own template set; the bounded profile narrows what is scored, never
 what is selected. The scored subset is 14 assertions in all eleven languages,
-because every intraprocedural template is applicable everywhere.
+because every intraprocedural template is applicable everywhere — and it stays
+14 in a language whose challenge tier has rolled out, because no challenge
+template carries the `intraprocedural` tag.
 
 Rules are benchmark-controlled and committed under `adapters/semgrep/rules/`,
 one `mode: taint` rule per language. Because endpoint identifiers vary per
