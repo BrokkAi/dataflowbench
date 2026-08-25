@@ -311,6 +311,19 @@ the single justified family issue. Fixture implementation for a language must
 not begin before its child issue records the adapter and analyzer coverage
 stated above.
 
+## Companion matrix: the challenge tier
+
+This matrix fixes the sixteen-template core. A second, preregistered population
+of thirteen harder templates — dynamic dispatch and reflection, higher-order
+flow, containers and deep access paths, and context/depth stress — is classified
+with the same `direct`/`adapted`/`n/a` discipline in the
+[challenge-tier document](challenge-tier.md), across all thirteen kernel
+languages including Java, JavaScript, and Python. Those templates are also
+`core`, so the denominators recorded above are superseded from v0.4.0 onward by
+the expanded ones stated there (24 for C, 27 for Rust, 28 for C++, 29 for the
+other ten); the two populations are never compared number-to-number, and the
+frozen v0.3.0 evidence built on the sixteen-template denominators stays valid.
+
 ## Invariants
 
 These restate the [scoring contract](scoring.md) and hold for every language
