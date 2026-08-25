@@ -620,7 +620,7 @@ challenge thirteen — which is why 15 + 12 = 27 rather than 16 + 13 = 29.
 
 ### Adaptations, per the preregistration's Rust row
 
-Six cells are **directly applicable** and needed no adaptation. The five
+Seven cells are **directly applicable** and needed no adaptation. The five
 `language-adapted` cells are the ones the preregistration names for Rust, and
 each is implemented as it prescribes:
 
