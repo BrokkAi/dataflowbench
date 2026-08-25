@@ -510,7 +510,7 @@ Installed frontends: `abap2cpg`, `c2cpg`, `csharpsrc2cpg`, `ghidra2cpg`,
 | C++ | `c2cpg` | Available, not yet in scope |
 | C# | `csharpsrc2cpg` | Available, not yet in scope |
 | Go | `gosrc2cpg` | Available, not yet in scope |
-| Kotlin | `kotlin2cpg` | Available, not yet in scope |
+| Kotlin | `kotlin2cpg` | Available, not yet in scope (unchanged by Kotlin's challenge-tier expansion: no Joern Kotlin slice exists here to expand) |
 | TypeScript | `jssrc2cpg` | Available, not yet in scope |
 | Rust | `rust2cpg` | Executed here (new in `4.0.610`; needs a synthesized Cargo manifest) |
 | **Scala** | **none (source)** | **Explicitly unsupported** |

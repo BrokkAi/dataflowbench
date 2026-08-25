@@ -104,8 +104,9 @@ fixture's `feature_tags` and no observed result can move a case between the
 partitions. The per-template rationale is in
 [the Semgrep adapter notes](../adapters/semgrep/README.md).
 
-**Python, JavaScript, Java, C#, TypeScript, and Go are the rows flipped so
-far.** Each has a core
+**Python, JavaScript, Java, C#, TypeScript, Kotlin, and Go are the rows
+flipped so far.**
+Each has a core
 denominator of 29 templates and 58 assertions. The Python wave re-ran the
 adapters no freeze binds — Joern and Semgrep CE — while leaving its
 freeze-bound Bifrost and CodeQL reports exactly as published; the JavaScript
@@ -134,6 +135,19 @@ because the pinned distribution lists it as a Pro-only language. The C#
 challenge fixtures, the flipped row, and the validation battery land now; all
 expanded C# evidence arrives at the v0.4.0 re-run. See [the C# kernel
 contract](csharp-kernel.md).
+
+Kotlin is the sparsest case and is worth stating explicitly, because a reader
+could otherwise mistake it for missing coverage. **Both** of Kotlin's
+analyzer reports — `reports/bifrost-kotlin-kernel.json` and
+`reports/codeql-kotlin-kernel.json` — are freeze-bound, so both adapters are
+deferred to the v0.4.0 re-run; Joern has no Kotlin slice in this repository at
+all (its `kotlin2cpg` frontend exists upstream and is recorded as available but
+out of scope); so Semgrep CE is the only adapter this wave could run over
+Kotlin's expanded population, and it did. The per-adapter evidence, including
+which adapters were deferred, is in [the Python kernel
+contract](python-kernel.md), [the JavaScript adaptation
+matrix](javascript-kernel.md), and [the Kotlin kernel
+contract](kotlin-kernel.md).
 
 ## CodeQL language populations
 
