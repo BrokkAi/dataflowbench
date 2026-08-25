@@ -9,6 +9,9 @@
   "feature_tags": [
     "heap-access-path"
   ],
+  "language": "go",
+  "language_maturity": "ga",
+  "language_maturity_source": "semgrep_interfaces/lang.json (pinned distribution)",
   "reason": "outside the bounded Semgrep CE profile: the case declares a heap access path; the pinned CE engine documents only \"Experimental support for basic field-sensitive taint tracking\", with index sensitivity and inter-procedural field sensitivity both recorded as Pro-only. The case requires \"heap-array-element-sensitive-taint\"; the scored CE profile is the kernel's `intraprocedural` partition only.",
   "stage": "declared-capability",
   "state": "unsupported"

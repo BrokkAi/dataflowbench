@@ -9,6 +9,9 @@
   "feature_tags": [
     "interprocedural-deep"
   ],
+  "language": "java",
+  "language_maturity": "ga",
+  "language_maturity_source": "semgrep_interfaces/lang.json (pinned distribution)",
   "reason": "outside the bounded Semgrep CE profile: the case declares a multi-hop interprocedural relay; Semgrep CE has no interprocedural taint at all (`--pro-intrafile`, \"Intra-file inter-procedural taint analysis ... Requires Semgrep Pro Engine\"). The case requires \"two-hop-interprocedural-return-taint\"; the scored CE profile is the kernel's `intraprocedural` partition only.",
   "stage": "declared-capability",
   "state": "unsupported"
