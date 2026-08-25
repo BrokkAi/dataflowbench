@@ -1,0 +1,65 @@
+{
+  "schema_version": 2,
+  "id": "dfb-taint-rust-nested-access-path-positive",
+  "template_id": "dfb-template-chal-nested-access-path",
+  "polarity": "positive",
+  "score_tier": "core",
+  "track": "taint",
+  "language": "rust",
+  "semantic_dimensions": [
+    "heap-field-sensitivity",
+    "object-sensitivity"
+  ],
+  "feature_tags": [
+    "heap-access-path"
+  ],
+  "model_profile": "benchmark-controlled",
+  "fixture_files": [
+    "nested_access_path_positive.rs"
+  ],
+  "source_anchors": [
+    {
+      "marker": "DFB-SOURCE: nested-access-path-input",
+      "file": "nested_access_path_positive.rs"
+    }
+  ],
+  "sink_anchors": [
+    {
+      "marker": "DFB-SINK: nested-access-path-sink",
+      "file": "nested_access_path_positive.rs"
+    }
+  ],
+  "expected_flows": [
+    {
+      "source": "DFB-SOURCE: nested-access-path-input",
+      "sink": "DFB-SINK: nested-access-path-sink"
+    }
+  ],
+  "expected_nonflows": [],
+  "witness_checkpoints": [
+    "DFB-SOURCE: nested-access-path-input",
+    "DFB-WITNESS: nested-access-path-store",
+    "DFB-SINK: nested-access-path-sink"
+  ],
+  "expected_analysis_capability": {
+    "kind": "deep-access-path-sensitive-taint"
+  },
+  "execution_budget": {
+    "wall_clock_seconds": 60,
+    "peak_memory_mb": 512
+  },
+  "fixture_provenance": {
+    "kind": "authored",
+    "origin": "DataFlowBench",
+    "revision": "m3-challenge-rust",
+    "license": "MIT"
+  },
+  "tool_model_references": {
+    "bifrost": {
+      "policy": "adapters/bifrost/policies/core-rust-kernel.rqlp"
+    },
+    "codeql": {
+      "query": "adapters/codeql/rust/queries/RustKernel.ql"
+    }
+  }
+}

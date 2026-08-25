@@ -15,7 +15,7 @@ The initial adapter plan is:
 | --- | --- | --- |
 | Bifrost | Breadth baseline and per-language propagation kernels | Implemented smoke adapter; kernel runs are reported separately. Both the Java and the JavaScript kernel commands have now been run over their expanded 29-template cores |
 | CodeQL | 16-template Java and JavaScript propagation kernels and the 29-template expanded Python kernel | Java, JavaScript, and Python runners implemented as separate language-scoped populations |
-| Joern | Ruby and PHP 16-template propagation kernels, the 15-template Rust kernel, and the 29-template expanded Java, Python, and JavaScript kernels | Implemented as six separate language-scoped populations over one CPG query script |
+| Joern | Ruby and PHP 16-template propagation kernels, the 27-template expanded Rust kernel, and the 29-template expanded Java, Python, and JavaScript kernels | Implemented as six separate language-scoped populations over one CPG query script |
 | Semgrep CE | Supported local analysis only | Implemented as eleven separate language-scoped populations over one committed taint rule per language; only the documented intraprocedural partition is scored. Four front ends are non-GA in the pinned distribution (Kotlin `beta`; Rust, C, C++ `alpha`) and the label is retained without ever changing the partition |
 | OpenTaint | Java and Kotlin profile | Planned |
 
@@ -104,10 +104,15 @@ fixture's `feature_tags` and no observed result can move a case between the
 partitions. The per-template rationale is in
 [the Semgrep adapter notes](../adapters/semgrep/README.md).
 
-**Python, JavaScript, Java, C#, TypeScript, Kotlin, and Go are the rows
-flipped so far.**
-Each has a core
-denominator of 29 templates and 58 assertions. The Python wave re-ran the
+**Python, JavaScript, Java, C#, TypeScript, Kotlin, Go, C++, C, and Rust are
+the rows flipped so far.** The first seven have a core
+denominator of 29 templates and 58 assertions; **C++'s is 28 templates and 56
+assertions**, **Rust's is 27 templates and 54 assertions**, and **C's is 24
+templates and 48 assertions**, because some cells are inapplicable to those
+languages — `exception-catch` from the classic sixteen for both C and Rust,
+`chal-reflective-invocation` from the challenge thirteen for both C++ and
+Rust, and three further challenge cells for C. An inapplicable cell reduces
+only its own language's denominator. The Python wave re-ran the
 adapters no freeze binds — Joern and Semgrep CE — while leaving its
 freeze-bound Bifrost and CodeQL reports exactly as published; the JavaScript
 and Java waves re-ran Joern and Semgrep CE too, and each additionally ran its
@@ -124,6 +129,13 @@ deferred, is in [the Python kernel contract](python-kernel.md), [the JavaScript
 adaptation matrix](javascript-kernel.md), [the Java kernel
 contract](java-kernel.md), [the TypeScript adaptation
 matrix](typescript-kernel.md), and [the Go kernel contract](go-kernel.md).
+
+The Rust wave ran **Joern and Semgrep CE** over its whole expanded
+54-assertion population — `reports/joern-rust-kernel.json` and
+`reports/semgrep-rust-kernel.json` are both post-freeze and bind nothing — and
+deferred **both** Bifrost and CodeQL, whose Rust reports are digest-bound by
+v0.3.0. It is the first engine evidence on any systems language's challenge
+strata; see [the Rust kernel contract](rust-kernel.md).
 
 The C# wave ran **no adapter at all**, and that is the honest consequence of the
 freeze rule rather than a gap in the wave. Every analyzer that covers C# is
@@ -149,7 +161,7 @@ contract](python-kernel.md), [the JavaScript adaptation
 matrix](javascript-kernel.md), and [the Kotlin kernel
 contract](kotlin-kernel.md).
 
-The C wave is the first with a **reduced** challenge set: four of the thirteen
+The C wave carries the most sharply **reduced** challenge set: four of the thirteen
 templates are inapplicable to C, so its expanded core is 24 templates / 48
 assertions rather than 29 / 58. Like TypeScript, it could run **only Semgrep
 CE** — `reports/bifrost-c-kernel.json` and `reports/codeql-c-kernel.json` are
@@ -352,11 +364,14 @@ invocation is pinned in the runner instead.
 Five of the eleven select 32 assertions. **Python, JavaScript, TypeScript, and
 Go select 58** each, their expanded 29-template cores; every one of their 26
 challenge assertions falls in the `unsupported` partition, so each scored
-subset is the same 14 as everyone else's. **C and Rust select 30**: their
-exception-catch cell is inapplicable in `applicability-matrix.md`, so they are
-balance-checked against the fifteen-template
-`KERNEL_TEMPLATE_IDS_WITHOUT_EXCEPTION_CATCH` set the CodeQL and Bifrost C and
-Rust kernels already use. The `score_tier == "core"` filter keeps C's
+subset is the same 14 as everyone else's. **Rust selects 54**, its expanded
+27-template core — 15 classic plus 12 challenge templates, both reduced
+denominators being inapplicable cells that reduce only Rust's own count — and
+all 24 of its challenge assertions likewise fall in the `unsupported`
+partition. **C selects 30**: its exception-catch cell is inapplicable in
+`applicability-matrix.md`, so it is balance-checked against the
+fifteen-template `KERNEL_TEMPLATE_IDS_WITHOUT_EXCEPTION_CATCH` set the CodeQL
+and Bifrost C and Rust kernels already use. The `score_tier == "core"` filter keeps C's
 error-code-return and goto-cleanup cases and Rust's `Result`/`?` pair — all
 `language-extension` — out of the core denominator.
 
@@ -383,9 +398,11 @@ partition of each kernel: 7 templates and 14 assertions.
 
 The remaining templates — the `interprocedural-one-hop`,
 `interprocedural-deep`, and `heap-access-path` partitions, 18 assertions in a
-16-template kernel, 16 in C and Rust, and 44 in each of the expanded
-29-template Java, Python, JavaScript, TypeScript, and Go kernels, whose
-thirteen challenge templates are all outside the profile — are `unsupported`. That decision is
+16-template kernel, 34 in the expanded 24-template C kernel, 40 in the
+expanded 27-template Rust kernel, 42 in the expanded 28-template C++ kernel,
+and 44 in each of the expanded 29-template Java, Python, JavaScript,
+TypeScript, Kotlin, and Go kernels, whose challenge
+templates are all outside the profile — are `unsupported`. That decision is
 taken from each case's own `feature_tags` and
 `expected_analysis_capability.kind` *before* Semgrep is invoked, so an
 out-of-profile case never reaches a Semgrep process and cannot produce an empty
@@ -424,8 +441,10 @@ never be frozen next to a clean negative.
 
 All eleven kernels ran on Semgrep CE 1.174.0 (`semgrep-oss:1.174.0`, Homebrew).
 Each produced 9 `reached`, 5 `not-reached`, and its whole remainder
-`unsupported` — 18 for the five unexpanded 16-template kernels, 16 for C and
-Rust, 44 each for the expanded Python, JavaScript, TypeScript, and Go kernels — with
+`unsupported` — 18 each for the two unexpanded 16-template PHP and Ruby
+kernels, 34 for the expanded C kernel, 40 for the expanded Rust kernel, 42 for
+the expanded C++ kernel, and 44 each for the expanded Java, Python,
+JavaScript, TypeScript, Kotlin, and Go kernels — with
 zero `inconclusive` and zero `runner-error` outcomes, and 12/14 of each scored
 subset matching the expected polarity. Every intraprocedural positive is
 `reached` in every language; the two mismatches, identical in all eleven, are

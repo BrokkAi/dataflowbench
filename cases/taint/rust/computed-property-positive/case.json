@@ -1,0 +1,64 @@
+{
+  "schema_version": 2,
+  "id": "dfb-taint-rust-computed-property-positive",
+  "template_id": "dfb-template-chal-computed-property",
+  "polarity": "positive",
+  "score_tier": "core",
+  "track": "taint",
+  "language": "rust",
+  "semantic_dimensions": [
+    "heap-field-sensitivity"
+  ],
+  "feature_tags": [
+    "computed-access"
+  ],
+  "model_profile": "benchmark-controlled",
+  "fixture_files": [
+    "computed_property_positive.rs"
+  ],
+  "source_anchors": [
+    {
+      "marker": "DFB-SOURCE: computed-property-input",
+      "file": "computed_property_positive.rs"
+    }
+  ],
+  "sink_anchors": [
+    {
+      "marker": "DFB-SINK: computed-property-sink",
+      "file": "computed_property_positive.rs"
+    }
+  ],
+  "expected_flows": [
+    {
+      "source": "DFB-SOURCE: computed-property-input",
+      "sink": "DFB-SINK: computed-property-sink"
+    }
+  ],
+  "expected_nonflows": [],
+  "witness_checkpoints": [
+    "DFB-SOURCE: computed-property-input",
+    "DFB-WITNESS: computed-property-store",
+    "DFB-SINK: computed-property-sink"
+  ],
+  "expected_analysis_capability": {
+    "kind": "computed-member-access-taint"
+  },
+  "execution_budget": {
+    "wall_clock_seconds": 60,
+    "peak_memory_mb": 512
+  },
+  "fixture_provenance": {
+    "kind": "authored",
+    "origin": "DataFlowBench",
+    "revision": "m3-challenge-rust",
+    "license": "MIT"
+  },
+  "tool_model_references": {
+    "bifrost": {
+      "policy": "adapters/bifrost/policies/core-rust-kernel.rqlp"
+    },
+    "codeql": {
+      "query": "adapters/codeql/rust/queries/RustKernel.ql"
+    }
+  }
+}
