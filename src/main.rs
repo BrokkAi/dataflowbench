@@ -22,8 +22,6 @@ const CODEQL_JAVASCRIPT_REPORT: &str = "reports/codeql-javascript-kernel.json";
 const CODEQL_TYPESCRIPT_QUERY: &str = "adapters/codeql/typescript/queries/TypeScriptKernel.ql";
 const CODEQL_TYPESCRIPT_RAW_DIR: &str = "reports/raw/codeql-typescript";
 const CODEQL_TYPESCRIPT_REPORT: &str = "reports/codeql-typescript-kernel.json";
-const CODEQL_ECMA_CASE_COUNT: usize = 32;
-const CODEQL_ECMA_TEMPLATE_COUNT: usize = 16;
 const CODEQL_PYTHON_QUERY: &str = "adapters/codeql/python/queries/PythonKernel.ql";
 const CODEQL_KOTLIN_QUERY: &str = "adapters/codeql/kotlin/queries/KotlinKernel.ql";
 const CODEQL_KOTLIN_RAW_DIR: &str = "reports/raw/codeql-kotlin-kernel";
@@ -93,6 +91,24 @@ const GO_MODULE_MANIFEST: &str = "module dataflowbench\n\ngo 1.21\n";
 /// published v0.2.0 evidence, so they keep this policy reference while still
 /// belonging to their kernel's 16 balanced templates.
 const BIFROST_DIRECT_POLICY: &str = "adapters/bifrost/policies/core-direct.rqlp";
+/// The two single-assertion policies the frozen Java direct-propagation pair
+/// declares: the positive names `direct-positive.rqlp` and the negative names
+/// `explicit-negative.rqlp`. Both predate the Java kernel command and are bound
+/// byte-for-byte by the v0.2.0 and v0.3.0 freeze manifests, so the Java kernel
+/// accepts them the way the Kotlin, C#, Go, and C-family kernels accept the
+/// cross-language breadth policy — by accommodating the frozen reference rather
+/// than rewriting published evidence.
+const BIFROST_DIRECT_POSITIVE_POLICY: &str = "adapters/bifrost/policies/direct-positive.rqlp";
+const BIFROST_EXPLICIT_NEGATIVE_POLICY: &str = "adapters/bifrost/policies/explicit-negative.rqlp";
+/// The language-qualified Bifrost policy every Java kernel assertion is
+/// evaluated with. As with Kotlin and Scala, the frozen direct-propagation pair
+/// names its own historical policies, so the run pins this one for the whole
+/// population and every assertion shares one configuration hash.
+const BIFROST_JAVA_POLICY: &str = "adapters/bifrost/policies/core-java-kernel.rqlp";
+/// The language-qualified Bifrost policy every JavaScript kernel assertion is
+/// evaluated with. Its frozen direct-propagation pair names the cross-language
+/// breadth policy instead, on the same precedent.
+const BIFROST_JAVASCRIPT_POLICY: &str = "adapters/bifrost/policies/core-javascript-kernel.rqlp";
 /// The language-qualified Bifrost policy that every Kotlin kernel assertion is
 /// evaluated with. Two of the 32 Kotlin core assertions — the
 /// `dfb-template-direct-propagation` pair — were frozen in v0.2.0 as part of
@@ -110,7 +126,11 @@ const BIFROST_KOTLIN_POLICY: &str = "adapters/bifrost/policies/core-kotlin-kerne
 /// policy in its case metadata, so the run pins this policy for the whole
 /// population and all 32 assertions share one configuration.
 const BIFROST_SCALA_POLICY: &str = "adapters/bifrost/policies/core-scala-kernel.rqlp";
-/// One positive and one negative assertion for each scored template.
+/// One positive and one negative assertion for each scored template. Runner-side
+/// population checks read their denominator from `expected_core_case_count`,
+/// which follows the rollout table; this constant is the fixed classic
+/// expectation the regression tests pin against.
+#[cfg(test)]
 const KERNEL_CASE_COUNT: usize = 2 * KERNEL_TEMPLATE_IDS.len();
 /// The sixteen scored propagation templates. Every language kernel preserves
 /// these identities exactly; see docs/applicability-matrix.md.
@@ -164,14 +184,24 @@ const KERNEL_TEMPLATE_IDS_WITHOUT_EXCEPTION_CATCH: [&str; 15] = [
     "dfb-template-same-object-field-separation",
 ];
 /// One positive and one negative assertion for each template a 15-template
-/// kernel scores.
+/// kernel scores. Runner-side population checks read their denominator from
+/// `expected_core_case_count`, which follows the rollout table; this constant
+/// is the fixed classic expectation the regression tests pin against.
+#[cfg(test)]
 const KERNEL_CASE_COUNT_WITHOUT_EXCEPTION_CATCH: usize =
     2 * KERNEL_TEMPLATE_IDS_WITHOUT_EXCEPTION_CATCH.len();
 
-/// The thirteen preregistered challenge templates. docs/challenge-tier.md
-/// fixed their semantics, negative mechanisms, and per-language applicability
-/// before any fixture existed; this array is the machine-readable copy of that
-/// template list and never carries semantics of its own.
+/// The `template_id` prefix every challenge-tier template carries. It is load
+/// bearing in two places: the smoke population refuses any case that carries it
+/// (see `smoke_population_case`), and the preregistered Semgrep CE partition is
+/// keyed by template ID rather than by fixture tags.
+const CHALLENGE_TEMPLATE_PREFIX: &str = "dfb-template-chal-";
+
+/// The thirteen challenge templates preregistered in docs/challenge-tier.md.
+/// The IDs are fixed by that document and are never reused for different
+/// semantics; a badly posed template is retired by amendment, not rewritten.
+/// They carry `score_tier: "core"` — there is no new score tier — so they fold
+/// into each language's core denominator as that language's fixtures land.
 const CHALLENGE_TEMPLATE_IDS: [&str; 13] = [
     "dfb-template-chal-anonymous-implementation",
     "dfb-template-chal-callback-registration",
@@ -187,136 +217,220 @@ const CHALLENGE_TEMPLATE_IDS: [&str; 13] = [
     "dfb-template-chal-recursive-carry",
     "dfb-template-chal-reflective-invocation",
 ];
+/// The challenge set of a language with no run-time reflection at all.
+/// docs/challenge-tier.md classifies `dfb-template-chal-reflective-invocation`
+/// **inapplicable** to C++ (no standard facility resolves a member function
+/// from a string; the nearest construct *is* the dispatch table, and encoding
+/// it twice would inflate the denominator without asking a second question) and
+/// to Rust (`std::any::Any` downcasts to a known static type and offers no
+/// name-based lookup). The two exclusions land on the same template, so the two
+/// languages share one set rather than two identical copies.
+const CHALLENGE_TEMPLATE_IDS_WITHOUT_REFLECTIVE_INVOCATION: [&str; 12] = [
+    "dfb-template-chal-anonymous-implementation",
+    "dfb-template-chal-callback-registration",
+    "dfb-template-chal-closure-capture",
+    "dfb-template-chal-computed-property",
+    "dfb-template-chal-context-pair-depth2",
+    "dfb-template-chal-deep-relay-chain",
+    "dfb-template-chal-dispatch-table",
+    "dfb-template-chal-element-object",
+    "dfb-template-chal-function-field",
+    "dfb-template-chal-map-iteration",
+    "dfb-template-chal-nested-access-path",
+    "dfb-template-chal-recursive-carry",
+];
+/// C's challenge set: nine of thirteen. docs/challenge-tier.md excludes
+/// reflective invocation (no run-time reflection), computed property (no
+/// computed member access and no standard associative container), closure
+/// capture (no closures — a function pointer plus a context struct is an
+/// ordinary argument the classic core already covers), and anonymous
+/// implementation (no anonymous functions and no anonymous types). Every
+/// exclusion is a genuine absence of the construct, and it reduces only C's
+/// own denominator.
+const CHALLENGE_TEMPLATE_IDS_C: [&str; 9] = [
+    "dfb-template-chal-callback-registration",
+    "dfb-template-chal-context-pair-depth2",
+    "dfb-template-chal-deep-relay-chain",
+    "dfb-template-chal-dispatch-table",
+    "dfb-template-chal-element-object",
+    "dfb-template-chal-function-field",
+    "dfb-template-chal-map-iteration",
+    "dfb-template-chal-nested-access-path",
+    "dfb-template-chal-recursive-carry",
+];
 
-/// One language's position in the challenge-tier rollout.
+/// One language's row in the challenge rollout table.
 ///
-/// `rolled_out` is the single switch a wave flips: while it is `false` the
-/// language's core denominator stays at its sixteen-template (or, for C and
-/// Rust, fifteen-template) v0.3.0 population, and while it is `true` every
-/// population check expects that language's expanded core. `inapplicable`
-/// lists the challenge cells docs/challenge-tier.md excludes from the
-/// language, and — exactly as in the sixteen-template matrix — an inapplicable
-/// cell reduces only its own language's denominator.
+/// This is the single authoritative statement of what a language's core
+/// denominator is. Every population check — Bifrost, CodeQL, Joern, Semgrep,
+/// and the corpus-wide balance validator — reads it, so a wave PR expands a
+/// language by editing exactly one row and nothing else.
 struct ChallengeRollout {
+    /// The `language` field of the case metadata.
     language: &'static str,
+    /// The language's name in diagnostics.
+    display: &'static str,
+    /// The frozen classic core: sixteen templates, or fifteen where
+    /// docs/applicability-matrix.md classifies the exception-catch cell
+    /// inapplicable.
+    classic: &'static [&'static str],
+    /// The challenge templates docs/challenge-tier.md classifies applicable to
+    /// this language. This is preregistered and never edited by a wave PR.
+    challenge: &'static [&'static str],
+    /// **The flag a wave PR flips.** `false` means this language's challenge
+    /// fixtures do not exist yet and every population check expects its
+    /// classic set; the language PR that authors the fixtures flips it to
+    /// `true` in the same change, and every check then expects
+    /// `classic + challenge` without any other code moving.
     rolled_out: bool,
-    inapplicable: &'static [&'static str],
 }
 
-/// The rollout state of every language in the matrix. Wave order is recorded
-/// in docs/challenge-tier.md; the flags here are the mechanism, not a second
-/// plan.
+impl ChallengeRollout {
+    /// This language's current core denominator: the classic set until its
+    /// fixtures land, the expanded set afterwards.
+    fn expected_templates(&self) -> Vec<&'static str> {
+        let mut templates = self.classic.to_vec();
+        if self.rolled_out {
+            templates.extend_from_slice(self.challenge);
+        }
+        templates
+    }
+}
+
+/// The rollout table. Ordered by docs/challenge-tier.md's wave plan: wave 1
+/// (the saturated kernels), wave 2 (near-parity), wave 3 (adapted-construct),
+/// wave 4 (analyzer-coverage-gated). The applicable challenge sets are fixed by
+/// the preregistration's applicability matrix and are not a wave's to change;
+/// only `rolled_out` moves.
 const CHALLENGE_ROLLOUT: [ChallengeRollout; 13] = [
     ChallengeRollout {
         language: "java",
+        display: "Java",
+        classic: &KERNEL_TEMPLATE_IDS,
+        challenge: &CHALLENGE_TEMPLATE_IDS,
         rolled_out: false,
-        inapplicable: &[],
     },
     ChallengeRollout {
         language: "javascript",
+        display: "JavaScript",
+        classic: &KERNEL_TEMPLATE_IDS,
+        challenge: &CHALLENGE_TEMPLATE_IDS,
         rolled_out: false,
-        inapplicable: &[],
     },
     ChallengeRollout {
         language: "python",
+        display: "Python",
+        classic: &KERNEL_TEMPLATE_IDS,
+        challenge: &CHALLENGE_TEMPLATE_IDS,
         rolled_out: true,
-        inapplicable: &[],
     },
     ChallengeRollout {
         language: "typescript",
+        display: "TypeScript",
+        classic: &KERNEL_TEMPLATE_IDS,
+        challenge: &CHALLENGE_TEMPLATE_IDS,
         rolled_out: false,
-        inapplicable: &[],
     },
     ChallengeRollout {
         language: "kotlin",
+        display: "Kotlin",
+        classic: &KERNEL_TEMPLATE_IDS,
+        challenge: &CHALLENGE_TEMPLATE_IDS,
         rolled_out: false,
-        inapplicable: &[],
-    },
-    ChallengeRollout {
-        language: "scala",
-        rolled_out: false,
-        inapplicable: &[],
     },
     ChallengeRollout {
         language: "csharp",
+        display: "C#",
+        classic: &KERNEL_TEMPLATE_IDS,
+        challenge: &CHALLENGE_TEMPLATE_IDS,
         rolled_out: false,
-        inapplicable: &[],
+    },
+    ChallengeRollout {
+        language: "scala",
+        display: "Scala",
+        classic: &KERNEL_TEMPLATE_IDS,
+        challenge: &CHALLENGE_TEMPLATE_IDS,
+        rolled_out: false,
     },
     ChallengeRollout {
         language: "go",
+        display: "Go",
+        classic: &KERNEL_TEMPLATE_IDS,
+        challenge: &CHALLENGE_TEMPLATE_IDS,
         rolled_out: false,
-        inapplicable: &[],
-    },
-    ChallengeRollout {
-        language: "php",
-        rolled_out: false,
-        inapplicable: &[],
-    },
-    ChallengeRollout {
-        language: "ruby",
-        rolled_out: false,
-        inapplicable: &[],
     },
     ChallengeRollout {
         language: "cpp",
+        display: "C++",
+        classic: &KERNEL_TEMPLATE_IDS,
+        challenge: &CHALLENGE_TEMPLATE_IDS_WITHOUT_REFLECTIVE_INVOCATION,
         rolled_out: false,
-        inapplicable: &["dfb-template-chal-reflective-invocation"],
-    },
-    ChallengeRollout {
-        language: "c",
-        rolled_out: false,
-        inapplicable: &[
-            "dfb-template-chal-anonymous-implementation",
-            "dfb-template-chal-closure-capture",
-            "dfb-template-chal-computed-property",
-            "dfb-template-chal-reflective-invocation",
-        ],
     },
     ChallengeRollout {
         language: "rust",
+        display: "Rust",
+        classic: &KERNEL_TEMPLATE_IDS_WITHOUT_EXCEPTION_CATCH,
+        challenge: &CHALLENGE_TEMPLATE_IDS_WITHOUT_REFLECTIVE_INVOCATION,
         rolled_out: false,
-        inapplicable: &["dfb-template-chal-reflective-invocation"],
+    },
+    ChallengeRollout {
+        language: "c",
+        display: "C",
+        classic: &KERNEL_TEMPLATE_IDS_WITHOUT_EXCEPTION_CATCH,
+        challenge: &CHALLENGE_TEMPLATE_IDS_C,
+        rolled_out: false,
+    },
+    ChallengeRollout {
+        language: "php",
+        display: "PHP",
+        classic: &KERNEL_TEMPLATE_IDS,
+        challenge: &CHALLENGE_TEMPLATE_IDS,
+        rolled_out: false,
+    },
+    ChallengeRollout {
+        language: "ruby",
+        display: "Ruby",
+        classic: &KERNEL_TEMPLATE_IDS,
+        challenge: &CHALLENGE_TEMPLATE_IDS,
+        rolled_out: false,
     },
 ];
 
-/// Whether a template ID names one of the thirteen challenge templates.
-fn is_challenge_template(template_id: &str) -> bool {
-    CHALLENGE_TEMPLATE_IDS.contains(&template_id)
-}
-
-/// Whether this language's challenge fixtures have landed.
-fn challenge_templates_rolled_out(language: &str) -> bool {
+/// This language's row, or `None` for a language the benchmark does not cover.
+fn challenge_rollout(language: &str) -> Option<&'static ChallengeRollout> {
     CHALLENGE_ROLLOUT
         .iter()
-        .any(|entry| entry.language == language && entry.rolled_out)
+        .find(|row| row.language == language)
 }
 
-/// The scored template set of a language's core denominator: its v0.3.0 core
-/// while the language's challenge row is not yet rolled out, and its expanded
-/// core once it is. Every population check reads the set from here, so
-/// flipping one `rolled_out` flag moves that language — and only that
-/// language — to its expanded denominator.
-fn kernel_templates_for_language(language: &str) -> Vec<&'static str> {
-    let base: &'static [&'static str] = match language {
-        "c" | "rust" => &KERNEL_TEMPLATE_IDS_WITHOUT_EXCEPTION_CATCH,
-        _ => &KERNEL_TEMPLATE_IDS,
-    };
-    let mut templates = base.to_vec();
-    if !challenge_templates_rolled_out(language) {
-        return templates;
-    }
-    let inapplicable = CHALLENGE_ROLLOUT
-        .iter()
-        .find(|entry| entry.language == language)
-        .map(|entry| entry.inapplicable)
-        .unwrap_or_default();
-    templates.extend(
-        CHALLENGE_TEMPLATE_IDS
-            .iter()
-            .copied()
-            .filter(|template| !inapplicable.contains(template)),
-    );
-    templates
+/// Whether this language's challenge fixtures have landed. A wave PR flips the
+/// row; nothing else in the tree needs to know.
+#[cfg(test)]
+fn challenge_rolled_out(language: &str) -> bool {
+    challenge_rollout(language).is_some_and(|row| row.rolled_out)
+}
+
+/// The core denominator every population check for this language uses. A
+/// language with no row keeps the sixteen-template classic core, which is what
+/// a new language starts from.
+fn expected_core_templates(language: &str) -> Vec<&'static str> {
+    challenge_rollout(language)
+        .map(ChallengeRollout::expected_templates)
+        .unwrap_or_else(|| KERNEL_TEMPLATE_IDS.to_vec())
+}
+
+/// The core assertion count of this language: one positive and one negative per
+/// template in its current denominator.
+fn expected_core_case_count(language: &str) -> usize {
+    2 * expected_core_templates(language).len()
+}
+
+/// Whether a case is a challenge-tier assertion, decided from its
+/// `template_id` alone.
+fn challenge_template_case(case: &Value) -> bool {
+    case["template_id"]
+        .as_str()
+        .is_some_and(|template| template.starts_with(CHALLENGE_TEMPLATE_PREFIX))
 }
 
 #[derive(Parser)]
@@ -367,6 +481,21 @@ enum Commands {
         check: bool,
     },
     RunBifrostSmoke {
+        #[arg(long, default_value = "bifrost")]
+        bifrost: PathBuf,
+    },
+    /// Run the Java propagation kernel as its own population, separate from the
+    /// cross-language direct-flow breadth slice the frozen smoke run evaluates.
+    /// The population is Java's whole core denominator — the classic sixteen
+    /// templates today, the expanded set once Java's challenge fixtures land
+    /// and its `CHALLENGE_ROLLOUT` row is flipped.
+    RunBifrostJavaKernel {
+        #[arg(long, default_value = "bifrost")]
+        bifrost: PathBuf,
+    },
+    /// Run the JavaScript propagation kernel as its own population, on the same
+    /// terms as the Java kernel and never mixed with the TypeScript one.
+    RunBifrostJavascriptKernel {
         #[arg(long, default_value = "bifrost")]
         bifrost: PathBuf,
     },
@@ -673,6 +802,10 @@ fn main() -> Result<()> {
             check,
         } => generate_results(&manifest, &output_directory, check),
         Commands::RunBifrostSmoke { bifrost } => run_bifrost_smoke(&bifrost),
+        Commands::RunBifrostJavaKernel { bifrost } => run_bifrost(&bifrost, BifrostRun::JavaKernel),
+        Commands::RunBifrostJavascriptKernel { bifrost } => {
+            run_bifrost(&bifrost, BifrostRun::JavascriptKernel)
+        }
         Commands::RunBifrostPythonKernel { bifrost } => run_bifrost_python_kernel(&bifrost),
         Commands::RunBifrostKotlinKernel { bifrost } => run_bifrost_kotlin_kernel(&bifrost),
         Commands::RunBifrostScalaKernel { bifrost } => {
@@ -820,25 +953,18 @@ fn validate_cases() -> Result<()> {
         cases.push((path.clone(), value));
     }
     validate_balanced_core_pairs(&cases)?;
-    validate_kernel_balance(&cases, EcmaKernel::JavaScript)?;
-    validate_kernel_balance(&cases, EcmaKernel::TypeScript)?;
-    for (language, display) in [
-        ("python", "Python"),
-        ("kotlin", "Kotlin"),
-        ("scala", "Scala"),
-        ("csharp", "C#"),
-        ("go", "Go"),
-        ("cpp", "C++"),
-        ("php", "PHP"),
-        ("c", "C"),
-        ("rust", "Rust"),
-        ("ruby", "Ruby"),
-    ] {
+    // Every language is checked against its own row in the challenge rollout
+    // table, which is the one place a denominator is stated. Before this table
+    // existed the ECMA kernels were checked against Java's template set
+    // directly; that comparison would have made a wave PR's correctness depend
+    // on which of the three wave-1 languages happened to land first, so each
+    // language now answers to the preregistered set instead of to a sibling.
+    for row in &CHALLENGE_ROLLOUT {
         validate_scored_kernel_balance(
             &cases,
-            language,
-            display,
-            &kernel_templates_for_language(language),
+            row.language,
+            row.display,
+            &row.expected_templates(),
         )?;
     }
     println!("validated {} cases", paths.len());
@@ -897,52 +1023,15 @@ fn validate_balanced_core_pairs(cases: &[(PathBuf, Value)]) -> Result<()> {
     Ok(())
 }
 
-/// Every ported kernel must reproduce the Java template set exactly. The check
-/// is skipped while a language has no core cases at all, so a partially ported
-/// language never silently reduces its own denominator.
-fn validate_kernel_balance(cases: &[(PathBuf, Value)], kernel: EcmaKernel) -> Result<()> {
-    let display = kernel.display_name();
-    let java_templates = core_templates_for_language(cases, "java");
-    let kernel_templates = core_templates_for_language(cases, kernel.language());
-
-    if kernel_templates.is_empty() {
-        return Ok(());
-    }
-    if java_templates.len() != CODEQL_ECMA_TEMPLATE_COUNT {
-        bail!(
-            "Java propagation kernel must define exactly {CODEQL_ECMA_TEMPLATE_COUNT} core templates; found {}",
-            java_templates.len()
-        );
-    }
-    if kernel_templates.len() != CODEQL_ECMA_TEMPLATE_COUNT {
-        bail!(
-            "{display} propagation kernel must define exactly {CODEQL_ECMA_TEMPLATE_COUNT} core templates; found {}",
-            kernel_templates.len()
-        );
-    }
-    if kernel_templates != java_templates {
-        let missing = java_templates
-            .difference(&kernel_templates)
-            .cloned()
-            .collect::<Vec<_>>();
-        let unexpected = kernel_templates
-            .difference(&java_templates)
-            .cloned()
-            .collect::<Vec<_>>();
-        bail!(
-            "{display} propagation kernel must preserve the Java template IDs; missing {missing:?}, unexpected {unexpected:?}"
-        );
-    }
-    Ok(())
-}
-
 /// A ported kernel must carry its scored template identities unchanged, with no
 /// template renamed, split, or silently dropped because the language spells a
 /// construct differently. The expected set is the language's core denominator
-/// from docs/applicability-matrix.md: sixteen templates for Kotlin, C#, Go, and
-/// C++, and fifteen for C and Rust, whose inapplicable exception-catch cell
-/// reduces only their own denominators. A language with no core cases yet is
-/// simply not a kernel population.
+/// from its `CHALLENGE_ROLLOUT` row: the classic set from
+/// docs/applicability-matrix.md — sixteen templates for most languages, fifteen
+/// for C and Rust, whose inapplicable exception-catch cell reduces only their
+/// own denominators — plus that language's applicable challenge templates once
+/// its row is rolled out. A language with no core cases yet is simply not a
+/// kernel population.
 fn validate_scored_kernel_balance(
     cases: &[(PathBuf, Value)],
     language: &str,
@@ -1144,6 +1233,8 @@ fn write_and_validate_report_in(root: &Path, report_path: &Path, report: &Value)
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 enum BifrostRun {
     Smoke,
+    JavaKernel,
+    JavascriptKernel,
     PythonKernel,
     KotlinKernel,
     ScalaKernel,
@@ -1162,6 +1253,8 @@ impl BifrostRun {
     fn label(self) -> &'static str {
         match self {
             Self::Smoke => "Bifrost smoke",
+            Self::JavaKernel => "Bifrost Java kernel",
+            Self::JavascriptKernel => "Bifrost JavaScript kernel",
             Self::PythonKernel => "Bifrost Python kernel",
             Self::KotlinKernel => "Bifrost Kotlin kernel",
             Self::ScalaKernel => "Bifrost Scala kernel",
@@ -1176,21 +1269,42 @@ impl BifrostRun {
         }
     }
 
+    /// The language whose core denominator this run must cover, or `None` for
+    /// the cross-language smoke slice, whose population is the frozen
+    /// policy-pinned selection rather than one language's kernel.
+    fn language(self) -> Option<&'static str> {
+        match self {
+            Self::Smoke => None,
+            Self::JavaKernel => Some("java"),
+            Self::JavascriptKernel => Some("javascript"),
+            Self::PythonKernel => Some("python"),
+            Self::KotlinKernel => Some("kotlin"),
+            Self::ScalaKernel => Some("scala"),
+            Self::TypescriptKernel => Some("typescript"),
+            Self::CsharpKernel => Some("csharp"),
+            Self::GoKernel => Some("go"),
+            Self::CKernel => Some("c"),
+            Self::CppKernel => Some("cpp"),
+            Self::RustKernel => Some("rust"),
+            Self::RubyKernel => Some("ruby"),
+            Self::PhpKernel => Some("php"),
+        }
+    }
+
     /// The core denominator a kernel run must cover exactly, or `None` for a
-    /// run whose population is defined some other way. The C and Rust
-    /// `language-extension` cases are selected by the same run but are counted
-    /// and scored separately, so they never move this number.
+    /// run whose population is defined some other way. The count comes from the
+    /// language's `CHALLENGE_ROLLOUT` row, so a wave PR that flips that row
+    /// moves this number with it — 32 for a classic Java kernel, 58 once Java's
+    /// challenge fixtures land — without the runner being touched. The C and
+    /// Rust `language-extension` cases are selected by the same run but are
+    /// counted and scored separately, so they never move this number.
     fn expected_core_cases(self) -> Option<usize> {
         match self {
-            Self::KotlinKernel
-            | Self::ScalaKernel
-            | Self::CsharpKernel
-            | Self::GoKernel
-            | Self::CppKernel
-            | Self::RubyKernel
-            | Self::PhpKernel => Some(KERNEL_CASE_COUNT),
-            Self::CKernel | Self::RustKernel => Some(KERNEL_CASE_COUNT_WITHOUT_EXCEPTION_CATCH),
+            // The Python and TypeScript runs select by policy reference as
+            // well as by language, so their population is not pinned to the
+            // denominator here; it is the selector that defines it.
             Self::Smoke | Self::PythonKernel | Self::TypescriptKernel => None,
+            other => other.language().map(expected_core_case_count),
         }
     }
 }
@@ -2765,6 +2879,14 @@ fn run_bifrost(binary: &Path, run: BifrostRun) -> Result<()> {
             Path::new("reports/raw/bifrost"),
             Path::new("reports/bifrost-smoke.json"),
         ),
+        BifrostRun::JavaKernel => (
+            Path::new("reports/raw/bifrost-java-kernel"),
+            Path::new("reports/bifrost-java-kernel.json"),
+        ),
+        BifrostRun::JavascriptKernel => (
+            Path::new("reports/raw/bifrost-javascript-kernel"),
+            Path::new("reports/bifrost-javascript-kernel.json"),
+        ),
         BifrostRun::PythonKernel => (
             Path::new("reports/raw/bifrost-python-kernel"),
             Path::new("reports/bifrost-python-kernel.json"),
@@ -2974,6 +3096,8 @@ fn run_bifrost(binary: &Path, run: BifrostRun) -> Result<()> {
 /// cross-language breadth policy.
 fn bifrost_policy_for<'a>(case: &'a Value, run: BifrostRun) -> Result<&'a str> {
     match run {
+        BifrostRun::JavaKernel => Ok(BIFROST_JAVA_POLICY),
+        BifrostRun::JavascriptKernel => Ok(BIFROST_JAVASCRIPT_POLICY),
         BifrostRun::KotlinKernel => Ok(BIFROST_KOTLIN_POLICY),
         BifrostRun::ScalaKernel => Ok(BIFROST_SCALA_POLICY),
         _ => case["tool_model_references"]["bifrost"]["policy"]
@@ -2985,6 +3109,8 @@ fn bifrost_policy_for<'a>(case: &'a Value, run: BifrostRun) -> Result<&'a str> {
 fn selected_bifrost_case(case: &Value, run: BifrostRun) -> bool {
     match run {
         BifrostRun::Smoke => has_bifrost_model_reference(case) && smoke_population_case(case),
+        BifrostRun::JavaKernel => java_kernel_bifrost_case(case),
+        BifrostRun::JavascriptKernel => javascript_kernel_bifrost_case(case),
         BifrostRun::KotlinKernel => kotlin_core_case(case),
         BifrostRun::ScalaKernel => scala_core_case(case),
         BifrostRun::PythonKernel => {
@@ -3055,6 +3181,53 @@ fn selected_bifrost_case(case: &Value, run: BifrostRun) -> bool {
     }
 }
 
+/// A Java assertion the dedicated Bifrost Java kernel run owns: the language's
+/// whole core population, classic and — once java's `CHALLENGE_ROLLOUT` row is
+/// flipped — challenge alike.
+///
+/// The run pins `BIFROST_JAVA_POLICY` for every assertion, on the Kotlin
+/// precedent, so a case's own policy reference is a provenance check rather than
+/// the invocation. Thirty of the thirty-two frozen assertions name the Java
+/// kernel policy; the direct-propagation pair predates the kernel and names
+/// `direct-positive.rqlp` and `explicit-negative.rqlp`, which the v0.2.0 and
+/// v0.3.0 freezes bind byte-for-byte. Both are accepted here rather than
+/// rewritten, exactly as the C-family kernels accept the cross-language breadth
+/// policy. Challenge cases authored by the wave-1 Java PR will name the Java
+/// kernel policy, so they need no further accommodation.
+fn java_kernel_bifrost_case(case: &Value) -> bool {
+    java_core_case(case)
+        && (case["tool_model_references"]["bifrost"]["policy"]
+            .as_str()
+            .is_some_and(|policy| {
+                policy == BIFROST_JAVA_POLICY
+                    || policy == BIFROST_DIRECT_POLICY
+                    || policy == BIFROST_DIRECT_POSITIVE_POLICY
+                    || policy == BIFROST_EXPLICIT_NEGATIVE_POLICY
+            })
+            || case["tool_model_references"]["bifrost"]["unsupported_reason"].is_string())
+}
+
+fn java_core_case(case: &Value) -> bool {
+    case["language"] == "java" && case["track"] == "taint" && case["score_tier"] == "core"
+}
+
+/// A JavaScript assertion the dedicated Bifrost JavaScript kernel run owns.
+/// Same shape as the Java kernel; the frozen direct-propagation pair here names
+/// the cross-language breadth policy rather than the single-assertion pair.
+fn javascript_kernel_bifrost_case(case: &Value) -> bool {
+    javascript_core_case(case)
+        && (case["tool_model_references"]["bifrost"]["policy"]
+            .as_str()
+            .is_some_and(|policy| {
+                policy == BIFROST_JAVASCRIPT_POLICY || policy == BIFROST_DIRECT_POLICY
+            })
+            || case["tool_model_references"]["bifrost"]["unsupported_reason"].is_string())
+}
+
+fn javascript_core_case(case: &Value) -> bool {
+    case["language"] == "javascript" && case["track"] == "taint" && case["score_tier"] == "core"
+}
+
 /// A PHP core assertion. As with the Kotlin, C#, Go, and C-family kernels, the
 /// direct-propagation pair predates this kernel and is frozen in the published
 /// v0.2.0 and v0.3.0 evidence naming the cross-language breadth policy, so that
@@ -3099,17 +3272,18 @@ fn has_bifrost_model_reference(case: &Value) -> bool {
 /// language kernel has its own dedicated `run-bifrost-<language>-kernel`
 /// population, so its policy must never leak into the smoke selection even
 /// though its cases also carry Bifrost model references.
+///
+/// Pinning by policy alone stopped being sufficient once the challenge tier was
+/// preregistered: a Java, JavaScript, or Python challenge case names the *same*
+/// language kernel policy its classic siblings do, so it would have been swept
+/// into the frozen 118 and silently changed what that population means. The
+/// exclusion is therefore by template identity, which is the property that
+/// actually distinguishes the tiers — any case whose `template_id` starts with
+/// `dfb-template-chal-` is never smoke-selected, whatever policy it names and
+/// whether or not it declares an `unsupported_reason`. The expanded core is
+/// evaluated by the dedicated per-language kernel runs instead.
 fn smoke_population_case(case: &Value) -> bool {
-    // The challenge tier expands each language's core denominator, and a
-    // frozen report's population may never grow underneath it. Challenge cases
-    // therefore stay out of the smoke selection whatever policy they name, and
-    // their Bifrost evidence is produced by that language's dedicated
-    // `run-bifrost-<language>-kernel` run instead. See
-    // docs/adapters.md "Challenge-tier rollout mechanics".
-    if case["template_id"]
-        .as_str()
-        .is_some_and(is_challenge_template)
-    {
+    if challenge_template_case(case) {
         return false;
     }
     let model = &case["tool_model_references"]["bifrost"];
@@ -3117,12 +3291,12 @@ fn smoke_population_case(case: &Value) -> bool {
         return true;
     }
     const SMOKE_POLICIES: [&str; 7] = [
-        "adapters/bifrost/policies/core-direct.rqlp",
-        "adapters/bifrost/policies/direct-positive.rqlp",
-        "adapters/bifrost/policies/explicit-negative.rqlp",
+        BIFROST_DIRECT_POLICY,
+        BIFROST_DIRECT_POSITIVE_POLICY,
+        BIFROST_EXPLICIT_NEGATIVE_POLICY,
         "adapters/bifrost/policies/one-hop-positive.rqlp",
-        "adapters/bifrost/policies/core-java-kernel.rqlp",
-        "adapters/bifrost/policies/core-javascript-kernel.rqlp",
+        BIFROST_JAVA_POLICY,
+        BIFROST_JAVASCRIPT_POLICY,
         "adapters/bifrost/policies/core-python-kernel.rqlp",
     ];
     model["policy"]
@@ -3304,10 +3478,10 @@ impl CFamilyKernel {
         }
     }
 
-    /// The scored templates of this language's core denominator, including
-    /// its challenge cells once that language's row is rolled out.
+    /// The scored templates of this language's core denominator, read from its
+    /// rollout row.
     fn templates(self) -> Vec<&'static str> {
-        kernel_templates_for_language(self.language())
+        expected_core_templates(self.language())
     }
 
     /// Whether this language routes its inapplicable cell to
@@ -4425,33 +4599,13 @@ fn select_codeql_ecma_cases(kernel: EcmaKernel) -> Result<Vec<(PathBuf, Value)>>
         }
         selected.push((path, case));
     }
-    if selected.len() != CODEQL_ECMA_CASE_COUNT {
-        bail!(
-            "{display} CodeQL kernel must select exactly {} core assertions; found {}",
-            CODEQL_ECMA_CASE_COUNT,
-            selected.len()
-        );
-    }
-    let mut templates = BTreeMap::<&str, (usize, usize)>::new();
-    for (_, case) in &selected {
-        let template = case["template_id"].as_str().expect("schema validated");
-        let counts = templates.entry(template).or_default();
-        if case["polarity"] == "positive" {
-            counts.0 += 1;
-        } else {
-            counts.1 += 1;
-        }
-    }
-    if templates.len() != CODEQL_ECMA_TEMPLATE_COUNT
-        || templates
-            .values()
-            .any(|(positive, negative)| *positive != 1 || *negative != 1)
-    {
-        bail!(
-            "{display} CodeQL kernel must contain {} balanced templates; found {templates:?}",
-            CODEQL_ECMA_TEMPLATE_COUNT
-        );
-    }
+    // The denominator comes from this language's rollout row, so the ECMA
+    // CodeQL kernels expand with their fixtures and need no edit here.
+    validate_kernel_population_with(
+        &selected,
+        &format!("{display} CodeQL kernel"),
+        &expected_core_templates(kernel.language()),
+    )?;
     Ok(selected)
 }
 
@@ -5300,7 +5454,7 @@ fn validate_codeql_python_population(cases: &[(PathBuf, Value)]) -> Result<PathB
             .context("Python CodeQL case lacks query reference")?;
         queries.insert(PathBuf::from(query));
     }
-    let templates = kernel_templates_for_language("python");
+    let templates = expected_core_templates("python");
     validate_kernel_population_with(cases, "Python CodeQL kernel", &templates)?;
     if queries.len() != 1 {
         let case_count = 2 * templates.len();
@@ -5923,14 +6077,13 @@ impl JoernKernel {
         }
     }
 
-    /// The scored templates of this language's core denominator. Rust's
-    /// exception-catch cell is inapplicable — docs/applicability-matrix.md
-    /// records why — so its core population is 15 templates, and the
-    /// `Result`/`?` `language-extension` pair that stands in for the missing
-    /// cell is scored on its own tier and is not selected here. A language
-    /// whose challenge row is rolled out contributes its expanded core.
+    /// The scored templates of this language's core denominator, read from its
+    /// rollout row. Rust's exception-catch cell is inapplicable —
+    /// docs/applicability-matrix.md records why — so its classic core is 15
+    /// templates, and the `Result`/`?` `language-extension` pair that stands in
+    /// for the missing cell is scored on its own tier and is not selected here.
     fn templates(self) -> Vec<&'static str> {
-        kernel_templates_for_language(self.language())
+        expected_core_templates(self.language())
     }
 
     /// Whether a case of this language needs a synthesized build manifest in
@@ -6552,14 +6705,15 @@ impl SemgrepKernel {
         }
     }
 
-    /// The scored template set of this kernel's language.
-    /// docs/applicability-matrix.md classifies the exception-catch cell as
+    /// The scored template set of this kernel's language, read from its rollout
+    /// row. docs/applicability-matrix.md classifies the exception-catch cell as
     /// inapplicable to both C and Rust, so those two kernels have a
-    /// fifteen-template, thirty-assertion core; every other Semgrep kernel has
-    /// the full sixteen. A language whose challenge row is rolled out
-    /// contributes its expanded core instead.
+    /// fifteen-template, thirty-assertion classic core; every other Semgrep
+    /// kernel has the full sixteen. Selection expands with the row; what is
+    /// *scored* is decided separately, per case, by
+    /// `semgrep_capability_exclusion`.
     fn templates(self) -> Vec<&'static str> {
-        kernel_templates_for_language(self.language())
+        expected_core_templates(self.language())
     }
 
     /// The committed rule file for this kernel. Each is its own file even
@@ -6634,6 +6788,93 @@ fn select_semgrep_cases(kernel: SemgrepKernel) -> Result<Vec<(PathBuf, Value)>> 
     Ok(selected)
 }
 
+/// The preregistered Semgrep CE partition for the thirteen challenge templates,
+/// decided from the pinned distribution's own documentation **before any
+/// challenge fixture was authored or any analyzer was pointed at one**, and
+/// recorded in full in `adapters/semgrep/README.md`.
+///
+/// The pinned CE engine documents itself as intra-file, intraprocedural,
+/// flow-sensitive, path-insensitive taint with only "Experimental support for
+/// basic field-sensitive taint tracking"; interprocedural taint
+/// (`--pro-intrafile`), path sensitivity (`--pro-path-sensitive`), index
+/// sensitivity, and inter-procedural field sensitivity are each sold as Pro.
+/// The already-published classic partition follows exactly from that: the seven
+/// `intraprocedural` templates are scored and every heap-access-path and
+/// interprocedural template is `unsupported`.
+///
+/// Applied to the challenge tier, that same documented boundary excludes all
+/// thirteen. This is not a convenience: a challenge template is a challenge
+/// template *because* its flow routes through dispatch, a function value, a
+/// container or computed key, a deep field chain, or a call chain — and each of
+/// those is precisely a construct the CE documentation places outside the
+/// engine. None of the thirteen is a pure local value flow, which is the only
+/// shape the CE partition scores. Every entry is `unsupported` by declared
+/// capability, never a false negative, and the decision cannot be revisited
+/// after a run without an amendment on the preregistration's terms.
+const CHALLENGE_SEMGREP_PARTITION: [(&str, &str); 13] = [
+    (
+        "dfb-template-chal-reflective-invocation",
+        "the case resolves a callee from a run-time string and the sink is reached inside that callee's body; CE has no interprocedural taint at all (`--pro-intrafile`, \"Intra-file inter-procedural taint analysis ... Requires Semgrep Pro Engine\"), and the pinned CE documentation nowhere claims to resolve a reflective handle",
+    ),
+    (
+        "dfb-template-chal-computed-property",
+        "the case writes and reads a member located by a run-time key; the pinned CE engine documents only \"Experimental support for basic field-sensitive taint tracking\", while \"Pro: taint-mode: Added basic support for 'index sensitivity'\" places keyed access outside CE — the same documented boundary that already excludes `dfb-template-array-element-separation` and `dfb-template-same-object-field-separation`",
+    ),
+    (
+        "dfb-template-chal-dispatch-table",
+        "the callee is a function value fetched from a standard-library map and the sink is inside it; the call-graph edge and the sink are both outside the intraprocedural CE engine (`--pro-intrafile` is Pro)",
+    ),
+    (
+        "dfb-template-chal-closure-capture",
+        "the sink is inside a closure body invoked from a different function than the one that captured the tainted local; CE has no interprocedural taint",
+    ),
+    (
+        "dfb-template-chal-function-field",
+        "the callee is stored in an object field, fetched elsewhere, and invoked; this needs both field sensitivity beyond CE's experimental basic support and the interprocedural step CE documents as Pro",
+    ),
+    (
+        "dfb-template-chal-callback-registration",
+        "a callback registered by one method is invoked by a separate driver method; inversion of control is interprocedural by construction and CE has no interprocedural taint",
+    ),
+    (
+        "dfb-template-chal-anonymous-implementation",
+        "the sink is inside an anonymous implementation invoked through a declared interface type; resolving that call-graph edge and following taint into the callee are both outside the CE engine",
+    ),
+    (
+        "dfb-template-chal-map-iteration",
+        "the value is retrieved by iterating a standard-library container's entries; container element taint through an iteration protocol is not within CE's documented \"basic field-sensitive\" support, and index sensitivity is recorded as Pro",
+    ),
+    (
+        "dfb-template-chal-nested-access-path",
+        "the case reads and writes a field chain of depth three or more; the pinned CE engine documents only *basic* experimental field sensitivity, with inter-procedural field sensitivity recorded as Pro",
+    ),
+    (
+        "dfb-template-chal-element-object",
+        "the case combines element separation with field separation in one query; index sensitivity is recorded as Pro and CE's field sensitivity is experimental and basic",
+    ),
+    (
+        "dfb-template-chal-deep-relay-chain",
+        "the case declares a six-hop interprocedural relay; CE has no interprocedural taint at all (`--pro-intrafile` is Pro), which docs/challenge-tier.md already records as this stratum's expected outcome",
+    ),
+    (
+        "dfb-template-chal-recursive-carry",
+        "the carried value crosses a self-recursive call boundary five times; a recursive summary is interprocedural, and CE has no interprocedural taint",
+    ),
+    (
+        "dfb-template-chal-context-pair-depth2",
+        "the case declares two-level context sensitivity; CE has no interprocedural taint and therefore no calling context to be sensitive to",
+    ),
+];
+
+/// The preregistered CE decision for a challenge template, or `None` for a
+/// classic template, which the tag rule below decides as it always has.
+fn challenge_semgrep_exclusion(template: &str) -> Option<&'static str> {
+    CHALLENGE_SEMGREP_PARTITION
+        .iter()
+        .find(|(id, _)| *id == template)
+        .map(|(_, reason)| *reason)
+}
+
 /// The bounded Semgrep CE profile, decided from the case's own declared
 /// capability metadata and the pinned distribution's documentation — never
 /// from an observed result.
@@ -6658,12 +6899,25 @@ fn semgrep_capability_exclusion(case: &Value) -> Option<String> {
         .as_array()
         .map(|tags| tags.iter().filter_map(Value::as_str).collect())
         .unwrap_or_default();
-    if tags.contains("intraprocedural") {
-        return None;
-    }
     let capability = case["expected_analysis_capability"]["kind"]
         .as_str()
         .unwrap_or("an undeclared capability");
+    // The challenge tier's partition is preregistered by template ID, decided
+    // from the pinned CE documentation before any challenge fixture existed and
+    // recorded in adapters/semgrep/README.md. It is consulted *before* the tag
+    // rule so that no fixture's tag choices — and no observed result — can move
+    // a challenge case between the scored and `unsupported` partitions after
+    // the fact.
+    if let Some(template) = case["template_id"].as_str()
+        && let Some(reason) = challenge_semgrep_exclusion(template)
+    {
+        return Some(format!(
+            "outside the bounded Semgrep CE profile: {reason}. The case requires {capability:?}; the scored CE profile is the kernel's `intraprocedural` partition only."
+        ));
+    }
+    if tags.contains("intraprocedural") {
+        return None;
+    }
     let reason = if tags.contains("interprocedural-deep") {
         "the case declares a multi-hop interprocedural relay; Semgrep CE has no interprocedural taint at all (`--pro-intrafile`, \"Intra-file inter-procedural taint analysis ... Requires Semgrep Pro Engine\")"
     } else if tags.contains("interprocedural-one-hop") {
@@ -8188,13 +8442,13 @@ mod tests {
             select_codeql_ecma_cases(EcmaKernel::TypeScript)
                 .unwrap()
                 .len(),
-            CODEQL_ECMA_CASE_COUNT
+            expected_core_case_count("typescript")
         );
         assert_eq!(
             select_codeql_ecma_cases(EcmaKernel::JavaScript)
                 .unwrap()
                 .len(),
-            CODEQL_ECMA_CASE_COUNT
+            expected_core_case_count("javascript")
         );
     }
 
@@ -8282,7 +8536,7 @@ mod tests {
                     selected.push(case);
                 }
             }
-            assert_eq!(selected.len(), CODEQL_ECMA_CASE_COUNT);
+            assert_eq!(selected.len(), expected_core_case_count(kernel.language()));
             let mut templates = BTreeMap::<String, (usize, usize)>::new();
             for case in selected {
                 let counts = templates
@@ -8294,7 +8548,10 @@ mod tests {
                     counts.1 += 1;
                 }
             }
-            assert_eq!(templates.len(), CODEQL_ECMA_TEMPLATE_COUNT);
+            assert_eq!(
+                templates.len(),
+                expected_core_templates(kernel.language()).len()
+            );
             assert!(
                 templates
                     .values()
@@ -8326,8 +8583,8 @@ mod tests {
             }
         }
         assert_eq!(java, 32);
-        assert_eq!(javascript, CODEQL_ECMA_CASE_COUNT);
-        assert_eq!(typescript, CODEQL_ECMA_CASE_COUNT);
+        assert_eq!(javascript, expected_core_case_count("javascript"));
+        assert_eq!(typescript, expected_core_case_count("typescript"));
     }
 
     /// The JavaScript kernel selects `.js` fixtures and the TypeScript kernel
@@ -9394,7 +9651,7 @@ mod tests {
 
     #[test]
     fn python_codeql_population_requires_the_expanded_core() {
-        let expected = kernel_templates_for_language("python");
+        let expected = expected_core_templates("python");
         let mut cases = Vec::new();
         for index in 0..expected.len() {
             for polarity in ["positive", "negative"] {
@@ -9596,7 +9853,7 @@ mod tests {
         ] {
             let selected = select_joern_cases(kernel).unwrap();
             assert_eq!(selected.len(), 2 * kernel.templates().len());
-            if challenge_templates_rolled_out(kernel.language()) {
+            if challenge_rolled_out(kernel.language()) {
                 assert!(selected.len() > KERNEL_CASE_COUNT);
             } else if kernel == JoernKernel::Rust {
                 assert_eq!(selected.len(), KERNEL_CASE_COUNT_WITHOUT_EXCEPTION_CATCH);
@@ -10114,7 +10371,7 @@ mod tests {
             let selected = select_semgrep_cases(kernel).unwrap();
             let expected_templates = kernel.templates();
             assert_eq!(selected.len(), 2 * expected_templates.len());
-            if challenge_templates_rolled_out(kernel.language()) {
+            if challenge_rolled_out(kernel.language()) {
                 assert!(selected.len() > KERNEL_CASE_COUNT);
             } else {
                 match kernel {
@@ -10370,7 +10627,7 @@ mod tests {
                 "{} unsupported partition",
                 kernel.label()
             );
-            if challenge_templates_rolled_out(kernel.language()) {
+            if challenge_rolled_out(kernel.language()) {
                 assert!(expected_excluded > 18);
             } else {
                 match kernel {
@@ -11012,44 +11269,6 @@ mod tests {
             "test-adapter-taint-taint-benchmark-controlled-2"
         );
     }
-    /// The rollout table is the mechanism for docs/challenge-tier.md's
-    /// expanded core denominators, so its arithmetic must reproduce the
-    /// denominators that document fixes. A language whose row is not yet
-    /// rolled out keeps its v0.3.0 population exactly.
-    #[test]
-    fn challenge_rollout_reproduces_the_preregistered_denominators() {
-        for (language, expanded) in [
-            ("java", 29),
-            ("javascript", 29),
-            ("python", 29),
-            ("typescript", 29),
-            ("kotlin", 29),
-            ("scala", 29),
-            ("csharp", 29),
-            ("go", 29),
-            ("php", 29),
-            ("ruby", 29),
-            ("cpp", 28),
-            ("c", 24),
-            ("rust", 27),
-        ] {
-            let templates = kernel_templates_for_language(language);
-            let base = match language {
-                "c" | "rust" => KERNEL_TEMPLATE_IDS_WITHOUT_EXCEPTION_CATCH.len(),
-                _ => KERNEL_TEMPLATE_IDS.len(),
-            };
-            if challenge_templates_rolled_out(language) {
-                assert_eq!(templates.len(), expanded, "{language} expanded core");
-            } else {
-                assert_eq!(templates.len(), base, "{language} v0.3.0 core");
-                assert!(!templates.iter().copied().any(is_challenge_template));
-            }
-        }
-        // Python is the language this change rolls out.
-        assert!(challenge_templates_rolled_out("python"));
-        assert_eq!(kernel_templates_for_language("python").len(), 29);
-    }
-
     /// Every challenge case that exists in the corpus belongs to a language
     /// whose row is rolled out, and lands in that language's core population
     /// with a preregistered template ID.
@@ -11057,19 +11276,24 @@ mod tests {
     fn challenge_cases_exist_only_for_rolled_out_languages() {
         for path in case_paths() {
             let case: Value = serde_json::from_str(&fs::read_to_string(&path).unwrap()).unwrap();
-            let template = case["template_id"].as_str().unwrap();
-            if !is_challenge_template(template) {
+            if !challenge_template_case(&case) {
                 continue;
             }
+            let template = case["template_id"].as_str().unwrap();
+            assert!(
+                CHALLENGE_TEMPLATE_IDS.contains(&template),
+                "{} carries an unpreregistered challenge template",
+                path.display()
+            );
             let language = case["language"].as_str().unwrap();
             assert!(
-                challenge_templates_rolled_out(language),
+                challenge_rolled_out(language),
                 "{} carries a challenge template while {language} is not rolled out",
                 path.display()
             );
             assert_eq!(case["score_tier"], "core", "{}", path.display());
             assert!(
-                kernel_templates_for_language(language).contains(&template),
+                expected_core_templates(language).contains(&template),
                 "{} is not in {language}'s expanded core",
                 path.display()
             );
@@ -11101,6 +11325,257 @@ mod tests {
             }
         }
         assert_eq!(selected, 118, "the smoke population is frozen at 118 cases");
+    }
+
+    /// A challenge case is refused by the smoke selector on template identity
+    /// alone. The Java, JavaScript, and Python challenge fixtures will name the
+    /// *same* kernel policies their classic siblings name, so pinning by policy
+    /// could not have kept them out; without this exclusion the frozen 118
+    /// would have silently become a different population.
+    #[test]
+    fn smoke_refuses_a_challenge_case_that_names_a_smoke_policy() {
+        for policy in [
+            BIFROST_JAVA_POLICY,
+            BIFROST_JAVASCRIPT_POLICY,
+            "adapters/bifrost/policies/core-python-kernel.rqlp",
+            BIFROST_DIRECT_POLICY,
+            BIFROST_DIRECT_POSITIVE_POLICY,
+            BIFROST_EXPLICIT_NEGATIVE_POLICY,
+        ] {
+            let classic = json!({
+                "template_id": "dfb-template-direct-propagation",
+                "tool_model_references": {"bifrost": {"policy": policy}}
+            });
+            assert!(
+                selected_bifrost_case(&classic, BifrostRun::Smoke),
+                "the frozen smoke population still selects {policy}"
+            );
+            for template in CHALLENGE_TEMPLATE_IDS {
+                let challenge = json!({
+                    "template_id": template,
+                    "tool_model_references": {"bifrost": {"policy": policy}}
+                });
+                assert!(
+                    !selected_bifrost_case(&challenge, BifrostRun::Smoke),
+                    "smoke selected challenge template {template} through {policy}"
+                );
+            }
+        }
+        // Not even a declared capability exclusion re-admits one: the smoke
+        // selector short-circuits on `unsupported_reason`, and the challenge
+        // refusal is checked first.
+        let unsupported = json!({
+            "template_id": "dfb-template-chal-deep-relay-chain",
+            "tool_model_references": {"bifrost": {"unsupported_reason": "declared out of scope"}}
+        });
+        assert!(!selected_bifrost_case(&unsupported, BifrostRun::Smoke));
+    }
+
+    /// The rollout table is the one authoritative statement of each language's
+    /// denominator, and it must reproduce docs/challenge-tier.md's expanded
+    /// core table exactly.
+    #[test]
+    fn the_rollout_table_matches_the_preregistered_denominators() {
+        let expanded: BTreeMap<&str, (usize, usize)> = BTreeMap::from([
+            // language => (classic templates, applicable challenge templates)
+            ("java", (16, 13)),
+            ("javascript", (16, 13)),
+            ("python", (16, 13)),
+            ("typescript", (16, 13)),
+            ("kotlin", (16, 13)),
+            ("scala", (16, 13)),
+            ("csharp", (16, 13)),
+            ("go", (16, 13)),
+            ("php", (16, 13)),
+            ("ruby", (16, 13)),
+            ("cpp", (16, 12)),
+            ("c", (15, 9)),
+            ("rust", (15, 12)),
+        ]);
+        assert_eq!(CHALLENGE_ROLLOUT.len(), expanded.len());
+        for row in &CHALLENGE_ROLLOUT {
+            let (classic, challenge) = expanded[row.language];
+            assert_eq!(row.classic.len(), classic, "{} classic", row.language);
+            assert_eq!(row.challenge.len(), challenge, "{} challenge", row.language);
+            // Every challenge cell is one of the thirteen preregistered
+            // templates; a language can narrow the set, never invent one.
+            for template in row.challenge {
+                assert!(
+                    CHALLENGE_TEMPLATE_IDS.contains(template),
+                    "{} claims unpreregistered template {template}",
+                    row.language
+                );
+                assert!(template.starts_with(CHALLENGE_TEMPLATE_PREFIX));
+            }
+            // Python is the one wave that has landed its fixtures; every
+            // other language validates against its classic set alone, so a
+            // language whose fixtures do not exist yet is never failed for
+            // missing them.
+            let rolled_out = row.language == "python";
+            assert_eq!(
+                challenge_rolled_out(row.language),
+                rolled_out,
+                "{} rollout state",
+                row.language
+            );
+            let expected = if rolled_out {
+                classic + challenge
+            } else {
+                classic
+            };
+            assert_eq!(row.expected_templates().len(), expected);
+            assert_eq!(expected_core_case_count(row.language), 2 * expected);
+            // Flipping the row is the whole of a wave PR's validator change.
+            let flipped = ChallengeRollout {
+                language: row.language,
+                display: row.display,
+                classic: row.classic,
+                challenge: row.challenge,
+                rolled_out: true,
+            };
+            assert_eq!(
+                flipped.expected_templates().len(),
+                classic + challenge,
+                "{} expanded core",
+                row.language
+            );
+        }
+        // The exclusions docs/challenge-tier.md states, by name.
+        let cpp = challenge_rollout("cpp").unwrap().challenge;
+        let rust = challenge_rollout("rust").unwrap().challenge;
+        let c = challenge_rollout("c").unwrap().challenge;
+        for set in [cpp, rust, c] {
+            assert!(!set.contains(&"dfb-template-chal-reflective-invocation"));
+        }
+        for excluded in [
+            "dfb-template-chal-computed-property",
+            "dfb-template-chal-closure-capture",
+            "dfb-template-chal-anonymous-implementation",
+        ] {
+            assert!(!c.contains(&excluded), "C must exclude {excluded}");
+        }
+    }
+
+    /// The dedicated Java and JavaScript Bifrost kernels own their language's
+    /// whole core population, accept the frozen per-case policies, and pin the
+    /// language-qualified policy for the run.
+    #[test]
+    fn java_and_javascript_bifrost_kernels_own_their_language_population() {
+        let mut java = 0usize;
+        let mut javascript = 0usize;
+        for path in case_paths() {
+            let case: Value = serde_json::from_str(&fs::read_to_string(&path).unwrap()).unwrap();
+            if selected_bifrost_case(&case, BifrostRun::JavaKernel) {
+                java += 1;
+                assert_eq!(case["language"], "java");
+                assert_eq!(case["score_tier"], "core");
+                assert_eq!(
+                    bifrost_policy_for(&case, BifrostRun::JavaKernel).unwrap(),
+                    BIFROST_JAVA_POLICY
+                );
+                assert!(!selected_bifrost_case(&case, BifrostRun::JavascriptKernel));
+            }
+            if selected_bifrost_case(&case, BifrostRun::JavascriptKernel) {
+                javascript += 1;
+                assert_eq!(case["language"], "javascript");
+                assert_eq!(case["score_tier"], "core");
+                assert_eq!(
+                    bifrost_policy_for(&case, BifrostRun::JavascriptKernel).unwrap(),
+                    BIFROST_JAVASCRIPT_POLICY
+                );
+                assert!(!selected_bifrost_case(&case, BifrostRun::JavaKernel));
+            }
+        }
+        assert_eq!(java, expected_core_case_count("java"));
+        assert_eq!(javascript, expected_core_case_count("javascript"));
+        assert_eq!(java, 32);
+        assert_eq!(javascript, 32);
+        assert_eq!(
+            BifrostRun::JavaKernel.expected_core_cases(),
+            Some(expected_core_case_count("java"))
+        );
+        assert_eq!(
+            BifrostRun::JavascriptKernel.expected_core_cases(),
+            Some(expected_core_case_count("javascript"))
+        );
+        // The frozen direct-propagation pair keeps its historical single
+        // assertion policies and is still part of the Java kernel population.
+        for policy in [
+            BIFROST_DIRECT_POSITIVE_POLICY,
+            BIFROST_EXPLICIT_NEGATIVE_POLICY,
+        ] {
+            let frozen = json!({
+                "language": "java",
+                "track": "taint",
+                "score_tier": "core",
+                "template_id": "dfb-template-direct-propagation",
+                "tool_model_references": {"bifrost": {"policy": policy}}
+            });
+            assert!(selected_bifrost_case(&frozen, BifrostRun::JavaKernel));
+            assert_eq!(
+                bifrost_policy_for(&frozen, BifrostRun::JavaKernel).unwrap(),
+                BIFROST_JAVA_POLICY
+            );
+        }
+        // A challenge case joins its language kernel as soon as it exists, and
+        // the run's expected count follows the rollout row rather than a
+        // hard-coded 32.
+        let challenge = json!({
+            "language": "javascript",
+            "track": "taint",
+            "score_tier": "core",
+            "template_id": "dfb-template-chal-dispatch-table",
+            "tool_model_references": {"bifrost": {"policy": BIFROST_JAVASCRIPT_POLICY}}
+        });
+        assert!(selected_bifrost_case(
+            &challenge,
+            BifrostRun::JavascriptKernel
+        ));
+        assert!(!selected_bifrost_case(&challenge, BifrostRun::Smoke));
+    }
+
+    /// The Semgrep CE partition for the challenge tier is preregistered by
+    /// template ID and decided from the pinned distribution's documentation. It
+    /// must cover all thirteen templates, and no fixture's `feature_tags` may
+    /// move a challenge case into the scored partition after the fact.
+    #[test]
+    fn the_challenge_semgrep_partition_is_preregistered_and_tag_proof() {
+        assert_eq!(
+            CHALLENGE_SEMGREP_PARTITION.len(),
+            CHALLENGE_TEMPLATE_IDS.len()
+        );
+        for template in CHALLENGE_TEMPLATE_IDS {
+            let reason = challenge_semgrep_exclusion(template)
+                .unwrap_or_else(|| panic!("{template} has no preregistered CE decision"));
+            assert!(!reason.is_empty());
+            // Even tagged as a purely local flow, the case stays outside the
+            // scored partition: the decision is the document's, not the
+            // fixture's.
+            let case = json!({
+                "template_id": template,
+                "feature_tags": ["intraprocedural"],
+                "expected_analysis_capability": {"kind": "recursive-carry-taint"}
+            });
+            let exclusion = semgrep_capability_exclusion(&case)
+                .unwrap_or_else(|| panic!("{template} was scored by the CE partition"));
+            assert!(exclusion.contains("outside the bounded Semgrep CE profile"));
+            assert!(exclusion.contains(reason));
+        }
+        // The classic partition is untouched: the seven intraprocedural
+        // templates stay scored and the heap and interprocedural ones stay
+        // excluded.
+        let classic_scored = json!({
+            "template_id": "dfb-template-direct-propagation",
+            "feature_tags": ["intraprocedural"],
+            "expected_analysis_capability": {"kind": "intraprocedural-taint"}
+        });
+        assert!(semgrep_capability_exclusion(&classic_scored).is_none());
+        let classic_excluded = json!({
+            "template_id": "dfb-template-same-object-field-separation",
+            "feature_tags": ["heap-access-path"],
+            "expected_analysis_capability": {"kind": "heap-field-sensitive-taint"}
+        });
+        assert!(semgrep_capability_exclusion(&classic_excluded).is_some());
     }
     /// A failed Bifrost run is an execution error even under exit status 2;
     /// this must match `raw_special_outcome` so a freeze can bind the report.

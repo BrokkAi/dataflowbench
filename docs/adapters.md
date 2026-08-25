@@ -13,7 +13,7 @@ The initial adapter plan is:
 
 | Tool | Initial profile | Status |
 | --- | --- | --- |
-| Bifrost | Breadth baseline and Java, JavaScript, and Python propagation kernels | Implemented smoke adapter; kernel runs are reported separately |
+| Bifrost | Breadth baseline and per-language propagation kernels | Implemented smoke adapter; kernel runs are reported separately. The Java and JavaScript kernel commands exist but have not been run — the frozen smoke slice is still their published evidence |
 | CodeQL | 16-template Java and JavaScript propagation kernels and the 29-template expanded Python kernel | Java, JavaScript, and Python runners implemented as separate language-scoped populations |
 | Joern | Java, JavaScript, Ruby, and PHP 16-template propagation kernels, the 15-template Rust kernel, and the 29-template expanded Python kernel | Implemented as six separate language-scoped populations over one CPG query script |
 | Semgrep CE | Supported local analysis only | Implemented as eleven separate language-scoped populations over one committed taint rule per language; only the documented intraprocedural partition is scored. Four front ends are non-GA in the pinned distribution (Kotlin `beta`; Rust, C, C++ `alpha`) and the label is retained without ever changing the partition |
@@ -27,39 +27,86 @@ false-negative interpretation. An incomplete or failed run must never become
 
 ## Challenge-tier rollout mechanics
 
-[The challenge-tier preregistration](challenge-tier.md) fixed thirteen extra
-propagation templates, their per-language applicability, and each language's
-expanded core denominator before any fixture existed. Landing them is a
-per-language wave, and the mechanism is one flag.
+[The challenge-tier preregistration](challenge-tier.md) fixes *what* the
+thirteen additional templates are, which of them apply to each language, and
+what each language's expanded core denominator becomes. It deliberately leaves
+the validator work to the waves that author the fixtures. This section is the
+mechanics: how a language moves from its classic denominator to its expanded one
+without any population check being rewritten, and how the tiers stay separated
+while only some languages have moved.
 
-`CHALLENGE_ROLLOUT` in `src/main.rs` carries one row per language: the
-language's name, a `rolled_out` flag, and the challenge cells the
-preregistration classifies as inapplicable to it. Every population check —
-the `cargo run -- validate` balance checks and the CodeQL, Joern, Semgrep, and
-Bifrost kernel selections alike — reads its expected template set from
-`kernel_templates_for_language`, which returns that language's v0.3.0 core
-while the flag is `false` and its expanded core once the flag is `true`. A
-wave therefore adds that language's fixtures and flips exactly its own row;
-no other language's denominator moves, and the flag can never disagree with
-what the checks expect.
+**One table.** `CHALLENGE_ROLLOUT` in `src/main.rs` holds one row per language:
+its `classic` template set (sixteen, or fifteen where the exception-catch cell
+is inapplicable), the `challenge` set the preregistration's applicability matrix
+assigns it, and a `rolled_out` flag. `expected_core_templates(language)` returns
+`classic` while the flag is `false` and `classic + challenge` once it is `true`.
+Every population check reads that function — the corpus-wide balance validator,
+the Bifrost per-language kernels, the CodeQL ECMA and C-family kernels, the
+Joern kernels, and the Semgrep kernels — so no denominator is stated twice.
 
-Two boundaries the mechanism enforces rather than documents:
+**A wave PR flips one row.** The language PR that authors a language's challenge
+fixtures sets that row's `rolled_out` to `true` in the same change. Nothing else
+in the validator moves: the Bifrost run's expected core count, the CodeQL and
+Joern balance checks, and the Semgrep selection all follow the row. Before the
+flip, a language with no challenge fixtures validates against its classic set,
+so it is never failed for lacking fixtures that do not exist yet; after the
+flip, the language is required to carry the full expanded set, so a partial
+fixture landing fails validation rather than silently reducing a denominator.
+The `challenge` sets themselves are preregistered and are not a wave's to edit.
 
-- **The Bifrost smoke population never grows.** It is frozen at 118 cases and
-  digest-bound by `reports/freeze.json`. Challenge cases are excluded from the
-  smoke selection whatever policy they name, so a language's Bifrost challenge
-  evidence comes from its dedicated `run-bifrost-<language>-kernel` run.
-- **A freeze-bound report is not re-run in the wave that expands its
-  language.** `reports/freeze.json` digest-binds nineteen reports, including
-  all ten CodeQL kernel reports and eight of the Bifrost kernel reports.
-  Overwriting one would invalidate a published freeze, so those adapters are
-  deferred to the v0.4.0 freeze-prep re-run and the deferral is recorded in
-  that language's kernel contract. Deferral is not absence of coverage, and the
-  v0.3.0 and v0.4.0 populations are never compared number-to-number.
+The per-language balance check used to compare each ECMA kernel's template set
+against Java's. That comparison is gone: with the three wave-1 languages landing
+in separate PRs, it would have made a language's correctness depend on which
+sibling merged first. Each language now answers to its own preregistered row.
 
-Python is the first row flipped: its core is 29 templates and 58 assertions.
-The per-adapter evidence, including which adapters were deferred, is in
-[the Python kernel contract](python-kernel.md).
+**The smoke slice is pinned by template identity, not only by policy.** The
+frozen 118-case Bifrost smoke population was pinned by naming the seven policies
+it evaluates. That is no longer sufficient: a Java, JavaScript, or Python
+challenge case names the *same* language-kernel policy its classic siblings
+name, so it would have been swept into the frozen population and quietly changed
+what those 118 cases mean. `smoke_population_case` therefore refuses any case
+whose `template_id` begins with `dfb-template-chal-`, whatever policy it names
+and whether or not it declares an `unsupported_reason`. A regression test pins
+the count at 118 and a second one asserts the refusal directly.
+
+**Java and JavaScript have dedicated Bifrost kernels.** `run-bifrost-java-kernel`
+and `run-bifrost-javascript-kernel` write `reports/bifrost-java-kernel.json` and
+`reports/bifrost-javascript-kernel.json` with their own raw-evidence roots,
+matching the pattern every language after Python already follows. Each selects
+its language's whole core population — classic today, classic plus challenge
+after the row flips — and pins the language-qualified policy for the run so all
+of its assertions share one configuration hash, exactly as the Kotlin kernel
+does. The frozen direct-propagation pairs keep the policies they were published
+with: Java's positive and negative name `direct-positive.rqlp` and
+`explicit-negative.rqlp`, JavaScript's pair names the cross-language breadth
+policy, and the selector accepts all of them rather than rewriting evidence a
+freeze manifest binds byte-for-byte.
+
+Those two commands have **not been run**. The frozen smoke slice remains the
+published Java and JavaScript Bifrost evidence until those languages' wave PRs
+run the new commands against real challenge fixtures.
+
+**A freeze-bound report is not re-run by the wave that expands its language.**
+`reports/freeze.json` digest-binds nineteen reports, including all ten CodeQL
+kernel reports and eight of the Bifrost kernel reports. Overwriting one would
+invalidate a published freeze, so those adapters are deferred to the v0.4.0
+freeze-prep re-run and the deferral is recorded in that language's kernel
+contract. Deferral is not absence of coverage, and the v0.3.0 and v0.4.0
+populations are never compared number-to-number.
+
+**Semgrep CE's challenge partition is preregistered.** All thirteen challenge
+templates are decided `unsupported` by declared capability, from the pinned
+distribution's own documentation, before any challenge fixture exists. The
+decision is keyed by template ID rather than by fixture tags, so no later
+fixture's `feature_tags` and no observed result can move a case between the
+partitions. The per-template rationale is in
+[the Semgrep adapter notes](../adapters/semgrep/README.md).
+
+**Python is the first row flipped.** Its core denominator is 29 templates and
+58 assertions, and the wave re-ran the adapters no freeze binds — Joern and
+Semgrep CE — while leaving its freeze-bound Bifrost and CodeQL reports exactly
+as published. The per-adapter evidence, including which adapters were deferred,
+is in [the Python kernel contract](python-kernel.md).
 
 ## CodeQL language populations
 

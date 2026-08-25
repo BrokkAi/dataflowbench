@@ -173,11 +173,10 @@ challenge-tier row is rolled out.
 Python's row is the challenge tier. Its core denominator is the expanded 29
 templates — the sixteen v0.3.0 templates plus the thirteen preregistered
 challenge templates — and **every one of the 26 challenge assertions falls in
-the `unsupported` partition**, because none of the thirteen challenge templates
-carries the `intraprocedural` feature tag. `docs/challenge-tier.md` stated that
-outcome in advance. The partition rule was not touched for the tier, and the
-scored subset stays at 14 assertions: the expansion moved the `unsupported`
-remainder from 18 to 44 and moved nothing else.
+the `unsupported` partition**, exactly as the preregistered partition below
+fixed in advance. Nothing about the scored partition was rewritten for the
+tier, and the scored subset stays at 14 assertions: the expansion moved the
+`unsupported` remainder from 18 to 44 and moved nothing else.
 
 The decision is taken by `semgrep_capability_exclusion` from the case JSON
 alone; an excluded case never reaches a Semgrep process, so it cannot produce an
@@ -192,6 +191,61 @@ path sensitivity is a Pro feature. They stay scored anyway: the CE engine can
 *express* those flows, it just over-approximates them, and an over-approximation
 is a publishable false positive rather than a capability gap. Excluding them
 would have hidden exactly the two mismatches this adapter reports.
+
+## Preregistered partition for the challenge tier
+
+This section was written **before any challenge fixture existed and before
+Semgrep had been pointed at one**, and it has not been edited since. It is a
+preregistration in the sense
+[the challenge-tier document](../../docs/challenge-tier.md) uses the word: the
+partition is fixed here, from the pinned distribution's documentation, while the
+outcomes are still unknown, and a later wave must not adjust it after seeing
+results. A defect in it is corrected by a documented amendment, never by a
+silent edit. Python's wave, the first to land challenge fixtures, changed
+nothing in this table.
+
+The decision is implemented as `CHALLENGE_SEMGREP_PARTITION` in `src/main.rs`,
+keyed by `template_id` and consulted *before* the `feature_tags` rule. Keying it
+by template rather than by tags is deliberate: it means no fixture author's tag
+choices — and no observed result — can move a challenge case between the scored
+and `unsupported` partitions once the fixtures land.
+
+**All thirteen are `unsupported` by declared capability.** That is not a
+convenience and it is not a scoreboard failure. The classic partition above
+scores exactly one shape — a purely local value flow inside a single function —
+because that is the only shape the pinned CE engine documents itself as
+analyzing. A challenge template is a challenge template precisely *because* its
+flow routes through dispatch, a function value, a container or a computed key, a
+deep field chain, or a call chain, and the CE documentation places every one of
+those outside the engine. None of the thirteen is a pure local value flow. The
+same documented boundary that already excludes `array-element-separation` and
+`same-object-field-separation` — single-function cases both — excludes the
+single-function challenge templates too.
+
+| Stratum | Template | CE decision | Documented reason |
+| --- | --- | --- | --- |
+| A | `chal-reflective-invocation` | `unsupported` | The callee is resolved from a run-time string and the sink is inside that callee's body. CE has no interprocedural taint at all (`--pro-intrafile` is Pro), and nothing in the pinned CE documentation claims to resolve a reflective handle. |
+| A | `chal-computed-property` | `unsupported` | Single-function, but the write and the read locate a member by a run-time key. CE documents only "Experimental support for basic field-sensitive taint tracking", while "Pro: taint-mode: Added basic support for 'index sensitivity'" places keyed access in Pro. Same boundary as the already-excluded `array-element-separation`. |
+| A | `chal-dispatch-table` | `unsupported` | The callee is a function value fetched from a stdlib map; both the call-graph edge and the sink are interprocedural. |
+| B | `chal-closure-capture` | `unsupported` | The sink is inside a closure body invoked from a different function than the one that captured the value. |
+| B | `chal-function-field` | `unsupported` | Needs field sensitivity beyond CE's experimental basic support *and* the interprocedural step CE documents as Pro. |
+| B | `chal-callback-registration` | `unsupported` | Registration and driver are different methods; inversion of control is interprocedural by construction. |
+| B | `chal-anonymous-implementation` | `unsupported` | Resolving the call-graph edge to an unnamed implementation and following taint into it are both outside the CE engine. |
+| C | `chal-map-iteration` | `unsupported` | Retrieval by iterating a container's entries is not within CE's documented "basic field-sensitive" support, and index sensitivity is recorded as Pro. |
+| C | `chal-nested-access-path` | `unsupported` | A field chain of depth ≥ 3; CE documents only *basic* experimental field sensitivity. |
+| C | `chal-element-object` | `unsupported` | Element separation and field separation in one query; index sensitivity is Pro and CE's field sensitivity is experimental and basic. |
+| D | `chal-deep-relay-chain` | `unsupported` | A six-hop interprocedural relay. `docs/challenge-tier.md` already records stratum D as beyond CE's documented scope. |
+| D | `chal-recursive-carry` | `unsupported` | A recursive summary is interprocedural; CE has no interprocedural taint. |
+| D | `chal-context-pair-depth2` | `unsupported` | Two-level context sensitivity; CE has no interprocedural taint and therefore no calling context to be sensitive to. |
+
+The consequence, stated in advance: when a language's challenge fixtures land,
+its Semgrep kernel's selected population grows with its rollout row while its
+**scored** subset stays at 14 assertions, and the `unsupported` remainder grows
+by twice that language's applicable challenge count. That is the honest
+description of a bounded engine measured against a harder population, and it is
+not a gap to paper over. Every excluded case still retains its
+`<case id>-unsupported.json` capability-decision document, and an `unsupported`
+outcome is never converted into a false negative.
 
 ## The taint model
 
