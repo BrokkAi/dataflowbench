@@ -11,7 +11,7 @@ scored slice includes a balanced direct-flow pair across 13 language/dialect
 entries and balanced 16-template Java, TypeScript, Python, Kotlin,
 C#, Go, and C++ propagation kernels — plus 15-template C and Rust kernels whose
 exception-catch cell is inapplicable — in the `taint` track. The Java, Python,
-JavaScript, C#, TypeScript, Kotlin, and Go cores have since expanded to 29
+JavaScript, C#, TypeScript, Kotlin, Go, and Scala cores have since expanded to 29
 templates each with the
 [preregistered challenge tier](docs/challenge-tier.md), the C++ core to 28, the
 Rust core to 27 (its reflective-invocation cell is inapplicable too), and the C
@@ -259,6 +259,19 @@ are both freeze-bound by v0.3.0 and both re-runs are deferred to v0.4.0, Joern
 has no C slice, and Semgrep CE declines all 18 challenge assertions by declared
 capability. The [C kernel contract](docs/c-kernel.md) records the four
 exclusions, the four adapted cells, and the deferral.
+
+Scala has since been expanded the same way, to a 29-template, 58-assertion core,
+with the two reflection cells language-adapted through `java.lang.reflect`
+because `scala-reflect` is a separate artifact the stdlib-only rule excludes. It
+is the inverse of the TypeScript and Go position: Scala has **single-analyzer
+coverage** — no CodeQL extractor, no Joern Scala source frontend, and no
+commissioned Semgrep slice — but its one covering adapter's report is *not*
+freeze-bound, so `run-bifrost-scala-kernel` was re-run whole over all 58 and
+nothing is deferred. That run reproduces the classic 32 case for case at 10/32
+and leaves **all 26 challenge assertions `inconclusive`** — capability coverage
+that is neither 26 matches nor 26 misses. The [Scala kernel
+contract](docs/scala-kernel.md) records the adaptations and the per-stratum
+evidence.
 
 ## Add a case or adapter
 

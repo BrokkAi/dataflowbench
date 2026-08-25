@@ -552,7 +552,7 @@ Installed frontends: `abap2cpg`, `c2cpg`, `csharpsrc2cpg`, `ghidra2cpg`,
 | Kotlin | `kotlin2cpg` | Available, not yet in scope (unchanged by Kotlin's challenge-tier expansion: no Joern Kotlin slice exists here to expand) |
 | TypeScript | `jssrc2cpg` | Available, not yet in scope |
 | Rust | `rust2cpg` | Executed here (new in `4.0.610`; needs a synthesized Cargo manifest) |
-| **Scala** | **none (source)** | **Explicitly unsupported** |
+| **Scala** | **none (source)** | **Explicitly unsupported** (unchanged by Scala's challenge-tier expansion: the 26 challenge fixtures are single-file `scalac`-clean sources on exactly the same terms as the 32 classic ones, so all 58 assertions fall outside the profile) |
 
 Rust was explicitly unsupported under `4.0.432`, which shipped no Rust frontend
 and no Rust identifier in `Languages.ALL`. `4.0.610` ships `rust2cpg` and the

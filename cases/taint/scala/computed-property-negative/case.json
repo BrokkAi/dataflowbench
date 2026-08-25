@@ -1,0 +1,59 @@
+{
+  "schema_version": 2,
+  "id": "dfb-taint-scala-computed-property-negative",
+  "template_id": "dfb-template-chal-computed-property",
+  "polarity": "negative",
+  "negative_mechanism": "field-separation",
+  "score_tier": "core",
+  "track": "taint",
+  "language": "scala",
+  "semantic_dimensions": [
+    "dynamic-dispatch",
+    "heap-field-sensitivity"
+  ],
+  "feature_tags": [
+    "computed-access"
+  ],
+  "model_profile": "benchmark-controlled",
+  "fixture_files": [
+    "ComputedPropertyNegative.scala"
+  ],
+  "source_anchors": [
+    {
+      "marker": "DFB-SOURCE: computed-property-input",
+      "file": "ComputedPropertyNegative.scala"
+    }
+  ],
+  "sink_anchors": [
+    {
+      "marker": "DFB-SINK: computed-property-sink",
+      "file": "ComputedPropertyNegative.scala"
+    }
+  ],
+  "expected_flows": [],
+  "expected_nonflows": [
+    {
+      "source": "DFB-SOURCE: computed-property-input",
+      "sink": "DFB-SINK: computed-property-sink"
+    }
+  ],
+  "witness_checkpoints": [],
+  "expected_analysis_capability": {
+    "kind": "computed-member-access-taint"
+  },
+  "execution_budget": {
+    "wall_clock_seconds": 60,
+    "peak_memory_mb": 512
+  },
+  "fixture_provenance": {
+    "kind": "authored",
+    "origin": "DataFlowBench",
+    "revision": "m3-challenge-scala",
+    "license": "MIT"
+  },
+  "tool_model_references": {
+    "bifrost": {
+      "policy": "adapters/bifrost/policies/core-scala-kernel.rqlp"
+    }
+  }
+}
