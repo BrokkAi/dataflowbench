@@ -22,7 +22,7 @@ scored templates are outside its documented profile; those assertions are
 | Build identity | `semgrep-oss:1.174.0` |
 | Installation | Homebrew (`brew install semgrep`), `/opt/homebrew/bin/semgrep` → `../Cellar/semgrep/1.174.0/bin/semgrep` |
 | Rules | `adapters/semgrep/rules/<language>.yaml` (seven committed files) |
-| Configuration hash | `b9c15af70503d7315d3435f83b568b3081553ce9bf16927e59baa33570a59c84` |
+| Configuration hash | `9f63e0d815c646341c868a2e9ea2c0215ebe53dedaa9d01faaf52d8a2201983e` |
 
 The pinned distribution reports no build SHA separate from its released
 version, so the released version *is* the build identity, recorded literally
