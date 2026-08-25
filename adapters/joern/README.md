@@ -124,7 +124,7 @@ data-flow engine, with no per-case, per-template, or per-polarity branching.
 
 The two endpoint identifiers are **read out of the fixture**, never assumed.
 The runner resolves each case's `DFB-SOURCE:` and `DFB-SINK:` marker line and
-takes the function declared on it. This matters: 30 of the 32 Java assertions
+takes the function declared on it. This matters: 56 of the 58 Java assertions
 spell the endpoints `dfb_source`/`dfb_sink`, but the two frozen Java
 direct-propagation assertions predate that convention and spell them
 `directUntrustedInput`/`recordDirect` and
@@ -231,25 +231,28 @@ lands on the *callsite*, so matching does not require the marker's own line.
 Joern 4.0.610, build identity `joern-cli:4.0.610`. All six kernels ran on the
 same pinned distribution and the same unmodified script, so every retained
 Joern report carries one `tool_version` and the single configuration hash
-above. Every case in all six kernels executed: 242 retained evidence documents,
+above. Every case in all six kernels executed: 268 retained evidence documents,
 zero error documents, zero `inconclusive`, `unsupported`, or `runner-error`
 outcomes.
 
-Four of the six ran against fixture revision
+Three of the six ran against fixture revision
 `sha256:aee59a14f96633cf5798df6d211525ea0d10748800ba9c9ac0a3787406bd19ea`.
-The Python and JavaScript kernels were each re-run whole after that language's
-challenge-tier row was rolled out, and each carries the expanded corpus
-revision current when it ran —
+The Python, JavaScript, and Java kernels were each re-run whole after that
+language's challenge-tier row was rolled out, and each carries the expanded
+corpus revision current when it ran —
 `sha256:3e7a8de5e1eefb18e8166af0ccdf309bccf1d5c26026893a4513f1943926ab1f` for
-Python and
+Python,
 `sha256:64ef139f452fd296bb26463bc552e5e5998ca4bb4584d45565d858424814bde9` for
-JavaScript. Reports at different fixture revisions are not pooled, and each
-language's 58 assertions are a different population from the 32 it reported in
-v0.3.0, not a movement within one.
+JavaScript, and
+`sha256:f476894a41d283e3bcaaf5188ee08abe7886ce8e3919257403b0aa853ef718e2` for
+Java. `fixture_revision` digests the whole case corpus, so each wave's fixtures
+moved it for every run after it. Reports at different fixture revisions are not
+pooled, and each language's 58 assertions are a different population from the
+32 it reported in v0.3.0, not a movement within one.
 
 | Kernel | `reached` | `not-reached` | Polarity match |
 | --- | --- | --- | --- |
-| Java (`javasrc2cpg`) | 16 | 16 | 28/32 |
+| **Java (`javasrc2cpg`)** | **26** | **32** | **47/58** |
 | **JavaScript (`jssrc2cpg`)** | **27** | **31** | **44/58** |
 | **Python (`pysrc2cpg`)** | **25** | **33** | **48/58** |
 | Ruby (`rubysrc2cpg`) | 18 | 14 | 26/32 |
@@ -260,29 +263,62 @@ Rust's denominator is 30, not 32, because its exception-catch cell is
 inapplicable; the ratios are not comparable across a different denominator and
 are not averaged.
 
-**Python's and JavaScript's denominators are 58, not 32.** Both challenge-tier
-rows are rolled out, so each core is the expanded 29 templates: the sixteen
-v0.3.0 templates plus the thirteen preregistered challenge templates
-([the challenge tier](../../docs/challenge-tier.md)). Each report was re-run
-whole — a whole-population replacement, not an append — and each carries the
-expanded corpus revision current when it ran, while the other four still carry
-`sha256:aee59a14f96633cf5798df6d211525ea0d10748800ba9c9ac0a3787406bd19ea`.
+**Java's, Python's, and JavaScript's denominators are 58, not 32.** All three
+challenge-tier rows are rolled out, so each core is the expanded 29 templates:
+the sixteen v0.3.0 templates plus the thirteen preregistered challenge
+templates ([the challenge tier](../../docs/challenge-tier.md)). Each report was
+re-run whole — a whole-population replacement, not an append — and each carries
+the expanded corpus revision current when it ran, while the other three still
+carry `sha256:aee59a14f96633cf5798df6d211525ea0d10748800ba9c9ac0a3787406bd19ea`.
 Split by stratum, JavaScript is **26/32 on the classic sixteen — identical case
 for case to its v0.3.0 snapshot, so the expansion introduced no drift — and
-18/26 on the challenge thirteen**, still with zero `inconclusive`,
-`unsupported`, or `runner-error` outcomes. A 58-assertion score and a
-32-assertion Java score are different populations and are neither compared nor
-averaged, and each language's own 28/32 v0.3.0 or 26/32 v0.3.0 result and its
-expanded result are likewise separate populations of the same name.
+18/26 on the challenge thirteen**, and Java is likewise **28/32 on the classic
+sixteen, identical case for case to its v0.3.0 snapshot, and 19/26 on the
+challenge thirteen**, both still with zero `inconclusive`, `unsupported`, or
+`runner-error` outcomes. A 58-assertion score and a 32-assertion score are
+different populations and are neither compared nor averaged, and each language's
+own 28/32 or 26/32 v0.3.0 result and its expanded result are likewise separate
+populations of the same name.
 
 Mismatches, verbatim:
 
-**Java** — `reports/joern-java-kernel.json`
+**Java** — `reports/joern-java-kernel.json` (58 assertions), 47/58 over the
+expanded core: 28/32 on the classic sixteen templates and 19/26 on the
+challenge tier.
+
+Classic stratum, 28/32 — the same four as before the expansion, case for case:
 
 - `dfb-taint-java-alias-propagation-positive`: false negative.
 - `dfb-taint-java-exception-catch-positive`: false negative.
 - `dfb-taint-java-infeasible-branch-negative`: false positive.
 - `dfb-taint-java-loop-carried-negative`: false positive.
+
+Challenge strata, 19/26 — A 3/6, B 5/8, C **6/6**, D 5/6:
+
+- `dfb-taint-java-reflective-invocation-positive`: false negative.
+- `dfb-taint-java-dispatch-table-positive`: false negative.
+- `dfb-taint-java-computed-property-negative`: false positive.
+- `dfb-taint-java-callback-registration-positive`: false negative.
+- `dfb-taint-java-function-field-positive`: false negative.
+- `dfb-taint-java-anonymous-implementation-negative`: false positive.
+- `dfb-taint-java-deep-relay-chain-positive`: false negative.
+
+These are approximation character, and the preregistration says so in advance
+rather than after the fact. The engine declines to resolve a callee named by a
+run-time string or fetched from a map, a field, or a list — so those positives
+are missed and their negatives are correct without the callee having been
+resolved — while it merges the two anonymous implementations of one interface
+and merges two distinct constant keys of one reflected field, producing the two
+false positives. The container stratum is answered completely.
+
+`dfb-taint-java-deep-relay-chain-positive` is a **predicted** miss, and the
+prediction is on the record before the run: this distribution's
+`io.joern.dataflowengineoss.queryengine.EngineConfig` default `maxCallDepth` is
+4, verified from the shipped jar, and the challenge chain is deliberately six
+hops. **This adapter did not raise that bound.** No `maxCallDepth` override is
+configured anywhere in the runner or the script, so the run's identity is the
+documented default; had it been raised, that would have been reported as part
+of the run's identity rather than tuned in silently.
 
 **JavaScript** — `reports/joern-javascript-kernel.json` (58 assertions)
 
@@ -371,18 +407,23 @@ Four mismatching templates recur across the five languages that share the
 sixteen v0.3.0 templates — alias propagation through a field and value transfer
 to an exception handler are missed everywhere, and the infeasible branch and
 the loop-carried kill are over-approximated everywhere — which is what a shared
-engine over language-specific frontends should look like. Java, PHP, and
-Python's classic stratum show exactly that set and nothing else; JavaScript
+engine over language-specific frontends should look like. PHP and Java's and
+Python's classic strata show exactly that set and nothing else; JavaScript
 adds array-element and same-object-field over-approximation; Ruby adds
 argument-position and call-context over-approximation.
 
-Two challenge strata are recorded here, Python's and JavaScript's. JavaScript's
-divides cleanly: every stratum-A and stratum-B *negative* is decided correctly
-while five of those positives are missed — the under-approximating half of the
-approximation character the challenge preregistration described — and the two
-false positives are the computed-key and depth-3 sibling reads, which sharpen
-the field-precision bound the classic array-element and same-object-field
-mismatches already show rather than revealing a new one.
+Three challenge strata are recorded here: Python's, JavaScript's, and Java's.
+JavaScript's divides cleanly: every stratum-A and stratum-B *negative* is
+decided correctly while five of those positives are missed — the
+under-approximating half of the approximation character the challenge
+preregistration described — and the two false positives are the computed-key
+and depth-3 sibling reads, which sharpen the field-precision bound the classic
+array-element and same-object-field mismatches already show rather than
+revealing a new one. Java's divides the same way and answers its container
+stratum completely, its two false positives coming from merging the two
+anonymous implementations of one interface and two distinct constant keys of
+one reflected field. All three miss the depth-6 relay positive for the one
+preregistered reason: the verified `maxCallDepth = 4` default, unraised.
 
 Rust's three mismatches are exactly that recurring set intersected with its own
 15 applicable templates: it misses the same field-alias propagation and
@@ -405,15 +446,16 @@ upgrade's effect on each is measured, not assumed. Four of the five reproduced
 
 | Kernel | `4.0.432` | `4.0.610` | Drift |
 | --- | --- | --- | --- |
-| Java | 28/32 | 28/32 | none; identical mismatch set |
+| Java | 28/32 | 28/32 | none; identical mismatch set (classic stratum; the later 58-assertion expansion re-ran it unchanged) |
 | JavaScript | 26/32 | 26/32 | none; identical mismatch set (classic stratum; the later 58-assertion expansion re-ran it unchanged) |
 | Python | 28/32 | 28/32 | none; identical mismatch set |
 | PHP | 28/32 | 28/32 | none; identical mismatch set |
 | Ruby | 26/32 | 26/32 | **same total, different set — four cases moved** |
 
-That table compares the 16-template population under two Joern pins. Python's
-later expansion to 58 assertions is a *population* change, not a pin change,
-and its 48/58 belongs beside neither column.
+That table compares the 16-template population under two Joern pins. The later
+expansions of Java, JavaScript, and Python to 58 assertions are *population*
+changes, not pin changes, and their 47/58, 44/58, and 48/58 belong beside
+neither column.
 
 Ruby's score is unchanged and its outcome distribution is unchanged (18
 `reached`, 14 `not-reached`), but the *identity* of its four false positives
@@ -483,6 +525,14 @@ benchmark ships, so Scala is likewise out of profile rather than merely
 unimplemented. "Available, not yet in scope" means the frontend exists and the
 language could be added later — it is not a claim about how well it performs,
 because it has not been run.
+
+TypeScript is the row most likely to be misread, so it is stated twice.
+`jssrc2cpg` parses `.ts`, but this adapter has **no TypeScript slice**: no
+`run-joern-typescript-kernel` command, no TypeScript selection, no
+`reports/joern-typescript-kernel.json`. The TypeScript challenge-tier wave
+(`docs/typescript-kernel.md`) did not invent one — standing up a language slice
+is its own change, not a side effect of landing fixtures — so TypeScript has no
+Joern evidence at any denominator, classic or expanded.
 
 ## Model assumptions
 

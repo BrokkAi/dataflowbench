@@ -12,7 +12,10 @@ The core smoke slice applies one balanced direct-flow template to all 13
 currently supported language/dialect entries: C, C++, C#, Go, Java,
 JavaScript, Kotlin, PHP, Python, Ruby, Rust, Scala, and TypeScript. A Java
 propagation kernel adds 16 balanced templates across local, call/return, heap,
-and control-flow strata. The JavaScript parity slice uses the same template IDs
+and control-flow strata. Java has since been expanded by the same thirteen
+challenge templates to a 29-template, 58-assertion core, run by its own
+`run-bifrost-java-kernel` command; see the [Java kernel
+contract](../../docs/java-kernel.md). The JavaScript parity slice uses the same template IDs
 and the language-qualified `core-javascript-kernel.rqlp` policy, with any
 language adaptations recorded on the canonical cases. JavaScript has since been
 expanded by the thirteen challenge templates to a 29-template, 58-assertion
@@ -25,8 +28,12 @@ realizations, and the explicit exceptional-flow limitation. The Python parity sl
 contract](../../docs/kotlin-kernel.md) for its two `var`-based adaptations and
 for why the Kotlin kernel run pins its policy for the whole population rather
 than reading it from each case. The TypeScript parity slice repeats those 16
-templates against `.ts` fixtures through `core-typescript-kernel.rqlp`; see the
-[TypeScript adaptation matrix](../../docs/typescript-kernel.md). TypeScript is a
+templates against `.ts` fixtures through `core-typescript-kernel.rqlp`, and its
+thirteen challenge templates have now rolled out too, taking its core
+population to 29 templates and 58 assertions; see the [TypeScript adaptation
+matrix](../../docs/typescript-kernel.md). The retained TypeScript report is the
+classic 32 — it is freeze-bound by v0.3.0, so its expanded run is deferred to
+the v0.4.0 freeze-prep re-run rather than written here. TypeScript is a
 separate population from JavaScript and the two are never mixed. The C# parity
 slice uses `core-csharp-kernel.rqlp`; its direct-propagation pair is frozen in
 the v0.2.0 evidence with the breadth `core-direct.rqlp` policy, so the C#
@@ -95,11 +102,9 @@ cargo run -- run-bifrost-ruby-kernel --bifrost /path/to/bifrost
 cargo run -- run-bifrost-php-kernel --bifrost /path/to/bifrost
 ```
 
-The `run-bifrost-java-kernel` command is new and **has not been run**: it
-carries no evidence in this repository yet, and the frozen smoke slice remains
-the published Java Bifrost evidence until Java's challenge-tier wave-1 language
-change runs it. `run-bifrost-javascript-kernel` **has** been run, over
-JavaScript's expanded 58-assertion core; its evidence is described below. Each
+`run-bifrost-java-kernel` and `run-bifrost-javascript-kernel` have both now been
+run, each over its language's expanded 58-assertion core; their evidence is
+described below. Each
 selects its language's whole core population and pins the language-qualified
 policy for the run, accepting the frozen direct-propagation pair's historical
 policy references (`direct-positive.rqlp` and `explicit-negative.rqlp` for
@@ -130,9 +135,11 @@ evidence layers. Raw completion and diagnostic fields are never replaced with
 a synthetic `not-reached` outcome, and normalized witness checkpoints remain
 empty until the adapter can prove their locations.
 
-The 32-case Java kernel has 16 `reached` and 16 `not-reached` outcomes, with
-32/32 assertions matching expected polarity and no incomplete outcomes (under
-v0.10.2 it was 17/32). The 32-case Python kernel likewise has 16 `reached`,
+The 32-case Java kernel *within the frozen smoke population* has 16 `reached`
+and 16 `not-reached` outcomes, with 32/32 assertions matching expected polarity
+and no incomplete outcomes (under v0.10.2 it was 17/32). That population is
+frozen and does not grow; Java's expanded core is a separate slice, described
+under [the Java kernel](#java-kernel-expanded-core) below. The 32-case Python kernel likewise has 16 `reached`,
 16 `not-reached`, and 32/32 matching (v0.10.2: 16/32); its dedicated report is
 `reports/bifrost-python-kernel.json` and raw evidence is under
 `reports/raw/bifrost-python-kernel/`.
@@ -220,9 +227,14 @@ and 2 `inconclusive`, with 30/32 assertions matching expected polarity — all
 30 decisive outcomes are correct. The two `inconclusive` results are the
 exception-catch pair, retaining `capability_incomplete` evidence. Under
 v0.10.2 this kernel matched 19/32; the alias-propagation and array-element
-pairs are now decisive and correct.
+pairs are now decisive and correct. That report is the classic 32-assertion
+population only: TypeScript's core is now 58 assertions, but the report is
+freeze-bound by v0.3.0, so **the expanded Bifrost TypeScript evidence is
+pending the v0.4.0 freeze-prep re-run** and this snapshot is not an
+expanded-core number.
 
-The 32-case C# kernel, in its own report `reports/bifrost-csharp-kernel.json`
+The C# kernel's frozen 32-case run, in its own report
+`reports/bifrost-csharp-kernel.json`
 with raw evidence under `reports/raw/bifrost-csharp-kernel/`, contains 1
 `reached`, 1
 `not-reached`, and 30 `inconclusive` results: only the direct-propagation pair
@@ -233,6 +245,18 @@ value-flow snapshot for the C# fixture procedure is unknown or unsupported.
 This is capability coverage, never a negative result. The same incompleteness
 reproduces under the language-agnostic `core-direct.rqlp` policy, so it is not
 an artifact of the language-qualified policy.
+
+**Deferred: the expanded C# population.** C#'s challenge-tier row is now
+rolled out and its core denominator is 29 templates / 58 assertions, but
+`reports/bifrost-csharp-kernel.json` is one of the nineteen reports
+`reports/freeze.json` digest-binds for v0.3.0, so the C# challenge wave did not
+re-run it — the same treatment the Python wave gave its freeze-bound report.
+Those 32 results are the frozen 16-template v0.3.0 evidence and say nothing
+either way about the thirteen challenge templates; Bifrost's evidence for the
+expanded C# core arrives with the v0.4.0 freeze-prep re-run. Deferral is not
+absence of coverage, and the v0.3.0 and v0.4.0 populations are never compared
+number-to-number. The C# challenge cases are also excluded from the smoke
+selection, which stays pinned at its frozen 118 cases.
 
 The 32-case Go kernel, in its own report `reports/bifrost-go-kernel.json` with
 raw evidence under `reports/raw/bifrost-go-kernel/`, contains 5 `reached`, 5
@@ -303,6 +327,41 @@ or `capability_incomplete` (4) evidence; six of them additionally carry the
 policy's finding message, which an incomplete run cannot make decisive. This is
 capability coverage, never a negative result; see [the Scala kernel
 contract](../../docs/scala-kernel.md).
+
+## Java kernel (expanded core)
+
+Java now has a dedicated slice of its own, `run-bifrost-java-kernel`, writing
+`reports/bifrost-java-kernel.json` with raw evidence under
+`reports/raw/bifrost-java-kernel/`. It exists because Java's core grew: the
+[challenge-tier preregistration](../../docs/challenge-tier.md) adds thirteen
+templates to it, so its denominator is **29 templates and 58 assertions**, while
+the smoke population that also covers Java is frozen at 118 cases and must not
+grow. The challenge tier is excluded from the smoke selection outright for that
+reason.
+
+The first run of this slice, on the same v0.10.5 build, produces 18 `reached`,
+19 `not-reached`, 19 `inconclusive`, and 2 `runner-error` results. Its classic
+32 assertions reproduce the frozen smoke slice's Java outcomes case for case —
+16 `reached`, 16 `not-reached`, 32/32 matching — which is the control that says
+the expansion did not disturb the population it was added to.
+
+Of the 26 challenge assertions, five are decisive and all five are correct
+(both `recursive-carry` cells, both `context-pair-depth2` cells, and
+`deep-relay-chain-negative`); there is no false positive and no false negative
+anywhere in the tier. The other 21 are capability or execution coverage: 19
+`inconclusive` — 10 retaining `capability_incomplete` "no analysis root
+contains both a selected source and sink" (the reflective-invocation,
+dispatch-table, closure-capture, function-field, and callback-registration
+pairs) and 9 retaining `partial_discovery` "procedure value-flow snapshot ...
+is unknown" (the computed-property, anonymous-implementation, map-iteration,
+and nested-access-path pairs, plus the six-hop relay positive) — and 2
+`runner-error` on the `element-object` pair, where the run fails with
+`internal_invariant` and "invalid value-flow snapshot: oracle relation does not
+belong to the required query arena and role". That failure is retained
+verbatim and published as an engine defect; it is not a negative result. Per
+the preregistration's own reading rule, correct stratum-D negatives beside an
+undecided six-hop positive describe a bound, not precision. See [the Java
+kernel contract](../../docs/java-kernel.md).
 
 The JavaScript alias-propagation and array-element pairs retain
 `partial_discovery` evidence, while the exception-catch pair retains

@@ -1,0 +1,63 @@
+{
+  "schema_version": 2,
+  "id": "dfb-taint-typescript-deep-relay-chain-negative",
+  "template_id": "dfb-template-chal-deep-relay-chain",
+  "polarity": "negative",
+  "negative_mechanism": "unrelated-value",
+  "score_tier": "core",
+  "track": "taint",
+  "language": "typescript",
+  "semantic_dimensions": [
+    "interprocedural-flow"
+  ],
+  "feature_tags": [
+    "interprocedural-deep"
+  ],
+  "model_profile": "benchmark-controlled",
+  "fixture_files": [
+    "DeepRelayChainNegative.ts"
+  ],
+  "source_anchors": [
+    {
+      "marker": "DFB-SOURCE: deep-relay-chain-input",
+      "file": "DeepRelayChainNegative.ts",
+      "line_hint": 1
+    }
+  ],
+  "sink_anchors": [
+    {
+      "marker": "DFB-SINK: deep-relay-chain-sink",
+      "file": "DeepRelayChainNegative.ts",
+      "line_hint": 5
+    }
+  ],
+  "expected_flows": [],
+  "expected_nonflows": [
+    {
+      "source": "DFB-SOURCE: deep-relay-chain-input",
+      "sink": "DFB-SINK: deep-relay-chain-sink"
+    }
+  ],
+  "witness_checkpoints": [],
+  "expected_analysis_capability": {
+    "kind": "deep-interprocedural-relay-taint"
+  },
+  "execution_budget": {
+    "wall_clock_seconds": 60,
+    "peak_memory_mb": 512
+  },
+  "fixture_provenance": {
+    "kind": "authored",
+    "origin": "DataFlowBench",
+    "revision": "m3-challenge-typescript",
+    "license": "MIT"
+  },
+  "tool_model_references": {
+    "bifrost": {
+      "policy": "adapters/bifrost/policies/core-typescript-kernel.rqlp"
+    },
+    "codeql": {
+      "query": "adapters/codeql/typescript/queries/TypeScriptKernel.ql"
+    }
+  }
+}

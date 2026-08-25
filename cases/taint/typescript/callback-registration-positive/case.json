@@ -1,0 +1,67 @@
+{
+  "schema_version": 2,
+  "id": "dfb-taint-typescript-callback-registration-positive",
+  "template_id": "dfb-template-chal-callback-registration",
+  "polarity": "positive",
+  "score_tier": "core",
+  "track": "taint",
+  "language": "typescript",
+  "semantic_dimensions": [
+    "interprocedural-flow",
+    "dynamic-dispatch"
+  ],
+  "feature_tags": [
+    "higher-order"
+  ],
+  "model_profile": "benchmark-controlled",
+  "fixture_files": [
+    "CallbackRegistrationPositive.ts"
+  ],
+  "source_anchors": [
+    {
+      "marker": "DFB-SOURCE: callback-registration-input",
+      "file": "CallbackRegistrationPositive.ts",
+      "line_hint": 1
+    }
+  ],
+  "sink_anchors": [
+    {
+      "marker": "DFB-SINK: callback-registration-sink",
+      "file": "CallbackRegistrationPositive.ts",
+      "line_hint": 5
+    }
+  ],
+  "expected_flows": [
+    {
+      "source": "DFB-SOURCE: callback-registration-input",
+      "sink": "DFB-SINK: callback-registration-sink"
+    }
+  ],
+  "expected_nonflows": [],
+  "witness_checkpoints": [
+    "DFB-SOURCE: callback-registration-input",
+    "DFB-WITNESS: callback-registration-hook",
+    "DFB-SINK: callback-registration-sink"
+  ],
+  "expected_analysis_capability": {
+    "kind": "inverted-control-callback-taint"
+  },
+  "execution_budget": {
+    "wall_clock_seconds": 60,
+    "peak_memory_mb": 512
+  },
+  "fixture_provenance": {
+    "kind": "authored",
+    "origin": "DataFlowBench",
+    "revision": "m3-challenge-typescript",
+    "license": "MIT"
+  },
+  "tool_model_references": {
+    "bifrost": {
+      "policy": "adapters/bifrost/policies/core-typescript-kernel.rqlp"
+    },
+    "codeql": {
+      "query": "adapters/codeql/typescript/queries/TypeScriptKernel.ql"
+    }
+  }
+}

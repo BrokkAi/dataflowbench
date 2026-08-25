@@ -1,0 +1,67 @@
+{
+  "schema_version": 2,
+  "id": "dfb-taint-typescript-map-iteration-positive",
+  "template_id": "dfb-template-chal-map-iteration",
+  "polarity": "positive",
+  "score_tier": "core",
+  "track": "taint",
+  "language": "typescript",
+  "semantic_dimensions": [
+    "heap-field-sensitivity",
+    "object-sensitivity"
+  ],
+  "feature_tags": [
+    "computed-access"
+  ],
+  "model_profile": "benchmark-controlled",
+  "fixture_files": [
+    "MapIterationPositive.ts"
+  ],
+  "source_anchors": [
+    {
+      "marker": "DFB-SOURCE: map-iteration-input",
+      "file": "MapIterationPositive.ts",
+      "line_hint": 1
+    }
+  ],
+  "sink_anchors": [
+    {
+      "marker": "DFB-SINK: map-iteration-sink",
+      "file": "MapIterationPositive.ts",
+      "line_hint": 5
+    }
+  ],
+  "expected_flows": [
+    {
+      "source": "DFB-SOURCE: map-iteration-input",
+      "sink": "DFB-SINK: map-iteration-sink"
+    }
+  ],
+  "expected_nonflows": [],
+  "witness_checkpoints": [
+    "DFB-SOURCE: map-iteration-input",
+    "DFB-WITNESS: map-iteration-store",
+    "DFB-SINK: map-iteration-sink"
+  ],
+  "expected_analysis_capability": {
+    "kind": "container-iteration-taint"
+  },
+  "execution_budget": {
+    "wall_clock_seconds": 60,
+    "peak_memory_mb": 512
+  },
+  "fixture_provenance": {
+    "kind": "authored",
+    "origin": "DataFlowBench",
+    "revision": "m3-challenge-typescript",
+    "license": "MIT"
+  },
+  "tool_model_references": {
+    "bifrost": {
+      "policy": "adapters/bifrost/policies/core-typescript-kernel.rqlp"
+    },
+    "codeql": {
+      "query": "adapters/codeql/typescript/queries/TypeScriptKernel.ql"
+    }
+  }
+}
