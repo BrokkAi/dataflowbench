@@ -13,9 +13,10 @@ C#, Go, and C++ propagation kernels — plus 15-template C and Rust kernels whos
 exception-catch cell is inapplicable — in the `taint` track. The Java, Python,
 JavaScript, C#, TypeScript, Kotlin, Go, and Scala cores have since expanded to 29
 templates each with the
-[preregistered challenge tier](docs/challenge-tier.md), the C++ core to 28, and
-the C core to 24 (nine of the thirteen challenge templates are applicable to
-C); the 16-template, 24-template, 28-template, and
+[preregistered challenge tier](docs/challenge-tier.md), the C++ core to 28, the
+Rust core to 27 (its reflective-invocation cell is inapplicable too), and the C
+core to 24 (nine of the thirteen challenge templates are applicable to C); the
+16-template, 24-template, 27-template, 28-template, and
 29-template populations are separate populations of the same name. Each parity kernel uses the
 same language-neutral template IDs with language-specific fixture spellings and
 a separate result population; the [Python kernel
@@ -142,16 +143,23 @@ compilation step. They write `reports/joern-<language>-kernel.json` and keep one
 raw evidence document per case under `reports/raw/joern-<language>-kernel/`. The
 retained snapshot used Joern 4.0.610 with the `javasrc2cpg`, `jssrc2cpg`,
 `pysrc2cpg`, `rubysrc2cpg`, `php2cpg`, and `rust2cpg` frontends and one committed
-CPG query script. All 268 assertions executed with no `inconclusive`,
+CPG query script. All 292 assertions executed with no `inconclusive`,
 `unsupported`, or `runner-error` outcome: Java 47/58, JavaScript 44/58, Python
-48/58, Ruby 26/32, PHP 28/32, and Rust 27/30 match the expected polarity —
-Rust's denominator is 15 templates, not 16, and Java's, Python's, and
+48/58, Ruby 26/32, PHP 28/32, and Rust 43/54 match the expected polarity —
+Rust's denominator is the expanded 27 templates, two cells being inapplicable to
+it, and Java's, Python's, and
 JavaScript's are the expanded 29 each, whose 58-assertion populations are never
 compared to a 32-assertion one. JavaScript splits 26/32 on the classic sixteen —
-identical to its earlier snapshot — and 18/26 on the challenge thirteen, and
-Java splits 28/32 and 19/26 the same way; in both the depth-6 relay positive is
+identical to its earlier snapshot — and 18/26 on the challenge thirteen,
+Java splits 28/32 and 19/26 the same way, and Rust splits 27/30 and 16/24, each
+classic half identical case for case to its pre-expansion snapshot; in all three
+the depth-6 relay positive is
 missed at the distribution's default call-depth bound of 4, exactly as the
-challenge preregistration predicted in advance. Rust became runnable only at this pin:
+challenge preregistration predicted in advance. Rust's challenge stratum is the
+first challenge-tier engine evidence here for a systems language, and it is
+uniformly under-approximating: every stratum-A and stratum-B negative correct,
+every stratum-A and stratum-B positive missed, and not one false positive in the
+twelve challenge templates. Rust became runnable only at this pin:
 `rust2cpg` is new in 4.0.610, it needs a Cargo manifest the runner synthesizes
 per workspace, and it is recorded as the young frontend it is. Scala still has
 no source frontend and stays explicitly unsupported. Re-running all six on the
@@ -172,11 +180,11 @@ intraprocedural partition of each kernel is scored — the pinned CLI documents
 interprocedural taint, cross-file taint, and path sensitivity as Pro Engine
 features, so the rest is `unsupported` rather than false negatives. All eleven
 kernels produced 9 `reached`, 5 `not-reached`, and the whole remainder
-`unsupported` (18 for the three unexpanded 16-template kernels, 16 for Rust,
-whose exception-catch cell is inapplicable, 34 for the expanded 24-template C
-kernel, 42 for the expanded 28-template C++ kernel, and 44 each for the
-expanded 29-template Java, Python, JavaScript, TypeScript, Kotlin, and Go
-kernels), with no `inconclusive` or `runner-error`
+`unsupported` (18 each for the two unexpanded 16-template PHP and Ruby
+kernels, 34 for the expanded 24-template C kernel, 40 for the expanded
+27-template Rust kernel, 42 for the expanded 28-template C++ kernel, and 44
+each for the expanded 29-template Java, Python, JavaScript, TypeScript,
+Kotlin, and Go kernels), with no `inconclusive` or `runner-error`
 outcome and 12/14 of each scored subset matching the expected polarity; every
 intraprocedural positive was found in every language. The two mismatches are the
 same in all eleven — false positives on the infeasible branch and the
@@ -243,8 +251,8 @@ population, and it declines all 26 challenge assertions by declared capability.
 The [Go kernel contract](docs/go-kernel.md) records the deferral and what it
 does and does not leave established.
 
-C is the first expansion with a **reduced** challenge denominator: four of the
-thirteen templates are inapplicable to a language with no reflection, no
+C carries the most sharply **reduced** challenge denominator so far: four of
+the thirteen templates are inapplicable to a language with no reflection, no
 computed member access, no closures, and no anonymous types, so its core is 24
 templates / 48 assertions rather than 29 / 58. Its Bifrost and CodeQL reports
 are both freeze-bound by v0.3.0 and both re-runs are deferred to v0.4.0, Joern
