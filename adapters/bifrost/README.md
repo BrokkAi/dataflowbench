@@ -79,11 +79,16 @@ that its challenge-tier row is rolled out; see [the PHP kernel
 contract](../../docs/php-kernel.md) for its ordered-map array adaptation, its
 thirteen directly-applicable challenge cells, and for why the pinned CodeQL CLI
 contributes no PHP results at all. The Ruby parity
-slice uses `core-ruby-kernel.rqlp` under that same arrangement and also covers
-all 16 templates (32 core assertions); it is the one analyzer-coverage-gated
-slice, run and retained as capability evidence while the Ruby denominator is
-decided CodeQL-first, as [the Ruby kernel
-contract](../../docs/ruby-kernel.md) records. The Scala parity
+slice uses `core-ruby-kernel.rqlp` under that same arrangement and likewise
+covers the **expanded 29 templates (58 core assertions)**, all thirteen
+challenge cells being directly applicable to Ruby. It is the one
+analyzer-coverage-gated slice, run and retained as capability evidence while the
+Ruby denominator is decided CodeQL-first; all 58 assertions come back
+`inconclusive`, 14 of them under a new *taint semantic binding is unavailable*
+diagnostic class — no analysis root contains both a selected source and sink —
+and the rest under incomplete-discovery diagnostics. Either way it is a recorded
+absence of capability rather than 58 negatives, as
+[the Ruby kernel contract](../../docs/ruby-kernel.md) records. The Scala parity
 slice uses `core-scala-kernel.rqlp` and pins that policy for its whole
 population the way the Kotlin slice does, because its direct-propagation pair
 is frozen naming the breadth policy; its core is now the **expanded 29
@@ -327,20 +332,29 @@ only: Rust's core is now 54 assertions, but the report is freeze-bound by
 v0.3.0, so **the expanded Bifrost Rust evidence is pending the v0.4.0
 freeze-prep re-run** and this snapshot is not an expanded-core number.
 
-The 32-case Ruby kernel, in its own report `reports/bifrost-ruby-kernel.json`
-with raw evidence under `reports/raw/bifrost-ruby-kernel/`, contains **32
+The 58-case Ruby kernel, in its own report `reports/bifrost-ruby-kernel.json`
+with raw evidence under `reports/raw/bifrost-ruby-kernel/`, contains **58
 `inconclusive` results and nothing else**: no assertion is decisive, so the
 polarity match is 0 of 0 decisive outcomes. This is not a regression and not a
 negative result — it is the analyzer-coverage gate
 `docs/applicability-matrix.md` records for Ruby, now measured over the whole
-16-template population instead of only the two breadth assertions. Twenty
-results retain `partial_discovery` evidence ("procedure value-flow snapshot for
-`<fixture>.run` is unknown") and twelve retain `capability_incomplete` evidence
-— the four heap/separation pairs and the exception-catch pair ("unsupported
-(assignments)") plus the loop-carried pair ("unsupported (local_flow)").
-Bifrost's Ruby indexing was not modified by that tranche; the Ruby denominator
-is decided CodeQL-first instead, and none of these 32 outcomes is ever counted
-as `not-reached`. See [the Ruby kernel contract](../../docs/ruby-kernel.md).
+expanded 29-template population instead of the 16-template core or the two
+breadth assertions. `reports/bifrost-ruby-kernel.json` is **not** freeze-bound —
+the Ruby kernel landed after v0.3.0, so no Ruby report appears in
+`reports/freeze.json` — so this is a whole-population replacement rather than a
+deferral. Twenty-eight results retain `partial_discovery` evidence ("procedure
+value-flow snapshot for `<procedure>` is unknown"); fourteen retain
+`capability_incomplete` "unsupported (assignments)" (the four classic
+heap/separation pairs, the exception-catch pair, and the challenge
+`nested-access-path` and `element-object` pairs); fourteen retain
+`capability_incomplete` "taint semantic binding is unavailable: no analysis root
+contains both a selected source and sink" (the seven challenge pairs whose sink
+call sits inside a lambda, a block, a `Method` object, or an anonymous class
+body); and two retain "unsupported (local_flow)" (the loop-carried pair).
+Bifrost's Ruby indexing was not modified by this wave any more than by the
+original tranche; the Ruby denominator is decided CodeQL-first instead, and none
+of these 58 outcomes is ever counted as `not-reached`. See [the Ruby kernel
+contract](../../docs/ruby-kernel.md).
 
 The **58-assertion** PHP kernel, in its own report
 `reports/bifrost-php-kernel.json` with raw evidence under

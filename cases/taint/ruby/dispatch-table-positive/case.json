@@ -1,0 +1,69 @@
+{
+  "schema_version": 2,
+  "id": "dfb-taint-ruby-dispatch-table-positive",
+  "template_id": "dfb-template-chal-dispatch-table",
+  "polarity": "positive",
+  "score_tier": "core",
+  "track": "taint",
+  "language": "ruby",
+  "semantic_dimensions": [
+    "dynamic-dispatch",
+    "context-sensitivity",
+    "interprocedural-flow"
+  ],
+  "feature_tags": [
+    "higher-order",
+    "ambiguous-dispatch"
+  ],
+  "model_profile": "benchmark-controlled",
+  "fixture_files": [
+    "dispatch_table.rb"
+  ],
+  "source_anchors": [
+    {
+      "marker": "DFB-SOURCE: dispatch-table-input",
+      "file": "dispatch_table.rb",
+      "line_hint": 1
+    }
+  ],
+  "sink_anchors": [
+    {
+      "marker": "DFB-SINK: dispatch-table-sink",
+      "file": "dispatch_table.rb",
+      "line_hint": 5
+    }
+  ],
+  "expected_flows": [
+    {
+      "source": "DFB-SOURCE: dispatch-table-input",
+      "sink": "DFB-SINK: dispatch-table-sink"
+    }
+  ],
+  "expected_nonflows": [],
+  "witness_checkpoints": [
+    "DFB-SOURCE: dispatch-table-input",
+    "DFB-WITNESS: dispatch-table-build",
+    "DFB-SINK: dispatch-table-sink"
+  ],
+  "expected_analysis_capability": {
+    "kind": "indirect-callee-resolution-taint"
+  },
+  "execution_budget": {
+    "wall_clock_seconds": 60,
+    "peak_memory_mb": 512
+  },
+  "fixture_provenance": {
+    "kind": "authored",
+    "origin": "DataFlowBench",
+    "revision": "m3-challenge-ruby",
+    "license": "MIT"
+  },
+  "tool_model_references": {
+    "bifrost": {
+      "policy": "adapters/bifrost/policies/core-ruby-kernel.rqlp"
+    },
+    "codeql": {
+      "query": "adapters/codeql/ruby/queries/RubyKernel.ql"
+    }
+  }
+}

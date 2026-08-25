@@ -104,8 +104,11 @@ fixture's `feature_tags` and no observed result can move a case between the
 partitions. The per-template rationale is in
 [the Semgrep adapter notes](../adapters/semgrep/README.md).
 
-**Python, JavaScript, Java, C#, TypeScript, Kotlin, Go, C++, C, and Rust are
-the rows flipped so far.** The first seven have a core
+**The rollout is complete. All thirteen rows are flipped** — Python,
+JavaScript, Java, C#, TypeScript, Kotlin, Go, C++, C, Rust, Scala, PHP, and
+Ruby — so every core kernel now carries its preregistered expanded
+denominator and no language validates against its classic set alone. Ten of
+the thirteen have a core
 denominator of 29 templates and 58 assertions; **C++'s is 28 templates and 56
 assertions**, **Rust's is 27 templates and 54 assertions**, and **C's is 24
 templates and 48 assertions**, because some cells are inapplicable to those
@@ -168,6 +171,33 @@ CE** — `reports/bifrost-c-kernel.json` and `reports/codeql-c-kernel.json` are
 both digest-bound by `reports/freeze.json`, and the Joern adapter has no C
 slice — so both engine re-runs are deferred to v0.4.0. See [the C kernel
 contract](c-kernel.md).
+
+The Ruby wave is the last of the thirteen and the opposite extreme: the only
+one that defers **nothing**. Ruby's kernel landed *after* the v0.3.0 freeze, so
+none of its four reports appears in `reports/freeze.json`'s report list, and all
+four adapters — CodeQL, Joern, Bifrost, and Semgrep CE — were re-run whole over
+the expanded 58 assertions. All thirteen of Ruby's challenge templates are
+directly applicable, so its expanded core is the full 29 templates. Ruby is
+therefore the only language with complete expanded-core evidence from all four
+adapters, and `reports/codeql-ruby-kernel.json` is the **only CodeQL report in
+this repository that reflects the challenge tier at all** — every other CodeQL
+kernel is digest-bound at its 32-assertion classic population. It scores 49/58
+— 29/32 classic and 20/26 challenge, clean **6/6** on stratum D, the context
+and depth stress stratum. Joern scores 40/58 — 26/32 and 14/26 — and carries the
+wave's one **recorded measured departure** from the challenge preregistration:
+at the same pinned `maxCallDepth=4` that makes Java, JavaScript, Python, PHP,
+and Rust miss the depth-6 relay positive, Ruby discriminates that pair
+correctly. The departure is recorded as measured rather than reconciled to the
+prediction. Semgrep CE scores 12/14 on its preregistered intraprocedural
+partition with the other 44 assertions `unsupported`, and Bifrost returns 58/58
+`inconclusive` under a new *taint semantic binding is unavailable* diagnostic
+class rather than reporting absent flows as negatives. See [the Ruby kernel
+contract](ruby-kernel.md).
+
+With Ruby's row flipped the challenge-tier rollout is complete: all thirteen
+core kernels carry their preregistered expanded denominators, and every
+remaining gap is an adapter re-run deferred to v0.4.0 by the freeze rule, not a
+missing fixture.
 
 ## CodeQL language populations
 
@@ -361,10 +391,12 @@ and score tier, exactly as the Joern kernels do, and each has its own report
 reference: the v0.3.0 freeze digest-binds every `case.json` byte, so the
 invocation is pinned in the runner instead.
 
-Ruby, the one kernel whose challenge row is not yet rolled out, selects 32
-assertions. **Java, JavaScript, TypeScript, Python, Go, Kotlin, and PHP select
-58** each, their expanded 29-template cores, **C++ selects 56**, **Rust selects
-54** and **C selects 48**; every one of their challenge assertions falls in the
+Every one of the eleven now selects its expanded core, the Ruby row having been
+the last to flip. **Java, JavaScript, TypeScript, Python, Go, Kotlin, PHP, and
+Ruby select 58** each, their expanded 29-template cores, **C++ selects 56**,
+**Rust selects
+54** and **C selects 48** — 622 selected assertions in all; every one of their
+challenge assertions falls in the
 `unsupported` partition, so each scored subset is the same 14 as everyone
 else's. **C and Rust have 15-template classic halves**: their
 exception-catch cell is inapplicable in `applicability-matrix.md`, so they are

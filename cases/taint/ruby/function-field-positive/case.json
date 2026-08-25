@@ -1,0 +1,69 @@
+{
+  "schema_version": 2,
+  "id": "dfb-taint-ruby-function-field-positive",
+  "template_id": "dfb-template-chal-function-field",
+  "polarity": "positive",
+  "score_tier": "core",
+  "track": "taint",
+  "language": "ruby",
+  "semantic_dimensions": [
+    "dynamic-dispatch",
+    "heap-field-sensitivity",
+    "object-sensitivity",
+    "interprocedural-flow"
+  ],
+  "feature_tags": [
+    "higher-order"
+  ],
+  "model_profile": "benchmark-controlled",
+  "fixture_files": [
+    "function_field.rb"
+  ],
+  "source_anchors": [
+    {
+      "marker": "DFB-SOURCE: function-field-input",
+      "file": "function_field.rb",
+      "line_hint": 9
+    }
+  ],
+  "sink_anchors": [
+    {
+      "marker": "DFB-SINK: function-field-sink",
+      "file": "function_field.rb",
+      "line_hint": 13
+    }
+  ],
+  "expected_flows": [
+    {
+      "source": "DFB-SOURCE: function-field-input",
+      "sink": "DFB-SINK: function-field-sink"
+    }
+  ],
+  "expected_nonflows": [],
+  "witness_checkpoints": [
+    "DFB-SOURCE: function-field-input",
+    "DFB-WITNESS: function-field-store",
+    "DFB-SINK: function-field-sink"
+  ],
+  "expected_analysis_capability": {
+    "kind": "heap-stored-callee-taint"
+  },
+  "execution_budget": {
+    "wall_clock_seconds": 60,
+    "peak_memory_mb": 512
+  },
+  "fixture_provenance": {
+    "kind": "authored",
+    "origin": "DataFlowBench",
+    "revision": "m3-challenge-ruby",
+    "license": "MIT"
+  },
+  "tool_model_references": {
+    "bifrost": {
+      "policy": "adapters/bifrost/policies/core-ruby-kernel.rqlp"
+    },
+    "codeql": {
+      "query": "adapters/codeql/ruby/queries/RubyKernel.ql"
+    }
+  }
+}

@@ -1,0 +1,67 @@
+{
+  "schema_version": 2,
+  "id": "dfb-taint-ruby-callback-registration-positive",
+  "template_id": "dfb-template-chal-callback-registration",
+  "polarity": "positive",
+  "score_tier": "core",
+  "track": "taint",
+  "language": "ruby",
+  "semantic_dimensions": [
+    "dynamic-dispatch",
+    "interprocedural-flow"
+  ],
+  "feature_tags": [
+    "higher-order"
+  ],
+  "model_profile": "benchmark-controlled",
+  "fixture_files": [
+    "callback_registration.rb"
+  ],
+  "source_anchors": [
+    {
+      "marker": "DFB-SOURCE: callback-registration-input",
+      "file": "callback_registration.rb",
+      "line_hint": 17
+    }
+  ],
+  "sink_anchors": [
+    {
+      "marker": "DFB-SINK: callback-registration-sink",
+      "file": "callback_registration.rb",
+      "line_hint": 21
+    }
+  ],
+  "expected_flows": [
+    {
+      "source": "DFB-SOURCE: callback-registration-input",
+      "sink": "DFB-SINK: callback-registration-sink"
+    }
+  ],
+  "expected_nonflows": [],
+  "witness_checkpoints": [
+    "DFB-SOURCE: callback-registration-input",
+    "DFB-WITNESS: callback-registration-fire",
+    "DFB-SINK: callback-registration-sink"
+  ],
+  "expected_analysis_capability": {
+    "kind": "inverted-control-callback-taint"
+  },
+  "execution_budget": {
+    "wall_clock_seconds": 60,
+    "peak_memory_mb": 512
+  },
+  "fixture_provenance": {
+    "kind": "authored",
+    "origin": "DataFlowBench",
+    "revision": "m3-challenge-ruby",
+    "license": "MIT"
+  },
+  "tool_model_references": {
+    "bifrost": {
+      "policy": "adapters/bifrost/policies/core-ruby-kernel.rqlp"
+    },
+    "codeql": {
+      "query": "adapters/codeql/ruby/queries/RubyKernel.ql"
+    }
+  }
+}
