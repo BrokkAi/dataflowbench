@@ -1,0 +1,65 @@
+{
+  "schema_version": 2,
+  "id": "dfb-taint-rust-element-object-positive",
+  "template_id": "dfb-template-chal-element-object",
+  "polarity": "positive",
+  "score_tier": "core",
+  "track": "taint",
+  "language": "rust",
+  "semantic_dimensions": [
+    "heap-field-sensitivity",
+    "object-sensitivity"
+  ],
+  "feature_tags": [
+    "heap-access-path"
+  ],
+  "model_profile": "benchmark-controlled",
+  "fixture_files": [
+    "element_object_positive.rs"
+  ],
+  "source_anchors": [
+    {
+      "marker": "DFB-SOURCE: element-object-input",
+      "file": "element_object_positive.rs"
+    }
+  ],
+  "sink_anchors": [
+    {
+      "marker": "DFB-SINK: element-object-sink",
+      "file": "element_object_positive.rs"
+    }
+  ],
+  "expected_flows": [
+    {
+      "source": "DFB-SOURCE: element-object-input",
+      "sink": "DFB-SINK: element-object-sink"
+    }
+  ],
+  "expected_nonflows": [],
+  "witness_checkpoints": [
+    "DFB-SOURCE: element-object-input",
+    "DFB-WITNESS: element-object-store",
+    "DFB-SINK: element-object-sink"
+  ],
+  "expected_analysis_capability": {
+    "kind": "element-scoped-field-sensitive-taint"
+  },
+  "execution_budget": {
+    "wall_clock_seconds": 60,
+    "peak_memory_mb": 512
+  },
+  "fixture_provenance": {
+    "kind": "authored",
+    "origin": "DataFlowBench",
+    "revision": "m3-challenge-rust",
+    "license": "MIT"
+  },
+  "tool_model_references": {
+    "bifrost": {
+      "policy": "adapters/bifrost/policies/core-rust-kernel.rqlp"
+    },
+    "codeql": {
+      "query": "adapters/codeql/rust/queries/RustKernel.ql"
+    }
+  }
+}

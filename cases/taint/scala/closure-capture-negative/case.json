@@ -1,0 +1,59 @@
+{
+  "schema_version": 2,
+  "id": "dfb-taint-scala-closure-capture-negative",
+  "template_id": "dfb-template-chal-closure-capture",
+  "polarity": "negative",
+  "negative_mechanism": "unrelated-value",
+  "score_tier": "core",
+  "track": "taint",
+  "language": "scala",
+  "semantic_dimensions": [
+    "dynamic-dispatch",
+    "interprocedural-flow"
+  ],
+  "feature_tags": [
+    "higher-order"
+  ],
+  "model_profile": "benchmark-controlled",
+  "fixture_files": [
+    "ClosureCaptureNegative.scala"
+  ],
+  "source_anchors": [
+    {
+      "marker": "DFB-SOURCE: closure-capture-input",
+      "file": "ClosureCaptureNegative.scala"
+    }
+  ],
+  "sink_anchors": [
+    {
+      "marker": "DFB-SINK: closure-capture-sink",
+      "file": "ClosureCaptureNegative.scala"
+    }
+  ],
+  "expected_flows": [],
+  "expected_nonflows": [
+    {
+      "source": "DFB-SOURCE: closure-capture-input",
+      "sink": "DFB-SINK: closure-capture-sink"
+    }
+  ],
+  "witness_checkpoints": [],
+  "expected_analysis_capability": {
+    "kind": "closure-capture-taint"
+  },
+  "execution_budget": {
+    "wall_clock_seconds": 60,
+    "peak_memory_mb": 512
+  },
+  "fixture_provenance": {
+    "kind": "authored",
+    "origin": "DataFlowBench",
+    "revision": "m3-challenge-scala",
+    "license": "MIT"
+  },
+  "tool_model_references": {
+    "bifrost": {
+      "policy": "adapters/bifrost/policies/core-scala-kernel.rqlp"
+    }
+  }
+}

@@ -63,10 +63,16 @@ contract](../../docs/cpp-kernel.md). The Rust parity slice uses
 `core-rust-kernel.rqlp` under the same frozen-direct-pair arrangement as C# and
 Go, and carries the same reduced denominator as C for a different reason:
 `docs/applicability-matrix.md` classifies `exception-catch` as inapplicable to
-Rust, so the Rust core population is 15 templates and 30 assertions, and the
-`Result`/`?` construct Rust uses instead is carried by a `language-extension`
-pair that the run also evaluates but never counts in the core denominator; see
-[the Rust kernel contract](../../docs/rust-kernel.md). The PHP parity slice uses
+Rust. Rust's challenge-tier row has now rolled out too, so its core population
+is **27 templates and 54 assertions** — the 15 classic templates plus the 12
+challenge templates `docs/challenge-tier.md` classifies as applicable, the
+reflective-invocation cell being inapplicable to a language with no run-time
+reflection. The `Result`/`?` construct Rust uses instead of exception catch is
+carried by a `language-extension` pair that the run also evaluates but never
+counts in the core denominator; see
+[the Rust kernel contract](../../docs/rust-kernel.md). The retained Rust report
+is the classic 30 — it is freeze-bound by v0.3.0, so its expanded run is
+deferred to the v0.4.0 freeze-prep re-run rather than written here. The PHP parity slice uses
 `core-php-kernel.rqlp` under the same frozen-direct-pair arrangement as C#, Go,
 and Rust, and covers PHP's **expanded 29 templates (58 core assertions)** now
 that its challenge-tier row is rolled out; see [the PHP kernel
@@ -80,14 +86,16 @@ decided CodeQL-first, as [the Ruby kernel
 contract](../../docs/ruby-kernel.md) records. The Scala parity
 slice uses `core-scala-kernel.rqlp` and pins that policy for its whole
 population the way the Kotlin slice does, because its direct-propagation pair
-is frozen naming the breadth policy; Scala is the only kernel with
+is frozen naming the breadth policy; its core is now the **expanded 29
+templates (58 core assertions)**, and Scala is the only kernel with
 **single-analyzer coverage** — CodeQL 2.26.3 has no Scala extractor and the
 pinned Joern has no Scala source frontend, so Bifrost is the only tool that
 produces Scala results at all. See
 [the Scala kernel contract](../../docs/scala-kernel.md). Every kernel command
 selects only its own language's core assertions — 32 for the 16-template
-kernels, 30 for C and Rust, 58 for the expanded 29-template kernels, and 56
-for C++, whose expanded core is 28 templates — and writes a dedicated report. The Java
+kernels, 48 for the expanded 24-template C kernel, 54 for the expanded
+27-template Rust kernel, 56 for the expanded 28-template C++ kernel, and 58
+for the expanded 29-template kernels — and writes a dedicated report. The Java
 calibration slice also
 covers one-hop helper flow. Generated workspaces live outside the repository so
 repository ignore rules cannot hide fixtures from Bifrost's indexer. Sanitizer
@@ -314,7 +322,10 @@ same-object field separation, alias propagation, and array element — retain
 raw runs that complete as `failed` with `internal_invariant` ("semantic IR
 gap_contract error in procedure 2: gap 8 duplicates the same scoped fact"): a
 failed evaluation is an execution error, normalized as `runner-error`, and is
-never counted as a negative.
+never counted as a negative. That report is the classic 30-assertion population
+only: Rust's core is now 54 assertions, but the report is freeze-bound by
+v0.3.0, so **the expanded Bifrost Rust evidence is pending the v0.4.0
+freeze-prep re-run** and this snapshot is not an expanded-core number.
 
 The 32-case Ruby kernel, in its own report `reports/bifrost-ruby-kernel.json`
 with raw evidence under `reports/raw/bifrost-ruby-kernel/`, contains **32
@@ -355,17 +366,24 @@ inconclusive result is ever counted as a negative. This report was produced
 after the v0.3.0 freeze and is not bound by it; see [the PHP kernel
 contract](../../docs/php-kernel.md).
 
-The 32-case Scala kernel, in its own report `reports/bifrost-scala-kernel.json`
-with raw evidence under `reports/raw/bifrost-scala-kernel/`, was run on the
-same v0.10.5 build after the v0.3.0 freeze and is therefore not part of it. It
-produces 5 `reached`, 5 `not-reached`, and 22 `inconclusive` results: five
-template pairs are decisive — direct propagation, the local multi-step chain,
+The Scala kernel, in its own report `reports/bifrost-scala-kernel.json` with raw
+evidence under `reports/raw/bifrost-scala-kernel/`, was re-run whole on the same
+v0.10.5 build over its **expanded 58-assertion core** — 32 classic plus the 26
+challenge assertions the [challenge-tier
+preregistration](../../docs/challenge-tier.md) adds. The report is post-freeze
+and not bound by v0.3.0, so replacing it invalidated nothing. It produces 5
+`reached`, 5 `not-reached`, and 48 `inconclusive` results, **10 of 58** matching
+the expected polarity with **no decisive mismatch anywhere**. The classic
+thirty-two are identical case-for-case to the pre-expansion report — the same
+five decisive pairs (direct propagation, the local multi-step chain,
 call-context separation, argument-position separation, and the one-hop return
-relay — and all ten of those outcomes match the expected polarity, with no
-decisive mismatch. The 22 inconclusive results retain `partial_discovery` (18)
-or `capability_incomplete` (4) evidence; six of them additionally carry the
-policy's finding message, which an incomplete run cannot make decisive. This is
-capability coverage, never a negative result; see [the Scala kernel
+relay) at 10/32 — and **all twenty-six challenge assertions are
+`inconclusive`**, contributing neither a match nor a mismatch. The 48
+inconclusive results retain `partial_discovery` (30) or `capability_incomplete`
+(18) evidence; six classic ones additionally carry the policy's finding message,
+which an incomplete run cannot make decisive. This is capability coverage, never
+a negative result, and twenty-six undecided challenge assertions are not
+twenty-six misses; see [the Scala kernel
 contract](../../docs/scala-kernel.md).
 
 ## Java kernel (expanded core)
