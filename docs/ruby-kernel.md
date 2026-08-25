@@ -353,6 +353,26 @@ a per-case scratch root, retains the evidence document under
 `reports/joern-ruby-kernel.json`. A frontend or engine failure is retained as
 `runner-error` and can never become a negative.
 
+## Semgrep CE selection and reproduction
+
+The Ruby Semgrep slice uses the committed rule
+`adapters/semgrep/rules/ruby.yaml`. It is the one rule file that differs in
+substance from the other ten: a Ruby call's parameter list is optional and every
+Ruby fixture spells the source call parenless (`value = dfb_source`), so its
+`pattern-sources` is a `pattern-either` over both spellings, while the sink keeps
+the single parenthesised form every language uses.
+
+```bash
+cargo run -- run-semgrep-ruby-kernel --semgrep /path/to/semgrep
+```
+
+The runner selects all 58 Ruby core assertions, scores the 14 that fall inside
+the bounded CE profile, and normalizes the other 44 `unsupported` **without
+invoking Semgrep** — the decision is taken from the case's own
+`feature_tags` and `expected_analysis_capability`, and for a challenge template
+from the preregistered `CHALLENGE_SEMGREP_PARTITION`, before the tool runs. The
+partition is not adjustable by a result.
+
 ## Anchor evidence and result semantics
 
 Analyzer findings are evidence, not ground truth by themselves. The runners
