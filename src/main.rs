@@ -385,7 +385,7 @@ const CHALLENGE_ROLLOUT: [ChallengeRollout; 13] = [
         display: "PHP",
         classic: &KERNEL_TEMPLATE_IDS,
         challenge: &CHALLENGE_TEMPLATE_IDS,
-        rolled_out: false,
+        rolled_out: true,
     },
     ChallengeRollout {
         language: "ruby",
@@ -9117,10 +9117,13 @@ mod tests {
                 }
             }
         }
-        assert_eq!(selected, KERNEL_CASE_COUNT);
+        // PHP's challenge row is rolled out, so the slice covers the expanded
+        // 29 templates / 58 assertions, not the classic 32.
+        assert_eq!(selected, expected_core_case_count("php"));
+        assert_eq!(selected, 58);
         assert_eq!(
             BifrostRun::PhpKernel.expected_core_cases(),
-            Some(KERNEL_CASE_COUNT)
+            Some(expected_core_case_count("php"))
         );
     }
 
@@ -11467,10 +11470,11 @@ mod tests {
                 );
                 assert!(template.starts_with(CHALLENGE_TEMPLATE_PREFIX));
             }
-            // Python, JavaScript, Java, C#, TypeScript, Kotlin, Go, C++, and
-            // C are the waves that have landed their fixtures; every other
-            // language validates against its classic set alone, so a language
-            // whose fixtures do not exist yet is never failed for missing them.
+            // Python, JavaScript, Java, C#, TypeScript, Kotlin, Go, C++, C,
+            // and PHP are the waves that have landed their fixtures; every
+            // other language validates against its classic set alone, so a
+            // language whose fixtures do not exist yet is never failed for
+            // missing them.
             let rolled_out = matches!(
                 row.language,
                 "python"
@@ -11482,6 +11486,7 @@ mod tests {
                     | "go"
                     | "cpp"
                     | "c"
+                    | "php"
             );
             assert_eq!(
                 challenge_rolled_out(row.language),

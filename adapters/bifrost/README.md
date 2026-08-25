@@ -68,9 +68,11 @@ Rust, so the Rust core population is 15 templates and 30 assertions, and the
 pair that the run also evaluates but never counts in the core denominator; see
 [the Rust kernel contract](../../docs/rust-kernel.md). The PHP parity slice uses
 `core-php-kernel.rqlp` under the same frozen-direct-pair arrangement as C#, Go,
-and Rust, and covers all 16 templates (32 core assertions); see [the PHP kernel
-contract](../../docs/php-kernel.md) for its ordered-map array adaptation and for
-why the pinned CodeQL CLI contributes no PHP results at all. The Ruby parity
+and Rust, and covers PHP's **expanded 29 templates (58 core assertions)** now
+that its challenge-tier row is rolled out; see [the PHP kernel
+contract](../../docs/php-kernel.md) for its ordered-map array adaptation, its
+thirteen directly-applicable challenge cells, and for why the pinned CodeQL CLI
+contributes no PHP results at all. The Ruby parity
 slice uses `core-ruby-kernel.rqlp` under that same arrangement and also covers
 all 16 templates (32 core assertions); it is the one analyzer-coverage-gated
 slice, run and retained as capability evidence while the Ruby denominator is
@@ -329,19 +331,29 @@ Bifrost's Ruby indexing was not modified by that tranche; the Ruby denominator
 is decided CodeQL-first instead, and none of these 32 outcomes is ever counted
 as `not-reached`. See [the Ruby kernel contract](../../docs/ruby-kernel.md).
 
-The 32-assertion PHP kernel, in its own report
+The **58-assertion** PHP kernel, in its own report
 `reports/bifrost-php-kernel.json` with raw evidence under
-`reports/raw/bifrost-php-kernel/`, contains 10 `reached`, 8 `not-reached`, and
-14 `inconclusive` results, with 17 of the 18 decisive outcomes matching the
-expected polarity (17 of 32 assertions). Eight template pairs are decisive and
-correct on both halves; the one decisive mismatch is
-`dfb-taint-php-infeasible-branch-negative`, where Bifrost reports a flow through
-an `if (false)` body, the same over-approximation the Go kernel shows. The 14
-inconclusive results retain `capability_incomplete` (10 — the whole
-heap/separation stratum and the exception-catch pair) or `partial_discovery`
-(4 — the arithmetic-expression and loop-carried pairs) evidence and are never
-counted as negatives. This report was produced after the v0.3.0 freeze and is
-not bound by it; see [the PHP kernel contract](../../docs/php-kernel.md).
+`reports/raw/bifrost-php-kernel/`, contains 12 `reached`, 10 `not-reached`, and
+36 `inconclusive` results, with 21 of the 22 decisive outcomes matching the
+expected polarity (21 of 58 assertions). PHP's challenge-tier row is rolled
+out, so its core is the expanded 29 templates — the sixteen v0.3.0 templates
+plus all thirteen preregistered challenge templates ([the challenge
+tier](../../docs/challenge-tier.md)) — and the report is a whole-population
+replacement, not an append. The classic 32 reproduce the previous PHP snapshot
+exactly (10 `reached`, 8 `not-reached`, 14 `inconclusive`, 17/32), with the one
+decisive mismatch still `dfb-taint-php-infeasible-branch-negative`, where
+Bifrost reports a flow through an `if (false)` body — the same
+over-approximation the Go kernel shows. On the challenge 26 the engine produces
+**no false positive and no false negative**: 22 are `inconclusive` (12
+`capability_incomplete` "no analysis root contains both a selected source and
+sink" across the reflective, dispatch-table, closure, function-field, callback,
+and anonymous-implementation pairs; 8 `capability_incomplete` "unsupported
+(assignments)" across the computed-property, map-iteration, element-object, and
+nested-path pairs; 2 `partial_discovery` on the recursive-carry pair) and the 4
+it decides — the deep-relay and depth-2 context pairs — are all correct. No
+inconclusive result is ever counted as a negative. This report was produced
+after the v0.3.0 freeze and is not bound by it; see [the PHP kernel
+contract](../../docs/php-kernel.md).
 
 The 32-case Scala kernel, in its own report `reports/bifrost-scala-kernel.json`
 with raw evidence under `reports/raw/bifrost-scala-kernel/`, was run on the

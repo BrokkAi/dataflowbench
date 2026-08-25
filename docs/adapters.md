@@ -15,7 +15,7 @@ The initial adapter plan is:
 | --- | --- | --- |
 | Bifrost | Breadth baseline and per-language propagation kernels | Implemented smoke adapter; kernel runs are reported separately. Both the Java and the JavaScript kernel commands have now been run over their expanded 29-template cores |
 | CodeQL | 16-template Java and JavaScript propagation kernels and the 29-template expanded Python kernel | Java, JavaScript, and Python runners implemented as separate language-scoped populations |
-| Joern | Ruby and PHP 16-template propagation kernels, the 15-template Rust kernel, and the 29-template expanded Java, Python, and JavaScript kernels | Implemented as six separate language-scoped populations over one CPG query script |
+| Joern | The Ruby 16-template propagation kernel, the 15-template Rust kernel, and the 29-template expanded Java, Python, JavaScript, and PHP kernels | Implemented as six separate language-scoped populations over one CPG query script |
 | Semgrep CE | Supported local analysis only | Implemented as eleven separate language-scoped populations over one committed taint rule per language; only the documented intraprocedural partition is scored. Four front ends are non-GA in the pinned distribution (Kotlin `beta`; Rust, C, C++ `alpha`) and the label is retained without ever changing the partition |
 | OpenTaint | Java and Kotlin profile | Planned |
 
@@ -349,10 +349,12 @@ and score tier, exactly as the Joern kernels do, and each has its own report
 reference: the v0.3.0 freeze digest-binds every `case.json` byte, so the
 invocation is pinned in the runner instead.
 
-Five of the eleven select 32 assertions. **Python, JavaScript, TypeScript, and
-Go select 58** each, their expanded 29-template cores; every one of their 26
-challenge assertions falls in the `unsupported` partition, so each scored
-subset is the same 14 as everyone else's. **C and Rust select 30**: their
+Ruby, the one kernel whose challenge row is not yet rolled out, selects 32
+assertions. **Java, JavaScript, TypeScript, Python, Go, Kotlin, and PHP select
+58** each, their expanded 29-template cores, **C++ selects 56** and **C selects
+48**; every one of their challenge assertions falls in the `unsupported`
+partition, so each scored subset is the same 14 as everyone else's. **C and
+Rust are 15-template classic cores**: their
 exception-catch cell is inapplicable in `applicability-matrix.md`, so they are
 balance-checked against the fifteen-template
 `KERNEL_TEMPLATE_IDS_WITHOUT_EXCEPTION_CATCH` set the CodeQL and Bifrost C and

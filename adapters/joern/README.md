@@ -10,7 +10,11 @@ are kept apart by the selector and the report paths, never by the engine.
 
 PHP is the one language here for which Joern is not a third opinion: the pinned
 CodeQL CLI has no PHP support at all, so Bifrost and Joern are PHP's only two
-analyzers. See [the PHP kernel contract](../../docs/php-kernel.md).
+whole-population analyzers, alongside the deliberately bounded Semgrep CE
+adapter, which scores only PHP's 14-assertion intraprocedural partition. PHP's
+challenge-tier row is rolled out, so this kernel's denominator is the expanded
+29 templates / 58 assertions. See [the PHP kernel
+contract](../../docs/php-kernel.md).
 
 ## Pinned distribution
 
@@ -231,21 +235,23 @@ lands on the *callsite*, so matching does not require the marker's own line.
 Joern 4.0.610, build identity `joern-cli:4.0.610`. All six kernels ran on the
 same pinned distribution and the same unmodified script, so every retained
 Joern report carries one `tool_version` and the single configuration hash
-above. Every case in all six kernels executed: 268 retained evidence documents,
+above. Every case in all six kernels executed: 294 retained evidence documents,
 zero error documents, zero `inconclusive`, `unsupported`, or `runner-error`
 outcomes.
 
-Three of the six ran against fixture revision
+Two of the six — Ruby and Rust — ran against fixture revision
 `sha256:aee59a14f96633cf5798df6d211525ea0d10748800ba9c9ac0a3787406bd19ea`.
-The Python, JavaScript, and Java kernels were each re-run whole after that
+The Python, JavaScript, Java, and PHP kernels were each re-run whole after that
 language's challenge-tier row was rolled out, and each carries the expanded
 corpus revision current when it ran —
 `sha256:3e7a8de5e1eefb18e8166af0ccdf309bccf1d5c26026893a4513f1943926ab1f` for
 Python,
 `sha256:64ef139f452fd296bb26463bc552e5e5998ca4bb4584d45565d858424814bde9` for
-JavaScript, and
+JavaScript,
 `sha256:f476894a41d283e3bcaaf5188ee08abe7886ce8e3919257403b0aa853ef718e2` for
-Java. `fixture_revision` digests the whole case corpus, so each wave's fixtures
+Java, and
+`sha256:f74647fe824ca9f6900c48aa9d403f0e9f59230e4193e0b02bd65e29a9e4e660` for
+PHP. `fixture_revision` digests the whole case corpus, so each wave's fixtures
 moved it for every run after it. Reports at different fixture revisions are not
 pooled, and each language's 58 assertions are a different population from the
 32 it reported in v0.3.0, not a movement within one.
@@ -255,26 +261,29 @@ pooled, and each language's 58 assertions are a different population from the
 | **Java (`javasrc2cpg`)** | **26** | **32** | **47/58** |
 | **JavaScript (`jssrc2cpg`)** | **27** | **31** | **44/58** |
 | **Python (`pysrc2cpg`)** | **25** | **33** | **48/58** |
+| **PHP (`php2cpg`)** | **25** | **33** | **48/58** |
 | Ruby (`rubysrc2cpg`) | 18 | 14 | 26/32 |
-| PHP (`php2cpg`) | 16 | 16 | 28/32 |
 | Rust (`rust2cpg`) | 16 | 14 | 27/30 |
 
 Rust's denominator is 30, not 32, because its exception-catch cell is
 inapplicable; the ratios are not comparable across a different denominator and
 are not averaged.
 
-**Java's, Python's, and JavaScript's denominators are 58, not 32.** All three
-challenge-tier rows are rolled out, so each core is the expanded 29 templates:
-the sixteen v0.3.0 templates plus the thirteen preregistered challenge
-templates ([the challenge tier](../../docs/challenge-tier.md)). Each report was
-re-run whole — a whole-population replacement, not an append — and each carries
-the expanded corpus revision current when it ran, while the other three still
+**Java's, Python's, JavaScript's, and PHP's denominators are 58, not 32.** All
+four challenge-tier rows are rolled out, so each core is the expanded 29
+templates: the sixteen v0.3.0 templates plus the thirteen preregistered
+challenge templates ([the challenge tier](../../docs/challenge-tier.md)). Each
+report was re-run whole — a whole-population replacement, not an append — and
+each carries the expanded corpus revision current when it ran, while the other
+two still
 carry `sha256:aee59a14f96633cf5798df6d211525ea0d10748800ba9c9ac0a3787406bd19ea`.
 Split by stratum, JavaScript is **26/32 on the classic sixteen — identical case
 for case to its v0.3.0 snapshot, so the expansion introduced no drift — and
-18/26 on the challenge thirteen**, and Java is likewise **28/32 on the classic
+18/26 on the challenge thirteen**, Java is likewise **28/32 on the classic
 sixteen, identical case for case to its v0.3.0 snapshot, and 19/26 on the
-challenge thirteen**, both still with zero `inconclusive`, `unsupported`, or
+challenge thirteen**, and PHP is **28/32 on the classic sixteen, identical case
+for case to its previous snapshot, and 20/26 on the challenge thirteen**, all
+still with zero `inconclusive`, `unsupported`, or
 `runner-error` outcomes. A 58-assertion score and a 32-assertion score are
 different populations and are neither compared nor averaged, and each language's
 own 28/32 or 26/32 v0.3.0 result and its expanded result are likewise separate
@@ -390,12 +399,25 @@ refuted it. Per-stratum reading is in
 - `dfb-taint-ruby-infeasible-branch-negative`: false positive.
 - `dfb-taint-ruby-loop-carried-negative`: false positive.
 
-**PHP** — `reports/joern-php-kernel.json`
+**PHP** — `reports/joern-php-kernel.json` (58 assertions), 48/58 over the
+expanded core: 28/32 on the classic stratum and 20/26 on the challenge strata
+(A 4/6, B 5/8, C 6/6, D 5/6).
+
+Classic — unchanged case for case from its previous snapshot:
 
 - `dfb-taint-php-alias-propagation-positive`: false negative.
 - `dfb-taint-php-exception-catch-positive`: false negative.
 - `dfb-taint-php-infeasible-branch-negative`: false positive.
 - `dfb-taint-php-loop-carried-negative`: false positive.
+
+Challenge:
+
+- `dfb-taint-php-reflective-invocation-positive`: false negative.
+- `dfb-taint-php-dispatch-table-positive`: false negative.
+- `dfb-taint-php-function-field-positive`: false negative.
+- `dfb-taint-php-callback-registration-positive`: false negative.
+- `dfb-taint-php-anonymous-implementation-negative`: false positive.
+- `dfb-taint-php-deep-relay-chain-positive`: false negative.
 
 **Rust** — `reports/joern-rust-kernel.json`
 
@@ -412,7 +434,8 @@ Python's classic strata show exactly that set and nothing else; JavaScript
 adds array-element and same-object-field over-approximation; Ruby adds
 argument-position and call-context over-approximation.
 
-Three challenge strata are recorded here: Python's, JavaScript's, and Java's.
+Four challenge strata are recorded here: Python's, JavaScript's, Java's, and
+PHP's.
 JavaScript's divides cleanly: every stratum-A and stratum-B *negative* is
 decided correctly while five of those positives are missed — the
 under-approximating half of the approximation character the challenge
@@ -422,8 +445,16 @@ array-element and same-object-field mismatches already show rather than
 revealing a new one. Java's divides the same way and answers its container
 stratum completely, its two false positives coming from merging the two
 anonymous implementations of one interface and two distinct constant keys of
-one reflected field. All three miss the depth-6 relay positive for the one
-preregistered reason: the verified `maxCallDepth = 4` default, unraised.
+one reflected field. PHP's is the cleanest of the four at 20/26: it also
+answers stratum C completely, its single false positive is again the merge of
+two anonymous implementations, and — unlike Java — it keeps PHP's *native*
+computed property `$holder->{$key}` apart across two distinct constant keys,
+which is the same question Java could only ask through `java.lang.reflect.Field`
+and failed. Its four false negatives are all positives whose callee is named by
+a run-time string, fetched from an array of closures, stored in an object
+property, or held in a hook list. All four kernels miss the depth-6 relay
+positive for the one preregistered reason: the verified `maxCallDepth = 4`
+default, unraised.
 
 Rust's three mismatches are exactly that recurring set intersected with its own
 15 applicable templates: it misses the same field-alias propagation and
@@ -449,13 +480,13 @@ upgrade's effect on each is measured, not assumed. Four of the five reproduced
 | Java | 28/32 | 28/32 | none; identical mismatch set (classic stratum; the later 58-assertion expansion re-ran it unchanged) |
 | JavaScript | 26/32 | 26/32 | none; identical mismatch set (classic stratum; the later 58-assertion expansion re-ran it unchanged) |
 | Python | 28/32 | 28/32 | none; identical mismatch set |
-| PHP | 28/32 | 28/32 | none; identical mismatch set |
+| PHP | 28/32 | 28/32 | none; identical mismatch set (classic stratum; the later 58-assertion expansion re-ran it unchanged) |
 | Ruby | 26/32 | 26/32 | **same total, different set — four cases moved** |
 
 That table compares the 16-template population under two Joern pins. The later
-expansions of Java, JavaScript, and Python to 58 assertions are *population*
-changes, not pin changes, and their 47/58, 44/58, and 48/58 belong beside
-neither column.
+expansions of Java, JavaScript, Python, and PHP to 58 assertions are
+*population* changes, not pin changes, and their 47/58, 44/58, 48/58, and 48/58
+belong beside neither column.
 
 Ruby's score is unchanged and its outcome distribution is unchanged (18
 `reached`, 14 `not-reached`), but the *identity* of its four false positives
