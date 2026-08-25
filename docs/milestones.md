@@ -142,6 +142,20 @@ pre-1.0 preview extractor, with zero false negatives) on the 15-template
 cores. Ruby breadth remains inconclusive. See
 [`releases/v0.3.0.md`](releases/v0.3.0.md) for the bound evidence.
 
+### Expanded breadth: the preregistered challenge tier
+
+M2's sixteen-template core is saturating — Bifrost v0.10.5 takes 32/32 on Java,
+JavaScript, and Python in the v0.3.0 freeze — so a harder tier of thirteen
+templates is preregistered in the
+[challenge-tier document](challenge-tier.md) before any fixture is authored or
+any analyzer is run against one. Those templates are `core`, not a new score
+tier: v0.4.0 is the first expanded-breadth release, and each language's core
+denominator grows from 16 templates to 16 plus its applicable challenge
+templates (24 for C, 27 for Rust, 28 for C++, 29 elsewhere). The v0.3.0 and
+v0.4.0 cores are different populations and are never compared number-to-number;
+the frozen v0.3.0 evidence is unaffected because freeze validation is
+manifest-scoped.
+
 ## M3: taint modeling
 
 Add balanced categories for sources and sinks, propagators, sanitizers, opaque
