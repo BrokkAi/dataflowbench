@@ -257,7 +257,7 @@ benchmark-controlled endpoint identifiers are read out of each fixture's
 `DFB-SOURCE:` and `DFB-SINK:` marker lines and passed in as parameters.
 
 ```bash
-cargo run -- run-joern-ruby-kernel --joern /usr/local/bin/joern
+cargo run -- run-joern-ruby-kernel --joern <joern-cli>/joern
 ```
 
 The runner selects the 32 Ruby core assertions, builds one cold CPG per case in
@@ -311,14 +311,17 @@ what keeps the Bifrost coverage gate honest.
 All three snapshots cover the same 32 Ruby core assertions and are three
 separate populations. They are never merged into one Ruby number.
 
-Fixture revision for all three:
-`sha256:131ef7e1cc3a22c1cf687770dbb4a1e44dac0456575ed4dad32b5196debaa710`.
+Fixture revision for the CodeQL and Bifrost runs:
+`sha256:131ef7e1cc3a22c1cf687770dbb4a1e44dac0456575ed4dad32b5196debaa710`. The
+Joern run was repeated on the `4.0.610` pin at
+`sha256:aee59a14f96633cf5798df6d211525ea0d10748800ba9c9ac0a3787406bd19ea`, the
+revision that carries the same Ruby fixture bytes.
 
 | Analyzer | `reached` | `not-reached` | `inconclusive` | `runner-error` | Polarity match |
 | --- | --- | --- | --- | --- | --- |
 | CodeQL 2.26.3 | 15 | 17 | 0 | 0 | **29/32** (29 of 32 decisive) |
 | Bifrost v0.10.5 | 0 | 0 | 32 | 0 | 0/32 (0 decisive) |
-| Joern 4.0.432 | 18 | 14 | 0 | 0 | **26/32** (26 of 32 decisive) |
+| Joern 4.0.610 | 18 | 14 | 0 | 0 | **26/32** (26 of 32 decisive) |
 
 ### CodeQL, `reports/codeql-ruby-kernel.json`
 
@@ -377,9 +380,9 @@ Ruby denominator is decided by CodeQL instead.
 
 ### Joern, `reports/joern-ruby-kernel.json`
 
-Joern 4.0.432, build identity `joern-cli:4.0.432`, frontend `rubysrc2cpg`.
+Joern 4.0.610, build identity `joern-cli:4.0.610`, frontend `rubysrc2cpg`.
 Configuration hash
-`479f676518d0778d2580302ee143f35854c54999b53a1e30fc2781eadf9f082e`.
+`ab10e81860305e492a930e2c2691873b23be25e97e5b354ca785058e09a20025`.
 
 All 32 assertions executed: 18 `reached`, 14 `not-reached`, and zero
 `inconclusive`, `unsupported`, or `runner-error` outcomes. **26 of 32** match
@@ -387,21 +390,41 @@ the expected polarity:
 
 - `dfb-taint-ruby-alias-propagation-positive`: false negative.
 - `dfb-taint-ruby-exception-catch-positive`: false negative.
-- `dfb-taint-ruby-array-element-negative`: false positive.
+- `dfb-taint-ruby-argument-position-negative`: false positive.
+- `dfb-taint-ruby-call-context-negative`: false positive.
 - `dfb-taint-ruby-infeasible-branch-negative`: false positive.
 - `dfb-taint-ruby-loop-carried-negative`: false positive.
-- `dfb-taint-ruby-same-object-field-negative`: false positive.
 
-That is the same profile Joern's JavaScript kernel shows, which is what a
-shared engine over a dynamic-language frontend should look like. Joern and
-CodeQL agree on the two false negatives — alias propagation and exception
-catch — and on the loop-carried false positive; Joern additionally
-over-approximates array-element separation, same-object field separation, and
+Joern and CodeQL agree on the two false negatives — alias propagation and
+exception catch — and on the loop-carried false positive; Joern additionally
+over-approximates argument-position separation, call-context separation, and
 the infeasible branch.
+
+#### Drift between the two Joern pins
+
+The retained numbers above replace a `4.0.432` run that also scored **26/32**
+with an also-18/14 outcome distribution — but with a *different* mismatch set.
+Re-pinning to `4.0.610` moved four Ruby cases, two in each direction:
+
+- `dfb-taint-ruby-array-element-negative`: false positive → correct
+  `not-reached`.
+- `dfb-taint-ruby-same-object-field-negative`: false positive → correct
+  `not-reached`.
+- `dfb-taint-ruby-argument-position-negative`: correct `not-reached` → false
+  positive.
+- `dfb-taint-ruby-call-context-negative`: correct `not-reached` → false
+  positive.
+
+Under `4.0.432` Ruby's mismatch set was identical to JavaScript's; it no longer
+is. `rubysrc2cpg` gained array-element and same-object-field separation and lost
+argument-position and call-context separation. Nothing in this benchmark changed
+between the two runs but the pinned Joern version, and the raw evidence for all
+four cases shows both endpoints observed with the flow count moving in the
+direction the outcome reports — so this is analyzer drift, retained as a result.
 
 #### Reaching the Ruby frontend at all
 
-Joern 4.0.432 ships `rubysrc2cpg` and its console reports `importCode.ruby` as
+Joern ships `rubysrc2cpg` and its console reports `importCode.ruby` as
 available, but the *generic* `importCode(language = "RUBYSRC")` dispatcher the
 shared kernel script used has no Ruby entry: it raises
 `io.joern.console.ConsoleException: No CPG generator exists for language:
@@ -415,8 +438,12 @@ That is an adapter fix, not a fixture or query concession: no Ruby fixture was
 altered, the query is the same `sinks.reachableByFlows(sources)` every other
 Joern kernel runs, and the endpoint identifiers are still read off the
 fixtures' own marker lines. Because the shared script's bytes changed, the
-Java, JavaScript, and Python Joern kernels were re-run on the new script so
-that no retained report cites a configuration hash its script no longer has.
+other Joern kernels were re-run on the new script so that no retained report
+cites a configuration hash its script no longer has.
+
+The workaround was re-probed against `4.0.610` rather than assumed to be
+obsolete: the generic dispatcher still raises the same exception for `RUBYSRC`
+on that version, so the named-dispatch branch is kept.
 
 ## Population boundaries
 

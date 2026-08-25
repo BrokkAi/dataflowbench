@@ -1,6 +1,7 @@
 // DataFlowBench Joern kernel query.
 //
-// One script serves the Java, JavaScript, and Python kernels. Every canonical
+// One script serves the Java, JavaScript, Python, Ruby, PHP, and Rust kernels.
+// Every canonical
 // fixture declares its taint endpoints itself, so the query is parameterized by
 // the two benchmark-controlled identifiers the runner reads out of the case's
 // `DFB-SOURCE:` and `DFB-SINK:` marker lines rather than by a per-language
@@ -11,7 +12,7 @@
 //
 // and asks the OSS data-flow engine for `sinks.reachableByFlows(sources)`.
 // There is no per-case, per-template, or per-polarity special casing: the same
-// two selectors run for all 32 assertions of every language.
+// two selectors run for every assertion of every language.
 //
 // The script always writes one JSON document to `outputPath`. That document is
 // the adapter's retained raw evidence; the Rust runner reconciles its flow
@@ -21,7 +22,7 @@
 //
 //   joern --script adapters/joern/queries/kernel.sc \
 //     --param inputPath=<workspace> \
-//     --param language=<JAVASRC|JSSRC|PYTHONSRC|RUBYSRC> \
+//     --param language=<JAVASRC|JSSRC|PYTHONSRC|RUBYSRC|PHP|RUST> \
 //     --param sourceName=<source function> \
 //     --param sinkName=<sink function> \
 //     --param outputPath=<raw evidence file>
@@ -83,13 +84,15 @@ def nodeJson(node: io.shiftleft.codepropertygraph.generated.nodes.AstNode): Stri
 
   val document =
     try {
-      // Joern 4.0.432's generic `importCode(language = ...)` dispatcher has no
-      // entry for Ruby: it raises "No CPG generator exists for language:
-      // RUBYSRC" even though `rubysrc2cpg` ships in the distribution and
-      // `importCode.ruby` reports itself as available. The named frontend is
-      // the same generator reached by the same console, so Ruby is dispatched
-      // through it rather than left unanalyzable. Every other language keeps
-      // the generic path unchanged.
+      // The generic `importCode(language = ...)` dispatcher still has no entry
+      // for Ruby in Joern 4.0.610: it raises "No CPG generator exists for
+      // language: RUBYSRC" even though `rubysrc2cpg` ships in the distribution
+      // and `importCode.ruby` reports itself as available. That was re-probed
+      // against 4.0.610 rather than assumed, and the named frontend is still
+      // the same generator reached by the same console, so Ruby stays
+      // dispatched through it rather than left unanalyzable. Every other
+      // language keeps the generic path unchanged — including Rust, whose
+      // `RUST` identifier the generic dispatcher does accept.
       if (language == "RUBYSRC") {
         importCode.ruby(inputPath = inputPath, projectName = "dataflowbench")
       } else {
