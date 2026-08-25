@@ -1,0 +1,64 @@
+{
+  "schema_version": 2,
+  "id": "dfb-taint-typescript-nested-access-path-negative",
+  "template_id": "dfb-template-chal-nested-access-path",
+  "polarity": "negative",
+  "negative_mechanism": "field-separation",
+  "score_tier": "core",
+  "track": "taint",
+  "language": "typescript",
+  "semantic_dimensions": [
+    "heap-field-sensitivity",
+    "object-sensitivity"
+  ],
+  "feature_tags": [
+    "heap-access-path"
+  ],
+  "model_profile": "benchmark-controlled",
+  "fixture_files": [
+    "NestedAccessPathNegative.ts"
+  ],
+  "source_anchors": [
+    {
+      "marker": "DFB-SOURCE: nested-access-path-input",
+      "file": "NestedAccessPathNegative.ts",
+      "line_hint": 1
+    }
+  ],
+  "sink_anchors": [
+    {
+      "marker": "DFB-SINK: nested-access-path-sink",
+      "file": "NestedAccessPathNegative.ts",
+      "line_hint": 5
+    }
+  ],
+  "expected_flows": [],
+  "expected_nonflows": [
+    {
+      "source": "DFB-SOURCE: nested-access-path-input",
+      "sink": "DFB-SINK: nested-access-path-sink"
+    }
+  ],
+  "witness_checkpoints": [],
+  "expected_analysis_capability": {
+    "kind": "deep-access-path-sensitive-taint"
+  },
+  "execution_budget": {
+    "wall_clock_seconds": 60,
+    "peak_memory_mb": 512
+  },
+  "fixture_provenance": {
+    "kind": "authored",
+    "origin": "DataFlowBench",
+    "revision": "m3-challenge-typescript",
+    "license": "MIT"
+  },
+  "tool_model_references": {
+    "bifrost": {
+      "policy": "adapters/bifrost/policies/core-typescript-kernel.rqlp"
+    },
+    "codeql": {
+      "query": "adapters/codeql/typescript/queries/TypeScriptKernel.ql"
+    }
+  }
+}

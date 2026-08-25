@@ -526,6 +526,14 @@ unimplemented. "Available, not yet in scope" means the frontend exists and the
 language could be added later — it is not a claim about how well it performs,
 because it has not been run.
 
+TypeScript is the row most likely to be misread, so it is stated twice.
+`jssrc2cpg` parses `.ts`, but this adapter has **no TypeScript slice**: no
+`run-joern-typescript-kernel` command, no TypeScript selection, no
+`reports/joern-typescript-kernel.json`. The TypeScript challenge-tier wave
+(`docs/typescript-kernel.md`) did not invent one — standing up a language slice
+is its own change, not a side effect of landing fixtures — so TypeScript has no
+Joern evidence at any denominator, classic or expanded.
+
 ## Model assumptions
 
 - The `benchmark-controlled` profile applies: the query is given the same

@@ -104,17 +104,22 @@ fixture's `feature_tags` and no observed result can move a case between the
 partitions. The per-template rationale is in
 [the Semgrep adapter notes](../adapters/semgrep/README.md).
 
-**Python, JavaScript, Java, and C# are the rows flipped so far.** Each has a core
+**Python, JavaScript, Java, C#, and TypeScript are the rows flipped so far.**
+Each has a core
 denominator of 29 templates and 58 assertions. The Python wave re-ran the
 adapters no freeze binds — Joern and Semgrep CE — while leaving its
 freeze-bound Bifrost and CodeQL reports exactly as published; the JavaScript
 and Java waves re-ran Joern and Semgrep CE too, and each additionally ran its
 dedicated `run-bifrost-<language>-kernel` command, which writes a report no
 freeze binds and so is not a rewrite of published evidence. The JavaScript and
-Java CodeQL reports stay as published. The per-adapter evidence, including
-which adapters were deferred, is in [the Python kernel
-contract](python-kernel.md), [the JavaScript adaptation
-matrix](javascript-kernel.md), and [the Java kernel contract](java-kernel.md).
+Java CodeQL reports stay as published. The TypeScript wave could run **only
+Semgrep CE**: both its Bifrost and its CodeQL reports are freeze-bound, so both
+are deferred to the v0.4.0 re-run, and the Joern adapter has no TypeScript
+slice to run at all. The per-adapter evidence, including which adapters were
+deferred, is in [the Python kernel contract](python-kernel.md), [the JavaScript
+adaptation matrix](javascript-kernel.md), [the Java kernel
+contract](java-kernel.md), and [the TypeScript adaptation
+matrix](typescript-kernel.md).
 
 The C# wave ran **no adapter at all**, and that is the honest consequence of the
 freeze rule rather than a gap in the wave. Every analyzer that covers C# is
@@ -319,10 +324,10 @@ and score tier, exactly as the Joern kernels do, and each has its own report
 reference: the v0.3.0 freeze digest-binds every `case.json` byte, so the
 invocation is pinned in the runner instead.
 
-Seven of the eleven select 32 assertions. **Python and JavaScript select 58**
-each, their expanded 29-template cores; every one of their 26 challenge
-assertions falls in the `unsupported` partition, so each scored subset is the
-same 14 as everyone else's. **C and Rust select 30**: their
+Six of the eleven select 32 assertions. **Python, JavaScript, and TypeScript
+select 58** each, their expanded 29-template cores; every one of their 26
+challenge assertions falls in the `unsupported` partition, so each scored
+subset is the same 14 as everyone else's. **C and Rust select 30**: their
 exception-catch cell is inapplicable in `applicability-matrix.md`, so they are
 balance-checked against the fifteen-template
 `KERNEL_TEMPLATE_IDS_WITHOUT_EXCEPTION_CATCH` set the CodeQL and Bifrost C and
@@ -354,8 +359,8 @@ partition of each kernel: 7 templates and 14 assertions.
 The remaining templates — the `interprocedural-one-hop`,
 `interprocedural-deep`, and `heap-access-path` partitions, 18 assertions in a
 16-template kernel, 16 in C and Rust, and 44 in each of the expanded
-29-template Java, Python, and JavaScript kernels, whose thirteen challenge
-templates are all outside the profile — are `unsupported`. That decision is
+29-template Java, Python, JavaScript, and TypeScript kernels, whose thirteen
+challenge templates are all outside the profile — are `unsupported`. That decision is
 taken from each case's own `feature_tags` and
 `expected_analysis_capability.kind` *before* Semgrep is invoked, so an
 out-of-profile case never reaches a Semgrep process and cannot produce an empty
@@ -394,8 +399,8 @@ never be frozen next to a clean negative.
 
 All eleven kernels ran on Semgrep CE 1.174.0 (`semgrep-oss:1.174.0`, Homebrew).
 Each produced 9 `reached`, 5 `not-reached`, and its whole remainder
-`unsupported` — 18 for the seven unexpanded 16-template kernels, 16 for C and
-Rust, 44 each for the expanded Python and JavaScript kernels — with
+`unsupported` — 18 for the six unexpanded 16-template kernels, 16 for C and
+Rust, 44 each for the expanded Python, JavaScript, and TypeScript kernels — with
 zero `inconclusive` and zero `runner-error` outcomes, and 12/14 of each scored
 subset matching the expected polarity. Every intraprocedural positive is
 `reached` in every language; the two mismatches, identical in all eleven, are
