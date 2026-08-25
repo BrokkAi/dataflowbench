@@ -281,7 +281,10 @@ struct ChallengeRollout {
     /// fixtures do not exist yet and every population check expects its
     /// classic set; the language PR that authors the fixtures flips it to
     /// `true` in the same change, and every check then expects
-    /// `classic + challenge` without any other code moving.
+    /// `classic + challenge` without any other code moving. The rollout is
+    /// complete — all thirteen rows are `true` — so the flag now records that
+    /// history and guards against a row being un-flipped; it stays because a
+    /// future language joins the table at `false`.
     rolled_out: bool,
 }
 
@@ -392,7 +395,7 @@ const CHALLENGE_ROLLOUT: [ChallengeRollout; 13] = [
         display: "Ruby",
         classic: &KERNEL_TEMPLATE_IDS,
         challenge: &CHALLENGE_TEMPLATE_IDS,
-        rolled_out: false,
+        rolled_out: true,
     },
 ];
 
@@ -4244,7 +4247,11 @@ fn codeql_ruby_cases() -> Result<Vec<(PathBuf, Value)>> {
         }
         selected.push((path, case));
     }
-    validate_kernel_population(&selected, "Ruby CodeQL kernel")?;
+    validate_kernel_population_with(
+        &selected,
+        "Ruby CodeQL kernel",
+        &expected_core_templates("ruby"),
+    )?;
     if !Path::new(CODEQL_RUBY_QUERY).is_file() {
         bail!("Ruby CodeQL query does not exist: {CODEQL_RUBY_QUERY}");
     }
@@ -4494,15 +4501,13 @@ fn codeql_kotlin_configuration_paths() -> BTreeSet<PathBuf> {
     paths
 }
 
-/// Assert that a selected language kernel is exactly the sixteen scored
-/// templates under one model profile, balanced one positive to one negative.
-fn validate_kernel_population(cases: &[(PathBuf, Value)], label: &str) -> Result<()> {
-    validate_kernel_population_with(cases, label, &KERNEL_TEMPLATE_IDS)
-}
-
-/// The same assertion for a language whose core denominator is not the full
-/// sixteen templates: docs/applicability-matrix.md reduces C and Rust to
-/// fifteen, and an inapplicable cell reduces only that language's denominator.
+/// Assert that a selected language kernel is exactly that language's core
+/// denominator under one model profile, balanced one positive to one negative.
+/// The denominator is a parameter rather than a constant because
+/// docs/applicability-matrix.md reduces C and Rust to fifteen classic
+/// templates, and docs/challenge-tier.md expands a language's set as its
+/// challenge wave lands; an inapplicable cell reduces only its own language's
+/// denominator.
 fn validate_kernel_population_with(
     cases: &[(PathBuf, Value)],
     label: &str,
@@ -10197,8 +10202,8 @@ mod tests {
 
     /// The Ruby kernel is its own Bifrost population. The tranche is gated on
     /// Bifrost's Ruby indexing, so whatever this run produces is capability
-    /// evidence — but the selection itself must still be exactly the 32 Ruby
-    /// core assertions and nothing else.
+    /// evidence — but the selection itself must still be exactly the Ruby
+    /// expanded core assertions and nothing else.
     #[test]
     fn bifrost_ruby_kernel_selects_only_ruby_core_cases() {
         let mut core = 0;
@@ -10224,10 +10229,14 @@ mod tests {
                 assert!(!ruby_core_case(&case));
             }
         }
-        assert_eq!(core, KERNEL_CASE_COUNT);
+        // The Ruby row is rolled out, so the kernel run covers the expanded
+        // core: 29 templates / 58 assertions, not the classic 32.
+        assert_eq!(core, expected_core_case_count("ruby"));
+        assert_eq!(core, 58);
+        assert!(core > KERNEL_CASE_COUNT);
         assert_eq!(
             BifrostRun::RubyKernel.expected_core_cases(),
-            Some(KERNEL_CASE_COUNT)
+            Some(expected_core_case_count("ruby"))
         );
     }
 
@@ -10278,7 +10287,10 @@ mod tests {
         assert!(!args.iter().any(|arg| arg.starts_with("--command=")));
 
         let selected = codeql_ruby_cases().unwrap();
-        assert_eq!(selected.len(), KERNEL_CASE_COUNT);
+        // The Ruby row is rolled out, so the CodeQL population is the expanded
+        // 29 templates / 58 assertions.
+        assert_eq!(selected.len(), expected_core_case_count("ruby"));
+        assert_eq!(selected.len(), 58);
         for (_, case) in &selected {
             assert_eq!(case["language"], "ruby");
             assert_eq!(case["score_tier"], "core");
@@ -11507,54 +11519,21 @@ mod tests {
                 );
                 assert!(template.starts_with(CHALLENGE_TEMPLATE_PREFIX));
             }
-            // Python, JavaScript, Java, C#, TypeScript, Kotlin, Go, C++, C,
-            // Rust, Scala, and PHP are the waves that have landed their
-            // fixtures; every
-            // other language validates against its classic set alone, so a
-            // language whose fixtures do not exist yet is never failed for
-            // missing them.
-            let rolled_out = matches!(
-                row.language,
-                "python"
-                    | "javascript"
-                    | "java"
-                    | "csharp"
-                    | "typescript"
-                    | "kotlin"
-                    | "go"
-                    | "cpp"
-                    | "c"
-                    | "rust"
-                    | "scala"
-                    | "php"
-            );
-            assert_eq!(
+            // The rollout is complete: Ruby was the last wave, so every one of
+            // the thirteen rows is flipped and no language validates against
+            // its classic set alone any more. This is the assertion that would
+            // catch a row being silently un-flipped.
+            assert!(row.rolled_out, "{} rollout state", row.language);
+            assert!(
                 challenge_rolled_out(row.language),
-                rolled_out,
                 "{} rollout state",
                 row.language
             );
-            let expected = if rolled_out {
-                classic + challenge
-            } else {
-                classic
-            };
+            // Every language's denominator is therefore its expanded core:
+            // the classic templates plus its applicable challenge templates.
+            let expected = classic + challenge;
             assert_eq!(row.expected_templates().len(), expected);
             assert_eq!(expected_core_case_count(row.language), 2 * expected);
-            // Flipping the row is the whole of a wave PR's validator change.
-            let flipped = ChallengeRollout {
-                language: row.language,
-                display: row.display,
-                classic: row.classic,
-                challenge: row.challenge,
-                rolled_out: true,
-            };
-            assert_eq!(
-                flipped.expected_templates().len(),
-                classic + challenge,
-                "{} expanded core",
-                row.language
-            );
         }
         // The exclusions docs/challenge-tier.md states, by name.
         let cpp = challenge_rollout("cpp").unwrap().challenge;

@@ -2,8 +2,8 @@
   "adapter_version": "0.1.0",
   "cold_or_warm": "cold",
   "configuration_hash": "5e57410aee16c7c6f17e9f7645982f035d2561db697deb40e4f57668c34c8cad",
-  "ended_at_unix_seconds": 1787587117,
-  "fixture_revision": "sha256:131ef7e1cc3a22c1cf687770dbb4a1e44dac0456575ed4dad32b5196debaa710",
+  "ended_at_unix_seconds": 1787661084,
+  "fixture_revision": "sha256:020d0d8f79360af6e74064a692e2d65ffa31cd97f9971f9dad8bec065d862043",
   "results": [
     {
       "case_id": "dfb-taint-ruby-alias-propagation-negative",
@@ -11,7 +11,7 @@
         "Bifrost reported incomplete analysis: capability_incomplete",
         "taint discovery is incomplete: procedure value-flow snapshot for alias_propagation.rb:alias_propagation.rb.run is unsupported (assignments)"
       ],
-      "duration_ms": 133,
+      "duration_ms": 192,
       "outcome": "inconclusive",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-alias-propagation-negative.json",
@@ -42,12 +42,48 @@
       "witness_checkpoints": []
     },
     {
+      "case_id": "dfb-taint-ruby-anonymous-implementation-negative",
+      "diagnostics": [
+        "Bifrost reported incomplete analysis: capability_incomplete",
+        "taint semantic binding is unavailable: no analysis root contains both a selected source and sink"
+      ],
+      "duration_ms": 51,
+      "outcome": "inconclusive",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-anonymous-implementation-negative.json",
+      "sink_anchors": [
+        "DFB-SINK: anonymous-implementation-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: anonymous-implementation-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-ruby-anonymous-implementation-positive",
+      "diagnostics": [
+        "Bifrost reported incomplete analysis: capability_incomplete",
+        "taint semantic binding is unavailable: no analysis root contains both a selected source and sink"
+      ],
+      "duration_ms": 54,
+      "outcome": "inconclusive",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-anonymous-implementation-positive.json",
+      "sink_anchors": [
+        "DFB-SINK: anonymous-implementation-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: anonymous-implementation-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
       "case_id": "dfb-taint-ruby-argument-position-negative",
       "diagnostics": [
         "Bifrost reported incomplete analysis: partial_discovery",
         "taint discovery is incomplete: procedure value-flow snapshot for argument_position.rb:argument_position.rb.run is unknown"
       ],
-      "duration_ms": 45,
+      "duration_ms": 52,
       "outcome": "inconclusive",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-argument-position-negative.json",
@@ -66,7 +102,7 @@
         "Controlled input reaches the benchmark sink",
         "taint discovery is incomplete: procedure value-flow snapshot for argument_position.rb:argument_position.rb.run is unknown"
       ],
-      "duration_ms": 71,
+      "duration_ms": 81,
       "outcome": "inconclusive",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-argument-position-positive.json",
@@ -84,7 +120,7 @@
         "Bifrost reported incomplete analysis: partial_discovery",
         "taint discovery is incomplete: procedure value-flow snapshot for arithmetic_expression.rb:arithmetic_expression.rb.run is unknown"
       ],
-      "duration_ms": 55,
+      "duration_ms": 46,
       "outcome": "inconclusive",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-arithmetic-expression-negative.json",
@@ -102,7 +138,7 @@
         "Bifrost reported incomplete analysis: partial_discovery",
         "taint discovery is incomplete: procedure value-flow snapshot for arithmetic_expression.rb:arithmetic_expression.rb.run is unknown"
       ],
-      "duration_ms": 58,
+      "duration_ms": 46,
       "outcome": "inconclusive",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-arithmetic-expression-positive.json",
@@ -120,7 +156,7 @@
         "Bifrost reported incomplete analysis: capability_incomplete",
         "taint discovery is incomplete: procedure value-flow snapshot for array_element.rb:array_element.rb.run is unsupported (assignments)"
       ],
-      "duration_ms": 46,
+      "duration_ms": 55,
       "outcome": "inconclusive",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-array-element-negative.json",
@@ -138,7 +174,7 @@
         "Bifrost reported incomplete analysis: capability_incomplete",
         "taint discovery is incomplete: procedure value-flow snapshot for array_element.rb:array_element.rb.run is unsupported (assignments)"
       ],
-      "duration_ms": 50,
+      "duration_ms": 52,
       "outcome": "inconclusive",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-array-element-positive.json",
@@ -156,7 +192,7 @@
         "Bifrost reported incomplete analysis: partial_discovery",
         "taint discovery is incomplete: procedure value-flow snapshot for branch_join.rb:branch_join.rb.run is unknown"
       ],
-      "duration_ms": 46,
+      "duration_ms": 60,
       "outcome": "inconclusive",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-branch-join-negative.json",
@@ -175,7 +211,7 @@
         "Controlled input reaches the benchmark sink",
         "taint discovery is incomplete: procedure value-flow snapshot for branch_join.rb:branch_join.rb.run is unknown"
       ],
-      "duration_ms": 61,
+      "duration_ms": 69,
       "outcome": "inconclusive",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-branch-join-positive.json",
@@ -193,7 +229,7 @@
         "Bifrost reported incomplete analysis: partial_discovery",
         "taint discovery is incomplete: procedure value-flow snapshot for call_context.rb:call_context.rb.run is unknown"
       ],
-      "duration_ms": 52,
+      "duration_ms": 57,
       "outcome": "inconclusive",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-call-context-negative.json",
@@ -212,7 +248,7 @@
         "Controlled input reaches the benchmark sink",
         "taint discovery is incomplete: procedure value-flow snapshot for call_context.rb:call_context.rb.run is unknown"
       ],
-      "duration_ms": 71,
+      "duration_ms": 77,
       "outcome": "inconclusive",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-call-context-positive.json",
@@ -225,12 +261,194 @@
       "witness_checkpoints": []
     },
     {
+      "case_id": "dfb-taint-ruby-callback-registration-negative",
+      "diagnostics": [
+        "Bifrost reported incomplete analysis: capability_incomplete",
+        "taint semantic binding is unavailable: no analysis root contains both a selected source and sink"
+      ],
+      "duration_ms": 52,
+      "outcome": "inconclusive",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-callback-registration-negative.json",
+      "sink_anchors": [
+        "DFB-SINK: callback-registration-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: callback-registration-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-ruby-callback-registration-positive",
+      "diagnostics": [
+        "Bifrost reported incomplete analysis: capability_incomplete",
+        "taint semantic binding is unavailable: no analysis root contains both a selected source and sink"
+      ],
+      "duration_ms": 55,
+      "outcome": "inconclusive",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-callback-registration-positive.json",
+      "sink_anchors": [
+        "DFB-SINK: callback-registration-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: callback-registration-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-ruby-closure-capture-negative",
+      "diagnostics": [
+        "Bifrost reported incomplete analysis: capability_incomplete",
+        "taint semantic binding is unavailable: no analysis root contains both a selected source and sink"
+      ],
+      "duration_ms": 55,
+      "outcome": "inconclusive",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-closure-capture-negative.json",
+      "sink_anchors": [
+        "DFB-SINK: closure-capture-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: closure-capture-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-ruby-closure-capture-positive",
+      "diagnostics": [
+        "Bifrost reported incomplete analysis: capability_incomplete",
+        "taint semantic binding is unavailable: no analysis root contains both a selected source and sink"
+      ],
+      "duration_ms": 51,
+      "outcome": "inconclusive",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-closure-capture-positive.json",
+      "sink_anchors": [
+        "DFB-SINK: closure-capture-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: closure-capture-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-ruby-computed-property-negative",
+      "diagnostics": [
+        "Bifrost reported incomplete analysis: partial_discovery",
+        "taint discovery is incomplete: procedure value-flow snapshot for computed_property.rb:computed_property.rb.run is unknown"
+      ],
+      "duration_ms": 59,
+      "outcome": "inconclusive",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-computed-property-negative.json",
+      "sink_anchors": [
+        "DFB-SINK: computed-property-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: computed-property-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-ruby-computed-property-positive",
+      "diagnostics": [
+        "Bifrost reported incomplete analysis: partial_discovery",
+        "taint discovery is incomplete: procedure value-flow snapshot for computed_property.rb:computed_property.rb.run is unknown"
+      ],
+      "duration_ms": 56,
+      "outcome": "inconclusive",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-computed-property-positive.json",
+      "sink_anchors": [
+        "DFB-SINK: computed-property-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: computed-property-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-ruby-context-pair-depth2-negative",
+      "diagnostics": [
+        "Bifrost reported incomplete analysis: partial_discovery",
+        "taint discovery is incomplete: procedure value-flow snapshot for context_pair_depth2.rb:context_pair_depth2.rb.outer_clean is unknown"
+      ],
+      "duration_ms": 67,
+      "outcome": "inconclusive",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-context-pair-depth2-negative.json",
+      "sink_anchors": [
+        "DFB-SINK: context-pair-depth2-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: context-pair-depth2-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-ruby-context-pair-depth2-positive",
+      "diagnostics": [
+        "Bifrost reported incomplete analysis: partial_discovery",
+        "Controlled input reaches the benchmark sink",
+        "taint discovery is incomplete: procedure value-flow snapshot for context_pair_depth2.rb:context_pair_depth2.rb.outer_clean is unknown"
+      ],
+      "duration_ms": 93,
+      "outcome": "inconclusive",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-context-pair-depth2-positive.json",
+      "sink_anchors": [
+        "DFB-SINK: context-pair-depth2-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: context-pair-depth2-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-ruby-deep-relay-chain-negative",
+      "diagnostics": [
+        "Bifrost reported incomplete analysis: partial_discovery",
+        "taint discovery is incomplete: procedure value-flow snapshot for deep_relay_chain.rb:deep_relay_chain.rb.relay1 is unknown"
+      ],
+      "duration_ms": 57,
+      "outcome": "inconclusive",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-deep-relay-chain-negative.json",
+      "sink_anchors": [
+        "DFB-SINK: deep-relay-chain-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: deep-relay-chain-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-ruby-deep-relay-chain-positive",
+      "diagnostics": [
+        "Bifrost reported incomplete analysis: partial_discovery",
+        "Controlled input reaches the benchmark sink",
+        "taint discovery is incomplete: procedure value-flow snapshot for deep_relay_chain.rb:deep_relay_chain.rb.relay1 is unknown"
+      ],
+      "duration_ms": 117,
+      "outcome": "inconclusive",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-deep-relay-chain-positive.json",
+      "sink_anchors": [
+        "DFB-SINK: deep-relay-chain-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: deep-relay-chain-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
       "case_id": "dfb-taint-ruby-direct-negative",
       "diagnostics": [
         "Bifrost reported incomplete analysis: partial_discovery",
         "taint discovery is incomplete: procedure value-flow snapshot for direct_flow.rb:direct_flow.rb.run is unknown"
       ],
-      "duration_ms": 53,
+      "duration_ms": 51,
       "outcome": "inconclusive",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-direct-negative.json",
@@ -249,7 +467,7 @@
         "Controlled input reaches the direct benchmark sink",
         "taint discovery is incomplete: procedure value-flow snapshot for direct_flow.rb:direct_flow.rb.run is unknown"
       ],
-      "duration_ms": 54,
+      "duration_ms": 66,
       "outcome": "inconclusive",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-direct-positive.json",
@@ -262,12 +480,84 @@
       "witness_checkpoints": []
     },
     {
+      "case_id": "dfb-taint-ruby-dispatch-table-negative",
+      "diagnostics": [
+        "Bifrost reported incomplete analysis: capability_incomplete",
+        "taint semantic binding is unavailable: no analysis root contains both a selected source and sink"
+      ],
+      "duration_ms": 59,
+      "outcome": "inconclusive",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-dispatch-table-negative.json",
+      "sink_anchors": [
+        "DFB-SINK: dispatch-table-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: dispatch-table-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-ruby-dispatch-table-positive",
+      "diagnostics": [
+        "Bifrost reported incomplete analysis: capability_incomplete",
+        "taint semantic binding is unavailable: no analysis root contains both a selected source and sink"
+      ],
+      "duration_ms": 61,
+      "outcome": "inconclusive",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-dispatch-table-positive.json",
+      "sink_anchors": [
+        "DFB-SINK: dispatch-table-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: dispatch-table-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-ruby-element-object-negative",
+      "diagnostics": [
+        "Bifrost reported incomplete analysis: capability_incomplete",
+        "taint discovery is incomplete: procedure value-flow snapshot for element_object.rb:element_object.rb.run is unsupported (assignments)"
+      ],
+      "duration_ms": 57,
+      "outcome": "inconclusive",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-element-object-negative.json",
+      "sink_anchors": [
+        "DFB-SINK: element-object-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: element-object-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-ruby-element-object-positive",
+      "diagnostics": [
+        "Bifrost reported incomplete analysis: capability_incomplete",
+        "taint discovery is incomplete: procedure value-flow snapshot for element_object.rb:element_object.rb.run is unsupported (assignments)"
+      ],
+      "duration_ms": 51,
+      "outcome": "inconclusive",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-element-object-positive.json",
+      "sink_anchors": [
+        "DFB-SINK: element-object-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: element-object-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
       "case_id": "dfb-taint-ruby-exception-catch-negative",
       "diagnostics": [
         "Bifrost reported incomplete analysis: capability_incomplete",
         "taint discovery is incomplete: procedure value-flow snapshot for exception_catch.rb:exception_catch.rb.run is unsupported (assignments)"
       ],
-      "duration_ms": 57,
+      "duration_ms": 70,
       "outcome": "inconclusive",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-exception-catch-negative.json",
@@ -285,7 +575,7 @@
         "Bifrost reported incomplete analysis: capability_incomplete",
         "taint discovery is incomplete: procedure value-flow snapshot for exception_catch.rb:exception_catch.rb.run is unsupported (assignments)"
       ],
-      "duration_ms": 57,
+      "duration_ms": 75,
       "outcome": "inconclusive",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-exception-catch-positive.json",
@@ -298,13 +588,49 @@
       "witness_checkpoints": []
     },
     {
+      "case_id": "dfb-taint-ruby-function-field-negative",
+      "diagnostics": [
+        "Bifrost reported incomplete analysis: capability_incomplete",
+        "taint semantic binding is unavailable: no analysis root contains both a selected source and sink"
+      ],
+      "duration_ms": 63,
+      "outcome": "inconclusive",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-function-field-negative.json",
+      "sink_anchors": [
+        "DFB-SINK: function-field-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: function-field-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-ruby-function-field-positive",
+      "diagnostics": [
+        "Bifrost reported incomplete analysis: capability_incomplete",
+        "taint semantic binding is unavailable: no analysis root contains both a selected source and sink"
+      ],
+      "duration_ms": 112,
+      "outcome": "inconclusive",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-function-field-positive.json",
+      "sink_anchors": [
+        "DFB-SINK: function-field-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: function-field-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
       "case_id": "dfb-taint-ruby-infeasible-branch-negative",
       "diagnostics": [
         "Bifrost reported incomplete analysis: partial_discovery",
         "Controlled input reaches the benchmark sink",
         "taint discovery is incomplete: procedure value-flow snapshot for infeasible_branch.rb:infeasible_branch.rb.run is unknown"
       ],
-      "duration_ms": 63,
+      "duration_ms": 71,
       "outcome": "inconclusive",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-infeasible-branch-negative.json",
@@ -323,7 +649,7 @@
         "Controlled input reaches the benchmark sink",
         "taint discovery is incomplete: procedure value-flow snapshot for infeasible_branch.rb:infeasible_branch.rb.run is unknown"
       ],
-      "duration_ms": 69,
+      "duration_ms": 73,
       "outcome": "inconclusive",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-infeasible-branch-positive.json",
@@ -341,7 +667,7 @@
         "Bifrost reported incomplete analysis: partial_discovery",
         "taint discovery is incomplete: procedure value-flow snapshot for local_chain.rb:local_chain.rb.run is unknown"
       ],
-      "duration_ms": 44,
+      "duration_ms": 63,
       "outcome": "inconclusive",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-local-chain-negative.json",
@@ -360,7 +686,7 @@
         "Controlled input reaches the benchmark sink",
         "taint discovery is incomplete: procedure value-flow snapshot for local_chain.rb:local_chain.rb.run is unknown"
       ],
-      "duration_ms": 50,
+      "duration_ms": 81,
       "outcome": "inconclusive",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-local-chain-positive.json",
@@ -378,7 +704,7 @@
         "Bifrost reported incomplete analysis: partial_discovery",
         "taint discovery is incomplete: procedure value-flow snapshot for local_overwrite.rb:local_overwrite.rb.run is unknown"
       ],
-      "duration_ms": 41,
+      "duration_ms": 76,
       "outcome": "inconclusive",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-local-overwrite-negative.json",
@@ -397,7 +723,7 @@
         "Controlled input reaches the benchmark sink",
         "taint discovery is incomplete: procedure value-flow snapshot for local_overwrite.rb:local_overwrite.rb.run is unknown"
       ],
-      "duration_ms": 48,
+      "duration_ms": 101,
       "outcome": "inconclusive",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-local-overwrite-positive.json",
@@ -416,7 +742,7 @@
         "Controlled input reaches the benchmark sink",
         "taint discovery is incomplete: procedure value-flow snapshot for loop_carried.rb:loop_carried.rb.run is unsupported (local_flow)"
       ],
-      "duration_ms": 49,
+      "duration_ms": 98,
       "outcome": "inconclusive",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-loop-carried-negative.json",
@@ -435,7 +761,7 @@
         "Controlled input reaches the benchmark sink",
         "taint discovery is incomplete: procedure value-flow snapshot for loop_carried.rb:loop_carried.rb.run is unsupported (local_flow)"
       ],
-      "duration_ms": 56,
+      "duration_ms": 77,
       "outcome": "inconclusive",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-loop-carried-positive.json",
@@ -448,12 +774,84 @@
       "witness_checkpoints": []
     },
     {
+      "case_id": "dfb-taint-ruby-map-iteration-negative",
+      "diagnostics": [
+        "Bifrost reported incomplete analysis: capability_incomplete",
+        "taint semantic binding is unavailable: no analysis root contains both a selected source and sink"
+      ],
+      "duration_ms": 53,
+      "outcome": "inconclusive",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-map-iteration-negative.json",
+      "sink_anchors": [
+        "DFB-SINK: map-iteration-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: map-iteration-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-ruby-map-iteration-positive",
+      "diagnostics": [
+        "Bifrost reported incomplete analysis: capability_incomplete",
+        "taint semantic binding is unavailable: no analysis root contains both a selected source and sink"
+      ],
+      "duration_ms": 48,
+      "outcome": "inconclusive",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-map-iteration-positive.json",
+      "sink_anchors": [
+        "DFB-SINK: map-iteration-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: map-iteration-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-ruby-nested-access-path-negative",
+      "diagnostics": [
+        "Bifrost reported incomplete analysis: capability_incomplete",
+        "taint discovery is incomplete: procedure value-flow snapshot for nested_access_path.rb:nested_access_path.rb.run is unsupported (assignments)"
+      ],
+      "duration_ms": 61,
+      "outcome": "inconclusive",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-nested-access-path-negative.json",
+      "sink_anchors": [
+        "DFB-SINK: nested-access-path-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: nested-access-path-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-ruby-nested-access-path-positive",
+      "diagnostics": [
+        "Bifrost reported incomplete analysis: capability_incomplete",
+        "taint discovery is incomplete: procedure value-flow snapshot for nested_access_path.rb:nested_access_path.rb.run is unsupported (assignments)"
+      ],
+      "duration_ms": 61,
+      "outcome": "inconclusive",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-nested-access-path-positive.json",
+      "sink_anchors": [
+        "DFB-SINK: nested-access-path-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: nested-access-path-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
       "case_id": "dfb-taint-ruby-object-separation-negative",
       "diagnostics": [
         "Bifrost reported incomplete analysis: capability_incomplete",
         "taint discovery is incomplete: procedure value-flow snapshot for object_separation.rb:object_separation.rb.run is unsupported (assignments)"
       ],
-      "duration_ms": 43,
+      "duration_ms": 62,
       "outcome": "inconclusive",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-object-separation-negative.json",
@@ -471,7 +869,7 @@
         "Bifrost reported incomplete analysis: capability_incomplete",
         "taint discovery is incomplete: procedure value-flow snapshot for object_separation.rb:object_separation.rb.run is unsupported (assignments)"
       ],
-      "duration_ms": 41,
+      "duration_ms": 55,
       "outcome": "inconclusive",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-object-separation-positive.json",
@@ -484,12 +882,85 @@
       "witness_checkpoints": []
     },
     {
+      "case_id": "dfb-taint-ruby-recursive-carry-negative",
+      "diagnostics": [
+        "Bifrost reported incomplete analysis: partial_discovery",
+        "taint discovery is incomplete: procedure value-flow snapshot for recursive_carry.rb:recursive_carry.rb.carry is unknown"
+      ],
+      "duration_ms": 59,
+      "outcome": "inconclusive",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-recursive-carry-negative.json",
+      "sink_anchors": [
+        "DFB-SINK: recursive-carry-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: recursive-carry-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-ruby-recursive-carry-positive",
+      "diagnostics": [
+        "Bifrost reported incomplete analysis: partial_discovery",
+        "Controlled input reaches the benchmark sink",
+        "taint discovery is incomplete: procedure value-flow snapshot for recursive_carry.rb:recursive_carry.rb.carry is unknown"
+      ],
+      "duration_ms": 69,
+      "outcome": "inconclusive",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-recursive-carry-positive.json",
+      "sink_anchors": [
+        "DFB-SINK: recursive-carry-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: recursive-carry-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-ruby-reflective-invocation-negative",
+      "diagnostics": [
+        "Bifrost reported incomplete analysis: capability_incomplete",
+        "taint semantic binding is unavailable: no analysis root contains both a selected source and sink"
+      ],
+      "duration_ms": 51,
+      "outcome": "inconclusive",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-reflective-invocation-negative.json",
+      "sink_anchors": [
+        "DFB-SINK: reflective-invocation-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: reflective-invocation-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-ruby-reflective-invocation-positive",
+      "diagnostics": [
+        "Bifrost reported incomplete analysis: capability_incomplete",
+        "taint semantic binding is unavailable: no analysis root contains both a selected source and sink"
+      ],
+      "duration_ms": 68,
+      "outcome": "inconclusive",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-reflective-invocation-positive.json",
+      "sink_anchors": [
+        "DFB-SINK: reflective-invocation-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: reflective-invocation-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
       "case_id": "dfb-taint-ruby-return-relay-one-hop-negative",
       "diagnostics": [
         "Bifrost reported incomplete analysis: partial_discovery",
         "taint discovery is incomplete: procedure value-flow snapshot for return_relay.rb:return_relay.rb.run is unknown"
       ],
-      "duration_ms": 41,
+      "duration_ms": 48,
       "outcome": "inconclusive",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-return-relay-one-hop-negative.json",
@@ -508,7 +979,7 @@
         "Controlled input reaches the benchmark sink",
         "taint discovery is incomplete: procedure value-flow snapshot for return_relay.rb:return_relay.rb.run is unknown"
       ],
-      "duration_ms": 73,
+      "duration_ms": 78,
       "outcome": "inconclusive",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-return-relay-one-hop-positive.json",
@@ -526,7 +997,7 @@
         "Bifrost reported incomplete analysis: partial_discovery",
         "taint discovery is incomplete: procedure value-flow snapshot for return_relay.rb:return_relay.rb.run is unknown"
       ],
-      "duration_ms": 44,
+      "duration_ms": 58,
       "outcome": "inconclusive",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-return-relay-two-hop-negative.json",
@@ -545,7 +1016,7 @@
         "Controlled input reaches the benchmark sink",
         "taint discovery is incomplete: procedure value-flow snapshot for return_relay.rb:return_relay.rb.run is unknown"
       ],
-      "duration_ms": 73,
+      "duration_ms": 82,
       "outcome": "inconclusive",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-return-relay-two-hop-positive.json",
@@ -563,7 +1034,7 @@
         "Bifrost reported incomplete analysis: capability_incomplete",
         "taint discovery is incomplete: procedure value-flow snapshot for same_object_field.rb:same_object_field.rb.run is unsupported (assignments)"
       ],
-      "duration_ms": 58,
+      "duration_ms": 55,
       "outcome": "inconclusive",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-same-object-field-negative.json",
@@ -581,7 +1052,7 @@
         "Bifrost reported incomplete analysis: capability_incomplete",
         "taint discovery is incomplete: procedure value-flow snapshot for same_object_field.rb:same_object_field.rb.run is unsupported (assignments)"
       ],
-      "duration_ms": 56,
+      "duration_ms": 53,
       "outcome": "inconclusive",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-same-object-field-positive.json",
@@ -595,7 +1066,7 @@
     }
   ],
   "schema_version": 1,
-  "started_at_unix_seconds": 1787587115,
+  "started_at_unix_seconds": 1787661079,
   "tool": "bifrost",
   "tool_build_identity": "728ac69ab93224151c6c951b23d2f5bc681d8558",
   "tool_version": "bifrost 0.10.5"

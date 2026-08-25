@@ -143,19 +143,23 @@ compilation step. They write `reports/joern-<language>-kernel.json` and keep one
 raw evidence document per case under `reports/raw/joern-<language>-kernel/`. The
 retained snapshot used Joern 4.0.610 with the `javasrc2cpg`, `jssrc2cpg`,
 `pysrc2cpg`, `rubysrc2cpg`, `php2cpg`, and `rust2cpg` frontends and one committed
-CPG query script. All 318 assertions executed with no `inconclusive`,
+CPG query script. All 344 assertions executed with no `inconclusive`,
 `unsupported`, or `runner-error` outcome: Java 47/58, JavaScript 44/58, Python
-48/58, PHP 48/58, Ruby 26/32, and Rust 43/54 match the expected polarity —
+48/58, PHP 48/58, Ruby 40/58, and Rust 43/54 match the expected polarity —
 Rust's denominator is the expanded 27 templates, two cells being inapplicable to
-it, and Java's, Python's, JavaScript's, and PHP's are the expanded 29 each,
-whose 58-assertion populations are never compared to a 32-assertion one.
+it, and Java's, Python's, JavaScript's, PHP's, and Ruby's are the expanded 29
+each, whose 58-assertion populations are never compared to a 32-assertion one.
 JavaScript splits 26/32 on the classic sixteen — identical to its earlier
 snapshot — and 18/26 on the challenge thirteen, Java splits 28/32 and 19/26 the
-same way, PHP splits 28/32 and 20/26, and Rust splits 27/30 and 16/24, each
-classic half identical case for case to its pre-expansion snapshot; in all four
-the depth-6 relay positive is
-missed at the distribution's default call-depth bound of 4, exactly as the
-challenge preregistration predicted in advance. Rust's challenge stratum is the
+same way, Python splits 28/32 and 20/26, PHP splits 28/32 and 20/26, Ruby splits
+26/32 and 14/26, and Rust splits 27/30 and 16/24, each classic half identical
+case for case to its pre-expansion snapshot. In Java, JavaScript, Python, PHP,
+and Rust the depth-6 relay positive is missed at the distribution's default
+call-depth bound of 4, exactly as the challenge preregistration predicted in
+advance. Ruby is the one measured departure: on the same pin and the same
+default bound it discriminates the depth-6 relay pair correctly, and that result
+is recorded as measured rather than smoothed toward the prediction. Rust's
+challenge stratum is the
 first challenge-tier engine evidence here for a systems language, and it is
 uniformly under-approximating: every stratum-A and stratum-B negative correct,
 every stratum-A and stratum-B positive missed, and not one false positive in the
@@ -164,7 +168,8 @@ twelve challenge templates. Rust became runnable only at this pin:
 per workspace, and it is recorded as the young frontend it is. Scala still has
 no source frontend and stays explicitly unsupported. Re-running all six on the
 new pin left Java, JavaScript, Python, and PHP identical case-for-case and moved
-four Ruby cases in opposite directions at an unchanged 26/32. See the
+four Ruby cases in opposite directions at an unchanged 26/32 on the classic
+sixteen. See the
 [Joern adapter evidence](adapters/joern/README.md) for the pinned invocation,
 tagging model, frontend coverage, drift analysis, and per-language mismatch
 lists.
@@ -180,11 +185,12 @@ intraprocedural partition of each kernel is scored — the pinned CLI documents
 interprocedural taint, cross-file taint, and path sensitivity as Pro Engine
 features, so the rest is `unsupported` rather than false negatives. All eleven
 kernels produced 9 `reached`, 5 `not-reached`, and the whole remainder
-`unsupported` (18 for Ruby, the one unexpanded 16-template kernel, 34 for the
+`unsupported` — every kernel is now expanded, so the remainder is 34 for the
 expanded 24-template C kernel, 40 for the expanded 27-template Rust kernel, 42
 for the expanded 28-template C++ kernel, and 44 each for the expanded
-29-template Java, Python, JavaScript, TypeScript, Kotlin, Go, and PHP
-kernels), with no `inconclusive` or `runner-error`
+29-template Java, Python, JavaScript, TypeScript, Kotlin, Go, PHP, and Ruby
+kernels, 468 preregistered-unsupported assertions against 154 scored across
+622 selected cases — with no `inconclusive` or `runner-error`
 outcome and 12/14 of each scored subset matching the expected polarity; every
 intraprocedural positive was found in every language. The two mismatches are the
 same in all eleven — false positives on the infeasible branch and the
@@ -287,6 +293,30 @@ declines all 26 challenge assertions by declared capability. PHP has no CodeQL
 extractor at all, which is an absence of an analyzer rather than a deferral.
 The [PHP kernel contract](docs/php-kernel.md) records the fixtures, the
 per-stratum results, and the mismatch lists.
+
+Ruby is the last of the thirteen, expanded to a 29-template, 58-assertion core
+with **all thirteen cells directly applicable**, and it defers nothing at all:
+Ruby's kernel landed after the v0.3.0 freeze, so none of its four reports is
+freeze-bound and **all four adapters ran the whole expanded population** — the
+only language for which that is true. `reports/codeql-ruby-kernel.json` is
+consequently the only CodeQL report in this repository that reflects the
+challenge tier, scoring 49/58 (29/32 classic, 20/26 challenge) with a clean 6/6
+on stratum D. Joern scores 40/58 (26/32 and 14/26) and supplies the wave's one
+**recorded measured departure**: at the same unraised `maxCallDepth = 4` that
+makes Java, JavaScript, Python, PHP, and Rust miss the depth-6 relay positive,
+Ruby discriminates that pair correctly — reported as measured rather than
+reconciled to the preregistered prediction, which stands unamended. Semgrep CE
+scores 12/14 on its intraprocedural partition and declines the other 44
+assertions by declared capability; Bifrost returns all 58 `inconclusive`, 14 of
+them under a new *taint semantic binding is unavailable* diagnostic class, which
+is recorded absence of capability rather than 58 negatives. The [Ruby kernel
+contract](docs/ruby-kernel.md) records the fixtures, the per-stratum results,
+and the mismatch lists.
+
+**With Ruby's row flipped the challenge-tier rollout is complete: all thirteen
+core kernels carry their preregistered expanded denominators**, and what remains
+outstanding is adapter re-runs the v0.3.0 freeze defers to v0.4.0, not missing
+fixtures.
 
 ## Add a case or adapter
 
