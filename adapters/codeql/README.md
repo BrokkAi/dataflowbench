@@ -252,8 +252,8 @@ fallback was needed. Its configuration hash is
 
 ## Python kernel
 
-The Python query selects exactly the 32 core assertions (the 16 balanced
-templates): every benchmark `dfb_source()` call is a source, and argument zero
+The Python query selects exactly Python's core assertions: every benchmark
+`dfb_source()` call is a source, and argument zero
 of every benchmark `dfb_sink(value)` call is a sink. It does not match fixture
 names or treat an absent finding as an execution success. The Python dependency
 is pinned to `codeql/python-all@7.2.3`, the compatible pack released for CodeQL
@@ -318,6 +318,17 @@ executed query with no SARIF flow is `not-reached`. The full compile above
 populates the compilation cache before the runner starts, so per-case analysis
 does not repeat query compilation. Every case still uses an isolated cold
 database; no database or compiled fixture is reused across the pair.
+
+**Deferred: the expanded Python population.** Python's challenge-tier row is
+now rolled out and its core denominator is 29 templates / 58 assertions, but
+`reports/codeql-python-kernel.json` is one of the nineteen reports
+`reports/freeze.json` digest-binds for v0.3.0. Overwriting it would invalidate
+a published freeze, so the Python challenge wave left it untouched. Its 32
+results remain the frozen 16-template v0.3.0 evidence, and CodeQL's evidence
+for the expanded Python core arrives with the v0.4.0 freeze-prep re-run. This
+is deferral, not absence of coverage, and the two populations are never
+compared number-to-number. The selection code already expects 58; the runner is
+simply not invoked until the freeze is re-cut.
 
 ## C# kernel
 

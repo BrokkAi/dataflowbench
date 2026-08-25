@@ -10,7 +10,10 @@ score dimensions—those tracks plus `witness`—without pooling them. The first
 scored slice includes a balanced direct-flow pair across 13 language/dialect
 entries and balanced 16-template Java, JavaScript, TypeScript, Python, Kotlin,
 C#, Go, and C++ propagation kernels — plus 15-template C and Rust kernels whose
-exception-catch cell is inapplicable — in the `taint` track. Each parity kernel uses the
+exception-catch cell is inapplicable — in the `taint` track. Python's core has
+since expanded to 29 templates with the
+[preregistered challenge tier](docs/challenge-tier.md); the 16-template and
+29-template populations are separate populations of the same name. Each parity kernel uses the
 same language-neutral template IDs with language-specific fixture spellings and
 a separate result population; the [Python kernel
 contract](docs/python-kernel.md), the [TypeScript adaptation
@@ -107,8 +110,8 @@ including the Java and JavaScript kernels. It retains raw JSON in
 exit status 1 for a finding; the runner treats that as successful evidence
 rather than a runner failure. The CodeQL commands require a CodeQL CLI and the
 corresponding pinned language pack: the Java command runs only the Java kernel,
-while the Python command selects exactly the 32 Python core assertions and
-runs the Python-specific query.
+while the Python command selects exactly the Python core assertions — 58 now
+that its challenge-tier row is rolled out — and runs the Python-specific query.
 
 The Java and Python CodeQL query packs are separate. Install the Java pack from
 `adapters/codeql/` for the Java command and the Python pack from
@@ -135,10 +138,11 @@ compilation step. They write `reports/joern-<language>-kernel.json` and keep one
 raw evidence document per case under `reports/raw/joern-<language>-kernel/`. The
 retained snapshot used Joern 4.0.610 with the `javasrc2cpg`, `jssrc2cpg`,
 `pysrc2cpg`, `rubysrc2cpg`, `php2cpg`, and `rust2cpg` frontends and one committed
-CPG query script. All 190 assertions executed with no `inconclusive`,
+CPG query script. All 216 assertions executed with no `inconclusive`,
 `unsupported`, or `runner-error` outcome: Java 28/32, JavaScript 26/32, Python
-28/32, Ruby 26/32, PHP 28/32, and Rust 27/30 match the expected polarity — Rust's
-denominator is 15 templates, not 16. Rust became runnable only at this pin:
+48/58, Ruby 26/32, PHP 28/32, and Rust 27/30 match the expected polarity — Rust's
+denominator is 15 templates, not 16, and Python's is the expanded 29, whose
+58-assertion population is never compared to a 32-assertion one. Rust became runnable only at this pin:
 `rust2cpg` is new in 4.0.610, it needs a Cargo manifest the runner synthesizes
 per workspace, and it is recorded as the young frontend it is. Scala still has
 no source frontend and stays explicitly unsupported. Re-running all six on the
@@ -176,7 +180,11 @@ The checked-in Bifrost v0.10.5 snapshot contains 118 normalized results:
 produced from build identity `728ac69ab93224151c6c951b23d2f5bc681d8558`.
 The Java, Python, and JavaScript 32-assertion kernels each have 32/32
 expected-polarity matches with no decisive mismatches and no incomplete
-outcomes; under v0.10.2 they stood at 17/32, 16/32, and 19/32. Incomplete
+outcomes; under v0.10.2 they stood at 17/32, 16/32, and 19/32. Those are the
+frozen v0.3.0 16-template populations. Python's core has since expanded to 29
+templates and 58 assertions, and its Bifrost evidence for that larger
+population is deferred to the v0.4.0 freeze-prep re-run rather than being
+published here — the frozen report may not be overwritten. Incomplete
 outcomes remain distinct from decisive semantic mismatches and are never
 treated as negative results. See the [Bifrost adapter evidence](adapters/bifrost/README.md)
 and the [JavaScript adaptation matrix](docs/javascript-kernel.md) for the
@@ -193,7 +201,7 @@ or model in `adapters/<tool>/`; add a command and normalization mapping in the
 
 Reproduce a checked-in example with `cargo run -- validate-reports`; recreate a
 fresh Bifrost report with the quick-start command and compare its raw evidence.
-The Python kernel check enforces the exact 16-template positive/negative
+The Python kernel check enforces the exact 29-template positive/negative
 population independently of any analyzer output.
 The [CodeQL adapter guide](adapters/codeql/README.md) documents the pinned CLI,
 language packs, and commands for reproducing retained kernel reports, and the
@@ -202,8 +210,9 @@ Joern distribution, its query script, and its frontend coverage. The
 [Semgrep adapter guide](adapters/semgrep/README.md) does the same for the pinned
 Semgrep CE distribution, its committed taint rules, and the bounded profile it
 scores. The
-[Python kernel contract](docs/python-kernel.md) defines the exact 16-template,
-32-assertion selection and its anchor-based result semantics. The [C# kernel
+[Python kernel contract](docs/python-kernel.md) defines the exact 29-template,
+58-assertion selection, the challenge-tier expansion behind it, and its
+anchor-based result semantics. The [C# kernel
 contract](docs/csharp-kernel.md), the [Go kernel
 contract](docs/go-kernel.md), the [C](docs/c-kernel.md) and
 [C++](docs/cpp-kernel.md) kernel contracts, and the [Rust kernel

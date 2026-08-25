@@ -131,7 +131,21 @@ The 32-case Java kernel has 16 `reached` and 16 `not-reached` outcomes, with
 v0.10.2 it was 17/32). The 32-case Python kernel likewise has 16 `reached`,
 16 `not-reached`, and 32/32 matching (v0.10.2: 16/32); its dedicated report is
 `reports/bifrost-python-kernel.json` and raw evidence is under
-`reports/raw/bifrost-python-kernel/`. The 32-case
+`reports/raw/bifrost-python-kernel/`.
+
+**Deferred: the expanded Python population.** Python's challenge-tier row is
+rolled out and its core denominator is now 29 templates / 58 assertions, but
+`reports/bifrost-python-kernel.json` is one of the nineteen reports
+`reports/freeze.json` digest-binds for v0.3.0, so the Python challenge wave did
+not re-run it. Those 32 results are the frozen 16-template v0.3.0 evidence and
+say nothing either way about the thirteen challenge templates; Bifrost's
+evidence for the expanded Python core arrives with the v0.4.0 freeze-prep
+re-run. Deferral is not absence of coverage, and the v0.3.0 and v0.4.0
+populations are never compared number-to-number. The Python challenge cases are
+also excluded from the smoke selection, which stays pinned at its frozen 118
+cases.
+
+The 32-case
 JavaScript kernel has 16 `reached`, 16 `not-reached`, and 32/32 matching
 (v0.10.2: 19/32). Unlike the v0.10.2 snapshot, this v0.10.5 evidence decides
 all three of these kernels completely.

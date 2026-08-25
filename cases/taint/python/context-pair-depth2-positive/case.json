@@ -1,0 +1,68 @@
+{
+  "schema_version": 2,
+  "id": "dfb-taint-python-context-pair-depth2-positive",
+  "template_id": "dfb-template-chal-context-pair-depth2",
+  "polarity": "positive",
+  "score_tier": "core",
+  "track": "taint",
+  "language": "python",
+  "semantic_dimensions": [
+    "interprocedural-flow",
+    "context-sensitivity"
+  ],
+  "feature_tags": [
+    "interprocedural-deep"
+  ],
+  "model_profile": "benchmark-controlled",
+  "fixture_files": [
+    "context_pair_depth2.py"
+  ],
+  "source_anchors": [
+    {
+      "marker": "DFB-SOURCE: context-pair-depth2-input",
+      "file": "context_pair_depth2.py",
+      "line_hint": 1
+    }
+  ],
+  "sink_anchors": [
+    {
+      "marker": "DFB-SINK: context-pair-depth2-sink",
+      "file": "context_pair_depth2.py",
+      "line_hint": 5
+    }
+  ],
+  "expected_flows": [
+    {
+      "source": "DFB-SOURCE: context-pair-depth2-input",
+      "sink": "DFB-SINK: context-pair-depth2-sink"
+    }
+  ],
+  "expected_nonflows": [],
+  "witness_checkpoints": [
+    "DFB-SOURCE: context-pair-depth2-input",
+    "DFB-WITNESS: context-pair-depth2-wrapper",
+    "DFB-WITNESS: context-pair-depth2-helper",
+    "DFB-SINK: context-pair-depth2-sink"
+  ],
+  "expected_analysis_capability": {
+    "kind": "two-level-context-sensitive-taint"
+  },
+  "execution_budget": {
+    "wall_clock_seconds": 60,
+    "peak_memory_mb": 512
+  },
+  "fixture_provenance": {
+    "kind": "authored",
+    "origin": "DataFlowBench",
+    "revision": "m3-challenge-python",
+    "license": "MIT"
+  },
+  "tool_model_references": {
+    "bifrost": {
+      "policy": "adapters/bifrost/policies/core-python-kernel.rqlp"
+    },
+    "codeql": {
+      "query": "adapters/codeql/python/queries/PythonKernel.ql"
+    }
+  }
+}

@@ -14,8 +14,8 @@ The initial adapter plan is:
 | Tool | Initial profile | Status |
 | --- | --- | --- |
 | Bifrost | Breadth baseline and per-language propagation kernels | Implemented smoke adapter; kernel runs are reported separately. The Java and JavaScript kernel commands exist but have not been run — the frozen smoke slice is still their published evidence |
-| CodeQL | 16-template Java, JavaScript, and Python propagation kernels | Java, JavaScript, and Python runners implemented as separate language-scoped populations |
-| Joern | Java, JavaScript, Python, Ruby, and PHP 16-template propagation kernels plus the 15-template Rust kernel | Implemented as six separate language-scoped populations over one CPG query script |
+| CodeQL | 16-template Java and JavaScript propagation kernels and the 29-template expanded Python kernel | Java, JavaScript, and Python runners implemented as separate language-scoped populations |
+| Joern | Java, JavaScript, Ruby, and PHP 16-template propagation kernels, the 15-template Rust kernel, and the 29-template expanded Python kernel | Implemented as six separate language-scoped populations over one CPG query script |
 | Semgrep CE | Supported local analysis only | Implemented as eleven separate language-scoped populations over one committed taint rule per language; only the documented intraprocedural partition is scored. Four front ends are non-GA in the pinned distribution (Kotlin `beta`; Rust, C, C++ `alpha`) and the label is retained without ever changing the partition |
 | OpenTaint | Java and Kotlin profile | Planned |
 
@@ -82,10 +82,17 @@ with: Java's positive and negative name `direct-positive.rqlp` and
 policy, and the selector accepts all of them rather than rewriting evidence a
 freeze manifest binds byte-for-byte.
 
-Those two commands are added here but **not run**. This change contains no
-fixture and no result; the frozen smoke slice remains the published Java and
-JavaScript Bifrost evidence until the wave-1 language PRs run the new commands
-against real challenge fixtures.
+Those two commands have **not been run**. The frozen smoke slice remains the
+published Java and JavaScript Bifrost evidence until those languages' wave PRs
+run the new commands against real challenge fixtures.
+
+**A freeze-bound report is not re-run by the wave that expands its language.**
+`reports/freeze.json` digest-binds nineteen reports, including all ten CodeQL
+kernel reports and eight of the Bifrost kernel reports. Overwriting one would
+invalidate a published freeze, so those adapters are deferred to the v0.4.0
+freeze-prep re-run and the deferral is recorded in that language's kernel
+contract. Deferral is not absence of coverage, and the v0.3.0 and v0.4.0
+populations are never compared number-to-number.
 
 **Semgrep CE's challenge partition is preregistered.** All thirteen challenge
 templates are decided `unsupported` by declared capability, from the pinned
@@ -94,6 +101,12 @@ decision is keyed by template ID rather than by fixture tags, so no later
 fixture's `feature_tags` and no observed result can move a case between the
 partitions. The per-template rationale is in
 [the Semgrep adapter notes](../adapters/semgrep/README.md).
+
+**Python is the first row flipped.** Its core denominator is 29 templates and
+58 assertions, and the wave re-ran the adapters no freeze binds — Joern and
+Semgrep CE — while leaving its freeze-bound Bifrost and CodeQL reports exactly
+as published. The per-adapter evidence, including which adapters were deferred,
+is in [the Python kernel contract](python-kernel.md).
 
 ## CodeQL language populations
 
@@ -163,14 +176,18 @@ The direct-flow breadth run, Java kernel run, JavaScript kernel evidence, and
 Python kernel run are distinct adapter populations. A kernel command must
 select only its language and retain the exact raw output for those cases; it
 must not use a direct-flow result or a Java result as a proxy for JavaScript.
-The Python kernel's 16-template balance and construct adaptations are defined
-in the [Python kernel contract](python-kernel.md).
+The Python kernel's template balance and construct adaptations — sixteen
+templates in v0.3.0, twenty-nine once its challenge row was rolled out — are
+defined in the [Python kernel contract](python-kernel.md).
 
 ### CodeQL Python slice
 
-The Python CodeQL command selects exactly the 32 `core` taint cases in
+The Python CodeQL command selects exactly the `core` taint cases in
 `cases/taint/python/`: one positive and one negative assertion for each of the
-16 balanced template IDs. Each case's `tool_model_references.codeql.query`
+balanced template IDs in Python's core denominator — 32 assertions over 16
+templates before the challenge rollout, and **58 assertions over 29 templates**
+now that Python's `CHALLENGE_ROLLOUT` row is flipped. Each case's
+`tool_model_references.codeql.query`
 must point to `adapters/codeql/python/queries/PythonKernel.ql`; Java cases and the
 13-language direct-flow baseline are excluded. The command creates a fresh
 Python database per case and writes `reports/codeql-python-kernel.json` plus
@@ -207,6 +224,13 @@ negatives for `alias-propagation-positive`, `array-element-positive`, and
 `exception-catch-positive`, and a false positive for `loop-carried-negative`.
 These results cover only the Python core kernel.
 
+`reports/codeql-python-kernel.json` is one of the nineteen reports
+`reports/freeze.json` digest-binds for v0.3.0, so the Python challenge wave did
+**not** re-run it: those 32 results describe the 16-template v0.3.0 population
+and are left exactly as frozen. CodeQL evidence for Python's expanded
+58-assertion core arrives with the v0.4.0 freeze-prep re-run. See
+[the Python kernel contract](python-kernel.md).
+
 ## Joern language populations
 
 The Joern adapter keeps Java, JavaScript, Python, Ruby, PHP, and Rust as six
@@ -221,11 +245,13 @@ score_tier == "core"
 
 The v0.3.0 freeze digest-binds every `case.json` and fixture byte, so no case
 declares a Joern model reference; the per-language invocation is pinned in the
-runner instead, the way the Kotlin Bifrost run pins its policy. Five of the
+runner instead, the way the Kotlin Bifrost run pins its policy. Four of the
 selections are 16 templates with one positive and one negative assertion — 32
 assertions — under one model profile; Rust's exception-catch cell is
 inapplicable, so its core selection is the other 15 templates, 30 assertions,
-and its `Result`/`?` `language-extension` pair is not selected. The six are
+and its `Result`/`?` `language-extension` pair is not selected; Python's
+challenge-tier row is rolled out, so its core selection is the expanded 29
+templates, 58 assertions. The six are
 disjoint. Each has its own report (`reports/joern-<language>-kernel.json`) and
 its own retained-evidence root (`reports/raw/joern-<language>-kernel/`).
 
@@ -264,7 +290,8 @@ and score tier, exactly as the Joern kernels do, and each has its own report
 reference: the v0.3.0 freeze digest-binds every `case.json` byte, so the
 invocation is pinned in the runner instead.
 
-Nine of the eleven select 32 assertions. **C and Rust select 30**: their
+Eight of the eleven select 32 assertions. **Python selects 58**, its expanded
+29-template core. **C and Rust select 30**: their
 exception-catch cell is inapplicable in `applicability-matrix.md`, so they are
 balance-checked against the fifteen-template
 `KERNEL_TEMPLATE_IDS_WITHOUT_EXCEPTION_CATCH` set the CodeQL and Bifrost C and
@@ -295,7 +322,9 @@ partition of each kernel: 7 templates and 14 assertions.
 
 The remaining templates — the `interprocedural-one-hop`,
 `interprocedural-deep`, and `heap-access-path` partitions, 18 assertions in a
-16-template kernel and 16 in C and Rust — are `unsupported`. That decision is
+16-template kernel, 16 in C and Rust, and 44 in the expanded 29-template Python
+kernel, whose thirteen challenge templates are all outside the profile — are
+`unsupported`. That decision is
 taken from each case's own `feature_tags` and
 `expected_analysis_capability.kind` *before* Semgrep is invoked, so an
 out-of-profile case never reaches a Semgrep process and cannot produce an empty
@@ -332,7 +361,8 @@ never be frozen next to a clean negative.
 
 All eleven kernels ran on Semgrep CE 1.174.0 (`semgrep-oss:1.174.0`, Homebrew).
 Each produced 9 `reached`, 5 `not-reached`, and its whole remainder
-`unsupported` — 18 for the nine 16-template kernels, 16 for C and Rust — with
+`unsupported` — 18 for the eight 16-template kernels, 16 for C and Rust, 44 for
+the expanded Python kernel — with
 zero `inconclusive` and zero `runner-error` outcomes, and 12/14 of each scored
 subset matching the expected polarity. Every intraprocedural positive is
 `reached` in every language; the two mismatches, identical in all eleven, are
