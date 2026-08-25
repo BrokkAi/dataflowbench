@@ -26,7 +26,11 @@ Scala is deliberately absent. CodeQL CLI 2.26.3 has no Scala extractor and no
 Scala library pack in any build mode, so there is no `scala/` pack, no query,
 and no `run-codeql-scala-kernel` command. That absence is analyzer coverage —
 recorded in [the Scala kernel contract](../../docs/scala-kernel.md) — and
-never a negative result for any Scala assertion.
+never a negative result for any Scala assertion. It is restated unchanged for
+Scala's **expanded 29-template / 58-assertion core**: the 26 challenge
+assertions are covered by the same absence as the 32 classic ones, and because
+the extractor does not exist, this is coverage rather than evidence deferred to
+the v0.4.0 re-run.
 
 The checked-in query packs contain the Java, JavaScript, TypeScript, Python,
 Kotlin, C#, Go, C, C++, Rust, and Ruby kernel queries. Each query uses that

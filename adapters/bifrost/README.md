@@ -78,7 +78,8 @@ decided CodeQL-first, as [the Ruby kernel
 contract](../../docs/ruby-kernel.md) records. The Scala parity
 slice uses `core-scala-kernel.rqlp` and pins that policy for its whole
 population the way the Kotlin slice does, because its direct-propagation pair
-is frozen naming the breadth policy; Scala is the only kernel with
+is frozen naming the breadth policy; its core is now the **expanded 29
+templates (58 core assertions)**, and Scala is the only kernel with
 **single-analyzer coverage** — CodeQL 2.26.3 has no Scala extractor and the
 pinned Joern has no Scala source frontend, so Bifrost is the only tool that
 produces Scala results at all. See
@@ -343,17 +344,24 @@ heap/separation stratum and the exception-catch pair) or `partial_discovery`
 counted as negatives. This report was produced after the v0.3.0 freeze and is
 not bound by it; see [the PHP kernel contract](../../docs/php-kernel.md).
 
-The 32-case Scala kernel, in its own report `reports/bifrost-scala-kernel.json`
-with raw evidence under `reports/raw/bifrost-scala-kernel/`, was run on the
-same v0.10.5 build after the v0.3.0 freeze and is therefore not part of it. It
-produces 5 `reached`, 5 `not-reached`, and 22 `inconclusive` results: five
-template pairs are decisive — direct propagation, the local multi-step chain,
+The Scala kernel, in its own report `reports/bifrost-scala-kernel.json` with raw
+evidence under `reports/raw/bifrost-scala-kernel/`, was re-run whole on the same
+v0.10.5 build over its **expanded 58-assertion core** — 32 classic plus the 26
+challenge assertions the [challenge-tier
+preregistration](../../docs/challenge-tier.md) adds. The report is post-freeze
+and not bound by v0.3.0, so replacing it invalidated nothing. It produces 5
+`reached`, 5 `not-reached`, and 48 `inconclusive` results, **10 of 58** matching
+the expected polarity with **no decisive mismatch anywhere**. The classic
+thirty-two are identical case-for-case to the pre-expansion report — the same
+five decisive pairs (direct propagation, the local multi-step chain,
 call-context separation, argument-position separation, and the one-hop return
-relay — and all ten of those outcomes match the expected polarity, with no
-decisive mismatch. The 22 inconclusive results retain `partial_discovery` (18)
-or `capability_incomplete` (4) evidence; six of them additionally carry the
-policy's finding message, which an incomplete run cannot make decisive. This is
-capability coverage, never a negative result; see [the Scala kernel
+relay) at 10/32 — and **all twenty-six challenge assertions are
+`inconclusive`**, contributing neither a match nor a mismatch. The 48
+inconclusive results retain `partial_discovery` (30) or `capability_incomplete`
+(18) evidence; six classic ones additionally carry the policy's finding message,
+which an incomplete run cannot make decisive. This is capability coverage, never
+a negative result, and twenty-six undecided challenge assertions are not
+twenty-six misses; see [the Scala kernel
 contract](../../docs/scala-kernel.md).
 
 ## Java kernel (expanded core)
