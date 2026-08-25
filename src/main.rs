@@ -392,7 +392,7 @@ const CHALLENGE_ROLLOUT: [ChallengeRollout; 13] = [
         display: "Ruby",
         classic: &KERNEL_TEMPLATE_IDS,
         challenge: &CHALLENGE_TEMPLATE_IDS,
-        rolled_out: false,
+        rolled_out: true,
     },
 ];
 
@@ -4244,7 +4244,11 @@ fn codeql_ruby_cases() -> Result<Vec<(PathBuf, Value)>> {
         }
         selected.push((path, case));
     }
-    validate_kernel_population(&selected, "Ruby CodeQL kernel")?;
+    validate_kernel_population_with(
+        &selected,
+        "Ruby CodeQL kernel",
+        &expected_core_templates("ruby"),
+    )?;
     if !Path::new(CODEQL_RUBY_QUERY).is_file() {
         bail!("Ruby CodeQL query does not exist: {CODEQL_RUBY_QUERY}");
     }
@@ -4493,15 +4497,13 @@ fn codeql_kotlin_configuration_paths() -> BTreeSet<PathBuf> {
     paths
 }
 
-/// Assert that a selected language kernel is exactly the sixteen scored
-/// templates under one model profile, balanced one positive to one negative.
-fn validate_kernel_population(cases: &[(PathBuf, Value)], label: &str) -> Result<()> {
-    validate_kernel_population_with(cases, label, &KERNEL_TEMPLATE_IDS)
-}
-
-/// The same assertion for a language whose core denominator is not the full
-/// sixteen templates: docs/applicability-matrix.md reduces C and Rust to
-/// fifteen, and an inapplicable cell reduces only that language's denominator.
+/// Assert that a selected language kernel is exactly that language's core
+/// denominator under one model profile, balanced one positive to one negative.
+/// The denominator is a parameter rather than a constant because
+/// docs/applicability-matrix.md reduces C and Rust to fifteen classic
+/// templates, and docs/challenge-tier.md expands a language's set as its
+/// challenge wave lands; an inapplicable cell reduces only its own language's
+/// denominator.
 fn validate_kernel_population_with(
     cases: &[(PathBuf, Value)],
     label: &str,
@@ -8280,7 +8282,12 @@ mod tests {
                 .iter()
                 .all(|(path, _)| path.starts_with("cases/taint/scala"))
         );
-        validate_kernel_population(&selected, "Bifrost Scala kernel").unwrap();
+        validate_kernel_population_with(
+            &selected,
+            "Bifrost Scala kernel",
+            &expected_core_templates("scala"),
+        )
+        .unwrap();
         assert!(Path::new(BIFROST_SCALA_POLICY).is_file());
     }
 
@@ -10157,8 +10164,8 @@ mod tests {
 
     /// The Ruby kernel is its own Bifrost population. The tranche is gated on
     /// Bifrost's Ruby indexing, so whatever this run produces is capability
-    /// evidence — but the selection itself must still be exactly the 32 Ruby
-    /// core assertions and nothing else.
+    /// evidence — but the selection itself must still be exactly the Ruby
+    /// expanded core assertions and nothing else.
     #[test]
     fn bifrost_ruby_kernel_selects_only_ruby_core_cases() {
         let mut core = 0;
@@ -10184,10 +10191,14 @@ mod tests {
                 assert!(!ruby_core_case(&case));
             }
         }
-        assert_eq!(core, KERNEL_CASE_COUNT);
+        // The Ruby row is rolled out, so the kernel run covers the expanded
+        // core: 29 templates / 58 assertions, not the classic 32.
+        assert_eq!(core, expected_core_case_count("ruby"));
+        assert_eq!(core, 58);
+        assert!(core > KERNEL_CASE_COUNT);
         assert_eq!(
             BifrostRun::RubyKernel.expected_core_cases(),
-            Some(KERNEL_CASE_COUNT)
+            Some(expected_core_case_count("ruby"))
         );
     }
 
@@ -10238,7 +10249,10 @@ mod tests {
         assert!(!args.iter().any(|arg| arg.starts_with("--command=")));
 
         let selected = codeql_ruby_cases().unwrap();
-        assert_eq!(selected.len(), KERNEL_CASE_COUNT);
+        // The Ruby row is rolled out, so the CodeQL population is the expanded
+        // 29 templates / 58 assertions.
+        assert_eq!(selected.len(), expected_core_case_count("ruby"));
+        assert_eq!(selected.len(), 58);
         for (_, case) in &selected {
             assert_eq!(case["language"], "ruby");
             assert_eq!(case["score_tier"], "core");
@@ -11467,10 +11481,11 @@ mod tests {
                 );
                 assert!(template.starts_with(CHALLENGE_TEMPLATE_PREFIX));
             }
-            // Python, JavaScript, Java, C#, TypeScript, Kotlin, Go, C++, and
-            // C are the waves that have landed their fixtures; every other
-            // language validates against its classic set alone, so a language
-            // whose fixtures do not exist yet is never failed for missing them.
+            // Python, JavaScript, Java, C#, TypeScript, Kotlin, Go, C++, C,
+            // and Ruby are the waves that have landed their fixtures; every
+            // other language validates against its classic set alone, so a
+            // language whose fixtures do not exist yet is never failed for
+            // missing them.
             let rolled_out = matches!(
                 row.language,
                 "python"
@@ -11482,6 +11497,7 @@ mod tests {
                     | "go"
                     | "cpp"
                     | "c"
+                    | "ruby"
             );
             assert_eq!(
                 challenge_rolled_out(row.language),

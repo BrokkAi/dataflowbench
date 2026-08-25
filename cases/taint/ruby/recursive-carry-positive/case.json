@@ -1,0 +1,67 @@
+{
+  "schema_version": 2,
+  "id": "dfb-taint-ruby-recursive-carry-positive",
+  "template_id": "dfb-template-chal-recursive-carry",
+  "polarity": "positive",
+  "score_tier": "core",
+  "track": "taint",
+  "language": "ruby",
+  "semantic_dimensions": [
+    "interprocedural-flow",
+    "recursion"
+  ],
+  "feature_tags": [
+    "recursive"
+  ],
+  "model_profile": "benchmark-controlled",
+  "fixture_files": [
+    "recursive_carry.rb"
+  ],
+  "source_anchors": [
+    {
+      "marker": "DFB-SOURCE: recursive-carry-input",
+      "file": "recursive_carry.rb",
+      "line_hint": 1
+    }
+  ],
+  "sink_anchors": [
+    {
+      "marker": "DFB-SINK: recursive-carry-sink",
+      "file": "recursive_carry.rb",
+      "line_hint": 5
+    }
+  ],
+  "expected_flows": [
+    {
+      "source": "DFB-SOURCE: recursive-carry-input",
+      "sink": "DFB-SINK: recursive-carry-sink"
+    }
+  ],
+  "expected_nonflows": [],
+  "witness_checkpoints": [
+    "DFB-SOURCE: recursive-carry-input",
+    "DFB-WITNESS: recursive-carry-step",
+    "DFB-SINK: recursive-carry-sink"
+  ],
+  "expected_analysis_capability": {
+    "kind": "recursive-carry-taint"
+  },
+  "execution_budget": {
+    "wall_clock_seconds": 60,
+    "peak_memory_mb": 512
+  },
+  "fixture_provenance": {
+    "kind": "authored",
+    "origin": "DataFlowBench",
+    "revision": "m3-challenge-ruby",
+    "license": "MIT"
+  },
+  "tool_model_references": {
+    "bifrost": {
+      "policy": "adapters/bifrost/policies/core-ruby-kernel.rqlp"
+    },
+    "codeql": {
+      "query": "adapters/codeql/ruby/queries/RubyKernel.ql"
+    }
+  }
+}
