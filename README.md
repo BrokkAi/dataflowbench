@@ -12,8 +12,9 @@ entries and balanced 16-template Java, TypeScript, Python, Kotlin,
 C#, Go, and C++ propagation kernels — plus 15-template C and Rust kernels whose
 exception-catch cell is inapplicable — in the `taint` track. The Java, Python,
 JavaScript, C#, and TypeScript cores have since expanded to 29 templates each
-with the [preregistered challenge tier](docs/challenge-tier.md); the 16-template and
-29-template populations are separate populations of the same name. Each parity kernel uses the
+with the [preregistered challenge tier](docs/challenge-tier.md), and Rust's to
+27 (its reflective-invocation cell is inapplicable too); the 16-template and
+expanded populations are separate populations of the same name. Each parity kernel uses the
 same language-neutral template IDs with language-specific fixture spellings and
 a separate result population; the [Python kernel
 contract](docs/python-kernel.md), the [TypeScript adaptation
@@ -139,16 +140,23 @@ compilation step. They write `reports/joern-<language>-kernel.json` and keep one
 raw evidence document per case under `reports/raw/joern-<language>-kernel/`. The
 retained snapshot used Joern 4.0.610 with the `javasrc2cpg`, `jssrc2cpg`,
 `pysrc2cpg`, `rubysrc2cpg`, `php2cpg`, and `rust2cpg` frontends and one committed
-CPG query script. All 268 assertions executed with no `inconclusive`,
+CPG query script. All 292 assertions executed with no `inconclusive`,
 `unsupported`, or `runner-error` outcome: Java 47/58, JavaScript 44/58, Python
-48/58, Ruby 26/32, PHP 28/32, and Rust 27/30 match the expected polarity —
-Rust's denominator is 15 templates, not 16, and Java's, Python's, and
+48/58, Ruby 26/32, PHP 28/32, and Rust 43/54 match the expected polarity —
+Rust's denominator is the expanded 27 templates, two cells being inapplicable to
+it, and Java's, Python's, and
 JavaScript's are the expanded 29 each, whose 58-assertion populations are never
 compared to a 32-assertion one. JavaScript splits 26/32 on the classic sixteen —
-identical to its earlier snapshot — and 18/26 on the challenge thirteen, and
-Java splits 28/32 and 19/26 the same way; in both the depth-6 relay positive is
+identical to its earlier snapshot — and 18/26 on the challenge thirteen,
+Java splits 28/32 and 19/26 the same way, and Rust splits 27/30 and 16/24, each
+classic half identical case for case to its pre-expansion snapshot; in all three
+the depth-6 relay positive is
 missed at the distribution's default call-depth bound of 4, exactly as the
-challenge preregistration predicted in advance. Rust became runnable only at this pin:
+challenge preregistration predicted in advance. Rust's challenge stratum is the
+first challenge-tier engine evidence here for a systems language, and it is
+uniformly under-approximating: every stratum-A and stratum-B negative correct,
+every stratum-A and stratum-B positive missed, and not one false positive in the
+twelve challenge templates. Rust became runnable only at this pin:
 `rust2cpg` is new in 4.0.610, it needs a Cargo manifest the runner synthesizes
 per workspace, and it is recorded as the young frontend it is. Scala still has
 no source frontend and stays explicitly unsupported. Re-running all six on the
@@ -169,8 +177,9 @@ intraprocedural partition of each kernel is scored — the pinned CLI documents
 interprocedural taint, cross-file taint, and path sensitivity as Pro Engine
 features, so the rest is `unsupported` rather than false negatives. All eleven
 kernels produced 9 `reached`, 5 `not-reached`, and the whole remainder
-`unsupported` (18 for the six unexpanded 16-template kernels, 16 for C and
-Rust, whose exception-catch cell is inapplicable, and 44 each for the expanded
+`unsupported` (18 for the six unexpanded 16-template kernels, 16 for C,
+whose exception-catch cell is inapplicable, 40 for the expanded 27-template
+Rust kernel, and 44 each for the expanded
 29-template Java, Python, JavaScript, and TypeScript kernels), with no `inconclusive` or `runner-error`
 outcome and 12/14 of each scored subset matching the expected polarity; every
 intraprocedural positive was found in every language. The two mismatches are the
