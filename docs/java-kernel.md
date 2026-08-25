@@ -160,21 +160,28 @@ On the challenge tier the engine produces **no false positives and no false
 negatives**. Every cell it does not decide, it declines, and it says why in
 retained diagnostics:
 
-- Strata A and B, and `map-iteration` — `capability_incomplete`, "taint
-  semantic binding is unavailable: no analysis root contains both a selected
-  source and sink". The reflective, higher-order, and container-iteration
-  shapes break the source-to-sink binding the policy needs.
-- `nested-access-path` (both cells) — `partial_discovery`, "procedure
-  value-flow snapshot for … `run` is unknown".
-- `element-object` (both cells) — a failed run: `internal_invariant`, "taint
-  semantic provider failed: … invalid value-flow snapshot: oracle relation does
-  not belong to the required query arena and role". Both are normalized
-  `runner-error`, with the failing document retained verbatim. This is an
-  engine defect surfaced by the fixture, and it is published as one.
-- `deep-relay-chain-positive` — `capability_incomplete`; the six-hop positive is
-  the only stratum-D cell not decided.
+- **10 `capability_incomplete`** — "taint semantic binding is unavailable: no
+  analysis root contains both a selected source and sink": both cells of
+  `reflective-invocation`, `dispatch-table`, `closure-capture`,
+  `function-field`, and `callback-registration`. Where the callee is named by a
+  run-time string, selected from a map, captured by a lambda, stored in a
+  field, or fetched from a list, the engine cannot bind a source and a sink
+  into one analysis root at all.
+- **9 `partial_discovery`** — "taint discovery is incomplete: procedure
+  value-flow snapshot for … `run` is unknown": both cells of
+  `computed-property`, `anonymous-implementation`, `map-iteration`, and
+  `nested-access-path`, plus `deep-relay-chain-positive`. Three of these
+  additionally retain "1 candidate finding(s) retained no source origin
+  evidence and could not be projected" — a candidate the engine found but could
+  not substantiate, which an incomplete run may not turn into a decision.
+- **2 `runner-error`** — `element-object`, both cells: a failed run with
+  `internal_invariant`, "taint semantic provider failed: … invalid value-flow
+  snapshot: oracle relation does not belong to the required query arena and
+  role". The failing document is retained verbatim. This is an engine defect
+  surfaced by the fixture, and it is published as one.
 
-The five decided challenge assertions are all in stratum D and all correct:
+`deep-relay-chain-positive` is the only stratum-D cell not decided. The five
+decided challenge assertions are all in stratum D and all correct:
 `recursive-carry` both cells, `context-pair-depth2` both cells, and
 `deep-relay-chain-negative`. Per the preregistration's own reading rule, a
 correct stratum-D negative beside an undecided positive is a bound, not

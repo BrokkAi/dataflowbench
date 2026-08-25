@@ -248,10 +248,13 @@ Of the 26 challenge assertions, five are decisive and all five are correct
 (both `recursive-carry` cells, both `context-pair-depth2` cells, and
 `deep-relay-chain-negative`); there is no false positive and no false negative
 anywhere in the tier. The other 21 are capability or execution coverage: 19
-`inconclusive` — `capability_incomplete` "no analysis root contains both a
-selected source and sink" across the reflection, higher-order, and
-map-iteration cells, and `partial_discovery` on the nested-access-path pair —
-and 2 `runner-error` on the `element-object` pair, where the run fails with
+`inconclusive` — 10 retaining `capability_incomplete` "no analysis root
+contains both a selected source and sink" (the reflective-invocation,
+dispatch-table, closure-capture, function-field, and callback-registration
+pairs) and 9 retaining `partial_discovery` "procedure value-flow snapshot ...
+is unknown" (the computed-property, anonymous-implementation, map-iteration,
+and nested-access-path pairs, plus the six-hop relay positive) — and 2
+`runner-error` on the `element-object` pair, where the run fails with
 `internal_invariant` and "invalid value-flow snapshot: oracle relation does not
 belong to the required query arena and role". That failure is retained
 verbatim and published as an engine defect; it is not a negative result. Per
