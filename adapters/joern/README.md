@@ -534,6 +534,14 @@ TypeScript is the row most likely to be misread, so it is stated twice.
 is its own change, not a side effect of landing fixtures — so TypeScript has no
 Joern evidence at any denominator, classic or expanded.
 
+The same applies to Go, and for the same reason. The pinned distribution ships
+`gosrc2cpg` as a standalone frontend under `joern-cli/frontends/gosrc2cpg`, but
+this adapter has **no Go slice**: no `run-joern-go-kernel` command, no Go
+selection, no `reports/joern-go-kernel.json`. The Go challenge-tier wave
+(`docs/go-kernel.md`) did not invent one either, so Go has no Joern evidence at
+any denominator, classic or expanded. Its absence from the run is a scope fact,
+not a result about Joern on Go.
+
 ## Model assumptions
 
 - The `benchmark-controlled` profile applies: the query is given the same

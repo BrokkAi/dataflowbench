@@ -357,7 +357,7 @@ const CHALLENGE_ROLLOUT: [ChallengeRollout; 13] = [
         display: "Go",
         classic: &KERNEL_TEMPLATE_IDS,
         challenge: &CHALLENGE_TEMPLATE_IDS,
-        rolled_out: false,
+        rolled_out: true,
     },
     ChallengeRollout {
         language: "cpp",
@@ -3962,7 +3962,11 @@ fn codeql_go_cases() -> Result<Vec<(PathBuf, Value)>> {
         }
         selected.push((path, case));
     }
-    validate_kernel_population(&selected, "Go CodeQL kernel")?;
+    validate_kernel_population_with(
+        &selected,
+        "Go CodeQL kernel",
+        &expected_core_templates("go"),
+    )?;
     if !Path::new(CODEQL_GO_QUERY).is_file() {
         bail!("Go CodeQL query does not exist: {CODEQL_GO_QUERY}");
     }
@@ -8978,9 +8982,13 @@ mod tests {
     }
 
     #[test]
-    fn go_core_selection_is_exactly_32_balanced_assertions() {
+    fn go_core_selection_is_the_expanded_balanced_population() {
+        let expected_templates = expected_core_templates("go");
         let selected = codeql_go_cases().unwrap();
-        assert_eq!(selected.len(), KERNEL_CASE_COUNT);
+        assert_eq!(selected.len(), expected_core_case_count("go"));
+        // Go's challenge row is rolled out, so the population is the expanded
+        // 29 templates / 58 assertions, not the classic 32.
+        assert_eq!(selected.len(), 58);
         let mut templates = BTreeMap::<String, (usize, usize)>::new();
         for (_, case) in &selected {
             assert_eq!(case["language"], "go");
@@ -8995,7 +9003,8 @@ mod tests {
                 counts.1 += 1;
             }
         }
-        assert_eq!(templates.len(), KERNEL_TEMPLATE_IDS.len());
+        assert_eq!(templates.len(), expected_templates.len());
+        assert_eq!(templates.len(), 29);
         assert!(
             templates
                 .values()
@@ -9050,7 +9059,9 @@ mod tests {
                 }
             }
         }
-        assert_eq!(selected, KERNEL_CASE_COUNT);
+        // The Go row is rolled out, so the kernel run covers the expanded core.
+        assert_eq!(selected, expected_core_case_count("go"));
+        assert!(selected > KERNEL_CASE_COUNT);
     }
 
     #[test]
@@ -11441,13 +11452,13 @@ mod tests {
                 );
                 assert!(template.starts_with(CHALLENGE_TEMPLATE_PREFIX));
             }
-            // Python, JavaScript, Java, C#, TypeScript, and Kotlin are the
-            // waves that have landed their fixtures; every other language
+            // Python, JavaScript, Java, C#, TypeScript, Kotlin, and Go are
+            // the waves that have landed their fixtures; every other language
             // validates against its classic set alone, so a language whose
             // fixtures do not exist yet is never failed for missing them.
             let rolled_out = matches!(
                 row.language,
-                "python" | "javascript" | "java" | "csharp" | "typescript" | "kotlin"
+                "python" | "javascript" | "java" | "csharp" | "typescript" | "kotlin" | "go"
             );
             assert_eq!(
                 challenge_rolled_out(row.language),
