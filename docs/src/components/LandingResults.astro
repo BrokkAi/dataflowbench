@@ -7,6 +7,7 @@ import {
   evidenceUrl,
   percentCell,
   shortDigest,
+  type Scorecard,
   type ScoreTier,
 } from '../data/snapshots';
 
@@ -18,52 +19,116 @@ const scorecards = snapshot.results.scorecards;
 // never by language name alone.
 const smoke = scorecards.find((card) => card.id.startsWith('bifrost-smoke'))!;
 
-interface TierStats {
+// A scorecard covering many languages is a breadth run; a single-language card
+// is a dedicated kernel run. Kernel populations are seeded from the dedicated
+// cards, and breadth cards may only join a population that already exists.
+function isBreadthCard(card: Scorecard): boolean {
+  return card.languages.length > 1;
+}
+
+/** Display name for an analyzer, keyed by the adapter's tool identifier. */
+const vendorNames: Record<string, string> = {
+  bifrost: 'Bifrost',
+  codeql: 'CodeQL',
+  joern: 'Joern',
+};
+function vendorName(tool: string): string {
+  return vendorNames[tool] ?? tool.charAt(0).toUpperCase() + tool.slice(1);
+}
+
+interface VendorStats {
+  /** Adapter tool identifier, e.g. `bifrost`. */
+  tool: string;
+  /** Display name, e.g. `Bifrost`. */
+  name: string;
+  toolVersion: string;
+  scorecardId: string;
+  /** Decisive outcomes: the 2×2 confusion matrix. */
+  truePositives: number;
+  falseNegatives: number;
+  falsePositives: number;
+  trueNegatives: number;
+  /** Coverage outcomes — never folded into the matrix. */
+  inconclusive: number;
+  unsupported: number;
+  runnerErrors: number;
   total: number;
   correct: number;
   wrong: number;
   incomplete: number;
-  runnerErrors: number;
+  /** Micro rates over this tier's own matrix. */
   tpr: string | null;
   fpr: string | null;
+  /** The published dimension-macro rates for the same tier. */
+  tprMacro: string | null;
+  fprMacro: string | null;
 }
 
-function statsOf(tier: ScoreTier): TierStats {
-  let correct = 0;
-  let wrong = 0;
-  let incomplete = 0;
+function rate(numerator: number, denominator: number): string | null {
+  if (denominator === 0) return null;
+  return ((100 * numerator) / denominator).toFixed(1);
+}
+
+function statsOf(card: Scorecard, tier: ScoreTier): VendorStats {
+  let truePositives = 0;
+  let falseNegatives = 0;
+  let falsePositives = 0;
+  let trueNegatives = 0;
+  let inconclusive = 0;
+  let unsupported = 0;
   let runnerErrors = 0;
   for (const result of tier.cases) {
-    if (result.classification === 'runner-error') runnerErrors += 1;
-    if (
-      result.classification === 'true-positive' ||
-      result.classification === 'true-negative'
-    ) {
-      correct += 1;
-    } else if (
-      result.classification === 'false-positive' ||
-      result.classification === 'false-negative'
-    ) {
-      wrong += 1;
-    } else {
-      incomplete += 1;
+    switch (result.classification) {
+      case 'true-positive':
+        truePositives += 1;
+        break;
+      case 'false-negative':
+        falseNegatives += 1;
+        break;
+      case 'false-positive':
+        falsePositives += 1;
+        break;
+      case 'true-negative':
+        trueNegatives += 1;
+        break;
+      case 'unsupported':
+        unsupported += 1;
+        break;
+      case 'runner-error':
+        runnerErrors += 1;
+        break;
+      default:
+        inconclusive += 1;
     }
   }
   return {
-    total: tier.cases.length,
-    correct,
-    wrong,
-    incomplete,
+    tool: card.adapter.tool,
+    name: vendorName(card.adapter.tool),
+    toolVersion: card.adapter.tool_version.replace(/^bifrost /, ''),
+    scorecardId: card.id,
+    truePositives,
+    falseNegatives,
+    falsePositives,
+    trueNegatives,
+    inconclusive,
+    unsupported,
     runnerErrors,
-    tpr: tier.dimension_macro.true_positive_rate_percent,
-    fpr: tier.dimension_macro.false_positive_rate_percent,
+    total: tier.cases.length,
+    correct: truePositives + trueNegatives,
+    wrong: falsePositives + falseNegatives,
+    incomplete: inconclusive + unsupported + runnerErrors,
+    tpr: rate(truePositives, truePositives + falseNegatives),
+    fpr: rate(falsePositives, falsePositives + trueNegatives),
+    tprMacro: tier.dimension_macro.true_positive_rate_percent,
+    fprMacro: tier.dimension_macro.false_positive_rate_percent,
   };
 }
 
-// One kernel comparison per CodeQL core tier, paired with the Bifrost tier
-// covering exactly the same case identifiers. Matching on the case set — not
-// on the language name — keeps 15-template and 16-template cores from ever
-// being compared against each other or pooled.
+// One kernel per core population, carrying however many analyzers cover
+// exactly the same case identifiers. Matching on the case set — not on the
+// language name — keeps 15-template and 16-template cores from ever being
+// compared against each other or pooled. The vendor list is open-ended: a
+// language answered by one analyzer or by five renders the same way.
 function caseKey(tier: ScoreTier): string {
   return tier.cases
     .map((result) => result.case_id)
@@ -71,54 +136,107 @@ function caseKey(tier: ScoreTier): string {
     .join('\n');
 }
 
-const bifrostTiers = new Map<string, ScoreTier>();
+interface Kernel {
+  /** Stable per-population id used to link a card to its dialog payload. */
+  id: string;
+  language: string;
+  templates: number;
+  cases: number;
+  vendors: VendorStats[];
+  tiers: { vendor: VendorStats; tier: ScoreTier }[];
+}
+
+const byPopulation = new Map<
+  string,
+  { language: string; tier: ScoreTier; entries: Map<string, { card: Scorecard; tier: ScoreTier }> }
+>();
+// Pass one: dedicated single-language cards define which populations are
+// kernels at all (the breadth baseline's two-case cores are not).
 for (const card of scorecards) {
-  if (card.adapter.tool !== 'bifrost') continue;
+  if (isBreadthCard(card)) continue;
   for (const language of card.languages) {
     for (const tier of language.score_tiers) {
+      if (tier.score_tier !== 'core') continue;
       const key = caseKey(tier);
-      // A dedicated kernel scorecard wins over the same cases as observed in
-      // the broad smoke population.
-      if (bifrostTiers.has(key) && card.id.startsWith('bifrost-smoke')) continue;
-      bifrostTiers.set(key, tier);
+      if (!byPopulation.has(key)) {
+        byPopulation.set(key, {
+          language: language.language,
+          tier,
+          entries: new Map(),
+        });
+      }
+    }
+  }
+}
+// Pass two: every core tier — dedicated or breadth — joins the population it
+// covers exactly. A dedicated card always wins over a breadth card for the
+// same analyzer and the same cases.
+for (const card of scorecards) {
+  for (const language of card.languages) {
+    for (const tier of language.score_tiers) {
+      if (tier.score_tier !== 'core') continue;
+      const population = byPopulation.get(caseKey(tier));
+      if (!population) continue;
+      const existing = population.entries.get(card.adapter.tool);
+      if (existing && isBreadthCard(card)) continue;
+      population.entries.set(card.adapter.tool, { card, tier });
     }
   }
 }
 
-interface Kernel {
-  language: string;
-  bifrostTier: ScoreTier;
-  codeqlTier: ScoreTier;
-  bifrost: TierStats;
-  codeql: TierStats;
-  templates: number;
-}
-const kernels: Kernel[] = [];
-for (const card of scorecards) {
-  if (card.adapter.tool !== 'codeql') continue;
-  for (const language of card.languages) {
-    const codeqlTier = language.score_tiers.find(
-      (tier) => tier.score_tier === 'core',
-    );
-    if (!codeqlTier) continue;
-    const bifrostTier = bifrostTiers.get(caseKey(codeqlTier));
-    if (!bifrostTier) continue;
-    kernels.push({
-      language: language.language,
-      bifrostTier,
-      codeqlTier,
-      bifrost: statsOf(bifrostTier),
-      codeql: statsOf(codeqlTier),
-      templates: new Set(codeqlTier.cases.map((result) => result.template_id))
-        .size,
-    });
-  }
-}
-kernels.sort((left, right) => left.language.localeCompare(right.language));
+const kernels: Kernel[] = [...byPopulation.values()]
+  .map((population) => {
+    const tiers = [...population.entries.values()]
+      .map((entry) => ({
+        vendor: statsOf(entry.card, entry.tier),
+        tier: entry.tier,
+      }))
+      .sort((left, right) => left.vendor.name.localeCompare(right.vendor.name));
+    return {
+      id: '',
+      language: population.language,
+      templates: new Set(
+        population.tier.cases.map((result) => result.template_id),
+      ).size,
+      cases: population.tier.cases.length,
+      vendors: tiers.map((entry) => entry.vendor),
+      tiers,
+    } satisfies Kernel;
+  })
+  .filter((kernel) => kernel.vendors.length > 0)
+  .sort((left, right) => left.language.localeCompare(right.language));
+kernels.forEach((kernel, index) => {
+  kernel.id = `kernel-${index}`;
+});
 
 const templateSizes = [...new Set(kernels.map((kernel) => kernel.templates))]
   .sort((left, right) => left - right)
   .join('–');
+
+// Payload for the details dialog: embedded at build time, so the page stays
+// fully static and the dialog needs no network access.
+const dialogData = kernels.map((kernel) => ({
+  id: kernel.id,
+  language: kernel.language,
+  templates: kernel.templates,
+  cases: kernel.cases,
+  vendors: kernel.vendors.map((vendor) => ({
+    name: vendor.name,
+    toolVersion: vendor.toolVersion,
+    scorecardId: vendor.scorecardId,
+    truePositives: vendor.truePositives,
+    falseNegatives: vendor.falseNegatives,
+    falsePositives: vendor.falsePositives,
+    trueNegatives: vendor.trueNegatives,
+    inconclusive: vendor.inconclusive,
+    unsupported: vendor.unsupported,
+    runnerErrors: vendor.runnerErrors,
+    tpr: percentCell(vendor.tpr),
+    fpr: percentCell(vendor.fpr),
+    tprMacro: percentCell(vendor.tprMacro),
+    fprMacro: percentCell(vendor.fprMacro),
+  })),
+}));
 
 // Direct-flow breadth: the direct-propagation template pair per language.
 const directTemplate = 'dfb-template-direct-propagation';
@@ -159,39 +277,32 @@ breadth.sort((left, right) => left.language.localeCompare(right.language));
 const breadthCorrect = breadth.filter((row) => row.correct).length;
 const breadthIncomplete = breadth.filter((row) => row.incomplete);
 
-// Per-kernel template outcomes, both analyzers side by side.
+// Per-kernel template outcomes, one column pair per analyzer covering the
+// population.
 interface KernelRow {
   template: string;
-  bifrostPositive: string;
-  bifrostNegative: string;
-  codeqlPositive: string;
-  codeqlNegative: string;
+  cells: { positive: string; negative: string }[];
 }
 function kernelTable(kernel: Kernel): KernelRow[] {
   const rows = new Map<string, KernelRow>();
-  const fill = (
-    tier: ScoreTier,
-    positiveKey: 'bifrostPositive' | 'codeqlPositive',
-    negativeKey: 'bifrostNegative' | 'codeqlNegative',
-  ) => {
-    for (const result of tier.cases) {
+  kernel.tiers.forEach((entry, index) => {
+    for (const result of entry.tier.cases) {
       const template = result.template_id.replace('dfb-template-', '');
-      const row =
-        rows.get(template) ??
-        ({
+      let row = rows.get(template);
+      if (!row) {
+        row = {
           template,
-          bifrostPositive: '—',
-          bifrostNegative: '—',
-          codeqlPositive: '—',
-          codeqlNegative: '—',
-        } satisfies KernelRow);
-      if (result.polarity === 'positive') row[positiveKey] = result.outcome;
-      else row[negativeKey] = result.outcome;
-      rows.set(template, row);
+          cells: kernel.tiers.map(() => ({
+            positive: '—',
+            negative: '—',
+          })),
+        };
+        rows.set(template, row);
+      }
+      if (result.polarity === 'positive') row.cells[index]!.positive = result.outcome;
+      else row.cells[index]!.negative = result.outcome;
     }
-  };
-  fill(kernel.bifrostTier, 'bifrostPositive', 'bifrostNegative');
-  fill(kernel.codeqlTier, 'codeqlPositive', 'codeqlNegative');
+  });
   return [...rows.values()].sort((left, right) =>
     left.template.localeCompare(right.template),
   );
@@ -208,10 +319,6 @@ const caseCount = snapshot.results.scorecards
   .flatMap((card) => card.languages)
   .flatMap((language) => language.score_tiers)
   .reduce((sum, tier) => sum + tier.cases.length, 0);
-
-const bifrostVersion = smoke.adapter.tool_version.replace('bifrost ', '');
-const codeqlVersion = scorecards.find((card) => card.adapter.tool === 'codeql')!
-  .adapter.tool_version;
 ---
 
 <p class="eyebrow">
@@ -244,44 +351,6 @@ const codeqlVersion = scorecards.find((card) => card.adapter.tool === 'codeql')!
     {templateSizes}-template cores are never pooled or ranked against each
     other.
   </p>
-  <div class="table-scroll">
-    <table>
-      <thead>
-        <tr>
-          <th rowspan="2">Kernel</th>
-          <th rowspan="2">Templates</th>
-          <th colspan="4">Bifrost {bifrostVersion}</th>
-          <th colspan="4">CodeQL {codeqlVersion}</th>
-        </tr>
-        <tr>
-          <th>correct</th>
-          <th>TPR</th>
-          <th>FPR</th>
-          <th>incompl.</th>
-          <th>correct</th>
-          <th>TPR</th>
-          <th>FPR</th>
-          <th>incompl.</th>
-        </tr>
-      </thead>
-      <tbody>
-        {kernels.map((kernel) => (
-          <tr>
-            <th scope="row">{kernel.language}</th>
-            <td>{kernel.templates}</td>
-            <td><strong>{kernel.bifrost.correct}/{kernel.bifrost.total}</strong></td>
-            <td>{percentCell(kernel.bifrost.tpr)}</td>
-            <td>{percentCell(kernel.bifrost.fpr)}</td>
-            <td>{kernel.bifrost.incomplete}</td>
-            <td><strong>{kernel.codeql.correct}/{kernel.codeql.total}</strong></td>
-            <td>{percentCell(kernel.codeql.tpr)}</td>
-            <td>{percentCell(kernel.codeql.fpr)}</td>
-            <td>{kernel.codeql.incomplete}</td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
-  </div>
   <p>
     On the direct-flow breadth baseline, Bifrost answered both assertions
     correctly in <strong>{breadthCorrect} of {breadth.length}</strong>
@@ -293,33 +362,42 @@ const codeqlVersion = scorecards.find((card) => card.adapter.tool === 'codeql')!
 
 <div class="stat-grid">
   {kernels.map((kernel) => (
-    <div class="stat-card">
+    <div
+      class:list={['stat-card', 'kernel-card', { many: kernel.vendors.length > 2 }]}
+    >
       <p class="label">{kernel.language} kernel · correct decisions</p>
       <div class="stat-pair">
-        <div>
-          <p class="who">Bifrost</p>
-          <p class="big">{kernel.bifrost.correct}<span class="of">/{kernel.bifrost.total}</span></p>
-        </div>
-        <div>
-          <p class="who alt">CodeQL</p>
-          <p class="big alt">{kernel.codeql.correct}<span class="of">/{kernel.codeql.total}</span></p>
-        </div>
+        {kernel.vendors.map((vendor, index) => (
+          <div class={`vendor v${index % 4}`}>
+            <p class="who">{vendor.name}</p>
+            <p class="big">{vendor.correct}<span class="of">/{vendor.total}</span></p>
+          </div>
+        ))}
       </div>
       <p class="caption">
-        {kernel.bifrost.incomplete + kernel.codeql.incomplete > 0
-          ? `${kernel.templates} templates · incomplete outcomes (${kernel.bifrost.incomplete} Bifrost, ${kernel.codeql.incomplete} CodeQL${
-              kernel.bifrost.runnerErrors + kernel.codeql.runnerErrors > 0
-                ? `; ${kernel.bifrost.runnerErrors + kernel.codeql.runnerErrors} of them runner errors`
-                : ''
-            }) are excluded from correctness, not counted against it`
+        {kernel.vendors.some((vendor) => vendor.incomplete > 0)
+          ? `${kernel.templates} templates · incomplete outcomes (${kernel.vendors
+              .filter((vendor) => vendor.incomplete > 0)
+              .map((vendor) => `${vendor.incomplete} ${vendor.name}`)
+              .join(', ')}) are excluded from correctness, not counted against it`
           : `${kernel.templates} templates · all outcomes definitive`}
+      </p>
+      <p class="card-action">
+        <button
+          type="button"
+          class="details-button"
+          data-kernel={kernel.id}
+          aria-label={`View details for the ${kernel.language} kernel`}
+        >
+          View details
+        </button>
       </p>
     </div>
   ))}
   <div class="stat-card">
     <p class="label">Direct-flow breadth · languages fully correct</p>
     <div class="stat-pair">
-      <div>
+      <div class="vendor v0">
         <p class="who">Bifrost</p>
         <p class="big">{breadthCorrect}<span class="of">/{breadth.length}</span></p>
       </div>
@@ -330,13 +408,221 @@ const codeqlVersion = scorecards.find((card) => card.adapter.tool === 'codeql')!
   </div>
 </div>
 
+<dialog id="kernel-dialog" aria-labelledby="kernel-dialog-title">
+  <div class="dialog-head">
+    <div>
+      <p class="label">Confusion matrix · DataFlowBench {snapshot.version}</p>
+      <h2 id="kernel-dialog-title"></h2>
+      <p class="caption" id="kernel-dialog-denominator"></p>
+    </div>
+    <button type="button" class="dialog-close" aria-label="Close" autofocus>×</button>
+  </div>
+  <div class="panel-grid" id="kernel-dialog-panels"></div>
+  <p class="caption dialog-foot">
+    Decisive outcomes only. <code>inconclusive</code>,
+    <code>unsupported</code> and <code>runner-error</code> are capability
+    coverage: they are excluded from the matrix and from the rates, and are
+    never converted into clean negatives.
+  </p>
+</dialog>
+
+<script
+  type="application/json"
+  id="kernel-dialog-data"
+  is:inline
+  set:html={JSON.stringify(dialogData)}></script>
+
+<script>
+  const payload = document.getElementById('kernel-dialog-data');
+  const dialog = document.getElementById('kernel-dialog');
+  const panels = document.getElementById('kernel-dialog-panels');
+  const title = document.getElementById('kernel-dialog-title');
+  const denominator = document.getElementById('kernel-dialog-denominator');
+
+  if (
+    payload instanceof HTMLScriptElement &&
+    dialog instanceof HTMLDialogElement &&
+    panels &&
+    title &&
+    denominator
+  ) {
+    interface VendorPayload {
+      name: string;
+      toolVersion: string;
+      scorecardId: string;
+      truePositives: number;
+      falseNegatives: number;
+      falsePositives: number;
+      trueNegatives: number;
+      inconclusive: number;
+      unsupported: number;
+      runnerErrors: number;
+      tpr: string;
+      fpr: string;
+      tprMacro: string;
+      fprMacro: string;
+    }
+    interface KernelPayload {
+      id: string;
+      language: string;
+      templates: number;
+      cases: number;
+      vendors: VendorPayload[];
+    }
+
+    const kernels: KernelPayload[] = JSON.parse(payload.textContent || '[]');
+    let opener: HTMLElement | null = null;
+
+    const element = (tag: string, className?: string, text?: string) => {
+      const node = document.createElement(tag);
+      if (className) node.className = className;
+      if (text !== undefined) node.textContent = text;
+      return node;
+    };
+
+    const cell = (
+      row: HTMLElement,
+      value: number,
+      abbreviation: string,
+      tone: string,
+    ) => {
+      const td = element('td', `matrix-cell ${tone}`);
+      td.appendChild(element('span', 'matrix-count', String(value)));
+      td.appendChild(element('span', 'matrix-tag', abbreviation));
+      row.appendChild(td);
+    };
+
+    const buildPanel = (vendor: VendorPayload, index: number) => {
+      const panel = element('section', `panel v${index % 4}`);
+      const head = element('div', 'panel-head');
+      head.appendChild(element('p', 'who', vendor.name));
+      head.appendChild(element('p', 'caption', vendor.toolVersion));
+      panel.appendChild(head);
+
+      const table = element('table', 'matrix');
+      const thead = element('thead');
+      const headRow = element('tr');
+      headRow.appendChild(element('td', 'matrix-corner'));
+      const reached = element('th', undefined, 'reached');
+      reached.setAttribute('scope', 'col');
+      const notReached = element('th', undefined, 'not-reached');
+      notReached.setAttribute('scope', 'col');
+      headRow.appendChild(reached);
+      headRow.appendChild(notReached);
+      thead.appendChild(headRow);
+      table.appendChild(thead);
+
+      const tbody = element('tbody');
+      const positiveRow = element('tr');
+      const positiveHeader = element('th', undefined, 'positive');
+      positiveHeader.setAttribute('scope', 'row');
+      positiveRow.appendChild(positiveHeader);
+      cell(positiveRow, vendor.truePositives, 'TP', 'good');
+      cell(positiveRow, vendor.falseNegatives, 'FN', 'bad');
+      const negativeRow = element('tr');
+      const negativeHeader = element('th', undefined, 'negative');
+      negativeHeader.setAttribute('scope', 'row');
+      negativeRow.appendChild(negativeHeader);
+      cell(negativeRow, vendor.falsePositives, 'FP', 'bad');
+      cell(negativeRow, vendor.trueNegatives, 'TN', 'good');
+      tbody.appendChild(positiveRow);
+      tbody.appendChild(negativeRow);
+      table.appendChild(tbody);
+      panel.appendChild(table);
+
+      const rates = element('div', 'rates');
+      const tprBlock = element('div');
+      tprBlock.appendChild(element('p', 'rate-label', 'TPR'));
+      tprBlock.appendChild(element('p', 'rate-value', vendor.tpr));
+      const fprBlock = element('div');
+      fprBlock.appendChild(element('p', 'rate-label', 'FPR'));
+      fprBlock.appendChild(element('p', 'rate-value', vendor.fpr));
+      rates.appendChild(tprBlock);
+      rates.appendChild(fprBlock);
+      panel.appendChild(rates);
+      panel.appendChild(
+        element(
+          'p',
+          'caption',
+          `TP/(TP+FN) and FP/(FP+TN) over this population. Published dimension-macro rates: TPR ${vendor.tprMacro}, FPR ${vendor.fprMacro}.`,
+        ),
+      );
+
+      const coverage = element('div', 'coverage');
+      coverage.appendChild(
+        element('p', 'coverage-label', 'Coverage · excluded from the matrix'),
+      );
+      const items = element('ul', 'coverage-items');
+      const entries: [string, number][] = [
+        ['inconclusive', vendor.inconclusive],
+        ['unsupported', vendor.unsupported],
+        ['runner-error', vendor.runnerErrors],
+      ];
+      for (const [name, value] of entries) {
+        const item = element('li');
+        item.appendChild(element('span', 'coverage-count', String(value)));
+        item.appendChild(element('span', 'coverage-name', name));
+        items.appendChild(item);
+      }
+      coverage.appendChild(items);
+      panel.appendChild(coverage);
+      panel.appendChild(element('p', 'caption scorecard', vendor.scorecardId));
+      return panel;
+    };
+
+    const open = (id: string, button: HTMLElement) => {
+      const kernel = kernels.find((candidate) => candidate.id === id);
+      if (!kernel) return;
+      title.textContent = `${kernel.language} kernel`;
+      denominator.textContent = `${kernel.templates} semantic templates · ${kernel.cases} assertions · ${kernel.vendors.length} ${
+        kernel.vendors.length === 1 ? 'analyzer' : 'analyzers'
+      }`;
+      panels.textContent = '';
+      kernel.vendors.forEach((vendor, index) => {
+        panels.appendChild(buildPanel(vendor, index));
+      });
+      opener = button;
+      dialog.showModal();
+    };
+
+    for (const button of document.querySelectorAll('.details-button')) {
+      button.addEventListener('click', () => {
+        const id = button.getAttribute('data-kernel');
+        if (id) open(id, button as HTMLElement);
+      });
+    }
+
+    // Whichever way the dialog is dismissed, focus returns to the card that
+    // opened it.
+    const restore = () => {
+      const target = opener;
+      opener = null;
+      if (target) target.focus();
+    };
+    const dismiss = () => {
+      dialog.close();
+      restore();
+    };
+
+    // Backdrop clicks land on the dialog element itself.
+    dialog.addEventListener('click', (event) => {
+      if (event.target === dialog) dismiss();
+    });
+    dialog.querySelector('.dialog-close')?.addEventListener('click', dismiss);
+    // Esc closes natively: `cancel` fires first, `close` after. Either one
+    // restores focus, and `restore` is idempotent.
+    dialog.addEventListener('cancel', () => window.setTimeout(restore, 0));
+    dialog.addEventListener('close', restore);
+  }
+</script>
+
 <h2>Kernels, template by template</h2>
 
 <p>
   Each row is one semantic scenario with a balanced pair: the flow exists
   (positive) and a minimally different variant where it does not (negative). A
   sound-and-precise analyzer reads <code class="good">reached</code> /
-  <code class="good">not-reached</code>. Read the two analyzers' columns
+  <code class="good">not-reached</code>. Read the analyzers' columns
   independently — DataFlowBench publishes no combined leaderboard, and the
   scorecards stay separate under the <code>benchmark-controlled</code> model
   profile.
@@ -350,14 +636,17 @@ const codeqlVersion = scorecards.find((card) => card.adapter.tool === 'codeql')!
         <thead>
           <tr>
             <th rowspan="2">Template</th>
-            <th colspan="2">Bifrost {bifrostVersion}</th>
-            <th colspan="2">CodeQL {codeqlVersion}</th>
+            {kernel.vendors.map((vendor) => (
+              <th colspan="2">{vendor.name} {vendor.toolVersion}</th>
+            ))}
           </tr>
           <tr>
-            <th>positive</th>
-            <th>negative</th>
-            <th>positive</th>
-            <th>negative</th>
+            {kernel.vendors.map(() => (
+              <>
+                <th>positive</th>
+                <th>negative</th>
+              </>
+            ))}
           </tr>
         </thead>
         <tbody>
@@ -366,26 +655,20 @@ const codeqlVersion = scorecards.find((card) => card.adapter.tool === 'codeql')!
               <td>
                 <code>{row.template}</code>
               </td>
-              <td>
-                <code class={outcomeClass('positive', row.bifrostPositive)}>
-                  {row.bifrostPositive}
-                </code>
-              </td>
-              <td>
-                <code class={outcomeClass('negative', row.bifrostNegative)}>
-                  {row.bifrostNegative}
-                </code>
-              </td>
-              <td>
-                <code class={outcomeClass('positive', row.codeqlPositive)}>
-                  {row.codeqlPositive}
-                </code>
-              </td>
-              <td>
-                <code class={outcomeClass('negative', row.codeqlNegative)}>
-                  {row.codeqlNegative}
-                </code>
-              </td>
+              {row.cells.map((entry) => (
+                <>
+                  <td>
+                    <code class={outcomeClass('positive', entry.positive)}>
+                      {entry.positive}
+                    </code>
+                  </td>
+                  <td>
+                    <code class={outcomeClass('negative', entry.negative)}>
+                      {entry.negative}
+                    </code>
+                  </td>
+                </>
+              ))}
             </tr>
           ))}
         </tbody>
@@ -498,6 +781,215 @@ const codeqlVersion = scorecards.find((card) => card.adapter.tool === 'codeql')!
   <a href={`/dataflowbench/snapshots/${snapshot.slug}/evidence/`}>evidence</a>.
 </p>
 
+<style is:global>
+  /* The dialog's panels are built in the browser, so their rules cannot be
+     scoped by Astro's component hashing. */
+  #kernel-dialog {
+    margin: auto;
+    width: min(64rem, calc(100vw - 2rem));
+    max-height: calc(100vh - 4rem);
+    overflow-y: auto;
+    border: 1px solid var(--sl-color-accent);
+    border-radius: 0.75rem;
+    padding: 1.25rem 1.5rem 1.5rem;
+    background: var(--sl-color-bg-sidebar);
+    color: var(--sl-color-text);
+  }
+  /* Starlight's content flow adds margin-top to every sibling block; the
+     dialog lays out its own spacing. */
+  #kernel-dialog :where(p, div, ul, li, table, section, h2) {
+    margin-top: 0;
+  }
+  #kernel-dialog::backdrop {
+    background: rgb(0 0 0 / 0.6);
+  }
+  #kernel-dialog .dialog-head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+  #kernel-dialog .label {
+    font-family: var(--__sl-font-mono);
+    font-size: var(--sl-text-xs);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--sl-color-accent-high);
+    margin: 0;
+  }
+  #kernel-dialog h2 {
+    font-size: var(--sl-text-2xl);
+    line-height: 1.2;
+    margin: 0.25rem 0 0;
+    color: var(--sl-color-white);
+    border: 0;
+    padding: 0;
+  }
+  #kernel-dialog .caption {
+    font-size: var(--sl-text-sm);
+    color: var(--sl-color-gray-3);
+    margin: 0.25rem 0 0;
+  }
+  #kernel-dialog .dialog-close {
+    flex: 0 0 auto;
+    font-size: 1.5rem;
+    line-height: 1;
+    padding: 0.25rem 0.6rem;
+    border: 1px solid var(--sl-color-hairline);
+    border-radius: 0.5rem;
+    background: transparent;
+    color: var(--sl-color-text);
+    cursor: pointer;
+  }
+  #kernel-dialog .dialog-close:hover {
+    background: var(--sl-color-gray-6);
+  }
+  #kernel-dialog .panel-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-top: 1.25rem;
+  }
+  #kernel-dialog .panel {
+    flex: 1 1 17rem;
+    min-width: 15rem;
+    border: 1px solid var(--sl-color-hairline);
+    border-radius: 0.75rem;
+    padding: 0.75rem 1rem 1rem;
+  }
+  #kernel-dialog .panel .who {
+    font-family: var(--__sl-font-mono);
+    font-size: var(--sl-text-xs);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin: 0;
+    color: var(--vendor-color, var(--sl-color-accent-high));
+    border-top: 3px solid var(--vendor-color, var(--sl-color-accent));
+    padding-top: 0.25rem;
+  }
+  #kernel-dialog .matrix {
+    width: 100%;
+    margin: 0.75rem 0 0;
+    border-collapse: collapse;
+    font-size: var(--sl-text-sm);
+  }
+  #kernel-dialog .matrix th {
+    font-family: var(--__sl-font-mono);
+    font-size: var(--sl-text-xs);
+    font-weight: 400;
+    color: var(--sl-color-gray-3);
+    text-align: left;
+    padding: 0.25rem 0.4rem;
+    border: 0;
+    background: transparent;
+  }
+  #kernel-dialog .matrix td {
+    border: 1px solid var(--sl-color-hairline);
+    padding: 0.4rem 0.5rem;
+    text-align: left;
+  }
+  #kernel-dialog .matrix .matrix-corner {
+    border: 0;
+  }
+  #kernel-dialog .matrix-count {
+    font-size: 1.5rem;
+    font-weight: 700;
+    line-height: 1.1;
+    margin-right: 0.35rem;
+  }
+  #kernel-dialog .matrix-tag {
+    font-family: var(--__sl-font-mono);
+    font-size: var(--sl-text-xs);
+    color: var(--sl-color-gray-3);
+  }
+  #kernel-dialog .matrix-cell.good .matrix-count {
+    color: var(--sl-color-green-high);
+  }
+  #kernel-dialog .matrix-cell.bad .matrix-count {
+    color: var(--sl-color-red-high);
+  }
+  #kernel-dialog .rates {
+    display: flex;
+    gap: 1.5rem;
+    margin-top: 0.75rem;
+  }
+  #kernel-dialog .rate-label {
+    font-family: var(--__sl-font-mono);
+    font-size: var(--sl-text-xs);
+    letter-spacing: 0.1em;
+    color: var(--sl-color-gray-3);
+    margin: 0;
+  }
+  #kernel-dialog .rate-value {
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin: 0;
+    color: var(--vendor-color, var(--sl-color-accent-high));
+  }
+  #kernel-dialog .coverage {
+    margin-top: 0.75rem;
+    border: 1px dashed var(--sl-color-orange);
+    border-radius: 0.5rem;
+    padding: 0.5rem 0.75rem;
+    background: var(--sl-color-bg);
+  }
+  #kernel-dialog .coverage-label {
+    font-family: var(--__sl-font-mono);
+    font-size: var(--sl-text-xs);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--sl-color-orange-high);
+    margin: 0;
+  }
+  #kernel-dialog .coverage-items {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin: 0.4rem 0 0;
+    padding: 0;
+  }
+  #kernel-dialog .coverage-items li {
+    margin: 0;
+  }
+  #kernel-dialog .coverage-count {
+    font-weight: 700;
+    margin-right: 0.25rem;
+  }
+  #kernel-dialog .coverage-name {
+    font-family: var(--__sl-font-mono);
+    font-size: var(--sl-text-xs);
+    color: var(--sl-color-gray-3);
+  }
+  #kernel-dialog .scorecard {
+    font-family: var(--__sl-font-mono);
+    font-size: var(--sl-text-xs);
+    overflow-wrap: anywhere;
+  }
+  #kernel-dialog .dialog-foot {
+    margin-top: 1rem;
+  }
+  #kernel-dialog .v0 {
+    --vendor-color: var(--sl-color-accent-high);
+    --vendor-rule: var(--sl-color-accent);
+  }
+  #kernel-dialog .v1 {
+    --vendor-color: var(--sl-color-orange);
+    --vendor-rule: var(--sl-color-orange);
+  }
+  #kernel-dialog .v2 {
+    --vendor-color: var(--sl-color-purple);
+    --vendor-rule: var(--sl-color-purple);
+  }
+  #kernel-dialog .v3 {
+    --vendor-color: var(--sl-color-green);
+    --vendor-rule: var(--sl-color-green);
+  }
+  #kernel-dialog .panel .who {
+    border-top-color: var(--vendor-rule, var(--sl-color-accent));
+  }
+</style>
+
 <style>
   .eyebrow {
     font-family: var(--__sl-font-mono);
@@ -545,13 +1037,61 @@ const codeqlVersion = scorecards.find((card) => card.adapter.tool === 'codeql')!
   .tile-grid > .tile,
   .tile p,
   .stat-card > .label,
-  .stat-card > .caption {
+  .stat-card > .caption,
+  .stat-card > .card-action {
     margin-top: 0 !important;
+  }
+  /* The whole card is the button: the label stretches over the card, so a
+     click anywhere activates it while the markup stays a real <button>. */
+  .kernel-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+  }
+  .kernel-card .card-action {
+    margin-top: auto;
+    padding-top: 0.75rem;
+  }
+  .details-button {
+    font-family: var(--__sl-font-mono);
+    font-size: var(--sl-text-xs);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--sl-color-accent-high);
+    background: transparent;
+    border: 1px solid var(--sl-color-hairline);
+    border-radius: 0.5rem;
+    padding: 0.3rem 0.7rem;
+    cursor: pointer;
+  }
+  .details-button::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 0.75rem;
+  }
+  .kernel-card:hover {
+    border-color: var(--sl-color-accent);
+  }
+  .kernel-card:hover .details-button {
+    border-color: var(--sl-color-accent);
+  }
+  .kernel-card:has(.details-button:focus-visible) {
+    outline: 2px solid var(--sl-color-accent-high);
+    outline-offset: 2px;
+  }
+  .details-button:focus-visible {
+    outline: 2px solid var(--sl-color-accent-high);
+    outline-offset: 2px;
+  }
+  .kernel-card:has(.details-button:focus-visible) .details-button {
+    outline: none;
   }
   .stat-pair {
     display: flex;
+    flex-wrap: wrap;
     align-items: flex-start;
-    gap: 2rem;
+    gap: 0.75rem 2rem;
     margin: 0.5rem 0;
   }
   .stat-pair > div {
@@ -568,23 +1108,40 @@ const codeqlVersion = scorecards.find((card) => card.adapter.tool === 'codeql')!
     letter-spacing: 0.1em;
     text-transform: uppercase;
     margin: 0;
-    color: var(--sl-color-accent-high);
-    border-top: 3px solid var(--sl-color-accent);
+    color: var(--vendor-color, var(--sl-color-accent-high));
+    border-top: 3px solid var(--vendor-rule, var(--sl-color-accent));
     padding-top: 0.25rem;
-  }
-  .who.alt {
-    color: var(--sl-color-orange);
-    border-top-color: var(--sl-color-orange);
   }
   .big {
     font-size: 2.25rem;
     font-weight: 700;
     line-height: 1.1;
     margin: 0;
-    color: var(--sl-color-accent-high);
+    color: var(--vendor-color, var(--sl-color-accent-high));
   }
-  .big.alt {
-    color: var(--sl-color-orange);
+  /* Three or more analyzers per language: shrink so the row still fits the
+     card without the numbers wrapping mid-fraction. */
+  .stat-card.many .stat-pair {
+    gap: 0.75rem 1.25rem;
+  }
+  .stat-card.many .big {
+    font-size: 1.75rem;
+  }
+  .vendor.v0 {
+    --vendor-color: var(--sl-color-accent-high);
+    --vendor-rule: var(--sl-color-accent);
+  }
+  .vendor.v1 {
+    --vendor-color: var(--sl-color-orange);
+    --vendor-rule: var(--sl-color-orange);
+  }
+  .vendor.v2 {
+    --vendor-color: var(--sl-color-purple);
+    --vendor-rule: var(--sl-color-purple);
+  }
+  .vendor.v3 {
+    --vendor-color: var(--sl-color-green);
+    --vendor-rule: var(--sl-color-green);
   }
   .big .of {
     font-size: 1.1rem;
