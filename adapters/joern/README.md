@@ -549,6 +549,14 @@ distribution, but this adapter has **no C++ slice**: no
 (`docs/cpp-kernel.md`) did not build one either, so C++ — like C — has no
 Joern evidence at any denominator.
 
+The same holds for **C**, whose challenge-tier row has since rolled out to 24
+templates / 48 assertions. `c2cpg` ships with the pinned distribution and the
+row above records C as "Available, not yet in scope", but there is no
+`run-joern-c-kernel` command, no C selection, and no
+`reports/joern-c-kernel.json`. The C challenge-tier wave
+(`docs/c-kernel.md`) did not create one, so C has no Joern evidence at any
+denominator either. Absence of a slice is not a Joern result about C.
+
 ## Model assumptions
 
 - The `benchmark-controlled` profile applies: the query is given the same

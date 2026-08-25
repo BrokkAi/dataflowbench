@@ -128,12 +128,14 @@ negative for each of the 16 scored templates in
 profile, enforced by the same `validate_kernel_population_with` check every
 other kernel uses.
 
-**C and Rust are 30, not 32.** `docs/applicability-matrix.md` classifies the
-exception-catch cell as *inapplicable* to both, for different reasons, so their
-core denominator is the fifteen-template
+**Rust is 30, not 32, and C is 48.** `docs/applicability-matrix.md` classifies
+the exception-catch cell as *inapplicable* to both, for different reasons, so
+their classic core denominator is the fifteen-template
 `KERNEL_TEMPLATE_IDS_WITHOUT_EXCEPTION_CATCH` set the CodeQL and Bifrost C and
-Rust kernels already use. An inapplicable cell reduces only its own language's
-denominator, never any other's.
+Rust kernels already use. C's challenge row has since rolled out — nine
+applicable challenge templates on top of those fifteen, so 24 templates and 48
+assertions — while Rust's has not. An inapplicable cell reduces only its own
+language's denominator, never any other's.
 
 The construct each of those two languages uses instead lives on the
 `language-extension` tier — C's `dfb-taint-c-error-code-return-positive` and
@@ -204,7 +206,9 @@ partition is fixed here, from the pinned distribution's documentation, while the
 outcomes are still unknown, and a later wave must not adjust it after seeing
 results. A defect in it is corrected by a documented amendment, never by a
 silent edit. Python's wave, the first to land challenge fixtures, changed
-nothing in this table.
+nothing in this table, and no wave since has — including C's, which exercises
+only nine of the thirteen rows because the other four templates are
+inapplicable to the language and therefore never selected at all.
 
 The decision is implemented as `CHALLENGE_SEMGREP_PARTITION` in `src/main.rs`,
 keyed by `template_id` and consulted *before* the `feature_tags` rule. Keying it
@@ -379,8 +383,8 @@ does not require the marker's own line.
 
 Semgrep CE 1.174.0. Seven kernels ran against fixture revision
 `sha256:aee59a14f96633cf5798df6d211525ea0d10748800ba9c9ac0a3787406bd19ea`; the
-Python, JavaScript, Java, TypeScript, Kotlin, Go, and C++ kernels were each
-re-run whole after that
+Python, JavaScript, Java, TypeScript, Kotlin, Go, C++, and C kernels were
+each re-run whole after that
 language's challenge-tier row was rolled out and carry the expanded corpus
 revision current when each ran —
 `sha256:3e7a8de5e1eefb18e8166af0ccdf309bccf1d5c26026893a4513f1943926ab1f` for
@@ -395,7 +399,7 @@ Kotlin, and reports at different
 fixture revisions are not pooled. The configuration hash is unchanged across
 all eleven: no rule file was touched.
 
-All eleven kernels ran. 528 assertions: 154 executed against Semgrep, 374
+All eleven kernels ran. 546 assertions: 154 executed against Semgrep, 392
 excluded by declared capability. Zero `inconclusive` and zero `runner-error`
 outcomes; 154 retained finding documents, 154 retained resolved rule files, 324
 retained capability-decision documents, and zero error documents. Every figure
@@ -423,7 +427,7 @@ expanded denominators included: their 26 challenge assertions are all
 intraprocedural positives is `reached` in every language — no false negative
 anywhere — and 5 of the 7 negatives are `not-reached`.
 
-Java, JavaScript, Python, TypeScript, Kotlin, Go, and C++ are the seven
+Java, JavaScript, Python, TypeScript, Kotlin, Go, C++, and C are the eight
 expanded populations, and
 each changes only the `unsupported` column: all 26 of that language's challenge
 assertions are declined by declared capability, and its scored 14 are the same

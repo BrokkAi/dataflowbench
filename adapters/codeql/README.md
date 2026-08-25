@@ -485,6 +485,13 @@ the C runner selects the 30 `taint`/`core` cases whose `language` is `c`
 plus its 2 `language-extension` cases, which are scored on their own scorecard
 and never counted in the core denominator. Each analyzes its own query:
 
+The C++ runner selects exactly the 32 `taint`/`core` cases whose `language` is
+`cpp`; the C runner selects the whole C `taint`/`core` population — 30
+assertions classically, and **48** now that C's nine applicable challenge
+templates have rolled out (`docs/challenge-tier.md`) — plus its 2
+`language-extension` cases, which are scored on their own scorecard and never
+counted in the core denominator. Each analyzes its own query:
+
 ```text
 adapters/codeql/cpp/queries/CppKernel.ql
 adapters/codeql/cpp/queries/CKernel.ql
@@ -534,6 +541,14 @@ the v0.4.0 freeze-prep re-run**, on the repository's established
 re-run-at-freeze pattern. The selector already expects the full 56; deferral is
 not absence of coverage, and a 32-assertion score is never compared with a
 56-assertion one.
+
+**Expanded C evidence is deferred.** `reports/codeql-c-kernel.json` is one of
+the nineteen reports `reports/freeze.json` digest-binds for v0.3.0, so the C
+challenge expansion did not overwrite it: the expanded 48-assertion CodeQL
+evidence for C is pending the v0.4.0 freeze-prep re-run, on this repository's
+established re-run-at-freeze pattern, and the deferral is recorded in
+`docs/c-kernel.md`. What follows is the valid classic 30-assertion snapshot,
+and it describes a different population from the expanded one.
 
 The checked-in `reports/codeql-c-kernel.json` contains 32 results with the same
 clean execution profile. Of the 30 core assertions, 16 are `reached` and 14 are
