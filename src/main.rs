@@ -336,7 +336,7 @@ const CHALLENGE_ROLLOUT: [ChallengeRollout; 13] = [
         display: "Kotlin",
         classic: &KERNEL_TEMPLATE_IDS,
         challenge: &CHALLENGE_TEMPLATE_IDS,
-        rolled_out: false,
+        rolled_out: true,
     },
     ChallengeRollout {
         language: "csharp",
@@ -357,14 +357,14 @@ const CHALLENGE_ROLLOUT: [ChallengeRollout; 13] = [
         display: "Go",
         classic: &KERNEL_TEMPLATE_IDS,
         challenge: &CHALLENGE_TEMPLATE_IDS,
-        rolled_out: false,
+        rolled_out: true,
     },
     ChallengeRollout {
         language: "cpp",
         display: "C++",
         classic: &KERNEL_TEMPLATE_IDS,
         challenge: &CHALLENGE_TEMPLATE_IDS_WITHOUT_REFLECTIVE_INVOCATION,
-        rolled_out: false,
+        rolled_out: true,
     },
     ChallengeRollout {
         language: "rust",
@@ -378,7 +378,7 @@ const CHALLENGE_ROLLOUT: [ChallengeRollout; 13] = [
         display: "C",
         classic: &KERNEL_TEMPLATE_IDS_WITHOUT_EXCEPTION_CATCH,
         challenge: &CHALLENGE_TEMPLATE_IDS_C,
-        rolled_out: false,
+        rolled_out: true,
     },
     ChallengeRollout {
         language: "php",
@@ -3962,7 +3962,11 @@ fn codeql_go_cases() -> Result<Vec<(PathBuf, Value)>> {
         }
         selected.push((path, case));
     }
-    validate_kernel_population(&selected, "Go CodeQL kernel")?;
+    validate_kernel_population_with(
+        &selected,
+        "Go CodeQL kernel",
+        &expected_core_templates("go"),
+    )?;
     if !Path::new(CODEQL_GO_QUERY).is_file() {
         bail!("Go CodeQL query does not exist: {CODEQL_GO_QUERY}");
     }
@@ -4463,7 +4467,11 @@ fn codeql_kotlin_cases() -> Result<Vec<(PathBuf, Value)>> {
         }
         selected.push((path, case));
     }
-    validate_kernel_population(&selected, "Kotlin CodeQL kernel")?;
+    validate_kernel_population_with(
+        &selected,
+        "Kotlin CodeQL kernel",
+        &expected_core_templates("kotlin"),
+    )?;
     if !Path::new(CODEQL_KOTLIN_QUERY).is_file() {
         bail!("Kotlin CodeQL query does not exist: {CODEQL_KOTLIN_QUERY}");
     }
@@ -8278,17 +8286,19 @@ mod tests {
     }
 
     #[test]
-    fn kotlin_codeql_population_is_exactly_32_balanced_assertions() {
+    fn kotlin_codeql_population_is_the_expanded_balanced_core() {
+        let expected = expected_core_templates("kotlin");
         let selected = codeql_kotlin_cases().unwrap();
-        assert_eq!(selected.len(), KERNEL_CASE_COUNT);
+        assert_eq!(selected.len(), 2 * expected.len());
+        // Kotlin's challenge row is rolled out, so the population is the
+        // expanded 29-template / 58-assertion core, not the classic 32.
+        assert_eq!(selected.len(), 58);
+        assert!(selected.len() > KERNEL_CASE_COUNT);
         let templates = selected
             .iter()
             .map(|(_, case)| case["template_id"].as_str().unwrap())
             .collect::<BTreeSet<_>>();
-        assert_eq!(
-            templates,
-            KERNEL_TEMPLATE_IDS.iter().copied().collect::<BTreeSet<_>>()
-        );
+        assert_eq!(templates, expected.iter().copied().collect::<BTreeSet<_>>());
         assert!(
             selected
                 .iter()
@@ -8310,22 +8320,39 @@ mod tests {
                 }),
             )
         };
+        // The runner validates against Kotlin's own denominator, which the
+        // rollout table now expands to the challenge templates as well.
+        let expected = expected_core_templates("kotlin");
+        let check = |cases: &[(PathBuf, Value)]| {
+            validate_kernel_population_with(cases, "Kotlin CodeQL kernel", &expected)
+        };
         let mut balanced = Vec::new();
-        for template in KERNEL_TEMPLATE_IDS {
+        for template in &expected {
             balanced.push(case(template, "positive"));
             balanced.push(case(template, "negative"));
         }
-        assert!(validate_kernel_population(&balanced, "Kotlin CodeQL kernel").is_ok());
+        assert!(check(&balanced).is_ok());
 
         let mut unbalanced = balanced.clone();
-        unbalanced[1] = case(KERNEL_TEMPLATE_IDS[0], "positive");
-        assert!(validate_kernel_population(&unbalanced, "Kotlin CodeQL kernel").is_err());
+        unbalanced[1] = case(expected[0], "positive");
+        assert!(check(&unbalanced).is_err());
 
         let mut foreign = balanced.clone();
         foreign[0] = case("dfb-template-one-hop-relay", "positive");
-        assert!(validate_kernel_population(&foreign, "Kotlin CodeQL kernel").is_err());
+        assert!(check(&foreign).is_err());
 
-        assert!(validate_kernel_population(&balanced[..2], "Kotlin CodeQL kernel").is_err());
+        // The classic sixteen alone are no longer a complete Kotlin core.
+        let classic = balanced
+            .iter()
+            .filter(|(_, case)| {
+                KERNEL_TEMPLATE_IDS.contains(&case["template_id"].as_str().unwrap())
+            })
+            .cloned()
+            .collect::<Vec<_>>();
+        assert_eq!(classic.len(), KERNEL_CASE_COUNT);
+        assert!(check(&classic).is_err());
+
+        assert!(check(&balanced[..2]).is_err());
     }
 
     #[test]
@@ -8690,8 +8717,11 @@ mod tests {
         assert!(selected > KERNEL_CASE_COUNT);
     }
 
-    /// C and C++ are two populations with two denominators. The C core is the
-    /// fifteen applicable templates; the C++ core is all sixteen; the C
+    /// C and C++ are two populations with two denominators, both now rolled
+    /// out: C's core is the fifteen applicable classic templates plus its nine
+    /// applicable challenge templates — 24 templates and 48 assertions — and
+    /// the C++ core is all sixteen classic templates plus its twelve
+    /// applicable challenge templates — 28 templates and 56 assertions. The C
     /// `language-extension` cases ride along in the C slice without changing
     /// its core denominator.
     #[test]
@@ -8704,10 +8734,10 @@ mod tests {
                 .filter(|(_, case)| case["score_tier"] == "core")
                 .count()
         };
-        assert_eq!(core(&c), KERNEL_CASE_COUNT_WITHOUT_EXCEPTION_CATCH);
-        assert_eq!(core(&c), 30);
-        assert_eq!(core(&cpp), KERNEL_CASE_COUNT);
-        assert_eq!(core(&cpp), 32);
+        assert_eq!(core(&c), expected_core_case_count("c"));
+        assert_eq!(core(&c), 48);
+        assert_eq!(core(&cpp), expected_core_case_count("cpp"));
+        assert_eq!(core(&cpp), 56);
         assert_eq!(c.len() - core(&c), 2);
         assert_eq!(cpp.len(), core(&cpp));
 
@@ -8717,10 +8747,8 @@ mod tests {
             .map(|(_, case)| case["template_id"].as_str().unwrap().to_string())
             .collect::<BTreeSet<_>>();
         assert!(!c_templates.contains("dfb-template-exception-catch"));
-        assert_eq!(
-            c_templates.len(),
-            KERNEL_TEMPLATE_IDS_WITHOUT_EXCEPTION_CATCH.len()
-        );
+        assert_eq!(c_templates.len(), expected_core_templates("c").len());
+        assert_eq!(c_templates.len(), 24);
         for (_, case) in &c {
             assert_eq!(case["language"], "c");
             assert!(
@@ -8840,9 +8868,14 @@ mod tests {
                 }
             }
         }
-        assert_eq!(c_core, KERNEL_CASE_COUNT_WITHOUT_EXCEPTION_CATCH);
+        // Both challenge rows are rolled out, but C excludes four challenge
+        // templates and C++ one, so the two slices carry different
+        // denominators from the same extractor.
+        assert_eq!(c_core, expected_core_case_count("c"));
+        assert_eq!(c_core, 48);
         assert_eq!(c - c_core, 2);
-        assert_eq!(cpp, KERNEL_CASE_COUNT);
+        assert_eq!(cpp, expected_core_case_count("cpp"));
+        assert_eq!(cpp, 56);
     }
 
     /// The two C-family kernels share the `cpp` extractor and one pack, so
@@ -8956,9 +8989,13 @@ mod tests {
     }
 
     #[test]
-    fn go_core_selection_is_exactly_32_balanced_assertions() {
+    fn go_core_selection_is_the_expanded_balanced_population() {
+        let expected_templates = expected_core_templates("go");
         let selected = codeql_go_cases().unwrap();
-        assert_eq!(selected.len(), KERNEL_CASE_COUNT);
+        assert_eq!(selected.len(), expected_core_case_count("go"));
+        // Go's challenge row is rolled out, so the population is the expanded
+        // 29 templates / 58 assertions, not the classic 32.
+        assert_eq!(selected.len(), 58);
         let mut templates = BTreeMap::<String, (usize, usize)>::new();
         for (_, case) in &selected {
             assert_eq!(case["language"], "go");
@@ -8973,7 +9010,8 @@ mod tests {
                 counts.1 += 1;
             }
         }
-        assert_eq!(templates.len(), KERNEL_TEMPLATE_IDS.len());
+        assert_eq!(templates.len(), expected_templates.len());
+        assert_eq!(templates.len(), 29);
         assert!(
             templates
                 .values()
@@ -9028,7 +9066,9 @@ mod tests {
                 }
             }
         }
-        assert_eq!(selected, KERNEL_CASE_COUNT);
+        // The Go row is rolled out, so the kernel run covers the expanded core.
+        assert_eq!(selected, expected_core_case_count("go"));
+        assert!(selected > KERNEL_CASE_COUNT);
     }
 
     #[test]
@@ -9220,10 +9260,10 @@ mod tests {
 
     /// C and Rust exclude the same classic template for different reasons, so
     /// they share one 15-template constant instead of two identical copies.
-    /// Rust's challenge row is flipped, so its corpus core is that shared
-    /// classic set plus its 12 challenge cells; C's is the classic set alone
-    /// until its own wave lands. Their language-extension cases stay distinct
-    /// and never enter either core denominator.
+    /// Both challenge rows are now flipped, so each language's corpus core is
+    /// that shared classic set plus its own challenge cells -- nine for C,
+    /// twelve for Rust. Their language-extension cases stay distinct and never
+    /// enter either core denominator.
     #[test]
     fn c_and_rust_share_the_scored_set_without_exception_catch() {
         let cases = case_paths()
@@ -9240,9 +9280,13 @@ mod tests {
             .collect::<BTreeSet<_>>();
         for language in ["c", "rust"] {
             let core = core_templates_for_language(&cases, language);
-            // Both languages carry the same reduced classic set...
-            assert!(classic.is_subset(&core));
-            // ...and each language's corpus is exactly its rollout row.
+            // Both languages start from the same 15-template classic
+            // constant and both have since expanded past it, so the constant
+            // is a subset of either core rather than equal to it, and the
+            // shared exclusion is what the two still have in common.
+            assert!(classic.is_subset(&core), "{language} classic set");
+            assert!(!core.contains("dfb-template-exception-catch"));
+            // Each language's corpus is exactly its rollout row.
             assert_eq!(
                 core,
                 expected_core_templates(language)
@@ -9255,6 +9299,8 @@ mod tests {
                 "{language} corpus does not match its rollout state"
             );
         }
+        assert_eq!(core_templates_for_language(&cases, "rust").len(), 27);
+        assert_eq!(core_templates_for_language(&cases, "c").len(), 24);
         assert!(
             !core_templates_for_language(&cases, "rust")
                 .contains("dfb-template-result-error-propagation")
@@ -11442,13 +11488,23 @@ mod tests {
                 );
                 assert!(template.starts_with(CHALLENGE_TEMPLATE_PREFIX));
             }
-            // Python, JavaScript, Java, C#, TypeScript, and Rust are the waves
-            // that have landed their fixtures; every other language validates
-            // against its classic set alone, so a language whose fixtures do
-            // not exist yet is never failed for missing them.
+            // Python, JavaScript, Java, C#, TypeScript, Kotlin, Go, C++, C,
+            // and Rust are the waves that have landed their fixtures; every
+            // other language validates against its classic set alone, so a
+            // language whose fixtures do not exist yet is never failed for
+            // missing them.
             let rolled_out = matches!(
                 row.language,
-                "python" | "javascript" | "java" | "csharp" | "typescript" | "rust"
+                "python"
+                    | "javascript"
+                    | "java"
+                    | "csharp"
+                    | "typescript"
+                    | "kotlin"
+                    | "go"
+                    | "cpp"
+                    | "c"
+                    | "rust"
             );
             assert_eq!(
                 challenge_rolled_out(row.language),

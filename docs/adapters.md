@@ -104,13 +104,15 @@ fixture's `feature_tags` and no observed result can move a case between the
 partitions. The per-template rationale is in
 [the Semgrep adapter notes](../adapters/semgrep/README.md).
 
-**Python, JavaScript, Java, C#, TypeScript, and Rust are the rows flipped so
-far.** The first five have a core
-denominator of 29 templates and 58 assertions; **Rust's is 27 templates and 54
-assertions**, because two cells are inapplicable to it — `exception-catch` from
-the classic sixteen and `chal-reflective-invocation` from the challenge
-thirteen. An inapplicable cell reduces only its own language's denominator.
-The Python wave re-ran the
+**Python, JavaScript, Java, C#, TypeScript, Kotlin, Go, C++, C, and Rust are
+the rows flipped so far.** The first seven have a core
+denominator of 29 templates and 58 assertions; **C++'s is 28 templates and 56
+assertions**, **Rust's is 27 templates and 54 assertions**, and **C's is 24
+templates and 48 assertions**, because some cells are inapplicable to those
+languages — `exception-catch` from the classic sixteen for both C and Rust,
+`chal-reflective-invocation` from the challenge thirteen for both C++ and
+Rust, and three further challenge cells for C. An inapplicable cell reduces
+only its own language's denominator. The Python wave re-ran the
 adapters no freeze binds — Joern and Semgrep CE — while leaving its
 freeze-bound Bifrost and CodeQL reports exactly as published; the JavaScript
 and Java waves re-ran Joern and Semgrep CE too, and each additionally ran its
@@ -119,11 +121,14 @@ freeze binds and so is not a rewrite of published evidence. The JavaScript and
 Java CodeQL reports stay as published. The TypeScript wave could run **only
 Semgrep CE**: both its Bifrost and its CodeQL reports are freeze-bound, so both
 are deferred to the v0.4.0 re-run, and the Joern adapter has no TypeScript
-slice to run at all. The per-adapter evidence, including which adapters were
+slice to run at all. The Go wave is in the same position for the same reasons:
+its Bifrost *and* CodeQL reports are both freeze-bound, so both are deferred to
+the v0.4.0 re-run, and the Joern adapter has no Go slice — Semgrep CE was its
+only runnable adapter. The per-adapter evidence, including which adapters were
 deferred, is in [the Python kernel contract](python-kernel.md), [the JavaScript
 adaptation matrix](javascript-kernel.md), [the Java kernel
-contract](java-kernel.md), and [the TypeScript adaptation
-matrix](typescript-kernel.md).
+contract](java-kernel.md), [the TypeScript adaptation
+matrix](typescript-kernel.md), and [the Go kernel contract](go-kernel.md).
 
 The Rust wave ran **Joern and Semgrep CE** over its whole expanded
 54-assertion population — `reports/joern-rust-kernel.json` and
@@ -142,6 +147,27 @@ because the pinned distribution lists it as a Pro-only language. The C#
 challenge fixtures, the flipped row, and the validation battery land now; all
 expanded C# evidence arrives at the v0.4.0 re-run. See [the C# kernel
 contract](csharp-kernel.md).
+
+Kotlin is the sparsest case and is worth stating explicitly, because a reader
+could otherwise mistake it for missing coverage. **Both** of Kotlin's
+analyzer reports — `reports/bifrost-kotlin-kernel.json` and
+`reports/codeql-kotlin-kernel.json` — are freeze-bound, so both adapters are
+deferred to the v0.4.0 re-run; Joern has no Kotlin slice in this repository at
+all (its `kotlin2cpg` frontend exists upstream and is recorded as available but
+out of scope); so Semgrep CE is the only adapter this wave could run over
+Kotlin's expanded population, and it did. The per-adapter evidence, including
+which adapters were deferred, is in [the Python kernel
+contract](python-kernel.md), [the JavaScript adaptation
+matrix](javascript-kernel.md), and [the Kotlin kernel
+contract](kotlin-kernel.md).
+
+The C wave carries the most sharply **reduced** challenge set: four of the thirteen
+templates are inapplicable to C, so its expanded core is 24 templates / 48
+assertions rather than 29 / 58. Like TypeScript, it could run **only Semgrep
+CE** — `reports/bifrost-c-kernel.json` and `reports/codeql-c-kernel.json` are
+both digest-bound by `reports/freeze.json`, and the Joern adapter has no C
+slice — so both engine re-runs are deferred to v0.4.0. See [the C kernel
+contract](c-kernel.md).
 
 ## CodeQL language populations
 
@@ -335,8 +361,8 @@ and score tier, exactly as the Joern kernels do, and each has its own report
 reference: the v0.3.0 freeze digest-binds every `case.json` byte, so the
 invocation is pinned in the runner instead.
 
-Six of the eleven select 32 assertions. **Python, JavaScript, and TypeScript
-select 58** each, their expanded 29-template cores; every one of their 26
+Five of the eleven select 32 assertions. **Python, JavaScript, TypeScript, and
+Go select 58** each, their expanded 29-template cores; every one of their 26
 challenge assertions falls in the `unsupported` partition, so each scored
 subset is the same 14 as everyone else's. **Rust selects 54**, its expanded
 27-template core — 15 classic plus 12 challenge templates, both reduced
@@ -372,9 +398,10 @@ partition of each kernel: 7 templates and 14 assertions.
 
 The remaining templates — the `interprocedural-one-hop`,
 `interprocedural-deep`, and `heap-access-path` partitions, 18 assertions in a
-16-template kernel, 16 in C, 44 in each of the expanded
-29-template Java, Python, JavaScript, and TypeScript kernels, and 40 in the
-expanded 27-template Rust kernel, whose challenge
+16-template kernel, 34 in the expanded 24-template C kernel, 40 in the
+expanded 27-template Rust kernel, 42 in the expanded 28-template C++ kernel,
+and 44 in each of the expanded 29-template Java, Python, JavaScript,
+TypeScript, Kotlin, and Go kernels, whose challenge
 templates are all outside the profile — are `unsupported`. That decision is
 taken from each case's own `feature_tags` and
 `expected_analysis_capability.kind` *before* Semgrep is invoked, so an
@@ -414,9 +441,10 @@ never be frozen next to a clean negative.
 
 All eleven kernels ran on Semgrep CE 1.174.0 (`semgrep-oss:1.174.0`, Homebrew).
 Each produced 9 `reached`, 5 `not-reached`, and its whole remainder
-`unsupported` — 18 for the six unexpanded 16-template kernels, 16 for C,
-40 for the expanded Rust kernel, 44 each for the expanded Python, JavaScript,
-and TypeScript kernels — with
+`unsupported` — 18 each for the two unexpanded 16-template PHP and Ruby
+kernels, 34 for the expanded C kernel, 40 for the expanded Rust kernel, 42 for
+the expanded C++ kernel, and 44 each for the expanded Java, Python,
+JavaScript, TypeScript, Kotlin, and Go kernels — with
 zero `inconclusive` and zero `runner-error` outcomes, and 12/14 of each scored
 subset matching the expected polarity. Every intraprocedural positive is
 `reached` in every language; the two mismatches, identical in all eleven, are

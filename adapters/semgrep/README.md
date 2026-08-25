@@ -122,21 +122,21 @@ track == "taint"
 score_tier == "core"
 ```
 
-For eight of the eleven that is exactly 32 assertions — one positive and one
+For two of the eleven — PHP and Ruby — that is exactly 32 assertions — one positive and one
 negative for each of the 16 scored templates in
 `docs/applicability-matrix.md` — all under the `benchmark-controlled` model
 profile, enforced by the same `validate_kernel_population_with` check every
 other kernel uses.
 
-**C is 30, not 32, and Rust is 54.** `docs/applicability-matrix.md` classifies
+**C is 48 and Rust is 54.** `docs/applicability-matrix.md` classifies
 the exception-catch cell as *inapplicable* to both, for different reasons, so
 their classic core denominator is the fifteen-template
 `KERNEL_TEMPLATE_IDS_WITHOUT_EXCEPTION_CATCH` set the CodeQL and Bifrost C and
-Rust kernels already use. Rust's challenge-tier row has since rolled out,
-adding the 12 challenge templates `docs/challenge-tier.md` classifies as
-applicable to it — reflective invocation is inapplicable to a language with no
-run-time reflection — for an expanded 27-template, 54-assertion core. C's row
-has not rolled out. An inapplicable cell reduces only its own language's
+Rust kernels already use. Both challenge-tier rows have since rolled out on top
+of those fifteen: nine applicable challenge templates for C, so 24 templates
+and 48 assertions, and twelve for Rust — reflective invocation is inapplicable
+to a language with no run-time reflection — so 27 templates and 54 assertions.
+An inapplicable cell reduces only its own language's
 denominator, never any other's.
 
 The construct each of those two languages uses instead lives on the
@@ -161,32 +161,32 @@ language:
 | `return-relay-one-hop`, `argument-position-separation`, `call-context-separation` | `interprocedural-one-hop` | `unsupported` (3 templates, 6 assertions) | CE has no interprocedural taint (`--pro-intrafile` is Pro). |
 | `return-relay-two-hop` | `interprocedural-deep` | `unsupported` (1 template, 2 assertions) | Same, over two hops. |
 | `alias-propagation-separation`, `object-separation`, `array-element-separation`, `same-object-field-separation`, `exception-catch` | `heap-access-path` (Go's `exception-catch` is tagged `exceptional`) | `unsupported` (5 templates, 10 assertions; **4 templates, 8 assertions** in C and Rust, which have no exception-catch cell) | CE documents only *experimental basic* field sensitivity; index sensitivity and inter-procedural field sensitivity are Pro. |
-| The thirteen `chal-*` challenge templates | keyed by template ID, not by tag | `unsupported` (13 templates, 26 assertions; **12 templates, 24 assertions** in Rust, which has no reflective-invocation cell) | Preregistered in `docs/challenge-tier.md` before any challenge fixture existed; the per-template rationale is below. |
+| The thirteen `chal-*` challenge templates | keyed by template ID, not by tag | `unsupported` (13 templates, 26 assertions; **12 templates, 24 assertions** in C++ and Rust, which have no reflective-invocation cell, and **9 templates, 18 assertions** in C, which also has no anonymous-implementation, closure-capture, or computed-property cell) | Preregistered in `docs/challenge-tier.md` before any challenge fixture existed; the per-template rationale is below. |
 
 **14 scored in every one of the eleven kernels**, because all seven
 intraprocedural templates are applicable in all eleven languages. Only the
-`unsupported` remainder differs with the denominator: 18 in the six
-16-template kernels, **16 in C**, **40 in Rust**, and **44 in Python,
-JavaScript, and TypeScript**, whose challenge-tier rows are rolled out.
+`unsupported` remainder differs with the denominator: 18 in the two unexpanded
+16-template kernels, **34 in C**, **40 in Rust**, **42 in C++**, and **44 in
+Java, Python, JavaScript, TypeScript, Kotlin, and Go**, whose challenge-tier
+rows are rolled out.
 
 | Kernel | Selected | Scored | `unsupported` |
 | --- | --- | --- | --- |
-| Java, Go, Ruby, PHP, Kotlin, C++ | 32 | 14 | 18 |
-| C | 30 | 14 | 16 |
+| Ruby, PHP | 32 | 14 | 18 |
+| **C** | **48** | **14** | **34** |
 | **Rust** | **54** | **14** | **40** |
-| **Python, JavaScript, TypeScript** | **58** | **14** | **44** |
+| **C++** | **56** | **14** | **42** |
+| **Java, Python, JavaScript, TypeScript, Kotlin, Go** | **58** | **14** | **44** |
 
-The last two rows are the challenge tier. For Python, JavaScript, and
-TypeScript each core denominator is the expanded 29
-templates — the sixteen v0.3.0 templates plus the thirteen preregistered
-challenge templates — and **every one of the 26 challenge assertions falls in
-the `unsupported` partition**, exactly as the preregistered partition below
-fixed in advance. Rust's is the expanded 27 templates — its fifteen v0.3.0
-templates plus its twelve applicable challenge templates — and **all 24 of its
-challenge assertions** fall there likewise. Nothing about the scored partition
-was rewritten for the
-tier, and the scored subset stays at 14 assertions: the expansion moved the
-`unsupported` remainder and moved nothing else.
+Every row but the first is the challenge tier. Each of those core denominators
+is the expanded template set — that language's classic templates plus the
+preregistered challenge templates the preregistration classifies applicable to
+it: thirteen for the 58-assertion kernels, twelve for C++ and Rust, and nine
+for C — and **every challenge assertion falls in the `unsupported`
+partition**, exactly as the preregistered partition below fixed
+in advance. Nothing about the scored partition was rewritten for the tier, and
+the scored subset stays at 14 assertions: the expansion moved the
+`unsupported` remainder from 18 to between 34 and 44 and moved nothing else.
 
 The decision is taken by `semgrep_capability_exclusion` from the case JSON
 alone; an excluded case never reaches a Semgrep process, so it cannot produce an
@@ -212,7 +212,9 @@ partition is fixed here, from the pinned distribution's documentation, while the
 outcomes are still unknown, and a later wave must not adjust it after seeing
 results. A defect in it is corrected by a documented amendment, never by a
 silent edit. Python's wave, the first to land challenge fixtures, changed
-nothing in this table.
+nothing in this table, and no wave since has — including C's, which exercises
+only nine of the thirteen rows because the other four templates are
+inapplicable to the language and therefore never selected at all.
 
 The decision is implemented as `CHALLENGE_SEMGREP_PARTITION` in `src/main.rs`,
 keyed by `template_id` and consulted *before* the `feature_tags` rule. Keying it
@@ -385,29 +387,38 @@ does not require the marker's own line.
 
 ## Observed results
 
-Semgrep CE 1.174.0. Eight kernels ran against fixture revision
+Semgrep CE 1.174.0. The two unexpanded kernels, PHP and Ruby, ran against
+fixture revision
 `sha256:aee59a14f96633cf5798df6d211525ea0d10748800ba9c9ac0a3787406bd19ea`; the
-Python, JavaScript, Java, TypeScript, and Rust kernels were each re-run whole
-after that
+Python, JavaScript, Java, TypeScript, Kotlin, Go, C++, C, and Rust kernels
+were each re-run whole after that
 language's challenge-tier row was rolled out and carry the expanded corpus
 revision current when each ran —
 `sha256:3e7a8de5e1eefb18e8166af0ccdf309bccf1d5c26026893a4513f1943926ab1f` for
 Python,
 `sha256:61c06a78b95b86764d3c220cfefd7af37373db64b15ae0b76c6ebf924217ab2e` for
-JavaScript, and
+JavaScript,
 `sha256:cf571f29e434030019d5e8f8361319b0bb3b4d6c4c752bd65860e07bfcf26bbc` for
-Java, and
+Java,
 `sha256:2c906faeb98b48d1aba7da7bc80a78c4084051b84efac6ac3a1b74f54c843fd2` for
-TypeScript, and
+TypeScript,
+`sha256:7ac23321e5d0974ed9087b9642ee3c88b3f3af014ba507330131da30fbb9b4d7` for
+Kotlin,
+`sha256:7f37b99ddab7764a8536112c09ff7c8d77e0b02f7786abde65dfbaf3654d9949` for
+Go,
+`sha256:a1570fc74526f0088488e3fba0941a7da47244635d7ceecf6787f1f76200b4ee` for
+C++,
+`sha256:75f631ca05df2609055972622faaf3946331f7537140b08ba7ec6648bd0e077c` for
+C, and
 `sha256:88ad35289ae465278b95fd436532132118a6b6aa681adb3d266d67766c8770c5` for
 Rust. Reports at different
 fixture revisions are not pooled. The configuration hash is unchanged across
 all eleven: no rule file was touched.
 
-All eleven kernels ran. 476 assertions: 154 executed against Semgrep, 322
+All eleven kernels ran. 570 assertions: 154 executed against Semgrep, 416
 excluded by declared capability. Zero `inconclusive` and zero `runner-error`
-outcomes; 154 retained finding documents, 154 retained resolved rule files, 322
-retained capability-decision documents, and zero error documents — 630 retained
+outcomes; 154 retained finding documents, 154 retained resolved rule files, 416
+retained capability-decision documents, and zero error documents — 724 retained
 artifacts in total. Every figure here is counted from the committed reports and
 evidence directories on this tree rather than carried forward from an earlier
 wave.
@@ -418,25 +429,26 @@ wave.
 | **JavaScript** | `ga` | **58** | 9 | 5 | **44** | 12/14 |
 | **TypeScript** | `ga` | **58** | 9 | 5 | **44** | 12/14 |
 | **Python** | `ga` | **58** | 9 | 5 | **44** | 12/14 |
-| Go | `ga` | 32 | 9 | 5 | 18 | 12/14 |
+| **Go** | `ga` | **58** | 9 | 5 | **44** | 12/14 |
 | Ruby | `ga` | 32 | 9 | 5 | 18 | 12/14 |
 | PHP | `ga` | 32 | 9 | 5 | 18 | 12/14 |
-| **Kotlin** | **`beta`** | 32 | 9 | 5 | 18 | 12/14 |
+| **Kotlin** | **`beta`** | **58** | 9 | 5 | **44** | 12/14 |
 | **Rust** | **`alpha`** | **54** | 9 | 5 | **40** | 12/14 |
-| **C** | **`alpha`** | **30** | 9 | 5 | **16** | 12/14 |
-| **C++** | **`alpha`** | 32 | 9 | 5 | 18 | 12/14 |
+| **C** | **`alpha`** | **48** | 9 | 5 | **34** | 12/14 |
+| **C++** | **`alpha`** | **56** | 9 | 5 | **42** | 12/14 |
 
-The scored subset is 7 positives and 7 negatives per language, the five
+The scored subset is 7 positives and 7 negatives per language, the nine
 expanded denominators included: their challenge assertions are all
 `unsupported`, so the scored subset is the same 14 assertions it was, and the
 `Selected` column is the only one an expansion moved. Every one of the 7
 intraprocedural positives is `reached` in every language — no false negative
 anywhere — and 5 of the 7 negatives are `not-reached`.
 
-Java, JavaScript, Python, TypeScript, and Rust are the five expanded
-populations, and each changes only the `unsupported` column: all 26 challenge
-assertions in the first four, and all 24 in Rust, are declined by declared
-capability, and each language's scored 14 are the same
+Java, JavaScript, Python, TypeScript, Kotlin, Go, C++, C, and Rust are the
+nine expanded populations, and
+each changes only the `unsupported` column: all 26 of that language's challenge
+assertions are declined by declared capability — 24 for C++ and Rust, 18 for
+C — and its scored 14 are the same
 14 assertions with the same 12/14 result as before the expansion. A larger
 `unsupported` count on a larger population is coverage arithmetic, not a worse
 engine.
@@ -456,11 +468,17 @@ Mismatches, verbatim, and identical in all eleven languages:
 
 ### An expanded core changes the excluded partition and nothing else
 
-Java's, JavaScript's, and Python's cores each now carry the thirteen
-[challenge-tier](../../docs/challenge-tier.md) templates, so each selection grew
-from 32 to 58 assertions. Each one's **scored subset is still 14, and still
-12/14**, with the same two false positives: no challenge template is tagged
-`intraprocedural`, so none of them enters the scored partition. All 26 are
+Java's, JavaScript's, Python's, TypeScript's, Kotlin's, and Go's cores each
+now carry the
+thirteen [challenge-tier](../../docs/challenge-tier.md) templates, so each
+selection grew from 32 to 58 assertions; C++'s carries the twelve the
+preregistration classifies applicable to it, growing from 32 to 56, Rust's the
+same twelve, growing from 30 to 54, and C's the nine applicable to it, growing
+from 30 to 48. Each one's
+**scored subset is still 14, and still 12/14**, with the same two false
+positives: no challenge template is tagged `intraprocedural`, so none of them
+enters the scored partition. All 26 challenge assertions — 24 for C++ and
+Rust, 18 for C — are
 `unsupported` in each language, decided by the preregistered
 `CHALLENGE_SEMGREP_PARTITION` before Semgrep was invoked, so not one reached a
 Semgrep process and none can read as a false negative. Each retained reason is

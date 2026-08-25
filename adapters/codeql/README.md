@@ -11,9 +11,9 @@ extracted by the same `java` extractor and standard library as Java, so its
 query restricts every node to `.kt` files and its runner selects only Kotlin
 cases. C# and Go each have their own extractor and their own population. C and
 C++ share the `cpp` extractor and one pack, and are likewise two populations
-with two denominators: 16 templates (32 assertions) for C++, 15 templates (30
-assertions) for C, plus two C `language-extension` cases that never enter the C
-core denominator. Each of the two queries restricts its data-flow nodes to its
+with two denominators: 28 templates (56 assertions) for C++, whose
+challenge-tier row is now rolled out, and 15 templates (30 assertions) for C,
+plus two C `language-extension` cases that never enter the C core denominator. Each of the two queries restricts its data-flow nodes to its
 own fixture extension. Rust has its own extractor too, whose support is a
 **public preview** in the pinned CLI, and its own population: the same
 reduced 15-template classic denominator as C, expanded to 27 templates by its
@@ -131,13 +131,19 @@ illustrative names.
 
 ## Kotlin kernel
 
-The Kotlin runner selects exactly the 32 `taint` cases whose `language` is
-`kotlin` and `score_tier` is `core`, and pins
+The Kotlin runner selects exactly the `taint` cases whose `language` is
+`kotlin` and `score_tier` is `core` — **58 now that Kotlin's challenge-tier row
+is rolled out** — and pins
 `adapters/codeql/kotlin/queries/KotlinKernel.ql` for the whole population. It
 refuses any Kotlin core case that declares a *different* CodeQL query. Two of
-the 32 — the direct-propagation pair frozen in v0.2.0 as part of the
+them — the direct-propagation pair frozen in v0.2.0 as part of the
 cross-language breadth slice — declare no CodeQL reference at all; see the
 [Kotlin kernel contract](../../docs/kotlin-kernel.md).
+
+`reports/codeql-kotlin-kernel.json` is freeze-bound, so the runner was **not**
+executed over the expanded population: the retained Kotlin snapshot below is a
+classic 32-assertion result, and **expanded CodeQL evidence for Kotlin is
+pending the v0.4.0 freeze-prep re-run**.
 
 CodeQL CLI 2.26.3 cannot extract Kotlin under `--build-mode=none`, so the
 runner traces a real `kotlinc` compile per case:
@@ -412,8 +418,10 @@ freeze is re-cut.
 
 ## Go kernel
 
-The Go runner selects exactly the 32 `taint` cases whose `language` is `go` and
-whose `score_tier` is `core`, and analyzes each with:
+The Go runner selects the whole Go core `taint` population — 32 assertions
+classically, and **58** now that its thirteen challenge templates have rolled
+out (`docs/challenge-tier.md`) — whose `language` is `go` and whose
+`score_tier` is `core`, and analyzes each with:
 
 ```text
 adapters/codeql/go/queries/GoKernel.ql
@@ -451,6 +459,14 @@ diagnostics) under `reports/raw/codeql-go-kernel/`. SARIF locations are
 reconciled with the case's `DFB-SINK:` anchor by resolving the declared sink
 function name and accepting a finding on a line that calls it in the same file.
 
+**Expanded evidence is deferred.** `reports/codeql-go-kernel.json` is one of the
+nineteen reports `reports/freeze.json` digest-binds for v0.3.0, so the Go
+challenge expansion did not overwrite it: the expanded 58-assertion CodeQL
+evidence is pending the v0.4.0 freeze-prep re-run, on this repository's
+established re-run-at-freeze pattern, and the deferral is recorded in
+`docs/go-kernel.md`. What follows is the valid classic 32-assertion snapshot,
+and it describes a different population from the expanded one.
+
 The checked-in `reports/codeql-go-kernel.json` contains 32 results: 16 `reached`
 and 16 `not-reached`, with zero `inconclusive`, `unsupported`, or `runner-error`
 outcomes, extracted through go1.26.0. 26 of 32 match the expected polarity; the
@@ -464,10 +480,18 @@ the `panic`/`recover` adaptation anticipates. Its configuration hash is
 
 ## C and C++ kernels
 
-The C++ runner selects exactly the 32 `taint`/`core` cases whose `language` is
-`cpp`; the C runner selects the 30 `taint`/`core` cases whose `language` is `c`
+The C++ runner selects exactly the 56 `taint`/`core` cases whose `language` is
+`cpp` — 32 classic assertions plus the 24 the challenge-tier expansion added;
+the C runner selects the 30 `taint`/`core` cases whose `language` is `c`
 plus its 2 `language-extension` cases, which are scored on their own scorecard
 and never counted in the core denominator. Each analyzes its own query:
+
+The C++ runner selects exactly the 32 `taint`/`core` cases whose `language` is
+`cpp`; the C runner selects the whole C `taint`/`core` population — 30
+assertions classically, and **48** now that C's nine applicable challenge
+templates have rolled out (`docs/challenge-tier.md`) — plus its 2
+`language-extension` cases, which are scored on their own scorecard and never
+counted in the core denominator. Each analyzes its own query:
 
 ```text
 adapters/codeql/cpp/queries/CppKernel.ql
@@ -510,6 +534,22 @@ negatives on the alias-propagation and exception-catch positives, false
 positives on the array-element and loop-carried negatives. Its configuration
 hash is
 `8873a63a5898c8b6b10dc24a9fbf2fae3ed5a088faf024524b0bae50f0fc4cc0`.
+
+That snapshot is the **classic 32-assertion population only**. It is one of
+the nineteen reports `reports/freeze.json` digest-binds for v0.3.0, so the C++
+challenge wave did not re-run it: **the expanded CodeQL C++ evidence is pending
+the v0.4.0 freeze-prep re-run**, on the repository's established
+re-run-at-freeze pattern. The selector already expects the full 56; deferral is
+not absence of coverage, and a 32-assertion score is never compared with a
+56-assertion one.
+
+**Expanded C evidence is deferred.** `reports/codeql-c-kernel.json` is one of
+the nineteen reports `reports/freeze.json` digest-binds for v0.3.0, so the C
+challenge expansion did not overwrite it: the expanded 48-assertion CodeQL
+evidence for C is pending the v0.4.0 freeze-prep re-run, on this repository's
+established re-run-at-freeze pattern, and the deferral is recorded in
+`docs/c-kernel.md`. What follows is the valid classic 30-assertion snapshot,
+and it describes a different population from the expanded one.
 
 The checked-in `reports/codeql-c-kernel.json` contains 32 results with the same
 clean execution profile. Of the 30 core assertions, 16 are `reached` and 14 are
@@ -674,7 +714,10 @@ or error outcomes. The false negatives are the expression, alias-propagation,
 and exception-catch positives; the array-element and loop-carried negatives are
 false positives — the same five mismatches the Java snapshot shows against this
 build. Its configuration hash is
-`25b92ad6190d65fd76c67da51c3ec0d638cea7699e976941c027a48700b9096e`.
+`25b92ad6190d65fd76c67da51c3ec0d638cea7699e976941c027a48700b9096e`. It covers
+Kotlin's classic 32-assertion population only; the 26 challenge assertions
+added since are not in it, and their CodeQL evidence is deferred to the v0.4.0
+re-run.
 
 The retained Python snapshot uses the same CodeQL CLI v2.26.3 build
 `7d097a43199effe04ecd9c6bd3ad9bb02a45b3d7` with `codeql/python-all@7.2.3`.

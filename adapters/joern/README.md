@@ -549,7 +549,7 @@ Installed frontends: `abap2cpg`, `c2cpg`, `csharpsrc2cpg`, `ghidra2cpg`,
 | C++ | `c2cpg` | Available, not yet in scope |
 | C# | `csharpsrc2cpg` | Available, not yet in scope |
 | Go | `gosrc2cpg` | Available, not yet in scope |
-| Kotlin | `kotlin2cpg` | Available, not yet in scope |
+| Kotlin | `kotlin2cpg` | Available, not yet in scope (unchanged by Kotlin's challenge-tier expansion: no Joern Kotlin slice exists here to expand) |
 | TypeScript | `jssrc2cpg` | Available, not yet in scope |
 | Rust | `rust2cpg` | Executed here (new in `4.0.610`; needs a synthesized Cargo manifest) |
 | **Scala** | **none (source)** | **Explicitly unsupported** |
@@ -572,6 +572,29 @@ TypeScript is the row most likely to be misread, so it is stated twice.
 (`docs/typescript-kernel.md`) did not invent one — standing up a language slice
 is its own change, not a side effect of landing fixtures — so TypeScript has no
 Joern evidence at any denominator, classic or expanded.
+
+The same applies to Go, and for the same reason. The pinned distribution ships
+`gosrc2cpg` as a standalone frontend under `joern-cli/frontends/gosrc2cpg`, but
+this adapter has **no Go slice**: no `run-joern-go-kernel` command, no Go
+selection, no `reports/joern-go-kernel.json`. The Go challenge-tier wave
+(`docs/go-kernel.md`) did not invent one either, so Go has no Joern evidence at
+any denominator, classic or expanded. Its absence from the run is a scope fact,
+not a result about Joern on Go.
+
+C++ is the same story with a different frontend. `c2cpg` ships in the pinned
+distribution, but this adapter has **no C++ slice**: no
+`run-joern-cpp-kernel` command, no C++ selection, no
+`reports/joern-cpp-kernel.json`. The C++ challenge-tier wave
+(`docs/cpp-kernel.md`) did not build one either, so C++ — like C — has no
+Joern evidence at any denominator.
+
+The same holds for **C**, whose challenge-tier row has since rolled out to 24
+templates / 48 assertions. `c2cpg` ships with the pinned distribution and the
+row above records C as "Available, not yet in scope", but there is no
+`run-joern-c-kernel` command, no C selection, and no
+`reports/joern-c-kernel.json`. The C challenge-tier wave
+(`docs/c-kernel.md`) did not create one, so C has no Joern evidence at any
+denominator either. Absence of a slice is not a Joern result about C.
 
 ## Model assumptions
 
