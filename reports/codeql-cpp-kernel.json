@@ -2,13 +2,13 @@
   "adapter_version": "0.1.0",
   "cold_or_warm": "cold",
   "configuration_hash": "8873a63a5898c8b6b10dc24a9fbf2fae3ed5a088faf024524b0bae50f0fc4cc0",
-  "ended_at_unix_seconds": 1787578268,
-  "fixture_revision": "sha256:1b1b8d5cd90dc4bbdb0675a5a6b6b58315d2328b157e9074f8db13e17736b816",
+  "ended_at_unix_seconds": 1787694659,
+  "fixture_revision": "sha256:13a11ff48f26dba889f76aeb9ef60213a129abe5ebcfcb966da3a2418c12807e",
   "results": [
     {
       "case_id": "dfb-taint-cpp-alias-propagation-negative",
       "diagnostics": [],
-      "duration_ms": 5889,
+      "duration_ms": 5321,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/codeql-cpp-kernel/dfb-taint-cpp-alias-propagation-negative.sarif.json",
@@ -23,7 +23,7 @@
     {
       "case_id": "dfb-taint-cpp-alias-propagation-positive",
       "diagnostics": [],
-      "duration_ms": 6261,
+      "duration_ms": 5280,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/codeql-cpp-kernel/dfb-taint-cpp-alias-propagation-positive.sarif.json",
@@ -36,9 +36,39 @@
       "witness_checkpoints": []
     },
     {
+      "case_id": "dfb-taint-cpp-anonymous-implementation-negative",
+      "diagnostics": [],
+      "duration_ms": 17479,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/codeql-cpp-kernel/dfb-taint-cpp-anonymous-implementation-negative.sarif.json",
+      "sink_anchors": [
+        "DFB-SINK: anonymous-implementation-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: anonymous-implementation-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-cpp-anonymous-implementation-positive",
+      "diagnostics": [],
+      "duration_ms": 17310,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/codeql-cpp-kernel/dfb-taint-cpp-anonymous-implementation-positive.sarif.json",
+      "sink_anchors": [
+        "DFB-SINK: anonymous-implementation-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: anonymous-implementation-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
       "case_id": "dfb-taint-cpp-argument-position-negative",
       "diagnostics": [],
-      "duration_ms": 6239,
+      "duration_ms": 5171,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/codeql-cpp-kernel/dfb-taint-cpp-argument-position-negative.sarif.json",
@@ -55,7 +85,7 @@
       "diagnostics": [
         "Controlled input reaches the benchmark sink."
       ],
-      "duration_ms": 6113,
+      "duration_ms": 5358,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/codeql-cpp-kernel/dfb-taint-cpp-argument-position-positive.sarif.json",
@@ -72,7 +102,7 @@
       "diagnostics": [
         "Controlled input reaches the benchmark sink."
       ],
-      "duration_ms": 5541,
+      "duration_ms": 5264,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/codeql-cpp-kernel/dfb-taint-cpp-array-element-negative.sarif.json",
@@ -89,7 +119,7 @@
       "diagnostics": [
         "Controlled input reaches the benchmark sink."
       ],
-      "duration_ms": 5469,
+      "duration_ms": 5277,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/codeql-cpp-kernel/dfb-taint-cpp-array-element-positive.sarif.json",
@@ -104,7 +134,7 @@
     {
       "case_id": "dfb-taint-cpp-branch-join-negative",
       "diagnostics": [],
-      "duration_ms": 5510,
+      "duration_ms": 5233,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/codeql-cpp-kernel/dfb-taint-cpp-branch-join-negative.sarif.json",
@@ -121,7 +151,7 @@
       "diagnostics": [
         "Controlled input reaches the benchmark sink."
       ],
-      "duration_ms": 5840,
+      "duration_ms": 5317,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/codeql-cpp-kernel/dfb-taint-cpp-branch-join-positive.sarif.json",
@@ -136,7 +166,7 @@
     {
       "case_id": "dfb-taint-cpp-call-context-negative",
       "diagnostics": [],
-      "duration_ms": 6638,
+      "duration_ms": 5291,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/codeql-cpp-kernel/dfb-taint-cpp-call-context-negative.sarif.json",
@@ -153,7 +183,7 @@
       "diagnostics": [
         "Controlled input reaches the benchmark sink."
       ],
-      "duration_ms": 6945,
+      "duration_ms": 5325,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/codeql-cpp-kernel/dfb-taint-cpp-call-context-positive.sarif.json",
@@ -166,9 +196,161 @@
       "witness_checkpoints": []
     },
     {
+      "case_id": "dfb-taint-cpp-callback-registration-negative",
+      "diagnostics": [],
+      "duration_ms": 17585,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/codeql-cpp-kernel/dfb-taint-cpp-callback-registration-negative.sarif.json",
+      "sink_anchors": [
+        "DFB-SINK: callback-registration-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: callback-registration-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-cpp-callback-registration-positive",
+      "diagnostics": [],
+      "duration_ms": 17729,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/codeql-cpp-kernel/dfb-taint-cpp-callback-registration-positive.sarif.json",
+      "sink_anchors": [
+        "DFB-SINK: callback-registration-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: callback-registration-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-cpp-closure-capture-negative",
+      "diagnostics": [],
+      "duration_ms": 17328,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/codeql-cpp-kernel/dfb-taint-cpp-closure-capture-negative.sarif.json",
+      "sink_anchors": [
+        "DFB-SINK: closure-capture-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: closure-capture-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-cpp-closure-capture-positive",
+      "diagnostics": [],
+      "duration_ms": 17378,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/codeql-cpp-kernel/dfb-taint-cpp-closure-capture-positive.sarif.json",
+      "sink_anchors": [
+        "DFB-SINK: closure-capture-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: closure-capture-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-cpp-computed-property-negative",
+      "diagnostics": [],
+      "duration_ms": 17839,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/codeql-cpp-kernel/dfb-taint-cpp-computed-property-negative.sarif.json",
+      "sink_anchors": [
+        "DFB-SINK: computed-property-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: computed-property-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-cpp-computed-property-positive",
+      "diagnostics": [],
+      "duration_ms": 17879,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/codeql-cpp-kernel/dfb-taint-cpp-computed-property-positive.sarif.json",
+      "sink_anchors": [
+        "DFB-SINK: computed-property-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: computed-property-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-cpp-context-pair-depth2-negative",
+      "diagnostics": [],
+      "duration_ms": 14380,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/codeql-cpp-kernel/dfb-taint-cpp-context-pair-depth2-negative.sarif.json",
+      "sink_anchors": [
+        "DFB-SINK: context-pair-depth2-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: context-pair-depth2-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-cpp-context-pair-depth2-positive",
+      "diagnostics": [],
+      "duration_ms": 14252,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/codeql-cpp-kernel/dfb-taint-cpp-context-pair-depth2-positive.sarif.json",
+      "sink_anchors": [
+        "DFB-SINK: context-pair-depth2-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: context-pair-depth2-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-cpp-deep-relay-chain-negative",
+      "diagnostics": [],
+      "duration_ms": 14390,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/codeql-cpp-kernel/dfb-taint-cpp-deep-relay-chain-negative.sarif.json",
+      "sink_anchors": [
+        "DFB-SINK: deep-relay-chain-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: deep-relay-chain-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-cpp-deep-relay-chain-positive",
+      "diagnostics": [
+        "Controlled input reaches the benchmark sink.\nControlled input reaches the benchmark sink."
+      ],
+      "duration_ms": 14500,
+      "outcome": "reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/codeql-cpp-kernel/dfb-taint-cpp-deep-relay-chain-positive.sarif.json",
+      "sink_anchors": [
+        "DFB-SINK: deep-relay-chain-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: deep-relay-chain-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
       "case_id": "dfb-taint-cpp-direct-negative",
       "diagnostics": [],
-      "duration_ms": 5748,
+      "duration_ms": 5259,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/codeql-cpp-kernel/dfb-taint-cpp-direct-negative.sarif.json",
@@ -185,7 +367,7 @@
       "diagnostics": [
         "Controlled input reaches the benchmark sink."
       ],
-      "duration_ms": 6077,
+      "duration_ms": 5305,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/codeql-cpp-kernel/dfb-taint-cpp-direct-positive.sarif.json",
@@ -198,9 +380,69 @@
       "witness_checkpoints": []
     },
     {
+      "case_id": "dfb-taint-cpp-dispatch-table-negative",
+      "diagnostics": [],
+      "duration_ms": 18112,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/codeql-cpp-kernel/dfb-taint-cpp-dispatch-table-negative.sarif.json",
+      "sink_anchors": [
+        "DFB-SINK: dispatch-table-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: dispatch-table-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-cpp-dispatch-table-positive",
+      "diagnostics": [],
+      "duration_ms": 18121,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/codeql-cpp-kernel/dfb-taint-cpp-dispatch-table-positive.sarif.json",
+      "sink_anchors": [
+        "DFB-SINK: dispatch-table-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: dispatch-table-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-cpp-element-object-negative",
+      "diagnostics": [],
+      "duration_ms": 16231,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/codeql-cpp-kernel/dfb-taint-cpp-element-object-negative.sarif.json",
+      "sink_anchors": [
+        "DFB-SINK: element-object-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: element-object-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-cpp-element-object-positive",
+      "diagnostics": [],
+      "duration_ms": 16866,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/codeql-cpp-kernel/dfb-taint-cpp-element-object-positive.sarif.json",
+      "sink_anchors": [
+        "DFB-SINK: element-object-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: element-object-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
       "case_id": "dfb-taint-cpp-exception-catch-negative",
       "diagnostics": [],
-      "duration_ms": 5568,
+      "duration_ms": 5275,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/codeql-cpp-kernel/dfb-taint-cpp-exception-catch-negative.sarif.json",
@@ -215,7 +457,7 @@
     {
       "case_id": "dfb-taint-cpp-exception-catch-positive",
       "diagnostics": [],
-      "duration_ms": 5539,
+      "duration_ms": 5303,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/codeql-cpp-kernel/dfb-taint-cpp-exception-catch-positive.sarif.json",
@@ -230,7 +472,7 @@
     {
       "case_id": "dfb-taint-cpp-expression-negative",
       "diagnostics": [],
-      "duration_ms": 5262,
+      "duration_ms": 5263,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/codeql-cpp-kernel/dfb-taint-cpp-expression-negative.sarif.json",
@@ -247,7 +489,7 @@
       "diagnostics": [
         "Controlled input reaches the benchmark sink."
       ],
-      "duration_ms": 5420,
+      "duration_ms": 5273,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/codeql-cpp-kernel/dfb-taint-cpp-expression-positive.sarif.json",
@@ -260,9 +502,39 @@
       "witness_checkpoints": []
     },
     {
+      "case_id": "dfb-taint-cpp-function-field-negative",
+      "diagnostics": [],
+      "duration_ms": 17310,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/codeql-cpp-kernel/dfb-taint-cpp-function-field-negative.sarif.json",
+      "sink_anchors": [
+        "DFB-SINK: function-field-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: function-field-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-cpp-function-field-positive",
+      "diagnostics": [],
+      "duration_ms": 17588,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/codeql-cpp-kernel/dfb-taint-cpp-function-field-positive.sarif.json",
+      "sink_anchors": [
+        "DFB-SINK: function-field-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: function-field-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
       "case_id": "dfb-taint-cpp-infeasible-branch-negative",
       "diagnostics": [],
-      "duration_ms": 5406,
+      "duration_ms": 5228,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/codeql-cpp-kernel/dfb-taint-cpp-infeasible-branch-negative.sarif.json",
@@ -279,7 +551,7 @@
       "diagnostics": [
         "Controlled input reaches the benchmark sink."
       ],
-      "duration_ms": 9025,
+      "duration_ms": 5384,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/codeql-cpp-kernel/dfb-taint-cpp-infeasible-branch-positive.sarif.json",
@@ -294,7 +566,7 @@
     {
       "case_id": "dfb-taint-cpp-local-chain-negative",
       "diagnostics": [],
-      "duration_ms": 12395,
+      "duration_ms": 5172,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/codeql-cpp-kernel/dfb-taint-cpp-local-chain-negative.sarif.json",
@@ -311,7 +583,7 @@
       "diagnostics": [
         "Controlled input reaches the benchmark sink."
       ],
-      "duration_ms": 10639,
+      "duration_ms": 5268,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/codeql-cpp-kernel/dfb-taint-cpp-local-chain-positive.sarif.json",
@@ -326,7 +598,7 @@
     {
       "case_id": "dfb-taint-cpp-local-overwrite-negative",
       "diagnostics": [],
-      "duration_ms": 10601,
+      "duration_ms": 5256,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/codeql-cpp-kernel/dfb-taint-cpp-local-overwrite-negative.sarif.json",
@@ -343,7 +615,7 @@
       "diagnostics": [
         "Controlled input reaches the benchmark sink."
       ],
-      "duration_ms": 11553,
+      "duration_ms": 5247,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/codeql-cpp-kernel/dfb-taint-cpp-local-overwrite-positive.sarif.json",
@@ -360,7 +632,7 @@
       "diagnostics": [
         "Controlled input reaches the benchmark sink."
       ],
-      "duration_ms": 11379,
+      "duration_ms": 5325,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/codeql-cpp-kernel/dfb-taint-cpp-loop-carried-negative.sarif.json",
@@ -377,7 +649,7 @@
       "diagnostics": [
         "Controlled input reaches the benchmark sink."
       ],
-      "duration_ms": 11832,
+      "duration_ms": 5353,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/codeql-cpp-kernel/dfb-taint-cpp-loop-carried-positive.sarif.json",
@@ -390,9 +662,69 @@
       "witness_checkpoints": []
     },
     {
+      "case_id": "dfb-taint-cpp-map-iteration-negative",
+      "diagnostics": [],
+      "duration_ms": 17762,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/codeql-cpp-kernel/dfb-taint-cpp-map-iteration-negative.sarif.json",
+      "sink_anchors": [
+        "DFB-SINK: map-iteration-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: map-iteration-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-cpp-map-iteration-positive",
+      "diagnostics": [],
+      "duration_ms": 17906,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/codeql-cpp-kernel/dfb-taint-cpp-map-iteration-positive.sarif.json",
+      "sink_anchors": [
+        "DFB-SINK: map-iteration-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: map-iteration-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-cpp-nested-access-path-negative",
+      "diagnostics": [],
+      "duration_ms": 14280,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/codeql-cpp-kernel/dfb-taint-cpp-nested-access-path-negative.sarif.json",
+      "sink_anchors": [
+        "DFB-SINK: nested-access-path-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: nested-access-path-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-cpp-nested-access-path-positive",
+      "diagnostics": [],
+      "duration_ms": 14291,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/codeql-cpp-kernel/dfb-taint-cpp-nested-access-path-positive.sarif.json",
+      "sink_anchors": [
+        "DFB-SINK: nested-access-path-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: nested-access-path-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
       "case_id": "dfb-taint-cpp-object-separation-negative",
       "diagnostics": [],
-      "duration_ms": 10812,
+      "duration_ms": 5332,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/codeql-cpp-kernel/dfb-taint-cpp-object-separation-negative.sarif.json",
@@ -409,7 +741,7 @@
       "diagnostics": [
         "Controlled input reaches the benchmark sink."
       ],
-      "duration_ms": 10546,
+      "duration_ms": 5446,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/codeql-cpp-kernel/dfb-taint-cpp-object-separation-positive.sarif.json",
@@ -422,9 +754,41 @@
       "witness_checkpoints": []
     },
     {
+      "case_id": "dfb-taint-cpp-recursive-carry-negative",
+      "diagnostics": [],
+      "duration_ms": 14399,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/codeql-cpp-kernel/dfb-taint-cpp-recursive-carry-negative.sarif.json",
+      "sink_anchors": [
+        "DFB-SINK: recursive-carry-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: recursive-carry-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-cpp-recursive-carry-positive",
+      "diagnostics": [
+        "Controlled input reaches the benchmark sink.\nControlled input reaches the benchmark sink."
+      ],
+      "duration_ms": 14475,
+      "outcome": "reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/codeql-cpp-kernel/dfb-taint-cpp-recursive-carry-positive.sarif.json",
+      "sink_anchors": [
+        "DFB-SINK: recursive-carry-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: recursive-carry-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
       "case_id": "dfb-taint-cpp-return-relay-one-hop-negative",
       "diagnostics": [],
-      "duration_ms": 10905,
+      "duration_ms": 5286,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/codeql-cpp-kernel/dfb-taint-cpp-return-relay-one-hop-negative.sarif.json",
@@ -441,7 +805,7 @@
       "diagnostics": [
         "Controlled input reaches the benchmark sink."
       ],
-      "duration_ms": 11526,
+      "duration_ms": 5418,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/codeql-cpp-kernel/dfb-taint-cpp-return-relay-one-hop-positive.sarif.json",
@@ -456,7 +820,7 @@
     {
       "case_id": "dfb-taint-cpp-return-relay-two-hop-negative",
       "diagnostics": [],
-      "duration_ms": 10620,
+      "duration_ms": 5250,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/codeql-cpp-kernel/dfb-taint-cpp-return-relay-two-hop-negative.sarif.json",
@@ -473,7 +837,7 @@
       "diagnostics": [
         "Controlled input reaches the benchmark sink."
       ],
-      "duration_ms": 11014,
+      "duration_ms": 5305,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/codeql-cpp-kernel/dfb-taint-cpp-return-relay-two-hop-positive.sarif.json",
@@ -488,7 +852,7 @@
     {
       "case_id": "dfb-taint-cpp-same-object-field-negative",
       "diagnostics": [],
-      "duration_ms": 13688,
+      "duration_ms": 5275,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/codeql-cpp-kernel/dfb-taint-cpp-same-object-field-negative.sarif.json",
@@ -505,7 +869,7 @@
       "diagnostics": [
         "Controlled input reaches the benchmark sink."
       ],
-      "duration_ms": 10770,
+      "duration_ms": 5284,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/codeql-cpp-kernel/dfb-taint-cpp-same-object-field-positive.sarif.json",
@@ -519,7 +883,7 @@
     }
   ],
   "schema_version": 1,
-  "started_at_unix_seconds": 1787578000,
+  "started_at_unix_seconds": 1787694094,
   "tool": "codeql",
   "tool_build_identity": "codeql-cli:7d097a43199effe04ecd9c6bd3ad9bb02a45b3d7",
   "tool_version": "2.26.3"

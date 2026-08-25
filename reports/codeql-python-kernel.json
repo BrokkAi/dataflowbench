@@ -2,13 +2,13 @@
   "adapter_version": "0.1.0",
   "cold_or_warm": "cold",
   "configuration_hash": "f97f0198f19f2d1d8630b48ff5d30d947e9f83b940de38af425076cf73e82230",
-  "ended_at_unix_seconds": 1787574795,
-  "fixture_revision": "sha256:1b1b8d5cd90dc4bbdb0675a5a6b6b58315d2328b157e9074f8db13e17736b816",
+  "ended_at_unix_seconds": 1787691200,
+  "fixture_revision": "sha256:13a11ff48f26dba889f76aeb9ef60213a129abe5ebcfcb966da3a2418c12807e",
   "results": [
     {
       "case_id": "dfb-taint-python-alias-propagation-negative",
       "diagnostics": [],
-      "duration_ms": 10759,
+      "duration_ms": 6958,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/codeql-python-kernel/dfb-taint-python-alias-propagation-negative.sarif.json",
@@ -23,7 +23,7 @@
     {
       "case_id": "dfb-taint-python-alias-propagation-positive",
       "diagnostics": [],
-      "duration_ms": 11373,
+      "duration_ms": 5288,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/codeql-python-kernel/dfb-taint-python-alias-propagation-positive.sarif.json",
@@ -36,9 +36,41 @@
       "witness_checkpoints": []
     },
     {
+      "case_id": "dfb-taint-python-anonymous-implementation-negative",
+      "diagnostics": [],
+      "duration_ms": 5973,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/codeql-python-kernel/dfb-taint-python-anonymous-implementation-negative.sarif.json",
+      "sink_anchors": [
+        "DFB-SINK: anonymous-implementation-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: anonymous-implementation-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-python-anonymous-implementation-positive",
+      "diagnostics": [
+        "Controlled input reaches the benchmark sink."
+      ],
+      "duration_ms": 5638,
+      "outcome": "reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/codeql-python-kernel/dfb-taint-python-anonymous-implementation-positive.sarif.json",
+      "sink_anchors": [
+        "DFB-SINK: anonymous-implementation-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: anonymous-implementation-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
       "case_id": "dfb-taint-python-argument-position-negative",
       "diagnostics": [],
-      "duration_ms": 11814,
+      "duration_ms": 5601,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/codeql-python-kernel/dfb-taint-python-argument-position-negative.sarif.json",
@@ -55,7 +87,7 @@
       "diagnostics": [
         "Controlled input reaches the benchmark sink."
       ],
-      "duration_ms": 11230,
+      "duration_ms": 9015,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/codeql-python-kernel/dfb-taint-python-argument-position-positive.sarif.json",
@@ -70,7 +102,7 @@
     {
       "case_id": "dfb-taint-python-arithmetic-expression-negative",
       "diagnostics": [],
-      "duration_ms": 11689,
+      "duration_ms": 8833,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/codeql-python-kernel/dfb-taint-python-arithmetic-expression-negative.sarif.json",
@@ -87,7 +119,7 @@
       "diagnostics": [
         "Controlled input reaches the benchmark sink."
       ],
-      "duration_ms": 11761,
+      "duration_ms": 7819,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/codeql-python-kernel/dfb-taint-python-arithmetic-expression-positive.sarif.json",
@@ -102,7 +134,7 @@
     {
       "case_id": "dfb-taint-python-array-element-negative",
       "diagnostics": [],
-      "duration_ms": 12485,
+      "duration_ms": 6546,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/codeql-python-kernel/dfb-taint-python-array-element-negative.sarif.json",
@@ -117,7 +149,7 @@
     {
       "case_id": "dfb-taint-python-array-element-positive",
       "diagnostics": [],
-      "duration_ms": 10599,
+      "duration_ms": 6006,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/codeql-python-kernel/dfb-taint-python-array-element-positive.sarif.json",
@@ -132,7 +164,7 @@
     {
       "case_id": "dfb-taint-python-branch-join-negative",
       "diagnostics": [],
-      "duration_ms": 11382,
+      "duration_ms": 5950,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/codeql-python-kernel/dfb-taint-python-branch-join-negative.sarif.json",
@@ -149,7 +181,7 @@
       "diagnostics": [
         "Controlled input reaches the benchmark sink."
       ],
-      "duration_ms": 10519,
+      "duration_ms": 6090,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/codeql-python-kernel/dfb-taint-python-branch-join-positive.sarif.json",
@@ -164,7 +196,7 @@
     {
       "case_id": "dfb-taint-python-call-context-negative",
       "diagnostics": [],
-      "duration_ms": 11179,
+      "duration_ms": 5822,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/codeql-python-kernel/dfb-taint-python-call-context-negative.sarif.json",
@@ -181,7 +213,7 @@
       "diagnostics": [
         "Controlled input reaches the benchmark sink."
       ],
-      "duration_ms": 10920,
+      "duration_ms": 6302,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/codeql-python-kernel/dfb-taint-python-call-context-positive.sarif.json",
@@ -194,9 +226,163 @@
       "witness_checkpoints": []
     },
     {
+      "case_id": "dfb-taint-python-callback-registration-negative",
+      "diagnostics": [],
+      "duration_ms": 8686,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/codeql-python-kernel/dfb-taint-python-callback-registration-negative.sarif.json",
+      "sink_anchors": [
+        "DFB-SINK: callback-registration-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: callback-registration-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-python-callback-registration-positive",
+      "diagnostics": [],
+      "duration_ms": 5963,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/codeql-python-kernel/dfb-taint-python-callback-registration-positive.sarif.json",
+      "sink_anchors": [
+        "DFB-SINK: callback-registration-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: callback-registration-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-python-closure-capture-negative",
+      "diagnostics": [],
+      "duration_ms": 5955,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/codeql-python-kernel/dfb-taint-python-closure-capture-negative.sarif.json",
+      "sink_anchors": [
+        "DFB-SINK: closure-capture-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: closure-capture-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-python-closure-capture-positive",
+      "diagnostics": [],
+      "duration_ms": 6100,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/codeql-python-kernel/dfb-taint-python-closure-capture-positive.sarif.json",
+      "sink_anchors": [
+        "DFB-SINK: closure-capture-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: closure-capture-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-python-computed-property-negative",
+      "diagnostics": [],
+      "duration_ms": 6065,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/codeql-python-kernel/dfb-taint-python-computed-property-negative.sarif.json",
+      "sink_anchors": [
+        "DFB-SINK: computed-property-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: computed-property-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-python-computed-property-positive",
+      "diagnostics": [],
+      "duration_ms": 6147,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/codeql-python-kernel/dfb-taint-python-computed-property-positive.sarif.json",
+      "sink_anchors": [
+        "DFB-SINK: computed-property-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: computed-property-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-python-context-pair-depth2-negative",
+      "diagnostics": [],
+      "duration_ms": 5542,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/codeql-python-kernel/dfb-taint-python-context-pair-depth2-negative.sarif.json",
+      "sink_anchors": [
+        "DFB-SINK: context-pair-depth2-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: context-pair-depth2-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-python-context-pair-depth2-positive",
+      "diagnostics": [
+        "Controlled input reaches the benchmark sink."
+      ],
+      "duration_ms": 6861,
+      "outcome": "reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/codeql-python-kernel/dfb-taint-python-context-pair-depth2-positive.sarif.json",
+      "sink_anchors": [
+        "DFB-SINK: context-pair-depth2-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: context-pair-depth2-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-python-deep-relay-chain-negative",
+      "diagnostics": [],
+      "duration_ms": 6110,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/codeql-python-kernel/dfb-taint-python-deep-relay-chain-negative.sarif.json",
+      "sink_anchors": [
+        "DFB-SINK: deep-relay-chain-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: deep-relay-chain-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-python-deep-relay-chain-positive",
+      "diagnostics": [
+        "Controlled input reaches the benchmark sink."
+      ],
+      "duration_ms": 6785,
+      "outcome": "reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/codeql-python-kernel/dfb-taint-python-deep-relay-chain-positive.sarif.json",
+      "sink_anchors": [
+        "DFB-SINK: deep-relay-chain-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: deep-relay-chain-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
       "case_id": "dfb-taint-python-direct-negative",
       "diagnostics": [],
-      "duration_ms": 11333,
+      "duration_ms": 5908,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/codeql-python-kernel/dfb-taint-python-direct-negative.sarif.json",
@@ -213,7 +399,7 @@
       "diagnostics": [
         "Controlled input reaches the benchmark sink."
       ],
-      "duration_ms": 10713,
+      "duration_ms": 5952,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/codeql-python-kernel/dfb-taint-python-direct-positive.sarif.json",
@@ -226,9 +412,73 @@
       "witness_checkpoints": []
     },
     {
+      "case_id": "dfb-taint-python-dispatch-table-negative",
+      "diagnostics": [],
+      "duration_ms": 5572,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/codeql-python-kernel/dfb-taint-python-dispatch-table-negative.sarif.json",
+      "sink_anchors": [
+        "DFB-SINK: dispatch-table-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: dispatch-table-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-python-dispatch-table-positive",
+      "diagnostics": [],
+      "duration_ms": 8356,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/codeql-python-kernel/dfb-taint-python-dispatch-table-positive.sarif.json",
+      "sink_anchors": [
+        "DFB-SINK: dispatch-table-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: dispatch-table-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-python-element-object-negative",
+      "diagnostics": [
+        "Controlled input reaches the benchmark sink."
+      ],
+      "duration_ms": 9096,
+      "outcome": "reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/codeql-python-kernel/dfb-taint-python-element-object-negative.sarif.json",
+      "sink_anchors": [
+        "DFB-SINK: element-object-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: element-object-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-python-element-object-positive",
+      "diagnostics": [
+        "Controlled input reaches the benchmark sink."
+      ],
+      "duration_ms": 7132,
+      "outcome": "reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/codeql-python-kernel/dfb-taint-python-element-object-positive.sarif.json",
+      "sink_anchors": [
+        "DFB-SINK: element-object-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: element-object-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
       "case_id": "dfb-taint-python-exception-catch-negative",
       "diagnostics": [],
-      "duration_ms": 9707,
+      "duration_ms": 9450,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/codeql-python-kernel/dfb-taint-python-exception-catch-negative.sarif.json",
@@ -243,7 +493,7 @@
     {
       "case_id": "dfb-taint-python-exception-catch-positive",
       "diagnostics": [],
-      "duration_ms": 10038,
+      "duration_ms": 6112,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/codeql-python-kernel/dfb-taint-python-exception-catch-positive.sarif.json",
@@ -256,9 +506,41 @@
       "witness_checkpoints": []
     },
     {
+      "case_id": "dfb-taint-python-function-field-negative",
+      "diagnostics": [],
+      "duration_ms": 5940,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/codeql-python-kernel/dfb-taint-python-function-field-negative.sarif.json",
+      "sink_anchors": [
+        "DFB-SINK: function-field-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: function-field-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-python-function-field-positive",
+      "diagnostics": [
+        "Controlled input reaches the benchmark sink."
+      ],
+      "duration_ms": 5990,
+      "outcome": "reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/codeql-python-kernel/dfb-taint-python-function-field-positive.sarif.json",
+      "sink_anchors": [
+        "DFB-SINK: function-field-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: function-field-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
       "case_id": "dfb-taint-python-infeasible-branch-negative",
       "diagnostics": [],
-      "duration_ms": 10382,
+      "duration_ms": 6021,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/codeql-python-kernel/dfb-taint-python-infeasible-branch-negative.sarif.json",
@@ -275,7 +557,7 @@
       "diagnostics": [
         "Controlled input reaches the benchmark sink."
       ],
-      "duration_ms": 10748,
+      "duration_ms": 6087,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/codeql-python-kernel/dfb-taint-python-infeasible-branch-positive.sarif.json",
@@ -290,7 +572,7 @@
     {
       "case_id": "dfb-taint-python-local-chain-negative",
       "diagnostics": [],
-      "duration_ms": 11322,
+      "duration_ms": 7165,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/codeql-python-kernel/dfb-taint-python-local-chain-negative.sarif.json",
@@ -307,7 +589,7 @@
       "diagnostics": [
         "Controlled input reaches the benchmark sink."
       ],
-      "duration_ms": 12421,
+      "duration_ms": 9328,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/codeql-python-kernel/dfb-taint-python-local-chain-positive.sarif.json",
@@ -322,7 +604,7 @@
     {
       "case_id": "dfb-taint-python-local-overwrite-negative",
       "diagnostics": [],
-      "duration_ms": 12069,
+      "duration_ms": 8641,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/codeql-python-kernel/dfb-taint-python-local-overwrite-negative.sarif.json",
@@ -339,7 +621,7 @@
       "diagnostics": [
         "Controlled input reaches the benchmark sink."
       ],
-      "duration_ms": 12404,
+      "duration_ms": 9009,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/codeql-python-kernel/dfb-taint-python-local-overwrite-positive.sarif.json",
@@ -356,7 +638,7 @@
       "diagnostics": [
         "Controlled input reaches the benchmark sink."
       ],
-      "duration_ms": 11590,
+      "duration_ms": 7295,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/codeql-python-kernel/dfb-taint-python-loop-carried-negative.sarif.json",
@@ -373,7 +655,7 @@
       "diagnostics": [
         "Controlled input reaches the benchmark sink."
       ],
-      "duration_ms": 11353,
+      "duration_ms": 6814,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/codeql-python-kernel/dfb-taint-python-loop-carried-positive.sarif.json",
@@ -386,9 +668,73 @@
       "witness_checkpoints": []
     },
     {
+      "case_id": "dfb-taint-python-map-iteration-negative",
+      "diagnostics": [],
+      "duration_ms": 5197,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/codeql-python-kernel/dfb-taint-python-map-iteration-negative.sarif.json",
+      "sink_anchors": [
+        "DFB-SINK: map-iteration-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: map-iteration-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-python-map-iteration-positive",
+      "diagnostics": [
+        "Controlled input reaches the benchmark sink."
+      ],
+      "duration_ms": 5754,
+      "outcome": "reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/codeql-python-kernel/dfb-taint-python-map-iteration-positive.sarif.json",
+      "sink_anchors": [
+        "DFB-SINK: map-iteration-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: map-iteration-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-python-nested-access-path-negative",
+      "diagnostics": [],
+      "duration_ms": 5555,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/codeql-python-kernel/dfb-taint-python-nested-access-path-negative.sarif.json",
+      "sink_anchors": [
+        "DFB-SINK: nested-access-path-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: nested-access-path-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-python-nested-access-path-positive",
+      "diagnostics": [
+        "Controlled input reaches the benchmark sink."
+      ],
+      "duration_ms": 5390,
+      "outcome": "reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/codeql-python-kernel/dfb-taint-python-nested-access-path-positive.sarif.json",
+      "sink_anchors": [
+        "DFB-SINK: nested-access-path-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: nested-access-path-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
       "case_id": "dfb-taint-python-object-separation-negative",
       "diagnostics": [],
-      "duration_ms": 11179,
+      "duration_ms": 5499,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/codeql-python-kernel/dfb-taint-python-object-separation-negative.sarif.json",
@@ -405,7 +751,7 @@
       "diagnostics": [
         "Controlled input reaches the benchmark sink."
       ],
-      "duration_ms": 11432,
+      "duration_ms": 6080,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/codeql-python-kernel/dfb-taint-python-object-separation-positive.sarif.json",
@@ -418,9 +764,71 @@
       "witness_checkpoints": []
     },
     {
+      "case_id": "dfb-taint-python-recursive-carry-negative",
+      "diagnostics": [],
+      "duration_ms": 6155,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/codeql-python-kernel/dfb-taint-python-recursive-carry-negative.sarif.json",
+      "sink_anchors": [
+        "DFB-SINK: recursive-carry-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: recursive-carry-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-python-recursive-carry-positive",
+      "diagnostics": [
+        "Controlled input reaches the benchmark sink."
+      ],
+      "duration_ms": 5854,
+      "outcome": "reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/codeql-python-kernel/dfb-taint-python-recursive-carry-positive.sarif.json",
+      "sink_anchors": [
+        "DFB-SINK: recursive-carry-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: recursive-carry-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-python-reflective-invocation-negative",
+      "diagnostics": [],
+      "duration_ms": 5807,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/codeql-python-kernel/dfb-taint-python-reflective-invocation-negative.sarif.json",
+      "sink_anchors": [
+        "DFB-SINK: reflective-invocation-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: reflective-invocation-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-python-reflective-invocation-positive",
+      "diagnostics": [],
+      "duration_ms": 5563,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/codeql-python-kernel/dfb-taint-python-reflective-invocation-positive.sarif.json",
+      "sink_anchors": [
+        "DFB-SINK: reflective-invocation-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: reflective-invocation-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
       "case_id": "dfb-taint-python-return-relay-one-hop-negative",
       "diagnostics": [],
-      "duration_ms": 11444,
+      "duration_ms": 5262,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/codeql-python-kernel/dfb-taint-python-return-relay-one-hop-negative.sarif.json",
@@ -437,7 +845,7 @@
       "diagnostics": [
         "Controlled input reaches the benchmark sink."
       ],
-      "duration_ms": 11523,
+      "duration_ms": 5699,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/codeql-python-kernel/dfb-taint-python-return-relay-one-hop-positive.sarif.json",
@@ -452,7 +860,7 @@
     {
       "case_id": "dfb-taint-python-return-relay-two-hop-negative",
       "diagnostics": [],
-      "duration_ms": 11246,
+      "duration_ms": 5766,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/codeql-python-kernel/dfb-taint-python-return-relay-two-hop-negative.sarif.json",
@@ -469,7 +877,7 @@
       "diagnostics": [
         "Controlled input reaches the benchmark sink."
       ],
-      "duration_ms": 11614,
+      "duration_ms": 5906,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/codeql-python-kernel/dfb-taint-python-return-relay-two-hop-positive.sarif.json",
@@ -484,7 +892,7 @@
     {
       "case_id": "dfb-taint-python-same-object-field-negative",
       "diagnostics": [],
-      "duration_ms": 12176,
+      "duration_ms": 5712,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/codeql-python-kernel/dfb-taint-python-same-object-field-negative.sarif.json",
@@ -501,7 +909,7 @@
       "diagnostics": [
         "Controlled input reaches the benchmark sink."
       ],
-      "duration_ms": 12586,
+      "duration_ms": 5383,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/codeql-python-kernel/dfb-taint-python-same-object-field-positive.sarif.json",
@@ -515,7 +923,7 @@
     }
   ],
   "schema_version": 1,
-  "started_at_unix_seconds": 1787574431,
+  "started_at_unix_seconds": 1787690823,
   "tool": "codeql",
   "tool_build_identity": "codeql-cli:7d097a43199effe04ecd9c6bd3ad9bb02a45b3d7",
   "tool_version": "2.26.3"
