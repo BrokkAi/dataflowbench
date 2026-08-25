@@ -132,6 +132,14 @@ challenge fixtures, the flipped row, and the validation battery land now; all
 expanded C# evidence arrives at the v0.4.0 re-run. See [the C# kernel
 contract](csharp-kernel.md).
 
+The C wave is the first with a **reduced** challenge set: four of the thirteen
+templates are inapplicable to C, so its expanded core is 24 templates / 48
+assertions rather than 29 / 58. Like TypeScript, it could run **only Semgrep
+CE** — `reports/bifrost-c-kernel.json` and `reports/codeql-c-kernel.json` are
+both digest-bound by `reports/freeze.json`, and the Joern adapter has no C
+slice — so both engine re-runs are deferred to v0.4.0. See [the C kernel
+contract](c-kernel.md).
+
 ## CodeQL language populations
 
 The CodeQL adapter keeps Java and JavaScript as separate populations. The

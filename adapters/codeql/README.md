@@ -464,9 +464,11 @@ the `panic`/`recover` adaptation anticipates. Its configuration hash is
 ## C and C++ kernels
 
 The C++ runner selects exactly the 32 `taint`/`core` cases whose `language` is
-`cpp`; the C runner selects the 30 `taint`/`core` cases whose `language` is `c`
-plus its 2 `language-extension` cases, which are scored on their own scorecard
-and never counted in the core denominator. Each analyzes its own query:
+`cpp`; the C runner selects the whole C `taint`/`core` population — 30
+assertions classically, and **48** now that C's nine applicable challenge
+templates have rolled out (`docs/challenge-tier.md`) — plus its 2
+`language-extension` cases, which are scored on their own scorecard and never
+counted in the core denominator. Each analyzes its own query:
 
 ```text
 adapters/codeql/cpp/queries/CppKernel.ql
@@ -509,6 +511,14 @@ negatives on the alias-propagation and exception-catch positives, false
 positives on the array-element and loop-carried negatives. Its configuration
 hash is
 `8873a63a5898c8b6b10dc24a9fbf2fae3ed5a088faf024524b0bae50f0fc4cc0`.
+
+**Expanded C evidence is deferred.** `reports/codeql-c-kernel.json` is one of
+the nineteen reports `reports/freeze.json` digest-binds for v0.3.0, so the C
+challenge expansion did not overwrite it: the expanded 48-assertion CodeQL
+evidence for C is pending the v0.4.0 freeze-prep re-run, on this repository's
+established re-run-at-freeze pattern, and the deferral is recorded in
+`docs/c-kernel.md`. What follows is the valid classic 30-assertion snapshot,
+and it describes a different population from the expanded one.
 
 The checked-in `reports/codeql-c-kernel.json` contains 32 results with the same
 clean execution profile. Of the 30 core assertions, 16 are `reached` and 14 are

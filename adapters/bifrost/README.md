@@ -43,11 +43,17 @@ parity slice uses `core-go-kernel.rqlp` under the same frozen-direct-pair
 arrangement; see [the Go kernel contract](../../docs/go-kernel.md) for its
 struct, pointer-alias, array, and `panic`/`recover` adaptations. The C and C++
 parity slices use `core-c-kernel.rqlp` and `core-cpp-kernel.rqlp` and are two
-separate populations with two different denominators: C++ covers all 16
-templates (32 core assertions), while C covers 15 (30 core assertions) because
-`dfb-template-exception-catch` is inapplicable to C, and its two
-`language-extension` cases run in the same slice on their own scorecard. See
-[the C kernel contract](../../docs/c-kernel.md) and [the C++ kernel
+separate populations with two different denominators: C++ covers all 16 classic
+templates (32 core assertions), while C's classic core is 15 (30 core
+assertions) because `dfb-template-exception-catch` is inapplicable to C, and its
+two `language-extension` cases run in the same slice on their own scorecard.
+C's challenge row has since rolled out — nine of the thirteen preregistered
+challenge templates are applicable to C — taking its core population to **24
+templates and 48 assertions**, while C++'s row is not yet rolled out. The
+retained C report is the classic 30: it is freeze-bound by v0.3.0, so **the
+expanded Bifrost C evidence is deferred to the v0.4.0 freeze-prep re-run**
+rather than written here. See [the C kernel
+contract](../../docs/c-kernel.md) and [the C++ kernel
 contract](../../docs/cpp-kernel.md). The Rust parity slice uses
 `core-rust-kernel.rqlp` under the same frozen-direct-pair arrangement as C# and
 Go, and carries the same reduced denominator as C for a different reason:
@@ -260,6 +266,18 @@ or `capability_incomplete` (10) evidence; the ten are the four heap pairs
 `panic`/`recover` exception pair, where Bifrost cannot bind the sink operand
 supplied by `recover()`. All of this is capability coverage, never a negative
 result; see [the Go kernel contract](../../docs/go-kernel.md).
+
+**Deferred: the expanded C population.** C's challenge-tier row is now rolled
+out and its core denominator is 24 templates / 48 assertions — nine of the
+thirteen preregistered challenge templates are applicable to C — but
+`reports/bifrost-c-kernel.json` is one of the nineteen reports
+`reports/freeze.json` digest-binds for v0.3.0, so the C challenge wave did not
+re-run it, exactly as the C# and TypeScript waves treated their freeze-bound
+reports. The retained C snapshot (32 results: 1 `reached`, 1 `not-reached`, 28
+`inconclusive` core outcomes plus 2 `inconclusive` `language-extension` cases,
+detailed in [the C kernel contract](../../docs/c-kernel.md)) is the classic
+30-assertion population and is not an expanded-core number. **Expanded Bifrost
+C evidence is pending the v0.4.0 freeze-prep re-run.**
 
 The 30-assertion Rust kernel, in its own report
 `reports/bifrost-rust-kernel.json` with raw evidence under

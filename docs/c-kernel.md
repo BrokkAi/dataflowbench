@@ -4,7 +4,11 @@ Issue #37 ports the scored Java propagation templates to C. The C cases keep the
 Java `template_id` values, source-to-sink polarity, and negative mechanism; only
 the smallest fixture construct changes to C syntax.
 
-C's core denominator is **15 templates and 30 assertions**, not 16 and 32. The
+C's **classic** core denominator is **15 templates and 30 assertions**, not 16
+and 32. (With the challenge tier now rolled out, C's current core denominator is
+24 templates and 48 assertions; see [the challenge-tier
+expansion](#challenge-tier-expansion) below. The two are separate populations
+and are never compared number to number.) The
 [applicability matrix](applicability-matrix.md) classifies
 `dfb-template-exception-catch` as **inapplicable** to C: C has no unwinding
 construct that transfers a typed value to a handler, and `setjmp`/`longjmp`
@@ -17,7 +21,10 @@ C and [C++](cpp-kernel.md) are ported together because they share CodeQL's `cpp`
 extractor and the same struct-based heap adaptations, but they are **two
 populations** with different denominators, and are never merged, pooled, or
 macro-averaged together. A 15-template C score and a 16-template C++ score are
-not interchangeable.
+not interchangeable, and the challenge expansion widens the gap rather than
+closing it: C's row is rolled out at 24 templates while C++'s is not yet rolled
+out at all, so the two kernels currently carry 24- and 16-template denominators
+from the same extractor.
 
 | Stratum | Template ID | C adaptation |
 | --- | --- | --- |
@@ -44,12 +51,158 @@ and no external dependency; each compiles standalone under `clang -std=c17`.
 Adapters may lower those endpoints through their own models, but the case
 metadata stays analyzer-neutral and reports retain only observed evidence.
 
+## Challenge-tier expansion
+
+[The challenge tier](challenge-tier.md) preregistered thirteen further
+propagation templates before any fixture existed. **Nine of the thirteen are
+applicable to C** — the largest reduction in the preregistration's matrix — so
+the C core denominator grows from 15 templates / 30 assertions to **24 templates
+/ 48 assertions**. The challenge cases carry `score_tier: "core"` (there is no
+separate tier) and their fixture provenance revision is `m3-challenge-c`.
+
+The v0.3.0 fifteen-template core and this expanded core are different
+populations and are never compared number to number. A 24-template C score is
+also not interchangeable with a 29-template Java score or a 28-template C++ one.
+
+### The four inapplicable cells
+
+Each exclusion is a genuine absence of the construct in C, not a difficulty, and
+each reduces only C's own denominator. The rationales are the preregistration's,
+restated here so a reader of this contract does not have to hold both documents
+open:
+
+| Template ID | Why C has no fixture |
+| --- | --- |
+| `dfb-template-chal-reflective-invocation` | C has no run-time reflection of any kind: no standard-library facility maps a name to a function at run time. The nearest construct — a name-keyed table of function pointers — **is** `dfb-template-chal-dispatch-table`, and encoding it twice would inflate the denominator without asking a second question. |
+| `dfb-template-chal-computed-property` | C has neither computed member access nor a standard-library associative container. Adapting it would mean authoring a string-keyed lookup structure inside the fixture, which makes the fixture's own hand-written code, rather than a language construct, the object of analysis. |
+| `dfb-template-chal-closure-capture` | C has no closures and no capture. A function pointer plus a manually passed context struct is not capture — the environment is an ordinary argument, which the classic `dfb-template-argument-position-separation` and relay templates already cover. |
+| `dfb-template-chal-anonymous-implementation` | C has no anonymous functions and no anonymous types. |
+
+Neither excluded construct has a C-idiomatic near-relative worth routing to
+`language-extension`, so C's two existing extension cases (error-code return
+paths, `goto` cleanup) are unchanged by this expansion, and the extension
+scorecard stays at two cases.
+
+### Adaptation notes for the nine applicable cells
+
+Four cells are **language-adapted** and five are **direct**. Every fixture keeps
+the C kernel's existing endpoint convention — `int dfb_source(void)` and
+`void dfb_sink(int value)` — so the challenge fixtures are the same shape of
+assertion as the classic thirty and the same adapter selectors reach them
+without change.
+
+| Stratum | Template ID | Class | C realization |
+| --- | --- | --- | --- |
+| A | `dfb-template-chal-dispatch-table` | adapted | An `struct Entry { const char *name; void (*fn)(int); } table[2]` of two function pointers, selected by `strcmp` against a `const char *key` local and fetched into a `void (*selected)(int)` before being invoked. This is the canonical C dispatch-table idiom the preregistration names; the call-graph edge depends on a run-time string comparison, which is the template's question. The negative points `key` at the entry whose function drops its argument and sinks a constant. |
+| B | `dfb-template-chal-function-field` | adapted | `struct Holder { void (*fn)(int); }`; `holder.fn = leak` in one function and a separate `dispatch(struct Holder *, int)` that reads `holder->fn` and calls it. C expresses "code stored in the heap" natively, with no wrapper type. The negative hands `dispatch` a **second holder** whose field holds the argument-dropping function. |
+| B | `dfb-template-chal-callback-registration` | adapted | `struct Registry { void (*hooks[4])(int); int count; }`, a `register_hook` that appends, and a `fire` driver that iterates `hooks[0..count]` and invokes each with the value. Inversion of control in twenty lines of language, with no framework and no allocation. The negative registers the callback that ignores its parameter. |
+| C | `dfb-template-chal-map-iteration` | adapted | C's standard library has no map, so the container is a `struct Record { const char *key; int value; } records[2]` iterated with a `strcmp` match condition in the loop body. **What survives is "retrieved by iterating a container, not by a direct keyed get"; what is lost is "a standard-library map"** — the loop is the fixture's own code rather than a library iteration protocol, and an engine cannot demonstrate a library model here. That loss is the preregistration's own, recorded again here so no reader treats C's result on this cell as evidence about container modeling. The negative iterates a **second, disjoint array** that never received the value. |
+| C | `dfb-template-chal-nested-access-path` | direct | `struct Outer { struct Middle middle; }` / `struct Middle { struct Inner inner; }` / `struct Inner { int value; int other; }`, written and read at `outer.middle.inner.value`. The negative reads the sibling `outer.middle.inner.other` at the same depth. |
+| C | `dfb-template-chal-element-object` | direct | `struct Item items[2]` with `items[0].value` written from the source; the negative reads `items[1].value`. Element separation and field separation must both hold, which is what distinguishes it from the classic `dfb-template-array-element-separation` pair over a bare `int values[2]`. |
+| D | `dfb-template-chal-deep-relay-chain` | direct | `relay1` … `relay6`, one parameter each, no branching and no state, with `relay6` returning the carried value and `run` sinking `relay1(dfb_source())`. The definitions appear callee-first (`relay6` down to `relay1`) because C requires a declaration before use and the kernel's classic relay fixtures already order themselves that way; the *call* order is hop 1 through hop 6, which is what the witness checkpoints name. The negative feeds the identical chain a clean constant while the source call stays live. |
+| D | `dfb-template-chal-recursive-carry` | direct | `int carry(int value, int depth)` recursing to `depth == 0` from 5; the negative's base case returns `0` instead of the carried value (`overwrite-kill`). |
+| D | `dfb-template-chal-context-pair-depth2` | direct | One `helper` reached through two distinct two-deep paths, `outer_tainted -> wrapper -> helper` and `outer_clean -> wrapper -> helper`, per [Amendment A1](challenge-tier.md#amendments): `helper` returns its argument and `run` sinks the selected result. Both paths are live in both fixtures; only which returned value reaches `dfb_sink` differs. |
+
+Two fixtures include `<string.h>` for `strcmp`; it is part of the C standard
+library, so the stdlib-only fairness constraint holds and nothing else is
+included anywhere. All eighteen fixtures are single `.c` files with no header,
+no build file, and no external dependency, and the whole 48-fixture C
+population compiles clean under the host toolchain this kernel records:
+
+```bash
+clang -std=c17 -fsyntax-only <fixture>.c
+```
+
+### Adapter coverage of the expanded population
+
+One adapter was run over the whole 48-assertion population for this expansion.
+Two are deferred by the freeze rule, and one does not cover C at all. The three
+reasons are different and the difference matters:
+
+| Adapter | Expanded run | Report |
+| --- | --- | --- |
+| Semgrep CE 1.174.0 | Yes | `reports/semgrep-c-kernel.json` |
+| Bifrost v0.10.5 | **Deferred (freeze-bound)** | `reports/bifrost-c-kernel.json` |
+| CodeQL 2.26.3 | **Deferred (freeze-bound)** | `reports/codeql-c-kernel.json` |
+| Joern 4.0.610 | **No C slice exists** | — |
+
+**Both Bifrost and CodeQL are deferred, and both for the same reason.**
+`reports/bifrost-c-kernel.json` and `reports/codeql-c-kernel.json` are two of
+the nineteen reports `reports/freeze.json` digest-binds for v0.3.0, so this
+change must not overwrite either: **expanded Bifrost and CodeQL evidence for C
+is pending the v0.4.0 freeze-prep re-run**, on the repository's established
+re-run-at-freeze pattern. The retained reports in [observed
+results](#observed-results) below remain the valid 30-assertion classic
+snapshots, and they describe a *different population* from the expanded one.
+Deferral is not absence of coverage: both engines cover C, both will attempt all
+48 assertions at v0.4.0, and this wave simply had no freeze-legal file to write
+them to.
+
+**Joern has no C slice, and this wave did not invent one.** The pinned
+`joern-v4.0.610` adapter covers Java, JavaScript, Python, Ruby, PHP, and Rust.
+`c2cpg` ships with it and `adapters/joern/README.md` already records C as
+"Available, not yet in scope", but this repository has no
+`run-joern-c-kernel` command, no C selection, and no
+`reports/joern-c-kernel.json`; standing up a language slice is its own change,
+not a side effect of landing fixtures. C therefore has no Joern evidence at any
+denominator, classic or expanded.
+
+### Semgrep CE 1.174.0 — expanded core
+
+`reports/semgrep-c-kernel.json`. The whole 48-case core population is selected
+and balance-checked, and the bounded CE profile then decides what is scored,
+from case metadata, before Semgrep is invoked. (The C Semgrep slice is the core
+population only; the two `language-extension` cases are not part of it, exactly
+as before.)
+
+| Stratum | Assertions | Scored | `unsupported` | Polarity match (scored) |
+| --- | --- | --- | --- | --- |
+| Classic (15 templates) | 30 | 14 | 16 | 12/14 |
+| Challenge (9 templates) | 18 | 0 | 18 | n/a |
+
+Whole-population outcome distribution: 9 `reached`, 5 `not-reached`, 34
+`unsupported`, zero `inconclusive`, zero `runner-error`.
+
+**All eighteen challenge assertions take the preregistered `unsupported`
+partition**, exactly as [the challenge tier](challenge-tier.md) predicted: no
+challenge template carries the `intraprocedural` feature tag, so none is inside
+the documented CE local-taint profile, and each retains its own
+`*-unsupported.json` capability-decision document naming the declared capability
+and the boundary it falls outside, citing the preregistered per-template
+rationale rather than the generic tag rule. The scored subset therefore stays at
+**14 assertions and 12/14**, unchanged from the classic run — the two mismatches
+are still the `infeasible-branch` and `loop-carried` negatives, the path
+sensitivity the pinned CLI sells as Pro. Comparing the retained report before
+and after this expansion, **not one of the 30 classic outcomes moved**. The
+partition was not adjusted for this expansion, and eighteen declined assertions
+are coverage, never eighteen false negatives.
+
+The expanded report carries fixture revision
+`sha256:75f631ca05df2609055972622faaf3946331f7537140b08ba7ec6648bd0e077c`,
+configuration hash
+`865d0bd2989f9ddd0b90f2d6675584e86706b109a033d4a1ac00bd21a617b100` — unchanged,
+because no rule file was touched — and tool build identity
+`semgrep-oss:1.174.0`. Reports at different fixture revisions are not pooled.
+
+### What this wave does and does not establish
+
+Stated plainly, because the deferral makes it easy to overclaim: this wave
+establishes that the nine applicable C challenge fixtures exist, compile, and
+are selected and balance-checked by the population machinery, and it establishes
+one adapter's expanded-population behavior — Semgrep CE's, which is a declared
+capability boundary rather than an analysis result. It establishes **nothing**
+about how well any engine follows C taint through function-pointer dispatch,
+heap-stored callees, inverted control, container iteration, deep field chains,
+or call depth. That evidence arrives with the v0.4.0 re-run of the two deferred
+adapters, and until then C's challenge strata have no analysis outcomes at all.
+
 ## Language-extension cases
 
 The nearest C-idiomatic transfer constructs are routed to `language-extension`
 cases rather than dropped. They have their own scorecard, are authored as
-positives, and **never enter the core denominator** — the C core stays 15
-templates and 30 assertions with or without them. The generated result
+positives, and **never enter the core denominator** — the C core stays 24
+templates and 48 assertions (15 and 30 before the challenge expansion) with or
+without them. The generated result
 artifacts partition every population by language *and* score tier, so an
 extension outcome can never be counted as a core assertion.
 
@@ -63,10 +216,11 @@ Both cases run inside the C slice of both adapters, and both carry the same
 
 ## Case population and the frozen direct pair
 
-The C population is the 30 `taint`/`core` cases plus the 2
-`taint`/`language-extension` cases under `cases/taint/c/`. Twenty-eight core
-cases and both extension cases were authored for this kernel with
-`fixture_provenance.revision` `m2-c-kernel`. The direct-propagation pair
+The C population is the 48 `taint`/`core` cases plus the 2
+`taint`/`language-extension` cases under `cases/taint/c/`. Twenty-eight classic
+core cases and both extension cases were authored for this kernel with
+`fixture_provenance.revision` `m2-c-kernel`; the eighteen challenge cases carry
+`m3-challenge-c`. The direct-propagation pair
 (`dfb-taint-c-direct-positive` and `dfb-taint-c-direct-negative`) predates it:
 it is the C member of the 13-language direct-flow breadth slice, and it is
 frozen byte-for-byte in the published v0.2.0 manifest (`reports/freeze.json`).
@@ -97,17 +251,25 @@ dangerous operand. Run it from the repository root:
 cargo run -- run-bifrost-c-kernel --bifrost /path/to/bifrost
 ```
 
-The command selects the 30 C core assertions and the 2 language-extension
-cases, refuses to run if the core count is not exactly 30, materializes one
+The command selects the C core assertions and the 2 language-extension cases,
+and refuses to run if the core count is not exactly the denominator C's
+`CHALLENGE_ROLLOUT` row states — 30 before the challenge expansion, **48**
+now that C's row is rolled out. It materializes one
 isolated workspace per case outside the repository, writes the normalized report
 to `reports/bifrost-c-kernel.json`, and retains the verbatim per-case Bifrost
 JSON under `reports/raw/bifrost-c-kernel/`. A report with incomplete runs is
 normalized as `inconclusive`, never as a negative.
 
+**This command was not run for the challenge expansion.**
+`reports/bifrost-c-kernel.json` is freeze-bound by v0.3.0 and the expanded run
+is deferred to the v0.4.0 freeze-prep re-run; see [adapter coverage of the
+expanded population](#adapter-coverage-of-the-expanded-population).
+
 ## CodeQL selection and reproduction
 
-The CodeQL C vertical slice is those same 32 cases — 30 core plus 2
-language-extension. Every selected case is analyzed with the dedicated query:
+The CodeQL C vertical slice is those same cases — the C core plus the 2
+language-extension cases, so 32 before the challenge expansion and **50** now.
+Every selected case is analyzed with the dedicated query:
 
 ```text
 adapters/codeql/cpp/queries/CKernel.ql
@@ -138,6 +300,10 @@ cargo run -- run-codeql-c-kernel --codeql /path/to/codeql
 If registry retrieval is unavailable, a matching official source workspace or
 CLI bundle pack root passed through `--codeql-packs` is a valid reproduction
 input, as documented for the [JavaScript kernel](javascript-kernel.md).
+
+**This command was not run for the challenge expansion either.**
+`reports/codeql-c-kernel.json` is likewise freeze-bound by v0.3.0, so the
+expanded CodeQL evidence for C is pending the v0.4.0 freeze-prep re-run.
 
 For each case the runner creates one cold `cpp` database from the declared
 fixture file only, runs the dedicated query, and removes the temporary workspace
@@ -174,9 +340,14 @@ execution health separate from the polarity of the 15 balanced assertions.
 
 ## Observed results
 
-Both retained snapshots cover all 30 C core assertions and both
-language-extension cases. The two tiers are scored separately, and neither
-report is pooled with the C++ kernel or any other language.
+Both retained snapshots cover the **classic 30** C core assertions and both
+language-extension cases. They predate the challenge expansion, are freeze-bound
+by v0.3.0, and were deliberately not overwritten by it: everything in this
+section describes the 15-template population, never the 24-template one. The two
+tiers are scored separately, and neither report is pooled with the C++ kernel or
+any other language. The one expanded-population run this wave produced —
+Semgrep CE — is reported in [the challenge-tier
+expansion](#semgrep-ce-11740--expanded-core) above.
 
 ### CodeQL, `reports/codeql-c-kernel.json`
 
@@ -237,7 +408,9 @@ an artifact of the language-qualified policy.
 C results are their own population. They are never pooled with the C++ kernel
 (whose denominator is 16 templates), with the Java, Kotlin, C#, JavaScript,
 TypeScript, or Python kernels, or with the 13-language direct-flow breadth
-slice. Because C's core denominator is 15 templates, a C macro-average is never
-combined with a 16-template score without stating both populations. The two
+slice. Because C's core denominator is 24 templates — 15 classic plus 9
+challenge — a C macro-average is never combined with a 28-template C++ score, a
+29-template Java score, or C's own 15-template v0.3.0 score without stating both
+populations. The two
 language-extension cases have their own scorecard and never change the core
 denominator, and the Java calibration cases have no C member.
