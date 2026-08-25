@@ -411,8 +411,10 @@ freeze is re-cut.
 
 ## Go kernel
 
-The Go runner selects exactly the 32 `taint` cases whose `language` is `go` and
-whose `score_tier` is `core`, and analyzes each with:
+The Go runner selects the whole Go core `taint` population — 32 assertions
+classically, and **58** now that its thirteen challenge templates have rolled
+out (`docs/challenge-tier.md`) — whose `language` is `go` and whose
+`score_tier` is `core`, and analyzes each with:
 
 ```text
 adapters/codeql/go/queries/GoKernel.ql
@@ -449,6 +451,14 @@ writes `reports/codeql-go-kernel.json` and retains SARIF (or raw runner
 diagnostics) under `reports/raw/codeql-go-kernel/`. SARIF locations are
 reconciled with the case's `DFB-SINK:` anchor by resolving the declared sink
 function name and accepting a finding on a line that calls it in the same file.
+
+**Expanded evidence is deferred.** `reports/codeql-go-kernel.json` is one of the
+nineteen reports `reports/freeze.json` digest-binds for v0.3.0, so the Go
+challenge expansion did not overwrite it: the expanded 58-assertion CodeQL
+evidence is pending the v0.4.0 freeze-prep re-run, on this repository's
+established re-run-at-freeze pattern, and the deferral is recorded in
+`docs/go-kernel.md`. What follows is the valid classic 32-assertion snapshot,
+and it describes a different population from the expanded one.
 
 The checked-in `reports/codeql-go-kernel.json` contains 32 results: 16 `reached`
 and 16 `not-reached`, with zero `inconclusive`, `unsupported`, or `runner-error`

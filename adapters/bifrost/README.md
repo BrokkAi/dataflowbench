@@ -40,8 +40,13 @@ the v0.2.0 evidence with the breadth `core-direct.rqlp` policy, so the C#
 selector accepts that policy too and evaluates each case through the policy it
 declares; see [the C# kernel contract](../../docs/csharp-kernel.md). The Go
 parity slice uses `core-go-kernel.rqlp` under the same frozen-direct-pair
-arrangement; see [the Go kernel contract](../../docs/go-kernel.md) for its
-struct, pointer-alias, array, and `panic`/`recover` adaptations. The C and C++
+arrangement, and its thirteen challenge templates have now rolled out too,
+taking its core population to 29 templates and 58 assertions; see [the Go kernel
+contract](../../docs/go-kernel.md) for its struct, pointer-alias, array, and
+`panic`/`recover` adaptations, and for the three `reflect`-based challenge
+adaptations. The retained Go report is the classic 32 — it is freeze-bound by
+v0.3.0, so its expanded run is deferred to the v0.4.0 freeze-prep re-run rather
+than written here. The C and C++
 parity slices use `core-c-kernel.rqlp` and `core-cpp-kernel.rqlp` and are two
 separate populations with two different denominators: C++ covers all 16
 templates (32 core assertions), while C covers 15 (30 core assertions) because
@@ -259,7 +264,11 @@ or `capability_incomplete` (10) evidence; the ten are the four heap pairs
 ("procedure value-flow snapshot ... is unsupported (assignments)") and the
 `panic`/`recover` exception pair, where Bifrost cannot bind the sink operand
 supplied by `recover()`. All of this is capability coverage, never a negative
-result; see [the Go kernel contract](../../docs/go-kernel.md).
+result; see [the Go kernel contract](../../docs/go-kernel.md). That report is
+the classic 32-assertion population only: Go's core is now 58 assertions, but
+the report is freeze-bound by v0.3.0, so **the expanded Bifrost Go evidence is
+pending the v0.4.0 freeze-prep re-run** and this snapshot is not an
+expanded-core number.
 
 The 30-assertion Rust kernel, in its own report
 `reports/bifrost-rust-kernel.json` with raw evidence under
