@@ -77,6 +77,8 @@ Run from the repository root:
 
 ```bash
 cargo run -- run-bifrost-smoke --bifrost /path/to/bifrost
+cargo run -- run-bifrost-java-kernel --bifrost /path/to/bifrost
+cargo run -- run-bifrost-javascript-kernel --bifrost /path/to/bifrost
 cargo run -- run-bifrost-python-kernel --bifrost /path/to/bifrost
 cargo run -- run-bifrost-kotlin-kernel --bifrost /path/to/bifrost
 cargo run -- run-bifrost-scala-kernel --bifrost /path/to/bifrost
@@ -90,8 +92,22 @@ cargo run -- run-bifrost-ruby-kernel --bifrost /path/to/bifrost
 cargo run -- run-bifrost-php-kernel --bifrost /path/to/bifrost
 ```
 
+The Java and JavaScript kernel commands are new and **have not been run**: they
+carry no evidence in this repository yet, and the frozen smoke slice remains the
+published Java and JavaScript Bifrost evidence until the challenge-tier wave-1
+language changes run them. Each selects its language's whole core population and
+pins the language-qualified policy for the run, accepting the frozen
+direct-propagation pair's historical policy references
+(`direct-positive.rqlp` and `explicit-negative.rqlp` for Java, the
+cross-language breadth policy for JavaScript) rather than rewriting evidence a
+freeze manifest binds. Their populations follow the challenge rollout table
+described in [the adapter contract](../../docs/adapters.md): 32 assertions
+today, the expanded denominator once that language's row is flipped.
+
 The smoke command selects only cases with an explicit Bifrost policy or
-unsupported declaration. Cases for other adapters are not emitted into the
+unsupported declaration, and never a challenge-tier case: any `template_id`
+beginning `dfb-template-chal-` is refused so the frozen 118-case population
+cannot change meaning when challenge fixtures land under the same policies. Cases for other adapters are not emitted into the
 Bifrost report. Each selected case is materialized into an isolated workspace
 and evaluated through Bifrost's path-based policy CLI (`--root` plus
 `--policy-file`). A report with incomplete runs is normalized as `inconclusive`
