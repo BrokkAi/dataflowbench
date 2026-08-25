@@ -2,8 +2,8 @@
   "adapter_version": "0.1.0",
   "cold_or_warm": "cold",
   "configuration_hash": "865d0bd2989f9ddd0b90f2d6675584e86706b109a033d4a1ac00bd21a617b100",
-  "ended_at_unix_seconds": 1787653590,
-  "fixture_revision": "sha256:64ef139f452fd296bb26463bc552e5e5998ca4bb4584d45565d858424814bde9",
+  "ended_at_unix_seconds": 1787655027,
+  "fixture_revision": "sha256:61c06a78b95b86764d3c220cfefd7af37373db64b15ae0b76c6ebf924217ab2e",
   "results": [
     {
       "case_id": "dfb-taint-javascript-alias-propagation-negative",
@@ -45,7 +45,7 @@
       "case_id": "dfb-taint-javascript-anonymous-implementation-negative",
       "diagnostics": [
         "pinned Semgrep CE records the JavaScript front end's maturity as \"ga\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition",
-        "outside the bounded Semgrep CE profile: the case is outside the documented CE local/intraprocedural taint profile. The case requires \"indirect-callee-resolution-taint\"; the scored CE profile is the kernel's `intraprocedural` partition only."
+        "outside the bounded Semgrep CE profile: the sink is inside an anonymous implementation invoked through a declared interface type; resolving that call-graph edge and following taint into the callee are both outside the CE engine. The case requires \"indirect-callee-resolution-taint\"; the scored CE profile is the kernel's `intraprocedural` partition only."
       ],
       "duration_ms": 0,
       "outcome": "unsupported",
@@ -63,7 +63,7 @@
       "case_id": "dfb-taint-javascript-anonymous-implementation-positive",
       "diagnostics": [
         "pinned Semgrep CE records the JavaScript front end's maturity as \"ga\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition",
-        "outside the bounded Semgrep CE profile: the case is outside the documented CE local/intraprocedural taint profile. The case requires \"indirect-callee-resolution-taint\"; the scored CE profile is the kernel's `intraprocedural` partition only."
+        "outside the bounded Semgrep CE profile: the sink is inside an anonymous implementation invoked through a declared interface type; resolving that call-graph edge and following taint into the callee are both outside the CE engine. The case requires \"indirect-callee-resolution-taint\"; the scored CE profile is the kernel's `intraprocedural` partition only."
       ],
       "duration_ms": 0,
       "outcome": "unsupported",
@@ -154,7 +154,7 @@
       "diagnostics": [
         "pinned Semgrep CE records the JavaScript front end's maturity as \"ga\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition"
       ],
-      "duration_ms": 6355,
+      "duration_ms": 1058,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/semgrep-javascript-kernel/dfb-taint-javascript-branch-join-negative.json",
@@ -171,7 +171,7 @@
       "diagnostics": [
         "pinned Semgrep CE records the JavaScript front end's maturity as \"ga\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition"
       ],
-      "duration_ms": 4302,
+      "duration_ms": 1036,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/semgrep-javascript-kernel/dfb-taint-javascript-branch-join-positive.json",
@@ -223,7 +223,7 @@
       "case_id": "dfb-taint-javascript-callback-registration-negative",
       "diagnostics": [
         "pinned Semgrep CE records the JavaScript front end's maturity as \"ga\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition",
-        "outside the bounded Semgrep CE profile: the case is outside the documented CE local/intraprocedural taint profile. The case requires \"inverted-control-callback-taint\"; the scored CE profile is the kernel's `intraprocedural` partition only."
+        "outside the bounded Semgrep CE profile: a callback registered by one method is invoked by a separate driver method; inversion of control is interprocedural by construction and CE has no interprocedural taint. The case requires \"inverted-control-callback-taint\"; the scored CE profile is the kernel's `intraprocedural` partition only."
       ],
       "duration_ms": 0,
       "outcome": "unsupported",
@@ -241,7 +241,7 @@
       "case_id": "dfb-taint-javascript-callback-registration-positive",
       "diagnostics": [
         "pinned Semgrep CE records the JavaScript front end's maturity as \"ga\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition",
-        "outside the bounded Semgrep CE profile: the case is outside the documented CE local/intraprocedural taint profile. The case requires \"inverted-control-callback-taint\"; the scored CE profile is the kernel's `intraprocedural` partition only."
+        "outside the bounded Semgrep CE profile: a callback registered by one method is invoked by a separate driver method; inversion of control is interprocedural by construction and CE has no interprocedural taint. The case requires \"inverted-control-callback-taint\"; the scored CE profile is the kernel's `intraprocedural` partition only."
       ],
       "duration_ms": 0,
       "outcome": "unsupported",
@@ -259,7 +259,7 @@
       "case_id": "dfb-taint-javascript-closure-capture-negative",
       "diagnostics": [
         "pinned Semgrep CE records the JavaScript front end's maturity as \"ga\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition",
-        "outside the bounded Semgrep CE profile: the case is outside the documented CE local/intraprocedural taint profile. The case requires \"closure-capture-taint\"; the scored CE profile is the kernel's `intraprocedural` partition only."
+        "outside the bounded Semgrep CE profile: the sink is inside a closure body invoked from a different function than the one that captured the tainted local; CE has no interprocedural taint. The case requires \"closure-capture-taint\"; the scored CE profile is the kernel's `intraprocedural` partition only."
       ],
       "duration_ms": 0,
       "outcome": "unsupported",
@@ -277,7 +277,7 @@
       "case_id": "dfb-taint-javascript-closure-capture-positive",
       "diagnostics": [
         "pinned Semgrep CE records the JavaScript front end's maturity as \"ga\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition",
-        "outside the bounded Semgrep CE profile: the case is outside the documented CE local/intraprocedural taint profile. The case requires \"closure-capture-taint\"; the scored CE profile is the kernel's `intraprocedural` partition only."
+        "outside the bounded Semgrep CE profile: the sink is inside a closure body invoked from a different function than the one that captured the tainted local; CE has no interprocedural taint. The case requires \"closure-capture-taint\"; the scored CE profile is the kernel's `intraprocedural` partition only."
       ],
       "duration_ms": 0,
       "outcome": "unsupported",
@@ -295,7 +295,7 @@
       "case_id": "dfb-taint-javascript-computed-property-negative",
       "diagnostics": [
         "pinned Semgrep CE records the JavaScript front end's maturity as \"ga\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition",
-        "outside the bounded Semgrep CE profile: the case is outside the documented CE local/intraprocedural taint profile. The case requires \"computed-member-access-taint\"; the scored CE profile is the kernel's `intraprocedural` partition only."
+        "outside the bounded Semgrep CE profile: the case writes and reads a member located by a run-time key; the pinned CE engine documents only \"Experimental support for basic field-sensitive taint tracking\", while \"Pro: taint-mode: Added basic support for 'index sensitivity'\" places keyed access outside CE — the same documented boundary that already excludes `dfb-template-array-element-separation` and `dfb-template-same-object-field-separation`. The case requires \"computed-member-access-taint\"; the scored CE profile is the kernel's `intraprocedural` partition only."
       ],
       "duration_ms": 0,
       "outcome": "unsupported",
@@ -313,7 +313,7 @@
       "case_id": "dfb-taint-javascript-computed-property-positive",
       "diagnostics": [
         "pinned Semgrep CE records the JavaScript front end's maturity as \"ga\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition",
-        "outside the bounded Semgrep CE profile: the case is outside the documented CE local/intraprocedural taint profile. The case requires \"computed-member-access-taint\"; the scored CE profile is the kernel's `intraprocedural` partition only."
+        "outside the bounded Semgrep CE profile: the case writes and reads a member located by a run-time key; the pinned CE engine documents only \"Experimental support for basic field-sensitive taint tracking\", while \"Pro: taint-mode: Added basic support for 'index sensitivity'\" places keyed access outside CE — the same documented boundary that already excludes `dfb-template-array-element-separation` and `dfb-template-same-object-field-separation`. The case requires \"computed-member-access-taint\"; the scored CE profile is the kernel's `intraprocedural` partition only."
       ],
       "duration_ms": 0,
       "outcome": "unsupported",
@@ -331,7 +331,7 @@
       "case_id": "dfb-taint-javascript-context-pair-depth2-negative",
       "diagnostics": [
         "pinned Semgrep CE records the JavaScript front end's maturity as \"ga\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition",
-        "outside the bounded Semgrep CE profile: the case declares a multi-hop interprocedural relay; Semgrep CE has no interprocedural taint at all (`--pro-intrafile`, \"Intra-file inter-procedural taint analysis ... Requires Semgrep Pro Engine\"). The case requires \"two-level-context-sensitive-taint\"; the scored CE profile is the kernel's `intraprocedural` partition only."
+        "outside the bounded Semgrep CE profile: the case declares two-level context sensitivity; CE has no interprocedural taint and therefore no calling context to be sensitive to. The case requires \"two-level-context-sensitive-taint\"; the scored CE profile is the kernel's `intraprocedural` partition only."
       ],
       "duration_ms": 0,
       "outcome": "unsupported",
@@ -349,7 +349,7 @@
       "case_id": "dfb-taint-javascript-context-pair-depth2-positive",
       "diagnostics": [
         "pinned Semgrep CE records the JavaScript front end's maturity as \"ga\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition",
-        "outside the bounded Semgrep CE profile: the case declares a multi-hop interprocedural relay; Semgrep CE has no interprocedural taint at all (`--pro-intrafile`, \"Intra-file inter-procedural taint analysis ... Requires Semgrep Pro Engine\"). The case requires \"two-level-context-sensitive-taint\"; the scored CE profile is the kernel's `intraprocedural` partition only."
+        "outside the bounded Semgrep CE profile: the case declares two-level context sensitivity; CE has no interprocedural taint and therefore no calling context to be sensitive to. The case requires \"two-level-context-sensitive-taint\"; the scored CE profile is the kernel's `intraprocedural` partition only."
       ],
       "duration_ms": 0,
       "outcome": "unsupported",
@@ -367,7 +367,7 @@
       "case_id": "dfb-taint-javascript-deep-relay-chain-negative",
       "diagnostics": [
         "pinned Semgrep CE records the JavaScript front end's maturity as \"ga\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition",
-        "outside the bounded Semgrep CE profile: the case declares a multi-hop interprocedural relay; Semgrep CE has no interprocedural taint at all (`--pro-intrafile`, \"Intra-file inter-procedural taint analysis ... Requires Semgrep Pro Engine\"). The case requires \"deep-interprocedural-relay-taint\"; the scored CE profile is the kernel's `intraprocedural` partition only."
+        "outside the bounded Semgrep CE profile: the case declares a six-hop interprocedural relay; CE has no interprocedural taint at all (`--pro-intrafile` is Pro), which docs/challenge-tier.md already records as this stratum's expected outcome. The case requires \"deep-interprocedural-relay-taint\"; the scored CE profile is the kernel's `intraprocedural` partition only."
       ],
       "duration_ms": 0,
       "outcome": "unsupported",
@@ -385,7 +385,7 @@
       "case_id": "dfb-taint-javascript-deep-relay-chain-positive",
       "diagnostics": [
         "pinned Semgrep CE records the JavaScript front end's maturity as \"ga\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition",
-        "outside the bounded Semgrep CE profile: the case declares a multi-hop interprocedural relay; Semgrep CE has no interprocedural taint at all (`--pro-intrafile`, \"Intra-file inter-procedural taint analysis ... Requires Semgrep Pro Engine\"). The case requires \"deep-interprocedural-relay-taint\"; the scored CE profile is the kernel's `intraprocedural` partition only."
+        "outside the bounded Semgrep CE profile: the case declares a six-hop interprocedural relay; CE has no interprocedural taint at all (`--pro-intrafile` is Pro), which docs/challenge-tier.md already records as this stratum's expected outcome. The case requires \"deep-interprocedural-relay-taint\"; the scored CE profile is the kernel's `intraprocedural` partition only."
       ],
       "duration_ms": 0,
       "outcome": "unsupported",
@@ -404,7 +404,7 @@
       "diagnostics": [
         "pinned Semgrep CE records the JavaScript front end's maturity as \"ga\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition"
       ],
-      "duration_ms": 4431,
+      "duration_ms": 1036,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/semgrep-javascript-kernel/dfb-taint-javascript-direct-negative.json",
@@ -421,7 +421,7 @@
       "diagnostics": [
         "pinned Semgrep CE records the JavaScript front end's maturity as \"ga\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition"
       ],
-      "duration_ms": 7892,
+      "duration_ms": 1058,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/semgrep-javascript-kernel/dfb-taint-javascript-direct-positive.json",
@@ -437,7 +437,7 @@
       "case_id": "dfb-taint-javascript-dispatch-table-negative",
       "diagnostics": [
         "pinned Semgrep CE records the JavaScript front end's maturity as \"ga\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition",
-        "outside the bounded Semgrep CE profile: the case is outside the documented CE local/intraprocedural taint profile. The case requires \"indirect-callee-resolution-taint\"; the scored CE profile is the kernel's `intraprocedural` partition only."
+        "outside the bounded Semgrep CE profile: the callee is a function value fetched from a standard-library map and the sink is inside it; the call-graph edge and the sink are both outside the intraprocedural CE engine (`--pro-intrafile` is Pro). The case requires \"indirect-callee-resolution-taint\"; the scored CE profile is the kernel's `intraprocedural` partition only."
       ],
       "duration_ms": 0,
       "outcome": "unsupported",
@@ -455,7 +455,7 @@
       "case_id": "dfb-taint-javascript-dispatch-table-positive",
       "diagnostics": [
         "pinned Semgrep CE records the JavaScript front end's maturity as \"ga\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition",
-        "outside the bounded Semgrep CE profile: the case is outside the documented CE local/intraprocedural taint profile. The case requires \"indirect-callee-resolution-taint\"; the scored CE profile is the kernel's `intraprocedural` partition only."
+        "outside the bounded Semgrep CE profile: the callee is a function value fetched from a standard-library map and the sink is inside it; the call-graph edge and the sink are both outside the intraprocedural CE engine (`--pro-intrafile` is Pro). The case requires \"indirect-callee-resolution-taint\"; the scored CE profile is the kernel's `intraprocedural` partition only."
       ],
       "duration_ms": 0,
       "outcome": "unsupported",
@@ -473,7 +473,7 @@
       "case_id": "dfb-taint-javascript-element-object-negative",
       "diagnostics": [
         "pinned Semgrep CE records the JavaScript front end's maturity as \"ga\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition",
-        "outside the bounded Semgrep CE profile: the case declares a heap access path; the pinned CE engine documents only \"Experimental support for basic field-sensitive taint tracking\", with index sensitivity and inter-procedural field sensitivity both recorded as Pro-only. The case requires \"element-scoped-field-sensitive-taint\"; the scored CE profile is the kernel's `intraprocedural` partition only."
+        "outside the bounded Semgrep CE profile: the case combines element separation with field separation in one query; index sensitivity is recorded as Pro and CE's field sensitivity is experimental and basic. The case requires \"element-scoped-field-sensitive-taint\"; the scored CE profile is the kernel's `intraprocedural` partition only."
       ],
       "duration_ms": 0,
       "outcome": "unsupported",
@@ -491,7 +491,7 @@
       "case_id": "dfb-taint-javascript-element-object-positive",
       "diagnostics": [
         "pinned Semgrep CE records the JavaScript front end's maturity as \"ga\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition",
-        "outside the bounded Semgrep CE profile: the case declares a heap access path; the pinned CE engine documents only \"Experimental support for basic field-sensitive taint tracking\", with index sensitivity and inter-procedural field sensitivity both recorded as Pro-only. The case requires \"element-scoped-field-sensitive-taint\"; the scored CE profile is the kernel's `intraprocedural` partition only."
+        "outside the bounded Semgrep CE profile: the case combines element separation with field separation in one query; index sensitivity is recorded as Pro and CE's field sensitivity is experimental and basic. The case requires \"element-scoped-field-sensitive-taint\"; the scored CE profile is the kernel's `intraprocedural` partition only."
       ],
       "duration_ms": 0,
       "outcome": "unsupported",
@@ -546,7 +546,7 @@
       "diagnostics": [
         "pinned Semgrep CE records the JavaScript front end's maturity as \"ga\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition"
       ],
-      "duration_ms": 7918,
+      "duration_ms": 1044,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/semgrep-javascript-kernel/dfb-taint-javascript-expression-negative.json",
@@ -563,7 +563,7 @@
       "diagnostics": [
         "pinned Semgrep CE records the JavaScript front end's maturity as \"ga\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition"
       ],
-      "duration_ms": 7216,
+      "duration_ms": 1028,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/semgrep-javascript-kernel/dfb-taint-javascript-expression-positive.json",
@@ -579,7 +579,7 @@
       "case_id": "dfb-taint-javascript-function-field-negative",
       "diagnostics": [
         "pinned Semgrep CE records the JavaScript front end's maturity as \"ga\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition",
-        "outside the bounded Semgrep CE profile: the case is outside the documented CE local/intraprocedural taint profile. The case requires \"heap-stored-callee-taint\"; the scored CE profile is the kernel's `intraprocedural` partition only."
+        "outside the bounded Semgrep CE profile: the callee is stored in an object field, fetched elsewhere, and invoked; this needs both field sensitivity beyond CE's experimental basic support and the interprocedural step CE documents as Pro. The case requires \"heap-stored-callee-taint\"; the scored CE profile is the kernel's `intraprocedural` partition only."
       ],
       "duration_ms": 0,
       "outcome": "unsupported",
@@ -597,7 +597,7 @@
       "case_id": "dfb-taint-javascript-function-field-positive",
       "diagnostics": [
         "pinned Semgrep CE records the JavaScript front end's maturity as \"ga\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition",
-        "outside the bounded Semgrep CE profile: the case is outside the documented CE local/intraprocedural taint profile. The case requires \"heap-stored-callee-taint\"; the scored CE profile is the kernel's `intraprocedural` partition only."
+        "outside the bounded Semgrep CE profile: the callee is stored in an object field, fetched elsewhere, and invoked; this needs both field sensitivity beyond CE's experimental basic support and the interprocedural step CE documents as Pro. The case requires \"heap-stored-callee-taint\"; the scored CE profile is the kernel's `intraprocedural` partition only."
       ],
       "duration_ms": 0,
       "outcome": "unsupported",
@@ -616,7 +616,7 @@
       "diagnostics": [
         "pinned Semgrep CE records the JavaScript front end's maturity as \"ga\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition"
       ],
-      "duration_ms": 5164,
+      "duration_ms": 1056,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/semgrep-javascript-kernel/dfb-taint-javascript-infeasible-branch-negative.json",
@@ -633,7 +633,7 @@
       "diagnostics": [
         "pinned Semgrep CE records the JavaScript front end's maturity as \"ga\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition"
       ],
-      "duration_ms": 2317,
+      "duration_ms": 1056,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/semgrep-javascript-kernel/dfb-taint-javascript-infeasible-branch-positive.json",
@@ -650,7 +650,7 @@
       "diagnostics": [
         "pinned Semgrep CE records the JavaScript front end's maturity as \"ga\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition"
       ],
-      "duration_ms": 2028,
+      "duration_ms": 1063,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/semgrep-javascript-kernel/dfb-taint-javascript-local-chain-negative.json",
@@ -667,7 +667,7 @@
       "diagnostics": [
         "pinned Semgrep CE records the JavaScript front end's maturity as \"ga\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition"
       ],
-      "duration_ms": 2245,
+      "duration_ms": 1061,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/semgrep-javascript-kernel/dfb-taint-javascript-local-chain-positive.json",
@@ -684,7 +684,7 @@
       "diagnostics": [
         "pinned Semgrep CE records the JavaScript front end's maturity as \"ga\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition"
       ],
-      "duration_ms": 5553,
+      "duration_ms": 1048,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/semgrep-javascript-kernel/dfb-taint-javascript-local-overwrite-negative.json",
@@ -701,7 +701,7 @@
       "diagnostics": [
         "pinned Semgrep CE records the JavaScript front end's maturity as \"ga\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition"
       ],
-      "duration_ms": 2798,
+      "duration_ms": 1044,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/semgrep-javascript-kernel/dfb-taint-javascript-local-overwrite-positive.json",
@@ -718,7 +718,7 @@
       "diagnostics": [
         "pinned Semgrep CE records the JavaScript front end's maturity as \"ga\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition"
       ],
-      "duration_ms": 3206,
+      "duration_ms": 1047,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/semgrep-javascript-kernel/dfb-taint-javascript-loop-carried-negative.json",
@@ -735,7 +735,7 @@
       "diagnostics": [
         "pinned Semgrep CE records the JavaScript front end's maturity as \"ga\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition"
       ],
-      "duration_ms": 2366,
+      "duration_ms": 1070,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/semgrep-javascript-kernel/dfb-taint-javascript-loop-carried-positive.json",
@@ -751,7 +751,7 @@
       "case_id": "dfb-taint-javascript-map-iteration-negative",
       "diagnostics": [
         "pinned Semgrep CE records the JavaScript front end's maturity as \"ga\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition",
-        "outside the bounded Semgrep CE profile: the case is outside the documented CE local/intraprocedural taint profile. The case requires \"container-iteration-taint\"; the scored CE profile is the kernel's `intraprocedural` partition only."
+        "outside the bounded Semgrep CE profile: the value is retrieved by iterating a standard-library container's entries; container element taint through an iteration protocol is not within CE's documented \"basic field-sensitive\" support, and index sensitivity is recorded as Pro. The case requires \"container-iteration-taint\"; the scored CE profile is the kernel's `intraprocedural` partition only."
       ],
       "duration_ms": 0,
       "outcome": "unsupported",
@@ -769,7 +769,7 @@
       "case_id": "dfb-taint-javascript-map-iteration-positive",
       "diagnostics": [
         "pinned Semgrep CE records the JavaScript front end's maturity as \"ga\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition",
-        "outside the bounded Semgrep CE profile: the case is outside the documented CE local/intraprocedural taint profile. The case requires \"container-iteration-taint\"; the scored CE profile is the kernel's `intraprocedural` partition only."
+        "outside the bounded Semgrep CE profile: the value is retrieved by iterating a standard-library container's entries; container element taint through an iteration protocol is not within CE's documented \"basic field-sensitive\" support, and index sensitivity is recorded as Pro. The case requires \"container-iteration-taint\"; the scored CE profile is the kernel's `intraprocedural` partition only."
       ],
       "duration_ms": 0,
       "outcome": "unsupported",
@@ -787,7 +787,7 @@
       "case_id": "dfb-taint-javascript-nested-access-path-negative",
       "diagnostics": [
         "pinned Semgrep CE records the JavaScript front end's maturity as \"ga\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition",
-        "outside the bounded Semgrep CE profile: the case declares a heap access path; the pinned CE engine documents only \"Experimental support for basic field-sensitive taint tracking\", with index sensitivity and inter-procedural field sensitivity both recorded as Pro-only. The case requires \"deep-access-path-sensitive-taint\"; the scored CE profile is the kernel's `intraprocedural` partition only."
+        "outside the bounded Semgrep CE profile: the case reads and writes a field chain of depth three or more; the pinned CE engine documents only *basic* experimental field sensitivity, with inter-procedural field sensitivity recorded as Pro. The case requires \"deep-access-path-sensitive-taint\"; the scored CE profile is the kernel's `intraprocedural` partition only."
       ],
       "duration_ms": 0,
       "outcome": "unsupported",
@@ -805,7 +805,7 @@
       "case_id": "dfb-taint-javascript-nested-access-path-positive",
       "diagnostics": [
         "pinned Semgrep CE records the JavaScript front end's maturity as \"ga\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition",
-        "outside the bounded Semgrep CE profile: the case declares a heap access path; the pinned CE engine documents only \"Experimental support for basic field-sensitive taint tracking\", with index sensitivity and inter-procedural field sensitivity both recorded as Pro-only. The case requires \"deep-access-path-sensitive-taint\"; the scored CE profile is the kernel's `intraprocedural` partition only."
+        "outside the bounded Semgrep CE profile: the case reads and writes a field chain of depth three or more; the pinned CE engine documents only *basic* experimental field sensitivity, with inter-procedural field sensitivity recorded as Pro. The case requires \"deep-access-path-sensitive-taint\"; the scored CE profile is the kernel's `intraprocedural` partition only."
       ],
       "duration_ms": 0,
       "outcome": "unsupported",
@@ -859,7 +859,7 @@
       "case_id": "dfb-taint-javascript-recursive-carry-negative",
       "diagnostics": [
         "pinned Semgrep CE records the JavaScript front end's maturity as \"ga\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition",
-        "outside the bounded Semgrep CE profile: the case is outside the documented CE local/intraprocedural taint profile. The case requires \"recursive-carry-taint\"; the scored CE profile is the kernel's `intraprocedural` partition only."
+        "outside the bounded Semgrep CE profile: the carried value crosses a self-recursive call boundary five times; a recursive summary is interprocedural, and CE has no interprocedural taint. The case requires \"recursive-carry-taint\"; the scored CE profile is the kernel's `intraprocedural` partition only."
       ],
       "duration_ms": 0,
       "outcome": "unsupported",
@@ -877,7 +877,7 @@
       "case_id": "dfb-taint-javascript-recursive-carry-positive",
       "diagnostics": [
         "pinned Semgrep CE records the JavaScript front end's maturity as \"ga\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition",
-        "outside the bounded Semgrep CE profile: the case is outside the documented CE local/intraprocedural taint profile. The case requires \"recursive-carry-taint\"; the scored CE profile is the kernel's `intraprocedural` partition only."
+        "outside the bounded Semgrep CE profile: the carried value crosses a self-recursive call boundary five times; a recursive summary is interprocedural, and CE has no interprocedural taint. The case requires \"recursive-carry-taint\"; the scored CE profile is the kernel's `intraprocedural` partition only."
       ],
       "duration_ms": 0,
       "outcome": "unsupported",
@@ -895,9 +895,9 @@
       "case_id": "dfb-taint-javascript-reflective-invocation-negative",
       "diagnostics": [
         "pinned Semgrep CE records the JavaScript front end's maturity as \"ga\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition",
-        "outside the bounded Semgrep CE profile: the case is outside the documented CE local/intraprocedural taint profile. The case requires \"reflective-dispatch-taint\"; the scored CE profile is the kernel's `intraprocedural` partition only."
+        "outside the bounded Semgrep CE profile: the case resolves a callee from a run-time string and the sink is reached inside that callee's body; CE has no interprocedural taint at all (`--pro-intrafile`, \"Intra-file inter-procedural taint analysis ... Requires Semgrep Pro Engine\"), and the pinned CE documentation nowhere claims to resolve a reflective handle. The case requires \"reflective-dispatch-taint\"; the scored CE profile is the kernel's `intraprocedural` partition only."
       ],
-      "duration_ms": 1,
+      "duration_ms": 0,
       "outcome": "unsupported",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/semgrep-javascript-kernel/dfb-taint-javascript-reflective-invocation-negative-unsupported.json",
@@ -913,7 +913,7 @@
       "case_id": "dfb-taint-javascript-reflective-invocation-positive",
       "diagnostics": [
         "pinned Semgrep CE records the JavaScript front end's maturity as \"ga\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition",
-        "outside the bounded Semgrep CE profile: the case is outside the documented CE local/intraprocedural taint profile. The case requires \"reflective-dispatch-taint\"; the scored CE profile is the kernel's `intraprocedural` partition only."
+        "outside the bounded Semgrep CE profile: the case resolves a callee from a run-time string and the sink is reached inside that callee's body; CE has no interprocedural taint at all (`--pro-intrafile`, \"Intra-file inter-procedural taint analysis ... Requires Semgrep Pro Engine\"), and the pinned CE documentation nowhere claims to resolve a reflective handle. The case requires \"reflective-dispatch-taint\"; the scored CE profile is the kernel's `intraprocedural` partition only."
       ],
       "duration_ms": 0,
       "outcome": "unsupported",
@@ -1037,7 +1037,7 @@
     }
   ],
   "schema_version": 1,
-  "started_at_unix_seconds": 1787653523,
+  "started_at_unix_seconds": 1787655011,
   "tool": "semgrep",
   "tool_build_identity": "semgrep-oss:1.174.0",
   "tool_version": "1.174.0"

@@ -231,20 +231,27 @@ lands on the *callsite*, so matching does not require the marker's own line.
 Joern 4.0.610, build identity `joern-cli:4.0.610`. All six kernels ran on the
 same pinned distribution and the same unmodified script, so every retained
 Joern report carries one `tool_version` and the single configuration hash
-above. Five of them ran at fixture revision
-`sha256:aee59a14f96633cf5798df6d211525ea0d10748800ba9c9ac0a3787406bd19ea`;
-JavaScript was later re-run whole over its expanded 58-case population at
-revision
-`sha256:64ef139f452fd296bb26463bc552e5e5998ca4bb4584d45565d858424814bde9`,
-and reports at different fixture revisions are not pooled. Every case in all
-six kernels executed: 216 retained evidence documents, zero error documents,
-zero `inconclusive`, `unsupported`, or `runner-error` outcomes.
+above. Every case in all six kernels executed: 242 retained evidence documents,
+zero error documents, zero `inconclusive`, `unsupported`, or `runner-error`
+outcomes.
+
+Four of the six ran against fixture revision
+`sha256:aee59a14f96633cf5798df6d211525ea0d10748800ba9c9ac0a3787406bd19ea`.
+The Python and JavaScript kernels were each re-run whole after that language's
+challenge-tier row was rolled out, and each carries the expanded corpus
+revision current when it ran —
+`sha256:3e7a8de5e1eefb18e8166af0ccdf309bccf1d5c26026893a4513f1943926ab1f` for
+Python and
+`sha256:64ef139f452fd296bb26463bc552e5e5998ca4bb4584d45565d858424814bde9` for
+JavaScript. Reports at different fixture revisions are not pooled, and each
+language's 58 assertions are a different population from the 32 it reported in
+v0.3.0, not a movement within one.
 
 | Kernel | `reached` | `not-reached` | Polarity match |
 | --- | --- | --- | --- |
 | Java (`javasrc2cpg`) | 16 | 16 | 28/32 |
-| JavaScript (`jssrc2cpg`) | 27 | 31 | 44/58 |
-| Python (`pysrc2cpg`) | 16 | 16 | 28/32 |
+| **JavaScript (`jssrc2cpg`)** | **27** | **31** | **44/58** |
+| **Python (`pysrc2cpg`)** | **25** | **33** | **48/58** |
 | Ruby (`rubysrc2cpg`) | 18 | 14 | 26/32 |
 | PHP (`php2cpg`) | 16 | 16 | 28/32 |
 | Rust (`rust2cpg`) | 16 | 14 | 27/30 |
@@ -253,18 +260,20 @@ Rust's denominator is 30, not 32, because its exception-catch cell is
 inapplicable; the ratios are not comparable across a different denominator and
 are not averaged.
 
-**JavaScript's denominator is 58, not 32**, and for the same reason in
-reverse: its thirteen preregistered challenge templates
-([the challenge tier](../../docs/challenge-tier.md)) have rolled out, so its
-core population is 29 templates. It was re-run whole at the expanded fixture
-revision `sha256:64ef139f452fd296bb26463bc552e5e5998ca4bb4584d45565d858424814bde9`;
-the other five kernels' retained reports predate that revision and the two are
-not pooled. Split by stratum, JavaScript is **26/32 on the classic sixteen —
-identical case for case to the retained snapshot above, so the expansion
-introduced no drift — and 18/26 on the challenge thirteen**, still with zero
-`inconclusive`, `unsupported`, or `runner-error` outcomes. A 32-assertion score
-and a 58-assertion score are different populations and are never compared as
-one.
+**Python's and JavaScript's denominators are 58, not 32.** Both challenge-tier
+rows are rolled out, so each core is the expanded 29 templates: the sixteen
+v0.3.0 templates plus the thirteen preregistered challenge templates
+([the challenge tier](../../docs/challenge-tier.md)). Each report was re-run
+whole — a whole-population replacement, not an append — and each carries the
+expanded corpus revision current when it ran, while the other four still carry
+`sha256:aee59a14f96633cf5798df6d211525ea0d10748800ba9c9ac0a3787406bd19ea`.
+Split by stratum, JavaScript is **26/32 on the classic sixteen — identical case
+for case to its v0.3.0 snapshot, so the expansion introduced no drift — and
+18/26 on the challenge thirteen**, still with zero `inconclusive`,
+`unsupported`, or `runner-error` outcomes. A 58-assertion score and a
+32-assertion Java score are different populations and are neither compared nor
+averaged, and each language's own 28/32 v0.3.0 or 26/32 v0.3.0 result and its
+expanded result are likewise separate populations of the same name.
 
 Mismatches, verbatim:
 
@@ -275,7 +284,7 @@ Mismatches, verbatim:
 - `dfb-taint-java-infeasible-branch-negative`: false positive.
 - `dfb-taint-java-loop-carried-negative`: false positive.
 
-**JavaScript** — `reports/joern-javascript-kernel.json`
+**JavaScript** — `reports/joern-javascript-kernel.json` (58 assertions)
 
 Classic stratum (16 templates):
 
@@ -306,12 +315,35 @@ has to be read together: the negative is a true negative arrived at partly
 because the engine cannot see that far. The two-deep context pair is correct
 both ways, as is the constant-depth-5 recursive carry.
 
-**Python** — `reports/joern-python-kernel.json`
+**Python** — `reports/joern-python-kernel.json` (58 assertions)
+
+Classic stratum, 28/32 — the same four as before the expansion, case for case:
 
 - `dfb-taint-python-alias-propagation-positive`: false negative.
 - `dfb-taint-python-exception-catch-positive`: false negative.
 - `dfb-taint-python-infeasible-branch-negative`: false positive.
 - `dfb-taint-python-loop-carried-negative`: false positive.
+
+Challenge strata, 20/26 — A 3/6, B 6/8, C 6/6, D 5/6:
+
+- `dfb-taint-python-reflective-invocation-positive`: false negative.
+- `dfb-taint-python-dispatch-table-positive`: false negative.
+- `dfb-taint-python-computed-property-negative`: false positive.
+- `dfb-taint-python-function-field-positive`: false negative.
+- `dfb-taint-python-callback-registration-positive`: false negative.
+- `dfb-taint-python-deep-relay-chain-positive`: false negative.
+
+Stratum A is reported as approximation character rather than skill, per
+`docs/challenge-tier.md`: Joern declines the `getattr`-selected and
+dict-selected callees (missing both positives, correctly declining both
+negatives) while over-approximating the computed-key member access (resolving
+the positive and joining two provably distinct constant keys in the negative).
+The stratum-D miss is the preregistered prediction: the six-hop relay is
+calibrated past the verified `maxCallDepth = 4` default, the adapter did not
+raise that bound, and the positive is `not-reached` while the negative is
+`not-reached` for the same bounded reason rather than because the engine
+refuted it. Per-stratum reading is in
+[the Python kernel contract](../../docs/python-kernel.md).
 
 **Ruby** — `reports/joern-ruby-kernel.json`
 
@@ -335,16 +367,16 @@ both ways, as is the constant-depth-5 recursive carry.
 - `dfb-taint-rust-infeasible-branch-negative`: false positive.
 - `dfb-taint-rust-loop-carried-negative`: false positive.
 
-Four mismatching templates recur across the five 16-template languages — alias
-propagation through a field and value transfer to an exception handler are
-missed everywhere, and the infeasible branch and the loop-carried kill are
-over-approximated everywhere — which is what a shared engine over
-language-specific frontends should look like. Java, Python, and PHP show
-exactly that set and nothing else; JavaScript adds array-element and
-same-object-field over-approximation; Ruby adds argument-position and
-call-context over-approximation.
+Four mismatching templates recur across the five languages that share the
+sixteen v0.3.0 templates — alias propagation through a field and value transfer
+to an exception handler are missed everywhere, and the infeasible branch and
+the loop-carried kill are over-approximated everywhere — which is what a shared
+engine over language-specific frontends should look like. Java, PHP, and
+Python's classic stratum show exactly that set and nothing else; JavaScript
+adds array-element and same-object-field over-approximation; Ruby adds
+argument-position and call-context over-approximation.
 
-JavaScript's challenge stratum is the only expanded evidence here, and it
+Two challenge strata are recorded here, Python's and JavaScript's. JavaScript's
 divides cleanly: every stratum-A and stratum-B *negative* is decided correctly
 while five of those positives are missed — the under-approximating half of the
 approximation character the challenge preregistration described — and the two
@@ -378,6 +410,10 @@ upgrade's effect on each is measured, not assumed. Four of the five reproduced
 | Python | 28/32 | 28/32 | none; identical mismatch set |
 | PHP | 28/32 | 28/32 | none; identical mismatch set |
 | Ruby | 26/32 | 26/32 | **same total, different set — four cases moved** |
+
+That table compares the 16-template population under two Joern pins. Python's
+later expansion to 58 assertions is a *population* change, not a pin change,
+and its 48/58 belongs beside neither column.
 
 Ruby's score is unchanged and its outcome distribution is unchanged (18
 `reached`, 14 `not-reached`), but the *identity* of its four false positives

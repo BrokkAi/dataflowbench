@@ -80,6 +80,7 @@ Run from the repository root:
 
 ```bash
 cargo run -- run-bifrost-smoke --bifrost /path/to/bifrost
+cargo run -- run-bifrost-java-kernel --bifrost /path/to/bifrost
 cargo run -- run-bifrost-javascript-kernel --bifrost /path/to/bifrost
 cargo run -- run-bifrost-python-kernel --bifrost /path/to/bifrost
 cargo run -- run-bifrost-kotlin-kernel --bifrost /path/to/bifrost
@@ -94,8 +95,23 @@ cargo run -- run-bifrost-ruby-kernel --bifrost /path/to/bifrost
 cargo run -- run-bifrost-php-kernel --bifrost /path/to/bifrost
 ```
 
+The `run-bifrost-java-kernel` command is new and **has not been run**: it
+carries no evidence in this repository yet, and the frozen smoke slice remains
+the published Java Bifrost evidence until Java's challenge-tier wave-1 language
+change runs it. `run-bifrost-javascript-kernel` **has** been run, over
+JavaScript's expanded 58-assertion core; its evidence is described below. Each
+selects its language's whole core population and pins the language-qualified
+policy for the run, accepting the frozen direct-propagation pair's historical
+policy references (`direct-positive.rqlp` and `explicit-negative.rqlp` for
+Java, the cross-language breadth policy for JavaScript) rather than rewriting
+evidence a freeze manifest binds. Their populations follow the challenge
+rollout table described in [the adapter contract](../../docs/adapters.md): 32
+assertions before a language's row is flipped, the expanded denominator after.
+
 The smoke command selects only cases with an explicit Bifrost policy or
-unsupported declaration. Cases for other adapters are not emitted into the
+unsupported declaration, and never a challenge-tier case: any `template_id`
+beginning `dfb-template-chal-` is refused so the frozen 118-case population
+cannot change meaning when challenge fixtures land under the same policies. Cases for other adapters are not emitted into the
 Bifrost report. Each selected case is materialized into an isolated workspace
 and evaluated through Bifrost's path-based policy CLI (`--root` plus
 `--policy-file`). A report with incomplete runs is normalized as `inconclusive`
@@ -119,7 +135,21 @@ The 32-case Java kernel has 16 `reached` and 16 `not-reached` outcomes, with
 v0.10.2 it was 17/32). The 32-case Python kernel likewise has 16 `reached`,
 16 `not-reached`, and 32/32 matching (v0.10.2: 16/32); its dedicated report is
 `reports/bifrost-python-kernel.json` and raw evidence is under
-`reports/raw/bifrost-python-kernel/`. The 32-case
+`reports/raw/bifrost-python-kernel/`.
+
+**Deferred: the expanded Python population.** Python's challenge-tier row is
+rolled out and its core denominator is now 29 templates / 58 assertions, but
+`reports/bifrost-python-kernel.json` is one of the nineteen reports
+`reports/freeze.json` digest-binds for v0.3.0, so the Python challenge wave did
+not re-run it. Those 32 results are the frozen 16-template v0.3.0 evidence and
+say nothing either way about the thirteen challenge templates; Bifrost's
+evidence for the expanded Python core arrives with the v0.4.0 freeze-prep
+re-run. Deferral is not absence of coverage, and the v0.3.0 and v0.4.0
+populations are never compared number-to-number. The Python challenge cases are
+also excluded from the smoke selection, which stays pinned at its frozen 118
+cases.
+
+The 32-case
 JavaScript kernel has 16 `reached`, 16 `not-reached`, and 32/32 matching
 (v0.10.2: 19/32). Unlike the v0.10.2 snapshot, this v0.10.5 evidence decides
 all three of these kernels completely.

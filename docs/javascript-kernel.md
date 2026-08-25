@@ -98,10 +98,16 @@ its JavaScript slice stays the classic pairs at 118 cases, and the challenge
 assertions are carried by the new dedicated kernel report instead.
 
 Because the corpus-wide `fixture_revision` covers every case and fixture byte,
-the three expanded JavaScript reports carry a new revision
-(`sha256:64ef139f452fd296bb26463bc552e5e5998ca4bb4584d45565d858424814bde9`)
-that no earlier retained report carries. Reports at different fixture
-revisions are not pooled.
+the three expanded JavaScript reports carry revisions no earlier retained
+report carries: the Bifrost and Joern reports
+`sha256:64ef139f452fd296bb26463bc552e5e5998ca4bb4584d45565d858424814bde9`, and
+the Semgrep CE report
+`sha256:61c06a78b95b86764d3c220cfefd7af37373db64b15ae0b76c6ebf924217ab2e`,
+because it was re-run once more after the Python challenge wave merged so that
+its capability rationales cite the preregistered per-template partition rather
+than the generic tag rule. Reports at different fixture revisions are not
+pooled; the JavaScript outcomes are identical across the two Semgrep runs,
+which differ only in those reason clauses.
 
 ### Bifrost v0.10.5 — expanded core
 
