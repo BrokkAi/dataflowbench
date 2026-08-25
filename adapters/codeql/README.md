@@ -353,8 +353,9 @@ simply not invoked until the freeze is re-cut.
 
 ## C# kernel
 
-The C# runner selects exactly the 32 `taint` cases whose `language` is `csharp`
-and whose `score_tier` is `core`, and analyzes each with:
+The C# runner selects exactly the 58 `taint` cases whose `language` is `csharp`
+and whose `score_tier` is `core` — the expanded core, 29 templates after the
+challenge wave — and analyzes each with:
 
 ```text
 adapters/codeql/csharp/queries/CSharpKernel.ql
@@ -395,6 +396,18 @@ negatives are the alias-propagation, exception-catch, and expression positives,
 and the false positives are the array-element and loop-carried negatives — the
 same mismatch set the Java kernel shows on those templates. Its configuration
 hash is `cd5f68b8ccb2e4de27cf1606b0c9f2ee8981ce5dfdf8ee2fea08fe977a0c56c9`.
+
+**Deferred: the expanded C# population.** C#'s challenge-tier row is now
+rolled out and its core denominator is 29 templates / 58 assertions, but
+`reports/codeql-csharp-kernel.json` is one of the nineteen reports
+`reports/freeze.json` digest-binds for v0.3.0. Overwriting it would invalidate
+a published freeze, so the C# challenge wave left it untouched, exactly as the
+Python and JavaScript waves left theirs. Its 32 results remain the frozen
+16-template v0.3.0 evidence, and CodeQL's evidence for the expanded C# core
+arrives with the v0.4.0 freeze-prep re-run. This is deferral, not absence of
+coverage, and the two populations are never compared number-to-number. The
+selection code already expects 58; the runner is simply not invoked until the
+freeze is re-cut.
 
 ## Go kernel
 

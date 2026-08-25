@@ -1,0 +1,67 @@
+{
+  "schema_version": 2,
+  "id": "dfb-taint-java-deep-relay-chain-positive",
+  "template_id": "dfb-template-chal-deep-relay-chain",
+  "polarity": "positive",
+  "score_tier": "core",
+  "track": "taint",
+  "language": "java",
+  "semantic_dimensions": [
+    "interprocedural-flow"
+  ],
+  "feature_tags": [
+    "interprocedural-deep"
+  ],
+  "model_profile": "benchmark-controlled",
+  "fixture_files": [
+    "DeepRelayChainPositive.java"
+  ],
+  "source_anchors": [
+    {
+      "marker": "DFB-SOURCE: deep-relay-chain-input",
+      "file": "DeepRelayChainPositive.java",
+      "line_hint": 4
+    }
+  ],
+  "sink_anchors": [
+    {
+      "marker": "DFB-SINK: deep-relay-chain-sink",
+      "file": "DeepRelayChainPositive.java",
+      "line_hint": 8
+    }
+  ],
+  "expected_flows": [
+    {
+      "source": "DFB-SOURCE: deep-relay-chain-input",
+      "sink": "DFB-SINK: deep-relay-chain-sink"
+    }
+  ],
+  "expected_nonflows": [],
+  "witness_checkpoints": [
+    "DFB-SOURCE: deep-relay-chain-input",
+    "DFB-WITNESS: deep-relay-chain-hop1",
+    "DFB-WITNESS: deep-relay-chain-hop6",
+    "DFB-SINK: deep-relay-chain-sink"
+  ],
+  "expected_analysis_capability": {
+    "kind": "deep-interprocedural-relay-taint"
+  },
+  "execution_budget": {
+    "wall_clock_seconds": 60,
+    "peak_memory_mb": 512
+  },
+  "fixture_provenance": {
+    "kind": "authored",
+    "origin": "DataFlowBench",
+    "revision": "m3-challenge-java",
+    "license": "MIT"
+  },
+  "tool_model_references": {
+    "bifrost": {
+      "policy": "adapters/bifrost/policies/core-java-kernel.rqlp"
+    },
+    "codeql": {
+      "query": "adapters/codeql/queries/JavaKernel.ql"
+    }
+  }
+}

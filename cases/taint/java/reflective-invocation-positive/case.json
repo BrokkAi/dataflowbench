@@ -1,0 +1,67 @@
+{
+  "schema_version": 2,
+  "id": "dfb-taint-java-reflective-invocation-positive",
+  "template_id": "dfb-template-chal-reflective-invocation",
+  "polarity": "positive",
+  "score_tier": "core",
+  "track": "taint",
+  "language": "java",
+  "semantic_dimensions": [
+    "dynamic-dispatch"
+  ],
+  "feature_tags": [
+    "reflective-dispatch"
+  ],
+  "model_profile": "benchmark-controlled",
+  "fixture_files": [
+    "ReflectiveInvocationPositive.java"
+  ],
+  "source_anchors": [
+    {
+      "marker": "DFB-SOURCE: reflective-invocation-input",
+      "file": "ReflectiveInvocationPositive.java",
+      "line_hint": 6
+    }
+  ],
+  "sink_anchors": [
+    {
+      "marker": "DFB-SINK: reflective-invocation-sink",
+      "file": "ReflectiveInvocationPositive.java",
+      "line_hint": 10
+    }
+  ],
+  "expected_flows": [
+    {
+      "source": "DFB-SOURCE: reflective-invocation-input",
+      "sink": "DFB-SINK: reflective-invocation-sink"
+    }
+  ],
+  "expected_nonflows": [],
+  "witness_checkpoints": [
+    "DFB-SOURCE: reflective-invocation-input",
+    "DFB-WITNESS: reflective-invocation-resolve",
+    "DFB-WITNESS: reflective-invocation-target",
+    "DFB-SINK: reflective-invocation-sink"
+  ],
+  "expected_analysis_capability": {
+    "kind": "reflective-dispatch-taint"
+  },
+  "execution_budget": {
+    "wall_clock_seconds": 60,
+    "peak_memory_mb": 512
+  },
+  "fixture_provenance": {
+    "kind": "authored",
+    "origin": "DataFlowBench",
+    "revision": "m3-challenge-java",
+    "license": "MIT"
+  },
+  "tool_model_references": {
+    "bifrost": {
+      "policy": "adapters/bifrost/policies/core-java-kernel.rqlp"
+    },
+    "codeql": {
+      "query": "adapters/codeql/queries/JavaKernel.ql"
+    }
+  }
+}

@@ -271,7 +271,7 @@ Because the endpoint identifiers vary per fixture, the runner resolves
 `__DFB_SOURCE__` and `__DFB_SINK__` per case from that fixture's own
 `DFB-SOURCE:` and `DFB-SINK:` marker lines — the same
 `benchmark_endpoint_names` the Joern kernels use, so the two adapters cannot
-drift. This matters: 30 of the 32 Java assertions spell the endpoints
+drift. This matters: 56 of the 58 Java assertions spell the endpoints
 `dfb_source`/`dfb_sink`, but the two frozen Java direct-propagation assertions
 predate that convention and spell them `directUntrustedInput`/`recordDirect`
 and `explicitNegativeUntrustedInput`/`recordExplicitNegative`. A rule that
@@ -377,16 +377,21 @@ does not require the marker's own line.
 
 Semgrep CE 1.174.0. Eight kernels ran against fixture revision
 `sha256:aee59a14f96633cf5798df6d211525ea0d10748800ba9c9ac0a3787406bd19ea`; the
-Python, JavaScript, and TypeScript kernels were each re-run whole after that
+Python, JavaScript, Java, and TypeScript kernels were each re-run whole after that
 language's challenge-tier row was rolled out and carry the expanded corpus
 revision current when each ran —
 `sha256:3e7a8de5e1eefb18e8166af0ccdf309bccf1d5c26026893a4513f1943926ab1f` for
 Python,
 `sha256:61c06a78b95b86764d3c220cfefd7af37373db64b15ae0b76c6ebf924217ab2e` for
 JavaScript, and
+`sha256:cf571f29e434030019d5e8f8361319b0bb3b4d6c4c752bd65860e07bfcf26bbc` for
+Java, and
 `sha256:2c906faeb98b48d1aba7da7bc80a78c4084051b84efac6ac3a1b74f54c843fd2` for
-TypeScript. Reports at different fixture revisions are not pooled.
-All eleven kernels ran. 426 assertions: 154 executed against Semgrep, 272
+TypeScript. Reports at different
+fixture revisions are not pooled. The configuration hash is unchanged across
+all eleven: no rule file was touched.
+
+All eleven kernels ran. 452 assertions: 154 executed against Semgrep, 298
 excluded by declared capability. Zero `inconclusive` and zero `runner-error`
 outcomes; 154 retained finding documents, 154 retained resolved rule files, 272
 retained capability-decision documents, and zero error documents. (The counts
@@ -396,9 +401,9 @@ reports and evidence directories.)
 
 | Kernel | `maturity` | Selected | `reached` | `not-reached` | `unsupported` | Polarity match (scored subset) |
 | --- | --- | --- | --- | --- | --- | --- |
-| Java | `ga` | 32 | 9 | 5 | 18 | 12/14 |
-| JavaScript | `ga` | **58** | 9 | 5 | **44** | 12/14 |
-| TypeScript | `ga` | **58** | 9 | 5 | **44** | 12/14 |
+| **Java** | `ga` | **58** | 9 | 5 | **44** | 12/14 |
+| **JavaScript** | `ga` | **58** | 9 | 5 | **44** | 12/14 |
+| **TypeScript** | `ga` | **58** | 9 | 5 | **44** | 12/14 |
 | **Python** | `ga` | **58** | 9 | 5 | **44** | 12/14 |
 | Go | `ga` | 32 | 9 | 5 | 18 | 12/14 |
 | Ruby | `ga` | 32 | 9 | 5 | 18 | 12/14 |
@@ -409,16 +414,16 @@ reports and evidence directories.)
 | **C++** | **`alpha`** | 32 | 9 | 5 | 18 | 12/14 |
 
 The scored subset is 7 positives and 7 negatives per language, the three
-expanded denominators included: their 26 challenge assertions each are all
+expanded denominators included: their 26 challenge assertions are all
 `unsupported`, so the scored subset is the same 14 assertions it was, and the
-`Selected` column is the only one the expansions moved. Every one of the 7
+`Selected` column is the only one an expansion moved. Every one of the 7
 intraprocedural positives is `reached` in every language — no false negative
 anywhere — and 5 of the 7 negatives are `not-reached`.
 
-Python, JavaScript, and TypeScript are the expanded populations, and the
-expansion changes only the `unsupported` column: all 26 challenge assertions in
-each are declined by declared capability, and each scored 14 are the same 14
-assertions with the same 12/14 result as before the expansion. A larger
+Java, JavaScript, Python, and TypeScript are the four expanded populations, and
+each changes only the `unsupported` column: all 26 of that language's challenge
+assertions are declined by declared capability, and its scored 14 are the same
+14 assertions with the same 12/14 result as before the expansion. A larger
 `unsupported` count on a larger population is coverage arithmetic, not a worse
 engine.
 
@@ -434,6 +439,24 @@ Mismatches, verbatim, and identical in all eleven languages:
 
 - `dfb-taint-<language>-infeasible-branch-negative`: false positive.
 - `dfb-taint-<language>-loop-carried-negative`: false positive.
+
+### An expanded core changes the excluded partition and nothing else
+
+Java's, JavaScript's, and Python's cores each now carry the thirteen
+[challenge-tier](../../docs/challenge-tier.md) templates, so each selection grew
+from 32 to 58 assertions. Each one's **scored subset is still 14, and still
+12/14**, with the same two false positives: no challenge template is tagged
+`intraprocedural`, so none of them enters the scored partition. All 26 are
+`unsupported` in each language, decided by the preregistered
+`CHALLENGE_SEMGREP_PARTITION` before Semgrep was invoked, so not one reached a
+Semgrep process and none can read as a false negative. Each retained reason is
+the per-template rationale the preregistration fixed — the documented CE
+boundary that template falls outside, quoted from the pinned distribution's own
+documentation — rather than a generic restatement of the tag rule, and it is
+keyed by template ID, so no fixture's `feature_tags` and no observed result can
+move a case between the partitions after the fact. A bounded engine declining a
+harder tier wholesale is the preregistered expectation and correct behavior, not
+a gap to paper over.
 
 Both are exactly what the documentation predicts. `--pro-path-sensitive`
 ("Path sensitivity. Requires Semgrep Pro Engine") says the CE engine does not

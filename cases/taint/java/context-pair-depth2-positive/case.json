@@ -1,0 +1,68 @@
+{
+  "schema_version": 2,
+  "id": "dfb-taint-java-context-pair-depth2-positive",
+  "template_id": "dfb-template-chal-context-pair-depth2",
+  "polarity": "positive",
+  "score_tier": "core",
+  "track": "taint",
+  "language": "java",
+  "semantic_dimensions": [
+    "context-sensitivity",
+    "interprocedural-flow"
+  ],
+  "feature_tags": [
+    "interprocedural-deep"
+  ],
+  "model_profile": "benchmark-controlled",
+  "fixture_files": [
+    "ContextPairDepth2Positive.java"
+  ],
+  "source_anchors": [
+    {
+      "marker": "DFB-SOURCE: context-pair-depth2-input",
+      "file": "ContextPairDepth2Positive.java",
+      "line_hint": 4
+    }
+  ],
+  "sink_anchors": [
+    {
+      "marker": "DFB-SINK: context-pair-depth2-sink",
+      "file": "ContextPairDepth2Positive.java",
+      "line_hint": 8
+    }
+  ],
+  "expected_flows": [
+    {
+      "source": "DFB-SOURCE: context-pair-depth2-input",
+      "sink": "DFB-SINK: context-pair-depth2-sink"
+    }
+  ],
+  "expected_nonflows": [],
+  "witness_checkpoints": [
+    "DFB-SOURCE: context-pair-depth2-input",
+    "DFB-WITNESS: context-pair-depth2-wrapper",
+    "DFB-WITNESS: context-pair-depth2-helper",
+    "DFB-SINK: context-pair-depth2-sink"
+  ],
+  "expected_analysis_capability": {
+    "kind": "two-level-context-sensitive-taint"
+  },
+  "execution_budget": {
+    "wall_clock_seconds": 60,
+    "peak_memory_mb": 512
+  },
+  "fixture_provenance": {
+    "kind": "authored",
+    "origin": "DataFlowBench",
+    "revision": "m3-challenge-java",
+    "license": "MIT"
+  },
+  "tool_model_references": {
+    "bifrost": {
+      "policy": "adapters/bifrost/policies/core-java-kernel.rqlp"
+    },
+    "codeql": {
+      "query": "adapters/codeql/queries/JavaKernel.ql"
+    }
+  }
+}

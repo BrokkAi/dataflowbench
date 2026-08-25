@@ -1,0 +1,66 @@
+{
+  "schema_version": 2,
+  "id": "dfb-taint-csharp-anonymous-implementation-positive",
+  "template_id": "dfb-template-chal-anonymous-implementation",
+  "polarity": "positive",
+  "score_tier": "core",
+  "track": "taint",
+  "language": "csharp",
+  "semantic_dimensions": [
+    "dynamic-dispatch",
+    "context-sensitivity"
+  ],
+  "feature_tags": [
+    "higher-order",
+    "ambiguous-dispatch"
+  ],
+  "model_profile": "benchmark-controlled",
+  "fixture_files": [
+    "AnonymousImplementationPositive.cs"
+  ],
+  "source_anchors": [
+    {
+      "marker": "DFB-SOURCE: anonymous-implementation-input",
+      "file": "AnonymousImplementationPositive.cs"
+    }
+  ],
+  "sink_anchors": [
+    {
+      "marker": "DFB-SINK: anonymous-implementation-sink",
+      "file": "AnonymousImplementationPositive.cs"
+    }
+  ],
+  "expected_flows": [
+    {
+      "source": "DFB-SOURCE: anonymous-implementation-input",
+      "sink": "DFB-SINK: anonymous-implementation-sink"
+    }
+  ],
+  "expected_nonflows": [],
+  "witness_checkpoints": [
+    "DFB-SOURCE: anonymous-implementation-input",
+    "DFB-WITNESS: anonymous-implementation-handler",
+    "DFB-SINK: anonymous-implementation-sink"
+  ],
+  "expected_analysis_capability": {
+    "kind": "indirect-callee-resolution-taint"
+  },
+  "execution_budget": {
+    "wall_clock_seconds": 60,
+    "peak_memory_mb": 512
+  },
+  "fixture_provenance": {
+    "kind": "authored",
+    "origin": "DataFlowBench",
+    "revision": "m3-challenge-csharp",
+    "license": "MIT"
+  },
+  "tool_model_references": {
+    "bifrost": {
+      "policy": "adapters/bifrost/policies/core-csharp-kernel.rqlp"
+    },
+    "codeql": {
+      "query": "adapters/codeql/csharp/queries/CSharpKernel.ql"
+    }
+  }
+}
