@@ -13,9 +13,9 @@ The initial adapter plan is:
 
 | Tool | Initial profile | Status |
 | --- | --- | --- |
-| Bifrost | Breadth baseline and per-language propagation kernels | Implemented smoke adapter; kernel runs are reported separately. The JavaScript kernel command has been run over the expanded 29-template core; the Java one exists but has not been run, so the frozen smoke slice is still Java's published evidence |
+| Bifrost | Breadth baseline and per-language propagation kernels | Implemented smoke adapter; kernel runs are reported separately. Both the Java and the JavaScript kernel commands have now been run over their expanded 29-template cores |
 | CodeQL | 16-template Java and JavaScript propagation kernels and the 29-template expanded Python kernel | Java, JavaScript, and Python runners implemented as separate language-scoped populations |
-| Joern | Java, Ruby, and PHP 16-template propagation kernels, the 15-template Rust kernel, and the 29-template expanded Python and JavaScript kernels | Implemented as six separate language-scoped populations over one CPG query script |
+| Joern | Ruby and PHP 16-template propagation kernels, the 15-template Rust kernel, and the 29-template expanded Java, Python, and JavaScript kernels | Implemented as six separate language-scoped populations over one CPG query script |
 | Semgrep CE | Supported local analysis only | Implemented as eleven separate language-scoped populations over one committed taint rule per language; only the documented intraprocedural partition is scored. Four front ends are non-GA in the pinned distribution (Kotlin `beta`; Rust, C, C++ `alpha`) and the label is retained without ever changing the partition |
 | OpenTaint | Java and Kotlin profile | Planned |
 
@@ -82,12 +82,11 @@ with: Java's positive and negative name `direct-positive.rqlp` and
 policy, and the selector accepts all of them rather than rewriting evidence a
 freeze manifest binds byte-for-byte.
 
-The JavaScript wave has run `run-bifrost-javascript-kernel` against its real
-challenge fixtures, so `reports/bifrost-javascript-kernel.json` is now
-JavaScript's expanded-core Bifrost evidence; the frozen 118-case smoke slice is
-untouched and remains the published 32-assertion JavaScript slice. `run-bifrost-java-kernel`
-has **not been run**: the frozen smoke slice remains the published Java Bifrost
-evidence until Java's wave PR runs it against real challenge fixtures.
+Both commands have now been run against their languages' real challenge
+fixtures, so `reports/bifrost-javascript-kernel.json` and
+`reports/bifrost-java-kernel.json` are those languages' expanded-core Bifrost
+evidence. The frozen 118-case smoke slice is untouched by either and remains
+the published 32-assertion Java and JavaScript slices.
 
 **A freeze-bound report is not re-run by the wave that expands its language.**
 `reports/freeze.json` digest-binds nineteen reports, including all ten CodeQL
@@ -105,16 +104,17 @@ fixture's `feature_tags` and no observed result can move a case between the
 partitions. The per-template rationale is in
 [the Semgrep adapter notes](../adapters/semgrep/README.md).
 
-**Python, JavaScript, and C# are the rows flipped so far.** Each has a core
+**Python, JavaScript, Java, and C# are the rows flipped so far.** Each has a core
 denominator of 29 templates and 58 assertions. The Python wave re-ran the
 adapters no freeze binds — Joern and Semgrep CE — while leaving its
 freeze-bound Bifrost and CodeQL reports exactly as published; the JavaScript
-wave re-ran Joern and Semgrep CE too, and additionally ran the dedicated
-`run-bifrost-javascript-kernel` command, which writes a report no freeze binds
-and so is not a rewrite of published evidence. JavaScript's CodeQL report stays
-as published. The per-adapter evidence, including which adapters were deferred,
-is in [the Python kernel contract](python-kernel.md) and [the JavaScript
-adaptation matrix](javascript-kernel.md).
+and Java waves re-ran Joern and Semgrep CE too, and each additionally ran its
+dedicated `run-bifrost-<language>-kernel` command, which writes a report no
+freeze binds and so is not a rewrite of published evidence. The JavaScript and
+Java CodeQL reports stay as published. The per-adapter evidence, including
+which adapters were deferred, is in [the Python kernel
+contract](python-kernel.md), [the JavaScript adaptation
+matrix](javascript-kernel.md), and [the Java kernel contract](java-kernel.md).
 
 The C# wave ran **no adapter at all**, and that is the honest consequence of the
 freeze rule rather than a gap in the wave. Every analyzer that covers C# is
@@ -354,8 +354,8 @@ partition of each kernel: 7 templates and 14 assertions.
 The remaining templates — the `interprocedural-one-hop`,
 `interprocedural-deep`, and `heap-access-path` partitions, 18 assertions in a
 16-template kernel, 16 in C and Rust, and 44 in each of the expanded
-29-template Python and JavaScript kernels, whose thirteen challenge templates
-are all outside the profile — are `unsupported`. That decision is
+29-template Java, Python, and JavaScript kernels, whose thirteen challenge
+templates are all outside the profile — are `unsupported`. That decision is
 taken from each case's own `feature_tags` and
 `expected_analysis_capability.kind` *before* Semgrep is invoked, so an
 out-of-profile case never reaches a Semgrep process and cannot produce an empty
@@ -365,7 +365,9 @@ The whole selection is still balance-checked by the same
 `validate_kernel_population_with` every other kernel uses, against that
 language's own template set; the bounded profile narrows what is scored, never
 what is selected. The scored subset is 14 assertions in all eleven languages,
-because every intraprocedural template is applicable everywhere.
+because every intraprocedural template is applicable everywhere — and it stays
+14 in a language whose challenge tier has rolled out, because no challenge
+template carries the `intraprocedural` tag.
 
 Rules are benchmark-controlled and committed under `adapters/semgrep/rules/`,
 one `mode: taint` rule per language. Because endpoint identifiers vary per

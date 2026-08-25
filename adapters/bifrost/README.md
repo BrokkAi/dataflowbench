@@ -12,7 +12,10 @@ The core smoke slice applies one balanced direct-flow template to all 13
 currently supported language/dialect entries: C, C++, C#, Go, Java,
 JavaScript, Kotlin, PHP, Python, Ruby, Rust, Scala, and TypeScript. A Java
 propagation kernel adds 16 balanced templates across local, call/return, heap,
-and control-flow strata. The JavaScript parity slice uses the same template IDs
+and control-flow strata. Java has since been expanded by the same thirteen
+challenge templates to a 29-template, 58-assertion core, run by its own
+`run-bifrost-java-kernel` command; see the [Java kernel
+contract](../../docs/java-kernel.md). The JavaScript parity slice uses the same template IDs
 and the language-qualified `core-javascript-kernel.rqlp` policy, with any
 language adaptations recorded on the canonical cases. JavaScript has since been
 expanded by the thirteen challenge templates to a 29-template, 58-assertion
@@ -95,11 +98,9 @@ cargo run -- run-bifrost-ruby-kernel --bifrost /path/to/bifrost
 cargo run -- run-bifrost-php-kernel --bifrost /path/to/bifrost
 ```
 
-The `run-bifrost-java-kernel` command is new and **has not been run**: it
-carries no evidence in this repository yet, and the frozen smoke slice remains
-the published Java Bifrost evidence until Java's challenge-tier wave-1 language
-change runs it. `run-bifrost-javascript-kernel` **has** been run, over
-JavaScript's expanded 58-assertion core; its evidence is described below. Each
+`run-bifrost-java-kernel` and `run-bifrost-javascript-kernel` have both now been
+run, each over its language's expanded 58-assertion core; their evidence is
+described below. Each
 selects its language's whole core population and pins the language-qualified
 policy for the run, accepting the frozen direct-propagation pair's historical
 policy references (`direct-positive.rqlp` and `explicit-negative.rqlp` for
@@ -130,9 +131,11 @@ evidence layers. Raw completion and diagnostic fields are never replaced with
 a synthetic `not-reached` outcome, and normalized witness checkpoints remain
 empty until the adapter can prove their locations.
 
-The 32-case Java kernel has 16 `reached` and 16 `not-reached` outcomes, with
-32/32 assertions matching expected polarity and no incomplete outcomes (under
-v0.10.2 it was 17/32). The 32-case Python kernel likewise has 16 `reached`,
+The 32-case Java kernel *within the frozen smoke population* has 16 `reached`
+and 16 `not-reached` outcomes, with 32/32 assertions matching expected polarity
+and no incomplete outcomes (under v0.10.2 it was 17/32). That population is
+frozen and does not grow; Java's expanded core is a separate slice, described
+under [the Java kernel](#java-kernel-expanded-core) below. The 32-case Python kernel likewise has 16 `reached`,
 16 `not-reached`, and 32/32 matching (v0.10.2: 16/32); its dedicated report is
 `reports/bifrost-python-kernel.json` and raw evidence is under
 `reports/raw/bifrost-python-kernel/`.
@@ -307,6 +310,41 @@ or `capability_incomplete` (4) evidence; six of them additionally carry the
 policy's finding message, which an incomplete run cannot make decisive. This is
 capability coverage, never a negative result; see [the Scala kernel
 contract](../../docs/scala-kernel.md).
+
+## Java kernel (expanded core)
+
+Java now has a dedicated slice of its own, `run-bifrost-java-kernel`, writing
+`reports/bifrost-java-kernel.json` with raw evidence under
+`reports/raw/bifrost-java-kernel/`. It exists because Java's core grew: the
+[challenge-tier preregistration](../../docs/challenge-tier.md) adds thirteen
+templates to it, so its denominator is **29 templates and 58 assertions**, while
+the smoke population that also covers Java is frozen at 118 cases and must not
+grow. The challenge tier is excluded from the smoke selection outright for that
+reason.
+
+The first run of this slice, on the same v0.10.5 build, produces 18 `reached`,
+19 `not-reached`, 19 `inconclusive`, and 2 `runner-error` results. Its classic
+32 assertions reproduce the frozen smoke slice's Java outcomes case for case —
+16 `reached`, 16 `not-reached`, 32/32 matching — which is the control that says
+the expansion did not disturb the population it was added to.
+
+Of the 26 challenge assertions, five are decisive and all five are correct
+(both `recursive-carry` cells, both `context-pair-depth2` cells, and
+`deep-relay-chain-negative`); there is no false positive and no false negative
+anywhere in the tier. The other 21 are capability or execution coverage: 19
+`inconclusive` — 10 retaining `capability_incomplete` "no analysis root
+contains both a selected source and sink" (the reflective-invocation,
+dispatch-table, closure-capture, function-field, and callback-registration
+pairs) and 9 retaining `partial_discovery` "procedure value-flow snapshot ...
+is unknown" (the computed-property, anonymous-implementation, map-iteration,
+and nested-access-path pairs, plus the six-hop relay positive) — and 2
+`runner-error` on the `element-object` pair, where the run fails with
+`internal_invariant` and "invalid value-flow snapshot: oracle relation does not
+belong to the required query arena and role". That failure is retained
+verbatim and published as an engine defect; it is not a negative result. Per
+the preregistration's own reading rule, correct stratum-D negatives beside an
+undecided six-hop positive describe a bound, not precision. See [the Java
+kernel contract](../../docs/java-kernel.md).
 
 The JavaScript alias-propagation and array-element pairs retain
 `partial_discovery` evidence, while the exception-catch pair retains
