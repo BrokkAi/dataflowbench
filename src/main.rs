@@ -378,7 +378,7 @@ const CHALLENGE_ROLLOUT: [ChallengeRollout; 13] = [
         display: "C",
         classic: &KERNEL_TEMPLATE_IDS_WITHOUT_EXCEPTION_CATCH,
         challenge: &CHALLENGE_TEMPLATE_IDS_C,
-        rolled_out: false,
+        rolled_out: true,
     },
     ChallengeRollout {
         language: "php",
@@ -8716,11 +8716,13 @@ mod tests {
         assert!(selected > KERNEL_CASE_COUNT);
     }
 
-    /// C and C++ are two populations with two denominators. The C core is the
-    /// fifteen applicable classic templates; the C++ core is all sixteen plus
-    /// its twelve applicable challenge templates, now that the C++ row is
-    /// rolled out; the C `language-extension` cases ride along in the C slice
-    /// without changing its core denominator.
+    /// C and C++ are two populations with two denominators, both now rolled
+    /// out: C's core is the fifteen applicable classic templates plus its nine
+    /// applicable challenge templates — 24 templates and 48 assertions — and
+    /// the C++ core is all sixteen classic templates plus its twelve
+    /// applicable challenge templates — 28 templates and 56 assertions. The C
+    /// `language-extension` cases ride along in the C slice without changing
+    /// its core denominator.
     #[test]
     fn c_and_cpp_core_populations_keep_their_own_denominators() {
         let c = codeql_c_family_cases(CFamilyKernel::C).unwrap();
@@ -8731,8 +8733,8 @@ mod tests {
                 .filter(|(_, case)| case["score_tier"] == "core")
                 .count()
         };
-        assert_eq!(core(&c), KERNEL_CASE_COUNT_WITHOUT_EXCEPTION_CATCH);
-        assert_eq!(core(&c), 30);
+        assert_eq!(core(&c), expected_core_case_count("c"));
+        assert_eq!(core(&c), 48);
         assert_eq!(core(&cpp), expected_core_case_count("cpp"));
         assert_eq!(core(&cpp), 56);
         assert_eq!(c.len() - core(&c), 2);
@@ -8744,10 +8746,8 @@ mod tests {
             .map(|(_, case)| case["template_id"].as_str().unwrap().to_string())
             .collect::<BTreeSet<_>>();
         assert!(!c_templates.contains("dfb-template-exception-catch"));
-        assert_eq!(
-            c_templates.len(),
-            KERNEL_TEMPLATE_IDS_WITHOUT_EXCEPTION_CATCH.len()
-        );
+        assert_eq!(c_templates.len(), expected_core_templates("c").len());
+        assert_eq!(c_templates.len(), 24);
         for (_, case) in &c {
             assert_eq!(case["language"], "c");
             assert!(
@@ -8867,7 +8867,10 @@ mod tests {
                 }
             }
         }
-        assert_eq!(c_core, KERNEL_CASE_COUNT_WITHOUT_EXCEPTION_CATCH);
+        // C's challenge row is rolled out; C++'s is not, so the two slices
+        // carry different denominators from the same extractor.
+        assert_eq!(c_core, expected_core_case_count("c"));
+        assert_eq!(c_core, 48);
         assert_eq!(c - c_core, 2);
         assert_eq!(cpp, expected_core_case_count("cpp"));
         assert_eq!(cpp, 56);
@@ -9260,16 +9263,26 @@ mod tests {
                 (path, case)
             })
             .collect::<Vec<_>>();
+        let classic = KERNEL_TEMPLATE_IDS_WITHOUT_EXCEPTION_CATCH
+            .iter()
+            .copied()
+            .collect::<BTreeSet<_>>();
         for language in ["c", "rust"] {
             let core = core_templates_for_language(&cases, language);
+            // Both languages start from the same 15-template classic constant;
+            // C's challenge row is rolled out on top of it and Rust's is not,
+            // so the shared exclusion is what the two still have in common.
+            assert!(classic.is_subset(&core), "{language} classic set");
+            assert!(!core.contains("dfb-template-exception-catch"));
             assert_eq!(
                 core,
-                KERNEL_TEMPLATE_IDS_WITHOUT_EXCEPTION_CATCH
-                    .iter()
-                    .copied()
+                expected_core_templates(language)
+                    .into_iter()
                     .collect::<BTreeSet<_>>()
             );
         }
+        assert_eq!(core_templates_for_language(&cases, "rust"), classic);
+        assert_eq!(core_templates_for_language(&cases, "c").len(), 24);
         assert!(
             !core_templates_for_language(&cases, "rust")
                 .contains("dfb-template-result-error-propagation")
@@ -11454,8 +11467,8 @@ mod tests {
                 );
                 assert!(template.starts_with(CHALLENGE_TEMPLATE_PREFIX));
             }
-            // Python, JavaScript, Java, C#, TypeScript, Kotlin, Go, and C++
-            // are the waves that have landed their fixtures; every other
+            // Python, JavaScript, Java, C#, TypeScript, Kotlin, Go, C++, and
+            // C are the waves that have landed their fixtures; every other
             // language validates against its classic set alone, so a language
             // whose fixtures do not exist yet is never failed for missing them.
             let rolled_out = matches!(
@@ -11468,6 +11481,7 @@ mod tests {
                     | "kotlin"
                     | "go"
                     | "cpp"
+                    | "c"
             );
             assert_eq!(
                 challenge_rolled_out(row.language),
