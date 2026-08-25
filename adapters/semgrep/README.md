@@ -122,7 +122,7 @@ track == "taint"
 score_tier == "core"
 ```
 
-For eight of the eleven that is exactly 32 assertions — one positive and one
+For four of the eleven that is exactly 32 assertions — one positive and one
 negative for each of the 16 scored templates in
 `docs/applicability-matrix.md` — all under the `benchmark-controlled` model
 profile, enforced by the same `validate_kernel_population_with` check every
@@ -170,13 +170,15 @@ TypeScript, and Go**, whose challenge-tier rows are rolled out.
 | C, Rust | 30 | 14 | 16 |
 | **Python, JavaScript, TypeScript, Go** | **58** | **14** | **44** |
 
-That last row is the challenge tier. Each core denominator is the expanded 29
-templates — the sixteen v0.3.0 templates plus the thirteen preregistered
-challenge templates — and **every one of the 26 challenge assertions falls in
-the `unsupported` partition**, exactly as the preregistered partition below
-fixed in advance. Nothing about the scored partition was rewritten for the
-tier, and the scored subset stays at 14 assertions: the expansion moved the
-`unsupported` remainder from 18 to 44 and moved nothing else.
+The last two rows are the challenge tier. Their core denominators are the
+expanded template sets — the sixteen v0.3.0 templates plus that language's
+preregistered challenge templates, thirteen for the 58-assertion kernels and
+twelve for C++, whose `reflective-invocation` cell the preregistration
+classifies inapplicable — and **every challenge assertion falls in the
+`unsupported` partition**, exactly as the preregistered partition below fixed
+in advance. Nothing about the scored partition was rewritten for the tier, and
+the scored subset stays at 14 assertions: the expansion moved the
+`unsupported` remainder from 18 to 42 or 44 and moved nothing else.
 
 The decision is taken by `semgrep_capability_exclusion` from the case JSON
 alone; an excluded case never reaches a Semgrep process, so it cannot produce an
@@ -375,16 +377,16 @@ does not require the marker's own line.
 
 ## Observed results
 
-Semgrep CE 1.174.0. Eight kernels ran against fixture revision
+Semgrep CE 1.174.0. Seven kernels ran against fixture revision
 `sha256:aee59a14f96633cf5798df6d211525ea0d10748800ba9c9ac0a3787406bd19ea`; the
-Python, JavaScript, Java, TypeScript, Kotlin, and Go kernels were each re-run
-whole after that
+Python, JavaScript, Java, TypeScript, Kotlin, Go, and C++ kernels were each
+re-run whole after that
 language's challenge-tier row was rolled out and carry the expanded corpus
 revision current when each ran —
 `sha256:3e7a8de5e1eefb18e8166af0ccdf309bccf1d5c26026893a4513f1943926ab1f` for
 Python,
 `sha256:61c06a78b95b86764d3c220cfefd7af37373db64b15ae0b76c6ebf924217ab2e` for
-JavaScript, and
+JavaScript,
 `sha256:cf571f29e434030019d5e8f8361319b0bb3b4d6c4c752bd65860e07bfcf26bbc` for
 Java,
 `sha256:2c906faeb98b48d1aba7da7bc80a78c4084051b84efac6ac3a1b74f54c843fd2` for
@@ -393,7 +395,7 @@ Kotlin, and reports at different
 fixture revisions are not pooled. The configuration hash is unchanged across
 all eleven: no rule file was touched.
 
-All eleven kernels ran. 504 assertions: 154 executed against Semgrep, 350
+All eleven kernels ran. 528 assertions: 154 executed against Semgrep, 374
 excluded by declared capability. Zero `inconclusive` and zero `runner-error`
 outcomes; 154 retained finding documents, 154 retained resolved rule files, 324
 retained capability-decision documents, and zero error documents. Every figure
@@ -412,7 +414,7 @@ tree, never extrapolated from a previous wave's total.
 | **Kotlin** | **`beta`** | **58** | 9 | 5 | **44** | 12/14 |
 | **Rust** | **`alpha`** | **30** | 9 | 5 | **16** | 12/14 |
 | **C** | **`alpha`** | **30** | 9 | 5 | **16** | 12/14 |
-| **C++** | **`alpha`** | 32 | 9 | 5 | 18 | 12/14 |
+| **C++** | **`alpha`** | **56** | 9 | 5 | **42** | 12/14 |
 
 The scored subset is 7 positives and 7 negatives per language, the five
 expanded denominators included: their 26 challenge assertions are all
@@ -421,8 +423,8 @@ expanded denominators included: their 26 challenge assertions are all
 intraprocedural positives is `reached` in every language — no false negative
 anywhere — and 5 of the 7 negatives are `not-reached`.
 
-Java, JavaScript, Python, TypeScript, Kotlin, and Go are the six expanded
-populations, and
+Java, JavaScript, Python, TypeScript, Kotlin, Go, and C++ are the seven
+expanded populations, and
 each changes only the `unsupported` column: all 26 of that language's challenge
 assertions are declined by declared capability, and its scored 14 are the same
 14 assertions with the same 12/14 result as before the expansion. A larger
@@ -444,11 +446,13 @@ Mismatches, verbatim, and identical in all eleven languages:
 
 ### An expanded core changes the excluded partition and nothing else
 
-Java's, JavaScript's, and Python's cores each now carry the thirteen
-[challenge-tier](../../docs/challenge-tier.md) templates, so each selection grew
-from 32 to 58 assertions. Each one's **scored subset is still 14, and still
-12/14**, with the same two false positives: no challenge template is tagged
-`intraprocedural`, so none of them enters the scored partition. All 26 are
+Java's, JavaScript's, Python's, and TypeScript's cores each now carry the
+thirteen [challenge-tier](../../docs/challenge-tier.md) templates, so each
+selection grew from 32 to 58 assertions; C++'s carries the twelve the
+preregistration classifies applicable to it, growing from 32 to 56. Each one's
+**scored subset is still 14, and still 12/14**, with the same two false
+positives: no challenge template is tagged `intraprocedural`, so none of them
+enters the scored partition. All 26 challenge assertions — 24 for C++ — are
 `unsupported` in each language, decided by the preregistered
 `CHALLENGE_SEMGREP_PARTITION` before Semgrep was invoked, so not one reached a
 Semgrep process and none can read as a false negative. Each retained reason is

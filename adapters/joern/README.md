@@ -542,6 +542,13 @@ selection, no `reports/joern-go-kernel.json`. The Go challenge-tier wave
 any denominator, classic or expanded. Its absence from the run is a scope fact,
 not a result about Joern on Go.
 
+C++ is the same story with a different frontend. `c2cpg` ships in the pinned
+distribution, but this adapter has **no C++ slice**: no
+`run-joern-cpp-kernel` command, no C++ selection, no
+`reports/joern-cpp-kernel.json`. The C++ challenge-tier wave
+(`docs/cpp-kernel.md`) did not build one either, so C++ — like C — has no
+Joern evidence at any denominator.
+
 ## Model assumptions
 
 - The `benchmark-controlled` profile applies: the query is given the same
