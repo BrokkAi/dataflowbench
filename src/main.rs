@@ -126,7 +126,11 @@ const BIFROST_KOTLIN_POLICY: &str = "adapters/bifrost/policies/core-kotlin-kerne
 /// policy in its case metadata, so the run pins this policy for the whole
 /// population and all 32 assertions share one configuration.
 const BIFROST_SCALA_POLICY: &str = "adapters/bifrost/policies/core-scala-kernel.rqlp";
-/// One positive and one negative assertion for each scored template.
+/// One positive and one negative assertion for each scored template. Runner-side
+/// population checks read their denominator from `expected_core_case_count`,
+/// which follows the rollout table; this constant is the fixed classic
+/// expectation the regression tests pin against.
+#[cfg(test)]
 const KERNEL_CASE_COUNT: usize = 2 * KERNEL_TEMPLATE_IDS.len();
 /// The sixteen scored propagation templates. Every language kernel preserves
 /// these identities exactly; see docs/applicability-matrix.md.
@@ -318,7 +322,7 @@ const CHALLENGE_ROLLOUT: [ChallengeRollout; 13] = [
         display: "Python",
         classic: &KERNEL_TEMPLATE_IDS,
         challenge: &CHALLENGE_TEMPLATE_IDS,
-        rolled_out: false,
+        rolled_out: true,
     },
     ChallengeRollout {
         language: "typescript",
@@ -5450,9 +5454,11 @@ fn validate_codeql_python_population(cases: &[(PathBuf, Value)]) -> Result<PathB
             .context("Python CodeQL case lacks query reference")?;
         queries.insert(PathBuf::from(query));
     }
-    validate_kernel_population(cases, "Python CodeQL kernel")?;
+    let templates = expected_core_templates("python");
+    validate_kernel_population_with(cases, "Python CodeQL kernel", &templates)?;
     if queries.len() != 1 {
-        bail!("Python CodeQL kernel must use one query across all {KERNEL_CASE_COUNT} cases");
+        let case_count = 2 * templates.len();
+        bail!("Python CodeQL kernel must use one query across all {case_count} cases");
     }
     let query = queries.into_iter().next().expect("one query validated");
     Ok(query)
@@ -9644,15 +9650,16 @@ mod tests {
     }
 
     #[test]
-    fn python_codeql_population_requires_exact_balanced_32() {
+    fn python_codeql_population_requires_the_expanded_core() {
+        let expected = expected_core_templates("python");
         let mut cases = Vec::new();
-        for index in 0..16 {
+        for index in 0..expected.len() {
             for polarity in ["positive", "negative"] {
                 cases.push((
                     PathBuf::from(format!("case-{index}-{polarity}.json")),
                     json!({
                         "id": format!("dfb-taint-python-template-{index}-{polarity}"),
-                        "template_id": KERNEL_TEMPLATE_IDS[index],
+                        "template_id": expected[index],
                         "polarity": polarity,
                         "score_tier": "core",
                         "track": "taint",
@@ -9846,7 +9853,9 @@ mod tests {
         ] {
             let selected = select_joern_cases(kernel).unwrap();
             assert_eq!(selected.len(), 2 * kernel.templates().len());
-            if kernel == JoernKernel::Rust {
+            if challenge_rolled_out(kernel.language()) {
+                assert!(selected.len() > KERNEL_CASE_COUNT);
+            } else if kernel == JoernKernel::Rust {
                 assert_eq!(selected.len(), KERNEL_CASE_COUNT_WITHOUT_EXCEPTION_CATCH);
             } else {
                 assert_eq!(selected.len(), KERNEL_CASE_COUNT);
@@ -10362,11 +10371,15 @@ mod tests {
             let selected = select_semgrep_cases(kernel).unwrap();
             let expected_templates = kernel.templates();
             assert_eq!(selected.len(), 2 * expected_templates.len());
-            match kernel {
-                SemgrepKernel::C | SemgrepKernel::Rust => {
-                    assert_eq!(selected.len(), KERNEL_CASE_COUNT_WITHOUT_EXCEPTION_CATCH);
+            if challenge_rolled_out(kernel.language()) {
+                assert!(selected.len() > KERNEL_CASE_COUNT);
+            } else {
+                match kernel {
+                    SemgrepKernel::C | SemgrepKernel::Rust => {
+                        assert_eq!(selected.len(), KERNEL_CASE_COUNT_WITHOUT_EXCEPTION_CATCH);
+                    }
+                    _ => assert_eq!(selected.len(), KERNEL_CASE_COUNT),
                 }
-                _ => assert_eq!(selected.len(), KERNEL_CASE_COUNT),
             }
             let mut templates = BTreeMap::<String, (usize, usize)>::new();
             for (_, case) in &selected {
@@ -10601,7 +10614,11 @@ mod tests {
             // partition keeps each one's positive/negative pair together, so
             // the scored subset is 14 assertions everywhere. Only the
             // `unsupported` remainder differs: C and Rust have no
-            // exception-catch pair to exclude, so theirs is 16 rather than 18.
+            // exception-catch pair to exclude, so theirs is 16 rather than 18,
+            // and a language whose challenge row is rolled out carries the
+            // whole challenge tier in the remainder — every challenge template
+            // is outside the CE profile, so none of them moves the scored
+            // subset off 14.
             assert_eq!(scored, 14, "{} scored partition", kernel.label());
             let expected_excluded = 2 * kernel.templates().len() - 14;
             assert_eq!(
@@ -10610,9 +10627,13 @@ mod tests {
                 "{} unsupported partition",
                 kernel.label()
             );
-            match kernel {
-                SemgrepKernel::C | SemgrepKernel::Rust => assert_eq!(expected_excluded, 16),
-                _ => assert_eq!(expected_excluded, 18),
+            if challenge_rolled_out(kernel.language()) {
+                assert!(expected_excluded > 18);
+            } else {
+                match kernel {
+                    SemgrepKernel::C | SemgrepKernel::Rust => assert_eq!(expected_excluded, 16),
+                    _ => assert_eq!(expected_excluded, 18),
+                }
             }
         }
         // Every interprocedural and heap relay is excluded by tag, whatever the
@@ -11248,6 +11269,37 @@ mod tests {
             "test-adapter-taint-taint-benchmark-controlled-2"
         );
     }
+    /// Every challenge case that exists in the corpus belongs to a language
+    /// whose row is rolled out, and lands in that language's core population
+    /// with a preregistered template ID.
+    #[test]
+    fn challenge_cases_exist_only_for_rolled_out_languages() {
+        for path in case_paths() {
+            let case: Value = serde_json::from_str(&fs::read_to_string(&path).unwrap()).unwrap();
+            if !challenge_template_case(&case) {
+                continue;
+            }
+            let template = case["template_id"].as_str().unwrap();
+            assert!(
+                CHALLENGE_TEMPLATE_IDS.contains(&template),
+                "{} carries an unpreregistered challenge template",
+                path.display()
+            );
+            let language = case["language"].as_str().unwrap();
+            assert!(
+                challenge_rolled_out(language),
+                "{} carries a challenge template while {language} is not rolled out",
+                path.display()
+            );
+            assert_eq!(case["score_tier"], "core", "{}", path.display());
+            assert!(
+                expected_core_templates(language).contains(&template),
+                "{} is not in {language}'s expanded core",
+                path.display()
+            );
+        }
+    }
+
     /// The smoke population must stay pinned to its frozen 118-case contract:
     /// dedicated language-kernel policies never leak into it.
     #[test]
@@ -11355,16 +11407,24 @@ mod tests {
                 );
                 assert!(template.starts_with(CHALLENGE_TEMPLATE_PREFIX));
             }
-            // Until the row is flipped, the language validates against its
-            // classic set alone, so a language whose fixtures do not exist yet
-            // is never failed for missing them.
-            assert!(
-                !challenge_rolled_out(row.language),
-                "{} is flipped without challenge fixtures in this change",
+            // Python is the one wave that has landed its fixtures; every
+            // other language validates against its classic set alone, so a
+            // language whose fixtures do not exist yet is never failed for
+            // missing them.
+            let rolled_out = row.language == "python";
+            assert_eq!(
+                challenge_rolled_out(row.language),
+                rolled_out,
+                "{} rollout state",
                 row.language
             );
-            assert_eq!(row.expected_templates().len(), classic);
-            assert_eq!(expected_core_case_count(row.language), 2 * classic);
+            let expected = if rolled_out {
+                classic + challenge
+            } else {
+                classic
+            };
+            assert_eq!(row.expected_templates().len(), expected);
+            assert_eq!(expected_core_case_count(row.language), 2 * expected);
             // Flipping the row is the whole of a wave PR's validator change.
             let flipped = ChallengeRollout {
                 language: row.language,
@@ -11393,20 +11453,6 @@ mod tests {
             "dfb-template-chal-anonymous-implementation",
         ] {
             assert!(!c.contains(&excluded), "C must exclude {excluded}");
-        }
-    }
-
-    /// Today the corpus holds no challenge case at all, and every population
-    /// check must therefore still see exactly the frozen classic denominators.
-    #[test]
-    fn the_current_corpus_carries_no_challenge_case() {
-        for path in case_paths() {
-            let case: Value = serde_json::from_str(&fs::read_to_string(&path).unwrap()).unwrap();
-            assert!(
-                !challenge_template_case(&case),
-                "{} is a challenge case in an infrastructure-only change",
-                path.display()
-            );
         }
     }
 
