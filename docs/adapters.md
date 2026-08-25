@@ -15,7 +15,7 @@ The initial adapter plan is:
 | --- | --- | --- |
 | Bifrost | Breadth baseline and Java, JavaScript, and Python propagation kernels | Implemented smoke adapter; kernel runs are reported separately |
 | CodeQL | 16-template Java, JavaScript, and Python propagation kernels | Java, JavaScript, and Python runners implemented as separate language-scoped populations |
-| Joern | 16-template Java, JavaScript, and Python propagation kernels | Implemented as three separate language-scoped populations over one CPG query script |
+| Joern | Java, JavaScript, Python, Ruby, and PHP 16-template propagation kernels plus the 15-template Rust kernel | Implemented as six separate language-scoped populations over one CPG query script |
 | Semgrep CE | Supported local analysis only | Implemented as seven separate language-scoped populations over one committed taint rule per language; only the documented intraprocedural partition is scored |
 | OpenTaint | Java and Kotlin profile | Planned |
 
@@ -139,25 +139,28 @@ These results cover only the Python core kernel.
 
 ## Joern language populations
 
-The Joern adapter keeps Java, JavaScript, and Python as three separate
-populations. Each command selects exactly 32 `taint` cases runner-side:
+The Joern adapter keeps Java, JavaScript, Python, Ruby, PHP, and Rust as six
+separate populations. Each command selects that language's core `taint` cases
+runner-side:
 
 ```text
-language == "java" | "javascript" | "python"
+language == "java" | "javascript" | "python" | "ruby" | "php" | "rust"
 track == "taint"
 score_tier == "core"
 ```
 
 The v0.3.0 freeze digest-binds every `case.json` and fixture byte, so no case
 declares a Joern model reference; the per-language invocation is pinned in the
-runner instead, the way the Kotlin Bifrost run pins its policy. Each selection
-is 16 templates with one positive and one negative assertion, under one model
-profile, and the three are disjoint. Each has its own report
-(`reports/joern-<language>-kernel.json`) and its own retained-evidence root
-(`reports/raw/joern-<language>-kernel/`).
+runner instead, the way the Kotlin Bifrost run pins its policy. Five of the
+selections are 16 templates with one positive and one negative assertion — 32
+assertions — under one model profile; Rust's exception-catch cell is
+inapplicable, so its core selection is the other 15 templates, 30 assertions,
+and its `Result`/`?` `language-extension` pair is not selected. The six are
+disjoint. Each has its own report (`reports/joern-<language>-kernel.json`) and
+its own retained-evidence root (`reports/raw/joern-<language>-kernel/`).
 
 One committed CPG query script, `adapters/joern/queries/kernel.sc`, serves all
-three. It is parameterized by the benchmark-controlled source and sink
+six. It is parameterized by the benchmark-controlled source and sink
 identifiers the runner reads out of each fixture's own `DFB-SOURCE:` and
 `DFB-SINK:` marker lines, and runs a single `sinks.reachableByFlows(sources)`
 under the OSS data-flow engine. There is no per-case, per-template, or
@@ -166,7 +169,17 @@ used. Flow evidence is reconciled against the case's anchored sink callsites; a
 frontend or engine failure is `runner-error`, missing or ambiguous location
 evidence is `inconclusive`, and neither can become `not-reached`. Languages
 whose frontend is absent from the pinned distribution are recorded as
-explicitly unsupported rather than as failures. See the
+explicitly unsupported rather than as failures.
+
+Rust is the one language whose fixture cannot be handed to its frontend as a
+loose file: `rust2cpg` walks a Cargo crate, and given a bare `.rs` file it
+produces an empty CPG. The runner therefore synthesizes a minimal `Cargo.toml`
+in each case's temporary workspace, with the binary target pointed straight at
+the fixture rather than at a generated `src/main.rs`. Nothing is written beside
+a fixture, no case's declared file list changes, and every location Joern
+reports stays on the case's own anchor filename. The pinned distribution is the
+first Joern release to ship `rust2cpg` at all; the adapter records what that
+frontend does today rather than treating it as settled. See the
 [Joern adapter notes](../adapters/joern/README.md) for the pinned version,
 frontend coverage, model assumptions, and the observed per-language results.
 

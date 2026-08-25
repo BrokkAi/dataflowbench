@@ -295,6 +295,13 @@ frontend, only bytecode-consuming `jimple2cpg`. See
 [the PHP kernel contract](php-kernel.md) and
 [the Joern adapter](../adapters/joern/README.md).
 
+**Update (Joern `4.0.610`).** Re-pinning Joern to `4.0.610` adds `rust2cpg`,
+which did not exist in `4.0.432`. Rust therefore moves from "explicitly
+unsupported by Joern" to a third analyzer beside Bifrost and the
+public-preview CodeQL pack, over its own 15-template core denominator; the
+`Result`/`?` `language-extension` pair stays outside that selection. Scala is
+now the only benchmark language Joern records as explicitly unsupported.
+
 ## Tranche plan
 
 - **Tranche 1 — near-parity, two decisive analyzers:** TypeScript, Kotlin, C#.

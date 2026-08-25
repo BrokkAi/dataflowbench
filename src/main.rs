@@ -70,6 +70,8 @@ const JOERN_RUBY_RAW_DIR: &str = "reports/raw/joern-ruby-kernel";
 const JOERN_RUBY_REPORT: &str = "reports/joern-ruby-kernel.json";
 const JOERN_PHP_RAW_DIR: &str = "reports/raw/joern-php-kernel";
 const JOERN_PHP_REPORT: &str = "reports/joern-php-kernel.json";
+const JOERN_RUST_RAW_DIR: &str = "reports/raw/joern-rust-kernel";
+const JOERN_RUST_REPORT: &str = "reports/joern-rust-kernel.json";
 /// The committed, benchmark-controlled Semgrep CE taint rules. One rule file
 /// per covered language; each carries the two `__DFB_SOURCE__`/`__DFB_SINK__`
 /// placeholders the runner resolves from the case's own marker lines. Every
@@ -101,7 +103,7 @@ const BIFROST_DIRECT_POLICY: &str = "adapters/bifrost/policies/core-direct.rqlp"
 const BIFROST_KOTLIN_POLICY: &str = "adapters/bifrost/policies/core-kotlin-kernel.rqlp";
 /// The language-qualified Bifrost policy every Scala kernel assertion is
 /// evaluated with. Scala has single-analyzer coverage: CodeQL CLI 2.26.3 has no
-/// Scala extractor at all, and the pinned Joern 4.0.432 has no Scala *source*
+/// Scala extractor at all, and the pinned Joern 4.0.610 has no Scala *source*
 /// frontend. Both absences are analyzer coverage recorded in
 /// docs/scala-kernel.md, never negative results. As with Kotlin, the frozen
 /// v0.2.0 direct-propagation pair still names the language-neutral breadth
@@ -419,6 +421,16 @@ enum Commands {
         #[arg(long, default_value = "joern")]
         joern: PathBuf,
     },
+    /// Run the Rust propagation kernel through Joern's `rust2cpg` frontend, as
+    /// its own population. `rust2cpg` is new in Joern 4.0.610 and extracts
+    /// nothing from a bare `.rs` file, so each case is materialized as a
+    /// minimal Cargo crate whose binary target points straight at the fixture.
+    /// Rust's core denominator is 15 templates; the `Result`/`?`
+    /// `language-extension` pair is outside this selection.
+    RunJoernRustKernel {
+        #[arg(long, default_value = "joern")]
+        joern: PathBuf,
+    },
     /// Run the Java propagation kernel through the Semgrep CE (OSS) taint
     /// engine, scoring only the intraprocedural partition of the kernel. Every
     /// other case is `unsupported` by declared capability, decided from case
@@ -551,6 +563,7 @@ fn main() -> Result<()> {
         Commands::RunJoernPythonKernel { joern } => run_joern_kernel(&joern, JoernKernel::Python),
         Commands::RunJoernRubyKernel { joern } => run_joern_kernel(&joern, JoernKernel::Ruby),
         Commands::RunJoernPhpKernel { joern } => run_joern_kernel(&joern, JoernKernel::Php),
+        Commands::RunJoernRustKernel { joern } => run_joern_kernel(&joern, JoernKernel::Rust),
         Commands::RunSemgrepJavaKernel { semgrep } => {
             run_semgrep_kernel(&semgrep, SemgrepKernel::Java)
         }
@@ -5279,10 +5292,17 @@ fn materialize_codeql_workspace(case_path: &Path, case: &Value) -> Result<PathBu
     Ok(workspace)
 }
 
-/// Give a materialized Rust workspace the Cargo manifest the CodeQL Rust
-/// extractor needs.
+/// Give a materialized Rust workspace the Cargo manifest its extractor needs.
 ///
-/// The extractor accepts `--build-mode=none` and never compiles the fixture,
+/// Both Rust analyzers want a crate, not a loose file: CodeQL's extractor and
+/// Joern's `rust2cpg` each walk a Cargo manifest. `rust2cpg` given a bare `.rs`
+/// file produces an empty CPG — no methods, no calls — so the manifest is the
+/// difference between an analyzed case and one that silently looks negative.
+/// Pointing the binary target straight at the fixture rather than moving it to
+/// `src/main.rs` also keeps every reported location on the case's own anchor
+/// filename, so no anchor reconciliation has to map a crate-relative path back.
+///
+/// The CodeQL extractor accepts `--build-mode=none` and never compiles the fixture,
 /// but with no manifest in the source root it logs "semantic analyzer
 /// unavailable (no manifest found)" and produces a syntax-only database that
 /// resolves no call targets. The manifest is generated rather than checked in
@@ -5295,7 +5315,7 @@ fn write_rust_cargo_manifest(workspace: &Path, case: &Value) -> Result<()> {
     let fixtures = codeql_fixture_names(case)?;
     let [fixture] = fixtures[..] else {
         bail!(
-            "Rust CodeQL case {} must declare exactly one fixture file; found {}",
+            "Rust case {} must declare exactly one fixture file; found {}",
             case["id"],
             fixtures.len()
         );
@@ -5609,6 +5629,7 @@ enum JoernKernel {
     Python,
     Ruby,
     Php,
+    Rust,
 }
 
 impl JoernKernel {
@@ -5619,6 +5640,7 @@ impl JoernKernel {
             Self::Python => "python",
             Self::Ruby => "ruby",
             Self::Php => "php",
+            Self::Rust => "rust",
         }
     }
 
@@ -5629,13 +5651,15 @@ impl JoernKernel {
             Self::Python => "Python",
             Self::Ruby => "Ruby",
             Self::Php => "PHP",
+            Self::Rust => "Rust",
         }
     }
 
     /// The `importCode` language identifier the script is invoked with, which
-    /// selects `javasrc2cpg`, `jssrc2cpg`, `pysrc2cpg`, `rubysrc2cpg`, and
-    /// `php2cpg` respectively. Each kernel names exactly one source frontend;
-    /// none of the five is analyzed through a bytecode or binary frontend.
+    /// selects `javasrc2cpg`, `jssrc2cpg`, `pysrc2cpg`, `rubysrc2cpg`,
+    /// `php2cpg`, and `rust2cpg` respectively. Each kernel names exactly one
+    /// source frontend; none of the six is analyzed through a bytecode or
+    /// binary frontend.
     fn frontend(self) -> &'static str {
         match self {
             Self::Java => "JAVASRC",
@@ -5643,6 +5667,7 @@ impl JoernKernel {
             Self::Python => "PYTHONSRC",
             Self::Ruby => "RUBYSRC",
             Self::Php => "PHP",
+            Self::Rust => "RUST",
         }
     }
 
@@ -5653,6 +5678,7 @@ impl JoernKernel {
             Self::Python => JOERN_PYTHON_REPORT,
             Self::Ruby => JOERN_RUBY_REPORT,
             Self::Php => JOERN_PHP_REPORT,
+            Self::Rust => JOERN_RUST_REPORT,
         }
     }
 
@@ -5663,6 +5689,7 @@ impl JoernKernel {
             Self::Python => JOERN_PYTHON_RAW_DIR,
             Self::Ruby => JOERN_RUBY_RAW_DIR,
             Self::Php => JOERN_PHP_RAW_DIR,
+            Self::Rust => JOERN_RUST_RAW_DIR,
         }
     }
 
@@ -5673,7 +5700,29 @@ impl JoernKernel {
             Self::Python => AnchorDialect::Python,
             Self::Ruby => AnchorDialect::Ruby,
             Self::Php => AnchorDialect::Php,
+            Self::Rust => AnchorDialect::Rust,
         }
+    }
+
+    /// The scored templates of this language's core denominator. Rust's
+    /// exception-catch cell is inapplicable — docs/applicability-matrix.md
+    /// records why — so its core population is 15 templates, and the
+    /// `Result`/`?` `language-extension` pair that stands in for the missing
+    /// cell is scored on its own tier and is not selected here.
+    fn templates(self) -> &'static [&'static str] {
+        match self {
+            Self::Rust => &KERNEL_TEMPLATE_IDS_WITHOUT_EXCEPTION_CATCH,
+            _ => &KERNEL_TEMPLATE_IDS,
+        }
+    }
+
+    /// Whether a case of this language needs a synthesized build manifest in
+    /// its workspace before the frontend can extract it. `rust2cpg` walks a
+    /// Cargo crate, not a loose `.rs` file: given a bare fixture it produces an
+    /// empty CPG. The manifest is generated per workspace and never written
+    /// beside a fixture, so nothing under `cases/` moves.
+    fn needs_cargo_manifest(self) -> bool {
+        matches!(self, Self::Rust)
     }
 
     fn label(self) -> String {
@@ -5699,7 +5748,7 @@ fn select_joern_cases(kernel: JoernKernel) -> Result<Vec<(PathBuf, Value)>> {
             selected.push((path, case));
         }
     }
-    validate_kernel_population_with(&selected, &kernel.label(), &KERNEL_TEMPLATE_IDS)?;
+    validate_kernel_population_with(&selected, &kernel.label(), kernel.templates())?;
     Ok(selected)
 }
 
@@ -5919,6 +5968,9 @@ fn run_joern_case(
     for fixture in case["fixture_files"].as_array().expect("schema validated") {
         let fixture = fixture.as_str().expect("schema validated");
         fs::copy(fixture_root.join(fixture), workspace.join(fixture))?;
+    }
+    if kernel.needs_cargo_manifest() {
+        write_rust_cargo_manifest(&workspace, case)?;
     }
     let absolute_raw_path = raw_root.join(format!("{id}.json"));
 
@@ -9079,9 +9131,12 @@ mod tests {
         );
     }
 
-    /// Each Joern kernel is its own population: exactly 32 balanced core
-    /// assertions of exactly one language, with no case shared between the
-    /// three and no case borrowed from a CodeQL or Bifrost selection.
+    /// Each Joern kernel is its own population: the balanced core assertions of
+    /// exactly one language — 32 where all sixteen templates apply, 30 for Rust,
+    /// whose exception-catch cell is inapplicable — with no case shared between
+    /// them and no case borrowed from a CodeQL or Bifrost selection. Rust's
+    /// `Result`/`?` `language-extension` pair is never pulled into the core
+    /// denominator.
     #[test]
     fn joern_kernel_selections_are_language_disjoint_and_balanced() {
         let mut populations = BTreeMap::new();
@@ -9091,9 +9146,15 @@ mod tests {
             JoernKernel::Python,
             JoernKernel::Ruby,
             JoernKernel::Php,
+            JoernKernel::Rust,
         ] {
             let selected = select_joern_cases(kernel).unwrap();
-            assert_eq!(selected.len(), KERNEL_CASE_COUNT);
+            assert_eq!(selected.len(), 2 * kernel.templates().len());
+            if kernel == JoernKernel::Rust {
+                assert_eq!(selected.len(), KERNEL_CASE_COUNT_WITHOUT_EXCEPTION_CATCH);
+            } else {
+                assert_eq!(selected.len(), KERNEL_CASE_COUNT);
+            }
             let mut templates = BTreeMap::<String, (usize, usize)>::new();
             for (_, case) in &selected {
                 assert_eq!(case["language"], kernel.language());
@@ -9109,8 +9170,13 @@ mod tests {
                     counts.1 += 1;
                 }
             }
-            assert_eq!(templates.len(), KERNEL_TEMPLATE_IDS.len());
+            assert_eq!(templates.len(), kernel.templates().len());
             assert!(templates.values().all(|counts| *counts == (1, 1)));
+            assert!(
+                templates
+                    .keys()
+                    .all(|id| kernel.templates().contains(&id.as_str()))
+            );
             populations.insert(
                 kernel.language(),
                 selected
@@ -9136,6 +9202,7 @@ mod tests {
             JoernKernel::Python,
             JoernKernel::Ruby,
             JoernKernel::Php,
+            JoernKernel::Rust,
         ];
         let reports = kernels
             .iter()

@@ -43,7 +43,8 @@ in its supported local-analysis profile; OpenTaint stays in its Java/Kotlin
 profile. SootUp is a possible JVM reference framework, not a first-version
 adapter. CodeQL is implemented for all ten propagation kernels, one language-scoped
 command and one separate result population per language. Joern is implemented
-for the Java, JavaScript, and Python propagation kernels on the same terms.
+for the Java, JavaScript, Python, Ruby, PHP, and Rust propagation kernels on the
+same terms.
 Semgrep CE is implemented for seven languages as a deliberately bounded
 adapter: only the intraprocedural partition its pinned distribution documents
 the open-source taint engine as covering is scored, and the interprocedural and
@@ -78,6 +79,9 @@ cargo run -- run-codeql-rust-kernel --codeql /path/to/codeql
 cargo run -- run-joern-java-kernel --joern /path/to/joern
 cargo run -- run-joern-javascript-kernel --joern /path/to/joern
 cargo run -- run-joern-python-kernel --joern /path/to/joern
+cargo run -- run-joern-ruby-kernel --joern /path/to/joern
+cargo run -- run-joern-php-kernel --joern /path/to/joern
+cargo run -- run-joern-rust-kernel --joern /path/to/joern
 cargo run -- run-semgrep-java-kernel --semgrep /path/to/semgrep
 cargo run -- run-semgrep-javascript-kernel --semgrep /path/to/semgrep
 cargo run -- run-semgrep-typescript-kernel --semgrep /path/to/semgrep
@@ -117,17 +121,23 @@ negatives for `alias-propagation-positive`, `array-element-positive`, and
 `exception-catch-positive`, plus a false positive for `loop-carried-negative`.
 This evidence is limited to the Python core kernel.
 
-The three Joern commands require a Joern installation and no other toolchain:
-each case is a single checked-in source file with no build step. They write
-`reports/joern-<language>-kernel.json` and keep one raw evidence document per
-case under `reports/raw/joern-<language>-kernel/`. The retained snapshot used
-Joern 4.0.432 with the `javasrc2cpg`, `jssrc2cpg`, and `pysrc2cpg` frontends
-and one committed CPG query script. All 96 assertions executed with no
-`inconclusive`, `unsupported`, or `runner-error` outcome: Java 28/32,
-JavaScript 26/32, and Python 28/32 match the expected polarity. Rust and Scala
-have no source frontend in that distribution and are recorded as explicitly
-unsupported. See the [Joern adapter evidence](adapters/joern/README.md) for the
-pinned invocation, tagging model, frontend coverage, and per-language mismatch
+The six Joern commands require a Joern installation and — for PHP only — a host
+`php` interpreter; every case is a single checked-in source file with no
+compilation step. They write `reports/joern-<language>-kernel.json` and keep one
+raw evidence document per case under `reports/raw/joern-<language>-kernel/`. The
+retained snapshot used Joern 4.0.610 with the `javasrc2cpg`, `jssrc2cpg`,
+`pysrc2cpg`, `rubysrc2cpg`, `php2cpg`, and `rust2cpg` frontends and one committed
+CPG query script. All 190 assertions executed with no `inconclusive`,
+`unsupported`, or `runner-error` outcome: Java 28/32, JavaScript 26/32, Python
+28/32, Ruby 26/32, PHP 28/32, and Rust 27/30 match the expected polarity — Rust's
+denominator is 15 templates, not 16. Rust became runnable only at this pin:
+`rust2cpg` is new in 4.0.610, it needs a Cargo manifest the runner synthesizes
+per workspace, and it is recorded as the young frontend it is. Scala still has
+no source frontend and stays explicitly unsupported. Re-running all six on the
+new pin left Java, JavaScript, Python, and PHP identical case-for-case and moved
+four Ruby cases in opposite directions at an unchanged 26/32. See the
+[Joern adapter evidence](adapters/joern/README.md) for the pinned invocation,
+tagging model, frontend coverage, drift analysis, and per-language mismatch
 lists.
 
 The seven Semgrep commands require only a Semgrep CE installation. They write
