@@ -315,7 +315,7 @@ const CHALLENGE_ROLLOUT: [ChallengeRollout; 13] = [
         display: "JavaScript",
         classic: &KERNEL_TEMPLATE_IDS,
         challenge: &CHALLENGE_TEMPLATE_IDS,
-        rolled_out: false,
+        rolled_out: true,
     },
     ChallengeRollout {
         language: "python",
@@ -11407,11 +11407,11 @@ mod tests {
                 );
                 assert!(template.starts_with(CHALLENGE_TEMPLATE_PREFIX));
             }
-            // Python is the one wave that has landed its fixtures; every
-            // other language validates against its classic set alone, so a
-            // language whose fixtures do not exist yet is never failed for
-            // missing them.
-            let rolled_out = row.language == "python";
+            // Python and JavaScript are the waves that have landed their
+            // fixtures; every other language validates against its classic set
+            // alone, so a language whose fixtures do not exist yet is never
+            // failed for missing them.
+            let rolled_out = matches!(row.language, "python" | "javascript");
             assert_eq!(
                 challenge_rolled_out(row.language),
                 rolled_out,
@@ -11488,8 +11488,10 @@ mod tests {
         }
         assert_eq!(java, expected_core_case_count("java"));
         assert_eq!(javascript, expected_core_case_count("javascript"));
+        // Java's row is not rolled out, so its kernel is still the classic 32.
+        // JavaScript's is, so its kernel is the expanded 58.
         assert_eq!(java, 32);
-        assert_eq!(javascript, 32);
+        assert_eq!(javascript, 58);
         assert_eq!(
             BifrostRun::JavaKernel.expected_core_cases(),
             Some(expected_core_case_count("java"))

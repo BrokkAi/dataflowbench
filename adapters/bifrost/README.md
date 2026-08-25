@@ -14,9 +14,12 @@ JavaScript, Kotlin, PHP, Python, Ruby, Rust, Scala, and TypeScript. A Java
 propagation kernel adds 16 balanced templates across local, call/return, heap,
 and control-flow strata. The JavaScript parity slice uses the same template IDs
 and the language-qualified `core-javascript-kernel.rqlp` policy, with any
-language adaptations recorded on the canonical cases. See the [JavaScript
-adaptation matrix](../../docs/javascript-kernel.md) for the syntax mapping and
-the explicit exceptional-flow limitation. The Python parity slice uses
+language adaptations recorded on the canonical cases. JavaScript has since been
+expanded by the thirteen challenge templates to a 29-template, 58-assertion
+core, run by its own `run-bifrost-javascript-kernel` command; the smoke slice
+keeps only the classic pairs. See the [JavaScript adaptation
+matrix](../../docs/javascript-kernel.md) for the syntax mapping, the challenge
+realizations, and the explicit exceptional-flow limitation. The Python parity slice uses
 `core-python-kernel.rqlp`, and the Kotlin parity slice uses
 `core-kotlin-kernel.rqlp`; see the [Kotlin kernel
 contract](../../docs/kotlin-kernel.md) for its two `var`-based adaptations and
@@ -92,17 +95,18 @@ cargo run -- run-bifrost-ruby-kernel --bifrost /path/to/bifrost
 cargo run -- run-bifrost-php-kernel --bifrost /path/to/bifrost
 ```
 
-The Java and JavaScript kernel commands are new and **have not been run**: they
-carry no evidence in this repository yet, and the frozen smoke slice remains the
-published Java and JavaScript Bifrost evidence until the challenge-tier wave-1
-language changes run them. Each selects its language's whole core population and
-pins the language-qualified policy for the run, accepting the frozen
-direct-propagation pair's historical policy references
-(`direct-positive.rqlp` and `explicit-negative.rqlp` for Java, the
-cross-language breadth policy for JavaScript) rather than rewriting evidence a
-freeze manifest binds. Their populations follow the challenge rollout table
-described in [the adapter contract](../../docs/adapters.md): 32 assertions
-today, the expanded denominator once that language's row is flipped.
+The `run-bifrost-java-kernel` command is new and **has not been run**: it
+carries no evidence in this repository yet, and the frozen smoke slice remains
+the published Java Bifrost evidence until Java's challenge-tier wave-1 language
+change runs it. `run-bifrost-javascript-kernel` **has** been run, over
+JavaScript's expanded 58-assertion core; its evidence is described below. Each
+selects its language's whole core population and pins the language-qualified
+policy for the run, accepting the frozen direct-propagation pair's historical
+policy references (`direct-positive.rqlp` and `explicit-negative.rqlp` for
+Java, the cross-language breadth policy for JavaScript) rather than rewriting
+evidence a freeze manifest binds. Their populations follow the challenge
+rollout table described in [the adapter contract](../../docs/adapters.md): 32
+assertions before a language's row is flipped, the expanded denominator after.
 
 The smoke command selects only cases with an explicit Bifrost policy or
 unsupported declaration, and never a challenge-tier case: any `template_id`
@@ -149,6 +153,43 @@ The 32-case
 JavaScript kernel has 16 `reached`, 16 `not-reached`, and 32/32 matching
 (v0.10.2: 19/32). Unlike the v0.10.2 snapshot, this v0.10.5 evidence decides
 all three of these kernels completely.
+
+### JavaScript expanded core — the dedicated kernel run
+
+JavaScript's thirteen preregistered challenge templates
+(`docs/challenge-tier.md`) have rolled out, so its core denominator is 29
+templates / **58 assertions**. Those assertions are carried by a new dedicated
+report, `reports/bifrost-javascript-kernel.json`, written by
+`run-bifrost-javascript-kernel` and evidenced under
+`reports/raw/bifrost-javascript-kernel/`. **The frozen smoke report is
+untouched**: its JavaScript slice stays the classic 32 assertions and the smoke
+population stays pinned at 118 cases, because the smoke selector excludes
+challenge templates outright.
+
+| Stratum | Assertions | Polarity match | Outcomes |
+| --- | --- | --- | --- |
+| Classic (16 templates) | 32 | 32/32 | 16 `reached`, 16 `not-reached` |
+| Challenge (13 templates) | 26 | 3/26 | 1 `reached`, 2 `not-reached`, 21 `inconclusive`, 2 `runner-error` |
+
+The classic half reproduces the frozen smoke evidence case for case. On the
+challenge half the engine decided only two of the thirteen pairs — the
+two-level context pair, both ways, and the depth-6 relay negative — and **every
+decision it made was correct**: the stratum contains no false positive and no
+false negative. Twenty-one assertions are `inconclusive`, each retaining
+`partial_discovery` evidence of the form "taint discovery is incomplete:
+procedure value-flow snapshot for … is unknown", across the reflective,
+computed-property, dispatch-table, closure, function-field, callback,
+anonymous-implementation, map-iteration, nested-path and recursive pairs plus
+the depth-6 relay positive. The `element-object` pair is `runner-error`: on an
+array of object literals the engine reports `internal_invariant` with "invalid
+value-flow snapshot: oracle relation does not belong to the required query
+arena and role". That is retained exactly as observed — an engine defect worth
+reporting upstream, and never a negative result.
+
+This run is at fixture revision
+`sha256:64ef139f452fd296bb26463bc552e5e5998ca4bb4584d45565d858424814bde9`,
+which no earlier Bifrost report carries; the two are not pooled, and a
+32-assertion score is never compared with a 58-assertion one.
 
 Every Bifrost slice in the v0.3.0 freeze — the smoke population and the
 Kotlin, TypeScript, C#, Go, C, C++, Python, and Rust kernels — was run on this

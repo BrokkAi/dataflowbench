@@ -1,0 +1,68 @@
+{
+  "schema_version": 2,
+  "id": "dfb-taint-javascript-dispatch-table-positive",
+  "template_id": "dfb-template-chal-dispatch-table",
+  "polarity": "positive",
+  "score_tier": "core",
+  "track": "taint",
+  "language": "javascript",
+  "semantic_dimensions": [
+    "dynamic-dispatch",
+    "context-sensitivity"
+  ],
+  "feature_tags": [
+    "higher-order",
+    "ambiguous-dispatch"
+  ],
+  "model_profile": "benchmark-controlled",
+  "fixture_files": [
+    "DispatchTablePositive.js"
+  ],
+  "source_anchors": [
+    {
+      "marker": "DFB-SOURCE: dispatch-table-input",
+      "file": "DispatchTablePositive.js",
+      "line_hint": 1
+    }
+  ],
+  "sink_anchors": [
+    {
+      "marker": "DFB-SINK: dispatch-table-sink",
+      "file": "DispatchTablePositive.js",
+      "line_hint": 5
+    }
+  ],
+  "expected_flows": [
+    {
+      "source": "DFB-SOURCE: dispatch-table-input",
+      "sink": "DFB-SINK: dispatch-table-sink"
+    }
+  ],
+  "expected_nonflows": [],
+  "witness_checkpoints": [
+    "DFB-SOURCE: dispatch-table-input",
+    "DFB-WITNESS: dispatch-table-entry",
+    "DFB-SINK: dispatch-table-sink"
+  ],
+  "expected_analysis_capability": {
+    "kind": "indirect-callee-resolution-taint"
+  },
+  "execution_budget": {
+    "wall_clock_seconds": 60,
+    "peak_memory_mb": 512
+  },
+  "fixture_provenance": {
+    "kind": "authored",
+    "origin": "DataFlowBench",
+    "revision": "m3-challenge-javascript",
+    "license": "MIT"
+  },
+  "tool_model_references": {
+    "bifrost": {
+      "policy": "adapters/bifrost/policies/core-javascript-kernel.rqlp"
+    },
+    "codeql": {
+      "query": "adapters/codeql/javascript/queries/JavaScriptKernel.ql"
+    }
+  }
+}
