@@ -11,11 +11,12 @@ scored slice includes a balanced direct-flow pair across 13 language/dialect
 entries and balanced 16-template Java, TypeScript, Python, Kotlin,
 C#, Go, and C++ propagation kernels — plus 15-template C and Rust kernels whose
 exception-catch cell is inapplicable — in the `taint` track. The Java, Python,
-JavaScript, C#, TypeScript, Kotlin, and Go cores have since expanded to 29
+JavaScript, C#, TypeScript, Kotlin, Go, and Scala cores have since expanded to 29
 templates each with the
-[preregistered challenge tier](docs/challenge-tier.md), the C++ core to 28, and
-the C core to 24 (nine of the thirteen challenge templates are applicable to
-C); the 16-template, 24-template, 28-template, and
+[preregistered challenge tier](docs/challenge-tier.md), the C++ core to 28, the
+Rust core to 27 (its reflective-invocation cell is inapplicable too), and the C
+core to 24 (nine of the thirteen challenge templates are applicable to C); the
+16-template, 24-template, 27-template, 28-template, and
 29-template populations are separate populations of the same name. Each parity kernel uses the
 same language-neutral template IDs with language-specific fixture spellings and
 a separate result population; the [Python kernel
@@ -142,19 +143,27 @@ compilation step. They write `reports/joern-<language>-kernel.json` and keep one
 raw evidence document per case under `reports/raw/joern-<language>-kernel/`. The
 retained snapshot used Joern 4.0.610 with the `javasrc2cpg`, `jssrc2cpg`,
 `pysrc2cpg`, `rubysrc2cpg`, `php2cpg`, and `rust2cpg` frontends and one committed
-CPG query script. All 294 assertions executed with no `inconclusive`,
+CPG query script. All 344 assertions executed with no `inconclusive`,
 `unsupported`, or `runner-error` outcome: Java 47/58, JavaScript 44/58, Python
-48/58, Ruby 40/58, PHP 28/32, and Rust 27/30 match the expected polarity —
-Rust's denominator is 15 templates, not 16, and Java's, Python's,
-JavaScript's, and Ruby's are the expanded 29 each, whose 58-assertion
-populations are never compared to a 32-assertion one. JavaScript splits 26/32 on
-the classic sixteen — identical to its earlier snapshot — and 18/26 on the
-challenge thirteen, Java splits 28/32 and 19/26 the same way, and Ruby splits
-26/32 and 14/26. In Java, JavaScript, and Python the depth-6 relay positive is
-missed at the distribution's default call-depth bound of 4, exactly as the
-challenge preregistration predicted in advance; Ruby is the exception, resolving
-that pair correctly, and the departure is recorded rather than smoothed over.
-Rust became runnable only at this pin:
+48/58, PHP 48/58, Ruby 40/58, and Rust 43/54 match the expected polarity —
+Rust's denominator is the expanded 27 templates, two cells being inapplicable to
+it, and Java's, Python's, JavaScript's, PHP's, and Ruby's are the expanded 29
+each, whose 58-assertion populations are never compared to a 32-assertion one.
+JavaScript splits 26/32 on the classic sixteen — identical to its earlier
+snapshot — and 18/26 on the challenge thirteen, Java splits 28/32 and 19/26 the
+same way, Python splits 28/32 and 20/26, PHP splits 28/32 and 20/26, Ruby splits
+26/32 and 14/26, and Rust splits 27/30 and 16/24, each classic half identical
+case for case to its pre-expansion snapshot. In Java, JavaScript, Python, PHP,
+and Rust the depth-6 relay positive is missed at the distribution's default
+call-depth bound of 4, exactly as the challenge preregistration predicted in
+advance. Ruby is the one measured departure: on the same pin and the same
+default bound it discriminates the depth-6 relay pair correctly, and that result
+is recorded as measured rather than smoothed toward the prediction. Rust's
+challenge stratum is the
+first challenge-tier engine evidence here for a systems language, and it is
+uniformly under-approximating: every stratum-A and stratum-B negative correct,
+every stratum-A and stratum-B positive missed, and not one false positive in the
+twelve challenge templates. Rust became runnable only at this pin:
 `rust2cpg` is new in 4.0.610, it needs a Cargo manifest the runner synthesizes
 per workspace, and it is recorded as the young frontend it is. Scala still has
 no source frontend and stays explicitly unsupported. Re-running all six on the
@@ -176,11 +185,12 @@ intraprocedural partition of each kernel is scored — the pinned CLI documents
 interprocedural taint, cross-file taint, and path sensitivity as Pro Engine
 features, so the rest is `unsupported` rather than false negatives. All eleven
 kernels produced 9 `reached`, 5 `not-reached`, and the whole remainder
-`unsupported` (18 for PHP, the one remaining unexpanded 16-template kernel, 16
-for Rust, whose exception-catch cell is inapplicable, 34 for the expanded
-24-template C kernel, 42 for the expanded 28-template C++ kernel, and 44 each
-for the expanded 29-template Java, Python, JavaScript, TypeScript, Kotlin, Go,
-and Ruby kernels), with no `inconclusive` or `runner-error`
+`unsupported` — every kernel is now expanded, so the remainder is 34 for the
+expanded 24-template C kernel, 40 for the expanded 27-template Rust kernel, 42
+for the expanded 28-template C++ kernel, and 44 each for the expanded
+29-template Java, Python, JavaScript, TypeScript, Kotlin, Go, PHP, and Ruby
+kernels, 468 preregistered-unsupported assertions against 154 scored across
+622 selected cases — with no `inconclusive` or `runner-error`
 outcome and 12/14 of each scored subset matching the expected polarity; every
 intraprocedural positive was found in every language. The two mismatches are the
 same in all eleven — false positives on the infeasible branch and the
@@ -247,14 +257,66 @@ population, and it declines all 26 challenge assertions by declared capability.
 The [Go kernel contract](docs/go-kernel.md) records the deferral and what it
 does and does not leave established.
 
-C is the first expansion with a **reduced** challenge denominator: four of the
-thirteen templates are inapplicable to a language with no reflection, no
+C carries the most sharply **reduced** challenge denominator so far: four of
+the thirteen templates are inapplicable to a language with no reflection, no
 computed member access, no closures, and no anonymous types, so its core is 24
 templates / 48 assertions rather than 29 / 58. Its Bifrost and CodeQL reports
 are both freeze-bound by v0.3.0 and both re-runs are deferred to v0.4.0, Joern
 has no C slice, and Semgrep CE declines all 18 challenge assertions by declared
 capability. The [C kernel contract](docs/c-kernel.md) records the four
 exclusions, the four adapted cells, and the deferral.
+
+Scala has since been expanded the same way, to a 29-template, 58-assertion core,
+with the two reflection cells language-adapted through `java.lang.reflect`
+because `scala-reflect` is a separate artifact the stdlib-only rule excludes. It
+is the inverse of the TypeScript and Go position: Scala has **single-analyzer
+coverage** — no CodeQL extractor, no Joern Scala source frontend, and no
+commissioned Semgrep slice — but its one covering adapter's report is *not*
+freeze-bound, so `run-bifrost-scala-kernel` was re-run whole over all 58 and
+nothing is deferred. That run reproduces the classic 32 case for case at 10/32
+and leaves **all 26 challenge assertions `inconclusive`** — capability coverage
+that is neither 26 matches nor 26 misses. The [Scala kernel
+contract](docs/scala-kernel.md) records the adaptations and the per-stratum
+evidence.
+
+PHP has since been expanded the same way, to a 29-template, 58-assertion core
+with **all thirteen cells directly applicable** — variable method calls,
+variable property access, arrays of closures, `use`-clause closures,
+closure-valued properties, and genuine anonymous classes. Like Scala it defers
+**nothing** — but unlike Scala it is covered by more than one adapter: no PHP
+report is freeze-bound, so all three of its
+adapters ran the whole expanded population. Bifrost reproduces its classic
+17/32 exactly and decides 4 of the 26 challenge assertions, all correctly,
+declining the other 22; Joern executes every case and scores 48/58 (28/32
+classic, 20/26 challenge, with stratum C answered completely); Semgrep CE
+declines all 26 challenge assertions by declared capability. PHP has no CodeQL
+extractor at all, which is an absence of an analyzer rather than a deferral.
+The [PHP kernel contract](docs/php-kernel.md) records the fixtures, the
+per-stratum results, and the mismatch lists.
+
+Ruby is the last of the thirteen, expanded to a 29-template, 58-assertion core
+with **all thirteen cells directly applicable**, and it defers nothing at all:
+Ruby's kernel landed after the v0.3.0 freeze, so none of its four reports is
+freeze-bound and **all four adapters ran the whole expanded population** — the
+only language for which that is true. `reports/codeql-ruby-kernel.json` is
+consequently the only CodeQL report in this repository that reflects the
+challenge tier, scoring 49/58 (29/32 classic, 20/26 challenge) with a clean 6/6
+on stratum D. Joern scores 40/58 (26/32 and 14/26) and supplies the wave's one
+**recorded measured departure**: at the same unraised `maxCallDepth = 4` that
+makes Java, JavaScript, Python, PHP, and Rust miss the depth-6 relay positive,
+Ruby discriminates that pair correctly — reported as measured rather than
+reconciled to the preregistered prediction, which stands unamended. Semgrep CE
+scores 12/14 on its intraprocedural partition and declines the other 44
+assertions by declared capability; Bifrost returns all 58 `inconclusive`, 14 of
+them under a new *taint semantic binding is unavailable* diagnostic class, which
+is recorded absence of capability rather than 58 negatives. The [Ruby kernel
+contract](docs/ruby-kernel.md) records the fixtures, the per-stratum results,
+and the mismatch lists.
+
+**With Ruby's row flipped the challenge-tier rollout is complete: all thirteen
+core kernels carry their preregistered expanded denominators**, and what remains
+outstanding is adapter re-runs the v0.3.0 freeze defers to v0.4.0, not missing
+fixtures.
 
 ## Add a case or adapter
 

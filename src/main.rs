@@ -281,7 +281,10 @@ struct ChallengeRollout {
     /// fixtures do not exist yet and every population check expects its
     /// classic set; the language PR that authors the fixtures flips it to
     /// `true` in the same change, and every check then expects
-    /// `classic + challenge` without any other code moving.
+    /// `classic + challenge` without any other code moving. The rollout is
+    /// complete — all thirteen rows are `true` — so the flag now records that
+    /// history and guards against a row being un-flipped; it stays because a
+    /// future language joins the table at `false`.
     rolled_out: bool,
 }
 
@@ -350,7 +353,7 @@ const CHALLENGE_ROLLOUT: [ChallengeRollout; 13] = [
         display: "Scala",
         classic: &KERNEL_TEMPLATE_IDS,
         challenge: &CHALLENGE_TEMPLATE_IDS,
-        rolled_out: false,
+        rolled_out: true,
     },
     ChallengeRollout {
         language: "go",
@@ -371,7 +374,7 @@ const CHALLENGE_ROLLOUT: [ChallengeRollout; 13] = [
         display: "Rust",
         classic: &KERNEL_TEMPLATE_IDS_WITHOUT_EXCEPTION_CATCH,
         challenge: &CHALLENGE_TEMPLATE_IDS_WITHOUT_REFLECTIVE_INVOCATION,
-        rolled_out: false,
+        rolled_out: true,
     },
     ChallengeRollout {
         language: "c",
@@ -385,7 +388,7 @@ const CHALLENGE_ROLLOUT: [ChallengeRollout; 13] = [
         display: "PHP",
         classic: &KERNEL_TEMPLATE_IDS,
         challenge: &CHALLENGE_TEMPLATE_IDS,
-        rolled_out: false,
+        rolled_out: true,
     },
     ChallengeRollout {
         language: "ruby",
@@ -4309,12 +4312,13 @@ fn codeql_rust_cases() -> Result<Vec<(PathBuf, Value)>> {
     Ok(selected)
 }
 
-/// The Rust core population must be exactly the 15 applicable scored templates,
-/// balanced one positive to one negative under one model profile. The
-/// `Result`/`?` `language-extension` pair rides along in the same slice, is
-/// scored on its own scorecard, and is excluded from that count; anything on
-/// another tier is a template smuggled back into the core denominator and is
-/// rejected here.
+/// The Rust core population must be exactly the applicable scored templates
+/// the rollout table names — the 15 classic ones, plus Rust's 12 challenge
+/// cells now that its row is flipped — balanced one positive to one negative
+/// under one model profile. The `Result`/`?` `language-extension` pair rides
+/// along in the same slice, is scored on its own scorecard, and is excluded
+/// from that count; anything on another tier is a template smuggled back into
+/// the core denominator and is rejected here.
 fn validate_rust_kernel_population(selected: &[(PathBuf, Value)], label: &str) -> Result<()> {
     for (path, case) in selected {
         let tier = case["score_tier"]
@@ -4332,7 +4336,7 @@ fn validate_rust_kernel_population(selected: &[(PathBuf, Value)], label: &str) -
         .filter(|(_, case)| case["score_tier"] == "core")
         .cloned()
         .collect::<Vec<_>>();
-    validate_kernel_population_with(&core, label, &KERNEL_TEMPLATE_IDS_WITHOUT_EXCEPTION_CATCH)
+    validate_kernel_population_with(&core, label, &expected_core_templates("rust"))
 }
 
 fn codeql_rust_configuration_paths() -> BTreeSet<PathBuf> {
@@ -8260,10 +8264,11 @@ mod tests {
     }
 
     /// Scala has no CodeQL and no Joern population, so the only in-repo
-    /// guarantee that its 32 assertions are complete and balanced is the
-    /// Bifrost run's own core denominator.
+    /// guarantee that its assertions are complete and balanced is the Bifrost
+    /// run's own core denominator — now the expanded 29-template / 58-assertion
+    /// core, since Scala's challenge row is rolled out.
     #[test]
-    fn scala_bifrost_population_is_exactly_32_balanced_assertions() {
+    fn scala_bifrost_population_is_the_expanded_balanced_core() {
         let selected = case_paths()
             .into_iter()
             .map(|path| {
@@ -8273,21 +8278,31 @@ mod tests {
             })
             .filter(|(_, case)| scala_core_case(case))
             .collect::<Vec<_>>();
+        let expected = expected_core_templates("scala");
         assert_eq!(
             selected.len(),
             BifrostRun::ScalaKernel.expected_core_cases().unwrap()
         );
+        assert_eq!(selected.len(), 58);
+        assert!(selected.len() > KERNEL_CASE_COUNT);
         assert!(
             selected
                 .iter()
                 .all(|(path, _)| path.starts_with("cases/taint/scala"))
         );
-        validate_kernel_population_with(
-            &selected,
-            "Bifrost Scala kernel",
-            &expected_core_templates("scala"),
-        )
-        .unwrap();
+        validate_kernel_population_with(&selected, "Bifrost Scala kernel", &expected).unwrap();
+        // The classic sixteen alone are no longer a complete Scala core.
+        let classic = selected
+            .iter()
+            .filter(|(_, case)| {
+                KERNEL_TEMPLATE_IDS.contains(&case["template_id"].as_str().unwrap())
+            })
+            .cloned()
+            .collect::<Vec<_>>();
+        assert_eq!(classic.len(), KERNEL_CASE_COUNT);
+        assert!(
+            validate_kernel_population_with(&classic, "Bifrost Scala kernel", &expected).is_err()
+        );
         assert!(Path::new(BIFROST_SCALA_POLICY).is_file());
     }
 
@@ -8874,8 +8889,9 @@ mod tests {
                 }
             }
         }
-        // C's challenge row is rolled out; C++'s is not, so the two slices
-        // carry different denominators from the same extractor.
+        // Both challenge rows are rolled out, but C excludes four challenge
+        // templates and C++ one, so the two slices carry different
+        // denominators from the same extractor.
         assert_eq!(c_core, expected_core_case_count("c"));
         assert_eq!(c_core, 48);
         assert_eq!(c - c_core, 2);
@@ -9124,10 +9140,13 @@ mod tests {
                 }
             }
         }
-        assert_eq!(selected, KERNEL_CASE_COUNT);
+        // PHP's challenge row is rolled out, so the slice covers the expanded
+        // 29 templates / 58 assertions, not the classic 32.
+        assert_eq!(selected, expected_core_case_count("php"));
+        assert_eq!(selected, 58);
         assert_eq!(
             BifrostRun::PhpKernel.expected_core_cases(),
-            Some(KERNEL_CASE_COUNT)
+            Some(expected_core_case_count("php"))
         );
     }
 
@@ -9215,11 +9234,14 @@ mod tests {
         ));
     }
 
-    /// The Rust kernel scores 30 core assertions over 15 templates. The
-    /// excluded exception-catch cell stays excluded, and the `Result`/`?`
-    /// extension pair rides in the same slice without changing the denominator.
+    /// The Rust kernel scores its expanded core: 27 templates and 54
+    /// assertions now that the challenge row is flipped (15 classic plus 12
+    /// challenge cells). The excluded exception-catch and reflective-invocation
+    /// cells stay excluded, and the `Result`/`?` extension pair rides in the
+    /// same slice without changing the denominator.
     #[test]
-    fn rust_core_selection_is_exactly_30_balanced_assertions() {
+    fn rust_core_selection_is_the_expanded_balanced_population() {
+        let expected_templates = expected_core_templates("rust");
         let selected = codeql_rust_cases().unwrap();
         let mut templates = BTreeMap::<String, (usize, usize)>::new();
         let mut extensions = 0;
@@ -9240,26 +9262,32 @@ mod tests {
                 counts.1 += 1;
             }
         }
-        assert_eq!(templates.len(), 15);
+        assert_eq!(templates.len(), expected_templates.len());
+        assert_eq!(templates.len(), 27);
         assert_eq!(
             templates.values().map(|(p, n)| p + n).sum::<usize>(),
-            KERNEL_CASE_COUNT_WITHOUT_EXCEPTION_CATCH
+            expected_core_case_count("rust")
         );
+        assert_eq!(expected_core_case_count("rust"), 54);
+        assert!(expected_core_case_count("rust") > KERNEL_CASE_COUNT_WITHOUT_EXCEPTION_CATCH);
         assert!(
             templates
                 .values()
                 .all(|(positive, negative)| *positive == 1 && *negative == 1)
         );
-        // The excluded template stays excluded: it reduces only Rust's
+        // The excluded templates stay excluded: they reduce only Rust's
         // denominator, and the language-extension pair replaces nothing.
         assert!(!templates.contains_key("dfb-template-exception-catch"));
+        assert!(!templates.contains_key("dfb-template-chal-reflective-invocation"));
         assert_eq!(extensions, 2);
     }
 
-    /// C and Rust exclude the same template for different reasons, so they
-    /// share one 15-template constant instead of two identical copies. Their
-    /// language-extension cases stay distinct and never enter either core
-    /// denominator.
+    /// C and Rust exclude the same classic template for different reasons, so
+    /// they share one 15-template constant instead of two identical copies.
+    /// Both challenge rows are now flipped, so each language's corpus core is
+    /// that shared classic set plus its own challenge cells -- nine for C,
+    /// twelve for Rust. Their language-extension cases stay distinct and never
+    /// enter either core denominator.
     #[test]
     fn c_and_rust_share_the_scored_set_without_exception_catch() {
         let cases = case_paths()
@@ -9276,19 +9304,26 @@ mod tests {
             .collect::<BTreeSet<_>>();
         for language in ["c", "rust"] {
             let core = core_templates_for_language(&cases, language);
-            // Both languages start from the same 15-template classic constant;
-            // C's challenge row is rolled out on top of it and Rust's is not,
-            // so the shared exclusion is what the two still have in common.
+            // Both languages start from the same 15-template classic
+            // constant and both have since expanded past it, so the constant
+            // is a subset of either core rather than equal to it, and the
+            // shared exclusion is what the two still have in common.
             assert!(classic.is_subset(&core), "{language} classic set");
             assert!(!core.contains("dfb-template-exception-catch"));
+            // Each language's corpus is exactly its rollout row.
             assert_eq!(
                 core,
                 expected_core_templates(language)
                     .into_iter()
                     .collect::<BTreeSet<_>>()
             );
+            assert_eq!(
+                challenge_rolled_out(language),
+                core.len() > classic.len(),
+                "{language} corpus does not match its rollout state"
+            );
         }
-        assert_eq!(core_templates_for_language(&cases, "rust"), classic);
+        assert_eq!(core_templates_for_language(&cases, "rust").len(), 27);
         assert_eq!(core_templates_for_language(&cases, "c").len(), 24);
         assert!(
             !core_templates_for_language(&cases, "rust")
@@ -9317,7 +9352,7 @@ mod tests {
             "model_profile": "benchmark-controlled"
         });
         let mut cases = Vec::new();
-        for template in KERNEL_TEMPLATE_IDS_WITHOUT_EXCEPTION_CATCH {
+        for template in expected_core_templates("rust") {
             for polarity in ["positive", "negative"] {
                 let mut case = base.clone();
                 case["template_id"] = json!(template);
@@ -9337,7 +9372,7 @@ mod tests {
         assert!(validate_rust_kernel_population(&with_exception, "test").is_err());
 
         // A language-extension assertion rides along without changing the
-        // 30-assertion core denominator.
+        // 54-assertion expanded core denominator.
         let mut with_extension = cases.clone();
         let mut extension = base.clone();
         extension["score_tier"] = json!("language-extension");
@@ -9383,10 +9418,13 @@ mod tests {
                 }
             }
         }
-        assert_eq!(core, KERNEL_CASE_COUNT_WITHOUT_EXCEPTION_CATCH);
+        // The Rust row is rolled out, so the kernel run covers the expanded
+        // core: 27 templates and 54 assertions.
+        assert_eq!(core, expected_core_case_count("rust"));
+        assert!(core > KERNEL_CASE_COUNT_WITHOUT_EXCEPTION_CATCH);
         assert_eq!(
             BifrostRun::RustKernel.expected_core_cases(),
-            Some(KERNEL_CASE_COUNT_WITHOUT_EXCEPTION_CATCH)
+            Some(expected_core_case_count("rust"))
         );
         assert_eq!(extension, 2);
     }
@@ -11481,51 +11519,21 @@ mod tests {
                 );
                 assert!(template.starts_with(CHALLENGE_TEMPLATE_PREFIX));
             }
-            // Python, JavaScript, Java, C#, TypeScript, Kotlin, Go, C++, C,
-            // and Ruby are the waves that have landed their fixtures; every
-            // other language validates against its classic set alone, so a
-            // language whose fixtures do not exist yet is never failed for
-            // missing them.
-            let rolled_out = matches!(
-                row.language,
-                "python"
-                    | "javascript"
-                    | "java"
-                    | "csharp"
-                    | "typescript"
-                    | "kotlin"
-                    | "go"
-                    | "cpp"
-                    | "c"
-                    | "ruby"
-            );
-            assert_eq!(
+            // The rollout is complete: Ruby was the last wave, so every one of
+            // the thirteen rows is flipped and no language validates against
+            // its classic set alone any more. This is the assertion that would
+            // catch a row being silently un-flipped.
+            assert!(row.rolled_out, "{} rollout state", row.language);
+            assert!(
                 challenge_rolled_out(row.language),
-                rolled_out,
                 "{} rollout state",
                 row.language
             );
-            let expected = if rolled_out {
-                classic + challenge
-            } else {
-                classic
-            };
+            // Every language's denominator is therefore its expanded core:
+            // the classic templates plus its applicable challenge templates.
+            let expected = classic + challenge;
             assert_eq!(row.expected_templates().len(), expected);
             assert_eq!(expected_core_case_count(row.language), 2 * expected);
-            // Flipping the row is the whole of a wave PR's validator change.
-            let flipped = ChallengeRollout {
-                language: row.language,
-                display: row.display,
-                classic: row.classic,
-                challenge: row.challenge,
-                rolled_out: true,
-            };
-            assert_eq!(
-                flipped.expected_templates().len(),
-                classic + challenge,
-                "{} expanded core",
-                row.language
-            );
         }
         // The exclusions docs/challenge-tier.md states, by name.
         let cpp = challenge_rollout("cpp").unwrap().challenge;

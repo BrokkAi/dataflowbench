@@ -10,7 +10,11 @@ are kept apart by the selector and the report paths, never by the engine.
 
 PHP is the one language here for which Joern is not a third opinion: the pinned
 CodeQL CLI has no PHP support at all, so Bifrost and Joern are PHP's only two
-analyzers. See [the PHP kernel contract](../../docs/php-kernel.md).
+whole-population analyzers, alongside the deliberately bounded Semgrep CE
+adapter, which scores only PHP's 14-assertion intraprocedural partition. PHP's
+challenge-tier row is rolled out, so this kernel's denominator is the expanded
+29 templates / 58 assertions. See [the PHP kernel
+contract](../../docs/php-kernel.md).
 
 ## Pinned distribution
 
@@ -85,17 +89,19 @@ track == "taint"
 score_tier == "core"
 ```
 
-For the four 16-template languages that have not been expanded that is exactly
-32 assertions — one positive and one negative for each of the 16 scored
+For the two 16-template languages that have not been expanded — Ruby and PHP —
+that is exactly 32 assertions — one positive and one negative for each of the 16 scored
 templates in
 `docs/applicability-matrix.md`, all under the `benchmark-controlled` model
 profile. Rust's exception-catch cell is **inapplicable**
-(`docs/applicability-matrix.md` and `docs/rust-kernel.md` record why), so the
-Rust kernel selects the other 15 templates — 30 assertions — exactly as the
-Semgrep and CodeQL Rust selections treat that cell. The `Result`/`?`
-`language-extension` pair that stands in for the missing cell is scored on its
-own tier and is deliberately **not** in this selection: the Joern Rust kernel is
-the 30 core assertions and nothing else.
+(`docs/applicability-matrix.md` and `docs/rust-kernel.md` record why), and so is
+its challenge-tier reflective-invocation cell
+(`docs/challenge-tier.md`), so the Rust kernel selects the other 27
+templates — **54 assertions** since its challenge row rolled out — exactly as
+the Semgrep and CodeQL Rust selections treat those cells. The `Result`/`?`
+`language-extension` pair that stands in for the missing exception-catch cell is
+scored on its own tier and is deliberately **not** in this selection: the Joern
+Rust kernel is the 54 core assertions and nothing else.
 
 JavaScript moves the other way: its thirteen preregistered challenge templates
 have rolled out (`docs/challenge-tier.md`), so its core population is 29
@@ -231,13 +237,14 @@ lands on the *callsite*, so matching does not require the marker's own line.
 Joern 4.0.610, build identity `joern-cli:4.0.610`. All six kernels ran on the
 same pinned distribution and the same unmodified script, so every retained
 Joern report carries one `tool_version` and the single configuration hash
-above. Every case in all six kernels executed: 294 retained evidence documents,
+above. Every case in all six kernels executed: 344 retained evidence documents,
 zero error documents, zero `inconclusive`, `unsupported`, or `runner-error`
 outcomes.
 
-Two of the six ran against fixture revision
+None of the six still stands at the pre-expansion fixture revision
 `sha256:aee59a14f96633cf5798df6d211525ea0d10748800ba9c9ac0a3787406bd19ea`.
-The Python, JavaScript, Java, and Ruby kernels were each re-run whole after that
+The Python, JavaScript, Java, Rust, PHP, and Ruby kernels were each re-run whole
+after that
 language's challenge-tier row was rolled out, and each carries the expanded
 corpus revision current when it ran —
 `sha256:3e7a8de5e1eefb18e8166af0ccdf309bccf1d5c26026893a4513f1943926ab1f` for
@@ -245,40 +252,52 @@ Python,
 `sha256:64ef139f452fd296bb26463bc552e5e5998ca4bb4584d45565d858424814bde9` for
 JavaScript,
 `sha256:f476894a41d283e3bcaaf5188ee08abe7886ce8e3919257403b0aa853ef718e2` for
-Java, and
+Java,
+`sha256:88ad35289ae465278b95fd436532132118a6b6aa681adb3d266d67766c8770c5` for
+Rust,
+`sha256:f74647fe824ca9f6900c48aa9d403f0e9f59230e4193e0b02bd65e29a9e4e660` for
+PHP, and
 `sha256:020d0d8f79360af6e74064a692e2d65ffa31cd97f9971f9dad8bec065d862043` for
-Ruby. `fixture_revision` digests the whole case corpus, so each wave's fixtures
+Ruby, the last wave to land. `fixture_revision` digests the whole case corpus,
+so each wave's fixtures
 moved it for every run after it. Reports at different fixture revisions are not
-pooled, and each language's 58 assertions are a different population from the
-32 it reported in v0.3.0, not a movement within one.
+pooled, and each language's expanded assertions are a different population from
+the 32 (30 for Rust) it reported in v0.3.0, not a movement within one.
 
 | Kernel | `reached` | `not-reached` | Polarity match |
 | --- | --- | --- | --- |
 | **Java (`javasrc2cpg`)** | **26** | **32** | **47/58** |
 | **JavaScript (`jssrc2cpg`)** | **27** | **31** | **44/58** |
 | **Python (`pysrc2cpg`)** | **25** | **33** | **48/58** |
+| **PHP (`php2cpg`)** | **25** | **33** | **48/58** |
 | **Ruby (`rubysrc2cpg`)** | **23** | **35** | **40/58** |
-| PHP (`php2cpg`) | 16 | 16 | 28/32 |
-| Rust (`rust2cpg`) | 16 | 14 | 27/30 |
+| **Rust (`rust2cpg`)** | **20** | **34** | **43/54** |
 
-Rust's denominator is 30, not 32, because its exception-catch cell is
-inapplicable; the ratios are not comparable across a different denominator and
-are not averaged.
+Rust's denominator is 54, not 58, because two cells are inapplicable to it —
+`exception-catch` from the classic sixteen and `chal-reflective-invocation`
+from the challenge thirteen; the ratios are not comparable across a different
+denominator and are not averaged. Split by stratum, Rust is **27/30 on the
+classic fifteen — identical case for case to its pre-expansion snapshot, so the
+expansion introduced no drift — and 16/24 on its challenge twelve**.
 
-**Java's, Python's, JavaScript's, and Ruby's denominators are 58, not 32.** All
-four challenge-tier rows are rolled out, so each core is the expanded 29 templates:
-the sixteen v0.3.0 templates plus the thirteen preregistered challenge
-templates ([the challenge tier](../../docs/challenge-tier.md)). Each report was
-re-run whole — a whole-population replacement, not an append — and each carries
-the expanded corpus revision current when it ran, while the other two still
-carry `sha256:aee59a14f96633cf5798df6d211525ea0d10748800ba9c9ac0a3787406bd19ea`.
+**Java's, Python's, JavaScript's, PHP's, and Ruby's denominators are 58, not
+32.** All five challenge-tier rows are rolled out — as is Rust's, at its reduced
+54 — so each core is the expanded 29
+templates: the sixteen v0.3.0 templates plus the thirteen preregistered
+challenge templates ([the challenge tier](../../docs/challenge-tier.md)). Each
+report was re-run whole — a whole-population replacement, not an append — and
+each carries the expanded corpus revision current when it ran; no Joern kernel
+is left at `sha256:aee59a14f96633cf5798df6d211525ea0d10748800ba9c9ac0a3787406bd19ea`.
 Split by stratum, JavaScript is **26/32 on the classic sixteen — identical case
 for case to its v0.3.0 snapshot, so the expansion introduced no drift — and
 18/26 on the challenge thirteen**, Java is likewise **28/32 on the classic
 sixteen, identical case for case to its v0.3.0 snapshot, and 19/26 on the
-challenge thirteen**, and Ruby is **26/32 on the classic sixteen, also identical
-case for case to its pre-expansion snapshot, and 14/26 on the challenge
-thirteen**, all still with zero `inconclusive`, `unsupported`, or
+challenge thirteen**, PHP is **28/32 on the classic sixteen, identical case
+for case to its previous snapshot, and 20/26 on the challenge thirteen**,
+Python is **28/32 and 20/26**, and Ruby is **26/32 on the classic sixteen, also
+identical case for case to its pre-expansion snapshot, and 14/26 on the
+challenge thirteen**, all
+still with zero `inconclusive`, `unsupported`, or
 `runner-error` outcomes. A 58-assertion score and a 32-assertion score are
 different populations and are neither compared nor averaged, and each language's
 own 28/32 or 26/32 v0.3.0 result and its expanded result are likewise separate
@@ -413,18 +432,50 @@ Challenge strata, 14/26 — A 3/6, B 4/8, C 3/6, D 4/6:
 - `dfb-taint-ruby-context-pair-depth2-positive`: false negative.
 - `dfb-taint-ruby-recursive-carry-negative`: false positive.
 
-**PHP** — `reports/joern-php-kernel.json`
+Note that `dfb-taint-ruby-deep-relay-chain-positive` is **absent** from this
+list: Ruby resolves the depth-6 relay pair correctly, the one measured
+departure from the preregistered stratum-D prediction.
+
+**PHP** — `reports/joern-php-kernel.json` (58 assertions), 48/58 over the
+expanded core: 28/32 on the classic stratum and 20/26 on the challenge strata
+(A 4/6, B 5/8, C 6/6, D 5/6).
+
+Classic — unchanged case for case from its previous snapshot:
 
 - `dfb-taint-php-alias-propagation-positive`: false negative.
 - `dfb-taint-php-exception-catch-positive`: false negative.
 - `dfb-taint-php-infeasible-branch-negative`: false positive.
 - `dfb-taint-php-loop-carried-negative`: false positive.
 
-**Rust** — `reports/joern-rust-kernel.json`
+Challenge:
+
+- `dfb-taint-php-reflective-invocation-positive`: false negative.
+- `dfb-taint-php-dispatch-table-positive`: false negative.
+- `dfb-taint-php-function-field-positive`: false negative.
+- `dfb-taint-php-callback-registration-positive`: false negative.
+- `dfb-taint-php-anonymous-implementation-negative`: false positive.
+- `dfb-taint-php-deep-relay-chain-positive`: false negative.
+
+**Rust** — `reports/joern-rust-kernel.json` (54 assertions), 43/54 over the
+expanded core: 27/30 on the classic fifteen templates and 16/24 on its twelve
+challenge templates.
+
+Classic stratum, 27/30 — the same three as before the expansion, case for case:
 
 - `dfb-taint-rust-alias-propagation-positive`: false negative.
 - `dfb-taint-rust-infeasible-branch-negative`: false positive.
 - `dfb-taint-rust-loop-carried-negative`: false positive.
+
+Challenge stratum, 16/24 — **eight false negatives and zero false positives**:
+
+- `dfb-taint-rust-computed-property-positive`: false negative (stratum A).
+- `dfb-taint-rust-dispatch-table-positive`: false negative (stratum A).
+- `dfb-taint-rust-closure-capture-positive`: false negative (stratum B).
+- `dfb-taint-rust-function-field-positive`: false negative (stratum B).
+- `dfb-taint-rust-callback-registration-positive`: false negative (stratum B).
+- `dfb-taint-rust-anonymous-implementation-positive`: false negative (stratum B).
+- `dfb-taint-rust-map-iteration-positive`: false negative (stratum C).
+- `dfb-taint-rust-deep-relay-chain-positive`: false negative (stratum D).
 
 Four mismatching templates recur across the five languages that share the
 sixteen v0.3.0 templates — alias propagation through a field and value transfer
@@ -435,8 +486,9 @@ Python's classic strata show exactly that set and nothing else; JavaScript
 adds array-element and same-object-field over-approximation; Ruby adds
 argument-position and call-context over-approximation.
 
-Four challenge strata are recorded here: Python's, JavaScript's, Java's, and
-Ruby's. JavaScript's divides cleanly: every stratum-A and stratum-B *negative* is
+All six challenge strata are recorded here: Python's, JavaScript's, Java's,
+Rust's, PHP's, and Ruby's — one per Joern kernel, the rollout being complete.
+JavaScript's divides cleanly: every stratum-A and stratum-B *negative* is
 decided correctly while five of those positives are missed — the
 under-approximating half of the approximation character the challenge
 preregistration described — and the two false positives are the computed-key
@@ -445,10 +497,18 @@ array-element and same-object-field mismatches already show rather than
 revealing a new one. Java's divides the same way and answers its container
 stratum completely, its two false positives coming from merging the two
 anonymous implementations of one interface and two distinct constant keys of
-one reflected field. All three miss the depth-6 relay positive for the one
-preregistered reason: the verified `maxCallDepth = 4` default, unraised.
+one reflected field. PHP's is the cleanest of the six at 20/26, tied with Python: it also
+answers stratum C completely, its single false positive is again the merge of
+two anonymous implementations, and — unlike Java — it keeps PHP's *native*
+computed property `$holder->{$key}` apart across two distinct constant keys,
+which is the same question Java could only ask through `java.lang.reflect.Field`
+and failed. Its four false negatives are all positives whose callee is named by
+a run-time string, fetched from an array of closures, stored in an object
+property, or held in a hook list. All five kernels miss the depth-6 relay
+positive for the one preregistered reason: the verified `maxCallDepth = 4`
+default, unraised.
 
-Ruby's is the flattest of the four and the only one that breaks the depth
+Ruby's is the flattest of the six and the only one that breaks the depth
 prediction. Strata A and B are almost entirely under-approximating — every
 stratum-B result is `not-reached`, so the four negatives are right for the same
 reason the four positives are wrong — and stratum C is `not-reached` on all six,
@@ -457,7 +517,7 @@ depth-3 accessor chain, to `Hash#each` iteration, or to a field inside an array
 element. The one over-approximation is `computed-property`, where the
 `instance_variable_set`/`instance_variable_get` pair is carried *and* the two
 distinct constant keys are joined. Stratum D is where Ruby departs from the
-other three: **the depth-6 relay positive is `reached` and its negative is
+other five: **the depth-6 relay positive is `reached` and its negative is
 `not-reached`**, a correctly discriminated pair past the unraised
 `maxCallDepth = 4` default, against the preregistration's stated expectation.
 The recursive carry is resolved on the positive and over-approximated on the
@@ -468,15 +528,32 @@ engine's documented default and this is one frontend's measured result against
 it. Per-stratum reading is in
 [the Ruby kernel contract](../../docs/ruby-kernel.md).
 
-Rust's three mismatches are exactly that recurring set intersected with its own
-15 applicable templates: it misses the same field-alias propagation and
-over-approximates the same infeasible branch and loop-carried kill, and the
-fourth recurring mismatch — exception catch — is not a Rust cell at all.
-`rust2cpg` decided every one of the 30 assertions, including both return-relay
-hops, call-context separation, and object separation. That is a stronger first
-showing than a brand-new frontend has to give, and it is published as a
-snapshot of a frontend that shipped in this release, not as a settled
-characterization.
+Rust's three classic mismatches are exactly that recurring set intersected with
+its own 15 applicable classic templates: it misses the same field-alias
+propagation and over-approximates the same infeasible branch and loop-carried
+kill, and the fourth recurring mismatch — exception catch — is not a Rust cell
+at all. `rust2cpg` decided every one of the 54 assertions, including both
+return-relay hops, call-context separation, and object separation, and no case
+fell to `inconclusive` on the expanded population either.
+
+Rust's challenge stratum is the sharpest instance so far of the under-approximating
+character the preregistration described, and it is the first challenge-stratum
+evidence here for a systems language. **Every** stratum-A and stratum-B negative
+is decided correctly and **every** stratum-A and stratum-B positive is missed —
+6 correct, 6 missed, with not one false positive anywhere in the twelve
+challenge templates, where JavaScript and Java each produced two. So on Rust the
+frontend declines to resolve an indirect callee rather than merging the
+candidates, which is the opposite half of the same design axis and is reported
+as character, not as a ranking. Its two container cells that *are* resolved —
+the depth-3 nested access path and the per-element object field, both including
+their sibling-read negatives — put Rust's field precision deeper than the
+classic array-element cell alone establishes, while the `map-iteration` positive
+is missed, separating "models a field chain" from "models a container's
+iteration protocol". Recursive carry at depth 5 and the two-deep context pair
+are both fully correct.
+
+This is published as a snapshot of a frontend that shipped in this release, not
+as a settled characterization.
 
 These are published as observed: no fixture was changed, no query was
 contorted, and no case was special-cased to move a result.
@@ -492,12 +569,13 @@ upgrade's effect on each is measured, not assumed. Four of the five reproduced
 | Java | 28/32 | 28/32 | none; identical mismatch set (classic stratum; the later 58-assertion expansion re-ran it unchanged) |
 | JavaScript | 26/32 | 26/32 | none; identical mismatch set (classic stratum; the later 58-assertion expansion re-ran it unchanged) |
 | Python | 28/32 | 28/32 | none; identical mismatch set |
-| PHP | 28/32 | 28/32 | none; identical mismatch set |
+| PHP | 28/32 | 28/32 | none; identical mismatch set (classic stratum; the later 58-assertion expansion re-ran it unchanged) |
 | Ruby | 26/32 | 26/32 | **same total, different set — four cases moved** (classic stratum; the later 58-assertion expansion re-ran it unchanged) |
 
 That table compares the 16-template population under two Joern pins. The later
-expansions of Java, JavaScript, Python, and Ruby to 58 assertions are
-*population* changes, not pin changes, and their 47/58, 44/58, 48/58, and 40/58
+expansions of Java, JavaScript, Python, PHP, and Ruby to 58 assertions are
+*population* changes, not pin changes, and their 47/58, 44/58, 48/58, 48/58, and
+40/58
 belong beside neither column.
 
 Ruby's score is unchanged and its outcome distribution is unchanged (18
@@ -556,7 +634,7 @@ Installed frontends: `abap2cpg`, `c2cpg`, `csharpsrc2cpg`, `ghidra2cpg`,
 | Kotlin | `kotlin2cpg` | Available, not yet in scope (unchanged by Kotlin's challenge-tier expansion: no Joern Kotlin slice exists here to expand) |
 | TypeScript | `jssrc2cpg` | Available, not yet in scope |
 | Rust | `rust2cpg` | Executed here (new in `4.0.610`; needs a synthesized Cargo manifest) |
-| **Scala** | **none (source)** | **Explicitly unsupported** |
+| **Scala** | **none (source)** | **Explicitly unsupported** (unchanged by Scala's challenge-tier expansion: the 26 challenge fixtures are single-file `scalac`-clean sources on exactly the same terms as the 32 classic ones, so all 58 assertions fall outside the profile) |
 
 Rust was explicitly unsupported under `4.0.432`, which shipped no Rust frontend
 and no Rust identifier in `Languages.ALL`. `4.0.610` ships `rust2cpg` and the

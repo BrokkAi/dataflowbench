@@ -15,8 +15,9 @@ with two denominators: 28 templates (56 assertions) for C++, whose
 challenge-tier row is now rolled out, and 15 templates (30 assertions) for C,
 plus two C `language-extension` cases that never enter the C core denominator. Each of the two queries restricts its data-flow nodes to its
 own fixture extension. Rust has its own extractor too, whose support is a
-**public preview** in the pinned CLI, and its own population with the same
-reduced 15-template denominator as C, plus two Rust `language-extension` cases
+**public preview** in the pinned CLI, and its own population: the same
+reduced 15-template classic denominator as C, expanded to 27 templates by its
+challenge-tier row, plus two Rust `language-extension` cases
 that never enter the Rust core denominator. Ruby has its own production extractor and its own
 expanded 29-template population; it is the primary decisive analyzer for the
 Ruby tranche, whose Bifrost coverage gate is recorded in [the Ruby kernel
@@ -27,7 +28,11 @@ Scala is deliberately absent. CodeQL CLI 2.26.3 has no Scala extractor and no
 Scala library pack in any build mode, so there is no `scala/` pack, no query,
 and no `run-codeql-scala-kernel` command. That absence is analyzer coverage —
 recorded in [the Scala kernel contract](../../docs/scala-kernel.md) — and
-never a negative result for any Scala assertion.
+never a negative result for any Scala assertion. It is restated unchanged for
+Scala's **expanded 29-template / 58-assertion core**: the 26 challenge
+assertions are covered by the same absence as the 32 classic ones, and because
+the extractor does not exist, this is coverage rather than evidence deferred to
+the v0.4.0 re-run.
 
 The checked-in query packs contain the Java, JavaScript, TypeScript, Python,
 Kotlin, C#, Go, C, C++, Rust, and Ruby kernel queries. Each query uses that
@@ -563,13 +568,15 @@ Its configuration hash is
 
 ## Rust kernel
 
-The Rust runner selects the Rust `taint` cases whose `score_tier` is `core` —
-30 assertions over the 15 templates `docs/applicability-matrix.md` classifies
-as applicable — plus the two `language-extension` assertions that carry
-`Result`/`?` error-path propagation. `exception-catch` is inapplicable to Rust
-and stays excluded, reducing only the Rust denominator; the extension pair is
-scored on its own tier and never enters the core denominator. Every selected
-case is analyzed with:
+The Rust runner selects the whole Rust core `taint` population — 30 assertions
+over the 15 classic templates `docs/applicability-matrix.md` classifies as
+applicable, and **54** now that Rust's twelve applicable challenge templates
+have rolled out (`docs/challenge-tier.md`) — plus the two `language-extension`
+assertions that carry `Result`/`?` error-path propagation. `exception-catch`
+and `chal-reflective-invocation` are both inapplicable to Rust and stay
+excluded, reducing only the Rust denominator; the extension pair is scored on
+its own tier and never enters the core denominator. Every selected case is
+analyzed with:
 
 ```text
 adapters/codeql/rust/queries/RustKernel.ql
@@ -612,6 +619,14 @@ sink exactly as C#, Go, C, and C++ do, so it shares that declaration rule; it
 gets its own callsite rule because Rust reaches a member through `.` and a path
 through `::`, and neither is a call of the free sink function the anchor
 declares.
+
+**Expanded evidence is deferred.** `reports/codeql-rust-kernel.json` is one of
+the nineteen reports `reports/freeze.json` digest-binds for v0.3.0, so the Rust
+challenge expansion did not overwrite it: the expanded 54-assertion CodeQL
+evidence is pending the v0.4.0 freeze-prep re-run, on this repository's
+established re-run-at-freeze pattern, and the deferral is recorded in
+`docs/rust-kernel.md`. What follows is the valid classic 30-assertion snapshot,
+and it describes a different population from the expanded one.
 
 The checked-in `reports/codeql-rust-kernel.json` contains 32 results. Its 30
 core assertions are 17 `reached` and 13 `not-reached`, with zero `inconclusive`,

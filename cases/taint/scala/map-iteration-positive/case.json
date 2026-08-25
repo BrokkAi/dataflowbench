@@ -1,0 +1,62 @@
+{
+  "schema_version": 2,
+  "id": "dfb-taint-scala-map-iteration-positive",
+  "template_id": "dfb-template-chal-map-iteration",
+  "polarity": "positive",
+  "score_tier": "core",
+  "track": "taint",
+  "language": "scala",
+  "semantic_dimensions": [
+    "heap-field-sensitivity",
+    "object-sensitivity"
+  ],
+  "feature_tags": [
+    "computed-access"
+  ],
+  "model_profile": "benchmark-controlled",
+  "fixture_files": [
+    "MapIterationPositive.scala"
+  ],
+  "source_anchors": [
+    {
+      "marker": "DFB-SOURCE: map-iteration-input",
+      "file": "MapIterationPositive.scala"
+    }
+  ],
+  "sink_anchors": [
+    {
+      "marker": "DFB-SINK: map-iteration-sink",
+      "file": "MapIterationPositive.scala"
+    }
+  ],
+  "expected_flows": [
+    {
+      "source": "DFB-SOURCE: map-iteration-input",
+      "sink": "DFB-SINK: map-iteration-sink"
+    }
+  ],
+  "expected_nonflows": [],
+  "witness_checkpoints": [
+    "DFB-SOURCE: map-iteration-input",
+    "DFB-WITNESS: map-iteration-store",
+    "DFB-SINK: map-iteration-sink"
+  ],
+  "expected_analysis_capability": {
+    "kind": "container-iteration-taint"
+  },
+  "execution_budget": {
+    "wall_clock_seconds": 60,
+    "peak_memory_mb": 512
+  },
+  "fixture_provenance": {
+    "kind": "authored",
+    "origin": "DataFlowBench",
+    "revision": "m3-challenge-scala",
+    "license": "MIT"
+  },
+  "tool_model_references": {
+    "bifrost": {
+      "policy": "adapters/bifrost/policies/core-scala-kernel.rqlp"
+    }
+  }
+}
