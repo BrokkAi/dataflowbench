@@ -1,0 +1,64 @@
+{
+  "schema_version": 2,
+  "id": "dfb-taint-javascript-element-object-negative",
+  "template_id": "dfb-template-chal-element-object",
+  "polarity": "negative",
+  "negative_mechanism": "field-separation",
+  "score_tier": "core",
+  "track": "taint",
+  "language": "javascript",
+  "semantic_dimensions": [
+    "heap-field-sensitivity",
+    "object-sensitivity"
+  ],
+  "feature_tags": [
+    "heap-access-path"
+  ],
+  "model_profile": "benchmark-controlled",
+  "fixture_files": [
+    "ElementObjectNegative.js"
+  ],
+  "source_anchors": [
+    {
+      "marker": "DFB-SOURCE: element-object-input",
+      "file": "ElementObjectNegative.js",
+      "line_hint": 1
+    }
+  ],
+  "sink_anchors": [
+    {
+      "marker": "DFB-SINK: element-object-sink",
+      "file": "ElementObjectNegative.js",
+      "line_hint": 5
+    }
+  ],
+  "expected_flows": [],
+  "expected_nonflows": [
+    {
+      "source": "DFB-SOURCE: element-object-input",
+      "sink": "DFB-SINK: element-object-sink"
+    }
+  ],
+  "witness_checkpoints": [],
+  "expected_analysis_capability": {
+    "kind": "element-scoped-field-sensitive-taint"
+  },
+  "execution_budget": {
+    "wall_clock_seconds": 60,
+    "peak_memory_mb": 512
+  },
+  "fixture_provenance": {
+    "kind": "authored",
+    "origin": "DataFlowBench",
+    "revision": "m3-challenge-javascript",
+    "license": "MIT"
+  },
+  "tool_model_references": {
+    "bifrost": {
+      "policy": "adapters/bifrost/policies/core-javascript-kernel.rqlp"
+    },
+    "codeql": {
+      "query": "adapters/codeql/javascript/queries/JavaScriptKernel.ql"
+    }
+  }
+}
