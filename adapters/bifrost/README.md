@@ -44,9 +44,14 @@ arrangement; see [the Go kernel contract](../../docs/go-kernel.md) for its
 struct, pointer-alias, array, and `panic`/`recover` adaptations. The C and C++
 parity slices use `core-c-kernel.rqlp` and `core-cpp-kernel.rqlp` and are two
 separate populations with two different denominators: C++ covers all 16
-templates (32 core assertions), while C covers 15 (30 core assertions) because
-`dfb-template-exception-catch` is inapplicable to C, and its two
-`language-extension` cases run in the same slice on their own scorecard. See
+classic templates plus the twelve challenge templates its row now rolls out
+(**28 templates, 56 core assertions**), while C covers 15 (30 core assertions)
+because `dfb-template-exception-catch` is inapplicable to C, and its two
+`language-extension` cases run in the same slice on their own scorecard.
+`reports/bifrost-cpp-kernel.json` is freeze-bound by v0.3.0, so the C++
+challenge wave did not re-run it and **the expanded Bifrost C++ evidence is
+pending the v0.4.0 freeze-prep re-run**; the retained report remains the
+classic 32-assertion snapshot. See
 [the C kernel contract](../../docs/c-kernel.md) and [the C++ kernel
 contract](../../docs/cpp-kernel.md). The Rust parity slice uses
 `core-rust-kernel.rqlp` under the same frozen-direct-pair arrangement as C# and
@@ -73,7 +78,8 @@ pinned Joern has no Scala source frontend, so Bifrost is the only tool that
 produces Scala results at all. See
 [the Scala kernel contract](../../docs/scala-kernel.md). Every kernel command
 selects only its own language's core assertions — 32 for the 16-template
-kernels, 30 for C and Rust — and writes a dedicated report. The Java
+kernels, 30 for C and Rust, 58 for the expanded 29-template kernels, and 56
+for C++, whose expanded core is 28 templates — and writes a dedicated report. The Java
 calibration slice also
 covers one-hop helper flow. Generated workspaces live outside the repository so
 repository ignore rules cannot hide fixtures from Bifrost's indexer. Sanitizer

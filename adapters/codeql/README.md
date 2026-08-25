@@ -11,9 +11,9 @@ extracted by the same `java` extractor and standard library as Java, so its
 query restricts every node to `.kt` files and its runner selects only Kotlin
 cases. C# and Go each have their own extractor and their own population. C and
 C++ share the `cpp` extractor and one pack, and are likewise two populations
-with two denominators: 16 templates (32 assertions) for C++, 15 templates (30
-assertions) for C, plus two C `language-extension` cases that never enter the C
-core denominator. Each of the two queries restricts its data-flow nodes to its
+with two denominators: 28 templates (56 assertions) for C++, whose
+challenge-tier row is now rolled out, and 15 templates (30 assertions) for C,
+plus two C `language-extension` cases that never enter the C core denominator. Each of the two queries restricts its data-flow nodes to its
 own fixture extension. Rust has its own extractor too, whose support is a
 **public preview** in the pinned CLI, and its own population with the same
 reduced 15-template denominator as C, plus two Rust `language-extension` cases
@@ -463,8 +463,9 @@ the `panic`/`recover` adaptation anticipates. Its configuration hash is
 
 ## C and C++ kernels
 
-The C++ runner selects exactly the 32 `taint`/`core` cases whose `language` is
-`cpp`; the C runner selects the 30 `taint`/`core` cases whose `language` is `c`
+The C++ runner selects exactly the 56 `taint`/`core` cases whose `language` is
+`cpp` — 32 classic assertions plus the 24 the challenge-tier expansion added;
+the C runner selects the 30 `taint`/`core` cases whose `language` is `c`
 plus its 2 `language-extension` cases, which are scored on their own scorecard
 and never counted in the core denominator. Each analyzes its own query:
 
@@ -509,6 +510,14 @@ negatives on the alias-propagation and exception-catch positives, false
 positives on the array-element and loop-carried negatives. Its configuration
 hash is
 `8873a63a5898c8b6b10dc24a9fbf2fae3ed5a088faf024524b0bae50f0fc4cc0`.
+
+That snapshot is the **classic 32-assertion population only**. It is one of
+the nineteen reports `reports/freeze.json` digest-binds for v0.3.0, so the C++
+challenge wave did not re-run it: **the expanded CodeQL C++ evidence is pending
+the v0.4.0 freeze-prep re-run**, on the repository's established
+re-run-at-freeze pattern. The selector already expects the full 56; deferral is
+not absence of coverage, and a 32-assertion score is never compared with a
+56-assertion one.
 
 The checked-in `reports/codeql-c-kernel.json` contains 32 results with the same
 clean execution profile. Of the 30 core assertions, 16 are `reached` and 14 are

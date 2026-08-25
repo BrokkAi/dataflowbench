@@ -324,9 +324,10 @@ and score tier, exactly as the Joern kernels do, and each has its own report
 reference: the v0.3.0 freeze digest-binds every `case.json` byte, so the
 invocation is pinned in the runner instead.
 
-Six of the eleven select 32 assertions. **Python, JavaScript, and TypeScript
-select 58** each, their expanded 29-template cores; every one of their 26
-challenge assertions falls in the `unsupported` partition, so each scored
+Four of the eleven select 32 assertions. **Java, Python, JavaScript, and
+TypeScript select 58** each, their expanded 29-template cores, and **C++
+selects 56**, its expanded 28-template core; every one of their challenge
+assertions falls in the `unsupported` partition, so each scored
 subset is the same 14 as everyone else's. **C and Rust select 30**: their
 exception-catch cell is inapplicable in `applicability-matrix.md`, so they are
 balance-checked against the fifteen-template

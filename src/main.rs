@@ -364,7 +364,7 @@ const CHALLENGE_ROLLOUT: [ChallengeRollout; 13] = [
         display: "C++",
         classic: &KERNEL_TEMPLATE_IDS,
         challenge: &CHALLENGE_TEMPLATE_IDS_WITHOUT_REFLECTIVE_INVOCATION,
-        rolled_out: false,
+        rolled_out: true,
     },
     ChallengeRollout {
         language: "rust",
@@ -8690,9 +8690,10 @@ mod tests {
     }
 
     /// C and C++ are two populations with two denominators. The C core is the
-    /// fifteen applicable templates; the C++ core is all sixteen; the C
-    /// `language-extension` cases ride along in the C slice without changing
-    /// its core denominator.
+    /// fifteen applicable classic templates; the C++ core is all sixteen plus
+    /// its twelve applicable challenge templates, now that the C++ row is
+    /// rolled out; the C `language-extension` cases ride along in the C slice
+    /// without changing its core denominator.
     #[test]
     fn c_and_cpp_core_populations_keep_their_own_denominators() {
         let c = codeql_c_family_cases(CFamilyKernel::C).unwrap();
@@ -8705,8 +8706,8 @@ mod tests {
         };
         assert_eq!(core(&c), KERNEL_CASE_COUNT_WITHOUT_EXCEPTION_CATCH);
         assert_eq!(core(&c), 30);
-        assert_eq!(core(&cpp), KERNEL_CASE_COUNT);
-        assert_eq!(core(&cpp), 32);
+        assert_eq!(core(&cpp), expected_core_case_count("cpp"));
+        assert_eq!(core(&cpp), 56);
         assert_eq!(c.len() - core(&c), 2);
         assert_eq!(cpp.len(), core(&cpp));
 
@@ -8841,7 +8842,8 @@ mod tests {
         }
         assert_eq!(c_core, KERNEL_CASE_COUNT_WITHOUT_EXCEPTION_CATCH);
         assert_eq!(c - c_core, 2);
-        assert_eq!(cpp, KERNEL_CASE_COUNT);
+        assert_eq!(cpp, expected_core_case_count("cpp"));
+        assert_eq!(cpp, 56);
     }
 
     /// The two C-family kernels share the `cpp` extractor and one pack, so
@@ -11418,13 +11420,13 @@ mod tests {
                 );
                 assert!(template.starts_with(CHALLENGE_TEMPLATE_PREFIX));
             }
-            // Python, JavaScript, Java, C#, and TypeScript are the waves that
-            // have landed their fixtures; every other language validates
+            // Python, JavaScript, Java, C#, TypeScript, and C++ are the waves
+            // that have landed their fixtures; every other language validates
             // against its classic set alone, so a language whose fixtures do
             // not exist yet is never failed for missing them.
             let rolled_out = matches!(
                 row.language,
-                "python" | "javascript" | "java" | "csharp" | "typescript"
+                "python" | "javascript" | "java" | "csharp" | "typescript" | "cpp"
             );
             assert_eq!(
                 challenge_rolled_out(row.language),

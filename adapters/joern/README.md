@@ -534,6 +534,13 @@ TypeScript is the row most likely to be misread, so it is stated twice.
 is its own change, not a side effect of landing fixtures — so TypeScript has no
 Joern evidence at any denominator, classic or expanded.
 
+C++ is the same story with a different frontend. `c2cpg` ships in the pinned
+distribution, but this adapter has **no C++ slice**: no
+`run-joern-cpp-kernel` command, no C++ selection, no
+`reports/joern-cpp-kernel.json`. The C++ challenge-tier wave
+(`docs/cpp-kernel.md`) did not build one either, so C++ — like C — has no
+Joern evidence at any denominator.
+
 ## Model assumptions
 
 - The `benchmark-controlled` profile applies: the query is given the same
