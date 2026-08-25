@@ -13,9 +13,9 @@ The initial adapter plan is:
 
 | Tool | Initial profile | Status |
 | --- | --- | --- |
-| Bifrost | Breadth baseline and per-language propagation kernels | Implemented smoke adapter; kernel runs are reported separately. Both the Java and the JavaScript kernel commands have now been run over their expanded 29-template cores |
+| Bifrost | Breadth baseline and per-language propagation kernels | Implemented smoke adapter; kernel runs are reported separately. The Java, JavaScript, PHP, and Scala kernel commands have now been run over their expanded 29-template cores |
 | CodeQL | 16-template Java and JavaScript propagation kernels and the 29-template expanded Python kernel | Java, JavaScript, and Python runners implemented as separate language-scoped populations |
-| Joern | Ruby and PHP 16-template propagation kernels, the 27-template expanded Rust kernel, and the 29-template expanded Java, Python, and JavaScript kernels | Implemented as six separate language-scoped populations over one CPG query script |
+| Joern | The Ruby 16-template propagation kernel, the 27-template expanded Rust kernel, and the 29-template expanded Java, Python, JavaScript, and PHP kernels | Implemented as six separate language-scoped populations over one CPG query script |
 | Semgrep CE | Supported local analysis only | Implemented as eleven separate language-scoped populations over one committed taint rule per language; only the documented intraprocedural partition is scored. Four front ends are non-GA in the pinned distribution (Kotlin `beta`; Rust, C, C++ `alpha`) and the label is retained without ever changing the partition |
 | OpenTaint | Java and Kotlin profile | Planned |
 
@@ -361,17 +361,19 @@ and score tier, exactly as the Joern kernels do, and each has its own report
 reference: the v0.3.0 freeze digest-binds every `case.json` byte, so the
 invocation is pinned in the runner instead.
 
-Five of the eleven select 32 assertions. **Python, JavaScript, TypeScript, and
-Go select 58** each, their expanded 29-template cores; every one of their 26
-challenge assertions falls in the `unsupported` partition, so each scored
-subset is the same 14 as everyone else's. **Rust selects 54**, its expanded
-27-template core — 15 classic plus 12 challenge templates, both reduced
-denominators being inapplicable cells that reduce only Rust's own count — and
-all 24 of its challenge assertions likewise fall in the `unsupported`
-partition. **C selects 30**: its exception-catch cell is inapplicable in
-`applicability-matrix.md`, so it is balance-checked against the
-fifteen-template `KERNEL_TEMPLATE_IDS_WITHOUT_EXCEPTION_CATCH` set the CodeQL
-and Bifrost C and Rust kernels already use. The `score_tier == "core"` filter keeps C's
+Ruby, the one kernel whose challenge row is not yet rolled out, selects 32
+assertions. **Java, JavaScript, TypeScript, Python, Go, Kotlin, and PHP select
+58** each, their expanded 29-template cores, **C++ selects 56**, **Rust selects
+54** and **C selects 48**; every one of their challenge assertions falls in the
+`unsupported` partition, so each scored subset is the same 14 as everyone
+else's. **C and Rust have 15-template classic halves**: their
+exception-catch cell is inapplicable in `applicability-matrix.md`, so they are
+balance-checked against the fifteen-template
+`KERNEL_TEMPLATE_IDS_WITHOUT_EXCEPTION_CATCH` set the CodeQL and Bifrost C and
+Rust kernels already use; Rust's expanded core is 27 templates (15 classic plus
+12 challenge) and C's is 24 (15 plus 9), both reduced denominators being
+inapplicable cells that reduce only that language's own count. The
+`score_tier == "core"` filter keeps C's
 error-code-return and goto-cleanup cases and Rust's `Result`/`?` pair — all
 `language-extension` — out of the core denominator.
 
