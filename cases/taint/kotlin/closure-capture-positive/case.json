@@ -1,0 +1,65 @@
+{
+  "schema_version": 2,
+  "id": "dfb-taint-kotlin-closure-capture-positive",
+  "template_id": "dfb-template-chal-closure-capture",
+  "polarity": "positive",
+  "score_tier": "core",
+  "track": "taint",
+  "language": "kotlin",
+  "semantic_dimensions": [
+    "dynamic-dispatch",
+    "interprocedural-flow"
+  ],
+  "feature_tags": [
+    "higher-order"
+  ],
+  "model_profile": "benchmark-controlled",
+  "fixture_files": [
+    "ClosureCapturePositive.kt"
+  ],
+  "source_anchors": [
+    {
+      "marker": "DFB-SOURCE: closure-capture-input",
+      "file": "ClosureCapturePositive.kt"
+    }
+  ],
+  "sink_anchors": [
+    {
+      "marker": "DFB-SINK: closure-capture-sink",
+      "file": "ClosureCapturePositive.kt"
+    }
+  ],
+  "expected_flows": [
+    {
+      "source": "DFB-SOURCE: closure-capture-input",
+      "sink": "DFB-SINK: closure-capture-sink"
+    }
+  ],
+  "expected_nonflows": [],
+  "witness_checkpoints": [
+    "DFB-SOURCE: closure-capture-input",
+    "DFB-WITNESS: closure-capture-bind",
+    "DFB-SINK: closure-capture-sink"
+  ],
+  "expected_analysis_capability": {
+    "kind": "closure-capture-taint"
+  },
+  "execution_budget": {
+    "wall_clock_seconds": 60,
+    "peak_memory_mb": 512
+  },
+  "fixture_provenance": {
+    "kind": "authored",
+    "origin": "DataFlowBench",
+    "revision": "m3-challenge-kotlin",
+    "license": "MIT"
+  },
+  "tool_model_references": {
+    "bifrost": {
+      "policy": "adapters/bifrost/policies/core-kotlin-kernel.rqlp"
+    },
+    "codeql": {
+      "query": "adapters/codeql/kotlin/queries/KotlinKernel.ql"
+    }
+  }
+}

@@ -1,0 +1,62 @@
+{
+  "schema_version": 2,
+  "id": "dfb-taint-kotlin-reflective-invocation-negative",
+  "template_id": "dfb-template-chal-reflective-invocation",
+  "polarity": "negative",
+  "negative_mechanism": "call-context-separation",
+  "score_tier": "core",
+  "track": "taint",
+  "language": "kotlin",
+  "semantic_dimensions": [
+    "dynamic-dispatch",
+    "interprocedural-flow"
+  ],
+  "feature_tags": [
+    "reflective-dispatch"
+  ],
+  "model_profile": "benchmark-controlled",
+  "fixture_files": [
+    "ReflectiveInvocationNegative.kt"
+  ],
+  "source_anchors": [
+    {
+      "marker": "DFB-SOURCE: reflective-invocation-input",
+      "file": "ReflectiveInvocationNegative.kt"
+    }
+  ],
+  "sink_anchors": [
+    {
+      "marker": "DFB-SINK: reflective-invocation-sink",
+      "file": "ReflectiveInvocationNegative.kt"
+    }
+  ],
+  "expected_flows": [],
+  "expected_nonflows": [
+    {
+      "source": "DFB-SOURCE: reflective-invocation-input",
+      "sink": "DFB-SINK: reflective-invocation-sink"
+    }
+  ],
+  "witness_checkpoints": [],
+  "expected_analysis_capability": {
+    "kind": "reflective-dispatch-taint"
+  },
+  "execution_budget": {
+    "wall_clock_seconds": 60,
+    "peak_memory_mb": 512
+  },
+  "fixture_provenance": {
+    "kind": "authored",
+    "origin": "DataFlowBench",
+    "revision": "m3-challenge-kotlin",
+    "license": "MIT"
+  },
+  "tool_model_references": {
+    "bifrost": {
+      "policy": "adapters/bifrost/policies/core-kotlin-kernel.rqlp"
+    },
+    "codeql": {
+      "query": "adapters/codeql/kotlin/queries/KotlinKernel.ql"
+    }
+  }
+}

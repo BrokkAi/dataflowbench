@@ -1,0 +1,65 @@
+{
+  "schema_version": 2,
+  "id": "dfb-taint-kotlin-callback-registration-positive",
+  "template_id": "dfb-template-chal-callback-registration",
+  "polarity": "positive",
+  "score_tier": "core",
+  "track": "taint",
+  "language": "kotlin",
+  "semantic_dimensions": [
+    "dynamic-dispatch",
+    "interprocedural-flow"
+  ],
+  "feature_tags": [
+    "higher-order"
+  ],
+  "model_profile": "benchmark-controlled",
+  "fixture_files": [
+    "CallbackRegistrationPositive.kt"
+  ],
+  "source_anchors": [
+    {
+      "marker": "DFB-SOURCE: callback-registration-input",
+      "file": "CallbackRegistrationPositive.kt"
+    }
+  ],
+  "sink_anchors": [
+    {
+      "marker": "DFB-SINK: callback-registration-sink",
+      "file": "CallbackRegistrationPositive.kt"
+    }
+  ],
+  "expected_flows": [
+    {
+      "source": "DFB-SOURCE: callback-registration-input",
+      "sink": "DFB-SINK: callback-registration-sink"
+    }
+  ],
+  "expected_nonflows": [],
+  "witness_checkpoints": [
+    "DFB-SOURCE: callback-registration-input",
+    "DFB-WITNESS: callback-registration-fire",
+    "DFB-SINK: callback-registration-sink"
+  ],
+  "expected_analysis_capability": {
+    "kind": "inverted-control-callback-taint"
+  },
+  "execution_budget": {
+    "wall_clock_seconds": 60,
+    "peak_memory_mb": 512
+  },
+  "fixture_provenance": {
+    "kind": "authored",
+    "origin": "DataFlowBench",
+    "revision": "m3-challenge-kotlin",
+    "license": "MIT"
+  },
+  "tool_model_references": {
+    "bifrost": {
+      "policy": "adapters/bifrost/policies/core-kotlin-kernel.rqlp"
+    },
+    "codeql": {
+      "query": "adapters/codeql/kotlin/queries/KotlinKernel.ql"
+    }
+  }
+}

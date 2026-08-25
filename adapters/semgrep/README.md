@@ -377,7 +377,7 @@ does not require the marker's own line.
 
 Semgrep CE 1.174.0. Eight kernels ran against fixture revision
 `sha256:aee59a14f96633cf5798df6d211525ea0d10748800ba9c9ac0a3787406bd19ea`; the
-Python, JavaScript, Java, and TypeScript kernels were each re-run whole after that
+Python, JavaScript, Java, TypeScript, and Kotlin kernels were each re-run whole after that
 language's challenge-tier row was rolled out and carry the expanded corpus
 revision current when each ran —
 `sha256:3e7a8de5e1eefb18e8166af0ccdf309bccf1d5c26026893a4513f1943926ab1f` for
@@ -387,11 +387,12 @@ JavaScript, and
 `sha256:cf571f29e434030019d5e8f8361319b0bb3b4d6c4c752bd65860e07bfcf26bbc` for
 Java, and
 `sha256:2c906faeb98b48d1aba7da7bc80a78c4084051b84efac6ac3a1b74f54c843fd2` for
-TypeScript. Reports at different
+TypeScript. `sha256:7ac23321e5d0974ed9087b9642ee3c88b3f3af014ba507330131da30fbb9b4d7` for
+Kotlin, and reports at different
 fixture revisions are not pooled. The configuration hash is unchanged across
 all eleven: no rule file was touched.
 
-All eleven kernels ran. 452 assertions: 154 executed against Semgrep, 298
+All eleven kernels ran. 478 assertions: 154 executed against Semgrep, 324
 excluded by declared capability. Zero `inconclusive` and zero `runner-error`
 outcomes; 154 retained finding documents, 154 retained resolved rule files, 272
 retained capability-decision documents, and zero error documents. (The counts
@@ -408,7 +409,7 @@ reports and evidence directories.)
 | Go | `ga` | 32 | 9 | 5 | 18 | 12/14 |
 | Ruby | `ga` | 32 | 9 | 5 | 18 | 12/14 |
 | PHP | `ga` | 32 | 9 | 5 | 18 | 12/14 |
-| **Kotlin** | **`beta`** | 32 | 9 | 5 | 18 | 12/14 |
+| **Kotlin** | **`beta`** | **58** | 9 | 5 | **44** | 12/14 |
 | **Rust** | **`alpha`** | **30** | 9 | 5 | **16** | 12/14 |
 | **C** | **`alpha`** | **30** | 9 | 5 | **16** | 12/14 |
 | **C++** | **`alpha`** | 32 | 9 | 5 | 18 | 12/14 |
@@ -420,7 +421,8 @@ expanded denominators included: their 26 challenge assertions are all
 intraprocedural positives is `reached` in every language — no false negative
 anywhere — and 5 of the 7 negatives are `not-reached`.
 
-Java, JavaScript, Python, and TypeScript are the four expanded populations, and
+Java, JavaScript, Python, TypeScript, and Kotlin are the five expanded
+populations, and
 each changes only the `unsupported` column: all 26 of that language's challenge
 assertions are declined by declared capability, and its scored 14 are the same
 14 assertions with the same 12/14 result as before the expansion. A larger

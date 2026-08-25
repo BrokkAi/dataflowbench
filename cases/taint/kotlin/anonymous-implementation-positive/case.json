@@ -1,0 +1,67 @@
+{
+  "schema_version": 2,
+  "id": "dfb-taint-kotlin-anonymous-implementation-positive",
+  "template_id": "dfb-template-chal-anonymous-implementation",
+  "polarity": "positive",
+  "score_tier": "core",
+  "track": "taint",
+  "language": "kotlin",
+  "semantic_dimensions": [
+    "dynamic-dispatch",
+    "context-sensitivity",
+    "interprocedural-flow"
+  ],
+  "feature_tags": [
+    "higher-order",
+    "ambiguous-dispatch"
+  ],
+  "model_profile": "benchmark-controlled",
+  "fixture_files": [
+    "AnonymousImplementationPositive.kt"
+  ],
+  "source_anchors": [
+    {
+      "marker": "DFB-SOURCE: anonymous-implementation-input",
+      "file": "AnonymousImplementationPositive.kt"
+    }
+  ],
+  "sink_anchors": [
+    {
+      "marker": "DFB-SINK: anonymous-implementation-sink",
+      "file": "AnonymousImplementationPositive.kt"
+    }
+  ],
+  "expected_flows": [
+    {
+      "source": "DFB-SOURCE: anonymous-implementation-input",
+      "sink": "DFB-SINK: anonymous-implementation-sink"
+    }
+  ],
+  "expected_nonflows": [],
+  "witness_checkpoints": [
+    "DFB-SOURCE: anonymous-implementation-input",
+    "DFB-WITNESS: anonymous-implementation-bind",
+    "DFB-SINK: anonymous-implementation-sink"
+  ],
+  "expected_analysis_capability": {
+    "kind": "indirect-callee-resolution-taint"
+  },
+  "execution_budget": {
+    "wall_clock_seconds": 60,
+    "peak_memory_mb": 512
+  },
+  "fixture_provenance": {
+    "kind": "authored",
+    "origin": "DataFlowBench",
+    "revision": "m3-challenge-kotlin",
+    "license": "MIT"
+  },
+  "tool_model_references": {
+    "bifrost": {
+      "policy": "adapters/bifrost/policies/core-kotlin-kernel.rqlp"
+    },
+    "codeql": {
+      "query": "adapters/codeql/kotlin/queries/KotlinKernel.ql"
+    }
+  }
+}
