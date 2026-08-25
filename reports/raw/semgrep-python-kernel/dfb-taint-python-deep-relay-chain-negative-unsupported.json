@@ -12,7 +12,7 @@
   "language": "python",
   "language_maturity": "ga",
   "language_maturity_source": "semgrep_interfaces/lang.json (pinned distribution)",
-  "reason": "outside the bounded Semgrep CE profile: the case declares a multi-hop interprocedural relay; Semgrep CE has no interprocedural taint at all (`--pro-intrafile`, \"Intra-file inter-procedural taint analysis ... Requires Semgrep Pro Engine\"). The case requires \"deep-interprocedural-relay-taint\"; the scored CE profile is the kernel's `intraprocedural` partition only.",
+  "reason": "outside the bounded Semgrep CE profile: the case declares a six-hop interprocedural relay; CE has no interprocedural taint at all (`--pro-intrafile` is Pro), which docs/challenge-tier.md already records as this stratum's expected outcome. The case requires \"deep-interprocedural-relay-taint\"; the scored CE profile is the kernel's `intraprocedural` partition only.",
   "stage": "declared-capability",
   "state": "unsupported"
 }

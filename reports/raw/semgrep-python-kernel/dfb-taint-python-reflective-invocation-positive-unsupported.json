@@ -12,7 +12,7 @@
   "language": "python",
   "language_maturity": "ga",
   "language_maturity_source": "semgrep_interfaces/lang.json (pinned distribution)",
-  "reason": "outside the bounded Semgrep CE profile: the case is outside the documented CE local/intraprocedural taint profile. The case requires \"reflective-dispatch-taint\"; the scored CE profile is the kernel's `intraprocedural` partition only.",
+  "reason": "outside the bounded Semgrep CE profile: the case resolves a callee from a run-time string and the sink is reached inside that callee's body; CE has no interprocedural taint at all (`--pro-intrafile`, \"Intra-file inter-procedural taint analysis ... Requires Semgrep Pro Engine\"), and the pinned CE documentation nowhere claims to resolve a reflective handle. The case requires \"reflective-dispatch-taint\"; the scored CE profile is the kernel's `intraprocedural` partition only.",
   "stage": "declared-capability",
   "state": "unsupported"
 }

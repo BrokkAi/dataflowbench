@@ -12,7 +12,7 @@
   "language": "python",
   "language_maturity": "ga",
   "language_maturity_source": "semgrep_interfaces/lang.json (pinned distribution)",
-  "reason": "outside the bounded Semgrep CE profile: the case is outside the documented CE local/intraprocedural taint profile. The case requires \"heap-stored-callee-taint\"; the scored CE profile is the kernel's `intraprocedural` partition only.",
+  "reason": "outside the bounded Semgrep CE profile: the callee is stored in an object field, fetched elsewhere, and invoked; this needs both field sensitivity beyond CE's experimental basic support and the interprocedural step CE documents as Pro. The case requires \"heap-stored-callee-taint\"; the scored CE profile is the kernel's `intraprocedural` partition only.",
   "stage": "declared-capability",
   "state": "unsupported"
 }
