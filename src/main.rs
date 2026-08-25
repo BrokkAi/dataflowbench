@@ -463,6 +463,33 @@ enum Commands {
         #[arg(long, default_value = "semgrep")]
         semgrep: PathBuf,
     },
+    /// Run the Kotlin propagation kernel through Semgrep CE, as its own
+    /// population. The pinned distribution records Kotlin's maturity as
+    /// `beta`; the label is retained in the report and the adapter README.
+    RunSemgrepKotlinKernel {
+        #[arg(long, default_value = "semgrep")]
+        semgrep: PathBuf,
+    },
+    /// Run the Rust propagation kernel through Semgrep CE, as its own
+    /// population. Rust's core denominator is fifteen templates, and the
+    /// pinned distribution records its maturity as `alpha`.
+    RunSemgrepRustKernel {
+        #[arg(long, default_value = "semgrep")]
+        semgrep: PathBuf,
+    },
+    /// Run the C propagation kernel through Semgrep CE, as its own population.
+    /// C's core denominator is fifteen templates, and the pinned distribution
+    /// records its maturity as `alpha`.
+    RunSemgrepCKernel {
+        #[arg(long, default_value = "semgrep")]
+        semgrep: PathBuf,
+    },
+    /// Run the C++ propagation kernel through Semgrep CE, as its own
+    /// population. The pinned distribution records C++'s maturity as `alpha`.
+    RunSemgrepCppKernel {
+        #[arg(long, default_value = "semgrep")]
+        semgrep: PathBuf,
+    },
 }
 
 fn main() -> Result<()> {
@@ -569,6 +596,16 @@ fn main() -> Result<()> {
         }
         Commands::RunSemgrepPhpKernel { semgrep } => {
             run_semgrep_kernel(&semgrep, SemgrepKernel::Php)
+        }
+        Commands::RunSemgrepKotlinKernel { semgrep } => {
+            run_semgrep_kernel(&semgrep, SemgrepKernel::Kotlin)
+        }
+        Commands::RunSemgrepRustKernel { semgrep } => {
+            run_semgrep_kernel(&semgrep, SemgrepKernel::Rust)
+        }
+        Commands::RunSemgrepCKernel { semgrep } => run_semgrep_kernel(&semgrep, SemgrepKernel::C),
+        Commands::RunSemgrepCppKernel { semgrep } => {
+            run_semgrep_kernel(&semgrep, SemgrepKernel::Cpp)
         }
     }
 }
@@ -6227,6 +6264,10 @@ enum SemgrepKernel {
     Go,
     Ruby,
     Php,
+    Kotlin,
+    Rust,
+    C,
+    Cpp,
 }
 
 impl SemgrepKernel {
@@ -6239,6 +6280,10 @@ impl SemgrepKernel {
             Self::Go => "go",
             Self::Ruby => "ruby",
             Self::Php => "php",
+            Self::Kotlin => "kotlin",
+            Self::Rust => "rust",
+            Self::C => "c",
+            Self::Cpp => "cpp",
         }
     }
 
@@ -6251,6 +6296,43 @@ impl SemgrepKernel {
             Self::Go => "Go",
             Self::Ruby => "Ruby",
             Self::Php => "PHP",
+            Self::Kotlin => "Kotlin",
+            Self::Rust => "Rust",
+            Self::C => "C",
+            Self::Cpp => "C++",
+        }
+    }
+
+    /// The maturity the pinned distribution records for this kernel's Semgrep
+    /// language in its own `semgrep_interfaces/lang.json`. It is retained
+    /// verbatim in the adapter README and in every capability-decision
+    /// document, exactly as the CodeQL Rust kernel retains that extractor's
+    /// preview status. A maturity label is a property of the front end, never
+    /// a reason to move a case between the scored and `unsupported`
+    /// partitions.
+    fn documented_maturity(self) -> &'static str {
+        match self {
+            Self::Java
+            | Self::JavaScript
+            | Self::TypeScript
+            | Self::Python
+            | Self::Go
+            | Self::Ruby
+            | Self::Php => "ga",
+            Self::Kotlin => "beta",
+            Self::Rust | Self::C | Self::Cpp => "alpha",
+        }
+    }
+
+    /// The scored template set of this kernel's language.
+    /// docs/applicability-matrix.md classifies the exception-catch cell as
+    /// inapplicable to both C and Rust, so those two kernels have a
+    /// fifteen-template, thirty-assertion core; every other Semgrep kernel has
+    /// the full sixteen.
+    fn templates(self) -> &'static [&'static str] {
+        match self {
+            Self::C | Self::Rust => &KERNEL_TEMPLATE_IDS_WITHOUT_EXCEPTION_CATCH,
+            _ => &KERNEL_TEMPLATE_IDS,
         }
     }
 
@@ -6277,6 +6359,18 @@ impl SemgrepKernel {
             Self::Go => AnchorDialect::Go,
             Self::Ruby => AnchorDialect::Ruby,
             Self::Php => AnchorDialect::Php,
+            // A Kotlin endpoint marker sits on a `fun name(params)`
+            // declaration and every Kotlin fixture calls its sink
+            // receiverlessly, with `.` the only member operator that could
+            // precede the name and `//` the line-comment opener. That is
+            // exactly the Java arm's surface contract, verified against the
+            // real fixtures rather than assumed, so Kotlin reuses it instead
+            // of adding a dialect whose rules would be a copy.
+            Self::Kotlin => AnchorDialect::Java,
+            Self::Rust => AnchorDialect::Rust,
+            // The C and C++ arm is shared, as it is in the CodeQL adapter:
+            // both reach a member through `.`, `->`, and `::`.
+            Self::C | Self::Cpp => AnchorDialect::Cpp,
         }
     }
 
@@ -6294,9 +6388,14 @@ fn semgrep_core_case(case: &Value, kernel: SemgrepKernel) -> bool {
 /// Select a Semgrep kernel population runner-side. The v0.3.0 freeze binds
 /// every `case.json` byte, so no case declares a Semgrep model reference; the
 /// selection is by language, track, and score tier alone, exactly as the Joern
-/// kernels select theirs. The full 32-assertion population is always selected
-/// and balance-checked; the bounded profile is applied afterwards, per case, by
-/// `semgrep_capability_exclusion`.
+/// kernels select theirs. The whole core population is always selected and
+/// balance-checked against that language's own template set — sixteen
+/// templates for most kernels, fifteen for C and Rust, whose exception-catch
+/// cell docs/applicability-matrix.md classifies as inapplicable. The
+/// `score_tier == "core"` filter is what keeps C's `language-extension`
+/// error-code-return and goto-cleanup cases and Rust's `Result`/`?` extension
+/// pair out of the core run. The bounded profile is applied afterwards, per
+/// case, by `semgrep_capability_exclusion`.
 fn select_semgrep_cases(kernel: SemgrepKernel) -> Result<Vec<(PathBuf, Value)>> {
     let mut selected = Vec::new();
     for path in case_paths() {
@@ -6305,7 +6404,7 @@ fn select_semgrep_cases(kernel: SemgrepKernel) -> Result<Vec<(PathBuf, Value)>> 
             selected.push((path, case));
         }
     }
-    validate_kernel_population_with(&selected, &kernel.label(), &KERNEL_TEMPLATE_IDS)?;
+    validate_kernel_population_with(&selected, &kernel.label(), kernel.templates())?;
     Ok(selected)
 }
 
@@ -6355,6 +6454,18 @@ fn semgrep_capability_exclusion(case: &Value) -> Option<String> {
     ))
 }
 
+/// The one-line maturity record every Semgrep assertion carries. The value is
+/// read off the pinned distribution's own machine-readable language table
+/// (`semgrep_interfaces/lang.json`, the `maturity` field), so the label is a
+/// citation rather than a judgement.
+fn semgrep_maturity_diagnostic(kernel: SemgrepKernel) -> String {
+    format!(
+        "pinned Semgrep CE records the {} front end's maturity as {:?} (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition",
+        kernel.display_name(),
+        kernel.documented_maturity()
+    )
+}
+
 fn run_semgrep_kernel(binary: &Path, kernel: SemgrepKernel) -> Result<()> {
     validate_cases()?;
     let selected = select_semgrep_cases(kernel)?;
@@ -6376,8 +6487,15 @@ fn run_semgrep_kernel(binary: &Path, kernel: SemgrepKernel) -> Result<()> {
     for (path, case) in selected {
         let id = case["id"].as_str().expect("schema validated");
         let start = Instant::now();
-        let (outcome, diagnostics, raw_path) =
+        let (outcome, mut diagnostics, raw_path) =
             run_semgrep_case(binary, &template, &path, &case, &raw_dir, kernel)?;
+        // `schemas/result.schema.json` has no report-level field for a front
+        // end's maturity, so the label the pinned distribution records for
+        // this language rides on every assertion's retained diagnostics. It is
+        // a property of the parser, never an outcome: an `alpha` or `beta`
+        // front end is still scored on exactly the same partition a `ga` one
+        // is, and the label never moves a case out of it.
+        diagnostics.insert(0, semgrep_maturity_diagnostic(kernel));
         results.push(normalized_result(
             &case,
             id,
@@ -6490,6 +6608,9 @@ fn run_semgrep_case(
                 "feature_tags": case["feature_tags"],
                 "expected_analysis_capability": case["expected_analysis_capability"],
                 "engine_profile": "semgrep-ce-oss-intrafile-intraprocedural-taint",
+                "language": kernel.language(),
+                "language_maturity": kernel.documented_maturity(),
+                "language_maturity_source": "semgrep_interfaces/lang.json (pinned distribution)",
                 "evidence_kind": "retained-capability-decision"
             }))? + "\n",
         )?;
@@ -9570,7 +9691,7 @@ mod tests {
         );
     }
 
-    const SEMGREP_KERNELS: [SemgrepKernel; 7] = [
+    const SEMGREP_KERNELS: [SemgrepKernel; 11] = [
         SemgrepKernel::Java,
         SemgrepKernel::JavaScript,
         SemgrepKernel::TypeScript,
@@ -9578,19 +9699,33 @@ mod tests {
         SemgrepKernel::Go,
         SemgrepKernel::Ruby,
         SemgrepKernel::Php,
+        SemgrepKernel::Kotlin,
+        SemgrepKernel::Rust,
+        SemgrepKernel::C,
+        SemgrepKernel::Cpp,
     ];
 
-    /// Each Semgrep kernel is its own population: exactly 32 balanced core
-    /// assertions of exactly one language, with no case shared between the
-    /// seven and no case borrowed from a CodeQL, Joern, or Bifrost selection.
-    /// The bounded profile narrows what is *scored*, never what is selected —
-    /// the balance check still sees the whole kernel.
+    /// Each Semgrep kernel is its own population: the balanced core assertions
+    /// of exactly one language, with no case shared between the eleven and no
+    /// case borrowed from a CodeQL, Joern, or Bifrost selection. The bounded
+    /// profile narrows what is *scored*, never what is selected — the balance
+    /// check still sees the whole kernel. C and Rust carry a fifteen-template
+    /// core because docs/applicability-matrix.md classifies their
+    /// exception-catch cell as inapplicable; an inapplicable cell reduces only
+    /// its own language's denominator.
     #[test]
     fn semgrep_kernel_selections_are_language_disjoint_and_balanced() {
         let mut populations = BTreeMap::new();
         for kernel in SEMGREP_KERNELS {
             let selected = select_semgrep_cases(kernel).unwrap();
-            assert_eq!(selected.len(), KERNEL_CASE_COUNT);
+            let expected_templates = kernel.templates();
+            assert_eq!(selected.len(), 2 * expected_templates.len());
+            match kernel {
+                SemgrepKernel::C | SemgrepKernel::Rust => {
+                    assert_eq!(selected.len(), KERNEL_CASE_COUNT_WITHOUT_EXCEPTION_CATCH);
+                }
+                _ => assert_eq!(selected.len(), KERNEL_CASE_COUNT),
+            }
             let mut templates = BTreeMap::<String, (usize, usize)>::new();
             for (_, case) in &selected {
                 assert_eq!(case["language"], kernel.language());
@@ -9606,7 +9741,13 @@ mod tests {
                     counts.1 += 1;
                 }
             }
-            assert_eq!(templates.len(), KERNEL_TEMPLATE_IDS.len());
+            assert_eq!(
+                templates
+                    .keys()
+                    .map(String::as_str)
+                    .collect::<BTreeSet<_>>(),
+                expected_templates.iter().copied().collect::<BTreeSet<_>>()
+            );
             assert!(templates.values().all(|counts| *counts == (1, 1)));
             populations.insert(
                 kernel.language(),
@@ -9623,6 +9764,119 @@ mod tests {
                 }
             }
         }
+        // The `language-extension` tier is what C's error-code-return and
+        // goto-cleanup cases and Rust's `Result`/`?` pair are scored on. None
+        // of them is a core template, and none may be selected into a core
+        // Semgrep run, where they would silently inflate the denominator.
+        for extension in [
+            "dfb-taint-c-error-code-return-positive",
+            "dfb-taint-c-goto-cleanup-positive",
+            "dfb-taint-rust-result-error-propagation-positive",
+            "dfb-taint-rust-result-error-propagation-negative",
+        ] {
+            for population in populations.values() {
+                assert!(
+                    !population.contains(extension),
+                    "{extension} is a language-extension case and must never enter a core Semgrep population"
+                );
+            }
+        }
+    }
+
+    /// The maturity label is read off the pinned distribution's own
+    /// machine-readable language table and retained verbatim. Kotlin is
+    /// recorded `beta`; Rust, C, and C++ are recorded `alpha`; the seven
+    /// kernels that landed first are all `ga`. The label is retained evidence
+    /// about the front end, and it never appears in the partition decision:
+    /// `semgrep_capability_exclusion` reads only the case metadata.
+    #[test]
+    fn semgrep_language_maturity_is_recorded_and_never_scored_on() {
+        assert_eq!(SemgrepKernel::Kotlin.documented_maturity(), "beta");
+        for kernel in [SemgrepKernel::Rust, SemgrepKernel::C, SemgrepKernel::Cpp] {
+            assert_eq!(kernel.documented_maturity(), "alpha");
+        }
+        for kernel in [
+            SemgrepKernel::Java,
+            SemgrepKernel::JavaScript,
+            SemgrepKernel::TypeScript,
+            SemgrepKernel::Python,
+            SemgrepKernel::Go,
+            SemgrepKernel::Ruby,
+            SemgrepKernel::Php,
+        ] {
+            assert_eq!(kernel.documented_maturity(), "ga");
+        }
+        for kernel in SEMGREP_KERNELS {
+            let diagnostic = semgrep_maturity_diagnostic(kernel);
+            assert!(diagnostic.contains(kernel.display_name()));
+            assert!(diagnostic.contains(kernel.documented_maturity()));
+            assert!(diagnostic.contains("lang.json"));
+        }
+        // Two cases identical but for language: the exclusion decision cannot
+        // see a maturity label, so it cannot differ between them.
+        let case = |language: &str| {
+            json!({
+                "language": language,
+                "feature_tags": ["heap-access-path"],
+                "expected_analysis_capability": {"kind": "heap-alias-sensitive-taint"}
+            })
+        };
+        assert_eq!(
+            semgrep_capability_exclusion(&case("rust")),
+            semgrep_capability_exclusion(&case("java"))
+        );
+    }
+
+    /// The dialect a kernel picks has to be verified against that language's
+    /// real fixtures, not assumed from family resemblance. Kotlin adds no
+    /// `AnchorDialect` of its own: its markers sit on `fun name(params)`
+    /// declarations, its fixtures call the sink receiverlessly, `.` is the only
+    /// member operator that could precede the name, and `//` opens a comment —
+    /// which is the Java arm's contract exactly. This resolves every scored
+    /// case of all four newly covered kernels through its chosen dialect and
+    /// fails if any one of them cannot name its own endpoints.
+    #[test]
+    fn semgrep_new_kernels_resolve_every_scored_endpoint() {
+        for kernel in [
+            SemgrepKernel::Kotlin,
+            SemgrepKernel::Rust,
+            SemgrepKernel::C,
+            SemgrepKernel::Cpp,
+        ] {
+            let mut scored = 0usize;
+            for (path, case) in select_semgrep_cases(kernel).unwrap() {
+                if semgrep_capability_exclusion(&case).is_some() {
+                    continue;
+                }
+                scored += 1;
+                let endpoints = benchmark_endpoint_names(&path, &case, kernel.dialect())
+                    .unwrap_or_else(|reason| {
+                        panic!("{} endpoints: {reason}", case["id"]);
+                    });
+                assert_eq!(endpoints.source_function, "dfb_source", "{}", case["id"]);
+                assert_eq!(endpoints.sink_function, "dfb_sink", "{}", case["id"]);
+            }
+            assert_eq!(scored, 14, "{} scored partition", kernel.label());
+        }
+        // The Kotlin surface rules the Java arm is being reused for, stated
+        // directly rather than only exercised through the fixtures.
+        assert_eq!(
+            AnchorDialect::Java.declared_function_name(
+                "    fun dfb_sink(value: String) {} // DFB-SINK: direct-sink",
+                "DFB-SINK: direct-sink"
+            ),
+            Some("dfb_sink".to_string())
+        );
+        assert_eq!(
+            AnchorDialect::Java.declared_function_name(
+                "    fun dfb_source(): String { // DFB-SOURCE: direct-input",
+                "DFB-SOURCE: direct-input"
+            ),
+            Some("dfb_source".to_string())
+        );
+        assert!(AnchorDialect::Java.is_call("        dfb_sink(alias.value)", "dfb_sink"));
+        assert!(!AnchorDialect::Java.is_call("        other.dfb_sink(value)", "dfb_sink"));
+        assert!(!AnchorDialect::Java.is_call("        // dfb_sink(value)", "dfb_sink"));
     }
 
     #[test]
@@ -9701,10 +9955,23 @@ mod tests {
                     }
                 }
             }
-            // Seven of the sixteen templates are intraprocedural, and the
-            // partition keeps each one's positive/negative pair together.
+            // Seven templates are intraprocedural in every language, and the
+            // partition keeps each one's positive/negative pair together, so
+            // the scored subset is 14 assertions everywhere. Only the
+            // `unsupported` remainder differs: C and Rust have no
+            // exception-catch pair to exclude, so theirs is 16 rather than 18.
             assert_eq!(scored, 14, "{} scored partition", kernel.label());
-            assert_eq!(excluded, 18, "{} unsupported partition", kernel.label());
+            let expected_excluded = 2 * kernel.templates().len() - 14;
+            assert_eq!(
+                excluded,
+                expected_excluded,
+                "{} unsupported partition",
+                kernel.label()
+            );
+            match kernel {
+                SemgrepKernel::C | SemgrepKernel::Rust => assert_eq!(expected_excluded, 16),
+                _ => assert_eq!(expected_excluded, 18),
+            }
         }
         // Every interprocedural and heap relay is excluded by tag, whatever the
         // language, and the retained reason names the documented boundary.

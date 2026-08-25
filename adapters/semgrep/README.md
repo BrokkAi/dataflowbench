@@ -1,17 +1,23 @@
 # Semgrep CE adapter
 
-The Semgrep adapter runs the Java, JavaScript, TypeScript, Python, Go, Ruby, and
-PHP propagation kernels through the **Community Edition (open-source) taint
-engine only**, and scores only the partition of each kernel that the pinned
-distribution documents that engine as covering. Every language is its own
-population: its own case selection, its own committed rule file, its own
-normalized report, and its own retained-evidence directory.
+The Semgrep adapter runs the Java, JavaScript, TypeScript, Python, Go, Ruby,
+PHP, Kotlin, Rust, C, and C++ propagation kernels through the **Community
+Edition (open-source) taint engine only**, and scores only the partition of each
+kernel that the pinned distribution documents that engine as covering. Every
+language is its own population: its own case selection, its own committed rule
+file, its own normalized report, and its own retained-evidence directory.
 
 This is a deliberately *bounded* adapter. Semgrep CE is not a whole-program
 data-flow engine and the benchmark does not pretend it is. Nine of the sixteen
 scored templates are outside its documented profile; those assertions are
 `unsupported` by a declared-capability decision taken from the case metadata
 **before** Semgrep is invoked, and they are never counted as false negatives.
+
+Four of the eleven front ends are not GA in the pinned distribution — Kotlin is
+recorded `beta`, and Rust, C, and C++ are recorded `alpha`. That label is
+retained on every assertion and stated in the coverage table below. It is a
+property of the *parser*, and it never moves a case between the scored and
+`unsupported` partitions; see [Front-end maturity](#front-end-maturity).
 
 ## Pinned distribution
 
@@ -21,8 +27,9 @@ scored templates are outside its documented profile; those assertions are
 | Edition | Community Edition / open-source engine, pinned with `--oss-only` |
 | Build identity | `semgrep-oss:1.174.0` |
 | Installation | Homebrew (`brew install semgrep`), `/opt/homebrew/bin/semgrep` → `../Cellar/semgrep/1.174.0/bin/semgrep` |
-| Rules | `adapters/semgrep/rules/<language>.yaml` (seven committed files) |
-| Configuration hash | `9f63e0d815c646341c868a2e9ea2c0215ebe53dedaa9d01faaf52d8a2201983e` |
+| Rules | `adapters/semgrep/rules/<language>.yaml` (eleven committed files) |
+| Language table | `semgrep_interfaces/lang.json`, shipped inside the pinned wheel |
+| Configuration hash | `865d0bd2989f9ddd0b90f2d6675584e86706b109a033d4a1ac00bd21a617b100` |
 
 The pinned distribution reports no build SHA separate from its released
 version, so the released version *is* the build identity, recorded literally
@@ -58,40 +65,115 @@ intraprocedural data-flow analysis and nothing more.
 The scored profile is therefore: **intra-file, intraprocedural,
 flow-sensitive, path-insensitive taint.**
 
+That profile is a property of the *engine*, and the engine is shared. It is not
+restated per language and it is not adjusted for a language whose front end is
+less mature; see the next section.
+
+## Front-end maturity
+
+The pinned distribution carries its own machine-readable language table,
+`semgrep_interfaces/lang.json`, and every entry has a `maturity` field. The
+values are read off that file rather than off the marketing docs, and they are
+retained verbatim:
+
+| Kernel | `id` | `maturity` | Corroborating `CHANGELOG.md` entry |
+| --- | --- | --- | --- |
+| Java, JavaScript, TypeScript, Python, Go, Ruby, PHP | `java`, `js`, `ts`, `python`, `go`, `ruby`, `php` | `ga` | — |
+| Kotlin | `kotlin` | **`beta`** | "New language Kotlin with experimental support."; later, "The Kotlin tree-sitter parser has been updated to the latest available grammar significantly improving Kotlin support in Semgrep. (kotlin-parser)" |
+| Rust | `rust` | **`alpha`** | "Rust: Beta support for Rust. (gh-6545)" — the changelog's historical announcement is *ahead* of the shipped table, which still records `alpha`; the shipped table is what this adapter cites |
+| C | `c` | **`alpha`** | "Using C++ tree-sitter as a failsafe pattern parser for C (gh-8905)" |
+| C++ | `cpp` | **`alpha`** | "Pre-alpha support for C++ as a new target language"; later, "experimental support for C++" |
+
+This is handled the way the CodeQL adapter handles its Rust extractor's public
+preview status: the label is recorded, prominently, wherever the numbers are —
+in this README, in every `<case id>-unsupported.json` capability-decision
+document (`language_maturity`), and, because
+`schemas/result.schema.json` has no report-level field for it, on the first
+`diagnostics` entry of **every** normalized Semgrep result:
+
+```text
+pinned Semgrep CE records the Rust front end's maturity as "alpha"
+(semgrep_interfaces/lang.json `maturity`); the label describes the parser,
+not the scored partition
+```
+
+What the label explicitly does **not** do is change any decision.
+`semgrep_capability_exclusion` reads `feature_tags` and
+`expected_analysis_capability` out of the case and nothing else — it cannot see
+a language, let alone a maturity — so an `alpha` front end is scored on exactly
+the partition a `ga` one is. A regression tests that two cases identical but for
+`language` receive the identical exclusion decision. If a less mature parser
+performs worse, that shows up as a published mismatch, not as a quietly widened
+`unsupported` partition.
+
+Taint mode was verified to function on each of the four before any of them was
+wired up: a one-rule `mode: taint` scan of that language's own
+`direct-positive` fixture, under the pinned `--oss-only` invocation, returned
+exit 0, an empty `errors` array, no skipped path, and one `OSS` finding on the
+sink callsite. None of the four had to be recorded unsupported.
+
 ## Case selection and the bounded partition
 
 Each command selects, runner-side:
 
 ```text
-language == "java" | "javascript" | "typescript" | "python" | "go" | "ruby" | "php"
+language == the kernel's own language
 track == "taint"
 score_tier == "core"
 ```
 
-That is exactly 32 assertions per language — one positive and one negative for
-each of the 16 scored templates in `docs/applicability-matrix.md`, all under the
-`benchmark-controlled` model profile — enforced by the same
-`validate_kernel_population_with` check every other kernel uses. The seven
-selections are disjoint, and none of them is a CodeQL, Joern, or Bifrost
-population.
+For eight of the eleven that is exactly 32 assertions — one positive and one
+negative for each of the 16 scored templates in
+`docs/applicability-matrix.md` — all under the `benchmark-controlled` model
+profile, enforced by the same `validate_kernel_population_with` check every
+other kernel uses.
+
+**C and Rust are 30, not 32.** `docs/applicability-matrix.md` classifies the
+exception-catch cell as *inapplicable* to both, for different reasons, so their
+core denominator is the fifteen-template
+`KERNEL_TEMPLATE_IDS_WITHOUT_EXCEPTION_CATCH` set the CodeQL and Bifrost C and
+Rust kernels already use. An inapplicable cell reduces only its own language's
+denominator, never any other's.
+
+The construct each of those two languages uses instead lives on the
+`language-extension` tier — C's `dfb-taint-c-error-code-return-positive` and
+`dfb-taint-c-goto-cleanup-positive`, Rust's
+`dfb-taint-rust-result-error-propagation-{positive,negative}` — and the
+`score_tier == "core"` filter is what keeps all four out of the core run, where
+they would silently inflate the denominator. A test asserts by name that none of
+them appears in any Semgrep population.
+
+The eleven selections are disjoint, and none of them is a CodeQL, Joern, or
+Bifrost population.
 
 The bounded profile then narrows what is **scored**, never what is selected.
 The partition is by the case's own `feature_tags` and
-`expected_analysis_capability.kind`, and it is identical in every language:
+`expected_analysis_capability.kind`, and the rule is identical in every
+language:
 
 | Templates | `feature_tags` | Outcome | Why |
 | --- | --- | --- | --- |
 | `direct-propagation`, `arithmetic-expression-propagation`, `local-multi-step-chain`, `local-overwrite-kill`, `loop-carried-kill`, `branch-join`, `infeasible-branch` | `intraprocedural` | **scored** (7 templates, 14 assertions) | Inside the documented CE profile. |
 | `return-relay-one-hop`, `argument-position-separation`, `call-context-separation` | `interprocedural-one-hop` | `unsupported` (3 templates, 6 assertions) | CE has no interprocedural taint (`--pro-intrafile` is Pro). |
 | `return-relay-two-hop` | `interprocedural-deep` | `unsupported` (1 template, 2 assertions) | Same, over two hops. |
-| `alias-propagation-separation`, `object-separation`, `array-element-separation`, `same-object-field-separation`, `exception-catch` | `heap-access-path` (Go's `exception-catch` is tagged `exceptional`) | `unsupported` (5 templates, 10 assertions) | CE documents only *experimental basic* field sensitivity; index sensitivity and inter-procedural field sensitivity are Pro. |
+| `alias-propagation-separation`, `object-separation`, `array-element-separation`, `same-object-field-separation`, `exception-catch` | `heap-access-path` (Go's `exception-catch` is tagged `exceptional`) | `unsupported` (5 templates, 10 assertions; **4 templates, 8 assertions** in C and Rust, which have no exception-catch cell) | CE documents only *experimental basic* field sensitivity; index sensitivity and inter-procedural field sensitivity are Pro. |
 
-14 scored and 18 `unsupported` in every one of the seven kernels. The decision
-is taken by `semgrep_capability_exclusion` from the case JSON alone; an excluded
-case never reaches a Semgrep process, so it cannot produce an empty finding list
-that later reads as a miss. Each excluded case retains an
+**14 scored in every one of the eleven kernels**, because all seven
+intraprocedural templates are applicable in all eleven languages. Only the
+`unsupported` remainder differs with the denominator: 18 in the nine
+16-template kernels, **16 in C and Rust**.
+
+| Kernel | Selected | Scored | `unsupported` |
+| --- | --- | --- | --- |
+| Java, JavaScript, TypeScript, Python, Go, Ruby, PHP, Kotlin, C++ | 32 | 14 | 18 |
+| C, Rust | 30 | 14 | 16 |
+
+The decision is taken by `semgrep_capability_exclusion` from the case JSON
+alone; an excluded case never reaches a Semgrep process, so it cannot produce an
+empty finding list that later reads as a miss. Each excluded case retains an
 `<case id>-unsupported.json` document naming the declared capability, the
-feature tags, and the documented boundary it falls outside.
+feature tags, the documented boundary it falls outside, and the front end's
+recorded maturity.
 
 Note what is deliberately **not** excluded. `branch-join`, `infeasible-branch`,
 and `loop-carried-kill` carry a `path-sensitivity` semantic dimension, and
@@ -135,8 +217,11 @@ Nothing else is templated. There is no per-case, per-template, or per-polarity
 branching. Keeping the retained configuration honest is a two-part contract:
 
 - the **committed** templates are hash-bound — every report's
-  `configuration_hash` is a SHA-256 over *all seven* rule files, so a change to
-  any one of them invalidates every retained Semgrep report;
+  `configuration_hash` is a SHA-256 over *all eleven* rule files, so a change to
+  any one of them invalidates every retained Semgrep report. Adding the four new
+  rule files did exactly that, so all eleven kernels were re-run against the new
+  hash rather than four being appended beside seven reports citing a hash that
+  no longer describes the committed rule set;
 - the **resolved** rule each case was actually analyzed under is retained
   verbatim beside its finding document as `<case id>-rule.yaml`.
 
@@ -146,9 +231,15 @@ list is optional and every Ruby fixture spells the source call parenless
 its `pattern-sources` is a `pattern-either` over both spellings. The sink keeps
 the single parenthesised form in every language, because every benchmark sink
 takes one positional argument and every fixture spells that call with
-parentheses. The other six rule files are byte-identical apart from the
-`languages:` key and the comment header, but each is still its own committed
+parentheses. The other ten rule files are byte-identical apart from the
+`languages:` key and the comment header — which for Kotlin, Rust, C, and C++
+also records that front end's maturity — but each is still its own committed
 file so a population is never scored by a rule spelled for another language.
+
+All eleven kernels resolve their endpoints to `dfb_source`/`dfb_sink` except the
+two frozen Java assertions named above; a test resolves every scored case of the
+four newly covered kernels through its chosen dialect and fails if any one of
+them cannot name its own endpoints.
 
 ## Invocation
 
@@ -160,10 +251,17 @@ cargo run -- run-semgrep-python-kernel     --semgrep /opt/homebrew/bin/semgrep
 cargo run -- run-semgrep-go-kernel         --semgrep /opt/homebrew/bin/semgrep
 cargo run -- run-semgrep-ruby-kernel       --semgrep /opt/homebrew/bin/semgrep
 cargo run -- run-semgrep-php-kernel        --semgrep /opt/homebrew/bin/semgrep
+cargo run -- run-semgrep-kotlin-kernel     --semgrep /opt/homebrew/bin/semgrep
+cargo run -- run-semgrep-rust-kernel       --semgrep /opt/homebrew/bin/semgrep
+cargo run -- run-semgrep-c-kernel          --semgrep /opt/homebrew/bin/semgrep
+cargo run -- run-semgrep-cpp-kernel        --semgrep /opt/homebrew/bin/semgrep
 ```
 
-No host toolchain is required for any of the seven: each case is a single
-checked-in source file with no build step, and Semgrep parses it directly. For
+No host toolchain is required for any of the eleven: each case is a single
+checked-in source file with no build step, and Semgrep parses it directly. This
+is the adapter's one structural advantage over CodeQL here — the C, C++, Rust,
+and Kotlin CodeQL kernels each need a build or a generated manifest, and Semgrep
+needs neither a `Cargo.toml`, a compiler, nor a JVM. For
 each scored case the runner materializes the case's declared fixture files in
 an isolated temporary workspace and executes one Semgrep process:
 
@@ -214,26 +312,38 @@ does not require the marker's own line.
 
 Semgrep CE 1.174.0, fixture revision
 `sha256:aee59a14f96633cf5798df6d211525ea0d10748800ba9c9ac0a3787406bd19ea`.
-All seven kernels ran. 224 assertions: 98 executed against Semgrep, 126
+All eleven kernels ran. 342 assertions: 154 executed against Semgrep, 188
 excluded by declared capability. Zero `inconclusive` and zero `runner-error`
-outcomes; 98 retained finding documents, 98 retained resolved rule files, 126
+outcomes; 154 retained finding documents, 154 retained resolved rule files, 188
 retained capability-decision documents, and zero error documents.
 
-| Kernel | `reached` | `not-reached` | `unsupported` | Polarity match (scored subset) |
-| --- | --- | --- | --- | --- |
-| Java | 9 | 5 | 18 | 12/14 |
-| JavaScript | 9 | 5 | 18 | 12/14 |
-| TypeScript | 9 | 5 | 18 | 12/14 |
-| Python | 9 | 5 | 18 | 12/14 |
-| Go | 9 | 5 | 18 | 12/14 |
-| Ruby | 9 | 5 | 18 | 12/14 |
-| PHP | 9 | 5 | 18 | 12/14 |
+| Kernel | `maturity` | Selected | `reached` | `not-reached` | `unsupported` | Polarity match (scored subset) |
+| --- | --- | --- | --- | --- | --- | --- |
+| Java | `ga` | 32 | 9 | 5 | 18 | 12/14 |
+| JavaScript | `ga` | 32 | 9 | 5 | 18 | 12/14 |
+| TypeScript | `ga` | 32 | 9 | 5 | 18 | 12/14 |
+| Python | `ga` | 32 | 9 | 5 | 18 | 12/14 |
+| Go | `ga` | 32 | 9 | 5 | 18 | 12/14 |
+| Ruby | `ga` | 32 | 9 | 5 | 18 | 12/14 |
+| PHP | `ga` | 32 | 9 | 5 | 18 | 12/14 |
+| **Kotlin** | **`beta`** | 32 | 9 | 5 | 18 | 12/14 |
+| **Rust** | **`alpha`** | **30** | 9 | 5 | **16** | 12/14 |
+| **C** | **`alpha`** | **30** | 9 | 5 | **16** | 12/14 |
+| **C++** | **`alpha`** | 32 | 9 | 5 | 18 | 12/14 |
 
 The scored subset is 7 positives and 7 negatives per language. Every one of the
 7 intraprocedural positives is `reached` in every language — no false negative
 anywhere — and 5 of the 7 negatives are `not-reached`.
 
-Mismatches, verbatim, and identical in all seven languages:
+The four non-GA front ends score exactly what the seven GA ones score. That is
+worth stating plainly rather than quietly: the maturity label predicted nothing
+about the result on this population, because the population's scored partition
+exercises only local propagation and killing inside one function, which is the
+part of a front end that matures first. It is *not* evidence that these parsers
+are as good as the GA ones in general — nothing here tests a macro, a template,
+a coroutine, or a trait, and 14 assertions is a narrow instrument.
+
+Mismatches, verbatim, and identical in all eleven languages:
 
 - `dfb-taint-<language>-infeasible-branch-negative`: false positive.
 - `dfb-taint-<language>-loop-carried-negative`: false positive.
@@ -243,8 +353,9 @@ Both are exactly what the documentation predicts. `--pro-path-sensitive`
 refute the infeasible branch, and the loop-carried kill needs the same
 reasoning about which paths can actually execute. A flow-sensitive,
 path-insensitive engine over-approximates both and reports the flow. That the
-two mismatches are the *same two* across seven independent language front ends
-is what a shared engine should look like.
+two mismatches are the *same two* across eleven independent language front ends
+— including three `alpha` ones and a `beta` one — is what a shared engine
+should look like: the mismatch is the engine's, not the parser's.
 
 These are published as observed: no fixture was changed, no rule was contorted,
 and no case was moved between the scored and `unsupported` partitions to
@@ -256,33 +367,53 @@ document rather than synthesizing normalized witness markers.
 
 ## Language coverage
 
-Verified against the pinned distribution — `semgrep show supported-languages`
-and the `--pro-languages` help text.
+Verified against the pinned distribution — `semgrep show supported-languages`,
+the shipped `semgrep_interfaces/lang.json` maturity table, and the
+`--pro-languages` help text.
 
-| Benchmark language | Pinned CE support | Status |
-| --- | --- | --- |
-| Java | `java` | Executed here |
-| JavaScript | `js` | Executed here |
-| TypeScript | `ts` | Executed here |
-| Python | `python` | Executed here |
-| Go | `go` | Executed here |
-| Ruby | `ruby` | Executed here |
-| PHP | `php` | Executed here |
-| Kotlin | `kotlin` | Available, not yet in scope |
-| Rust | `rust` | Available, not yet in scope |
-| Scala | `scala` | Available, not yet in scope |
-| C | `c` | Available, not yet in scope |
-| C++ | `cpp` | Available, not yet in scope |
-| **C#** | **Pro-only** | **Explicitly unsupported** |
+| Benchmark language | Pinned CE `id` | `maturity` | Status |
+| --- | --- | --- | --- |
+| Java | `java` | `ga` | Executed here |
+| JavaScript | `js` | `ga` | Executed here |
+| TypeScript | `ts` | `ga` | Executed here |
+| Python | `python` | `ga` | Executed here |
+| Go | `go` | `ga` | Executed here |
+| Ruby | `ruby` | `ga` | Executed here |
+| PHP | `php` | `ga` | Executed here |
+| Kotlin | `kotlin` | **`beta`** | Executed here |
+| Rust | `rust` | **`alpha`** | Executed here |
+| C | `c` | **`alpha`** | Executed here |
+| C++ | `cpp` | **`alpha`** | Executed here |
+| Scala | `scala` | `ga` | **Recorded only — maintainer decision, not a tool limitation** |
+| **C#** | **Pro-only** | `ga` | **Explicitly unsupported** |
 
-C# is named in the pinned CLI's own `--pro-languages` text — "Pro languages
-(currently Apex, C#, and Elixir). Requires Semgrep Pro Engine" — so a Semgrep
-**CE** C# kernel cannot be run here at all, however the language appears in
-`semgrep show supported-languages`. "Available, not yet in scope" means the CE
-parser exists and the language could be added later; it is not a claim about
-how well it performs, because it has not been run. Kotlin and Scala would each
-additionally need a new `AnchorDialect`, which the seven executed languages did
-not.
+**Scala is a maintainer decision.** The pinned distribution records `scala` at
+`ga` maturity, which is *more* mature than three of the four languages added
+here, and nothing in the CE engine, the taint mode, or the benchmark's Scala
+kernel blocks it. It is left recorded-only because the maintainer scoped it out,
+and it is written down here as such so nobody later reads its absence as
+evidence that Semgrep CE cannot analyze Scala. It can; the run has simply not
+been commissioned. Scala remains single-analyzer coverage in
+[`docs/scala-kernel.md`](../../docs/scala-kernel.md) until it is.
+
+**C# is a tool limitation.** It is named in the pinned CLI's own
+`--pro-languages` text — "Pro languages (currently Apex, C#, and Elixir).
+Requires Semgrep Pro Engine" — so a Semgrep **CE** C# kernel cannot be run here
+at all, however the language appears in `semgrep show supported-languages` and
+whatever maturity the shipped table records for it. The Pro Engine is not
+installed and is never installed by this adapter, so this exclusion is
+permanent under the current pin, not a scoping choice.
+
+No new `AnchorDialect` was needed for any of the four. C, C++, and Rust already
+had arms, added for the CodeQL kernels. Kotlin was checked against the real
+fixtures rather than assumed: its markers sit on `fun name(params)`
+declarations, `parameter_list_function_name` reads the identifier immediately
+before the parameter list off exactly that shape, every Kotlin fixture calls its
+sink receiverlessly, `.` is the only member operator that could precede the
+name (`::` is a reference, never a call, as in Java), and `//` opens a comment.
+That is the Java arm's contract in full, so Kotlin reuses it; a Kotlin arm would
+have been a copy of it under a different name. The check is a test, not a
+claim — it resolves all 14 scored Kotlin cases through the Java arm.
 
 ## Model assumptions
 
@@ -296,7 +427,9 @@ not.
 - One process per case, always cold; no scan observes another case's files.
 - Each fixture is analyzed exactly as it is checked in — a single source file,
   no generated build manifest, no compilation step.
+- A front end's recorded maturity is retained evidence about the parser and is
+  never an input to the scored/`unsupported` partition.
 
 Semgrep results are not a proxy for any other adapter's population, no Semgrep
 population is evidence for another Semgrep language, and the scored 14-assertion
-subset is never comparable to another tool's full 32-assertion kernel.
+subset is never comparable to another tool's full 32- or 30-assertion kernel.
