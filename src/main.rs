@@ -329,7 +329,7 @@ const CHALLENGE_ROLLOUT: [ChallengeRollout; 13] = [
         display: "TypeScript",
         classic: &KERNEL_TEMPLATE_IDS,
         challenge: &CHALLENGE_TEMPLATE_IDS,
-        rolled_out: false,
+        rolled_out: true,
     },
     ChallengeRollout {
         language: "kotlin",
@@ -11407,11 +11407,11 @@ mod tests {
                 );
                 assert!(template.starts_with(CHALLENGE_TEMPLATE_PREFIX));
             }
-            // Python and JavaScript are the waves that have landed their
-            // fixtures; every other language validates against its classic set
-            // alone, so a language whose fixtures do not exist yet is never
-            // failed for missing them.
-            let rolled_out = matches!(row.language, "python" | "javascript");
+            // Python, JavaScript, and TypeScript are the waves that have landed
+            // their fixtures; every other language validates against its
+            // classic set alone, so a language whose fixtures do not exist yet
+            // is never failed for missing them.
+            let rolled_out = matches!(row.language, "python" | "javascript" | "typescript");
             assert_eq!(
                 challenge_rolled_out(row.language),
                 rolled_out,
