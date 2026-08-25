@@ -44,6 +44,11 @@ profile. SootUp is a possible JVM reference framework, not a first-version
 adapter. CodeQL is implemented for all ten propagation kernels, one language-scoped
 command and one separate result population per language. Joern is implemented
 for the Java, JavaScript, and Python propagation kernels on the same terms.
+Semgrep CE is implemented for seven languages as a deliberately bounded
+adapter: only the intraprocedural partition its pinned distribution documents
+the open-source taint engine as covering is scored, and the interprocedural and
+heap templates are `unsupported` by a capability decision taken from the case
+metadata before Semgrep is ever invoked.
 
 ## Quick start
 
@@ -73,6 +78,13 @@ cargo run -- run-codeql-rust-kernel --codeql /path/to/codeql
 cargo run -- run-joern-java-kernel --joern /path/to/joern
 cargo run -- run-joern-javascript-kernel --joern /path/to/joern
 cargo run -- run-joern-python-kernel --joern /path/to/joern
+cargo run -- run-semgrep-java-kernel --semgrep /path/to/semgrep
+cargo run -- run-semgrep-javascript-kernel --semgrep /path/to/semgrep
+cargo run -- run-semgrep-typescript-kernel --semgrep /path/to/semgrep
+cargo run -- run-semgrep-python-kernel --semgrep /path/to/semgrep
+cargo run -- run-semgrep-go-kernel --semgrep /path/to/semgrep
+cargo run -- run-semgrep-ruby-kernel --semgrep /path/to/semgrep
+cargo run -- run-semgrep-php-kernel --semgrep /path/to/semgrep
 ```
 
 The Bifrost smoke command requires a current Bifrost build with policy CLI
@@ -118,6 +130,24 @@ unsupported. See the [Joern adapter evidence](adapters/joern/README.md) for the
 pinned invocation, tagging model, frontend coverage, and per-language mismatch
 lists.
 
+The seven Semgrep commands require only a Semgrep CE installation. They write
+`reports/semgrep-<language>-kernel.json` and keep, per case, either the native
+`--json` finding document plus the exact resolved rule it was analyzed under, or
+a capability-decision document for a case outside the scored profile. The
+retained snapshot used Semgrep CE 1.174.0 (Homebrew) with `--oss-only` and
+`--metrics=off` on every scan. Only the 14-assertion intraprocedural partition
+of each kernel is scored — the pinned CLI documents interprocedural taint,
+cross-file taint, and path sensitivity as Pro Engine features, so the other 18
+assertions are `unsupported` rather than false negatives. All seven kernels
+produced 9 `reached`, 5 `not-reached`, and 18 `unsupported`, with no
+`inconclusive` or `runner-error` outcome and 12/14 of each scored subset
+matching the expected polarity; every intraprocedural positive was found in
+every language. The two mismatches are the same in all seven — false positives
+on the infeasible branch and the loop-carried kill, exactly the path
+sensitivity the pinned CLI sells as Pro. See the
+[Semgrep adapter evidence](adapters/semgrep/README.md) for the pinned version,
+the documented-scope citations, and the per-language partition.
+
 The checked-in Bifrost v0.10.5 snapshot contains 118 normalized results:
 58 `reached`, 57 `not-reached`, 2 `inconclusive`, and 1 `unsupported`. It was
 produced from build identity `728ac69ab93224151c6c951b23d2f5bc681d8558`.
@@ -146,6 +176,9 @@ The [CodeQL adapter guide](adapters/codeql/README.md) documents the pinned CLI,
 language packs, and commands for reproducing retained kernel reports, and the
 [Joern adapter guide](adapters/joern/README.md) does the same for the pinned
 Joern distribution, its query script, and its frontend coverage. The
+[Semgrep adapter guide](adapters/semgrep/README.md) does the same for the pinned
+Semgrep CE distribution, its committed taint rules, and the bounded profile it
+scores. The
 [Python kernel contract](docs/python-kernel.md) defines the exact 16-template,
 32-assertion selection and its anchor-based result semantics. The [C# kernel
 contract](docs/csharp-kernel.md), the [Go kernel

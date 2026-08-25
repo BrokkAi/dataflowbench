@@ -1,0 +1,530 @@
+{
+  "adapter_version": "0.1.0",
+  "cold_or_warm": "cold",
+  "configuration_hash": "b9c15af70503d7315d3435f83b568b3081553ce9bf16927e59baa33570a59c84",
+  "ended_at_unix_seconds": 1787644184,
+  "fixture_revision": "sha256:aee59a14f96633cf5798df6d211525ea0d10748800ba9c9ac0a3787406bd19ea",
+  "results": [
+    {
+      "case_id": "dfb-taint-go-alias-propagation-negative",
+      "diagnostics": [
+        "outside the bounded Semgrep CE profile: the case declares a heap access path; the pinned CE engine documents only \"Experimental support for basic field-sensitive taint tracking\", with index sensitivity and inter-procedural field sensitivity both recorded as Pro-only. The case requires \"heap-alias-sensitive-taint\"; the scored CE profile is the kernel's `intraprocedural` partition only."
+      ],
+      "duration_ms": 0,
+      "outcome": "unsupported",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/semgrep-go-kernel/dfb-taint-go-alias-propagation-negative-unsupported.json",
+      "sink_anchors": [
+        "DFB-SINK: alias-propagation-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: alias-propagation-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-go-alias-propagation-positive",
+      "diagnostics": [
+        "outside the bounded Semgrep CE profile: the case declares a heap access path; the pinned CE engine documents only \"Experimental support for basic field-sensitive taint tracking\", with index sensitivity and inter-procedural field sensitivity both recorded as Pro-only. The case requires \"heap-alias-sensitive-taint\"; the scored CE profile is the kernel's `intraprocedural` partition only."
+      ],
+      "duration_ms": 0,
+      "outcome": "unsupported",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/semgrep-go-kernel/dfb-taint-go-alias-propagation-positive-unsupported.json",
+      "sink_anchors": [
+        "DFB-SINK: alias-propagation-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: alias-propagation-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-go-argument-position-negative",
+      "diagnostics": [
+        "outside the bounded Semgrep CE profile: the case declares an interprocedural relay; Semgrep CE has no interprocedural taint at all (`--pro-intrafile`, \"Intra-file inter-procedural taint analysis ... Requires Semgrep Pro Engine\"). The case requires \"argument-sensitive-interprocedural-taint\"; the scored CE profile is the kernel's `intraprocedural` partition only."
+      ],
+      "duration_ms": 0,
+      "outcome": "unsupported",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/semgrep-go-kernel/dfb-taint-go-argument-position-negative-unsupported.json",
+      "sink_anchors": [
+        "DFB-SINK: argument-position-negative-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: argument-position-negative-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-go-argument-position-positive",
+      "diagnostics": [
+        "outside the bounded Semgrep CE profile: the case declares an interprocedural relay; Semgrep CE has no interprocedural taint at all (`--pro-intrafile`, \"Intra-file inter-procedural taint analysis ... Requires Semgrep Pro Engine\"). The case requires \"argument-sensitive-interprocedural-taint\"; the scored CE profile is the kernel's `intraprocedural` partition only."
+      ],
+      "duration_ms": 0,
+      "outcome": "unsupported",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/semgrep-go-kernel/dfb-taint-go-argument-position-positive-unsupported.json",
+      "sink_anchors": [
+        "DFB-SINK: argument-position-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: argument-position-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-go-array-element-negative",
+      "diagnostics": [
+        "outside the bounded Semgrep CE profile: the case declares a heap access path; the pinned CE engine documents only \"Experimental support for basic field-sensitive taint tracking\", with index sensitivity and inter-procedural field sensitivity both recorded as Pro-only. The case requires \"heap-array-element-sensitive-taint\"; the scored CE profile is the kernel's `intraprocedural` partition only."
+      ],
+      "duration_ms": 0,
+      "outcome": "unsupported",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/semgrep-go-kernel/dfb-taint-go-array-element-negative-unsupported.json",
+      "sink_anchors": [
+        "DFB-SINK: array-element-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: array-element-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-go-array-element-positive",
+      "diagnostics": [
+        "outside the bounded Semgrep CE profile: the case declares a heap access path; the pinned CE engine documents only \"Experimental support for basic field-sensitive taint tracking\", with index sensitivity and inter-procedural field sensitivity both recorded as Pro-only. The case requires \"heap-array-element-sensitive-taint\"; the scored CE profile is the kernel's `intraprocedural` partition only."
+      ],
+      "duration_ms": 0,
+      "outcome": "unsupported",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/semgrep-go-kernel/dfb-taint-go-array-element-positive-unsupported.json",
+      "sink_anchors": [
+        "DFB-SINK: array-element-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: array-element-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-go-branch-join-negative",
+      "diagnostics": [],
+      "duration_ms": 1234,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/semgrep-go-kernel/dfb-taint-go-branch-join-negative.json",
+      "sink_anchors": [
+        "DFB-SINK: branch-join-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: branch-join-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-go-branch-join-positive",
+      "diagnostics": [],
+      "duration_ms": 1233,
+      "outcome": "reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/semgrep-go-kernel/dfb-taint-go-branch-join-positive.json",
+      "sink_anchors": [
+        "DFB-SINK: branch-join-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: branch-join-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-go-call-context-negative",
+      "diagnostics": [
+        "outside the bounded Semgrep CE profile: the case declares an interprocedural relay; Semgrep CE has no interprocedural taint at all (`--pro-intrafile`, \"Intra-file inter-procedural taint analysis ... Requires Semgrep Pro Engine\"). The case requires \"context-sensitive-interprocedural-taint\"; the scored CE profile is the kernel's `intraprocedural` partition only."
+      ],
+      "duration_ms": 0,
+      "outcome": "unsupported",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/semgrep-go-kernel/dfb-taint-go-call-context-negative-unsupported.json",
+      "sink_anchors": [
+        "DFB-SINK: call-context-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: call-context-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-go-call-context-positive",
+      "diagnostics": [
+        "outside the bounded Semgrep CE profile: the case declares an interprocedural relay; Semgrep CE has no interprocedural taint at all (`--pro-intrafile`, \"Intra-file inter-procedural taint analysis ... Requires Semgrep Pro Engine\"). The case requires \"context-sensitive-interprocedural-taint\"; the scored CE profile is the kernel's `intraprocedural` partition only."
+      ],
+      "duration_ms": 0,
+      "outcome": "unsupported",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/semgrep-go-kernel/dfb-taint-go-call-context-positive-unsupported.json",
+      "sink_anchors": [
+        "DFB-SINK: call-context-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: call-context-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-go-direct-negative",
+      "diagnostics": [],
+      "duration_ms": 1262,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/semgrep-go-kernel/dfb-taint-go-direct-negative.json",
+      "sink_anchors": [
+        "DFB-SINK: direct-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: direct-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-go-direct-positive",
+      "diagnostics": [],
+      "duration_ms": 1231,
+      "outcome": "reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/semgrep-go-kernel/dfb-taint-go-direct-positive.json",
+      "sink_anchors": [
+        "DFB-SINK: direct-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: direct-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-go-exception-catch-negative",
+      "diagnostics": [
+        "outside the bounded Semgrep CE profile: the case declares an exceptional value transfer, which the pinned CE taint documentation nowhere claims to model. The case requires \"exception-sensitive-intraprocedural-taint\"; the scored CE profile is the kernel's `intraprocedural` partition only."
+      ],
+      "duration_ms": 0,
+      "outcome": "unsupported",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/semgrep-go-kernel/dfb-taint-go-exception-catch-negative-unsupported.json",
+      "sink_anchors": [
+        "DFB-SINK: exception-catch-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: exception-catch-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-go-exception-catch-positive",
+      "diagnostics": [
+        "outside the bounded Semgrep CE profile: the case declares an exceptional value transfer, which the pinned CE taint documentation nowhere claims to model. The case requires \"exception-sensitive-intraprocedural-taint\"; the scored CE profile is the kernel's `intraprocedural` partition only."
+      ],
+      "duration_ms": 0,
+      "outcome": "unsupported",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/semgrep-go-kernel/dfb-taint-go-exception-catch-positive-unsupported.json",
+      "sink_anchors": [
+        "DFB-SINK: exception-catch-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: exception-catch-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-go-expression-negative",
+      "diagnostics": [],
+      "duration_ms": 1359,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/semgrep-go-kernel/dfb-taint-go-expression-negative.json",
+      "sink_anchors": [
+        "DFB-SINK: expression-negative-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: expression-negative-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-go-expression-positive",
+      "diagnostics": [],
+      "duration_ms": 1247,
+      "outcome": "reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/semgrep-go-kernel/dfb-taint-go-expression-positive.json",
+      "sink_anchors": [
+        "DFB-SINK: expression-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: expression-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-go-infeasible-branch-negative",
+      "diagnostics": [],
+      "duration_ms": 1267,
+      "outcome": "reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/semgrep-go-kernel/dfb-taint-go-infeasible-branch-negative.json",
+      "sink_anchors": [
+        "DFB-SINK: infeasible-branch-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: infeasible-branch-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-go-infeasible-branch-positive",
+      "diagnostics": [],
+      "duration_ms": 1368,
+      "outcome": "reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/semgrep-go-kernel/dfb-taint-go-infeasible-branch-positive.json",
+      "sink_anchors": [
+        "DFB-SINK: infeasible-branch-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: infeasible-branch-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-go-local-chain-negative",
+      "diagnostics": [],
+      "duration_ms": 1328,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/semgrep-go-kernel/dfb-taint-go-local-chain-negative.json",
+      "sink_anchors": [
+        "DFB-SINK: local-chain-negative-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: local-chain-negative-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-go-local-chain-positive",
+      "diagnostics": [],
+      "duration_ms": 1245,
+      "outcome": "reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/semgrep-go-kernel/dfb-taint-go-local-chain-positive.json",
+      "sink_anchors": [
+        "DFB-SINK: local-chain-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: local-chain-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-go-local-overwrite-negative",
+      "diagnostics": [],
+      "duration_ms": 1282,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/semgrep-go-kernel/dfb-taint-go-local-overwrite-negative.json",
+      "sink_anchors": [
+        "DFB-SINK: local-overwrite-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: local-overwrite-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-go-local-overwrite-positive",
+      "diagnostics": [],
+      "duration_ms": 1262,
+      "outcome": "reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/semgrep-go-kernel/dfb-taint-go-local-overwrite-positive.json",
+      "sink_anchors": [
+        "DFB-SINK: local-overwrite-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: local-overwrite-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-go-loop-carried-negative",
+      "diagnostics": [],
+      "duration_ms": 1246,
+      "outcome": "reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/semgrep-go-kernel/dfb-taint-go-loop-carried-negative.json",
+      "sink_anchors": [
+        "DFB-SINK: loop-carried-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: loop-carried-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-go-loop-carried-positive",
+      "diagnostics": [],
+      "duration_ms": 1260,
+      "outcome": "reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/semgrep-go-kernel/dfb-taint-go-loop-carried-positive.json",
+      "sink_anchors": [
+        "DFB-SINK: loop-carried-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: loop-carried-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-go-object-separation-negative",
+      "diagnostics": [
+        "outside the bounded Semgrep CE profile: the case declares a heap access path; the pinned CE engine documents only \"Experimental support for basic field-sensitive taint tracking\", with index sensitivity and inter-procedural field sensitivity both recorded as Pro-only. The case requires \"heap-object-sensitive-taint\"; the scored CE profile is the kernel's `intraprocedural` partition only."
+      ],
+      "duration_ms": 0,
+      "outcome": "unsupported",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/semgrep-go-kernel/dfb-taint-go-object-separation-negative-unsupported.json",
+      "sink_anchors": [
+        "DFB-SINK: object-separation-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: object-separation-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-go-object-separation-positive",
+      "diagnostics": [
+        "outside the bounded Semgrep CE profile: the case declares a heap access path; the pinned CE engine documents only \"Experimental support for basic field-sensitive taint tracking\", with index sensitivity and inter-procedural field sensitivity both recorded as Pro-only. The case requires \"heap-object-sensitive-taint\"; the scored CE profile is the kernel's `intraprocedural` partition only."
+      ],
+      "duration_ms": 0,
+      "outcome": "unsupported",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/semgrep-go-kernel/dfb-taint-go-object-separation-positive-unsupported.json",
+      "sink_anchors": [
+        "DFB-SINK: object-separation-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: object-separation-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-go-return-relay-one-hop-negative",
+      "diagnostics": [
+        "outside the bounded Semgrep CE profile: the case declares an interprocedural relay; Semgrep CE has no interprocedural taint at all (`--pro-intrafile`, \"Intra-file inter-procedural taint analysis ... Requires Semgrep Pro Engine\"). The case requires \"interprocedural-return-taint\"; the scored CE profile is the kernel's `intraprocedural` partition only."
+      ],
+      "duration_ms": 0,
+      "outcome": "unsupported",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/semgrep-go-kernel/dfb-taint-go-return-relay-one-hop-negative-unsupported.json",
+      "sink_anchors": [
+        "DFB-SINK: return-one-hop-negative-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: return-one-hop-negative-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-go-return-relay-one-hop-positive",
+      "diagnostics": [
+        "outside the bounded Semgrep CE profile: the case declares an interprocedural relay; Semgrep CE has no interprocedural taint at all (`--pro-intrafile`, \"Intra-file inter-procedural taint analysis ... Requires Semgrep Pro Engine\"). The case requires \"interprocedural-return-taint\"; the scored CE profile is the kernel's `intraprocedural` partition only."
+      ],
+      "duration_ms": 0,
+      "outcome": "unsupported",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/semgrep-go-kernel/dfb-taint-go-return-relay-one-hop-positive-unsupported.json",
+      "sink_anchors": [
+        "DFB-SINK: return-one-hop-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: return-one-hop-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-go-return-relay-two-hop-negative",
+      "diagnostics": [
+        "outside the bounded Semgrep CE profile: the case declares a multi-hop interprocedural relay; Semgrep CE has no interprocedural taint at all (`--pro-intrafile`, \"Intra-file inter-procedural taint analysis ... Requires Semgrep Pro Engine\"). The case requires \"two-hop-interprocedural-return-taint\"; the scored CE profile is the kernel's `intraprocedural` partition only."
+      ],
+      "duration_ms": 0,
+      "outcome": "unsupported",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/semgrep-go-kernel/dfb-taint-go-return-relay-two-hop-negative-unsupported.json",
+      "sink_anchors": [
+        "DFB-SINK: return-two-hop-negative-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: return-two-hop-negative-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-go-return-relay-two-hop-positive",
+      "diagnostics": [
+        "outside the bounded Semgrep CE profile: the case declares a multi-hop interprocedural relay; Semgrep CE has no interprocedural taint at all (`--pro-intrafile`, \"Intra-file inter-procedural taint analysis ... Requires Semgrep Pro Engine\"). The case requires \"two-hop-interprocedural-return-taint\"; the scored CE profile is the kernel's `intraprocedural` partition only."
+      ],
+      "duration_ms": 0,
+      "outcome": "unsupported",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/semgrep-go-kernel/dfb-taint-go-return-relay-two-hop-positive-unsupported.json",
+      "sink_anchors": [
+        "DFB-SINK: return-two-hop-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: return-two-hop-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-go-same-object-field-negative",
+      "diagnostics": [
+        "outside the bounded Semgrep CE profile: the case declares a heap access path; the pinned CE engine documents only \"Experimental support for basic field-sensitive taint tracking\", with index sensitivity and inter-procedural field sensitivity both recorded as Pro-only. The case requires \"heap-field-sensitive-taint\"; the scored CE profile is the kernel's `intraprocedural` partition only."
+      ],
+      "duration_ms": 0,
+      "outcome": "unsupported",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/semgrep-go-kernel/dfb-taint-go-same-object-field-negative-unsupported.json",
+      "sink_anchors": [
+        "DFB-SINK: same-object-field-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: same-object-field-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-go-same-object-field-positive",
+      "diagnostics": [
+        "outside the bounded Semgrep CE profile: the case declares a heap access path; the pinned CE engine documents only \"Experimental support for basic field-sensitive taint tracking\", with index sensitivity and inter-procedural field sensitivity both recorded as Pro-only. The case requires \"heap-field-sensitive-taint\"; the scored CE profile is the kernel's `intraprocedural` partition only."
+      ],
+      "duration_ms": 0,
+      "outcome": "unsupported",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/semgrep-go-kernel/dfb-taint-go-same-object-field-positive-unsupported.json",
+      "sink_anchors": [
+        "DFB-SINK: same-object-field-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: same-object-field-input"
+      ],
+      "witness_checkpoints": []
+    }
+  ],
+  "schema_version": 1,
+  "started_at_unix_seconds": 1787644166,
+  "tool": "semgrep",
+  "tool_build_identity": "semgrep-oss:1.174.0",
+  "tool_version": "1.174.0"
+}

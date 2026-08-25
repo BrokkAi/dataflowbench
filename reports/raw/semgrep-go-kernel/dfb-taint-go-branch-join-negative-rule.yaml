@@ -1,0 +1,18 @@
+# Benchmark-controlled Semgrep CE taint rule: DataFlowBench Go kernel.
+#
+# `dfb_source` and `dfb_sink` are the only templated tokens. The runner
+# replaces them with the two endpoint identifiers it reads out of the case
+# fixture's own `DFB-SOURCE:` and `DFB-SINK:` marker lines, so the rule states
+# exactly the benchmark-controlled endpoint contract every other kernel pins.
+# There is no per-case, per-template, or per-polarity branching, and none of
+# Semgrep's own registry source/sink models are used.
+rules:
+  - id: dfb-taint-endpoint-contract
+    languages: [go]
+    severity: WARNING
+    message: benchmark-controlled taint reached the case's declared sink endpoint
+    mode: taint
+    pattern-sources:
+      - pattern: dfb_source(...)
+    pattern-sinks:
+      - pattern: dfb_sink(...)

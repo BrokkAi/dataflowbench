@@ -1,0 +1,27 @@
+# Benchmark-controlled Semgrep CE taint rule: DataFlowBench Ruby kernel.
+#
+# `dfb_source` and `dfb_sink` are the only templated tokens. The runner
+# replaces them with the two endpoint identifiers it reads out of the case
+# fixture's own `DFB-SOURCE:` and `DFB-SINK:` marker lines, so the rule states
+# exactly the benchmark-controlled endpoint contract every other kernel pins.
+# There is no per-case, per-template, or per-polarity branching, and none of
+# Semgrep's own registry source/sink models are used.
+#
+# Ruby is the one kernel whose source pattern needs an alternative: a Ruby
+# call's parameter list is optional and every Ruby fixture spells the source
+# call parenless (`first = dfb_source`), so the parenthesised form alone would
+# match nothing. The sink keeps the single parenthesised form because every
+# benchmark sink takes one positional argument and every fixture spells that
+# call with parentheses.
+rules:
+  - id: dfb-taint-endpoint-contract
+    languages: [ruby]
+    severity: WARNING
+    message: benchmark-controlled taint reached the case's declared sink endpoint
+    mode: taint
+    pattern-sources:
+      - pattern-either:
+          - pattern: dfb_source(...)
+          - pattern: dfb_source
+    pattern-sinks:
+      - pattern: dfb_sink(...)
