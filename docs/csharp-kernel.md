@@ -32,6 +32,12 @@ deviation from the matrix.
 | Control transfer | `dfb-template-loop-carried-kill` | A `for` loop either overwrites the carried value or computes from it. |
 | Control transfer | `dfb-template-exception-catch` | A `FlowException : Exception` carries the value in a public field across `throw`/`catch`, matching the Java checked-exception construct. |
 
+Since the challenge-tier expansion below, the C# core denominator is **29
+templates and 58 assertions**. The paragraph above describes the classic
+sixteen-template kernel, which remains exactly as published; the expanded
+denominator is a different population and the two are never compared
+number-to-number.
+
 All C# fixtures use the benchmark-controlled `dfb_source` and `dfb_sink`
 method names. Fixtures are single `.cs` files in file-scoped namespace
 `DataFlowBench`, with no project file and no external dependency. Adapters may
@@ -40,9 +46,10 @@ analyzer-neutral and reports retain only observed evidence.
 
 ## Case population and the frozen direct pair
 
-The C# population is the 32 `taint`/`core` cases under `cases/taint/csharp/`.
+The C# population is the 58 `taint`/`core` cases under `cases/taint/csharp/`.
 Thirty of them were authored for this kernel with
-`fixture_provenance.revision` `m2-csharp-kernel`. The direct-propagation pair
+`fixture_provenance.revision` `m2-csharp-kernel`, and 26 for the
+challenge-tier expansion with revision `m3-challenge-csharp`. The direct-propagation pair
 (`dfb-taint-csharp-direct-positive` and `dfb-taint-csharp-direct-negative`)
 predates it: it is the C# member of the 13-language direct-flow breadth slice,
 and it is frozen byte-for-byte in the published v0.2.0 manifest
@@ -77,7 +84,8 @@ the dangerous operand. Run it from the repository root:
 cargo run -- run-bifrost-csharp-kernel --bifrost /path/to/bifrost
 ```
 
-The command selects only the 32 C# core assertions, materializes one isolated
+The command selects only the C# core assertions — 58 since the challenge row
+flipped — materializes one isolated
 workspace per case outside the repository, writes the normalized report to
 `reports/bifrost-csharp-kernel.json`, and retains the verbatim per-case Bifrost
 JSON under `reports/raw/bifrost-csharp-kernel/`. A report with incomplete runs
@@ -85,7 +93,8 @@ is normalized as `inconclusive`, never as a negative.
 
 ## CodeQL selection and reproduction
 
-The CodeQL C# vertical slice is exactly those 32 cases. Every selected case is
+The CodeQL C# vertical slice is exactly that population — 58 cases since the
+challenge expansion, though the retained report predates it. Every selected case is
 analyzed with the dedicated query:
 
 ```text
@@ -144,8 +153,12 @@ execution health separate from the polarity of the 16 balanced assertions.
 
 ## Observed results
 
-Both retained snapshots cover all 32 C# core assertions. They are separate
-populations and are not pooled with each other or with any other language.
+Both retained snapshots cover the classic 32 C# core assertions — they were
+taken before the challenge expansion and are freeze-bound, so neither was
+re-run by the challenge wave (see [the challenge-tier
+expansion](#challenge-tier-expansion) below). They are separate populations and
+are not pooled with each other or with any other language, and neither is
+compared with an expanded-core number.
 
 ### CodeQL, `reports/codeql-csharp-kernel.json`
 
@@ -200,11 +213,94 @@ kernel fixture under the language-agnostic `core-direct.rqlp` policy reproduces
 the same incompleteness, so this is Bifrost's C# procedure value-flow coverage
 rather than an artifact of the language-qualified policy.
 
+## Challenge-tier expansion
+
+The thirteen templates of [the challenge-tier
+preregistration](challenge-tier.md) have landed for C#. All thirteen cells are
+applicable to C#, so the expansion adds 13 templates / 26 assertions and the
+C# core denominator becomes **29 templates / 58 assertions**, exactly as the
+preregistration's expanded-denominator table fixes it. The new cases live
+under `cases/taint/csharp/<template>-{positive,negative}/` with ids
+`dfb-taint-csharp-<template>-<polarity>`, `score_tier` `core`, and
+`fixture_provenance.revision` `m3-challenge-csharp`.
+
+Every fixture is a single self-contained `.cs` file in file-scoped namespace
+`DataFlowBench`, using only the .NET base class library (`System`,
+`System.Collections.Generic`, `System.Reflection`). No project file, no
+package reference, no third-party dependency. The 26 fixtures compile together
+under `dotnet build` with `net8.0`, `Nullable` enabled and `-warnaserror`:
+**0 warnings, 0 errors**. (The classic fixtures are not compiled in the same
+project because the frozen direct pair declares the same type name in both
+polarities; the challenge fixtures all declare distinct types.) The CodeQL C#
+runner still creates databases with `--build-mode=none`, so no build step is
+part of the measurement — the compile is an authoring check only.
+
+### Adaptations, per the preregistration's C# row
+
+Eleven cells are **directly applicable** and needed no adaptation. The two
+`language-adapted` cells are the ones the preregistration names for C#, and
+both are implemented exactly as it prescribes:
+
+| Template | Classification | C# construction |
+| --- | --- | --- |
+| `dfb-template-chal-reflective-invocation` | direct | `typeof(Handlers).GetMethod(name)` with `name` a local string, then `MethodInfo.Invoke(handlers, new object[] { dfb_source() })`. Positive selects `Leak`, negative the sibling `Drop`, which drops its argument and sinks a constant. |
+| `dfb-template-chal-computed-property` | **adapted** | C# has no computed member syntax on ordinary objects, so the write and read go through `System.Reflection` `FieldInfo` resolved by a run-time name — `typeof(Holder).GetField(key).SetValue(...)` and `GetValue(...)` — on the Java precedent the preregistration cites. The negative uses two provably distinct constant keys (`"Payload"` / `"Other"`). Because the adaptation is reflective, the case carries `reflective-dispatch` alongside `computed-access`, which is what the preregistration's feature-tag table specifies for "the reflective adaptations of 2". |
+| `dfb-template-chal-dispatch-table` | direct | `Dictionary<string, Action<string>>` populated with two lambdas; the key selects one and the selected delegate is invoked with the tainted value. `Action<string>` rather than a `Func` was chosen so the sink call sits inside the entry, matching the JavaScript and Python fixtures for this template; the template's binding parts — a function value fetched from a stdlib map by string key — are unchanged. |
+| `dfb-template-chal-closure-capture` | direct | A lambda captures an enclosing local and is returned as an `Action`, invoked by the caller after the local has left scope syntactically. The negative captures the clean local instead. |
+| `dfb-template-chal-function-field` | direct | A `Holder` class with an `Action<string> Fn` field; two instances, one assigned a sinking lambda and one an argument-dropping lambda, with a separate `Invoke` method reading the field and calling it. The negative passes the second holder (`object-separation`). |
+| `dfb-template-chal-callback-registration` | direct | `Registry` holds `List<Action<string>>`; `Register` appends and a separate `Fire` iterates and invokes each hook with the tainted value. Zero frameworks. |
+| `dfb-template-chal-anonymous-implementation` | **adapted** | C# anonymous types have properties but no methods and implement no interfaces, so — exactly as the preregistration prescribes — the fixture uses an **anonymous method**, `delegate (string value) { ... }`, assigned to a locally declared `delegate void Handler(string value)` type and invoked through that declared type. This preserves "flow through a method of an unnamed implementation invoked via its declared type". A locally declared named class would *not* be anonymous and was not used. The implementation captures nothing, which keeps it distinct from `closure-capture`. |
+| `dfb-template-chal-map-iteration` | direct | `Dictionary<string, string>` retrieved by `foreach (KeyValuePair<string, string> entry in ...)`, never by a keyed `get`. The negative iterates a second, disjoint dictionary. |
+| `dfb-template-chal-nested-access-path` | direct | Three nested classes give `a.B.C.Value`; the negative reads the sibling `a.B.C.Other`. |
+| `dfb-template-chal-element-object` | direct | `Item[]` of two objects with distinct constant indices; `field-separation`, following the precedent the classic `dfb-template-array-element-separation` pair sets in all thirteen languages. |
+| `dfb-template-chal-deep-relay-chain` | direct | Six static methods `Relay1`…`Relay6`, no branching and no state, with the sink at hop six. The negative feeds the identical chain a clean constant while the source call stays live. |
+| `dfb-template-chal-recursive-carry` | direct | `static string Carry(string value, int depth)` recursing to a base case at `depth == 0`, invoked with `5`. The negative overwrites the carried value with a clean constant at the base case (`overwrite-kill`). |
+| `dfb-template-chal-context-pair-depth2` | direct | The canonical [Amendment A1](challenge-tier.md#amendments) construction: `Helper` returns its argument, `Wrapper` calls it, and `OuterTainted` / `OuterClean` are the two distinct two-deep contexts. Both calls stay live in both fixtures; the positive sinks the tainted context's result, the negative the clean one's. |
+
+No template proved unimplementable and no amendment is proposed by this wave.
+
+### Adapter coverage: every covering adapter is deferred or absent
+
+**This wave ran zero adapters, and that is a consequence of the freeze rule
+rather than an omission.** Stated plainly so no reader mistakes it for a gap
+in the fixtures:
+
+- **Bifrost — deferred.** `reports/bifrost-csharp-kernel.json` is one of the
+  nineteen reports `reports/freeze.json` digest-binds for v0.3.0. Re-running
+  `run-bifrost-csharp-kernel` would overwrite published evidence and invalidate
+  the freeze, so it was not run. Its 32 results remain the frozen
+  16-template v0.3.0 evidence and say nothing either way about the thirteen
+  challenge templates. **Expanded Bifrost evidence is pending the v0.4.0
+  freeze-prep re-run.**
+- **CodeQL — deferred.** `reports/codeql-csharp-kernel.json` is likewise
+  freeze-bound (all ten CodeQL kernel reports are). **Expanded CodeQL evidence
+  is pending the v0.4.0 freeze-prep re-run.** The selector already expects the
+  full 58; the runner is simply not invoked until the freeze is re-cut.
+- **Joern — absent.** The pinned distribution ships a `csharpsrc2cpg`
+  frontend, but this repository has **no C# Joern slice**: there is no
+  `JoernKernel` variant for C#, no C# Joern query, and no
+  `reports/joern-csharp-kernel.json`. Adding one is a separate change with its
+  own reproduction contract, not something a fixture wave may improvise.
+- **Semgrep CE — impossible.** C# is a **Pro-only** language in the pinned
+  Semgrep CE 1.174.0 distribution, named in the CLI's own `--pro-languages`
+  text. There is no C# Semgrep slice and there cannot be one on CE; this is
+  recorded in [the Semgrep adapter notes](../adapters/semgrep/README.md) as a
+  tool limitation, not a benchmark gap.
+
+The C# challenge cases are excluded from the Bifrost smoke population by
+template identity, so the frozen 118-case smoke slice is untouched.
+
+Consequently there are **no observed per-stratum results to report for C# in
+this wave**. Reporting any would require inventing them. The expanded-core
+confusion matrices for Bifrost and CodeQL will be recorded here when the
+v0.4.0 re-run produces them.
+
 ## Population boundaries
 
 C# results are their own population. They are never pooled with the Java,
 JavaScript, or Python kernels, never pooled with the 13-language direct-flow
 breadth slice, and never averaged with a language whose core denominator is not
-also 16 templates. The Java calibration cases (`dfb-template-one-hop-relay` and
+also 29 templates — nor with a C# score taken over the classic 16, which is a
+different population of the same name. The Java calibration cases (`dfb-template-one-hop-relay` and
 `dfb-template-modeled-external-summary`) have no C# member and do not change
 this denominator.

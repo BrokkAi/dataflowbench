@@ -1,0 +1,65 @@
+{
+  "schema_version": 2,
+  "id": "dfb-taint-csharp-deep-relay-chain-positive",
+  "template_id": "dfb-template-chal-deep-relay-chain",
+  "polarity": "positive",
+  "score_tier": "core",
+  "track": "taint",
+  "language": "csharp",
+  "semantic_dimensions": [
+    "interprocedural-flow"
+  ],
+  "feature_tags": [
+    "interprocedural-deep"
+  ],
+  "model_profile": "benchmark-controlled",
+  "fixture_files": [
+    "DeepRelayChainPositive.cs"
+  ],
+  "source_anchors": [
+    {
+      "marker": "DFB-SOURCE: deep-relay-chain-input",
+      "file": "DeepRelayChainPositive.cs"
+    }
+  ],
+  "sink_anchors": [
+    {
+      "marker": "DFB-SINK: deep-relay-chain-sink",
+      "file": "DeepRelayChainPositive.cs"
+    }
+  ],
+  "expected_flows": [
+    {
+      "source": "DFB-SOURCE: deep-relay-chain-input",
+      "sink": "DFB-SINK: deep-relay-chain-sink"
+    }
+  ],
+  "expected_nonflows": [],
+  "witness_checkpoints": [
+    "DFB-SOURCE: deep-relay-chain-input",
+    "DFB-WITNESS: deep-relay-chain-hop-one",
+    "DFB-WITNESS: deep-relay-chain-hop-six",
+    "DFB-SINK: deep-relay-chain-sink"
+  ],
+  "expected_analysis_capability": {
+    "kind": "deep-interprocedural-relay-taint"
+  },
+  "execution_budget": {
+    "wall_clock_seconds": 60,
+    "peak_memory_mb": 512
+  },
+  "fixture_provenance": {
+    "kind": "authored",
+    "origin": "DataFlowBench",
+    "revision": "m3-challenge-csharp",
+    "license": "MIT"
+  },
+  "tool_model_references": {
+    "bifrost": {
+      "policy": "adapters/bifrost/policies/core-csharp-kernel.rqlp"
+    },
+    "codeql": {
+      "query": "adapters/codeql/csharp/queries/CSharpKernel.ql"
+    }
+  }
+}
