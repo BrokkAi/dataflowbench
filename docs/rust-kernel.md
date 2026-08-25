@@ -255,6 +255,45 @@ workspace and database after retaining the evidence. The normalized report is
 when CodeQL cannot produce SARIF) is retained per case under
 `reports/raw/codeql-rust-kernel/`.
 
+## Joern selection and reproduction
+
+```bash
+cargo run -- run-joern-rust-kernel --joern <joern-cli>/joern
+```
+
+The command selects the 30 Rust **core** assertions runner-side
+(`language == "rust"`, `track == "taint"`, `score_tier == "core"`) against the
+15-template set, and drives the single shared kernel script
+`adapters/joern/queries/kernel.sc` with `language=RUST`. Unlike the Bifrost and
+CodeQL Rust slices, the two `language-extension` assertions are **not** in this
+population: the Joern Rust kernel is the core denominator and nothing else. One
+cold CPG is built per case inside a per-case scratch root, and the retained
+evidence document is written to `reports/raw/joern-rust-kernel/<case id>.json`.
+
+### Joern needs the same generated manifest, for a different reason
+
+Rust is the only benchmark language whose Joern frontend refuses a loose source
+file. `rust2cpg` walks a Cargo crate; handed a bare `.rs` fixture it exits
+successfully and produces an empty CPG — no methods, no calls at all. CodeQL's
+extractor degrades to a syntax-only database in the same situation; Joern's
+produces nothing. Both failure modes look like a clean negative if they are not
+caught, which is why neither runner analyzes a bare file.
+
+The Joern runner therefore reuses `write_rust_cargo_manifest`, the same
+single-crate `Cargo.toml` the CodeQL Rust runner generates, written into the
+per-case scratch workspace and destroyed with it. No `Cargo.toml` is checked in
+beside any fixture and `fixture_files` still lists only the `.rs` file.
+
+Keeping the fixture at the crate root rather than moving it under `src/` also
+settles the anchoring question: Joern reports node locations as crate-relative
+paths, so the fixture stays `local_chain_positive.rs` in the evidence and the
+shared sink-callsite reconciliation matches it directly. A generated
+`src/main.rs` layout would have forced the runner to map the reported path back
+to the case's anchor file before any flow could be proved.
+
+`rust2cpg` is new in Joern `4.0.610` — the first release to ship it. Its results
+are recorded as a snapshot of a young frontend.
+
 ## Anchor evidence and result semantics
 
 CodeQL query results are evidence, not ground truth by themselves. The runner
@@ -280,9 +319,10 @@ execution health separate from the polarity of the 15 balanced assertions.
 
 ## Observed results
 
-Both retained snapshots cover all 30 Rust core assertions and both
-`language-extension` assertions. The three populations — Rust core, Rust
-language extension, and every other language — are separate and are not pooled.
+The CodeQL and Bifrost snapshots cover all 30 Rust core assertions and both
+`language-extension` assertions; the Joern snapshot covers the 30 core
+assertions only. The three populations — Rust core, Rust language extension,
+and every other language — are separate and are not pooled.
 
 ### CodeQL, `reports/codeql-rust-kernel.json`
 
@@ -365,6 +405,50 @@ decisive; the Rust `internal_invariant` failures on the struct and array
 fixtures are a distinct, more specific incompleteness than the C#
 `capability_incomplete` results, and are recorded as observed rather than
 diagnosed here.
+
+### Joern, `reports/joern-rust-kernel.json`
+
+Joern 4.0.610, build identity `joern-cli:4.0.610`, frontend `rust2cpg`.
+Configuration hash
+`ab10e81860305e492a930e2c2691873b23be25e97e5b354ca785058e09a20025` — the same
+hash every other Joern kernel carries, because all six drive one unmodified
+script.
+
+**Core, 30 assertions:** 16 `reached` and 14 `not-reached`, with zero
+`inconclusive`, `unsupported`, or `runner-error` outcomes, 30 retained evidence
+documents and zero error documents. **27 of 30 match the expected polarity.**
+
+The three mismatches:
+
+- false negative: `dfb-taint-rust-alias-propagation-positive`;
+- false positives: `dfb-taint-rust-infeasible-branch-negative` and
+  `dfb-taint-rust-loop-carried-negative`.
+
+That is the recurring Joern mismatch set — field aliasing missed, infeasible
+branch and loop-carried kill over-approximated — intersected with Rust's 15
+applicable templates; the fourth member of that set, exception catch, is not a
+Rust cell. Joern and CodeQL agree only on the loop-carried false positive: Joern
+misses the field alias CodeQL resolves and over-approximates the infeasible
+branch CodeQL decides, while CodeQL over-approximates the array-element
+separation Joern decides correctly. Two decisive analyzers disagreeing this way
+on a 15-template denominator is exactly the sort of contrast the kernel exists to
+surface, and neither result was adjusted to bring them closer.
+
+The two `language-extension` assertions are **not** in this population; unlike
+the CodeQL and Bifrost Rust slices, the Joern kernel selects the core 30 only.
+
+`rust2cpg` shipped for the first time in Joern `4.0.610`. These are its first
+recorded DataFlowBench results, and they are published as a snapshot of a
+brand-new frontend rather than as a settled characterization of Joern on Rust.
+What can be said flatly is that it decided every assertion: no case fell to
+`inconclusive`, and no frontend or engine exception was caught. Per-case wall
+clock, including cold CPG construction, ranged from 14.3 s to 52.6 s (about 12.6
+minutes for the population), measured while five other Joern kernels were
+running concurrently on the same host.
+
+Normalized `witness_checkpoints` are empty for every case, as for every other
+Joern kernel: the adapter records anchor-backed flow outcomes and retains the
+element-by-element path evidence in the raw document.
 
 ## Population boundaries
 

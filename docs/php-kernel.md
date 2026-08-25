@@ -139,7 +139,7 @@ normalized as `inconclusive`, never as a negative.
 ## Joern selection and reproduction
 
 ```bash
-cargo run -- run-joern-php-kernel --joern /usr/local/bin/joern
+cargo run -- run-joern-php-kernel --joern <joern-cli>/joern
 ```
 
 The command selects the same 32 assertions runner-side (`language == "php"`,
@@ -150,14 +150,14 @@ a per-case scratch root, and the retained evidence document is written to
 `reports/raw/joern-php-kernel/<case id>.json`.
 
 `php2cpg` shells out to its bundled PHP-Parser
-(`/opt/joern/joern-cli/frontends/php2cpg/bin/php-parser/php-parser-4.15.10.phar`),
+(`<joern-cli>/frontends/php2cpg/bin/php-parser/php-parser-4.15.10.phar`),
 which is itself a PHP program, so **a host `php` interpreter must be on `PATH`**
 for this kernel to run at all. The observed interpreter was PHP 8.5.9 (cli),
 Homebrew. Without it the frontend fails and the script's own `catch` retains a
 `runner-error` document — an unavailable frontend can never look like a negative.
 
 The endpoint identifiers are read out of each fixture's own `DFB-SOURCE:` and
-`DFB-SINK:` marker lines, never assumed, exactly as for the other three Joern
+`DFB-SINK:` marker lines, never assumed, exactly as for the other five Joern
 kernels.
 
 ## Anchor evidence and result semantics
@@ -241,10 +241,10 @@ All 32 raw Bifrost JSON reports are retained under
 
 ### Joern, `reports/joern-php-kernel.json`
 
-Joern 4.0.432, build identity `joern-cli:4.0.432`, `php2cpg` frontend over PHP
+Joern 4.0.610, build identity `joern-cli:4.0.610`, `php2cpg` frontend over PHP
 8.5.9 (cli). Configuration hash
-`2ce582b8a5d1efd4e6025153893178bfb900cce933826826d63371d632a64564` — the same
-hash the other three Joern kernels carry, because all four drive one unmodified
+`ab10e81860305e492a930e2c2691873b23be25e97e5b354ca785058e09a20025` — the same
+hash the other five Joern kernels carry, because all six drive one unmodified
 script.
 
 32 results: 16 `reached` and 16 `not-reached`, with zero `inconclusive`,
@@ -261,9 +261,13 @@ The four mismatches:
 That is exactly the mismatch set Joern's Java and Python kernels show, template
 for template: aliasing through a field and value transfer to an exception
 handler are missed, and the infeasible branch and the loop-carried kill are
-over-approximated. A shared engine over a fourth language-specific frontend
+over-approximated. A shared engine over another language-specific frontend
 reproducing the same four failures is the expected shape. No fixture was
 changed, no query was contorted, and no case was special-cased to move a result.
+
+These numbers were first recorded on Joern `4.0.432` and reproduced
+case-for-case when the adapter was re-pinned to `4.0.610`; the PHP kernel shows
+no drift between the two versions.
 
 Normalized `witness_checkpoints` are empty for every case: the adapter records
 anchor-backed flow outcomes and retains the element-by-element path evidence in

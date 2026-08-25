@@ -105,14 +105,17 @@ unfinished work.
 
 ### Joern has no Scala source frontend
 
-The pinned Joern 4.0.432 distribution installs no Scala *source* frontend. Its
+The pinned Joern 4.0.610 distribution installs no Scala *source* frontend. Its
 `jimple2cpg` frontend consumes JVM **bytecode**, which is a different
 extraction contract from the single-source-file, no-build fixtures this
 benchmark ships: it would require a compilation pipeline that no other case
 population uses, and the artifact it analyzed would be `scalac` output rather
 than the checked-in fixture. That verification is recorded in
 [`adapters/joern/README.md`](../adapters/joern/README.md), where Scala is
-listed as **explicitly unsupported** alongside Rust. Introducing a bytecode
+listed as **explicitly unsupported**. It is now the only such language: Rust was
+explicitly unsupported under the previous `4.0.432` pin and is executed under
+`4.0.610`, which ships `rust2cpg`; no comparable Scala source frontend appeared.
+Introducing a bytecode
 pipeline for Scala is out of scope for this kernel.
 
 Issue #14 remains the second-analyzer tracking path. Neither absence blocked
