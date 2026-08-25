@@ -1,0 +1,22 @@
+# Benchmark-controlled Semgrep CE taint rule: DataFlowBench PHP kernel.
+#
+# The source and sink patterns below are the only templated part of this file.
+# Each carries a placeholder token that the runner replaces, per case, with the
+# endpoint identifier it reads out of that fixture's own DFB-SOURCE: and
+# DFB-SINK: marker lines, so the rule states exactly the benchmark-controlled
+# endpoint contract every other kernel pins. A resolved copy of this rule is
+# retained beside the case's finding document, with the two identifiers it was
+# actually analyzed under substituted in.
+#
+# There is no per-case, per-template, or per-polarity branching, and none of
+# Semgrep's own registry source/sink models are used.
+rules:
+  - id: dfb-taint-endpoint-contract
+    languages: [php]
+    severity: WARNING
+    message: benchmark-controlled taint reached the case's declared sink endpoint
+    mode: taint
+    pattern-sources:
+      - pattern: __DFB_SOURCE__(...)
+    pattern-sinks:
+      - pattern: __DFB_SINK__(...)

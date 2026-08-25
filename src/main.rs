@@ -70,6 +70,15 @@ const JOERN_RUBY_RAW_DIR: &str = "reports/raw/joern-ruby-kernel";
 const JOERN_RUBY_REPORT: &str = "reports/joern-ruby-kernel.json";
 const JOERN_PHP_RAW_DIR: &str = "reports/raw/joern-php-kernel";
 const JOERN_PHP_REPORT: &str = "reports/joern-php-kernel.json";
+/// The committed, benchmark-controlled Semgrep CE taint rules. One rule file
+/// per covered language; each carries the two `__DFB_SOURCE__`/`__DFB_SINK__`
+/// placeholders the runner resolves from the case's own marker lines. Every
+/// Semgrep report hashes this whole directory, so no report can cite a
+/// configuration hash that any committed rule no longer has.
+const SEMGREP_RULES_DIR: &str = "adapters/semgrep/rules";
+/// The placeholder tokens in a committed rule file. Nothing else is templated.
+const SEMGREP_SOURCE_PLACEHOLDER: &str = "__DFB_SOURCE__";
+const SEMGREP_SINK_PLACEHOLDER: &str = "__DFB_SINK__";
 /// The module manifest written into every Go CodeQL workspace. The Go
 /// extractor has no `none` build mode, so it must observe a real `go build`;
 /// supplying the manifest keeps that build hermetic and offline instead of
@@ -410,6 +419,50 @@ enum Commands {
         #[arg(long, default_value = "joern")]
         joern: PathBuf,
     },
+    /// Run the Java propagation kernel through the Semgrep CE (OSS) taint
+    /// engine, scoring only the intraprocedural partition of the kernel. Every
+    /// other case is `unsupported` by declared capability, decided from case
+    /// metadata before Semgrep is invoked.
+    RunSemgrepJavaKernel {
+        #[arg(long, default_value = "semgrep")]
+        semgrep: PathBuf,
+    },
+    /// Run the JavaScript propagation kernel through Semgrep CE. Semgrep's
+    /// `js` and `ts` analyses share a front end, so this command selects
+    /// JavaScript cases only and never pools the two populations.
+    RunSemgrepJavascriptKernel {
+        #[arg(long, default_value = "semgrep")]
+        semgrep: PathBuf,
+    },
+    /// Run the TypeScript propagation kernel through Semgrep CE, as its own
+    /// population.
+    RunSemgrepTypescriptKernel {
+        #[arg(long, default_value = "semgrep")]
+        semgrep: PathBuf,
+    },
+    /// Run the Python propagation kernel through Semgrep CE, as its own
+    /// population.
+    RunSemgrepPythonKernel {
+        #[arg(long, default_value = "semgrep")]
+        semgrep: PathBuf,
+    },
+    /// Run the Go propagation kernel through Semgrep CE, as its own population.
+    RunSemgrepGoKernel {
+        #[arg(long, default_value = "semgrep")]
+        semgrep: PathBuf,
+    },
+    /// Run the Ruby propagation kernel through Semgrep CE, as its own
+    /// population.
+    RunSemgrepRubyKernel {
+        #[arg(long, default_value = "semgrep")]
+        semgrep: PathBuf,
+    },
+    /// Run the PHP propagation kernel through Semgrep CE, as its own
+    /// population. Unlike the Joern PHP kernel this needs no host `php`.
+    RunSemgrepPhpKernel {
+        #[arg(long, default_value = "semgrep")]
+        semgrep: PathBuf,
+    },
 }
 
 fn main() -> Result<()> {
@@ -498,6 +551,25 @@ fn main() -> Result<()> {
         Commands::RunJoernPythonKernel { joern } => run_joern_kernel(&joern, JoernKernel::Python),
         Commands::RunJoernRubyKernel { joern } => run_joern_kernel(&joern, JoernKernel::Ruby),
         Commands::RunJoernPhpKernel { joern } => run_joern_kernel(&joern, JoernKernel::Php),
+        Commands::RunSemgrepJavaKernel { semgrep } => {
+            run_semgrep_kernel(&semgrep, SemgrepKernel::Java)
+        }
+        Commands::RunSemgrepJavascriptKernel { semgrep } => {
+            run_semgrep_kernel(&semgrep, SemgrepKernel::JavaScript)
+        }
+        Commands::RunSemgrepTypescriptKernel { semgrep } => {
+            run_semgrep_kernel(&semgrep, SemgrepKernel::TypeScript)
+        }
+        Commands::RunSemgrepPythonKernel { semgrep } => {
+            run_semgrep_kernel(&semgrep, SemgrepKernel::Python)
+        }
+        Commands::RunSemgrepGoKernel { semgrep } => run_semgrep_kernel(&semgrep, SemgrepKernel::Go),
+        Commands::RunSemgrepRubyKernel { semgrep } => {
+            run_semgrep_kernel(&semgrep, SemgrepKernel::Ruby)
+        }
+        Commands::RunSemgrepPhpKernel { semgrep } => {
+            run_semgrep_kernel(&semgrep, SemgrepKernel::Php)
+        }
     }
 }
 
@@ -1473,6 +1545,17 @@ fn raw_special_outcome(raw: &Value) -> Option<&'static str> {
         .any(|run| run["completion"]["type"] == "inconclusive")
     {
         return Some("inconclusive");
+    }
+    // Semgrep's own `--json` document carries engine, rule, and parse failures
+    // in a top-level `errors` array beside a `results` array that a failed scan
+    // still emits empty. No frozen result may read that empty list as a clean
+    // negative.
+    if raw["results"].is_array()
+        && raw["errors"]
+            .as_array()
+            .is_some_and(|errors| !errors.is_empty())
+    {
+        return Some("runner-error");
     }
     if bifrost_runner_error_reason(raw).is_some() {
         return Some("runner-error");
@@ -5705,7 +5788,7 @@ fn joern_version_identity(binary: &Path) -> Result<(String, String)> {
 /// The two benchmark-controlled endpoint identifiers of one case, read out of
 /// the fixture's own marker lines.
 #[derive(Clone, Debug, PartialEq, Eq)]
-struct JoernEndpoints {
+struct BenchmarkEndpoints {
     source_function: String,
     sink_function: String,
 }
@@ -5713,12 +5796,14 @@ struct JoernEndpoints {
 /// Resolve a case's source and sink function names from its anchors. The
 /// fixtures are frozen and mostly spell both `dfb_source`/`dfb_sink`, but the
 /// two Java direct-propagation assertions predate that convention, so the names
-/// are always read from the marker line rather than assumed.
-fn joern_endpoint_names(
+/// are always read from the marker line rather than assumed. Both the Joern
+/// kernels and the Semgrep kernels resolve their benchmark-controlled endpoint
+/// contract through this one function, so neither can drift from the other.
+fn benchmark_endpoint_names(
     case_path: &Path,
     case: &Value,
     dialect: AnchorDialect,
-) -> std::result::Result<JoernEndpoints, String> {
+) -> std::result::Result<BenchmarkEndpoints, String> {
     let sink_functions = sink_anchor_locations(case_path, case, dialect)?
         .into_iter()
         .map(|location| location.function_name)
@@ -5740,7 +5825,7 @@ fn joern_endpoint_names(
             ));
         }
     };
-    Ok(JoernEndpoints {
+    Ok(BenchmarkEndpoints {
         source_function,
         sink_function,
     })
@@ -5807,7 +5892,7 @@ fn run_joern_case(
     // A case whose endpoints cannot be resolved from its own markers has no
     // usable anchor evidence. That is `inconclusive` with a retained reason; it
     // is never a clean negative.
-    let endpoints = match joern_endpoint_names(case_path, case, kernel.dialect()) {
+    let endpoints = match benchmark_endpoint_names(case_path, case, kernel.dialect()) {
         Ok(endpoints) => endpoints,
         Err(reason) => {
             let diagnostic =
@@ -5970,8 +6055,12 @@ fn write_joern_error(
     Ok(error_path)
 }
 
+/// How one piece of retained non-SARIF evidence reconciles against a case's
+/// sink anchors. A Joern flow and a Semgrep finding are reconciled by the same
+/// three-way answer, so neither adapter can drift into treating unusable
+/// evidence as a negative.
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
-enum JoernFlowMatch {
+enum EvidenceAnchorMatch {
     Matched,
     Unmatched,
     Ambiguous,
@@ -6063,9 +6152,9 @@ fn joern_flow_outcome(
     let mut ambiguous = 0;
     for flow in flows {
         match joern_flow_anchor_match(flow, &sink_locations) {
-            JoernFlowMatch::Matched => matched += 1,
-            JoernFlowMatch::Unmatched => unmatched += 1,
-            JoernFlowMatch::Ambiguous => ambiguous += 1,
+            EvidenceAnchorMatch::Matched => matched += 1,
+            EvidenceAnchorMatch::Unmatched => unmatched += 1,
+            EvidenceAnchorMatch::Ambiguous => ambiguous += 1,
         }
     }
     if ambiguous > 0 {
@@ -6087,12 +6176,15 @@ fn joern_flow_outcome(
     )
 }
 
-fn joern_flow_anchor_match(flow: &Value, sink_locations: &[SinkAnchorLocation]) -> JoernFlowMatch {
+fn joern_flow_anchor_match(
+    flow: &Value,
+    sink_locations: &[SinkAnchorLocation],
+) -> EvidenceAnchorMatch {
     let Some(elements) = flow["elements"].as_array() else {
-        return JoernFlowMatch::Ambiguous;
+        return EvidenceAnchorMatch::Ambiguous;
     };
     if elements.is_empty() {
-        return JoernFlowMatch::Ambiguous;
+        return EvidenceAnchorMatch::Ambiguous;
     }
     let mut matches = BTreeSet::new();
     let mut usable = false;
@@ -6113,11 +6205,595 @@ fn joern_flow_anchor_match(flow: &Value, sink_locations: &[SinkAnchorLocation]) 
         }
     }
     if !usable || matches.len() > 1 {
-        JoernFlowMatch::Ambiguous
+        EvidenceAnchorMatch::Ambiguous
     } else if matches.len() == 1 {
-        JoernFlowMatch::Matched
+        EvidenceAnchorMatch::Matched
     } else {
-        JoernFlowMatch::Unmatched
+        EvidenceAnchorMatch::Unmatched
+    }
+}
+
+/// One Semgrep CE kernel: a single language, its own case selection, its own
+/// committed rule file, its own normalized report, and its own
+/// retained-evidence root. Semgrep shares one taint engine across all of them,
+/// exactly as Joern shares one data-flow engine; the populations are kept apart
+/// by the selector and the report paths, never by the engine.
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+enum SemgrepKernel {
+    Java,
+    JavaScript,
+    TypeScript,
+    Python,
+    Go,
+    Ruby,
+    Php,
+}
+
+impl SemgrepKernel {
+    fn language(self) -> &'static str {
+        match self {
+            Self::Java => "java",
+            Self::JavaScript => "javascript",
+            Self::TypeScript => "typescript",
+            Self::Python => "python",
+            Self::Go => "go",
+            Self::Ruby => "ruby",
+            Self::Php => "php",
+        }
+    }
+
+    fn display_name(self) -> &'static str {
+        match self {
+            Self::Java => "Java",
+            Self::JavaScript => "JavaScript",
+            Self::TypeScript => "TypeScript",
+            Self::Python => "Python",
+            Self::Go => "Go",
+            Self::Ruby => "Ruby",
+            Self::Php => "PHP",
+        }
+    }
+
+    /// The committed rule file for this kernel. Each is its own file even
+    /// where two would be byte-identical apart from the `languages:` key, so a
+    /// population is never scored by a rule spelled for another language.
+    fn rule(self) -> String {
+        format!("{SEMGREP_RULES_DIR}/{}.yaml", self.language())
+    }
+
+    fn report(self) -> String {
+        format!("reports/semgrep-{}-kernel.json", self.language())
+    }
+
+    fn raw_dir(self) -> String {
+        format!("reports/raw/semgrep-{}-kernel", self.language())
+    }
+
+    fn dialect(self) -> AnchorDialect {
+        match self {
+            Self::Java => AnchorDialect::Java,
+            Self::JavaScript | Self::TypeScript => AnchorDialect::Ecma,
+            Self::Python => AnchorDialect::Python,
+            Self::Go => AnchorDialect::Go,
+            Self::Ruby => AnchorDialect::Ruby,
+            Self::Php => AnchorDialect::Php,
+        }
+    }
+
+    fn label(self) -> String {
+        format!("Semgrep {} kernel", self.display_name())
+    }
+}
+
+fn semgrep_core_case(case: &Value, kernel: SemgrepKernel) -> bool {
+    case["language"] == kernel.language()
+        && case["track"] == "taint"
+        && case["score_tier"] == "core"
+}
+
+/// Select a Semgrep kernel population runner-side. The v0.3.0 freeze binds
+/// every `case.json` byte, so no case declares a Semgrep model reference; the
+/// selection is by language, track, and score tier alone, exactly as the Joern
+/// kernels select theirs. The full 32-assertion population is always selected
+/// and balance-checked; the bounded profile is applied afterwards, per case, by
+/// `semgrep_capability_exclusion`.
+fn select_semgrep_cases(kernel: SemgrepKernel) -> Result<Vec<(PathBuf, Value)>> {
+    let mut selected = Vec::new();
+    for path in case_paths() {
+        let case: Value = serde_json::from_str(&fs::read_to_string(&path)?)?;
+        if semgrep_core_case(&case, kernel) {
+            selected.push((path, case));
+        }
+    }
+    validate_kernel_population_with(&selected, &kernel.label(), &KERNEL_TEMPLATE_IDS)?;
+    Ok(selected)
+}
+
+/// The bounded Semgrep CE profile, decided from the case's own declared
+/// capability metadata and the pinned distribution's documentation — never
+/// from an observed result.
+///
+/// Semgrep CE's taint mode is documented by the pinned CLI itself as
+/// intra-file and intraprocedural: `semgrep scan --help` offers
+/// `--pro-intrafile` ("Intra-file inter-procedural taint analysis. Implies
+/// --pro-languages. Requires Semgrep Pro Engine") and `--pro` ("Inter-file
+/// analysis ... Requires Semgrep Pro Engine"), so neither interprocedural nor
+/// cross-file propagation is in the CE engine at all. Its heap support is
+/// likewise bounded: the pinned CHANGELOG records only "Experimental support
+/// for basic field-sensitive taint tracking" in CE, while index sensitivity
+/// (`E[i]`) and inter-procedural field sensitivity are both recorded as Pro.
+///
+/// So the scored profile is exactly the `intraprocedural` partition of each
+/// kernel. Every other case returns a retained reason here and is normalized
+/// `unsupported` *without invoking Semgrep*: a capability exclusion can never
+/// be dressed up as a false negative, and no result can talk the runner into
+/// or out of the partition.
+fn semgrep_capability_exclusion(case: &Value) -> Option<String> {
+    let tags: BTreeSet<&str> = case["feature_tags"]
+        .as_array()
+        .map(|tags| tags.iter().filter_map(Value::as_str).collect())
+        .unwrap_or_default();
+    if tags.contains("intraprocedural") {
+        return None;
+    }
+    let capability = case["expected_analysis_capability"]["kind"]
+        .as_str()
+        .unwrap_or("an undeclared capability");
+    let reason = if tags.contains("interprocedural-deep") {
+        "the case declares a multi-hop interprocedural relay; Semgrep CE has no interprocedural taint at all (`--pro-intrafile`, \"Intra-file inter-procedural taint analysis ... Requires Semgrep Pro Engine\")"
+    } else if tags.contains("interprocedural-one-hop") {
+        "the case declares an interprocedural relay; Semgrep CE has no interprocedural taint at all (`--pro-intrafile`, \"Intra-file inter-procedural taint analysis ... Requires Semgrep Pro Engine\")"
+    } else if tags.contains("heap-access-path") {
+        "the case declares a heap access path; the pinned CE engine documents only \"Experimental support for basic field-sensitive taint tracking\", with index sensitivity and inter-procedural field sensitivity both recorded as Pro-only"
+    } else if tags.contains("exceptional") {
+        "the case declares an exceptional value transfer, which the pinned CE taint documentation nowhere claims to model"
+    } else {
+        "the case is outside the documented CE local/intraprocedural taint profile"
+    };
+    Some(format!(
+        "outside the bounded Semgrep CE profile: {reason}. The case requires {capability:?}; the scored CE profile is the kernel's `intraprocedural` partition only."
+    ))
+}
+
+fn run_semgrep_kernel(binary: &Path, kernel: SemgrepKernel) -> Result<()> {
+    validate_cases()?;
+    let selected = select_semgrep_cases(kernel)?;
+    let rule_path = kernel.rule();
+    let template = fs::read_to_string(&rule_path)
+        .with_context(|| format!("read the Semgrep kernel rule {rule_path}"))?;
+    for placeholder in [SEMGREP_SOURCE_PLACEHOLDER, SEMGREP_SINK_PLACEHOLDER] {
+        if !template.contains(placeholder) {
+            bail!("Semgrep kernel rule {rule_path} does not carry {placeholder}");
+        }
+    }
+    let raw_dir = PathBuf::from(kernel.raw_dir());
+    fs::create_dir_all(&raw_dir)?;
+    let started = now_seconds()?;
+    let (version, build_identity) = semgrep_version_identity(binary)?;
+    let revision = fixture_revision()?;
+    let mut results = Vec::with_capacity(selected.len());
+
+    for (path, case) in selected {
+        let id = case["id"].as_str().expect("schema validated");
+        let start = Instant::now();
+        let (outcome, diagnostics, raw_path) =
+            run_semgrep_case(binary, &template, &path, &case, &raw_dir, kernel)?;
+        results.push(normalized_result(
+            &case,
+            id,
+            outcome,
+            diagnostics,
+            start.elapsed(),
+            &raw_path,
+        ));
+    }
+
+    let configuration_hash = hash_paths(&semgrep_rule_paths()?)?;
+    let report = json!({
+        "schema_version": 1,
+        "tool": "semgrep",
+        "tool_version": version,
+        "tool_build_identity": build_identity,
+        "adapter_version": ADAPTER_VERSION,
+        "configuration_hash": configuration_hash,
+        "fixture_revision": revision,
+        "started_at_unix_seconds": started,
+        "ended_at_unix_seconds": now_seconds()?,
+        "cold_or_warm": "cold",
+        "results": results
+    });
+    let report_path = kernel.report();
+    fs::write(&report_path, serde_json::to_string_pretty(&report)? + "\n")?;
+    validate_reports()?;
+    println!("wrote {report_path}");
+    Ok(())
+}
+
+/// Every committed Semgrep rule file, so one `configuration_hash` binds the
+/// whole rule set rather than only the language that happened to run.
+fn semgrep_rule_paths() -> Result<BTreeSet<PathBuf>> {
+    let mut paths = BTreeSet::new();
+    for entry in fs::read_dir(SEMGREP_RULES_DIR)
+        .with_context(|| format!("read {SEMGREP_RULES_DIR}"))?
+        .filter_map(std::result::Result::ok)
+    {
+        let path = entry.path();
+        if path.is_file() && path.extension().is_some_and(|ext| ext == "yaml") {
+            paths.insert(path);
+        }
+    }
+    if paths.is_empty() {
+        bail!("{SEMGREP_RULES_DIR} holds no committed Semgrep rule");
+    }
+    Ok(paths)
+}
+
+/// The exact Semgrep version every normalized Semgrep report records. The
+/// pinned CE distribution reports no build SHA separate from its released
+/// version, so the released version *is* the build identity, recorded
+/// literally rather than padded with a synthetic identifier. `semgrep
+/// --version` needs no `--metrics` flag: it performs no scan.
+fn semgrep_version_identity(binary: &Path) -> Result<(String, String)> {
+    let output = Command::new(binary)
+        .arg("--version")
+        .stdin(std::process::Stdio::null())
+        .output()
+        .with_context(|| format!("run {} --version", binary.display()))?;
+    if !output.status.success() {
+        bail!(
+            "{} --version failed with status {}",
+            binary.display(),
+            output.status
+        );
+    }
+    let version = String::from_utf8_lossy(&output.stdout)
+        .lines()
+        .map(str::trim)
+        .find(|line| !line.is_empty())
+        .context("Semgrep did not report a version")?
+        .to_string();
+    let build_identity = format!("semgrep-oss:{version}");
+    Ok((version, build_identity))
+}
+
+fn run_semgrep_case(
+    binary: &Path,
+    template: &str,
+    case_path: &Path,
+    case: &Value,
+    raw_dir: &Path,
+    kernel: SemgrepKernel,
+) -> Result<(&'static str, Vec<String>, PathBuf)> {
+    let id = case["id"].as_str().expect("schema validated");
+    let raw_path = raw_dir.join(format!("{id}.json"));
+    let error_path = raw_dir.join(format!("{id}-error.json"));
+    let unsupported_path = raw_dir.join(format!("{id}-unsupported.json"));
+    let rule_path = raw_dir.join(format!("{id}-rule.yaml"));
+    for stale in [&raw_path, &error_path, &unsupported_path, &rule_path] {
+        if stale.exists() {
+            fs::remove_file(stale).with_context(|| format!("clear {}", stale.display()))?;
+        }
+    }
+
+    // The capability decision comes first and is made from the case's own
+    // declared metadata. An excluded case is never handed to Semgrep, so it
+    // cannot produce an empty finding list that later looks like a negative.
+    if let Some(reason) = semgrep_capability_exclusion(case) {
+        fs::write(
+            &unsupported_path,
+            serde_json::to_string_pretty(&json!({
+                "adapter": "semgrep",
+                "case_id": id,
+                "state": "unsupported",
+                "stage": "declared-capability",
+                "reason": reason,
+                "feature_tags": case["feature_tags"],
+                "expected_analysis_capability": case["expected_analysis_capability"],
+                "engine_profile": "semgrep-ce-oss-intrafile-intraprocedural-taint",
+                "evidence_kind": "retained-capability-decision"
+            }))? + "\n",
+        )?;
+        return Ok(("unsupported", vec![reason], unsupported_path));
+    }
+
+    // A case whose endpoints cannot be resolved from its own markers has no
+    // usable anchor evidence. That is `inconclusive` with a retained reason; it
+    // is never a clean negative.
+    let endpoints = match benchmark_endpoint_names(case_path, case, kernel.dialect()) {
+        Ok(endpoints) => endpoints,
+        Err(reason) => {
+            let diagnostic =
+                format!("cannot derive the benchmark-controlled Semgrep endpoints: {reason}");
+            fs::write(
+                &error_path,
+                serde_json::to_string_pretty(&json!({
+                    "adapter": "semgrep",
+                    "case_id": id,
+                    "state": "inconclusive",
+                    "stage": "endpoint-resolution",
+                    "reason": diagnostic,
+                    "evidence_kind": "retained-anchor-resolution"
+                }))? + "\n",
+            )?;
+            return Ok(("inconclusive", vec![diagnostic], error_path));
+        }
+    };
+
+    let rule = template
+        .replace(SEMGREP_SOURCE_PLACEHOLDER, &endpoints.source_function)
+        .replace(SEMGREP_SINK_PLACEHOLDER, &endpoints.sink_function);
+    // The resolved rule is retained beside the finding document: the committed
+    // template is hash-bound into the report, and the exact configuration this
+    // case was analyzed under is auditable on its own.
+    fs::write(&rule_path, &rule)?;
+
+    let scratch = semgrep_case_scratch(kernel, id)?;
+    let workspace = scratch.join("source");
+    fs::create_dir_all(&workspace)?;
+    let fixture_root = case_path.parent().expect("case path has parent");
+    for fixture in case["fixture_files"].as_array().expect("schema validated") {
+        let fixture = fixture.as_str().expect("schema validated");
+        fs::copy(fixture_root.join(fixture), workspace.join(fixture))?;
+    }
+
+    let result = (|| {
+        let mut command = Command::new(binary);
+        command
+            .current_dir(&scratch)
+            .arg("scan")
+            // Never report usage metrics, and never let the Pro engine or the
+            // registry enter the run: this population is CE-only by contract.
+            .arg("--metrics=off")
+            .arg("--oss-only")
+            .arg("--disable-version-check")
+            .arg("--no-git-ignore")
+            .arg("--quiet")
+            .arg("--json")
+            .arg("--config")
+            .arg(fs::canonicalize(&rule_path).unwrap_or_else(|_| rule_path.clone()))
+            .arg(&workspace)
+            .stdin(std::process::Stdio::null());
+        let output = match command.output() {
+            Ok(output) => output,
+            Err(error) => {
+                let diagnostic = format!(
+                    "failed to run the Semgrep {} kernel scan with {}: {error}",
+                    kernel.display_name(),
+                    binary.display()
+                );
+                let path = write_semgrep_error(raw_dir, id, "scan-spawn", &diagnostic, None)?;
+                return Ok(("runner-error", vec![diagnostic], path));
+            }
+        };
+        // Semgrep exits 0 with or without findings and reserves higher codes
+        // for its own failures, so anything non-zero is a runner error and can
+        // never be read as an empty finding list.
+        if !output.status.success() {
+            let diagnostic = format!(
+                "Semgrep {} kernel scan failed with status {}",
+                kernel.display_name(),
+                output.status
+            );
+            let path =
+                write_semgrep_error(raw_dir, id, "scan-execution", &diagnostic, Some(&output))?;
+            return Ok(("runner-error", vec![diagnostic], path));
+        }
+        fs::write(&raw_path, &output.stdout)?;
+        let raw: Value = match serde_json::from_slice(&output.stdout) {
+            Ok(raw) => raw,
+            Err(error) => {
+                let diagnostic = format!("parse Semgrep evidence {}: {error}", raw_path.display());
+                let path = write_semgrep_error(raw_dir, id, "scan-output", &diagnostic, None)?;
+                return Ok(("runner-error", vec![diagnostic], path));
+            }
+        };
+        let (outcome, diagnostics) =
+            semgrep_finding_outcome(case_path, case, &raw, kernel.dialect());
+        Ok((outcome, diagnostics, raw_path.clone()))
+    })();
+
+    let cleanup =
+        fs::remove_dir_all(&scratch).with_context(|| format!("clear {}", scratch.display()));
+    match (result, cleanup) {
+        (Ok(normalized), Ok(())) => Ok(normalized),
+        (Ok((_, mut diagnostics, path)), Err(error)) => {
+            diagnostics.push(format!("Semgrep case artifact cleanup failed: {error}"));
+            diagnostics.sort();
+            diagnostics.dedup();
+            Ok(("runner-error", diagnostics, path))
+        }
+        (Err(error), Ok(())) => Err(error),
+        (Err(error), Err(cleanup_error)) => Err(error.context(format!(
+            "Semgrep case artifact cleanup also failed: {cleanup_error}"
+        ))),
+    }
+}
+
+fn semgrep_case_scratch(kernel: SemgrepKernel, id: &str) -> Result<PathBuf> {
+    let scratch = std::env::temp_dir()
+        .join(format!("dataflowbench-semgrep-{}", kernel.language()))
+        .join(id);
+    if scratch.exists() {
+        fs::remove_dir_all(&scratch).with_context(|| format!("clear {}", scratch.display()))?;
+    }
+    fs::create_dir_all(&scratch)?;
+    Ok(scratch)
+}
+
+fn write_semgrep_error(
+    raw_dir: &Path,
+    id: &str,
+    stage: &str,
+    diagnostic: &str,
+    output: Option<&std::process::Output>,
+) -> Result<PathBuf> {
+    let error_path = raw_dir.join(format!("{id}-error.json"));
+    let mut evidence = json!({
+        "adapter": "semgrep",
+        "case_id": id,
+        "state": "runner-error",
+        "stage": stage,
+        "diagnostic": diagnostic,
+        "evidence_kind": "retained-process-diagnostics"
+    });
+    if let Some(output) = output {
+        evidence["status"] = json!(output.status.code());
+        evidence["stdout"] = json!(String::from_utf8_lossy(&output.stdout).trim());
+        evidence["stderr"] = json!(String::from_utf8_lossy(&output.stderr).trim());
+    }
+    fs::write(&error_path, serde_json::to_string_pretty(&evidence)? + "\n")?;
+    Ok(error_path)
+}
+
+/// Normalize one retained Semgrep `--json` document.
+///
+/// A finding counts as `reached` only when it sits on a callsite of the case's
+/// own anchored sink function, in the anchored file — the same reconciliation
+/// the Joern kernels and the CodeQL C#, Go, C, C++, Rust, and Ruby kernels
+/// apply. Every other state stays distinct: any entry in Semgrep's own
+/// `errors` array, or a finding the pinned CE engine did not produce, is
+/// `runner-error`; a scan that never opened the fixture, or findings that
+/// cannot be reconciled, is `inconclusive`. Only a clean scan of the fixture
+/// that produced no finding at all is `not-reached`.
+fn semgrep_finding_outcome(
+    case_path: &Path,
+    case: &Value,
+    raw: &Value,
+    dialect: AnchorDialect,
+) -> (&'static str, Vec<String>) {
+    let Some(results) = raw["results"].as_array() else {
+        return (
+            "runner-error",
+            vec!["Semgrep evidence lacks its results array".to_string()],
+        );
+    };
+    let Some(errors) = raw["errors"].as_array() else {
+        return (
+            "runner-error",
+            vec!["Semgrep evidence lacks its errors array".to_string()],
+        );
+    };
+    if !errors.is_empty() {
+        let mut diagnostics: Vec<String> = errors
+            .iter()
+            .map(|error| {
+                error["long_msg"]
+                    .as_str()
+                    .or_else(|| error["message"].as_str())
+                    .or_else(|| error["type"].as_str())
+                    .unwrap_or("Semgrep reported an error without a message")
+                    .to_string()
+            })
+            .collect();
+        diagnostics.sort();
+        diagnostics.dedup();
+        return ("runner-error", diagnostics);
+    }
+    // A rule Semgrep declined to run produces no finding for a reason that has
+    // nothing to do with the program, so it must not read as a negative.
+    if raw["skipped_rules"]
+        .as_array()
+        .is_some_and(|skipped| !skipped.is_empty())
+    {
+        return (
+            "runner-error",
+            vec!["Semgrep skipped the benchmark-controlled rule".to_string()],
+        );
+    }
+    let scanned = raw["paths"]["scanned"]
+        .as_array()
+        .map(|paths| paths.len())
+        .unwrap_or_default();
+    if scanned == 0 {
+        return (
+            "inconclusive",
+            vec!["Semgrep scanned no target; the run never analyzed the case fixture".to_string()],
+        );
+    }
+    // The report claims a CE result. If any finding carries another engine the
+    // pinning is broken, and that is a runner error rather than a data point.
+    for result in results {
+        match result["extra"]["engine_kind"].as_str() {
+            Some("OSS") | None => {}
+            Some(other) => {
+                return (
+                    "runner-error",
+                    vec![format!(
+                        "Semgrep finding reports engine {other:?}; this population is pinned to the CE (OSS) engine"
+                    )],
+                );
+            }
+        }
+    }
+    if results.is_empty() {
+        return ("not-reached", Vec::new());
+    }
+    let sink_locations = match sink_anchor_locations(case_path, case, dialect) {
+        Ok(locations) => locations,
+        Err(reason) => {
+            return (
+                "inconclusive",
+                vec![format!(
+                    "cannot prove a Semgrep finding against the sink anchor: {reason}"
+                )],
+            );
+        }
+    };
+    let mut matched = 0usize;
+    let mut unmatched = 0usize;
+    let mut ambiguous = 0usize;
+    for result in results {
+        match semgrep_finding_anchor_match(result, &sink_locations) {
+            EvidenceAnchorMatch::Matched => matched += 1,
+            EvidenceAnchorMatch::Unmatched => unmatched += 1,
+            EvidenceAnchorMatch::Ambiguous => ambiguous += 1,
+        }
+    }
+    if ambiguous > 0 {
+        return (
+            "inconclusive",
+            vec![format!(
+                "{ambiguous} Semgrep finding(s) carry no usable or an ambiguous sink-anchor location"
+            )],
+        );
+    }
+    if matched > 0 {
+        return ("reached", Vec::new());
+    }
+    (
+        "inconclusive",
+        vec![format!(
+            "{unmatched} Semgrep finding(s) did not match the case sink anchor"
+        )],
+    )
+}
+
+/// A Semgrep finding is a single location, not a path, so reconciliation is the
+/// one-location form of the Joern flow match: the finding's own file and line
+/// must land on a callsite of the case's anchored sink.
+fn semgrep_finding_anchor_match(
+    result: &Value,
+    sink_locations: &[SinkAnchorLocation],
+) -> EvidenceAnchorMatch {
+    let (Some(file), Some(line)) = (result["path"].as_str(), result["start"]["line"].as_u64())
+    else {
+        return EvidenceAnchorMatch::Ambiguous;
+    };
+    if line == 0 {
+        return EvidenceAnchorMatch::Ambiguous;
+    }
+    let mut matches = BTreeSet::new();
+    for (index, anchor) in sink_locations.iter().enumerate() {
+        if evidence_path_matches_file(file, &anchor.file) && anchor.callsite_lines.contains(&line) {
+            matches.insert(index);
+        }
+    }
+    if matches.len() > 1 {
+        EvidenceAnchorMatch::Ambiguous
+    } else if matches.len() == 1 {
+        EvidenceAnchorMatch::Matched
+    } else {
+        EvidenceAnchorMatch::Unmatched
     }
 }
 
@@ -8497,7 +9173,7 @@ mod tests {
                 let case: Value =
                     serde_json::from_str(&fs::read_to_string(&path).unwrap()).unwrap();
                 if case["id"] == id {
-                    return joern_endpoint_names(&path, &case, dialect).unwrap();
+                    return benchmark_endpoint_names(&path, &case, dialect).unwrap();
                 }
             }
             panic!("case {id} is absent");
@@ -8507,14 +9183,14 @@ mod tests {
                 "dfb-taint-java-alias-propagation-positive",
                 AnchorDialect::Java
             ),
-            JoernEndpoints {
+            BenchmarkEndpoints {
                 source_function: "dfb_source".to_string(),
                 sink_function: "dfb_sink".to_string()
             }
         );
         assert_eq!(
             resolve("dfb-taint-java-direct-positive", AnchorDialect::Java),
-            JoernEndpoints {
+            BenchmarkEndpoints {
                 source_function: "directUntrustedInput".to_string(),
                 sink_function: "recordDirect".to_string()
             }
@@ -8524,7 +9200,7 @@ mod tests {
                 "dfb-taint-javascript-alias-propagation-positive",
                 AnchorDialect::Ecma
             ),
-            JoernEndpoints {
+            BenchmarkEndpoints {
                 source_function: "dfb_source".to_string(),
                 sink_function: "dfb_sink".to_string()
             }
@@ -8534,7 +9210,7 @@ mod tests {
                 "dfb-taint-python-alias-propagation-positive",
                 AnchorDialect::Python
             ),
-            JoernEndpoints {
+            BenchmarkEndpoints {
                 source_function: "dfb_source".to_string(),
                 sink_function: "dfb_sink".to_string()
             }
@@ -8547,7 +9223,7 @@ mod tests {
                 "dfb-taint-ruby-alias-propagation-positive",
                 AnchorDialect::Ruby
             ),
-            JoernEndpoints {
+            BenchmarkEndpoints {
                 source_function: "dfb_source".to_string(),
                 sink_function: "dfb_sink".to_string()
             }
@@ -8557,7 +9233,7 @@ mod tests {
                 "dfb-taint-php-alias-propagation-positive",
                 AnchorDialect::Php
             ),
-            JoernEndpoints {
+            BenchmarkEndpoints {
                 source_function: "dfb_source".to_string(),
                 sink_function: "dfb_sink".to_string()
             }
@@ -8890,6 +9566,324 @@ mod tests {
         });
         assert_eq!(
             joern_flow_outcome(&case_path, &case, &flows, AnchorDialect::Python).0,
+            "inconclusive"
+        );
+    }
+
+    const SEMGREP_KERNELS: [SemgrepKernel; 7] = [
+        SemgrepKernel::Java,
+        SemgrepKernel::JavaScript,
+        SemgrepKernel::TypeScript,
+        SemgrepKernel::Python,
+        SemgrepKernel::Go,
+        SemgrepKernel::Ruby,
+        SemgrepKernel::Php,
+    ];
+
+    /// Each Semgrep kernel is its own population: exactly 32 balanced core
+    /// assertions of exactly one language, with no case shared between the
+    /// seven and no case borrowed from a CodeQL, Joern, or Bifrost selection.
+    /// The bounded profile narrows what is *scored*, never what is selected —
+    /// the balance check still sees the whole kernel.
+    #[test]
+    fn semgrep_kernel_selections_are_language_disjoint_and_balanced() {
+        let mut populations = BTreeMap::new();
+        for kernel in SEMGREP_KERNELS {
+            let selected = select_semgrep_cases(kernel).unwrap();
+            assert_eq!(selected.len(), KERNEL_CASE_COUNT);
+            let mut templates = BTreeMap::<String, (usize, usize)>::new();
+            for (_, case) in &selected {
+                assert_eq!(case["language"], kernel.language());
+                assert_eq!(case["track"], "taint");
+                assert_eq!(case["score_tier"], "core");
+                assert_eq!(case["model_profile"], "benchmark-controlled");
+                let counts = templates
+                    .entry(case["template_id"].as_str().unwrap().to_string())
+                    .or_default();
+                if case["polarity"] == "positive" {
+                    counts.0 += 1;
+                } else {
+                    counts.1 += 1;
+                }
+            }
+            assert_eq!(templates.len(), KERNEL_TEMPLATE_IDS.len());
+            assert!(templates.values().all(|counts| *counts == (1, 1)));
+            populations.insert(
+                kernel.language(),
+                selected
+                    .iter()
+                    .map(|(_, case)| case["id"].as_str().unwrap().to_string())
+                    .collect::<BTreeSet<_>>(),
+            );
+        }
+        for left in populations.values() {
+            for right in populations.values() {
+                if left != right {
+                    assert!(left.is_disjoint(right));
+                }
+            }
+        }
+    }
+
+    #[test]
+    fn semgrep_report_paths_and_rules_are_dedicated() {
+        let reports = SEMGREP_KERNELS
+            .iter()
+            .map(|kernel| kernel.report())
+            .collect::<BTreeSet<_>>();
+        let raw_dirs = SEMGREP_KERNELS
+            .iter()
+            .map(|kernel| kernel.raw_dir())
+            .collect::<BTreeSet<_>>();
+        let rules = SEMGREP_KERNELS
+            .iter()
+            .map(|kernel| kernel.rule())
+            .collect::<BTreeSet<_>>();
+        assert_eq!(reports.len(), SEMGREP_KERNELS.len());
+        assert_eq!(raw_dirs.len(), SEMGREP_KERNELS.len());
+        assert_eq!(rules.len(), SEMGREP_KERNELS.len());
+        for kernel in SEMGREP_KERNELS {
+            assert!(kernel.report().starts_with("reports/semgrep-"));
+            assert!(kernel.raw_dir().starts_with("reports/raw/semgrep-"));
+            // A Semgrep report must never land on another adapter's path.
+            assert_ne!(kernel.report().as_str(), CODEQL_JAVASCRIPT_REPORT);
+            assert_ne!(kernel.report().as_str(), JOERN_JAVA_REPORT);
+            assert_ne!(kernel.raw_dir().as_str(), JOERN_JAVA_RAW_DIR);
+            // Every kernel's rule is committed, carries both placeholders, and
+            // is written for that kernel's own Semgrep language.
+            let rule = fs::read_to_string(kernel.rule()).unwrap();
+            assert!(rule.contains(SEMGREP_SOURCE_PLACEHOLDER));
+            assert!(rule.contains(SEMGREP_SINK_PLACEHOLDER));
+            assert!(rule.contains("mode: taint"));
+        }
+        // The configuration hash binds every committed rule, so a change to any
+        // one of them invalidates every retained Semgrep report.
+        let hashed = semgrep_rule_paths().unwrap();
+        for kernel in SEMGREP_KERNELS {
+            assert!(hashed.contains(&PathBuf::from(kernel.rule())));
+        }
+    }
+
+    /// The bounded profile is a declared-capability decision taken from the
+    /// case's own metadata *before* Semgrep is invoked. This test reads only
+    /// `case.json` files — no Semgrep binary is required or consulted — so an
+    /// out-of-profile case can never be run and then counted as a miss.
+    #[test]
+    fn semgrep_unsupported_partition_is_metadata_driven() {
+        for kernel in SEMGREP_KERNELS {
+            let selected = select_semgrep_cases(kernel).unwrap();
+            let mut scored = 0usize;
+            let mut excluded = 0usize;
+            for (_, case) in &selected {
+                let tags: BTreeSet<&str> = case["feature_tags"]
+                    .as_array()
+                    .unwrap()
+                    .iter()
+                    .filter_map(Value::as_str)
+                    .collect();
+                match semgrep_capability_exclusion(case) {
+                    None => {
+                        assert!(
+                            tags.contains("intraprocedural"),
+                            "{} is scored but is not tagged intraprocedural",
+                            case["id"]
+                        );
+                        scored += 1;
+                    }
+                    Some(reason) => {
+                        assert!(
+                            !tags.contains("intraprocedural"),
+                            "{} is tagged intraprocedural but was excluded",
+                            case["id"]
+                        );
+                        assert!(reason.contains("outside the bounded Semgrep CE profile"));
+                        excluded += 1;
+                    }
+                }
+            }
+            // Seven of the sixteen templates are intraprocedural, and the
+            // partition keeps each one's positive/negative pair together.
+            assert_eq!(scored, 14, "{} scored partition", kernel.label());
+            assert_eq!(excluded, 18, "{} unsupported partition", kernel.label());
+        }
+        // Every interprocedural and heap relay is excluded by tag, whatever the
+        // language, and the retained reason names the documented boundary.
+        let interprocedural = json!({
+            "feature_tags": ["interprocedural-one-hop"],
+            "expected_analysis_capability": {"kind": "context-sensitive-interprocedural-taint"}
+        });
+        let reason = semgrep_capability_exclusion(&interprocedural).unwrap();
+        assert!(reason.contains("--pro-intrafile"));
+        let heap = json!({
+            "feature_tags": ["heap-access-path"],
+            "expected_analysis_capability": {"kind": "heap-alias-sensitive-taint"}
+        });
+        assert!(
+            semgrep_capability_exclusion(&heap)
+                .unwrap()
+                .contains("field-sensitive")
+        );
+        assert_eq!(
+            semgrep_capability_exclusion(&json!({
+                "feature_tags": ["intraprocedural"],
+                "expected_analysis_capability": {"kind": "intraprocedural-taint"}
+            })),
+            None
+        );
+    }
+
+    /// A Semgrep finding is only `reached` when it lands on a callsite of the
+    /// case's own anchored sink function.
+    #[test]
+    fn semgrep_finding_evidence_requires_the_sink_callsite() {
+        let root = std::env::temp_dir().join(format!(
+            "dataflowbench-semgrep-anchor-test-{}-{}",
+            std::process::id(),
+            SystemTime::now()
+                .duration_since(UNIX_EPOCH)
+                .unwrap()
+                .as_nanos()
+        ));
+        fs::create_dir_all(&root).unwrap();
+        let case_path = root.join("case.json");
+        fs::write(
+            root.join("fixture.py"),
+            "def dfb_sink(value):  # DFB-SINK: sink\n    pass\n\n\ndef run():\n    other(value)\n    dfb_sink(value)\n",
+        )
+        .unwrap();
+        let case = json!({
+            "sink_anchors": [{
+                "marker": "DFB-SINK: sink",
+                "file": "fixture.py",
+                "line_hint": 1
+            }]
+        });
+        let scanned = |results: Value| {
+            json!({
+                "version": "1.174.0",
+                "results": results,
+                "errors": [],
+                "skipped_rules": [],
+                "paths": {"scanned": ["/tmp/work/fixture.py"]}
+            })
+        };
+        let finding = |file: &str, line: u64| {
+            json!({
+                "check_id": "dfb-taint-endpoint-contract",
+                "path": file,
+                "start": {"line": line, "col": 5},
+                "extra": {"engine_kind": "OSS"}
+            })
+        };
+        assert_eq!(
+            semgrep_finding_outcome(
+                &case_path,
+                &case,
+                &scanned(json!([finding("/tmp/work/fixture.py", 7)])),
+                AnchorDialect::Python
+            )
+            .0,
+            "reached"
+        );
+        assert_eq!(
+            semgrep_finding_outcome(
+                &case_path,
+                &case,
+                &scanned(json!([finding("fixture.py", 6)])),
+                AnchorDialect::Python
+            )
+            .0,
+            "inconclusive"
+        );
+        assert_eq!(
+            semgrep_finding_outcome(
+                &case_path,
+                &case,
+                &scanned(json!([{"path": "fixture.py", "extra": {"engine_kind": "OSS"}}])),
+                AnchorDialect::Python
+            )
+            .0,
+            "inconclusive"
+        );
+        assert_eq!(
+            semgrep_finding_outcome(
+                &case_path,
+                &case,
+                &scanned(json!([])),
+                AnchorDialect::Python
+            )
+            .0,
+            "not-reached"
+        );
+        fs::remove_dir_all(root).unwrap();
+    }
+
+    /// A Semgrep engine, rule, or parse failure — and a scan that never opened
+    /// the fixture — must never be normalized to a clean negative, whatever the
+    /// finding list says.
+    #[test]
+    fn semgrep_runner_failures_never_become_clean_negatives() {
+        let case_path = PathBuf::from("cases/taint/python/direct-positive/case.json");
+        let case = json!({"sink_anchors": []});
+        let failed = json!({
+            "results": [],
+            "errors": [{"type": "SyntaxError", "long_msg": "Syntax error at line fixture.py:3"}],
+            "skipped_rules": [],
+            "paths": {"scanned": []}
+        });
+        let (outcome, diagnostics) =
+            semgrep_finding_outcome(&case_path, &case, &failed, AnchorDialect::Python);
+        assert_eq!(outcome, "runner-error");
+        assert!(diagnostics.iter().any(|line| line.contains("Syntax error")));
+        // The same document must also be refused as a downgraded negative by
+        // the freeze's raw-evidence guard.
+        assert_eq!(raw_special_outcome(&failed), Some("runner-error"));
+
+        // A rule Semgrep declined to run explains its empty finding list, so
+        // that list is not evidence about the program.
+        let skipped = json!({
+            "results": [],
+            "errors": [],
+            "skipped_rules": [{"rule_id": "dfb-taint-endpoint-contract"}],
+            "paths": {"scanned": ["/tmp/work/fixture.py"]}
+        });
+        assert_eq!(
+            semgrep_finding_outcome(&case_path, &case, &skipped, AnchorDialect::Python).0,
+            "runner-error"
+        );
+
+        // A finding from any engine other than the pinned CE engine breaks the
+        // pinning; that is an execution failure, not a data point.
+        let wrong_engine = json!({
+            "results": [{"path": "fixture.py", "start": {"line": 7}, "extra": {"engine_kind": "PRO"}}],
+            "errors": [],
+            "skipped_rules": [],
+            "paths": {"scanned": ["/tmp/work/fixture.py"]}
+        });
+        assert_eq!(
+            semgrep_finding_outcome(&case_path, &case, &wrong_engine, AnchorDialect::Python).0,
+            "runner-error"
+        );
+
+        for malformed in [
+            json!({"errors": [], "paths": {"scanned": []}}),
+            json!({"results": [], "paths": {"scanned": []}}),
+        ] {
+            assert_eq!(
+                semgrep_finding_outcome(&case_path, &case, &malformed, AnchorDialect::Python).0,
+                "runner-error"
+            );
+        }
+
+        // A clean run that never opened a target proves nothing either way.
+        let untargeted = json!({
+            "results": [],
+            "errors": [],
+            "skipped_rules": [],
+            "paths": {"scanned": []}
+        });
+        assert_eq!(
+            semgrep_finding_outcome(&case_path, &case, &untargeted, AnchorDialect::Python).0,
             "inconclusive"
         );
     }

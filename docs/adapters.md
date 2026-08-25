@@ -16,7 +16,7 @@ The initial adapter plan is:
 | Bifrost | Breadth baseline and Java, JavaScript, and Python propagation kernels | Implemented smoke adapter; kernel runs are reported separately |
 | CodeQL | 16-template Java, JavaScript, and Python propagation kernels | Java, JavaScript, and Python runners implemented as separate language-scoped populations |
 | Joern | 16-template Java, JavaScript, and Python propagation kernels | Implemented as three separate language-scoped populations over one CPG query script |
-| Semgrep CE | Supported local analysis only | Planned |
+| Semgrep CE | Supported local analysis only | Implemented as seven separate language-scoped populations over one committed taint rule per language; only the documented intraprocedural partition is scored |
 | OpenTaint | Java and Kotlin profile | Planned |
 
 No adapter may synthesize a tool result. If a supported case cannot complete,
@@ -169,6 +169,72 @@ whose frontend is absent from the pinned distribution are recorded as
 explicitly unsupported rather than as failures. See the
 [Joern adapter notes](../adapters/joern/README.md) for the pinned version,
 frontend coverage, model assumptions, and the observed per-language results.
+
+## Semgrep CE language populations
+
+The Semgrep adapter keeps Java, JavaScript, TypeScript, Python, Go, Ruby, and
+PHP as seven separate populations. Each command selects exactly 32 `taint` cases
+runner-side by language, track, and score tier, exactly as the Joern kernels do,
+and each has its own report (`reports/semgrep-<language>-kernel.json`) and its
+own retained-evidence root (`reports/raw/semgrep-<language>-kernel/`). No case
+declares a Semgrep model reference: the v0.3.0 freeze digest-binds every
+`case.json` byte, so the invocation is pinned in the runner instead.
+
+Semgrep CE is the one adapter here whose scored population is a strict subset of
+its selected population, and that subset is defined by documentation rather than
+by results. The pinned CLI's own `semgrep scan --help` sells interprocedural
+taint (`--pro-intrafile`), cross-file taint (`--pro`), and path sensitivity
+(`--pro-path-sensitive`) as Pro Engine features, and the bundled `CHANGELOG.md`
+records CE's heap support as "Experimental support for basic field-sensitive
+taint tracking" with index sensitivity and inter-procedural field sensitivity
+both marked Pro. The scored profile is therefore intra-file, intraprocedural,
+flow-sensitive, path-insensitive taint — that is, the `intraprocedural`
+partition of each kernel: 7 templates and 14 assertions.
+
+The other 9 templates — the `interprocedural-one-hop`, `interprocedural-deep`,
+and `heap-access-path` partitions, 18 assertions — are `unsupported`. That
+decision is taken from each case's own `feature_tags` and
+`expected_analysis_capability.kind` *before* Semgrep is invoked, so an
+out-of-profile case never reaches a Semgrep process and cannot produce an empty
+finding list that later reads as a false negative. Each retains a
+capability-decision document naming the documented boundary it falls outside.
+The full 32-assertion selection is still balance-checked by the same
+`validate_kernel_population_with` every other kernel uses; the bounded profile
+narrows what is scored, never what is selected.
+
+Rules are benchmark-controlled and committed under `adapters/semgrep/rules/`,
+one `mode: taint` rule per language. Because endpoint identifiers vary per
+fixture, each rule carries `__DFB_SOURCE__`/`__DFB_SINK__` placeholders that the
+runner resolves per case from that fixture's own `DFB-SOURCE:` and `DFB-SINK:`
+marker lines — the same resolver the Joern kernels use. Every report's
+`configuration_hash` is a SHA-256 over all seven committed rule files, and the
+exact resolved rule each case was analyzed under is retained beside its finding
+document. `--metrics=off` and `--oss-only` are passed on every invocation, and a
+finding reporting any engine other than `OSS` is a `runner-error` rather than a
+data point. Issue #15 will later formalize a cross-tool taint-modeling matrix;
+these rules are the endpoint-contract instantiation of it.
+
+Semgrep's native `--json` document is the retained raw evidence, one per scored
+case. Findings are reconciled against the case's anchored sink callsites: only
+anchor-backed evidence is `reached`, a clean scan of the fixture with no finding
+is `not-reached`, and a non-zero exit, a non-empty `errors` array, a skipped
+rule, or unparseable output is `runner-error`. `raw_special_outcome` — the
+freeze's raw-evidence guard — now also refuses a Semgrep document whose `errors`
+array is non-empty, so a failed scan's well-formed empty `results` list can
+never be frozen next to a clean negative.
+
+All seven kernels ran on Semgrep CE 1.174.0 (`semgrep-oss:1.174.0`, Homebrew).
+Each produced 9 `reached`, 5 `not-reached`, and 18 `unsupported`, with zero
+`inconclusive` and zero `runner-error` outcomes, and 12/14 of each scored
+subset matching the expected polarity. Every intraprocedural positive is
+`reached` in every language; the two mismatches, identical in all seven, are
+false positives on `infeasible-branch-negative` and `loop-carried-negative` —
+precisely the path sensitivity the pinned CLI documents as Pro-only. C# is
+named in that CLI's own `--pro-languages` text and so cannot be run under CE at
+all; Kotlin, Scala, Rust, C, and C++ have CE parsers but were not run. See the
+[Semgrep adapter notes](../adapters/semgrep/README.md) for the pinned version,
+the documented-scope citations, the per-language partition, and the model
+assumptions.
 
 The checked-in Bifrost snapshot (`reports/bifrost-smoke.json`) contains 118
 normalized results from Bifrost v0.10.2 build identity
