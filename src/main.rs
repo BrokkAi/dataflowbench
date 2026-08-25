@@ -904,8 +904,24 @@ fn validate_markers(path: &Path, value: &Value) -> Result<()> {
 }
 
 fn validate_reports() -> Result<()> {
+    validate_reports_in(Path::new("."), None)
+}
+
+/// Validate every retained report under `<root>/reports`.
+///
+/// When `own_report` is set, retained-raw-evidence existence checks are
+/// limited to that report; the others are still schema-validated. Kernel
+/// runners pass their own report here because a concurrently running kernel
+/// removes and rewrites files under its own `reports/raw/<slice>/` directory
+/// mid-run, so existence checks against another runner's evidence race and
+/// fail spuriously.
+fn validate_reports_in(root: &Path, own_report: Option<&Path>) -> Result<()> {
     let compiled = schema("schemas/result.schema.json")?;
-    let mut paths: Vec<_> = fs::read_dir("reports")
+    let own = own_report
+        .map(fs::canonicalize)
+        .transpose()
+        .context("resolve the runner's own report")?;
+    let mut paths: Vec<_> = fs::read_dir(root.join("reports"))
         .into_iter()
         .flatten()
         .filter_map(Result::ok)
@@ -923,15 +939,55 @@ fn validate_reports() -> Result<()> {
         }
         validated += 1;
         validate_value(&compiled, &report, path)?;
-        for result in report["results"].as_array().expect("schema validated") {
-            let raw = result["raw_output"].as_str().expect("schema validated");
-            if !Path::new(raw).is_file() {
-                bail!("{}: retained raw output {raw:?} is absent", path.display());
-            }
+        let check_raw = match &own {
+            None => true,
+            Some(own) => fs::canonicalize(path).is_ok_and(|path| &path == own),
+        };
+        if check_raw {
+            validate_retained_raw(&report, path, root)?;
         }
     }
     println!("validated {validated} reports");
     Ok(())
+}
+
+/// Every `raw_output` a report retains must exist under `root`.
+fn validate_retained_raw(report: &Value, path: &Path, root: &Path) -> Result<()> {
+    for result in report["results"].as_array().expect("schema validated") {
+        let raw = result["raw_output"].as_str().expect("schema validated");
+        if !root.join(raw).is_file() {
+            bail!("{}: retained raw output {raw:?} is absent", path.display());
+        }
+    }
+    Ok(())
+}
+
+/// Publish a runner's report at the end of a run, then sweep the report
+/// directory.
+///
+/// The report is validated against the result schema, and its retained raw
+/// evidence confirmed on disk, before anything is written: a runner never
+/// publishes a report it did not validate. The report then lands through a
+/// same-directory temp file and an atomic rename so a concurrent runner's
+/// end-of-run sweep can never parse a half-written report. The closing sweep
+/// schema-checks every retained report but scopes raw-evidence checks to this
+/// report only, because concurrent runners rewrite their own
+/// `reports/raw/<slice>/` evidence mid-run.
+fn write_and_validate_report(report_path: &Path, report: &Value) -> Result<()> {
+    write_and_validate_report_in(Path::new("."), report_path, report)
+}
+
+fn write_and_validate_report_in(root: &Path, report_path: &Path, report: &Value) -> Result<()> {
+    let report_path = root.join(report_path);
+    let compiled = schema("schemas/result.schema.json")?;
+    validate_value(&compiled, report, &report_path)?;
+    validate_retained_raw(report, &report_path, root)?;
+    let staged = report_path.with_extension("json.tmp");
+    fs::write(&staged, serde_json::to_string_pretty(report)? + "\n")
+        .with_context(|| format!("stage report {}", staged.display()))?;
+    fs::rename(&staged, &report_path)
+        .with_context(|| format!("publish report {}", report_path.display()))?;
+    validate_reports_in(root, Some(&report_path))
 }
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
@@ -2754,8 +2810,7 @@ fn run_bifrost(binary: &Path, run: BifrostRun) -> Result<()> {
         "cold_or_warm": "cold",
         "results": results
     });
-    fs::write(report_path, serde_json::to_string_pretty(&report)? + "\n")?;
-    validate_reports()?;
+    write_and_validate_report(report_path, &report)?;
     println!("wrote {}", report_path.display());
     Ok(())
 }
@@ -3229,11 +3284,7 @@ fn run_codeql_java_kernel(binary: &Path, packs: Option<&Path>) -> Result<()> {
         "cold_or_warm": "cold",
         "results": results
     });
-    fs::write(
-        "reports/codeql-java-kernel.json",
-        serde_json::to_string_pretty(&report)? + "\n",
-    )?;
-    validate_reports()?;
+    write_and_validate_report(Path::new("reports/codeql-java-kernel.json"), &report)?;
     println!("wrote reports/codeql-java-kernel.json");
     Ok(())
 }
@@ -3324,11 +3375,7 @@ fn run_codeql_ecma_kernel(binary: &Path, packs: Option<&Path>, kernel: EcmaKerne
         "cold_or_warm": "cold",
         "results": results
     });
-    fs::write(
-        kernel.report(),
-        serde_json::to_string_pretty(&report)? + "\n",
-    )?;
-    validate_reports()?;
+    write_and_validate_report(Path::new(kernel.report()), &report)?;
     println!("wrote {}", kernel.report());
     Ok(())
 }
@@ -3386,11 +3433,7 @@ fn run_codeql_python_kernel(binary: &Path, packs: Option<&Path>) -> Result<()> {
         "cold_or_warm": "cold",
         "results": results
     });
-    fs::write(
-        "reports/codeql-python-kernel.json",
-        serde_json::to_string_pretty(&report)? + "\n",
-    )?;
-    validate_reports()?;
+    write_and_validate_report(Path::new("reports/codeql-python-kernel.json"), &report)?;
     println!("wrote reports/codeql-python-kernel.json");
     Ok(())
 }
@@ -3445,11 +3488,7 @@ fn run_codeql_kotlin_kernel(binary: &Path, packs: Option<&Path>, kotlinc: &Path)
         "cold_or_warm": "cold",
         "results": results
     });
-    fs::write(
-        CODEQL_KOTLIN_REPORT,
-        serde_json::to_string_pretty(&report)? + "\n",
-    )?;
-    validate_reports()?;
+    write_and_validate_report(Path::new(CODEQL_KOTLIN_REPORT), &report)?;
     println!("wrote {CODEQL_KOTLIN_REPORT}");
     Ok(())
 }
@@ -3504,11 +3543,7 @@ fn run_codeql_csharp_kernel(binary: &Path, packs: Option<&Path>) -> Result<()> {
         "cold_or_warm": "cold",
         "results": results
     });
-    fs::write(
-        CODEQL_CSHARP_REPORT,
-        serde_json::to_string_pretty(&report)? + "\n",
-    )?;
-    validate_reports()?;
+    write_and_validate_report(Path::new(CODEQL_CSHARP_REPORT), &report)?;
     println!("wrote {CODEQL_CSHARP_REPORT}");
     Ok(())
 }
@@ -3563,11 +3598,7 @@ fn run_codeql_go_kernel(binary: &Path, packs: Option<&Path>, go: &Path) -> Resul
         "cold_or_warm": "cold",
         "results": results
     });
-    fs::write(
-        CODEQL_GO_REPORT,
-        serde_json::to_string_pretty(&report)? + "\n",
-    )?;
-    validate_reports()?;
+    write_and_validate_report(Path::new(CODEQL_GO_REPORT), &report)?;
     println!("wrote {CODEQL_GO_REPORT}");
     Ok(())
 }
@@ -3674,11 +3705,7 @@ fn run_codeql_c_family_kernel(
         "cold_or_warm": "cold",
         "results": results
     });
-    fs::write(
-        kernel.report(),
-        serde_json::to_string_pretty(&report)? + "\n",
-    )?;
-    validate_reports()?;
+    write_and_validate_report(Path::new(kernel.report()), &report)?;
     println!("wrote {}", kernel.report());
     Ok(())
 }
@@ -3793,11 +3820,7 @@ fn run_codeql_rust_kernel(binary: &Path, packs: Option<&Path>) -> Result<()> {
         "cold_or_warm": "cold",
         "results": results
     });
-    fs::write(
-        CODEQL_RUST_REPORT,
-        serde_json::to_string_pretty(&report)? + "\n",
-    )?;
-    validate_reports()?;
+    write_and_validate_report(Path::new(CODEQL_RUST_REPORT), &report)?;
     println!("wrote {CODEQL_RUST_REPORT}");
     Ok(())
 }
@@ -3853,11 +3876,7 @@ fn run_codeql_ruby_kernel(binary: &Path, packs: Option<&Path>) -> Result<()> {
         "cold_or_warm": "cold",
         "results": results
     });
-    fs::write(
-        CODEQL_RUBY_REPORT,
-        serde_json::to_string_pretty(&report)? + "\n",
-    )?;
-    validate_reports()?;
+    write_and_validate_report(Path::new(CODEQL_RUBY_REPORT), &report)?;
     println!("wrote {CODEQL_RUBY_REPORT}");
     Ok(())
 }
@@ -5834,11 +5853,7 @@ fn run_joern_kernel(binary: &Path, kernel: JoernKernel) -> Result<()> {
         "cold_or_warm": "cold",
         "results": results
     });
-    fs::write(
-        kernel.report(),
-        serde_json::to_string_pretty(&report)? + "\n",
-    )?;
-    validate_reports()?;
+    write_and_validate_report(Path::new(kernel.report()), &report)?;
     println!("wrote {}", kernel.report());
     Ok(())
 }
@@ -6573,8 +6588,7 @@ fn run_semgrep_kernel(binary: &Path, kernel: SemgrepKernel) -> Result<()> {
         "results": results
     });
     let report_path = kernel.report();
-    fs::write(&report_path, serde_json::to_string_pretty(&report)? + "\n")?;
-    validate_reports()?;
+    write_and_validate_report(Path::new(&report_path), &report)?;
     println!("wrote {report_path}");
     Ok(())
 }
@@ -7409,6 +7423,157 @@ mod tests {
     #[test]
     fn report_directory_validates() {
         validate_reports().unwrap();
+    }
+
+    /// A scratch benchmark root holding an "own" kernel report and a
+    /// concurrently running "other" kernel's report, for exercising the
+    /// end-of-run report sweep.
+    struct ReportSweepFixture {
+        root: PathBuf,
+    }
+
+    impl ReportSweepFixture {
+        fn new() -> Self {
+            let unique = format!(
+                "dataflowbench-report-sweep-test-{}-{}",
+                std::process::id(),
+                SystemTime::now()
+                    .duration_since(UNIX_EPOCH)
+                    .unwrap()
+                    .as_nanos()
+            );
+            let root = std::env::temp_dir().join(unique);
+            fs::create_dir_all(root.join("reports/raw/own-kernel")).unwrap();
+            fs::create_dir_all(root.join("reports/raw/other-kernel")).unwrap();
+            Self { root }
+        }
+
+        fn report(raw_relative: &str) -> Value {
+            json!({
+                "schema_version": 1,
+                "tool": "test-tool",
+                "tool_version": "1.0.0",
+                "tool_build_identity": "test-build-1",
+                "adapter_version": "1.0.0",
+                "configuration_hash": "0".repeat(64),
+                "fixture_revision": "test",
+                "started_at_unix_seconds": 1,
+                "ended_at_unix_seconds": 2,
+                "cold_or_warm": "cold",
+                "results": [{
+                    "case_id": "dfb-taint-test",
+                    "outcome": "reached",
+                    "source_anchors": ["DFB-SOURCE: input"],
+                    "sink_anchors": ["DFB-SINK: sink"],
+                    "witness_checkpoints": [],
+                    "diagnostics": [],
+                    "duration_ms": 1,
+                    "peak_memory_mb": null,
+                    "raw_output": raw_relative
+                }]
+            })
+        }
+
+        fn write_report(&self, name: &str, report: &Value) -> PathBuf {
+            let path = self.root.join("reports").join(name);
+            fs::write(&path, serde_json::to_vec_pretty(report).unwrap()).unwrap();
+            path
+        }
+
+        fn write_raw(&self, raw_relative: &str) {
+            fs::write(self.root.join(raw_relative), "{}\n").unwrap();
+        }
+    }
+
+    impl Drop for ReportSweepFixture {
+        fn drop(&mut self) {
+            let _ = fs::remove_dir_all(&self.root);
+        }
+    }
+
+    #[test]
+    fn end_of_run_sweep_tolerates_a_concurrent_runner_rewriting_its_raw_evidence() {
+        let fixture = ReportSweepFixture::new();
+        let own_raw = "reports/raw/own-kernel/case.json";
+        fixture.write_raw(own_raw);
+        let own = fixture.write_report("own-kernel.json", &ReportSweepFixture::report(own_raw));
+        // The other kernel's report is intact, but its raw evidence is mid
+        // removal-and-rewrite: the retained file is momentarily absent.
+        fixture.write_report(
+            "other-kernel.json",
+            &ReportSweepFixture::report("reports/raw/other-kernel/case.json"),
+        );
+        validate_reports_in(&fixture.root, Some(&own)).unwrap();
+        let full = validate_reports_in(&fixture.root, None).unwrap_err();
+        assert!(full.to_string().contains("is absent"), "{full}");
+    }
+
+    #[test]
+    fn end_of_run_sweep_still_checks_the_runners_own_raw_evidence() {
+        let fixture = ReportSweepFixture::new();
+        let own = fixture.write_report(
+            "own-kernel.json",
+            &ReportSweepFixture::report("reports/raw/own-kernel/case.json"),
+        );
+        let error = validate_reports_in(&fixture.root, Some(&own)).unwrap_err();
+        assert!(error.to_string().contains("is absent"), "{error}");
+    }
+
+    #[test]
+    fn end_of_run_sweep_still_schema_checks_other_reports() {
+        let fixture = ReportSweepFixture::new();
+        let own_raw = "reports/raw/own-kernel/case.json";
+        fixture.write_raw(own_raw);
+        let own = fixture.write_report("own-kernel.json", &ReportSweepFixture::report(own_raw));
+        let mut malformed = ReportSweepFixture::report("reports/raw/other-kernel/case.json");
+        malformed.as_object_mut().unwrap().remove("tool");
+        fixture.write_report("other-kernel.json", &malformed);
+        let error = validate_reports_in(&fixture.root, Some(&own)).unwrap_err();
+        assert!(error.to_string().contains("other-kernel.json"), "{error}");
+    }
+
+    #[test]
+    fn runner_never_publishes_a_report_it_did_not_validate() {
+        let fixture = ReportSweepFixture::new();
+        // Schema-invalid report: publishing must fail before anything lands.
+        let mut invalid = ReportSweepFixture::report("reports/raw/own-kernel/case.json");
+        invalid.as_object_mut().unwrap().remove("tool");
+        let report_path = Path::new("reports/own-kernel.json");
+        write_and_validate_report_in(&fixture.root, report_path, &invalid).unwrap_err();
+        // Valid schema but absent raw evidence: same conservative refusal.
+        let unbacked = ReportSweepFixture::report("reports/raw/own-kernel/case.json");
+        write_and_validate_report_in(&fixture.root, report_path, &unbacked).unwrap_err();
+        let leftovers: Vec<_> = fs::read_dir(fixture.root.join("reports"))
+            .unwrap()
+            .filter_map(Result::ok)
+            .filter(|entry| entry.path().is_file())
+            .collect();
+        assert!(leftovers.is_empty(), "{leftovers:?}");
+    }
+
+    #[test]
+    fn runner_publishes_a_validated_report_atomically() {
+        let fixture = ReportSweepFixture::new();
+        let own_raw = "reports/raw/own-kernel/case.json";
+        fixture.write_raw(own_raw);
+        // A concurrent kernel's evidence is mid-rewrite; publishing must
+        // still succeed.
+        fixture.write_report(
+            "other-kernel.json",
+            &ReportSweepFixture::report("reports/raw/other-kernel/case.json"),
+        );
+        let report_path = Path::new("reports/own-kernel.json");
+        write_and_validate_report_in(
+            &fixture.root,
+            report_path,
+            &ReportSweepFixture::report(own_raw),
+        )
+        .unwrap();
+        let published: Value =
+            serde_json::from_str(&fs::read_to_string(fixture.root.join(report_path)).unwrap())
+                .unwrap();
+        assert_eq!(published["tool"], "test-tool");
+        assert!(!fixture.root.join("reports/own-kernel.json.tmp").exists());
     }
     #[test]
     fn normalizer_keeps_negative_and_unsupported_distinct() {
