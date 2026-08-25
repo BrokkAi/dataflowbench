@@ -1,0 +1,15 @@
+{
+  "adapter": "semgrep",
+  "case_id": "dfb-taint-go-exception-catch-positive",
+  "engine_profile": "semgrep-ce-oss-intrafile-intraprocedural-taint",
+  "evidence_kind": "retained-capability-decision",
+  "expected_analysis_capability": {
+    "kind": "exception-sensitive-intraprocedural-taint"
+  },
+  "feature_tags": [
+    "exceptional"
+  ],
+  "reason": "outside the bounded Semgrep CE profile: the case declares an exceptional value transfer, which the pinned CE taint documentation nowhere claims to model. The case requires \"exception-sensitive-intraprocedural-taint\"; the scored CE profile is the kernel's `intraprocedural` partition only.",
+  "stage": "declared-capability",
+  "state": "unsupported"
+}

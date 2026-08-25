@@ -1,0 +1,15 @@
+{
+  "adapter": "semgrep",
+  "case_id": "dfb-taint-java-object-separation-positive",
+  "engine_profile": "semgrep-ce-oss-intrafile-intraprocedural-taint",
+  "evidence_kind": "retained-capability-decision",
+  "expected_analysis_capability": {
+    "kind": "heap-object-sensitive-taint"
+  },
+  "feature_tags": [
+    "heap-access-path"
+  ],
+  "reason": "outside the bounded Semgrep CE profile: the case declares a heap access path; the pinned CE engine documents only \"Experimental support for basic field-sensitive taint tracking\", with index sensitivity and inter-procedural field sensitivity both recorded as Pro-only. The case requires \"heap-object-sensitive-taint\"; the scored CE profile is the kernel's `intraprocedural` partition only.",
+  "stage": "declared-capability",
+  "state": "unsupported"
+}
