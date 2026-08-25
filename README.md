@@ -143,16 +143,16 @@ compilation step. They write `reports/joern-<language>-kernel.json` and keep one
 raw evidence document per case under `reports/raw/joern-<language>-kernel/`. The
 retained snapshot used Joern 4.0.610 with the `javasrc2cpg`, `jssrc2cpg`,
 `pysrc2cpg`, `rubysrc2cpg`, `php2cpg`, and `rust2cpg` frontends and one committed
-CPG query script. All 292 assertions executed with no `inconclusive`,
+CPG query script. All 318 assertions executed with no `inconclusive`,
 `unsupported`, or `runner-error` outcome: Java 47/58, JavaScript 44/58, Python
-48/58, Ruby 26/32, PHP 28/32, and Rust 43/54 match the expected polarity —
+48/58, PHP 48/58, Ruby 26/32, and Rust 43/54 match the expected polarity —
 Rust's denominator is the expanded 27 templates, two cells being inapplicable to
-it, and Java's, Python's, and
-JavaScript's are the expanded 29 each, whose 58-assertion populations are never
-compared to a 32-assertion one. JavaScript splits 26/32 on the classic sixteen —
-identical to its earlier snapshot — and 18/26 on the challenge thirteen,
-Java splits 28/32 and 19/26 the same way, and Rust splits 27/30 and 16/24, each
-classic half identical case for case to its pre-expansion snapshot; in all three
+it, and Java's, Python's, JavaScript's, and PHP's are the expanded 29 each,
+whose 58-assertion populations are never compared to a 32-assertion one.
+JavaScript splits 26/32 on the classic sixteen — identical to its earlier
+snapshot — and 18/26 on the challenge thirteen, Java splits 28/32 and 19/26 the
+same way, PHP splits 28/32 and 20/26, and Rust splits 27/30 and 16/24, each
+classic half identical case for case to its pre-expansion snapshot; in all four
 the depth-6 relay positive is
 missed at the distribution's default call-depth bound of 4, exactly as the
 challenge preregistration predicted in advance. Rust's challenge stratum is the
@@ -180,11 +180,11 @@ intraprocedural partition of each kernel is scored — the pinned CLI documents
 interprocedural taint, cross-file taint, and path sensitivity as Pro Engine
 features, so the rest is `unsupported` rather than false negatives. All eleven
 kernels produced 9 `reached`, 5 `not-reached`, and the whole remainder
-`unsupported` (18 each for the two unexpanded 16-template PHP and Ruby
-kernels, 34 for the expanded 24-template C kernel, 40 for the expanded
-27-template Rust kernel, 42 for the expanded 28-template C++ kernel, and 44
-each for the expanded 29-template Java, Python, JavaScript, TypeScript,
-Kotlin, and Go kernels), with no `inconclusive` or `runner-error`
+`unsupported` (18 for Ruby, the one unexpanded 16-template kernel, 34 for the
+expanded 24-template C kernel, 40 for the expanded 27-template Rust kernel, 42
+for the expanded 28-template C++ kernel, and 44 each for the expanded
+29-template Java, Python, JavaScript, TypeScript, Kotlin, Go, and PHP
+kernels), with no `inconclusive` or `runner-error`
 outcome and 12/14 of each scored subset matching the expected polarity; every
 intraprocedural positive was found in every language. The two mismatches are the
 same in all eleven — false positives on the infeasible branch and the
@@ -272,6 +272,21 @@ and leaves **all 26 challenge assertions `inconclusive`** — capability coverag
 that is neither 26 matches nor 26 misses. The [Scala kernel
 contract](docs/scala-kernel.md) records the adaptations and the per-stratum
 evidence.
+
+PHP has since been expanded the same way, to a 29-template, 58-assertion core
+with **all thirteen cells directly applicable** — variable method calls,
+variable property access, arrays of closures, `use`-clause closures,
+closure-valued properties, and genuine anonymous classes. Like Scala it defers
+**nothing** — but unlike Scala it is covered by more than one adapter: no PHP
+report is freeze-bound, so all three of its
+adapters ran the whole expanded population. Bifrost reproduces its classic
+17/32 exactly and decides 4 of the 26 challenge assertions, all correctly,
+declining the other 22; Joern executes every case and scores 48/58 (28/32
+classic, 20/26 challenge, with stratum C answered completely); Semgrep CE
+declines all 26 challenge assertions by declared capability. PHP has no CodeQL
+extractor at all, which is an absence of an analyzer rather than a deferral.
+The [PHP kernel contract](docs/php-kernel.md) records the fixtures, the
+per-stratum results, and the mismatch lists.
 
 ## Add a case or adapter
 

@@ -1,0 +1,61 @@
+{
+  "schema_version": 2,
+  "id": "dfb-taint-php-recursive-carry-negative",
+  "template_id": "dfb-template-chal-recursive-carry",
+  "polarity": "negative",
+  "negative_mechanism": "overwrite-kill",
+  "score_tier": "core",
+  "track": "taint",
+  "language": "php",
+  "semantic_dimensions": [
+    "interprocedural-flow",
+    "recursion"
+  ],
+  "feature_tags": [
+    "recursive"
+  ],
+  "model_profile": "benchmark-controlled",
+  "fixture_files": [
+    "recursive_carry_negative.php"
+  ],
+  "source_anchors": [
+    {
+      "marker": "DFB-SOURCE: recursive-carry-input",
+      "file": "recursive_carry_negative.php",
+      "line_hint": 2
+    }
+  ],
+  "sink_anchors": [
+    {
+      "marker": "DFB-SINK: recursive-carry-sink",
+      "file": "recursive_carry_negative.php",
+      "line_hint": 6
+    }
+  ],
+  "expected_flows": [],
+  "expected_nonflows": [
+    {
+      "source": "DFB-SOURCE: recursive-carry-input",
+      "sink": "DFB-SINK: recursive-carry-sink"
+    }
+  ],
+  "witness_checkpoints": [],
+  "expected_analysis_capability": {
+    "kind": "recursive-carry-taint"
+  },
+  "execution_budget": {
+    "wall_clock_seconds": 60,
+    "peak_memory_mb": 512
+  },
+  "fixture_provenance": {
+    "kind": "authored",
+    "origin": "DataFlowBench",
+    "revision": "m3-challenge-php",
+    "license": "MIT"
+  },
+  "tool_model_references": {
+    "bifrost": {
+      "policy": "adapters/bifrost/policies/core-php-kernel.rqlp"
+    }
+  }
+}

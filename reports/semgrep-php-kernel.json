@@ -2,8 +2,8 @@
   "adapter_version": "0.1.0",
   "cold_or_warm": "cold",
   "configuration_hash": "865d0bd2989f9ddd0b90f2d6675584e86706b109a033d4a1ac00bd21a617b100",
-  "ended_at_unix_seconds": 1787646412,
-  "fixture_revision": "sha256:aee59a14f96633cf5798df6d211525ea0d10748800ba9c9ac0a3787406bd19ea",
+  "ended_at_unix_seconds": 1787661881,
+  "fixture_revision": "sha256:f74647fe824ca9f6900c48aa9d403f0e9f59230e4193e0b02bd65e29a9e4e660",
   "results": [
     {
       "case_id": "dfb-taint-php-alias-propagation-negative",
@@ -11,7 +11,7 @@
         "pinned Semgrep CE records the PHP front end's maturity as \"ga\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition",
         "outside the bounded Semgrep CE profile: the case declares a heap access path; the pinned CE engine documents only \"Experimental support for basic field-sensitive taint tracking\", with index sensitivity and inter-procedural field sensitivity both recorded as Pro-only. The case requires \"heap-alias-sensitive-taint\"; the scored CE profile is the kernel's `intraprocedural` partition only."
       ],
-      "duration_ms": 2,
+      "duration_ms": 1,
       "outcome": "unsupported",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/semgrep-php-kernel/dfb-taint-php-alias-propagation-negative-unsupported.json",
@@ -38,6 +38,42 @@
       ],
       "source_anchors": [
         "DFB-SOURCE: alias-propagation-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-php-anonymous-implementation-negative",
+      "diagnostics": [
+        "pinned Semgrep CE records the PHP front end's maturity as \"ga\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition",
+        "outside the bounded Semgrep CE profile: the sink is inside an anonymous implementation invoked through a declared interface type; resolving that call-graph edge and following taint into the callee are both outside the CE engine. The case requires \"indirect-callee-resolution-taint\"; the scored CE profile is the kernel's `intraprocedural` partition only."
+      ],
+      "duration_ms": 0,
+      "outcome": "unsupported",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/semgrep-php-kernel/dfb-taint-php-anonymous-implementation-negative-unsupported.json",
+      "sink_anchors": [
+        "DFB-SINK: anonymous-implementation-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: anonymous-implementation-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-php-anonymous-implementation-positive",
+      "diagnostics": [
+        "pinned Semgrep CE records the PHP front end's maturity as \"ga\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition",
+        "outside the bounded Semgrep CE profile: the sink is inside an anonymous implementation invoked through a declared interface type; resolving that call-graph edge and following taint into the callee are both outside the CE engine. The case requires \"indirect-callee-resolution-taint\"; the scored CE profile is the kernel's `intraprocedural` partition only."
+      ],
+      "duration_ms": 0,
+      "outcome": "unsupported",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/semgrep-php-kernel/dfb-taint-php-anonymous-implementation-positive-unsupported.json",
+      "sink_anchors": [
+        "DFB-SINK: anonymous-implementation-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: anonymous-implementation-input"
       ],
       "witness_checkpoints": []
     },
@@ -118,7 +154,7 @@
       "diagnostics": [
         "pinned Semgrep CE records the PHP front end's maturity as \"ga\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition"
       ],
-      "duration_ms": 1588,
+      "duration_ms": 2700,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/semgrep-php-kernel/dfb-taint-php-branch-join-negative.json",
@@ -135,7 +171,7 @@
       "diagnostics": [
         "pinned Semgrep CE records the PHP front end's maturity as \"ga\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition"
       ],
-      "duration_ms": 1509,
+      "duration_ms": 2544,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/semgrep-php-kernel/dfb-taint-php-branch-join-positive.json",
@@ -171,7 +207,7 @@
         "pinned Semgrep CE records the PHP front end's maturity as \"ga\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition",
         "outside the bounded Semgrep CE profile: the case declares an interprocedural relay; Semgrep CE has no interprocedural taint at all (`--pro-intrafile`, \"Intra-file inter-procedural taint analysis ... Requires Semgrep Pro Engine\"). The case requires \"context-sensitive-interprocedural-taint\"; the scored CE profile is the kernel's `intraprocedural` partition only."
       ],
-      "duration_ms": 2,
+      "duration_ms": 0,
       "outcome": "unsupported",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/semgrep-php-kernel/dfb-taint-php-call-context-positive-unsupported.json",
@@ -184,11 +220,191 @@
       "witness_checkpoints": []
     },
     {
+      "case_id": "dfb-taint-php-callback-registration-negative",
+      "diagnostics": [
+        "pinned Semgrep CE records the PHP front end's maturity as \"ga\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition",
+        "outside the bounded Semgrep CE profile: a callback registered by one method is invoked by a separate driver method; inversion of control is interprocedural by construction and CE has no interprocedural taint. The case requires \"inverted-control-callback-taint\"; the scored CE profile is the kernel's `intraprocedural` partition only."
+      ],
+      "duration_ms": 0,
+      "outcome": "unsupported",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/semgrep-php-kernel/dfb-taint-php-callback-registration-negative-unsupported.json",
+      "sink_anchors": [
+        "DFB-SINK: callback-registration-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: callback-registration-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-php-callback-registration-positive",
+      "diagnostics": [
+        "pinned Semgrep CE records the PHP front end's maturity as \"ga\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition",
+        "outside the bounded Semgrep CE profile: a callback registered by one method is invoked by a separate driver method; inversion of control is interprocedural by construction and CE has no interprocedural taint. The case requires \"inverted-control-callback-taint\"; the scored CE profile is the kernel's `intraprocedural` partition only."
+      ],
+      "duration_ms": 0,
+      "outcome": "unsupported",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/semgrep-php-kernel/dfb-taint-php-callback-registration-positive-unsupported.json",
+      "sink_anchors": [
+        "DFB-SINK: callback-registration-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: callback-registration-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-php-closure-capture-negative",
+      "diagnostics": [
+        "pinned Semgrep CE records the PHP front end's maturity as \"ga\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition",
+        "outside the bounded Semgrep CE profile: the sink is inside a closure body invoked from a different function than the one that captured the tainted local; CE has no interprocedural taint. The case requires \"closure-capture-taint\"; the scored CE profile is the kernel's `intraprocedural` partition only."
+      ],
+      "duration_ms": 0,
+      "outcome": "unsupported",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/semgrep-php-kernel/dfb-taint-php-closure-capture-negative-unsupported.json",
+      "sink_anchors": [
+        "DFB-SINK: closure-capture-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: closure-capture-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-php-closure-capture-positive",
+      "diagnostics": [
+        "pinned Semgrep CE records the PHP front end's maturity as \"ga\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition",
+        "outside the bounded Semgrep CE profile: the sink is inside a closure body invoked from a different function than the one that captured the tainted local; CE has no interprocedural taint. The case requires \"closure-capture-taint\"; the scored CE profile is the kernel's `intraprocedural` partition only."
+      ],
+      "duration_ms": 0,
+      "outcome": "unsupported",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/semgrep-php-kernel/dfb-taint-php-closure-capture-positive-unsupported.json",
+      "sink_anchors": [
+        "DFB-SINK: closure-capture-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: closure-capture-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-php-computed-property-negative",
+      "diagnostics": [
+        "pinned Semgrep CE records the PHP front end's maturity as \"ga\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition",
+        "outside the bounded Semgrep CE profile: the case writes and reads a member located by a run-time key; the pinned CE engine documents only \"Experimental support for basic field-sensitive taint tracking\", while \"Pro: taint-mode: Added basic support for 'index sensitivity'\" places keyed access outside CE — the same documented boundary that already excludes `dfb-template-array-element-separation` and `dfb-template-same-object-field-separation`. The case requires \"computed-member-access-taint\"; the scored CE profile is the kernel's `intraprocedural` partition only."
+      ],
+      "duration_ms": 0,
+      "outcome": "unsupported",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/semgrep-php-kernel/dfb-taint-php-computed-property-negative-unsupported.json",
+      "sink_anchors": [
+        "DFB-SINK: computed-property-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: computed-property-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-php-computed-property-positive",
+      "diagnostics": [
+        "pinned Semgrep CE records the PHP front end's maturity as \"ga\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition",
+        "outside the bounded Semgrep CE profile: the case writes and reads a member located by a run-time key; the pinned CE engine documents only \"Experimental support for basic field-sensitive taint tracking\", while \"Pro: taint-mode: Added basic support for 'index sensitivity'\" places keyed access outside CE — the same documented boundary that already excludes `dfb-template-array-element-separation` and `dfb-template-same-object-field-separation`. The case requires \"computed-member-access-taint\"; the scored CE profile is the kernel's `intraprocedural` partition only."
+      ],
+      "duration_ms": 0,
+      "outcome": "unsupported",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/semgrep-php-kernel/dfb-taint-php-computed-property-positive-unsupported.json",
+      "sink_anchors": [
+        "DFB-SINK: computed-property-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: computed-property-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-php-context-pair-depth2-negative",
+      "diagnostics": [
+        "pinned Semgrep CE records the PHP front end's maturity as \"ga\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition",
+        "outside the bounded Semgrep CE profile: the case declares two-level context sensitivity; CE has no interprocedural taint and therefore no calling context to be sensitive to. The case requires \"two-level-context-sensitive-taint\"; the scored CE profile is the kernel's `intraprocedural` partition only."
+      ],
+      "duration_ms": 0,
+      "outcome": "unsupported",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/semgrep-php-kernel/dfb-taint-php-context-pair-depth2-negative-unsupported.json",
+      "sink_anchors": [
+        "DFB-SINK: context-pair-depth2-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: context-pair-depth2-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-php-context-pair-depth2-positive",
+      "diagnostics": [
+        "pinned Semgrep CE records the PHP front end's maturity as \"ga\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition",
+        "outside the bounded Semgrep CE profile: the case declares two-level context sensitivity; CE has no interprocedural taint and therefore no calling context to be sensitive to. The case requires \"two-level-context-sensitive-taint\"; the scored CE profile is the kernel's `intraprocedural` partition only."
+      ],
+      "duration_ms": 0,
+      "outcome": "unsupported",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/semgrep-php-kernel/dfb-taint-php-context-pair-depth2-positive-unsupported.json",
+      "sink_anchors": [
+        "DFB-SINK: context-pair-depth2-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: context-pair-depth2-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-php-deep-relay-chain-negative",
+      "diagnostics": [
+        "pinned Semgrep CE records the PHP front end's maturity as \"ga\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition",
+        "outside the bounded Semgrep CE profile: the case declares a six-hop interprocedural relay; CE has no interprocedural taint at all (`--pro-intrafile` is Pro), which docs/challenge-tier.md already records as this stratum's expected outcome. The case requires \"deep-interprocedural-relay-taint\"; the scored CE profile is the kernel's `intraprocedural` partition only."
+      ],
+      "duration_ms": 0,
+      "outcome": "unsupported",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/semgrep-php-kernel/dfb-taint-php-deep-relay-chain-negative-unsupported.json",
+      "sink_anchors": [
+        "DFB-SINK: deep-relay-chain-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: deep-relay-chain-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-php-deep-relay-chain-positive",
+      "diagnostics": [
+        "pinned Semgrep CE records the PHP front end's maturity as \"ga\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition",
+        "outside the bounded Semgrep CE profile: the case declares a six-hop interprocedural relay; CE has no interprocedural taint at all (`--pro-intrafile` is Pro), which docs/challenge-tier.md already records as this stratum's expected outcome. The case requires \"deep-interprocedural-relay-taint\"; the scored CE profile is the kernel's `intraprocedural` partition only."
+      ],
+      "duration_ms": 0,
+      "outcome": "unsupported",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/semgrep-php-kernel/dfb-taint-php-deep-relay-chain-positive-unsupported.json",
+      "sink_anchors": [
+        "DFB-SINK: deep-relay-chain-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: deep-relay-chain-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
       "case_id": "dfb-taint-php-direct-negative",
       "diagnostics": [
         "pinned Semgrep CE records the PHP front end's maturity as \"ga\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition"
       ],
-      "duration_ms": 1634,
+      "duration_ms": 2808,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/semgrep-php-kernel/dfb-taint-php-direct-negative.json",
@@ -205,7 +421,7 @@
       "diagnostics": [
         "pinned Semgrep CE records the PHP front end's maturity as \"ga\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition"
       ],
-      "duration_ms": 1635,
+      "duration_ms": 2185,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/semgrep-php-kernel/dfb-taint-php-direct-positive.json",
@@ -214,6 +430,78 @@
       ],
       "source_anchors": [
         "DFB-SOURCE: direct-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-php-dispatch-table-negative",
+      "diagnostics": [
+        "pinned Semgrep CE records the PHP front end's maturity as \"ga\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition",
+        "outside the bounded Semgrep CE profile: the callee is a function value fetched from a standard-library map and the sink is inside it; the call-graph edge and the sink are both outside the intraprocedural CE engine (`--pro-intrafile` is Pro). The case requires \"indirect-callee-resolution-taint\"; the scored CE profile is the kernel's `intraprocedural` partition only."
+      ],
+      "duration_ms": 0,
+      "outcome": "unsupported",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/semgrep-php-kernel/dfb-taint-php-dispatch-table-negative-unsupported.json",
+      "sink_anchors": [
+        "DFB-SINK: dispatch-table-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: dispatch-table-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-php-dispatch-table-positive",
+      "diagnostics": [
+        "pinned Semgrep CE records the PHP front end's maturity as \"ga\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition",
+        "outside the bounded Semgrep CE profile: the callee is a function value fetched from a standard-library map and the sink is inside it; the call-graph edge and the sink are both outside the intraprocedural CE engine (`--pro-intrafile` is Pro). The case requires \"indirect-callee-resolution-taint\"; the scored CE profile is the kernel's `intraprocedural` partition only."
+      ],
+      "duration_ms": 0,
+      "outcome": "unsupported",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/semgrep-php-kernel/dfb-taint-php-dispatch-table-positive-unsupported.json",
+      "sink_anchors": [
+        "DFB-SINK: dispatch-table-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: dispatch-table-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-php-element-object-negative",
+      "diagnostics": [
+        "pinned Semgrep CE records the PHP front end's maturity as \"ga\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition",
+        "outside the bounded Semgrep CE profile: the case combines element separation with field separation in one query; index sensitivity is recorded as Pro and CE's field sensitivity is experimental and basic. The case requires \"element-scoped-field-sensitive-taint\"; the scored CE profile is the kernel's `intraprocedural` partition only."
+      ],
+      "duration_ms": 0,
+      "outcome": "unsupported",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/semgrep-php-kernel/dfb-taint-php-element-object-negative-unsupported.json",
+      "sink_anchors": [
+        "DFB-SINK: element-object-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: element-object-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-php-element-object-positive",
+      "diagnostics": [
+        "pinned Semgrep CE records the PHP front end's maturity as \"ga\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition",
+        "outside the bounded Semgrep CE profile: the case combines element separation with field separation in one query; index sensitivity is recorded as Pro and CE's field sensitivity is experimental and basic. The case requires \"element-scoped-field-sensitive-taint\"; the scored CE profile is the kernel's `intraprocedural` partition only."
+      ],
+      "duration_ms": 0,
+      "outcome": "unsupported",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/semgrep-php-kernel/dfb-taint-php-element-object-positive-unsupported.json",
+      "sink_anchors": [
+        "DFB-SINK: element-object-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: element-object-input"
       ],
       "witness_checkpoints": []
     },
@@ -258,7 +546,7 @@
       "diagnostics": [
         "pinned Semgrep CE records the PHP front end's maturity as \"ga\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition"
       ],
-      "duration_ms": 1672,
+      "duration_ms": 2239,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/semgrep-php-kernel/dfb-taint-php-expression-negative.json",
@@ -275,7 +563,7 @@
       "diagnostics": [
         "pinned Semgrep CE records the PHP front end's maturity as \"ga\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition"
       ],
-      "duration_ms": 1728,
+      "duration_ms": 2209,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/semgrep-php-kernel/dfb-taint-php-expression-positive.json",
@@ -288,11 +576,47 @@
       "witness_checkpoints": []
     },
     {
+      "case_id": "dfb-taint-php-function-field-negative",
+      "diagnostics": [
+        "pinned Semgrep CE records the PHP front end's maturity as \"ga\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition",
+        "outside the bounded Semgrep CE profile: the callee is stored in an object field, fetched elsewhere, and invoked; this needs both field sensitivity beyond CE's experimental basic support and the interprocedural step CE documents as Pro. The case requires \"heap-stored-callee-taint\"; the scored CE profile is the kernel's `intraprocedural` partition only."
+      ],
+      "duration_ms": 0,
+      "outcome": "unsupported",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/semgrep-php-kernel/dfb-taint-php-function-field-negative-unsupported.json",
+      "sink_anchors": [
+        "DFB-SINK: function-field-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: function-field-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-php-function-field-positive",
+      "diagnostics": [
+        "pinned Semgrep CE records the PHP front end's maturity as \"ga\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition",
+        "outside the bounded Semgrep CE profile: the callee is stored in an object field, fetched elsewhere, and invoked; this needs both field sensitivity beyond CE's experimental basic support and the interprocedural step CE documents as Pro. The case requires \"heap-stored-callee-taint\"; the scored CE profile is the kernel's `intraprocedural` partition only."
+      ],
+      "duration_ms": 0,
+      "outcome": "unsupported",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/semgrep-php-kernel/dfb-taint-php-function-field-positive-unsupported.json",
+      "sink_anchors": [
+        "DFB-SINK: function-field-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: function-field-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
       "case_id": "dfb-taint-php-infeasible-branch-negative",
       "diagnostics": [
         "pinned Semgrep CE records the PHP front end's maturity as \"ga\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition"
       ],
-      "duration_ms": 1640,
+      "duration_ms": 2331,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/semgrep-php-kernel/dfb-taint-php-infeasible-branch-negative.json",
@@ -309,7 +633,7 @@
       "diagnostics": [
         "pinned Semgrep CE records the PHP front end's maturity as \"ga\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition"
       ],
-      "duration_ms": 1782,
+      "duration_ms": 2482,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/semgrep-php-kernel/dfb-taint-php-infeasible-branch-positive.json",
@@ -326,7 +650,7 @@
       "diagnostics": [
         "pinned Semgrep CE records the PHP front end's maturity as \"ga\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition"
       ],
-      "duration_ms": 2580,
+      "duration_ms": 2223,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/semgrep-php-kernel/dfb-taint-php-local-chain-negative.json",
@@ -343,7 +667,7 @@
       "diagnostics": [
         "pinned Semgrep CE records the PHP front end's maturity as \"ga\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition"
       ],
-      "duration_ms": 2351,
+      "duration_ms": 3611,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/semgrep-php-kernel/dfb-taint-php-local-chain-positive.json",
@@ -360,7 +684,7 @@
       "diagnostics": [
         "pinned Semgrep CE records the PHP front end's maturity as \"ga\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition"
       ],
-      "duration_ms": 2681,
+      "duration_ms": 3195,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/semgrep-php-kernel/dfb-taint-php-local-overwrite-negative.json",
@@ -377,7 +701,7 @@
       "diagnostics": [
         "pinned Semgrep CE records the PHP front end's maturity as \"ga\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition"
       ],
-      "duration_ms": 4690,
+      "duration_ms": 3566,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/semgrep-php-kernel/dfb-taint-php-local-overwrite-positive.json",
@@ -394,7 +718,7 @@
       "diagnostics": [
         "pinned Semgrep CE records the PHP front end's maturity as \"ga\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition"
       ],
-      "duration_ms": 3447,
+      "duration_ms": 3380,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/semgrep-php-kernel/dfb-taint-php-loop-carried-negative.json",
@@ -411,7 +735,7 @@
       "diagnostics": [
         "pinned Semgrep CE records the PHP front end's maturity as \"ga\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition"
       ],
-      "duration_ms": 2570,
+      "duration_ms": 2625,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/semgrep-php-kernel/dfb-taint-php-loop-carried-positive.json",
@@ -420,6 +744,78 @@
       ],
       "source_anchors": [
         "DFB-SOURCE: loop-carried-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-php-map-iteration-negative",
+      "diagnostics": [
+        "pinned Semgrep CE records the PHP front end's maturity as \"ga\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition",
+        "outside the bounded Semgrep CE profile: the value is retrieved by iterating a standard-library container's entries; container element taint through an iteration protocol is not within CE's documented \"basic field-sensitive\" support, and index sensitivity is recorded as Pro. The case requires \"container-iteration-taint\"; the scored CE profile is the kernel's `intraprocedural` partition only."
+      ],
+      "duration_ms": 0,
+      "outcome": "unsupported",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/semgrep-php-kernel/dfb-taint-php-map-iteration-negative-unsupported.json",
+      "sink_anchors": [
+        "DFB-SINK: map-iteration-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: map-iteration-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-php-map-iteration-positive",
+      "diagnostics": [
+        "pinned Semgrep CE records the PHP front end's maturity as \"ga\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition",
+        "outside the bounded Semgrep CE profile: the value is retrieved by iterating a standard-library container's entries; container element taint through an iteration protocol is not within CE's documented \"basic field-sensitive\" support, and index sensitivity is recorded as Pro. The case requires \"container-iteration-taint\"; the scored CE profile is the kernel's `intraprocedural` partition only."
+      ],
+      "duration_ms": 0,
+      "outcome": "unsupported",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/semgrep-php-kernel/dfb-taint-php-map-iteration-positive-unsupported.json",
+      "sink_anchors": [
+        "DFB-SINK: map-iteration-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: map-iteration-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-php-nested-access-path-negative",
+      "diagnostics": [
+        "pinned Semgrep CE records the PHP front end's maturity as \"ga\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition",
+        "outside the bounded Semgrep CE profile: the case reads and writes a field chain of depth three or more; the pinned CE engine documents only *basic* experimental field sensitivity, with inter-procedural field sensitivity recorded as Pro. The case requires \"deep-access-path-sensitive-taint\"; the scored CE profile is the kernel's `intraprocedural` partition only."
+      ],
+      "duration_ms": 0,
+      "outcome": "unsupported",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/semgrep-php-kernel/dfb-taint-php-nested-access-path-negative-unsupported.json",
+      "sink_anchors": [
+        "DFB-SINK: nested-access-path-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: nested-access-path-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-php-nested-access-path-positive",
+      "diagnostics": [
+        "pinned Semgrep CE records the PHP front end's maturity as \"ga\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition",
+        "outside the bounded Semgrep CE profile: the case reads and writes a field chain of depth three or more; the pinned CE engine documents only *basic* experimental field sensitivity, with inter-procedural field sensitivity recorded as Pro. The case requires \"deep-access-path-sensitive-taint\"; the scored CE profile is the kernel's `intraprocedural` partition only."
+      ],
+      "duration_ms": 0,
+      "outcome": "unsupported",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/semgrep-php-kernel/dfb-taint-php-nested-access-path-positive-unsupported.json",
+      "sink_anchors": [
+        "DFB-SINK: nested-access-path-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: nested-access-path-input"
       ],
       "witness_checkpoints": []
     },
@@ -456,6 +852,78 @@
       ],
       "source_anchors": [
         "DFB-SOURCE: object-separation-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-php-recursive-carry-negative",
+      "diagnostics": [
+        "pinned Semgrep CE records the PHP front end's maturity as \"ga\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition",
+        "outside the bounded Semgrep CE profile: the carried value crosses a self-recursive call boundary five times; a recursive summary is interprocedural, and CE has no interprocedural taint. The case requires \"recursive-carry-taint\"; the scored CE profile is the kernel's `intraprocedural` partition only."
+      ],
+      "duration_ms": 0,
+      "outcome": "unsupported",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/semgrep-php-kernel/dfb-taint-php-recursive-carry-negative-unsupported.json",
+      "sink_anchors": [
+        "DFB-SINK: recursive-carry-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: recursive-carry-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-php-recursive-carry-positive",
+      "diagnostics": [
+        "pinned Semgrep CE records the PHP front end's maturity as \"ga\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition",
+        "outside the bounded Semgrep CE profile: the carried value crosses a self-recursive call boundary five times; a recursive summary is interprocedural, and CE has no interprocedural taint. The case requires \"recursive-carry-taint\"; the scored CE profile is the kernel's `intraprocedural` partition only."
+      ],
+      "duration_ms": 0,
+      "outcome": "unsupported",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/semgrep-php-kernel/dfb-taint-php-recursive-carry-positive-unsupported.json",
+      "sink_anchors": [
+        "DFB-SINK: recursive-carry-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: recursive-carry-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-php-reflective-invocation-negative",
+      "diagnostics": [
+        "pinned Semgrep CE records the PHP front end's maturity as \"ga\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition",
+        "outside the bounded Semgrep CE profile: the case resolves a callee from a run-time string and the sink is reached inside that callee's body; CE has no interprocedural taint at all (`--pro-intrafile`, \"Intra-file inter-procedural taint analysis ... Requires Semgrep Pro Engine\"), and the pinned CE documentation nowhere claims to resolve a reflective handle. The case requires \"reflective-dispatch-taint\"; the scored CE profile is the kernel's `intraprocedural` partition only."
+      ],
+      "duration_ms": 0,
+      "outcome": "unsupported",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/semgrep-php-kernel/dfb-taint-php-reflective-invocation-negative-unsupported.json",
+      "sink_anchors": [
+        "DFB-SINK: reflective-invocation-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: reflective-invocation-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-php-reflective-invocation-positive",
+      "diagnostics": [
+        "pinned Semgrep CE records the PHP front end's maturity as \"ga\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition",
+        "outside the bounded Semgrep CE profile: the case resolves a callee from a run-time string and the sink is reached inside that callee's body; CE has no interprocedural taint at all (`--pro-intrafile`, \"Intra-file inter-procedural taint analysis ... Requires Semgrep Pro Engine\"), and the pinned CE documentation nowhere claims to resolve a reflective handle. The case requires \"reflective-dispatch-taint\"; the scored CE profile is the kernel's `intraprocedural` partition only."
+      ],
+      "duration_ms": 0,
+      "outcome": "unsupported",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/semgrep-php-kernel/dfb-taint-php-reflective-invocation-positive-unsupported.json",
+      "sink_anchors": [
+        "DFB-SINK: reflective-invocation-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: reflective-invocation-input"
       ],
       "witness_checkpoints": []
     },
@@ -569,7 +1037,7 @@
     }
   ],
   "schema_version": 1,
-  "started_at_unix_seconds": 1787646379,
+  "started_at_unix_seconds": 1787661840,
   "tool": "semgrep",
   "tool_build_identity": "semgrep-oss:1.174.0",
   "tool_version": "1.174.0"

@@ -2,13 +2,13 @@
   "adapter_version": "0.1.0",
   "cold_or_warm": "cold",
   "configuration_hash": "ab10e81860305e492a930e2c2691873b23be25e97e5b354ca785058e09a20025",
-  "ended_at_unix_seconds": 1787648195,
-  "fixture_revision": "sha256:aee59a14f96633cf5798df6d211525ea0d10748800ba9c9ac0a3787406bd19ea",
+  "ended_at_unix_seconds": 1787661827,
+  "fixture_revision": "sha256:f74647fe824ca9f6900c48aa9d403f0e9f59230e4193e0b02bd65e29a9e4e660",
   "results": [
     {
       "case_id": "dfb-taint-php-alias-propagation-negative",
       "diagnostics": [],
-      "duration_ms": 29457,
+      "duration_ms": 8995,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/joern-php-kernel/dfb-taint-php-alias-propagation-negative.json",
@@ -23,7 +23,7 @@
     {
       "case_id": "dfb-taint-php-alias-propagation-positive",
       "diagnostics": [],
-      "duration_ms": 25573,
+      "duration_ms": 8510,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/joern-php-kernel/dfb-taint-php-alias-propagation-positive.json",
@@ -36,9 +36,39 @@
       "witness_checkpoints": []
     },
     {
+      "case_id": "dfb-taint-php-anonymous-implementation-negative",
+      "diagnostics": [],
+      "duration_ms": 18452,
+      "outcome": "reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/joern-php-kernel/dfb-taint-php-anonymous-implementation-negative.json",
+      "sink_anchors": [
+        "DFB-SINK: anonymous-implementation-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: anonymous-implementation-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-php-anonymous-implementation-positive",
+      "diagnostics": [],
+      "duration_ms": 15912,
+      "outcome": "reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/joern-php-kernel/dfb-taint-php-anonymous-implementation-positive.json",
+      "sink_anchors": [
+        "DFB-SINK: anonymous-implementation-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: anonymous-implementation-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
       "case_id": "dfb-taint-php-argument-position-negative",
       "diagnostics": [],
-      "duration_ms": 27006,
+      "duration_ms": 9251,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/joern-php-kernel/dfb-taint-php-argument-position-negative.json",
@@ -53,7 +83,7 @@
     {
       "case_id": "dfb-taint-php-argument-position-positive",
       "diagnostics": [],
-      "duration_ms": 23357,
+      "duration_ms": 8572,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/joern-php-kernel/dfb-taint-php-argument-position-positive.json",
@@ -68,7 +98,7 @@
     {
       "case_id": "dfb-taint-php-array-element-negative",
       "diagnostics": [],
-      "duration_ms": 24706,
+      "duration_ms": 6880,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/joern-php-kernel/dfb-taint-php-array-element-negative.json",
@@ -83,7 +113,7 @@
     {
       "case_id": "dfb-taint-php-array-element-positive",
       "diagnostics": [],
-      "duration_ms": 23052,
+      "duration_ms": 7106,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/joern-php-kernel/dfb-taint-php-array-element-positive.json",
@@ -98,7 +128,7 @@
     {
       "case_id": "dfb-taint-php-branch-join-negative",
       "diagnostics": [],
-      "duration_ms": 22400,
+      "duration_ms": 13210,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/joern-php-kernel/dfb-taint-php-branch-join-negative.json",
@@ -113,7 +143,7 @@
     {
       "case_id": "dfb-taint-php-branch-join-positive",
       "diagnostics": [],
-      "duration_ms": 19232,
+      "duration_ms": 6435,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/joern-php-kernel/dfb-taint-php-branch-join-positive.json",
@@ -128,7 +158,7 @@
     {
       "case_id": "dfb-taint-php-call-context-negative",
       "diagnostics": [],
-      "duration_ms": 16012,
+      "duration_ms": 7792,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/joern-php-kernel/dfb-taint-php-call-context-negative.json",
@@ -143,7 +173,7 @@
     {
       "case_id": "dfb-taint-php-call-context-positive",
       "diagnostics": [],
-      "duration_ms": 14733,
+      "duration_ms": 9111,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/joern-php-kernel/dfb-taint-php-call-context-positive.json",
@@ -156,9 +186,159 @@
       "witness_checkpoints": []
     },
     {
+      "case_id": "dfb-taint-php-callback-registration-negative",
+      "diagnostics": [],
+      "duration_ms": 9708,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/joern-php-kernel/dfb-taint-php-callback-registration-negative.json",
+      "sink_anchors": [
+        "DFB-SINK: callback-registration-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: callback-registration-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-php-callback-registration-positive",
+      "diagnostics": [],
+      "duration_ms": 8758,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/joern-php-kernel/dfb-taint-php-callback-registration-positive.json",
+      "sink_anchors": [
+        "DFB-SINK: callback-registration-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: callback-registration-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-php-closure-capture-negative",
+      "diagnostics": [],
+      "duration_ms": 16681,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/joern-php-kernel/dfb-taint-php-closure-capture-negative.json",
+      "sink_anchors": [
+        "DFB-SINK: closure-capture-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: closure-capture-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-php-closure-capture-positive",
+      "diagnostics": [],
+      "duration_ms": 17840,
+      "outcome": "reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/joern-php-kernel/dfb-taint-php-closure-capture-positive.json",
+      "sink_anchors": [
+        "DFB-SINK: closure-capture-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: closure-capture-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-php-computed-property-negative",
+      "diagnostics": [],
+      "duration_ms": 18932,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/joern-php-kernel/dfb-taint-php-computed-property-negative.json",
+      "sink_anchors": [
+        "DFB-SINK: computed-property-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: computed-property-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-php-computed-property-positive",
+      "diagnostics": [],
+      "duration_ms": 17153,
+      "outcome": "reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/joern-php-kernel/dfb-taint-php-computed-property-positive.json",
+      "sink_anchors": [
+        "DFB-SINK: computed-property-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: computed-property-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-php-context-pair-depth2-negative",
+      "diagnostics": [],
+      "duration_ms": 16010,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/joern-php-kernel/dfb-taint-php-context-pair-depth2-negative.json",
+      "sink_anchors": [
+        "DFB-SINK: context-pair-depth2-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: context-pair-depth2-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-php-context-pair-depth2-positive",
+      "diagnostics": [],
+      "duration_ms": 14134,
+      "outcome": "reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/joern-php-kernel/dfb-taint-php-context-pair-depth2-positive.json",
+      "sink_anchors": [
+        "DFB-SINK: context-pair-depth2-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: context-pair-depth2-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-php-deep-relay-chain-negative",
+      "diagnostics": [],
+      "duration_ms": 15014,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/joern-php-kernel/dfb-taint-php-deep-relay-chain-negative.json",
+      "sink_anchors": [
+        "DFB-SINK: deep-relay-chain-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: deep-relay-chain-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-php-deep-relay-chain-positive",
+      "diagnostics": [],
+      "duration_ms": 12115,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/joern-php-kernel/dfb-taint-php-deep-relay-chain-positive.json",
+      "sink_anchors": [
+        "DFB-SINK: deep-relay-chain-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: deep-relay-chain-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
       "case_id": "dfb-taint-php-direct-negative",
       "diagnostics": [],
-      "duration_ms": 17403,
+      "duration_ms": 15147,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/joern-php-kernel/dfb-taint-php-direct-negative.json",
@@ -173,7 +353,7 @@
     {
       "case_id": "dfb-taint-php-direct-positive",
       "diagnostics": [],
-      "duration_ms": 20850,
+      "duration_ms": 15049,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/joern-php-kernel/dfb-taint-php-direct-positive.json",
@@ -186,9 +366,69 @@
       "witness_checkpoints": []
     },
     {
+      "case_id": "dfb-taint-php-dispatch-table-negative",
+      "diagnostics": [],
+      "duration_ms": 15539,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/joern-php-kernel/dfb-taint-php-dispatch-table-negative.json",
+      "sink_anchors": [
+        "DFB-SINK: dispatch-table-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: dispatch-table-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-php-dispatch-table-positive",
+      "diagnostics": [],
+      "duration_ms": 13606,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/joern-php-kernel/dfb-taint-php-dispatch-table-positive.json",
+      "sink_anchors": [
+        "DFB-SINK: dispatch-table-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: dispatch-table-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-php-element-object-negative",
+      "diagnostics": [],
+      "duration_ms": 14748,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/joern-php-kernel/dfb-taint-php-element-object-negative.json",
+      "sink_anchors": [
+        "DFB-SINK: element-object-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: element-object-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-php-element-object-positive",
+      "diagnostics": [],
+      "duration_ms": 14897,
+      "outcome": "reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/joern-php-kernel/dfb-taint-php-element-object-positive.json",
+      "sink_anchors": [
+        "DFB-SINK: element-object-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: element-object-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
       "case_id": "dfb-taint-php-exception-catch-negative",
       "diagnostics": [],
-      "duration_ms": 25671,
+      "duration_ms": 14603,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/joern-php-kernel/dfb-taint-php-exception-catch-negative.json",
@@ -203,7 +443,7 @@
     {
       "case_id": "dfb-taint-php-exception-catch-positive",
       "diagnostics": [],
-      "duration_ms": 32083,
+      "duration_ms": 12692,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/joern-php-kernel/dfb-taint-php-exception-catch-positive.json",
@@ -218,7 +458,7 @@
     {
       "case_id": "dfb-taint-php-expression-negative",
       "diagnostics": [],
-      "duration_ms": 34242,
+      "duration_ms": 15516,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/joern-php-kernel/dfb-taint-php-expression-negative.json",
@@ -233,7 +473,7 @@
     {
       "case_id": "dfb-taint-php-expression-positive",
       "diagnostics": [],
-      "duration_ms": 17407,
+      "duration_ms": 14950,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/joern-php-kernel/dfb-taint-php-expression-positive.json",
@@ -246,9 +486,39 @@
       "witness_checkpoints": []
     },
     {
+      "case_id": "dfb-taint-php-function-field-negative",
+      "diagnostics": [],
+      "duration_ms": 15284,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/joern-php-kernel/dfb-taint-php-function-field-negative.json",
+      "sink_anchors": [
+        "DFB-SINK: function-field-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: function-field-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-php-function-field-positive",
+      "diagnostics": [],
+      "duration_ms": 12330,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/joern-php-kernel/dfb-taint-php-function-field-positive.json",
+      "sink_anchors": [
+        "DFB-SINK: function-field-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: function-field-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
       "case_id": "dfb-taint-php-infeasible-branch-negative",
       "diagnostics": [],
-      "duration_ms": 19388,
+      "duration_ms": 13032,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/joern-php-kernel/dfb-taint-php-infeasible-branch-negative.json",
@@ -263,7 +533,7 @@
     {
       "case_id": "dfb-taint-php-infeasible-branch-positive",
       "diagnostics": [],
-      "duration_ms": 15586,
+      "duration_ms": 20660,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/joern-php-kernel/dfb-taint-php-infeasible-branch-positive.json",
@@ -278,7 +548,7 @@
     {
       "case_id": "dfb-taint-php-local-chain-negative",
       "diagnostics": [],
-      "duration_ms": 13020,
+      "duration_ms": 15210,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/joern-php-kernel/dfb-taint-php-local-chain-negative.json",
@@ -293,7 +563,7 @@
     {
       "case_id": "dfb-taint-php-local-chain-positive",
       "diagnostics": [],
-      "duration_ms": 14327,
+      "duration_ms": 13143,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/joern-php-kernel/dfb-taint-php-local-chain-positive.json",
@@ -308,7 +578,7 @@
     {
       "case_id": "dfb-taint-php-local-overwrite-negative",
       "diagnostics": [],
-      "duration_ms": 15917,
+      "duration_ms": 14113,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/joern-php-kernel/dfb-taint-php-local-overwrite-negative.json",
@@ -323,7 +593,7 @@
     {
       "case_id": "dfb-taint-php-local-overwrite-positive",
       "diagnostics": [],
-      "duration_ms": 15892,
+      "duration_ms": 14381,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/joern-php-kernel/dfb-taint-php-local-overwrite-positive.json",
@@ -338,7 +608,7 @@
     {
       "case_id": "dfb-taint-php-loop-carried-negative",
       "diagnostics": [],
-      "duration_ms": 16247,
+      "duration_ms": 14115,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/joern-php-kernel/dfb-taint-php-loop-carried-negative.json",
@@ -353,7 +623,7 @@
     {
       "case_id": "dfb-taint-php-loop-carried-positive",
       "diagnostics": [],
-      "duration_ms": 16411,
+      "duration_ms": 13476,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/joern-php-kernel/dfb-taint-php-loop-carried-positive.json",
@@ -366,9 +636,69 @@
       "witness_checkpoints": []
     },
     {
+      "case_id": "dfb-taint-php-map-iteration-negative",
+      "diagnostics": [],
+      "duration_ms": 12390,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/joern-php-kernel/dfb-taint-php-map-iteration-negative.json",
+      "sink_anchors": [
+        "DFB-SINK: map-iteration-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: map-iteration-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-php-map-iteration-positive",
+      "diagnostics": [],
+      "duration_ms": 13067,
+      "outcome": "reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/joern-php-kernel/dfb-taint-php-map-iteration-positive.json",
+      "sink_anchors": [
+        "DFB-SINK: map-iteration-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: map-iteration-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-php-nested-access-path-negative",
+      "diagnostics": [],
+      "duration_ms": 11855,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/joern-php-kernel/dfb-taint-php-nested-access-path-negative.json",
+      "sink_anchors": [
+        "DFB-SINK: nested-access-path-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: nested-access-path-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-php-nested-access-path-positive",
+      "diagnostics": [],
+      "duration_ms": 13106,
+      "outcome": "reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/joern-php-kernel/dfb-taint-php-nested-access-path-positive.json",
+      "sink_anchors": [
+        "DFB-SINK: nested-access-path-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: nested-access-path-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
       "case_id": "dfb-taint-php-object-separation-negative",
       "diagnostics": [],
-      "duration_ms": 13680,
+      "duration_ms": 14039,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/joern-php-kernel/dfb-taint-php-object-separation-negative.json",
@@ -383,7 +713,7 @@
     {
       "case_id": "dfb-taint-php-object-separation-positive",
       "diagnostics": [],
-      "duration_ms": 12505,
+      "duration_ms": 12999,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/joern-php-kernel/dfb-taint-php-object-separation-positive.json",
@@ -396,9 +726,69 @@
       "witness_checkpoints": []
     },
     {
+      "case_id": "dfb-taint-php-recursive-carry-negative",
+      "diagnostics": [],
+      "duration_ms": 13723,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/joern-php-kernel/dfb-taint-php-recursive-carry-negative.json",
+      "sink_anchors": [
+        "DFB-SINK: recursive-carry-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: recursive-carry-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-php-recursive-carry-positive",
+      "diagnostics": [],
+      "duration_ms": 11161,
+      "outcome": "reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/joern-php-kernel/dfb-taint-php-recursive-carry-positive.json",
+      "sink_anchors": [
+        "DFB-SINK: recursive-carry-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: recursive-carry-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-php-reflective-invocation-negative",
+      "diagnostics": [],
+      "duration_ms": 16486,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/joern-php-kernel/dfb-taint-php-reflective-invocation-negative.json",
+      "sink_anchors": [
+        "DFB-SINK: reflective-invocation-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: reflective-invocation-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-php-reflective-invocation-positive",
+      "diagnostics": [],
+      "duration_ms": 11036,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/joern-php-kernel/dfb-taint-php-reflective-invocation-positive.json",
+      "sink_anchors": [
+        "DFB-SINK: reflective-invocation-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: reflective-invocation-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
       "case_id": "dfb-taint-php-return-relay-one-hop-negative",
       "diagnostics": [],
-      "duration_ms": 17125,
+      "duration_ms": 10080,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/joern-php-kernel/dfb-taint-php-return-relay-one-hop-negative.json",
@@ -413,7 +803,7 @@
     {
       "case_id": "dfb-taint-php-return-relay-one-hop-positive",
       "diagnostics": [],
-      "duration_ms": 11062,
+      "duration_ms": 12123,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/joern-php-kernel/dfb-taint-php-return-relay-one-hop-positive.json",
@@ -428,7 +818,7 @@
     {
       "case_id": "dfb-taint-php-return-relay-two-hop-negative",
       "diagnostics": [],
-      "duration_ms": 16266,
+      "duration_ms": 14086,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/joern-php-kernel/dfb-taint-php-return-relay-two-hop-negative.json",
@@ -443,7 +833,7 @@
     {
       "case_id": "dfb-taint-php-return-relay-two-hop-positive",
       "diagnostics": [],
-      "duration_ms": 11790,
+      "duration_ms": 10295,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/joern-php-kernel/dfb-taint-php-return-relay-two-hop-positive.json",
@@ -458,7 +848,7 @@
     {
       "case_id": "dfb-taint-php-same-object-field-negative",
       "diagnostics": [],
-      "duration_ms": 7673,
+      "duration_ms": 9703,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/joern-php-kernel/dfb-taint-php-same-object-field-negative.json",
@@ -473,7 +863,7 @@
     {
       "case_id": "dfb-taint-php-same-object-field-positive",
       "diagnostics": [],
-      "duration_ms": 8963,
+      "duration_ms": 7792,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/joern-php-kernel/dfb-taint-php-same-object-field-positive.json",
@@ -487,7 +877,7 @@
     }
   ],
   "schema_version": 1,
-  "started_at_unix_seconds": 1787647574,
+  "started_at_unix_seconds": 1787661068,
   "tool": "joern",
   "tool_build_identity": "joern-cli:4.0.610",
   "tool_version": "4.0.610"
