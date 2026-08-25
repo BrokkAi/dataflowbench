@@ -157,6 +157,15 @@ both digest-bound by `reports/freeze.json`, and the Joern adapter has no C
 slice — so both engine re-runs are deferred to v0.4.0. See [the C kernel
 contract](c-kernel.md).
 
+The Ruby wave is the opposite extreme and the only one so far that defers
+**nothing**. Ruby's kernel landed *after* the v0.3.0 freeze, so none of its four
+reports appears in `reports/freeze.json`'s report list, and all four adapters —
+CodeQL, Joern, Bifrost, and Semgrep CE — were re-run whole over the expanded 58
+assertions. Ruby is therefore the first language with complete expanded-core
+evidence from every adapter that covers it, and the first whose CodeQL kernel
+report reflects the challenge tier. See [the Ruby kernel
+contract](ruby-kernel.md).
+
 ## CodeQL language populations
 
 The CodeQL adapter keeps Java and JavaScript as separate populations. The

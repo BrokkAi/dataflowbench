@@ -18,9 +18,10 @@ own fixture extension. Rust has its own extractor too, whose support is a
 **public preview** in the pinned CLI, and its own population with the same
 reduced 15-template denominator as C, plus two Rust `language-extension` cases
 that never enter the Rust core denominator. Ruby has its own production extractor and its own
-16-template population; it is the primary decisive analyzer for the Ruby
-tranche, whose Bifrost coverage gate is recorded in [the Ruby kernel
-contract](../../docs/ruby-kernel.md).
+expanded 29-template population; it is the primary decisive analyzer for the
+Ruby tranche, whose Bifrost coverage gate is recorded in [the Ruby kernel
+contract](../../docs/ruby-kernel.md), and it is the only CodeQL kernel whose
+report is not freeze-bound.
 
 Scala is deliberately absent. CodeQL CLI 2.26.3 has no Scala extractor and no
 Scala library pack in any build mode, so there is no `scala/` pack, no query,
@@ -635,8 +636,9 @@ sources. Its configuration hash is
 
 ## Ruby kernel
 
-The Ruby runner selects exactly the 32 `taint` cases whose `language` is `ruby`
-and whose `score_tier` is `core`, and analyzes each with:
+The Ruby runner selects exactly the 58 `taint` cases whose `language` is `ruby`
+and whose `score_tier` is `core` — Ruby's challenge-tier row is rolled out, so
+its core is the expanded 29 templates — and analyzes each with:
 
 ```text
 adapters/codeql/ruby/queries/RubyKernel.ql
@@ -674,14 +676,32 @@ list is optional, so the declared endpoint name is read after the `def` keyword
 rather than before a parameter list, comments open with `#`, and a `.` or `::`
 prefix is not a call of the free sink method the anchor declares.
 
-The checked-in `reports/codeql-ruby-kernel.json` contains 32 results: 15
-`reached` and 17 `not-reached`, with zero `inconclusive`, `unsupported`, or
-`runner-error` outcomes. 29 of 32 match the expected polarity; the false
-negatives are the alias-propagation and exception-catch positives and the false
-positive is the loop-carried negative — the same core mismatch set the Java,
-Kotlin, C#, and Python kernels show, without the expression or array-element
-mismatches several of them add. Its configuration hash is
-`0292361f24c7b18fa59543de15e5709270a5d717f0e7fa3e61de7a9436fb59f7`.
+The checked-in `reports/codeql-ruby-kernel.json` contains 58 results: 22
+`reached` and 36 `not-reached`, with zero `inconclusive`, `unsupported`, or
+`runner-error` outcomes, over 468 s wall clock and 5.7 s to 14.5 s per case.
+**49 of 58** match the expected polarity — 29/32 on the classic sixteen
+templates and 20/26 on the challenge thirteen.
+
+Ruby is the one CodeQL kernel whose report is **not** freeze-bound: the Ruby
+kernel landed after v0.3.0, so `reports/freeze.json` binds the other ten CodeQL
+kernel reports and not this one. It could therefore be re-run whole over the
+expanded population in the Ruby challenge wave, where the other ten languages'
+expanded CodeQL evidence is deferred to the v0.4.0 freeze-prep re-run.
+
+The classic mismatch set is unchanged case for case: the false negatives are the
+alias-propagation and exception-catch positives and the false positive is the
+loop-carried negative — the same core mismatch set the Java, Kotlin, C#, and
+Python kernels show, without the expression or array-element mismatches several
+of them add. The six challenge mismatches are all false negatives on positives:
+`reflective-invocation`, `computed-property`, `dispatch-table`,
+`function-field`, `callback-registration`, and `anonymous-implementation`. Split
+by stratum that is A **3/6** — all six stratum-A results `not-reached`, a
+uniformly under-approximating character rather than half a score — B **5/8**
+with only closure capture decided, and C and D **6/6 each**, the depth-3
+accessor chain, `Hash#each` iteration, the six-hop relay, the depth-5 recursion,
+and the k = 2 context pair all resolved. Its configuration hash is
+`0292361f24c7b18fa59543de15e5709270a5d717f0e7fa3e61de7a9436fb59f7`, unchanged:
+neither the query nor the pack moved, only the population.
 
 ## Retained v2.26.3 snapshot
 

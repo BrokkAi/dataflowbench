@@ -142,21 +142,25 @@ compilation step. They write `reports/joern-<language>-kernel.json` and keep one
 raw evidence document per case under `reports/raw/joern-<language>-kernel/`. The
 retained snapshot used Joern 4.0.610 with the `javasrc2cpg`, `jssrc2cpg`,
 `pysrc2cpg`, `rubysrc2cpg`, `php2cpg`, and `rust2cpg` frontends and one committed
-CPG query script. All 268 assertions executed with no `inconclusive`,
+CPG query script. All 294 assertions executed with no `inconclusive`,
 `unsupported`, or `runner-error` outcome: Java 47/58, JavaScript 44/58, Python
-48/58, Ruby 26/32, PHP 28/32, and Rust 27/30 match the expected polarity —
-Rust's denominator is 15 templates, not 16, and Java's, Python's, and
-JavaScript's are the expanded 29 each, whose 58-assertion populations are never
-compared to a 32-assertion one. JavaScript splits 26/32 on the classic sixteen —
-identical to its earlier snapshot — and 18/26 on the challenge thirteen, and
-Java splits 28/32 and 19/26 the same way; in both the depth-6 relay positive is
+48/58, Ruby 40/58, PHP 28/32, and Rust 27/30 match the expected polarity —
+Rust's denominator is 15 templates, not 16, and Java's, Python's,
+JavaScript's, and Ruby's are the expanded 29 each, whose 58-assertion
+populations are never compared to a 32-assertion one. JavaScript splits 26/32 on
+the classic sixteen — identical to its earlier snapshot — and 18/26 on the
+challenge thirteen, Java splits 28/32 and 19/26 the same way, and Ruby splits
+26/32 and 14/26. In Java, JavaScript, and Python the depth-6 relay positive is
 missed at the distribution's default call-depth bound of 4, exactly as the
-challenge preregistration predicted in advance. Rust became runnable only at this pin:
+challenge preregistration predicted in advance; Ruby is the exception, resolving
+that pair correctly, and the departure is recorded rather than smoothed over.
+Rust became runnable only at this pin:
 `rust2cpg` is new in 4.0.610, it needs a Cargo manifest the runner synthesizes
 per workspace, and it is recorded as the young frontend it is. Scala still has
 no source frontend and stays explicitly unsupported. Re-running all six on the
 new pin left Java, JavaScript, Python, and PHP identical case-for-case and moved
-four Ruby cases in opposite directions at an unchanged 26/32. See the
+four Ruby cases in opposite directions at an unchanged 26/32 on the classic
+sixteen. See the
 [Joern adapter evidence](adapters/joern/README.md) for the pinned invocation,
 tagging model, frontend coverage, drift analysis, and per-language mismatch
 lists.
@@ -172,11 +176,11 @@ intraprocedural partition of each kernel is scored — the pinned CLI documents
 interprocedural taint, cross-file taint, and path sensitivity as Pro Engine
 features, so the rest is `unsupported` rather than false negatives. All eleven
 kernels produced 9 `reached`, 5 `not-reached`, and the whole remainder
-`unsupported` (18 for the three unexpanded 16-template kernels, 16 for Rust,
-whose exception-catch cell is inapplicable, 34 for the expanded 24-template C
-kernel, 42 for the expanded 28-template C++ kernel, and 44 each for the
-expanded 29-template Java, Python, JavaScript, TypeScript, Kotlin, and Go
-kernels), with no `inconclusive` or `runner-error`
+`unsupported` (18 for PHP, the one remaining unexpanded 16-template kernel, 16
+for Rust, whose exception-catch cell is inapplicable, 34 for the expanded
+24-template C kernel, 42 for the expanded 28-template C++ kernel, and 44 each
+for the expanded 29-template Java, Python, JavaScript, TypeScript, Kotlin, Go,
+and Ruby kernels), with no `inconclusive` or `runner-error`
 outcome and 12/14 of each scored subset matching the expected polarity; every
 intraprocedural positive was found in every language. The two mismatches are the
 same in all eleven — false positives on the infeasible branch and the
