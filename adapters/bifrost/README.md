@@ -213,7 +213,8 @@ exception-catch pair, retaining `capability_incomplete` evidence. Under
 v0.10.2 this kernel matched 19/32; the alias-propagation and array-element
 pairs are now decisive and correct.
 
-The 32-case C# kernel, in its own report `reports/bifrost-csharp-kernel.json`
+The C# kernel's frozen 32-case run, in its own report
+`reports/bifrost-csharp-kernel.json`
 with raw evidence under `reports/raw/bifrost-csharp-kernel/`, contains 1
 `reached`, 1
 `not-reached`, and 30 `inconclusive` results: only the direct-propagation pair
@@ -224,6 +225,18 @@ value-flow snapshot for the C# fixture procedure is unknown or unsupported.
 This is capability coverage, never a negative result. The same incompleteness
 reproduces under the language-agnostic `core-direct.rqlp` policy, so it is not
 an artifact of the language-qualified policy.
+
+**Deferred: the expanded C# population.** C#'s challenge-tier row is now
+rolled out and its core denominator is 29 templates / 58 assertions, but
+`reports/bifrost-csharp-kernel.json` is one of the nineteen reports
+`reports/freeze.json` digest-binds for v0.3.0, so the C# challenge wave did not
+re-run it — the same treatment the Python wave gave its freeze-bound report.
+Those 32 results are the frozen 16-template v0.3.0 evidence and say nothing
+either way about the thirteen challenge templates; Bifrost's evidence for the
+expanded C# core arrives with the v0.4.0 freeze-prep re-run. Deferral is not
+absence of coverage, and the v0.3.0 and v0.4.0 populations are never compared
+number-to-number. The C# challenge cases are also excluded from the smoke
+selection, which stays pinned at its frozen 118 cases.
 
 The 32-case Go kernel, in its own report `reports/bifrost-go-kernel.json` with
 raw evidence under `reports/raw/bifrost-go-kernel/`, contains 5 `reached`, 5

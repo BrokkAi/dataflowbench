@@ -343,7 +343,7 @@ const CHALLENGE_ROLLOUT: [ChallengeRollout; 13] = [
         display: "C#",
         classic: &KERNEL_TEMPLATE_IDS,
         challenge: &CHALLENGE_TEMPLATE_IDS,
-        rolled_out: false,
+        rolled_out: true,
     },
     ChallengeRollout {
         language: "scala",
@@ -4383,7 +4383,11 @@ fn codeql_csharp_cases() -> Result<Vec<(PathBuf, Value)>> {
         }
         selected.push((path, case));
     }
-    validate_kernel_population(&selected, "C# CodeQL kernel")?;
+    validate_kernel_population_with(
+        &selected,
+        "C# CodeQL kernel",
+        &expected_core_templates("csharp"),
+    )?;
     if !Path::new(CODEQL_CSHARP_QUERY).is_file() {
         bail!("C# CodeQL query does not exist: {CODEQL_CSHARP_QUERY}");
     }
@@ -8611,9 +8615,13 @@ mod tests {
     }
 
     #[test]
-    fn csharp_core_selection_is_exactly_32_balanced_assertions() {
+    fn csharp_core_selection_is_the_expanded_balanced_population() {
+        let expected_templates = expected_core_templates("csharp");
         let selected = codeql_csharp_cases().unwrap();
-        assert_eq!(selected.len(), 32);
+        assert_eq!(selected.len(), expected_core_case_count("csharp"));
+        // C#'s challenge row is rolled out, so the population is the expanded
+        // 29 templates / 58 assertions, not the classic 32.
+        assert_eq!(selected.len(), 58);
         let mut templates = BTreeMap::<String, (usize, usize)>::new();
         for (_, case) in &selected {
             assert_eq!(case["language"], "csharp");
@@ -8628,7 +8636,8 @@ mod tests {
                 counts.1 += 1;
             }
         }
-        assert_eq!(templates.len(), 16);
+        assert_eq!(templates.len(), expected_templates.len());
+        assert_eq!(templates.len(), 29);
         assert!(
             templates
                 .values()
@@ -8675,7 +8684,9 @@ mod tests {
                 }
             }
         }
-        assert_eq!(selected, KERNEL_CASE_COUNT);
+        // The C# row is rolled out, so the kernel run covers the expanded core.
+        assert_eq!(selected, expected_core_case_count("csharp"));
+        assert!(selected > KERNEL_CASE_COUNT);
     }
 
     /// C and C++ are two populations with two denominators. The C core is the
@@ -11407,11 +11418,11 @@ mod tests {
                 );
                 assert!(template.starts_with(CHALLENGE_TEMPLATE_PREFIX));
             }
-            // Python and JavaScript are the waves that have landed their
+            // Python, JavaScript, and C# are the waves that have landed their
             // fixtures; every other language validates against its classic set
             // alone, so a language whose fixtures do not exist yet is never
             // failed for missing them.
-            let rolled_out = matches!(row.language, "python" | "javascript");
+            let rolled_out = matches!(row.language, "python" | "javascript" | "csharp");
             assert_eq!(
                 challenge_rolled_out(row.language),
                 rolled_out,

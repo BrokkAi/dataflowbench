@@ -10,8 +10,8 @@ score dimensions—those tracks plus `witness`—without pooling them. The first
 scored slice includes a balanced direct-flow pair across 13 language/dialect
 entries and balanced 16-template Java, TypeScript, Python, Kotlin,
 C#, Go, and C++ propagation kernels — plus 15-template C and Rust kernels whose
-exception-catch cell is inapplicable — in the `taint` track. The Python and
-JavaScript cores have since expanded to 29 templates each with the
+exception-catch cell is inapplicable — in the `taint` track. The Python,
+JavaScript, and C# cores have since expanded to 29 templates each with the
 [preregistered challenge tier](docs/challenge-tier.md); the 16-template and
 29-template populations are separate populations of the same name. Each parity kernel uses the
 same language-neutral template IDs with language-specific fixture spellings and

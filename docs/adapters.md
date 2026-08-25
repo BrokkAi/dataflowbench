@@ -61,8 +61,8 @@ sibling merged first. Each language now answers to its own preregistered row.
 
 **The smoke slice is pinned by template identity, not only by policy.** The
 frozen 118-case Bifrost smoke population was pinned by naming the seven policies
-it evaluates. That is no longer sufficient: a Java, JavaScript, or Python
-challenge case names the *same* language-kernel policy its classic siblings
+it evaluates. That is no longer sufficient: a challenge case names the *same*
+language-kernel policy its classic siblings
 name, so it would have been swept into the frozen population and quietly changed
 what those 118 cases mean. `smoke_population_case` therefore refuses any case
 whose `template_id` begins with `dfb-template-chal-`, whatever policy it names
@@ -105,7 +105,7 @@ fixture's `feature_tags` and no observed result can move a case between the
 partitions. The per-template rationale is in
 [the Semgrep adapter notes](../adapters/semgrep/README.md).
 
-**Python and JavaScript are the rows flipped so far.** Each has a core
+**Python, JavaScript, and C# are the rows flipped so far.** Each has a core
 denominator of 29 templates and 58 assertions. The Python wave re-ran the
 adapters no freeze binds — Joern and Semgrep CE — while leaving its
 freeze-bound Bifrost and CodeQL reports exactly as published; the JavaScript
@@ -115,6 +115,17 @@ and so is not a rewrite of published evidence. JavaScript's CodeQL report stays
 as published. The per-adapter evidence, including which adapters were deferred,
 is in [the Python kernel contract](python-kernel.md) and [the JavaScript
 adaptation matrix](javascript-kernel.md).
+
+The C# wave ran **no adapter at all**, and that is the honest consequence of the
+freeze rule rather than a gap in the wave. Every analyzer that covers C# is
+either freeze-bound or absent: `reports/bifrost-csharp-kernel.json` and
+`reports/codeql-csharp-kernel.json` are both digest-bound by
+`reports/freeze.json`, Joern ships a `csharpsrc2cpg` frontend but this
+repository has no C# Joern slice, and Semgrep CE cannot analyze C# at all
+because the pinned distribution lists it as a Pro-only language. The C#
+challenge fixtures, the flipped row, and the validation battery land now; all
+expanded C# evidence arrives at the v0.4.0 re-run. See [the C# kernel
+contract](csharp-kernel.md).
 
 ## CodeQL language populations
 
