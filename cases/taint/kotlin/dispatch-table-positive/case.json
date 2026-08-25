@@ -1,0 +1,67 @@
+{
+  "schema_version": 2,
+  "id": "dfb-taint-kotlin-dispatch-table-positive",
+  "template_id": "dfb-template-chal-dispatch-table",
+  "polarity": "positive",
+  "score_tier": "core",
+  "track": "taint",
+  "language": "kotlin",
+  "semantic_dimensions": [
+    "dynamic-dispatch",
+    "context-sensitivity",
+    "interprocedural-flow"
+  ],
+  "feature_tags": [
+    "higher-order",
+    "ambiguous-dispatch"
+  ],
+  "model_profile": "benchmark-controlled",
+  "fixture_files": [
+    "DispatchTablePositive.kt"
+  ],
+  "source_anchors": [
+    {
+      "marker": "DFB-SOURCE: dispatch-table-input",
+      "file": "DispatchTablePositive.kt"
+    }
+  ],
+  "sink_anchors": [
+    {
+      "marker": "DFB-SINK: dispatch-table-sink",
+      "file": "DispatchTablePositive.kt"
+    }
+  ],
+  "expected_flows": [
+    {
+      "source": "DFB-SOURCE: dispatch-table-input",
+      "sink": "DFB-SINK: dispatch-table-sink"
+    }
+  ],
+  "expected_nonflows": [],
+  "witness_checkpoints": [
+    "DFB-SOURCE: dispatch-table-input",
+    "DFB-WITNESS: dispatch-table-build",
+    "DFB-SINK: dispatch-table-sink"
+  ],
+  "expected_analysis_capability": {
+    "kind": "indirect-callee-resolution-taint"
+  },
+  "execution_budget": {
+    "wall_clock_seconds": 60,
+    "peak_memory_mb": 512
+  },
+  "fixture_provenance": {
+    "kind": "authored",
+    "origin": "DataFlowBench",
+    "revision": "m3-challenge-kotlin",
+    "license": "MIT"
+  },
+  "tool_model_references": {
+    "bifrost": {
+      "policy": "adapters/bifrost/policies/core-kotlin-kernel.rqlp"
+    },
+    "codeql": {
+      "query": "adapters/codeql/kotlin/queries/KotlinKernel.ql"
+    }
+  }
+}

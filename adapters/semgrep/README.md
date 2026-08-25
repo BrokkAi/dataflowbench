@@ -160,17 +160,17 @@ language:
 
 **14 scored in every one of the eleven kernels**, because all seven
 intraprocedural templates are applicable in all eleven languages. Only the
-`unsupported` remainder differs with the denominator: 18 in the seven
-16-template kernels, **16 in C and Rust**, and **44 in Python and JavaScript**,
-whose challenge-tier rows are rolled out.
+`unsupported` remainder differs with the denominator: 18 in the six
+16-template kernels, **16 in C and Rust**, and **44 in Python, JavaScript, and
+Kotlin**, whose challenge-tier rows are rolled out.
 
 | Kernel | Selected | Scored | `unsupported` |
 | --- | --- | --- | --- |
-| Java, TypeScript, Go, Ruby, PHP, Kotlin, C++ | 32 | 14 | 18 |
+| Java, TypeScript, Go, Ruby, PHP, C++ | 32 | 14 | 18 |
 | C, Rust | 30 | 14 | 16 |
-| **Python, JavaScript** | **58** | **14** | **44** |
+| **Python, JavaScript, Kotlin** | **58** | **14** | **44** |
 
-Those two rows are the challenge tier. Each core denominator is the expanded 29
+That last row is the challenge tier. Each core denominator is the expanded 29
 templates — the sixteen v0.3.0 templates plus the thirteen preregistered
 challenge templates — and **every one of the 26 challenge assertions falls in
 the `unsupported` partition**, exactly as the preregistered partition below
@@ -375,20 +375,22 @@ does not require the marker's own line.
 
 ## Observed results
 
-Semgrep CE 1.174.0. Nine kernels ran against fixture revision
+Semgrep CE 1.174.0. Eight kernels ran against fixture revision
 `sha256:aee59a14f96633cf5798df6d211525ea0d10748800ba9c9ac0a3787406bd19ea`; the
-Python and JavaScript kernels were each re-run whole after that language's
-challenge-tier row was rolled out and carry the expanded corpus revision
-current when each ran —
+Python, JavaScript, and Kotlin kernels were each re-run whole after that
+language's challenge-tier row was rolled out and carry the expanded corpus
+revision current when each ran —
 `sha256:3e7a8de5e1eefb18e8166af0ccdf309bccf1d5c26026893a4513f1943926ab1f` for
-Python and
+Python,
 `sha256:61c06a78b95b86764d3c220cfefd7af37373db64b15ae0b76c6ebf924217ab2e` for
-JavaScript. Reports at different fixture revisions are not pooled.
-All eleven kernels ran. 400 assertions: 154 executed against Semgrep, 246
+JavaScript, and
+`sha256:7ac23321e5d0974ed9087b9642ee3c88b3f3af014ba507330131da30fbb9b4d7` for
+Kotlin. Reports at different fixture revisions are not pooled.
+All eleven kernels ran. 426 assertions: 154 executed against Semgrep, 272
 excluded by declared capability. Zero `inconclusive` and zero `runner-error`
-outcomes; 154 retained finding documents, 154 retained resolved rule files, 246
+outcomes; 154 retained finding documents, 154 retained resolved rule files, 272
 retained capability-decision documents, and zero error documents. (The counts
-recorded here before the two expansions, 342 and 188, understated the
+recorded here before the expansions, 342 and 188, understated the
 retained totals by six; the figures above are counted from the committed
 reports and evidence directories.)
 
@@ -401,23 +403,26 @@ reports and evidence directories.)
 | Go | `ga` | 32 | 9 | 5 | 18 | 12/14 |
 | Ruby | `ga` | 32 | 9 | 5 | 18 | 12/14 |
 | PHP | `ga` | 32 | 9 | 5 | 18 | 12/14 |
-| **Kotlin** | **`beta`** | 32 | 9 | 5 | 18 | 12/14 |
+| **Kotlin** | **`beta`** | **58** | 9 | 5 | **44** | 12/14 |
 | **Rust** | **`alpha`** | **30** | 9 | 5 | **16** | 12/14 |
 | **C** | **`alpha`** | **30** | 9 | 5 | **16** | 12/14 |
 | **C++** | **`alpha`** | 32 | 9 | 5 | 18 | 12/14 |
 
-The scored subset is 7 positives and 7 negatives per language, Python's
-expanded denominator included: its 26 challenge assertions are all
+The scored subset is 7 positives and 7 negatives per language, the three
+expanded denominators included: their 26 challenge assertions are all
 `unsupported`, so the scored subset is the same 14 assertions it was, and the
-`Selected` column is the only one its expansion moved. Every one of the 7
+`Selected` column is the only one their expansion moved. Every one of the 7
 intraprocedural positives is `reached` in every language — no false negative
 anywhere — and 5 of the 7 negatives are `not-reached`.
 
-JavaScript is the one expanded population, and it changes only the
-`unsupported` column: all 26 of its challenge assertions are declined by
-declared capability, and its scored 14 are the same 14 assertions with the same
-12/14 result as before the expansion. A larger `unsupported` count on a larger
-population is coverage arithmetic, not a worse engine.
+Python, JavaScript, and Kotlin are the three expanded populations, and each
+changes only the `unsupported` column: all 26 of that language's challenge
+assertions are declined by declared capability, and its scored 14 are the same
+14 assertions with the same 12/14 result as before the expansion. A larger
+`unsupported` count on a larger population is coverage arithmetic, not a worse
+engine. Kotlin makes the point at its bluntest: it is a **`beta`** front end on
+an expanded denominator, and neither fact moved a single case between the
+partitions or changed a single outcome.
 
 The four non-GA front ends score exactly what the seven GA ones score. That is
 worth stating plainly rather than quietly: the maturity label predicted nothing

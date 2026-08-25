@@ -105,16 +105,27 @@ fixture's `feature_tags` and no observed result can move a case between the
 partitions. The per-template rationale is in
 [the Semgrep adapter notes](../adapters/semgrep/README.md).
 
-**Python and JavaScript are the rows flipped so far.** Each has a core
+**Python, JavaScript, and Kotlin are the rows flipped so far.** Each has a core
 denominator of 29 templates and 58 assertions. The Python wave re-ran the
 adapters no freeze binds — Joern and Semgrep CE — while leaving its
 freeze-bound Bifrost and CodeQL reports exactly as published; the JavaScript
 wave re-ran Joern and Semgrep CE too, and additionally ran the dedicated
 `run-bifrost-javascript-kernel` command, which writes a report no freeze binds
 and so is not a rewrite of published evidence. JavaScript's CodeQL report stays
-as published. The per-adapter evidence, including which adapters were deferred,
-is in [the Python kernel contract](python-kernel.md) and [the JavaScript
-adaptation matrix](javascript-kernel.md).
+as published.
+
+Kotlin is the sparsest case and is worth stating explicitly, because a reader
+could otherwise mistake it for missing coverage. **Both** of Kotlin's
+analyzer reports — `reports/bifrost-kotlin-kernel.json` and
+`reports/codeql-kotlin-kernel.json` — are freeze-bound, so both adapters are
+deferred to the v0.4.0 re-run; Joern has no Kotlin slice in this repository at
+all (its `kotlin2cpg` frontend exists upstream and is recorded as available but
+out of scope); so Semgrep CE is the only adapter this wave could run over
+Kotlin's expanded population, and it did. The per-adapter evidence, including
+which adapters were deferred, is in [the Python kernel
+contract](python-kernel.md), [the JavaScript adaptation
+matrix](javascript-kernel.md), and [the Kotlin kernel
+contract](kotlin-kernel.md).
 
 ## CodeQL language populations
 
@@ -308,8 +319,8 @@ and score tier, exactly as the Joern kernels do, and each has its own report
 reference: the v0.3.0 freeze digest-binds every `case.json` byte, so the
 invocation is pinned in the runner instead.
 
-Seven of the eleven select 32 assertions. **Python and JavaScript select 58**
-each, their expanded 29-template cores; every one of their 26 challenge
+Six of the eleven select 32 assertions. **Python, JavaScript, and Kotlin select
+58** each, their expanded 29-template cores; every one of their 26 challenge
 assertions falls in the `unsupported` partition, so each scored subset is the
 same 14 as everyone else's. **C and Rust select 30**: their
 exception-catch cell is inapplicable in `applicability-matrix.md`, so they are

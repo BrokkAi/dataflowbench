@@ -195,14 +195,23 @@ Every Bifrost slice in the v0.3.0 freeze — the smoke population and the
 Kotlin, TypeScript, C#, Go, C, C++, Python, and Rust kernels — was run on this
 one build.
 
-The 32-case Kotlin kernel has 12 `reached`, 10 `not-reached`, and 10
-`inconclusive`, with 19/32 assertions matching expected polarity (19 of 22
-decisive outcomes; under v0.10.2 it was 17/32). Its dedicated report is
-`reports/bifrost-kotlin-kernel.json` and raw evidence is under
-`reports/raw/bifrost-kotlin-kernel/`. The ten `inconclusive` results are the
-complete heap/separation stratum and the exception-catch pair, both polarities,
-each retaining `partial_discovery` evidence; they mirror the Java kernel
-profile and are never counted as negatives.
+The Kotlin kernel snapshot covers the **classic 32-case population**: 12
+`reached`, 10 `not-reached`, and 10 `inconclusive`, with 19/32 assertions
+matching expected polarity (19 of 22 decisive outcomes; under v0.10.2 it was
+17/32). Its dedicated report is `reports/bifrost-kotlin-kernel.json` and raw
+evidence is under `reports/raw/bifrost-kotlin-kernel/`. The ten `inconclusive`
+results are the complete heap/separation stratum and the exception-catch pair,
+both polarities, each retaining `partial_discovery` evidence; they mirror the
+Java kernel profile and are never counted as negatives.
+
+Kotlin's core population is now **58 assertions**, its challenge-tier row
+having been rolled out, but `reports/bifrost-kotlin-kernel.json` is one of the
+nineteen reports `reports/freeze.json` digest-binds for v0.3.0, so
+`run-bifrost-kotlin-kernel` was **not** re-run for that expansion: **expanded
+Bifrost evidence for Kotlin is pending the v0.4.0 freeze-prep re-run**, and the
+snapshot above remains a valid classic-population result that says nothing
+about the 26 challenge assertions. Deferral is not absence of coverage; see the
+[Kotlin kernel contract](../../docs/kotlin-kernel.md).
 
 The 32-case TypeScript kernel, in its own report
 `reports/bifrost-typescript-kernel.json` with raw evidence under

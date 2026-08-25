@@ -10,8 +10,8 @@ score dimensions—those tracks plus `witness`—without pooling them. The first
 scored slice includes a balanced direct-flow pair across 13 language/dialect
 entries and balanced 16-template Java, TypeScript, Python, Kotlin,
 C#, Go, and C++ propagation kernels — plus 15-template C and Rust kernels whose
-exception-catch cell is inapplicable — in the `taint` track. The Python and
-JavaScript cores have since expanded to 29 templates each with the
+exception-catch cell is inapplicable — in the `taint` track. The Python,
+JavaScript, and Kotlin cores have since expanded to 29 templates each with the
 [preregistered challenge tier](docs/challenge-tier.md); the 16-template and
 29-template populations are separate populations of the same name. Each parity kernel uses the
 same language-neutral template IDs with language-specific fixture spellings and
@@ -168,9 +168,9 @@ intraprocedural partition of each kernel is scored — the pinned CLI documents
 interprocedural taint, cross-file taint, and path sensitivity as Pro Engine
 features, so the rest is `unsupported` rather than false negatives. All eleven
 kernels produced 9 `reached`, 5 `not-reached`, and the whole remainder
-`unsupported` (18 for the seven unexpanded 16-template kernels, 16 for C and
+`unsupported` (18 for the six unexpanded 16-template kernels, 16 for C and
 Rust, whose exception-catch cell is inapplicable, and 44 each for the expanded
-29-template Python and JavaScript kernels), with no `inconclusive` or `runner-error`
+29-template Python, JavaScript, and Kotlin kernels), with no `inconclusive` or `runner-error`
 outcome and 12/14 of each scored subset matching the expected polarity; every
 intraprocedural positive was found in every language. The two mismatches are the
 same in all eleven — false positives on the infeasible branch and the
@@ -187,10 +187,13 @@ produced from build identity `728ac69ab93224151c6c951b23d2f5bc681d8558`.
 The Java, Python, and JavaScript 32-assertion kernels each have 32/32
 expected-polarity matches with no decisive mismatches and no incomplete
 outcomes; under v0.10.2 they stood at 17/32, 16/32, and 19/32. Those are the
-frozen v0.3.0 16-template populations. Python's core has since expanded to 29
-templates and 58 assertions, and its Bifrost evidence for that larger
-population is deferred to the v0.4.0 freeze-prep re-run rather than being
-published here — the frozen report may not be overwritten. Incomplete
+frozen v0.3.0 16-template populations. The Python and Kotlin cores have since
+expanded to 29 templates and 58 assertions each, and their Bifrost evidence for
+that larger population is deferred to the v0.4.0 freeze-prep re-run rather than
+being published here — the frozen reports may not be overwritten. The same
+deferral applies to Kotlin's CodeQL report, which is freeze-bound too, so
+Semgrep CE is the only adapter with expanded-population evidence for Kotlin in
+this release. Incomplete
 outcomes remain distinct from decisive semantic mismatches and are never
 treated as negative results.
 
