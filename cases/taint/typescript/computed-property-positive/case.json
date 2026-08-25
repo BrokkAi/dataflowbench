@@ -1,0 +1,66 @@
+{
+  "schema_version": 2,
+  "id": "dfb-taint-typescript-computed-property-positive",
+  "template_id": "dfb-template-chal-computed-property",
+  "polarity": "positive",
+  "score_tier": "core",
+  "track": "taint",
+  "language": "typescript",
+  "semantic_dimensions": [
+    "heap-field-sensitivity"
+  ],
+  "feature_tags": [
+    "computed-access"
+  ],
+  "model_profile": "benchmark-controlled",
+  "fixture_files": [
+    "ComputedPropertyPositive.ts"
+  ],
+  "source_anchors": [
+    {
+      "marker": "DFB-SOURCE: computed-property-input",
+      "file": "ComputedPropertyPositive.ts",
+      "line_hint": 1
+    }
+  ],
+  "sink_anchors": [
+    {
+      "marker": "DFB-SINK: computed-property-sink",
+      "file": "ComputedPropertyPositive.ts",
+      "line_hint": 5
+    }
+  ],
+  "expected_flows": [
+    {
+      "source": "DFB-SOURCE: computed-property-input",
+      "sink": "DFB-SINK: computed-property-sink"
+    }
+  ],
+  "expected_nonflows": [],
+  "witness_checkpoints": [
+    "DFB-SOURCE: computed-property-input",
+    "DFB-WITNESS: computed-property-store",
+    "DFB-SINK: computed-property-sink"
+  ],
+  "expected_analysis_capability": {
+    "kind": "computed-member-access-taint"
+  },
+  "execution_budget": {
+    "wall_clock_seconds": 60,
+    "peak_memory_mb": 512
+  },
+  "fixture_provenance": {
+    "kind": "authored",
+    "origin": "DataFlowBench",
+    "revision": "m3-challenge-typescript",
+    "license": "MIT"
+  },
+  "tool_model_references": {
+    "bifrost": {
+      "policy": "adapters/bifrost/policies/core-typescript-kernel.rqlp"
+    },
+    "codeql": {
+      "query": "adapters/codeql/typescript/queries/TypeScriptKernel.ql"
+    }
+  }
+}

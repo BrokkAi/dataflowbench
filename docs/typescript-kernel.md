@@ -57,11 +57,182 @@ All TypeScript fixtures use the benchmark-controlled `dfb_source` and
 its TypeScript kernel policy, but fixture metadata remains analyzer-neutral and
 retains only observed evidence in reports.
 
+## Challenge-tier expansion
+
+[The challenge tier](challenge-tier.md) preregistered thirteen further
+propagation templates before any fixture existed. All thirteen are classified
+**directly applicable** to TypeScript, so the TypeScript core denominator grows
+from 16 templates / 32 assertions to **29 templates / 58 assertions**. The
+challenge cases carry `score_tier: "core"` — there is no separate tier — and
+their fixture provenance revision is `m3-challenge-typescript`.
+
+The v0.3.0 sixteen-template core and this expanded core are different
+populations and are never compared number to number.
+
+As with the classic sixteen, the TypeScript challenge fixtures are the
+JavaScript challenge fixtures plus type annotations. The runtime shape — which
+value flows where, which key is read, which callee is selected — is byte-for-byte
+the same decision in both languages, and TypeScript remains a separate result
+population that is never mixed with JavaScript's.
+
+### Adaptation notes
+
+Every cell is direct. The realizations, recorded so a reader can check the
+fixture against the template rather than against a guess:
+
+| Stratum | Template ID | TypeScript realization |
+| --- | --- | --- |
+| A | `dfb-template-chal-reflective-invocation` | `handlers[name](dfb_source())` with `name` a `string`-typed local, so the selected method is never a syntactic literal at the call site. `handlers` is annotated `Record<string, (value: string) => void>`. The negative points `name` at the sibling method that drops its argument. |
+| A | `dfb-template-chal-computed-property` | `holder[key] = dfb_source()` written and read back through the same local key variable, with `key: keyof Holder` over a declared `interface Holder { payload: string; other: string }`. The negative writes under one constant key and reads a provably distinct one. |
+| A | `dfb-template-chal-dispatch-table` | An object literal of two arrow functions annotated `Record<string, Handler>` for `type Handler = (value: string) => void`; the entry is fetched as a first-class value (`const selected: Handler = table[key]`) and then invoked, which is what separates it from the reflective method call above. |
+| B | `dfb-template-chal-closure-capture` | A factory typed `(): () => void` captures the tainted local and returns `(): void => { dfb_sink(captured); }`, invoked by the caller after the local has left scope. The negative captures the clean local; the source call stays in place. |
+| B | `dfb-template-chal-function-field` | Two `Holder` objects each carry a function-valued `fn` property declared `(value: string) => void`; a separate `invoke(target: Holder, value: string)` reads the field and calls it. The negative hands `invoke` the second holder. |
+| B | `dfb-template-chal-callback-registration` | An object typed `interface Registry { hooks: Hook[] }`, a `register` function, and a `fire` driver that iterates and invokes. No framework, twenty lines of language. |
+| B | `dfb-template-chal-anonymous-implementation` | Two inline anonymous function expressions assigned to variables of the **declared call-signature interface** `Handler { (value: string): void }` and invoked through the reference; neither captures anything, which is what keeps it distinct from closure capture. TypeScript is where the template's "invoked through the declared interface type" wording is literally true — the JavaScript fixture can only imply the declared type. |
+| C | `dfb-template-chal-map-iteration` | `for (const [key, value] of Object.entries(carrier))` over a `Record<string, string>`, never a keyed get. The negative iterates a second, disjoint object. |
+| C | `dfb-template-chal-nested-access-path` | `a.b.c.value` written and read at depth 3 through three declared interfaces (`Level1`/`Level2`/`Level3`); the negative reads the sibling `a.b.c.other`. |
+| C | `dfb-template-chal-element-object` | An `Item[]` of object literals; the negative reads `items[1].value` after `items[0].value` was written. |
+| D | `dfb-template-chal-deep-relay-chain` | `relay1` … `relay6`, module-level, `(value: string): void` throughout, no branching or state, with the sink inside `relay6`. The negative feeds the identical chain a clean constant. |
+| D | `dfb-template-chal-recursive-carry` | `carry(value: string, depth: number): string` recursing to `depth === 0` from 5; the negative's base case returns a clean constant instead of the carried one. |
+| D | `dfb-template-chal-context-pair-depth2` | One `helper` reached through two distinct two-deep paths, `outerTainted -> wrapper -> helper` and `outerClean -> wrapper -> helper`, per [Amendment A1](challenge-tier.md#amendments): `helper` returns its argument and the caller sinks the selected result. Both paths are live in both fixtures; only which returned value reaches `dfb_sink` differs. |
+
+### Typing choices that matter analytically
+
+Three annotations are load-bearing rather than cosmetic, in the sense that a
+different-but-also-valid annotation would have changed what the fixture asks:
+
+1. **Index signatures on the two stratum-A dynamic holders.** `handlers` and
+   `table` are annotated `Record<string, …>` because the templates require the
+   selecting key to be a run-time `string`, not a literal. A narrower
+   `{ leak: …; drop: … }` annotation would have made TypeScript resolve the
+   member statically and quietly converted a dynamic-dispatch question into a
+   static one. The `Record` widening is what preserves the template's intent,
+   and it is the same choice the preregistration anticipates for TypeScript.
+2. **`keyof Holder` for the computed-property keys.** The alternative,
+   `Record<string, string>`, would have erased the two declared sibling fields
+   and made the negative's field separation invisible in the type. Declaring
+   `interface Holder { payload: string; other: string }` and typing the key
+   `keyof Holder` keeps both declared fields and still leaves the access site a
+   variable-keyed one, which is the property under test.
+3. **No-op function initializers instead of `null` in `function-field`.** The
+   JavaScript fixture initializes `{ fn: null }` and assigns the real function
+   afterwards. Under `strictNullChecks` that field would have to be typed
+   `… | null` and the `target.fn(value)` call site would need a narrowing that
+   the template does not ask about. The holders are therefore initialized with
+   an empty `(value: string): void => {}` of the field's own type, and the
+   witness-marked assignment that stores the sinking function is unchanged. The
+   store, the fetch, and the object separation are all exactly as in
+   JavaScript.
+
+Everywhere else the annotation is the obvious one and adds nothing to the
+question. `any` was not needed anywhere: the two index signatures carry every
+dynamic stratum this kernel has.
+
+All twenty-six fixtures are standard-library-only — no dependency, no
+framework, no build tooling — and the whole 58-fixture TypeScript population
+type-checks clean, one file at a time, under the host toolchain this kernel
+records:
+
+```bash
+npx -p typescript@5.9 tsc --noEmit --strict --target es2020 --lib es2020 <fixture>.ts
+```
+
+(One file at a time because every fixture declares `dfb_source` and `dfb_sink`
+at script scope; compiling them into one program would collide on those names
+rather than find a defect.)
+
+### Adapter coverage of the expanded population
+
+One adapter was re-run over the whole 58-assertion population for this
+expansion. Two are deferred by the freeze rule, and one does not cover
+TypeScript at all. None of the three is a gap in what this kernel measures, and
+the difference between them matters:
+
+| Adapter | Expanded run | Report |
+| --- | --- | --- |
+| Semgrep CE 1.174.0 | Yes | `reports/semgrep-typescript-kernel.json` |
+| Bifrost v0.10.5 | **Deferred (freeze-bound)** | `reports/bifrost-typescript-kernel.json` |
+| CodeQL 2.26.3 | **Deferred (freeze-bound)** | `reports/codeql-typescript-kernel.json` |
+| Joern 4.0.610 | **No TypeScript slice exists** | — |
+
+**Both Bifrost and CodeQL are deferred, and both for the same reason.**
+`reports/bifrost-typescript-kernel.json` and
+`reports/codeql-typescript-kernel.json` are two of the nineteen reports
+`reports/freeze.json` digest-binds for v0.3.0, so this change must not overwrite
+either: **expanded Bifrost and CodeQL evidence for TypeScript is pending the
+v0.4.0 freeze-prep re-run**, on the repository's established
+re-run-at-freeze pattern. The retained reports below remain the valid
+32-assertion classic snapshots, and they describe a *different population* from
+the expanded one. Deferral is not absence of coverage: both engines cover
+TypeScript, both will attempt all 58 assertions at v0.4.0, and this wave simply
+had no freeze-legal file to write them to. TypeScript is the only wave language
+so far whose *entire* Bifrost and CodeQL evidence is deferred at once — the
+JavaScript and Python waves each had at least one non-freeze-bound report to
+write.
+
+**Joern has no TypeScript slice, and this wave did not invent one.** The pinned
+`joern-v4.0.610` adapter covers Java, JavaScript, Python, Ruby, PHP, and Rust;
+`adapters/joern/README.md` already records TypeScript as "Available, not yet in
+scope" — its `jssrc2cpg` frontend can parse `.ts`, but no
+`run-joern-typescript-kernel` command, query selection, or report exists, and
+standing one up is a new adapter slice rather than part of a fixture wave.
+Adding one here would have made the wave's own change the object of study.
+
+### Semgrep CE 1.174.0 — expanded core
+
+`reports/semgrep-typescript-kernel.json`. The whole 58-case population is
+selected and balance-checked, and the bounded profile then decides what is
+scored, from case metadata, before Semgrep is invoked.
+
+| Stratum | Assertions | Scored | `unsupported` | Polarity match (scored) |
+| --- | --- | --- | --- | --- |
+| Classic (16 templates) | 32 | 14 | 18 | 12/14 |
+| Challenge (13 templates) | 26 | 0 | 26 | n/a |
+
+Whole-population outcome distribution: 9 `reached`, 5 `not-reached`, 44
+`unsupported`, zero `inconclusive`, zero `runner-error`.
+
+**All twenty-six challenge assertions take the preregistered `unsupported`
+partition**, exactly as [the challenge tier](challenge-tier.md) predicted: no
+challenge template carries the `intraprocedural` feature tag, so none is inside
+the documented CE local-taint profile, and each retains its own
+`*-unsupported.json` capability-decision document naming the declared capability
+and the boundary it falls outside, citing the preregistered per-template
+rationale rather than the generic tag rule. The scored subset therefore stays at
+**14 assertions and 12/14**, unchanged from the classic run — the two mismatches
+are still the `infeasible-branch` and `loop-carried` negatives, the path
+sensitivity the pinned CLI sells as Pro. Comparing the retained report before
+and after this expansion, **not one of the 32 classic outcomes moved**. The
+partition was not adjusted for this expansion, and twenty-six declined
+assertions are coverage, never twenty-six false negatives.
+
+The expanded report carries fixture revision
+`sha256:2c906faeb98b48d1aba7da7bc80a78c4084051b84efac6ac3a1b74f54c843fd2`,
+configuration hash
+`865d0bd2989f9ddd0b90f2d6675584e86706b109a033d4a1ac00bd21a617b100`, tool build
+identity `semgrep-oss:1.174.0`. Reports at different fixture revisions are not
+pooled.
+
+### What this wave does and does not establish
+
+Honestly stated, because the deferral makes it easy to overclaim: this wave
+establishes that the TypeScript challenge fixtures exist, type-check, and are
+selected and balance-checked by the population machinery, and it establishes
+one adapter's expanded-population behavior — Semgrep CE's, which is a declared
+capability boundary rather than an analysis result. It establishes **nothing**
+about how well any engine follows TypeScript taint through reflection,
+higher-order code, containers, or depth. That evidence arrives with the v0.4.0
+re-run of the two deferred adapters, and until then TypeScript's challenge
+strata have no analysis outcomes at all.
+
 ## CodeQL selection and reproduction
 
-The CodeQL TypeScript vertical slice is exactly the 32 `taint`/`core` cases
-under `cases/taint/typescript/`: the 16 template rows above multiplied by one
-positive and one negative assertion. The dedicated query is:
+The CodeQL TypeScript vertical slice is the whole TypeScript `taint`/`core`
+population under `cases/taint/typescript/` — 32 assertions classically, and
+**58** now that the thirteen challenge templates have rolled out: 29 template
+rows multiplied by one positive and one negative assertion. The retained
+snapshot below is the classic 32, because the expanded run is deferred to
+v0.4.0 by the freeze rule. The dedicated query is:
 
 ```text
 adapters/codeql/typescript/queries/TypeScriptKernel.ql
@@ -153,13 +324,25 @@ with:
 cargo run -- run-bifrost-typescript-kernel --bifrost /path/to/bifrost
 ```
 
-The command selects only the 32 TypeScript core assertions, writes
+The command selects the whole TypeScript core population — 32 assertions
+classically, 58 with the challenge templates rolled out — writes
 `reports/bifrost-typescript-kernel.json`, and retains each case's raw Bifrost
 JSON under `reports/raw/bifrost-typescript-kernel/`. A report with incomplete
 runs is normalized as `inconclusive` even when it contains no findings; it is
 never interpreted as a negative.
 
+**This command was deliberately not run for the challenge expansion.**
+`reports/bifrost-typescript-kernel.json` is freeze-bound by v0.3.0, so running
+it now would overwrite frozen evidence; the expanded run is deferred to the
+v0.4.0 freeze-prep re-run, as recorded above.
+
 ## Observed results
+
+Both retained snapshots below are the **classic 32-assertion population**.
+Neither includes the twenty-six challenge assertions, whose Bifrost and CodeQL
+evidence is deferred to the v0.4.0 re-run for the freeze reason recorded in the
+[challenge-tier expansion](#challenge-tier-expansion) section. They are not
+expanded-core numbers and must not be read as any.
 
 ### Bifrost v0.10.5
 

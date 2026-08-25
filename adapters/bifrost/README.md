@@ -28,8 +28,12 @@ realizations, and the explicit exceptional-flow limitation. The Python parity sl
 contract](../../docs/kotlin-kernel.md) for its two `var`-based adaptations and
 for why the Kotlin kernel run pins its policy for the whole population rather
 than reading it from each case. The TypeScript parity slice repeats those 16
-templates against `.ts` fixtures through `core-typescript-kernel.rqlp`; see the
-[TypeScript adaptation matrix](../../docs/typescript-kernel.md). TypeScript is a
+templates against `.ts` fixtures through `core-typescript-kernel.rqlp`, and its
+thirteen challenge templates have now rolled out too, taking its core
+population to 29 templates and 58 assertions; see the [TypeScript adaptation
+matrix](../../docs/typescript-kernel.md). The retained TypeScript report is the
+classic 32 — it is freeze-bound by v0.3.0, so its expanded run is deferred to
+the v0.4.0 freeze-prep re-run rather than written here. TypeScript is a
 separate population from JavaScript and the two are never mixed. The C# parity
 slice uses `core-csharp-kernel.rqlp`; its direct-propagation pair is frozen in
 the v0.2.0 evidence with the breadth `core-direct.rqlp` policy, so the C#
@@ -214,7 +218,11 @@ and 2 `inconclusive`, with 30/32 assertions matching expected polarity — all
 30 decisive outcomes are correct. The two `inconclusive` results are the
 exception-catch pair, retaining `capability_incomplete` evidence. Under
 v0.10.2 this kernel matched 19/32; the alias-propagation and array-element
-pairs are now decisive and correct.
+pairs are now decisive and correct. That report is the classic 32-assertion
+population only: TypeScript's core is now 58 assertions, but the report is
+freeze-bound by v0.3.0, so **the expanded Bifrost TypeScript evidence is
+pending the v0.4.0 freeze-prep re-run** and this snapshot is not an
+expanded-core number.
 
 The C# kernel's frozen 32-case run, in its own report
 `reports/bifrost-csharp-kernel.json`

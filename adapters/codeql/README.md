@@ -214,8 +214,10 @@ configuration hash is
 
 ## TypeScript kernel
 
-The TypeScript runner selects exactly the 32 `taint` cases whose `language` is
-`typescript` and `score_tier` is `core`, and runs:
+The TypeScript runner selects the whole TypeScript core `taint` population —
+32 assertions classically, and **58** now that its thirteen challenge templates
+have rolled out (`docs/challenge-tier.md`) — whose `language` is `typescript`
+and `score_tier` is `core`, and runs:
 
 ```text
 adapters/codeql/typescript/queries/TypeScriptKernel.ql
@@ -247,6 +249,14 @@ document](../../docs/typescript-kernel.md) for the full adaptation table and
 the freeze rationale.
 
 ### Retained TypeScript snapshot
+
+**Expanded evidence is deferred.** `reports/codeql-typescript-kernel.json` is
+one of the nineteen reports `reports/freeze.json` digest-binds for v0.3.0, so
+the TypeScript challenge expansion did not overwrite it: the expanded
+58-assertion CodeQL evidence is pending the v0.4.0 freeze-prep re-run, on this
+repository's established re-run-at-freeze pattern, and the deferral is recorded
+in `docs/typescript-kernel.md`. What follows is the valid classic 32-assertion
+snapshot, and it describes a different population from the expanded one.
 
 The checked-in `reports/codeql-typescript-kernel.json` contains 32 results: 15
 `reached` and 17 `not-reached`, with zero `inconclusive`, `unsupported`, or
