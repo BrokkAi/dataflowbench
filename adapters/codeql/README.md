@@ -130,13 +130,19 @@ illustrative names.
 
 ## Kotlin kernel
 
-The Kotlin runner selects exactly the 32 `taint` cases whose `language` is
-`kotlin` and `score_tier` is `core`, and pins
+The Kotlin runner selects exactly the `taint` cases whose `language` is
+`kotlin` and `score_tier` is `core` — **58 now that Kotlin's challenge-tier row
+is rolled out** — and pins
 `adapters/codeql/kotlin/queries/KotlinKernel.ql` for the whole population. It
 refuses any Kotlin core case that declares a *different* CodeQL query. Two of
-the 32 — the direct-propagation pair frozen in v0.2.0 as part of the
+them — the direct-propagation pair frozen in v0.2.0 as part of the
 cross-language breadth slice — declare no CodeQL reference at all; see the
 [Kotlin kernel contract](../../docs/kotlin-kernel.md).
+
+`reports/codeql-kotlin-kernel.json` is freeze-bound, so the runner was **not**
+executed over the expanded population: the retained Kotlin snapshot below is a
+classic 32-assertion result, and **expanded CodeQL evidence for Kotlin is
+pending the v0.4.0 freeze-prep re-run**.
 
 CodeQL CLI 2.26.3 cannot extract Kotlin under `--build-mode=none`, so the
 runner traces a real `kotlinc` compile per case:
@@ -663,7 +669,10 @@ or error outcomes. The false negatives are the expression, alias-propagation,
 and exception-catch positives; the array-element and loop-carried negatives are
 false positives — the same five mismatches the Java snapshot shows against this
 build. Its configuration hash is
-`25b92ad6190d65fd76c67da51c3ec0d638cea7699e976941c027a48700b9096e`.
+`25b92ad6190d65fd76c67da51c3ec0d638cea7699e976941c027a48700b9096e`. It covers
+Kotlin's classic 32-assertion population only; the 26 challenge assertions
+added since are not in it, and their CodeQL evidence is deferred to the v0.4.0
+re-run.
 
 The retained Python snapshot uses the same CodeQL CLI v2.26.3 build
 `7d097a43199effe04ecd9c6bd3ad9bb02a45b3d7` with `codeql/python-all@7.2.3`.
