@@ -1,0 +1,67 @@
+{
+  "schema_version": 2,
+  "id": "dfb-taint-cpp-function-field-positive",
+  "template_id": "dfb-template-chal-function-field",
+  "polarity": "positive",
+  "score_tier": "core",
+  "track": "taint",
+  "language": "cpp",
+  "semantic_dimensions": [
+    "dynamic-dispatch",
+    "heap-field-sensitivity",
+    "object-sensitivity",
+    "interprocedural-flow"
+  ],
+  "feature_tags": [
+    "higher-order"
+  ],
+  "model_profile": "benchmark-controlled",
+  "fixture_files": [
+    "function_field_positive.cpp"
+  ],
+  "source_anchors": [
+    {
+      "marker": "DFB-SOURCE: function-field-input",
+      "file": "function_field_positive.cpp"
+    }
+  ],
+  "sink_anchors": [
+    {
+      "marker": "DFB-SINK: function-field-sink",
+      "file": "function_field_positive.cpp"
+    }
+  ],
+  "expected_flows": [
+    {
+      "source": "DFB-SOURCE: function-field-input",
+      "sink": "DFB-SINK: function-field-sink"
+    }
+  ],
+  "expected_nonflows": [],
+  "witness_checkpoints": [
+    "DFB-SOURCE: function-field-input",
+    "DFB-WITNESS: function-field-store",
+    "DFB-SINK: function-field-sink"
+  ],
+  "expected_analysis_capability": {
+    "kind": "heap-stored-callee-taint"
+  },
+  "execution_budget": {
+    "wall_clock_seconds": 60,
+    "peak_memory_mb": 512
+  },
+  "fixture_provenance": {
+    "kind": "authored",
+    "origin": "DataFlowBench",
+    "revision": "m3-challenge-cpp",
+    "license": "MIT"
+  },
+  "tool_model_references": {
+    "bifrost": {
+      "policy": "adapters/bifrost/policies/core-cpp-kernel.rqlp"
+    },
+    "codeql": {
+      "query": "adapters/codeql/cpp/queries/CppKernel.ql"
+    }
+  }
+}

@@ -40,8 +40,13 @@ the v0.2.0 evidence with the breadth `core-direct.rqlp` policy, so the C#
 selector accepts that policy too and evaluates each case through the policy it
 declares; see [the C# kernel contract](../../docs/csharp-kernel.md). The Go
 parity slice uses `core-go-kernel.rqlp` under the same frozen-direct-pair
-arrangement; see [the Go kernel contract](../../docs/go-kernel.md) for its
-struct, pointer-alias, array, and `panic`/`recover` adaptations. The C and C++
+arrangement, and its thirteen challenge templates have now rolled out too,
+taking its core population to 29 templates and 58 assertions; see [the Go kernel
+contract](../../docs/go-kernel.md) for its struct, pointer-alias, array, and
+`panic`/`recover` adaptations, and for the three `reflect`-based challenge
+adaptations. The retained Go report is the classic 32 — it is freeze-bound by
+v0.3.0, so its expanded run is deferred to the v0.4.0 freeze-prep re-run rather
+than written here. The C and C++
 parity slices use `core-c-kernel.rqlp` and `core-cpp-kernel.rqlp` and are two
 separate populations with two different denominators: C++ covers all 16 classic
 templates (32 core assertions), while C's classic core is 15 (30 core
@@ -49,7 +54,7 @@ assertions) because `dfb-template-exception-catch` is inapplicable to C, and its
 two `language-extension` cases run in the same slice on their own scorecard.
 C's challenge row has since rolled out — nine of the thirteen preregistered
 challenge templates are applicable to C — taking its core population to **24
-templates and 48 assertions**, while C++'s row is not yet rolled out. The
+templates and 48 assertions**, and C++'s row has rolled out likewise, to **28 templates and 56 assertions**. The
 retained C report is the classic 30: it is freeze-bound by v0.3.0, so **the
 expanded Bifrost C evidence is deferred to the v0.4.0 freeze-prep re-run**
 rather than written here. See [the C kernel
@@ -79,7 +84,8 @@ pinned Joern has no Scala source frontend, so Bifrost is the only tool that
 produces Scala results at all. See
 [the Scala kernel contract](../../docs/scala-kernel.md). Every kernel command
 selects only its own language's core assertions — 32 for the 16-template
-kernels, 30 for C and Rust — and writes a dedicated report. The Java
+kernels, 30 for C and Rust, 58 for the expanded 29-template kernels, and 56
+for C++, whose expanded core is 28 templates — and writes a dedicated report. The Java
 calibration slice also
 covers one-hop helper flow. Generated workspaces live outside the repository so
 repository ignore rules cannot hide fixtures from Bifrost's indexer. Sanitizer
@@ -208,14 +214,23 @@ Every Bifrost slice in the v0.3.0 freeze — the smoke population and the
 Kotlin, TypeScript, C#, Go, C, C++, Python, and Rust kernels — was run on this
 one build.
 
-The 32-case Kotlin kernel has 12 `reached`, 10 `not-reached`, and 10
-`inconclusive`, with 19/32 assertions matching expected polarity (19 of 22
-decisive outcomes; under v0.10.2 it was 17/32). Its dedicated report is
-`reports/bifrost-kotlin-kernel.json` and raw evidence is under
-`reports/raw/bifrost-kotlin-kernel/`. The ten `inconclusive` results are the
-complete heap/separation stratum and the exception-catch pair, both polarities,
-each retaining `partial_discovery` evidence; they mirror the Java kernel
-profile and are never counted as negatives.
+The Kotlin kernel snapshot covers the **classic 32-case population**: 12
+`reached`, 10 `not-reached`, and 10 `inconclusive`, with 19/32 assertions
+matching expected polarity (19 of 22 decisive outcomes; under v0.10.2 it was
+17/32). Its dedicated report is `reports/bifrost-kotlin-kernel.json` and raw
+evidence is under `reports/raw/bifrost-kotlin-kernel/`. The ten `inconclusive`
+results are the complete heap/separation stratum and the exception-catch pair,
+both polarities, each retaining `partial_discovery` evidence; they mirror the
+Java kernel profile and are never counted as negatives.
+
+Kotlin's core population is now **58 assertions**, its challenge-tier row
+having been rolled out, but `reports/bifrost-kotlin-kernel.json` is one of the
+nineteen reports `reports/freeze.json` digest-binds for v0.3.0, so
+`run-bifrost-kotlin-kernel` was **not** re-run for that expansion: **expanded
+Bifrost evidence for Kotlin is pending the v0.4.0 freeze-prep re-run**, and the
+snapshot above remains a valid classic-population result that says nothing
+about the 26 challenge assertions. Deferral is not absence of coverage; see the
+[Kotlin kernel contract](../../docs/kotlin-kernel.md).
 
 The 32-case TypeScript kernel, in its own report
 `reports/bifrost-typescript-kernel.json` with raw evidence under
@@ -265,7 +280,11 @@ or `capability_incomplete` (10) evidence; the ten are the four heap pairs
 ("procedure value-flow snapshot ... is unsupported (assignments)") and the
 `panic`/`recover` exception pair, where Bifrost cannot bind the sink operand
 supplied by `recover()`. All of this is capability coverage, never a negative
-result; see [the Go kernel contract](../../docs/go-kernel.md).
+result; see [the Go kernel contract](../../docs/go-kernel.md). That report is
+the classic 32-assertion population only: Go's core is now 58 assertions, but
+the report is freeze-bound by v0.3.0, so **the expanded Bifrost Go evidence is
+pending the v0.4.0 freeze-prep re-run** and this snapshot is not an
+expanded-core number.
 
 **Deferred: the expanded C population.** C's challenge-tier row is now rolled
 out and its core denominator is 24 templates / 48 assertions — nine of the
