@@ -593,7 +593,8 @@ sensitivity at k = 2 — enough to defeat context-insensitive merging and 1-CFA.
 **Sketches.** `outerTainted() -> wrapper(x) -> helper(x) -> sink` and
 `outerClean() -> wrapper(x) -> helper(x) -> sink`, with the *same* `wrapper` and
 `helper` bodies shared by both outer methods. Identical in Java, JavaScript, and
-Python.
+Python. *See Amendment A1: the canonical fixture construction carries the value
+back by return and sinks the selected result in the caller.*
 
 **Lineage.** OWASP Benchmark indirection tests; xAST's context-sensitivity
 scenarios. It is the two-level extension of the core's
@@ -1057,3 +1058,34 @@ at risk of eroding:
   populations and are never compared as if they were one.
 - Stratum A and template 7 results are reported as approximation character, not
   as a ranking.
+
+## Amendments
+
+### A1 — 2026-08-25: canonical construction for `dfb-template-chal-context-pair-depth2`
+
+**What changed.** The illustrative sketch above places the sink call inside
+`helper`. Taken literally, that shape is not assertable: both fixtures must
+contain the tainted outer context (that is what makes the negative a context
+question rather than a dead-code question), so a sink inside the shared
+`helper` body would leave a genuine live source-to-sink flow in the *negative*
+fixture and falsify its non-flow assertion regardless of analyzer quality. The
+canonical construction — used by every implementing language — is the corpus
+convention the classic `dfb-template-call-context-separation` pair already
+establishes at k = 1: `helper` returns its argument, and the caller sinks the
+result of the selected two-deep path. The positive sinks the tainted context's
+result; the negative sinks the clean context's result while the tainted call
+remains live, which is precisely the false-positive trap for context-merging
+engines that the template exists to set.
+
+**Why.** Sketch under-specification, not a semantic change. The template's
+binding parts — semantic intent (k = 2 context separation), polarity,
+`negative_mechanism: call-context-separation`, and applicability — are
+untouched. The correction was identified independently by the first two
+implementing languages (Java and Python) before any analyzer executed against
+either fixture, and both recorded it in their kernel contracts at the time.
+
+**Templates and languages touched.** `dfb-template-chal-context-pair-depth2`,
+all languages (the construction is language-uniform).
+
+**Freezes invalidated.** None. No published freeze binds any challenge
+fixture.
