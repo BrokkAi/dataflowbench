@@ -85,8 +85,9 @@ track == "taint"
 score_tier == "core"
 ```
 
-For the five 16-template languages that is exactly 32 assertions — one positive
-and one negative for each of the 16 scored templates in
+For the four 16-template languages that have not been expanded that is exactly
+32 assertions — one positive and one negative for each of the 16 scored
+templates in
 `docs/applicability-matrix.md`, all under the `benchmark-controlled` model
 profile. Rust's exception-catch cell is **inapplicable**
 (`docs/applicability-matrix.md` and `docs/rust-kernel.md` record why), so the
@@ -95,6 +96,12 @@ Semgrep and CodeQL Rust selections treat that cell. The `Result`/`?`
 `language-extension` pair that stands in for the missing cell is scored on its
 own tier and is deliberately **not** in this selection: the Joern Rust kernel is
 the 30 core assertions and nothing else.
+
+JavaScript moves the other way: its thirteen preregistered challenge templates
+have rolled out (`docs/challenge-tier.md`), so its core population is 29
+templates — **58 assertions** — and the selector picks all of them up without
+any per-adapter change, because the denominator is derived from the rollout
+table rather than hard-coded.
 
 Each selection is enforced by the same `validate_kernel_population_with` check
 every other kernel uses, against that language's own template set. The six
@@ -222,17 +229,21 @@ lands on the *callsite*, so matching does not require the marker's own line.
 ## Observed results
 
 Joern 4.0.610, build identity `joern-cli:4.0.610`. All six kernels ran on the
-same pinned distribution, the same unmodified script, and the same fixture
-revision `sha256:aee59a14f96633cf5798df6d211525ea0d10748800ba9c9ac0a3787406bd19ea`,
-so every retained Joern report carries one `tool_version` and the single
-configuration hash above. Every case in all six kernels executed: 190 retained
-evidence documents, zero error documents, zero `inconclusive`, `unsupported`,
-or `runner-error` outcomes.
+same pinned distribution and the same unmodified script, so every retained
+Joern report carries one `tool_version` and the single configuration hash
+above. Five of them ran at fixture revision
+`sha256:aee59a14f96633cf5798df6d211525ea0d10748800ba9c9ac0a3787406bd19ea`;
+JavaScript was later re-run whole over its expanded 58-case population at
+revision
+`sha256:64ef139f452fd296bb26463bc552e5e5998ca4bb4584d45565d858424814bde9`,
+and reports at different fixture revisions are not pooled. Every case in all
+six kernels executed: 216 retained evidence documents, zero error documents,
+zero `inconclusive`, `unsupported`, or `runner-error` outcomes.
 
 | Kernel | `reached` | `not-reached` | Polarity match |
 | --- | --- | --- | --- |
 | Java (`javasrc2cpg`) | 16 | 16 | 28/32 |
-| JavaScript (`jssrc2cpg`) | 18 | 14 | 26/32 |
+| JavaScript (`jssrc2cpg`) | 27 | 31 | 44/58 |
 | Python (`pysrc2cpg`) | 16 | 16 | 28/32 |
 | Ruby (`rubysrc2cpg`) | 18 | 14 | 26/32 |
 | PHP (`php2cpg`) | 16 | 16 | 28/32 |
@@ -241,6 +252,19 @@ or `runner-error` outcomes.
 Rust's denominator is 30, not 32, because its exception-catch cell is
 inapplicable; the ratios are not comparable across a different denominator and
 are not averaged.
+
+**JavaScript's denominator is 58, not 32**, and for the same reason in
+reverse: its thirteen preregistered challenge templates
+([the challenge tier](../../docs/challenge-tier.md)) have rolled out, so its
+core population is 29 templates. It was re-run whole at the expanded fixture
+revision `sha256:64ef139f452fd296bb26463bc552e5e5998ca4bb4584d45565d858424814bde9`;
+the other five kernels' retained reports predate that revision and the two are
+not pooled. Split by stratum, JavaScript is **26/32 on the classic sixteen —
+identical case for case to the retained snapshot above, so the expansion
+introduced no drift — and 18/26 on the challenge thirteen**, still with zero
+`inconclusive`, `unsupported`, or `runner-error` outcomes. A 32-assertion score
+and a 58-assertion score are different populations and are never compared as
+one.
 
 Mismatches, verbatim:
 
@@ -253,12 +277,34 @@ Mismatches, verbatim:
 
 **JavaScript** — `reports/joern-javascript-kernel.json`
 
+Classic stratum (16 templates):
+
 - `dfb-taint-javascript-alias-propagation-positive`: false negative.
 - `dfb-taint-javascript-exception-catch-positive`: false negative.
 - `dfb-taint-javascript-array-element-negative`: false positive.
 - `dfb-taint-javascript-infeasible-branch-negative`: false positive.
 - `dfb-taint-javascript-loop-carried-negative`: false positive.
 - `dfb-taint-javascript-same-object-field-negative`: false positive.
+
+Challenge stratum (13 templates):
+
+- `dfb-taint-javascript-reflective-invocation-positive`: false negative.
+- `dfb-taint-javascript-dispatch-table-positive`: false negative.
+- `dfb-taint-javascript-function-field-positive`: false negative.
+- `dfb-taint-javascript-callback-registration-positive`: false negative.
+- `dfb-taint-javascript-map-iteration-positive`: false negative.
+- `dfb-taint-javascript-deep-relay-chain-positive`: false negative.
+- `dfb-taint-javascript-computed-property-negative`: false positive.
+- `dfb-taint-javascript-nested-access-path-negative`: false positive.
+
+The depth-6 relay positive is missed while its negative is correct, at the
+distribution's **default** `maxCallDepth` of 4 — nothing was configured up for
+this run. That is the outcome
+[the challenge tier](../../docs/challenge-tier.md) predicted in writing before
+the fixture existed, from this jar's own `EngineConfig` default, and the pair
+has to be read together: the negative is a true negative arrived at partly
+because the engine cannot see that far. The two-deep context pair is correct
+both ways, as is the constant-depth-5 recursive carry.
 
 **Python** — `reports/joern-python-kernel.json`
 
@@ -298,6 +344,14 @@ exactly that set and nothing else; JavaScript adds array-element and
 same-object-field over-approximation; Ruby adds argument-position and
 call-context over-approximation.
 
+JavaScript's challenge stratum is the only expanded evidence here, and it
+divides cleanly: every stratum-A and stratum-B *negative* is decided correctly
+while five of those positives are missed — the under-approximating half of the
+approximation character the challenge preregistration described — and the two
+false positives are the computed-key and depth-3 sibling reads, which sharpen
+the field-precision bound the classic array-element and same-object-field
+mismatches already show rather than revealing a new one.
+
 Rust's three mismatches are exactly that recurring set intersected with its own
 15 applicable templates: it misses the same field-alias propagation and
 over-approximates the same infeasible branch and loop-carried kill, and the
@@ -320,7 +374,7 @@ upgrade's effect on each is measured, not assumed. Four of the five reproduced
 | Kernel | `4.0.432` | `4.0.610` | Drift |
 | --- | --- | --- | --- |
 | Java | 28/32 | 28/32 | none; identical mismatch set |
-| JavaScript | 26/32 | 26/32 | none; identical mismatch set |
+| JavaScript | 26/32 | 26/32 | none; identical mismatch set (classic stratum; the later 58-assertion expansion re-ran it unchanged) |
 | Python | 28/32 | 28/32 | none; identical mismatch set |
 | PHP | 28/32 | 28/32 | none; identical mismatch set |
 | Ruby | 26/32 | 26/32 | **same total, different set — four cases moved** |

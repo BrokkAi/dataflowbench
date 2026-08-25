@@ -6,6 +6,13 @@ polarity, and negative mechanism; only the smallest fixture construct is
 adapted to JavaScript syntax. Every scored JavaScript template has exactly one
 `positive` and one `negative` `core` case.
 
+The kernel has since been expanded by the thirteen preregistered challenge
+templates, all of them directly applicable to JavaScript: the **JavaScript core
+denominator is 29 templates / 58 assertions**. See
+[the challenge-tier expansion](#challenge-tier-expansion) below for the
+adaptations, the per-adapter results, and the one adapter whose expanded
+evidence is deferred.
+
 | Stratum | Template ID | JavaScript adaptation |
 | --- | --- | --- |
 | Local | `dfb-template-direct-propagation` | Direct function call, unchanged in meaning. |
@@ -29,6 +36,177 @@ All JavaScript fixtures use the benchmark-controlled `dfb_source` and
 `dfb_sink` function names. The Bifrost adapter may lower those endpoints through
 its JavaScript kernel policy, but fixture metadata remains analyzer-neutral and
 retains only observed evidence in reports.
+
+## Challenge-tier expansion
+
+[The challenge tier](challenge-tier.md) preregistered thirteen further
+propagation templates before any fixture existed. All thirteen are classified
+**directly applicable** to JavaScript, so the JavaScript core denominator grows
+from 16 templates / 32 assertions to **29 templates / 58 assertions**. The
+challenge cases carry `score_tier: "core"` — there is no separate tier — and
+their fixture provenance revision is `m3-challenge-javascript`.
+
+The v0.3.0 sixteen-template core and this expanded core are different
+populations and are never compared number to number.
+
+### Adaptation notes
+
+Every cell is direct: JavaScript is the language the preregistration's stratum
+A and B sketches were written for. The realizations, recorded so a reader can
+check the fixture against the template rather than against a guess:
+
+| Stratum | Template ID | JavaScript realization |
+| --- | --- | --- |
+| A | `dfb-template-chal-reflective-invocation` | `handlers[name](dfb_source())` with `name` a string constant in a local, so the selected method is never a syntactic literal at the call site. The negative points `name` at the sibling method that drops its argument. |
+| A | `dfb-template-chal-computed-property` | `holder[key] = dfb_source()` written and read back through the same local key variable. The negative writes under one constant key and reads a provably distinct one. |
+| A | `dfb-template-chal-dispatch-table` | An object literal of two arrow functions; the entry is fetched as a first-class value (`const selected = table[key]`) and then invoked, which is what separates it from the reflective method call above. |
+| B | `dfb-template-chal-closure-capture` | A factory captures the tainted local and returns `() => dfb_sink(captured)`, invoked by the caller after the local has left scope. The negative captures the clean local; the source call stays in place. |
+| B | `dfb-template-chal-function-field` | Two holder objects each carry a function-valued `fn` property; a separate `invoke(target, value)` reads the field and calls it. The negative hands `invoke` the second holder. |
+| B | `dfb-template-chal-callback-registration` | A plain object with a `hooks` array, a `register` function, and a `fire` driver that iterates and invokes. No framework, twenty lines of language. |
+| B | `dfb-template-chal-anonymous-implementation` | Two inline anonymous function expressions assigned to variables and invoked through the reference; neither captures anything, which is what keeps it distinct from closure capture. |
+| C | `dfb-template-chal-map-iteration` | `for (const [key, value] of Object.entries(carrier))`, never a keyed get. The negative iterates a second, disjoint object. |
+| C | `dfb-template-chal-nested-access-path` | `a.b.c.value` written and read at depth 3; the negative reads the sibling `a.b.c.other`. |
+| C | `dfb-template-chal-element-object` | An array of object literals; the negative reads `items[1].value` after `items[0].value` was written. |
+| D | `dfb-template-chal-deep-relay-chain` | `relay1` … `relay6`, module-level, no branching or state, with the sink inside `relay6`. The negative feeds the identical chain a clean constant. |
+| D | `dfb-template-chal-recursive-carry` | `carry(value, depth)` recursing to `depth === 0` from 5; the negative's base case returns a clean constant instead of the carried one. |
+| D | `dfb-template-chal-context-pair-depth2` | One `helper` reached through two distinct two-deep paths, `outerTainted -> wrapper -> helper` and `outerClean -> wrapper -> helper`. Both paths are live in both fixtures and the value returns to the sink, which is the two-level extension of the classic `dfb-template-call-context-separation` fixture's own shape; only which returned value reaches `dfb_sink` differs. |
+
+All twenty-six fixtures are standard-library-only — no dependency, no
+framework, no build tooling — and each parses clean under the host toolchain
+this kernel records, `node --check`.
+
+### Adapter coverage of the expanded population
+
+Three adapters were re-run over the whole 58-assertion population for this
+expansion; one is deferred, and the deferral is a freeze rule rather than a
+gap in coverage.
+
+| Adapter | Expanded run | Report |
+| --- | --- | --- |
+| Bifrost v0.10.5 | Yes — first run of the dedicated JavaScript kernel | `reports/bifrost-javascript-kernel.json` |
+| Joern 4.0.610 | Yes | `reports/joern-javascript-kernel.json` |
+| Semgrep CE 1.174.0 | Yes | `reports/semgrep-javascript-kernel.json` |
+| CodeQL 2.26.3 | **Deferred** | `reports/codeql-javascript-kernel.json` |
+
+`reports/codeql-javascript-kernel.json` is one of the nineteen reports
+`reports/freeze.json` digest-binds for v0.3.0, so this change must not
+overwrite it: **expanded CodeQL evidence is pending the v0.4.0 freeze-prep
+re-run**, on the repo's established re-run-at-freeze pattern. The retained
+CodeQL JavaScript evidence remains the valid 32-assertion classic snapshot
+described below. The same rule applies in reverse to the Bifrost smoke report:
+its JavaScript slice stays the classic pairs at 118 cases, and the challenge
+assertions are carried by the new dedicated kernel report instead.
+
+Because the corpus-wide `fixture_revision` covers every case and fixture byte,
+the three expanded JavaScript reports carry a new revision
+(`sha256:64ef139f452fd296bb26463bc552e5e5998ca4bb4584d45565d858424814bde9`)
+that no earlier retained report carries. Reports at different fixture
+revisions are not pooled.
+
+### Bifrost v0.10.5 — expanded core
+
+`reports/bifrost-javascript-kernel.json`, the first run of the dedicated
+`run-bifrost-javascript-kernel` command, covers all 58 assertions under
+`adapters/bifrost/policies/core-javascript-kernel.rqlp` (the frozen
+direct-propagation pair still names the cross-language breadth policy, as in
+every other language kernel).
+
+| Stratum | Assertions | Polarity match | Outcome distribution |
+| --- | --- | --- | --- |
+| Classic (16 templates) | 32 | 32/32 | 16 `reached`, 16 `not-reached` |
+| Challenge (13 templates) | 26 | 3/26 | 1 `reached`, 2 `not-reached`, 21 `inconclusive`, 2 `runner-error` |
+
+The classic half reproduces the frozen smoke evidence exactly. On the challenge
+half the engine decided only two of the thirteen pairs, and **every decision it
+made was correct**: `context-pair-depth2` both ways, and the
+`deep-relay-chain` negative. There is not one false positive or false negative
+in the stratum. The remaining twenty-one assertions are `inconclusive` with
+retained `partial_discovery` evidence — "taint discovery is incomplete:
+procedure value-flow snapshot for … is unknown" — across
+`reflective-invocation`, `computed-property`, `dispatch-table`,
+`closure-capture`, `function-field`, `callback-registration`,
+`anonymous-implementation`, `map-iteration`, `nested-access-path`,
+`recursive-carry` (both polarities each) and the `deep-relay-chain` positive.
+The `element-object` pair is `runner-error`: the engine reports
+`internal_invariant` with "invalid value-flow snapshot: oracle relation does
+not belong to the required query arena and role" on an array of object
+literals. None of these is a negative result, and none is counted as one.
+
+Read together with the classic half, the honest reading is that this build
+decides local, field-at-depth-1, and short-relay JavaScript completely, and
+declines rather than guesses on higher-order code, computed access, container
+iteration, deep access paths, and recursion.
+
+### Joern 4.0.610 — expanded core
+
+`reports/joern-javascript-kernel.json`, `jssrc2cpg`, the same unmodified
+`adapters/joern/queries/kernel.sc` every other Joern kernel uses, at the
+distribution's **default** `maxCallDepth` of 4. Nothing was configured up.
+
+| Stratum | Assertions | Polarity match | Outcome distribution |
+| --- | --- | --- | --- |
+| Classic (16 templates) | 32 | 26/32 | 18 `reached`, 14 `not-reached` |
+| Challenge (13 templates) | 26 | 18/26 | 9 `reached`, 17 `not-reached` |
+
+Every one of the 58 assertions executed: zero `inconclusive`, zero
+`unsupported`, zero `runner-error`. The classic half reproduces the retained
+v0.3.0 Joern snapshot case for case, mismatch for mismatch, so the expansion
+introduced no drift in the population it shares.
+
+Challenge mismatches, verbatim:
+
+- `dfb-taint-javascript-reflective-invocation-positive`: false negative.
+- `dfb-taint-javascript-dispatch-table-positive`: false negative.
+- `dfb-taint-javascript-function-field-positive`: false negative.
+- `dfb-taint-javascript-callback-registration-positive`: false negative.
+- `dfb-taint-javascript-map-iteration-positive`: false negative.
+- `dfb-taint-javascript-deep-relay-chain-positive`: false negative.
+- `dfb-taint-javascript-computed-property-negative`: false positive.
+- `dfb-taint-javascript-nested-access-path-negative`: false positive.
+
+Three readings, stated as evidence rather than as a ranking:
+
+- **Stratum D confirms the preregistered prediction.** The depth-6 relay
+  positive is missed while its negative is correct, and `context-pair-depth2`
+  — two deep — is correct both ways. The pair must be read together: the
+  stratum-D negative here is a true negative reached partly *because* the
+  engine cannot see that far, which is exactly why the preregistration called
+  the positive cell the informative one. `recursive-carry` is correct both
+  ways at constant depth 5.
+- **The two false positives are the field-precision bound, not absence of
+  field sensitivity.** `computed-property` and `nested-access-path` are the
+  computed-key read and the depth-3 sibling read; the classic
+  `same-object-field-negative` and `array-element-negative` are already false
+  positives in this engine, so the challenge pair sharpens a known
+  over-approximation rather than discovering one.
+- **The higher-order misses are under-approximation, uniformly.** Every
+  stratum-A and stratum-B negative is correct and five of those positives are
+  missed, which is the under-approximating half of the approximation character
+  the preregistration described. `closure-capture` and
+  `anonymous-implementation` are the two stratum-B pairs it does resolve.
+
+### Semgrep CE 1.174.0 — expanded core
+
+`reports/semgrep-javascript-kernel.json`. The whole 58-case population is
+selected and balance-checked, and the bounded profile then decides what is
+scored, from case metadata, before Semgrep is invoked.
+
+| Stratum | Assertions | Scored | `unsupported` | Polarity match (scored) |
+| --- | --- | --- | --- | --- |
+| Classic (16 templates) | 32 | 14 | 18 | 12/14 |
+| Challenge (13 templates) | 26 | 0 | 26 | n/a |
+
+**All twenty-six challenge assertions take the preregistered `unsupported`
+partition**, exactly as [the challenge tier](challenge-tier.md) predicted: no
+challenge template carries the `intraprocedural` feature tag, so none is inside
+the documented CE local-taint profile, and each retains its own
+`*-unsupported.json` capability-decision document naming the declared
+capability and the boundary it falls outside. The scored subset therefore stays
+at **14 assertions and 12/14**, unchanged from the classic run — the two
+mismatches are still the `infeasible-branch` and `loop-carried` negatives, the
+path sensitivity the pinned CLI sells as Pro. The partition was not adjusted
+for this expansion, and twenty-six declined assertions are coverage, never
+twenty-six false negatives.
 
 ## CodeQL selection and reproduction
 

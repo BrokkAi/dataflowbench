@@ -3088,16 +3088,23 @@ fn selected_bifrost_case(case: &Value, run: BifrostRun) -> bool {
         // The JavaScript kernel is the whole JavaScript core population — the
         // classic sixteen templates and the challenge templates that fold into
         // the same denominator — evaluated under the one language-qualified
-        // policy every JavaScript case names. The classic pairs also belong to
-        // the frozen smoke population; that population is a separate report and
-        // is never rewritten by this run.
+        // policy every JavaScript case names. As with the C#, Go, PHP, Ruby,
+        // and C-family kernels, the direct-propagation pair predates this
+        // kernel and is frozen in the published v0.2.0 and v0.3.0 evidence
+        // naming the cross-language breadth policy, so that policy reference is
+        // accepted alongside the language-qualified one. The classic pairs also
+        // belong to the frozen smoke population; that population is a separate
+        // report and is never rewritten by this run.
         BifrostRun::JavascriptKernel => {
             case["language"] == "javascript"
                 && case["track"] == "taint"
                 && case["score_tier"] == "core"
                 && (case["tool_model_references"]["bifrost"]["policy"]
                     .as_str()
-                    .is_some_and(|policy| policy.ends_with("core-javascript-kernel.rqlp"))
+                    .is_some_and(|policy| {
+                        policy.ends_with("core-javascript-kernel.rqlp")
+                            || policy == BIFROST_DIRECT_POLICY
+                    })
                     || case["tool_model_references"]["bifrost"]["unsupported_reason"].is_string())
         }
         BifrostRun::PythonKernel => {

@@ -165,8 +165,18 @@ intraprocedural templates are applicable in all eleven languages. Only the
 
 | Kernel | Selected | Scored | `unsupported` |
 | --- | --- | --- | --- |
-| Java, JavaScript, TypeScript, Python, Go, Ruby, PHP, Kotlin, C++ | 32 | 14 | 18 |
+| Java, TypeScript, Python, Go, Ruby, PHP, Kotlin, C++ | 32 | 14 | 18 |
 | C, Rust | 30 | 14 | 16 |
+| JavaScript | 58 | 14 | 44 |
+
+JavaScript's larger selection is the challenge-tier expansion
+(`docs/challenge-tier.md`): its core population is now 29 templates. **The
+scored subset does not move.** No challenge template carries the
+`intraprocedural` feature tag, so all 26 challenge assertions take the
+`unsupported` partition by the same metadata-driven decision, and the scored
+partition stays at the same 7 templates and 14 assertions it is in every other
+language. That was preregistered before the fixtures existed and the partition
+was not adjusted afterwards.
 
 The decision is taken by `semgrep_capability_exclusion` from the case JSON
 alone; an excluded case never reaches a Semgrep process, so it cannot produce an
@@ -310,17 +320,21 @@ does not require the marker's own line.
 
 ## Observed results
 
-Semgrep CE 1.174.0, fixture revision
-`sha256:aee59a14f96633cf5798df6d211525ea0d10748800ba9c9ac0a3787406bd19ea`.
-All eleven kernels ran. 342 assertions: 154 executed against Semgrep, 188
-excluded by declared capability. Zero `inconclusive` and zero `runner-error`
-outcomes; 154 retained finding documents, 154 retained resolved rule files, 188
-retained capability-decision documents, and zero error documents.
+Semgrep CE 1.174.0. Ten kernels ran at fixture revision
+`sha256:aee59a14f96633cf5798df6d211525ea0d10748800ba9c9ac0a3787406bd19ea`;
+JavaScript was later re-run whole over its expanded 58-case population at
+revision
+`sha256:64ef139f452fd296bb26463bc552e5e5998ca4bb4584d45565d858424814bde9`,
+and reports at different fixture revisions are not pooled. Across the eleven,
+368 assertions: 154 executed against Semgrep, 214 excluded by declared
+capability. Zero `inconclusive` and zero `runner-error` outcomes; 154 retained
+finding documents, 154 retained resolved rule files, 214 retained
+capability-decision documents, and zero error documents.
 
 | Kernel | `maturity` | Selected | `reached` | `not-reached` | `unsupported` | Polarity match (scored subset) |
 | --- | --- | --- | --- | --- | --- | --- |
 | Java | `ga` | 32 | 9 | 5 | 18 | 12/14 |
-| JavaScript | `ga` | 32 | 9 | 5 | 18 | 12/14 |
+| JavaScript | `ga` | **58** | 9 | 5 | **44** | 12/14 |
 | TypeScript | `ga` | 32 | 9 | 5 | 18 | 12/14 |
 | Python | `ga` | 32 | 9 | 5 | 18 | 12/14 |
 | Go | `ga` | 32 | 9 | 5 | 18 | 12/14 |
@@ -334,6 +348,12 @@ retained capability-decision documents, and zero error documents.
 The scored subset is 7 positives and 7 negatives per language. Every one of the
 7 intraprocedural positives is `reached` in every language — no false negative
 anywhere — and 5 of the 7 negatives are `not-reached`.
+
+JavaScript is the one expanded population, and it changes only the
+`unsupported` column: all 26 of its challenge assertions are declined by
+declared capability, and its scored 14 are the same 14 assertions with the same
+12/14 result as before the expansion. A larger `unsupported` count on a larger
+population is coverage arithmetic, not a worse engine.
 
 The four non-GA front ends score exactly what the seven GA ones score. That is
 worth stating plainly rather than quietly: the maturity label predicted nothing
