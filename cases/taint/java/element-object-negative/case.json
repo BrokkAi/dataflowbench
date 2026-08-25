@@ -1,0 +1,64 @@
+{
+  "schema_version": 2,
+  "id": "dfb-taint-java-element-object-negative",
+  "template_id": "dfb-template-chal-element-object",
+  "polarity": "negative",
+  "negative_mechanism": "field-separation",
+  "score_tier": "core",
+  "track": "taint",
+  "language": "java",
+  "semantic_dimensions": [
+    "heap-field-sensitivity",
+    "object-sensitivity"
+  ],
+  "feature_tags": [
+    "heap-access-path"
+  ],
+  "model_profile": "benchmark-controlled",
+  "fixture_files": [
+    "ElementObjectNegative.java"
+  ],
+  "source_anchors": [
+    {
+      "marker": "DFB-SOURCE: element-object-input",
+      "file": "ElementObjectNegative.java",
+      "line_hint": 8
+    }
+  ],
+  "sink_anchors": [
+    {
+      "marker": "DFB-SINK: element-object-sink",
+      "file": "ElementObjectNegative.java",
+      "line_hint": 12
+    }
+  ],
+  "expected_flows": [],
+  "expected_nonflows": [
+    {
+      "source": "DFB-SOURCE: element-object-input",
+      "sink": "DFB-SINK: element-object-sink"
+    }
+  ],
+  "witness_checkpoints": [],
+  "expected_analysis_capability": {
+    "kind": "element-scoped-field-sensitive-taint"
+  },
+  "execution_budget": {
+    "wall_clock_seconds": 60,
+    "peak_memory_mb": 512
+  },
+  "fixture_provenance": {
+    "kind": "authored",
+    "origin": "DataFlowBench",
+    "revision": "m3-challenge-java",
+    "license": "MIT"
+  },
+  "tool_model_references": {
+    "bifrost": {
+      "policy": "adapters/bifrost/policies/core-java-kernel.rqlp"
+    },
+    "codeql": {
+      "query": "adapters/codeql/queries/JavaKernel.ql"
+    }
+  }
+}

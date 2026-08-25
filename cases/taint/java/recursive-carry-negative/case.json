@@ -1,0 +1,64 @@
+{
+  "schema_version": 2,
+  "id": "dfb-taint-java-recursive-carry-negative",
+  "template_id": "dfb-template-chal-recursive-carry",
+  "polarity": "negative",
+  "negative_mechanism": "overwrite-kill",
+  "score_tier": "core",
+  "track": "taint",
+  "language": "java",
+  "semantic_dimensions": [
+    "recursion",
+    "interprocedural-flow"
+  ],
+  "feature_tags": [
+    "recursive"
+  ],
+  "model_profile": "benchmark-controlled",
+  "fixture_files": [
+    "RecursiveCarryNegative.java"
+  ],
+  "source_anchors": [
+    {
+      "marker": "DFB-SOURCE: recursive-carry-input",
+      "file": "RecursiveCarryNegative.java",
+      "line_hint": 4
+    }
+  ],
+  "sink_anchors": [
+    {
+      "marker": "DFB-SINK: recursive-carry-sink",
+      "file": "RecursiveCarryNegative.java",
+      "line_hint": 8
+    }
+  ],
+  "expected_flows": [],
+  "expected_nonflows": [
+    {
+      "source": "DFB-SOURCE: recursive-carry-input",
+      "sink": "DFB-SINK: recursive-carry-sink"
+    }
+  ],
+  "witness_checkpoints": [],
+  "expected_analysis_capability": {
+    "kind": "recursive-carry-taint"
+  },
+  "execution_budget": {
+    "wall_clock_seconds": 60,
+    "peak_memory_mb": 512
+  },
+  "fixture_provenance": {
+    "kind": "authored",
+    "origin": "DataFlowBench",
+    "revision": "m3-challenge-java",
+    "license": "MIT"
+  },
+  "tool_model_references": {
+    "bifrost": {
+      "policy": "adapters/bifrost/policies/core-java-kernel.rqlp"
+    },
+    "codeql": {
+      "query": "adapters/codeql/queries/JavaKernel.ql"
+    }
+  }
+}
