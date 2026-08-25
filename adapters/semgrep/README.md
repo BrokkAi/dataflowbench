@@ -536,7 +536,12 @@ kernel blocks it. It is left recorded-only because the maintainer scoped it out,
 and it is written down here as such so nobody later reads its absence as
 evidence that Semgrep CE cannot analyze Scala. It can; the run has simply not
 been commissioned. Scala remains single-analyzer coverage in
-[`docs/scala-kernel.md`](../../docs/scala-kernel.md) until it is.
+[`docs/scala-kernel.md`](../../docs/scala-kernel.md) until it is. Scala's
+challenge-tier expansion to **29 templates / 58 assertions** does not change
+this: no Semgrep Scala slice was built for it, and the preregistered
+`CHALLENGE_SEMGREP_PARTITION` therefore never sees a Scala case in either
+partition. The decision is restated for the expanded population rather than
+quietly inherited.
 
 **C# is a tool limitation.** It is named in the pinned CLI's own
 `--pro-languages` text — "Pro languages (currently Apex, C#, and Elixir).

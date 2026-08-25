@@ -350,7 +350,7 @@ const CHALLENGE_ROLLOUT: [ChallengeRollout; 13] = [
         display: "Scala",
         classic: &KERNEL_TEMPLATE_IDS,
         challenge: &CHALLENGE_TEMPLATE_IDS,
-        rolled_out: false,
+        rolled_out: true,
     },
     ChallengeRollout {
         language: "go",
@@ -8259,10 +8259,11 @@ mod tests {
     }
 
     /// Scala has no CodeQL and no Joern population, so the only in-repo
-    /// guarantee that its 32 assertions are complete and balanced is the
-    /// Bifrost run's own core denominator.
+    /// guarantee that its assertions are complete and balanced is the Bifrost
+    /// run's own core denominator — now the expanded 29-template / 58-assertion
+    /// core, since Scala's challenge row is rolled out.
     #[test]
-    fn scala_bifrost_population_is_exactly_32_balanced_assertions() {
+    fn scala_bifrost_population_is_the_expanded_balanced_core() {
         let selected = case_paths()
             .into_iter()
             .map(|path| {
@@ -8272,16 +8273,31 @@ mod tests {
             })
             .filter(|(_, case)| scala_core_case(case))
             .collect::<Vec<_>>();
+        let expected = expected_core_templates("scala");
         assert_eq!(
             selected.len(),
             BifrostRun::ScalaKernel.expected_core_cases().unwrap()
         );
+        assert_eq!(selected.len(), 58);
+        assert!(selected.len() > KERNEL_CASE_COUNT);
         assert!(
             selected
                 .iter()
                 .all(|(path, _)| path.starts_with("cases/taint/scala"))
         );
-        validate_kernel_population(&selected, "Bifrost Scala kernel").unwrap();
+        validate_kernel_population_with(&selected, "Bifrost Scala kernel", &expected).unwrap();
+        // The classic sixteen alone are no longer a complete Scala core.
+        let classic = selected
+            .iter()
+            .filter(|(_, case)| {
+                KERNEL_TEMPLATE_IDS.contains(&case["template_id"].as_str().unwrap())
+            })
+            .cloned()
+            .collect::<Vec<_>>();
+        assert_eq!(classic.len(), KERNEL_CASE_COUNT);
+        assert!(
+            validate_kernel_population_with(&classic, "Bifrost Scala kernel", &expected).is_err()
+        );
         assert!(Path::new(BIFROST_SCALA_POLICY).is_file());
     }
 
@@ -11489,7 +11505,7 @@ mod tests {
                 assert!(template.starts_with(CHALLENGE_TEMPLATE_PREFIX));
             }
             // Python, JavaScript, Java, C#, TypeScript, Kotlin, Go, C++, C,
-            // and Rust are the waves that have landed their fixtures; every
+            // Rust, and Scala are the waves that have landed their fixtures; every
             // other language validates against its classic set alone, so a
             // language whose fixtures do not exist yet is never failed for
             // missing them.
@@ -11505,6 +11521,7 @@ mod tests {
                     | "cpp"
                     | "c"
                     | "rust"
+                    | "scala"
             );
             assert_eq!(
                 challenge_rolled_out(row.language),
