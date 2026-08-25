@@ -162,6 +162,30 @@ v0.4.0 cores are different populations and are never compared number-to-number;
 the frozen v0.3.0 evidence is unaffected because freeze validation is
 manifest-scoped.
 
+### Current expanded-breadth status
+
+Release v0.4.0 is that first expanded-breadth freeze: 744 cases and 42 bound
+reports at one fixture revision, with all thirteen kernels carrying their
+expanded core denominators and four analyzer populations — Bifrost v0.10.6
+(build `18d09c57`) over the pinned 118-case breadth slice plus thirteen
+kernels, CodeQL 2.26.3 over eleven, Joern 4.0.610 over six, and Semgrep CE
+1.174.0 over eleven. Coverage differs per analyzer; a language with no report
+for an analyzer is coverage, not a score.
+
+The tier did what it was preregistered to do: no analyzer answers a whole
+expanded core correctly in any language, so the core no longer saturates.
+Bifrost decides 115 of the 118 breadth-slice cases and 227 of its 738 core
+assertions, 222 of those decisions correct, declining the rest as
+`inconclusive`; its `element-object` `internal_invariant` failures and its
+fully inconclusive Ruby kernel are published as retained execution and
+capability coverage and tracked upstream. CodeQL produces a definitive answer
+for all 626 of its bound assertions, 509 correct, with dynamic dispatch its
+systematic miss. Joern answers all 344 of its assertions, 270 correct, and its
+depth-6 behavior tracks the call-depth bound the preregistration verified in
+advance. Semgrep CE scores the 154-assertion intraprocedural partition of its
+populations and declines the other 468 by declared capability. See
+[`releases/v0.4.0.md`](releases/v0.4.0.md) for the bound evidence.
+
 ## M3: taint modeling
 
 Add balanced categories for sources and sinks, propagators, sanitizers, opaque
