@@ -7666,6 +7666,33 @@ fn now_seconds() -> Result<u64> {
 mod tests {
     use super::*;
 
+    /// Creates a fresh scratch directory under the system temp dir. Parallel
+    /// test threads share a pid and can observe the same nanosecond timestamp,
+    /// so a process-wide counter disambiguates, and `create_dir` (not
+    /// `create_dir_all`) atomically claims the path so a leftover directory
+    /// from a prior run is never silently reused.
+    fn unique_test_dir(prefix: &str) -> PathBuf {
+        use std::sync::atomic::{AtomicU64, Ordering};
+        static COUNTER: AtomicU64 = AtomicU64::new(0);
+        loop {
+            let unique = format!(
+                "{prefix}-{}-{}-{}",
+                std::process::id(),
+                SystemTime::now()
+                    .duration_since(UNIX_EPOCH)
+                    .unwrap()
+                    .as_nanos(),
+                COUNTER.fetch_add(1, Ordering::Relaxed),
+            );
+            let root = std::env::temp_dir().join(unique);
+            match fs::create_dir(&root) {
+                Ok(()) => return root,
+                Err(error) if error.kind() == std::io::ErrorKind::AlreadyExists => continue,
+                Err(error) => panic!("creating scratch dir {}: {error}", root.display()),
+            }
+        }
+    }
+
     struct FreezeFixture {
         root: PathBuf,
         manifest: PathBuf,
@@ -7675,15 +7702,7 @@ mod tests {
 
     impl FreezeFixture {
         fn new(outcome: &str, raw: Value) -> Self {
-            let unique = format!(
-                "dataflowbench-freeze-test-{}-{}",
-                std::process::id(),
-                SystemTime::now()
-                    .duration_since(UNIX_EPOCH)
-                    .unwrap()
-                    .as_nanos()
-            );
-            let root = std::env::temp_dir().join(unique);
+            let root = unique_test_dir("dataflowbench-freeze-test");
             fs::create_dir_all(root.join("schemas")).unwrap();
             fs::create_dir_all(root.join("cases/taint/test")).unwrap();
             fs::create_dir_all(root.join("reports/raw")).unwrap();
@@ -7865,15 +7884,7 @@ mod tests {
 
     impl ReportSweepFixture {
         fn new() -> Self {
-            let unique = format!(
-                "dataflowbench-report-sweep-test-{}-{}",
-                std::process::id(),
-                SystemTime::now()
-                    .duration_since(UNIX_EPOCH)
-                    .unwrap()
-                    .as_nanos()
-            );
-            let root = std::env::temp_dir().join(unique);
+            let root = unique_test_dir("dataflowbench-report-sweep-test");
             fs::create_dir_all(root.join("reports/raw/own-kernel")).unwrap();
             fs::create_dir_all(root.join("reports/raw/other-kernel")).unwrap();
             Self { root }
@@ -8952,15 +8963,7 @@ mod tests {
 
     #[test]
     fn csharp_sarif_mapping_requires_the_sink_file_and_callsite() {
-        let root = std::env::temp_dir().join(format!(
-            "dataflowbench-csharp-anchor-test-{}-{}",
-            std::process::id(),
-            SystemTime::now()
-                .duration_since(UNIX_EPOCH)
-                .unwrap()
-                .as_nanos()
-        ));
-        fs::create_dir_all(&root).unwrap();
+        let root = unique_test_dir("dataflowbench-csharp-anchor-test");
         let case_path = root.join("case.json");
         fs::write(
             root.join("Fixture.cs"),
@@ -9152,15 +9155,7 @@ mod tests {
 
     #[test]
     fn go_sarif_mapping_requires_the_sink_file_and_callsite() {
-        let root = std::env::temp_dir().join(format!(
-            "dataflowbench-go-anchor-test-{}-{}",
-            std::process::id(),
-            SystemTime::now()
-                .duration_since(UNIX_EPOCH)
-                .unwrap()
-                .as_nanos()
-        ));
-        fs::create_dir_all(&root).unwrap();
+        let root = unique_test_dir("dataflowbench-go-anchor-test");
         let case_path = root.join("case.json");
         fs::write(
             root.join("fixture.go"),
@@ -9473,15 +9468,7 @@ mod tests {
         assert!(args.iter().any(|arg| arg == "--build-mode=none"));
         assert!(!args.iter().any(|arg| arg.starts_with("--command=")));
 
-        let workspace = std::env::temp_dir().join(format!(
-            "dataflowbench-rust-manifest-test-{}-{}",
-            std::process::id(),
-            SystemTime::now()
-                .duration_since(UNIX_EPOCH)
-                .unwrap()
-                .as_nanos()
-        ));
-        fs::create_dir_all(&workspace).unwrap();
+        let workspace = unique_test_dir("dataflowbench-rust-manifest-test");
         write_rust_cargo_manifest(&workspace, &case).unwrap();
         let manifest = fs::read_to_string(workspace.join("Cargo.toml")).unwrap();
         // Without a manifest the extractor logs "semantic analyzer unavailable
@@ -9527,15 +9514,7 @@ mod tests {
         assert!(!rust_function_call("    my_dfb_sink(value);", "dfb_sink"));
         assert!(!rust_function_call("    // dfb_sink(value);", "dfb_sink"));
 
-        let root = std::env::temp_dir().join(format!(
-            "dataflowbench-rust-anchor-test-{}-{}",
-            std::process::id(),
-            SystemTime::now()
-                .duration_since(UNIX_EPOCH)
-                .unwrap()
-                .as_nanos()
-        ));
-        fs::create_dir_all(&root).unwrap();
+        let root = unique_test_dir("dataflowbench-rust-anchor-test");
         let case_path = root.join("case.json");
         fs::write(
             root.join("fixture.rs"),
@@ -9642,15 +9621,7 @@ mod tests {
 
     #[test]
     fn javascript_sarif_mapping_requires_the_sink_file_and_line() {
-        let root = std::env::temp_dir().join(format!(
-            "dataflowbench-javascript-anchor-test-{}-{}",
-            std::process::id(),
-            SystemTime::now()
-                .duration_since(UNIX_EPOCH)
-                .unwrap()
-                .as_nanos()
-        ));
-        fs::create_dir_all(&root).unwrap();
+        let root = unique_test_dir("dataflowbench-javascript-anchor-test");
         let case_path = root.join("case.json");
         fs::write(
             root.join("fixture.js"),
@@ -9701,15 +9672,7 @@ mod tests {
 
     #[test]
     fn javascript_sarif_ambiguous_locations_stay_inconclusive() {
-        let root = std::env::temp_dir().join(format!(
-            "dataflowbench-javascript-ambiguous-anchor-test-{}-{}",
-            std::process::id(),
-            SystemTime::now()
-                .duration_since(UNIX_EPOCH)
-                .unwrap()
-                .as_nanos()
-        ));
-        fs::create_dir_all(&root).unwrap();
+        let root = unique_test_dir("dataflowbench-javascript-ambiguous-anchor-test");
         let case_path = root.join("case.json");
         fs::write(
             root.join("fixture.js"),
@@ -9865,15 +9828,7 @@ mod tests {
 
     #[test]
     fn codeql_missing_sarif_keeps_runner_error_evidence() {
-        let root = std::env::temp_dir().join(format!(
-            "dataflowbench-codeql-missing-sarif-test-{}-{}",
-            std::process::id(),
-            SystemTime::now()
-                .duration_since(UNIX_EPOCH)
-                .unwrap()
-                .as_nanos()
-        ));
-        fs::create_dir_all(&root).unwrap();
+        let root = unique_test_dir("dataflowbench-codeql-missing-sarif-test");
         let raw_path = root.join("case.sarif.json");
         let read_error = fs::read_to_string(&raw_path).unwrap_err();
         let (outcome, diagnostics, evidence_path) =
@@ -10332,15 +10287,7 @@ mod tests {
     /// own anchored sink function.
     #[test]
     fn joern_flow_evidence_requires_the_sink_callsite() {
-        let root = std::env::temp_dir().join(format!(
-            "dataflowbench-joern-anchor-test-{}-{}",
-            std::process::id(),
-            SystemTime::now()
-                .duration_since(UNIX_EPOCH)
-                .unwrap()
-                .as_nanos()
-        ));
-        fs::create_dir_all(&root).unwrap();
+        let root = unique_test_dir("dataflowbench-joern-anchor-test");
         let case_path = root.join("case.json");
         fs::write(
             root.join("fixture.py"),
@@ -10778,15 +10725,7 @@ mod tests {
     /// case's own anchored sink function.
     #[test]
     fn semgrep_finding_evidence_requires_the_sink_callsite() {
-        let root = std::env::temp_dir().join(format!(
-            "dataflowbench-semgrep-anchor-test-{}-{}",
-            std::process::id(),
-            SystemTime::now()
-                .duration_since(UNIX_EPOCH)
-                .unwrap()
-                .as_nanos()
-        ));
-        fs::create_dir_all(&root).unwrap();
+        let root = unique_test_dir("dataflowbench-semgrep-anchor-test");
         let case_path = root.join("case.json");
         fs::write(
             root.join("fixture.py"),
