@@ -160,13 +160,23 @@ language:
 
 **14 scored in every one of the eleven kernels**, because all seven
 intraprocedural templates are applicable in all eleven languages. Only the
-`unsupported` remainder differs with the denominator: 18 in the nine
-16-template kernels, **16 in C and Rust**.
+`unsupported` remainder differs with the denominator: 18 in the seven
+16-template kernels, **16 in C and Rust**, and **44 in Python and JavaScript**,
+whose challenge-tier rows are rolled out.
 
 | Kernel | Selected | Scored | `unsupported` |
 | --- | --- | --- | --- |
-| Java, JavaScript, TypeScript, Python, Go, Ruby, PHP, Kotlin, C++ | 32 | 14 | 18 |
+| Java, TypeScript, Go, Ruby, PHP, Kotlin, C++ | 32 | 14 | 18 |
 | C, Rust | 30 | 14 | 16 |
+| **Python, JavaScript** | **58** | **14** | **44** |
+
+Those two rows are the challenge tier. Each core denominator is the expanded 29
+templates — the sixteen v0.3.0 templates plus the thirteen preregistered
+challenge templates — and **every one of the 26 challenge assertions falls in
+the `unsupported` partition**, exactly as the preregistered partition below
+fixed in advance. Nothing about the scored partition was rewritten for the
+tier, and the scored subset stays at 14 assertions: the expansion moved the
+`unsupported` remainder from 18 to 44 and moved nothing else.
 
 The decision is taken by `semgrep_capability_exclusion` from the case JSON
 alone; an excluded case never reaches a Semgrep process, so it cannot produce an
@@ -181,6 +191,61 @@ path sensitivity is a Pro feature. They stay scored anyway: the CE engine can
 *express* those flows, it just over-approximates them, and an over-approximation
 is a publishable false positive rather than a capability gap. Excluding them
 would have hidden exactly the two mismatches this adapter reports.
+
+## Preregistered partition for the challenge tier
+
+This section was written **before any challenge fixture existed and before
+Semgrep had been pointed at one**, and it has not been edited since. It is a
+preregistration in the sense
+[the challenge-tier document](../../docs/challenge-tier.md) uses the word: the
+partition is fixed here, from the pinned distribution's documentation, while the
+outcomes are still unknown, and a later wave must not adjust it after seeing
+results. A defect in it is corrected by a documented amendment, never by a
+silent edit. Python's wave, the first to land challenge fixtures, changed
+nothing in this table.
+
+The decision is implemented as `CHALLENGE_SEMGREP_PARTITION` in `src/main.rs`,
+keyed by `template_id` and consulted *before* the `feature_tags` rule. Keying it
+by template rather than by tags is deliberate: it means no fixture author's tag
+choices — and no observed result — can move a challenge case between the scored
+and `unsupported` partitions once the fixtures land.
+
+**All thirteen are `unsupported` by declared capability.** That is not a
+convenience and it is not a scoreboard failure. The classic partition above
+scores exactly one shape — a purely local value flow inside a single function —
+because that is the only shape the pinned CE engine documents itself as
+analyzing. A challenge template is a challenge template precisely *because* its
+flow routes through dispatch, a function value, a container or a computed key, a
+deep field chain, or a call chain, and the CE documentation places every one of
+those outside the engine. None of the thirteen is a pure local value flow. The
+same documented boundary that already excludes `array-element-separation` and
+`same-object-field-separation` — single-function cases both — excludes the
+single-function challenge templates too.
+
+| Stratum | Template | CE decision | Documented reason |
+| --- | --- | --- | --- |
+| A | `chal-reflective-invocation` | `unsupported` | The callee is resolved from a run-time string and the sink is inside that callee's body. CE has no interprocedural taint at all (`--pro-intrafile` is Pro), and nothing in the pinned CE documentation claims to resolve a reflective handle. |
+| A | `chal-computed-property` | `unsupported` | Single-function, but the write and the read locate a member by a run-time key. CE documents only "Experimental support for basic field-sensitive taint tracking", while "Pro: taint-mode: Added basic support for 'index sensitivity'" places keyed access in Pro. Same boundary as the already-excluded `array-element-separation`. |
+| A | `chal-dispatch-table` | `unsupported` | The callee is a function value fetched from a stdlib map; both the call-graph edge and the sink are interprocedural. |
+| B | `chal-closure-capture` | `unsupported` | The sink is inside a closure body invoked from a different function than the one that captured the value. |
+| B | `chal-function-field` | `unsupported` | Needs field sensitivity beyond CE's experimental basic support *and* the interprocedural step CE documents as Pro. |
+| B | `chal-callback-registration` | `unsupported` | Registration and driver are different methods; inversion of control is interprocedural by construction. |
+| B | `chal-anonymous-implementation` | `unsupported` | Resolving the call-graph edge to an unnamed implementation and following taint into it are both outside the CE engine. |
+| C | `chal-map-iteration` | `unsupported` | Retrieval by iterating a container's entries is not within CE's documented "basic field-sensitive" support, and index sensitivity is recorded as Pro. |
+| C | `chal-nested-access-path` | `unsupported` | A field chain of depth ≥ 3; CE documents only *basic* experimental field sensitivity. |
+| C | `chal-element-object` | `unsupported` | Element separation and field separation in one query; index sensitivity is Pro and CE's field sensitivity is experimental and basic. |
+| D | `chal-deep-relay-chain` | `unsupported` | A six-hop interprocedural relay. `docs/challenge-tier.md` already records stratum D as beyond CE's documented scope. |
+| D | `chal-recursive-carry` | `unsupported` | A recursive summary is interprocedural; CE has no interprocedural taint. |
+| D | `chal-context-pair-depth2` | `unsupported` | Two-level context sensitivity; CE has no interprocedural taint and therefore no calling context to be sensitive to. |
+
+The consequence, stated in advance: when a language's challenge fixtures land,
+its Semgrep kernel's selected population grows with its rollout row while its
+**scored** subset stays at 14 assertions, and the `unsupported` remainder grows
+by twice that language's applicable challenge count. That is the honest
+description of a bounded engine measured against a harder population, and it is
+not a gap to paper over. Every excluded case still retains its
+`<case id>-unsupported.json` capability-decision document, and an `unsupported`
+outcome is never converted into a false negative.
 
 ## The taint model
 
@@ -310,27 +375,34 @@ does not require the marker's own line.
 
 ## Observed results
 
-Semgrep CE 1.174.0. Ten kernels carry fixture revision
+Semgrep CE 1.174.0. Eight kernels ran against fixture revision
 `sha256:aee59a14f96633cf5798df6d211525ea0d10748800ba9c9ac0a3787406bd19ea`; the
-Java kernel was re-run over its expanded 58-assertion core and carries
-`sha256:f476894a41d283e3bcaaf5188ee08abe7886ce8e3919257403b0aa853ef718e2`,
-because `fixture_revision` digests the whole case corpus and the 26 Java
-challenge-tier cases moved it. The other ten remain valid evidence for the
-populations they were run against and are re-run together at the v0.4.0 freeze
-prep. The configuration hash is unchanged across all eleven: no rule file was
-touched.
+Python, JavaScript, and Java kernels were each re-run whole after that
+language's challenge-tier row was rolled out and carry the expanded corpus
+revision current when each ran —
+`sha256:3e7a8de5e1eefb18e8166af0ccdf309bccf1d5c26026893a4513f1943926ab1f` for
+Python,
+`sha256:61c06a78b95b86764d3c220cfefd7af37373db64b15ae0b76c6ebf924217ab2e` for
+JavaScript, and
+`sha256:cf571f29e434030019d5e8f8361319b0bb3b4d6c4c752bd65860e07bfcf26bbc` for
+Java. Reports at different
+fixture revisions are not pooled. The configuration hash is unchanged across
+all eleven: no rule file was touched.
 
-All eleven kernels ran. 368 assertions: 154 executed against Semgrep, 214
+All eleven kernels ran. 426 assertions: 154 executed against Semgrep, 272
 excluded by declared capability. Zero `inconclusive` and zero `runner-error`
-outcomes; 154 retained finding documents, 154 retained resolved rule files, 214
-retained capability-decision documents, and zero error documents.
+outcomes; 154 retained finding documents, 154 retained resolved rule files, 272
+retained capability-decision documents, and zero error documents. (The counts
+recorded here before the three expansions, 342 and 188, understated the
+retained totals by six; the figures above are counted from the committed
+reports and evidence directories.)
 
 | Kernel | `maturity` | Selected | `reached` | `not-reached` | `unsupported` | Polarity match (scored subset) |
 | --- | --- | --- | --- | --- | --- | --- |
-| Java | `ga` | **58** | 9 | 5 | **44** | 12/14 |
-| JavaScript | `ga` | 32 | 9 | 5 | 18 | 12/14 |
+| **Java** | `ga` | **58** | 9 | 5 | **44** | 12/14 |
+| **JavaScript** | `ga` | **58** | 9 | 5 | **44** | 12/14 |
 | TypeScript | `ga` | 32 | 9 | 5 | 18 | 12/14 |
-| Python | `ga` | 32 | 9 | 5 | 18 | 12/14 |
+| **Python** | `ga` | **58** | 9 | 5 | **44** | 12/14 |
 | Go | `ga` | 32 | 9 | 5 | 18 | 12/14 |
 | Ruby | `ga` | 32 | 9 | 5 | 18 | 12/14 |
 | PHP | `ga` | 32 | 9 | 5 | 18 | 12/14 |
@@ -339,9 +411,19 @@ retained capability-decision documents, and zero error documents.
 | **C** | **`alpha`** | **30** | 9 | 5 | **16** | 12/14 |
 | **C++** | **`alpha`** | 32 | 9 | 5 | 18 | 12/14 |
 
-The scored subset is 7 positives and 7 negatives per language. Every one of the
-7 intraprocedural positives is `reached` in every language — no false negative
+The scored subset is 7 positives and 7 negatives per language, the three
+expanded denominators included: their 26 challenge assertions are all
+`unsupported`, so the scored subset is the same 14 assertions it was, and the
+`Selected` column is the only one an expansion moved. Every one of the 7
+intraprocedural positives is `reached` in every language — no false negative
 anywhere — and 5 of the 7 negatives are `not-reached`.
+
+Java, JavaScript, and Python are the three expanded populations, and each
+changes only the `unsupported` column: all 26 of that language's challenge
+assertions are declined by declared capability, and its scored 14 are the same
+14 assertions with the same 12/14 result as before the expansion. A larger
+`unsupported` count on a larger population is coverage arithmetic, not a worse
+engine.
 
 The four non-GA front ends score exactly what the seven GA ones score. That is
 worth stating plainly rather than quietly: the maturity label predicted nothing
@@ -356,23 +438,23 @@ Mismatches, verbatim, and identical in all eleven languages:
 - `dfb-taint-<language>-infeasible-branch-negative`: false positive.
 - `dfb-taint-<language>-loop-carried-negative`: false positive.
 
-### Java's expanded core changes the excluded partition and nothing else
+### An expanded core changes the excluded partition and nothing else
 
-Java's core now carries the thirteen
-[challenge-tier](../../docs/challenge-tier.md) templates, so its selection grew
-from 32 to 58 assertions. Its **scored subset is still 14, and still 12/14**,
-with the same two false positives: no challenge template is tagged
+Java's, JavaScript's, and Python's cores each now carry the thirteen
+[challenge-tier](../../docs/challenge-tier.md) templates, so each selection grew
+from 32 to 58 assertions. Each one's **scored subset is still 14, and still
+12/14**, with the same two false positives: no challenge template is tagged
 `intraprocedural`, so none of them enters the scored partition. All 26 are
-`unsupported`, decided from each case's own `feature_tags` and
-`expected_analysis_capability.kind` before Semgrep was invoked, so not one
-reached a Semgrep process and none can read as a false negative. The retained
-reasons split exactly as the partition rule dictates: 4 name the interprocedural
-boundary (the deep-relay and depth-2 context pairs, `interprocedural-deep`), 4
-name the heap boundary (the nested-access-path and element-object pairs,
-`heap-access-path`), and 18 name the general local/intraprocedural profile
-boundary (the reflection, higher-order, and computed-access cells). A bounded
-engine declining a harder tier wholesale is the preregistered expectation and
-correct behavior, not a gap to paper over.
+`unsupported` in each language, decided by the preregistered
+`CHALLENGE_SEMGREP_PARTITION` before Semgrep was invoked, so not one reached a
+Semgrep process and none can read as a false negative. Each retained reason is
+the per-template rationale the preregistration fixed — the documented CE
+boundary that template falls outside, quoted from the pinned distribution's own
+documentation — rather than a generic restatement of the tag rule, and it is
+keyed by template ID, so no fixture's `feature_tags` and no observed result can
+move a case between the partitions after the fact. A bounded engine declining a
+harder tier wholesale is the preregistered expectation and correct behavior, not
+a gap to paper over.
 
 Both are exactly what the documentation predicts. `--pro-path-sensitive`
 ("Path sensitivity. Requires Semgrep Pro Engine") says the CE engine does not

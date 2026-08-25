@@ -53,9 +53,10 @@ database creation, or analysis failures as negative results.
 
 ## JavaScript kernel
 
-The JavaScript runner selects exactly the 32 `taint` cases whose `language` is
-`javascript`, `score_tier` is `core`, and `tool_model_references.codeql.query`
-is:
+The JavaScript runner selects the whole JavaScript core `taint` population —
+32 assertions classically, and **58** now that its thirteen challenge templates
+have rolled out (`docs/challenge-tier.md`) — whose `language` is `javascript`,
+`score_tier` is `core`, and `tool_model_references.codeql.query` is:
 
 ```text
 adapters/codeql/javascript/queries/JavaScriptKernel.ql
@@ -64,8 +65,9 @@ adapters/codeql/javascript/queries/JavaScriptKernel.ql
 The query belongs to the dedicated JavaScript pack manifest at
 `adapters/codeql/javascript/qlpack.yml`; the Java pack and query are separate.
 
-That selection is 16 language-neutral templates with one positive and one
-negative assertion each. It writes the normalized report to
+That selection is 29 language-neutral templates — the classic 16 plus the 13
+challenge templates — with one positive and one negative assertion each. It
+writes the normalized report to
 `reports/codeql-javascript-kernel.json` and keeps each case's SARIF (or raw
 runner diagnostic when CodeQL cannot produce SARIF) under the dedicated
 `reports/raw/codeql-javascript/` directory. JavaScript evidence is never read
@@ -184,6 +186,15 @@ model and must not be used as a proxy for this kernel.
 
 ## Retained JavaScript snapshot
 
+**Expanded evidence is deferred.** `reports/codeql-javascript-kernel.json` is
+one of the nineteen reports `reports/freeze.json` digest-binds for v0.3.0, so
+the JavaScript challenge expansion did not overwrite it: the expanded
+58-assertion CodeQL evidence is pending the v0.4.0 freeze-prep re-run, on this
+repository's established re-run-at-freeze pattern, and the deferral is recorded
+in `docs/javascript-kernel.md`. What follows is the valid classic
+32-assertion snapshot, and it describes a different population from the
+expanded one.
+
 The checked-in `reports/codeql-javascript-kernel.json` contains 32 results:
 15 `reached` and 17 `not-reached`, with zero `inconclusive`, `unsupported`, or
 `runner-error` outcomes. Twenty-nine of 32 outcomes match the expected
@@ -252,8 +263,8 @@ fallback was needed. Its configuration hash is
 
 ## Python kernel
 
-The Python query selects exactly the 32 core assertions (the 16 balanced
-templates): every benchmark `dfb_source()` call is a source, and argument zero
+The Python query selects exactly Python's core assertions: every benchmark
+`dfb_source()` call is a source, and argument zero
 of every benchmark `dfb_sink(value)` call is a sink. It does not match fixture
 names or treat an absent finding as an execution success. The Python dependency
 is pinned to `codeql/python-all@7.2.3`, the compatible pack released for CodeQL
@@ -318,6 +329,17 @@ executed query with no SARIF flow is `not-reached`. The full compile above
 populates the compilation cache before the runner starts, so per-case analysis
 does not repeat query compilation. Every case still uses an isolated cold
 database; no database or compiled fixture is reused across the pair.
+
+**Deferred: the expanded Python population.** Python's challenge-tier row is
+now rolled out and its core denominator is 29 templates / 58 assertions, but
+`reports/codeql-python-kernel.json` is one of the nineteen reports
+`reports/freeze.json` digest-binds for v0.3.0. Overwriting it would invalidate
+a published freeze, so the Python challenge wave left it untouched. Its 32
+results remain the frozen 16-template v0.3.0 evidence, and CodeQL's evidence
+for the expanded Python core arrives with the v0.4.0 freeze-prep re-run. This
+is deferral, not absence of coverage, and the two populations are never
+compared number-to-number. The selection code already expects 58; the runner is
+simply not invoked until the freeze is re-cut.
 
 ## C# kernel
 

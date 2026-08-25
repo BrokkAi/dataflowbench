@@ -77,6 +77,8 @@ helper, are present in both cells. This is exactly how the classic
 extends — is built in every language of the corpus, and it preserves the
 semantic intent, the polarity, and the `call-context-separation` mechanism
 unchanged. It is a fixture-realizability note, not a template amendment.
+[The Python kernel contract](python-kernel.md) records the identical decision
+for the same cell, for the same reason and in the same form.
 
 ### Feature tags and declared capabilities
 
