@@ -103,8 +103,11 @@ scorecards instead of being dropped, and implementation is sequenced in three
 tranches with one bounded child issue per language.
 
 The Python CodeQL vertical slice is defined independently of the Bifrost
-results. Its runner selects exactly the 32 Python core assertions (16 balanced
-positive/negative template pairs), creates one isolated database per case, and
+results. Its runner selects exactly the Python core assertions as one balanced
+positive/negative pair per template — 32 over 16 templates when this milestone
+was recorded, 58 over 29 since Python's
+[challenge-tier row](challenge-tier.md) was rolled out — creates one isolated
+database per case, and
 retains a dedicated normalized report at `reports/codeql-python-kernel.json`
 plus raw SARIF under `reports/raw/codeql-python-kernel/`. Source and sink anchors from
 the case metadata remain attached to each normalized result. The five outcome
@@ -117,7 +120,10 @@ build `7d097a43199effe04ecd9c6bd3ad9bb02a45b3d7` with
 `runner-error`; 28/32 matched the expected polarity. The mismatches were
 false negatives for `alias-propagation-positive`, `array-element-positive`,
 and `exception-catch-positive`, and a false positive for
-`loop-carried-negative`. This evidence is limited to the Python core kernel.
+`loop-carried-negative`. This evidence is limited to the **v0.3.0
+16-template** Python core kernel; the expanded-population CodeQL run is
+deferred to the v0.4.0 freeze-prep re-run, because the report is freeze-bound.
+See [the Python kernel contract](python-kernel.md).
 The Python query pack is separate from the Java pack: it lives under
 `adapters/codeql/python/` and owns the Python query plus its database-schema
 dependency.
