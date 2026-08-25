@@ -160,13 +160,24 @@ language:
 
 **14 scored in every one of the eleven kernels**, because all seven
 intraprocedural templates are applicable in all eleven languages. Only the
-`unsupported` remainder differs with the denominator: 18 in the nine
-16-template kernels, **16 in C and Rust**.
+`unsupported` remainder differs with the denominator: 18 in the eight
+16-template kernels, **16 in C and Rust**, and **44 in Python**, whose
+challenge-tier row is rolled out.
 
 | Kernel | Selected | Scored | `unsupported` |
 | --- | --- | --- | --- |
-| Java, JavaScript, TypeScript, Python, Go, Ruby, PHP, Kotlin, C++ | 32 | 14 | 18 |
+| Java, JavaScript, TypeScript, Go, Ruby, PHP, Kotlin, C++ | 32 | 14 | 18 |
 | C, Rust | 30 | 14 | 16 |
+| **Python** | **58** | **14** | **44** |
+
+Python's row is the challenge tier. Its core denominator is the expanded 29
+templates — the sixteen v0.3.0 templates plus the thirteen preregistered
+challenge templates — and **every one of the 26 challenge assertions falls in
+the `unsupported` partition**, because none of the thirteen challenge templates
+carries the `intraprocedural` feature tag. `docs/challenge-tier.md` stated that
+outcome in advance. The partition rule was not touched for the tier, and the
+scored subset stays at 14 assertions: the expansion moved the `unsupported`
+remainder from 18 to 44 and moved nothing else.
 
 The decision is taken by `semgrep_capability_exclusion` from the case JSON
 alone; an excluded case never reaches a Semgrep process, so it cannot produce an
@@ -310,19 +321,25 @@ does not require the marker's own line.
 
 ## Observed results
 
-Semgrep CE 1.174.0, fixture revision
-`sha256:aee59a14f96633cf5798df6d211525ea0d10748800ba9c9ac0a3787406bd19ea`.
-All eleven kernels ran. 342 assertions: 154 executed against Semgrep, 188
+Semgrep CE 1.174.0. Ten kernels ran against fixture revision
+`sha256:aee59a14f96633cf5798df6d211525ea0d10748800ba9c9ac0a3787406bd19ea`; the
+Python kernel was re-run whole after its challenge-tier row was rolled out and
+carries the expanded corpus revision
+`sha256:3e7a8de5e1eefb18e8166af0ccdf309bccf1d5c26026893a4513f1943926ab1f`.
+All eleven kernels ran. 374 assertions: 154 executed against Semgrep, 220
 excluded by declared capability. Zero `inconclusive` and zero `runner-error`
-outcomes; 154 retained finding documents, 154 retained resolved rule files, 188
-retained capability-decision documents, and zero error documents.
+outcomes; 154 retained finding documents, 154 retained resolved rule files, 220
+retained capability-decision documents, and zero error documents. (The counts
+recorded here before the Python expansion, 342 and 188, understated the
+retained totals by six; the figures above are counted from the committed
+reports and evidence directories.)
 
 | Kernel | `maturity` | Selected | `reached` | `not-reached` | `unsupported` | Polarity match (scored subset) |
 | --- | --- | --- | --- | --- | --- | --- |
 | Java | `ga` | 32 | 9 | 5 | 18 | 12/14 |
 | JavaScript | `ga` | 32 | 9 | 5 | 18 | 12/14 |
 | TypeScript | `ga` | 32 | 9 | 5 | 18 | 12/14 |
-| Python | `ga` | 32 | 9 | 5 | 18 | 12/14 |
+| **Python** | `ga` | **58** | 9 | 5 | **44** | 12/14 |
 | Go | `ga` | 32 | 9 | 5 | 18 | 12/14 |
 | Ruby | `ga` | 32 | 9 | 5 | 18 | 12/14 |
 | PHP | `ga` | 32 | 9 | 5 | 18 | 12/14 |
@@ -331,8 +348,11 @@ retained capability-decision documents, and zero error documents.
 | **C** | **`alpha`** | **30** | 9 | 5 | **16** | 12/14 |
 | **C++** | **`alpha`** | 32 | 9 | 5 | 18 | 12/14 |
 
-The scored subset is 7 positives and 7 negatives per language. Every one of the
-7 intraprocedural positives is `reached` in every language — no false negative
+The scored subset is 7 positives and 7 negatives per language, Python's
+expanded denominator included: its 26 challenge assertions are all
+`unsupported`, so the scored subset is the same 14 assertions it was, and the
+`Selected` column is the only one its expansion moved. Every one of the 7
+intraprocedural positives is `reached` in every language — no false negative
 anywhere — and 5 of the 7 negatives are `not-reached`.
 
 The four non-GA front ends score exactly what the seven GA ones score. That is
