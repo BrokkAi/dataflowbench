@@ -1,0 +1,62 @@
+{
+  "schema_version": 2,
+  "id": "dfb-taint-kotlin-map-iteration-negative",
+  "template_id": "dfb-template-chal-map-iteration",
+  "polarity": "negative",
+  "negative_mechanism": "object-separation",
+  "score_tier": "core",
+  "track": "taint",
+  "language": "kotlin",
+  "semantic_dimensions": [
+    "heap-field-sensitivity",
+    "object-sensitivity"
+  ],
+  "feature_tags": [
+    "computed-access"
+  ],
+  "model_profile": "benchmark-controlled",
+  "fixture_files": [
+    "MapIterationNegative.kt"
+  ],
+  "source_anchors": [
+    {
+      "marker": "DFB-SOURCE: map-iteration-input",
+      "file": "MapIterationNegative.kt"
+    }
+  ],
+  "sink_anchors": [
+    {
+      "marker": "DFB-SINK: map-iteration-sink",
+      "file": "MapIterationNegative.kt"
+    }
+  ],
+  "expected_flows": [],
+  "expected_nonflows": [
+    {
+      "source": "DFB-SOURCE: map-iteration-input",
+      "sink": "DFB-SINK: map-iteration-sink"
+    }
+  ],
+  "witness_checkpoints": [],
+  "expected_analysis_capability": {
+    "kind": "container-iteration-taint"
+  },
+  "execution_budget": {
+    "wall_clock_seconds": 60,
+    "peak_memory_mb": 512
+  },
+  "fixture_provenance": {
+    "kind": "authored",
+    "origin": "DataFlowBench",
+    "revision": "m3-challenge-kotlin",
+    "license": "MIT"
+  },
+  "tool_model_references": {
+    "bifrost": {
+      "policy": "adapters/bifrost/policies/core-kotlin-kernel.rqlp"
+    },
+    "codeql": {
+      "query": "adapters/codeql/kotlin/queries/KotlinKernel.ql"
+    }
+  }
+}

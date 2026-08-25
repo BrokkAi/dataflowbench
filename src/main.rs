@@ -336,7 +336,7 @@ const CHALLENGE_ROLLOUT: [ChallengeRollout; 13] = [
         display: "Kotlin",
         classic: &KERNEL_TEMPLATE_IDS,
         challenge: &CHALLENGE_TEMPLATE_IDS,
-        rolled_out: false,
+        rolled_out: true,
     },
     ChallengeRollout {
         language: "csharp",
@@ -357,7 +357,7 @@ const CHALLENGE_ROLLOUT: [ChallengeRollout; 13] = [
         display: "Go",
         classic: &KERNEL_TEMPLATE_IDS,
         challenge: &CHALLENGE_TEMPLATE_IDS,
-        rolled_out: false,
+        rolled_out: true,
     },
     ChallengeRollout {
         language: "cpp",
@@ -3962,7 +3962,11 @@ fn codeql_go_cases() -> Result<Vec<(PathBuf, Value)>> {
         }
         selected.push((path, case));
     }
-    validate_kernel_population(&selected, "Go CodeQL kernel")?;
+    validate_kernel_population_with(
+        &selected,
+        "Go CodeQL kernel",
+        &expected_core_templates("go"),
+    )?;
     if !Path::new(CODEQL_GO_QUERY).is_file() {
         bail!("Go CodeQL query does not exist: {CODEQL_GO_QUERY}");
     }
@@ -4462,7 +4466,11 @@ fn codeql_kotlin_cases() -> Result<Vec<(PathBuf, Value)>> {
         }
         selected.push((path, case));
     }
-    validate_kernel_population(&selected, "Kotlin CodeQL kernel")?;
+    validate_kernel_population_with(
+        &selected,
+        "Kotlin CodeQL kernel",
+        &expected_core_templates("kotlin"),
+    )?;
     if !Path::new(CODEQL_KOTLIN_QUERY).is_file() {
         bail!("Kotlin CodeQL query does not exist: {CODEQL_KOTLIN_QUERY}");
     }
@@ -8277,17 +8285,19 @@ mod tests {
     }
 
     #[test]
-    fn kotlin_codeql_population_is_exactly_32_balanced_assertions() {
+    fn kotlin_codeql_population_is_the_expanded_balanced_core() {
+        let expected = expected_core_templates("kotlin");
         let selected = codeql_kotlin_cases().unwrap();
-        assert_eq!(selected.len(), KERNEL_CASE_COUNT);
+        assert_eq!(selected.len(), 2 * expected.len());
+        // Kotlin's challenge row is rolled out, so the population is the
+        // expanded 29-template / 58-assertion core, not the classic 32.
+        assert_eq!(selected.len(), 58);
+        assert!(selected.len() > KERNEL_CASE_COUNT);
         let templates = selected
             .iter()
             .map(|(_, case)| case["template_id"].as_str().unwrap())
             .collect::<BTreeSet<_>>();
-        assert_eq!(
-            templates,
-            KERNEL_TEMPLATE_IDS.iter().copied().collect::<BTreeSet<_>>()
-        );
+        assert_eq!(templates, expected.iter().copied().collect::<BTreeSet<_>>());
         assert!(
             selected
                 .iter()
@@ -8309,22 +8319,39 @@ mod tests {
                 }),
             )
         };
+        // The runner validates against Kotlin's own denominator, which the
+        // rollout table now expands to the challenge templates as well.
+        let expected = expected_core_templates("kotlin");
+        let check = |cases: &[(PathBuf, Value)]| {
+            validate_kernel_population_with(cases, "Kotlin CodeQL kernel", &expected)
+        };
         let mut balanced = Vec::new();
-        for template in KERNEL_TEMPLATE_IDS {
+        for template in &expected {
             balanced.push(case(template, "positive"));
             balanced.push(case(template, "negative"));
         }
-        assert!(validate_kernel_population(&balanced, "Kotlin CodeQL kernel").is_ok());
+        assert!(check(&balanced).is_ok());
 
         let mut unbalanced = balanced.clone();
-        unbalanced[1] = case(KERNEL_TEMPLATE_IDS[0], "positive");
-        assert!(validate_kernel_population(&unbalanced, "Kotlin CodeQL kernel").is_err());
+        unbalanced[1] = case(expected[0], "positive");
+        assert!(check(&unbalanced).is_err());
 
         let mut foreign = balanced.clone();
         foreign[0] = case("dfb-template-one-hop-relay", "positive");
-        assert!(validate_kernel_population(&foreign, "Kotlin CodeQL kernel").is_err());
+        assert!(check(&foreign).is_err());
 
-        assert!(validate_kernel_population(&balanced[..2], "Kotlin CodeQL kernel").is_err());
+        // The classic sixteen alone are no longer a complete Kotlin core.
+        let classic = balanced
+            .iter()
+            .filter(|(_, case)| {
+                KERNEL_TEMPLATE_IDS.contains(&case["template_id"].as_str().unwrap())
+            })
+            .cloned()
+            .collect::<Vec<_>>();
+        assert_eq!(classic.len(), KERNEL_CASE_COUNT);
+        assert!(check(&classic).is_err());
+
+        assert!(check(&balanced[..2]).is_err());
     }
 
     #[test]
@@ -8957,9 +8984,13 @@ mod tests {
     }
 
     #[test]
-    fn go_core_selection_is_exactly_32_balanced_assertions() {
+    fn go_core_selection_is_the_expanded_balanced_population() {
+        let expected_templates = expected_core_templates("go");
         let selected = codeql_go_cases().unwrap();
-        assert_eq!(selected.len(), KERNEL_CASE_COUNT);
+        assert_eq!(selected.len(), expected_core_case_count("go"));
+        // Go's challenge row is rolled out, so the population is the expanded
+        // 29 templates / 58 assertions, not the classic 32.
+        assert_eq!(selected.len(), 58);
         let mut templates = BTreeMap::<String, (usize, usize)>::new();
         for (_, case) in &selected {
             assert_eq!(case["language"], "go");
@@ -8974,7 +9005,8 @@ mod tests {
                 counts.1 += 1;
             }
         }
-        assert_eq!(templates.len(), KERNEL_TEMPLATE_IDS.len());
+        assert_eq!(templates.len(), expected_templates.len());
+        assert_eq!(templates.len(), 29);
         assert!(
             templates
                 .values()
@@ -9029,7 +9061,9 @@ mod tests {
                 }
             }
         }
-        assert_eq!(selected, KERNEL_CASE_COUNT);
+        // The Go row is rolled out, so the kernel run covers the expanded core.
+        assert_eq!(selected, expected_core_case_count("go"));
+        assert!(selected > KERNEL_CASE_COUNT);
     }
 
     #[test]
@@ -11420,13 +11454,20 @@ mod tests {
                 );
                 assert!(template.starts_with(CHALLENGE_TEMPLATE_PREFIX));
             }
-            // Python, JavaScript, Java, C#, TypeScript, and C++ are the waves
-            // that have landed their fixtures; every other language validates
-            // against its classic set alone, so a language whose fixtures do
-            // not exist yet is never failed for missing them.
+            // Python, JavaScript, Java, C#, TypeScript, Kotlin, Go, and C++
+            // are the waves that have landed their fixtures; every other
+            // language validates against its classic set alone, so a language
+            // whose fixtures do not exist yet is never failed for missing them.
             let rolled_out = matches!(
                 row.language,
-                "python" | "javascript" | "java" | "csharp" | "typescript" | "cpp"
+                "python"
+                    | "javascript"
+                    | "java"
+                    | "csharp"
+                    | "typescript"
+                    | "kotlin"
+                    | "go"
+                    | "cpp"
             );
             assert_eq!(
                 challenge_rolled_out(row.language),

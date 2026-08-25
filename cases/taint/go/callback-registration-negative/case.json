@@ -1,0 +1,62 @@
+{
+  "schema_version": 2,
+  "id": "dfb-taint-go-callback-registration-negative",
+  "template_id": "dfb-template-chal-callback-registration",
+  "polarity": "negative",
+  "negative_mechanism": "unrelated-value",
+  "score_tier": "core",
+  "track": "taint",
+  "language": "go",
+  "semantic_dimensions": [
+    "interprocedural-flow",
+    "dynamic-dispatch"
+  ],
+  "feature_tags": [
+    "higher-order"
+  ],
+  "model_profile": "benchmark-controlled",
+  "fixture_files": [
+    "callback_registration_negative.go"
+  ],
+  "source_anchors": [
+    {
+      "marker": "DFB-SOURCE: callback-registration-input",
+      "file": "callback_registration_negative.go"
+    }
+  ],
+  "sink_anchors": [
+    {
+      "marker": "DFB-SINK: callback-registration-sink",
+      "file": "callback_registration_negative.go"
+    }
+  ],
+  "expected_flows": [],
+  "expected_nonflows": [
+    {
+      "source": "DFB-SOURCE: callback-registration-input",
+      "sink": "DFB-SINK: callback-registration-sink"
+    }
+  ],
+  "witness_checkpoints": [],
+  "expected_analysis_capability": {
+    "kind": "inverted-control-callback-taint"
+  },
+  "execution_budget": {
+    "wall_clock_seconds": 60,
+    "peak_memory_mb": 512
+  },
+  "fixture_provenance": {
+    "kind": "authored",
+    "origin": "DataFlowBench",
+    "revision": "m3-challenge-go",
+    "license": "MIT"
+  },
+  "tool_model_references": {
+    "bifrost": {
+      "policy": "adapters/bifrost/policies/core-go-kernel.rqlp"
+    },
+    "codeql": {
+      "query": "adapters/codeql/go/queries/GoKernel.ql"
+    }
+  }
+}

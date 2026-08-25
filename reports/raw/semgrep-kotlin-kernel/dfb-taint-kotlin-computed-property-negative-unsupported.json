@@ -1,0 +1,18 @@
+{
+  "adapter": "semgrep",
+  "case_id": "dfb-taint-kotlin-computed-property-negative",
+  "engine_profile": "semgrep-ce-oss-intrafile-intraprocedural-taint",
+  "evidence_kind": "retained-capability-decision",
+  "expected_analysis_capability": {
+    "kind": "computed-member-access-taint"
+  },
+  "feature_tags": [
+    "computed-access"
+  ],
+  "language": "kotlin",
+  "language_maturity": "beta",
+  "language_maturity_source": "semgrep_interfaces/lang.json (pinned distribution)",
+  "reason": "outside the bounded Semgrep CE profile: the case writes and reads a member located by a run-time key; the pinned CE engine documents only \"Experimental support for basic field-sensitive taint tracking\", while \"Pro: taint-mode: Added basic support for 'index sensitivity'\" places keyed access outside CE — the same documented boundary that already excludes `dfb-template-array-element-separation` and `dfb-template-same-object-field-separation`. The case requires \"computed-member-access-taint\"; the scored CE profile is the kernel's `intraprocedural` partition only.",
+  "stage": "declared-capability",
+  "state": "unsupported"
+}
