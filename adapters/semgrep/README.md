@@ -390,29 +390,19 @@ does not require the marker's own line.
 ## Observed results
 
 Semgrep CE 1.174.0. No kernel is left at the pre-expansion fixture revision
-`sha256:aee59a14f96633cf5798df6d211525ea0d10748800ba9c9ac0a3787406bd19ea`. All
+`sha256:aee59a14f96633cf5798df6d211525ea0d10748800ba9c9ac0a3787406bd19ea`, and
+none is left at an intermediate wave revision either. All
 eleven — Python, JavaScript, Java, TypeScript, Kotlin, Go, C++, C, Rust, PHP,
-and Ruby — were each re-run whole after that language's challenge-tier row was
-rolled out and carry the expanded corpus revision current when each ran —
-
-| Kernel | `fixture_revision` |
-| --- | --- |
-| Python | `sha256:3e7a8de5e1eefb18e8166af0ccdf309bccf1d5c26026893a4513f1943926ab1f` |
-| JavaScript | `sha256:61c06a78b95b86764d3c220cfefd7af37373db64b15ae0b76c6ebf924217ab2e` |
-| Java | `sha256:cf571f29e434030019d5e8f8361319b0bb3b4d6c4c752bd65860e07bfcf26bbc` |
-| TypeScript | `sha256:2c906faeb98b48d1aba7da7bc80a78c4084051b84efac6ac3a1b74f54c843fd2` |
-| Kotlin | `sha256:7ac23321e5d0974ed9087b9642ee3c88b3f3af014ba507330131da30fbb9b4d7` |
-| Go | `sha256:7f37b99ddab7764a8536112c09ff7c8d77e0b02f7786abde65dfbaf3654d9949` |
-| C++ | `sha256:a1570fc74526f0088488e3fba0941a7da47244635d7ceecf6787f1f76200b4ee` |
-| C | `sha256:75f631ca05df2609055972622faaf3946331f7537140b08ba7ec6648bd0e077c` |
-| Rust | `sha256:88ad35289ae465278b95fd436532132118a6b6aa681adb3d266d67766c8770c5` |
-| PHP | `sha256:f74647fe824ca9f6900c48aa9d403f0e9f59230e4193e0b02bd65e29a9e4e660` |
-| Ruby | `sha256:020d0d8f79360af6e74064a692e2d65ffa31cd97f9971f9dad8bec065d862043` |
+and Ruby — were re-run whole for the v0.4.0 freeze, after every
+challenge-tier row had rolled out, so all eleven carry the single revision
+`sha256:13a11ff48f26dba889f76aeb9ef60213a129abe5ebcfcb966da3a2418c12807e`.
 
 `fixture_revision` digests the whole case corpus, so each wave's fixtures moved
 it for every run after it, and reports at different fixture revisions are not
-pooled. The configuration hash is unchanged across all eleven: no rule file was
-touched.
+pooled; re-running the whole adapter at one revision is what removes that skew.
+The configuration hash
+`865d0bd2989f9ddd0b90f2d6675584e86706b109a033d4a1ac00bd21a617b100` is the same
+across all eleven: no rule file was touched.
 
 All eleven kernels ran. 622 assertions: 154 executed against Semgrep, 468
 excluded by declared capability. Zero `inconclusive` and zero `runner-error`

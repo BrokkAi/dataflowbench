@@ -31,6 +31,7 @@ const vendorNames: Record<string, string> = {
   bifrost: 'Bifrost',
   codeql: 'CodeQL',
   joern: 'Joern',
+  semgrep: 'Semgrep CE',
 };
 function vendorName(tool: string): string {
   return vendorNames[tool] ?? tool.charAt(0).toUpperCase() + tool.slice(1);
@@ -209,9 +210,14 @@ kernels.forEach((kernel, index) => {
   kernel.id = `kernel-${index}`;
 });
 
-const templateSizes = [...new Set(kernels.map((kernel) => kernel.templates))]
-  .sort((left, right) => left - right)
-  .join('–');
+// Core sizes differ per language. Two sizes read naturally as a range; more
+// than two have to be enumerated, or "24–29" would imply sizes nobody has.
+const templateSizeList = [...new Set(kernels.map((kernel) => kernel.templates))]
+  .sort((left, right) => left - right);
+const templateSizes =
+  templateSizeList.length <= 2
+    ? templateSizeList.join('–')
+    : `${templateSizeList.slice(0, -1).join(', ')} or ${templateSizeList.at(-1)}`;
 
 // Payload for the details dialog: embedded at build time, so the page stays
 // fully static and the dialog needs no network access.
@@ -308,6 +314,19 @@ function kernelTable(kernel: Kernel): KernelRow[] {
   );
 }
 
+// A card's headline fraction is correct-of-population. For an analyzer that
+// declines part of the population, that fraction alone reads as a low score
+// rather than as a bounded profile, so the card also states the decided
+// fraction and names *why* the rest is absent — declared-capability declines
+// (`unsupported`) are a design position, not a miss.
+function coverageNote(vendor: VendorStats): string {
+  const parts: string[] = [];
+  if (vendor.unsupported > 0) parts.push(`${vendor.unsupported} declined`);
+  if (vendor.inconclusive > 0) parts.push(`${vendor.inconclusive} incomplete`);
+  if (vendor.runnerErrors > 0) parts.push(`${vendor.runnerErrors} runner-error`);
+  return `${vendor.name}: ${parts.join(', ')}`;
+}
+
 const outcomeClass = (polarity: 'positive' | 'negative', outcome: string) => {
   if (polarity === 'positive' && outcome === 'reached') return 'good';
   if (polarity === 'negative' && outcome === 'not-reached') return 'good';
@@ -328,13 +347,14 @@ const caseCount = snapshot.results.scorecards
 <aside class="short-answer">
   <p class="label">Short answer</p>
   <p class="verdict">
-    Where Bifrost's semantics are wired up, it is now exact: the Java,
-    JavaScript and Python kernels complete without a single wrong or
-    incomplete result, and TypeScript is close behind. CodeQL answers every
-    assertion in all {kernels.length} kernels, with a handful of misses in
-    each. Where Bifrost's deeper semantics are not yet wired up for a
-    language, it reports incomplete analysis instead of an answer — coverage,
-    not a wrong result.
+    Nobody is perfect on the expanded cores. This snapshot folds a
+    preregistered tier of harder templates — dynamic dispatch, higher-order
+    code, container and access-path depth, call-depth stress — into every
+    kernel, and no analyzer answers a whole core correctly in any language.
+    Bifrost is near-exact on what it decides and declines most of the harder
+    tier outright; CodeQL and Joern answer everything definitively and miss
+    where their approximations bind; Semgrep CE declines by declared
+    capability what its intraprocedural profile does not cover.
   </p>
   <p>
     DataFlowBench is <a href="https://github.com/BrokkAi">BrokkAi</a>'s own
@@ -347,9 +367,11 @@ const caseCount = snapshot.results.scorecards
   </p>
   <p>
     Each kernel poses one positive and one negative assertion per semantic
-    template, and each language's kernel is its own population — the
-    {templateSizes}-template cores are never pooled or ranked against each
-    other.
+    template, and each language's kernel is its own population — cores of
+    {templateSizes} templates, never pooled or ranked against each other, and
+    never compared with the smaller cores of an earlier snapshot. A blank
+    analyzer on a kernel means no report in this freeze: no extractor, no
+    frontend, or no adapter, which is coverage rather than a score.
   </p>
   <p>
     On the direct-flow breadth baseline, Bifrost answered both assertions
@@ -363,7 +385,11 @@ const caseCount = snapshot.results.scorecards
 <div class="stat-grid">
   {kernels.map((kernel) => (
     <div
-      class:list={['stat-card', 'kernel-card', { many: kernel.vendors.length > 2 }]}
+      class:list={[
+        'stat-card',
+        'kernel-card',
+        { many: kernel.vendors.length > 2, dense: kernel.vendors.length > 3 },
+      ]}
     >
       <p class="label">{kernel.language} kernel · correct decisions</p>
       <div class="stat-pair">
@@ -371,15 +397,21 @@ const caseCount = snapshot.results.scorecards
           <div class={`vendor v${index % 4}`}>
             <p class="who">{vendor.name}</p>
             <p class="big">{vendor.correct}<span class="of">/{vendor.total}</span></p>
+            {vendor.incomplete > 0 && (
+              <p class="decided">
+                {vendor.correct} of {vendor.correct + vendor.wrong} decided
+              </p>
+            )}
           </div>
         ))}
       </div>
       <p class="caption">
         {kernel.vendors.some((vendor) => vendor.incomplete > 0)
-          ? `${kernel.templates} templates · incomplete outcomes (${kernel.vendors
+          ? `${kernel.templates} templates · unanswered outcomes (${kernel.vendors
               .filter((vendor) => vendor.incomplete > 0)
-              .map((vendor) => `${vendor.incomplete} ${vendor.name}`)
-              .join(', ')}) are excluded from correctness, not counted against it`
+              .map(coverageNote)
+              .join('; ')}) are coverage, excluded from correctness and never
+              counted against it`
           : `${kernel.templates} templates · all outcomes definitive`}
       </p>
       <p class="card-action">
@@ -767,8 +799,8 @@ const caseCount = snapshot.results.scorecards
   Every count on this page is generated from the
   <a href={evidenceUrl(snapshot, snapshot.results.manifest.path)}>freeze
   manifest</a> (<code>{shortDigest(snapshot.results.manifest.sha256)}…</code>),
-  which digest-binds the benchmark revision, every case and fixture, both
-  analyzers' identities, their normalized reports, and one retained raw
+  which digest-binds the benchmark revision, every case and fixture, every
+  analyzer's identity, their normalized reports, and one retained raw
   artifact per result. CI regenerates the numbers from the manifest and fails
   on any drift; hand-authored prose cannot override a generated count. See
   <a href="/dataflowbench/reproduction/">reproduction</a> to verify locally,
@@ -844,15 +876,16 @@ const caseCount = snapshot.results.scorecards
   #kernel-dialog .dialog-close:hover {
     background: var(--sl-color-gray-6);
   }
+  /* A grid rather than a wrapping flex row: with four analyzers the leftover
+     panel on the second row keeps its column width instead of stretching to
+     the full dialog. */
   #kernel-dialog .panel-grid {
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
     gap: 1rem;
     margin-top: 1.25rem;
   }
   #kernel-dialog .panel {
-    flex: 1 1 17rem;
-    min-width: 15rem;
     border: 1px solid var(--sl-color-hairline);
     border-radius: 0.75rem;
     padding: 0.75rem 1rem 1rem;
@@ -1126,6 +1159,22 @@ const caseCount = snapshot.results.scorecards
   }
   .stat-card.many .big {
     font-size: 1.75rem;
+  }
+  /* Four analyzers on one card: two columns of two rather than a squeezed
+     single row. */
+  .stat-card.dense .stat-pair {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.75rem 1rem;
+  }
+  .stat-card.dense .big {
+    font-size: 1.5rem;
+  }
+  .decided {
+    font-size: var(--sl-text-xs);
+    font-family: var(--__sl-font-mono);
+    color: var(--sl-color-gray-3);
+    margin: 0.1rem 0 0 !important;
   }
   .vendor.v0 {
     --vendor-color: var(--sl-color-accent-high);

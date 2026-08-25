@@ -1,0 +1,70 @@
+---
+title: Snapshot v0.4.0
+description: The first expanded-breadth freeze — thirteen challenge-tier kernels across four analyzers.
+---
+
+import SnapshotBanner from '../../../../components/SnapshotBanner.astro';
+import { snapshots, evidenceUrl } from '../../../../data/snapshots';
+
+export const snapshot = snapshots.find((s) => s.version === 'v0.4.0');
+
+<SnapshotBanner snapshot={snapshot} />
+
+The fourth immutable DataFlowBench snapshot, and the first **expanded-breadth**
+one: all thirteen language kernels — Java, JavaScript, TypeScript, Python,
+Kotlin, Scala, C#, Go, PHP, Ruby, C++, C, and Rust — now carry the
+preregistered challenge-tier templates, and four analyzers are bound at one
+fixture revision: Bifrost v0.10.6, CodeQL 2.26.3, Joern 4.0.610, and Semgrep
+CE 1.174.0, on the `taint` track under the `benchmark-controlled` model
+profile.
+
+The thirteen challenge templates are `core`, not a new score tier. Each
+language's core denominator is its sixteen-template core (fifteen for C and
+Rust) plus its applicable challenge templates: 29 templates / 58 assertions
+for ten languages, 28 / 56 for C++, 27 / 54 for Rust, and 24 / 48 for C. Those
+denominators are never pooled, and the v0.3.0 sixteen-template core and this
+expanded core are different populations that are never compared
+number-to-number. Language-only constructs are reported separately in
+`language-extension` tiers.
+
+Coverage differs by analyzer as well as by language: a kernel with no report
+for an analyzer means no extractor, no frontend, or no adapter, which is
+coverage rather than a score. `inconclusive`, `unsupported`, and
+`runner-error` are capability or execution coverage and are never converted
+into clean negatives.
+
+## Claim
+
+- Scope: <code>{snapshot.results.claim.scope}</code>
+- Tracks: {snapshot.results.claim.tracks.map((t) => <code>{t}</code>)}
+- Score tiers: {snapshot.results.claim.score_tiers.map((t) => <code>{t} </code>)}
+- Model profiles: {snapshot.results.claim.model_profiles.map((p) => <code>{p} </code>)}
+- Exclusions: {snapshot.results.claim.exclusions.length === 0 ? 'none' : ''}
+
+{snapshot.results.claim.exclusions.length > 0 && (
+  <table>
+    <thead>
+      <tr><th>Case</th><th>Reason</th></tr>
+    </thead>
+    <tbody>
+      {snapshot.results.claim.exclusions.map((exclusion) => (
+        <tr>
+          <td><code>{exclusion.id}</code></td>
+          <td>{exclusion.reason}</td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+)}
+
+## Bound evidence
+
+Freeze manifest: <a href={evidenceUrl(snapshot, snapshot.results.manifest.path)}><code>{snapshot.results.manifest.path}</code></a>
+— every case, fixture, normalized report, and raw-evidence file is
+digest-bound; `cargo run -- validate-freeze reports/freeze.json` re-verifies
+all of it.
+
+Continue to [analyzers](/dataflowbench/snapshots/v0-4-0/analyzers/),
+[languages](/dataflowbench/snapshots/v0-4-0/languages/),
+[semantic templates](/dataflowbench/snapshots/v0-4-0/templates/), or
+[case evidence](/dataflowbench/snapshots/v0-4-0/evidence/).

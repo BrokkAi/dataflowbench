@@ -2,8 +2,8 @@
   "adapter_version": "0.1.0",
   "cold_or_warm": "cold",
   "configuration_hash": "26c37db9bdfc1d848a47052d3753e1d29040f004874290641cb6b706b3a03d61",
-  "ended_at_unix_seconds": 1787580809,
-  "fixture_revision": "sha256:1b1b8d5cd90dc4bbdb0675a5a6b6b58315d2328b157e9074f8db13e17736b816",
+  "ended_at_unix_seconds": 1787684639,
+  "fixture_revision": "sha256:13a11ff48f26dba889f76aeb9ef60213a129abe5ebcfcb966da3a2418c12807e",
   "results": [
     {
       "case_id": "dfb-taint-kotlin-alias-propagation-negative",
@@ -11,7 +11,7 @@
         "Bifrost reported incomplete analysis: partial_discovery",
         "taint discovery is incomplete: procedure value-flow snapshot for AliasPropagationNegative.kt:AliasPropagationNegative.kt.AliasPropagationNegative.run is unknown"
       ],
-      "duration_ms": 62,
+      "duration_ms": 166,
       "outcome": "inconclusive",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-alias-propagation-negative.json",
@@ -29,7 +29,7 @@
         "Bifrost reported incomplete analysis: partial_discovery",
         "taint discovery is incomplete: procedure value-flow snapshot for AliasPropagationPositive.kt:AliasPropagationPositive.kt.AliasPropagationPositive.run is unknown"
       ],
-      "duration_ms": 71,
+      "duration_ms": 118,
       "outcome": "inconclusive",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-alias-propagation-positive.json",
@@ -42,9 +42,45 @@
       "witness_checkpoints": []
     },
     {
+      "case_id": "dfb-taint-kotlin-anonymous-implementation-negative",
+      "diagnostics": [
+        "Bifrost reported incomplete analysis: capability_incomplete",
+        "taint semantic binding is unavailable: no analysis root contains both a selected source and sink"
+      ],
+      "duration_ms": 233,
+      "outcome": "inconclusive",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-anonymous-implementation-negative.json",
+      "sink_anchors": [
+        "DFB-SINK: anonymous-implementation-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: anonymous-implementation-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-kotlin-anonymous-implementation-positive",
+      "diagnostics": [
+        "Bifrost reported incomplete analysis: capability_incomplete",
+        "taint semantic binding is unavailable: no analysis root contains both a selected source and sink"
+      ],
+      "duration_ms": 192,
+      "outcome": "inconclusive",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-anonymous-implementation-positive.json",
+      "sink_anchors": [
+        "DFB-SINK: anonymous-implementation-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: anonymous-implementation-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
       "case_id": "dfb-taint-kotlin-argument-position-negative",
       "diagnostics": [],
-      "duration_ms": 54,
+      "duration_ms": 156,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-argument-position-negative.json",
@@ -61,7 +97,7 @@
       "diagnostics": [
         "Controlled input reaches the benchmark sink"
       ],
-      "duration_ms": 63,
+      "duration_ms": 204,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-argument-position-positive.json",
@@ -79,7 +115,7 @@
         "Bifrost reported incomplete analysis: partial_discovery",
         "taint discovery is incomplete: procedure value-flow snapshot for ArrayElementNegative.kt:ArrayElementNegative.kt.ArrayElementNegative.run is unknown"
       ],
-      "duration_ms": 57,
+      "duration_ms": 192,
       "outcome": "inconclusive",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-array-element-negative.json",
@@ -97,7 +133,7 @@
         "Bifrost reported incomplete analysis: partial_discovery",
         "taint discovery is incomplete: procedure value-flow snapshot for ArrayElementPositive.kt:ArrayElementPositive.kt.ArrayElementPositive.run is unknown"
       ],
-      "duration_ms": 63,
+      "duration_ms": 195,
       "outcome": "inconclusive",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-array-element-positive.json",
@@ -112,7 +148,7 @@
     {
       "case_id": "dfb-taint-kotlin-branch-join-negative",
       "diagnostics": [],
-      "duration_ms": 51,
+      "duration_ms": 131,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-branch-join-negative.json",
@@ -129,7 +165,7 @@
       "diagnostics": [
         "Controlled input reaches the benchmark sink"
       ],
-      "duration_ms": 70,
+      "duration_ms": 163,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-branch-join-positive.json",
@@ -144,7 +180,7 @@
     {
       "case_id": "dfb-taint-kotlin-call-context-negative",
       "diagnostics": [],
-      "duration_ms": 65,
+      "duration_ms": 136,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-call-context-negative.json",
@@ -161,7 +197,7 @@
       "diagnostics": [
         "Controlled input reaches the benchmark sink"
       ],
-      "duration_ms": 89,
+      "duration_ms": 179,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-call-context-positive.json",
@@ -174,9 +210,181 @@
       "witness_checkpoints": []
     },
     {
+      "case_id": "dfb-taint-kotlin-callback-registration-negative",
+      "diagnostics": [
+        "Bifrost reported incomplete analysis: capability_incomplete",
+        "taint semantic binding is unavailable: no analysis root contains both a selected source and sink"
+      ],
+      "duration_ms": 168,
+      "outcome": "inconclusive",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-callback-registration-negative.json",
+      "sink_anchors": [
+        "DFB-SINK: callback-registration-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: callback-registration-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-kotlin-callback-registration-positive",
+      "diagnostics": [
+        "Bifrost reported incomplete analysis: capability_incomplete",
+        "taint semantic binding is unavailable: no analysis root contains both a selected source and sink"
+      ],
+      "duration_ms": 153,
+      "outcome": "inconclusive",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-callback-registration-positive.json",
+      "sink_anchors": [
+        "DFB-SINK: callback-registration-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: callback-registration-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-kotlin-closure-capture-negative",
+      "diagnostics": [
+        "Bifrost reported incomplete analysis: capability_incomplete",
+        "taint semantic binding is unavailable: no analysis root contains both a selected source and sink"
+      ],
+      "duration_ms": 126,
+      "outcome": "inconclusive",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-closure-capture-negative.json",
+      "sink_anchors": [
+        "DFB-SINK: closure-capture-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: closure-capture-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-kotlin-closure-capture-positive",
+      "diagnostics": [
+        "Bifrost reported incomplete analysis: capability_incomplete",
+        "taint semantic binding is unavailable: no analysis root contains both a selected source and sink"
+      ],
+      "duration_ms": 172,
+      "outcome": "inconclusive",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-closure-capture-positive.json",
+      "sink_anchors": [
+        "DFB-SINK: closure-capture-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: closure-capture-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-kotlin-computed-property-negative",
+      "diagnostics": [
+        "Bifrost reported incomplete analysis: partial_discovery",
+        "taint discovery is incomplete: procedure value-flow snapshot for ComputedPropertyNegative.kt:ComputedPropertyNegative.kt.ComputedPropertyNegative.run is unknown"
+      ],
+      "duration_ms": 159,
+      "outcome": "inconclusive",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-computed-property-negative.json",
+      "sink_anchors": [
+        "DFB-SINK: computed-property-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: computed-property-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-kotlin-computed-property-positive",
+      "diagnostics": [
+        "Bifrost reported incomplete analysis: partial_discovery",
+        "taint discovery is incomplete: procedure value-flow snapshot for ComputedPropertyPositive.kt:ComputedPropertyPositive.kt.ComputedPropertyPositive.run is unknown"
+      ],
+      "duration_ms": 181,
+      "outcome": "inconclusive",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-computed-property-positive.json",
+      "sink_anchors": [
+        "DFB-SINK: computed-property-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: computed-property-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-kotlin-context-pair-depth2-negative",
+      "diagnostics": [],
+      "duration_ms": 158,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-context-pair-depth2-negative.json",
+      "sink_anchors": [
+        "DFB-SINK: context-pair-depth2-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: context-pair-depth2-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-kotlin-context-pair-depth2-positive",
+      "diagnostics": [
+        "Controlled input reaches the benchmark sink"
+      ],
+      "duration_ms": 211,
+      "outcome": "reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-context-pair-depth2-positive.json",
+      "sink_anchors": [
+        "DFB-SINK: context-pair-depth2-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: context-pair-depth2-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-kotlin-deep-relay-chain-negative",
+      "diagnostics": [],
+      "duration_ms": 144,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-deep-relay-chain-negative.json",
+      "sink_anchors": [
+        "DFB-SINK: deep-relay-chain-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: deep-relay-chain-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-kotlin-deep-relay-chain-positive",
+      "diagnostics": [
+        "Controlled input reaches the benchmark sink"
+      ],
+      "duration_ms": 214,
+      "outcome": "reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-deep-relay-chain-positive.json",
+      "sink_anchors": [
+        "DFB-SINK: deep-relay-chain-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: deep-relay-chain-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
       "case_id": "dfb-taint-kotlin-direct-negative",
       "diagnostics": [],
-      "duration_ms": 52,
+      "duration_ms": 137,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-direct-negative.json",
@@ -193,7 +401,7 @@
       "diagnostics": [
         "Controlled input reaches the benchmark sink"
       ],
-      "duration_ms": 65,
+      "duration_ms": 140,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-direct-positive.json",
@@ -206,12 +414,86 @@
       "witness_checkpoints": []
     },
     {
+      "case_id": "dfb-taint-kotlin-dispatch-table-negative",
+      "diagnostics": [
+        "Bifrost reported incomplete analysis: capability_incomplete",
+        "taint semantic binding is unavailable: no analysis root contains both a selected source and sink"
+      ],
+      "duration_ms": 121,
+      "outcome": "inconclusive",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-dispatch-table-negative.json",
+      "sink_anchors": [
+        "DFB-SINK: dispatch-table-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: dispatch-table-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-kotlin-dispatch-table-positive",
+      "diagnostics": [
+        "Bifrost reported incomplete analysis: capability_incomplete",
+        "taint semantic binding is unavailable: no analysis root contains both a selected source and sink"
+      ],
+      "duration_ms": 132,
+      "outcome": "inconclusive",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-dispatch-table-positive.json",
+      "sink_anchors": [
+        "DFB-SINK: dispatch-table-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: dispatch-table-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-kotlin-element-object-negative",
+      "diagnostics": [
+        "Bifrost reported incomplete analysis: internal_invariant",
+        "Bifrost reported runner failure: failed",
+        "taint semantic provider failed: semantic provider failed: invalid value-flow snapshot: oracle relation does not belong to the required query arena and role"
+      ],
+      "duration_ms": 109,
+      "outcome": "runner-error",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-element-object-negative.json",
+      "sink_anchors": [
+        "DFB-SINK: element-object-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: element-object-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-kotlin-element-object-positive",
+      "diagnostics": [
+        "Bifrost reported incomplete analysis: internal_invariant",
+        "Bifrost reported runner failure: failed",
+        "taint semantic provider failed: semantic provider failed: invalid value-flow snapshot: oracle relation does not belong to the required query arena and role"
+      ],
+      "duration_ms": 150,
+      "outcome": "runner-error",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-element-object-positive.json",
+      "sink_anchors": [
+        "DFB-SINK: element-object-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: element-object-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
       "case_id": "dfb-taint-kotlin-exception-catch-negative",
       "diagnostics": [
         "Bifrost reported incomplete analysis: partial_discovery",
-        "taint discovery is incomplete: procedure value-flow snapshot for ExceptionCatchNegative.kt:ExceptionCatchNegative.kt.ExceptionCatchNegative.run is unknown"
+        "taint discovery is incomplete: procedure value-flow snapshot for ExceptionCatchNegative.kt:ExceptionCatchNegative.kt.ExceptionCatchNegative.run is unproven"
       ],
-      "duration_ms": 57,
+      "duration_ms": 171,
       "outcome": "inconclusive",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-exception-catch-negative.json",
@@ -227,9 +509,9 @@
       "case_id": "dfb-taint-kotlin-exception-catch-positive",
       "diagnostics": [
         "Bifrost reported incomplete analysis: partial_discovery",
-        "taint discovery is incomplete: procedure value-flow snapshot for ExceptionCatchPositive.kt:ExceptionCatchPositive.kt.ExceptionCatchPositive.run is unknown"
+        "taint discovery is incomplete: procedure value-flow snapshot for ExceptionCatchPositive.kt:ExceptionCatchPositive.kt.ExceptionCatchPositive.run is unproven"
       ],
-      "duration_ms": 73,
+      "duration_ms": 191,
       "outcome": "inconclusive",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-exception-catch-positive.json",
@@ -244,7 +526,7 @@
     {
       "case_id": "dfb-taint-kotlin-expression-negative",
       "diagnostics": [],
-      "duration_ms": 57,
+      "duration_ms": 127,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-expression-negative.json",
@@ -259,7 +541,7 @@
     {
       "case_id": "dfb-taint-kotlin-expression-positive",
       "diagnostics": [],
-      "duration_ms": 69,
+      "duration_ms": 186,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-expression-positive.json",
@@ -272,11 +554,47 @@
       "witness_checkpoints": []
     },
     {
+      "case_id": "dfb-taint-kotlin-function-field-negative",
+      "diagnostics": [
+        "Bifrost reported incomplete analysis: capability_incomplete",
+        "taint semantic binding is unavailable: no analysis root contains both a selected source and sink"
+      ],
+      "duration_ms": 125,
+      "outcome": "inconclusive",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-function-field-negative.json",
+      "sink_anchors": [
+        "DFB-SINK: function-field-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: function-field-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-kotlin-function-field-positive",
+      "diagnostics": [
+        "Bifrost reported incomplete analysis: capability_incomplete",
+        "taint semantic binding is unavailable: no analysis root contains both a selected source and sink"
+      ],
+      "duration_ms": 146,
+      "outcome": "inconclusive",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-function-field-positive.json",
+      "sink_anchors": [
+        "DFB-SINK: function-field-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: function-field-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
       "case_id": "dfb-taint-kotlin-infeasible-branch-negative",
       "diagnostics": [
         "Controlled input reaches the benchmark sink"
       ],
-      "duration_ms": 75,
+      "duration_ms": 189,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-infeasible-branch-negative.json",
@@ -293,7 +611,7 @@
       "diagnostics": [
         "Controlled input reaches the benchmark sink"
       ],
-      "duration_ms": 81,
+      "duration_ms": 204,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-infeasible-branch-positive.json",
@@ -308,7 +626,7 @@
     {
       "case_id": "dfb-taint-kotlin-local-chain-negative",
       "diagnostics": [],
-      "duration_ms": 52,
+      "duration_ms": 151,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-local-chain-negative.json",
@@ -325,7 +643,7 @@
       "diagnostics": [
         "Controlled input reaches the benchmark sink"
       ],
-      "duration_ms": 79,
+      "duration_ms": 245,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-local-chain-positive.json",
@@ -340,7 +658,7 @@
     {
       "case_id": "dfb-taint-kotlin-local-overwrite-negative",
       "diagnostics": [],
-      "duration_ms": 60,
+      "duration_ms": 138,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-local-overwrite-negative.json",
@@ -357,7 +675,7 @@
       "diagnostics": [
         "Controlled input reaches the benchmark sink"
       ],
-      "duration_ms": 65,
+      "duration_ms": 224,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-local-overwrite-positive.json",
@@ -374,7 +692,7 @@
       "diagnostics": [
         "Controlled input reaches the benchmark sink"
       ],
-      "duration_ms": 61,
+      "duration_ms": 153,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-loop-carried-negative.json",
@@ -391,7 +709,7 @@
       "diagnostics": [
         "Controlled input reaches the benchmark sink"
       ],
-      "duration_ms": 65,
+      "duration_ms": 150,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-loop-carried-positive.json",
@@ -404,12 +722,84 @@
       "witness_checkpoints": []
     },
     {
+      "case_id": "dfb-taint-kotlin-map-iteration-negative",
+      "diagnostics": [
+        "Bifrost reported incomplete analysis: partial_discovery",
+        "taint discovery is incomplete: procedure value-flow snapshot for MapIterationNegative.kt:MapIterationNegative.kt.MapIterationNegative.run is unknown"
+      ],
+      "duration_ms": 158,
+      "outcome": "inconclusive",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-map-iteration-negative.json",
+      "sink_anchors": [
+        "DFB-SINK: map-iteration-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: map-iteration-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-kotlin-map-iteration-positive",
+      "diagnostics": [
+        "Bifrost reported incomplete analysis: partial_discovery",
+        "taint discovery is incomplete: procedure value-flow snapshot for MapIterationPositive.kt:MapIterationPositive.kt.MapIterationPositive.run is unknown"
+      ],
+      "duration_ms": 137,
+      "outcome": "inconclusive",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-map-iteration-positive.json",
+      "sink_anchors": [
+        "DFB-SINK: map-iteration-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: map-iteration-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-kotlin-nested-access-path-negative",
+      "diagnostics": [
+        "Bifrost reported incomplete analysis: partial_discovery",
+        "taint discovery is incomplete: procedure value-flow snapshot for NestedAccessPathNegative.kt:NestedAccessPathNegative.kt.NestedAccessPathNegative.run is unknown"
+      ],
+      "duration_ms": 167,
+      "outcome": "inconclusive",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-nested-access-path-negative.json",
+      "sink_anchors": [
+        "DFB-SINK: nested-access-path-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: nested-access-path-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-kotlin-nested-access-path-positive",
+      "diagnostics": [
+        "Bifrost reported incomplete analysis: partial_discovery",
+        "taint discovery is incomplete: procedure value-flow snapshot for NestedAccessPathPositive.kt:NestedAccessPathPositive.kt.NestedAccessPathPositive.run is unknown"
+      ],
+      "duration_ms": 225,
+      "outcome": "inconclusive",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-nested-access-path-positive.json",
+      "sink_anchors": [
+        "DFB-SINK: nested-access-path-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: nested-access-path-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
       "case_id": "dfb-taint-kotlin-object-separation-negative",
       "diagnostics": [
         "Bifrost reported incomplete analysis: partial_discovery",
         "taint discovery is incomplete: procedure value-flow snapshot for ObjectSeparationNegative.kt:ObjectSeparationNegative.kt.ObjectSeparationNegative.run is unknown"
       ],
-      "duration_ms": 65,
+      "duration_ms": 157,
       "outcome": "inconclusive",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-object-separation-negative.json",
@@ -427,7 +817,7 @@
         "Bifrost reported incomplete analysis: partial_discovery",
         "taint discovery is incomplete: procedure value-flow snapshot for ObjectSeparationPositive.kt:ObjectSeparationPositive.kt.ObjectSeparationPositive.run is unknown"
       ],
-      "duration_ms": 60,
+      "duration_ms": 199,
       "outcome": "inconclusive",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-object-separation-positive.json",
@@ -440,9 +830,77 @@
       "witness_checkpoints": []
     },
     {
+      "case_id": "dfb-taint-kotlin-recursive-carry-negative",
+      "diagnostics": [],
+      "duration_ms": 154,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-recursive-carry-negative.json",
+      "sink_anchors": [
+        "DFB-SINK: recursive-carry-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: recursive-carry-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-kotlin-recursive-carry-positive",
+      "diagnostics": [
+        "Controlled input reaches the benchmark sink"
+      ],
+      "duration_ms": 244,
+      "outcome": "reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-recursive-carry-positive.json",
+      "sink_anchors": [
+        "DFB-SINK: recursive-carry-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: recursive-carry-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-kotlin-reflective-invocation-negative",
+      "diagnostics": [
+        "Bifrost reported incomplete analysis: capability_incomplete",
+        "taint semantic binding is unavailable: no analysis root contains both a selected source and sink"
+      ],
+      "duration_ms": 168,
+      "outcome": "inconclusive",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-reflective-invocation-negative.json",
+      "sink_anchors": [
+        "DFB-SINK: reflective-invocation-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: reflective-invocation-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-kotlin-reflective-invocation-positive",
+      "diagnostics": [
+        "Bifrost reported incomplete analysis: capability_incomplete",
+        "taint semantic binding is unavailable: no analysis root contains both a selected source and sink"
+      ],
+      "duration_ms": 149,
+      "outcome": "inconclusive",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-reflective-invocation-positive.json",
+      "sink_anchors": [
+        "DFB-SINK: reflective-invocation-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: reflective-invocation-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
       "case_id": "dfb-taint-kotlin-return-relay-one-hop-negative",
       "diagnostics": [],
-      "duration_ms": 67,
+      "duration_ms": 173,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-return-relay-one-hop-negative.json",
@@ -459,7 +917,7 @@
       "diagnostics": [
         "Controlled input reaches the benchmark sink"
       ],
-      "duration_ms": 69,
+      "duration_ms": 212,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-return-relay-one-hop-positive.json",
@@ -474,7 +932,7 @@
     {
       "case_id": "dfb-taint-kotlin-return-relay-two-hop-negative",
       "diagnostics": [],
-      "duration_ms": 62,
+      "duration_ms": 193,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-return-relay-two-hop-negative.json",
@@ -491,7 +949,7 @@
       "diagnostics": [
         "Controlled input reaches the benchmark sink"
       ],
-      "duration_ms": 90,
+      "duration_ms": 257,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-return-relay-two-hop-positive.json",
@@ -509,7 +967,7 @@
         "Bifrost reported incomplete analysis: partial_discovery",
         "taint discovery is incomplete: procedure value-flow snapshot for SameObjectFieldNegative.kt:SameObjectFieldNegative.kt.SameObjectFieldNegative.run is unknown"
       ],
-      "duration_ms": 65,
+      "duration_ms": 175,
       "outcome": "inconclusive",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-same-object-field-negative.json",
@@ -527,7 +985,7 @@
         "Bifrost reported incomplete analysis: partial_discovery",
         "taint discovery is incomplete: procedure value-flow snapshot for SameObjectFieldPositive.kt:SameObjectFieldPositive.kt.SameObjectFieldPositive.run is unknown"
       ],
-      "duration_ms": 63,
+      "duration_ms": 195,
       "outcome": "inconclusive",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-same-object-field-positive.json",
@@ -541,8 +999,8 @@
     }
   ],
   "schema_version": 1,
-  "started_at_unix_seconds": 1787580807,
+  "started_at_unix_seconds": 1787684628,
   "tool": "bifrost",
-  "tool_build_identity": "728ac69ab93224151c6c951b23d2f5bc681d8558",
-  "tool_version": "bifrost 0.10.5"
+  "tool_build_identity": "18d09c57d1e5044dec49acac7635d3255ea8e89c",
+  "tool_version": "bifrost 0.10.6"
 }

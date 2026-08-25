@@ -8,7 +8,7 @@ export default defineConfig({
   base: '/dataflowbench',
   redirects: {
     // Explicit current-snapshot pointer alongside versioned snapshot URLs.
-    '/current': '/dataflowbench/snapshots/v0-3-0/',
+    '/current': '/dataflowbench/snapshots/v0-4-0/',
   },
   integrations: [
     starlight({
@@ -34,7 +34,18 @@ export default defineConfig({
           items: [
             { label: 'All snapshots', slug: 'snapshots' },
             {
-              label: 'v0.3.0 (current)',
+              label: 'v0.4.0 (current)',
+              items: [
+                { label: 'Snapshot overview', slug: 'snapshots/v0-4-0' },
+                { label: 'Analyzers', slug: 'snapshots/v0-4-0/analyzers' },
+                { label: 'Languages', slug: 'snapshots/v0-4-0/languages' },
+                { label: 'Semantic templates', slug: 'snapshots/v0-4-0/templates' },
+                { label: 'Case evidence', slug: 'snapshots/v0-4-0/evidence' },
+              ],
+            },
+            {
+              label: 'v0.3.0 (archived)',
+              collapsed: true,
               items: [
                 { label: 'Snapshot overview', slug: 'snapshots/v0-3-0' },
                 { label: 'Analyzers', slug: 'snapshots/v0-3-0/analyzers' },

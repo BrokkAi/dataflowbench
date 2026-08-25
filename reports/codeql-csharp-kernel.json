@@ -2,13 +2,13 @@
   "adapter_version": "0.1.0",
   "cold_or_warm": "cold",
   "configuration_hash": "cd5f68b8ccb2e4de27cf1606b0c9f2ee8981ce5dfdf8ee2fea08fe977a0c56c9",
-  "ended_at_unix_seconds": 1787577361,
-  "fixture_revision": "sha256:1b1b8d5cd90dc4bbdb0675a5a6b6b58315d2328b157e9074f8db13e17736b816",
+  "ended_at_unix_seconds": 1787693463,
+  "fixture_revision": "sha256:13a11ff48f26dba889f76aeb9ef60213a129abe5ebcfcb966da3a2418c12807e",
   "results": [
     {
       "case_id": "dfb-taint-csharp-alias-propagation-negative",
       "diagnostics": [],
-      "duration_ms": 51146,
+      "duration_ms": 21975,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/codeql-csharp-kernel/dfb-taint-csharp-alias-propagation-negative.sarif.json",
@@ -23,7 +23,7 @@
     {
       "case_id": "dfb-taint-csharp-alias-propagation-positive",
       "diagnostics": [],
-      "duration_ms": 51055,
+      "duration_ms": 19524,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/codeql-csharp-kernel/dfb-taint-csharp-alias-propagation-positive.sarif.json",
@@ -36,9 +36,41 @@
       "witness_checkpoints": []
     },
     {
+      "case_id": "dfb-taint-csharp-anonymous-implementation-negative",
+      "diagnostics": [],
+      "duration_ms": 19564,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/codeql-csharp-kernel/dfb-taint-csharp-anonymous-implementation-negative.sarif.json",
+      "sink_anchors": [
+        "DFB-SINK: anonymous-implementation-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: anonymous-implementation-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-csharp-anonymous-implementation-positive",
+      "diagnostics": [
+        "Controlled input reaches the benchmark sink."
+      ],
+      "duration_ms": 19694,
+      "outcome": "reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/codeql-csharp-kernel/dfb-taint-csharp-anonymous-implementation-positive.sarif.json",
+      "sink_anchors": [
+        "DFB-SINK: anonymous-implementation-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: anonymous-implementation-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
       "case_id": "dfb-taint-csharp-argument-position-negative",
       "diagnostics": [],
-      "duration_ms": 49557,
+      "duration_ms": 19430,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/codeql-csharp-kernel/dfb-taint-csharp-argument-position-negative.sarif.json",
@@ -55,7 +87,7 @@
       "diagnostics": [
         "Controlled input reaches the benchmark sink."
       ],
-      "duration_ms": 49310,
+      "duration_ms": 19374,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/codeql-csharp-kernel/dfb-taint-csharp-argument-position-positive.sarif.json",
@@ -72,7 +104,7 @@
       "diagnostics": [
         "Controlled input reaches the benchmark sink."
       ],
-      "duration_ms": 51326,
+      "duration_ms": 19758,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/codeql-csharp-kernel/dfb-taint-csharp-array-element-negative.sarif.json",
@@ -89,7 +121,7 @@
       "diagnostics": [
         "Controlled input reaches the benchmark sink."
       ],
-      "duration_ms": 53044,
+      "duration_ms": 19300,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/codeql-csharp-kernel/dfb-taint-csharp-array-element-positive.sarif.json",
@@ -104,7 +136,7 @@
     {
       "case_id": "dfb-taint-csharp-branch-join-negative",
       "diagnostics": [],
-      "duration_ms": 45599,
+      "duration_ms": 19314,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/codeql-csharp-kernel/dfb-taint-csharp-branch-join-negative.sarif.json",
@@ -121,7 +153,7 @@
       "diagnostics": [
         "Controlled input reaches the benchmark sink."
       ],
-      "duration_ms": 43990,
+      "duration_ms": 20196,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/codeql-csharp-kernel/dfb-taint-csharp-branch-join-positive.sarif.json",
@@ -136,7 +168,7 @@
     {
       "case_id": "dfb-taint-csharp-call-context-negative",
       "diagnostics": [],
-      "duration_ms": 42887,
+      "duration_ms": 19470,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/codeql-csharp-kernel/dfb-taint-csharp-call-context-negative.sarif.json",
@@ -153,7 +185,7 @@
       "diagnostics": [
         "Controlled input reaches the benchmark sink."
       ],
-      "duration_ms": 42879,
+      "duration_ms": 19391,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/codeql-csharp-kernel/dfb-taint-csharp-call-context-positive.sarif.json",
@@ -166,9 +198,165 @@
       "witness_checkpoints": []
     },
     {
+      "case_id": "dfb-taint-csharp-callback-registration-negative",
+      "diagnostics": [],
+      "duration_ms": 19800,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/codeql-csharp-kernel/dfb-taint-csharp-callback-registration-negative.sarif.json",
+      "sink_anchors": [
+        "DFB-SINK: callback-registration-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: callback-registration-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-csharp-callback-registration-positive",
+      "diagnostics": [],
+      "duration_ms": 19820,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/codeql-csharp-kernel/dfb-taint-csharp-callback-registration-positive.sarif.json",
+      "sink_anchors": [
+        "DFB-SINK: callback-registration-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: callback-registration-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-csharp-closure-capture-negative",
+      "diagnostics": [],
+      "duration_ms": 19503,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/codeql-csharp-kernel/dfb-taint-csharp-closure-capture-negative.sarif.json",
+      "sink_anchors": [
+        "DFB-SINK: closure-capture-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: closure-capture-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-csharp-closure-capture-positive",
+      "diagnostics": [
+        "Controlled input reaches the benchmark sink."
+      ],
+      "duration_ms": 19438,
+      "outcome": "reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/codeql-csharp-kernel/dfb-taint-csharp-closure-capture-positive.sarif.json",
+      "sink_anchors": [
+        "DFB-SINK: closure-capture-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: closure-capture-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-csharp-computed-property-negative",
+      "diagnostics": [],
+      "duration_ms": 19503,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/codeql-csharp-kernel/dfb-taint-csharp-computed-property-negative.sarif.json",
+      "sink_anchors": [
+        "DFB-SINK: computed-property-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: computed-property-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-csharp-computed-property-positive",
+      "diagnostics": [],
+      "duration_ms": 19485,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/codeql-csharp-kernel/dfb-taint-csharp-computed-property-positive.sarif.json",
+      "sink_anchors": [
+        "DFB-SINK: computed-property-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: computed-property-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-csharp-context-pair-depth2-negative",
+      "diagnostics": [],
+      "duration_ms": 19131,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/codeql-csharp-kernel/dfb-taint-csharp-context-pair-depth2-negative.sarif.json",
+      "sink_anchors": [
+        "DFB-SINK: context-pair-depth2-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: context-pair-depth2-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-csharp-context-pair-depth2-positive",
+      "diagnostics": [
+        "Controlled input reaches the benchmark sink."
+      ],
+      "duration_ms": 19827,
+      "outcome": "reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/codeql-csharp-kernel/dfb-taint-csharp-context-pair-depth2-positive.sarif.json",
+      "sink_anchors": [
+        "DFB-SINK: context-pair-depth2-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: context-pair-depth2-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-csharp-deep-relay-chain-negative",
+      "diagnostics": [],
+      "duration_ms": 19211,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/codeql-csharp-kernel/dfb-taint-csharp-deep-relay-chain-negative.sarif.json",
+      "sink_anchors": [
+        "DFB-SINK: deep-relay-chain-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: deep-relay-chain-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-csharp-deep-relay-chain-positive",
+      "diagnostics": [
+        "Controlled input reaches the benchmark sink."
+      ],
+      "duration_ms": 19025,
+      "outcome": "reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/codeql-csharp-kernel/dfb-taint-csharp-deep-relay-chain-positive.sarif.json",
+      "sink_anchors": [
+        "DFB-SINK: deep-relay-chain-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: deep-relay-chain-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
       "case_id": "dfb-taint-csharp-direct-negative",
       "diagnostics": [],
-      "duration_ms": 48335,
+      "duration_ms": 18879,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/codeql-csharp-kernel/dfb-taint-csharp-direct-negative.sarif.json",
@@ -185,7 +373,7 @@
       "diagnostics": [
         "Controlled input reaches the benchmark sink."
       ],
-      "duration_ms": 40391,
+      "duration_ms": 19084,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/codeql-csharp-kernel/dfb-taint-csharp-direct-positive.sarif.json",
@@ -198,9 +386,73 @@
       "witness_checkpoints": []
     },
     {
+      "case_id": "dfb-taint-csharp-dispatch-table-negative",
+      "diagnostics": [],
+      "duration_ms": 19481,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/codeql-csharp-kernel/dfb-taint-csharp-dispatch-table-negative.sarif.json",
+      "sink_anchors": [
+        "DFB-SINK: dispatch-table-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: dispatch-table-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-csharp-dispatch-table-positive",
+      "diagnostics": [],
+      "duration_ms": 19157,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/codeql-csharp-kernel/dfb-taint-csharp-dispatch-table-positive.sarif.json",
+      "sink_anchors": [
+        "DFB-SINK: dispatch-table-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: dispatch-table-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-csharp-element-object-negative",
+      "diagnostics": [
+        "Controlled input reaches the benchmark sink."
+      ],
+      "duration_ms": 20414,
+      "outcome": "reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/codeql-csharp-kernel/dfb-taint-csharp-element-object-negative.sarif.json",
+      "sink_anchors": [
+        "DFB-SINK: element-object-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: element-object-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-csharp-element-object-positive",
+      "diagnostics": [
+        "Controlled input reaches the benchmark sink."
+      ],
+      "duration_ms": 20040,
+      "outcome": "reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/codeql-csharp-kernel/dfb-taint-csharp-element-object-positive.sarif.json",
+      "sink_anchors": [
+        "DFB-SINK: element-object-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: element-object-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
       "case_id": "dfb-taint-csharp-exception-catch-negative",
       "diagnostics": [],
-      "duration_ms": 46809,
+      "duration_ms": 19735,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/codeql-csharp-kernel/dfb-taint-csharp-exception-catch-negative.sarif.json",
@@ -215,7 +467,7 @@
     {
       "case_id": "dfb-taint-csharp-exception-catch-positive",
       "diagnostics": [],
-      "duration_ms": 54031,
+      "duration_ms": 19949,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/codeql-csharp-kernel/dfb-taint-csharp-exception-catch-positive.sarif.json",
@@ -230,7 +482,7 @@
     {
       "case_id": "dfb-taint-csharp-expression-negative",
       "diagnostics": [],
-      "duration_ms": 52015,
+      "duration_ms": 19583,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/codeql-csharp-kernel/dfb-taint-csharp-expression-negative.sarif.json",
@@ -245,7 +497,7 @@
     {
       "case_id": "dfb-taint-csharp-expression-positive",
       "diagnostics": [],
-      "duration_ms": 45901,
+      "duration_ms": 19624,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/codeql-csharp-kernel/dfb-taint-csharp-expression-positive.sarif.json",
@@ -258,9 +510,39 @@
       "witness_checkpoints": []
     },
     {
+      "case_id": "dfb-taint-csharp-function-field-negative",
+      "diagnostics": [],
+      "duration_ms": 19868,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/codeql-csharp-kernel/dfb-taint-csharp-function-field-negative.sarif.json",
+      "sink_anchors": [
+        "DFB-SINK: function-field-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: function-field-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-csharp-function-field-positive",
+      "diagnostics": [],
+      "duration_ms": 21510,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/codeql-csharp-kernel/dfb-taint-csharp-function-field-positive.sarif.json",
+      "sink_anchors": [
+        "DFB-SINK: function-field-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: function-field-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
       "case_id": "dfb-taint-csharp-infeasible-branch-negative",
       "diagnostics": [],
-      "duration_ms": 48695,
+      "duration_ms": 19571,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/codeql-csharp-kernel/dfb-taint-csharp-infeasible-branch-negative.sarif.json",
@@ -277,7 +559,7 @@
       "diagnostics": [
         "Controlled input reaches the benchmark sink."
       ],
-      "duration_ms": 48350,
+      "duration_ms": 19637,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/codeql-csharp-kernel/dfb-taint-csharp-infeasible-branch-positive.sarif.json",
@@ -292,7 +574,7 @@
     {
       "case_id": "dfb-taint-csharp-local-chain-negative",
       "diagnostics": [],
-      "duration_ms": 52286,
+      "duration_ms": 19351,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/codeql-csharp-kernel/dfb-taint-csharp-local-chain-negative.sarif.json",
@@ -309,7 +591,7 @@
       "diagnostics": [
         "Controlled input reaches the benchmark sink."
       ],
-      "duration_ms": 46953,
+      "duration_ms": 19581,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/codeql-csharp-kernel/dfb-taint-csharp-local-chain-positive.sarif.json",
@@ -324,7 +606,7 @@
     {
       "case_id": "dfb-taint-csharp-local-overwrite-negative",
       "diagnostics": [],
-      "duration_ms": 43414,
+      "duration_ms": 19470,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/codeql-csharp-kernel/dfb-taint-csharp-local-overwrite-negative.sarif.json",
@@ -341,7 +623,7 @@
       "diagnostics": [
         "Controlled input reaches the benchmark sink."
       ],
-      "duration_ms": 47595,
+      "duration_ms": 19361,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/codeql-csharp-kernel/dfb-taint-csharp-local-overwrite-positive.sarif.json",
@@ -358,7 +640,7 @@
       "diagnostics": [
         "Controlled input reaches the benchmark sink."
       ],
-      "duration_ms": 48254,
+      "duration_ms": 19940,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/codeql-csharp-kernel/dfb-taint-csharp-loop-carried-negative.sarif.json",
@@ -375,7 +657,7 @@
       "diagnostics": [
         "Controlled input reaches the benchmark sink."
       ],
-      "duration_ms": 48844,
+      "duration_ms": 19720,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/codeql-csharp-kernel/dfb-taint-csharp-loop-carried-positive.sarif.json",
@@ -388,9 +670,73 @@
       "witness_checkpoints": []
     },
     {
+      "case_id": "dfb-taint-csharp-map-iteration-negative",
+      "diagnostics": [],
+      "duration_ms": 20101,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/codeql-csharp-kernel/dfb-taint-csharp-map-iteration-negative.sarif.json",
+      "sink_anchors": [
+        "DFB-SINK: map-iteration-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: map-iteration-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-csharp-map-iteration-positive",
+      "diagnostics": [
+        "Controlled input reaches the benchmark sink."
+      ],
+      "duration_ms": 19952,
+      "outcome": "reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/codeql-csharp-kernel/dfb-taint-csharp-map-iteration-positive.sarif.json",
+      "sink_anchors": [
+        "DFB-SINK: map-iteration-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: map-iteration-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-csharp-nested-access-path-negative",
+      "diagnostics": [],
+      "duration_ms": 20165,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/codeql-csharp-kernel/dfb-taint-csharp-nested-access-path-negative.sarif.json",
+      "sink_anchors": [
+        "DFB-SINK: nested-access-path-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: nested-access-path-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-csharp-nested-access-path-positive",
+      "diagnostics": [
+        "Controlled input reaches the benchmark sink."
+      ],
+      "duration_ms": 19852,
+      "outcome": "reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/codeql-csharp-kernel/dfb-taint-csharp-nested-access-path-positive.sarif.json",
+      "sink_anchors": [
+        "DFB-SINK: nested-access-path-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: nested-access-path-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
       "case_id": "dfb-taint-csharp-object-separation-negative",
       "diagnostics": [],
-      "duration_ms": 45555,
+      "duration_ms": 20369,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/codeql-csharp-kernel/dfb-taint-csharp-object-separation-negative.sarif.json",
@@ -407,7 +753,7 @@
       "diagnostics": [
         "Controlled input reaches the benchmark sink."
       ],
-      "duration_ms": 52525,
+      "duration_ms": 20076,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/codeql-csharp-kernel/dfb-taint-csharp-object-separation-positive.sarif.json",
@@ -420,9 +766,71 @@
       "witness_checkpoints": []
     },
     {
+      "case_id": "dfb-taint-csharp-recursive-carry-negative",
+      "diagnostics": [],
+      "duration_ms": 19690,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/codeql-csharp-kernel/dfb-taint-csharp-recursive-carry-negative.sarif.json",
+      "sink_anchors": [
+        "DFB-SINK: recursive-carry-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: recursive-carry-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-csharp-recursive-carry-positive",
+      "diagnostics": [
+        "Controlled input reaches the benchmark sink."
+      ],
+      "duration_ms": 20084,
+      "outcome": "reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/codeql-csharp-kernel/dfb-taint-csharp-recursive-carry-positive.sarif.json",
+      "sink_anchors": [
+        "DFB-SINK: recursive-carry-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: recursive-carry-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-csharp-reflective-invocation-negative",
+      "diagnostics": [],
+      "duration_ms": 20732,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/codeql-csharp-kernel/dfb-taint-csharp-reflective-invocation-negative.sarif.json",
+      "sink_anchors": [
+        "DFB-SINK: reflective-invocation-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: reflective-invocation-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-csharp-reflective-invocation-positive",
+      "diagnostics": [],
+      "duration_ms": 20011,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/codeql-csharp-kernel/dfb-taint-csharp-reflective-invocation-positive.sarif.json",
+      "sink_anchors": [
+        "DFB-SINK: reflective-invocation-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: reflective-invocation-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
       "case_id": "dfb-taint-csharp-return-relay-one-hop-negative",
       "diagnostics": [],
-      "duration_ms": 45466,
+      "duration_ms": 19553,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/codeql-csharp-kernel/dfb-taint-csharp-return-relay-one-hop-negative.sarif.json",
@@ -439,7 +847,7 @@
       "diagnostics": [
         "Controlled input reaches the benchmark sink."
       ],
-      "duration_ms": 45222,
+      "duration_ms": 19669,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/codeql-csharp-kernel/dfb-taint-csharp-return-relay-one-hop-positive.sarif.json",
@@ -454,7 +862,7 @@
     {
       "case_id": "dfb-taint-csharp-return-relay-two-hop-negative",
       "diagnostics": [],
-      "duration_ms": 45716,
+      "duration_ms": 20039,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/codeql-csharp-kernel/dfb-taint-csharp-return-relay-two-hop-negative.sarif.json",
@@ -471,7 +879,7 @@
       "diagnostics": [
         "Controlled input reaches the benchmark sink."
       ],
-      "duration_ms": 51109,
+      "duration_ms": 20016,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/codeql-csharp-kernel/dfb-taint-csharp-return-relay-two-hop-positive.sarif.json",
@@ -486,7 +894,7 @@
     {
       "case_id": "dfb-taint-csharp-same-object-field-negative",
       "diagnostics": [],
-      "duration_ms": 47683,
+      "duration_ms": 19969,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/codeql-csharp-kernel/dfb-taint-csharp-same-object-field-negative.sarif.json",
@@ -503,7 +911,7 @@
       "diagnostics": [
         "Controlled input reaches the benchmark sink."
       ],
-      "duration_ms": 27405,
+      "duration_ms": 20199,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/codeql-csharp-kernel/dfb-taint-csharp-same-object-field-positive.sarif.json",
@@ -517,7 +925,7 @@
     }
   ],
   "schema_version": 1,
-  "started_at_unix_seconds": 1787575847,
+  "started_at_unix_seconds": 1787692317,
   "tool": "codeql",
   "tool_build_identity": "codeql-cli:7d097a43199effe04ecd9c6bd3ad9bb02a45b3d7",
   "tool_version": "2.26.3"

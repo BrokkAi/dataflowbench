@@ -242,25 +242,15 @@ zero error documents, zero `inconclusive`, `unsupported`, or `runner-error`
 outcomes.
 
 None of the six still stands at the pre-expansion fixture revision
-`sha256:aee59a14f96633cf5798df6d211525ea0d10748800ba9c9ac0a3787406bd19ea`.
-The Python, JavaScript, Java, Rust, PHP, and Ruby kernels were each re-run whole
-after that
-language's challenge-tier row was rolled out, and each carries the expanded
-corpus revision current when it ran —
-`sha256:3e7a8de5e1eefb18e8166af0ccdf309bccf1d5c26026893a4513f1943926ab1f` for
-Python,
-`sha256:64ef139f452fd296bb26463bc552e5e5998ca4bb4584d45565d858424814bde9` for
-JavaScript,
-`sha256:f476894a41d283e3bcaaf5188ee08abe7886ce8e3919257403b0aa853ef718e2` for
-Java,
-`sha256:88ad35289ae465278b95fd436532132118a6b6aa681adb3d266d67766c8770c5` for
-Rust,
-`sha256:f74647fe824ca9f6900c48aa9d403f0e9f59230e4193e0b02bd65e29a9e4e660` for
-PHP, and
-`sha256:020d0d8f79360af6e74064a692e2d65ffa31cd97f9971f9dad8bec065d862043` for
-Ruby, the last wave to land. `fixture_revision` digests the whole case corpus,
-so each wave's fixtures
-moved it for every run after it. Reports at different fixture revisions are not
+`sha256:aee59a14f96633cf5798df6d211525ea0d10748800ba9c9ac0a3787406bd19ea`, and
+none stands at an intermediate wave revision either. The Python, JavaScript,
+Java, Rust, PHP, and Ruby kernels were all re-run whole for the v0.4.0 freeze
+after every challenge-tier row had rolled out, so all six carry the single
+revision
+`sha256:13a11ff48f26dba889f76aeb9ef60213a129abe5ebcfcb966da3a2418c12807e`.
+`fixture_revision` digests the whole case corpus, so each wave's fixtures
+moved it for every run after it; re-running the whole adapter at one revision
+is what removes that skew. Reports at different fixture revisions are not
 pooled, and each language's expanded assertions are a different population from
 the 32 (30 for Rust) it reported in v0.3.0, not a movement within one.
 
@@ -286,7 +276,7 @@ expansion introduced no drift — and 16/24 on its challenge twelve**.
 templates: the sixteen v0.3.0 templates plus the thirteen preregistered
 challenge templates ([the challenge tier](../../docs/challenge-tier.md)). Each
 report was re-run whole — a whole-population replacement, not an append — and
-each carries the expanded corpus revision current when it ran; no Joern kernel
+all six carry the one v0.4.0 fixture revision; no Joern kernel
 is left at `sha256:aee59a14f96633cf5798df6d211525ea0d10748800ba9c9ac0a3787406bd19ea`.
 Split by stratum, JavaScript is **26/32 on the classic sixteen — identical case
 for case to its v0.3.0 snapshot, so the expansion introduced no drift — and

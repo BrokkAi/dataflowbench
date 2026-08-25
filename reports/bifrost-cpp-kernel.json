@@ -2,8 +2,8 @@
   "adapter_version": "0.1.0",
   "cold_or_warm": "cold",
   "configuration_hash": "b29775f28c44e0830155def3030cb36f7c7f8906c440dc18af2be6f7ddbdc22e",
-  "ended_at_unix_seconds": 1787580824,
-  "fixture_revision": "sha256:1b1b8d5cd90dc4bbdb0675a5a6b6b58315d2328b157e9074f8db13e17736b816",
+  "ended_at_unix_seconds": 1787684686,
+  "fixture_revision": "sha256:13a11ff48f26dba889f76aeb9ef60213a129abe5ebcfcb966da3a2418c12807e",
   "results": [
     {
       "case_id": "dfb-taint-cpp-alias-propagation-negative",
@@ -11,7 +11,7 @@
         "Bifrost reported incomplete analysis: partial_discovery",
         "taint discovery is incomplete: procedure value-flow snapshot for alias_propagation_negative.cpp:alias_propagation_negative.cpp.dfb_source is unknown"
       ],
-      "duration_ms": 82,
+      "duration_ms": 135,
       "outcome": "inconclusive",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-cpp-kernel/dfb-taint-cpp-alias-propagation-negative.json",
@@ -29,7 +29,7 @@
         "Bifrost reported incomplete analysis: partial_discovery",
         "taint discovery is incomplete: procedure value-flow snapshot for alias_propagation_positive.cpp:alias_propagation_positive.cpp.dfb_source is unknown"
       ],
-      "duration_ms": 68,
+      "duration_ms": 144,
       "outcome": "inconclusive",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-cpp-kernel/dfb-taint-cpp-alias-propagation-positive.json",
@@ -42,12 +42,48 @@
       "witness_checkpoints": []
     },
     {
+      "case_id": "dfb-taint-cpp-anonymous-implementation-negative",
+      "diagnostics": [
+        "Bifrost reported incomplete analysis: capability_incomplete",
+        "taint semantic binding is unavailable: no analysis root contains both a selected source and sink"
+      ],
+      "duration_ms": 164,
+      "outcome": "inconclusive",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/bifrost-cpp-kernel/dfb-taint-cpp-anonymous-implementation-negative.json",
+      "sink_anchors": [
+        "DFB-SINK: anonymous-implementation-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: anonymous-implementation-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-cpp-anonymous-implementation-positive",
+      "diagnostics": [
+        "Bifrost reported incomplete analysis: capability_incomplete",
+        "taint semantic binding is unavailable: no analysis root contains both a selected source and sink"
+      ],
+      "duration_ms": 145,
+      "outcome": "inconclusive",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/bifrost-cpp-kernel/dfb-taint-cpp-anonymous-implementation-positive.json",
+      "sink_anchors": [
+        "DFB-SINK: anonymous-implementation-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: anonymous-implementation-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
       "case_id": "dfb-taint-cpp-argument-position-negative",
       "diagnostics": [
         "Bifrost reported incomplete analysis: partial_discovery",
         "taint discovery is incomplete: procedure value-flow snapshot for argument_position_negative.cpp:argument_position_negative.cpp.choose_first is unknown"
       ],
-      "duration_ms": 71,
+      "duration_ms": 120,
       "outcome": "inconclusive",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-cpp-kernel/dfb-taint-cpp-argument-position-negative.json",
@@ -65,7 +101,7 @@
         "Bifrost reported incomplete analysis: partial_discovery",
         "taint discovery is incomplete: procedure value-flow snapshot for argument_position_positive.cpp:argument_position_positive.cpp.choose_first is unknown"
       ],
-      "duration_ms": 64,
+      "duration_ms": 129,
       "outcome": "inconclusive",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-cpp-kernel/dfb-taint-cpp-argument-position-positive.json",
@@ -83,7 +119,7 @@
         "Bifrost reported incomplete analysis: partial_discovery",
         "taint discovery is incomplete: procedure value-flow snapshot for array_element_negative.cpp:array_element_negative.cpp.dfb_source is unknown"
       ],
-      "duration_ms": 58,
+      "duration_ms": 132,
       "outcome": "inconclusive",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-cpp-kernel/dfb-taint-cpp-array-element-negative.json",
@@ -101,7 +137,7 @@
         "Bifrost reported incomplete analysis: partial_discovery",
         "taint discovery is incomplete: procedure value-flow snapshot for array_element_positive.cpp:array_element_positive.cpp.dfb_source is unknown"
       ],
-      "duration_ms": 70,
+      "duration_ms": 124,
       "outcome": "inconclusive",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-cpp-kernel/dfb-taint-cpp-array-element-positive.json",
@@ -119,7 +155,7 @@
         "Bifrost reported incomplete analysis: partial_discovery",
         "taint discovery is incomplete: procedure value-flow snapshot for branch_join_negative.cpp:branch_join_negative.cpp.dfb_source is unknown"
       ],
-      "duration_ms": 66,
+      "duration_ms": 138,
       "outcome": "inconclusive",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-cpp-kernel/dfb-taint-cpp-branch-join-negative.json",
@@ -137,7 +173,7 @@
         "Bifrost reported incomplete analysis: partial_discovery",
         "taint discovery is incomplete: procedure value-flow snapshot for branch_join_positive.cpp:branch_join_positive.cpp.dfb_source is unknown"
       ],
-      "duration_ms": 66,
+      "duration_ms": 133,
       "outcome": "inconclusive",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-cpp-kernel/dfb-taint-cpp-branch-join-positive.json",
@@ -155,7 +191,7 @@
         "Bifrost reported incomplete analysis: partial_discovery",
         "taint discovery is incomplete: procedure value-flow snapshot for call_context_negative.cpp:call_context_negative.cpp.dfb_source is unknown"
       ],
-      "duration_ms": 61,
+      "duration_ms": 131,
       "outcome": "inconclusive",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-cpp-kernel/dfb-taint-cpp-call-context-negative.json",
@@ -173,7 +209,7 @@
         "Bifrost reported incomplete analysis: partial_discovery",
         "taint discovery is incomplete: procedure value-flow snapshot for call_context_positive.cpp:call_context_positive.cpp.dfb_source is unknown"
       ],
-      "duration_ms": 72,
+      "duration_ms": 141,
       "outcome": "inconclusive",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-cpp-kernel/dfb-taint-cpp-call-context-positive.json",
@@ -186,9 +222,189 @@
       "witness_checkpoints": []
     },
     {
+      "case_id": "dfb-taint-cpp-callback-registration-negative",
+      "diagnostics": [
+        "Bifrost reported incomplete analysis: capability_incomplete",
+        "taint semantic binding is unavailable: no analysis root contains both a selected source and sink"
+      ],
+      "duration_ms": 142,
+      "outcome": "inconclusive",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/bifrost-cpp-kernel/dfb-taint-cpp-callback-registration-negative.json",
+      "sink_anchors": [
+        "DFB-SINK: callback-registration-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: callback-registration-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-cpp-callback-registration-positive",
+      "diagnostics": [
+        "Bifrost reported incomplete analysis: capability_incomplete",
+        "taint semantic binding is unavailable: no analysis root contains both a selected source and sink"
+      ],
+      "duration_ms": 156,
+      "outcome": "inconclusive",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/bifrost-cpp-kernel/dfb-taint-cpp-callback-registration-positive.json",
+      "sink_anchors": [
+        "DFB-SINK: callback-registration-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: callback-registration-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-cpp-closure-capture-negative",
+      "diagnostics": [
+        "Bifrost reported incomplete analysis: capability_incomplete",
+        "taint semantic binding is unavailable: no analysis root contains both a selected source and sink"
+      ],
+      "duration_ms": 144,
+      "outcome": "inconclusive",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/bifrost-cpp-kernel/dfb-taint-cpp-closure-capture-negative.json",
+      "sink_anchors": [
+        "DFB-SINK: closure-capture-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: closure-capture-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-cpp-closure-capture-positive",
+      "diagnostics": [
+        "Bifrost reported incomplete analysis: capability_incomplete",
+        "taint semantic binding is unavailable: no analysis root contains both a selected source and sink"
+      ],
+      "duration_ms": 146,
+      "outcome": "inconclusive",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/bifrost-cpp-kernel/dfb-taint-cpp-closure-capture-positive.json",
+      "sink_anchors": [
+        "DFB-SINK: closure-capture-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: closure-capture-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-cpp-computed-property-negative",
+      "diagnostics": [
+        "Bifrost reported incomplete analysis: partial_discovery",
+        "taint discovery is incomplete: procedure value-flow snapshot for computed_property_negative.cpp:computed_property_negative.cpp.dfb_source is unknown"
+      ],
+      "duration_ms": 141,
+      "outcome": "inconclusive",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/bifrost-cpp-kernel/dfb-taint-cpp-computed-property-negative.json",
+      "sink_anchors": [
+        "DFB-SINK: computed-property-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: computed-property-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-cpp-computed-property-positive",
+      "diagnostics": [
+        "Bifrost reported incomplete analysis: partial_discovery",
+        "taint discovery is incomplete: procedure value-flow snapshot for computed_property_positive.cpp:computed_property_positive.cpp.dfb_source is unknown"
+      ],
+      "duration_ms": 118,
+      "outcome": "inconclusive",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/bifrost-cpp-kernel/dfb-taint-cpp-computed-property-positive.json",
+      "sink_anchors": [
+        "DFB-SINK: computed-property-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: computed-property-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-cpp-context-pair-depth2-negative",
+      "diagnostics": [
+        "Bifrost reported incomplete analysis: partial_discovery",
+        "taint discovery is incomplete: procedure value-flow snapshot for context_pair_depth2_negative.cpp:context_pair_depth2_negative.cpp.dfb_source is unknown"
+      ],
+      "duration_ms": 137,
+      "outcome": "inconclusive",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/bifrost-cpp-kernel/dfb-taint-cpp-context-pair-depth2-negative.json",
+      "sink_anchors": [
+        "DFB-SINK: context-pair-depth2-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: context-pair-depth2-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-cpp-context-pair-depth2-positive",
+      "diagnostics": [
+        "Bifrost reported incomplete analysis: partial_discovery",
+        "taint discovery is incomplete: procedure value-flow snapshot for context_pair_depth2_positive.cpp:context_pair_depth2_positive.cpp.dfb_source is unknown"
+      ],
+      "duration_ms": 154,
+      "outcome": "inconclusive",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/bifrost-cpp-kernel/dfb-taint-cpp-context-pair-depth2-positive.json",
+      "sink_anchors": [
+        "DFB-SINK: context-pair-depth2-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: context-pair-depth2-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-cpp-deep-relay-chain-negative",
+      "diagnostics": [
+        "Bifrost reported incomplete analysis: partial_discovery",
+        "taint discovery is incomplete: procedure value-flow snapshot for deep_relay_chain_negative.cpp:deep_relay_chain_negative.cpp.dfb_source is unknown"
+      ],
+      "duration_ms": 181,
+      "outcome": "inconclusive",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/bifrost-cpp-kernel/dfb-taint-cpp-deep-relay-chain-negative.json",
+      "sink_anchors": [
+        "DFB-SINK: deep-relay-chain-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: deep-relay-chain-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-cpp-deep-relay-chain-positive",
+      "diagnostics": [
+        "Bifrost reported incomplete analysis: partial_discovery",
+        "taint discovery is incomplete: procedure value-flow snapshot for deep_relay_chain_positive.cpp:deep_relay_chain_positive.cpp.dfb_source is unknown"
+      ],
+      "duration_ms": 138,
+      "outcome": "inconclusive",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/bifrost-cpp-kernel/dfb-taint-cpp-deep-relay-chain-positive.json",
+      "sink_anchors": [
+        "DFB-SINK: deep-relay-chain-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: deep-relay-chain-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
       "case_id": "dfb-taint-cpp-direct-negative",
       "diagnostics": [],
-      "duration_ms": 70,
+      "duration_ms": 151,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-cpp-kernel/dfb-taint-cpp-direct-negative.json",
@@ -205,7 +421,7 @@
       "diagnostics": [
         "Controlled input reaches the direct benchmark sink"
       ],
-      "duration_ms": 95,
+      "duration_ms": 134,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-cpp-kernel/dfb-taint-cpp-direct-positive.json",
@@ -218,12 +434,84 @@
       "witness_checkpoints": []
     },
     {
+      "case_id": "dfb-taint-cpp-dispatch-table-negative",
+      "diagnostics": [
+        "Bifrost reported incomplete analysis: capability_incomplete",
+        "taint semantic binding is unavailable: no analysis root contains both a selected source and sink"
+      ],
+      "duration_ms": 176,
+      "outcome": "inconclusive",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/bifrost-cpp-kernel/dfb-taint-cpp-dispatch-table-negative.json",
+      "sink_anchors": [
+        "DFB-SINK: dispatch-table-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: dispatch-table-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-cpp-dispatch-table-positive",
+      "diagnostics": [
+        "Bifrost reported incomplete analysis: capability_incomplete",
+        "taint semantic binding is unavailable: no analysis root contains both a selected source and sink"
+      ],
+      "duration_ms": 131,
+      "outcome": "inconclusive",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/bifrost-cpp-kernel/dfb-taint-cpp-dispatch-table-positive.json",
+      "sink_anchors": [
+        "DFB-SINK: dispatch-table-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: dispatch-table-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-cpp-element-object-negative",
+      "diagnostics": [
+        "Bifrost reported incomplete analysis: partial_discovery",
+        "taint discovery is incomplete: procedure value-flow snapshot for element_object_negative.cpp:element_object_negative.cpp.dfb_source is unknown"
+      ],
+      "duration_ms": 122,
+      "outcome": "inconclusive",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/bifrost-cpp-kernel/dfb-taint-cpp-element-object-negative.json",
+      "sink_anchors": [
+        "DFB-SINK: element-object-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: element-object-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-cpp-element-object-positive",
+      "diagnostics": [
+        "Bifrost reported incomplete analysis: partial_discovery",
+        "taint discovery is incomplete: procedure value-flow snapshot for element_object_positive.cpp:element_object_positive.cpp.dfb_source is unknown"
+      ],
+      "duration_ms": 141,
+      "outcome": "inconclusive",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/bifrost-cpp-kernel/dfb-taint-cpp-element-object-positive.json",
+      "sink_anchors": [
+        "DFB-SINK: element-object-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: element-object-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
       "case_id": "dfb-taint-cpp-exception-catch-negative",
       "diagnostics": [
         "Bifrost reported incomplete analysis: partial_discovery",
         "taint discovery is incomplete: procedure value-flow snapshot for exception_catch_negative.cpp:exception_catch_negative.cpp.dfb_source is unknown"
       ],
-      "duration_ms": 59,
+      "duration_ms": 122,
       "outcome": "inconclusive",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-cpp-kernel/dfb-taint-cpp-exception-catch-negative.json",
@@ -241,7 +529,7 @@
         "Bifrost reported incomplete analysis: partial_discovery",
         "taint discovery is incomplete: procedure value-flow snapshot for exception_catch_positive.cpp:exception_catch_positive.cpp.dfb_source is unknown"
       ],
-      "duration_ms": 67,
+      "duration_ms": 120,
       "outcome": "inconclusive",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-cpp-kernel/dfb-taint-cpp-exception-catch-positive.json",
@@ -259,7 +547,7 @@
         "Bifrost reported incomplete analysis: partial_discovery",
         "taint discovery is incomplete: procedure value-flow snapshot for expression_negative.cpp:expression_negative.cpp.dfb_source is unknown"
       ],
-      "duration_ms": 66,
+      "duration_ms": 131,
       "outcome": "inconclusive",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-cpp-kernel/dfb-taint-cpp-expression-negative.json",
@@ -277,7 +565,7 @@
         "Bifrost reported incomplete analysis: partial_discovery",
         "taint discovery is incomplete: procedure value-flow snapshot for expression_positive.cpp:expression_positive.cpp.dfb_source is unknown"
       ],
-      "duration_ms": 68,
+      "duration_ms": 133,
       "outcome": "inconclusive",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-cpp-kernel/dfb-taint-cpp-expression-positive.json",
@@ -290,12 +578,48 @@
       "witness_checkpoints": []
     },
     {
+      "case_id": "dfb-taint-cpp-function-field-negative",
+      "diagnostics": [
+        "Bifrost reported incomplete analysis: capability_incomplete",
+        "taint semantic binding is unavailable: no analysis root contains both a selected source and sink"
+      ],
+      "duration_ms": 122,
+      "outcome": "inconclusive",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/bifrost-cpp-kernel/dfb-taint-cpp-function-field-negative.json",
+      "sink_anchors": [
+        "DFB-SINK: function-field-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: function-field-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-cpp-function-field-positive",
+      "diagnostics": [
+        "Bifrost reported incomplete analysis: capability_incomplete",
+        "taint semantic binding is unavailable: no analysis root contains both a selected source and sink"
+      ],
+      "duration_ms": 166,
+      "outcome": "inconclusive",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/bifrost-cpp-kernel/dfb-taint-cpp-function-field-positive.json",
+      "sink_anchors": [
+        "DFB-SINK: function-field-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: function-field-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
       "case_id": "dfb-taint-cpp-infeasible-branch-negative",
       "diagnostics": [
         "Bifrost reported incomplete analysis: partial_discovery",
         "taint discovery is incomplete: procedure value-flow snapshot for infeasible_branch_negative.cpp:infeasible_branch_negative.cpp.dfb_source is unknown"
       ],
-      "duration_ms": 76,
+      "duration_ms": 125,
       "outcome": "inconclusive",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-cpp-kernel/dfb-taint-cpp-infeasible-branch-negative.json",
@@ -313,7 +637,7 @@
         "Bifrost reported incomplete analysis: partial_discovery",
         "taint discovery is incomplete: procedure value-flow snapshot for infeasible_branch_positive.cpp:infeasible_branch_positive.cpp.dfb_source is unknown"
       ],
-      "duration_ms": 62,
+      "duration_ms": 137,
       "outcome": "inconclusive",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-cpp-kernel/dfb-taint-cpp-infeasible-branch-positive.json",
@@ -331,7 +655,7 @@
         "Bifrost reported incomplete analysis: partial_discovery",
         "taint discovery is incomplete: procedure value-flow snapshot for local_chain_negative.cpp:local_chain_negative.cpp.dfb_source is unknown"
       ],
-      "duration_ms": 67,
+      "duration_ms": 204,
       "outcome": "inconclusive",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-cpp-kernel/dfb-taint-cpp-local-chain-negative.json",
@@ -349,7 +673,7 @@
         "Bifrost reported incomplete analysis: partial_discovery",
         "taint discovery is incomplete: procedure value-flow snapshot for local_chain_positive.cpp:local_chain_positive.cpp.dfb_source is unknown"
       ],
-      "duration_ms": 61,
+      "duration_ms": 137,
       "outcome": "inconclusive",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-cpp-kernel/dfb-taint-cpp-local-chain-positive.json",
@@ -367,7 +691,7 @@
         "Bifrost reported incomplete analysis: partial_discovery",
         "taint discovery is incomplete: procedure value-flow snapshot for local_overwrite_negative.cpp:local_overwrite_negative.cpp.dfb_source is unknown"
       ],
-      "duration_ms": 73,
+      "duration_ms": 129,
       "outcome": "inconclusive",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-cpp-kernel/dfb-taint-cpp-local-overwrite-negative.json",
@@ -385,7 +709,7 @@
         "Bifrost reported incomplete analysis: partial_discovery",
         "taint discovery is incomplete: procedure value-flow snapshot for local_overwrite_positive.cpp:local_overwrite_positive.cpp.dfb_source is unknown"
       ],
-      "duration_ms": 66,
+      "duration_ms": 145,
       "outcome": "inconclusive",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-cpp-kernel/dfb-taint-cpp-local-overwrite-positive.json",
@@ -403,7 +727,7 @@
         "Bifrost reported incomplete analysis: partial_discovery",
         "taint discovery is incomplete: procedure value-flow snapshot for loop_carried_negative.cpp:loop_carried_negative.cpp.dfb_source is unknown"
       ],
-      "duration_ms": 57,
+      "duration_ms": 121,
       "outcome": "inconclusive",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-cpp-kernel/dfb-taint-cpp-loop-carried-negative.json",
@@ -421,7 +745,7 @@
         "Bifrost reported incomplete analysis: partial_discovery",
         "taint discovery is incomplete: procedure value-flow snapshot for loop_carried_positive.cpp:loop_carried_positive.cpp.dfb_source is unknown"
       ],
-      "duration_ms": 62,
+      "duration_ms": 127,
       "outcome": "inconclusive",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-cpp-kernel/dfb-taint-cpp-loop-carried-positive.json",
@@ -434,12 +758,84 @@
       "witness_checkpoints": []
     },
     {
+      "case_id": "dfb-taint-cpp-map-iteration-negative",
+      "diagnostics": [
+        "Bifrost reported incomplete analysis: partial_discovery",
+        "taint discovery is incomplete: procedure value-flow snapshot for map_iteration_negative.cpp:map_iteration_negative.cpp.dfb_source is unknown"
+      ],
+      "duration_ms": 137,
+      "outcome": "inconclusive",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/bifrost-cpp-kernel/dfb-taint-cpp-map-iteration-negative.json",
+      "sink_anchors": [
+        "DFB-SINK: map-iteration-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: map-iteration-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-cpp-map-iteration-positive",
+      "diagnostics": [
+        "Bifrost reported incomplete analysis: partial_discovery",
+        "taint discovery is incomplete: procedure value-flow snapshot for map_iteration_positive.cpp:map_iteration_positive.cpp.dfb_source is unknown"
+      ],
+      "duration_ms": 143,
+      "outcome": "inconclusive",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/bifrost-cpp-kernel/dfb-taint-cpp-map-iteration-positive.json",
+      "sink_anchors": [
+        "DFB-SINK: map-iteration-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: map-iteration-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-cpp-nested-access-path-negative",
+      "diagnostics": [
+        "Bifrost reported incomplete analysis: partial_discovery",
+        "taint discovery is incomplete: procedure value-flow snapshot for nested_access_path_negative.cpp:nested_access_path_negative.cpp.dfb_source is unknown"
+      ],
+      "duration_ms": 123,
+      "outcome": "inconclusive",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/bifrost-cpp-kernel/dfb-taint-cpp-nested-access-path-negative.json",
+      "sink_anchors": [
+        "DFB-SINK: nested-access-path-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: nested-access-path-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-cpp-nested-access-path-positive",
+      "diagnostics": [
+        "Bifrost reported incomplete analysis: partial_discovery",
+        "taint discovery is incomplete: procedure value-flow snapshot for nested_access_path_positive.cpp:nested_access_path_positive.cpp.dfb_source is unknown"
+      ],
+      "duration_ms": 146,
+      "outcome": "inconclusive",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/bifrost-cpp-kernel/dfb-taint-cpp-nested-access-path-positive.json",
+      "sink_anchors": [
+        "DFB-SINK: nested-access-path-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: nested-access-path-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
       "case_id": "dfb-taint-cpp-object-separation-negative",
       "diagnostics": [
         "Bifrost reported incomplete analysis: partial_discovery",
         "taint discovery is incomplete: procedure value-flow snapshot for object_separation_negative.cpp:object_separation_negative.cpp.dfb_source is unknown"
       ],
-      "duration_ms": 72,
+      "duration_ms": 141,
       "outcome": "inconclusive",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-cpp-kernel/dfb-taint-cpp-object-separation-negative.json",
@@ -457,7 +853,7 @@
         "Bifrost reported incomplete analysis: partial_discovery",
         "taint discovery is incomplete: procedure value-flow snapshot for object_separation_positive.cpp:object_separation_positive.cpp.dfb_source is unknown"
       ],
-      "duration_ms": 69,
+      "duration_ms": 134,
       "outcome": "inconclusive",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-cpp-kernel/dfb-taint-cpp-object-separation-positive.json",
@@ -470,12 +866,48 @@
       "witness_checkpoints": []
     },
     {
+      "case_id": "dfb-taint-cpp-recursive-carry-negative",
+      "diagnostics": [
+        "Bifrost reported incomplete analysis: partial_discovery",
+        "taint discovery is incomplete: procedure value-flow snapshot for recursive_carry_negative.cpp:recursive_carry_negative.cpp.carry is unknown"
+      ],
+      "duration_ms": 130,
+      "outcome": "inconclusive",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/bifrost-cpp-kernel/dfb-taint-cpp-recursive-carry-negative.json",
+      "sink_anchors": [
+        "DFB-SINK: recursive-carry-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: recursive-carry-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-cpp-recursive-carry-positive",
+      "diagnostics": [
+        "Bifrost reported incomplete analysis: partial_discovery",
+        "taint discovery is incomplete: procedure value-flow snapshot for recursive_carry_positive.cpp:recursive_carry_positive.cpp.carry is unknown"
+      ],
+      "duration_ms": 138,
+      "outcome": "inconclusive",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/bifrost-cpp-kernel/dfb-taint-cpp-recursive-carry-positive.json",
+      "sink_anchors": [
+        "DFB-SINK: recursive-carry-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: recursive-carry-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
       "case_id": "dfb-taint-cpp-return-relay-one-hop-negative",
       "diagnostics": [
         "Bifrost reported incomplete analysis: partial_discovery",
         "taint discovery is incomplete: procedure value-flow snapshot for return_relay_one_hop_negative.cpp:return_relay_one_hop_negative.cpp.dfb_source is unknown"
       ],
-      "duration_ms": 65,
+      "duration_ms": 138,
       "outcome": "inconclusive",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-cpp-kernel/dfb-taint-cpp-return-relay-one-hop-negative.json",
@@ -493,7 +925,7 @@
         "Bifrost reported incomplete analysis: partial_discovery",
         "taint discovery is incomplete: procedure value-flow snapshot for return_relay_one_hop_positive.cpp:return_relay_one_hop_positive.cpp.dfb_source is unknown"
       ],
-      "duration_ms": 65,
+      "duration_ms": 141,
       "outcome": "inconclusive",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-cpp-kernel/dfb-taint-cpp-return-relay-one-hop-positive.json",
@@ -511,7 +943,7 @@
         "Bifrost reported incomplete analysis: partial_discovery",
         "taint discovery is incomplete: procedure value-flow snapshot for return_relay_two_hop_negative.cpp:return_relay_two_hop_negative.cpp.dfb_source is unknown"
       ],
-      "duration_ms": 74,
+      "duration_ms": 108,
       "outcome": "inconclusive",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-cpp-kernel/dfb-taint-cpp-return-relay-two-hop-negative.json",
@@ -529,7 +961,7 @@
         "Bifrost reported incomplete analysis: partial_discovery",
         "taint discovery is incomplete: procedure value-flow snapshot for return_relay_two_hop_positive.cpp:return_relay_two_hop_positive.cpp.dfb_source is unknown"
       ],
-      "duration_ms": 68,
+      "duration_ms": 135,
       "outcome": "inconclusive",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-cpp-kernel/dfb-taint-cpp-return-relay-two-hop-positive.json",
@@ -547,7 +979,7 @@
         "Bifrost reported incomplete analysis: partial_discovery",
         "taint discovery is incomplete: procedure value-flow snapshot for same_object_field_negative.cpp:same_object_field_negative.cpp.dfb_source is unknown"
       ],
-      "duration_ms": 62,
+      "duration_ms": 132,
       "outcome": "inconclusive",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-cpp-kernel/dfb-taint-cpp-same-object-field-negative.json",
@@ -565,7 +997,7 @@
         "Bifrost reported incomplete analysis: partial_discovery",
         "taint discovery is incomplete: procedure value-flow snapshot for same_object_field_positive.cpp:same_object_field_positive.cpp.dfb_source is unknown"
       ],
-      "duration_ms": 67,
+      "duration_ms": 122,
       "outcome": "inconclusive",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-cpp-kernel/dfb-taint-cpp-same-object-field-positive.json",
@@ -579,8 +1011,8 @@
     }
   ],
   "schema_version": 1,
-  "started_at_unix_seconds": 1787580822,
+  "started_at_unix_seconds": 1787684677,
   "tool": "bifrost",
-  "tool_build_identity": "728ac69ab93224151c6c951b23d2f5bc681d8558",
-  "tool_version": "bifrost 0.10.5"
+  "tool_build_identity": "18d09c57d1e5044dec49acac7635d3255ea8e89c",
+  "tool_version": "bifrost 0.10.6"
 }

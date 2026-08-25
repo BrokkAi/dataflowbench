@@ -21,8 +21,9 @@ challenge-tier row, plus two Rust `language-extension` cases
 that never enter the Rust core denominator. Ruby has its own production extractor and its own
 expanded 29-template population; it is the primary decisive analyzer for the
 Ruby tranche, whose Bifrost coverage gate is recorded in [the Ruby kernel
-contract](../../docs/ruby-kernel.md), and it is the only CodeQL kernel whose
-report is not freeze-bound.
+contract](../../docs/ruby-kernel.md). All eleven kernel reports are bound by
+the v0.4.0 freeze, each re-run over its own expanded population at one fixture
+revision.
 
 Scala is deliberately absent. CodeQL CLI 2.26.3 has no Scala extractor and no
 Scala library pack in any build mode, so there is no `scala/` pack, no query,
@@ -31,8 +32,8 @@ recorded in [the Scala kernel contract](../../docs/scala-kernel.md) — and
 never a negative result for any Scala assertion. It is restated unchanged for
 Scala's **expanded 29-template / 58-assertion core**: the 26 challenge
 assertions are covered by the same absence as the 32 classic ones, and because
-the extractor does not exist, this is coverage rather than evidence deferred to
-the v0.4.0 re-run.
+the extractor does not exist, this is coverage rather than a missing run: the
+v0.4.0 freeze re-ran every CodeQL kernel that exists, and Scala is not one.
 
 The checked-in query packs contain the Java, JavaScript, TypeScript, Python,
 Kotlin, C#, Go, C, C++, Rust, and Ruby kernel queries. Each query uses that
@@ -145,10 +146,11 @@ them — the direct-propagation pair frozen in v0.2.0 as part of the
 cross-language breadth slice — declare no CodeQL reference at all; see the
 [Kotlin kernel contract](../../docs/kotlin-kernel.md).
 
-`reports/codeql-kotlin-kernel.json` is freeze-bound, so the runner was **not**
-executed over the expanded population: the retained Kotlin snapshot below is a
-classic 32-assertion result, and **expanded CodeQL evidence for Kotlin is
-pending the v0.4.0 freeze-prep re-run**.
+`reports/codeql-kotlin-kernel.json` was re-run whole over that expanded
+population for the v0.4.0 freeze and now carries all 58 assertions, scoring
+**46/58** — 27/32 on the classic sixteen templates, unchanged case for case,
+and 19/26 on the challenge thirteen. The retained Kotlin snapshot below reports
+both strata.
 
 CodeQL CLI 2.26.3 cannot extract Kotlin under `--build-mode=none`, so the
 runner traces a real `kotlinc` compile per case:
@@ -198,31 +200,38 @@ model and must not be used as a proxy for this kernel.
 
 ## Retained JavaScript snapshot
 
-**Expanded evidence is deferred.** `reports/codeql-javascript-kernel.json` is
-one of the nineteen reports `reports/freeze.json` digest-binds for v0.3.0, so
-the JavaScript challenge expansion did not overwrite it: the expanded
-58-assertion CodeQL evidence is pending the v0.4.0 freeze-prep re-run, on this
-repository's established re-run-at-freeze pattern, and the deferral is recorded
-in `docs/javascript-kernel.md`. What follows is the valid classic
-32-assertion snapshot, and it describes a different population from the
-expanded one.
+`reports/codeql-javascript-kernel.json` was re-run whole over the expanded
+population for the v0.4.0 freeze, on this repository's established
+re-run-at-freeze pattern, and now contains **58 results**: 23 `reached` and 35
+`not-reached`, with zero `inconclusive`, `unsupported`, or `runner-error`
+outcomes. **48 of 58** match the expected polarity — 29/32 on the classic
+sixteen templates, identical case for case to the pre-expansion snapshot, and
+19/26 on the challenge thirteen. A 32-assertion score and a 58-assertion score
+are different populations and are never compared.
 
-The checked-in `reports/codeql-javascript-kernel.json` contains 32 results:
-15 `reached` and 17 `not-reached`, with zero `inconclusive`, `unsupported`, or
-`runner-error` outcomes. Twenty-nine of 32 outcomes match the expected
-polarity. The three mismatches are:
+The three classic mismatches are:
 
 - `dfb-taint-javascript-alias-propagation-positive`: false negative.
 - `dfb-taint-javascript-expression-positive`: false negative.
 - `dfb-taint-javascript-loop-carried-negative`: false positive.
 
-All 32 raw case outputs are SARIF files under
+The seven challenge mismatches — A **3/6**, B **6/8**, C **4/6**, D **6/6** —
+are six false negatives on positives (`reflective-invocation`,
+`dispatch-table`, `function-field`, `callback-registration`, `map-iteration`,
+`nested-access-path`) and one false positive, the `computed-property` negative.
+The `reflective-invocation` and `dispatch-table` positives are missed while
+their negatives are correct — an under-approximating refusal to follow a callee
+named at run time — and the `computed-property` pair inverts that, reaching the
+positive and also flagging the negative. The preregistration reads stratum A as
+approximation character rather than as a ranking.
+
+All 58 raw case outputs are SARIF files under
 `reports/raw/codeql-javascript/`; there are zero retained error files. The
 normalized report has empty `witness_checkpoints` for every case because the
 current adapter records anchor-backed flow outcomes while retaining path
 evidence in SARIF rather than fabricating normalized witness markers. Its
 configuration hash is
-`a038e39eb93d6fc674ab59cf2e4de5b3608f1d7b294c19da75ce1bd041c75ac5`.
+`cb54d749e915208a1fa7fceaa1e5e5302c18960aebf724573040fda66c7a7ba8`.
 
 ## TypeScript kernel
 
@@ -262,21 +271,24 @@ the freeze rationale.
 
 ### Retained TypeScript snapshot
 
-**Expanded evidence is deferred.** `reports/codeql-typescript-kernel.json` is
-one of the nineteen reports `reports/freeze.json` digest-binds for v0.3.0, so
-the TypeScript challenge expansion did not overwrite it: the expanded
-58-assertion CodeQL evidence is pending the v0.4.0 freeze-prep re-run, on this
-repository's established re-run-at-freeze pattern, and the deferral is recorded
-in `docs/typescript-kernel.md`. What follows is the valid classic 32-assertion
-snapshot, and it describes a different population from the expanded one.
+`reports/codeql-typescript-kernel.json` was re-run whole over the expanded
+population for the v0.4.0 freeze, on this repository's established
+re-run-at-freeze pattern, and now contains **58 results**: 23 `reached` and 35
+`not-reached`, with zero `inconclusive`, `unsupported`, or `runner-error`
+outcomes. **48 of 58** match expected polarity — 29/32 on the classic sixteen,
+identical case for case to the pre-expansion snapshot, and 19/26 on the
+challenge thirteen (A **3/6**, B **6/8**, C **4/6**, D **6/6**).
 
-The checked-in `reports/codeql-typescript-kernel.json` contains 32 results: 15
-`reached` and 17 `not-reached`, with zero `inconclusive`, `unsupported`, or
-`runner-error` outcomes. Twenty-nine of 32 match expected polarity; the
-alias-propagation and arithmetic-expression positives are false negatives and
-the loop-carried negative is a false positive. That is case-for-case identical
-to the JavaScript snapshot above, as expected for fixtures that differ only by
-type annotations. All 32 raw outputs are SARIF files with zero error files.
+The classic mismatches are the alias-propagation and arithmetic-expression
+positives, both false negatives, and the loop-carried negative, a false
+positive; the challenge mismatches are false negatives on the
+`reflective-invocation`, `dispatch-table`, `function-field`,
+`callback-registration`, `map-iteration` and `nested-access-path` positives and
+one false positive on the `computed-property` negative. That is case-for-case
+identical to the JavaScript snapshot above, across both strata, as expected for
+fixtures that differ only by
+type annotations — and the two remain separate populations that are never
+pooled. All 58 raw outputs are SARIF files with zero error files.
 The run used CodeQL CLI 2.26.3, build SHA
 `7d097a43199effe04ecd9c6bd3ad9bb02a45b3d7`, with `codeql/javascript-all@2.9.0`
 resolved by `codeql pack install` from the registry — no `--codeql-packs`
@@ -352,16 +364,19 @@ populates the compilation cache before the runner starts, so per-case analysis
 does not repeat query compilation. Every case still uses an isolated cold
 database; no database or compiled fixture is reused across the pair.
 
-**Deferred: the expanded Python population.** Python's challenge-tier row is
-now rolled out and its core denominator is 29 templates / 58 assertions, but
-`reports/codeql-python-kernel.json` is one of the nineteen reports
-`reports/freeze.json` digest-binds for v0.3.0. Overwriting it would invalidate
-a published freeze, so the Python challenge wave left it untouched. Its 32
-results remain the frozen 16-template v0.3.0 evidence, and CodeQL's evidence
-for the expanded Python core arrives with the v0.4.0 freeze-prep re-run. This
-is deferral, not absence of coverage, and the two populations are never
-compared number-to-number. The selection code already expects 58; the runner is
-simply not invoked until the freeze is re-cut.
+**The expanded Python population.** Python's challenge-tier row is rolled out
+and its core denominator is 29 templates / 58 assertions;
+`reports/codeql-python-kernel.json` was re-run whole for the v0.4.0 freeze and
+now contains **58 results**: 23 `reached` and 35 `not-reached`, with zero
+`inconclusive`, `unsupported`, or `runner-error` outcomes. **48 of 58** match
+the expected polarity — 28/32 on the classic sixteen, identical case for case
+to the frozen v0.3.0 evidence, and 20/26 on the challenge thirteen (A **3/6**,
+B **6/8**, C **5/6**, D **6/6**). The six challenge mismatches are false
+negatives on the `reflective-invocation`, `computed-property`,
+`dispatch-table`, `closure-capture` and `callback-registration` positives and
+one false positive on the `element-object` negative. The v0.3.0 and v0.4.0
+populations are never compared number-to-number. Its configuration hash is
+`f97f0198f19f2d1d8630b48ff5d30d947e9f83b940de38af425076cf73e82230`.
 
 ## C# kernel
 
@@ -401,25 +416,26 @@ diagnostics) under `reports/raw/codeql-csharp-kernel/`. SARIF locations are
 reconciled with the case's `DFB-SINK:` anchor by resolving the declared sink
 method name and accepting a finding on a line that calls it in the same file.
 
-The checked-in `reports/codeql-csharp-kernel.json` contains 32 results: 15
-`reached` and 17 `not-reached`, with zero `inconclusive`, `unsupported`, or
-`runner-error` outcomes. 27 of 32 match the expected polarity; the false
+The checked-in `reports/codeql-csharp-kernel.json` contains **58 results**: 24
+`reached` and 34 `not-reached`, with zero `inconclusive`, `unsupported`, or
+`runner-error` outcomes. **47 of 58** match the expected polarity — 27/32 on
+the classic sixteen and 20/26 on the challenge thirteen. On the classic stratum
+the false
 negatives are the alias-propagation, exception-catch, and expression positives,
 and the false positives are the array-element and loop-carried negatives — the
-same mismatch set the Java kernel shows on those templates. Its configuration
+same mismatch set the Java kernel shows on those templates; that half is
+identical case for case to the frozen v0.3.0 evidence. Its configuration
 hash is `cd5f68b8ccb2e4de27cf1606b0c9f2ee8981ce5dfdf8ee2fea08fe977a0c56c9`.
 
-**Deferred: the expanded C# population.** C#'s challenge-tier row is now
-rolled out and its core denominator is 29 templates / 58 assertions, but
-`reports/codeql-csharp-kernel.json` is one of the nineteen reports
-`reports/freeze.json` digest-binds for v0.3.0. Overwriting it would invalidate
-a published freeze, so the C# challenge wave left it untouched, exactly as the
-Python and JavaScript waves left theirs. Its 32 results remain the frozen
-16-template v0.3.0 evidence, and CodeQL's evidence for the expanded C# core
-arrives with the v0.4.0 freeze-prep re-run. This is deferral, not absence of
-coverage, and the two populations are never compared number-to-number. The
-selection code already expects 58; the runner is simply not invoked until the
-freeze is re-cut.
+**The expanded C# population.** C#'s challenge-tier row is rolled out and its
+core denominator is 29 templates / 58 assertions;
+`reports/codeql-csharp-kernel.json` was re-run whole for the v0.4.0 freeze,
+exactly as the Python and JavaScript kernels were. Split by stratum the
+challenge 20/26 is A **3/6**, B **6/8**, C **5/6**, D **6/6**: five false
+negatives on the `reflective-invocation`, `computed-property`,
+`dispatch-table`, `function-field` and `callback-registration` positives, and
+one false positive on the `element-object` negative. The v0.3.0 and v0.4.0
+populations are never compared number-to-number.
 
 ## Go kernel
 
@@ -464,35 +480,33 @@ diagnostics) under `reports/raw/codeql-go-kernel/`. SARIF locations are
 reconciled with the case's `DFB-SINK:` anchor by resolving the declared sink
 function name and accepting a finding on a line that calls it in the same file.
 
-**Expanded evidence is deferred.** `reports/codeql-go-kernel.json` is one of the
-nineteen reports `reports/freeze.json` digest-binds for v0.3.0, so the Go
-challenge expansion did not overwrite it: the expanded 58-assertion CodeQL
-evidence is pending the v0.4.0 freeze-prep re-run, on this repository's
-established re-run-at-freeze pattern, and the deferral is recorded in
-`docs/go-kernel.md`. What follows is the valid classic 32-assertion snapshot,
-and it describes a different population from the expanded one.
+`reports/codeql-go-kernel.json` was re-run whole over the expanded population
+for the v0.4.0 freeze, on this repository's established re-run-at-freeze
+pattern.
 
-The checked-in `reports/codeql-go-kernel.json` contains 32 results: 16 `reached`
-and 16 `not-reached`, with zero `inconclusive`, `unsupported`, or `runner-error`
-outcomes, extracted through go1.26.0. 26 of 32 match the expected polarity; the
+It contains **58 results**: 24 `reached`
+and 34 `not-reached`, with zero `inconclusive`, `unsupported`, or `runner-error`
+outcomes, extracted through go1.26.0. **45 of 58** match the expected polarity —
+26/32 on the classic sixteen, identical case for case to the frozen v0.3.0
+evidence, and 19/26 on the challenge thirteen (A **3/6**, B **5/8**, C **5/6**,
+D **6/6**). On the classic stratum the
 false negatives are the alias-propagation, exception-catch, and expression
 positives, and the false positives are the array-element, loop-carried, and
 infeasible-branch negatives. The first five are the same mismatch set the Java
 and C# kernels show on those templates; the infeasible-branch false positive is
 Go-specific, and the exception-catch false negative is the capability evidence
-the `panic`/`recover` adaptation anticipates. Its configuration hash is
+the `panic`/`recover` adaptation anticipates. The seven challenge mismatches are
+six false negatives on the `reflective-invocation`, `computed-property`,
+`dispatch-table`, `function-field`, `callback-registration` and
+`anonymous-implementation` positives, plus one false positive on the
+`element-object` negative. Its configuration hash is
 `56f44b3d983f7ea1dc2fa77a796ac547b01d12535a124f0c9975d3d0b7989161`.
 
 ## C and C++ kernels
 
 The C++ runner selects exactly the 56 `taint`/`core` cases whose `language` is
 `cpp` — 32 classic assertions plus the 24 the challenge-tier expansion added;
-the C runner selects the 30 `taint`/`core` cases whose `language` is `c`
-plus its 2 `language-extension` cases, which are scored on their own scorecard
-and never counted in the core denominator. Each analyzes its own query:
-
-The C++ runner selects exactly the 32 `taint`/`core` cases whose `language` is
-`cpp`; the C runner selects the whole C `taint`/`core` population — 30
+the C runner selects the whole C `taint`/`core` population — 30
 assertions classically, and **48** now that C's nine applicable challenge
 templates have rolled out (`docs/challenge-tier.md`) — plus its 2
 `language-extension` cases, which are scored on their own scorecard and never
@@ -532,37 +546,43 @@ accepting a finding on a line that calls it in the same file; a `.`, `->`, or
 contract](../../docs/c-kernel.md) and [the C++ kernel
 contract](../../docs/cpp-kernel.md).
 
-The checked-in `reports/codeql-cpp-kernel.json` contains 32 results: 16
-`reached` and 16 `not-reached`, with zero `inconclusive`, `unsupported`, or
-`runner-error` outcomes, and 28 of 32 matching the expected polarity — false
-negatives on the alias-propagation and exception-catch positives, false
+The checked-in `reports/codeql-cpp-kernel.json` contains **56 results**: 18
+`reached` and 38 `not-reached`, with zero `inconclusive`, `unsupported`, or
+`runner-error` outcomes, and **42 of 56** matching the expected polarity —
+28/32 on the classic sixteen, identical case for case to the frozen v0.3.0
+evidence, and 14/24 on the challenge twelve (A **2/4**, B **4/8**, C **3/6**,
+D **5/6**). The classic mismatches are false
+negatives on the alias-propagation and exception-catch positives and false
 positives on the array-element and loop-carried negatives. Its configuration
 hash is
 `8873a63a5898c8b6b10dc24a9fbf2fae3ed5a088faf024524b0bae50f0fc4cc0`.
 
-That snapshot is the **classic 32-assertion population only**. It is one of
-the nineteen reports `reports/freeze.json` digest-binds for v0.3.0, so the C++
-challenge wave did not re-run it: **the expanded CodeQL C++ evidence is pending
-the v0.4.0 freeze-prep re-run**, on the repository's established
-re-run-at-freeze pattern. The selector already expects the full 56; deferral is
-not absence of coverage, and a 32-assertion score is never compared with a
-56-assertion one.
+Every one of the ten challenge mismatches is a **false negative on a positive**
+— `computed-property`, `dispatch-table`, `closure-capture`, `function-field`,
+`callback-registration`, `anonymous-implementation`, `map-iteration`,
+`nested-access-path`, `element-object`, and the two-level context positive — with
+no false positive anywhere in the tier. That is a uniformly under-approximating
+character on this population, not half a score, and a 32-assertion score is
+never compared with a 56-assertion one. `reflective-invocation` is inapplicable
+to C++ and reduces only its denominator.
 
-**Expanded C evidence is deferred.** `reports/codeql-c-kernel.json` is one of
-the nineteen reports `reports/freeze.json` digest-binds for v0.3.0, so the C
-challenge expansion did not overwrite it: the expanded 48-assertion CodeQL
-evidence for C is pending the v0.4.0 freeze-prep re-run, on this repository's
-established re-run-at-freeze pattern, and the deferral is recorded in
-`docs/c-kernel.md`. What follows is the valid classic 30-assertion snapshot,
-and it describes a different population from the expanded one.
+`reports/codeql-c-kernel.json` was likewise re-run whole over C's expanded
+48-assertion population for the v0.4.0 freeze, on this repository's established
+re-run-at-freeze pattern.
 
-The checked-in `reports/codeql-c-kernel.json` contains 32 results with the same
-clean execution profile. Of the 30 core assertions, 16 are `reached` and 14 are
-`not-reached`, with 27 of 30 matching the expected polarity — the same
+It contains **50 results** with the same
+clean execution profile. Of the 48 core assertions, 23 are `reached` and 25 are
+`not-reached`, with **41 of 48** matching the expected polarity — 27/30 on the
+classic fifteen, identical case for case to the frozen v0.3.0 evidence, and
+14/18 on C's nine applicable challenge templates (A **1/2**, B **2/4**, C
+**5/6**, D **6/6**). The classic mismatches are the same
 alias-propagation false negative and array-element and loop-carried false
-positives, with no exception-catch cell in the C population. Both
+positives, with no exception-catch cell in the C population; the challenge
+mismatches are false negatives on the `dispatch-table`, `function-field` and
+`callback-registration` positives plus one false positive on the
+`element-object` negative. Both
 `language-extension` cases are `reached`, matching their positive polarity, and
-are scored on their own scorecard rather than in the 30-assertion denominator.
+are scored on their own scorecard rather than in the 48-assertion denominator.
 Its configuration hash is
 `719415b9134dfd43390ffdb76eef45f7ed022f907f22913226c22f93277b62f8`.
 
@@ -620,22 +640,30 @@ gets its own callsite rule because Rust reaches a member through `.` and a path
 through `::`, and neither is a call of the free sink function the anchor
 declares.
 
-**Expanded evidence is deferred.** `reports/codeql-rust-kernel.json` is one of
-the nineteen reports `reports/freeze.json` digest-binds for v0.3.0, so the Rust
-challenge expansion did not overwrite it: the expanded 54-assertion CodeQL
-evidence is pending the v0.4.0 freeze-prep re-run, on this repository's
-established re-run-at-freeze pattern, and the deferral is recorded in
-`docs/rust-kernel.md`. What follows is the valid classic 30-assertion snapshot,
-and it describes a different population from the expanded one.
+`reports/codeql-rust-kernel.json` was re-run whole over the expanded
+54-assertion population for the v0.4.0 freeze, on this repository's established
+re-run-at-freeze pattern.
 
-The checked-in `reports/codeql-rust-kernel.json` contains 32 results. Its 30
-core assertions are 17 `reached` and 13 `not-reached`, with zero `inconclusive`,
-`unsupported`, or `runner-error` outcomes; 28 of 30 match the expected polarity.
-All 15 positives are `reached`, so there are no false negatives; the two
-mismatches are the array-element and loop-carried negatives, which are false
+It contains **56 results**. Its 54
+core assertions are 21 `reached` and 33 `not-reached`, with zero `inconclusive`,
+`unsupported`, or `runner-error` outcomes; **44 of 54** match the expected
+polarity — 28/30 on the classic fifteen, identical case for case to the frozen
+v0.3.0 evidence, and 16/24 on Rust's twelve applicable challenge templates
+(A **2/4**, B **4/8**, C **4/6**, D **6/6**).
+All 15 classic positives are `reached`, so there is no classic false negative;
+the two classic mismatches are the array-element and loop-carried negatives,
+which are false
 positives here as they are for the Java, Kotlin, and C# kernels against this
 build. The alias-propagation and expression positives that are false negatives
 in every other CodeQL kernel are `reached` here.
+
+On the challenge tier the character inverts: all eight mismatches are **false
+negatives on positives** — `computed-property`, `dispatch-table`,
+`closure-capture`, `function-field`, `callback-registration`,
+`anonymous-implementation`, `map-iteration`, and `element-object` — with no
+false positive anywhere in the tier, and every stratum-D cell correct.
+`reflective-invocation` is inapplicable to a language with no run-time
+reflection and reduces only Rust's denominator.
 
 The two `language-extension` assertions are reported separately and never enter
 that denominator: both are `not-reached`, so
@@ -643,8 +671,8 @@ that denominator: both are `not-reached`, so
 pinned preview analyzer does not carry the value through the `Result` error
 variant and `?` across the call boundary — and the negative is correct.
 
-All 32 raw outputs are SARIF files under `reports/raw/codeql-rust-kernel/` with
-zero error files. Per-case wall clock ran 50.8 s to 98.4 s, about 40 minutes for
+All 56 raw outputs are SARIF files under `reports/raw/codeql-rust-kernel/` with
+zero error files. Per-case wall clock ran 40.9 s to 43.2 s, about 39 minutes for
 the population, because every case re-extracts the Cargo workspace's library
 sources. Its configuration hash is
 `cc2c728b66e0c273545e3531a672c0987473f3830f5df80b0839f5d04c33600b`.
@@ -693,15 +721,15 @@ prefix is not a call of the free sink method the anchor declares.
 
 The checked-in `reports/codeql-ruby-kernel.json` contains 58 results: 22
 `reached` and 36 `not-reached`, with zero `inconclusive`, `unsupported`, or
-`runner-error` outcomes, over 468 s wall clock and 5.7 s to 14.5 s per case.
+`runner-error` outcomes, over 243 s wall clock and 4.1 s to 4.4 s per case.
 **49 of 58** match the expected polarity — 29/32 on the classic sixteen
 templates and 20/26 on the challenge thirteen.
 
-Ruby is the one CodeQL kernel whose report is **not** freeze-bound: the Ruby
-kernel landed after v0.3.0, so `reports/freeze.json` binds the other ten CodeQL
-kernel reports and not this one. It could therefore be re-run whole over the
-expanded population in the Ruby challenge wave, where the other ten languages'
-expanded CodeQL evidence is deferred to the v0.4.0 freeze-prep re-run.
+Ruby was the one CodeQL kernel the v0.3.0 freeze did not bind: the Ruby kernel
+landed after it, so it could be re-run whole over the expanded population in
+the Ruby challenge wave while the other ten languages waited. The v0.4.0 freeze
+binds all eleven CodeQL kernel reports, every one of them re-run over its
+expanded population at one fixture revision, so Ruby is no longer an exception.
 
 The classic mismatch set is unchanged case for case: the false negatives are the
 alias-propagation and exception-catch positives and the false positive is the
@@ -720,34 +748,53 @@ neither the query nor the pack moved, only the population.
 
 ## Retained v2.26.3 snapshot
 
-The checked-in report uses CodeQL CLI v2.26.3 build
-`7d097a43199effe04ecd9c6bd3ad9bb02a45b3d7` with
-`codeql/java-all@9.2.3`. Of 32 assertions, 15 are `reached` and 17 are
-`not-reached`; 27 match their expected polarity. The expression, alias, and
+Every CodeQL report on this tree uses CodeQL CLI v2.26.3 build
+`7d097a43199effe04ecd9c6bd3ad9bb02a45b3d7`, at the one fixture revision
+`sha256:13a11ff48f26dba889f76aeb9ef60213a129abe5ebcfcb966da3a2418c12807e` the
+v0.4.0 freeze binds, and every kernel was re-run whole over its expanded
+population.
+
+The Java kernel uses `codeql/java-all@9.2.3`. Of its **58** assertions, 29 are
+`reached` and 29 are `not-reached`, with **48/58** matching their expected
+polarity: 27/32 on the classic sixteen and 21/26 on the challenge thirteen
+(A **3/6**, B **7/8**, C **5/6**, D **6/6**). On the classic stratum the
+expression, alias, and
 exception positives are false negatives, while the array-element and loop-kill
-negatives are false positives. Each case uses an isolated cold database; no
+negatives are false positives; on the challenge stratum the
+`reflective-invocation` and `computed-property` positives are false negatives
+and the `dispatch-table`, `function-field` and `element-object` negatives are
+false positives. Its configuration hash is
+`eedf28b140e6aaf2c27cac6369ee552803cbc7b7674abd70583e3e962e1ef8b6`. Each case
+uses an isolated cold database; no
 database or compiled fixture is reused across the pair. The adapter removes
 temporary databases and workspaces after retaining SARIF.
 
-The retained Kotlin snapshot uses the same CodeQL CLI v2.26.3 build
-`7d097a43199effe04ecd9c6bd3ad9bb02a45b3d7` with `codeql/java-all@9.2.3`, and
-traced Kotlin extraction through kotlinc-jvm 2.4.10. All 32 Kotlin assertions
-executed with ordinary reached/not-reached outcomes: 15 are `reached` and 17
-are `not-reached`, with 27/32 matching the expected polarity and zero special
-or error outcomes. The false negatives are the expression, alias-propagation,
+The Kotlin snapshot uses the same build with `codeql/java-all@9.2.3`, and
+traced Kotlin extraction through kotlinc-jvm 2.4.10. All **58** Kotlin
+assertions
+executed with ordinary reached/not-reached outcomes: 25 are `reached` and 33
+are `not-reached`, with **46/58** matching the expected polarity and zero
+special
+or error outcomes — 27/32 on the classic sixteen, identical case for case to
+the frozen v0.3.0 evidence, and 19/26 on the challenge thirteen (A **3/6**,
+B **5/8**, C **5/6**, D **6/6**). The classic false negatives are the
+expression, alias-propagation,
 and exception-catch positives; the array-element and loop-carried negatives are
 false positives — the same five mismatches the Java snapshot shows against this
-build. Its configuration hash is
-`25b92ad6190d65fd76c67da51c3ec0d638cea7699e976941c027a48700b9096e`. It covers
-Kotlin's classic 32-assertion population only; the 26 challenge assertions
-added since are not in it, and their CodeQL evidence is deferred to the v0.4.0
-re-run.
+build. The challenge mismatches are false negatives on the
+`reflective-invocation`, `computed-property`, `dispatch-table`,
+`callback-registration` and `anonymous-implementation` positives and false
+positives on the `function-field` and `element-object` negatives. Its
+configuration hash is
+`25b92ad6190d65fd76c67da51c3ec0d638cea7699e976941c027a48700b9096e`.
 
-The retained Python snapshot uses the same CodeQL CLI v2.26.3 build
-`7d097a43199effe04ecd9c6bd3ad9bb02a45b3d7` with `codeql/python-all@7.2.3`.
-All 32 Python assertions executed with ordinary reached/not-reached outcomes:
-14 are `reached` and 18 are `not-reached`, with 28/32 matching the expected
-polarity. The false negatives are the alias-propagation positive,
+The Python snapshot uses the same build with `codeql/python-all@7.2.3`.
+All **58** Python assertions executed with ordinary reached/not-reached
+outcomes:
+23 are `reached` and 35 are `not-reached`, with **48/58** matching the expected
+polarity — 28/32 classic and 20/26 challenge, detailed under [the Python
+kernel](#python-kernel) above. The classic false negatives are the
+alias-propagation positive,
 array-element positive, and exception-catch positive; the loop-carried negative
 is a false positive. No special or error outcomes occurred. Every Python case
 uses an isolated cold database, with no database or compiled fixture reused

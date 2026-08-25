@@ -2,13 +2,13 @@
   "adapter_version": "0.1.0",
   "cold_or_warm": "cold",
   "configuration_hash": "56f44b3d983f7ea1dc2fa77a796ac547b01d12535a124f0c9975d3d0b7989161",
-  "ended_at_unix_seconds": 1787577703,
-  "fixture_revision": "sha256:1b1b8d5cd90dc4bbdb0675a5a6b6b58315d2328b157e9074f8db13e17736b816",
+  "ended_at_unix_seconds": 1787693825,
+  "fixture_revision": "sha256:13a11ff48f26dba889f76aeb9ef60213a129abe5ebcfcb966da3a2418c12807e",
   "results": [
     {
       "case_id": "dfb-taint-go-alias-propagation-negative",
       "diagnostics": [],
-      "duration_ms": 8842,
+      "duration_ms": 6142,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/codeql-go-kernel/dfb-taint-go-alias-propagation-negative.sarif.json",
@@ -23,7 +23,7 @@
     {
       "case_id": "dfb-taint-go-alias-propagation-positive",
       "diagnostics": [],
-      "duration_ms": 7848,
+      "duration_ms": 6058,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/codeql-go-kernel/dfb-taint-go-alias-propagation-positive.sarif.json",
@@ -36,9 +36,39 @@
       "witness_checkpoints": []
     },
     {
+      "case_id": "dfb-taint-go-anonymous-implementation-negative",
+      "diagnostics": [],
+      "duration_ms": 5980,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/codeql-go-kernel/dfb-taint-go-anonymous-implementation-negative.sarif.json",
+      "sink_anchors": [
+        "DFB-SINK: anonymous-implementation-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: anonymous-implementation-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-go-anonymous-implementation-positive",
+      "diagnostics": [],
+      "duration_ms": 6034,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/codeql-go-kernel/dfb-taint-go-anonymous-implementation-positive.sarif.json",
+      "sink_anchors": [
+        "DFB-SINK: anonymous-implementation-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: anonymous-implementation-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
       "case_id": "dfb-taint-go-argument-position-negative",
       "diagnostics": [],
-      "duration_ms": 7840,
+      "duration_ms": 6107,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/codeql-go-kernel/dfb-taint-go-argument-position-negative.sarif.json",
@@ -55,7 +85,7 @@
       "diagnostics": [
         "Controlled input reaches the benchmark sink."
       ],
-      "duration_ms": 7972,
+      "duration_ms": 6090,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/codeql-go-kernel/dfb-taint-go-argument-position-positive.sarif.json",
@@ -72,7 +102,7 @@
       "diagnostics": [
         "Controlled input reaches the benchmark sink."
       ],
-      "duration_ms": 10085,
+      "duration_ms": 6070,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/codeql-go-kernel/dfb-taint-go-array-element-negative.sarif.json",
@@ -89,7 +119,7 @@
       "diagnostics": [
         "Controlled input reaches the benchmark sink."
       ],
-      "duration_ms": 11131,
+      "duration_ms": 6099,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/codeql-go-kernel/dfb-taint-go-array-element-positive.sarif.json",
@@ -104,7 +134,7 @@
     {
       "case_id": "dfb-taint-go-branch-join-negative",
       "diagnostics": [],
-      "duration_ms": 11575,
+      "duration_ms": 6136,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/codeql-go-kernel/dfb-taint-go-branch-join-negative.sarif.json",
@@ -121,7 +151,7 @@
       "diagnostics": [
         "Controlled input reaches the benchmark sink."
       ],
-      "duration_ms": 12136,
+      "duration_ms": 6096,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/codeql-go-kernel/dfb-taint-go-branch-join-positive.sarif.json",
@@ -136,7 +166,7 @@
     {
       "case_id": "dfb-taint-go-call-context-negative",
       "diagnostics": [],
-      "duration_ms": 11400,
+      "duration_ms": 5915,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/codeql-go-kernel/dfb-taint-go-call-context-negative.sarif.json",
@@ -153,7 +183,7 @@
       "diagnostics": [
         "Controlled input reaches the benchmark sink."
       ],
-      "duration_ms": 11024,
+      "duration_ms": 6056,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/codeql-go-kernel/dfb-taint-go-call-context-positive.sarif.json",
@@ -166,9 +196,165 @@
       "witness_checkpoints": []
     },
     {
+      "case_id": "dfb-taint-go-callback-registration-negative",
+      "diagnostics": [],
+      "duration_ms": 6127,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/codeql-go-kernel/dfb-taint-go-callback-registration-negative.sarif.json",
+      "sink_anchors": [
+        "DFB-SINK: callback-registration-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: callback-registration-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-go-callback-registration-positive",
+      "diagnostics": [],
+      "duration_ms": 5947,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/codeql-go-kernel/dfb-taint-go-callback-registration-positive.sarif.json",
+      "sink_anchors": [
+        "DFB-SINK: callback-registration-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: callback-registration-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-go-closure-capture-negative",
+      "diagnostics": [],
+      "duration_ms": 5951,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/codeql-go-kernel/dfb-taint-go-closure-capture-negative.sarif.json",
+      "sink_anchors": [
+        "DFB-SINK: closure-capture-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: closure-capture-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-go-closure-capture-positive",
+      "diagnostics": [
+        "Controlled input reaches the benchmark sink."
+      ],
+      "duration_ms": 6221,
+      "outcome": "reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/codeql-go-kernel/dfb-taint-go-closure-capture-positive.sarif.json",
+      "sink_anchors": [
+        "DFB-SINK: closure-capture-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: closure-capture-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-go-computed-property-negative",
+      "diagnostics": [],
+      "duration_ms": 7596,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/codeql-go-kernel/dfb-taint-go-computed-property-negative.sarif.json",
+      "sink_anchors": [
+        "DFB-SINK: computed-property-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: computed-property-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-go-computed-property-positive",
+      "diagnostics": [],
+      "duration_ms": 7311,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/codeql-go-kernel/dfb-taint-go-computed-property-positive.sarif.json",
+      "sink_anchors": [
+        "DFB-SINK: computed-property-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: computed-property-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-go-context-pair-depth2-negative",
+      "diagnostics": [],
+      "duration_ms": 6008,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/codeql-go-kernel/dfb-taint-go-context-pair-depth2-negative.sarif.json",
+      "sink_anchors": [
+        "DFB-SINK: context-pair-depth2-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: context-pair-depth2-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-go-context-pair-depth2-positive",
+      "diagnostics": [
+        "Controlled input reaches the benchmark sink."
+      ],
+      "duration_ms": 6220,
+      "outcome": "reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/codeql-go-kernel/dfb-taint-go-context-pair-depth2-positive.sarif.json",
+      "sink_anchors": [
+        "DFB-SINK: context-pair-depth2-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: context-pair-depth2-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-go-deep-relay-chain-negative",
+      "diagnostics": [],
+      "duration_ms": 6137,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/codeql-go-kernel/dfb-taint-go-deep-relay-chain-negative.sarif.json",
+      "sink_anchors": [
+        "DFB-SINK: deep-relay-chain-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: deep-relay-chain-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-go-deep-relay-chain-positive",
+      "diagnostics": [
+        "Controlled input reaches the benchmark sink."
+      ],
+      "duration_ms": 6203,
+      "outcome": "reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/codeql-go-kernel/dfb-taint-go-deep-relay-chain-positive.sarif.json",
+      "sink_anchors": [
+        "DFB-SINK: deep-relay-chain-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: deep-relay-chain-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
       "case_id": "dfb-taint-go-direct-negative",
       "diagnostics": [],
-      "duration_ms": 10465,
+      "duration_ms": 6238,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/codeql-go-kernel/dfb-taint-go-direct-negative.sarif.json",
@@ -185,7 +371,7 @@
       "diagnostics": [
         "Controlled input reaches the benchmark sink."
       ],
-      "duration_ms": 10567,
+      "duration_ms": 5953,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/codeql-go-kernel/dfb-taint-go-direct-positive.sarif.json",
@@ -198,9 +384,73 @@
       "witness_checkpoints": []
     },
     {
+      "case_id": "dfb-taint-go-dispatch-table-negative",
+      "diagnostics": [],
+      "duration_ms": 6104,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/codeql-go-kernel/dfb-taint-go-dispatch-table-negative.sarif.json",
+      "sink_anchors": [
+        "DFB-SINK: dispatch-table-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: dispatch-table-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-go-dispatch-table-positive",
+      "diagnostics": [],
+      "duration_ms": 5972,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/codeql-go-kernel/dfb-taint-go-dispatch-table-positive.sarif.json",
+      "sink_anchors": [
+        "DFB-SINK: dispatch-table-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: dispatch-table-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-go-element-object-negative",
+      "diagnostics": [
+        "Controlled input reaches the benchmark sink."
+      ],
+      "duration_ms": 6216,
+      "outcome": "reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/codeql-go-kernel/dfb-taint-go-element-object-negative.sarif.json",
+      "sink_anchors": [
+        "DFB-SINK: element-object-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: element-object-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-go-element-object-positive",
+      "diagnostics": [
+        "Controlled input reaches the benchmark sink."
+      ],
+      "duration_ms": 6156,
+      "outcome": "reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/codeql-go-kernel/dfb-taint-go-element-object-positive.sarif.json",
+      "sink_anchors": [
+        "DFB-SINK: element-object-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: element-object-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
       "case_id": "dfb-taint-go-exception-catch-negative",
       "diagnostics": [],
-      "duration_ms": 10633,
+      "duration_ms": 5978,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/codeql-go-kernel/dfb-taint-go-exception-catch-negative.sarif.json",
@@ -215,7 +465,7 @@
     {
       "case_id": "dfb-taint-go-exception-catch-positive",
       "diagnostics": [],
-      "duration_ms": 11269,
+      "duration_ms": 6006,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/codeql-go-kernel/dfb-taint-go-exception-catch-positive.sarif.json",
@@ -230,7 +480,7 @@
     {
       "case_id": "dfb-taint-go-expression-negative",
       "diagnostics": [],
-      "duration_ms": 11399,
+      "duration_ms": 6035,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/codeql-go-kernel/dfb-taint-go-expression-negative.sarif.json",
@@ -245,7 +495,7 @@
     {
       "case_id": "dfb-taint-go-expression-positive",
       "diagnostics": [],
-      "duration_ms": 10970,
+      "duration_ms": 6131,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/codeql-go-kernel/dfb-taint-go-expression-positive.sarif.json",
@@ -258,11 +508,41 @@
       "witness_checkpoints": []
     },
     {
+      "case_id": "dfb-taint-go-function-field-negative",
+      "diagnostics": [],
+      "duration_ms": 6164,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/codeql-go-kernel/dfb-taint-go-function-field-negative.sarif.json",
+      "sink_anchors": [
+        "DFB-SINK: function-field-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: function-field-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-go-function-field-positive",
+      "diagnostics": [],
+      "duration_ms": 6007,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/codeql-go-kernel/dfb-taint-go-function-field-positive.sarif.json",
+      "sink_anchors": [
+        "DFB-SINK: function-field-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: function-field-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
       "case_id": "dfb-taint-go-infeasible-branch-negative",
       "diagnostics": [
         "Controlled input reaches the benchmark sink."
       ],
-      "duration_ms": 11547,
+      "duration_ms": 6034,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/codeql-go-kernel/dfb-taint-go-infeasible-branch-negative.sarif.json",
@@ -279,7 +559,7 @@
       "diagnostics": [
         "Controlled input reaches the benchmark sink."
       ],
-      "duration_ms": 11433,
+      "duration_ms": 6040,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/codeql-go-kernel/dfb-taint-go-infeasible-branch-positive.sarif.json",
@@ -294,7 +574,7 @@
     {
       "case_id": "dfb-taint-go-local-chain-negative",
       "diagnostics": [],
-      "duration_ms": 11979,
+      "duration_ms": 6158,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/codeql-go-kernel/dfb-taint-go-local-chain-negative.sarif.json",
@@ -311,7 +591,7 @@
       "diagnostics": [
         "Controlled input reaches the benchmark sink."
       ],
-      "duration_ms": 11333,
+      "duration_ms": 5988,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/codeql-go-kernel/dfb-taint-go-local-chain-positive.sarif.json",
@@ -326,7 +606,7 @@
     {
       "case_id": "dfb-taint-go-local-overwrite-negative",
       "diagnostics": [],
-      "duration_ms": 11708,
+      "duration_ms": 6004,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/codeql-go-kernel/dfb-taint-go-local-overwrite-negative.sarif.json",
@@ -343,7 +623,7 @@
       "diagnostics": [
         "Controlled input reaches the benchmark sink."
       ],
-      "duration_ms": 7735,
+      "duration_ms": 5912,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/codeql-go-kernel/dfb-taint-go-local-overwrite-positive.sarif.json",
@@ -360,7 +640,7 @@
       "diagnostics": [
         "Controlled input reaches the benchmark sink."
       ],
-      "duration_ms": 8438,
+      "duration_ms": 6063,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/codeql-go-kernel/dfb-taint-go-loop-carried-negative.sarif.json",
@@ -377,7 +657,7 @@
       "diagnostics": [
         "Controlled input reaches the benchmark sink."
       ],
-      "duration_ms": 8667,
+      "duration_ms": 6010,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/codeql-go-kernel/dfb-taint-go-loop-carried-positive.sarif.json",
@@ -390,9 +670,73 @@
       "witness_checkpoints": []
     },
     {
+      "case_id": "dfb-taint-go-map-iteration-negative",
+      "diagnostics": [],
+      "duration_ms": 6047,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/codeql-go-kernel/dfb-taint-go-map-iteration-negative.sarif.json",
+      "sink_anchors": [
+        "DFB-SINK: map-iteration-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: map-iteration-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-go-map-iteration-positive",
+      "diagnostics": [
+        "Controlled input reaches the benchmark sink."
+      ],
+      "duration_ms": 6093,
+      "outcome": "reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/codeql-go-kernel/dfb-taint-go-map-iteration-positive.sarif.json",
+      "sink_anchors": [
+        "DFB-SINK: map-iteration-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: map-iteration-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-go-nested-access-path-negative",
+      "diagnostics": [],
+      "duration_ms": 6094,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/codeql-go-kernel/dfb-taint-go-nested-access-path-negative.sarif.json",
+      "sink_anchors": [
+        "DFB-SINK: nested-access-path-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: nested-access-path-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-go-nested-access-path-positive",
+      "diagnostics": [
+        "Controlled input reaches the benchmark sink."
+      ],
+      "duration_ms": 6181,
+      "outcome": "reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/codeql-go-kernel/dfb-taint-go-nested-access-path-positive.sarif.json",
+      "sink_anchors": [
+        "DFB-SINK: nested-access-path-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: nested-access-path-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
       "case_id": "dfb-taint-go-object-separation-negative",
       "diagnostics": [],
-      "duration_ms": 10008,
+      "duration_ms": 6037,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/codeql-go-kernel/dfb-taint-go-object-separation-negative.sarif.json",
@@ -409,7 +753,7 @@
       "diagnostics": [
         "Controlled input reaches the benchmark sink."
       ],
-      "duration_ms": 11445,
+      "duration_ms": 6483,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/codeql-go-kernel/dfb-taint-go-object-separation-positive.sarif.json",
@@ -422,9 +766,71 @@
       "witness_checkpoints": []
     },
     {
+      "case_id": "dfb-taint-go-recursive-carry-negative",
+      "diagnostics": [],
+      "duration_ms": 6096,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/codeql-go-kernel/dfb-taint-go-recursive-carry-negative.sarif.json",
+      "sink_anchors": [
+        "DFB-SINK: recursive-carry-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: recursive-carry-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-go-recursive-carry-positive",
+      "diagnostics": [
+        "Controlled input reaches the benchmark sink."
+      ],
+      "duration_ms": 6269,
+      "outcome": "reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/codeql-go-kernel/dfb-taint-go-recursive-carry-positive.sarif.json",
+      "sink_anchors": [
+        "DFB-SINK: recursive-carry-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: recursive-carry-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-go-reflective-invocation-negative",
+      "diagnostics": [],
+      "duration_ms": 8229,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/codeql-go-kernel/dfb-taint-go-reflective-invocation-negative.sarif.json",
+      "sink_anchors": [
+        "DFB-SINK: reflective-invocation-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: reflective-invocation-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-go-reflective-invocation-positive",
+      "diagnostics": [],
+      "duration_ms": 7878,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/codeql-go-kernel/dfb-taint-go-reflective-invocation-positive.sarif.json",
+      "sink_anchors": [
+        "DFB-SINK: reflective-invocation-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: reflective-invocation-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
       "case_id": "dfb-taint-go-return-relay-one-hop-negative",
       "diagnostics": [],
-      "duration_ms": 10545,
+      "duration_ms": 6229,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/codeql-go-kernel/dfb-taint-go-return-relay-one-hop-negative.sarif.json",
@@ -441,7 +847,7 @@
       "diagnostics": [
         "Controlled input reaches the benchmark sink."
       ],
-      "duration_ms": 12097,
+      "duration_ms": 5997,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/codeql-go-kernel/dfb-taint-go-return-relay-one-hop-positive.sarif.json",
@@ -456,7 +862,7 @@
     {
       "case_id": "dfb-taint-go-return-relay-two-hop-negative",
       "diagnostics": [],
-      "duration_ms": 12839,
+      "duration_ms": 5953,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/codeql-go-kernel/dfb-taint-go-return-relay-two-hop-negative.sarif.json",
@@ -473,7 +879,7 @@
       "diagnostics": [
         "Controlled input reaches the benchmark sink."
       ],
-      "duration_ms": 12235,
+      "duration_ms": 6250,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/codeql-go-kernel/dfb-taint-go-return-relay-two-hop-positive.sarif.json",
@@ -488,7 +894,7 @@
     {
       "case_id": "dfb-taint-go-same-object-field-negative",
       "diagnostics": [],
-      "duration_ms": 11452,
+      "duration_ms": 6091,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/codeql-go-kernel/dfb-taint-go-same-object-field-negative.sarif.json",
@@ -505,7 +911,7 @@
       "diagnostics": [
         "Controlled input reaches the benchmark sink."
       ],
-      "duration_ms": 11588,
+      "duration_ms": 6212,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/codeql-go-kernel/dfb-taint-go-same-object-field-positive.sarif.json",
@@ -519,7 +925,7 @@
     }
   ],
   "schema_version": 1,
-  "started_at_unix_seconds": 1787577362,
+  "started_at_unix_seconds": 1787693464,
   "tool": "codeql",
   "tool_build_identity": "codeql-cli:7d097a43199effe04ecd9c6bd3ad9bb02a45b3d7",
   "tool_version": "2.26.3"

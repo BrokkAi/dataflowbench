@@ -1,0 +1,15 @@
+---
+title: Semantic templates — v0.4.0
+description: Per-template positive/negative outcomes for every scorecard.
+---
+
+import TemplateMatrix from '../../../../components/TemplateMatrix.astro';
+import { snapshots } from '../../../../data/snapshots';
+
+export const snapshot = snapshots.find((s) => s.version === 'v0.4.0');
+
+Each scored core template is a balanced pair: one positive case (the flow
+exists) and one minimally different negative case (it does not). Reading a
+row: a sound-and-precise analyzer shows `reached` / `not-reached`.
+
+<TemplateMatrix snapshot={snapshot} />
