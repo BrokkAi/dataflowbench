@@ -668,6 +668,90 @@ row above records C as "Available, not yet in scope", but there is no
 (`docs/c-kernel.md`) did not create one, so C has no Joern evidence at any
 denominator either. Absence of a slice is not a Joern result about C.
 
+## Python modeling matrix
+
+`run-joern-modeling --language python` runs the twenty-four assertions of
+[the benchmark-controlled taint-modeling matrix](../../docs/modeling-matrix.md)
+for Python, writing `reports/joern-python-modeling.json` with raw evidence
+under `reports/raw/joern-python-modeling/`. It is a **modeling**-tier
+population with its own denominator and is never pooled with the Python
+kernel.
+
+**This is the one place the "Model assumptions" section below does not apply,
+and it applies nowhere else.** The kernels supply no semantics at all, which is
+exactly right for asking whether the engine can follow flow it can see. The
+modeling matrix asks the other question, so it does the one thing the kernel
+script must never do: it loads a benchmark-supplied flow-semantics file. The
+two live in separate scripts for that reason — `kernel.sc` is untouched by this
+adapter capability, and `modeling.sc` is the only script that reads semantics.
+
+Two committed files, both hash-bound into the report's `configuration_hash`:
+
+| File | Role |
+| --- | --- |
+| `adapters/joern/queries/modeling.sc` | shared across languages: loads the semantics, layers them on `DefaultSemantics()`, and runs `reachableByFlows` under the resulting `EngineContext` |
+| `adapters/joern/semantics/model-python.semantics` | Python's nine declarations, in the distribution's own `FullNameSemanticsParser` text format |
+
+```bash
+joern --script adapters/joern/queries/modeling.sc \
+  --param inputPath=<workspace> \
+  --param language=PYTHONSRC \
+  --param sourceName=<declared source function or handler method> \
+  --param sinkName=<declared sink function> \
+  --param sourceKind=<call-return|method-parameter> \
+  --param semanticsPath=adapters/joern/semantics/model-python.semantics \
+  --param outputPath=reports/raw/joern-python-modeling/<case id>.json
+```
+
+`sourceKind` is the one selector shape that differs by category, and it is
+decided from the **template identity** before the run, never from a fixture's
+tags and never from an observed result. Category E's handler is never called
+from the fixture, so there is no call site to select and the analysis root is
+`cpg.method.nameExact(...).parameter.index(1)`; every other category's source
+is a call whose returned value is tainted.
+
+### Two silent failure modes in the pinned semantics parser
+
+Both were found by probing 4.0.610 directly rather than assumed, and both
+produce a well-formed **empty** model instead of an error:
+
+- **A blank line anywhere in the semantics file drops every declaration.** The
+  same nine declarations parse as nine with no blank line and as zero with one.
+- **`#` opens a comment; `//` does not.** A `//`-commented file parses to zero.
+
+A model that parses to nothing is the preregistration's *missing model* arm — a
+benchmark defect, never an outcome — so `modeling.sc` raises on an empty parse
+and the failure is retained as a `runner-error`. A unit test additionally
+asserts the committed file has neither a blank line nor a `//` comment.
+
+### Results and the load-bearing finding
+
+The first run decides **19 of 24** assertions correctly — 10 `reached`
+positives and 9 `not-reached` negatives — with 2 false positives, 2 false
+negatives, and 1 `inconclusive`. Its configuration hash is
+`4216113cba41b0add7624eb21e001ae662169fee2428b1374c92b492f7b4c641`.
+
+**Load-bearing verification, on category Z:** removing `clean.scrub`'s
+`NilSemantics` entry from the semantics file turns
+`model-sanitizer-kill-negative` from 0 flows into 1. The declaration, not the
+body — which is the identity function — is what suppresses that flow.
+
+The probe on category P is a *finding* rather than a demonstration, and it is
+the most important thing this run produced for this adapter. The
+modeling-matrix mechanics in `docs/adapters.md` justify not gating Joern on the
+ground that *"a Joern method with no `FlowMapping` propagates nothing"*.
+Probed against the pinned build, that is false: with `opaque.carry` removed
+from the semantics file the propagator positive is still `reached`, because the
+engine's default already carries the argument through the reflective body's
+unmodeled `getattr` and unknown-callee calls. A `FlowSemantic` **with**
+mappings is additive over that default and does not restrict which arguments
+propagate — which is also why template 4's negative is a false positive — while
+`NilSemantics` does suppress. On 4.0.610 a Joern declaration is load-bearing in
+the suppressive direction only. Revising the preregistered partition on that
+basis would be a result being relabelled, so it is reported as a proposed
+amendment and the cells are published as scored. See [the Python
+taint-modeling matrix](../../docs/python-modeling.md).
+
 ## Model assumptions
 
 - The `benchmark-controlled` profile applies: the query is given the same
@@ -675,7 +759,10 @@ denominator either. Absence of a slice is not a Joern result about C.
   nothing from Joern's own default source/sink models is used.
 - Only the OSS data-flow engine's default semantics are used. No custom
   semantics, no additional propagation or sanitizer models, and no engine
-  configuration are supplied.
+  configuration are supplied. This applies to the kernels, which is every
+  population on this page except the modeling matrix above: that one supplies a
+  benchmark-controlled flow-semantics file by design, through a separate script,
+  and is scored on its own tier.
 - The source is the source call's return value; the sink is the sink call's
   positional arguments. Receiver arguments are excluded.
 - One CPG per case, always built cold from source; no CPG is reused between

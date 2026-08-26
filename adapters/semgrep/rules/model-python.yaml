@@ -1,0 +1,63 @@
+# Benchmark-controlled Semgrep CE taint rule: DataFlowBench Python modeling
+# matrix.
+#
+# Unlike the kernel rules, nothing here is templated. The kernel rule carries
+# `__DFB_SOURCE__` / `__DFB_SINK__` placeholders because the endpoint identities
+# are a property of each fixture; here the endpoint identities *are* the model,
+# and the model is the same twelve declarations for every case, so the rule
+# states them literally and no substitution happens.
+#
+# Semgrep CE's preregistered partition (docs/modeling-matrix.md) scores three of
+# the six categories — S (sources and sinks), Z (sanitizers), and E (framework
+# entry points). Categories P, O, and B are `unsupported` for CE and are decided
+# from the template identity before the binary is invoked, so this file declares
+# nothing for them: an artifact must not declare a category the partition marks
+# unsupported.
+#
+# `options: taint_assume_safe_functions: true` is the load-bearing-model
+# requirement. Verified against the pinned CE 1.174.0: without it the engine
+# carries taint from any tainted argument to a call's result, and the sanitizer
+# cells of category Z would be decided by that default rather than by the
+# declaration.
+rules:
+  - id: dfb-taint-python-modeling
+    languages: [python]
+    severity: WARNING
+    message: a benchmark-declared source reaches a benchmark-declared sink
+    mode: taint
+    options:
+      taint_assume_safe_functions: true
+    pattern-sources:
+      # The benchmark's own controlled input.
+      - pattern: dfb_source(...)
+      # Template 1 — `source`, `out: return`, module `config` member
+      # `fetch_remote`. The undeclared sibling `fetch_local` is absent.
+      - pattern: fetch_remote(...)
+      # Templates 9 and 10 — `entry-point`, `in: 0` tainted on entry, module
+      # `handler` members `on_request` and `on_declared`. The parameter itself
+      # is the source, so the declared handler's body is analyzed with a root
+      # the call graph never supplies. The undeclared siblings `on_ignored` and
+      # `on_undeclared` are absent, which is what template 10 measures.
+      - patterns:
+          - pattern: |
+              def on_request($PAYLOAD):
+                  ...
+          - focus-metavariable: $PAYLOAD
+      - patterns:
+          - pattern: |
+              def on_declared($PAYLOAD):
+                  ...
+          - focus-metavariable: $PAYLOAD
+    pattern-sinks:
+      # The benchmark's own sink.
+      - pattern: dfb_sink(...)
+      # Template 2 — `sink`, `in: 0`, module `audit` member `record`. The
+      # undeclared sibling `discard` is absent.
+      - pattern: record(...)
+    pattern-sanitizers:
+      # Templates 5 and 6 — `sanitizer`, `in: 0`, module `clean` member
+      # `scrub`. `scrub`'s body is the identity function, so the declaration,
+      # not the body, is what suppresses the flow. The sanitizer-shaped sibling
+      # `sanitize` is deliberately absent: template 6's positive must still be
+      # reported.
+      - pattern: scrub(...)
