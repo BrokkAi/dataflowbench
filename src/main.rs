@@ -2206,7 +2206,17 @@ const RESULT_OUTCOME_ORDER: [&str; 5] = [
     "unsupported",
     "runner-error",
 ];
-const SCORE_TIER_ORDER: [&str; 4] = ["calibration", "core", "language-extension", "real-project"];
+/// Result-page tier ordering. A tier absent from this list would be silently
+/// dropped from every generated scorecard, so `modeling` is registered here
+/// with the schema enums, ahead of the first modeling case, rather than left
+/// to be discovered by an empty section later.
+const SCORE_TIER_ORDER: [&str; 5] = [
+    "calibration",
+    "core",
+    "language-extension",
+    "modeling",
+    "real-project",
+];
 
 /// Case metadata a result view needs beyond what the freeze manifest binds.
 /// Language and semantic dimensions live in the case file, whose bytes the
