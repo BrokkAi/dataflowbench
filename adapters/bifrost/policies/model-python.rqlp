@@ -1,0 +1,14 @@
+(policy
+  :schema-version 1
+  :id "dataflowbench.taint.model-python"
+  :name "DataFlowBench Python taint-modeling matrix"
+  :message "A benchmark-declared source reaches a benchmark-declared sink"
+  :severity warning
+  :analysis (analysis :type taint :mode may
+    :call-modeling (call-modeling :unmodeled require-model)
+    :sources (endpoint-set :entries [
+      (source :id benchmark-input :display-name "benchmark input" :categories [input.user-controlled] :selector (rql :schema-version 1 (language python (call :callee (name "dfb_source")))) :bind return-value :labels [attacker-controlled])
+      (source :id declared-source :display-name "declared source Config.fetchRemote" :categories [input.user-controlled] :selector (rql :schema-version 1 (language python (call :callee (name "fetch_remote")))) :bind return-value :labels [attacker-controlled])])
+    :sinks (endpoint-set :entries [
+      (sink :id benchmark-sink :display-name "benchmark sink" :categories [data.sensitive] :selector (rql :schema-version 1 (language python (call :callee (name "dfb_sink")))) :dangerous-operand (argument :index 0) :accepts [attacker-controlled])
+      (sink :id declared-sink :display-name "declared sink Audit.record" :categories [data.sensitive] :selector (rql :schema-version 1 (language python (call :callee (name "record")))) :dangerous-operand (argument :index 0) :accepts [attacker-controlled])])) )

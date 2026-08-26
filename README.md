@@ -347,6 +347,15 @@ contract](docs/go-kernel.md), the [C](docs/c-kernel.md) and
 contract](docs/rust-kernel.md) do the same for C#, Go, C, C++, and Rust; all
 of that evidence is frozen in the published v0.3.0 release.
 
+The [taint-modeling matrix](docs/modeling-matrix.md) is a separate tier that
+asks a separate question: not whether an engine can follow flow it can see, but
+whether it can be **told** things. Its Python row —
+twenty-four benchmark-controlled modeling assertions, four per-adapter model
+encodings, and the first runs of all four adapters against them — is
+[the Python taint-modeling matrix](docs/python-modeling.md). Modeling cases are
+`score_tier: "modeling"`, are never in a core denominator, and are never
+averaged with a kernel score.
+
 The [Java kernel contract](docs/java-kernel.md) records the origin population
 and the first landed wave of the [challenge-tier
 expansion](docs/challenge-tier.md), which grows the Java core to 29 templates
