@@ -381,7 +381,12 @@ const caseCount = snapshot.results.scorecards
     Each kernel poses one positive and one negative assertion per semantic
     template, and each language's kernel is its own population — cores of
     {templateSizes} templates, never pooled or ranked against each other, and
-    never compared with the smaller cores of an earlier snapshot. A blank
+    never compared with the smaller cores of an earlier snapshot. Because every
+    pair is balanced, an analyzer that always answers the same way — or answers
+    blindly where it cannot see a construct — scores exactly half on the
+    affected pairs: read correctness against that 50% blind baseline, and read
+    approximation character from each vendor's TPR/FPR split in the details
+    dialog. A blank
     analyzer on a kernel means no report in this freeze: no extractor, no
     frontend, or no adapter, which is coverage rather than a score.
   </p>
