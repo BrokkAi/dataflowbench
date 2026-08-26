@@ -31,6 +31,31 @@ Raw assertion counts may be shown for auditability but are not micro-averaged
 into a headline score. Taint, value-flow, typestate, witness quality, and
 performance remain separate score dimensions and scorecards.
 
+## Balanced pairs and the blind baseline
+
+Every scored core template contributes exactly one positive and one minimally
+different negative assertion, and validation rejects an unbalanced pair. The
+population is therefore TP/TN-balanced by construction, which fixes a floor
+worth stating plainly: an analyzer that always answers the same way — or that
+cannot see a construct at all but still emits an answer — scores exactly half
+on the affected pairs. Answering "no flow" on a pair whose callee the engine
+never resolves banks a true negative and a false negative together; the true
+negative is right for the wrong reason. The 0.4.0 evidence shows the pattern
+concretely: on the dynamic-dispatch strata, an engine that declines to follow
+the selected callee converts every pair into one free true negative plus one
+false negative, while an engine that reports incomplete analysis instead takes
+no credit at all.
+
+Published correctness must therefore be read against the 50% blind baseline,
+not against zero, and the per-stratum true-positive/false-positive rates —
+not the raw correct count — carry an engine's approximation character: an
+over-approximator spends its errors as false positives on negatives, an
+under-approximator as false negatives on positives, and an engine that
+declines honestly appears in the coverage columns rather than either error
+column. This is also why `inconclusive`, `unsupported`, and `runner-error`
+are never converted into negatives: doing so would hand the blind baseline
+to any engine that fails loudly.
+
 ## Separate result populations
 
 The direct-flow breadth baseline, the 16-template Java kernel, the
