@@ -1,0 +1,13 @@
+{
+  "adapter": "semgrep",
+  "case_id": "dfb-taint-java-model-sanitizer-selectivity-positive",
+  "evidence_kind": "retained-capability-decision",
+  "modeling_category": "Z",
+  "modeling_category_label": "declared sanitizers",
+  "partition_source": "docs/modeling-matrix.md#per-tool-capability-partition",
+  "pinned_tool_identity": "Semgrep CE 1.174.0",
+  "reason": "category Z — declared sanitizers — is unsupported for Semgrep CE 1.174.0 by the preregistered modeling partition (docs/modeling-matrix.md#per-tool-capability-partition): Semgrep CE cannot express sanitizer selectivity and the safe-function assumption in one invocation: taint_assume_safe_functions suppresses flow through the undeclared sanitizer-lookalike, so the positive is undecidable by construction (Amendment A3)",
+  "stage": "preregistered-modeling-partition",
+  "state": "unsupported",
+  "template_id": "dfb-template-model-sanitizer-selectivity"
+}

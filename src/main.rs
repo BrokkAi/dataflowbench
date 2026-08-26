@@ -838,8 +838,8 @@ fn modeling_unsupported_reason(tool: ModelingTool, template: &str) -> Result<Opt
 }
 
 /// The templates a tool is entitled to score, in preregistered order. The
-/// counts are the document's partition summary: Bifrost 2, Semgrep 6, CodeQL
-/// 12, Joern 12.
+/// counts are the document's partition summary **as amended**: Bifrost 2,
+/// Semgrep 5 (Amendment A3), CodeQL 12, Joern 8 (Amendment A2).
 fn modeling_supported_templates(tool: ModelingTool) -> Vec<&'static str> {
     MODELING_TEMPLATE_IDS
         .into_iter()
@@ -892,6 +892,14 @@ impl ModelingLanguage {
     /// language's existing `qlpack`, because a query outside a pack cannot
     /// resolve its `codeql/<lang>-all` dependency. That is a location, not a
     /// declaration surface: the document's `ConfigSig` encoding is unchanged.
+    ///
+    /// Java is the one language for which "that language's existing qlpack" is
+    /// the adapter *root*: `adapters/codeql/qlpack.yml` declares
+    /// `dataflowbench/codeql-java` with the `codeql/java-all` dependency, and
+    /// `adapters/codeql/queries/JavaKernel.ql` already sits beside it. No
+    /// `adapters/codeql/java/` pack exists to descend into, so a query placed
+    /// under one would resolve no dependency at all. Java therefore lands on
+    /// the schematic path, by the same rule that moved the other two off it.
     fn artifact(self, tool: ModelingTool) -> &'static str {
         match (tool, self) {
             (ModelingTool::Bifrost, Self::Java) => "adapters/bifrost/policies/model-java.rqlp",
@@ -899,7 +907,7 @@ impl ModelingLanguage {
                 "adapters/bifrost/policies/model-javascript.rqlp"
             }
             (ModelingTool::Bifrost, Self::Python) => "adapters/bifrost/policies/model-python.rqlp",
-            (ModelingTool::Codeql, Self::Java) => "adapters/codeql/java/queries/JavaModeling.ql",
+            (ModelingTool::Codeql, Self::Java) => "adapters/codeql/queries/JavaModeling.ql",
             (ModelingTool::Codeql, Self::Javascript) => {
                 "adapters/codeql/javascript/queries/JavaScriptModeling.ql"
             }
@@ -5661,6 +5669,22 @@ enum AnchorDialect {
     Cpp,
     Rust,
     Java,
+    /// Java as the **modeling matrix** spells it, and the exact counterpart of
+    /// `EcmaMember`: identical to `Java` except that a member-qualified call —
+    /// `Audit.record(v)`, `Config.fetchRemote()`, `alpha.get("k")` — counts as
+    /// a callsite of the named member.
+    ///
+    /// Java needs this more sharply than JavaScript does, because Java has no
+    /// free functions at all: *every* declared modeling entity is a member of
+    /// some type, and every callsite of one in a fixture that does not declare
+    /// it is therefore written through its receiver. `Java` refuses a
+    /// `.`-prefixed match, which is right for the kernels — their `dfb_sink` is
+    /// a static method called bare from the same class, and `other.dfb_sink(v)`
+    /// really is a different method — and wrong for a modeling declaration,
+    /// which binds a type and a member as one identity. Like `EcmaMember`, this
+    /// variant is used by the modeling runners and by nothing else, so no
+    /// kernel reconciliation changes.
+    JavaMember,
     Python,
     Ruby,
     Php,
@@ -5678,6 +5702,7 @@ impl AnchorDialect {
             | Self::Cpp
             | Self::Rust
             | Self::Java
+            | Self::JavaMember
             | Self::Python
             | Self::Php => parameter_list_function_name(declaration, marker),
             Self::Ruby => ruby_declared_function_name(declaration, marker),
@@ -5691,6 +5716,7 @@ impl AnchorDialect {
             Self::CSharp | Self::Go | Self::Java => {
                 parameter_list_function_call(line, function_name)
             }
+            Self::JavaMember => java_member_function_call(line, function_name),
             Self::Cpp => cpp_function_call(line, function_name),
             Self::Rust => rust_function_call(line, function_name),
             Self::Python => python_function_call(line, function_name),
@@ -5946,6 +5972,16 @@ fn ascii_identifier_char(character: char) -> bool {
 /// reference, never a call, so it never has to be excluded here.
 fn parameter_list_function_call(line: &str, function_name: &str) -> bool {
     member_prefixed_function_call(line, function_name, &['.'])
+}
+
+/// The modeling tier's Java rule: `parameter_list_function_call` with the `.`
+/// exclusion lifted, so `Audit.record(v)` counts as a callsite of `record`
+/// while `myRecord(v)` — an identifier that merely ends in the member's name —
+/// still does not. The identifier boundary before the name and the `(` after it
+/// are unchanged, which is what keeps a field access or a method reference from
+/// matching.
+fn java_member_function_call(line: &str, function_name: &str) -> bool {
+    member_prefixed_function_call(line, function_name, &[])
 }
 
 /// Python reaches a member through `.` only, and opens a comment with `#`.
@@ -8681,12 +8717,9 @@ fn modeling_codeql_language(language: ModelingLanguage) -> Result<CodeqlLanguage
     match language {
         ModelingLanguage::Python => Ok(CodeqlLanguage::Python),
         ModelingLanguage::Javascript => Ok(CodeqlLanguage::Javascript),
-        // Java wires its own execution arm with its own pull request, exactly
-        // as these two wire Python's and JavaScript's.
-        other => bail!(
-            "the CodeQL modeling execution arm for {} is not wired yet; it lands with that language's pull request (docs/modeling-matrix.md#rollout-plan)",
-            other.display_name()
-        ),
+        // Java runs under the same extractor its kernel does, which is what
+        // supplies the `--build-mode=none` handling a compiled language needs.
+        ModelingLanguage::Java => Ok(CodeqlLanguage::Java),
     }
 }
 
@@ -8694,10 +8727,7 @@ fn modeling_joern_frontend(language: ModelingLanguage) -> Result<&'static str> {
     match language {
         ModelingLanguage::Python => Ok("PYTHONSRC"),
         ModelingLanguage::Javascript => Ok("JSSRC"),
-        other => bail!(
-            "the Joern modeling execution arm for {} is not wired yet; it lands with that language's pull request (docs/modeling-matrix.md#rollout-plan)",
-            other.display_name()
-        ),
+        ModelingLanguage::Java => Ok("JAVASRC"),
     }
 }
 
@@ -8709,10 +8739,10 @@ fn modeling_anchor_dialect(language: ModelingLanguage) -> Result<AnchorDialect> 
         // reached through its receiver (`Audit.record(v)`), which the kernel
         // dialect deliberately does not count as a callsite of `record`.
         ModelingLanguage::Javascript => Ok(AnchorDialect::EcmaMember),
-        other => bail!(
-            "no modeling anchor dialect is wired for {} yet; it lands with that language's pull request (docs/modeling-matrix.md#rollout-plan)",
-            other.display_name()
-        ),
+        // Java for the same reason, and with no exception: the language has no
+        // free functions, so every declared modeling entity is reached through
+        // its declaring type.
+        ModelingLanguage::Java => Ok(AnchorDialect::JavaMember),
     }
 }
 
@@ -13675,16 +13705,17 @@ mod tests {
         assert!(SCORE_TIER_ORDER.contains(&"modeling"));
     }
 
-    /// Wave M1's rows: Python and JavaScript each carry a balanced
-    /// twenty-four over exactly the preregistered twelve. Java lands with its
-    /// own pull request and has no modeling denominator until it does, which is
-    /// different from having a zero — its runs still fail fast rather than
-    /// writing an empty report.
+    /// Wave M1's rows: Python, JavaScript, and Java each carry a balanced
+    /// twenty-four over exactly the preregistered twelve. With Java's landing
+    /// the wave is complete, so every `ModelingLanguage` now has a denominator
+    /// — and a language with none would still be a fail-fast rather than a
+    /// zero.
     #[test]
     fn the_modeling_populations_are_the_balanced_twenty_four() {
         for (language, revision) in [
             (ModelingLanguage::Python, "m3-modeling-python"),
             (ModelingLanguage::Javascript, "m3-modeling-javascript"),
+            (ModelingLanguage::Java, "m3-modeling-java"),
         ] {
             let population = select_modeling_cases(language).unwrap();
             assert_eq!(population.len(), MODELING_CASE_COUNT);
@@ -13714,11 +13745,6 @@ mod tests {
                 );
             }
         }
-        assert!(
-            select_modeling_cases(ModelingLanguage::Java)
-                .unwrap()
-                .is_empty()
-        );
     }
 
     /// A modeling sink is reached through its receiver, so the modeling ECMA
@@ -13800,6 +13826,16 @@ mod tests {
                 "model-javascript.yaml",
                 ["Opaque.js", "Bridge.js"],
             ),
+            // Java's Joern identities are fully qualified method full names
+            // rather than file-scoped ones, so the declined categories are
+            // named by their declaring type: `Opaque` carries category P's
+            // entities and `Bridge` carries category O's.
+            (
+                ModelingLanguage::Java,
+                "model-java.rqlp",
+                "model-java.yaml",
+                ["dataflowbench.taint.Opaque", "dataflowbench.taint.Bridge"],
+            ),
         ] {
             let policy = fs::read_to_string(language.artifact(ModelingTool::Bifrost)).unwrap();
             require_bifrost_modeling_load_bearing(&policy, policy_name).unwrap();
@@ -13859,22 +13895,26 @@ mod tests {
 
     /// With no population, a run fails with a clear error naming the language
     /// and never writes a report.
+    ///
+    /// Wave M1 is complete, so no `ModelingLanguage` variant reaches that arm
+    /// any more — this test used to drive it through Java, which had no
+    /// fixtures. What it asserts now is the arm's *precondition*: every
+    /// enumerated language carries the full balanced population, which is
+    /// exactly what makes the empty-population bail unreachable. The bail
+    /// itself stays, for the state the next language enters the enum in.
     #[test]
     fn a_modeling_run_without_a_population_fails_fast() {
-        for (tool, binary) in [
-            (ModelingTool::Bifrost, "bifrost"),
-            (ModelingTool::Codeql, "codeql"),
-            (ModelingTool::Joern, "joern"),
-            (ModelingTool::Semgrep, "semgrep"),
+        for language in [
+            ModelingLanguage::Python,
+            ModelingLanguage::Javascript,
+            ModelingLanguage::Java,
         ] {
-            let error = run_modeling(tool, Path::new(binary), ModelingLanguage::Java, None)
-                .unwrap_err()
-                .to_string();
-            assert!(
-                error.starts_with("no modeling population for java"),
-                "{error}"
+            assert_eq!(
+                select_modeling_cases(language).unwrap().len(),
+                MODELING_CASE_COUNT,
+                "{} has no modeling population",
+                language.display_name()
             );
-            assert!(!ModelingLanguage::Java.report(tool).exists());
         }
     }
 
@@ -13973,18 +14013,45 @@ mod tests {
             ModelingLanguage::Javascript.artifact(ModelingTool::Codeql),
             "adapters/codeql/javascript/queries/JavaScriptModeling.ql"
         );
+        // Java's CodeQL query is the one that stays on the preregistration's
+        // schematic path, because the Java pack *is* the adapter root.
+        assert_eq!(
+            ModelingLanguage::Java.artifact(ModelingTool::Codeql),
+            "adapters/codeql/queries/JavaModeling.ql"
+        );
         // Each artifact arrives with the language pull request that authors its
-        // declarations. Python's and JavaScript's four each are committed;
-        // Java's are not, and its runs stay hard errors until they are.
+        // declarations. Wave M1 is complete, so all twelve are committed.
         for tool in ModelingTool::ALL {
-            let artifact = ModelingLanguage::Java.artifact(tool);
-            assert!(!Path::new(artifact).exists(), "{artifact} exists already");
-            for language in [ModelingLanguage::Python, ModelingLanguage::Javascript] {
+            for language in [
+                ModelingLanguage::Python,
+                ModelingLanguage::Javascript,
+                ModelingLanguage::Java,
+            ] {
                 let artifact = language.artifact(tool);
                 assert!(Path::new(artifact).is_file(), "{artifact} is missing");
             }
         }
         assert!(Path::new(JOERN_MODELING_SCRIPT).is_file());
+        // A CodeQL modeling query must sit inside a resolvable pack, which is
+        // what makes its `codeql/<lang>-all` dependency resolvable at all.
+        for language in [
+            ModelingLanguage::Python,
+            ModelingLanguage::Javascript,
+            ModelingLanguage::Java,
+        ] {
+            let query = PathBuf::from(language.artifact(ModelingTool::Codeql));
+            let pack = query
+                .parent()
+                .and_then(Path::parent)
+                .expect("a modeling query lives under <pack>/queries/")
+                .join("qlpack.yml");
+            assert!(
+                pack.is_file(),
+                "{} resolves no qlpack at {}",
+                query.display(),
+                pack.display()
+            );
+        }
     }
 
     /// An absent *declared* endpoint is the content of several modeling
@@ -14086,5 +14153,80 @@ mod tests {
         let rule_path = ModelingLanguage::Javascript.artifact(ModelingTool::Semgrep);
         require_semgrep_modeling_load_bearing(&fs::read_to_string(rule_path).unwrap(), rule_path)
             .unwrap();
+    }
+
+    /// The same two gates on Java's artifacts. `require-model` is the one the
+    /// preregistration marked *to be verified*: it recorded that no committed
+    /// policy sets it and that the pinned CLI's acceptance of it was unshown.
+    /// [Amendment A5](../docs/modeling-matrix.md#amendments) records the
+    /// verification; this test is what keeps it true.
+    #[test]
+    fn the_java_modeling_artifacts_are_load_bearing() {
+        let policy_path = ModelingLanguage::Java.artifact(ModelingTool::Bifrost);
+        let policy = fs::read_to_string(policy_path).unwrap();
+        require_bifrost_modeling_load_bearing(&policy, policy_path).unwrap();
+        assert!(policy.contains(BIFROST_MODELING_CALL_MODELING));
+        let rule_path = ModelingLanguage::Java.artifact(ModelingTool::Semgrep);
+        let rule = fs::read_to_string(rule_path).unwrap();
+        require_semgrep_modeling_load_bearing(&rule, rule_path).unwrap();
+        assert!(rule.contains(SEMGREP_MODELING_ASSUME_SAFE_OPTION));
+    }
+
+    /// Java's modeling fixtures reconcile under the member-qualified variant,
+    /// not the kernel dialect. Java has no free functions, so every declared
+    /// modeling entity is reached through its declaring type; the kernel
+    /// dialect refuses exactly that spelling, which is right for a kernel whose
+    /// `dfb_sink` is called bare.
+    #[test]
+    fn java_modeling_reconciles_member_qualified_callsites() {
+        assert_eq!(
+            modeling_anchor_dialect(ModelingLanguage::Java).unwrap(),
+            AnchorDialect::JavaMember
+        );
+        // The declared-entity spelling every Java modeling fixture uses.
+        assert!(AnchorDialect::JavaMember.is_call("        Audit.record(value);", "record"));
+        assert!(
+            AnchorDialect::JavaMember
+                .is_call("        dfb_sink(Config.fetchLocal());", "fetchLocal")
+        );
+        assert!(AnchorDialect::JavaMember.is_call("        beta.get(\"k\");", "get"));
+        // …which the kernel dialect deliberately refuses.
+        assert!(!AnchorDialect::Java.is_call("        Audit.record(value);", "record"));
+        // Neither variant mistakes a longer identifier, a comment, or a bare
+        // member access with no argument list for a callsite.
+        assert!(!AnchorDialect::JavaMember.is_call("        myRecord(value);", "record"));
+        assert!(!AnchorDialect::JavaMember.is_call("        // Audit.record(value);", "record"));
+        assert!(!AnchorDialect::JavaMember.is_call("        dfb_sink(box.payload);", "payload"));
+        assert!(!AnchorDialect::JavaMember.is_call("        Audit::record;", "record"));
+        // The declaration side is the kernel rule unchanged: the marker sits on
+        // the identifier before the parameter list either way.
+        assert_eq!(
+            AnchorDialect::JavaMember
+                .declared_function_name(
+                    "    static void record(String value) { }  // DFB-SINK: m",
+                    "DFB-SINK: m"
+                )
+                .unwrap(),
+            "record"
+        );
+    }
+
+    /// Every wave-M1 modeling language is wired end to end: an extractor, a
+    /// Joern frontend, and an anchor dialect, none of which may bail.
+    #[test]
+    fn every_wave_m1_modeling_language_has_a_wired_execution_arm() {
+        for language in [
+            ModelingLanguage::Python,
+            ModelingLanguage::Javascript,
+            ModelingLanguage::Java,
+        ] {
+            modeling_codeql_language(language).unwrap();
+            modeling_joern_frontend(language).unwrap();
+            modeling_anchor_dialect(language).unwrap();
+        }
+        assert_eq!(
+            modeling_joern_frontend(ModelingLanguage::Java).unwrap(),
+            "JAVASRC"
+        );
     }
 }

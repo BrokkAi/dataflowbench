@@ -351,9 +351,10 @@ The [taint-modeling matrix](docs/modeling-matrix.md) is a separate tier that
 asks a separate question: not whether an engine can follow flow it can see, but
 whether it can be **told** things. Each language row is twenty-four
 benchmark-controlled modeling assertions, four per-adapter model encodings, and
-one run per adapter against them:
-[the Python taint-modeling matrix](docs/python-modeling.md) and
-[the JavaScript taint-modeling matrix](docs/javascript-modeling.md). Modeling
+one run per adapter against them. Wave M1's three rows are complete:
+[the Python taint-modeling matrix](docs/python-modeling.md),
+[the JavaScript taint-modeling matrix](docs/javascript-modeling.md), and
+[the Java taint-modeling matrix](docs/java-modeling.md). Modeling
 cases are `score_tier: "modeling"`, are never in a core denominator, and are
 never averaged with a kernel score.
 

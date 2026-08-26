@@ -238,9 +238,11 @@ ones, so the frozen 118-case Bifrost smoke population cannot absorb one.
 **The partition is `CHALLENGE_SEMGREP_PARTITION` generalized to four tools.**
 `MODELING_PARTITION` holds one cell per tool per category — twenty-four cells,
 transcribed from the preregistration's tables, with the cells it marks *to be
-verified* recorded as `unsupported` per its own rule. Scored today: **Bifrost 2
-templates of 12** (category S alone), **Semgrep CE 6 of 12** (S, Z, E),
-**CodeQL 12 of 12**, **Joern 12 of 12**. A declined cell is decided from the
+verified* recorded as `unsupported` per its own rule, and with the dated
+amendments applied on top as template-level overrides. Scored today, after
+Amendments A2 and A3: **Bifrost 2 templates of 12** (category S alone),
+**Semgrep CE 5 of 12** (S, E, and one of Z's two templates), **CodeQL 12 of
+12**, **Joern 8 of 12** (S, Z, E, B). A declined cell is decided from the
 template ID *before the tool is invoked*, retains the document's rationale
 verbatim as its reason, and writes a `retained-capability-decision` evidence
 document beside the report. The decision is keyed by template identity, never
@@ -254,7 +256,7 @@ tool per language, hash-bound into the report's `configuration_hash`:
 | Adapter | Modeling artifact |
 | --- | --- |
 | Bifrost | `adapters/bifrost/policies/model-<language>.rqlp` |
-| CodeQL | `adapters/codeql/<language>/queries/<Language>Modeling.ql` |
+| CodeQL | `adapters/codeql/<language>/queries/<Language>Modeling.ql`, except Java's, which is `adapters/codeql/queries/JavaModeling.ql` |
 | Joern | `adapters/joern/semantics/model-<language>.semantics`, plus the shared `adapters/joern/queries/modeling.sc` |
 | Semgrep | `adapters/semgrep/rules/model-<language>.yaml` |
 
@@ -262,8 +264,13 @@ The CodeQL path departs from the preregistration's schematic
 `adapters/codeql/queries/<Language>Modeling.ql` and sits inside that language's
 existing `qlpack`, because a query outside a pack cannot resolve its
 `codeql/<language>-all` dependency. That is a location, not a declaration
-surface: the document's `ConfigSig` encoding is unchanged. Joern is the one
-adapter with two files, and both bind the configuration hash.
+surface: the document's `ConfigSig` encoding is unchanged. Java is the one
+language for which the schematic path is already correct, because Java's pack
+*is* the adapter root — `adapters/codeql/qlpack.yml` declares
+`dataflowbench/codeql-java` and `JavaKernel.ql` sits beside it — so there is no
+`adapters/codeql/java/` to descend into and a query under one would resolve
+nothing. Joern is the one adapter with two files, and both bind the
+configuration hash.
 
 **Four commands, parameterized by language.** `run-bifrost-modeling`,
 `run-codeql-modeling`, `run-joern-modeling`, and `run-semgrep-modeling`, each
@@ -307,14 +314,27 @@ categories to unsupported activation rather than gating them.
 
 **The execution arm lands with the language.** The arm that invokes an
 analyzer over a *scored* cell is written by the pull request that authors that
-adapter's declarations for that language. Python's four are wired (wave M1,
-`docs/python-modeling.md`) and JavaScript's four are wired on the same runners
-(`docs/javascript-modeling.md`); Java's are not, and until they are a scored
-cell in that language is a hard error rather than a synthesized outcome, which
-the adapter contract at the head of this document forbids. The
-`unsupported` arm is independent of all of that, so a tool that declines every
-category a population carries produces a whole, validated report of retained
-capability decisions without the analyzer being invoked at all.
+adapter's declarations for that language. All three of wave M1's languages are
+wired on the same four runners: Python (`docs/python-modeling.md`), JavaScript
+(`docs/javascript-modeling.md`), and Java (`docs/java-modeling.md`). Wave M1 is
+therefore complete, and a scored cell in a language that has no arm stays a hard
+error rather than a synthesized outcome, which the adapter contract at the head
+of this document forbids. The `unsupported` arm is independent of all of that,
+so a tool that declines every category a population carries produces a whole,
+validated report of retained capability decisions without the analyzer being
+invoked at all.
+
+**Reconciliation on this tier is source-anchored as well as sink-anchored,** and
+that is a property of the fixtures rather than of any adapter. A modeling fixture
+carries both halves of its pair in one type — the declared entity and its
+undeclared sibling — because that is what the templates say makes the negative a
+negative, and category E's handlers need no caller, so the declared handler's
+flow is present in the negative's fixture too. A finding therefore counts only
+when it lies in the region its case's own source anchor governs *and* on a
+callsite of its anchored sink function. An unmatched finding on this tier is the
+pair's other entity, fully attributable, so it normalizes to `not-reached` with
+the count retained — not to the kernels' `inconclusive`, which is reserved here
+for evidence with no usable location at all.
 
 **Reporting stays separate.** Modeling reports are their own population per
 language and per adapter, bound into a freeze manifest like every other report,

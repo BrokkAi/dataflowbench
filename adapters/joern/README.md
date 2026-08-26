@@ -965,3 +965,67 @@ name, so the category-B declaration cannot attach to it. Re-running the same
 declarations against an object-literal spelling in which the call *does* resolve
 and the semantics *are* found still produces zero flows, so the published
 outcome is the same either way.
+
+## Java modeling matrix
+
+`run-joern-modeling --language java` runs the same twenty-four cells for Java —
+**sixteen scored and eight preregistered `unsupported`** — through the same
+`modeling.sc` and the same `--param` surface documented above, with
+`language=JAVASRC` and
+`semanticsPath=adapters/joern/semantics/model-java.semantics`. Everything in the
+Python section about the script, the selector shapes, and the parser's silent
+failure modes applies unchanged; only the semantics file and the frontend
+differ.
+
+**Result on the pinned distribution: 14 of 16 scored assertions match** — 6
+`reached` positives and 8 `not-reached` negatives, with no false positive, no
+`inconclusive`, and no `runner-error`. Categories S, Z, and E are 4/4; category
+B is 2/4, its two positives being false negatives. Its configuration hash is
+`55282607023d6902aebe9e2e4199542f04b407229ac0ab04eab9b70dd4a6980f`. That is the
+same shape as the Python and JavaScript rows, cell for cell.
+
+**Load-bearing verification, on category Z:** removing the
+`"dataflowbench.taint.Clean.scrub:java.lang.String(java.lang.String)"`
+`NilSemantics` entry turns `model-sanitizer-kill-negative` from 0 flows into 1,
+the same demonstration the other two rows record
+(`reports/raw/load-bearing-java-modeling/joern-sanitizer-kill-{with,without}-model.json`).
+
+### `javasrc2cpg` binds where `jssrc2cpg` cannot
+
+The JavaScript row records that `jssrc2cpg` gives a class-method call the method
+full name `<unknownFullName>`, so its category-B declaration cannot attach at
+all. Java has no such problem: `javasrc2cpg` spells the same entity
+`dataflowbench.taint.Store.put:void(java.lang.String,java.lang.String)`, a
+stable, file-independent full name, and the declaration binds cleanly.
+
+The two category-B positives are false negatives anyway. That is the point of
+publishing both rows: taint deposited on the receiver by `put` does not survive
+into a separate procedure's `get`, on this engine, whether or not the
+declaration binds. The limitation the cell measures is the engine's, and Python,
+JavaScript, and Java all reach it by different routes.
+
+### Amendment A4, extended: the reflective body is followed unaided here too
+
+`reports/raw/load-bearing-java-modeling/joern-opaque-propagator-unmodeled.json`
+runs `model-opaque-propagator-positive` under the committed Java semantics file,
+which after A2 declares nothing at all for category P, and records
+`declared_semantic_count: 3` with `flow_count: 1`. The pinned engine follows
+`Opaque.class.getMethod(target, String.class).invoke(null, value)` on its own,
+through `Method.invoke`'s `Object[]` argument.
+
+[Amendment A4](../../docs/modeling-matrix.md#a4--2026-08-26-the-reflective-opaque-propagator-body-is-not-unfollowable-by-joerns-jssrc2cpg)
+was measured on `jssrc2cpg` and withdrew the preregistration's claim as a
+*general* one, leaving each language to stand on its own evidence. This is
+Java's, on a different reflective construct, and it agrees; A4 carries it as a
+dated addendum. No cell moves: A2 had already withdrawn Joern's category-P cells
+for the stronger reason.
+
+**The Java semantics file carries no comments**, where Python's and
+JavaScript's carry `#` ones. The pinned parser drops every declaration on a
+blank line and on a `//` comment, and on this file a leading comment was
+measured to produce the same empty parse, so the file is declarations only and
+its commentary lives in [the Java modeling matrix](../../docs/java-modeling.md).
+`modeling.sc` raises on an empty parse, so a silent drop is a `runner-error`
+rather than a scored cell decided by a missing model.
+
+See [the Java modeling matrix](../../docs/java-modeling.md).
