@@ -33,6 +33,17 @@ const vendorNames: Record<string, string> = {
   joern: 'Joern',
   semgrep: 'Semgrep CE',
 };
+const vendorColorClasses: Record<string, string> = {
+  bifrost: 'v0',
+  codeql: 'v1',
+  joern: 'v2',
+  semgrep: 'v3',
+};
+
+function vendorColorClass(tool: string, index: number): string {
+  return vendorColorClasses[tool] ?? `v${index % 4}`;
+}
+
 function vendorName(tool: string): string {
   return vendorNames[tool] ?? tool.charAt(0).toUpperCase() + tool.slice(1);
 }
@@ -227,6 +238,7 @@ const dialogData = kernels.map((kernel) => ({
   templates: kernel.templates,
   cases: kernel.cases,
   vendors: kernel.vendors.map((vendor) => ({
+    tool: vendor.tool,
     name: vendor.name,
     toolVersion: vendor.toolVersion,
     scorecardId: vendor.scorecardId,
@@ -394,7 +406,7 @@ const caseCount = snapshot.results.scorecards
       <p class="label">{kernel.language} kernel · correct decisions</p>
       <div class="stat-pair">
         {kernel.vendors.map((vendor, index) => (
-          <div class={`vendor v${index % 4}`}>
+          <div class={`vendor ${vendorColorClass(vendor.tool, index)}`}>
             <p class="who">{vendor.name}</p>
             <p class="big">{vendor.correct}<span class="of">/{vendor.total}</span></p>
             {vendor.incomplete > 0 && (
@@ -479,6 +491,7 @@ const caseCount = snapshot.results.scorecards
     denominator
   ) {
     interface VendorPayload {
+      tool: string;
       name: string;
       toolVersion: string;
       scorecardId: string;
@@ -525,7 +538,8 @@ const caseCount = snapshot.results.scorecards
     };
 
     const buildPanel = (vendor: VendorPayload, index: number) => {
-      const panel = element('section', `panel v${index % 4}`);
+      const colorByTool: Record<string, string> = { bifrost: 'v0', codeql: 'v1', joern: 'v2', semgrep: 'v3' };
+      const panel = element('section', `panel ${colorByTool[vendor.tool] ?? `v${index % 4}`}`);
       const head = element('div', 'panel-head');
       head.appendChild(element('p', 'who', vendor.name));
       head.appendChild(element('p', 'caption', vendor.toolVersion));
