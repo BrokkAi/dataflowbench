@@ -529,3 +529,41 @@ tracks the final cross-language production-taint acceptance work; the defects
 and coverage gaps this population exposes are tracked as bifrost-dev #2637
 (Ruby), #2638 (Rust `gap_contract`), #2639 (`element-object`), and #2640
 (nested-callable roots).
+
+## Python modeling matrix
+
+`run-bifrost-modeling --language python` runs the twenty-four assertions of
+[the benchmark-controlled taint-modeling matrix](../../docs/modeling-matrix.md)
+for Python, writing `reports/bifrost-python-modeling.json` with raw evidence
+under `reports/raw/bifrost-python-modeling/`. This is a **modeling**-tier
+population with its own denominator: it is never in a core denominator, and no
+number here is ever added to or averaged with a kernel number. The two answer
+different questions.
+
+The preregistered partition scores **one of six categories** for this adapter
+— declared sources and sinks — and that is the honest starting position for a
+standalone policy CLI whose modeling surface lives in an embedding. The other
+five categories are `unsupported` with the preregistration's rationale retained
+verbatim, decided from the template identity **before the binary is invoked**:
+sanitizer lowering and external semantic-model activation are recorded in this
+README as future CLI capabilities, and the propagator, entry-root, and
+persistence-boundary cells are the document's *to be verified* cells, which its
+own rule treats as unsupported until shown otherwise. An `unsupported` cell is
+coverage, never a negative and never a false negative.
+
+The model is `adapters/bifrost/policies/model-python.rqlp`: two endpoint sets,
+adding the declared source `fetch_remote` beside `dfb_source` and the declared
+sink `record` beside `dfb_sink`. Unlike every committed kernel policy it sets
+`:call-modeling (call-modeling :unmodeled require-model)` rather than
+`optimistic`, which is
+[the load-bearing-model requirement](../../docs/modeling-matrix.md#the-load-bearing-model-requirement);
+the runner reads the policy before the run and refuses one that does not.
+
+The first run, on the pinned v0.10.6 build, decides all four scored assertions
+correctly — two `reached` positives and two `not-reached` negatives, with no
+`inconclusive` and no `runner-error` — and takes the preregistered
+`unsupported` on the other twenty. **Load-bearing verification:** re-running
+the same four fixtures under a policy identical except that the two declared
+endpoint entries are removed drops both positives from one finding to zero. The
+model, not the propagation, is what this tier scores. See [the Python
+taint-modeling matrix](../../docs/python-modeling.md).

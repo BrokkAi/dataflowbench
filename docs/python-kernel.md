@@ -378,4 +378,18 @@ python3 scripts/validate-python-kernel.py
 
 The narrow check is intentionally independent of any analyzer. It validates
 the exact Python core population and cannot turn analyzer output into a
-benchmark result.
+benchmark result. It reads only `score_tier: "core"` cases, so the twenty-four
+modeling assertions below are outside it by construction — they are a separate
+tier with a separate denominator, and folding them into this check would be
+the pooling the modeling matrix forbids.
+
+## The modeling matrix is a separate population
+
+Python also carries the twenty-four benchmark-controlled modeling assertions of
+[the taint-modeling matrix](modeling-matrix.md), realized and reported in
+[the Python taint-modeling matrix](python-modeling.md). They are
+`score_tier: "modeling"`, they are **never** in the 29-template core
+denominator, and no number on this page is ever added to or averaged with one
+of theirs. The kernel asks whether an engine can follow flow it can see; the
+modeling matrix asks whether it can be told things. A high score on one implies
+nothing about the other.
