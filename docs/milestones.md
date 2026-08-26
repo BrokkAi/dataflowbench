@@ -192,6 +192,21 @@ Add balanced categories for sources and sinks, propagators, sanitizers, opaque
 library summaries, framework entry points, and persistence boundaries. Publish
 benchmark-controlled and tool-native model profiles separately.
 
+### M3 begins: the preregistered modeling matrix
+
+M3 opens with the [taint-modeling matrix](modeling-matrix.md), preregistered
+before any modeling fixture, model file, or run exists, under the same amendment
+contract as the challenge tier. It fixes twelve templates in those six
+categories — one positive and one minimally different negative each, 24
+assertions per language — for Java, JavaScript, and Python, defines each model in
+analyzer-neutral terms so the four adapters encode the same declaration in their
+own native surfaces, and preregisters per-tool capability partitions so that a
+category a tool cannot activate is recorded as `unsupported` in advance rather
+than discovered as a failure. Unlike the challenge tier, these templates are
+**not** `core`: `score_tier` gains `modeling`, and modeling assertions have their
+own scorecards and never enter any language's core denominator. Issue #16's
+tool-native profiles build on the same category taxonomy and supply no models.
+
 ## M4: real-project confirmation
 
 Add a small, pinned, manually reviewed corpus drawn from executable or

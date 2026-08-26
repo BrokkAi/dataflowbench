@@ -1,0 +1,1141 @@
+# Benchmark-controlled taint-modeling matrix
+
+This document is the **preregistration artifact** for twelve taint-modeling
+templates, in six balanced categories. It merges before any modeling fixture
+exists, before any model file is authored for any analyzer, and before any
+number derived from them is published. Its purpose is to fix the definitions
+while the outcomes are still unknown.
+
+Nothing in this document is a result. It is a contract about what will be
+measured, stated in advance so that the measurement cannot later be shaped
+around what the measurement produced.
+
+It closes issue #15 and opens milestone M3.
+
+## What this matrix tests
+
+The propagation kernels — the sixteen classic templates and the thirteen
+[challenge templates](challenge-tier.md) — test whether an engine can **follow
+flow it can see**. Every construct in them is in the language's own manual, and
+an engine with no models at all can score full marks.
+
+This matrix tests something else: whether an engine can **be told things**.
+Given equivalent benchmark-supplied models — a source it did not know, a
+propagator whose body it cannot read, a sanitizer, a procedure summary, an entry
+point, a persistence boundary — does the analysis *activate* them, and does
+activation produce the *modeled semantics* rather than something adjacent to it?
+
+Modeling correctness is a different competence from propagation correctness.
+An engine can be excellent at one and absent at the other, and pooling the two
+would hide exactly that. So the modeling matrix is scored on its own tier and is
+never pooled with any core kernel.
+
+Two framings are worth stating before any run, because both will otherwise be
+misread:
+
+- **A high modeling score is not a high propagation score.** An engine that
+  activates every model but follows no dispatch is a good modeling substrate and
+  a weak analysis. The two scorecards answer different questions and are never
+  added together.
+- **A low modeling score is frequently a product decision, not a defect.** A
+  standalone CLI that deliberately ships no external-model catalog will decline
+  whole categories here. That decline is recorded as `unsupported` with a
+  retained reason, exactly as [the scoring contract](scoring.md) requires, and it
+  is not a wrong answer.
+
+## Governance
+
+This section is the load-bearing part of the document. The template definitions
+are only worth as much as the discipline around them.
+
+### Preregistration and immutability
+
+**The amendment contract of the [challenge tier](challenge-tier.md#preregistration-and-immutability)
+applies to this document verbatim.** Restated so that it cannot be lost in a
+cross-reference: this document merges before any modeling fixture is authored.
+From the moment the first analyzer executes against the first modeling fixture,
+the twelve template definitions below — semantic intent, model declaration,
+positive shape, negative shape, negative mechanism, and the per-tool capability
+partition — are **immutable**.
+
+A defect discovered after that point is corrected by a documented **amendment**,
+never by a silent edit. An amendment:
+
+1. appears in a dated `## Amendments` section at the foot of this document;
+2. states what changed, why, and which template IDs and languages it touches;
+3. states which already-published freezes it invalidates, if any;
+4. is a separate commit from any fixture, model, or result change.
+
+A template that turns out to be badly posed is **retired by amendment**, not
+rewritten. Its `template_id` is never reused for different semantics.
+
+The per-tool capability partition tables carry the same immutability, and for
+the same reason. A partition decided after a run is not a capability
+classification, it is a result being relabelled. If a tool turns out to express
+a category the tables here call unsupported, that is an amendment with a date on
+it, and the run that revealed it is reported as the run that revealed it.
+
+The challenge tier does not need to change for this document to land, and it is
+not changed by it. Nothing here amends `docs/challenge-tier.md`.
+
+### Fairness constraint: standard library only
+
+Modeling fixtures use **only the target language's standard library**. No
+frameworks, no third-party dependencies, no build-tool plugins. This is the same
+rule the challenge tier states, and here it is doing more work than usual, so it
+is worth spelling out why it does not contradict itself.
+
+The challenge tier excludes frameworks because a framework fixture would measure
+whether the analyzer ships a model for that framework. This matrix measures
+model *activation* — and it does so by supplying the model itself, to every tool
+equally, for code that is entirely inside the fixture. The
+`Config.fetchRemote()` of template 1 is not a real remote call and does not
+pretend to be one; it is an ordinary fixture method whose *only* claim to being
+a source is that the benchmark declared it so. That is the whole point. If the
+fixture used a real framework entry point, an engine with a shipped model for it
+would pass without ever reading the benchmark's model, and the assertion would
+stop being about activation.
+
+Framework-shipped coverage is a genuine and separate product question. It is
+issue #16's `tool-native` profile, and it is out of scope here.
+
+### Lineage
+
+The category taxonomy — sources and sinks, propagators, sanitizers, opaque
+library summaries, framework entry points, persistence boundaries — is the one
+[M3 recorded in the milestones](milestones.md#m3-taint-modeling) before any of
+this was designed, and it is the standard decomposition used by every
+configurable taint engine: CodeQL's models-as-data rows (`sourceModel`,
+`sinkModel`, `summaryModel`, `barrierModel`, `neutralModel`), Joern's flow
+semantics, Semgrep's `pattern-sources` / `pattern-sinks` /
+`pattern-propagators` / `pattern-sanitizers`, and Bifrost's RQLP endpoint sets.
+The taxonomy is not invented here; what is invented here is a balanced,
+polarity-paired way to *test* it.
+
+Fixtures themselves are original authored code — `fixture_provenance.kind` is
+`authored`, origin `DataFlowBench`, revision `m3-modeling-<language>`, license
+`MIT`, per [fixture provenance](fixture-provenance.md).
+
+### Initial languages
+
+Java, JavaScript, and Python — the floor issue #15 sets, and the three languages
+whose kernels are most mature. Per-language sketches for those three are given
+with every template below.
+
+The remaining ten languages are **deliberately not classified in this
+document**. The challenge tier classified all thirteen up front because its
+constructs are language features, and a language whose cells were classified
+later would have had its denominator decided by implementation convenience.
+Modeling applicability is a different question: it depends on each analyzer's
+declaration surface *for that language*, which is a per-adapter fact, not a
+per-language one. Those cells are decided by a later applicability pass with the
+same three-way vocabulary the
+[applicability matrix](applicability-matrix.md#classification-vocabulary)
+already defines. Until that pass merges, no language outside Java, JavaScript,
+and Python has a modeling denominator at all — which is different from having a
+zero.
+
+## Population mechanics
+
+### A new score tier
+
+`score_tier` gains the value **`modeling`**. This is the opposite of the
+challenge tier's decision, and the difference is not arbitrary. Challenge
+templates fold into the core because they ask the core's question — can the
+engine follow this flow — one notch harder. Modeling templates ask a different
+question, so a denominator that mixed them would mean nothing.
+
+The consequences, stated plainly:
+
+- Modeling cases have **their own scorecards**, per language and per adapter.
+- They are **never** in a core denominator, in any language, in any release.
+- They are never pooled with `core`, `language-extension`, `calibration`, or
+  `real-project` populations.
+- No headline number combines a modeling score with a kernel score.
+- Adding the enum value does not touch any existing freeze. Freeze validation is
+  manifest-scoped: a manifest binds the cases and reports of its own release, and
+  an added enum value changes nothing a v0.3.0 or v0.4.0 manifest asserts.
+
+### Identifiers
+
+- Templates: `dfb-template-model-<category>-<short>`.
+- Cases: `dfb-taint-<lang>-model-<short>-<polarity>`.
+
+Both follow the corpus conventions already enforced by the case schema's `id`
+and `template_id` patterns.
+
+### Model profile
+
+Every case in this matrix carries `model_profile: "benchmark-controlled"`. That
+is not a formality — **this whole matrix is the benchmark-controlled modeling
+instrument.** The profile field says the models came from DataFlowBench and were
+supplied equally to every tool.
+
+Its counterpart is issue #16's `tool-native` profile, which evaluates the models
+a tool ships on its own. #16 builds on this document's category taxonomy — it
+reports tool-native coverage in the same six categories, so the two can be read
+side by side — but it supplies **no models**, and it is **out of scope here**.
+The two profiles are never combined, as
+[the scoring contract](scoring.md#model-profiles) already requires.
+
+### Balanced pairs, for the reason the blind baseline gives
+
+Each of the twelve templates contributes exactly one positive and one minimally
+different negative case per language — **24 assertions per language** where all
+twelve cells apply. A modeling-population validator enforces the balance; it is
+specified below and implemented when the first fixtures land.
+
+The pairing is balanced for exactly the reason
+[the scoring contract's blind-baseline section](scoring.md#balanced-pairs-and-the-blind-baseline)
+gives for the kernels, and the hazard is sharper here. On the kernels, an engine
+that cannot see a construct but answers anyway banks one free true negative per
+pair. On this matrix, an engine that **ignores the model entirely** does the
+same thing: it answers "no flow" on both cells of every category it did not
+activate, collects half the assertions, and looks like it partially supports
+modeling. Balanced pairs make that floor visible; per-category
+true-positive/false-positive rates, not the raw correct count, are what
+distinguish activation from silence.
+
+There is a second, modeling-specific form of the same hazard, and it decides
+several partition cells below: an engine whose **unmodeled-call default is
+optimistic** will carry taint through a declared propagator whether or not it
+read the declaration. Its positive cell is then correct for a reason that has
+nothing to do with the model. This matrix therefore requires that, for any
+category to be scored for a tool, the tool's modeling configuration must make
+the model load-bearing — the default must not already decide the cell. See
+[the load-bearing-model requirement](#the-load-bearing-model-requirement).
+
+## The model declaration language
+
+Every template below defines its model in **analyzer-neutral** terms, in exactly
+three parts. This vocabulary is the equivalence contract's unit of comparison:
+two adapters encode the *same* declaration when all three parts agree.
+
+**Entity identity.** What the declaration binds to, as a
+type-plus-member-plus-position triple: the declaring type (or module), the
+member name, and — where the role needs it — a parameter position, counted from
+**0** for the first declared parameter, with the receiver excluded and the
+return value written as `return`. Identity binding is always by this triple,
+never by name shape and never by a substring: `Audit.record` and `Audit.discard`
+are different entities, and a model for one says nothing about the other. Half
+the negatives in this matrix exist to prove that.
+
+**Role.** Exactly one of:
+
+| Role | Meaning |
+| --- | --- |
+| `source` | the named entity's bound position produces tainted data |
+| `sink` | tainted data arriving at the named entity's bound position is a finding |
+| `propagator` | taint at the named input position appears at the named output position; the entity's body is irrelevant |
+| `sanitizer` | taint arriving at the named input position does not leave the entity at any position |
+| `summary` | a propagator for an entity whose body the contract says must be ignored even when it is present |
+| `entry-point` | the named entity is an analysis root that is never called from the fixture; the named parameter position is tainted on entry |
+| `store-write` | the named entity writes its input position into the named store, under a key given by another position |
+| `store-read` | the named entity reads from the named store under a key given by a position, and returns it |
+
+**Binding semantics.** How the role's positions attach: which position is the
+input, which is the output, and — for `store-write` / `store-read` — which
+store identity the pair shares. Written throughout as `in: <position>`,
+`out: <position>`, and `store: <name>`.
+
+`propagator` and `summary` are the same mechanism with different obligations.
+A `propagator` model is a *permission* to skip a body the engine may also
+choose to read. A `summary` model is an *instruction*: the body is present in
+the fixture (fixtures are self-contained and stdlib-only), and the contract says
+the analysis must produce the summarized semantics whether or not it read it.
+Category O's negatives are what make the difference observable, because there the
+body and the summary disagree.
+
+## The twelve templates
+
+Six categories of two. Each template gives its semantic intent, its model
+declaration, its positive and negative shapes with the negative mechanism, its
+`expected_analysis_capability.kind`, and sketches for Java, JavaScript, and
+Python.
+
+Every negative mechanism used below is drawn from the enum the case schema
+already carries. No new mechanism is introduced; see
+[metadata groundwork](#metadata-groundwork) for why the `sanitizer-kill` value
+the design sketch proposed was **not** added.
+
+---
+
+### Category S — declared sources and sinks
+
+The floor of the whole matrix. If a tool cannot be told "this method is a
+source", nothing else in this document can be asked of it. Both templates are
+one-hop and involve no interesting propagation at all: whatever an engine scores
+here is a statement about model binding, not about analysis.
+
+#### 1. `dfb-template-model-declared-source`
+
+**Semantic intent.** A value enters the flow from a benchmark-declared source
+API that is *not* `dfb_source`. The fixture contains no other indication that the
+value is tainted; the declaration is the only reason it is.
+
+**Model declaration.**
+
+- Entity identity: type `Config`, member `fetchRemote`, position `return`.
+- Role: `source`.
+- Binding: `out: return`.
+
+**Positive.** `Config.fetchRemote()` returns a value that reaches `dfb_sink`
+directly.
+
+**Negative.** The identical flow reads from `Config.fetchLocal()`, a sibling
+method on the same type with the same signature and an equally opaque-looking
+body, which is **not** declared. `negative_mechanism: unrelated-value`.
+
+Both methods return a constant string in the fixture, so an engine that reads
+their bodies learns nothing that distinguishes them. Only the declaration does.
+
+**Capability kind.** `declared-source-activation`.
+
+**Sketches.**
+
+- Java — `class Config { static String fetchRemote() { return "r"; } static
+  String fetchLocal() { return "l"; } }`, then `dfb_sink(Config.fetchRemote());`.
+- JavaScript — a module-level `const Config = { fetchRemote() { return "r"; },
+  fetchLocal() { return "l"; } };`, then `dfb_sink(Config.fetchRemote());`.
+- Python — a module `config.py` with `def fetch_remote(): return "r"` and
+  `def fetch_local(): return "l"`.
+
+#### 2. `dfb-template-model-declared-sink`
+
+**Semantic intent.** The mirror of template 1. Taint from `dfb_source()` reaches
+a benchmark-declared sink API that is not `dfb_sink`.
+
+**Model declaration.**
+
+- Entity identity: type `Audit`, member `record`, position `0`.
+- Role: `sink`.
+- Binding: `in: 0`.
+
+**Positive.** `Audit.record(dfb_source())`.
+
+**Negative.** `Audit.discard(dfb_source())` — an undeclared sibling with the
+same signature. `negative_mechanism: unrelated-value`.
+
+**Capability kind.** `declared-sink-activation`.
+
+**Sketches.** Structurally identical in the three languages: a two-method
+`Audit` type (class, object literal, module) whose methods both accept one
+string and both drop it.
+
+---
+
+### Category P — declared propagators
+
+The category the whole matrix turns on, because it is where "the engine
+activated the model" and "the engine would have said this anyway" are hardest to
+tell apart. Both templates are constructed so that the two are distinguishable,
+and the construction is stated here rather than left to the fixtures.
+
+#### 3. `dfb-template-model-opaque-propagator`
+
+**Semantic intent.** Taint passes through a helper whose body the analyzer must
+**not** need to read, because it demonstrably cannot. The declaration is the
+only route from the helper's argument to its result.
+
+**The opaque body shape, and the evidence for choosing it.** The helper's body
+routes its argument through a **reflective self-dispatch resolved from a
+run-time string** — the construct the challenge tier calls
+`dfb-template-chal-reflective-invocation`. That construct is chosen because the
+v0.4.0 freeze already establishes, across four engines and three languages, that
+none of them follows it.
+
+In the v0.4.0 bound evidence — freeze manifest `reports/freeze.json`, benchmark
+revision `306211a` (tag `v0.4.0`), documented in
+[`releases/v0.4.0.md`](releases/v0.4.0.md) — the twelve positive cells of
+`dfb-template-chal-reflective-invocation` across Java, JavaScript, and Python
+contain **zero `reached` outcomes**:
+
+| Analyzer | Java | JavaScript | Python |
+| --- | --- | --- | --- |
+| Bifrost v0.10.6 | `inconclusive` | `inconclusive` | `inconclusive` |
+| CodeQL 2.26.3 | `not-reached` | `not-reached` | `not-reached` |
+| Joern 4.0.610 | `not-reached` | `not-reached` | `not-reached` |
+| Semgrep CE 1.174.0 | `unsupported` | `unsupported` | `unsupported` |
+
+Bound reports: `reports/{bifrost,codeql,joern,semgrep}-{java,javascript,python}-kernel.json`.
+Stated precisely, because the four cells mean four different things: CodeQL and
+Joern **definitively answer `not-reached`** in all six of their cells; Bifrost
+reports **incomplete analysis** in all three of its; Semgrep **declines by
+declared capability** in all three of its, decided from case metadata before the
+scan. No engine's `witness_checkpoints` array is non-empty for any of the twelve.
+The property this template needs is the weaker and better-supported one: *no
+engine reaches the sink through this body on its own*. That is true in twelve of
+twelve cells, and — as [`releases/v0.4.0.md`](releases/v0.4.0.md) records
+independently for CodeQL — it holds across all eleven languages that have a
+reflective-invocation fixture, with not one `reached` anywhere in the freeze.
+
+This is the entire reason the template is assertable. Its positive cell can only
+be `reached` if the model was activated.
+
+**Model declaration.**
+
+- Entity identity: type `Opaque`, member `carry`, positions `0` and `return`.
+- Role: `propagator`.
+- Binding: `in: 0`, `out: return`.
+
+**Positive.** `dfb_sink(Opaque.carry(dfb_source()))`.
+
+**Negative.** `Opaque.block(dfb_source())` — a sibling on the same type, with an
+identical reflective body, which is declared as **not** propagating (an explicit
+no-flow declaration where the tool has one; otherwise simply undeclared, which
+the partition records per tool).
+`negative_mechanism: call-context-separation`.
+
+The negative is what catches an engine that treats *any* declared type as
+wholly modeled, or that binds a declaration to a type rather than to a member.
+
+**Capability kind.** `opaque-propagator-activation`.
+
+**Sketches.** The three languages express the same opacity through their own
+reflective facility, and the divergence from the core kernel's JavaScript
+fixture is deliberate and recorded here in advance:
+
+- Java — `static String carry(String v) { return (String)
+  Opaque.class.getMethod(name, String.class).invoke(null, v); }` with `name`
+  bound from a local string constant to a private identity method.
+- Python — `def carry(v): return getattr(_impl, name)(v)`, `name` a local
+  string constant.
+- JavaScript — `Reflect.get(_impl, name).apply(null, [v])`. The core kernel's
+  JavaScript `reflective-invocation` fixture uses a computed-key call
+  (`handlers[name](...)`), which is structurally closer to a dispatch table.
+  This matrix uses `Reflect` so that the opacity is the same shape in all three
+  languages. That is a modeling-matrix fixture decision, it changes nothing about
+  the core fixture, and it is stated here so it is not later mistaken for drift.
+
+#### 4. `dfb-template-model-propagator-position`
+
+**Semantic intent.** Positional fidelity of model application. The declaration
+names **parameter 1 only** (the second declared parameter); an engine that
+applies the model to any tainted argument, rather than to the declared position,
+fails the negative.
+
+**Model declaration.**
+
+- Entity identity: type `Opaque`, member `select`, positions `1` and `return`.
+- Role: `propagator`.
+- Binding: `in: 1`, `out: return`.
+
+**Positive.** `dfb_sink(Opaque.select("clean", dfb_source()))` — taint at the
+declared position 1.
+
+**Negative.** `dfb_sink(Opaque.select(dfb_source(), "clean"))` — the identical
+call with taint at the undeclared position 0.
+`negative_mechanism: call-context-separation`, following the precedent the core
+kernel's `dfb-template-argument-position-separation` already sets for
+position-distinguished negatives.
+
+`select` carries the same reflective body as `carry`, for the same reason.
+
+**Capability kind.** `positional-propagator-activation`.
+
+**Sketches.** A two-parameter static method / module function / object method in
+each language, with the reflective body of template 3.
+
+---
+
+### Category Z — declared sanitizers
+
+The only category whose *negative* is the modeled one. Everywhere else the model
+creates a flow; here it removes one. That inversion is the point: an engine can
+fake source and propagator activation by being optimistic, but it cannot fake
+sanitizer activation by being optimistic.
+
+#### 5. `dfb-template-model-sanitizer-kill`
+
+**Semantic intent.** A benchmark-declared sanitizer suppresses a flow that
+otherwise exists.
+
+**Model declaration.**
+
+- Entity identity: type `Clean`, member `scrub`, position `0`.
+- Role: `sanitizer`.
+- Binding: `in: 0`.
+
+**Positive.** `dfb_sink(dfb_source())` — the flow, direct, with no sanitizer
+anywhere on the path. The positive cell of this pair deliberately asks nothing
+of the model; it establishes that the flow exists at all, so that the negative's
+absence means something.
+
+**Negative.** The **same** flow routed through `Clean.scrub`:
+`dfb_sink(Clean.scrub(dfb_source()))`. The declared sanitizer must suppress the
+finding. `negative_mechanism: sanitizer`.
+
+`scrub`'s body is the identity function. That is deliberate. A sanitizer whose
+body actually sanitizes would let an engine reach the right answer by reading
+the body, and the assertion would stop being about the model.
+
+**Capability kind.** `declared-sanitizer-activation`.
+
+**Sketches.** `class Clean { static String scrub(String v) { return v; } }`, and
+its object-literal and module equivalents.
+
+#### 6. `dfb-template-model-sanitizer-selectivity`
+
+**Semantic intent.** Sanitizer models bind by entity identity, not by name
+shape. Two sanitizer-*looking* calls exist; only one is declared.
+
+**Model declaration.**
+
+- Entity identity: type `Clean`, member `scrub`, position `0`.
+- Role: `sanitizer`.
+- Binding: `in: 0`.
+
+The sibling `Clean.sanitize` — same type, same signature, same identity body, a
+name at least as sanitizer-shaped — is **not** declared.
+
+**Positive.** `dfb_sink(Clean.sanitize(dfb_source()))`. The flow passes through
+the *undeclared* sanitizer-looking call and must still be reported.
+
+**Negative.** `dfb_sink(Clean.scrub(dfb_source()))`, through the declared one,
+suppressed. `negative_mechanism: sanitizer`.
+
+This is the pair that catches heuristic name matching — an engine that treats
+anything called `sanitize`, `escape`, or `clean` as a barrier fails the
+positive, and it fails it for a reason worth publishing.
+
+**Capability kind.** `sanitizer-identity-binding`.
+
+**Sketches.** One `Clean` type with two identity methods in each language.
+
+---
+
+### Category O — opaque procedure summaries
+
+Where category P declares "you may skip this body", category O declares "ignore
+this body; these are the semantics". The distinction is only observable when the
+two disagree, and template 8 is built so they do.
+
+This category generalizes the existing Java calibration case
+**`dfb-taint-java-modeled-external`**
+(`cases/taint/java/modeled-external-unsupported/case.json`, template
+`dfb-template-modeled-external-summary`), whose `ThirdPartyBridge.passThrough`
+is exactly an `in: 0, out: return` summary and whose retained Bifrost outcome is
+`unsupported` with the reason *"Bifrost's standalone policy CLI has no ambient
+external semantic-model catalog; this requires an embedding with explicit
+activation."*
+
+**That calibration case stays calibration and is not selected into this
+matrix.** It is `score_tier: "calibration"`, it is bound into published freezes
+at that tier, and re-tiering it would silently change what those freezes assert.
+The modeling matrix authors its own cases; the calibration case remains what it
+has always been — the adapter-plumbing precedent that showed this category
+needed a tier of its own.
+
+#### 7. `dfb-template-model-summary-through`
+
+**Semantic intent.** An **external-shaped** procedure carries flow per a supplied
+summary. External-shaped means: declared in a separate fixture file, named as a
+boundary, and covered by a contract clause saying its body must be ignored.
+
+**Model declaration.**
+
+- Entity identity: type `Bridge`, member `pass`, positions `0` and `return`.
+- Role: `summary`.
+- Binding: `in: 0`, `out: return`.
+
+**Positive.** `dfb_sink(Bridge.pass(dfb_source()))`, with `Bridge` in its own
+fixture file.
+
+**Negative.** `dfb_sink(Bridge.hold(dfb_source()))`, where the sibling `hold`
+carries an explicit **no-flow** summary. `negative_mechanism:
+call-context-separation`.
+
+Both bodies are the identity function. So the *bodies* say flow in both cells and
+the *summaries* disagree with each other: an engine that reads bodies reports
+both, an engine that activates summaries reports one, and an engine that does
+neither reports neither. The three are distinguishable, which is the property a
+summary template needs and the reason the bodies are identical rather than
+convenient.
+
+**Capability kind.** `procedure-summary-activation`.
+
+**Sketches.** A second fixture file per case — `Bridge.java`, `bridge.js`,
+`bridge.py` — containing two one-line identity methods.
+
+#### 8. `dfb-template-model-summary-field`
+
+**Semantic intent.** A **store-through** summary: the declaration says the
+procedure writes its first argument into a named field of its second, and the
+sink reads that field. The summary's output position is a heap location, not a
+return value.
+
+**Model declaration.**
+
+- Entity identity: type `Bridge`, member `deposit`, positions `0` and `1`.
+- Role: `summary`.
+- Binding: `in: 0`, `out: 1.payload`.
+
+**Positive.** `Bridge.deposit(dfb_source(), box); dfb_sink(box.payload);`.
+
+**Negative.** The identical call, with the sink reading a **sibling field** of
+the same object: `dfb_sink(box.spare);`. `negative_mechanism: field-separation`.
+
+`deposit`'s body writes nothing at all, so the field's contents come from the
+summary or from nowhere.
+
+**Capability kind.** `store-through-summary-activation`.
+
+**Sketches.**
+
+- Java — `class Box { String payload; String spare; }` and
+  `static void deposit(String v, Box b) { }`.
+- JavaScript — `const box = { payload: "", spare: "" };`.
+- Python — a two-attribute class, or a module-level object with two attributes.
+
+---
+
+### Category E — framework entry points
+
+The category with the sharpest three-way distinction, and the one most likely to
+be misread as a failure. A handler that nothing calls is dead code to an engine
+without entry-point synthesis. Declining it is correct behavior.
+
+**Stated before any run:** an analyzer with no entry-point synthesis must report
+`unsupported` here, **not** `not-reached`. `not-reached` on this category is a
+claim that the analysis ran with the declared root and found nothing, which is a
+different and much stronger claim than "I cannot make a root out of a
+declaration". The per-tool partition below decides which of the two a tool is
+entitled to say, and it decides it before the tool runs.
+
+#### 9. `dfb-template-model-entrypoint-parameter`
+
+**Semantic intent.** A handler method that is **never called from anywhere in
+the fixture** is declared an entry point with its parameter tainted on entry.
+The engine must synthesize a root it was not given by the call graph.
+
+**Model declaration.**
+
+- Entity identity: type `Handler`, member `onRequest`, position `0`.
+- Role: `entry-point`.
+- Binding: `in: 0` tainted on entry.
+
+**Positive.** `onRequest(input)`'s body is `dfb_sink(input);`. Nothing in the
+fixture calls `onRequest`.
+
+**Negative.** A sibling handler `onIgnored(input)` with a byte-identical body,
+also never called, and **not** declared.
+`negative_mechanism: call-context-separation`.
+
+**Capability kind.** `entry-point-root-activation`.
+
+**Sketches.** In all three languages: one type (class / object literal / module)
+with two uncalled one-parameter methods whose bodies each sink the parameter,
+and no top-level code that invokes either.
+
+#### 10. `dfb-template-model-entrypoint-selectivity`
+
+**Semantic intent.** Entry-point declarations bind by member identity. Template 9
+proves a root can be synthesized; this one proves the synthesis is *selective*
+rather than "every uncalled method is a root", which is a common and defensible
+whole-program default and one this matrix must be able to see.
+
+**Model declaration.** Identical to template 9, applied to a fixture where
+**both** handlers are plausible roots.
+
+- Entity identity: type `Handler`, member `onDeclared`, position `0`.
+- Role: `entry-point`.
+- Binding: `in: 0` tainted on entry.
+
+**Positive.** `onDeclared(input)` sinks its parameter; declared.
+
+**Negative.** `onUndeclared(input)` sinks its parameter; **not** declared, and
+in the same class, with the same signature and the same body.
+`negative_mechanism: call-context-separation`.
+
+The pair is the entry-point analogue of template 6: an engine that treats every
+public uncalled method as an entry root passes the positive and false-positives
+the negative, and the pair reports that as approximation character rather than
+as a ranking.
+
+**Capability kind.** `entry-point-identity-binding`.
+
+**Sketches.** As template 9, with both methods in one type.
+
+---
+
+### Category B — persistence boundaries
+
+A write in one procedure and a read in another, linked only by a model that says
+they are two ends of the same store. This is the category with the least prior
+art in the corpus — nothing in the schema, no policy section, no query
+construct, and no fixture addresses it today — so its declaration vocabulary is
+defined here from scratch.
+
+#### 11. `dfb-template-model-store-roundtrip`
+
+**Semantic intent.** A tainted value is written into a fixture-local store type
+under a key, and read back from a **separate procedure** under a key. The model
+links the write and the read as the two roles of one persistence boundary; the
+key decides whether the roundtrip closes.
+
+**Model declaration.** Two declarations sharing one store identity:
+
+- Entity identity: type `Store`, member `put`, positions `0` (key) and `1`
+  (value). Role: `store-write`. Binding: `in: 1`, `key: 0`, `store: primary`.
+- Entity identity: type `Store`, member `get`, positions `0` (key) and `return`.
+  Role: `store-read`. Binding: `out: return`, `key: 0`, `store: primary`.
+
+**Positive.** `writeSide()` calls `Store.put("k", dfb_source())`; a separate
+`readSide()` calls `dfb_sink(Store.get("k"))`. Same key constant.
+
+**Negative.** The identical pair of procedures with **distinct constant keys** —
+`put("a", …)` and `get("b")`. `negative_mechanism: field-separation`, following
+the corpus precedent that constant-key separation inside a container is recorded
+as field separation.
+
+`Store`'s `put` and `get` have empty bodies. The roundtrip exists only in the
+model.
+
+**Capability kind.** `persistence-boundary-activation`.
+
+**Sketches.** A `Store` type with two static no-op methods per language, plus two
+top-level procedures. No standard-library map is used: an engine that models
+`HashMap.get` would otherwise pass this without reading the declaration, which is
+the same trap the fairness constraint exists to avoid.
+
+#### 12. `dfb-template-model-store-separation`
+
+**Semantic intent.** Persistence declarations are **per store instance**. Two
+`Store` instances exist; the model links each instance's own write and read, and
+does not link across them.
+
+**Model declaration.** As template 11, with the store identity bound to the
+receiver instance rather than to the type: `store: <receiver identity>`.
+
+**Positive.** `alpha.put("k", dfb_source())` in one procedure;
+`dfb_sink(alpha.get("k"))` in another. Same instance, same key.
+
+**Negative.** `alpha.put("k", dfb_source())` and `dfb_sink(beta.get("k"))` —
+same key, **different instance**. `negative_mechanism: object-separation`.
+
+**Capability kind.** `persistence-instance-binding`.
+
+**Sketches.** Two module-level or field-held `Store` instances per language,
+constructed once and never reassigned.
+
+---
+
+### Summary table
+
+| # | `template_id` | Neg. mechanism | `expected_analysis_capability.kind` |
+| --- | --- | --- | --- |
+| 1 | `dfb-template-model-declared-source` | `unrelated-value` | `declared-source-activation` |
+| 2 | `dfb-template-model-declared-sink` | `unrelated-value` | `declared-sink-activation` |
+| 3 | `dfb-template-model-opaque-propagator` | `call-context-separation` | `opaque-propagator-activation` |
+| 4 | `dfb-template-model-propagator-position` | `call-context-separation` | `positional-propagator-activation` |
+| 5 | `dfb-template-model-sanitizer-kill` | `sanitizer` | `declared-sanitizer-activation` |
+| 6 | `dfb-template-model-sanitizer-selectivity` | `sanitizer` | `sanitizer-identity-binding` |
+| 7 | `dfb-template-model-summary-through` | `call-context-separation` | `procedure-summary-activation` |
+| 8 | `dfb-template-model-summary-field` | `field-separation` | `store-through-summary-activation` |
+| 9 | `dfb-template-model-entrypoint-parameter` | `call-context-separation` | `entry-point-root-activation` |
+| 10 | `dfb-template-model-entrypoint-selectivity` | `call-context-separation` | `entry-point-identity-binding` |
+| 11 | `dfb-template-model-store-roundtrip` | `field-separation` | `persistence-boundary-activation` |
+| 12 | `dfb-template-model-store-separation` | `object-separation` | `persistence-instance-binding` |
+
+## The equivalence contract
+
+This is the section that makes the matrix a benchmark rather than four separate
+experiments.
+
+**The claim.** *What* is declared is identical across tools — the entity
+identity, the role, and the binding semantics of
+[the model declaration language](#the-model-declaration-language). *How* it is
+declared is each tool's own native mechanism. A tool that cannot express a
+category does not get a translated approximation of it; it takes
+`unsupported` for that category, recorded before any run.
+
+**Encoding.** Each adapter encodes the declaration in the surface its own
+documentation gives it, in a per-language modeling artifact committed to the
+repository and hash-bound into the report's `configuration_hash` the same way
+every existing adapter artifact is:
+
+| Adapter | Modeling artifact | Declaration surface |
+| --- | --- | --- |
+| Bifrost | `adapters/bifrost/policies/model-<language>.rqlp` | RQLP `:analysis` endpoint sets — verified in the committed policies for `:sources` (`:bind return-value`) and `:sinks` (`:dangerous-operand (argument :index N)`); other sections per the partition below |
+| CodeQL | `adapters/codeql/queries/<Language>Modeling.ql` (+ any `ext/*.model.yml`) | `DataFlow::ConfigSig` predicates `isSource` / `isSink` / `isBarrier` / `isAdditionalFlowStep`, optionally models-as-data rows |
+| Joern | `adapters/joern/queries/modeling.sc` plus a flow-semantics file | query roots over `cpg.method…parameter` and `FlowSemantic` / `FlowMapping` entries |
+| Semgrep | `adapters/semgrep/rules/model-<language>.yaml` | `mode: taint` with `pattern-sources` / `pattern-sinks` / `pattern-propagators` / `pattern-sanitizers` |
+
+Bifrost and CodeQL cases name their artifact through the `tool_model_references`
+keys the case schema already carries — `policy` and `query` respectively. Joern
+and Semgrep have no case-level model reference today (both pin their invocation
+in the runner, as their READMEs record), and the modeling matrix does not change
+that. **No new `tool_model_references` key is required**, because each adapter's
+modeling declarations live inside the single per-language artifact its existing
+key already names.
+
+### The load-bearing-model requirement
+
+A modeling assertion is only evidence of activation if the tool's behavior
+*without* the model would differ. Two of the four adapters have an
+unmodeled-call default that would otherwise decide category P and category O
+cells on their own:
+
+- **Bifrost.** Every committed kernel policy sets
+  `:call-modeling (call-modeling :unmodeled optimistic)`. Under that setting an
+  unmodeled call may pass taint through, which would decide template 3's positive
+  without reading the propagator declaration.
+- **Semgrep CE.** Verified against the pinned CE 1.174.0: with no propagator
+  declared at all, a taint-mode rule reports `dfb_sink(prop("clean", t))` — the
+  engine's default is to carry taint from any tainted argument to a call's
+  result. Setting `options: taint_assume_safe_functions: true` removes that
+  default (verified: the same finding disappears).
+
+The contract is therefore: **for a category to be scored for a tool, that tool's
+modeling artifact must configure the unmodeled-call default so that the model is
+load-bearing** — `require-model`-style behavior where the tool has such a switch,
+`taint_assume_safe_functions: true` for Semgrep. Where a tool has no such switch
+for a category, the category is `unsupported` for that tool rather than scored,
+because a cell the default already decides is not a measurement.
+
+This requirement is why several partition cells below say `unsupported` for a
+tool whose declaration *syntax* exists. Syntax that the engine does not lower, or
+that a permissive default overrides, is not activation.
+
+## Per-tool capability partition
+
+Preregistered here, in this document, before any modeling fixture or model file
+exists — the same discipline `CHALLENGE_SEMGREP_PARTITION` in `src/main.rs`
+already applies to the challenge tier, and for the same reason: a partition
+decided from a result is not a capability classification.
+
+**Reading the tables.** `supported` means the tool's declaration surface can
+express the category and the model can be made load-bearing. `unsupported` means
+it cannot, today, on the pinned version — those cells are `unsupported` outcomes
+with a retained reason, decided from case metadata before the tool is invoked.
+Cells marked **to be verified** could not be checked against the pinned tool
+while writing this document; per the rule stated at the head of each table,
+**they are treated as unsupported until shown otherwise**, and promoting one is
+a dated amendment.
+
+An `unsupported` cell is coverage, never a negative, and never a false negative.
+It does not reduce any other tool's denominator, and it does not reduce the
+benchmark's — a tool that declines a category simply has no assertions in it.
+
+### Bifrost — v0.10.6 (build `18d09c57`)
+
+Verified surface: the seventeen committed `.rqlp` policies use exactly
+`:sources` (with `:bind return-value` and `:labels`) and `:sinks` (with
+`:dangerous-operand (argument :index N)` and `:accepts`), under
+`(analysis :type taint :mode may :call-modeling (call-modeling :unmodeled
+optimistic))`. No committed policy contains a sanitizer, transform, or
+external-model section. The pinned v0.10.6 build was not available while writing
+this document; a locally installed **v0.9.5** binary was inspected and exposes
+policy-schema pointers for `/analysis/sanitizers/entries/`,
+`/analysis/transforms/entries/` and `/analysis/external_models/entries/`, plus
+`call-modeling` values `paranoid | optimistic | require-model`. **A schema that
+accepts a section is not proof that the CLI lowers it into the engine**, which is
+precisely what the adapter README says is missing, so none of that is treated as
+verification.
+
+| Cat. | Decision | Rationale |
+| --- | --- | --- |
+| S | **supported** | Source and sink endpoint sets are the surface every committed policy already uses, in thirteen languages, with frozen v0.4.0 evidence. Binding is by RQLP selector, which addresses a callee by name and can be language-qualified — enough for the type+member identity the declaration language requires. |
+| P | **to be verified — unsupported until shown** | No committed policy declares a propagator or transform, and the adapter README makes no propagator claim. Additionally, every committed policy sets `:unmodeled optimistic`, so the modeling policy must also be shown to accept `require-model` before either P cell is load-bearing. Both must be demonstrated on the pinned build. |
+| Z | **unsupported** | The adapter README states it directly: *"Sanitizer lowering is a future Bifrost CLI capability."* (`adapters/bifrost/README.md`). The matrix surfaces this rather than hiding it. DataFlowBench is published by Bifrost's vendor, and a partition that quietly granted its own engine a category its own documentation says is unimplemented would be the single most damaging thing this document could do. |
+| O | **unsupported** | The adapter README: *"External semantic-model activation requires an embedding with an explicit catalog, so the modeled-external case is reported as `unsupported` by this CLI adapter with an explicit retained reason. It is not a negative result."* The existing `dfb-taint-java-modeled-external` calibration case already carries that retained reason in the frozen smoke report. |
+| E | **to be verified — unsupported until shown** | Nothing in the repository or the README describes an entry-root declaration for the policy CLI. |
+| B | **to be verified — unsupported until shown** | No persistence-boundary vocabulary is described anywhere for any adapter, Bifrost included. |
+
+Bifrost therefore enters this matrix with **one of six categories scored**. That
+is the honest starting position for a standalone policy CLI whose modeling
+surface lives in an embedding, and stating it in the preregistration — rather
+than after a run — is the point.
+
+### CodeQL — CLI 2.26.3
+
+Verified surface: the shared `codeql/dataflow` library at the pinned resolution
+defines `DataFlow::ConfigSig` with `isSource`, `isSink`, and the defaulted
+`isBarrier`, `isBarrierIn`, `isBarrierOut`, and `isAdditionalFlowStep`. The
+pinned language packs each ship models-as-data extensible predicates —
+`sourceModel`, `sinkModel`, `summaryModel`, `barrierModel`, `neutralModel` — in
+`codeql/java-all@9.2.3`
+(`semmle/code/java/dataflow/internal/ExternalFlowExtensions.qll`),
+`codeql/javascript-all@2.9.0` and `codeql/python-all@7.2.3`
+(`semmle/…/frameworks/data/internal/ApiGraphModelsExtensions.qll`). The adapter
+uses **no** data extensions today; the query owns the model, which
+`adapters/codeql/README.md` states as the design (*"The query owns the CodeQL
+model; the case metadata remains analyzer neutral."*).
+
+| Cat. | Decision | Rationale |
+| --- | --- | --- |
+| S | **supported** | `isSource` / `isSink` over a named callee is what all eleven committed kernel queries already do. |
+| P | **supported** | `isAdditionalFlowStep(node1, node2)` expresses arg-position → return-value directly, and positional fidelity is native: the step is written against `call.getArgument(1)` specifically. |
+| Z | **supported** | `isBarrier` is a defaulted member of the same `ConfigSig` the adapter already instantiates. |
+| O | **supported** | Same `isAdditionalFlowStep` mechanism; the store-through form of template 8 is a step into a field content node. The alternative encoding — `summaryModel` MaD rows — is available in all three packs but is API-graph-keyed and its binding to *fixture-local* types is **to be verified at implementation**; the pack-predicate encoding is the primary and the MaD one is optional, so this cell does not depend on that verification. |
+| E | **supported** | `isSource` can name a parameter node of an uncalled method, and CodeQL's data flow does not require a source to be reachable from a call graph root. Selectivity is by the method's identity in the predicate body. |
+| B | **supported** | Two `isAdditionalFlowStep` clauses — one from `put`'s value argument to a synthetic store node, one from that node to `get`'s result — conditioned on equal constant key arguments and, for template 12, on the receiver. Expressible in QL without leaving the checked-in pack. |
+
+CodeQL enters with **six of six**, which is unsurprising: a query language whose
+data-flow configuration *is* a model declaration surface has no category to
+decline. The interesting question for CodeQL is not whether it can be told, but
+whether the resulting semantics match — which is what the assertions measure.
+
+### Joern — 4.0.610
+
+Verified surface: the OSS data-flow engine ships a flow-semantics loader —
+`io.joern.dataflowengineoss.semanticsloader` with `FlowSemantic`, `FlowMapping`,
+`FlowPath`, `ParamOrRetNode`, `NilSemantics`, `NoCrossTaintSemantics`, and
+`FullNameSemanticsParser`, plus a `SemanticsParser`/`SemanticsLexer` grammar for
+the textual semantics format. Verified by inspecting
+`io.joern.dataflowengineoss-<version>.jar` in a locally installed distribution,
+which is **4.0.432, not the pinned 4.0.610** — the class surface is expected to
+be identical and is **to be confirmed against the pinned distribution at
+implementation**, on the same terms as the challenge tier's verified
+`maxCallDepth` bound. The committed `adapters/joern/queries/kernel.sc` supplies
+no semantics today, which the README states: *"No custom semantics, no
+additional propagation or sanitizer models, and no engine configuration are
+supplied."* Supplying them for the modeling matrix is a new adapter capability,
+scoped to a separate `modeling.sc` so the kernel script is untouched.
+
+| Cat. | Decision | Rationale |
+| --- | --- | --- |
+| S | **supported** | The kernel script already selects sources and sinks by callee name through CLI parameters; a modeling script selects the declared identities the same way. |
+| P | **supported** | `FlowMapping` over `ParamOrRetNode` expresses argument-index → return propagation, and the index is the mapping's own key, so positional fidelity is native rather than emulated. |
+| Z | **supported** | `NilSemantics` — a method declared with no flow mappings — is precisely "taint does not leave this entity", which is the `sanitizer` role. |
+| O | **supported** | The same semantics mechanism, with an access path on the destination for template 8's `out: 1.payload`. `FlowPath` is the surface; its access-path expressiveness for a field destination is **to be verified at implementation**, and template 8 alone is unsupported for Joern if it cannot be expressed. |
+| E | **supported** | `reachableByFlows` takes arbitrary CPG nodes as sources; `cpg.method.fullNameExact(…).parameter.index(1)` is a valid root regardless of whether any call site reaches the method. Selectivity is the query's own predicate. |
+| B | **supported** | Two `FlowSemantic` entries — `put` mapping its value parameter into its store parameter, `get` mapping its receiver to its return — leave the key and instance discrimination to the engine, which is the correct division: the model declares the boundary, the analysis decides whether the roundtrip closes. |
+
+### Semgrep CE — 1.174.0 (`--oss-only`)
+
+This partition is **verified by execution** against the pinned CE binary
+(`semgrep 1.174.0`, `--oss-only`), on small Python probes, before any fixture
+exists. Each cell below states what was run and what came back.
+
+The existing `CHALLENGE_SEMGREP_PARTITION` precedent applies: cells are decided
+from case metadata and the pinned distribution's documented behavior, before
+Semgrep is invoked, and no result can talk the runner into or out of the
+partition.
+
+| Cat. | Decision | Rationale |
+| --- | --- | --- |
+| S | **supported** | `pattern-sources` / `pattern-sinks` are what all eleven committed rules already use. Both category-S templates are single-statement and intraprocedural, so they sit inside the CE profile. |
+| P | **unsupported** | Verified twice over. First, `pattern-propagators` binds `to:` to a **metavariable**, not to a call's return value: a propagator written `pattern: prop($A,$B) / from: $B / to: prop(...)` produced no finding when the default pass-through was disabled. Second, with the default enabled, CE reports the sink whether taint sits at the declared position 1 or the undeclared position 0 — so both cells of template 4 are decided by the default, not the model, and the [load-bearing-model requirement](#the-load-bearing-model-requirement) is violated either way. Arg→return propagation is outside CE's propagator vocabulary. |
+| Z | **supported** | Verified: `pattern-sanitizers` on `scrub(...)` suppresses a finding that the same rule reports without it, and leaves an unrelated direct flow reported. Both category-Z templates are intraprocedural. The rule must set `options: taint_assume_safe_functions: true` so the sanitizer, not the default, is what the cells turn on. |
+| O | **unsupported** | Template 7 needs arg→return summary semantics, which P has already established CE cannot express, and puts the summarized procedure in a separate file, which CE's intra-file engine does not cross. Template 8's destination is a *field* of an argument; `to: $L` reaches the whole object, and the pinned CE documents only *"Experimental support for basic field-sensitive taint tracking"* — so the field-separation negative would be decided by CE's heap approximation rather than by the summary. |
+| E | **supported** | Verified, and this is the surprising cell: a source written as `patterns: [pattern: "def on_request($P): ...", focus-metavariable: $P]` produced a finding inside the declared handler's body and **no** finding inside a byte-identical undeclared sibling. Both templates in this category are intraprocedural — the handler's body contains the sink — so the absence of a caller is not a problem for an intraprocedural engine, it is the normal case. |
+| B | **unsupported** | The write and the read are in two different procedures by construction, and the pinned CE engine has no interprocedural taint at all: `semgrep scan --help` offers `--pro-intrafile` (*"Intra-file inter-procedural taint analysis … Requires Semgrep Pro Engine"*), so the step from `put` to `get` is outside the engine regardless of what is declared. |
+
+Semgrep CE enters with **three of six**, and — worth saying plainly, because the
+expectation from the kernels would be the opposite — it enters with a *larger*
+share of this matrix than Bifrost does. Modeling capability and propagation
+capability are not the same axis, which is the whole reason this tier exists.
+
+### Partition summary
+
+Preregistered, before any modeling fixture exists. `TBV` = to be verified at
+implementation, treated as unsupported until shown otherwise.
+
+| Category | Bifrost v0.10.6 | CodeQL 2.26.3 | Joern 4.0.610 | Semgrep CE 1.174.0 |
+| --- | --- | --- | --- | --- |
+| S — sources and sinks | supported | supported | supported | supported |
+| P — propagators | TBV | supported | supported | unsupported |
+| Z — sanitizers | unsupported | supported | supported | supported |
+| O — summaries | unsupported | supported | supported (T8 TBV) | unsupported |
+| E — entry points | TBV | supported | supported | supported |
+| B — persistence | TBV | supported | supported | unsupported |
+| **Scored today** | **1 / 6** | **6 / 6** | **6 / 6** | **3 / 6** |
+
+These counts are categories, not scores. A tool with six of six has six
+categories' worth of assertions it can get wrong, and a tool with one of six has
+declined five categories rather than failed them. Any future summary that reads
+this table as a ranking is a misreading of this document.
+
+## The three-way distinction
+
+Issue #15 requires that missing models, unsupported activation, and incomplete
+analysis remain distinguishable. Defined precisely, and mapped onto outcomes the
+[scoring contract](scoring.md#outcome-interpretation) already carries. They are
+never conflated, and none of them is ever a negative.
+
+**Missing model — a benchmark error, impossible by construction.** A modeling
+case whose declaration does not exist for an adapter that is supposed to cover it
+is a defect in DataFlowBench, not evidence about the analyzer. The
+modeling-population validator makes it unrepresentable: for every modeling case
+and every adapter, *either* the adapter's modeling artifact contains the
+declaration for that case's template, *or* that template's category is
+`unsupported` for that adapter **by the partition table above**. There is no
+third state, and in particular there is no silent one. Validation fails the
+build; it does not produce a result.
+
+**Unsupported activation — the tool cannot accept or activate this category of
+model.** Outcome `unsupported`, with the partition's rationale retained verbatim
+as the reason, decided from case metadata **before the tool is invoked**. This
+is capability coverage. It is never a false negative and never a true negative,
+and no aggregate converts it into either.
+
+**Incomplete analysis — the model was activated but the analysis did not
+complete.** Outcome `inconclusive`. The tool accepted the declaration and then
+failed to produce a decisive answer: it ran out of budget, hit an internal
+invariant, or emitted a candidate without a complete witness. This is execution
+coverage. It is emphatically *not* `not-reached`: normalizing it would count
+incomplete analysis as a negative, which is the one conversion the scoring
+contract forbids most explicitly.
+
+Runner failures — a missing binary, a crashed process, a malformed artifact —
+remain `runner-error` and are never any of the three.
+
+The distinction between the second and third is the one this matrix is most
+likely to blur, so it has a rule: **`unsupported` is decided before the run and
+`inconclusive` is decided after it.** If the partition says a tool cannot
+activate a category, no execution of that tool can produce anything but
+`unsupported` for it. If the partition says it can, no failure to produce an
+answer may be reported as `unsupported` — it is `inconclusive`, and the reason is
+retained.
+
+## Reporting
+
+Modeling results are their own population, end to end.
+
+- **Reports.** Per language, per adapter:
+  `reports/<tool>-<language>-modeling.json`, in the existing result schema, bound
+  into the freeze manifest like every other report.
+- **Scorecards.** Separate, per language and per adapter, at the `modeling` tier.
+  Generated results order the tier alongside the existing four.
+- **Never on a kernel card.** A modeling assertion never appears on a
+  propagation-kernel scorecard, never enters a core denominator, and is never
+  macro-averaged with one.
+- **Per category.** Every report breaks results down by the six categories, so
+  that "activates sources but not summaries" is readable off the card rather than
+  reconstructed from case IDs.
+- **The site.** The published site treats modeling as a new population, with its
+  own section. That is a later site pass and is out of scope for this document
+  beyond stating that the population must not be folded into an existing view.
+
+## Metadata groundwork
+
+Additive schema changes only, made in the same change as this document so that
+fixture authoring is unblocked. Every addition was checked against the existing
+enum first; nothing already expressible was duplicated.
+
+### New score tier
+
+`score_tier` gains `"modeling"` in both `schemas/case.schema.json` and
+`schemas/freeze.schema.json`. Existing freezes are unaffected: freeze validation
+is manifest-scoped, and an added enum value changes nothing that a
+previously-validated manifest asserts.
+
+The result-generation tier ordering in `src/main.rs` (`SCORE_TIER_ORDER`) is
+extended in the same change. That constant decides which tiers get a section on a
+generated scorecard, and a tier absent from it would be **silently dropped** from
+every generated result rather than reported as an error — so it is registered
+here, with the schemas, ahead of the first modeling case.
+
+### No new negative mechanism
+
+The design sketch for this document proposed adding `sanitizer-kill`. It was
+checked against the enum and **not added**: `schemas/case.schema.json` already
+carries `sanitizer` in `negative_mechanism`, and it has been there since the v2
+case contract without ever being used by a case. It means exactly what
+`sanitizer-kill` would have meant. Adding a second spelling of an existing value
+would have been duplication, and templates 5 and 6 use `sanitizer`.
+
+The twelve negatives use `unrelated-value` (1, 2), `call-context-separation`
+(3, 4, 7, 9, 10), `sanitizer` (5, 6), `field-separation` (8, 11), and
+`object-separation` (12). `infeasible-path` and `overwrite-kill` are unused by
+this matrix.
+
+### No new semantic dimensions
+
+Checked and **not** added. The enum already carries `external-summary`
+(categories O and E), `sanitizer` (Z), `interprocedural-flow` (P, O, B),
+`heap-field-sensitivity` (templates 8 and 11), and `object-sensitivity`
+(template 12). Every category maps onto an existing dimension, so adding one
+would have been duplication.
+
+### No new feature tags
+
+Checked and **not** added. `modeled-external` marks every case in this matrix —
+the value exists for exactly this purpose and is currently carried by one
+calibration case. `summary-required` covers categories P, O, and E;
+`sanitized` covers Z; `heap-access-path` covers templates 8, 11, and 12;
+`interprocedural-one-hop` covers the rest.
+
+### No new `tool_model_references` key
+
+`tool_model_references` per-tool objects are `additionalProperties: false` with
+`policy`, `query`, and `unsupported_reason`. That is sufficient: Bifrost
+modeling cases name their `.rqlp` through `policy`, CodeQL cases name their query
+through `query`, unsupported cells carry `unsupported_reason`, and Joern and
+Semgrep pin their invocation in the runner as they already do. No schema change.
+
+### `expected_analysis_capability.kind`
+
+Not enum-constrained — a free-form string with an optional `notes` sibling — so
+no schema change is required and none was made. The twelve kind strings are fixed
+in [the summary table](#summary-table) so that fixtures cannot drift. They follow
+the corpus convention the existing `external-summary-activation` establishes:
+this matrix measures *activation* and *binding*, so its kinds end in
+`-activation` (the category can be turned on) or `-binding` (the category binds
+to the right entity), rather than the kernels' `-taint` suffix.
+
+### Validator scope, stated now, implemented later
+
+A modeling-population validator is specified here and implemented alongside the
+first language's fixtures, because a required-set check that runs before the
+fixtures exist would fail against the current corpus. It must enforce:
+
+1. **Balance.** Each language's modeling population contains exactly one
+   positive and one minimally different negative case for each applicable
+   template — 24 assertions for a full twelve-template language.
+2. **Completeness.** The population contains the exact twelve `template_id`
+   values above, so an omitted template cannot hide inside a balanced but smaller
+   subset. This mirrors the existing Python-parity required-set check.
+3. **Tier isolation.** No `modeling` case appears in any core, calibration,
+   `language-extension`, or `real-project` selection, and no core selection
+   admits a `modeling` case.
+4. **Declaration coverage.** For every modeling case and every covering adapter,
+   either the adapter's modeling artifact declares that case's model, or the
+   case's category is `unsupported` for that adapter by the partition table —
+   never neither. This is what makes *missing model* unrepresentable.
+5. **Profile.** Every modeling case is `model_profile: "benchmark-controlled"`.
+
+## Rollout plan
+
+**Wave M1 — Java, JavaScript, Python.** One language per pull request, after
+this document merges. Each PR adds that language's twenty-four fixtures and
+cases, the per-adapter model encodings its partition entitles it to, the runs,
+and the language's row in the modeling validator. A wave never edits a template
+definition in this document.
+
+**Later — the remaining ten languages,** via the applicability pass described
+under [initial languages](#initial-languages). Those languages have no modeling
+denominator until that pass merges.
+
+**Adjacent issues.** #16 (tool-native profiles) builds on this matrix's category
+taxonomy so the two profiles can be read side by side, and supplies **no
+models**. #17 (OpenTaint) and #18 (Semgrep CE) join per their own issues; a new
+adapter joining this matrix arrives with its own preregistered partition row,
+added by amendment before its first modeling run.
+
+Nothing in this plan makes a language's fixtures conditional on the results any
+analyzer produces for it, and no partition cell is revised because a run was
+disappointing.
+
+## Invariants
+
+Restating the obligations this tier is most at risk of eroding:
+
+- Modeling cases are `score_tier: "modeling"` and never enter a core
+  denominator, in any language, in any release.
+- Modeling and propagation-kernel scores are never pooled, never averaged, and
+  never presented as one number.
+- Benchmark-controlled and tool-native model profiles are never pooled.
+- `unsupported`, `inconclusive`, and `runner-error` are capability or execution
+  coverage and are never converted into clean negatives.
+- A missing model is a benchmark defect that fails validation, never a result.
+- Capability partitions are decided before runs and revised only by dated
+  amendment.
+- Published numbers come only from validated freeze manifests.
+- The category partition table counts categories, not correctness, and is not a
+  ranking.
+
+## Amendments
+
+None yet. This document has not been amended since it merged.

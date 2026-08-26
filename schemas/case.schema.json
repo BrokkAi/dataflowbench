@@ -46,8 +46,8 @@
       ]
     },
     "score_tier": {
-      "enum": ["calibration", "core", "language-extension", "real-project"],
-      "description": "Calibration cases validate adapters but never contribute to correctness scores."
+      "enum": ["calibration", "core", "language-extension", "modeling", "real-project"],
+      "description": "Calibration cases validate adapters but never contribute to correctness scores. Modeling cases score the benchmark-controlled taint-modeling matrix on their own tier and never enter a core denominator."
     },
     "track": { "enum": ["value-flow", "taint", "typestate", "witness", "performance"] },
     "language": { "type": "string", "minLength": 1 },

@@ -66,6 +66,17 @@ calibration cases exercise capabilities such as one-hop helpers or activated
 external summaries without changing a core denominator. Results from one
 population are not evidence that another population completed successfully.
 
+The [benchmark-controlled taint-modeling matrix](modeling-matrix.md) joins that
+list as a further separate population, on its own `modeling` score tier. It asks
+a different question from every kernel — not whether an engine can follow flow it
+can see, but whether it activates a model it was given — so its assertions never
+enter a core denominator and are never pooled or averaged with a propagation
+score. Its pairs are balanced for the same reason the kernels' are: an engine
+that ignores a supplied model answers "no flow" on both cells of every category
+it did not activate and banks half the assertions, so modeling results are read
+against the same 50% blind baseline, with per-category true-positive and
+false-positive rates carrying the evidence rather than the raw correct count.
+
 An analyzer may report a candidate finding with incomplete discovery or an
 incomplete witness. That evidence remains `inconclusive` until the tool proves
 the required path. It must not be normalized to `not-reached` merely because
