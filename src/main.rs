@@ -436,6 +436,609 @@ fn challenge_template_case(case: &Value) -> bool {
         .is_some_and(|template| template.starts_with(CHALLENGE_TEMPLATE_PREFIX))
 }
 
+// ---------------------------------------------------------------------------
+// The benchmark-controlled taint-modeling matrix.
+//
+// Everything in this section is transcribed from docs/modeling-matrix.md, the
+// preregistration artifact that merged before any modeling fixture, model
+// artifact, or run existed. The twelve template identities, their six
+// categories, and the per-tool capability partition are **immutable** on that
+// document's terms: a cell revised after a run is a result being relabelled,
+// not a capability classification. Corrections are dated amendments in the
+// document, never silent edits here.
+// ---------------------------------------------------------------------------
+
+/// Every modeling template ID carries this prefix. It is the property that
+/// distinguishes the tier structurally, the same way `dfb-template-chal-`
+/// distinguishes the challenge tier, so no selector has to reason about tags.
+const MODELING_TEMPLATE_PREFIX: &str = "dfb-template-model-";
+
+/// The twelve preregistered modeling templates, in the document's own order —
+/// six categories of two. `docs/modeling-matrix.md#the-twelve-templates`.
+const MODELING_TEMPLATE_IDS: [&str; 12] = [
+    "dfb-template-model-declared-source",
+    "dfb-template-model-declared-sink",
+    "dfb-template-model-opaque-propagator",
+    "dfb-template-model-propagator-position",
+    "dfb-template-model-sanitizer-kill",
+    "dfb-template-model-sanitizer-selectivity",
+    "dfb-template-model-summary-through",
+    "dfb-template-model-summary-field",
+    "dfb-template-model-entrypoint-parameter",
+    "dfb-template-model-entrypoint-selectivity",
+    "dfb-template-model-store-roundtrip",
+    "dfb-template-model-store-separation",
+];
+
+/// One positive and one minimally different negative per template — 24
+/// assertions for a language whose modeling population exists at all.
+const MODELING_CASE_COUNT: usize = 2 * MODELING_TEMPLATE_IDS.len();
+
+/// Every modeling case is `benchmark-controlled`: the models come from
+/// DataFlowBench and are supplied equally to every tool. The counterpart
+/// `tool-native` profile (issue #16) supplies no models and is never pooled
+/// with this one.
+const MODELING_MODEL_PROFILE: &str = "benchmark-controlled";
+
+/// The six preregistered categories. The partition below is stated per
+/// category, exactly as the document states it, and templates inherit their
+/// category's decision — a category is the unit a tool can or cannot express.
+#[derive(Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Debug)]
+enum ModelingCategory {
+    /// S — declared sources and sinks.
+    SourcesAndSinks,
+    /// P — declared propagators.
+    Propagators,
+    /// Z — declared sanitizers.
+    Sanitizers,
+    /// O — opaque procedure summaries.
+    Summaries,
+    /// E — framework entry points.
+    EntryPoints,
+    /// B — persistence boundaries.
+    Persistence,
+}
+
+impl ModelingCategory {
+    const ALL: [Self; 6] = [
+        Self::SourcesAndSinks,
+        Self::Propagators,
+        Self::Sanitizers,
+        Self::Summaries,
+        Self::EntryPoints,
+        Self::Persistence,
+    ];
+
+    /// The one-letter key the document's tables use.
+    fn key(self) -> &'static str {
+        match self {
+            Self::SourcesAndSinks => "S",
+            Self::Propagators => "P",
+            Self::Sanitizers => "Z",
+            Self::Summaries => "O",
+            Self::EntryPoints => "E",
+            Self::Persistence => "B",
+        }
+    }
+
+    fn label(self) -> &'static str {
+        match self {
+            Self::SourcesAndSinks => "declared sources and sinks",
+            Self::Propagators => "declared propagators",
+            Self::Sanitizers => "declared sanitizers",
+            Self::Summaries => "opaque procedure summaries",
+            Self::EntryPoints => "framework entry points",
+            Self::Persistence => "persistence boundaries",
+        }
+    }
+
+    /// The two templates of this category, by the document's numbering.
+    fn templates(self) -> [&'static str; 2] {
+        match self {
+            Self::SourcesAndSinks => [MODELING_TEMPLATE_IDS[0], MODELING_TEMPLATE_IDS[1]],
+            Self::Propagators => [MODELING_TEMPLATE_IDS[2], MODELING_TEMPLATE_IDS[3]],
+            Self::Sanitizers => [MODELING_TEMPLATE_IDS[4], MODELING_TEMPLATE_IDS[5]],
+            Self::Summaries => [MODELING_TEMPLATE_IDS[6], MODELING_TEMPLATE_IDS[7]],
+            Self::EntryPoints => [MODELING_TEMPLATE_IDS[8], MODELING_TEMPLATE_IDS[9]],
+            Self::Persistence => [MODELING_TEMPLATE_IDS[10], MODELING_TEMPLATE_IDS[11]],
+        }
+    }
+}
+
+/// The category a modeling template belongs to, decided from the template ID
+/// alone. A non-modeling template has none.
+fn modeling_category(template: &str) -> Option<ModelingCategory> {
+    ModelingCategory::ALL
+        .into_iter()
+        .find(|category| category.templates().contains(&template))
+}
+
+/// The four adapters the preregistration partitions. A fifth adapter joins by
+/// amendment with its own partition row, never by inheriting another's.
+#[derive(Clone, Copy, PartialEq, Eq, Debug, clap::ValueEnum)]
+enum ModelingTool {
+    Bifrost,
+    Codeql,
+    Joern,
+    Semgrep,
+}
+
+impl ModelingTool {
+    const ALL: [Self; 4] = [Self::Bifrost, Self::Codeql, Self::Joern, Self::Semgrep];
+
+    /// The `tool` value the normalized report carries, and the first component
+    /// of the report and raw-evidence paths.
+    fn key(self) -> &'static str {
+        match self {
+            Self::Bifrost => "bifrost",
+            Self::Codeql => "codeql",
+            Self::Joern => "joern",
+            Self::Semgrep => "semgrep",
+        }
+    }
+
+    /// The pinned identity the partition was decided against, quoted from the
+    /// document's table headings so a version drift is visible in the message.
+    fn pinned_identity(self) -> &'static str {
+        match self {
+            Self::Bifrost => "Bifrost v0.10.6",
+            Self::Codeql => "CodeQL CLI 2.26.3",
+            Self::Joern => "Joern 4.0.610",
+            Self::Semgrep => "Semgrep CE 1.174.0",
+        }
+    }
+}
+
+/// One cell of the preregistered per-tool capability partition: a tool, a
+/// category, and either a scored decision or the document's verbatim rationale
+/// for declining it.
+struct ModelingPartitionCell {
+    tool: ModelingTool,
+    category: ModelingCategory,
+    /// `None` when the category is scored for this tool. `Some(reason)` when
+    /// it is `unsupported`, carrying the rationale the report retains.
+    unsupported_reason: Option<&'static str>,
+}
+
+/// The preregistered per-tool capability partition, transcribed cell for cell
+/// from `docs/modeling-matrix.md#per-tool-capability-partition`.
+///
+/// This is `CHALLENGE_SEMGREP_PARTITION`'s mechanism generalized to four
+/// tools: a decision keyed by template identity, consulted **before** the tool
+/// is invoked and before any tag rule, so that neither a fixture's
+/// `feature_tags` nor an observed result can move a cell between the scored
+/// and `unsupported` partitions after the fact.
+///
+/// Cells the document marks *to be verified* are recorded here as
+/// `unsupported`, per the rule stated at the head of each of its tables:
+/// unverifiable is unsupported until shown otherwise, and promoting one is a
+/// dated amendment. That is why Bifrost enters with one scored category rather
+/// than four.
+const MODELING_PARTITION: [ModelingPartitionCell; 24] = [
+    // Bifrost — v0.10.6 (build `18d09c57`): 1 / 6.
+    ModelingPartitionCell {
+        tool: ModelingTool::Bifrost,
+        category: ModelingCategory::SourcesAndSinks,
+        unsupported_reason: None,
+    },
+    ModelingPartitionCell {
+        tool: ModelingTool::Bifrost,
+        category: ModelingCategory::Propagators,
+        unsupported_reason: Some(
+            "to be verified — unsupported until shown: no committed policy declares a propagator or transform, and the adapter README makes no propagator claim. Additionally, every committed policy sets `:unmodeled optimistic`, so the modeling policy must also be shown to accept `require-model` before either P cell is load-bearing. Both must be demonstrated on the pinned build",
+        ),
+    },
+    ModelingPartitionCell {
+        tool: ModelingTool::Bifrost,
+        category: ModelingCategory::Sanitizers,
+        unsupported_reason: Some(
+            "the adapter README states it directly: \"Sanitizer lowering is a future Bifrost CLI capability.\" (`adapters/bifrost/README.md`). The matrix surfaces this rather than hiding it. DataFlowBench is published by Bifrost's vendor, and a partition that quietly granted its own engine a category its own documentation says is unimplemented would be the single most damaging thing this document could do",
+        ),
+    },
+    ModelingPartitionCell {
+        tool: ModelingTool::Bifrost,
+        category: ModelingCategory::Summaries,
+        unsupported_reason: Some(
+            "the adapter README: \"External semantic-model activation requires an embedding with an explicit catalog, so the modeled-external case is reported as `unsupported` by this CLI adapter with an explicit retained reason. It is not a negative result.\" The existing `dfb-taint-java-modeled-external` calibration case already carries that retained reason in the frozen smoke report",
+        ),
+    },
+    ModelingPartitionCell {
+        tool: ModelingTool::Bifrost,
+        category: ModelingCategory::EntryPoints,
+        unsupported_reason: Some(
+            "to be verified — unsupported until shown: nothing in the repository or the README describes an entry-root declaration for the policy CLI",
+        ),
+    },
+    ModelingPartitionCell {
+        tool: ModelingTool::Bifrost,
+        category: ModelingCategory::Persistence,
+        unsupported_reason: Some(
+            "to be verified — unsupported until shown: no persistence-boundary vocabulary is described anywhere for any adapter, Bifrost included",
+        ),
+    },
+    // CodeQL — CLI 2.26.3: 6 / 6.
+    ModelingPartitionCell {
+        tool: ModelingTool::Codeql,
+        category: ModelingCategory::SourcesAndSinks,
+        unsupported_reason: None,
+    },
+    ModelingPartitionCell {
+        tool: ModelingTool::Codeql,
+        category: ModelingCategory::Propagators,
+        unsupported_reason: None,
+    },
+    ModelingPartitionCell {
+        tool: ModelingTool::Codeql,
+        category: ModelingCategory::Sanitizers,
+        unsupported_reason: None,
+    },
+    ModelingPartitionCell {
+        tool: ModelingTool::Codeql,
+        category: ModelingCategory::Summaries,
+        unsupported_reason: None,
+    },
+    ModelingPartitionCell {
+        tool: ModelingTool::Codeql,
+        category: ModelingCategory::EntryPoints,
+        unsupported_reason: None,
+    },
+    ModelingPartitionCell {
+        tool: ModelingTool::Codeql,
+        category: ModelingCategory::Persistence,
+        unsupported_reason: None,
+    },
+    // Joern — 4.0.610: 6 / 6.
+    ModelingPartitionCell {
+        tool: ModelingTool::Joern,
+        category: ModelingCategory::SourcesAndSinks,
+        unsupported_reason: None,
+    },
+    ModelingPartitionCell {
+        tool: ModelingTool::Joern,
+        category: ModelingCategory::Propagators,
+        unsupported_reason: None,
+    },
+    ModelingPartitionCell {
+        tool: ModelingTool::Joern,
+        category: ModelingCategory::Sanitizers,
+        unsupported_reason: None,
+    },
+    ModelingPartitionCell {
+        tool: ModelingTool::Joern,
+        category: ModelingCategory::Summaries,
+        unsupported_reason: None,
+    },
+    ModelingPartitionCell {
+        tool: ModelingTool::Joern,
+        category: ModelingCategory::EntryPoints,
+        unsupported_reason: None,
+    },
+    ModelingPartitionCell {
+        tool: ModelingTool::Joern,
+        category: ModelingCategory::Persistence,
+        unsupported_reason: None,
+    },
+    // Semgrep CE — 1.174.0 (`--oss-only`): 3 / 6.
+    ModelingPartitionCell {
+        tool: ModelingTool::Semgrep,
+        category: ModelingCategory::SourcesAndSinks,
+        unsupported_reason: None,
+    },
+    ModelingPartitionCell {
+        tool: ModelingTool::Semgrep,
+        category: ModelingCategory::Propagators,
+        unsupported_reason: Some(
+            "verified twice over. First, `pattern-propagators` binds `to:` to a **metavariable**, not to a call's return value: a propagator written `pattern: prop($A,$B) / from: $B / to: prop(...)` produced no finding when the default pass-through was disabled. Second, with the default enabled, CE reports the sink whether taint sits at the declared position 1 or the undeclared position 0 — so both cells of template 4 are decided by the default, not the model, and the load-bearing-model requirement is violated either way. Arg→return propagation is outside CE's propagator vocabulary",
+        ),
+    },
+    ModelingPartitionCell {
+        tool: ModelingTool::Semgrep,
+        category: ModelingCategory::Sanitizers,
+        unsupported_reason: None,
+    },
+    ModelingPartitionCell {
+        tool: ModelingTool::Semgrep,
+        category: ModelingCategory::Summaries,
+        unsupported_reason: Some(
+            "template 7 needs arg→return summary semantics, which P has already established CE cannot express, and puts the summarized procedure in a separate file, which CE's intra-file engine does not cross. Template 8's destination is a *field* of an argument; `to: $L` reaches the whole object, and the pinned CE documents only \"Experimental support for basic field-sensitive taint tracking\" — so the field-separation negative would be decided by CE's heap approximation rather than by the summary",
+        ),
+    },
+    ModelingPartitionCell {
+        tool: ModelingTool::Semgrep,
+        category: ModelingCategory::EntryPoints,
+        unsupported_reason: None,
+    },
+    ModelingPartitionCell {
+        tool: ModelingTool::Semgrep,
+        category: ModelingCategory::Persistence,
+        unsupported_reason: Some(
+            "the write and the read are in two different procedures by construction, and the pinned CE engine has no interprocedural taint at all: `semgrep scan --help` offers `--pro-intrafile` (\"Intra-file inter-procedural taint analysis … Requires Semgrep Pro Engine\"), so the step from `put` to `get` is outside the engine regardless of what is declared",
+        ),
+    },
+];
+
+/// The preregistered decision for one tool × template cell, keyed by template
+/// identity alone: `None` when the category is scored, `Some(reason)` when the
+/// tool declines it. Every cell is present, so an unknown template is a
+/// programming error rather than a silent scored default.
+fn modeling_partition_reason(tool: ModelingTool, template: &str) -> Result<Option<&'static str>> {
+    let category = modeling_category(template).with_context(|| {
+        format!("{template:?} is not one of the twelve preregistered modeling templates")
+    })?;
+    MODELING_PARTITION
+        .iter()
+        .find(|cell| cell.tool == tool && cell.category == category)
+        .map(|cell| cell.unsupported_reason)
+        .with_context(|| {
+            format!(
+                "the modeling partition has no cell for {} × category {}",
+                tool.key(),
+                category.key()
+            )
+        })
+}
+
+/// The retained `unsupported` reason for a declined cell, or `None` when the
+/// cell is scored. The partition's rationale is carried verbatim; the prefix
+/// names the category and the pinned tool identity the decision was made
+/// against, so the reason is auditable without opening the document.
+fn modeling_unsupported_reason(tool: ModelingTool, template: &str) -> Result<Option<String>> {
+    let Some(reason) = modeling_partition_reason(tool, template)? else {
+        return Ok(None);
+    };
+    let category = modeling_category(template).expect("partition resolved the category");
+    Ok(Some(format!(
+        "category {} — {} — is unsupported for {} by the preregistered modeling partition (docs/modeling-matrix.md#per-tool-capability-partition): {reason}",
+        category.key(),
+        category.label(),
+        tool.pinned_identity(),
+    )))
+}
+
+/// The templates a tool is entitled to score, in preregistered order. The
+/// counts are the document's partition summary: Bifrost 2, Semgrep 6, CodeQL
+/// 12, Joern 12.
+fn modeling_supported_templates(tool: ModelingTool) -> Vec<&'static str> {
+    MODELING_TEMPLATE_IDS
+        .into_iter()
+        .filter(|template| {
+            modeling_partition_reason(tool, template)
+                .expect("every preregistered template has a partition cell")
+                .is_none()
+        })
+        .collect()
+}
+
+/// The three languages wave M1 rolls the matrix out to. No other language has a
+/// modeling denominator until the applicability pass the preregistration
+/// describes merges — which is different from having a zero.
+#[derive(Clone, Copy, PartialEq, Eq, Debug, clap::ValueEnum)]
+enum ModelingLanguage {
+    Java,
+    Javascript,
+    Python,
+}
+
+impl ModelingLanguage {
+    fn key(self) -> &'static str {
+        match self {
+            Self::Java => "java",
+            Self::Javascript => "javascript",
+            Self::Python => "python",
+        }
+    }
+
+    fn display_name(self) -> &'static str {
+        match self {
+            Self::Java => "Java",
+            Self::Javascript => "JavaScript",
+            Self::Python => "Python",
+        }
+    }
+
+    /// The population label validation errors are reported under.
+    fn label(self) -> String {
+        format!("{} modeling population", self.display_name())
+    }
+
+    /// The per-language modeling artifact this tool encodes its declarations
+    /// in. One artifact per tool per language, hash-bound into the report's
+    /// `configuration_hash` the way every existing adapter artifact is.
+    ///
+    /// The CodeQL path departs from the preregistration's schematic
+    /// `adapters/codeql/queries/<Language>Modeling.ql` and sits inside that
+    /// language's existing `qlpack`, because a query outside a pack cannot
+    /// resolve its `codeql/<lang>-all` dependency. That is a location, not a
+    /// declaration surface: the document's `ConfigSig` encoding is unchanged.
+    fn artifact(self, tool: ModelingTool) -> &'static str {
+        match (tool, self) {
+            (ModelingTool::Bifrost, Self::Java) => "adapters/bifrost/policies/model-java.rqlp",
+            (ModelingTool::Bifrost, Self::Javascript) => {
+                "adapters/bifrost/policies/model-javascript.rqlp"
+            }
+            (ModelingTool::Bifrost, Self::Python) => "adapters/bifrost/policies/model-python.rqlp",
+            (ModelingTool::Codeql, Self::Java) => "adapters/codeql/java/queries/JavaModeling.ql",
+            (ModelingTool::Codeql, Self::Javascript) => {
+                "adapters/codeql/javascript/queries/JavaScriptModeling.ql"
+            }
+            (ModelingTool::Codeql, Self::Python) => {
+                "adapters/codeql/python/queries/PythonModeling.ql"
+            }
+            (ModelingTool::Joern, Self::Java) => "adapters/joern/semantics/model-java.semantics",
+            (ModelingTool::Joern, Self::Javascript) => {
+                "adapters/joern/semantics/model-javascript.semantics"
+            }
+            (ModelingTool::Joern, Self::Python) => {
+                "adapters/joern/semantics/model-python.semantics"
+            }
+            (ModelingTool::Semgrep, Self::Java) => "adapters/semgrep/rules/model-java.yaml",
+            (ModelingTool::Semgrep, Self::Javascript) => {
+                "adapters/semgrep/rules/model-javascript.yaml"
+            }
+            (ModelingTool::Semgrep, Self::Python) => "adapters/semgrep/rules/model-python.yaml",
+        }
+    }
+
+    fn report(self, tool: ModelingTool) -> PathBuf {
+        PathBuf::from(format!(
+            "reports/{}-{}-modeling.json",
+            tool.key(),
+            self.key()
+        ))
+    }
+
+    fn raw_dir(self, tool: ModelingTool) -> PathBuf {
+        PathBuf::from(format!(
+            "reports/raw/{}-{}-modeling",
+            tool.key(),
+            self.key()
+        ))
+    }
+}
+
+/// Joern's modeling query script. Unlike the other three adapters, Joern's
+/// declarations live in two files — one shared script and one per-language
+/// flow-semantics file — so both are hash-bound into the report.
+const JOERN_MODELING_SCRIPT: &str = "adapters/joern/queries/modeling.sc";
+
+/// The `call-modeling` setting a Bifrost modeling policy must carry. Every
+/// committed kernel policy sets `:unmodeled optimistic`, under which an
+/// unmodeled call may pass taint through and would decide template 3's
+/// positive without the propagator declaration ever being read. A modeling
+/// policy that kept that default would not be measuring activation.
+const BIFROST_MODELING_CALL_MODELING: &str = "require-model";
+
+/// The Semgrep rule option that makes a modeling declaration load-bearing.
+/// Verified against the pinned CE 1.174.0: with no propagator declared, a
+/// taint-mode rule still reports `dfb_sink(prop("clean", t))`; setting this
+/// option removes that default and the finding disappears.
+const SEMGREP_MODELING_ASSUME_SAFE_OPTION: &str = "taint_assume_safe_functions: true";
+
+/// Enforce the load-bearing-model requirement on a Bifrost modeling policy.
+///
+/// The requirement is the document's, not this runner's: a cell the engine's
+/// unmodeled-call default already decides is not a measurement. Wiring the
+/// check here means a language PR cannot author a modeling policy that
+/// silently inherits the kernel policies' optimistic default.
+fn require_bifrost_modeling_load_bearing(policy: &str, path: &str) -> Result<()> {
+    if !policy.contains(BIFROST_MODELING_CALL_MODELING) {
+        bail!(
+            "{path} does not set `:call-modeling (call-modeling :unmodeled {BIFROST_MODELING_CALL_MODELING})`; docs/modeling-matrix.md#the-load-bearing-model-requirement requires the unmodeled-call default to be configured so that the model is load-bearing"
+        );
+    }
+    if policy.contains("optimistic") {
+        bail!(
+            "{path} still names the kernel policies' `:unmodeled optimistic` default; under it an unmodeled call may pass taint through and would decide a category P or O cell without the declaration being read"
+        );
+    }
+    Ok(())
+}
+
+/// Enforce the load-bearing-model requirement on a Semgrep modeling rule.
+fn require_semgrep_modeling_load_bearing(rule: &str, path: &str) -> Result<()> {
+    if !rule.contains(SEMGREP_MODELING_ASSUME_SAFE_OPTION) {
+        bail!(
+            "{path} does not set `options: {SEMGREP_MODELING_ASSUME_SAFE_OPTION}`; without it the pinned CE engine carries taint from any tainted argument to a call's result and the declared model is not what decides the cell (docs/modeling-matrix.md#the-load-bearing-model-requirement)"
+        );
+    }
+    Ok(())
+}
+
+/// Whether a case is a modeling-tier assertion of this language.
+fn modeling_case(case: &Value, language: ModelingLanguage) -> bool {
+    case["language"] == language.key()
+        && case["track"] == "taint"
+        && case["score_tier"] == "modeling"
+}
+
+/// Corpus-wide modeling checks, run by `validate` over every committed case.
+///
+/// **Tier isolation is structural.** A modeling `template_id` and the
+/// `modeling` score tier imply each other, so a modeling case can never be
+/// selected by a core, calibration, `language-extension`, or `real-project`
+/// population — every one of those selectors filters on the tier — and a
+/// modeling-tier case can never carry a kernel template.
+///
+/// **A language with no modeling cases has no modeling denominator**, and
+/// validates trivially. Presence of modeling-tier cases is the signal; there is
+/// no rollout table to flip, because unlike the challenge tier this population
+/// is not a subset of an existing denominator that a flag has to switch
+/// between.
+fn validate_modeling_cases(cases: &[(PathBuf, Value)]) -> Result<()> {
+    for (path, case) in cases {
+        let template = required_string(case, "template_id", &path.display().to_string())?;
+        let tier = required_string(case, "score_tier", &path.display().to_string())?;
+        let modeling_template = template.starts_with(MODELING_TEMPLATE_PREFIX);
+        let modeling_tier = tier == "modeling";
+        if modeling_template != modeling_tier {
+            bail!(
+                "{}: template {template:?} and score_tier {tier:?} disagree; every `{MODELING_TEMPLATE_PREFIX}` template is `modeling`-tier and every `modeling`-tier case carries one",
+                path.display()
+            );
+        }
+        if !modeling_tier {
+            continue;
+        }
+        if !MODELING_TEMPLATE_IDS.contains(&template) {
+            bail!(
+                "{}: {template:?} is not one of the twelve preregistered modeling templates (docs/modeling-matrix.md#the-twelve-templates)",
+                path.display()
+            );
+        }
+        if case["model_profile"] != MODELING_MODEL_PROFILE {
+            bail!(
+                "{}: modeling cases are `model_profile: {MODELING_MODEL_PROFILE:?}`; the tool-native profile supplies no models and is never pooled with this matrix",
+                path.display()
+            );
+        }
+        // Half of "a missing model is a benchmark defect, never a result": no
+        // modeling case may exist whose template has no preregistered decision
+        // for some adapter. The other half — that a scored cell's declaration
+        // is actually present in that adapter's artifact — is enforced by the
+        // runner, which refuses to run without the artifact.
+        for tool in ModelingTool::ALL {
+            modeling_partition_reason(tool, template).with_context(|| {
+                format!(
+                    "{}: no preregistered {} partition decision",
+                    path.display(),
+                    tool.key()
+                )
+            })?;
+        }
+    }
+    let languages: BTreeSet<&str> = cases
+        .iter()
+        .filter(|(_, case)| case["score_tier"] == "modeling")
+        .filter_map(|(_, case)| case["language"].as_str())
+        .collect();
+    for language in languages {
+        let population: Vec<(PathBuf, Value)> = cases
+            .iter()
+            .filter(|(_, case)| {
+                case["score_tier"] == "modeling" && case["language"].as_str() == Some(language)
+            })
+            .cloned()
+            .collect();
+        validate_modeling_population(&population, &format!("{language} modeling population"))?;
+    }
+    Ok(())
+}
+
+/// Balance and completeness for one language's modeling population: exactly one
+/// positive and one minimally different negative for each of the twelve
+/// templates — 24 assertions — under one model profile.
+///
+/// An empty population is not a population: the language has no modeling
+/// denominator and there is nothing to balance. Everything else must be whole,
+/// so a partial fixture landing fails the build rather than silently reducing a
+/// denominator.
+fn validate_modeling_population(cases: &[(PathBuf, Value)], label: &str) -> Result<()> {
+    if cases.is_empty() {
+        return Ok(());
+    }
+    validate_kernel_population_with(cases, label, &MODELING_TEMPLATE_IDS)
+}
+
 #[derive(Parser)]
 #[command(name = "dataflowbench")]
 struct Cli {
@@ -785,6 +1388,44 @@ enum Commands {
         #[arg(long, default_value = "semgrep")]
         semgrep: PathBuf,
     },
+    /// Run one language's benchmark-controlled taint-modeling matrix through
+    /// Bifrost's policy CLI. The preregistered partition scores category S
+    /// only, so the other five categories are `unsupported` with a retained
+    /// rationale, decided before the binary is invoked.
+    RunBifrostModeling {
+        #[arg(long, value_enum)]
+        language: ModelingLanguage,
+        #[arg(long, default_value = "bifrost")]
+        bifrost: PathBuf,
+    },
+    /// Run one language's modeling matrix through CodeQL. All six categories
+    /// are scored: a data-flow configuration *is* a model declaration surface.
+    RunCodeqlModeling {
+        #[arg(long, value_enum)]
+        language: ModelingLanguage,
+        #[arg(long, default_value = "codeql")]
+        codeql: PathBuf,
+        #[arg(long)]
+        codeql_packs: Option<PathBuf>,
+    },
+    /// Run one language's modeling matrix through Joern's flow-semantics
+    /// surface and a dedicated `modeling.sc`, leaving the kernel script
+    /// untouched. All six categories are scored.
+    RunJoernModeling {
+        #[arg(long, value_enum)]
+        language: ModelingLanguage,
+        #[arg(long, default_value = "joern")]
+        joern: PathBuf,
+    },
+    /// Run one language's modeling matrix through Semgrep CE. The
+    /// preregistered partition scores categories S, Z, and E; P, O, and B are
+    /// `unsupported` with a retained rationale, decided before the scan.
+    RunSemgrepModeling {
+        #[arg(long, value_enum)]
+        language: ModelingLanguage,
+        #[arg(long, default_value = "semgrep")]
+        semgrep: PathBuf,
+    },
 }
 
 fn main() -> Result<()> {
@@ -907,6 +1548,25 @@ fn main() -> Result<()> {
         Commands::RunSemgrepCppKernel { semgrep } => {
             run_semgrep_kernel(&semgrep, SemgrepKernel::Cpp)
         }
+        Commands::RunBifrostModeling { language, bifrost } => {
+            run_modeling(ModelingTool::Bifrost, &bifrost, language, None)
+        }
+        Commands::RunCodeqlModeling {
+            language,
+            codeql,
+            codeql_packs,
+        } => run_modeling(
+            ModelingTool::Codeql,
+            &codeql,
+            language,
+            codeql_packs.as_deref(),
+        ),
+        Commands::RunJoernModeling { language, joern } => {
+            run_modeling(ModelingTool::Joern, &joern, language, None)
+        }
+        Commands::RunSemgrepModeling { language, semgrep } => {
+            run_modeling(ModelingTool::Semgrep, &semgrep, language, None)
+        }
     }
 }
 
@@ -970,6 +1630,10 @@ fn validate_cases() -> Result<()> {
             &row.expected_templates(),
         )?;
     }
+    // The modeling matrix is its own tier and its own denominator. Today the
+    // corpus carries no modeling case, so this is a no-op that turns into a
+    // required-set check the moment a language PR authors the first fixture.
+    validate_modeling_cases(&cases)?;
     println!("validated {} cases", paths.len());
     Ok(())
 }
@@ -3299,6 +3963,13 @@ fn smoke_population_case(case: &Value) -> bool {
     if challenge_template_case(case) {
         return false;
     }
+    // Same reasoning, one tier later: a Java, JavaScript, or Python modeling
+    // case will name that language's Bifrost artifact, and the frozen 118 must
+    // not absorb it. Modeling is a separate tier with a separate scorecard and
+    // is never pooled with a kernel or calibration population.
+    if case["score_tier"] == "modeling" {
+        return false;
+    }
     let model = &case["tool_model_references"]["bifrost"];
     if model["unsupported_reason"].is_string() {
         return true;
@@ -4526,7 +5197,7 @@ fn validate_kernel_population_with(
     let expected_case_count = 2 * expected_templates.len();
     if cases.len() != expected_case_count {
         bail!(
-            "{label} must select exactly {expected_case_count} core assertions; found {}",
+            "{label} must select exactly {expected_case_count} assertions; found {}",
             cases.len()
         );
     }
@@ -7670,6 +8341,250 @@ fn command_output(command: &mut Command) -> Result<String> {
 
 fn now_seconds() -> Result<u64> {
     Ok(SystemTime::now().duration_since(UNIX_EPOCH)?.as_secs())
+}
+
+// ---------------------------------------------------------------------------
+// Modeling-matrix runners.
+//
+// One command per adapter, parameterized by language, rather than twelve
+// near-identical commands. The existing per-language kernel commands are
+// separate because each language's kernel differs in real toolchain plumbing —
+// a `kotlinc` trace, a `go build`, a synthesized Cargo crate, a different
+// extractor. The modeling matrix has none of that: it is fixed at three
+// languages on three already-wired toolchains, and a modeling run differs from
+// its sibling only in which artifact it loads and which population it selects.
+// A `--language` argument states that honestly; twelve enum variants would
+// state it twelve times.
+// ---------------------------------------------------------------------------
+
+/// Everything a modeling run needs, assembled before the tool is touched.
+/// Building the plan is the fail-fast gate: no population, a missing artifact,
+/// or an artifact that leaves the model non-load-bearing all fail here, and an
+/// empty report is never written.
+struct ModelingRunPlan {
+    tool: ModelingTool,
+    language: ModelingLanguage,
+    cases: Vec<(PathBuf, Value)>,
+    /// The artifacts hash-bound into the report's `configuration_hash`.
+    configuration_paths: BTreeSet<PathBuf>,
+    report: PathBuf,
+    raw_dir: PathBuf,
+}
+
+/// Select and validate one language's modeling population.
+///
+/// The selection is by language, track, and score tier — the same three
+/// properties every kernel selection uses — and the tier filter is what keeps
+/// the population disjoint from every core, calibration, `language-extension`,
+/// and `real-project` denominator.
+fn select_modeling_cases(language: ModelingLanguage) -> Result<Vec<(PathBuf, Value)>> {
+    let mut selected = Vec::new();
+    for path in case_paths() {
+        let case: Value = serde_json::from_str(&fs::read_to_string(&path)?)?;
+        if modeling_case(&case, language) {
+            selected.push((path, case));
+        }
+    }
+    validate_modeling_population(&selected, &language.label())?;
+    Ok(selected)
+}
+
+/// Assemble a modeling run, failing fast on every condition that would
+/// otherwise produce a report that means nothing.
+fn plan_modeling_run(tool: ModelingTool, language: ModelingLanguage) -> Result<ModelingRunPlan> {
+    validate_cases()?;
+    let cases = select_modeling_cases(language)?;
+    if cases.is_empty() {
+        bail!(
+            "no modeling population for {}: the {} selection admits no `score_tier: \"modeling\"` case, so there is nothing for {} to be told. A language's {MODELING_CASE_COUNT} modeling assertions land with its own pull request (docs/modeling-matrix.md#rollout-plan); refusing to write an empty report",
+            language.key(),
+            language.display_name(),
+            tool.pinned_identity()
+        );
+    }
+
+    // A scored cell with no declaration behind it is a benchmark defect, not
+    // evidence about the analyzer. It is a hard error, never an outcome.
+    let artifact = language.artifact(tool);
+    let contents = fs::read_to_string(artifact).map_err(|error| {
+        anyhow::anyhow!(
+            "{} has a {} modeling population but its modeling artifact {artifact} cannot be read: {error}. docs/modeling-matrix.md makes a missing model a benchmark defect that fails the build; it is never `unsupported`, never `not-reached`, and never a result",
+            tool.pinned_identity(),
+            language.display_name()
+        )
+    })?;
+    match tool {
+        ModelingTool::Bifrost => require_bifrost_modeling_load_bearing(&contents, artifact)?,
+        ModelingTool::Semgrep => require_semgrep_modeling_load_bearing(&contents, artifact)?,
+        // Neither the CodeQL nor the Joern surface has an unmodeled-call
+        // default that would decide a cell on its own: a `ConfigSig` with no
+        // `isAdditionalFlowStep` adds no step, and a Joern method with no
+        // `FlowMapping` propagates nothing. There is no switch to pin.
+        ModelingTool::Codeql | ModelingTool::Joern => {}
+    }
+
+    let mut configuration_paths = BTreeSet::from([PathBuf::from(artifact)]);
+    if tool == ModelingTool::Joern {
+        // Joern's declarations live in two files, so both bind the hash.
+        configuration_paths.insert(PathBuf::from(JOERN_MODELING_SCRIPT));
+    }
+    for path in &configuration_paths {
+        if !path.is_file() {
+            bail!(
+                "{} modeling run needs {}, which does not exist",
+                tool.pinned_identity(),
+                path.display()
+            );
+        }
+    }
+
+    Ok(ModelingRunPlan {
+        tool,
+        language,
+        cases,
+        configuration_paths,
+        report: language.report(tool),
+        raw_dir: language.raw_dir(tool),
+    })
+}
+
+/// Retain the preregistered `unsupported` decision for one declined cell,
+/// **without invoking the tool**, and return the result-schema outcome.
+///
+/// This is `CHALLENGE_SEMGREP_PARTITION`'s mechanism, per tool: the decision
+/// is read from the partition by template identity, so no fixture's tags and no
+/// observed result can move a cell. An excluded case is never handed to the
+/// analyzer, so it cannot produce an empty finding list that later reads as a
+/// negative.
+fn modeling_partition_outcome(
+    tool: ModelingTool,
+    case: &Value,
+    raw_dir: &Path,
+) -> Result<Option<(&'static str, String, PathBuf)>> {
+    let id = required_string(case, "id", "modeling case")?;
+    let template = required_string(case, "template_id", id)?;
+    let Some(reason) = modeling_unsupported_reason(tool, template)? else {
+        return Ok(None);
+    };
+    let category = modeling_category(template).expect("partition resolved the category");
+    let raw_path = raw_dir.join(format!("{id}-unsupported.json"));
+    if raw_path.exists() {
+        fs::remove_file(&raw_path).with_context(|| format!("clear {}", raw_path.display()))?;
+    }
+    fs::write(
+        &raw_path,
+        serde_json::to_string_pretty(&json!({
+            "adapter": tool.key(),
+            "case_id": id,
+            "state": "unsupported",
+            "stage": "preregistered-modeling-partition",
+            "reason": reason,
+            "template_id": template,
+            "modeling_category": category.key(),
+            "modeling_category_label": category.label(),
+            "pinned_tool_identity": tool.pinned_identity(),
+            "partition_source": "docs/modeling-matrix.md#per-tool-capability-partition",
+            "evidence_kind": "retained-capability-decision"
+        }))? + "\n",
+    )?;
+    Ok(Some(("unsupported", reason, raw_path)))
+}
+
+/// Run one adapter's modeling matrix for one language.
+///
+/// The staged shape of this command is deliberate and is recorded in
+/// docs/adapters.md: the population gate, the artifact gate, the load-bearing
+/// gate, and the partition's `unsupported` arm are infrastructure and land
+/// here; the arm that actually invokes the analyzer over a scored cell lands
+/// with the language pull request that authors that adapter's declarations,
+/// because there is nothing to invoke it against until then. A scored cell
+/// with no execution arm is a hard error — this adapter will not synthesize a
+/// tool result, and `docs/adapters.md` forbids it.
+fn run_modeling(
+    tool: ModelingTool,
+    binary: &Path,
+    language: ModelingLanguage,
+    codeql_packs: Option<&Path>,
+) -> Result<()> {
+    if let Some(packs) = codeql_packs
+        && !packs.is_dir()
+    {
+        bail!("CodeQL pack search path {} does not exist", packs.display());
+    }
+    let plan = plan_modeling_run(tool, language)?;
+
+    let scored = modeling_supported_templates(plan.tool);
+    let scored_cases: Vec<&str> = plan
+        .cases
+        .iter()
+        .filter_map(|(_, case)| case["template_id"].as_str())
+        .filter(|template| scored.contains(template))
+        .collect();
+    if !scored_cases.is_empty() {
+        bail!(
+            "{} has {} scored {} modeling assertion(s) ({scored_cases:?}) but this adapter's modeling execution arm is not wired yet; it lands with the language pull request that authors {} (docs/modeling-matrix.md#rollout-plan). Refusing to write a report rather than synthesizing an outcome",
+            plan.tool.pinned_identity(),
+            scored_cases.len(),
+            plan.language.display_name(),
+            plan.language.artifact(plan.tool)
+        );
+    }
+
+    // Reached only by a tool that declines every category this population
+    // carries: a complete report of retained capability decisions, with the
+    // analyzer never invoked.
+    fs::create_dir_all(&plan.raw_dir)?;
+    let started = now_seconds()?;
+    let (version, build_identity) = modeling_version_identity(plan.tool, binary)?;
+    let revision = fixture_revision()?;
+    let mut results = Vec::with_capacity(plan.cases.len());
+    for (_, case) in &plan.cases {
+        let id = required_string(case, "id", "modeling case")?;
+        let start = Instant::now();
+        let (outcome, reason, raw_path) =
+            modeling_partition_outcome(plan.tool, case, &plan.raw_dir)?
+                .expect("every remaining cell is an unsupported one");
+        results.push(normalized_result(
+            case,
+            id,
+            outcome,
+            vec![reason],
+            start.elapsed(),
+            &raw_path,
+        ));
+    }
+    let report = json!({
+        "schema_version": 1,
+        "tool": plan.tool.key(),
+        "tool_version": version,
+        "tool_build_identity": build_identity,
+        "adapter_version": ADAPTER_VERSION,
+        "configuration_hash": hash_paths(&plan.configuration_paths)?,
+        "fixture_revision": revision,
+        "started_at_unix_seconds": started,
+        "ended_at_unix_seconds": now_seconds()?,
+        "cold_or_warm": "cold",
+        "results": results
+    });
+    write_and_validate_report(&plan.report, &report)?;
+    println!("wrote {}", plan.report.display());
+    Ok(())
+}
+
+/// The pinned version identity a modeling report records, read from the same
+/// surface each adapter's kernel reports already read it from.
+fn modeling_version_identity(tool: ModelingTool, binary: &Path) -> Result<(String, String)> {
+    match tool {
+        ModelingTool::Bifrost => Ok((
+            command_output(Command::new(binary).arg("--version"))
+                .unwrap_or_else(|_| "unknown".into()),
+            command_output(Command::new(binary).arg("--build-identity"))
+                .unwrap_or_else(|_| "unknown".into()),
+        )),
+        ModelingTool::Codeql => codeql_version_identity(binary),
+        ModelingTool::Joern => joern_version_identity(binary),
+        ModelingTool::Semgrep => semgrep_version_identity(binary),
+    }
 }
 
 #[cfg(test)]
@@ -11646,5 +12561,516 @@ mod tests {
         let (outcome, _, _) = normalize_bifrost(&case, &inconclusive, Some(2)).unwrap();
         assert_eq!(outcome, "inconclusive");
         assert_eq!(raw_special_outcome(&inconclusive), Some("inconclusive"));
+    }
+
+    // -----------------------------------------------------------------------
+    // The benchmark-controlled taint-modeling matrix.
+    // -----------------------------------------------------------------------
+
+    /// One synthetic modeling case, carrying every field the modeling
+    /// validators read.
+    fn modeling_case_value(template: &str, polarity: &str, language: &str) -> Value {
+        let short = template
+            .strip_prefix(MODELING_TEMPLATE_PREFIX)
+            .expect("a modeling template");
+        json!({
+            "id": format!("dfb-taint-{language}-model-{short}-{polarity}"),
+            "template_id": template,
+            "polarity": polarity,
+            "score_tier": "modeling",
+            "track": "taint",
+            "language": language,
+            "model_profile": MODELING_MODEL_PROFILE,
+            "feature_tags": ["modeled-external", "intraprocedural"],
+            "expected_analysis_capability": {"kind": "declared-source-activation"}
+        })
+    }
+
+    /// A whole balanced modeling population for one language: 24 assertions
+    /// over the preregistered twelve.
+    fn modeling_population(language: &str) -> Vec<(PathBuf, Value)> {
+        let mut cases = Vec::new();
+        for template in MODELING_TEMPLATE_IDS {
+            for polarity in ["positive", "negative"] {
+                cases.push((
+                    PathBuf::from(format!(
+                        "cases/taint/{language}/{template}-{polarity}/case.json"
+                    )),
+                    modeling_case_value(template, polarity, language),
+                ));
+            }
+        }
+        cases
+    }
+
+    /// The twelve template IDs are the document's, unique, and all carry the
+    /// tier's structural prefix.
+    #[test]
+    fn modeling_templates_are_the_preregistered_twelve() {
+        assert_eq!(MODELING_TEMPLATE_IDS.len(), 12);
+        assert_eq!(MODELING_CASE_COUNT, 24);
+        let unique: BTreeSet<&str> = MODELING_TEMPLATE_IDS.into_iter().collect();
+        assert_eq!(unique.len(), 12);
+        for template in MODELING_TEMPLATE_IDS {
+            assert!(
+                template.starts_with(MODELING_TEMPLATE_PREFIX),
+                "{template} lacks the modeling prefix"
+            );
+        }
+        assert_eq!(
+            MODELING_TEMPLATE_IDS[0],
+            "dfb-template-model-declared-source"
+        );
+        assert_eq!(
+            MODELING_TEMPLATE_IDS[11],
+            "dfb-template-model-store-separation"
+        );
+    }
+
+    /// Six categories of two, partitioning the twelve exactly.
+    #[test]
+    fn every_modeling_template_belongs_to_exactly_one_category() {
+        let mut seen: BTreeSet<&str> = BTreeSet::new();
+        for category in ModelingCategory::ALL {
+            for template in category.templates() {
+                assert!(seen.insert(template), "{template} is in two categories");
+                assert_eq!(modeling_category(template), Some(category));
+            }
+        }
+        assert_eq!(seen, MODELING_TEMPLATE_IDS.into_iter().collect());
+        assert_eq!(modeling_category("dfb-template-direct-propagation"), None);
+        assert_eq!(
+            ModelingCategory::ALL.map(ModelingCategory::key),
+            ["S", "P", "Z", "O", "E", "B"]
+        );
+    }
+
+    /// Every tool × template cell is decided. There is no scored default: an
+    /// undecided cell is an error, not a silent `supported`.
+    #[test]
+    fn the_modeling_partition_decides_every_tool_and_template() {
+        for tool in ModelingTool::ALL {
+            for template in MODELING_TEMPLATE_IDS {
+                modeling_partition_reason(tool, template)
+                    .unwrap_or_else(|_| panic!("{} × {template} is undecided", tool.key()));
+            }
+        }
+        assert_eq!(MODELING_PARTITION.len(), 24);
+        assert!(
+            modeling_partition_reason(ModelingTool::Codeql, "dfb-template-chal-dispatch-table")
+                .is_err()
+        );
+    }
+
+    /// The scored-template counts are the document's partition summary,
+    /// expressed in templates rather than categories: Bifrost 2 of 12, Semgrep
+    /// 6 of 12, CodeQL and Joern 12 of 12.
+    #[test]
+    fn modeling_partition_scored_counts_match_the_preregistration() {
+        assert_eq!(modeling_supported_templates(ModelingTool::Bifrost).len(), 2);
+        assert_eq!(modeling_supported_templates(ModelingTool::Semgrep).len(), 6);
+        assert_eq!(modeling_supported_templates(ModelingTool::Codeql).len(), 12);
+        assert_eq!(modeling_supported_templates(ModelingTool::Joern).len(), 12);
+    }
+
+    /// Bifrost enters with category S alone — the honest starting position the
+    /// preregistration states for a standalone policy CLI whose modeling
+    /// surface lives in an embedding.
+    #[test]
+    fn bifrost_modeling_partition_scores_category_s_only() {
+        assert_eq!(
+            modeling_supported_templates(ModelingTool::Bifrost),
+            ModelingCategory::SourcesAndSinks.templates().to_vec()
+        );
+        for category in [
+            ModelingCategory::Propagators,
+            ModelingCategory::Sanitizers,
+            ModelingCategory::Summaries,
+            ModelingCategory::EntryPoints,
+            ModelingCategory::Persistence,
+        ] {
+            for template in category.templates() {
+                assert!(
+                    modeling_partition_reason(ModelingTool::Bifrost, template)
+                        .unwrap()
+                        .is_some(),
+                    "{template} must be unsupported for Bifrost"
+                );
+            }
+        }
+    }
+
+    /// Semgrep CE enters with S, Z, and E — three of six, and a larger share
+    /// of this matrix than Bifrost, which is the whole reason the tier exists.
+    #[test]
+    fn semgrep_modeling_partition_scores_sources_sanitizers_and_entry_points() {
+        let mut expected = Vec::new();
+        for category in [
+            ModelingCategory::SourcesAndSinks,
+            ModelingCategory::Sanitizers,
+            ModelingCategory::EntryPoints,
+        ] {
+            expected.extend(category.templates());
+        }
+        expected.sort_unstable();
+        let mut scored = modeling_supported_templates(ModelingTool::Semgrep);
+        scored.sort_unstable();
+        assert_eq!(scored, expected);
+    }
+
+    /// The partition is keyed by template identity alone. No `feature_tags`
+    /// choice a fixture makes — and no observed result — can move a cell
+    /// between the scored and `unsupported` partitions.
+    #[test]
+    fn the_modeling_partition_is_tag_proof() {
+        let template = "dfb-template-model-opaque-propagator";
+        let baseline = modeling_unsupported_reason(ModelingTool::Semgrep, template).unwrap();
+        assert!(baseline.is_some());
+        for tags in [
+            json!(["intraprocedural"]),
+            json!(["interprocedural-deep", "heap-access-path"]),
+            json!([]),
+        ] {
+            let mut case = modeling_case_value(template, "positive", "java");
+            case["feature_tags"] = tags;
+            case["expected_analysis_capability"]["kind"] = json!("local-taint");
+            assert_eq!(
+                modeling_unsupported_reason(
+                    ModelingTool::Semgrep,
+                    case["template_id"].as_str().unwrap()
+                )
+                .unwrap(),
+                baseline,
+                "a fixture's tags must not move a partition cell"
+            );
+        }
+        // And the converse: a scored cell stays scored whatever it is tagged.
+        let scored = "dfb-template-model-declared-source";
+        assert!(
+            modeling_unsupported_reason(ModelingTool::Semgrep, scored)
+                .unwrap()
+                .is_none()
+        );
+    }
+
+    /// Every declined cell retains a reason that names the category and the
+    /// pinned tool identity and carries the document's rationale verbatim.
+    #[test]
+    fn modeling_unsupported_reasons_are_retained_and_attributed() {
+        let reason =
+            modeling_unsupported_reason(ModelingTool::Bifrost, "dfb-template-model-sanitizer-kill")
+                .unwrap()
+                .expect("category Z is unsupported for Bifrost");
+        assert!(reason.starts_with("category Z — declared sanitizers —"));
+        assert!(reason.contains("Bifrost v0.10.6"));
+        assert!(reason.contains("Sanitizer lowering is a future Bifrost CLI capability."));
+        assert!(reason.contains("docs/modeling-matrix.md"));
+        for tool in ModelingTool::ALL {
+            for template in MODELING_TEMPLATE_IDS {
+                if let Some(reason) = modeling_unsupported_reason(tool, template).unwrap() {
+                    assert!(reason.len() > 80, "a retained reason must say why");
+                }
+            }
+        }
+    }
+
+    /// A declined cell writes its retained capability decision and returns
+    /// `unsupported` without the analyzer ever being invoked.
+    #[test]
+    fn a_declined_modeling_cell_retains_evidence_without_invoking_the_tool() {
+        let root = unique_test_dir("dataflowbench-modeling-partition-test");
+        let case = modeling_case_value("dfb-template-model-store-roundtrip", "positive", "python");
+        let (outcome, reason, raw_path) =
+            modeling_partition_outcome(ModelingTool::Semgrep, &case, &root)
+                .unwrap()
+                .expect("category B is unsupported for Semgrep CE");
+        assert_eq!(outcome, "unsupported");
+        let retained: Value = serde_json::from_slice(&fs::read(&raw_path).unwrap()).unwrap();
+        assert_eq!(retained["state"], "unsupported");
+        assert_eq!(retained["stage"], "preregistered-modeling-partition");
+        assert_eq!(retained["modeling_category"], "B");
+        assert_eq!(retained["adapter"], "semgrep");
+        assert_eq!(retained["reason"], json!(reason));
+        assert_eq!(retained["evidence_kind"], "retained-capability-decision");
+
+        // A scored cell produces no decision and no evidence at all.
+        let scored = modeling_case_value("dfb-template-model-declared-sink", "positive", "python");
+        assert!(
+            modeling_partition_outcome(ModelingTool::Semgrep, &scored, &root)
+                .unwrap()
+                .is_none()
+        );
+        fs::remove_dir_all(&root).unwrap();
+    }
+
+    /// A language with no modeling cases has no modeling denominator, which is
+    /// different from having a zero. It validates trivially.
+    #[test]
+    fn an_absent_modeling_population_validates_trivially() {
+        validate_modeling_population(&[], "Java modeling population").unwrap();
+        validate_modeling_cases(&[]).unwrap();
+    }
+
+    /// A whole balanced population over the preregistered twelve validates.
+    #[test]
+    fn a_balanced_modeling_population_validates() {
+        let cases = modeling_population("java");
+        assert_eq!(cases.len(), MODELING_CASE_COUNT);
+        validate_modeling_population(&cases, "Java modeling population").unwrap();
+        validate_modeling_cases(&cases).unwrap();
+    }
+
+    /// A partial fixture landing fails the build rather than silently reducing
+    /// a denominator, and an unbalanced pair fails too.
+    #[test]
+    fn an_incomplete_modeling_population_fails_validation() {
+        let mut short = modeling_population("javascript");
+        short.truncate(22);
+        let error = validate_modeling_population(&short, "JavaScript modeling population")
+            .unwrap_err()
+            .to_string();
+        assert!(
+            error.contains("must select exactly 24 assertions"),
+            "{error}"
+        );
+
+        let mut unbalanced = modeling_population("javascript");
+        unbalanced[1].1["polarity"] = json!("positive");
+        let error = validate_modeling_population(&unbalanced, "JavaScript modeling population")
+            .unwrap_err()
+            .to_string();
+        assert!(
+            error.contains("one positive and one negative per template"),
+            "{error}"
+        );
+
+        let mut renamed = modeling_population("javascript");
+        renamed[0].1["template_id"] = json!("dfb-template-model-invented");
+        renamed[1].1["template_id"] = json!("dfb-template-model-invented");
+        let error = validate_modeling_population(&renamed, "JavaScript modeling population")
+            .unwrap_err()
+            .to_string();
+        assert!(error.contains("template set mismatch"), "{error}");
+    }
+
+    /// Tier isolation is structural: the modeling template prefix and the
+    /// `modeling` score tier imply each other, so a modeling case can never be
+    /// selected into a core, calibration, extension, or real-project
+    /// population, and a kernel template can never claim the modeling tier.
+    #[test]
+    fn the_modeling_tier_and_the_modeling_prefix_imply_each_other() {
+        let mut retiered = modeling_population("python");
+        retiered[0].1["score_tier"] = json!("core");
+        let error = validate_modeling_cases(&retiered).unwrap_err().to_string();
+        assert!(error.contains("disagree"), "{error}");
+
+        let smuggled = vec![(
+            PathBuf::from("cases/taint/python/smuggled/case.json"),
+            json!({
+                "id": "dfb-taint-python-smuggled",
+                "template_id": "dfb-template-direct-propagation",
+                "score_tier": "modeling",
+                "polarity": "positive",
+                "track": "taint",
+                "language": "python",
+                "model_profile": MODELING_MODEL_PROFILE
+            }),
+        )];
+        let error = validate_modeling_cases(&smuggled).unwrap_err().to_string();
+        assert!(error.contains("disagree"), "{error}");
+
+        let invented = vec![(
+            PathBuf::from("cases/taint/python/invented/case.json"),
+            json!({
+                "id": "dfb-taint-python-invented",
+                "template_id": "dfb-template-model-invented",
+                "score_tier": "modeling",
+                "polarity": "positive",
+                "track": "taint",
+                "language": "python",
+                "model_profile": MODELING_MODEL_PROFILE
+            }),
+        )];
+        let error = validate_modeling_cases(&invented).unwrap_err().to_string();
+        assert!(
+            error.contains("not one of the twelve preregistered modeling templates"),
+            "{error}"
+        );
+    }
+
+    /// Every modeling case is `benchmark-controlled`. The tool-native profile
+    /// supplies no models and is never pooled with this matrix.
+    #[test]
+    fn modeling_cases_must_be_benchmark_controlled() {
+        let mut cases = modeling_population("java");
+        cases[0].1["model_profile"] = json!("tool-native");
+        let error = validate_modeling_cases(&cases).unwrap_err().to_string();
+        assert!(error.contains("benchmark-controlled"), "{error}");
+    }
+
+    /// A modeling case is never swept into the frozen 118-case Bifrost smoke
+    /// population, whatever policy it names.
+    #[test]
+    fn a_modeling_case_is_never_smoke_selected() {
+        let mut case =
+            modeling_case_value("dfb-template-model-declared-source", "positive", "java");
+        case["tool_model_references"] = json!({"bifrost": {"policy": BIFROST_JAVA_POLICY}});
+        assert!(!smoke_population_case(&case));
+        case["tool_model_references"] =
+            json!({"bifrost": {"unsupported_reason": "no external catalog"}});
+        assert!(!smoke_population_case(&case));
+    }
+
+    /// The generated scorecards order `modeling` alongside the existing tiers.
+    /// A tier absent from this list would be silently dropped.
+    #[test]
+    fn the_result_tier_order_carries_modeling() {
+        assert!(SCORE_TIER_ORDER.contains(&"modeling"));
+    }
+
+    /// This pull request is infrastructure only: the corpus carries no
+    /// modeling case, and every modeling run therefore fails fast rather than
+    /// writing an empty report.
+    #[test]
+    fn the_checked_in_corpus_carries_no_modeling_case() {
+        for path in case_paths() {
+            let case: Value = serde_json::from_str(&fs::read_to_string(&path).unwrap()).unwrap();
+            assert_ne!(
+                case["score_tier"],
+                "modeling",
+                "{} is a modeling case; this PR is infrastructure only",
+                path.display()
+            );
+        }
+        for language in [
+            ModelingLanguage::Java,
+            ModelingLanguage::Javascript,
+            ModelingLanguage::Python,
+        ] {
+            assert!(select_modeling_cases(language).unwrap().is_empty());
+        }
+    }
+
+    /// With no population, a run fails with a clear error naming the language
+    /// and never writes a report.
+    #[test]
+    fn a_modeling_run_without_a_population_fails_fast() {
+        for (tool, binary) in [
+            (ModelingTool::Bifrost, "bifrost"),
+            (ModelingTool::Codeql, "codeql"),
+            (ModelingTool::Joern, "joern"),
+            (ModelingTool::Semgrep, "semgrep"),
+        ] {
+            let error = run_modeling(tool, Path::new(binary), ModelingLanguage::Java, None)
+                .unwrap_err()
+                .to_string();
+            assert!(
+                error.starts_with("no modeling population for java"),
+                "{error}"
+            );
+            assert!(!ModelingLanguage::Java.report(tool).exists());
+        }
+    }
+
+    /// A Bifrost modeling policy must make the model load-bearing: the kernel
+    /// policies' optimistic unmodeled-call default would decide a category P
+    /// or O cell without the declaration ever being read.
+    #[test]
+    fn a_bifrost_modeling_policy_must_require_the_model() {
+        let optimistic =
+            "(analysis :type taint :mode may :call-modeling (call-modeling :unmodeled optimistic))";
+        let error =
+            require_bifrost_modeling_load_bearing(optimistic, "adapters/bifrost/policies/x.rqlp")
+                .unwrap_err()
+                .to_string();
+        assert!(error.contains("require-model"), "{error}");
+
+        let silent = "(analysis :type taint :mode may)";
+        assert!(
+            require_bifrost_modeling_load_bearing(silent, "adapters/bifrost/policies/x.rqlp")
+                .is_err()
+        );
+
+        let load_bearing = "(analysis :type taint :mode may :call-modeling (call-modeling :unmodeled require-model))";
+        require_bifrost_modeling_load_bearing(load_bearing, "adapters/bifrost/policies/x.rqlp")
+            .unwrap();
+        assert_eq!(BIFROST_MODELING_CALL_MODELING, "require-model");
+    }
+
+    /// A Semgrep modeling rule must disable the engine's default pass-through,
+    /// which the preregistration verified against the pinned CE binary.
+    #[test]
+    fn a_semgrep_modeling_rule_must_assume_safe_functions() {
+        let permissive = "rules:\n  - id: dfb-model\n    mode: taint\n";
+        let error =
+            require_semgrep_modeling_load_bearing(permissive, "adapters/semgrep/rules/x.yaml")
+                .unwrap_err()
+                .to_string();
+        assert!(
+            error.contains("taint_assume_safe_functions: true"),
+            "{error}"
+        );
+
+        let load_bearing = "rules:\n  - id: dfb-model\n    mode: taint\n    options:\n      taint_assume_safe_functions: true\n";
+        require_semgrep_modeling_load_bearing(load_bearing, "adapters/semgrep/rules/x.yaml")
+            .unwrap();
+        assert_eq!(
+            SEMGREP_MODELING_ASSUME_SAFE_OPTION,
+            "taint_assume_safe_functions: true"
+        );
+    }
+
+    /// The model-artifact, report, and raw-evidence paths the language pull
+    /// requests populate. Twelve distinct artifacts, one per tool per language.
+    #[test]
+    fn modeling_artifact_and_report_paths_follow_the_convention() {
+        let mut artifacts = BTreeSet::new();
+        for tool in ModelingTool::ALL {
+            for language in [
+                ModelingLanguage::Java,
+                ModelingLanguage::Javascript,
+                ModelingLanguage::Python,
+            ] {
+                assert!(artifacts.insert(language.artifact(tool)));
+                assert_eq!(
+                    language.report(tool),
+                    PathBuf::from(format!(
+                        "reports/{}-{}-modeling.json",
+                        tool.key(),
+                        language.key()
+                    ))
+                );
+                assert_eq!(
+                    language.raw_dir(tool),
+                    PathBuf::from(format!(
+                        "reports/raw/{}-{}-modeling",
+                        tool.key(),
+                        language.key()
+                    ))
+                );
+            }
+        }
+        assert_eq!(artifacts.len(), 12);
+        assert_eq!(
+            ModelingLanguage::Java.artifact(ModelingTool::Bifrost),
+            "adapters/bifrost/policies/model-java.rqlp"
+        );
+        assert_eq!(
+            ModelingLanguage::Python.artifact(ModelingTool::Semgrep),
+            "adapters/semgrep/rules/model-python.yaml"
+        );
+        assert_eq!(
+            ModelingLanguage::Javascript.artifact(ModelingTool::Joern),
+            "adapters/joern/semantics/model-javascript.semantics"
+        );
+        assert_eq!(
+            ModelingLanguage::Javascript.artifact(ModelingTool::Codeql),
+            "adapters/codeql/javascript/queries/JavaScriptModeling.ql"
+        );
+        // No modeling artifact is committed yet; every one arrives with the
+        // language pull request that authors its declarations.
+        for artifact in artifacts {
+            assert!(!Path::new(artifact).exists(), "{artifact} exists already");
+        }
     }
 }
