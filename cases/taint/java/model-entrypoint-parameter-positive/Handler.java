@@ -8,6 +8,6 @@ final class Handler {
     }
 
     void onIgnored(String input) {
-        dfb_sink(input);
+        dfb_sink("clean");
     }
 }

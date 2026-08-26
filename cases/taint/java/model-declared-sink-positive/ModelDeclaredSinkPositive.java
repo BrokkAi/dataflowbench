@@ -13,5 +13,6 @@ final class ModelDeclaredSinkPositive {
 
     static void run() {
         Audit.record(dfb_source());
+        Audit.discard("clean");
     }
 }

@@ -32,6 +32,13 @@ evidence is deferred.
 | Control transfer | `dfb-template-loop-carried-kill` | A loop either overwrites the carried value or computes from it. |
 | Control transfer | `dfb-template-exception-catch` | A JavaScript `Error` object carries a property through `throw`/`catch`; this replaces Java's checked exception class. |
 
+JavaScript additionally carries a **taint-modeling** population, on its own tier
+and with its own scorecards: twelve templates and twenty-four assertions that
+test whether an engine can be *told* things rather than whether it can follow
+flow it can see. It is never pooled with the core denominator above, and a score
+there is not a propagation score. See
+[the JavaScript taint-modeling matrix](javascript-modeling.md).
+
 All JavaScript fixtures use the benchmark-controlled `dfb_source` and
 `dfb_sink` function names. The Bifrost adapter may lower those endpoints through
 its JavaScript kernel policy, but fixture metadata remains analyzer-neutral and

@@ -668,17 +668,214 @@ row above records C as "Available, not yet in scope", but there is no
 (`docs/c-kernel.md`) did not create one, so C has no Joern evidence at any
 denominator either. Absence of a slice is not a Joern result about C.
 
+## Python modeling matrix
+
+`run-joern-modeling --language python` runs the twenty-four cells of
+[the benchmark-controlled taint-modeling matrix](../../docs/modeling-matrix.md)
+for Python — **sixteen scored assertions and eight preregistered
+`unsupported`** — writing `reports/joern-python-modeling.json` with raw
+evidence under `reports/raw/joern-python-modeling/`. It is a **modeling**-tier
+population with its own denominator and is never pooled with the Python
+kernel.
+
+Joern scores four of the six categories: S, Z, E, and B. Categories P
+(propagators) and O (summaries) are `unsupported` activation under
+[Amendment A2](../../docs/modeling-matrix.md#a2--2026-08-26-joerns-propagator-and-summary-categories-are-not-load-bearing),
+decided from the template identity before the binary is invoked, and their
+declarations are absent from the semantics file for the same reason. The
+measurement behind that amendment is this adapter's own, and is recorded
+below.
+
+**This is the one place the "Model assumptions" section below does not apply,
+and it applies nowhere else.** The kernels supply no semantics at all, which is
+exactly right for asking whether the engine can follow flow it can see. The
+modeling matrix asks the other question, so it does the one thing the kernel
+script must never do: it loads a benchmark-supplied flow-semantics file. The
+two live in separate scripts for that reason — `kernel.sc` is untouched by this
+adapter capability, and `modeling.sc` is the only script that reads semantics.
+
+Two committed files, both hash-bound into the report's `configuration_hash`:
+
+| File | Role |
+| --- | --- |
+| `adapters/joern/queries/modeling.sc` | shared across languages: loads the semantics, layers them on `DefaultSemantics()`, and runs `reachableByFlows` under the resulting `EngineContext` |
+| `adapters/joern/semantics/model-python.semantics` | Python's three declarations — the sanitizer's `NilSemantics` and the two persistence mappings — in the distribution's own `FullNameSemanticsParser` text format. Categories P and O declare nothing: Amendment A2 marks their cells unsupported activation |
+
+```bash
+joern --script adapters/joern/queries/modeling.sc \
+  --param inputPath=<workspace> \
+  --param language=PYTHONSRC \
+  --param sourceName=<declared source function or handler method> \
+  --param sinkName=<declared sink function> \
+  --param sourceKind=<call-return|method-parameter> \
+  --param semanticsPath=adapters/joern/semantics/model-python.semantics \
+  --param outputPath=reports/raw/joern-python-modeling/<case id>.json
+```
+
+`sourceKind` is the one selector shape that differs by category, and it is
+decided from the **template identity** before the run, never from a fixture's
+tags and never from an observed result. Category E's handler is never called
+from the fixture, so there is no call site to select and the analysis root is
+`cpg.method.nameExact(...).parameter.index(1)`; every other category's source
+is a call whose returned value is tainted.
+
+### Two silent failure modes in the pinned semantics parser
+
+Both were found by probing 4.0.610 directly rather than assumed, and both
+produce a well-formed **empty** model instead of an error:
+
+- **A blank line anywhere in the semantics file drops every declaration.** The
+  nine declarations of the file's pre-amendment revision parsed as nine with
+  no blank line and as zero with one.
+- **`#` opens a comment; `//` does not.** A `//`-commented file parses to zero.
+
+A model that parses to nothing is the preregistration's *missing model* arm — a
+benchmark defect, never an outcome — so `modeling.sc` raises on an empty parse
+and the failure is retained as a `runner-error`. A unit test additionally
+asserts the committed file has neither a blank line nor a `//` comment.
+
+### Results and the load-bearing finding
+
+Under the amended partition the run decides **14 of 16** scored assertions
+correctly — 6 `reached` positives and 8 `not-reached` negatives — with no false
+positive, no `inconclusive`, and 2 false negatives (category B's two
+positives). The other 8 cells are preregistered `unsupported`. Its
+configuration hash is
+`f7f9d9d53572b098556aa86d16b3e9a0b3e9c7a4226526090bb03fd61bbf1eb8`.
+
+Template 1's negative was published as `inconclusive` in the first run, because
+its declared source has no call site — which is the point of that negative —
+and the kernels' endpoint rule reads a zero endpoint count as a run that never
+observed both benchmark-controlled endpoints. The JavaScript row added a
+modeling-specific rule under which an absent *declared* endpoint **is** the
+assertion rather than an incomplete run, and this report is the re-run under
+it. Only that one cell moved, and only from `inconclusive` to `not-reached`.
+
+**Load-bearing verification, on category Z:** removing `clean.scrub`'s
+`NilSemantics` entry from the semantics file turns
+`model-sanitizer-kill-negative` from 0 flows into 1. The declaration, not the
+body — which is the identity function — is what suppresses that flow.
+
+The probe on category P is a *finding* rather than a demonstration, and it is
+the most important thing this run produced for this adapter. The
+modeling-matrix mechanics in `docs/adapters.md` justify not gating Joern on the
+ground that *"a Joern method with no `FlowMapping` propagates nothing"*.
+Probed against the pinned build, that is false: with `opaque.carry` removed
+from the semantics file the propagator positive is still `reached`, because the
+engine's default already carries the argument through the reflective body's
+unmodeled `getattr` and unknown-callee calls. A `FlowSemantic` **with**
+mappings is additive over that default and does not restrict which arguments
+propagate — which is also why template 4's negative is a false positive — while
+`NilSemantics` does suppress. On 4.0.610 a Joern declaration is load-bearing in
+the suppressive direction only.
+
+Relabelling a cell inside a run would be a result being rewritten, so the
+pre-amendment run published categories P and O as scored — 19 of 24, with
+template 4's negative and template 8's negative as false positives — and the
+finding was raised as a proposed amendment. It was adopted as
+[Amendment A2](../../docs/modeling-matrix.md#a2--2026-08-26-joerns-propagator-and-summary-categories-are-not-load-bearing),
+and the numbers above are the re-run under it. Both readings, and the two
+false positives the amendment absorbed, are kept in [the Python taint-modeling
+matrix](../../docs/python-modeling.md).
+
 ## Model assumptions
 
 - The `benchmark-controlled` profile applies: the query is given the same
   source and sink identities the Bifrost and CodeQL kernels are given, and
   nothing from Joern's own default source/sink models is used.
-- Only the OSS data-flow engine's default semantics are used **by the
-  kernels**. No custom semantics, no additional propagation or sanitizer
-  models, and no engine configuration are supplied to `kernel.sc`. The
-  taint-modeling matrix is the one population that supplies semantics, through
-  its own `modeling.sc` and its own per-language semantics file; it never
-  touches the kernel script and is never pooled with a kernel population.
+- Only the OSS data-flow engine's default semantics are used. No custom
+  semantics, no additional propagation or sanitizer models, and no engine
+  configuration are supplied. This applies to the kernels, which is every
+  population on this page except the modeling matrix above: that one supplies a
+  benchmark-controlled flow-semantics file by design, through a separate script,
+  and is scored on its own tier.
+- The source is the source call's return value; the sink is the sink call's
+  positional arguments. Receiver arguments are excluded.
+- One CPG per case, always built cold from source; no CPG is reused between
+  cases or between languages.
+- Each fixture is analyzed exactly as it is checked in — a single source file
+  and no compilation step. The Rust kernel is the one exception to "no
+  generated build manifest": `rust2cpg` cannot see a loose `.rs` file, so a
+  minimal `Cargo.toml` is synthesized per workspace. It adds no code, no
+  dependency, and no compilation; the fixture bytes are still exactly the
+  checked-in ones.
+
+Joern results are not a proxy for any other adapter's population, and no
+Joern population is evidence for another Joern language.
+
+## JavaScript modeling matrix
+
+`run-joern-modeling --language javascript` runs the same twenty-four cells for
+JavaScript — **sixteen scored and eight preregistered `unsupported`** — through
+the same `modeling.sc` and the same `--param` surface documented above, with
+`language=JSSRC` and
+`semanticsPath=adapters/joern/semantics/model-javascript.semantics`. Everything
+in the Python section about the script, the selector shapes, and the parser's
+two silent failure modes applies unchanged; only the semantics file and the
+frontend differ.
+
+**Result on the pinned distribution: 14 of 16 scored assertions match** — 6
+`reached` positives and 8 `not-reached` negatives, with no false positive, no
+`inconclusive`, and no `runner-error`. Categories S, Z, and E are 4/4; category
+B is 2/4, its two positives being false negatives. Its configuration hash is
+`44faa326bd6f6b0d37fa963f4342d0e498bc2e617b34709a2a2e6e61aeaf07e6`. That is the
+same shape as the Python row, cell for cell.
+
+**Load-bearing verification, on category Z:** removing the
+`"Clean.js::program:scrub"` `NilSemantics` entry turns
+`model-sanitizer-kill-negative` from 0 flows into 1, the same demonstration
+Python's row records.
+
+### A measured `jssrc2cpg` naming fact, published as observed
+
+Joern's flow-semantics surface is keyed by the CPG's `methodFullName`, and on
+4.0.610 the JavaScript frontend gives three different answers depending on how
+the callee is written:
+
+| Callee shape | `methodFullName` at the call site |
+| --- | --- |
+| top-level function — `scrub(v)` | `Clean.js::program:scrub` |
+| object-literal member — `Clean.scrub(v)` | `{ scrub: (value: ANY) => ANY; … }:scrub` |
+| class method, static or instance | `<unknownFullName>` |
+
+Only the first denotes the entity. The second is the member's inferred
+*structural type*, so it changes when the object's shape changes; the third is
+shared by every unresolved call in the CPG. The declared sanitizer is therefore
+a top-level function in the JavaScript fixtures — the one shape whose identity
+this frontend exposes — and the category-B declaration is left spelled as the
+model names it (`Store.put` / `Store.get`), with the consequence measured
+rather than designed around: it cannot bind, and Python's row shows the same
+two false negatives where it *does* bind, so the limitation the cell reaches is
+the engine's.
+
+### Amendment A4: the reflective body is followed unaided
+
+The retained probe
+`reports/raw/load-bearing-javascript-modeling/joern-opaque-propagator-unmodeled.json`
+runs `model-opaque-propagator-positive` under the committed semantics file,
+which after A2 declares nothing at all for category P, and records
+`declared_semantic_count: 3` with `flows: 1`. The pinned engine follows
+`Reflect.get(_impl, name).apply(null, [v])` on its own. The preregistration
+claimed that body was unfollowable by all four engines, argued from the v0.4.0
+freeze's twelve reflective-invocation cells — which use a *computed-key
+dispatch*, not `Reflect`. The claim is withdrawn by
+[Amendment A4](../../docs/modeling-matrix.md#a4--2026-08-26-the-reflective-opaque-propagator-body-is-not-unfollowable-by-joerns-jssrc2cpg),
+which is an evidentiary correction and changes no cell: A2 had already moved
+Joern's category-P cells to unsupported activation for the stronger reason.
+
+See [the JavaScript modeling matrix](../../docs/javascript-modeling.md).
+
+## Model assumptions
+
+- The `benchmark-controlled` profile applies: the query is given the same
+  source and sink identities the Bifrost and CodeQL kernels are given, and
+  nothing from Joern's own default source/sink models is used.
+- Only the OSS data-flow engine's default semantics are used. No custom
+  semantics, no additional propagation or sanitizer models, and no engine
+  configuration are supplied. This applies to the kernels, which is every
+  population on this page except the modeling matrix above: that one supplies a
+  benchmark-controlled flow-semantics file by design, through a separate script,
+  and is scored on its own tier.
 - The source is the source call's return value; the sink is the sink call's
   positional arguments. Receiver arguments are excluded.
 - One CPG per case, always built cold from source; no CPG is reused between
@@ -695,93 +892,140 @@ Joern population is evidence for another Joern language.
 
 ## Taint-modeling matrix
 
-`run-joern-modeling --language <language>` runs that language's twenty-four
-assertions of the
-[benchmark-controlled taint-modeling matrix](../../docs/modeling-matrix.md),
-writing `reports/joern-<language>-modeling.json` with retained evidence under
-`reports/raw/joern-<language>-modeling/`. Java is wave M1's first language; see
-[the Java modeling report](../../docs/java-modeling.md).
+The kernel script is untouched by the
+[modeling matrix](../../docs/modeling-matrix.md), and the statements under
+[model assumptions](#model-assumptions) above remain statements about the
+kernels: they supply no semantics and read their two endpoint identifiers out
+of each case's own DFB markers.
 
-This is the one place where the "no custom semantics" statement above does not
-apply, and it is scoped so that it still applies everywhere else. The kernels
-supply no semantics and no engine configuration, and `queries/kernel.sc` is
-untouched by this population. The modeling matrix supplies both, through two
-files that are hash-bound together into the modeling report and into nothing
-else:
+A modeling run is the opposite by construction, because the matrix scores
+whether an engine can *be told* things. Joern's preregistered partition covers
+**all six categories**, and its declarations live in two committed files, both
+hash-bound into every modeling report:
 
-| File | Carries |
+| File | Declarations |
 | --- | --- |
-| `queries/modeling.sc` | the roles whose native Joern surface is a query root — `source`, `sink`, and `entry-point` |
-| `semantics/model-<language>.semantics` | the roles whose surface is a `FlowSemantic` — `propagator`, `sanitizer`, `summary`, `store-write`, `store-read` |
-
-The script loads the semantics file with `FullNameSemanticsParser` and installs
-it as the engine's whole `Semantics` via `FullNameSemantics.fromList`. No
-default catalog is layered underneath, so an entity with no entry is one the
-benchmark did not declare — which is exactly what the undeclared siblings of
-this matrix's negatives need.
-
-Index convention in the semantics files: 0 is the receiver, 1..n the declared
-parameters counted from one, and -1 the return value. The
-[model declaration language](../../docs/modeling-matrix.md#the-model-declaration-language)
-counts parameters from **0**, so its `in: 0` is index 1 here. A method named with
-no mapping at all is `NilSemantics` — taint that arrives does not leave — which
-is both the `sanitizer` role and the explicit no-flow declaration the `summary`
-role's negatives need.
-
-**The semantics files carry no comments.** The pinned 4.0.610
-`FullNameSemanticsParser` returns an empty declaration list for a file whose
-first line is a `//` comment; that was verified against the pinned distribution
-rather than assumed, so the files are declarations only and their commentary
-lives in the language's modeling document.
-
-The modeling normalization is not the kernel's. A kernel run that bound zero
-source or zero sink nodes is `inconclusive`, because on a kernel an unobserved
-endpoint means the run never saw the assertion. On the modeling tier an
-unobserved endpoint is frequently the measurement itself — a declared-source
-negative's sibling is undeclared *on purpose* — so zero bound nodes is a correct
-and informative answer there, retained in the diagnostics rather than converted
-into incomplete evidence. A run that produced no CPG at all is still
-`runner-error`.
-
-Invocation, one non-interactive process per case, in a per-case scratch root:
+| `adapters/joern/queries/modeling.sc` | sources, sinks, and entry-point roots, as query roots |
+| `adapters/joern/semantics/model-<language>.semantics` | propagators, sanitizers, summaries, and persistence boundaries, as `FlowSemantic`/`FlowMapping` entries |
 
 ```bash
 joern --script adapters/joern/queries/modeling.sc \
   --param inputPath=<workspace> \
-  --param language=<JAVASRC|JSSRC|PYTHONSRC> \
+  --param language=<JSSRC|JAVASRC|PYTHONSRC> \
   --param semanticsPath=adapters/joern/semantics/model-<language>.semantics \
   --param outputPath=reports/raw/joern-<language>-modeling/<case id>.json
 ```
 
-### Observed: Java
+Three things about it are worth stating, because they are exactly what a reader
+would otherwise assume from the kernel:
 
-`reports/joern-java-modeling.json`, 4.0.610, 24 results: 12 `reached` and 12
-`not-reached`, **20/24 correct** — ten true positives, ten true negatives, two
-false positives, two false negatives, no `inconclusive` and no `runner-error`.
-Categories S, Z, and E are 4/4; P and O are 3/4 and B is 2/4.
+- **The endpoints are not the case's.** `modeling.sc` names the benchmark's
+  declared identities itself. Anchoring them to each fixture's own markers, the
+  way the kernel does, would make every category-S negative pass for a reason
+  that has nothing to do with the declaration.
+- **The semantics file is keyed by member name.** `jssrc2cpg` names a method on
+  an object literal by its inferred structural type, so `modeling.sc` re-keys
+  each committed entry onto a regex over the CPG's method full names. The
+  entity, the role, and the binding are what the file states; only the lookup
+  key is adapted. Positions in the file are the declaration language's positions
+  shifted by one, because Joern counts the receiver as 0.
+- **Only the engine's own operator flows are added.** No language model
+  catalog, no framework semantics, and no engine configuration beyond the
+  benchmark's declarations.
 
-The load-bearing counterfactual is a documented probe: removing only the
-`Clean.scrub` line from the nine-entry semantics file turns both category-Z
-negatives from no flows to one flow each, while template 7's negative — which
-depends on the still-declared `Bridge.hold` — is unchanged.
+Evidence retention, scratch isolation, and outcome normalization are the
+kernel's: one CPG per case built cold, the console project inside the per-case
+scratch root, and flow elements reconciled against the case's own sink anchors.
 
-Three engine facts account for the four misses, and each is published as
-observed rather than tuned around:
+See [the JavaScript modeling matrix](../../docs/javascript-modeling.md).
 
-- **Positional fidelity is not enforced.** `Opaque.select` is declared index
-  2 → return and taint at the undeclared index 1 reaches the sink. A separate
-  three-way probe separates this from "the model was ignored": replacing the
-  mapping with `NilSemantics` removes both cells' findings, and removing the
-  entry entirely lets the engine walk the reflective body instead. The mapping
-  is applied; its index is not what selects the argument.
-- **A `FlowPath` access-path destination does not discriminate.**
-  `Bridge.deposit` declared `1 -> 2 "payload"` also taints the sibling field
-  `box.spare`. The preregistration named exactly this cell as unverified.
-- **The persistence roundtrip does not close.** Both category-B declarations
-  load and both negatives are correct, but no flow crosses from `Store.put`'s
-  value parameter to `Store.get`'s return in either the type-bound or the
-  instance-bound spelling.
+**JavaScript result on the pinned distribution: 20 of 24 assertions match**,
+twelve `reached` and twelve `not-reached`, with no `inconclusive` and no
+`runner-error`. Categories S, Z, and E are 4/4; P is 3/4, O is 3/4, and B is
+2/4. The four mismatches are enumerated in
+[the JavaScript modeling matrix](../../docs/javascript-modeling.md#mismatches-in-full)
+— a positional-fidelity false positive, a field-separation false positive, and
+the two persistence positives, where the roundtrip does not close.
 
-All three are recorded as *proposed* amendments on the preregistration, not
-applied: a partition cell revised from a result is a result being relabelled.
-See [the Java modeling report](../../docs/java-modeling.md).
+**One caveat on that score, published rather than buried.** Joern's category-P
+*positive* is not load-bearing on JavaScript: removing the `Opaque.carry` flow
+mapping leaves the finding in place, because the pinned engine follows the
+fixture's `Reflect.get(_impl, name).apply(null, [v])` body on its own. The
+category-P negative still is load-bearing, and so is every other scored
+category — the retained probe under
+`reports/raw/load-bearing-javascript-modeling/` shows the sanitizer declaration
+suppressing a finding the engine would otherwise report. A proposed amendment
+to the preregistration is written up in the language document; nothing here was
+tuned around it.
+
+**One binding limitation, also published.** `jssrc2cpg` gives a static
+class-method call — `Store.put("k", …)` — the method full name
+`<unknownFullName>`, and Joern's flow-semantics surface is keyed by method full
+name, so the category-B declaration cannot attach to it. Re-running the same
+declarations against an object-literal spelling in which the call *does* resolve
+and the semantics *are* found still produces zero flows, so the published
+outcome is the same either way.
+
+## Java modeling matrix
+
+`run-joern-modeling --language java` runs the same twenty-four cells for Java —
+**sixteen scored and eight preregistered `unsupported`** — through the same
+`modeling.sc` and the same `--param` surface documented above, with
+`language=JAVASRC` and
+`semanticsPath=adapters/joern/semantics/model-java.semantics`. Everything in the
+Python section about the script, the selector shapes, and the parser's silent
+failure modes applies unchanged; only the semantics file and the frontend
+differ.
+
+**Result on the pinned distribution: 14 of 16 scored assertions match** — 6
+`reached` positives and 8 `not-reached` negatives, with no false positive, no
+`inconclusive`, and no `runner-error`. Categories S, Z, and E are 4/4; category
+B is 2/4, its two positives being false negatives. Its configuration hash is
+`55282607023d6902aebe9e2e4199542f04b407229ac0ab04eab9b70dd4a6980f`. That is the
+same shape as the Python and JavaScript rows, cell for cell.
+
+**Load-bearing verification, on category Z:** removing the
+`"dataflowbench.taint.Clean.scrub:java.lang.String(java.lang.String)"`
+`NilSemantics` entry turns `model-sanitizer-kill-negative` from 0 flows into 1,
+the same demonstration the other two rows record
+(`reports/raw/load-bearing-java-modeling/joern-sanitizer-kill-{with,without}-model.json`).
+
+### `javasrc2cpg` binds where `jssrc2cpg` cannot
+
+The JavaScript row records that `jssrc2cpg` gives a class-method call the method
+full name `<unknownFullName>`, so its category-B declaration cannot attach at
+all. Java has no such problem: `javasrc2cpg` spells the same entity
+`dataflowbench.taint.Store.put:void(java.lang.String,java.lang.String)`, a
+stable, file-independent full name, and the declaration binds cleanly.
+
+The two category-B positives are false negatives anyway. That is the point of
+publishing both rows: taint deposited on the receiver by `put` does not survive
+into a separate procedure's `get`, on this engine, whether or not the
+declaration binds. The limitation the cell measures is the engine's, and Python,
+JavaScript, and Java all reach it by different routes.
+
+### Amendment A4, extended: the reflective body is followed unaided here too
+
+`reports/raw/load-bearing-java-modeling/joern-opaque-propagator-unmodeled.json`
+runs `model-opaque-propagator-positive` under the committed Java semantics file,
+which after A2 declares nothing at all for category P, and records
+`declared_semantic_count: 3` with `flow_count: 1`. The pinned engine follows
+`Opaque.class.getMethod(target, String.class).invoke(null, value)` on its own,
+through `Method.invoke`'s `Object[]` argument.
+
+[Amendment A4](../../docs/modeling-matrix.md#a4--2026-08-26-the-reflective-opaque-propagator-body-is-not-unfollowable-by-joerns-jssrc2cpg)
+was measured on `jssrc2cpg` and withdrew the preregistration's claim as a
+*general* one, leaving each language to stand on its own evidence. This is
+Java's, on a different reflective construct, and it agrees; A4 carries it as a
+dated addendum. No cell moves: A2 had already withdrawn Joern's category-P cells
+for the stronger reason.
+
+**The Java semantics file carries no comments**, where Python's and
+JavaScript's carry `#` ones. The pinned parser drops every declaration on a
+blank line and on a `//` comment, and on this file a leading comment was
+measured to produce the same empty parse, so the file is declarations only and
+its commentary lives in [the Java modeling matrix](../../docs/java-modeling.md).
+`modeling.sc` raises on an empty parse, so a silent drop is a `runner-error`
+rather than a scored cell decided by a missing model.
+
+See [the Java modeling matrix](../../docs/java-modeling.md).

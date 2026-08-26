@@ -10,8 +10,9 @@ was therefore recorded across
 [the adapter contract](adapters.md) and the per-adapter READMEs rather than in a
 file of its own. This document is that file, and its subject is the expansion.
 
-Java also carries the first population of the
-[benchmark-controlled taint-modeling matrix](java-modeling.md). That is a
+Java also carries a population of the
+[benchmark-controlled taint-modeling matrix](java-modeling.md), the last of
+wave M1's three rows to land. That is a
 separate tier with a separate denominator and it is never pooled with anything
 below: no number in this document is ever added to a number in that one.
 

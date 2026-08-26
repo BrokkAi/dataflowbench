@@ -1,0 +1,21 @@
+class Store {
+  static put(key, value) {}
+
+  static get(key) {
+    return "";
+  }
+}
+
+function dfb_source() { // DFB-SOURCE: model-store-roundtrip-input
+  return "tainted";
+}
+
+function dfb_sink(value) {} // DFB-SINK: model-store-roundtrip-sink
+
+function writeSide() {
+  Store.put("a", dfb_source());
+}
+
+function readSide() {
+  dfb_sink(Store.get("b"));
+}

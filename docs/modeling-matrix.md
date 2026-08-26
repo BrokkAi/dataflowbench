@@ -878,6 +878,11 @@ whether the resulting semantics match — which is what the assertions measure.
 
 ### Joern — 4.0.610
 
+> **Amended.** Categories P and O were moved to unsupported activation by
+> Amendment A2 after the first wave-M1 run measured `FlowSemantic` as
+> additive rather than restrictive; Joern's scored set is S, Z, E, B.
+
+
 Verified surface: the OSS data-flow engine ships a flow-semantics loader —
 `io.joern.dataflowengineoss.semanticsloader` with `FlowSemantic`, `FlowMapping`,
 `FlowPath`, `ParamOrRetNode`, `NilSemantics`, `NoCrossTaintSemantics`, and
@@ -903,6 +908,12 @@ scoped to a separate `modeling.sc` so the kernel script is untouched.
 | B | **supported** | Two `FlowSemantic` entries — `put` mapping its value parameter into its store parameter, `get` mapping its receiver to its return — leave the key and instance discrimination to the engine, which is the correct division: the model declares the boundary, the analysis decides whether the roundtrip closes. |
 
 ### Semgrep CE — 1.174.0 (`--oss-only`)
+
+> **Amended.** Template 6 (sanitizer-selectivity) was moved to unsupported
+> activation by Amendment A3: the mandated safe-function assumption and
+> selectivity cannot coexist in one invocation. Semgrep's scored set is
+> five templates.
+
 
 This partition is **verified by execution** against the pinned CE binary
 (`semgrep 1.174.0`, `--oss-only`), on small Python probes, before any fixture
@@ -1098,11 +1109,21 @@ fixtures exist would fail against the current corpus. It must enforce:
 
 ## Rollout plan
 
-**Wave M1 — Java, JavaScript, Python.** One language per pull request, after
-this document merges. Each PR adds that language's twenty-four fixtures and
-cases, the per-adapter model encodings its partition entitles it to, the runs,
-and the language's row in the modeling validator. A wave never edits a template
-definition in this document.
+**Wave M1 — Java, JavaScript, Python. Complete.** One language per pull
+request, after this document merged. Each PR added that language's twenty-four
+fixtures and cases, the per-adapter model encodings its partition entitles it
+to, the runs, and the language's row in the modeling validator. A wave never
+edits a template definition in this document.
+
+| Language | Row | Landed |
+| --- | --- | --- |
+| Python | [python-modeling.md](python-modeling.md) | first; A2 and A3 are made on its evidence |
+| JavaScript | [javascript-modeling.md](javascript-modeling.md) | second; A4 is made on its evidence |
+| Java | [java-modeling.md](java-modeling.md) | third; A5 is made on its evidence, and A4's addendum |
+
+All three rows run on the same four runners, the same shared
+`adapters/joern/queries/modeling.sc`, and the same twelve templates; a
+difference between two rows is a difference between frontends.
 
 **Later — the remaining ten languages,** via the applicability pass described
 under [initial languages](#initial-languages). Those languages have no modeling
@@ -1138,4 +1159,172 @@ Restating the obligations this tier is most at risk of eroding:
 
 ## Amendments
 
-None yet. This document has not been amended since it merged.
+### A2 — 2026-08-26: Joern's propagator and summary categories are not load-bearing
+
+**What changed.** Joern's cells for category P (`opaque-propagator`,
+`propagator-position`) and category O (`summary-through`, `summary-field`)
+move from scored to **unsupported activation**. Its scored modeling set is
+now the eight templates of categories S, Z, E, and B.
+
+**Why.** The first wave-M1 run (Python) probed the load-bearing contract and
+found that on the pinned 4.0.610, `FlowSemantic` mappings are **additive**
+over the engine's default unmodeled-call pass-through and cannot restrict
+it: removing the propagator declaration leaves the finding standing, and a
+declared positional mapping does not exclude the undeclared position — so a
+P or O result scores the engine's optimism, not the model. A summary's
+field-destination access path is likewise ignored (the whole object is
+tainted), resolving that cell's to-be-verified marker negatively. Category Z
+remains scored: `NilSemantics` was demonstrated genuinely load-bearing
+(removing it restores the flow). The preregistration's stated justification
+for leaving Joern ungated — "a method with no `FlowMapping` propagates
+nothing" — was measured false and is corrected by this amendment.
+
+**Tools, templates, and languages touched.** Joern only; templates 3, 4, 7,
+8; all wave-M1 languages (the limitation is engine-level, verified on
+Python, expected identical elsewhere and to be confirmed by each language's
+retained evidence).
+
+**Freezes invalidated.** None. No modeling report is bound by any freeze.
+
+### A3 — 2026-08-26: Semgrep's sanitizer-selectivity cell is undecidable by construction
+
+**What changed.** Template 6 (`sanitizer-selectivity`) moves from scored to
+**unsupported activation** for Semgrep CE, by a template-level override; its
+category sibling, template 5 (`sanitizer-kill`), remains scored. Semgrep's
+scored modeling set is now five templates.
+
+**Why.** The preregistration mandates `taint_assume_safe_functions: true`
+so that propagator models stay load-bearing — and that same option
+suppresses flow through the *undeclared* sanitizer-lookalike that template
+6's positive requires. Selectivity and the safe-function assumption cannot
+coexist in a single CE invocation, so the cell's positive is undecidable by
+construction rather than by capability: the first wave-M1 run recorded it
+as Semgrep's only false negative before this amendment reclassified it.
+
+**Tools, templates, and languages touched.** Semgrep CE only; template 6;
+all wave-M1 languages.
+
+**Freezes invalidated.** None.
+
+### A4 — 2026-08-26: the reflective opaque-propagator body is not unfollowable by Joern's `jssrc2cpg`
+
+**What changed.** Nothing in the partition, the templates, or the rollout. This
+amendment is an **evidentiary correction**: it withdraws a factual claim the
+preregistration made about the opaque body of
+[template 3](#3-dfb-template-model-opaque-propagator) and leaves every scored
+cell exactly where [A2](#a2--2026-08-26-joerns-propagator-and-summary-categories-are-not-load-bearing)
+put it.
+
+**What the preregistration claimed.** Template 3's assertability rests on the
+stated property that *no engine reaches the sink through this body on its own*,
+argued from the v0.4.0 freeze's twelve `dfb-template-chal-reflective-invocation`
+positive cells, in which Joern answers `not-reached` in all six of its. The
+preregistration carried that property forward to this matrix's own reflective
+body — JavaScript's `Reflect.get(_impl, name).apply(null, [v])` — and concluded
+that a `reached` positive there could only mean the model was activated.
+
+**What was measured.** It is false for Joern's `jssrc2cpg` on the pinned
+4.0.610. Run `adapters/joern/queries/modeling.sc` over
+`cases/taint/javascript/model-opaque-propagator-positive` under the committed
+`adapters/joern/semantics/model-javascript.semantics` — which, after A2,
+declares **nothing whatsoever** for `Opaque.carry`, or for category P at all —
+and the engine still reports one flow from `dfb_source` to `dfb_sink`. The
+retained evidence is
+`reports/raw/load-bearing-javascript-modeling/joern-opaque-propagator-unmodeled.json`
+(`state: analyzed`, `declared_semantic_count: 3`, `flows: 1`), produced by
+`scripts/probe-javascript-modeling-load-bearing.sh`. The frontend plus the
+engine's default unmodeled-call pass-through carries taint through the
+reflective self-dispatch unaided. The v0.4.0 kernel evidence is not contradicted
+— that fixture is a computed-key dispatch table, and this one is `Reflect` — so
+what is corrected is the *transfer* of the property from one body shape to the
+other, for one engine and one frontend.
+
+**Why the scoring is unaffected.** A2 already moved Joern's category-P and
+category-O cells to unsupported activation for the stronger reason that
+`FlowSemantic` mappings cannot restrict the default pass-through. A `reached`
+here is therefore never scored for Joern in the first place, and A4 removes no
+cell that A2 had left standing. The three engines whose category-P cells remain
+scored are unaffected: CodeQL's `carry` step is demonstrably load-bearing on
+JavaScript (`codeql-opaque-propagator-{with,without}-model.sarif.json`: one
+result becomes zero), and Bifrost and Semgrep decline category P by partition.
+
+**Tools, templates, and languages touched.** Joern only; template 3 (and, by
+the same body, template 4); JavaScript measured directly. The claim is withdrawn
+as a *general* one rather than re-asserted for the other languages: the
+preregistration's blanket transfer is what was wrong, and each language's
+retained evidence now stands on its own.
+
+**Freezes invalidated.** None. No modeling report is bound by any freeze, and
+no core or challenge result changes.
+
+#### Addendum, 2026-08-26: the same is true of `javasrc2cpg`
+
+A4 withdrew the claim as a general one and left each language to stand on its
+own evidence. Java's row now supplies its own, and it agrees.
+`reports/raw/load-bearing-java-modeling/joern-opaque-propagator-unmodeled.json`
+runs `adapters/joern/queries/modeling.sc` over
+`cases/taint/java/model-opaque-propagator-positive` under the committed
+`adapters/joern/semantics/model-java.semantics` — which, after A2, declares
+**nothing whatsoever** for category P — and records `state: analyzed`,
+`declared_semantic_count: 3`, `flow_count: 1`. The pinned 4.0.610 follows
+`Opaque.class.getMethod(target, String.class).invoke(null, value)` through
+`Method.invoke`'s `Object[]` argument with no propagator model at all.
+
+The reflective body differs between the two languages — `Reflect.get(…).apply`
+in JavaScript, `Method.invoke` in Java — so this is a second, independent
+measurement rather than the same one restated. A4's correction is therefore not
+`jssrc2cpg`-specific, and the withdrawal stands as the general one A4 already
+made it.
+
+**What this addendum changes.** Nothing beyond the record. No partition cell
+moves, no denominator moves, and no outcome changes: A2 had already withdrawn
+Joern's category-P cells for the stronger reason. See
+[the Java modeling row](java-modeling.md#amendment-a4-extended-to-javasrc2cpg).
+
+### A5 — 2026-08-26: Bifrost v0.10.6 accepts `:unmodeled require-model`
+
+**What changed.** Nothing in the partition, the templates, or the rollout. This
+amendment is an **evidentiary confirmation**: it answers, with a measurement,
+one of the two facts the preregistration recorded as *to be verified* about
+Bifrost, and it moves no cell in either direction.
+
+**What the preregistration said.** Bifrost's category-P cell is `unsupported`
+with the reason that *"no committed policy declares a propagator or transform,
+and the adapter README makes no propagator claim. Additionally, every committed
+policy sets `:unmodeled optimistic`, so the modeling policy must also be shown
+to accept `require-model` before either P cell is load-bearing. Both must be
+demonstrated on the pinned build."* Two obstacles, joined by "both".
+
+**What was measured.** The second obstacle is cleared. Every committed modeling
+policy — Python's, JavaScript's, and Java's — sets
+`:call-modeling (call-modeling :unmodeled require-model)`, and the pinned
+v0.10.6 (build `18d09c57`) evaluates such a policy to completion rather than
+rejecting the setting. Java's run is the retained demonstration:
+`reports/raw/load-bearing-java-modeling/bifrost-require-model-accepted.json`
+records the committed `model-java.rqlp` evaluated with an empty `diagnostics`
+array and one finding on template 1's positive. The runner has enforced the
+setting since the infrastructure landed
+([the load-bearing-model requirement](#the-load-bearing-model-requirement)), and
+`the_java_modeling_artifacts_are_load_bearing` in `src/main.rs` keeps it true.
+
+**Why no cell moves.** The *first* obstacle is untouched. Nothing here shows
+that a propagator or transform section lowers to a flow step on the pinned
+build, and no committed policy declares one — a modeling policy that did would
+violate this document's own rule that an artifact never declares a category its
+partition marks unsupported. Category P therefore stays `unsupported` for
+Bifrost. Bifrost's category-S cells, the only ones its partition scores, were
+already scored, so this confirmation changes no denominator, no outcome, and no
+published number.
+
+**Why it is recorded at all.** Because the preregistration asked for it by name.
+A *to be verified* note that is quietly satisfied and never written down is
+indistinguishable from one that was never checked, and the next reader deciding
+whether Bifrost's category P can be promoted needs to know which of the two
+obstacles is still standing.
+
+**Tools, templates, and languages touched.** Bifrost only; no template; Java
+measured directly, with Python's and JavaScript's committed policies carrying
+the same setting.
+
+**Freezes invalidated.** None. No modeling report is bound by any freeze, and
+no core or challenge result changes.

@@ -746,6 +746,62 @@ and the k = 2 context pair all resolved. Its configuration hash is
 `0292361f24c7b18fa59543de15e5709270a5d717f0e7fa3e61de7a9436fb59f7`, unchanged:
 neither the query nor the pack moved, only the population.
 
+## Python modeling matrix
+
+`run-codeql-modeling --language python` runs the twenty-four assertions of
+[the benchmark-controlled taint-modeling matrix](../../docs/modeling-matrix.md)
+for Python, writing `reports/codeql-python-modeling.json` with raw SARIF under
+`reports/raw/codeql-python-modeling/`. It is a **modeling**-tier population
+with its own denominator: it never enters the Python kernel's 58-assertion
+core, and no number here is ever averaged with one there.
+
+CodeQL enters the matrix with **six of six categories scored**, which is
+unsurprising: a query language whose data-flow configuration *is* a model
+declaration surface has no category to decline. The interesting question is
+not whether it can be told, but whether the resulting semantics match — which
+is what the assertions measure.
+
+The model is `adapters/codeql/python/queries/PythonModeling.ql`, one
+`DataFlow::ConfigSig` covering all six categories, inside the existing
+`dataflowbench/codeql-python` pack so it resolves `codeql/python-all@7.2.3`.
+It follows the same design this README already records for the kernels — *the
+query owns the CodeQL model; the case metadata remains analyzer neutral* — and
+uses no data extensions. Category E is `isSource` over a
+`DataFlow::parameterNode` of a method the fixture never calls: CodeQL's data
+flow does not require a source to be reachable from a call-graph root.
+Category B is a single `isAdditionalFlowStep` from `put`'s value argument to
+`get`'s result, conditioned on equal constant keys and an equal receiver
+identity, which covers both persistence templates at once.
+
+The run is invoked exactly like the kernels; build the pack bundle once as
+described under [Python kernel](#python-kernel), then:
+
+```bash
+cargo run -- run-codeql-modeling --language python \
+  --codeql /private/tmp/dataflowbench-codeql-v2.26.3/codeql/codeql \
+  --codeql-packs "$BUNDLE"
+```
+
+The first run decides **all twenty-four assertions correctly** — twelve
+`reached` positives and twelve `not-reached` negatives, with no
+`inconclusive`, `unsupported`, or `runner-error` outcome anywhere. That is a
+statement about model activation and binding, and it is emphatically *not* a
+propagation result: CodeQL's Python kernel scores 48/58 on the same fixtures'
+tier-mates. The two scorecards answer different questions and are never added
+together. Its configuration hash is
+`cd3c4feeeb3473e72d9c35a582a32d0b65d281d759bf77f9a2e0c0411d3a7262`.
+
+**Load-bearing verification.** `PythonModelingProbe.ql` is
+`PythonModeling.ql` with template 3's propagator declaration — and only that
+declaration — removed. Over the same
+`model-opaque-propagator-positive` database the committed query returns one
+finding and the probe returns zero: the reflective body is not a route CodeQL
+follows on its own, so the model, not the propagation, is what the cell
+scores. The probe query never scores a case, is never named by a case's
+`tool_model_references`, and is never bound into a report's
+`configuration_hash`. See [the Python taint-modeling
+matrix](../../docs/python-modeling.md).
+
 ## Retained v2.26.3 snapshot
 
 Every CodeQL report on this tree uses CodeQL CLI v2.26.3 build
@@ -800,71 +856,108 @@ is a false positive. No special or error outcomes occurred. Every Python case
 uses an isolated cold database, with no database or compiled fixture reused
 across the pair.
 
-## Taint-modeling matrix
+## JavaScript taint-modeling matrix
 
-`run-codeql-modeling --language <language>` runs that language's twenty-four
-assertions of the
-[benchmark-controlled taint-modeling matrix](../../docs/modeling-matrix.md),
-writing `reports/codeql-<language>-modeling.json` with retained evidence under
-`reports/raw/codeql-<language>-modeling/`. Java is wave M1's first language; see
-[the Java modeling report](../../docs/java-modeling.md).
+Its own population, never pooled with a kernel. The
+[modeling matrix](../../docs/modeling-matrix.md) preregisters **all six
+categories** as scored for CodeQL, which is unsurprising: a query language whose
+data-flow configuration *is* a model declaration surface has no category to
+decline. The interesting question is not whether it can be told, but whether the
+resulting semantics match the declaration.
 
-CodeQL enters this matrix with **six of six categories scored**, which is
-unsurprising and is not a ranking: a query language whose data-flow
-configuration *is* a model declaration surface has no category to decline. The
-interesting question here is not whether it can be told, but whether activation
-produces the modeled semantics rather than something adjacent to them.
+- Artifact: `adapters/codeql/javascript/queries/JavaScriptModeling.ql`, inside
+  the language's existing `qlpack`. That location departs from the
+  preregistration's schematic `adapters/codeql/queries/<Language>Modeling.ql`
+  because a query outside a pack cannot resolve its `codeql/javascript-all`
+  dependency; the declaration surface is unchanged. The report's
+  `configuration_hash` binds the query file itself, the same one path every
+  modeling run's hash binds.
+- No data extensions are used. The query owns the model, which is this adapter's
+  stated design, and the case metadata remains analyzer neutral.
+- One `DataFlow::ConfigSig` carries all six categories at once: `isSource` over
+  the declared source calls *and* over the parameter node of each declared entry
+  point, `isSink` over argument 0 of the declared sink calls, `isBarrier` over
+  the declared sanitizer's input position and over the two explicit no-flow
+  declarations, and five `isAdditionalFlowStep` clauses for the propagators, the
+  summaries, and the persistence pair. There is no per-case, per-template, or
+  per-polarity branching; each fixture simply contains only the entities its own
+  template names, and every undeclared sibling the negatives turn on appears
+  nowhere in the query.
+- Invocation:
+  `cargo run -- run-codeql-modeling --language javascript --codeql <path>`
+  (optionally `--codeql-packs <dir>`), writing
+  `reports/codeql-javascript-modeling.json` with raw SARIF under
+  `reports/raw/codeql-javascript-modeling/`. One cold database per case, the
+  same as every kernel, and findings reconciled against the case's own sink
+  anchors.
 
-The design the adapter already states — *the query owns the CodeQL model; the
-case metadata remains analyzer neutral* — holds unchanged. One
-`<Language>Modeling.ql` per language carries all six categories in one
-`DataFlow::ConfigSig`:
+**Result on the pinned CLI: 24 of 24 assertions match** — twelve `reached`
+positives and twelve `not-reached` negatives, with no `inconclusive` and no
+`runner-error`, across all six categories, the same clean sweep the Python row
+records. That is a statement about model activation and binding only; it is not
+a propagation-kernel score and is never added to one. Its configuration hash is
+`50f4a31741fd93420f8bdad4cbdea9f07dacda897641e12fdcdcdc8d7810e910`.
 
-| Category | `ConfigSig` member |
-| --- | --- |
-| S — sources and sinks | `isSource` / `isSink` over the declared type-plus-member |
-| P — propagators | `isAdditionalFlowStep` from the declared argument position to the call |
-| Z — sanitizers | `isBarrier` on the declared input position |
-| O — summaries | `isAdditionalFlowStep`, with template 8's step landing on reads of the declared field of the declared argument, and the explicit no-flow summaries encoded as barriers |
-| E — entry points | `isSource` on the parameter node of an uncalled declared method |
-| B — persistence | paired `isAdditionalFlowStep` clauses conditioned on equal constant keys and on the store identity |
+**Load-bearing verification** is the category-P probe in
+`scripts/probe-javascript-modeling-load-bearing.sh`: the same database analyzed
+with and without the four-line `Opaque.carry` propagator step returns one SARIF
+result and then zero
+(`reports/raw/load-bearing-javascript-modeling/codeql-opaque-propagator-{with,without}-model.sarif.json`).
+CodeQL does not follow the reflective body on its own — which, on the same
+fixture, [Joern does](../joern/README.md#amendment-a4-the-reflective-body-is-followed-unaided).
 
-No data extension is used. The models-as-data alternative for category O is
-available in the pinned packs but is API-graph-keyed, and its binding to
-fixture-local types stays unverified; the pack-predicate encoding is the
-primary one and does not depend on it.
+Two encoding details are worth recording because a first attempt got them
+wrong and the run said so. Templates 3 and 7 need their *explicit no-flow*
+declarations — `Opaque.block` and `Bridge.hold` — stated as barriers rather than
+merely omitted: their bodies are byte-identical to their declared siblings', and
+CodeQL reads a body it can see, so `Bridge.hold` produced a false positive until
+the no-flow summary was actually declared. And the category-B store identity is
+the receiver's *binding*, not its data-flow local source: `put` and `get` sit in
+two different procedures by construction, so each reference has its own local
+source even when both denote the same store, and comparing local sources linked
+nothing.
 
-Java's modeling query is `queries/JavaModeling.ql`, beside `JavaKernel.ql`,
-because Java's CodeQL pack *is* the adapter root: `qlpack.yml` declares
-`dataflowbench/codeql-java`. A query under a `java/` subdirectory would resolve
-no `codeql/java-all` dependency, since there is no pack there. Every other
-language's modeling query sits inside that language's own pack directory. This
-is a location, not a declaration surface.
+See [the JavaScript modeling matrix](../../docs/javascript-modeling.md).
 
-The per-case machinery is the kernel's, unchanged: one cold database per case
-from the same traced extraction, `database analyze` to SARIF, and the same
-execution-error check. Only the normalization differs, because a modeling
-fixture carries both halves of its pair by construction — see
-[anchor reconciliation on this tier](../../docs/java-modeling.md#anchor-reconciliation-on-this-tier).
+## Java taint-modeling matrix
 
-No modeling query enters a kernel report's `configuration_hash`: a kernel hash
-is built from the queries the selected *cases* name, and no core case names a
-modeling query.
+Wave M1's last row. Same partition — **all six categories scored** — and the
+same single `DataFlow::ConfigSig` carrying every declaration role, written in
+Java's own vocabulary: `MethodCall` and `getArgument` where the JavaScript query
+uses `DataFlow::CallNode`.
 
-### Observed: Java
+- Artifact: `adapters/codeql/queries/JavaModeling.ql`. This is the one modeling
+  query that sits on the preregistration's *schematic* path rather than under a
+  `<language>/queries/` subdirectory, and for the same reason the other two sit
+  off it: a modeling query must live inside its language's existing `qlpack`,
+  and Java's pack **is** the adapter root. `adapters/codeql/qlpack.yml` declares
+  `dataflowbench/codeql-java` with the `codeql/java-all` dependency, and
+  `queries/JavaKernel.ql` already lives beside it; there is no
+  `adapters/codeql/java/` pack, and a query placed under one would resolve
+  nothing. A test asserts that every modeling query resolves a `qlpack.yml` two
+  directories up.
+- The database is built from a **traced `javac`**, exactly as the Java kernel
+  builds it — the Java extractor has no `--build-mode=none` — so the modeling
+  run differs from its kernel sibling only in which query it loads.
+- Invocation:
+  `cargo run -- run-codeql-modeling --language java --codeql <path>`
+  (optionally `--codeql-packs <dir>`), writing
+  `reports/codeql-java-modeling.json` with raw SARIF under
+  `reports/raw/codeql-java-modeling/`.
 
-`reports/codeql-java-modeling.json`, CLI 2.26.3, 24 results: 12 `reached` and
-12 `not-reached`, **24/24 correct** — twelve true positives, twelve true
-negatives, no false positive, no false negative, no `inconclusive`, and no
-`runner-error`. Both cells the preregistration flagged as needing
-implementation-time verification are answered: template 8's store-through
-summary and category B's keyed and instance-bound roundtrip.
+**Result on the pinned CLI: 24 of 24 assertions match** — twelve `reached`
+positives and twelve `not-reached` negatives, no `inconclusive` and no
+`runner-error`, across all six categories. That is the third clean sweep in
+three languages, and it is what establishes that the twelve templates are
+satisfiable as preregistered rather than badly posed. Its configuration hash is
+`38acb5de67ed39a244c7eb8a9db755ddbcf197488051a5f1ec0d35b65fa30aee`.
 
-The load-bearing counterfactual is a documented probe: removing only the
-`Opaque.carry` `isAdditionalFlowStep` clause turns template 3's positive from
-one result to none, while template 4's positive — which takes the separate
-`Opaque.select` step — is unchanged. That is also the check that template 3 is
-doing its job, since the reflective body it routes through is the construct the
-v0.4.0 freeze establishes no engine follows unaided.
+**Load-bearing verification** is the category-P probe in
+`scripts/probe-java-modeling-load-bearing.sh`: the same database analyzed with
+and without the five-line `Opaque.carry` propagator step returns one SARIF
+result and then zero
+(`reports/raw/load-bearing-java-modeling/codeql-opaque-propagator-{with,without}-model.sarif.json`).
+CodeQL does not follow `Opaque.class.getMethod(…).invoke(…)` on its own — which,
+on the same fixture, [Joern does](../joern/README.md#taint-modeling-matrix).
 
-See [the Java modeling report](../../docs/java-modeling.md).
+See [the Java modeling matrix](../../docs/java-modeling.md).

@@ -2,13 +2,13 @@
   "adapter_version": "0.1.0",
   "cold_or_warm": "cold",
   "configuration_hash": "d25d4a4058ae7bd67131d38d05d0579a642ad1841071f965719dd8cea7efd59e",
-  "ended_at_unix_seconds": 1787748825,
-  "fixture_revision": "sha256:727c6838741d80705ac5f6ed0754862400ad7504bfc68ac7df32b6bfb73553c6",
+  "ended_at_unix_seconds": 1787751504,
+  "fixture_revision": "sha256:f9dab53624e836d29ed6d3e00fc7072b6ac0850bec3c63ec39926b3288cef7d1",
   "results": [
     {
       "case_id": "dfb-taint-java-model-declared-sink-negative",
       "diagnostics": [],
-      "duration_ms": 3786,
+      "duration_ms": 1208,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/semgrep-java-modeling/dfb-taint-java-model-declared-sink-negative.json",
@@ -23,7 +23,7 @@
     {
       "case_id": "dfb-taint-java-model-declared-sink-positive",
       "diagnostics": [],
-      "duration_ms": 4030,
+      "duration_ms": 1223,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/semgrep-java-modeling/dfb-taint-java-model-declared-sink-positive.json",
@@ -38,7 +38,7 @@
     {
       "case_id": "dfb-taint-java-model-declared-source-negative",
       "diagnostics": [],
-      "duration_ms": 2994,
+      "duration_ms": 1202,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/semgrep-java-modeling/dfb-taint-java-model-declared-source-negative.json",
@@ -53,7 +53,7 @@
     {
       "case_id": "dfb-taint-java-model-declared-source-positive",
       "diagnostics": [],
-      "duration_ms": 2317,
+      "duration_ms": 1227,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/semgrep-java-modeling/dfb-taint-java-model-declared-source-positive.json",
@@ -67,10 +67,8 @@
     },
     {
       "case_id": "dfb-taint-java-model-entrypoint-parameter-negative",
-      "diagnostics": [
-        "1 finding(s) reconciled to neither this case's source region nor its sink anchor; on the modeling tier a fixture carries its pair's other entity by construction, so a flow on that entity is not this assertion's"
-      ],
-      "duration_ms": 2723,
+      "diagnostics": [],
+      "duration_ms": 1198,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/semgrep-java-modeling/dfb-taint-java-model-entrypoint-parameter-negative.json",
@@ -85,7 +83,7 @@
     {
       "case_id": "dfb-taint-java-model-entrypoint-parameter-positive",
       "diagnostics": [],
-      "duration_ms": 2797,
+      "duration_ms": 1190,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/semgrep-java-modeling/dfb-taint-java-model-entrypoint-parameter-positive.json",
@@ -99,10 +97,8 @@
     },
     {
       "case_id": "dfb-taint-java-model-entrypoint-selectivity-negative",
-      "diagnostics": [
-        "1 finding(s) reconciled to neither this case's source region nor its sink anchor; on the modeling tier a fixture carries its pair's other entity by construction, so a flow on that entity is not this assertion's"
-      ],
-      "duration_ms": 2739,
+      "diagnostics": [],
+      "duration_ms": 1246,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/semgrep-java-modeling/dfb-taint-java-model-entrypoint-selectivity-negative.json",
@@ -117,7 +113,7 @@
     {
       "case_id": "dfb-taint-java-model-entrypoint-selectivity-positive",
       "diagnostics": [],
-      "duration_ms": 2891,
+      "duration_ms": 1170,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/semgrep-java-modeling/dfb-taint-java-model-entrypoint-selectivity-positive.json",
@@ -200,7 +196,7 @@
     {
       "case_id": "dfb-taint-java-model-sanitizer-kill-negative",
       "diagnostics": [],
-      "duration_ms": 3152,
+      "duration_ms": 1214,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/semgrep-java-modeling/dfb-taint-java-model-sanitizer-kill-negative.json",
@@ -215,7 +211,7 @@
     {
       "case_id": "dfb-taint-java-model-sanitizer-kill-positive",
       "diagnostics": [],
-      "duration_ms": 2485,
+      "duration_ms": 1209,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/semgrep-java-modeling/dfb-taint-java-model-sanitizer-kill-positive.json",
@@ -229,11 +225,13 @@
     },
     {
       "case_id": "dfb-taint-java-model-sanitizer-selectivity-negative",
-      "diagnostics": [],
-      "duration_ms": 2855,
-      "outcome": "not-reached",
+      "diagnostics": [
+        "category Z — declared sanitizers — is unsupported for Semgrep CE 1.174.0 by the preregistered modeling partition (docs/modeling-matrix.md#per-tool-capability-partition): Semgrep CE cannot express sanitizer selectivity and the safe-function assumption in one invocation: taint_assume_safe_functions suppresses flow through the undeclared sanitizer-lookalike, so the positive is undecidable by construction (Amendment A3)"
+      ],
+      "duration_ms": 0,
+      "outcome": "unsupported",
       "peak_memory_mb": null,
-      "raw_output": "reports/raw/semgrep-java-modeling/dfb-taint-java-model-sanitizer-selectivity-negative.json",
+      "raw_output": "reports/raw/semgrep-java-modeling/dfb-taint-java-model-sanitizer-selectivity-negative-unsupported.json",
       "sink_anchors": [
         "DFB-SINK: model-sanitizer-selectivity-sink"
       ],
@@ -244,11 +242,13 @@
     },
     {
       "case_id": "dfb-taint-java-model-sanitizer-selectivity-positive",
-      "diagnostics": [],
-      "duration_ms": 2585,
-      "outcome": "not-reached",
+      "diagnostics": [
+        "category Z — declared sanitizers — is unsupported for Semgrep CE 1.174.0 by the preregistered modeling partition (docs/modeling-matrix.md#per-tool-capability-partition): Semgrep CE cannot express sanitizer selectivity and the safe-function assumption in one invocation: taint_assume_safe_functions suppresses flow through the undeclared sanitizer-lookalike, so the positive is undecidable by construction (Amendment A3)"
+      ],
+      "duration_ms": 0,
+      "outcome": "unsupported",
       "peak_memory_mb": null,
-      "raw_output": "reports/raw/semgrep-java-modeling/dfb-taint-java-model-sanitizer-selectivity-positive.json",
+      "raw_output": "reports/raw/semgrep-java-modeling/dfb-taint-java-model-sanitizer-selectivity-positive-unsupported.json",
       "sink_anchors": [
         "DFB-SINK: model-sanitizer-selectivity-sink"
       ],
@@ -395,7 +395,7 @@
     }
   ],
   "schema_version": 1,
-  "started_at_unix_seconds": 1787748786,
+  "started_at_unix_seconds": 1787751490,
   "tool": "semgrep",
   "tool_build_identity": "semgrep-oss:1.174.0",
   "tool_version": "1.174.0"

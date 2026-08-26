@@ -530,46 +530,126 @@ and coverage gaps this population exposes are tracked as bifrost-dev #2637
 (Ruby), #2638 (Rust `gap_contract`), #2639 (`element-object`), and #2640
 (nested-callable roots).
 
+## Python modeling matrix
+
+`run-bifrost-modeling --language python` runs the twenty-four assertions of
+[the benchmark-controlled taint-modeling matrix](../../docs/modeling-matrix.md)
+for Python, writing `reports/bifrost-python-modeling.json` with raw evidence
+under `reports/raw/bifrost-python-modeling/`. This is a **modeling**-tier
+population with its own denominator: it is never in a core denominator, and no
+number here is ever added to or averaged with a kernel number. The two answer
+different questions.
+
+The preregistered partition scores **one of six categories** for this adapter
+— declared sources and sinks — and that is the honest starting position for a
+standalone policy CLI whose modeling surface lives in an embedding. The other
+five categories are `unsupported` with the preregistration's rationale retained
+verbatim, decided from the template identity **before the binary is invoked**:
+sanitizer lowering and external semantic-model activation are recorded in this
+README as future CLI capabilities, and the propagator, entry-root, and
+persistence-boundary cells are the document's *to be verified* cells, which its
+own rule treats as unsupported until shown otherwise. An `unsupported` cell is
+coverage, never a negative and never a false negative.
+
+The model is `adapters/bifrost/policies/model-python.rqlp`: two endpoint sets,
+adding the declared source `fetch_remote` beside `dfb_source` and the declared
+sink `record` beside `dfb_sink`. Unlike every committed kernel policy it sets
+`:call-modeling (call-modeling :unmodeled require-model)` rather than
+`optimistic`, which is
+[the load-bearing-model requirement](../../docs/modeling-matrix.md#the-load-bearing-model-requirement);
+the runner reads the policy before the run and refuses one that does not.
+
+The first run, on the pinned v0.10.6 build, decides all four scored assertions
+correctly — two `reached` positives and two `not-reached` negatives, with no
+`inconclusive` and no `runner-error` — and takes the preregistered
+`unsupported` on the other twenty. **Load-bearing verification:** re-running
+the same four fixtures under a policy identical except that the two declared
+endpoint entries are removed drops both positives from one finding to zero. The
+model, not the propagation, is what this tier scores. See [the Python
+taint-modeling matrix](../../docs/python-modeling.md).
+
+## JavaScript taint-modeling matrix
+
+Separate from every kernel above, and never pooled with one. The
+[modeling matrix](../../docs/modeling-matrix.md) scores whether an engine can
+*be told* things — a source it did not know, a sanitizer, a summary, an entry
+point, a persistence boundary — and its preregistered partition gives this
+adapter **category S alone**: declared sources and declared sinks, two of the
+twelve templates. The other five categories are `unsupported` for the
+standalone policy CLI, decided from the template identity before the binary is
+invoked and retained verbatim with the document's own rationale.
+
+- Artifact: `adapters/bifrost/policies/model-javascript.rqlp`. It declares two
+  `:sources` entries bound to `return-value` and two `:sinks` entries bound to
+  `(argument :index 0)`, and nothing for categories P, Z, O, E, or B — a
+  declined category is absent from the artifact rather than approximated in it.
+- Load-bearing model: the policy sets `:call-modeling (call-modeling :unmodeled
+  require-model)`, which the pinned v0.10.6 build accepts. The runner refuses
+  the artifact if that setting is missing, and refuses it again if it names the
+  kernel policies' permissive default. This does **not** promote the
+  preregistration's *to be verified* cell for category P: that cell also needs a
+  propagator or transform declaration surface, which no committed policy has,
+  and promoting a partition cell is a dated amendment on the preregistration
+  rather than a side effect of a language pull request.
+- Invocation:
+  `cargo run -- run-bifrost-modeling --language javascript --bifrost <path>`,
+  writing `reports/bifrost-javascript-modeling.json` with raw evidence under
+  `reports/raw/bifrost-javascript-modeling/`.
+- Result on the pinned build: of the four scored assertions, one is decided
+  (`model-declared-source-negative`, `not-reached`) and three are
+  `inconclusive`, retaining `partial_discovery` and "procedure value-flow
+  snapshot … is unknown". The policy does bind both declared identities — the
+  retained reports carry the finding message and a source-to-sink display path
+  — but the run does not complete, so the outcome is incomplete analysis and
+  never a negative. That is the same JavaScript incompleteness the frozen
+  kernel slice records, and it is the whole of the difference between this row
+  and the Python row above, which decides all four of its cells. The other
+  twenty assertions are capability coverage with no analyzer invocation at all.
+  Its configuration hash is
+  `25e1399fb9b7c2e5dfa469d56e9b4edeccff655f1d8866290f4f55d29eb7117f`.
+- **Load-bearing verification.** Removing the `Config.fetchRemote` source entry
+  from a copy of the policy drops `model-declared-source-positive` from one
+  finding to zero
+  (`reports/raw/load-bearing-javascript-modeling/bifrost-declared-source-{with,without}-model.json`).
+  The declaration, not the propagation, is what the cell scores.
+
+See [the JavaScript modeling matrix](../../docs/javascript-modeling.md).
+
 ## Java taint-modeling matrix
 
-`run-bifrost-modeling --language java` runs the twenty-four assertions of the
-[benchmark-controlled taint-modeling matrix](../../docs/modeling-matrix.md)
-against `policies/model-java.rqlp`, writing `reports/bifrost-java-modeling.json`
-with retained evidence under `reports/raw/bifrost-java-modeling/`. It is its own
-population on its own `modeling` score tier: never in a core denominator, never
-pooled with the Java propagation kernel, never added to a kernel number.
+Wave M1's last row, and the same shape as the two above. The
+[modeling matrix](../../docs/modeling-matrix.md) gives this adapter **category S
+alone** — declared sources and declared sinks, two of the twelve templates —
+and the other five categories are `unsupported` for the standalone policy CLI,
+decided from the template identity before the binary is invoked and retained
+verbatim with the document's own rationale.
 
-The preregistered partition awards Bifrost **one of six categories** — declared
-sources and sinks — and that is what the policy declares, and all it declares.
-The other five categories are `unsupported` with the document's rationale
-retained verbatim, decided from the template ID *before* the binary is invoked,
-so twenty of the twenty-four assertions never reach the CLI at all. Two of those
-five are the README's own long-standing statements — sanitizer lowering is a
-future CLI capability, and external semantic-model activation requires an
-embedding with an explicit catalog — and three are cells the preregistration
-could not verify against the pinned build and therefore recorded as unsupported
-until shown otherwise. Declining a category is coverage, never a negative, and
-never a false negative.
+- Artifact: `adapters/bifrost/policies/model-java.rqlp`. Two `:sources` entries
+  bound to `return-value`, two `:sinks` entries bound to
+  `(argument :index 0)`, and nothing for categories P, Z, O, E, or B.
+- Load-bearing model: the policy sets `:call-modeling (call-modeling :unmodeled
+  require-model)`. The preregistration recorded the pinned CLI's *acceptance* of
+  that setting as one of two unverified facts behind Bifrost's category-P cell;
+  it is now confirmed by
+  [Amendment A5](../../docs/modeling-matrix.md#a5--2026-08-26-bifrost-v0106-accepts-unmodeled-require-model),
+  which moves no cell. The other obstacle — showing that a propagator or
+  transform section actually lowers — is untouched, so category P stays
+  `unsupported`.
+- Invocation:
+  `cargo run -- run-bifrost-modeling --language java --bifrost <path>`, writing
+  `reports/bifrost-java-modeling.json` with raw evidence under
+  `reports/raw/bifrost-java-modeling/`.
+- Result on the pinned build: **all four scored assertions decided correctly** —
+  two `reached` positives, two `not-reached` negatives, no `inconclusive` and no
+  `runner-error`, with neither undeclared sibling (`Config.fetchLocal`,
+  `Audit.discard`) picked up. That is Python's row exactly, and it is the
+  difference between Java and JavaScript: the JavaScript slice's three
+  `inconclusive` cells are that language's engine incompleteness, not a modeling
+  property. Its configuration hash is
+  `921d2c8e531813bf7c9bb93fd6da710e62020f60f9caadc7ac0096c5c31121d9`.
+- **Load-bearing verification.** Removing the `Config.fetchRemote` source entry
+  from a copy of the policy drops `model-declared-source-positive` from one
+  finding to zero
+  (`reports/raw/load-bearing-java-modeling/bifrost-declared-source-{with,without}-model.json`).
 
-The modeling policy differs from every committed kernel policy in one
-load-bearing way: it sets `:call-modeling (call-modeling :unmodeled
-require-model)` where the kernels set `optimistic`. Under the optimistic default
-an unmodeled call may pass taint through, which would decide a propagator cell
-without the declaration ever being read. The runner refuses a modeling policy
-that does not set `require-model`, and refuses one that still names
-`optimistic`. **v0.10.6 accepts `require-model`** — the first thing this wave
-established, since the preregistration could not.
-
-The policy's own configuration hash is over `model-java.rqlp` alone. No kernel
-policy, and no kernel report's hash, is touched by it.
-
-The v0.4.0-era run of this slice produces 2 `reached`, 2 `not-reached`, and 20
-`unsupported` results: **category S is 4/4**, with two true positives, two true
-negatives, and neither undeclared sibling (`Config.fetchLocal`, `Audit.discard`)
-picked up. The load-bearing counterfactual is retained as a documented probe —
-removing the `Config.fetchRemote` source entry turns template 1's positive from
-one finding to none while template 2's positive is unchanged.
-
-See [the Java modeling report](../../docs/java-modeling.md) for the per-template
-realizations, the full observed outcomes, and the proposed amendments this run
-supports.
+See [the Java modeling matrix](../../docs/java-modeling.md).

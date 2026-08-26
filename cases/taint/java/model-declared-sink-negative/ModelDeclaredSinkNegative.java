@@ -1,9 +1,9 @@
 package dataflowbench.taint;
 
 final class Audit {
-    static void record(String value) { }
+    static void record(String value) { }  // DFB-SINK: model-declared-sink-sink
 
-    static void discard(String value) { }  // DFB-SINK: model-declared-sink-sink
+    static void discard(String value) { }
 }
 
 final class ModelDeclaredSinkNegative {
@@ -13,5 +13,6 @@ final class ModelDeclaredSinkNegative {
 
     static void run() {
         Audit.discard(dfb_source());
+        Audit.record("clean");
     }
 }

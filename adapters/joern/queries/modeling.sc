@@ -1,35 +1,58 @@
 // DataFlowBench Joern taint-modeling query.
 //
-// One script serves every language's modeling matrix, the way `kernel.sc`
-// serves every language's propagation kernel. It is a *separate* script on
-// purpose: the kernel script supplies no semantics and no engine
-// configuration, and docs/modeling-matrix.md requires that to stay true, so
-// the modeling declarations land here rather than in the kernel's file.
+// The sibling `kernel.sc` supplies no semantics at all, which is exactly right
+// for the propagation kernels: they ask whether the engine can follow flow it
+// can see. This script asks the other question — whether the engine can be told
+// things — so it does the one thing the kernel script must never do: it loads
+// a benchmark-supplied flow-semantics file and runs the OSS data-flow engine
+// under it.
 //
-// The declarations this script carries are the ones whose native Joern surface
-// is a query root — the `source`, `sink`, and `entry-point` roles. The
-// `propagator`, `sanitizer`, and `summary` roles, plus the two persistence
-// roles, are carried by the per-language flow-semantics file passed as
-// `semanticsPath`; both files are hash-bound into the report.
+// `docs/modeling-matrix.md` fixes what is declared; this file is only how Joern
+// is told it. The declarations themselves live in
+// `adapters/joern/semantics/model-<language>.semantics`, in the distribution's
+// own textual `FullNameSemanticsParser` format, and both files are hash-bound
+// into the report's `configuration_hash`.
 //
-// Identity binding. The model declaration language binds by a type-plus-member
-// triple. Every modeling fixture gives each declared member a name that occurs
-// once in its own fixture — `fetchRemote` beside `fetchLocal`, `record` beside
-// `discard`, `onRequest` beside `onIgnored` — so selecting by member name here
-// resolves exactly the declared entity and never its undeclared sibling. The
-// flow-semantics file, which has to discriminate between fixtures of different
-// languages inside one artifact, binds by full method name instead.
+// Two selector shapes, decided by the runner from the case's *template
+// identity* and never from an observed result:
+//
+//   sourceKind=call-return      sources are calls to the declared source
+//                               function — categories S, P, Z, O, and B, whose
+//                               source is a call whose returned value is
+//                               tainted.
+//   sourceKind=method-parameter sources are the first declared parameter of the
+//                               declared handler method — category E, whose
+//                               whole point is that the fixture never calls it,
+//                               so there is no call site to select. Joern's
+//                               `reachableByFlows` takes arbitrary CPG nodes as
+//                               sources, so a parameter of an uncalled method
+//                               is a valid analysis root; selectivity is this
+//                               script's own `nameExact` predicate, which is
+//                               what template 10 measures.
+//
+// Sinks are the positional arguments of calls to the declared sink function, as
+// in the kernel script. `argumentIndex > 0` drops the receiver the Python and
+// JavaScript frontends attach as argument 0.
+//
+// The script always writes one JSON document to `outputPath`; the Rust runner
+// reconciles its flow element locations against the case's own anchors and
+// never rewrites it.
 //
 // Invocation (see adapters/joern/README.md):
 //
 //   joern --script adapters/joern/queries/modeling.sc \
 //     --param inputPath=<workspace> \
 //     --param language=<JAVASRC|JSSRC|PYTHONSRC> \
-//     --param semanticsPath=<adapters/joern/semantics/model-<language>.semantics> \
+//     --param sourceName=<declared source function or handler method> \
+//     --param sinkName=<declared sink function> \
+//     --param sourceKind=<call-return|method-parameter> \
+//     --param semanticsPath=<flow-semantics file> \
 //     --param outputPath=<raw evidence file>
 
-import io.joern.dataflowengineoss.queryengine.{EngineConfig, EngineContext}
-import io.joern.dataflowengineoss.semanticsloader.{FullNameSemantics, FullNameSemanticsParser}
+import io.joern.dataflowengineoss.DefaultSemantics
+import io.joern.dataflowengineoss.queryengine.EngineContext
+import io.joern.dataflowengineoss.semanticsloader.{FullNameSemanticsParser, Semantics}
+
 import java.nio.file.{Files, Paths}
 
 def jsonString(value: String): String = {
@@ -69,52 +92,60 @@ def nodeJson(node: io.shiftleft.codepropertygraph.generated.nodes.AstNode): Stri
   )
 }
 
-/** Members the matrix declares as sources, by the doc's own entity names. */
-val declaredSourceCalls = Seq("dfb_source", "fetchRemote")
-
-/** Members the matrix declares as sinks. */
-val declaredSinkCalls = Seq("dfb_sink", "record")
-
-/** Members the matrix declares as entry points, with parameter 0 tainted. */
-val declaredEntryPoints = Seq("onRequest", "onDeclared")
-
 @main def main(
     inputPath: String,
     language: String,
+    sourceName: String,
+    sinkName: String,
+    sourceKind: String,
     semanticsPath: String,
     outputPath: String
 ): Unit = {
   val header = Seq(
     jsonField("adapter", jsonString("joern")),
-    jsonField("evidence_kind", jsonString("joern-reachable-by-flows")),
+    jsonField("evidence_kind", jsonString("joern-modeled-reachable-by-flows")),
     jsonField("input_path", jsonString(inputPath)),
     jsonField("frontend_language", jsonString(language)),
-    jsonField("semantics_path", jsonString(semanticsPath)),
-    jsonField("source_function", jsonString(declaredSourceCalls.mkString("|"))),
-    jsonField("sink_function", jsonString(declaredSinkCalls.mkString("|")))
+    jsonField("source_function", jsonString(sourceName)),
+    jsonField("sink_function", jsonString(sinkName)),
+    jsonField("source_kind", jsonString(sourceKind)),
+    jsonField("semantics_path", jsonString(semanticsPath))
   )
 
   val document =
     try {
+      // The benchmark's declarations are layered *on top of* the distribution's
+      // own operator and standard-library flows rather than replacing them:
+      // dropping `<operator>.assignment` would break propagation the modeling
+      // matrix is not measuring, and every cell would fail for a reason that
+      // has nothing to do with the model.
+      val declared = new FullNameSemanticsParser().parseFile(semanticsPath)
+      // The pinned parser fails *silently*: a semantics file with a blank line
+      // in it, or one commented with `//`, yields an empty declaration list and
+      // no error, and every scored cell would then be decided by the absence of
+      // a model rather than by the model. A missing model is a benchmark defect
+      // and never a result, so an empty parse is raised here and retained as a
+      // runner error rather than answered.
+      if (declared.isEmpty) {
+        throw new IllegalStateException(
+          s"$semanticsPath parsed to zero declarations; the pinned FullNameSemanticsParser " +
+            "drops every entry on a blank line or a `//` comment, and a scored cell with no " +
+            "declaration behind it is a benchmark defect rather than an outcome"
+        )
+      }
+      val semantics: Semantics = DefaultSemantics().plus(declared)
+      implicit val context: EngineContext = EngineContext(semantics)
+
       importCode(inputPath = inputPath, projectName = "dataflowbench", language = language)
 
-      // The benchmark-supplied propagator, sanitizer, summary, and persistence
-      // declarations, loaded into the engine as flow semantics. Nothing else
-      // is configured: no default catalog is added on top, so an entity with
-      // no entry here is one the benchmark did not declare.
-      val declared = new FullNameSemanticsParser().parseFile(semanticsPath)
-      implicit val context: EngineContext =
-        EngineContext(FullNameSemantics.fromList(declared), EngineConfig())
-
-      val sourceCalls = cpg.call.nameExact(declaredSourceCalls: _*).l
-      val entryParameters =
-        cpg.method.nameExact(declaredEntryPoints: _*).parameter.index(1).l
-      val sourceNodes = sourceCalls ++ entryParameters
-      // The positional arguments of a declared sink call. `argumentIndex > 0`
-      // drops the implicit receiver the JavaScript and Python frontends attach
-      // as argument 0; it is not part of any declared sink's bound position.
-      val sinkNodes =
-        cpg.call.nameExact(declaredSinkCalls: _*).argument.filter(_.argumentIndex > 0).l
+      val sourceNodes = sourceKind match {
+        case "call-return" => cpg.call.nameExact(sourceName).l
+        // Joern counts the receiver as parameter 0, so the declaration's
+        // position 0 — the first *declared* parameter — is index 1.
+        case "method-parameter" => cpg.method.nameExact(sourceName).parameter.index(1).l
+        case other => throw new IllegalArgumentException(s"unknown sourceKind: $other")
+      }
+      val sinkNodes = cpg.call.nameExact(sinkName).argument.filter(_.argumentIndex > 0).l
       val flows = sinkNodes.reachableByFlows(sourceNodes).l
       val flowJson = flows.map { path =>
         jsonObject(Seq(jsonField("elements", jsonArray(path.elements.map(nodeJson)))))
@@ -123,7 +154,7 @@ val declaredEntryPoints = Seq("onRequest", "onDeclared")
         header ++ Seq(
           jsonField("state", jsonString("analyzed")),
           jsonField("method_count", cpg.method.size.toString),
-          jsonField("declared_semantics_count", declared.size.toString),
+          jsonField("declared_semantic_count", declared.size.toString),
           jsonField("source_node_count", sourceNodes.size.toString),
           jsonField("sink_node_count", sinkNodes.size.toString),
           jsonField("source_nodes", jsonArray(sourceNodes.map(nodeJson))),

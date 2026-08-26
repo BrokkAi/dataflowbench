@@ -207,17 +207,31 @@ than discovered as a failure. Unlike the challenge tier, these templates are
 own scorecards and never enter any language's core denominator. Issue #16's
 tool-native profiles build on the same category taxonomy and supply no models.
 
-### Wave M1: Java
+### Wave M1: Python, JavaScript, Java — complete
 
-Java is the first language of the matrix's three-language wave. Its twenty-four
-assertions, the four per-adapter model artifacts encoding the same
-analyzer-neutral declarations, and the four runs are recorded in
-[the Java modeling report](java-modeling.md). No template proved unimplementable
-as preregistered and no partition cell was revised; where a run disagreed with
-what the preregistration expected, the disagreement is published as observed and
-carried forward as a *proposed* amendment rather than applied. JavaScript and
-Python have no modeling denominator until their own waves land, which is
-different from having a zero.
+All three languages of the matrix's first wave have landed, one pull request
+each, on the same four runners and the same shared `modeling.sc`:
+[Python](python-modeling.md), [JavaScript](javascript-modeling.md), and
+[Java](java-modeling.md). Each row is twenty-four assertions, four per-adapter
+model artifacts encoding the same analyzer-neutral declarations, and four runs.
+
+No template proved unimplementable as preregistered, and every partition cell
+that moved moved by a **dated amendment on the preregistration**, never by an
+edit to a table: A2 (Joern's propagator and summary categories are not
+load-bearing), A3 (Semgrep's sanitizer-selectivity cell is undecidable by
+construction), A4 (the reflective opaque-propagator body is followed unaided —
+extended from `jssrc2cpg` to `javasrc2cpg` by the Java row), and A5 (Bifrost
+v0.10.6 accepts `:unmodeled require-model`, an evidentiary confirmation that
+moves no cell). Observations made before an amendment applied are retained in
+the language rows as evidence rather than deleted.
+
+Across the three rows the results are the same shape cell for cell, which is the
+point of running three languages against one design: CodeQL 24/24 everywhere,
+Joern 14/16 with the same two category-B false negatives, Semgrep CE 10/10, and
+Bifrost 4/4 on Python and Java — JavaScript's three `inconclusive` category-S
+cells are that language's engine incompleteness rather than a modeling property.
+The remaining ten languages have no modeling denominator until the applicability
+pass merges, which is different from having a zero.
 
 ## M4: real-project confirmation
 

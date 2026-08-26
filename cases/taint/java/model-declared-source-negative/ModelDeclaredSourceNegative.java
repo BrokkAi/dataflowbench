@@ -1,11 +1,11 @@
 package dataflowbench.taint;
 
 final class Config {
-    static String fetchRemote() {
+    static String fetchRemote() {  // DFB-SOURCE: model-declared-source-input
         return "r";
     }
 
-    static String fetchLocal() {  // DFB-SOURCE: model-declared-source-input
+    static String fetchLocal() {
         return "l";
     }
 }

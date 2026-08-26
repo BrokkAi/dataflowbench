@@ -1,0 +1,13 @@
+{
+  "adapter": "semgrep",
+  "case_id": "dfb-taint-javascript-model-store-roundtrip-negative",
+  "evidence_kind": "retained-capability-decision",
+  "modeling_category": "B",
+  "modeling_category_label": "persistence boundaries",
+  "partition_source": "docs/modeling-matrix.md#per-tool-capability-partition",
+  "pinned_tool_identity": "Semgrep CE 1.174.0",
+  "reason": "category B — persistence boundaries — is unsupported for Semgrep CE 1.174.0 by the preregistered modeling partition (docs/modeling-matrix.md#per-tool-capability-partition): the write and the read are in two different procedures by construction, and the pinned CE engine has no interprocedural taint at all: `semgrep scan --help` offers `--pro-intrafile` (\"Intra-file inter-procedural taint analysis … Requires Semgrep Pro Engine\"), so the step from `put` to `get` is outside the engine regardless of what is declared",
+  "stage": "preregistered-modeling-partition",
+  "state": "unsupported",
+  "template_id": "dfb-template-model-store-roundtrip"
+}

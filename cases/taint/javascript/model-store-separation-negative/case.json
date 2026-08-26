@@ -1,0 +1,65 @@
+{
+  "schema_version": 2,
+  "id": "dfb-taint-javascript-model-store-separation-negative",
+  "template_id": "dfb-template-model-store-separation",
+  "polarity": "negative",
+  "negative_mechanism": "object-separation",
+  "score_tier": "modeling",
+  "track": "taint",
+  "language": "javascript",
+  "semantic_dimensions": [
+    "interprocedural-flow",
+    "object-sensitivity"
+  ],
+  "feature_tags": [
+    "modeled-external",
+    "heap-access-path"
+  ],
+  "model_profile": "benchmark-controlled",
+  "fixture_files": [
+    "Store.js"
+  ],
+  "source_anchors": [
+    {
+      "marker": "DFB-SOURCE: model-store-separation-input",
+      "file": "Store.js",
+      "line_hint": 12
+    }
+  ],
+  "sink_anchors": [
+    {
+      "marker": "DFB-SINK: model-store-separation-sink",
+      "file": "Store.js",
+      "line_hint": 16
+    }
+  ],
+  "expected_flows": [],
+  "expected_nonflows": [
+    {
+      "source": "DFB-SOURCE: model-store-separation-input",
+      "sink": "DFB-SINK: model-store-separation-sink"
+    }
+  ],
+  "witness_checkpoints": [],
+  "expected_analysis_capability": {
+    "kind": "persistence-instance-binding"
+  },
+  "execution_budget": {
+    "wall_clock_seconds": 60,
+    "peak_memory_mb": 512
+  },
+  "fixture_provenance": {
+    "kind": "authored",
+    "origin": "DataFlowBench",
+    "revision": "m3-modeling-javascript",
+    "license": "MIT"
+  },
+  "tool_model_references": {
+    "codeql": {
+      "query": "adapters/codeql/javascript/queries/JavaScriptModeling.ql"
+    },
+    "bifrost": {
+      "policy": "adapters/bifrost/policies/model-javascript.rqlp"
+    }
+  }
+}

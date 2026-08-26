@@ -104,12 +104,6 @@ const BIFROST_EXPLICIT_NEGATIVE_POLICY: &str = "adapters/bifrost/policies/explic
 /// evaluated with. As with Kotlin and Scala, the frozen direct-propagation pair
 /// names its own historical policies, so the run pins this one for the whole
 /// population and every assertion shares one configuration hash.
-/// The UTC date every Bifrost run evaluates suppression expiry against. It is
-/// pinned rather than taken from the clock so two runs of the same commit
-/// evaluate the same policy, and it is named here so the kernel and modeling
-/// runners cannot drift onto different dates.
-const BIFROST_EVALUATION_DATE: &str = "2026-08-11";
-
 const BIFROST_JAVA_POLICY: &str = "adapters/bifrost/policies/core-java-kernel.rqlp";
 /// The language-qualified Bifrost policy every JavaScript kernel assertion is
 /// evaluated with. Its frozen direct-propagation pair names the cross-language
@@ -693,7 +687,7 @@ const MODELING_PARTITION: [ModelingPartitionCell; 24] = [
         category: ModelingCategory::Persistence,
         unsupported_reason: None,
     },
-    // Joern — 4.0.610: 6 / 6.
+    // Joern — 4.0.610: 4 / 6 (Amendment A2 moved P and O to unsupported).
     ModelingPartitionCell {
         tool: ModelingTool::Joern,
         category: ModelingCategory::SourcesAndSinks,
@@ -702,7 +696,16 @@ const MODELING_PARTITION: [ModelingPartitionCell; 24] = [
     ModelingPartitionCell {
         tool: ModelingTool::Joern,
         category: ModelingCategory::Propagators,
-        unsupported_reason: None,
+        // Amendment A2: FlowSemantic mappings on the pinned 4.0.610 are
+        // additive over the engine's default argument pass-through and cannot
+        // restrict it, so a propagator declaration is not load-bearing — the
+        // default decides the cell with or without the model.
+        unsupported_reason: Some(
+            "Joern 4.0.610 FlowSemantic mappings are additive over the \
+             default unmodeled-call pass-through and cannot restrict it; a \
+             propagator model is not load-bearing on the pinned version \
+             (Amendment A2)",
+        ),
     },
     ModelingPartitionCell {
         tool: ModelingTool::Joern,
@@ -712,7 +715,16 @@ const MODELING_PARTITION: [ModelingPartitionCell; 24] = [
     ModelingPartitionCell {
         tool: ModelingTool::Joern,
         category: ModelingCategory::Summaries,
-        unsupported_reason: None,
+        // Amendment A2: same additivity, and the field-destination access
+        // path of a summary (arg -> field of arg) is ignored — the whole
+        // object is tainted — so a summary model is likewise not
+        // load-bearing on the pinned version.
+        unsupported_reason: Some(
+            "Joern 4.0.610 ignores a summary's field-destination access path \
+             and its FlowSemantic cannot restrict the default pass-through; \
+             a summary model is not load-bearing on the pinned version \
+             (Amendment A2)",
+        ),
     },
     ModelingPartitionCell {
         tool: ModelingTool::Joern,
@@ -724,7 +736,8 @@ const MODELING_PARTITION: [ModelingPartitionCell; 24] = [
         category: ModelingCategory::Persistence,
         unsupported_reason: None,
     },
-    // Semgrep CE — 1.174.0 (`--oss-only`): 3 / 6.
+    // Semgrep CE — 1.174.0 (`--oss-only`): 3 / 6 categories, and Amendment A3
+    // splits category Z at the template level (see MODELING_TEMPLATE_OVERRIDES).
     ModelingPartitionCell {
         tool: ModelingTool::Semgrep,
         category: ModelingCategory::SourcesAndSinks,
@@ -767,10 +780,33 @@ const MODELING_PARTITION: [ModelingPartitionCell; 24] = [
 /// identity alone: `None` when the category is scored, `Some(reason)` when the
 /// tool declines it. Every cell is present, so an unknown template is a
 /// programming error rather than a silent scored default.
+/// Template-level partition overrides (Amendment A3): consulted before the
+/// category cell, for the cells where a tool's capability splits within a
+/// category. Semgrep CE can score sanitizer-kill (template 5) but not
+/// sanitizer-selectivity (template 6): the mandated
+/// `taint_assume_safe_functions: true` — required to keep propagator models
+/// load-bearing — itself suppresses flow through the undeclared
+/// sanitizer-lookalike, so selectivity's positive is undecidable by
+/// construction in a single CE invocation.
+const MODELING_TEMPLATE_OVERRIDES: [(ModelingTool, &str, &str); 1] = [(
+    ModelingTool::Semgrep,
+    "dfb-template-model-sanitizer-selectivity",
+    "Semgrep CE cannot express sanitizer selectivity and the safe-function \
+     assumption in one invocation: taint_assume_safe_functions suppresses \
+     flow through the undeclared sanitizer-lookalike, so the positive is \
+     undecidable by construction (Amendment A3)",
+)];
+
 fn modeling_partition_reason(tool: ModelingTool, template: &str) -> Result<Option<&'static str>> {
     let category = modeling_category(template).with_context(|| {
         format!("{template:?} is not one of the twelve preregistered modeling templates")
     })?;
+    if let Some((_, _, reason)) = MODELING_TEMPLATE_OVERRIDES
+        .iter()
+        .find(|(t, id, _)| *t == tool && *id == template)
+    {
+        return Ok(Some(reason));
+    }
     MODELING_PARTITION
         .iter()
         .find(|cell| cell.tool == tool && cell.category == category)
@@ -802,8 +838,8 @@ fn modeling_unsupported_reason(tool: ModelingTool, template: &str) -> Result<Opt
 }
 
 /// The templates a tool is entitled to score, in preregistered order. The
-/// counts are the document's partition summary: Bifrost 2, Semgrep 6, CodeQL
-/// 12, Joern 12.
+/// counts are the document's partition summary **as amended**: Bifrost 2,
+/// Semgrep 5 (Amendment A3), CodeQL 12, Joern 8 (Amendment A2).
 fn modeling_supported_templates(tool: ModelingTool) -> Vec<&'static str> {
     MODELING_TEMPLATE_IDS
         .into_iter()
@@ -856,6 +892,14 @@ impl ModelingLanguage {
     /// language's existing `qlpack`, because a query outside a pack cannot
     /// resolve its `codeql/<lang>-all` dependency. That is a location, not a
     /// declaration surface: the document's `ConfigSig` encoding is unchanged.
+    ///
+    /// Java is the one language for which "that language's existing qlpack" is
+    /// the adapter *root*: `adapters/codeql/qlpack.yml` declares
+    /// `dataflowbench/codeql-java` with the `codeql/java-all` dependency, and
+    /// `adapters/codeql/queries/JavaKernel.ql` already sits beside it. No
+    /// `adapters/codeql/java/` pack exists to descend into, so a query placed
+    /// under one would resolve no dependency at all. Java therefore lands on
+    /// the schematic path, by the same rule that moved the other two off it.
     fn artifact(self, tool: ModelingTool) -> &'static str {
         match (tool, self) {
             (ModelingTool::Bifrost, Self::Java) => "adapters/bifrost/policies/model-java.rqlp",
@@ -863,13 +907,6 @@ impl ModelingLanguage {
                 "adapters/bifrost/policies/model-javascript.rqlp"
             }
             (ModelingTool::Bifrost, Self::Python) => "adapters/bifrost/policies/model-python.rqlp",
-            // Java is the one language whose CodeQL pack *is* the adapter root:
-            // `adapters/codeql/qlpack.yml` declares `dataflowbench/codeql-java`
-            // and `adapters/codeql/queries/JavaKernel.ql` already lives beside
-            // it. The convention is "inside that language's existing qlpack",
-            // and for Java that pack has no `java/` subdirectory to descend
-            // into — a query under one would resolve no `codeql/java-all`
-            // dependency at all.
             (ModelingTool::Codeql, Self::Java) => "adapters/codeql/queries/JavaModeling.ql",
             (ModelingTool::Codeql, Self::Javascript) => {
                 "adapters/codeql/javascript/queries/JavaScriptModeling.ql"
@@ -3672,7 +3709,7 @@ fn run_bifrost(binary: &Path, run: BifrostRun) -> Result<()> {
                 .arg("policy.rqlp")
                 .args([
                     "--evaluation-date",
-                    BIFROST_EVALUATION_DATE,
+                    "2026-08-11",
                     "--format",
                     "json",
                     "--fail-on",
@@ -4228,6 +4265,9 @@ enum CodeqlLanguage<'a> {
     /// Ruby is buildless: the extractor parses the sources directly under
     /// `--build-mode=none`, with no manifest, project file, or traced compile.
     Ruby,
+    /// JavaScript is extracted by the `javascript` extractor with no build mode
+    /// at all — the same invocation the ECMA kernels already use.
+    Javascript,
 }
 
 impl CodeqlLanguage<'_> {
@@ -4240,6 +4280,7 @@ impl CodeqlLanguage<'_> {
             Self::CFamily => "cpp",
             Self::Rust => "rust",
             Self::Ruby => "ruby",
+            Self::Javascript => "javascript",
         }
     }
 
@@ -5610,11 +5651,40 @@ struct SinkAnchorLocation {
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 enum AnchorDialect {
     Ecma,
+    /// JavaScript and TypeScript as the **modeling matrix** spells them:
+    /// identical to `Ecma` except that a member-qualified call —
+    /// `Audit.record(v)` — counts as a callsite of `record`.
+    ///
+    /// No kernel needs this. Every kernel endpoint is a bare function, so
+    /// `Ecma` deliberately refuses a `.`-prefixed match and cannot mistake a
+    /// property access for a call to the endpoint. A modeling declaration
+    /// binds a *type* and a *member*, though, so the declared sink of
+    /// `dfb-template-model-declared-sink` is only ever reached through its
+    /// receiver, and refusing the member form would leave that case with no
+    /// resolvable sink callsite at all. This variant is used by the modeling
+    /// runners and by nothing else, so no kernel reconciliation changes.
+    EcmaMember,
     CSharp,
     Go,
     Cpp,
     Rust,
     Java,
+    /// Java as the **modeling matrix** spells it, and the exact counterpart of
+    /// `EcmaMember`: identical to `Java` except that a member-qualified call —
+    /// `Audit.record(v)`, `Config.fetchRemote()`, `alpha.get("k")` — counts as
+    /// a callsite of the named member.
+    ///
+    /// Java needs this more sharply than JavaScript does, because Java has no
+    /// free functions at all: *every* declared modeling entity is a member of
+    /// some type, and every callsite of one in a fixture that does not declare
+    /// it is therefore written through its receiver. `Java` refuses a
+    /// `.`-prefixed match, which is right for the kernels — their `dfb_sink` is
+    /// a static method called bare from the same class, and `other.dfb_sink(v)`
+    /// really is a different method — and wrong for a modeling declaration,
+    /// which binds a type and a member as one identity. Like `EcmaMember`, this
+    /// variant is used by the modeling runners and by nothing else, so no
+    /// kernel reconciliation changes.
+    JavaMember,
     Python,
     Ruby,
     Php,
@@ -5626,12 +5696,13 @@ impl AnchorDialect {
     /// markers sit on the endpoint function's own declaration line.
     fn declared_function_name(self, declaration: &str, marker: &str) -> Option<String> {
         match self {
-            Self::Ecma => ecma_function_name(declaration, marker),
+            Self::Ecma | Self::EcmaMember => ecma_function_name(declaration, marker),
             Self::CSharp
             | Self::Go
             | Self::Cpp
             | Self::Rust
             | Self::Java
+            | Self::JavaMember
             | Self::Python
             | Self::Php => parameter_list_function_name(declaration, marker),
             Self::Ruby => ruby_declared_function_name(declaration, marker),
@@ -5641,9 +5712,11 @@ impl AnchorDialect {
     fn is_call(self, line: &str, function_name: &str) -> bool {
         match self {
             Self::Ecma => ecma_function_call(line, function_name),
+            Self::EcmaMember => ecma_member_function_call(line, function_name),
             Self::CSharp | Self::Go | Self::Java => {
                 parameter_list_function_call(line, function_name)
             }
+            Self::JavaMember => java_member_function_call(line, function_name),
             Self::Cpp => cpp_function_call(line, function_name),
             Self::Rust => rust_function_call(line, function_name),
             Self::Python => python_function_call(line, function_name),
@@ -5901,6 +5974,16 @@ fn parameter_list_function_call(line: &str, function_name: &str) -> bool {
     member_prefixed_function_call(line, function_name, &['.'])
 }
 
+/// The modeling tier's Java rule: `parameter_list_function_call` with the `.`
+/// exclusion lifted, so `Audit.record(v)` counts as a callsite of `record`
+/// while `myRecord(v)` — an identifier that merely ends in the member's name —
+/// still does not. The identifier boundary before the name and the `(` after it
+/// are unchanged, which is what keeps a field access or a method reference from
+/// matching.
+fn java_member_function_call(line: &str, function_name: &str) -> bool {
+    member_prefixed_function_call(line, function_name, &[])
+}
+
 /// Python reaches a member through `.` only, and opens a comment with `#`.
 fn python_function_call(line: &str, function_name: &str) -> bool {
     member_prefixed_call_in(line, function_name, &['.'], CommentSyntax::Hash)
@@ -6018,6 +6101,33 @@ fn ecma_function_call(line: &str, function_name: &str) -> bool {
             .find(|character| !character.is_whitespace());
         let preceded_by_member = before == Some('.') || before == Some('?');
         if !before.is_some_and(ecma_identifier_char) && !preceded_by_member && after == Some('(') {
+            let prefix = line[..start].trim_end();
+            if !prefix.ends_with("function") {
+                return true;
+            }
+        }
+        search_from = end;
+    }
+    false
+}
+
+/// `ecma_function_call`, with a member-qualified callsite accepted.
+///
+/// The two differ in exactly one respect: `Audit.record(v)` and `alpha.get(k)`
+/// are callsites of `record` and `get` here and are not under `Ecma`. The
+/// declaration guard is unchanged — a `function record(...)` declaration is
+/// still never counted as a call — and so is the literal and comment stripping.
+fn ecma_member_function_call(line: &str, function_name: &str) -> bool {
+    let line = code_without_literals(line);
+    let mut search_from = 0;
+    while let Some(offset) = line[search_from..].find(function_name) {
+        let start = search_from + offset;
+        let end = start + function_name.len();
+        let before = line[..start].chars().next_back();
+        let after = line[end..]
+            .chars()
+            .find(|character| !character.is_whitespace());
+        if !before.is_some_and(ecma_identifier_char) && after == Some('(') {
             let prefix = line[..start].trim_end();
             if !prefix.ends_with("function") {
                 return true;
@@ -6336,6 +6446,11 @@ fn run_codeql_case_for_language(
         CodeqlLanguage::Ruby => {
             callsite_anchored_outcome(case_path, case, &sarif, AnchorDialect::Ruby)
         }
+        // Only the modeling matrix reaches this arm: the JavaScript kernel runs
+        // through `run_codeql_ecma_case`, whose dialect is the plain ECMA one.
+        CodeqlLanguage::Javascript => {
+            callsite_anchored_outcome(case_path, case, &sarif, AnchorDialect::EcmaMember)
+        }
         CodeqlLanguage::Java => {
             let result_count = sarif_result_count(&sarif);
             let diagnostics = sarif_messages(&sarif);
@@ -6520,6 +6635,9 @@ fn codeql_database_create_args(
         | CodeqlLanguage::CFamily
         | CodeqlLanguage::Rust
         | CodeqlLanguage::Ruby => args.push("--build-mode=none".to_string()),
+        // The `javascript` extractor takes no build mode; the ECMA kernels
+        // invoke it exactly this way.
+        CodeqlLanguage::Javascript => {}
         // CodeQL 2.26.3 rejects `--build-mode=none` for Go. The traced build is
         // `go build ./...` over the workspace's synthesized module manifest,
         // which keeps extraction reproducible instead of letting autobuild
@@ -7128,7 +7246,13 @@ fn run_joern_case(
                 ));
             }
         };
-        let (outcome, diagnostics) = joern_flow_outcome(case_path, case, &raw, kernel.dialect());
+        let (outcome, diagnostics) = joern_flow_outcome(
+            case_path,
+            case,
+            &raw,
+            kernel.dialect(),
+            JoernEndpointRule::BothMustBeObserved,
+        );
         Ok((outcome, diagnostics, raw_path.clone()))
     })();
 
@@ -7196,21 +7320,43 @@ enum EvidenceAnchorMatch {
     Ambiguous,
 }
 
+/// What an absent endpoint means in a Joern evidence document.
+///
+/// The two populations differ here, and the difference is not a convenience.
+/// A **kernel** case is parameterized by its *own* markers, so both endpoints
+/// are present in every fixture by construction and their absence can only mean
+/// the frontend failed to see them — which is execution coverage, never a
+/// negative. A **modeling** case is parameterized by the benchmark's
+/// *declarations*, and a declared endpoint being absent from a fixture is
+/// frequently the whole content of the assertion: template 2's negative calls
+/// `Audit.discard`, so the declared sink `Audit.record` is not there, and that
+/// is exactly the answer the cell is asking for. Applying the kernel's rule
+/// there would turn every correct category-S negative into `inconclusive`.
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+enum JoernEndpointRule {
+    /// Kernels: a fixture always contains both of its own endpoints, so an
+    /// absent one is an incomplete run.
+    BothMustBeObserved,
+    /// The modeling matrix: an absent *declared* endpoint is the assertion.
+    /// Only an empty extraction is incomplete.
+    AbsenceIsTheAssertion,
+}
+
 /// Normalize one retained Joern evidence document.
 ///
 /// A flow counts as `reached` only when one of its elements sits on a callsite
 /// of the case's own anchored sink function, in the anchored file — the same
 /// reconciliation the CodeQL C#, Go, C, C++, and Rust kernels apply to SARIF.
 /// Every other state is preserved distinctly: a script, frontend, or engine
-/// failure is `runner-error`; a run that never observed one of the two
-/// benchmark-controlled endpoints, or that produced flows with no usable
-/// location, is `inconclusive`. Only a complete run that observed both
-/// endpoints and produced no flow is `not-reached`.
+/// failure is `runner-error`; a run that produced flows with no usable
+/// location, or that `endpoints` says did not observe what it had to, is
+/// `inconclusive`. Only a complete run that produced no flow is `not-reached`.
 fn joern_flow_outcome(
     case_path: &Path,
     case: &Value,
     raw: &Value,
     dialect: AnchorDialect,
+    endpoints: JoernEndpointRule,
 ) -> (&'static str, Vec<String>) {
     match raw["state"].as_str() {
         Some("analyzed") => {}
@@ -7255,16 +7401,39 @@ fn joern_flow_outcome(
             vec!["Joern evidence lacks its endpoint node counts".to_string()],
         );
     };
-    if sources == 0 || sinks == 0 {
-        return (
-            "inconclusive",
-            vec![format!(
-                "Joern resolved {sources} source node(s) and {sinks} sink node(s); the run never observed both benchmark-controlled endpoints"
-            )],
-        );
+    match endpoints {
+        JoernEndpointRule::BothMustBeObserved if sources == 0 || sinks == 0 => {
+            return (
+                "inconclusive",
+                vec![format!(
+                    "Joern resolved {sources} source node(s) and {sinks} sink node(s); the run never observed both benchmark-controlled endpoints"
+                )],
+            );
+        }
+        JoernEndpointRule::AbsenceIsTheAssertion
+            if raw["method_count"].as_u64().is_none_or(|count| count == 0) =>
+        {
+            return (
+                "inconclusive",
+                vec![
+                    "Joern extracted no method from the fixture; the run produced nothing to analyze".to_string(),
+                ],
+            );
+        }
+        _ => {}
     }
     if flows.is_empty() {
-        return ("not-reached", Vec::new());
+        let mut diagnostics = Vec::new();
+        if endpoints == JoernEndpointRule::AbsenceIsTheAssertion && (sources == 0 || sinks == 0) {
+            // Retained, not converted: which declared endpoints the fixture
+            // even contains is exactly what several modeling negatives are
+            // about, and a reader should be able to see it without opening the
+            // raw evidence.
+            diagnostics.push(format!(
+                "Joern resolved {sources} declared source node(s) and {sinks} declared sink node(s) in this fixture"
+            ));
+        }
+        return ("not-reached", diagnostics);
     }
     let sink_locations = match sink_anchor_locations(case_path, case, dialect) {
         Ok(locations) => locations,
@@ -7718,18 +7887,22 @@ fn run_semgrep_kernel(binary: &Path, kernel: SemgrepKernel) -> Result<()> {
     Ok(())
 }
 
+/// The prefix a Semgrep **modeling** artifact carries. A modeling rule lives
+/// beside the kernel rules but belongs to a different population, so it is
+/// excluded from the kernel configuration hash below.
+const SEMGREP_MODELING_RULE_PREFIX: &str = "model-";
+
 /// Every committed Semgrep **kernel** rule file, so one `configuration_hash`
 /// binds the whole kernel rule set rather than only the language that happened
 /// to run.
 ///
-/// The `model-<language>.yaml` modeling artifacts share this directory and are
-/// deliberately excluded. They are not kernel configuration: a modeling rule is
-/// the benchmark-controlled modeling matrix's declaration set, hash-bound on its
-/// own into that population's report. Folding them in here would make every
-/// retained kernel report's configuration hash move each time a language's
-/// modeling wave lands — a change that describes nothing about the kernel the
-/// report is evidence for, and one that would silently strand the v0.4.0
-/// freeze's reproduction instructions.
+/// Modeling rules are deliberately excluded. The kernel hash is a statement
+/// about the kernel configuration, and the modeling matrix is its own
+/// population with its own artifact, its own report, and its own hash — which
+/// `plan_modeling_run` computes over that artifact alone. Folding a modeling
+/// rule in here would have made every published kernel report cite a hash that
+/// no longer described the configuration it ran under, for a file no kernel
+/// ever loads.
 fn semgrep_rule_paths() -> Result<BTreeSet<PathBuf>> {
     let mut paths = BTreeSet::new();
     for entry in fs::read_dir(SEMGREP_RULES_DIR)
@@ -7737,14 +7910,11 @@ fn semgrep_rule_paths() -> Result<BTreeSet<PathBuf>> {
         .filter_map(std::result::Result::ok)
     {
         let path = entry.path();
-        let is_modeling_artifact = path
+        let modeling = path
             .file_name()
             .and_then(|name| name.to_str())
-            .is_some_and(|name| name.starts_with("model-"));
-        if path.is_file()
-            && path.extension().is_some_and(|ext| ext == "yaml")
-            && !is_modeling_artifact
-        {
+            .is_some_and(|name| name.starts_with(SEMGREP_MODELING_RULE_PREFIX));
+        if path.is_file() && !modeling && path.extension().is_some_and(|ext| ext == "yaml") {
             paths.insert(path);
         }
     }
@@ -8446,10 +8616,13 @@ fn plan_modeling_run(tool: ModelingTool, language: ModelingLanguage) -> Result<M
     match tool {
         ModelingTool::Bifrost => require_bifrost_modeling_load_bearing(&contents, artifact)?,
         ModelingTool::Semgrep => require_semgrep_modeling_load_bearing(&contents, artifact)?,
-        // Neither the CodeQL nor the Joern surface has an unmodeled-call
+        // Neither surface has a switch to pin. CodeQL has no unmodeled-call
         // default that would decide a cell on its own: a `ConfigSig` with no
-        // `isAdditionalFlowStep` adds no step, and a Joern method with no
-        // `FlowMapping` propagates nothing. There is no switch to pin.
+        // `isAdditionalFlowStep` adds no step. Joern's default pass-through
+        // *is* load-bearing, but it cannot be disabled — `FlowSemantic`
+        // mappings are additive over it — which is why Amendment A2 moved its
+        // propagator and summary categories to unsupported activation instead
+        // of gating them here.
         ModelingTool::Codeql | ModelingTool::Joern => {}
     }
 
@@ -8520,637 +8693,125 @@ fn modeling_partition_outcome(
     Ok(Some(("unsupported", reason, raw_path)))
 }
 
-/// The anchor dialect a modeling language's fixtures are written in. Wave M1's
-/// three languages reuse the dialects the kernels already reconcile against;
-/// no modeling-only dialect exists, and none should.
-fn modeling_dialect(language: ModelingLanguage) -> AnchorDialect {
-    match language {
-        ModelingLanguage::Java => AnchorDialect::Java,
-        ModelingLanguage::Javascript => AnchorDialect::Ecma,
-        ModelingLanguage::Python => AnchorDialect::Python,
-    }
-}
-
-/// The `importCode` frontend identifier the Joern modeling script is invoked
-/// with, per language.
-fn modeling_joern_frontend(language: ModelingLanguage) -> &'static str {
-    match language {
-        ModelingLanguage::Java => "JAVASRC",
-        ModelingLanguage::Javascript => "JSSRC",
-        ModelingLanguage::Python => "PYTHONSRC",
-    }
-}
-
-/// The region of a fixture that one case's own source anchor governs: the
-/// anchored declaration, its body, and every callsite of the anchored source
-/// function.
+/// The Joern source-selector shape a template needs, decided from the template
+/// identity alone and never from an observed result.
 ///
-/// **Why the modeling tier reconciles the source side at all.** A kernel
-/// fixture carries exactly one flow, so a finding on the case's sink anchor is
-/// unambiguously *the* assertion. A modeling fixture carries both halves of its
-/// pair by construction — the declared entity and its undeclared sibling live in
-/// one type, because that is what the templates say makes the negative a
-/// negative. Category E makes the consequence unavoidable: a handler needs no
-/// caller, so the *declared* handler's flow is present in the negative fixture
-/// too, on a callsite of the same sink function. Reconciling only the sink would
-/// read that sibling's flow as this case's finding. Reconciling the source as
-/// well is what keeps the two assertions apart, and it is the same reconciliation
-/// for every tool, so no adapter can drift into a laxer one.
-///
-/// **Why the region and not only the marker line.** Three adapters report three
-/// different things: CodeQL's SARIF carries the flow's source location, Joern's
-/// evidence carries the flow's first element, and the pinned Semgrep CE emits no
-/// dataflow trace at all in its OSS output — only the finding's own position. So
-/// the region is defined as the *lines the anchored declaration governs*, which
-/// all three can be tested against: the declaration line itself (where a
-/// parameter source lives), the declaration's body (where an intraprocedural
-/// engine's finding lives), and the source function's callsites (where a call
-/// source lives).
-struct ModelingSourceRegion {
-    file: String,
-    lines: BTreeSet<u64>,
-}
-
-impl ModelingSourceRegion {
-    fn contains(&self, file: &str, line: u64) -> bool {
-        evidence_path_matches_file(file, &self.file) && self.lines.contains(&line)
-    }
-}
-
-/// The block a declaration governs, decided by indentation rather than by a
-/// dialect's block punctuation.
-///
-/// A declaration's body is exactly the run of lines that are blank or indented
-/// deeper than the declaration, up to the first line that is not. That is true
-/// of a braced body (the closing brace sits back at the declaration's own
-/// indentation and terminates the run) and of an indented one, so one rule
-/// serves every wave-M1 language without a per-dialect brace matcher whose only
-/// caller would be this function.
-fn declaration_block_lines(body: &str, declaration_line: u64) -> BTreeSet<u64> {
-    let lines: Vec<&str> = body.lines().collect();
-    let mut block = BTreeSet::from([declaration_line]);
-    let index = declaration_line as usize - 1;
-    let Some(declaration) = lines.get(index) else {
-        return block;
-    };
-    let declaration_indent = leading_whitespace(declaration);
-    for (offset, line) in lines.iter().enumerate().skip(index + 1) {
-        if line.trim().is_empty() {
-            continue;
-        }
-        if leading_whitespace(line) <= declaration_indent {
-            break;
-        }
-        block.insert(offset as u64 + 1);
-    }
-    block
-}
-
-fn leading_whitespace(line: &str) -> usize {
-    line.len() - line.trim_start().len()
-}
-
-/// Resolve one modeling case's source region. A case with more than one source
-/// anchor has no single region, which no modeling template declares and the
-/// matrix's own balance check would not admit.
-fn modeling_source_region(
-    case_path: &Path,
-    case: &Value,
-    dialect: AnchorDialect,
-) -> std::result::Result<ModelingSourceRegion, String> {
-    let fixture_root = case_path
-        .parent()
-        .ok_or_else(|| "case path has no parent".to_string())?;
-    let anchors = case["source_anchors"]
-        .as_array()
-        .ok_or_else(|| "case has no source anchors".to_string())?;
-    let [anchor] = anchors.as_slice() else {
-        return Err(format!(
-            "a modeling case declares exactly one source anchor; found {}",
-            anchors.len()
-        ));
-    };
-    let file = anchor["file"]
-        .as_str()
-        .ok_or_else(|| "source anchor lacks file".to_string())?;
-    let marker = anchor["marker"]
-        .as_str()
-        .ok_or_else(|| "source anchor lacks marker".to_string())?;
-    let body = fs::read_to_string(fixture_root.join(file))
-        .map_err(|error| format!("read source fixture {file}: {error}"))?;
-    let declaration_line = anchor_marker_line(&body, marker, anchor["line_hint"].as_u64())?;
-    let declaration = body
-        .lines()
-        .nth(declaration_line as usize - 1)
-        .ok_or_else(|| format!("source anchor line {declaration_line} is outside {file}"))?;
-    let function_name = dialect
-        .declared_function_name(declaration, marker)
-        .ok_or_else(|| format!("source marker {marker:?} is not on a function declaration"))?;
-    let mut lines = declaration_block_lines(&body, declaration_line);
-    lines.extend(modeling_callsite_lines(
-        &body,
-        &function_name,
-        declaration_line,
-        dialect,
-    ));
-    Ok(ModelingSourceRegion {
-        file: file.to_string(),
-        lines,
+/// Category E is the one category whose source is not a call: its handler is
+/// never called from the fixture, which is the whole point, so there is no call
+/// site to select and the analysis root is the handler's own parameter node.
+/// Every other category's source is a call whose returned value is tainted.
+fn modeling_joern_source_kind(template: &str) -> Result<&'static str> {
+    let category = modeling_category(template).with_context(|| {
+        format!("{template:?} is not one of the twelve preregistered modeling templates")
+    })?;
+    Ok(match category {
+        ModelingCategory::EntryPoints => "method-parameter",
+        _ => "call-return",
     })
 }
 
-/// The lines that call one declared entity, on the modeling tier's terms.
-///
-/// The kernels' dialect rule deliberately *rejects* a member-prefixed call: a
-/// kernel endpoint is a free function, so `other.dfb_sink(x)` is a different
-/// function that happens to share a name. The modeling declaration language
-/// binds by a **type-plus-member** triple, and half of its entities are
-/// therefore reached through their declaring type — `Audit.record(...)`,
-/// `Config.fetchRemote()`, `alpha.get("k")`. So the modeling tier accepts a
-/// member-qualified call as well, and the two rules together cover both
-/// spellings without changing what a kernel reconciles.
-fn modeling_callsite_lines(
-    body: &str,
-    function_name: &str,
-    declaration_line: u64,
-    dialect: AnchorDialect,
-) -> BTreeSet<u64> {
-    body.lines()
-        .enumerate()
-        .filter_map(|(offset, candidate)| {
-            let line = offset as u64 + 1;
-            (line != declaration_line
-                && (dialect.is_call(candidate, function_name)
-                    || member_qualified_call(candidate, function_name)))
-            .then_some(line)
-        })
-        .collect()
-}
-
-/// Whether a line reaches `function_name` through a member operator and calls
-/// it. The three operators are the ones the corpus's dialects already treat as
-/// member access: `.` everywhere, `::` in Ruby and C++, and `->` in C and C++.
-fn member_qualified_call(line: &str, function_name: &str) -> bool {
-    let line = code_without_literals_in(&line.replace("->", "."), CommentSyntax::DoubleSlashOrHash);
-    let mut search_from = 0;
-    while let Some(offset) = line[search_from..].find(function_name) {
-        let start = search_from + offset;
-        let end = start + function_name.len();
-        let before = line[..start].chars().next_back();
-        let after = line[end..]
-            .chars()
-            .find(|character| !character.is_whitespace());
-        if matches!(before, Some('.') | Some(':')) && after == Some('(') {
-            return true;
-        }
-        search_from = end;
-    }
-    false
-}
-
-/// Everything one modeling case is reconciled against: the region its source
-/// anchor governs and the callsites of its anchored sink function.
-struct ModelingAnchors {
-    source: ModelingSourceRegion,
-    sinks: Vec<SinkAnchorLocation>,
-}
-
-fn modeling_anchors(
-    case_path: &Path,
-    case: &Value,
-    dialect: AnchorDialect,
-) -> std::result::Result<ModelingAnchors, String> {
-    Ok(ModelingAnchors {
-        source: modeling_source_region(case_path, case, dialect)?,
-        sinks: modeling_sink_locations(case_path, case, dialect)?,
-    })
-}
-
-/// The modeling tier's sink-anchor resolution.
-///
-/// Identical to `sink_anchor_locations` except that it accepts a
-/// member-qualified callsite, for the reason `modeling_callsite_lines` gives:
-/// a declared sink like `Audit.record` is reached through its declaring type,
-/// and the kernels' receiverless-only rule would report it as having no
-/// callsites at all.
-fn modeling_sink_locations(
-    case_path: &Path,
-    case: &Value,
-    dialect: AnchorDialect,
-) -> std::result::Result<Vec<SinkAnchorLocation>, String> {
-    let fixture_root = case_path
-        .parent()
-        .ok_or_else(|| "case path has no parent".to_string())?;
-    let mut locations = Vec::new();
-    for anchor in case["sink_anchors"]
-        .as_array()
-        .ok_or_else(|| "case has no sink anchors".to_string())?
-    {
-        let file = anchor["file"]
-            .as_str()
-            .ok_or_else(|| "sink anchor lacks file".to_string())?;
-        let marker = anchor["marker"]
-            .as_str()
-            .ok_or_else(|| "sink anchor lacks marker".to_string())?;
-        let body = fs::read_to_string(fixture_root.join(file))
-            .map_err(|error| format!("read sink fixture {file}: {error}"))?;
-        let marker_line = anchor_marker_line(&body, marker, anchor["line_hint"].as_u64())?;
-        let declaration = body
-            .lines()
-            .nth(marker_line as usize - 1)
-            .ok_or_else(|| format!("sink anchor line {marker_line} is outside {file}"))?;
-        let function_name = dialect
-            .declared_function_name(declaration, marker)
-            .ok_or_else(|| format!("sink marker {marker:?} is not on a function declaration"))?;
-        let callsite_lines = modeling_callsite_lines(&body, &function_name, marker_line, dialect);
-        if callsite_lines.is_empty() {
-            return Err(format!(
-                "sink function {function_name} has no callsites in {file}"
-            ));
-        }
-        locations.push(SinkAnchorLocation {
-            file: file.to_string(),
-            marker_line,
-            function_name,
-            callsite_lines,
-        });
-    }
-    if locations.is_empty() {
-        return Err("case has no resolvable sink locations".to_string());
-    }
-    Ok(locations)
-}
-
-impl ModelingAnchors {
-    fn sink_matches(&self, file: &str, line: u64) -> bool {
-        self.sinks.iter().any(|location| {
-            evidence_path_matches_file(file, &location.file)
-                && location.callsite_lines.contains(&line)
-        })
+/// The CodeQL extractor and the Joern frontend a modeling language runs under.
+/// Both are the same ones that language's kernel already runs under; a modeling
+/// run differs from its sibling only in which artifact it loads.
+fn modeling_codeql_language(language: ModelingLanguage) -> Result<CodeqlLanguage<'static>> {
+    match language {
+        ModelingLanguage::Python => Ok(CodeqlLanguage::Python),
+        ModelingLanguage::Javascript => Ok(CodeqlLanguage::Javascript),
+        // Java runs under the same extractor its kernel does, which is what
+        // supplies the `--build-mode=none` handling a compiled language needs.
+        ModelingLanguage::Java => Ok(CodeqlLanguage::Java),
     }
 }
 
-/// Fold a tally of reconciled findings into one result-schema outcome.
-///
-/// The three-way vocabulary is the corpus's own, with one modeling-specific
-/// reading of `unmatched`. On a kernel, a finding that reconciles to nothing is
-/// unusable evidence and stays `inconclusive`. On this tier a finding that
-/// reconciles to nothing is *expected*: the fixture carries the pair's other
-/// entity, and a flow on that entity is fully attributable and says nothing
-/// about this case's anchors. So an unmatched finding is `not-reached` with the
-/// count retained, and only evidence with no usable location at all — which is
-/// still unreadable — stays `inconclusive`.
-fn modeling_tally_outcome(
-    matched: usize,
-    unmatched: usize,
-    ambiguous: usize,
-) -> (&'static str, Vec<String>) {
-    if ambiguous > 0 {
-        return (
-            "inconclusive",
-            vec![format!(
-                "{ambiguous} modeling finding(s) carry no usable or an ambiguous location"
-            )],
-        );
-    }
-    if matched > 0 {
-        return ("reached", Vec::new());
-    }
-    if unmatched > 0 {
-        return (
-            "not-reached",
-            vec![format!(
-                "{unmatched} finding(s) reconciled to neither this case's source region nor its sink anchor; on the modeling tier a fixture carries its pair's other entity by construction, so a flow on that entity is not this assertion's"
-            )],
-        );
-    }
-    ("not-reached", Vec::new())
-}
-
-/// The physical location of one SARIF location object, if it carries one.
-fn sarif_location_position(location: &Value) -> Option<(String, u64)> {
-    let physical = &location["physicalLocation"];
-    let file = physical["artifactLocation"]["uri"].as_str()?;
-    let line = physical["region"]["startLine"].as_u64()?;
-    Some((file.to_string(), line))
-}
-
-/// Reconcile one CodeQL path-problem result against a modeling case's anchors.
-fn modeling_sarif_match(result: &Value, anchors: &ModelingAnchors) -> EvidenceAnchorMatch {
-    let Some(sink) = result["locations"]
-        .as_array()
-        .and_then(|locations| locations.first())
-        .and_then(sarif_location_position)
-    else {
-        return EvidenceAnchorMatch::Ambiguous;
-    };
-    // A `@kind path-problem` result carries its source as the first location of
-    // its first thread flow, and repeats it in `relatedLocations`. Either is the
-    // query's own statement of where the flow began. A flow whose source and
-    // sink are the *same* node — `dfb_sink(dfb_source())`, which is exactly what
-    // several one-hop modeling templates are — carries neither, because there is
-    // no path to draw; its own location is then the flow's whole extent, and
-    // that is a complete statement of where it began, not a missing one.
-    let source = result["codeFlows"]
-        .as_array()
-        .and_then(|flows| flows.first())
-        .and_then(|flow| flow["threadFlows"].as_array())
-        .and_then(|threads| threads.first())
-        .and_then(|thread| thread["locations"].as_array())
-        .and_then(|locations| locations.first())
-        .and_then(|entry| sarif_location_position(&entry["location"]))
-        .or_else(|| {
-            result["relatedLocations"]
-                .as_array()
-                .and_then(|locations| locations.first())
-                .and_then(sarif_location_position)
-        })
-        .unwrap_or_else(|| sink.clone());
-    let (source_file, source_line) = source;
-    if anchors.sink_matches(&sink.0, sink.1) && anchors.source.contains(&source_file, source_line) {
-        EvidenceAnchorMatch::Matched
-    } else {
-        EvidenceAnchorMatch::Unmatched
+fn modeling_joern_frontend(language: ModelingLanguage) -> Result<&'static str> {
+    match language {
+        ModelingLanguage::Python => Ok("PYTHONSRC"),
+        ModelingLanguage::Javascript => Ok("JSSRC"),
+        ModelingLanguage::Java => Ok("JAVASRC"),
     }
 }
 
-/// Normalize a CodeQL SARIF document for one modeling case.
-fn modeling_codeql_outcome(
-    case_path: &Path,
-    case: &Value,
-    sarif: &Value,
-    dialect: AnchorDialect,
-) -> (&'static str, Vec<String>) {
-    let mut diagnostics = sarif_messages(sarif);
-    if sarif["runs"].as_array().is_none_or(|runs| runs.is_empty()) {
-        diagnostics.push("CodeQL SARIF contains no analysis runs".to_string());
-        return ("runner-error", diagnostics);
-    }
-    let anchors = match modeling_anchors(case_path, case, dialect) {
-        Ok(anchors) => anchors,
-        Err(reason) => {
-            diagnostics.push(format!(
-                "cannot reconcile a CodeQL finding against this case's anchors: {reason}"
-            ));
-            return ("inconclusive", diagnostics);
-        }
-    };
-    let (mut matched, mut unmatched, mut ambiguous) = (0, 0, 0);
-    for result in sarif["runs"]
-        .as_array()
-        .into_iter()
-        .flatten()
-        .flat_map(|run| run["results"].as_array().into_iter().flatten())
-    {
-        match modeling_sarif_match(result, &anchors) {
-            EvidenceAnchorMatch::Matched => matched += 1,
-            EvidenceAnchorMatch::Unmatched => unmatched += 1,
-            EvidenceAnchorMatch::Ambiguous => ambiguous += 1,
-        }
-    }
-    let (outcome, tally) = modeling_tally_outcome(matched, unmatched, ambiguous);
-    diagnostics.extend(tally);
-    diagnostics.sort();
-    diagnostics.dedup();
-    (outcome, diagnostics)
-}
-
-/// Normalize a Joern modeling evidence document for one case.
-///
-/// This deliberately does not reuse `joern_flow_outcome`. That function reports
-/// `inconclusive` when a run resolved zero source or zero sink nodes, because on
-/// a kernel an unobserved endpoint means the run never saw the assertion. On the
-/// modeling tier an unobserved endpoint is frequently *the measurement*: the
-/// declared-source negative's `Config.fetchLocal` and the declared-sink
-/// negative's `Audit.discard` are undeclared on purpose, so the model binds no
-/// node and zero is the correct, informative answer. Converting that into
-/// `inconclusive` would hide the one thing category S exists to show. A run that
-/// produced no CPG at all is still unusable, and stays `runner-error`.
-fn modeling_joern_outcome(
-    case_path: &Path,
-    case: &Value,
-    raw: &Value,
-    dialect: AnchorDialect,
-) -> (&'static str, Vec<String>) {
-    match raw["state"].as_str() {
-        Some("analyzed") => {}
-        Some("runner-error") => {
-            return (
-                "runner-error",
-                vec![
-                    raw["diagnostic"]
-                        .as_str()
-                        .unwrap_or("Joern reported a runner error without a diagnostic")
-                        .to_string(),
-                ],
-            );
-        }
-        Some(other) => {
-            return (
-                "runner-error",
-                vec![format!(
-                    "Joern modeling evidence declares unexpected state {other:?}"
-                )],
-            );
-        }
-        None => {
-            return (
-                "runner-error",
-                vec!["Joern modeling evidence declares no state".to_string()],
-            );
-        }
-    }
-    if raw["method_count"].as_u64().is_none_or(|count| count == 0) {
-        return (
-            "runner-error",
-            vec!["Joern modeling run produced no methods; the frontend extracted nothing".into()],
-        );
-    }
-    let Some(flows) = raw["flows"].as_array() else {
-        return (
-            "runner-error",
-            vec!["Joern modeling evidence lacks its flows array".to_string()],
-        );
-    };
-    let mut diagnostics = vec![format!(
-        "Joern bound {} declared source node(s) and {} declared sink node(s) under {} loaded semantic entr(ies)",
-        raw["source_node_count"].as_u64().unwrap_or_default(),
-        raw["sink_node_count"].as_u64().unwrap_or_default(),
-        raw["declared_semantics_count"].as_u64().unwrap_or_default()
-    )];
-    if flows.is_empty() {
-        return ("not-reached", diagnostics);
-    }
-    let anchors = match modeling_anchors(case_path, case, dialect) {
-        Ok(anchors) => anchors,
-        Err(reason) => {
-            diagnostics.push(format!(
-                "cannot reconcile a Joern flow against this case's anchors: {reason}"
-            ));
-            return ("inconclusive", diagnostics);
-        }
-    };
-    let (mut matched, mut unmatched, mut ambiguous) = (0, 0, 0);
-    for flow in flows {
-        match modeling_joern_flow_match(flow, &anchors) {
-            EvidenceAnchorMatch::Matched => matched += 1,
-            EvidenceAnchorMatch::Unmatched => unmatched += 1,
-            EvidenceAnchorMatch::Ambiguous => ambiguous += 1,
-        }
-    }
-    let (outcome, tally) = modeling_tally_outcome(matched, unmatched, ambiguous);
-    diagnostics.extend(tally);
-    diagnostics.sort();
-    diagnostics.dedup();
-    (outcome, diagnostics)
-}
-
-/// A Joern flow matches when its first element sits in the case's source region
-/// and some element sits on a callsite of its anchored sink function.
-fn modeling_joern_flow_match(flow: &Value, anchors: &ModelingAnchors) -> EvidenceAnchorMatch {
-    let Some(elements) = flow["elements"].as_array() else {
-        return EvidenceAnchorMatch::Ambiguous;
-    };
-    let mut positions = Vec::with_capacity(elements.len());
-    for element in elements {
-        let (Some(file), Some(line)) = (element["file"].as_str(), element["line"].as_u64()) else {
-            return EvidenceAnchorMatch::Ambiguous;
-        };
-        positions.push((file, line));
-    }
-    let Some((source_file, source_line)) = positions.first().copied() else {
-        return EvidenceAnchorMatch::Ambiguous;
-    };
-    let sink_matched = positions
-        .iter()
-        .any(|(file, line)| anchors.sink_matches(file, *line));
-    if sink_matched && anchors.source.contains(source_file, source_line) {
-        EvidenceAnchorMatch::Matched
-    } else {
-        EvidenceAnchorMatch::Unmatched
+fn modeling_anchor_dialect(language: ModelingLanguage) -> Result<AnchorDialect> {
+    match language {
+        ModelingLanguage::Python => Ok(AnchorDialect::Python),
+        // JavaScript reconciles under the member-qualified ECMA variant: a
+        // modeling declaration binds a type and a member, so a declared sink is
+        // reached through its receiver (`Audit.record(v)`), which the kernel
+        // dialect deliberately does not count as a callsite of `record`.
+        ModelingLanguage::Javascript => Ok(AnchorDialect::EcmaMember),
+        // Java for the same reason, and with no exception: the language has no
+        // free functions, so every declared modeling entity is reached through
+        // its declaring type.
+        ModelingLanguage::Java => Ok(AnchorDialect::JavaMember),
     }
 }
 
-/// Normalize a Semgrep `--json` document for one modeling case.
-///
-/// The pinned CE distribution emits no dataflow trace in its OSS output, so a
-/// finding states only its own position. That is sufficient here precisely
-/// because the CE engine is intraprocedural: a finding it reports lies inside
-/// the procedure its source was taken from, so a finding that falls in the
-/// case's source region *is* a finding of this case's assertion.
-fn modeling_semgrep_outcome(
-    case_path: &Path,
-    case: &Value,
-    raw: &Value,
-    dialect: AnchorDialect,
-) -> (&'static str, Vec<String>) {
-    let errors = raw["errors"].as_array().map(Vec::as_slice).unwrap_or(&[]);
-    if !errors.is_empty() {
-        let mut diagnostics: Vec<String> = errors
-            .iter()
-            .map(|error| {
-                format!(
-                    "Semgrep reported a scan error: {}",
-                    error["message"].as_str().unwrap_or("no message")
-                )
-            })
-            .collect();
-        diagnostics.sort();
-        diagnostics.dedup();
-        return ("runner-error", diagnostics);
-    }
-    let Some(results) = raw["results"].as_array() else {
-        return (
-            "runner-error",
-            vec!["Semgrep evidence lacks its results array".to_string()],
-        );
-    };
-    if results.is_empty() {
-        return ("not-reached", Vec::new());
-    }
-    let anchors = match modeling_anchors(case_path, case, dialect) {
-        Ok(anchors) => anchors,
-        Err(reason) => {
-            return (
-                "inconclusive",
-                vec![format!(
-                    "cannot reconcile a Semgrep finding against this case's anchors: {reason}"
-                )],
-            );
-        }
-    };
-    let (mut matched, mut unmatched, mut ambiguous) = (0, 0, 0);
-    for result in results {
-        let (Some(path), Some(line)) = (result["path"].as_str(), result["start"]["line"].as_u64())
-        else {
-            ambiguous += 1;
-            continue;
-        };
-        if anchors.sink_matches(path, line) && anchors.source.contains(path, line) {
-            matched += 1;
-        } else {
-            unmatched += 1;
-        }
-    }
-    let (outcome, diagnostics) = modeling_tally_outcome(matched, unmatched, ambiguous);
-    (outcome, diagnostics)
-}
-
-/// Materialize one modeling case's fixtures in a fresh scratch workspace.
-fn materialize_modeling_workspace(
+/// A per-case scratch root for a modeling run, disjoint from every kernel run's.
+fn modeling_case_scratch(
     tool: ModelingTool,
-    case_path: &Path,
-    case: &Value,
+    language: ModelingLanguage,
     id: &str,
 ) -> Result<PathBuf> {
     let scratch = std::env::temp_dir()
-        .join(format!("dataflowbench-modeling-{}", tool.key()))
+        .join(format!(
+            "dataflowbench-modeling-{}-{}",
+            tool.key(),
+            language.key()
+        ))
         .join(id);
     if scratch.exists() {
         fs::remove_dir_all(&scratch).with_context(|| format!("clear {}", scratch.display()))?;
     }
-    let workspace = scratch.join("source");
-    fs::create_dir_all(&workspace)?;
+    fs::create_dir_all(&scratch)?;
+    Ok(scratch)
+}
+
+/// Copy one case's fixture files into `workspace`.
+fn materialize_modeling_workspace(case_path: &Path, case: &Value, workspace: &Path) -> Result<()> {
+    fs::create_dir_all(workspace)?;
     let fixture_root = case_path.parent().expect("case path has parent");
     for fixture in case["fixture_files"].as_array().expect("schema validated") {
         let fixture = fixture.as_str().expect("schema validated");
         fs::copy(fixture_root.join(fixture), workspace.join(fixture))?;
     }
-    Ok(scratch)
+    Ok(())
 }
 
-/// Run one scored modeling cell through Bifrost's policy CLI, reusing the
-/// adapter's own per-case machinery: the same workspace materialization, the
-/// same invocation, and the same `normalize_bifrost` reading of the report.
+/// Run one *scored* modeling cell through Bifrost's policy CLI, under the
+/// language's modeling policy rather than its kernel policy.
 fn run_bifrost_modeling_case(
     binary: &Path,
-    plan: &ModelingRunPlan,
     case_path: &Path,
     case: &Value,
-    id: &str,
+    plan: &ModelingRunPlan,
 ) -> Result<(&'static str, Vec<String>, PathBuf)> {
-    let policy = plan.language.artifact(ModelingTool::Bifrost);
+    let id = required_string(case, "id", "modeling case")?;
     let raw_path = plan.raw_dir.join(format!("{id}.json"));
     if raw_path.exists() {
         fs::remove_file(&raw_path).with_context(|| format!("clear {}", raw_path.display()))?;
     }
-    let workspace = materialize_bifrost_workspace(case_path, case, policy)?;
+    let policy = plan.language.artifact(ModelingTool::Bifrost);
+    let scratch = modeling_case_scratch(ModelingTool::Bifrost, plan.language, id)?;
+    materialize_modeling_workspace(case_path, case, &scratch)?;
+    fs::copy(policy, scratch.join("policy.rqlp"))?;
+
     let mut command = Command::new(binary);
     command
         .arg("--root")
-        .arg(&workspace)
+        .arg(&scratch)
         .arg("--policy-file")
         .arg("policy.rqlp")
         .args([
             "--evaluation-date",
-            BIFROST_EVALUATION_DATE,
+            "2026-08-11",
             "--format",
             "json",
             "--fail-on",
             "never",
             "--output",
         ])
-        .arg(&raw_path);
+        .arg(&raw_path)
+        .stdin(std::process::Stdio::null());
     let output = match command.output() {
         Ok(output) => output,
         Err(error) => {
@@ -9160,9 +8821,9 @@ fn run_bifrost_modeling_case(
         }
     };
     let status_code = output.status.code();
-    if !raw_path.is_file() {
+    let normalized = if !raw_path.is_file() {
         let diagnostic = format!(
-            "Bifrost policy execution produced no JSON report (status {})",
+            "Bifrost modeling policy execution produced no JSON report (status {})",
             output.status
         );
         write_bifrost_error(
@@ -9176,61 +8837,107 @@ fn run_bifrost_modeling_case(
                 String::from_utf8_lossy(&output.stderr).trim()
             ),
         )?;
-        return Ok(("runner-error", vec![diagnostic], raw_path));
-    }
-    let raw =
-        fs::read_to_string(&raw_path).with_context(|| format!("read {}", raw_path.display()))?;
-    let report: Value = match serde_json::from_str(&raw) {
-        Ok(report) => report,
-        Err(error) => {
-            let diagnostic = format!("parse Bifrost JSON report {}: {error}", raw_path.display());
-            return Ok(("runner-error", vec![diagnostic], raw_path));
+        ("runner-error", vec![diagnostic], raw_path.clone())
+    } else {
+        let raw = fs::read_to_string(&raw_path)
+            .with_context(|| format!("read {}", raw_path.display()))?;
+        match serde_json::from_str::<Value>(&raw) {
+            Ok(mut report) => {
+                if status_code.is_none() || status_code.is_some_and(|code| !matches!(code, 0..=2)) {
+                    report["_dataflowbench_runner"] =
+                        json!({"outcome": "runner-error", "exit_status": status_code});
+                    fs::write(&raw_path, serde_json::to_string_pretty(&report)? + "\n")?;
+                }
+                let (outcome, diagnostics, _) = normalize_bifrost(case, &report, status_code)?;
+                (outcome, diagnostics, raw_path.clone())
+            }
+            Err(error) => (
+                "runner-error",
+                vec![format!(
+                    "parse Bifrost JSON report {}: {error}",
+                    raw_path.display()
+                )],
+                raw_path.clone(),
+            ),
         }
     };
-    let (outcome, diagnostics, _) = normalize_bifrost(case, &report, status_code)?;
-    Ok((outcome, diagnostics, raw_path))
+    fs::remove_dir_all(&scratch).with_context(|| format!("clear {}", scratch.display()))?;
+    Ok(normalized)
 }
 
-/// Run one scored modeling cell through the Joern modeling script, which loads
-/// the per-language flow-semantics artifact into the engine.
+/// Run one scored modeling cell through Joern's flow-semantics surface.
+///
+/// The kernel's per-case machinery is reused unchanged — workspace
+/// materialization, endpoint resolution from the fixture's own marker lines,
+/// and `joern_flow_outcome`'s anchor reconciliation. What differs is the script
+/// (`modeling.sc`, so `kernel.sc` stays untouched), the semantics file it
+/// loads, and the source-selector shape category E needs.
 fn run_joern_modeling_case(
     binary: &Path,
-    plan: &ModelingRunPlan,
+    script: &Path,
+    semantics: &Path,
     case_path: &Path,
     case: &Value,
-    id: &str,
+    plan: &ModelingRunPlan,
+    raw_root: &Path,
 ) -> Result<(&'static str, Vec<String>, PathBuf)> {
-    let script =
-        fs::canonicalize(JOERN_MODELING_SCRIPT).context("resolve the Joern modeling script")?;
-    let semantics = fs::canonicalize(plan.language.artifact(ModelingTool::Joern))
-        .context("resolve the Joern modeling semantics")?;
-    let raw_root =
-        fs::canonicalize(&plan.raw_dir).context("resolve the Joern modeling evidence directory")?;
+    let id = required_string(case, "id", "modeling case")?;
+    let template = required_string(case, "template_id", id)?;
+    let dialect = modeling_anchor_dialect(plan.language)?;
     let raw_path = plan.raw_dir.join(format!("{id}.json"));
-    let absolute_raw_path = raw_root.join(format!("{id}.json"));
-    for stale in [&raw_path, &plan.raw_dir.join(format!("{id}-error.json"))] {
+    let error_path = plan.raw_dir.join(format!("{id}-error.json"));
+    for stale in [&raw_path, &error_path] {
         if stale.exists() {
             fs::remove_file(stale).with_context(|| format!("clear {}", stale.display()))?;
         }
     }
-    let scratch = materialize_modeling_workspace(ModelingTool::Joern, case_path, case, id)?;
+
+    let endpoints = match benchmark_endpoint_names(case_path, case, dialect) {
+        Ok(endpoints) => endpoints,
+        Err(reason) => {
+            let diagnostic =
+                format!("cannot derive the benchmark-controlled Joern endpoints: {reason}");
+            fs::write(
+                &error_path,
+                serde_json::to_string_pretty(&json!({
+                    "adapter": "joern",
+                    "case_id": id,
+                    "state": "inconclusive",
+                    "stage": "endpoint-resolution",
+                    "reason": diagnostic,
+                    "evidence_kind": "retained-anchor-resolution"
+                }))? + "\n",
+            )?;
+            return Ok(("inconclusive", vec![diagnostic], error_path));
+        }
+    };
+
+    let scratch = modeling_case_scratch(ModelingTool::Joern, plan.language, id)?;
     let workspace = scratch.join("source");
+    materialize_modeling_workspace(case_path, case, &workspace)?;
+    let absolute_raw_path = raw_root.join(format!("{id}.json"));
 
     let result = (|| {
         let mut command = Command::new(binary);
         command
-            // Joern materializes its console project under the working
-            // directory, so keeping that inside the per-case scratch root means
-            // no case can observe another case's CPG.
             .current_dir(&scratch)
             .arg("--script")
-            .arg(&script)
+            .arg(script)
             .arg("--param")
             .arg(format!("inputPath={}", workspace.display()))
             .arg("--param")
             .arg(format!(
                 "language={}",
-                modeling_joern_frontend(plan.language)
+                modeling_joern_frontend(plan.language)?
+            ))
+            .arg("--param")
+            .arg(format!("sourceName={}", endpoints.source_function))
+            .arg("--param")
+            .arg(format!("sinkName={}", endpoints.sink_function))
+            .arg("--param")
+            .arg(format!(
+                "sourceKind={}",
+                modeling_joern_source_kind(template)?
             ))
             .arg("--param")
             .arg(format!("semanticsPath={}", semantics.display()))
@@ -9276,7 +8983,7 @@ fn run_joern_modeling_case(
                 return Ok((
                     "runner-error",
                     vec![format!(
-                        "read Joern modeling evidence {}: {error}",
+                        "read Joern evidence {}: {error}",
                         raw_path.display()
                     )],
                     raw_path.clone(),
@@ -9289,53 +8996,79 @@ fn run_joern_modeling_case(
                 return Ok((
                     "runner-error",
                     vec![format!(
-                        "parse Joern modeling evidence {}: {error}",
+                        "parse Joern evidence {}: {error}",
                         raw_path.display()
                     )],
                     raw_path.clone(),
                 ));
             }
         };
-        let (outcome, diagnostics) =
-            modeling_joern_outcome(case_path, case, &raw, modeling_dialect(plan.language));
+        // A modeling negative may legitimately contain no *declared* endpoint —
+        // template 2's negative calls `Audit.discard`, so the declared sink
+        // `Audit.record` is absent from the fixture by construction. That
+        // absence is the assertion, not an incomplete run; only an empty
+        // extraction is incomplete.
+        let (outcome, diagnostics) = joern_flow_outcome(
+            case_path,
+            case,
+            &raw,
+            dialect,
+            JoernEndpointRule::AbsenceIsTheAssertion,
+        );
         Ok((outcome, diagnostics, raw_path.clone()))
     })();
 
     let cleanup =
         fs::remove_dir_all(&scratch).with_context(|| format!("clear {}", scratch.display()));
-    finish_modeling_case("Joern", result, cleanup)
+    match (result, cleanup) {
+        (Ok(normalized), Ok(())) => Ok(normalized),
+        (Ok((_, mut diagnostics, path)), Err(error)) => {
+            diagnostics.push(format!("Joern case artifact cleanup failed: {error}"));
+            diagnostics.sort();
+            diagnostics.dedup();
+            Ok(("runner-error", diagnostics, path))
+        }
+        (Err(error), Ok(())) => Err(error),
+        (Err(error), Err(cleanup_error)) => Err(error.context(format!(
+            "Joern case artifact cleanup also failed: {cleanup_error}"
+        ))),
+    }
 }
 
 /// Run one scored modeling cell through Semgrep CE.
 ///
-/// The modeling rule carries no runner-substituted placeholder: the whole point
-/// of the tier is that the declarations are the benchmark's, written out once in
-/// the committed artifact, so the invocation names the committed file directly.
+/// Nothing is templated. The kernel rule carries endpoint placeholders because
+/// the endpoint identities are a property of each fixture; here the endpoint
+/// identities *are* the model, so the committed rule states them literally and
+/// the runner substitutes nothing. The capability decision is the
+/// preregistered partition's, made before this function is reached, so the
+/// kernel's `feature_tags` rule is deliberately not consulted.
 fn run_semgrep_modeling_case(
     binary: &Path,
-    plan: &ModelingRunPlan,
+    rule: &Path,
     case_path: &Path,
     case: &Value,
-    id: &str,
+    plan: &ModelingRunPlan,
 ) -> Result<(&'static str, Vec<String>, PathBuf)> {
-    let rule = fs::canonicalize(plan.language.artifact(ModelingTool::Semgrep))
-        .context("resolve the Semgrep modeling rule")?;
+    let id = required_string(case, "id", "modeling case")?;
+    let dialect = modeling_anchor_dialect(plan.language)?;
     let raw_path = plan.raw_dir.join(format!("{id}.json"));
-    for stale in [&raw_path, &plan.raw_dir.join(format!("{id}-error.json"))] {
+    let error_path = plan.raw_dir.join(format!("{id}-error.json"));
+    for stale in [&raw_path, &error_path] {
         if stale.exists() {
             fs::remove_file(stale).with_context(|| format!("clear {}", stale.display()))?;
         }
     }
-    let scratch = materialize_modeling_workspace(ModelingTool::Semgrep, case_path, case, id)?;
+
+    let scratch = modeling_case_scratch(ModelingTool::Semgrep, plan.language, id)?;
     let workspace = scratch.join("source");
+    materialize_modeling_workspace(case_path, case, &workspace)?;
 
     let result = (|| {
         let mut command = Command::new(binary);
         command
             .current_dir(&scratch)
             .arg("scan")
-            // Never report usage metrics, and never let the Pro engine or the
-            // registry enter the run: this population is CE-only by contract.
             .arg("--metrics=off")
             .arg("--oss-only")
             .arg("--disable-version-check")
@@ -9343,7 +9076,7 @@ fn run_semgrep_modeling_case(
             .arg("--quiet")
             .arg("--json")
             .arg("--config")
-            .arg(&rule)
+            .arg(rule)
             .arg(&workspace)
             .stdin(std::process::Stdio::null());
         let output = match command.output() {
@@ -9357,9 +9090,6 @@ fn run_semgrep_modeling_case(
                 return Ok(("runner-error", vec![diagnostic], path));
             }
         };
-        // Semgrep exits 0 with or without findings and reserves higher codes
-        // for its own failures, so anything non-zero is a runner error and can
-        // never be read as an empty finding list.
         if !output.status.success() {
             let diagnostic = format!("Semgrep modeling scan failed with status {}", output.status);
             let path = write_semgrep_error(
@@ -9375,119 +9105,42 @@ fn run_semgrep_modeling_case(
         let raw: Value = match serde_json::from_slice(&output.stdout) {
             Ok(raw) => raw,
             Err(error) => {
-                let diagnostic = format!(
-                    "parse Semgrep modeling evidence {}: {error}",
-                    raw_path.display()
-                );
+                let diagnostic = format!("parse Semgrep evidence {}: {error}", raw_path.display());
                 let path =
                     write_semgrep_error(&plan.raw_dir, id, "scan-output", &diagnostic, None)?;
                 return Ok(("runner-error", vec![diagnostic], path));
             }
         };
-        let (outcome, diagnostics) =
-            modeling_semgrep_outcome(case_path, case, &raw, modeling_dialect(plan.language));
+        let (outcome, diagnostics) = semgrep_finding_outcome(case_path, case, &raw, dialect);
         Ok((outcome, diagnostics, raw_path.clone()))
     })();
 
     let cleanup =
         fs::remove_dir_all(&scratch).with_context(|| format!("clear {}", scratch.display()));
-    finish_modeling_case("Semgrep", result, cleanup)
-}
-
-/// Fold a per-case result together with its scratch cleanup, so a cleanup
-/// failure is retained rather than swallowed and never leaves a clean negative
-/// standing on a workspace that could not be torn down.
-fn finish_modeling_case(
-    tool: &str,
-    result: Result<(&'static str, Vec<String>, PathBuf)>,
-    cleanup: Result<()>,
-) -> Result<(&'static str, Vec<String>, PathBuf)> {
     match (result, cleanup) {
         (Ok(normalized), Ok(())) => Ok(normalized),
         (Ok((_, mut diagnostics, path)), Err(error)) => {
-            diagnostics.push(format!(
-                "{tool} modeling case artifact cleanup failed: {error}"
-            ));
+            diagnostics.push(format!("Semgrep case artifact cleanup failed: {error}"));
             diagnostics.sort();
             diagnostics.dedup();
             Ok(("runner-error", diagnostics, path))
         }
         (Err(error), Ok(())) => Err(error),
         (Err(error), Err(cleanup_error)) => Err(error.context(format!(
-            "{tool} modeling case artifact cleanup also failed: {cleanup_error}"
+            "Semgrep case artifact cleanup also failed: {cleanup_error}"
         ))),
     }
 }
 
-/// Run one scored modeling cell through CodeQL, reusing the Java kernel's own
-/// per-case machinery — workspace materialization, the traced `javac`
-/// extraction, `database analyze`, and the SARIF execution-error check — and
-/// substituting only the modeling reconciliation for the kernel's raw result
-/// count.
-fn run_codeql_modeling_case(
-    binary: &Path,
-    packs: Option<&Path>,
-    plan: &ModelingRunPlan,
-    case_path: &Path,
-    case: &Value,
-) -> Result<(&'static str, Vec<String>, PathBuf)> {
-    let query = PathBuf::from(plan.language.artifact(ModelingTool::Codeql));
-    let language = match plan.language {
-        ModelingLanguage::Java => CodeqlLanguage::Java,
-        ModelingLanguage::Python => CodeqlLanguage::Python,
-        // The ECMAScript CodeQL populations are extracted through their own
-        // per-kernel path rather than through `CodeqlLanguage`, so wiring this
-        // arm is part of the JavaScript language pull request. Until then a
-        // scored JavaScript cell is a hard error, never a synthesized outcome.
-        ModelingLanguage::Javascript => bail!(
-            "the CodeQL modeling execution arm for JavaScript lands with that language's pull request (docs/modeling-matrix.md#rollout-plan); refusing to synthesize an outcome for {}",
-            required_string(case, "id", "modeling case")?
-        ),
-    };
-    let (outcome, diagnostics, raw_path) = run_codeql_case_for_language(
-        binary,
-        packs,
-        case_path,
-        case,
-        &query,
-        &plan.raw_dir,
-        language,
-    )?;
-    // Only a completed analysis is re-normalized: a runner error keeps its own
-    // outcome and its own retained evidence.
-    if outcome == "runner-error" {
-        return Ok((outcome, diagnostics, raw_path));
-    }
-    let sarif: Value = match fs::read_to_string(&raw_path)
-        .ok()
-        .and_then(|text| serde_json::from_str(&text).ok())
-    {
-        Some(sarif) => sarif,
-        None => {
-            return Ok((
-                "runner-error",
-                vec![format!(
-                    "read CodeQL modeling SARIF {}: unreadable",
-                    raw_path.display()
-                )],
-                raw_path,
-            ));
-        }
-    };
-    let (outcome, diagnostics) =
-        modeling_codeql_outcome(case_path, case, &sarif, modeling_dialect(plan.language));
-    Ok((outcome, diagnostics, raw_path))
-}
-
 /// Run one adapter's modeling matrix for one language.
 ///
-/// The command's staged shape is recorded in docs/adapters.md: the population
-/// gate, the artifact gate, the load-bearing gate, and the partition's
-/// `unsupported` arm are infrastructure, and the arm that invokes the analyzer
-/// over a *scored* cell lands with the language pull request that authors that
-/// adapter's declarations. Both arms are live for every language whose
-/// declarations exist; a scored cell an adapter has no execution arm for is
-/// still a hard error, never a synthesized outcome.
+/// The staged shape of this command is recorded in docs/adapters.md: the
+/// population gate, the artifact gate, the load-bearing gate, and the
+/// partition's `unsupported` arm are infrastructure; the arm that invokes an
+/// analyzer over a *scored* cell lands with the language pull request that
+/// authors that adapter's declarations. A language whose execution arm is not
+/// wired yet is still a hard error rather than a synthesized outcome, which
+/// `docs/adapters.md` forbids.
 fn run_modeling(
     tool: ModelingTool,
     binary: &Path,
@@ -9500,47 +9153,74 @@ fn run_modeling(
         bail!("CodeQL pack search path {} does not exist", packs.display());
     }
     let plan = plan_modeling_run(tool, language)?;
-    let scored = modeling_supported_templates(plan.tool);
 
     fs::create_dir_all(&plan.raw_dir)?;
+    // Joern's two extra path resolutions happen once for the whole run rather
+    // than per case: the script and the semantics file are read by a process
+    // whose working directory is the per-case scratch root.
+    let joern_paths = if plan.tool == ModelingTool::Joern {
+        let script =
+            fs::canonicalize(JOERN_MODELING_SCRIPT).context("resolve the Joern modeling script")?;
+        let semantics = fs::canonicalize(plan.language.artifact(ModelingTool::Joern))
+            .context("resolve the Joern modeling semantics")?;
+        let raw_root =
+            fs::canonicalize(&plan.raw_dir).context("resolve the Joern evidence directory")?;
+        Some((script, semantics, raw_root))
+    } else {
+        None
+    };
+    let semgrep_rule = if plan.tool == ModelingTool::Semgrep {
+        Some(
+            fs::canonicalize(plan.language.artifact(ModelingTool::Semgrep))
+                .context("resolve the Semgrep modeling rule")?,
+        )
+    } else {
+        None
+    };
+
     let started = now_seconds()?;
     let (version, build_identity) = modeling_version_identity(plan.tool, binary)?;
     let revision = fixture_revision()?;
     let mut results = Vec::with_capacity(plan.cases.len());
-    for (case_path, case) in &plan.cases {
+    for (path, case) in &plan.cases {
         let id = required_string(case, "id", "modeling case")?;
-        let template = required_string(case, "template_id", id)?;
         let start = Instant::now();
-        // The capability decision comes first and is read from the
-        // preregistered partition by template identity. A declined cell is
-        // never handed to the analyzer, so it cannot produce an empty finding
-        // list that later reads as a negative.
-        let (outcome, diagnostics, raw_path) =
-            match modeling_partition_outcome(plan.tool, case, &plan.raw_dir)? {
-                Some((outcome, reason, raw_path)) => (outcome, vec![reason], raw_path),
-                None => {
-                    if !scored.contains(&template) {
-                        bail!(
-                            "{template:?} is neither scored nor declined for {}",
-                            plan.tool.key()
-                        );
-                    }
-                    match plan.tool {
-                        ModelingTool::Bifrost => {
-                            run_bifrost_modeling_case(binary, &plan, case_path, case, id)?
-                        }
-                        ModelingTool::Codeql => {
-                            run_codeql_modeling_case(binary, codeql_packs, &plan, case_path, case)?
-                        }
-                        ModelingTool::Joern => {
-                            run_joern_modeling_case(binary, &plan, case_path, case, id)?
-                        }
-                        ModelingTool::Semgrep => {
-                            run_semgrep_modeling_case(binary, &plan, case_path, case, id)?
-                        }
-                    }
+        // The preregistered partition is consulted first and decided from the
+        // template identity, so a declined cell is never handed to the
+        // analyzer and cannot produce an empty finding list that later reads
+        // as a negative.
+        let (outcome, diagnostics, raw_path) = if let Some((outcome, reason, raw_path)) =
+            modeling_partition_outcome(plan.tool, case, &plan.raw_dir)?
+        {
+            (outcome, vec![reason], raw_path)
+        } else {
+            match plan.tool {
+                ModelingTool::Bifrost => run_bifrost_modeling_case(binary, path, case, &plan)?,
+                ModelingTool::Codeql => run_codeql_case_for_language(
+                    binary,
+                    codeql_packs,
+                    path,
+                    case,
+                    Path::new(plan.language.artifact(ModelingTool::Codeql)),
+                    &plan.raw_dir,
+                    modeling_codeql_language(plan.language)?,
+                )?,
+                ModelingTool::Joern => {
+                    let (script, semantics, raw_root) =
+                        joern_paths.as_ref().expect("Joern run resolved its paths");
+                    run_joern_modeling_case(binary, script, semantics, path, case, &plan, raw_root)?
                 }
-            };
+                ModelingTool::Semgrep => run_semgrep_modeling_case(
+                    binary,
+                    semgrep_rule
+                        .as_ref()
+                        .expect("Semgrep run resolved its rule"),
+                    path,
+                    case,
+                    &plan,
+                )?,
+            }
+        };
         results.push(normalized_result(
             case,
             id,
@@ -9564,7 +9244,34 @@ fn run_modeling(
         "results": results
     });
     write_and_validate_report(&plan.report, &report)?;
-    println!("wrote {}", plan.report.display());
+    // The scored/declined split is a property of the preregistered partition,
+    // not of the run, so it is stated from the partition rather than counted
+    // off the outcomes: a reader who sees "20 declined" is reading a
+    // capability classification made before the analyzer was invoked.
+    let scored = modeling_supported_templates(plan.tool);
+    let scored_assertions = plan
+        .cases
+        .iter()
+        .filter(|(_, case)| {
+            case["template_id"]
+                .as_str()
+                .is_some_and(|template| scored.contains(&template))
+        })
+        .count();
+    // Categories are counted from the scored templates rather than divided out
+    // of them: Amendment A3's template-level override splits one of Semgrep's
+    // categories, so a category can be scored by one of its two templates.
+    let scored_categories: BTreeSet<ModelingCategory> = scored
+        .iter()
+        .filter_map(|template| modeling_category(template))
+        .collect();
+    println!(
+        "wrote {} ({scored_assertions} scored, {} preregistered-unsupported, {} of six categories scored for {})",
+        plan.report.display(),
+        plan.cases.len() - scored_assertions,
+        scored_categories.len(),
+        plan.tool.pinned_identity()
+    );
     Ok(())
 }
 
@@ -12228,6 +11935,7 @@ mod tests {
                 "state": "analyzed",
                 "source_node_count": 1,
                 "sink_node_count": 1,
+                "method_count": 3,
                 "flows": flows
             })
         };
@@ -12235,29 +11943,64 @@ mod tests {
             {"file": "/tmp/work/fixture.py", "line": 7, "code": "value"}
         ]}]));
         assert_eq!(
-            joern_flow_outcome(&case_path, &case, &matching, AnchorDialect::Python).0,
+            joern_flow_outcome(
+                &case_path,
+                &case,
+                &matching,
+                AnchorDialect::Python,
+                KERNEL_ENDPOINTS
+            )
+            .0,
             "reached"
         );
         let wrong_line = analyzed(json!([{"elements": [
             {"file": "fixture.py", "line": 6, "code": "value"}
         ]}]));
         assert_eq!(
-            joern_flow_outcome(&case_path, &case, &wrong_line, AnchorDialect::Python).0,
+            joern_flow_outcome(
+                &case_path,
+                &case,
+                &wrong_line,
+                AnchorDialect::Python,
+                KERNEL_ENDPOINTS
+            )
+            .0,
             "inconclusive"
         );
         let no_location = analyzed(json!([{"elements": [{"code": "value"}]}]));
         assert_eq!(
-            joern_flow_outcome(&case_path, &case, &no_location, AnchorDialect::Python).0,
+            joern_flow_outcome(
+                &case_path,
+                &case,
+                &no_location,
+                AnchorDialect::Python,
+                KERNEL_ENDPOINTS
+            )
+            .0,
             "inconclusive"
         );
         let empty_flow = analyzed(json!([{"elements": []}]));
         assert_eq!(
-            joern_flow_outcome(&case_path, &case, &empty_flow, AnchorDialect::Python).0,
+            joern_flow_outcome(
+                &case_path,
+                &case,
+                &empty_flow,
+                AnchorDialect::Python,
+                KERNEL_ENDPOINTS
+            )
+            .0,
             "inconclusive"
         );
         let clean = analyzed(json!([]));
         assert_eq!(
-            joern_flow_outcome(&case_path, &case, &clean, AnchorDialect::Python).0,
+            joern_flow_outcome(
+                &case_path,
+                &case,
+                &clean,
+                AnchorDialect::Python,
+                KERNEL_ENDPOINTS
+            )
+            .0,
             "not-reached"
         );
         fs::remove_dir_all(root).unwrap();
@@ -12275,8 +12018,13 @@ mod tests {
             "stage": "joern-script",
             "diagnostic": "java.lang.RuntimeException: frontend failed"
         });
-        let (outcome, diagnostics) =
-            joern_flow_outcome(&case_path, &case, &failed, AnchorDialect::Python);
+        let (outcome, diagnostics) = joern_flow_outcome(
+            &case_path,
+            &case,
+            &failed,
+            AnchorDialect::Python,
+            KERNEL_ENDPOINTS,
+        );
         assert_eq!(outcome, "runner-error");
         assert!(
             diagnostics
@@ -12294,7 +12042,14 @@ mod tests {
             json!({"flows": []}),
         ] {
             assert_eq!(
-                joern_flow_outcome(&case_path, &case, &broken, AnchorDialect::Python).0,
+                joern_flow_outcome(
+                    &case_path,
+                    &case,
+                    &broken,
+                    AnchorDialect::Python,
+                    KERNEL_ENDPOINTS
+                )
+                .0,
                 "runner-error"
             );
         }
@@ -12304,7 +12059,14 @@ mod tests {
             json!({"state": "analyzed", "source_node_count": 1, "sink_node_count": 0, "flows": []}),
         ] {
             assert_eq!(
-                joern_flow_outcome(&case_path, &case, &unobserved, AnchorDialect::Python).0,
+                joern_flow_outcome(
+                    &case_path,
+                    &case,
+                    &unobserved,
+                    AnchorDialect::Python,
+                    KERNEL_ENDPOINTS
+                )
+                .0,
                 "inconclusive"
             );
         }
@@ -12318,7 +12080,14 @@ mod tests {
             "flows": [{"elements": [{"file": "direct_flow.py", "line": 10}]}]
         });
         assert_eq!(
-            joern_flow_outcome(&case_path, &case, &flows, AnchorDialect::Python).0,
+            joern_flow_outcome(
+                &case_path,
+                &case,
+                &flows,
+                AnchorDialect::Python,
+                KERNEL_ENDPOINTS
+            )
+            .0,
             "inconclusive"
         );
     }
@@ -12551,17 +12320,6 @@ mod tests {
         let hashed = semgrep_rule_paths().unwrap();
         for kernel in SEMGREP_KERNELS {
             assert!(hashed.contains(&PathBuf::from(kernel.rule())));
-        }
-        // The modeling artifacts share the rules directory and are bound into
-        // their own population's hash instead. A kernel hash that moved when a
-        // modeling wave landed would describe nothing about the kernel.
-        assert_eq!(hashed.len(), SEMGREP_KERNELS.len());
-        for language in [
-            ModelingLanguage::Java,
-            ModelingLanguage::Javascript,
-            ModelingLanguage::Python,
-        ] {
-            assert!(!hashed.contains(&PathBuf::from(language.artifact(ModelingTool::Semgrep))));
         }
     }
 
@@ -13572,6 +13330,9 @@ mod tests {
     }
 
     // -----------------------------------------------------------------------
+    /// The kernels' endpoint rule, used by every Joern kernel normalization test.
+    const KERNEL_ENDPOINTS: JoernEndpointRule = JoernEndpointRule::BothMustBeObserved;
+
     // The benchmark-controlled taint-modeling matrix.
     // -----------------------------------------------------------------------
 
@@ -13670,15 +13431,19 @@ mod tests {
         );
     }
 
-    /// The scored-template counts are the document's partition summary,
-    /// expressed in templates rather than categories: Bifrost 2 of 12, Semgrep
-    /// 6 of 12, CodeQL and Joern 12 of 12.
+    /// The scored-template counts are the document's partition summary as
+    /// amended, expressed in templates rather than categories: Bifrost 2 of
+    /// 12, Semgrep 5 of 12 (Amendment A3), Joern 8 of 12 (Amendment A2), and
+    /// CodeQL 12 of 12.
     #[test]
     fn modeling_partition_scored_counts_match_the_preregistration() {
         assert_eq!(modeling_supported_templates(ModelingTool::Bifrost).len(), 2);
-        assert_eq!(modeling_supported_templates(ModelingTool::Semgrep).len(), 6);
+        // Amendment A3 moved sanitizer-selectivity out of Semgrep's scored set.
+        assert_eq!(modeling_supported_templates(ModelingTool::Semgrep).len(), 5);
         assert_eq!(modeling_supported_templates(ModelingTool::Codeql).len(), 12);
-        assert_eq!(modeling_supported_templates(ModelingTool::Joern).len(), 12);
+        // Amendment A2 moved Joern's propagator and summary categories to
+        // unsupported: FlowSemantic is additive on the pinned 4.0.610.
+        assert_eq!(modeling_supported_templates(ModelingTool::Joern).len(), 8);
     }
 
     /// Bifrost enters with category S alone — the honest starting position the
@@ -13720,6 +13485,10 @@ mod tests {
         ] {
             expected.extend(category.templates());
         }
+        // Amendment A3: sanitizer-selectivity is template-overridden out of
+        // Semgrep's scored set — the safe-function assumption and selectivity
+        // cannot coexist in one CE invocation.
+        expected.retain(|template| *template != "dfb-template-model-sanitizer-selectivity");
         expected.sort_unstable();
         let mut scored = modeling_supported_templates(ModelingTool::Semgrep);
         scored.sort_unstable();
@@ -13936,47 +13705,216 @@ mod tests {
         assert!(SCORE_TIER_ORDER.contains(&"modeling"));
     }
 
-    /// Presence is the signal. Java's twenty-four assertions have landed, so
-    /// its population is the balanced twelve-template one and validates as
-    /// such; the two languages whose pull requests have not landed still have
-    /// no modeling denominator at all, which is different from having a zero.
+    /// Wave M1's rows: Python, JavaScript, and Java each carry a balanced
+    /// twenty-four over exactly the preregistered twelve. With Java's landing
+    /// the wave is complete, so every `ModelingLanguage` now has a denominator
+    /// — and a language with none would still be a fail-fast rather than a
+    /// zero.
     #[test]
-    fn the_rolled_out_modeling_populations_are_the_ones_that_landed() {
-        let java = select_modeling_cases(ModelingLanguage::Java).unwrap();
-        assert_eq!(java.len(), MODELING_CASE_COUNT);
-        let templates: BTreeSet<&str> = java
-            .iter()
-            .filter_map(|(_, case)| case["template_id"].as_str())
-            .collect();
-        assert_eq!(templates, MODELING_TEMPLATE_IDS.into_iter().collect());
-        for (_, case) in &java {
-            assert_eq!(case["model_profile"], MODELING_MODEL_PROFILE);
-            assert_eq!(case["score_tier"], "modeling");
+    fn the_modeling_populations_are_the_balanced_twenty_four() {
+        for (language, revision) in [
+            (ModelingLanguage::Python, "m3-modeling-python"),
+            (ModelingLanguage::Javascript, "m3-modeling-javascript"),
+            (ModelingLanguage::Java, "m3-modeling-java"),
+        ] {
+            let population = select_modeling_cases(language).unwrap();
+            assert_eq!(population.len(), MODELING_CASE_COUNT);
+            let templates: BTreeSet<&str> = population
+                .iter()
+                .filter_map(|(_, case)| case["template_id"].as_str())
+                .collect();
+            assert_eq!(templates, MODELING_TEMPLATE_IDS.into_iter().collect());
+            for (path, case) in &population {
+                assert_eq!(case["score_tier"], "modeling", "{}", path.display());
+                assert_eq!(case["model_profile"], MODELING_MODEL_PROFILE);
+                assert_eq!(
+                    case["fixture_provenance"]["revision"],
+                    revision,
+                    "{}",
+                    path.display()
+                );
+                assert!(!smoke_population_case(case), "{}", path.display());
+                assert!(
+                    case["feature_tags"]
+                        .as_array()
+                        .unwrap()
+                        .iter()
+                        .any(|tag| tag == "modeled-external"),
+                    "{} lacks the modeled-external tag every case in this matrix carries",
+                    path.display()
+                );
+            }
         }
-        for language in [ModelingLanguage::Javascript, ModelingLanguage::Python] {
-            assert!(select_modeling_cases(language).unwrap().is_empty());
+    }
+
+    /// A modeling sink is reached through its receiver, so the modeling ECMA
+    /// dialect counts `Audit.record(v)` as a callsite of `record` where the
+    /// kernel dialect deliberately does not. Nothing else about the two
+    /// differs, and no kernel uses the member-qualified variant.
+    #[test]
+    fn the_modeling_ecma_dialect_accepts_a_member_qualified_callsite() {
+        assert!(AnchorDialect::EcmaMember.is_call("  Audit.record(dfb_source());", "record"));
+        assert!(!AnchorDialect::Ecma.is_call("  Audit.record(dfb_source());", "record"));
+        for dialect in [AnchorDialect::Ecma, AnchorDialect::EcmaMember] {
+            assert!(dialect.is_call("  dfb_sink(value);", "dfb_sink"));
+            // A declaration is never a callsite, and a longer identifier that
+            // merely ends with the member name is never one either.
+            assert!(!dialect.is_call("  record: function record(value) {},", "record"));
+            assert!(!dialect.is_call("  preRecord(value);", "record"));
+            assert_eq!(
+                dialect.declared_function_name(
+                    "  record: function record(value) {}, // DFB-SINK: m",
+                    "DFB-SINK: m"
+                ),
+                Some("record".to_string())
+            );
+        }
+        assert_eq!(
+            modeling_anchor_dialect(ModelingLanguage::Javascript).unwrap(),
+            AnchorDialect::EcmaMember
+        );
+        assert_eq!(
+            modeling_anchor_dialect(ModelingLanguage::Python).unwrap(),
+            AnchorDialect::Python
+        );
+    }
+
+    /// The Joern source-selector shape is decided from the template identity,
+    /// never from a fixture's tags and never from an observed result. Category
+    /// E is the one category whose analysis root is a parameter of a method the
+    /// fixture never calls; every other category's source is a call.
+    #[test]
+    fn the_joern_modeling_source_kind_is_template_keyed() {
+        for template in MODELING_TEMPLATE_IDS {
+            let expected = if modeling_category(template) == Some(ModelingCategory::EntryPoints) {
+                "method-parameter"
+            } else {
+                "call-return"
+            };
+            assert_eq!(modeling_joern_source_kind(template).unwrap(), expected);
+        }
+        assert_eq!(
+            modeling_joern_source_kind("dfb-template-model-entrypoint-parameter").unwrap(),
+            "method-parameter"
+        );
+        assert_eq!(
+            modeling_joern_source_kind("dfb-template-model-opaque-propagator").unwrap(),
+            "call-return"
+        );
+        assert!(modeling_joern_source_kind("dfb-template-direct-propagation").is_err());
+    }
+
+    /// The equivalence contract's other half: an artifact must not declare a
+    /// category the tool's partition marks `unsupported`, because the partition
+    /// — not the artifact — is what decides those cells. Every language's
+    /// Bifrost policy therefore carries source and sink endpoint sets and
+    /// nothing else, its Semgrep rule carries sources, sinks, and sanitizers and
+    /// no propagator or store vocabulary, and its Joern semantics declares
+    /// nothing behind Amendment A2's declined categories P and O.
+    #[test]
+    fn the_modeling_artifacts_declare_only_their_scored_categories() {
+        for (language, policy_name, rule_name, declined_joern_files) in [
+            (
+                ModelingLanguage::Python,
+                "model-python.rqlp",
+                "model-python.yaml",
+                ["opaque.py", "bridge.py"],
+            ),
+            (
+                ModelingLanguage::Javascript,
+                "model-javascript.rqlp",
+                "model-javascript.yaml",
+                ["Opaque.js", "Bridge.js"],
+            ),
+            // Java's Joern identities are fully qualified method full names
+            // rather than file-scoped ones, so the declined categories are
+            // named by their declaring type: `Opaque` carries category P's
+            // entities and `Bridge` carries category O's.
+            (
+                ModelingLanguage::Java,
+                "model-java.rqlp",
+                "model-java.yaml",
+                ["dataflowbench.taint.Opaque", "dataflowbench.taint.Bridge"],
+            ),
+        ] {
+            let policy = fs::read_to_string(language.artifact(ModelingTool::Bifrost)).unwrap();
+            require_bifrost_modeling_load_bearing(&policy, policy_name).unwrap();
+            for declined in [
+                ":sanitizers",
+                ":transforms",
+                ":external_models",
+                ":entry-points",
+            ] {
+                assert!(
+                    !policy.contains(declined),
+                    "the Bifrost {policy_name} modeling policy declares {declined}, which its partition marks unsupported"
+                );
+            }
+
+            let rule = fs::read_to_string(language.artifact(ModelingTool::Semgrep)).unwrap();
+            require_semgrep_modeling_load_bearing(&rule, rule_name).unwrap();
+            assert!(rule.contains("pattern-sanitizers"));
+            assert!(
+                !rule.contains("pattern-propagators"),
+                "the Semgrep {rule_name} modeling rule declares a propagator, which its partition marks unsupported"
+            );
+
+            // Amendment A2 declines Joern's categories P and O, so the semantics
+            // file must not declare their entities: the cells are decided by the
+            // partition, and a declaration behind them would be a claim the
+            // partition does not make.
+            let semantics = fs::read_to_string(language.artifact(ModelingTool::Joern)).unwrap();
+            for declined in declined_joern_files {
+                assert!(
+                    !semantics.contains(&format!("\"{declined}")),
+                    "the Joern {} semantics declares {declined}, whose categories Amendment A2 marks unsupported",
+                    language.display_name()
+                );
+            }
+
+            // Joern's semantics file fails silently on a blank line or a `//`
+            // comment: both parse to an empty model with no error, and every
+            // scored cell would then be decided by the absence of a
+            // declaration. The rule is verified here rather than left to a run.
+            for (number, line) in semantics.lines().enumerate() {
+                assert!(
+                    !line.trim().is_empty(),
+                    "line {} of the Joern {} semantics is blank; the pinned parser drops every declaration",
+                    number + 1,
+                    language.display_name()
+                );
+                assert!(
+                    !line.trim_start().starts_with("//"),
+                    "line {} of the Joern {} semantics uses a `//` comment, which the pinned parser does not recognize",
+                    number + 1,
+                    language.display_name()
+                );
+            }
         }
     }
 
     /// With no population, a run fails with a clear error naming the language
-    /// and never writes a report. Java's population exists, so the language
-    /// that still exercises this arm is one whose pull request has not landed.
+    /// and never writes a report.
+    ///
+    /// Wave M1 is complete, so no `ModelingLanguage` variant reaches that arm
+    /// any more — this test used to drive it through Java, which had no
+    /// fixtures. What it asserts now is the arm's *precondition*: every
+    /// enumerated language carries the full balanced population, which is
+    /// exactly what makes the empty-population bail unreachable. The bail
+    /// itself stays, for the state the next language enters the enum in.
     #[test]
     fn a_modeling_run_without_a_population_fails_fast() {
-        for (tool, binary) in [
-            (ModelingTool::Bifrost, "bifrost"),
-            (ModelingTool::Codeql, "codeql"),
-            (ModelingTool::Joern, "joern"),
-            (ModelingTool::Semgrep, "semgrep"),
+        for language in [
+            ModelingLanguage::Python,
+            ModelingLanguage::Javascript,
+            ModelingLanguage::Java,
         ] {
-            let error = run_modeling(tool, Path::new(binary), ModelingLanguage::Python, None)
-                .unwrap_err()
-                .to_string();
-            assert!(
-                error.starts_with("no modeling population for python"),
-                "{error}"
+            assert_eq!(
+                select_modeling_cases(language).unwrap().len(),
+                MODELING_CASE_COUNT,
+                "{} has no modeling population",
+                language.display_name()
             );
-            assert!(!ModelingLanguage::Python.report(tool).exists());
         }
     }
 
@@ -14028,98 +13966,6 @@ mod tests {
         );
     }
 
-    /// Every Java modeling case resolves its own anchors, and the two halves of
-    /// each entry-point pair resolve to *disjoint* source regions.
-    ///
-    /// The second half is the load-bearing one. Category E's fixtures carry both
-    /// the declared and the undeclared handler, both uncalled, both sinking
-    /// their parameter — so the declared handler's flow is present in the
-    /// negative's fixture. If the two regions ever overlapped, the negative
-    /// would be scored on its sibling's finding.
-    #[test]
-    fn java_modeling_cases_resolve_disjoint_anchors() {
-        let mut entry_point_regions = Vec::new();
-        for (path, case) in select_modeling_cases(ModelingLanguage::Java).unwrap() {
-            let anchors = modeling_anchors(&path, &case, AnchorDialect::Java)
-                .unwrap_or_else(|error| panic!("{}: {error}", path.display()));
-            assert!(!anchors.sinks.is_empty());
-            assert!(!anchors.source.lines.is_empty());
-            let template = case["template_id"].as_str().unwrap();
-            if template.contains("entrypoint") {
-                entry_point_regions.push((
-                    template.to_string(),
-                    case["polarity"].as_str().unwrap().to_string(),
-                    anchors.source.lines.clone(),
-                ));
-            }
-        }
-        assert_eq!(entry_point_regions.len(), 4);
-        for template in [
-            "dfb-template-model-entrypoint-parameter",
-            "dfb-template-model-entrypoint-selectivity",
-        ] {
-            let pair: Vec<&BTreeSet<u64>> = entry_point_regions
-                .iter()
-                .filter(|(id, _, _)| id == template)
-                .map(|(_, _, lines)| lines)
-                .collect();
-            assert_eq!(pair.len(), 2, "{template} is not a pair");
-            assert!(
-                pair[0].is_disjoint(pair[1]),
-                "{template}'s two source regions overlap: {:?} and {:?}",
-                pair[0],
-                pair[1]
-            );
-        }
-    }
-
-    /// A declared entity is reached through its declaring type, so the modeling
-    /// tier's callsite rule accepts a member-qualified call that the kernels'
-    /// receiverless-only rule rejects. Both spellings still have to be accepted.
-    #[test]
-    fn the_modeling_callsite_rule_accepts_a_member_qualified_call() {
-        assert!(member_qualified_call(
-            "        Audit.record(dfb_source());",
-            "record"
-        ));
-        assert!(member_qualified_call(
-            "        dfb_sink(Config.fetchRemote());",
-            "fetchRemote"
-        ));
-        assert!(member_qualified_call(
-            "        dfb_sink(alpha.get(\"k\"));",
-            "get"
-        ));
-        // Not a call, and not this member.
-        assert!(!member_qualified_call(
-            "        Audit.discard(x);",
-            "record"
-        ));
-        assert!(!member_qualified_call(
-            "    static void record(String v) { }",
-            "record"
-        ));
-        // The kernels' receiverless spelling stays the dialect's business, and
-        // this rule must not start claiming it as member-qualified.
-        assert!(!member_qualified_call(
-            "        dfb_sink(value);",
-            "dfb_sink"
-        ));
-        assert!(AnchorDialect::Java.is_call("        dfb_sink(value);", "dfb_sink"));
-    }
-
-    /// A declaration governs its own line and the block indented beneath it, in
-    /// a braced language and an indented one alike.
-    #[test]
-    fn a_declaration_block_ends_where_the_indentation_returns() {
-        let braced = "final class Handler {\n    void onRequest(String input) {\n        dfb_sink(input);\n    }\n\n    void onIgnored(String input) {\n        dfb_sink(input);\n    }\n}\n";
-        assert_eq!(declaration_block_lines(braced, 2), BTreeSet::from([2, 3]));
-        assert_eq!(declaration_block_lines(braced, 6), BTreeSet::from([6, 7]));
-        let indented = "class Handler:\n    def on_request(self, value):\n        dfb_sink(value)\n\n    def on_ignored(self, value):\n        dfb_sink(value)\n";
-        assert_eq!(declaration_block_lines(indented, 2), BTreeSet::from([2, 3]));
-        assert_eq!(declaration_block_lines(indented, 5), BTreeSet::from([5, 6]));
-    }
-
     /// The model-artifact, report, and raw-evidence paths the language pull
     /// requests populate. Twelve distinct artifacts, one per tool per language.
     #[test]
@@ -14167,34 +14013,220 @@ mod tests {
             ModelingLanguage::Javascript.artifact(ModelingTool::Codeql),
             "adapters/codeql/javascript/queries/JavaScriptModeling.ql"
         );
-        // A modeling artifact arrives with the language pull request that
-        // authors its declarations, so exactly the landed languages' artifacts
-        // exist. Java's four are committed; the other eight are not.
-        let _ = &artifacts;
-        for tool in ModelingTool::ALL {
-            for (language, landed) in [
-                (ModelingLanguage::Java, true),
-                (ModelingLanguage::Javascript, false),
-                (ModelingLanguage::Python, false),
-            ] {
-                let artifact = language.artifact(tool);
-                assert_eq!(
-                    Path::new(artifact).exists(),
-                    landed,
-                    "{artifact} presence does not match its language's rollout"
-                );
-            }
-        }
-        assert!(Path::new(JOERN_MODELING_SCRIPT).is_file());
-        // Java's CodeQL modeling query joins the adapter's root pack, which is
-        // the Java pack: `adapters/codeql/qlpack.yml` declares
-        // `dataflowbench/codeql-java` and the kernel query already sits beside
-        // it. A query under a `java/` subdirectory would resolve no
-        // `codeql/java-all` dependency, because there is no pack there.
+        // Java's CodeQL query is the one that stays on the preregistration's
+        // schematic path, because the Java pack *is* the adapter root.
         assert_eq!(
             ModelingLanguage::Java.artifact(ModelingTool::Codeql),
             "adapters/codeql/queries/JavaModeling.ql"
         );
-        assert!(Path::new("adapters/codeql/qlpack.yml").is_file());
+        // Each artifact arrives with the language pull request that authors its
+        // declarations. Wave M1 is complete, so all twelve are committed.
+        for tool in ModelingTool::ALL {
+            for language in [
+                ModelingLanguage::Python,
+                ModelingLanguage::Javascript,
+                ModelingLanguage::Java,
+            ] {
+                let artifact = language.artifact(tool);
+                assert!(Path::new(artifact).is_file(), "{artifact} is missing");
+            }
+        }
+        assert!(Path::new(JOERN_MODELING_SCRIPT).is_file());
+        // A CodeQL modeling query must sit inside a resolvable pack, which is
+        // what makes its `codeql/<lang>-all` dependency resolvable at all.
+        for language in [
+            ModelingLanguage::Python,
+            ModelingLanguage::Javascript,
+            ModelingLanguage::Java,
+        ] {
+            let query = PathBuf::from(language.artifact(ModelingTool::Codeql));
+            let pack = query
+                .parent()
+                .and_then(Path::parent)
+                .expect("a modeling query lives under <pack>/queries/")
+                .join("qlpack.yml");
+            assert!(
+                pack.is_file(),
+                "{} resolves no qlpack at {}",
+                query.display(),
+                pack.display()
+            );
+        }
+    }
+
+    /// An absent *declared* endpoint is the content of several modeling
+    /// negatives — template 2's negative calls `Audit.discard`, so the declared
+    /// sink `Audit.record` is not in the fixture at all. Under the kernels'
+    /// rule that would be `inconclusive`; under the modeling rule it is the
+    /// clean negative it is, with the endpoint counts retained rather than
+    /// converted. Only an empty extraction is incomplete.
+    #[test]
+    fn a_modeling_negative_may_legitimately_contain_no_declared_endpoint() {
+        let root = unique_test_dir("dataflowbench-joern-modeling-endpoints");
+        let case_path = root.join("case.json");
+        fs::write(
+            root.join("fixture.js"),
+            "function dfb_sink(v) {} // DFB-SINK: s\ndfb_sink(1);\n",
+        )
+        .unwrap();
+        let case = json!({
+            "sink_anchors": [{"marker": "DFB-SINK: s", "file": "fixture.js", "line_hint": 1}]
+        });
+        let absent = json!({
+            "state": "analyzed",
+            "source_node_count": 1,
+            "sink_node_count": 0,
+            "method_count": 4,
+            "flows": []
+        });
+        let (outcome, diagnostics) = joern_flow_outcome(
+            &case_path,
+            &case,
+            &absent,
+            AnchorDialect::EcmaMember,
+            JoernEndpointRule::AbsenceIsTheAssertion,
+        );
+        assert_eq!(outcome, "not-reached");
+        assert!(
+            diagnostics
+                .iter()
+                .any(|line| line.contains("0 declared sink node(s)"))
+        );
+        assert_eq!(
+            joern_flow_outcome(
+                &case_path,
+                &case,
+                &absent,
+                AnchorDialect::EcmaMember,
+                JoernEndpointRule::BothMustBeObserved
+            )
+            .0,
+            "inconclusive"
+        );
+        // An empty extraction is still incomplete under the modeling rule.
+        let mut empty = absent.clone();
+        empty["method_count"] = json!(0);
+        assert_eq!(
+            joern_flow_outcome(
+                &case_path,
+                &case,
+                &empty,
+                AnchorDialect::EcmaMember,
+                JoernEndpointRule::AbsenceIsTheAssertion
+            )
+            .0,
+            "inconclusive"
+        );
+        fs::remove_dir_all(&root).unwrap();
+    }
+
+    /// A Semgrep **modeling** rule lives beside the kernel rules but is not
+    /// part of the kernel configuration. Every published Semgrep kernel report
+    /// cites a hash over the eleven kernel rules, and committing a twelfth file
+    /// for a different population must not silently invalidate all eleven.
+    #[test]
+    fn a_semgrep_modeling_rule_is_outside_the_kernel_configuration_hash() {
+        let kernel_rules = semgrep_rule_paths().unwrap();
+        assert_eq!(kernel_rules.len(), 11);
+        let modeling = PathBuf::from(ModelingLanguage::Javascript.artifact(ModelingTool::Semgrep));
+        assert!(modeling.is_file());
+        assert!(!kernel_rules.contains(&modeling));
+        // The v0.4.0 freeze binds this hash; it is reproduced here rather than
+        // recomputed, so a rule-set change fails the suite instead of a run.
+        assert_eq!(
+            hash_paths(&kernel_rules).unwrap(),
+            "865d0bd2989f9ddd0b90f2d6675584e86706b109a033d4a1ac00bd21a617b100"
+        );
+    }
+
+    /// The committed JavaScript artifacts pass the gates the runner applies
+    /// before it will touch an analyzer, so a load-bearing regression in one
+    /// of them fails the test suite rather than a run.
+    #[test]
+    fn the_javascript_modeling_artifacts_are_load_bearing() {
+        let policy_path = ModelingLanguage::Javascript.artifact(ModelingTool::Bifrost);
+        require_bifrost_modeling_load_bearing(
+            &fs::read_to_string(policy_path).unwrap(),
+            policy_path,
+        )
+        .unwrap();
+        let rule_path = ModelingLanguage::Javascript.artifact(ModelingTool::Semgrep);
+        require_semgrep_modeling_load_bearing(&fs::read_to_string(rule_path).unwrap(), rule_path)
+            .unwrap();
+    }
+
+    /// The same two gates on Java's artifacts. `require-model` is the one the
+    /// preregistration marked *to be verified*: it recorded that no committed
+    /// policy sets it and that the pinned CLI's acceptance of it was unshown.
+    /// [Amendment A5](../docs/modeling-matrix.md#amendments) records the
+    /// verification; this test is what keeps it true.
+    #[test]
+    fn the_java_modeling_artifacts_are_load_bearing() {
+        let policy_path = ModelingLanguage::Java.artifact(ModelingTool::Bifrost);
+        let policy = fs::read_to_string(policy_path).unwrap();
+        require_bifrost_modeling_load_bearing(&policy, policy_path).unwrap();
+        assert!(policy.contains(BIFROST_MODELING_CALL_MODELING));
+        let rule_path = ModelingLanguage::Java.artifact(ModelingTool::Semgrep);
+        let rule = fs::read_to_string(rule_path).unwrap();
+        require_semgrep_modeling_load_bearing(&rule, rule_path).unwrap();
+        assert!(rule.contains(SEMGREP_MODELING_ASSUME_SAFE_OPTION));
+    }
+
+    /// Java's modeling fixtures reconcile under the member-qualified variant,
+    /// not the kernel dialect. Java has no free functions, so every declared
+    /// modeling entity is reached through its declaring type; the kernel
+    /// dialect refuses exactly that spelling, which is right for a kernel whose
+    /// `dfb_sink` is called bare.
+    #[test]
+    fn java_modeling_reconciles_member_qualified_callsites() {
+        assert_eq!(
+            modeling_anchor_dialect(ModelingLanguage::Java).unwrap(),
+            AnchorDialect::JavaMember
+        );
+        // The declared-entity spelling every Java modeling fixture uses.
+        assert!(AnchorDialect::JavaMember.is_call("        Audit.record(value);", "record"));
+        assert!(
+            AnchorDialect::JavaMember
+                .is_call("        dfb_sink(Config.fetchLocal());", "fetchLocal")
+        );
+        assert!(AnchorDialect::JavaMember.is_call("        beta.get(\"k\");", "get"));
+        // …which the kernel dialect deliberately refuses.
+        assert!(!AnchorDialect::Java.is_call("        Audit.record(value);", "record"));
+        // Neither variant mistakes a longer identifier, a comment, or a bare
+        // member access with no argument list for a callsite.
+        assert!(!AnchorDialect::JavaMember.is_call("        myRecord(value);", "record"));
+        assert!(!AnchorDialect::JavaMember.is_call("        // Audit.record(value);", "record"));
+        assert!(!AnchorDialect::JavaMember.is_call("        dfb_sink(box.payload);", "payload"));
+        assert!(!AnchorDialect::JavaMember.is_call("        Audit::record;", "record"));
+        // The declaration side is the kernel rule unchanged: the marker sits on
+        // the identifier before the parameter list either way.
+        assert_eq!(
+            AnchorDialect::JavaMember
+                .declared_function_name(
+                    "    static void record(String value) { }  // DFB-SINK: m",
+                    "DFB-SINK: m"
+                )
+                .unwrap(),
+            "record"
+        );
+    }
+
+    /// Every wave-M1 modeling language is wired end to end: an extractor, a
+    /// Joern frontend, and an anchor dialect, none of which may bail.
+    #[test]
+    fn every_wave_m1_modeling_language_has_a_wired_execution_arm() {
+        for language in [
+            ModelingLanguage::Python,
+            ModelingLanguage::Javascript,
+            ModelingLanguage::Java,
+        ] {
+            modeling_codeql_language(language).unwrap();
+            modeling_joern_frontend(language).unwrap();
+            modeling_anchor_dialect(language).unwrap();
+        }
+        assert_eq!(
+            modeling_joern_frontend(ModelingLanguage::Java).unwrap(),
+            "JAVASRC"
+        );
     }
 }

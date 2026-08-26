@@ -238,9 +238,11 @@ ones, so the frozen 118-case Bifrost smoke population cannot absorb one.
 **The partition is `CHALLENGE_SEMGREP_PARTITION` generalized to four tools.**
 `MODELING_PARTITION` holds one cell per tool per category — twenty-four cells,
 transcribed from the preregistration's tables, with the cells it marks *to be
-verified* recorded as `unsupported` per its own rule. Scored today: **Bifrost 2
-templates of 12** (category S alone), **Semgrep CE 6 of 12** (S, Z, E),
-**CodeQL 12 of 12**, **Joern 12 of 12**. A declined cell is decided from the
+verified* recorded as `unsupported` per its own rule, and with the dated
+amendments applied on top as template-level overrides. Scored today, after
+Amendments A2 and A3: **Bifrost 2 templates of 12** (category S alone),
+**Semgrep CE 5 of 12** (S, E, and one of Z's two templates), **CodeQL 12 of
+12**, **Joern 8 of 12** (S, Z, E, B). A declined cell is decided from the
 template ID *before the tool is invoked*, retains the document's rationale
 verbatim as its reason, and writes a `retained-capability-decision` evidence
 document beside the report. The decision is keyed by template identity, never
@@ -302,24 +304,25 @@ their own. So the runner reads each artifact before the run and refuses it
 unless the default is disabled: a Bifrost modeling policy must set
 `:call-modeling (call-modeling :unmodeled require-model)` and must not name the
 kernel policies' `optimistic`, and a Semgrep modeling rule must set `options:
-taint_assume_safe_functions: true`. Tests pin both strings. CodeQL and Joern
-have no such switch to pin — a `ConfigSig` with no `isAdditionalFlowStep` adds
-no step and a Joern method with no `FlowMapping` propagates nothing — so
-neither is gated.
+taint_assume_safe_functions: true`. Tests pin both strings. CodeQL has no
+such switch to pin — a `ConfigSig` with no `isAdditionalFlowStep` adds no
+step. Joern's equivalent claim ("a method with no `FlowMapping` propagates
+nothing") was measured false by the first wave-M1 run: `FlowSemantic`
+mappings on the pinned 4.0.610 are additive over the engine's default
+pass-through, which is why Amendment A2 moved Joern's propagator and summary
+categories to unsupported activation rather than gating them.
 
-**The execution arm lands with the language.** The arm that invokes an analyzer
-over a *scored* cell is written by the pull request that authors that adapter's
-declarations for that language; until it is, a scored cell is a hard error
-rather than a synthesized outcome, which the adapter contract at the head of
-this document forbids. The `unsupported` arm was complete from the start, so a
-tool that declines every category a population carries produces a whole,
+**The execution arm lands with the language.** The arm that invokes an
+analyzer over a *scored* cell is written by the pull request that authors that
+adapter's declarations for that language. All three of wave M1's languages are
+wired on the same four runners: Python (`docs/python-modeling.md`), JavaScript
+(`docs/javascript-modeling.md`), and Java (`docs/java-modeling.md`). Wave M1 is
+therefore complete, and a scored cell in a language that has no arm stays a hard
+error rather than a synthesized outcome, which the adapter contract at the head
+of this document forbids. The `unsupported` arm is independent of all of that,
+so a tool that declines every category a population carries produces a whole,
 validated report of retained capability decisions without the analyzer being
-invoked at all. **Java's arm is live for all four adapters** — see [the Java
-modeling report](java-modeling.md). JavaScript and Python still stop at the
-population gate, and CodeQL's ECMAScript arm additionally has to be wired
-through that adapter's own per-kernel extraction path rather than through the
-shared `CodeqlLanguage`, because that is where the JavaScript populations are
-extracted.
+invoked at all.
 
 **Reconciliation on this tier is source-anchored as well as sink-anchored,** and
 that is a property of the fixtures rather than of any adapter. A modeling fixture
