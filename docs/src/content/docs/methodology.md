@@ -21,6 +21,18 @@ infeasible branches. Every scored `core` template has exactly one positive
 case and one minimally different negative case per language and model
 profile, so a tool cannot look good by pattern-matching one polarity.
 
+## Balanced pairs and the blind baseline
+
+Every scored template is one positive and one minimally different negative
+assertion, so the population is TP/TN-balanced by construction. An analyzer
+that always answers the same way — or that cannot see a construct but still
+answers — scores exactly half on the affected pairs: the true negative it
+banks on a pair whose flow it never resolved is right for the wrong reason.
+Read correctness against that 50% blind baseline, not against zero, and read
+approximation character from the per-stratum TPR/FPR split: over-approximators
+spend errors as false positives, under-approximators as false negatives, and
+engines that decline honestly appear as coverage instead of either.
+
 ## Score tiers
 
 - `calibration` cases exercise schemas and adapters; they are not scored.
