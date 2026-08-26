@@ -687,7 +687,7 @@ const MODELING_PARTITION: [ModelingPartitionCell; 24] = [
         category: ModelingCategory::Persistence,
         unsupported_reason: None,
     },
-    // Joern — 4.0.610: 6 / 6.
+    // Joern — 4.0.610: 4 / 6 (Amendment A2 moved P and O to unsupported).
     ModelingPartitionCell {
         tool: ModelingTool::Joern,
         category: ModelingCategory::SourcesAndSinks,
@@ -696,7 +696,16 @@ const MODELING_PARTITION: [ModelingPartitionCell; 24] = [
     ModelingPartitionCell {
         tool: ModelingTool::Joern,
         category: ModelingCategory::Propagators,
-        unsupported_reason: None,
+        // Amendment A2: FlowSemantic mappings on the pinned 4.0.610 are
+        // additive over the engine's default argument pass-through and cannot
+        // restrict it, so a propagator declaration is not load-bearing — the
+        // default decides the cell with or without the model.
+        unsupported_reason: Some(
+            "Joern 4.0.610 FlowSemantic mappings are additive over the \
+             default unmodeled-call pass-through and cannot restrict it; a \
+             propagator model is not load-bearing on the pinned version \
+             (Amendment A2)",
+        ),
     },
     ModelingPartitionCell {
         tool: ModelingTool::Joern,
@@ -706,7 +715,16 @@ const MODELING_PARTITION: [ModelingPartitionCell; 24] = [
     ModelingPartitionCell {
         tool: ModelingTool::Joern,
         category: ModelingCategory::Summaries,
-        unsupported_reason: None,
+        // Amendment A2: same additivity, and the field-destination access
+        // path of a summary (arg -> field of arg) is ignored — the whole
+        // object is tainted — so a summary model is likewise not
+        // load-bearing on the pinned version.
+        unsupported_reason: Some(
+            "Joern 4.0.610 ignores a summary's field-destination access path \
+             and its FlowSemantic cannot restrict the default pass-through; \
+             a summary model is not load-bearing on the pinned version \
+             (Amendment A2)",
+        ),
     },
     ModelingPartitionCell {
         tool: ModelingTool::Joern,
@@ -718,7 +736,8 @@ const MODELING_PARTITION: [ModelingPartitionCell; 24] = [
         category: ModelingCategory::Persistence,
         unsupported_reason: None,
     },
-    // Semgrep CE — 1.174.0 (`--oss-only`): 3 / 6.
+    // Semgrep CE — 1.174.0 (`--oss-only`): 3 / 6 categories, and Amendment A3
+    // splits category Z at the template level (see MODELING_TEMPLATE_OVERRIDES).
     ModelingPartitionCell {
         tool: ModelingTool::Semgrep,
         category: ModelingCategory::SourcesAndSinks,
@@ -761,10 +780,33 @@ const MODELING_PARTITION: [ModelingPartitionCell; 24] = [
 /// identity alone: `None` when the category is scored, `Some(reason)` when the
 /// tool declines it. Every cell is present, so an unknown template is a
 /// programming error rather than a silent scored default.
+/// Template-level partition overrides (Amendment A3): consulted before the
+/// category cell, for the cells where a tool's capability splits within a
+/// category. Semgrep CE can score sanitizer-kill (template 5) but not
+/// sanitizer-selectivity (template 6): the mandated
+/// `taint_assume_safe_functions: true` — required to keep propagator models
+/// load-bearing — itself suppresses flow through the undeclared
+/// sanitizer-lookalike, so selectivity's positive is undecidable by
+/// construction in a single CE invocation.
+const MODELING_TEMPLATE_OVERRIDES: [(ModelingTool, &str, &str); 1] = [(
+    ModelingTool::Semgrep,
+    "dfb-template-model-sanitizer-selectivity",
+    "Semgrep CE cannot express sanitizer selectivity and the safe-function \
+     assumption in one invocation: taint_assume_safe_functions suppresses \
+     flow through the undeclared sanitizer-lookalike, so the positive is \
+     undecidable by construction (Amendment A3)",
+)];
+
 fn modeling_partition_reason(tool: ModelingTool, template: &str) -> Result<Option<&'static str>> {
     let category = modeling_category(template).with_context(|| {
         format!("{template:?} is not one of the twelve preregistered modeling templates")
     })?;
+    if let Some((_, _, reason)) = MODELING_TEMPLATE_OVERRIDES
+        .iter()
+        .find(|(t, id, _)| *t == tool && *id == template)
+    {
+        return Ok(Some(reason));
+    }
     MODELING_PARTITION
         .iter()
         .find(|cell| cell.tool == tool && cell.category == category)
@@ -8416,10 +8458,13 @@ fn plan_modeling_run(tool: ModelingTool, language: ModelingLanguage) -> Result<M
     match tool {
         ModelingTool::Bifrost => require_bifrost_modeling_load_bearing(&contents, artifact)?,
         ModelingTool::Semgrep => require_semgrep_modeling_load_bearing(&contents, artifact)?,
-        // Neither the CodeQL nor the Joern surface has an unmodeled-call
+        // Neither surface has a switch to pin. CodeQL has no unmodeled-call
         // default that would decide a cell on its own: a `ConfigSig` with no
-        // `isAdditionalFlowStep` adds no step, and a Joern method with no
-        // `FlowMapping` propagates nothing. There is no switch to pin.
+        // `isAdditionalFlowStep` adds no step. Joern's default pass-through
+        // *is* load-bearing, but it cannot be disabled — `FlowSemantic`
+        // mappings are additive over it — which is why Amendment A2 moved its
+        // propagator and summary categories to unsupported activation instead
+        // of gating them here.
         ModelingTool::Codeql | ModelingTool::Joern => {}
     }
 
@@ -9043,11 +9088,18 @@ fn run_modeling(
                 .is_some_and(|template| scored.contains(&template))
         })
         .count();
+    // Categories are counted from the scored templates rather than divided out
+    // of them: Amendment A3's template-level override splits one of Semgrep's
+    // categories, so a category can be scored by one of its two templates.
+    let scored_categories: BTreeSet<ModelingCategory> = scored
+        .iter()
+        .filter_map(|template| modeling_category(template))
+        .collect();
     println!(
         "wrote {} ({scored_assertions} scored, {} preregistered-unsupported, {} of six categories scored for {})",
         plan.report.display(),
         plan.cases.len() - scored_assertions,
-        scored.len() / 2,
+        scored_categories.len(),
         plan.tool.pinned_identity()
     );
     Ok(())
@@ -13144,15 +13196,19 @@ mod tests {
         );
     }
 
-    /// The scored-template counts are the document's partition summary,
-    /// expressed in templates rather than categories: Bifrost 2 of 12, Semgrep
-    /// 6 of 12, CodeQL and Joern 12 of 12.
+    /// The scored-template counts are the document's partition summary as
+    /// amended, expressed in templates rather than categories: Bifrost 2 of
+    /// 12, Semgrep 5 of 12 (Amendment A3), Joern 8 of 12 (Amendment A2), and
+    /// CodeQL 12 of 12.
     #[test]
     fn modeling_partition_scored_counts_match_the_preregistration() {
         assert_eq!(modeling_supported_templates(ModelingTool::Bifrost).len(), 2);
-        assert_eq!(modeling_supported_templates(ModelingTool::Semgrep).len(), 6);
+        // Amendment A3 moved sanitizer-selectivity out of Semgrep's scored set.
+        assert_eq!(modeling_supported_templates(ModelingTool::Semgrep).len(), 5);
         assert_eq!(modeling_supported_templates(ModelingTool::Codeql).len(), 12);
-        assert_eq!(modeling_supported_templates(ModelingTool::Joern).len(), 12);
+        // Amendment A2 moved Joern's propagator and summary categories to
+        // unsupported: FlowSemantic is additive on the pinned 4.0.610.
+        assert_eq!(modeling_supported_templates(ModelingTool::Joern).len(), 8);
     }
 
     /// Bifrost enters with category S alone — the honest starting position the
@@ -13194,6 +13250,10 @@ mod tests {
         ] {
             expected.extend(category.templates());
         }
+        // Amendment A3: sanitizer-selectivity is template-overridden out of
+        // Semgrep's scored set — the safe-function assumption and selectivity
+        // cannot coexist in one CE invocation.
+        expected.retain(|template| *template != "dfb-template-model-sanitizer-selectivity");
         expected.sort_unstable();
         let mut scored = modeling_supported_templates(ModelingTool::Semgrep);
         scored.sort_unstable();
@@ -13504,6 +13564,19 @@ mod tests {
             !rule.contains("pattern-propagators"),
             "the Semgrep Python modeling rule declares a propagator, which its partition marks unsupported"
         );
+
+        // Amendment A2 declines Joern's categories P and O, so the semantics
+        // file must not declare their entities: the cells are decided by the
+        // partition, and a declaration behind them would be a claim the
+        // partition does not make.
+        for declined in ["opaque.py", "bridge.py"] {
+            assert!(
+                !fs::read_to_string(ModelingLanguage::Python.artifact(ModelingTool::Joern))
+                    .unwrap()
+                    .contains(&format!("\"{declined}")),
+                "the Joern Python semantics declares {declined}, whose categories Amendment A2 marks unsupported"
+            );
+        }
 
         // Joern's semantics file fails silently on a blank line or a `//`
         // comment: both parse to an empty model with no error, and every scored

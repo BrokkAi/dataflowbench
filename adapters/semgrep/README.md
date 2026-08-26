@@ -577,11 +577,13 @@ subset is never comparable to another tool's full 32- or 30-assertion kernel.
 
 ## Python modeling matrix
 
-`run-semgrep-modeling --language python` runs the twenty-four assertions of
+`run-semgrep-modeling --language python` runs the twenty-four cells of
 [the benchmark-controlled taint-modeling matrix](../../docs/modeling-matrix.md)
-for Python, writing `reports/semgrep-python-modeling.json` with raw evidence
-under `reports/raw/semgrep-python-modeling/`. It is a **modeling**-tier
-population with its own denominator and is never pooled with any kernel.
+for Python — **ten scored assertions and fourteen preregistered
+`unsupported`** — writing `reports/semgrep-python-modeling.json` with raw
+evidence under `reports/raw/semgrep-python-modeling/`. It is a
+**modeling**-tier population with its own denominator and is never pooled with
+any kernel.
 
 Semgrep CE enters this matrix with **three of six categories** — declared
 sources and sinks, declared sanitizers, and framework entry points — which is
@@ -590,7 +592,11 @@ expectation from the kernels would be the opposite. Modeling capability and
 propagation capability are not the same axis. Propagators, opaque summaries,
 and persistence boundaries are `unsupported`, decided from the template
 identity before the scan, with the preregistration's rationale retained
-verbatim.
+verbatim. Category Z is scored by one of its two templates: template 6
+(sanitizer selectivity) is `unsupported` activation under
+[Amendment A3](../../docs/modeling-matrix.md#a3--2026-08-26-semgreps-sanitizer-selectivity-cell-is-undecidable-by-construction),
+because the mandated safe-function assumption and selectivity cannot coexist in
+one CE invocation.
 
 The model is `adapters/semgrep/rules/model-python.yaml`. Two things differ from
 the kernel rules:
@@ -605,15 +611,23 @@ the kernel rules:
   [load-bearing-model requirement](../../docs/modeling-matrix.md#the-load-bearing-model-requirement).
   The runner refuses a modeling rule without it.
 
-Of the twelve scored assertions the first run decides **eleven correctly** —
-five `reached` positives and six `not-reached` negatives — with one false
-negative and no `inconclusive` or `runner-error`. The false negative is
-template 6's positive, `dfb_sink(sanitize(dfb_source()))`, whose flow passes
-through an *undeclared* sanitizer-shaped call that the matrix deliberately does
-not model. Under `taint_assume_safe_functions: true` the engine carries taint
-through no undeclared call at all, so the flow is dropped. This is a modeled
-flow the engine cannot follow under its own required configuration, published
-as observed; the rule was not tuned to recover it.
+Under the amended partition the run decides **all ten scored assertions
+correctly** — five `reached` positives and five `not-reached` negatives — with
+no false positive, no false negative, and no `inconclusive` or `runner-error`.
+Its configuration hash is
+`a2eefdc01e1df0c60b7aa2ceb0967814426f9211b61b79be0cf11de92f0b9825`.
+
+The pre-amendment run scored twelve assertions and decided eleven of them, its
+single false negative being template 6's positive,
+`dfb_sink(sanitize(dfb_source()))`, whose flow passes through an *undeclared*
+sanitizer-shaped call that the matrix deliberately does not model. Under
+`taint_assume_safe_functions: true` the engine carries taint through no
+undeclared call at all, so the flow was dropped before the name heuristic the
+pair exists to catch could be tested. That observation is what Amendment A3 was
+made of: the cell is undecidable in one CE invocation rather than a capability
+CE lacks, so it is now retained `unsupported` and is no longer counted against
+the engine. Nothing was tuned to recover it, and the pre-amendment reading is
+kept in [the Python taint-modeling matrix](../../docs/python-modeling.md).
 
 **Load-bearing verification.** Removing the two declared category-S identities
 (`fetch_remote`, `record`) from the rule drops both category-S positives from

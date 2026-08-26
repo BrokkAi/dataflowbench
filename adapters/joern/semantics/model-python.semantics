@@ -7,18 +7,17 @@
 # Joern's convention: 0 is the receiver, 1 is the first declared parameter,
 # and -1 is the return value, so the declaration language's position 0 is
 # index 1 here. A method named with no mappings is NilSemantics -- taint does
-# not leave it -- which is the surface for the `sanitizer` role and for the
-# explicit no-flow declarations the matrix attaches to the undeclared-sibling
-# cells of templates 3 and 7.
+# not leave it -- which is the surface for the `sanitizer` role.
 #
 # TWO SURFACE FACTS, VERIFIED AGAINST THE PINNED 4.0.610 PARSER RATHER THAN
 # ASSUMED, BECAUSE EACH FAILS SILENTLY:
 #   1. A BLANK LINE ANYWHERE IN THIS FILE DROPS EVERY DECLARATION. The grammar
 #      treats NEWLINE as significant, and a doubled newline leaves the parser
 #      in a state where a following quoted method name is swallowed as the
-#      previous mapping's destination access path. Probed directly: the same
-#      nine declarations parse as nine with no blank line and as zero with
-#      one. There are therefore no blank lines below, only `#` comment lines.
+#      previous mapping's destination access path. Probed directly: the
+#      nine declarations of this file's pre-amendment revision parsed as nine
+#      with no blank line and as zero with one. There are therefore no blank
+#      lines below, only `#` comment lines.
 #   2. `#` opens a comment; `//` does not. A `//`-commented file parses to
 #      zero declarations with no error.
 # The runner cannot catch either, because both produce a well-formed empty
@@ -36,36 +35,22 @@
 # DFB-SINK marker lines. Category E likewise: an entry-point root is a
 # parameter node, not a flow mapping.
 #
+# Categories P (templates 3, 4) and O (templates 7, 8) need no entry here
+# either, and deliberately have none: Amendment A2 moved Joern's propagator and
+# summary cells to unsupported activation, because `FlowSemantic` mappings on
+# the pinned 4.0.610 are additive over the engine's default unmodeled-call
+# pass-through and cannot restrict it. A declaration for `opaque.carry`,
+# `opaque.select`, `bridge.pass_through`, or `bridge.deposit` would not be
+# load-bearing, and this matrix's equivalence contract forbids an artifact from
+# declaring a category its partition marks unsupported. The measurements that
+# established this are retained in docs/python-modeling.md.
 # --- No-flow declarations (NilSemantics) ---
-# Template 3's negative: the explicit no-flow declaration for `opaque.block`,
-# whose reflective body is identical to `opaque.carry`'s.
-"opaque.py:<module>.block"
 # Templates 5 and 6: `sanitizer`, in: 0, on `clean.scrub`. `scrub`'s body is
 # the identity function, so this declaration -- not the body -- is what
 # suppresses the flow. The sanitizer-shaped sibling `clean.sanitize` is
 # deliberately undeclared, so template 6's positive must still be reported.
 "clean.py:<module>.scrub"
-# Template 7's negative: the explicit no-flow summary for `bridge.hold`. Both
-# `hold`'s and `pass_through`'s bodies are the identity function, so the
-# summaries, not the bodies, are what disagree.
-"bridge.py:<module>.hold"
 # --- Flow mappings ---
-# Template 3: `propagator`, in: 0, out: return, on `opaque.carry`. The body is
-# a reflective self-dispatch resolved from a run-time string, so this mapping
-# is the only route from the argument to the result.
-"opaque.py:<module>.carry" 1->-1
-# Template 4: `propagator`, in: 1, out: return, on `opaque.select`. The
-# position is the mapping's own key, so positional fidelity is native: taint
-# at the undeclared position 0 gets no mapping.
-"opaque.py:<module>.select" 2->-1
-# Template 7: `summary`, in: 0, out: return, on `bridge.pass_through`.
-"bridge.py:<module>.pass_through" 1->-1
-# Template 8: `summary`, in: 0, out: 1.payload, on `bridge.deposit`. The
-# output position is a heap location, expressed as the destination access path
-# on the mapping. `deposit`'s body writes nothing, so the attribute's contents
-# come from this declaration or from nowhere, and the sibling attribute
-# `spare` gets nothing.
-"bridge.py:<module>.deposit" 1->2 "payload"
 # Templates 11 and 12: `store-write` (in: 1, key: 0) and `store-read`
 # (out: return, key: 0) on `Store.put` and `Store.get`, sharing one store
 # identity. The model declares the boundary: `put` maps its value parameter

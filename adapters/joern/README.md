@@ -670,12 +670,21 @@ denominator either. Absence of a slice is not a Joern result about C.
 
 ## Python modeling matrix
 
-`run-joern-modeling --language python` runs the twenty-four assertions of
+`run-joern-modeling --language python` runs the twenty-four cells of
 [the benchmark-controlled taint-modeling matrix](../../docs/modeling-matrix.md)
-for Python, writing `reports/joern-python-modeling.json` with raw evidence
-under `reports/raw/joern-python-modeling/`. It is a **modeling**-tier
+for Python — **sixteen scored assertions and eight preregistered
+`unsupported`** — writing `reports/joern-python-modeling.json` with raw
+evidence under `reports/raw/joern-python-modeling/`. It is a **modeling**-tier
 population with its own denominator and is never pooled with the Python
 kernel.
+
+Joern scores four of the six categories: S, Z, E, and B. Categories P
+(propagators) and O (summaries) are `unsupported` activation under
+[Amendment A2](../../docs/modeling-matrix.md#a2--2026-08-26-joerns-propagator-and-summary-categories-are-not-load-bearing),
+decided from the template identity before the binary is invoked, and their
+declarations are absent from the semantics file for the same reason. The
+measurement behind that amendment is this adapter's own, and is recorded
+below.
 
 **This is the one place the "Model assumptions" section below does not apply,
 and it applies nowhere else.** The kernels supply no semantics at all, which is
@@ -690,7 +699,7 @@ Two committed files, both hash-bound into the report's `configuration_hash`:
 | File | Role |
 | --- | --- |
 | `adapters/joern/queries/modeling.sc` | shared across languages: loads the semantics, layers them on `DefaultSemantics()`, and runs `reachableByFlows` under the resulting `EngineContext` |
-| `adapters/joern/semantics/model-python.semantics` | Python's nine declarations, in the distribution's own `FullNameSemanticsParser` text format |
+| `adapters/joern/semantics/model-python.semantics` | Python's three declarations — the sanitizer's `NilSemantics` and the two persistence mappings — in the distribution's own `FullNameSemanticsParser` text format. Categories P and O declare nothing: Amendment A2 marks their cells unsupported activation |
 
 ```bash
 joern --script adapters/joern/queries/modeling.sc \
@@ -716,7 +725,8 @@ Both were found by probing 4.0.610 directly rather than assumed, and both
 produce a well-formed **empty** model instead of an error:
 
 - **A blank line anywhere in the semantics file drops every declaration.** The
-  same nine declarations parse as nine with no blank line and as zero with one.
+  nine declarations of the file's pre-amendment revision parsed as nine with
+  no blank line and as zero with one.
 - **`#` opens a comment; `//` does not.** A `//`-commented file parses to zero.
 
 A model that parses to nothing is the preregistration's *missing model* arm — a
@@ -726,10 +736,13 @@ asserts the committed file has neither a blank line nor a `//` comment.
 
 ### Results and the load-bearing finding
 
-The first run decides **19 of 24** assertions correctly — 10 `reached`
-positives and 9 `not-reached` negatives — with 2 false positives, 2 false
-negatives, and 1 `inconclusive`. Its configuration hash is
-`4216113cba41b0add7624eb21e001ae662169fee2428b1374c92b492f7b4c641`.
+Under the amended partition the run decides **13 of 16** scored assertions
+correctly — 6 `reached` positives and 7 `not-reached` negatives — with no false
+positive, 2 false negatives (category B's two positives), and 1 `inconclusive`
+(template 1's negative, whose declared source has no call site, which is the
+point of that negative). The other 8 cells are preregistered `unsupported`.
+Its configuration hash is
+`f7f9d9d53572b098556aa86d16b3e9a0b3e9c7a4226526090bb03fd61bbf1eb8`.
 
 **Load-bearing verification, on category Z:** removing `clean.scrub`'s
 `NilSemantics` entry from the semantics file turns
@@ -747,10 +760,16 @@ unmodeled `getattr` and unknown-callee calls. A `FlowSemantic` **with**
 mappings is additive over that default and does not restrict which arguments
 propagate — which is also why template 4's negative is a false positive — while
 `NilSemantics` does suppress. On 4.0.610 a Joern declaration is load-bearing in
-the suppressive direction only. Revising the preregistered partition on that
-basis would be a result being relabelled, so it is reported as a proposed
-amendment and the cells are published as scored. See [the Python
-taint-modeling matrix](../../docs/python-modeling.md).
+the suppressive direction only.
+
+Relabelling a cell inside a run would be a result being rewritten, so the
+pre-amendment run published categories P and O as scored — 19 of 24, with
+template 4's negative and template 8's negative as false positives — and the
+finding was raised as a proposed amendment. It was adopted as
+[Amendment A2](../../docs/modeling-matrix.md#a2--2026-08-26-joerns-propagator-and-summary-categories-are-not-load-bearing),
+and the numbers above are the re-run under it. Both readings, and the two
+false positives the amendment absorbed, are kept in [the Python taint-modeling
+matrix](../../docs/python-modeling.md).
 
 ## Model assumptions
 

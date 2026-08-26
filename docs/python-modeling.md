@@ -9,7 +9,14 @@ adapters against them.
 Nothing in the preregistration is changed by this document. The twelve
 template definitions, the six categories, the per-tool capability partition,
 and the three-way missing/unsupported/incomplete distinction are fixed there
-and are only *realized* here. Where Python forces a spelling the document's
+and are only *realized* here. This wave's probes did produce two capability
+findings, and those were carried into the preregistration through its own
+amendment procedure — [A2](modeling-matrix.md#a2--2026-08-26-joerns-propagator-and-summary-categories-are-not-load-bearing)
+(Joern's categories P and O) and
+[A3](modeling-matrix.md#a3--2026-08-26-semgreps-sanitizer-selectivity-cell-is-undecidable-by-construction)
+(Semgrep's template 6) — before the runs below were taken. The pre-amendment
+observations that motivated them are kept in
+[What the amendments were made of](#what-the-amendments-were-made-of). Where Python forces a spelling the document's
 analyzer-neutral identity cannot carry verbatim, it is recorded below under
 [Python realization notes](#python-realization-notes) rather than absorbed
 silently.
@@ -116,8 +123,8 @@ a claim the partition does not make.
 | --- | --- | --- |
 | Bifrost | `adapters/bifrost/policies/model-python.rqlp` | S |
 | CodeQL | `adapters/codeql/python/queries/PythonModeling.ql` | S, P, Z, O, E, B |
-| Joern | `adapters/joern/semantics/model-python.semantics` + `adapters/joern/queries/modeling.sc` | S, P, Z, O, E, B |
-| Semgrep CE | `adapters/semgrep/rules/model-python.yaml` | S, Z, E |
+| Joern | `adapters/joern/semantics/model-python.semantics` + `adapters/joern/queries/modeling.sc` | S, Z, E, B (P and O declined by Amendment A2) |
+| Semgrep CE | `adapters/semgrep/rules/model-python.yaml` | S, Z, E (template 6 declined by Amendment A3) |
 
 ### Bifrost
 
@@ -174,11 +181,24 @@ Category E is the one selector shape that differs: its source is
 handler is never called. The runner picks the shape from the *template
 identity*, never from a fixture's tags and never from an observed result.
 
+The committed semantics file declares three entities, not nine: `clean.scrub`'s
+`NilSemantics` for category Z and the two `Store` mappings for category B.
+Categories P and O declare nothing, because
+[Amendment A2](modeling-matrix.md#a2--2026-08-26-joerns-propagator-and-summary-categories-are-not-load-bearing)
+moved their cells to unsupported activation, and an artifact must not declare a
+category its partition declines. What the pre-amendment file declared, and what
+its declarations measured, is recorded under
+[What the amendments were made of](#what-the-amendments-were-made-of).
+
 ### Semgrep CE
 
 `pattern-sources`, `pattern-sinks`, and `pattern-sanitizers` only — no
 propagator and no store vocabulary, because P, O, and B are `unsupported` for
-CE by the partition. Nothing in this rule is templated: the kernel rules carry
+CE by the partition, and
+[Amendment A3](modeling-matrix.md#a3--2026-08-26-semgreps-sanitizer-selectivity-cell-is-undecidable-by-construction)
+declines template 6 inside category Z as well. That amendment changes no
+declaration here: template 6's subject is the deliberately *undeclared* sibling
+`sanitize`, so what it removes is an assertion, not a model entry. Nothing in this rule is templated: the kernel rules carry
 endpoint placeholders because the endpoints are a property of each fixture,
 whereas here the endpoint identities *are* the model, so the committed rule
 states them literally. `options: taint_assume_safe_functions: true` is the
@@ -188,22 +208,31 @@ it.
 ## Results
 
 Four runs, one per adapter, sequential, on the pinned distributions and one
-fixture revision (`sha256:32bbebe…`). Every raw evidence document is retained
-under `reports/raw/<tool>-python-modeling/`. These are the first modeling
-numbers this benchmark has ever produced; there is nothing to compare them to
-and nothing was re-run toward an expected polarity.
+fixture revision (`sha256:32bbebe…`), under the partition **as amended** by A2
+and A3. Every raw evidence document is retained under
+`reports/raw/<tool>-python-modeling/`. These are the first modeling numbers
+this benchmark has ever produced; there is nothing to compare them to and
+nothing was re-run toward an expected polarity.
 
-| Adapter | Scored | Correct | FP | FN | `unsupported` | `inconclusive` |
-| --- | --- | --- | --- | --- | --- | --- |
-| Bifrost v0.10.6 | 4 | **4** | 0 | 0 | 20 | 0 |
-| CodeQL 2.26.3 | 24 | **24** | 0 | 0 | 0 | 0 |
-| Joern 4.0.610 | 24 | **19** | 2 | 2 | 0 | 1 |
-| Semgrep CE 1.174.0 | 12 | **11** | 0 | 1 | 12 | 0 |
+| Adapter | Scored | Correct | FP | FN | `unsupported` | `inconclusive` | `configuration_hash` |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| Bifrost v0.10.6 | 4 | **4** | 0 | 0 | 20 | 0 | `578414e1…` |
+| CodeQL 2.26.3 | 24 | **24** | 0 | 0 | 0 | 0 | `cd3c4fee…` |
+| Joern 4.0.610 | 16 | **13** | 0 | 2 | 8 | 1 | `f7f9d9d5…` |
+| Semgrep CE 1.174.0 | 10 | **10** | 0 | 0 | 14 | 0 | `a2eefdc0…` |
+
+Two of those denominators moved with the amendments, and moved *before* these
+runs were taken rather than after: Joern's from 24 to 16 (categories P and O
+declined), Semgrep's from 12 to 10 (template 6 declined). Neither adapter's
+scored cells changed their outcome as a result — what the amendments removed
+from the scored set is exactly what the pre-amendment run had reported as
+Joern's two false positives and Semgrep's one false negative, and those
+observations are kept below rather than deleted.
 
 The three-way distinction, stated explicitly because it is the one this tier
 is most likely to blur:
 
-- **`unsupported` (32 cells)** is capability coverage, decided from the
+- **`unsupported` (42 cells)** is capability coverage, decided from the
   template identity *before* the tool was invoked, with the preregistration's
   rationale retained verbatim beside the report. It is never a negative and
   never a false negative, and it reduces nobody's denominator: a tool that
@@ -219,37 +248,16 @@ is most likely to blur:
 | Category | Bifrost | CodeQL | Joern | Semgrep CE |
 | --- | --- | --- | --- | --- |
 | S — sources and sinks | 4/4 | 4/4 | 3/4 (1 inconclusive) | 4/4 |
-| P — propagators | *unsupported* | 4/4 | 3/4 (1 FP) | *unsupported* |
-| Z — sanitizers | *unsupported* | 4/4 | 4/4 | 3/4 (1 FN) |
-| O — summaries | *unsupported* | 4/4 | 3/4 (1 FP) | *unsupported* |
+| P — propagators | *unsupported* | 4/4 | *unsupported* (A2) | *unsupported* |
+| Z — sanitizers | *unsupported* | 4/4 | 4/4 | 2/2 (template 6 *unsupported*, A3) |
+| O — summaries | *unsupported* | 4/4 | *unsupported* (A2) | *unsupported* |
 | E — entry points | *unsupported* | 4/4 | 4/4 | 4/4 |
 | B — persistence | *unsupported* | 4/4 | 2/4 (2 FN) | *unsupported* |
 
 ### The mismatches, one by one
 
-**Semgrep CE, template 6 positive — false negative.**
-`dfb_sink(sanitize(dfb_source()))` routes through an *undeclared*
-sanitizer-shaped call, and the matrix deliberately does not model `sanitize`:
-the pair exists to catch heuristic name matching. Under
-`taint_assume_safe_functions: true` — which the load-bearing-model requirement
-mandates for this rule — CE carries taint through no undeclared call at all,
-so the flow is dropped before the name heuristic could ever be tested. With
-the option off, the same rule reports it. The engine is not name-matching; it
-is configured, as required, not to propagate. Published as observed.
-
-**Joern, template 4 negative — false positive.**
-`dfb_sink(select(dfb_source(), "clean"))` is reported even though the
-declaration maps position 1 only. This is not a positional-fidelity failure so
-much as a load-bearing failure, and the probe below shows why: Joern reports
-the same flow with `select` **removed from the semantics entirely**. A
-`FlowSemantic` with mappings does not restrict which arguments propagate; only
-`NilSemantics` — a method declared with no mappings — changes anything.
-
-**Joern, template 8 negative — false positive.** The destination access path of
-`"bridge.py:<module>.deposit" 1->2 "payload"` is not honored: the retained flow
-is `dfb_source()` → `box` → `box.spare`, so the *whole object* is tainted and
-the sibling attribute inherits it. The preregistration marked exactly this
-cell *to be verified at implementation*; it is now verified, negatively.
+Two mismatches remain in the amended partition. Both are Joern's, both are
+false negatives, and both are in category B.
 
 **Joern, templates 11 and 12 positives — false negatives.** `put` maps its
 value into its store receiver and `get` maps its receiver to its return, as
@@ -268,11 +276,27 @@ uniformly rather than special-cased for this tier. The cell is execution
 coverage, not a miss, and Joern's category S is therefore three assertions
 rather than four.
 
-### Two findings that warrant amendments
+## What the amendments were made of
 
-Neither is acted on here. The partition tables and the template definitions are
-immutable from the moment the first analyzer runs, and both of these were
-discovered *by* that run, so they are reported as the run reported them.
+The partition tables and the template definitions are immutable from the moment
+the first analyzer runs, so neither of the findings below was acted on inside a
+run. Both were carried through the preregistration's own amendment procedure —
+[A2](modeling-matrix.md#a2--2026-08-26-joerns-propagator-and-summary-categories-are-not-load-bearing)
+and
+[A3](modeling-matrix.md#a3--2026-08-26-semgreps-sanitizer-selectivity-cell-is-undecidable-by-construction)
+— and the runs above were then taken under the amended partition. What follows
+is the evidence those amendments were made of, including the pre-amendment
+results that motivated them. Those results are no longer this matrix's numbers,
+and they are kept because a capability reclassification is only auditable if
+the measurement behind it stays on the record.
+
+**Pre-amendment run (Joern 24 scored, Semgrep 12 scored).** Joern decided 19 of
+24, with two false positives — template 4's negative and template 8's negative
+— two false negatives in category B, and one `inconclusive`. Semgrep decided
+11 of 12, its single false negative being template 6's positive. The two Joern
+false positives and the Semgrep false negative are precisely the cells the
+amendments reclassified; the remaining outcomes are unchanged in the runs
+above, cell for cell.
 
 **1. Joern's category P and O are not load-bearing on the pinned build.** The
 preregistration scores both, and `docs/adapters.md` justifies not gating Joern
@@ -283,11 +307,22 @@ default already carries the argument through the reflective body's unmodeled
 `getattr` and unknown-callee calls. By
 [the load-bearing-model requirement](modeling-matrix.md#the-load-bearing-model-requirement)'s
 own rule — *"a cell the default already decides is not a measurement"* — those
-cells are decided by the default rather than by the model. Joern does have a
-`NilSemantics.where(…)` surface that could express a require-model fallback;
-adopting it is a configuration change with its own consequences (it would cost
-template 6's positive the way Semgrep's option does) and belongs in an
-amendment, not in a run.
+cells are decided by the default rather than by the model. Two pre-amendment
+results are the same fact seen from the scored side: template 4's negative was
+reported `reached` even though the declaration maps position 1 only — Joern
+reports that flow with `select` removed from the semantics entirely — and
+template 8's negative was reported `reached` because the destination access
+path of `"bridge.py:<module>.deposit" 1->2 "payload"` is not honored: the
+retained flow was `dfb_source()` → `box` → `box.spare`, the whole object
+tainted and the sibling attribute inheriting it. The preregistration had marked
+that cell *to be verified at implementation*; it is verified, negatively.
+
+Joern does have a `NilSemantics.where(…)` surface that could express a
+require-model fallback; adopting it would be a configuration change with its
+own consequences (it would cost template 6's positive the way Semgrep's option
+does), so **A2** declines the two categories rather than reconfiguring the
+engine. Category Z stays scored, because `NilSemantics` was demonstrated
+genuinely load-bearing — the probe in the table below.
 
 **2. Semgrep's category Z rationale and its load-bearing requirement
 disagree.** The preregistration's Z cell verifies that *"`pattern-sanitizers`
@@ -299,6 +334,16 @@ flow through `scrub(...)`. The declaration is load-bearing only with the option
 off. Category Z's negatives are therefore decided by the option rather than by
 the sanitizer declaration on the configuration the cells are actually scored
 under.
+
+The pre-amendment run showed the other half of the same option: template 6's
+positive, `dfb_sink(sanitize(dfb_source()))`, routes through the deliberately
+*undeclared* sanitizer-shaped `sanitize`, and the option carries taint through
+no undeclared call at all — so the flow was dropped before the name heuristic
+the pair exists to catch could ever be tested, and the cell was recorded as
+CE's only false negative. With the option off the same rule reports it, but the
+option is mandatory. **A3** therefore declines template 6 alone, by a
+template-level override, and leaves template 5 scored: the cell is undecidable
+by construction in one CE invocation rather than a capability CE lacks.
 
 ## Load-bearing verification
 
@@ -321,7 +366,8 @@ probes are one-line deletions from the committed artifact, reproducible by
 making the deletion the table names and re-running that adapter's command.
 
 Joern's demonstration is on category Z rather than P deliberately, and the
-reason is the first finding above: on the pinned build the *only* direction in
-which a Joern declaration is load-bearing is the suppressive one. The
-corresponding probe on category P is what established that, and it is reported
-as a finding rather than presented as a demonstration.
+reason is Amendment A2: on the pinned build the *only* direction in which a
+Joern declaration is load-bearing is the suppressive one, so category Z is the
+only Joern category a probe can demonstrate. The corresponding probe on
+category P is what established that, and it is the amendment's evidence rather
+than a demonstration — which is why P is no longer scored for Joern at all.

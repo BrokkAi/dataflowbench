@@ -297,20 +297,23 @@ their own. So the runner reads each artifact before the run and refuses it
 unless the default is disabled: a Bifrost modeling policy must set
 `:call-modeling (call-modeling :unmodeled require-model)` and must not name the
 kernel policies' `optimistic`, and a Semgrep modeling rule must set `options:
-taint_assume_safe_functions: true`. Tests pin both strings. CodeQL and Joern
-have no such switch to pin — a `ConfigSig` with no `isAdditionalFlowStep` adds
-no step and a Joern method with no `FlowMapping` propagates nothing — so
-neither is gated.
+taint_assume_safe_functions: true`. Tests pin both strings. CodeQL has no
+such switch to pin — a `ConfigSig` with no `isAdditionalFlowStep` adds no
+step. Joern's equivalent claim ("a method with no `FlowMapping` propagates
+nothing") was measured false by the first wave-M1 run: `FlowSemantic`
+mappings on the pinned 4.0.610 are additive over the engine's default
+pass-through, which is why Amendment A2 moved Joern's propagator and summary
+categories to unsupported activation rather than gating them.
 
-**The execution arm lands with the language.** Today every modeling command
-stops at the population gate, because no fixture exists. The arm that invokes
-an analyzer over a *scored* cell is written by the pull request that authors
-that adapter's declarations for that language; until it is, a scored cell is a
-hard error rather than a synthesized outcome, which the adapter contract at the
-head of this document forbids. The `unsupported` arm is complete now, so a tool
-that declines every category a population carries already produces a whole,
-validated report of retained capability decisions without the analyzer being
-invoked at all.
+**The execution arm lands with the language.** The arm that invokes an
+analyzer over a *scored* cell is written by the pull request that authors that
+adapter's declarations for that language. Python's four are wired (wave M1,
+`docs/python-modeling.md`); Java's and JavaScript's are not, and until they are
+a scored cell in those languages is a hard error rather than a synthesized
+outcome, which the adapter contract at the head of this document forbids. The
+`unsupported` arm is independent of all of that, so a tool that declines every
+category a population carries produces a whole, validated report of retained
+capability decisions without the analyzer being invoked at all.
 
 **Reporting stays separate.** Modeling reports are their own population per
 language and per adapter, bound into a freeze manifest like every other report,
