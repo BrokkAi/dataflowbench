@@ -1,0 +1,64 @@
+{
+  "schema_version": 2,
+  "id": "dfb-taint-java-model-declared-source-negative",
+  "template_id": "dfb-template-model-declared-source",
+  "polarity": "negative",
+  "negative_mechanism": "unrelated-value",
+  "score_tier": "modeling",
+  "track": "taint",
+  "language": "java",
+  "semantic_dimensions": [
+    "local-flow"
+  ],
+  "feature_tags": [
+    "modeled-external",
+    "interprocedural-one-hop"
+  ],
+  "model_profile": "benchmark-controlled",
+  "fixture_files": [
+    "ModelDeclaredSourceNegative.java"
+  ],
+  "source_anchors": [
+    {
+      "marker": "DFB-SOURCE: model-declared-source-input",
+      "file": "ModelDeclaredSourceNegative.java",
+      "line_hint": 8
+    }
+  ],
+  "sink_anchors": [
+    {
+      "marker": "DFB-SINK: model-declared-source-sink",
+      "file": "ModelDeclaredSourceNegative.java",
+      "line_hint": 14
+    }
+  ],
+  "expected_flows": [],
+  "expected_nonflows": [
+    {
+      "source": "DFB-SOURCE: model-declared-source-input",
+      "sink": "DFB-SINK: model-declared-source-sink"
+    }
+  ],
+  "witness_checkpoints": [],
+  "expected_analysis_capability": {
+    "kind": "declared-source-activation"
+  },
+  "execution_budget": {
+    "wall_clock_seconds": 60,
+    "peak_memory_mb": 512
+  },
+  "fixture_provenance": {
+    "kind": "authored",
+    "origin": "DataFlowBench",
+    "revision": "m3-modeling-java",
+    "license": "MIT"
+  },
+  "tool_model_references": {
+    "bifrost": {
+      "policy": "adapters/bifrost/policies/model-java.rqlp"
+    },
+    "codeql": {
+      "query": "adapters/codeql/queries/JavaModeling.ql"
+    }
+  }
+}

@@ -673,9 +673,12 @@ denominator either. Absence of a slice is not a Joern result about C.
 - The `benchmark-controlled` profile applies: the query is given the same
   source and sink identities the Bifrost and CodeQL kernels are given, and
   nothing from Joern's own default source/sink models is used.
-- Only the OSS data-flow engine's default semantics are used. No custom
-  semantics, no additional propagation or sanitizer models, and no engine
-  configuration are supplied.
+- Only the OSS data-flow engine's default semantics are used **by the
+  kernels**. No custom semantics, no additional propagation or sanitizer
+  models, and no engine configuration are supplied to `kernel.sc`. The
+  taint-modeling matrix is the one population that supplies semantics, through
+  its own `modeling.sc` and its own per-language semantics file; it never
+  touches the kernel script and is never pooled with a kernel population.
 - The source is the source call's return value; the sink is the sink call's
   positional arguments. Receiver arguments are excluded.
 - One CPG per case, always built cold from source; no CPG is reused between
@@ -689,3 +692,96 @@ denominator either. Absence of a slice is not a Joern result about C.
 
 Joern results are not a proxy for any other adapter's population, and no
 Joern population is evidence for another Joern language.
+
+## Taint-modeling matrix
+
+`run-joern-modeling --language <language>` runs that language's twenty-four
+assertions of the
+[benchmark-controlled taint-modeling matrix](../../docs/modeling-matrix.md),
+writing `reports/joern-<language>-modeling.json` with retained evidence under
+`reports/raw/joern-<language>-modeling/`. Java is wave M1's first language; see
+[the Java modeling report](../../docs/java-modeling.md).
+
+This is the one place where the "no custom semantics" statement above does not
+apply, and it is scoped so that it still applies everywhere else. The kernels
+supply no semantics and no engine configuration, and `queries/kernel.sc` is
+untouched by this population. The modeling matrix supplies both, through two
+files that are hash-bound together into the modeling report and into nothing
+else:
+
+| File | Carries |
+| --- | --- |
+| `queries/modeling.sc` | the roles whose native Joern surface is a query root — `source`, `sink`, and `entry-point` |
+| `semantics/model-<language>.semantics` | the roles whose surface is a `FlowSemantic` — `propagator`, `sanitizer`, `summary`, `store-write`, `store-read` |
+
+The script loads the semantics file with `FullNameSemanticsParser` and installs
+it as the engine's whole `Semantics` via `FullNameSemantics.fromList`. No
+default catalog is layered underneath, so an entity with no entry is one the
+benchmark did not declare — which is exactly what the undeclared siblings of
+this matrix's negatives need.
+
+Index convention in the semantics files: 0 is the receiver, 1..n the declared
+parameters counted from one, and -1 the return value. The
+[model declaration language](../../docs/modeling-matrix.md#the-model-declaration-language)
+counts parameters from **0**, so its `in: 0` is index 1 here. A method named with
+no mapping at all is `NilSemantics` — taint that arrives does not leave — which
+is both the `sanitizer` role and the explicit no-flow declaration the `summary`
+role's negatives need.
+
+**The semantics files carry no comments.** The pinned 4.0.610
+`FullNameSemanticsParser` returns an empty declaration list for a file whose
+first line is a `//` comment; that was verified against the pinned distribution
+rather than assumed, so the files are declarations only and their commentary
+lives in the language's modeling document.
+
+The modeling normalization is not the kernel's. A kernel run that bound zero
+source or zero sink nodes is `inconclusive`, because on a kernel an unobserved
+endpoint means the run never saw the assertion. On the modeling tier an
+unobserved endpoint is frequently the measurement itself — a declared-source
+negative's sibling is undeclared *on purpose* — so zero bound nodes is a correct
+and informative answer there, retained in the diagnostics rather than converted
+into incomplete evidence. A run that produced no CPG at all is still
+`runner-error`.
+
+Invocation, one non-interactive process per case, in a per-case scratch root:
+
+```bash
+joern --script adapters/joern/queries/modeling.sc \
+  --param inputPath=<workspace> \
+  --param language=<JAVASRC|JSSRC|PYTHONSRC> \
+  --param semanticsPath=adapters/joern/semantics/model-<language>.semantics \
+  --param outputPath=reports/raw/joern-<language>-modeling/<case id>.json
+```
+
+### Observed: Java
+
+`reports/joern-java-modeling.json`, 4.0.610, 24 results: 12 `reached` and 12
+`not-reached`, **20/24 correct** — ten true positives, ten true negatives, two
+false positives, two false negatives, no `inconclusive` and no `runner-error`.
+Categories S, Z, and E are 4/4; P and O are 3/4 and B is 2/4.
+
+The load-bearing counterfactual is a documented probe: removing only the
+`Clean.scrub` line from the nine-entry semantics file turns both category-Z
+negatives from no flows to one flow each, while template 7's negative — which
+depends on the still-declared `Bridge.hold` — is unchanged.
+
+Three engine facts account for the four misses, and each is published as
+observed rather than tuned around:
+
+- **Positional fidelity is not enforced.** `Opaque.select` is declared index
+  2 → return and taint at the undeclared index 1 reaches the sink. A separate
+  three-way probe separates this from "the model was ignored": replacing the
+  mapping with `NilSemantics` removes both cells' findings, and removing the
+  entry entirely lets the engine walk the reflective body instead. The mapping
+  is applied; its index is not what selects the argument.
+- **A `FlowPath` access-path destination does not discriminate.**
+  `Bridge.deposit` declared `1 -> 2 "payload"` also taints the sibling field
+  `box.spare`. The preregistration named exactly this cell as unverified.
+- **The persistence roundtrip does not close.** Both category-B declarations
+  load and both negatives are correct, but no flow crosses from `Store.put`'s
+  value parameter to `Store.get`'s return in either the type-bound or the
+  instance-bound spelling.
+
+All three are recorded as *proposed* amendments on the preregistration, not
+applied: a partition cell revised from a result is a result being relabelled.
+See [the Java modeling report](../../docs/java-modeling.md).

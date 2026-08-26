@@ -799,3 +799,72 @@ array-element positive, and exception-catch positive; the loop-carried negative
 is a false positive. No special or error outcomes occurred. Every Python case
 uses an isolated cold database, with no database or compiled fixture reused
 across the pair.
+
+## Taint-modeling matrix
+
+`run-codeql-modeling --language <language>` runs that language's twenty-four
+assertions of the
+[benchmark-controlled taint-modeling matrix](../../docs/modeling-matrix.md),
+writing `reports/codeql-<language>-modeling.json` with retained evidence under
+`reports/raw/codeql-<language>-modeling/`. Java is wave M1's first language; see
+[the Java modeling report](../../docs/java-modeling.md).
+
+CodeQL enters this matrix with **six of six categories scored**, which is
+unsurprising and is not a ranking: a query language whose data-flow
+configuration *is* a model declaration surface has no category to decline. The
+interesting question here is not whether it can be told, but whether activation
+produces the modeled semantics rather than something adjacent to them.
+
+The design the adapter already states — *the query owns the CodeQL model; the
+case metadata remains analyzer neutral* — holds unchanged. One
+`<Language>Modeling.ql` per language carries all six categories in one
+`DataFlow::ConfigSig`:
+
+| Category | `ConfigSig` member |
+| --- | --- |
+| S — sources and sinks | `isSource` / `isSink` over the declared type-plus-member |
+| P — propagators | `isAdditionalFlowStep` from the declared argument position to the call |
+| Z — sanitizers | `isBarrier` on the declared input position |
+| O — summaries | `isAdditionalFlowStep`, with template 8's step landing on reads of the declared field of the declared argument, and the explicit no-flow summaries encoded as barriers |
+| E — entry points | `isSource` on the parameter node of an uncalled declared method |
+| B — persistence | paired `isAdditionalFlowStep` clauses conditioned on equal constant keys and on the store identity |
+
+No data extension is used. The models-as-data alternative for category O is
+available in the pinned packs but is API-graph-keyed, and its binding to
+fixture-local types stays unverified; the pack-predicate encoding is the
+primary one and does not depend on it.
+
+Java's modeling query is `queries/JavaModeling.ql`, beside `JavaKernel.ql`,
+because Java's CodeQL pack *is* the adapter root: `qlpack.yml` declares
+`dataflowbench/codeql-java`. A query under a `java/` subdirectory would resolve
+no `codeql/java-all` dependency, since there is no pack there. Every other
+language's modeling query sits inside that language's own pack directory. This
+is a location, not a declaration surface.
+
+The per-case machinery is the kernel's, unchanged: one cold database per case
+from the same traced extraction, `database analyze` to SARIF, and the same
+execution-error check. Only the normalization differs, because a modeling
+fixture carries both halves of its pair by construction — see
+[anchor reconciliation on this tier](../../docs/java-modeling.md#anchor-reconciliation-on-this-tier).
+
+No modeling query enters a kernel report's `configuration_hash`: a kernel hash
+is built from the queries the selected *cases* name, and no core case names a
+modeling query.
+
+### Observed: Java
+
+`reports/codeql-java-modeling.json`, CLI 2.26.3, 24 results: 12 `reached` and
+12 `not-reached`, **24/24 correct** — twelve true positives, twelve true
+negatives, no false positive, no false negative, no `inconclusive`, and no
+`runner-error`. Both cells the preregistration flagged as needing
+implementation-time verification are answered: template 8's store-through
+summary and category B's keyed and instance-bound roundtrip.
+
+The load-bearing counterfactual is a documented probe: removing only the
+`Opaque.carry` `isAdditionalFlowStep` clause turns template 3's positive from
+one result to none, while template 4's positive — which takes the separate
+`Opaque.select` step — is unchanged. That is also the check that template 3 is
+doing its job, since the reflective body it routes through is the construct the
+v0.4.0 freeze establishes no engine follows unaided.
+
+See [the Java modeling report](../../docs/java-modeling.md).

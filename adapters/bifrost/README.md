@@ -529,3 +529,47 @@ tracks the final cross-language production-taint acceptance work; the defects
 and coverage gaps this population exposes are tracked as bifrost-dev #2637
 (Ruby), #2638 (Rust `gap_contract`), #2639 (`element-object`), and #2640
 (nested-callable roots).
+
+## Java taint-modeling matrix
+
+`run-bifrost-modeling --language java` runs the twenty-four assertions of the
+[benchmark-controlled taint-modeling matrix](../../docs/modeling-matrix.md)
+against `policies/model-java.rqlp`, writing `reports/bifrost-java-modeling.json`
+with retained evidence under `reports/raw/bifrost-java-modeling/`. It is its own
+population on its own `modeling` score tier: never in a core denominator, never
+pooled with the Java propagation kernel, never added to a kernel number.
+
+The preregistered partition awards Bifrost **one of six categories** — declared
+sources and sinks — and that is what the policy declares, and all it declares.
+The other five categories are `unsupported` with the document's rationale
+retained verbatim, decided from the template ID *before* the binary is invoked,
+so twenty of the twenty-four assertions never reach the CLI at all. Two of those
+five are the README's own long-standing statements — sanitizer lowering is a
+future CLI capability, and external semantic-model activation requires an
+embedding with an explicit catalog — and three are cells the preregistration
+could not verify against the pinned build and therefore recorded as unsupported
+until shown otherwise. Declining a category is coverage, never a negative, and
+never a false negative.
+
+The modeling policy differs from every committed kernel policy in one
+load-bearing way: it sets `:call-modeling (call-modeling :unmodeled
+require-model)` where the kernels set `optimistic`. Under the optimistic default
+an unmodeled call may pass taint through, which would decide a propagator cell
+without the declaration ever being read. The runner refuses a modeling policy
+that does not set `require-model`, and refuses one that still names
+`optimistic`. **v0.10.6 accepts `require-model`** — the first thing this wave
+established, since the preregistration could not.
+
+The policy's own configuration hash is over `model-java.rqlp` alone. No kernel
+policy, and no kernel report's hash, is touched by it.
+
+The v0.4.0-era run of this slice produces 2 `reached`, 2 `not-reached`, and 20
+`unsupported` results: **category S is 4/4**, with two true positives, two true
+negatives, and neither undeclared sibling (`Config.fetchLocal`, `Audit.discard`)
+picked up. The load-bearing counterfactual is retained as a documented probe —
+removing the `Config.fetchRemote` source entry turns template 1's positive from
+one finding to none while template 2's positive is unchanged.
+
+See [the Java modeling report](../../docs/java-modeling.md) for the per-template
+realizations, the full observed outcomes, and the proposed amendments this run
+supports.

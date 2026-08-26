@@ -207,6 +207,18 @@ than discovered as a failure. Unlike the challenge tier, these templates are
 own scorecards and never enter any language's core denominator. Issue #16's
 tool-native profiles build on the same category taxonomy and supply no models.
 
+### Wave M1: Java
+
+Java is the first language of the matrix's three-language wave. Its twenty-four
+assertions, the four per-adapter model artifacts encoding the same
+analyzer-neutral declarations, and the four runs are recorded in
+[the Java modeling report](java-modeling.md). No template proved unimplementable
+as preregistered and no partition cell was revised; where a run disagreed with
+what the preregistration expected, the disagreement is published as observed and
+carried forward as a *proposed* amendment rather than applied. JavaScript and
+Python have no modeling denominator until their own waves land, which is
+different from having a zero.
+
 ## M4: real-project confirmation
 
 Add a small, pinned, manually reviewed corpus drawn from executable or

@@ -1,0 +1,13 @@
+{
+  "adapter": "semgrep",
+  "case_id": "dfb-taint-java-model-summary-through-positive",
+  "evidence_kind": "retained-capability-decision",
+  "modeling_category": "O",
+  "modeling_category_label": "opaque procedure summaries",
+  "partition_source": "docs/modeling-matrix.md#per-tool-capability-partition",
+  "pinned_tool_identity": "Semgrep CE 1.174.0",
+  "reason": "category O — opaque procedure summaries — is unsupported for Semgrep CE 1.174.0 by the preregistered modeling partition (docs/modeling-matrix.md#per-tool-capability-partition): template 7 needs arg→return summary semantics, which P has already established CE cannot express, and puts the summarized procedure in a separate file, which CE's intra-file engine does not cross. Template 8's destination is a *field* of an argument; `to: $L` reaches the whole object, and the pinned CE documents only \"Experimental support for basic field-sensitive taint tracking\" — so the field-separation negative would be decided by CE's heap approximation rather than by the summary",
+  "stage": "preregistered-modeling-partition",
+  "state": "unsupported",
+  "template_id": "dfb-template-model-summary-through"
+}

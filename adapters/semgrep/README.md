@@ -557,8 +557,12 @@ claim — it resolves all 14 scored Kotlin cases through the Java arm.
 - The `benchmark-controlled` profile applies: the rule is given the same source
   and sink identities the Bifrost, CodeQL, and Joern kernels are given, and
   nothing from Semgrep's own registry or default models is used.
-- Only the CE (OSS) engine's default taint semantics are used. No propagators,
-  no sanitizers, no taint labels, no `options:` block, and no Pro feature.
+- Only the CE (OSS) engine's default taint semantics are used **by the
+  kernels**. No propagators, no sanitizers, no taint labels, no `options:`
+  block, and no Pro feature appear in a kernel rule. The taint-modeling matrix
+  is the one population with sanitizers and an `options:` block, in its own
+  `model-<language>.yaml`; it is never pooled with a kernel population and is
+  excluded from the kernel configuration hash.
 - The source is the source call itself; the sink is the sink call. No receiver
   or argument-position refinement is applied beyond the call pattern.
 - One process per case, always cold; no scan observes another case's files.
@@ -570,3 +574,79 @@ claim — it resolves all 14 scored Kotlin cases through the Java arm.
 Semgrep results are not a proxy for any other adapter's population, no Semgrep
 population is evidence for another Semgrep language, and the scored 14-assertion
 subset is never comparable to another tool's full 32- or 30-assertion kernel.
+
+## Taint-modeling matrix
+
+`run-semgrep-modeling --language <language>` runs that language's twenty-four
+assertions of the
+[benchmark-controlled taint-modeling matrix](../../docs/modeling-matrix.md),
+writing `reports/semgrep-<language>-modeling.json` with retained evidence under
+`reports/raw/semgrep-<language>-modeling/`. Java is wave M1's first language;
+see [the Java modeling report](../../docs/java-modeling.md).
+
+The preregistered partition awards Semgrep CE **three of six categories** — S
+(declared sources and sinks), Z (declared sanitizers), and E (framework entry
+points) — and `rules/model-<language>.yaml` declares those three and only those
+three. P, O, and B are `unsupported` with the document's rationale retained
+verbatim, decided from the template ID before the scan, so twelve of the
+twenty-four assertions never reach the binary. Worth restating, because the
+expectation from the kernels is the opposite: **CE enters this matrix with a
+larger share of it than Bifrost does.** Modeling capability and propagation
+capability are not the same axis.
+
+Two things distinguish a modeling rule from a kernel rule.
+
+- **No placeholder.** A kernel rule carries `__DFB_SOURCE__` and `__DFB_SINK__`
+  because the endpoint identifiers vary per fixture. A modeling rule carries the
+  benchmark's *declarations*, which are the same for the whole population by
+  construction, so they are written out literally once and the runner names the
+  committed file directly. There is still no per-case, per-template, or
+  per-polarity branching.
+- **`options: taint_assume_safe_functions: true`,** which is the
+  [load-bearing-model requirement](../../docs/modeling-matrix.md#the-load-bearing-model-requirement).
+  Without it the pinned CE engine carries taint from any tainted argument to a
+  call's result, and every category-Z cell would be decided by that default
+  rather than by the `Clean.scrub` declaration. The runner refuses a modeling
+  rule that does not set it.
+
+That option is load-bearing in both directions, and the second direction costs a
+cell: with unmodeled calls assumed safe, CE also stops carrying taint through
+the *undeclared* sanitizer-shaped sibling that template 6's positive routes
+through. That cell is reported as observed. It is not tuned around — adding a
+propagator for the sibling would be tuning toward the expected polarity, and P
+is a category this partition does not award CE in the first place.
+
+**The modeling rules are excluded from the kernel configuration hash.** A
+kernel report's `configuration_hash` is a SHA-256 over every committed *kernel*
+rule; `semgrep_rule_paths` skips `model-*.yaml`, so a modeling wave landing for
+a new language does not move a hash that describes nothing about the kernel the
+report is evidence for. Each modeling report's hash is over its own artifact.
+
+### Observed: Java
+
+`reports/semgrep-java-modeling.json`, CE 1.174.0 `--oss-only`, 24 results: 5
+`reached`, 7 `not-reached`, 12 `unsupported`. On the twelve scored assertions,
+**11/12 correct** — five true positives, six true negatives, no false positive,
+one false negative, and no `inconclusive`.
+
+Categories S and E are 4/4. Category E is the counter-intuitive one and the
+preregistration called it in advance: an intraprocedural engine handles an
+uncalled handler *well*, because the sink is inside the handler's own body and
+the absence of a caller is the normal case rather than a problem. The
+declaration binds selectively — the undeclared siblings `onIgnored` and
+`onUndeclared` produce nothing.
+
+Two load-bearing counterfactuals are retained as documented probes: removing the
+`Config.fetchRemote(...)` source turns template 1's positive from one finding to
+none (template 2 unchanged), and removing the `onRequest` entry-point source
+turns template 9's positive from one finding to none (template 10 unchanged).
+
+The single miss is template 6's positive, and its cause is the load-bearing
+option itself. A crossed four-run probe over the two variables shows that with
+`taint_assume_safe_functions: true` the `Clean.scrub` declaration is inert — the
+option, not the sanitizer, is what decides every category-Z cell — while with it
+off the declaration decides both negatives and template 6's positive is reported
+correctly. Category Z is nonetheless scored with the option on, because that is
+what the preregistration and the runner gate require, and the outcome is
+published as observed. The narrow amendment this supports is stated in
+[the Java modeling report](../../docs/java-modeling.md), not applied here.

@@ -1,0 +1,14 @@
+(policy
+  :schema-version 1
+  :id "dataflowbench.taint.model-java"
+  :name "DataFlowBench Java taint-modeling matrix"
+  :message "A benchmark-declared model carried input to the declared sink"
+  :severity warning
+  :analysis (analysis :type taint :mode may
+    :call-modeling (call-modeling :unmodeled require-model)
+    :sources (endpoint-set :entries [
+      (source :id input :display-name "benchmark input" :categories [input.user-controlled] :selector (rql :schema-version 1 (language java (call :callee (name "dfb_source")))) :bind return-value :labels [attacker-controlled])
+      (source :id declared-source :display-name "Config.fetchRemote" :categories [input.user-controlled] :selector (rql :schema-version 1 (language java (call :callee (name "fetchRemote")))) :bind return-value :labels [attacker-controlled])])
+    :sinks (endpoint-set :entries [
+      (sink :id sink :display-name "benchmark sink" :categories [data.sensitive] :selector (rql :schema-version 1 (language java (call :callee (name "dfb_sink")))) :dangerous-operand (argument :index 0) :accepts [attacker-controlled])
+      (sink :id declared-sink :display-name "Audit.record" :categories [data.sensitive] :selector (rql :schema-version 1 (language java (call :callee (name "record")))) :dangerous-operand (argument :index 0) :accepts [attacker-controlled])])) )
