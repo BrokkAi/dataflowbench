@@ -1,0 +1,63 @@
+{
+  "schema_version": 2,
+  "id": "dfb-taint-javascript-model-sanitizer-kill-positive",
+  "template_id": "dfb-template-model-sanitizer-kill",
+  "polarity": "positive",
+  "score_tier": "modeling",
+  "track": "taint",
+  "language": "javascript",
+  "semantic_dimensions": [
+    "sanitizer"
+  ],
+  "feature_tags": [
+    "modeled-external",
+    "sanitized"
+  ],
+  "model_profile": "benchmark-controlled",
+  "fixture_files": [
+    "Clean.js"
+  ],
+  "source_anchors": [
+    {
+      "marker": "DFB-SOURCE: model-sanitizer-kill-input",
+      "file": "Clean.js",
+      "line_hint": 5
+    }
+  ],
+  "sink_anchors": [
+    {
+      "marker": "DFB-SINK: model-sanitizer-kill-sink",
+      "file": "Clean.js",
+      "line_hint": 9
+    }
+  ],
+  "expected_flows": [
+    {
+      "source": "DFB-SOURCE: model-sanitizer-kill-input",
+      "sink": "DFB-SINK: model-sanitizer-kill-sink"
+    }
+  ],
+  "expected_nonflows": [],
+  "witness_checkpoints": [],
+  "expected_analysis_capability": {
+    "kind": "declared-sanitizer-activation"
+  },
+  "execution_budget": {
+    "wall_clock_seconds": 60,
+    "peak_memory_mb": 512
+  },
+  "fixture_provenance": {
+    "kind": "authored",
+    "origin": "DataFlowBench",
+    "revision": "m3-modeling-javascript",
+    "license": "MIT"
+  },
+  "tool_model_references": {
+    "codeql": {
+      "query": "adapters/codeql/javascript/queries/JavaScriptModeling.ql"
+    },
+    "bifrost": {
+      "policy": "adapters/bifrost/policies/model-javascript.rqlp"
+    }
+  }
+}

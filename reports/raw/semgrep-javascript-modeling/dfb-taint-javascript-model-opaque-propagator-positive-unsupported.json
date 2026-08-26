@@ -1,0 +1,13 @@
+{
+  "adapter": "semgrep",
+  "case_id": "dfb-taint-javascript-model-opaque-propagator-positive",
+  "evidence_kind": "retained-capability-decision",
+  "modeling_category": "P",
+  "modeling_category_label": "declared propagators",
+  "partition_source": "docs/modeling-matrix.md#per-tool-capability-partition",
+  "pinned_tool_identity": "Semgrep CE 1.174.0",
+  "reason": "category P — declared propagators — is unsupported for Semgrep CE 1.174.0 by the preregistered modeling partition (docs/modeling-matrix.md#per-tool-capability-partition): verified twice over. First, `pattern-propagators` binds `to:` to a **metavariable**, not to a call's return value: a propagator written `pattern: prop($A,$B) / from: $B / to: prop(...)` produced no finding when the default pass-through was disabled. Second, with the default enabled, CE reports the sink whether taint sits at the declared position 1 or the undeclared position 0 — so both cells of template 4 are decided by the default, not the model, and the load-bearing-model requirement is violated either way. Arg→return propagation is outside CE's propagator vocabulary",
+  "stage": "preregistered-modeling-partition",
+  "state": "unsupported",
+  "template_id": "dfb-template-model-opaque-propagator"
+}

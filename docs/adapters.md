@@ -308,9 +308,10 @@ categories to unsupported activation rather than gating them.
 **The execution arm lands with the language.** The arm that invokes an
 analyzer over a *scored* cell is written by the pull request that authors that
 adapter's declarations for that language. Python's four are wired (wave M1,
-`docs/python-modeling.md`); Java's and JavaScript's are not, and until they are
-a scored cell in those languages is a hard error rather than a synthesized
-outcome, which the adapter contract at the head of this document forbids. The
+`docs/python-modeling.md`) and JavaScript's four are wired on the same runners
+(`docs/javascript-modeling.md`); Java's are not, and until they are a scored
+cell in that language is a hard error rather than a synthesized outcome, which
+the adapter contract at the head of this document forbids. The
 `unsupported` arm is independent of all of that, so a tool that declines every
 category a population carries produces a whole, validated report of retained
 capability decisions without the analyzer being invoked at all.
