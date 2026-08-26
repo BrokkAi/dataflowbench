@@ -637,3 +637,80 @@ with the mandated option set, removing `pattern-sanitizers` changes nothing,
 because the option already suppresses the flow through `scrub(...)`. The
 sanitizer declaration is load-bearing only with the option *off*, which is how
 the preregistration verified it and is not how the cells are scored.
+
+## JavaScript taint-modeling matrix
+
+Its own population, never pooled with a kernel. The
+[modeling matrix](../../docs/modeling-matrix.md) preregisters **three of six
+categories** for Semgrep CE — S (declared sources and sinks), Z (declared
+sanitizers), and E (framework entry points) — which is a *larger* share of that
+matrix than Bifrost's one of six, because modeling capability and propagation
+capability are not the same axis. Categories P, O, and B are `unsupported`,
+decided from the template identity before the scan and retained with the
+document's own rationale, and category Z is scored by one of its two templates:
+template 6 is `unsupported` activation under
+[Amendment A3](../../docs/modeling-matrix.md#a3--2026-08-26-semgreps-sanitizer-selectivity-cell-is-undecidable-by-construction).
+Ten of the twenty-four cells are scored.
+
+- Artifact: `adapters/semgrep/rules/model-javascript.yaml`. It declares
+  `pattern-sources`, `pattern-sinks`, and `pattern-sanitizers` for the S, Z, and
+  E declarations and carries no `pattern-propagators`, no summary, and no
+  persistence boundary — a declined category is absent from the artifact.
+- **The modeling rule is outside the kernel configuration hash.** Every
+  published Semgrep kernel report cites a SHA-256 over the *eleven* kernel rule
+  files; `semgrep_rule_paths` excludes any `model-*.yaml`, so committing a
+  modeling artifact for a different population does not invalidate reports for a
+  configuration no kernel ever loaded. The modeling report's own
+  `configuration_hash` covers its own artifact. A test pins both facts,
+  including the eleven-rule hash literally, so a rule-set change fails the suite
+  rather than a run.
+
+  **This exclusion is retroactive, and it had to be.** It landed with the
+  JavaScript row, one wave after `model-python.yaml` was committed. In the
+  interval, `semgrep_rule_paths` globbed every `.yaml` in the directory, so the
+  hash it computed was over twelve files
+  (`3b2c9e23…`) while all eleven published kernel reports and this README cite
+  the eleven-file hash `865d0bd2…`. Nothing recomputed it, so nothing failed —
+  which is exactly why the fact is written down here and pinned by a test: a
+  configuration hash that drifts without anything noticing is worse than one
+  that breaks loudly.
+- Nothing in the modeling rule is templated. The kernel rules substitute each
+  case's own endpoint identifiers into `__DFB_SOURCE__`/`__DFB_SINK__`; a
+  modeling rule that did the same would make every category-S negative pass for
+  a reason that has nothing to do with the declaration. The runner also does
+  **not** consult the challenge tier's tag-keyed capability exclusion here:
+  modeling capability decisions come from the preregistered modeling partition,
+  and consulting a second partition would let a fixture's `feature_tags` move a
+  modeling cell.
+- Load-bearing model: the rule sets `options: taint_assume_safe_functions:
+  true`, which the preregistration verified against this pinned CE binary
+  removes the engine's default argument-to-result pass-through. The runner
+  refuses the artifact without it.
+- Invocation:
+  `cargo run -- run-semgrep-modeling --language javascript --semgrep <path>`,
+  writing `reports/semgrep-javascript-modeling.json` with raw evidence under
+  `reports/raw/semgrep-javascript-modeling/`.
+- Result on the pinned CE binary under the amended partition: **all 10 scored
+  assertions decided correctly** — five `reached` positives and five
+  `not-reached` negatives, with no false positive, no false negative, and no
+  `inconclusive` or `runner-error`. That is the same clean sweep the Python row
+  records. Its configuration hash is
+  `51a89f8648c6b87fb33259285ebee7b7de332f213ea00cd6e0accb737ba62e3c`.
+- Amendment A3's cell behaves here exactly as it does on Python, which is what
+  made the amendment a language-independent one: template 6's positive routes
+  through the *undeclared* `sanitize`, and `taint_assume_safe_functions: true`
+  — the load-bearing switch this category is required to run under — stops
+  taint at any call the rule does not model, so the name heuristic the pair
+  exists to catch is never reached. Nothing was tuned to recover it; the cell is
+  retained `unsupported` and the pre-amendment reading is kept in
+  [the JavaScript modeling matrix](../../docs/javascript-modeling.md).
+- **Load-bearing verification.** Removing the `Audit.record` sink pattern from a
+  copy of the rule drops `model-declared-sink-positive` from one finding to zero
+  (`reports/raw/load-bearing-javascript-modeling/semgrep-declared-sink-{with,without}-model.json`).
+- The declared sanitizer is spelled `scrub(...)` rather than `Clean.scrub(...)`,
+  because the JavaScript fixtures declare it as a top-level function; the reason
+  is a Joern frontend property and is recorded in
+  [the JavaScript modeling matrix](../../docs/javascript-modeling.md#the-four-encodings).
+  Semgrep binds the entity by name either way.
+
+See [the JavaScript modeling matrix](../../docs/javascript-modeling.md).

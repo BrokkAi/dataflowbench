@@ -1195,3 +1195,54 @@ as Semgrep's only false negative before this amendment reclassified it.
 all wave-M1 languages.
 
 **Freezes invalidated.** None.
+
+### A4 — 2026-08-26: the reflective opaque-propagator body is not unfollowable by Joern's `jssrc2cpg`
+
+**What changed.** Nothing in the partition, the templates, or the rollout. This
+amendment is an **evidentiary correction**: it withdraws a factual claim the
+preregistration made about the opaque body of
+[template 3](#3-dfb-template-model-opaque-propagator) and leaves every scored
+cell exactly where [A2](#a2--2026-08-26-joerns-propagator-and-summary-categories-are-not-load-bearing)
+put it.
+
+**What the preregistration claimed.** Template 3's assertability rests on the
+stated property that *no engine reaches the sink through this body on its own*,
+argued from the v0.4.0 freeze's twelve `dfb-template-chal-reflective-invocation`
+positive cells, in which Joern answers `not-reached` in all six of its. The
+preregistration carried that property forward to this matrix's own reflective
+body — JavaScript's `Reflect.get(_impl, name).apply(null, [v])` — and concluded
+that a `reached` positive there could only mean the model was activated.
+
+**What was measured.** It is false for Joern's `jssrc2cpg` on the pinned
+4.0.610. Run `adapters/joern/queries/modeling.sc` over
+`cases/taint/javascript/model-opaque-propagator-positive` under the committed
+`adapters/joern/semantics/model-javascript.semantics` — which, after A2,
+declares **nothing whatsoever** for `Opaque.carry`, or for category P at all —
+and the engine still reports one flow from `dfb_source` to `dfb_sink`. The
+retained evidence is
+`reports/raw/load-bearing-javascript-modeling/joern-opaque-propagator-unmodeled.json`
+(`state: analyzed`, `declared_semantic_count: 3`, `flows: 1`), produced by
+`scripts/probe-javascript-modeling-load-bearing.sh`. The frontend plus the
+engine's default unmodeled-call pass-through carries taint through the
+reflective self-dispatch unaided. The v0.4.0 kernel evidence is not contradicted
+— that fixture is a computed-key dispatch table, and this one is `Reflect` — so
+what is corrected is the *transfer* of the property from one body shape to the
+other, for one engine and one frontend.
+
+**Why the scoring is unaffected.** A2 already moved Joern's category-P and
+category-O cells to unsupported activation for the stronger reason that
+`FlowSemantic` mappings cannot restrict the default pass-through. A `reached`
+here is therefore never scored for Joern in the first place, and A4 removes no
+cell that A2 had left standing. The three engines whose category-P cells remain
+scored are unaffected: CodeQL's `carry` step is demonstrably load-bearing on
+JavaScript (`codeql-opaque-propagator-{with,without}-model.sarif.json`: one
+result becomes zero), and Bifrost and Semgrep decline category P by partition.
+
+**Tools, templates, and languages touched.** Joern only; template 3 (and, by
+the same body, template 4); JavaScript measured directly. The claim is withdrawn
+as a *general* one rather than re-asserted for the other languages: the
+preregistration's blanket transfer is what was wrong, and each language's
+retained evidence now stands on its own.
+
+**Freezes invalidated.** None. No modeling report is bound by any freeze, and
+no core or challenge result changes.

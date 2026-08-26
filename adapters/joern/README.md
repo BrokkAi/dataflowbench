@@ -736,13 +736,20 @@ asserts the committed file has neither a blank line nor a `//` comment.
 
 ### Results and the load-bearing finding
 
-Under the amended partition the run decides **13 of 16** scored assertions
-correctly — 6 `reached` positives and 7 `not-reached` negatives — with no false
-positive, 2 false negatives (category B's two positives), and 1 `inconclusive`
-(template 1's negative, whose declared source has no call site, which is the
-point of that negative). The other 8 cells are preregistered `unsupported`.
-Its configuration hash is
+Under the amended partition the run decides **14 of 16** scored assertions
+correctly — 6 `reached` positives and 8 `not-reached` negatives — with no false
+positive, no `inconclusive`, and 2 false negatives (category B's two
+positives). The other 8 cells are preregistered `unsupported`. Its
+configuration hash is
 `f7f9d9d53572b098556aa86d16b3e9a0b3e9c7a4226526090bb03fd61bbf1eb8`.
+
+Template 1's negative was published as `inconclusive` in the first run, because
+its declared source has no call site — which is the point of that negative —
+and the kernels' endpoint rule reads a zero endpoint count as a run that never
+observed both benchmark-controlled endpoints. The JavaScript row added a
+modeling-specific rule under which an absent *declared* endpoint **is** the
+assertion rather than an incomplete run, and this report is the re-run under
+it. Only that one cell moved, and only from `inconclusive` to `not-reached`.
 
 **Load-bearing verification, on category Z:** removing `clean.scrub`'s
 `NilSemantics` entry from the semantics file turns
@@ -795,3 +802,166 @@ matrix](../../docs/python-modeling.md).
 
 Joern results are not a proxy for any other adapter's population, and no
 Joern population is evidence for another Joern language.
+
+## JavaScript modeling matrix
+
+`run-joern-modeling --language javascript` runs the same twenty-four cells for
+JavaScript — **sixteen scored and eight preregistered `unsupported`** — through
+the same `modeling.sc` and the same `--param` surface documented above, with
+`language=JSSRC` and
+`semanticsPath=adapters/joern/semantics/model-javascript.semantics`. Everything
+in the Python section about the script, the selector shapes, and the parser's
+two silent failure modes applies unchanged; only the semantics file and the
+frontend differ.
+
+**Result on the pinned distribution: 14 of 16 scored assertions match** — 6
+`reached` positives and 8 `not-reached` negatives, with no false positive, no
+`inconclusive`, and no `runner-error`. Categories S, Z, and E are 4/4; category
+B is 2/4, its two positives being false negatives. Its configuration hash is
+`44faa326bd6f6b0d37fa963f4342d0e498bc2e617b34709a2a2e6e61aeaf07e6`. That is the
+same shape as the Python row, cell for cell.
+
+**Load-bearing verification, on category Z:** removing the
+`"Clean.js::program:scrub"` `NilSemantics` entry turns
+`model-sanitizer-kill-negative` from 0 flows into 1, the same demonstration
+Python's row records.
+
+### A measured `jssrc2cpg` naming fact, published as observed
+
+Joern's flow-semantics surface is keyed by the CPG's `methodFullName`, and on
+4.0.610 the JavaScript frontend gives three different answers depending on how
+the callee is written:
+
+| Callee shape | `methodFullName` at the call site |
+| --- | --- |
+| top-level function — `scrub(v)` | `Clean.js::program:scrub` |
+| object-literal member — `Clean.scrub(v)` | `{ scrub: (value: ANY) => ANY; … }:scrub` |
+| class method, static or instance | `<unknownFullName>` |
+
+Only the first denotes the entity. The second is the member's inferred
+*structural type*, so it changes when the object's shape changes; the third is
+shared by every unresolved call in the CPG. The declared sanitizer is therefore
+a top-level function in the JavaScript fixtures — the one shape whose identity
+this frontend exposes — and the category-B declaration is left spelled as the
+model names it (`Store.put` / `Store.get`), with the consequence measured
+rather than designed around: it cannot bind, and Python's row shows the same
+two false negatives where it *does* bind, so the limitation the cell reaches is
+the engine's.
+
+### Amendment A4: the reflective body is followed unaided
+
+The retained probe
+`reports/raw/load-bearing-javascript-modeling/joern-opaque-propagator-unmodeled.json`
+runs `model-opaque-propagator-positive` under the committed semantics file,
+which after A2 declares nothing at all for category P, and records
+`declared_semantic_count: 3` with `flows: 1`. The pinned engine follows
+`Reflect.get(_impl, name).apply(null, [v])` on its own. The preregistration
+claimed that body was unfollowable by all four engines, argued from the v0.4.0
+freeze's twelve reflective-invocation cells — which use a *computed-key
+dispatch*, not `Reflect`. The claim is withdrawn by
+[Amendment A4](../../docs/modeling-matrix.md#a4--2026-08-26-the-reflective-opaque-propagator-body-is-not-unfollowable-by-joerns-jssrc2cpg),
+which is an evidentiary correction and changes no cell: A2 had already moved
+Joern's category-P cells to unsupported activation for the stronger reason.
+
+See [the JavaScript modeling matrix](../../docs/javascript-modeling.md).
+
+## Model assumptions
+
+- The `benchmark-controlled` profile applies: the query is given the same
+  source and sink identities the Bifrost and CodeQL kernels are given, and
+  nothing from Joern's own default source/sink models is used.
+- Only the OSS data-flow engine's default semantics are used. No custom
+  semantics, no additional propagation or sanitizer models, and no engine
+  configuration are supplied. This applies to the kernels, which is every
+  population on this page except the modeling matrix above: that one supplies a
+  benchmark-controlled flow-semantics file by design, through a separate script,
+  and is scored on its own tier.
+- The source is the source call's return value; the sink is the sink call's
+  positional arguments. Receiver arguments are excluded.
+- One CPG per case, always built cold from source; no CPG is reused between
+  cases or between languages.
+- Each fixture is analyzed exactly as it is checked in — a single source file
+  and no compilation step. The Rust kernel is the one exception to "no
+  generated build manifest": `rust2cpg` cannot see a loose `.rs` file, so a
+  minimal `Cargo.toml` is synthesized per workspace. It adds no code, no
+  dependency, and no compilation; the fixture bytes are still exactly the
+  checked-in ones.
+
+Joern results are not a proxy for any other adapter's population, and no
+Joern population is evidence for another Joern language.
+
+## Taint-modeling matrix
+
+The kernel script is untouched by the
+[modeling matrix](../../docs/modeling-matrix.md), and the statements under
+[model assumptions](#model-assumptions) above remain statements about the
+kernels: they supply no semantics and read their two endpoint identifiers out
+of each case's own DFB markers.
+
+A modeling run is the opposite by construction, because the matrix scores
+whether an engine can *be told* things. Joern's preregistered partition covers
+**all six categories**, and its declarations live in two committed files, both
+hash-bound into every modeling report:
+
+| File | Declarations |
+| --- | --- |
+| `adapters/joern/queries/modeling.sc` | sources, sinks, and entry-point roots, as query roots |
+| `adapters/joern/semantics/model-<language>.semantics` | propagators, sanitizers, summaries, and persistence boundaries, as `FlowSemantic`/`FlowMapping` entries |
+
+```bash
+joern --script adapters/joern/queries/modeling.sc \
+  --param inputPath=<workspace> \
+  --param language=<JSSRC|JAVASRC|PYTHONSRC> \
+  --param semanticsPath=adapters/joern/semantics/model-<language>.semantics \
+  --param outputPath=reports/raw/joern-<language>-modeling/<case id>.json
+```
+
+Three things about it are worth stating, because they are exactly what a reader
+would otherwise assume from the kernel:
+
+- **The endpoints are not the case's.** `modeling.sc` names the benchmark's
+  declared identities itself. Anchoring them to each fixture's own markers, the
+  way the kernel does, would make every category-S negative pass for a reason
+  that has nothing to do with the declaration.
+- **The semantics file is keyed by member name.** `jssrc2cpg` names a method on
+  an object literal by its inferred structural type, so `modeling.sc` re-keys
+  each committed entry onto a regex over the CPG's method full names. The
+  entity, the role, and the binding are what the file states; only the lookup
+  key is adapted. Positions in the file are the declaration language's positions
+  shifted by one, because Joern counts the receiver as 0.
+- **Only the engine's own operator flows are added.** No language model
+  catalog, no framework semantics, and no engine configuration beyond the
+  benchmark's declarations.
+
+Evidence retention, scratch isolation, and outcome normalization are the
+kernel's: one CPG per case built cold, the console project inside the per-case
+scratch root, and flow elements reconciled against the case's own sink anchors.
+
+See [the JavaScript modeling matrix](../../docs/javascript-modeling.md).
+
+**JavaScript result on the pinned distribution: 20 of 24 assertions match**,
+twelve `reached` and twelve `not-reached`, with no `inconclusive` and no
+`runner-error`. Categories S, Z, and E are 4/4; P is 3/4, O is 3/4, and B is
+2/4. The four mismatches are enumerated in
+[the JavaScript modeling matrix](../../docs/javascript-modeling.md#mismatches-in-full)
+— a positional-fidelity false positive, a field-separation false positive, and
+the two persistence positives, where the roundtrip does not close.
+
+**One caveat on that score, published rather than buried.** Joern's category-P
+*positive* is not load-bearing on JavaScript: removing the `Opaque.carry` flow
+mapping leaves the finding in place, because the pinned engine follows the
+fixture's `Reflect.get(_impl, name).apply(null, [v])` body on its own. The
+category-P negative still is load-bearing, and so is every other scored
+category — the retained probe under
+`reports/raw/load-bearing-javascript-modeling/` shows the sanitizer declaration
+suppressing a finding the engine would otherwise report. A proposed amendment
+to the preregistration is written up in the language document; nothing here was
+tuned around it.
+
+**One binding limitation, also published.** `jssrc2cpg` gives a static
+class-method call — `Store.put("k", …)` — the method full name
+`<unknownFullName>`, and Joern's flow-semantics surface is keyed by method full
+name, so the category-B declaration cannot attach to it. Re-running the same
+declarations against an object-literal spelling in which the call *does* resolve
+and the semantics *are* found still produces zero flows, so the published
+outcome is the same either way.

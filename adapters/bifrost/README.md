@@ -567,3 +567,50 @@ the same four fixtures under a policy identical except that the two declared
 endpoint entries are removed drops both positives from one finding to zero. The
 model, not the propagation, is what this tier scores. See [the Python
 taint-modeling matrix](../../docs/python-modeling.md).
+
+## JavaScript taint-modeling matrix
+
+Separate from every kernel above, and never pooled with one. The
+[modeling matrix](../../docs/modeling-matrix.md) scores whether an engine can
+*be told* things — a source it did not know, a sanitizer, a summary, an entry
+point, a persistence boundary — and its preregistered partition gives this
+adapter **category S alone**: declared sources and declared sinks, two of the
+twelve templates. The other five categories are `unsupported` for the
+standalone policy CLI, decided from the template identity before the binary is
+invoked and retained verbatim with the document's own rationale.
+
+- Artifact: `adapters/bifrost/policies/model-javascript.rqlp`. It declares two
+  `:sources` entries bound to `return-value` and two `:sinks` entries bound to
+  `(argument :index 0)`, and nothing for categories P, Z, O, E, or B — a
+  declined category is absent from the artifact rather than approximated in it.
+- Load-bearing model: the policy sets `:call-modeling (call-modeling :unmodeled
+  require-model)`, which the pinned v0.10.6 build accepts. The runner refuses
+  the artifact if that setting is missing, and refuses it again if it names the
+  kernel policies' permissive default. This does **not** promote the
+  preregistration's *to be verified* cell for category P: that cell also needs a
+  propagator or transform declaration surface, which no committed policy has,
+  and promoting a partition cell is a dated amendment on the preregistration
+  rather than a side effect of a language pull request.
+- Invocation:
+  `cargo run -- run-bifrost-modeling --language javascript --bifrost <path>`,
+  writing `reports/bifrost-javascript-modeling.json` with raw evidence under
+  `reports/raw/bifrost-javascript-modeling/`.
+- Result on the pinned build: of the four scored assertions, one is decided
+  (`model-declared-source-negative`, `not-reached`) and three are
+  `inconclusive`, retaining `partial_discovery` and "procedure value-flow
+  snapshot … is unknown". The policy does bind both declared identities — the
+  retained reports carry the finding message and a source-to-sink display path
+  — but the run does not complete, so the outcome is incomplete analysis and
+  never a negative. That is the same JavaScript incompleteness the frozen
+  kernel slice records, and it is the whole of the difference between this row
+  and the Python row above, which decides all four of its cells. The other
+  twenty assertions are capability coverage with no analyzer invocation at all.
+  Its configuration hash is
+  `25e1399fb9b7c2e5dfa469d56e9b4edeccff655f1d8866290f4f55d29eb7117f`.
+- **Load-bearing verification.** Removing the `Config.fetchRemote` source entry
+  from a copy of the policy drops `model-declared-source-positive` from one
+  finding to zero
+  (`reports/raw/load-bearing-javascript-modeling/bifrost-declared-source-{with,without}-model.json`).
+  The declaration, not the propagation, is what the cell scores.
+
+See [the JavaScript modeling matrix](../../docs/javascript-modeling.md).

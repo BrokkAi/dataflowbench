@@ -1,0 +1,65 @@
+# Benchmark-controlled Semgrep CE taint rule: the DataFlowBench JavaScript
+# taint-modeling matrix.
+#
+# Unlike the kernel rules, nothing here is templated. The kernel rules carry
+# `__DFB_SOURCE__`/`__DFB_SINK__` placeholders that the runner fills from each
+# fixture's own DFB markers, because a kernel measures whether the engine can
+# follow a flow between endpoints it has been handed. This matrix measures
+# whether the engine can *be told* what the endpoints are, so the identities
+# below are the benchmark's model declarations and are the same for all twelve
+# scored assertions. Anchoring them to the case would make every category-S
+# negative pass for a reason that has nothing to do with the declaration.
+#
+# The preregistered partition
+# (docs/modeling-matrix.md#semgrep-ce--11740---oss-only) scores categories S,
+# Z, and E for Semgrep CE. Categories P, O, and B are `unsupported`, so this
+# file declares nothing for them — no propagator, no summary, and no
+# persistence boundary. The runner never hands Semgrep a case from those
+# categories.
+#
+# `taint_assume_safe_functions: true` is the load-bearing-model requirement of
+# docs/modeling-matrix.md#the-load-bearing-model-requirement. Without it the
+# pinned CE engine carries taint from any tainted argument to a call's result,
+# and a declared sanitizer would not be what decides a category-Z cell. The
+# runner refuses this file if the option is absent.
+rules:
+  - id: dfb-taint-modeling-javascript
+    languages: [js]
+    severity: WARNING
+    message: a benchmark-declared source reaches a benchmark-declared sink
+    mode: taint
+    options:
+      taint_assume_safe_functions: true
+    pattern-sources:
+      # Category S — `Config.fetchRemote`, out: return. The undeclared sibling
+      # `Config.fetchLocal` is deliberately absent.
+      - pattern: Config.fetchRemote(...)
+      # The benchmark input every template but 1 begins from.
+      - pattern: dfb_source(...)
+      # Category E — entry-point roots. The declared handler's parameter 0 is
+      # tainted on entry, and nothing in the fixture calls the handler. The
+      # undeclared siblings `onIgnored` and `onUndeclared` are absent.
+      #
+      # The pattern names the object-literal member rather than a bare
+      # `function onRequest(...)`, because that is how the JavaScript fixtures
+      # spell `Handler.onRequest` and the pinned CE parser matches a named
+      # function *expression* only in that position. This is the same entity
+      # identity the other three adapters bind — type `Handler`, member
+      # `onRequest`, position 0 — written in JavaScript's own syntax.
+      - patterns:
+          - pattern: "onRequest: function onRequest($P) { ... }"
+          - focus-metavariable: $P
+      - patterns:
+          - pattern: "onDeclared: function onDeclared($P) { ... }"
+          - focus-metavariable: $P
+    pattern-sanitizers:
+      # Category Z — the declared `scrub`, in: 0. The sanitizer-shaped sibling
+      # `sanitize` is deliberately not declared; template 6 exists to show that
+      # the model binds by entity identity rather than by name shape.
+      - pattern: scrub(...)
+    pattern-sinks:
+      # Category S — `Audit.record`, in: 0. The undeclared sibling
+      # `Audit.discard` is deliberately absent.
+      - pattern: Audit.record(...)
+      # The benchmark sink.
+      - pattern: dfb_sink(...)

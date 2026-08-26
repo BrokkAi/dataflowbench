@@ -207,9 +207,12 @@ it.
 
 ## Results
 
-Four runs, one per adapter, sequential, on the pinned distributions and one
-fixture revision (`sha256:32bbebe…`), under the partition **as amended** by A2
-and A3. Every raw evidence document is retained under
+Four runs, one per adapter, sequential, on the pinned distributions, under the
+partition **as amended** by A2 and A3. Three of the four are the original runs
+at fixture revision `sha256:32bbebe…`; Joern's was re-taken when the JavaScript
+row landed a modeling-specific endpoint rule that moved one of its cells, and
+carries the later revision. Nothing else about it changed — same semantics
+file, same script, same `configuration_hash`. Every raw evidence document is retained under
 `reports/raw/<tool>-python-modeling/`. These are the first modeling numbers
 this benchmark has ever produced; there is nothing to compare them to and
 nothing was re-run toward an expected polarity.
@@ -218,7 +221,7 @@ nothing was re-run toward an expected polarity.
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | Bifrost v0.10.6 | 4 | **4** | 0 | 0 | 20 | 0 | `578414e1…` |
 | CodeQL 2.26.3 | 24 | **24** | 0 | 0 | 0 | 0 | `cd3c4fee…` |
-| Joern 4.0.610 | 16 | **13** | 0 | 2 | 8 | 1 | `f7f9d9d5…` |
+| Joern 4.0.610 | 16 | **14** | 0 | 2 | 8 | 0 | `f7f9d9d5…` |
 | Semgrep CE 1.174.0 | 10 | **10** | 0 | 0 | 14 | 0 | `a2eefdc0…` |
 
 Two of those denominators moved with the amendments, and moved *before* these
@@ -237,8 +240,8 @@ is most likely to blur:
   rationale retained verbatim beside the report. It is never a negative and
   never a false negative, and it reduces nobody's denominator: a tool that
   declines a category simply has no assertions in it.
-- **`inconclusive` (1 cell)** is execution coverage, decided *after* the run.
-  It is never `not-reached`.
+- **`inconclusive` (0 cells)** would be execution coverage, decided *after* the
+  run, and is never `not-reached`. This matrix has none.
 - **Missing model (0 cells)** is unrepresentable: the runner refuses to start
   without the artifact, and `modeling.sc` refuses a semantics file that parses
   to nothing.
@@ -247,7 +250,7 @@ is most likely to blur:
 
 | Category | Bifrost | CodeQL | Joern | Semgrep CE |
 | --- | --- | --- | --- | --- |
-| S — sources and sinks | 4/4 | 4/4 | 3/4 (1 inconclusive) | 4/4 |
+| S — sources and sinks | 4/4 | 4/4 | 4/4 | 4/4 |
 | P — propagators | *unsupported* | 4/4 | *unsupported* (A2) | *unsupported* |
 | Z — sanitizers | *unsupported* | 4/4 | 4/4 | 2/2 (template 6 *unsupported*, A3) |
 | O — summaries | *unsupported* | 4/4 | *unsupported* (A2) | *unsupported* |
@@ -267,14 +270,26 @@ procedures and the engine does not link the two uses of the module-level
 close the roundtrip. Both negatives are correct, so this is a clean
 "declared but not activated" reading rather than a coin flip.
 
-**Joern, template 1 negative — inconclusive.** The declared source
-`fetch_remote` has no call site in that fixture, which is the whole point of
-the negative, and the shared Joern normalization records "resolved 0 source
+### One cell corrected after publication
+
+**Joern, template 1 negative — was `inconclusive`, is `not-reached`.** The
+declared source `fetch_remote` has no call site in that fixture, which is the
+whole point of the negative, and the first run recorded "resolved 0 source
 node(s) and 1 sink node(s); the run never observed both benchmark-controlled
-endpoints" as `inconclusive`. That rule is the kernels' and is applied
-uniformly rather than special-cased for this tier. The cell is execution
-coverage, not a miss, and Joern's category S is therefore three assertions
-rather than four.
+endpoints" as `inconclusive` — the kernels' rule, applied uniformly rather than
+special-cased for this tier.
+
+That uniformity was wrong for this tier, and the JavaScript row said so with a
+population of its own in which several negatives are constructed the same way.
+An absent **declared** endpoint is the content of a modeling negative, not an
+incomplete run; only an empty extraction (`method_count == 0`) is incomplete.
+The modeling path now carries `JoernEndpointRule::AbsenceIsTheAssertion` — the
+kernels keep `BothMustBeObserved`, unchanged — the endpoint counts are retained
+as a diagnostic rather than converted, and `reports/joern-python-modeling.json`
+has been re-run under it. One cell moved, from `inconclusive` to `not-reached`,
+and Joern's category S is four assertions rather than three. This is a runner
+correction and not an amendment: no partition cell, template, or capability
+decision changed.
 
 ## What the amendments were made of
 
@@ -292,7 +307,8 @@ the measurement behind it stays on the record.
 
 **Pre-amendment run (Joern 24 scored, Semgrep 12 scored).** Joern decided 19 of
 24, with two false positives — template 4's negative and template 8's negative
-— two false negatives in category B, and one `inconclusive`. Semgrep decided
+— two false negatives in category B, and one `inconclusive` (template 1's
+negative, since corrected as described above). Semgrep decided
 11 of 12, its single false negative being template 6's positive. The two Joern
 false positives and the Semgrep false negative are precisely the cells the
 amendments reclassified; the remaining outcomes are unchanged in the runs

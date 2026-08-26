@@ -855,3 +855,66 @@ array-element positive, and exception-catch positive; the loop-carried negative
 is a false positive. No special or error outcomes occurred. Every Python case
 uses an isolated cold database, with no database or compiled fixture reused
 across the pair.
+
+## JavaScript taint-modeling matrix
+
+Its own population, never pooled with a kernel. The
+[modeling matrix](../../docs/modeling-matrix.md) preregisters **all six
+categories** as scored for CodeQL, which is unsurprising: a query language whose
+data-flow configuration *is* a model declaration surface has no category to
+decline. The interesting question is not whether it can be told, but whether the
+resulting semantics match the declaration.
+
+- Artifact: `adapters/codeql/javascript/queries/JavaScriptModeling.ql`, inside
+  the language's existing `qlpack`. That location departs from the
+  preregistration's schematic `adapters/codeql/queries/<Language>Modeling.ql`
+  because a query outside a pack cannot resolve its `codeql/javascript-all`
+  dependency; the declaration surface is unchanged. The report's
+  `configuration_hash` binds the query file itself, the same one path every
+  modeling run's hash binds.
+- No data extensions are used. The query owns the model, which is this adapter's
+  stated design, and the case metadata remains analyzer neutral.
+- One `DataFlow::ConfigSig` carries all six categories at once: `isSource` over
+  the declared source calls *and* over the parameter node of each declared entry
+  point, `isSink` over argument 0 of the declared sink calls, `isBarrier` over
+  the declared sanitizer's input position and over the two explicit no-flow
+  declarations, and five `isAdditionalFlowStep` clauses for the propagators, the
+  summaries, and the persistence pair. There is no per-case, per-template, or
+  per-polarity branching; each fixture simply contains only the entities its own
+  template names, and every undeclared sibling the negatives turn on appears
+  nowhere in the query.
+- Invocation:
+  `cargo run -- run-codeql-modeling --language javascript --codeql <path>`
+  (optionally `--codeql-packs <dir>`), writing
+  `reports/codeql-javascript-modeling.json` with raw SARIF under
+  `reports/raw/codeql-javascript-modeling/`. One cold database per case, the
+  same as every kernel, and findings reconciled against the case's own sink
+  anchors.
+
+**Result on the pinned CLI: 24 of 24 assertions match** — twelve `reached`
+positives and twelve `not-reached` negatives, with no `inconclusive` and no
+`runner-error`, across all six categories, the same clean sweep the Python row
+records. That is a statement about model activation and binding only; it is not
+a propagation-kernel score and is never added to one. Its configuration hash is
+`50f4a31741fd93420f8bdad4cbdea9f07dacda897641e12fdcdcdc8d7810e910`.
+
+**Load-bearing verification** is the category-P probe in
+`scripts/probe-javascript-modeling-load-bearing.sh`: the same database analyzed
+with and without the four-line `Opaque.carry` propagator step returns one SARIF
+result and then zero
+(`reports/raw/load-bearing-javascript-modeling/codeql-opaque-propagator-{with,without}-model.sarif.json`).
+CodeQL does not follow the reflective body on its own — which, on the same
+fixture, [Joern does](../joern/README.md#amendment-a4-the-reflective-body-is-followed-unaided).
+
+Two encoding details are worth recording because a first attempt got them
+wrong and the run said so. Templates 3 and 7 need their *explicit no-flow*
+declarations — `Opaque.block` and `Bridge.hold` — stated as barriers rather than
+merely omitted: their bodies are byte-identical to their declared siblings', and
+CodeQL reads a body it can see, so `Bridge.hold` produced a false positive until
+the no-flow summary was actually declared. And the category-B store identity is
+the receiver's *binding*, not its data-flow local source: `put` and `get` sit in
+two different procedures by construction, so each reference has its own local
+source even when both denote the same store, and comparing local sources linked
+nothing.
+
+See [the JavaScript modeling matrix](../../docs/javascript-modeling.md).

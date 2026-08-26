@@ -1,0 +1,64 @@
+{
+  "schema_version": 2,
+  "id": "dfb-taint-javascript-model-declared-source-negative",
+  "template_id": "dfb-template-model-declared-source",
+  "polarity": "negative",
+  "negative_mechanism": "unrelated-value",
+  "score_tier": "modeling",
+  "track": "taint",
+  "language": "javascript",
+  "semantic_dimensions": [
+    "local-flow"
+  ],
+  "feature_tags": [
+    "modeled-external",
+    "interprocedural-one-hop"
+  ],
+  "model_profile": "benchmark-controlled",
+  "fixture_files": [
+    "Config.js"
+  ],
+  "source_anchors": [
+    {
+      "marker": "DFB-SOURCE: model-declared-source-input",
+      "file": "Config.js",
+      "line_hint": 2
+    }
+  ],
+  "sink_anchors": [
+    {
+      "marker": "DFB-SINK: model-declared-source-sink",
+      "file": "Config.js",
+      "line_hint": 10
+    }
+  ],
+  "expected_flows": [],
+  "expected_nonflows": [
+    {
+      "source": "DFB-SOURCE: model-declared-source-input",
+      "sink": "DFB-SINK: model-declared-source-sink"
+    }
+  ],
+  "witness_checkpoints": [],
+  "expected_analysis_capability": {
+    "kind": "declared-source-activation"
+  },
+  "execution_budget": {
+    "wall_clock_seconds": 60,
+    "peak_memory_mb": 512
+  },
+  "fixture_provenance": {
+    "kind": "authored",
+    "origin": "DataFlowBench",
+    "revision": "m3-modeling-javascript",
+    "license": "MIT"
+  },
+  "tool_model_references": {
+    "bifrost": {
+      "policy": "adapters/bifrost/policies/model-javascript.rqlp"
+    },
+    "codeql": {
+      "query": "adapters/codeql/javascript/queries/JavaScriptModeling.ql"
+    }
+  }
+}

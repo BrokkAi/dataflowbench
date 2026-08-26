@@ -349,12 +349,13 @@ of that evidence is frozen in the published v0.3.0 release.
 
 The [taint-modeling matrix](docs/modeling-matrix.md) is a separate tier that
 asks a separate question: not whether an engine can follow flow it can see, but
-whether it can be **told** things. Its Python row —
-twenty-four benchmark-controlled modeling assertions, four per-adapter model
-encodings, and the first runs of all four adapters against them — is
-[the Python taint-modeling matrix](docs/python-modeling.md). Modeling cases are
-`score_tier: "modeling"`, are never in a core denominator, and are never
-averaged with a kernel score.
+whether it can be **told** things. Each language row is twenty-four
+benchmark-controlled modeling assertions, four per-adapter model encodings, and
+one run per adapter against them:
+[the Python taint-modeling matrix](docs/python-modeling.md) and
+[the JavaScript taint-modeling matrix](docs/javascript-modeling.md). Modeling
+cases are `score_tier: "modeling"`, are never in a core denominator, and are
+never averaged with a kernel score.
 
 The [Java kernel contract](docs/java-kernel.md) records the origin population
 and the first landed wave of the [challenge-tier

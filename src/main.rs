@@ -4257,6 +4257,9 @@ enum CodeqlLanguage<'a> {
     /// Ruby is buildless: the extractor parses the sources directly under
     /// `--build-mode=none`, with no manifest, project file, or traced compile.
     Ruby,
+    /// JavaScript is extracted by the `javascript` extractor with no build mode
+    /// at all — the same invocation the ECMA kernels already use.
+    Javascript,
 }
 
 impl CodeqlLanguage<'_> {
@@ -4269,6 +4272,7 @@ impl CodeqlLanguage<'_> {
             Self::CFamily => "cpp",
             Self::Rust => "rust",
             Self::Ruby => "ruby",
+            Self::Javascript => "javascript",
         }
     }
 
@@ -5639,6 +5643,19 @@ struct SinkAnchorLocation {
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 enum AnchorDialect {
     Ecma,
+    /// JavaScript and TypeScript as the **modeling matrix** spells them:
+    /// identical to `Ecma` except that a member-qualified call —
+    /// `Audit.record(v)` — counts as a callsite of `record`.
+    ///
+    /// No kernel needs this. Every kernel endpoint is a bare function, so
+    /// `Ecma` deliberately refuses a `.`-prefixed match and cannot mistake a
+    /// property access for a call to the endpoint. A modeling declaration
+    /// binds a *type* and a *member*, though, so the declared sink of
+    /// `dfb-template-model-declared-sink` is only ever reached through its
+    /// receiver, and refusing the member form would leave that case with no
+    /// resolvable sink callsite at all. This variant is used by the modeling
+    /// runners and by nothing else, so no kernel reconciliation changes.
+    EcmaMember,
     CSharp,
     Go,
     Cpp,
@@ -5655,7 +5672,7 @@ impl AnchorDialect {
     /// markers sit on the endpoint function's own declaration line.
     fn declared_function_name(self, declaration: &str, marker: &str) -> Option<String> {
         match self {
-            Self::Ecma => ecma_function_name(declaration, marker),
+            Self::Ecma | Self::EcmaMember => ecma_function_name(declaration, marker),
             Self::CSharp
             | Self::Go
             | Self::Cpp
@@ -5670,6 +5687,7 @@ impl AnchorDialect {
     fn is_call(self, line: &str, function_name: &str) -> bool {
         match self {
             Self::Ecma => ecma_function_call(line, function_name),
+            Self::EcmaMember => ecma_member_function_call(line, function_name),
             Self::CSharp | Self::Go | Self::Java => {
                 parameter_list_function_call(line, function_name)
             }
@@ -6057,6 +6075,33 @@ fn ecma_function_call(line: &str, function_name: &str) -> bool {
     false
 }
 
+/// `ecma_function_call`, with a member-qualified callsite accepted.
+///
+/// The two differ in exactly one respect: `Audit.record(v)` and `alpha.get(k)`
+/// are callsites of `record` and `get` here and are not under `Ecma`. The
+/// declaration guard is unchanged — a `function record(...)` declaration is
+/// still never counted as a call — and so is the literal and comment stripping.
+fn ecma_member_function_call(line: &str, function_name: &str) -> bool {
+    let line = code_without_literals(line);
+    let mut search_from = 0;
+    while let Some(offset) = line[search_from..].find(function_name) {
+        let start = search_from + offset;
+        let end = start + function_name.len();
+        let before = line[..start].chars().next_back();
+        let after = line[end..]
+            .chars()
+            .find(|character| !character.is_whitespace());
+        if !before.is_some_and(ecma_identifier_char) && after == Some('(') {
+            let prefix = line[..start].trim_end();
+            if !prefix.ends_with("function") {
+                return true;
+            }
+        }
+        search_from = end;
+    }
+    false
+}
+
 /// Blank out string literals and drop line comments so a call-shaped substring
 /// inside a literal never counts as a callsite. Single/double/backtick quotes
 /// with backslash escapes are common to every dialect reconciled here; only the
@@ -6365,6 +6410,11 @@ fn run_codeql_case_for_language(
         CodeqlLanguage::Ruby => {
             callsite_anchored_outcome(case_path, case, &sarif, AnchorDialect::Ruby)
         }
+        // Only the modeling matrix reaches this arm: the JavaScript kernel runs
+        // through `run_codeql_ecma_case`, whose dialect is the plain ECMA one.
+        CodeqlLanguage::Javascript => {
+            callsite_anchored_outcome(case_path, case, &sarif, AnchorDialect::EcmaMember)
+        }
         CodeqlLanguage::Java => {
             let result_count = sarif_result_count(&sarif);
             let diagnostics = sarif_messages(&sarif);
@@ -6549,6 +6599,9 @@ fn codeql_database_create_args(
         | CodeqlLanguage::CFamily
         | CodeqlLanguage::Rust
         | CodeqlLanguage::Ruby => args.push("--build-mode=none".to_string()),
+        // The `javascript` extractor takes no build mode; the ECMA kernels
+        // invoke it exactly this way.
+        CodeqlLanguage::Javascript => {}
         // CodeQL 2.26.3 rejects `--build-mode=none` for Go. The traced build is
         // `go build ./...` over the workspace's synthesized module manifest,
         // which keeps extraction reproducible instead of letting autobuild
@@ -7157,7 +7210,13 @@ fn run_joern_case(
                 ));
             }
         };
-        let (outcome, diagnostics) = joern_flow_outcome(case_path, case, &raw, kernel.dialect());
+        let (outcome, diagnostics) = joern_flow_outcome(
+            case_path,
+            case,
+            &raw,
+            kernel.dialect(),
+            JoernEndpointRule::BothMustBeObserved,
+        );
         Ok((outcome, diagnostics, raw_path.clone()))
     })();
 
@@ -7225,21 +7284,43 @@ enum EvidenceAnchorMatch {
     Ambiguous,
 }
 
+/// What an absent endpoint means in a Joern evidence document.
+///
+/// The two populations differ here, and the difference is not a convenience.
+/// A **kernel** case is parameterized by its *own* markers, so both endpoints
+/// are present in every fixture by construction and their absence can only mean
+/// the frontend failed to see them — which is execution coverage, never a
+/// negative. A **modeling** case is parameterized by the benchmark's
+/// *declarations*, and a declared endpoint being absent from a fixture is
+/// frequently the whole content of the assertion: template 2's negative calls
+/// `Audit.discard`, so the declared sink `Audit.record` is not there, and that
+/// is exactly the answer the cell is asking for. Applying the kernel's rule
+/// there would turn every correct category-S negative into `inconclusive`.
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+enum JoernEndpointRule {
+    /// Kernels: a fixture always contains both of its own endpoints, so an
+    /// absent one is an incomplete run.
+    BothMustBeObserved,
+    /// The modeling matrix: an absent *declared* endpoint is the assertion.
+    /// Only an empty extraction is incomplete.
+    AbsenceIsTheAssertion,
+}
+
 /// Normalize one retained Joern evidence document.
 ///
 /// A flow counts as `reached` only when one of its elements sits on a callsite
 /// of the case's own anchored sink function, in the anchored file — the same
 /// reconciliation the CodeQL C#, Go, C, C++, and Rust kernels apply to SARIF.
 /// Every other state is preserved distinctly: a script, frontend, or engine
-/// failure is `runner-error`; a run that never observed one of the two
-/// benchmark-controlled endpoints, or that produced flows with no usable
-/// location, is `inconclusive`. Only a complete run that observed both
-/// endpoints and produced no flow is `not-reached`.
+/// failure is `runner-error`; a run that produced flows with no usable
+/// location, or that `endpoints` says did not observe what it had to, is
+/// `inconclusive`. Only a complete run that produced no flow is `not-reached`.
 fn joern_flow_outcome(
     case_path: &Path,
     case: &Value,
     raw: &Value,
     dialect: AnchorDialect,
+    endpoints: JoernEndpointRule,
 ) -> (&'static str, Vec<String>) {
     match raw["state"].as_str() {
         Some("analyzed") => {}
@@ -7284,16 +7365,39 @@ fn joern_flow_outcome(
             vec!["Joern evidence lacks its endpoint node counts".to_string()],
         );
     };
-    if sources == 0 || sinks == 0 {
-        return (
-            "inconclusive",
-            vec![format!(
-                "Joern resolved {sources} source node(s) and {sinks} sink node(s); the run never observed both benchmark-controlled endpoints"
-            )],
-        );
+    match endpoints {
+        JoernEndpointRule::BothMustBeObserved if sources == 0 || sinks == 0 => {
+            return (
+                "inconclusive",
+                vec![format!(
+                    "Joern resolved {sources} source node(s) and {sinks} sink node(s); the run never observed both benchmark-controlled endpoints"
+                )],
+            );
+        }
+        JoernEndpointRule::AbsenceIsTheAssertion
+            if raw["method_count"].as_u64().is_none_or(|count| count == 0) =>
+        {
+            return (
+                "inconclusive",
+                vec![
+                    "Joern extracted no method from the fixture; the run produced nothing to analyze".to_string(),
+                ],
+            );
+        }
+        _ => {}
     }
     if flows.is_empty() {
-        return ("not-reached", Vec::new());
+        let mut diagnostics = Vec::new();
+        if endpoints == JoernEndpointRule::AbsenceIsTheAssertion && (sources == 0 || sinks == 0) {
+            // Retained, not converted: which declared endpoints the fixture
+            // even contains is exactly what several modeling negatives are
+            // about, and a reader should be able to see it without opening the
+            // raw evidence.
+            diagnostics.push(format!(
+                "Joern resolved {sources} declared source node(s) and {sinks} declared sink node(s) in this fixture"
+            ));
+        }
+        return ("not-reached", diagnostics);
     }
     let sink_locations = match sink_anchor_locations(case_path, case, dialect) {
         Ok(locations) => locations,
@@ -7747,8 +7851,22 @@ fn run_semgrep_kernel(binary: &Path, kernel: SemgrepKernel) -> Result<()> {
     Ok(())
 }
 
-/// Every committed Semgrep rule file, so one `configuration_hash` binds the
-/// whole rule set rather than only the language that happened to run.
+/// The prefix a Semgrep **modeling** artifact carries. A modeling rule lives
+/// beside the kernel rules but belongs to a different population, so it is
+/// excluded from the kernel configuration hash below.
+const SEMGREP_MODELING_RULE_PREFIX: &str = "model-";
+
+/// Every committed Semgrep **kernel** rule file, so one `configuration_hash`
+/// binds the whole kernel rule set rather than only the language that happened
+/// to run.
+///
+/// Modeling rules are deliberately excluded. The kernel hash is a statement
+/// about the kernel configuration, and the modeling matrix is its own
+/// population with its own artifact, its own report, and its own hash — which
+/// `plan_modeling_run` computes over that artifact alone. Folding a modeling
+/// rule in here would have made every published kernel report cite a hash that
+/// no longer described the configuration it ran under, for a file no kernel
+/// ever loads.
 fn semgrep_rule_paths() -> Result<BTreeSet<PathBuf>> {
     let mut paths = BTreeSet::new();
     for entry in fs::read_dir(SEMGREP_RULES_DIR)
@@ -7756,7 +7874,11 @@ fn semgrep_rule_paths() -> Result<BTreeSet<PathBuf>> {
         .filter_map(std::result::Result::ok)
     {
         let path = entry.path();
-        if path.is_file() && path.extension().is_some_and(|ext| ext == "yaml") {
+        let modeling = path
+            .file_name()
+            .and_then(|name| name.to_str())
+            .is_some_and(|name| name.starts_with(SEMGREP_MODELING_RULE_PREFIX));
+        if path.is_file() && !modeling && path.extension().is_some_and(|ext| ext == "yaml") {
             paths.insert(path);
         }
     }
@@ -8558,8 +8680,9 @@ fn modeling_joern_source_kind(template: &str) -> Result<&'static str> {
 fn modeling_codeql_language(language: ModelingLanguage) -> Result<CodeqlLanguage<'static>> {
     match language {
         ModelingLanguage::Python => Ok(CodeqlLanguage::Python),
-        // Java and JavaScript wire their own execution arms with their own
-        // pull requests, exactly as this one wires Python's.
+        ModelingLanguage::Javascript => Ok(CodeqlLanguage::Javascript),
+        // Java wires its own execution arm with its own pull request, exactly
+        // as these two wire Python's and JavaScript's.
         other => bail!(
             "the CodeQL modeling execution arm for {} is not wired yet; it lands with that language's pull request (docs/modeling-matrix.md#rollout-plan)",
             other.display_name()
@@ -8570,6 +8693,7 @@ fn modeling_codeql_language(language: ModelingLanguage) -> Result<CodeqlLanguage
 fn modeling_joern_frontend(language: ModelingLanguage) -> Result<&'static str> {
     match language {
         ModelingLanguage::Python => Ok("PYTHONSRC"),
+        ModelingLanguage::Javascript => Ok("JSSRC"),
         other => bail!(
             "the Joern modeling execution arm for {} is not wired yet; it lands with that language's pull request (docs/modeling-matrix.md#rollout-plan)",
             other.display_name()
@@ -8580,6 +8704,11 @@ fn modeling_joern_frontend(language: ModelingLanguage) -> Result<&'static str> {
 fn modeling_anchor_dialect(language: ModelingLanguage) -> Result<AnchorDialect> {
     match language {
         ModelingLanguage::Python => Ok(AnchorDialect::Python),
+        // JavaScript reconciles under the member-qualified ECMA variant: a
+        // modeling declaration binds a type and a member, so a declared sink is
+        // reached through its receiver (`Audit.record(v)`), which the kernel
+        // dialect deliberately does not count as a callsite of `record`.
+        ModelingLanguage::Javascript => Ok(AnchorDialect::EcmaMember),
         other => bail!(
             "no modeling anchor dialect is wired for {} yet; it lands with that language's pull request (docs/modeling-matrix.md#rollout-plan)",
             other.display_name()
@@ -8844,7 +8973,18 @@ fn run_joern_modeling_case(
                 ));
             }
         };
-        let (outcome, diagnostics) = joern_flow_outcome(case_path, case, &raw, dialect);
+        // A modeling negative may legitimately contain no *declared* endpoint —
+        // template 2's negative calls `Audit.discard`, so the declared sink
+        // `Audit.record` is absent from the fixture by construction. That
+        // absence is the assertion, not an incomplete run; only an empty
+        // extraction is incomplete.
+        let (outcome, diagnostics) = joern_flow_outcome(
+            case_path,
+            case,
+            &raw,
+            dialect,
+            JoernEndpointRule::AbsenceIsTheAssertion,
+        );
         Ok((outcome, diagnostics, raw_path.clone()))
     })();
 
@@ -11765,6 +11905,7 @@ mod tests {
                 "state": "analyzed",
                 "source_node_count": 1,
                 "sink_node_count": 1,
+                "method_count": 3,
                 "flows": flows
             })
         };
@@ -11772,29 +11913,64 @@ mod tests {
             {"file": "/tmp/work/fixture.py", "line": 7, "code": "value"}
         ]}]));
         assert_eq!(
-            joern_flow_outcome(&case_path, &case, &matching, AnchorDialect::Python).0,
+            joern_flow_outcome(
+                &case_path,
+                &case,
+                &matching,
+                AnchorDialect::Python,
+                KERNEL_ENDPOINTS
+            )
+            .0,
             "reached"
         );
         let wrong_line = analyzed(json!([{"elements": [
             {"file": "fixture.py", "line": 6, "code": "value"}
         ]}]));
         assert_eq!(
-            joern_flow_outcome(&case_path, &case, &wrong_line, AnchorDialect::Python).0,
+            joern_flow_outcome(
+                &case_path,
+                &case,
+                &wrong_line,
+                AnchorDialect::Python,
+                KERNEL_ENDPOINTS
+            )
+            .0,
             "inconclusive"
         );
         let no_location = analyzed(json!([{"elements": [{"code": "value"}]}]));
         assert_eq!(
-            joern_flow_outcome(&case_path, &case, &no_location, AnchorDialect::Python).0,
+            joern_flow_outcome(
+                &case_path,
+                &case,
+                &no_location,
+                AnchorDialect::Python,
+                KERNEL_ENDPOINTS
+            )
+            .0,
             "inconclusive"
         );
         let empty_flow = analyzed(json!([{"elements": []}]));
         assert_eq!(
-            joern_flow_outcome(&case_path, &case, &empty_flow, AnchorDialect::Python).0,
+            joern_flow_outcome(
+                &case_path,
+                &case,
+                &empty_flow,
+                AnchorDialect::Python,
+                KERNEL_ENDPOINTS
+            )
+            .0,
             "inconclusive"
         );
         let clean = analyzed(json!([]));
         assert_eq!(
-            joern_flow_outcome(&case_path, &case, &clean, AnchorDialect::Python).0,
+            joern_flow_outcome(
+                &case_path,
+                &case,
+                &clean,
+                AnchorDialect::Python,
+                KERNEL_ENDPOINTS
+            )
+            .0,
             "not-reached"
         );
         fs::remove_dir_all(root).unwrap();
@@ -11812,8 +11988,13 @@ mod tests {
             "stage": "joern-script",
             "diagnostic": "java.lang.RuntimeException: frontend failed"
         });
-        let (outcome, diagnostics) =
-            joern_flow_outcome(&case_path, &case, &failed, AnchorDialect::Python);
+        let (outcome, diagnostics) = joern_flow_outcome(
+            &case_path,
+            &case,
+            &failed,
+            AnchorDialect::Python,
+            KERNEL_ENDPOINTS,
+        );
         assert_eq!(outcome, "runner-error");
         assert!(
             diagnostics
@@ -11831,7 +12012,14 @@ mod tests {
             json!({"flows": []}),
         ] {
             assert_eq!(
-                joern_flow_outcome(&case_path, &case, &broken, AnchorDialect::Python).0,
+                joern_flow_outcome(
+                    &case_path,
+                    &case,
+                    &broken,
+                    AnchorDialect::Python,
+                    KERNEL_ENDPOINTS
+                )
+                .0,
                 "runner-error"
             );
         }
@@ -11841,7 +12029,14 @@ mod tests {
             json!({"state": "analyzed", "source_node_count": 1, "sink_node_count": 0, "flows": []}),
         ] {
             assert_eq!(
-                joern_flow_outcome(&case_path, &case, &unobserved, AnchorDialect::Python).0,
+                joern_flow_outcome(
+                    &case_path,
+                    &case,
+                    &unobserved,
+                    AnchorDialect::Python,
+                    KERNEL_ENDPOINTS
+                )
+                .0,
                 "inconclusive"
             );
         }
@@ -11855,7 +12050,14 @@ mod tests {
             "flows": [{"elements": [{"file": "direct_flow.py", "line": 10}]}]
         });
         assert_eq!(
-            joern_flow_outcome(&case_path, &case, &flows, AnchorDialect::Python).0,
+            joern_flow_outcome(
+                &case_path,
+                &case,
+                &flows,
+                AnchorDialect::Python,
+                KERNEL_ENDPOINTS
+            )
+            .0,
             "inconclusive"
         );
     }
@@ -13098,6 +13300,9 @@ mod tests {
     }
 
     // -----------------------------------------------------------------------
+    /// The kernels' endpoint rule, used by every Joern kernel normalization test.
+    const KERNEL_ENDPOINTS: JoernEndpointRule = JoernEndpointRule::BothMustBeObserved;
+
     // The benchmark-controlled taint-modeling matrix.
     // -----------------------------------------------------------------------
 
@@ -13470,42 +13675,82 @@ mod tests {
         assert!(SCORE_TIER_ORDER.contains(&"modeling"));
     }
 
-    /// Wave M1's Python row: the balanced twenty-four over exactly the
-    /// preregistered twelve. Java and JavaScript land with their own pull
-    /// requests and have no modeling denominator until they do, which is
-    /// different from having a zero — every modeling run for them still fails
-    /// fast rather than writing an empty report.
+    /// Wave M1's rows: Python and JavaScript each carry a balanced
+    /// twenty-four over exactly the preregistered twelve. Java lands with its
+    /// own pull request and has no modeling denominator until it does, which is
+    /// different from having a zero — its runs still fail fast rather than
+    /// writing an empty report.
     #[test]
-    fn the_python_modeling_population_is_the_balanced_twenty_four() {
-        let python = select_modeling_cases(ModelingLanguage::Python).unwrap();
-        assert_eq!(python.len(), MODELING_CASE_COUNT);
-        let templates: BTreeSet<&str> = python
-            .iter()
-            .filter_map(|(_, case)| case["template_id"].as_str())
-            .collect();
-        assert_eq!(templates, MODELING_TEMPLATE_IDS.into_iter().collect());
-        for (path, case) in &python {
-            assert_eq!(case["score_tier"], "modeling", "{}", path.display());
-            assert_eq!(case["model_profile"], MODELING_MODEL_PROFILE);
+    fn the_modeling_populations_are_the_balanced_twenty_four() {
+        for (language, revision) in [
+            (ModelingLanguage::Python, "m3-modeling-python"),
+            (ModelingLanguage::Javascript, "m3-modeling-javascript"),
+        ] {
+            let population = select_modeling_cases(language).unwrap();
+            assert_eq!(population.len(), MODELING_CASE_COUNT);
+            let templates: BTreeSet<&str> = population
+                .iter()
+                .filter_map(|(_, case)| case["template_id"].as_str())
+                .collect();
+            assert_eq!(templates, MODELING_TEMPLATE_IDS.into_iter().collect());
+            for (path, case) in &population {
+                assert_eq!(case["score_tier"], "modeling", "{}", path.display());
+                assert_eq!(case["model_profile"], MODELING_MODEL_PROFILE);
+                assert_eq!(
+                    case["fixture_provenance"]["revision"],
+                    revision,
+                    "{}",
+                    path.display()
+                );
+                assert!(!smoke_population_case(case), "{}", path.display());
+                assert!(
+                    case["feature_tags"]
+                        .as_array()
+                        .unwrap()
+                        .iter()
+                        .any(|tag| tag == "modeled-external"),
+                    "{} lacks the modeled-external tag every case in this matrix carries",
+                    path.display()
+                );
+            }
+        }
+        assert!(
+            select_modeling_cases(ModelingLanguage::Java)
+                .unwrap()
+                .is_empty()
+        );
+    }
+
+    /// A modeling sink is reached through its receiver, so the modeling ECMA
+    /// dialect counts `Audit.record(v)` as a callsite of `record` where the
+    /// kernel dialect deliberately does not. Nothing else about the two
+    /// differs, and no kernel uses the member-qualified variant.
+    #[test]
+    fn the_modeling_ecma_dialect_accepts_a_member_qualified_callsite() {
+        assert!(AnchorDialect::EcmaMember.is_call("  Audit.record(dfb_source());", "record"));
+        assert!(!AnchorDialect::Ecma.is_call("  Audit.record(dfb_source());", "record"));
+        for dialect in [AnchorDialect::Ecma, AnchorDialect::EcmaMember] {
+            assert!(dialect.is_call("  dfb_sink(value);", "dfb_sink"));
+            // A declaration is never a callsite, and a longer identifier that
+            // merely ends with the member name is never one either.
+            assert!(!dialect.is_call("  record: function record(value) {},", "record"));
+            assert!(!dialect.is_call("  preRecord(value);", "record"));
             assert_eq!(
-                case["fixture_provenance"]["revision"],
-                "m3-modeling-python",
-                "{}",
-                path.display()
-            );
-            assert!(
-                case["feature_tags"]
-                    .as_array()
-                    .unwrap()
-                    .iter()
-                    .any(|tag| tag == "modeled-external"),
-                "{} lacks the modeled-external tag every case in this matrix carries",
-                path.display()
+                dialect.declared_function_name(
+                    "  record: function record(value) {}, // DFB-SINK: m",
+                    "DFB-SINK: m"
+                ),
+                Some("record".to_string())
             );
         }
-        for language in [ModelingLanguage::Java, ModelingLanguage::Javascript] {
-            assert!(select_modeling_cases(language).unwrap().is_empty());
-        }
+        assert_eq!(
+            modeling_anchor_dialect(ModelingLanguage::Javascript).unwrap(),
+            AnchorDialect::EcmaMember
+        );
+        assert_eq!(
+            modeling_anchor_dialect(ModelingLanguage::Python).unwrap(),
+            AnchorDialect::Python
+        );
     }
 
     /// The Joern source-selector shape is decided from the template identity,
@@ -13535,66 +13780,80 @@ mod tests {
 
     /// The equivalence contract's other half: an artifact must not declare a
     /// category the tool's partition marks `unsupported`, because the partition
-    /// — not the artifact — is what decides those cells. Bifrost's Python
-    /// policy therefore carries source and sink endpoint sets and nothing else,
-    /// and Semgrep's Python rule carries sources, sinks, and sanitizers and no
-    /// propagator or store vocabulary.
+    /// — not the artifact — is what decides those cells. Every language's
+    /// Bifrost policy therefore carries source and sink endpoint sets and
+    /// nothing else, its Semgrep rule carries sources, sinks, and sanitizers and
+    /// no propagator or store vocabulary, and its Joern semantics declares
+    /// nothing behind Amendment A2's declined categories P and O.
     #[test]
-    fn the_python_modeling_artifacts_declare_only_their_scored_categories() {
-        let policy =
-            fs::read_to_string(ModelingLanguage::Python.artifact(ModelingTool::Bifrost)).unwrap();
-        require_bifrost_modeling_load_bearing(&policy, "model-python.rqlp").unwrap();
-        for declined in [
-            ":sanitizers",
-            ":transforms",
-            ":external_models",
-            ":entry-points",
+    fn the_modeling_artifacts_declare_only_their_scored_categories() {
+        for (language, policy_name, rule_name, declined_joern_files) in [
+            (
+                ModelingLanguage::Python,
+                "model-python.rqlp",
+                "model-python.yaml",
+                ["opaque.py", "bridge.py"],
+            ),
+            (
+                ModelingLanguage::Javascript,
+                "model-javascript.rqlp",
+                "model-javascript.yaml",
+                ["Opaque.js", "Bridge.js"],
+            ),
         ] {
-            assert!(
-                !policy.contains(declined),
-                "the Bifrost Python modeling policy declares {declined}, which its partition marks unsupported"
-            );
-        }
+            let policy = fs::read_to_string(language.artifact(ModelingTool::Bifrost)).unwrap();
+            require_bifrost_modeling_load_bearing(&policy, policy_name).unwrap();
+            for declined in [
+                ":sanitizers",
+                ":transforms",
+                ":external_models",
+                ":entry-points",
+            ] {
+                assert!(
+                    !policy.contains(declined),
+                    "the Bifrost {policy_name} modeling policy declares {declined}, which its partition marks unsupported"
+                );
+            }
 
-        let rule =
-            fs::read_to_string(ModelingLanguage::Python.artifact(ModelingTool::Semgrep)).unwrap();
-        require_semgrep_modeling_load_bearing(&rule, "model-python.yaml").unwrap();
-        assert!(rule.contains("pattern-sanitizers"));
-        assert!(
-            !rule.contains("pattern-propagators"),
-            "the Semgrep Python modeling rule declares a propagator, which its partition marks unsupported"
-        );
+            let rule = fs::read_to_string(language.artifact(ModelingTool::Semgrep)).unwrap();
+            require_semgrep_modeling_load_bearing(&rule, rule_name).unwrap();
+            assert!(rule.contains("pattern-sanitizers"));
+            assert!(
+                !rule.contains("pattern-propagators"),
+                "the Semgrep {rule_name} modeling rule declares a propagator, which its partition marks unsupported"
+            );
 
-        // Amendment A2 declines Joern's categories P and O, so the semantics
-        // file must not declare their entities: the cells are decided by the
-        // partition, and a declaration behind them would be a claim the
-        // partition does not make.
-        for declined in ["opaque.py", "bridge.py"] {
-            assert!(
-                !fs::read_to_string(ModelingLanguage::Python.artifact(ModelingTool::Joern))
-                    .unwrap()
-                    .contains(&format!("\"{declined}")),
-                "the Joern Python semantics declares {declined}, whose categories Amendment A2 marks unsupported"
-            );
-        }
+            // Amendment A2 declines Joern's categories P and O, so the semantics
+            // file must not declare their entities: the cells are decided by the
+            // partition, and a declaration behind them would be a claim the
+            // partition does not make.
+            let semantics = fs::read_to_string(language.artifact(ModelingTool::Joern)).unwrap();
+            for declined in declined_joern_files {
+                assert!(
+                    !semantics.contains(&format!("\"{declined}")),
+                    "the Joern {} semantics declares {declined}, whose categories Amendment A2 marks unsupported",
+                    language.display_name()
+                );
+            }
 
-        // Joern's semantics file fails silently on a blank line or a `//`
-        // comment: both parse to an empty model with no error, and every scored
-        // cell would then be decided by the absence of a declaration. The rule
-        // is verified here rather than left to a run.
-        let semantics =
-            fs::read_to_string(ModelingLanguage::Python.artifact(ModelingTool::Joern)).unwrap();
-        for (number, line) in semantics.lines().enumerate() {
-            assert!(
-                !line.trim().is_empty(),
-                "line {} of the Joern Python semantics is blank; the pinned parser drops every declaration",
-                number + 1
-            );
-            assert!(
-                !line.trim_start().starts_with("//"),
-                "line {} of the Joern Python semantics uses a `//` comment, which the pinned parser does not recognize",
-                number + 1
-            );
+            // Joern's semantics file fails silently on a blank line or a `//`
+            // comment: both parse to an empty model with no error, and every
+            // scored cell would then be decided by the absence of a
+            // declaration. The rule is verified here rather than left to a run.
+            for (number, line) in semantics.lines().enumerate() {
+                assert!(
+                    !line.trim().is_empty(),
+                    "line {} of the Joern {} semantics is blank; the pinned parser drops every declaration",
+                    number + 1,
+                    language.display_name()
+                );
+                assert!(
+                    !line.trim_start().starts_with("//"),
+                    "line {} of the Joern {} semantics uses a `//` comment, which the pinned parser does not recognize",
+                    number + 1,
+                    language.display_name()
+                );
+            }
         }
     }
 
@@ -13715,18 +13974,117 @@ mod tests {
             "adapters/codeql/javascript/queries/JavaScriptModeling.ql"
         );
         // Each artifact arrives with the language pull request that authors its
-        // declarations. Python's four are committed; Java's and JavaScript's
-        // are not, and their runs stay hard errors until they are.
-        for language in [ModelingLanguage::Java, ModelingLanguage::Javascript] {
-            for tool in ModelingTool::ALL {
+        // declarations. Python's and JavaScript's four each are committed;
+        // Java's are not, and its runs stay hard errors until they are.
+        for tool in ModelingTool::ALL {
+            let artifact = ModelingLanguage::Java.artifact(tool);
+            assert!(!Path::new(artifact).exists(), "{artifact} exists already");
+            for language in [ModelingLanguage::Python, ModelingLanguage::Javascript] {
                 let artifact = language.artifact(tool);
-                assert!(!Path::new(artifact).exists(), "{artifact} exists already");
+                assert!(Path::new(artifact).is_file(), "{artifact} is missing");
             }
         }
-        for tool in ModelingTool::ALL {
-            let artifact = ModelingLanguage::Python.artifact(tool);
-            assert!(Path::new(artifact).is_file(), "{artifact} is missing");
-        }
         assert!(Path::new(JOERN_MODELING_SCRIPT).is_file());
+    }
+
+    /// An absent *declared* endpoint is the content of several modeling
+    /// negatives — template 2's negative calls `Audit.discard`, so the declared
+    /// sink `Audit.record` is not in the fixture at all. Under the kernels'
+    /// rule that would be `inconclusive`; under the modeling rule it is the
+    /// clean negative it is, with the endpoint counts retained rather than
+    /// converted. Only an empty extraction is incomplete.
+    #[test]
+    fn a_modeling_negative_may_legitimately_contain_no_declared_endpoint() {
+        let root = unique_test_dir("dataflowbench-joern-modeling-endpoints");
+        let case_path = root.join("case.json");
+        fs::write(
+            root.join("fixture.js"),
+            "function dfb_sink(v) {} // DFB-SINK: s\ndfb_sink(1);\n",
+        )
+        .unwrap();
+        let case = json!({
+            "sink_anchors": [{"marker": "DFB-SINK: s", "file": "fixture.js", "line_hint": 1}]
+        });
+        let absent = json!({
+            "state": "analyzed",
+            "source_node_count": 1,
+            "sink_node_count": 0,
+            "method_count": 4,
+            "flows": []
+        });
+        let (outcome, diagnostics) = joern_flow_outcome(
+            &case_path,
+            &case,
+            &absent,
+            AnchorDialect::EcmaMember,
+            JoernEndpointRule::AbsenceIsTheAssertion,
+        );
+        assert_eq!(outcome, "not-reached");
+        assert!(
+            diagnostics
+                .iter()
+                .any(|line| line.contains("0 declared sink node(s)"))
+        );
+        assert_eq!(
+            joern_flow_outcome(
+                &case_path,
+                &case,
+                &absent,
+                AnchorDialect::EcmaMember,
+                JoernEndpointRule::BothMustBeObserved
+            )
+            .0,
+            "inconclusive"
+        );
+        // An empty extraction is still incomplete under the modeling rule.
+        let mut empty = absent.clone();
+        empty["method_count"] = json!(0);
+        assert_eq!(
+            joern_flow_outcome(
+                &case_path,
+                &case,
+                &empty,
+                AnchorDialect::EcmaMember,
+                JoernEndpointRule::AbsenceIsTheAssertion
+            )
+            .0,
+            "inconclusive"
+        );
+        fs::remove_dir_all(&root).unwrap();
+    }
+
+    /// A Semgrep **modeling** rule lives beside the kernel rules but is not
+    /// part of the kernel configuration. Every published Semgrep kernel report
+    /// cites a hash over the eleven kernel rules, and committing a twelfth file
+    /// for a different population must not silently invalidate all eleven.
+    #[test]
+    fn a_semgrep_modeling_rule_is_outside_the_kernel_configuration_hash() {
+        let kernel_rules = semgrep_rule_paths().unwrap();
+        assert_eq!(kernel_rules.len(), 11);
+        let modeling = PathBuf::from(ModelingLanguage::Javascript.artifact(ModelingTool::Semgrep));
+        assert!(modeling.is_file());
+        assert!(!kernel_rules.contains(&modeling));
+        // The v0.4.0 freeze binds this hash; it is reproduced here rather than
+        // recomputed, so a rule-set change fails the suite instead of a run.
+        assert_eq!(
+            hash_paths(&kernel_rules).unwrap(),
+            "865d0bd2989f9ddd0b90f2d6675584e86706b109a033d4a1ac00bd21a617b100"
+        );
+    }
+
+    /// The committed JavaScript artifacts pass the gates the runner applies
+    /// before it will touch an analyzer, so a load-bearing regression in one
+    /// of them fails the test suite rather than a run.
+    #[test]
+    fn the_javascript_modeling_artifacts_are_load_bearing() {
+        let policy_path = ModelingLanguage::Javascript.artifact(ModelingTool::Bifrost);
+        require_bifrost_modeling_load_bearing(
+            &fs::read_to_string(policy_path).unwrap(),
+            policy_path,
+        )
+        .unwrap();
+        let rule_path = ModelingLanguage::Javascript.artifact(ModelingTool::Semgrep);
+        require_semgrep_modeling_load_bearing(&fs::read_to_string(rule_path).unwrap(), rule_path)
+            .unwrap();
     }
 }
