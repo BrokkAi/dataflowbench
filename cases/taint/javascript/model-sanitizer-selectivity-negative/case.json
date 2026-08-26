@@ -16,20 +16,20 @@
   ],
   "model_profile": "benchmark-controlled",
   "fixture_files": [
-    "ModelSanitizerSelectivityNegative.js"
+    "Clean.js"
   ],
   "source_anchors": [
     {
       "marker": "DFB-SOURCE: model-sanitizer-selectivity-input",
-      "file": "ModelSanitizerSelectivityNegative.js",
-      "line_hint": 1
+      "file": "Clean.js",
+      "line_hint": 9
     }
   ],
   "sink_anchors": [
     {
       "marker": "DFB-SINK: model-sanitizer-selectivity-sink",
-      "file": "ModelSanitizerSelectivityNegative.js",
-      "line_hint": 5
+      "file": "Clean.js",
+      "line_hint": 13
     }
   ],
   "expected_flows": [],
@@ -56,6 +56,9 @@
   "tool_model_references": {
     "codeql": {
       "query": "adapters/codeql/javascript/queries/JavaScriptModeling.ql"
+    },
+    "bifrost": {
+      "policy": "adapters/bifrost/policies/model-javascript.rqlp"
     }
   }
 }

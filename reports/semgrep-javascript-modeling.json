@@ -1,14 +1,14 @@
 {
   "adapter_version": "0.1.0",
   "cold_or_warm": "cold",
-  "configuration_hash": "2f57faacc30f93a357f45cbd962711eec3bcd1e4a38fc16b1a9938a976e34713",
-  "ended_at_unix_seconds": 1787739367,
-  "fixture_revision": "sha256:07ff8c703d91373ef9fdcdb41e48f1d1746a4d1ad18db38dea34e9d0828aa52a",
+  "configuration_hash": "51a89f8648c6b87fb33259285ebee7b7de332f213ea00cd6e0accb737ba62e3c",
+  "ended_at_unix_seconds": 1787747764,
+  "fixture_revision": "sha256:213f7571388ba8f32dabcc386ff79fb2263a4940864646b28a338bbd8a9cec05",
   "results": [
     {
       "case_id": "dfb-taint-javascript-model-declared-sink-negative",
       "diagnostics": [],
-      "duration_ms": 6301,
+      "duration_ms": 2422,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/semgrep-javascript-modeling/dfb-taint-javascript-model-declared-sink-negative.json",
@@ -23,7 +23,7 @@
     {
       "case_id": "dfb-taint-javascript-model-declared-sink-positive",
       "diagnostics": [],
-      "duration_ms": 3719,
+      "duration_ms": 2179,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/semgrep-javascript-modeling/dfb-taint-javascript-model-declared-sink-positive.json",
@@ -38,7 +38,7 @@
     {
       "case_id": "dfb-taint-javascript-model-declared-source-negative",
       "diagnostics": [],
-      "duration_ms": 10542,
+      "duration_ms": 1990,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/semgrep-javascript-modeling/dfb-taint-javascript-model-declared-source-negative.json",
@@ -53,7 +53,7 @@
     {
       "case_id": "dfb-taint-javascript-model-declared-source-positive",
       "diagnostics": [],
-      "duration_ms": 12444,
+      "duration_ms": 2070,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/semgrep-javascript-modeling/dfb-taint-javascript-model-declared-source-positive.json",
@@ -68,7 +68,7 @@
     {
       "case_id": "dfb-taint-javascript-model-entrypoint-parameter-negative",
       "diagnostics": [],
-      "duration_ms": 15265,
+      "duration_ms": 1962,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/semgrep-javascript-modeling/dfb-taint-javascript-model-entrypoint-parameter-negative.json",
@@ -83,7 +83,7 @@
     {
       "case_id": "dfb-taint-javascript-model-entrypoint-parameter-positive",
       "diagnostics": [],
-      "duration_ms": 13783,
+      "duration_ms": 1879,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/semgrep-javascript-modeling/dfb-taint-javascript-model-entrypoint-parameter-positive.json",
@@ -98,7 +98,7 @@
     {
       "case_id": "dfb-taint-javascript-model-entrypoint-selectivity-negative",
       "diagnostics": [],
-      "duration_ms": 17513,
+      "duration_ms": 1984,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/semgrep-javascript-modeling/dfb-taint-javascript-model-entrypoint-selectivity-negative.json",
@@ -113,7 +113,7 @@
     {
       "case_id": "dfb-taint-javascript-model-entrypoint-selectivity-positive",
       "diagnostics": [],
-      "duration_ms": 18417,
+      "duration_ms": 1857,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/semgrep-javascript-modeling/dfb-taint-javascript-model-entrypoint-selectivity-positive.json",
@@ -130,7 +130,7 @@
       "diagnostics": [
         "category P — declared propagators — is unsupported for Semgrep CE 1.174.0 by the preregistered modeling partition (docs/modeling-matrix.md#per-tool-capability-partition): verified twice over. First, `pattern-propagators` binds `to:` to a **metavariable**, not to a call's return value: a propagator written `pattern: prop($A,$B) / from: $B / to: prop(...)` produced no finding when the default pass-through was disabled. Second, with the default enabled, CE reports the sink whether taint sits at the declared position 1 or the undeclared position 0 — so both cells of template 4 are decided by the default, not the model, and the load-bearing-model requirement is violated either way. Arg→return propagation is outside CE's propagator vocabulary"
       ],
-      "duration_ms": 1,
+      "duration_ms": 0,
       "outcome": "unsupported",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/semgrep-javascript-modeling/dfb-taint-javascript-model-opaque-propagator-negative-unsupported.json",
@@ -196,7 +196,7 @@
     {
       "case_id": "dfb-taint-javascript-model-sanitizer-kill-negative",
       "diagnostics": [],
-      "duration_ms": 15194,
+      "duration_ms": 2114,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/semgrep-javascript-modeling/dfb-taint-javascript-model-sanitizer-kill-negative.json",
@@ -211,7 +211,7 @@
     {
       "case_id": "dfb-taint-javascript-model-sanitizer-kill-positive",
       "diagnostics": [],
-      "duration_ms": 13871,
+      "duration_ms": 2329,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/semgrep-javascript-modeling/dfb-taint-javascript-model-sanitizer-kill-positive.json",
@@ -225,11 +225,13 @@
     },
     {
       "case_id": "dfb-taint-javascript-model-sanitizer-selectivity-negative",
-      "diagnostics": [],
-      "duration_ms": 12524,
-      "outcome": "not-reached",
+      "diagnostics": [
+        "category Z — declared sanitizers — is unsupported for Semgrep CE 1.174.0 by the preregistered modeling partition (docs/modeling-matrix.md#per-tool-capability-partition): Semgrep CE cannot express sanitizer selectivity and the safe-function assumption in one invocation: taint_assume_safe_functions suppresses flow through the undeclared sanitizer-lookalike, so the positive is undecidable by construction (Amendment A3)"
+      ],
+      "duration_ms": 0,
+      "outcome": "unsupported",
       "peak_memory_mb": null,
-      "raw_output": "reports/raw/semgrep-javascript-modeling/dfb-taint-javascript-model-sanitizer-selectivity-negative.json",
+      "raw_output": "reports/raw/semgrep-javascript-modeling/dfb-taint-javascript-model-sanitizer-selectivity-negative-unsupported.json",
       "sink_anchors": [
         "DFB-SINK: model-sanitizer-selectivity-sink"
       ],
@@ -240,11 +242,13 @@
     },
     {
       "case_id": "dfb-taint-javascript-model-sanitizer-selectivity-positive",
-      "diagnostics": [],
-      "duration_ms": 12291,
-      "outcome": "not-reached",
+      "diagnostics": [
+        "category Z — declared sanitizers — is unsupported for Semgrep CE 1.174.0 by the preregistered modeling partition (docs/modeling-matrix.md#per-tool-capability-partition): Semgrep CE cannot express sanitizer selectivity and the safe-function assumption in one invocation: taint_assume_safe_functions suppresses flow through the undeclared sanitizer-lookalike, so the positive is undecidable by construction (Amendment A3)"
+      ],
+      "duration_ms": 0,
+      "outcome": "unsupported",
       "peak_memory_mb": null,
-      "raw_output": "reports/raw/semgrep-javascript-modeling/dfb-taint-javascript-model-sanitizer-selectivity-positive.json",
+      "raw_output": "reports/raw/semgrep-javascript-modeling/dfb-taint-javascript-model-sanitizer-selectivity-positive-unsupported.json",
       "sink_anchors": [
         "DFB-SINK: model-sanitizer-selectivity-sink"
       ],
@@ -258,7 +262,7 @@
       "diagnostics": [
         "category B — persistence boundaries — is unsupported for Semgrep CE 1.174.0 by the preregistered modeling partition (docs/modeling-matrix.md#per-tool-capability-partition): the write and the read are in two different procedures by construction, and the pinned CE engine has no interprocedural taint at all: `semgrep scan --help` offers `--pro-intrafile` (\"Intra-file inter-procedural taint analysis … Requires Semgrep Pro Engine\"), so the step from `put` to `get` is outside the engine regardless of what is declared"
       ],
-      "duration_ms": 0,
+      "duration_ms": 1,
       "outcome": "unsupported",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/semgrep-javascript-modeling/dfb-taint-javascript-model-store-roundtrip-negative-unsupported.json",
@@ -391,7 +395,7 @@
     }
   ],
   "schema_version": 1,
-  "started_at_unix_seconds": 1787739212,
+  "started_at_unix_seconds": 1787747741,
   "tool": "semgrep",
   "tool_build_identity": "semgrep-oss:1.174.0",
   "tool_version": "1.174.0"

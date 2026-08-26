@@ -53,10 +53,10 @@ rules:
           - pattern: "onDeclared: function onDeclared($P) { ... }"
           - focus-metavariable: $P
     pattern-sanitizers:
-      # Category Z — `Clean.scrub`, in: 0. The sanitizer-shaped sibling
-      # `Clean.sanitize` is deliberately not declared; template 6 exists to show
-      # that the model binds by entity identity rather than by name shape.
-      - pattern: Clean.scrub(...)
+      # Category Z — the declared `scrub`, in: 0. The sanitizer-shaped sibling
+      # `sanitize` is deliberately not declared; template 6 exists to show that
+      # the model binds by entity identity rather than by name shape.
+      - pattern: scrub(...)
     pattern-sinks:
       # Category S — `Audit.record`, in: 0. The undeclared sibling
       # `Audit.discard` is deliberately absent.

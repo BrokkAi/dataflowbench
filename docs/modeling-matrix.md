@@ -878,6 +878,11 @@ whether the resulting semantics match — which is what the assertions measure.
 
 ### Joern — 4.0.610
 
+> **Amended.** Categories P and O were moved to unsupported activation by
+> Amendment A2 after the first wave-M1 run measured `FlowSemantic` as
+> additive rather than restrictive; Joern's scored set is S, Z, E, B.
+
+
 Verified surface: the OSS data-flow engine ships a flow-semantics loader —
 `io.joern.dataflowengineoss.semanticsloader` with `FlowSemantic`, `FlowMapping`,
 `FlowPath`, `ParamOrRetNode`, `NilSemantics`, `NoCrossTaintSemantics`, and
@@ -903,6 +908,12 @@ scoped to a separate `modeling.sc` so the kernel script is untouched.
 | B | **supported** | Two `FlowSemantic` entries — `put` mapping its value parameter into its store parameter, `get` mapping its receiver to its return — leave the key and instance discrimination to the engine, which is the correct division: the model declares the boundary, the analysis decides whether the roundtrip closes. |
 
 ### Semgrep CE — 1.174.0 (`--oss-only`)
+
+> **Amended.** Template 6 (sanitizer-selectivity) was moved to unsupported
+> activation by Amendment A3: the mandated safe-function assumption and
+> selectivity cannot coexist in one invocation. Semgrep's scored set is
+> five templates.
+
 
 This partition is **verified by execution** against the pinned CE binary
 (`semgrep 1.174.0`, `--oss-only`), on small Python probes, before any fixture
@@ -1138,4 +1149,100 @@ Restating the obligations this tier is most at risk of eroding:
 
 ## Amendments
 
-None yet. This document has not been amended since it merged.
+### A2 — 2026-08-26: Joern's propagator and summary categories are not load-bearing
+
+**What changed.** Joern's cells for category P (`opaque-propagator`,
+`propagator-position`) and category O (`summary-through`, `summary-field`)
+move from scored to **unsupported activation**. Its scored modeling set is
+now the eight templates of categories S, Z, E, and B.
+
+**Why.** The first wave-M1 run (Python) probed the load-bearing contract and
+found that on the pinned 4.0.610, `FlowSemantic` mappings are **additive**
+over the engine's default unmodeled-call pass-through and cannot restrict
+it: removing the propagator declaration leaves the finding standing, and a
+declared positional mapping does not exclude the undeclared position — so a
+P or O result scores the engine's optimism, not the model. A summary's
+field-destination access path is likewise ignored (the whole object is
+tainted), resolving that cell's to-be-verified marker negatively. Category Z
+remains scored: `NilSemantics` was demonstrated genuinely load-bearing
+(removing it restores the flow). The preregistration's stated justification
+for leaving Joern ungated — "a method with no `FlowMapping` propagates
+nothing" — was measured false and is corrected by this amendment.
+
+**Tools, templates, and languages touched.** Joern only; templates 3, 4, 7,
+8; all wave-M1 languages (the limitation is engine-level, verified on
+Python, expected identical elsewhere and to be confirmed by each language's
+retained evidence).
+
+**Freezes invalidated.** None. No modeling report is bound by any freeze.
+
+### A3 — 2026-08-26: Semgrep's sanitizer-selectivity cell is undecidable by construction
+
+**What changed.** Template 6 (`sanitizer-selectivity`) moves from scored to
+**unsupported activation** for Semgrep CE, by a template-level override; its
+category sibling, template 5 (`sanitizer-kill`), remains scored. Semgrep's
+scored modeling set is now five templates.
+
+**Why.** The preregistration mandates `taint_assume_safe_functions: true`
+so that propagator models stay load-bearing — and that same option
+suppresses flow through the *undeclared* sanitizer-lookalike that template
+6's positive requires. Selectivity and the safe-function assumption cannot
+coexist in a single CE invocation, so the cell's positive is undecidable by
+construction rather than by capability: the first wave-M1 run recorded it
+as Semgrep's only false negative before this amendment reclassified it.
+
+**Tools, templates, and languages touched.** Semgrep CE only; template 6;
+all wave-M1 languages.
+
+**Freezes invalidated.** None.
+
+### A4 — 2026-08-26: the reflective opaque-propagator body is not unfollowable by Joern's `jssrc2cpg`
+
+**What changed.** Nothing in the partition, the templates, or the rollout. This
+amendment is an **evidentiary correction**: it withdraws a factual claim the
+preregistration made about the opaque body of
+[template 3](#3-dfb-template-model-opaque-propagator) and leaves every scored
+cell exactly where [A2](#a2--2026-08-26-joerns-propagator-and-summary-categories-are-not-load-bearing)
+put it.
+
+**What the preregistration claimed.** Template 3's assertability rests on the
+stated property that *no engine reaches the sink through this body on its own*,
+argued from the v0.4.0 freeze's twelve `dfb-template-chal-reflective-invocation`
+positive cells, in which Joern answers `not-reached` in all six of its. The
+preregistration carried that property forward to this matrix's own reflective
+body — JavaScript's `Reflect.get(_impl, name).apply(null, [v])` — and concluded
+that a `reached` positive there could only mean the model was activated.
+
+**What was measured.** It is false for Joern's `jssrc2cpg` on the pinned
+4.0.610. Run `adapters/joern/queries/modeling.sc` over
+`cases/taint/javascript/model-opaque-propagator-positive` under the committed
+`adapters/joern/semantics/model-javascript.semantics` — which, after A2,
+declares **nothing whatsoever** for `Opaque.carry`, or for category P at all —
+and the engine still reports one flow from `dfb_source` to `dfb_sink`. The
+retained evidence is
+`reports/raw/load-bearing-javascript-modeling/joern-opaque-propagator-unmodeled.json`
+(`state: analyzed`, `declared_semantic_count: 3`, `flows: 1`), produced by
+`scripts/probe-javascript-modeling-load-bearing.sh`. The frontend plus the
+engine's default unmodeled-call pass-through carries taint through the
+reflective self-dispatch unaided. The v0.4.0 kernel evidence is not contradicted
+— that fixture is a computed-key dispatch table, and this one is `Reflect` — so
+what is corrected is the *transfer* of the property from one body shape to the
+other, for one engine and one frontend.
+
+**Why the scoring is unaffected.** A2 already moved Joern's category-P and
+category-O cells to unsupported activation for the stronger reason that
+`FlowSemantic` mappings cannot restrict the default pass-through. A `reached`
+here is therefore never scored for Joern in the first place, and A4 removes no
+cell that A2 had left standing. The three engines whose category-P cells remain
+scored are unaffected: CodeQL's `carry` step is demonstrably load-bearing on
+JavaScript (`codeql-opaque-propagator-{with,without}-model.sarif.json`: one
+result becomes zero), and Bifrost and Semgrep decline category P by partition.
+
+**Tools, templates, and languages touched.** Joern only; template 3 (and, by
+the same body, template 4); JavaScript measured directly. The claim is withdrawn
+as a *general* one rather than re-asserted for the other languages: the
+preregistration's blanket transfer is what was wrong, and each language's
+retained evidence now stands on its own.
+
+**Freezes invalidated.** None. No modeling report is bound by any freeze, and
+no core or challenge result changes.

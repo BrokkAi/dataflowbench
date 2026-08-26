@@ -17,20 +17,20 @@
   ],
   "model_profile": "benchmark-controlled",
   "fixture_files": [
-    "ModelStoreRoundtripNegative.js"
+    "Store.js"
   ],
   "source_anchors": [
     {
       "marker": "DFB-SOURCE: model-store-roundtrip-input",
-      "file": "ModelStoreRoundtripNegative.js",
-      "line_hint": 1
+      "file": "Store.js",
+      "line_hint": 9
     }
   ],
   "sink_anchors": [
     {
       "marker": "DFB-SINK: model-store-roundtrip-sink",
-      "file": "ModelStoreRoundtripNegative.js",
-      "line_hint": 5
+      "file": "Store.js",
+      "line_hint": 13
     }
   ],
   "expected_flows": [],
@@ -57,6 +57,9 @@
   "tool_model_references": {
     "codeql": {
       "query": "adapters/codeql/javascript/queries/JavaScriptModeling.ql"
+    },
+    "bifrost": {
+      "policy": "adapters/bifrost/policies/model-javascript.rqlp"
     }
   }
 }

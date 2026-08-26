@@ -16,19 +16,19 @@
   ],
   "model_profile": "benchmark-controlled",
   "fixture_files": [
-    "ModelEntrypointParameterNegative.js"
+    "Handler.js"
   ],
   "source_anchors": [
     {
       "marker": "DFB-SOURCE: model-entrypoint-parameter-input",
-      "file": "ModelEntrypointParameterNegative.js",
+      "file": "Handler.js",
       "line_hint": 4
     }
   ],
   "sink_anchors": [
     {
       "marker": "DFB-SINK: model-entrypoint-parameter-sink",
-      "file": "ModelEntrypointParameterNegative.js",
+      "file": "Handler.js",
       "line_hint": 1
     }
   ],
@@ -56,6 +56,9 @@
   "tool_model_references": {
     "codeql": {
       "query": "adapters/codeql/javascript/queries/JavaScriptModeling.ql"
+    },
+    "bifrost": {
+      "policy": "adapters/bifrost/policies/model-javascript.rqlp"
     }
   }
 }

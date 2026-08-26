@@ -16,19 +16,19 @@
   ],
   "model_profile": "benchmark-controlled",
   "fixture_files": [
-    "ModelPropagatorPositionNegative.js"
+    "Opaque.js"
   ],
   "source_anchors": [
     {
       "marker": "DFB-SOURCE: model-propagator-position-input",
-      "file": "ModelPropagatorPositionNegative.js",
+      "file": "Opaque.js",
       "line_hint": 1
     }
   ],
   "sink_anchors": [
     {
       "marker": "DFB-SINK: model-propagator-position-sink",
-      "file": "ModelPropagatorPositionNegative.js",
+      "file": "Opaque.js",
       "line_hint": 5
     }
   ],
@@ -56,6 +56,9 @@
   "tool_model_references": {
     "codeql": {
       "query": "adapters/codeql/javascript/queries/JavaScriptModeling.ql"
+    },
+    "bifrost": {
+      "policy": "adapters/bifrost/policies/model-javascript.rqlp"
     }
   }
 }

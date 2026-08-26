@@ -746,6 +746,62 @@ and the k = 2 context pair all resolved. Its configuration hash is
 `0292361f24c7b18fa59543de15e5709270a5d717f0e7fa3e61de7a9436fb59f7`, unchanged:
 neither the query nor the pack moved, only the population.
 
+## Python modeling matrix
+
+`run-codeql-modeling --language python` runs the twenty-four assertions of
+[the benchmark-controlled taint-modeling matrix](../../docs/modeling-matrix.md)
+for Python, writing `reports/codeql-python-modeling.json` with raw SARIF under
+`reports/raw/codeql-python-modeling/`. It is a **modeling**-tier population
+with its own denominator: it never enters the Python kernel's 58-assertion
+core, and no number here is ever averaged with one there.
+
+CodeQL enters the matrix with **six of six categories scored**, which is
+unsurprising: a query language whose data-flow configuration *is* a model
+declaration surface has no category to decline. The interesting question is
+not whether it can be told, but whether the resulting semantics match — which
+is what the assertions measure.
+
+The model is `adapters/codeql/python/queries/PythonModeling.ql`, one
+`DataFlow::ConfigSig` covering all six categories, inside the existing
+`dataflowbench/codeql-python` pack so it resolves `codeql/python-all@7.2.3`.
+It follows the same design this README already records for the kernels — *the
+query owns the CodeQL model; the case metadata remains analyzer neutral* — and
+uses no data extensions. Category E is `isSource` over a
+`DataFlow::parameterNode` of a method the fixture never calls: CodeQL's data
+flow does not require a source to be reachable from a call-graph root.
+Category B is a single `isAdditionalFlowStep` from `put`'s value argument to
+`get`'s result, conditioned on equal constant keys and an equal receiver
+identity, which covers both persistence templates at once.
+
+The run is invoked exactly like the kernels; build the pack bundle once as
+described under [Python kernel](#python-kernel), then:
+
+```bash
+cargo run -- run-codeql-modeling --language python \
+  --codeql /private/tmp/dataflowbench-codeql-v2.26.3/codeql/codeql \
+  --codeql-packs "$BUNDLE"
+```
+
+The first run decides **all twenty-four assertions correctly** — twelve
+`reached` positives and twelve `not-reached` negatives, with no
+`inconclusive`, `unsupported`, or `runner-error` outcome anywhere. That is a
+statement about model activation and binding, and it is emphatically *not* a
+propagation result: CodeQL's Python kernel scores 48/58 on the same fixtures'
+tier-mates. The two scorecards answer different questions and are never added
+together. Its configuration hash is
+`cd3c4feeeb3473e72d9c35a582a32d0b65d281d759bf77f9a2e0c0411d3a7262`.
+
+**Load-bearing verification.** `PythonModelingProbe.ql` is
+`PythonModeling.ql` with template 3's propagator declaration — and only that
+declaration — removed. Over the same
+`model-opaque-propagator-positive` database the committed query returns one
+finding and the probe returns zero: the reflective body is not a route CodeQL
+follows on its own, so the model, not the propagation, is what the cell
+scores. The probe query never scores a case, is never named by a case's
+`tool_model_references`, and is never bound into a report's
+`configuration_hash`. See [the Python taint-modeling
+matrix](../../docs/python-modeling.md).
+
 ## Retained v2.26.3 snapshot
 
 Every CodeQL report on this tree uses CodeQL CLI v2.26.3 build
@@ -813,8 +869,9 @@ resulting semantics match the declaration.
   the language's existing `qlpack`. That location departs from the
   preregistration's schematic `adapters/codeql/queries/<Language>Modeling.ql`
   because a query outside a pack cannot resolve its `codeql/javascript-all`
-  dependency; the declaration surface is unchanged. The query, `qlpack.yml`, and
-  `codeql-pack.lock.yml` all bind the report's `configuration_hash`.
+  dependency; the declaration surface is unchanged. The report's
+  `configuration_hash` binds the query file itself, the same one path every
+  modeling run's hash binds.
 - No data extensions are used. The query owns the model, which is this adapter's
   stated design, and the case metadata remains analyzer neutral.
 - One `DataFlow::ConfigSig` carries all six categories at once: `isSource` over
@@ -836,9 +893,18 @@ resulting semantics match the declaration.
 
 **Result on the pinned CLI: 24 of 24 assertions match** — twelve `reached`
 positives and twelve `not-reached` negatives, with no `inconclusive` and no
-`runner-error`, across all six categories. That is a statement about model
-activation and binding only; it is not a propagation-kernel score and is never
-added to one.
+`runner-error`, across all six categories, the same clean sweep the Python row
+records. That is a statement about model activation and binding only; it is not
+a propagation-kernel score and is never added to one. Its configuration hash is
+`50f4a31741fd93420f8bdad4cbdea9f07dacda897641e12fdcdcdc8d7810e910`.
+
+**Load-bearing verification** is the category-P probe in
+`scripts/probe-javascript-modeling-load-bearing.sh`: the same database analyzed
+with and without the four-line `Opaque.carry` propagator step returns one SARIF
+result and then zero
+(`reports/raw/load-bearing-javascript-modeling/codeql-opaque-propagator-{with,without}-model.sarif.json`).
+CodeQL does not follow the reflective body on its own — which, on the same
+fixture, [Joern does](../joern/README.md#amendment-a4-the-reflective-body-is-followed-unaided).
 
 Two encoding details are worth recording because a first attempt got them
 wrong and the run said so. Templates 3 and 7 need their *explicit no-flow*

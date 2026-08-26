@@ -558,7 +558,11 @@ claim — it resolves all 14 scored Kotlin cases through the Java arm.
   and sink identities the Bifrost, CodeQL, and Joern kernels are given, and
   nothing from Semgrep's own registry or default models is used.
 - Only the CE (OSS) engine's default taint semantics are used. No propagators,
-  no sanitizers, no taint labels, no `options:` block, and no Pro feature.
+  no sanitizers, no taint labels, no `options:` block, and no Pro feature. That
+  describes the kernel rules, which is every population on this page except the
+  modeling matrix above: that one declares sanitizers and sets `options:
+  taint_assume_safe_functions: true` by design, in a separate rule file, and is
+  scored on its own tier.
 - The source is the source call itself; the sink is the sink call. No receiver
   or argument-position refinement is applied beyond the call pattern.
 - One process per case, always cold; no scan observes another case's files.
@@ -571,6 +575,69 @@ Semgrep results are not a proxy for any other adapter's population, no Semgrep
 population is evidence for another Semgrep language, and the scored 14-assertion
 subset is never comparable to another tool's full 32- or 30-assertion kernel.
 
+## Python modeling matrix
+
+`run-semgrep-modeling --language python` runs the twenty-four cells of
+[the benchmark-controlled taint-modeling matrix](../../docs/modeling-matrix.md)
+for Python — **ten scored assertions and fourteen preregistered
+`unsupported`** — writing `reports/semgrep-python-modeling.json` with raw
+evidence under `reports/raw/semgrep-python-modeling/`. It is a
+**modeling**-tier population with its own denominator and is never pooled with
+any kernel.
+
+Semgrep CE enters this matrix with **three of six categories** — declared
+sources and sinks, declared sanitizers, and framework entry points — which is
+a *larger* share than Bifrost's, and worth stating plainly because the
+expectation from the kernels would be the opposite. Modeling capability and
+propagation capability are not the same axis. Propagators, opaque summaries,
+and persistence boundaries are `unsupported`, decided from the template
+identity before the scan, with the preregistration's rationale retained
+verbatim. Category Z is scored by one of its two templates: template 6
+(sanitizer selectivity) is `unsupported` activation under
+[Amendment A3](../../docs/modeling-matrix.md#a3--2026-08-26-semgreps-sanitizer-selectivity-cell-is-undecidable-by-construction),
+because the mandated safe-function assumption and selectivity cannot coexist in
+one CE invocation.
+
+The model is `adapters/semgrep/rules/model-python.yaml`. Two things differ from
+the kernel rules:
+
+- **Nothing is templated.** A kernel rule carries `__DFB_SOURCE__` /
+  `__DFB_SINK__` placeholders because the endpoint identities are a property of
+  each fixture. Here the endpoint identities *are* the model, and the model is
+  the same for every case, so the committed rule states them literally and the
+  runner substitutes nothing.
+- **It carries an `options:` block**, which the kernel rules explicitly do not:
+  `taint_assume_safe_functions: true`, the
+  [load-bearing-model requirement](../../docs/modeling-matrix.md#the-load-bearing-model-requirement).
+  The runner refuses a modeling rule without it.
+
+Under the amended partition the run decides **all ten scored assertions
+correctly** — five `reached` positives and five `not-reached` negatives — with
+no false positive, no false negative, and no `inconclusive` or `runner-error`.
+Its configuration hash is
+`a2eefdc01e1df0c60b7aa2ceb0967814426f9211b61b79be0cf11de92f0b9825`.
+
+The pre-amendment run scored twelve assertions and decided eleven of them, its
+single false negative being template 6's positive,
+`dfb_sink(sanitize(dfb_source()))`, whose flow passes through an *undeclared*
+sanitizer-shaped call that the matrix deliberately does not model. Under
+`taint_assume_safe_functions: true` the engine carries taint through no
+undeclared call at all, so the flow was dropped before the name heuristic the
+pair exists to catch could be tested. That observation is what Amendment A3 was
+made of: the cell is undecidable in one CE invocation rather than a capability
+CE lacks, so it is now retained `unsupported` and is no longer counted against
+the engine. Nothing was tuned to recover it, and the pre-amendment reading is
+kept in [the Python taint-modeling matrix](../../docs/python-modeling.md).
+
+**Load-bearing verification.** Removing the two declared category-S identities
+(`fetch_remote`, `record`) from the rule drops both category-S positives from
+one finding to zero. Category Z is the more interesting probe and is recorded
+in full in [the Python taint-modeling matrix](../../docs/python-modeling.md):
+with the mandated option set, removing `pattern-sanitizers` changes nothing,
+because the option already suppresses the flow through `scrub(...)`. The
+sanitizer declaration is load-bearing only with the option *off*, which is how
+the preregistration verified it and is not how the cells are scored.
+
 ## JavaScript taint-modeling matrix
 
 Its own population, never pooled with a kernel. The
@@ -580,7 +647,10 @@ sanitizers), and E (framework entry points) — which is a *larger* share of tha
 matrix than Bifrost's one of six, because modeling capability and propagation
 capability are not the same axis. Categories P, O, and B are `unsupported`,
 decided from the template identity before the scan and retained with the
-document's own rationale.
+document's own rationale, and category Z is scored by one of its two templates:
+template 6 is `unsupported` activation under
+[Amendment A3](../../docs/modeling-matrix.md#a3--2026-08-26-semgreps-sanitizer-selectivity-cell-is-undecidable-by-construction).
+Ten of the twenty-four cells are scored.
 
 - Artifact: `adapters/semgrep/rules/model-javascript.yaml`. It declares
   `pattern-sources`, `pattern-sinks`, and `pattern-sanitizers` for the S, Z, and
@@ -591,7 +661,19 @@ document's own rationale.
   files; `semgrep_rule_paths` excludes any `model-*.yaml`, so committing a
   modeling artifact for a different population does not invalidate reports for a
   configuration no kernel ever loaded. The modeling report's own
-  `configuration_hash` covers its own artifact. A test pins both facts.
+  `configuration_hash` covers its own artifact. A test pins both facts,
+  including the eleven-rule hash literally, so a rule-set change fails the suite
+  rather than a run.
+
+  **This exclusion is retroactive, and it had to be.** It landed with the
+  JavaScript row, one wave after `model-python.yaml` was committed. In the
+  interval, `semgrep_rule_paths` globbed every `.yaml` in the directory, so the
+  hash it computed was over twelve files
+  (`3b2c9e23…`) while all eleven published kernel reports and this README cite
+  the eleven-file hash `865d0bd2…`. Nothing recomputed it, so nothing failed —
+  which is exactly why the fact is written down here and pinned by a test: a
+  configuration hash that drifts without anything noticing is worse than one
+  that breaks loudly.
 - Nothing in the modeling rule is templated. The kernel rules substitute each
   case's own endpoint identifiers into `__DFB_SOURCE__`/`__DFB_SINK__`; a
   modeling rule that did the same would make every category-S negative pass for
@@ -608,14 +690,27 @@ document's own rationale.
   `cargo run -- run-semgrep-modeling --language javascript --semgrep <path>`,
   writing `reports/semgrep-javascript-modeling.json` with raw evidence under
   `reports/raw/semgrep-javascript-modeling/`.
-- Result on the pinned CE binary: **11 of the 12 scored assertions match** — all
-  four category-S cells, three of four category-Z cells, and all four
-  category-E cells. The single mismatch is
-  `dfb-taint-javascript-model-sanitizer-selectivity-positive`, where the flow
-  runs through the *undeclared* `Clean.sanitize` and
-  `taint_assume_safe_functions: true` stops it. That is the load-bearing switch
-  doing exactly what the contract requires and is published as observed, not
-  tuned away: the alternative would have been to disable the switch and score
-  category Z on the engine's default rather than on the declaration.
+- Result on the pinned CE binary under the amended partition: **all 10 scored
+  assertions decided correctly** — five `reached` positives and five
+  `not-reached` negatives, with no false positive, no false negative, and no
+  `inconclusive` or `runner-error`. That is the same clean sweep the Python row
+  records. Its configuration hash is
+  `51a89f8648c6b87fb33259285ebee7b7de332f213ea00cd6e0accb737ba62e3c`.
+- Amendment A3's cell behaves here exactly as it does on Python, which is what
+  made the amendment a language-independent one: template 6's positive routes
+  through the *undeclared* `sanitize`, and `taint_assume_safe_functions: true`
+  — the load-bearing switch this category is required to run under — stops
+  taint at any call the rule does not model, so the name heuristic the pair
+  exists to catch is never reached. Nothing was tuned to recover it; the cell is
+  retained `unsupported` and the pre-amendment reading is kept in
+  [the JavaScript modeling matrix](../../docs/javascript-modeling.md).
+- **Load-bearing verification.** Removing the `Audit.record` sink pattern from a
+  copy of the rule drops `model-declared-sink-positive` from one finding to zero
+  (`reports/raw/load-bearing-javascript-modeling/semgrep-declared-sink-{with,without}-model.json`).
+- The declared sanitizer is spelled `scrub(...)` rather than `Clean.scrub(...)`,
+  because the JavaScript fixtures declare it as a top-level function; the reason
+  is a Joern frontend property and is recorded in
+  [the JavaScript modeling matrix](../../docs/javascript-modeling.md#the-four-encodings).
+  Semgrep binds the entity by name either way.
 
 See [the JavaScript modeling matrix](../../docs/javascript-modeling.md).

@@ -1,0 +1,66 @@
+{
+  "schema_version": 2,
+  "id": "dfb-taint-python-model-summary-through-negative",
+  "template_id": "dfb-template-model-summary-through",
+  "polarity": "negative",
+  "negative_mechanism": "call-context-separation",
+  "score_tier": "modeling",
+  "track": "taint",
+  "language": "python",
+  "semantic_dimensions": [
+    "external-summary",
+    "interprocedural-flow"
+  ],
+  "feature_tags": [
+    "modeled-external",
+    "summary-required"
+  ],
+  "model_profile": "benchmark-controlled",
+  "fixture_files": [
+    "bridge.py",
+    "flow.py"
+  ],
+  "source_anchors": [
+    {
+      "marker": "DFB-SOURCE: model-summary-through-input",
+      "file": "flow.py",
+      "line_hint": 4
+    }
+  ],
+  "sink_anchors": [
+    {
+      "marker": "DFB-SINK: model-summary-through-sink",
+      "file": "flow.py",
+      "line_hint": 8
+    }
+  ],
+  "expected_flows": [],
+  "expected_nonflows": [
+    {
+      "source": "DFB-SOURCE: model-summary-through-input",
+      "sink": "DFB-SINK: model-summary-through-sink"
+    }
+  ],
+  "witness_checkpoints": [],
+  "expected_analysis_capability": {
+    "kind": "procedure-summary-activation"
+  },
+  "execution_budget": {
+    "wall_clock_seconds": 60,
+    "peak_memory_mb": 512
+  },
+  "fixture_provenance": {
+    "kind": "authored",
+    "origin": "DataFlowBench",
+    "revision": "m3-modeling-python",
+    "license": "MIT"
+  },
+  "tool_model_references": {
+    "bifrost": {
+      "policy": "adapters/bifrost/policies/model-python.rqlp"
+    },
+    "codeql": {
+      "query": "adapters/codeql/python/queries/PythonModeling.ql"
+    }
+  }
+}

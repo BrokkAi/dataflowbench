@@ -20,19 +20,19 @@
   "model_profile": "benchmark-controlled",
   "fixture_files": [
     "Bridge.js",
-    "ModelSummaryFieldNegative.js"
+    "Flow.js"
   ],
   "source_anchors": [
     {
       "marker": "DFB-SOURCE: model-summary-field-input",
-      "file": "ModelSummaryFieldNegative.js",
+      "file": "Flow.js",
       "line_hint": 1
     }
   ],
   "sink_anchors": [
     {
       "marker": "DFB-SINK: model-summary-field-sink",
-      "file": "ModelSummaryFieldNegative.js",
+      "file": "Flow.js",
       "line_hint": 5
     }
   ],
@@ -60,6 +60,9 @@
   "tool_model_references": {
     "codeql": {
       "query": "adapters/codeql/javascript/queries/JavaScriptModeling.ql"
+    },
+    "bifrost": {
+      "policy": "adapters/bifrost/policies/model-javascript.rqlp"
     }
   }
 }

@@ -10,15 +10,18 @@
 #
 #   Bifrost   category S   the `Config.fetchRemote` source declaration
 #   CodeQL    category P   the `Opaque.carry` propagator step
-#   Joern     category Z   the `"scrub"` no-flow (sanitizer) declaration
+#   Joern     category Z   the `scrub` no-flow (sanitizer) declaration
 #   Semgrep   category S   the `Audit.record` sink declaration
 #
-# It also runs one deliberate **counter-example**: Joern's category-P
-# declaration, `"carry" 1->-1`, is *not* load-bearing on JavaScript. Removing it
-# leaves the finding in place, because the pinned Joern follows the fixture's
-# `Reflect.get(_impl, name).apply(null, [v])` body on its own. That pair is
-# retained under `joern-opaque-propagator-*-model.json` precisely so the
-# published category-P positive is not read as evidence of activation. See
+# It also runs one deliberate **counter-example**, which is the evidence behind
+# Amendment A4 (docs/modeling-matrix.md#amendments): the preregistration claimed
+# the reflective opaque-propagator body was unfollowable by all four engines.
+# It is not. Joern's committed JavaScript semantics declares nothing at all for
+# `Opaque.carry` — Amendment A2 removed the whole category — and the pinned
+# 4.0.610 still reports the template-3 positive, because `jssrc2cpg` plus the
+# engine's default unmodeled-call pass-through carries taint through
+# `Reflect.get(_impl, name).apply(null, [v])` unaided. That single unmodeled run
+# is retained as `joern-opaque-propagator-unmodeled.json`. See
 # docs/javascript-modeling.md.
 #
 # The probe never touches a committed artifact, never writes a report, and
@@ -58,8 +61,23 @@ mkdir -p "$SCRATCH/bifrost-with" "$SCRATCH/bifrost-without"
 cp "$BF_CASE"/*.js "$SCRATCH/bifrost-with/"
 cp "$BF_CASE"/*.js "$SCRATCH/bifrost-without/"
 cp "$ROOT/adapters/bifrost/policies/model-javascript.rqlp" "$SCRATCH/bifrost-with/policy.rqlp"
-grep -v 'declared-source' "$ROOT/adapters/bifrost/policies/model-javascript.rqlp" \
-  > "$SCRATCH/bifrost-without/policy.rqlp"
+# Strip only the `(source :id declared-source ...)` entry, leaving the
+# `])` that closes the entries vector and the endpoint-set in place — deleting
+# the whole line makes the policy unparseable, which would be a probe failure
+# rather than a measurement.
+python3 - "$ROOT/adapters/bifrost/policies/model-javascript.rqlp" \
+  "$SCRATCH/bifrost-without/policy.rqlp" <<'PY'
+import sys
+source, destination = sys.argv[1], sys.argv[2]
+lines = open(source).read().splitlines(keepends=True)
+for index, line in enumerate(lines):
+    if ":id declared-source" in line:
+        lines[index] = line[: line.index("(source")] + line[line.rindex("])") :]
+        break
+else:
+    raise SystemExit("the declared-source entry is not where the probe expects it")
+open(destination, "w").writelines(lines)
+PY
 for variant in with without; do
   "$BIFROST" --root "$SCRATCH/bifrost-$variant" --policy-file policy.rqlp \
     --evaluation-date 2026-08-11 --format json --fail-on never \
@@ -109,26 +127,31 @@ done
 SEMANTICS="$ROOT/adapters/joern/semantics/model-javascript.semantics"
 mkdir -p "$SCRATCH/joern-run"
 cp "$SEMANTICS" "$SCRATCH/with.semantics"
-grep -v '^"scrub"' "$SEMANTICS" > "$SCRATCH/no-scrub.semantics"
-grep -v '^"carry"' "$SEMANTICS" > "$SCRATCH/no-carry.semantics"
-joern_probe() { # <fixture case dir> <semantics file> <output name>
+grep -v '^"Clean.js::program:scrub"' "$SEMANTICS" > "$SCRATCH/no-scrub.semantics"
+joern_probe() { # <fixture case dir> <semantics file> <source> <sink> <kind> <output name>
   rm -rf "$SCRATCH/joern-source"
   mkdir -p "$SCRATCH/joern-source"
   cp "$1"/*.js "$SCRATCH/joern-source/"
   ( cd "$SCRATCH/joern-run" && "$JOERN" --script "$ROOT/adapters/joern/queries/modeling.sc" \
       --param "inputPath=$SCRATCH/joern-source" \
       --param language=JSSRC \
+      --param "sourceName=$3" \
+      --param "sinkName=$4" \
+      --param "sourceKind=$5" \
       --param "semanticsPath=$2" \
-      --param "outputPath=$OUT/$3" \
+      --param "outputPath=$OUT/$6" \
       < /dev/null > /dev/null )
   rm -rf "$SCRATCH/joern-run/workspace"
 }
 JZ_CASE="$ROOT/cases/taint/javascript/model-sanitizer-kill-negative"
-joern_probe "$JZ_CASE" "$SCRATCH/with.semantics" joern-sanitizer-kill-with-model.json
-joern_probe "$JZ_CASE" "$SCRATCH/no-scrub.semantics" joern-sanitizer-kill-without-model.json
-# The counter-example: category P is *not* load-bearing for Joern here.
-joern_probe "$CQ_CASE" "$SCRATCH/with.semantics" joern-opaque-propagator-with-model.json
-joern_probe "$CQ_CASE" "$SCRATCH/no-carry.semantics" joern-opaque-propagator-without-model.json
+joern_probe "$JZ_CASE" "$SCRATCH/with.semantics" dfb_source dfb_sink call-return \
+  joern-sanitizer-kill-with-model.json
+joern_probe "$JZ_CASE" "$SCRATCH/no-scrub.semantics" dfb_source dfb_sink call-return \
+  joern-sanitizer-kill-without-model.json
+# Amendment A4's evidence: category P is declared nowhere in the committed
+# semantics, and the reflective body is followed anyway.
+joern_probe "$CQ_CASE" "$SCRATCH/with.semantics" dfb_source dfb_sink call-return \
+  joern-opaque-propagator-unmodeled.json
 
 # ---------------------------------------------------------------------------
 # Semgrep — category S, the declared-sink activation of template 2.

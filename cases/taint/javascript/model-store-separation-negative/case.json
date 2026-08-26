@@ -17,20 +17,20 @@
   ],
   "model_profile": "benchmark-controlled",
   "fixture_files": [
-    "ModelStoreSeparationNegative.js"
+    "Store.js"
   ],
   "source_anchors": [
     {
       "marker": "DFB-SOURCE: model-store-separation-input",
-      "file": "ModelStoreSeparationNegative.js",
-      "line_hint": 1
+      "file": "Store.js",
+      "line_hint": 12
     }
   ],
   "sink_anchors": [
     {
       "marker": "DFB-SINK: model-store-separation-sink",
-      "file": "ModelStoreSeparationNegative.js",
-      "line_hint": 5
+      "file": "Store.js",
+      "line_hint": 16
     }
   ],
   "expected_flows": [],
@@ -57,6 +57,9 @@
   "tool_model_references": {
     "codeql": {
       "query": "adapters/codeql/javascript/queries/JavaScriptModeling.ql"
+    },
+    "bifrost": {
+      "policy": "adapters/bifrost/policies/model-javascript.rqlp"
     }
   }
 }

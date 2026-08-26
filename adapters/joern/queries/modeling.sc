@@ -1,48 +1,57 @@
 // DataFlowBench Joern taint-modeling query.
 //
-// The kernel script (adapters/joern/queries/kernel.sc) is untouched by the
-// modeling matrix: it supplies no semantics, and it reads its two endpoint
-// identifiers out of each case's own DFB markers. This script is the opposite
-// by construction. The modeling matrix scores whether an engine can *be told
-// things*, so the endpoints and the flow semantics here come from the
-// benchmark's model declarations, never from the case's anchors — an anchored
-// endpoint would make every category-S negative pass for a reason that has
-// nothing to do with the declaration.
+// The sibling `kernel.sc` supplies no semantics at all, which is exactly right
+// for the propagation kernels: they ask whether the engine can follow flow it
+// can see. This script asks the other question — whether the engine can be told
+// things — so it does the one thing the kernel script must never do: it loads
+// a benchmark-supplied flow-semantics file and runs the OSS data-flow engine
+// under it.
 //
-// Together with adapters/joern/semantics/model-<language>.semantics, this file
-// is the whole of Joern's declaration surface for
-// docs/modeling-matrix.md#the-equivalence-contract. Both files are hash-bound
-// into every modeling report's `configuration_hash`.
+// `docs/modeling-matrix.md` fixes what is declared; this file is only how Joern
+// is told it. The declarations themselves live in
+// `adapters/joern/semantics/model-<language>.semantics`, in the distribution's
+// own textual `FullNameSemanticsParser` format, and both files are hash-bound
+// into the report's `configuration_hash`.
 //
-// What is declared here, in the document's own vocabulary:
+// Two selector shapes, decided by the runner from the case's *template
+// identity* and never from an observed result:
 //
-//   source      Config.fetchRemote  out: return          (template 1)
-//   source      dfb_source          out: return          (the benchmark input)
-//   sink        Audit.record        in: 0                (template 2)
-//   sink        dfb_sink            in: 0                (the benchmark sink)
-//   entry-point Handler.onRequest   in: 0 on entry       (template 9)
-//   entry-point Handler.onDeclared  in: 0 on entry       (template 10)
+//   sourceKind=call-return      sources are calls to the declared source
+//                               function — categories S, P, Z, O, and B, whose
+//                               source is a call whose returned value is
+//                               tainted.
+//   sourceKind=method-parameter sources are the first declared parameter of the
+//                               declared handler method — category E, whose
+//                               whole point is that the fixture never calls it,
+//                               so there is no call site to select. Joern's
+//                               `reachableByFlows` takes arbitrary CPG nodes as
+//                               sources, so a parameter of an uncalled method
+//                               is a valid analysis root; selectivity is this
+//                               script's own `nameExact` predicate, which is
+//                               what template 10 measures.
 //
-// and the propagator, sanitizer, summary, and persistence declarations of
-// categories P, Z, O, and B come from the semantics file.
+// Sinks are the positional arguments of calls to the declared sink function, as
+// in the kernel script. `argumentIndex > 0` drops the receiver the Python and
+// JavaScript frontends attach as argument 0.
 //
-// There is no per-case, per-template, or per-polarity branching: the same
-// declaration set runs for all twenty-four assertions, and each fixture simply
-// contains only the entities its own template names. An undeclared sibling —
-// `fetchLocal`, `discard`, `sanitize`, `onIgnored`, `onUndeclared` — is absent
-// from every list above, which is what the negatives measure.
+// The script always writes one JSON document to `outputPath`; the Rust runner
+// reconciles its flow element locations against the case's own anchors and
+// never rewrites it.
 //
 // Invocation (see adapters/joern/README.md):
 //
 //   joern --script adapters/joern/queries/modeling.sc \
 //     --param inputPath=<workspace> \
-//     --param language=<JSSRC|JAVASRC|PYTHONSRC> \
-//     --param semanticsPath=<adapters/joern/semantics/model-<lang>.semantics> \
+//     --param language=<JAVASRC|JSSRC|PYTHONSRC> \
+//     --param sourceName=<declared source function or handler method> \
+//     --param sinkName=<declared sink function> \
+//     --param sourceKind=<call-return|method-parameter> \
+//     --param semanticsPath=<flow-semantics file> \
 //     --param outputPath=<raw evidence file>
 
 import io.joern.dataflowengineoss.DefaultSemantics
 import io.joern.dataflowengineoss.queryengine.EngineContext
-import io.joern.dataflowengineoss.semanticsloader.{FlowPath, FlowSemantic, FullNameSemantics}
+import io.joern.dataflowengineoss.semanticsloader.{FullNameSemanticsParser, Semantics}
 
 import java.nio.file.{Files, Paths}
 
@@ -83,96 +92,60 @@ def nodeJson(node: io.shiftleft.codepropertygraph.generated.nodes.AstNode): Stri
   )
 }
 
-/** The benchmark-declared source APIs whose return value is tainted. */
-val declaredSourceMembers = Set("dfb_source", "fetchRemote")
-
-/** The benchmark-declared sink APIs whose argument position 0 is dangerous. */
-val declaredSinkMembers = Set("dfb_sink", "record")
-
-/** The benchmark-declared entry points whose parameter 0 is tainted on entry. */
-val declaredEntryPointMembers = Set("onRequest", "onDeclared")
-
-/** One line of the committed semantics file, as a `FlowSemantic`.
-  *
-  * The file is Joern's textual flow-semantics syntax — `"<entity>" s->d ...`,
-  * receiver 0, parameters from 1, return value -1 — keyed by the declared
-  * member name. It is re-keyed here onto a regex over the frontend's own
-  * method full names, because a frontend may name a member by an inferred
-  * structural type that says nothing about the entity being declared. Blank
-  * lines and `#` comments are ignored.
-  */
-def parseSemanticsLine(line: String): Option[FlowSemantic] = {
-  val trimmed = line.trim
-  if (trimmed.isEmpty || trimmed.startsWith("#")) return None
-  if (!trimmed.startsWith("\"")) throw new IllegalArgumentException(s"semantics line does not open with a quoted entity: $line")
-  val closing = trimmed.indexOf('"', 1)
-  if (closing < 0) throw new IllegalArgumentException(s"semantics line has an unterminated entity: $line")
-  val member = trimmed.substring(1, closing)
-  val mappings = trimmed
-    .substring(closing + 1)
-    .split("\\s+")
-    .filter(_.nonEmpty)
-    .map { mapping =>
-      mapping.split("->") match {
-        case Array(src, dst) => FlowPath.FlowMapping(src.trim.toInt, dst.trim.toInt)
-        case _ => throw new IllegalArgumentException(s"semantics mapping is not <src>-><dst>: $mapping")
-      }
-    }
-    .toList
-  // A member name is matched as the tail of a method full name, after the
-  // frontend's own separator. An entry with no mappings is `NilSemantics`.
-  Some(FlowSemantic(".*[.:]" + java.util.regex.Pattern.quote(member) + "$", mappings, regex = true))
-}
-
 @main def main(
     inputPath: String,
     language: String,
+    sourceName: String,
+    sinkName: String,
+    sourceKind: String,
     semanticsPath: String,
     outputPath: String
 ): Unit = {
   val header = Seq(
     jsonField("adapter", jsonString("joern")),
-    jsonField("evidence_kind", jsonString("joern-modeling-reachable-by-flows")),
+    jsonField("evidence_kind", jsonString("joern-modeled-reachable-by-flows")),
     jsonField("input_path", jsonString(inputPath)),
     jsonField("frontend_language", jsonString(language)),
-    jsonField("semantics_path", jsonString(semanticsPath)),
-    jsonField("declared_sources", jsonArray(declaredSourceMembers.toSeq.sorted.map(jsonString))),
-    jsonField("declared_sinks", jsonArray(declaredSinkMembers.toSeq.sorted.map(jsonString))),
-    jsonField(
-      "declared_entry_points",
-      jsonArray(declaredEntryPointMembers.toSeq.sorted.map(jsonString))
-    )
+    jsonField("source_function", jsonString(sourceName)),
+    jsonField("sink_function", jsonString(sinkName)),
+    jsonField("source_kind", jsonString(sourceKind)),
+    jsonField("semantics_path", jsonString(semanticsPath))
   )
 
   val document =
     try {
-      val declared = scala.io.Source
-        .fromFile(semanticsPath, "UTF-8")
-        .getLines()
-        .flatMap(parseSemanticsLine)
-        .toList
-      importCode(inputPath = inputPath, projectName = "dataflowbench", language = language)
-      // The engine's own operator flows stay in place — without them nothing
-      // propagates through an assignment — and the benchmark's declarations are
-      // layered on top of them. Nothing else is supplied: no language model
-      // catalog, no framework semantics.
-      val semantics = FullNameSemantics.fromList(DefaultSemantics.operatorFlows ++ declared)
-      semantics.initialize(cpg)
+      // The benchmark's declarations are layered *on top of* the distribution's
+      // own operator and standard-library flows rather than replacing them:
+      // dropping `<operator>.assignment` would break propagation the modeling
+      // matrix is not measuring, and every cell would fail for a reason that
+      // has nothing to do with the model.
+      val declared = new FullNameSemanticsParser().parseFile(semanticsPath)
+      // The pinned parser fails *silently*: a semantics file with a blank line
+      // in it, or one commented with `//`, yields an empty declaration list and
+      // no error, and every scored cell would then be decided by the absence of
+      // a model rather than by the model. A missing model is a benchmark defect
+      // and never a result, so an empty parse is raised here and retained as a
+      // runner error rather than answered.
+      if (declared.isEmpty) {
+        throw new IllegalStateException(
+          s"$semanticsPath parsed to zero declarations; the pinned FullNameSemanticsParser " +
+            "drops every entry on a blank line or a `//` comment, and a scored cell with no " +
+            "declaration behind it is a benchmark defect rather than an outcome"
+        )
+      }
+      val semantics: Semantics = DefaultSemantics().plus(declared)
       implicit val context: EngineContext = EngineContext(semantics)
 
-      val declaredSourceCalls = cpg.call.filter(call => declaredSourceMembers.contains(call.name)).l
-      // An entry-point declaration is a synthesized analysis root: parameter 0
-      // of the declared member, whether or not any call site reaches it.
-      // `index(1)` is Joern's spelling of the first declared parameter, since
-      // it counts the receiver as 0.
-      val declaredEntryParameters =
-        cpg.method.filter(method => declaredEntryPointMembers.contains(method.name)).parameter.index(1).l
-      val sourceNodes = declaredSourceCalls ++ declaredEntryParameters
-      // The positional arguments of a declared sink call. `argumentIndex > 0`
-      // drops the implicit receiver the JavaScript and Python frontends attach
-      // as argument 0; it is not part of the declaration's `in: 0`.
-      val sinkNodes =
-        cpg.call.filter(call => declaredSinkMembers.contains(call.name)).argument.filter(_.argumentIndex > 0).l
+      importCode(inputPath = inputPath, projectName = "dataflowbench", language = language)
+
+      val sourceNodes = sourceKind match {
+        case "call-return" => cpg.call.nameExact(sourceName).l
+        // Joern counts the receiver as parameter 0, so the declaration's
+        // position 0 — the first *declared* parameter — is index 1.
+        case "method-parameter" => cpg.method.nameExact(sourceName).parameter.index(1).l
+        case other => throw new IllegalArgumentException(s"unknown sourceKind: $other")
+      }
+      val sinkNodes = cpg.call.nameExact(sinkName).argument.filter(_.argumentIndex > 0).l
       val flows = sinkNodes.reachableByFlows(sourceNodes).l
       val flowJson = flows.map { path =>
         jsonObject(Seq(jsonField("elements", jsonArray(path.elements.map(nodeJson)))))
@@ -181,7 +154,7 @@ def parseSemanticsLine(line: String): Option[FlowSemantic] = {
         header ++ Seq(
           jsonField("state", jsonString("analyzed")),
           jsonField("method_count", cpg.method.size.toString),
-          jsonField("declared_semantics_count", declared.size.toString),
+          jsonField("declared_semantic_count", declared.size.toString),
           jsonField("source_node_count", sourceNodes.size.toString),
           jsonField("sink_node_count", sinkNodes.size.toString),
           jsonField("source_nodes", jsonArray(sourceNodes.map(nodeJson))),
@@ -192,8 +165,9 @@ def parseSemanticsLine(line: String): Option[FlowSemantic] = {
       )
     } catch {
       case throwable: Throwable =>
-        // A frontend, semantics, or engine failure is retained as a runner
-        // error. It is never allowed to look like an empty (negative) result.
+        // A frontend, semantics-loader, or engine failure is retained as a
+        // runner error. It is never allowed to look like an empty (negative)
+        // result set.
         jsonObject(
           header ++ Seq(
             jsonField("state", jsonString("runner-error")),

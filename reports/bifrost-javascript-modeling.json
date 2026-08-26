@@ -2,14 +2,17 @@
   "adapter_version": "0.1.0",
   "cold_or_warm": "cold",
   "configuration_hash": "25e1399fb9b7c2e5dfa469d56e9b4edeccff655f1d8866290f4f55d29eb7117f",
-  "ended_at_unix_seconds": 1787739033,
-  "fixture_revision": "sha256:07ff8c703d91373ef9fdcdb41e48f1d1746a4d1ad18db38dea34e9d0828aa52a",
+  "ended_at_unix_seconds": 1787748765,
+  "fixture_revision": "sha256:213f7571388ba8f32dabcc386ff79fb2263a4940864646b28a338bbd8a9cec05",
   "results": [
     {
       "case_id": "dfb-taint-javascript-model-declared-sink-negative",
-      "diagnostics": [],
-      "duration_ms": 398,
-      "outcome": "not-reached",
+      "diagnostics": [
+        "Bifrost reported incomplete analysis: partial_discovery",
+        "taint discovery is incomplete: procedure value-flow snapshot for Audit.js:Audit.js.run is unknown"
+      ],
+      "duration_ms": 231,
+      "outcome": "inconclusive",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-javascript-modeling/dfb-taint-javascript-model-declared-sink-negative.json",
       "sink_anchors": [
@@ -25,9 +28,9 @@
       "diagnostics": [
         "A benchmark-declared source reaches a benchmark-declared sink",
         "Bifrost reported incomplete analysis: partial_discovery",
-        "taint discovery is incomplete: procedure value-flow snapshot for ModelDeclaredSinkPositive.js:ModelDeclaredSinkPositive.js.run is unknown"
+        "taint discovery is incomplete: procedure value-flow snapshot for Audit.js:Audit.js.run is unknown"
       ],
-      "duration_ms": 218,
+      "duration_ms": 65,
       "outcome": "inconclusive",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-javascript-modeling/dfb-taint-javascript-model-declared-sink-positive.json",
@@ -42,7 +45,7 @@
     {
       "case_id": "dfb-taint-javascript-model-declared-source-negative",
       "diagnostics": [],
-      "duration_ms": 187,
+      "duration_ms": 59,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-javascript-modeling/dfb-taint-javascript-model-declared-source-negative.json",
@@ -59,9 +62,9 @@
       "diagnostics": [
         "A benchmark-declared source reaches a benchmark-declared sink",
         "Bifrost reported incomplete analysis: partial_discovery",
-        "taint discovery is incomplete: procedure value-flow snapshot for ModelDeclaredSourcePositive.js:ModelDeclaredSourcePositive.js.run is unknown"
+        "taint discovery is incomplete: procedure value-flow snapshot for Config.js:Config.js.run is unknown"
       ],
-      "duration_ms": 226,
+      "duration_ms": 54,
       "outcome": "inconclusive",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-javascript-modeling/dfb-taint-javascript-model-declared-source-positive.json",
@@ -333,7 +336,7 @@
       "diagnostics": [
         "category B — persistence boundaries — is unsupported for Bifrost v0.10.6 by the preregistered modeling partition (docs/modeling-matrix.md#per-tool-capability-partition): to be verified — unsupported until shown: no persistence-boundary vocabulary is described anywhere for any adapter, Bifrost included"
       ],
-      "duration_ms": 1,
+      "duration_ms": 0,
       "outcome": "unsupported",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-javascript-modeling/dfb-taint-javascript-model-store-separation-positive-unsupported.json",
@@ -415,8 +418,8 @@
     }
   ],
   "schema_version": 1,
-  "started_at_unix_seconds": 1787739032,
+  "started_at_unix_seconds": 1787748765,
   "tool": "bifrost",
-  "tool_build_identity": "18d09c57d1e5044dec49acac7635d3255ea8e89c",
-  "tool_version": "bifrost 0.10.6"
+  "tool_build_identity": "a3ca30bd3fb994cc07db4abf47a2c796854882ca",
+  "tool_version": "bifrost 0.9.5"
 }

@@ -1,67 +1,64 @@
-# DataFlowBench benchmark-controlled taint-modeling matrix — JavaScript flow
-# semantics.
+# DataFlowBench JavaScript taint-modeling declarations, in the pinned Joern
+# distribution's own textual flow-semantics format
+# (io.joern.dataflowengineoss.semanticsloader.FullNameSemanticsParser).
 #
-# This file is one half of Joern's modeling artifact; the other half is the
-# shared adapters/joern/queries/modeling.sc, which carries the source, sink,
-# and entry-point declarations. Both are hash-bound into every modeling report.
+# What is declared here is docs/modeling-matrix.md's analyzer-neutral model,
+# unchanged; how it is declared is Joern's own surface. Positions follow
+# Joern's convention: 0 is the receiver, 1 is the first declared parameter,
+# and -1 is the return value, so the declaration language's position 0 is
+# index 1 here. A method named with no mappings is NilSemantics -- taint does
+# not leave it -- which is the surface for the `sanitizer` role.
 #
-# Syntax is Joern's own textual flow-semantics format:
+# The two surface facts recorded beside the Python semantics hold here too and
+# are repeated because each fails silently: a blank line anywhere in this file
+# drops every declaration, and `#` opens a comment while `//` does not. There
+# are therefore no blank lines below, only `#` comment lines.
 #
-#   "<entity>" <src>-><dst> ...
+# Method identity is the CPG's `methodFullName`, which the pinned `jssrc2cpg`
+# frontend spells `<file>::program:<member>` for a top-level function and
+# `<file>::program:<Type>:<member>` for a class member. That is the JavaScript
+# spelling of the declaration language's type-plus-member identity.
 #
-# with 0 the receiver, 1..n the declared parameters, and -1 the return value.
-# An entry with no mappings is `NilSemantics` — taint does not leave the entity
-# at any position, which is exactly the `sanitizer` role of
-# docs/modeling-matrix.md#the-model-declaration-language and exactly the
-# explicit no-flow declaration its category-P and category-O negatives ask for.
+# A JAVASCRIPT-SPECIFIC SURFACE FACT, MEASURED AGAINST THE PINNED 4.0.610
+# FRONTEND RATHER THAN ASSUMED (docs/javascript-modeling.md records the probe):
+# a *call* to a class method -- static or instance -- carries
+# `methodFullName = <unknownFullName>`, and a call to an object-literal member
+# carries the member's inferred *structural type*
+# (`{ scrub: (value: ANY) => ANY; ... }:scrub`), which is a property of the
+# object's shape rather than of the entity. Only a top-level function call
+# carries the entity's own full name. The declared sanitizer is therefore a
+# top-level function in the fixtures, which is the one JavaScript shape whose
+# identity the frontend exposes; the persistence pair below is declared at the
+# identity the model names, and whether the frontend binds a call to it is the
+# measurement, not the artifact's business.
 #
-# The quoted key is the declared **member name** rather than a frontend method
-# full name. `jssrc2cpg` names a method on an object literal by its inferred
-# structural type — `{ carry: (value: ANY) => ANY; block: (value: ANY) => ANY;
-# }:carry` — which is a property of the fixture's shape, not of the entity
-# being declared. `modeling.sc` therefore re-keys each entry here onto a regex
-# over the CPG's method full names. The declaration is unchanged by that: the
-# entity identity, the role, and the binding semantics are what this file
-# states, and they are the same three parts every other adapter encodes.
+# Category S -- declared sources and sinks -- needs no entry here: Joern's
+# source and sink identities are the query's own selectors, which the runner
+# binds to the declared identity read off the fixture's DFB-SOURCE and
+# DFB-SINK marker lines. Category E likewise: an entry-point root is a
+# parameter node, not a flow mapping.
 #
-# Positions here are the declaration language's positions shifted by one,
-# because Joern counts the receiver as 0 and DataFlowBench excludes it. So the
-# document's `in: 0, out: return` for `Opaque.carry` is `1->-1` below.
-
-# Category P — declared propagators.
-# `Opaque.carry`: propagator, in: 0, out: return.
-"carry" 1->-1
-# `Opaque.block`: the sibling with an identical reflective body, declared as
-# explicitly not propagating.
-"block"
-# `Opaque.select`: propagator, in: 1, out: return. Position 0 is undeclared and
-# is not mapped, which is what template 4's negative turns on.
-"select" 2->-1
-
-# Category Z — declared sanitizers.
-# `Clean.scrub`: sanitizer, in: 0. `Clean.sanitize` is deliberately absent —
-# template 6 exists to show that the model binds by entity identity and not by
-# a sanitizer-shaped name.
-"scrub"
-
-# Category O — opaque procedure summaries.
-# `Bridge.pass`: summary, in: 0, out: return.
-"pass" 1->-1
-# `Bridge.hold`: the sibling carrying an explicit no-flow summary. Its body is
-# the identity function, so the body and the summary disagree, which is what
-# makes summary activation observable.
-"hold"
-# `Bridge.deposit`: summary, in: 0, out: 1.payload. Joern's mapping destination
-# is the parameter itself; the field discrimination is left to the engine's own
-# heap approximation, which is the correct division — the model declares the
-# boundary and the analysis decides whether the field separation holds.
-"deposit" 1->2
-
-# Category B — persistence boundaries.
-# `Store.put`: store-write, in: 1, key: 0 — the value parameter enters the
-# store, which Joern addresses as the receiver.
-"put" 2->0
-# `Store.get`: store-read, out: return, key: 0 — the store leaves through the
-# return value. The key and the receiver instance decide whether the roundtrip
-# closes, and both are left to the engine.
-"get" 0->-1
+# Categories P (templates 3, 4) and O (templates 7, 8) need no entry here
+# either, and deliberately have none: Amendment A2 moved Joern's propagator and
+# summary cells to unsupported activation, because `FlowSemantic` mappings on
+# the pinned 4.0.610 are additive over the engine's default unmodeled-call
+# pass-through and cannot restrict it. A declaration for `Opaque.carry`,
+# `Opaque.select`, `Bridge.pass`, or `Bridge.deposit` would not be
+# load-bearing, and this matrix's equivalence contract forbids an artifact from
+# declaring a category its partition marks unsupported. The measurements that
+# established this are retained in docs/javascript-modeling.md.
+# --- No-flow declarations (NilSemantics) ---
+# Templates 5 and 6: `sanitizer`, in: 0, on the declared `scrub`. `scrub`'s
+# body is the identity function, so this declaration -- not the body -- is what
+# suppresses the flow. The sanitizer-shaped sibling `sanitize` is deliberately
+# undeclared, so template 6's positive must still be reported.
+"Clean.js::program:scrub"
+# --- Flow mappings ---
+# Templates 11 and 12: `store-write` (in: 1, key: 0) and `store-read`
+# (out: return, key: 0) on `Store.put` and `Store.get`, sharing one store
+# identity. The model declares the boundary: `put` maps its value parameter
+# into its store receiver, and `get` maps its receiver to its return. Key and
+# instance discrimination are left to the engine, which is the division the
+# preregistration fixes.
+"Store.js::program:Store:put" 2->0
+"Store.js::program:Store:get" 0->-1
