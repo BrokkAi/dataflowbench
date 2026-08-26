@@ -199,6 +199,125 @@ core kernels carry their preregistered expanded denominators, and every
 remaining gap is an adapter re-run deferred to v0.4.0 by the freeze rule, not a
 missing fixture.
 
+## Modeling matrix rollout mechanics
+
+[The modeling-matrix preregistration](modeling-matrix.md) fixes *what* the
+twelve benchmark-controlled modeling templates are, which of the six categories
+each analyzer can express, and what a language's modeling denominator becomes.
+It deliberately leaves the runner work to the pull requests that author the
+fixtures and the model artifacts. This section is the mechanics, on the same
+terms as the challenge-tier section above.
+
+**Infrastructure now, fixtures and models per language.** The runner
+infrastructure — the template constants, the population validator, the per-tool
+partition, the four commands, the artifact-path conventions, and the
+load-bearing-model gates — lands ahead of any fixture. Wave M1 then adds Java,
+JavaScript, and Python one pull request at a time: that language's twenty-four
+fixtures and cases, the per-adapter model encodings its partition entitles it
+to, and the runs. A wave never edits a template definition or a partition cell.
+
+**Presence is the signal; there is no rollout table.** The challenge tier needed
+`CHALLENGE_ROLLOUT` because its templates *expand an existing denominator*, so
+something had to say whether a language's core is the classic set or the
+expanded one. Modeling is its own tier with its own denominator, so the
+question does not arise: `validate_modeling_cases` in `src/main.rs` checks each
+language that has modeling-tier cases against the preregistered twelve, and a
+language with none has no modeling denominator at all — which is different from
+having a zero, and validates trivially. The first fixture a language commits
+turns the check on for that language, and a partial landing fails the build
+rather than silently reducing a denominator.
+
+**Tier isolation is structural, not a filter someone has to remember.** A
+`dfb-template-model-` template and `score_tier: "modeling"` imply each other,
+and the validator rejects a case where they disagree. Because every core,
+calibration, `language-extension`, and `real-project` selection already filters
+on the tier, a modeling case cannot leak into any of them; `smoke_population_case`
+additionally refuses modeling cases outright, the same way it refuses challenge
+ones, so the frozen 118-case Bifrost smoke population cannot absorb one.
+
+**The partition is `CHALLENGE_SEMGREP_PARTITION` generalized to four tools.**
+`MODELING_PARTITION` holds one cell per tool per category — twenty-four cells,
+transcribed from the preregistration's tables, with the cells it marks *to be
+verified* recorded as `unsupported` per its own rule. Scored today: **Bifrost 2
+templates of 12** (category S alone), **Semgrep CE 6 of 12** (S, Z, E),
+**CodeQL 12 of 12**, **Joern 12 of 12**. A declined cell is decided from the
+template ID *before the tool is invoked*, retains the document's rationale
+verbatim as its reason, and writes a `retained-capability-decision` evidence
+document beside the report. The decision is keyed by template identity, never
+by `feature_tags` and never by an observed result — a regression test asserts
+the cell does not move when a case's tags are rewritten — and revising one is a
+dated amendment on the preregistration, not an edit here.
+
+**Model artifacts are conventions the language PRs populate.** One artifact per
+tool per language, hash-bound into the report's `configuration_hash`:
+
+| Adapter | Modeling artifact |
+| --- | --- |
+| Bifrost | `adapters/bifrost/policies/model-<language>.rqlp` |
+| CodeQL | `adapters/codeql/<language>/queries/<Language>Modeling.ql` |
+| Joern | `adapters/joern/semantics/model-<language>.semantics`, plus the shared `adapters/joern/queries/modeling.sc` |
+| Semgrep | `adapters/semgrep/rules/model-<language>.yaml` |
+
+The CodeQL path departs from the preregistration's schematic
+`adapters/codeql/queries/<Language>Modeling.ql` and sits inside that language's
+existing `qlpack`, because a query outside a pack cannot resolve its
+`codeql/<language>-all` dependency. That is a location, not a declaration
+surface: the document's `ConfigSig` encoding is unchanged. Joern is the one
+adapter with two files, and both bind the configuration hash.
+
+**Four commands, parameterized by language.** `run-bifrost-modeling`,
+`run-codeql-modeling`, `run-joern-modeling`, and `run-semgrep-modeling`, each
+taking `--language java|javascript|python` and writing
+`reports/<tool>-<language>-modeling.json` with raw evidence under
+`reports/raw/<tool>-<language>-modeling/`. The per-language *kernel* commands
+are separate commands because each language's kernel differs in real toolchain
+plumbing — a `kotlinc` trace, a `go build`, a synthesized Cargo crate, a
+different extractor. A modeling run has none of that: three languages, three
+already-wired toolchains, and a run that differs from its sibling only in which
+artifact it loads and which population it selects. A `--language` argument says
+that once instead of twelve times.
+
+**Fail fast, never an empty report.** A run refuses, before touching the
+analyzer, when:
+
+- the language has no modeling population — *"no modeling population for
+  `<language>`"*, because a report over zero assertions asserts nothing;
+- the tool's modeling artifact for that language is missing or unreadable. This
+  is the preregistration's *missing model* arm: a scored cell with no
+  declaration behind it is a defect in DataFlowBench, not evidence about the
+  analyzer, so it is a **hard error** that fails the build and never an
+  outcome — not `unsupported`, not `not-reached`, not a result;
+- a `--codeql-packs` search path is named but does not exist.
+
+**The load-bearing-model gates are wired now so a language PR cannot forget
+them.** A modeling assertion is only evidence of activation if the tool's
+behavior *without* the model would differ, and two adapters have an
+unmodeled-call default that would otherwise decide category P and O cells on
+their own. So the runner reads each artifact before the run and refuses it
+unless the default is disabled: a Bifrost modeling policy must set
+`:call-modeling (call-modeling :unmodeled require-model)` and must not name the
+kernel policies' `optimistic`, and a Semgrep modeling rule must set `options:
+taint_assume_safe_functions: true`. Tests pin both strings. CodeQL and Joern
+have no such switch to pin — a `ConfigSig` with no `isAdditionalFlowStep` adds
+no step and a Joern method with no `FlowMapping` propagates nothing — so
+neither is gated.
+
+**The execution arm lands with the language.** Today every modeling command
+stops at the population gate, because no fixture exists. The arm that invokes
+an analyzer over a *scored* cell is written by the pull request that authors
+that adapter's declarations for that language; until it is, a scored cell is a
+hard error rather than a synthesized outcome, which the adapter contract at the
+head of this document forbids. The `unsupported` arm is complete now, so a tool
+that declines every category a population carries already produces a whole,
+validated report of retained capability decisions without the analyzer being
+invoked at all.
+
+**Reporting stays separate.** Modeling reports are their own population per
+language and per adapter, bound into a freeze manifest like every other report,
+ordered on generated scorecards by the `modeling` entry in `SCORE_TIER_ORDER`.
+A modeling assertion never appears on a propagation-kernel scorecard, never
+enters a core denominator, and is never macro-averaged with one.
+
 ## CodeQL language populations
 
 The CodeQL adapter keeps Java and JavaScript as separate populations. The
