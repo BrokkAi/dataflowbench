@@ -696,7 +696,16 @@ const MODELING_PARTITION: [ModelingPartitionCell; 24] = [
     ModelingPartitionCell {
         tool: ModelingTool::Joern,
         category: ModelingCategory::Propagators,
-        unsupported_reason: None,
+        // Amendment A2: FlowSemantic mappings on the pinned 4.0.610 are
+        // additive over the engine's default argument pass-through and cannot
+        // restrict it, so a propagator declaration is not load-bearing — the
+        // default decides the cell with or without the model.
+        unsupported_reason: Some(
+            "Joern 4.0.610 FlowSemantic mappings are additive over the \
+             default unmodeled-call pass-through and cannot restrict it; a \
+             propagator model is not load-bearing on the pinned version \
+             (Amendment A2)",
+        ),
     },
     ModelingPartitionCell {
         tool: ModelingTool::Joern,
@@ -706,7 +715,16 @@ const MODELING_PARTITION: [ModelingPartitionCell; 24] = [
     ModelingPartitionCell {
         tool: ModelingTool::Joern,
         category: ModelingCategory::Summaries,
-        unsupported_reason: None,
+        // Amendment A2: same additivity, and the field-destination access
+        // path of a summary (arg -> field of arg) is ignored — the whole
+        // object is tainted — so a summary model is likewise not
+        // load-bearing on the pinned version.
+        unsupported_reason: Some(
+            "Joern 4.0.610 ignores a summary's field-destination access path \
+             and its FlowSemantic cannot restrict the default pass-through; \
+             a summary model is not load-bearing on the pinned version \
+             (Amendment A2)",
+        ),
     },
     ModelingPartitionCell {
         tool: ModelingTool::Joern,
@@ -761,10 +779,33 @@ const MODELING_PARTITION: [ModelingPartitionCell; 24] = [
 /// identity alone: `None` when the category is scored, `Some(reason)` when the
 /// tool declines it. Every cell is present, so an unknown template is a
 /// programming error rather than a silent scored default.
+/// Template-level partition overrides (Amendment A3): consulted before the
+/// category cell, for the cells where a tool's capability splits within a
+/// category. Semgrep CE can score sanitizer-kill (template 5) but not
+/// sanitizer-selectivity (template 6): the mandated
+/// `taint_assume_safe_functions: true` — required to keep propagator models
+/// load-bearing — itself suppresses flow through the undeclared
+/// sanitizer-lookalike, so selectivity's positive is undecidable by
+/// construction in a single CE invocation.
+const MODELING_TEMPLATE_OVERRIDES: [(ModelingTool, &str, &str); 1] = [(
+    ModelingTool::Semgrep,
+    "dfb-template-model-sanitizer-selectivity",
+    "Semgrep CE cannot express sanitizer selectivity and the safe-function \
+     assumption in one invocation: taint_assume_safe_functions suppresses \
+     flow through the undeclared sanitizer-lookalike, so the positive is \
+     undecidable by construction (Amendment A3)",
+)];
+
 fn modeling_partition_reason(tool: ModelingTool, template: &str) -> Result<Option<&'static str>> {
     let category = modeling_category(template).with_context(|| {
         format!("{template:?} is not one of the twelve preregistered modeling templates")
     })?;
+    if let Some((_, _, reason)) = MODELING_TEMPLATE_OVERRIDES
+        .iter()
+        .find(|(t, id, _)| *t == tool && *id == template)
+    {
+        return Ok(Some(reason));
+    }
     MODELING_PARTITION
         .iter()
         .find(|cell| cell.tool == tool && cell.category == category)
@@ -12668,9 +12709,12 @@ mod tests {
     #[test]
     fn modeling_partition_scored_counts_match_the_preregistration() {
         assert_eq!(modeling_supported_templates(ModelingTool::Bifrost).len(), 2);
-        assert_eq!(modeling_supported_templates(ModelingTool::Semgrep).len(), 6);
+        // Amendment A3 moved sanitizer-selectivity out of Semgrep's scored set.
+        assert_eq!(modeling_supported_templates(ModelingTool::Semgrep).len(), 5);
         assert_eq!(modeling_supported_templates(ModelingTool::Codeql).len(), 12);
-        assert_eq!(modeling_supported_templates(ModelingTool::Joern).len(), 12);
+        // Amendment A2 moved Joern's propagator and summary categories to
+        // unsupported: FlowSemantic is additive on the pinned 4.0.610.
+        assert_eq!(modeling_supported_templates(ModelingTool::Joern).len(), 8);
     }
 
     /// Bifrost enters with category S alone — the honest starting position the
@@ -12712,6 +12756,10 @@ mod tests {
         ] {
             expected.extend(category.templates());
         }
+        // Amendment A3: sanitizer-selectivity is template-overridden out of
+        // Semgrep's scored set — the safe-function assumption and selectivity
+        // cannot coexist in one CE invocation.
+        expected.retain(|template| *template != "dfb-template-model-sanitizer-selectivity");
         expected.sort_unstable();
         let mut scored = modeling_supported_templates(ModelingTool::Semgrep);
         scored.sort_unstable();
