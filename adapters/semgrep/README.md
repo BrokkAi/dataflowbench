@@ -570,3 +570,52 @@ claim — it resolves all 14 scored Kotlin cases through the Java arm.
 Semgrep results are not a proxy for any other adapter's population, no Semgrep
 population is evidence for another Semgrep language, and the scored 14-assertion
 subset is never comparable to another tool's full 32- or 30-assertion kernel.
+
+## JavaScript taint-modeling matrix
+
+Its own population, never pooled with a kernel. The
+[modeling matrix](../../docs/modeling-matrix.md) preregisters **three of six
+categories** for Semgrep CE — S (declared sources and sinks), Z (declared
+sanitizers), and E (framework entry points) — which is a *larger* share of that
+matrix than Bifrost's one of six, because modeling capability and propagation
+capability are not the same axis. Categories P, O, and B are `unsupported`,
+decided from the template identity before the scan and retained with the
+document's own rationale.
+
+- Artifact: `adapters/semgrep/rules/model-javascript.yaml`. It declares
+  `pattern-sources`, `pattern-sinks`, and `pattern-sanitizers` for the S, Z, and
+  E declarations and carries no `pattern-propagators`, no summary, and no
+  persistence boundary — a declined category is absent from the artifact.
+- **The modeling rule is outside the kernel configuration hash.** Every
+  published Semgrep kernel report cites a SHA-256 over the *eleven* kernel rule
+  files; `semgrep_rule_paths` excludes any `model-*.yaml`, so committing a
+  modeling artifact for a different population does not invalidate reports for a
+  configuration no kernel ever loaded. The modeling report's own
+  `configuration_hash` covers its own artifact. A test pins both facts.
+- Nothing in the modeling rule is templated. The kernel rules substitute each
+  case's own endpoint identifiers into `__DFB_SOURCE__`/`__DFB_SINK__`; a
+  modeling rule that did the same would make every category-S negative pass for
+  a reason that has nothing to do with the declaration. The runner also does
+  **not** consult the challenge tier's tag-keyed capability exclusion here:
+  modeling capability decisions come from the preregistered modeling partition,
+  and consulting a second partition would let a fixture's `feature_tags` move a
+  modeling cell.
+- Load-bearing model: the rule sets `options: taint_assume_safe_functions:
+  true`, which the preregistration verified against this pinned CE binary
+  removes the engine's default argument-to-result pass-through. The runner
+  refuses the artifact without it.
+- Invocation:
+  `cargo run -- run-semgrep-modeling --language javascript --semgrep <path>`,
+  writing `reports/semgrep-javascript-modeling.json` with raw evidence under
+  `reports/raw/semgrep-javascript-modeling/`.
+- Result on the pinned CE binary: **11 of the 12 scored assertions match** — all
+  four category-S cells, three of four category-Z cells, and all four
+  category-E cells. The single mismatch is
+  `dfb-taint-javascript-model-sanitizer-selectivity-positive`, where the flow
+  runs through the *undeclared* `Clean.sanitize` and
+  `taint_assume_safe_functions: true` stops it. That is the load-bearing switch
+  doing exactly what the contract requires and is published as observed, not
+  tuned away: the alternative would have been to disable the switch and score
+  category Z on the engine's default rather than on the declaration.
+
+See [the JavaScript modeling matrix](../../docs/javascript-modeling.md).

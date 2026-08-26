@@ -1,0 +1,65 @@
+{
+  "schema_version": 2,
+  "id": "dfb-taint-javascript-model-summary-field-negative",
+  "template_id": "dfb-template-model-summary-field",
+  "polarity": "negative",
+  "negative_mechanism": "field-separation",
+  "score_tier": "modeling",
+  "track": "taint",
+  "language": "javascript",
+  "semantic_dimensions": [
+    "external-summary",
+    "interprocedural-flow",
+    "heap-field-sensitivity"
+  ],
+  "feature_tags": [
+    "modeled-external",
+    "summary-required",
+    "heap-access-path"
+  ],
+  "model_profile": "benchmark-controlled",
+  "fixture_files": [
+    "Bridge.js",
+    "ModelSummaryFieldNegative.js"
+  ],
+  "source_anchors": [
+    {
+      "marker": "DFB-SOURCE: model-summary-field-input",
+      "file": "ModelSummaryFieldNegative.js",
+      "line_hint": 1
+    }
+  ],
+  "sink_anchors": [
+    {
+      "marker": "DFB-SINK: model-summary-field-sink",
+      "file": "ModelSummaryFieldNegative.js",
+      "line_hint": 5
+    }
+  ],
+  "expected_flows": [],
+  "expected_nonflows": [
+    {
+      "source": "DFB-SOURCE: model-summary-field-input",
+      "sink": "DFB-SINK: model-summary-field-sink"
+    }
+  ],
+  "witness_checkpoints": [],
+  "expected_analysis_capability": {
+    "kind": "store-through-summary-activation"
+  },
+  "execution_budget": {
+    "wall_clock_seconds": 60,
+    "peak_memory_mb": 512
+  },
+  "fixture_provenance": {
+    "kind": "authored",
+    "origin": "DataFlowBench",
+    "revision": "m3-modeling-javascript",
+    "license": "MIT"
+  },
+  "tool_model_references": {
+    "codeql": {
+      "query": "adapters/codeql/javascript/queries/JavaScriptModeling.ql"
+    }
+  }
+}

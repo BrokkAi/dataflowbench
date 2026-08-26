@@ -1,0 +1,60 @@
+{
+  "schema_version": 2,
+  "id": "dfb-taint-javascript-model-entrypoint-parameter-positive",
+  "template_id": "dfb-template-model-entrypoint-parameter",
+  "polarity": "positive",
+  "score_tier": "modeling",
+  "track": "taint",
+  "language": "javascript",
+  "semantic_dimensions": [
+    "external-summary"
+  ],
+  "feature_tags": [
+    "modeled-external",
+    "summary-required"
+  ],
+  "model_profile": "benchmark-controlled",
+  "fixture_files": [
+    "ModelEntrypointParameterPositive.js"
+  ],
+  "source_anchors": [
+    {
+      "marker": "DFB-SOURCE: model-entrypoint-parameter-input",
+      "file": "ModelEntrypointParameterPositive.js",
+      "line_hint": 4
+    }
+  ],
+  "sink_anchors": [
+    {
+      "marker": "DFB-SINK: model-entrypoint-parameter-sink",
+      "file": "ModelEntrypointParameterPositive.js",
+      "line_hint": 1
+    }
+  ],
+  "expected_flows": [
+    {
+      "source": "DFB-SOURCE: model-entrypoint-parameter-input",
+      "sink": "DFB-SINK: model-entrypoint-parameter-sink"
+    }
+  ],
+  "expected_nonflows": [],
+  "witness_checkpoints": [],
+  "expected_analysis_capability": {
+    "kind": "entry-point-root-activation"
+  },
+  "execution_budget": {
+    "wall_clock_seconds": 60,
+    "peak_memory_mb": 512
+  },
+  "fixture_provenance": {
+    "kind": "authored",
+    "origin": "DataFlowBench",
+    "revision": "m3-modeling-javascript",
+    "license": "MIT"
+  },
+  "tool_model_references": {
+    "codeql": {
+      "query": "adapters/codeql/javascript/queries/JavaScriptModeling.ql"
+    }
+  }
+}

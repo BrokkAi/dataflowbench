@@ -879,6 +879,48 @@ impl ModelingLanguage {
         }
     }
 
+    /// The anchor dialect a modeling case of this language is reconciled
+    /// under. JavaScript uses the member-qualified ECMA variant because a
+    /// modeling declaration binds a type and a member, so a declared sink is
+    /// reached through its receiver.
+    fn dialect(self) -> AnchorDialect {
+        match self {
+            Self::Java => AnchorDialect::Java,
+            Self::Javascript => AnchorDialect::EcmaMember,
+            Self::Python => AnchorDialect::Python,
+        }
+    }
+
+    /// The CodeQL extractor that builds a database for this language.
+    fn codeql_extractor(self) -> &'static str {
+        match self {
+            Self::Java => "java",
+            Self::Javascript => "javascript",
+            Self::Python => "python",
+        }
+    }
+
+    /// The directory holding this language's CodeQL `qlpack.yml`. The modeling
+    /// query lives inside it, so the pack manifest and its lock file bind the
+    /// report's configuration hash alongside the query itself.
+    fn codeql_qlpack_directory(self) -> &'static str {
+        match self {
+            Self::Java => "adapters/codeql/java",
+            Self::Javascript => "adapters/codeql/javascript",
+            Self::Python => "adapters/codeql/python",
+        }
+    }
+
+    /// The Joern frontend identifier for this language, as the kernel scripts
+    /// already spell it.
+    fn joern_frontend(self) -> &'static str {
+        match self {
+            Self::Java => "JAVASRC",
+            Self::Javascript => "JSSRC",
+            Self::Python => "PYTHONSRC",
+        }
+    }
+
     fn report(self, tool: ModelingTool) -> PathBuf {
         PathBuf::from(format!(
             "reports/{}-{}-modeling.json",
@@ -5597,6 +5639,19 @@ struct SinkAnchorLocation {
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 enum AnchorDialect {
     Ecma,
+    /// JavaScript and TypeScript as the **modeling matrix** spells them:
+    /// identical to `Ecma` except that a member-qualified call —
+    /// `Audit.record(v)` — counts as a callsite of `record`.
+    ///
+    /// No kernel needs this. Every kernel endpoint is a bare function, so
+    /// `Ecma` deliberately refuses a `.`-prefixed match and cannot mistake a
+    /// property access for a call to the endpoint. A modeling declaration
+    /// binds a *type* and a *member*, though, so the declared sink of
+    /// `dfb-template-model-declared-sink` is only ever reached through its
+    /// receiver, and refusing the member form would leave that case with no
+    /// resolvable sink callsite at all. This variant is used by the modeling
+    /// runners and by nothing else, so no kernel reconciliation changes.
+    EcmaMember,
     CSharp,
     Go,
     Cpp,
@@ -5613,7 +5668,7 @@ impl AnchorDialect {
     /// markers sit on the endpoint function's own declaration line.
     fn declared_function_name(self, declaration: &str, marker: &str) -> Option<String> {
         match self {
-            Self::Ecma => ecma_function_name(declaration, marker),
+            Self::Ecma | Self::EcmaMember => ecma_function_name(declaration, marker),
             Self::CSharp
             | Self::Go
             | Self::Cpp
@@ -5628,6 +5683,7 @@ impl AnchorDialect {
     fn is_call(self, line: &str, function_name: &str) -> bool {
         match self {
             Self::Ecma => ecma_function_call(line, function_name),
+            Self::EcmaMember => ecma_member_function_call(line, function_name),
             Self::CSharp | Self::Go | Self::Java => {
                 parameter_list_function_call(line, function_name)
             }
@@ -6005,6 +6061,33 @@ fn ecma_function_call(line: &str, function_name: &str) -> bool {
             .find(|character| !character.is_whitespace());
         let preceded_by_member = before == Some('.') || before == Some('?');
         if !before.is_some_and(ecma_identifier_char) && !preceded_by_member && after == Some('(') {
+            let prefix = line[..start].trim_end();
+            if !prefix.ends_with("function") {
+                return true;
+            }
+        }
+        search_from = end;
+    }
+    false
+}
+
+/// `ecma_function_call`, with a member-qualified callsite accepted.
+///
+/// The two differ in exactly one respect: `Audit.record(v)` and `alpha.get(k)`
+/// are callsites of `record` and `get` here and are not under `Ecma`. The
+/// declaration guard is unchanged — a `function record(...)` declaration is
+/// still never counted as a call — and so is the literal and comment stripping.
+fn ecma_member_function_call(line: &str, function_name: &str) -> bool {
+    let line = code_without_literals(line);
+    let mut search_from = 0;
+    while let Some(offset) = line[search_from..].find(function_name) {
+        let start = search_from + offset;
+        let end = start + function_name.len();
+        let before = line[..start].chars().next_back();
+        let after = line[end..]
+            .chars()
+            .find(|character| !character.is_whitespace());
+        if !before.is_some_and(ecma_identifier_char) && after == Some('(') {
             let prefix = line[..start].trim_end();
             if !prefix.ends_with("function") {
                 return true;
@@ -7115,7 +7198,13 @@ fn run_joern_case(
                 ));
             }
         };
-        let (outcome, diagnostics) = joern_flow_outcome(case_path, case, &raw, kernel.dialect());
+        let (outcome, diagnostics) = joern_flow_outcome(
+            case_path,
+            case,
+            &raw,
+            kernel.dialect(),
+            JoernEndpointRule::BothMustBeObserved,
+        );
         Ok((outcome, diagnostics, raw_path.clone()))
     })();
 
@@ -7183,21 +7272,43 @@ enum EvidenceAnchorMatch {
     Ambiguous,
 }
 
+/// What an absent endpoint means in a Joern evidence document.
+///
+/// The two populations differ here, and the difference is not a convenience.
+/// A **kernel** case is parameterized by its *own* markers, so both endpoints
+/// are present in every fixture by construction and their absence can only mean
+/// the frontend failed to see them — which is execution coverage, never a
+/// negative. A **modeling** case is parameterized by the benchmark's
+/// *declarations*, and a declared endpoint being absent from a fixture is
+/// frequently the whole content of the assertion: template 2's negative calls
+/// `Audit.discard`, so the declared sink `Audit.record` is not there, and that
+/// is exactly the answer the cell is asking for. Applying the kernel's rule
+/// there would turn every correct category-S negative into `inconclusive`.
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+enum JoernEndpointRule {
+    /// Kernels: a fixture always contains both of its own endpoints, so an
+    /// absent one is an incomplete run.
+    BothMustBeObserved,
+    /// The modeling matrix: an absent *declared* endpoint is the assertion.
+    /// Only an empty extraction is incomplete.
+    AbsenceIsTheAssertion,
+}
+
 /// Normalize one retained Joern evidence document.
 ///
 /// A flow counts as `reached` only when one of its elements sits on a callsite
 /// of the case's own anchored sink function, in the anchored file — the same
 /// reconciliation the CodeQL C#, Go, C, C++, and Rust kernels apply to SARIF.
 /// Every other state is preserved distinctly: a script, frontend, or engine
-/// failure is `runner-error`; a run that never observed one of the two
-/// benchmark-controlled endpoints, or that produced flows with no usable
-/// location, is `inconclusive`. Only a complete run that observed both
-/// endpoints and produced no flow is `not-reached`.
+/// failure is `runner-error`; a run that produced flows with no usable
+/// location, or that `endpoints` says did not observe what it had to, is
+/// `inconclusive`. Only a complete run that produced no flow is `not-reached`.
 fn joern_flow_outcome(
     case_path: &Path,
     case: &Value,
     raw: &Value,
     dialect: AnchorDialect,
+    endpoints: JoernEndpointRule,
 ) -> (&'static str, Vec<String>) {
     match raw["state"].as_str() {
         Some("analyzed") => {}
@@ -7242,16 +7353,39 @@ fn joern_flow_outcome(
             vec!["Joern evidence lacks its endpoint node counts".to_string()],
         );
     };
-    if sources == 0 || sinks == 0 {
-        return (
-            "inconclusive",
-            vec![format!(
-                "Joern resolved {sources} source node(s) and {sinks} sink node(s); the run never observed both benchmark-controlled endpoints"
-            )],
-        );
+    match endpoints {
+        JoernEndpointRule::BothMustBeObserved if sources == 0 || sinks == 0 => {
+            return (
+                "inconclusive",
+                vec![format!(
+                    "Joern resolved {sources} source node(s) and {sinks} sink node(s); the run never observed both benchmark-controlled endpoints"
+                )],
+            );
+        }
+        JoernEndpointRule::AbsenceIsTheAssertion
+            if raw["method_count"].as_u64().is_none_or(|count| count == 0) =>
+        {
+            return (
+                "inconclusive",
+                vec![
+                    "Joern extracted no method from the fixture; the run produced nothing to analyze".to_string(),
+                ],
+            );
+        }
+        _ => {}
     }
     if flows.is_empty() {
-        return ("not-reached", Vec::new());
+        let mut diagnostics = Vec::new();
+        if endpoints == JoernEndpointRule::AbsenceIsTheAssertion && (sources == 0 || sinks == 0) {
+            // Retained, not converted: which declared endpoints the fixture
+            // even contains is exactly what several modeling negatives are
+            // about, and a reader should be able to see it without opening the
+            // raw evidence.
+            diagnostics.push(format!(
+                "Joern resolved {sources} declared source node(s) and {sinks} declared sink node(s) in this fixture"
+            ));
+        }
+        return ("not-reached", diagnostics);
     }
     let sink_locations = match sink_anchor_locations(case_path, case, dialect) {
         Ok(locations) => locations,
@@ -7705,8 +7839,22 @@ fn run_semgrep_kernel(binary: &Path, kernel: SemgrepKernel) -> Result<()> {
     Ok(())
 }
 
-/// Every committed Semgrep rule file, so one `configuration_hash` binds the
-/// whole rule set rather than only the language that happened to run.
+/// The prefix a Semgrep **modeling** artifact carries. A modeling rule lives
+/// beside the kernel rules but belongs to a different population, so it is
+/// excluded from the kernel configuration hash below.
+const SEMGREP_MODELING_RULE_PREFIX: &str = "model-";
+
+/// Every committed Semgrep **kernel** rule file, so one `configuration_hash`
+/// binds the whole kernel rule set rather than only the language that happened
+/// to run.
+///
+/// Modeling rules are deliberately excluded. The kernel hash is a statement
+/// about the kernel configuration, and the modeling matrix is its own
+/// population with its own artifact, its own report, and its own hash — which
+/// `plan_modeling_run` computes over that artifact alone. Folding a modeling
+/// rule in here would have made every published kernel report cite a hash that
+/// no longer described the configuration it ran under, for a file no kernel
+/// ever loads.
 fn semgrep_rule_paths() -> Result<BTreeSet<PathBuf>> {
     let mut paths = BTreeSet::new();
     for entry in fs::read_dir(SEMGREP_RULES_DIR)
@@ -7714,7 +7862,11 @@ fn semgrep_rule_paths() -> Result<BTreeSet<PathBuf>> {
         .filter_map(std::result::Result::ok)
     {
         let path = entry.path();
-        if path.is_file() && path.extension().is_some_and(|ext| ext == "yaml") {
+        let modeling = path
+            .file_name()
+            .and_then(|name| name.to_str())
+            .is_some_and(|name| name.starts_with(SEMGREP_MODELING_RULE_PREFIX));
+        if path.is_file() && !modeling && path.extension().is_some_and(|ext| ext == "yaml") {
             paths.insert(path);
         }
     }
@@ -8428,6 +8580,18 @@ fn plan_modeling_run(tool: ModelingTool, language: ModelingLanguage) -> Result<M
         // Joern's declarations live in two files, so both bind the hash.
         configuration_paths.insert(PathBuf::from(JOERN_MODELING_SCRIPT));
     }
+    if tool == ModelingTool::Codeql {
+        // The modeling query resolves its `codeql/<language>-all` dependency
+        // through the language's committed pack, so the pack manifest and its
+        // lock file are part of the configuration the same way they are for
+        // every kernel run.
+        let qlpack = Path::new(language.codeql_qlpack_directory());
+        configuration_paths.insert(qlpack.join("qlpack.yml"));
+        let lock = qlpack.join("codeql-pack.lock.yml");
+        if lock.is_file() {
+            configuration_paths.insert(lock);
+        }
+    }
     for path in &configuration_paths {
         if !path.is_file() {
             bail!(
@@ -8492,14 +8656,13 @@ fn modeling_partition_outcome(
 
 /// Run one adapter's modeling matrix for one language.
 ///
-/// The staged shape of this command is deliberate and is recorded in
-/// docs/adapters.md: the population gate, the artifact gate, the load-bearing
-/// gate, and the partition's `unsupported` arm are infrastructure and land
-/// here; the arm that actually invokes the analyzer over a scored cell lands
-/// with the language pull request that authors that adapter's declarations,
-/// because there is nothing to invoke it against until then. A scored cell
-/// with no execution arm is a hard error — this adapter will not synthesize a
-/// tool result, and `docs/adapters.md` forbids it.
+/// The order of the gates is the contract, not a convenience: the population
+/// gate, the artifact gate, and the load-bearing gate all run in
+/// `plan_modeling_run` before the analyzer is touched, and the partition's
+/// `unsupported` arm is decided from the template identity before each case is
+/// handed over. Only a cell the preregistered partition scores reaches the
+/// analyzer at all, so a declined category can never produce an empty finding
+/// list that later reads as a negative.
 fn run_modeling(
     tool: ModelingTool,
     binary: &Path,
@@ -8513,42 +8676,45 @@ fn run_modeling(
     }
     let plan = plan_modeling_run(tool, language)?;
 
-    let scored = modeling_supported_templates(plan.tool);
-    let scored_cases: Vec<&str> = plan
-        .cases
-        .iter()
-        .filter_map(|(_, case)| case["template_id"].as_str())
-        .filter(|template| scored.contains(template))
-        .collect();
-    if !scored_cases.is_empty() {
-        bail!(
-            "{} has {} scored {} modeling assertion(s) ({scored_cases:?}) but this adapter's modeling execution arm is not wired yet; it lands with the language pull request that authors {} (docs/modeling-matrix.md#rollout-plan). Refusing to write a report rather than synthesizing an outcome",
-            plan.tool.pinned_identity(),
-            scored_cases.len(),
-            plan.language.display_name(),
-            plan.language.artifact(plan.tool)
-        );
-    }
-
-    // Reached only by a tool that declines every category this population
-    // carries: a complete report of retained capability decisions, with the
-    // analyzer never invoked.
     fs::create_dir_all(&plan.raw_dir)?;
     let started = now_seconds()?;
     let (version, build_identity) = modeling_version_identity(plan.tool, binary)?;
     let revision = fixture_revision()?;
+    let artifact = PathBuf::from(plan.language.artifact(plan.tool));
+    // State the preregistered split before the run, so the retained log says
+    // how many of this population's assertions the partition ever intended to
+    // score and how many it declined before the analyzer was touched.
+    let scored_templates = modeling_supported_templates(plan.tool);
+    println!(
+        "{} {} modeling matrix: {} of {} templates scored by the preregistered partition",
+        plan.tool.pinned_identity(),
+        plan.language.display_name(),
+        scored_templates.len(),
+        MODELING_TEMPLATE_IDS.len()
+    );
     let mut results = Vec::with_capacity(plan.cases.len());
-    for (_, case) in &plan.cases {
+    for (case_path, case) in &plan.cases {
         let id = required_string(case, "id", "modeling case")?;
         let start = Instant::now();
-        let (outcome, reason, raw_path) =
-            modeling_partition_outcome(plan.tool, case, &plan.raw_dir)?
-                .expect("every remaining cell is an unsupported one");
+        let (outcome, diagnostics, raw_path) =
+            match modeling_partition_outcome(plan.tool, case, &plan.raw_dir)? {
+                Some((outcome, reason, raw_path)) => (outcome, vec![reason], raw_path),
+                None => run_modeling_case(
+                    plan.tool,
+                    binary,
+                    plan.language,
+                    case_path,
+                    case,
+                    &plan.raw_dir,
+                    &artifact,
+                    codeql_packs,
+                )?,
+            };
         results.push(normalized_result(
             case,
             id,
             outcome,
-            vec![reason],
+            diagnostics,
             start.elapsed(),
             &raw_path,
         ));
@@ -8569,6 +8735,575 @@ fn run_modeling(
     write_and_validate_report(&plan.report, &report)?;
     println!("wrote {}", plan.report.display());
     Ok(())
+}
+
+/// Execute one **scored** modeling cell against the analyzer.
+///
+/// Reached only for a cell the preregistered partition scores for this tool.
+/// Each arm reuses that adapter's own per-case machinery — workspace
+/// materialization, evidence retention, anchor reconciliation, outcome
+/// normalization — and differs from the kernel path in exactly one respect:
+/// the model comes from the committed modeling artifact rather than from the
+/// case, because what is being scored is the declaration.
+fn run_modeling_case(
+    tool: ModelingTool,
+    binary: &Path,
+    language: ModelingLanguage,
+    case_path: &Path,
+    case: &Value,
+    raw_dir: &Path,
+    artifact: &Path,
+    codeql_packs: Option<&Path>,
+) -> Result<(&'static str, Vec<String>, PathBuf)> {
+    match tool {
+        ModelingTool::Bifrost => {
+            run_bifrost_modeling_case(binary, case_path, case, raw_dir, artifact)
+        }
+        ModelingTool::Codeql => run_codeql_modeling_case(
+            binary,
+            codeql_packs,
+            language,
+            case_path,
+            case,
+            raw_dir,
+            artifact,
+        ),
+        ModelingTool::Joern => {
+            run_joern_modeling_case(binary, language, case_path, case, raw_dir, artifact)
+        }
+        ModelingTool::Semgrep => {
+            run_semgrep_modeling_case(binary, language, case_path, case, raw_dir, artifact)
+        }
+    }
+}
+
+/// One Bifrost modeling assertion: the kernel invocation exactly, with the
+/// modeling policy in place of the language kernel policy.
+fn run_bifrost_modeling_case(
+    binary: &Path,
+    case_path: &Path,
+    case: &Value,
+    raw_dir: &Path,
+    policy: &Path,
+) -> Result<(&'static str, Vec<String>, PathBuf)> {
+    let id = required_string(case, "id", "modeling case")?;
+    let raw_path = raw_dir.join(format!("{id}.json"));
+    if raw_path.exists() {
+        fs::remove_file(&raw_path)
+            .with_context(|| format!("clear stale raw output {}", raw_path.display()))?;
+    }
+    let policy = policy
+        .to_str()
+        .context("the Bifrost modeling policy path is not UTF-8")?;
+    let workspace = materialize_bifrost_workspace(case_path, case, policy)?;
+    let mut command = Command::new(binary);
+    command
+        .arg("--root")
+        .arg(&workspace)
+        .arg("--policy-file")
+        .arg("policy.rqlp")
+        .args([
+            "--evaluation-date",
+            "2026-08-11",
+            "--format",
+            "json",
+            "--fail-on",
+            "never",
+            "--output",
+        ])
+        .arg(&raw_path);
+    let output = match command.output() {
+        Ok(output) => output,
+        Err(error) => {
+            let diagnostic = format!("failed to run {}: {error}", binary.display());
+            write_bifrost_error(&raw_path, id, None, "spawn", "", &diagnostic)?;
+            return Ok(("runner-error", vec![diagnostic], raw_path));
+        }
+    };
+    let status_code = output.status.code();
+    if !raw_path.is_file() {
+        let stdout = String::from_utf8_lossy(&output.stdout);
+        let stderr = String::from_utf8_lossy(&output.stderr);
+        let diagnostic = format!(
+            "Bifrost policy execution produced no JSON report (status {})",
+            output.status
+        );
+        write_bifrost_error(
+            &raw_path,
+            id,
+            status_code,
+            "evaluate",
+            stdout.trim(),
+            &format!("{}\n{}", diagnostic, stderr.trim()),
+        )?;
+        return Ok(("runner-error", vec![diagnostic], raw_path));
+    }
+    let raw =
+        fs::read_to_string(&raw_path).with_context(|| format!("read {}", raw_path.display()))?;
+    let (outcome, diagnostics) = match serde_json::from_str::<Value>(&raw) {
+        Ok(mut report) => {
+            if status_code.is_none() || status_code.is_some_and(|code| !matches!(code, 0..=2)) {
+                report["_dataflowbench_runner"] = json!({
+                    "outcome": "runner-error",
+                    "exit_status": status_code
+                });
+                fs::write(&raw_path, serde_json::to_string_pretty(&report)? + "\n")?;
+            }
+            let (outcome, diagnostics, _) = normalize_bifrost(case, &report, status_code)?;
+            (outcome, diagnostics)
+        }
+        Err(error) => (
+            "runner-error",
+            vec![format!(
+                "parse Bifrost JSON report {}: {error}",
+                raw_path.display()
+            )],
+        ),
+    };
+    Ok((outcome, diagnostics, raw_path))
+}
+
+/// One CodeQL modeling assertion: a database over the case's own fixture files
+/// and one analysis with the language's modeling query, reconciled against the
+/// case's sink anchors exactly as every CodeQL kernel result is.
+fn run_codeql_modeling_case(
+    binary: &Path,
+    packs: Option<&Path>,
+    language: ModelingLanguage,
+    case_path: &Path,
+    case: &Value,
+    raw_dir: &Path,
+    query: &Path,
+) -> Result<(&'static str, Vec<String>, PathBuf)> {
+    let id = required_string(case, "id", "modeling case")?;
+    let scratch_root =
+        std::env::temp_dir().join(format!("dataflowbench-codeql-{}-modeling", language.key()));
+    let workspace = scratch_root.join(format!("{id}-source"));
+    let database = scratch_root.join(format!("{id}-db"));
+    for stale in [&workspace, &database] {
+        if stale.exists() {
+            fs::remove_dir_all(stale).with_context(|| format!("clear {}", stale.display()))?;
+        }
+    }
+    fs::create_dir_all(&workspace)?;
+    let fixture_root = case_path.parent().expect("case path has parent");
+    for fixture in case["fixture_files"].as_array().expect("schema validated") {
+        let fixture = fixture.as_str().expect("schema validated");
+        fs::copy(fixture_root.join(fixture), workspace.join(fixture))?;
+    }
+
+    let raw_path = raw_dir.join(format!("{id}.sarif.json"));
+    let error_path = raw_dir.join(format!("{id}-error.json"));
+    for stale in [&raw_path, &error_path] {
+        if stale.exists() {
+            fs::remove_file(stale).with_context(|| format!("clear {}", stale.display()))?;
+        }
+    }
+
+    let result = (|| {
+        for (stage, output) in [
+            (
+                "database-create",
+                Command::new(binary)
+                    .arg("database")
+                    .arg("create")
+                    .arg(&database)
+                    .arg(format!("--language={}", language.codeql_extractor()))
+                    .arg(format!("--source-root={}", workspace.display()))
+                    .arg("--overwrite")
+                    .output(),
+            ),
+            ("database-analyze", {
+                let mut analyze = Command::new(binary);
+                analyze
+                    .arg("database")
+                    .arg("analyze")
+                    .arg(&database)
+                    .arg(query)
+                    .arg("--format=sarif-latest")
+                    .arg(format!("--output={}", raw_path.display()))
+                    .arg("--rerun");
+                if let Some(packs) = packs {
+                    analyze.arg(format!("--additional-packs={}", packs.display()));
+                }
+                analyze.output()
+            }),
+        ] {
+            match output {
+                Err(error) => {
+                    let diagnostic = format!(
+                        "failed to run CodeQL {} modeling {stage} with {}: {error}",
+                        language.display_name(),
+                        binary.display()
+                    );
+                    let path = write_modeling_process_error(
+                        raw_dir,
+                        id,
+                        "codeql",
+                        stage,
+                        &diagnostic,
+                        None,
+                    )?;
+                    return Ok(("runner-error", vec![diagnostic], path));
+                }
+                Ok(output) if !output.status.success() => {
+                    let diagnostic = format!(
+                        "CodeQL {} modeling {stage} failed with status {}",
+                        language.display_name(),
+                        output.status
+                    );
+                    let path = write_modeling_process_error(
+                        raw_dir,
+                        id,
+                        "codeql",
+                        stage,
+                        &diagnostic,
+                        Some(&output),
+                    )?;
+                    return Ok(("runner-error", vec![diagnostic], path));
+                }
+                Ok(_) => {}
+            }
+        }
+        if !raw_path.is_file() {
+            let diagnostic = format!(
+                "CodeQL {} modeling analysis produced no SARIF output",
+                language.display_name()
+            );
+            let path = write_modeling_process_error(
+                raw_dir,
+                id,
+                "codeql",
+                "database-analyze",
+                &diagnostic,
+                None,
+            )?;
+            return Ok(("runner-error", vec![diagnostic], path));
+        }
+        let sarif: Value = match fs::read_to_string(&raw_path)
+            .map_err(|error| error.to_string())
+            .and_then(|raw| serde_json::from_str(&raw).map_err(|error| error.to_string()))
+        {
+            Ok(sarif) => sarif,
+            Err(error) => {
+                return Ok((
+                    "runner-error",
+                    vec![format!(
+                        "read CodeQL modeling SARIF {}: {error}",
+                        raw_path.display()
+                    )],
+                    raw_path.clone(),
+                ));
+            }
+        };
+        let execution_errors = sarif_execution_errors(&sarif);
+        if !execution_errors.is_empty() {
+            return Ok(("runner-error", execution_errors, raw_path.clone()));
+        }
+        if !sarif["runs"]
+            .as_array()
+            .is_some_and(|runs| !runs.is_empty())
+        {
+            return Ok((
+                "runner-error",
+                vec!["CodeQL modeling SARIF contains no analysis runs".to_string()],
+                raw_path.clone(),
+            ));
+        }
+        let (outcome, diagnostics) =
+            callsite_anchored_outcome(case_path, case, &sarif, language.dialect());
+        Ok((outcome, diagnostics, raw_path.clone()))
+    })();
+
+    let cleanup = clear_codeql_case_artifacts(&workspace, &database);
+    match (result, cleanup) {
+        (Ok(normalized), Ok(())) => Ok(normalized),
+        (Ok((_, mut diagnostics, path)), Err(error)) => {
+            diagnostics.push(format!("CodeQL modeling artifact cleanup failed: {error}"));
+            diagnostics.sort();
+            diagnostics.dedup();
+            Ok(("runner-error", diagnostics, path))
+        }
+        (Err(error), Ok(())) => Err(error),
+        (Err(error), Err(cleanup_error)) => Err(error.context(format!(
+            "CodeQL modeling artifact cleanup also failed: {cleanup_error}"
+        ))),
+    }
+}
+
+/// One Joern modeling assertion: the shared `modeling.sc` over the case's own
+/// fixture files, with the language's committed flow-semantics file loaded.
+fn run_joern_modeling_case(
+    binary: &Path,
+    language: ModelingLanguage,
+    case_path: &Path,
+    case: &Value,
+    raw_dir: &Path,
+    semantics: &Path,
+) -> Result<(&'static str, Vec<String>, PathBuf)> {
+    let id = required_string(case, "id", "modeling case")?;
+    let script =
+        fs::canonicalize(JOERN_MODELING_SCRIPT).context("resolve the Joern modeling script")?;
+    let semantics =
+        fs::canonicalize(semantics).context("resolve the Joern modeling semantics file")?;
+    let raw_root = fs::canonicalize(raw_dir).context("resolve the Joern evidence directory")?;
+    let raw_path = raw_dir.join(format!("{id}.json"));
+    let error_path = raw_dir.join(format!("{id}-error.json"));
+    for stale in [&raw_path, &error_path] {
+        if stale.exists() {
+            fs::remove_file(stale).with_context(|| format!("clear {}", stale.display()))?;
+        }
+    }
+
+    let scratch = std::env::temp_dir()
+        .join(format!("dataflowbench-joern-{}-modeling", language.key()))
+        .join(id);
+    if scratch.exists() {
+        fs::remove_dir_all(&scratch).with_context(|| format!("clear {}", scratch.display()))?;
+    }
+    let workspace = scratch.join("source");
+    fs::create_dir_all(&workspace)?;
+    let fixture_root = case_path.parent().expect("case path has parent");
+    for fixture in case["fixture_files"].as_array().expect("schema validated") {
+        let fixture = fixture.as_str().expect("schema validated");
+        fs::copy(fixture_root.join(fixture), workspace.join(fixture))?;
+    }
+    let absolute_raw_path = raw_root.join(format!("{id}.json"));
+
+    let result = (|| {
+        let output = Command::new(binary)
+            // Joern materializes its console project under the working
+            // directory; keeping that inside the per-case scratch root means no
+            // case can observe another case's CPG.
+            .current_dir(&scratch)
+            .arg("--script")
+            .arg(&script)
+            .arg("--param")
+            .arg(format!("inputPath={}", workspace.display()))
+            .arg("--param")
+            .arg(format!("language={}", language.joern_frontend()))
+            .arg("--param")
+            .arg(format!("semanticsPath={}", semantics.display()))
+            .arg("--param")
+            .arg(format!("outputPath={}", absolute_raw_path.display()))
+            .stdin(std::process::Stdio::null())
+            .output();
+        let output = match output {
+            Ok(output) => output,
+            Err(error) => {
+                let diagnostic = format!(
+                    "failed to run the Joern {} modeling script with {}: {error}",
+                    language.display_name(),
+                    binary.display()
+                );
+                let path = write_joern_error(raw_dir, id, "script-spawn", &diagnostic, None)?;
+                return Ok(("runner-error", vec![diagnostic], path));
+            }
+        };
+        if !output.status.success() {
+            let diagnostic = format!(
+                "Joern {} modeling script failed with status {}",
+                language.display_name(),
+                output.status
+            );
+            let path =
+                write_joern_error(raw_dir, id, "script-execution", &diagnostic, Some(&output))?;
+            return Ok(("runner-error", vec![diagnostic], path));
+        }
+        if !raw_path.is_file() {
+            let diagnostic = format!(
+                "Joern {} modeling script produced no evidence document",
+                language.display_name()
+            );
+            let path = write_joern_error(raw_dir, id, "script-output", &diagnostic, Some(&output))?;
+            return Ok(("runner-error", vec![diagnostic], path));
+        }
+        let raw: Value = match fs::read_to_string(&raw_path)
+            .map_err(|error| error.to_string())
+            .and_then(|text| serde_json::from_str(&text).map_err(|error| error.to_string()))
+        {
+            Ok(raw) => raw,
+            Err(error) => {
+                return Ok((
+                    "runner-error",
+                    vec![format!(
+                        "read Joern modeling evidence {}: {error}",
+                        raw_path.display()
+                    )],
+                    raw_path.clone(),
+                ));
+            }
+        };
+        let (outcome, diagnostics) = joern_flow_outcome(
+            case_path,
+            case,
+            &raw,
+            language.dialect(),
+            JoernEndpointRule::AbsenceIsTheAssertion,
+        );
+        Ok((outcome, diagnostics, raw_path.clone()))
+    })();
+
+    let cleanup =
+        fs::remove_dir_all(&scratch).with_context(|| format!("clear {}", scratch.display()));
+    match (result, cleanup) {
+        (Ok(normalized), Ok(())) => Ok(normalized),
+        (Ok((_, mut diagnostics, path)), Err(error)) => {
+            diagnostics.push(format!("Joern modeling artifact cleanup failed: {error}"));
+            diagnostics.sort();
+            diagnostics.dedup();
+            Ok(("runner-error", diagnostics, path))
+        }
+        (Err(error), Ok(())) => Err(error),
+        (Err(error), Err(cleanup_error)) => Err(error.context(format!(
+            "Joern modeling artifact cleanup also failed: {cleanup_error}"
+        ))),
+    }
+}
+
+/// One Semgrep CE modeling assertion.
+///
+/// Two deliberate departures from the kernel path. The rule is the committed
+/// modeling artifact used verbatim rather than a template with the case's own
+/// endpoints substituted in — the declarations are what is being scored, so
+/// they cannot come from the fixture. And the challenge tier's declared
+/// capability exclusion is not consulted: this population's capability
+/// decisions come from `MODELING_PARTITION`, which has already run before this
+/// function is reached, and consulting a second, tag-keyed partition here
+/// would let a fixture's `feature_tags` move a modeling cell.
+fn run_semgrep_modeling_case(
+    binary: &Path,
+    language: ModelingLanguage,
+    case_path: &Path,
+    case: &Value,
+    raw_dir: &Path,
+    rule: &Path,
+) -> Result<(&'static str, Vec<String>, PathBuf)> {
+    let id = required_string(case, "id", "modeling case")?;
+    let raw_path = raw_dir.join(format!("{id}.json"));
+    let error_path = raw_dir.join(format!("{id}-error.json"));
+    for stale in [&raw_path, &error_path] {
+        if stale.exists() {
+            fs::remove_file(stale).with_context(|| format!("clear {}", stale.display()))?;
+        }
+    }
+    let rule = fs::canonicalize(rule).context("resolve the Semgrep modeling rule")?;
+
+    let scratch = std::env::temp_dir()
+        .join(format!("dataflowbench-semgrep-{}-modeling", language.key()))
+        .join(id);
+    if scratch.exists() {
+        fs::remove_dir_all(&scratch).with_context(|| format!("clear {}", scratch.display()))?;
+    }
+    let workspace = scratch.join("source");
+    fs::create_dir_all(&workspace)?;
+    let fixture_root = case_path.parent().expect("case path has parent");
+    for fixture in case["fixture_files"].as_array().expect("schema validated") {
+        let fixture = fixture.as_str().expect("schema validated");
+        fs::copy(fixture_root.join(fixture), workspace.join(fixture))?;
+    }
+
+    let result = (|| {
+        let output = Command::new(binary)
+            .current_dir(&scratch)
+            .arg("scan")
+            // Never report usage metrics, and never let the Pro engine or the
+            // registry enter the run: this population is CE-only by contract.
+            .arg("--metrics=off")
+            .arg("--oss-only")
+            .arg("--disable-version-check")
+            .arg("--no-git-ignore")
+            .arg("--quiet")
+            .arg("--json")
+            .arg("--config")
+            .arg(&rule)
+            .arg(&workspace)
+            .stdin(std::process::Stdio::null())
+            .output();
+        let output = match output {
+            Ok(output) => output,
+            Err(error) => {
+                let diagnostic = format!(
+                    "failed to run the Semgrep {} modeling scan with {}: {error}",
+                    language.display_name(),
+                    binary.display()
+                );
+                let path = write_semgrep_error(raw_dir, id, "scan-spawn", &diagnostic, None)?;
+                return Ok(("runner-error", vec![diagnostic], path));
+            }
+        };
+        // Semgrep exits 0 with or without findings and reserves higher codes
+        // for its own failures, so anything non-zero is a runner error and can
+        // never be read as an empty finding list.
+        if !output.status.success() {
+            let diagnostic = format!(
+                "Semgrep {} modeling scan failed with status {}",
+                language.display_name(),
+                output.status
+            );
+            let path =
+                write_semgrep_error(raw_dir, id, "scan-execution", &diagnostic, Some(&output))?;
+            return Ok(("runner-error", vec![diagnostic], path));
+        }
+        fs::write(&raw_path, &output.stdout)?;
+        let raw: Value = match serde_json::from_slice(&output.stdout) {
+            Ok(raw) => raw,
+            Err(error) => {
+                let diagnostic = format!(
+                    "parse Semgrep modeling evidence {}: {error}",
+                    raw_path.display()
+                );
+                let path = write_semgrep_error(raw_dir, id, "scan-output", &diagnostic, None)?;
+                return Ok(("runner-error", vec![diagnostic], path));
+            }
+        };
+        let (outcome, diagnostics) =
+            semgrep_finding_outcome(case_path, case, &raw, language.dialect());
+        Ok((outcome, diagnostics, raw_path.clone()))
+    })();
+
+    let cleanup =
+        fs::remove_dir_all(&scratch).with_context(|| format!("clear {}", scratch.display()));
+    match (result, cleanup) {
+        (Ok(normalized), Ok(())) => Ok(normalized),
+        (Ok((_, mut diagnostics, path)), Err(error)) => {
+            diagnostics.push(format!("Semgrep modeling artifact cleanup failed: {error}"));
+            diagnostics.sort();
+            diagnostics.dedup();
+            Ok(("runner-error", diagnostics, path))
+        }
+        (Err(error), Ok(())) => Err(error),
+        (Err(error), Err(cleanup_error)) => Err(error.context(format!(
+            "Semgrep modeling artifact cleanup also failed: {cleanup_error}"
+        ))),
+    }
+}
+
+/// Retain a modeling runner's own process diagnostics beside the report.
+fn write_modeling_process_error(
+    raw_dir: &Path,
+    id: &str,
+    adapter: &str,
+    stage: &str,
+    diagnostic: &str,
+    output: Option<&std::process::Output>,
+) -> Result<PathBuf> {
+    let error_path = raw_dir.join(format!("{id}-error.json"));
+    let mut evidence = json!({
+        "adapter": adapter,
+        "case_id": id,
+        "state": "runner-error",
+        "stage": stage,
+        "diagnostic": diagnostic,
+        "evidence_kind": "retained-process-diagnostics"
+    });
+    if let Some(output) = output {
+        evidence["status"] = json!(output.status.code());
+        evidence["stdout"] = json!(String::from_utf8_lossy(&output.stdout).trim());
+        evidence["stderr"] = json!(String::from_utf8_lossy(&output.stderr).trim());
+    }
+    fs::write(&error_path, serde_json::to_string_pretty(&evidence)? + "\n")?;
+    Ok(error_path)
 }
 
 /// The pinned version identity a modeling report records, read from the same
@@ -11231,6 +11966,7 @@ mod tests {
                 "state": "analyzed",
                 "source_node_count": 1,
                 "sink_node_count": 1,
+                "method_count": 3,
                 "flows": flows
             })
         };
@@ -11238,29 +11974,64 @@ mod tests {
             {"file": "/tmp/work/fixture.py", "line": 7, "code": "value"}
         ]}]));
         assert_eq!(
-            joern_flow_outcome(&case_path, &case, &matching, AnchorDialect::Python).0,
+            joern_flow_outcome(
+                &case_path,
+                &case,
+                &matching,
+                AnchorDialect::Python,
+                KERNEL_ENDPOINTS
+            )
+            .0,
             "reached"
         );
         let wrong_line = analyzed(json!([{"elements": [
             {"file": "fixture.py", "line": 6, "code": "value"}
         ]}]));
         assert_eq!(
-            joern_flow_outcome(&case_path, &case, &wrong_line, AnchorDialect::Python).0,
+            joern_flow_outcome(
+                &case_path,
+                &case,
+                &wrong_line,
+                AnchorDialect::Python,
+                KERNEL_ENDPOINTS
+            )
+            .0,
             "inconclusive"
         );
         let no_location = analyzed(json!([{"elements": [{"code": "value"}]}]));
         assert_eq!(
-            joern_flow_outcome(&case_path, &case, &no_location, AnchorDialect::Python).0,
+            joern_flow_outcome(
+                &case_path,
+                &case,
+                &no_location,
+                AnchorDialect::Python,
+                KERNEL_ENDPOINTS
+            )
+            .0,
             "inconclusive"
         );
         let empty_flow = analyzed(json!([{"elements": []}]));
         assert_eq!(
-            joern_flow_outcome(&case_path, &case, &empty_flow, AnchorDialect::Python).0,
+            joern_flow_outcome(
+                &case_path,
+                &case,
+                &empty_flow,
+                AnchorDialect::Python,
+                KERNEL_ENDPOINTS
+            )
+            .0,
             "inconclusive"
         );
         let clean = analyzed(json!([]));
         assert_eq!(
-            joern_flow_outcome(&case_path, &case, &clean, AnchorDialect::Python).0,
+            joern_flow_outcome(
+                &case_path,
+                &case,
+                &clean,
+                AnchorDialect::Python,
+                KERNEL_ENDPOINTS
+            )
+            .0,
             "not-reached"
         );
         fs::remove_dir_all(root).unwrap();
@@ -11278,8 +12049,13 @@ mod tests {
             "stage": "joern-script",
             "diagnostic": "java.lang.RuntimeException: frontend failed"
         });
-        let (outcome, diagnostics) =
-            joern_flow_outcome(&case_path, &case, &failed, AnchorDialect::Python);
+        let (outcome, diagnostics) = joern_flow_outcome(
+            &case_path,
+            &case,
+            &failed,
+            AnchorDialect::Python,
+            KERNEL_ENDPOINTS,
+        );
         assert_eq!(outcome, "runner-error");
         assert!(
             diagnostics
@@ -11297,7 +12073,14 @@ mod tests {
             json!({"flows": []}),
         ] {
             assert_eq!(
-                joern_flow_outcome(&case_path, &case, &broken, AnchorDialect::Python).0,
+                joern_flow_outcome(
+                    &case_path,
+                    &case,
+                    &broken,
+                    AnchorDialect::Python,
+                    KERNEL_ENDPOINTS
+                )
+                .0,
                 "runner-error"
             );
         }
@@ -11307,7 +12090,14 @@ mod tests {
             json!({"state": "analyzed", "source_node_count": 1, "sink_node_count": 0, "flows": []}),
         ] {
             assert_eq!(
-                joern_flow_outcome(&case_path, &case, &unobserved, AnchorDialect::Python).0,
+                joern_flow_outcome(
+                    &case_path,
+                    &case,
+                    &unobserved,
+                    AnchorDialect::Python,
+                    KERNEL_ENDPOINTS
+                )
+                .0,
                 "inconclusive"
             );
         }
@@ -11321,7 +12111,14 @@ mod tests {
             "flows": [{"elements": [{"file": "direct_flow.py", "line": 10}]}]
         });
         assert_eq!(
-            joern_flow_outcome(&case_path, &case, &flows, AnchorDialect::Python).0,
+            joern_flow_outcome(
+                &case_path,
+                &case,
+                &flows,
+                AnchorDialect::Python,
+                KERNEL_ENDPOINTS
+            )
+            .0,
             "inconclusive"
         );
     }
@@ -12564,6 +13361,9 @@ mod tests {
     }
 
     // -----------------------------------------------------------------------
+    /// The kernels' endpoint rule, used by every Joern kernel normalization test.
+    const KERNEL_ENDPOINTS: JoernEndpointRule = JoernEndpointRule::BothMustBeObserved;
+
     // The benchmark-controlled taint-modeling matrix.
     // -----------------------------------------------------------------------
 
@@ -12928,27 +13728,59 @@ mod tests {
         assert!(SCORE_TIER_ORDER.contains(&"modeling"));
     }
 
-    /// This pull request is infrastructure only: the corpus carries no
-    /// modeling case, and every modeling run therefore fails fast rather than
-    /// writing an empty report.
+    /// Wave M1's JavaScript pull request is the first modeling population in
+    /// the corpus: a balanced twenty-four over exactly the preregistered
+    /// twelve. Java and Python have none yet, which is different from having a
+    /// zero — their runs still fail fast rather than writing an empty report.
     #[test]
-    fn the_checked_in_corpus_carries_no_modeling_case() {
-        for path in case_paths() {
-            let case: Value = serde_json::from_str(&fs::read_to_string(&path).unwrap()).unwrap();
-            assert_ne!(
-                case["score_tier"],
-                "modeling",
-                "{} is a modeling case; this PR is infrastructure only",
-                path.display()
+    fn javascript_is_the_only_language_with_a_modeling_population() {
+        let javascript = select_modeling_cases(ModelingLanguage::Javascript).unwrap();
+        assert_eq!(javascript.len(), MODELING_CASE_COUNT);
+        let templates: BTreeSet<&str> = javascript
+            .iter()
+            .filter_map(|(_, case)| case["template_id"].as_str())
+            .collect();
+        assert_eq!(templates, MODELING_TEMPLATE_IDS.into_iter().collect());
+        for (_, case) in &javascript {
+            assert_eq!(case["score_tier"], "modeling");
+            assert_eq!(case["model_profile"], MODELING_MODEL_PROFILE);
+            assert_eq!(
+                case["fixture_provenance"]["revision"],
+                "m3-modeling-javascript"
             );
+            assert!(!smoke_population_case(case));
         }
-        for language in [
-            ModelingLanguage::Java,
-            ModelingLanguage::Javascript,
-            ModelingLanguage::Python,
-        ] {
+        for language in [ModelingLanguage::Java, ModelingLanguage::Python] {
             assert!(select_modeling_cases(language).unwrap().is_empty());
         }
+    }
+
+    /// A modeling sink is reached through its receiver, so the modeling ECMA
+    /// dialect counts `Audit.record(v)` as a callsite of `record` where the
+    /// kernel dialect deliberately does not. Nothing else about the two
+    /// differs, and no kernel uses the member-qualified variant.
+    #[test]
+    fn the_modeling_ecma_dialect_accepts_a_member_qualified_callsite() {
+        assert!(AnchorDialect::EcmaMember.is_call("  Audit.record(dfb_source());", "record"));
+        assert!(!AnchorDialect::Ecma.is_call("  Audit.record(dfb_source());", "record"));
+        for dialect in [AnchorDialect::Ecma, AnchorDialect::EcmaMember] {
+            assert!(dialect.is_call("  dfb_sink(value);", "dfb_sink"));
+            // A declaration is never a callsite, and a longer identifier that
+            // merely ends with the member name is never one either.
+            assert!(!dialect.is_call("  record: function record(value) {},", "record"));
+            assert!(!dialect.is_call("  preRecord(value);", "record"));
+            assert_eq!(
+                dialect.declared_function_name(
+                    "  record: function record(value) {}, // DFB-SINK: m",
+                    "DFB-SINK: m"
+                ),
+                Some("record".to_string())
+            );
+        }
+        assert_eq!(
+            ModelingLanguage::Javascript.dialect(),
+            AnchorDialect::EcmaMember
+        );
     }
 
     /// With no population, a run fails with a clear error naming the language
@@ -13067,10 +13899,119 @@ mod tests {
             ModelingLanguage::Javascript.artifact(ModelingTool::Codeql),
             "adapters/codeql/javascript/queries/JavaScriptModeling.ql"
         );
-        // No modeling artifact is committed yet; every one arrives with the
-        // language pull request that authors its declarations.
+        // A modeling artifact arrives with the language pull request that
+        // authors its declarations. JavaScript's four are committed; Java's
+        // and Python's are not, and their runs fail on the artifact gate
+        // rather than producing an outcome.
         for artifact in artifacts {
-            assert!(!Path::new(artifact).exists(), "{artifact} exists already");
+            let committed = Path::new(artifact).is_file();
+            assert_eq!(
+                committed,
+                artifact.contains("javascript") || artifact.contains("JavaScript"),
+                "{artifact} committed={committed}"
+            );
         }
+        assert!(Path::new(JOERN_MODELING_SCRIPT).is_file());
+    }
+
+    /// An absent *declared* endpoint is the content of several modeling
+    /// negatives — template 2's negative calls `Audit.discard`, so the declared
+    /// sink `Audit.record` is not in the fixture at all. Under the kernels'
+    /// rule that would be `inconclusive`; under the modeling rule it is the
+    /// clean negative it is, with the endpoint counts retained rather than
+    /// converted. Only an empty extraction is incomplete.
+    #[test]
+    fn a_modeling_negative_may_legitimately_contain_no_declared_endpoint() {
+        let root = unique_test_dir("dataflowbench-joern-modeling-endpoints");
+        let case_path = root.join("case.json");
+        fs::write(
+            root.join("fixture.js"),
+            "function dfb_sink(v) {} // DFB-SINK: s\ndfb_sink(1);\n",
+        )
+        .unwrap();
+        let case = json!({
+            "sink_anchors": [{"marker": "DFB-SINK: s", "file": "fixture.js", "line_hint": 1}]
+        });
+        let absent = json!({
+            "state": "analyzed",
+            "source_node_count": 1,
+            "sink_node_count": 0,
+            "method_count": 4,
+            "flows": []
+        });
+        let (outcome, diagnostics) = joern_flow_outcome(
+            &case_path,
+            &case,
+            &absent,
+            AnchorDialect::EcmaMember,
+            JoernEndpointRule::AbsenceIsTheAssertion,
+        );
+        assert_eq!(outcome, "not-reached");
+        assert!(
+            diagnostics
+                .iter()
+                .any(|line| line.contains("0 declared sink node(s)"))
+        );
+        assert_eq!(
+            joern_flow_outcome(
+                &case_path,
+                &case,
+                &absent,
+                AnchorDialect::EcmaMember,
+                JoernEndpointRule::BothMustBeObserved
+            )
+            .0,
+            "inconclusive"
+        );
+        // An empty extraction is still incomplete under the modeling rule.
+        let mut empty = absent.clone();
+        empty["method_count"] = json!(0);
+        assert_eq!(
+            joern_flow_outcome(
+                &case_path,
+                &case,
+                &empty,
+                AnchorDialect::EcmaMember,
+                JoernEndpointRule::AbsenceIsTheAssertion
+            )
+            .0,
+            "inconclusive"
+        );
+        fs::remove_dir_all(&root).unwrap();
+    }
+
+    /// A Semgrep **modeling** rule lives beside the kernel rules but is not
+    /// part of the kernel configuration. Every published Semgrep kernel report
+    /// cites a hash over the eleven kernel rules, and committing a twelfth file
+    /// for a different population must not silently invalidate all eleven.
+    #[test]
+    fn a_semgrep_modeling_rule_is_outside_the_kernel_configuration_hash() {
+        let kernel_rules = semgrep_rule_paths().unwrap();
+        assert_eq!(kernel_rules.len(), 11);
+        let modeling = PathBuf::from(ModelingLanguage::Javascript.artifact(ModelingTool::Semgrep));
+        assert!(modeling.is_file());
+        assert!(!kernel_rules.contains(&modeling));
+        // The v0.4.0 freeze binds this hash; it is reproduced here rather than
+        // recomputed, so a rule-set change fails the suite instead of a run.
+        assert_eq!(
+            hash_paths(&kernel_rules).unwrap(),
+            "865d0bd2989f9ddd0b90f2d6675584e86706b109a033d4a1ac00bd21a617b100"
+        );
+    }
+
+    /// The committed JavaScript artifacts pass the gates the runner applies
+    /// before it will touch an analyzer, so a load-bearing regression in one
+    /// of them fails the test suite rather than a run.
+    #[test]
+    fn the_javascript_modeling_artifacts_are_load_bearing() {
+        let policy_path = ModelingLanguage::Javascript.artifact(ModelingTool::Bifrost);
+        require_bifrost_modeling_load_bearing(
+            &fs::read_to_string(policy_path).unwrap(),
+            policy_path,
+        )
+        .unwrap();
+        let rule_path = ModelingLanguage::Javascript.artifact(ModelingTool::Semgrep);
+        require_semgrep_modeling_load_bearing(&fs::read_to_string(rule_path).unwrap(), rule_path)
+            .unwrap();
     }
 }

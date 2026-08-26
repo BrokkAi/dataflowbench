@@ -1,0 +1,37 @@
+; DataFlowBench benchmark-controlled taint-modeling matrix — JavaScript.
+;
+; The preregistered partition (docs/modeling-matrix.md#bifrost--v0106-build-18d09c57)
+; scores category S — declared sources and sinks — for this adapter and nothing
+; else. Categories P, Z, O, E, and B are `unsupported` for Bifrost's standalone
+; policy CLI, so this policy declares nothing for them: an artifact that
+; declared a category the partition declines would be a translated
+; approximation, which the equivalence contract forbids.
+;
+; `:unmodeled require-model` is the load-bearing-model requirement of
+; docs/modeling-matrix.md#the-load-bearing-model-requirement. Every committed
+; kernel policy leaves the unmodeled-call default permissive, under which an
+; unmodeled call may carry taint through on its own; a modeling policy that
+; inherited that default would be measuring the default rather than the
+; declaration. The runner refuses this file if it does not carry the setting,
+; and refuses it again if it so much as names the permissive value.
+(policy
+  :schema-version 1
+  :id "dataflowbench.taint.model-javascript"
+  :name "DataFlowBench JavaScript taint-modeling matrix"
+  :message "A benchmark-declared source reaches a benchmark-declared sink"
+  :severity warning
+  :analysis (analysis :type taint :mode may
+    :call-modeling (call-modeling :unmodeled require-model)
+    ;; Two source declarations, both `out: return`: the benchmark input every
+    ;; template but 1 begins from, and `Config.fetchRemote`, whose only claim to
+    ;; being a source is that this line declares it. The sibling
+    ;; `Config.fetchLocal` has the same signature and an equally opaque body and
+    ;; is deliberately absent.
+    :sources (endpoint-set :entries [
+      (source :id benchmark-input :display-name "benchmark input" :categories [input.user-controlled] :selector (rql :schema-version 1 (language javascript (call :callee (name "dfb_source")))) :bind return-value :labels [attacker-controlled])
+      (source :id declared-source :display-name "declared source Config.fetchRemote" :categories [input.user-controlled] :selector (rql :schema-version 1 (language javascript (call :callee (name "fetchRemote")))) :bind return-value :labels [attacker-controlled])])
+    ;; Two sink declarations, both `in: 0`: the benchmark sink, and
+    ;; `Audit.record`. The sibling `Audit.discard` is deliberately absent.
+    :sinks (endpoint-set :entries [
+      (sink :id benchmark-sink :display-name "benchmark sink" :categories [data.sensitive] :selector (rql :schema-version 1 (language javascript (call :callee (name "dfb_sink")))) :dangerous-operand (argument :index 0) :accepts [attacker-controlled])
+      (sink :id declared-sink :display-name "declared sink Audit.record" :categories [data.sensitive] :selector (rql :schema-version 1 (language javascript (call :callee (name "record")))) :dangerous-operand (argument :index 0) :accepts [attacker-controlled])])) )

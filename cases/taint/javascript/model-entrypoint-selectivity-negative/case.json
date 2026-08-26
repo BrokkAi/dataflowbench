@@ -1,0 +1,61 @@
+{
+  "schema_version": 2,
+  "id": "dfb-taint-javascript-model-entrypoint-selectivity-negative",
+  "template_id": "dfb-template-model-entrypoint-selectivity",
+  "polarity": "negative",
+  "negative_mechanism": "call-context-separation",
+  "score_tier": "modeling",
+  "track": "taint",
+  "language": "javascript",
+  "semantic_dimensions": [
+    "external-summary"
+  ],
+  "feature_tags": [
+    "modeled-external",
+    "summary-required"
+  ],
+  "model_profile": "benchmark-controlled",
+  "fixture_files": [
+    "ModelEntrypointSelectivityNegative.js"
+  ],
+  "source_anchors": [
+    {
+      "marker": "DFB-SOURCE: model-entrypoint-selectivity-input",
+      "file": "ModelEntrypointSelectivityNegative.js",
+      "line_hint": 8
+    }
+  ],
+  "sink_anchors": [
+    {
+      "marker": "DFB-SINK: model-entrypoint-selectivity-sink",
+      "file": "ModelEntrypointSelectivityNegative.js",
+      "line_hint": 1
+    }
+  ],
+  "expected_flows": [],
+  "expected_nonflows": [
+    {
+      "source": "DFB-SOURCE: model-entrypoint-selectivity-input",
+      "sink": "DFB-SINK: model-entrypoint-selectivity-sink"
+    }
+  ],
+  "witness_checkpoints": [],
+  "expected_analysis_capability": {
+    "kind": "entry-point-identity-binding"
+  },
+  "execution_budget": {
+    "wall_clock_seconds": 60,
+    "peak_memory_mb": 512
+  },
+  "fixture_provenance": {
+    "kind": "authored",
+    "origin": "DataFlowBench",
+    "revision": "m3-modeling-javascript",
+    "license": "MIT"
+  },
+  "tool_model_references": {
+    "codeql": {
+      "query": "adapters/codeql/javascript/queries/JavaScriptModeling.ql"
+    }
+  }
+}
