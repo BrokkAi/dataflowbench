@@ -1,0 +1,64 @@
+{
+  "schema_version": 2,
+  "id": "dfb-taint-java-model-store-roundtrip-positive",
+  "template_id": "dfb-template-model-store-roundtrip",
+  "polarity": "positive",
+  "score_tier": "modeling",
+  "track": "taint",
+  "language": "java",
+  "semantic_dimensions": [
+    "interprocedural-flow",
+    "heap-field-sensitivity"
+  ],
+  "feature_tags": [
+    "modeled-external",
+    "heap-access-path"
+  ],
+  "model_profile": "benchmark-controlled",
+  "fixture_files": [
+    "ModelStoreRoundtripPositive.java"
+  ],
+  "source_anchors": [
+    {
+      "marker": "DFB-SOURCE: model-store-roundtrip-input",
+      "file": "ModelStoreRoundtripPositive.java",
+      "line_hint": 12
+    }
+  ],
+  "sink_anchors": [
+    {
+      "marker": "DFB-SINK: model-store-roundtrip-sink",
+      "file": "ModelStoreRoundtripPositive.java",
+      "line_hint": 16
+    }
+  ],
+  "expected_flows": [
+    {
+      "source": "DFB-SOURCE: model-store-roundtrip-input",
+      "sink": "DFB-SINK: model-store-roundtrip-sink"
+    }
+  ],
+  "expected_nonflows": [],
+  "witness_checkpoints": [],
+  "expected_analysis_capability": {
+    "kind": "persistence-boundary-activation"
+  },
+  "execution_budget": {
+    "wall_clock_seconds": 60,
+    "peak_memory_mb": 512
+  },
+  "fixture_provenance": {
+    "kind": "authored",
+    "origin": "DataFlowBench",
+    "revision": "m3-modeling-java",
+    "license": "MIT"
+  },
+  "tool_model_references": {
+    "bifrost": {
+      "policy": "adapters/bifrost/policies/model-java.rqlp"
+    },
+    "codeql": {
+      "query": "adapters/codeql/queries/JavaModeling.ql"
+    }
+  }
+}

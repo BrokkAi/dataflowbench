@@ -1,0 +1,58 @@
+# Benchmark-controlled Semgrep CE taint rule: the DataFlowBench Java
+# taint-modeling matrix.
+#
+# Unlike the kernel rules this file carries no runner-substituted placeholder.
+# A modeling assertion is scored on whether the engine activates the
+# benchmark's *declarations*, so the declarations are written out literally,
+# once, for the whole population — the single per-language artifact
+# docs/modeling-matrix.md's equivalence contract requires.
+#
+# Only the three categories the preregistered partition awards Semgrep CE are
+# declared here. Categories P (propagators), O (summaries), and B (persistence)
+# are `unsupported` for this adapter by that partition, and the artifact for an
+# unsupported category must not declare it — the partition decides those cells
+# without the tool, so declaring them anyway would smuggle a scored cell past a
+# capability decision made before the run.
+#
+# `taint_assume_safe_functions: true` is the load-bearing-model requirement.
+# Without it the pinned CE engine carries taint from any tainted argument to a
+# call's result, and every category-Z cell would be decided by that default
+# rather than by the `Clean.scrub` declaration.
+rules:
+  - id: dfb-model-java
+    languages: [java]
+    severity: WARNING
+    message: a benchmark-declared model carried input to the declared sink
+    mode: taint
+    options:
+      taint_assume_safe_functions: true
+    pattern-sources:
+      # The benchmark's own canonical source.
+      - pattern: dfb_source(...)
+      # Template 1 — role `source`, entity `Config.fetchRemote`, out: return.
+      # The undeclared sibling `Config.fetchLocal` is deliberately absent.
+      - pattern: Config.fetchRemote(...)
+      # Templates 9 and 10 — role `entry-point`, entities `Handler.onRequest`
+      # and `Handler.onDeclared`, in: 0 tainted on entry. The handler is never
+      # called from the fixture; the declaration is what makes its parameter a
+      # root. The undeclared siblings `onIgnored` and `onUndeclared` are
+      # deliberately absent.
+      - patterns:
+          - pattern: |
+              void onRequest($T $P) { ... }
+          - focus-metavariable: $P
+      - patterns:
+          - pattern: |
+              void onDeclared($T $P) { ... }
+          - focus-metavariable: $P
+    pattern-sinks:
+      # The benchmark's own canonical sink.
+      - pattern: dfb_sink(...)
+      # Template 2 — role `sink`, entity `Audit.record`, in: 0. The undeclared
+      # sibling `Audit.discard` is deliberately absent.
+      - pattern: Audit.record(...)
+    pattern-sanitizers:
+      # Templates 5 and 6 — role `sanitizer`, entity `Clean.scrub`, in: 0.
+      # `Clean.sanitize` is a sibling with the same identity body and a name at
+      # least as sanitizer-shaped, and it is not declared.
+      - pattern: Clean.scrub(...)

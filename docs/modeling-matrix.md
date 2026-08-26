@@ -1109,11 +1109,21 @@ fixtures exist would fail against the current corpus. It must enforce:
 
 ## Rollout plan
 
-**Wave M1 — Java, JavaScript, Python.** One language per pull request, after
-this document merges. Each PR adds that language's twenty-four fixtures and
-cases, the per-adapter model encodings its partition entitles it to, the runs,
-and the language's row in the modeling validator. A wave never edits a template
-definition in this document.
+**Wave M1 — Java, JavaScript, Python. Complete.** One language per pull
+request, after this document merged. Each PR added that language's twenty-four
+fixtures and cases, the per-adapter model encodings its partition entitles it
+to, the runs, and the language's row in the modeling validator. A wave never
+edits a template definition in this document.
+
+| Language | Row | Landed |
+| --- | --- | --- |
+| Python | [python-modeling.md](python-modeling.md) | first; A2 and A3 are made on its evidence |
+| JavaScript | [javascript-modeling.md](javascript-modeling.md) | second; A4 is made on its evidence |
+| Java | [java-modeling.md](java-modeling.md) | third; A5 is made on its evidence, and A4's addendum |
+
+All three rows run on the same four runners, the same shared
+`adapters/joern/queries/modeling.sc`, and the same twelve templates; a
+difference between two rows is a difference between frontends.
 
 **Later — the remaining ten languages,** via the applicability pass described
 under [initial languages](#initial-languages). Those languages have no modeling
@@ -1243,6 +1253,78 @@ the same body, template 4); JavaScript measured directly. The claim is withdrawn
 as a *general* one rather than re-asserted for the other languages: the
 preregistration's blanket transfer is what was wrong, and each language's
 retained evidence now stands on its own.
+
+**Freezes invalidated.** None. No modeling report is bound by any freeze, and
+no core or challenge result changes.
+
+#### Addendum, 2026-08-26: the same is true of `javasrc2cpg`
+
+A4 withdrew the claim as a general one and left each language to stand on its
+own evidence. Java's row now supplies its own, and it agrees.
+`reports/raw/load-bearing-java-modeling/joern-opaque-propagator-unmodeled.json`
+runs `adapters/joern/queries/modeling.sc` over
+`cases/taint/java/model-opaque-propagator-positive` under the committed
+`adapters/joern/semantics/model-java.semantics` — which, after A2, declares
+**nothing whatsoever** for category P — and records `state: analyzed`,
+`declared_semantic_count: 3`, `flow_count: 1`. The pinned 4.0.610 follows
+`Opaque.class.getMethod(target, String.class).invoke(null, value)` through
+`Method.invoke`'s `Object[]` argument with no propagator model at all.
+
+The reflective body differs between the two languages — `Reflect.get(…).apply`
+in JavaScript, `Method.invoke` in Java — so this is a second, independent
+measurement rather than the same one restated. A4's correction is therefore not
+`jssrc2cpg`-specific, and the withdrawal stands as the general one A4 already
+made it.
+
+**What this addendum changes.** Nothing beyond the record. No partition cell
+moves, no denominator moves, and no outcome changes: A2 had already withdrawn
+Joern's category-P cells for the stronger reason. See
+[the Java modeling row](java-modeling.md#amendment-a4-extended-to-javasrc2cpg).
+
+### A5 — 2026-08-26: Bifrost v0.10.6 accepts `:unmodeled require-model`
+
+**What changed.** Nothing in the partition, the templates, or the rollout. This
+amendment is an **evidentiary confirmation**: it answers, with a measurement,
+one of the two facts the preregistration recorded as *to be verified* about
+Bifrost, and it moves no cell in either direction.
+
+**What the preregistration said.** Bifrost's category-P cell is `unsupported`
+with the reason that *"no committed policy declares a propagator or transform,
+and the adapter README makes no propagator claim. Additionally, every committed
+policy sets `:unmodeled optimistic`, so the modeling policy must also be shown
+to accept `require-model` before either P cell is load-bearing. Both must be
+demonstrated on the pinned build."* Two obstacles, joined by "both".
+
+**What was measured.** The second obstacle is cleared. Every committed modeling
+policy — Python's, JavaScript's, and Java's — sets
+`:call-modeling (call-modeling :unmodeled require-model)`, and the pinned
+v0.10.6 (build `18d09c57`) evaluates such a policy to completion rather than
+rejecting the setting. Java's run is the retained demonstration:
+`reports/raw/load-bearing-java-modeling/bifrost-require-model-accepted.json`
+records the committed `model-java.rqlp` evaluated with an empty `diagnostics`
+array and one finding on template 1's positive. The runner has enforced the
+setting since the infrastructure landed
+([the load-bearing-model requirement](#the-load-bearing-model-requirement)), and
+`the_java_modeling_artifacts_are_load_bearing` in `src/main.rs` keeps it true.
+
+**Why no cell moves.** The *first* obstacle is untouched. Nothing here shows
+that a propagator or transform section lowers to a flow step on the pinned
+build, and no committed policy declares one — a modeling policy that did would
+violate this document's own rule that an artifact never declares a category its
+partition marks unsupported. Category P therefore stays `unsupported` for
+Bifrost. Bifrost's category-S cells, the only ones its partition scores, were
+already scored, so this confirmation changes no denominator, no outcome, and no
+published number.
+
+**Why it is recorded at all.** Because the preregistration asked for it by name.
+A *to be verified* note that is quietly satisfied and never written down is
+indistinguishable from one that was never checked, and the next reader deciding
+whether Bifrost's category P can be promoted needs to know which of the two
+obstacles is still standing.
+
+**Tools, templates, and languages touched.** Bifrost only; no template; Java
+measured directly, with Python's and JavaScript's committed policies carrying
+the same setting.
 
 **Freezes invalidated.** None. No modeling report is bound by any freeze, and
 no core or challenge result changes.

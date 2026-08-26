@@ -714,3 +714,41 @@ Ten of the twenty-four cells are scored.
   Semgrep binds the entity by name either way.
 
 See [the JavaScript modeling matrix](../../docs/javascript-modeling.md).
+
+## Java taint-modeling matrix
+
+Wave M1's last row, on the same amended partition: **three of six categories**
+scored — S, Z, and E — with category Z scored by one of its two templates,
+because template 6 is `unsupported` activation under
+[Amendment A3](../../docs/modeling-matrix.md#a3--2026-08-26-semgreps-sanitizer-selectivity-cell-is-undecidable-by-construction).
+Ten of the twenty-four cells are scored.
+
+- Artifact: `adapters/semgrep/rules/model-java.yaml`, `languages: [java]`. It
+  declares `pattern-sources`, `pattern-sinks`, and `pattern-sanitizers` and
+  carries no `pattern-propagators`, no summary, and no persistence boundary.
+  The entry-point sources are `void onRequest($T $P) { ... }` with
+  `focus-metavariable: $P`, which is how Java spells `Handler.onRequest`.
+- It is excluded from the kernel configuration hash by the same
+  `model-*.yaml` rule as the other two, so landing this row does not move the
+  eleven-file kernel hash `865d0bd2…`.
+- Load-bearing model: `options: taint_assume_safe_functions: true`, enforced by
+  the runner and pinned by a test.
+- Invocation:
+  `cargo run -- run-semgrep-modeling --language java --semgrep <path>`, writing
+  `reports/semgrep-java-modeling.json` with raw evidence under
+  `reports/raw/semgrep-java-modeling/`.
+- Result on the pinned CE binary under the amended partition: **all 10 scored
+  assertions decided correctly** — five `reached` positives and five
+  `not-reached` negatives, no false positive, no false negative, no
+  `inconclusive` and no `runner-error`. That is the third clean sweep in three
+  languages. Its configuration hash is
+  `d25d4a4058ae7bd67131d38d05d0579a642ad1841071f965719dd8cea7efd59e`.
+- Amendment A3's cell reproduces on Java independently of the Python evidence it
+  was made on, and the crossed four-run probe behind that reading is retained in
+  [the Java modeling matrix](../../docs/java-modeling.md#retained-pre-amendment-observations).
+  Nothing was tuned to recover the cell.
+- **Load-bearing verification.** Removing the `Audit.record` sink pattern from a
+  copy of the rule drops `model-declared-sink-positive` from one finding to zero
+  (`reports/raw/load-bearing-java-modeling/semgrep-declared-sink-{with,without}-model.json`).
+
+See [the Java modeling matrix](../../docs/java-modeling.md).

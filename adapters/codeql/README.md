@@ -918,3 +918,46 @@ source even when both denote the same store, and comparing local sources linked
 nothing.
 
 See [the JavaScript modeling matrix](../../docs/javascript-modeling.md).
+
+## Java taint-modeling matrix
+
+Wave M1's last row. Same partition — **all six categories scored** — and the
+same single `DataFlow::ConfigSig` carrying every declaration role, written in
+Java's own vocabulary: `MethodCall` and `getArgument` where the JavaScript query
+uses `DataFlow::CallNode`.
+
+- Artifact: `adapters/codeql/queries/JavaModeling.ql`. This is the one modeling
+  query that sits on the preregistration's *schematic* path rather than under a
+  `<language>/queries/` subdirectory, and for the same reason the other two sit
+  off it: a modeling query must live inside its language's existing `qlpack`,
+  and Java's pack **is** the adapter root. `adapters/codeql/qlpack.yml` declares
+  `dataflowbench/codeql-java` with the `codeql/java-all` dependency, and
+  `queries/JavaKernel.ql` already lives beside it; there is no
+  `adapters/codeql/java/` pack, and a query placed under one would resolve
+  nothing. A test asserts that every modeling query resolves a `qlpack.yml` two
+  directories up.
+- The database is built from a **traced `javac`**, exactly as the Java kernel
+  builds it — the Java extractor has no `--build-mode=none` — so the modeling
+  run differs from its kernel sibling only in which query it loads.
+- Invocation:
+  `cargo run -- run-codeql-modeling --language java --codeql <path>`
+  (optionally `--codeql-packs <dir>`), writing
+  `reports/codeql-java-modeling.json` with raw SARIF under
+  `reports/raw/codeql-java-modeling/`.
+
+**Result on the pinned CLI: 24 of 24 assertions match** — twelve `reached`
+positives and twelve `not-reached` negatives, no `inconclusive` and no
+`runner-error`, across all six categories. That is the third clean sweep in
+three languages, and it is what establishes that the twelve templates are
+satisfiable as preregistered rather than badly posed. Its configuration hash is
+`38acb5de67ed39a244c7eb8a9db755ddbcf197488051a5f1ec0d35b65fa30aee`.
+
+**Load-bearing verification** is the category-P probe in
+`scripts/probe-java-modeling-load-bearing.sh`: the same database analyzed with
+and without the five-line `Opaque.carry` propagator step returns one SARIF
+result and then zero
+(`reports/raw/load-bearing-java-modeling/codeql-opaque-propagator-{with,without}-model.sarif.json`).
+CodeQL does not follow `Opaque.class.getMethod(…).invoke(…)` on its own — which,
+on the same fixture, [Joern does](../joern/README.md#taint-modeling-matrix).
+
+See [the Java modeling matrix](../../docs/java-modeling.md).

@@ -1,0 +1,63 @@
+{
+  "schema_version": 2,
+  "id": "dfb-taint-java-model-sanitizer-selectivity-positive",
+  "template_id": "dfb-template-model-sanitizer-selectivity",
+  "polarity": "positive",
+  "score_tier": "modeling",
+  "track": "taint",
+  "language": "java",
+  "semantic_dimensions": [
+    "sanitizer"
+  ],
+  "feature_tags": [
+    "modeled-external",
+    "sanitized"
+  ],
+  "model_profile": "benchmark-controlled",
+  "fixture_files": [
+    "ModelSanitizerSelectivityPositive.java"
+  ],
+  "source_anchors": [
+    {
+      "marker": "DFB-SOURCE: model-sanitizer-selectivity-input",
+      "file": "ModelSanitizerSelectivityPositive.java",
+      "line_hint": 14
+    }
+  ],
+  "sink_anchors": [
+    {
+      "marker": "DFB-SINK: model-sanitizer-selectivity-sink",
+      "file": "ModelSanitizerSelectivityPositive.java",
+      "line_hint": 18
+    }
+  ],
+  "expected_flows": [
+    {
+      "source": "DFB-SOURCE: model-sanitizer-selectivity-input",
+      "sink": "DFB-SINK: model-sanitizer-selectivity-sink"
+    }
+  ],
+  "expected_nonflows": [],
+  "witness_checkpoints": [],
+  "expected_analysis_capability": {
+    "kind": "sanitizer-identity-binding"
+  },
+  "execution_budget": {
+    "wall_clock_seconds": 60,
+    "peak_memory_mb": 512
+  },
+  "fixture_provenance": {
+    "kind": "authored",
+    "origin": "DataFlowBench",
+    "revision": "m3-modeling-java",
+    "license": "MIT"
+  },
+  "tool_model_references": {
+    "bifrost": {
+      "policy": "adapters/bifrost/policies/model-java.rqlp"
+    },
+    "codeql": {
+      "query": "adapters/codeql/queries/JavaModeling.ql"
+    }
+  }
+}

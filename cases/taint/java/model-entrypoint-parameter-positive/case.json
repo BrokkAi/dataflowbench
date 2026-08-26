@@ -1,0 +1,63 @@
+{
+  "schema_version": 2,
+  "id": "dfb-taint-java-model-entrypoint-parameter-positive",
+  "template_id": "dfb-template-model-entrypoint-parameter",
+  "polarity": "positive",
+  "score_tier": "modeling",
+  "track": "taint",
+  "language": "java",
+  "semantic_dimensions": [
+    "external-summary"
+  ],
+  "feature_tags": [
+    "modeled-external",
+    "summary-required"
+  ],
+  "model_profile": "benchmark-controlled",
+  "fixture_files": [
+    "Handler.java"
+  ],
+  "source_anchors": [
+    {
+      "marker": "DFB-SOURCE: model-entrypoint-parameter-input",
+      "file": "Handler.java",
+      "line_hint": 6
+    }
+  ],
+  "sink_anchors": [
+    {
+      "marker": "DFB-SINK: model-entrypoint-parameter-sink",
+      "file": "Handler.java",
+      "line_hint": 4
+    }
+  ],
+  "expected_flows": [
+    {
+      "source": "DFB-SOURCE: model-entrypoint-parameter-input",
+      "sink": "DFB-SINK: model-entrypoint-parameter-sink"
+    }
+  ],
+  "expected_nonflows": [],
+  "witness_checkpoints": [],
+  "expected_analysis_capability": {
+    "kind": "entry-point-root-activation"
+  },
+  "execution_budget": {
+    "wall_clock_seconds": 60,
+    "peak_memory_mb": 512
+  },
+  "fixture_provenance": {
+    "kind": "authored",
+    "origin": "DataFlowBench",
+    "revision": "m3-modeling-java",
+    "license": "MIT"
+  },
+  "tool_model_references": {
+    "bifrost": {
+      "policy": "adapters/bifrost/policies/model-java.rqlp"
+    },
+    "codeql": {
+      "query": "adapters/codeql/queries/JavaModeling.ql"
+    }
+  }
+}

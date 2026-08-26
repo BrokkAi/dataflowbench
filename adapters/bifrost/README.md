@@ -614,3 +614,42 @@ invoked and retained verbatim with the document's own rationale.
   The declaration, not the propagation, is what the cell scores.
 
 See [the JavaScript modeling matrix](../../docs/javascript-modeling.md).
+
+## Java taint-modeling matrix
+
+Wave M1's last row, and the same shape as the two above. The
+[modeling matrix](../../docs/modeling-matrix.md) gives this adapter **category S
+alone** — declared sources and declared sinks, two of the twelve templates —
+and the other five categories are `unsupported` for the standalone policy CLI,
+decided from the template identity before the binary is invoked and retained
+verbatim with the document's own rationale.
+
+- Artifact: `adapters/bifrost/policies/model-java.rqlp`. Two `:sources` entries
+  bound to `return-value`, two `:sinks` entries bound to
+  `(argument :index 0)`, and nothing for categories P, Z, O, E, or B.
+- Load-bearing model: the policy sets `:call-modeling (call-modeling :unmodeled
+  require-model)`. The preregistration recorded the pinned CLI's *acceptance* of
+  that setting as one of two unverified facts behind Bifrost's category-P cell;
+  it is now confirmed by
+  [Amendment A5](../../docs/modeling-matrix.md#a5--2026-08-26-bifrost-v0106-accepts-unmodeled-require-model),
+  which moves no cell. The other obstacle — showing that a propagator or
+  transform section actually lowers — is untouched, so category P stays
+  `unsupported`.
+- Invocation:
+  `cargo run -- run-bifrost-modeling --language java --bifrost <path>`, writing
+  `reports/bifrost-java-modeling.json` with raw evidence under
+  `reports/raw/bifrost-java-modeling/`.
+- Result on the pinned build: **all four scored assertions decided correctly** —
+  two `reached` positives, two `not-reached` negatives, no `inconclusive` and no
+  `runner-error`, with neither undeclared sibling (`Config.fetchLocal`,
+  `Audit.discard`) picked up. That is Python's row exactly, and it is the
+  difference between Java and JavaScript: the JavaScript slice's three
+  `inconclusive` cells are that language's engine incompleteness, not a modeling
+  property. Its configuration hash is
+  `921d2c8e531813bf7c9bb93fd6da710e62020f60f9caadc7ac0096c5c31121d9`.
+- **Load-bearing verification.** Removing the `Config.fetchRemote` source entry
+  from a copy of the policy drops `model-declared-source-positive` from one
+  finding to zero
+  (`reports/raw/load-bearing-java-modeling/bifrost-declared-source-{with,without}-model.json`).
+
+See [the Java modeling matrix](../../docs/java-modeling.md).
