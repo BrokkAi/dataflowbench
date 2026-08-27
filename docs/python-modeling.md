@@ -121,7 +121,7 @@ a claim the partition does not make.
 
 | Adapter | Artifact | Categories declared |
 | --- | --- | --- |
-| Bifrost | `adapters/bifrost/policies/model-python.rqlp` | S |
+| Bifrost | `adapters/bifrost/policies/model-python.rqlp` | S, Z (Amendment [A9](modeling-matrix.md#a9--2026-08-27-bifrosts-sanitizer-category-is-promoted-the-readmes-lowering-claim-was-false)) |
 | CodeQL | `adapters/codeql/python/queries/PythonModeling.ql` | S, P, Z, O, E, B |
 | Joern | `adapters/joern/semantics/model-python.semantics` + `adapters/joern/queries/modeling.sc` | S, Z, E, B (P and O declined by Amendment A2) |
 | Semgrep CE | `adapters/semgrep/rules/model-python.yaml` | S, Z, E (template 6 declined by Amendment A3) |

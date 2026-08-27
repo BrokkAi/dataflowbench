@@ -130,10 +130,12 @@ sink:
 ## Activation and the runs
 
 All four commands were run for Java, in the preregistered order. Three of them
-never invoked a binary, which is the partition working as designed: a cell the
-document declines is decided **from the template identity before the tool is
-touched**, so a declined cell can never produce an empty finding list that
-later reads as a clean negative.
+never handed a fixture to a binary, which is the partition working as designed:
+a cell the document declines is decided **from the template identity before the
+tool is touched**, so a declined cell can never produce an empty finding list
+that later reads as a clean negative. Each of those runs still reads its
+binary's version banner once, so its report names a pin it observed — see
+[the run-level identity is witnessed](native-profile.md#the-run-level-identity-is-witnessed-including-at-0--6).
 
 | Tool | Activation | Scored | Declined | Report configuration hash |
 | --- | --- | --- | --- | --- |

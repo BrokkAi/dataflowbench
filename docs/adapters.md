@@ -240,7 +240,7 @@ ones, so the frozen 118-case Bifrost smoke population cannot absorb one.
 transcribed from the preregistration's tables, with the cells it marks *to be
 verified* recorded as `unsupported` per its own rule, and with the dated
 amendments applied on top as template-level overrides. Scored today, after
-Amendments A2 and A3: **Bifrost 2 templates of 12** (category S alone),
+Amendments A2, A3, and A9: **Bifrost 4 templates of 12** (S, and Z since A9),
 **Semgrep CE 5 of 12** (S, E, and one of Z's two templates), **CodeQL 12 of
 12**, **Joern 8 of 12** (S, Z, E, B). A declined cell is decided from the
 template ID *before the tool is invoked*, retains the document's rationale
