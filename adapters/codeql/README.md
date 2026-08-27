@@ -1002,3 +1002,58 @@ and refuses a run that names any benchmark-authored artifact.
   preregistered as expectations before the run.
 
 See [the JavaScript tool-native probe set](../../docs/javascript-native.md).
+
+## Java tool-native probe set
+
+Wave N1's first row, and the profile's opposite question: not whether the
+engine activates a model this benchmark supplies, but what the **shipped
+product** covers. See [the tool-native profile](../../docs/native-profile.md)
+for the contract and [the Java row](../../docs/java-native.md) for the results.
+
+- **Activation, pinned.**
+  `codeql/java-queries@1.11.9:codeql-suites/java-security-extended.qls` with
+  `--threat-model=local`, and nothing else. No adapter query, no data
+  extension, and — deliberately — **no `--additional-packs`**: the native
+  command still validates a `--codeql-packs` path so a stale value fails fast,
+  but it never forwards it, because a pack search path of ours is a model of
+  ours. The runner's no-benchmark-models gate reads the activation shape and
+  refuses the run before the CLI is touched if any argument names one.
+- **Different pins by construction.** A query pack bundles its own library
+  packs, and `java-queries@1.11.9` bundles `java-all@9.2.4` against the
+  benchmark-controlled adapter's `java-all@9.2.3`. The two profiles run on
+  different library resolutions because the native profile must measure the
+  product as shipped, which is one more reason their numbers are never pooled.
+- **Extraction is unchanged.** The database is built from the same traced
+  `javac -d classes` the Java kernel and modeling rows use; only what is
+  analyzed differs.
+- **Reconciliation.** A native sink marker sits on the **real API's callsite**,
+  not on a declaration, so the marker line is the reconciliation target
+  directly. Because a whole shipped suite runs, findings elsewhere in the
+  fixture are retained as diagnostics by rule identity and never become an
+  outcome; only a finding on the sink-anchor line is `reached`.
+- **Invocation:**
+  `cargo run -- run-codeql-native --language java --codeql <path>`, writing
+  `reports/codeql-java-native.json` with raw SARIF under
+  `reports/raw/codeql-java-native/`.
+
+**Result on the pinned CLI: 11 of 12 assertions match** — six `reached`
+positives, five `not-reached` negatives, one false positive, no `inconclusive`
+and no `runner-error`. Configuration hash
+`83ea52f18a6153006b081769de1906b0e3e28d122e56a470f1b3756a2c8aa9fa`.
+
+Every finding is `java/command-line-injection`, and the retained code flows
+name the shipped rows that carried each: `getenv` → `exec` directly,
+`String.concat` as a propagator, both halves of the `java.util.Base64` round
+trip, and `args` under the `commandargs` threat model. The
+numeric-coercion sanitizer (`String.valueOf(Integer.parseInt(…))`) **is**
+credited for this sink's query family.
+
+The single miss is category B, and its evidence is worth more than its score:
+both persistence cells' flows start at `System.getProperty(...)` itself, which
+the shipped catalog models as an *environment source* rather than as a store
+read. So the negative is reported despite reading a distinct key — a false
+positive — and the positive's true positive is **unearned**, since the same
+finding would appear with the `System.setProperty` write deleted. The shipped
+model's own comment says the get/set key matching is not modeled.
+
+See [the Java tool-native probe set](../../docs/java-native.md).

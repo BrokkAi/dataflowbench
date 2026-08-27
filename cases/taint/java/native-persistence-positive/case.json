@@ -1,0 +1,59 @@
+{
+  "schema_version": 2,
+  "id": "dfb-taint-java-native-persistence-positive",
+  "template_id": "dfb-template-native-persistence",
+  "polarity": "positive",
+  "score_tier": "modeling",
+  "track": "taint",
+  "language": "java",
+  "semantic_dimensions": [
+    "local-flow",
+    "heap-field-sensitivity"
+  ],
+  "feature_tags": [
+    "modeled-external",
+    "intraprocedural",
+    "heap-access-path"
+  ],
+  "model_profile": "tool-native",
+  "fixture_files": [
+    "NativePersistencePositive.java"
+  ],
+  "source_anchors": [
+    {
+      "marker": "DFB-SOURCE: native-persistence-env",
+      "file": "NativePersistencePositive.java",
+      "line_hint": 16
+    }
+  ],
+  "sink_anchors": [
+    {
+      "marker": "DFB-SINK: native-persistence-exec",
+      "file": "NativePersistencePositive.java",
+      "line_hint": 19
+    }
+  ],
+  "expected_flows": [
+    {
+      "source": "DFB-SOURCE: native-persistence-env",
+      "sink": "DFB-SINK: native-persistence-exec"
+    }
+  ],
+  "expected_nonflows": [],
+  "witness_checkpoints": [],
+  "expected_analysis_capability": {
+    "kind": "native-persistence-link",
+    "notes": "The read side of this store is also a shipped environment source in at least one catalog, and the shipped comment records that get/set key matching is not modeled."
+  },
+  "execution_budget": {
+    "wall_clock_seconds": 300,
+    "peak_memory_mb": 4096
+  },
+  "fixture_provenance": {
+    "kind": "authored",
+    "origin": "DataFlowBench",
+    "revision": "n1-native-java",
+    "license": "MIT"
+  },
+  "tool_model_references": {}
+}

@@ -24,7 +24,7 @@ Nothing here amends a template definition. The six templates, their platform-API
 identities, their negative shapes and mechanisms, and the per-tool partition
 were fixed before any of these fixtures existed. This row contributes one
 amendment,
-[N1](native-profile.md#n1--2026-08-27--semgrep-ces-javascript-cells-evaluated-against-the-vendored-snapshot),
+[A6](native-profile.md#a6--2026-08-27-semgrep-ces-javascript-cells-evaluated-against-the-vendored-snapshot),
 which resolves Semgrep CE's six *to be verified at vendoring* cells against a
 pinned snapshot and moves none of them.
 
@@ -174,7 +174,7 @@ The Semgrep column deserves the distinction stated plainly. Its snapshot was
 vendored, its provenance gate passed, its rule text was read cell by cell — and
 the reading concluded that no vendored rule can bind a platform source, so all
 six cells were **retained** unsupported by
-[Amendment N1](native-profile.md#n1--2026-08-27--semgrep-ces-javascript-cells-evaluated-against-the-vendored-snapshot).
+[Amendment A6](native-profile.md#a6--2026-08-27-semgrep-ces-javascript-cells-evaluated-against-the-vendored-snapshot).
 Semgrep declined this profile for JavaScript; it did not fail it.
 
 ### CodeQL, per template

@@ -1058,3 +1058,36 @@ preregistration's rationale verbatim with
 `"evidence_kind": "retained-capability-decision"`.
 
 See [the JavaScript tool-native probe set](../../docs/javascript-native.md).
+
+## Java tool-native probe set
+
+Wave N1's first row. See [the tool-native profile](../../docs/native-profile.md)
+for the contract and [the Java row](../../docs/java-native.md) for the results.
+
+- **Activation contract.** Whatever the distribution activates without a
+  user-authored query or semantics file: `DefaultSemantics`, and nothing else.
+  No benchmark `.semantics` file may load, and the no-benchmark-models gate
+  refuses `adapters/joern/semantics/model-*.semantics` and the shared
+  `adapters/joern/queries/modeling.sc`.
+- **Invocation:** `cargo run -- run-joern-native --language java`, writing
+  `reports/joern-java-native.json`. Configuration hash
+  `3b223e2988df9965827d315f8bc6eb922c4825b1b140ad3ea922b78382b9ea28`.
+
+**Result: zero of six templates activated, twelve `unsupported` outcomes, and
+the binary was never invoked.** `DefaultSemantics` is a table of **flow
+constraints** — operator semantics, C standard library entries, and a short
+list of JVM method full names — and ships no source catalog and no sink
+catalog. Flow semantics constrain how taint moves through a call; they never
+say where taint starts or where its arrival is a finding. In every Joern
+population this benchmark runs, the endpoints come from the adapter's own query
+parameters, which is exactly what the tool-native activation rule forbids. The
+distribution's `joern-scan` query database is not shipped either: it is
+downloaded from a floating `latest` release asset, unpinnable at run time for
+the same reason Semgrep's registry is.
+
+Worth saying plainly: this is a statement about the OSS distribution's
+**packaging**, not about its engine. The benchmark-controlled matrix scores
+Joern on four of six categories with the same engine, and the gap between those
+two rows is exactly what the tool-native profile exists to make legible.
+
+See [the Java tool-native probe set](../../docs/java-native.md).

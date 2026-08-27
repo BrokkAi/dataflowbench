@@ -274,11 +274,29 @@ query families and not to command injection, and the `process.env` write/read
 store boundary is unlinked in the direction that carries a real flow while the
 plain environment source fires in the direction where the key says there is
 none.
-[Amendment N1](native-profile.md#n1--2026-08-27--semgrep-ces-javascript-cells-evaluated-against-the-vendored-snapshot)
+[Amendment A6](native-profile.md#a6--2026-08-27-semgrep-ces-javascript-cells-evaluated-against-the-vendored-snapshot)
 resolves Semgrep CE's six JavaScript cells against the vendored snapshot and
 retains all six as unsupported: every taint rule in the official JavaScript
 security set roots its sources in a function parameter or a framework request
 object, so a rule with the right sink has no applicable source.
+
+[Java's native probe set](java-native.md) has landed second: twelve assertions
+over `System.getenv`, `args`, `Runtime.exec`, `String.concat`,
+`Integer.parseInt` / `String.valueOf`, the `java.util.Base64` round trip, and
+the `System.getProperty` / `setProperty` store pair, running on the **same**
+CodeQL native execution arm the JavaScript row landed — one implementation, with
+the language choosing only the extractor and the pinned suite. CodeQL scores
+**11 of 12**; Bifrost, Joern, and Semgrep decline all six templates without
+being invoked. The single miss is category B, and its evidence outweighs its
+score: both persistence cells' flows start at `System.getProperty` itself, which
+the shipped catalog models as an environment source rather than as a store read,
+so the negative is a false positive and the positive's true positive is
+unearned.
+[Amendment A7](native-profile.md#a7--2026-08-27-semgrep-ces-six-java-cells-are-retained-unsupported-against-the-vendored-snapshot)
+resolves Semgrep CE's six Java cells against the second vendored snapshot
+(`semgrep/semgrep-rules@40b8c63f`, eighty-six rules) and retains all six as
+unsupported: no shipped rule binds a platform environment, argument, or
+process-store source.
 
 ## M4: real-project confirmation
 
