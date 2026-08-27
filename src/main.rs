@@ -1420,7 +1420,53 @@ const NATIVE_PARTITION: [NativePartitionCell; 24] = [
 /// `unsupported` decision. A cell with no row here keeps whatever
 /// `NATIVE_PARTITION` preregistered for it.
 const NATIVE_PARTITION_AMENDMENTS: [(ModelingTool, ModelingLanguage, &str, Option<&'static str>);
-    0] = [];
+    6] = [
+    // Amendment N-A1 (2026-08-27) — Semgrep CE 1.174.0 × Python, all six
+    // templates promoted to scored on the evidence of the vendored snapshot
+    // (semgrep/semgrep-rules @ 40b8c63f, `python/lang/security/`), read as rule
+    // text before any scan. `audit/dangerous-system-call-tainted-env-args.yaml`
+    // is a `mode: taint` rule whose `pattern-sources` bind the platform
+    // identities `os.environ`, `os.getenv`, and `sys.argv` — not a framework
+    // endpoint — and whose `pattern-sinks` bind `os.system`. Both endpoints of
+    // every Python template are therefore covered by one shipped rule, and what
+    // remains is the measurement rather than the activation.
+    (
+        ModelingTool::Semgrep,
+        ModelingLanguage::Python,
+        NATIVE_TEMPLATE_IDS[0],
+        None,
+    ),
+    (
+        ModelingTool::Semgrep,
+        ModelingLanguage::Python,
+        NATIVE_TEMPLATE_IDS[1],
+        None,
+    ),
+    (
+        ModelingTool::Semgrep,
+        ModelingLanguage::Python,
+        NATIVE_TEMPLATE_IDS[2],
+        None,
+    ),
+    (
+        ModelingTool::Semgrep,
+        ModelingLanguage::Python,
+        NATIVE_TEMPLATE_IDS[3],
+        None,
+    ),
+    (
+        ModelingTool::Semgrep,
+        ModelingLanguage::Python,
+        NATIVE_TEMPLATE_IDS[4],
+        None,
+    ),
+    (
+        ModelingTool::Semgrep,
+        ModelingLanguage::Python,
+        NATIVE_TEMPLATE_IDS[5],
+        None,
+    ),
+];
 
 /// The decision for one tool × language × native template: `None` when the
 /// template is scored, `Some(reason)` when the tool's shipped model set cannot
@@ -15921,11 +15967,12 @@ mod tests {
     }
 
     /// The scored counts are the preregistration's partition summary as
-    /// amended. CodeQL enters with six of six and the other three with
+    /// amended. CodeQL entered with six of six and the other three with
     /// nothing, which is a statement about product packaging rather than about
     /// an engine — Joern scores four of six *categories* on the
-    /// benchmark-controlled matrix with the same engine. No amendment has been
-    /// recorded yet, so every count is still the preregistered one.
+    /// benchmark-controlled matrix with the same engine. Amendment N-A1
+    /// promotes Semgrep CE's six Python cells on the evidence of the vendored
+    /// snapshot, and touches no other language.
     #[test]
     fn native_partition_scored_counts_match_the_preregistration() {
         for language in [
@@ -15940,13 +15987,18 @@ mod tests {
             assert!(native_supported_templates(ModelingTool::Bifrost, language).is_empty());
             assert!(native_supported_templates(ModelingTool::Joern, language).is_empty());
         }
-        for language in [
-            ModelingLanguage::Java,
-            ModelingLanguage::Javascript,
-            ModelingLanguage::Python,
-        ] {
-            assert!(native_supported_templates(ModelingTool::Semgrep, language).is_empty());
-        }
+        // Amendment N-A1: Python only.
+        assert_eq!(
+            native_supported_templates(ModelingTool::Semgrep, ModelingLanguage::Python),
+            NATIVE_TEMPLATE_IDS.to_vec()
+        );
+        assert!(
+            native_supported_templates(ModelingTool::Semgrep, ModelingLanguage::Java).is_empty()
+        );
+        assert!(
+            native_supported_templates(ModelingTool::Semgrep, ModelingLanguage::Javascript)
+                .is_empty()
+        );
     }
 
     /// Every amendment row names one of the six preregistered templates, so a

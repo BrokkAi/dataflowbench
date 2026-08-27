@@ -560,6 +560,15 @@ is entirely pinnable. It says nothing about how many it will pass.
 
 ### Semgrep CE — 1.174.0 (`--oss-only`), vendored official rulesets
 
+> **Amended.** All six **Python** cells were promoted from *to be verified at
+> vendoring* to scored by
+> [Amendment N-A1](#n-a1--2026-08-27-semgrep-ces-six-python-cells-are-promoted-to-scored-and-the-partition-gains-a-language-dimension),
+> on the evidence of the vendored snapshot's
+> `audit/dangerous-system-call-tainted-env-args.yaml`, read before any scan.
+> Java and JavaScript are unchanged at 0 / 6 until their own snapshots are
+> vendored. The same amendment keys the partition by language, which is what
+> lets one language's snapshot answer only its own cells.
+
 **Activation contract.** Registry configurations (`--config p/…`) are
 network-fetched and version-unpinnable at run time: two runs a week apart are two
 different rulesets under one name, which is not a benchmark. The native profile
@@ -721,6 +730,12 @@ Preregistered before any native fixture exists or any ruleset is vendored.
 `TBV` = to be verified at implementation or at vendoring, treated as unsupported
 until shown otherwise.
 
+> **Amended.** This table is the preregistered default and stays as written.
+> [Amendment N-A1](#n-a1--2026-08-27-semgrep-ces-six-python-cells-are-promoted-to-scored-and-the-partition-gains-a-language-dimension)
+> keys the partition by language and promotes Semgrep CE's six **Python** cells
+> to scored; every cell for every language with no amendment row is still the
+> cell below.
+
 | # | Template | Cat. | Bifrost v0.10.6 | CodeQL 2.26.3 | Joern 4.0.610 | Semgrep CE 1.174.0 |
 | --- | --- | --- | --- | --- | --- | --- |
 | 1 | `native-source-sink` | S | unsupported | supported | unsupported | TBV |
@@ -843,6 +858,85 @@ disappointing.
 
 ## Amendments
 
-None. Amendments are dated, state what changed and which template IDs and
-languages they touch, name the freezes they invalidate, and land as their own
-commits.
+Amendments are dated, state what changed and which template IDs and languages
+they touch, name the freezes they invalidate, and land as their own commits.
+
+### N-A1 — 2026-08-27: Semgrep CE's six Python cells are promoted to scored, and the partition gains a language dimension
+
+**What changed.** Two things, and the second is the reason the first is
+expressible at all.
+
+1. **The partition is now keyed by tool × *language* × template.** As
+   preregistered it was keyed by tool × template and applied to all three
+   languages at once, which was correct while every Semgrep cell read *to be
+   verified at vendoring*: no snapshot existed for any language, so one
+   undifferentiated `TBV` said everything there was to say. A vendored snapshot
+   is per language by this document's own rule — one directory under
+   `adapters/semgrep/native/<language>/` — and reading its rules can only
+   answer that language's cells. Verifying Python's cells therefore cannot
+   speak for Java's or JavaScript's, and a partition that could not say so
+   would have forced one language's evidence onto the other two. No
+   preregistered cell's *decision* is altered by this change; the twenty-four
+   cells above remain the default for every language that has no amendment
+   row.
+2. **Semgrep CE 1.174.0 × Python: all six templates, `TBV`/unsupported →
+   scored.**
+
+**Which template IDs and languages.** All six —
+`dfb-template-native-source-sink`, `-propagator`, `-sanitizer`, `-summary`,
+`-entrypoint`, `-persistence` — for **Python only**. Java and JavaScript are
+untouched and remain 0 / 6 for Semgrep until their own snapshots are vendored
+and their own amendments recorded. No other tool's cells change; CodeQL stays
+6 / 6, Bifrost and Joern stay 0 / 6.
+
+**Why, from rule text, before any scan.** The snapshot is
+`semgrep/semgrep-rules` @ `40b8c63f75dc7c22c8a77482d73bfb864b146f7e`,
+`python/lang/security/` including its `audit/` subtree, ninety-one rule files,
+vendored verbatim to `adapters/semgrep/native/python/` with `derived`
+provenance. The preregistered rationale for Python's cells was that the
+upstream taint rules bind their `pattern-sources` to *framework* endpoints —
+Flask, Django, DRF — rather than to a platform environment read, which is
+exactly what `python/lang/security/dangerous-system-call.yaml` does. The
+snapshot contains a second rule the preregistration did not have in front of
+it: `audit/dangerous-system-call-tainted-env-args.yaml`, a `mode: taint` rule
+whose `pattern-sources` are
+
+```yaml
+- pattern: os.environ
+- pattern: os.environ.get('$FOO', ...)
+- pattern: os.getenv('$ANYTHING', ...)
+…
+- pattern: sys.argv
+- pattern: sys.orig_argv
+```
+
+and whose `pattern-sinks` are `os.system(...)` and the `os.popen` family. Both
+endpoints of **every** Python template in this document are bound by that one
+shipped rule: `os.environ` for templates 1–4 and 6, `sys.argv` for template 5,
+and `os.system` throughout. A seventh file,
+`audit/dangerous-system-call-audit.yaml`, is the pure sink-existence rule this
+document warned about — bare `os.system(...)` with only a literal-first-argument
+exclusion, no taint anywhere.
+
+Per-cell, with the retained-or-promoted decision stated for each:
+
+| # | Template | Cat. | Preregistered | Now | Evidence read from rule text |
+| --- | --- | --- | --- | --- | --- |
+| 1 | `native-source-sink` | S | TBV | **scored** | `dangerous-system-call-tainted-env-args` binds `os.environ` as a source and `os.system` as a sink. The preregistered rationale — sources are framework-shaped — is true of `dangerous-system-call.yaml` and false of this rule. |
+| 2 | `native-propagator` | P | TBV | **scored** | Same rule binds both endpoints; the `os.path.join` hop between them is propagation, and whether the shipped configuration carries a value across it is the measurement, not the activation. |
+| 3 | `native-sanitizer` | Z | TBV | **scored** | Same rule binds both endpoints and declares **no** `pattern-sanitizers`. `shlex.quote` appears in the `dangerous-subprocess-use` and `dangerous-asyncio-*` families and in no rule that owns the `os.system` sink, so this cell is decidable and what it decides is where the credit is scoped. |
+| 4 | `native-summary` | O | TBV | **scored** | Same rule binds both endpoints. The preregistered rationale — arg-to-return summary semantics are outside CE's propagator vocabulary — is about *declaring* a summary, which is a benchmark-controlled concern; this profile declares nothing and asks only whether the shipped configuration survives the round trip. |
+| 5 | `native-entrypoint` | E | TBV | **scored** | Same rule's `pattern-sources` include `sys.argv` and `sys.orig_argv` literally. The preregistered rationale — entry conventions are framework-shaped — is answered by the snapshot in the negative. |
+| 6 | `native-persistence` | B | TBV | **scored** | Same rule binds both endpoints. The preregistered rationale cited the absence of interprocedural taint in CE; this template's fixture writes and reads the store inside one function, so that limit is not what decides the cell. What decides it is whether the store read is treated as a keyed read or as a fresh source. |
+
+Every promotion is decided from rule text over the pinned commit and recorded
+here **before** the first Semgrep native scan of the Python population. That is
+the sanctioned path this document preregisters — *to be verified at vendoring*
+resolved by taking the snapshot and reading it — and not a result being
+relabelled. A promoted cell can and does produce false negatives and false
+positives; that is what scoring it means.
+
+**Freezes invalidated.** None. No published freeze manifest contains a
+tool-native report: the v0.4.0 claim is `benchmark-controlled` at the
+`calibration`, `core`, and `language-extension` tiers, and this profile's
+reports are new paths outside it.
