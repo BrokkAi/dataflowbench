@@ -846,7 +846,85 @@ disappointing.
 Amendments are dated, state what changed and which template IDs and languages
 they touch, name the freezes they invalidate, and land as their own commits.
 
-### A1 — 2026-08-27: Semgrep CE's six Java cells are retained unsupported against the vendored snapshot
+Their numbers continue the repository's **single** amendment sequence rather
+than restarting per document: A1 is in [the challenge tier](challenge-tier.md#amendments)
+and A2–A5 are in [the modeling matrix](modeling-matrix.md#amendments), so an
+amendment identifier names exactly one amendment wherever it is cited.
+
+### A6 — 2026-08-27: Semgrep CE's JavaScript cells, evaluated against the vendored snapshot
+
+**What changed.** Semgrep CE 1.174.0's six *to be verified at vendoring* cells
+are resolved for **JavaScript only**. All six are **retained as unsupported**.
+No cell is promoted, no decision flips, and the
+[partition summary](#partition-summary) is unchanged: what changes is that the
+JavaScript column's rationale is now settled evidence about a pinned snapshot
+rather than an open question about one that did not exist.
+
+**Templates and languages touched.** All six —
+`dfb-template-native-source-sink`, `-propagator`, `-sanitizer`, `-summary`,
+`-entrypoint`, `-persistence` — for `javascript` alone. Java's and Python's
+cells stay open and are answered by their own waves.
+
+**Freezes invalidated.** None. No published freeze contains a tool-native
+report.
+
+**Evidence.** The snapshot vendored to `adapters/semgrep/native/javascript/`
+from `semgrep/semgrep-rules` at commit
+`40b8c63f75dc7c22c8a77482d73bfb864b146f7e` — thirty `.yaml` rule files from
+`javascript/lang/security/`, the path
+[the preregistration names](#semgrep-ce--11740---oss-only). The evaluation
+below is a reading of the vendored rule text, made before Semgrep was invoked
+over any native fixture, which is the order
+[the vendoring rule requires](#provenance-for-vendored-activation-artifacts).
+
+**The finding that decides all six cells.** Fifteen of the thirty vendored
+rules are `mode: taint`; the other fifteen are pattern rules. Every one of the
+fifteen taint rules roots its `pattern-sources` in a **function parameter or a
+framework request object**, and not one names a platform environment, argument,
+or process-store identity. `detect-child-process.yaml` and
+`audit/dangerous-spawn-shell.yaml` — the two rules whose *sinks* are exactly
+this profile's `child_process.execSync` — take
+`function ... (...,$FUNC,...) { ... }` with `focus-metavariable: $FUNC` as their
+only source. `audit/code-string-concat.yaml`, whose sink is the same family,
+takes Express `$REQ.query`/`.body`/`.params`/`.cookies`/`.headers` and the
+Next.js router. `audit/path-traversal/path-join-resolve-traversal.yaml`, whose
+sink is `path.join`, takes a function parameter. A search of the whole snapshot
+for `process.env`, `process.argv`, `encodeURIComponent`, and `Buffer.from`
+returns nothing.
+
+That is the shipped product's shape, and it is the shape the preregistration
+predicted for Python: the official rules' entry conventions are
+framework-shaped. A rule with a correct sink and no applicable source cannot
+produce a finding on a fixture whose source is a platform API, so every one of
+the six templates is declined for the same reason.
+
+**Per cell.**
+
+| # | Template | Cat. | Decision | Evidence from the vendored rule text |
+| --- | --- | --- | --- | --- |
+| 1 | `native-source-sink` | S | **retained unsupported — no shipped platform-source model** | `detect-child-process.yaml` binds the `child_process.execSync($CMD)` sink under `require('child_process')`, so the sink half is covered; its only `pattern-sources` entry is an enclosing function's parameter. Nothing in the snapshot binds `process.env`. |
+| 2 | `native-propagator` | P | **retained unsupported — no shipped platform-source model** | `path-join-resolve-traversal.yaml` binds `$PATH.join(...,$SINK,...)` under `require('path')`; its source is a function parameter. With no source bound, the propagator has nothing to carry. |
+| 3 | `native-sanitizer` | Z | **retained unsupported — no rule reaches this cell to credit or refuse the idiom** | `encodeURIComponent` appears nowhere in the snapshot. Sanitizer credit in the official rules is per-rule (`path-join-resolve-traversal.yaml` lists `$Y.replace`, `$Y.indexOf`, and a `sanitize`-named call), and no rule that could fire on this fixture exists to credit it either way. |
+| 4 | `native-summary` | O | **retained unsupported — no shipped source, and no arg→return summary vocabulary** | Both halves of the preregistered rationale hold: no rule binds a platform source, and CE 1.174.0 does not express arg→return summaries, [as the modeling matrix established by execution](modeling-matrix.md#semgrep-ce--11740---oss-only). |
+| 5 | `native-entrypoint` | E | **retained unsupported — the shipped entry convention is a function parameter, not `process.argv`** | The snapshot's universal source shape *is* an entry convention — it just is not the platform's. `process.argv` appears in no rule. |
+| 6 | `native-persistence` | B | **retained unsupported — no store vocabulary, and no interprocedural taint** | No rule links a write to `process.env.<NAME>` to a read of it, and the pinned CE engine has no interprocedural taint (`--pro-intrafile` requires Pro). |
+
+**Scored count, unchanged: 0 of 6 for JavaScript.** Under
+[outcome honesty](#outcome-honesty) those twelve assertions are capability
+coverage, never negatives, and they reduce no denominator.
+
+**A note on the sink-existence hazard, which did not materialize here.** The
+preregistration expected this profile's most likely observation to be a pattern
+rule firing on sink existence and taking a false positive on a negative cell.
+For JavaScript it does not: the two vendored rules that match
+`child_process.execSync` are both taint rules, and the fifteen pattern rules
+match other constructs entirely — `spawn(..., {shell: $SHELL})`,
+`spawn('git', ['clone', ...])`, `Buffer` `noassert`, weak hashing. A negative
+cell that passes a clean local variable to `execSync` is flagged by none of
+them. The hazard remains preregistered for the other two languages, where the
+upstream `audit/` rules are shaped differently.
+
+### A7 — 2026-08-27: Semgrep CE's six Java cells are retained unsupported against the vendored snapshot
 
 **What changed in the partition.** Nothing. All six Semgrep CE cells for
 **Java** stay `unsupported`. What changes is their *status*: they were

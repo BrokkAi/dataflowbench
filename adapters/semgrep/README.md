@@ -753,6 +753,43 @@ Ten of the twenty-four cells are scored.
 
 See [the Java modeling matrix](../../docs/java-modeling.md).
 
+## JavaScript tool-native probe set
+
+This adapter's native activation is a **vendored snapshot**, not a registry
+configuration: `--config p/…` is network-fetched and version-unpinnable at run
+time, so two runs a week apart are two different rulesets under one name.
+
+- Snapshot: `adapters/semgrep/native/javascript/` — thirty `.yaml` rule files
+  copied byte for byte from `javascript/lang/security/` at
+  `semgrep/semgrep-rules@40b8c63f75dc7c22c8a77482d73bfb864b146f7e`, with
+  `provenance.json` recording `kind: derived`, the upstream repository, the
+  source commit and its date, the paths, the license, and the retrieval date.
+  The runner refuses a native run whose activation directory lacks that file,
+  and it refused this one until the snapshot landed.
+- **`taint_assume_safe_functions` is deliberately NOT set**, unlike every
+  benchmark-controlled Semgrep run here. There, a permissive default would
+  decide a cell the supplied model was meant to decide. Here the default *is*
+  the product: setting it would be editing the vendor's rules, which the
+  activation rule forbids. `--oss-only` still applies — the CE engine is the
+  product under test.
+- Result: **0 of 6 scored, all six retained unsupported** by
+  [Amendment A6](../../docs/native-profile.md#a6--2026-08-27-semgrep-ces-javascript-cells-evaluated-against-the-vendored-snapshot).
+  Fifteen of the thirty rules are `mode: taint` and every one of them roots its
+  `pattern-sources` in a function parameter or a framework request object.
+  `detect-child-process.yaml` and `audit/dangerous-spawn-shell.yaml` bind
+  exactly this profile's `child_process.execSync` sink and take an enclosing
+  function's parameter as their only source; `audit/code-string-concat.yaml`
+  takes Express `$REQ.*` and the Next.js router. `process.env`,
+  `process.argv`, `encodeURIComponent`, and `Buffer.from` appear nowhere in the
+  snapshot. Semgrep declined this profile for JavaScript; it did not fail it,
+  and the twelve `unsupported` assertions reduce no denominator.
+- The preregistered sink-existence hazard did not materialize here: the two
+  rules matching `execSync` are taint rules, and the fifteen pattern rules match
+  other constructs entirely, so a negative cell passing a clean local to
+  `execSync` is flagged by none of them.
+
+See [the JavaScript tool-native probe set](../../docs/javascript-native.md).
+
 ## Java tool-native probe set
 
 Wave N1's first row. See [the tool-native profile](../../docs/native-profile.md)
@@ -790,7 +827,7 @@ run, and it binds none of the six categories: `System.getenv`, `String.concat`,
 template's command API are pattern rules that bind no source; and the one
 taint-mode rule reaching `Runtime.exec` sources from `HttpServletRequest`. The
 per-cell evidence is
-[Amendment A1](../../docs/native-profile.md#a1--2026-08-27-semgrep-ces-six-java-cells-are-retained-unsupported-against-the-vendored-snapshot),
+[Amendment A7](../../docs/native-profile.md#a7--2026-08-27-semgrep-ces-six-java-cells-are-retained-unsupported-against-the-vendored-snapshot),
 which moves no cell.
 
 The distinction that matters: a run over these fixtures would also have

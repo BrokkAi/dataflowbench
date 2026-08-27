@@ -1030,6 +1030,35 @@ rather than a scored cell decided by a missing model.
 
 See [the Java modeling matrix](../../docs/java-modeling.md).
 
+## JavaScript tool-native probe set
+
+Zero of six, decided before the distribution is invoked — and the twelve
+assertions were produced without launching Joern at all.
+
+The tool-native activation contract is whatever the distribution activates
+without a user-authored query or semantics file: `DefaultSemantics`, and nothing
+else. No benchmark `.semantics` file may load, and the no-benchmark-models gate
+refuses `adapters/joern/semantics/model-*.semantics` and the shared
+`adapters/joern/queries/modeling.sc`.
+
+`DefaultSemantics` is a table of **flow constraints** — operator semantics, a
+list of C standard-library functions, and a short list of JVM-ecosystem method
+full names. It contains no source catalog and no sink catalog, and flow
+semantics never say where taint starts or where its arrival is a finding. In
+every other Joern population here the endpoints come from this adapter's own
+query parameters, which is precisely what the native activation rule forbids.
+`joern-scan` exists in the distribution but its query database does not: it
+downloads `querydb.zip` from a floating `latest` release asset, unpinnable at
+run time.
+
+That is a statement about the OSS distribution's *product packaging*, not about
+its engine — the benchmark-controlled matrix scores this same engine on sixteen
+JavaScript assertions. Each of the twelve retained decisions carries the
+preregistration's rationale verbatim with
+`"evidence_kind": "retained-capability-decision"`.
+
+See [the JavaScript tool-native probe set](../../docs/javascript-native.md).
+
 ## Java tool-native probe set
 
 Wave N1's first row. See [the tool-native profile](../../docs/native-profile.md)

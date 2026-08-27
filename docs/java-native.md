@@ -10,7 +10,7 @@ Nothing here amends a template definition or a partition cell. The six
 templates, the platform-API identities, the negative mechanisms, the capability
 kinds, and the per-tool activation contracts were fixed before any of these
 fixtures existed. This row contributes one amendment,
-[A1](native-profile.md#a1--2026-08-27-semgrep-ces-six-java-cells-are-retained-unsupported-against-the-vendored-snapshot),
+[A7](native-profile.md#a7--2026-08-27-semgrep-ces-six-java-cells-are-retained-unsupported-against-the-vendored-snapshot),
 which discharges Semgrep CE's *to be verified at vendoring* status for Java and
 **moves no cell**.
 
@@ -94,9 +94,15 @@ finding it produces belongs to the assertion, and a finding that misses the
 sink anchor is incomplete evidence — `inconclusive`. A native run executes the
 vendor's **entire shipped suite**, so findings about something else entirely —
 a weak hash, a missing cookie flag — are the normal case and are simply not
-this assertion's findings. They are retained in the diagnostics by rule
-identity and never become an outcome. Only a finding on the sink-anchor line is
-`reached`.
+this assertion's findings. They are retained in the diagnostics and never make
+the cell `reached`. Only a finding on the sink-anchor line does that. Ambiguity
+— a malformed location, or one finding matching two anchors — stays
+`inconclusive` exactly as everywhere else.
+
+This is the same `native_sarif_outcome` the JavaScript row runs, over the same
+`run_codeql_native_case` and the same shared `codeql_sarif_for_case` database
+driver. There is no Java-specific native arm: the language decides the
+extractor and the pinned suite, and nothing else.
 
 ### Sink existence is preserved in every negative
 
@@ -241,7 +247,7 @@ of six has declined the profile rather than failed it.
   its engine, and making that gap legible is why this profile exists.
 - **Semgrep CE 1.174.0** — the snapshot is vendored and was read; none of its
   86 rule documents binds any of the six categories. See
-  [Amendment A1](native-profile.md#a1--2026-08-27-semgrep-ces-six-java-cells-are-retained-unsupported-against-the-vendored-snapshot)
+  [Amendment A7](native-profile.md#a7--2026-08-27-semgrep-ces-six-java-cells-are-retained-unsupported-against-the-vendored-snapshot)
   for the per-cell evidence. Worth repeating from it: a Semgrep run over these
   fixtures would have produced nothing at all, but these cells are declined
   because no rule *binds* the categories, not because a run came back empty.

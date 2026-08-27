@@ -962,6 +962,47 @@ on the same fixture, [Joern does](../joern/README.md#taint-modeling-matrix).
 
 See [the Java modeling matrix](../../docs/java-modeling.md).
 
+## JavaScript tool-native probe set
+
+A different profile, not a different population of the same one. Everything
+above supplies CodeQL its models; this run supplies **none**. The activation is
+the shipped query suite and one documented CLI option, and the
+no-benchmark-models gate reads the invocation shape before the binary is touched
+and refuses a run that names any benchmark-authored artifact.
+
+- Activation:
+  `codeql/javascript-queries@2.4.4:codeql-suites/javascript-security-extended.qls`
+  with `--threat-model=local`. No adapter query, no data extension, no
+  `--additional-packs` model of ours. 103 rules resolved for the JavaScript
+  fixtures.
+- `--threat-model=local` configures shipped models rather than adding any: it
+  enables the vendor's `local` group, which
+  `codeql/threat-models@1.0.55` defines as containing `environment` and
+  `commandargs`. Without it, templates 1, 5, and 6 would be decided by the
+  default `remote`-only threat model and would miss for a reason unrelated to
+  coverage.
+- **The library resolution deliberately differs from this adapter's.** The
+  pinned *query* pack bundles `codeql/javascript-all@2.10.0`; every
+  benchmark-controlled run above pins `javascript-all@2.9.0`. A native run must
+  measure the shipped product as shipped, which is one more reason the two
+  profiles are never pooled.
+- Database creation is byte-for-byte the benchmark-controlled path —
+  `codeql_database_create_args` under `CodeqlLanguage::Javascript` — because
+  extraction is a property of the language, not of the model profile. Only the
+  analyze step differs.
+- Reconciliation anchors sit on the platform callsite rather than on a declared
+  entity, because this profile has no declared entity. A shipped suite answers
+  many questions at once, so a finding away from the anchor is retained as a
+  diagnostic and never becomes evidence of a flow; it did not arise in this run.
+- Result: **10 of 12**, with a false positive on the sanitizer negative
+  (`encodeURIComponent` is a barrier for XSS and request forgery but a
+  taint-preserving step for command injection) and both cells wrong on the
+  persistence template (the `process.env` write/read pair is unlinked, while the
+  plain environment source fires on the distinct-key read). Both were
+  preregistered as expectations before the run.
+
+See [the JavaScript tool-native probe set](../../docs/javascript-native.md).
+
 ## Java tool-native probe set
 
 Wave N1's first row, and the profile's opposite question: not whether the

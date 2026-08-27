@@ -414,30 +414,44 @@ configuration are retained"* a property of the artifact.
 models are not pinnable at run time — Semgrep's registry, Joern's floating
 `querydb` release asset — the profile vendors a pinned snapshot with a
 `provenance.json` recording the upstream repository, source commit, paths,
-license, and retrieval date. Wave N1's Java row vendors the first one:
-`adapters/semgrep/native/java/` snapshots `java/lang/security/` of
-`semgrep/semgrep-rules` at a pinned commit. Each remaining language's snapshot
-lands with its own wave.
+license, and retrieval date. Vendored so far: `adapters/semgrep/native/javascript/`
+(thirty rules) and `adapters/semgrep/native/java/` (eighty-six), both from
+`semgrep/semgrep-rules@40b8c63f` — the remaining snapshot lands with Python's
+row.
 
-**The execution arm lands with the language.** The arm that invokes an analyzer
-over a *scored* native cell is written by the wave-N1 pull request that vendors
-that adapter's snapshot for that language. Until then a scored cell is a hard
-error rather than a synthesized outcome, which the adapter contract at the head
-of this document forbids. Java's row lands CodeQL's arm — the pinned shipped
-suite plus its threat-model option in place of an adapter query, with the
-`--codeql-packs` search path validated but deliberately never forwarded. The
-other three adapters decline all six templates, so their arms stay unwritten
-and a promotion by amendment is a hard error until one is written, rather than
-a silent zero.
+**One execution arm serves every language.** The arm that invokes an analyzer
+over a *scored* native cell is written by the wave-N1 pull request that first
+needs it, and thereafter every language shares it. CodeQL's arm is wired:
+`run_codeql_native_case` calls the same `codeql_sarif_for_case` driver the
+kernels and the modeling matrix call, so the database is built by the
+language's own extractor and traced build — extraction is a property of the
+language, not of the model profile — and the failure evidence and scratch
+cleanup are the shared ones. Only two things are native, and both are arguments
+to that driver rather than a second copy of it: the pinned activation arguments,
+passed verbatim in the order `native_activation` pins and
+`native_configuration_hash` hashes so the invocation and the retained provenance
+cannot drift apart, and the reconciler. The `--codeql-packs` search path is
+validated but deliberately never forwarded, because a pack search path of ours
+is a model of ours. Bifrost, Joern, and Semgrep have no arm, because their
+preregistered partitions decline all six templates and the partition is
+consulted first; a scored cell for one of them is a hard error rather than a
+synthesized outcome, which the adapter contract at the head of this document
+forbids, and it becomes reachable only when a dated amendment promotes a cell.
 
-**A native marker anchors the platform callsite.** Every other population
-anchors a `DFB-SINK:` marker on the declaration of a benchmark-invented
-endpoint. A native fixture declares nothing, so the marker sits on the real
-API's own callsite and that line is the reconciliation target directly. Because
-a native run executes the vendor's whole shipped suite rather than one bespoke
-query, findings away from the anchor are retained as diagnostics by rule
-identity and never become an outcome; only a finding on the sink-anchor line is
-`reached`.
+**Native anchors sit on the platform callsite.** Every other population declares
+its own endpoint function and hangs the marker on that declaration, so
+reconciliation resolves a declared name and then finds its callsites. The
+tool-native profile has no declared entity — the sink's body is inside the
+platform — so the marker sits on the calling line itself and
+`native_sink_anchor_locations` resolves that line directly. An anchor still
+decides only which finding belongs to which assertion and never tells an
+analyzer what a source or a sink is.
+
+A native run also analyzes a whole shipped suite rather than one adapter query,
+so a finding away from the anchor is a different query answering a different
+question: `native_sarif_outcome` retains it as a diagnostic and does not let it
+make the cell `reached`. What it never does is become evidence of a flow.
+Ambiguity stays `inconclusive`, as everywhere else.
 
 **Reporting stays separate.** Native reports are their own population per
 language and per adapter. A native scorecard is never merged with a

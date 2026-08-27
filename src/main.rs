@@ -10250,20 +10250,34 @@ fn native_partition_outcome(
     Ok(Some(("unsupported", reason, raw_path)))
 }
 
-/// Resolve one native case's sink anchors to the lines a finding must land on.
+/// The CodeQL extractor a tool-native run uses.
 ///
-/// Every other population anchors a `DFB-SINK:` marker on the **declaration**
-/// of a benchmark-invented endpoint and reconciles a finding against that
-/// endpoint's callsites, which is why `sink_anchor_locations` needs a dialect
-/// at all. A native fixture declares nothing: its sink is a platform API whose
-/// declaration lives in the JDK, in Node, or in CPython, so the marker sits on
-/// the **real API's callsite** and that line is the reconciliation target
-/// directly. No dialect is consulted, because nothing has to be parsed.
+/// Extraction is a property of the language, not of the model profile: a native
+/// database is built exactly the way the benchmark-controlled one is, and only
+/// the *analysis* differs — a shipped suite instead of an adapter query. Sharing
+/// the mapping is what keeps the two profiles' databases comparable even though
+/// their query resolutions deliberately are not.
+fn native_codeql_language(language: ModelingLanguage) -> Result<CodeqlLanguage<'static>> {
+    modeling_codeql_language(language)
+}
+
+/// Resolve a tool-native case's sink anchors, which sit on the **callsite of
+/// the real platform API**.
 ///
-/// Everything else is the discipline the rest of the corpus already uses: one
-/// unambiguous line per anchor, duplicates refused, and a finding proved
-/// against a location rather than assumed.
-fn native_sink_locations(
+/// Every other population in this benchmark declares its own endpoint function
+/// and hangs the marker on that declaration, so reconciliation resolves the
+/// declared name and then finds the lines that call it. The tool-native profile
+/// has no declared entity, by construction: the sink is
+/// `child_process.execSync`, `Runtime.exec`, `os.system`, and its body is inside
+/// the platform rather than inside the fixture
+/// (docs/native-profile.md#the-native-binding-trap). The marker is therefore
+/// placed directly on the line that calls the platform API, and that line *is*
+/// the callsite.
+///
+/// This is still a reconciliation anchor and never a model. It decides which
+/// finding belongs to which assertion; it tells the analyzer nothing about what
+/// a source or a sink is (docs/native-profile.md#the-activation-rule).
+fn native_sink_anchor_locations(
     case_path: &Path,
     case: &Value,
 ) -> std::result::Result<Vec<SinkAnchorLocation>, String> {
@@ -10306,20 +10320,27 @@ fn native_sink_locations(
     Ok(locations)
 }
 
-/// Reconcile a whole shipped security suite's SARIF against one native
-/// assertion.
+/// Reconcile a native SARIF document against the case's platform-API callsite.
 ///
-/// This differs from `sarif_anchor_outcome` in exactly one way, and the
-/// difference is forced by the profile rather than chosen. A
-/// benchmark-controlled run executes one bespoke query, so *every* finding it
-/// produces belongs to the assertion and a finding that misses the sink anchor
-/// is incomplete evidence — `inconclusive`. A native run executes the vendor's
-/// entire shipped suite, so findings about something else entirely are the
-/// normal case: they are simply not this assertion's findings. They are
-/// retained in the diagnostics, by rule identity, and never converted into an
-/// outcome.
+/// One rule differs from every other SARIF reconciliation here, and it follows
+/// from what a native run analyzes. Elsewhere the runner points CodeQL at a
+/// single adapter query, so *any* finding is a finding about the assertion and
+/// one that does not land on the anchor means the reconciliation is untrustworthy
+/// — hence `inconclusive`. A native run points CodeQL at a whole shipped
+/// `security-extended` suite, which contains hundreds of queries about
+/// everything from weak hashing to regular-expression denial of service. A
+/// finding those queries produce somewhere other than this assertion's sink is
+/// not evidence about this assertion at all; it is a different query answering a
+/// different question, and treating it as ambiguity would make every cell
+/// inconclusive and measure nothing.
 ///
-/// A finding on the sink-anchor line is `reached` whatever query produced it —
+/// So an unmatched finding is **retained in the diagnostics and does not make
+/// the cell reached**. What it never does is become evidence of a flow: only a
+/// finding at the sink anchor does that. Ambiguity — a malformed location, or
+/// one finding that matches two anchors — stays `inconclusive` exactly as
+/// everywhere else.
+///
+/// A finding *on* the sink-anchor line is `reached` whatever query produced it,
 /// including a rule that fires on the existence of the sink alone. That is
 /// deliberate, and it is the profile's own scoring rule
 /// (docs/native-profile.md#sink-existence-only-findings-and-how-they-score):
@@ -10330,69 +10351,86 @@ fn native_sarif_outcome(
     case: &Value,
     sarif: &Value,
 ) -> (&'static str, Vec<String>) {
-    let sink_locations = match native_sink_locations(case_path, case) {
+    let mut diagnostics = sarif_messages(sarif);
+    let (outcome, anchor_diagnostics) = native_sarif_anchor_outcome(case_path, case, sarif);
+    diagnostics.extend(anchor_diagnostics);
+    diagnostics.sort();
+    diagnostics.dedup();
+    (outcome, diagnostics)
+}
+
+fn native_sarif_anchor_outcome(
+    case_path: &Path,
+    case: &Value,
+    sarif: &Value,
+) -> (&'static str, Vec<String>) {
+    if sarif_result_count(sarif) == 0 {
+        return ("not-reached", Vec::new());
+    }
+    let sink_locations = match native_sink_anchor_locations(case_path, case) {
         Ok(locations) => locations,
         Err(reason) => {
             return (
                 "inconclusive",
                 vec![format!(
-                    "cannot prove a shipped-suite finding against the native sink anchor: {reason}"
+                    "cannot prove SARIF finding against the native sink anchor: {reason}"
                 )],
             );
         }
     };
-    let mut matched = Vec::new();
-    let mut unmatched = Vec::new();
+    let mut matched = 0;
+    let mut unmatched = 0;
+    let mut ambiguous = 0;
     for result in sarif["runs"]
         .as_array()
         .into_iter()
         .flatten()
         .flat_map(|run| run["results"].as_array().into_iter().flatten())
     {
-        let rule = result["ruleId"].as_str().unwrap_or("<unnamed rule>");
         match sarif_result_anchor_match(result, &sink_locations) {
-            SarifAnchorMatch::Matched => matched.push(rule.to_string()),
-            SarifAnchorMatch::Unmatched | SarifAnchorMatch::Ambiguous => {
-                unmatched.push(rule.to_string())
-            }
+            SarifAnchorMatch::Matched => matched += 1,
+            SarifAnchorMatch::Unmatched => unmatched += 1,
+            SarifAnchorMatch::Ambiguous => ambiguous += 1,
         }
     }
-    let mut diagnostics = Vec::new();
-    if !matched.is_empty() {
-        matched.sort();
-        matched.dedup();
-        diagnostics.push(format!(
-            "shipped-suite finding(s) on the native sink anchor: {}",
-            matched.join(", ")
-        ));
+    if ambiguous > 0 {
+        return (
+            "inconclusive",
+            vec![format!(
+                "{ambiguous} SARIF finding(s) have ambiguous sink-anchor locations"
+            )],
+        );
     }
-    if !unmatched.is_empty() {
-        unmatched.sort();
-        unmatched.dedup();
-        diagnostics.push(format!(
-            "shipped-suite finding(s) elsewhere in the fixture, not this assertion's: {}",
-            unmatched.join(", ")
-        ));
+    if matched > 0 {
+        return ("reached", Vec::new());
     }
-    let outcome = if matched.is_empty() {
-        "not-reached"
-    } else {
-        "reached"
-    };
-    (outcome, diagnostics)
+    (
+        "not-reached",
+        vec![format!(
+            "{unmatched} shipped-suite finding(s) landed away from this case's platform sink anchor and are not evidence about this assertion"
+        )],
+    )
 }
 
-/// Run one *scored* native cell through CodeQL's shipped `security-extended`
-/// suite.
+/// Run one *scored* native cell through CodeQL's shipped security suite.
 ///
-/// Extraction is the same traced build the language's kernel and modeling
-/// populations use, so the only thing that differs from a benchmark-controlled
-/// CodeQL run is what is analyzed: the pinned query pack's own suite plus the
-/// `local` threat-model group, exactly as `native_activation` assembled them,
-/// and no adapter query. The `--codeql-packs` search path is deliberately
-/// **not** forwarded — docs/native-profile.md's CodeQL activation contract
-/// says "no `--additional-packs` model of ours", and the runner's gate on that
-/// path exists so a stale value fails fast rather than so it is used.
+/// There is one CodeQL driver in this file and every population shares it:
+/// `codeql_sarif_for_case` builds the database with the language's own
+/// extractor and traced build, writes the failure evidence, and cleans up the
+/// scratch, exactly as the kernels and the modeling matrix do. Only two things
+/// are native here, and both are arguments to that driver rather than a second
+/// copy of it: *what is analyzed* — the pinned query pack's own suite plus the
+/// `local` threat-model group, passed verbatim in the order `native_activation`
+/// pins and `native_configuration_hash` hashes, so the invocation and the
+/// retained provenance cannot drift apart — and *how a finding is reconciled*,
+/// which is `native_sarif_outcome`.
+///
+/// The `--codeql-packs` search path is deliberately **not** forwarded. The
+/// activation contract in docs/native-profile.md says "no adapter query, no
+/// data extension, no `--additional-packs` model of ours", and the runner's
+/// gate on that path exists so a stale value fails fast, not so it is used.
+/// The shipped suite resolves from the pinned query pack through the CLI's own
+/// pack resolution and needs no search path of ours.
 fn run_codeql_native_case(
     binary: &Path,
     case_path: &Path,
@@ -10405,7 +10443,7 @@ fn run_codeql_native_case(
         case_path,
         case,
         &plan.raw_dir,
-        modeling_codeql_language(plan.language)?,
+        native_codeql_language(plan.language)?,
         &plan.activation.arguments,
     )?;
     Ok(match sarif {
@@ -10424,8 +10462,10 @@ fn run_codeql_native_case(
 /// no-benchmark-models gate, and the partition's `unsupported` arm are
 /// infrastructure; the arm that invokes an analyzer over a *scored* cell lands
 /// with the wave-N1 pull request that vendors that adapter's activation
-/// snapshot for that language. A language whose execution arm is not wired yet
-/// is a hard error rather than a synthesized outcome.
+/// snapshot for that language. A tool whose execution arm is not wired yet is a
+/// hard error rather than a synthesized outcome — and a tool whose partition
+/// scores nothing never reaches that arm, because the partition is consulted
+/// first and decided from the template identity.
 fn run_native(
     tool: ModelingTool,
     binary: &Path,
@@ -10461,10 +10501,9 @@ fn run_native(
                 // that runs it, and until then a promotion fails the run
                 // instead of publishing a silent zero.
                 ModelingTool::Bifrost | ModelingTool::Joern | ModelingTool::Semgrep => bail!(
-                    "the tool-native execution arm for {} × {} is not wired: {id} is a scored cell, and every {} native cell was preregistered `unsupported`. A dated amendment that promotes a cell (docs/native-profile.md#preregistration-and-immutability) lands the arm that invokes the analyzer over it; synthesizing an outcome here is what docs/adapters.md forbids",
+                    "the tool-native execution arm for {} × {} is not wired: {id} is a scored cell and no wave has yet had a reason to invoke this adapter natively — its preregistered partition declines all six templates (docs/native-profile.md#partition-summary). A cell promoted by a dated amendment lands its execution arm in the same pull request; synthesizing an outcome here is what docs/adapters.md forbids",
                     plan.tool.pinned_identity(),
                     plan.language.display_name(),
-                    plan.tool.key()
                 ),
             }
         };
@@ -15950,12 +15989,37 @@ mod tests {
     /// asserts nothing.
     #[test]
     fn a_native_run_without_a_population_fails_fast() {
-        for language in [ModelingLanguage::Javascript, ModelingLanguage::Python] {
+        // Wave N1 lands one language per pull request, so the corpus holds a
+        // full twelve-assertion population for the languages that have landed
+        // and none at all for the rest. Both are checked here: a landed
+        // language must be complete and balanced, and a language that has not
+        // landed must fail fast rather than produce an empty report.
+        for language in [
+            ModelingLanguage::Java,
+            ModelingLanguage::Javascript,
+            ModelingLanguage::Python,
+        ] {
+            let population = select_native_cases(language).unwrap();
+            assert!(
+                population.len() == NATIVE_CASE_COUNT || population.is_empty(),
+                "{} has {} tool-native assertions; a landed language carries exactly {NATIVE_CASE_COUNT}",
+                language.display_name(),
+                population.len()
+            );
+            if population.is_empty() {
+                let error = match plan_native_run(ModelingTool::Codeql, language) {
+                    Ok(_) => panic!("an empty native population must fail fast"),
+                    Err(error) => error.to_string(),
+                };
+                assert!(error.contains("no tool-native population"), "{error}");
+            }
+        }
+        for landed in [ModelingLanguage::Javascript, ModelingLanguage::Java] {
             assert_eq!(
-                select_native_cases(language).unwrap().len(),
-                0,
-                "{} has no tool-native population yet",
-                language.display_name()
+                select_native_cases(landed).unwrap().len(),
+                NATIVE_CASE_COUNT,
+                "wave N1 landed the {} tool-native probe set",
+                landed.display_name()
             );
         }
     }
@@ -15991,7 +16055,7 @@ mod tests {
             );
             // Every sink anchor resolves to the real API's own callsite line,
             // which is the line a shipped-suite finding must land on.
-            let locations = native_sink_locations(path, case).unwrap();
+            let locations = native_sink_anchor_locations(path, case).unwrap();
             assert_eq!(locations.len(), 1, "{}", path.display());
             assert_eq!(
                 locations[0].callsite_lines,
@@ -16000,49 +16064,6 @@ mod tests {
                 path.display()
             );
         }
-    }
-
-    /// The native reconciler's one deliberate departure from every other
-    /// population: a shipped suite's findings about something else are not
-    /// this assertion's findings, and never become an outcome. Only a finding
-    /// on the sink-anchor line is `reached`.
-    #[test]
-    fn a_shipped_suite_finding_elsewhere_is_not_this_assertions_finding() {
-        let case_path = Path::new("cases/taint/java/native-source-sink-positive/case.json");
-        let case: Value = serde_json::from_str(&fs::read_to_string(case_path).unwrap()).unwrap();
-        let sink_line = case["sink_anchors"][0]["line_hint"].as_u64().unwrap();
-        let fixture = case["fixture_files"][0].as_str().unwrap();
-        let sarif = |rule: &str, line: u64| {
-            json!({"runs": [{"results": [{
-                "ruleId": rule,
-                "locations": [{"physicalLocation": {
-                    "artifactLocation": {"uri": fixture},
-                    "region": {"startLine": line}
-                }}]
-            }]}]})
-        };
-        assert_eq!(
-            native_sarif_outcome(
-                case_path,
-                &case,
-                &sarif("java/command-line-injection", sink_line)
-            )
-            .0,
-            "reached"
-        );
-        assert_eq!(
-            native_sarif_outcome(
-                case_path,
-                &case,
-                &sarif("java/weak-cryptographic-algorithm", 1)
-            )
-            .0,
-            "not-reached"
-        );
-        assert_eq!(
-            native_sarif_outcome(case_path, &case, &json!({"runs": [{"results": []}]})).0,
-            "not-reached"
-        );
     }
 
     /// The CodeQL native pins are *query* packs, and every one of them differs
@@ -16096,34 +16117,164 @@ mod tests {
             );
             let modeling_rule = PathBuf::from(language.artifact(ModelingTool::Semgrep));
             assert!(!modeling_rule.starts_with(&dir));
+            // A vendored snapshot exists only for a language whose wave-N1 pull
+            // request has landed, and when it does it carries its provenance:
+            // docs/native-profile.md#provenance-for-vendored-activation-artifacts
+            // makes a snapshot with no recorded source commit not a snapshot,
+            // and the runner refuses a run over one.
+            //
+            // The document requires *facts*, not a key layout, and the two
+            // waves recorded them differently: JavaScript flat
+            // (`upstream_commit`), Java nested (`upstream.commit`). Both are
+            // read here so the required facts are checked for every landed
+            // snapshot; harmonizing the two layouts would rewrite a vendored
+            // file that the Semgrep configuration hash already covers, so it is
+            // left to its own change.
+            if dir.exists() {
+                let provenance: Value = serde_json::from_str(
+                    &fs::read_to_string(dir.join(SEMGREP_NATIVE_PROVENANCE_FILE)).unwrap(),
+                )
+                .unwrap();
+                let fact = |flat: &str, nested: &str| {
+                    let value = &provenance[flat];
+                    if value.is_null() {
+                        provenance["upstream"][nested].clone()
+                    } else {
+                        value.clone()
+                    }
+                };
+                assert_eq!(provenance["kind"], "derived");
+                assert_eq!(
+                    fact("upstream_repository", "repository"),
+                    SEMGREP_NATIVE_UPSTREAM,
+                    "{} records its upstream repository",
+                    language.display_name()
+                );
+                assert_eq!(
+                    fact("upstream_commit", "commit")
+                        .as_str()
+                        .expect("a snapshot records its source commit")
+                        .len(),
+                    40,
+                    "{} records a full upstream commit",
+                    language.display_name()
+                );
+                assert!(fact("upstream_license", "license").is_string());
+                assert!(dir.join("rules").is_dir());
+            }
         }
         assert_eq!(SEMGREP_NATIVE_PROVENANCE_FILE, "provenance.json");
-        // Wave N1 vendors Java only. A language whose snapshot has not landed
-        // has no activation artifact, and its native run is a hard error
-        // rather than a zero.
-        for language in [ModelingLanguage::Javascript, ModelingLanguage::Python] {
+        // Wave N1 has vendored JavaScript and Java; Python's snapshot lands
+        // with its own row, and until then it has no activation artifact and
+        // its native run is a hard error rather than a zero.
+        for landed in [ModelingLanguage::Javascript, ModelingLanguage::Java] {
             assert!(
-                !semgrep_native_rules_dir(language).exists(),
-                "{} has not vendored a snapshot yet",
-                language.display_name()
+                semgrep_native_rules_dir(landed).exists(),
+                "wave N1 vendored the {} snapshot",
+                landed.display_name()
             );
         }
-        let java = semgrep_native_rules_dir(ModelingLanguage::Java);
-        let provenance: Value = serde_json::from_str(
-            &fs::read_to_string(java.join(SEMGREP_NATIVE_PROVENANCE_FILE)).unwrap(),
-        )
-        .unwrap();
-        // A snapshot with no recorded source commit is not a snapshot.
-        assert_eq!(provenance["kind"], "derived");
-        assert_eq!(
-            provenance["upstream"]["repository"],
-            SEMGREP_NATIVE_UPSTREAM
+        assert!(
+            !semgrep_native_rules_dir(ModelingLanguage::Python).exists(),
+            "Python has not vendored a snapshot yet"
         );
-        assert_eq!(
-            provenance["upstream"]["commit"].as_str().unwrap().len(),
-            40,
-            "the vendored snapshot must record a full upstream commit"
-        );
-        assert!(java.join("rules").is_dir());
+    }
+
+    /// Native anchors sit on the platform callsite itself, because the profile
+    /// has no declared entity to hang a marker on. The reconciler must resolve
+    /// that line, and every landed native case must resolve under it — a case
+    /// whose sink marker drifted off the callsite would silently stop matching
+    /// any finding and read as coverage.
+    #[test]
+    fn native_sink_anchors_resolve_to_the_platform_callsite() {
+        // One assertion per landed language, against that language's own
+        // platform command API: the marker must sit on the line that calls it.
+        for (language, callsite) in [
+            (ModelingLanguage::Javascript, "execSync("),
+            (ModelingLanguage::Java, "Runtime.getRuntime().exec("),
+        ] {
+            let population = select_native_cases(language).unwrap();
+            assert_eq!(population.len(), NATIVE_CASE_COUNT);
+            for (path, case) in &population {
+                let locations = native_sink_anchor_locations(path, case)
+                    .unwrap_or_else(|error| panic!("{}: {error}", path.display()));
+                assert_eq!(locations.len(), 1, "{}", path.display());
+                let location = &locations[0];
+                assert_eq!(
+                    location.callsite_lines,
+                    BTreeSet::from([location.marker_line])
+                );
+                let body = fs::read_to_string(path.parent().unwrap().join(&location.file)).unwrap();
+                let line = body
+                    .lines()
+                    .nth(location.marker_line as usize - 1)
+                    .expect("marker line is inside the fixture");
+                assert!(
+                    line.contains(callsite),
+                    "{}: the sink marker must sit on the real platform callsite, found {line:?}",
+                    path.display()
+                );
+            }
+        }
+    }
+
+    /// A shipped suite answers many questions at once, so a finding that lands
+    /// away from this assertion's sink is a different query's answer, retained
+    /// as a diagnostic and never counted as a flow. Ambiguity is still
+    /// `inconclusive`, and a finding on the anchor is still `reached`. One
+    /// reconciler serves every language, so the shape is asserted on both
+    /// landed rows.
+    #[test]
+    fn a_shipped_suite_finding_away_from_the_native_anchor_is_not_a_flow() {
+        for (language, fixture) in [
+            (ModelingLanguage::Javascript, "probe.js"),
+            (ModelingLanguage::Java, "NativeSourceSinkPositive.java"),
+        ] {
+            let wanted = format!("dfb-taint-{}-native-source-sink-positive", language.key());
+            let (path, case) = select_native_cases(language)
+                .unwrap()
+                .into_iter()
+                .find(|(_, case)| case["id"] == wanted.as_str())
+                .expect("the source-sink positive is in the population");
+            let sink_line = case["sink_anchors"][0]["line_hint"].as_u64().unwrap();
+            let finding = |line: u64, message: &str| {
+                json!({
+                    "runs": [{"results": [{
+                        "message": {"text": message},
+                        "locations": [{"physicalLocation": {
+                            "artifactLocation": {"uri": fixture},
+                            "region": {"startLine": line}
+                        }}]
+                    }]}]
+                })
+            };
+
+            let (outcome, diagnostics) =
+                native_sarif_outcome(&path, &case, &finding(sink_line, "command injection"));
+            assert_eq!(outcome, "reached");
+            assert!(diagnostics.iter().any(|d| d.contains("command injection")));
+
+            let (outcome, diagnostics) =
+                native_sarif_outcome(&path, &case, &finding(1, "weak hashing somewhere else"));
+            assert_eq!(outcome, "not-reached");
+            assert!(
+                diagnostics
+                    .iter()
+                    .any(|d| d.contains("landed away from this case's platform sink anchor")),
+                "{diagnostics:?}"
+            );
+
+            let (outcome, _) = native_sarif_outcome(
+                &path,
+                &case,
+                &json!({"runs": [{"results": [{"message": {"text": "no location"}}]}]}),
+            );
+            assert_eq!(outcome, "inconclusive");
+
+            let (outcome, diagnostics) =
+                native_sarif_outcome(&path, &case, &json!({"runs": [{"results": []}]}));
+            assert_eq!(outcome, "not-reached");
+            assert!(diagnostics.is_empty());
+        }
     }
 }
