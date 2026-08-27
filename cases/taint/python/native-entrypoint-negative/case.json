@@ -1,0 +1,57 @@
+{
+  "schema_version": 2,
+  "id": "dfb-taint-python-native-entrypoint-negative",
+  "template_id": "dfb-template-native-entrypoint",
+  "polarity": "negative",
+  "negative_mechanism": "unrelated-value",
+  "score_tier": "modeling",
+  "track": "taint",
+  "language": "python",
+  "semantic_dimensions": [
+    "local-flow"
+  ],
+  "feature_tags": [
+    "intraprocedural",
+    "modeled-external"
+  ],
+  "model_profile": "tool-native",
+  "fixture_files": [
+    "argv_command.py"
+  ],
+  "source_anchors": [
+    {
+      "marker": "DFB-SOURCE: native-entrypoint-argument",
+      "file": "argv_command.py",
+      "line_hint": 12
+    }
+  ],
+  "sink_anchors": [
+    {
+      "marker": "DFB-SINK: native-entrypoint-command",
+      "file": "argv_command.py",
+      "line_hint": 14
+    }
+  ],
+  "expected_flows": [],
+  "expected_nonflows": [
+    {
+      "source": "DFB-SOURCE: native-entrypoint-argument",
+      "sink": "DFB-SINK: native-entrypoint-command"
+    }
+  ],
+  "witness_checkpoints": [],
+  "expected_analysis_capability": {
+    "kind": "native-entrypoint-convention"
+  },
+  "execution_budget": {
+    "wall_clock_seconds": 60,
+    "peak_memory_mb": 512
+  },
+  "fixture_provenance": {
+    "kind": "authored",
+    "origin": "DataFlowBench",
+    "revision": "n1-native-python",
+    "license": "MIT"
+  },
+  "tool_model_references": {}
+}

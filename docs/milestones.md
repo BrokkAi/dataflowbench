@@ -260,9 +260,9 @@ database that is downloaded rather than shipped, and a Semgrep ruleset that is
 unpinnable at run time until a snapshot is vendored. Wave N1 rolls out Java,
 JavaScript, and Python, one pull request each.
 
-### Wave N1 in progress
+### Wave N1 is complete
 
-[JavaScript's native probe set](javascript-native.md) has landed: twelve
+[JavaScript's native probe set](javascript-native.md) landed first: twelve
 assertions over `process.env`, `process.argv`, `child_process.execSync`,
 `path.join`, `encodeURIComponent`, and the `Buffer` base64 round trip, plus the
 first vendored Semgrep snapshot (`semgrep/semgrep-rules@40b8c63f`, thirty rules)
@@ -280,7 +280,7 @@ retains all six as unsupported: every taint rule in the official JavaScript
 security set roots its sources in a function parameter or a framework request
 object, so a rule with the right sink has no applicable source.
 
-[Java's native probe set](java-native.md) has landed second: twelve assertions
+[Java's native probe set](java-native.md) landed second: twelve assertions
 over `System.getenv`, `args`, `Runtime.exec`, `String.concat`,
 `Integer.parseInt` / `String.valueOf`, the `java.util.Base64` round trip, and
 the `System.getProperty` / `setProperty` store pair, running on the **same**
@@ -297,6 +297,24 @@ resolves Semgrep CE's six Java cells against the second vendored snapshot
 (`semgrep/semgrep-rules@40b8c63f`, eighty-six rules) and retains all six as
 unsupported: no shipped rule binds a platform environment, argument, or
 process-store source.
+
+[Python's native probe set](python-native.md) closes the wave and issue #16:
+twelve assertions over `os.environ`, `os.system`, `os.path.join`, `shlex.quote`,
+the `base64` round trip, and `sys.argv`, on the same shared CodeQL native arm
+again. It is also the **first row where Semgrep CE is scored at all**. Reading
+the third vendored snapshot (`semgrep/semgrep-rules@40b8c63f`, ninety-one rules)
+answered that column's *to be verified* cells and promoted all six Python ones
+under
+[Amendment A8](native-profile.md#a8--2026-08-27-semgrep-ces-six-python-cells-are-promoted-to-scored-and-the-partition-gains-a-language-dimension),
+from rule text and before the scan — which is what gave the partition its
+language dimension, since a vendored snapshot can only answer its own
+language's cells. Against a blind-pair baseline of six of twelve, CodeQL decides
+ten and Semgrep CE eight; both find every positive, and every error either makes
+is a false positive on a negative. Bifrost and Joern retain twelve preregistered
+`unsupported` decisions each without being invoked at all.
+
+These are coverage numbers, per language and per adapter, and none of them is
+ever pooled with the benchmark-controlled modeling rows above.
 
 ## M4: real-project confirmation
 

@@ -560,6 +560,19 @@ is entirely pinnable. It says nothing about how many it will pass.
 
 ### Semgrep CE — 1.174.0 (`--oss-only`), vendored official rulesets
 
+> **Amended.** All six **Python** cells were promoted from *to be verified at
+> vendoring* to scored by
+> [Amendment A8](#a8--2026-08-27-semgrep-ces-six-python-cells-are-promoted-to-scored-and-the-partition-gains-a-language-dimension),
+> on the evidence of the vendored snapshot's
+> `audit/dangerous-system-call-tainted-env-args.yaml`, read before any scan.
+> Java and JavaScript stay at 0 / 6, but no longer by default: their snapshots
+> were vendored and read too, and
+> [A6](#a6--2026-08-27-semgrep-ces-javascript-cells-evaluated-against-the-vendored-snapshot)
+> and [A7](#a7--2026-08-27-semgrep-ces-six-java-cells-are-retained-unsupported-against-the-vendored-snapshot)
+> retain all twelve of those cells **on evidence**. A8 is also what keys the
+> partition by language, which is what lets one language's snapshot answer only
+> its own cells.
+
 **Activation contract.** Registry configurations (`--config p/…`) are
 network-fetched and version-unpinnable at run time: two runs a week apart are two
 different rulesets under one name, which is not a benchmark. The native profile
@@ -721,6 +734,17 @@ Preregistered before any native fixture exists or any ruleset is vendored.
 `TBV` = to be verified at implementation or at vendoring, treated as unsupported
 until shown otherwise.
 
+> **Amended.** This table is the preregistered default and stays as written.
+> Wave N1 discharged every Semgrep CE *to be verified at vendoring* cell against
+> a vendored snapshot:
+> [A6](#a6--2026-08-27-semgrep-ces-javascript-cells-evaluated-against-the-vendored-snapshot)
+> retains JavaScript's six,
+> [A7](#a7--2026-08-27-semgrep-ces-six-java-cells-are-retained-unsupported-against-the-vendored-snapshot)
+> retains Java's six, and
+> [A8](#a8--2026-08-27-semgrep-ces-six-python-cells-are-promoted-to-scored-and-the-partition-gains-a-language-dimension)
+> promotes Python's six to scored and keys the partition by language. Every cell
+> for every language with no amendment row is still the cell below.
+
 | # | Template | Cat. | Bifrost v0.10.6 | CodeQL 2.26.3 | Joern 4.0.610 | Semgrep CE 1.174.0 |
 | --- | --- | --- | --- | --- | --- | --- |
 | 1 | `native-source-sink` | S | unsupported | supported | unsupported | TBV |
@@ -809,6 +833,12 @@ this document merges. Each PR adds that language's twelve fixtures and cases,
 the vendored activation snapshots its partition needs, the runs, and any
 amendment its evidence supports. A wave never edits a template definition or a
 partition cell.
+
+> **Wave N1 is complete.** [JavaScript](javascript-native.md),
+> [Java](java-native.md), and [Python](python-native.md) have each landed their
+> twelve assertions, their vendored snapshot, and their runs, and A6, A7, and A8
+> record the evidence. That closes issue #16. All three languages now have a
+> native denominator; the ten below still have none.
 
 **Later — framework APIs,** gated on the dependency-provenance decision
 described under [the native-binding trap](#the-native-binding-trap), and **the
@@ -975,3 +1005,96 @@ templates; **Java only**. JavaScript's and Python's Semgrep cells keep their
 `to be verified at vendoring` status until their own snapshots land.
 
 **Freezes invalidated.** None. No tool-native report is bound by any freeze.
+
+### A8 — 2026-08-27: Semgrep CE's six Python cells are promoted to scored, and the partition gains a language dimension
+
+**What changed.** Two things, and the second is the reason the first is
+expressible at all.
+
+1. **The partition is now keyed by tool × *language* × template.** As
+   preregistered it was keyed by tool × template and applied to all three
+   languages at once, which was correct while every Semgrep cell read *to be
+   verified at vendoring*: no snapshot existed for any language, so one
+   undifferentiated `TBV` said everything there was to say. A vendored snapshot
+   is per language by this document's own rule — one directory under
+   `adapters/semgrep/native/<language>/` — and reading its rules can only
+   answer that language's cells. Verifying Python's cells therefore cannot
+   speak for Java's or JavaScript's, and a partition that could not say so
+   would have forced one language's evidence onto the other two. The mechanism
+   is additive: `NATIVE_PARTITION_AMENDMENTS` carries one row per amended
+   tool × language × template and is consulted before the preregistered table,
+   which stays the default for every language with no amendment row. No
+   preregistered cell's *decision* is altered by this change, and neither
+   [A6](#a6--2026-08-27-semgrep-ces-javascript-cells-evaluated-against-the-vendored-snapshot)'s
+   nor [A7](#a7--2026-08-27-semgrep-ces-six-java-cells-are-retained-unsupported-against-the-vendored-snapshot)'s
+   retained rationales are touched.
+2. **Semgrep CE 1.174.0 × Python: all six templates, `TBV`/unsupported →
+   scored.**
+
+**Which template IDs and languages.** All six —
+`dfb-template-native-source-sink`, `-propagator`, `-sanitizer`, `-summary`,
+`-entrypoint`, `-persistence` — for **Python only**. Java and JavaScript are
+untouched and remain 0 / 6 for Semgrep on the evidence of A7 and A6. No other
+tool's cells change; CodeQL stays 6 / 6, Bifrost and Joern stay 0 / 6.
+
+**Why, from rule text, before any scan.** The snapshot is
+`semgrep/semgrep-rules` @ `40b8c63f75dc7c22c8a77482d73bfb864b146f7e`,
+`python/lang/security/` including its `audit/` subtree, ninety-one rule files,
+vendored verbatim to `adapters/semgrep/native/python/` with `derived`
+provenance. The preregistered rationale for Python's cells was that the
+upstream taint rules bind their `pattern-sources` to *framework* endpoints —
+Flask, Django, DRF — rather than to a platform environment read, which is
+exactly what `python/lang/security/dangerous-system-call.yaml` does. The
+snapshot contains a second rule the preregistration did not have in front of
+it: `audit/dangerous-system-call-tainted-env-args.yaml`, a `mode: taint` rule
+whose `pattern-sources` are
+
+```yaml
+- pattern: os.environ
+- pattern: os.environ.get('$FOO', ...)
+- pattern: os.getenv('$ANYTHING', ...)
+…
+- pattern: sys.argv
+- pattern: sys.orig_argv
+```
+
+and whose `pattern-sinks` are `os.system(...)` and the `os.popen` family. Both
+endpoints of **every** Python template in this document are bound by that one
+shipped rule: `os.environ` for templates 1–4 and 6, `sys.argv` for template 5,
+and `os.system` throughout. A seventh file,
+`audit/dangerous-system-call-audit.yaml`, is the pure sink-existence rule this
+document warned about — bare `os.system(...)` with only a literal-first-argument
+exclusion, no taint anywhere. This is the language where
+[the sink-existence hazard](#sink-existence-only-findings-and-how-they-score)
+that A6 and A7 found dormant is live, and A6's note said so in advance.
+
+Per-cell, with the retained-or-promoted decision stated for each:
+
+| # | Template | Cat. | Preregistered | Now | Evidence read from rule text |
+| --- | --- | --- | --- | --- | --- |
+| 1 | `native-source-sink` | S | TBV | **scored** | `dangerous-system-call-tainted-env-args` binds `os.environ` as a source and `os.system` as a sink. The preregistered rationale — sources are framework-shaped — is true of `dangerous-system-call.yaml` and false of this rule. |
+| 2 | `native-propagator` | P | TBV | **scored** | Same rule binds both endpoints; the `os.path.join` hop between them is propagation, and whether the shipped configuration carries a value across it is the measurement, not the activation. |
+| 3 | `native-sanitizer` | Z | TBV | **scored** | Same rule binds both endpoints and declares **no** `pattern-sanitizers`. `shlex.quote` appears in the `dangerous-subprocess-use` and `dangerous-asyncio-*` families and in no rule that owns the `os.system` sink, so this cell is decidable and what it decides is where the credit is scoped. |
+| 4 | `native-summary` | O | TBV | **scored** | Same rule binds both endpoints. The preregistered rationale — arg-to-return summary semantics are outside CE's propagator vocabulary — is about *declaring* a summary, which is a benchmark-controlled concern; this profile declares nothing and asks only whether the shipped configuration survives the round trip. |
+| 5 | `native-entrypoint` | E | TBV | **scored** | Same rule's `pattern-sources` include `sys.argv` and `sys.orig_argv` literally. The preregistered rationale — entry conventions are framework-shaped — is answered by the snapshot in the negative. |
+| 6 | `native-persistence` | B | TBV | **scored** | Same rule binds both endpoints. The preregistered rationale cited the absence of interprocedural taint in CE; this template's fixture writes and reads the store inside one function, so that limit is not what decides the cell. What decides it is whether the store read is treated as a keyed read or as a fresh source. |
+
+Every promotion is decided from rule text over the pinned commit and recorded
+here **before** the first Semgrep native scan of the Python population. That is
+the sanctioned path this document preregisters — *to be verified at vendoring*
+resolved by taking the snapshot and reading it — and not a result being
+relabelled. A promoted cell can and does produce false negatives and false
+positives; that is what scoring it means.
+
+**The execution arm lands with the promotion.** This document's own rule is
+that a cell promoted by a dated amendment lands the runner that scores it in
+the same pull request, rather than being answered by a synthesized outcome. The
+Semgrep native arm therefore lands here — and it is not a second reconciler:
+it classifies its findings against the same sink anchors the CodeQL arm uses
+and tallies them through the same `native_anchor_tally_outcome`, so the two
+adapters cannot drift into two readings of [outcome honesty](#outcome-honesty).
+
+**Freezes invalidated.** None. No published freeze manifest contains a
+tool-native report: the v0.4.0 claim is `benchmark-controlled` at the
+`calibration`, `core`, and `language-extension` tiers, and this profile's
+reports are new paths outside it.
