@@ -342,6 +342,63 @@ ordered on generated scorecards by the `modeling` entry in `SCORE_TIER_ORDER`.
 A modeling assertion never appears on a propagation-kernel scorecard, never
 enters a core denominator, and is never macro-averaged with one.
 
+## Analyzers evaluated and not adapted
+
+An adapter admits an analyzer only when four bounds hold, and every analyzer
+we evaluate is recorded here against them so absence is never ambiguous:
+
+1. **Semantic data flow.** The tool performs taint or value-flow analysis —
+   the track this benchmark scores. Linters and rule/AST matchers without a
+   flow engine would take a near-blanket `unsupported` and add no signal.
+2. **Local, pinnable execution.** Analysis runs on this machine from an
+   exactly pinned version, so evidence is reproducible. Cloud-submission
+   services fail this bound even when the engine is real.
+3. **Retained native output.** Machine-readable findings (SARIF/JSON) the
+   runner can retain verbatim as raw evidence.
+4. **Publishable results.** The license or terms of service must permit
+   running the tool against a benchmark and publishing the outcome.
+   Commercial SAST terms commonly restrict comparative publication; any such
+   restriction is disqualifying until explicit permission exists, and we do
+   not test first and ask later.
+
+### Evaluated (2026-08, from the field surveyed in Sourcegraph's
+"12 Best Static Code Analysis Tools in 2026" and our own review)
+
+| Analyzer | Verdict | Bound(s) failed |
+| --- | --- | --- |
+| Semgrep CE | **Adapted** | — (bounded to its documented intraprocedural profile) |
+| CodeQL | **Adapted** | — |
+| Snyk Code | Not eligible | (2) analysis is cloud-backed and account-bound; (4) terms to be verified but commonly restrictive — both must clear before any attempt |
+| Coverity | Not eligible | (2) no free local pinned CLI (Coverity Scan is cloud submission); (4) benchmark restrictions |
+| Checkmarx | Not eligible | (2) and (4) — enterprise-only, no local CLI, standard no-benchmark terms |
+| Veracode | Not eligible | (2) and (4) — same class |
+| Fortify | Not eligible | (2) and (4) — same class |
+| SonarQube | Not eligible for the taint track | taint/injection analysis is a commercial-edition feature; the open Community engine has no cross-procedure taint, so (1) fails for the open build and (4) for the commercial one |
+| Qodana | Not eligible for the taint track | taint lives in the commercial Ultimate tier; same split as SonarQube |
+| PMD | Not eligible | (1) — rule/AST analysis; its historical DFA module is deprecated, no taint engine |
+| ESLint | Not eligible | (1) — linter; plugins add patterns, not flow analysis |
+| CodeScene | Not eligible | (1) — behavioral/hotspot analysis, not data flow |
+
+The SonarQube and Qodana rows are coverage facts of the same shape as
+Semgrep CE's C# cell: the open tier genuinely cannot analyze the track, and
+that is recorded rather than tested around.
+
+### Queued candidates that do qualify
+
+Three open-source engines pass all four bounds on their face and are queued
+for future adapters, alongside the OpenTaint adapter issue (#17):
+
+- **Infer** (Meta) — open source, local CLI, interprocedural analysis for
+  C/C++/Java/Objective-C. The strongest next candidate.
+- **Pysa** (Meta) — open-source Python taint analysis on the Pyre engine.
+- **FlowDroid** — the academic standard for Java/Android taint analysis,
+  open source and locally runnable.
+
+Each still requires the standard adapter diligence before implementation:
+pin an exact version, verify the taint mode against a probe fixture, and
+preregister the capability partition from documentation — nothing here is a
+result yet.
+
 ## CodeQL language populations
 
 The CodeQL adapter keeps Java and JavaScript as separate populations. The
