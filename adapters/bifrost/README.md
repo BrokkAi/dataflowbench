@@ -101,8 +101,20 @@ selects only its own language's core assertions — every row is now expanded:
 for the expanded 29-template kernels — and writes a dedicated report. The Java
 calibration slice also
 covers one-hop helper flow. Generated workspaces live outside the repository so
-repository ignore rules cannot hide fixtures from Bifrost's indexer. Sanitizer
-lowering is a future Bifrost CLI capability.
+repository ignore rules cannot hide fixtures from Bifrost's indexer.
+
+**Sanitizer lowering is not a future capability; this README used to say it
+was.** The sentence *"Sanitizer lowering is a future Bifrost CLI capability"*
+stood here until it was measured and found false: the RQLP `analysis` grammar
+accepts a `(sanitizer …)` stanza, the declaration suppresses a flow on a
+completing run, deleting it restores that flow with a full witness, and an
+undeclared sanitizer-shaped sibling is not suppressed. That measurement is
+[Amendment A9](../../docs/modeling-matrix.md#a9--2026-08-27-bifrosts-sanitizer-category-is-promoted-the-readmes-lowering-claim-was-false),
+which promotes category Z of the modeling matrix for this adapter. The retired
+sentence is quoted by the tool-native profile's own category-Z rationale, whose
+cell turns on the absent shipped endpoint catalog rather than on lowering and is
+left for that document's own amendment.
+
 External semantic-model activation requires an embedding
 with an explicit catalog, so the modeled-external case is reported as
 `unsupported` by this CLI adapter with an explicit retained reason. It is not a
@@ -540,20 +552,24 @@ population with its own denominator: it is never in a core denominator, and no
 number here is ever added to or averaged with a kernel number. The two answer
 different questions.
 
-The preregistered partition scores **one of six categories** for this adapter
+The preregistered partition scored **one of six categories** for this adapter
 — declared sources and sinks — and that is the honest starting position for a
-standalone policy CLI whose modeling surface lives in an embedding. The other
-five categories are `unsupported` with the preregistration's rationale retained
-verbatim, decided from the template identity **before the binary is invoked**:
-sanitizer lowering and external semantic-model activation are recorded in this
-README as future CLI capabilities, and the propagator, entry-root, and
+standalone policy CLI whose modeling surface lives in an embedding.
+[Amendment A9](../../docs/modeling-matrix.md#a9--2026-08-27-bifrosts-sanitizer-category-is-promoted-the-readmes-lowering-claim-was-false)
+added a second, **declared sanitizers**, on a measurement that contradicted this
+README. The remaining four are `unsupported` with the preregistration's
+rationale retained verbatim, decided from the template identity **before the
+binary is invoked**: external semantic-model activation is recorded in this
+README as a future CLI capability, and the propagator, entry-root, and
 persistence-boundary cells are the document's *to be verified* cells, which its
 own rule treats as unsupported until shown otherwise. An `unsupported` cell is
 coverage, never a negative and never a false negative.
 
 The model is `adapters/bifrost/policies/model-python.rqlp`: two endpoint sets,
 adding the declared source `fetch_remote` beside `dfb_source` and the declared
-sink `record` beside `dfb_sink`. Unlike every committed kernel policy it sets
+sink `record` beside `dfb_sink`, plus — since Amendment A9 — one `:sanitizers`
+entry declaring `scrub` and deliberately not its sibling `sanitize`. Unlike
+every committed kernel policy it sets
 `:call-modeling (call-modeling :unmodeled require-model)` rather than
 `optimistic`, which is
 [the load-bearing-model requirement](../../docs/modeling-matrix.md#the-load-bearing-model-requirement);
@@ -562,7 +578,10 @@ the runner reads the policy before the run and refuses one that does not.
 The first run, on the pinned v0.10.6 build, decides all four scored assertions
 correctly — two `reached` positives and two `not-reached` negatives, with no
 `inconclusive` and no `runner-error` — and takes the preregistered
-`unsupported` on the other twenty. **Load-bearing verification:** re-running
+`unsupported` on the other twenty. **Re-run pending:** that report predates
+Amendment A9, so its four sanitizer cells are still recorded there as
+`unsupported`; the scored evidence for them lands with the next evidence
+re-run. **Load-bearing verification:** re-running
 the same four fixtures under a policy identical except that the two declared
 endpoint entries are removed drops both positives from one finding to zero. The
 model, not the propagation, is what this tier scores. See [the Python
@@ -574,15 +593,18 @@ Separate from every kernel above, and never pooled with one. The
 [modeling matrix](../../docs/modeling-matrix.md) scores whether an engine can
 *be told* things — a source it did not know, a sanitizer, a summary, an entry
 point, a persistence boundary — and its preregistered partition gives this
-adapter **category S alone**: declared sources and declared sinks, two of the
-twelve templates. The other five categories are `unsupported` for the
-standalone policy CLI, decided from the template identity before the binary is
-invoked and retained verbatim with the document's own rationale.
+adapter **categories S and Z** — declared sources and sinks, and declared
+sanitizers, four of the twelve templates. S was preregistered; Z arrived with
+[Amendment A9](../../docs/modeling-matrix.md#a9--2026-08-27-bifrosts-sanitizer-category-is-promoted-the-readmes-lowering-claim-was-false).
+The other four categories are `unsupported` for the standalone policy CLI,
+decided from the template identity before the binary is invoked and retained
+verbatim with the document's own rationale.
 
 - Artifact: `adapters/bifrost/policies/model-javascript.rqlp`. It declares two
-  `:sources` entries bound to `return-value` and two `:sinks` entries bound to
-  `(argument :index 0)`, and nothing for categories P, Z, O, E, or B — a
-  declined category is absent from the artifact rather than approximated in it.
+  `:sources` entries bound to `return-value`, two `:sinks` entries bound to
+  `(argument :index 0)`, one `:sanitizers` entry declaring `scrub` and not its
+  sibling `sanitize`, and nothing for categories P, O, E, or B — a declined
+  category is absent from the artifact rather than approximated in it.
 - Load-bearing model: the policy sets `:call-modeling (call-modeling :unmodeled
   require-model)`, which the pinned v0.10.6 build accepts. The runner refuses
   the artifact if that setting is missing, and refuses it again if it names the
@@ -618,15 +640,17 @@ See [the JavaScript modeling matrix](../../docs/javascript-modeling.md).
 ## Java taint-modeling matrix
 
 Wave M1's last row, and the same shape as the two above. The
-[modeling matrix](../../docs/modeling-matrix.md) gives this adapter **category S
-alone** — declared sources and declared sinks, two of the twelve templates —
-and the other five categories are `unsupported` for the standalone policy CLI,
-decided from the template identity before the binary is invoked and retained
-verbatim with the document's own rationale.
+[modeling matrix](../../docs/modeling-matrix.md) gives this adapter
+**categories S and Z** — declared sources and sinks, and declared sanitizers
+since [Amendment A9](../../docs/modeling-matrix.md#a9--2026-08-27-bifrosts-sanitizer-category-is-promoted-the-readmes-lowering-claim-was-false),
+four of the twelve templates — and the other four categories are `unsupported`
+for the standalone policy CLI, decided from the template identity before the
+binary is invoked and retained verbatim with the document's own rationale.
 
 - Artifact: `adapters/bifrost/policies/model-java.rqlp`. Two `:sources` entries
   bound to `return-value`, two `:sinks` entries bound to
-  `(argument :index 0)`, and nothing for categories P, Z, O, E, or B.
+  `(argument :index 0)`, one `:sanitizers` entry declaring `Clean.scrub` and not
+  its sibling `Clean.sanitize`, and nothing for categories P, O, E, or B.
 - Load-bearing model: the policy sets `:call-modeling (call-modeling :unmodeled
   require-model)`. The preregistration recorded the pinned CLI's *acceptance* of
   that setting as one of two unverified facts behind Bifrost's category-P cell;

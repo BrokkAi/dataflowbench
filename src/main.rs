@@ -622,10 +622,13 @@ struct ModelingPartitionCell {
 /// Cells the document marks *to be verified* are recorded here as
 /// `unsupported`, per the rule stated at the head of each of its tables:
 /// unverifiable is unsupported until shown otherwise, and promoting one is a
-/// dated amendment. That is why Bifrost enters with one scored category rather
-/// than four.
+/// dated amendment. That is why Bifrost entered with one scored category rather
+/// than four, and why its second — category Z — arrived as
+/// [Amendment A9](../docs/modeling-matrix.md#amendments) with a measurement
+/// behind it rather than as an edit to this array.
 const MODELING_PARTITION: [ModelingPartitionCell; 24] = [
-    // Bifrost — v0.10.6 (build `18d09c57`): 1 / 6.
+    // Bifrost — preregistered 1 / 6; 2 / 6 as amended, after Amendment A9
+    // promoted category Z.
     ModelingPartitionCell {
         tool: ModelingTool::Bifrost,
         category: ModelingCategory::SourcesAndSinks,
@@ -641,9 +644,15 @@ const MODELING_PARTITION: [ModelingPartitionCell; 24] = [
     ModelingPartitionCell {
         tool: ModelingTool::Bifrost,
         category: ModelingCategory::Sanitizers,
-        unsupported_reason: Some(
-            "the adapter README states it directly: \"Sanitizer lowering is a future Bifrost CLI capability.\" (`adapters/bifrost/README.md`). The matrix surfaces this rather than hiding it. DataFlowBench is published by Bifrost's vendor, and a partition that quietly granted its own engine a category its own documentation says is unimplemented would be the single most damaging thing this document could do",
-        ),
+        // Amendment A9: the preregistration declined this category on the
+        // adapter README's "sanitizer lowering is a future Bifrost CLI
+        // capability". Measured on v0.10.7, that sentence is false: the RQLP
+        // `analysis` grammar accepts a `(sanitizer :id … :selector … :input …
+        // :output … :removes […])` stanza, and the declaration is load-bearing
+        // on the committed Python fixtures in both directions and selective by
+        // identity. A promotion is only ever a dated amendment on the
+        // preregistration, never a silent edit here.
+        unsupported_reason: None,
     },
     ModelingPartitionCell {
         tool: ModelingTool::Bifrost,
@@ -856,8 +865,9 @@ fn modeling_unsupported_reason(
 }
 
 /// The templates a tool is entitled to score, in preregistered order. The
-/// counts are the document's partition summary **as amended**: Bifrost 2,
-/// Semgrep 5 (Amendment A3), CodeQL 12, Joern 8 (Amendment A2).
+/// counts are the document's partition summary **as amended**: Bifrost 4
+/// (Amendment A9), Semgrep 5 (Amendment A3), CodeQL 12, Joern 8
+/// (Amendment A2).
 fn modeling_supported_templates(tool: ModelingTool) -> Vec<&'static str> {
     MODELING_TEMPLATE_IDS
         .into_iter()
@@ -15176,7 +15186,9 @@ mod tests {
     /// CodeQL 12 of 12.
     #[test]
     fn modeling_partition_scored_counts_match_the_preregistration() {
-        assert_eq!(modeling_supported_templates(ModelingTool::Bifrost).len(), 2);
+        // Amendment A9 promoted Bifrost's category Z: the two sanitizer
+        // templates join the two category-S ones.
+        assert_eq!(modeling_supported_templates(ModelingTool::Bifrost).len(), 4);
         // Amendment A3 moved sanitizer-selectivity out of Semgrep's scored set.
         assert_eq!(modeling_supported_templates(ModelingTool::Semgrep).len(), 5);
         assert_eq!(modeling_supported_templates(ModelingTool::Codeql).len(), 12);
@@ -15185,18 +15197,25 @@ mod tests {
         assert_eq!(modeling_supported_templates(ModelingTool::Joern).len(), 8);
     }
 
-    /// Bifrost enters with category S alone — the honest starting position the
+    /// Bifrost entered with category S alone — the honest starting position the
     /// preregistration states for a standalone policy CLI whose modeling
-    /// surface lives in an embedding.
+    /// surface lives in an embedding — and holds S and Z after Amendment A9
+    /// measured the sanitizer stanza as accepted, load-bearing, and selective.
+    ///
+    /// The four cells that stay declined are asserted here as well, because a
+    /// promotion is only as honest as the cells it leaves alone: P and O have
+    /// adjacent sections the grammar accepts but no demonstration that either
+    /// lowers, and E and B have no section at all.
     #[test]
-    fn bifrost_modeling_partition_scores_category_s_only() {
-        assert_eq!(
-            modeling_supported_templates(ModelingTool::Bifrost),
-            ModelingCategory::SourcesAndSinks.templates().to_vec()
-        );
+    fn bifrost_modeling_partition_scores_sources_and_sanitizers() {
+        let mut expected = ModelingCategory::SourcesAndSinks.templates().to_vec();
+        expected.extend(ModelingCategory::Sanitizers.templates());
+        expected.sort_unstable();
+        let mut scored = modeling_supported_templates(ModelingTool::Bifrost);
+        scored.sort_unstable();
+        assert_eq!(scored, expected);
         for category in [
             ModelingCategory::Propagators,
-            ModelingCategory::Sanitizers,
             ModelingCategory::Summaries,
             ModelingCategory::EntryPoints,
             ModelingCategory::Persistence,
@@ -15597,9 +15616,17 @@ mod tests {
         ] {
             let policy = fs::read_to_string(language.artifact(ModelingTool::Bifrost)).unwrap();
             require_bifrost_modeling_load_bearing(&policy, policy_name).unwrap();
+            // Amendment A9 promoted category Z, so the sanitizer section is now
+            // required rather than forbidden: the invariant is that an artifact
+            // declares exactly its scored categories — a declined category is
+            // absent from it, and a scored one may not be missing from it.
+            assert!(
+                policy.contains(":sanitizers"),
+                "the Bifrost {policy_name} modeling policy declares no sanitizer, which its partition scores (Amendment A9)"
+            );
             for declined in [
-                ":sanitizers",
                 ":transforms",
+                ":external-models",
                 ":external_models",
                 ":entry-points",
             ] {

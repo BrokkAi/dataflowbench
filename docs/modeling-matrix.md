@@ -819,6 +819,12 @@ benchmark's — a tool that declines a category simply has no assertions in it.
 
 ### Bifrost — v0.10.6 (build `18d09c57`)
 
+> **Amended.** Category Z was promoted to scored activation by
+> [Amendment A9](#a9--2026-08-27-bifrosts-sanitizer-category-is-promoted-the-readmes-lowering-claim-was-false):
+> the sentence this table declined it on — *"Sanitizer lowering is a future
+> Bifrost CLI capability."* — was measured and is false. Bifrost's scored set is
+> S and Z, four of the twelve templates. P, O, E, and B are unchanged.
+
 Verified surface: the seventeen committed `.rqlp` policies use exactly
 `:sources` (with `:bind return-value` and `:labels`) and `:sinks` (with
 `:dangerous-operand (argument :index N)` and `:accepts`), under
@@ -837,7 +843,7 @@ verification.
 | --- | --- | --- |
 | S | **supported** | Source and sink endpoint sets are the surface every committed policy already uses, in thirteen languages, with frozen v0.4.0 evidence. Binding is by RQLP selector, which addresses a callee by name and can be language-qualified — enough for the type+member identity the declaration language requires. |
 | P | **to be verified — unsupported until shown** | No committed policy declares a propagator or transform, and the adapter README makes no propagator claim. Additionally, every committed policy sets `:unmodeled optimistic`, so the modeling policy must also be shown to accept `require-model` before either P cell is load-bearing. Both must be demonstrated on the pinned build. |
-| Z | **unsupported** | The adapter README states it directly: *"Sanitizer lowering is a future Bifrost CLI capability."* (`adapters/bifrost/README.md`). The matrix surfaces this rather than hiding it. DataFlowBench is published by Bifrost's vendor, and a partition that quietly granted its own engine a category its own documentation says is unimplemented would be the single most damaging thing this document could do. |
+| Z | ~~**unsupported**~~ → **supported** ([A9](#a9--2026-08-27-bifrosts-sanitizer-category-is-promoted-the-readmes-lowering-claim-was-false)) | Preregistered as unsupported because the adapter README stated it directly: *"Sanitizer lowering is a future Bifrost CLI capability."* (`adapters/bifrost/README.md`). The matrix surfaced this rather than hiding it — DataFlowBench is published by Bifrost's vendor, and a partition that quietly granted its own engine a category its own documentation says is unimplemented would be the single most damaging thing this document could do. Amendment A9 withdrew the claim on a measurement: the `analysis` grammar accepts a `(sanitizer …)` stanza, the declaration suppresses on a completing run, its removal restores the flow with a full witness, and an undeclared sanitizer-shaped sibling is not suppressed. The README sentence was wrong, and correcting it *against* our own engine's preregistered position is the same discipline that recorded it. |
 | O | **unsupported** | The adapter README: *"External semantic-model activation requires an embedding with an explicit catalog, so the modeled-external case is reported as `unsupported` by this CLI adapter with an explicit retained reason. It is not a negative result."* The existing `dfb-taint-java-modeled-external` calibration case already carries that retained reason in the frozen smoke report. |
 | E | **to be verified — unsupported until shown** | Nothing in the repository or the README describes an entry-root declaration for the policy CLI. |
 | B | **to be verified — unsupported until shown** | No persistence-boundary vocabulary is described anywhere for any adapter, Bifrost included. |
@@ -845,7 +851,9 @@ verification.
 Bifrost therefore enters this matrix with **one of six categories scored**. That
 is the honest starting position for a standalone policy CLI whose modeling
 surface lives in an embedding, and stating it in the preregistration — rather
-than after a run — is the point.
+than after a run — is the point. It holds **two of six as amended**: A9 moved
+category Z, and moved it on a measurement that contradicted this adapter's own
+documentation rather than on a re-reading of it.
 
 ### CodeQL — CLI 2.26.3
 
@@ -1328,3 +1336,98 @@ the same setting.
 
 **Freezes invalidated.** None. No modeling report is bound by any freeze, and
 no core or challenge result changes.
+
+### A9 — 2026-08-27: Bifrost's sanitizer category is promoted; the README's lowering claim was false
+
+**What changed.** Category Z — declared sanitizers — moves from `unsupported` to
+scored for Bifrost. Its two templates, 5 (`sanitizer-kill`) and 6
+(`sanitizer-selectivity`), join category S's two, so this adapter's scored set
+goes from two of the twelve templates to four, and from one of six categories to
+two. Categories P, O, E, and B are untouched.
+
+**What the preregistration said.** Category Z was declined on a quotation, not a
+measurement: *"The adapter README states it directly: 'Sanitizer lowering is a
+future Bifrost CLI capability.'"* The reasoning attached to it was explicitly
+about publishing discipline — a partition that granted its own vendor's engine a
+category the vendor's own documentation called unimplemented would be the most
+damaging thing this document could do. That reasoning was right. The sentence it
+rested on was wrong.
+
+**What was measured.** On the v0.10.7 build `44d9a5be416432bf8ed414afd3ea0031245ebb57`,
+against the committed fixtures of both category-Z templates, in all three of
+wave M1's languages:
+
+- **The grammar accepts the stanza.** `(analysis … :sanitizers (endpoint-set
+  :entries [(sanitizer :id … :selector (rql …) :input (argument :index 0)
+  :output return-value :removes [attacker-controlled])]))` evaluates with an
+  empty `diagnostics` array. This is not a schema-pointer inspection of the kind
+  the preregistration refused to treat as verification; it is the CLI running
+  the policy.
+- **The declaration suppresses, on a run that completes.** Template 5's negative
+  — the flow routed through the declared `scrub` — reports zero findings with
+  `completion: complete`. A suppression produced by an incomplete analysis would
+  be vacuous, so the completion is part of the claim.
+- **Removing the declaration restores the flow, with a full witness.** The same
+  fixture under a policy identical but for the deleted `:sanitizers` section
+  reports the flow again, `certainty: definite`, `completeness: complete`, and a
+  strong source-to-sink anchor. The declaration is load-bearing in the sense
+  [the load-bearing-model requirement](#the-load-bearing-model-requirement)
+  means: the cell is decided by the model, not by the engine's default.
+- **The binding is by declared identity, not by name shape.** Template 6's
+  positive routes the flow through the *undeclared* `sanitize` — same signature,
+  same identity body, a name at least as sanitizer-shaped — and is still
+  reported; its negative, through the declared `scrub`, is suppressed. An engine
+  that treated anything sanitizer-shaped as a barrier would fail this pair, and
+  it does not.
+
+All four cells decide correctly in all three languages. The evidence is retained
+under `reports/raw/amendment-a9-bifrost-sanitizer/`, produced by
+`scripts/probe-bifrost-sanitizer-lowering.sh`, which is the same
+run-it-twice shape as the per-language load-bearing probes beside it.
+
+**Why the other four cells do not move.** They were re-examined on the same
+build, by enumerating which `analysis` sections the grammar accepts, and the
+answer separates them into two kinds:
+
+- **E and B have no surface at all.** `:entry-points`, `:entry_points`,
+  `:stores`, and `:persistence` are each rejected with *unknown field … for
+  `analysis`*. The preregistration's *to be verified* note for both categories
+  stands exactly as written.
+- **P and O have adjacent sections whose lowering is unshown.** `:transforms`
+  and `:external-models` are accepted fields, and a `transform` entry is a
+  label-rewriting declaration (*"transform requires at least one removed or
+  added label"*) rather than the argument-position → return-value propagation
+  category P declares. Acceptance is not lowering — the rule this document
+  applied to a v0.9.5 schema pointer applies here too — and no committed policy
+  declares either section. Both stay `unsupported` until something measures
+  them, which is a different amendment than this one.
+
+**The README is corrected, not quietly.** `adapters/bifrost/README.md` no longer
+states that sanitizer lowering is a future capability; it records what was
+measured and points here. One consequence is left standing deliberately: the
+tool-native profile's category-Z cell
+([docs/native-profile.md](native-profile.md#partition-summary)) quotes the
+retired sentence in its own rationale. That cell's *outcome* does not depend on
+it — the standalone CLI ships no source or sink endpoint catalog, so no native
+template can produce a finding regardless of what the CLI can be told — but its
+wording now cites a claim this amendment withdrew. Correcting a tool-native
+partition cell is that document's own dated amendment, and it is not this one's
+to make.
+
+**Why this direction of correction matters.** Every amendment before this one
+moved a cell *away* from scored, or confirmed a fact and moved nothing. This one
+grants a category to the engine published by this benchmark's own vendor, which
+is the direction in which a partition is least trustworthy. That is why the
+measurement is four-way rather than two-way — accept, suppress, restore, and
+discriminate — why the raw evidence is retained rather than described, and why
+the negative result about `:transforms` and `:external-models` is recorded in
+the same breath.
+
+**Tools, templates, and languages touched.** Bifrost only; templates 5 and 6;
+Python, JavaScript, and Java measured directly, and all three committed policies
+carry the sanitizer declaration.
+
+**Freezes invalidated.** None. No modeling report is bound by any freeze, and no
+core or challenge result changes. The scored evidence for the promoted cells
+lands with the next evidence re-run; until it does, the retained modeling
+reports predate this amendment and record category Z as `unsupported`.
