@@ -579,6 +579,16 @@ impl ModelingTool {
 
     /// The pinned identity the partition was decided against, quoted from the
     /// document's table headings so a version drift is visible in the message.
+    ///
+    /// This is a **document** reference, not a measurement, and it is used only
+    /// where the runner is talking about the preregistration — a fail-fast
+    /// error that names the tool a document decided a cell for. It must never
+    /// reach a report field or a retained rationale: those name the identity
+    /// the run *witnessed* from the binary
+    /// ([`witness_tool_identity`]), because a constant cannot witness a
+    /// version. A run that asserted its own version would keep publishing
+    /// `v0.10.6` after the pin moved, which is precisely the corruption a
+    /// freeze cannot survive.
     fn pinned_identity(self) -> &'static str {
         match self {
             Self::Bifrost => "Bifrost v0.10.6",
@@ -822,18 +832,26 @@ fn modeling_partition_reason(tool: ModelingTool, template: &str) -> Result<Optio
 
 /// The retained `unsupported` reason for a declined cell, or `None` when the
 /// cell is scored. The partition's rationale is carried verbatim; the prefix
-/// names the category and the pinned tool identity the decision was made
-/// against, so the reason is auditable without opening the document.
-fn modeling_unsupported_reason(tool: ModelingTool, template: &str) -> Result<Option<String>> {
+/// names the category and the tool identity **the run witnessed**, so the
+/// reason is auditable without opening the document.
+///
+/// `identity` is [`witness_tool_identity`]'s reading of the binary this run
+/// invoked, never a constant: a declined cell is decided without invoking the
+/// analyzer over the fixture, but the run as a whole still witnesses the
+/// version once, so the rationale names the build that was actually pinned.
+fn modeling_unsupported_reason(
+    tool: ModelingTool,
+    template: &str,
+    identity: &str,
+) -> Result<Option<String>> {
     let Some(reason) = modeling_partition_reason(tool, template)? else {
         return Ok(None);
     };
     let category = modeling_category(template).expect("partition resolved the category");
     Ok(Some(format!(
-        "category {} — {} — is unsupported for {} by the preregistered modeling partition (docs/modeling-matrix.md#per-tool-capability-partition): {reason}",
+        "category {} — {} — is unsupported for {identity} by the preregistered modeling partition (docs/modeling-matrix.md#per-tool-capability-partition): {reason}",
         category.key(),
         category.label(),
-        tool.pinned_identity(),
     )))
 }
 
@@ -1501,22 +1519,28 @@ fn native_partition_reason(
 
 /// The retained `unsupported` reason for a declined native cell, or `None` when
 /// the cell is scored. The partition's rationale is carried verbatim; the prefix
-/// names the template, its category, and the pinned tool identity the decision
-/// was made against, so the reason is auditable without opening the document.
+/// names the template, its category, and the tool identity **the run
+/// witnessed**, so the reason is auditable without opening the document.
+///
+/// The Bifrost native row declines all six templates in every language and
+/// therefore never hands a fixture to the binary. That is a property of the
+/// *cells*, not of the run: the run still reads the binary's own version once
+/// ([`witness_tool_identity`]) so that these twelve retained rationales name a
+/// build that exists rather than one a constant remembers.
 fn native_unsupported_reason(
     tool: ModelingTool,
     language: ModelingLanguage,
     template: &str,
+    identity: &str,
 ) -> Result<Option<String>> {
     let Some(reason) = native_partition_reason(tool, language, template)? else {
         return Ok(None);
     };
     let category = native_category(template).expect("partition resolved the category");
     Ok(Some(format!(
-        "tool-native activation of {template} (category {} — {}) is unsupported for {} over {} by the activation partition (docs/native-profile.md#partition-summary, as amended): {reason}",
+        "tool-native activation of {template} (category {} — {}) is unsupported for {identity} over {} by the activation partition (docs/native-profile.md#partition-summary, as amended): {reason}",
         category.key(),
         category.label(),
-        tool.pinned_identity(),
         language.display_name(),
     )))
 }
@@ -1603,10 +1627,21 @@ struct NativeActivation {
 /// The pinned activation shape for one tool and language.
 ///
 /// This is the function the no-benchmark-models gate runs against, and its
-/// output is pinned by tests: a later change that splices a benchmark-authored
-/// artifact into a native invocation fails the build rather than quietly
-/// publishing engine accuracy as product coverage.
-fn native_activation(tool: ModelingTool, language: ModelingLanguage) -> Result<NativeActivation> {
+/// *arguments* are pinned by tests: a later change that splices a
+/// benchmark-authored artifact into a native invocation fails the build rather
+/// than quietly publishing engine accuracy as product coverage.
+///
+/// `identity` is the tool identity the run witnessed from the binary
+/// ([`witness_tool_identity`]). It is a parameter rather than a constant
+/// because the identity a report and its retained decisions carry must be read
+/// from the pinned binary — the Bifrost row declines every cell and so never
+/// invokes the analyzer over a fixture, which is exactly the case in which an
+/// asserted version would go stale unnoticed.
+fn native_activation(
+    tool: ModelingTool,
+    language: ModelingLanguage,
+    identity: &str,
+) -> Result<NativeActivation> {
     Ok(match tool {
         ModelingTool::Codeql => {
             let (pack, version) = CODEQL_NATIVE_QUERY_PACKS
@@ -1623,7 +1658,7 @@ fn native_activation(tool: ModelingTool, language: ModelingLanguage) -> Result<N
                 language.key()
             );
             NativeActivation {
-                identity: format!("{} shipped suite {suite}", tool.pinned_identity()),
+                identity: format!("{identity} shipped suite {suite}"),
                 arguments: vec![
                     format!("--threat-model={CODEQL_NATIVE_THREAT_MODEL}"),
                     suite,
@@ -1635,8 +1670,7 @@ fn native_activation(tool: ModelingTool, language: ModelingLanguage) -> Result<N
             let dir = semgrep_native_rules_dir(language);
             NativeActivation {
                 identity: format!(
-                    "{} over the pinned snapshot vendored from {SEMGREP_NATIVE_UPSTREAM} into {}",
-                    tool.pinned_identity(),
+                    "{identity} over the pinned snapshot vendored from {SEMGREP_NATIVE_UPSTREAM} into {}",
                     dir.display()
                 ),
                 arguments: vec![
@@ -1647,7 +1681,7 @@ fn native_activation(tool: ModelingTool, language: ModelingLanguage) -> Result<N
             }
         }
         ModelingTool::Bifrost => NativeActivation {
-            identity: format!("{} built-in policy packs", tool.pinned_identity()),
+            identity: format!("{identity} built-in policy packs"),
             arguments: vec![
                 BIFROST_NATIVE_POLICY_PACK_FLAG.to_string(),
                 "bifrost.code-smells".to_string(),
@@ -1655,7 +1689,7 @@ fn native_activation(tool: ModelingTool, language: ModelingLanguage) -> Result<N
             configuration_paths: BTreeSet::new(),
         },
         ModelingTool::Joern => NativeActivation {
-            identity: format!("{} DefaultSemantics only", tool.pinned_identity()),
+            identity: format!("{identity} DefaultSemantics only"),
             arguments: Vec::new(),
             configuration_paths: BTreeSet::new(),
         },
@@ -9557,10 +9591,11 @@ fn modeling_partition_outcome(
     tool: ModelingTool,
     case: &Value,
     raw_dir: &Path,
+    identity: &str,
 ) -> Result<Option<(&'static str, String, PathBuf)>> {
     let id = required_string(case, "id", "modeling case")?;
     let template = required_string(case, "template_id", id)?;
-    let Some(reason) = modeling_unsupported_reason(tool, template)? else {
+    let Some(reason) = modeling_unsupported_reason(tool, template, identity)? else {
         return Ok(None);
     };
     let category = modeling_category(template).expect("partition resolved the category");
@@ -9579,7 +9614,7 @@ fn modeling_partition_outcome(
             "template_id": template,
             "modeling_category": category.key(),
             "modeling_category_label": category.label(),
-            "pinned_tool_identity": tool.pinned_identity(),
+            "witnessed_tool_identity": identity,
             "partition_source": "docs/modeling-matrix.md#per-tool-capability-partition",
             "evidence_kind": "retained-capability-decision"
         }))? + "\n",
@@ -10073,7 +10108,7 @@ fn run_modeling(
     };
 
     let started = now_seconds()?;
-    let (version, build_identity) = modeling_version_identity(plan.tool, binary)?;
+    let (version, build_identity) = witness_tool_identity(plan.tool, binary)?;
     let revision = fixture_revision()?;
     let mut results = Vec::with_capacity(plan.cases.len());
     for (path, case) in &plan.cases {
@@ -10084,7 +10119,7 @@ fn run_modeling(
         // analyzer and cannot produce an empty finding list that later reads
         // as a negative.
         let (outcome, diagnostics, raw_path) = if let Some((outcome, reason, raw_path)) =
-            modeling_partition_outcome(plan.tool, case, &plan.raw_dir)?
+            modeling_partition_outcome(plan.tool, case, &plan.raw_dir, &version)?
         {
             (outcome, vec![reason], raw_path)
         } else {
@@ -10169,15 +10204,38 @@ fn run_modeling(
     Ok(())
 }
 
-/// The pinned version identity a modeling report records, read from the same
+/// The tool identity a modeling or tool-native run records, **witnessed from
+/// the binary** rather than asserted from a constant, read from the same
 /// surface each adapter's kernel reports already read it from.
-fn modeling_version_identity(tool: ModelingTool, binary: &Path) -> Result<(String, String)> {
+///
+/// Called once per run, before the population is walked, and called even when
+/// the run's partition declines every cell: a declined cell is decided without
+/// handing a fixture to the analyzer, but the report's run-level identity is a
+/// claim about which binary was pinned, and that claim has to be measured. The
+/// Bifrost tool-native row is the case that makes the rule visible — it invokes
+/// the analyzer over nothing at all, and it must still say truthfully which
+/// build produced its twelve retained decisions.
+///
+/// Unlike the kernel runners, a failure to read the version is **not** softened
+/// into `"unknown"`. A kernel run that loses the version still has per-case
+/// evidence; a run whose every cell is a capability decision has nothing else,
+/// so an unwitnessed identity there would be a report that asserts a pin it
+/// never observed.
+fn witness_tool_identity(tool: ModelingTool, binary: &Path) -> Result<(String, String)> {
     match tool {
         ModelingTool::Bifrost => Ok((
-            command_output(Command::new(binary).arg("--version"))
-                .unwrap_or_else(|_| "unknown".into()),
-            command_output(Command::new(binary).arg("--build-identity"))
-                .unwrap_or_else(|_| "unknown".into()),
+            command_output(Command::new(binary).arg("--version")).with_context(|| {
+                format!(
+                    "witness the pinned Bifrost version with {} --version; a modeling or tool-native report may not assert a version it could not read",
+                    binary.display()
+                )
+            })?,
+            command_output(Command::new(binary).arg("--build-identity")).with_context(|| {
+                format!(
+                    "witness the pinned Bifrost build identity with {} --build-identity",
+                    binary.display()
+                )
+            })?,
         )),
         ModelingTool::Codeql => codeql_version_identity(binary),
         ModelingTool::Joern => joern_version_identity(binary),
@@ -10243,7 +10301,11 @@ fn select_native_cases(language: ModelingLanguage) -> Result<Vec<(PathBuf, Value
 /// otherwise produce a report that means nothing: no population, a missing
 /// pinned activation artifact, or an activation shape that would load a
 /// benchmark-authored model.
-fn plan_native_run(tool: ModelingTool, language: ModelingLanguage) -> Result<NativeRunPlan> {
+fn plan_native_run(
+    tool: ModelingTool,
+    language: ModelingLanguage,
+    identity: &str,
+) -> Result<NativeRunPlan> {
     validate_cases()?;
     let cases = select_native_cases(language)?;
     if cases.is_empty() {
@@ -10255,7 +10317,7 @@ fn plan_native_run(tool: ModelingTool, language: ModelingLanguage) -> Result<Nat
         );
     }
 
-    let activation = native_activation(tool, language)?;
+    let activation = native_activation(tool, language, identity)?;
     // The activation rule, checked before anything is executed.
     require_no_benchmark_models(tool, &activation.arguments)?;
     // A missing pinned activation artifact is this profile's analogue of the
@@ -10312,10 +10374,11 @@ fn native_partition_outcome(
     case: &Value,
     activation: &NativeActivation,
     raw_dir: &Path,
+    identity: &str,
 ) -> Result<Option<(&'static str, String, PathBuf)>> {
     let id = required_string(case, "id", "tool-native case")?;
     let template = required_string(case, "template_id", id)?;
-    let Some(reason) = native_unsupported_reason(tool, language, template)? else {
+    let Some(reason) = native_unsupported_reason(tool, language, template, identity)? else {
         return Ok(None);
     };
     let category = native_category(template).expect("partition resolved the category");
@@ -10335,7 +10398,7 @@ fn native_partition_outcome(
             "modeling_category": category.key(),
             "modeling_category_label": category.label(),
             "model_profile": NATIVE_MODEL_PROFILE,
-            "pinned_tool_identity": tool.pinned_identity(),
+            "witnessed_tool_identity": identity,
             "activation_identity": activation.identity,
             "activation_arguments": activation.arguments,
             "partition_source": "docs/native-profile.md#partition-summary",
@@ -10848,25 +10911,28 @@ fn run_native(
     {
         bail!("CodeQL pack search path {} does not exist", packs.display());
     }
-    let plan = plan_native_run(tool, language)?;
+    // Witnessed before the plan is assembled, because the plan's activation
+    // identity names the tool.
+    //
+    // This is read **unconditionally**, including for a row the partition
+    // scores nothing for. The rule it replaces withheld the version banner from
+    // a 0/6 run, on the reasoning that such a run is a capability decision
+    // taken before the analyzer is touched. The decision half of that is
+    // preserved exactly — no cell is handed to the analyzer, and every outcome
+    // is still decided from the template identity — but the conclusion drawn
+    // from it was that the report should carry `pinned_identity()`, and an
+    // asserted version is not a measurement. A 0/6 row is the case where that
+    // matters most: its twelve retained rationales are the whole of its
+    // evidence, and a constant would keep naming the previous pin after the
+    // binary underneath it moved. Reading `--version` is not analyzing a
+    // fixture, so the outcome-honesty contract is untouched by asking.
+    let (version, build) = witness_tool_identity(tool, binary)?;
+    let plan = plan_native_run(tool, language, &version)?;
     let scored_templates = native_supported_templates(plan.tool, plan.language);
 
     fs::create_dir_all(&plan.raw_dir)?;
     let started = now_seconds()?;
-    // A tool the partition scores nothing for is never invoked at all — not
-    // even for its version banner — so a 0/6 run stays what
-    // docs/native-profile.md#outcome-honesty says it is: a capability decision
-    // taken before the analyzer is touched. Its report carries the pinned
-    // identity the partition was decided against.
-    let (version, build_identity) = if scored_templates.is_empty() {
-        (
-            plan.tool.pinned_identity().to_string(),
-            plan.activation.identity.clone(),
-        )
-    } else {
-        let (version, build) = modeling_version_identity(plan.tool, binary)?;
-        (version, format!("{build} — {}", plan.activation.identity))
-    };
+    let build_identity = format!("{build} — {}", plan.activation.identity);
     let revision = fixture_revision()?;
     let mut results = Vec::with_capacity(plan.cases.len());
     for (path, case) in &plan.cases {
@@ -10883,6 +10949,7 @@ fn run_native(
                 case,
                 &plan.activation,
                 &plan.raw_dir,
+                &version,
             )? {
             (outcome, vec![reason], raw_path)
         } else {
@@ -10923,6 +10990,8 @@ fn run_native(
         "schema_version": 1,
         "tool": plan.tool.key(),
         "tool_version": version,
+        // Both halves of the identity, and both witnessed: the build the binary
+        // reported, and the activation surface that build was pointed at.
         "tool_build_identity": build_identity,
         "adapter_version": ADAPTER_VERSION,
         "configuration_hash": native_configuration_hash(&plan.activation)?,
@@ -10956,6 +11025,14 @@ fn run_native(
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    /// A stand-in for the identity a run reads from the pinned binary.
+    ///
+    /// A test has no binary to witness, so it passes this and then asserts the
+    /// retained rationale names *it*. That is the property under test: the
+    /// identity a report and its decisions carry is threaded in from a
+    /// measurement, and no constant inside the partition can supply one.
+    const WITNESSED_IDENTITY: &str = "witnessed-tool-identity-under-test";
 
     /// Creates a fresh scratch directory under the system temp dir. Parallel
     /// test threads share a pid and can observe the same nanosecond timestamp,
@@ -15163,7 +15240,9 @@ mod tests {
     #[test]
     fn the_modeling_partition_is_tag_proof() {
         let template = "dfb-template-model-opaque-propagator";
-        let baseline = modeling_unsupported_reason(ModelingTool::Semgrep, template).unwrap();
+        let baseline =
+            modeling_unsupported_reason(ModelingTool::Semgrep, template, WITNESSED_IDENTITY)
+                .unwrap();
         assert!(baseline.is_some());
         for tags in [
             json!(["intraprocedural"]),
@@ -15176,7 +15255,8 @@ mod tests {
             assert_eq!(
                 modeling_unsupported_reason(
                     ModelingTool::Semgrep,
-                    case["template_id"].as_str().unwrap()
+                    case["template_id"].as_str().unwrap(),
+                    WITNESSED_IDENTITY
                 )
                 .unwrap(),
                 baseline,
@@ -15186,28 +15266,43 @@ mod tests {
         // And the converse: a scored cell stays scored whatever it is tagged.
         let scored = "dfb-template-model-declared-source";
         assert!(
-            modeling_unsupported_reason(ModelingTool::Semgrep, scored)
+            modeling_unsupported_reason(ModelingTool::Semgrep, scored, WITNESSED_IDENTITY)
                 .unwrap()
                 .is_none()
         );
     }
 
     /// Every declined cell retains a reason that names the category and the
-    /// pinned tool identity and carries the document's rationale verbatim.
+    /// **witnessed** tool identity and carries the document's rationale
+    /// verbatim.
+    ///
+    /// The identity is asserted to be the one the caller measured, and asserted
+    /// again *not* to be a version literal: a rationale that hardcoded a
+    /// version would keep naming a build the run never invoked, which is how a
+    /// stale pin survives a re-pin unnoticed.
     #[test]
     fn modeling_unsupported_reasons_are_retained_and_attributed() {
-        let reason =
-            modeling_unsupported_reason(ModelingTool::Bifrost, "dfb-template-model-sanitizer-kill")
-                .unwrap()
-                .expect("category Z is unsupported for Bifrost");
-        assert!(reason.starts_with("category Z — declared sanitizers —"));
-        assert!(reason.contains("Bifrost v0.10.6"));
-        assert!(reason.contains("Sanitizer lowering is a future Bifrost CLI capability."));
+        let reason = modeling_unsupported_reason(
+            ModelingTool::Bifrost,
+            "dfb-template-model-summary-through",
+            WITNESSED_IDENTITY,
+        )
+        .unwrap()
+        .expect("category O is unsupported for Bifrost");
+        assert!(reason.starts_with("category O — opaque procedure summaries —"));
+        assert!(reason.contains(WITNESSED_IDENTITY));
+        assert!(reason.contains("External semantic-model activation requires an embedding"));
         assert!(reason.contains("docs/modeling-matrix.md"));
         for tool in ModelingTool::ALL {
             for template in MODELING_TEMPLATE_IDS {
-                if let Some(reason) = modeling_unsupported_reason(tool, template).unwrap() {
+                if let Some(reason) =
+                    modeling_unsupported_reason(tool, template, WITNESSED_IDENTITY).unwrap()
+                {
                     assert!(reason.len() > 80, "a retained reason must say why");
+                    assert!(
+                        reason.contains(WITNESSED_IDENTITY),
+                        "a retained reason names the identity the run witnessed"
+                    );
                 }
             }
         }
@@ -15220,7 +15315,7 @@ mod tests {
         let root = unique_test_dir("dataflowbench-modeling-partition-test");
         let case = modeling_case_value("dfb-template-model-store-roundtrip", "positive", "python");
         let (outcome, reason, raw_path) =
-            modeling_partition_outcome(ModelingTool::Semgrep, &case, &root)
+            modeling_partition_outcome(ModelingTool::Semgrep, &case, &root, WITNESSED_IDENTITY)
                 .unwrap()
                 .expect("category B is unsupported for Semgrep CE");
         assert_eq!(outcome, "unsupported");
@@ -15230,12 +15325,13 @@ mod tests {
         assert_eq!(retained["modeling_category"], "B");
         assert_eq!(retained["adapter"], "semgrep");
         assert_eq!(retained["reason"], json!(reason));
+        assert_eq!(retained["witnessed_tool_identity"], WITNESSED_IDENTITY);
         assert_eq!(retained["evidence_kind"], "retained-capability-decision");
 
         // A scored cell produces no decision and no evidence at all.
         let scored = modeling_case_value("dfb-template-model-declared-sink", "positive", "python");
         assert!(
-            modeling_partition_outcome(ModelingTool::Semgrep, &scored, &root)
+            modeling_partition_outcome(ModelingTool::Semgrep, &scored, &root, WITNESSED_IDENTITY)
                 .unwrap()
                 .is_none()
         );
@@ -16069,9 +16165,13 @@ mod tests {
     #[test]
     fn the_native_partition_is_tag_proof() {
         let template = "dfb-template-native-summary";
-        let baseline =
-            native_unsupported_reason(ModelingTool::Joern, ModelingLanguage::Java, template)
-                .unwrap();
+        let baseline = native_unsupported_reason(
+            ModelingTool::Joern,
+            ModelingLanguage::Java,
+            template,
+            WITNESSED_IDENTITY,
+        )
+        .unwrap();
         assert!(baseline.is_some());
         for tags in [
             json!([]),
@@ -16084,7 +16184,8 @@ mod tests {
                 native_unsupported_reason(
                     ModelingTool::Joern,
                     ModelingLanguage::Java,
-                    case["template_id"].as_str().unwrap()
+                    case["template_id"].as_str().unwrap(),
+                    WITNESSED_IDENTITY
                 )
                 .unwrap(),
                 baseline
@@ -16092,32 +16193,48 @@ mod tests {
         }
         let scored = "dfb-template-native-summary";
         assert!(
-            native_unsupported_reason(ModelingTool::Codeql, ModelingLanguage::Java, scored)
-                .unwrap()
-                .is_none()
+            native_unsupported_reason(
+                ModelingTool::Codeql,
+                ModelingLanguage::Java,
+                scored,
+                WITNESSED_IDENTITY
+            )
+            .unwrap()
+            .is_none()
         );
     }
 
     /// A declined cell's reason is retained verbatim and attributed to the
-    /// pinned tool identity and the document that decided it.
+    /// **witnessed** tool identity and the document that decided it.
+    ///
+    /// The Bifrost row is the one that makes the witnessing matter: it declines
+    /// all six templates and hands the analyzer nothing, so these twelve
+    /// rationales are the whole of its evidence and the identity they name has
+    /// to be one the run actually read.
     #[test]
     fn native_unsupported_reasons_are_retained_and_attributed() {
         let reason = native_unsupported_reason(
             ModelingTool::Bifrost,
             ModelingLanguage::Java,
             "dfb-template-native-sanitizer",
+            WITNESSED_IDENTITY,
         )
         .unwrap()
         .expect("declined");
         assert!(reason.contains("Sanitizer lowering is a future Bifrost CLI capability"));
-        assert!(reason.contains("Bifrost v0.10.6"));
+        assert!(reason.contains(WITNESSED_IDENTITY));
         assert!(reason.contains("docs/native-profile.md"));
         for tool in ModelingTool::ALL {
             for template in NATIVE_TEMPLATE_IDS {
-                if let Some(reason) =
-                    native_unsupported_reason(tool, ModelingLanguage::Java, template).unwrap()
+                if let Some(reason) = native_unsupported_reason(
+                    tool,
+                    ModelingLanguage::Java,
+                    template,
+                    WITNESSED_IDENTITY,
+                )
+                .unwrap()
                 {
-                    assert!(reason.contains(tool.pinned_identity()));
+                    assert!(reason.contains(WITNESSED_IDENTITY));
                     assert!(reason.contains(template));
                 }
             }
@@ -16130,7 +16247,12 @@ mod tests {
     #[test]
     fn a_declined_native_cell_retains_evidence_without_invoking_the_tool() {
         let root = unique_test_dir("dataflowbench-native-partition-test");
-        let activation = native_activation(ModelingTool::Joern, ModelingLanguage::Python).unwrap();
+        let activation = native_activation(
+            ModelingTool::Joern,
+            ModelingLanguage::Python,
+            WITNESSED_IDENTITY,
+        )
+        .unwrap();
         let case = native_case_value("dfb-template-native-persistence", "positive", "python");
         let (outcome, reason, raw_path) = native_partition_outcome(
             ModelingTool::Joern,
@@ -16138,6 +16260,7 @@ mod tests {
             &case,
             &activation,
             &root,
+            WITNESSED_IDENTITY,
         )
         .unwrap()
         .expect("declined");
@@ -16153,17 +16276,24 @@ mod tests {
         assert_eq!(retained["modeling_category"], "B");
         assert_eq!(retained["reason"], reason);
         assert_eq!(retained["activation_identity"], activation.identity);
+        assert_eq!(retained["witnessed_tool_identity"], WITNESSED_IDENTITY);
         assert_eq!(retained["evidence_kind"], "retained-capability-decision");
 
         let scored = native_case_value("dfb-template-native-source-sink", "positive", "python");
-        let activation = native_activation(ModelingTool::Codeql, ModelingLanguage::Python).unwrap();
+        let activation = native_activation(
+            ModelingTool::Codeql,
+            ModelingLanguage::Python,
+            WITNESSED_IDENTITY,
+        )
+        .unwrap();
         assert!(
             native_partition_outcome(
                 ModelingTool::Codeql,
                 ModelingLanguage::Python,
                 &scored,
                 &activation,
-                &root
+                &root,
+                WITNESSED_IDENTITY
             )
             .unwrap()
             .is_none()
@@ -16357,7 +16487,12 @@ mod tests {
     /// a change to any of them is a change to what the published number means.
     #[test]
     fn the_native_activation_shapes_are_pinned() {
-        let codeql = native_activation(ModelingTool::Codeql, ModelingLanguage::Java).unwrap();
+        let codeql = native_activation(
+            ModelingTool::Codeql,
+            ModelingLanguage::Java,
+            WITNESSED_IDENTITY,
+        )
+        .unwrap();
         assert_eq!(
             codeql.arguments,
             vec![
@@ -16367,19 +16502,32 @@ mod tests {
         );
         assert!(codeql.configuration_paths.is_empty());
         assert_eq!(
-            native_activation(ModelingTool::Codeql, ModelingLanguage::Javascript)
-                .unwrap()
-                .arguments[1],
+            native_activation(
+                ModelingTool::Codeql,
+                ModelingLanguage::Javascript,
+                WITNESSED_IDENTITY
+            )
+            .unwrap()
+            .arguments[1],
             "codeql/javascript-queries@2.4.4:codeql-suites/javascript-security-extended.qls"
         );
         assert_eq!(
-            native_activation(ModelingTool::Codeql, ModelingLanguage::Python)
-                .unwrap()
-                .arguments[1],
+            native_activation(
+                ModelingTool::Codeql,
+                ModelingLanguage::Python,
+                WITNESSED_IDENTITY
+            )
+            .unwrap()
+            .arguments[1],
             "codeql/python-queries@1.8.9:codeql-suites/python-security-extended.qls"
         );
 
-        let semgrep = native_activation(ModelingTool::Semgrep, ModelingLanguage::Python).unwrap();
+        let semgrep = native_activation(
+            ModelingTool::Semgrep,
+            ModelingLanguage::Python,
+            WITNESSED_IDENTITY,
+        )
+        .unwrap();
         assert_eq!(
             semgrep.arguments,
             vec![
@@ -16395,14 +16543,24 @@ mod tests {
         );
         assert!(semgrep.identity.contains(SEMGREP_NATIVE_UPSTREAM));
 
-        let bifrost = native_activation(ModelingTool::Bifrost, ModelingLanguage::Java).unwrap();
+        let bifrost = native_activation(
+            ModelingTool::Bifrost,
+            ModelingLanguage::Java,
+            WITNESSED_IDENTITY,
+        )
+        .unwrap();
         assert_eq!(bifrost.arguments[0], BIFROST_NATIVE_POLICY_PACK_FLAG);
         assert!(
             !bifrost.arguments.iter().any(|a| a == "--policy-file"),
             "a native Bifrost run may not name a policy file"
         );
 
-        let joern = native_activation(ModelingTool::Joern, ModelingLanguage::Java).unwrap();
+        let joern = native_activation(
+            ModelingTool::Joern,
+            ModelingLanguage::Java,
+            WITNESSED_IDENTITY,
+        )
+        .unwrap();
         assert!(joern.arguments.is_empty());
         assert!(joern.identity.contains("DefaultSemantics"));
     }
@@ -16420,7 +16578,7 @@ mod tests {
                 ModelingLanguage::Javascript,
                 ModelingLanguage::Python,
             ] {
-                let activation = native_activation(tool, language).unwrap();
+                let activation = native_activation(tool, language, WITNESSED_IDENTITY).unwrap();
                 require_no_benchmark_models(tool, &activation.arguments).unwrap();
             }
         }
@@ -16442,13 +16600,28 @@ mod tests {
     /// than of a README: two different activations cannot produce one hash.
     #[test]
     fn the_activation_configuration_binds_the_report_hash() {
-        let java = native_activation(ModelingTool::Codeql, ModelingLanguage::Java).unwrap();
-        let python = native_activation(ModelingTool::Codeql, ModelingLanguage::Python).unwrap();
+        let java = native_activation(
+            ModelingTool::Codeql,
+            ModelingLanguage::Java,
+            WITNESSED_IDENTITY,
+        )
+        .unwrap();
+        let python = native_activation(
+            ModelingTool::Codeql,
+            ModelingLanguage::Python,
+            WITNESSED_IDENTITY,
+        )
+        .unwrap();
         assert_ne!(
             native_configuration_hash(&java).unwrap(),
             native_configuration_hash(&python).unwrap()
         );
-        let mut retuned = native_activation(ModelingTool::Codeql, ModelingLanguage::Java).unwrap();
+        let mut retuned = native_activation(
+            ModelingTool::Codeql,
+            ModelingLanguage::Java,
+            WITNESSED_IDENTITY,
+        )
+        .unwrap();
         retuned.arguments[0] = "--threat-model=remote".to_string();
         assert_ne!(
             native_configuration_hash(&java).unwrap(),
@@ -16532,7 +16705,7 @@ mod tests {
             ModelingLanguage::Javascript,
             ModelingLanguage::Python,
         ] {
-            let suite = native_activation(ModelingTool::Codeql, language)
+            let suite = native_activation(ModelingTool::Codeql, language, WITNESSED_IDENTITY)
                 .unwrap()
                 .arguments[1]
                 .clone();
