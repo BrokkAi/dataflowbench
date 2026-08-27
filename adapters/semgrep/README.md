@@ -644,8 +644,9 @@ Its own population, never pooled with a kernel. The
 [modeling matrix](../../docs/modeling-matrix.md) preregisters **three of six
 categories** for Semgrep CE — S (declared sources and sinks), Z (declared
 sanitizers), and E (framework entry points) — which is a *larger* share of that
-matrix than Bifrost's one of six, because modeling capability and propagation
-capability are not the same axis. Categories P, O, and B are `unsupported`,
+matrix than Bifrost's preregistered one of six (two of six since
+[Amendment A9](../../docs/modeling-matrix.md#a9--2026-08-27-bifrosts-sanitizer-category-is-promoted-the-readmes-lowering-claim-was-false)),
+because modeling capability and propagation capability are not the same axis. Categories P, O, and B are `unsupported`,
 decided from the template identity before the scan and retained with the
 document's own rationale, and category Z is scored by one of its two templates:
 template 6 is `unsupported` activation under
