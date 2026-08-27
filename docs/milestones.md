@@ -233,6 +233,33 @@ cells are that language's engine incompleteness rather than a modeling property.
 The remaining ten languages have no modeling denominator until the applicability
 pass merges, which is different from having a zero.
 
+### The tool-native profile: preregistration and infrastructure
+
+M3's second half opens with the [tool-native profile](native-profile.md),
+preregistered on the same amendment contract before any native fixture or
+vendored ruleset exists. Where the modeling matrix measures the *engine* under
+equivalent supplied models, this profile measures the *product*: the sources,
+sinks, sanitizers, summaries, and entry points each tool ships and activates by
+default or by its own documented native configuration. It reuses the matrix's six
+categories — one template each, over real platform APIs — so the two can be read
+side by side, and it shares the `modeling` score tier while being separated from
+it by `model_profile` alone, with corpus-wide validation that the two populations
+never cross-select. No aggregate combines native coverage with controlled
+accuracy.
+
+The canonical kernels are deliberately **not** run natively: they flow from
+`dfb_source` to `dfb_sink`, which no shipped model set knows, so a native run
+over them would measure the absence of an invented name. The preregistered
+activation partition enters with **CodeQL 6 templates of 6** — pinned to the
+shipped `security-extended` suites of `codeql/{java,javascript,python}-queries`
+with the `local` threat-model group — and **Bifrost, Joern, and Semgrep CE at 0
+of 6**, each with a verified rationale: no shipped endpoint catalog in the
+standalone policy CLI (BrokkAi/bifrost-dev #2620, #2691), `DefaultSemantics`
+shipping flow constraints but no source or sink catalog and a `joern-scan` query
+database that is downloaded rather than shipped, and a Semgrep ruleset that is
+unpinnable at run time until a snapshot is vendored. Wave N1 rolls out Java,
+JavaScript, and Python, one pull request each.
+
 ## M4: real-project confirmation
 
 Add a small, pinned, manually reviewed corpus drawn from executable or
