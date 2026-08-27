@@ -629,6 +629,7 @@ verbatim with the document's own rationale.
   twenty assertions are capability coverage with no analyzer invocation at all.
   Its configuration hash is
   `25e1399fb9b7c2e5dfa469d56e9b4edeccff655f1d8866290f4f55d29eb7117f`.
+- **Re-run pending.** That row and that hash describe the pre-A9 run and the pre-A9 artifact. The committed policy now carries the sanitizer declaration, so the next run of this slice scores four more cells and reports a different configuration hash; until it lands, the retained report records category Z as `unsupported`.
 - **Load-bearing verification.** Removing the `Config.fetchRemote` source entry
   from a copy of the policy drops `model-declared-source-positive` from one
   finding to zero
@@ -671,6 +672,7 @@ binary is invoked and retained verbatim with the document's own rationale.
   `inconclusive` cells are that language's engine incompleteness, not a modeling
   property. Its configuration hash is
   `921d2c8e531813bf7c9bb93fd6da710e62020f60f9caadc7ac0096c5c31121d9`.
+- **Re-run pending.** That row and that hash describe the pre-A9 run and the pre-A9 artifact. The committed policy now carries the sanitizer declaration, so the next run of this slice scores four more cells and reports a different configuration hash; until it lands, the retained report records category Z as `unsupported`.
 - **Load-bearing verification.** Removing the `Config.fetchRemote` source entry
   from a copy of the policy drops `model-declared-source-positive` from one
   finding to zero
