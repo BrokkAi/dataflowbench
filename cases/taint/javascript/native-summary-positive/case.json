@@ -1,0 +1,57 @@
+{
+  "schema_version": 2,
+  "id": "dfb-taint-javascript-native-summary-positive",
+  "template_id": "dfb-template-native-summary",
+  "polarity": "positive",
+  "score_tier": "modeling",
+  "track": "taint",
+  "language": "javascript",
+  "semantic_dimensions": [
+    "local-flow",
+    "external-summary"
+  ],
+  "feature_tags": [
+    "modeled-external",
+    "summary-required"
+  ],
+  "model_profile": "tool-native",
+  "fixture_files": [
+    "probe.js"
+  ],
+  "source_anchors": [
+    {
+      "marker": "DFB-SOURCE: native-summary-input",
+      "file": "probe.js",
+      "line_hint": 4
+    }
+  ],
+  "sink_anchors": [
+    {
+      "marker": "DFB-SINK: native-summary-sink",
+      "file": "probe.js",
+      "line_hint": 7
+    }
+  ],
+  "expected_flows": [
+    {
+      "source": "DFB-SOURCE: native-summary-input",
+      "sink": "DFB-SINK: native-summary-sink"
+    }
+  ],
+  "expected_nonflows": [],
+  "witness_checkpoints": [],
+  "expected_analysis_capability": {
+    "kind": "native-summary-coverage"
+  },
+  "execution_budget": {
+    "wall_clock_seconds": 60,
+    "peak_memory_mb": 512
+  },
+  "fixture_provenance": {
+    "kind": "authored",
+    "origin": "DataFlowBench",
+    "revision": "n1-native-javascript",
+    "license": "MIT"
+  },
+  "tool_model_references": {}
+}

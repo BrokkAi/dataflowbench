@@ -1,0 +1,58 @@
+{
+  "schema_version": 2,
+  "id": "dfb-taint-javascript-native-persistence-negative",
+  "template_id": "dfb-template-native-persistence",
+  "polarity": "negative",
+  "negative_mechanism": "field-separation",
+  "score_tier": "modeling",
+  "track": "taint",
+  "language": "javascript",
+  "semantic_dimensions": [
+    "local-flow",
+    "heap-field-sensitivity"
+  ],
+  "feature_tags": [
+    "modeled-external",
+    "heap-access-path"
+  ],
+  "model_profile": "tool-native",
+  "fixture_files": [
+    "probe.js"
+  ],
+  "source_anchors": [
+    {
+      "marker": "DFB-SOURCE: native-persistence-input",
+      "file": "probe.js",
+      "line_hint": 4
+    }
+  ],
+  "sink_anchors": [
+    {
+      "marker": "DFB-SINK: native-persistence-sink",
+      "file": "probe.js",
+      "line_hint": 6
+    }
+  ],
+  "expected_flows": [],
+  "expected_nonflows": [
+    {
+      "source": "DFB-SOURCE: native-persistence-input",
+      "sink": "DFB-SINK: native-persistence-sink"
+    }
+  ],
+  "witness_checkpoints": [],
+  "expected_analysis_capability": {
+    "kind": "native-persistence-link"
+  },
+  "execution_budget": {
+    "wall_clock_seconds": 60,
+    "peak_memory_mb": 512
+  },
+  "fixture_provenance": {
+    "kind": "authored",
+    "origin": "DataFlowBench",
+    "revision": "n1-native-javascript",
+    "license": "MIT"
+  },
+  "tool_model_references": {}
+}

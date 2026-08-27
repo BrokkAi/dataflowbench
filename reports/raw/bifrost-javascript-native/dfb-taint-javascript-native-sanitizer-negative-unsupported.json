@@ -1,0 +1,19 @@
+{
+  "activation_arguments": [
+    "--policy-pack",
+    "bifrost.code-smells"
+  ],
+  "activation_identity": "Bifrost v0.10.6 built-in policy packs",
+  "adapter": "bifrost",
+  "case_id": "dfb-taint-javascript-native-sanitizer-negative",
+  "evidence_kind": "retained-capability-decision",
+  "model_profile": "tool-native",
+  "modeling_category": "Z",
+  "modeling_category_label": "declared sanitizers",
+  "partition_source": "docs/native-profile.md#partition-summary",
+  "pinned_tool_identity": "Bifrost v0.10.6",
+  "reason": "tool-native activation of dfb-template-native-sanitizer (category Z — declared sanitizers) is unsupported for Bifrost v0.10.6 by the preregistered activation partition (docs/native-profile.md#partition-summary): the adapter README states it directly: \"Sanitizer lowering is a future Bifrost CLI capability.\" (`adapters/bifrost/README.md`). DataFlowBench is published by Bifrost's vendor, and a partition that quietly granted its own engine a capability its own documentation says is unimplemented would be the single most damaging thing this profile could do",
+  "stage": "preregistered-native-activation-partition",
+  "state": "unsupported",
+  "template_id": "dfb-template-native-sanitizer"
+}
