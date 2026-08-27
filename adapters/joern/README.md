@@ -1032,8 +1032,10 @@ See [the Java modeling matrix](../../docs/java-modeling.md).
 
 ## JavaScript tool-native probe set
 
-Zero of six, decided before the distribution is invoked — and the twelve
-assertions were produced without launching Joern at all.
+Zero of six, decided before the distribution is asked about a fixture — and the
+twelve assertions were produced without Joern analyzing anything. The run reads
+the distribution's version banner once so its report names an observed pin
+([the run-level identity is witnessed](../../docs/native-profile.md#the-run-level-identity-is-witnessed-including-at-0--6)).
 
 The tool-native activation contract is whatever the distribution activates
 without a user-authored query or semantics file: `DefaultSemantics`, and nothing
@@ -1074,7 +1076,8 @@ for the contract and [the Java row](../../docs/java-native.md) for the results.
   `3b223e2988df9965827d315f8bc6eb922c4825b1b140ad3ea922b78382b9ea28`.
 
 **Result: zero of six templates activated, twelve `unsupported` outcomes, and
-the binary was never invoked.** `DefaultSemantics` is a table of **flow
+the distribution was never asked about a fixture.** `DefaultSemantics` is a
+table of **flow
 constraints** — operator semantics, C standard library entries, and a short
 list of JVM method full names — and ships no source catalog and no sink
 catalog. Flow semantics constrain how taint moves through a call; they never
@@ -1108,9 +1111,12 @@ Wave N1's final row, and it closes the wave. See
   `reports/raw/joern-python-native/`.
 
 **Result: zero of six templates activated, twelve `unsupported` outcomes, and
-the binary was never invoked** — verified by running the command with a
-nonexistent binary path and getting byte-identical evidence. `DefaultSemantics`
-is a table of **flow constraints** — operator semantics, C standard library
+the distribution was never asked about a fixture.** The retained decisions are
+byte-identical whatever the binary reports; the run does read its version
+banner once, so the nonexistent-path check this row was originally verified
+with no longer holds, by design
+([the run-level identity is witnessed](../../docs/native-profile.md#the-run-level-identity-is-witnessed-including-at-0--6)).
+`DefaultSemantics` is a table of **flow constraints** — operator semantics, C standard library
 entries, and a short list of JVM method full names — and ships no source
 catalog and no sink catalog. Flow semantics constrain how taint moves through a
 call; they never say where taint starts or where its arrival is a finding. In

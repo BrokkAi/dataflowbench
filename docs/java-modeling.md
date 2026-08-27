@@ -132,13 +132,16 @@ its partition marks unsupported.
 
 | Adapter | Artifact | Categories it declares |
 | --- | --- | --- |
-| Bifrost v0.10.6 | `adapters/bifrost/policies/model-java.rqlp` | S |
+| Bifrost v0.10.6 | `adapters/bifrost/policies/model-java.rqlp` | S, Z (Amendment [A9](modeling-matrix.md#a9--2026-08-27-bifrosts-sanitizer-category-is-promoted-the-readmes-lowering-claim-was-false)) |
 | CodeQL 2.26.3 | `adapters/codeql/queries/JavaModeling.ql` | S, P, Z, O, E, B |
 | Joern 4.0.610 | `adapters/joern/semantics/model-java.semantics` + `adapters/joern/queries/modeling.sc` | S, Z, E, B |
 | Semgrep CE 1.174.0 | `adapters/semgrep/rules/model-java.yaml` | S, Z, E |
 
-**Bifrost** declares category S alone, as two `:sources` entries bound to
-`return-value` and two `:sinks` entries bound to `(argument :index 0)`. It sets
+**Bifrost** declared category S alone when this row ran, as two `:sources`
+entries bound to `return-value` and two `:sinks` entries bound to
+`(argument :index 0)`; Amendment A9 has since promoted category Z and the
+committed artifact now also carries one `:sanitizers` entry, whose scored
+evidence lands with the next re-run. It sets
 `:call-modeling (call-modeling :unmodeled require-model)`, which the pinned
 v0.10.6 build accepts — see [A5](#amendment-a5-require-model-is-accepted) below.
 That acceptance does **not** promote category P, which also requires a

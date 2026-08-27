@@ -173,8 +173,11 @@ approximated in it. That last rule is now a test:
 `the_modeling_artifacts_declare_only_their_scored_categories` fails the suite if
 any language's artifact declares a category its partition marks unsupported.
 
-**Bifrost** declares category S alone, as two `:sources` entries bound to
-`return-value` and two `:sinks` entries bound to `(argument :index 0)`. It sets
+**Bifrost** declared category S alone when this row ran, as two `:sources`
+entries bound to `return-value` and two `:sinks` entries bound to
+`(argument :index 0)`; Amendment A9 has since promoted category Z and the
+committed artifact now also carries one `:sanitizers` entry, whose scored
+evidence lands with the next re-run. It sets
 `:call-modeling (call-modeling :unmodeled require-model)`, which the pinned
 v0.10.6 build accepts — the preregistration could not verify that against the
 pinned binary and recorded category P as *to be verified, unsupported until

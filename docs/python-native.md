@@ -123,17 +123,28 @@ Registry configurations (`--config p/…`) are network-fetched and unpinnable at
 run time; two runs a week apart would be two different rulesets under one name.
 Vendoring is what makes the Semgrep column a benchmark rather than a date.
 
-### Bifrost and Joern were never invoked
+### Bifrost and Joern were never asked about a fixture
 
 Both enter at 0 / 6, so all twelve of each one's cells are decided from the
-template identity before any process starts, and each writes a retained
-`unsupported` decision naming the pinned tool identity, the activation
-identity, and the preregistered rationale verbatim. Verified rather than
-asserted: `run-joern-native --language python --joern /nonexistent/joern`
-produces byte-identical evidence, because the binary is never touched. The
-version fields in those two reports therefore carry the pinned identity the
-partition was decided against, not an observed banner — a 0 / 6 run has nothing
-to observe.
+template identity before any analysis starts, and each writes a retained
+`unsupported` decision naming the tool identity, the activation identity, and
+the preregistered rationale verbatim.
+
+This row was originally published with a stronger claim — that the binary was
+never touched at all, verified by running
+`run-joern-native --language python --joern /nonexistent/joern` and getting
+byte-identical evidence — and with version fields carrying the pinned identity
+the partition was decided against rather than an observed banner, on the
+reasoning that a 0 / 6 run has nothing to observe. The second half of that was
+wrong, and is corrected in
+[the run-level identity is witnessed](native-profile.md#the-run-level-identity-is-witnessed-including-at-0--6):
+a 0 / 6 run has nothing to observe *about a fixture*, but it still has to say
+which binary it was pinned to, and it now reads that binary's version banner
+once to find out. The cell-level claim is unchanged and unconditional: no
+declined cell is handed to the analyzer, and the retained decisions are
+byte-identical whatever the binary reports. The nonexistent-path check no
+longer holds, by design — a run that cannot witness its own pin fails instead
+of asserting one.
 
 These are capability coverage, never negatives. They never become a clean
 negative and never reduce anyone's denominator, and the gap between Joern's

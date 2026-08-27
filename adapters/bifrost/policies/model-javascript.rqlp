@@ -1,11 +1,13 @@
 ; DataFlowBench benchmark-controlled taint-modeling matrix — JavaScript.
 ;
 ; The preregistered partition (docs/modeling-matrix.md#bifrost--v0106-build-18d09c57)
-; scores category S — declared sources and sinks — for this adapter and nothing
-; else. Categories P, Z, O, E, and B are `unsupported` for Bifrost's standalone
-; policy CLI, so this policy declares nothing for them: an artifact that
-; declared a category the partition declines would be a translated
-; approximation, which the equivalence contract forbids.
+; scored category S — declared sources and sinks — for this adapter and nothing
+; else; Amendment A9 (docs/modeling-matrix.md#amendments) added category Z,
+; declared sanitizers, on a measurement of the pinned CLI. Categories P, O, E,
+; and B remain `unsupported` for Bifrost's standalone policy CLI, so this policy
+; declares nothing for them: an artifact that declared a category the partition
+; declines would be a translated approximation, which the equivalence contract
+; forbids.
 ;
 ; `:unmodeled require-model` is the load-bearing-model requirement of
 ; docs/modeling-matrix.md#the-load-bearing-model-requirement. Every committed
@@ -30,6 +32,13 @@
     :sources (endpoint-set :entries [
       (source :id benchmark-input :display-name "benchmark input" :categories [input.user-controlled] :selector (rql :schema-version 1 (language javascript (call :callee (name "dfb_source")))) :bind return-value :labels [attacker-controlled])
       (source :id declared-source :display-name "declared source Config.fetchRemote" :categories [input.user-controlled] :selector (rql :schema-version 1 (language javascript (call :callee (name "fetchRemote")))) :bind return-value :labels [attacker-controlled])])
+    ;; One sanitizer declaration, `in: 0 / out: return`, removing the label the
+    ;; sources add. `scrub` is declared; the sibling `sanitize` — same shape,
+    ;; same identity body, a name at least as sanitizer-shaped — is deliberately
+    ;; absent, which is what template 6 measures. Category Z is scored for this
+    ;; adapter by Amendment A9 (docs/modeling-matrix.md#amendments).
+    :sanitizers (endpoint-set :entries [
+      (sanitizer :id declared-sanitizer :selector (rql :schema-version 1 (language javascript (call :callee (name "scrub")))) :input (argument :index 0) :output return-value :removes [attacker-controlled])])
     ;; Two sink declarations, both `in: 0`: the benchmark sink, and
     ;; `Audit.record`. The sibling `Audit.discard` is deliberately absent.
     :sinks (endpoint-set :entries [

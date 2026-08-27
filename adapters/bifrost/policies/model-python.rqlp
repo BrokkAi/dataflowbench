@@ -9,6 +9,13 @@
     :sources (endpoint-set :entries [
       (source :id benchmark-input :display-name "benchmark input" :categories [input.user-controlled] :selector (rql :schema-version 1 (language python (call :callee (name "dfb_source")))) :bind return-value :labels [attacker-controlled])
       (source :id declared-source :display-name "declared source Config.fetchRemote" :categories [input.user-controlled] :selector (rql :schema-version 1 (language python (call :callee (name "fetch_remote")))) :bind return-value :labels [attacker-controlled])])
+    ;; One sanitizer declaration, `in: 0 / out: return`, removing the label the
+    ;; sources add. `scrub` is declared; the sibling `sanitize` — same shape,
+    ;; same identity body, a name at least as sanitizer-shaped — is deliberately
+    ;; absent, which is what template 6 measures. Category Z is scored for this
+    ;; adapter by Amendment A9 (docs/modeling-matrix.md#amendments).
+    :sanitizers (endpoint-set :entries [
+      (sanitizer :id declared-sanitizer :selector (rql :schema-version 1 (language python (call :callee (name "scrub")))) :input (argument :index 0) :output return-value :removes [attacker-controlled])])
     :sinks (endpoint-set :entries [
       (sink :id benchmark-sink :display-name "benchmark sink" :categories [data.sensitive] :selector (rql :schema-version 1 (language python (call :callee (name "dfb_sink")))) :dangerous-operand (argument :index 0) :accepts [attacker-controlled])
       (sink :id declared-sink :display-name "declared sink Audit.record" :categories [data.sensitive] :selector (rql :schema-version 1 (language python (call :callee (name "record")))) :dangerous-operand (argument :index 0) :accepts [attacker-controlled])])) )
