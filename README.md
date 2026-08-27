@@ -363,8 +363,10 @@ inverts the question: not what an engine can be told, but what each tool
 *ships*. Six templates over real platform APIs, per language, scored on their
 own profile and never pooled with the benchmark-controlled matrix — a native
 miss is a coverage fact about a product, and a controlled miss is an accuracy
-fact about an engine. Wave N1's first row is
-[the JavaScript tool-native probe set](docs/javascript-native.md).
+fact about an engine. Wave N1's rows so far are
+[the JavaScript tool-native probe set](docs/javascript-native.md) and
+[the Java tool-native probe set](docs/java-native.md): six templates and twelve
+assertions each, with no benchmark-authored model of any kind.
 
 The [Java kernel contract](docs/java-kernel.md) records the origin population
 and the first landed wave of the [challenge-tier

@@ -414,19 +414,26 @@ configuration are retained"* a property of the artifact.
 models are not pinnable at run time — Semgrep's registry, Joern's floating
 `querydb` release asset — the profile vendors a pinned snapshot with a
 `provenance.json` recording the upstream repository, source commit, paths,
-license, and retrieval date. Vendored so far: `adapters/semgrep/native/javascript/`,
-thirty rules from `semgrep/semgrep-rules@40b8c63f` — the remaining snapshots land
-with their language waves.
+license, and retrieval date. Vendored so far: `adapters/semgrep/native/javascript/`
+(thirty rules) and `adapters/semgrep/native/java/` (eighty-six), both from
+`semgrep/semgrep-rules@40b8c63f` — the remaining snapshot lands with Python's
+row.
 
-**The execution arm lands with the language.** The arm that invokes an analyzer
-over a *scored* native cell is written by the wave-N1 pull request that needs
-it. CodeQL's arm is wired: `run_codeql_native_case` builds the database exactly
-as the benchmark-controlled runner does — extraction is a property of the
-language, not of the model profile — and then analyzes it with the pinned
-activation arguments passed verbatim, in the order `native_activation` pins and
-`native_configuration_hash` hashes, so the invocation and the retained
-provenance cannot drift apart. Bifrost, Joern, and Semgrep have no arm, because
-their preregistered partitions decline all six templates and the partition is
+**One execution arm serves every language.** The arm that invokes an analyzer
+over a *scored* native cell is written by the wave-N1 pull request that first
+needs it, and thereafter every language shares it. CodeQL's arm is wired:
+`run_codeql_native_case` calls the same `codeql_sarif_for_case` driver the
+kernels and the modeling matrix call, so the database is built by the
+language's own extractor and traced build — extraction is a property of the
+language, not of the model profile — and the failure evidence and scratch
+cleanup are the shared ones. Only two things are native, and both are arguments
+to that driver rather than a second copy of it: the pinned activation arguments,
+passed verbatim in the order `native_activation` pins and
+`native_configuration_hash` hashes so the invocation and the retained provenance
+cannot drift apart, and the reconciler. The `--codeql-packs` search path is
+validated but deliberately never forwarded, because a pack search path of ours
+is a model of ours. Bifrost, Joern, and Semgrep have no arm, because their
+preregistered partitions decline all six templates and the partition is
 consulted first; a scored cell for one of them is a hard error rather than a
 synthesized outcome, which the adapter contract at the head of this document
 forbids, and it becomes reachable only when a dated amendment promotes a cell.

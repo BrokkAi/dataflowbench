@@ -681,3 +681,37 @@ coverage: the twelve `unsupported` assertions are never negatives and reduce no
 denominator.
 
 See [the JavaScript tool-native probe set](../../docs/javascript-native.md).
+
+## Java tool-native probe set
+
+Wave N1's first row. See [the tool-native profile](../../docs/native-profile.md)
+for the contract and [the Java row](../../docs/java-native.md) for the results.
+
+- **Activation contract.** Built-in policy packs only: `--policy-pack` /
+  `--policy-category` / `--policy-id` over the catalog `--list-policies`
+  prints. A native run may **not** pass `--policy-file`, which is how every
+  benchmark-controlled Bifrost run supplies its models, and the
+  no-benchmark-models gate refuses one.
+- **Invocation:** `cargo run -- run-bifrost-native --language java`, writing
+  `reports/bifrost-java-native.json`. Configuration hash
+  `0badb216237f88ed709f45e32283b0ea8030875e742424c3377e1fbce525c6d3`.
+
+**Result: zero of six templates activated, twelve `unsupported` outcomes, and
+the binary was never invoked.** Every cell is decided from the template
+identity before the CLI is touched, with the preregistered rationale retained
+verbatim under `reports/raw/bifrost-java-native/<case-id>-unsupported.json`.
+The standalone policy CLI ships no taint policy and no source or sink endpoint
+catalog — bifrost-dev **#2620** is the open issue under which the first ones
+would ship, and **#2691** is the standalone-CLI activation surface an external
+catalog would need — so no template can produce a finding whatever else the
+engine expresses.
+
+That is capability coverage, not a negative: it reduces no denominator and is
+never converted into a clean answer. It is also the honest reading of the gap
+between this row and the benchmark-controlled matrix, which scores Bifrost on a
+category it declines here **using the same binary**, because there the
+benchmark supplies the endpoints. Publishing that gap in a preregistration
+written by Bifrost's own vendor, before the run, with the vendor's open issues
+named, is the point.
+
+See [the Java tool-native probe set](../../docs/java-native.md).

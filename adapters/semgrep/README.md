@@ -773,7 +773,7 @@ time, so two runs a week apart are two different rulesets under one name.
   activation rule forbids. `--oss-only` still applies — the CE engine is the
   product under test.
 - Result: **0 of 6 scored, all six retained unsupported** by
-  [Amendment N1](../../docs/native-profile.md#n1--2026-08-27--semgrep-ces-javascript-cells-evaluated-against-the-vendored-snapshot).
+  [Amendment A6](../../docs/native-profile.md#a6--2026-08-27-semgrep-ces-javascript-cells-evaluated-against-the-vendored-snapshot).
   Fifteen of the thirty rules are `mode: taint` and every one of them roots its
   `pattern-sources` in a function parameter or a framework request object.
   `detect-child-process.yaml` and `audit/dangerous-spawn-shell.yaml` bind
@@ -789,3 +789,52 @@ time, so two runs a week apart are two different rulesets under one name.
   `execSync` is flagged by none of them.
 
 See [the JavaScript tool-native probe set](../../docs/javascript-native.md).
+
+## Java tool-native probe set
+
+Wave N1's first row. See [the tool-native profile](../../docs/native-profile.md)
+for the contract and [the Java row](../../docs/java-native.md) for the results.
+
+- **Why a snapshot exists at all.** Registry configurations (`--config p/…`)
+  are network-fetched and version-unpinnable at run time: two runs a week apart
+  are two different rulesets under one name, which is not a benchmark. The
+  native profile therefore **vendors**.
+- **What is vendored.** `adapters/semgrep/native/java/rules/` — every rule
+  document (86 files, 86 rule IDs) beneath `java/lang/security/` of
+  `https://github.com/semgrep/semgrep-rules` at commit
+  `40b8c63f75dc7c22c8a77482d73bfb864b146f7e`, upstream directory structure
+  preserved, under the Semgrep Rules License v1.0. The upstream tree's per-rule
+  `*.java` files are Semgrep's own rule tests, not part of the ruleset, and are
+  not vendored. `adapters/semgrep/native/java/provenance.json` records
+  `kind: derived`, the repository, the commit, the paths, the license, the
+  retrieval date, and a SHA-256 per file; the runner refuses a native run whose
+  activation directory has no such document.
+- **Two deliberate asymmetries against the modeling profile.** `--oss-only`
+  still applies — the pinned CE engine is the product under test. But
+  `taint_assume_safe_functions` is **not** set here, where the modeling matrix
+  requires it: there a permissive default would decide a cell the supplied
+  model was meant to decide, and here the default *is* the product.
+- **Invocation:**
+  `cargo run -- run-semgrep-native --language java --semgrep <path>`, writing
+  `reports/semgrep-java-native.json`. Configuration hash
+  `c0a2d9a459a04bd1511f71fb8d154d6cff5fc843d3a9d472c057a46493aea4b3`.
+
+**Result: zero of six templates activated, twelve `unsupported` outcomes, and
+the binary was never invoked.** The snapshot was read rule by rule before any
+run, and it binds none of the six categories: `System.getenv`, `String.concat`,
+`Integer.parseInt`, `String.valueOf`, `java.util.Base64`, `void main` and
+`System.` do not occur anywhere in it; the two rules whose sink is the
+template's command API are pattern rules that bind no source; and the one
+taint-mode rule reaching `Runtime.exec` sources from `HttpServletRequest`. The
+per-cell evidence is
+[Amendment A7](../../docs/native-profile.md#a7--2026-08-27-semgrep-ces-six-java-cells-are-retained-unsupported-against-the-vendored-snapshot),
+which moves no cell.
+
+The distinction that matters: a run over these fixtures would also have
+produced nothing, because both `Runtime.exec` pattern rules require a `+`, a
+`String.format`, or a `ProcessBuilder` and the pinned fixtures use none. But
+these cells are declined because no rule **binds** the categories, which is
+capability coverage — not because a run came back empty, which would have been
+six false negatives.
+
+See [the Java tool-native probe set](../../docs/java-native.md).

@@ -16,6 +16,12 @@ wave M1's three rows to land. That is a
 separate tier with a separate denominator and it is never pooled with anything
 below: no number in this document is ever added to a number in that one.
 
+A third Java population, on the same `modeling` tier but a disjoint
+`model_profile`, asks what each tool ships rather than what it can be told: six
+templates and twelve assertions over real JDK APIs. See
+[the Java tool-native probe set](java-native.md). It is pooled with neither of
+the two above.
+
 ## Classic core: 16 templates, 32 assertions
 
 Unchanged and frozen in v0.3.0. The sixteen `dfb-template-*` identities in
