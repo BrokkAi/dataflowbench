@@ -883,6 +883,15 @@ impl ModelingLanguage {
         format!("{} modeling population", self.display_name())
     }
 
+    /// The three languages the modeling and tool-native profiles cover in v1,
+    /// resolved from a case's `language` field. Any other language has no
+    /// modeling denominator at all, which is different from having a zero.
+    fn from_key(key: &str) -> Option<Self> {
+        [Self::Java, Self::Javascript, Self::Python]
+            .into_iter()
+            .find(|language| language.key() == key)
+    }
+
     /// The per-language modeling artifact this tool encodes its declarations
     /// in. One artifact per tool per language, hash-bound into the report's
     /// `configuration_hash` the way every existing adapter artifact is.
@@ -1396,14 +1405,87 @@ const NATIVE_PARTITION: [NativePartitionCell; 24] = [
     },
 ];
 
-/// The preregistered decision for one tool × native template, keyed by template
-/// identity alone: `None` when the template is scored, `Some(reason)` when the
-/// tool's shipped model set cannot be activated for it. Every cell is present,
-/// so an unknown template is a programming error rather than a silent scored
-/// default.
-fn native_partition_reason(tool: ModelingTool, template: &str) -> Result<Option<&'static str>> {
+/// Dated amendments to `NATIVE_PARTITION`, one row per amended cell.
+///
+/// The preregistered partition is language-agnostic, because it was written
+/// before any snapshot existed and its `TBV` cells said so honestly. A vendored
+/// snapshot, though, is *per language*: the document's own vendoring rule puts
+/// one under `adapters/semgrep/native/<language>/`, and reading its rules can
+/// only answer that language's cells. An amendment therefore carries a language
+/// as well as a tool and a template, and this table is where it lands —
+/// additive, dated in the document, and never a silent edit to the
+/// preregistration above.
+///
+/// `None` promotes a cell to **scored**; `Some(reason)` retains or restates an
+/// `unsupported` decision. A cell with no row here keeps whatever
+/// `NATIVE_PARTITION` preregistered for it.
+const NATIVE_PARTITION_AMENDMENTS: [(ModelingTool, ModelingLanguage, &str, Option<&'static str>);
+    6] = [
+    // Amendment A8 (2026-08-27) — Semgrep CE 1.174.0 × Python, all six
+    // templates promoted to scored on the evidence of the vendored snapshot
+    // (semgrep/semgrep-rules @ 40b8c63f, `python/lang/security/`), read as rule
+    // text before any scan. `audit/dangerous-system-call-tainted-env-args.yaml`
+    // is a `mode: taint` rule whose `pattern-sources` bind the platform
+    // identities `os.environ`, `os.getenv`, and `sys.argv` — not a framework
+    // endpoint — and whose `pattern-sinks` bind `os.system`. Both endpoints of
+    // every Python template are therefore covered by one shipped rule, and what
+    // remains is the measurement rather than the activation.
+    (
+        ModelingTool::Semgrep,
+        ModelingLanguage::Python,
+        NATIVE_TEMPLATE_IDS[0],
+        None,
+    ),
+    (
+        ModelingTool::Semgrep,
+        ModelingLanguage::Python,
+        NATIVE_TEMPLATE_IDS[1],
+        None,
+    ),
+    (
+        ModelingTool::Semgrep,
+        ModelingLanguage::Python,
+        NATIVE_TEMPLATE_IDS[2],
+        None,
+    ),
+    (
+        ModelingTool::Semgrep,
+        ModelingLanguage::Python,
+        NATIVE_TEMPLATE_IDS[3],
+        None,
+    ),
+    (
+        ModelingTool::Semgrep,
+        ModelingLanguage::Python,
+        NATIVE_TEMPLATE_IDS[4],
+        None,
+    ),
+    (
+        ModelingTool::Semgrep,
+        ModelingLanguage::Python,
+        NATIVE_TEMPLATE_IDS[5],
+        None,
+    ),
+];
+
+/// The decision for one tool × language × native template: `None` when the
+/// template is scored, `Some(reason)` when the tool's shipped model set cannot
+/// be activated for it. Amendments are consulted first; every preregistered
+/// cell is present, so an unknown template is a programming error rather than a
+/// silent scored default.
+fn native_partition_reason(
+    tool: ModelingTool,
+    language: ModelingLanguage,
+    template: &str,
+) -> Result<Option<&'static str>> {
     if native_category(template).is_none() {
         bail!("{template:?} is not one of the six preregistered tool-native templates");
+    }
+    if let Some((_, _, _, decision)) = NATIVE_PARTITION_AMENDMENTS
+        .iter()
+        .find(|(t, l, id, _)| *t == tool && *l == language && *id == template)
+    {
+        return Ok(*decision);
     }
     NATIVE_PARTITION
         .iter()
@@ -1421,27 +1503,32 @@ fn native_partition_reason(tool: ModelingTool, template: &str) -> Result<Option<
 /// the cell is scored. The partition's rationale is carried verbatim; the prefix
 /// names the template, its category, and the pinned tool identity the decision
 /// was made against, so the reason is auditable without opening the document.
-fn native_unsupported_reason(tool: ModelingTool, template: &str) -> Result<Option<String>> {
-    let Some(reason) = native_partition_reason(tool, template)? else {
+fn native_unsupported_reason(
+    tool: ModelingTool,
+    language: ModelingLanguage,
+    template: &str,
+) -> Result<Option<String>> {
+    let Some(reason) = native_partition_reason(tool, language, template)? else {
         return Ok(None);
     };
     let category = native_category(template).expect("partition resolved the category");
     Ok(Some(format!(
-        "tool-native activation of {template} (category {} — {}) is unsupported for {} by the preregistered activation partition (docs/native-profile.md#partition-summary): {reason}",
+        "tool-native activation of {template} (category {} — {}) is unsupported for {} over {} by the activation partition (docs/native-profile.md#partition-summary, as amended): {reason}",
         category.key(),
         category.label(),
         tool.pinned_identity(),
+        language.display_name(),
     )))
 }
 
-/// The native templates a tool is entitled to score, in preregistered order.
-/// The counts are the document's partition summary: Bifrost 0, CodeQL 6,
-/// Joern 0, Semgrep CE 0.
-fn native_supported_templates(tool: ModelingTool) -> Vec<&'static str> {
+/// The native templates a tool is entitled to score for one language, in
+/// preregistered order. The preregistered counts are Bifrost 0, CodeQL 6,
+/// Joern 0, Semgrep CE 0; amendments move them per language.
+fn native_supported_templates(tool: ModelingTool, language: ModelingLanguage) -> Vec<&'static str> {
     NATIVE_TEMPLATE_IDS
         .into_iter()
         .filter(|template| {
-            native_partition_reason(tool, template)
+            native_partition_reason(tool, language, template)
                 .expect("every preregistered template has a partition cell")
                 .is_none()
         })
@@ -1667,8 +1754,15 @@ fn validate_native_cases(cases: &[(PathBuf, Value)]) -> Result<()> {
         // A native case whose template has no preregistered decision for some
         // adapter would leave that adapter's cell to be decided by a run, which
         // is the one thing the partition exists to prevent.
+        let key = required_string(case, "language", &path.display().to_string())?;
+        let language = ModelingLanguage::from_key(key).with_context(|| {
+            format!(
+                "{}: the tool-native profile covers Java, JavaScript, and Python in v1 (docs/native-profile.md#initial-languages); {key:?} has no native denominator",
+                path.display()
+            )
+        })?;
         for tool in ModelingTool::ALL {
-            native_partition_reason(tool, template).with_context(|| {
+            native_partition_reason(tool, language, template).with_context(|| {
                 format!(
                     "{}: no preregistered {} activation decision",
                     path.display(),
@@ -10214,13 +10308,14 @@ fn native_configuration_hash(activation: &NativeActivation) -> Result<String> {
 /// cell, **without invoking the tool**, and return the result-schema outcome.
 fn native_partition_outcome(
     tool: ModelingTool,
+    language: ModelingLanguage,
     case: &Value,
     activation: &NativeActivation,
     raw_dir: &Path,
 ) -> Result<Option<(&'static str, String, PathBuf)>> {
     let id = required_string(case, "id", "tool-native case")?;
     let template = required_string(case, "template_id", id)?;
-    let Some(reason) = native_unsupported_reason(tool, template)? else {
+    let Some(reason) = native_unsupported_reason(tool, language, template)? else {
         return Ok(None);
     };
     let category = native_category(template).expect("partition resolved the category");
@@ -10378,16 +10473,46 @@ fn native_sarif_anchor_outcome(
             );
         }
     };
+    native_anchor_tally_outcome(
+        sarif["runs"]
+            .as_array()
+            .into_iter()
+            .flatten()
+            .flat_map(|run| run["results"].as_array().into_iter().flatten())
+            .map(|result| sarif_result_anchor_match(result, &sink_locations)),
+        "SARIF",
+    )
+}
+
+/// Decide one native cell from where its shipped suite's findings landed.
+///
+/// This is the tool-native profile's *only* reconciliation rule, and both
+/// execution arms reach it: CodeQL's SARIF results and Semgrep's JSON results
+/// are each classified against the same `SinkAnchorLocation` set and then
+/// tallied here, so the two adapters cannot drift into two readings of
+/// docs/native-profile.md#outcome-honesty.
+///
+/// The ordering is that section applied literally:
+///
+/// - Ambiguity — a location this runner cannot read, or one finding that
+///   matches two anchors — is the genuinely *incomplete analysis* the document
+///   reserves `inconclusive` for.
+/// - A finding on the anchor is `reached`, whatever query produced it.
+/// - Everything else is `not-reached`: no finding at all, or findings only away
+///   from the anchor. Both are a **coverage miss by an activated model set**,
+///   which the document says "is neither" `unsupported` nor `inconclusive` — it
+///   "is a plain `not-reached`, which on a positive cell is a false negative and
+///   is exactly the number this profile is built to publish". Scoring either as
+///   `inconclusive` would quietly lift the cell out of the vendor's denominator.
+fn native_anchor_tally_outcome(
+    matches: impl Iterator<Item = SarifAnchorMatch>,
+    evidence: &str,
+) -> (&'static str, Vec<String>) {
     let mut matched = 0;
     let mut unmatched = 0;
     let mut ambiguous = 0;
-    for result in sarif["runs"]
-        .as_array()
-        .into_iter()
-        .flatten()
-        .flat_map(|run| run["results"].as_array().into_iter().flatten())
-    {
-        match sarif_result_anchor_match(result, &sink_locations) {
+    for outcome in matches {
+        match outcome {
             SarifAnchorMatch::Matched => matched += 1,
             SarifAnchorMatch::Unmatched => unmatched += 1,
             SarifAnchorMatch::Ambiguous => ambiguous += 1,
@@ -10397,7 +10522,7 @@ fn native_sarif_anchor_outcome(
         return (
             "inconclusive",
             vec![format!(
-                "{ambiguous} SARIF finding(s) have ambiguous sink-anchor locations"
+                "{ambiguous} {evidence} finding(s) have ambiguous sink-anchor locations"
             )],
         );
     }
@@ -10455,6 +10580,252 @@ fn run_codeql_native_case(
     })
 }
 
+/// Run one *scored* native cell through Semgrep CE over the vendored snapshot.
+///
+/// Two deliberate differences from the benchmark-controlled Semgrep runner, both
+/// recorded in docs/native-profile.md#semgrep-ce--11740---oss-only:
+/// `--config` points at the vendored rule directory rather than at an authored
+/// rule, and `taint_assume_safe_functions` is **not** set. There the permissive
+/// default would decide a cell the supplied model was meant to decide; here the
+/// default is the product.
+///
+/// This arm exists because Amendment A8 promoted all six Semgrep CE × Python
+/// cells to scored. It is not a second reconciler: the outcome is decided by
+/// `native_anchor_tally_outcome`, the same rule the CodeQL arm reaches.
+fn run_semgrep_native_case(
+    binary: &Path,
+    case_path: &Path,
+    case: &Value,
+    plan: &NativeRunPlan,
+) -> Result<(&'static str, Vec<String>, PathBuf)> {
+    let id = required_string(case, "id", "tool-native case")?;
+    let raw_path = plan.raw_dir.join(format!("{id}.json"));
+    let error_path = plan.raw_dir.join(format!("{id}-error.json"));
+    for stale in [&raw_path, &error_path] {
+        if stale.exists() {
+            fs::remove_file(stale).with_context(|| format!("clear {}", stale.display()))?;
+        }
+    }
+    let rules = fs::canonicalize(semgrep_native_rules_dir(plan.language))
+        .context("resolve the vendored Semgrep native rule directory")?;
+    let scratch = native_case_scratch(ModelingTool::Semgrep, plan.language, id)?;
+    let workspace = scratch.join("source");
+    materialize_modeling_workspace(case_path, case, &workspace)?;
+
+    let result = (|| {
+        let mut command = Command::new(binary);
+        command
+            .current_dir(&scratch)
+            .arg("scan")
+            .arg("--metrics=off")
+            .arg("--oss-only")
+            .arg("--disable-version-check")
+            .arg("--no-git-ignore")
+            .arg("--quiet")
+            .arg("--json")
+            .arg(format!("--config={}", rules.display()))
+            .arg(&workspace)
+            .stdin(std::process::Stdio::null());
+        let output = match command.output() {
+            Ok(output) => output,
+            Err(error) => {
+                let diagnostic = format!(
+                    "failed to run the Semgrep tool-native scan with {}: {error}",
+                    binary.display()
+                );
+                let path = write_semgrep_error(&plan.raw_dir, id, "scan-spawn", &diagnostic, None)?;
+                return Ok(("runner-error", vec![diagnostic], path));
+            }
+        };
+        if !output.status.success() {
+            let diagnostic = format!(
+                "Semgrep tool-native scan failed with status {}",
+                output.status
+            );
+            let path = write_semgrep_error(
+                &plan.raw_dir,
+                id,
+                "scan-execution",
+                &diagnostic,
+                Some(&output),
+            )?;
+            return Ok(("runner-error", vec![diagnostic], path));
+        }
+        fs::write(&raw_path, &output.stdout)?;
+        let raw: Value = match serde_json::from_slice(&output.stdout) {
+            Ok(raw) => raw,
+            Err(error) => {
+                let diagnostic = format!("parse Semgrep evidence {}: {error}", raw_path.display());
+                let path =
+                    write_semgrep_error(&plan.raw_dir, id, "scan-output", &diagnostic, None)?;
+                return Ok(("runner-error", vec![diagnostic], path));
+            }
+        };
+        let (outcome, diagnostics) = native_semgrep_outcome(case_path, case, &raw);
+        Ok((outcome, diagnostics, raw_path.clone()))
+    })();
+
+    let cleanup =
+        fs::remove_dir_all(&scratch).with_context(|| format!("clear {}", scratch.display()));
+    match (result, cleanup) {
+        (Ok(normalized), Ok(())) => Ok(normalized),
+        (Ok((_, mut diagnostics, path)), Err(error)) => {
+            diagnostics.push(format!("Semgrep case artifact cleanup failed: {error}"));
+            diagnostics.sort();
+            diagnostics.dedup();
+            Ok(("runner-error", diagnostics, path))
+        }
+        (Err(error), Ok(())) => Err(error),
+        (Err(error), Err(cleanup_error)) => Err(error.context(format!(
+            "Semgrep case artifact cleanup also failed: {cleanup_error}"
+        ))),
+    }
+}
+
+/// Where one Semgrep finding landed, relative to the case's sink anchors.
+///
+/// Semgrep reports a flat `path` and `start.line` where SARIF reports a
+/// `locations` array, so the extraction differs; the *classification* is the
+/// SARIF one, in the same three-valued vocabulary, so both arms tally through
+/// `native_anchor_tally_outcome`.
+fn semgrep_result_anchor_match(
+    result: &Value,
+    sink_locations: &[SinkAnchorLocation],
+) -> SarifAnchorMatch {
+    let (Some(uri), Some(line)) = (result["path"].as_str(), result["start"]["line"].as_u64())
+    else {
+        return SarifAnchorMatch::Ambiguous;
+    };
+    if line == 0 {
+        return SarifAnchorMatch::Ambiguous;
+    }
+    let matches: BTreeSet<usize> = sink_locations
+        .iter()
+        .enumerate()
+        .filter(|(_, anchor)| {
+            evidence_path_matches_file(uri, &anchor.file) && anchor.callsite_lines.contains(&line)
+        })
+        .map(|(index, _)| index)
+        .collect();
+    match matches.len() {
+        0 => SarifAnchorMatch::Unmatched,
+        1 => SarifAnchorMatch::Matched,
+        _ => SarifAnchorMatch::Ambiguous,
+    }
+}
+
+/// Normalize one Semgrep tool-native scan against the case's sink anchors.
+fn native_semgrep_outcome(
+    case_path: &Path,
+    case: &Value,
+    raw: &Value,
+) -> (&'static str, Vec<String>) {
+    let Some(results) = raw["results"].as_array() else {
+        return (
+            "runner-error",
+            vec!["Semgrep evidence lacks its results array".to_string()],
+        );
+    };
+    let Some(errors) = raw["errors"].as_array() else {
+        return (
+            "runner-error",
+            vec!["Semgrep evidence lacks its errors array".to_string()],
+        );
+    };
+    if !errors.is_empty() {
+        let mut diagnostics: Vec<String> = errors
+            .iter()
+            .map(|error| {
+                error["long_msg"]
+                    .as_str()
+                    .or_else(|| error["message"].as_str())
+                    .or_else(|| error["type"].as_str())
+                    .unwrap_or("Semgrep reported an error without a message")
+                    .to_string()
+            })
+            .collect();
+        diagnostics.sort();
+        diagnostics.dedup();
+        return ("runner-error", diagnostics);
+    }
+    // A vendored rule Semgrep declined to run produces no finding for a reason
+    // that has nothing to do with the program, so it must not read as coverage.
+    if raw["skipped_rules"]
+        .as_array()
+        .is_some_and(|skipped| !skipped.is_empty())
+    {
+        return (
+            "runner-error",
+            vec!["Semgrep skipped a vendored tool-native rule".to_string()],
+        );
+    }
+    if raw["paths"]["scanned"]
+        .as_array()
+        .map(|paths| paths.len())
+        .unwrap_or_default()
+        == 0
+    {
+        return (
+            "inconclusive",
+            vec!["Semgrep scanned no target; the run never analyzed the case fixture".to_string()],
+        );
+    }
+    for result in results {
+        match result["extra"]["engine_kind"].as_str() {
+            Some("OSS") | None => {}
+            Some(other) => {
+                return (
+                    "runner-error",
+                    vec![format!(
+                        "Semgrep finding reports engine {other:?}; this population is pinned to the CE (OSS) engine"
+                    )],
+                );
+            }
+        }
+    }
+    if results.is_empty() {
+        return ("not-reached", Vec::new());
+    }
+    let sink_locations = match native_sink_anchor_locations(case_path, case) {
+        Ok(locations) => locations,
+        Err(reason) => {
+            return (
+                "inconclusive",
+                vec![format!(
+                    "cannot prove Semgrep finding against the native sink anchor: {reason}"
+                )],
+            );
+        }
+    };
+    native_anchor_tally_outcome(
+        results
+            .iter()
+            .map(|result| semgrep_result_anchor_match(result, &sink_locations)),
+        "Semgrep",
+    )
+}
+
+/// A per-case scratch root for a tool-native run, disjoint from every kernel
+/// and modeling run's.
+fn native_case_scratch(
+    tool: ModelingTool,
+    language: ModelingLanguage,
+    id: &str,
+) -> Result<PathBuf> {
+    let scratch = std::env::temp_dir()
+        .join(format!(
+            "dataflowbench-native-{}-{}",
+            tool.key(),
+            language.key()
+        ))
+        .join(id);
+    if scratch.exists() {
+        fs::remove_dir_all(&scratch).with_context(|| format!("clear {}", scratch.display()))?;
+    }
+    fs::create_dir_all(&scratch)?;
+    Ok(scratch)
+}
+
 /// Run one adapter's tool-native probe set for one language.
 ///
 /// The staged shape mirrors the modeling runners, and is recorded in
@@ -10478,29 +10849,61 @@ fn run_native(
         bail!("CodeQL pack search path {} does not exist", packs.display());
     }
     let plan = plan_native_run(tool, language)?;
+    let scored_templates = native_supported_templates(plan.tool, plan.language);
 
     fs::create_dir_all(&plan.raw_dir)?;
     let started = now_seconds()?;
+    // A tool the partition scores nothing for is never invoked at all — not
+    // even for its version banner — so a 0/6 run stays what
+    // docs/native-profile.md#outcome-honesty says it is: a capability decision
+    // taken before the analyzer is touched. Its report carries the pinned
+    // identity the partition was decided against.
+    let (version, build_identity) = if scored_templates.is_empty() {
+        (
+            plan.tool.pinned_identity().to_string(),
+            plan.activation.identity.clone(),
+        )
+    } else {
+        let (version, build) = modeling_version_identity(plan.tool, binary)?;
+        (version, format!("{build} — {}", plan.activation.identity))
+    };
     let revision = fixture_revision()?;
     let mut results = Vec::with_capacity(plan.cases.len());
     for (path, case) in &plan.cases {
         let id = required_string(case, "id", "tool-native case")?;
         let start = Instant::now();
+        // The preregistered partition is consulted first and decided from the
+        // template identity, so a declined cell is never handed to the analyzer
+        // and cannot produce an empty finding list that later reads as a
+        // negative.
         let (outcome, diagnostics, raw_path) = if let Some((outcome, reason, raw_path)) =
-            native_partition_outcome(plan.tool, case, &plan.activation, &plan.raw_dir)?
-        {
+            native_partition_outcome(
+                plan.tool,
+                plan.language,
+                case,
+                &plan.activation,
+                &plan.raw_dir,
+            )? {
             (outcome, vec![reason], raw_path)
         } else {
             match plan.tool {
                 ModelingTool::Codeql => run_codeql_native_case(binary, path, case, &plan)?,
-                // Bifrost, Joern, and Semgrep CE decline every one of the six
-                // templates, so the partition arm above answers each of their
-                // cells and this arm is unreachable for them today. It stays a
-                // hard error rather than a synthesized outcome: an amendment
-                // that promotes one of their cells to scored must land the arm
-                // that runs it, and until then a promotion fails the run
-                // instead of publishing a silent zero.
-                ModelingTool::Bifrost | ModelingTool::Joern | ModelingTool::Semgrep => bail!(
+                // Semgrep CE's preregistered partition declines all six
+                // templates, and Amendment A8 promoted the six Python cells on
+                // the evidence of the vendored snapshot. The rule the document
+                // states is that a promotion lands its execution arm in the same
+                // pull request, so the arm is here — and it stays unreachable
+                // for the languages whose Semgrep cells are still `unsupported`,
+                // because the partition above answers those before this match.
+                ModelingTool::Semgrep => run_semgrep_native_case(binary, path, case, &plan)?,
+                // Bifrost and Joern decline every one of the six templates, so
+                // the partition arm above answers each of their cells and this
+                // arm is unreachable for them today. It stays a hard error
+                // rather than a synthesized outcome: an amendment that promotes
+                // one of their cells to scored must land the arm that runs it,
+                // and until then a promotion fails the run instead of
+                // publishing a silent zero.
+                ModelingTool::Bifrost | ModelingTool::Joern => bail!(
                     "the tool-native execution arm for {} × {} is not wired: {id} is a scored cell and no wave has yet had a reason to invoke this adapter natively — its preregistered partition declines all six templates (docs/native-profile.md#partition-summary). A cell promoted by a dated amendment lands its execution arm in the same pull request; synthesizing an outcome here is what docs/adapters.md forbids",
                     plan.tool.pinned_identity(),
                     plan.language.display_name(),
@@ -10519,8 +10922,8 @@ fn run_native(
     let report = json!({
         "schema_version": 1,
         "tool": plan.tool.key(),
-        "tool_version": plan.tool.pinned_identity(),
-        "tool_build_identity": plan.activation.identity,
+        "tool_version": version,
+        "tool_build_identity": build_identity,
         "adapter_version": ADAPTER_VERSION,
         "configuration_hash": native_configuration_hash(&plan.activation)?,
         "fixture_revision": revision,
@@ -10530,7 +10933,7 @@ fn run_native(
         "results": results
     });
     write_and_validate_report(&plan.report, &report)?;
-    let scored = native_supported_templates(plan.tool);
+    let scored = scored_templates;
     let scored_assertions = plan
         .cases
         .iter()
@@ -15578,35 +15981,86 @@ mod tests {
         assert_eq!(NATIVE_PARTITION.len(), 24);
         for tool in ModelingTool::ALL {
             for template in NATIVE_TEMPLATE_IDS {
-                native_partition_reason(tool, template)
-                    .unwrap_or_else(|_| panic!("no cell for {} × {template}", tool.key()));
+                for language in [
+                    ModelingLanguage::Java,
+                    ModelingLanguage::Javascript,
+                    ModelingLanguage::Python,
+                ] {
+                    native_partition_reason(tool, language, template).unwrap_or_else(|_| {
+                        panic!(
+                            "no cell for {} × {} × {template}",
+                            tool.key(),
+                            language.key()
+                        )
+                    });
+                }
             }
         }
         assert!(
-            native_partition_reason(ModelingTool::Codeql, "dfb-template-model-declared-source")
-                .is_err()
+            native_partition_reason(
+                ModelingTool::Codeql,
+                ModelingLanguage::Java,
+                "dfb-template-model-declared-source"
+            )
+            .is_err()
         );
         assert!(
-            native_partition_reason(ModelingTool::Codeql, "dfb-template-chal-dispatch-table")
-                .is_err()
+            native_partition_reason(
+                ModelingTool::Codeql,
+                ModelingLanguage::Java,
+                "dfb-template-chal-dispatch-table"
+            )
+            .is_err()
         );
     }
 
-    /// The scored counts are the preregistration's partition summary. CodeQL
-    /// enters with six of six and the other three with nothing, which is a
-    /// statement about product packaging rather than about an engine — Joern
-    /// scores four of six *categories* on the benchmark-controlled matrix with
-    /// the same engine.
+    /// The scored counts are the preregistration's partition summary as
+    /// amended. CodeQL entered with six of six and the other three with
+    /// nothing, which is a statement about product packaging rather than about
+    /// an engine — Joern scores four of six *categories* on the
+    /// benchmark-controlled matrix with the same engine. Amendment A8
+    /// promotes Semgrep CE's six Python cells on the evidence of the vendored
+    /// snapshot, and touches no other language.
     #[test]
     fn native_partition_scored_counts_match_the_preregistration() {
-        assert_eq!(native_supported_templates(ModelingTool::Codeql).len(), 6);
+        for language in [
+            ModelingLanguage::Java,
+            ModelingLanguage::Javascript,
+            ModelingLanguage::Python,
+        ] {
+            assert_eq!(
+                native_supported_templates(ModelingTool::Codeql, language),
+                NATIVE_TEMPLATE_IDS.to_vec()
+            );
+            assert!(native_supported_templates(ModelingTool::Bifrost, language).is_empty());
+            assert!(native_supported_templates(ModelingTool::Joern, language).is_empty());
+        }
+        // Amendment A8: Python only.
         assert_eq!(
-            native_supported_templates(ModelingTool::Codeql),
+            native_supported_templates(ModelingTool::Semgrep, ModelingLanguage::Python),
             NATIVE_TEMPLATE_IDS.to_vec()
         );
-        assert!(native_supported_templates(ModelingTool::Bifrost).is_empty());
-        assert!(native_supported_templates(ModelingTool::Joern).is_empty());
-        assert!(native_supported_templates(ModelingTool::Semgrep).is_empty());
+        assert!(
+            native_supported_templates(ModelingTool::Semgrep, ModelingLanguage::Java).is_empty()
+        );
+        assert!(
+            native_supported_templates(ModelingTool::Semgrep, ModelingLanguage::Javascript)
+                .is_empty()
+        );
+    }
+
+    /// Every amendment row names one of the six preregistered templates, so a
+    /// typo cannot silently create a seventh cell that decides nothing.
+    #[test]
+    fn native_partition_amendments_name_preregistered_templates() {
+        for (tool, language, template, _) in NATIVE_PARTITION_AMENDMENTS {
+            assert!(
+                NATIVE_TEMPLATE_IDS.contains(&template),
+                "{} × {} amends {template}, which is not a preregistered template",
+                tool.key(),
+                language.key()
+            );
+        }
     }
 
     /// The partition is decided by template identity, never by a fixture's
@@ -15615,7 +16069,9 @@ mod tests {
     #[test]
     fn the_native_partition_is_tag_proof() {
         let template = "dfb-template-native-summary";
-        let baseline = native_unsupported_reason(ModelingTool::Joern, template).unwrap();
+        let baseline =
+            native_unsupported_reason(ModelingTool::Joern, ModelingLanguage::Java, template)
+                .unwrap();
         assert!(baseline.is_some());
         for tags in [
             json!([]),
@@ -15627,6 +16083,7 @@ mod tests {
             assert_eq!(
                 native_unsupported_reason(
                     ModelingTool::Joern,
+                    ModelingLanguage::Java,
                     case["template_id"].as_str().unwrap()
                 )
                 .unwrap(),
@@ -15635,7 +16092,7 @@ mod tests {
         }
         let scored = "dfb-template-native-summary";
         assert!(
-            native_unsupported_reason(ModelingTool::Codeql, scored)
+            native_unsupported_reason(ModelingTool::Codeql, ModelingLanguage::Java, scored)
                 .unwrap()
                 .is_none()
         );
@@ -15645,16 +16102,21 @@ mod tests {
     /// pinned tool identity and the document that decided it.
     #[test]
     fn native_unsupported_reasons_are_retained_and_attributed() {
-        let reason =
-            native_unsupported_reason(ModelingTool::Bifrost, "dfb-template-native-sanitizer")
-                .unwrap()
-                .expect("declined");
+        let reason = native_unsupported_reason(
+            ModelingTool::Bifrost,
+            ModelingLanguage::Java,
+            "dfb-template-native-sanitizer",
+        )
+        .unwrap()
+        .expect("declined");
         assert!(reason.contains("Sanitizer lowering is a future Bifrost CLI capability"));
         assert!(reason.contains("Bifrost v0.10.6"));
         assert!(reason.contains("docs/native-profile.md"));
         for tool in ModelingTool::ALL {
             for template in NATIVE_TEMPLATE_IDS {
-                if let Some(reason) = native_unsupported_reason(tool, template).unwrap() {
+                if let Some(reason) =
+                    native_unsupported_reason(tool, ModelingLanguage::Java, template).unwrap()
+                {
                     assert!(reason.contains(tool.pinned_identity()));
                     assert!(reason.contains(template));
                 }
@@ -15670,10 +16132,15 @@ mod tests {
         let root = unique_test_dir("dataflowbench-native-partition-test");
         let activation = native_activation(ModelingTool::Joern, ModelingLanguage::Python).unwrap();
         let case = native_case_value("dfb-template-native-persistence", "positive", "python");
-        let (outcome, reason, raw_path) =
-            native_partition_outcome(ModelingTool::Joern, &case, &activation, &root)
-                .unwrap()
-                .expect("declined");
+        let (outcome, reason, raw_path) = native_partition_outcome(
+            ModelingTool::Joern,
+            ModelingLanguage::Python,
+            &case,
+            &activation,
+            &root,
+        )
+        .unwrap()
+        .expect("declined");
         assert_eq!(outcome, "unsupported");
         let retained: Value =
             serde_json::from_str(&fs::read_to_string(&raw_path).unwrap()).unwrap();
@@ -15691,9 +16158,15 @@ mod tests {
         let scored = native_case_value("dfb-template-native-source-sink", "positive", "python");
         let activation = native_activation(ModelingTool::Codeql, ModelingLanguage::Python).unwrap();
         assert!(
-            native_partition_outcome(ModelingTool::Codeql, &scored, &activation, &root)
-                .unwrap()
-                .is_none()
+            native_partition_outcome(
+                ModelingTool::Codeql,
+                ModelingLanguage::Python,
+                &scored,
+                &activation,
+                &root
+            )
+            .unwrap()
+            .is_none()
         );
         fs::remove_dir_all(&root).unwrap();
     }
@@ -15983,86 +16456,63 @@ mod tests {
         );
     }
 
-    /// A language whose wave-N1 pull request has not landed has no native
-    /// denominator, which is different from having a zero: every native run
-    /// fails fast on the empty population rather than writing a report that
-    /// asserts nothing.
+    /// Wave N1 is complete: every native language carries a balanced twelve
+    /// over exactly the six preregistered templates, on the shared `modeling`
+    /// tier and the `tool-native` profile, supplying no models of our own.
+    ///
+    /// A population is absent or complete and never partial. Wave N1 landed one
+    /// language per pull request, so the *absent* state was real while the wave
+    /// was open; with Python's row this closes issue #16 and all three are
+    /// complete. The fail-fast gate on an empty population stays in
+    /// `plan_native_run` — a partial or emptied population must never publish a
+    /// coverage rate against a denominator nobody declared.
     #[test]
-    fn a_native_run_without_a_population_fails_fast() {
-        // Wave N1 lands one language per pull request, so the corpus holds a
-        // full twelve-assertion population for the languages that have landed
-        // and none at all for the rest. Both are checked here: a landed
-        // language must be complete and balanced, and a language that has not
-        // landed must fail fast rather than produce an empty report.
-        for language in [
-            ModelingLanguage::Java,
-            ModelingLanguage::Javascript,
-            ModelingLanguage::Python,
+    fn every_native_population_is_the_balanced_twelve() {
+        for (language, revision) in [
+            (ModelingLanguage::Java, "n1-native-java"),
+            (ModelingLanguage::Javascript, "n1-native-javascript"),
+            (ModelingLanguage::Python, "n1-native-python"),
         ] {
             let population = select_native_cases(language).unwrap();
-            assert!(
-                population.len() == NATIVE_CASE_COUNT || population.is_empty(),
-                "{} has {} tool-native assertions; a landed language carries exactly {NATIVE_CASE_COUNT}",
-                language.display_name(),
-                population.len()
-            );
-            if population.is_empty() {
-                let error = match plan_native_run(ModelingTool::Codeql, language) {
-                    Ok(_) => panic!("an empty native population must fail fast"),
-                    Err(error) => error.to_string(),
-                };
-                assert!(error.contains("no tool-native population"), "{error}");
-            }
-        }
-        for landed in [ModelingLanguage::Javascript, ModelingLanguage::Java] {
             assert_eq!(
-                select_native_cases(landed).unwrap().len(),
+                population.len(),
                 NATIVE_CASE_COUNT,
                 "wave N1 landed the {} tool-native probe set",
-                landed.display_name()
+                language.display_name()
             );
-        }
-    }
-
-    /// Wave N1's Java row: a balanced twelve over exactly the six
-    /// preregistered native templates, on the shared `modeling` tier and the
-    /// `tool-native` profile, supplying no models of our own.
-    #[test]
-    fn the_java_native_population_is_the_balanced_twelve() {
-        let population = select_native_cases(ModelingLanguage::Java).unwrap();
-        assert_eq!(population.len(), NATIVE_CASE_COUNT);
-        let templates: BTreeSet<&str> = population
-            .iter()
-            .filter_map(|(_, case)| case["template_id"].as_str())
-            .collect();
-        assert_eq!(templates, NATIVE_TEMPLATE_IDS.into_iter().collect());
-        for (path, case) in &population {
-            assert_eq!(case["score_tier"], "modeling", "{}", path.display());
-            assert_eq!(case["model_profile"], NATIVE_MODEL_PROFILE);
-            assert_eq!(
-                case["fixture_provenance"]["revision"],
-                "n1-native-java",
-                "{}",
-                path.display()
-            );
-            // The activation rule reaches the corpus too: a native case names
-            // no model artifact of ours, because there are none to name.
-            assert_eq!(
-                case["tool_model_references"],
-                json!({}),
-                "{} references a benchmark-authored model",
-                path.display()
-            );
-            // Every sink anchor resolves to the real API's own callsite line,
-            // which is the line a shipped-suite finding must land on.
-            let locations = native_sink_anchor_locations(path, case).unwrap();
-            assert_eq!(locations.len(), 1, "{}", path.display());
-            assert_eq!(
-                locations[0].callsite_lines,
-                BTreeSet::from([locations[0].marker_line]),
-                "{}",
-                path.display()
-            );
+            let templates: BTreeSet<&str> = population
+                .iter()
+                .filter_map(|(_, case)| case["template_id"].as_str())
+                .collect();
+            assert_eq!(templates, NATIVE_TEMPLATE_IDS.into_iter().collect());
+            for (path, case) in &population {
+                assert_eq!(case["score_tier"], "modeling", "{}", path.display());
+                assert_eq!(case["model_profile"], NATIVE_MODEL_PROFILE);
+                assert_eq!(
+                    case["fixture_provenance"]["revision"],
+                    revision,
+                    "{}",
+                    path.display()
+                );
+                // The activation rule reaches the corpus too: a native case
+                // names no model artifact of ours, because there are none.
+                assert_eq!(
+                    case["tool_model_references"],
+                    json!({}),
+                    "{} references a benchmark-authored model",
+                    path.display()
+                );
+                // Every sink anchor resolves to the real API's own callsite
+                // line, which is the line a shipped-suite finding must land on.
+                let locations = native_sink_anchor_locations(path, case).unwrap();
+                assert_eq!(locations.len(), 1, "{}", path.display());
+                assert_eq!(
+                    locations[0].callsite_lines,
+                    BTreeSet::from([locations[0].marker_line]),
+                    "{}",
+                    path.display()
+                );
+            }
         }
     }
 
@@ -16164,20 +16614,20 @@ mod tests {
             }
         }
         assert_eq!(SEMGREP_NATIVE_PROVENANCE_FILE, "provenance.json");
-        // Wave N1 has vendored JavaScript and Java; Python's snapshot lands
-        // with its own row, and until then it has no activation artifact and
-        // its native run is a hard error rather than a zero.
-        for landed in [ModelingLanguage::Javascript, ModelingLanguage::Java] {
+        // Wave N1 is complete, so every native language has vendored its
+        // snapshot. Python's uses the nested layout, so the `fact()` reader
+        // above covers all three without any of them being rewritten.
+        for landed in [
+            ModelingLanguage::Javascript,
+            ModelingLanguage::Java,
+            ModelingLanguage::Python,
+        ] {
             assert!(
                 semgrep_native_rules_dir(landed).exists(),
                 "wave N1 vendored the {} snapshot",
                 landed.display_name()
             );
         }
-        assert!(
-            !semgrep_native_rules_dir(ModelingLanguage::Python).exists(),
-            "Python has not vendored a snapshot yet"
-        );
     }
 
     /// Native anchors sit on the platform callsite itself, because the profile
@@ -16192,6 +16642,7 @@ mod tests {
         for (language, callsite) in [
             (ModelingLanguage::Javascript, "execSync("),
             (ModelingLanguage::Java, "Runtime.getRuntime().exec("),
+            (ModelingLanguage::Python, "os.system("),
         ] {
             let population = select_native_cases(language).unwrap();
             assert_eq!(population.len(), NATIVE_CASE_COUNT);
@@ -16276,5 +16727,96 @@ mod tests {
             assert_eq!(outcome, "not-reached");
             assert!(diagnostics.is_empty());
         }
+    }
+
+    /// The native outcome vocabulary, applied literally from
+    /// docs/native-profile.md#outcome-honesty: a coverage miss by an activated
+    /// model set is a plain `not-reached`, never `inconclusive`, because
+    /// `inconclusive` would remove the cell from the vendor's denominator. Only
+    /// evidence this runner genuinely cannot read is incomplete.
+    ///
+    /// Both execution arms tally through this one function, so the ruling is
+    /// pinned once for CodeQL and Semgrep alike rather than per adapter.
+    #[test]
+    fn a_native_coverage_miss_is_not_reached_rather_than_inconclusive() {
+        let outcome = |matches: &[SarifAnchorMatch]| {
+            native_anchor_tally_outcome(matches.iter().copied(), "SARIF").0
+        };
+        // (a) No finding anywhere.
+        assert_eq!(outcome(&[]), "not-reached");
+        // (b) Findings, but only away from the anchor. This is the cell the
+        //     document calls "a coverage miss by an activated model set", and
+        //     it is a false negative on a positive cell, not an absence of
+        //     evidence.
+        assert_eq!(outcome(&[SarifAnchorMatch::Unmatched]), "not-reached");
+        assert_eq!(
+            outcome(&[SarifAnchorMatch::Unmatched, SarifAnchorMatch::Unmatched]),
+            "not-reached"
+        );
+        // A finding on the anchored callsite is `reached` on the cell it lands
+        // in, negatives included: polarity is about the flow.
+        assert_eq!(outcome(&[SarifAnchorMatch::Matched]), "reached");
+        assert_eq!(
+            outcome(&[SarifAnchorMatch::Matched, SarifAnchorMatch::Unmatched]),
+            "reached"
+        );
+        // (c) Only unreadable or genuinely ambiguous evidence is incomplete.
+        assert_eq!(outcome(&[SarifAnchorMatch::Ambiguous]), "inconclusive");
+        assert_eq!(
+            outcome(&[SarifAnchorMatch::Matched, SarifAnchorMatch::Ambiguous]),
+            "inconclusive"
+        );
+    }
+
+    /// The same ruling, reached through the Semgrep arm's own evidence shape:
+    /// a scan that completed and found nothing at the anchor is `not-reached`,
+    /// and a finding with no readable location is the one incomplete case.
+    #[test]
+    fn the_semgrep_native_arm_reaches_the_same_outcome_rule() {
+        let case_path = Path::new("cases/taint/python/native-source-sink-positive/case.json");
+        let case: Value = serde_json::from_str(&fs::read_to_string(case_path).unwrap()).unwrap();
+        let locations = native_sink_anchor_locations(case_path, &case).unwrap();
+        assert_eq!(locations.len(), 1);
+        let anchor = &locations[0];
+        assert_eq!(anchor.file, "env_command.py");
+        let body = fs::read_to_string(case_path.parent().unwrap().join(&anchor.file)).unwrap();
+        assert!(
+            body.lines()
+                .nth(anchor.marker_line as usize - 1)
+                .expect("the anchored line")
+                .contains("os.system("),
+        );
+
+        let scan = |results: Value| {
+            native_semgrep_outcome(
+                case_path,
+                &case,
+                &json!({
+                    "results": results,
+                    "errors": [],
+                    "paths": {"scanned": ["env_command.py"]}
+                }),
+            )
+            .0
+        };
+        let finding = |path: &str, line: u64| json!({"path": path, "start": {"line": line}});
+
+        assert_eq!(scan(json!([])), "not-reached");
+        assert_eq!(
+            scan(json!([finding("env_command.py", anchor.marker_line)])),
+            "reached"
+        );
+        assert_eq!(
+            scan(json!([finding("env_command.py", anchor.marker_line - 1)])),
+            "not-reached"
+        );
+        assert_eq!(
+            scan(json!([finding("other.py", anchor.marker_line)])),
+            "not-reached"
+        );
+        assert_eq!(
+            scan(json!([json!({"path": "env_command.py"})])),
+            "inconclusive"
+        );
     }
 }

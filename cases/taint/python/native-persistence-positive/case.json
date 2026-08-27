@@ -1,0 +1,61 @@
+{
+  "schema_version": 2,
+  "id": "dfb-taint-python-native-persistence-positive",
+  "template_id": "dfb-template-native-persistence",
+  "polarity": "positive",
+  "score_tier": "modeling",
+  "track": "taint",
+  "language": "python",
+  "semantic_dimensions": [
+    "local-flow",
+    "heap-field-sensitivity"
+  ],
+  "feature_tags": [
+    "intraprocedural",
+    "modeled-external",
+    "heap-access-path"
+  ],
+  "model_profile": "tool-native",
+  "fixture_files": [
+    "store_command.py"
+  ],
+  "source_anchors": [
+    {
+      "marker": "DFB-SOURCE: native-persistence-environment",
+      "file": "store_command.py",
+      "line_hint": 12
+    }
+  ],
+  "sink_anchors": [
+    {
+      "marker": "DFB-SINK: native-persistence-command",
+      "file": "store_command.py",
+      "line_hint": 15
+    }
+  ],
+  "expected_flows": [
+    {
+      "source": "DFB-SOURCE: native-persistence-environment",
+      "sink": "DFB-SINK: native-persistence-command"
+    }
+  ],
+  "expected_nonflows": [],
+  "witness_checkpoints": [
+    "DFB-SOURCE: native-persistence-environment",
+    "DFB-SINK: native-persistence-command"
+  ],
+  "expected_analysis_capability": {
+    "kind": "native-persistence-link"
+  },
+  "execution_budget": {
+    "wall_clock_seconds": 60,
+    "peak_memory_mb": 512
+  },
+  "fixture_provenance": {
+    "kind": "authored",
+    "origin": "DataFlowBench",
+    "revision": "n1-native-python",
+    "license": "MIT"
+  },
+  "tool_model_references": {}
+}

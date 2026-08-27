@@ -367,11 +367,18 @@ because pooling the profiles is a fault of omission — a selector that filters 
 the tier and forgets the profile — which no assertion about a case's own fields
 would catch.
 
-**The partition is keyed by template, not by category.** `NATIVE_PARTITION`
-holds one cell per tool per template — twenty-four cells, transcribed from the
-preregistration's summary, with its *to be verified* cells recorded as
-`unsupported` per its own rule. Scored today: **CodeQL 6 templates of 6**, and
-**Bifrost, Joern, and Semgrep CE 0 of 6**. The asymmetry with the
+**The partition is keyed by template, not by category — and, since
+[Amendment N-A1](native-profile.md#n-a1--2026-08-27-semgrep-ces-six-python-cells-are-promoted-to-scored-and-the-partition-gains-a-language-dimension),
+by language too.** `NATIVE_PARTITION` holds one cell per tool per template —
+twenty-four cells, transcribed from the preregistration's summary, with its *to
+be verified* cells recorded as `unsupported` per its own rule — and
+`NATIVE_PARTITION_AMENDMENTS` sits in front of it with one row per amended
+tool × language × template. The language dimension exists because a vendored
+activation snapshot is per language: reading Python's rules can only answer
+Python's cells, and a partition without a language could not say so. As
+preregistered: **CodeQL 6 templates of 6**, and **Bifrost, Joern, and Semgrep
+CE 0 of 6**. As amended: Semgrep CE is **6 of 6 for Python** on the evidence of
+its vendored snapshot, and unchanged elsewhere. The asymmetry with the
 benchmark-controlled matrix is the point rather than a defect — Joern scores four
 of six categories there on the same engine — because this profile measures
 product packaging and that one measures the engine. A declined cell is decided
@@ -414,10 +421,12 @@ configuration are retained"* a property of the artifact.
 models are not pinnable at run time — Semgrep's registry, Joern's floating
 `querydb` release asset — the profile vendors a pinned snapshot with a
 `provenance.json` recording the upstream repository, source commit, paths,
-license, and retrieval date. Vendored so far: `adapters/semgrep/native/javascript/`
-(thirty rules) and `adapters/semgrep/native/java/` (eighty-six), both from
-`semgrep/semgrep-rules@40b8c63f` — the remaining snapshot lands with Python's
-row.
+license, and retrieval date. Wave N1 vendored all three:
+`adapters/semgrep/native/javascript/` (thirty rules),
+`adapters/semgrep/native/java/` (eighty-six), and
+`adapters/semgrep/native/python/` (ninety-one), all from
+`semgrep/semgrep-rules@40b8c63f`, each with a per-file digest so the report's
+`configuration_hash` binds the rules and not just the manifest.
 
 **One execution arm serves every language.** The arm that invokes an analyzer
 over a *scored* native cell is written by the wave-N1 pull request that first
@@ -432,26 +441,40 @@ passed verbatim in the order `native_activation` pins and
 `native_configuration_hash` hashes so the invocation and the retained provenance
 cannot drift apart, and the reconciler. The `--codeql-packs` search path is
 validated but deliberately never forwarded, because a pack search path of ours
-is a model of ours. Bifrost, Joern, and Semgrep have no arm, because their
-preregistered partitions decline all six templates and the partition is
-consulted first; a scored cell for one of them is a hard error rather than a
-synthesized outcome, which the adapter contract at the head of this document
-forbids, and it becomes reachable only when a dated amendment promotes a cell.
+is a model of ours.
 
-**Native anchors sit on the platform callsite.** Every other population declares
-its own endpoint function and hangs the marker on that declaration, so
-reconciliation resolves a declared name and then finds its callsites. The
-tool-native profile has no declared entity — the sink's body is inside the
-platform — so the marker sits on the calling line itself and
-`native_sink_anchor_locations` resolves that line directly. An anchor still
-decides only which finding belongs to which assertion and never tells an
-analyzer what a source or a sink is.
+Semgrep's arm is wired too, by the Python row, because
+[Amendment A8](native-profile.md#a8--2026-08-27-semgrep-ces-six-python-cells-are-promoted-to-scored-and-the-partition-gains-a-language-dimension)
+promoted that language's six cells to scored and the preregistration's rule is
+that a promotion lands its runner in the same pull request. It is not a second
+reconciler: `run_semgrep_native_case` classifies its findings against the same
+`native_sink_anchor_locations` anchors and tallies them through the same
+`native_anchor_tally_outcome` the CodeQL arm reaches, so the two adapters cannot
+drift into two readings of the outcome vocabulary. It stays unreachable for
+JavaScript and Java, whose Semgrep cells the partition still declines.
+
+Bifrost and Joern have no arm, because their preregistered partitions decline
+all six templates for every language and the partition is consulted first; a
+scored cell for one of them is a hard error rather than a synthesized outcome,
+which the adapter contract at the head of this document forbids, and it becomes
+reachable only when a dated amendment promotes a cell.
+
+**Native anchoring binds a callsite, not a declaration.** Every other population
+here puts a `DFB-SINK:` marker on the declaration of a benchmark-invented
+endpoint and reconciles against that function's callsites. A native fixture
+declares no endpoint — the sink's body is inside the platform — so the marker
+sits on the real platform-API callsite and `native_sink_anchor_locations`
+resolves that line directly. An anchor still decides only which finding belongs
+to which assertion and never tells an analyzer what a source or a sink is.
 
 A native run also analyzes a whole shipped suite rather than one adapter query,
 so a finding away from the anchor is a different query answering a different
-question: `native_sarif_outcome` retains it as a diagnostic and does not let it
-make the cell `reached`. What it never does is become evidence of a flow.
-Ambiguity stays `inconclusive`, as everywhere else.
+question. It is retained as a diagnostic and never becomes evidence of a flow,
+and a cell with only such findings — or with no finding at all — is a plain
+`not-reached`: a coverage miss by an activated model set, which calling it
+incomplete would quietly remove from the vendor's denominator. Only genuinely
+unreadable evidence, or a finding matching two anchors at once, is
+`inconclusive`.
 
 **Reporting stays separate.** Native reports are their own population per
 language and per adapter. A native scorecard is never merged with a

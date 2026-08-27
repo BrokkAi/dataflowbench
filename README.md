@@ -363,10 +363,12 @@ inverts the question: not what an engine can be told, but what each tool
 *ships*. Six templates over real platform APIs, per language, scored on their
 own profile and never pooled with the benchmark-controlled matrix — a native
 miss is a coverage fact about a product, and a controlled miss is an accuracy
-fact about an engine. Wave N1's rows so far are
-[the JavaScript tool-native probe set](docs/javascript-native.md) and
-[the Java tool-native probe set](docs/java-native.md): six templates and twelve
-assertions each, with no benchmark-authored model of any kind.
+fact about an engine. They do not even run on the same library pins. Wave N1 is
+complete: [JavaScript](docs/javascript-native.md), [Java](docs/java-native.md),
+and [Python](docs/python-native.md), six templates and twelve assertions each,
+with no benchmark-authored model of any kind. Native cases share the `modeling`
+tier and are separated from the matrix by `model_profile: "tool-native"`, with a
+corpus-wide check that the two populations never cross-select.
 
 The [Java kernel contract](docs/java-kernel.md) records the origin population
 and the first landed wave of the [challenge-tier

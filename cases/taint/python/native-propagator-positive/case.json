@@ -1,0 +1,61 @@
+{
+  "schema_version": 2,
+  "id": "dfb-taint-python-native-propagator-positive",
+  "template_id": "dfb-template-native-propagator",
+  "polarity": "positive",
+  "score_tier": "modeling",
+  "track": "taint",
+  "language": "python",
+  "semantic_dimensions": [
+    "local-flow",
+    "external-summary"
+  ],
+  "feature_tags": [
+    "intraprocedural",
+    "modeled-external",
+    "summary-required"
+  ],
+  "model_profile": "tool-native",
+  "fixture_files": [
+    "join_command.py"
+  ],
+  "source_anchors": [
+    {
+      "marker": "DFB-SOURCE: native-propagator-environment",
+      "file": "join_command.py",
+      "line_hint": 13
+    }
+  ],
+  "sink_anchors": [
+    {
+      "marker": "DFB-SINK: native-propagator-command",
+      "file": "join_command.py",
+      "line_hint": 15
+    }
+  ],
+  "expected_flows": [
+    {
+      "source": "DFB-SOURCE: native-propagator-environment",
+      "sink": "DFB-SINK: native-propagator-command"
+    }
+  ],
+  "expected_nonflows": [],
+  "witness_checkpoints": [
+    "DFB-SOURCE: native-propagator-environment",
+    "DFB-SINK: native-propagator-command"
+  ],
+  "expected_analysis_capability": {
+    "kind": "native-propagator-coverage"
+  },
+  "execution_budget": {
+    "wall_clock_seconds": 60,
+    "peak_memory_mb": 512
+  },
+  "fixture_provenance": {
+    "kind": "authored",
+    "origin": "DataFlowBench",
+    "revision": "n1-native-python",
+    "license": "MIT"
+  },
+  "tool_model_references": {}
+}
