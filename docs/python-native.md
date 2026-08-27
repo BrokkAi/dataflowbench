@@ -1,16 +1,22 @@
 # Python tool-native probe set
 
-Wave N1's Python row of the [tool-native model profile](native-profile.md). It
-adds Python's twelve native assertions over real CPython APIs, the vendored
-Semgrep activation snapshot its partition needed, and the first runs of all
-four adapters against them.
+Wave N1's Python row of the [tool-native model profile](native-profile.md), and
+the row that closes the wave and issue #16. It adds Python's twelve native
+assertions over real CPython APIs, the vendored Semgrep activation snapshot its
+partition needed, and runs of all four adapters against them.
+
+It is also the only row where **Semgrep CE is scored at all**. The CodeQL run
+uses the same native execution arm [JavaScript](javascript-native.md) and
+[Java](java-native.md) run on — one implementation, with the language choosing
+only the extractor and the pinned suite — and the Semgrep arm that lands here
+reconciles through that same rule rather than a second one of its own.
 
 Nothing in the preregistration is changed by this document. The six template
 definitions, the platform-API identities, the activation contracts, and the
 three-way unsupported/incomplete/runner-error distinction are fixed there and
 are only *realized* here. One capability finding did move a partition, and it
 was carried into the preregistration through its own amendment procedure —
-[N-A1](native-profile.md#n-a1--2026-08-27-semgrep-ces-six-python-cells-are-promoted-to-scored-and-the-partition-gains-a-language-dimension),
+[A8](native-profile.md#a8--2026-08-27-semgrep-ces-six-python-cells-are-promoted-to-scored-and-the-partition-gains-a-language-dimension),
 recorded from vendored rule text **before** the first Semgrep scan of this
 population.
 
@@ -79,8 +85,13 @@ Every other population in this benchmark puts a `DFB-SINK:` marker on the
 function's callsites. A native fixture declares no endpoint at all — the sink
 is inside CPython — so the marker sits on the real platform-API callsite and a
 finding is bound to that line. Findings elsewhere in the fixture are retained
-as diagnostics and are never flow evidence; a finding whose location cannot be
-read at all is the only thing that makes a cell `inconclusive`.
+as diagnostics and are never flow evidence. Only genuinely unreadable evidence
+makes a cell `inconclusive` — a finding whose location cannot be parsed, or one
+that matches two anchors at once, which cannot arise here because every Python
+native case has exactly one. A completed scan that found nothing at the anchor
+is a plain `not-reached`, which on a positive cell is the false negative this
+profile exists to publish; see
+[outcome honesty](native-profile.md#outcome-honesty).
 
 An anchor is still only a way to decide which finding belongs to which
 assertion. It never tells an analyzer what a source or a sink is, which is the
@@ -91,7 +102,7 @@ second half of [the activation rule](native-profile.md#the-activation-rule).
 | Adapter | Activation | Scored |
 | --- | --- | --- |
 | CodeQL CLI 2.26.3 | `codeql/python-queries@1.8.9:codeql-suites/python-security-extended.qls`, `--threat-model=local`, no adapter query | 6 / 6 |
-| Semgrep CE 1.174.0 | `--oss-only --config adapters/semgrep/native/python`, the vendored snapshot, no `taint_assume_safe_functions` | 6 / 6 (Amendment N-A1) |
+| Semgrep CE 1.174.0 | `--oss-only --config adapters/semgrep/native/python`, the vendored snapshot, no `taint_assume_safe_functions` | 6 / 6 (Amendment A8) |
 | Bifrost v0.10.6 | built-in policy packs only | 0 / 6 |
 | Joern 4.0.610 | `DefaultSemantics` only | 0 / 6 |
 
@@ -218,7 +229,7 @@ story:
 
 - `audit/dangerous-system-call-tainted-env-args` — `mode: taint`, sources
   `os.environ` / `os.getenv` / `sys.argv`, sinks `os.system` and `os.popen*`.
-  This is the rule Amendment N-A1 promoted the column on.
+  This is the rule Amendment A8 promoted the column on.
 - `audit/dangerous-system-call-audit` — a **pattern** rule, bare
   `os.system(...)` with a `pattern-not: os.$W("...", ...)` exclusion and no
   taint anywhere.

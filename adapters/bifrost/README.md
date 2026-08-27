@@ -654,30 +654,94 @@ verbatim with the document's own rationale.
 
 See [the Java modeling matrix](../../docs/java-modeling.md).
 
+## JavaScript tool-native probe set
+
+Zero of six, decided before the CLI is invoked — and the twelve assertions were
+produced without launching Bifrost at all.
+
+The tool-native activation contract is built-in policy packs only:
+`--policy-pack` / `--policy-category` / `--policy-id` over the catalog
+`--list-policies` prints. A native run may not pass `--policy-file`, which is
+how every benchmark-controlled Bifrost run in this repository supplies its
+models, and the no-benchmark-models gate refuses one.
+
+The standalone policy CLI ships no taint policy and no source or sink endpoint
+set. BrokkAi/bifrost-dev **#2620** is the open issue under which shipped
+endpoints — its own candidate inventory names `System.getenv`, `Runtime.exec`,
+`ProcessBuilder` — would first exist at all, and **#2691** is the standalone-CLI
+activation surface for external procedure summaries that this profile would
+need. **#1871** (closed) supplies summaries, not endpoints. Without a source and
+a sink, no cell in this profile can produce a finding, which is why every
+template reads the same way, and the sanitizer and summary categories are
+additionally declined for the surface gaps this README already records above.
+
+Stating that position in a preregistration published by Bifrost's own vendor,
+before a run, with the vendor's open issues named, is the point. It is capability
+coverage: the twelve `unsupported` assertions are never negatives and reduce no
+denominator.
+
+See [the JavaScript tool-native probe set](../../docs/javascript-native.md).
+
+## Java tool-native probe set
+
+Wave N1's first row. See [the tool-native profile](../../docs/native-profile.md)
+for the contract and [the Java row](../../docs/java-native.md) for the results.
+
+- **Activation contract.** Built-in policy packs only: `--policy-pack` /
+  `--policy-category` / `--policy-id` over the catalog `--list-policies`
+  prints. A native run may **not** pass `--policy-file`, which is how every
+  benchmark-controlled Bifrost run supplies its models, and the
+  no-benchmark-models gate refuses one.
+- **Invocation:** `cargo run -- run-bifrost-native --language java`, writing
+  `reports/bifrost-java-native.json`. Configuration hash
+  `0badb216237f88ed709f45e32283b0ea8030875e742424c3377e1fbce525c6d3`.
+
+**Result: zero of six templates activated, twelve `unsupported` outcomes, and
+the binary was never invoked.** Every cell is decided from the template
+identity before the CLI is touched, with the preregistered rationale retained
+verbatim under `reports/raw/bifrost-java-native/<case-id>-unsupported.json`.
+The standalone policy CLI ships no taint policy and no source or sink endpoint
+catalog — bifrost-dev **#2620** is the open issue under which the first ones
+would ship, and **#2691** is the standalone-CLI activation surface an external
+catalog would need — so no template can produce a finding whatever else the
+engine expresses.
+
+That is capability coverage, not a negative: it reduces no denominator and is
+never converted into a clean answer. It is also the honest reading of the gap
+between this row and the benchmark-controlled matrix, which scores Bifrost on a
+category it declines here **using the same binary**, because there the
+benchmark supplies the endpoints. Publishing that gap in a preregistration
+written by Bifrost's own vendor, before the run, with the vendor's open issues
+named, is the point.
+
+See [the Java tool-native probe set](../../docs/java-native.md).
+
 ## Python tool-native probe set
 
-`run-bifrost-native --language python` runs the twelve assertions of
-[the tool-native model profile](../../docs/native-profile.md) for Python,
-writing `reports/bifrost-python-native.json` with retained decisions under
-`reports/raw/bifrost-python-native/`.
+Wave N1's final row, and it closes the wave. See
+[the tool-native profile](../../docs/native-profile.md) for the contract and
+[the Python row](../../docs/python-native.md) for the results.
 
-The activation contract is built-in policy packs only: `--policy-pack` /
-`--policy-category` / `--policy-id` over the catalog `--list-policies` prints.
-A native run may not pass `--policy-file`, which is how every
-benchmark-controlled Bifrost run supplies its models, and the
-no-benchmark-models gate refuses one.
+- **Activation contract.** Built-in policy packs only: `--policy-pack` /
+  `--policy-category` / `--policy-id` over the catalog `--list-policies`
+  prints. A native run may **not** pass `--policy-file`, which is how every
+  benchmark-controlled Bifrost run supplies its models, and the
+  no-benchmark-models gate refuses one.
+- **Invocation:** `cargo run -- run-bifrost-native --language python`, writing
+  `reports/bifrost-python-native.json` with retained decisions under
+  `reports/raw/bifrost-python-native/`.
 
-Bifrost enters this profile at **zero of six**, preregistered. The standalone
+**Result: zero of six templates activated, twelve `unsupported` outcomes, and
+the binary was never invoked** — verified by running the command with a
+nonexistent binary path and getting byte-identical evidence. The standalone
 policy CLI ships no taint policy and no source or sink endpoint catalog, so no
-template can produce a finding regardless of what else it can express; the
-sanitizer and external-summary rows restate this README's own statements about
-sanitizer lowering and embedding-based activation. All twelve cells are decided
-from the template identity **before any process starts** — verified by running
-the command with a nonexistent binary path and getting byte-identical evidence
-— and each retains its rationale verbatim, naming the pinned identity and the
-activation shape.
+template can produce a finding regardless of what else the engine expresses;
+the sanitizer and external-summary rows restate this README's own statements
+about sanitizer lowering and embedding-based activation.
 
 That is capability coverage, not a negative: an `unsupported` cell never
 becomes a clean negative and never reduces anyone's denominator. Bifrost has no
-tool-native Python denominator, which is different from having a zero. See
-[the Python tool-native probe set](../../docs/python-native.md).
+tool-native Python denominator, which is different from having a zero.
+
+See [the Python tool-native probe set](../../docs/python-native.md).
+

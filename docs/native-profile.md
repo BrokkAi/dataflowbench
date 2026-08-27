@@ -562,12 +562,16 @@ is entirely pinnable. It says nothing about how many it will pass.
 
 > **Amended.** All six **Python** cells were promoted from *to be verified at
 > vendoring* to scored by
-> [Amendment N-A1](#n-a1--2026-08-27-semgrep-ces-six-python-cells-are-promoted-to-scored-and-the-partition-gains-a-language-dimension),
+> [Amendment A8](#a8--2026-08-27-semgrep-ces-six-python-cells-are-promoted-to-scored-and-the-partition-gains-a-language-dimension),
 > on the evidence of the vendored snapshot's
 > `audit/dangerous-system-call-tainted-env-args.yaml`, read before any scan.
-> Java and JavaScript are unchanged at 0 / 6 until their own snapshots are
-> vendored. The same amendment keys the partition by language, which is what
-> lets one language's snapshot answer only its own cells.
+> Java and JavaScript stay at 0 / 6, but no longer by default: their snapshots
+> were vendored and read too, and
+> [A6](#a6--2026-08-27-semgrep-ces-javascript-cells-evaluated-against-the-vendored-snapshot)
+> and [A7](#a7--2026-08-27-semgrep-ces-six-java-cells-are-retained-unsupported-against-the-vendored-snapshot)
+> retain all twelve of those cells **on evidence**. A8 is also what keys the
+> partition by language, which is what lets one language's snapshot answer only
+> its own cells.
 
 **Activation contract.** Registry configurations (`--config p/…`) are
 network-fetched and version-unpinnable at run time: two runs a week apart are two
@@ -731,10 +735,15 @@ Preregistered before any native fixture exists or any ruleset is vendored.
 until shown otherwise.
 
 > **Amended.** This table is the preregistered default and stays as written.
-> [Amendment N-A1](#n-a1--2026-08-27-semgrep-ces-six-python-cells-are-promoted-to-scored-and-the-partition-gains-a-language-dimension)
-> keys the partition by language and promotes Semgrep CE's six **Python** cells
-> to scored; every cell for every language with no amendment row is still the
-> cell below.
+> Wave N1 discharged every Semgrep CE *to be verified at vendoring* cell against
+> a vendored snapshot:
+> [A6](#a6--2026-08-27-semgrep-ces-javascript-cells-evaluated-against-the-vendored-snapshot)
+> retains JavaScript's six,
+> [A7](#a7--2026-08-27-semgrep-ces-six-java-cells-are-retained-unsupported-against-the-vendored-snapshot)
+> retains Java's six, and
+> [A8](#a8--2026-08-27-semgrep-ces-six-python-cells-are-promoted-to-scored-and-the-partition-gains-a-language-dimension)
+> promotes Python's six to scored and keys the partition by language. Every cell
+> for every language with no amendment row is still the cell below.
 
 | # | Template | Cat. | Bifrost v0.10.6 | CodeQL 2.26.3 | Joern 4.0.610 | Semgrep CE 1.174.0 |
 | --- | --- | --- | --- | --- | --- | --- |
@@ -825,6 +834,12 @@ the vendored activation snapshots its partition needs, the runs, and any
 amendment its evidence supports. A wave never edits a template definition or a
 partition cell.
 
+> **Wave N1 is complete.** [JavaScript](javascript-native.md),
+> [Java](java-native.md), and [Python](python-native.md) have each landed their
+> twelve assertions, their vendored snapshot, and their runs, and A6, A7, and A8
+> record the evidence. That closes issue #16. All three languages now have a
+> native denominator; the ten below still have none.
+
 **Later — framework APIs,** gated on the dependency-provenance decision
 described under [the native-binding trap](#the-native-binding-trap), and **the
 remaining ten languages**, via an applicability pass. Neither has a denominator
@@ -861,7 +876,137 @@ disappointing.
 Amendments are dated, state what changed and which template IDs and languages
 they touch, name the freezes they invalidate, and land as their own commits.
 
-### N-A1 — 2026-08-27: Semgrep CE's six Python cells are promoted to scored, and the partition gains a language dimension
+Their numbers continue the repository's **single** amendment sequence rather
+than restarting per document: A1 is in [the challenge tier](challenge-tier.md#amendments)
+and A2–A5 are in [the modeling matrix](modeling-matrix.md#amendments), so an
+amendment identifier names exactly one amendment wherever it is cited.
+
+### A6 — 2026-08-27: Semgrep CE's JavaScript cells, evaluated against the vendored snapshot
+
+**What changed.** Semgrep CE 1.174.0's six *to be verified at vendoring* cells
+are resolved for **JavaScript only**. All six are **retained as unsupported**.
+No cell is promoted, no decision flips, and the
+[partition summary](#partition-summary) is unchanged: what changes is that the
+JavaScript column's rationale is now settled evidence about a pinned snapshot
+rather than an open question about one that did not exist.
+
+**Templates and languages touched.** All six —
+`dfb-template-native-source-sink`, `-propagator`, `-sanitizer`, `-summary`,
+`-entrypoint`, `-persistence` — for `javascript` alone. Java's and Python's
+cells stay open and are answered by their own waves.
+
+**Freezes invalidated.** None. No published freeze contains a tool-native
+report.
+
+**Evidence.** The snapshot vendored to `adapters/semgrep/native/javascript/`
+from `semgrep/semgrep-rules` at commit
+`40b8c63f75dc7c22c8a77482d73bfb864b146f7e` — thirty `.yaml` rule files from
+`javascript/lang/security/`, the path
+[the preregistration names](#semgrep-ce--11740---oss-only). The evaluation
+below is a reading of the vendored rule text, made before Semgrep was invoked
+over any native fixture, which is the order
+[the vendoring rule requires](#provenance-for-vendored-activation-artifacts).
+
+**The finding that decides all six cells.** Fifteen of the thirty vendored
+rules are `mode: taint`; the other fifteen are pattern rules. Every one of the
+fifteen taint rules roots its `pattern-sources` in a **function parameter or a
+framework request object**, and not one names a platform environment, argument,
+or process-store identity. `detect-child-process.yaml` and
+`audit/dangerous-spawn-shell.yaml` — the two rules whose *sinks* are exactly
+this profile's `child_process.execSync` — take
+`function ... (...,$FUNC,...) { ... }` with `focus-metavariable: $FUNC` as their
+only source. `audit/code-string-concat.yaml`, whose sink is the same family,
+takes Express `$REQ.query`/`.body`/`.params`/`.cookies`/`.headers` and the
+Next.js router. `audit/path-traversal/path-join-resolve-traversal.yaml`, whose
+sink is `path.join`, takes a function parameter. A search of the whole snapshot
+for `process.env`, `process.argv`, `encodeURIComponent`, and `Buffer.from`
+returns nothing.
+
+That is the shipped product's shape, and it is the shape the preregistration
+predicted for Python: the official rules' entry conventions are
+framework-shaped. A rule with a correct sink and no applicable source cannot
+produce a finding on a fixture whose source is a platform API, so every one of
+the six templates is declined for the same reason.
+
+**Per cell.**
+
+| # | Template | Cat. | Decision | Evidence from the vendored rule text |
+| --- | --- | --- | --- | --- |
+| 1 | `native-source-sink` | S | **retained unsupported — no shipped platform-source model** | `detect-child-process.yaml` binds the `child_process.execSync($CMD)` sink under `require('child_process')`, so the sink half is covered; its only `pattern-sources` entry is an enclosing function's parameter. Nothing in the snapshot binds `process.env`. |
+| 2 | `native-propagator` | P | **retained unsupported — no shipped platform-source model** | `path-join-resolve-traversal.yaml` binds `$PATH.join(...,$SINK,...)` under `require('path')`; its source is a function parameter. With no source bound, the propagator has nothing to carry. |
+| 3 | `native-sanitizer` | Z | **retained unsupported — no rule reaches this cell to credit or refuse the idiom** | `encodeURIComponent` appears nowhere in the snapshot. Sanitizer credit in the official rules is per-rule (`path-join-resolve-traversal.yaml` lists `$Y.replace`, `$Y.indexOf`, and a `sanitize`-named call), and no rule that could fire on this fixture exists to credit it either way. |
+| 4 | `native-summary` | O | **retained unsupported — no shipped source, and no arg→return summary vocabulary** | Both halves of the preregistered rationale hold: no rule binds a platform source, and CE 1.174.0 does not express arg→return summaries, [as the modeling matrix established by execution](modeling-matrix.md#semgrep-ce--11740---oss-only). |
+| 5 | `native-entrypoint` | E | **retained unsupported — the shipped entry convention is a function parameter, not `process.argv`** | The snapshot's universal source shape *is* an entry convention — it just is not the platform's. `process.argv` appears in no rule. |
+| 6 | `native-persistence` | B | **retained unsupported — no store vocabulary, and no interprocedural taint** | No rule links a write to `process.env.<NAME>` to a read of it, and the pinned CE engine has no interprocedural taint (`--pro-intrafile` requires Pro). |
+
+**Scored count, unchanged: 0 of 6 for JavaScript.** Under
+[outcome honesty](#outcome-honesty) those twelve assertions are capability
+coverage, never negatives, and they reduce no denominator.
+
+**A note on the sink-existence hazard, which did not materialize here.** The
+preregistration expected this profile's most likely observation to be a pattern
+rule firing on sink existence and taking a false positive on a negative cell.
+For JavaScript it does not: the two vendored rules that match
+`child_process.execSync` are both taint rules, and the fifteen pattern rules
+match other constructs entirely — `spawn(..., {shell: $SHELL})`,
+`spawn('git', ['clone', ...])`, `Buffer` `noassert`, weak hashing. A negative
+cell that passes a clean local variable to `execSync` is flagged by none of
+them. The hazard remains preregistered for the other two languages, where the
+upstream `audit/` rules are shaped differently.
+
+### A7 — 2026-08-27: Semgrep CE's six Java cells are retained unsupported against the vendored snapshot
+
+**What changed in the partition.** Nothing. All six Semgrep CE cells for
+**Java** stay `unsupported`. What changes is their *status*: they were
+`to be verified at vendoring`, and this amendment discharges that verification
+for Java. The Java snapshot exists, it has been read, and it binds none of the
+six categories. Semgrep CE's Java row is now unsupported **on evidence**
+rather than unsupported **by default**.
+
+**When the evaluation was made.** From the vendored rule text, before Semgrep
+was invoked over a single Java fixture — and it never was, because a cell the
+partition declines is answered before the binary is touched. Nothing below is
+a result being relabelled.
+
+**What was vendored.** `adapters/semgrep/native/java/rules/`: every rule
+document (86 files, 86 rule IDs) beneath `java/lang/security/` of
+`https://github.com/semgrep/semgrep-rules` at commit
+`40b8c63f75dc7c22c8a77482d73bfb864b146f7e`, upstream directory structure
+preserved, under the Semgrep Rules License v1.0, with
+`adapters/semgrep/native/java/provenance.json` recording the repository, the
+commit, the paths, the license, the retrieval date, and a SHA-256 per file.
+The upstream tree's per-rule `*.java` files are Semgrep's own rule tests, not
+part of the ruleset, and are deliberately not vendored.
+
+**Per cell, with the evidence.**
+
+| # | Cat. | Decision | Evidence from the vendored snapshot |
+| --- | --- | --- | --- |
+| 1 | S | **retained unsupported** | No vendored rule names `System.getenv` — the string does not occur in the snapshot at all. The two rules whose sink is this template's command API, `audit/command-injection-formatted-runtime-call.yaml` and `audit/command-injection-process-builder.yaml`, are pattern rules that bind no source. The one taint-mode rule that reaches `Runtime.exec`, `audit/tainted-cmd-from-http-request.yaml`, has `pattern-sources: (HttpServletRequest $REQ)`. No shipped rule binds a platform environment source. |
+| 2 | P | **retained unsupported** | No vendored rule references `String.concat`. The concatenation-shaped rules (`command-injection-formatted-runtime-call`, `audit/formatted-sql-string.yaml`, `audit/jdbc-sql-formatted-string.yaml`) match `+` or `String.format` *inside a sink argument*; none declares a propagator step, and none binds a platform source for one to carry. |
+| 3 | Z | **retained unsupported** | Sanitizer credit in the official rules is per-rule, and no vendored rule declares `Integer.parseInt` or `String.valueOf` as a sanitizer — neither identifier occurs in the snapshot. With no applicable rule at cells 1 and 2, there is also no rule inside which credit could be given. |
+| 4 | O | **retained unsupported** | `java.util.Base64` does not occur in the snapshot. This confirms from rule text what [the modeling matrix established by execution](modeling-matrix.md#semgrep-ce--11740---oss-only): argument-to-return summary semantics are outside CE's propagator vocabulary on the pinned version, and a shipped rule cannot supply what the engine does not express. |
+| 5 | E | **retained unsupported** | No vendored rule binds `main(String[] args)` or the argument vector; neither `void main` nor `System.` occurs anywhere in the snapshot. Every entry convention it carries is framework-shaped. |
+| 6 | B | **retained unsupported** | No vendored rule names `System.setProperty` / `System.getProperty` as a store pair. The one `setProperty` sink shape in the snapshot, `audit/ognl-injection.yaml`, is bound to an `OgnlReflectionProvider` parameter. The pinned CE engine has no interprocedural taint, so an unlinked store round trip is carried by nothing else. |
+
+**A related observation, recorded but not scored.** The
+[sink-existence hazard](#sink-existence-only-findings-and-how-they-score) does
+**not** materialize on Java's probe set: `command-injection-formatted-runtime-call`
+requires `+` or `String.format` *within* the `exec` argument, and
+`command-injection-process-builder` requires a `ProcessBuilder`, and the six
+pinned Java fixtures use neither. A Semgrep run over them would have produced
+nothing. That is not why these cells are retained — they are retained because
+no rule binds the categories — and the distinction matters, because a cell
+declined for lack of binding is capability coverage while an empty run would
+have been a set of false negatives.
+
+**Tools, templates, and languages touched.** Semgrep CE only; all six native
+templates; **Java only**. JavaScript's and Python's Semgrep cells keep their
+`to be verified at vendoring` status until their own snapshots land.
+
+**Freezes invalidated.** None. No tool-native report is bound by any freeze.
+
+### A8 — 2026-08-27: Semgrep CE's six Python cells are promoted to scored, and the partition gains a language dimension
 
 **What changed.** Two things, and the second is the reason the first is
 expressible at all.
@@ -875,19 +1020,22 @@ expressible at all.
    `adapters/semgrep/native/<language>/` — and reading its rules can only
    answer that language's cells. Verifying Python's cells therefore cannot
    speak for Java's or JavaScript's, and a partition that could not say so
-   would have forced one language's evidence onto the other two. No
-   preregistered cell's *decision* is altered by this change; the twenty-four
-   cells above remain the default for every language that has no amendment
-   row.
+   would have forced one language's evidence onto the other two. The mechanism
+   is additive: `NATIVE_PARTITION_AMENDMENTS` carries one row per amended
+   tool × language × template and is consulted before the preregistered table,
+   which stays the default for every language with no amendment row. No
+   preregistered cell's *decision* is altered by this change, and neither
+   [A6](#a6--2026-08-27-semgrep-ces-javascript-cells-evaluated-against-the-vendored-snapshot)'s
+   nor [A7](#a7--2026-08-27-semgrep-ces-six-java-cells-are-retained-unsupported-against-the-vendored-snapshot)'s
+   retained rationales are touched.
 2. **Semgrep CE 1.174.0 × Python: all six templates, `TBV`/unsupported →
    scored.**
 
 **Which template IDs and languages.** All six —
 `dfb-template-native-source-sink`, `-propagator`, `-sanitizer`, `-summary`,
 `-entrypoint`, `-persistence` — for **Python only**. Java and JavaScript are
-untouched and remain 0 / 6 for Semgrep until their own snapshots are vendored
-and their own amendments recorded. No other tool's cells change; CodeQL stays
-6 / 6, Bifrost and Joern stay 0 / 6.
+untouched and remain 0 / 6 for Semgrep on the evidence of A7 and A6. No other
+tool's cells change; CodeQL stays 6 / 6, Bifrost and Joern stay 0 / 6.
 
 **Why, from rule text, before any scan.** The snapshot is
 `semgrep/semgrep-rules` @ `40b8c63f75dc7c22c8a77482d73bfb864b146f7e`,
@@ -916,7 +1064,9 @@ shipped rule: `os.environ` for templates 1–4 and 6, `sys.argv` for template 5,
 and `os.system` throughout. A seventh file,
 `audit/dangerous-system-call-audit.yaml`, is the pure sink-existence rule this
 document warned about — bare `os.system(...)` with only a literal-first-argument
-exclusion, no taint anywhere.
+exclusion, no taint anywhere. This is the language where
+[the sink-existence hazard](#sink-existence-only-findings-and-how-they-score)
+that A6 and A7 found dormant is live, and A6's note said so in advance.
 
 Per-cell, with the retained-or-promoted decision stated for each:
 
@@ -935,6 +1085,14 @@ the sanctioned path this document preregisters — *to be verified at vendoring*
 resolved by taking the snapshot and reading it — and not a result being
 relabelled. A promoted cell can and does produce false negatives and false
 positives; that is what scoring it means.
+
+**The execution arm lands with the promotion.** This document's own rule is
+that a cell promoted by a dated amendment lands the runner that scores it in
+the same pull request, rather than being answered by a synthesized outcome. The
+Semgrep native arm therefore lands here — and it is not a second reconciler:
+it classifies its findings against the same sink anchors the CodeQL arm uses
+and tallies them through the same `native_anchor_tally_outcome`, so the two
+adapters cannot drift into two readings of [outcome honesty](#outcome-honesty).
 
 **Freezes invalidated.** None. No published freeze manifest contains a
 tool-native report: the v0.4.0 claim is `benchmark-controlled` at the

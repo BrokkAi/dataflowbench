@@ -1,0 +1,19 @@
+{
+  "activation_arguments": [
+    "--oss-only",
+    "--config=adapters/semgrep/native/java"
+  ],
+  "activation_identity": "Semgrep CE 1.174.0 over the pinned snapshot vendored from https://github.com/semgrep/semgrep-rules into adapters/semgrep/native/java",
+  "adapter": "semgrep",
+  "case_id": "dfb-taint-java-native-summary-positive",
+  "evidence_kind": "retained-capability-decision",
+  "model_profile": "tool-native",
+  "modeling_category": "O",
+  "modeling_category_label": "opaque procedure summaries",
+  "partition_source": "docs/native-profile.md#partition-summary",
+  "pinned_tool_identity": "Semgrep CE 1.174.0",
+  "reason": "tool-native activation of dfb-template-native-summary (category O — opaque procedure summaries) is unsupported for Semgrep CE 1.174.0 by the preregistered activation partition (docs/native-profile.md#partition-summary): arg-to-return summary semantics are outside CE's propagator vocabulary on the pinned version, established by execution in docs/modeling-matrix.md#semgrep-ce--11740---oss-only; a shipped rule cannot supply what the engine does not express",
+  "stage": "preregistered-native-activation-partition",
+  "state": "unsupported",
+  "template_id": "dfb-template-native-summary"
+}

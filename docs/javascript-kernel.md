@@ -39,6 +39,12 @@ flow it can see. It is never pooled with the core denominator above, and a score
 there is not a propagation score. See
 [the JavaScript taint-modeling matrix](javascript-modeling.md).
 
+A third JavaScript population, on the same `modeling` tier but a disjoint
+`model_profile`, asks what each tool ships rather than what it can be told: six
+templates and twelve assertions over real Node and ECMAScript APIs. See
+[the JavaScript tool-native probe set](javascript-native.md). It is pooled with
+neither of the two above.
+
 All JavaScript fixtures use the benchmark-controlled `dfb_source` and
 `dfb_sink` function names. The Bifrost adapter may lower those endpoints through
 its JavaScript kernel policy, but fixture metadata remains analyzer-neutral and

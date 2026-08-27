@@ -1,0 +1,218 @@
+{
+  "adapter_version": "0.1.0",
+  "cold_or_warm": "cold",
+  "configuration_hash": "c0a2d9a459a04bd1511f71fb8d154d6cff5fc843d3a9d472c057a46493aea4b3",
+  "ended_at_unix_seconds": 1787839525,
+  "fixture_revision": "sha256:249b4b64b73b21fb061a11bcb39b7dcd4ebb126bd0ae965c9db6a20231d0160a",
+  "results": [
+    {
+      "case_id": "dfb-taint-java-native-entrypoint-negative",
+      "diagnostics": [
+        "tool-native activation of dfb-template-native-entrypoint (category E — framework entry points) is unsupported for Semgrep CE 1.174.0 by the preregistered activation partition (docs/native-profile.md#partition-summary): to be verified at vendoring — unsupported until shown: the upstream rules' entry conventions are framework-shaped, and whether any covers `sys.argv`, `process.argv`, or a `main` parameter is the snapshot's to answer"
+      ],
+      "duration_ms": 0,
+      "outcome": "unsupported",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/semgrep-java-native/dfb-taint-java-native-entrypoint-negative-unsupported.json",
+      "sink_anchors": [
+        "DFB-SINK: native-entrypoint-exec"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: native-entrypoint-argv"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-java-native-entrypoint-positive",
+      "diagnostics": [
+        "tool-native activation of dfb-template-native-entrypoint (category E — framework entry points) is unsupported for Semgrep CE 1.174.0 by the preregistered activation partition (docs/native-profile.md#partition-summary): to be verified at vendoring — unsupported until shown: the upstream rules' entry conventions are framework-shaped, and whether any covers `sys.argv`, `process.argv`, or a `main` parameter is the snapshot's to answer"
+      ],
+      "duration_ms": 0,
+      "outcome": "unsupported",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/semgrep-java-native/dfb-taint-java-native-entrypoint-positive-unsupported.json",
+      "sink_anchors": [
+        "DFB-SINK: native-entrypoint-exec"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: native-entrypoint-argv"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-java-native-persistence-negative",
+      "diagnostics": [
+        "tool-native activation of dfb-template-native-persistence (category B — persistence boundaries) is unsupported for Semgrep CE 1.174.0 by the preregistered activation partition (docs/native-profile.md#partition-summary): the pinned CE engine has no interprocedural taint at all — `--pro-intrafile` requires Semgrep Pro — so a store round trip the shipped rules do not link themselves is carried by nothing else"
+      ],
+      "duration_ms": 0,
+      "outcome": "unsupported",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/semgrep-java-native/dfb-taint-java-native-persistence-negative-unsupported.json",
+      "sink_anchors": [
+        "DFB-SINK: native-persistence-exec"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: native-persistence-env"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-java-native-persistence-positive",
+      "diagnostics": [
+        "tool-native activation of dfb-template-native-persistence (category B — persistence boundaries) is unsupported for Semgrep CE 1.174.0 by the preregistered activation partition (docs/native-profile.md#partition-summary): the pinned CE engine has no interprocedural taint at all — `--pro-intrafile` requires Semgrep Pro — so a store round trip the shipped rules do not link themselves is carried by nothing else"
+      ],
+      "duration_ms": 0,
+      "outcome": "unsupported",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/semgrep-java-native/dfb-taint-java-native-persistence-positive-unsupported.json",
+      "sink_anchors": [
+        "DFB-SINK: native-persistence-exec"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: native-persistence-env"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-java-native-propagator-negative",
+      "diagnostics": [
+        "tool-native activation of dfb-template-native-propagator (category P — declared propagators) is unsupported for Semgrep CE 1.174.0 by the preregistered activation partition (docs/native-profile.md#partition-summary): to be verified at vendoring — unsupported until shown: which rules the snapshot carries, and how the pinned CE engine's default propagation treats the platform join, are both undecided until a commit is pinned"
+      ],
+      "duration_ms": 0,
+      "outcome": "unsupported",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/semgrep-java-native/dfb-taint-java-native-propagator-negative-unsupported.json",
+      "sink_anchors": [
+        "DFB-SINK: native-propagator-exec"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: native-propagator-env"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-java-native-propagator-positive",
+      "diagnostics": [
+        "tool-native activation of dfb-template-native-propagator (category P — declared propagators) is unsupported for Semgrep CE 1.174.0 by the preregistered activation partition (docs/native-profile.md#partition-summary): to be verified at vendoring — unsupported until shown: which rules the snapshot carries, and how the pinned CE engine's default propagation treats the platform join, are both undecided until a commit is pinned"
+      ],
+      "duration_ms": 0,
+      "outcome": "unsupported",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/semgrep-java-native/dfb-taint-java-native-propagator-positive-unsupported.json",
+      "sink_anchors": [
+        "DFB-SINK: native-propagator-exec"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: native-propagator-env"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-java-native-sanitizer-negative",
+      "diagnostics": [
+        "tool-native activation of dfb-template-native-sanitizer (category Z — declared sanitizers) is unsupported for Semgrep CE 1.174.0 by the preregistered activation partition (docs/native-profile.md#partition-summary): to be verified at vendoring — unsupported until shown: sanitizer credit in the official rules is per-rule rather than global, so it is unverifiable before the snapshot exists"
+      ],
+      "duration_ms": 0,
+      "outcome": "unsupported",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/semgrep-java-native/dfb-taint-java-native-sanitizer-negative-unsupported.json",
+      "sink_anchors": [
+        "DFB-SINK: native-sanitizer-exec"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: native-sanitizer-env"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-java-native-sanitizer-positive",
+      "diagnostics": [
+        "tool-native activation of dfb-template-native-sanitizer (category Z — declared sanitizers) is unsupported for Semgrep CE 1.174.0 by the preregistered activation partition (docs/native-profile.md#partition-summary): to be verified at vendoring — unsupported until shown: sanitizer credit in the official rules is per-rule rather than global, so it is unverifiable before the snapshot exists"
+      ],
+      "duration_ms": 0,
+      "outcome": "unsupported",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/semgrep-java-native/dfb-taint-java-native-sanitizer-positive-unsupported.json",
+      "sink_anchors": [
+        "DFB-SINK: native-sanitizer-exec"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: native-sanitizer-env"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-java-native-source-sink-negative",
+      "diagnostics": [
+        "tool-native activation of dfb-template-native-source-sink (category S — declared sources and sinks) is unsupported for Semgrep CE 1.174.0 by the preregistered activation partition (docs/native-profile.md#partition-summary): to be verified at vendoring — unsupported until shown: the upstream head's taint-mode rules cover the template's command sinks (`dangerous-system-call.yaml` declares `os.system`) but bind their `pattern-sources` to framework endpoints — Flask, Django, DRF — rather than to a platform environment read. Whether any vendored rule binds one is the snapshot's to answer, and no snapshot is vendored"
+      ],
+      "duration_ms": 0,
+      "outcome": "unsupported",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/semgrep-java-native/dfb-taint-java-native-source-sink-negative-unsupported.json",
+      "sink_anchors": [
+        "DFB-SINK: native-source-sink-exec"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: native-source-sink-env"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-java-native-source-sink-positive",
+      "diagnostics": [
+        "tool-native activation of dfb-template-native-source-sink (category S — declared sources and sinks) is unsupported for Semgrep CE 1.174.0 by the preregistered activation partition (docs/native-profile.md#partition-summary): to be verified at vendoring — unsupported until shown: the upstream head's taint-mode rules cover the template's command sinks (`dangerous-system-call.yaml` declares `os.system`) but bind their `pattern-sources` to framework endpoints — Flask, Django, DRF — rather than to a platform environment read. Whether any vendored rule binds one is the snapshot's to answer, and no snapshot is vendored"
+      ],
+      "duration_ms": 0,
+      "outcome": "unsupported",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/semgrep-java-native/dfb-taint-java-native-source-sink-positive-unsupported.json",
+      "sink_anchors": [
+        "DFB-SINK: native-source-sink-exec"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: native-source-sink-env"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-java-native-summary-negative",
+      "diagnostics": [
+        "tool-native activation of dfb-template-native-summary (category O — opaque procedure summaries) is unsupported for Semgrep CE 1.174.0 by the preregistered activation partition (docs/native-profile.md#partition-summary): arg-to-return summary semantics are outside CE's propagator vocabulary on the pinned version, established by execution in docs/modeling-matrix.md#semgrep-ce--11740---oss-only; a shipped rule cannot supply what the engine does not express"
+      ],
+      "duration_ms": 0,
+      "outcome": "unsupported",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/semgrep-java-native/dfb-taint-java-native-summary-negative-unsupported.json",
+      "sink_anchors": [
+        "DFB-SINK: native-summary-exec"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: native-summary-env"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-java-native-summary-positive",
+      "diagnostics": [
+        "tool-native activation of dfb-template-native-summary (category O — opaque procedure summaries) is unsupported for Semgrep CE 1.174.0 by the preregistered activation partition (docs/native-profile.md#partition-summary): arg-to-return summary semantics are outside CE's propagator vocabulary on the pinned version, established by execution in docs/modeling-matrix.md#semgrep-ce--11740---oss-only; a shipped rule cannot supply what the engine does not express"
+      ],
+      "duration_ms": 0,
+      "outcome": "unsupported",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/semgrep-java-native/dfb-taint-java-native-summary-positive-unsupported.json",
+      "sink_anchors": [
+        "DFB-SINK: native-summary-exec"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: native-summary-env"
+      ],
+      "witness_checkpoints": []
+    }
+  ],
+  "schema_version": 1,
+  "started_at_unix_seconds": 1787839525,
+  "tool": "semgrep",
+  "tool_build_identity": "Semgrep CE 1.174.0 over the pinned snapshot vendored from https://github.com/semgrep/semgrep-rules into adapters/semgrep/native/java",
+  "tool_version": "Semgrep CE 1.174.0"
+}

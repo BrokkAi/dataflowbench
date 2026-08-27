@@ -1030,35 +1030,100 @@ rather than a scored cell decided by a missing model.
 
 See [the Java modeling matrix](../../docs/java-modeling.md).
 
+## JavaScript tool-native probe set
+
+Zero of six, decided before the distribution is invoked — and the twelve
+assertions were produced without launching Joern at all.
+
+The tool-native activation contract is whatever the distribution activates
+without a user-authored query or semantics file: `DefaultSemantics`, and nothing
+else. No benchmark `.semantics` file may load, and the no-benchmark-models gate
+refuses `adapters/joern/semantics/model-*.semantics` and the shared
+`adapters/joern/queries/modeling.sc`.
+
+`DefaultSemantics` is a table of **flow constraints** — operator semantics, a
+list of C standard-library functions, and a short list of JVM-ecosystem method
+full names. It contains no source catalog and no sink catalog, and flow
+semantics never say where taint starts or where its arrival is a finding. In
+every other Joern population here the endpoints come from this adapter's own
+query parameters, which is precisely what the native activation rule forbids.
+`joern-scan` exists in the distribution but its query database does not: it
+downloads `querydb.zip` from a floating `latest` release asset, unpinnable at
+run time.
+
+That is a statement about the OSS distribution's *product packaging*, not about
+its engine — the benchmark-controlled matrix scores this same engine on sixteen
+JavaScript assertions. Each of the twelve retained decisions carries the
+preregistration's rationale verbatim with
+`"evidence_kind": "retained-capability-decision"`.
+
+See [the JavaScript tool-native probe set](../../docs/javascript-native.md).
+
+## Java tool-native probe set
+
+Wave N1's first row. See [the tool-native profile](../../docs/native-profile.md)
+for the contract and [the Java row](../../docs/java-native.md) for the results.
+
+- **Activation contract.** Whatever the distribution activates without a
+  user-authored query or semantics file: `DefaultSemantics`, and nothing else.
+  No benchmark `.semantics` file may load, and the no-benchmark-models gate
+  refuses `adapters/joern/semantics/model-*.semantics` and the shared
+  `adapters/joern/queries/modeling.sc`.
+- **Invocation:** `cargo run -- run-joern-native --language java`, writing
+  `reports/joern-java-native.json`. Configuration hash
+  `3b223e2988df9965827d315f8bc6eb922c4825b1b140ad3ea922b78382b9ea28`.
+
+**Result: zero of six templates activated, twelve `unsupported` outcomes, and
+the binary was never invoked.** `DefaultSemantics` is a table of **flow
+constraints** — operator semantics, C standard library entries, and a short
+list of JVM method full names — and ships no source catalog and no sink
+catalog. Flow semantics constrain how taint moves through a call; they never
+say where taint starts or where its arrival is a finding. In every Joern
+population this benchmark runs, the endpoints come from the adapter's own query
+parameters, which is exactly what the tool-native activation rule forbids. The
+distribution's `joern-scan` query database is not shipped either: it is
+downloaded from a floating `latest` release asset, unpinnable at run time for
+the same reason Semgrep's registry is.
+
+Worth saying plainly: this is a statement about the OSS distribution's
+**packaging**, not about its engine. The benchmark-controlled matrix scores
+Joern on four of six categories with the same engine, and the gap between those
+two rows is exactly what the tool-native profile exists to make legible.
+
+See [the Java tool-native probe set](../../docs/java-native.md).
+
 ## Python tool-native probe set
 
-`run-joern-native --language python` runs the twelve assertions of
-[the tool-native model profile](../../docs/native-profile.md) for Python,
-writing `reports/joern-python-native.json` with retained decisions under
-`reports/raw/joern-python-native/`.
+Wave N1's final row, and it closes the wave. See
+[the tool-native profile](../../docs/native-profile.md) for the contract and
+[the Python row](../../docs/python-native.md) for the results.
 
-The activation contract is whatever the distribution activates without a
-user-authored query or semantics file: `DefaultSemantics`, and nothing else. No
-benchmark `.semantics` file may load, and the no-benchmark-models gate refuses
-`semantics/model-*.semantics` and the shared `queries/modeling.sc`.
+- **Activation contract.** Whatever the distribution activates without a
+  user-authored query or semantics file: `DefaultSemantics`, and nothing else.
+  No benchmark `.semantics` file may load, and the no-benchmark-models gate
+  refuses `adapters/joern/semantics/model-*.semantics` and the shared
+  `adapters/joern/queries/modeling.sc`.
+- **Invocation:** `cargo run -- run-joern-native --language python`, writing
+  `reports/joern-python-native.json` with retained decisions under
+  `reports/raw/joern-python-native/`.
 
-Joern enters this profile at **zero of six**, preregistered.
-`DefaultSemantics` is a table of *flow constraints* — operator semantics, a
-list of C standard library functions, a short list of JVM-ecosystem method full
-names — and contains no source catalog and no sink catalog. Flow semantics
-constrain how taint moves through a call; they never say where taint starts or
-where its arrival is a finding. In every Joern population this benchmark runs,
-the endpoints come from the adapter's own query parameters, which is exactly
-what the activation rule forbids here. The `joern-scan` query database is not
-shipped either: `JoernScan` downloads `querydb.zip` from a floating `latest`
-release asset, which is unpinnable for the same reason Semgrep's registry is.
+**Result: zero of six templates activated, twelve `unsupported` outcomes, and
+the binary was never invoked** — verified by running the command with a
+nonexistent binary path and getting byte-identical evidence. `DefaultSemantics`
+is a table of **flow constraints** — operator semantics, C standard library
+entries, and a short list of JVM method full names — and ships no source
+catalog and no sink catalog. Flow semantics constrain how taint moves through a
+call; they never say where taint starts or where its arrival is a finding. In
+every Joern population this benchmark runs the endpoints come from the
+adapter's own query parameters, which is exactly what the native activation
+rule forbids. The distribution's `joern-scan` query database is not shipped
+either: it is downloaded from a floating `latest` release asset, unpinnable at
+run time for the same reason Semgrep's registry is.
 
-All twelve cells are decided from the template identity **before any process
-starts** — verified by running the command with a nonexistent binary path and
-getting byte-identical evidence.
+Worth saying plainly: this is a statement about the OSS distribution's
+**packaging**, not about its engine. The benchmark-controlled matrix scores
+Joern on four of six categories with the same engine, and the gap between those
+two rows is exactly what the tool-native profile exists to make legible.
 
-Worth saying plainly: this is a statement about the OSS distribution's *product
-packaging*, not about its engine. The benchmark-controlled matrix scores Joern
-on four of six categories using the same engine. The gap between those two rows
-is exactly what this profile exists to make legible. See
-[the Python tool-native probe set](../../docs/python-native.md).
+See [the Python tool-native probe set](../../docs/python-native.md).
+

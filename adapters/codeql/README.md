@@ -962,49 +962,148 @@ on the same fixture, [Joern does](../joern/README.md#taint-modeling-matrix).
 
 See [the Java modeling matrix](../../docs/java-modeling.md).
 
+## JavaScript tool-native probe set
+
+A different profile, not a different population of the same one. Everything
+above supplies CodeQL its models; this run supplies **none**. The activation is
+the shipped query suite and one documented CLI option, and the
+no-benchmark-models gate reads the invocation shape before the binary is touched
+and refuses a run that names any benchmark-authored artifact.
+
+- Activation:
+  `codeql/javascript-queries@2.4.4:codeql-suites/javascript-security-extended.qls`
+  with `--threat-model=local`. No adapter query, no data extension, no
+  `--additional-packs` model of ours. 103 rules resolved for the JavaScript
+  fixtures.
+- `--threat-model=local` configures shipped models rather than adding any: it
+  enables the vendor's `local` group, which
+  `codeql/threat-models@1.0.55` defines as containing `environment` and
+  `commandargs`. Without it, templates 1, 5, and 6 would be decided by the
+  default `remote`-only threat model and would miss for a reason unrelated to
+  coverage.
+- **The library resolution deliberately differs from this adapter's.** The
+  pinned *query* pack bundles `codeql/javascript-all@2.10.0`; every
+  benchmark-controlled run above pins `javascript-all@2.9.0`. A native run must
+  measure the shipped product as shipped, which is one more reason the two
+  profiles are never pooled.
+- Database creation is byte-for-byte the benchmark-controlled path —
+  `codeql_database_create_args` under `CodeqlLanguage::Javascript` — because
+  extraction is a property of the language, not of the model profile. Only the
+  analyze step differs.
+- Reconciliation anchors sit on the platform callsite rather than on a declared
+  entity, because this profile has no declared entity. A shipped suite answers
+  many questions at once, so a finding away from the anchor is retained as a
+  diagnostic and never becomes evidence of a flow; it did not arise in this run.
+- Result: **10 of 12**, with a false positive on the sanitizer negative
+  (`encodeURIComponent` is a barrier for XSS and request forgery but a
+  taint-preserving step for command injection) and both cells wrong on the
+  persistence template (the `process.env` write/read pair is unlinked, while the
+  plain environment source fires on the distinct-key read). Both were
+  preregistered as expectations before the run.
+
+See [the JavaScript tool-native probe set](../../docs/javascript-native.md).
+
+## Java tool-native probe set
+
+Wave N1's first row, and the profile's opposite question: not whether the
+engine activates a model this benchmark supplies, but what the **shipped
+product** covers. See [the tool-native profile](../../docs/native-profile.md)
+for the contract and [the Java row](../../docs/java-native.md) for the results.
+
+- **Activation, pinned.**
+  `codeql/java-queries@1.11.9:codeql-suites/java-security-extended.qls` with
+  `--threat-model=local`, and nothing else. No adapter query, no data
+  extension, and — deliberately — **no `--additional-packs`**: the native
+  command still validates a `--codeql-packs` path so a stale value fails fast,
+  but it never forwards it, because a pack search path of ours is a model of
+  ours. The runner's no-benchmark-models gate reads the activation shape and
+  refuses the run before the CLI is touched if any argument names one.
+- **Different pins by construction.** A query pack bundles its own library
+  packs, and `java-queries@1.11.9` bundles `java-all@9.2.4` against the
+  benchmark-controlled adapter's `java-all@9.2.3`. The two profiles run on
+  different library resolutions because the native profile must measure the
+  product as shipped, which is one more reason their numbers are never pooled.
+- **Extraction is unchanged.** The database is built from the same traced
+  `javac -d classes` the Java kernel and modeling rows use; only what is
+  analyzed differs.
+- **Reconciliation.** A native sink marker sits on the **real API's callsite**,
+  not on a declaration, so the marker line is the reconciliation target
+  directly. Because a whole shipped suite runs, findings elsewhere in the
+  fixture are retained as diagnostics by rule identity and never become an
+  outcome; only a finding on the sink-anchor line is `reached`.
+- **Invocation:**
+  `cargo run -- run-codeql-native --language java --codeql <path>`, writing
+  `reports/codeql-java-native.json` with raw SARIF under
+  `reports/raw/codeql-java-native/`.
+
+**Result on the pinned CLI: 11 of 12 assertions match** — six `reached`
+positives, five `not-reached` negatives, one false positive, no `inconclusive`
+and no `runner-error`. Configuration hash
+`83ea52f18a6153006b081769de1906b0e3e28d122e56a470f1b3756a2c8aa9fa`.
+
+Every finding is `java/command-line-injection`, and the retained code flows
+name the shipped rows that carried each: `getenv` → `exec` directly,
+`String.concat` as a propagator, both halves of the `java.util.Base64` round
+trip, and `args` under the `commandargs` threat model. The
+numeric-coercion sanitizer (`String.valueOf(Integer.parseInt(…))`) **is**
+credited for this sink's query family.
+
+The single miss is category B, and its evidence is worth more than its score:
+both persistence cells' flows start at `System.getProperty(...)` itself, which
+the shipped catalog models as an *environment source* rather than as a store
+read. So the negative is reported despite reading a distinct key — a false
+positive — and the positive's true positive is **unearned**, since the same
+finding would appear with the `System.setProperty` write deleted. The shipped
+model's own comment says the get/set key matching is not modeled.
+
+See [the Java tool-native probe set](../../docs/java-native.md).
+
 ## Python tool-native probe set
 
-`run-codeql-native --language python` runs the twelve assertions of
-[the tool-native model profile](../../docs/native-profile.md) for Python,
-writing `reports/codeql-python-native.json` with raw SARIF under
-`reports/raw/codeql-python-native/`.
+Wave N1's final row, and it closes the wave. See
+[the tool-native profile](../../docs/native-profile.md) for the contract and
+[the Python row](../../docs/python-native.md) for the results.
 
-The activation is entirely the vendor's: the shipped
-`codeql/python-queries@1.8.9:codeql-suites/python-security-extended.qls` suite,
-with `--threat-model=local` to enable the shipped `environment` and
-`commandargs` rows, and **no adapter query, data extension, or
-`--additional-packs` model of ours**. The no-benchmark-models gate checks the
-argument vector against every benchmark-authored model artifact before the CLI
-is touched, so a spliced path fails the build rather than quietly publishing
-engine accuracy as product coverage.
+- **Activation, pinned.**
+  `codeql/python-queries@1.8.9:codeql-suites/python-security-extended.qls` with
+  `--threat-model=local` to enable the shipped `environment` and `commandargs`
+  rows, and nothing else. No adapter query, no data extension, and —
+  deliberately — **no `--additional-packs`**: the native command still
+  validates a `--codeql-packs` path so a stale value fails fast, but it never
+  forwards it, because a pack search path of ours is a model of ours. The
+  no-benchmark-models gate reads the activation shape and refuses the run
+  before the CLI is touched if any argument names a benchmark-authored
+  artifact.
+- **Different pins by construction.** A query pack bundles its own library
+  pack, and `python-queries@1.8.9` bundles `python-all@7.2.4` against the
+  benchmark-controlled adapter's `7.2.3`. The two profiles run on different
+  library resolutions because the native profile must measure the product as
+  shipped, which is one more reason their numbers are never pooled.
+- **Extraction is unchanged.** The database is built by the same
+  `CodeqlLanguage::Python` path the kernel and modeling rows use; only what is
+  analyzed differs.
+- **Reconciliation.** A native sink marker sits on the real `os.system(...)`
+  callsite rather than on a declaration, so the marker line is the
+  reconciliation target directly. Because a whole shipped suite runs, findings
+  elsewhere in the fixture are retained as diagnostics and never become an
+  outcome; only a finding on the sink-anchor line is `reached`.
+- **Invocation:**
+  `cargo run -- run-codeql-native --language python --codeql <path>`, writing
+  `reports/codeql-python-native.json` with raw SARIF under
+  `reports/raw/codeql-python-native/`.
 
-Note that a query pack bundles its own library pack: this run resolves
-`codeql/python-all@7.2.4`, against the `7.2.3` the benchmark-controlled adapter
-pins. The two profiles run on different library resolutions by construction,
-which is correct — the native profile must measure the shipped product as
-shipped — and is one more reason they are never pooled.
-
-Anchoring differs from every other CodeQL population here. A native fixture
-declares no endpoint, so its `DFB-SINK:` marker sits on the real
-`os.system(...)` callsite and a SARIF result is bound to that line; results
-elsewhere in the fixture are retained as diagnostics and never as flow
-evidence, and only a result with no readable location makes a cell
-`inconclusive`.
-
-```bash
-cargo run -- run-codeql-native --language python --codeql /opt/homebrew/bin/codeql
-```
-
-CodeQL enters this profile with **six of six templates scored** and decides
-**ten of twelve** assertions, against a blind-pair baseline of six: every
-positive found, and two false positives on negatives. One query decided the
-whole column — `py/command-line-injection` — and both false positives are the
-hazards the preregistration named in advance: `shlex.quote` is a barrier only
-for `py/shell-command-constructed-from-input`, which does not own this sink,
-and `os.environ` is itself a shipped source, so the persistence negative's
-distinct key is never looked at. Its configuration hash is
+**Result on the pinned CLI: 10 of 12 assertions match**, against a blind-pair
+baseline of six: every positive found, and two false positives on negatives.
+Configuration hash
 `73de6c6787622ca988d0b4f6be9a972ece7e19b42c70964aa48960133d19e15d`.
+
+One query decided the whole column — `py/command-line-injection` — and both
+false positives are the hazards the preregistration named in advance:
+`shlex.quote` is a barrier only for `py/shell-command-constructed-from-input`,
+which does not own this sink, and `os.environ` is itself a shipped source, so
+the persistence negative's distinct key is never looked at.
 
 This is coverage, not accuracy, and it is never pooled with the
 benchmark-controlled Python row above. See
 [the Python tool-native probe set](../../docs/python-native.md).
+

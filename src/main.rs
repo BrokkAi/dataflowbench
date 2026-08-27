@@ -1421,7 +1421,7 @@ const NATIVE_PARTITION: [NativePartitionCell; 24] = [
 /// `NATIVE_PARTITION` preregistered for it.
 const NATIVE_PARTITION_AMENDMENTS: [(ModelingTool, ModelingLanguage, &str, Option<&'static str>);
     6] = [
-    // Amendment N-A1 (2026-08-27) — Semgrep CE 1.174.0 × Python, all six
+    // Amendment A8 (2026-08-27) — Semgrep CE 1.174.0 × Python, all six
     // templates promoted to scored on the evidence of the vendored snapshot
     // (semgrep/semgrep-rules @ 40b8c63f, `python/lang/security/`), read as rule
     // text before any scan. `audit/dangerous-system-call-tainted-env-args.yaml`
@@ -7166,101 +7166,19 @@ fn run_codeql_case_for_language(
     raw_dir: &Path,
     language: CodeqlLanguage,
 ) -> Result<(&'static str, Vec<String>, PathBuf)> {
-    let id = case["id"].as_str().expect("schema validated");
-    let workspace = materialize_codeql_workspace(case_path, case)?;
-    let database_root = std::env::temp_dir().join("dataflowbench-codeql-databases");
-    fs::create_dir_all(&database_root)?;
-    let database = database_root.join(id);
-    if database.exists() {
-        fs::remove_dir_all(&database).with_context(|| format!("clear {}", database.display()))?;
-    }
-    for stale in [
-        raw_dir.join(format!("{id}.sarif.json")),
-        raw_dir.join(format!("{id}-error.json")),
-    ] {
-        if stale.exists() {
-            fs::remove_file(&stale).with_context(|| format!("clear {}", stale.display()))?;
-        }
-    }
-    let mut create_command = Command::new(binary);
-    if language.traces_jvm_compile() {
-        let classes = workspace.join("classes");
-        fs::create_dir_all(&classes)?;
-    }
-    if matches!(language, CodeqlLanguage::Go { .. }) {
-        fs::write(workspace.join("go.mod"), GO_MODULE_MANIFEST)
-            .with_context(|| format!("write Go module manifest in {}", workspace.display()))?;
-    }
-    if matches!(language, CodeqlLanguage::Rust) {
-        write_rust_cargo_manifest(&workspace, case)?;
-    }
-    create_command.args(codeql_database_create_args(
-        &database, &workspace, case, language,
-    )?);
-    let create = match create_command.output() {
-        Ok(output) => output,
-        Err(error) => {
-            let diagnostic = format!("failed to run CodeQL database create: {error}");
-            let raw_path = write_codeql_spawn_error(raw_dir, id, "database-create", &diagnostic)?;
-            clear_codeql_case_artifacts(&workspace, &database)?;
-            return Ok(("runner-error", vec![diagnostic], raw_path));
-        }
+    let sarif = match codeql_sarif_for_case(
+        binary,
+        packs,
+        case_path,
+        case,
+        raw_dir,
+        language,
+        &[query.to_string_lossy().into_owned()],
+    )? {
+        CodeqlSarif::Failed(outcome) => return Ok(outcome),
+        CodeqlSarif::Analyzed { sarif, raw_path } => (sarif, raw_path),
     };
-    if !create.status.success() {
-        let error = write_codeql_error(raw_dir, id, "database-create", &create)?;
-        clear_codeql_case_artifacts(&workspace, &database)?;
-        return Ok(error);
-    }
-
-    let raw_path = raw_dir.join(format!("{id}.sarif.json"));
-    let mut analyze = Command::new(binary);
-    analyze
-        .arg("database")
-        .arg("analyze")
-        .arg(&database)
-        .arg(query)
-        .arg("--format=sarif-latest")
-        .arg(format!("--output={}", raw_path.display()))
-        .arg("--rerun");
-    if let Some(packs) = packs {
-        analyze.arg(format!("--additional-packs={}", packs.display()));
-    }
-    let analyzed = match analyze.output() {
-        Ok(output) => output,
-        Err(error) => {
-            let diagnostic = format!("failed to run CodeQL database analyze: {error}");
-            let raw_path = write_codeql_spawn_error(raw_dir, id, "database-analyze", &diagnostic)?;
-            clear_codeql_case_artifacts(&workspace, &database)?;
-            return Ok(("runner-error", vec![diagnostic], raw_path));
-        }
-    };
-    if !analyzed.status.success() {
-        let error = write_codeql_error(raw_dir, id, "database-analyze", &analyzed)?;
-        clear_codeql_case_artifacts(&workspace, &database)?;
-        return Ok(error);
-    }
-    let sarif_text = match fs::read_to_string(&raw_path) {
-        Ok(text) => text,
-        Err(error) => {
-            let (outcome, diagnostics, error_path) =
-                codeql_missing_sarif_error(raw_dir, id, &raw_path, &error)?;
-            clear_codeql_case_artifacts(&workspace, &database)?;
-            return Ok((outcome, diagnostics, error_path));
-        }
-    };
-    let sarif: Value = match serde_json::from_str(&sarif_text) {
-        Ok(sarif) => sarif,
-        Err(error) => {
-            let diagnostic = format!("parse CodeQL SARIF {}: {error}", raw_path.display());
-            clear_codeql_case_artifacts(&workspace, &database)?;
-            return Ok(("runner-error", vec![diagnostic], raw_path));
-        }
-    };
-    let execution_errors = sarif_execution_errors(&sarif);
-    if !execution_errors.is_empty() {
-        clear_codeql_case_artifacts(&workspace, &database)?;
-        return Ok(("runner-error", execution_errors, raw_path));
-    }
+    let (sarif, raw_path) = sarif;
     let (outcome, diagnostics) = match language {
         CodeqlLanguage::Python => normalize_anchored_codeql_sarif(case, &sarif, "Python"),
         CodeqlLanguage::Kotlin { .. } => normalize_anchored_codeql_sarif(case, &sarif, "Kotlin"),
@@ -7298,8 +7216,148 @@ fn run_codeql_case_for_language(
             (outcome, diagnostics)
         }
     };
-    clear_codeql_case_artifacts(&workspace, &database)?;
     Ok((outcome, diagnostics, raw_path))
+}
+
+/// The result of driving CodeQL over one case: either a runner-level failure
+/// whose evidence is already written, or the parsed SARIF for the caller to
+/// reconcile.
+enum CodeqlSarif {
+    Failed((&'static str, Vec<String>, PathBuf)),
+    Analyzed { sarif: Value, raw_path: PathBuf },
+}
+
+/// Build one case's database and analyze it, returning the SARIF rather than an
+/// outcome.
+///
+/// Extraction, the traced build, evidence paths, and scratch cleanup are
+/// identical for every CodeQL population here; what differs is *what is
+/// analyzed* and *how a finding is reconciled*. The `analysis` slice carries
+/// the former — a benchmark query path for the kernels and the modeling
+/// matrix, a pinned shipped suite plus its threat-model option for the
+/// tool-native profile — and the caller supplies the latter.
+fn codeql_sarif_for_case(
+    binary: &Path,
+    packs: Option<&Path>,
+    case_path: &Path,
+    case: &Value,
+    raw_dir: &Path,
+    language: CodeqlLanguage,
+    analysis: &[String],
+) -> Result<CodeqlSarif> {
+    let id = case["id"].as_str().expect("schema validated");
+    let workspace = materialize_codeql_workspace(case_path, case)?;
+    let database_root = std::env::temp_dir().join("dataflowbench-codeql-databases");
+    fs::create_dir_all(&database_root)?;
+    let database = database_root.join(id);
+    if database.exists() {
+        fs::remove_dir_all(&database).with_context(|| format!("clear {}", database.display()))?;
+    }
+    for stale in [
+        raw_dir.join(format!("{id}.sarif.json")),
+        raw_dir.join(format!("{id}-error.json")),
+    ] {
+        if stale.exists() {
+            fs::remove_file(&stale).with_context(|| format!("clear {}", stale.display()))?;
+        }
+    }
+    let mut create_command = Command::new(binary);
+    if language.traces_jvm_compile() {
+        let classes = workspace.join("classes");
+        fs::create_dir_all(&classes)?;
+    }
+    if matches!(language, CodeqlLanguage::Go { .. }) {
+        fs::write(workspace.join("go.mod"), GO_MODULE_MANIFEST)
+            .with_context(|| format!("write Go module manifest in {}", workspace.display()))?;
+    }
+    if matches!(language, CodeqlLanguage::Rust) {
+        write_rust_cargo_manifest(&workspace, case)?;
+    }
+    create_command.args(codeql_database_create_args(
+        &database, &workspace, case, language,
+    )?);
+    let create = match create_command.output() {
+        Ok(output) => output,
+        Err(error) => {
+            let diagnostic = format!("failed to run CodeQL database create: {error}");
+            let raw_path = write_codeql_spawn_error(raw_dir, id, "database-create", &diagnostic)?;
+            clear_codeql_case_artifacts(&workspace, &database)?;
+            return Ok(CodeqlSarif::Failed((
+                "runner-error",
+                vec![diagnostic],
+                raw_path,
+            )));
+        }
+    };
+    if !create.status.success() {
+        let error = write_codeql_error(raw_dir, id, "database-create", &create)?;
+        clear_codeql_case_artifacts(&workspace, &database)?;
+        return Ok(CodeqlSarif::Failed(error));
+    }
+
+    let raw_path = raw_dir.join(format!("{id}.sarif.json"));
+    let mut analyze = Command::new(binary);
+    analyze
+        .arg("database")
+        .arg("analyze")
+        .arg(&database)
+        .args(analysis)
+        .arg("--format=sarif-latest")
+        .arg(format!("--output={}", raw_path.display()))
+        .arg("--rerun");
+    if let Some(packs) = packs {
+        analyze.arg(format!("--additional-packs={}", packs.display()));
+    }
+    let analyzed = match analyze.output() {
+        Ok(output) => output,
+        Err(error) => {
+            let diagnostic = format!("failed to run CodeQL database analyze: {error}");
+            let raw_path = write_codeql_spawn_error(raw_dir, id, "database-analyze", &diagnostic)?;
+            clear_codeql_case_artifacts(&workspace, &database)?;
+            return Ok(CodeqlSarif::Failed((
+                "runner-error",
+                vec![diagnostic],
+                raw_path,
+            )));
+        }
+    };
+    if !analyzed.status.success() {
+        let error = write_codeql_error(raw_dir, id, "database-analyze", &analyzed)?;
+        clear_codeql_case_artifacts(&workspace, &database)?;
+        return Ok(CodeqlSarif::Failed(error));
+    }
+    let sarif_text = match fs::read_to_string(&raw_path) {
+        Ok(text) => text,
+        Err(error) => {
+            let (outcome, diagnostics, error_path) =
+                codeql_missing_sarif_error(raw_dir, id, &raw_path, &error)?;
+            clear_codeql_case_artifacts(&workspace, &database)?;
+            return Ok(CodeqlSarif::Failed((outcome, diagnostics, error_path)));
+        }
+    };
+    let sarif: Value = match serde_json::from_str(&sarif_text) {
+        Ok(sarif) => sarif,
+        Err(error) => {
+            let diagnostic = format!("parse CodeQL SARIF {}: {error}", raw_path.display());
+            clear_codeql_case_artifacts(&workspace, &database)?;
+            return Ok(CodeqlSarif::Failed((
+                "runner-error",
+                vec![diagnostic],
+                raw_path,
+            )));
+        }
+    };
+    let execution_errors = sarif_execution_errors(&sarif);
+    if !execution_errors.is_empty() {
+        clear_codeql_case_artifacts(&workspace, &database)?;
+        return Ok(CodeqlSarif::Failed((
+            "runner-error",
+            execution_errors,
+            raw_path,
+        )));
+    }
+    clear_codeql_case_artifacts(&workspace, &database)?;
+    Ok(CodeqlSarif::Analyzed { sarif, raw_path })
 }
 
 fn clear_codeql_case_artifacts(workspace: &Path, database: &Path) -> Result<()> {
@@ -10287,34 +10345,41 @@ fn native_partition_outcome(
     Ok(Some(("unsupported", reason, raw_path)))
 }
 
-/// One reconciliation target for a tool-native case: the real platform-API
-/// callsite its `DFB-SINK:` marker sits on.
+/// The CodeQL extractor a tool-native run uses.
 ///
-/// This is where native anchoring parts company with every benchmark-controlled
-/// population, and the difference is forced by the profile's own fairness rule.
-/// There, a marker sits on the *declaration* of a benchmark-invented endpoint
-/// and reconciliation walks that function's callsites. A native fixture declares
-/// no endpoint at all — the sink is `os.system`, inside CPython — so there is no
-/// declaration line to read and the marker sits on the real callsite itself
-/// (docs/native-profile.md#the-native-binding-trap).
-///
-/// An anchor remains exactly what the activation rule says it is: a way to
-/// decide which finding belongs to which assertion. It never tells an analyzer
-/// what a sink is.
-struct NativeSinkCallsite {
-    file: String,
-    line: u64,
+/// Extraction is a property of the language, not of the model profile: a native
+/// database is built exactly the way the benchmark-controlled one is, and only
+/// the *analysis* differs — a shipped suite instead of an adapter query. Sharing
+/// the mapping is what keeps the two profiles' databases comparable even though
+/// their query resolutions deliberately are not.
+fn native_codeql_language(language: ModelingLanguage) -> Result<CodeqlLanguage<'static>> {
+    modeling_codeql_language(language)
 }
 
-/// Resolve every native sink anchor to the fixture line its marker occupies.
-fn native_sink_callsites(
+/// Resolve a tool-native case's sink anchors, which sit on the **callsite of
+/// the real platform API**.
+///
+/// Every other population in this benchmark declares its own endpoint function
+/// and hangs the marker on that declaration, so reconciliation resolves the
+/// declared name and then finds the lines that call it. The tool-native profile
+/// has no declared entity, by construction: the sink is
+/// `child_process.execSync`, `Runtime.exec`, `os.system`, and its body is inside
+/// the platform rather than inside the fixture
+/// (docs/native-profile.md#the-native-binding-trap). The marker is therefore
+/// placed directly on the line that calls the platform API, and that line *is*
+/// the callsite.
+///
+/// This is still a reconciliation anchor and never a model. It decides which
+/// finding belongs to which assertion; it tells the analyzer nothing about what
+/// a source or a sink is (docs/native-profile.md#the-activation-rule).
+fn native_sink_anchor_locations(
     case_path: &Path,
     case: &Value,
-) -> std::result::Result<Vec<NativeSinkCallsite>, String> {
+) -> std::result::Result<Vec<SinkAnchorLocation>, String> {
     let fixture_root = case_path
         .parent()
         .ok_or_else(|| "case path has no parent".to_string())?;
-    let mut callsites = Vec::new();
+    let mut locations = Vec::new();
     for anchor in case["sink_anchors"]
         .as_array()
         .ok_or_else(|| "case has no sink anchors".to_string())?
@@ -10328,249 +10393,191 @@ fn native_sink_callsites(
         let body = fs::read_to_string(fixture_root.join(file))
             .map_err(|error| format!("read sink fixture {file}: {error}"))?;
         let line = anchor_marker_line(&body, marker, anchor["line_hint"].as_u64())?;
-        callsites.push(NativeSinkCallsite {
+        locations.push(SinkAnchorLocation {
             file: file.to_string(),
-            line,
+            marker_line: line,
+            function_name: marker.to_string(),
+            callsite_lines: BTreeSet::from([line]),
         });
     }
-    if callsites.is_empty() {
-        return Err("case has no resolvable native sink callsites".to_string());
+    if locations.is_empty() {
+        return Err("case has no resolvable sink locations".to_string());
     }
-    Ok(callsites)
+    if locations
+        .iter()
+        .map(|location| (&location.file, location.marker_line))
+        .collect::<BTreeSet<_>>()
+        .len()
+        != locations.len()
+    {
+        return Err("case contains duplicate sink anchors".to_string());
+    }
+    Ok(locations)
 }
 
-/// Where one finding landed, relative to a case's native sink callsites.
-#[derive(Clone, Copy, PartialEq, Eq)]
-enum NativeFindingLocation {
-    /// The finding names the anchored platform-API callsite.
-    Anchored,
-    /// The finding carries a usable location that is not the anchored callsite.
-    Elsewhere,
-    /// The finding carries no location this runner can reconcile at all.
-    Unusable,
-}
-
-/// Whether a `(file, line)` pair names one of the case's native sink callsites.
-fn native_location_matches(callsites: &[NativeSinkCallsite], uri: &str, line: u64) -> bool {
-    line != 0
-        && callsites.iter().any(|callsite| {
-            evidence_path_matches_file(uri, &callsite.file) && callsite.line == line
-        })
-}
-
-/// Reconcile one native case's findings against its sink callsite anchors.
+/// Reconcile a native SARIF document against the case's platform-API callsite.
 ///
-/// The outcome vocabulary is `docs/native-profile.md#outcome-honesty`, applied
-/// literally:
+/// One rule differs from every other SARIF reconciliation here, and it follows
+/// from what a native run analyzes. Elsewhere the runner points CodeQL at a
+/// single adapter query, so *any* finding is a finding about the assertion and
+/// one that does not land on the anchor means the reconciliation is untrustworthy
+/// — hence `inconclusive`. A native run points CodeQL at a whole shipped
+/// `security-extended` suite, which contains hundreds of queries about
+/// everything from weak hashing to regular-expression denial of service. A
+/// finding those queries produce somewhere other than this assertion's sink is
+/// not evidence about this assertion at all; it is a different query answering a
+/// different question, and treating it as ambiguity would make every cell
+/// inconclusive and measure nothing.
 ///
-/// - A finding on the anchored callsite is `reached`. Under
-///   [the sink-existence rule](docs/native-profile.md#sink-existence-only-findings-and-how-they-score)
-///   that is true whether the rule that produced it reasoned about flow or
-///   merely noticed that a dangerous call is present — polarity is about the
-///   flow, and a sink-existence finding is scored on the cell it lands in.
-/// - Findings that all land elsewhere, or no findings at all, are `not-reached`.
-///   A coverage miss by an activated model set is neither `unsupported` nor
-///   `inconclusive`; it is the plain false negative this profile exists to
-///   publish, and dressing it as incomplete evidence would quietly remove the
-///   cell from the vendor's denominator.
-/// - A finding whose location this runner cannot read is the one genuinely
-///   incomplete case, and only that is `inconclusive`.
-fn native_evidence_outcome(
-    findings: &[NativeFindingLocation],
-    tool: &str,
+/// So an unmatched finding is **retained in the diagnostics and does not make
+/// the cell reached**. What it never does is become evidence of a flow: only a
+/// finding at the sink anchor does that. Ambiguity — a malformed location, or
+/// one finding that matches two anchors — stays `inconclusive` exactly as
+/// everywhere else.
+///
+/// A finding *on* the sink-anchor line is `reached` whatever query produced it,
+/// including a rule that fires on the existence of the sink alone. That is
+/// deliberate, and it is the profile's own scoring rule
+/// (docs/native-profile.md#sink-existence-only-findings-and-how-they-score):
+/// polarity is about the flow, so such a finding is a true positive on the
+/// positive cell and a false positive on the negative cell.
+fn native_sarif_outcome(
+    case_path: &Path,
+    case: &Value,
+    sarif: &Value,
 ) -> (&'static str, Vec<String>) {
-    let anchored = findings
-        .iter()
-        .filter(|location| **location == NativeFindingLocation::Anchored)
-        .count();
-    let elsewhere = findings
-        .iter()
-        .filter(|location| **location == NativeFindingLocation::Elsewhere)
-        .count();
-    let unusable = findings
-        .iter()
-        .filter(|location| **location == NativeFindingLocation::Unusable)
-        .count();
-    let mut diagnostics = Vec::new();
-    if elsewhere > 0 {
-        diagnostics.push(format!(
-            "{tool} retained {elsewhere} finding(s) away from the anchored platform-API callsite"
-        ));
+    let mut diagnostics = sarif_messages(sarif);
+    let (outcome, anchor_diagnostics) = native_sarif_anchor_outcome(case_path, case, sarif);
+    diagnostics.extend(anchor_diagnostics);
+    diagnostics.sort();
+    diagnostics.dedup();
+    (outcome, diagnostics)
+}
+
+fn native_sarif_anchor_outcome(
+    case_path: &Path,
+    case: &Value,
+    sarif: &Value,
+) -> (&'static str, Vec<String>) {
+    if sarif_result_count(sarif) == 0 {
+        return ("not-reached", Vec::new());
     }
-    if unusable > 0 {
-        diagnostics.push(format!(
-            "{tool} retained {unusable} finding(s) with no usable location"
-        ));
+    let sink_locations = match native_sink_anchor_locations(case_path, case) {
+        Ok(locations) => locations,
+        Err(reason) => {
+            return (
+                "inconclusive",
+                vec![format!(
+                    "cannot prove SARIF finding against the native sink anchor: {reason}"
+                )],
+            );
+        }
+    };
+    native_anchor_tally_outcome(
+        sarif["runs"]
+            .as_array()
+            .into_iter()
+            .flatten()
+            .flat_map(|run| run["results"].as_array().into_iter().flatten())
+            .map(|result| sarif_result_anchor_match(result, &sink_locations)),
+        "SARIF",
+    )
+}
+
+/// Decide one native cell from where its shipped suite's findings landed.
+///
+/// This is the tool-native profile's *only* reconciliation rule, and both
+/// execution arms reach it: CodeQL's SARIF results and Semgrep's JSON results
+/// are each classified against the same `SinkAnchorLocation` set and then
+/// tallied here, so the two adapters cannot drift into two readings of
+/// docs/native-profile.md#outcome-honesty.
+///
+/// The ordering is that section applied literally:
+///
+/// - Ambiguity — a location this runner cannot read, or one finding that
+///   matches two anchors — is the genuinely *incomplete analysis* the document
+///   reserves `inconclusive` for.
+/// - A finding on the anchor is `reached`, whatever query produced it.
+/// - Everything else is `not-reached`: no finding at all, or findings only away
+///   from the anchor. Both are a **coverage miss by an activated model set**,
+///   which the document says "is neither" `unsupported` nor `inconclusive` — it
+///   "is a plain `not-reached`, which on a positive cell is a false negative and
+///   is exactly the number this profile is built to publish". Scoring either as
+///   `inconclusive` would quietly lift the cell out of the vendor's denominator.
+fn native_anchor_tally_outcome(
+    matches: impl Iterator<Item = SarifAnchorMatch>,
+    evidence: &str,
+) -> (&'static str, Vec<String>) {
+    let mut matched = 0;
+    let mut unmatched = 0;
+    let mut ambiguous = 0;
+    for outcome in matches {
+        match outcome {
+            SarifAnchorMatch::Matched => matched += 1,
+            SarifAnchorMatch::Unmatched => unmatched += 1,
+            SarifAnchorMatch::Ambiguous => ambiguous += 1,
+        }
     }
-    if anchored > 0 {
-        return ("reached", diagnostics);
+    if ambiguous > 0 {
+        return (
+            "inconclusive",
+            vec![format!(
+                "{ambiguous} {evidence} finding(s) have ambiguous sink-anchor locations"
+            )],
+        );
     }
-    if unusable > 0 {
-        return ("inconclusive", diagnostics);
+    if matched > 0 {
+        return ("reached", Vec::new());
     }
-    ("not-reached", diagnostics)
+    (
+        "not-reached",
+        vec![format!(
+            "{unmatched} shipped-suite finding(s) landed away from this case's platform sink anchor and are not evidence about this assertion"
+        )],
+    )
 }
 
 /// Run one *scored* native cell through CodeQL's shipped security suite.
 ///
-/// The shape is the kernel runner's, with the activation swapped: the analyzed
-/// query is the pinned vendor suite rather than an adapter query, and the
-/// pinned threat-model group is the only configuration passed. Nothing in this
-/// invocation is a model of ours, which is what `require_no_benchmark_models`
-/// has already proven over the same argument vector.
+/// There is one CodeQL driver in this file and every population shares it:
+/// `codeql_sarif_for_case` builds the database with the language's own
+/// extractor and traced build, writes the failure evidence, and cleans up the
+/// scratch, exactly as the kernels and the modeling matrix do. Only two things
+/// are native here, and both are arguments to that driver rather than a second
+/// copy of it: *what is analyzed* — the pinned query pack's own suite plus the
+/// `local` threat-model group, passed verbatim in the order `native_activation`
+/// pins and `native_configuration_hash` hashes, so the invocation and the
+/// retained provenance cannot drift apart — and *how a finding is reconciled*,
+/// which is `native_sarif_outcome`.
+///
+/// The `--codeql-packs` search path is deliberately **not** forwarded. The
+/// activation contract in docs/native-profile.md says "no adapter query, no
+/// data extension, no `--additional-packs` model of ours", and the runner's
+/// gate on that path exists so a stale value fails fast, not so it is used.
+/// The shipped suite resolves from the pinned query pack through the CLI's own
+/// pack resolution and needs no search path of ours.
 fn run_codeql_native_case(
     binary: &Path,
-    packs: Option<&Path>,
     case_path: &Path,
     case: &Value,
     plan: &NativeRunPlan,
 ) -> Result<(&'static str, Vec<String>, PathBuf)> {
-    let id = required_string(case, "id", "tool-native case")?;
-    let raw_dir = plan.raw_dir.as_path();
-    let workspace = materialize_codeql_workspace(case_path, case)?;
-    let database_root = std::env::temp_dir().join("dataflowbench-codeql-native-databases");
-    fs::create_dir_all(&database_root)?;
-    let database = database_root.join(id);
-    if database.exists() {
-        fs::remove_dir_all(&database).with_context(|| format!("clear {}", database.display()))?;
-    }
-    let raw_path = raw_dir.join(format!("{id}.sarif.json"));
-    for stale in [&raw_path, &raw_dir.join(format!("{id}-error.json"))] {
-        if stale.exists() {
-            fs::remove_file(stale).with_context(|| format!("clear {}", stale.display()))?;
+    let sarif = codeql_sarif_for_case(
+        binary,
+        None,
+        case_path,
+        case,
+        &plan.raw_dir,
+        native_codeql_language(plan.language)?,
+        &plan.activation.arguments,
+    )?;
+    Ok(match sarif {
+        CodeqlSarif::Failed(outcome) => outcome,
+        CodeqlSarif::Analyzed { sarif, raw_path } => {
+            let (outcome, diagnostics) = native_sarif_outcome(case_path, case, &sarif);
+            (outcome, diagnostics, raw_path)
         }
-    }
-
-    let language = modeling_codeql_language(plan.language)?;
-    let mut create_command = Command::new(binary);
-    create_command.args(codeql_database_create_args(
-        &database, &workspace, case, language,
-    )?);
-    let create = match create_command.output() {
-        Ok(output) => output,
-        Err(error) => {
-            let diagnostic = format!("failed to run CodeQL database create: {error}");
-            let error_path = write_codeql_spawn_error(raw_dir, id, "database-create", &diagnostic)?;
-            clear_codeql_case_artifacts(&workspace, &database)?;
-            return Ok(("runner-error", vec![diagnostic], error_path));
-        }
-    };
-    if !create.status.success() {
-        let error = write_codeql_error(raw_dir, id, "database-create", &create)?;
-        clear_codeql_case_artifacts(&workspace, &database)?;
-        return Ok(error);
-    }
-
-    let mut analyze = Command::new(binary);
-    analyze.arg("database").arg("analyze").arg(&database);
-    // The pinned activation shape, verbatim and in order: the shipped
-    // `security-extended` suite resolved from the pinned query pack, and the
-    // `local` threat-model group that turns the vendor's own `environment` and
-    // `commandargs` rows on.
-    analyze.args(&plan.activation.arguments);
-    analyze
-        .arg("--format=sarif-latest")
-        .arg(format!("--output={}", raw_path.display()))
-        .arg("--rerun");
-    if let Some(packs) = packs {
-        analyze.arg(format!("--additional-packs={}", packs.display()));
-    }
-    let analyzed = match analyze.output() {
-        Ok(output) => output,
-        Err(error) => {
-            let diagnostic = format!("failed to run CodeQL database analyze: {error}");
-            let error_path =
-                write_codeql_spawn_error(raw_dir, id, "database-analyze", &diagnostic)?;
-            clear_codeql_case_artifacts(&workspace, &database)?;
-            return Ok(("runner-error", vec![diagnostic], error_path));
-        }
-    };
-    if !analyzed.status.success() {
-        let error = write_codeql_error(raw_dir, id, "database-analyze", &analyzed)?;
-        clear_codeql_case_artifacts(&workspace, &database)?;
-        return Ok(error);
-    }
-    let sarif_text = match fs::read_to_string(&raw_path) {
-        Ok(text) => text,
-        Err(error) => {
-            let missing = codeql_missing_sarif_error(raw_dir, id, &raw_path, &error)?;
-            clear_codeql_case_artifacts(&workspace, &database)?;
-            return Ok(missing);
-        }
-    };
-    let sarif: Value = match serde_json::from_str(&sarif_text) {
-        Ok(sarif) => sarif,
-        Err(error) => {
-            let diagnostic = format!("parse CodeQL SARIF {}: {error}", raw_path.display());
-            clear_codeql_case_artifacts(&workspace, &database)?;
-            return Ok(("runner-error", vec![diagnostic], raw_path));
-        }
-    };
-    clear_codeql_case_artifacts(&workspace, &database)?;
-
-    let execution_errors = sarif_execution_errors(&sarif);
-    if !execution_errors.is_empty() {
-        return Ok(("runner-error", execution_errors, raw_path));
-    }
-    let Some(runs) = sarif["runs"].as_array() else {
-        return Ok((
-            "runner-error",
-            vec!["CodeQL SARIF is missing its runs array".to_string()],
-            raw_path,
-        ));
-    };
-    if runs.is_empty() || runs.iter().any(|run| run["results"].as_array().is_none()) {
-        return Ok((
-            "runner-error",
-            vec!["CodeQL SARIF contains no usable analysis run".to_string()],
-            raw_path,
-        ));
-    }
-    let callsites = match native_sink_callsites(case_path, case) {
-        Ok(callsites) => callsites,
-        Err(reason) => {
-            return Ok((
-                "inconclusive",
-                vec![format!(
-                    "cannot prove a CodeQL finding against the native sink callsite: {reason}"
-                )],
-                raw_path,
-            ));
-        }
-    };
-    let findings: Vec<NativeFindingLocation> = runs
-        .iter()
-        .flat_map(|run| run["results"].as_array().into_iter().flatten())
-        .map(|result| {
-            let mut usable = false;
-            for location in result["locations"].as_array().into_iter().flatten() {
-                let physical = &location["physicalLocation"];
-                let (Some(uri), Some(line)) = (
-                    physical["artifactLocation"]["uri"].as_str(),
-                    physical["region"]["startLine"].as_u64(),
-                ) else {
-                    continue;
-                };
-                if line == 0 {
-                    continue;
-                }
-                usable = true;
-                if native_location_matches(&callsites, uri, line) {
-                    return NativeFindingLocation::Anchored;
-                }
-            }
-            if usable {
-                NativeFindingLocation::Elsewhere
-            } else {
-                NativeFindingLocation::Unusable
-            }
-        })
-        .collect();
-    let (outcome, mut diagnostics) = native_evidence_outcome(&findings, "CodeQL");
-    diagnostics.extend(sarif_messages(&sarif));
-    diagnostics.sort();
-    diagnostics.dedup();
-    Ok((outcome, diagnostics, raw_path))
+    })
 }
 
 /// Run one *scored* native cell through Semgrep CE over the vendored snapshot.
@@ -10581,6 +10588,10 @@ fn run_codeql_native_case(
 /// rule, and `taint_assume_safe_functions` is **not** set. There the permissive
 /// default would decide a cell the supplied model was meant to decide; here the
 /// default is the product.
+///
+/// This arm exists because Amendment A8 promoted all six Semgrep CE × Python
+/// cells to scored. It is not a second reconciler: the outcome is decided by
+/// `native_anchor_tally_outcome`, the same rule the CodeQL arm reaches.
 fn run_semgrep_native_case(
     binary: &Path,
     case_path: &Path,
@@ -10671,7 +10682,39 @@ fn run_semgrep_native_case(
     }
 }
 
-/// Normalize one Semgrep tool-native scan against the case's sink callsites.
+/// Where one Semgrep finding landed, relative to the case's sink anchors.
+///
+/// Semgrep reports a flat `path` and `start.line` where SARIF reports a
+/// `locations` array, so the extraction differs; the *classification* is the
+/// SARIF one, in the same three-valued vocabulary, so both arms tally through
+/// `native_anchor_tally_outcome`.
+fn semgrep_result_anchor_match(
+    result: &Value,
+    sink_locations: &[SinkAnchorLocation],
+) -> SarifAnchorMatch {
+    let (Some(uri), Some(line)) = (result["path"].as_str(), result["start"]["line"].as_u64())
+    else {
+        return SarifAnchorMatch::Ambiguous;
+    };
+    if line == 0 {
+        return SarifAnchorMatch::Ambiguous;
+    }
+    let matches: BTreeSet<usize> = sink_locations
+        .iter()
+        .enumerate()
+        .filter(|(_, anchor)| {
+            evidence_path_matches_file(uri, &anchor.file) && anchor.callsite_lines.contains(&line)
+        })
+        .map(|(index, _)| index)
+        .collect();
+    match matches.len() {
+        0 => SarifAnchorMatch::Unmatched,
+        1 => SarifAnchorMatch::Matched,
+        _ => SarifAnchorMatch::Ambiguous,
+    }
+}
+
+/// Normalize one Semgrep tool-native scan against the case's sink anchors.
 fn native_semgrep_outcome(
     case_path: &Path,
     case: &Value,
@@ -10740,35 +10783,26 @@ fn native_semgrep_outcome(
             }
         }
     }
-    let callsites = match native_sink_callsites(case_path, case) {
-        Ok(callsites) => callsites,
+    if results.is_empty() {
+        return ("not-reached", Vec::new());
+    }
+    let sink_locations = match native_sink_anchor_locations(case_path, case) {
+        Ok(locations) => locations,
         Err(reason) => {
             return (
                 "inconclusive",
                 vec![format!(
-                    "cannot prove a Semgrep finding against the native sink callsite: {reason}"
+                    "cannot prove Semgrep finding against the native sink anchor: {reason}"
                 )],
             );
         }
     };
-    let findings: Vec<NativeFindingLocation> = results
-        .iter()
-        .map(|result| {
-            let (Some(file), Some(line)) =
-                (result["path"].as_str(), result["start"]["line"].as_u64())
-            else {
-                return NativeFindingLocation::Unusable;
-            };
-            if line == 0 {
-                NativeFindingLocation::Unusable
-            } else if native_location_matches(&callsites, file, line) {
-                NativeFindingLocation::Anchored
-            } else {
-                NativeFindingLocation::Elsewhere
-            }
-        })
-        .collect();
-    native_evidence_outcome(&findings, "Semgrep")
+    native_anchor_tally_outcome(
+        results
+            .iter()
+            .map(|result| semgrep_result_anchor_match(result, &sink_locations)),
+        "Semgrep",
+    )
 }
 
 /// A per-case scratch root for a tool-native run, disjoint from every kernel
@@ -10799,8 +10833,10 @@ fn native_case_scratch(
 /// no-benchmark-models gate, and the partition's `unsupported` arm are
 /// infrastructure; the arm that invokes an analyzer over a *scored* cell lands
 /// with the wave-N1 pull request that vendors that adapter's activation
-/// snapshot for that language. A language whose execution arm is not wired yet
-/// is a hard error rather than a synthesized outcome.
+/// snapshot for that language. A tool whose execution arm is not wired yet is a
+/// hard error rather than a synthesized outcome — and a tool whose partition
+/// scores nothing never reaches that arm, because the partition is consulted
+/// first and decided from the template identity.
 fn run_native(
     tool: ModelingTool,
     binary: &Path,
@@ -10851,14 +10887,26 @@ fn run_native(
             (outcome, vec![reason], raw_path)
         } else {
             match plan.tool {
-                ModelingTool::Codeql => {
-                    run_codeql_native_case(binary, codeql_packs, path, case, &plan)?
-                }
+                ModelingTool::Codeql => run_codeql_native_case(binary, path, case, &plan)?,
+                // Semgrep CE's preregistered partition declines all six
+                // templates, and Amendment A8 promoted the six Python cells on
+                // the evidence of the vendored snapshot. The rule the document
+                // states is that a promotion lands its execution arm in the same
+                // pull request, so the arm is here — and it stays unreachable
+                // for the languages whose Semgrep cells are still `unsupported`,
+                // because the partition above answers those before this match.
                 ModelingTool::Semgrep => run_semgrep_native_case(binary, path, case, &plan)?,
+                // Bifrost and Joern decline every one of the six templates, so
+                // the partition arm above answers each of their cells and this
+                // arm is unreachable for them today. It stays a hard error
+                // rather than a synthesized outcome: an amendment that promotes
+                // one of their cells to scored must land the arm that runs it,
+                // and until then a promotion fails the run instead of
+                // publishing a silent zero.
                 ModelingTool::Bifrost | ModelingTool::Joern => bail!(
-                    "the tool-native execution arm for {} × {} is not wired, but the partition scores {id}. A scored cell with no runner behind it is a benchmark defect, never an outcome (docs/native-profile.md#outcome-honesty)",
+                    "the tool-native execution arm for {} × {} is not wired: {id} is a scored cell and no wave has yet had a reason to invoke this adapter natively — its preregistered partition declines all six templates (docs/native-profile.md#partition-summary). A cell promoted by a dated amendment lands its execution arm in the same pull request; synthesizing an outcome here is what docs/adapters.md forbids",
                     plan.tool.pinned_identity(),
-                    plan.language.display_name()
+                    plan.language.display_name(),
                 ),
             }
         };
@@ -15970,7 +16018,7 @@ mod tests {
     /// amended. CodeQL entered with six of six and the other three with
     /// nothing, which is a statement about product packaging rather than about
     /// an engine — Joern scores four of six *categories* on the
-    /// benchmark-controlled matrix with the same engine. Amendment N-A1
+    /// benchmark-controlled matrix with the same engine. Amendment A8
     /// promotes Semgrep CE's six Python cells on the evidence of the vendored
     /// snapshot, and touches no other language.
     #[test]
@@ -15987,7 +16035,7 @@ mod tests {
             assert!(native_supported_templates(ModelingTool::Bifrost, language).is_empty());
             assert!(native_supported_templates(ModelingTool::Joern, language).is_empty());
         }
-        // Amendment N-A1: Python only.
+        // Amendment A8: Python only.
         assert_eq!(
             native_supported_templates(ModelingTool::Semgrep, ModelingLanguage::Python),
             NATIVE_TEMPLATE_IDS.to_vec()
@@ -16408,31 +16456,64 @@ mod tests {
         );
     }
 
-    /// A language's tool-native population is either absent — no denominator,
-    /// which is different from a zero — or the complete balanced twelve. There
-    /// is no partial state, because a native run over a subset would publish a
-    /// coverage rate against a denominator nobody declared. Wave N1 lands one
-    /// language per pull request, so both states coexist in the corpus.
+    /// Wave N1 is complete: every native language carries a balanced twelve
+    /// over exactly the six preregistered templates, on the shared `modeling`
+    /// tier and the `tool-native` profile, supplying no models of our own.
+    ///
+    /// A population is absent or complete and never partial. Wave N1 landed one
+    /// language per pull request, so the *absent* state was real while the wave
+    /// was open; with Python's row this closes issue #16 and all three are
+    /// complete. The fail-fast gate on an empty population stays in
+    /// `plan_native_run` — a partial or emptied population must never publish a
+    /// coverage rate against a denominator nobody declared.
     #[test]
-    fn native_populations_are_absent_or_complete() {
-        for language in [
-            ModelingLanguage::Java,
-            ModelingLanguage::Javascript,
-            ModelingLanguage::Python,
+    fn every_native_population_is_the_balanced_twelve() {
+        for (language, revision) in [
+            (ModelingLanguage::Java, "n1-native-java"),
+            (ModelingLanguage::Javascript, "n1-native-javascript"),
+            (ModelingLanguage::Python, "n1-native-python"),
         ] {
             let population = select_native_cases(language).unwrap();
-            assert!(
-                population.is_empty() || population.len() == NATIVE_CASE_COUNT,
-                "{} has {} tool-native cases; a population is absent or complete",
-                language.display_name(),
-                population.len()
+            assert_eq!(
+                population.len(),
+                NATIVE_CASE_COUNT,
+                "wave N1 landed the {} tool-native probe set",
+                language.display_name()
             );
+            let templates: BTreeSet<&str> = population
+                .iter()
+                .filter_map(|(_, case)| case["template_id"].as_str())
+                .collect();
+            assert_eq!(templates, NATIVE_TEMPLATE_IDS.into_iter().collect());
+            for (path, case) in &population {
+                assert_eq!(case["score_tier"], "modeling", "{}", path.display());
+                assert_eq!(case["model_profile"], NATIVE_MODEL_PROFILE);
+                assert_eq!(
+                    case["fixture_provenance"]["revision"],
+                    revision,
+                    "{}",
+                    path.display()
+                );
+                // The activation rule reaches the corpus too: a native case
+                // names no model artifact of ours, because there are none.
+                assert_eq!(
+                    case["tool_model_references"],
+                    json!({}),
+                    "{} references a benchmark-authored model",
+                    path.display()
+                );
+                // Every sink anchor resolves to the real API's own callsite
+                // line, which is the line a shipped-suite finding must land on.
+                let locations = native_sink_anchor_locations(path, case).unwrap();
+                assert_eq!(locations.len(), 1, "{}", path.display());
+                assert_eq!(
+                    locations[0].callsite_lines,
+                    BTreeSet::from([locations[0].marker_line]),
+                    "{}",
+                    path.display()
+                );
+            }
         }
-        assert_eq!(
-            select_native_cases(ModelingLanguage::Python).unwrap().len(),
-            NATIVE_CASE_COUNT,
-            "wave N1 landed the Python tool-native probe set"
-        );
     }
 
     /// The CodeQL native pins are *query* packs, and every one of them differs
@@ -16486,101 +16567,255 @@ mod tests {
             );
             let modeling_rule = PathBuf::from(language.artifact(ModelingTool::Semgrep));
             assert!(!modeling_rule.starts_with(&dir));
-            if !dir.exists() {
-                // No snapshot for this language yet, and therefore no scored
-                // Semgrep cell: the amendment table must not have promoted one.
-                assert!(
-                    native_supported_templates(ModelingTool::Semgrep, language).is_empty(),
-                    "{} has scored Semgrep cells but no vendored snapshot",
+            // A vendored snapshot exists only for a language whose wave-N1 pull
+            // request has landed, and when it does it carries its provenance:
+            // docs/native-profile.md#provenance-for-vendored-activation-artifacts
+            // makes a snapshot with no recorded source commit not a snapshot,
+            // and the runner refuses a run over one.
+            //
+            // The document requires *facts*, not a key layout, and the two
+            // waves recorded them differently: JavaScript flat
+            // (`upstream_commit`), Java nested (`upstream.commit`). Both are
+            // read here so the required facts are checked for every landed
+            // snapshot; harmonizing the two layouts would rewrite a vendored
+            // file that the Semgrep configuration hash already covers, so it is
+            // left to its own change.
+            if dir.exists() {
+                let provenance: Value = serde_json::from_str(
+                    &fs::read_to_string(dir.join(SEMGREP_NATIVE_PROVENANCE_FILE)).unwrap(),
+                )
+                .unwrap();
+                let fact = |flat: &str, nested: &str| {
+                    let value = &provenance[flat];
+                    if value.is_null() {
+                        provenance["upstream"][nested].clone()
+                    } else {
+                        value.clone()
+                    }
+                };
+                assert_eq!(provenance["kind"], "derived");
+                assert_eq!(
+                    fact("upstream_repository", "repository"),
+                    SEMGREP_NATIVE_UPSTREAM,
+                    "{} records its upstream repository",
                     language.display_name()
                 );
-                continue;
+                assert_eq!(
+                    fact("upstream_commit", "commit")
+                        .as_str()
+                        .expect("a snapshot records its source commit")
+                        .len(),
+                    40,
+                    "{} records a full upstream commit",
+                    language.display_name()
+                );
+                assert!(fact("upstream_license", "license").is_string());
+                assert!(dir.join("rules").is_dir());
             }
-            // "A snapshot with no recorded source commit is not a snapshot"
-            // (docs/native-profile.md#provenance-for-vendored-activation-artifacts).
-            let provenance: Value = serde_json::from_str(
-                &fs::read_to_string(dir.join(SEMGREP_NATIVE_PROVENANCE_FILE)).unwrap(),
-            )
-            .unwrap();
-            assert_eq!(provenance["kind"], "derived");
-            assert_eq!(
-                provenance["upstream"]["repository"],
-                SEMGREP_NATIVE_UPSTREAM
-            );
-            let commit = provenance["upstream"]["commit"]
-                .as_str()
-                .expect("a recorded source commit");
-            assert_eq!(commit.len(), 40, "{commit} is not a full commit id");
-            assert!(commit.chars().all(|c| c.is_ascii_hexdigit()));
-            assert!(provenance["upstream"]["license"].is_string());
-            assert!(provenance["retrieved_on"].is_string());
         }
         assert_eq!(SEMGREP_NATIVE_PROVENANCE_FILE, "provenance.json");
+        // Wave N1 is complete, so every native language has vendored its
+        // snapshot. Python's uses the nested layout, so the `fact()` reader
+        // above covers all three without any of them being rewritten.
+        for landed in [
+            ModelingLanguage::Javascript,
+            ModelingLanguage::Java,
+            ModelingLanguage::Python,
+        ] {
+            assert!(
+                semgrep_native_rules_dir(landed).exists(),
+                "wave N1 vendored the {} snapshot",
+                landed.display_name()
+            );
+        }
     }
 
-    /// Native anchoring binds a marker to the real platform-API callsite it
-    /// sits on, not to a declaration: a native fixture declares no endpoint.
+    /// Native anchors sit on the platform callsite itself, because the profile
+    /// has no declared entity to hang a marker on. The reconciler must resolve
+    /// that line, and every landed native case must resolve under it — a case
+    /// whose sink marker drifted off the callsite would silently stop matching
+    /// any finding and read as coverage.
     #[test]
-    fn native_anchors_bind_the_platform_callsite_line() {
-        let case_path = Path::new("cases/taint/python/native-source-sink-positive/case.json");
-        let case: Value = serde_json::from_str(&fs::read_to_string(case_path).unwrap()).unwrap();
-        let callsites = native_sink_callsites(case_path, &case).unwrap();
-        assert_eq!(callsites.len(), 1);
-        assert_eq!(callsites[0].file, "env_command.py");
-        let body = fs::read_to_string(case_path.parent().unwrap().join("env_command.py")).unwrap();
-        let line = body
-            .lines()
-            .nth(callsites[0].line as usize - 1)
-            .expect("the anchored line");
-        assert!(line.contains("os.system("), "{line}");
-        assert!(native_location_matches(
-            &callsites,
-            "env_command.py",
-            callsites[0].line
-        ));
-        assert!(!native_location_matches(
-            &callsites,
-            "env_command.py",
-            callsites[0].line - 1
-        ));
-        assert!(!native_location_matches(
-            &callsites,
-            "other.py",
-            callsites[0].line
-        ));
+    fn native_sink_anchors_resolve_to_the_platform_callsite() {
+        // One assertion per landed language, against that language's own
+        // platform command API: the marker must sit on the line that calls it.
+        for (language, callsite) in [
+            (ModelingLanguage::Javascript, "execSync("),
+            (ModelingLanguage::Java, "Runtime.getRuntime().exec("),
+            (ModelingLanguage::Python, "os.system("),
+        ] {
+            let population = select_native_cases(language).unwrap();
+            assert_eq!(population.len(), NATIVE_CASE_COUNT);
+            for (path, case) in &population {
+                let locations = native_sink_anchor_locations(path, case)
+                    .unwrap_or_else(|error| panic!("{}: {error}", path.display()));
+                assert_eq!(locations.len(), 1, "{}", path.display());
+                let location = &locations[0];
+                assert_eq!(
+                    location.callsite_lines,
+                    BTreeSet::from([location.marker_line])
+                );
+                let body = fs::read_to_string(path.parent().unwrap().join(&location.file)).unwrap();
+                let line = body
+                    .lines()
+                    .nth(location.marker_line as usize - 1)
+                    .expect("marker line is inside the fixture");
+                assert!(
+                    line.contains(callsite),
+                    "{}: the sink marker must sit on the real platform callsite, found {line:?}",
+                    path.display()
+                );
+            }
+        }
+    }
+
+    /// A shipped suite answers many questions at once, so a finding that lands
+    /// away from this assertion's sink is a different query's answer, retained
+    /// as a diagnostic and never counted as a flow. Ambiguity is still
+    /// `inconclusive`, and a finding on the anchor is still `reached`. One
+    /// reconciler serves every language, so the shape is asserted on both
+    /// landed rows.
+    #[test]
+    fn a_shipped_suite_finding_away_from_the_native_anchor_is_not_a_flow() {
+        for (language, fixture) in [
+            (ModelingLanguage::Javascript, "probe.js"),
+            (ModelingLanguage::Java, "NativeSourceSinkPositive.java"),
+        ] {
+            let wanted = format!("dfb-taint-{}-native-source-sink-positive", language.key());
+            let (path, case) = select_native_cases(language)
+                .unwrap()
+                .into_iter()
+                .find(|(_, case)| case["id"] == wanted.as_str())
+                .expect("the source-sink positive is in the population");
+            let sink_line = case["sink_anchors"][0]["line_hint"].as_u64().unwrap();
+            let finding = |line: u64, message: &str| {
+                json!({
+                    "runs": [{"results": [{
+                        "message": {"text": message},
+                        "locations": [{"physicalLocation": {
+                            "artifactLocation": {"uri": fixture},
+                            "region": {"startLine": line}
+                        }}]
+                    }]}]
+                })
+            };
+
+            let (outcome, diagnostics) =
+                native_sarif_outcome(&path, &case, &finding(sink_line, "command injection"));
+            assert_eq!(outcome, "reached");
+            assert!(diagnostics.iter().any(|d| d.contains("command injection")));
+
+            let (outcome, diagnostics) =
+                native_sarif_outcome(&path, &case, &finding(1, "weak hashing somewhere else"));
+            assert_eq!(outcome, "not-reached");
+            assert!(
+                diagnostics
+                    .iter()
+                    .any(|d| d.contains("landed away from this case's platform sink anchor")),
+                "{diagnostics:?}"
+            );
+
+            let (outcome, _) = native_sarif_outcome(
+                &path,
+                &case,
+                &json!({"runs": [{"results": [{"message": {"text": "no location"}}]}]}),
+            );
+            assert_eq!(outcome, "inconclusive");
+
+            let (outcome, diagnostics) =
+                native_sarif_outcome(&path, &case, &json!({"runs": [{"results": []}]}));
+            assert_eq!(outcome, "not-reached");
+            assert!(diagnostics.is_empty());
+        }
     }
 
     /// The native outcome vocabulary, applied literally from
     /// docs/native-profile.md#outcome-honesty: a coverage miss by an activated
     /// model set is a plain `not-reached`, never `inconclusive`, because
-    /// `inconclusive` would remove the cell from the vendor's denominator.
+    /// `inconclusive` would remove the cell from the vendor's denominator. Only
+    /// evidence this runner genuinely cannot read is incomplete.
+    ///
+    /// Both execution arms tally through this one function, so the ruling is
+    /// pinned once for CodeQL and Semgrep alike rather than per adapter.
     #[test]
     fn a_native_coverage_miss_is_not_reached_rather_than_inconclusive() {
-        assert_eq!(native_evidence_outcome(&[], "CodeQL").0, "not-reached");
+        let outcome = |matches: &[SarifAnchorMatch]| {
+            native_anchor_tally_outcome(matches.iter().copied(), "SARIF").0
+        };
+        // (a) No finding anywhere.
+        assert_eq!(outcome(&[]), "not-reached");
+        // (b) Findings, but only away from the anchor. This is the cell the
+        //     document calls "a coverage miss by an activated model set", and
+        //     it is a false negative on a positive cell, not an absence of
+        //     evidence.
+        assert_eq!(outcome(&[SarifAnchorMatch::Unmatched]), "not-reached");
         assert_eq!(
-            native_evidence_outcome(&[NativeFindingLocation::Elsewhere], "CodeQL").0,
+            outcome(&[SarifAnchorMatch::Unmatched, SarifAnchorMatch::Unmatched]),
+            "not-reached"
+        );
+        // A finding on the anchored callsite is `reached` on the cell it lands
+        // in, negatives included: polarity is about the flow.
+        assert_eq!(outcome(&[SarifAnchorMatch::Matched]), "reached");
+        assert_eq!(
+            outcome(&[SarifAnchorMatch::Matched, SarifAnchorMatch::Unmatched]),
+            "reached"
+        );
+        // (c) Only unreadable or genuinely ambiguous evidence is incomplete.
+        assert_eq!(outcome(&[SarifAnchorMatch::Ambiguous]), "inconclusive");
+        assert_eq!(
+            outcome(&[SarifAnchorMatch::Matched, SarifAnchorMatch::Ambiguous]),
+            "inconclusive"
+        );
+    }
+
+    /// The same ruling, reached through the Semgrep arm's own evidence shape:
+    /// a scan that completed and found nothing at the anchor is `not-reached`,
+    /// and a finding with no readable location is the one incomplete case.
+    #[test]
+    fn the_semgrep_native_arm_reaches_the_same_outcome_rule() {
+        let case_path = Path::new("cases/taint/python/native-source-sink-positive/case.json");
+        let case: Value = serde_json::from_str(&fs::read_to_string(case_path).unwrap()).unwrap();
+        let locations = native_sink_anchor_locations(case_path, &case).unwrap();
+        assert_eq!(locations.len(), 1);
+        let anchor = &locations[0];
+        assert_eq!(anchor.file, "env_command.py");
+        let body = fs::read_to_string(case_path.parent().unwrap().join(&anchor.file)).unwrap();
+        assert!(
+            body.lines()
+                .nth(anchor.marker_line as usize - 1)
+                .expect("the anchored line")
+                .contains("os.system("),
+        );
+
+        let scan = |results: Value| {
+            native_semgrep_outcome(
+                case_path,
+                &case,
+                &json!({
+                    "results": results,
+                    "errors": [],
+                    "paths": {"scanned": ["env_command.py"]}
+                }),
+            )
+            .0
+        };
+        let finding = |path: &str, line: u64| json!({"path": path, "start": {"line": line}});
+
+        assert_eq!(scan(json!([])), "not-reached");
+        assert_eq!(
+            scan(json!([finding("env_command.py", anchor.marker_line)])),
+            "reached"
+        );
+        assert_eq!(
+            scan(json!([finding("env_command.py", anchor.marker_line - 1)])),
             "not-reached"
         );
         assert_eq!(
-            native_evidence_outcome(&[NativeFindingLocation::Anchored], "CodeQL").0,
-            "reached"
+            scan(json!([finding("other.py", anchor.marker_line)])),
+            "not-reached"
         );
-        // A sink-existence finding on the anchored callsite is `reached` on the
-        // cell it lands in, negatives included: polarity is about the flow.
         assert_eq!(
-            native_evidence_outcome(
-                &[
-                    NativeFindingLocation::Anchored,
-                    NativeFindingLocation::Elsewhere
-                ],
-                "Semgrep"
-            )
-            .0,
-            "reached"
-        );
-        // Only unreadable evidence is incomplete.
-        assert_eq!(
-            native_evidence_outcome(&[NativeFindingLocation::Unusable], "Semgrep").0,
+            scan(json!([json!({"path": "env_command.py"})])),
             "inconclusive"
         );
     }

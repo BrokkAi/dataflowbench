@@ -753,60 +753,142 @@ Ten of the twenty-four cells are scored.
 
 See [the Java modeling matrix](../../docs/java-modeling.md).
 
+## JavaScript tool-native probe set
+
+This adapter's native activation is a **vendored snapshot**, not a registry
+configuration: `--config p/…` is network-fetched and version-unpinnable at run
+time, so two runs a week apart are two different rulesets under one name.
+
+- Snapshot: `adapters/semgrep/native/javascript/` — thirty `.yaml` rule files
+  copied byte for byte from `javascript/lang/security/` at
+  `semgrep/semgrep-rules@40b8c63f75dc7c22c8a77482d73bfb864b146f7e`, with
+  `provenance.json` recording `kind: derived`, the upstream repository, the
+  source commit and its date, the paths, the license, and the retrieval date.
+  The runner refuses a native run whose activation directory lacks that file,
+  and it refused this one until the snapshot landed.
+- **`taint_assume_safe_functions` is deliberately NOT set**, unlike every
+  benchmark-controlled Semgrep run here. There, a permissive default would
+  decide a cell the supplied model was meant to decide. Here the default *is*
+  the product: setting it would be editing the vendor's rules, which the
+  activation rule forbids. `--oss-only` still applies — the CE engine is the
+  product under test.
+- Result: **0 of 6 scored, all six retained unsupported** by
+  [Amendment A6](../../docs/native-profile.md#a6--2026-08-27-semgrep-ces-javascript-cells-evaluated-against-the-vendored-snapshot).
+  Fifteen of the thirty rules are `mode: taint` and every one of them roots its
+  `pattern-sources` in a function parameter or a framework request object.
+  `detect-child-process.yaml` and `audit/dangerous-spawn-shell.yaml` bind
+  exactly this profile's `child_process.execSync` sink and take an enclosing
+  function's parameter as their only source; `audit/code-string-concat.yaml`
+  takes Express `$REQ.*` and the Next.js router. `process.env`,
+  `process.argv`, `encodeURIComponent`, and `Buffer.from` appear nowhere in the
+  snapshot. Semgrep declined this profile for JavaScript; it did not fail it,
+  and the twelve `unsupported` assertions reduce no denominator.
+- The preregistered sink-existence hazard did not materialize here: the two
+  rules matching `execSync` are taint rules, and the fifteen pattern rules match
+  other constructs entirely, so a negative cell passing a clean local to
+  `execSync` is flagged by none of them.
+
+See [the JavaScript tool-native probe set](../../docs/javascript-native.md).
+
+## Java tool-native probe set
+
+Wave N1's first row. See [the tool-native profile](../../docs/native-profile.md)
+for the contract and [the Java row](../../docs/java-native.md) for the results.
+
+- **Why a snapshot exists at all.** Registry configurations (`--config p/…`)
+  are network-fetched and version-unpinnable at run time: two runs a week apart
+  are two different rulesets under one name, which is not a benchmark. The
+  native profile therefore **vendors**.
+- **What is vendored.** `adapters/semgrep/native/java/rules/` — every rule
+  document (86 files, 86 rule IDs) beneath `java/lang/security/` of
+  `https://github.com/semgrep/semgrep-rules` at commit
+  `40b8c63f75dc7c22c8a77482d73bfb864b146f7e`, upstream directory structure
+  preserved, under the Semgrep Rules License v1.0. The upstream tree's per-rule
+  `*.java` files are Semgrep's own rule tests, not part of the ruleset, and are
+  not vendored. `adapters/semgrep/native/java/provenance.json` records
+  `kind: derived`, the repository, the commit, the paths, the license, the
+  retrieval date, and a SHA-256 per file; the runner refuses a native run whose
+  activation directory has no such document.
+- **Two deliberate asymmetries against the modeling profile.** `--oss-only`
+  still applies — the pinned CE engine is the product under test. But
+  `taint_assume_safe_functions` is **not** set here, where the modeling matrix
+  requires it: there a permissive default would decide a cell the supplied
+  model was meant to decide, and here the default *is* the product.
+- **Invocation:**
+  `cargo run -- run-semgrep-native --language java --semgrep <path>`, writing
+  `reports/semgrep-java-native.json`. Configuration hash
+  `c0a2d9a459a04bd1511f71fb8d154d6cff5fc843d3a9d472c057a46493aea4b3`.
+
+**Result: zero of six templates activated, twelve `unsupported` outcomes, and
+the binary was never invoked.** The snapshot was read rule by rule before any
+run, and it binds none of the six categories: `System.getenv`, `String.concat`,
+`Integer.parseInt`, `String.valueOf`, `java.util.Base64`, `void main` and
+`System.` do not occur anywhere in it; the two rules whose sink is the
+template's command API are pattern rules that bind no source; and the one
+taint-mode rule reaching `Runtime.exec` sources from `HttpServletRequest`. The
+per-cell evidence is
+[Amendment A7](../../docs/native-profile.md#a7--2026-08-27-semgrep-ces-six-java-cells-are-retained-unsupported-against-the-vendored-snapshot),
+which moves no cell.
+
+The distinction that matters: a run over these fixtures would also have
+produced nothing, because both `Runtime.exec` pattern rules require a `+`, a
+`String.format`, or a `ProcessBuilder` and the pinned fixtures use none. But
+these cells are declined because no rule **binds** the categories, which is
+capability coverage — not because a run came back empty, which would have been
+six false negatives.
+
+See [the Java tool-native probe set](../../docs/java-native.md).
+
 ## Python tool-native probe set
 
-`run-semgrep-native --language python` runs the twelve assertions of
-[the tool-native model profile](../../docs/native-profile.md) for Python,
-writing `reports/semgrep-python-native.json` with raw evidence under
-`reports/raw/semgrep-python-native/`.
+Wave N1's final row, and the one row where Semgrep CE is **scored**. See
+[the tool-native profile](../../docs/native-profile.md) for the contract and
+[the Python row](../../docs/python-native.md) for the results.
 
-**The vendored snapshot.** Registry configurations (`--config p/…`) are
-network-fetched and unpinnable at run time: two runs a week apart are two
-different rulesets under one name, which is not a benchmark. This profile
-therefore vendors. `native/python/` holds ninety-one rule files copied verbatim
-from `semgrep/semgrep-rules` @ `40b8c63f75dc7c22c8a77482d73bfb864b146f7e`, path
-`python/lang/security/` including its `audit/` subtree, with the upstream
-`LICENSE` beside them and a `provenance.json` recording `kind: derived`, the
-repository, the commit, the upstream paths, the licence, the retrieval date,
-and a SHA-256 per file. Nothing is modified — a vendored rule *is* the product
-under test — and the report's `configuration_hash` binds the provenance bytes,
-which through the per-file digests binds the rules. A missing provenance file
-is a hard error before the scan, never an `unsupported` and never a result.
+- **What is vendored.** `adapters/semgrep/native/python/rules/` — ninety-one
+  `.yaml` rule files copied verbatim from `python/lang/security/`, including
+  its `audit/` subtree, of `https://github.com/semgrep/semgrep-rules` at commit
+  `40b8c63f75dc7c22c8a77482d73bfb864b146f7e`, upstream directory structure
+  preserved, under the Semgrep Rules License v1.0. Upstream `.py` files are
+  Semgrep's own rule tests, not part of the ruleset, and are not vendored.
+  `provenance.json` records `kind: derived`, the repository, the commit, the
+  paths, the license, the retrieval date, and a **SHA-256 per file**; the
+  report's `configuration_hash` binds the provenance bytes, which through those
+  digests binds the rules. A missing provenance file is a hard error before the
+  scan, never an `unsupported` and never a result.
+- **Two deliberate asymmetries against the modeling profile.** `--oss-only`
+  still applies — the pinned CE engine is the product under test. But
+  `taint_assume_safe_functions` is **not** set here, where the modeling matrix
+  requires it: there a permissive default would decide a cell the supplied
+  model was meant to decide, and here the default *is* the product.
+- **Invocation:**
+  `cargo run -- run-semgrep-native --language python --semgrep <path>`, writing
+  `reports/semgrep-python-native.json` with raw evidence under
+  `reports/raw/semgrep-python-native/`. Configuration hash
+  `e6b4975cdf103c322e96d48de82f2098dfecc1a9fcd85151ff471190f825b335`.
 
-**Two deliberate differences from the benchmark-controlled rules above.**
-`--oss-only` still applies, exactly as everywhere else here. But
-`taint_assume_safe_functions` is **not** set: the modeling matrix requires it so
-that a permissive default cannot decide a cell the supplied model was meant to
-decide, whereas here the default *is* the product, and setting it would be
-editing the vendor's configuration.
+**All six templates promoted to scored**, by
+[Amendment A8](../../docs/native-profile.md#a8--2026-08-27-semgrep-ces-six-python-cells-are-promoted-to-scored-and-the-partition-gains-a-language-dimension),
+on the rule text read before any scan:
+`audit/dangerous-system-call-tainted-env-args.yaml` is a `mode: taint` rule
+whose `pattern-sources` are `os.environ`, `os.getenv` and `sys.argv` — platform
+identities, not framework endpoints — and whose `pattern-sinks` are `os.system`
+and the `os.popen` family, so one shipped rule binds both endpoints of all six
+templates. This is the amendment that gave the partition its language
+dimension: JavaScript (A6) and Java (A7) stay 0 / 6 against their own
+snapshots, and their retained rationales are untouched by this row.
 
-```bash
-cargo run -- run-semgrep-native --language python --semgrep /opt/homebrew/bin/semgrep
-```
-
-Semgrep CE entered the preregistration at **zero of six** — every cell *to be
-verified at vendoring*. Reading the snapshot's rule text promoted all six
-Python cells to scored under
-[Amendment N-A1](../../docs/native-profile.md#n-a1--2026-08-27-semgrep-ces-six-python-cells-are-promoted-to-scored-and-the-partition-gains-a-language-dimension),
-before any scan: `audit/dangerous-system-call-tainted-env-args.yaml` is a
-`mode: taint` rule whose `pattern-sources` are `os.environ`, `os.getenv` and
-`sys.argv` — platform identities, not framework endpoints — and whose
-`pattern-sinks` are `os.system` and the `os.popen` family, so one shipped rule
-binds both endpoints of all six templates. Java and JavaScript remain 0 / 6
-until their own snapshots are vendored.
-
-The run decides **eight of twelve**, against a blind-pair baseline of six:
-every positive found, and four false positives. Two of them (categories P and
-O) are pure sink-existence findings from `audit/dangerous-system-call-audit`,
-a pattern rule with no taint in it whose only exclusion is a literal first
-argument — which is precisely the observation this profile preregistered as
-the single most likely one it would produce about any tool. The other two
-(categories Z and B) are the taint rule itself: it declares no
-`pattern-sanitizers`, so `shlex.quote` is not credited, and its `os.environ`
-source pattern matches a store read whatever key is subscripted. Its
-configuration hash is
-`e6b4975cdf103c322e96d48de82f2098dfecc1a9fcd85151ff471190f825b335`.
+**Result: eight of twelve**, against a blind-pair baseline of six: every
+positive found, and four false positives. Two of them (categories P and O) are
+pure sink-existence findings from `audit/dangerous-system-call-audit`, a
+pattern rule with no taint in it whose only exclusion is a literal first
+argument — precisely the observation this profile preregistered as the single
+most likely one it would produce about any tool. The other two (categories Z
+and B) are the taint rule itself: it declares no `pattern-sanitizers`, so
+`shlex.quote` is not credited, and its `os.environ` source pattern matches a
+store read whatever key is subscripted.
 
 This is coverage, not accuracy, and it is never pooled with the
 benchmark-controlled Python row above. See
 [the Python tool-native probe set](../../docs/python-native.md).
+

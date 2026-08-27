@@ -1,0 +1,59 @@
+{
+  "schema_version": 2,
+  "id": "dfb-taint-java-native-propagator-positive",
+  "template_id": "dfb-template-native-propagator",
+  "polarity": "positive",
+  "score_tier": "modeling",
+  "track": "taint",
+  "language": "java",
+  "semantic_dimensions": [
+    "local-flow",
+    "external-summary"
+  ],
+  "feature_tags": [
+    "modeled-external",
+    "intraprocedural",
+    "summary-required"
+  ],
+  "model_profile": "tool-native",
+  "fixture_files": [
+    "NativePropagatorPositive.java"
+  ],
+  "source_anchors": [
+    {
+      "marker": "DFB-SOURCE: native-propagator-env",
+      "file": "NativePropagatorPositive.java",
+      "line_hint": 15
+    }
+  ],
+  "sink_anchors": [
+    {
+      "marker": "DFB-SINK: native-propagator-exec",
+      "file": "NativePropagatorPositive.java",
+      "line_hint": 17
+    }
+  ],
+  "expected_flows": [
+    {
+      "source": "DFB-SOURCE: native-propagator-env",
+      "sink": "DFB-SINK: native-propagator-exec"
+    }
+  ],
+  "expected_nonflows": [],
+  "witness_checkpoints": [],
+  "expected_analysis_capability": {
+    "kind": "native-propagator-coverage",
+    "notes": "String concatenation is the most frequently modeled operation in any catalog; a miss here is a miss on the easiest propagator there is."
+  },
+  "execution_budget": {
+    "wall_clock_seconds": 300,
+    "peak_memory_mb": 4096
+  },
+  "fixture_provenance": {
+    "kind": "authored",
+    "origin": "DataFlowBench",
+    "revision": "n1-native-java",
+    "license": "MIT"
+  },
+  "tool_model_references": {}
+}
