@@ -1,0 +1,218 @@
+{
+  "adapter_version": "0.1.0",
+  "cold_or_warm": "cold",
+  "configuration_hash": "3b223e2988df9965827d315f8bc6eb922c4825b1b140ad3ea922b78382b9ea28",
+  "ended_at_unix_seconds": 1787839322,
+  "fixture_revision": "sha256:fecbfae7b3952a059a4b3ff3645485676880db9d4c722f4bb8bf8cf9180e67ed",
+  "results": [
+    {
+      "case_id": "dfb-taint-python-native-entrypoint-negative",
+      "diagnostics": [
+        "tool-native activation of dfb-template-native-entrypoint (category E — framework entry points) is unsupported for Joern 4.0.610 over Python by the activation partition (docs/native-profile.md#partition-summary, as amended): entry roots are query-selected in every Joern population here; the distribution activates no entry-point convention by itself"
+      ],
+      "duration_ms": 0,
+      "outcome": "unsupported",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/joern-python-native/dfb-taint-python-native-entrypoint-negative-unsupported.json",
+      "sink_anchors": [
+        "DFB-SINK: native-entrypoint-command"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: native-entrypoint-argument"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-python-native-entrypoint-positive",
+      "diagnostics": [
+        "tool-native activation of dfb-template-native-entrypoint (category E — framework entry points) is unsupported for Joern 4.0.610 over Python by the activation partition (docs/native-profile.md#partition-summary, as amended): entry roots are query-selected in every Joern population here; the distribution activates no entry-point convention by itself"
+      ],
+      "duration_ms": 0,
+      "outcome": "unsupported",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/joern-python-native/dfb-taint-python-native-entrypoint-positive-unsupported.json",
+      "sink_anchors": [
+        "DFB-SINK: native-entrypoint-command"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: native-entrypoint-argument"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-python-native-persistence-negative",
+      "diagnostics": [
+        "tool-native activation of dfb-template-native-persistence (category B — persistence boundaries) is unsupported for Joern 4.0.610 over Python by the activation partition (docs/native-profile.md#partition-summary, as amended): no persistence vocabulary ships with the distribution"
+      ],
+      "duration_ms": 0,
+      "outcome": "unsupported",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/joern-python-native/dfb-taint-python-native-persistence-negative-unsupported.json",
+      "sink_anchors": [
+        "DFB-SINK: native-persistence-command"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: native-persistence-environment"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-python-native-persistence-positive",
+      "diagnostics": [
+        "tool-native activation of dfb-template-native-persistence (category B — persistence boundaries) is unsupported for Joern 4.0.610 over Python by the activation partition (docs/native-profile.md#partition-summary, as amended): no persistence vocabulary ships with the distribution"
+      ],
+      "duration_ms": 0,
+      "outcome": "unsupported",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/joern-python-native/dfb-taint-python-native-persistence-positive-unsupported.json",
+      "sink_anchors": [
+        "DFB-SINK: native-persistence-command"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: native-persistence-environment"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-python-native-propagator-negative",
+      "diagnostics": [
+        "tool-native activation of dfb-template-native-propagator (category P — declared propagators) is unsupported for Joern 4.0.610 over Python by the activation partition (docs/native-profile.md#partition-summary, as amended): `DefaultSemantics` carries propagation entries but no endpoints; with no shipped source and no shipped sink there is nothing to propagate between"
+      ],
+      "duration_ms": 0,
+      "outcome": "unsupported",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/joern-python-native/dfb-taint-python-native-propagator-negative-unsupported.json",
+      "sink_anchors": [
+        "DFB-SINK: native-propagator-command"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: native-propagator-environment"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-python-native-propagator-positive",
+      "diagnostics": [
+        "tool-native activation of dfb-template-native-propagator (category P — declared propagators) is unsupported for Joern 4.0.610 over Python by the activation partition (docs/native-profile.md#partition-summary, as amended): `DefaultSemantics` carries propagation entries but no endpoints; with no shipped source and no shipped sink there is nothing to propagate between"
+      ],
+      "duration_ms": 0,
+      "outcome": "unsupported",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/joern-python-native/dfb-taint-python-native-propagator-positive-unsupported.json",
+      "sink_anchors": [
+        "DFB-SINK: native-propagator-command"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: native-propagator-environment"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-python-native-sanitizer-negative",
+      "diagnostics": [
+        "tool-native activation of dfb-template-native-sanitizer (category Z — declared sanitizers) is unsupported for Joern 4.0.610 over Python by the activation partition (docs/native-profile.md#partition-summary, as amended): `NilSemantics` is the mechanism a sanitizer would use, but the distribution declares none of the three platform sanitization idioms, and no endpoint catalog ships for a sanitizer to sit between"
+      ],
+      "duration_ms": 0,
+      "outcome": "unsupported",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/joern-python-native/dfb-taint-python-native-sanitizer-negative-unsupported.json",
+      "sink_anchors": [
+        "DFB-SINK: native-sanitizer-command"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: native-sanitizer-environment"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-python-native-sanitizer-positive",
+      "diagnostics": [
+        "tool-native activation of dfb-template-native-sanitizer (category Z — declared sanitizers) is unsupported for Joern 4.0.610 over Python by the activation partition (docs/native-profile.md#partition-summary, as amended): `NilSemantics` is the mechanism a sanitizer would use, but the distribution declares none of the three platform sanitization idioms, and no endpoint catalog ships for a sanitizer to sit between"
+      ],
+      "duration_ms": 0,
+      "outcome": "unsupported",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/joern-python-native/dfb-taint-python-native-sanitizer-positive-unsupported.json",
+      "sink_anchors": [
+        "DFB-SINK: native-sanitizer-command"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: native-sanitizer-environment"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-python-native-source-sink-negative",
+      "diagnostics": [
+        "tool-native activation of dfb-template-native-source-sink (category S — declared sources and sinks) is unsupported for Joern 4.0.610 over Python by the activation partition (docs/native-profile.md#partition-summary, as amended): `DefaultSemantics` is a table of flow constraints — operator semantics, C standard library entries, and a short list of JVM method full names — and ships no source catalog and no sink catalog. Every Joern population in this benchmark selects its endpoints through the adapter's own query parameters, which is exactly what the tool-native activation rule forbids. The distribution's `joern-scan` query database is not shipped either: it is downloaded from a floating `latest` release asset"
+      ],
+      "duration_ms": 0,
+      "outcome": "unsupported",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/joern-python-native/dfb-taint-python-native-source-sink-negative-unsupported.json",
+      "sink_anchors": [
+        "DFB-SINK: native-source-sink-command"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: native-source-sink-environment"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-python-native-source-sink-positive",
+      "diagnostics": [
+        "tool-native activation of dfb-template-native-source-sink (category S — declared sources and sinks) is unsupported for Joern 4.0.610 over Python by the activation partition (docs/native-profile.md#partition-summary, as amended): `DefaultSemantics` is a table of flow constraints — operator semantics, C standard library entries, and a short list of JVM method full names — and ships no source catalog and no sink catalog. Every Joern population in this benchmark selects its endpoints through the adapter's own query parameters, which is exactly what the tool-native activation rule forbids. The distribution's `joern-scan` query database is not shipped either: it is downloaded from a floating `latest` release asset"
+      ],
+      "duration_ms": 0,
+      "outcome": "unsupported",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/joern-python-native/dfb-taint-python-native-source-sink-positive-unsupported.json",
+      "sink_anchors": [
+        "DFB-SINK: native-source-sink-command"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: native-source-sink-environment"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-python-native-summary-negative",
+      "diagnostics": [
+        "tool-native activation of dfb-template-native-summary (category O — opaque procedure summaries) is unsupported for Joern 4.0.610 over Python by the activation partition (docs/native-profile.md#partition-summary, as amended): the JVM entries in `DefaultSemantics` do not include `java.util.Base64`, and neither Python nor JavaScript has any entry at all"
+      ],
+      "duration_ms": 0,
+      "outcome": "unsupported",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/joern-python-native/dfb-taint-python-native-summary-negative-unsupported.json",
+      "sink_anchors": [
+        "DFB-SINK: native-summary-command"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: native-summary-environment"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-python-native-summary-positive",
+      "diagnostics": [
+        "tool-native activation of dfb-template-native-summary (category O — opaque procedure summaries) is unsupported for Joern 4.0.610 over Python by the activation partition (docs/native-profile.md#partition-summary, as amended): the JVM entries in `DefaultSemantics` do not include `java.util.Base64`, and neither Python nor JavaScript has any entry at all"
+      ],
+      "duration_ms": 0,
+      "outcome": "unsupported",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/joern-python-native/dfb-taint-python-native-summary-positive-unsupported.json",
+      "sink_anchors": [
+        "DFB-SINK: native-summary-command"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: native-summary-environment"
+      ],
+      "witness_checkpoints": []
+    }
+  ],
+  "schema_version": 1,
+  "started_at_unix_seconds": 1787839321,
+  "tool": "joern",
+  "tool_build_identity": "Joern 4.0.610 DefaultSemantics only",
+  "tool_version": "Joern 4.0.610"
+}

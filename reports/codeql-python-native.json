@@ -1,0 +1,210 @@
+{
+  "adapter_version": "0.1.0",
+  "cold_or_warm": "cold",
+  "configuration_hash": "73de6c6787622ca988d0b4f6be9a972ece7e19b42c70964aa48960133d19e15d",
+  "ended_at_unix_seconds": 1787839470,
+  "fixture_revision": "sha256:fecbfae7b3952a059a4b3ff3645485676880db9d4c722f4bb8bf8cf9180e67ed",
+  "results": [
+    {
+      "case_id": "dfb-taint-python-native-entrypoint-negative",
+      "diagnostics": [],
+      "duration_ms": 14140,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/codeql-python-native/dfb-taint-python-native-entrypoint-negative.sarif.json",
+      "sink_anchors": [
+        "DFB-SINK: native-entrypoint-command"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: native-entrypoint-argument"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-python-native-entrypoint-positive",
+      "diagnostics": [
+        "This command line depends on a [user-provided value](1)."
+      ],
+      "duration_ms": 12116,
+      "outcome": "reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/codeql-python-native/dfb-taint-python-native-entrypoint-positive.sarif.json",
+      "sink_anchors": [
+        "DFB-SINK: native-entrypoint-command"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: native-entrypoint-argument"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-python-native-persistence-negative",
+      "diagnostics": [
+        "This command line depends on a [user-provided value](1)."
+      ],
+      "duration_ms": 13191,
+      "outcome": "reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/codeql-python-native/dfb-taint-python-native-persistence-negative.sarif.json",
+      "sink_anchors": [
+        "DFB-SINK: native-persistence-command"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: native-persistence-environment"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-python-native-persistence-positive",
+      "diagnostics": [
+        "This command line depends on a [user-provided value](1).\nThis command line depends on a [user-provided value](2)."
+      ],
+      "duration_ms": 14173,
+      "outcome": "reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/codeql-python-native/dfb-taint-python-native-persistence-positive.sarif.json",
+      "sink_anchors": [
+        "DFB-SINK: native-persistence-command"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: native-persistence-environment"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-python-native-propagator-negative",
+      "diagnostics": [],
+      "duration_ms": 13191,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/codeql-python-native/dfb-taint-python-native-propagator-negative.sarif.json",
+      "sink_anchors": [
+        "DFB-SINK: native-propagator-command"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: native-propagator-environment"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-python-native-propagator-positive",
+      "diagnostics": [
+        "This command line depends on a [user-provided value](1)."
+      ],
+      "duration_ms": 12625,
+      "outcome": "reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/codeql-python-native/dfb-taint-python-native-propagator-positive.sarif.json",
+      "sink_anchors": [
+        "DFB-SINK: native-propagator-command"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: native-propagator-environment"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-python-native-sanitizer-negative",
+      "diagnostics": [
+        "This command line depends on a [user-provided value](1)."
+      ],
+      "duration_ms": 12520,
+      "outcome": "reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/codeql-python-native/dfb-taint-python-native-sanitizer-negative.sarif.json",
+      "sink_anchors": [
+        "DFB-SINK: native-sanitizer-command"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: native-sanitizer-environment"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-python-native-sanitizer-positive",
+      "diagnostics": [
+        "This command line depends on a [user-provided value](1)."
+      ],
+      "duration_ms": 10811,
+      "outcome": "reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/codeql-python-native/dfb-taint-python-native-sanitizer-positive.sarif.json",
+      "sink_anchors": [
+        "DFB-SINK: native-sanitizer-command"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: native-sanitizer-environment"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-python-native-source-sink-negative",
+      "diagnostics": [],
+      "duration_ms": 11294,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/codeql-python-native/dfb-taint-python-native-source-sink-negative.sarif.json",
+      "sink_anchors": [
+        "DFB-SINK: native-source-sink-command"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: native-source-sink-environment"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-python-native-source-sink-positive",
+      "diagnostics": [
+        "This command line depends on a [user-provided value](1)."
+      ],
+      "duration_ms": 10971,
+      "outcome": "reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/codeql-python-native/dfb-taint-python-native-source-sink-positive.sarif.json",
+      "sink_anchors": [
+        "DFB-SINK: native-source-sink-command"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: native-source-sink-environment"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-python-native-summary-negative",
+      "diagnostics": [],
+      "duration_ms": 10379,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/codeql-python-native/dfb-taint-python-native-summary-negative.sarif.json",
+      "sink_anchors": [
+        "DFB-SINK: native-summary-command"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: native-summary-environment"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-python-native-summary-positive",
+      "diagnostics": [
+        "This command line depends on a [user-provided value](1)."
+      ],
+      "duration_ms": 11686,
+      "outcome": "reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/codeql-python-native/dfb-taint-python-native-summary-positive.sarif.json",
+      "sink_anchors": [
+        "DFB-SINK: native-summary-command"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: native-summary-environment"
+      ],
+      "witness_checkpoints": []
+    }
+  ],
+  "schema_version": 1,
+  "started_at_unix_seconds": 1787839323,
+  "tool": "codeql",
+  "tool_build_identity": "codeql-cli:7d097a43199effe04ecd9c6bd3ad9bb02a45b3d7 — CodeQL CLI 2.26.3 shipped suite codeql/python-queries@1.8.9:codeql-suites/python-security-extended.qls",
+  "tool_version": "2.26.3"
+}

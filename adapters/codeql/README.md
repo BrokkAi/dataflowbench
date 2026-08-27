@@ -961,3 +961,50 @@ CodeQL does not follow `Opaque.class.getMethod(…).invoke(…)` on its own — 
 on the same fixture, [Joern does](../joern/README.md#taint-modeling-matrix).
 
 See [the Java modeling matrix](../../docs/java-modeling.md).
+
+## Python tool-native probe set
+
+`run-codeql-native --language python` runs the twelve assertions of
+[the tool-native model profile](../../docs/native-profile.md) for Python,
+writing `reports/codeql-python-native.json` with raw SARIF under
+`reports/raw/codeql-python-native/`.
+
+The activation is entirely the vendor's: the shipped
+`codeql/python-queries@1.8.9:codeql-suites/python-security-extended.qls` suite,
+with `--threat-model=local` to enable the shipped `environment` and
+`commandargs` rows, and **no adapter query, data extension, or
+`--additional-packs` model of ours**. The no-benchmark-models gate checks the
+argument vector against every benchmark-authored model artifact before the CLI
+is touched, so a spliced path fails the build rather than quietly publishing
+engine accuracy as product coverage.
+
+Note that a query pack bundles its own library pack: this run resolves
+`codeql/python-all@7.2.4`, against the `7.2.3` the benchmark-controlled adapter
+pins. The two profiles run on different library resolutions by construction,
+which is correct — the native profile must measure the shipped product as
+shipped — and is one more reason they are never pooled.
+
+Anchoring differs from every other CodeQL population here. A native fixture
+declares no endpoint, so its `DFB-SINK:` marker sits on the real
+`os.system(...)` callsite and a SARIF result is bound to that line; results
+elsewhere in the fixture are retained as diagnostics and never as flow
+evidence, and only a result with no readable location makes a cell
+`inconclusive`.
+
+```bash
+cargo run -- run-codeql-native --language python --codeql /opt/homebrew/bin/codeql
+```
+
+CodeQL enters this profile with **six of six templates scored** and decides
+**ten of twelve** assertions, against a blind-pair baseline of six: every
+positive found, and two false positives on negatives. One query decided the
+whole column — `py/command-line-injection` — and both false positives are the
+hazards the preregistration named in advance: `shlex.quote` is a barrier only
+for `py/shell-command-constructed-from-input`, which does not own this sink,
+and `os.environ` is itself a shipped source, so the persistence negative's
+distinct key is never looked at. Its configuration hash is
+`73de6c6787622ca988d0b4f6be9a972ece7e19b42c70964aa48960133d19e15d`.
+
+This is coverage, not accuracy, and it is never pooled with the
+benchmark-controlled Python row above. See
+[the Python tool-native probe set](../../docs/python-native.md).

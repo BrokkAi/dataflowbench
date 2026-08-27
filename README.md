@@ -358,6 +358,17 @@ one run per adapter against them. Wave M1's three rows are complete:
 cases are `score_tier: "modeling"`, are never in a core denominator, and are
 never averaged with a kernel score.
 
+The [tool-native profile](docs/native-profile.md) inverts that question a third
+time. Instead of handing every tool the same declarations, it hands them
+nothing: six templates over **real platform APIs**, scored on the sources,
+sinks, sanitizers, summaries, and entry points each tool actually *ships*. It
+measures coverage of a product, not accuracy of an engine, and the two are never
+pooled — they do not even run on the same library pins. Wave N1's first row is
+[the Python tool-native probe set](docs/python-native.md). Native cases share the
+`modeling` tier and are separated from the matrix by `model_profile:
+"tool-native"`, with a corpus-wide check that the two populations never
+cross-select.
+
 The [Java kernel contract](docs/java-kernel.md) records the origin population
 and the first landed wave of the [challenge-tier
 expansion](docs/challenge-tier.md), which grows the Java core to 29 templates

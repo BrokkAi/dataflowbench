@@ -260,6 +260,20 @@ database that is downloaded rather than shipped, and a Semgrep ruleset that is
 unpinnable at run time until a snapshot is vendored. Wave N1 rolls out Java,
 JavaScript, and Python, one pull request each.
 
+**Wave N1 — Python is landed.** [The Python tool-native probe set](python-native.md)
+adds twelve assertions over `os.environ`, `os.system`, `os.path.join`,
+`shlex.quote`, the `base64` round trip, and `sys.argv`, the first vendored
+activation snapshot, and runs of all four adapters. Vendoring the Semgrep rules
+answered that column's *to be verified* cells and promoted all six Python ones to
+scored under
+[Amendment N-A1](native-profile.md#n-a1--2026-08-27-semgrep-ces-six-python-cells-are-promoted-to-scored-and-the-partition-gains-a-language-dimension),
+from rule text and before the scan. Against a blind-pair baseline of six of
+twelve, CodeQL decides ten and Semgrep CE eight; both find every positive, and
+every error either makes is a false positive on a negative. Bifrost and Joern
+retain twelve preregistered `unsupported` decisions each without being invoked
+at all. These are coverage numbers and are never pooled with the modeling row
+above.
+
 ## M4: real-project confirmation
 
 Add a small, pinned, manually reviewed corpus drawn from executable or

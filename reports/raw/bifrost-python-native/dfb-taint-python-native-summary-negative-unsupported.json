@@ -1,0 +1,19 @@
+{
+  "activation_arguments": [
+    "--policy-pack",
+    "bifrost.code-smells"
+  ],
+  "activation_identity": "Bifrost v0.10.6 built-in policy packs",
+  "adapter": "bifrost",
+  "case_id": "dfb-taint-python-native-summary-negative",
+  "evidence_kind": "retained-capability-decision",
+  "model_profile": "tool-native",
+  "modeling_category": "O",
+  "modeling_category_label": "opaque procedure summaries",
+  "partition_source": "docs/native-profile.md#partition-summary",
+  "pinned_tool_identity": "Bifrost v0.10.6",
+  "reason": "tool-native activation of dfb-template-native-summary (category O — opaque procedure summaries) is unsupported for Bifrost v0.10.6 over Python by the activation partition (docs/native-profile.md#partition-summary, as amended): the adapter README: \"External semantic-model activation requires an embedding with an explicit catalog, so the modeled-external case is reported as `unsupported` by this CLI adapter with an explicit retained reason. It is not a negative result.\" Activating a catalog from the standalone CLI is BrokkAi/bifrost-dev #2691, still open",
+  "stage": "preregistered-native-activation-partition",
+  "state": "unsupported",
+  "template_id": "dfb-template-native-summary"
+}

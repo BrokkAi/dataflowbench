@@ -367,11 +367,18 @@ because pooling the profiles is a fault of omission — a selector that filters 
 the tier and forgets the profile — which no assertion about a case's own fields
 would catch.
 
-**The partition is keyed by template, not by category.** `NATIVE_PARTITION`
-holds one cell per tool per template — twenty-four cells, transcribed from the
-preregistration's summary, with its *to be verified* cells recorded as
-`unsupported` per its own rule. Scored today: **CodeQL 6 templates of 6**, and
-**Bifrost, Joern, and Semgrep CE 0 of 6**. The asymmetry with the
+**The partition is keyed by template, not by category — and, since
+[Amendment N-A1](native-profile.md#n-a1--2026-08-27-semgrep-ces-six-python-cells-are-promoted-to-scored-and-the-partition-gains-a-language-dimension),
+by language too.** `NATIVE_PARTITION` holds one cell per tool per template —
+twenty-four cells, transcribed from the preregistration's summary, with its *to
+be verified* cells recorded as `unsupported` per its own rule — and
+`NATIVE_PARTITION_AMENDMENTS` sits in front of it with one row per amended
+tool × language × template. The language dimension exists because a vendored
+activation snapshot is per language: reading Python's rules can only answer
+Python's cells, and a partition without a language could not say so. As
+preregistered: **CodeQL 6 templates of 6**, and **Bifrost, Joern, and Semgrep
+CE 0 of 6**. As amended: Semgrep CE is **6 of 6 for Python** on the evidence of
+its vendored snapshot, and unchanged elsewhere. The asymmetry with the
 benchmark-controlled matrix is the point rather than a defect — Joern scores four
 of six categories there on the same engine — because this profile measures
 product packaging and that one measures the engine. A declined cell is decided
@@ -414,14 +421,28 @@ configuration are retained"* a property of the artifact.
 models are not pinnable at run time — Semgrep's registry, Joern's floating
 `querydb` release asset — the profile vendors a pinned snapshot with a
 `provenance.json` recording the upstream repository, source commit, paths,
-license, and retrieval date. Nothing is vendored yet; this section pins the
-conventions and the paths, and the snapshots land with the language waves.
+license, and retrieval date. Wave N1's Python pull request landed the first —
+ninety-one Semgrep rule files under `adapters/semgrep/native/python/`, pinned to
+one `semgrep-rules` commit, with a per-file digest so the report's
+`configuration_hash` binds the rules and not just the manifest.
 
 **The execution arm lands with the language.** The arm that invokes an analyzer
 over a *scored* native cell is written by the wave-N1 pull request that vendors
 that adapter's snapshot for that language. Until then a scored cell is a hard
 error rather than a synthesized outcome, which the adapter contract at the head
 of this document forbids.
+
+**Native anchoring binds a callsite, not a declaration.** Every other population
+here puts a `DFB-SINK:` marker on the declaration of a benchmark-invented
+endpoint and reconciles against that function's callsites. A native fixture
+declares no endpoint — the sink is inside the platform — so the marker sits on
+the real platform-API callsite and a finding is bound to that line. Findings
+away from the anchor are retained as diagnostics and are never flow evidence;
+only unreadable evidence makes a cell `inconclusive`, because a coverage miss by
+an activated model set is a plain `not-reached` and calling it incomplete would
+quietly remove the cell from the vendor's denominator. An anchor still only
+decides which finding belongs to which assertion; it never tells an analyzer
+what a sink is.
 
 **Reporting stays separate.** Native reports are their own population per
 language and per adapter. A native scorecard is never merged with a

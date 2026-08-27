@@ -653,3 +653,31 @@ verbatim with the document's own rationale.
   (`reports/raw/load-bearing-java-modeling/bifrost-declared-source-{with,without}-model.json`).
 
 See [the Java modeling matrix](../../docs/java-modeling.md).
+
+## Python tool-native probe set
+
+`run-bifrost-native --language python` runs the twelve assertions of
+[the tool-native model profile](../../docs/native-profile.md) for Python,
+writing `reports/bifrost-python-native.json` with retained decisions under
+`reports/raw/bifrost-python-native/`.
+
+The activation contract is built-in policy packs only: `--policy-pack` /
+`--policy-category` / `--policy-id` over the catalog `--list-policies` prints.
+A native run may not pass `--policy-file`, which is how every
+benchmark-controlled Bifrost run supplies its models, and the
+no-benchmark-models gate refuses one.
+
+Bifrost enters this profile at **zero of six**, preregistered. The standalone
+policy CLI ships no taint policy and no source or sink endpoint catalog, so no
+template can produce a finding regardless of what else it can express; the
+sanitizer and external-summary rows restate this README's own statements about
+sanitizer lowering and embedding-based activation. All twelve cells are decided
+from the template identity **before any process starts** — verified by running
+the command with a nonexistent binary path and getting byte-identical evidence
+— and each retains its rationale verbatim, naming the pinned identity and the
+activation shape.
+
+That is capability coverage, not a negative: an `unsupported` cell never
+becomes a clean negative and never reduces anyone's denominator. Bifrost has no
+tool-native Python denominator, which is different from having a zero. See
+[the Python tool-native probe set](../../docs/python-native.md).
