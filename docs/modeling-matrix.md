@@ -1167,6 +1167,12 @@ Restating the obligations this tier is most at risk of eroding:
 
 ## Amendments
 
+Amendment numbers continue the repository's **single** sequence rather than
+restarting per document: A1 is in [the challenge tier](challenge-tier.md#amendments)
+and A6–A8 are in [the tool-native profile](native-profile.md#amendments), so an
+identifier names exactly one amendment wherever it is cited. That is why this
+document's own sequence reads A2–A5 and then A9.
+
 ### A2 — 2026-08-26: Joern's propagator and summary categories are not load-bearing
 
 **What changed.** Joern's cells for category P (`opaque-propagator`,

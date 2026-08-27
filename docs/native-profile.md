@@ -785,6 +785,29 @@ coverage miss by an activated model set is neither — it is a plain
 `not-reached`, which on a positive cell is a false negative and is exactly the
 number this profile is built to publish.
 
+### The run-level identity is witnessed, including at 0 / 6
+
+"Before the tool is invoked" is a statement about **cells**, and it is
+unconditional: no declined cell is ever handed to the analyzer, and no run of
+this profile decides an outcome by looking at one.
+
+It is *not* a statement about the report's `tool_version` and
+`tool_build_identity`. Those name which binary the run was pinned to, and a
+name is only evidence if something read it. Every run of this profile therefore
+reads the pinned binary's version banner **once**, before its population is
+walked, including a row whose partition scores nothing — and a row that scores
+nothing is the case where it matters most, because there its twelve retained
+rationales are the whole of its evidence and an asserted version would go on
+naming the previous pin after the binary underneath it moved.
+
+Reading `--version` is not analyzing a fixture, so this leaves the distinction
+above untouched: `unsupported` is still decided from the template identity
+before anything runs. What it removes is a report that could state a pin it
+never observed. One consequence is deliberate and worth stating plainly: a
+0 / 6 run no longer completes against a nonexistent binary path — it fails,
+because a run that cannot witness its own pin has nothing truthful to write in
+those two fields.
+
 ## Reporting
 
 - **Reports.** Per language, per adapter:
@@ -878,8 +901,10 @@ they touch, name the freezes they invalidate, and land as their own commits.
 
 Their numbers continue the repository's **single** amendment sequence rather
 than restarting per document: A1 is in [the challenge tier](challenge-tier.md#amendments)
-and A2–A5 are in [the modeling matrix](modeling-matrix.md#amendments), so an
-amendment identifier names exactly one amendment wherever it is cited.
+and A2–A5 and A9 are in [the modeling matrix](modeling-matrix.md#amendments), so
+an amendment identifier names exactly one amendment wherever it is cited. The
+sequence interleaves across documents — A8 here is followed by A9 there — which
+is the point: the number, not the document, is the identity.
 
 ### A6 — 2026-08-27: Semgrep CE's JavaScript cells, evaluated against the vendored snapshot
 

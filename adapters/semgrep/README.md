@@ -821,7 +821,8 @@ for the contract and [the Java row](../../docs/java-native.md) for the results.
   `c0a2d9a459a04bd1511f71fb8d154d6cff5fc843d3a9d472c057a46493aea4b3`.
 
 **Result: zero of six templates activated, twelve `unsupported` outcomes, and
-the binary was never invoked.** The snapshot was read rule by rule before any
+the binary was never asked about a fixture.** The snapshot was read rule by
+rule before any
 run, and it binds none of the six categories: `System.getenv`, `String.concat`,
 `Integer.parseInt`, `String.valueOf`, `java.util.Base64`, `void main` and
 `System.` do not occur anywhere in it; the two rules whose sink is the
