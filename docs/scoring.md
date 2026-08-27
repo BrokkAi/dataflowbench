@@ -91,3 +91,18 @@ the analysis engine under a common contract.
 
 The `tool-native` profile evaluates models shipped by a tool. It measures useful
 out-of-box product coverage. Results from the two profiles are never combined.
+
+The [tool-native profile preregistration](native-profile.md) makes that second
+profile concrete: six templates over real platform APIs, one per category of the
+benchmark-controlled matrix, on the same `modeling` score tier and separated from
+it by `model_profile` alone. Its scorecards are therefore separate populations in
+the sense this document already uses — a native card and a benchmark-controlled
+card of the same language and tier are never merged, and no aggregate combines
+native coverage with controlled engine accuracy. Its pairs are balanced for the
+same reason every other population's are, so native coverage is read against the
+same 50% blind baseline: a tool whose shipped set does not know an API answers
+"no flow" on both cells and banks half the assertions. One reading rule is
+specific to it: a native finding that fires on the *existence* of a dangerous
+sink, with no flow requirement, is scored on the cell it lands in — a true
+positive on the positive and a false positive on the negative — because that is
+the product behavior being measured, not an artifact to be excused.
