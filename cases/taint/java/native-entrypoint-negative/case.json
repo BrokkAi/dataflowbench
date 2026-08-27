@@ -1,0 +1,58 @@
+{
+  "schema_version": 2,
+  "id": "dfb-taint-java-native-entrypoint-negative",
+  "template_id": "dfb-template-native-entrypoint",
+  "polarity": "negative",
+  "score_tier": "modeling",
+  "track": "taint",
+  "language": "java",
+  "semantic_dimensions": [
+    "local-flow"
+  ],
+  "feature_tags": [
+    "modeled-external",
+    "intraprocedural"
+  ],
+  "model_profile": "tool-native",
+  "fixture_files": [
+    "NativeEntrypointNegative.java"
+  ],
+  "source_anchors": [
+    {
+      "marker": "DFB-SOURCE: native-entrypoint-argv",
+      "file": "NativeEntrypointNegative.java",
+      "line_hint": 14
+    }
+  ],
+  "sink_anchors": [
+    {
+      "marker": "DFB-SINK: native-entrypoint-exec",
+      "file": "NativeEntrypointNegative.java",
+      "line_hint": 17
+    }
+  ],
+  "expected_flows": [],
+  "expected_nonflows": [
+    {
+      "source": "DFB-SOURCE: native-entrypoint-argv",
+      "sink": "DFB-SINK: native-entrypoint-exec"
+    }
+  ],
+  "negative_mechanism": "unrelated-value",
+  "witness_checkpoints": [],
+  "expected_analysis_capability": {
+    "kind": "native-entrypoint-convention",
+    "notes": "Whether this scores is usually a configuration question: several tools ship the model but do not enable its threat model by default."
+  },
+  "execution_budget": {
+    "wall_clock_seconds": 300,
+    "peak_memory_mb": 4096
+  },
+  "fixture_provenance": {
+    "kind": "authored",
+    "origin": "DataFlowBench",
+    "revision": "n1-native-java",
+    "license": "MIT"
+  },
+  "tool_model_references": {}
+}

@@ -414,14 +414,30 @@ configuration are retained"* a property of the artifact.
 models are not pinnable at run time — Semgrep's registry, Joern's floating
 `querydb` release asset — the profile vendors a pinned snapshot with a
 `provenance.json` recording the upstream repository, source commit, paths,
-license, and retrieval date. Nothing is vendored yet; this section pins the
-conventions and the paths, and the snapshots land with the language waves.
+license, and retrieval date. Wave N1's Java row vendors the first one:
+`adapters/semgrep/native/java/` snapshots `java/lang/security/` of
+`semgrep/semgrep-rules` at a pinned commit. Each remaining language's snapshot
+lands with its own wave.
 
 **The execution arm lands with the language.** The arm that invokes an analyzer
 over a *scored* native cell is written by the wave-N1 pull request that vendors
 that adapter's snapshot for that language. Until then a scored cell is a hard
 error rather than a synthesized outcome, which the adapter contract at the head
-of this document forbids.
+of this document forbids. Java's row lands CodeQL's arm — the pinned shipped
+suite plus its threat-model option in place of an adapter query, with the
+`--codeql-packs` search path validated but deliberately never forwarded. The
+other three adapters decline all six templates, so their arms stay unwritten
+and a promotion by amendment is a hard error until one is written, rather than
+a silent zero.
+
+**A native marker anchors the platform callsite.** Every other population
+anchors a `DFB-SINK:` marker on the declaration of a benchmark-invented
+endpoint. A native fixture declares nothing, so the marker sits on the real
+API's own callsite and that line is the reconciliation target directly. Because
+a native run executes the vendor's whole shipped suite rather than one bespoke
+query, findings away from the anchor are retained as diagnostics by rule
+identity and never become an outcome; only a finding on the sink-anchor line is
+`reached`.
 
 **Reporting stays separate.** Native reports are their own population per
 language and per adapter. A native scorecard is never merged with a

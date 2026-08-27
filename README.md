@@ -358,6 +358,15 @@ one run per adapter against them. Wave M1's three rows are complete:
 cases are `score_tier: "modeling"`, are never in a core denominator, and are
 never averaged with a kernel score.
 
+The [tool-native profile](docs/native-profile.md) inverts that question once
+more: not what an engine does with models we supply, but what each vendor's
+**shipped product** covers over code that calls real platform APIs. It shares
+the `modeling` tier and is separated from the matrix by `model_profile` alone,
+and the two are never pooled — a native miss is a coverage fact about a
+catalog, not an accuracy fact about an engine. Wave N1's first row is
+[the Java tool-native probe set](docs/java-native.md): six templates, twelve
+assertions, and no benchmark-authored model of any kind.
+
 The [Java kernel contract](docs/java-kernel.md) records the origin population
 and the first landed wave of the [challenge-tier
 expansion](docs/challenge-tier.md), which grows the Java core to 29 templates
