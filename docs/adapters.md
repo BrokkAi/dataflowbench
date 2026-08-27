@@ -414,14 +414,37 @@ configuration are retained"* a property of the artifact.
 models are not pinnable at run time — Semgrep's registry, Joern's floating
 `querydb` release asset — the profile vendors a pinned snapshot with a
 `provenance.json` recording the upstream repository, source commit, paths,
-license, and retrieval date. Nothing is vendored yet; this section pins the
-conventions and the paths, and the snapshots land with the language waves.
+license, and retrieval date. Vendored so far: `adapters/semgrep/native/javascript/`,
+thirty rules from `semgrep/semgrep-rules@40b8c63f` — the remaining snapshots land
+with their language waves.
 
 **The execution arm lands with the language.** The arm that invokes an analyzer
-over a *scored* native cell is written by the wave-N1 pull request that vendors
-that adapter's snapshot for that language. Until then a scored cell is a hard
-error rather than a synthesized outcome, which the adapter contract at the head
-of this document forbids.
+over a *scored* native cell is written by the wave-N1 pull request that needs
+it. CodeQL's arm is wired: `run_codeql_native_case` builds the database exactly
+as the benchmark-controlled runner does — extraction is a property of the
+language, not of the model profile — and then analyzes it with the pinned
+activation arguments passed verbatim, in the order `native_activation` pins and
+`native_configuration_hash` hashes, so the invocation and the retained
+provenance cannot drift apart. Bifrost, Joern, and Semgrep have no arm, because
+their preregistered partitions decline all six templates and the partition is
+consulted first; a scored cell for one of them is a hard error rather than a
+synthesized outcome, which the adapter contract at the head of this document
+forbids, and it becomes reachable only when a dated amendment promotes a cell.
+
+**Native anchors sit on the platform callsite.** Every other population declares
+its own endpoint function and hangs the marker on that declaration, so
+reconciliation resolves a declared name and then finds its callsites. The
+tool-native profile has no declared entity — the sink's body is inside the
+platform — so the marker sits on the calling line itself and
+`native_sink_anchor_locations` resolves that line directly. An anchor still
+decides only which finding belongs to which assertion and never tells an
+analyzer what a source or a sink is.
+
+A native run also analyzes a whole shipped suite rather than one adapter query,
+so a finding away from the anchor is a different query answering a different
+question: `native_sarif_outcome` retains it as a diagnostic and does not let it
+make the cell `reached`. What it never does is become evidence of a flow.
+Ambiguity stays `inconclusive`, as everywhere else.
 
 **Reporting stays separate.** Native reports are their own population per
 language and per adapter. A native scorecard is never merged with a
