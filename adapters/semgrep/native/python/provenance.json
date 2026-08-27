@@ -1,0 +1,482 @@
+{
+  "schema_version": 1,
+  "kind": "derived",
+  "purpose": "Tool-native activation artifact for Semgrep CE 1.174.0 over the Python probe set (docs/native-profile.md#semgrep-ce--11740---oss-only).",
+  "upstream": {
+    "repository": "https://github.com/semgrep/semgrep-rules",
+    "commit": "40b8c63f75dc7c22c8a77482d73bfb864b146f7e",
+    "branch": "develop",
+    "paths": [
+      "python/lang/security/"
+    ],
+    "license": "Semgrep Rules License v1.0",
+    "license_url": "https://semgrep.dev/legal/rules-license",
+    "license_file": "LICENSE"
+  },
+  "retrieved_on": "2026-08-27",
+  "retrieval": {
+    "method": "https://codeload.github.com/semgrep/semgrep-rules/tar.gz/<commit>",
+    "archive_sha256": "b7e483abf001c405a3e908251ff66cb198a26702aff5fe4c5f0c4b2fffec4919"
+  },
+  "selection": "Every `*.yaml` rule file beneath `python/lang/security/`, including its `audit/` subtree, copied verbatim with its upstream directory structure. Upstream `.py` example files are test corpora rather than rules and are not vendored.",
+  "modifications": "None. A vendored rule is the product under test; editing one would be editing the vendor's model, which docs/native-profile.md#the-activation-rule forbids.",
+  "file_count": 91,
+  "snapshot_sha256": "d2ea1832a3a366eb8ff57c220ce1f7617442c7bf66bdbdd36dbff9157420555f",
+  "files": [
+    {
+      "path": "rules/audit/conn_recv.yaml",
+      "upstream_path": "python/lang/security/audit/conn_recv.yaml",
+      "sha256": "30d4c0fd0fbdd599ddd9261a7c96435427bd4885dde4c5561fbe45b5f9ebe0ca"
+    },
+    {
+      "path": "rules/audit/dangerous-annotations-usage.yaml",
+      "upstream_path": "python/lang/security/audit/dangerous-annotations-usage.yaml",
+      "sha256": "de2894f025419bcc1753dde0bec8948a64aa3409d7733fcc4819d04ee6429cb0"
+    },
+    {
+      "path": "rules/audit/dangerous-asyncio-create-exec-audit.yaml",
+      "upstream_path": "python/lang/security/audit/dangerous-asyncio-create-exec-audit.yaml",
+      "sha256": "9308083dcaae7882f3fb4f26b0f400cca7dd79c49cb85d72b8ed5de1cacad2ce"
+    },
+    {
+      "path": "rules/audit/dangerous-asyncio-create-exec-tainted-env-args.yaml",
+      "upstream_path": "python/lang/security/audit/dangerous-asyncio-create-exec-tainted-env-args.yaml",
+      "sha256": "81dccef20c6ab71757629dc002f90401e0744ccb7866896573ea81c5bb84e8cf"
+    },
+    {
+      "path": "rules/audit/dangerous-asyncio-exec-audit.yaml",
+      "upstream_path": "python/lang/security/audit/dangerous-asyncio-exec-audit.yaml",
+      "sha256": "ae753d565762477200ab6a16d2127b455f5af988e925d76dcb550b3559b85efc"
+    },
+    {
+      "path": "rules/audit/dangerous-asyncio-exec-tainted-env-args.yaml",
+      "upstream_path": "python/lang/security/audit/dangerous-asyncio-exec-tainted-env-args.yaml",
+      "sha256": "c6e42f7c3f7ce43318c08c8d8f856f7e4d332754c483c66478407bb2cd196584"
+    },
+    {
+      "path": "rules/audit/dangerous-asyncio-shell-audit.yaml",
+      "upstream_path": "python/lang/security/audit/dangerous-asyncio-shell-audit.yaml",
+      "sha256": "e81ed31c802114fe7ccc523b6b554611044cc0a69e13daacea93fa080d28cfe9"
+    },
+    {
+      "path": "rules/audit/dangerous-asyncio-shell-tainted-env-args.yaml",
+      "upstream_path": "python/lang/security/audit/dangerous-asyncio-shell-tainted-env-args.yaml",
+      "sha256": "59f1f227a3bc52469a328cc9bac7989242b3816faac9e6e999db723bbab8062d"
+    },
+    {
+      "path": "rules/audit/dangerous-code-run-audit.yaml",
+      "upstream_path": "python/lang/security/audit/dangerous-code-run-audit.yaml",
+      "sha256": "888280b79addb2c06f664c324cfc9c9da7b571b6bc6d1991b813677e16c77ce8"
+    },
+    {
+      "path": "rules/audit/dangerous-code-run-tainted-env-args.yaml",
+      "upstream_path": "python/lang/security/audit/dangerous-code-run-tainted-env-args.yaml",
+      "sha256": "e50fede75b329941c32e89a4dcda0dc664f0b70b3f00e42873aa412237f09efb"
+    },
+    {
+      "path": "rules/audit/dangerous-os-exec-audit.yaml",
+      "upstream_path": "python/lang/security/audit/dangerous-os-exec-audit.yaml",
+      "sha256": "d7aa77c8ae62e4f6d0d3cc97a363406c819c657e3b9b5ed95030a4c7ce21febc"
+    },
+    {
+      "path": "rules/audit/dangerous-os-exec-tainted-env-args.yaml",
+      "upstream_path": "python/lang/security/audit/dangerous-os-exec-tainted-env-args.yaml",
+      "sha256": "593edc8b93d10cfdc478070dc30a9acc74d27d47d03fa883c0aa9b7351f8e219"
+    },
+    {
+      "path": "rules/audit/dangerous-spawn-process-audit.yaml",
+      "upstream_path": "python/lang/security/audit/dangerous-spawn-process-audit.yaml",
+      "sha256": "6ee93ba0c11e3fe0ef11ba3b43c7632c03176bf0e480c090e78fd543e0e1291e"
+    },
+    {
+      "path": "rules/audit/dangerous-spawn-process-tainted-env-args.yaml",
+      "upstream_path": "python/lang/security/audit/dangerous-spawn-process-tainted-env-args.yaml",
+      "sha256": "1d391dbfea8ee1dc0ad5e6cf762cae0ad36a8dcee923cac4212239852b3e988f"
+    },
+    {
+      "path": "rules/audit/dangerous-subinterpreters-run-string-audit.yaml",
+      "upstream_path": "python/lang/security/audit/dangerous-subinterpreters-run-string-audit.yaml",
+      "sha256": "04c785a1716eadb808d767d1c84d18538390caae5c43e20d971e9dffcafb4237"
+    },
+    {
+      "path": "rules/audit/dangerous-subinterpreters-run-string-tainted-env-args.yaml",
+      "upstream_path": "python/lang/security/audit/dangerous-subinterpreters-run-string-tainted-env-args.yaml",
+      "sha256": "0d29a1b663d5c8a3675af995c9ed1e401d46261146cb0dff698b2e4e24ad9b1d"
+    },
+    {
+      "path": "rules/audit/dangerous-subprocess-use-audit.yaml",
+      "upstream_path": "python/lang/security/audit/dangerous-subprocess-use-audit.yaml",
+      "sha256": "50f69dc35f47e405633559f54fc2b3bd344707221742400e74b1c902c1f76faa"
+    },
+    {
+      "path": "rules/audit/dangerous-subprocess-use-tainted-env-args.yaml",
+      "upstream_path": "python/lang/security/audit/dangerous-subprocess-use-tainted-env-args.yaml",
+      "sha256": "0f3f3f8fafef5b828a15253585e4c6648c46c6fd1cca4b0ae8c70a9399def44d"
+    },
+    {
+      "path": "rules/audit/dangerous-system-call-audit.yaml",
+      "upstream_path": "python/lang/security/audit/dangerous-system-call-audit.yaml",
+      "sha256": "279e17c553ccfae54e058f02b5ed59e7c50665b49d4eb57f767b4aa1e6d818e6"
+    },
+    {
+      "path": "rules/audit/dangerous-system-call-tainted-env-args.yaml",
+      "upstream_path": "python/lang/security/audit/dangerous-system-call-tainted-env-args.yaml",
+      "sha256": "51a6fb4d788c62a22670956868c7702e286e41da0961cb6cedcbf5d9c5f03dea"
+    },
+    {
+      "path": "rules/audit/dangerous-testcapi-run-in-subinterp-audit.yaml",
+      "upstream_path": "python/lang/security/audit/dangerous-testcapi-run-in-subinterp-audit.yaml",
+      "sha256": "870cd92a77bfc42b00a7d8dad44b4e733fcb416c93d43886004b0af3c49833b1"
+    },
+    {
+      "path": "rules/audit/dangerous-testcapi-run-in-subinterp-tainted-env-args.yaml",
+      "upstream_path": "python/lang/security/audit/dangerous-testcapi-run-in-subinterp-tainted-env-args.yaml",
+      "sha256": "0f042c7f448008974fb1325148c5368887e8ddf83f88f721e1c3cbbb8eae5c01"
+    },
+    {
+      "path": "rules/audit/dynamic-urllib-use-detected.yaml",
+      "upstream_path": "python/lang/security/audit/dynamic-urllib-use-detected.yaml",
+      "sha256": "02473766fa7c92a516db26d5dd0881f9dcc62ef10b0804565a0e5af2c9c5568a"
+    },
+    {
+      "path": "rules/audit/eval-detected.yaml",
+      "upstream_path": "python/lang/security/audit/eval-detected.yaml",
+      "sha256": "4a7d2769392c93fecb74a76b313b36b499c0ca22b42966d48f174761d85a5eec"
+    },
+    {
+      "path": "rules/audit/exec-detected.yaml",
+      "upstream_path": "python/lang/security/audit/exec-detected.yaml",
+      "sha256": "4f104a4f848ec09d02ec1317458572a6f581aba21bc884f2ea07503a1478095f"
+    },
+    {
+      "path": "rules/audit/formatted-sql-query.yaml",
+      "upstream_path": "python/lang/security/audit/formatted-sql-query.yaml",
+      "sha256": "3543d454e520952116963c7913a2c2bad9bf9192b6c8c80be91ab7529a88ff09"
+    },
+    {
+      "path": "rules/audit/hardcoded-password-default-argument.yaml",
+      "upstream_path": "python/lang/security/audit/hardcoded-password-default-argument.yaml",
+      "sha256": "9570d458ae16dce2e3119691d005e4ff50fc3effabdb83797dbf29acf15fa0ed"
+    },
+    {
+      "path": "rules/audit/httpsconnection-detected.yaml",
+      "upstream_path": "python/lang/security/audit/httpsconnection-detected.yaml",
+      "sha256": "5918e45c3d8db0ada0f6db2d90f9805abb01ec4e5e69b398d31eff531bbbb831"
+    },
+    {
+      "path": "rules/audit/insecure-file-permissions.yaml",
+      "upstream_path": "python/lang/security/audit/insecure-file-permissions.yaml",
+      "sha256": "33ce6040a85aa8a61e2bd005da9f9623c666eafd8afe31e4ada44d74d57b9bc2"
+    },
+    {
+      "path": "rules/audit/insecure-transport/ftplib/use-ftp-tls.yaml",
+      "upstream_path": "python/lang/security/audit/insecure-transport/ftplib/use-ftp-tls.yaml",
+      "sha256": "608f71c3b8a8976095f5043a9a5b24ff7c2d07d8e3a761b4d163b806ad0fbde6"
+    },
+    {
+      "path": "rules/audit/insecure-transport/requests/request-session-http-in-with-context.yaml",
+      "upstream_path": "python/lang/security/audit/insecure-transport/requests/request-session-http-in-with-context.yaml",
+      "sha256": "1a9c2d732913027a6df531c7a312b65141aa92382e48d27ea6fac826d25c96ba"
+    },
+    {
+      "path": "rules/audit/insecure-transport/requests/request-session-with-http.yaml",
+      "upstream_path": "python/lang/security/audit/insecure-transport/requests/request-session-with-http.yaml",
+      "sha256": "9113bafd2b90ea21eb3baf2cc53bfbdd498a5abc19b1011d8bbb5a356e1844fa"
+    },
+    {
+      "path": "rules/audit/insecure-transport/requests/request-with-http.yaml",
+      "upstream_path": "python/lang/security/audit/insecure-transport/requests/request-with-http.yaml",
+      "sha256": "27ae0f8d40740a62ba94e0ab28200740865eacf2331f5c3825bb14c85cf6e65e"
+    },
+    {
+      "path": "rules/audit/insecure-transport/ssl/no-set-ciphers.yaml",
+      "upstream_path": "python/lang/security/audit/insecure-transport/ssl/no-set-ciphers.yaml",
+      "sha256": "4422724b857bd8f0355c011c0d9ed40e1225886f4cc7dc20eebb127de0732785"
+    },
+    {
+      "path": "rules/audit/insecure-transport/urllib/insecure-openerdirector-open-ftp.yaml",
+      "upstream_path": "python/lang/security/audit/insecure-transport/urllib/insecure-openerdirector-open-ftp.yaml",
+      "sha256": "59a521c3acec2bf10faff77d048849a052160e2950086fececd991fcce6df841"
+    },
+    {
+      "path": "rules/audit/insecure-transport/urllib/insecure-openerdirector-open.yaml",
+      "upstream_path": "python/lang/security/audit/insecure-transport/urllib/insecure-openerdirector-open.yaml",
+      "sha256": "5a07f8239423e1f2de0dd635da882f7bb17c85a10b0934c91fe669fceb7a79b1"
+    },
+    {
+      "path": "rules/audit/insecure-transport/urllib/insecure-request-object-ftp.yaml",
+      "upstream_path": "python/lang/security/audit/insecure-transport/urllib/insecure-request-object-ftp.yaml",
+      "sha256": "2f735c4cdf4e9d28e76ab128bc554e717ea15fb7c629db1405edf8dba1445c78"
+    },
+    {
+      "path": "rules/audit/insecure-transport/urllib/insecure-request-object.yaml",
+      "upstream_path": "python/lang/security/audit/insecure-transport/urllib/insecure-request-object.yaml",
+      "sha256": "0e08a07f40e99e50bb16fc4454a6d11a3d57a452c6a00c9857bb619af5131806"
+    },
+    {
+      "path": "rules/audit/insecure-transport/urllib/insecure-urlopen-ftp.yaml",
+      "upstream_path": "python/lang/security/audit/insecure-transport/urllib/insecure-urlopen-ftp.yaml",
+      "sha256": "f69a48018746c8e3f499ea7126932672102f3a79b6bb213b7fc627025a00c8b0"
+    },
+    {
+      "path": "rules/audit/insecure-transport/urllib/insecure-urlopen.yaml",
+      "upstream_path": "python/lang/security/audit/insecure-transport/urllib/insecure-urlopen.yaml",
+      "sha256": "91c210c4af9b0b6eb912aab44a82b91b01a79c01cf2306678dc1027b90643ce9"
+    },
+    {
+      "path": "rules/audit/insecure-transport/urllib/insecure-urlopener-open-ftp.yaml",
+      "upstream_path": "python/lang/security/audit/insecure-transport/urllib/insecure-urlopener-open-ftp.yaml",
+      "sha256": "61da67c959a0230c34d5f920eec0294628610e99c09da14da9d080807f24bb3f"
+    },
+    {
+      "path": "rules/audit/insecure-transport/urllib/insecure-urlopener-open.yaml",
+      "upstream_path": "python/lang/security/audit/insecure-transport/urllib/insecure-urlopener-open.yaml",
+      "sha256": "bd047835550b793f6453e9a6f73502f6002802c2bd40fda78cf410a939790900"
+    },
+    {
+      "path": "rules/audit/insecure-transport/urllib/insecure-urlopener-retrieve-ftp.yaml",
+      "upstream_path": "python/lang/security/audit/insecure-transport/urllib/insecure-urlopener-retrieve-ftp.yaml",
+      "sha256": "83aafb1e6706f07142ba0ed84b3bdacfae054a9bb4c9a2dd48131db19225d396"
+    },
+    {
+      "path": "rules/audit/insecure-transport/urllib/insecure-urlopener-retrieve.yaml",
+      "upstream_path": "python/lang/security/audit/insecure-transport/urllib/insecure-urlopener-retrieve.yaml",
+      "sha256": "26c59a53e985b128f31035c660b04036b4fab1ff4f094e82a3d07531e757b57f"
+    },
+    {
+      "path": "rules/audit/insecure-transport/urllib/insecure-urlretrieve-ftp.yaml",
+      "upstream_path": "python/lang/security/audit/insecure-transport/urllib/insecure-urlretrieve-ftp.yaml",
+      "sha256": "7fcb94a91340e9a8060b7b50e2a68d946f0244cb5696e535cdc739c8773d3382"
+    },
+    {
+      "path": "rules/audit/insecure-transport/urllib/insecure-urlretrieve.yaml",
+      "upstream_path": "python/lang/security/audit/insecure-transport/urllib/insecure-urlretrieve.yaml",
+      "sha256": "50022b6544a10fc905e54a1415d492c72041800a83333d217540a7fa500d99ab"
+    },
+    {
+      "path": "rules/audit/logging/listeneval.yaml",
+      "upstream_path": "python/lang/security/audit/logging/listeneval.yaml",
+      "sha256": "eb966b0faac60a0f2a96dc1147c9da504b9654ccd1faad655fae578dceb5b665"
+    },
+    {
+      "path": "rules/audit/logging/logger-credential-leak.yaml",
+      "upstream_path": "python/lang/security/audit/logging/logger-credential-leak.yaml",
+      "sha256": "dfe640eaa2e1a219d438ce96ceff05e2f7e730c4858a9f49ac228c073db4eac9"
+    },
+    {
+      "path": "rules/audit/mako-templates-detected.yaml",
+      "upstream_path": "python/lang/security/audit/mako-templates-detected.yaml",
+      "sha256": "0208e1d18cef98c22617ae21e0e1e0230b6ba35a344b6e9d43b3a3f204e21d05"
+    },
+    {
+      "path": "rules/audit/marshal.yaml",
+      "upstream_path": "python/lang/security/audit/marshal.yaml",
+      "sha256": "cb4911c37ef771abd07e45d4fff72a8f0919ab8ee850f6bbebf4e201a3aaca84"
+    },
+    {
+      "path": "rules/audit/md5-used-as-password.yaml",
+      "upstream_path": "python/lang/security/audit/md5-used-as-password.yaml",
+      "sha256": "51ddd2ba3ea8fdb9da5ff75b567d1a18f58e7c51a375bc5e73752a409cd86951"
+    },
+    {
+      "path": "rules/audit/network/bind.yaml",
+      "upstream_path": "python/lang/security/audit/network/bind.yaml",
+      "sha256": "0fa514e0a7190eaa1a3dacab29509b4ac3d8480403ba545c104e7e4aabbbae9c"
+    },
+    {
+      "path": "rules/audit/network/disabled-cert-validation.yaml",
+      "upstream_path": "python/lang/security/audit/network/disabled-cert-validation.yaml",
+      "sha256": "6b3c74d269a97818065d42d916c748b2b01f5f85c81d877b85f8908fd923247f"
+    },
+    {
+      "path": "rules/audit/network/http-not-https-connection.yaml",
+      "upstream_path": "python/lang/security/audit/network/http-not-https-connection.yaml",
+      "sha256": "a687d760cd55747ee465a820a9ca19ca693eeac51d3058defe1d6c47c87b2b67"
+    },
+    {
+      "path": "rules/audit/non-literal-import.yaml",
+      "upstream_path": "python/lang/security/audit/non-literal-import.yaml",
+      "sha256": "056752dd8dfb6a695e4c9cd6ff64ebf8ff63bfc519d2ee1729f636b77c620497"
+    },
+    {
+      "path": "rules/audit/paramiko/paramiko-exec-command.yaml",
+      "upstream_path": "python/lang/security/audit/paramiko/paramiko-exec-command.yaml",
+      "sha256": "f673c9f0dcbcb52461548a2d3b9988390d5660cf54a0cec6d27936f40ddd5a99"
+    },
+    {
+      "path": "rules/audit/paramiko-implicit-trust-host-key.yaml",
+      "upstream_path": "python/lang/security/audit/paramiko-implicit-trust-host-key.yaml",
+      "sha256": "bdb1944f2623df900a774e6996d1d8ef6fab84f4fafcf1d278fae3f54f48368f"
+    },
+    {
+      "path": "rules/audit/python-reverse-shell.yaml",
+      "upstream_path": "python/lang/security/audit/python-reverse-shell.yaml",
+      "sha256": "136686a48ef85b43429e1d6850a94c01856ccbe130bc2a14bd844c41f745c060"
+    },
+    {
+      "path": "rules/audit/regex-dos.yaml",
+      "upstream_path": "python/lang/security/audit/regex-dos.yaml",
+      "sha256": "8fa43155c3c4dea97922b451f8f51957a15fefeabd3bc8f4a939e5112f7910ca"
+    },
+    {
+      "path": "rules/audit/sha224-hash.yaml",
+      "upstream_path": "python/lang/security/audit/sha224-hash.yaml",
+      "sha256": "3dfae9ce892bebd33f4f0dc15179e4dbd2233fba426af0acef92faaac4481b1a"
+    },
+    {
+      "path": "rules/audit/sqli/aiopg-sqli.yaml",
+      "upstream_path": "python/lang/security/audit/sqli/aiopg-sqli.yaml",
+      "sha256": "a7687e9f25881204de6d5f5087d76ccf61b361b715c95d9e1af9be4139f44fcd"
+    },
+    {
+      "path": "rules/audit/sqli/asyncpg-sqli.yaml",
+      "upstream_path": "python/lang/security/audit/sqli/asyncpg-sqli.yaml",
+      "sha256": "c5c56307c0128f47e4aae85ea2b5ab5834ce47c35690863370d010d6fbd47300"
+    },
+    {
+      "path": "rules/audit/sqli/pg8000-sqli.yaml",
+      "upstream_path": "python/lang/security/audit/sqli/pg8000-sqli.yaml",
+      "sha256": "70658799eacf63fadffe5bb79969acb7133daaf50058af627e1dfd9041628a77"
+    },
+    {
+      "path": "rules/audit/sqli/psycopg-sqli.yaml",
+      "upstream_path": "python/lang/security/audit/sqli/psycopg-sqli.yaml",
+      "sha256": "22f640c86a6e4d594b8193dd40a99830e211c4af46e526306dc261f0c1a334a0"
+    },
+    {
+      "path": "rules/audit/ssl-wrap-socket-is-deprecated.yaml",
+      "upstream_path": "python/lang/security/audit/ssl-wrap-socket-is-deprecated.yaml",
+      "sha256": "ca94c95d22f5c229d036097019cdd14ea88bff7e1e3c8a5f485627b0cc7615ef"
+    },
+    {
+      "path": "rules/audit/subprocess-list-passed-as-string.yaml",
+      "upstream_path": "python/lang/security/audit/subprocess-list-passed-as-string.yaml",
+      "sha256": "3e85d8148402dd3fd437afda07afc1aeff3fdbe395073d968cc01dfaa80e638d"
+    },
+    {
+      "path": "rules/audit/subprocess-shell-true.yaml",
+      "upstream_path": "python/lang/security/audit/subprocess-shell-true.yaml",
+      "sha256": "753ba9d29d592b3d7f5086e671e424ee05138acbf75a39b663d92aa3275f5380"
+    },
+    {
+      "path": "rules/audit/system-wildcard-detected.yaml",
+      "upstream_path": "python/lang/security/audit/system-wildcard-detected.yaml",
+      "sha256": "c0d7b35194f88bb0517f53ae54a91a2324e48c6872353dcdf55226b81d5c00aa"
+    },
+    {
+      "path": "rules/audit/telnetlib.yaml",
+      "upstream_path": "python/lang/security/audit/telnetlib.yaml",
+      "sha256": "48034e8afb1dc6e5af48c5f1c41a0c3899d6c91601373a8dff5aa59de0be74a3"
+    },
+    {
+      "path": "rules/audit/weak-ssl-version.yaml",
+      "upstream_path": "python/lang/security/audit/weak-ssl-version.yaml",
+      "sha256": "f11866fe7c8c8918606516e84fee31450f06dd54ed0643e18aa7dc4b25b08b8e"
+    },
+    {
+      "path": "rules/dangerous-code-run.yaml",
+      "upstream_path": "python/lang/security/dangerous-code-run.yaml",
+      "sha256": "81fd7a70282b7b7ae5299e6e921979bbf28634298222c442c44174170b02fb9f"
+    },
+    {
+      "path": "rules/dangerous-globals-use.yaml",
+      "upstream_path": "python/lang/security/dangerous-globals-use.yaml",
+      "sha256": "dce3952d4d8fc0ca78bc0454858c1c163d6d10c4f72afd83191493027ed70e27"
+    },
+    {
+      "path": "rules/dangerous-os-exec.yaml",
+      "upstream_path": "python/lang/security/dangerous-os-exec.yaml",
+      "sha256": "5b9a82be39e56c73bd90f376bf33843350a47f7906f68985ad09abacb83add94"
+    },
+    {
+      "path": "rules/dangerous-spawn-process.yaml",
+      "upstream_path": "python/lang/security/dangerous-spawn-process.yaml",
+      "sha256": "c6e7a2c8dcdebafa48327a455927ce1e373255f3462bd026078f10f772db141a"
+    },
+    {
+      "path": "rules/dangerous-subinterpreters-run-string.yaml",
+      "upstream_path": "python/lang/security/dangerous-subinterpreters-run-string.yaml",
+      "sha256": "37eb195d8b74030c637089adbb9162ae82bc22df947bf0e662435f2d4bca14b0"
+    },
+    {
+      "path": "rules/dangerous-subprocess-use.yaml",
+      "upstream_path": "python/lang/security/dangerous-subprocess-use.yaml",
+      "sha256": "9aaf4e9fcb13afed4e60c04def4132f9f7f2baac3414dc1d7bbd5dcb29db0586"
+    },
+    {
+      "path": "rules/dangerous-system-call.yaml",
+      "upstream_path": "python/lang/security/dangerous-system-call.yaml",
+      "sha256": "07337088f457e2a1c96ca707bb598ad0676a53290ee5f19d82105fe87e10bf43"
+    },
+    {
+      "path": "rules/dangerous-testcapi-run-in-subinterp.yaml",
+      "upstream_path": "python/lang/security/dangerous-testcapi-run-in-subinterp.yaml",
+      "sha256": "d0a9df085aee306a9c5a95226154820ed9cdb05208dc06f0536bc524cbcc5e5f"
+    },
+    {
+      "path": "rules/deserialization/avoid-jsonpickle.yaml",
+      "upstream_path": "python/lang/security/deserialization/avoid-jsonpickle.yaml",
+      "sha256": "eca03a7a1c56b032a96e490a313fec29d3d77bd6d62210d9f339d1e820e59b41"
+    },
+    {
+      "path": "rules/deserialization/avoid-pyyaml-load.yaml",
+      "upstream_path": "python/lang/security/deserialization/avoid-pyyaml-load.yaml",
+      "sha256": "a1ae4abf7e9476d4a440236d2d8743263e7fb39e1c68f2680467cbc66b3f7431"
+    },
+    {
+      "path": "rules/deserialization/avoid-unsafe-ruamel.yaml",
+      "upstream_path": "python/lang/security/deserialization/avoid-unsafe-ruamel.yaml",
+      "sha256": "9e043aba05d3aaad64d19a56221ed0598c08deb10f1f7f609543fbd4e997d5c2"
+    },
+    {
+      "path": "rules/deserialization/pickle.yaml",
+      "upstream_path": "python/lang/security/deserialization/pickle.yaml",
+      "sha256": "ef221e31f87f24b5889c08e22e80ae176e0209c4099e822120904ed99d61a7e7"
+    },
+    {
+      "path": "rules/insecure-hash-algorithms-md5.yaml",
+      "upstream_path": "python/lang/security/insecure-hash-algorithms-md5.yaml",
+      "sha256": "e8a898841202c02d986b4931e3f4550fced6056f310e6069bf41720a96937580"
+    },
+    {
+      "path": "rules/insecure-hash-algorithms.yaml",
+      "upstream_path": "python/lang/security/insecure-hash-algorithms.yaml",
+      "sha256": "6adf7bcd537f1374955ccbdea68cef115482238f2b11e8d931497cc0afcb859e"
+    },
+    {
+      "path": "rules/insecure-hash-function.yaml",
+      "upstream_path": "python/lang/security/insecure-hash-function.yaml",
+      "sha256": "47481a289f0191dbd7a316ec3129ab8503560440e3ba471ca2f42a18f484935d"
+    },
+    {
+      "path": "rules/insecure-uuid-version.yaml",
+      "upstream_path": "python/lang/security/insecure-uuid-version.yaml",
+      "sha256": "54a4bfe4ecb648dbe9116ff8a1525b79a9e4d30199e9cbb5ba4c72f1822eb767"
+    },
+    {
+      "path": "rules/unverified-ssl-context.yaml",
+      "upstream_path": "python/lang/security/unverified-ssl-context.yaml",
+      "sha256": "ff0e5b9f6cd95f5247a9242d16a398162b18945f4cda11587ed965e3c663abfe"
+    },
+    {
+      "path": "rules/use-defused-xml-parse.yaml",
+      "upstream_path": "python/lang/security/use-defused-xml-parse.yaml",
+      "sha256": "e472066cad14b0703b69a7d4e67a34273edbbe859a4f7ff99cad8fbeaeb9aae4"
+    },
+    {
+      "path": "rules/use-defused-xml.yaml",
+      "upstream_path": "python/lang/security/use-defused-xml.yaml",
+      "sha256": "3c737ef0e249ae72b4f365d877aa4d11f1ced44f2e63ae48ff75dee6340e2837"
+    },
+    {
+      "path": "rules/use-defused-xmlrpc.yaml",
+      "upstream_path": "python/lang/security/use-defused-xmlrpc.yaml",
+      "sha256": "652c86c4617bf593aff9210cc3b1cc13deb04ee102c700a1074ba3a76d303030"
+    },
+    {
+      "path": "rules/use-defusedcsv.yaml",
+      "upstream_path": "python/lang/security/use-defusedcsv.yaml",
+      "sha256": "0fdc77dc97e3b2007025bd9db8f3389d68ca0eda6872e5323e7108bfd44c355a"
+    }
+  ]
+}

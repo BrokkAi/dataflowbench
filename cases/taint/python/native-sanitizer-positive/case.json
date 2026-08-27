@@ -1,0 +1,61 @@
+{
+  "schema_version": 2,
+  "id": "dfb-taint-python-native-sanitizer-positive",
+  "template_id": "dfb-template-native-sanitizer",
+  "polarity": "positive",
+  "score_tier": "modeling",
+  "track": "taint",
+  "language": "python",
+  "semantic_dimensions": [
+    "local-flow",
+    "sanitizer"
+  ],
+  "feature_tags": [
+    "intraprocedural",
+    "modeled-external",
+    "sanitized"
+  ],
+  "model_profile": "tool-native",
+  "fixture_files": [
+    "quote_command.py"
+  ],
+  "source_anchors": [
+    {
+      "marker": "DFB-SOURCE: native-sanitizer-environment",
+      "file": "quote_command.py",
+      "line_hint": 12
+    }
+  ],
+  "sink_anchors": [
+    {
+      "marker": "DFB-SINK: native-sanitizer-command",
+      "file": "quote_command.py",
+      "line_hint": 13
+    }
+  ],
+  "expected_flows": [
+    {
+      "source": "DFB-SOURCE: native-sanitizer-environment",
+      "sink": "DFB-SINK: native-sanitizer-command"
+    }
+  ],
+  "expected_nonflows": [],
+  "witness_checkpoints": [
+    "DFB-SOURCE: native-sanitizer-environment",
+    "DFB-SINK: native-sanitizer-command"
+  ],
+  "expected_analysis_capability": {
+    "kind": "native-sanitizer-credit"
+  },
+  "execution_budget": {
+    "wall_clock_seconds": 60,
+    "peak_memory_mb": 512
+  },
+  "fixture_provenance": {
+    "kind": "authored",
+    "origin": "DataFlowBench",
+    "revision": "n1-native-python",
+    "license": "MIT"
+  },
+  "tool_model_references": {}
+}
