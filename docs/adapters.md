@@ -342,6 +342,92 @@ ordered on generated scorecards by the `modeling` entry in `SCORE_TIER_ORDER`.
 A modeling assertion never appears on a propagation-kernel scorecard, never
 enters a core denominator, and is never macro-averaged with one.
 
+## Tool-native rollout mechanics
+
+[The tool-native preregistration](native-profile.md) fixes *what* the six
+platform-API templates are, what each tool's activation contract pins, and which
+cells each tool can activate at all. This section is the mechanics, on the same
+terms as the two sections above.
+
+**Infrastructure now, fixtures and vendored snapshots per language.** The
+template constants, the category mapping, the activation partition, the
+profile-disjoint validators, the four commands, the activation shapes, and the
+gates land ahead of any fixture. Wave N1 then adds Java, JavaScript, and Python
+one pull request at a time: that language's twelve fixtures and cases, the
+vendored activation snapshots its partition needs, and the runs.
+
+**One tier, two profiles, and the selectors say which.** Native cases carry
+`score_tier: "modeling"` and `model_profile: "tool-native"`. The tier keeps both
+modeling populations out of every core, calibration, `language-extension`, and
+`real-project` denominator; the *profile* is what keeps them out of each other,
+so `modeling_case` and `native_case` both filter on it and
+`validate_profile_disjoint_populations` asserts corpus-wide that no case is
+selected by both, in either direction, for any language. That check exists
+because pooling the profiles is a fault of omission — a selector that filters on
+the tier and forgets the profile — which no assertion about a case's own fields
+would catch.
+
+**The partition is keyed by template, not by category.** `NATIVE_PARTITION`
+holds one cell per tool per template — twenty-four cells, transcribed from the
+preregistration's summary, with its *to be verified* cells recorded as
+`unsupported` per its own rule. Scored today: **CodeQL 6 templates of 6**, and
+**Bifrost, Joern, and Semgrep CE 0 of 6**. The asymmetry with the
+benchmark-controlled matrix is the point rather than a defect — Joern scores four
+of six categories there on the same engine — because this profile measures
+product packaging and that one measures the engine. A declined cell is decided
+from the template ID *before the tool is invoked*, retains the document's
+rationale verbatim, and writes a `retained-capability-decision` document beside
+the report carrying the pinned activation configuration with it.
+
+**Four commands, parameterized by language.** `run-bifrost-native`,
+`run-codeql-native`, `run-joern-native`, and `run-semgrep-native`, each taking
+`--language java|javascript|python` and writing
+`reports/<tool>-<language>-native.json` with raw evidence under
+`reports/raw/<tool>-<language>-native/`.
+
+**Fail fast, never an empty report.** A run refuses, before touching the
+analyzer, when the language has no tool-native population, when a pinned
+activation artifact is missing — this profile's analogue of the modeling
+matrix's *missing model*, and a hard error for the same reason — or when a named
+`--codeql-packs` path does not exist.
+
+**The no-benchmark-models gate is the profile's load-bearing check.** A native
+run must supply no benchmark-authored model of any kind, so the runner reads the
+pinned activation shape and refuses it if any argument names a benchmark model
+artifact. The artifact set is derived from the modeling matrix's own constants —
+every `ModelingLanguage::artifact` for every tool, plus
+`adapters/joern/queries/modeling.sc` — so a modeling artifact added later is
+covered the moment it is declared. Tests pin every activation shape literally:
+`--threat-model=local` plus the shipped `<language>-security-extended.qls` suite
+for CodeQL, `--oss-only` plus `--config=adapters/semgrep/native/<language>` for
+Semgrep, `--policy-pack` and never `--policy-file` for Bifrost, and nothing at
+all for Joern, which activates `DefaultSemantics` by running.
+
+**Activation configuration binds the configuration hash.** Most of a native
+run's configuration is not a file in this repository — it is a suite name, a
+pack version, a threat-model group — so `native_configuration_hash` hashes the
+pinned activation identity and arguments alongside whatever vendored bytes
+exist. That is what makes issue #16's *"model/version provenance and activation
+configuration are retained"* a property of the artifact.
+
+**Vendored activation artifacts carry `derived` provenance.** Where shipped
+models are not pinnable at run time — Semgrep's registry, Joern's floating
+`querydb` release asset — the profile vendors a pinned snapshot with a
+`provenance.json` recording the upstream repository, source commit, paths,
+license, and retrieval date. Nothing is vendored yet; this section pins the
+conventions and the paths, and the snapshots land with the language waves.
+
+**The execution arm lands with the language.** The arm that invokes an analyzer
+over a *scored* native cell is written by the wave-N1 pull request that vendors
+that adapter's snapshot for that language. Until then a scored cell is a hard
+error rather than a synthesized outcome, which the adapter contract at the head
+of this document forbids.
+
+**Reporting stays separate.** Native reports are their own population per
+language and per adapter. A native scorecard is never merged with a
+benchmark-controlled one, even though the two share a score tier and a language,
+and no aggregate combines native coverage with controlled accuracy.
+
 ## Analyzers evaluated and not adapted
 
 An adapter admits an analyzer only when four bounds hold, and every analyzer

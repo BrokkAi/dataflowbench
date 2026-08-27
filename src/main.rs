@@ -994,11 +994,18 @@ fn require_semgrep_modeling_load_bearing(rule: &str, path: &str) -> Result<()> {
     Ok(())
 }
 
-/// Whether a case is a modeling-tier assertion of this language.
+/// Whether a case is a **benchmark-controlled** modeling-tier assertion of this
+/// language.
+///
+/// The profile clause is load-bearing, not decorative: the `modeling` tier is
+/// shared with the tool-native profile (docs/native-profile.md), and a selector
+/// that filtered on the tier alone would pool the two profiles — the one thing
+/// [the scoring contract](docs/scoring.md#model-profiles) forbids outright.
 fn modeling_case(case: &Value, language: ModelingLanguage) -> bool {
     case["language"] == language.key()
         && case["track"] == "taint"
         && case["score_tier"] == "modeling"
+        && case["model_profile"] == MODELING_MODEL_PROFILE
 }
 
 /// Corpus-wide modeling checks, run by `validate` over every committed case.
@@ -1019,14 +1026,21 @@ fn validate_modeling_cases(cases: &[(PathBuf, Value)]) -> Result<()> {
         let template = required_string(case, "template_id", &path.display().to_string())?;
         let tier = required_string(case, "score_tier", &path.display().to_string())?;
         let modeling_template = template.starts_with(MODELING_TEMPLATE_PREFIX);
+        let native_template = template.starts_with(NATIVE_TEMPLATE_PREFIX);
         let modeling_tier = tier == "modeling";
-        if modeling_template != modeling_tier {
+        if (modeling_template || native_template) != modeling_tier {
             bail!(
-                "{}: template {template:?} and score_tier {tier:?} disagree; every `{MODELING_TEMPLATE_PREFIX}` template is `modeling`-tier and every `modeling`-tier case carries one",
+                "{}: template {template:?} and score_tier {tier:?} disagree; every `{MODELING_TEMPLATE_PREFIX}` and `{NATIVE_TEMPLATE_PREFIX}` template is `modeling`-tier and every `modeling`-tier case carries one",
                 path.display()
             );
         }
         if !modeling_tier {
+            continue;
+        }
+        // The tier is shared; the profile is not. A tool-native case answers to
+        // `validate_native_cases`, which enforces the mirror of every check
+        // below against its own six preregistered templates.
+        if native_template {
             continue;
         }
         if !MODELING_TEMPLATE_IDS.contains(&template) {
@@ -1058,20 +1072,26 @@ fn validate_modeling_cases(cases: &[(PathBuf, Value)]) -> Result<()> {
     }
     let languages: BTreeSet<&str> = cases
         .iter()
-        .filter(|(_, case)| case["score_tier"] == "modeling")
+        .filter(|(_, case)| benchmark_controlled_modeling_case(case))
         .filter_map(|(_, case)| case["language"].as_str())
         .collect();
     for language in languages {
         let population: Vec<(PathBuf, Value)> = cases
             .iter()
             .filter(|(_, case)| {
-                case["score_tier"] == "modeling" && case["language"].as_str() == Some(language)
+                benchmark_controlled_modeling_case(case)
+                    && case["language"].as_str() == Some(language)
             })
             .cloned()
             .collect();
         validate_modeling_population(&population, &format!("{language} modeling population"))?;
     }
     Ok(())
+}
+
+/// A `modeling`-tier case of the benchmark-controlled profile, language-agnostic.
+fn benchmark_controlled_modeling_case(case: &Value) -> bool {
+    case["score_tier"] == "modeling" && case["model_profile"] == MODELING_MODEL_PROFILE
 }
 
 /// Balance and completeness for one language's modeling population: exactly one
@@ -1087,6 +1107,660 @@ fn validate_modeling_population(cases: &[(PathBuf, Value)], label: &str) -> Resu
         return Ok(());
     }
     validate_kernel_population_with(cases, label, &MODELING_TEMPLATE_IDS)
+}
+
+// ---------------------------------------------------------------------------
+// The tool-native model profile.
+//
+// Everything in this section is transcribed from docs/native-profile.md, the
+// preregistration artifact that merged before any native fixture, vendored
+// ruleset, or run existed. The six template identities, their mapping onto the
+// modeling matrix's six categories, and the per-tool activation partition are
+// **immutable** on that document's terms: a cell revised after a run is a
+// result being relabelled, not an activation classification. Corrections are
+// dated amendments in the document, never silent edits here.
+//
+// The profile shares the `modeling` score tier with the benchmark-controlled
+// matrix and is separated from it by `model_profile` alone, so every selector
+// below filters on the profile and a corpus-wide check asserts the two
+// populations never cross-select.
+// ---------------------------------------------------------------------------
+
+/// Every tool-native template ID carries this prefix, the way
+/// `dfb-template-model-` distinguishes the benchmark-controlled matrix and
+/// `dfb-template-chal-` the challenge tier. No selector has to reason about
+/// tags.
+const NATIVE_TEMPLATE_PREFIX: &str = "dfb-template-native-";
+
+/// The six preregistered tool-native templates, in the document's own order —
+/// one per modeling category, S P Z O E B.
+/// `docs/native-profile.md#the-six-native-templates`.
+const NATIVE_TEMPLATE_IDS: [&str; 6] = [
+    "dfb-template-native-source-sink",
+    "dfb-template-native-propagator",
+    "dfb-template-native-sanitizer",
+    "dfb-template-native-summary",
+    "dfb-template-native-entrypoint",
+    "dfb-template-native-persistence",
+];
+
+/// One positive and one minimally different negative per template — 12
+/// assertions for a language whose native population exists at all.
+const NATIVE_CASE_COUNT: usize = 2 * NATIVE_TEMPLATE_IDS.len();
+
+/// Every native case is `tool-native`: the models come from the vendor and the
+/// benchmark supplies none. The counterpart `benchmark-controlled` profile is
+/// never pooled with this one.
+const NATIVE_MODEL_PROFILE: &str = "tool-native";
+
+/// The category a native template reports under, decided from the template ID
+/// alone. The six templates are one per category, in `ModelingCategory::ALL`
+/// order, which is what lets a native scorecard be read beside a
+/// benchmark-controlled one category for category.
+fn native_category(template: &str) -> Option<ModelingCategory> {
+    NATIVE_TEMPLATE_IDS
+        .iter()
+        .position(|id| *id == template)
+        .map(|index| ModelingCategory::ALL[index])
+}
+
+/// One cell of the preregistered per-tool activation partition: a tool, a
+/// template, and either a scored decision or the document's verbatim rationale
+/// for declining it.
+///
+/// Unlike `MODELING_PARTITION`, this partition is keyed by **template** rather
+/// than by category. The modeling matrix partitions a declaration *surface*,
+/// which a tool has or lacks per category; this one partitions an *activation*,
+/// which a vendor can ship for one template of a category and not another.
+struct NativePartitionCell {
+    tool: ModelingTool,
+    template: &'static str,
+    /// `None` when the template is scored for this tool. `Some(reason)` when
+    /// its activation is `unsupported`, carrying the rationale the report
+    /// retains.
+    unsupported_reason: Option<&'static str>,
+}
+
+/// The preregistered per-tool activation partition, transcribed cell for cell
+/// from `docs/native-profile.md#partition-summary`.
+///
+/// Cells the document marks *to be verified* are recorded here as
+/// `unsupported`, per the rule stated at the head of its tables: unverifiable
+/// is unsupported until shown otherwise, and promoting one is a dated
+/// amendment. That is why three of the four tools enter with nothing scored —
+/// which is a statement about product packaging, not about an engine.
+const NATIVE_PARTITION: [NativePartitionCell; 24] = [
+    // Bifrost — v0.10.6: 0 / 6. The standalone policy CLI ships no taint
+    // policy and no source/sink endpoint catalog, so no template can produce a
+    // finding regardless of what else it can express.
+    NativePartitionCell {
+        tool: ModelingTool::Bifrost,
+        template: NATIVE_TEMPLATE_IDS[0],
+        unsupported_reason: Some(
+            "the standalone policy CLI ships no taint policy and no source or sink endpoint \
+             catalog: the built-in catalog `--list-policies` prints is one `bifrost.code-smells` \
+             pack of structural correctness and performance checks. Shipping the first open-core \
+             security endpoints — whose candidate inventory names `System.getenv` and \
+             `Runtime.exec` — is BrokkAi/bifrost-dev #2620, still open",
+        ),
+    },
+    NativePartitionCell {
+        tool: ModelingTool::Bifrost,
+        template: NATIVE_TEMPLATE_IDS[1],
+        unsupported_reason: Some(
+            "same absent endpoint catalog (BrokkAi/bifrost-dev #2620). Procedure-summary packs \
+             (#1871) carry propagation rather than endpoints, and propagation with no source and \
+             no sink carries nothing anywhere",
+        ),
+    },
+    NativePartitionCell {
+        tool: ModelingTool::Bifrost,
+        template: NATIVE_TEMPLATE_IDS[2],
+        unsupported_reason: Some(
+            "the adapter README states it directly: \"Sanitizer lowering is a future Bifrost CLI \
+             capability.\" (`adapters/bifrost/README.md`). DataFlowBench is published by \
+             Bifrost's vendor, and a partition that quietly granted its own engine a capability \
+             its own documentation says is unimplemented would be the single most damaging thing \
+             this profile could do",
+        ),
+    },
+    NativePartitionCell {
+        tool: ModelingTool::Bifrost,
+        template: NATIVE_TEMPLATE_IDS[3],
+        unsupported_reason: Some(
+            "the adapter README: \"External semantic-model activation requires an embedding with \
+             an explicit catalog, so the modeled-external case is reported as `unsupported` by \
+             this CLI adapter with an explicit retained reason. It is not a negative result.\" \
+             Activating a catalog from the standalone CLI is BrokkAi/bifrost-dev #2691, still open",
+        ),
+    },
+    NativePartitionCell {
+        tool: ModelingTool::Bifrost,
+        template: NATIVE_TEMPLATE_IDS[4],
+        unsupported_reason: Some(
+            "to be verified — unsupported until shown: no entry-root convention is described \
+             anywhere for the policy CLI, and no endpoint catalog exists for its argument to \
+             reach in any case",
+        ),
+    },
+    NativePartitionCell {
+        tool: ModelingTool::Bifrost,
+        template: NATIVE_TEMPLATE_IDS[5],
+        unsupported_reason: Some(
+            "to be verified — unsupported until shown: no persistence-boundary vocabulary is \
+             described anywhere for any adapter, Bifrost included",
+        ),
+    },
+    // CodeQL — CLI 2.26.3, shipped `security-extended` suites: 6 / 6.
+    NativePartitionCell {
+        tool: ModelingTool::Codeql,
+        template: NATIVE_TEMPLATE_IDS[0],
+        unsupported_reason: None,
+    },
+    NativePartitionCell {
+        tool: ModelingTool::Codeql,
+        template: NATIVE_TEMPLATE_IDS[1],
+        unsupported_reason: None,
+    },
+    NativePartitionCell {
+        tool: ModelingTool::Codeql,
+        template: NATIVE_TEMPLATE_IDS[2],
+        unsupported_reason: None,
+    },
+    NativePartitionCell {
+        tool: ModelingTool::Codeql,
+        template: NATIVE_TEMPLATE_IDS[3],
+        unsupported_reason: None,
+    },
+    NativePartitionCell {
+        tool: ModelingTool::Codeql,
+        template: NATIVE_TEMPLATE_IDS[4],
+        unsupported_reason: None,
+    },
+    NativePartitionCell {
+        tool: ModelingTool::Codeql,
+        template: NATIVE_TEMPLATE_IDS[5],
+        unsupported_reason: None,
+    },
+    // Joern — 4.0.610, `DefaultSemantics` only: 0 / 6.
+    NativePartitionCell {
+        tool: ModelingTool::Joern,
+        template: NATIVE_TEMPLATE_IDS[0],
+        unsupported_reason: Some(
+            "`DefaultSemantics` is a table of flow constraints — operator semantics, C standard \
+             library entries, and a short list of JVM method full names — and ships no source \
+             catalog and no sink catalog. Every Joern population in this benchmark selects its \
+             endpoints through the adapter's own query parameters, which is exactly what the \
+             tool-native activation rule forbids. The distribution's `joern-scan` query database \
+             is not shipped either: it is downloaded from a floating `latest` release asset",
+        ),
+    },
+    NativePartitionCell {
+        tool: ModelingTool::Joern,
+        template: NATIVE_TEMPLATE_IDS[1],
+        unsupported_reason: Some(
+            "`DefaultSemantics` carries propagation entries but no endpoints; with no shipped \
+             source and no shipped sink there is nothing to propagate between",
+        ),
+    },
+    NativePartitionCell {
+        tool: ModelingTool::Joern,
+        template: NATIVE_TEMPLATE_IDS[2],
+        unsupported_reason: Some(
+            "`NilSemantics` is the mechanism a sanitizer would use, but the distribution \
+             declares none of the three platform sanitization idioms, and no endpoint catalog \
+             ships for a sanitizer to sit between",
+        ),
+    },
+    NativePartitionCell {
+        tool: ModelingTool::Joern,
+        template: NATIVE_TEMPLATE_IDS[3],
+        unsupported_reason: Some(
+            "the JVM entries in `DefaultSemantics` do not include `java.util.Base64`, and \
+             neither Python nor JavaScript has any entry at all",
+        ),
+    },
+    NativePartitionCell {
+        tool: ModelingTool::Joern,
+        template: NATIVE_TEMPLATE_IDS[4],
+        unsupported_reason: Some(
+            "entry roots are query-selected in every Joern population here; the distribution \
+             activates no entry-point convention by itself",
+        ),
+    },
+    NativePartitionCell {
+        tool: ModelingTool::Joern,
+        template: NATIVE_TEMPLATE_IDS[5],
+        unsupported_reason: Some("no persistence vocabulary ships with the distribution"),
+    },
+    // Semgrep CE — 1.174.0 (`--oss-only`): 0 / 6 until a snapshot is vendored.
+    // Every cell is *to be verified at vendoring*, which this document's own
+    // rule records as unsupported; promotion is a dated amendment carrying the
+    // vendored commit as its evidence.
+    NativePartitionCell {
+        tool: ModelingTool::Semgrep,
+        template: NATIVE_TEMPLATE_IDS[0],
+        unsupported_reason: Some(
+            "to be verified at vendoring — unsupported until shown: the upstream head's \
+             taint-mode rules cover the template's command sinks (`dangerous-system-call.yaml` \
+             declares `os.system`) but bind their `pattern-sources` to framework endpoints — \
+             Flask, Django, DRF — rather than to a platform environment read. Whether any \
+             vendored rule binds one is the snapshot's to answer, and no snapshot is vendored",
+        ),
+    },
+    NativePartitionCell {
+        tool: ModelingTool::Semgrep,
+        template: NATIVE_TEMPLATE_IDS[1],
+        unsupported_reason: Some(
+            "to be verified at vendoring — unsupported until shown: which rules the snapshot \
+             carries, and how the pinned CE engine's default propagation treats the platform \
+             join, are both undecided until a commit is pinned",
+        ),
+    },
+    NativePartitionCell {
+        tool: ModelingTool::Semgrep,
+        template: NATIVE_TEMPLATE_IDS[2],
+        unsupported_reason: Some(
+            "to be verified at vendoring — unsupported until shown: sanitizer credit in the \
+             official rules is per-rule rather than global, so it is unverifiable before the \
+             snapshot exists",
+        ),
+    },
+    NativePartitionCell {
+        tool: ModelingTool::Semgrep,
+        template: NATIVE_TEMPLATE_IDS[3],
+        unsupported_reason: Some(
+            "arg-to-return summary semantics are outside CE's propagator vocabulary on the \
+             pinned version, established by execution in \
+             docs/modeling-matrix.md#semgrep-ce--11740---oss-only; a shipped rule cannot supply \
+             what the engine does not express",
+        ),
+    },
+    NativePartitionCell {
+        tool: ModelingTool::Semgrep,
+        template: NATIVE_TEMPLATE_IDS[4],
+        unsupported_reason: Some(
+            "to be verified at vendoring — unsupported until shown: the upstream rules' entry \
+             conventions are framework-shaped, and whether any covers `sys.argv`, \
+             `process.argv`, or a `main` parameter is the snapshot's to answer",
+        ),
+    },
+    NativePartitionCell {
+        tool: ModelingTool::Semgrep,
+        template: NATIVE_TEMPLATE_IDS[5],
+        unsupported_reason: Some(
+            "the pinned CE engine has no interprocedural taint at all — `--pro-intrafile` \
+             requires Semgrep Pro — so a store round trip the shipped rules do not link \
+             themselves is carried by nothing else",
+        ),
+    },
+];
+
+/// The preregistered decision for one tool × native template, keyed by template
+/// identity alone: `None` when the template is scored, `Some(reason)` when the
+/// tool's shipped model set cannot be activated for it. Every cell is present,
+/// so an unknown template is a programming error rather than a silent scored
+/// default.
+fn native_partition_reason(tool: ModelingTool, template: &str) -> Result<Option<&'static str>> {
+    if native_category(template).is_none() {
+        bail!("{template:?} is not one of the six preregistered tool-native templates");
+    }
+    NATIVE_PARTITION
+        .iter()
+        .find(|cell| cell.tool == tool && cell.template == template)
+        .map(|cell| cell.unsupported_reason)
+        .with_context(|| {
+            format!(
+                "the tool-native partition has no cell for {} × {template}",
+                tool.key()
+            )
+        })
+}
+
+/// The retained `unsupported` reason for a declined native cell, or `None` when
+/// the cell is scored. The partition's rationale is carried verbatim; the prefix
+/// names the template, its category, and the pinned tool identity the decision
+/// was made against, so the reason is auditable without opening the document.
+fn native_unsupported_reason(tool: ModelingTool, template: &str) -> Result<Option<String>> {
+    let Some(reason) = native_partition_reason(tool, template)? else {
+        return Ok(None);
+    };
+    let category = native_category(template).expect("partition resolved the category");
+    Ok(Some(format!(
+        "tool-native activation of {template} (category {} — {}) is unsupported for {} by the preregistered activation partition (docs/native-profile.md#partition-summary): {reason}",
+        category.key(),
+        category.label(),
+        tool.pinned_identity(),
+    )))
+}
+
+/// The native templates a tool is entitled to score, in preregistered order.
+/// The counts are the document's partition summary: Bifrost 0, CodeQL 6,
+/// Joern 0, Semgrep CE 0.
+fn native_supported_templates(tool: ModelingTool) -> Vec<&'static str> {
+    NATIVE_TEMPLATE_IDS
+        .into_iter()
+        .filter(|template| {
+            native_partition_reason(tool, template)
+                .expect("every preregistered template has a partition cell")
+                .is_none()
+        })
+        .collect()
+}
+
+/// The pinned CodeQL **query** pack each language's native run resolves its
+/// shipped security suite from, verified downloadable against CLI 2.26.3.
+///
+/// These are query packs, not the library packs the benchmark-controlled
+/// adapter pins: each bundles its own `<language>-all` at a version of its own
+/// choosing (9.2.4, 2.10.0, and 7.2.4 respectively, against the adapter's
+/// 9.2.3, 2.9.0, and 7.2.3). The two profiles therefore run on different
+/// library resolutions by construction, which is correct — a native run must
+/// measure the shipped product as shipped — and is one more reason the two are
+/// never pooled.
+const CODEQL_NATIVE_QUERY_PACKS: [(&str, &str); 3] = [
+    ("codeql/java-queries", "1.11.9"),
+    ("codeql/javascript-queries", "2.4.4"),
+    ("codeql/python-queries", "1.8.9"),
+];
+
+/// The shipped suite the native profile selects. `security-extended` is the
+/// standard taint suite: `code-scanning` is a narrower default and
+/// `security-experimental` is explicitly not a product default.
+const CODEQL_NATIVE_SUITE_KIND: &str = "security-extended";
+
+/// The documented CLI option that enables the shipped `local` threat-model
+/// group, which `codeql/threat-models` defines as containing `environment` and
+/// `commandargs`. This configures vendor rows; it does not add rows, so it
+/// satisfies the activation rule. Without it, templates 1, 5, and 6 would be
+/// decided by the default `remote`-only threat model for a reason that has
+/// nothing to do with coverage.
+const CODEQL_NATIVE_THREAT_MODEL: &str = "local";
+
+/// Where a language's pinned snapshot of the official Semgrep rulesets is
+/// vendored. Registry configurations are network-fetched and unpinnable at run
+/// time, so the native profile vendors instead of fetching.
+fn semgrep_native_rules_dir(language: ModelingLanguage) -> PathBuf {
+    PathBuf::from(format!("adapters/semgrep/native/{}", language.key()))
+}
+
+/// The provenance document a vendored snapshot must carry. A snapshot with no
+/// recorded source commit is not a snapshot; the runner refuses the run.
+const SEMGREP_NATIVE_PROVENANCE_FILE: &str = "provenance.json";
+
+/// The upstream the snapshots are taken from, verified 2026-08-27 (default
+/// branch `develop`). The wave PR pins whichever commit it vendors.
+const SEMGREP_NATIVE_UPSTREAM: &str = "https://github.com/semgrep/semgrep-rules";
+
+/// Bifrost's native activation surface: built-in policy packs only. A native
+/// run may not pass `--policy-file`, which is how every benchmark-controlled
+/// Bifrost run supplies its models.
+const BIFROST_NATIVE_POLICY_PACK_FLAG: &str = "--policy-pack";
+
+/// Everything a tool-native run activates, assembled before the tool is
+/// touched. The arguments are the pinned activation shape; they are hashed into
+/// the report's `configuration_hash` so that "model/version provenance and
+/// activation configuration are retained" is a property of the artifact rather
+/// than of a README.
+struct NativeActivation {
+    /// The pinned identity of the shipped model set, recorded in the retained
+    /// evidence and in every declined cell's reason.
+    identity: String,
+    /// The activation arguments the run passes, in order.
+    arguments: Vec<String>,
+    /// Vendored activation artifacts that must exist before the run and whose
+    /// bytes bind the configuration hash.
+    configuration_paths: BTreeSet<PathBuf>,
+}
+
+/// The pinned activation shape for one tool and language.
+///
+/// This is the function the no-benchmark-models gate runs against, and its
+/// output is pinned by tests: a later change that splices a benchmark-authored
+/// artifact into a native invocation fails the build rather than quietly
+/// publishing engine accuracy as product coverage.
+fn native_activation(tool: ModelingTool, language: ModelingLanguage) -> Result<NativeActivation> {
+    Ok(match tool {
+        ModelingTool::Codeql => {
+            let (pack, version) = CODEQL_NATIVE_QUERY_PACKS
+                .iter()
+                .find(|(pack, _)| *pack == format!("codeql/{}-queries", language.key()))
+                .with_context(|| {
+                    format!(
+                        "no pinned CodeQL native query pack for {}",
+                        language.display_name()
+                    )
+                })?;
+            let suite = format!(
+                "{pack}@{version}:codeql-suites/{}-{CODEQL_NATIVE_SUITE_KIND}.qls",
+                language.key()
+            );
+            NativeActivation {
+                identity: format!("{} shipped suite {suite}", tool.pinned_identity()),
+                arguments: vec![
+                    format!("--threat-model={CODEQL_NATIVE_THREAT_MODEL}"),
+                    suite,
+                ],
+                configuration_paths: BTreeSet::new(),
+            }
+        }
+        ModelingTool::Semgrep => {
+            let dir = semgrep_native_rules_dir(language);
+            NativeActivation {
+                identity: format!(
+                    "{} over the pinned snapshot vendored from {SEMGREP_NATIVE_UPSTREAM} into {}",
+                    tool.pinned_identity(),
+                    dir.display()
+                ),
+                arguments: vec![
+                    "--oss-only".to_string(),
+                    format!("--config={}", dir.display()),
+                ],
+                configuration_paths: BTreeSet::from([dir.join(SEMGREP_NATIVE_PROVENANCE_FILE)]),
+            }
+        }
+        ModelingTool::Bifrost => NativeActivation {
+            identity: format!("{} built-in policy packs", tool.pinned_identity()),
+            arguments: vec![
+                BIFROST_NATIVE_POLICY_PACK_FLAG.to_string(),
+                "bifrost.code-smells".to_string(),
+            ],
+            configuration_paths: BTreeSet::new(),
+        },
+        ModelingTool::Joern => NativeActivation {
+            identity: format!("{} DefaultSemantics only", tool.pinned_identity()),
+            arguments: Vec::new(),
+            configuration_paths: BTreeSet::new(),
+        },
+    })
+}
+
+/// Every benchmark-authored model artifact in the repository, derived from the
+/// benchmark-controlled matrix's own constants rather than restated, so a new
+/// modeling artifact is covered by this gate the moment it is declared.
+fn benchmark_model_artifacts() -> BTreeSet<String> {
+    let mut artifacts = BTreeSet::from([JOERN_MODELING_SCRIPT.to_string()]);
+    for tool in ModelingTool::ALL {
+        for language in [
+            ModelingLanguage::Java,
+            ModelingLanguage::Javascript,
+            ModelingLanguage::Python,
+        ] {
+            artifacts.insert(language.artifact(tool).to_string());
+        }
+    }
+    artifacts
+}
+
+/// The activation rule, enforced rather than trusted: **only shipped models.**
+///
+/// A tool-native run must include no benchmark-authored source, sink,
+/// sanitizer, propagator, summary, entry-point, or store declaration. This gate
+/// reads the pinned activation shape before the analyzer is touched and refuses
+/// the run if any argument names a benchmark model artifact — the difference
+/// between measuring a product's coverage and measuring our own models is a
+/// single spliced path, and that path must not be able to arrive silently.
+fn require_no_benchmark_models(tool: ModelingTool, arguments: &[String]) -> Result<()> {
+    let artifacts = benchmark_model_artifacts();
+    for argument in arguments {
+        if let Some(artifact) = artifacts
+            .iter()
+            .find(|artifact| argument.contains(*artifact))
+        {
+            bail!(
+                "the tool-native activation shape for {} names the benchmark-authored model artifact {artifact} (in argument {argument:?}); docs/native-profile.md#the-activation-rule admits only models the vendor ships, and a run that loaded one would publish engine accuracy as product coverage",
+                tool.pinned_identity()
+            );
+        }
+    }
+    Ok(())
+}
+
+/// Whether a case is a tool-native assertion of this language. The profile
+/// clause is what keeps it out of every benchmark-controlled selection.
+fn native_case(case: &Value, language: ModelingLanguage) -> bool {
+    case["language"] == language.key()
+        && case["track"] == "taint"
+        && case["score_tier"] == "modeling"
+        && case["model_profile"] == NATIVE_MODEL_PROFILE
+}
+
+/// A `modeling`-tier case of the tool-native profile, language-agnostic.
+fn tool_native_case(case: &Value) -> bool {
+    case["score_tier"] == "modeling" && case["model_profile"] == NATIVE_MODEL_PROFILE
+}
+
+/// Corpus-wide tool-native checks, run by `validate` over every committed case.
+///
+/// The mirror of `validate_modeling_cases`, with the one structural difference
+/// the shared tier forces: here the template family implies the **profile** as
+/// well as the tier, because the tier alone no longer identifies the
+/// population.
+fn validate_native_cases(cases: &[(PathBuf, Value)]) -> Result<()> {
+    for (path, case) in cases {
+        let template = required_string(case, "template_id", &path.display().to_string())?;
+        let native_template = template.starts_with(NATIVE_TEMPLATE_PREFIX);
+        let native_profile = case["model_profile"] == NATIVE_MODEL_PROFILE;
+        if native_template != native_profile {
+            bail!(
+                "{}: template {template:?} and model_profile {:?} disagree; every `{NATIVE_TEMPLATE_PREFIX}` template is `{NATIVE_MODEL_PROFILE}` and every `{NATIVE_MODEL_PROFILE}` case carries one",
+                path.display(),
+                case["model_profile"]
+            );
+        }
+        if !native_template {
+            continue;
+        }
+        if case["score_tier"] != "modeling" {
+            bail!(
+                "{}: tool-native cases share the `modeling` score tier with the benchmark-controlled matrix (docs/native-profile.md#same-tier-disjoint-profile); found {:?}",
+                path.display(),
+                case["score_tier"]
+            );
+        }
+        if !NATIVE_TEMPLATE_IDS.contains(&template) {
+            bail!(
+                "{}: {template:?} is not one of the six preregistered tool-native templates (docs/native-profile.md#the-six-native-templates)",
+                path.display()
+            );
+        }
+        // A native case whose template has no preregistered decision for some
+        // adapter would leave that adapter's cell to be decided by a run, which
+        // is the one thing the partition exists to prevent.
+        for tool in ModelingTool::ALL {
+            native_partition_reason(tool, template).with_context(|| {
+                format!(
+                    "{}: no preregistered {} activation decision",
+                    path.display(),
+                    tool.key()
+                )
+            })?;
+        }
+    }
+    let languages: BTreeSet<&str> = cases
+        .iter()
+        .filter(|(_, case)| tool_native_case(case))
+        .filter_map(|(_, case)| case["language"].as_str())
+        .collect();
+    for language in languages {
+        let population: Vec<(PathBuf, Value)> = cases
+            .iter()
+            .filter(|(_, case)| {
+                tool_native_case(case) && case["language"].as_str() == Some(language)
+            })
+            .cloned()
+            .collect();
+        validate_native_population(&population, &format!("{language} tool-native population"))?;
+    }
+    Ok(())
+}
+
+/// Balance and completeness for one language's tool-native population: exactly
+/// one positive and one minimally different negative for each of the six
+/// templates — 12 assertions — under one model profile.
+///
+/// An empty population is not a population: the language has no native
+/// denominator and there is nothing to balance.
+fn validate_native_population(cases: &[(PathBuf, Value)], label: &str) -> Result<()> {
+    if cases.is_empty() {
+        return Ok(());
+    }
+    validate_kernel_population_with(cases, label, &NATIVE_TEMPLATE_IDS)
+}
+
+/// The corpus-wide profile-disjointness check.
+///
+/// Tier isolation keeps both modeling populations out of every core,
+/// calibration, `language-extension`, and `real-project` denominator. This
+/// check is the other half: within the shared tier, the two profiles' selections
+/// must never overlap, in either direction, for any language. It is written
+/// against the *selectors* rather than against the case fields, because the
+/// failure it guards is a selector that filters on the tier and forgets the
+/// profile — a fault no assertion about a case's own fields would catch.
+fn validate_profile_disjoint_populations(cases: &[(PathBuf, Value)]) -> Result<()> {
+    for (path, case) in cases {
+        if case["score_tier"] != "modeling" {
+            continue;
+        }
+        for language in [
+            ModelingLanguage::Java,
+            ModelingLanguage::Javascript,
+            ModelingLanguage::Python,
+        ] {
+            let controlled = modeling_case(case, language);
+            let native = native_case(case, language);
+            if controlled && native {
+                bail!(
+                    "{}: selected by both the benchmark-controlled and the tool-native {} population; the two profiles are never pooled (docs/scoring.md#model-profiles)",
+                    path.display(),
+                    language.display_name()
+                );
+            }
+            if controlled && case["template_id"].as_str().is_some_and(is_native_template) {
+                bail!(
+                    "{}: carries a tool-native template but is selected by the benchmark-controlled {} population",
+                    path.display(),
+                    language.display_name()
+                );
+            }
+            if native
+                && case["template_id"]
+                    .as_str()
+                    .is_some_and(|template| template.starts_with(MODELING_TEMPLATE_PREFIX))
+            {
+                bail!(
+                    "{}: carries a benchmark-controlled template but is selected by the tool-native {} population",
+                    path.display(),
+                    language.display_name()
+                );
+            }
+        }
+    }
+    Ok(())
+}
+
+fn is_native_template(template: &str) -> bool {
+    template.starts_with(NATIVE_TEMPLATE_PREFIX)
 }
 
 #[derive(Parser)]
@@ -1476,6 +2150,48 @@ enum Commands {
         #[arg(long, default_value = "semgrep")]
         semgrep: PathBuf,
     },
+    /// Run one language's tool-native probe set through Bifrost's built-in
+    /// policy packs, supplying no models. The preregistered partition scores
+    /// nothing: the standalone policy CLI ships no source or sink endpoint
+    /// catalog, so all six templates are `unsupported` with a retained
+    /// rationale, decided before the binary is invoked.
+    RunBifrostNative {
+        #[arg(long, value_enum)]
+        language: ModelingLanguage,
+        #[arg(long, default_value = "bifrost")]
+        bifrost: PathBuf,
+    },
+    /// Run one language's tool-native probe set through CodeQL's shipped
+    /// `security-extended` suite, with the `local` threat-model group enabled
+    /// and no adapter query. All six templates are scored.
+    RunCodeqlNative {
+        #[arg(long, value_enum)]
+        language: ModelingLanguage,
+        #[arg(long, default_value = "codeql")]
+        codeql: PathBuf,
+        #[arg(long)]
+        codeql_packs: Option<PathBuf>,
+    },
+    /// Run one language's tool-native probe set through Joern under
+    /// `DefaultSemantics` alone. No benchmark semantics file may load; the
+    /// preregistered partition scores nothing, because the distribution ships
+    /// no source or sink catalog.
+    RunJoernNative {
+        #[arg(long, value_enum)]
+        language: ModelingLanguage,
+        #[arg(long, default_value = "joern")]
+        joern: PathBuf,
+    },
+    /// Run one language's tool-native probe set through Semgrep CE over the
+    /// pinned snapshot vendored into `adapters/semgrep/native/<language>/`.
+    /// Every cell is unsupported until a snapshot is vendored and a dated
+    /// amendment promotes it.
+    RunSemgrepNative {
+        #[arg(long, value_enum)]
+        language: ModelingLanguage,
+        #[arg(long, default_value = "semgrep")]
+        semgrep: PathBuf,
+    },
 }
 
 fn main() -> Result<()> {
@@ -1617,6 +2333,25 @@ fn main() -> Result<()> {
         Commands::RunSemgrepModeling { language, semgrep } => {
             run_modeling(ModelingTool::Semgrep, &semgrep, language, None)
         }
+        Commands::RunBifrostNative { language, bifrost } => {
+            run_native(ModelingTool::Bifrost, &bifrost, language, None)
+        }
+        Commands::RunCodeqlNative {
+            language,
+            codeql,
+            codeql_packs,
+        } => run_native(
+            ModelingTool::Codeql,
+            &codeql,
+            language,
+            codeql_packs.as_deref(),
+        ),
+        Commands::RunJoernNative { language, joern } => {
+            run_native(ModelingTool::Joern, &joern, language, None)
+        }
+        Commands::RunSemgrepNative { language, semgrep } => {
+            run_native(ModelingTool::Semgrep, &semgrep, language, None)
+        }
     }
 }
 
@@ -1684,6 +2419,13 @@ fn validate_cases() -> Result<()> {
     // corpus carries no modeling case, so this is a no-op that turns into a
     // required-set check the moment a language PR authors the first fixture.
     validate_modeling_cases(&cases)?;
+    // The tool-native profile shares that tier and is separated from it by
+    // profile alone, so the population check and the disjointness check are two
+    // obligations rather than one. Both are no-ops on a corpus with no native
+    // case and turn into required-set checks the moment a wave-N1 PR authors
+    // the first fixture.
+    validate_native_cases(&cases)?;
+    validate_profile_disjoint_populations(&cases)?;
     println!("validated {} cases", paths.len());
     Ok(())
 }
@@ -9291,6 +10033,249 @@ fn modeling_version_identity(tool: ModelingTool, binary: &Path) -> Result<(Strin
     }
 }
 
+// ---------------------------------------------------------------------------
+// Tool-native runners.
+//
+// Four commands, parameterized by language, mirroring the modeling runners
+// exactly: same fail-fast discipline, same partition-before-invocation rule,
+// same one-report-per-tool-per-language convention. What differs is the gate in
+// the middle — a native run must prove it is supplying *no* models, where a
+// modeling run must prove its models are load-bearing.
+// ---------------------------------------------------------------------------
+
+fn native_report_path(tool: ModelingTool, language: ModelingLanguage) -> PathBuf {
+    PathBuf::from(format!(
+        "reports/{}-{}-native.json",
+        tool.key(),
+        language.key()
+    ))
+}
+
+fn native_raw_dir(tool: ModelingTool, language: ModelingLanguage) -> PathBuf {
+    PathBuf::from(format!(
+        "reports/raw/{}-{}-native",
+        tool.key(),
+        language.key()
+    ))
+}
+
+/// The population label validation errors are reported under.
+fn native_label(language: ModelingLanguage) -> String {
+    format!("{} tool-native population", language.display_name())
+}
+
+/// Everything a tool-native run needs, assembled before the tool is touched.
+struct NativeRunPlan {
+    tool: ModelingTool,
+    language: ModelingLanguage,
+    cases: Vec<(PathBuf, Value)>,
+    activation: NativeActivation,
+    report: PathBuf,
+    raw_dir: PathBuf,
+}
+
+/// Select and validate one language's tool-native population.
+fn select_native_cases(language: ModelingLanguage) -> Result<Vec<(PathBuf, Value)>> {
+    let mut selected = Vec::new();
+    for path in case_paths() {
+        let case: Value = serde_json::from_str(&fs::read_to_string(&path)?)?;
+        if native_case(&case, language) {
+            selected.push((path, case));
+        }
+    }
+    validate_native_population(&selected, &native_label(language))?;
+    Ok(selected)
+}
+
+/// Assemble a tool-native run, failing fast on every condition that would
+/// otherwise produce a report that means nothing: no population, a missing
+/// pinned activation artifact, or an activation shape that would load a
+/// benchmark-authored model.
+fn plan_native_run(tool: ModelingTool, language: ModelingLanguage) -> Result<NativeRunPlan> {
+    validate_cases()?;
+    let cases = select_native_cases(language)?;
+    if cases.is_empty() {
+        bail!(
+            "no tool-native population for {}: the {} selection admits no `model_profile: \"{NATIVE_MODEL_PROFILE}\"` case, so there is nothing for {} to be measured over. A language's {NATIVE_CASE_COUNT} native assertions land with its own pull request (docs/native-profile.md#rollout); refusing to write an empty report",
+            language.key(),
+            language.display_name(),
+            tool.pinned_identity()
+        );
+    }
+
+    let activation = native_activation(tool, language)?;
+    // The activation rule, checked before anything is executed.
+    require_no_benchmark_models(tool, &activation.arguments)?;
+    // A missing pinned activation artifact is this profile's analogue of the
+    // modeling matrix's missing model: a hard error that fails the build, never
+    // an outcome, because a native run over an absent ruleset would report the
+    // vendor's coverage as zero for a reason that has nothing to do with the
+    // vendor.
+    for path in &activation.configuration_paths {
+        if !path.is_file() {
+            bail!(
+                "the tool-native run for {} needs the pinned activation artifact {}, which does not exist. docs/native-profile.md#provenance-for-vendored-activation-artifacts makes a missing activation artifact a benchmark defect that fails the build; it is never `unsupported`, never `not-reached`, and never a result",
+                tool.pinned_identity(),
+                path.display()
+            );
+        }
+    }
+
+    Ok(NativeRunPlan {
+        tool,
+        language,
+        cases,
+        activation,
+        report: native_report_path(tool, language),
+        raw_dir: native_raw_dir(tool, language),
+    })
+}
+
+/// The configuration hash a native report carries.
+///
+/// Unlike a modeling run, most of a native run's configuration is not a file in
+/// this repository — it is a pinned suite name, a pack version, a threat-model
+/// group. Hashing the activation arguments alongside whatever vendored bytes
+/// exist is what makes issue #16's *"model/version provenance and activation
+/// configuration are retained"* a property of the artifact rather than of a
+/// README.
+fn native_configuration_hash(activation: &NativeActivation) -> Result<String> {
+    let mut hasher = Sha256::new();
+    hasher.update(activation.identity.as_bytes());
+    for argument in &activation.arguments {
+        hasher.update(argument.as_bytes());
+    }
+    for path in &activation.configuration_paths {
+        hasher.update(path.to_string_lossy().as_bytes());
+        hasher.update(fs::read(path).with_context(|| format!("read {}", path.display()))?);
+    }
+    Ok(format!("{:x}", hasher.finalize()))
+}
+
+/// Retain the preregistered `unsupported` activation decision for one declined
+/// cell, **without invoking the tool**, and return the result-schema outcome.
+fn native_partition_outcome(
+    tool: ModelingTool,
+    case: &Value,
+    activation: &NativeActivation,
+    raw_dir: &Path,
+) -> Result<Option<(&'static str, String, PathBuf)>> {
+    let id = required_string(case, "id", "tool-native case")?;
+    let template = required_string(case, "template_id", id)?;
+    let Some(reason) = native_unsupported_reason(tool, template)? else {
+        return Ok(None);
+    };
+    let category = native_category(template).expect("partition resolved the category");
+    let raw_path = raw_dir.join(format!("{id}-unsupported.json"));
+    if raw_path.exists() {
+        fs::remove_file(&raw_path).with_context(|| format!("clear {}", raw_path.display()))?;
+    }
+    fs::write(
+        &raw_path,
+        serde_json::to_string_pretty(&json!({
+            "adapter": tool.key(),
+            "case_id": id,
+            "state": "unsupported",
+            "stage": "preregistered-native-activation-partition",
+            "reason": reason,
+            "template_id": template,
+            "modeling_category": category.key(),
+            "modeling_category_label": category.label(),
+            "model_profile": NATIVE_MODEL_PROFILE,
+            "pinned_tool_identity": tool.pinned_identity(),
+            "activation_identity": activation.identity,
+            "activation_arguments": activation.arguments,
+            "partition_source": "docs/native-profile.md#partition-summary",
+            "evidence_kind": "retained-capability-decision"
+        }))? + "\n",
+    )?;
+    Ok(Some(("unsupported", reason, raw_path)))
+}
+
+/// Run one adapter's tool-native probe set for one language.
+///
+/// The staged shape mirrors the modeling runners, and is recorded in
+/// docs/adapters.md: the population gate, the activation-artifact gate, the
+/// no-benchmark-models gate, and the partition's `unsupported` arm are
+/// infrastructure; the arm that invokes an analyzer over a *scored* cell lands
+/// with the wave-N1 pull request that vendors that adapter's activation
+/// snapshot for that language. A language whose execution arm is not wired yet
+/// is a hard error rather than a synthesized outcome.
+fn run_native(
+    tool: ModelingTool,
+    _binary: &Path,
+    language: ModelingLanguage,
+    codeql_packs: Option<&Path>,
+) -> Result<()> {
+    if let Some(packs) = codeql_packs
+        && !packs.is_dir()
+    {
+        bail!("CodeQL pack search path {} does not exist", packs.display());
+    }
+    let plan = plan_native_run(tool, language)?;
+
+    fs::create_dir_all(&plan.raw_dir)?;
+    let started = now_seconds()?;
+    let revision = fixture_revision()?;
+    let mut results = Vec::with_capacity(plan.cases.len());
+    for (_, case) in &plan.cases {
+        let id = required_string(case, "id", "tool-native case")?;
+        let start = Instant::now();
+        let (outcome, diagnostics, raw_path) = if let Some((outcome, reason, raw_path)) =
+            native_partition_outcome(plan.tool, case, &plan.activation, &plan.raw_dir)?
+        {
+            (outcome, vec![reason], raw_path)
+        } else {
+            bail!(
+                "the tool-native execution arm for {} × {} is not wired: {id} is a scored cell and this pull request lands the preregistration and the infrastructure only. The arm that invokes an analyzer over a scored native cell lands with wave N1's {} pull request (docs/native-profile.md#rollout); synthesizing an outcome here is what docs/adapters.md forbids",
+                plan.tool.pinned_identity(),
+                plan.language.display_name(),
+                plan.language.display_name()
+            );
+        };
+        results.push(normalized_result(
+            case,
+            id,
+            outcome,
+            diagnostics,
+            start.elapsed(),
+            &raw_path,
+        ));
+    }
+    let report = json!({
+        "schema_version": 1,
+        "tool": plan.tool.key(),
+        "tool_version": plan.tool.pinned_identity(),
+        "tool_build_identity": plan.activation.identity,
+        "adapter_version": ADAPTER_VERSION,
+        "configuration_hash": native_configuration_hash(&plan.activation)?,
+        "fixture_revision": revision,
+        "started_at_unix_seconds": started,
+        "ended_at_unix_seconds": now_seconds()?,
+        "cold_or_warm": "cold",
+        "results": results
+    });
+    write_and_validate_report(&plan.report, &report)?;
+    let scored = native_supported_templates(plan.tool);
+    let scored_assertions = plan
+        .cases
+        .iter()
+        .filter(|(_, case)| {
+            case["template_id"]
+                .as_str()
+                .is_some_and(|template| scored.contains(&template))
+        })
+        .count();
+    println!(
+        "wrote {} ({scored_assertions} scored, {} preregistered-unsupported, {} of six templates activated for {})",
+        plan.report.display(),
+        plan.cases.len() - scored_assertions,
+        scored.len(),
+        plan.tool.pinned_identity()
+    );
+    Ok(())
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -14228,5 +15213,574 @@ mod tests {
             modeling_joern_frontend(ModelingLanguage::Java).unwrap(),
             "JAVASRC"
         );
+    }
+
+    // -----------------------------------------------------------------------
+    // The tool-native model profile.
+    // -----------------------------------------------------------------------
+
+    /// One synthetic tool-native case, carrying every field the native
+    /// validators read.
+    fn native_case_value(template: &str, polarity: &str, language: &str) -> Value {
+        let short = template
+            .strip_prefix(NATIVE_TEMPLATE_PREFIX)
+            .expect("a tool-native template");
+        json!({
+            "id": format!("dfb-taint-{language}-native-{short}-{polarity}"),
+            "template_id": template,
+            "polarity": polarity,
+            "score_tier": "modeling",
+            "track": "taint",
+            "language": language,
+            "model_profile": NATIVE_MODEL_PROFILE,
+            "feature_tags": ["modeled-external", "intraprocedural"],
+            "expected_analysis_capability": {"kind": "native-source-sink-coverage"}
+        })
+    }
+
+    /// A whole balanced tool-native population for one language: 12 assertions
+    /// over the preregistered six.
+    fn native_population(language: &str) -> Vec<(PathBuf, Value)> {
+        let mut cases = Vec::new();
+        for template in NATIVE_TEMPLATE_IDS {
+            for polarity in ["positive", "negative"] {
+                cases.push((
+                    PathBuf::from(format!(
+                        "cases/taint/{language}/{template}-{polarity}/case.json"
+                    )),
+                    native_case_value(template, polarity, language),
+                ));
+            }
+        }
+        cases
+    }
+
+    /// The six template IDs are the document's, unique, and all carry the
+    /// profile's structural prefix.
+    #[test]
+    fn native_templates_are_the_preregistered_six() {
+        assert_eq!(NATIVE_TEMPLATE_IDS.len(), 6);
+        assert_eq!(NATIVE_CASE_COUNT, 12);
+        let unique: BTreeSet<&str> = NATIVE_TEMPLATE_IDS.into_iter().collect();
+        assert_eq!(unique.len(), 6);
+        for template in NATIVE_TEMPLATE_IDS {
+            assert!(
+                template.starts_with(NATIVE_TEMPLATE_PREFIX),
+                "{template} lacks the tool-native prefix"
+            );
+            assert!(
+                !template.starts_with(MODELING_TEMPLATE_PREFIX),
+                "{template} collides with the benchmark-controlled family"
+            );
+        }
+    }
+
+    /// Each native template reports under exactly one modeling category, and
+    /// the six cover all six — which is what lets a native scorecard be read
+    /// beside a benchmark-controlled one category for category.
+    #[test]
+    fn every_native_template_maps_to_one_category() {
+        let categories: BTreeSet<ModelingCategory> = NATIVE_TEMPLATE_IDS
+            .into_iter()
+            .map(|template| native_category(template).expect("a category"))
+            .collect();
+        assert_eq!(categories.len(), 6);
+        assert_eq!(
+            native_category("dfb-template-native-source-sink"),
+            Some(ModelingCategory::SourcesAndSinks)
+        );
+        assert_eq!(
+            native_category("dfb-template-native-persistence"),
+            Some(ModelingCategory::Persistence)
+        );
+        assert_eq!(native_category("dfb-template-model-declared-source"), None);
+        assert_eq!(native_category("dfb-template-direct-propagation"), None);
+    }
+
+    /// Every tool × template cell is preregistered, and a template outside the
+    /// six is an error rather than a silent scored default.
+    #[test]
+    fn the_native_partition_decides_every_tool_and_template() {
+        assert_eq!(NATIVE_PARTITION.len(), 24);
+        for tool in ModelingTool::ALL {
+            for template in NATIVE_TEMPLATE_IDS {
+                native_partition_reason(tool, template)
+                    .unwrap_or_else(|_| panic!("no cell for {} × {template}", tool.key()));
+            }
+        }
+        assert!(
+            native_partition_reason(ModelingTool::Codeql, "dfb-template-model-declared-source")
+                .is_err()
+        );
+        assert!(
+            native_partition_reason(ModelingTool::Codeql, "dfb-template-chal-dispatch-table")
+                .is_err()
+        );
+    }
+
+    /// The scored counts are the preregistration's partition summary. CodeQL
+    /// enters with six of six and the other three with nothing, which is a
+    /// statement about product packaging rather than about an engine — Joern
+    /// scores four of six *categories* on the benchmark-controlled matrix with
+    /// the same engine.
+    #[test]
+    fn native_partition_scored_counts_match_the_preregistration() {
+        assert_eq!(native_supported_templates(ModelingTool::Codeql).len(), 6);
+        assert_eq!(
+            native_supported_templates(ModelingTool::Codeql),
+            NATIVE_TEMPLATE_IDS.to_vec()
+        );
+        assert!(native_supported_templates(ModelingTool::Bifrost).is_empty());
+        assert!(native_supported_templates(ModelingTool::Joern).is_empty());
+        assert!(native_supported_templates(ModelingTool::Semgrep).is_empty());
+    }
+
+    /// The partition is decided by template identity, never by a fixture's
+    /// tags: rewriting `feature_tags` cannot move a cell between the scored and
+    /// `unsupported` partitions.
+    #[test]
+    fn the_native_partition_is_tag_proof() {
+        let template = "dfb-template-native-summary";
+        let baseline = native_unsupported_reason(ModelingTool::Joern, template).unwrap();
+        assert!(baseline.is_some());
+        for tags in [
+            json!([]),
+            json!(["modeled-external"]),
+            json!(["summary-required", "heap-access-path"]),
+        ] {
+            let mut case = native_case_value(template, "positive", "java");
+            case["feature_tags"] = tags;
+            assert_eq!(
+                native_unsupported_reason(
+                    ModelingTool::Joern,
+                    case["template_id"].as_str().unwrap()
+                )
+                .unwrap(),
+                baseline
+            );
+        }
+        let scored = "dfb-template-native-summary";
+        assert!(
+            native_unsupported_reason(ModelingTool::Codeql, scored)
+                .unwrap()
+                .is_none()
+        );
+    }
+
+    /// A declined cell's reason is retained verbatim and attributed to the
+    /// pinned tool identity and the document that decided it.
+    #[test]
+    fn native_unsupported_reasons_are_retained_and_attributed() {
+        let reason =
+            native_unsupported_reason(ModelingTool::Bifrost, "dfb-template-native-sanitizer")
+                .unwrap()
+                .expect("declined");
+        assert!(reason.contains("Sanitizer lowering is a future Bifrost CLI capability"));
+        assert!(reason.contains("Bifrost v0.10.6"));
+        assert!(reason.contains("docs/native-profile.md"));
+        for tool in ModelingTool::ALL {
+            for template in NATIVE_TEMPLATE_IDS {
+                if let Some(reason) = native_unsupported_reason(tool, template).unwrap() {
+                    assert!(reason.contains(tool.pinned_identity()));
+                    assert!(reason.contains(template));
+                }
+            }
+        }
+    }
+
+    /// A declined cell writes its retained decision beside the report without
+    /// the analyzer being invoked, and carries the pinned activation
+    /// configuration with it.
+    #[test]
+    fn a_declined_native_cell_retains_evidence_without_invoking_the_tool() {
+        let root = unique_test_dir("dataflowbench-native-partition-test");
+        let activation = native_activation(ModelingTool::Joern, ModelingLanguage::Python).unwrap();
+        let case = native_case_value("dfb-template-native-persistence", "positive", "python");
+        let (outcome, reason, raw_path) =
+            native_partition_outcome(ModelingTool::Joern, &case, &activation, &root)
+                .unwrap()
+                .expect("declined");
+        assert_eq!(outcome, "unsupported");
+        let retained: Value =
+            serde_json::from_str(&fs::read_to_string(&raw_path).unwrap()).unwrap();
+        assert_eq!(retained["state"], "unsupported");
+        assert_eq!(
+            retained["stage"],
+            "preregistered-native-activation-partition"
+        );
+        assert_eq!(retained["model_profile"], NATIVE_MODEL_PROFILE);
+        assert_eq!(retained["modeling_category"], "B");
+        assert_eq!(retained["reason"], reason);
+        assert_eq!(retained["activation_identity"], activation.identity);
+        assert_eq!(retained["evidence_kind"], "retained-capability-decision");
+
+        let scored = native_case_value("dfb-template-native-source-sink", "positive", "python");
+        let activation = native_activation(ModelingTool::Codeql, ModelingLanguage::Python).unwrap();
+        assert!(
+            native_partition_outcome(ModelingTool::Codeql, &scored, &activation, &root)
+                .unwrap()
+                .is_none()
+        );
+        fs::remove_dir_all(&root).unwrap();
+    }
+
+    /// A language with no native cases has no native denominator, which is
+    /// different from having a zero.
+    #[test]
+    fn an_absent_native_population_validates_trivially() {
+        validate_native_population(&[], "Java tool-native population").unwrap();
+        validate_native_cases(&[]).unwrap();
+        validate_profile_disjoint_populations(&[]).unwrap();
+    }
+
+    /// A whole balanced population of twelve validates, and the same population
+    /// passes the corpus-wide checks.
+    #[test]
+    fn a_balanced_native_population_validates() {
+        let cases = native_population("java");
+        assert_eq!(cases.len(), NATIVE_CASE_COUNT);
+        validate_native_population(&cases, "Java tool-native population").unwrap();
+        validate_native_cases(&cases).unwrap();
+        validate_profile_disjoint_populations(&cases).unwrap();
+        // And it is invisible to the benchmark-controlled validator, which is
+        // the whole point of the shared tier plus disjoint profile.
+        validate_modeling_cases(&cases).unwrap();
+    }
+
+    /// A partial, unbalanced, or renamed population fails the build rather than
+    /// silently reducing a denominator.
+    #[test]
+    fn an_incomplete_native_population_fails_validation() {
+        let mut short = native_population("javascript");
+        short.pop();
+        let error = validate_native_population(&short, "JavaScript tool-native population")
+            .unwrap_err()
+            .to_string();
+        assert!(error.contains("exactly 12 assertions"), "{error}");
+
+        let mut unbalanced = native_population("javascript");
+        unbalanced[1].1["polarity"] = json!("positive");
+        let error = validate_native_population(&unbalanced, "JavaScript tool-native population")
+            .unwrap_err()
+            .to_string();
+        assert!(error.contains("one positive and one negative"), "{error}");
+
+        let mut renamed = native_population("javascript");
+        renamed[0].1["template_id"] = json!("dfb-template-native-invented");
+        let error = validate_native_population(&renamed, "JavaScript tool-native population")
+            .unwrap_err()
+            .to_string();
+        assert!(error.contains("template set mismatch"), "{error}");
+    }
+
+    /// The template family and the profile imply each other, so a native case
+    /// cannot hide inside the benchmark-controlled population and a
+    /// benchmark-controlled case cannot claim the native profile.
+    #[test]
+    fn the_native_family_and_the_tool_native_profile_imply_each_other() {
+        let mut reprofiled = native_population("python");
+        reprofiled[0].1["model_profile"] = json!(MODELING_MODEL_PROFILE);
+        let error = validate_native_cases(&reprofiled).unwrap_err().to_string();
+        assert!(error.contains("disagree"), "{error}");
+
+        let smuggled = vec![(
+            PathBuf::from("cases/taint/python/smuggled/case.json"),
+            json!({
+                "id": "dfb-taint-python-smuggled",
+                "template_id": "dfb-template-direct-propagation",
+                "polarity": "positive",
+                "score_tier": "core",
+                "track": "taint",
+                "language": "python",
+                "model_profile": NATIVE_MODEL_PROFILE
+            }),
+        )];
+        let error = validate_native_cases(&smuggled).unwrap_err().to_string();
+        assert!(error.contains("disagree"), "{error}");
+
+        let invented = vec![(
+            PathBuf::from("cases/taint/python/invented/case.json"),
+            json!({
+                "id": "dfb-taint-python-native-invented-positive",
+                "template_id": "dfb-template-native-invented",
+                "polarity": "positive",
+                "score_tier": "modeling",
+                "track": "taint",
+                "language": "python",
+                "model_profile": NATIVE_MODEL_PROFILE
+            }),
+        )];
+        let error = validate_native_cases(&invented).unwrap_err().to_string();
+        assert!(
+            error.contains("not one of the six preregistered tool-native templates"),
+            "{error}"
+        );
+    }
+
+    /// A native case shares the `modeling` tier; claiming another one fails.
+    #[test]
+    fn native_cases_stay_on_the_modeling_tier() {
+        let mut cases = native_population("java");
+        cases[0].1["score_tier"] = json!("core");
+        let error = validate_native_cases(&cases).unwrap_err().to_string();
+        assert!(error.contains("share the `modeling` score tier"), "{error}");
+    }
+
+    /// The two modeling-tier profiles never cross-select, in either direction,
+    /// for any language. This is the invariant a selector could break by
+    /// omission — filtering on the tier and forgetting the profile — so it is
+    /// asserted against the selectors themselves.
+    #[test]
+    fn the_two_model_profiles_never_cross_select() {
+        for language in [
+            ModelingLanguage::Java,
+            ModelingLanguage::Javascript,
+            ModelingLanguage::Python,
+        ] {
+            for (_, case) in native_population(language.key()) {
+                assert!(native_case(&case, language), "{case}");
+                assert!(
+                    !modeling_case(&case, language),
+                    "a tool-native case entered the benchmark-controlled {} selection",
+                    language.display_name()
+                );
+            }
+            for (_, case) in modeling_population(language.key()) {
+                assert!(modeling_case(&case, language), "{case}");
+                assert!(
+                    !native_case(&case, language),
+                    "a benchmark-controlled case entered the tool-native {} selection",
+                    language.display_name()
+                );
+            }
+        }
+        // And a case that somehow claimed both is rejected corpus-wide.
+        let mut hybrid = native_population("java");
+        hybrid[0].1["template_id"] = json!(MODELING_TEMPLATE_IDS[0]);
+        let error = validate_profile_disjoint_populations(&hybrid)
+            .unwrap_err()
+            .to_string();
+        assert!(error.contains("benchmark-controlled template"), "{error}");
+    }
+
+    /// A tool-native case is never swept into the frozen 118-case Bifrost smoke
+    /// population, the same way a modeling or challenge case is not.
+    #[test]
+    fn a_native_case_is_never_smoke_selected() {
+        let mut case = native_case_value("dfb-template-native-source-sink", "positive", "java");
+        case["tool_model_references"] = json!({"bifrost": {"policy": BIFROST_JAVA_POLICY}});
+        assert!(!smoke_population_case(&case));
+    }
+
+    /// Report and raw-evidence paths follow the profile's convention, and are
+    /// disjoint from the benchmark-controlled matrix's.
+    #[test]
+    fn native_report_and_raw_paths_follow_the_convention() {
+        for tool in ModelingTool::ALL {
+            for language in [
+                ModelingLanguage::Java,
+                ModelingLanguage::Javascript,
+                ModelingLanguage::Python,
+            ] {
+                let report = native_report_path(tool, language);
+                assert_eq!(
+                    report,
+                    PathBuf::from(format!(
+                        "reports/{}-{}-native.json",
+                        tool.key(),
+                        language.key()
+                    ))
+                );
+                assert_eq!(
+                    native_raw_dir(tool, language),
+                    PathBuf::from(format!(
+                        "reports/raw/{}-{}-native",
+                        tool.key(),
+                        language.key()
+                    ))
+                );
+                assert_ne!(report, language.report(tool));
+                assert_ne!(native_raw_dir(tool, language), language.raw_dir(tool));
+            }
+        }
+    }
+
+    /// The pinned activation shapes. These are the invocation surfaces the
+    /// no-benchmark-models gate runs against, so they are pinned literally:
+    /// a change to any of them is a change to what the published number means.
+    #[test]
+    fn the_native_activation_shapes_are_pinned() {
+        let codeql = native_activation(ModelingTool::Codeql, ModelingLanguage::Java).unwrap();
+        assert_eq!(
+            codeql.arguments,
+            vec![
+                "--threat-model=local".to_string(),
+                "codeql/java-queries@1.11.9:codeql-suites/java-security-extended.qls".to_string(),
+            ]
+        );
+        assert!(codeql.configuration_paths.is_empty());
+        assert_eq!(
+            native_activation(ModelingTool::Codeql, ModelingLanguage::Javascript)
+                .unwrap()
+                .arguments[1],
+            "codeql/javascript-queries@2.4.4:codeql-suites/javascript-security-extended.qls"
+        );
+        assert_eq!(
+            native_activation(ModelingTool::Codeql, ModelingLanguage::Python)
+                .unwrap()
+                .arguments[1],
+            "codeql/python-queries@1.8.9:codeql-suites/python-security-extended.qls"
+        );
+
+        let semgrep = native_activation(ModelingTool::Semgrep, ModelingLanguage::Python).unwrap();
+        assert_eq!(
+            semgrep.arguments,
+            vec![
+                "--oss-only".to_string(),
+                "--config=adapters/semgrep/native/python".to_string(),
+            ]
+        );
+        assert_eq!(
+            semgrep.configuration_paths,
+            BTreeSet::from([PathBuf::from(
+                "adapters/semgrep/native/python/provenance.json"
+            )])
+        );
+        assert!(semgrep.identity.contains(SEMGREP_NATIVE_UPSTREAM));
+
+        let bifrost = native_activation(ModelingTool::Bifrost, ModelingLanguage::Java).unwrap();
+        assert_eq!(bifrost.arguments[0], BIFROST_NATIVE_POLICY_PACK_FLAG);
+        assert!(
+            !bifrost.arguments.iter().any(|a| a == "--policy-file"),
+            "a native Bifrost run may not name a policy file"
+        );
+
+        let joern = native_activation(ModelingTool::Joern, ModelingLanguage::Java).unwrap();
+        assert!(joern.arguments.is_empty());
+        assert!(joern.identity.contains("DefaultSemantics"));
+    }
+
+    /// The activation rule, enforced: every pinned shape passes the gate, and
+    /// splicing any benchmark-authored model artifact into any of them fails
+    /// it. The artifact set is derived from the benchmark-controlled matrix's
+    /// own constants, so a new modeling artifact is covered the moment it is
+    /// declared.
+    #[test]
+    fn the_no_benchmark_models_gate_refuses_a_spliced_model_artifact() {
+        for tool in ModelingTool::ALL {
+            for language in [
+                ModelingLanguage::Java,
+                ModelingLanguage::Javascript,
+                ModelingLanguage::Python,
+            ] {
+                let activation = native_activation(tool, language).unwrap();
+                require_no_benchmark_models(tool, &activation.arguments).unwrap();
+            }
+        }
+        let artifacts = benchmark_model_artifacts();
+        assert_eq!(artifacts.len(), 13);
+        assert!(artifacts.contains(JOERN_MODELING_SCRIPT));
+        for artifact in &artifacts {
+            let spliced = vec![format!("--config={artifact}")];
+            let error = require_no_benchmark_models(ModelingTool::Semgrep, &spliced)
+                .unwrap_err()
+                .to_string();
+            assert!(error.contains(artifact), "{error}");
+            assert!(error.contains("only models the vendor ships"), "{error}");
+        }
+    }
+
+    /// The pinned activation configuration binds the report's
+    /// `configuration_hash`, so provenance is a property of the artifact rather
+    /// than of a README: two different activations cannot produce one hash.
+    #[test]
+    fn the_activation_configuration_binds_the_report_hash() {
+        let java = native_activation(ModelingTool::Codeql, ModelingLanguage::Java).unwrap();
+        let python = native_activation(ModelingTool::Codeql, ModelingLanguage::Python).unwrap();
+        assert_ne!(
+            native_configuration_hash(&java).unwrap(),
+            native_configuration_hash(&python).unwrap()
+        );
+        let mut retuned = native_activation(ModelingTool::Codeql, ModelingLanguage::Java).unwrap();
+        retuned.arguments[0] = "--threat-model=remote".to_string();
+        assert_ne!(
+            native_configuration_hash(&java).unwrap(),
+            native_configuration_hash(&retuned).unwrap()
+        );
+    }
+
+    /// The corpus carries no tool-native case yet, so every native run fails
+    /// fast on the empty population rather than writing a report that asserts
+    /// nothing.
+    #[test]
+    fn a_native_run_without_a_population_fails_fast() {
+        for language in [
+            ModelingLanguage::Java,
+            ModelingLanguage::Javascript,
+            ModelingLanguage::Python,
+        ] {
+            assert_eq!(
+                select_native_cases(language).unwrap().len(),
+                0,
+                "{} has no tool-native population yet",
+                language.display_name()
+            );
+        }
+    }
+
+    /// The CodeQL native pins are *query* packs, and every one of them differs
+    /// from the library pack the benchmark-controlled adapter pins for that
+    /// language. The two profiles run on different library resolutions by
+    /// construction, which is one more reason they are never pooled.
+    #[test]
+    fn the_codeql_native_pins_are_query_packs() {
+        assert_eq!(CODEQL_NATIVE_QUERY_PACKS.len(), 3);
+        for (pack, version) in CODEQL_NATIVE_QUERY_PACKS {
+            assert!(pack.ends_with("-queries"), "{pack} is not a query pack");
+            assert!(!version.is_empty());
+        }
+        for language in [
+            ModelingLanguage::Java,
+            ModelingLanguage::Javascript,
+            ModelingLanguage::Python,
+        ] {
+            let suite = native_activation(ModelingTool::Codeql, language)
+                .unwrap()
+                .arguments[1]
+                .clone();
+            assert!(
+                suite.contains(&format!(
+                    "{}-{CODEQL_NATIVE_SUITE_KIND}.qls",
+                    language.key()
+                )),
+                "{suite}"
+            );
+            assert!(
+                !suite.contains("adapters/"),
+                "a native suite is never an adapter query: {suite}"
+            );
+        }
+    }
+
+    /// The Semgrep vendoring convention: one directory per language under the
+    /// adapter, disjoint from the benchmark-controlled rules directory, and a
+    /// provenance document that the runner requires before it will run.
+    #[test]
+    fn the_semgrep_native_vendoring_convention_is_pinned() {
+        for language in [
+            ModelingLanguage::Java,
+            ModelingLanguage::Javascript,
+            ModelingLanguage::Python,
+        ] {
+            let dir = semgrep_native_rules_dir(language);
+            assert_eq!(
+                dir,
+                PathBuf::from(format!("adapters/semgrep/native/{}", language.key()))
+            );
+            let modeling_rule = PathBuf::from(language.artifact(ModelingTool::Semgrep));
+            assert!(!modeling_rule.starts_with(&dir));
+            assert!(!dir.exists(), "nothing is vendored by this pull request");
+        }
+        assert_eq!(SEMGREP_NATIVE_PROVENANCE_FILE, "provenance.json");
     }
 }
