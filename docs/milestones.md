@@ -260,6 +260,26 @@ database that is downloaded rather than shipped, and a Semgrep ruleset that is
 unpinnable at run time until a snapshot is vendored. Wave N1 rolls out Java,
 JavaScript, and Python, one pull request each.
 
+### Wave N1 in progress
+
+[JavaScript's native probe set](javascript-native.md) has landed: twelve
+assertions over `process.env`, `process.argv`, `child_process.execSync`,
+`path.join`, `encodeURIComponent`, and the `Buffer` base64 round trip, plus the
+first vendored Semgrep snapshot (`semgrep/semgrep-rules@40b8c63f`, thirty rules)
+and the CodeQL native execution arm. CodeQL scores **10 of 12** against the 50%
+blind baseline; Bifrost, Joern, and Semgrep decline all six templates without
+being invoked. The two mismatches are both preregistered product facts:
+`encodeURIComponent`'s sanitizer credit is scoped to the XSS and request-forgery
+query families and not to command injection, and the `process.env` write/read
+store boundary is unlinked in the direction that carries a real flow while the
+plain environment source fires in the direction where the key says there is
+none.
+[Amendment N1](native-profile.md#n1--2026-08-27--semgrep-ces-javascript-cells-evaluated-against-the-vendored-snapshot)
+resolves Semgrep CE's six JavaScript cells against the vendored snapshot and
+retains all six as unsupported: every taint rule in the official JavaScript
+security set roots its sources in a function parameter or a framework request
+object, so a rule with the right sink has no applicable source.
+
 ## M4: real-project confirmation
 
 Add a small, pinned, manually reviewed corpus drawn from executable or

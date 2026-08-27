@@ -1,0 +1,56 @@
+{
+  "schema_version": 2,
+  "id": "dfb-taint-javascript-native-entrypoint-negative",
+  "template_id": "dfb-template-native-entrypoint",
+  "polarity": "negative",
+  "negative_mechanism": "unrelated-value",
+  "score_tier": "modeling",
+  "track": "taint",
+  "language": "javascript",
+  "semantic_dimensions": [
+    "local-flow"
+  ],
+  "feature_tags": [
+    "modeled-external"
+  ],
+  "model_profile": "tool-native",
+  "fixture_files": [
+    "probe.js"
+  ],
+  "source_anchors": [
+    {
+      "marker": "DFB-SOURCE: native-entrypoint-input",
+      "file": "probe.js",
+      "line_hint": 4
+    }
+  ],
+  "sink_anchors": [
+    {
+      "marker": "DFB-SINK: native-entrypoint-sink",
+      "file": "probe.js",
+      "line_hint": 6
+    }
+  ],
+  "expected_flows": [],
+  "expected_nonflows": [
+    {
+      "source": "DFB-SOURCE: native-entrypoint-input",
+      "sink": "DFB-SINK: native-entrypoint-sink"
+    }
+  ],
+  "witness_checkpoints": [],
+  "expected_analysis_capability": {
+    "kind": "native-entrypoint-convention"
+  },
+  "execution_budget": {
+    "wall_clock_seconds": 60,
+    "peak_memory_mb": 512
+  },
+  "fixture_provenance": {
+    "kind": "authored",
+    "origin": "DataFlowBench",
+    "revision": "n1-native-javascript",
+    "license": "MIT"
+  },
+  "tool_model_references": {}
+}

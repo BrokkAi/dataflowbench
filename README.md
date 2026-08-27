@@ -358,6 +358,14 @@ one run per adapter against them. Wave M1's three rows are complete:
 cases are `score_tier: "modeling"`, are never in a core denominator, and are
 never averaged with a kernel score.
 
+The [tool-native model profile](docs/native-profile.md) shares that tier and
+inverts the question: not what an engine can be told, but what each tool
+*ships*. Six templates over real platform APIs, per language, scored on their
+own profile and never pooled with the benchmark-controlled matrix — a native
+miss is a coverage fact about a product, and a controlled miss is an accuracy
+fact about an engine. Wave N1's first row is
+[the JavaScript tool-native probe set](docs/javascript-native.md).
+
 The [Java kernel contract](docs/java-kernel.md) records the origin population
 and the first landed wave of the [challenge-tier
 expansion](docs/challenge-tier.md), which grows the Java core to 29 templates

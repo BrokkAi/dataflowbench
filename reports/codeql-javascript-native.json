@@ -1,0 +1,215 @@
+{
+  "adapter_version": "0.1.0",
+  "cold_or_warm": "cold",
+  "configuration_hash": "a2484ca58e23c2f5b3cb273181da55bedc915e2afe4713b0485de42dc2cdced8",
+  "ended_at_unix_seconds": 1787838848,
+  "fixture_revision": "sha256:d8e1e7f5b61fa752fc03299c8e6bae6910c7e8d54dc3887f3d9be8d78ba45202",
+  "results": [
+    {
+      "case_id": "dfb-taint-javascript-native-entrypoint-negative",
+      "diagnostics": [],
+      "duration_ms": 32545,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/codeql-javascript-native/dfb-taint-javascript-native-entrypoint-negative.sarif.json",
+      "sink_anchors": [
+        "DFB-SINK: native-entrypoint-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: native-entrypoint-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-javascript-native-entrypoint-positive",
+      "diagnostics": [
+        "This command depends on an unsanitized [command-line argument](1).",
+        "This command line depends on a [user-provided value](1)."
+      ],
+      "duration_ms": 24395,
+      "outcome": "reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/codeql-javascript-native/dfb-taint-javascript-native-entrypoint-positive.sarif.json",
+      "sink_anchors": [
+        "DFB-SINK: native-entrypoint-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: native-entrypoint-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-javascript-native-persistence-negative",
+      "diagnostics": [
+        "This command depends on an unsanitized [environment variable](1).",
+        "This command line depends on a [user-provided value](1)."
+      ],
+      "duration_ms": 27032,
+      "outcome": "reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/codeql-javascript-native/dfb-taint-javascript-native-persistence-negative.sarif.json",
+      "sink_anchors": [
+        "DFB-SINK: native-persistence-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: native-persistence-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-javascript-native-persistence-positive",
+      "diagnostics": [],
+      "duration_ms": 26060,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/codeql-javascript-native/dfb-taint-javascript-native-persistence-positive.sarif.json",
+      "sink_anchors": [
+        "DFB-SINK: native-persistence-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: native-persistence-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-javascript-native-propagator-negative",
+      "diagnostics": [],
+      "duration_ms": 28436,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/codeql-javascript-native/dfb-taint-javascript-native-propagator-negative.sarif.json",
+      "sink_anchors": [
+        "DFB-SINK: native-propagator-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: native-propagator-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-javascript-native-propagator-positive",
+      "diagnostics": [
+        "This command depends on an unsanitized [environment variable](1).",
+        "This command line depends on a [user-provided value](1)."
+      ],
+      "duration_ms": 20713,
+      "outcome": "reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/codeql-javascript-native/dfb-taint-javascript-native-propagator-positive.sarif.json",
+      "sink_anchors": [
+        "DFB-SINK: native-propagator-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: native-propagator-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-javascript-native-sanitizer-negative",
+      "diagnostics": [
+        "This command depends on an unsanitized [environment variable](1).",
+        "This command line depends on a [user-provided value](1)."
+      ],
+      "duration_ms": 26145,
+      "outcome": "reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/codeql-javascript-native/dfb-taint-javascript-native-sanitizer-negative.sarif.json",
+      "sink_anchors": [
+        "DFB-SINK: native-sanitizer-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: native-sanitizer-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-javascript-native-sanitizer-positive",
+      "diagnostics": [
+        "This command depends on an unsanitized [environment variable](1).",
+        "This command line depends on a [user-provided value](1)."
+      ],
+      "duration_ms": 30454,
+      "outcome": "reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/codeql-javascript-native/dfb-taint-javascript-native-sanitizer-positive.sarif.json",
+      "sink_anchors": [
+        "DFB-SINK: native-sanitizer-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: native-sanitizer-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-javascript-native-source-sink-negative",
+      "diagnostics": [],
+      "duration_ms": 29824,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/codeql-javascript-native/dfb-taint-javascript-native-source-sink-negative.sarif.json",
+      "sink_anchors": [
+        "DFB-SINK: native-source-sink-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: native-source-sink-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-javascript-native-source-sink-positive",
+      "diagnostics": [
+        "This command depends on an unsanitized [environment variable](1).",
+        "This command line depends on a [user-provided value](1)."
+      ],
+      "duration_ms": 32013,
+      "outcome": "reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/codeql-javascript-native/dfb-taint-javascript-native-source-sink-positive.sarif.json",
+      "sink_anchors": [
+        "DFB-SINK: native-source-sink-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: native-source-sink-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-javascript-native-summary-negative",
+      "diagnostics": [],
+      "duration_ms": 38069,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/codeql-javascript-native/dfb-taint-javascript-native-summary-negative.sarif.json",
+      "sink_anchors": [
+        "DFB-SINK: native-summary-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: native-summary-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-javascript-native-summary-positive",
+      "diagnostics": [
+        "This command depends on an unsanitized [environment variable](1).",
+        "This command line depends on a [user-provided value](1)."
+      ],
+      "duration_ms": 31337,
+      "outcome": "reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/codeql-javascript-native/dfb-taint-javascript-native-summary-positive.sarif.json",
+      "sink_anchors": [
+        "DFB-SINK: native-summary-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: native-summary-input"
+      ],
+      "witness_checkpoints": []
+    }
+  ],
+  "schema_version": 1,
+  "started_at_unix_seconds": 1787838501,
+  "tool": "codeql",
+  "tool_build_identity": "CodeQL CLI 2.26.3 shipped suite codeql/javascript-queries@2.4.4:codeql-suites/javascript-security-extended.qls",
+  "tool_version": "CodeQL CLI 2.26.3"
+}

@@ -653,3 +653,31 @@ verbatim with the document's own rationale.
   (`reports/raw/load-bearing-java-modeling/bifrost-declared-source-{with,without}-model.json`).
 
 See [the Java modeling matrix](../../docs/java-modeling.md).
+
+## JavaScript tool-native probe set
+
+Zero of six, decided before the CLI is invoked — and the twelve assertions were
+produced without launching Bifrost at all.
+
+The tool-native activation contract is built-in policy packs only:
+`--policy-pack` / `--policy-category` / `--policy-id` over the catalog
+`--list-policies` prints. A native run may not pass `--policy-file`, which is
+how every benchmark-controlled Bifrost run in this repository supplies its
+models, and the no-benchmark-models gate refuses one.
+
+The standalone policy CLI ships no taint policy and no source or sink endpoint
+set. BrokkAi/bifrost-dev **#2620** is the open issue under which shipped
+endpoints — its own candidate inventory names `System.getenv`, `Runtime.exec`,
+`ProcessBuilder` — would first exist at all, and **#2691** is the standalone-CLI
+activation surface for external procedure summaries that this profile would
+need. **#1871** (closed) supplies summaries, not endpoints. Without a source and
+a sink, no cell in this profile can produce a finding, which is why every
+template reads the same way, and the sanitizer and summary categories are
+additionally declined for the surface gaps this README already records above.
+
+Stating that position in a preregistration published by Bifrost's own vendor,
+before a run, with the vendor's open issues named, is the point. It is capability
+coverage: the twelve `unsupported` assertions are never negatives and reduce no
+denominator.
+
+See [the JavaScript tool-native probe set](../../docs/javascript-native.md).
