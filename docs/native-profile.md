@@ -626,7 +626,7 @@ same sink is flagged. Under
 is a false positive, and it is the single most likely observation this profile
 will produce about any tool.
 
-### Bifrost — v0.10.6, shipped policy packs
+### Bifrost — v0.10.7, shipped policy packs
 
 **Activation contract.** Built-in policy packs only: `--policy-pack` /
 `--policy-category` / `--policy-id` over the catalog `--list-policies` prints.
@@ -635,11 +635,17 @@ benchmark-controlled Bifrost run supplies its models, and the no-benchmark-model
 gate refuses one.
 
 **Grounded in the adapter README and the vendor's own issue tracker.** The
-adapter README states the surface gap directly: *"Sanitizer lowering is a future
-Bifrost CLI capability"* and *"External semantic-model activation requires an
-embedding with an explicit catalog, so the modeled-external case is reported as
-`unsupported` by this CLI adapter with an explicit retained reason. It is not a
-negative result."* (`adapters/bifrost/README.md`). On the vendor side,
+adapter README states the surface gap directly: *"External semantic-model
+activation requires an embedding with an explicit catalog, so the
+modeled-external case is reported as `unsupported` by this CLI adapter with an
+explicit retained reason. It is not a negative result."*
+(`adapters/bifrost/README.md`). A second README sentence — *"Sanitizer lowering
+is a future Bifrost CLI capability"* — was quoted here when this profile was
+preregistered; it was measured false and retired by
+[Amendment A9](modeling-matrix.md#a9--2026-08-27-bifrosts-sanitizer-category-is-promoted-the-readmes-lowering-claim-was-false),
+and this document's category-Z cell was restated on the grounds that survive by
+[Amendment A10](#a10--2026-08-28-bifrosts-native-category-z-cell-is-restated-on-the-absent-endpoint-catalog).
+On the vendor side,
 BrokkAi/bifrost-dev **#2691** (*Modeling surface: activate external procedure
 summaries from the standalone policy CLI*, open) is exactly the standalone-CLI
 activation surface this profile would need, and BrokkAi/bifrost-dev **#2620**
@@ -651,8 +657,9 @@ APIs*, closed 2026-08-24 as completed) supplies summaries, not endpoints, and it
 problem statement records the starting position: *"Zero procedure-summary packs
 ship. The embedded registry holds generator-rule packs only."*
 
-**Verification note.** The pinned v0.10.6 build was not available while writing
-this document; a locally installed **v0.9.5** was inspected. Its
+**Verification note.** The build pinned when this document was written —
+v0.10.6, since re-pinned to v0.10.7 — was not available at the time; a locally
+installed **v0.9.5** was inspected. Its
 `--list-policies` catalog contains exactly one pack, `bifrost.code-smells`
 v1.5.0, whose fourteen policies are all `correctness` or `performance`
 structural checks — no taint policy, no source or sink endpoint set. Per the
@@ -665,7 +672,7 @@ turns on the difference.
 | --- | --- | --- | --- |
 | 1 | S | **unsupported — no shipped endpoint catalog** | The standalone CLI ships no taint policy and no source/sink endpoint set; bifrost-dev #2620 is the open issue under which the first ones would ship. Without a source and a sink, no cell in this profile can produce a finding, which is why every row below reads the same way. |
 | 2 | P | **unsupported — no shipped endpoint catalog** | Same. Summary packs (#1871) carry propagation, not endpoints; propagation with nothing to propagate from produces nothing. |
-| 3 | Z | **unsupported — sanitizer lowering is a future CLI capability** | Stated by `adapters/bifrost/README.md`, and reproduced by the modeling matrix's own category-Z decision. |
+| 3 | Z | **unsupported — no shipped endpoint catalog, and no shipped sanitizer** ([A10](#a10--2026-08-28-bifrosts-native-category-z-cell-is-restated-on-the-absent-endpoint-catalog)) | Preregistered on `adapters/bifrost/README.md`'s *"Sanitizer lowering is a future Bifrost CLI capability"*, which [Amendment A9](modeling-matrix.md#a9--2026-08-27-bifrosts-sanitizer-category-is-promoted-the-readmes-lowering-claim-was-false) measured false and retired; A10 restates the same outcome on the grounds that survive it. The sanitizer stanza A9 measured is reachable only through `--policy-file`, which this profile's activation contract forbids, and the built-in packs declare no sanitizer, no source, and no sink for one to sit between (#2620). A barrier on a flow that cannot start is unobservable either way. |
 | 4 | O | **unsupported — external activation requires an embedding catalog** | `adapters/bifrost/README.md`, and bifrost-dev #2691 is the issue that would change it. |
 | 5 | E | **to be verified — unsupported until shown** | No entry-root convention is described anywhere for the policy CLI. |
 | 6 | B | **to be verified — unsupported until shown** | No persistence-boundary vocabulary is described for any adapter, Bifrost included. |
@@ -745,7 +752,7 @@ until shown otherwise.
 > promotes Python's six to scored and keys the partition by language. Every cell
 > for every language with no amendment row is still the cell below.
 
-| # | Template | Cat. | Bifrost v0.10.6 | CodeQL 2.26.3 | Joern 4.0.610 | Semgrep CE 1.174.0 |
+| # | Template | Cat. | Bifrost v0.10.7 | CodeQL 2.26.3 | Joern 4.0.610 | Semgrep CE 1.174.0 |
 | --- | --- | --- | --- | --- | --- | --- |
 | 1 | `native-source-sink` | S | unsupported | supported | unsupported | TBV |
 | 2 | `native-propagator` | P | unsupported | supported | unsupported | TBV |
@@ -903,8 +910,9 @@ Their numbers continue the repository's **single** amendment sequence rather
 than restarting per document: A1 is in [the challenge tier](challenge-tier.md#amendments)
 and A2–A5 and A9 are in [the modeling matrix](modeling-matrix.md#amendments), so
 an amendment identifier names exactly one amendment wherever it is cited. The
-sequence interleaves across documents — A8 here is followed by A9 there — which
-is the point: the number, not the document, is the identity.
+sequence interleaves across documents — A8 here is followed by A9 there, and
+A10 returns here — which is the point: the number, not the document, is the
+identity.
 
 ### A6 — 2026-08-27: Semgrep CE's JavaScript cells, evaluated against the vendored snapshot
 
@@ -1123,3 +1131,54 @@ adapters cannot drift into two readings of [outcome honesty](#outcome-honesty).
 tool-native report: the v0.4.0 claim is `benchmark-controlled` at the
 `calibration`, `core`, and `language-extension` tiers, and this profile's
 reports are new paths outside it.
+
+### A10 — 2026-08-28: Bifrost's native category-Z cell is restated on the absent endpoint catalog
+
+**What changed.** Nothing about the decision. Bifrost's category-Z template,
+`dfb-template-native-sanitizer`, stays `unsupported` for all three languages,
+Bifrost's activation count stays **0 / 6**, and no other cell of any tool is
+touched. What changes is the *citation* the cell rests on.
+
+**Why it had to change.** This document declined the cell by quoting the
+adapter README — *"Sanitizer lowering is a future Bifrost CLI capability"* —
+and
+[Amendment A9](modeling-matrix.md#a9--2026-08-27-bifrosts-sanitizer-category-is-promoted-the-readmes-lowering-claim-was-false)
+measured that sentence on the v0.10.7 build `44d9a5be416432bf8ed414afd3ea0031245ebb57`
+and found it false: the RQLP `analysis` grammar accepts a `(sanitizer …)`
+stanza, the declaration suppresses a flow on a run that completes, deleting it
+restores that flow with a full witness, and an undeclared sanitizer-shaped
+sibling is not suppressed. A9 promoted the *benchmark-controlled* category Z on
+that measurement and said in the same breath that this document's cell quotes a
+claim it had withdrawn, and that correcting it was this document's own dated
+amendment to make. This is that amendment.
+
+**Why the outcome does not move with the citation.** The two profiles ask
+different questions of the same binary, and only one of them can reach the
+stanza A9 measured. A sanitizer declaration arrives through `--policy-file`,
+which [this profile's activation contract](#bifrost--v0107-shipped-policy-packs)
+forbids outright and the no-benchmark-models gate refuses. What the built-in
+packs ship is what remains, and they declare no sanitizer — and, prior to that,
+no source and no sink for a sanitizer to sit between, which is the same absent
+endpoint catalog (BrokkAi/bifrost-dev **#2620**, open) that decides templates 1
+and 2. A barrier on a flow that cannot start is unobservable in either
+direction, so the cell would be undecidable here even if the CLI shipped one.
+The cell's grounds were always available; the preregistration reached for a
+README sentence instead, and that is the error being corrected.
+
+**Templates and languages touched.** `dfb-template-native-sanitizer`, for
+`java`, `javascript`, and `python` — the rationale string is one constant
+shared by all three. No template of any other tool changes, and the
+[partition summary](#partition-summary) is unchanged.
+
+**Where the wording now stands.** The [Bifrost row's rationale
+table](#bifrost--v0107-shipped-policy-packs) and its mirrored constant in
+`NATIVE_PARTITION` (`src/main.rs`) both name the endpoint-catalog grounds and
+cite this amendment; the paragraph above the table records the retired sentence
+as retired rather than dropping it, because a preregistration that quietly
+loses the claim it was decided on is worse than one that was wrong.
+
+**Freezes invalidated.** None. No published freeze manifest contains a
+tool-native report. The retained tool-native reports predate this amendment and
+carry the withdrawn wording in their retained rationales; the corrected string
+lands with the next evidence re-run, and the decision those reports record —
+`unsupported` — is the decision this amendment leaves in place.

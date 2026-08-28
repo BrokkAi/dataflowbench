@@ -111,9 +111,11 @@ completing run, deleting it restores that flow with a full witness, and an
 undeclared sanitizer-shaped sibling is not suppressed. That measurement is
 [Amendment A9](../../docs/modeling-matrix.md#a9--2026-08-27-bifrosts-sanitizer-category-is-promoted-the-readmes-lowering-claim-was-false),
 which promotes category Z of the modeling matrix for this adapter. The retired
-sentence is quoted by the tool-native profile's own category-Z rationale, whose
-cell turns on the absent shipped endpoint catalog rather than on lowering and is
-left for that document's own amendment.
+sentence was also quoted by the tool-native profile's own category-Z rationale;
+that cell turns on the absent shipped endpoint catalog rather than on lowering,
+and
+[Amendment A10](../../docs/native-profile.md#a10--2026-08-28-bifrosts-native-category-z-cell-is-restated-on-the-absent-endpoint-catalog)
+has since restated it on those grounds without moving the decision.
 
 External semantic-model activation requires an embedding
 with an explicit catalog, so the modeled-external case is reported as
@@ -606,7 +608,7 @@ verbatim with the document's own rationale.
   sibling `sanitize`, and nothing for categories P, O, E, or B — a declined
   category is absent from the artifact rather than approximated in it.
 - Load-bearing model: the policy sets `:call-modeling (call-modeling :unmodeled
-  require-model)`, which the pinned v0.10.6 build accepts. The runner refuses
+  require-model)`, which the pinned v0.10.7 build accepts. The runner refuses
   the artifact if that setting is missing, and refuses it again if it names the
   kernel policies' permissive default. This does **not** promote the
   preregistration's *to be verified* cell for category P: that cell also needs a
