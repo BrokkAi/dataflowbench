@@ -3,7 +3,7 @@
     "--policy-pack",
     "bifrost.code-smells"
   ],
-  "activation_identity": "Bifrost v0.10.6 built-in policy packs",
+  "activation_identity": "bifrost 0.10.7 built-in policy packs",
   "adapter": "bifrost",
   "case_id": "dfb-taint-javascript-native-sanitizer-positive",
   "evidence_kind": "retained-capability-decision",
@@ -11,9 +11,9 @@
   "modeling_category": "Z",
   "modeling_category_label": "declared sanitizers",
   "partition_source": "docs/native-profile.md#partition-summary",
-  "pinned_tool_identity": "Bifrost v0.10.6",
-  "reason": "tool-native activation of dfb-template-native-sanitizer (category Z — declared sanitizers) is unsupported for Bifrost v0.10.6 by the preregistered activation partition (docs/native-profile.md#partition-summary): the adapter README states it directly: \"Sanitizer lowering is a future Bifrost CLI capability.\" (`adapters/bifrost/README.md`). DataFlowBench is published by Bifrost's vendor, and a partition that quietly granted its own engine a capability its own documentation says is unimplemented would be the single most damaging thing this profile could do",
+  "reason": "tool-native activation of dfb-template-native-sanitizer (category Z — declared sanitizers) is unsupported for bifrost 0.10.7 over JavaScript by the activation partition (docs/native-profile.md#partition-summary, as amended): restated by Amendment A10: a sanitizer declaration arrives only through `--policy-file`, which this profile's activation contract forbids, and the built-in packs declare no sanitizer and — prior to that — no source and no sink for one to sit between (the same absent endpoint catalog as templates 1 and 2, BrokkAi/bifrost-dev #2620). A barrier on a flow that cannot start is unobservable in either direction. The preregistration declined this cell instead on the adapter README's \"Sanitizer lowering is a future Bifrost CLI capability\", which Amendment A9 measured false and withdrew",
   "stage": "preregistered-native-activation-partition",
   "state": "unsupported",
-  "template_id": "dfb-template-native-sanitizer"
+  "template_id": "dfb-template-native-sanitizer",
+  "witnessed_tool_identity": "bifrost 0.10.7"
 }
