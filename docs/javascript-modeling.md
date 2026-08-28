@@ -179,7 +179,7 @@ entries bound to `return-value` and two `:sinks` entries bound to
 committed artifact now also carries one `:sanitizers` entry, whose scored
 evidence lands with the next re-run. It sets
 `:call-modeling (call-modeling :unmodeled require-model)`, which the pinned
-v0.10.6 build accepts — the preregistration could not verify that against the
+v0.10.7 build accepts — the preregistration could not verify that against the
 pinned binary and recorded category P as *to be verified, unsupported until
 shown*; **this run does not promote that cell**, because P also requires a
 propagator or transform declaration surface, which no committed policy has and

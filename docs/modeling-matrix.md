@@ -817,7 +817,7 @@ An `unsupported` cell is coverage, never a negative, and never a false negative.
 It does not reduce any other tool's denominator, and it does not reduce the
 benchmark's — a tool that declines a category simply has no assertions in it.
 
-### Bifrost — v0.10.6 (build `18d09c57`)
+### Bifrost — v0.10.7 (build `44d9a5be`)
 
 > **Amended.** Category Z was promoted to scored activation by
 > [Amendment A9](#a9--2026-08-27-bifrosts-sanitizer-category-is-promoted-the-readmes-lowering-claim-was-false):
@@ -830,8 +830,9 @@ Verified surface: the seventeen committed `.rqlp` policies use exactly
 `:dangerous-operand (argument :index N)` and `:accepts`), under
 `(analysis :type taint :mode may :call-modeling (call-modeling :unmodeled
 optimistic))`. No committed policy contains a sanitizer, transform, or
-external-model section. The pinned v0.10.6 build was not available while writing
-this document; a locally installed **v0.9.5** binary was inspected and exposes
+external-model section. The build pinned when this document was written —
+v0.10.6, since re-pinned to v0.10.7 — was not available at the time; a locally
+installed **v0.9.5** binary was inspected and exposes
 policy-schema pointers for `/analysis/sanitizers/entries/`,
 `/analysis/transforms/entries/` and `/analysis/external_models/entries/`, plus
 `call-modeling` values `paranoid | optimistic | require-model`. **A schema that
@@ -951,7 +952,7 @@ capability are not the same axis, which is the whole reason this tier exists.
 Preregistered, before any modeling fixture exists. `TBV` = to be verified at
 implementation, treated as unsupported until shown otherwise.
 
-| Category | Bifrost v0.10.6 | CodeQL 2.26.3 | Joern 4.0.610 | Semgrep CE 1.174.0 |
+| Category | Bifrost v0.10.7 | CodeQL 2.26.3 | Joern 4.0.610 | Semgrep CE 1.174.0 |
 | --- | --- | --- | --- | --- |
 | S — sources and sinks | supported | supported | supported | supported |
 | P — propagators | TBV | supported | supported | unsupported |
