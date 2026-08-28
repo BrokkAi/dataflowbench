@@ -587,11 +587,11 @@ impl ModelingTool {
     /// the run *witnessed* from the binary
     /// ([`witness_tool_identity`]), because a constant cannot witness a
     /// version. A run that asserted its own version would keep publishing
-    /// `v0.10.6` after the pin moved, which is precisely the corruption a
+    /// `v0.10.7` after the pin moved, which is precisely the corruption a
     /// freeze cannot survive.
     fn pinned_identity(self) -> &'static str {
         match self {
-            Self::Bifrost => "Bifrost v0.10.6",
+            Self::Bifrost => "Bifrost v0.10.7",
             Self::Codeql => "CodeQL CLI 2.26.3",
             Self::Joern => "Joern 4.0.610",
             Self::Semgrep => "Semgrep CE 1.174.0",
@@ -1227,7 +1227,7 @@ struct NativePartitionCell {
 /// amendment. That is why three of the four tools enter with nothing scored —
 /// which is a statement about product packaging, not about an engine.
 const NATIVE_PARTITION: [NativePartitionCell; 24] = [
-    // Bifrost — v0.10.6: 0 / 6. The standalone policy CLI ships no taint
+    // Bifrost — v0.10.7: 0 / 6. The standalone policy CLI ships no taint
     // policy and no source/sink endpoint catalog, so no template can produce a
     // finding regardless of what else it can express.
     NativePartitionCell {
@@ -1254,11 +1254,14 @@ const NATIVE_PARTITION: [NativePartitionCell; 24] = [
         tool: ModelingTool::Bifrost,
         template: NATIVE_TEMPLATE_IDS[2],
         unsupported_reason: Some(
-            "the adapter README states it directly: \"Sanitizer lowering is a future Bifrost CLI \
-             capability.\" (`adapters/bifrost/README.md`). DataFlowBench is published by \
-             Bifrost's vendor, and a partition that quietly granted its own engine a capability \
-             its own documentation says is unimplemented would be the single most damaging thing \
-             this profile could do",
+            "restated by Amendment A10: a sanitizer declaration arrives only through \
+             `--policy-file`, which this profile's activation contract forbids, and the built-in \
+             packs declare no sanitizer and — prior to that — no source and no sink for one to \
+             sit between (the same absent endpoint catalog as templates 1 and 2, \
+             BrokkAi/bifrost-dev #2620). A barrier on a flow that cannot start is unobservable in \
+             either direction. The preregistration declined this cell instead on the adapter \
+             README's \"Sanitizer lowering is a future Bifrost CLI capability\", which Amendment \
+             A9 measured false and withdrew",
         ),
     },
     NativePartitionCell {
@@ -2251,9 +2254,10 @@ enum Commands {
         semgrep: PathBuf,
     },
     /// Run one language's benchmark-controlled taint-modeling matrix through
-    /// Bifrost's policy CLI. The preregistered partition scores category S
-    /// only, so the other five categories are `unsupported` with a retained
-    /// rationale, decided before the binary is invoked.
+    /// Bifrost's policy CLI. The partition scores categories S and Z — the
+    /// second promoted by Amendment A9 — so the other four categories are
+    /// `unsupported` with a retained rationale, decided before the binary is
+    /// invoked.
     RunBifrostModeling {
         #[arg(long, value_enum)]
         language: ModelingLanguage,
@@ -16248,7 +16252,10 @@ mod tests {
         )
         .unwrap()
         .expect("declined");
-        assert!(reason.contains("Sanitizer lowering is a future Bifrost CLI capability"));
+        // Amendment A10 replaced the withdrawn README citation with the
+        // endpoint-catalog grounds; the cell's decision is unchanged.
+        assert!(reason.contains("restated by Amendment A10"));
+        assert!(reason.contains("BrokkAi/bifrost-dev #2620"));
         assert!(reason.contains(WITNESSED_IDENTITY));
         assert!(reason.contains("docs/native-profile.md"));
         for tool in ModelingTool::ALL {
