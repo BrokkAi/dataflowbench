@@ -346,6 +346,86 @@ const outcomeClass = (polarity: 'positive' | 'negative', outcome: string) => {
   return 'incomplete';
 };
 
+// The modeling matrix and the tool-native probe set are separate populations
+// from the kernels above and from each other. They are built here as their own
+// row sets, rendered in their own sections, and never merged into the kernel
+// cards, the confusion dialog, or any shared denominator. A tier that a tool's
+// own model surface cannot express is `unsupported` before the tool runs, so
+// the scored partition — not the ratio inside it — is the load-bearing number.
+interface TierRow {
+  tool: string;
+  name: string;
+  toolVersion: string;
+  colorClass: string;
+  language: string;
+  scorecardId: string;
+  /** Assertions in the population, scored and declined together. */
+  total: number;
+  /** Assertions the tool's partition scores at all. */
+  scored: number;
+  /** Scored assertions that got a definitive answer. */
+  decided: number;
+  correct: number;
+  falsePositives: number;
+  falseNegatives: number;
+  inconclusive: number;
+  unsupported: number;
+}
+
+function tierRows(profile: string, idFragment: string): TierRow[] {
+  const rows: TierRow[] = [];
+  for (const card of scorecards) {
+    if (card.model_profile !== profile) continue;
+    if (!card.id.includes(idFragment)) continue;
+    for (const language of card.languages) {
+      for (const tier of language.score_tiers) {
+        const counts = { tp: 0, tn: 0, fp: 0, fn: 0, inc: 0, uns: 0 };
+        for (const result of tier.cases) {
+          if (result.classification === 'true-positive') counts.tp += 1;
+          else if (result.classification === 'true-negative') counts.tn += 1;
+          else if (result.classification === 'false-positive') counts.fp += 1;
+          else if (result.classification === 'false-negative') counts.fn += 1;
+          else if (result.outcome === 'inconclusive') counts.inc += 1;
+          else counts.uns += 1;
+        }
+        const decided = counts.tp + counts.tn + counts.fp + counts.fn;
+        rows.push({
+          tool: card.adapter.tool,
+          name: vendorName(card.adapter.tool),
+          toolVersion: card.adapter.tool_version.replace(/^bifrost /, ''),
+          colorClass: vendorColorClass(card.adapter.tool, 0),
+          language: language.language,
+          scorecardId: card.id,
+          total: tier.cases.length,
+          scored: decided + counts.inc,
+          decided,
+          correct: counts.tp + counts.tn,
+          falsePositives: counts.fp,
+          falseNegatives: counts.fn,
+          inconclusive: counts.inc,
+          unsupported: counts.uns,
+        });
+      }
+    }
+  }
+  rows.sort(
+    (left, right) =>
+      left.name.localeCompare(right.name) ||
+      left.language.localeCompare(right.language),
+  );
+  return rows;
+}
+
+const modelingRows = tierRows('benchmark-controlled', '-modeling-');
+const nativeRows = tierRows('tool-native', '-native-');
+
+/** How a row reads when nothing in it was scored: coverage, not a zero. */
+function tierVerdict(row: TierRow): string {
+  if (row.scored === 0) return 'declines the tier — declared coverage';
+  if (row.decided === 0) return 'scored, none decided';
+  return `${row.correct}/${row.decided} decided correctly`;
+}
+
 const caseCount = snapshot.results.scorecards
   .flatMap((card) => card.languages)
   .flatMap((language) => language.score_tiers)
@@ -359,14 +439,25 @@ const caseCount = snapshot.results.scorecards
 <aside class="short-answer">
   <p class="label">Short answer</p>
   <p class="verdict">
-    Nobody is perfect on the expanded cores. This snapshot folds a
-    preregistered tier of harder templates — dynamic dispatch, higher-order
-    code, container and access-path depth, call-depth stress — into every
-    kernel, and no analyzer answers a whole core correctly in any language.
-    Bifrost is near-exact on what it decides and declines most of the harder
-    tier outright; CodeQL and Joern answer everything definitively and miss
+    Nobody is perfect on the expanded cores. No analyzer answers a whole core
+    correctly in any of the {kernels.length} languages. Bifrost decides far
+    more of them than in the previous freeze — every runner error in that
+    snapshot is gone, and its decisive-correct count roughly doubled — while
+    picking up four new false positives on path-feasibility and loop-kill
+    negatives, which are filed upstream and published here rather than
+    filtered out. CodeQL and Joern answer everything definitively and miss
     where their approximations bind; Semgrep CE declines by declared
     capability what its intraprocedural profile does not cover.
+  </p>
+  <p>
+    This is also the first snapshot to publish two further populations below
+    the kernels: the <strong>modeling matrix</strong>, which asks whether each
+    tool's own model-declaration surface is load-bearing, and the
+    <strong>tool-native probes</strong>, which ask what each product decides
+    with nothing supplied by us. All three are separate populations with
+    separate denominators. There is no combined leaderboard, and
+    benchmark-controlled results are never pooled with, or compared
+    number-to-number against, tool-native ones.
   </p>
   <p>
     DataFlowBench is <a href="https://github.com/BrokkAi">BrokkAi</a>'s own
@@ -675,8 +766,10 @@ const caseCount = snapshot.results.scorecards
   sound-and-precise analyzer reads <code class="good">reached</code> /
   <code class="good">not-reached</code>. Read the analyzers' columns
   independently — DataFlowBench publishes no combined leaderboard, and the
-  scorecards stay separate under the <code>benchmark-controlled</code> model
-  profile.
+  scorecards stay separate. Every kernel below is on the
+  <code>benchmark-controlled</code> model profile; the modeling and
+  tool-native populations follow in their own sections and share no
+  denominator with these.
 </p>
 
 {kernels.map((kernel) => (
@@ -767,28 +860,140 @@ const caseCount = snapshot.results.scorecards
   </table>
 </div>
 
+<h2>Modeling matrix — is the model surface load-bearing?</h2>
+
+<p>
+  A separate population from the kernels above, on the same
+  <code>benchmark-controlled</code> profile. Twelve preregistered templates in
+  six balanced categories — declared sources and sinks, declared propagators,
+  declared sanitizers, opaque summaries, framework entry points, persistence
+  boundaries — ask whether each tool's <em>own</em> model-declaration surface
+  can express a category and be made to carry the flow. A category a tool
+  cannot express is <code class="incomplete">unsupported</code>, decided before
+  the tool is invoked. <strong>The scored partition differs per adapter, so the
+  denominators differ by construction and are never pooled or ranked.</strong>
+  Read the <em>scored</em> column first: it is the load-bearing number, and the
+  ratio inside it is only meaningful against that tool's own partition.
+</p>
+
+<div class="table-scroll">
+  <table>
+    <thead>
+      <tr>
+        <th>Analyzer</th>
+        <th>Language</th>
+        <th>Assertions</th>
+        <th>Scored</th>
+        <th>Declined</th>
+        <th>On its own scored partition</th>
+      </tr>
+    </thead>
+    <tbody>
+      {
+        modelingRows.map((row) => (
+          <tr>
+            <td>
+              <span class:list={['vendor-dot', row.colorClass]} aria-hidden="true"></span>
+              {row.name} {row.toolVersion}
+            </td>
+            <td>
+              <code>{row.language}</code>
+            </td>
+            <td>{row.total}</td>
+            <td>{row.scored}</td>
+            <td>{row.unsupported}</td>
+            <td>
+              {tierVerdict(row)}
+              {row.inconclusive > 0 ? ` · ${row.inconclusive} inconclusive` : ''}
+            </td>
+          </tr>
+        ))
+      }
+    </tbody>
+  </table>
+</div>
+
+<h2>Tool-native probes — what ships and decides on its own</h2>
+
+<p>
+  A third population, under the <code>tool-native</code> model profile: six
+  templates run with <em>nothing</em> supplied by DataFlowBench, against
+  whatever ruleset, semantics, or policy pack the product ships. This measures
+  product coverage, not engine accuracy.
+  <strong>
+    Tool-native results are never pooled with the benchmark-controlled kernels
+    or the modeling matrix, and never compared number-to-number with them.
+  </strong>
+  A row of <code class="incomplete">unsupported</code> is a declared decline —
+  the tool ships no source or sink catalog for this tier — and is never counted
+  as a wrong answer. Those runs still witness the identity of the binary and
+  ruleset that produced them.
+</p>
+
+<div class="table-scroll">
+  <table>
+    <thead>
+      <tr>
+        <th>Analyzer</th>
+        <th>Language</th>
+        <th>Assertions</th>
+        <th>Scored</th>
+        <th>Declined</th>
+        <th>On its own scored partition</th>
+      </tr>
+    </thead>
+    <tbody>
+      {
+        nativeRows.map((row) => (
+          <tr>
+            <td>
+              <span class:list={['vendor-dot', row.colorClass]} aria-hidden="true"></span>
+              {row.name} {row.toolVersion}
+            </td>
+            <td>
+              <code>{row.language}</code>
+            </td>
+            <td>{row.total}</td>
+            <td>{row.scored}</td>
+            <td>{row.unsupported}</td>
+            <td>
+              {tierVerdict(row)}
+              {row.falsePositives > 0 ? ` · ${row.falsePositives} FP` : ''}
+              {row.falseNegatives > 0 ? ` · ${row.falseNegatives} FN` : ''}
+            </td>
+          </tr>
+        ))
+      }
+    </tbody>
+  </table>
+</div>
+
 <h2>What this result means</h2>
 
 <p>
   DataFlowBench measures whether analyzers correctly decide semantic
   data-flow questions — and whether they stay quiet when they should. Cases
   are balanced positive/negative pairs of language-neutral semantic templates
-  (aliasing, kills, call context, branch joins, exception paths, …) run under
-  a <code>benchmark-controlled</code> model profile, so the engines are
-  compared under a common contract rather than through their shipped model
-  packs.
+  (aliasing, kills, call context, branch joins, exception paths, …). The
+  kernels and the modeling matrix run under a
+  <code>benchmark-controlled</code> model profile, so the engines are compared
+  under a common contract; the tool-native probes run under a
+  <code>tool-native</code> profile, measuring the shipped product instead. The
+  two profiles answer different questions and are never combined.
 </p>
 
 <p>
   This snapshot's bounded claim covers the synthetic direct-flow breadth
   baseline and the propagation kernels of the {kernels.length} kernel
-  languages above on the <code>taint</code> track. Cores are sized per
-  language ({templateSizes} templates), so each kernel is read on its own
-  denominator; language-only constructs are reported in separate
+  languages above on the <code>taint</code> track, plus the modeling matrix
+  and the tool-native probe set in java, javascript, and python. Cores are
+  sized per language ({templateSizes} templates), so each kernel is read on
+  its own denominator; language-only constructs are reported in separate
   <code>language-extension</code> tiers on the snapshot pages. It does not
-  estimate real-project accuracy, tool-native model coverage, other
-  languages' kernel behavior, or performance. <code>inconclusive</code>,
-  <code>unsupported</code>, and
+  estimate real-project accuracy, other languages' kernel behavior, or
+  performance, and the tool-native rows describe shipped coverage on six
+  probe templates rather than product accuracy at large.
+  <code>inconclusive</code>, <code>unsupported</code>, and
   <code>runner-error</code> are capability coverage and are never converted
   into clean negatives.
 </p>
@@ -796,7 +1001,7 @@ const caseCount = snapshot.results.scorecards
 <div class="tile-grid">
   <div class="tile">
     <p class="big">{caseCount}</p>
-    <p class="caption">frozen case results</p>
+    <p class="caption">frozen case results, across three populations</p>
   </div>
   <div class="tile">
     <p class="big">{breadth.length}</p>
@@ -1209,6 +1414,30 @@ const caseCount = snapshot.results.scorecards
   }
   .vendor.v3 {
     --vendor-color: var(--sl-color-green);
+    --vendor-rule: var(--sl-color-green);
+  }
+  /* Same fixed vendor→colour mapping as the cards and the dialog, keyed by
+     tool identity rather than row position, so a vendor keeps its colour
+     across the kernel, modeling, and tool-native sections. */
+  .vendor-dot {
+    display: inline-block;
+    width: 0.55rem;
+    height: 0.55rem;
+    border-radius: 50%;
+    margin-right: 0.4rem;
+    vertical-align: baseline;
+    background: var(--vendor-rule, var(--sl-color-accent));
+  }
+  .vendor-dot.v0 {
+    --vendor-rule: var(--sl-color-accent);
+  }
+  .vendor-dot.v1 {
+    --vendor-rule: var(--sl-color-orange);
+  }
+  .vendor-dot.v2 {
+    --vendor-rule: var(--sl-color-purple);
+  }
+  .vendor-dot.v3 {
     --vendor-rule: var(--sl-color-green);
   }
   .big .of {

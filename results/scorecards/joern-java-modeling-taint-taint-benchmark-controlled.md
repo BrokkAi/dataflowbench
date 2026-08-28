@@ -1,0 +1,53 @@
+# Scorecard `joern-java-modeling-taint-taint-benchmark-controlled`
+
+Adapter `joern-java-modeling`: `joern` `4.0.610` (build `joern-cli:4.0.610`, adapter version `0.1.0`, configuration `55282607023d6902aebe9e2e4199542f04b407229ac0ab04eab9b70dd4a6980f`).
+
+Track `taint`, score dimension `taint`, model profile `benchmark-controlled`. This scorecard is a single result population; it is never pooled with other tracks, dimensions, or model profiles.
+
+Normalized report: `reports/joern-java-modeling.json` (`sha256:062de7777d607da2225e5dfc0c76bfd71ed2c5d265a290f2d4d0a5be5b89ed1e`, normalized `sha256:062de7777d607da2225e5dfc0c76bfd71ed2c5d265a290f2d4d0a5be5b89ed1e`). Generated from freeze manifest `reports/freeze.json` (`sha256:43a34341ca3f818f55878bb23562da03b8fc4b1fc0c83f47b954eb22ec3f41e4`).
+
+## Language `java`, tier `modeling`
+
+Outcome coverage: `reached` 6, `not-reached` 10, `inconclusive` 0, `unsupported` 8, `runner-error` 0, total 24. `inconclusive`, `unsupported`, and `runner-error` are capability and execution coverage; they are never counted as clean negatives.
+
+### Semantic dimension rates
+
+| Semantic dimension | TP | FN | FP | TN | Inconclusive | Unsupported | Runner error | TPR (template macro) | FPR (template macro) |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| `external-summary` | 2 | 0 | 0 | 2 | 0 | 4 | 0 | 100.0% | 0.0% |
+| `heap-field-sensitivity` | 0 | 1 | 0 | 1 | 0 | 2 | 0 | 0.0% | 0.0% |
+| `interprocedural-flow` | 0 | 2 | 0 | 2 | 0 | 8 | 0 | 0.0% | 0.0% |
+| `local-flow` | 2 | 0 | 0 | 2 | 0 | 0 | 0 | 100.0% | 0.0% |
+| `object-sensitivity` | 0 | 1 | 0 | 1 | 0 | 0 | 0 | 0.0% | 0.0% |
+| `sanitizer` | 2 | 0 | 0 | 2 | 0 | 0 | 0 | 100.0% | 0.0% |
+
+Macro-average over semantic dimensions: TPR 50.0%, FPR 0.0%. Macro-averages pool templates first, then semantic dimensions; raw case counts are shown for audit only.
+
+### Cases
+
+| Template | Case | Polarity | Outcome | Classification | Raw evidence | Raw SHA-256 |
+| --- | --- | --- | --- | --- | --- | --- |
+| `dfb-template-model-declared-sink` | `dfb-taint-java-model-declared-sink-negative` | negative | `not-reached` | true-negative | `reports/raw/joern-java-modeling/dfb-taint-java-model-declared-sink-negative.json` | `a142f5806c051d0e1b0af420355d46659a3f9c8239ba1be36b215d51ed1de2a6` |
+| `dfb-template-model-declared-sink` | `dfb-taint-java-model-declared-sink-positive` | positive | `reached` | true-positive | `reports/raw/joern-java-modeling/dfb-taint-java-model-declared-sink-positive.json` | `f848ff38e7c6385975af43ef43e951d4e840e4172411bf8babd7ce1e852bca3f` |
+| `dfb-template-model-declared-source` | `dfb-taint-java-model-declared-source-negative` | negative | `not-reached` | true-negative | `reports/raw/joern-java-modeling/dfb-taint-java-model-declared-source-negative.json` | `e8b565850fc494ca062830a64b1d1385243b06e2f46fda1939160e0c78f82422` |
+| `dfb-template-model-declared-source` | `dfb-taint-java-model-declared-source-positive` | positive | `reached` | true-positive | `reports/raw/joern-java-modeling/dfb-taint-java-model-declared-source-positive.json` | `ea87f5a3ddbe1115823cd66c9d8d66c537d6036b3d6e3fb1cc221f3416c264ed` |
+| `dfb-template-model-entrypoint-parameter` | `dfb-taint-java-model-entrypoint-parameter-negative` | negative | `not-reached` | true-negative | `reports/raw/joern-java-modeling/dfb-taint-java-model-entrypoint-parameter-negative.json` | `396448b31c4e50406ce629f370951e015af80e87a5366d988127707b7f8a6889` |
+| `dfb-template-model-entrypoint-parameter` | `dfb-taint-java-model-entrypoint-parameter-positive` | positive | `reached` | true-positive | `reports/raw/joern-java-modeling/dfb-taint-java-model-entrypoint-parameter-positive.json` | `2f4bae6e696f8f261f8e6804f169f63470b32a7524be356f1724d1a69d59480e` |
+| `dfb-template-model-entrypoint-selectivity` | `dfb-taint-java-model-entrypoint-selectivity-negative` | negative | `not-reached` | true-negative | `reports/raw/joern-java-modeling/dfb-taint-java-model-entrypoint-selectivity-negative.json` | `723c11468d0ef319f815471a4dd52681ab46fae73b35cfcb990824ad67839f9a` |
+| `dfb-template-model-entrypoint-selectivity` | `dfb-taint-java-model-entrypoint-selectivity-positive` | positive | `reached` | true-positive | `reports/raw/joern-java-modeling/dfb-taint-java-model-entrypoint-selectivity-positive.json` | `29bf63e6edc980bc1ad2963a0a5538eb8c428a4a39b004a49365327170608a73` |
+| `dfb-template-model-opaque-propagator` | `dfb-taint-java-model-opaque-propagator-negative` | negative | `unsupported` | unsupported | `reports/raw/joern-java-modeling/dfb-taint-java-model-opaque-propagator-negative-unsupported.json` | `ce70da5b6008aa801bc0f77287c1c931b062cde91ff6a9947f26fdeab99ff262` |
+| `dfb-template-model-opaque-propagator` | `dfb-taint-java-model-opaque-propagator-positive` | positive | `unsupported` | unsupported | `reports/raw/joern-java-modeling/dfb-taint-java-model-opaque-propagator-positive-unsupported.json` | `f5023463a89d92c4e83d9e955728f0ba185ce60d63bb0d4d6ad51fd11347ca23` |
+| `dfb-template-model-propagator-position` | `dfb-taint-java-model-propagator-position-negative` | negative | `unsupported` | unsupported | `reports/raw/joern-java-modeling/dfb-taint-java-model-propagator-position-negative-unsupported.json` | `e78e485a8eef326e4eb362fd6d16cc1fb71dbdffe7425627b5dea15366458696` |
+| `dfb-template-model-propagator-position` | `dfb-taint-java-model-propagator-position-positive` | positive | `unsupported` | unsupported | `reports/raw/joern-java-modeling/dfb-taint-java-model-propagator-position-positive-unsupported.json` | `885be3c852358d7a52a4ac0b6b9ca7680539a65d5ab4e8216b0b49b2a3768e92` |
+| `dfb-template-model-sanitizer-kill` | `dfb-taint-java-model-sanitizer-kill-negative` | negative | `not-reached` | true-negative | `reports/raw/joern-java-modeling/dfb-taint-java-model-sanitizer-kill-negative.json` | `8d42a4b1bdc7f2a090393dbcfa3db1740397dec7067821f819c2c84264af2a37` |
+| `dfb-template-model-sanitizer-kill` | `dfb-taint-java-model-sanitizer-kill-positive` | positive | `reached` | true-positive | `reports/raw/joern-java-modeling/dfb-taint-java-model-sanitizer-kill-positive.json` | `ef5f9a01766059b6dbcf55cfaed6bfe7177a139f1e597ef20fe5b525f47b3e78` |
+| `dfb-template-model-sanitizer-selectivity` | `dfb-taint-java-model-sanitizer-selectivity-negative` | negative | `not-reached` | true-negative | `reports/raw/joern-java-modeling/dfb-taint-java-model-sanitizer-selectivity-negative.json` | `03c26a9417b80ebe9fc0fa2e3f3848293798501408c4d3c496a484c085fe64ac` |
+| `dfb-template-model-sanitizer-selectivity` | `dfb-taint-java-model-sanitizer-selectivity-positive` | positive | `reached` | true-positive | `reports/raw/joern-java-modeling/dfb-taint-java-model-sanitizer-selectivity-positive.json` | `6e4259ab6fb02ada895d9030acbc3e2b5c15880acb9a7b0e367e09cf6eec87a7` |
+| `dfb-template-model-store-roundtrip` | `dfb-taint-java-model-store-roundtrip-negative` | negative | `not-reached` | true-negative | `reports/raw/joern-java-modeling/dfb-taint-java-model-store-roundtrip-negative.json` | `ef61e1008204358dd8f04b02967a59fbf1b501aa93e1e744e24108e82f6489e3` |
+| `dfb-template-model-store-roundtrip` | `dfb-taint-java-model-store-roundtrip-positive` | positive | `not-reached` | false-negative | `reports/raw/joern-java-modeling/dfb-taint-java-model-store-roundtrip-positive.json` | `cdaa826b4058896c205d9107157c2ceff2ecb6cd614f35da775f10477dd3a96c` |
+| `dfb-template-model-store-separation` | `dfb-taint-java-model-store-separation-negative` | negative | `not-reached` | true-negative | `reports/raw/joern-java-modeling/dfb-taint-java-model-store-separation-negative.json` | `bdd35a5f8e65b1d95ec7f9230e055b41739156af186418962dbcacf2f3f6163e` |
+| `dfb-template-model-store-separation` | `dfb-taint-java-model-store-separation-positive` | positive | `not-reached` | false-negative | `reports/raw/joern-java-modeling/dfb-taint-java-model-store-separation-positive.json` | `eb7b9f4d9b0b0dfcc5e4ff35fb69cdcba88c6a3e0eb11312e078384233f1cfad` |
+| `dfb-template-model-summary-field` | `dfb-taint-java-model-summary-field-negative` | negative | `unsupported` | unsupported | `reports/raw/joern-java-modeling/dfb-taint-java-model-summary-field-negative-unsupported.json` | `2b21d80ddcb536e54d48d3f5448057db956fa8908174548befd506a8f72c715d` |
+| `dfb-template-model-summary-field` | `dfb-taint-java-model-summary-field-positive` | positive | `unsupported` | unsupported | `reports/raw/joern-java-modeling/dfb-taint-java-model-summary-field-positive-unsupported.json` | `d8d930a908171ad5a70d1cf969f3f948ad255c2e1631659b4e4338cf8570b187` |
+| `dfb-template-model-summary-through` | `dfb-taint-java-model-summary-through-negative` | negative | `unsupported` | unsupported | `reports/raw/joern-java-modeling/dfb-taint-java-model-summary-through-negative-unsupported.json` | `63147611260f8635575a553f998f7a97d4d5ac0c005dae2a1b5df43902985efc` |
+| `dfb-template-model-summary-through` | `dfb-taint-java-model-summary-through-positive` | positive | `unsupported` | unsupported | `reports/raw/joern-java-modeling/dfb-taint-java-model-summary-through-positive-unsupported.json` | `b16567a52352ca25b130b07cf36964e99ba6a988eb207d4e48e6543452a4b6d9` |

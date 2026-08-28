@@ -1,10 +1,10 @@
 # Scorecard `bifrost-smoke-taint-taint-benchmark-controlled`
 
-Adapter `bifrost-smoke`: `bifrost` `bifrost 0.10.6` (build `18d09c57d1e5044dec49acac7635d3255ea8e89c`, adapter version `0.1.0`, configuration `2c5ababd371ee6b9f4f0596c570d2378aea79cc2e21c8a3e7e0eb0a195f63911`).
+Adapter `bifrost-smoke`: `bifrost` `bifrost 0.10.7` (build `44d9a5be416432bf8ed414afd3ea0031245ebb57`, adapter version `0.1.0`, configuration `2c5ababd371ee6b9f4f0596c570d2378aea79cc2e21c8a3e7e0eb0a195f63911`).
 
 Track `taint`, score dimension `taint`, model profile `benchmark-controlled`. This scorecard is a single result population; it is never pooled with other tracks, dimensions, or model profiles.
 
-Normalized report: `reports/bifrost-smoke.json` (`sha256:bfbd71c8ea921f71eacae6983ac45361edb0264be0ef4ded17cb17449dc880f9`, normalized `sha256:bfbd71c8ea921f71eacae6983ac45361edb0264be0ef4ded17cb17449dc880f9`). Generated from freeze manifest `reports/freeze.json` (`sha256:91b0008a546e6b782c1b790f174a71ce44e60039239797674eb49ebc6ac6c366`).
+Normalized report: `reports/bifrost-smoke.json` (`sha256:c78ed974f229ada333b621a9a325ebeca7f6aa774000482205b218e26190529c`, normalized `sha256:c78ed974f229ada333b621a9a325ebeca7f6aa774000482205b218e26190529c`). Generated from freeze manifest `reports/freeze.json` (`sha256:43a34341ca3f818f55878bb23562da03b8fc4b1fc0c83f47b954eb22ec3f41e4`).
 
 ## Language `c`, tier `core`
 
@@ -22,8 +22,8 @@ Macro-average over semantic dimensions: TPR 100.0%, FPR 0.0%. Macro-averages poo
 
 | Template | Case | Polarity | Outcome | Classification | Raw evidence | Raw SHA-256 |
 | --- | --- | --- | --- | --- | --- | --- |
-| `dfb-template-direct-propagation` | `dfb-taint-c-direct-negative` | negative | `not-reached` | true-negative | `reports/raw/bifrost/dfb-taint-c-direct-negative.json` | `a555e4280537e17bde18ce71076072314da1611f17d73e5d6e2ff202acc2c6cf` |
-| `dfb-template-direct-propagation` | `dfb-taint-c-direct-positive` | positive | `reached` | true-positive | `reports/raw/bifrost/dfb-taint-c-direct-positive.json` | `ac0ebd82b8ba267e3f2a6cf2ada7d6c88382ea60dcaef31312d0c22e9c75f3d6` |
+| `dfb-template-direct-propagation` | `dfb-taint-c-direct-negative` | negative | `not-reached` | true-negative | `reports/raw/bifrost/dfb-taint-c-direct-negative.json` | `7010e1a9bef6879eb33e99b04e29a35727328e0834a7831c53de10484c1f1905` |
+| `dfb-template-direct-propagation` | `dfb-taint-c-direct-positive` | positive | `reached` | true-positive | `reports/raw/bifrost/dfb-taint-c-direct-positive.json` | `0bd7f089f7f3f567329165ee0e1f6783b735703439456a3315e9f10625fea0fa` |
 
 ## Language `cpp`, tier `core`
 
@@ -41,8 +41,8 @@ Macro-average over semantic dimensions: TPR 100.0%, FPR 0.0%. Macro-averages poo
 
 | Template | Case | Polarity | Outcome | Classification | Raw evidence | Raw SHA-256 |
 | --- | --- | --- | --- | --- | --- | --- |
-| `dfb-template-direct-propagation` | `dfb-taint-cpp-direct-negative` | negative | `not-reached` | true-negative | `reports/raw/bifrost/dfb-taint-cpp-direct-negative.json` | `8d34d949aa0e16e426baea6f495c9af09ac54231704f36ea9f7d17aae5be6d86` |
-| `dfb-template-direct-propagation` | `dfb-taint-cpp-direct-positive` | positive | `reached` | true-positive | `reports/raw/bifrost/dfb-taint-cpp-direct-positive.json` | `6d8fdcb6759838796d497e52fa4f768259c19ddd0c1d48ac89f70fc1cd4751e7` |
+| `dfb-template-direct-propagation` | `dfb-taint-cpp-direct-negative` | negative | `not-reached` | true-negative | `reports/raw/bifrost/dfb-taint-cpp-direct-negative.json` | `86f8e77df11722860ece5a54603d1a3c0e4f63a54c931fc93294b8e3b7e820d9` |
+| `dfb-template-direct-propagation` | `dfb-taint-cpp-direct-positive` | positive | `reached` | true-positive | `reports/raw/bifrost/dfb-taint-cpp-direct-positive.json` | `2c81b6a77552b473fc61bd23a19fe1e8192b4fe7f5f7d65bf5b5d91125cb590b` |
 
 ## Language `csharp`, tier `core`
 
@@ -60,8 +60,8 @@ Macro-average over semantic dimensions: TPR 100.0%, FPR 0.0%. Macro-averages poo
 
 | Template | Case | Polarity | Outcome | Classification | Raw evidence | Raw SHA-256 |
 | --- | --- | --- | --- | --- | --- | --- |
-| `dfb-template-direct-propagation` | `dfb-taint-csharp-direct-negative` | negative | `not-reached` | true-negative | `reports/raw/bifrost/dfb-taint-csharp-direct-negative.json` | `af50e099c345b8c5c65e2b939248f1c03e76ecacc648f67a073c06df4a4e2b0c` |
-| `dfb-template-direct-propagation` | `dfb-taint-csharp-direct-positive` | positive | `reached` | true-positive | `reports/raw/bifrost/dfb-taint-csharp-direct-positive.json` | `c1e9aa842fdf6aec83aa071beab6137daf5317895fe374b82ec6dbcf5f5647ef` |
+| `dfb-template-direct-propagation` | `dfb-taint-csharp-direct-negative` | negative | `not-reached` | true-negative | `reports/raw/bifrost/dfb-taint-csharp-direct-negative.json` | `1ce2f82baa87018c363140c3511bdbc34c362780079b22a5c906521302a265f0` |
+| `dfb-template-direct-propagation` | `dfb-taint-csharp-direct-positive` | positive | `reached` | true-positive | `reports/raw/bifrost/dfb-taint-csharp-direct-positive.json` | `d87d97ffdf6dd8e0655bac49e925663ca0fd267ac561a2913ac2ba870cf7c9e3` |
 
 ## Language `go`, tier `core`
 
@@ -79,8 +79,8 @@ Macro-average over semantic dimensions: TPR 100.0%, FPR 0.0%. Macro-averages poo
 
 | Template | Case | Polarity | Outcome | Classification | Raw evidence | Raw SHA-256 |
 | --- | --- | --- | --- | --- | --- | --- |
-| `dfb-template-direct-propagation` | `dfb-taint-go-direct-negative` | negative | `not-reached` | true-negative | `reports/raw/bifrost/dfb-taint-go-direct-negative.json` | `3916b15965217e2e6871190d6360d2b08e3a4ba01676453b0c2c13c300fa5922` |
-| `dfb-template-direct-propagation` | `dfb-taint-go-direct-positive` | positive | `reached` | true-positive | `reports/raw/bifrost/dfb-taint-go-direct-positive.json` | `fd6c2c96387b1c1a8a439248ac8c21e4576905c604d8fcf1e2b72ac83216f8e8` |
+| `dfb-template-direct-propagation` | `dfb-taint-go-direct-negative` | negative | `not-reached` | true-negative | `reports/raw/bifrost/dfb-taint-go-direct-negative.json` | `3a60ec867d86eb12ee50e6cae2b49735d661cf4a2d8b7c4fc1ff7940df29f74d` |
+| `dfb-template-direct-propagation` | `dfb-taint-go-direct-positive` | positive | `reached` | true-positive | `reports/raw/bifrost/dfb-taint-go-direct-positive.json` | `ef6d44f3659d4c282fadc4bad0e9f79149d4d585e5aaf1fe104dea345fe1a53c` |
 
 ## Language `java`, tier `calibration`
 
@@ -93,7 +93,7 @@ Calibration cases exercise schemas and adapters; they do not contribute to a cor
 | Template | Case | Polarity | Outcome | Classification | Raw evidence | Raw SHA-256 |
 | --- | --- | --- | --- | --- | --- | --- |
 | `dfb-template-modeled-external-summary` | `dfb-taint-java-modeled-external` | positive | `unsupported` | unsupported | `reports/raw/bifrost/dfb-taint-java-modeled-external.json` | `01be675e06e4fa5eabdeb5725a1e06efa319ac6156f2e492cd1689c69e29caf0` |
-| `dfb-template-one-hop-relay` | `dfb-taint-java-one-hop-positive` | positive | `reached` | true-positive | `reports/raw/bifrost/dfb-taint-java-one-hop-positive.json` | `54a4611ff4a3ac3eaa0c8de6e6445c0ee5587461dba82232493016591a50cb8c` |
+| `dfb-template-one-hop-relay` | `dfb-taint-java-one-hop-positive` | positive | `reached` | true-positive | `reports/raw/bifrost/dfb-taint-java-one-hop-positive.json` | `92bb3fb35469c345effd491ba5c5d4cdf37871ffed7a022dab982fdf873d3c3e` |
 
 ## Language `java`, tier `core`
 
@@ -118,38 +118,38 @@ Macro-average over semantic dimensions: TPR 100.0%, FPR 0.0%. Macro-averages poo
 
 | Template | Case | Polarity | Outcome | Classification | Raw evidence | Raw SHA-256 |
 | --- | --- | --- | --- | --- | --- | --- |
-| `dfb-template-alias-propagation-separation` | `dfb-taint-java-alias-propagation-negative` | negative | `not-reached` | true-negative | `reports/raw/bifrost/dfb-taint-java-alias-propagation-negative.json` | `54c5e8094e2e56301fcdabf4a35fd8cf9d7c06ed2d0d4cf7e9dd0c69071599ea` |
-| `dfb-template-alias-propagation-separation` | `dfb-taint-java-alias-propagation-positive` | positive | `reached` | true-positive | `reports/raw/bifrost/dfb-taint-java-alias-propagation-positive.json` | `1dc55bfc416bc0a46824b4b130fb57af4f19fa0f391770673940c9daf0ec8ed5` |
-| `dfb-template-argument-position-separation` | `dfb-taint-java-argument-position-negative` | negative | `not-reached` | true-negative | `reports/raw/bifrost/dfb-taint-java-argument-position-negative.json` | `100db6329aeade4348a64f17849a8d67c42770cca8044ac6a25f3c758b52697c` |
-| `dfb-template-argument-position-separation` | `dfb-taint-java-argument-position-positive` | positive | `reached` | true-positive | `reports/raw/bifrost/dfb-taint-java-argument-position-positive.json` | `9eeadb4f4884d80a8f928a65401972c82ece521a604d39be16215cda0904d816` |
-| `dfb-template-arithmetic-expression-propagation` | `dfb-taint-java-expression-negative` | negative | `not-reached` | true-negative | `reports/raw/bifrost/dfb-taint-java-expression-negative.json` | `44eb6f153581542ee2d78888e823a4a226c0e6f85a44874ac3c064273898eb62` |
-| `dfb-template-arithmetic-expression-propagation` | `dfb-taint-java-expression-positive` | positive | `reached` | true-positive | `reports/raw/bifrost/dfb-taint-java-expression-positive.json` | `dfe71efebaa3824ebc84e4d5be60756a28377fad864cb6674d1c577d1bac8b98` |
-| `dfb-template-array-element-separation` | `dfb-taint-java-array-element-negative` | negative | `not-reached` | true-negative | `reports/raw/bifrost/dfb-taint-java-array-element-negative.json` | `46e61892f886a2e29234e677bc51e3582031de73c4d2d83fb2cd3955b4a9bfd6` |
-| `dfb-template-array-element-separation` | `dfb-taint-java-array-element-positive` | positive | `reached` | true-positive | `reports/raw/bifrost/dfb-taint-java-array-element-positive.json` | `badea3210aa911603335b4e105831d41287b491d2204aa6a64fbb7b1d7e7aa79` |
-| `dfb-template-branch-join` | `dfb-taint-java-branch-join-negative` | negative | `not-reached` | true-negative | `reports/raw/bifrost/dfb-taint-java-branch-join-negative.json` | `48b00981b82c01031f3c3eb52ae9860b0cfebc0e7930562825601c73b5e06f36` |
-| `dfb-template-branch-join` | `dfb-taint-java-branch-join-positive` | positive | `reached` | true-positive | `reports/raw/bifrost/dfb-taint-java-branch-join-positive.json` | `6f43cfcf9b7755a27d6abfd2f856e0c9be5bd3279e7c6bd793df983d5dfb4694` |
-| `dfb-template-call-context-separation` | `dfb-taint-java-call-context-negative` | negative | `not-reached` | true-negative | `reports/raw/bifrost/dfb-taint-java-call-context-negative.json` | `d17975ebf52cf76b7f5e114be7c7160602b6d5e0262e48ee94ea1752d810740e` |
-| `dfb-template-call-context-separation` | `dfb-taint-java-call-context-positive` | positive | `reached` | true-positive | `reports/raw/bifrost/dfb-taint-java-call-context-positive.json` | `f8ba08c4c3bd8e9e47a05b5561ef0f29b7d9fccb5872a163e1cd7f6868bb15ea` |
-| `dfb-template-direct-propagation` | `dfb-taint-java-direct-positive` | positive | `reached` | true-positive | `reports/raw/bifrost/dfb-taint-java-direct-positive.json` | `9aab1373b93c6bf6802e071fc16af0f4313ee043bfc4b2d721170643ec18618e` |
-| `dfb-template-direct-propagation` | `dfb-taint-java-explicit-negative` | negative | `not-reached` | true-negative | `reports/raw/bifrost/dfb-taint-java-explicit-negative.json` | `956f3c0fba96b599d4694dcbb00a5bc8584a4c841a492c1e157898df42999f2e` |
-| `dfb-template-exception-catch` | `dfb-taint-java-exception-catch-negative` | negative | `not-reached` | true-negative | `reports/raw/bifrost/dfb-taint-java-exception-catch-negative.json` | `878939011fbfc5e450b0be6cdffe582dd76036638437fdc137fac85cbc51a008` |
-| `dfb-template-exception-catch` | `dfb-taint-java-exception-catch-positive` | positive | `reached` | true-positive | `reports/raw/bifrost/dfb-taint-java-exception-catch-positive.json` | `e91e63626fe78040c6f0bab5968c9d38dbd70ec176441f8fc44d4de51b0b8ac9` |
-| `dfb-template-infeasible-branch` | `dfb-taint-java-infeasible-branch-negative` | negative | `not-reached` | true-negative | `reports/raw/bifrost/dfb-taint-java-infeasible-branch-negative.json` | `1eda74ac2d49ed5aeb2f0d06193bceb08e9aebf9e5af2289b9eb2f3ff69b2639` |
-| `dfb-template-infeasible-branch` | `dfb-taint-java-infeasible-branch-positive` | positive | `reached` | true-positive | `reports/raw/bifrost/dfb-taint-java-infeasible-branch-positive.json` | `5f8548253542176a75f8276c324e50a26d9037ab960cc6ebb464c781f7bf6133` |
-| `dfb-template-local-multi-step-chain` | `dfb-taint-java-local-chain-negative` | negative | `not-reached` | true-negative | `reports/raw/bifrost/dfb-taint-java-local-chain-negative.json` | `51ee1ec23290fc06ac206fd7281532019d0d954d68a9a0205efe8421e6e6bca2` |
-| `dfb-template-local-multi-step-chain` | `dfb-taint-java-local-chain-positive` | positive | `reached` | true-positive | `reports/raw/bifrost/dfb-taint-java-local-chain-positive.json` | `1ab571987629c8d785b411a34b03c4d589468523cb98a8977f3cd621eb995761` |
-| `dfb-template-local-overwrite-kill` | `dfb-taint-java-local-overwrite-negative` | negative | `not-reached` | true-negative | `reports/raw/bifrost/dfb-taint-java-local-overwrite-negative.json` | `a1b2f4c5ddafd34e67fd16c498505a5faf12438b2de1f31a475f5b498844bb13` |
-| `dfb-template-local-overwrite-kill` | `dfb-taint-java-local-overwrite-positive` | positive | `reached` | true-positive | `reports/raw/bifrost/dfb-taint-java-local-overwrite-positive.json` | `77d1c31aa33dc7103fc9fc5ac1389ee7de9c7c9c6b58cb6a3561a57aefa0c325` |
-| `dfb-template-loop-carried-kill` | `dfb-taint-java-loop-carried-negative` | negative | `not-reached` | true-negative | `reports/raw/bifrost/dfb-taint-java-loop-carried-negative.json` | `bd73cec5c08eee14854390007103b85bf7dac3d05fc6c5e7a860ab160dd3079e` |
-| `dfb-template-loop-carried-kill` | `dfb-taint-java-loop-carried-positive` | positive | `reached` | true-positive | `reports/raw/bifrost/dfb-taint-java-loop-carried-positive.json` | `afad6d2f71fa3ef3944e4c729fbd5f7110cf464ca6b038d776ec5ba60f9d2103` |
-| `dfb-template-object-separation` | `dfb-taint-java-object-separation-negative` | negative | `not-reached` | true-negative | `reports/raw/bifrost/dfb-taint-java-object-separation-negative.json` | `8c675385c3e6e3673bed59d9045205aec7c6f68a2b5beb9e75e4f5a72bf31698` |
-| `dfb-template-object-separation` | `dfb-taint-java-object-separation-positive` | positive | `reached` | true-positive | `reports/raw/bifrost/dfb-taint-java-object-separation-positive.json` | `ee878f25e2f8b89c029632cbc029f306160141fff1b3e8baf5504ea852339f59` |
-| `dfb-template-return-relay-one-hop` | `dfb-taint-java-return-relay-one-hop-negative` | negative | `not-reached` | true-negative | `reports/raw/bifrost/dfb-taint-java-return-relay-one-hop-negative.json` | `0235257f0480b32503884d642c14d5edea921311c8119c3c346398c32e6d1136` |
-| `dfb-template-return-relay-one-hop` | `dfb-taint-java-return-relay-one-hop-positive` | positive | `reached` | true-positive | `reports/raw/bifrost/dfb-taint-java-return-relay-one-hop-positive.json` | `4ff899211b1a35d3b269fd551f4b8d1a370944445e68d286458f3597e45ee48b` |
-| `dfb-template-return-relay-two-hop` | `dfb-taint-java-return-relay-two-hop-negative` | negative | `not-reached` | true-negative | `reports/raw/bifrost/dfb-taint-java-return-relay-two-hop-negative.json` | `5a2d16f0ac904025f75dcf1a81b5926cefa1b062d02f5341872be52ac67a1f86` |
-| `dfb-template-return-relay-two-hop` | `dfb-taint-java-return-relay-two-hop-positive` | positive | `reached` | true-positive | `reports/raw/bifrost/dfb-taint-java-return-relay-two-hop-positive.json` | `fdf8bb9e3cf75e53b5b62344c0038e7e3e6caf6c1eb4003a4204b9107d9d01ac` |
-| `dfb-template-same-object-field-separation` | `dfb-taint-java-same-object-field-negative` | negative | `not-reached` | true-negative | `reports/raw/bifrost/dfb-taint-java-same-object-field-negative.json` | `42e800fefc23211fd68378b5095fa07165bfde91dafea1e5f752148ebcdf18ab` |
-| `dfb-template-same-object-field-separation` | `dfb-taint-java-same-object-field-positive` | positive | `reached` | true-positive | `reports/raw/bifrost/dfb-taint-java-same-object-field-positive.json` | `de3fd1f3f5479e1e355a44fc7dbb68f981457ddc1a6a0a0a2305935ca3df9332` |
+| `dfb-template-alias-propagation-separation` | `dfb-taint-java-alias-propagation-negative` | negative | `not-reached` | true-negative | `reports/raw/bifrost/dfb-taint-java-alias-propagation-negative.json` | `0fefec0db035775155b42ee33ab4eaa21efdebd19f2d5d2107336e8c5c8ffde6` |
+| `dfb-template-alias-propagation-separation` | `dfb-taint-java-alias-propagation-positive` | positive | `reached` | true-positive | `reports/raw/bifrost/dfb-taint-java-alias-propagation-positive.json` | `29339f76208bb45b2b30a2d6d4597d4ff0a013eb6a95d874ac970fd48ac25c35` |
+| `dfb-template-argument-position-separation` | `dfb-taint-java-argument-position-negative` | negative | `not-reached` | true-negative | `reports/raw/bifrost/dfb-taint-java-argument-position-negative.json` | `b7e00800aee0337dd6fee861fe06984b6300203e52c1a56e124efbe8b9e7977b` |
+| `dfb-template-argument-position-separation` | `dfb-taint-java-argument-position-positive` | positive | `reached` | true-positive | `reports/raw/bifrost/dfb-taint-java-argument-position-positive.json` | `6a239fbd53d94c253945827e8aec3237c506c17eb837a17a4d4179edd91eb264` |
+| `dfb-template-arithmetic-expression-propagation` | `dfb-taint-java-expression-negative` | negative | `not-reached` | true-negative | `reports/raw/bifrost/dfb-taint-java-expression-negative.json` | `9dd934c63fcc839c4dcd6461b8ec5dfae242970e45639a7375eb8f22fcef49e0` |
+| `dfb-template-arithmetic-expression-propagation` | `dfb-taint-java-expression-positive` | positive | `reached` | true-positive | `reports/raw/bifrost/dfb-taint-java-expression-positive.json` | `9a3078de8236443ae62c7cd318f31d07f1dfa8c2c817db1014701eff3cd0281b` |
+| `dfb-template-array-element-separation` | `dfb-taint-java-array-element-negative` | negative | `not-reached` | true-negative | `reports/raw/bifrost/dfb-taint-java-array-element-negative.json` | `467751c73f0a5b1982986810bcae824d4f15fe90eea7e40f7f39024bd96c7e65` |
+| `dfb-template-array-element-separation` | `dfb-taint-java-array-element-positive` | positive | `reached` | true-positive | `reports/raw/bifrost/dfb-taint-java-array-element-positive.json` | `f7f18e22cc2ecc78ef53c71cf3a6c575e6817e66c4170e80623f51198ad3cd0e` |
+| `dfb-template-branch-join` | `dfb-taint-java-branch-join-negative` | negative | `not-reached` | true-negative | `reports/raw/bifrost/dfb-taint-java-branch-join-negative.json` | `7daf2b69f1a056ec843486277fa982d34c545d77d2931f943508db9704f481e8` |
+| `dfb-template-branch-join` | `dfb-taint-java-branch-join-positive` | positive | `reached` | true-positive | `reports/raw/bifrost/dfb-taint-java-branch-join-positive.json` | `1210afac5c20f14f2399b60710ef2051a838220515587f97d56873441a9e86c7` |
+| `dfb-template-call-context-separation` | `dfb-taint-java-call-context-negative` | negative | `not-reached` | true-negative | `reports/raw/bifrost/dfb-taint-java-call-context-negative.json` | `6fec2058b4a586cab094635cd738db001b7e022c0215f207e40c6cfad1b2e3d0` |
+| `dfb-template-call-context-separation` | `dfb-taint-java-call-context-positive` | positive | `reached` | true-positive | `reports/raw/bifrost/dfb-taint-java-call-context-positive.json` | `41b419e7832667206c615adf0d17b885d2ce607f07afbc687ce36378c845646c` |
+| `dfb-template-direct-propagation` | `dfb-taint-java-direct-positive` | positive | `reached` | true-positive | `reports/raw/bifrost/dfb-taint-java-direct-positive.json` | `afba29a14f2f51b7ac0ebcb168995bd75d8b5ec756667b657ee4280dc8c31477` |
+| `dfb-template-direct-propagation` | `dfb-taint-java-explicit-negative` | negative | `not-reached` | true-negative | `reports/raw/bifrost/dfb-taint-java-explicit-negative.json` | `5899688ecfaa214e0c9f0a123e2bd845efea664490444e3e0d795a211d0df2f8` |
+| `dfb-template-exception-catch` | `dfb-taint-java-exception-catch-negative` | negative | `not-reached` | true-negative | `reports/raw/bifrost/dfb-taint-java-exception-catch-negative.json` | `9a2c5a865acceef1f6b8461a8190f52f65e3929e150224152f58ef75740c5247` |
+| `dfb-template-exception-catch` | `dfb-taint-java-exception-catch-positive` | positive | `reached` | true-positive | `reports/raw/bifrost/dfb-taint-java-exception-catch-positive.json` | `363c464f7b679b6e21a8624851685075f950b72476fe89cdf9d12c4ad61f30c3` |
+| `dfb-template-infeasible-branch` | `dfb-taint-java-infeasible-branch-negative` | negative | `not-reached` | true-negative | `reports/raw/bifrost/dfb-taint-java-infeasible-branch-negative.json` | `2c649027b429db7bdbe4260630304de33f5e3c612e2fceaf3c705c92f1b8b6e4` |
+| `dfb-template-infeasible-branch` | `dfb-taint-java-infeasible-branch-positive` | positive | `reached` | true-positive | `reports/raw/bifrost/dfb-taint-java-infeasible-branch-positive.json` | `c52ac75f9f0011ca49a566b73bcbb2bec4a212348faf2ea0f3dac7e2a7716d5a` |
+| `dfb-template-local-multi-step-chain` | `dfb-taint-java-local-chain-negative` | negative | `not-reached` | true-negative | `reports/raw/bifrost/dfb-taint-java-local-chain-negative.json` | `ab836d60d60b8ff35065fa0f35a1af3a29e1f390f92b5e5e8f55a012e06af269` |
+| `dfb-template-local-multi-step-chain` | `dfb-taint-java-local-chain-positive` | positive | `reached` | true-positive | `reports/raw/bifrost/dfb-taint-java-local-chain-positive.json` | `11f58bda3104aa03094b491a8d30acafe7da3811a2b2e783cdaa296eb0e51d9c` |
+| `dfb-template-local-overwrite-kill` | `dfb-taint-java-local-overwrite-negative` | negative | `not-reached` | true-negative | `reports/raw/bifrost/dfb-taint-java-local-overwrite-negative.json` | `4ef7291fba636b6216270983e818a8c342f66a65a4c18e9851ad7666e0f51c66` |
+| `dfb-template-local-overwrite-kill` | `dfb-taint-java-local-overwrite-positive` | positive | `reached` | true-positive | `reports/raw/bifrost/dfb-taint-java-local-overwrite-positive.json` | `103a1c04cda2447b210ff9f8b6646bf9eca95b8b95b379e9bd3d41f8fec2151e` |
+| `dfb-template-loop-carried-kill` | `dfb-taint-java-loop-carried-negative` | negative | `not-reached` | true-negative | `reports/raw/bifrost/dfb-taint-java-loop-carried-negative.json` | `b639e2a93e30c06235f9922b641a37303e53cf1b8da9a3d8969f5c51f6d3f489` |
+| `dfb-template-loop-carried-kill` | `dfb-taint-java-loop-carried-positive` | positive | `reached` | true-positive | `reports/raw/bifrost/dfb-taint-java-loop-carried-positive.json` | `9ac264b2c4d5af3937937ad0a1e9f835e7d315dfa4628ffeeb94c09e9ad941f2` |
+| `dfb-template-object-separation` | `dfb-taint-java-object-separation-negative` | negative | `not-reached` | true-negative | `reports/raw/bifrost/dfb-taint-java-object-separation-negative.json` | `48817b840d096c1f9feb9244038303108e32d3d1aeb6e15f2d7b0437715e3ff8` |
+| `dfb-template-object-separation` | `dfb-taint-java-object-separation-positive` | positive | `reached` | true-positive | `reports/raw/bifrost/dfb-taint-java-object-separation-positive.json` | `58e3c08f884c88b6ed2ac08b03b0c55ec2651ca2293a308f0afc52687975b20f` |
+| `dfb-template-return-relay-one-hop` | `dfb-taint-java-return-relay-one-hop-negative` | negative | `not-reached` | true-negative | `reports/raw/bifrost/dfb-taint-java-return-relay-one-hop-negative.json` | `619dc96fc8cc331eef75b8c5178f5fa7b125d8698a6ae57c0cf0386c7d766d7f` |
+| `dfb-template-return-relay-one-hop` | `dfb-taint-java-return-relay-one-hop-positive` | positive | `reached` | true-positive | `reports/raw/bifrost/dfb-taint-java-return-relay-one-hop-positive.json` | `628f34f971a26449f234e9db5235e91741a84b7c577330b88ec97fe46107caa6` |
+| `dfb-template-return-relay-two-hop` | `dfb-taint-java-return-relay-two-hop-negative` | negative | `not-reached` | true-negative | `reports/raw/bifrost/dfb-taint-java-return-relay-two-hop-negative.json` | `cad6d57fa51d95659bb4b0ba731799b2ab951bf1739be4f4aa032d218fc5fe63` |
+| `dfb-template-return-relay-two-hop` | `dfb-taint-java-return-relay-two-hop-positive` | positive | `reached` | true-positive | `reports/raw/bifrost/dfb-taint-java-return-relay-two-hop-positive.json` | `dde8d187673a8e5c5b2fd204661c1a4afe89e0835d27581226d2ec459f05ce02` |
+| `dfb-template-same-object-field-separation` | `dfb-taint-java-same-object-field-negative` | negative | `not-reached` | true-negative | `reports/raw/bifrost/dfb-taint-java-same-object-field-negative.json` | `a4b0371fc638d7106507b4635a73fa7dbc872c302460ecae0025366f7a82366b` |
+| `dfb-template-same-object-field-separation` | `dfb-taint-java-same-object-field-positive` | positive | `reached` | true-positive | `reports/raw/bifrost/dfb-taint-java-same-object-field-positive.json` | `792ada8e0dc0de2876631fa430a2b40d33b7db49ccbb4963b91bf4a76d66d8e4` |
 
 ## Language `javascript`, tier `core`
 
@@ -174,38 +174,38 @@ Macro-average over semantic dimensions: TPR 100.0%, FPR 0.0%. Macro-averages poo
 
 | Template | Case | Polarity | Outcome | Classification | Raw evidence | Raw SHA-256 |
 | --- | --- | --- | --- | --- | --- | --- |
-| `dfb-template-alias-propagation-separation` | `dfb-taint-javascript-alias-propagation-negative` | negative | `not-reached` | true-negative | `reports/raw/bifrost/dfb-taint-javascript-alias-propagation-negative.json` | `12a14f02fe687071bfdf45e8f86c801d97893f2f368e7fee62a78662baaf6058` |
-| `dfb-template-alias-propagation-separation` | `dfb-taint-javascript-alias-propagation-positive` | positive | `reached` | true-positive | `reports/raw/bifrost/dfb-taint-javascript-alias-propagation-positive.json` | `3cbeab17f2f2865d704e0c3ca1121ac56dcae830af44efb0c4af5974b77723ed` |
-| `dfb-template-argument-position-separation` | `dfb-taint-javascript-argument-position-negative` | negative | `not-reached` | true-negative | `reports/raw/bifrost/dfb-taint-javascript-argument-position-negative.json` | `207933cd4ab00b500aeb71d95bfb3183533491bebffa591e390cdcf8284d67b1` |
-| `dfb-template-argument-position-separation` | `dfb-taint-javascript-argument-position-positive` | positive | `reached` | true-positive | `reports/raw/bifrost/dfb-taint-javascript-argument-position-positive.json` | `7616c9da7360673879f5f0d754d1dfad2e6e6aff22dcbd048bb33070d548dcfa` |
-| `dfb-template-arithmetic-expression-propagation` | `dfb-taint-javascript-expression-negative` | negative | `not-reached` | true-negative | `reports/raw/bifrost/dfb-taint-javascript-expression-negative.json` | `20b8247479dd80ee5b9ad320110d7f51478e3a5ca85df92ec289b2e8fe33aa4a` |
-| `dfb-template-arithmetic-expression-propagation` | `dfb-taint-javascript-expression-positive` | positive | `reached` | true-positive | `reports/raw/bifrost/dfb-taint-javascript-expression-positive.json` | `abce7d8f570ece8ea9f44418da1d453fbd825b785124e9493ad112b89a0165ce` |
-| `dfb-template-array-element-separation` | `dfb-taint-javascript-array-element-negative` | negative | `not-reached` | true-negative | `reports/raw/bifrost/dfb-taint-javascript-array-element-negative.json` | `e9c4e4fb78d5732d377788b99d2682619b7298062be05c48d35e848ed7e1efea` |
-| `dfb-template-array-element-separation` | `dfb-taint-javascript-array-element-positive` | positive | `reached` | true-positive | `reports/raw/bifrost/dfb-taint-javascript-array-element-positive.json` | `605ce56ff6e221e4e017dddfcf8de0e066419b603233e07cb0bd338f7dc6d5fd` |
-| `dfb-template-branch-join` | `dfb-taint-javascript-branch-join-negative` | negative | `not-reached` | true-negative | `reports/raw/bifrost/dfb-taint-javascript-branch-join-negative.json` | `8aeaf74094e07700a623a3e19ee802a5be63ab4bd45dd9e693293e88c655d0c7` |
-| `dfb-template-branch-join` | `dfb-taint-javascript-branch-join-positive` | positive | `reached` | true-positive | `reports/raw/bifrost/dfb-taint-javascript-branch-join-positive.json` | `45f3aae564114d25171e0a543fa40e499a02776ccd13563698acca66c4f37289` |
-| `dfb-template-call-context-separation` | `dfb-taint-javascript-call-context-negative` | negative | `not-reached` | true-negative | `reports/raw/bifrost/dfb-taint-javascript-call-context-negative.json` | `f1331b6a6b1db80a46a75726df8334139515ce0d478e6e3692b75e1889f39063` |
-| `dfb-template-call-context-separation` | `dfb-taint-javascript-call-context-positive` | positive | `reached` | true-positive | `reports/raw/bifrost/dfb-taint-javascript-call-context-positive.json` | `992b1062a7e8bb684f93a8a16fab1c700227dd712ede94c7cb67a55c2505add8` |
-| `dfb-template-direct-propagation` | `dfb-taint-javascript-direct-negative` | negative | `not-reached` | true-negative | `reports/raw/bifrost/dfb-taint-javascript-direct-negative.json` | `5832c7044ee6614f998a0580171964dbefd693e536f340a2d839c3b99276af10` |
-| `dfb-template-direct-propagation` | `dfb-taint-javascript-direct-positive` | positive | `reached` | true-positive | `reports/raw/bifrost/dfb-taint-javascript-direct-positive.json` | `5df67d0415a8e4fbf3b8b3fc285376b3dfb26ec56656a4ea1d8de03154e0333b` |
-| `dfb-template-exception-catch` | `dfb-taint-javascript-exception-catch-negative` | negative | `not-reached` | true-negative | `reports/raw/bifrost/dfb-taint-javascript-exception-catch-negative.json` | `f4bf8a0e50ae4c39fc542a6e8e4a136f031b43fca3f032970269769c55f3b606` |
-| `dfb-template-exception-catch` | `dfb-taint-javascript-exception-catch-positive` | positive | `reached` | true-positive | `reports/raw/bifrost/dfb-taint-javascript-exception-catch-positive.json` | `e621c94f9879f6e401bdfe51bc1a50cc8123ac3029dd296934c30642af31bfe8` |
-| `dfb-template-infeasible-branch` | `dfb-taint-javascript-infeasible-branch-negative` | negative | `not-reached` | true-negative | `reports/raw/bifrost/dfb-taint-javascript-infeasible-branch-negative.json` | `1b1f511dab703e9e885ce35489634e05da156b370e3f87890328180c1d36d26f` |
-| `dfb-template-infeasible-branch` | `dfb-taint-javascript-infeasible-branch-positive` | positive | `reached` | true-positive | `reports/raw/bifrost/dfb-taint-javascript-infeasible-branch-positive.json` | `28a0a3da034c32126a3fbf1b6adeb47f3bb0577edbfbccb04e8928be888a4cb0` |
-| `dfb-template-local-multi-step-chain` | `dfb-taint-javascript-local-chain-negative` | negative | `not-reached` | true-negative | `reports/raw/bifrost/dfb-taint-javascript-local-chain-negative.json` | `8c617f07de4e93db6c7ec709efc94c1e0f15ed08cf6ee63d607bc1f701f2e905` |
-| `dfb-template-local-multi-step-chain` | `dfb-taint-javascript-local-chain-positive` | positive | `reached` | true-positive | `reports/raw/bifrost/dfb-taint-javascript-local-chain-positive.json` | `a637028d67ab69a24da1ee649f556cdf26cdeae906bf8b26a0e7b73d5d8170e6` |
-| `dfb-template-local-overwrite-kill` | `dfb-taint-javascript-local-overwrite-negative` | negative | `not-reached` | true-negative | `reports/raw/bifrost/dfb-taint-javascript-local-overwrite-negative.json` | `69c97ff0c51dd705d2d6d73398db139fd4babc20cfee225a81e2d346813632b6` |
-| `dfb-template-local-overwrite-kill` | `dfb-taint-javascript-local-overwrite-positive` | positive | `reached` | true-positive | `reports/raw/bifrost/dfb-taint-javascript-local-overwrite-positive.json` | `fb06c140f16c80b18aa0fee488013fd63f3d924a4a106cc6b34fe37ce299fed3` |
-| `dfb-template-loop-carried-kill` | `dfb-taint-javascript-loop-carried-negative` | negative | `not-reached` | true-negative | `reports/raw/bifrost/dfb-taint-javascript-loop-carried-negative.json` | `1ab45567d4974ee952fea7b17d617ef9d3ba7f480a6b41aba0a41af19a778227` |
-| `dfb-template-loop-carried-kill` | `dfb-taint-javascript-loop-carried-positive` | positive | `reached` | true-positive | `reports/raw/bifrost/dfb-taint-javascript-loop-carried-positive.json` | `24a7b51478c1467c4fb01d5ad7d74edf22f6362a08a0d9448682f7f3e83ddd7d` |
-| `dfb-template-object-separation` | `dfb-taint-javascript-object-separation-negative` | negative | `not-reached` | true-negative | `reports/raw/bifrost/dfb-taint-javascript-object-separation-negative.json` | `7357a03e3c58f320197525893b23940109796146d0598e116e35160e5bc54289` |
-| `dfb-template-object-separation` | `dfb-taint-javascript-object-separation-positive` | positive | `reached` | true-positive | `reports/raw/bifrost/dfb-taint-javascript-object-separation-positive.json` | `ee7f4e1c30287a2785631988050638b5d399755e654b285bc29464de5d72d2b6` |
-| `dfb-template-return-relay-one-hop` | `dfb-taint-javascript-return-relay-one-hop-negative` | negative | `not-reached` | true-negative | `reports/raw/bifrost/dfb-taint-javascript-return-relay-one-hop-negative.json` | `7dad31205f30cde4c99599f3def07e183f92fb9163807ce4933c85d01982c7fb` |
-| `dfb-template-return-relay-one-hop` | `dfb-taint-javascript-return-relay-one-hop-positive` | positive | `reached` | true-positive | `reports/raw/bifrost/dfb-taint-javascript-return-relay-one-hop-positive.json` | `d6f033b6b13f9c044fea622f73fc39759c46bf83863494c6e0fb1e9d4cc86357` |
-| `dfb-template-return-relay-two-hop` | `dfb-taint-javascript-return-relay-two-hop-negative` | negative | `not-reached` | true-negative | `reports/raw/bifrost/dfb-taint-javascript-return-relay-two-hop-negative.json` | `54adf2bde480163d7566a881205b509429c1a3a4bbef602c56d25f4d43037ac3` |
-| `dfb-template-return-relay-two-hop` | `dfb-taint-javascript-return-relay-two-hop-positive` | positive | `reached` | true-positive | `reports/raw/bifrost/dfb-taint-javascript-return-relay-two-hop-positive.json` | `44de871618f00f6e42891026f25b287b1a6e3114933a0e77556d5d3bf34db423` |
-| `dfb-template-same-object-field-separation` | `dfb-taint-javascript-same-object-field-negative` | negative | `not-reached` | true-negative | `reports/raw/bifrost/dfb-taint-javascript-same-object-field-negative.json` | `e00a25ce31d884795fbb3cbe45ae7d46cc34bff8f2fda3ef063de646a2d4e67e` |
-| `dfb-template-same-object-field-separation` | `dfb-taint-javascript-same-object-field-positive` | positive | `reached` | true-positive | `reports/raw/bifrost/dfb-taint-javascript-same-object-field-positive.json` | `8c59f8f37fb8aba923f277fd67717e2a9d11465670b3567052877773d7f0b03c` |
+| `dfb-template-alias-propagation-separation` | `dfb-taint-javascript-alias-propagation-negative` | negative | `not-reached` | true-negative | `reports/raw/bifrost/dfb-taint-javascript-alias-propagation-negative.json` | `04e78237eebe393fcbd4b528dc6ffe6bc8e26f2e01aca3f4f79f338f1b31b5e0` |
+| `dfb-template-alias-propagation-separation` | `dfb-taint-javascript-alias-propagation-positive` | positive | `reached` | true-positive | `reports/raw/bifrost/dfb-taint-javascript-alias-propagation-positive.json` | `710ce055bc48ca614e254df82905669ff96d309927f006580afc729873324e6f` |
+| `dfb-template-argument-position-separation` | `dfb-taint-javascript-argument-position-negative` | negative | `not-reached` | true-negative | `reports/raw/bifrost/dfb-taint-javascript-argument-position-negative.json` | `48ec8d5c5da729e8664232432e42a6e0018617c289cfef1b9f48b320626518b4` |
+| `dfb-template-argument-position-separation` | `dfb-taint-javascript-argument-position-positive` | positive | `reached` | true-positive | `reports/raw/bifrost/dfb-taint-javascript-argument-position-positive.json` | `e3ffb0369ea37e237b07dceeaf25b6b065ed467e4883f8cae5ad83719c6af038` |
+| `dfb-template-arithmetic-expression-propagation` | `dfb-taint-javascript-expression-negative` | negative | `not-reached` | true-negative | `reports/raw/bifrost/dfb-taint-javascript-expression-negative.json` | `855c1083e557386b949b166de5fac1b22133ad5378d1df521ac62bfa9e6fd0f6` |
+| `dfb-template-arithmetic-expression-propagation` | `dfb-taint-javascript-expression-positive` | positive | `reached` | true-positive | `reports/raw/bifrost/dfb-taint-javascript-expression-positive.json` | `99b18f6f961551dc9d19d9b6a19eb9d535b19222ec5f3cd1438d7b6195ad80b2` |
+| `dfb-template-array-element-separation` | `dfb-taint-javascript-array-element-negative` | negative | `not-reached` | true-negative | `reports/raw/bifrost/dfb-taint-javascript-array-element-negative.json` | `fb91a25ea051eccec7658af86aa75217777a22ad355a4aa1f505ab52804fa4c3` |
+| `dfb-template-array-element-separation` | `dfb-taint-javascript-array-element-positive` | positive | `reached` | true-positive | `reports/raw/bifrost/dfb-taint-javascript-array-element-positive.json` | `e6db7498d5a1284e529bcc05c8fd3f2fd940cf7219b324cf65f2e7c6eb06678b` |
+| `dfb-template-branch-join` | `dfb-taint-javascript-branch-join-negative` | negative | `not-reached` | true-negative | `reports/raw/bifrost/dfb-taint-javascript-branch-join-negative.json` | `ee6a5daed1b8200facfddd98ecd3ccda95b21009226e10ab871d0c7d7f53aff2` |
+| `dfb-template-branch-join` | `dfb-taint-javascript-branch-join-positive` | positive | `reached` | true-positive | `reports/raw/bifrost/dfb-taint-javascript-branch-join-positive.json` | `6c426e5438dee1f58a26d9c3dfed114ff03d6bcef4254e7c3adf5ebd260417f7` |
+| `dfb-template-call-context-separation` | `dfb-taint-javascript-call-context-negative` | negative | `not-reached` | true-negative | `reports/raw/bifrost/dfb-taint-javascript-call-context-negative.json` | `c8f2490d175841ba19098e274c61bf8b73cdd56e7a689a99994f3c0cc02d4f8c` |
+| `dfb-template-call-context-separation` | `dfb-taint-javascript-call-context-positive` | positive | `reached` | true-positive | `reports/raw/bifrost/dfb-taint-javascript-call-context-positive.json` | `1a3118ddb5e07ce20e502e6d8f74c0f2bdc92fcce94d254819eb4fc7a37d6c9e` |
+| `dfb-template-direct-propagation` | `dfb-taint-javascript-direct-negative` | negative | `not-reached` | true-negative | `reports/raw/bifrost/dfb-taint-javascript-direct-negative.json` | `5aa8b5c27de74737132a840020256bb1ddd2339e393fea7c82980fb30983fd50` |
+| `dfb-template-direct-propagation` | `dfb-taint-javascript-direct-positive` | positive | `reached` | true-positive | `reports/raw/bifrost/dfb-taint-javascript-direct-positive.json` | `70e13af371aec23b2262187140e81cda3b27d9ce4f7e123cd0c2dcb3c2152ac2` |
+| `dfb-template-exception-catch` | `dfb-taint-javascript-exception-catch-negative` | negative | `not-reached` | true-negative | `reports/raw/bifrost/dfb-taint-javascript-exception-catch-negative.json` | `12f1db6fdef3e2e91c923baca2a5f49e8118d223759bebadc62bddb4c803d77a` |
+| `dfb-template-exception-catch` | `dfb-taint-javascript-exception-catch-positive` | positive | `reached` | true-positive | `reports/raw/bifrost/dfb-taint-javascript-exception-catch-positive.json` | `cb4059aaca9d832750a6812af45fbb2ae2f6ddd86db3ce361dc1cca68da203a3` |
+| `dfb-template-infeasible-branch` | `dfb-taint-javascript-infeasible-branch-negative` | negative | `not-reached` | true-negative | `reports/raw/bifrost/dfb-taint-javascript-infeasible-branch-negative.json` | `ae4d5454a705fb99bd2155e2b3d67ab208744b3aba2c4caeb800d980ba3289b5` |
+| `dfb-template-infeasible-branch` | `dfb-taint-javascript-infeasible-branch-positive` | positive | `reached` | true-positive | `reports/raw/bifrost/dfb-taint-javascript-infeasible-branch-positive.json` | `3adc7f8740ae6c049dfd4cc9dcf88a959735d634f08bbe9d914161b714ea9940` |
+| `dfb-template-local-multi-step-chain` | `dfb-taint-javascript-local-chain-negative` | negative | `not-reached` | true-negative | `reports/raw/bifrost/dfb-taint-javascript-local-chain-negative.json` | `7eea6218105e1db97e86b7c25040158fb4fa3bd5521683a1f629f5b682806293` |
+| `dfb-template-local-multi-step-chain` | `dfb-taint-javascript-local-chain-positive` | positive | `reached` | true-positive | `reports/raw/bifrost/dfb-taint-javascript-local-chain-positive.json` | `81c64339a1b1c8c948fa0ffef1a14e52da235220ec3f1d30a5fc922524f28405` |
+| `dfb-template-local-overwrite-kill` | `dfb-taint-javascript-local-overwrite-negative` | negative | `not-reached` | true-negative | `reports/raw/bifrost/dfb-taint-javascript-local-overwrite-negative.json` | `2f777a73e2ab09a0d7287eca2d33eddf9ff6d38bd28443221b6c0a08d23145b8` |
+| `dfb-template-local-overwrite-kill` | `dfb-taint-javascript-local-overwrite-positive` | positive | `reached` | true-positive | `reports/raw/bifrost/dfb-taint-javascript-local-overwrite-positive.json` | `c58464fc7334288547d24c5efd8cf17e086724b73b1a103ca464afa0bffd8c55` |
+| `dfb-template-loop-carried-kill` | `dfb-taint-javascript-loop-carried-negative` | negative | `not-reached` | true-negative | `reports/raw/bifrost/dfb-taint-javascript-loop-carried-negative.json` | `fe0d35fdd15c0cdbeaa475f620141499eb9f2c489b0a4ae14c7ea0160f8ce7cb` |
+| `dfb-template-loop-carried-kill` | `dfb-taint-javascript-loop-carried-positive` | positive | `reached` | true-positive | `reports/raw/bifrost/dfb-taint-javascript-loop-carried-positive.json` | `3918341da26d04bb693c702afe548930a4902d31666dadce337ed62e4432bdd4` |
+| `dfb-template-object-separation` | `dfb-taint-javascript-object-separation-negative` | negative | `not-reached` | true-negative | `reports/raw/bifrost/dfb-taint-javascript-object-separation-negative.json` | `df569254ee80cf3e9021a0826c62a1e70a6fa7db8b3f99563d42bff7be5c8c4e` |
+| `dfb-template-object-separation` | `dfb-taint-javascript-object-separation-positive` | positive | `reached` | true-positive | `reports/raw/bifrost/dfb-taint-javascript-object-separation-positive.json` | `d545cc2e3f95802bf35cec68fa20c2a5685998d048cd060e9b6e5220f7e52cdc` |
+| `dfb-template-return-relay-one-hop` | `dfb-taint-javascript-return-relay-one-hop-negative` | negative | `not-reached` | true-negative | `reports/raw/bifrost/dfb-taint-javascript-return-relay-one-hop-negative.json` | `7a8440b710e739c51af9cd9ad1b3d4eab2b8658afb4130367f7c928374d2ad4d` |
+| `dfb-template-return-relay-one-hop` | `dfb-taint-javascript-return-relay-one-hop-positive` | positive | `reached` | true-positive | `reports/raw/bifrost/dfb-taint-javascript-return-relay-one-hop-positive.json` | `5251c6e7c2708c38951dd152c4e3f8b38b6a2d1db15fb4f9ce29bc175ab3c688` |
+| `dfb-template-return-relay-two-hop` | `dfb-taint-javascript-return-relay-two-hop-negative` | negative | `not-reached` | true-negative | `reports/raw/bifrost/dfb-taint-javascript-return-relay-two-hop-negative.json` | `fd380878b1a443bd5975b530f8173b6bab20e15770bec1f21abefb93ef5dde28` |
+| `dfb-template-return-relay-two-hop` | `dfb-taint-javascript-return-relay-two-hop-positive` | positive | `reached` | true-positive | `reports/raw/bifrost/dfb-taint-javascript-return-relay-two-hop-positive.json` | `b0698058811a068c497b593ff1866b313c833fe6d5c3d7bd72bd675b61248abe` |
+| `dfb-template-same-object-field-separation` | `dfb-taint-javascript-same-object-field-negative` | negative | `not-reached` | true-negative | `reports/raw/bifrost/dfb-taint-javascript-same-object-field-negative.json` | `a2fc71039df4f8d689f37843ae629f2f2b2d5fcd482b0dc3546bb1b67c75a481` |
+| `dfb-template-same-object-field-separation` | `dfb-taint-javascript-same-object-field-positive` | positive | `reached` | true-positive | `reports/raw/bifrost/dfb-taint-javascript-same-object-field-positive.json` | `1c3d7db0866c6ea0b762cec615adfed3b24e1d839293621c1ae272dec4e96d1c` |
 
 ## Language `kotlin`, tier `core`
 
@@ -223,8 +223,8 @@ Macro-average over semantic dimensions: TPR 100.0%, FPR 0.0%. Macro-averages poo
 
 | Template | Case | Polarity | Outcome | Classification | Raw evidence | Raw SHA-256 |
 | --- | --- | --- | --- | --- | --- | --- |
-| `dfb-template-direct-propagation` | `dfb-taint-kotlin-direct-negative` | negative | `not-reached` | true-negative | `reports/raw/bifrost/dfb-taint-kotlin-direct-negative.json` | `7334c246d6617ecfc33e007c1f10596d7cb622989dc44bcb298c308dffd2d60c` |
-| `dfb-template-direct-propagation` | `dfb-taint-kotlin-direct-positive` | positive | `reached` | true-positive | `reports/raw/bifrost/dfb-taint-kotlin-direct-positive.json` | `13e8473ee2730b29f97b9b0356f794826b799cb7a17f7c9d25e16505e6f1bc56` |
+| `dfb-template-direct-propagation` | `dfb-taint-kotlin-direct-negative` | negative | `not-reached` | true-negative | `reports/raw/bifrost/dfb-taint-kotlin-direct-negative.json` | `016f90c45d3f8607d6115e581ab38e3a102911c28a2335525ef2532cf39e3922` |
+| `dfb-template-direct-propagation` | `dfb-taint-kotlin-direct-positive` | positive | `reached` | true-positive | `reports/raw/bifrost/dfb-taint-kotlin-direct-positive.json` | `620401270ebeca8b90ff2ae1b75f36948e12c3e362eebb3a03693aed259e92d2` |
 
 ## Language `php`, tier `core`
 
@@ -242,8 +242,8 @@ Macro-average over semantic dimensions: TPR 100.0%, FPR 0.0%. Macro-averages poo
 
 | Template | Case | Polarity | Outcome | Classification | Raw evidence | Raw SHA-256 |
 | --- | --- | --- | --- | --- | --- | --- |
-| `dfb-template-direct-propagation` | `dfb-taint-php-direct-negative` | negative | `not-reached` | true-negative | `reports/raw/bifrost/dfb-taint-php-direct-negative.json` | `5cdf680b31d83da8652635dc2059f62e506333f03c114faa4df68ed3f89d6cd8` |
-| `dfb-template-direct-propagation` | `dfb-taint-php-direct-positive` | positive | `reached` | true-positive | `reports/raw/bifrost/dfb-taint-php-direct-positive.json` | `ddea71b277e6dec602ffe80e7c5e9d8575713a4c8aff003176279c6fa413357d` |
+| `dfb-template-direct-propagation` | `dfb-taint-php-direct-negative` | negative | `not-reached` | true-negative | `reports/raw/bifrost/dfb-taint-php-direct-negative.json` | `60c8ec6a89fbe7e7c3fa5867ba9c0e11cba92ebffb2fb5726c155356b559a878` |
+| `dfb-template-direct-propagation` | `dfb-taint-php-direct-positive` | positive | `reached` | true-positive | `reports/raw/bifrost/dfb-taint-php-direct-positive.json` | `466dca8321dbcd97516588c36e8494abc17323829783e289c3b61abf792abbee` |
 
 ## Language `python`, tier `core`
 
@@ -268,57 +268,57 @@ Macro-average over semantic dimensions: TPR 100.0%, FPR 0.0%. Macro-averages poo
 
 | Template | Case | Polarity | Outcome | Classification | Raw evidence | Raw SHA-256 |
 | --- | --- | --- | --- | --- | --- | --- |
-| `dfb-template-alias-propagation-separation` | `dfb-taint-python-alias-propagation-negative` | negative | `not-reached` | true-negative | `reports/raw/bifrost/dfb-taint-python-alias-propagation-negative.json` | `6878d7c8b874b573441ae231fe086f8dbcc6a8bfc191d01cb2959772a89d3fa6` |
-| `dfb-template-alias-propagation-separation` | `dfb-taint-python-alias-propagation-positive` | positive | `reached` | true-positive | `reports/raw/bifrost/dfb-taint-python-alias-propagation-positive.json` | `4d7b7a0254a3ecf7fdf00a99421ef6d677c90024eaa15581030d311b17d4e158` |
-| `dfb-template-argument-position-separation` | `dfb-taint-python-argument-position-negative` | negative | `not-reached` | true-negative | `reports/raw/bifrost/dfb-taint-python-argument-position-negative.json` | `97412c235dc57409c5f0af0359617dbb32b3846a09db956f7570443deef63169` |
-| `dfb-template-argument-position-separation` | `dfb-taint-python-argument-position-positive` | positive | `reached` | true-positive | `reports/raw/bifrost/dfb-taint-python-argument-position-positive.json` | `a1b6b4dea70c90bcaefa343626bd3b4351aae8427d76fd03e1e9a44ba2d80b7f` |
-| `dfb-template-arithmetic-expression-propagation` | `dfb-taint-python-arithmetic-expression-negative` | negative | `not-reached` | true-negative | `reports/raw/bifrost/dfb-taint-python-arithmetic-expression-negative.json` | `76b5de8bed8a01b771309e5e2d0f10898d5e92d9c74f8ff32c74fef2906f9cf9` |
-| `dfb-template-arithmetic-expression-propagation` | `dfb-taint-python-arithmetic-expression-positive` | positive | `reached` | true-positive | `reports/raw/bifrost/dfb-taint-python-arithmetic-expression-positive.json` | `8ba8f285c5ad83205759b8f8f25ff3afddb9ebfd994f046da1030d892a62aa66` |
-| `dfb-template-array-element-separation` | `dfb-taint-python-array-element-negative` | negative | `not-reached` | true-negative | `reports/raw/bifrost/dfb-taint-python-array-element-negative.json` | `77f28f49dd63df746fb8e8a2951cbc1b270263bae2569618232014c8a5dac57e` |
-| `dfb-template-array-element-separation` | `dfb-taint-python-array-element-positive` | positive | `reached` | true-positive | `reports/raw/bifrost/dfb-taint-python-array-element-positive.json` | `2f9d386555692e891da1a4bb9215ea4b239736bd3594b2e35e41513936dae241` |
-| `dfb-template-branch-join` | `dfb-taint-python-branch-join-negative` | negative | `not-reached` | true-negative | `reports/raw/bifrost/dfb-taint-python-branch-join-negative.json` | `5a33299b0329af422bfdbc5aa7b68a718644d41f1c647b1aa978db82b86f51be` |
-| `dfb-template-branch-join` | `dfb-taint-python-branch-join-positive` | positive | `reached` | true-positive | `reports/raw/bifrost/dfb-taint-python-branch-join-positive.json` | `f5abbbf928ab6b8d3bf93397fce3c1e85eb62ad9504b3a8e13b50118fa9e4d70` |
-| `dfb-template-call-context-separation` | `dfb-taint-python-call-context-negative` | negative | `not-reached` | true-negative | `reports/raw/bifrost/dfb-taint-python-call-context-negative.json` | `69fb2ffdaa2ef805ebabe374eb78bd49d3a826b405c9e41b7aee875ba66bf2c6` |
-| `dfb-template-call-context-separation` | `dfb-taint-python-call-context-positive` | positive | `reached` | true-positive | `reports/raw/bifrost/dfb-taint-python-call-context-positive.json` | `2c569389390aa5300b86bd21cee4284f0b82968a71a1047122cf1739f6e43c64` |
-| `dfb-template-direct-propagation` | `dfb-taint-python-direct-negative` | negative | `not-reached` | true-negative | `reports/raw/bifrost/dfb-taint-python-direct-negative.json` | `0c26e86b06863802915d1c21c0a3ac077dc2a4aaaace8be3160477b5b7ce4e09` |
-| `dfb-template-direct-propagation` | `dfb-taint-python-direct-positive` | positive | `reached` | true-positive | `reports/raw/bifrost/dfb-taint-python-direct-positive.json` | `242308f2e7f546c6b9ea7c9fd9bfbde5d14b2e853aa731c215ed8e545daf6ced` |
-| `dfb-template-exception-catch` | `dfb-taint-python-exception-catch-negative` | negative | `not-reached` | true-negative | `reports/raw/bifrost/dfb-taint-python-exception-catch-negative.json` | `18d78c31b5d73356afd7803ed22422cf88d3d5dfe4e3278207032d8564fbb2aa` |
-| `dfb-template-exception-catch` | `dfb-taint-python-exception-catch-positive` | positive | `reached` | true-positive | `reports/raw/bifrost/dfb-taint-python-exception-catch-positive.json` | `2767f4e5fafd54a5e1aa69dd638dbaa2d313b3a5346ca9a0769b2cbcbf6637b4` |
-| `dfb-template-infeasible-branch` | `dfb-taint-python-infeasible-branch-negative` | negative | `not-reached` | true-negative | `reports/raw/bifrost/dfb-taint-python-infeasible-branch-negative.json` | `9e7f8f98f7fd21a57709a406840c3189f060fb8f653d29eb53b9c845506d023d` |
-| `dfb-template-infeasible-branch` | `dfb-taint-python-infeasible-branch-positive` | positive | `reached` | true-positive | `reports/raw/bifrost/dfb-taint-python-infeasible-branch-positive.json` | `2c9ac18bce71d6e535455d3733894ac61811b58e53a16dc55b9a3963e3c692dd` |
-| `dfb-template-local-multi-step-chain` | `dfb-taint-python-local-chain-negative` | negative | `not-reached` | true-negative | `reports/raw/bifrost/dfb-taint-python-local-chain-negative.json` | `cee1a125ccf067a4ea9f51bfff9d0f9a3981763f2c6db2491623643fd1d21152` |
-| `dfb-template-local-multi-step-chain` | `dfb-taint-python-local-chain-positive` | positive | `reached` | true-positive | `reports/raw/bifrost/dfb-taint-python-local-chain-positive.json` | `58733b226f31550fa6f548541966654ad2907d66d1b393561e85a600c45dc1d5` |
-| `dfb-template-local-overwrite-kill` | `dfb-taint-python-local-overwrite-negative` | negative | `not-reached` | true-negative | `reports/raw/bifrost/dfb-taint-python-local-overwrite-negative.json` | `a768681c298e961f2843db4dbe94a63b7a8eb2695fd0cd263197b1eb82fc497f` |
-| `dfb-template-local-overwrite-kill` | `dfb-taint-python-local-overwrite-positive` | positive | `reached` | true-positive | `reports/raw/bifrost/dfb-taint-python-local-overwrite-positive.json` | `ebf8908b2e8ff8480e707d29f36716dde6d50722280dd78597043ef5caf36bb9` |
-| `dfb-template-loop-carried-kill` | `dfb-taint-python-loop-carried-negative` | negative | `not-reached` | true-negative | `reports/raw/bifrost/dfb-taint-python-loop-carried-negative.json` | `e7f66a8da06e7a737a9cac2377d2a182c893a54fd88df33ecad97d31a45d2f21` |
-| `dfb-template-loop-carried-kill` | `dfb-taint-python-loop-carried-positive` | positive | `reached` | true-positive | `reports/raw/bifrost/dfb-taint-python-loop-carried-positive.json` | `509428e404dc7e1504e61960af38a07f6eaf79369fcd9057dd94803068a44b24` |
-| `dfb-template-object-separation` | `dfb-taint-python-object-separation-negative` | negative | `not-reached` | true-negative | `reports/raw/bifrost/dfb-taint-python-object-separation-negative.json` | `1fdf8769be3674d1123879fa0779b887545ac597ebed74d2339d1b2baccf6fd1` |
-| `dfb-template-object-separation` | `dfb-taint-python-object-separation-positive` | positive | `reached` | true-positive | `reports/raw/bifrost/dfb-taint-python-object-separation-positive.json` | `9f517f2441c6520521bce5d2311ca0d3065aafdae9c044abdadfab85dbb54ce8` |
-| `dfb-template-return-relay-one-hop` | `dfb-taint-python-return-relay-one-hop-negative` | negative | `not-reached` | true-negative | `reports/raw/bifrost/dfb-taint-python-return-relay-one-hop-negative.json` | `dacebb472336e8495fd2bbaa095501c117ff64739554bcfefb3036369bce129f` |
-| `dfb-template-return-relay-one-hop` | `dfb-taint-python-return-relay-one-hop-positive` | positive | `reached` | true-positive | `reports/raw/bifrost/dfb-taint-python-return-relay-one-hop-positive.json` | `5bfd8e9d374f3975317d2a3868e119303751aa02fc5644be1f1597036c7faab5` |
-| `dfb-template-return-relay-two-hop` | `dfb-taint-python-return-relay-two-hop-negative` | negative | `not-reached` | true-negative | `reports/raw/bifrost/dfb-taint-python-return-relay-two-hop-negative.json` | `206d19998029494ccf99279eb2a04e0768d4925ecff3c19c514d93b7784077ba` |
-| `dfb-template-return-relay-two-hop` | `dfb-taint-python-return-relay-two-hop-positive` | positive | `reached` | true-positive | `reports/raw/bifrost/dfb-taint-python-return-relay-two-hop-positive.json` | `e2280adc577e41b56100defb71110ffb8fb145091f23cc2e681f79b41befeca6` |
-| `dfb-template-same-object-field-separation` | `dfb-taint-python-same-object-field-negative` | negative | `not-reached` | true-negative | `reports/raw/bifrost/dfb-taint-python-same-object-field-negative.json` | `f7838d4f4085efcc987d7f43baf083c1f43ad1d1d44c142bc03fded2beef6f63` |
-| `dfb-template-same-object-field-separation` | `dfb-taint-python-same-object-field-positive` | positive | `reached` | true-positive | `reports/raw/bifrost/dfb-taint-python-same-object-field-positive.json` | `5f6d1ac871708dde1d034053ad01c3d2d1325309394229ca4a3ca5f4a19bba18` |
+| `dfb-template-alias-propagation-separation` | `dfb-taint-python-alias-propagation-negative` | negative | `not-reached` | true-negative | `reports/raw/bifrost/dfb-taint-python-alias-propagation-negative.json` | `bde78c543e2cfdbfd489fa89de549fb6773e0a7769eb0ac6a49a548783480a9c` |
+| `dfb-template-alias-propagation-separation` | `dfb-taint-python-alias-propagation-positive` | positive | `reached` | true-positive | `reports/raw/bifrost/dfb-taint-python-alias-propagation-positive.json` | `95c3b82d3957a8175ee8c92a1c3a6657dd34576a59cbd4db557d26066f01c748` |
+| `dfb-template-argument-position-separation` | `dfb-taint-python-argument-position-negative` | negative | `not-reached` | true-negative | `reports/raw/bifrost/dfb-taint-python-argument-position-negative.json` | `fdcef41581418b3ebf1d7ffa53a2beb64f62a934d799deef28ffba38b73bfb8e` |
+| `dfb-template-argument-position-separation` | `dfb-taint-python-argument-position-positive` | positive | `reached` | true-positive | `reports/raw/bifrost/dfb-taint-python-argument-position-positive.json` | `45a46054939253fe7e0b8368cfd789c90ff196168b9b6ff450c2e17409009c61` |
+| `dfb-template-arithmetic-expression-propagation` | `dfb-taint-python-arithmetic-expression-negative` | negative | `not-reached` | true-negative | `reports/raw/bifrost/dfb-taint-python-arithmetic-expression-negative.json` | `4da2ab752141e9d27193914feb7960ee0d33f2e373e9b227233c63426244a8ee` |
+| `dfb-template-arithmetic-expression-propagation` | `dfb-taint-python-arithmetic-expression-positive` | positive | `reached` | true-positive | `reports/raw/bifrost/dfb-taint-python-arithmetic-expression-positive.json` | `52638571e7f9894eaf15d2b5354155a2d9f086a942688c73c67ff7ec8e54bf6a` |
+| `dfb-template-array-element-separation` | `dfb-taint-python-array-element-negative` | negative | `not-reached` | true-negative | `reports/raw/bifrost/dfb-taint-python-array-element-negative.json` | `36b7e6e08e099bcd48f61f90f7df4789fe59b70aae4e149780f16619383f787a` |
+| `dfb-template-array-element-separation` | `dfb-taint-python-array-element-positive` | positive | `reached` | true-positive | `reports/raw/bifrost/dfb-taint-python-array-element-positive.json` | `bcb6724d78f1913bdf06131e7b8077cf14dbf1a4126ac3ade82f59d1977df068` |
+| `dfb-template-branch-join` | `dfb-taint-python-branch-join-negative` | negative | `not-reached` | true-negative | `reports/raw/bifrost/dfb-taint-python-branch-join-negative.json` | `8fa3609b7db219796f958548e5991bbefa4ce95a39a954fe70dedefe1abcb36e` |
+| `dfb-template-branch-join` | `dfb-taint-python-branch-join-positive` | positive | `reached` | true-positive | `reports/raw/bifrost/dfb-taint-python-branch-join-positive.json` | `4809c96af18b6720c13a2d7be668536ae30f0540ae235fd7e8c0a2791b0da432` |
+| `dfb-template-call-context-separation` | `dfb-taint-python-call-context-negative` | negative | `not-reached` | true-negative | `reports/raw/bifrost/dfb-taint-python-call-context-negative.json` | `8eafc04d49153ba7cdade780bec1be9c72c6d8c551b0bf3856aa2a24957555c3` |
+| `dfb-template-call-context-separation` | `dfb-taint-python-call-context-positive` | positive | `reached` | true-positive | `reports/raw/bifrost/dfb-taint-python-call-context-positive.json` | `09bba45d716d13f2afe66f1e6cb0f392329069630d34d1b9b8662d5ab29d6c14` |
+| `dfb-template-direct-propagation` | `dfb-taint-python-direct-negative` | negative | `not-reached` | true-negative | `reports/raw/bifrost/dfb-taint-python-direct-negative.json` | `fe4ae4fb0af819192c0f1ef642df0b4ac06dc696787f5099c15e6567d81731b2` |
+| `dfb-template-direct-propagation` | `dfb-taint-python-direct-positive` | positive | `reached` | true-positive | `reports/raw/bifrost/dfb-taint-python-direct-positive.json` | `8f4abc95a2aacb9889a684cfe37ceddd21d79284286a7497ae3fdea60e4e1cdf` |
+| `dfb-template-exception-catch` | `dfb-taint-python-exception-catch-negative` | negative | `not-reached` | true-negative | `reports/raw/bifrost/dfb-taint-python-exception-catch-negative.json` | `5539e102c1e0fe8f5807268b6ce33abbe7005e8f2c2414a22cb4b80e2eb27444` |
+| `dfb-template-exception-catch` | `dfb-taint-python-exception-catch-positive` | positive | `reached` | true-positive | `reports/raw/bifrost/dfb-taint-python-exception-catch-positive.json` | `55cb688371847826080c9c8e13c58adf466ecc2d742d3397f87ccc23018f7a9c` |
+| `dfb-template-infeasible-branch` | `dfb-taint-python-infeasible-branch-negative` | negative | `not-reached` | true-negative | `reports/raw/bifrost/dfb-taint-python-infeasible-branch-negative.json` | `26bc42a55dfaf94b1140a115693b4a0f9e6d3971777cef0bd00346d74bc37bda` |
+| `dfb-template-infeasible-branch` | `dfb-taint-python-infeasible-branch-positive` | positive | `reached` | true-positive | `reports/raw/bifrost/dfb-taint-python-infeasible-branch-positive.json` | `49c787bf85ea1894241b597f4a75a8b84c875524acf94d696016d8e3af65c140` |
+| `dfb-template-local-multi-step-chain` | `dfb-taint-python-local-chain-negative` | negative | `not-reached` | true-negative | `reports/raw/bifrost/dfb-taint-python-local-chain-negative.json` | `35e2a5c0fefe3151ac926b5e0e9a27d8e895a9f8b00aab6ca90c58f75137d14e` |
+| `dfb-template-local-multi-step-chain` | `dfb-taint-python-local-chain-positive` | positive | `reached` | true-positive | `reports/raw/bifrost/dfb-taint-python-local-chain-positive.json` | `3a7f8ecb1d2394f70e7236f172c1417c06b46cea47dbd93453e4926d3878f27b` |
+| `dfb-template-local-overwrite-kill` | `dfb-taint-python-local-overwrite-negative` | negative | `not-reached` | true-negative | `reports/raw/bifrost/dfb-taint-python-local-overwrite-negative.json` | `5697f33ad65811a1e4956545da8897c531f13988795204bcbe8f4d8e6f03151d` |
+| `dfb-template-local-overwrite-kill` | `dfb-taint-python-local-overwrite-positive` | positive | `reached` | true-positive | `reports/raw/bifrost/dfb-taint-python-local-overwrite-positive.json` | `09b987e70e9595819da556f81a0372f8ab0ad07b440aa552556939e66fec04a8` |
+| `dfb-template-loop-carried-kill` | `dfb-taint-python-loop-carried-negative` | negative | `not-reached` | true-negative | `reports/raw/bifrost/dfb-taint-python-loop-carried-negative.json` | `c727c7444f855f275701da68f0e29f2f3f7faa1c94a806d6aa0f18a3fce1ba25` |
+| `dfb-template-loop-carried-kill` | `dfb-taint-python-loop-carried-positive` | positive | `reached` | true-positive | `reports/raw/bifrost/dfb-taint-python-loop-carried-positive.json` | `7011f173f8f2725951d95aed94108ef788520f736ffafea26b56deb46c5a0450` |
+| `dfb-template-object-separation` | `dfb-taint-python-object-separation-negative` | negative | `not-reached` | true-negative | `reports/raw/bifrost/dfb-taint-python-object-separation-negative.json` | `397b1c2ee2955d473a7a17f6fb14700e97f34b4245430d2fae28546e71431ea6` |
+| `dfb-template-object-separation` | `dfb-taint-python-object-separation-positive` | positive | `reached` | true-positive | `reports/raw/bifrost/dfb-taint-python-object-separation-positive.json` | `b618e9dfcc25c49516ee85be476dd556d01a2d62c04c3d220fb88cc12c254a7a` |
+| `dfb-template-return-relay-one-hop` | `dfb-taint-python-return-relay-one-hop-negative` | negative | `not-reached` | true-negative | `reports/raw/bifrost/dfb-taint-python-return-relay-one-hop-negative.json` | `21cfdfe79bbf3c894e48e5c310a05dea3cfda150c80179abe588249769590632` |
+| `dfb-template-return-relay-one-hop` | `dfb-taint-python-return-relay-one-hop-positive` | positive | `reached` | true-positive | `reports/raw/bifrost/dfb-taint-python-return-relay-one-hop-positive.json` | `61f3e3085569f94f82e51533cc8cc9129e39a8863dffe2f3a0c521b1022690d6` |
+| `dfb-template-return-relay-two-hop` | `dfb-taint-python-return-relay-two-hop-negative` | negative | `not-reached` | true-negative | `reports/raw/bifrost/dfb-taint-python-return-relay-two-hop-negative.json` | `69bbe250a788e0a463b2ff81ca8d6cee6dcb77bc61947273266a135cdb08fade` |
+| `dfb-template-return-relay-two-hop` | `dfb-taint-python-return-relay-two-hop-positive` | positive | `reached` | true-positive | `reports/raw/bifrost/dfb-taint-python-return-relay-two-hop-positive.json` | `8c5d3fa102ac7dca3c0df0238594f51e92f0b8a8d3786f24c338d375402ef214` |
+| `dfb-template-same-object-field-separation` | `dfb-taint-python-same-object-field-negative` | negative | `not-reached` | true-negative | `reports/raw/bifrost/dfb-taint-python-same-object-field-negative.json` | `a13e54d8b8924d61e1463b9739e2670580a3fa9840e549fbf010ffeb57bdf587` |
+| `dfb-template-same-object-field-separation` | `dfb-taint-python-same-object-field-positive` | positive | `reached` | true-positive | `reports/raw/bifrost/dfb-taint-python-same-object-field-positive.json` | `8fba63c20d573235ebed517dd4edeeaadf5c38c706baf50729fa8453fae0bcae` |
 
 ## Language `ruby`, tier `core`
 
-Outcome coverage: `reached` 0, `not-reached` 0, `inconclusive` 2, `unsupported` 0, `runner-error` 0, total 2. `inconclusive`, `unsupported`, and `runner-error` are capability and execution coverage; they are never counted as clean negatives.
+Outcome coverage: `reached` 1, `not-reached` 1, `inconclusive` 0, `unsupported` 0, `runner-error` 0, total 2. `inconclusive`, `unsupported`, and `runner-error` are capability and execution coverage; they are never counted as clean negatives.
 
 ### Semantic dimension rates
 
 | Semantic dimension | TP | FN | FP | TN | Inconclusive | Unsupported | Runner error | TPR (template macro) | FPR (template macro) |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| `local-flow` | 0 | 0 | 0 | 0 | 2 | 0 | 0 | n/a | n/a |
+| `local-flow` | 1 | 0 | 0 | 1 | 0 | 0 | 0 | 100.0% | 0.0% |
 
-Macro-average over semantic dimensions: TPR n/a, FPR n/a. Macro-averages pool templates first, then semantic dimensions; raw case counts are shown for audit only.
+Macro-average over semantic dimensions: TPR 100.0%, FPR 0.0%. Macro-averages pool templates first, then semantic dimensions; raw case counts are shown for audit only.
 
 ### Cases
 
 | Template | Case | Polarity | Outcome | Classification | Raw evidence | Raw SHA-256 |
 | --- | --- | --- | --- | --- | --- | --- |
-| `dfb-template-direct-propagation` | `dfb-taint-ruby-direct-negative` | negative | `inconclusive` | inconclusive | `reports/raw/bifrost/dfb-taint-ruby-direct-negative.json` | `2fda24b8c6845546fab6389d3523690e660adc1b888e5439db2a4ca504ce8c21` |
-| `dfb-template-direct-propagation` | `dfb-taint-ruby-direct-positive` | positive | `inconclusive` | inconclusive | `reports/raw/bifrost/dfb-taint-ruby-direct-positive.json` | `30282de22bff98c8b5296ae498bc3b4371c27f6967e074366f79b944f2168037` |
+| `dfb-template-direct-propagation` | `dfb-taint-ruby-direct-negative` | negative | `not-reached` | true-negative | `reports/raw/bifrost/dfb-taint-ruby-direct-negative.json` | `d82bffbb1f2c366f2e7c32c27568b27b453ad5ed75c7bc127028179db43b85c5` |
+| `dfb-template-direct-propagation` | `dfb-taint-ruby-direct-positive` | positive | `reached` | true-positive | `reports/raw/bifrost/dfb-taint-ruby-direct-positive.json` | `e77ccf75876e6be5a7a18e497abba503bbd639c5c0e0ebb0a566d695f317c8bf` |
 
 ## Language `rust`, tier `core`
 
@@ -336,8 +336,8 @@ Macro-average over semantic dimensions: TPR 100.0%, FPR 0.0%. Macro-averages poo
 
 | Template | Case | Polarity | Outcome | Classification | Raw evidence | Raw SHA-256 |
 | --- | --- | --- | --- | --- | --- | --- |
-| `dfb-template-direct-propagation` | `dfb-taint-rust-direct-negative` | negative | `not-reached` | true-negative | `reports/raw/bifrost/dfb-taint-rust-direct-negative.json` | `4b788079edbad2b3854e2a0542184bdcc85e736c07f28fb5443c54b4d6c68c59` |
-| `dfb-template-direct-propagation` | `dfb-taint-rust-direct-positive` | positive | `reached` | true-positive | `reports/raw/bifrost/dfb-taint-rust-direct-positive.json` | `172e67137fd7f919f633236698c7468999c4102ca2b6beb346c7b847c78a84c7` |
+| `dfb-template-direct-propagation` | `dfb-taint-rust-direct-negative` | negative | `not-reached` | true-negative | `reports/raw/bifrost/dfb-taint-rust-direct-negative.json` | `afb07077d447bae1a63cb2ac6b8148970a17361580ae193adfc70de258641ed6` |
+| `dfb-template-direct-propagation` | `dfb-taint-rust-direct-positive` | positive | `reached` | true-positive | `reports/raw/bifrost/dfb-taint-rust-direct-positive.json` | `3e0d4e194873eb369d14d6a3dcb97a5678bd27644c7593d3b7609a45e82574cf` |
 
 ## Language `scala`, tier `core`
 
@@ -355,8 +355,8 @@ Macro-average over semantic dimensions: TPR 100.0%, FPR 0.0%. Macro-averages poo
 
 | Template | Case | Polarity | Outcome | Classification | Raw evidence | Raw SHA-256 |
 | --- | --- | --- | --- | --- | --- | --- |
-| `dfb-template-direct-propagation` | `dfb-taint-scala-direct-negative` | negative | `not-reached` | true-negative | `reports/raw/bifrost/dfb-taint-scala-direct-negative.json` | `477f6f386829b0158d2e388be4aa75ffeeb276d5e4a568890a06e45e4edc9078` |
-| `dfb-template-direct-propagation` | `dfb-taint-scala-direct-positive` | positive | `reached` | true-positive | `reports/raw/bifrost/dfb-taint-scala-direct-positive.json` | `7072036322dac24a9b89bcc787a6d79869c479879175422e0cd56c24de041184` |
+| `dfb-template-direct-propagation` | `dfb-taint-scala-direct-negative` | negative | `not-reached` | true-negative | `reports/raw/bifrost/dfb-taint-scala-direct-negative.json` | `19969412debdcfe494c33232875ea1be187ac2735706c5ad030f955829684689` |
+| `dfb-template-direct-propagation` | `dfb-taint-scala-direct-positive` | positive | `reached` | true-positive | `reports/raw/bifrost/dfb-taint-scala-direct-positive.json` | `33ed11eb8a385e79ede067f60fd72fb03b5a72822483076fb66d461c36d4a20e` |
 
 ## Language `typescript`, tier `core`
 
@@ -374,5 +374,5 @@ Macro-average over semantic dimensions: TPR 100.0%, FPR 0.0%. Macro-averages poo
 
 | Template | Case | Polarity | Outcome | Classification | Raw evidence | Raw SHA-256 |
 | --- | --- | --- | --- | --- | --- | --- |
-| `dfb-template-direct-propagation` | `dfb-taint-typescript-direct-negative` | negative | `not-reached` | true-negative | `reports/raw/bifrost/dfb-taint-typescript-direct-negative.json` | `886823ebc3e8fe059794e8b1587ee8ddf3dce07ecc07eb366a5663527f8d33c5` |
-| `dfb-template-direct-propagation` | `dfb-taint-typescript-direct-positive` | positive | `reached` | true-positive | `reports/raw/bifrost/dfb-taint-typescript-direct-positive.json` | `e41904548fb70cbb86cee478ea20e1bae3cc90e19b44b73d18030d57918dd0df` |
+| `dfb-template-direct-propagation` | `dfb-taint-typescript-direct-negative` | negative | `not-reached` | true-negative | `reports/raw/bifrost/dfb-taint-typescript-direct-negative.json` | `d34619a45293474ddb6147266bd435b6bcf329d12a15331a306dccfa47897cce` |
+| `dfb-template-direct-propagation` | `dfb-taint-typescript-direct-positive` | positive | `reached` | true-positive | `reports/raw/bifrost/dfb-taint-typescript-direct-positive.json` | `921e88a60043890471f993e291f1918c639f5267a7ab5990820719859753b159` |

@@ -1,9 +1,9 @@
 {
   "adapter_version": "0.1.0",
   "cold_or_warm": "cold",
-  "configuration_hash": "25e1399fb9b7c2e5dfa469d56e9b4edeccff655f1d8866290f4f55d29eb7117f",
-  "ended_at_unix_seconds": 1787748765,
-  "fixture_revision": "sha256:213f7571388ba8f32dabcc386ff79fb2263a4940864646b28a338bbd8a9cec05",
+  "configuration_hash": "af5cc89e2d93f23cfcc552636c8d77a3aaae48f0901c38aa7d1977817a70b9d4",
+  "ended_at_unix_seconds": 1787918984,
+  "fixture_revision": "sha256:9df209ed3d7723a3ee33f2b289cf2afe34a3add781bdf2a2ac445de42b8d0151",
   "results": [
     {
       "case_id": "dfb-taint-javascript-model-declared-sink-negative",
@@ -11,7 +11,7 @@
         "Bifrost reported incomplete analysis: partial_discovery",
         "taint discovery is incomplete: procedure value-flow snapshot for Audit.js:Audit.js.run is unknown"
       ],
-      "duration_ms": 231,
+      "duration_ms": 169,
       "outcome": "inconclusive",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-javascript-modeling/dfb-taint-javascript-model-declared-sink-negative.json",
@@ -30,7 +30,7 @@
         "Bifrost reported incomplete analysis: partial_discovery",
         "taint discovery is incomplete: procedure value-flow snapshot for Audit.js:Audit.js.run is unknown"
       ],
-      "duration_ms": 65,
+      "duration_ms": 150,
       "outcome": "inconclusive",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-javascript-modeling/dfb-taint-javascript-model-declared-sink-positive.json",
@@ -44,8 +44,10 @@
     },
     {
       "case_id": "dfb-taint-javascript-model-declared-source-negative",
-      "diagnostics": [],
-      "duration_ms": 59,
+      "diagnostics": [
+        "taint policy `dataflowbench.taint.model-javascript` bound no source endpoint: its source selectors matched no location in the scanned workspace, so this run reports zero findings vacuously rather than proving that no flow exists"
+      ],
+      "duration_ms": 131,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-javascript-modeling/dfb-taint-javascript-model-declared-source-negative.json",
@@ -64,7 +66,7 @@
         "Bifrost reported incomplete analysis: partial_discovery",
         "taint discovery is incomplete: procedure value-flow snapshot for Config.js:Config.js.run is unknown"
       ],
-      "duration_ms": 54,
+      "duration_ms": 314,
       "outcome": "inconclusive",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-javascript-modeling/dfb-taint-javascript-model-declared-source-positive.json",
@@ -79,7 +81,7 @@
     {
       "case_id": "dfb-taint-javascript-model-entrypoint-parameter-negative",
       "diagnostics": [
-        "category E — framework entry points — is unsupported for Bifrost v0.10.6 by the preregistered modeling partition (docs/modeling-matrix.md#per-tool-capability-partition): to be verified — unsupported until shown: nothing in the repository or the README describes an entry-root declaration for the policy CLI"
+        "category E — framework entry points — is unsupported for bifrost 0.10.7 by the preregistered modeling partition (docs/modeling-matrix.md#per-tool-capability-partition): to be verified — unsupported until shown: nothing in the repository or the README describes an entry-root declaration for the policy CLI"
       ],
       "duration_ms": 0,
       "outcome": "unsupported",
@@ -96,7 +98,7 @@
     {
       "case_id": "dfb-taint-javascript-model-entrypoint-parameter-positive",
       "diagnostics": [
-        "category E — framework entry points — is unsupported for Bifrost v0.10.6 by the preregistered modeling partition (docs/modeling-matrix.md#per-tool-capability-partition): to be verified — unsupported until shown: nothing in the repository or the README describes an entry-root declaration for the policy CLI"
+        "category E — framework entry points — is unsupported for bifrost 0.10.7 by the preregistered modeling partition (docs/modeling-matrix.md#per-tool-capability-partition): to be verified — unsupported until shown: nothing in the repository or the README describes an entry-root declaration for the policy CLI"
       ],
       "duration_ms": 0,
       "outcome": "unsupported",
@@ -113,9 +115,9 @@
     {
       "case_id": "dfb-taint-javascript-model-entrypoint-selectivity-negative",
       "diagnostics": [
-        "category E — framework entry points — is unsupported for Bifrost v0.10.6 by the preregistered modeling partition (docs/modeling-matrix.md#per-tool-capability-partition): to be verified — unsupported until shown: nothing in the repository or the README describes an entry-root declaration for the policy CLI"
+        "category E — framework entry points — is unsupported for bifrost 0.10.7 by the preregistered modeling partition (docs/modeling-matrix.md#per-tool-capability-partition): to be verified — unsupported until shown: nothing in the repository or the README describes an entry-root declaration for the policy CLI"
       ],
-      "duration_ms": 0,
+      "duration_ms": 2,
       "outcome": "unsupported",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-javascript-modeling/dfb-taint-javascript-model-entrypoint-selectivity-negative-unsupported.json",
@@ -130,9 +132,9 @@
     {
       "case_id": "dfb-taint-javascript-model-entrypoint-selectivity-positive",
       "diagnostics": [
-        "category E — framework entry points — is unsupported for Bifrost v0.10.6 by the preregistered modeling partition (docs/modeling-matrix.md#per-tool-capability-partition): to be verified — unsupported until shown: nothing in the repository or the README describes an entry-root declaration for the policy CLI"
+        "category E — framework entry points — is unsupported for bifrost 0.10.7 by the preregistered modeling partition (docs/modeling-matrix.md#per-tool-capability-partition): to be verified — unsupported until shown: nothing in the repository or the README describes an entry-root declaration for the policy CLI"
       ],
-      "duration_ms": 0,
+      "duration_ms": 2,
       "outcome": "unsupported",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-javascript-modeling/dfb-taint-javascript-model-entrypoint-selectivity-positive-unsupported.json",
@@ -147,7 +149,7 @@
     {
       "case_id": "dfb-taint-javascript-model-opaque-propagator-negative",
       "diagnostics": [
-        "category P — declared propagators — is unsupported for Bifrost v0.10.6 by the preregistered modeling partition (docs/modeling-matrix.md#per-tool-capability-partition): to be verified — unsupported until shown: no committed policy declares a propagator or transform, and the adapter README makes no propagator claim. Additionally, every committed policy sets `:unmodeled optimistic`, so the modeling policy must also be shown to accept `require-model` before either P cell is load-bearing. Both must be demonstrated on the pinned build"
+        "category P — declared propagators — is unsupported for bifrost 0.10.7 by the preregistered modeling partition (docs/modeling-matrix.md#per-tool-capability-partition): to be verified — unsupported until shown: no committed policy declares a propagator or transform, and the adapter README makes no propagator claim. Additionally, every committed policy sets `:unmodeled optimistic`, so the modeling policy must also be shown to accept `require-model` before either P cell is load-bearing. Both must be demonstrated on the pinned build"
       ],
       "duration_ms": 0,
       "outcome": "unsupported",
@@ -164,7 +166,7 @@
     {
       "case_id": "dfb-taint-javascript-model-opaque-propagator-positive",
       "diagnostics": [
-        "category P — declared propagators — is unsupported for Bifrost v0.10.6 by the preregistered modeling partition (docs/modeling-matrix.md#per-tool-capability-partition): to be verified — unsupported until shown: no committed policy declares a propagator or transform, and the adapter README makes no propagator claim. Additionally, every committed policy sets `:unmodeled optimistic`, so the modeling policy must also be shown to accept `require-model` before either P cell is load-bearing. Both must be demonstrated on the pinned build"
+        "category P — declared propagators — is unsupported for bifrost 0.10.7 by the preregistered modeling partition (docs/modeling-matrix.md#per-tool-capability-partition): to be verified — unsupported until shown: no committed policy declares a propagator or transform, and the adapter README makes no propagator claim. Additionally, every committed policy sets `:unmodeled optimistic`, so the modeling policy must also be shown to accept `require-model` before either P cell is load-bearing. Both must be demonstrated on the pinned build"
       ],
       "duration_ms": 0,
       "outcome": "unsupported",
@@ -181,7 +183,7 @@
     {
       "case_id": "dfb-taint-javascript-model-propagator-position-negative",
       "diagnostics": [
-        "category P — declared propagators — is unsupported for Bifrost v0.10.6 by the preregistered modeling partition (docs/modeling-matrix.md#per-tool-capability-partition): to be verified — unsupported until shown: no committed policy declares a propagator or transform, and the adapter README makes no propagator claim. Additionally, every committed policy sets `:unmodeled optimistic`, so the modeling policy must also be shown to accept `require-model` before either P cell is load-bearing. Both must be demonstrated on the pinned build"
+        "category P — declared propagators — is unsupported for bifrost 0.10.7 by the preregistered modeling partition (docs/modeling-matrix.md#per-tool-capability-partition): to be verified — unsupported until shown: no committed policy declares a propagator or transform, and the adapter README makes no propagator claim. Additionally, every committed policy sets `:unmodeled optimistic`, so the modeling policy must also be shown to accept `require-model` before either P cell is load-bearing. Both must be demonstrated on the pinned build"
       ],
       "duration_ms": 0,
       "outcome": "unsupported",
@@ -198,9 +200,9 @@
     {
       "case_id": "dfb-taint-javascript-model-propagator-position-positive",
       "diagnostics": [
-        "category P — declared propagators — is unsupported for Bifrost v0.10.6 by the preregistered modeling partition (docs/modeling-matrix.md#per-tool-capability-partition): to be verified — unsupported until shown: no committed policy declares a propagator or transform, and the adapter README makes no propagator claim. Additionally, every committed policy sets `:unmodeled optimistic`, so the modeling policy must also be shown to accept `require-model` before either P cell is load-bearing. Both must be demonstrated on the pinned build"
+        "category P — declared propagators — is unsupported for bifrost 0.10.7 by the preregistered modeling partition (docs/modeling-matrix.md#per-tool-capability-partition): to be verified — unsupported until shown: no committed policy declares a propagator or transform, and the adapter README makes no propagator claim. Additionally, every committed policy sets `:unmodeled optimistic`, so the modeling policy must also be shown to accept `require-model` before either P cell is load-bearing. Both must be demonstrated on the pinned build"
       ],
-      "duration_ms": 0,
+      "duration_ms": 2,
       "outcome": "unsupported",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-javascript-modeling/dfb-taint-javascript-model-propagator-position-positive-unsupported.json",
@@ -214,13 +216,11 @@
     },
     {
       "case_id": "dfb-taint-javascript-model-sanitizer-kill-negative",
-      "diagnostics": [
-        "category Z — declared sanitizers — is unsupported for Bifrost v0.10.6 by the preregistered modeling partition (docs/modeling-matrix.md#per-tool-capability-partition): the adapter README states it directly: \"Sanitizer lowering is a future Bifrost CLI capability.\" (`adapters/bifrost/README.md`). The matrix surfaces this rather than hiding it. DataFlowBench is published by Bifrost's vendor, and a partition that quietly granted its own engine a category its own documentation says is unimplemented would be the single most damaging thing this document could do"
-      ],
-      "duration_ms": 0,
-      "outcome": "unsupported",
+      "diagnostics": [],
+      "duration_ms": 154,
+      "outcome": "not-reached",
       "peak_memory_mb": null,
-      "raw_output": "reports/raw/bifrost-javascript-modeling/dfb-taint-javascript-model-sanitizer-kill-negative-unsupported.json",
+      "raw_output": "reports/raw/bifrost-javascript-modeling/dfb-taint-javascript-model-sanitizer-kill-negative.json",
       "sink_anchors": [
         "DFB-SINK: model-sanitizer-kill-sink"
       ],
@@ -232,12 +232,12 @@
     {
       "case_id": "dfb-taint-javascript-model-sanitizer-kill-positive",
       "diagnostics": [
-        "category Z — declared sanitizers — is unsupported for Bifrost v0.10.6 by the preregistered modeling partition (docs/modeling-matrix.md#per-tool-capability-partition): the adapter README states it directly: \"Sanitizer lowering is a future Bifrost CLI capability.\" (`adapters/bifrost/README.md`). The matrix surfaces this rather than hiding it. DataFlowBench is published by Bifrost's vendor, and a partition that quietly granted its own engine a category its own documentation says is unimplemented would be the single most damaging thing this document could do"
+        "A benchmark-declared source reaches a benchmark-declared sink"
       ],
-      "duration_ms": 0,
-      "outcome": "unsupported",
+      "duration_ms": 152,
+      "outcome": "reached",
       "peak_memory_mb": null,
-      "raw_output": "reports/raw/bifrost-javascript-modeling/dfb-taint-javascript-model-sanitizer-kill-positive-unsupported.json",
+      "raw_output": "reports/raw/bifrost-javascript-modeling/dfb-taint-javascript-model-sanitizer-kill-positive.json",
       "sink_anchors": [
         "DFB-SINK: model-sanitizer-kill-sink"
       ],
@@ -248,13 +248,11 @@
     },
     {
       "case_id": "dfb-taint-javascript-model-sanitizer-selectivity-negative",
-      "diagnostics": [
-        "category Z — declared sanitizers — is unsupported for Bifrost v0.10.6 by the preregistered modeling partition (docs/modeling-matrix.md#per-tool-capability-partition): the adapter README states it directly: \"Sanitizer lowering is a future Bifrost CLI capability.\" (`adapters/bifrost/README.md`). The matrix surfaces this rather than hiding it. DataFlowBench is published by Bifrost's vendor, and a partition that quietly granted its own engine a category its own documentation says is unimplemented would be the single most damaging thing this document could do"
-      ],
-      "duration_ms": 0,
-      "outcome": "unsupported",
+      "diagnostics": [],
+      "duration_ms": 142,
+      "outcome": "not-reached",
       "peak_memory_mb": null,
-      "raw_output": "reports/raw/bifrost-javascript-modeling/dfb-taint-javascript-model-sanitizer-selectivity-negative-unsupported.json",
+      "raw_output": "reports/raw/bifrost-javascript-modeling/dfb-taint-javascript-model-sanitizer-selectivity-negative.json",
       "sink_anchors": [
         "DFB-SINK: model-sanitizer-selectivity-sink"
       ],
@@ -266,12 +264,12 @@
     {
       "case_id": "dfb-taint-javascript-model-sanitizer-selectivity-positive",
       "diagnostics": [
-        "category Z — declared sanitizers — is unsupported for Bifrost v0.10.6 by the preregistered modeling partition (docs/modeling-matrix.md#per-tool-capability-partition): the adapter README states it directly: \"Sanitizer lowering is a future Bifrost CLI capability.\" (`adapters/bifrost/README.md`). The matrix surfaces this rather than hiding it. DataFlowBench is published by Bifrost's vendor, and a partition that quietly granted its own engine a category its own documentation says is unimplemented would be the single most damaging thing this document could do"
+        "A benchmark-declared source reaches a benchmark-declared sink"
       ],
-      "duration_ms": 0,
-      "outcome": "unsupported",
+      "duration_ms": 144,
+      "outcome": "reached",
       "peak_memory_mb": null,
-      "raw_output": "reports/raw/bifrost-javascript-modeling/dfb-taint-javascript-model-sanitizer-selectivity-positive-unsupported.json",
+      "raw_output": "reports/raw/bifrost-javascript-modeling/dfb-taint-javascript-model-sanitizer-selectivity-positive.json",
       "sink_anchors": [
         "DFB-SINK: model-sanitizer-selectivity-sink"
       ],
@@ -283,7 +281,7 @@
     {
       "case_id": "dfb-taint-javascript-model-store-roundtrip-negative",
       "diagnostics": [
-        "category B — persistence boundaries — is unsupported for Bifrost v0.10.6 by the preregistered modeling partition (docs/modeling-matrix.md#per-tool-capability-partition): to be verified — unsupported until shown: no persistence-boundary vocabulary is described anywhere for any adapter, Bifrost included"
+        "category B — persistence boundaries — is unsupported for bifrost 0.10.7 by the preregistered modeling partition (docs/modeling-matrix.md#per-tool-capability-partition): to be verified — unsupported until shown: no persistence-boundary vocabulary is described anywhere for any adapter, Bifrost included"
       ],
       "duration_ms": 0,
       "outcome": "unsupported",
@@ -300,7 +298,7 @@
     {
       "case_id": "dfb-taint-javascript-model-store-roundtrip-positive",
       "diagnostics": [
-        "category B — persistence boundaries — is unsupported for Bifrost v0.10.6 by the preregistered modeling partition (docs/modeling-matrix.md#per-tool-capability-partition): to be verified — unsupported until shown: no persistence-boundary vocabulary is described anywhere for any adapter, Bifrost included"
+        "category B — persistence boundaries — is unsupported for bifrost 0.10.7 by the preregistered modeling partition (docs/modeling-matrix.md#per-tool-capability-partition): to be verified — unsupported until shown: no persistence-boundary vocabulary is described anywhere for any adapter, Bifrost included"
       ],
       "duration_ms": 0,
       "outcome": "unsupported",
@@ -317,7 +315,7 @@
     {
       "case_id": "dfb-taint-javascript-model-store-separation-negative",
       "diagnostics": [
-        "category B — persistence boundaries — is unsupported for Bifrost v0.10.6 by the preregistered modeling partition (docs/modeling-matrix.md#per-tool-capability-partition): to be verified — unsupported until shown: no persistence-boundary vocabulary is described anywhere for any adapter, Bifrost included"
+        "category B — persistence boundaries — is unsupported for bifrost 0.10.7 by the preregistered modeling partition (docs/modeling-matrix.md#per-tool-capability-partition): to be verified — unsupported until shown: no persistence-boundary vocabulary is described anywhere for any adapter, Bifrost included"
       ],
       "duration_ms": 0,
       "outcome": "unsupported",
@@ -334,7 +332,7 @@
     {
       "case_id": "dfb-taint-javascript-model-store-separation-positive",
       "diagnostics": [
-        "category B — persistence boundaries — is unsupported for Bifrost v0.10.6 by the preregistered modeling partition (docs/modeling-matrix.md#per-tool-capability-partition): to be verified — unsupported until shown: no persistence-boundary vocabulary is described anywhere for any adapter, Bifrost included"
+        "category B — persistence boundaries — is unsupported for bifrost 0.10.7 by the preregistered modeling partition (docs/modeling-matrix.md#per-tool-capability-partition): to be verified — unsupported until shown: no persistence-boundary vocabulary is described anywhere for any adapter, Bifrost included"
       ],
       "duration_ms": 0,
       "outcome": "unsupported",
@@ -351,7 +349,7 @@
     {
       "case_id": "dfb-taint-javascript-model-summary-field-negative",
       "diagnostics": [
-        "category O — opaque procedure summaries — is unsupported for Bifrost v0.10.6 by the preregistered modeling partition (docs/modeling-matrix.md#per-tool-capability-partition): the adapter README: \"External semantic-model activation requires an embedding with an explicit catalog, so the modeled-external case is reported as `unsupported` by this CLI adapter with an explicit retained reason. It is not a negative result.\" The existing `dfb-taint-java-modeled-external` calibration case already carries that retained reason in the frozen smoke report"
+        "category O — opaque procedure summaries — is unsupported for bifrost 0.10.7 by the preregistered modeling partition (docs/modeling-matrix.md#per-tool-capability-partition): the adapter README: \"External semantic-model activation requires an embedding with an explicit catalog, so the modeled-external case is reported as `unsupported` by this CLI adapter with an explicit retained reason. It is not a negative result.\" The existing `dfb-taint-java-modeled-external` calibration case already carries that retained reason in the frozen smoke report"
       ],
       "duration_ms": 0,
       "outcome": "unsupported",
@@ -368,7 +366,7 @@
     {
       "case_id": "dfb-taint-javascript-model-summary-field-positive",
       "diagnostics": [
-        "category O — opaque procedure summaries — is unsupported for Bifrost v0.10.6 by the preregistered modeling partition (docs/modeling-matrix.md#per-tool-capability-partition): the adapter README: \"External semantic-model activation requires an embedding with an explicit catalog, so the modeled-external case is reported as `unsupported` by this CLI adapter with an explicit retained reason. It is not a negative result.\" The existing `dfb-taint-java-modeled-external` calibration case already carries that retained reason in the frozen smoke report"
+        "category O — opaque procedure summaries — is unsupported for bifrost 0.10.7 by the preregistered modeling partition (docs/modeling-matrix.md#per-tool-capability-partition): the adapter README: \"External semantic-model activation requires an embedding with an explicit catalog, so the modeled-external case is reported as `unsupported` by this CLI adapter with an explicit retained reason. It is not a negative result.\" The existing `dfb-taint-java-modeled-external` calibration case already carries that retained reason in the frozen smoke report"
       ],
       "duration_ms": 0,
       "outcome": "unsupported",
@@ -385,7 +383,7 @@
     {
       "case_id": "dfb-taint-javascript-model-summary-through-negative",
       "diagnostics": [
-        "category O — opaque procedure summaries — is unsupported for Bifrost v0.10.6 by the preregistered modeling partition (docs/modeling-matrix.md#per-tool-capability-partition): the adapter README: \"External semantic-model activation requires an embedding with an explicit catalog, so the modeled-external case is reported as `unsupported` by this CLI adapter with an explicit retained reason. It is not a negative result.\" The existing `dfb-taint-java-modeled-external` calibration case already carries that retained reason in the frozen smoke report"
+        "category O — opaque procedure summaries — is unsupported for bifrost 0.10.7 by the preregistered modeling partition (docs/modeling-matrix.md#per-tool-capability-partition): the adapter README: \"External semantic-model activation requires an embedding with an explicit catalog, so the modeled-external case is reported as `unsupported` by this CLI adapter with an explicit retained reason. It is not a negative result.\" The existing `dfb-taint-java-modeled-external` calibration case already carries that retained reason in the frozen smoke report"
       ],
       "duration_ms": 0,
       "outcome": "unsupported",
@@ -402,7 +400,7 @@
     {
       "case_id": "dfb-taint-javascript-model-summary-through-positive",
       "diagnostics": [
-        "category O — opaque procedure summaries — is unsupported for Bifrost v0.10.6 by the preregistered modeling partition (docs/modeling-matrix.md#per-tool-capability-partition): the adapter README: \"External semantic-model activation requires an embedding with an explicit catalog, so the modeled-external case is reported as `unsupported` by this CLI adapter with an explicit retained reason. It is not a negative result.\" The existing `dfb-taint-java-modeled-external` calibration case already carries that retained reason in the frozen smoke report"
+        "category O — opaque procedure summaries — is unsupported for bifrost 0.10.7 by the preregistered modeling partition (docs/modeling-matrix.md#per-tool-capability-partition): the adapter README: \"External semantic-model activation requires an embedding with an explicit catalog, so the modeled-external case is reported as `unsupported` by this CLI adapter with an explicit retained reason. It is not a negative result.\" The existing `dfb-taint-java-modeled-external` calibration case already carries that retained reason in the frozen smoke report"
       ],
       "duration_ms": 0,
       "outcome": "unsupported",
@@ -418,8 +416,8 @@
     }
   ],
   "schema_version": 1,
-  "started_at_unix_seconds": 1787748765,
+  "started_at_unix_seconds": 1787918983,
   "tool": "bifrost",
-  "tool_build_identity": "a3ca30bd3fb994cc07db4abf47a2c796854882ca",
-  "tool_version": "bifrost 0.9.5"
+  "tool_build_identity": "44d9a5be416432bf8ed414afd3ea0031245ebb57",
+  "tool_version": "bifrost 0.10.7"
 }
