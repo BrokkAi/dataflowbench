@@ -37,6 +37,10 @@ engines that decline honestly appear as coverage instead of either.
 
 - `calibration` cases exercise schemas and adapters; they are not scored.
 - `core` is the cross-language correctness population.
+- `modeling` asks whether a tool's own model-declaration surface can express a
+  category and be made load-bearing. A category a tool cannot express is
+  `unsupported`, recorded before the tool runs, so the scored partition differs
+  per tool by construction and is never pooled across tools.
 - `language-extension` and `real-project` tiers have their own scorecards and
   never change core denominators.
 

@@ -11,6 +11,7 @@ interface Row {
   template: string;
   language: string;
   scorecard: string;
+  profile: string;
   tier: string;
   positive: string;
   negative: string;
@@ -32,6 +33,7 @@ for (const scorecard of snapshot.results.scorecards) {
           template: template.replace('dfb-template-', ''),
           language: language.language,
           scorecard: scorecard.id,
+          profile: scorecard.model_profile,
           tier: tier.score_tier,
           positive: outcomes.positive ?? '—',
           negative: outcomes.negative ?? '—',
@@ -55,6 +57,7 @@ rows.sort(
         <th>Semantic template</th>
         <th>Language</th>
         <th>Scorecard</th>
+        <th>Model profile</th>
         <th>Tier</th>
         <th>Positive outcome</th>
         <th>Negative outcome</th>
@@ -72,6 +75,9 @@ rows.sort(
             </td>
             <td>
               <code>{row.scorecard}</code>
+            </td>
+            <td>
+              <code>{row.profile}</code>
             </td>
             <td>{row.tier}</td>
             <td>

@@ -1,0 +1,79 @@
+---
+title: Snapshot v0.5.0
+description: The Bifrost v0.10.7 fix cycle, and the first freeze to publish the modeling and tool-native tiers.
+---
+
+import SnapshotBanner from '../../../../components/SnapshotBanner.astro';
+import { snapshots, evidenceUrl } from '../../../../data/snapshots';
+
+export const snapshot = snapshots.find((s) => s.version === 'v0.5.0');
+
+<SnapshotBanner snapshot={snapshot} />
+
+The fifth immutable DataFlowBench snapshot. It is two things at once: the
+**Bifrost v0.10.7 fix cycle**, in which the previous freeze's 22 `runner-error`
+results fall to zero and Bifrost's decisive-correct count on the thirteen
+kernels roughly doubles, and the **first freeze to publish the modeling tier
+and the tool-native tier** alongside the benchmark-controlled kernels. Four
+analyzers are bound at one fixture revision: Bifrost v0.10.7, CodeQL 2.26.3,
+Joern 4.0.610, and Semgrep CE 1.174.0.
+
+This snapshot therefore carries **two model profiles**. The
+`benchmark-controlled` profile covers the thirteen language kernels (whose
+population is byte-identical to v0.4.0's) and the twelve-template modeling
+matrix, where DataFlowBench configures each tool to the benchmark's own
+source/sink contract. The `tool-native` profile covers the six-template probe
+set, where each tool decides with nothing but what it ships. **The two profiles
+are never pooled, never compared number-to-number, and never share a
+denominator.** Each scorecard on these pages is labelled with the profile it
+was produced under.
+
+Coverage differs by analyzer as well as by language and by tier: a kernel or a
+modeling category with no report for an analyzer means no extractor, no
+frontend, no adapter, or a category the tool's own model surface cannot
+express. That is coverage, not a score. `inconclusive` and `unsupported` are
+capability coverage and are never converted into clean negatives — a row
+reading `0 / 12` with twelve `unsupported` results is a declared decline, not
+twelve wrong answers.
+
+## Claim
+
+- Scope: <code>{snapshot.results.claim.scope}</code>
+- Tracks: {snapshot.results.claim.tracks.map((t) => <code>{t}</code>)}
+- Score tiers: {snapshot.results.claim.score_tiers.map((t) => <code>{t} </code>)}
+- Model profiles: {snapshot.results.claim.model_profiles.map((p) => <code>{p} </code>)}
+- Exclusions: {snapshot.results.claim.exclusions.length === 0 ? 'none' : ''}
+
+{snapshot.results.claim.exclusions.length > 0 && (
+  <table>
+    <thead>
+      <tr><th>Case</th><th>Reason</th></tr>
+    </thead>
+    <tbody>
+      {snapshot.results.claim.exclusions.map((exclusion) => (
+        <tr>
+          <td><code>{exclusion.id}</code></td>
+          <td>{exclusion.reason}</td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+)}
+
+## Bound evidence
+
+Freeze manifest: <a href={evidenceUrl(snapshot, snapshot.results.manifest.path)}><code>{snapshot.results.manifest.path}</code></a>
+— every case, fixture, normalized report, and raw-evidence file is
+digest-bound; `cargo run -- validate-freeze reports/freeze.json` re-verifies
+all of it. Each report's build identity is witnessed from the binary actually
+invoked, including on runs that decide nothing.
+
+The full release note, with the derived tables and the honest negatives — four
+new Bifrost false positives filed as bifrost-dev#2731, and the unreconciled
+Java `direct-propagation` instability — is
+[`docs/releases/v0.5.0.md`](https://github.com/BrokkAi/dataflowbench/blob/main/docs/releases/v0.5.0.md).
+
+Continue to [analyzers](/dataflowbench/snapshots/v0-5-0/analyzers/),
+[languages](/dataflowbench/snapshots/v0-5-0/languages/),
+[semantic templates](/dataflowbench/snapshots/v0-5-0/templates/), or
+[case evidence](/dataflowbench/snapshots/v0-5-0/evidence/).

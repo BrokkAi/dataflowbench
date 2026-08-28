@@ -10,6 +10,7 @@ const { snapshot } = Astro.props;
 interface Row {
   language: string;
   scorecard: string;
+  profile: string;
   tier: string;
   scored: boolean;
   total: number;
@@ -29,6 +30,7 @@ for (const scorecard of snapshot.results.scorecards) {
       rows.push({
         language: language.language,
         scorecard: scorecard.id,
+        profile: scorecard.model_profile,
         tier: tier.score_tier,
         scored: tier.scored,
         total: coverage.total ?? 0,
@@ -54,6 +56,7 @@ rows.sort(
       <tr>
         <th>Language</th>
         <th>Scorecard</th>
+        <th>Model profile</th>
         <th>Tier</th>
         <th>Cases</th>
         <th>Definitive</th>
@@ -71,6 +74,9 @@ rows.sort(
             </td>
             <td>
               <code>{row.scorecard}</code>
+            </td>
+            <td>
+              <code>{row.profile}</code>
             </td>
             <td>{row.tier}</td>
             <td>{row.total}</td>
