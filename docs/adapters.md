@@ -19,6 +19,7 @@ The initial adapter plan is:
 | Semgrep CE | Supported local analysis only | Implemented as eleven separate language-scoped populations over one committed taint rule per language; only the documented intraprocedural partition is scored. Four front ends are non-GA in the pinned distribution (Kotlin `beta`; Rust, C, C++ `alpha`) and the label is retained without ever changing the partition |
 | OpenTaint | Java and Kotlin profile | Implemented as two language-scoped populations over the pinned `analyzer/2026.08.27.17eb0fe` release, both run over their full expanded 58-assertion cores. The whole core is scored — the pinned documentation fences no capability — and the dominant measured result is a value-kind boundary: the engine drops taint on numeric values, which the retained probe evidence isolates from the templates' semantic dimensions |
 | Infer | C, C++, and Java profile | Implemented as three language-scoped populations over the pinned v1.3.0 release's Pulse taint configuration — the release's one operable taint surface, Quandary being removed — each run over its full expanded core (48, 56, and 58 assertions). The whole core is scored in all three; C and C++ gain their first benchmark-controlled interprocedural second engine |
+| FlowDroid | Java and Kotlin profile | Implemented as two language-scoped populations over the pinned 2.15.1 release's command-line analyzer, both run over their full expanded 58-assertion cores. The released CLI analyzes APKs only — verified in the field — so each case materializes a minimal APK from pinned, JVM-only pieces (a D8 dex translation, a committed benchmark-generated binary manifest, a harness entry activity); the whole core is scored, the pinned defaults fencing no capability |
 
 No adapter may synthesize a tool result. If a supported case cannot complete,
 emit `inconclusive` or `runner-error` with the raw evidence. If it is outside
@@ -538,6 +539,7 @@ we evaluate is recorded here against them so absence is never ambiguous:
 | CodeQL | **Adapted** | — |
 | OpenTaint | **Adapted** (2026-08 field evaluation) | — (JVM bytecode only, so Java and Kotlin are its two populations; pinned by release-asset digest because the analyzer self-reports no version; see [the OpenTaint adapter notes](../adapters/opentaint/README.md)) |
 | Infer | **Adapted** (2026-08 field evaluation) | — (C, C++, and Java are its three populations; the pinned v1.3.0 ships no Quandary checker, so Pulse's taint configuration is the operable taint mode, verified by probe; see [the Infer adapter notes](../adapters/infer/README.md)) |
+| FlowDroid | **Adapted** (2026-08 field evaluation) | — (Java and Kotlin are its two populations; the pinned 2.15.1 CLI is APK-only, verified against the binary, and the field question was whether per-case APK materialization stays within the bounds — it does, from pinned JVM-only pieces with no Android SDK dependency; see [the FlowDroid adapter notes](../adapters/flowdroid/README.md)) |
 | Snyk Code | Not eligible | (2) analysis is cloud-backed and account-bound; (4) terms to be verified but commonly restrictive — both must clear before any attempt |
 | Coverity | Not eligible | (2) no free local pinned CLI (Coverity Scan is cloud submission); (4) benchmark restrictions |
 | Checkmarx | Not eligible | (2) and (4) — enterprise-only, no local CLI, standard no-benchmark terms |
@@ -555,23 +557,23 @@ that is recorded rather than tested around.
 
 ### Queued candidates that do qualify
 
-Two open-source engines pass all four bounds on their face and are queued
-for future adapters (#82). OpenTaint (formerly issue #17) and Infer (the
-first entry of #82) both cleared their field evaluations — all four bounds
-hold, verified by probe rather than prospectus — and are adapted above:
+One open-source engine passes all four bounds on its face and remains
+queued for a future adapter (#82). OpenTaint (formerly issue #17), Infer,
+and FlowDroid all cleared their field evaluations — all four bounds hold,
+verified by probe rather than prospectus — and are adapted above:
 
 - **Pysa** (Meta) — open-source Python taint analysis on the Pyre engine.
-- **FlowDroid** — the academic standard for Java/Android taint analysis,
-  open source and locally runnable.
 
-Each still requires the standard adapter diligence before implementation:
+It still requires the standard adapter diligence before implementation:
 pin an exact version, verify the taint mode against a probe fixture, and
 preregister the capability partition from documentation — nothing here is a
-result yet. Infer's evaluation is a template for that diligence: the
-issue named it for its historical taint checker's languages, but the pinned
-release had removed that checker entirely, and the operable surface —
-Pulse's taint configuration — was established against the binary before any
-population ran.
+result yet. The Infer and FlowDroid evaluations are templates for that
+diligence: Infer's pinned release had removed the taint checker the issue
+named it for, so the operable surface — Pulse's taint configuration — was
+established against the binary before any population ran; FlowDroid's
+released CLI turned out to analyze APKs only, so what was established
+against the binary was that a minimal per-case APK is materializable from
+pinned, JVM-only pieces without changing what is measured.
 
 ## CodeQL language populations
 
@@ -971,6 +973,54 @@ at the indirect callsite while its retained `codeFlows` end on the anchored
 sink's own callsite. See [the Infer adapter notes](../adapters/infer/README.md)
 for the eligibility evaluation, the pinned invocation, the guarded failure
 modes, and the per-template results.
+
+## FlowDroid language populations
+
+The FlowDroid adapter keeps Java and Kotlin as two separate populations —
+the two benchmark languages whose fixtures compile to the JVM bytecode the
+pinned 2.15.1 release's command-line analyzer consumes, verified in the
+field before adaptation. Each command selects that language's whole core
+`taint` population runner-side by language, track, and score tier, exactly
+as the Joern, Semgrep, OpenTaint, and Infer kernels do, and each has its own
+report (`reports/flowdroid-<language>-kernel.json`) and retained-evidence
+root (`reports/raw/flowdroid-<language>-kernel/`). Both populations are
+post-freeze and bind nothing.
+
+**The released CLI analyzes APKs only**, established against the binary: a
+plain jar of compiled classes is refused for lack of an Android manifest,
+and entry points come exclusively from the manifest's declared components.
+Each case therefore materializes a minimal APK in an isolated scratch
+workspace — the compiled fixtures (`javac`, `kotlinc`), a fixed harness
+activity whose `onCreate` calls the fixture's own entry method (the
+adapter's analogue of OpenTaint's all-methods entry-point selector), a
+committed benchmark-generated binary manifest, and a D8 dex translation by
+the pinned r8 jar, all pinned JVM-only pieces with no Android SDK
+dependency. The materialization is harness plumbing outside the timed
+boundary, like the Joern Rust kernel's synthesized Cargo manifest; the one
+FlowDroid invocation is timed as `total`.
+
+The benchmark-controlled sources and sinks use FlowDroid's native
+mechanism, a sources-and-sinks definition file: one committed template
+whose placeholders the runner resolves per case — the method names from the
+fixture's own `DFB-SOURCE:`/`DFB-SINK:` marker lines through the shared
+resolver, the exact Soot signatures witnessed from the compiled fixture
+classes — with the resolved copy retained per case. The pin is the Maven
+Central artifact digest plus the version the jar self-reports in its
+embedded `pom.properties`, both witnessed per run (#87). Two verified
+zero-exit failure modes are guarded per case: the CLI prints a failure
+banner while exiting zero, and a leak-free run writes no results file at
+all, so the runner requires the analyzer's own completion line before any
+negative and reads the results XML's self-reported `TerminationState` —
+anything but `Success` is `inconclusive`, never `not-reached`. The whole
+expanded core is scored in both languages: the pinned distribution declares
+whole-program context- and flow-sensitive taint analysis and fences no
+construct class — reflection support is a documented opt-in flag, and the
+run pins the release's defaults the way the Joern kernels pin
+`maxCallDepth` — so there is no documented boundary to preregister an
+`unsupported` partition from, and every engine incapacity surfaces as a
+measured mismatch. See [the FlowDroid adapter
+notes](../adapters/flowdroid/README.md) for the eligibility evaluation, the
+pinned identities, the guarded failure modes, and the per-template results.
 
 The checked-in Bifrost snapshot (`reports/bifrost-smoke.json`) contains 118
 normalized results from Bifrost v0.10.2 build identity

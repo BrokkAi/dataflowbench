@@ -125,6 +125,7 @@ evidence is deferred.
 | Bifrost smoke | `reports/bifrost-smoke.json` | **Frozen and unchanged** — pinned at 118 classic cases by contract |
 | OpenTaint `run-opentaint-java-kernel` | `reports/opentaint-java-kernel.json` | **Ran** — new adapter (#17), whole 58-assertion population, post-freeze |
 | Infer `run-infer-java-kernel` | `reports/infer-java-kernel.json` | **Ran** — new adapter (#82), whole 58-assertion population, post-freeze |
+| FlowDroid `run-flowdroid-java-kernel` | `reports/flowdroid-java-kernel.json` | **Ran** — new adapter (#82), whole 58-assertion population, post-freeze |
 
 ### Deferred: CodeQL, and the Bifrost smoke slice
 
@@ -352,6 +353,26 @@ the same miss OpenTaint records — and `computed-property`'s
 `Field.getDeclaredField` access). See
 [the Infer adapter notes](../adapters/infer/README.md).
 
+### FlowDroid 2.15.1 — `reports/flowdroid-java-kernel.json`
+
+58 results: 28 `reached`, 30 `not-reached`, with zero `inconclusive`, zero
+`unsupported`, and zero `runner-error`; **49/58 match expected polarity** —
+30/32 classic and 19/26 challenge — five false negatives and four false
+positives. The whole core is scored: the pinned distribution declares
+whole-program context- and flow-sensitive taint analysis and fences no
+capability, so every incapacity is a measured mismatch. The pinned CLI
+analyzes APKs only, so each case is materialized as a minimal APK from
+pinned JVM-only pieces; FlowDroid is the language's first
+over-approximating engine on the container templates — the `array-element`
+and `element-object` negatives are false positives where Infer's misses in
+the same family are false negatives — it follows `recursive-carry` (the
+recursion Infer misses) and the six-hop `deep-relay-chain`, and its misses
+concentrate in stored-function indirection (`dispatch-table`,
+`callback-registration`, `function-field`, `closure-capture`) and
+default-off reflection (`reflective-invocation`), with `loop-carried`'s
+false positive the one path-sensitivity miss. See
+[the FlowDroid adapter notes](../adapters/flowdroid/README.md).
+
 ### A note on fixture revisions
 
 `fixture_revision` is a digest over the whole case corpus, so landing 26 Java
@@ -374,6 +395,10 @@ cargo run -- run-opentaint-java-kernel \
   --models-archive /path/to/opentaint-models.tar.gz
 cargo run -- run-infer-java-kernel \
   --infer /path/to/infer-osx-arm64-v1.3.0/bin/infer
+cargo run -- run-flowdroid-java-kernel \
+  --flowdroid-jar /path/to/soot-infoflow-cmd-2.15.1-jar-with-dependencies.jar \
+  --android-platform /path/to/android-34/android.jar \
+  --d8-jar /path/to/r8-8.5.35.jar
 ```
 
 Run them sequentially, never concurrently: each runner sweeps the whole report

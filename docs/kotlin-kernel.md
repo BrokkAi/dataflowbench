@@ -103,6 +103,7 @@ adapters can do.
 | CodeQL 2.26.3 | **Deferred** | `reports/codeql-kotlin-kernel.json` | Freeze-bound |
 | Joern 4.0.610 | **Not covered** | — | No Kotlin slice exists in this repository |
 | OpenTaint `analyzer/2026.08.27.17eb0fe` | Yes | `reports/opentaint-kotlin-kernel.json` | New adapter (#17); post-freeze, binds nothing |
+| FlowDroid 2.15.1 | Yes | `reports/flowdroid-kotlin-kernel.json` | New adapter (#82); post-freeze, binds nothing |
 
 **Both `reports/bifrost-kotlin-kernel.json` and
 `reports/codeql-kotlin-kernel.json` are among the nineteen reports
@@ -176,6 +177,35 @@ family of dynamic-heap-location over-approximation (`computed-property`,
 `dispatch-table`, `element-object`, `function-field` negatives). See
 [the OpenTaint adapter notes](../adapters/opentaint/README.md) for the
 per-subset tables and the retained evidence conventions.
+
+### FlowDroid 2.15.1 — expanded core
+
+`reports/flowdroid-kotlin-kernel.json`, from the new FlowDroid adapter
+(#82): the pinned release's command-line analyzer over the whole
+58-assertion population, all of it scored — the pinned distribution
+declares whole-program context- and flow-sensitive taint analysis and
+fences no capability, so as with OpenTaint there is no documented boundary
+to preregister an `unsupported` partition from. 30 `reached`, 28
+`not-reached`, zero `inconclusive`, zero `unsupported`, zero
+`runner-error`; **49/58** polarity match — 30/32 classic and 19/26
+challenge, four false negatives and five false positives.
+
+The pinned CLI analyzes APKs only, so each case's `kotlinc` bytecode is
+dexed (with the pinned `kotlin-stdlib.jar`) into a minimal APK from pinned
+JVM-only pieces. Unlike OpenTaint there is no value-kind boundary — taint
+survives Kotlin's `Int`-encoded templates — so this is Kotlin's second
+whole-population engine measurement and its strongest: the depth-6
+`deep-relay-chain`, `recursive-carry`, `alias-propagation`, and the heap
+field flows all discriminate correctly. The misses concentrate in
+stored-function indirection and reflection (`dispatch-table`,
+`callback-registration`, `computed-property`, `reflective-invocation`
+positives), and the false positives are container-element conflation
+(`array-element`, `element-object`), dispatch over-approximation
+(`function-field`, `anonymous-implementation`), and `loop-carried`'s path
+sensitivity — notably the Kotlin front end *follows* the stored-function
+flows the Java kernel drops and over-approximates them instead, a measured
+front-end asymmetry on the same engine. See
+[the FlowDroid adapter notes](../adapters/flowdroid/README.md).
 
 ### What the deferred adapters are expected to show
 
