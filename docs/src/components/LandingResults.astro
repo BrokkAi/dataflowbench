@@ -684,69 +684,6 @@ const caseCount = snapshot.results.scorecards
   }
 </script>
 
-<h2>Kernels, template by template</h2>
-
-<p>
-  Each row is one semantic scenario with a balanced pair: the flow exists
-  (positive) and a minimally different variant where it does not (negative). A
-  sound-and-precise analyzer reads <code class="good">reached</code> /
-  <code class="good">not-reached</code>. Read the analyzers' columns
-  independently — DataFlowBench publishes no combined leaderboard, and the
-  scorecards stay separate. Every kernel below is on the
-  <code>benchmark-controlled</code> model profile; the modeling and
-  tool-native populations follow in their own sections and share no
-  denominator with these.
-</p>
-
-{kernels.map((kernel) => (
-  <>
-    <h3>{kernel.language}</h3>
-    <div class="table-scroll">
-      <table>
-        <thead>
-          <tr>
-            <th rowspan="2">Template</th>
-            {kernel.vendors.map((vendor) => (
-              <th colspan="2">{vendor.name} {vendor.toolVersion}</th>
-            ))}
-          </tr>
-          <tr>
-            {kernel.vendors.map(() => (
-              <>
-                <th>positive</th>
-                <th>negative</th>
-              </>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {kernelTable(kernel).map((row) => (
-            <tr>
-              <td>
-                <code>{row.template}</code>
-              </td>
-              {row.cells.map((entry) => (
-                <>
-                  <td>
-                    <code class={outcomeClass('positive', entry.positive)}>
-                      {entry.positive}
-                    </code>
-                  </td>
-                  <td>
-                    <code class={outcomeClass('negative', entry.negative)}>
-                      {entry.negative}
-                    </code>
-                  </td>
-                </>
-              ))}
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
-  </>
-))}
-
 <h2>Direct-flow breadth, language by language</h2>
 
 <div class="table-scroll">
@@ -893,6 +830,69 @@ const caseCount = snapshot.results.scorecards
     </tbody>
   </table>
 </div>
+
+<h2>Kernels, template by template</h2>
+
+<p>
+  Each row is one semantic scenario with a balanced pair: the flow exists
+  (positive) and a minimally different variant where it does not (negative). A
+  sound-and-precise analyzer reads <code class="good">reached</code> /
+  <code class="good">not-reached</code>. Read the analyzers' columns
+  independently — DataFlowBench publishes no combined leaderboard, and the
+  scorecards stay separate. Every kernel below is on the
+  <code>benchmark-controlled</code> model profile; the modeling and
+  tool-native populations follow in their own sections and share no
+  denominator with these.
+</p>
+
+{kernels.map((kernel) => (
+  <>
+    <h3>{kernel.language}</h3>
+    <div class="table-scroll">
+      <table>
+        <thead>
+          <tr>
+            <th rowspan="2">Template</th>
+            {kernel.vendors.map((vendor) => (
+              <th colspan="2">{vendor.name} {vendor.toolVersion}</th>
+            ))}
+          </tr>
+          <tr>
+            {kernel.vendors.map(() => (
+              <>
+                <th>positive</th>
+                <th>negative</th>
+              </>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {kernelTable(kernel).map((row) => (
+            <tr>
+              <td>
+                <code>{row.template}</code>
+              </td>
+              {row.cells.map((entry) => (
+                <>
+                  <td>
+                    <code class={outcomeClass('positive', entry.positive)}>
+                      {entry.positive}
+                    </code>
+                  </td>
+                  <td>
+                    <code class={outcomeClass('negative', entry.negative)}>
+                      {entry.negative}
+                    </code>
+                  </td>
+                </>
+              ))}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  </>
+))}
 
 <h2>What this result means</h2>
 
