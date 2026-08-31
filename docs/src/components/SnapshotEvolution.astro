@@ -1,0 +1,589 @@
+---
+// Cross-snapshot evolution of the benchmark-controlled kernel population.
+//
+// Every number here is derived at build time from the archived `results.json`
+// of each freeze (and the current one), through the *same* no-pooling
+// population filter the landing cards use — `coreKernelPopulations`. Nothing
+// on this page is hand-entered, and nothing is pooled: benchmark-controlled
+// kernels only, `core` tiers only, one series per analyzer, no combined score.
+import {
+  snapshots,
+  coreKernelPopulations,
+  vendorColorClass,
+  vendorName,
+  vendorOrder,
+} from '../data/snapshots';
+
+interface SeriesPoint {
+  version: string;
+  slug: string;
+  /** Decisive-correct: true positives plus true negatives. */
+  correct: number;
+  /** Decisive outcomes of any kind: TP + TN + FP + FN. */
+  decided: number;
+  /** Decisive but wrong: FP + FN. */
+  wrong: number;
+  /** Coverage outcomes — never plotted as negatives, never as zeroes. */
+  incomplete: number;
+  /** Assertions in the kernels this analyzer actually reported on. */
+  covered: number;
+  /** Kernels this analyzer covers, of the snapshot's kernels. */
+  kernels: number;
+}
+
+interface Series {
+  tool: string;
+  name: string;
+  colorClass: string;
+  points: SeriesPoint[];
+}
+
+interface SnapshotColumn {
+  version: string;
+  slug: string;
+  /** The snapshot's whole benchmark-controlled core population. */
+  population: number;
+  kernels: number;
+  languages: number;
+}
+
+// Oldest first: the registry is newest-first for the sidebar's sake.
+const timeline = [...snapshots].reverse();
+
+const columns: SnapshotColumn[] = [];
+const byTool = new Map<string, SeriesPoint[]>();
+
+for (const snapshot of timeline) {
+  const populations = coreKernelPopulations(snapshot.results);
+  const population = populations.reduce((sum, entry) => sum + entry.cases, 0);
+  columns.push({
+    version: snapshot.version,
+    slug: snapshot.slug,
+    population,
+    kernels: populations.length,
+    languages: new Set(populations.map((entry) => entry.language)).size,
+  });
+
+  const totals = new Map<string, SeriesPoint>();
+  for (const entry of populations) {
+    for (const [tool, coverage] of entry.entries) {
+      let point = totals.get(tool);
+      if (!point) {
+        point = {
+          version: snapshot.version,
+          slug: snapshot.slug,
+          correct: 0,
+          decided: 0,
+          wrong: 0,
+          incomplete: 0,
+          covered: 0,
+          kernels: 0,
+        };
+        totals.set(tool, point);
+      }
+      for (const result of coverage.tier.cases) {
+        switch (result.classification) {
+          case 'true-positive':
+          case 'true-negative':
+            point.correct += 1;
+            point.decided += 1;
+            break;
+          case 'false-positive':
+          case 'false-negative':
+            point.wrong += 1;
+            point.decided += 1;
+            break;
+          default:
+            // inconclusive, unsupported, runner-error: capability coverage.
+            point.incomplete += 1;
+        }
+      }
+      point.covered += entry.cases;
+      point.kernels += 1;
+    }
+  }
+  // An analyzer absent from a snapshot gets no entry at all — no zero point,
+  // and the line below simply does not pass through this column.
+  for (const [tool, point] of totals) {
+    const points = byTool.get(tool) ?? [];
+    points.push(point);
+    byTool.set(tool, points);
+  }
+}
+
+const series: Series[] = [...byTool.entries()]
+  .map(([tool, points]) => ({
+    tool,
+    name: vendorName(tool),
+    colorClass: vendorColorClass(tool),
+    points,
+  }))
+  .sort(
+    (left, right) =>
+      vendorOrder(left.tool) - vendorOrder(right.tool) ||
+      left.name.localeCompare(right.name),
+  );
+
+// ---- Geometry -------------------------------------------------------------
+const width = 800;
+const height = 440;
+const padLeft = 56;
+const padRight = 18;
+const padTop = 28;
+const padBottom = 74;
+const plotWidth = width - padLeft - padRight;
+const plotHeight = height - padTop - padBottom;
+const band = plotWidth / columns.length;
+
+const ceiling = Math.max(...columns.map((column) => column.population));
+const step = 200;
+const axisMax = Math.max(step, Math.ceil(ceiling / step) * step);
+const ticks: number[] = [];
+for (let value = 0; value <= axisMax; value += step) ticks.push(value);
+
+const bandCenter = (index: number) => padLeft + (index + 0.5) * band;
+const y = (value: number) => padTop + plotHeight * (1 - value / axisMax);
+// A constant per-series horizontal offset: the markers of one column no longer
+// collide, and because every point of a series shifts by the same amount the
+// shape of the line is untouched.
+const seriesOffset = (index: number) =>
+  (index - (series.length - 1) / 2) * 13;
+
+const columnIndex = new Map(columns.map((column, index) => [column.version, index]));
+
+// The step line for the benchmark's own population: flat across each snapshot's
+// band, jumping between them, so the growth of the denominator is a shape
+// rather than a footnote.
+const ceilingPath = columns
+  .map((column, index) => {
+    const left = padLeft + index * band;
+    const right = left + band;
+    const top = y(column.population);
+    return `${index === 0 ? 'M' : 'L'} ${left.toFixed(1)} ${top.toFixed(1)} L ${right.toFixed(1)} ${top.toFixed(1)}`;
+  })
+  .join(' ');
+
+/** Contiguous runs, so a snapshot an analyzer skipped breaks the line. */
+function runs(points: SeriesPoint[]): SeriesPoint[][] {
+  const out: SeriesPoint[][] = [];
+  let current: SeriesPoint[] = [];
+  let previous = -2;
+  for (const point of points) {
+    const index = columnIndex.get(point.version) ?? -1;
+    if (index !== previous + 1 && current.length > 0) {
+      out.push(current);
+      current = [];
+    }
+    current.push(point);
+    previous = index;
+  }
+  if (current.length > 0) out.push(current);
+  return out;
+}
+
+function linePath(points: SeriesPoint[], offset: number): string {
+  return points
+    .map((point, index) => {
+      const x = bandCenter(columnIndex.get(point.version) ?? 0) + offset;
+      return `${index === 0 ? 'M' : 'L'} ${x.toFixed(1)} ${y(point.correct).toFixed(1)}`;
+    })
+    .join(' ');
+}
+
+const evidenceHref = (slug: string) =>
+  `/dataflowbench/snapshots/${slug}/evidence/`;
+
+const rows = columns.flatMap((column) =>
+  series
+    .map((entry) => ({
+      column,
+      entry,
+      point: entry.points.find((point) => point.version === column.version),
+    }))
+    .filter(
+      (row): row is { column: SnapshotColumn; entry: Series; point: SeriesPoint } =>
+        row.point !== undefined,
+    ),
+);
+
+const first = columns[0]!;
+const last = columns.at(-1)!;
+
+// The snapshot that expanded the population the most: the freeze where a
+// falling share is the benchmark moving, not an analyzer regressing.
+const biggestJump = columns
+  .map((column, index) => ({
+    column,
+    previous: columns[index - 1],
+    growth: column.population - (columns[index - 1]?.population ?? 0),
+  }))
+  .filter((entry) => entry.previous !== undefined)
+  .sort((left, right) => right.growth - left.growth)[0]!;
+---
+
+<h2 id="evolution">How the benchmark and its analyzers evolved</h2>
+
+<p>
+  One series per analyzer, across every published freeze. The vertical axis
+  counts <strong>decisive-correct assertions</strong> — true positives plus
+  true negatives — on the <code>benchmark-controlled</code> kernel population,
+  the same no-pooling population the cards at the top of this page read. The
+  grey step is the benchmark itself: the total core population of that
+  snapshot, which grew from {first.population} assertions in
+  {first.version} to {last.population} in {last.version}. Nothing here is
+  pooled with the modeling matrix or the tool-native probes, and there is no
+  combined cross-analyzer score: read each line on its own.
+</p>
+
+<div class="chart-frame">
+  <svg
+    class="evolution-chart"
+    viewBox={`0 0 ${width} ${height}`}
+    role="img"
+    aria-labelledby="evolution-chart-title evolution-chart-desc"
+  >
+    <title id="evolution-chart-title">
+      Decisive-correct assertions per analyzer across DataFlowBench snapshots
+    </title>
+    <desc id="evolution-chart-desc">
+      A stepped grey line shows each snapshot's total benchmark-controlled core
+      population. Beneath it, one line per analyzer plots that analyzer's
+      decisive-correct count. The table that follows carries every value.
+    </desc>
+
+    {ticks.map((tick) => (
+      <>
+        <line
+          class="grid"
+          x1={padLeft}
+          x2={width - padRight}
+          y1={y(tick)}
+          y2={y(tick)}
+        />
+        <text class="tick" x={padLeft - 10} y={y(tick) + 4} text-anchor="end">
+          {tick}
+        </text>
+      </>
+    ))}
+
+    <line
+      class="axis"
+      x1={padLeft}
+      x2={width - padRight}
+      y1={y(0)}
+      y2={y(0)}
+    />
+
+    <path class="ceiling" d={ceilingPath} />
+    {columns.map((column, index) => (
+      <text
+        class="ceiling-label"
+        x={bandCenter(index)}
+        y={y(column.population) - 9}
+        text-anchor="middle"
+      >
+        {column.population}
+      </text>
+    ))}
+
+    {series.map((entry, entryIndex) => {
+      const offset = seriesOffset(entryIndex);
+      return (
+        <g class:list={['series', entry.colorClass]}>
+          {entry.points.map((point) => {
+            const x = bandCenter(columnIndex.get(point.version) ?? 0) + offset;
+            return (
+              <>
+                <line
+                  class="uncorrect"
+                  x1={x}
+                  x2={x}
+                  y1={y(point.covered)}
+                  y2={y(point.correct)}
+                />
+                <line
+                  class="covered-cap"
+                  x1={x - 5}
+                  x2={x + 5}
+                  y1={y(point.covered)}
+                  y2={y(point.covered)}
+                />
+              </>
+            );
+          })}
+          {runs(entry.points).map((run) => (
+            <path class="line" d={linePath(run, offset)} />
+          ))}
+          {entry.points.map((point) => {
+            const x = bandCenter(columnIndex.get(point.version) ?? 0) + offset;
+            return (
+              <circle class="dot" cx={x} cy={y(point.correct)} r="4.5">
+                <title>
+                  {entry.name} · {point.version} · {point.correct} correct of{' '}
+                  {point.decided} decided, on {point.covered} assertions in{' '}
+                  {point.kernels} {point.kernels === 1 ? 'kernel' : 'kernels'}
+                </title>
+              </circle>
+            );
+          })}
+        </g>
+      );
+    })}
+
+    {columns.map((column, index) => (
+      <a href={evidenceHref(column.slug)}>
+        <text
+          class="x-label"
+          x={bandCenter(index)}
+          y={height - padBottom + 24}
+          text-anchor="middle"
+        >
+          {column.version}
+        </text>
+        <text
+          class="x-sub"
+          x={bandCenter(index)}
+          y={height - padBottom + 41}
+          text-anchor="middle"
+        >
+          {column.kernels} {column.kernels === 1 ? 'kernel' : 'kernels'}
+        </text>
+      </a>
+    ))}
+
+    <text class="axis-title" x="2" y={padTop - 12} text-anchor="start">
+      assertions
+    </text>
+  </svg>
+</div>
+
+<ul class="chart-legend">
+  {series.map((entry) => (
+    <li class:list={[entry.colorClass]}>
+      <span class="swatch" aria-hidden="true"></span>
+      {entry.name} · decisive-correct
+    </li>
+  ))}
+  <li class="ceiling-key">
+    <span class="swatch" aria-hidden="true"></span>
+    benchmark core population (the denominator)
+  </li>
+  <li class="stub-key">
+    <span class="swatch" aria-hidden="true"></span>
+    remainder of that analyzer's own covered population
+  </li>
+</ul>
+
+<p class="caption">
+  Each marker sits at the analyzer's decisive-correct count. The faint stub
+  above it reaches that analyzer's <em>own</em> covered population — the
+  assertions it reported on — so the part of the stub above the marker is
+  wrong answers plus coverage outcomes, and the remaining gap up to the grey
+  step is kernels it does not cover at all. A snapshot without a marker is a
+  snapshot the analyzer was not run in: Joern first appears in
+  {series.find((entry) => entry.tool === 'joern')?.points[0]?.version ?? 'n/a'},
+  Semgrep CE in
+  {series.find((entry) => entry.tool === 'semgrep')?.points[0]?.version ?? 'n/a'}.
+  Absence is never drawn as a zero and never interpolated across.
+  <code>inconclusive</code>, <code>unsupported</code> and
+  <code>runner-error</code> are capability coverage: excluded from
+  correctness, never converted into wrong answers. Every snapshot label links
+  to that freeze's per-case evidence.
+</p>
+
+<div class="table-scroll">
+  <table>
+    <thead>
+      <tr>
+        <th>Snapshot</th>
+        <th>Analyzer</th>
+        <th>Decisive-correct</th>
+        <th>Decided</th>
+        <th>Coverage outcomes</th>
+        <th>Its covered population</th>
+        <th>Benchmark core population</th>
+      </tr>
+    </thead>
+    <tbody>
+      {rows.map((row) => (
+        <tr>
+          <td>
+            <a href={evidenceHref(row.column.slug)}>{row.column.version}</a>
+          </td>
+          <td>
+            <span
+              class:list={['vendor-dot', row.entry.colorClass]}
+              aria-hidden="true"></span>
+            {row.entry.name}
+          </td>
+          <td>{row.point.correct}</td>
+          <td>{row.point.decided}</td>
+          <td>{row.point.incomplete}</td>
+          <td>
+            {row.point.covered}
+            <span class="muted">
+              {`(${row.point.kernels} of ${row.column.kernels} ${
+                row.column.kernels === 1 ? 'kernel' : 'kernels'
+              })`}
+            </span>
+          </td>
+          <td>{row.column.population}</td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+</div>
+
+<p>
+  Read the shape, not a ranking. Two different things move a line: an analyzer
+  getting better, and the benchmark getting harder. The largest expansion so
+  far is <strong>{biggestJump.column.version}</strong>, which took the core
+  population from {biggestJump.previous!.population} to
+  {biggestJump.column.population} assertions — every analyzer's share of the
+  population fell there without any of them changing. Because the denominator
+  is drawn alongside the counts, saturation and expansion stay
+  distinguishable, and no two snapshots' fractions are ever compared as if
+  they were the same exam.
+</p>
+
+<style>
+  .chart-frame {
+    border: 1px solid var(--sl-color-hairline);
+    border-radius: 0.75rem;
+    padding: 0.75rem 0.5rem 0.25rem;
+    background: var(--sl-color-bg-sidebar);
+    overflow-x: auto;
+  }
+  .evolution-chart {
+    display: block;
+    width: 100%;
+    min-width: 34rem;
+    height: auto;
+  }
+  .evolution-chart .grid {
+    stroke: var(--sl-color-hairline);
+    stroke-width: 1;
+  }
+  .evolution-chart .axis {
+    stroke: var(--sl-color-gray-4);
+    stroke-width: 1.5;
+  }
+  .evolution-chart .tick,
+  .evolution-chart .axis-title,
+  .evolution-chart .x-sub {
+    font-family: var(--__sl-font-mono);
+    font-size: 11px;
+    fill: var(--sl-color-gray-3);
+  }
+  .evolution-chart .x-label {
+    font-family: var(--__sl-font-mono);
+    font-size: 13px;
+    fill: var(--sl-color-accent-high);
+    text-decoration: underline;
+  }
+  .evolution-chart a:hover .x-label {
+    fill: var(--sl-color-white);
+  }
+  .evolution-chart .ceiling {
+    fill: none;
+    stroke: var(--sl-color-gray-4);
+    stroke-width: 2;
+    stroke-dasharray: 6 4;
+  }
+  .evolution-chart .ceiling-label {
+    font-family: var(--__sl-font-mono);
+    font-size: 12px;
+    fill: var(--sl-color-gray-2);
+  }
+  .evolution-chart .series .line {
+    fill: none;
+    stroke: var(--vendor-rule);
+    stroke-width: 2.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .evolution-chart .series .dot {
+    fill: var(--vendor-rule);
+    stroke: var(--sl-color-bg-sidebar);
+    stroke-width: 1.5;
+  }
+  .evolution-chart .series .uncorrect {
+    stroke: var(--vendor-rule);
+    stroke-width: 6;
+    opacity: 0.22;
+  }
+  .evolution-chart .series .covered-cap {
+    stroke: var(--vendor-rule);
+    stroke-width: 2;
+    opacity: 0.5;
+  }
+  .chart-legend {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem 1.25rem;
+    margin: 0.75rem 0 0;
+    padding: 0;
+    font-size: var(--sl-text-sm);
+    color: var(--sl-color-gray-2);
+  }
+  .chart-legend li {
+    margin: 0;
+    display: flex;
+    align-items: center;
+  }
+  .chart-legend .swatch {
+    display: inline-block;
+    width: 1.1rem;
+    height: 0.25rem;
+    border-radius: 0.125rem;
+    margin-right: 0.45rem;
+    background: var(--vendor-rule, var(--sl-color-accent));
+  }
+  .chart-legend .ceiling-key .swatch {
+    background: repeating-linear-gradient(
+      to right,
+      var(--sl-color-gray-4) 0 6px,
+      transparent 6px 10px
+    );
+  }
+  .chart-legend .stub-key .swatch {
+    height: 0.6rem;
+    width: 0.45rem;
+    background: var(--sl-color-gray-3);
+    opacity: 0.35;
+  }
+  .vendor-dot {
+    display: inline-block;
+    width: 0.55rem;
+    height: 0.55rem;
+    border-radius: 50%;
+    margin-right: 0.4rem;
+    vertical-align: baseline;
+    background: var(--vendor-rule, var(--sl-color-accent));
+  }
+  /* The fixed vendor→colour identity map, keyed by tool rather than by
+     position, matching the kernel cards and the confusion dialog. */
+  .v0 {
+    --vendor-rule: var(--sl-color-accent-high);
+  }
+  .v1 {
+    --vendor-rule: var(--sl-color-orange);
+  }
+  .v2 {
+    --vendor-rule: var(--sl-color-purple);
+  }
+  .v3 {
+    --vendor-rule: var(--sl-color-green);
+  }
+  .muted {
+    color: var(--sl-color-gray-3);
+  }
+  .caption {
+    font-size: var(--sl-text-sm);
+    color: var(--sl-color-gray-3);
+  }
+  .table-scroll {
+    overflow-x: auto;
+  }
+</style>
