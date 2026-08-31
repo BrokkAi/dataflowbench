@@ -1162,3 +1162,80 @@ counted as false negatives. The v0.10.2 outcomes match v0.10.1 case-for-case,
 but do not restore the complete Java correctness observed in v0.9.5. See the
 [Bifrost adapter notes](../adapters/bifrost/README.md) for raw-report
 separation and the per-template mismatch breakdown.
+
+## Amendments
+
+Amendments are dated, state what changed and which adapters and populations
+they touch, name the freezes they invalidate, and land as their own commits —
+separate from any fixture, rule-template, or result change they motivate.
+
+Their numbers continue the repository's **single** amendment sequence rather
+than restarting per document: A1 is in
+[the challenge tier](challenge-tier.md#amendments), A2–A5 and A9 are in
+[the modeling matrix](modeling-matrix.md#amendments), A6–A8 and A10 are in
+[the tool-native profile](native-profile.md#amendments), and
+[the latency tier](latency-tier.md#amendments) has joined the sequence with
+none yet. This document joins it here, so that an amendment identifier names
+exactly one amendment wherever it is cited.
+
+### A11 — 2026-08-31: OpenTaint's value-kind boundary is a default rule configuration, and primitive tracking is enabled in both kernel templates
+
+**What was published.** The OpenTaint adapter (#96) measured the pinned
+`analyzer/2026.08.27.17eb0fe` engine dropping taint on numeric values — `int`
+and boxed `Integer` alike — while carrying it on reference types, isolated
+from the templates' semantic dimensions by the retained value-kind probe
+(`scripts/probe-opentaint-value-kind.sh`,
+`reports/raw/opentaint-value-kind-probe/`). The adapter notes, this
+document's OpenTaint sections, and both kernel contracts stated that boundary
+as a property of the pinned engine, and it dominated both retained reports:
+Java's core is entirely `int`-encoded, so its kernel read 0/29 on positives;
+Kotlin's 15 `Int`-encoded templates repeated the same miss.
+
+**What the upstream response measured false in that framing.** The boundary
+was reported upstream as
+[seqra/opentaint#388](https://github.com/seqra/opentaint/issues/388), and the
+maintainers' response identified it as a **default rule configuration**, not
+an engine limit: primitive tracking is disabled by default and enabled per
+rule with `options: primitive-tracking: true`, exercised by the shipped
+ruleset itself. The claim was verified on the same pinned jar
+(digest-checked, invocation otherwise identical) by the primitive-tracking
+probe (`scripts/probe-opentaint-primitive-tracking.sh`,
+`reports/raw/opentaint-primitive-tracking-probe/`): with the option absent
+the value-kind probe's result reproduces exactly, and with the option enabled
+all four value kinds carry — including `int` and boxed `Integer` — with zero
+findings on the probe's added clean and overwrite negative arms. A Kotlin
+mirror of the probe (kotlinc-compiled `object` members, `Int`-typed
+endpoints) behaved identically in both directions.
+
+**What changes.**
+
+1. Both committed kernel rule templates
+   (`adapters/opentaint/rules/kernel-java.yaml`,
+   `adapters/opentaint/rules/kernel-kotlin.yaml`) gain
+   `options: primitive-tracking: true`, joining the templates' other two
+   load-bearing spellings as a third verified against the pinned engine. The
+   option puts the benchmark rule on the same footing as the shipped ruleset's
+   own primitive-flow rules; leaving the default in place would keep
+   publishing a rule-configuration artifact as if it were an engine
+   measurement.
+2. The templates' `configuration_hash` changes, which invalidates both
+   retained OpenTaint kernel reports
+   (`reports/opentaint-{java,kotlin}-kernel.json`); both populations are
+   re-run in full under the amended templates, as their own change separate
+   from this amendment. Java's 29 positives become real measurements of the
+   templates' semantic dimensions rather than 29 repetitions of one
+   configuration artifact, and the same holds for Kotlin's 15 `Int`-encoded
+   templates.
+3. The adapter notes and both kernel contracts restate the boundary as what
+   it measurably is: a property of the **default** rule configuration,
+   resolved for this adapter by the amended templates. The value-kind probe
+   and its retained evidence are unchanged and keep their meaning — they
+   measured the default configuration, and its baseline is re-reproduced in
+   the primitive-tracking probe's retained evidence.
+
+**What does not change.** The pin and both witnessed asset digests, the
+invocation and its flags, the scored partition (the whole 58-assertion core
+in both languages — this amendment moves no case between partitions and
+remains partition-inert), the outcome semantics, and the anchored
+reconciliation are all untouched. No published freeze is invalidated: neither
+OpenTaint report is part of a frozen set.
