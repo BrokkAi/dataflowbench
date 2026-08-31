@@ -684,44 +684,56 @@ const caseCount = snapshot.results.scorecards
   }
 </script>
 
-<h2>Direct-flow breadth, language by language</h2>
+<h2>What this result means</h2>
 
-<div class="table-scroll">
-  <table>
-    <thead>
-      <tr>
-        <th>Language</th>
-        <th>Positive assertion</th>
-        <th>Negative assertion</th>
-        <th>Verdict</th>
-      </tr>
-    </thead>
-    <tbody>
-      {
-        breadth.map((row) => (
-          <tr>
-            <td>
-              <code>{row.language}</code>
-            </td>
-            <td>
-              <code class={outcomeClass('positive', row.positive)}>{row.positive}</code>
-            </td>
-            <td>
-              <code class={outcomeClass('negative', row.negative)}>{row.negative}</code>
-            </td>
-            <td>
-              {row.correct
-                ? 'both correct'
-                : row.incomplete
-                  ? 'incomplete analysis'
-                  : 'wrong answer'}
-            </td>
-          </tr>
-        ))
-      }
-    </tbody>
-  </table>
+<p>
+  DataFlowBench measures whether analyzers correctly decide semantic
+  data-flow questions — and whether they stay quiet when they should. Cases
+  are balanced positive/negative pairs of language-neutral semantic templates
+  (aliasing, kills, call context, branch joins, exception paths, …). The
+  kernels and the modeling matrix run under a
+  <code>benchmark-controlled</code> model profile, so the engines are compared
+  under a common contract; the tool-native probes run under a
+  <code>tool-native</code> profile, measuring the shipped product instead. The
+  two profiles answer different questions and are never combined.
+</p>
+
+<p>
+  This snapshot's bounded claim covers the synthetic direct-flow breadth
+  baseline and the propagation kernels of the {kernels.length} kernel
+  languages above on the <code>taint</code> track, plus the modeling matrix
+  and the tool-native probe set in java, javascript, and python. Cores are
+  sized per language ({templateSizes} templates), so each kernel is read on
+  its own denominator; language-only constructs are reported in separate
+  <code>language-extension</code> tiers on the snapshot pages. It does not
+  estimate real-project accuracy, other languages' kernel behavior, or
+  performance, and the tool-native rows describe shipped coverage on six
+  probe templates rather than product accuracy at large.
+  <code>inconclusive</code>, <code>unsupported</code>, and
+  <code>runner-error</code> are capability coverage and are never converted
+  into clean negatives.
+</p>
+
+<div class="tile-grid">
+  <div class="tile">
+    <p class="big">{caseCount}</p>
+    <p class="caption">frozen case results, across three populations</p>
+  </div>
+  <div class="tile">
+    <p class="big">{breadth.length}</p>
+    <p class="caption">languages in the breadth baseline</p>
+  </div>
+  <div class="tile">
+    <p class="big">{kernels.length}</p>
+    <p class="caption">kernel languages ({templateSizes} templates each)</p>
+  </div>
+  <div class="tile">
+    <p class="big">{snapshot.version}</p>
+    <p class="caption">immutable evidence release</p>
+  </div>
 </div>
+
+<SnapshotEvolution />
 
 <h2>Modeling matrix — is the model surface load-bearing?</h2>
 
@@ -894,56 +906,44 @@ const caseCount = snapshot.results.scorecards
   </>
 ))}
 
-<h2>What this result means</h2>
+<h2>Direct-flow breadth, language by language</h2>
 
-<p>
-  DataFlowBench measures whether analyzers correctly decide semantic
-  data-flow questions — and whether they stay quiet when they should. Cases
-  are balanced positive/negative pairs of language-neutral semantic templates
-  (aliasing, kills, call context, branch joins, exception paths, …). The
-  kernels and the modeling matrix run under a
-  <code>benchmark-controlled</code> model profile, so the engines are compared
-  under a common contract; the tool-native probes run under a
-  <code>tool-native</code> profile, measuring the shipped product instead. The
-  two profiles answer different questions and are never combined.
-</p>
-
-<p>
-  This snapshot's bounded claim covers the synthetic direct-flow breadth
-  baseline and the propagation kernels of the {kernels.length} kernel
-  languages above on the <code>taint</code> track, plus the modeling matrix
-  and the tool-native probe set in java, javascript, and python. Cores are
-  sized per language ({templateSizes} templates), so each kernel is read on
-  its own denominator; language-only constructs are reported in separate
-  <code>language-extension</code> tiers on the snapshot pages. It does not
-  estimate real-project accuracy, other languages' kernel behavior, or
-  performance, and the tool-native rows describe shipped coverage on six
-  probe templates rather than product accuracy at large.
-  <code>inconclusive</code>, <code>unsupported</code>, and
-  <code>runner-error</code> are capability coverage and are never converted
-  into clean negatives.
-</p>
-
-<div class="tile-grid">
-  <div class="tile">
-    <p class="big">{caseCount}</p>
-    <p class="caption">frozen case results, across three populations</p>
-  </div>
-  <div class="tile">
-    <p class="big">{breadth.length}</p>
-    <p class="caption">languages in the breadth baseline</p>
-  </div>
-  <div class="tile">
-    <p class="big">{kernels.length}</p>
-    <p class="caption">kernel languages ({templateSizes} templates each)</p>
-  </div>
-  <div class="tile">
-    <p class="big">{snapshot.version}</p>
-    <p class="caption">immutable evidence release</p>
-  </div>
+<div class="table-scroll">
+  <table>
+    <thead>
+      <tr>
+        <th>Language</th>
+        <th>Positive assertion</th>
+        <th>Negative assertion</th>
+        <th>Verdict</th>
+      </tr>
+    </thead>
+    <tbody>
+      {
+        breadth.map((row) => (
+          <tr>
+            <td>
+              <code>{row.language}</code>
+            </td>
+            <td>
+              <code class={outcomeClass('positive', row.positive)}>{row.positive}</code>
+            </td>
+            <td>
+              <code class={outcomeClass('negative', row.negative)}>{row.negative}</code>
+            </td>
+            <td>
+              {row.correct
+                ? 'both correct'
+                : row.incomplete
+                  ? 'incomplete analysis'
+                  : 'wrong answer'}
+            </td>
+          </tr>
+        ))
+      }
+    </tbody>
+  </table>
 </div>
-
-<SnapshotEvolution />
 
 <h2>Why these numbers are trustworthy</h2>
 
