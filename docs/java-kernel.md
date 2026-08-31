@@ -124,6 +124,7 @@ evidence is deferred.
 | CodeQL `run-codeql-java-kernel` | `reports/codeql-java-kernel.json` | **Deferred** — freeze-bound by `reports/freeze.json` (v0.3.0) |
 | Bifrost smoke | `reports/bifrost-smoke.json` | **Frozen and unchanged** — pinned at 118 classic cases by contract |
 | OpenTaint `run-opentaint-java-kernel` | `reports/opentaint-java-kernel.json` | **Ran** — new adapter (#17), whole 58-assertion population, post-freeze |
+| Infer `run-infer-java-kernel` | `reports/infer-java-kernel.json` | **Ran** — new adapter (#82), whole 58-assertion population, post-freeze |
 
 ### Deferred: CodeQL, and the Bifrost smoke slice
 
@@ -328,6 +329,29 @@ semantics are measurable; see
 [the Kotlin kernel contract](kotlin-kernel.md) and
 [the OpenTaint adapter notes](../adapters/opentaint/README.md).
 
+### Infer v1.3.0 — `reports/infer-java-kernel.json`
+
+58 results: 21 `reached`, 37 `not-reached`, with zero `inconclusive`, zero
+`unsupported`, and zero `runner-error`; **50/58 match expected polarity** —
+30/32 classic and 20/26 challenge — with all eight mismatches false negatives
+and **zero false positives**. The whole core is scored: the pinned
+distribution declares interprocedural analysis and fences no capability, so
+as with OpenTaint every incapacity is a measured mismatch. Unlike OpenTaint,
+Pulse carries taint on Java's `int`-encoded endpoint contracts, so all 58
+assertions are real propagation measurements: the six-hop `deep-relay-chain`
+pair discriminates correctly (the depth-6 relay Joern's pinned
+`maxCallDepth=4` misses), as do `closure-capture`,
+`anonymous-implementation`, `exception-catch`, and both path-sensitivity
+negatives. The eight misses are four families: arithmetic-expression drops
+(`expression`, `loop-carried` — taint does not survive `(value * 3) + 7`),
+recursion (`recursive-carry`), flows through unmodeled collections and
+registered callbacks (`dispatch-table` and `map-iteration` through map
+entries, `callback-registration` through a `List<IntConsumer>` of registered
+lambdas), and reflection (`reflective-invocation`'s string-resolved callee —
+the same miss OpenTaint records — and `computed-property`'s
+`Field.getDeclaredField` access). See
+[the Infer adapter notes](../adapters/infer/README.md).
+
 ### A note on fixture revisions
 
 `fixture_revision` is a digest over the whole case corpus, so landing 26 Java
@@ -348,6 +372,8 @@ cargo run -- run-semgrep-java-kernel --semgrep /path/to/semgrep
 cargo run -- run-opentaint-java-kernel \
   --analyzer-jar /path/to/opentaint-project-analyzer.jar \
   --models-archive /path/to/opentaint-models.tar.gz
+cargo run -- run-infer-java-kernel \
+  --infer /path/to/infer-osx-arm64-v1.3.0/bin/infer
 ```
 
 Run them sequentially, never concurrently: each runner sweeps the whole report

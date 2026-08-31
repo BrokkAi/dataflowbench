@@ -125,6 +125,24 @@ reasons are different and the difference matters:
 | Bifrost v0.10.5 | **Deferred (freeze-bound)** | `reports/bifrost-c-kernel.json` |
 | CodeQL 2.26.3 | **Deferred (freeze-bound)** | `reports/codeql-c-kernel.json` |
 | Joern 4.0.610 | **No C slice exists** | — |
+| Infer v1.3.0 | **Ran, whole population** — new adapter (#82), landed after the wave, post-freeze | `reports/infer-c-kernel.json` |
+
+**Infer arrived after this wave and is C's second engine.** The Infer adapter
+(#82) runs the pinned v1.3.0 release's Pulse taint analysis over the whole
+expanded 48-assertion core — the first benchmark-controlled interprocedural
+engine evidence on C, whose only prior engine scored its documented
+intraprocedural partition. Its report is post-freeze and binds nothing. 48
+results: 21 `reached`, 27 `not-reached`, zero `inconclusive`, `unsupported`,
+or `runner-error`; **43/48 match expected polarity**. The four false
+negatives fall in three shapes: taint dropped through arithmetic expressions
+(`expression-positive`'s `(value * 3) + 7`, `loop-carried-positive`'s
+`value + iteration`), a recursive carry not followed to its base case
+(`recursive-carry-positive`), and a callback registered into a
+function-pointer array and fired later (`callback-registration-positive`);
+the one false positive, `dispatch-table-negative`, walks the wrong
+function-pointer table entry — the same keyed-indirection
+over-approximation family the OpenTaint Kotlin kernel measures. See
+[the Infer adapter notes](../adapters/infer/README.md).
 
 **Both Bifrost and CodeQL are deferred, and both for the same reason.**
 `reports/bifrost-c-kernel.json` and `reports/codeql-c-kernel.json` are two of
