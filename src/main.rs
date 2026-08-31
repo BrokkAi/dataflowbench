@@ -2293,6 +2293,39 @@ enum Commands {
         #[arg(long)]
         kotlin_stdlib: PathBuf,
     },
+    /// Run the C propagation kernel through the pinned Infer release's Pulse
+    /// taint analysis. Each case's compile command is materialized per case
+    /// and traced by `infer capture` with the distribution's own bundled
+    /// clang, then analyzed by `infer analyze` — the two phase boundaries the
+    /// adapter genuinely observes.
+    RunInferCKernel {
+        /// Path to the pinned Infer binary; its self-reported version is
+        /// witnessed per run.
+        #[arg(long)]
+        infer: PathBuf,
+    },
+    /// Run the C++ propagation kernel through the pinned Infer release's
+    /// Pulse taint analysis, as its own population over the same
+    /// capture/analyze boundary as the C kernel.
+    RunInferCppKernel {
+        /// Path to the pinned Infer binary; its self-reported version is
+        /// witnessed per run.
+        #[arg(long)]
+        infer: PathBuf,
+    },
+    /// Run the Java propagation kernel through the pinned Infer release's
+    /// Pulse taint analysis. Fixtures are materialized on their package paths
+    /// and compiled under `infer capture`'s traced `javac`.
+    RunInferJavaKernel {
+        /// Path to the pinned Infer binary; its self-reported version is
+        /// witnessed per run.
+        #[arg(long)]
+        infer: PathBuf,
+        /// Java compiler traced by `infer capture` to materialize each
+        /// fixture's bytecode.
+        #[arg(long, default_value = "javac")]
+        javac: PathBuf,
+    },
     /// Run one language's benchmark-controlled taint-modeling matrix through
     /// Bifrost's policy CLI. The partition scores categories S and Z — the
     /// second promoted by Amendment A9 — so the other four categories are
@@ -2522,6 +2555,11 @@ fn main() -> Result<()> {
                 kotlin_stdlib,
             },
         ),
+        Commands::RunInferCKernel { infer } => run_infer_kernel(&infer, InferKernel::C),
+        Commands::RunInferCppKernel { infer } => run_infer_kernel(&infer, InferKernel::Cpp),
+        Commands::RunInferJavaKernel { infer, javac } => {
+            run_infer_kernel(&infer, InferKernel::Java { javac })
+        }
         Commands::RunBifrostModeling { language, bifrost } => {
             run_modeling(ModelingTool::Bifrost, &bifrost, language, None)
         }
@@ -7204,7 +7242,11 @@ fn sarif_result_anchor_match(
 fn evidence_path_matches_file(uri: &str, file: &str) -> bool {
     let uri = uri.replace('\\', "/");
     let uri = uri.split(['?', '#']).next().unwrap_or(&uri);
-    let uri = uri.strip_prefix("file://").unwrap_or(uri);
+    // Stripping the bare `file:` scheme subsumes `file://`: Infer's SARIF
+    // spells a workspace-relative artifact as `file:direct_flow.c`, with no
+    // slashes at all, and the slash trim below already absorbs the two a
+    // fully-spelled `file://` URI leaves behind.
+    let uri = uri.strip_prefix("file:").unwrap_or(uri);
     let uri = uri.trim_start_matches('/');
     let normalize = |path: &str| path.trim_start_matches("./").replace('\\', "/");
     let uri = normalize(uri);
@@ -10395,6 +10437,545 @@ fn run_opentaint_case(
         (Err(error), Ok(())) => Err(error),
         (Err(error), Err(cleanup_error)) => Err(error.context(format!(
             "OpenTaint case artifact cleanup also failed: {cleanup_error}"
+        ))),
+    }
+}
+
+// ---------------------------------------------------------------------------
+// Infer kernel runners.
+//
+// Infer (facebook/infer) analyzes code it watches being compiled: `infer
+// capture` traces a real compile command — the distribution's own bundled
+// clang for C and C++, a traced `javac` for Java — and `infer analyze` runs
+// the Pulse engine over the captured intermediate representation. The pinned
+// v1.3.0 release ships no Quandary checker at all (the historical taint
+// checker is removed, not merely deprecated), so Pulse's taint configuration
+// is the one operable taint surface and the one this adapter drives. Each
+// case's compile command is materialized per case in an isolated scratch
+// workspace, and the two subprocess boundaries the adapter genuinely
+// observes — capture, then analyze — are the retained phases, exactly as the
+// CodeQL kernels retain `database-create` and `database-analyze`.
+// ---------------------------------------------------------------------------
+
+/// The pinned Infer release this adapter's evidence was produced under. The
+/// binary self-reports this version, and every run witnesses it from the
+/// binary actually invoked, per the identity-witnessing convention (#87).
+const INFER_PINNED_VERSION: &str = "v1.3.0";
+
+const INFER_CONFIG_DIR: &str = "adapters/infer/config";
+
+/// The one SARIF rule id the benchmark-controlled taint policy can produce.
+/// `--pulse-only` disables every checker except Pulse, but Pulse itself also
+/// reports memory-safety issues (null dereferences, leaks); those answer a
+/// different question than the taint policy asks, so reconciliation reads
+/// only `TAINT_ERROR` results as flow claims and retains anything else as a
+/// diagnostic, the way the tool-native profile treats findings from queries
+/// the benchmark did not ask.
+const INFER_TAINT_RULE_ID: &str = "TAINT_ERROR";
+
+enum InferKernel {
+    C,
+    Cpp,
+    Java { javac: PathBuf },
+}
+
+impl InferKernel {
+    fn language(&self) -> &'static str {
+        match self {
+            Self::C => "c",
+            Self::Cpp => "cpp",
+            Self::Java { .. } => "java",
+        }
+    }
+
+    fn display_name(&self) -> &'static str {
+        match self {
+            Self::C => "C",
+            Self::Cpp => "C++",
+            Self::Java { .. } => "Java",
+        }
+    }
+
+    fn config_template(&self) -> String {
+        format!("{INFER_CONFIG_DIR}/kernel-{}.json", self.language())
+    }
+
+    fn report(&self) -> String {
+        format!("reports/infer-{}-kernel.json", self.language())
+    }
+
+    fn raw_dir(&self) -> String {
+        format!("reports/raw/infer-{}-kernel", self.language())
+    }
+
+    /// C and C++ share the C-family anchor dialect the CodeQL and Bifrost
+    /// kernels already reconcile with; Java uses the kernel Java dialect.
+    fn dialect(&self) -> AnchorDialect {
+        match self {
+            Self::C | Self::Cpp => AnchorDialect::Cpp,
+            Self::Java { .. } => AnchorDialect::Java,
+        }
+    }
+
+    fn label(&self) -> String {
+        format!("Infer {} kernel", self.display_name())
+    }
+
+    /// The scored template set, read from this language's rollout row like
+    /// every other kernel's. Infer's pinned distribution declares
+    /// whole-program interprocedural analysis, and its Pulse taint
+    /// configuration surface — sources, sinks, propagators, sanitizers, with
+    /// field accesses followed by default — fences no construct class behind
+    /// a tier or a documented capability boundary, so like the OpenTaint
+    /// kernels there is no documented partition to preregister `unsupported`
+    /// cells from: the entire core denominator is scored, and every
+    /// incapacity the engine actually has surfaces as a measured mismatch
+    /// rather than a decision taken from observation, which the adapter
+    /// contract forbids.
+    fn templates(&self) -> Vec<&'static str> {
+        expected_core_templates(self.language())
+    }
+}
+
+/// Witness the identity of the exact Infer binary this run invokes: the
+/// version the binary self-reports, plus the measured digest of its bytes.
+/// The pinned version is published only when the witnessed version matches
+/// it; a mismatch fails the run with both values in the error, so a report
+/// can never carry an asserted identity.
+fn witness_infer_identity(infer: &Path) -> Result<(String, String)> {
+    let output = Command::new(infer)
+        .arg("--version")
+        .stdin(std::process::Stdio::null())
+        .output()
+        .with_context(|| format!("run {} --version", infer.display()))?;
+    if !output.status.success() {
+        bail!(
+            "{} --version failed with status {}",
+            infer.display(),
+            output.status
+        );
+    }
+    let stdout = String::from_utf8_lossy(&output.stdout);
+    let version = stdout
+        .lines()
+        .find_map(|line| line.trim().strip_prefix("Infer version "))
+        .map(str::trim)
+        .filter(|version| !version.is_empty())
+        .context("Infer did not report a version")?
+        .to_string();
+    if version != INFER_PINNED_VERSION {
+        bail!(
+            "the Infer binary at {} witnessed version {version}, but this adapter pins {INFER_PINNED_VERSION}; refusing to publish a pinned identity for a binary that is not the pinned release",
+            infer.display()
+        );
+    }
+    let digest = format!(
+        "{:x}",
+        Sha256::digest(
+            fs::read(infer)
+                .with_context(|| format!("read the Infer binary {}", infer.display()))?
+        )
+    );
+    let build_identity = format!("infer:{version} bin-sha256:{digest}");
+    Ok((version, build_identity))
+}
+
+/// All three committed Infer taint-configuration templates, so one
+/// configuration hash binds the whole set the way the Semgrep and OpenTaint
+/// kernels' do.
+fn infer_config_paths() -> BTreeSet<PathBuf> {
+    BTreeSet::from([
+        PathBuf::from(format!("{INFER_CONFIG_DIR}/kernel-c.json")),
+        PathBuf::from(format!("{INFER_CONFIG_DIR}/kernel-cpp.json")),
+        PathBuf::from(format!("{INFER_CONFIG_DIR}/kernel-java.json")),
+    ])
+}
+
+fn select_infer_cases(kernel: &InferKernel) -> Result<Vec<(PathBuf, Value)>> {
+    let mut selected = Vec::new();
+    for path in case_paths() {
+        let case: Value = serde_json::from_str(&fs::read_to_string(&path)?)?;
+        if case["language"] == kernel.language()
+            && case["track"] == "taint"
+            && case["score_tier"] == "core"
+        {
+            selected.push((path, case));
+        }
+    }
+    validate_kernel_population_with(&selected, &kernel.label(), &kernel.templates())?;
+    Ok(selected)
+}
+
+/// Split an Infer SARIF document into the taint results the benchmark policy
+/// asked for and diagnostics for everything else Pulse reported alongside
+/// them. The returned document is what reconciliation reads; the retained raw
+/// evidence stays the verbatim SARIF.
+fn infer_taint_results_only(sarif: &Value) -> (Value, Vec<String>) {
+    let mut filtered = sarif.clone();
+    let mut diagnostics = Vec::new();
+    for run in filtered["runs"].as_array_mut().into_iter().flatten() {
+        if let Some(results) = run["results"].as_array_mut() {
+            results.retain(|result| {
+                if result["ruleId"] == INFER_TAINT_RULE_ID {
+                    return true;
+                }
+                diagnostics.push(format!(
+                    "non-taint Pulse finding {} retained as a diagnostic, not flow evidence",
+                    result["ruleId"].as_str().unwrap_or("(unnamed)")
+                ));
+                false
+            });
+            for result in results {
+                if let Some(sink_step) = infer_taint_sink_step_location(result)
+                    && let Some(locations) = result["locations"].as_array_mut()
+                {
+                    locations.push(sink_step);
+                }
+            }
+        }
+    }
+    diagnostics.sort();
+    diagnostics.dedup();
+    (filtered, diagnostics)
+}
+
+/// The final `codeFlows` step of an Infer taint result — the sink reach the
+/// engine's own path evidence names.
+///
+/// Infer's top-level `locations` entry sits at the reporting point, which for
+/// a flow through a function pointer or interface is the *indirect* callsite
+/// (`selected(dfb_source())`) rather than a textual callsite of the anchored
+/// sink. The retained SARIF's own `codeFlows` end on the sink callsite —
+/// "flows to this sink" — so that location is appended to the reconciliation
+/// view's `locations`, the way the CodeQL kernels' "query path evidence
+/// identifies the source-to-sink flow". The verbatim raw evidence is
+/// untouched, and a result with no code flow gains nothing.
+fn infer_taint_sink_step_location(result: &Value) -> Option<Value> {
+    let step = result["codeFlows"].as_array()?.first()?["threadFlows"]
+        .as_array()?
+        .first()?["locations"]
+        .as_array()?
+        .last()?;
+    let location = &step["location"];
+    location["physicalLocation"]["artifactLocation"]["uri"].as_str()?;
+    location["physicalLocation"]["region"]["startLine"].as_u64()?;
+    Some(location.clone())
+}
+
+fn run_infer_kernel(infer: &Path, kernel: InferKernel) -> Result<()> {
+    validate_cases()?;
+    let selected = select_infer_cases(&kernel)?;
+    let template_path = kernel.config_template();
+    let template = fs::read_to_string(&template_path)
+        .with_context(|| format!("read the Infer taint-configuration template {template_path}"))?;
+    for placeholder in [SEMGREP_SOURCE_PLACEHOLDER, SEMGREP_SINK_PLACEHOLDER] {
+        if !template.contains(placeholder) {
+            bail!(
+                "Infer taint-configuration template {template_path} does not carry {placeholder}"
+            );
+        }
+    }
+    // The template must itself be well-formed JSON that names a policy: the
+    // pinned binary silently analyzes with no taint question at all when its
+    // taint configuration cannot be read, so a malformed template must fail
+    // here rather than surface as a population of clean negatives.
+    let template_json: Value = serde_json::from_str(&template)
+        .with_context(|| format!("parse the Infer taint-configuration template {template_path}"))?;
+    if template_json["pulse-taint-policies"]
+        .as_array()
+        .is_none_or(Vec::is_empty)
+    {
+        bail!(
+            "Infer taint-configuration template {template_path} declares no pulse-taint-policies"
+        );
+    }
+    let raw_dir = PathBuf::from(kernel.raw_dir());
+    fs::create_dir_all(&raw_dir)?;
+    let started = now_seconds()?;
+    let (version, build_identity) = witness_infer_identity(infer)?;
+    write_run_environment(&raw_dir, "infer", &version, &build_identity)?;
+    let revision = fixture_revision()?;
+    let mut results = Vec::with_capacity(selected.len());
+
+    for (path, case) in selected {
+        let id = case["id"].as_str().expect("schema validated");
+        let start = Instant::now();
+        let (outcome, diagnostics, raw_path) =
+            run_infer_case(infer, &kernel, &template, &path, &case, &raw_dir)?;
+        results.push(normalized_result(
+            &case,
+            id,
+            outcome,
+            diagnostics,
+            start.elapsed(),
+            &raw_path,
+        ));
+    }
+
+    let configuration_hash = hash_paths(&infer_config_paths())?;
+    let report = json!({
+        "schema_version": 1,
+        "tool": "infer",
+        "tool_version": version,
+        "tool_build_identity": build_identity,
+        "adapter_version": ADAPTER_VERSION,
+        "configuration_hash": configuration_hash,
+        "fixture_revision": revision,
+        "started_at_unix_seconds": started,
+        "ended_at_unix_seconds": now_seconds()?,
+        "cold_or_warm": "cold",
+        "results": results
+    });
+    let report_path = kernel.report();
+    write_and_validate_report(Path::new(&report_path), &report)?;
+    println!("wrote {report_path}");
+    Ok(())
+}
+
+fn infer_case_scratch(kernel: &InferKernel, id: &str) -> Result<PathBuf> {
+    let scratch = std::env::temp_dir()
+        .join(format!("dataflowbench-infer-{}", kernel.language()))
+        .join(id);
+    if scratch.exists() {
+        fs::remove_dir_all(&scratch).with_context(|| format!("clear {}", scratch.display()))?;
+    }
+    fs::create_dir_all(&scratch)?;
+    Ok(scratch)
+}
+
+fn write_infer_error(
+    raw_dir: &Path,
+    id: &str,
+    stage: &str,
+    diagnostic: &str,
+    output: Option<&std::process::Output>,
+) -> Result<PathBuf> {
+    let error_path = raw_dir.join(format!("{id}-error.json"));
+    let mut evidence = json!({
+        "adapter": "infer",
+        "case_id": id,
+        "state": "runner-error",
+        "stage": stage,
+        "diagnostic": diagnostic,
+        "evidence_kind": "retained-process-diagnostics"
+    });
+    if let Some(output) = output {
+        evidence["status"] = json!(output.status.code());
+        evidence["stdout"] = json!(String::from_utf8_lossy(&output.stdout).trim());
+        evidence["stderr"] = json!(String::from_utf8_lossy(&output.stderr).trim());
+    }
+    fs::write(&error_path, serde_json::to_string_pretty(&evidence)? + "\n")?;
+    Ok(error_path)
+}
+
+fn run_infer_case(
+    infer: &Path,
+    kernel: &InferKernel,
+    template: &str,
+    case_path: &Path,
+    case: &Value,
+    raw_dir: &Path,
+) -> Result<(&'static str, Vec<String>, PathBuf)> {
+    let id = case["id"].as_str().expect("schema validated");
+    let raw_path = raw_dir.join(format!("{id}.json"));
+    let error_path = raw_dir.join(format!("{id}-error.json"));
+    let config_path = raw_dir.join(format!("{id}-taint-config.json"));
+    let timing_path = case_timing_path(raw_dir, id);
+    for stale in [&raw_path, &error_path, &config_path, &timing_path] {
+        if stale.exists() {
+            fs::remove_file(stale).with_context(|| format!("clear {}", stale.display()))?;
+        }
+    }
+
+    // A case whose endpoints cannot be resolved from its own markers has no
+    // usable anchor evidence: `inconclusive` with a retained reason, never a
+    // clean negative.
+    let endpoints = match benchmark_endpoint_names(case_path, case, kernel.dialect()) {
+        Ok(endpoints) => endpoints,
+        Err(reason) => {
+            let diagnostic =
+                format!("cannot derive the benchmark-controlled Infer endpoints: {reason}");
+            fs::write(
+                &error_path,
+                serde_json::to_string_pretty(&json!({
+                    "adapter": "infer",
+                    "case_id": id,
+                    "state": "inconclusive",
+                    "stage": "endpoint-resolution",
+                    "reason": diagnostic,
+                    "evidence_kind": "retained-anchor-resolution"
+                }))? + "\n",
+            )?;
+            return Ok(("inconclusive", vec![diagnostic], error_path));
+        }
+    };
+
+    let config = template
+        .replace(SEMGREP_SOURCE_PLACEHOLDER, &endpoints.source_function)
+        .replace(SEMGREP_SINK_PLACEHOLDER, &endpoints.sink_function);
+    fs::write(&config_path, &config)?;
+
+    let scratch = infer_case_scratch(kernel, id)?;
+    let result = (|| {
+        let fixture_root = case_path.parent().expect("case path has parent");
+        let mut compile_inputs = Vec::new();
+        for fixture in case["fixture_files"].as_array().expect("schema validated") {
+            let fixture = fixture.as_str().expect("schema validated");
+            // Java fixtures are materialized on their declared package paths,
+            // the way the OpenTaint kernels materialize them; C and C++
+            // fixtures sit flat in the workspace root.
+            let target = match kernel {
+                InferKernel::Java { .. } => {
+                    let body = fs::read_to_string(fixture_root.join(fixture))?;
+                    let package = jvm_fixture_package(fixture, &body)?;
+                    let package_dir = PathBuf::from(package.replace('.', "/"));
+                    fs::create_dir_all(scratch.join(&package_dir))?;
+                    package_dir.join(fixture)
+                }
+                InferKernel::C | InferKernel::Cpp => PathBuf::from(fixture),
+            };
+            fs::copy(fixture_root.join(fixture), scratch.join(&target))?;
+            compile_inputs.push(target);
+        }
+
+        // The materialized per-case compile command: Infer analyzes code it
+        // watches being compiled, so this command is the case's build
+        // context, like the compile-command materialization the CodeQL
+        // C-family kernel performs. The `clang`/`clang++` spelling selects
+        // the language mode of the distribution's own bundled front end;
+        // Java's traced compiler is the harness-supplied `javac`.
+        let results_dir = scratch.join("infer-out");
+        let mut capture = Command::new(infer);
+        capture
+            .arg("capture")
+            .arg("--results-dir")
+            .arg(&results_dir)
+            .arg("--")
+            .current_dir(&scratch)
+            .stdin(std::process::Stdio::null());
+        match kernel {
+            InferKernel::C => capture.arg("clang").arg("-c"),
+            InferKernel::Cpp => capture.arg("clang++").arg("-c"),
+            InferKernel::Java { javac } => capture.arg(javac),
+        };
+        capture.args(&compile_inputs);
+        let capture_started = Instant::now();
+        let captured = match capture.output() {
+            Ok(output) => output,
+            Err(error) => {
+                let diagnostic = format!(
+                    "failed to spawn infer capture with {}: {error}",
+                    infer.display()
+                );
+                let path = write_infer_error(raw_dir, id, "capture", &diagnostic, None)?;
+                return Ok(("runner-error", vec![diagnostic], path));
+            }
+        };
+        let capture_elapsed = capture_started.elapsed();
+        if !captured.status.success() {
+            let diagnostic = format!(
+                "infer capture of the {} fixture compile failed with status {}",
+                kernel.display_name(),
+                captured.status
+            );
+            let path = write_infer_error(raw_dir, id, "capture", &diagnostic, Some(&captured))?;
+            return Ok(("runner-error", vec![diagnostic], path));
+        }
+
+        // The pinned binary silently analyzes with no taint question at all
+        // when the file its `--pulse-taint-config` names does not exist —
+        // exit status zero, an empty report — so the resolved configuration's
+        // presence is proven before the analyzer runs, for the same reason
+        // the OpenTaint kernels prove their rule-load trace.
+        let resolved_config =
+            fs::canonicalize(&config_path).unwrap_or_else(|_| config_path.clone());
+        if !resolved_config.is_file() {
+            let diagnostic = format!(
+                "the resolved taint configuration {} vanished before analysis; the pinned binary would silently analyze without a taint question",
+                resolved_config.display()
+            );
+            let path = write_infer_error(raw_dir, id, "taint-config", &diagnostic, None)?;
+            return Ok(("runner-error", vec![diagnostic], path));
+        }
+        let mut analyze = Command::new(infer);
+        analyze
+            .arg("analyze")
+            .arg("--results-dir")
+            .arg(&results_dir)
+            .arg("--pulse-only")
+            .arg("--sarif")
+            .arg("--pulse-taint-config")
+            .arg(&resolved_config)
+            .current_dir(&scratch)
+            .stdin(std::process::Stdio::null());
+        let analyze_started = Instant::now();
+        let analyzed = match analyze.output() {
+            Ok(output) => output,
+            Err(error) => {
+                let diagnostic = format!(
+                    "failed to spawn infer analyze with {}: {error}",
+                    infer.display()
+                );
+                let path = write_infer_error(raw_dir, id, "analyze", &diagnostic, None)?;
+                return Ok(("runner-error", vec![diagnostic], path));
+            }
+        };
+        write_case_phase_timings(
+            raw_dir,
+            "infer",
+            id,
+            &[
+                ("capture", capture_elapsed),
+                ("analyze", analyze_started.elapsed()),
+            ],
+        )?;
+        if !analyzed.status.success() {
+            let diagnostic = format!(
+                "infer analyze of the {} kernel case failed with status {}",
+                kernel.display_name(),
+                analyzed.status
+            );
+            let path = write_infer_error(raw_dir, id, "analyze", &diagnostic, Some(&analyzed))?;
+            return Ok(("runner-error", vec![diagnostic], path));
+        }
+        let sarif_path = results_dir.join("report.sarif");
+        if !sarif_path.exists() {
+            let diagnostic = "infer analyze exited cleanly but wrote no SARIF report".to_string();
+            let path =
+                write_infer_error(raw_dir, id, "analyzer-output", &diagnostic, Some(&analyzed))?;
+            return Ok(("runner-error", vec![diagnostic], path));
+        }
+        fs::copy(&sarif_path, &raw_path)?;
+        let sarif: Value = match serde_json::from_str(&fs::read_to_string(&raw_path)?) {
+            Ok(sarif) => sarif,
+            Err(error) => {
+                let diagnostic = format!("parse Infer evidence {}: {error}", raw_path.display());
+                let path = write_infer_error(raw_dir, id, "analyzer-output", &diagnostic, None)?;
+                return Ok(("runner-error", vec![diagnostic], path));
+            }
+        };
+        let (taint_only, mut diagnostics) = infer_taint_results_only(&sarif);
+        let (outcome, anchor_diagnostics) =
+            callsite_anchored_outcome(case_path, case, &taint_only, kernel.dialect());
+        diagnostics.extend(anchor_diagnostics);
+        diagnostics.sort();
+        diagnostics.dedup();
+        Ok((outcome, diagnostics, raw_path.clone()))
+    })();
+
+    let cleanup =
+        fs::remove_dir_all(&scratch).with_context(|| format!("clear {}", scratch.display()));
+    match (result, cleanup) {
+        (Ok(normalized), Ok(())) => Ok(normalized),
+        (Ok((_, mut diagnostics, path)), Err(error)) => {
+            diagnostics.push(format!("Infer case artifact cleanup failed: {error}"));
+            diagnostics.sort();
+            diagnostics.dedup();
+            Ok(("runner-error", diagnostics, path))
+        }
+        (Err(error), Ok(())) => Err(error),
+        (Err(error), Err(cleanup_error)) => Err(error.context(format!(
+            "Infer case artifact cleanup also failed: {cleanup_error}"
         ))),
     }
 }
@@ -15240,6 +15821,181 @@ mod tests {
             "dataflowbench"
         );
         assert!(jvm_fixture_package("A.java", "class A {}").is_err());
+    }
+
+    /// Each Infer kernel is language-scoped, selects its whole expanded core,
+    /// resolves every case's endpoints under its own dialect, and loads a
+    /// committed taint-configuration template whose matcher shapes are
+    /// load-bearing: the pinned binary's plain `procedure` matcher is a
+    /// substring match (verified in the field — `dfb_source` matches
+    /// `dfb_source_extra`), so the C and C++ templates must carry the
+    /// anchored `^…$` regex form and the Java template the `\.…(`
+    /// signature-bounded form, or an endpoint name that prefixes another
+    /// identifier would silently widen the taint question.
+    #[test]
+    fn infer_kernels_are_language_scoped_and_resolvable() {
+        let kernels = [
+            InferKernel::C,
+            InferKernel::Cpp,
+            InferKernel::Java {
+                javac: PathBuf::from("javac"),
+            },
+        ];
+        let hashed = infer_config_paths();
+        for kernel in &kernels {
+            let language = kernel.language();
+            assert_eq!(
+                kernel.report(),
+                format!("reports/infer-{language}-kernel.json")
+            );
+            assert_eq!(
+                kernel.raw_dir(),
+                format!("reports/raw/infer-{language}-kernel")
+            );
+            let template_path = kernel.config_template();
+            let template = fs::read_to_string(&template_path).unwrap();
+            assert!(template.contains(SEMGREP_SOURCE_PLACEHOLDER));
+            assert!(template.contains(SEMGREP_SINK_PLACEHOLDER));
+            let expected_source_regex = match kernel {
+                InferKernel::Java { .. } => "\\.__DFB_SOURCE__(".to_string(),
+                _ => "^__DFB_SOURCE__$".to_string(),
+            };
+            let parsed: Value = serde_json::from_str(&template).unwrap();
+            assert_eq!(
+                parsed["pulse-taint-sources"][0]["procedure_regex"]
+                    .as_str()
+                    .unwrap(),
+                expected_source_regex,
+                "{template_path} does not pin the exact-match regex shape"
+            );
+            assert!(
+                !parsed["pulse-taint-policies"]
+                    .as_array()
+                    .unwrap()
+                    .is_empty(),
+                "{template_path} declares no policy, so no flow could ever be reported"
+            );
+            // The resolved configuration must stay valid JSON once the
+            // placeholders become real identifiers.
+            let resolved = template
+                .replace(SEMGREP_SOURCE_PLACEHOLDER, "dfb_source")
+                .replace(SEMGREP_SINK_PLACEHOLDER, "dfb_sink");
+            serde_json::from_str::<Value>(&resolved).unwrap();
+            assert!(hashed.contains(&PathBuf::from(&template_path)));
+            let selected = select_infer_cases(kernel).unwrap();
+            assert_eq!(selected.len(), 2 * expected_core_templates(language).len());
+            for (path, case) in &selected {
+                benchmark_endpoint_names(path, case, kernel.dialect()).unwrap_or_else(|reason| {
+                    panic!("{} endpoints do not resolve: {reason}", path.display())
+                });
+            }
+        }
+    }
+
+    /// The pinned Infer version is witnessed, never asserted: a binary
+    /// reporting any other version is refused with both values in the error,
+    /// and the accepted identity carries the measured digest of the binary's
+    /// bytes.
+    #[test]
+    #[cfg(unix)]
+    fn infer_identity_is_witnessed_against_the_pin() {
+        use std::os::unix::fs::PermissionsExt;
+        let root = unique_test_dir("dataflowbench-infer-identity-test");
+        let write_fake = |name: &str, version: &str| {
+            let path = root.join(name);
+            fs::write(
+                &path,
+                format!("#!/bin/sh\necho \"Infer version {version}\"\n"),
+            )
+            .unwrap();
+            fs::set_permissions(&path, fs::Permissions::from_mode(0o755)).unwrap();
+            path
+        };
+        let wrong = write_fake("wrong-version", "v0.0.1");
+        let error = witness_infer_identity(&wrong).unwrap_err().to_string();
+        assert!(error.contains("v0.0.1"));
+        assert!(error.contains(INFER_PINNED_VERSION));
+        let pinned = write_fake("pinned-version", INFER_PINNED_VERSION);
+        let (version, build_identity) = witness_infer_identity(&pinned).unwrap();
+        assert_eq!(version, INFER_PINNED_VERSION);
+        assert!(build_identity.contains("bin-sha256:"));
+        fs::remove_dir_all(&root).unwrap();
+    }
+
+    /// Reconciliation reads only the benchmark taint policy's own rule id as
+    /// flow evidence. Pulse reports memory-safety issues under `--pulse-only`
+    /// too, and one of those landing on a sink callsite must never read as
+    /// `reached` — it is retained as a diagnostic instead.
+    #[test]
+    fn infer_reconciliation_reads_only_the_taint_policy() {
+        let location = |line: u64| {
+            json!({"physicalLocation": {
+                "artifactLocation": {"uri": "file:dispatch_table.c"},
+                "region": {"startLine": line}
+            }})
+        };
+        let sarif = json!({"runs": [{"results": [
+            {"ruleId": "TAINT_ERROR", "message": {"text": "taint"},
+             "locations": [location(31)],
+             "codeFlows": [{"threadFlows": [{"locations": [
+                 {"location": location(8)},
+                 {"location": location(15)}
+             ]}]}]},
+            {"ruleId": "NULLPTR_DEREFERENCE", "message": {"text": "null"}}
+        ]}]});
+        let (filtered, diagnostics) = infer_taint_results_only(&sarif);
+        assert_eq!(sarif_result_count(&filtered), 1);
+        let result = &filtered["runs"][0]["results"][0];
+        assert_eq!(result["ruleId"], INFER_TAINT_RULE_ID);
+        // The final code-flow step — the engine's own sink reach — is part of
+        // the reconciliation view, because the top-level location sits at the
+        // reporting point, which for a flow through a function pointer is the
+        // indirect callsite rather than the anchored sink's own.
+        let lines = result["locations"]
+            .as_array()
+            .unwrap()
+            .iter()
+            .map(|l| {
+                l["physicalLocation"]["region"]["startLine"]
+                    .as_u64()
+                    .unwrap()
+            })
+            .collect::<Vec<_>>();
+        assert_eq!(lines, vec![31, 15]);
+        assert_eq!(diagnostics.len(), 1);
+        assert!(diagnostics[0].contains("NULLPTR_DEREFERENCE"));
+        // The verbatim evidence is untouched.
+        assert_eq!(sarif_result_count(&sarif), 2);
+        assert_eq!(
+            sarif["runs"][0]["results"][0]["locations"]
+                .as_array()
+                .unwrap()
+                .len(),
+            1
+        );
+    }
+
+    /// Infer spells a workspace-relative SARIF artifact with a bare `file:`
+    /// scheme and no slashes; the shared path matcher must resolve it against
+    /// the case's anchor file, without loosening any other spelling.
+    #[test]
+    fn evidence_path_matcher_strips_the_bare_file_scheme() {
+        assert!(evidence_path_matches_file(
+            "file:direct_flow.c",
+            "direct_flow.c"
+        ));
+        assert!(evidence_path_matches_file(
+            "file:dataflowbench/taint/DirectPositive.java",
+            "DirectPositive.java"
+        ));
+        assert!(evidence_path_matches_file(
+            "file:///workspace/direct_flow.c",
+            "direct_flow.c"
+        ));
+        assert!(!evidence_path_matches_file(
+            "file:other_flow.c",
+            "direct_flow.c"
+        ));
     }
 
     /// The bounded profile is a declared-capability decision taken from the

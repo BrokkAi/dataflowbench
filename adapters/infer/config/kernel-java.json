@@ -1,0 +1,19 @@
+{
+  "pulse-taint-sources": [
+    { "procedure_regex": "\\.__DFB_SOURCE__(", "kinds": ["DataFlowBenchSource"] }
+  ],
+  "pulse-taint-sinks": [
+    { "procedure_regex": "\\.__DFB_SINK__(", "kinds": ["DataFlowBenchSink"] }
+  ],
+  "pulse-taint-policies": [
+    {
+      "short_description": "DataFlowBench benchmark-controlled source-to-sink flow",
+      "taint_flows": [
+        {
+          "source_kinds": ["DataFlowBenchSource"],
+          "sink_kinds": ["DataFlowBenchSink"]
+        }
+      ]
+    }
+  ]
+}

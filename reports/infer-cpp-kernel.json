@@ -1,0 +1,892 @@
+{
+  "adapter_version": "0.1.0",
+  "cold_or_warm": "cold",
+  "configuration_hash": "724dccbb7faddf35386aa12dee397798f30e9d3418aa97566aa5c13a585b57e8",
+  "ended_at_unix_seconds": 1788182807,
+  "fixture_revision": "sha256:9df209ed3d7723a3ee33f2b289cf2afe34a3add781bdf2a2ac445de42b8d0151",
+  "results": [
+    {
+      "case_id": "dfb-taint-cpp-alias-propagation-negative",
+      "diagnostics": [],
+      "duration_ms": 480,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-alias-propagation-negative.json",
+      "sink_anchors": [
+        "DFB-SINK: alias-propagation-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: alias-propagation-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-cpp-alias-propagation-positive",
+      "diagnostics": [
+        "DataFlowBench benchmark-controlled source-to-sink flow. `alias->value` is tainted by value returned from `dfb_source` with kind `DataFlowBenchSource` and flows to value passed as argument `#0` to `dfb_sink` with kind `DataFlowBenchSink`."
+      ],
+      "duration_ms": 505,
+      "outcome": "reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-alias-propagation-positive.json",
+      "sink_anchors": [
+        "DFB-SINK: alias-propagation-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: alias-propagation-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-cpp-anonymous-implementation-negative",
+      "diagnostics": [],
+      "duration_ms": 3133,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-anonymous-implementation-negative.json",
+      "sink_anchors": [
+        "DFB-SINK: anonymous-implementation-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: anonymous-implementation-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-cpp-anonymous-implementation-positive",
+      "diagnostics": [
+        "DataFlowBench benchmark-controlled source-to-sink flow. Value is tainted by value returned from `dfb_source` with kind `DataFlowBenchSource` and flows to value passed as argument `#0` to `dfb_sink` with kind `DataFlowBenchSink`."
+      ],
+      "duration_ms": 2990,
+      "outcome": "reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-anonymous-implementation-positive.json",
+      "sink_anchors": [
+        "DFB-SINK: anonymous-implementation-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: anonymous-implementation-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-cpp-argument-position-negative",
+      "diagnostics": [],
+      "duration_ms": 479,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-argument-position-negative.json",
+      "sink_anchors": [
+        "DFB-SINK: argument-position-negative-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: argument-position-negative-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-cpp-argument-position-positive",
+      "diagnostics": [
+        "DataFlowBench benchmark-controlled source-to-sink flow. `result` is tainted by value returned from `dfb_source` with kind `DataFlowBenchSource` and flows to value passed as argument `#0` to `dfb_sink` with kind `DataFlowBenchSink`."
+      ],
+      "duration_ms": 481,
+      "outcome": "reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-argument-position-positive.json",
+      "sink_anchors": [
+        "DFB-SINK: argument-position-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: argument-position-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-cpp-array-element-negative",
+      "diagnostics": [],
+      "duration_ms": 493,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-array-element-negative.json",
+      "sink_anchors": [
+        "DFB-SINK: array-element-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: array-element-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-cpp-array-element-positive",
+      "diagnostics": [
+        "DataFlowBench benchmark-controlled source-to-sink flow. `values[_]` is tainted by value returned from `dfb_source` with kind `DataFlowBenchSource` and flows to value passed as argument `#0` to `dfb_sink` with kind `DataFlowBenchSink`."
+      ],
+      "duration_ms": 527,
+      "outcome": "reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-array-element-positive.json",
+      "sink_anchors": [
+        "DFB-SINK: array-element-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: array-element-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-cpp-branch-join-negative",
+      "diagnostics": [],
+      "duration_ms": 464,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-branch-join-negative.json",
+      "sink_anchors": [
+        "DFB-SINK: branch-join-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: branch-join-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-cpp-branch-join-positive",
+      "diagnostics": [
+        "DataFlowBench benchmark-controlled source-to-sink flow. `value` is tainted by value returned from `dfb_source` with kind `DataFlowBenchSource` and flows to value passed as argument `#0` to `dfb_sink` with kind `DataFlowBenchSink`."
+      ],
+      "duration_ms": 453,
+      "outcome": "reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-branch-join-positive.json",
+      "sink_anchors": [
+        "DFB-SINK: branch-join-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: branch-join-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-cpp-call-context-negative",
+      "diagnostics": [],
+      "duration_ms": 474,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-call-context-negative.json",
+      "sink_anchors": [
+        "DFB-SINK: call-context-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: call-context-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-cpp-call-context-positive",
+      "diagnostics": [
+        "DataFlowBench benchmark-controlled source-to-sink flow. `tainted` is tainted by value returned from `dfb_source` with kind `DataFlowBenchSource` and flows to value passed as argument `#0` to `dfb_sink` with kind `DataFlowBenchSink`."
+      ],
+      "duration_ms": 475,
+      "outcome": "reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-call-context-positive.json",
+      "sink_anchors": [
+        "DFB-SINK: call-context-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: call-context-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-cpp-callback-registration-negative",
+      "diagnostics": [],
+      "duration_ms": 3042,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-callback-registration-negative.json",
+      "sink_anchors": [
+        "DFB-SINK: callback-registration-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: callback-registration-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-cpp-callback-registration-positive",
+      "diagnostics": [],
+      "duration_ms": 3261,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-callback-registration-positive.json",
+      "sink_anchors": [
+        "DFB-SINK: callback-registration-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: callback-registration-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-cpp-closure-capture-negative",
+      "diagnostics": [],
+      "duration_ms": 3052,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-closure-capture-negative.json",
+      "sink_anchors": [
+        "DFB-SINK: closure-capture-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: closure-capture-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-cpp-closure-capture-positive",
+      "diagnostics": [],
+      "duration_ms": 3153,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-closure-capture-positive.json",
+      "sink_anchors": [
+        "DFB-SINK: closure-capture-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: closure-capture-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-cpp-computed-property-negative",
+      "diagnostics": [],
+      "duration_ms": 3227,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-computed-property-negative.json",
+      "sink_anchors": [
+        "DFB-SINK: computed-property-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: computed-property-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-cpp-computed-property-positive",
+      "diagnostics": [],
+      "duration_ms": 3123,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-computed-property-positive.json",
+      "sink_anchors": [
+        "DFB-SINK: computed-property-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: computed-property-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-cpp-context-pair-depth2-negative",
+      "diagnostics": [],
+      "duration_ms": 2330,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-context-pair-depth2-negative.json",
+      "sink_anchors": [
+        "DFB-SINK: context-pair-depth2-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: context-pair-depth2-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-cpp-context-pair-depth2-positive",
+      "diagnostics": [
+        "DataFlowBench benchmark-controlled source-to-sink flow. Value is tainted by value returned from `dfb_source` with kind `DataFlowBenchSource` and flows to value passed as argument `#0` to `dfb_sink` with kind `DataFlowBenchSink`."
+      ],
+      "duration_ms": 2321,
+      "outcome": "reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-context-pair-depth2-positive.json",
+      "sink_anchors": [
+        "DFB-SINK: context-pair-depth2-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: context-pair-depth2-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-cpp-deep-relay-chain-negative",
+      "diagnostics": [],
+      "duration_ms": 2368,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-deep-relay-chain-negative.json",
+      "sink_anchors": [
+        "DFB-SINK: deep-relay-chain-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: deep-relay-chain-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-cpp-deep-relay-chain-positive",
+      "diagnostics": [
+        "DataFlowBench benchmark-controlled source-to-sink flow. `tainted.__infer_model_string_length` is tainted by value returned from `dfb_source` with kind `DataFlowBenchSource` and `&tainted` flows to value passed as argument `#0` to `dfb_sink` with kind `DataFlowBenchSink`."
+      ],
+      "duration_ms": 2348,
+      "outcome": "reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-deep-relay-chain-positive.json",
+      "sink_anchors": [
+        "DFB-SINK: deep-relay-chain-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: deep-relay-chain-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-cpp-direct-negative",
+      "diagnostics": [],
+      "duration_ms": 429,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-direct-negative.json",
+      "sink_anchors": [
+        "DFB-SINK: direct-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: direct-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-cpp-direct-positive",
+      "diagnostics": [
+        "DataFlowBench benchmark-controlled source-to-sink flow. `dfb_source()` is tainted by value returned from `dfb_source` with kind `DataFlowBenchSource` and flows to value passed as argument `#0` to `dfb_sink` with kind `DataFlowBenchSink`."
+      ],
+      "duration_ms": 487,
+      "outcome": "reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-direct-positive.json",
+      "sink_anchors": [
+        "DFB-SINK: direct-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: direct-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-cpp-dispatch-table-negative",
+      "diagnostics": [],
+      "duration_ms": 2919,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-dispatch-table-negative.json",
+      "sink_anchors": [
+        "DFB-SINK: dispatch-table-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: dispatch-table-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-cpp-dispatch-table-positive",
+      "diagnostics": [],
+      "duration_ms": 2741,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-dispatch-table-positive.json",
+      "sink_anchors": [
+        "DFB-SINK: dispatch-table-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: dispatch-table-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-cpp-element-object-negative",
+      "diagnostics": [],
+      "duration_ms": 2432,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-element-object-negative.json",
+      "sink_anchors": [
+        "DFB-SINK: element-object-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: element-object-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-cpp-element-object-positive",
+      "diagnostics": [
+        "DataFlowBench benchmark-controlled source-to-sink flow. `items.__infer_backing_array[_].value` is tainted by value returned from `dfb_source` with kind `DataFlowBenchSource` and flows to value passed as argument `#0` to `dfb_sink` with kind `DataFlowBenchSink`."
+      ],
+      "duration_ms": 2810,
+      "outcome": "reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-element-object-positive.json",
+      "sink_anchors": [
+        "DFB-SINK: element-object-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: element-object-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-cpp-exception-catch-negative",
+      "diagnostics": [],
+      "duration_ms": 498,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-exception-catch-negative.json",
+      "sink_anchors": [
+        "DFB-SINK: exception-catch-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: exception-catch-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-cpp-exception-catch-positive",
+      "diagnostics": [],
+      "duration_ms": 502,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-exception-catch-positive.json",
+      "sink_anchors": [
+        "DFB-SINK: exception-catch-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: exception-catch-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-cpp-expression-negative",
+      "diagnostics": [],
+      "duration_ms": 515,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-expression-negative.json",
+      "sink_anchors": [
+        "DFB-SINK: expression-negative-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: expression-negative-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-cpp-expression-positive",
+      "diagnostics": [],
+      "duration_ms": 459,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-expression-positive.json",
+      "sink_anchors": [
+        "DFB-SINK: expression-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: expression-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-cpp-function-field-negative",
+      "diagnostics": [],
+      "duration_ms": 3109,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-function-field-negative.json",
+      "sink_anchors": [
+        "DFB-SINK: function-field-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: function-field-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-cpp-function-field-positive",
+      "diagnostics": [
+        "DataFlowBench benchmark-controlled source-to-sink flow. Value is tainted by value returned from `dfb_source` with kind `DataFlowBenchSource` and flows to value passed as argument `#0` to `dfb_sink` with kind `DataFlowBenchSink`."
+      ],
+      "duration_ms": 3139,
+      "outcome": "reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-function-field-positive.json",
+      "sink_anchors": [
+        "DFB-SINK: function-field-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: function-field-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-cpp-infeasible-branch-negative",
+      "diagnostics": [],
+      "duration_ms": 480,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-infeasible-branch-negative.json",
+      "sink_anchors": [
+        "DFB-SINK: infeasible-branch-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: infeasible-branch-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-cpp-infeasible-branch-positive",
+      "diagnostics": [
+        "DataFlowBench benchmark-controlled source-to-sink flow. `value` is tainted by value returned from `dfb_source` with kind `DataFlowBenchSource` and flows to value passed as argument `#0` to `dfb_sink` with kind `DataFlowBenchSink`."
+      ],
+      "duration_ms": 488,
+      "outcome": "reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-infeasible-branch-positive.json",
+      "sink_anchors": [
+        "DFB-SINK: infeasible-branch-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: infeasible-branch-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-cpp-local-chain-negative",
+      "diagnostics": [],
+      "duration_ms": 503,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-local-chain-negative.json",
+      "sink_anchors": [
+        "DFB-SINK: local-chain-negative-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: local-chain-negative-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-cpp-local-chain-positive",
+      "diagnostics": [
+        "DataFlowBench benchmark-controlled source-to-sink flow. `third` is tainted by value returned from `dfb_source` with kind `DataFlowBenchSource` and flows to value passed as argument `#0` to `dfb_sink` with kind `DataFlowBenchSink`."
+      ],
+      "duration_ms": 528,
+      "outcome": "reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-local-chain-positive.json",
+      "sink_anchors": [
+        "DFB-SINK: local-chain-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: local-chain-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-cpp-local-overwrite-negative",
+      "diagnostics": [],
+      "duration_ms": 473,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-local-overwrite-negative.json",
+      "sink_anchors": [
+        "DFB-SINK: local-overwrite-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: local-overwrite-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-cpp-local-overwrite-positive",
+      "diagnostics": [
+        "DataFlowBench benchmark-controlled source-to-sink flow. `value` is tainted by value returned from `dfb_source` with kind `DataFlowBenchSource` and flows to value passed as argument `#0` to `dfb_sink` with kind `DataFlowBenchSink`."
+      ],
+      "duration_ms": 464,
+      "outcome": "reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-local-overwrite-positive.json",
+      "sink_anchors": [
+        "DFB-SINK: local-overwrite-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: local-overwrite-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-cpp-loop-carried-negative",
+      "diagnostics": [],
+      "duration_ms": 525,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-loop-carried-negative.json",
+      "sink_anchors": [
+        "DFB-SINK: loop-carried-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: loop-carried-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-cpp-loop-carried-positive",
+      "diagnostics": [],
+      "duration_ms": 503,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-loop-carried-positive.json",
+      "sink_anchors": [
+        "DFB-SINK: loop-carried-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: loop-carried-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-cpp-map-iteration-negative",
+      "diagnostics": [],
+      "duration_ms": 3221,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-map-iteration-negative.json",
+      "sink_anchors": [
+        "DFB-SINK: map-iteration-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: map-iteration-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-cpp-map-iteration-positive",
+      "diagnostics": [],
+      "duration_ms": 3237,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-map-iteration-positive.json",
+      "sink_anchors": [
+        "DFB-SINK: map-iteration-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: map-iteration-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-cpp-nested-access-path-negative",
+      "diagnostics": [],
+      "duration_ms": 2347,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-nested-access-path-negative.json",
+      "sink_anchors": [
+        "DFB-SINK: nested-access-path-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: nested-access-path-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-cpp-nested-access-path-positive",
+      "diagnostics": [
+        "DataFlowBench benchmark-controlled source-to-sink flow. `a.b.c.value` is tainted by value returned from `dfb_source` with kind `DataFlowBenchSource` and flows to value passed as argument `#0` to `dfb_sink` with kind `DataFlowBenchSink`."
+      ],
+      "duration_ms": 2272,
+      "outcome": "reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-nested-access-path-positive.json",
+      "sink_anchors": [
+        "DFB-SINK: nested-access-path-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: nested-access-path-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-cpp-object-separation-negative",
+      "diagnostics": [],
+      "duration_ms": 473,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-object-separation-negative.json",
+      "sink_anchors": [
+        "DFB-SINK: object-separation-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: object-separation-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-cpp-object-separation-positive",
+      "diagnostics": [
+        "DataFlowBench benchmark-controlled source-to-sink flow. `tainted.value` is tainted by value returned from `dfb_source` with kind `DataFlowBenchSource` and flows to value passed as argument `#0` to `dfb_sink` with kind `DataFlowBenchSink`."
+      ],
+      "duration_ms": 456,
+      "outcome": "reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-object-separation-positive.json",
+      "sink_anchors": [
+        "DFB-SINK: object-separation-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: object-separation-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-cpp-recursive-carry-negative",
+      "diagnostics": [],
+      "duration_ms": 2294,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-recursive-carry-negative.json",
+      "sink_anchors": [
+        "DFB-SINK: recursive-carry-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: recursive-carry-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-cpp-recursive-carry-positive",
+      "diagnostics": [],
+      "duration_ms": 2270,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-recursive-carry-positive.json",
+      "sink_anchors": [
+        "DFB-SINK: recursive-carry-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: recursive-carry-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-cpp-return-relay-one-hop-negative",
+      "diagnostics": [],
+      "duration_ms": 486,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-return-relay-one-hop-negative.json",
+      "sink_anchors": [
+        "DFB-SINK: return-one-hop-negative-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: return-one-hop-negative-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-cpp-return-relay-one-hop-positive",
+      "diagnostics": [
+        "DataFlowBench benchmark-controlled source-to-sink flow. `result` is tainted by value returned from `dfb_source` with kind `DataFlowBenchSource` and flows to value passed as argument `#0` to `dfb_sink` with kind `DataFlowBenchSink`."
+      ],
+      "duration_ms": 478,
+      "outcome": "reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-return-relay-one-hop-positive.json",
+      "sink_anchors": [
+        "DFB-SINK: return-one-hop-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: return-one-hop-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-cpp-return-relay-two-hop-negative",
+      "diagnostics": [],
+      "duration_ms": 465,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-return-relay-two-hop-negative.json",
+      "sink_anchors": [
+        "DFB-SINK: return-two-hop-negative-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: return-two-hop-negative-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-cpp-return-relay-two-hop-positive",
+      "diagnostics": [
+        "DataFlowBench benchmark-controlled source-to-sink flow. `result` is tainted by value returned from `dfb_source` with kind `DataFlowBenchSource` and flows to value passed as argument `#0` to `dfb_sink` with kind `DataFlowBenchSink`."
+      ],
+      "duration_ms": 438,
+      "outcome": "reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-return-relay-two-hop-positive.json",
+      "sink_anchors": [
+        "DFB-SINK: return-two-hop-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: return-two-hop-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-cpp-same-object-field-negative",
+      "diagnostics": [],
+      "duration_ms": 465,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-same-object-field-negative.json",
+      "sink_anchors": [
+        "DFB-SINK: same-object-field-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: same-object-field-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-cpp-same-object-field-positive",
+      "diagnostics": [
+        "DataFlowBench benchmark-controlled source-to-sink flow. `holder.tainted` is tainted by value returned from `dfb_source` with kind `DataFlowBenchSource` and flows to value passed as argument `#0` to `dfb_sink` with kind `DataFlowBenchSink`."
+      ],
+      "duration_ms": 504,
+      "outcome": "reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-same-object-field-positive.json",
+      "sink_anchors": [
+        "DFB-SINK: same-object-field-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: same-object-field-input"
+      ],
+      "witness_checkpoints": []
+    }
+  ],
+  "schema_version": 1,
+  "started_at_unix_seconds": 1788182724,
+  "tool": "infer",
+  "tool_build_identity": "infer:v1.3.0 bin-sha256:17ed4818dadda60124e083a1e82124f104092e70c5e6d764551581a375eabf62",
+  "tool_version": "v1.3.0"
+}

@@ -18,6 +18,7 @@ The initial adapter plan is:
 | Joern | The Ruby 16-template propagation kernel, the 27-template expanded Rust kernel, and the 29-template expanded Java, Python, JavaScript, and PHP kernels | Implemented as six separate language-scoped populations over one CPG query script |
 | Semgrep CE | Supported local analysis only | Implemented as eleven separate language-scoped populations over one committed taint rule per language; only the documented intraprocedural partition is scored. Four front ends are non-GA in the pinned distribution (Kotlin `beta`; Rust, C, C++ `alpha`) and the label is retained without ever changing the partition |
 | OpenTaint | Java and Kotlin profile | Implemented as two language-scoped populations over the pinned `analyzer/2026.08.27.17eb0fe` release, both run over their full expanded 58-assertion cores. The whole core is scored — the pinned documentation fences no capability — and the dominant measured result is a value-kind boundary: the engine drops taint on numeric values, which the retained probe evidence isolates from the templates' semantic dimensions |
+| Infer | C, C++, and Java profile | Implemented as three language-scoped populations over the pinned v1.3.0 release's Pulse taint configuration — the release's one operable taint surface, Quandary being removed — each run over its full expanded core (48, 56, and 58 assertions). The whole core is scored in all three; C and C++ gain their first benchmark-controlled interprocedural second engine |
 
 No adapter may synthesize a tool result. If a supported case cannot complete,
 emit `inconclusive` or `runner-error` with the raw evidence. If it is outside
@@ -36,7 +37,9 @@ a sidecar beside its raw evidence, `reports/raw/<slice>/<case-id>-timing.json`,
 whose phase labels state the boundary the adapter genuinely observes:
 `database-create` and `database-analyze` for CodeQL (extraction including the
 traced compile, then query evaluation and SARIF interpretation, which the
-pinned CLI performs in one subprocess), and `total` for Joern, Semgrep, and
+pinned CLI performs in one subprocess), `capture` and `analyze` for Infer
+(the traced compile, then Pulse evaluation and SARIF emission — the same
+two-phase shape as CodeQL's), and `total` for Joern, Semgrep, and
 Bifrost, whose single invocation is indivisible from the adapter's vantage.
 Unequal granularity is stated, not papered over; any phase timings a tool
 emits itself ride in its own retained document, verbatim. Each run also stamps
@@ -534,6 +537,7 @@ we evaluate is recorded here against them so absence is never ambiguous:
 | Semgrep CE | **Adapted** | — (bounded to its documented intraprocedural profile) |
 | CodeQL | **Adapted** | — |
 | OpenTaint | **Adapted** (2026-08 field evaluation) | — (JVM bytecode only, so Java and Kotlin are its two populations; pinned by release-asset digest because the analyzer self-reports no version; see [the OpenTaint adapter notes](../adapters/opentaint/README.md)) |
+| Infer | **Adapted** (2026-08 field evaluation) | — (C, C++, and Java are its three populations; the pinned v1.3.0 ships no Quandary checker, so Pulse's taint configuration is the operable taint mode, verified by probe; see [the Infer adapter notes](../adapters/infer/README.md)) |
 | Snyk Code | Not eligible | (2) analysis is cloud-backed and account-bound; (4) terms to be verified but commonly restrictive — both must clear before any attempt |
 | Coverity | Not eligible | (2) no free local pinned CLI (Coverity Scan is cloud submission); (4) benchmark restrictions |
 | Checkmarx | Not eligible | (2) and (4) — enterprise-only, no local CLI, standard no-benchmark terms |
@@ -551,13 +555,11 @@ that is recorded rather than tested around.
 
 ### Queued candidates that do qualify
 
-Three open-source engines pass all four bounds on their face and are queued
-for future adapters. OpenTaint, formerly in this queue as issue #17, cleared
-its field evaluation — all four bounds hold, verified by probe rather than
-prospectus — and is adapted above:
+Two open-source engines pass all four bounds on their face and are queued
+for future adapters (#82). OpenTaint (formerly issue #17) and Infer (the
+first entry of #82) both cleared their field evaluations — all four bounds
+hold, verified by probe rather than prospectus — and are adapted above:
 
-- **Infer** (Meta) — open source, local CLI, interprocedural analysis for
-  C/C++/Java/Objective-C. The strongest next candidate.
 - **Pysa** (Meta) — open-source Python taint analysis on the Pyre engine.
 - **FlowDroid** — the academic standard for Java/Android taint analysis,
   open source and locally runnable.
@@ -565,7 +567,11 @@ prospectus — and is adapted above:
 Each still requires the standard adapter diligence before implementation:
 pin an exact version, verify the taint mode against a probe fixture, and
 preregister the capability partition from documentation — nothing here is a
-result yet.
+result yet. Infer's evaluation is a template for that diligence: the
+issue named it for its historical taint checker's languages, but the pinned
+release had removed that checker entirely, and the operable surface —
+Pulse's taint configuration — was established against the binary before any
+population ran.
 
 ## CodeQL language populations
 
@@ -912,6 +918,59 @@ so the Kotlin kernel is where the engine's propagation semantics are visible.
 See [the OpenTaint adapter notes](../adapters/opentaint/README.md) for the
 eligibility evaluation, the pinned invocation, the per-template results, and
 the probe.
+
+## Infer language populations
+
+The Infer adapter keeps C, C++, and Java as three separate populations — the
+three benchmark languages the pinned v1.3.0 release actually executes,
+verified in the field before adaptation. Each command selects that language's
+whole core `taint` population runner-side by language, track, and score tier,
+exactly as the Joern, Semgrep, and OpenTaint kernels do, and each has its own
+report (`reports/infer-<language>-kernel.json`) and retained-evidence root
+(`reports/raw/infer-<language>-kernel/`). All three populations are
+post-freeze and bind nothing. C and C++ were the issue #82 motivation: both
+were single-engine populations for benchmark-controlled interprocedural
+evidence, and Infer is their second engine.
+
+**The operable taint mode was established against the binary, not the
+issue.** The historical Quandary taint checker is removed from the pinned
+release — `infer help --list-issue-types` names no Quandary issue type — so
+the adapter drives Pulse's taint configuration
+(`--pulse-taint-config`), whose `TAINT_ERROR` issue type is enabled by
+default, under `--pulse-only`.
+
+Infer analyzes code it watches being compiled, so each case materializes its
+own compile command in an isolated scratch workspace — `clang -c` /
+`clang++ -c` traced by the distribution's own bundled front end for C and
+C++, a traced harness `javac` for Java — and the two subprocess boundaries
+the adapter observes, `infer capture` and `infer analyze`, are the retained
+timing phases, the same two-phase shape the CodeQL kernels retain. One
+committed Pulse taint-configuration template per language, under
+`adapters/infer/config/`, carries the `__DFB_SOURCE__`/`__DFB_SINK__`
+placeholders the Semgrep and OpenTaint kernels resolve, from the same fixture
+marker lines; the resolved copy is retained per case, and each report's
+`configuration_hash` binds all three templates. The matcher shapes are
+load-bearing and pinned by test: the pinned binary's plain `procedure`
+matcher is a substring match, so the C-family templates carry the anchored
+`^…$` regex form and Java's the `\.…(` signature-bounded form. Two verified
+silent-failure modes are guarded per run — a missing taint-configuration file
+is silently ignored (exit zero, no taint question asked), and a template with
+no policy would report nothing — per
+[the Infer adapter notes](../adapters/infer/README.md).
+
+The whole expanded core is scored in all three languages: the pinned
+distribution declares whole-program interprocedural analysis and its taint
+surface fences no construct class, so as with OpenTaint there is no
+documented boundary to preregister an `unsupported` partition from, and every
+engine incapacity surfaces as a measured mismatch. Reconciliation reads only
+`TAINT_ERROR` results as flow claims — Pulse also reports memory-safety
+issues under `--pulse-only`, and those are retained as diagnostics, never as
+flow evidence — and reads the engine's own final taint step alongside the
+top-level location, because Infer reports a flow through a function pointer
+at the indirect callsite while its retained `codeFlows` end on the anchored
+sink's own callsite. See [the Infer adapter notes](../adapters/infer/README.md)
+for the eligibility evaluation, the pinned invocation, the guarded failure
+modes, and the per-template results.
 
 The checked-in Bifrost snapshot (`reports/bifrost-smoke.json`) contains 118
 normalized results from Bifrost v0.10.2 build identity
