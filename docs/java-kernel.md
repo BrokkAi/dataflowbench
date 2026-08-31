@@ -123,6 +123,7 @@ evidence is deferred.
 | Semgrep CE `run-semgrep-java-kernel` | `reports/semgrep-java-kernel.json` | **Ran** — whole-population replacement |
 | CodeQL `run-codeql-java-kernel` | `reports/codeql-java-kernel.json` | **Deferred** — freeze-bound by `reports/freeze.json` (v0.3.0) |
 | Bifrost smoke | `reports/bifrost-smoke.json` | **Frozen and unchanged** — pinned at 118 classic cases by contract |
+| OpenTaint `run-opentaint-java-kernel` | `reports/opentaint-java-kernel.json` | **Ran** — new adapter (#17), whole 58-assertion population, post-freeze |
 
 ### Deferred: CodeQL, and the Bifrost smoke slice
 
@@ -303,6 +304,30 @@ The configuration hash is unchanged
 file was touched for this expansion, and the Java rule that analyzed the
 scored subset is byte-identical to the one the other ten kernels use.
 
+### OpenTaint `analyzer/2026.08.27.17eb0fe` — `reports/opentaint-java-kernel.json`
+
+58 results: 0 `reached`, 58 `not-reached`, with zero `inconclusive`, zero
+`unsupported`, and zero `runner-error`; 29/58 match expected polarity. The
+whole core is scored — the pinned documentation fences no capability — and
+every mismatch is a false negative on a positive, with **zero false
+positives**: both `infeasible-branch-negative` and `loop-carried-negative`,
+the two negatives Semgrep CE's engine trips on in every language, are clean
+here.
+
+The 29 misses are one measurement repeated, not twenty-nine: Java's core
+encodes every template's endpoint contract with `int`-typed values, and the
+pinned engine drops taint on numeric values — `int` and boxed `Integer`
+alike — while carrying it on `String` and `Object`. The retained value-kind
+probe (`reports/raw/opentaint-value-kind-probe/`, reproducible via
+`scripts/probe-opentaint-value-kind.sh`) isolates that boundary on a fixed
+flow shape with all four rules provably loaded, so the Java kernel's zero
+positives attribute to the value-kind boundary and say nothing about the
+templates' semantic dimensions in Java. The Kotlin kernel, whose core mixes
+`String`- and `Int`-encoded templates, is where the engine's propagation
+semantics are measurable; see
+[the Kotlin kernel contract](kotlin-kernel.md) and
+[the OpenTaint adapter notes](../adapters/opentaint/README.md).
+
 ### A note on fixture revisions
 
 `fixture_revision` is a digest over the whole case corpus, so landing 26 Java
@@ -320,6 +345,9 @@ restored across the published set.
 cargo run -- run-bifrost-java-kernel --bifrost /path/to/bifrost
 cargo run -- run-joern-java-kernel   --joern   /path/to/joern-cli/joern
 cargo run -- run-semgrep-java-kernel --semgrep /path/to/semgrep
+cargo run -- run-opentaint-java-kernel \
+  --analyzer-jar /path/to/opentaint-project-analyzer.jar \
+  --models-archive /path/to/opentaint-models.tar.gz
 ```
 
 Run them sequentially, never concurrently: each runner sweeps the whole report
