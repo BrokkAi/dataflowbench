@@ -118,8 +118,8 @@ const BIFROST_JAVASCRIPT_POLICY: &str = "adapters/bifrost/policies/core-javascri
 /// one configuration; see docs/kotlin-kernel.md.
 const BIFROST_KOTLIN_POLICY: &str = "adapters/bifrost/policies/core-kotlin-kernel.rqlp";
 /// The language-qualified Bifrost policy every Scala kernel assertion is
-/// evaluated with. Scala has single-analyzer coverage: CodeQL CLI 2.26.3 has no
-/// Scala extractor at all, and the pinned Joern 4.0.610 has no Scala *source*
+/// evaluated with. Scala has single-analyzer coverage: CodeQL CLI 2.26.4 has no
+/// Scala extractor at all, and the pinned Joern 4.0.614 has no Scala *source*
 /// frontend. Both absences are analyzer coverage recorded in
 /// docs/scala-kernel.md, never negative results. As with Kotlin, the frozen
 /// v0.2.0 direct-propagation pair still names the language-neutral breadth
@@ -592,9 +592,9 @@ impl ModelingTool {
     fn pinned_identity(self) -> &'static str {
         match self {
             Self::Bifrost => "Bifrost v0.10.7",
-            Self::Codeql => "CodeQL CLI 2.26.3",
-            Self::Joern => "Joern 4.0.610",
-            Self::Semgrep => "Semgrep CE 1.174.0",
+            Self::Codeql => "CodeQL CLI 2.26.4",
+            Self::Joern => "Joern 4.0.614",
+            Self::Semgrep => "Semgrep CE 1.175.0",
         }
     }
 }
@@ -675,7 +675,7 @@ const MODELING_PARTITION: [ModelingPartitionCell; 24] = [
             "to be verified — unsupported until shown: no persistence-boundary vocabulary is described anywhere for any adapter, Bifrost included",
         ),
     },
-    // CodeQL — CLI 2.26.3: 6 / 6.
+    // CodeQL — CLI 2.26.4: 6 / 6.
     ModelingPartitionCell {
         tool: ModelingTool::Codeql,
         category: ModelingCategory::SourcesAndSinks,
@@ -706,7 +706,7 @@ const MODELING_PARTITION: [ModelingPartitionCell; 24] = [
         category: ModelingCategory::Persistence,
         unsupported_reason: None,
     },
-    // Joern — 4.0.610: 4 / 6 (Amendment A2 moved P and O to unsupported).
+    // Joern — 4.0.614: 4 / 6 (Amendment A2 moved P and O to unsupported).
     ModelingPartitionCell {
         tool: ModelingTool::Joern,
         category: ModelingCategory::SourcesAndSinks,
@@ -755,7 +755,7 @@ const MODELING_PARTITION: [ModelingPartitionCell; 24] = [
         category: ModelingCategory::Persistence,
         unsupported_reason: None,
     },
-    // Semgrep CE — 1.174.0 (`--oss-only`): 3 / 6 categories, and Amendment A3
+    // Semgrep CE — 1.175.0 (`--oss-only`): 3 / 6 categories, and Amendment A3
     // splits category Z at the template level (see MODELING_TEMPLATE_OVERRIDES).
     ModelingPartitionCell {
         tool: ModelingTool::Semgrep,
@@ -1291,7 +1291,7 @@ const NATIVE_PARTITION: [NativePartitionCell; 24] = [
              described anywhere for any adapter, Bifrost included",
         ),
     },
-    // CodeQL — CLI 2.26.3, shipped `security-extended` suites: 6 / 6.
+    // CodeQL — CLI 2.26.4, shipped `security-extended` suites: 6 / 6.
     NativePartitionCell {
         tool: ModelingTool::Codeql,
         template: NATIVE_TEMPLATE_IDS[0],
@@ -1322,7 +1322,7 @@ const NATIVE_PARTITION: [NativePartitionCell; 24] = [
         template: NATIVE_TEMPLATE_IDS[5],
         unsupported_reason: None,
     },
-    // Joern — 4.0.610, `DefaultSemantics` only: 0 / 6.
+    // Joern — 4.0.614, `DefaultSemantics` only: 0 / 6.
     NativePartitionCell {
         tool: ModelingTool::Joern,
         template: NATIVE_TEMPLATE_IDS[0],
@@ -1373,7 +1373,7 @@ const NATIVE_PARTITION: [NativePartitionCell; 24] = [
         template: NATIVE_TEMPLATE_IDS[5],
         unsupported_reason: Some("no persistence vocabulary ships with the distribution"),
     },
-    // Semgrep CE — 1.174.0 (`--oss-only`): 0 / 6 until a snapshot is vendored.
+    // Semgrep CE — 1.175.0 (`--oss-only`): 0 / 6 until a snapshot is vendored.
     // Every cell is *to be verified at vendoring*, which this document's own
     // rule records as unsupported; promotion is a dated amendment carrying the
     // vendored commit as its evidence.
@@ -1412,7 +1412,7 @@ const NATIVE_PARTITION: [NativePartitionCell; 24] = [
         unsupported_reason: Some(
             "arg-to-return summary semantics are outside CE's propagator vocabulary on the \
              pinned version, established by execution in \
-             docs/modeling-matrix.md#semgrep-ce--11740---oss-only; a shipped rule cannot supply \
+             docs/modeling-matrix.md#semgrep-ce--11750---oss-only; a shipped rule cannot supply \
              what the engine does not express",
         ),
     },
@@ -5968,7 +5968,7 @@ fn validate_c_family_population(
 }
 
 /// Run the Rust-only CodeQL kernel. Rust support is a public preview in the
-/// pinned CLI 2.26.3 (extractor `rust` 0.1.0, library pack
+/// pinned CLI 2.26.4 (extractor `rust` 0.1.0, library pack
 /// `codeql/rust-all@0.2.19`), and that status is recorded in
 /// `docs/rust-kernel.md` alongside the results this run produces. The
 /// population is the 30 core assertions of the 15 applicable templates plus the
@@ -14322,7 +14322,7 @@ fn run_codeql_native_case(
 /// Run one *scored* native cell through Semgrep CE over the vendored snapshot.
 ///
 /// Two deliberate differences from the benchmark-controlled Semgrep runner, both
-/// recorded in docs/native-profile.md#semgrep-ce--11740---oss-only:
+/// recorded in docs/native-profile.md#semgrep-ce--11750---oss-only:
 /// `--config` points at the vendored rule directory rather than at an authored
 /// rule, and `taint_assume_safe_functions` is **not** set. There the permissive
 /// default would decide a cell the supplied model was meant to decide; here the

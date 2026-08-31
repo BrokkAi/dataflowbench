@@ -163,7 +163,7 @@ operator flows are not the model and dropping them would break propagation
 this matrix is not measuring — and runs `reachableByFlows` under the resulting
 `EngineContext`.
 
-Two properties of the pinned 4.0.610 semantics parser were found by probing it
+Two properties of the pinned 4.0.614 semantics parser were found by probing it
 rather than assumed, and both **fail silently**, producing a well-formed empty
 model instead of an error:
 

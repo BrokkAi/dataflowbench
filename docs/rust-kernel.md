@@ -184,7 +184,7 @@ normalized as `inconclusive`, never as a negative.
 
 ### Rust support status in the pinned CLI
 
-CodeQL CLI 2.26.3 — the pinned version — ships a `rust` extractor
+CodeQL CLI 2.26.4 — the pinned version — ships a `rust` extractor
 (`codeql resolve languages` lists it at
 `<dist>/codeql/rust`), and `codeql pack install` resolves the library pack
 `codeql/rust-all@0.2.19` from the registry. The CLI itself emits **no maturity
@@ -230,8 +230,8 @@ codeql pack install adapters/codeql/rust
 cargo run -- run-codeql-rust-kernel --codeql /path/to/codeql
 ```
 
-`codeql pack install` resolved `codeql/rust-all@0.2.19` for CodeQL CLI 2.26.3
-(build SHA `7d097a43199effe04ecd9c6bd3ad9bb02a45b3d7`); the complete transitive
+`codeql pack install` resolved `codeql/rust-all@0.2.19` for CodeQL CLI 2.26.4
+(build SHA `6b1e4dee94adb20f90a671f3fc9e04be32eecf65`); the complete transitive
 set is committed in `adapters/codeql/rust/codeql-pack.lock.yml`. If registry
 retrieval is unavailable, a matching official source workspace or CLI bundle
 pack root passed through `--codeql-packs` is a valid reproduction input, as

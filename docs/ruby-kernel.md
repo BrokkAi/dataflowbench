@@ -258,7 +258,7 @@ capability evidence.
 **The decision recorded here is: proceed CodeQL-first.** Concretely:
 
 1. **CodeQL is the primary decisive analyzer** for the Ruby denominator. The
-   pinned CLI 2.26.3 ships a production `ruby` extractor and the registry
+   pinned CLI 2.26.4 ships a production `ruby` extractor and the registry
    resolves `codeql/ruby-all@6.0.3`, so every assertion in the denominator can
    be decided by a real, reproducible toolchain.
 2. **Bifrost is run anyway** on the full population through
@@ -303,7 +303,7 @@ does not share the Java, Python, or any other language pack.
 
 | Item | Value |
 | --- | --- |
-| CLI | 2.26.3 (pinned) |
+| CLI | 2.26.4 (pinned) |
 | Extractor | `ruby`, buildless (`--build-mode=none`) |
 | Library pack | `codeql/ruby-all@6.0.3` |
 | Pack | `adapters/codeql/ruby` |

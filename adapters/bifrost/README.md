@@ -91,7 +91,7 @@ slice uses `core-scala-kernel.rqlp` and pins that policy for its whole
 population the way the Kotlin slice does, because its direct-propagation pair
 is frozen naming the breadth policy; its core is now the **expanded 29
 templates (58 core assertions)**, and Scala is the only kernel with
-**single-analyzer coverage** — CodeQL 2.26.3 has no Scala extractor and the
+**single-analyzer coverage** — CodeQL 2.26.4 has no Scala extractor and the
 pinned Joern has no Scala source frontend, so Bifrost is the only tool that
 produces Scala results at all. See
 [the Scala kernel contract](../../docs/scala-kernel.md). Every kernel command

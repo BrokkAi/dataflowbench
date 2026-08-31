@@ -144,8 +144,8 @@ between them matters:
 | --- | --- | --- |
 | Semgrep CE 1.174.0 | Yes | `reports/semgrep-go-kernel.json` |
 | Bifrost v0.10.5 | **Deferred (freeze-bound)** | `reports/bifrost-go-kernel.json` |
-| CodeQL 2.26.3 | **Deferred (freeze-bound)** | `reports/codeql-go-kernel.json` |
-| Joern 4.0.610 | **No Go slice exists** | — |
+| CodeQL 2.26.4 | **Deferred (freeze-bound)** | `reports/codeql-go-kernel.json` |
+| Joern 4.0.614 | **No Go slice exists** | — |
 
 **Both Bifrost and CodeQL are deferred, and both for the same reason.**
 `reports/bifrost-go-kernel.json` and `reports/codeql-go-kernel.json` are two of
@@ -160,7 +160,7 @@ will attempt all 58 assertions at v0.4.0. This wave simply had no freeze-legal
 file to write them to.
 
 **Joern has no Go slice, and this wave did not invent one.** The pinned
-`joern-v4.0.610` adapter covers Java, JavaScript, Python, Ruby, PHP, and Rust.
+`joern-v4.0.614` adapter covers Java, JavaScript, Python, Ruby, PHP, and Rust.
 Joern's Go frontend, `gosrc2cpg`, lives upstream and is **not built into the
 pinned distribution**, so there is no `run-joern-go-kernel` command, no Go
 selection, and no `reports/joern-go-kernel.json` — and standing a slice up is a
@@ -292,8 +292,8 @@ codeql pack install adapters/codeql/go
 cargo run -- run-codeql-go-kernel --codeql /path/to/codeql --go /path/to/go
 ```
 
-`codeql pack install` resolved `codeql/go-all@7.2.3` for CodeQL CLI 2.26.3
-(build SHA `7d097a43199effe04ecd9c6bd3ad9bb02a45b3d7`); the complete transitive
+`codeql pack install` resolved `codeql/go-all@7.2.3` for CodeQL CLI 2.26.4
+(build SHA `6b1e4dee94adb20f90a671f3fc9e04be32eecf65`); the complete transitive
 set is committed in `adapters/codeql/go/codeql-pack.lock.yml`. If registry
 retrieval is unavailable, a matching official source workspace or CLI bundle
 pack root passed through `--codeql-packs` is a valid reproduction input, as
@@ -301,7 +301,7 @@ documented for the [JavaScript kernel](javascript-kernel.md).
 
 ### Why the Go databases are built, not build-free
 
-CodeQL 2.26.3 rejects `--build-mode=none` for Go outright ("Go does not support
+CodeQL 2.26.4 rejects `--build-mode=none` for Go outright ("Go does not support
 the none build mode"), so a Go database can only be created from an observed
 build. Autobuild would work, but it synthesizes its own module manifest and runs
 `go get ./...`, which makes extraction depend on the network. The runner

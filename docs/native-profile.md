@@ -34,7 +34,7 @@ These are different questions, and the answers are not comparable:
 - **Different pins by construction.** The native profile pins each tool's
   shipped model set — for CodeQL, query-pack versions that bundle library
   versions *different from* the adapter's benchmark-controlled pins (see
-  [CodeQL](#codeql--cli-2263-shipped-security-suites)). Two profiles running on
+  [CodeQL](#codeql--cli-2264-shipped-security-suites)). Two profiles running on
   deliberately different pins could not be pooled even if the invariant allowed
   it.
 
@@ -504,7 +504,7 @@ directory lacks one.
 Nothing is vendored by this document. It pins the conventions, the paths, and
 the gates; the snapshots land in wave N1's language pull requests.
 
-### CodeQL — CLI 2.26.3, shipped security suites
+### CodeQL — CLI 2.26.4, shipped security suites
 
 **Activation contract.** The shipped security query suite for the language,
 resolved from the pinned **query** pack, with the command-line-argument and
@@ -558,7 +558,7 @@ CodeQL enters this profile with **six of six** templates scored, which reflects
 that it ships the largest model set of the four and that its activation surface
 is entirely pinnable. It says nothing about how many it will pass.
 
-### Semgrep CE — 1.174.0 (`--oss-only`), vendored official rulesets
+### Semgrep CE — 1.175.0 (`--oss-only`), vendored official rulesets
 
 > **Amended.** All six **Python** cells were promoted from *to be verified at
 > vendoring* to scored by
@@ -607,7 +607,7 @@ head above is evidence that the scheme resolves, not the pin.
 | 1 | S | **to be verified at vendoring — unsupported until shown** | Inspection of the upstream head shows taint-mode rules whose sinks cover the template's command APIs (e.g. `python/lang/security/dangerous-system-call.yaml`, `mode: taint`, sink `os.system`), but whose `pattern-sources` are **framework** endpoints — Flask, Django, DRF — not `os.environ`. Whether any vendored rule binds a platform environment source is decided by the snapshot, and the snapshot does not exist yet. |
 | 2 | P | **to be verified at vendoring — unsupported until shown** | Depends entirely on which rules the snapshot contains and on CE's default propagation through the platform join; neither is fixed until a commit is pinned. |
 | 3 | Z | **to be verified at vendoring — unsupported until shown** | Sanitizer credit in the official rules is per-rule, not global; unverifiable before the snapshot. |
-| 4 | O | **to be verified at vendoring — unsupported until shown** | Arg→return summary semantics are outside CE's propagator vocabulary on the pinned version, as [the modeling matrix established by execution](modeling-matrix.md#semgrep-ce--11740---oss-only); a shipped rule cannot supply what the engine does not express. |
+| 4 | O | **to be verified at vendoring — unsupported until shown** | Arg→return summary semantics are outside CE's propagator vocabulary on the pinned version, as [the modeling matrix established by execution](modeling-matrix.md#semgrep-ce--11750---oss-only); a shipped rule cannot supply what the engine does not express. |
 | 5 | E | **to be verified at vendoring — unsupported until shown** | The upstream rules' entry conventions are framework-shaped; whether any covers `sys.argv`/`process.argv`/`main` is the snapshot's to answer. |
 | 6 | B | **to be verified at vendoring — unsupported until shown** | The pinned CE engine has no interprocedural taint (`--pro-intrafile` requires Pro), and a store round trip that the rules do not link is not carried by anything else. |
 
@@ -683,7 +683,7 @@ position the benchmark-controlled matrix recorded for five of its six categories
 and stating it in a preregistration published by Bifrost's own vendor — before a
 run, with the vendor's open issues named — is the point.
 
-### Joern — 4.0.610, `DefaultSemantics` only
+### Joern — 4.0.614, `DefaultSemantics` only
 
 **Activation contract.** Whatever the distribution activates without a
 user-authored query or semantics file. Concretely: `DefaultSemantics`, and
@@ -693,7 +693,7 @@ and the shared `adapters/joern/queries/modeling.sc`.
 
 **What `DefaultSemantics` actually ships — verified.** Decompiled from
 `io.joern.dataflowengineoss-<version>.jar` in a locally installed distribution
-(**4.0.432**, not the pinned 4.0.610; the class surface is expected to be
+(**4.0.432**, not the pinned 4.0.614; the class surface is expected to be
 identical and is to be confirmed against the pinned distribution at
 implementation, on the same terms the modeling matrix used for the same jar).
 `DefaultSemantics` is a table of **flow constraints**: operator semantics
@@ -752,7 +752,7 @@ until shown otherwise.
 > promotes Python's six to scored and keys the partition by language. Every cell
 > for every language with no amendment row is still the cell below.
 
-| # | Template | Cat. | Bifrost v0.10.7 | CodeQL 2.26.3 | Joern 4.0.610 | Semgrep CE 1.174.0 |
+| # | Template | Cat. | Bifrost v0.10.7 | CodeQL 2.26.4 | Joern 4.0.614 | Semgrep CE 1.175.0 |
 | --- | --- | --- | --- | --- | --- | --- |
 | 1 | `native-source-sink` | S | unsupported | supported | unsupported | TBV |
 | 2 | `native-propagator` | P | unsupported | supported | unsupported | TBV |
@@ -916,7 +916,7 @@ identity.
 
 ### A6 — 2026-08-27: Semgrep CE's JavaScript cells, evaluated against the vendored snapshot
 
-**What changed.** Semgrep CE 1.174.0's six *to be verified at vendoring* cells
+**What changed.** Semgrep CE 1.175.0's six *to be verified at vendoring* cells
 are resolved for **JavaScript only**. All six are **retained as unsupported**.
 No cell is promoted, no decision flips, and the
 [partition summary](#partition-summary) is unchanged: what changes is that the
@@ -935,7 +935,7 @@ report.
 from `semgrep/semgrep-rules` at commit
 `40b8c63f75dc7c22c8a77482d73bfb864b146f7e` — thirty `.yaml` rule files from
 `javascript/lang/security/`, the path
-[the preregistration names](#semgrep-ce--11740---oss-only). The evaluation
+[the preregistration names](#semgrep-ce--11750---oss-only). The evaluation
 below is a reading of the vendored rule text, made before Semgrep was invoked
 over any native fixture, which is the order
 [the vendoring rule requires](#provenance-for-vendored-activation-artifacts).
@@ -968,7 +968,7 @@ the six templates is declined for the same reason.
 | 1 | `native-source-sink` | S | **retained unsupported — no shipped platform-source model** | `detect-child-process.yaml` binds the `child_process.execSync($CMD)` sink under `require('child_process')`, so the sink half is covered; its only `pattern-sources` entry is an enclosing function's parameter. Nothing in the snapshot binds `process.env`. |
 | 2 | `native-propagator` | P | **retained unsupported — no shipped platform-source model** | `path-join-resolve-traversal.yaml` binds `$PATH.join(...,$SINK,...)` under `require('path')`; its source is a function parameter. With no source bound, the propagator has nothing to carry. |
 | 3 | `native-sanitizer` | Z | **retained unsupported — no rule reaches this cell to credit or refuse the idiom** | `encodeURIComponent` appears nowhere in the snapshot. Sanitizer credit in the official rules is per-rule (`path-join-resolve-traversal.yaml` lists `$Y.replace`, `$Y.indexOf`, and a `sanitize`-named call), and no rule that could fire on this fixture exists to credit it either way. |
-| 4 | `native-summary` | O | **retained unsupported — no shipped source, and no arg→return summary vocabulary** | Both halves of the preregistered rationale hold: no rule binds a platform source, and CE 1.174.0 does not express arg→return summaries, [as the modeling matrix established by execution](modeling-matrix.md#semgrep-ce--11740---oss-only). |
+| 4 | `native-summary` | O | **retained unsupported — no shipped source, and no arg→return summary vocabulary** | Both halves of the preregistered rationale hold: no rule binds a platform source, and CE 1.175.0 does not express arg→return summaries, [as the modeling matrix established by execution](modeling-matrix.md#semgrep-ce--11750---oss-only). |
 | 5 | `native-entrypoint` | E | **retained unsupported — the shipped entry convention is a function parameter, not `process.argv`** | The snapshot's universal source shape *is* an entry convention — it just is not the platform's. `process.argv` appears in no rule. |
 | 6 | `native-persistence` | B | **retained unsupported — no store vocabulary, and no interprocedural taint** | No rule links a write to `process.env.<NAME>` to a read of it, and the pinned CE engine has no interprocedural taint (`--pro-intrafile` requires Pro). |
 
@@ -1018,7 +1018,7 @@ part of the ruleset, and are deliberately not vendored.
 | 1 | S | **retained unsupported** | No vendored rule names `System.getenv` — the string does not occur in the snapshot at all. The two rules whose sink is this template's command API, `audit/command-injection-formatted-runtime-call.yaml` and `audit/command-injection-process-builder.yaml`, are pattern rules that bind no source. The one taint-mode rule that reaches `Runtime.exec`, `audit/tainted-cmd-from-http-request.yaml`, has `pattern-sources: (HttpServletRequest $REQ)`. No shipped rule binds a platform environment source. |
 | 2 | P | **retained unsupported** | No vendored rule references `String.concat`. The concatenation-shaped rules (`command-injection-formatted-runtime-call`, `audit/formatted-sql-string.yaml`, `audit/jdbc-sql-formatted-string.yaml`) match `+` or `String.format` *inside a sink argument*; none declares a propagator step, and none binds a platform source for one to carry. |
 | 3 | Z | **retained unsupported** | Sanitizer credit in the official rules is per-rule, and no vendored rule declares `Integer.parseInt` or `String.valueOf` as a sanitizer — neither identifier occurs in the snapshot. With no applicable rule at cells 1 and 2, there is also no rule inside which credit could be given. |
-| 4 | O | **retained unsupported** | `java.util.Base64` does not occur in the snapshot. This confirms from rule text what [the modeling matrix established by execution](modeling-matrix.md#semgrep-ce--11740---oss-only): argument-to-return summary semantics are outside CE's propagator vocabulary on the pinned version, and a shipped rule cannot supply what the engine does not express. |
+| 4 | O | **retained unsupported** | `java.util.Base64` does not occur in the snapshot. This confirms from rule text what [the modeling matrix established by execution](modeling-matrix.md#semgrep-ce--11750---oss-only): argument-to-return summary semantics are outside CE's propagator vocabulary on the pinned version, and a shipped rule cannot supply what the engine does not express. |
 | 5 | E | **retained unsupported** | No vendored rule binds `main(String[] args)` or the argument vector; neither `void main` nor `System.` occurs anywhere in the snapshot. Every entry convention it carries is framework-shaped. |
 | 6 | B | **retained unsupported** | No vendored rule names `System.setProperty` / `System.getProperty` as a store pair. The one `setProperty` sink shape in the snapshot, `audit/ognl-injection.yaml`, is bound to an `OgnlReflectionProvider` parameter. The pinned CE engine has no interprocedural taint, so an unlinked store round trip is carried by nothing else. |
 
@@ -1061,7 +1061,7 @@ expressible at all.
    [A6](#a6--2026-08-27-semgrep-ces-javascript-cells-evaluated-against-the-vendored-snapshot)'s
    nor [A7](#a7--2026-08-27-semgrep-ces-six-java-cells-are-retained-unsupported-against-the-vendored-snapshot)'s
    retained rationales are touched.
-2. **Semgrep CE 1.174.0 × Python: all six templates, `TBV`/unsupported →
+2. **Semgrep CE 1.175.0 × Python: all six templates, `TBV`/unsupported →
    scored.**
 
 **Which template IDs and languages.** All six —

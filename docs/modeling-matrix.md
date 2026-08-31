@@ -780,7 +780,7 @@ cells on their own:
   `:call-modeling (call-modeling :unmodeled optimistic)`. Under that setting an
   unmodeled call may pass taint through, which would decide template 3's positive
   without reading the propagator declaration.
-- **Semgrep CE.** Verified against the pinned CE 1.174.0: with no propagator
+- **Semgrep CE.** Verified against the pinned CE 1.175.0: with no propagator
   declared at all, a taint-mode rule reports `dfb_sink(prop("clean", t))` — the
   engine's default is to carry taint from any tainted argument to a call's
   result. Setting `options: taint_assume_safe_functions: true` removes that
@@ -856,7 +856,7 @@ than after a run — is the point. It holds **two of six as amended**: A9 moved
 category Z, and moved it on a measurement that contradicted this adapter's own
 documentation rather than on a re-reading of it.
 
-### CodeQL — CLI 2.26.3
+### CodeQL — CLI 2.26.4
 
 Verified surface: the shared `codeql/dataflow` library at the pinned resolution
 defines `DataFlow::ConfigSig` with `isSource`, `isSink`, and the defaulted
@@ -885,7 +885,7 @@ data-flow configuration *is* a model declaration surface has no category to
 decline. The interesting question for CodeQL is not whether it can be told, but
 whether the resulting semantics match — which is what the assertions measure.
 
-### Joern — 4.0.610
+### Joern — 4.0.614
 
 > **Amended.** Categories P and O were moved to unsupported activation by
 > Amendment A2 after the first wave-M1 run measured `FlowSemantic` as
@@ -898,7 +898,7 @@ Verified surface: the OSS data-flow engine ships a flow-semantics loader —
 `FullNameSemanticsParser`, plus a `SemanticsParser`/`SemanticsLexer` grammar for
 the textual semantics format. Verified by inspecting
 `io.joern.dataflowengineoss-<version>.jar` in a locally installed distribution,
-which is **4.0.432, not the pinned 4.0.610** — the class surface is expected to
+which is **4.0.432, not the pinned 4.0.614** — the class surface is expected to
 be identical and is **to be confirmed against the pinned distribution at
 implementation**, on the same terms as the challenge tier's verified
 `maxCallDepth` bound. The committed `adapters/joern/queries/kernel.sc` supplies
@@ -916,7 +916,7 @@ scoped to a separate `modeling.sc` so the kernel script is untouched.
 | E | **supported** | `reachableByFlows` takes arbitrary CPG nodes as sources; `cpg.method.fullNameExact(…).parameter.index(1)` is a valid root regardless of whether any call site reaches the method. Selectivity is the query's own predicate. |
 | B | **supported** | Two `FlowSemantic` entries — `put` mapping its value parameter into its store parameter, `get` mapping its receiver to its return — leave the key and instance discrimination to the engine, which is the correct division: the model declares the boundary, the analysis decides whether the roundtrip closes. |
 
-### Semgrep CE — 1.174.0 (`--oss-only`)
+### Semgrep CE — 1.175.0 (`--oss-only`)
 
 > **Amended.** Template 6 (sanitizer-selectivity) was moved to unsupported
 > activation by Amendment A3: the mandated safe-function assumption and
@@ -925,7 +925,7 @@ scoped to a separate `modeling.sc` so the kernel script is untouched.
 
 
 This partition is **verified by execution** against the pinned CE binary
-(`semgrep 1.174.0`, `--oss-only`), on small Python probes, before any fixture
+(`semgrep 1.175.0`, `--oss-only`), on small Python probes, before any fixture
 exists. Each cell below states what was run and what came back.
 
 The existing `CHALLENGE_SEMGREP_PARTITION` precedent applies: cells are decided
@@ -952,7 +952,7 @@ capability are not the same axis, which is the whole reason this tier exists.
 Preregistered, before any modeling fixture exists. `TBV` = to be verified at
 implementation, treated as unsupported until shown otherwise.
 
-| Category | Bifrost v0.10.7 | CodeQL 2.26.3 | Joern 4.0.610 | Semgrep CE 1.174.0 |
+| Category | Bifrost v0.10.7 | CodeQL 2.26.4 | Joern 4.0.614 | Semgrep CE 1.175.0 |
 | --- | --- | --- | --- | --- |
 | S — sources and sinks | supported | supported | supported | supported |
 | P — propagators | TBV | supported | supported | unsupported |
@@ -1182,7 +1182,7 @@ move from scored to **unsupported activation**. Its scored modeling set is
 now the eight templates of categories S, Z, E, and B.
 
 **Why.** The first wave-M1 run (Python) probed the load-bearing contract and
-found that on the pinned 4.0.610, `FlowSemantic` mappings are **additive**
+found that on the pinned 4.0.614, `FlowSemantic` mappings are **additive**
 over the engine's default unmodeled-call pass-through and cannot restrict
 it: removing the propagator declaration leaves the finding standing, and a
 declared positional mapping does not exclude the undeclared position — so a
@@ -1239,7 +1239,7 @@ body — JavaScript's `Reflect.get(_impl, name).apply(null, [v])` — and conclu
 that a `reached` positive there could only mean the model was activated.
 
 **What was measured.** It is false for Joern's `jssrc2cpg` on the pinned
-4.0.610. Run `adapters/joern/queries/modeling.sc` over
+4.0.614. Run `adapters/joern/queries/modeling.sc` over
 `cases/taint/javascript/model-opaque-propagator-positive` under the committed
 `adapters/joern/semantics/model-javascript.semantics` — which, after A2,
 declares **nothing whatsoever** for `Opaque.carry`, or for category P at all —
@@ -1281,7 +1281,7 @@ runs `adapters/joern/queries/modeling.sc` over
 `cases/taint/java/model-opaque-propagator-positive` under the committed
 `adapters/joern/semantics/model-java.semantics` — which, after A2, declares
 **nothing whatsoever** for category P — and records `state: analyzed`,
-`declared_semantic_count: 3`, `flow_count: 1`. The pinned 4.0.610 follows
+`declared_semantic_count: 3`, `flow_count: 1`. The pinned 4.0.614 follows
 `Opaque.class.getMethod(target, String.class).invoke(null, value)` through
 `Method.invoke`'s `Object[]` argument with no propagator model at all.
 

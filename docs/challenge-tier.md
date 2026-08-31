@@ -509,10 +509,10 @@ language's kernel contract before fixtures are written.
 **beyond known engine defaults**, and the expectation is written down here
 rather than discovered afterwards.
 
-**Verified bound.** The pinned Joern distribution — `joern-v4.0.610` — sets its
+**Verified bound.** The pinned Joern distribution — `joern-v4.0.614` — sets its
 data-flow engine's call-depth bound to **4** by default. This is verified from
 the distribution itself, not asserted from memory:
-`joern-cli/lib/io.joern.dataflowengineoss-4.0.610.jar` contains
+`joern-cli/lib/io.joern.dataflowengineoss-4.0.614.jar` contains
 `io/joern/dataflowengineoss/queryengine/EngineConfig`, whose first constructor
 parameter is `maxCallDepth: Int`; the companion object's default-argument
 accessor `EngineConfig$.<init>$default$1()` compiles to `iconst_4; ireturn`, and

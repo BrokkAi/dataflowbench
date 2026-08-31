@@ -214,7 +214,7 @@ and O are absent from the file, because A2 declines them.
 
 **A measured `jssrc2cpg` surface fact, and the one realization it forces.**
 Joern's flow-semantics surface is keyed by the CPG's `methodFullName`. On the
-pinned 4.0.610, JavaScript's frontend gives three different answers depending on
+pinned 4.0.614, JavaScript's frontend gives three different answers depending on
 how the callee is written, and only one of them denotes the entity:
 
 | Callee shape | `methodFullName` at the call site |

@@ -271,7 +271,7 @@ Each language kernel requires a language-qualified Bifrost policy at
 `adapters/bifrost/policies/core-<language>-kernel.rqlp`, following the
 existing JavaScript and Python pattern.
 
-**CodeQL CLI 2.26.3** — the pinned version — has production extractors and
+**CodeQL CLI 2.26.4** — the pinned version — has production extractors and
 packs covering C and C++ (`cpp`), C# (`csharp`), Go (`go`), Kotlin through the
 `java` extractor, TypeScript through the `javascript` extractor, and Ruby
 (`ruby`). Rust support exists only as a public preview: if it is used, the
