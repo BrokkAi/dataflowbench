@@ -189,3 +189,122 @@ export function shortDigest(sha256: string): string {
 export function percentCell(percent: string | null): string {
   return percent === null ? 'n/a' : `${percent}%`;
 }
+
+/** Display name for an analyzer, keyed by the adapter's tool identifier. */
+const vendorNames: Record<string, string> = {
+  bifrost: 'Bifrost',
+  codeql: 'CodeQL',
+  joern: 'Joern',
+  semgrep: 'Semgrep CE',
+};
+
+/**
+ * Fixed vendor→colour identity map. Keyed by tool rather than by row position
+ * so a vendor keeps its colour across every section and every snapshot.
+ */
+const vendorColorClasses: Record<string, string> = {
+  bifrost: 'v0',
+  codeql: 'v1',
+  joern: 'v2',
+  semgrep: 'v3',
+};
+
+export function vendorName(tool: string): string {
+  return vendorNames[tool] ?? tool.charAt(0).toUpperCase() + tool.slice(1);
+}
+
+export function vendorColorClass(tool: string, index = 0): string {
+  return vendorColorClasses[tool] ?? `v${index % 4}`;
+}
+
+/** Stable ordering of analyzers: the colour identity map, then alphabetical. */
+export function vendorOrder(tool: string): number {
+  const index = Object.keys(vendorColorClasses).indexOf(tool);
+  return index === -1 ? Object.keys(vendorColorClasses).length : index;
+}
+
+/**
+ * One benchmark-controlled `core` population, carrying every analyzer whose
+ * own core tier covers exactly the same case identifiers.
+ */
+export interface CorePopulation {
+  language: string;
+  /** Assertions in the population. */
+  cases: number;
+  /** Distinct semantic templates behind those assertions. */
+  templates: number;
+  /** The tier that defined the population, used for its case list. */
+  tier: ScoreTier;
+  /** Analyzers covering this exact case set, keyed by tool identifier. */
+  entries: Map<string, { card: Scorecard; tier: ScoreTier }>;
+}
+
+/**
+ * The benchmark-controlled kernel populations of one snapshot — the no-pooling
+ * filter the landing page reads, factored out so that the per-snapshot view and
+ * the cross-snapshot view can never drift apart.
+ *
+ * Populations are matched by case identity, never by language name, so a
+ * 15-template core and a 16-template core of the same language stay separate.
+ * A scorecard covering many languages is a breadth run and may only *join* a
+ * population that a dedicated single-language card already defined; the
+ * breadth baseline's two-case cores never become kernels of their own.
+ *
+ * Non-core tiers are excluded explicitly at every schema version:
+ * `calibration` (unscored), `language-extension` (v0.3.0+) and `modeling`
+ * (v0.5.0+) never enter, and neither does any `tool-native` scorecard.
+ */
+export function coreKernelPopulations(results: ResultsModel): CorePopulation[] {
+  const cards = results.scorecards.filter(
+    (card) =>
+      (card.model_profile ?? card.adapter.model_profile) ===
+      'benchmark-controlled',
+  );
+  const isBreadth = (card: Scorecard) => card.languages.length > 1;
+  const caseKey = (tier: ScoreTier) =>
+    tier.cases
+      .map((result) => result.case_id)
+      .sort()
+      .join('\n');
+
+  const byPopulation = new Map<string, CorePopulation>();
+  // Pass one: dedicated single-language cards define which populations are
+  // kernels at all.
+  for (const card of cards) {
+    if (isBreadth(card)) continue;
+    for (const language of card.languages) {
+      for (const tier of language.score_tiers) {
+        if (tier.score_tier !== 'core') continue;
+        const key = caseKey(tier);
+        if (byPopulation.has(key)) continue;
+        byPopulation.set(key, {
+          language: language.language,
+          cases: tier.cases.length,
+          templates: new Set(tier.cases.map((result) => result.template_id))
+            .size,
+          tier,
+          entries: new Map(),
+        });
+      }
+    }
+  }
+  // Pass two: every core tier — dedicated or breadth — joins the population it
+  // covers exactly. A dedicated card always wins over a breadth card for the
+  // same analyzer and the same cases.
+  for (const card of cards) {
+    for (const language of card.languages) {
+      for (const tier of language.score_tiers) {
+        if (tier.score_tier !== 'core') continue;
+        const population = byPopulation.get(caseKey(tier));
+        if (!population) continue;
+        if (population.entries.has(card.adapter.tool) && isBreadth(card)) {
+          continue;
+        }
+        population.entries.set(card.adapter.tool, { card, tier });
+      }
+    }
+  }
+  return [...byPopulation.values()]
+    .filter((population) => population.entries.size > 0)
+    .sort((left, right) => left.language.localeCompare(right.language));
+}
