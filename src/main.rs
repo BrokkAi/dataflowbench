@@ -8,7 +8,7 @@ use std::{
     fs,
     path::{Path, PathBuf},
     process::Command,
-    time::{Instant, SystemTime, UNIX_EPOCH},
+    time::{Duration, Instant, SystemTime, UNIX_EPOCH},
 };
 use walkdir::WalkDir;
 
@@ -4549,6 +4549,7 @@ fn run_bifrost(binary: &Path, run: BifrostRun) -> Result<()> {
         command_output(Command::new(binary).arg("--version")).unwrap_or_else(|_| "unknown".into());
     let build_identity = command_output(Command::new(binary).arg("--build-identity"))
         .unwrap_or_else(|_| "unknown".into());
+    write_run_environment(raw_dir, "bifrost", &version, &build_identity)?;
     let revision = fixture_revision()?;
     let mut results = Vec::new();
     let mut policy_paths = BTreeSet::new();
@@ -4570,6 +4571,7 @@ fn run_bifrost(binary: &Path, run: BifrostRun) -> Result<()> {
             fs::remove_file(&raw_path)
                 .with_context(|| format!("clear stale raw output {}", raw_path.display()))?;
         }
+        clear_stale_case_timing(raw_dir, id)?;
         let start = Instant::now();
         let (outcome, diagnostics, checkpoints) = if let Some(reason) =
             model["unsupported_reason"].as_str()
@@ -4601,6 +4603,11 @@ fn run_bifrost(binary: &Path, run: BifrostRun) -> Result<()> {
                     "--output",
                 ])
                 .arg(&raw_path);
+            // One CLI invocation is indivisible from the adapter's vantage:
+            // `total`, per #89. Any phase timings Bifrost emits itself ride in
+            // the JSON report it writes to `raw_path` and are retained
+            // verbatim.
+            let invoked = Instant::now();
             let output = match command.output() {
                 Ok(output) => output,
                 Err(error) => {
@@ -4618,6 +4625,7 @@ fn run_bifrost(binary: &Path, run: BifrostRun) -> Result<()> {
                     continue;
                 }
             };
+            write_case_phase_timings(raw_dir, "bifrost", id, &[("total", invoked.elapsed())])?;
             let status_code = output.status.code();
             if !raw_path.is_file() {
                 let stdout = String::from_utf8_lossy(&output.stdout);
@@ -5181,6 +5189,7 @@ fn run_codeql_java_kernel(binary: &Path, packs: Option<&Path>) -> Result<()> {
     fs::create_dir_all(raw_dir)?;
     let started = now_seconds()?;
     let (version, build_identity) = codeql_version_identity(binary)?;
+    write_run_environment(raw_dir, "codeql", &version, &build_identity)?;
     let revision = fixture_revision()?;
     let mut results = Vec::new();
     let mut query_paths = BTreeSet::new();
@@ -5197,6 +5206,7 @@ fn run_codeql_java_kernel(binary: &Path, packs: Option<&Path>) -> Result<()> {
             model["unsupported_reason"].as_str()
         {
             let raw_path = raw_dir.join(format!("{id}.json"));
+            clear_stale_case_timing(raw_dir, id)?;
             fs::write(
                 &raw_path,
                 serde_json::to_string_pretty(
@@ -5265,6 +5275,7 @@ fn run_codeql_ecma_kernel(binary: &Path, packs: Option<&Path>, kernel: EcmaKerne
     fs::create_dir_all(raw_dir)?;
     let started = now_seconds()?;
     let (version, build_identity) = codeql_version_identity(binary)?;
+    write_run_environment(raw_dir, "codeql", &version, &build_identity)?;
     let revision = fixture_revision()?;
     let mut results = Vec::with_capacity(selected.len());
     let mut query_paths = BTreeSet::new();
@@ -5276,6 +5287,7 @@ fn run_codeql_ecma_kernel(binary: &Path, packs: Option<&Path>, kernel: EcmaKerne
         let (outcome, diagnostics, raw_path) =
             if let Some(reason) = model["unsupported_reason"].as_str() {
                 let raw_path = raw_dir.join(format!("{id}.json"));
+                clear_stale_case_timing(raw_dir, id)?;
                 fs::write(
                     &raw_path,
                     serde_json::to_string_pretty(&json!({
@@ -5344,6 +5356,7 @@ fn run_codeql_python_kernel(binary: &Path, packs: Option<&Path>) -> Result<()> {
     fs::create_dir_all(raw_dir)?;
     let started = now_seconds()?;
     let (version, build_identity) = codeql_version_identity(binary)?;
+    write_run_environment(raw_dir, "codeql", &version, &build_identity)?;
     let revision = fixture_revision()?;
     let mut results = Vec::with_capacity(selected.len());
     let mut query_paths = BTreeSet::new();
@@ -5406,6 +5419,7 @@ fn run_codeql_kotlin_kernel(binary: &Path, packs: Option<&Path>, kotlinc: &Path)
     fs::create_dir_all(raw_dir)?;
     let started = now_seconds()?;
     let (version, build_identity) = codeql_version_identity(binary)?;
+    write_run_environment(raw_dir, "codeql", &version, &build_identity)?;
     let revision = fixture_revision()?;
     let mut results = Vec::with_capacity(selected.len());
 
@@ -5461,6 +5475,7 @@ fn run_codeql_csharp_kernel(binary: &Path, packs: Option<&Path>) -> Result<()> {
     fs::create_dir_all(raw_dir)?;
     let started = now_seconds()?;
     let (version, build_identity) = codeql_version_identity(binary)?;
+    write_run_environment(raw_dir, "codeql", &version, &build_identity)?;
     let revision = fixture_revision()?;
     let mut results = Vec::with_capacity(selected.len());
 
@@ -5516,6 +5531,7 @@ fn run_codeql_go_kernel(binary: &Path, packs: Option<&Path>, go: &Path) -> Resul
     fs::create_dir_all(raw_dir)?;
     let started = now_seconds()?;
     let (version, build_identity) = codeql_version_identity(binary)?;
+    write_run_environment(raw_dir, "codeql", &version, &build_identity)?;
     let revision = fixture_revision()?;
     let mut results = Vec::with_capacity(selected.len());
 
@@ -5627,6 +5643,7 @@ fn run_codeql_c_family_kernel(
     fs::create_dir_all(raw_dir)?;
     let started = now_seconds()?;
     let (version, build_identity) = codeql_version_identity(binary)?;
+    write_run_environment(raw_dir, "codeql", &version, &build_identity)?;
     let revision = fixture_revision()?;
     let mut results = Vec::with_capacity(selected.len());
 
@@ -5742,6 +5759,7 @@ fn run_codeql_rust_kernel(binary: &Path, packs: Option<&Path>) -> Result<()> {
     fs::create_dir_all(raw_dir)?;
     let started = now_seconds()?;
     let (version, build_identity) = codeql_version_identity(binary)?;
+    write_run_environment(raw_dir, "codeql", &version, &build_identity)?;
     let revision = fixture_revision()?;
     let mut results = Vec::with_capacity(selected.len());
 
@@ -5798,6 +5816,7 @@ fn run_codeql_ruby_kernel(binary: &Path, packs: Option<&Path>) -> Result<()> {
     fs::create_dir_all(raw_dir)?;
     let started = now_seconds()?;
     let (version, build_identity) = codeql_version_identity(binary)?;
+    write_run_environment(raw_dir, "codeql", &version, &build_identity)?;
     let revision = fixture_revision()?;
     let mut results = Vec::with_capacity(selected.len());
 
@@ -6275,13 +6294,16 @@ fn run_codeql_ecma_case(
     }
     let raw_path = raw_dir.join(format!("{id}.sarif.json"));
     let error_path = raw_dir.join(format!("{id}-error.json"));
-    for stale in [&raw_path, &error_path] {
+    let timing_path = case_timing_path(raw_dir, id);
+    for stale in [&raw_path, &error_path, &timing_path] {
         if stale.exists() {
             fs::remove_file(stale).with_context(|| format!("clear {}", stale.display()))?;
         }
     }
 
     let result = (|| {
+        let mut phases: Vec<(&str, Duration)> = Vec::new();
+        let create_started = Instant::now();
         let create = Command::new(binary)
             .arg("database")
             .arg("create")
@@ -6311,6 +6333,8 @@ fn run_codeql_ecma_case(
                 return Ok(("runner-error", vec![diagnostic], error_path));
             }
         };
+        phases.push(("database-create", create_started.elapsed()));
+        write_case_phase_timings(raw_dir, kernel.adapter(), id, &phases)?;
         if !create.status.success() {
             return write_codeql_ecma_error(raw_dir, id, "database-create", &create, None, kernel);
         }
@@ -6327,6 +6351,7 @@ fn run_codeql_ecma_case(
         if let Some(packs) = packs {
             analyze.arg(format!("--additional-packs={}", packs.display()));
         }
+        let analyze_started = Instant::now();
         let analyzed = match analyze.output() {
             Ok(output) => output,
             Err(error) => {
@@ -6344,6 +6369,8 @@ fn run_codeql_ecma_case(
                 return Ok(("runner-error", vec![diagnostic], error_path));
             }
         };
+        phases.push(("database-analyze", analyze_started.elapsed()));
+        write_case_phase_timings(raw_dir, kernel.adapter(), id, &phases)?;
         if !analyzed.status.success() {
             return write_codeql_ecma_error(
                 raw_dir,
@@ -7304,11 +7331,13 @@ fn codeql_sarif_for_case(
     for stale in [
         raw_dir.join(format!("{id}.sarif.json")),
         raw_dir.join(format!("{id}-error.json")),
+        case_timing_path(raw_dir, id),
     ] {
         if stale.exists() {
             fs::remove_file(&stale).with_context(|| format!("clear {}", stale.display()))?;
         }
     }
+    let mut phases: Vec<(&str, Duration)> = Vec::new();
     let mut create_command = Command::new(binary);
     if language.traces_jvm_compile() {
         let classes = workspace.join("classes");
@@ -7324,6 +7353,7 @@ fn codeql_sarif_for_case(
     create_command.args(codeql_database_create_args(
         &database, &workspace, case, language,
     )?);
+    let create_started = Instant::now();
     let create = match create_command.output() {
         Ok(output) => output,
         Err(error) => {
@@ -7337,6 +7367,8 @@ fn codeql_sarif_for_case(
             )));
         }
     };
+    phases.push(("database-create", create_started.elapsed()));
+    write_case_phase_timings(raw_dir, "codeql", id, &phases)?;
     if !create.status.success() {
         let error = write_codeql_error(raw_dir, id, "database-create", &create)?;
         clear_codeql_case_artifacts(&workspace, &database)?;
@@ -7356,6 +7388,7 @@ fn codeql_sarif_for_case(
     if let Some(packs) = packs {
         analyze.arg(format!("--additional-packs={}", packs.display()));
     }
+    let analyze_started = Instant::now();
     let analyzed = match analyze.output() {
         Ok(output) => output,
         Err(error) => {
@@ -7369,6 +7402,8 @@ fn codeql_sarif_for_case(
             )));
         }
     };
+    phases.push(("database-analyze", analyze_started.elapsed()));
+    write_case_phase_timings(raw_dir, "codeql", id, &phases)?;
     if !analyzed.status.success() {
         let error = write_codeql_error(raw_dir, id, "database-analyze", &analyzed)?;
         clear_codeql_case_artifacts(&workspace, &database)?;
@@ -7907,6 +7942,7 @@ fn run_joern_kernel(binary: &Path, kernel: JoernKernel) -> Result<()> {
     let raw_root = fs::canonicalize(raw_dir).context("resolve the Joern evidence directory")?;
     let started = now_seconds()?;
     let (version, build_identity) = joern_version_identity(binary)?;
+    write_run_environment(raw_dir, "joern", &version, &build_identity)?;
     let revision = fixture_revision()?;
     let mut results = Vec::with_capacity(selected.len());
 
@@ -8070,7 +8106,8 @@ fn run_joern_case(
     let id = case["id"].as_str().expect("schema validated");
     let raw_path = raw_dir.join(format!("{id}.json"));
     let error_path = raw_dir.join(format!("{id}-error.json"));
-    for stale in [&raw_path, &error_path] {
+    let timing_path = case_timing_path(raw_dir, id);
+    for stale in [&raw_path, &error_path, &timing_path] {
         if stale.exists() {
             fs::remove_file(stale).with_context(|| format!("clear {}", stale.display()))?;
         }
@@ -8132,6 +8169,9 @@ fn run_joern_case(
             .arg("--param")
             .arg(format!("outputPath={}", absolute_raw_path.display()))
             .stdin(std::process::Stdio::null());
+        // One subprocess imports and queries in the same JVM, so the boundary
+        // the adapter observes is the whole invocation: `total`, per #89.
+        let invoked = Instant::now();
         let output = match command.output() {
             Ok(output) => output,
             Err(error) => {
@@ -8144,6 +8184,7 @@ fn run_joern_case(
                 return Ok(("runner-error", vec![diagnostic], path));
             }
         };
+        write_case_phase_timings(raw_dir, "joern", id, &[("total", invoked.elapsed())])?;
         if !output.status.success() {
             let diagnostic = format!(
                 "Joern {} kernel script failed with status {}",
@@ -8784,6 +8825,7 @@ fn run_semgrep_kernel(binary: &Path, kernel: SemgrepKernel) -> Result<()> {
     fs::create_dir_all(&raw_dir)?;
     let started = now_seconds()?;
     let (version, build_identity) = semgrep_version_identity(binary)?;
+    write_run_environment(&raw_dir, "semgrep", &version, &build_identity)?;
     let revision = fixture_revision()?;
     let mut results = Vec::with_capacity(selected.len());
 
@@ -8907,7 +8949,14 @@ fn run_semgrep_case(
     let error_path = raw_dir.join(format!("{id}-error.json"));
     let unsupported_path = raw_dir.join(format!("{id}-unsupported.json"));
     let rule_path = raw_dir.join(format!("{id}-rule.yaml"));
-    for stale in [&raw_path, &error_path, &unsupported_path, &rule_path] {
+    let timing_path = case_timing_path(raw_dir, id);
+    for stale in [
+        &raw_path,
+        &error_path,
+        &unsupported_path,
+        &rule_path,
+        &timing_path,
+    ] {
         if stale.exists() {
             fs::remove_file(stale).with_context(|| format!("clear {}", stale.display()))?;
         }
@@ -8994,6 +9043,10 @@ fn run_semgrep_case(
             .arg(fs::canonicalize(&rule_path).unwrap_or_else(|_| rule_path.clone()))
             .arg(&workspace)
             .stdin(std::process::Stdio::null());
+        // One CLI invocation is indivisible from the adapter's vantage:
+        // `total`, per #89. Any phase timings Semgrep emits itself ride in the
+        // verbatim `--json` document retained below.
+        let invoked = Instant::now();
         let output = match command.output() {
             Ok(output) => output,
             Err(error) => {
@@ -9006,6 +9059,7 @@ fn run_semgrep_case(
                 return Ok(("runner-error", vec![diagnostic], path));
             }
         };
+        write_case_phase_timings(raw_dir, "semgrep", id, &[("total", invoked.elapsed())])?;
         // Semgrep exits 0 with or without findings and reserves higher codes
         // for its own failures, so anything non-zero is a runner error and can
         // never be read as an empty finding list.
@@ -9486,6 +9540,141 @@ fn now_seconds() -> Result<u64> {
 }
 
 // ---------------------------------------------------------------------------
+// Phase-timing capture (#90, the instrumentation half of the latency tier).
+//
+// The runner times exactly what it already invokes as a separate subprocess,
+// and nothing else: no analyzer internals are instrumented, and the stated
+// exclusions — harness compile time, fixture materialization, report
+// normalization, validation — never enter a phase. Durations come from the
+// monotonic clock (`Instant`), so a wall-clock adjustment mid-run cannot
+// corrupt a phase.
+//
+// Timings are retained as a per-case sidecar in the run's raw-evidence
+// directory (`<case-id>-timing.json`) rather than inside the analyzer's own
+// document, for two reasons. First, several raw artifacts are the tool's
+// verbatim bytes (Semgrep's `--json` stdout, CodeQL's SARIF), and injecting
+// runner metadata into them would cost the verbatim property. Second, the
+// normalized reports are frozen bytes with `additionalProperties: false`, so
+// the raw directory is the only additive home. The sidecar is **additive
+// metadata**: validation never requires it, pre-existing frozen artifacts
+// never carry it, and no correctness outcome may ever read a value from it.
+// ---------------------------------------------------------------------------
+
+/// Where one case's phase-timing sidecar lives, beside its raw evidence.
+fn case_timing_path(raw_dir: &Path, id: &str) -> PathBuf {
+    raw_dir.join(format!("{id}-timing.json"))
+}
+
+/// Remove a previous run's timing sidecar for one case, so an arm that does
+/// not invoke the analyzer (an `unsupported` declaration, a preregistered
+/// partition decision) can never leave a stale timing beside a fresh decision.
+fn clear_stale_case_timing(raw_dir: &Path, id: &str) -> Result<()> {
+    let path = case_timing_path(raw_dir, id);
+    if path.exists() {
+        fs::remove_file(&path).with_context(|| format!("clear {}", path.display()))?;
+    }
+    Ok(())
+}
+
+/// Retain the wall-clock phases the runner witnessed around one case's
+/// analyzer subprocesses.
+///
+/// Each entry is a phase label and the monotonic-clock duration of exactly one
+/// subprocess invocation. The labels state the boundary the adapter genuinely
+/// observes, per the semi-granular rule of the latency tier (#89):
+/// `database-create` / `database-analyze` for CodeQL (extraction including the
+/// traced compile, then query evaluation *and* SARIF interpretation, which the
+/// pinned CLI performs inside the same `database analyze` subprocess), and
+/// `total` for Joern, Semgrep, and Bifrost, whose single invocation is
+/// indivisible from the adapter's vantage. Unequal granularity is stated, not
+/// papered over.
+///
+/// The write is incremental: a caller may retain the first phase before the
+/// second runs, so a case that fails mid-sequence still keeps the cost it
+/// already paid. The sidecar is rewritten whole each time, never appended.
+fn write_case_phase_timings(
+    raw_dir: &Path,
+    adapter: &str,
+    id: &str,
+    phases: &[(&str, Duration)],
+) -> Result<()> {
+    let phases: Vec<Value> = phases
+        .iter()
+        .map(|(phase, duration)| json!({"phase": phase, "wall_ms": duration.as_millis() as u64}))
+        .collect();
+    fs::write(
+        case_timing_path(raw_dir, id),
+        serde_json::to_string_pretty(&json!({
+            "schema_version": 1,
+            "adapter": adapter,
+            "case_id": id,
+            "clock": "monotonic",
+            "phases": phases,
+            "evidence_kind": "retained-phase-timing"
+        }))? + "\n",
+    )?;
+    Ok(())
+}
+
+/// The hardware model the machine reports for itself, best-effort.
+///
+/// A latency number is only comparable within the environment that produced
+/// it, so the stamp names the machine — but reading that name is never worth
+/// failing a run over, hence the `"unknown"` fallbacks.
+fn hardware_model() -> String {
+    #[cfg(target_os = "macos")]
+    let model = command_output(Command::new("sysctl").args(["-n", "hw.model"])).ok();
+    #[cfg(target_os = "linux")]
+    let model = fs::read_to_string("/sys/devices/virtual/dmi/id/product_name")
+        .ok()
+        .map(|name| name.trim().to_string());
+    #[cfg(not(any(target_os = "macos", target_os = "linux")))]
+    let model: Option<String> = None;
+    model
+        .filter(|model| !model.is_empty())
+        .unwrap_or_else(|| "unknown".into())
+}
+
+/// Stamp the environment one run measured in, once per run, beside its raw
+/// evidence.
+///
+/// The stamp pairs the machine (hardware model, OS and kernel release, CPU
+/// count) with the tool identity the run **witnessed** from the binary, so a
+/// latency page can later attribute every per-case timing in the directory to
+/// one environment and one witnessed tool without re-measurement. Like the
+/// per-case sidecars this is additive metadata: no validation requires it and
+/// no outcome reads it.
+fn write_run_environment(
+    raw_dir: &Path,
+    tool: &str,
+    tool_version: &str,
+    tool_build_identity: &str,
+) -> Result<()> {
+    let os_release =
+        command_output(Command::new("uname").arg("-r")).unwrap_or_else(|_| "unknown".into());
+    let cpu_count = std::thread::available_parallelism()
+        .map(|count| json!(count.get()))
+        .unwrap_or(Value::Null);
+    fs::write(
+        raw_dir.join("run-environment.json"),
+        serde_json::to_string_pretty(&json!({
+            "schema_version": 1,
+            "captured_at_unix_seconds": now_seconds()?,
+            "hardware_model": hardware_model(),
+            "os": std::env::consts::OS,
+            "os_release": os_release,
+            "cpu_architecture": std::env::consts::ARCH,
+            "cpu_count": cpu_count,
+            "tool": tool,
+            "witnessed_tool_version": tool_version,
+            "witnessed_tool_build_identity": tool_build_identity,
+            "evidence_kind": "retained-run-environment"
+        }))? + "\n",
+    )?;
+    Ok(())
+}
+
+// ---------------------------------------------------------------------------
 // Modeling-matrix runners.
 //
 // One command per adapter, parameterized by language, rather than twelve
@@ -9617,6 +9806,7 @@ fn modeling_partition_outcome(
     if raw_path.exists() {
         fs::remove_file(&raw_path).with_context(|| format!("clear {}", raw_path.display()))?;
     }
+    clear_stale_case_timing(raw_dir, id)?;
     fs::write(
         &raw_path,
         serde_json::to_string_pretty(&json!({
@@ -9733,6 +9923,7 @@ fn run_bifrost_modeling_case(
     if raw_path.exists() {
         fs::remove_file(&raw_path).with_context(|| format!("clear {}", raw_path.display()))?;
     }
+    clear_stale_case_timing(&plan.raw_dir, id)?;
     let policy = plan.language.artifact(ModelingTool::Bifrost);
     let scratch = modeling_case_scratch(ModelingTool::Bifrost, plan.language, id)?;
     materialize_modeling_workspace(case_path, case, &scratch)?;
@@ -9755,6 +9946,7 @@ fn run_bifrost_modeling_case(
         ])
         .arg(&raw_path)
         .stdin(std::process::Stdio::null());
+    let invoked = Instant::now();
     let output = match command.output() {
         Ok(output) => output,
         Err(error) => {
@@ -9763,6 +9955,12 @@ fn run_bifrost_modeling_case(
             return Ok(("runner-error", vec![diagnostic], raw_path));
         }
     };
+    write_case_phase_timings(
+        &plan.raw_dir,
+        "bifrost",
+        id,
+        &[("total", invoked.elapsed())],
+    )?;
     let status_code = output.status.code();
     let normalized = if !raw_path.is_file() {
         let diagnostic = format!(
@@ -9829,7 +10027,8 @@ fn run_joern_modeling_case(
     let dialect = modeling_anchor_dialect(plan.language)?;
     let raw_path = plan.raw_dir.join(format!("{id}.json"));
     let error_path = plan.raw_dir.join(format!("{id}-error.json"));
-    for stale in [&raw_path, &error_path] {
+    let timing_path = case_timing_path(&plan.raw_dir, id);
+    for stale in [&raw_path, &error_path, &timing_path] {
         if stale.exists() {
             fs::remove_file(stale).with_context(|| format!("clear {}", stale.display()))?;
         }
@@ -9887,6 +10086,7 @@ fn run_joern_modeling_case(
             .arg("--param")
             .arg(format!("outputPath={}", absolute_raw_path.display()))
             .stdin(std::process::Stdio::null());
+        let invoked = Instant::now();
         let output = match command.output() {
             Ok(output) => output,
             Err(error) => {
@@ -9898,6 +10098,7 @@ fn run_joern_modeling_case(
                 return Ok(("runner-error", vec![diagnostic], path));
             }
         };
+        write_case_phase_timings(&plan.raw_dir, "joern", id, &[("total", invoked.elapsed())])?;
         if !output.status.success() {
             let diagnostic = format!("Joern modeling script failed with status {}", output.status);
             let path = write_joern_error(
@@ -9997,7 +10198,8 @@ fn run_semgrep_modeling_case(
     let dialect = modeling_anchor_dialect(plan.language)?;
     let raw_path = plan.raw_dir.join(format!("{id}.json"));
     let error_path = plan.raw_dir.join(format!("{id}-error.json"));
-    for stale in [&raw_path, &error_path] {
+    let timing_path = case_timing_path(&plan.raw_dir, id);
+    for stale in [&raw_path, &error_path, &timing_path] {
         if stale.exists() {
             fs::remove_file(stale).with_context(|| format!("clear {}", stale.display()))?;
         }
@@ -10022,6 +10224,7 @@ fn run_semgrep_modeling_case(
             .arg(rule)
             .arg(&workspace)
             .stdin(std::process::Stdio::null());
+        let invoked = Instant::now();
         let output = match command.output() {
             Ok(output) => output,
             Err(error) => {
@@ -10033,6 +10236,12 @@ fn run_semgrep_modeling_case(
                 return Ok(("runner-error", vec![diagnostic], path));
             }
         };
+        write_case_phase_timings(
+            &plan.raw_dir,
+            "semgrep",
+            id,
+            &[("total", invoked.elapsed())],
+        )?;
         if !output.status.success() {
             let diagnostic = format!("Semgrep modeling scan failed with status {}", output.status);
             let path = write_semgrep_error(
@@ -10123,6 +10332,7 @@ fn run_modeling(
 
     let started = now_seconds()?;
     let (version, build_identity) = witness_tool_identity(plan.tool, binary)?;
+    write_run_environment(&plan.raw_dir, plan.tool.key(), &version, &build_identity)?;
     let revision = fixture_revision()?;
     let mut results = Vec::with_capacity(plan.cases.len());
     for (path, case) in &plan.cases {
@@ -10400,6 +10610,7 @@ fn native_partition_outcome(
     if raw_path.exists() {
         fs::remove_file(&raw_path).with_context(|| format!("clear {}", raw_path.display()))?;
     }
+    clear_stale_case_timing(raw_dir, id)?;
     fs::write(
         &raw_path,
         serde_json::to_string_pretty(&json!({
@@ -10678,7 +10889,8 @@ fn run_semgrep_native_case(
     let id = required_string(case, "id", "tool-native case")?;
     let raw_path = plan.raw_dir.join(format!("{id}.json"));
     let error_path = plan.raw_dir.join(format!("{id}-error.json"));
-    for stale in [&raw_path, &error_path] {
+    let timing_path = case_timing_path(&plan.raw_dir, id);
+    for stale in [&raw_path, &error_path, &timing_path] {
         if stale.exists() {
             fs::remove_file(stale).with_context(|| format!("clear {}", stale.display()))?;
         }
@@ -10703,6 +10915,7 @@ fn run_semgrep_native_case(
             .arg(format!("--config={}", rules.display()))
             .arg(&workspace)
             .stdin(std::process::Stdio::null());
+        let invoked = Instant::now();
         let output = match command.output() {
             Ok(output) => output,
             Err(error) => {
@@ -10714,6 +10927,12 @@ fn run_semgrep_native_case(
                 return Ok(("runner-error", vec![diagnostic], path));
             }
         };
+        write_case_phase_timings(
+            &plan.raw_dir,
+            "semgrep",
+            id,
+            &[("total", invoked.elapsed())],
+        )?;
         if !output.status.success() {
             let diagnostic = format!(
                 "Semgrep tool-native scan failed with status {}",
@@ -10947,6 +11166,7 @@ fn run_native(
     fs::create_dir_all(&plan.raw_dir)?;
     let started = now_seconds()?;
     let build_identity = format!("{build} — {}", plan.activation.identity);
+    write_run_environment(&plan.raw_dir, plan.tool.key(), &version, &build_identity)?;
     let revision = fixture_revision()?;
     let mut results = Vec::with_capacity(plan.cases.len());
     for (path, case) in &plan.cases {
@@ -11398,6 +11618,111 @@ mod tests {
                 .unwrap();
         assert_eq!(published["tool"], "test-tool");
         assert!(!fixture.root.join("reports/own-kernel.json.tmp").exists());
+    }
+
+    /// Timing fields are additive metadata (#90): validate-reports must accept
+    /// retained raw evidence both with and without the timing sidecar and the
+    /// run-environment stamp beside it.
+    #[test]
+    fn validate_reports_accepts_raw_evidence_with_and_without_timing_metadata() {
+        let fixture = ReportSweepFixture::new();
+        let own_raw = "reports/raw/own-kernel/case.json";
+        fixture.write_raw(own_raw);
+        let own = fixture.write_report("own-kernel.json", &ReportSweepFixture::report(own_raw));
+        // Without any timing metadata: the pre-existing shape stays valid.
+        validate_reports_in(&fixture.root, Some(&own)).unwrap();
+        // With the per-case sidecar and the per-run environment stamp: still
+        // valid, and validation never requires either.
+        let raw_dir = fixture.root.join("reports/raw/own-kernel");
+        write_case_phase_timings(
+            &raw_dir,
+            "test-tool",
+            "case",
+            &[
+                ("database-create", Duration::from_millis(1200)),
+                ("database-analyze", Duration::from_millis(340)),
+            ],
+        )
+        .unwrap();
+        write_run_environment(&raw_dir, "test-tool", "1.0.0", "test-build-1").unwrap();
+        validate_reports_in(&fixture.root, Some(&own)).unwrap();
+        validate_reports_in(&fixture.root, None).unwrap();
+    }
+
+    /// Pre-existing frozen artifacts stay valid: a freeze manifest that binds
+    /// timing-free raw evidence keeps validating after timing sidecars and an
+    /// environment stamp appear beside that evidence, because neither is part
+    /// of the frozen surface.
+    #[test]
+    fn validate_freeze_accepts_timing_metadata_beside_frozen_raw_evidence() {
+        let fixture = FreezeFixture::new("reached", json!({"findings": []}));
+        validate_freeze_at(&fixture.root, &fixture.manifest, false).unwrap();
+        let raw_dir = fixture.root.join("reports/raw");
+        write_case_phase_timings(
+            &raw_dir,
+            "test-tool",
+            "dfb-taint-test",
+            &[("total", Duration::from_millis(75))],
+        )
+        .unwrap();
+        write_run_environment(&raw_dir, "test-tool", "1.0.0", "test-build-1").unwrap();
+        validate_freeze_at(&fixture.root, &fixture.manifest, false).unwrap();
+    }
+
+    /// The sidecar retains what the runner witnessed and nothing an outcome
+    /// could ever read: even a timing document mistakenly consulted as raw
+    /// evidence declares no special outcome, and a re-run that skips the
+    /// analyzer clears the previous run's sidecar.
+    #[test]
+    fn timing_sidecar_is_additive_metadata_never_an_outcome_input() {
+        let root = unique_test_dir("dataflowbench-timing-test");
+        write_case_phase_timings(
+            &root,
+            "codeql",
+            "dfb-taint-test",
+            &[
+                ("database-create", Duration::from_millis(2500)),
+                ("database-analyze", Duration::from_millis(410)),
+            ],
+        )
+        .unwrap();
+        let path = case_timing_path(&root, "dfb-taint-test");
+        let sidecar: Value = serde_json::from_str(&fs::read_to_string(&path).unwrap()).unwrap();
+        assert_eq!(sidecar["schema_version"], 1);
+        assert_eq!(sidecar["adapter"], "codeql");
+        assert_eq!(sidecar["case_id"], "dfb-taint-test");
+        assert_eq!(sidecar["clock"], "monotonic");
+        assert_eq!(sidecar["evidence_kind"], "retained-phase-timing");
+        assert_eq!(sidecar["phases"][0]["phase"], "database-create");
+        assert_eq!(sidecar["phases"][0]["wall_ms"], 2500);
+        assert_eq!(sidecar["phases"][1]["phase"], "database-analyze");
+        assert_eq!(sidecar["phases"][1]["wall_ms"], 410);
+        // No timing value can ever be read as a correctness signal.
+        assert_eq!(raw_special_outcome(&sidecar), None);
+        clear_stale_case_timing(&root, "dfb-taint-test").unwrap();
+        assert!(!path.exists());
+        let _ = fs::remove_dir_all(&root);
+    }
+
+    /// The per-run environment stamp names the machine and the witnessed tool
+    /// identity, so per-case timings in the directory are attributable to one
+    /// environment without re-measurement.
+    #[test]
+    fn run_environment_stamp_pairs_machine_with_witnessed_identity() {
+        let root = unique_test_dir("dataflowbench-environment-test");
+        write_run_environment(&root, "bifrost", "0.10.7", "bifrost-build").unwrap();
+        let stamp: Value =
+            serde_json::from_str(&fs::read_to_string(root.join("run-environment.json")).unwrap())
+                .unwrap();
+        assert_eq!(stamp["schema_version"], 1);
+        assert_eq!(stamp["tool"], "bifrost");
+        assert_eq!(stamp["witnessed_tool_version"], "0.10.7");
+        assert_eq!(stamp["witnessed_tool_build_identity"], "bifrost-build");
+        assert_eq!(stamp["os"], std::env::consts::OS);
+        assert_eq!(stamp["evidence_kind"], "retained-run-environment");
+        assert!(stamp["hardware_model"].is_string());
+        assert!(stamp["cpu_count"].is_u64() || stamp["cpu_count"].is_null());
+        let _ = fs::remove_dir_all(&root);
     }
     #[test]
     fn normalizer_keeps_negative_and_unsupported_distinct() {
