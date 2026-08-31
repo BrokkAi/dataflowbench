@@ -35,7 +35,163 @@
                     "version": "latest"
                 }
             },
-            "results": []
+            "results": [
+                {
+                    "codeFlows": [
+                        {
+                            "threadFlows": [
+                                {
+                                    "locations": [
+                                        {
+                                            "executionOrder": 0,
+                                            "kinds": [
+                                                "taint"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.taint.DispatchTableNegative#run():9:(%9 = dataflowbench.taint.DispatchTableNegative.dfb_source())",
+                                                        "fullyQualifiedName": "dataflowbench.taint.DispatchTableNegative#run"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "Call to \"dfb_source\" puts marked data to a local variable"
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/taint/DispatchTableNegative.java",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 47,
+                                                        "endLine": 25,
+                                                        "startColumn": 35,
+                                                        "startLine": 25
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 1,
+                                            "kinds": [
+                                                "unknown"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.taint.DispatchTableNegative#run():10:(%10 = %8.applyAsInt(%9))",
+                                                        "fullyQualifiedName": "dataflowbench.taint.DispatchTableNegative#run"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "Calling \"applyAsInt\" with marked data at a local variable"
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/taint/DispatchTableNegative.java",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 48,
+                                                        "endLine": 25,
+                                                        "startColumn": 9,
+                                                        "startLine": 25
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 2,
+                                            "kinds": [
+                                                "unknown"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.taint.DispatchTableNegative#lambda$run$0(int):0:(dataflowbench.taint.DispatchTableNegative.dfb_sink(arg$0))",
+                                                        "fullyQualifiedName": "dataflowbench.taint.DispatchTableNegative#lambda$run$0"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "Entering lambda with marked data at the 1st argument of lambda"
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/taint/DispatchTableNegative.java",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 29,
+                                                        "endLine": 17,
+                                                        "startColumn": 13,
+                                                        "startLine": 17
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 3,
+                                            "kinds": [
+                                                "taint"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.taint.DispatchTableNegative#lambda$run$0(int):0:(dataflowbench.taint.DispatchTableNegative.dfb_sink(arg$0))",
+                                                        "fullyQualifiedName": "dataflowbench.taint.DispatchTableNegative#lambda$run$0"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "DataFlowBench benchmark-controlled endpoint flow"
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/taint/DispatchTableNegative.java",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 28,
+                                                        "endLine": 17,
+                                                        "startColumn": 13,
+                                                        "startLine": 17
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ],
+                    "level": "error",
+                    "locations": [
+                        {
+                            "logicalLocations": [
+                                {
+                                    "decoratedName": "dataflowbench.taint.DispatchTableNegative#lambda$run$0(int):0:(dataflowbench.taint.DispatchTableNegative.dfb_sink(arg$0))",
+                                    "fullyQualifiedName": "dataflowbench.taint.DispatchTableNegative#lambda$run$0"
+                                }
+                            ],
+                            "physicalLocation": {
+                                "artifactLocation": {
+                                    "uri": "dataflowbench/taint/DispatchTableNegative.java",
+                                    "uriBaseId": "%SRCROOT%"
+                                },
+                                "region": {
+                                    "endColumn": 28,
+                                    "endLine": 17,
+                                    "startColumn": 13,
+                                    "startLine": 17
+                                }
+                            }
+                        }
+                    ],
+                    "message": {
+                        "text": "DataFlowBench benchmark-controlled endpoint flow"
+                    },
+                    "ruleId": ":dfb-opentaint-kernel"
+                }
+            ]
         }
     ]
 }

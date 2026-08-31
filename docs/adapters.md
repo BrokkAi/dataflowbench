@@ -17,7 +17,7 @@ The initial adapter plan is:
 | CodeQL | 16-template Java and JavaScript propagation kernels and the 29-template expanded Python kernel | Java, JavaScript, and Python runners implemented as separate language-scoped populations |
 | Joern | The Ruby 16-template propagation kernel, the 27-template expanded Rust kernel, and the 29-template expanded Java, Python, JavaScript, and PHP kernels | Implemented as six separate language-scoped populations over one CPG query script |
 | Semgrep CE | Supported local analysis only | Implemented as eleven separate language-scoped populations over one committed taint rule per language; only the documented intraprocedural partition is scored. Four front ends are non-GA in the pinned distribution (Kotlin `beta`; Rust, C, C++ `alpha`) and the label is retained without ever changing the partition |
-| OpenTaint | Java and Kotlin profile | Implemented as two language-scoped populations over the pinned `analyzer/2026.08.27.17eb0fe` release, both run over their full expanded 58-assertion cores. The whole core is scored — the pinned documentation fences no capability — and the dominant measured result is a value-kind boundary: the engine drops taint on numeric values, which the retained probe evidence isolates from the templates' semantic dimensions |
+| OpenTaint | Java and Kotlin profile | Implemented as two language-scoped populations over the pinned `analyzer/2026.08.27.17eb0fe` release, both run over their full expanded 58-assertion cores. The whole core is scored — the pinned documentation fences no capability. The first runs' dominant result, a value-kind boundary dropping taint on numeric values, was identified upstream as the default rule configuration and resolved by Amendment A11 (`primitive-tracking: true` in both templates); the amended-template re-runs measure propagation semantics in both languages |
 | Infer | C, C++, and Java profile | Implemented as three language-scoped populations over the pinned v1.3.0 release's Pulse taint configuration — the release's one operable taint surface, Quandary being removed — each run over its full expanded core (48, 56, and 58 assertions). The whole core is scored in all three; C and C++ gain their first benchmark-controlled interprocedural second engine |
 | FlowDroid | Java and Kotlin profile | Implemented as two language-scoped populations over the pinned 2.15.1 release's command-line analyzer, both run over their full expanded 58-assertion cores. The released CLI analyzes APKs only — verified in the field — so each case materializes a minimal APK from pinned, JVM-only pieces (a D8 dex translation, a committed benchmark-generated binary manifest, a harness entry activity); the whole core is scored, the pinned defaults fencing no capability |
 | Pysa | Python profile | Implemented as one language-scoped population over the pinned pyre-check 0.10.0 release's taint analysis, run over Python's full expanded 58-assertion core. The pin is a pair — the client drives the separately released Pyrefly 1.2.0 front end for call-graph resolution, and without a per-case `pyrefly.toml` that front end exports every call unresolved while exiting cleanly, a verified silent-failure mode the runner guards. The whole core is scored, and Python becomes the five-analyzer kernel issue #82 intended |
@@ -991,18 +991,25 @@ whole-program interprocedural JVM taint and fences nothing, so there is no
 documented boundary to preregister an `unsupported` partition from, and every
 engine incapacity surfaces as a measured mismatch instead.
 
-The dominant measured result is a **value-kind boundary**: the pinned engine
-carries taint on reference-typed values and drops it on numeric ones, `int`
+The first runs' dominant result was a **value-kind boundary**: the engine
+carried taint on reference-typed values and dropped it on numeric ones, `int`
 and boxed `Integer` alike, isolated by the retained probe
 (`scripts/probe-opentaint-value-kind.sh`,
-`reports/raw/opentaint-value-kind-probe/`) from everything the templates vary.
-Java's core encodes all 29 templates numerically, so its kernel reads 0/29 on
-positives with zero false positives — 29 measurements of that one boundary.
-Kotlin's core mixes 14 `String`-encoded templates with 15 `Int`-encoded ones,
-so the Kotlin kernel is where the engine's propagation semantics are visible.
-See [the OpenTaint adapter notes](../adapters/opentaint/README.md) for the
+`reports/raw/opentaint-value-kind-probe/`) from everything the templates
+vary. Reported upstream, that boundary turned out to be the engine's
+**default rule configuration**, not an engine limit —
+[Amendment A11](#a11--2026-08-31-opentaints-value-kind-boundary-is-a-default-rule-configuration-and-primitive-tracking-is-enabled-in-both-kernel-templates)
+records the upstream identification, the primitive-tracking probe that
+verified it on the same pinned jar, and the resulting
+`options: primitive-tracking: true` in both kernel templates. Under the
+amended templates both populations measure the templates' semantic
+dimensions across their full cores: Java scores 49/58 and Kotlin 50/58, with
+the residual mismatches concentrated in a dynamic-heap-location
+over-approximation family reported upstream and small
+per-language false-negative sets. See
+[the OpenTaint adapter notes](../adapters/opentaint/README.md) for the
 eligibility evaluation, the pinned invocation, the per-template results, and
-the probe.
+both probes.
 
 ## Infer language populations
 

@@ -123,7 +123,7 @@ evidence is deferred.
 | Semgrep CE `run-semgrep-java-kernel` | `reports/semgrep-java-kernel.json` | **Ran** — whole-population replacement |
 | CodeQL `run-codeql-java-kernel` | `reports/codeql-java-kernel.json` | **Deferred** — freeze-bound by `reports/freeze.json` (v0.3.0) |
 | Bifrost smoke | `reports/bifrost-smoke.json` | **Frozen and unchanged** — pinned at 118 classic cases by contract |
-| OpenTaint `run-opentaint-java-kernel` | `reports/opentaint-java-kernel.json` | **Ran** — new adapter (#17), whole 58-assertion population, post-freeze |
+| OpenTaint `run-opentaint-java-kernel` | `reports/opentaint-java-kernel.json` | **Ran** — new adapter (#17), whole 58-assertion population, post-freeze; re-run under Amendment A11's amended templates |
 | Infer `run-infer-java-kernel` | `reports/infer-java-kernel.json` | **Ran** — new adapter (#82), whole 58-assertion population, post-freeze |
 | FlowDroid `run-flowdroid-java-kernel` | `reports/flowdroid-java-kernel.json` | **Ran** — new adapter (#82), whole 58-assertion population, post-freeze |
 
@@ -308,26 +308,33 @@ scored subset is byte-identical to the one the other ten kernels use.
 
 ### OpenTaint `analyzer/2026.08.27.17eb0fe` — `reports/opentaint-java-kernel.json`
 
-58 results: 0 `reached`, 58 `not-reached`, with zero `inconclusive`, zero
-`unsupported`, and zero `runner-error`; 29/58 match expected polarity. The
-whole core is scored — the pinned documentation fences no capability — and
-every mismatch is a false negative on a positive, with **zero false
-positives**: both `infeasible-branch-negative` and `loop-carried-negative`,
-the two negatives Semgrep CE's engine trips on in every language, are clean
-here.
+58 results: 30 `reached`, 28 `not-reached`, with zero `inconclusive`, zero
+`unsupported`, and zero `runner-error`; **49/58 match expected polarity** —
+29/32 classic and 20/26 challenge — four false negatives and five false
+positives. The whole core is scored — the pinned documentation fences no
+capability — and this is the
+[Amendment A11](adapters.md#a11--2026-08-31-opentaints-value-kind-boundary-is-a-default-rule-configuration-and-primitive-tracking-is-enabled-in-both-kernel-templates)
+re-run: the original run read 0 `reached` and 29/58, all 29 misses on
+`int`-encoded positives, and that value-kind boundary turned out to be the
+engine's default rule configuration — primitive tracking off unless a rule
+opts in — identified upstream and enabled in the amended templates, so the 29
+templates now measure their semantic dimensions on the digest-identical jar.
 
-The 29 misses are one measurement repeated, not twenty-nine: Java's core
-encodes every template's endpoint contract with `int`-typed values, and the
-pinned engine drops taint on numeric values — `int` and boxed `Integer`
-alike — while carrying it on `String` and `Object`. The retained value-kind
-probe (`reports/raw/opentaint-value-kind-probe/`, reproducible via
-`scripts/probe-opentaint-value-kind.sh`) isolates that boundary on a fixed
-flow shape with all four rules provably loaded, so the Java kernel's zero
-positives attribute to the value-kind boundary and say nothing about the
-templates' semantic dimensions in Java. The Kotlin kernel, whose core mixes
-`String`- and `Int`-encoded templates, is where the engine's propagation
-semantics are measurable; see
-[the Kotlin kernel contract](kotlin-kernel.md) and
+Measured under the amended templates: the six-hop `deep-relay-chain` pair
+discriminates correctly (the depth-6 relay Joern's pinned `maxCallDepth=4`
+misses), as do `recursive-carry`, `context-pair-depth2`, `closure-capture`,
+`anonymous-implementation`, and `nested-access-path`, all on `int`-typed
+values. The four false negatives are `exception-catch` (taint through a
+thrown exception's payload field), `callback-registration` and
+`map-iteration` (flows through registered `IntConsumer` callbacks and
+map-entry iteration — both correct in the Kotlin kernel, where those
+templates are `String`-encoded), and `reflective-invocation` (the
+string-resolved callee, the same miss Infer records). The five false
+positives are the dynamic-heap-location over-approximation family reported
+upstream (`array-element`, `computed-property`, `dispatch-table`,
+`element-object` — the clean sibling of a keyed or indexed location reports
+too) plus `loop-carried-negative`; `infeasible-branch-negative` stays clean.
+See [the Kotlin kernel contract](kotlin-kernel.md) and
 [the OpenTaint adapter notes](../adapters/opentaint/README.md).
 
 ### Infer v1.3.0 — `reports/infer-java-kernel.json`
@@ -337,9 +344,10 @@ semantics are measurable; see
 30/32 classic and 20/26 challenge — with all eight mismatches false negatives
 and **zero false positives**. The whole core is scored: the pinned
 distribution declares interprocedural analysis and fences no capability, so
-as with OpenTaint every incapacity is a measured mismatch. Unlike OpenTaint,
-Pulse carries taint on Java's `int`-encoded endpoint contracts, so all 58
-assertions are real propagation measurements: the six-hop `deep-relay-chain`
+as with OpenTaint every incapacity is a measured mismatch. Pulse carries
+taint on Java's `int`-encoded endpoint contracts by default — the boundary
+OpenTaint's default rule configuration imposed until Amendment A11 — so all
+58 assertions are real propagation measurements: the six-hop `deep-relay-chain`
 pair discriminates correctly (the depth-6 relay Joern's pinned
 `maxCallDepth=4` misses), as do `closure-capture`,
 `anonymous-implementation`, `exception-catch`, and both path-sensitivity

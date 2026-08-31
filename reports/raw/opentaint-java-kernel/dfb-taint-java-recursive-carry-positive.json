@@ -35,7 +35,250 @@
                     "version": "latest"
                 }
             },
-            "results": []
+            "results": [
+                {
+                    "codeFlows": [
+                        {
+                            "threadFlows": [
+                                {
+                                    "locations": [
+                                        {
+                                            "executionOrder": 0,
+                                            "kinds": [
+                                                "taint"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.taint.RecursiveCarryPositive#run():0:(%0 = dataflowbench.taint.RecursiveCarryPositive.dfb_source())",
+                                                        "fullyQualifiedName": "dataflowbench.taint.RecursiveCarryPositive#run"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "Call to \"dfb_source\" puts marked data to a local variable"
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/taint/RecursiveCarryPositive.java",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 36,
+                                                        "endLine": 18,
+                                                        "startColumn": 24,
+                                                        "startLine": 18
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 1,
+                                            "kinds": [
+                                                "call"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.taint.RecursiveCarryPositive#run():1:(%1 = dataflowbench.taint.RecursiveCarryPositive.carry(%0, 5))",
+                                                        "fullyQualifiedName": "dataflowbench.taint.RecursiveCarryPositive#run"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "Calling \"carry\" with marked data at a local variable"
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/taint/RecursiveCarryPositive.java",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 40,
+                                                        "endLine": 18,
+                                                        "startColumn": 18,
+                                                        "startLine": 18
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 2,
+                                            "kinds": [
+                                                "unknown"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.taint.RecursiveCarryPositive#carry(int, int):0:(if (arg$1 != 0))",
+                                                        "fullyQualifiedName": "dataflowbench.taint.RecursiveCarryPositive#carry"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "Entering \"carry\" with marked data at the 1st argument of \"carry\""
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/taint/RecursiveCarryPositive.java",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 43,
+                                                        "endLine": 10,
+                                                        "startColumn": 12,
+                                                        "startLine": 10
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 3,
+                                            "kinds": [
+                                                "unknown"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.taint.RecursiveCarryPositive#carry(int, int):1:(return arg$0)",
+                                                        "fullyQualifiedName": "dataflowbench.taint.RecursiveCarryPositive#carry"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "The returning value is assigned a value with marked data"
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/taint/RecursiveCarryPositive.java",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 25,
+                                                        "endLine": 12,
+                                                        "startColumn": 13,
+                                                        "startLine": 12
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 4,
+                                            "kinds": [
+                                                "unknown"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.taint.RecursiveCarryPositive#carry(int, int):1:(return arg$0)",
+                                                        "fullyQualifiedName": "dataflowbench.taint.RecursiveCarryPositive#carry"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "Exiting \"carry\""
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/taint/RecursiveCarryPositive.java",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 6,
+                                                        "endLine": 15,
+                                                        "startColumn": 5,
+                                                        "startLine": 15
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 5,
+                                            "kinds": [
+                                                "return"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.taint.RecursiveCarryPositive#run():1:(%1 = dataflowbench.taint.RecursiveCarryPositive.carry(%0, 5))",
+                                                        "fullyQualifiedName": "dataflowbench.taint.RecursiveCarryPositive#run"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "Method \"carry\" propagates marked data from a local variable to a local variable"
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/taint/RecursiveCarryPositive.java",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 40,
+                                                        "endLine": 18,
+                                                        "startColumn": 18,
+                                                        "startLine": 18
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 6,
+                                            "kinds": [
+                                                "taint"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.taint.RecursiveCarryPositive#run():2:(dataflowbench.taint.RecursiveCarryPositive.dfb_sink(%1))",
+                                                        "fullyQualifiedName": "dataflowbench.taint.RecursiveCarryPositive#run"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "DataFlowBench benchmark-controlled endpoint flow"
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/taint/RecursiveCarryPositive.java",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 41,
+                                                        "endLine": 18,
+                                                        "startColumn": 9,
+                                                        "startLine": 18
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ],
+                    "level": "error",
+                    "locations": [
+                        {
+                            "logicalLocations": [
+                                {
+                                    "decoratedName": "dataflowbench.taint.RecursiveCarryPositive#run():2:(dataflowbench.taint.RecursiveCarryPositive.dfb_sink(%1))",
+                                    "fullyQualifiedName": "dataflowbench.taint.RecursiveCarryPositive#run"
+                                }
+                            ],
+                            "physicalLocation": {
+                                "artifactLocation": {
+                                    "uri": "dataflowbench/taint/RecursiveCarryPositive.java",
+                                    "uriBaseId": "%SRCROOT%"
+                                },
+                                "region": {
+                                    "endColumn": 41,
+                                    "endLine": 18,
+                                    "startColumn": 9,
+                                    "startLine": 18
+                                }
+                            }
+                        }
+                    ],
+                    "message": {
+                        "text": "DataFlowBench benchmark-controlled endpoint flow"
+                    },
+                    "ruleId": ":dfb-opentaint-kernel"
+                }
+            ]
         }
     ]
 }

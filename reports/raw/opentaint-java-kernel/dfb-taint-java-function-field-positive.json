@@ -35,7 +35,221 @@
                     "version": "latest"
                 }
             },
-            "results": []
+            "results": [
+                {
+                    "codeFlows": [
+                        {
+                            "threadFlows": [
+                                {
+                                    "locations": [
+                                        {
+                                            "executionOrder": 0,
+                                            "kinds": [
+                                                "taint"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.taint.FunctionFieldPositive#run():8:(%6 = dataflowbench.taint.FunctionFieldPositive.dfb_source())",
+                                                        "fullyQualifiedName": "dataflowbench.taint.FunctionFieldPositive#run"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "Call to \"dfb_source\" puts marked data to a local variable"
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/taint/FunctionFieldPositive.java",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 35,
+                                                        "endLine": 25,
+                                                        "startColumn": 23,
+                                                        "startLine": 25
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 1,
+                                            "kinds": [
+                                                "unknown"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.taint.FunctionFieldPositive#run():9:(dataflowbench.taint.FunctionFieldPositive.fire(%0, %6))",
+                                                        "fullyQualifiedName": "dataflowbench.taint.FunctionFieldPositive#run"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "Calling \"fire\" with marked data at a local variable"
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/taint/FunctionFieldPositive.java",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 36,
+                                                        "endLine": 25,
+                                                        "startColumn": 9,
+                                                        "startLine": 25
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 2,
+                                            "kinds": [
+                                                "unknown"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.taint.FunctionFieldPositive#fire(dataflowbench.taint.FunctionFieldPositive$Holder, int):0:(%0 = arg$0.fn)",
+                                                        "fullyQualifiedName": "dataflowbench.taint.FunctionFieldPositive#fire"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "Entering \"fire\" with marked data at the 2nd argument of \"fire\""
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/taint/FunctionFieldPositive.java",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 47,
+                                                        "endLine": 16,
+                                                        "startColumn": 12,
+                                                        "startLine": 16
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 3,
+                                            "kinds": [
+                                                "unknown"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.taint.FunctionFieldPositive#fire(dataflowbench.taint.FunctionFieldPositive$Holder, int):1:(%0.accept(arg$1))",
+                                                        "fullyQualifiedName": "dataflowbench.taint.FunctionFieldPositive#fire"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "Calling \"accept\" with marked data at the 2nd argument of \"fire\""
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/taint/FunctionFieldPositive.java",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 32,
+                                                        "endLine": 17,
+                                                        "startColumn": 9,
+                                                        "startLine": 17
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 4,
+                                            "kinds": [
+                                                "unknown"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.taint.FunctionFieldPositive#lambda$run$0(int):0:(dataflowbench.taint.FunctionFieldPositive.dfb_sink(arg$0))",
+                                                        "fullyQualifiedName": "dataflowbench.taint.FunctionFieldPositive#lambda$run$0"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "Entering lambda with marked data at the 1st argument of lambda"
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/taint/FunctionFieldPositive.java",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 47,
+                                                        "endLine": 22,
+                                                        "startColumn": 9,
+                                                        "startLine": 22
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 5,
+                                            "kinds": [
+                                                "taint"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.taint.FunctionFieldPositive#lambda$run$0(int):0:(dataflowbench.taint.FunctionFieldPositive.dfb_sink(arg$0))",
+                                                        "fullyQualifiedName": "dataflowbench.taint.FunctionFieldPositive#lambda$run$0"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "DataFlowBench benchmark-controlled endpoint flow"
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/taint/FunctionFieldPositive.java",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 46,
+                                                        "endLine": 22,
+                                                        "startColumn": 31,
+                                                        "startLine": 22
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ],
+                    "level": "error",
+                    "locations": [
+                        {
+                            "logicalLocations": [
+                                {
+                                    "decoratedName": "dataflowbench.taint.FunctionFieldPositive#lambda$run$0(int):0:(dataflowbench.taint.FunctionFieldPositive.dfb_sink(arg$0))",
+                                    "fullyQualifiedName": "dataflowbench.taint.FunctionFieldPositive#lambda$run$0"
+                                }
+                            ],
+                            "physicalLocation": {
+                                "artifactLocation": {
+                                    "uri": "dataflowbench/taint/FunctionFieldPositive.java",
+                                    "uriBaseId": "%SRCROOT%"
+                                },
+                                "region": {
+                                    "endColumn": 46,
+                                    "endLine": 22,
+                                    "startColumn": 31,
+                                    "startLine": 22
+                                }
+                            }
+                        }
+                    ],
+                    "message": {
+                        "text": "DataFlowBench benchmark-controlled endpoint flow"
+                    },
+                    "ruleId": ":dfb-opentaint-kernel"
+                }
+            ]
         }
     ]
 }

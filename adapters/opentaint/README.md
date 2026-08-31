@@ -117,7 +117,7 @@ evidence as `<case-id>-rule.yaml`. Both reports' `configuration_hash` is a
 SHA-256 over both committed templates, so a change to either invalidates both
 retained reports.
 
-Two spellings verified against the pinned engine are load-bearing:
+Three spellings verified against the pinned engine are load-bearing:
 
 - **`languages: [java]` in both templates**, including Kotlin's. The engine
   keys its JVM rule front end on `java` and analyzes Kotlin through the same
@@ -127,6 +127,15 @@ Two spellings verified against the pinned engine are load-bearing:
   the bare form). Patterns match the lifted JVM IR, where every Kotlin
   `object` member call carries an `INSTANCE` receiver; the bare pattern alone
   matches only static-style calls.
+- **`options: primitive-tracking: true` in both templates**, per
+  [Amendment A11](../../docs/adapters.md#a11--2026-08-31-opentaints-value-kind-boundary-is-a-default-rule-configuration-and-primitive-tracking-is-enabled-in-both-kernel-templates).
+  The engine disables taint through primitive values by default and enables
+  it per rule — the mechanism its own shipped ruleset uses — and the
+  benchmark's numerically-encoded endpoint contracts require it. Identified
+  by the upstream maintainers in response to the adapter's value-kind report
+  ([seqra/opentaint#388](https://github.com/seqra/opentaint/issues/388)) and
+  verified against the pinned analyzer by the retained primitive-tracking
+  probe (below).
 
 ## Scored partition
 
@@ -164,81 +173,99 @@ negatives:
 - `unsupported` — unused in these populations; the scored partition above
   excludes nothing.
 
-## The value-kind boundary
+## The value-kind boundary, resolved as a default rule configuration
 
-The dominant result in these populations is a property of the engine worth
-stating before the tables: **the pinned engine carries taint on
-reference-typed values and drops it on numeric ones** — `int` and boxed
-`Integer` alike.
+The dominant result in these populations' first retained runs was a
+**value-kind boundary**: under the original templates the pinned engine
+carried taint on reference-typed values and dropped it on numeric ones —
+`int` and boxed `Integer` alike. `scripts/probe-opentaint-value-kind.sh`
+retains the discrimination under `reports/raw/opentaint-value-kind-probe/`:
+four rules over four copies of the same direct source-to-sink shape, varying
+only the value type. The load trace shows all four rules registered; the
+SARIF reports the `String` and `Object` flows and neither numeric one.
 
-`scripts/probe-opentaint-value-kind.sh` retains the discrimination under
-`reports/raw/opentaint-value-kind-probe/`: four rules over four copies of the
-same direct source-to-sink shape, varying only the value type. The load trace
-shows all four rules registered; the SARIF reports the `String` and `Object`
-flows and neither numeric one. The probe is retained as evidence and is
-**not** a partition input — the scored population is unchanged by it.
+That boundary was reported upstream as
+[seqra/opentaint#388](https://github.com/seqra/opentaint/issues/388), and the
+maintainers identified it as a **default rule configuration**, not an engine
+limit: primitive tracking is disabled by default and enabled per rule with
+`options: primitive-tracking: true`, the mechanism the shipped ruleset's own
+primitive-flow rules use. `scripts/probe-opentaint-primitive-tracking.sh`
+verified the claim on the same pinned jar, retained under
+`reports/raw/opentaint-primitive-tracking-probe/`: with the option absent the
+value-kind probe reproduces exactly, and with it enabled all four value kinds
+carry — with zero findings on the probe's added clean and overwrite negative
+arms, so at probe scale the option costs no over-approximation. A Kotlin
+mirror of the probe behaved identically.
 
-That boundary reads directly onto the kernels, because the corpus encodes
-most endpoint contracts numerically:
-
-- **Java's 29 core templates are all `int`-encoded**, so every core positive
-  is missed: the Java kernel measures the value-kind boundary 29 times, and
-  says nothing about whether the engine could otherwise follow the templates'
-  semantic dimensions in Java.
-- **Kotlin's core mixes 15 `Int`-encoded and 14 `String`-encoded templates**,
-  so the Kotlin kernel is where the engine's propagation semantics are
-  actually visible: every `String`-encoded template is a real measurement,
-  and every `Int`-encoded one repeats the value-kind miss.
+[Amendment A11](../../docs/adapters.md#a11--2026-08-31-opentaints-value-kind-boundary-is-a-default-rule-configuration-and-primitive-tracking-is-enabled-in-both-kernel-templates)
+therefore enabled the option in both kernel templates and re-ran both
+populations; the results below are the amended-template runs. The corpus
+encodes most endpoint contracts numerically — all 29 of Java's core
+templates and 15 of Kotlin's 29 — so under the original templates those
+cases measured the default configuration 44 times over; under the amended
+templates they measure the templates' semantic dimensions. Both probes are
+retained as evidence and are **not** partition inputs — the scored population
+is unchanged by them.
 
 ## Observed results
 
 Both kernels ran the pinned analyzer over their full expanded cores on the
-same machine (`run-environment.json` beside each run's raw evidence). No
-`runner-error`, no `inconclusive`, no `unsupported` in either population.
+same machine (`run-environment.json` beside each run's raw evidence), under
+the A11-amended templates. No `runner-error`, no `inconclusive`, no
+`unsupported` in either population. The original-template runs — Java 29/58
+with all 29 misses on `int`-encoded positives, Kotlin 38/58 with every
+`Int`-encoded positive missed — are superseded by these; they measured the
+default configuration's value-kind boundary 44 times over, and their
+headline movement here (Java +20, Kotlin +12) is that boundary's removal,
+not an engine change: the jar is digest-identical.
 
 ### Java — `reports/opentaint-java-kernel.json`
 
-58 assertions: 0 `reached`, 58 `not-reached`; 29/58 match expected polarity.
-All 29 mismatches are false negatives on positives, and all 29 are
-`int`-encoded — the value-kind boundary, uniformly, with **zero false
-positives**: every one of the 29 negatives is clean, including
-`infeasible-branch-negative` and `loop-carried-negative`, the two negatives
-Semgrep CE's engine gets wrong in every language.
+58 assertions: 30 `reached`, 28 `not-reached`; **49/58** match expected
+polarity — 29/32 classic and 20/26 challenge, four false negatives and five
+false positives. With primitives carrying, all 29 templates measure their
+semantic dimensions:
+
+- **Depth and context discriminate correctly**: the six-hop
+  `deep-relay-chain` pair (which Joern's pinned `maxCallDepth=4` misses in
+  five languages), `recursive-carry`, `context-pair-depth2`,
+  `closure-capture`, `anonymous-implementation`, and `nested-access-path`
+  are right in both polarities, now on `int`-typed values.
+- **The four false negatives** are `exception-catch` (taint through a thrown
+  exception's payload), `callback-registration` and `map-iteration` (flows
+  through registered `IntConsumer` callbacks and map-entry iteration), and
+  `reflective-invocation` (the string-resolved callee). The middle two are
+  correct in Kotlin, where those templates are `String`-encoded — a residual
+  numeric asymmetry retained as measured, not attributed.
+- **The five false positives** are the dynamic-heap-location family reported
+  upstream as [seqra/opentaint#389](https://github.com/seqra/opentaint/issues/389)
+  (`array-element`, `computed-property`, `dispatch-table`, `element-object`
+  negatives — the clean sibling of a keyed or indexed location reports too)
+  plus `loop-carried-negative`, where the loop's overwritten value is
+  over-approximated. `infeasible-branch-negative` stays clean.
 
 ### Kotlin — `reports/opentaint-kotlin-kernel.json`
 
-58 assertions: 17 `reached`, 41 `not-reached`; **38/58** match expected
-polarity — 16 false negatives and 4 false positives. The encoding split reads
-the mismatches cleanly:
+58 assertions: 33 `reached`, 25 `not-reached`; **50/58** match expected
+polarity — 29/32 classic and 21/26 challenge, two false negatives and six
+false positives. Every `Int`-encoded positive the original run missed on the
+value-kind boundary is now `reached`; the two remaining false negatives are
+`exception-catch` (`Int`-encoded, the same miss as Java's) and
+`reflective-invocation` (the callee resolved from a run-time string is not
+followed — the same reflection-resolution miss as before, and as Java's).
 
-| Subset | Assertions | Polarity match | Detail |
-| --- | --- | --- | --- |
-| `String`-encoded (direct + all 13 challenge templates) | 28 | 23/28 | 13/14 positives `reached`; 4 negatives over-approximated |
-| `Int`-encoded (the other 15 classic templates) | 30 | 15/30 | every positive missed — the value-kind boundary; every negative trivially clean |
-
-By stratum: classic 17/32 (only the `String`-encoded `direct` pair is decided
-by propagation; the other fifteen classic templates are `Int`-encoded), and
-**challenge 21/26** — the challenge tier is `String`-encoded throughout, so it
-is where the engine is actually measured, and it measures well:
-
-- **All depth and context templates discriminate correctly**: the six-hop
-  `deep-relay-chain` pair (which Joern's pinned `maxCallDepth=4` misses in
-  five languages), `recursive-carry`, `context-pair-depth2`,
-  `closure-capture`, `callback-registration`, `anonymous-implementation`,
-  `map-iteration`, and `nested-access-path` are all right in both polarities.
-- **The one challenge false negative** is
-  `dfb-taint-kotlin-reflective-invocation-positive`: the callee resolved from
-  a run-time string is not followed — a real reflection-resolution miss,
-  retained as measured.
-- **The four false positives** — `computed-property`, `dispatch-table`,
-  `element-object`, `function-field` negatives — are one family of
-  over-approximation: separation between heap locations is not maintained
-  where the location is selected dynamically — a keyed container entry, a
-  computed member, an object field, a function value fetched from a map — so
-  the clean sibling's flow is reported too. The retained SARIF `codeFlows`
-  show the engine walking the *wrong* entry (e.g. through `leak` after
-  `getValue("drop")` in the dispatch-table negative), so these are genuine
-  engine claims, not reconciliation artifacts.
+The six false positives are the same dynamic-heap-location family
+(`computed-property`, `dispatch-table`, `element-object`, `function-field` —
+the four the original run measured, unchanged — joined by `array-element`,
+whose `Int`-encoded negative was trivially clean before primitives carried)
+plus `loop-carried-negative`. The retained SARIF `codeFlows` show the engine
+walking the *wrong* entry (e.g. through `leak` after `getValue("drop")` in
+the dispatch-table negative), so these are genuine engine claims, not
+reconciliation artifacts; the family is reported upstream as
+[seqra/opentaint#389](https://github.com/seqra/opentaint/issues/389), with a
+minimal repro showing named object fields *are* kept separate — the
+over-approximation is specific to dynamically-keyed locations.
+`infeasible-branch-negative` stays clean here too.
 
 ## Retained artifacts
 
@@ -278,8 +305,9 @@ The retained runs used OpenJDK Temurin 21.0.8 (`java`/`javac`) and
 fixture toolchain is harness plumbing: it decides whether bytecode exists,
 never what the analyzer claims about it.
 
-The value-kind probe:
+The value-kind probe and the primitive-tracking probe that resolved it:
 
 ```bash
 scripts/probe-opentaint-value-kind.sh --analyzer-jar /path/to/opentaint-project-analyzer.jar
+scripts/probe-opentaint-primitive-tracking.sh --analyzer-jar /path/to/opentaint-project-analyzer.jar
 ```
