@@ -152,7 +152,7 @@ coverage.
 | Joern 4.0.610 (`pysrc2cpg`) | **Ran** — whole 58-assertion population | `reports/joern-python-kernel.json` |
 | Semgrep CE 1.174.0 | **Ran** — whole 58-assertion population | `reports/semgrep-python-kernel.json` |
 | Bifrost v0.10.5 | **Deferred to the v0.4.0 re-run** | `reports/bifrost-python-kernel.json` |
-| CodeQL CLI 2.26.3 | **Deferred to the v0.4.0 re-run** | `reports/codeql-python-kernel.json` |
+| CodeQL CLI 2.26.4 | **Deferred to the v0.4.0 re-run** | `reports/codeql-python-kernel.json` |
 | Pysa (pyre-check 0.10.0 + Pyrefly 1.2.0) | **Ran** — new adapter (#82), landed after the wave, whole 58-assertion population, post-freeze | `reports/pysa-python-kernel.json` |
 
 **Pysa arrived after this wave and makes Python the first five-analyzer
@@ -343,7 +343,7 @@ Java and Python use separate CodeQL query packs. The Java pack remains under
 `adapters/codeql/python/` and owns `queries/PythonKernel.ql` plus its Python
 database-schema dependency.
 
-The reproducible command requires CodeQL CLI v2.26.3 and the pinned Python
+The reproducible command requires CodeQL CLI v2.26.4 and the pinned Python
 pack `codeql/python-all@7.2.3`:
 
 ```bash

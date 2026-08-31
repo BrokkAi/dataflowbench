@@ -58,6 +58,86 @@ arm that never invokes the analyzer — an `unsupported` declaration, a
 preregistered partition decision — retains no timing and clears any stale
 sidecar from a previous run.
 
+## Reference-tool pin currency
+
+The benchmark's fairness claim depends on the reference tools being current,
+not only on Bifrost being current. Pins are therefore re-evaluated on a
+schedule rather than drifting until someone notices.
+
+- **At every release freeze-prep**, each adapter's pin is re-evaluated against
+  the then-latest stable upstream release. For each analyzer the outcome is
+  either a bump to latest stable followed by a re-run, or a **dated reason for
+  holding** — a regression in the candidate, a query-pack incompatibility, or
+  the reproducibility of an in-flight comparison.
+- **Held pins are visible.** The release notes state each pin and its distance
+  from upstream latest at freeze time, so staleness is published rather than
+  silent.
+- **A bump is a full re-run.** A pin bump for any analyzer follows the rule
+  Bifrost re-pins already follow: every slice of that adapter re-runs at the
+  frozen fixture revision. No freeze ever contains mixed-version evidence for
+  one adapter.
+- **Vendored rule snapshots are part of the same review.** The Semgrep
+  tool-native snapshot (`semgrep/semgrep-rules`) is re-evaluated with the
+  engine pin — a native profile read against a stale rules snapshot would
+  misstate what the tool ships.
+- **Out-of-cycle bumps stay allowed**, as Bifrost fix cycles already are, but
+  always land through the same re-pin-PR → re-run → freeze sequence.
+
+Non-goals: no auto-bumping — upstream releases can regress, so every bump is a
+measured decision with re-run evidence to show for it; and no chasing Joern's
+near-daily releases between freezes, because currency is evaluated at freeze
+boundaries.
+
+A pin literal in this repository is either a **pin declaration** — what the
+benchmark pins going forward, including standing capability statements about
+the pinned distribution — or a **description of retained evidence**: what a
+report, a SARIF file, or a dated probe already witnessed. A pin review moves
+the declarations only. Retained-evidence descriptions move with the report
+bytes at the re-run that produces them, and a dated probe record keeps naming
+the version it was probed against until it is re-probed.
+
+### Pin-currency reviews
+
+#### 2026-08-31 — v0.6.0 freeze-prep
+
+The first review under this policy. Every analyzer pin was re-evaluated; each
+version below was witnessed from the installed artifact, never taken from a
+changelog.
+
+| Analyzer | Pin at v0.5.0 | Outcome | Basis |
+| --- | --- | --- | --- |
+| CodeQL CLI | 2.26.3 | **Bumped to 2.26.4** | `codeql version --format=json` witnessed 2.26.4, build `6b1e4dee94adb20f90a671f3fc9e04be32eecf65` |
+| Semgrep CE | 1.174.0 | **Bumped to 1.175.0** | `semgrep --version` witnessed 1.175.0 (Homebrew) |
+| Joern | 4.0.610 | **Bumped to 4.0.614** | `io.joern.joern-cli-4.0.614.jar` in the extracted distribution |
+| Bifrost | v0.10.7 | **Held** | v0.10.8 is not yet released upstream as of 2026-08-31; v0.10.7 is latest stable |
+| OpenTaint | `analyzer/2026.08.27.17eb0fe` | **Evaluated — current** | Adapter landed 2026-08-31 pinning the release by asset digest; current by construction |
+| Infer | v1.3.0 | **Evaluated — current** | Adapter landed 2026-08-31; current by construction |
+| FlowDroid | 2.15.1 | **Evaluated — current** | Adapter landed 2026-08-31 pinning the jar by digest; current by construction |
+| Pysa | pyre-check 0.10.0 + Pyrefly 1.2.0 | **Evaluated — current** | Adapter landed 2026-08-31 pinning both wheels by digest; current by construction |
+
+**CodeQL query packs are unchanged.** `codeql pack install` was re-run under
+2.26.4 for the root Java pack and all nine `adapters/codeql/<lang>` packs. Every
+dependency resolved to the version already committed, so no
+`codeql-pack.lock.yml` moved and the pack versions this documentation states
+are unchanged: `java-all@9.2.3`, `python-all@7.2.3`, `javascript-all@2.9.0`,
+`csharp-all@7.1.2`, `go-all@7.2.3`, `cpp-all@12.0.2`, `ruby-all@6.0.3`,
+`rust-all@0.2.19`. The `qlpack.yml` manifests pin exact library-pack versions
+rather than ranges, so a CLI bump alone cannot move them.
+
+**The vendored Semgrep rules snapshot is held** at
+`semgrep/semgrep-rules@40b8c63f75dc7c22c8a77482d73bfb864b146f7e`. The engine
+bump to CE 1.175.0 does not disturb the snapshot, whose currency is re-surveyed
+with the tool-native profile it feeds.
+
+**Dated probe records were not re-labelled.** Several artifacts — the Joern
+`.semantics` headers, `adapters/joern/queries/kernel.sc`, the Semgrep modeling
+rule, and the Amendment A2 rationales — record surface facts *verified against*
+4.0.610 or CE 1.174.0. Those are retained evidence under the rule above, not
+pin declarations, and re-labelling them to the new pins would assert a
+verification that was never performed. They are re-probed with the v0.6.0
+re-run. The same applies to the CodeQL build-mode findings for Kotlin and Go,
+which the re-run re-exercises.
+
 ## Challenge-tier rollout mechanics
 
 [The challenge-tier preregistration](challenge-tier.md) fixes *what* the
@@ -678,7 +758,7 @@ The Java and Python query packs are separate: Java uses the pack rooted at
 language-specific database-schema dependency. Installing or resolving one
 pack must not silently substitute the other language's pack.
 
-Reproduce it with CodeQL CLI v2.26.3 and the pinned Python pack
+Reproduce it with CodeQL CLI v2.26.4 and the pinned Python pack
 `codeql/python-all@7.2.3`:
 
 ```bash

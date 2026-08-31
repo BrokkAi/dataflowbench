@@ -25,7 +25,7 @@ contract](../../docs/ruby-kernel.md). All eleven kernel reports are bound by
 the v0.4.0 freeze, each re-run over its own expanded population at one fixture
 revision.
 
-Scala is deliberately absent. CodeQL CLI 2.26.3 has no Scala extractor and no
+Scala is deliberately absent. CodeQL CLI 2.26.4 has no Scala extractor and no
 Scala library pack in any build mode, so there is no `scala/` pack, no query,
 and no `run-codeql-scala-kernel` command. That absence is analyzer coverage —
 recorded in [the Scala kernel contract](../../docs/scala-kernel.md) — and
@@ -152,7 +152,7 @@ population for the v0.4.0 freeze and now carries all 58 assertions, scoring
 and 19/26 on the challenge thirteen. The retained Kotlin snapshot below reports
 both strata.
 
-CodeQL CLI 2.26.3 cannot extract Kotlin under `--build-mode=none`, so the
+CodeQL CLI 2.26.4 cannot extract Kotlin under `--build-mode=none`, so the
 runner traces a real `kotlinc` compile per case:
 
 ```bash
@@ -302,11 +302,11 @@ The Python query selects exactly Python's core assertions: every benchmark
 of every benchmark `dfb_sink(value)` call is a sink. It does not match fixture
 names or treat an absent finding as an execution success. The Python dependency
 is pinned to `codeql/python-all@7.2.3`, the compatible pack released for CodeQL
-CLI v2.26.3 (CLI build `7d097a43199effe04ecd9c6bd3ad9bb02a45b3d7`; Python pack
+CLI v2.26.4 (CLI build `6b1e4dee94adb20f90a671f3fc9e04be32eecf65`; Python pack
 build SHA `44a68d3a47fcbcd6a6a76ec7d1c1b3a1a28b201e`).
 
 The Python query is a `problem` query over `flow(source, sink)`, selecting the
-sink location for each reached flow. CodeQL CLI v2.26.3 emits the result
+sink location for each reached flow. CodeQL CLI v2.26.4 emits the result
 location and message for this query but no `codeFlows`; the retained SARIF
 therefore remains the authoritative raw location evidence.
 
@@ -390,7 +390,7 @@ adapters/codeql/csharp/queries/CSharpKernel.ql
 
 The query belongs to the dedicated C# pack manifest at
 `adapters/codeql/csharp/qlpack.yml`, pinned to `codeql/csharp-all@7.1.2` —
-the version `codeql pack install` resolves for CodeQL CLI 2.26.3 — with the
+the version `codeql pack install` resolves for CodeQL CLI 2.26.4 — with the
 full transitive set committed in `adapters/codeql/csharp/codeql-pack.lock.yml`.
 
 The C# direct-propagation pair predates this kernel and is frozen in the
@@ -450,7 +450,7 @@ adapters/codeql/go/queries/GoKernel.ql
 
 The query belongs to the dedicated Go pack manifest at
 `adapters/codeql/go/qlpack.yml`, pinned to `codeql/go-all@7.2.3` — the version
-`codeql pack install` resolves for CodeQL CLI 2.26.3 — with the full transitive
+`codeql pack install` resolves for CodeQL CLI 2.26.4 — with the full transitive
 set committed in `adapters/codeql/go/codeql-pack.lock.yml`.
 
 The Go direct-propagation pair predates this kernel and is frozen in the
@@ -468,7 +468,7 @@ Registry retrieval of the Go pack succeeded for the pinned CLI, so the run
 needed no `--codeql-packs` fallback; a matching official source workspace or
 bundle pack root remains a valid input when retrieval is unavailable.
 
-CodeQL 2.26.3 rejects `--build-mode=none` for Go, so each cold database is built
+CodeQL 2.26.4 rejects `--build-mode=none` for Go, so each cold database is built
 from an observed compile: the runner writes a minimal `module dataflowbench`
 manifest into the per-case workspace and traces `go build ./...` under
 `--build-mode=manual`. That is deliberately not autobuild, which would
@@ -534,7 +534,7 @@ cargo run -- run-codeql-cpp-kernel --codeql /path/to/codeql
 Registry retrieval of the C-family pack succeeded for the pinned CLI, so the
 runs needed no `--codeql-packs` fallback. Each case gets one cold database
 created from the declared fixture file with `--build-mode=none`, which CodeQL
-2.26.3 supports for C and C++: the buildless extractor indexes the fixture and
+2.26.4 supports for C and C++: the buildless extractor indexes the fixture and
 resolves the translation unit through a compiler discovered on the host (Apple
 clang 21.0.0 for the retained runs). No build command is traced. The runners
 write `reports/codeql-c-kernel.json` and `reports/codeql-cpp-kernel.json` and
@@ -604,7 +604,7 @@ adapters/codeql/rust/queries/RustKernel.ql
 
 owned by the dedicated Rust pack manifest `adapters/codeql/rust/qlpack.yml`,
 pinned to `codeql/rust-all@0.2.19` — the version `codeql pack install` resolves
-for CodeQL CLI 2.26.3 — with the full transitive set committed in
+for CodeQL CLI 2.26.4 — with the full transitive set committed in
 `adapters/codeql/rust/codeql-pack.lock.yml`.
 
 **Rust support is a public preview.** The pinned CLI emits no maturity flag of
@@ -689,7 +689,7 @@ adapters/codeql/ruby/queries/RubyKernel.ql
 
 The query belongs to the dedicated Ruby pack manifest at
 `adapters/codeql/ruby/qlpack.yml`, pinned to `codeql/ruby-all@6.0.3` — the
-version `codeql pack install` resolves for CodeQL CLI 2.26.3 — with the full
+version `codeql pack install` resolves for CodeQL CLI 2.26.4 — with the full
 transitive set committed in `adapters/codeql/ruby/codeql-pack.lock.yml`.
 
 The Ruby direct-propagation pair predates this kernel and is frozen in the

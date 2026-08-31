@@ -115,10 +115,10 @@ preregistration.
 
 | Adapter | Subprocesses per case | Phases timed | What each number contains |
 | --- | --- | --- | --- |
-| CodeQL 2.26.3 | 2 — `database create`, then `database analyze` | `extract`, `analyze` | `extract` is database creation **including traced compiles** — a real cost a user waits for, attributed to extraction and never to query evaluation. `analyze` is query evaluation *and* SARIF interpretation, which the CLI performs inside one subprocess as invoked. |
-| Joern 4.0.610 | 1 — `joern --script` with per-case parameters | `total` | One number, honestly labelled: frontend import, CPG construction, and query-script execution happen inside a single JVM invocation, and the boundary between them is not adapter-observable. **JVM start-up policy: cold, per case** — each case is a fresh JVM in a fresh scratch directory, and that start-up cost is inside the number, stated rather than hidden. |
+| CodeQL 2.26.4 | 2 — `database create`, then `database analyze` | `extract`, `analyze` | `extract` is database creation **including traced compiles** — a real cost a user waits for, attributed to extraction and never to query evaluation. `analyze` is query evaluation *and* SARIF interpretation, which the CLI performs inside one subprocess as invoked. |
+| Joern 4.0.614 | 1 — `joern --script` with per-case parameters | `total` | One number, honestly labelled: frontend import, CPG construction, and query-script execution happen inside a single JVM invocation, and the boundary between them is not adapter-observable. **JVM start-up policy: cold, per case** — each case is a fresh JVM in a fresh scratch directory, and that start-up cost is inside the number, stated rather than hidden. |
 | Bifrost v0.10.7 | 1 — one policy-CLI invocation | `total` | A single CLI invocation is indivisible from the adapter's vantage: one number per case. |
-| Semgrep CE 1.174.0 | 1 — one `semgrep scan` | `total` | Same: one number per case, interpreter start-up included. |
+| Semgrep CE 1.175.0 | 1 — one `semgrep scan` | `total` | Same: one number per case, interpreter start-up included. |
 
 Notes that bound the table:
 

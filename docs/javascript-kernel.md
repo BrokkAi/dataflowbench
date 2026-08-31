@@ -99,7 +99,7 @@ gap in coverage.
 | Bifrost v0.10.5 | Yes — first run of the dedicated JavaScript kernel | `reports/bifrost-javascript-kernel.json` |
 | Joern 4.0.610 | Yes | `reports/joern-javascript-kernel.json` |
 | Semgrep CE 1.174.0 | Yes | `reports/semgrep-javascript-kernel.json` |
-| CodeQL 2.26.3 | **Deferred** | `reports/codeql-javascript-kernel.json` |
+| CodeQL 2.26.4 | **Deferred** | `reports/codeql-javascript-kernel.json` |
 
 `reports/codeql-javascript-kernel.json` is one of the nineteen reports
 `reports/freeze.json` digest-binds for v0.3.0, so this change must not
