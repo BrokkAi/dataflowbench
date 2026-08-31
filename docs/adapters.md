@@ -17,7 +17,7 @@ The initial adapter plan is:
 | CodeQL | 16-template Java and JavaScript propagation kernels and the 29-template expanded Python kernel | Java, JavaScript, and Python runners implemented as separate language-scoped populations |
 | Joern | The Ruby 16-template propagation kernel, the 27-template expanded Rust kernel, and the 29-template expanded Java, Python, JavaScript, and PHP kernels | Implemented as six separate language-scoped populations over one CPG query script |
 | Semgrep CE | Supported local analysis only | Implemented as eleven separate language-scoped populations over one committed taint rule per language; only the documented intraprocedural partition is scored. Four front ends are non-GA in the pinned distribution (Kotlin `beta`; Rust, C, C++ `alpha`) and the label is retained without ever changing the partition |
-| OpenTaint | Java and Kotlin profile | Planned |
+| OpenTaint | Java and Kotlin profile | Implemented as two language-scoped populations over the pinned `analyzer/2026.08.27.17eb0fe` release, both run over their full expanded 58-assertion cores. The whole core is scored — the pinned documentation fences no capability — and the dominant measured result is a value-kind boundary: the engine drops taint on numeric values, which the retained probe evidence isolates from the templates' semantic dimensions |
 
 No adapter may synthesize a tool result. If a supported case cannot complete,
 emit `inconclusive` or `runner-error` with the raw evidence. If it is outside
@@ -533,6 +533,7 @@ we evaluate is recorded here against them so absence is never ambiguous:
 | --- | --- | --- |
 | Semgrep CE | **Adapted** | — (bounded to its documented intraprocedural profile) |
 | CodeQL | **Adapted** | — |
+| OpenTaint | **Adapted** (2026-08 field evaluation) | — (JVM bytecode only, so Java and Kotlin are its two populations; pinned by release-asset digest because the analyzer self-reports no version; see [the OpenTaint adapter notes](../adapters/opentaint/README.md)) |
 | Snyk Code | Not eligible | (2) analysis is cloud-backed and account-bound; (4) terms to be verified but commonly restrictive — both must clear before any attempt |
 | Coverity | Not eligible | (2) no free local pinned CLI (Coverity Scan is cloud submission); (4) benchmark restrictions |
 | Checkmarx | Not eligible | (2) and (4) — enterprise-only, no local CLI, standard no-benchmark terms |
@@ -551,7 +552,9 @@ that is recorded rather than tested around.
 ### Queued candidates that do qualify
 
 Three open-source engines pass all four bounds on their face and are queued
-for future adapters, alongside the OpenTaint adapter issue (#17):
+for future adapters. OpenTaint, formerly in this queue as issue #17, cleared
+its field evaluation — all four bounds hold, verified by probe rather than
+prospectus — and is adapted above:
 
 - **Infer** (Meta) — open source, local CLI, interprocedural analysis for
   C/C++/Java/Objective-C. The strongest next candidate.
@@ -863,6 +866,52 @@ that is written down so its absence is never read as a Semgrep limitation. See
 the [Semgrep adapter notes](../adapters/semgrep/README.md) for the pinned
 version, the documented-scope and maturity citations, the per-language
 partition, and the model assumptions.
+
+## OpenTaint language populations
+
+The OpenTaint adapter keeps Java and Kotlin as two separate populations —
+the two languages the pinned JVM-bytecode analyzer actually executes, verified
+in the field before adaptation. Each command selects that language's whole
+core `taint` population runner-side by language, track, and score tier,
+exactly as the Joern and Semgrep kernels do, and each has its own report
+(`reports/opentaint-<language>-kernel.json`) and retained-evidence root
+(`reports/raw/opentaint-<language>-kernel/`). Both populations are post-freeze
+and bind nothing.
+
+The engine analyzes bytecode, so the runner compiles each case's fixtures in
+an isolated workspace — `javac` for Java, `kotlinc` for Kotlin, a harness step
+outside the timed boundary the way the Joern Rust kernel's synthesized Cargo
+manifest is — and hands the analyzer a synthesized `project.yaml` in its
+non-Spring `unknown` project mode with the documented all-methods entry-point
+selector pinned. One committed `mode: taint` rule template per language
+carries the same `__DFB_SOURCE__`/`__DFB_SINK__` placeholders the Semgrep
+kernels resolve, from the same marker lines, with the resolved copy retained
+per case. The analyzer's rule-load trace is retained and checked per case: the
+analyzer exits zero and writes a well-formed empty SARIF even when its rule
+set fails to load, so a load failure is a `runner-error` and can never read as
+`not-reached`.
+
+The pin is by release-asset digest — `analyzer/2026.08.27.17eb0fe`, jar and
+models archive both SHA-256-bound — because the analyzer jar self-reports no
+version anywhere; the runner witnesses both digests per run and publishes the
+release tag only when they match, refusing the run otherwise. The whole
+expanded core is scored in both languages: the pinned documentation declares
+whole-program interprocedural JVM taint and fences nothing, so there is no
+documented boundary to preregister an `unsupported` partition from, and every
+engine incapacity surfaces as a measured mismatch instead.
+
+The dominant measured result is a **value-kind boundary**: the pinned engine
+carries taint on reference-typed values and drops it on numeric ones, `int`
+and boxed `Integer` alike, isolated by the retained probe
+(`scripts/probe-opentaint-value-kind.sh`,
+`reports/raw/opentaint-value-kind-probe/`) from everything the templates vary.
+Java's core encodes all 29 templates numerically, so its kernel reads 0/29 on
+positives with zero false positives — 29 measurements of that one boundary.
+Kotlin's core mixes 14 `String`-encoded templates with 15 `Int`-encoded ones,
+so the Kotlin kernel is where the engine's propagation semantics are visible.
+See [the OpenTaint adapter notes](../adapters/opentaint/README.md) for the
+eligibility evaluation, the pinned invocation, the per-template results, and
+the probe.
 
 The checked-in Bifrost snapshot (`reports/bifrost-smoke.json`) contains 118
 normalized results from Bifrost v0.10.2 build identity

@@ -1,0 +1,29 @@
+# DataFlowBench benchmark-controlled endpoint rule for the OpenTaint Java
+# kernel. The runner resolves directUntrustedInput and recordDirect per case from the
+# fixture's own DFB-SOURCE:/DFB-SINK: marker lines, exactly as the Joern and
+# Semgrep kernels resolve theirs, and retains the resolved copy beside each
+# case's raw evidence.
+#
+# Both callsite spellings are declared because the engine matches its patterns
+# against the JVM IR it lifts from bytecode: a static endpoint called bare from
+# its own class matches the receiverless form, while an endpoint reached
+# through a receiver (every Kotlin `object` member is, after lowering) matches
+# the receiver form. This was verified against the pinned analyzer rather than
+# assumed.
+rules:
+  - id: dfb-opentaint-kernel
+    severity: ERROR
+    message: DataFlowBench benchmark-controlled endpoint flow
+    languages:
+      - java
+    mode: taint
+    pattern-sources:
+      - pattern-either:
+          - pattern: directUntrustedInput()
+          - pattern: $DFBRECV.directUntrustedInput()
+    pattern-sinks:
+      - patterns:
+          - pattern-either:
+              - pattern: recordDirect($DFBVAL);
+              - pattern: $DFBSINKRECV.recordDirect($DFBVAL);
+          - focus-metavariable: $DFBVAL
