@@ -13,6 +13,12 @@
 # The receiver-qualified callsite forms are load-bearing here: every Kotlin
 # `object` member call lowers to an INSTANCE-received invocation, which the
 # receiverless pattern alone does not match.
+#
+# `primitive-tracking: true` is Amendment A11 (docs/adapters.md#amendments):
+# the engine disables taint through primitive values by default and enables it
+# per rule, which the benchmark's Int-encoded endpoint contracts require. The
+# shipped ruleset uses the same option; the retained primitive-tracking probe
+# verified it against the pinned analyzer in both directions.
 rules:
   - id: dfb-opentaint-kernel
     severity: ERROR
@@ -20,6 +26,8 @@ rules:
     languages:
       - java
     mode: taint
+    options:
+      primitive-tracking: true
     pattern-sources:
       - pattern-either:
           - pattern: __DFB_SOURCE__()
