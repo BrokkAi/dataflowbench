@@ -286,6 +286,28 @@ No template proved unimplementable and no amendment is proposed by this wave.
 | Bifrost v0.10.5 | **Deferred (freeze-bound)** | `reports/bifrost-cpp-kernel.json` |
 | CodeQL 2.26.3 | **Deferred (freeze-bound)** | `reports/codeql-cpp-kernel.json` |
 | Joern 4.0.610 | **No C++ slice exists** | — |
+| Infer v1.3.0 | **Ran, whole population** — new adapter (#82), landed after the wave, post-freeze | `reports/infer-cpp-kernel.json` |
+
+**Infer arrived after this wave and is C++'s second engine.** The Infer
+adapter (#82) runs the pinned v1.3.0 release's Pulse taint analysis over the
+whole expanded 56-assertion core — the first benchmark-controlled
+interprocedural engine evidence on C++. Its report is post-freeze and binds
+nothing. 56 results: 19 `reached`, 37 `not-reached`, zero `inconclusive`,
+`unsupported`, or `runner-error`; **47/56 match expected polarity**, with all
+nine mismatches false negatives and **zero false positives** — every
+negative is clean, including the two path-sensitivity negatives Semgrep CE's
+engine trips on. Five of the nine misses share one property: the flow
+crosses standard-library machinery — `std::function` values
+(`closure-capture`, `callback-registration`, `dispatch-table`), `std::map`
+entries (`map-iteration`, `computed-property`) — which the unmodeled Pulse
+engine does not follow. The other four repeat the C kernel's measured
+families (arithmetic-expression drops in `expression` and `loop-carried`,
+the unfollowed `recursive-carry`) plus the C++-only `exception-catch`
+positive, whose value travels through a thrown exception. The contrast with
+C — where the raw function-pointer `dispatch-table` flow *is* followed, and
+over-approximated in the negative — localizes the C++ indirection misses to
+the library types rather than to indirection as such. See
+[the Infer adapter notes](../adapters/infer/README.md).
 
 **Bifrost and CodeQL are both deferred, and both for the same reason.**
 `reports/bifrost-cpp-kernel.json` and `reports/codeql-cpp-kernel.json` are two
