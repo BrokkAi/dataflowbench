@@ -119,9 +119,9 @@ waves whose whole expanded core carries fresh evidence from its only engine.
 | Adapter | Expanded run | Report | Why |
 | --- | --- | --- | --- |
 | Bifrost v0.10.5 | Yes | `reports/bifrost-scala-kernel.json` | Post-freeze report; no freeze binds it |
-| CodeQL 2.26.3 | **Not covered** | — | No Scala extractor and no Scala library pack exists |
-| Joern 4.0.610 | **Not covered** | — | No Scala *source* frontend exists in the pinned distribution |
-| Semgrep CE 1.174.0 | **Not commissioned** | — | Maintainer decision, not a tool limitation |
+| CodeQL 2.26.4 | **Not covered** | — | No Scala extractor and no Scala library pack exists |
+| Joern 4.0.614 | **Not covered** | — | No Scala *source* frontend exists in the pinned distribution |
+| Semgrep CE 1.175.0 | **Not commissioned** | — | Maintainer decision, not a tool limitation |
 
 `reports/bifrost-scala-kernel.json` is **not** among the nineteen reports
 `reports/freeze.json` digest-binds for v0.3.0 — the freeze binds the Bifrost
@@ -135,13 +135,13 @@ Neither changes: they are properties of the pinned tools, they were verified
 against them, and they produce no results at all — in particular no negative
 results — for any of the 58 assertions.
 
-- **CodeQL has no Scala support.** CodeQL CLI 2.26.3 ships no Scala extractor
+- **CodeQL has no Scala support.** CodeQL CLI 2.26.4 ships no Scala extractor
   and no Scala library pack in any build mode, so there is no
   `adapters/codeql/scala/` pack and no `run-codeql-scala-kernel` command. The
   26 challenge assertions are covered by that absence exactly as the 32 classic
   ones are. This is coverage, not deferral: there is nothing to re-run at
   v0.4.0.
-- **Joern has no Scala source frontend.** The pinned Joern 4.0.610 installs no
+- **Joern has no Scala source frontend.** The pinned Joern 4.0.614 installs no
   Scala source frontend; `jimple2cpg` consumes JVM bytecode, a different
   extraction contract from the single-source-file, no-build fixtures this
   benchmark ships. The challenge fixtures are single-file `scalac`-clean
@@ -197,7 +197,7 @@ template-by-template.
 
 ### CodeQL has no Scala support
 
-CodeQL CLI 2.26.3 — the version pinned by every other kernel in this benchmark
+CodeQL CLI 2.26.4 — the version pinned by every other kernel in this benchmark
 — ships **no Scala extractor and no Scala library pack**, in any build mode.
 Scala is not a CodeQL language; there is nothing to pin, no pack to install,
 and no query to write. `docs/applicability-matrix.md` records the same fact
@@ -208,7 +208,7 @@ unfinished work.
 
 ### Joern has no Scala source frontend
 
-The pinned Joern 4.0.610 distribution installs no Scala *source* frontend. Its
+The pinned Joern 4.0.614 distribution installs no Scala *source* frontend. Its
 `jimple2cpg` frontend consumes JVM **bytecode**, which is a different
 extraction contract from the single-source-file, no-build fixtures this
 benchmark ships: it would require a compilation pipeline that no other case

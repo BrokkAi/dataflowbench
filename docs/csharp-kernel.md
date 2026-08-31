@@ -114,8 +114,8 @@ codeql pack install adapters/codeql/csharp
 cargo run -- run-codeql-csharp-kernel --codeql /path/to/codeql
 ```
 
-`codeql pack install` resolved `codeql/csharp-all@7.1.2` for CodeQL CLI 2.26.3
-(build SHA `7d097a43199effe04ecd9c6bd3ad9bb02a45b3d7`); the complete transitive
+`codeql pack install` resolved `codeql/csharp-all@7.1.2` for CodeQL CLI 2.26.4
+(build SHA `6b1e4dee94adb20f90a671f3fc9e04be32eecf65`); the complete transitive
 set is committed in `adapters/codeql/csharp/codeql-pack.lock.yml`. If registry
 retrieval is unavailable, a matching official source workspace or CLI bundle
 pack root passed through `--codeql-packs` is a valid reproduction input, as
@@ -282,7 +282,7 @@ in the fixtures:
   `reports/joern-csharp-kernel.json`. Adding one is a separate change with its
   own reproduction contract, not something a fixture wave may improvise.
 - **Semgrep CE — impossible.** C# is a **Pro-only** language in the pinned
-  Semgrep CE 1.174.0 distribution, named in the CLI's own `--pro-languages`
+  Semgrep CE 1.175.0 distribution, named in the CLI's own `--pro-languages`
   text. There is no C# Semgrep slice and there cannot be one on CE; this is
   recorded in [the Semgrep adapter notes](../adapters/semgrep/README.md) as a
   tool limitation, not a benchmark gap.

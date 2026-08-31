@@ -123,8 +123,8 @@ reasons are different and the difference matters:
 | --- | --- | --- |
 | Semgrep CE 1.174.0 | Yes | `reports/semgrep-c-kernel.json` |
 | Bifrost v0.10.5 | **Deferred (freeze-bound)** | `reports/bifrost-c-kernel.json` |
-| CodeQL 2.26.3 | **Deferred (freeze-bound)** | `reports/codeql-c-kernel.json` |
-| Joern 4.0.610 | **No C slice exists** | — |
+| CodeQL 2.26.4 | **Deferred (freeze-bound)** | `reports/codeql-c-kernel.json` |
+| Joern 4.0.614 | **No C slice exists** | — |
 | Infer v1.3.0 | **Ran, whole population** — new adapter (#82), landed after the wave, post-freeze | `reports/infer-c-kernel.json` |
 
 **Infer arrived after this wave and is C's second engine.** The Infer adapter
@@ -157,7 +157,7 @@ Deferral is not absence of coverage: both engines cover C, both will attempt all
 them to.
 
 **Joern has no C slice, and this wave did not invent one.** The pinned
-`joern-v4.0.610` adapter covers Java, JavaScript, Python, Ruby, PHP, and Rust.
+`joern-v4.0.614` adapter covers Java, JavaScript, Python, Ruby, PHP, and Rust.
 `c2cpg` ships with it and `adapters/joern/README.md` already records C as
 "Available, not yet in scope", but this repository has no
 `run-joern-c-kernel` command, no C selection, and no
@@ -295,7 +295,7 @@ adapters/codeql/cpp/queries/CKernel.ql
 
 The query is owned by the shared C-family pack manifest at
 `adapters/codeql/cpp/qlpack.yml`, pinned to `codeql/cpp-all@12.0.2` — the
-version `codeql pack install` resolves for CodeQL CLI 2.26.3 — with the full
+version `codeql pack install` resolves for CodeQL CLI 2.26.4 — with the full
 transitive set committed in `adapters/codeql/cpp/codeql-pack.lock.yml`. One pack
 holds both C-family queries because CodeQL extracts C and C++ with one `cpp`
 extractor and one standard library; the populations stay disjoint through three
@@ -326,7 +326,7 @@ expanded CodeQL evidence for C is pending the v0.4.0 freeze-prep re-run.
 For each case the runner creates one cold `cpp` database from the declared
 fixture file only, runs the dedicated query, and removes the temporary workspace
 and database after retaining the evidence. Databases are created with
-`--build-mode=none`, which CodeQL 2.26.3 supports for C and C++: the buildless
+`--build-mode=none`, which CodeQL 2.26.4 supports for C and C++: the buildless
 extractor indexes the fixture and resolves the translation unit through a
 compiler it discovers on the host (Apple clang 21.0.0 for the retained run). No
 `--command=` build is traced, and the fixtures need no makefile or project file.

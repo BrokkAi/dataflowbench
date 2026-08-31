@@ -133,9 +133,9 @@ its partition marks unsupported.
 | Adapter | Artifact | Categories it declares |
 | --- | --- | --- |
 | Bifrost v0.10.7 | `adapters/bifrost/policies/model-java.rqlp` | S, Z (Amendment [A9](modeling-matrix.md#a9--2026-08-27-bifrosts-sanitizer-category-is-promoted-the-readmes-lowering-claim-was-false)) |
-| CodeQL 2.26.3 | `adapters/codeql/queries/JavaModeling.ql` | S, P, Z, O, E, B |
-| Joern 4.0.610 | `adapters/joern/semantics/model-java.semantics` + `adapters/joern/queries/modeling.sc` | S, Z, E, B |
-| Semgrep CE 1.174.0 | `adapters/semgrep/rules/model-java.yaml` | S, Z, E |
+| CodeQL 2.26.4 | `adapters/codeql/queries/JavaModeling.ql` | S, P, Z, O, E, B |
+| Joern 4.0.614 | `adapters/joern/semantics/model-java.semantics` + `adapters/joern/queries/modeling.sc` | S, Z, E, B |
+| Semgrep CE 1.175.0 | `adapters/semgrep/rules/model-java.yaml` | S, Z, E |
 
 **Bifrost** declared category S alone when this row ran, as two `:sources`
 entries bound to `return-value` and two `:sinks` entries bound to
@@ -172,7 +172,7 @@ entries remain:
 ```
 
 **The Java semantics file carries no comments at all**, where Python's and
-JavaScript's carry `#` ones. The pinned 4.0.610 parser fails *silently* in more
+JavaScript's carry `#` ones. The pinned 4.0.614 parser fails *silently* in more
 than one way — a blank line drops every declaration, and a `//` comment does
 too — and on this file a leading comment was measured to produce the same empty
 parse, so the commentary lives here and in `adapters/joern/README.md` rather

@@ -189,7 +189,7 @@ exactly.
 
 ## Analyzer coverage
 
-**CodeQL CLI 2.26.3 — the pinned version — has no PHP support at all.** There is
+**CodeQL CLI 2.26.4 — the pinned version — has no PHP support at all.** There is
 no PHP extractor, no `codeql/php-*` pack, and therefore no PHP database that
 could be queried. This is recorded here as *analyzer coverage*, exactly as
 [the applicability matrix](applicability-matrix.md) requires. It is **never**

@@ -100,8 +100,8 @@ adapters can do.
 | --- | --- | --- | --- |
 | Semgrep CE 1.174.0 | Yes | `reports/semgrep-kotlin-kernel.json` | No freeze binds it |
 | Bifrost v0.10.5 | **Deferred** | `reports/bifrost-kotlin-kernel.json` | Freeze-bound |
-| CodeQL 2.26.3 | **Deferred** | `reports/codeql-kotlin-kernel.json` | Freeze-bound |
-| Joern 4.0.610 | **Not covered** | — | No Kotlin slice exists in this repository |
+| CodeQL 2.26.4 | **Deferred** | `reports/codeql-kotlin-kernel.json` | Freeze-bound |
+| Joern 4.0.614 | **Not covered** | — | No Kotlin slice exists in this repository |
 | OpenTaint `analyzer/2026.08.27.17eb0fe` | Yes | `reports/opentaint-kotlin-kernel.json` | New adapter (#17); post-freeze, binds nothing |
 | FlowDroid 2.15.1 | Yes | `reports/flowdroid-kotlin-kernel.json` | New adapter (#82); post-freeze, binds nothing |
 
@@ -281,7 +281,7 @@ is byte-identical to the root Java pack lock.
 
 ### Kotlin extraction requires a real compile
 
-CodeQL CLI 2.26.3 **cannot** extract Kotlin under `--build-mode=none`. Verified
+CodeQL CLI 2.26.4 **cannot** extract Kotlin under `--build-mode=none`. Verified
 directly against the pinned CLI on a minimal Kotlin source root:
 
 ```text
@@ -291,7 +291,7 @@ using the 'none' build mode. Provide a manual build command using --command
 
 The runner therefore traces a real Kotlin compile. The tested host used
 Homebrew's Kotlin compiler, **kotlinc-jvm 2.4.10 (JRE 26.0.1)**, installed with
-`brew install kotlin`; CodeQL 2.26.3 ships Kotlin extractor plugins up to
+`brew install kotlin`; CodeQL 2.26.4 ships Kotlin extractor plugins up to
 2.4.0 and selects the matching one. The per-case CodeQL operations are
 equivalent to:
 
