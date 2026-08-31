@@ -151,6 +151,40 @@ const seriesOffset = (index: number) =>
 
 const columnIndex = new Map(columns.map((column, index) => [column.version, index]));
 
+// ---- Normalized geometry --------------------------------------------------
+// The second view divides each analyzer's decisive-correct count by *its own*
+// covered population — the assertions in the kernels it actually reported on.
+// Inconclusive, unsupported and runner-error outcomes inside those kernels
+// stay in the denominator: they are non-answers on cases the analyzer did take
+// on, and they cost accuracy. This is deliberately *not* correct÷decided,
+// which would let an analyzer that decides almost nothing graph near 100%;
+// that ratio appears only as a secondary, labelled figure in tooltips and the
+// table.
+const percentAxisMax = 100;
+const percentStep = 20;
+const percentTicks: number[] = [];
+for (let value = 0; value <= percentAxisMax; value += percentStep) {
+  percentTicks.push(value);
+}
+const yPercent = (value: number) =>
+  padTop + plotHeight * (1 - value / percentAxisMax);
+/** Decisive-correct over the analyzer's own covered population. */
+const coveredShare = (point: SeriesPoint) =>
+  point.covered === 0 ? 0 : (point.correct / point.covered) * 100;
+/** Secondary, always labelled: decisive-correct over decisive outcomes only. */
+const decidedShare = (point: SeriesPoint) =>
+  point.decided === 0 ? null : (point.correct / point.decided) * 100;
+const formatPercent = (value: number) => `${value.toFixed(1)}%`;
+// The normalized view has no ceiling labels crowding the bands, so the series
+// can spread further apart — enough room for a per-point coverage annotation.
+const percentOffset = (index: number) =>
+  (index - (series.length - 1) / 2) * 30;
+/** Marker area grows with the share of the snapshot's kernels covered. */
+const markerRadius = (point: SeriesPoint, columnKernels: number) =>
+  3 + 4 * (columnKernels === 0 ? 0 : point.kernels / columnKernels);
+const columnKernelsOf = (version: string) =>
+  columns[columnIndex.get(version) ?? 0]!.kernels;
+
 // The step line for the benchmark's own population: flat across each snapshot's
 // band, jumping between them, so the growth of the denominator is a shape
 // rather than a footnote.
@@ -186,6 +220,17 @@ function linePath(points: SeriesPoint[], offset: number): string {
     .map((point, index) => {
       const x = bandCenter(columnIndex.get(point.version) ?? 0) + offset;
       return `${index === 0 ? 'M' : 'L'} ${x.toFixed(1)} ${y(point.correct).toFixed(1)}`;
+    })
+    .join(' ');
+}
+
+function percentLinePath(points: SeriesPoint[], offset: number): string {
+  return points
+    .map((point, index) => {
+      const x = bandCenter(columnIndex.get(point.version) ?? 0) + offset;
+      return `${index === 0 ? 'M' : 'L'} ${x.toFixed(1)} ${yPercent(
+        coveredShare(point),
+      ).toFixed(1)}`;
     })
     .join(' ');
 }
@@ -232,10 +277,31 @@ const biggestJump = columns
   snapshot, which grew from {first.population} assertions in
   {first.version} to {last.population} in {last.version}. Nothing here is
   pooled with the modeling matrix or the tool-native probes, and there is no
-  combined cross-analyzer score: read each line on its own.
+  combined cross-analyzer score: read each line on its own. The second view
+  divides each analyzer's decisive-correct count by the population it actually
+  covers, so a narrow language footprint no longer reads as a weak result.
 </p>
 
-<div class="chart-frame">
+<div class="evolution">
+  <input
+    class="view-radio"
+    type="radio"
+    name="evolution-view"
+    id="evolution-view-absolute"
+    checked
+  />
+  <input
+    class="view-radio"
+    type="radio"
+    name="evolution-view"
+    id="evolution-view-normalized"
+  />
+  <div class="view-toggle" role="group" aria-label="Evolution chart view">
+    <label for="evolution-view-absolute">Absolute counts</label>
+    <label for="evolution-view-normalized">Accuracy on covered kernels</label>
+  </div>
+
+<div class="chart-frame view-absolute">
   <svg
     class="evolution-chart"
     viewBox={`0 0 ${width} ${height}`}
@@ -319,9 +385,11 @@ const biggestJump = columns
             return (
               <circle class="dot" cx={x} cy={y(point.correct)} r="4.5">
                 <title>
-                  {entry.name} · {point.version} · {point.correct} correct of{' '}
-                  {point.decided} decided, on {point.covered} assertions in{' '}
-                  {point.kernels} {point.kernels === 1 ? 'kernel' : 'kernels'}
+                  {entry.name} · {point.version} · {point.correct} decisive-correct
+                  of {point.covered} covered ({point.kernels} of{' '}
+                  {columnKernelsOf(point.version)} kernels) ={' '}
+                  {formatPercent(coveredShare(point))}; secondary,
+                  correct ÷ decided = {point.correct} of {point.decided}
                 </title>
               </circle>
             );
@@ -357,7 +425,136 @@ const biggestJump = columns
   </svg>
 </div>
 
-<ul class="chart-legend">
+<div class="chart-frame view-normalized">
+  <svg
+    class="evolution-chart"
+    viewBox={`0 0 ${width} ${height}`}
+    role="img"
+    aria-labelledby="evolution-percent-title evolution-percent-desc"
+  >
+    <title id="evolution-percent-title">
+      Decisive-correct share of each analyzer's own covered population across
+      DataFlowBench snapshots
+    </title>
+    <desc id="evolution-percent-desc">
+      One line per analyzer on a nought to one hundred percent axis. Each point
+      is that analyzer's decisive-correct count divided by the assertions in the
+      kernels it covers, with inconclusive and unsupported outcomes left in the
+      denominator. Marker size grows with the share of the snapshot's kernels
+      the analyzer covers, and every point is annotated with that kernel count.
+      The table that follows carries every value.
+    </desc>
+
+    {percentTicks.map((tick) => (
+      <>
+        <line
+          class="grid"
+          x1={padLeft}
+          x2={width - padRight}
+          y1={yPercent(tick)}
+          y2={yPercent(tick)}
+        />
+        <text
+          class="tick"
+          x={padLeft - 10}
+          y={yPercent(tick) + 4}
+          text-anchor="end"
+        >
+          {tick}%
+        </text>
+      </>
+    ))}
+
+    <line
+      class="axis"
+      x1={padLeft}
+      x2={width - padRight}
+      y1={yPercent(0)}
+      y2={yPercent(0)}
+    />
+
+    {series.map((entry, entryIndex) => {
+      const offset = percentOffset(entryIndex);
+      return (
+        <g class:list={['series', entry.colorClass]}>
+          {entry.points.map((point) => {
+            const x = bandCenter(columnIndex.get(point.version) ?? 0) + offset;
+            return (
+              <line
+                class="uncorrect"
+                x1={x}
+                x2={x}
+                y1={yPercent(percentAxisMax)}
+                y2={yPercent(coveredShare(point))}
+              />
+            );
+          })}
+          {runs(entry.points).map((run) => (
+            <path class="line" d={percentLinePath(run, offset)} />
+          ))}
+          {entry.points.map((point) => {
+            const x = bandCenter(columnIndex.get(point.version) ?? 0) + offset;
+            const kernels = columnKernelsOf(point.version);
+            const radius = markerRadius(point, kernels);
+            return (
+              <>
+                <circle
+                  class="dot"
+                  cx={x}
+                  cy={yPercent(coveredShare(point))}
+                  r={radius.toFixed(2)}
+                >
+                  <title>
+                    {entry.name} · {point.version} ·{' '}
+                    {formatPercent(coveredShare(point))} — {point.correct} of{' '}
+                    {point.covered} covered ({point.kernels} of {kernels}{' '}
+                    {kernels === 1 ? 'kernel' : 'kernels'}); secondary, correct ÷
+                    decided = {point.correct} of {point.decided}
+                  </title>
+                </circle>
+                <text
+                  class="coverage-note"
+                  x={x}
+                  y={yPercent(coveredShare(point)) + radius + 12}
+                  text-anchor="middle"
+                >
+                  {point.kernels}/{kernels}
+                </text>
+              </>
+            );
+          })}
+        </g>
+      );
+    })}
+
+    {columns.map((column, index) => (
+      <a href={evidenceHref(column.slug)}>
+        <text
+          class="x-label"
+          x={bandCenter(index)}
+          y={height - padBottom + 24}
+          text-anchor="middle"
+        >
+          {column.version}
+        </text>
+        <text
+          class="x-sub"
+          x={bandCenter(index)}
+          y={height - padBottom + 41}
+          text-anchor="middle"
+        >
+          {column.kernels} {column.kernels === 1 ? 'kernel' : 'kernels'}
+        </text>
+      </a>
+    ))}
+
+    <text class="axis-title" x="2" y={padTop - 12} text-anchor="start">
+      % of its covered population
+    </text>
+  </svg>
+</div>
+
+<ul class="chart-legend view-absolute">
   {series.map((entry) => (
     <li class:list={[entry.colorClass]}>
       <span class="swatch" aria-hidden="true"></span>
@@ -374,7 +571,39 @@ const biggestJump = columns
   </li>
 </ul>
 
-<p class="caption">
+<ul class="chart-legend view-normalized">
+  {series.map((entry) => (
+    <li class:list={[entry.colorClass]}>
+      <span class="swatch" aria-hidden="true"></span>
+      {entry.name} · decisive-correct ÷ its covered population
+    </li>
+  ))}
+  <li class="size-key">
+    <span class="swatch" aria-hidden="true"></span>
+    marker size and the <code>k/n</code> label under it: kernels covered of the
+    snapshot's kernels
+  </li>
+</ul>
+
+<p class="caption view-note">
+  <strong>Absolute counts</strong> plot progress against the whole growing
+  benchmark: the marker is the analyzer's decisive-correct count and the grey
+  step is the entire core population of that snapshot, so an analyzer that
+  supports only part of the benchmark sits far below the step by construction.
+  <strong>Accuracy on covered kernels</strong> instead divides each analyzer's
+  decisive-correct count by <em>its own</em> covered population — the assertions
+  in the kernels it reported on at all — so it answers how well a tool does on
+  the slice it supports. Coverage is stated beside every number in that view:
+  the marker grows with the share of the snapshot's kernels covered, each point
+  carries its <code>k/n</code> kernel count, and the table below spells out the
+  denominator, so 78% over 6 kernels is never mistaken for 78% over 13.
+  Inconclusive and unsupported outcomes <em>inside</em> covered kernels stay in
+  the denominator — they are non-answers on cases the analyzer took on. The
+  narrower correct ÷ decided ratio is reported only as a secondary figure, in
+  the tooltips and the last table column.
+</p>
+
+<p class="caption view-absolute">
   Each marker sits at the analyzer's decisive-correct count. The faint stub
   above it reaches that analyzer's <em>own</em> covered population — the
   assertions it reported on — so the part of the stub above the marker is
@@ -391,6 +620,23 @@ const biggestJump = columns
   to that freeze's per-case evidence.
 </p>
 
+<p class="caption view-normalized">
+  Each marker sits at the analyzer's decisive-correct share of its own covered
+  population; the faint stub above it runs to 100%, which is that same covered
+  population, so the stub is wrong answers plus coverage outcomes inside the
+  kernels it did report on. A snapshot without a marker is a snapshot the
+  analyzer was not run in: Joern first appears in
+  {series.find((entry) => entry.tool === 'joern')?.points[0]?.version ?? 'n/a'},
+  Semgrep CE in
+  {series.find((entry) => entry.tool === 'semgrep')?.points[0]?.version ?? 'n/a'}.
+  Absence is never drawn as a zero and never interpolated across. Percentages
+  from different snapshots are not the same exam, and percentages from
+  different analyzers in the same snapshot are only the same exam when their
+  <code>k/n</code> kernel counts match. Every snapshot label links to that
+  freeze's per-case evidence.
+</p>
+</div>
+
 <div class="table-scroll">
   <table>
     <thead>
@@ -401,7 +647,9 @@ const biggestJump = columns
         <th>Decided</th>
         <th>Coverage outcomes</th>
         <th>Its covered population</th>
+        <th>Correct ÷ its covered population</th>
         <th>Benchmark core population</th>
+        <th>Secondary: correct ÷ decided</th>
       </tr>
     </thead>
     <tbody>
@@ -427,7 +675,27 @@ const biggestJump = columns
               })`}
             </span>
           </td>
+          <td>
+            {formatPercent(coveredShare(row.point))}
+            <span class="muted">
+              {`(${row.point.correct} of ${row.point.covered} covered, ${
+                row.point.kernels
+              } of ${row.column.kernels} ${
+                row.column.kernels === 1 ? 'kernel' : 'kernels'
+              })`}
+            </span>
+          </td>
           <td>{row.column.population}</td>
+          <td class="muted">
+            {(() => {
+              const share = decidedShare(row.point);
+              return share === null
+                ? 'n/a'
+                : `${formatPercent(share)} (${row.point.correct} of ${
+                    row.point.decided
+                  } decided)`;
+            })()}
+          </td>
         </tr>
       ))}
     </tbody>
@@ -447,6 +715,68 @@ const biggestJump = columns
 </p>
 
 <style>
+  /* The view toggle is a plain radio group: no JavaScript, keyboard-operable
+     by default (Tab into the group, arrows between options), and it degrades
+     to two labelled radios if the stylesheet never arrives. The radios sit as
+     direct children of `.evolution` so `:checked ~ …` can reach every element
+     that belongs to one view or the other. */
+  .evolution {
+    position: relative;
+  }
+  .view-radio {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+  .view-toggle {
+    display: inline-flex;
+    gap: 0.25rem;
+    margin: 0 0 0.75rem;
+    padding: 0.2rem;
+    border: 1px solid var(--sl-color-hairline);
+    border-radius: 0.6rem;
+    background: var(--sl-color-bg-sidebar);
+  }
+  .view-toggle label {
+    cursor: pointer;
+    border-radius: 0.45rem;
+    padding: 0.3rem 0.7rem;
+    font-size: var(--sl-text-sm);
+    color: var(--sl-color-gray-2);
+    line-height: 1.3;
+  }
+  .view-toggle label:hover {
+    color: var(--sl-color-white);
+  }
+  #evolution-view-absolute:checked
+    ~ .view-toggle
+    label[for='evolution-view-absolute'],
+  #evolution-view-normalized:checked
+    ~ .view-toggle
+    label[for='evolution-view-normalized'] {
+    background: var(--sl-color-gray-6, var(--sl-color-hairline));
+    color: var(--sl-color-white);
+    box-shadow: inset 0 0 0 1px var(--sl-color-hairline);
+  }
+  #evolution-view-absolute:focus-visible
+    ~ .view-toggle
+    label[for='evolution-view-absolute'],
+  #evolution-view-normalized:focus-visible
+    ~ .view-toggle
+    label[for='evolution-view-normalized'] {
+    outline: 2px solid var(--sl-color-accent-high);
+    outline-offset: 2px;
+  }
+  #evolution-view-absolute:checked ~ .view-normalized,
+  #evolution-view-normalized:checked ~ .view-absolute {
+    display: none;
+  }
   .chart-frame {
     border: 1px solid var(--sl-color-hairline);
     border-radius: 0.75rem;
@@ -546,6 +876,17 @@ const biggestJump = columns
       var(--sl-color-gray-4) 0 6px,
       transparent 6px 10px
     );
+  }
+  .evolution-chart .coverage-note {
+    font-family: var(--__sl-font-mono);
+    font-size: 9px;
+    fill: var(--sl-color-gray-3);
+  }
+  .chart-legend .size-key .swatch {
+    height: 0.6rem;
+    width: 0.6rem;
+    border-radius: 50%;
+    background: var(--sl-color-gray-3);
   }
   .chart-legend .stub-key .swatch {
     height: 0.6rem;
