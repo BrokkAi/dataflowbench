@@ -3,13 +3,17 @@
 // generated results model of the current frozen snapshot — interpretation is
 // hand-written per snapshot, counts and rates never are.
 import {
+  coreKernelPopulations,
   currentSnapshot,
   evidenceUrl,
   percentCell,
   shortDigest,
+  vendorColorClass,
+  vendorName,
   type Scorecard,
   type ScoreTier,
 } from '../data/snapshots';
+import SnapshotEvolution from './SnapshotEvolution.astro';
 
 const snapshot = currentSnapshot;
 const scorecards = snapshot.results.scorecards;
@@ -18,35 +22,6 @@ const scorecards = snapshot.results.scorecards;
 // along in the smoke report). Populations are matched by case identity below,
 // never by language name alone.
 const smoke = scorecards.find((card) => card.id.startsWith('bifrost-smoke'))!;
-
-// A scorecard covering many languages is a breadth run; a single-language card
-// is a dedicated kernel run. Kernel populations are seeded from the dedicated
-// cards, and breadth cards may only join a population that already exists.
-function isBreadthCard(card: Scorecard): boolean {
-  return card.languages.length > 1;
-}
-
-/** Display name for an analyzer, keyed by the adapter's tool identifier. */
-const vendorNames: Record<string, string> = {
-  bifrost: 'Bifrost',
-  codeql: 'CodeQL',
-  joern: 'Joern',
-  semgrep: 'Semgrep CE',
-};
-const vendorColorClasses: Record<string, string> = {
-  bifrost: 'v0',
-  codeql: 'v1',
-  joern: 'v2',
-  semgrep: 'v3',
-};
-
-function vendorColorClass(tool: string, index: number): string {
-  return vendorColorClasses[tool] ?? `v${index % 4}`;
-}
-
-function vendorName(tool: string): string {
-  return vendorNames[tool] ?? tool.charAt(0).toUpperCase() + tool.slice(1);
-}
 
 interface VendorStats {
   /** Adapter tool identifier, e.g. `bifrost`. */
@@ -137,17 +112,9 @@ function statsOf(card: Scorecard, tier: ScoreTier): VendorStats {
 }
 
 // One kernel per core population, carrying however many analyzers cover
-// exactly the same case identifiers. Matching on the case set — not on the
-// language name — keeps 15-template and 16-template cores from ever being
-// compared against each other or pooled. The vendor list is open-ended: a
-// language answered by one analyzer or by five renders the same way.
-function caseKey(tier: ScoreTier): string {
-  return tier.cases
-    .map((result) => result.case_id)
-    .sort()
-    .join('\n');
-}
-
+// exactly the same case identifiers. The population filter itself lives in
+// `data/snapshots` so that the cross-snapshot evolution graph below reads the
+// exact same no-pooling population as these cards.
 interface Kernel {
   /** Stable per-population id used to link a card to its dialog payload. */
   id: string;
@@ -158,46 +125,8 @@ interface Kernel {
   tiers: { vendor: VendorStats; tier: ScoreTier }[];
 }
 
-const byPopulation = new Map<
-  string,
-  { language: string; tier: ScoreTier; entries: Map<string, { card: Scorecard; tier: ScoreTier }> }
->();
-// Pass one: dedicated single-language cards define which populations are
-// kernels at all (the breadth baseline's two-case cores are not).
-for (const card of scorecards) {
-  if (isBreadthCard(card)) continue;
-  for (const language of card.languages) {
-    for (const tier of language.score_tiers) {
-      if (tier.score_tier !== 'core') continue;
-      const key = caseKey(tier);
-      if (!byPopulation.has(key)) {
-        byPopulation.set(key, {
-          language: language.language,
-          tier,
-          entries: new Map(),
-        });
-      }
-    }
-  }
-}
-// Pass two: every core tier — dedicated or breadth — joins the population it
-// covers exactly. A dedicated card always wins over a breadth card for the
-// same analyzer and the same cases.
-for (const card of scorecards) {
-  for (const language of card.languages) {
-    for (const tier of language.score_tiers) {
-      if (tier.score_tier !== 'core') continue;
-      const population = byPopulation.get(caseKey(tier));
-      if (!population) continue;
-      const existing = population.entries.get(card.adapter.tool);
-      if (existing && isBreadthCard(card)) continue;
-      population.entries.set(card.adapter.tool, { card, tier });
-    }
-  }
-}
-
-const kernels: Kernel[] = [...byPopulation.values()]
-  .map((population) => {
+const kernels: Kernel[] = coreKernelPopulations(snapshot.results).map(
+  (population) => {
     const tiers = [...population.entries.values()]
       .map((entry) => ({
         vendor: statsOf(entry.card, entry.tier),
@@ -207,16 +136,13 @@ const kernels: Kernel[] = [...byPopulation.values()]
     return {
       id: '',
       language: population.language,
-      templates: new Set(
-        population.tier.cases.map((result) => result.template_id),
-      ).size,
-      cases: population.tier.cases.length,
+      templates: population.templates,
+      cases: population.cases,
       vendors: tiers.map((entry) => entry.vendor),
       tiers,
     } satisfies Kernel;
-  })
-  .filter((kernel) => kernel.vendors.length > 0)
-  .sort((left, right) => left.language.localeCompare(right.language));
+  },
+);
 kernels.forEach((kernel, index) => {
   kernel.id = `kernel-${index}`;
 });
@@ -1016,6 +942,8 @@ const caseCount = snapshot.results.scorecards
     <p class="caption">immutable evidence release</p>
   </div>
 </div>
+
+<SnapshotEvolution />
 
 <h2>Why these numbers are trustworthy</h2>
 
