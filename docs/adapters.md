@@ -20,6 +20,7 @@ The initial adapter plan is:
 | OpenTaint | Java and Kotlin profile | Implemented as two language-scoped populations over the pinned `analyzer/2026.08.27.17eb0fe` release, both run over their full expanded 58-assertion cores. The whole core is scored — the pinned documentation fences no capability — and the dominant measured result is a value-kind boundary: the engine drops taint on numeric values, which the retained probe evidence isolates from the templates' semantic dimensions |
 | Infer | C, C++, and Java profile | Implemented as three language-scoped populations over the pinned v1.3.0 release's Pulse taint configuration — the release's one operable taint surface, Quandary being removed — each run over its full expanded core (48, 56, and 58 assertions). The whole core is scored in all three; C and C++ gain their first benchmark-controlled interprocedural second engine |
 | FlowDroid | Java and Kotlin profile | Implemented as two language-scoped populations over the pinned 2.15.1 release's command-line analyzer, both run over their full expanded 58-assertion cores. The released CLI analyzes APKs only — verified in the field — so each case materializes a minimal APK from pinned, JVM-only pieces (a D8 dex translation, a committed benchmark-generated binary manifest, a harness entry activity); the whole core is scored, the pinned defaults fencing no capability |
+| Pysa | Python profile | Implemented as one language-scoped population over the pinned pyre-check 0.10.0 release's taint analysis, run over Python's full expanded 58-assertion core. The pin is a pair — the client drives the separately released Pyrefly 1.2.0 front end for call-graph resolution, and without a per-case `pyrefly.toml` that front end exports every call unresolved while exiting cleanly, a verified silent-failure mode the runner guards. The whole core is scored, and Python becomes the five-analyzer kernel issue #82 intended |
 
 No adapter may synthesize a tool result. If a supported case cannot complete,
 emit `inconclusive` or `runner-error` with the raw evidence. If it is outside
@@ -40,8 +41,10 @@ whose phase labels state the boundary the adapter genuinely observes:
 traced compile, then query evaluation and SARIF interpretation, which the
 pinned CLI performs in one subprocess), `capture` and `analyze` for Infer
 (the traced compile, then Pulse evaluation and SARIF emission — the same
-two-phase shape as CodeQL's), and `total` for Joern, Semgrep, and
-Bifrost, whose single invocation is indivisible from the adapter's vantage.
+two-phase shape as CodeQL's), and `total` for Joern, Semgrep, Bifrost, and
+Pysa, whose single invocation is indivisible from the adapter's vantage —
+Pysa's client drives its front end and its analysis binary inside one
+invocation the adapter cannot observe as separate subprocesses.
 Unequal granularity is stated, not papered over; any phase timings a tool
 emits itself ride in its own retained document, verbatim. Each run also stamps
 `reports/raw/<slice>/run-environment.json` once — hardware model, OS, CPU
@@ -540,6 +543,7 @@ we evaluate is recorded here against them so absence is never ambiguous:
 | OpenTaint | **Adapted** (2026-08 field evaluation) | — (JVM bytecode only, so Java and Kotlin are its two populations; pinned by release-asset digest because the analyzer self-reports no version; see [the OpenTaint adapter notes](../adapters/opentaint/README.md)) |
 | Infer | **Adapted** (2026-08 field evaluation) | — (C, C++, and Java are its three populations; the pinned v1.3.0 ships no Quandary checker, so Pulse's taint configuration is the operable taint mode, verified by probe; see [the Infer adapter notes](../adapters/infer/README.md)) |
 | FlowDroid | **Adapted** (2026-08 field evaluation) | — (Java and Kotlin are its two populations; the pinned 2.15.1 CLI is APK-only, verified against the binary, and the field question was whether per-case APK materialization stays within the bounds — it does, from pinned JVM-only pieces with no Android SDK dependency; see [the FlowDroid adapter notes](../adapters/flowdroid/README.md)) |
+| Pysa | **Adapted** (2026-08 field evaluation) | — (Python is its one population; the pin is the pyre-check 0.10.0 / Pyrefly 1.2.0 pair, because the pinned client drives the separately released front end and the pair's one verified silent-failure mode — unresolved call graphs without a project declaration — is guarded per run; see [the Pysa adapter notes](../adapters/pysa/README.md)) |
 | Snyk Code | Not eligible | (2) analysis is cloud-backed and account-bound; (4) terms to be verified but commonly restrictive — both must clear before any attempt |
 | Coverity | Not eligible | (2) no free local pinned CLI (Coverity Scan is cloud submission); (4) benchmark restrictions |
 | Checkmarx | Not eligible | (2) and (4) — enterprise-only, no local CLI, standard no-benchmark terms |
@@ -557,23 +561,22 @@ that is recorded rather than tested around.
 
 ### Queued candidates that do qualify
 
-One open-source engine passes all four bounds on its face and remains
-queued for a future adapter (#82). OpenTaint (formerly issue #17), Infer,
-and FlowDroid all cleared their field evaluations — all four bounds hold,
-verified by probe rather than prospectus — and are adapted above:
-
-- **Pysa** (Meta) — open-source Python taint analysis on the Pyre engine.
-
-It still requires the standard adapter diligence before implementation:
-pin an exact version, verify the taint mode against a probe fixture, and
-preregister the capability partition from documentation — nothing here is a
-result yet. The Infer and FlowDroid evaluations are templates for that
-diligence: Infer's pinned release had removed the taint checker the issue
-named it for, so the operable surface — Pulse's taint configuration — was
-established against the binary before any population ran; FlowDroid's
-released CLI turned out to analyze APKs only, so what was established
-against the binary was that a minimal per-case APK is materializable from
-pinned, JVM-only pieces without changing what is measured.
+**The queue is empty.** Every engine issue #82 queued has now cleared its
+field evaluation — all four bounds held in every case, verified by probe
+rather than prospectus — and is adapted above: OpenTaint (formerly issue
+#17), Infer, FlowDroid, and finally Pysa. Each evaluation earned its pin
+against the binary rather than the prospectus: Infer's pinned release had
+removed the taint checker the issue named it for, so the operable surface —
+Pulse's taint configuration — was established before any population ran;
+FlowDroid's released CLI turned out to analyze APKs only, so what was
+established was that a minimal per-case APK is materializable from pinned,
+JVM-only pieces without changing what is measured; and Pysa's pinned client
+turned out to require a second, separately released binary — the Pyrefly
+front end — whose absence of a project declaration silently unresolves every
+call, so the pin became a version pair and the silent mode a guarded part of
+the invocation. A future candidate enters this queue by the same rule:
+pinned version, probe-verified taint mode, and a partition preregistered
+from documentation before any result exists.
 
 ## CodeQL language populations
 
@@ -1020,6 +1023,50 @@ run pins the release's defaults the way the Joern kernels pin
 `unsupported` partition from, and every engine incapacity surfaces as a
 measured mismatch. See [the FlowDroid adapter
 notes](../adapters/flowdroid/README.md) for the eligibility evaluation, the
+pinned identities, the guarded failure modes, and the per-template results.
+
+## Pysa language population
+
+The Pysa adapter is one population: Python, the language the engine exists
+for, selected runner-side by language, track, and score tier exactly as the
+other kernels are, with its own report (`reports/pysa-python-kernel.json`)
+and retained-evidence root (`reports/raw/pysa-python-kernel/`). The
+population is post-freeze and binds nothing, and it completes issue #82's
+intent for the language: Python is the first five-analyzer kernel — Bifrost,
+CodeQL, Joern, Semgrep CE, and Pysa.
+
+**The pin is a pair, and that is a field finding.** The pinned pyre-check
+0.10.0 client no longer carries its own Python front end for this path: it
+drives the separately released Pyrefly binary for module and call-graph
+resolution, so the adapter pins pyre-check 0.10.0 **and** Pyrefly 1.2.0 (its
+contemporaneous stable release), witnesses both self-reported versions per
+run, and records both binaries' measured digests in the build identity. The
+pair's one verified silent-failure mode is guarded as part of the pinned
+invocation: without a `pyrefly.toml` declaring the sources as the project,
+Pyrefly exports every call in the fixture as an unresolved
+`EmptyPyreflyCallTarget` and the analysis finds nothing while exiting
+cleanly, so the runner writes that declaration into every case workspace. A
+model naming a function the fixture does not define fails loudly (exit 10)
+and is a `runner-error`, and the runner additionally proves from each case's
+retained evidence that both benchmark endpoints were bound — the OpenTaint
+rule-load discipline — so a clean `not-reached` always carries its own
+activation proof.
+
+Endpoints are bound in Pysa's native mechanism: one committed
+`taint.config` declaring the two kinds and the single rule, and one
+committed `.pysa` model template whose placeholders the runner resolves per
+case from the fixture's own `DFB-SOURCE:`/`DFB-SINK:` marker lines — the
+same resolver every other kernel uses, plus the module name the flat
+source-root materialization gives each fixture. Both committed artifacts
+bind the report's `configuration_hash`, and the resolved models are
+retained per case. The whole expanded 58-assertion core is scored: Pysa's
+documentation declares whole-program taint analysis and fences no construct
+class, so as with OpenTaint, Infer, and FlowDroid there is no documented
+boundary to preregister an `unsupported` partition from, and every engine
+incapacity surfaces as a measured mismatch. Reconciliation reads only the
+declared rule's issues, on anchored sink callsites, from the issue's own
+position and its backward-trace sink-reach positions. See [the Pysa adapter
+notes](../adapters/pysa/README.md) for the eligibility evaluation, the
 pinned identities, the guarded failure modes, and the per-template results.
 
 The checked-in Bifrost snapshot (`reports/bifrost-smoke.json`) contains 118
