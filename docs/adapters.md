@@ -25,6 +25,32 @@ a documented tool profile, emit `unsupported`; it is excluded from
 false-negative interpretation. An incomplete or failed run must never become
 `not-reached` merely because the SARIF result list is empty.
 
+## Retained phase timings and the environment stamp
+
+Every run also retains the wall-clock cost of what it invoked, as the
+instrumentation half of the latency-characterization tier. The runner times
+exactly the analyzer subprocesses the adapter already owns — never analyzer
+internals, and never harness compile time, fixture materialization, report
+normalization, or validation — using the monotonic clock. Each timed case gets
+a sidecar beside its raw evidence, `reports/raw/<slice>/<case-id>-timing.json`,
+whose phase labels state the boundary the adapter genuinely observes:
+`database-create` and `database-analyze` for CodeQL (extraction including the
+traced compile, then query evaluation and SARIF interpretation, which the
+pinned CLI performs in one subprocess), and `total` for Joern, Semgrep, and
+Bifrost, whose single invocation is indivisible from the adapter's vantage.
+Unequal granularity is stated, not papered over; any phase timings a tool
+emits itself ride in its own retained document, verbatim. Each run also stamps
+`reports/raw/<slice>/run-environment.json` once — hardware model, OS, CPU
+count — beside the tool identity the run witnessed, because a latency number
+is only comparable within the environment that produced it.
+
+Timing fields are **additive metadata**. Their absence in pre-existing frozen
+artifacts is not an error, `validate-reports` accepts raw evidence with and
+without them, and no correctness outcome may ever read a timing value. A case
+arm that never invokes the analyzer — an `unsupported` declaration, a
+preregistered partition decision — retains no timing and clears any stale
+sidecar from a previous run.
+
 ## Challenge-tier rollout mechanics
 
 [The challenge-tier preregistration](challenge-tier.md) fixes *what* the
