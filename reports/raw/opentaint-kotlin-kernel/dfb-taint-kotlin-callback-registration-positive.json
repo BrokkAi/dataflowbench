@@ -1,0 +1,400 @@
+{
+    "$schema": "https://docs.oasis-open.org/sarif/sarif/v2.1.0/errata01/os/schemas/sarif-schema-2.1.0.json",
+    "version": "2.1.0",
+    "runs": [
+        {
+            "originalUriBaseIds": {
+                "%SRCROOT%": {
+                    "uri": "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dataflowbench-opentaint-kotlin/dfb-taint-kotlin-callback-registration-positive/source"
+                }
+            },
+            "tool": {
+                "driver": {
+                    "name": "OpenTaint",
+                    "organization": "Seqra",
+                    "rules": [
+                        {
+                            "defaultConfiguration": {
+                                "level": "error"
+                            },
+                            "fullDescription": {
+                                "markdown": "DataFlowBench benchmark-controlled endpoint flow",
+                                "text": "DataFlowBench benchmark-controlled endpoint flow"
+                            },
+                            "id": ":dfb-opentaint-kernel",
+                            "name": ":dfb-opentaint-kernel",
+                            "properties": {
+                                "tags": []
+                            },
+                            "shortDescription": {
+                                "text": "OpenTaint Finding: :dfb-opentaint-kernel"
+                            }
+                        }
+                    ],
+                    "semanticVersion": "latest",
+                    "version": "latest"
+                }
+            },
+            "results": [
+                {
+                    "codeFlows": [
+                        {
+                            "threadFlows": [
+                                {
+                                    "locations": [
+                                        {
+                                            "executionOrder": 0,
+                                            "kinds": [
+                                                "taint"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.CallbackRegistrationPositive#run():6:(%4 = this.dfb_source())",
+                                                        "fullyQualifiedName": "dataflowbench.CallbackRegistrationPositive#run"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "Call to \"dfb_source\" puts marked data to a local variable"
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/CallbackRegistrationPositive.kt",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 35,
+                                                        "endLine": 31,
+                                                        "startColumn": 23,
+                                                        "startLine": 31
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 1,
+                                            "kinds": [
+                                                "unknown"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.CallbackRegistrationPositive#run():7:(registry.fire(%4))",
+                                                        "fullyQualifiedName": "dataflowbench.CallbackRegistrationPositive#run"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "Calling \"fire\" with marked data at a local variable"
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/CallbackRegistrationPositive.kt",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 36,
+                                                        "endLine": 31,
+                                                        "startColumn": 18,
+                                                        "startLine": 31
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 2,
+                                            "kinds": [
+                                                "unknown"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.CallbackRegistrationPositive$Registry#fire(java.lang.String):0:(kotlin.jvm.internal.Intrinsics.checkNotNullParameter(value, \"value\"))",
+                                                        "fullyQualifiedName": "dataflowbench.CallbackRegistrationPositive$Registry#fire"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "Entering \"fire\" with marked data at \"value\""
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/CallbackRegistrationPositive.kt",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 32,
+                                                        "endLine": 11,
+                                                        "startColumn": 9,
+                                                        "startLine": 11
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 3,
+                                            "kinds": [
+                                                "unknown"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.CallbackRegistrationPositive$Registry#fire(java.lang.String):9:(%10 = hook.invoke(%4))",
+                                                        "fullyQualifiedName": "dataflowbench.CallbackRegistrationPositive$Registry#fire"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "Calling \"invoke\" with marked data at \"value\""
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/CallbackRegistrationPositive.kt",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 28,
+                                                        "endLine": 13,
+                                                        "startColumn": 17,
+                                                        "startLine": 13
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 4,
+                                            "kinds": [
+                                                "unknown"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.CallbackRegistrationPositive$run$1#invoke(java.lang.Object):0:(%0 = (java.lang.String) p1)",
+                                                        "fullyQualifiedName": "dataflowbench.CallbackRegistrationPositive$run$1#invoke"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "Entering \"invoke\" with marked data at the 1st argument of \"invoke\""
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/CallbackRegistrationPositive.kt",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 34,
+                                                        "endLine": 30,
+                                                        "startColumn": 9,
+                                                        "startLine": 30
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 5,
+                                            "kinds": [
+                                                "unknown"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.CallbackRegistrationPositive$run$1#invoke(java.lang.Object):0:(%0 = (java.lang.String) p1)",
+                                                        "fullyQualifiedName": "dataflowbench.CallbackRegistrationPositive$run$1#invoke"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "A local variable is assigned a value with marked data"
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/CallbackRegistrationPositive.kt",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 34,
+                                                        "endLine": 30,
+                                                        "startColumn": 9,
+                                                        "startLine": 30
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 6,
+                                            "kinds": [
+                                                "unknown"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.CallbackRegistrationPositive$run$1#invoke(java.lang.Object):1:(this.invoke(%0))",
+                                                        "fullyQualifiedName": "dataflowbench.CallbackRegistrationPositive$run$1#invoke"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "Calling \"invoke\" with marked data at a local variable"
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/CallbackRegistrationPositive.kt",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 34,
+                                                        "endLine": 30,
+                                                        "startColumn": 9,
+                                                        "startLine": 30
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 7,
+                                            "kinds": [
+                                                "unknown"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.CallbackRegistrationPositive$run$1#invoke(java.lang.String):0:(kotlin.jvm.internal.Intrinsics.checkNotNullParameter(p0, \"p0\"))",
+                                                        "fullyQualifiedName": "dataflowbench.CallbackRegistrationPositive$run$1#invoke"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "Entering \"invoke\" with marked data at the 1st argument of \"invoke\""
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/CallbackRegistrationPositive.kt",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 34,
+                                                        "endLine": 30,
+                                                        "startColumn": 9,
+                                                        "startLine": 30
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 8,
+                                            "kinds": [
+                                                "unknown"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.CallbackRegistrationPositive$run$1#invoke(java.lang.String):3:(%1.leak(p0))",
+                                                        "fullyQualifiedName": "dataflowbench.CallbackRegistrationPositive$run$1#invoke"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "Calling \"leak\" with marked data at the 1st argument of \"invoke\""
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/CallbackRegistrationPositive.kt",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 34,
+                                                        "endLine": 30,
+                                                        "startColumn": 9,
+                                                        "startLine": 30
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 9,
+                                            "kinds": [
+                                                "unknown"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.CallbackRegistrationPositive#leak(java.lang.String):0:(kotlin.jvm.internal.Intrinsics.checkNotNullParameter(value, \"value\"))",
+                                                        "fullyQualifiedName": "dataflowbench.CallbackRegistrationPositive#leak"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "Entering \"leak\" with marked data at \"value\""
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/CallbackRegistrationPositive.kt",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 28,
+                                                        "endLine": 24,
+                                                        "startColumn": 5,
+                                                        "startLine": 24
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 10,
+                                            "kinds": [
+                                                "taint"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.CallbackRegistrationPositive#leak(java.lang.String):1:(this.dfb_sink(value))",
+                                                        "fullyQualifiedName": "dataflowbench.CallbackRegistrationPositive#leak"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "DataFlowBench benchmark-controlled endpoint flow"
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/CallbackRegistrationPositive.kt",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 24,
+                                                        "endLine": 25,
+                                                        "startColumn": 9,
+                                                        "startLine": 25
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ],
+                    "level": "error",
+                    "locations": [
+                        {
+                            "logicalLocations": [
+                                {
+                                    "decoratedName": "dataflowbench.CallbackRegistrationPositive#leak(java.lang.String):1:(this.dfb_sink(value))",
+                                    "fullyQualifiedName": "dataflowbench.CallbackRegistrationPositive#leak"
+                                }
+                            ],
+                            "physicalLocation": {
+                                "artifactLocation": {
+                                    "uri": "dataflowbench/CallbackRegistrationPositive.kt",
+                                    "uriBaseId": "%SRCROOT%"
+                                },
+                                "region": {
+                                    "endColumn": 24,
+                                    "endLine": 25,
+                                    "startColumn": 9,
+                                    "startLine": 25
+                                }
+                            }
+                        }
+                    ],
+                    "message": {
+                        "text": "DataFlowBench benchmark-controlled endpoint flow"
+                    },
+                    "ruleId": ":dfb-opentaint-kernel"
+                }
+            ]
+        }
+    ]
+}

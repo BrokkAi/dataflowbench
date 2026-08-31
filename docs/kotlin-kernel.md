@@ -102,6 +102,7 @@ adapters can do.
 | Bifrost v0.10.5 | **Deferred** | `reports/bifrost-kotlin-kernel.json` | Freeze-bound |
 | CodeQL 2.26.3 | **Deferred** | `reports/codeql-kotlin-kernel.json` | Freeze-bound |
 | Joern 4.0.610 | **Not covered** | — | No Kotlin slice exists in this repository |
+| OpenTaint `analyzer/2026.08.27.17eb0fe` | Yes | `reports/opentaint-kotlin-kernel.json` | New adapter (#17); post-freeze, binds nothing |
 
 **Both `reports/bifrost-kotlin-kernel.json` and
 `reports/codeql-kotlin-kernel.json` are among the nineteen reports
@@ -150,6 +151,31 @@ twenty-six declined assertions are coverage, never twenty-six false negatives.
 Kotlin's `beta` maturity label in the pinned distribution's own
 `semgrep_interfaces/lang.json` is retained in the report, and it did not move a
 single case between the partitions — the same statement the classic run made.
+
+### OpenTaint `analyzer/2026.08.27.17eb0fe` — expanded core
+
+`reports/opentaint-kotlin-kernel.json`, from the new OpenTaint adapter (#17):
+the pinned JVM-bytecode engine over the whole 58-assertion population, all of
+it scored — OpenTaint's pinned documentation fences no capability, so unlike
+Semgrep CE there is no documented boundary to preregister an `unsupported`
+partition from. 17 `reached`, 41 `not-reached`, zero `inconclusive`, zero
+`unsupported`, zero `runner-error`; **38/58** polarity match.
+
+Kotlin is the population where this engine is actually measurable, and the
+reason is fixture encoding rather than anything Kotlin-specific: the pinned
+engine drops taint on numeric values (the retained value-kind probe under
+`reports/raw/opentaint-value-kind-probe/` isolates this), and Kotlin's core
+splits 15 `Int`-encoded templates against 14 `String`-encoded ones — the
+`direct` pair plus the entire challenge tier. Every `Int`-encoded positive is
+missed on that boundary; the `String`-encoded subset scores 23/28. On the
+challenge strata the engine scores **21/26**, including correct
+discrimination of the depth-6 `deep-relay-chain` pair that Joern's pinned
+`maxCallDepth=4` misses in five languages; the one challenge false negative
+is the reflective-invocation positive, and the four false positives are one
+family of dynamic-heap-location over-approximation (`computed-property`,
+`dispatch-table`, `element-object`, `function-field` negatives). See
+[the OpenTaint adapter notes](../adapters/opentaint/README.md) for the
+per-subset tables and the retained evidence conventions.
 
 ### What the deferred adapters are expected to show
 
