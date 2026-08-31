@@ -2347,6 +2347,26 @@ enum Commands {
         #[arg(long)]
         kotlin_stdlib: PathBuf,
     },
+    /// Run the Python propagation kernel through Pysa — the taint analysis of
+    /// the pinned pyre-check release, whose client drives the pinned Pyrefly
+    /// front end for module and call-graph resolution. Each case materializes
+    /// an isolated workspace with the committed `taint.config` and the
+    /// per-case resolved endpoint models.
+    RunPysaPythonKernel {
+        /// Path to the pinned pyre-check client (`pyre`); its self-reported
+        /// version is witnessed per run.
+        #[arg(long)]
+        pyre: PathBuf,
+        /// Path to the pinned analysis binary (`pyre.bin`), passed to the
+        /// client explicitly and witnessed by digest.
+        #[arg(long)]
+        pyre_binary: PathBuf,
+        /// Path to the pinned `pyrefly` binary; the client resolves it from
+        /// `PATH`, so the runner prepends this binary's directory, and its
+        /// self-reported version is witnessed per run.
+        #[arg(long)]
+        pyrefly: PathBuf,
+    },
     /// Run the C propagation kernel through the pinned Infer release's Pulse
     /// taint analysis. Each case's compile command is materialized per case
     /// and traced by `infer capture` with the distribution's own bundled
@@ -2643,6 +2663,15 @@ fn main() -> Result<()> {
                 kotlin_stdlib,
             },
         ),
+        Commands::RunPysaPythonKernel {
+            pyre,
+            pyre_binary,
+            pyrefly,
+        } => run_pysa_python_kernel(&PysaTools {
+            pyre,
+            pyre_binary,
+            pyrefly,
+        }),
         Commands::RunInferCKernel { infer } => run_infer_kernel(&infer, InferKernel::C),
         Commands::RunInferCppKernel { infer } => run_infer_kernel(&infer, InferKernel::Cpp),
         Commands::RunInferJavaKernel { infer, javac } => {
@@ -12458,6 +12487,645 @@ fn run_flowdroid_case(
 }
 
 // ---------------------------------------------------------------------------
+// Pysa kernel runner.
+//
+// Pysa is the taint analysis of Meta's pyre-check distribution: `.pysa` model
+// files declare sources and sinks against real definitions, a `taint.config`
+// declares the kinds and the rule, and `pyre analyze` runs the taint fixpoint
+// and writes newline-delimited JSON evidence. The pinned 0.10.0 client no
+// longer carries its own Python front end for this path: it drives the
+// separately released Pyrefly binary for module and call-graph resolution, so
+// the pin is a **pair** — pyre-check 0.10.0 plus pyrefly 1.2.0, its
+// contemporaneous stable release — and both identities are witnessed per run.
+// Two front-end behaviors verified in the field are load-bearing and are
+// guarded below: without a `pyrefly.toml` naming the sources as the project,
+// Pyrefly exports every call in the fixture as an unresolved
+// `EmptyPyreflyCallTarget` and the analysis finds nothing while exiting
+// cleanly; and a model naming a function the fixture does not define fails
+// the run loudly (exit 10), so a mis-resolved endpoint can never read as a
+// clean negative.
+// ---------------------------------------------------------------------------
+
+/// The pinned pyre-check release, self-reported by the client as
+/// `Client version:`.
+const PYSA_PINNED_PYRE_VERSION: &str = "0.10.0";
+
+/// The pinned Pyrefly release the client drives — the stable release
+/// contemporaneous with the pinned pyre-check (2026-08-01 beside 2026-08-06).
+const PYSA_PINNED_PYREFLY_VERSION: &str = "1.2.0";
+
+const PYSA_CONFIG_DIR: &str = "adapters/pysa";
+
+/// The one rule code the committed `taint.config` declares. Only issues
+/// carrying it are flow claims; the config declares no other rule, so any
+/// other code in the evidence is a configuration drift and reads as such.
+const PYSA_RULE_CODE: u64 = 9901;
+
+const PYSA_SOURCE_MODULE_PLACEHOLDER: &str = "__DFB_SOURCE_MODULE__";
+const PYSA_SINK_MODULE_PLACEHOLDER: &str = "__DFB_SINK_MODULE__";
+
+struct PysaTools {
+    pyre: PathBuf,
+    pyre_binary: PathBuf,
+    pyrefly: PathBuf,
+}
+
+fn pysa_taint_config_path() -> String {
+    format!("{PYSA_CONFIG_DIR}/taint.config")
+}
+
+fn pysa_model_template_path() -> String {
+    format!("{PYSA_CONFIG_DIR}/models/kernel-python.pysa")
+}
+
+/// Both committed Pysa configuration artifacts, so one configuration hash
+/// binds the rule declaration and the model template together.
+fn pysa_configuration_paths() -> BTreeSet<PathBuf> {
+    BTreeSet::from([
+        PathBuf::from(pysa_taint_config_path()),
+        PathBuf::from(pysa_model_template_path()),
+    ])
+}
+
+/// Witness the identity of the exact tool pair this run invokes: the
+/// pyre-check client's self-reported version and the Pyrefly binary's, each
+/// refused with both values in the error when it is not the pinned one, plus
+/// the measured digests of the analysis and front-end binaries actually
+/// handed to the client.
+fn witness_pysa_identity(tools: &PysaTools) -> Result<(String, String)> {
+    let pyre_output = Command::new(&tools.pyre)
+        .arg("--version")
+        .stdin(std::process::Stdio::null())
+        .output()
+        .with_context(|| format!("run {} --version", tools.pyre.display()))?;
+    if !pyre_output.status.success() {
+        bail!(
+            "{} --version failed with status {}",
+            tools.pyre.display(),
+            pyre_output.status
+        );
+    }
+    let pyre_stdout = String::from_utf8_lossy(&pyre_output.stdout);
+    let pyre_version = pyre_stdout
+        .lines()
+        .find_map(|line| line.trim().strip_prefix("Client version:"))
+        .map(str::trim)
+        .filter(|version| !version.is_empty())
+        .context("pyre did not report a client version")?
+        .to_string();
+    if pyre_version != PYSA_PINNED_PYRE_VERSION {
+        bail!(
+            "the pyre client at {} witnessed version {pyre_version}, but this adapter pins {PYSA_PINNED_PYRE_VERSION}; refusing to publish a pinned identity for a client that is not the pinned release",
+            tools.pyre.display()
+        );
+    }
+    let pyrefly_output = Command::new(&tools.pyrefly)
+        .arg("--version")
+        .stdin(std::process::Stdio::null())
+        .output()
+        .with_context(|| format!("run {} --version", tools.pyrefly.display()))?;
+    if !pyrefly_output.status.success() {
+        bail!(
+            "{} --version failed with status {}",
+            tools.pyrefly.display(),
+            pyrefly_output.status
+        );
+    }
+    let pyrefly_stdout = String::from_utf8_lossy(&pyrefly_output.stdout);
+    let pyrefly_version = pyrefly_stdout
+        .lines()
+        .find_map(|line| line.trim().strip_prefix("pyrefly"))
+        .map(str::trim)
+        .filter(|version| !version.is_empty())
+        .context("pyrefly did not report a version")?
+        .to_string();
+    if pyrefly_version != PYSA_PINNED_PYREFLY_VERSION {
+        bail!(
+            "the pyrefly binary at {} witnessed version {pyrefly_version}, but this adapter pins {PYSA_PINNED_PYREFLY_VERSION}; refusing to publish a pinned identity for a front end that is not the pinned release",
+            tools.pyrefly.display()
+        );
+    }
+    let pyre_binary_digest = format!(
+        "{:x}",
+        Sha256::digest(fs::read(&tools.pyre_binary).with_context(|| {
+            format!(
+                "read the pyre analysis binary {}",
+                tools.pyre_binary.display()
+            )
+        })?)
+    );
+    let pyrefly_digest = format!(
+        "{:x}",
+        Sha256::digest(
+            fs::read(&tools.pyrefly)
+                .with_context(|| format!("read the pyrefly binary {}", tools.pyrefly.display()))?
+        )
+    );
+    let build_identity = format!(
+        "pyre-check:{pyre_version} pyre.bin-sha256:{pyre_binary_digest} pyrefly:{pyrefly_version} pyrefly-sha256:{pyrefly_digest}"
+    );
+    Ok((pyre_version, build_identity))
+}
+
+fn select_pysa_cases() -> Result<Vec<(PathBuf, Value)>> {
+    let mut selected = Vec::new();
+    for path in case_paths() {
+        let case: Value = serde_json::from_str(&fs::read_to_string(&path)?)?;
+        if case["language"] == "python" && case["track"] == "taint" && case["score_tier"] == "core"
+        {
+            selected.push((path, case));
+        }
+    }
+    validate_kernel_population_with(
+        &selected,
+        "Pysa Python kernel",
+        &expected_core_templates("python"),
+    )?;
+    Ok(selected)
+}
+
+/// The issues and models of one retained Pysa evidence document — the
+/// newline-delimited JSON `taint-output.json` the analysis writes, parsed
+/// whole so reconciliation and the activation guard read the same bytes the
+/// run retained.
+struct PysaEvidence {
+    issues: Vec<Value>,
+    model_callables: BTreeSet<String>,
+}
+
+fn parse_pysa_evidence(raw: &str) -> std::result::Result<PysaEvidence, String> {
+    let mut issues = Vec::new();
+    let mut model_callables = BTreeSet::new();
+    for (index, line) in raw.lines().enumerate() {
+        if line.trim().is_empty() {
+            continue;
+        }
+        let entry: Value = serde_json::from_str(line)
+            .map_err(|error| format!("line {} does not parse: {error}", index + 1))?;
+        match entry["kind"].as_str() {
+            Some("issue") => issues.push(entry["data"].clone()),
+            Some("model") => {
+                if let Some(callable) = entry["data"]["callable"].as_str() {
+                    model_callables.insert(callable.to_string());
+                }
+            }
+            _ => {}
+        }
+    }
+    Ok(PysaEvidence {
+        issues,
+        model_callables,
+    })
+}
+
+/// Why the retained evidence disqualifies this run's negative reading, if it
+/// does. The benchmark endpoints are bound by the resolved `.pysa` models; a
+/// model that failed to bind fails the run loudly in the pinned pair, but the
+/// activation is still proven from the retained document itself — the same
+/// discipline as the OpenTaint rule-load guard — so a clean `not-reached`
+/// always carries the evidence that both endpoints were modeled.
+fn pysa_model_activation_failure(
+    evidence: &PysaEvidence,
+    source_callable: &str,
+    sink_callable: &str,
+) -> Option<String> {
+    for callable in [source_callable, sink_callable] {
+        if !evidence.model_callables.contains(callable) {
+            return Some(format!(
+                "the retained evidence carries no model for {callable:?}, so the benchmark endpoints were never bound"
+            ));
+        }
+    }
+    None
+}
+
+/// Does one Pysa issue's location evidence sit on a callsite of the anchored
+/// sink? The issue's own position is where the flow is reported; each
+/// backward-trace root adds the sink-reach positions the engine's own path
+/// evidence names, exactly as the Infer reconciliation reads its final
+/// `codeFlows` step. All positions name lines in the issue's own file.
+fn pysa_issue_anchor_match(
+    issue: &Value,
+    sink_locations: &[SinkAnchorLocation],
+) -> EvidenceAnchorMatch {
+    let Some(file) = issue["filename"].as_str() else {
+        return EvidenceAnchorMatch::Ambiguous;
+    };
+    let mut lines = BTreeSet::new();
+    if let Some(line) = issue["line"].as_u64() {
+        lines.insert(line);
+    }
+    for trace in issue["traces"].as_array().into_iter().flatten() {
+        if trace["name"] != "backward" {
+            continue;
+        }
+        for root in trace["roots"].as_array().into_iter().flatten() {
+            if let Some(line) = root["origin"]["line"].as_u64() {
+                lines.insert(line);
+            }
+            if let Some(line) = root["call_site"]
+                .as_str()
+                .and_then(|span| span.split(':').next())
+                .and_then(|line| line.parse::<u64>().ok())
+            {
+                lines.insert(line);
+            }
+        }
+    }
+    lines.remove(&0);
+    if lines.is_empty() {
+        return EvidenceAnchorMatch::Ambiguous;
+    }
+    let mut matches = BTreeSet::new();
+    for line in &lines {
+        for (index, anchor) in sink_locations.iter().enumerate() {
+            if evidence_path_matches_file(file, &anchor.file)
+                && anchor.callsite_lines.contains(line)
+            {
+                matches.insert(index);
+            }
+        }
+    }
+    if matches.len() > 1 {
+        EvidenceAnchorMatch::Ambiguous
+    } else if matches.len() == 1 {
+        EvidenceAnchorMatch::Matched
+    } else {
+        EvidenceAnchorMatch::Unmatched
+    }
+}
+
+fn run_pysa_python_kernel(tools: &PysaTools) -> Result<()> {
+    validate_cases()?;
+    let selected = select_pysa_cases()?;
+    let taint_config_path = pysa_taint_config_path();
+    let taint_config = fs::read_to_string(&taint_config_path)
+        .with_context(|| format!("read the Pysa taint configuration {taint_config_path}"))?;
+    let taint_config_json: Value = serde_json::from_str(&taint_config)
+        .with_context(|| format!("parse the Pysa taint configuration {taint_config_path}"))?;
+    if taint_config_json["rules"]
+        .as_array()
+        .is_none_or(Vec::is_empty)
+    {
+        bail!("Pysa taint configuration {taint_config_path} declares no rules");
+    }
+    let template_path = pysa_model_template_path();
+    let template = fs::read_to_string(&template_path)
+        .with_context(|| format!("read the Pysa model template {template_path}"))?;
+    for placeholder in [
+        SEMGREP_SOURCE_PLACEHOLDER,
+        SEMGREP_SINK_PLACEHOLDER,
+        PYSA_SOURCE_MODULE_PLACEHOLDER,
+        PYSA_SINK_MODULE_PLACEHOLDER,
+    ] {
+        if !template.contains(placeholder) {
+            bail!("Pysa model template {template_path} does not carry {placeholder}");
+        }
+    }
+    let raw_dir = PathBuf::from("reports/raw/pysa-python-kernel");
+    fs::create_dir_all(&raw_dir)?;
+    let started = now_seconds()?;
+    let (version, build_identity) = witness_pysa_identity(tools)?;
+    write_run_environment(&raw_dir, "pysa", &version, &build_identity)?;
+    let revision = fixture_revision()?;
+    let mut results = Vec::with_capacity(selected.len());
+
+    for (path, case) in selected {
+        let id = case["id"].as_str().expect("schema validated");
+        let start = Instant::now();
+        let (outcome, diagnostics, raw_path) =
+            run_pysa_case(tools, &taint_config, &template, &path, &case, &raw_dir)?;
+        results.push(normalized_result(
+            &case,
+            id,
+            outcome,
+            diagnostics,
+            start.elapsed(),
+            &raw_path,
+        ));
+    }
+
+    let configuration_hash = hash_paths(&pysa_configuration_paths())?;
+    let report = json!({
+        "schema_version": 1,
+        "tool": "pysa",
+        "tool_version": version,
+        "tool_build_identity": build_identity,
+        "adapter_version": ADAPTER_VERSION,
+        "configuration_hash": configuration_hash,
+        "fixture_revision": revision,
+        "started_at_unix_seconds": started,
+        "ended_at_unix_seconds": now_seconds()?,
+        "cold_or_warm": "cold",
+        "results": results
+    });
+    let report_path = "reports/pysa-python-kernel.json";
+    write_and_validate_report(Path::new(report_path), &report)?;
+    println!("wrote {report_path}");
+    Ok(())
+}
+
+fn write_pysa_error(
+    raw_dir: &Path,
+    id: &str,
+    stage: &str,
+    diagnostic: &str,
+    output: Option<&std::process::Output>,
+) -> Result<PathBuf> {
+    let error_path = raw_dir.join(format!("{id}-error.json"));
+    let mut evidence = json!({
+        "adapter": "pysa",
+        "case_id": id,
+        "state": "runner-error",
+        "stage": stage,
+        "diagnostic": diagnostic,
+        "evidence_kind": "retained-process-diagnostics"
+    });
+    if let Some(output) = output {
+        evidence["status"] = json!(output.status.code());
+        evidence["stdout"] = json!(String::from_utf8_lossy(&output.stdout).trim());
+        evidence["stderr"] = json!(String::from_utf8_lossy(&output.stderr).trim());
+    }
+    fs::write(&error_path, serde_json::to_string_pretty(&evidence)? + "\n")?;
+    Ok(error_path)
+}
+
+/// The module Pysa knows an anchored fixture file as: its stem, because the
+/// runner materializes every fixture flat in the workspace's one source root.
+fn pysa_anchor_module(file: &str) -> std::result::Result<String, String> {
+    file.strip_suffix(".py")
+        .filter(|stem| !stem.is_empty())
+        .map(str::to_string)
+        .ok_or_else(|| format!("anchor file {file:?} is not a .py module"))
+}
+
+fn run_pysa_case(
+    tools: &PysaTools,
+    taint_config: &str,
+    template: &str,
+    case_path: &Path,
+    case: &Value,
+    raw_dir: &Path,
+) -> Result<(&'static str, Vec<String>, PathBuf)> {
+    let id = case["id"].as_str().expect("schema validated");
+    let raw_path = raw_dir.join(format!("{id}.json"));
+    let error_path = raw_dir.join(format!("{id}-error.json"));
+    let models_path = raw_dir.join(format!("{id}-models.pysa"));
+    let timing_path = case_timing_path(raw_dir, id);
+    for stale in [&raw_path, &error_path, &models_path, &timing_path] {
+        if stale.exists() {
+            fs::remove_file(stale).with_context(|| format!("clear {}", stale.display()))?;
+        }
+    }
+
+    // A case whose endpoints cannot be resolved from its own markers has no
+    // usable anchor evidence: `inconclusive` with a retained reason, never a
+    // clean negative.
+    let endpoints = match benchmark_endpoint_names(case_path, case, AnchorDialect::Python) {
+        Ok(endpoints) => endpoints,
+        Err(reason) => {
+            let diagnostic =
+                format!("cannot derive the benchmark-controlled Pysa endpoints: {reason}");
+            fs::write(
+                &error_path,
+                serde_json::to_string_pretty(&json!({
+                    "adapter": "pysa",
+                    "case_id": id,
+                    "state": "inconclusive",
+                    "stage": "endpoint-resolution",
+                    "reason": diagnostic,
+                    "evidence_kind": "retained-anchor-resolution"
+                }))? + "\n",
+            )?;
+            return Ok(("inconclusive", vec![diagnostic], error_path));
+        }
+    };
+    let source_anchor_file = case["source_anchors"][0]["file"]
+        .as_str()
+        .expect("schema validated");
+    let sink_anchor_file = case["sink_anchors"][0]["file"]
+        .as_str()
+        .expect("schema validated");
+    let (source_module, sink_module) = match (
+        pysa_anchor_module(source_anchor_file),
+        pysa_anchor_module(sink_anchor_file),
+    ) {
+        (Ok(source), Ok(sink)) => (source, sink),
+        (Err(reason), _) | (_, Err(reason)) => {
+            let diagnostic =
+                format!("cannot derive the benchmark-controlled Pysa endpoints: {reason}");
+            fs::write(
+                &error_path,
+                serde_json::to_string_pretty(&json!({
+                    "adapter": "pysa",
+                    "case_id": id,
+                    "state": "inconclusive",
+                    "stage": "endpoint-resolution",
+                    "reason": diagnostic,
+                    "evidence_kind": "retained-anchor-resolution"
+                }))? + "\n",
+            )?;
+            return Ok(("inconclusive", vec![diagnostic], error_path));
+        }
+    };
+    let source_callable = format!("{source_module}.{}", endpoints.source_function);
+    let sink_callable = format!("{sink_module}.{}", endpoints.sink_function);
+
+    let models = template
+        .replace(PYSA_SOURCE_MODULE_PLACEHOLDER, &source_module)
+        .replace(PYSA_SINK_MODULE_PLACEHOLDER, &sink_module)
+        .replace(SEMGREP_SOURCE_PLACEHOLDER, &endpoints.source_function)
+        .replace(SEMGREP_SINK_PLACEHOLDER, &endpoints.sink_function);
+    fs::write(&models_path, &models)?;
+
+    let scratch = std::env::temp_dir()
+        .join("dataflowbench-pysa-python")
+        .join(id);
+    if scratch.exists() {
+        fs::remove_dir_all(&scratch).with_context(|| format!("clear {}", scratch.display()))?;
+    }
+    fs::create_dir_all(&scratch)?;
+    let result = (|| {
+        let source_root = scratch.join("src");
+        let models_dir = scratch.join("models");
+        let output_dir = scratch.join("out");
+        for directory in [&source_root, &models_dir, &output_dir] {
+            fs::create_dir_all(directory)?;
+        }
+        let fixture_root = case_path.parent().expect("case path has parent");
+        for fixture in case["fixture_files"].as_array().expect("schema validated") {
+            let fixture = fixture.as_str().expect("schema validated");
+            fs::copy(fixture_root.join(fixture), source_root.join(fixture))?;
+        }
+        fs::write(models_dir.join("taint.config"), taint_config)?;
+        fs::write(models_dir.join("dfb.pysa"), &models)?;
+        // Without this project declaration, the pinned Pyrefly exports every
+        // call in the fixture as an unresolved `EmptyPyreflyCallTarget` and
+        // the analysis finds nothing while exiting cleanly — verified in the
+        // field, and the reason this file is part of the pinned invocation.
+        fs::write(
+            scratch.join("pyrefly.toml"),
+            "project-includes = [\"src/**/*.py\"]\n",
+        )?;
+        fs::write(
+            scratch.join(".pyre_configuration"),
+            serde_json::to_string_pretty(&json!({
+                "source_directories": ["src"],
+                "taint_models_path": ["models"]
+            }))? + "\n",
+        )?;
+
+        let pyrefly_dir = tools
+            .pyrefly
+            .parent()
+            .map(Path::to_path_buf)
+            .unwrap_or_else(|| PathBuf::from("."));
+        let mut search_path = pyrefly_dir.into_os_string();
+        if let Some(existing) = std::env::var_os("PATH") {
+            search_path.push(":");
+            search_path.push(existing);
+        }
+        let mut command = Command::new(&tools.pyre);
+        command
+            .arg("-n")
+            .arg("--binary")
+            .arg(&tools.pyre_binary)
+            .arg("analyze")
+            .arg("--save-results-to")
+            .arg(&output_dir)
+            .env("PATH", &search_path)
+            .current_dir(&scratch)
+            .stdin(std::process::Stdio::null());
+        // The client orchestrates the Pyrefly front end and the analysis
+        // binary inside one invocation; that boundary is not
+        // adapter-observable as separate subprocesses, so the phase is
+        // `total`, like Joern's and Semgrep's.
+        let invoked = Instant::now();
+        let output = match command.output() {
+            Ok(output) => output,
+            Err(error) => {
+                let diagnostic = format!(
+                    "failed to spawn the Pysa analysis with {}: {error}",
+                    tools.pyre.display()
+                );
+                let path = write_pysa_error(raw_dir, id, "analyzer-spawn", &diagnostic, None)?;
+                return Ok(("runner-error", vec![diagnostic], path));
+            }
+        };
+        write_case_phase_timings(raw_dir, "pysa", id, &[("total", invoked.elapsed())])?;
+        if !output.status.success() {
+            let diagnostic = format!("the Pysa analysis failed with status {}", output.status);
+            let path = write_pysa_error(
+                raw_dir,
+                id,
+                "analyzer-execution",
+                &diagnostic,
+                Some(&output),
+            )?;
+            return Ok(("runner-error", vec![diagnostic], path));
+        }
+        let taint_output = output_dir.join("taint-output.json");
+        if !taint_output.exists() {
+            let diagnostic =
+                "the Pysa analysis exited cleanly but wrote no taint-output.json".to_string();
+            let path =
+                write_pysa_error(raw_dir, id, "analyzer-output", &diagnostic, Some(&output))?;
+            return Ok(("runner-error", vec![diagnostic], path));
+        }
+        fs::copy(&taint_output, &raw_path)?;
+        let evidence = match parse_pysa_evidence(&fs::read_to_string(&raw_path)?) {
+            Ok(evidence) => evidence,
+            Err(reason) => {
+                let diagnostic = format!("parse Pysa evidence {}: {reason}", raw_path.display());
+                let path = write_pysa_error(raw_dir, id, "analyzer-output", &diagnostic, None)?;
+                return Ok(("runner-error", vec![diagnostic], path));
+            }
+        };
+        if let Some(reason) =
+            pysa_model_activation_failure(&evidence, &source_callable, &sink_callable)
+        {
+            let diagnostic = format!("the benchmark models did not activate: {reason}");
+            let path =
+                write_pysa_error(raw_dir, id, "model-activation", &diagnostic, Some(&output))?;
+            return Ok(("runner-error", vec![diagnostic], path));
+        }
+        let mut diagnostics = Vec::new();
+        let mut flow_claims = Vec::new();
+        for issue in &evidence.issues {
+            if issue["code"].as_u64() == Some(PYSA_RULE_CODE) {
+                flow_claims.push(issue);
+                if let Some(message) = issue["message"].as_str() {
+                    diagnostics.push(message.to_string());
+                }
+            } else {
+                diagnostics.push(format!(
+                    "issue with undeclared rule code {} retained as a diagnostic, not flow evidence",
+                    issue["code"]
+                ));
+            }
+        }
+        if flow_claims.is_empty() {
+            diagnostics.sort();
+            diagnostics.dedup();
+            return Ok(("not-reached", diagnostics, raw_path.clone()));
+        }
+        let sink_locations = match sink_anchor_locations(case_path, case, AnchorDialect::Python) {
+            Ok(locations) => locations,
+            Err(reason) => {
+                return Ok((
+                    "inconclusive",
+                    vec![format!(
+                        "cannot prove a Pysa issue against the sink anchor: {reason}"
+                    )],
+                    raw_path.clone(),
+                ));
+            }
+        };
+        let mut matched = 0;
+        let mut unmatched = 0;
+        let mut ambiguous = 0;
+        for issue in flow_claims {
+            match pysa_issue_anchor_match(issue, &sink_locations) {
+                EvidenceAnchorMatch::Matched => matched += 1,
+                EvidenceAnchorMatch::Unmatched => unmatched += 1,
+                EvidenceAnchorMatch::Ambiguous => ambiguous += 1,
+            }
+        }
+        diagnostics.sort();
+        diagnostics.dedup();
+        if ambiguous > 0 {
+            diagnostics.push(format!(
+                "{ambiguous} Pysa issue(s) carry no usable or an ambiguous sink-anchor location"
+            ));
+            return Ok(("inconclusive", diagnostics, raw_path.clone()));
+        }
+        if matched > 0 {
+            return Ok(("reached", diagnostics, raw_path.clone()));
+        }
+        diagnostics.push(format!(
+            "{unmatched} Pysa issue(s) did not match the case sink anchor"
+        ));
+        Ok(("inconclusive", diagnostics, raw_path.clone()))
+    })();
+
+    let cleanup =
+        fs::remove_dir_all(&scratch).with_context(|| format!("clear {}", scratch.display()));
+    match (result, cleanup) {
+        (Ok(normalized), Ok(())) => Ok(normalized),
+        (Ok((_, mut diagnostics, path)), Err(error)) => {
+            diagnostics.push(format!("Pysa case artifact cleanup failed: {error}"));
+            diagnostics.sort();
+            diagnostics.dedup();
+            Ok(("runner-error", diagnostics, path))
+        }
+        (Err(error), Ok(())) => Err(error),
+        (Err(error), Err(cleanup_error)) => Err(error.context(format!(
+            "Pysa case artifact cleanup also failed: {cleanup_error}"
+        ))),
+    }
+}
+
+// ---------------------------------------------------------------------------
 // Modeling-matrix runners.
 //
 // One command per adapter, parameterized by language, rather than twelve
@@ -17298,6 +17966,177 @@ mod tests {
             "dataflowbench"
         );
         assert!(jvm_fixture_package("A.java", "class A {}").is_err());
+    }
+
+    /// The Pysa kernel is language-scoped, selects Python's whole expanded
+    /// core, resolves every case's endpoints and anchor modules, and loads
+    /// committed configuration whose shapes are load-bearing: the one
+    /// declared rule is what reconciliation keys on, and the model template
+    /// binds the sink's single `value` parameter — Pysa refuses a model whose
+    /// signature does not match the definition, so the uniform fixture shape
+    /// is pinned here before a drifted fixture could fail a population run.
+    #[test]
+    fn pysa_kernel_is_language_scoped_and_resolvable() {
+        let hashed = pysa_configuration_paths();
+        assert!(hashed.contains(&PathBuf::from(pysa_taint_config_path())));
+        assert!(hashed.contains(&PathBuf::from(pysa_model_template_path())));
+        let taint_config: Value =
+            serde_json::from_str(&fs::read_to_string(pysa_taint_config_path()).unwrap()).unwrap();
+        let rules = taint_config["rules"].as_array().unwrap();
+        assert_eq!(rules.len(), 1);
+        assert_eq!(rules[0]["code"].as_u64(), Some(PYSA_RULE_CODE));
+        assert_eq!(rules[0]["sources"], json!(["DfbSource"]));
+        assert_eq!(rules[0]["sinks"], json!(["DfbSink"]));
+        let template = fs::read_to_string(pysa_model_template_path()).unwrap();
+        for placeholder in [
+            SEMGREP_SOURCE_PLACEHOLDER,
+            SEMGREP_SINK_PLACEHOLDER,
+            PYSA_SOURCE_MODULE_PLACEHOLDER,
+            PYSA_SINK_MODULE_PLACEHOLDER,
+        ] {
+            assert!(template.contains(placeholder));
+        }
+        let selected = select_pysa_cases().unwrap();
+        assert_eq!(selected.len(), 2 * expected_core_templates("python").len());
+        for (path, case) in &selected {
+            let endpoints = benchmark_endpoint_names(path, case, AnchorDialect::Python)
+                .unwrap_or_else(|reason| {
+                    panic!("{} endpoints do not resolve: {reason}", path.display())
+                });
+            // The committed model template hardcodes the sink's one parameter
+            // as `value`, and Pysa refuses a model whose signature does not
+            // match the definition — loudly, as a runner error. This pins the
+            // uniform shape so a drifted fixture is caught here first.
+            let fixture_root = path.parent().unwrap();
+            let sink_anchor = &case["sink_anchors"][0];
+            let body = fs::read_to_string(fixture_root.join(sink_anchor["file"].as_str().unwrap()))
+                .unwrap();
+            let declaration = body
+                .lines()
+                .find(|line| line.contains(sink_anchor["marker"].as_str().unwrap()))
+                .unwrap();
+            assert!(
+                declaration.contains(&format!("def {}(value)", endpoints.sink_function)),
+                "{} sink declaration {declaration:?} is not the single-`value` shape the committed model template binds",
+                path.display()
+            );
+            pysa_anchor_module(sink_anchor["file"].as_str().unwrap()).unwrap();
+            pysa_anchor_module(case["source_anchors"][0]["file"].as_str().unwrap()).unwrap();
+        }
+    }
+
+    /// Both pinned versions are witnessed, never asserted: a client or front
+    /// end reporting any other version is refused with both values in the
+    /// error, and the accepted identity carries the measured digests of both
+    /// binaries.
+    #[test]
+    #[cfg(unix)]
+    fn pysa_identity_is_witnessed_against_the_pins() {
+        use std::os::unix::fs::PermissionsExt;
+        let root = unique_test_dir("dataflowbench-pysa-identity-test");
+        let write_fake = |name: &str, line: &str| {
+            let path = root.join(name);
+            fs::write(&path, format!("#!/bin/sh\necho \"{line}\"\n")).unwrap();
+            fs::set_permissions(&path, fs::Permissions::from_mode(0o755)).unwrap();
+            path
+        };
+        let pinned_pyre = write_fake(
+            "pyre",
+            &format!("Client version: {PYSA_PINNED_PYRE_VERSION}"),
+        );
+        let pinned_pyrefly =
+            write_fake("pyrefly", &format!("pyrefly {PYSA_PINNED_PYREFLY_VERSION}"));
+        let binary = root.join("pyre.bin");
+        fs::write(&binary, b"analysis binary bytes").unwrap();
+        let wrong_pyre = write_fake("pyre-wrong", "Client version: 0.0.1");
+        let error = witness_pysa_identity(&PysaTools {
+            pyre: wrong_pyre,
+            pyre_binary: binary.clone(),
+            pyrefly: pinned_pyrefly.clone(),
+        })
+        .unwrap_err()
+        .to_string();
+        assert!(error.contains("0.0.1"));
+        assert!(error.contains(PYSA_PINNED_PYRE_VERSION));
+        let wrong_pyrefly = write_fake("pyrefly-wrong", "pyrefly 0.0.1");
+        let error = witness_pysa_identity(&PysaTools {
+            pyre: pinned_pyre.clone(),
+            pyre_binary: binary.clone(),
+            pyrefly: wrong_pyrefly,
+        })
+        .unwrap_err()
+        .to_string();
+        assert!(error.contains("0.0.1"));
+        assert!(error.contains(PYSA_PINNED_PYREFLY_VERSION));
+        let (version, build_identity) = witness_pysa_identity(&PysaTools {
+            pyre: pinned_pyre,
+            pyre_binary: binary,
+            pyrefly: pinned_pyrefly,
+        })
+        .unwrap();
+        assert_eq!(version, PYSA_PINNED_PYRE_VERSION);
+        assert!(build_identity.contains("pyre.bin-sha256:"));
+        assert!(build_identity.contains("pyrefly-sha256:"));
+        fs::remove_dir_all(&root).unwrap();
+    }
+
+    /// The activation guard proves from the retained evidence itself that
+    /// both benchmark endpoints were bound, so a clean `not-reached` can
+    /// never come from a run whose models silently failed to attach; and
+    /// reconciliation reads only the declared rule's issues on anchored sink
+    /// callsites.
+    #[test]
+    fn pysa_evidence_guard_and_anchor_match_read_the_retained_document() {
+        let raw = concat!(
+            "{\"file_version\":3}\n",
+            "{\"kind\":\"model\",\"data\":{\"callable\":\"direct_flow.dfb_source\",\"sources\":[{}]}}\n",
+            "{\"kind\":\"model\",\"data\":{\"callable\":\"direct_flow.dfb_sink\",\"sinks\":[{}]}}\n",
+            "{\"kind\":\"issue\",\"data\":{\"code\":9901,\"filename\":\"src/direct_flow.py\",\"line\":10,\"traces\":[{\"name\":\"backward\",\"roots\":[{\"origin\":{\"line\":10},\"call_site\":\"10:4-10:26\"}]}]}}\n",
+        );
+        let evidence = parse_pysa_evidence(raw).unwrap();
+        assert_eq!(evidence.issues.len(), 1);
+        assert!(
+            pysa_model_activation_failure(
+                &evidence,
+                "direct_flow.dfb_source",
+                "direct_flow.dfb_sink"
+            )
+            .is_none()
+        );
+        assert!(
+            pysa_model_activation_failure(
+                &evidence,
+                "direct_flow.dfb_source",
+                "direct_flow.other_sink"
+            )
+            .unwrap()
+            .contains("other_sink")
+        );
+        let anchors = vec![SinkAnchorLocation {
+            file: "direct_flow.py".to_string(),
+            marker_line: 5,
+            function_name: "dfb_sink".to_string(),
+            callsite_lines: BTreeSet::from([10]),
+        }];
+        assert_eq!(
+            pysa_issue_anchor_match(&evidence.issues[0], &anchors),
+            EvidenceAnchorMatch::Matched
+        );
+        let elsewhere = vec![SinkAnchorLocation {
+            file: "direct_flow.py".to_string(),
+            marker_line: 5,
+            function_name: "dfb_sink".to_string(),
+            callsite_lines: BTreeSet::from([99]),
+        }];
+        assert_eq!(
+            pysa_issue_anchor_match(&evidence.issues[0], &elsewhere),
+            EvidenceAnchorMatch::Unmatched
+        );
+        let no_location: Value = json!({"code": 9901, "traces": []});
+        assert_eq!(
+            pysa_issue_anchor_match(&no_location, &anchors),
+            EvidenceAnchorMatch::Ambiguous
+        );
     }
 
     /// Each Infer kernel is language-scoped, selects its whole expanded core,

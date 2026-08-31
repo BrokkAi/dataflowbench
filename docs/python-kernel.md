@@ -153,6 +153,28 @@ coverage.
 | Semgrep CE 1.174.0 | **Ran** — whole 58-assertion population | `reports/semgrep-python-kernel.json` |
 | Bifrost v0.10.5 | **Deferred to the v0.4.0 re-run** | `reports/bifrost-python-kernel.json` |
 | CodeQL CLI 2.26.3 | **Deferred to the v0.4.0 re-run** | `reports/codeql-python-kernel.json` |
+| Pysa (pyre-check 0.10.0 + Pyrefly 1.2.0) | **Ran** — new adapter (#82), landed after the wave, whole 58-assertion population, post-freeze | `reports/pysa-python-kernel.json` |
+
+**Pysa arrived after this wave and makes Python the first five-analyzer
+kernel.** The Pysa adapter (#82) runs the taint analysis of the pinned
+pyre-check 0.10.0 / Pyrefly 1.2.0 pair over the whole expanded core; its
+report is post-freeze and binds nothing. 58 results: 20 `reached`, 38
+`not-reached`, zero `inconclusive`, `unsupported`, or `runner-error`;
+**47/58 match expected polarity** — 29/32 classic and 18/26 challenge. The
+dominant false-negative family is a front-end call-graph boundary isolated
+by the retained probe (`reports/raw/pysa-callee-resolution-probe/`): a call
+through a value-carried or dynamically selected callable is exported
+unresolved (`UnexpectedCalleeExpression`), so the `dispatch-table`,
+`callback-registration`, `closure-capture`, `function-field`,
+`anonymous-implementation`, and `reflective-invocation` positives are
+missed as one family while the depth and context stratum discriminates
+cleanly (`deep-relay-chain`, `recursive-carry`, `context-pair-depth2` all
+correct). `alias-propagation` and `exception-catch` are false negatives
+here as they are under Joern's `pysrc2cpg`, and the one false positive is
+`loop-carried-negative` — Joern's and Semgrep CE's shared trip — while
+`infeasible-branch-negative` is clean, which neither of those engines
+manages on this population. See
+[the Pysa adapter notes](../adapters/pysa/README.md).
 
 **Both `reports/bifrost-python-kernel.json` and
 `reports/codeql-python-kernel.json` are digest-bound by
