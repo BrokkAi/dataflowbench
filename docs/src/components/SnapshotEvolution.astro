@@ -736,6 +736,8 @@ const biggestJump = columns
   }
   .view-toggle {
     display: inline-flex;
+    align-items: center;
+    flex-wrap: wrap;
     gap: 0.25rem;
     margin: 0 0 0.75rem;
     padding: 0.2rem;
@@ -744,6 +746,9 @@ const biggestJump = columns
     background: var(--sl-color-bg-sidebar);
   }
   .view-toggle label {
+    /* The content area's global sibling rule adds margin-top to successive
+       elements; inside the pill row that staggers the labels vertically. */
+    margin: 0 !important;
     cursor: pointer;
     border-radius: 0.45rem;
     padding: 0.3rem 0.7rem;
