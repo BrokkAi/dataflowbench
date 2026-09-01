@@ -464,7 +464,10 @@ const snapshotPage = `/snapshots/${snapshot.slug}`;
     correct) and a near-top Java row (49 of 58, one behind Infer's
     field-leading 50), FlowDroid lands 49 in both, and every one of those
     rows is fully decisive — no incompletes. Infer also becomes C and C++'s
-    second engine, and Pysa Python's third. Bifrost still decides far more
+    second engine, and Pysa Python's third.
+  </p>
+  <p class="verdict">
+    Bifrost still decides far more
     than two freezes ago — every earlier runner error is gone and its
     decisive-correct count roughly doubled — and keeps the only zero
     false-positive JVM rows, at the cost of inconclusives its competitors
@@ -474,6 +477,7 @@ const snapshotPage = `/snapshots/${snapshot.slug}`;
     approximations bind; Semgrep CE declines by declared capability what its
     intraprocedural profile does not cover.
   </p>
+  <div class="supporting">
   <p>
     Below the kernels sit two further populations: the
     <strong>modeling matrix</strong>, which asks whether each tool's own
@@ -515,6 +519,7 @@ const snapshotPage = `/snapshots/${snapshot.slug}`;
       ? ` (${breadthIncomplete.map((row) => row.language).join(', ')}: inconclusive, which is reported as coverage — not as a wrong answer).`
       : '.'}
   </p>
+  </div>
 </aside>
 
 <div class="stat-grid">
@@ -1420,27 +1425,22 @@ const snapshotPage = `/snapshots/${snapshot.slug}`;
      spans both, so the reader meets it as a single headline block; document
      order, and so reading order, is unchanged. */
   @media (min-width: 72rem) {
-    .short-answer {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      column-gap: 2.5rem;
-      row-gap: 1rem;
-      align-content: start;
-    }
-    /* Starlight's content flow puts a top margin on every sibling block; in a
-       grid that would stack on top of the row gap, unevenly. */
-    .short-answer > * {
-      margin-block: 0;
-    }
-    .short-answer > .label,
+    /* Continuous two-column flow, not an aligned grid: grid rows sized by the
+       taller paragraph of each pair left conspicuous gaps under the shorter
+       one, which read as layout rather than prose. Multicol lets the text
+       flow like a newspaper column instead. The verdict paragraphs span the
+       full card above it. */
     .short-answer > .verdict {
-      grid-column: 1 / -1;
-    }
-    .short-answer > .verdict {
-      /* The same 72rem the removed breakout used: the verdict is set at
-         display size, so it carries a longer line than body copy, and it is
-         the one block a reader is meant to take in whole. */
       max-width: 72rem;
+    }
+    .short-answer > .supporting {
+      columns: 2;
+      column-gap: 2.5rem;
+      margin-top: 1rem;
+    }
+    .short-answer > .supporting > p {
+      max-width: none;
+      margin-block: 0 1rem;
     }
   }
   .short-answer .label,
