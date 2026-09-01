@@ -451,6 +451,25 @@ const slowest = model.adapters.at(-1)!;
       from one.
     </p>
 
+    <p class="caption">
+      <strong>What makes these figures checkable.</strong> Each batch retains
+      the per-case evidence it produced, beside the series above. Every
+      document the largest Joern batch produced matches that case's retained
+      cold evidence field for field — same analyzed state, same method count,
+      same source and sink node counts, same flow count — differing only in the
+      scratch path each run recorded for its own workspace. A batch that had
+      quietly analyzed less would be visible there rather than merely fast.
+      Publication is also gated on a stability check: every measurement is run
+      twice, back to back, and a figure whose two runs do not agree closely is
+      withheld rather than published. Where the check passes, <strong>the second
+      run is the one retained — not an average, not the better of the
+      two</strong>, so publishing it is not a choice, and no repeated trial
+      becomes a statistic. The check has already cost this page one figure:
+      Semgrep's batch was implemented and measured, its two runs disagreed by
+      roughly a factor of two, and the table below records that as a decline
+      with both runs retained as its evidence.
+    </p>
+
     {warm.measurements.map((measurement) => (
       <details class="data-table">
         <summary>

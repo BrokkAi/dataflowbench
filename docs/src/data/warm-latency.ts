@@ -83,6 +83,12 @@ export interface WarmDecline {
  */
 const DECLINES: WarmDecline[] = [
   {
+    tool: 'semgrep',
+    verdict: 'deferred',
+    evidence:
+      "The batch exists and was measured: one `semgrep scan` accepts many target paths. It also accepts one `--config`, so a batch is the same work as its k cold runs only when all k cases resolve to identical rule text — which caps k at 12 here, and every Semgrep kernel in this benchmark invokes exactly 14 cases (the rest are declared-capability `unsupported`, decided before invocation), so no other language raises the ceiling. At that k the whole batch runs two to three seconds and the slope is small against the machine's own noise: the same measurement run twice back to back produced slopes differing by roughly a factor of two, with one series not even monotone in k. Both runs are retained as `reports/raw/warm-latency/semgrep-java-stability-probe/`. The figure is withheld rather than published to two significant figures it does not have.",
+  },
+  {
     tool: 'flowdroid',
     verdict: 'deferred',
     evidence:
