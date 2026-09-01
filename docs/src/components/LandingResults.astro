@@ -370,24 +370,33 @@ const caseCount = snapshot.results.scorecards
   <p class="label">Short answer</p>
   <p class="verdict">
     Nobody is perfect on the expanded cores. No analyzer answers a whole core
-    correctly in any of the {kernels.length} languages. Bifrost decides far
-    more of them than in the previous freeze — every runner error in that
-    snapshot is gone, and its decisive-correct count roughly doubled — while
-    picking up four new false positives on path-feasibility and loop-kill
-    negatives, which are filed upstream and published here rather than
-    filtered out. CodeQL and Joern answer everything definitively and miss
-    where their approximations bind; Semgrep CE declines by declared
-    capability what its intraprocedural profile does not cover.
+    correctly in any of the {kernels.length} languages. This snapshot doubles
+    the field to eight analyzers, and the newcomers arrive strong on the JVM
+    kernels: OpenTaint posts the best Kotlin row in the benchmark (50 of 58
+    correct) and a near-top Java row (49 of 58, one behind Infer's
+    field-leading 50), FlowDroid lands 49 in both, and every one of those
+    rows is fully decisive — no incompletes. Infer also becomes C and C++'s
+    second engine, and Pysa Python's third. Bifrost still decides far more
+    than two freezes ago — every earlier runner error is gone and its
+    decisive-correct count roughly doubled — and keeps the only zero
+    false-positive JVM rows, at the cost of inconclusives its competitors
+    don't record; its four new path-feasibility and loop-kill false positives
+    are filed upstream and published here rather than filtered out. CodeQL
+    and Joern answer everything definitively and miss where their
+    approximations bind; Semgrep CE declines by declared capability what its
+    intraprocedural profile does not cover.
   </p>
   <p>
-    This is also the first snapshot to publish two further populations below
-    the kernels: the <strong>modeling matrix</strong>, which asks whether each
-    tool's own model-declaration surface is load-bearing, and the
+    Below the kernels sit two further populations: the
+    <strong>modeling matrix</strong>, which asks whether each tool's own
+    model-declaration surface is load-bearing, and the
     <strong>tool-native probes</strong>, which ask what each product decides
-    with nothing supplied by us. All three are separate populations with
-    separate denominators. There is no combined leaderboard, and
-    benchmark-controlled results are never pooled with, or compared
-    number-to-number against, tool-native ones.
+    with nothing supplied by us. This snapshot also publishes the
+    <strong>latency tier</strong> for the first time — descriptive per-case
+    timings on a stated machine, kept strictly beside the correctness
+    results. All populations have separate denominators. There is no
+    combined leaderboard, and benchmark-controlled results are never pooled
+    with, or compared number-to-number against, tool-native ones.
   </p>
   <p>
     DataFlowBench is <a href="https://github.com/BrokkAi">BrokkAi</a>'s own
@@ -710,8 +719,9 @@ const caseCount = snapshot.results.scorecards
   sized per language ({templateSizes} templates), so each kernel is read on
   its own denominator; language-only constructs are reported in separate
   <code>language-extension</code> tiers on the snapshot pages. It does not
-  estimate real-project accuracy, other languages' kernel behavior, or
-  performance, and the tool-native rows describe shipped coverage on six
+  estimate real-project accuracy or other languages' kernel behavior;
+  performance is characterized separately in the latency tier, on its own
+  terms, and never folded into these scores. The tool-native rows describe shipped coverage on six
   probe templates rather than product accuracy at large.
   <code>inconclusive</code>, <code>unsupported</code>, and
   <code>runner-error</code> are capability coverage and are never converted
