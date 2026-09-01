@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # The OpenTaint native-activation probe: the field evaluation behind Amendment
-# A22's tool-native partition row for OpenTaint in docs/native-profile.md.
+# A23's tool-native partition row for OpenTaint in docs/native-profile.md.
 #
 # The question the tool-native profile asks of a pinned release is what its
 # *shipped* model set activates with no benchmark-authored declaration of any

@@ -763,7 +763,7 @@ every existing adapter artifact is:
 | Joern | `adapters/joern/queries/modeling.sc` plus a flow-semantics file | query roots over `cpg.method…parameter` and `FlowSemantic` / `FlowMapping` entries |
 | Semgrep | `adapters/semgrep/rules/model-<language>.yaml` | `mode: taint` with `pattern-sources` / `pattern-sinks` / `pattern-propagators` / `pattern-sanitizers` |
 | Pysa (added by [A16](#a16--2026-09-01-pysa-joins-the-modeling-matrix-with-a-measured-partition-row)) | `adapters/pysa/models/modeling-python.pysa` | `.pysa` declarations — `TaintSource` / `TaintSink` annotations, `TaintInTaintOut` (with `Updates` / `UpdatePath`), `@Sanitize`, under the `@SkipAnalysis` / `@SkipObscure` modes that keep them load-bearing |
-| OpenTaint (Java only; [A21](#a21--2026-09-01-opentaint-joins-the-modeling-matrix-with-a-preregistered-java-partition-row)) | `adapters/opentaint/rules/model-java.yaml` | Semgrep-syntax `mode: taint` rule translated into the engine's whole-program IFDS configuration; arg→return propagators are spelled assignment-shaped (`$TO = Opaque.carry($FROM)`) against the lifted JVM IR |
+| OpenTaint (Java only; [A22](#a22--2026-09-01-opentaint-joins-the-modeling-matrix-with-a-preregistered-java-partition-row)) | `adapters/opentaint/rules/model-java.yaml` | Semgrep-syntax `mode: taint` rule translated into the engine's whole-program IFDS configuration; arg→return propagators are spelled assignment-shaped (`$TO = Opaque.carry($FROM)`) against the lifted JVM IR |
 
 Like Joern and Semgrep, Infer has no case-level `tool_model_references` key: its
 invocation is pinned in the runner and its declarations live inside the single
@@ -1089,7 +1089,7 @@ decide what the activation is worth.
 
 ### OpenTaint — `analyzer/2026.08.27.17eb0fe` (Java only)
 
-> **Added by [Amendment A21](#a21--2026-09-01-opentaint-joins-the-modeling-matrix-with-a-preregistered-java-partition-row).**
+> **Added by [Amendment A22](#a22--2026-09-01-opentaint-joins-the-modeling-matrix-with-a-preregistered-java-partition-row).**
 > This row was not part of the original preregistration — the adapter did not
 > exist when it merged — and it joins on the rollout plan's own terms: *"a new
 > adapter joining this matrix arrives with its own preregistered partition row,
@@ -1166,7 +1166,7 @@ category, and each row's amendment carries the evidence.
 | Infer v1.3.0 ([A13](#a13--2026-09-01-infer-joins-the-modeling-matrix-with-a-field-evaluated-partition-row), Java only) | supported | supported (T4 unsupported) | supported | unsupported | unsupported | unsupported | 3 / 6 |
 | Pysa 0.10.0 + Pyrefly 1.2.0 ([A16](#a16--2026-09-01-pysa-joins-the-modeling-matrix-with-a-measured-partition-row), Python only) | supported | supported | supported | supported | supported | unsupported | 5 / 6 |
 | FlowDroid 2.15.1 ([A18](#a18--2026-09-01-flowdroid-joins-the-modeling-matrix-with-a-java-only-partition-row), Java only) | supported | supported | T5 only | supported | unsupported | unsupported | 4 / 6 |
-| OpenTaint 2026.08.27 ([A21](#a21--2026-09-01-opentaint-joins-the-modeling-matrix-with-a-preregistered-java-partition-row), Java only) | supported | supported | supported | unsupported | unsupported | unsupported | 3 / 6 |
+| OpenTaint 2026.08.27 ([A22](#a22--2026-09-01-opentaint-joins-the-modeling-matrix-with-a-preregistered-java-partition-row), Java only) | supported | supported | supported | unsupported | unsupported | unsupported | 3 / 6 |
 
 These counts are categories, not scores. A tool with six of six has six
 categories' worth of assertions it can get wrong, and a tool with one of six has
@@ -1881,7 +1881,7 @@ templates (seven scored, five declined); Java only.
 **Freezes invalidated.** None. No modeling report is bound by any published
 freeze, and no core or challenge result changes.
 
-### A21 — 2026-09-01: OpenTaint joins the modeling matrix with a preregistered Java partition row
+### A22 — 2026-09-01: OpenTaint joins the modeling matrix with a preregistered Java partition row
 
 **What changed.** The [per-tool capability partition](#per-tool-capability-partition)
 gains an eighth row — OpenTaint, pinned release `analyzer/2026.08.27.17eb0fe` by

@@ -372,7 +372,7 @@ line per adapter so additions compose:
 - **Infer 5 of 12** (S, Z, and template 3 of P — Java only, Amendment A13)
 - **Pysa 10 of 12** (S, P, Z, O, E — Python only, Amendment A16)
 - **FlowDroid 7 of 12** (S, P, O, and Z's kill template — Java only, Amendment A18)
-- **OpenTaint 6 of 12** (S, P, Z — Java only, Amendment A21)
+- **OpenTaint 6 of 12** (S, P, Z — Java only, Amendment A22)
 
 A declined cell is decided from the
 template ID *before the tool is invoked*, retains the document's rationale
@@ -394,7 +394,7 @@ tool per language, hash-bound into the report's `configuration_hash`:
 | Joern | `adapters/joern/semantics/model-<language>.semantics`, plus the shared `adapters/joern/queries/modeling.sc` |
 | Semgrep | `adapters/semgrep/rules/model-<language>.yaml` |
 | Pysa | `adapters/pysa/models/modeling-python.pysa` (Python only), plus the committed `adapters/pysa/taint.config` the kernel also binds; the runner cuts the per-template block at its `# template:` markers, because the pinned pair refuses a model naming a definition the case's sources do not carry |
-| OpenTaint | `adapters/opentaint/rules/model-java.yaml` (Java only, Amendment A21) |
+| OpenTaint | `adapters/opentaint/rules/model-java.yaml` (Java only, Amendment A22) |
 
 The CodeQL path departs from the preregistration's schematic
 `adapters/codeql/queries/<Language>Modeling.ql` and sits inside that language's
@@ -426,7 +426,7 @@ so a new adapter's line composes without editing the others. Each takes
   Amendment A18)
 - `run-opentaint-modeling` (Java alone; takes the pinned release assets
   instead of a binary, witnessing their digests before any case runs, exactly
-  as the OpenTaint kernels do — Amendment A21)
+  as the OpenTaint kernels do — Amendment A22)
 
 The per-language *kernel* commands
 are separate commands because each language's kernel differs in real toolchain
@@ -484,7 +484,7 @@ adapter's declarations for that language. All three of wave M1's languages are
 wired on the same four runners: Python (`docs/python-modeling.md`), JavaScript
 (`docs/javascript-modeling.md`), and Java (`docs/java-modeling.md`); the
 amendment-added adapters' arms — Infer (A13), Pysa (A16), FlowDroid (A18),
-OpenTaint (A21) — each landed in the same pull request as their
+OpenTaint (A22) — each landed in the same pull request as their
 declarations, per the same rule. Wave M1 is therefore
 complete, and a scored cell in a language that has no arm stays a hard
 error rather than a synthesized outcome, which the adapter contract at the head
@@ -547,7 +547,7 @@ added the later rows — Infer's by
 [Amendment A17](native-profile.md#a17--2026-09-01-pysa-joins-the-tool-native-profile-with-a-live-activation-row),
 FlowDroid's by Amendment A19 (declined on the shipped catalog's text), and
 OpenTaint's by
-[Amendment A22](native-profile.md#a22--2026-09-01-opentaint-joins-the-tool-native-profile-at-0--6-and-the-shipped-models-archive-is-ruled-shipped-product)
+[Amendment A23](native-profile.md#a23--2026-09-01-opentaint-joins-the-tool-native-profile-at-0--6-and-the-shipped-models-archive-is-ruled-shipped-product)
 — with the *to be verified* cells recorded as `unsupported` per the documents'
 own rule (no total is stated here; the constant is a slice and the tests
 derive the count) — and
@@ -606,7 +606,7 @@ so a new adapter's line composes without editing the others. Each takes
 - `run-opentaint-native` (Java alone; takes the pinned release assets instead
   of a binary — its partition declines every cell, and the run still
   witnesses both assets' digests, because a report whose whole evidence is
-  retained rationales must name a measured identity — Amendment A22)
+  retained rationales must name a measured identity — Amendment A23)
 
 **Fail fast, never an empty report.** A run refuses, before touching the
 analyzer, when the language has no tool-native population, when a pinned
@@ -631,7 +631,7 @@ analysis is off absent one — the measured silence Amendment A14 declines on �
 jar, which is why that row vendors nothing (the jar digest is the
 provenance), and the shipped models archive's flags and never
 `--semgrep-rule-set` for OpenTaint, whose archive is shipped product
-(Amendment A22) while the rule set is where a benchmark-authored endpoint
+(Amendment A23) while the rule set is where a benchmark-authored endpoint
 would arrive.
 
 **Activation configuration binds the configuration hash.** Most of a native

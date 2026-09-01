@@ -899,7 +899,7 @@ activation contract behind the zero.
 
 ### OpenTaint — `analyzer/2026.08.27.17eb0fe`, shipped models archive only (Java only)
 
-> **Added by [Amendment A22](#a22--2026-09-01-opentaint-joins-the-tool-native-profile-at-0--6-and-the-shipped-models-archive-is-ruled-shipped-product).**
+> **Added by [Amendment A23](#a23--2026-09-01-opentaint-joins-the-tool-native-profile-at-0--6-and-the-shipped-models-archive-is-ruled-shipped-product).**
 > This row was not part of the original preregistration — the adapter did not
 > exist when it merged — and it joins on the same terms every row here holds
 > to: decided from the pinned release's own assets, by execution, before any
@@ -953,7 +953,7 @@ this row.
 OpenTaint enters this profile with **zero of six**, and — as with Joern — that
 is a statement about the pinned release's *product packaging*, not about its
 engine: the benchmark-controlled matrix scores the same binary on three of six
-categories ([Amendment A21](modeling-matrix.md#a21--2026-09-01-opentaint-joins-the-modeling-matrix-with-a-preregistered-java-partition-row)),
+categories ([Amendment A22](modeling-matrix.md#a22--2026-09-01-opentaint-joins-the-modeling-matrix-with-a-preregistered-java-partition-row)),
 and the gap between those two rows is exactly what this profile exists to make
 legible.
 
@@ -998,7 +998,7 @@ evidence.
 | Infer v1.3.0 ([A14](#a14--2026-09-01-infers-native-row-declines-on-a-measured-silence), Java only) | unsupported | unsupported | unsupported | unsupported | unsupported | unsupported | 0 / 6 |
 | Pysa 0.10.0 + Pyrefly 1.2.0 ([A17](#a17--2026-09-01-pysa-joins-the-tool-native-profile-with-a-live-activation-row), Python only) | supported | supported | supported | supported | supported | supported | 6 / 6 |
 | FlowDroid 2.15.1 ([A19](#a19--2026-09-01-flowdroid-joins-the-tool-native-profile-with-a-live-activation-contract-and-six-cells-declined-on-catalog-evidence), Java only) | unsupported | unsupported | unsupported | unsupported | unsupported | unsupported | 0 / 6 |
-| OpenTaint 2026.08.27 ([A22](#a22--2026-09-01-opentaint-joins-the-tool-native-profile-at-0--6-and-the-shipped-models-archive-is-ruled-shipped-product), Java only) | unsupported | unsupported | unsupported | unsupported | unsupported | unsupported | 0 / 6 |
+| OpenTaint 2026.08.27 ([A23](#a23--2026-09-01-opentaint-joins-the-tool-native-profile-at-0--6-and-the-shipped-models-archive-is-ruled-shipped-product), Java only) | unsupported | unsupported | unsupported | unsupported | unsupported | unsupported | 0 / 6 |
 
 These counts are activation surfaces, not scores. A tool with six of six has six
 templates' worth of assertions it can get wrong; a tool with zero of six has
@@ -1585,7 +1585,7 @@ runner refuses them.
 **Freezes invalidated.** None. No published freeze manifest contains a
 tool-native report.
 
-### A22 — 2026-09-01: OpenTaint joins the tool-native profile at 0 / 6, and the shipped models archive is ruled shipped product
+### A23 — 2026-09-01: OpenTaint joins the tool-native profile at 0 / 6, and the shipped models archive is ruled shipped product
 
 **What changed.** The [activation partition](#partition-summary) gains an eighth row — OpenTaint, pinned release `analyzer/2026.08.27.17eb0fe` by asset
 digest — for **Java only**, with all six templates **unsupported**: 0 / 6, the
@@ -1643,7 +1643,7 @@ amendment.
 **The deliberate asymmetry, restated for this adapter.** The
 benchmark-controlled matrix scores the same pinned binary on three of six
 categories
-([Amendment A21](modeling-matrix.md#a21--2026-09-01-opentaint-joins-the-modeling-matrix-with-a-preregistered-java-partition-row));
+([Amendment A22](modeling-matrix.md#a22--2026-09-01-opentaint-joins-the-modeling-matrix-with-a-preregistered-java-partition-row));
 this profile scores it on none. That gap is product packaging versus engine
 capability — the exact gap Joern's two rows already exhibit — and it is what
 this profile exists to make legible, not a contradiction to reconcile.

@@ -1,5 +1,27 @@
 # Semgrep warm-marginal stability probe — the evidence behind a decline
 
+> **Superseded by [Amendment A21](../../../docs/latency-tier.md#amendments).**
+> The decline this directory documents has been **reversed**, and a Semgrep
+> warm figure is now published in `../semgrep-java-kernel/`.
+>
+> The two runs below are real and their numbers are unedited — they did
+> disagree by a factor of two. What was wrong was the conclusion drawn from
+> them.
+>
+> Each run recorded the one-minute load average before every batch, and those
+> records give the explanation this README missed: **run 1 ran at load 11.8–11.9
+> and run 2 at load 7.8–8.2**. The two runs were not repeats of one measurement
+> under one condition — the machine changed underneath them, and the slope
+> moved with it. Re-measured on an idle machine (load 3.6–3.9), two repeats
+> agree to about 5%.
+>
+> **The instability was the measurement's conditions, not Semgrep's engine**,
+> and this README originally attributed it to the tool. Everything below is left
+> as written, because a retracted claim is only auditable if it is still
+> legible. (That includes the body's reference to "Amendment A13", which the
+> A13→A15 renumber in `fb4f1141` did not reach: the amendment it means is
+> **A15**.)
+
 Amendment A13's observability audit found that Semgrep CE **does** expose a
 real multi-case batch in its released CLI: one `semgrep scan` accepts many
 target paths. So the batch was implemented and measured, on the largest

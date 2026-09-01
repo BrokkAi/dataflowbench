@@ -373,9 +373,10 @@ cargo run -- measure-warm-latency --tool semgrep --language java \
   --batch-sizes 1,2,4,8,12 --semgrep /opt/homebrew/bin/semgrep
 ```
 
-which spawns, once per batch size *k*, one `semgrep scan` over *k* case
-workspaces at once — the same flags as the cold invocation above, with *k*
-target paths instead of one.
+which spawns, once per batch size *k* and once per retained repeat, one
+`semgrep scan` over *k* case workspaces at once — the same flags as the cold
+invocation above, with *k* target paths instead of one. The published figure is
+the range the repeats span, never their mean and never one of them chosen.
 
 One restriction is load-bearing and is recorded on the artifact rather than
 applied silently: **`semgrep scan` carries one `--config`**, so a batch is the
@@ -385,6 +386,12 @@ the kernel's invocable assertions, and the cold median it is compared against is
 restricted to exactly those cases. The declared-capability `unsupported`
 partition is excluded from both, as it is from every cold timing — those cases
 never reach Semgrep and have nothing to time.
+
+That cap — *k* ≤ 12, and every Semgrep kernel here invokes only 14 cases — is
+also why Semgrep's published range is **wide**. The whole batch runs a few
+seconds, of which the per-case work is a small part, so the slope is small
+against the machine's own noise. The range says that plainly; a point estimate
+would imply a precision this measurement does not have.
 
 ## Outcome semantics
 
