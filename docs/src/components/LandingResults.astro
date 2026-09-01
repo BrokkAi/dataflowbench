@@ -1412,13 +1412,35 @@ const snapshotPage = `/snapshots/${snapshot.slug}`;
     padding: 1.25rem 1.75rem;
     background: var(--sl-color-bg-sidebar);
   }
-  /* The verdict is the densest prose on the page; on viewports with room,
-     let its card break out of the content column symmetrically rather than
-     wrapping long sentences in a narrow measure. */
-  @media (min-width: 90rem) {
+  /* The verdict is the densest prose on the page, and it used to break out of
+     the 45rem content column on its own. The column is now wide on desktop
+     (see `--sl-content-width` in custom.css), so the card simply fills it —
+     and the width buys two columns for the supporting paragraphs instead of
+     one very long line. The verdict itself stays at the prose measure and
+     spans both, so the reader meets it as a single headline block; document
+     order, and so reading order, is unchanged. */
+  @media (min-width: 72rem) {
     .short-answer {
-      width: min(72rem, calc(100vw - var(--sl-sidebar-width, 18rem) - 6rem));
-      margin-inline: calc((100% - min(72rem, 100vw - var(--sl-sidebar-width, 18rem) - 6rem)) / 2);
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      column-gap: 2.5rem;
+      row-gap: 1rem;
+      align-content: start;
+    }
+    /* Starlight's content flow puts a top margin on every sibling block; in a
+       grid that would stack on top of the row gap, unevenly. */
+    .short-answer > * {
+      margin-block: 0;
+    }
+    .short-answer > .label,
+    .short-answer > .verdict {
+      grid-column: 1 / -1;
+    }
+    .short-answer > .verdict {
+      /* The same 72rem the removed breakout used: the verdict is set at
+         display size, so it carries a longer line than body copy, and it is
+         the one block a reader is meant to take in whole. */
+      max-width: 72rem;
     }
   }
   .short-answer .label,
@@ -1663,7 +1685,12 @@ const snapshotPage = `/snapshots/${snapshot.slug}`;
      denominator. No bar ever spans two populations. */
   .card-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr));
+    /* 15rem rather than 17rem: at the narrow widths the track count is the
+       same (two up at 45rem, one on a phone), and at the wide desktop column
+       it is the difference between three cards and an orphan and a single row
+       of four. These cards stack their bars full-width, so a narrower track
+       costs the bar nothing. */
+    grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
     gap: 1rem;
     margin-top: 1rem;
   }

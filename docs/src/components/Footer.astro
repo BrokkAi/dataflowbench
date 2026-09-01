@@ -1,0 +1,13 @@
+---
+/* Starlight's footer, plus the floating "back to top" control.
+   The control is position-fixed, so where it is rendered in the document only
+   decides its place in the tab order: last, after the page's own content,
+   which is where a "you have reached the end" affordance belongs. Overriding
+   the footer is the cheapest hook that runs on every page and no more than
+   once per page. */
+import Default from '@astrojs/starlight/components/Footer.astro';
+import BackToTop from './BackToTop.astro';
+---
+
+<Default><slot /></Default>
+<BackToTop />
