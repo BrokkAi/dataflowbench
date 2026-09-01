@@ -226,3 +226,86 @@ scripts/probe-pysa-callee-resolution.sh \
   --pyre-binary pysa-venv/bin/pyre.bin \
   --pyrefly pysa-venv/bin/pyrefly
 ```
+
+## Benchmark-controlled modeling matrix (Amendment A13)
+
+Pysa joined the [modeling matrix](../../docs/modeling-matrix.md) as its fifth
+adapter, by dated amendment before its first scored modeling run, with a
+partition row verified by execution
+(`scripts/probe-pysa-modeling-load-bearing.sh`, retained under
+`reports/raw/amendment-a13-pysa-modeling/`): categories **S, P, Z, O, and E
+scored** — ten of the twelve templates — and **B unsupported**, because the
+`.pysa` DSL has no store identity, key, or write-to-read link vocabulary. The
+row is Python-scoped: the engine analyzes one language, so no other language
+has a Pysa modeling cell at all.
+
+The modeling artifact is `models/modeling-python.pysa`, one hash-bound file
+with `# template:` markers; the runner materializes exactly one template's
+block per case, because the pinned pair fails loudly on a model naming a
+definition the case's sources do not carry, which is a guard this adapter
+keeps, not a nuisance it works around. The committed `taint.config` is the
+same one the kernel binds.
+
+**The load-bearing switch is per entity, and it is mandatory.** A13's central
+measurement: the pinned pair resolves the matrix's reflective opaque body on
+its own — Pyrefly narrows `getattr(_impl, name)` over the local string
+constant — so without further configuration the engine's body reading, not
+the declaration, would decide every category P and O cell. The artifact
+therefore declares `@SkipAnalysis` (ignore the declared entity's body) and
+`@SkipObscure` (no obscure taint-through fallback) on every propagator and
+summary entity, and the runner refuses an artifact where any `TaintInTaintOut`
+lacks them. Under those modes, removing a `TaintInTaintOut` was measured to
+flip the verdict in both categories, which is what the
+[load-bearing-model requirement](../../docs/modeling-matrix.md#the-load-bearing-model-requirement)
+asks. Template 8's field destination is expressed as
+`TaintInTaintOut[Updates[box], UpdatePath[_.payload]]`, and the access path is
+honored — the sibling field stays clean — making Pysa the first adapter to
+score the store-through summary template.
+
+```bash
+cargo run -- run-pysa-modeling --language python \
+  --pyre pysa-venv/bin/pyre \
+  --pyre-binary pysa-venv/bin/pyre.bin \
+  --pyrefly pysa-venv/bin/pyrefly
+```
+
+Report: `reports/pysa-python-modeling.json`; raw evidence, resolved per-case
+models, and per-case timing sidecars under `reports/raw/pysa-python-modeling/`.
+
+## Tool-native profile (Amendment A14)
+
+The pinned pyre-check wheel ships a real model suite inside its own
+distribution — `lib/pyre_check/taint/`, with `core_privacy_security/`'s
+`taint.config` (27 source kinds, 33 sink kinds, 35 rules) and model files
+plus `common/`'s propagation models — and the
+[tool-native row](../../docs/native-profile.md#pysa--pyre-check-0100--pyrefly-120-shipped-taint-model-suite)
+measures exactly that suite, with no benchmark-authored declaration of any
+kind. Three activation facts were established by probe
+(`scripts/probe-pysa-native-activation.sh`, retained under
+`reports/raw/amendment-a14-pysa-native/`): the shipped product refuses to run
+with no `taint_models_path` (there is no ambient default, so pointing the
+documented knob at the wheel's own suite *is* the activation); the shipped
+suite does not verify over a stdlib-only project, and the client's own hint
+names `--no-verify`, so the flag is part of the pinned invocation; and under
+that activation the suite demonstrably binds — every run's retained evidence
+must carry the shipped `os.system` sink model or the case is a
+`runner-error`, never a coverage result.
+
+All six templates are scored, and the preregistered expectation is a
+near-blind-baseline score: the shipped source catalog is framework-shaped
+(plus `argparse` for the command line) and models neither a bare
+`os.environ` read nor a `sys.argv` subscript, so every positive that starts
+there is expected to miss. That is a product fact about the suite's aim,
+published as the measurement. The suite's bytes are digested into the run's
+build identity and configuration hash, so the report is bound to one suite
+rather than one machine.
+
+```bash
+cargo run -- run-pysa-native --language python \
+  --pyre pysa-venv/bin/pyre \
+  --pyre-binary pysa-venv/bin/pyre.bin \
+  --pyrefly pysa-venv/bin/pyrefly
+```
+
+Report: `reports/pysa-python-native.json`; raw evidence and timing sidecars
+under `reports/raw/pysa-python-native/`.
