@@ -1,0 +1,168 @@
+       --pulse-taint-config +path
+           Path to a taint analysis configuration file or a directory
+           containing such files. This file can define --pulse-taint-sources,
+           --pulse-taint-sanitizers, --pulse-taint-propagators,
+           --pulse-taint-sinks, --pulse-taint-policies, and
+           --pulse-taint-data-flow-kinds.
+           If a path to a directory is given then the configuration files
+           must have the `.json` extension. Any other file will be ignored.
+           The subdirectories will be explored and must follow the same
+           convention.
+
+       --pulse-taint-data-flow-kinds json
+           Specify which taint kinds should be used for data flow reporting
+           only. If a source has such a kind, only data flows to sinks which
+           originate at the source will be reported. If a sink has such a
+           kind, only sensitive data flows to the sink will be reported.
+           (default: [])
+
+       --no-pulse-taint-follow-field-accesses
+           Deactivates: Specify if taint analysis should follow field
+           accesses when propagating taints. (Conversely:
+           --pulse-taint-follow-field-accesses)
+
+       --pulse-taint-opaque-files +path
+           Specify files that should be treated as opaque for taint analysis
+           to make sure that procedure's belonging to these files are always
+           free of any potential taint flows.
+
+       --pulse-taint-policies json
+           A description of which taint flows should be reported, following
+           this JSON format:
+             { "short_description": "<a short description of the issue>",
+               "taint_flows": [{ "source_kinds": [<kinds>],
+                                 "sink_kinds": [<kinds>],
+                                 "sanitizer_kinds": [<kinds>] }],
+               "exclude_in": [<paths>],
+               "exclude_matching": [<regexps>]
+             }
+           where <kinds> are specified in taint source/sanitizer/sink
+           matchers (see --pulse-taint-sources). The fields
+           "sanitizer_kinds", "exclude_in" and "exclude_matching" are
+           optional (assumed to be empty), and a single policy can specify
+           several taint flows using a list. The following policy is always
+           enabled:
+           { "short_description": "...",
+             "taint_flows": [{ "source_kinds": ["Simple"],
+                               "sink_kinds": ["Simple"],
+                               "sanitizer_kinds": ["Simple"]  }]
+           } (default: [])
+
+       --pulse-taint-propagators json
+           Quick way to specify simple propagators as a JSON objects. See
+           --pulse-taint-sources for the fields format documentation.
+           (default: [])
+
+       --pulse-taint-sanitizers json
+           Quick way to specify simple sanitizers as a JSON objects. See
+           --pulse-taint-sources for the fields format documentation.
+           (default: [])
+
+       --pulse-taint-short-traces
+           Activates: Cut off taint traces as soon as a tainted value flows
+           into a sink. This matters when the sink itself calls other sinks
+           of the same kind and as long as the value flows from call to call,
+           without this flag the trace would include the whole chain of
+           calls. (Conversely: --no-pulse-taint-short-traces)
+
+       --pulse-taint-sinks json
+           Quick way to specify simple sinks as a JSON objects. See
+           --pulse-taint-sources for the fields format documentation.
+           (default: [])
+
+       --pulse-taint-skip-sources
+           Activates: Skip the analysis of methods declared as sources in the
+           taint. (Conversely: --no-pulse-taint-skip-sources)
+
+       --pulse-taint-sources json
+           Together with --pulse-taint-sanitizers, --pulse-taint-sinks,
+           --pulse-taint-policies, and --pulse-taint-data-flow-kinds, specify
+           taint properties. The JSON format of sources also applies to sinks
+           and sanitizers. It consists of a list of objects, each with one of
+           the following combinations of fields to identify relevant
+           procedures:
+           
+             - "field_regex": match a field name using an OCaml regex
+             - "procedure": match a substring of the procedure name
+             - "procedure_regex": as above, but match using an OCaml regex
+             - "class_name_regex": match all methods of classes whose names
+           match the OCaml regex
+             - "class_names" and "method_names":
+                 match exact uses of methods of particular classes
+             - "class_names" and "procedure_regex":
+                 match exact uses of methods of particular classes matching
+           specified OCaml regex
+             - "class_names" and "field_names":
+                 match exact uses of fields of particular classes
+             - "class_names" and "method_return_type_names":
+                 match exact uses of methods with particular return types of
+           particular classes
+             - "class_name_regex" and "procedure_regex":
+                 match methods based on separate OCaml regexes for both
+           classes and procedure names
+             - "class_with_annotation":
+                 match all procedures defined in a class annotated with
+           specified annotation
+             - "overrides_of_class_with_annotation":
+                 match all procedures defined in classes which inherit
+                 from a superclass with the specified annotation
+             - "method_with_annotation":
+                 match all procedures marked by specified annotation
+             - "method_with_annotation" and "annotation_values":
+                 match all procedures marked by specified annotation with
+           specified values
+             - "class_with_annotation", "class_name_regex" and
+           "procedure_regex":
+                 match procedures based on specified class annotation and
+                 separate OCaml regexes for both classes and procedure names
+             - "field_with_annotation":
+                 match all fields marked by specified annotation
+             - "field_with_annotation" and "annotation_values":
+                 match all fields marked by specified annotation with
+           specified values
+             - "allocation": (for taint sources only)
+                 match allocations of the exact class name supplied
+             - "builtin": match a substring of the builtin name (currently
+           only for Hack)
+             - "block_passed_to": (for taint sources only)
+                match a substring of the procedure name that the block is
+           passed to
+             - "block_passed_to_regex": (for taint sources only)
+                as above, but match using an OCaml regex
+           
+             Each object can also optionally specify:
+             - "kinds": the kinds of taint, used in --pulse-taint-policies
+                 to specify flows between sources/sanitizers/sinks
+                 ("Simple" by default).
+             - "taint_target":
+                 where the taint should be applied in the procedure or
+           field.
+                 - "ReturnValue": (default for taint sources and
+           propagators)
+                 - "AllArguments": (default for taint sanitizers and sinks)
+                 - ["ArgumentPositions", [<int list>]]:
+                     argument positions given by index (zero-indexed)
+                 - ["AllArgumentsButPositions", [<int list>]]:
+                     all arguments except given indices (zero-indexed)
+                 - ["ArgumentsMatchingTypes", [<type list>]]:
+                     arguments with types containing supplied strings
+                 - "InstanceReference": this/self references of instance
+           methods
+                 - ["FieldsOfValue", [<(string * taint_target) list>]]:
+                     fields given by name in return value, arguments or
+           other fields
+                 - "GetField" : a given field is read
+                 - "SetField" : a given field is set
+               N.B. for methods, index 0 is this/self.
+           
+             For all the regex-based matchers, we can also specify:
+              - "exclude_from_regex_in" - to specify a list of header files,
+           such that we exclude any classes, field or methods from those
+           files from the regexes.
+           
+             For field matchers, we can also specify:
+              - "sanitized_in" - to specify a list of files where using the
+           source shouldn't be flagged.
+              (default: [])
+
+       --pulse-widen-threshold int

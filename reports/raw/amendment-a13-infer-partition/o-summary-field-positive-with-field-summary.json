@@ -1,0 +1,124 @@
+{
+  "probe": "o-summary-field-positive-with-field-summary",
+  "case": "model-summary-field-positive",
+  "configuration": {
+    "pulse-taint-sources": [
+      {
+        "procedure_regex": "\\.dfb_source(",
+        "kinds": [
+          "DataFlowBenchModelSource"
+        ]
+      },
+      {
+        "class_names": [
+          "dataflowbench.taint.Config"
+        ],
+        "method_names": [
+          "fetchRemote"
+        ],
+        "kinds": [
+          "DataFlowBenchModelSource"
+        ]
+      }
+    ],
+    "pulse-taint-sinks": [
+      {
+        "procedure_regex": "\\.dfb_sink(",
+        "kinds": [
+          "DataFlowBenchModelSink"
+        ]
+      },
+      {
+        "class_names": [
+          "dataflowbench.taint.Audit"
+        ],
+        "method_names": [
+          "record"
+        ],
+        "taint_target": [
+          "ArgumentPositions",
+          [
+            0
+          ]
+        ],
+        "kinds": [
+          "DataFlowBenchModelSink"
+        ]
+      }
+    ],
+    "pulse-taint-propagators": [
+      {
+        "class_names": [
+          "dataflowbench.taint.Opaque"
+        ],
+        "method_names": [
+          "carry"
+        ],
+        "taint_target": "ReturnValue"
+      },
+      {
+        "class_names": [
+          "dataflowbench.taint.Bridge"
+        ],
+        "method_names": [
+          "deposit"
+        ],
+        "taint_target": [
+          "FieldsOfValue",
+          [
+            [
+              "payload",
+              [
+                "ArgumentPositions",
+                [
+                  1
+                ]
+              ]
+            ]
+          ]
+        ]
+      }
+    ],
+    "pulse-taint-sanitizers": [
+      {
+        "class_names": [
+          "dataflowbench.taint.Clean"
+        ],
+        "method_names": [
+          "scrub"
+        ],
+        "kinds": [
+          "DataFlowBenchModelSanitizer"
+        ]
+      }
+    ],
+    "pulse-taint-policies": [
+      {
+        "short_description": "DataFlowBench benchmark-controlled modeling flow",
+        "taint_flows": [
+          {
+            "source_kinds": [
+              "DataFlowBenchModelSource"
+            ],
+            "sanitizer_kinds": [
+              "DataFlowBenchModelSanitizer"
+            ],
+            "sink_kinds": [
+              "DataFlowBenchModelSink"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "extra_analyze_arguments": [],
+  "taint_error_count": 1,
+  "taint_errors": [
+    {
+      "uri": "file:dataflowbench/taint/ModelSummaryFieldPositive.java",
+      "line": 22,
+      "message": "DataFlowBench benchmark-controlled modeling flow. `box->payload` is tainted by value returned from `String ModelSummaryFieldPositive.dfb_source()` with kind `DataFlowBenchModelSource` and flows to value passed as argument `#0` to `void ModelSummaryFieldPositive.dfb_sink(String)` with kind `DataFlowBenchModelSink`."
+    }
+  ],
+  "evidence_kind": "retained-partition-probe"
+}
