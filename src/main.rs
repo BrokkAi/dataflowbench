@@ -6401,15 +6401,12 @@ fn selected_bifrost_case(case: &Value, run: BifrostRun) -> bool {
 /// whole core population, classic and — once java's `CHALLENGE_ROLLOUT` row is
 /// flipped — challenge alike.
 ///
-/// The run pins `BIFROST_JAVA_POLICY` for every assertion, on the Kotlin
-/// precedent, so a case's own policy reference is a provenance check rather than
-/// the invocation. Thirty of the thirty-two frozen assertions name the Java
-/// kernel policy; the direct-propagation pair predates the kernel and names
+/// Most assertions use `BIFROST_JAVA_POLICY`. The direct-propagation pair
+/// predates the kernel and names
 /// `direct-positive.rqlp` and `explicit-negative.rqlp`, which the v0.2.0 and
-/// v0.3.0 freezes bind byte-for-byte. Both are accepted here rather than
-/// rewritten, exactly as the C-family kernels accept the cross-language breadth
-/// policy. Challenge cases authored by the wave-1 Java PR will name the Java
-/// kernel policy, so they need no further accommodation.
+/// v0.3.0 freezes bind byte-for-byte; those two policies remain authoritative
+/// because their endpoint names match their frozen fixtures. Challenge cases
+/// name the Java kernel policy, so they need no further accommodation.
 fn java_kernel_bifrost_case(case: &Value) -> bool {
     java_core_case(case)
         && (case["tool_model_references"]["bifrost"]["policy"]
@@ -11012,6 +11009,9 @@ fn normalize_bifrost(
     if !incompleteness.is_empty() {
         return Ok(("inconclusive", report_diagnostics, Vec::new()));
     }
+    if has_bifrost_empty_selection(report) {
+        return Ok(("inconclusive", report_diagnostics, Vec::new()));
+    }
     let finding_count = count_findings(report);
     let expects_flow = !case["expected_flows"]
         .as_array()
@@ -11027,6 +11027,23 @@ fn normalize_bifrost(
     // prove their locations against canonical DFB markers. Do not turn
     // expected checkpoints from the case into observed result evidence.
     Ok((outcome, report_diagnostics, Vec::new()))
+}
+
+/// An empty endpoint selection makes a taint verdict vacuous. Bifrost retains
+/// it as a structured advisory because an embedding may intentionally ask an
+/// empty question; DataFlowBench never does, since every scored case declares
+/// anchored source and sink endpoints. Preserve that distinction by refusing
+/// to grade the adapter result as a decisive miss.
+fn has_bifrost_empty_selection(value: &Value) -> bool {
+    value["runs"]
+        .as_array()
+        .into_iter()
+        .flatten()
+        .flat_map(|run| run["diagnostics"].as_array().into_iter().flatten())
+        .any(|diagnostic| {
+            diagnostic["code"]["type"] == "empty_selection"
+                || diagnostic["family"] == "empty_selection"
+        })
 }
 
 fn incompleteness_reasons(value: &Value) -> Vec<String> {
@@ -20311,6 +20328,32 @@ mod tests {
                 .unwrap()
                 .0,
             "runner-error"
+        );
+    }
+
+    #[test]
+    fn empty_bifrost_endpoint_selection_is_inconclusive() {
+        let positive = json!({
+            "expected_flows": [{"source": "DFB-SOURCE: input", "sink": "DFB-SINK: sink"}]
+        });
+        let report = json!({
+            "runs": [{
+                "completion": {"type": "complete"},
+                "diagnostics": [{
+                    "code": {"type": "empty_selection"},
+                    "family": "empty_selection",
+                    "message": "the source selector matched no location"
+                }],
+                "findings": []
+            }]
+        });
+        let normalized = normalize_bifrost(&positive, &report, Some(0)).unwrap();
+        assert_eq!(normalized.0, "inconclusive");
+        assert!(
+            normalized
+                .1
+                .iter()
+                .any(|diagnostic| diagnostic.contains("matched no location"))
         );
     }
 
