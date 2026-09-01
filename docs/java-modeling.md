@@ -39,7 +39,7 @@ it can be told things.
 | Joern semantics | `adapters/joern/semantics/model-java.semantics` |
 | Joern query | `adapters/joern/queries/modeling.sc` (shared by every wave-M1 language) |
 | Semgrep rule | `adapters/semgrep/rules/model-java.yaml` |
-| OpenTaint rule | `adapters/opentaint/rules/model-java.yaml` (joined by [Amendment A13](modeling-matrix.md#a13--2026-09-01-opentaint-joins-the-modeling-matrix-with-a-preregistered-java-partition-row); see [below](#opentaint-joins-the-row--amendment-a13-2026-09-01)) |
+| OpenTaint rule | `adapters/opentaint/rules/model-java.yaml` (joined by [Amendment A15](modeling-matrix.md#a15--2026-09-01-opentaint-joins-the-modeling-matrix-with-a-preregistered-java-partition-row); see [below](#opentaint-joins-the-row--amendment-a15-2026-09-01)) |
 | Reports | `reports/{bifrost,codeql,joern,semgrep,opentaint}-java-modeling.json` |
 | Load-bearing probe | `scripts/probe-java-modeling-load-bearing.sh` |
 | OpenTaint surface probe | `scripts/probe-opentaint-modeling-surface.sh` |
@@ -440,14 +440,38 @@ than a published false negative. It was not tuned around: declaring a propagator
 for `Clean.sanitize` would recover the cell, and category P is one this
 partition does not award CE in the first place.
 
-## OpenTaint joins the row — Amendment A13, 2026-09-01
+## Infer — the fifth adapter (Amendment A13, 2026-09-01)
 
-Everything above reports the four adapters the preregistration partitioned, as
-run on 2026-08-26, and none of it moves. OpenTaint — issue #17's adapter, whose
+Java is the one wave-M1 language the pinned Infer v1.3.0 executes, so it is
+the one language Infer's modeling row
+([Amendment A13](modeling-matrix.md#a13--2026-09-01-infer-joins-the-modeling-matrix-with-a-field-evaluated-partition-row))
+covers — JavaScript and Python have no Infer modeling denominator at all.
+The partition was field-evaluated by execution over this document's own
+committed fixtures before the row existed
+(`reports/raw/amendment-a13-infer-partition/`): categories S, P (template 3
+alone — the propagator surface binds no input position), and Z are scored,
+five templates, through the committed
+`adapters/infer/config/model-java.json` with exact `class_names` +
+`method_names` identity matchers.
+
+The retained run — `reports/infer-java-modeling.json`, evidence under
+`reports/raw/infer-java-modeling/` — decides **all ten scored assertions
+correctly**: both declared-source/sink pairs, the opaque-propagator pair
+(the reflective body carries nothing unaided; the declared `carry` model
+carries it; the undeclared `block` does not), and both sanitizer pairs
+(suppression through the declared `scrub`, no suppression through the
+undeclared `sanitize`). The fourteen declined assertions are retained
+`preregistered-modeling-partition` capability decisions. See
+[the Infer adapter notes](../adapters/infer/README.md) for the measured
+boundaries and the three gated silent-configuration hazards.
+
+## OpenTaint joins the row — Amendment A15, 2026-09-01
+
+None of the sections above move for this adapter either. OpenTaint — issue #17's adapter, whose
 [Java propagation kernel](java-kernel.md) landed with v0.6.0 — joined this
 matrix afterwards on the rollout plan's own terms: a preregistered partition
 row, added by
-[Amendment A13](modeling-matrix.md#a13--2026-09-01-opentaint-joins-the-modeling-matrix-with-a-preregistered-java-partition-row)
+[Amendment A15](modeling-matrix.md#a15--2026-09-01-opentaint-joins-the-modeling-matrix-with-a-preregistered-java-partition-row)
 and decided by executing the pinned analyzer over these very fixtures with
 probe declarations **before** its first scored run
 (`scripts/probe-opentaint-modeling-surface.sh`, evidence under
@@ -497,7 +521,7 @@ decides correctly here.
 
 Its tool-native mirror is the opposite corner:
 [the Java native row](java-native.md) records OpenTaint at 0 / 6 under
-[Amendment A14](native-profile.md#a14--2026-09-01-opentaint-joins-the-tool-native-profile-at-0--6-and-the-shipped-models-archive-is-ruled-shipped-product),
+[Amendment A16](native-profile.md#a16--2026-09-01-opentaint-joins-the-tool-native-profile-at-0--6-and-the-shipped-models-archive-is-ruled-shipped-product),
 because the pinned release ships propagation models and no endpoint catalog.
 Engine capability and product packaging, side by side, on one binary — which is
 what the two profiles exist to separate.
@@ -507,6 +531,7 @@ what the two profiles exist to separate.
 ```bash
 cargo run -- run-bifrost-modeling --language java --bifrost /path/to/bifrost
 cargo run -- run-codeql-modeling  --language java --codeql  /path/to/codeql
+cargo run -- run-infer-modeling   --language java --infer   /path/to/infer-osx-arm64-v1.3.0/bin/infer
 cargo run -- run-joern-modeling   --language java --joern   /path/to/joern-cli/joern
 cargo run -- run-semgrep-modeling --language java --semgrep /path/to/semgrep
 cargo run -- run-opentaint-modeling --language java \
@@ -516,6 +541,8 @@ cargo run -- run-opentaint-modeling --language java \
 scripts/probe-java-modeling-load-bearing.sh \
   --bifrost /path/to/bifrost --codeql /path/to/codeql \
   --joern /path/to/joern-cli/joern --semgrep /path/to/semgrep
+scripts/probe-infer-modeling-partition.sh \
+  --infer /path/to/infer-osx-arm64-v1.3.0/bin/infer
 scripts/probe-opentaint-modeling-surface.sh \
   --analyzer-jar /path/to/opentaint-project-analyzer.jar \
   --models-archive /path/to/opentaint-models.tar.gz

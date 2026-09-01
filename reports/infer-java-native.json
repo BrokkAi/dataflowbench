@@ -1,0 +1,218 @@
+{
+  "adapter_version": "0.1.0",
+  "cold_or_warm": "cold",
+  "configuration_hash": "751e6ca8c79a2cc269e26a2c302b8fe8035780127b1b5f9e9753565f51368114",
+  "ended_at_unix_seconds": 1788257633,
+  "fixture_revision": "sha256:9df209ed3d7723a3ee33f2b289cf2afe34a3add781bdf2a2ac445de42b8d0151",
+  "results": [
+    {
+      "case_id": "dfb-taint-java-native-entrypoint-negative",
+      "diagnostics": [
+        "tool-native activation of dfb-template-native-entrypoint (category E — framework entry points) is unsupported for v1.3.0 over Java by the activation partition (docs/native-profile.md#partition-summary, as amended): same measured silence (Amendment A14), and doubly out of reach: the shipped product activates no taint question, and Amendment A13 measured that the pulse-taint surface has no entry-root vocabulary even when configured"
+      ],
+      "duration_ms": 0,
+      "outcome": "unsupported",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/infer-java-native/dfb-taint-java-native-entrypoint-negative-unsupported.json",
+      "sink_anchors": [
+        "DFB-SINK: native-entrypoint-exec"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: native-entrypoint-argv"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-java-native-entrypoint-positive",
+      "diagnostics": [
+        "tool-native activation of dfb-template-native-entrypoint (category E — framework entry points) is unsupported for v1.3.0 over Java by the activation partition (docs/native-profile.md#partition-summary, as amended): same measured silence (Amendment A14), and doubly out of reach: the shipped product activates no taint question, and Amendment A13 measured that the pulse-taint surface has no entry-root vocabulary even when configured"
+      ],
+      "duration_ms": 0,
+      "outcome": "unsupported",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/infer-java-native/dfb-taint-java-native-entrypoint-positive-unsupported.json",
+      "sink_anchors": [
+        "DFB-SINK: native-entrypoint-exec"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: native-entrypoint-argv"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-java-native-persistence-negative",
+      "diagnostics": [
+        "tool-native activation of dfb-template-native-persistence (category B — persistence boundaries) is unsupported for v1.3.0 over Java by the activation partition (docs/native-profile.md#partition-summary, as amended): same measured silence (Amendment A14), and doubly out of reach: the shipped product activates no taint question, and the pulse-taint surface has no store-write/store-read vocabulary even when configured (Amendment A13)"
+      ],
+      "duration_ms": 0,
+      "outcome": "unsupported",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/infer-java-native/dfb-taint-java-native-persistence-negative-unsupported.json",
+      "sink_anchors": [
+        "DFB-SINK: native-persistence-exec"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: native-persistence-env"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-java-native-persistence-positive",
+      "diagnostics": [
+        "tool-native activation of dfb-template-native-persistence (category B — persistence boundaries) is unsupported for v1.3.0 over Java by the activation partition (docs/native-profile.md#partition-summary, as amended): same measured silence (Amendment A14), and doubly out of reach: the shipped product activates no taint question, and the pulse-taint surface has no store-write/store-read vocabulary even when configured (Amendment A13)"
+      ],
+      "duration_ms": 0,
+      "outcome": "unsupported",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/infer-java-native/dfb-taint-java-native-persistence-positive-unsupported.json",
+      "sink_anchors": [
+        "DFB-SINK: native-persistence-exec"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: native-persistence-env"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-java-native-propagator-negative",
+      "diagnostics": [
+        "tool-native activation of dfb-template-native-propagator (category P — declared propagators) is unsupported for v1.3.0 over Java by the activation partition (docs/native-profile.md#partition-summary, as amended): same measured silence (Amendment A14): a shipped propagator summary would need a shipped source and sink to carry anything between, and the pinned release ships neither — Pulse taint is disabled absent a `--pulse-taint-config`"
+      ],
+      "duration_ms": 0,
+      "outcome": "unsupported",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/infer-java-native/dfb-taint-java-native-propagator-negative-unsupported.json",
+      "sink_anchors": [
+        "DFB-SINK: native-propagator-exec"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: native-propagator-env"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-java-native-propagator-positive",
+      "diagnostics": [
+        "tool-native activation of dfb-template-native-propagator (category P — declared propagators) is unsupported for v1.3.0 over Java by the activation partition (docs/native-profile.md#partition-summary, as amended): same measured silence (Amendment A14): a shipped propagator summary would need a shipped source and sink to carry anything between, and the pinned release ships neither — Pulse taint is disabled absent a `--pulse-taint-config`"
+      ],
+      "duration_ms": 0,
+      "outcome": "unsupported",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/infer-java-native/dfb-taint-java-native-propagator-positive-unsupported.json",
+      "sink_anchors": [
+        "DFB-SINK: native-propagator-exec"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: native-propagator-env"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-java-native-sanitizer-negative",
+      "diagnostics": [
+        "tool-native activation of dfb-template-native-sanitizer (category Z — declared sanitizers) is unsupported for v1.3.0 over Java by the activation partition (docs/native-profile.md#partition-summary, as amended): same measured silence (Amendment A14): the sanitizer surface Amendment A13 measured load-bearing is reachable only through `--pulse-taint-config`, which this profile's activation contract supplies nothing through, and the shipped product declares no sanitizer and no endpoints for one to sit between"
+      ],
+      "duration_ms": 0,
+      "outcome": "unsupported",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/infer-java-native/dfb-taint-java-native-sanitizer-negative-unsupported.json",
+      "sink_anchors": [
+        "DFB-SINK: native-sanitizer-exec"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: native-sanitizer-env"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-java-native-sanitizer-positive",
+      "diagnostics": [
+        "tool-native activation of dfb-template-native-sanitizer (category Z — declared sanitizers) is unsupported for v1.3.0 over Java by the activation partition (docs/native-profile.md#partition-summary, as amended): same measured silence (Amendment A14): the sanitizer surface Amendment A13 measured load-bearing is reachable only through `--pulse-taint-config`, which this profile's activation contract supplies nothing through, and the shipped product declares no sanitizer and no endpoints for one to sit between"
+      ],
+      "duration_ms": 0,
+      "outcome": "unsupported",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/infer-java-native/dfb-taint-java-native-sanitizer-positive-unsupported.json",
+      "sink_anchors": [
+        "DFB-SINK: native-sanitizer-exec"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: native-sanitizer-env"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-java-native-source-sink-negative",
+      "diagnostics": [
+        "tool-native activation of dfb-template-native-source-sink (category S — declared sources and sinks) is unsupported for v1.3.0 over Java by the activation partition (docs/native-profile.md#partition-summary, as amended): the pinned release ships Pulse's taint analysis disabled absent a `--pulse-taint-config`, and no Java endpoint catalog: measured with no configuration supplied — nothing to mis-path, so the silent-missing-config quirk cannot be the explanation — the shipped product decides nothing on any of the twelve Java native fixtures, and the one always-enabled policy (Simple→Simple) has no shipped Java source or sink bound to it (Amendment A14)"
+      ],
+      "duration_ms": 0,
+      "outcome": "unsupported",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/infer-java-native/dfb-taint-java-native-source-sink-negative-unsupported.json",
+      "sink_anchors": [
+        "DFB-SINK: native-source-sink-exec"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: native-source-sink-env"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-java-native-source-sink-positive",
+      "diagnostics": [
+        "tool-native activation of dfb-template-native-source-sink (category S — declared sources and sinks) is unsupported for v1.3.0 over Java by the activation partition (docs/native-profile.md#partition-summary, as amended): the pinned release ships Pulse's taint analysis disabled absent a `--pulse-taint-config`, and no Java endpoint catalog: measured with no configuration supplied — nothing to mis-path, so the silent-missing-config quirk cannot be the explanation — the shipped product decides nothing on any of the twelve Java native fixtures, and the one always-enabled policy (Simple→Simple) has no shipped Java source or sink bound to it (Amendment A14)"
+      ],
+      "duration_ms": 0,
+      "outcome": "unsupported",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/infer-java-native/dfb-taint-java-native-source-sink-positive-unsupported.json",
+      "sink_anchors": [
+        "DFB-SINK: native-source-sink-exec"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: native-source-sink-env"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-java-native-summary-negative",
+      "diagnostics": [
+        "tool-native activation of dfb-template-native-summary (category O — opaque procedure summaries) is unsupported for v1.3.0 over Java by the activation partition (docs/native-profile.md#partition-summary, as amended): same measured silence (Amendment A14): no shipped summary catalog exists — the taint question itself is off absent a `--pulse-taint-config`, so a base64 round trip has no flow to survive"
+      ],
+      "duration_ms": 0,
+      "outcome": "unsupported",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/infer-java-native/dfb-taint-java-native-summary-negative-unsupported.json",
+      "sink_anchors": [
+        "DFB-SINK: native-summary-exec"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: native-summary-env"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-java-native-summary-positive",
+      "diagnostics": [
+        "tool-native activation of dfb-template-native-summary (category O — opaque procedure summaries) is unsupported for v1.3.0 over Java by the activation partition (docs/native-profile.md#partition-summary, as amended): same measured silence (Amendment A14): no shipped summary catalog exists — the taint question itself is off absent a `--pulse-taint-config`, so a base64 round trip has no flow to survive"
+      ],
+      "duration_ms": 0,
+      "outcome": "unsupported",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/infer-java-native/dfb-taint-java-native-summary-positive-unsupported.json",
+      "sink_anchors": [
+        "DFB-SINK: native-summary-exec"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: native-summary-env"
+      ],
+      "witness_checkpoints": []
+    }
+  ],
+  "schema_version": 1,
+  "started_at_unix_seconds": 1788257633,
+  "tool": "infer",
+  "tool_build_identity": "infer:v1.3.0 bin-sha256:17ed4818dadda60124e083a1e82124f104092e70c5e6d764551581a375eabf62 — v1.3.0 shipped Pulse checker, no taint configuration",
+  "tool_version": "v1.3.0"
+}

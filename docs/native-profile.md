@@ -735,9 +735,54 @@ engine. The benchmark-controlled matrix scores Joern on four of six categories
 using the same engine. The gap between those two rows is exactly what this
 profile exists to make legible.
 
+### Infer — v1.3.0, shipped Pulse checker with no taint configuration
+
+> **Added by [Amendment A14](#a14--2026-09-01-infers-native-row-declines-on-a-measured-silence)
+> (2026-09-01).** A new adapter's activation row, added by amendment before its
+> first native run, decided from a **measured silence** rather than an assumed
+> one, with the evidence retained under
+> `reports/raw/amendment-a14-infer-native-silence/` (produced by
+> `scripts/probe-infer-native-silence.sh`). Java alone: the pinned distribution
+> executes no JavaScript or Python frontend, so those languages have no Infer
+> native denominator at all — different from a 0 / 6 decline, and the runner
+> refuses to shape a run for them.
+
+**Activation contract.** The shipped product as shipped:
+`infer analyze --pulse-only --sarif`, and **no** `--pulse-taint-config`. The
+benchmark-controlled populations supply their models through that flag, so the
+no-benchmark-models rule is the absence of the flag itself.
+
+**Why the silence is measured, not swallowed.** The pinned release has a
+documented silent-failure mode — a mis-pathed `--pulse-taint-config` is
+silently ignored, exit zero, empty report — that could make an asserted
+decline indistinguishable from a swallowed misconfiguration. The probe removes
+that ambiguity by construction: it passes no configuration argument at all, so
+there is nothing to mis-path, and it retains the exact argv beside every
+verbatim SARIF. Over all twelve Java native fixtures the shipped product
+produced **zero findings of any rule**. The one always-enabled policy
+(Simple→Simple, quoted from the binary's own help text and retained beside the
+probes) has no shipped Java source or sink bound to its kinds, so it decides
+nothing.
+
+| # | Category | Decision | Rationale |
+| --- | --- | --- | --- |
+| 1 | S | **unsupported — Pulse taint is off absent a configuration, and no Java endpoint catalog ships** | Measured: zero findings of any rule on both cells, with no configuration path passed. |
+| 2 | P | **unsupported — same measured silence** | A shipped propagator summary would need a shipped source and sink to carry anything between; the release ships neither. |
+| 3 | Z | **unsupported — same measured silence** | The sanitizer surface [A13](modeling-matrix.md#a13--2026-09-01-infer-joins-the-modeling-matrix-with-a-field-evaluated-partition-row) measured load-bearing is reachable only through `--pulse-taint-config`, which this profile's activation contract supplies nothing through; and no endpoints ship for a barrier to sit between. |
+| 4 | O | **unsupported — same measured silence** | No shipped summary catalog; the taint question itself is off. |
+| 5 | E | **unsupported — same measured silence, doubly out of reach** | The shipped product activates no taint question, and A13 measured that the pulse-taint surface has no entry-root vocabulary even when configured. |
+| 6 | B | **unsupported — same measured silence, doubly out of reach** | No store vocabulary exists even when configured (A13). |
+
+Infer enters with **zero of six** — the same statement about product packaging,
+not engine, that Joern's row makes: the benchmark-controlled matrix scores the
+same binary on three of six categories, and the gap between the two rows is
+what this profile exists to make legible. Its 0 / 6 run still witnesses its
+identity from the binary,
+[as every 0 / 6 run must](#the-run-level-identity-is-witnessed-including-at-0--6).
+
 ### OpenTaint — `analyzer/2026.08.27.17eb0fe`, shipped models archive only (Java only)
 
-> **Added by [Amendment A14](#a14--2026-09-01-opentaint-joins-the-tool-native-profile-at-0--6-and-the-shipped-models-archive-is-ruled-shipped-product).**
+> **Added by [Amendment A16](#a16--2026-09-01-opentaint-joins-the-tool-native-profile-at-0--6-and-the-shipped-models-archive-is-ruled-shipped-product).**
 > This row was not part of the original preregistration — the adapter did not
 > exist when it merged — and it joins on the same terms every row here holds
 > to: decided from the pinned release's own assets, by execution, before any
@@ -791,7 +836,7 @@ this row.
 OpenTaint enters this profile with **zero of six**, and — as with Joern — that
 is a statement about the pinned release's *product packaging*, not about its
 engine: the benchmark-controlled matrix scores the same binary on three of six
-categories ([Amendment A13](modeling-matrix.md#a13--2026-09-01-opentaint-joins-the-modeling-matrix-with-a-preregistered-java-partition-row)),
+categories ([Amendment A15](modeling-matrix.md#a15--2026-09-01-opentaint-joins-the-modeling-matrix-with-a-preregistered-java-partition-row)),
 and the gap between those two rows is exactly what this profile exists to make
 legible.
 
@@ -812,20 +857,21 @@ until shown otherwise.
 > promotes Python's six to scored and keys the partition by language. Every cell
 > for every language with no amendment row is still the cell below.
 
-> The OpenTaint column was added by
-> [Amendment A14](#a14--2026-09-01-opentaint-joins-the-tool-native-profile-at-0--6-and-the-shipped-models-archive-is-ruled-shipped-product)
-> before that adapter's first native run; it covers **Java only**, and the four
-> preregistered columns are unchanged.
+> [A14](#a14--2026-09-01-infers-native-row-declines-on-a-measured-silence)
+> adds the Infer v1.3.0 column and
+> [A16](#a16--2026-09-01-opentaint-joins-the-tool-native-profile-at-0--6-and-the-shipped-models-archive-is-ruled-shipped-product)
+> the OpenTaint column — each a new adapter's own activation row, measured
+> before its first native run, Java-only.
 
-| # | Template | Cat. | Bifrost v0.10.7 | CodeQL 2.26.4 | Joern 4.0.614 | Semgrep CE 1.175.0 | OpenTaint 2026.08.27 (Java only, A14) |
-| --- | --- | --- | --- | --- | --- | --- | --- |
-| 1 | `native-source-sink` | S | unsupported | supported | unsupported | TBV | unsupported |
-| 2 | `native-propagator` | P | unsupported | supported | unsupported | TBV | unsupported |
-| 3 | `native-sanitizer` | Z | unsupported | supported | unsupported | TBV | unsupported |
-| 4 | `native-summary` | O | unsupported | supported | unsupported | TBV | unsupported |
-| 5 | `native-entrypoint` | E | TBV | supported | unsupported | TBV | unsupported |
-| 6 | `native-persistence` | B | TBV | supported | unsupported | TBV | unsupported |
-| | **Scored today** | | **0 / 6** | **6 / 6** | **0 / 6** | **0 / 6** | **0 / 6** |
+| # | Template | Cat. | Bifrost v0.10.7 | CodeQL 2.26.4 | Joern 4.0.614 | Semgrep CE 1.175.0 | Infer v1.3.0 (A14) | OpenTaint 2026.08.27 (A16) |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 1 | `native-source-sink` | S | unsupported | supported | unsupported | TBV | unsupported | unsupported |
+| 2 | `native-propagator` | P | unsupported | supported | unsupported | TBV | unsupported | unsupported |
+| 3 | `native-sanitizer` | Z | unsupported | supported | unsupported | TBV | unsupported | unsupported |
+| 4 | `native-summary` | O | unsupported | supported | unsupported | TBV | unsupported | unsupported |
+| 5 | `native-entrypoint` | E | TBV | supported | unsupported | TBV | unsupported | unsupported |
+| 6 | `native-persistence` | B | TBV | supported | unsupported | TBV | unsupported | unsupported |
+| | **Scored today** | | **0 / 6** | **6 / 6** | **0 / 6** | **0 / 6** | **0 / 6** | **0 / 6** |
 
 These counts are activation surfaces, not scores. A tool with six of six has six
 templates' worth of assertions it can get wrong; a tool with zero of six has
@@ -973,12 +1019,13 @@ they touch, name the freezes they invalidate, and land as their own commits.
 
 Their numbers continue the repository's **single** amendment sequence rather
 than restarting per document: A1 is in [the challenge tier](challenge-tier.md#amendments),
-A2–A5, A9, and A13 are in [the modeling matrix](modeling-matrix.md#amendments),
+A2–A5, A9, A13, and A15 are in [the modeling matrix](modeling-matrix.md#amendments),
 A11 is in [the adapter contract](adapters.md#amendments), and A12 is in
 [the latency tier](latency-tier.md#amendments), so an amendment identifier
 names exactly one amendment wherever it is cited. The sequence interleaves
-across documents — A8 here is followed by A9 there, and A10 and A14 return
-here — which is the point: the number, not the document, is the identity.
+across documents — A8 here is followed by A9 there, and A10, A14, and A16
+return here — which is the point: the number, not the document, is the
+identity.
 
 ### A6 — 2026-08-27: Semgrep CE's JavaScript cells, evaluated against the vendored snapshot
 
@@ -1249,9 +1296,54 @@ carry the withdrawn wording in their retained rationales; the corrected string
 lands with the next evidence re-run, and the decision those reports record —
 `unsupported` — is the decision this amendment leaves in place.
 
-### A14 — 2026-09-01: OpenTaint joins the tool-native profile at 0 / 6, and the shipped models archive is ruled shipped product
+### A14 — 2026-09-01: Infer's native row declines on a measured silence
 
-**What changed.** The [activation partition](#partition-summary) gains a fifth
+**What changed.** The profile gains a fifth adapter's activation row. Infer
+v1.3.0 — joining the benchmark-controlled modeling matrix in the same pull
+request by [Amendment A13](modeling-matrix.md#a13--2026-09-01-infer-joins-the-modeling-matrix-with-a-field-evaluated-partition-row)
+— takes a tool-native row of **0 / 6**, for **Java alone**: the pinned
+distribution executes no JavaScript or Python frontend, so those languages
+have no Infer native denominator at all, which is different from a 0 / 6
+decline. No cell of any other adapter moves, and no template definition
+changes. The full rationale table is
+[the Infer activation section](#infer--v130-shipped-pulse-checker-with-no-taint-configuration)
+above.
+
+**Why the decline is a measurement.** The pinned release ships Pulse's taint
+analysis **disabled absent a `--pulse-taint-config`** — and it also has a
+documented silent-failure mode in which a *mis-pathed* configuration is
+silently ignored, exit zero, empty report. An asserted decline could therefore
+be a swallowed misconfiguration wearing a decline's clothes, which is exactly
+what this document's outcome-honesty section exists to prevent. The evidence
+removes the ambiguity by construction: `scripts/probe-infer-native-silence.sh`
+ran the shipped product over all twelve Java native fixtures with **no
+configuration argument at all** — nothing to mis-path — and retained, per
+fixture, the verbatim SARIF, the exact argv, and the analyze exit status,
+under `reports/raw/amendment-a14-infer-native-silence/`. Every one of the
+twelve runs produced zero findings of any rule. The one always-enabled policy
+(Simple→Simple, quoted from the binary's own help text and retained beside the
+probes as `always-enabled-policy-help.txt`) has no shipped Java source or sink
+bound to its kinds.
+
+**What lands with the row.** `run-infer-native --language java`, on the
+staged shape every declining row uses: the partition answers all twelve cells
+before the binary touches a fixture, the run witnesses its identity from the
+binary once
+([the 0 / 6 witnessing rule](#the-run-level-identity-is-witnessed-including-at-0--6)
+— the kernel witness, which refuses a binary that is not the pinned release),
+and the execution arm stays a hard error, so a future amendment that promotes
+a cell must land the arm that runs it. `run-infer-native` over `javascript` or
+`python` refuses outright: no denominator, not a zero.
+
+**Templates and languages touched.** All six native templates for the new
+Infer column; `java` alone carries a denominator.
+
+**Freezes invalidated.** None. No published freeze manifest contains a
+tool-native report, and the v0.6.0 freeze is untouched.
+
+### A16 — 2026-09-01: OpenTaint joins the tool-native profile at 0 / 6, and the shipped models archive is ruled shipped product
+
+**What changed.** The [activation partition](#partition-summary) gains a sixth
 column — OpenTaint, pinned release `analyzer/2026.08.27.17eb0fe` by asset
 digest — for **Java only**, with all six templates **unsupported**: 0 / 6, the
 same shape as Joern's row and for the same kind of reason. A new
@@ -1308,7 +1400,7 @@ amendment.
 **The deliberate asymmetry, restated for this adapter.** The
 benchmark-controlled matrix scores the same pinned binary on three of six
 categories
-([Amendment A13](modeling-matrix.md#a13--2026-09-01-opentaint-joins-the-modeling-matrix-with-a-preregistered-java-partition-row));
+([Amendment A15](modeling-matrix.md#a15--2026-09-01-opentaint-joins-the-modeling-matrix-with-a-preregistered-java-partition-row));
 this profile scores it on none. That gap is product packaging versus engine
 capability — the exact gap Joern's two rows already exhibit — and it is what
 this profile exists to make legible, not a contradiction to reconcile.

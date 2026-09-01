@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # The OpenTaint modeling-surface probe: the field evaluation behind Amendment
-# A13's per-category partition row for OpenTaint in docs/modeling-matrix.md.
+# A15's per-category partition row for OpenTaint in docs/modeling-matrix.md.
 #
 # The pinned analyzer is driven over the *committed Java modeling fixtures*
 # with hand-written Semgrep-syntax declarations, one probe arm per question the

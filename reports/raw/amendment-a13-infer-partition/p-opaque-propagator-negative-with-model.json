@@ -1,0 +1,96 @@
+{
+  "probe": "p-opaque-propagator-negative-with-model",
+  "case": "model-opaque-propagator-negative",
+  "configuration": {
+    "pulse-taint-sources": [
+      {
+        "procedure_regex": "\\.dfb_source(",
+        "kinds": [
+          "DataFlowBenchModelSource"
+        ]
+      },
+      {
+        "class_names": [
+          "dataflowbench.taint.Config"
+        ],
+        "method_names": [
+          "fetchRemote"
+        ],
+        "kinds": [
+          "DataFlowBenchModelSource"
+        ]
+      }
+    ],
+    "pulse-taint-sinks": [
+      {
+        "procedure_regex": "\\.dfb_sink(",
+        "kinds": [
+          "DataFlowBenchModelSink"
+        ]
+      },
+      {
+        "class_names": [
+          "dataflowbench.taint.Audit"
+        ],
+        "method_names": [
+          "record"
+        ],
+        "taint_target": [
+          "ArgumentPositions",
+          [
+            0
+          ]
+        ],
+        "kinds": [
+          "DataFlowBenchModelSink"
+        ]
+      }
+    ],
+    "pulse-taint-propagators": [
+      {
+        "class_names": [
+          "dataflowbench.taint.Opaque"
+        ],
+        "method_names": [
+          "carry"
+        ],
+        "taint_target": "ReturnValue"
+      }
+    ],
+    "pulse-taint-sanitizers": [
+      {
+        "class_names": [
+          "dataflowbench.taint.Clean"
+        ],
+        "method_names": [
+          "scrub"
+        ],
+        "kinds": [
+          "DataFlowBenchModelSanitizer"
+        ]
+      }
+    ],
+    "pulse-taint-policies": [
+      {
+        "short_description": "DataFlowBench benchmark-controlled modeling flow",
+        "taint_flows": [
+          {
+            "source_kinds": [
+              "DataFlowBenchModelSource"
+            ],
+            "sanitizer_kinds": [
+              "DataFlowBenchModelSanitizer"
+            ],
+            "sink_kinds": [
+              "DataFlowBenchModelSink"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "extra_analyze_arguments": [],
+  "taint_error_count": 0,
+  "taint_errors": [],
+  "evidence_kind": "retained-partition-probe"
+}
