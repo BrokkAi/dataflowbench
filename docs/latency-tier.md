@@ -421,3 +421,175 @@ before this amendment is redescribed by it.
 
 **Freezes invalidated.** None. No freeze published a latency number before
 this amendment: v0.6.0 is the first, and it is assembled after it.
+
+### A13 — 2026-09-01: warm marginal cost is measured as a separate, labelled figure, and the cold rows stay the headline
+
+> **Amendment number.** This document's amendments continue the repository's
+> single sequence, and A12 was its top when this amendment was written. It
+> therefore claims **A13**. Four modeling, native, and latency sessions were
+> landing amendments concurrently; if another A13 merges first, this one is
+> renumbered at merge and every citation of it moves with it, because an
+> amendment identifier must name exactly one amendment.
+
+**What was preregistered.** "The unit of observation" fixes the unit as the
+per-case analyzer invocation and states the consequence in advance: per-case
+wall-clock at that granularity "includes per-invocation fixed costs — JVM
+start-up, extractor initialization, interpreter start — that a long-lived
+deployment of the same engine would amortize", and "the tier does not correct
+for this."
+
+That is still the rule, and this amendment does not change it. The cold
+per-invocation rows remain exactly what they were, are still the headline
+figure, and are not adjusted, corrected, or annotated away by anything below.
+Boot is not observable inside one invocation, and a benchmark that spawns one
+process per case is right to charge each case for the whole process.
+
+**Why an amendment.** The v0.6.0 publication set eight adapters' cold medians
+in one ranked chart, spanning three runtimes: a native binary, a Python CLI,
+and five JVM or JVM-fronted engines. A reader comparing those rows across
+runtimes reads a start-up difference as a steady-state difference, and the two
+are not the same claim. The benchmark is published by the vendor of the engine
+that happens to have the smallest start-up cost, which makes the conflation
+one this project is least entitled to leave standing.
+
+The honest correction is not to estimate JVM start-up and subtract it — that
+would be exactly the after-the-fact adjustment this document's motivation
+refuses. It is to **measure the other quantity directly**: run *k* cases
+through one tool process, for increasing *k*, and report the slope of batch
+wall-clock against *k*. The slope is the cost of one more case in a process
+that has already paid its start-up. Start-up is amortized out by construction,
+nothing is estimated, and the two figures stand side by side rather than one
+replacing the other.
+
+Because that is a measurement this document did not preregister, it is
+preregistered here — with its populations, its estimators, its artifacts, and
+its declines — **before the first warm number was measured**, on the same terms
+every other number in this tier got.
+
+#### What is added
+
+A **warm marginal cost** figure, per adapter and per language, defined as
+follows.
+
+- **The measured quantity.** *T(k)*, the wall-clock of one tool process that
+  analyzes *k* cases sequentially. The batch sizes are `1, 2, 4, 8, 16` unless
+  the adapter's population is smaller, in which case the largest available
+  power of two is the top.
+- **The unit reported is a slope, never an average.** An average per case at
+  *k* still carries a *1/k* share of the fixed cost, which is the very quantity
+  the figure exists to remove. Two estimators are published, both of them
+  slopes, and neither corrects the other:
+  - **endpoint**: `(T(k_max) − T(k_min)) / (k_max − k_min)`;
+  - **least squares**: the ordinary-least-squares slope of *T* on *k* over
+    every measured point.
+  The fit's **intercept** is retained beside them as a descriptive estimate of
+  the fixed per-process cost. It is labelled an estimate, and it is never
+  subtracted from any measured number.
+- **The batched population is a prefix.** Cases are ordered by identifier and
+  the *k*-case batch is the first *k* of that list, so every larger batch is a
+  strict superset of every smaller one and the difference between two batches
+  is attributable to the cases that were added rather than to which cases were
+  chosen.
+- **The batch does the same work as the cold runs.** The warm runner reuses the
+  cold kernel runner's case selection, endpoint resolution, workspace
+  materialization, and query logic. For Joern the query block — the frontend
+  dispatch, both selectors, and the `reachableByFlows` call — is asserted
+  character-for-character identical between `kernel.sc` and the warm batch
+  script by a unit test, so the two scripts cannot drift into timing different
+  work. `kernel.sc` itself is unmodified; every Joern report's
+  `configuration_hash` is a digest over it alone, so no frozen number is
+  touched.
+- **One clock, at the same kind of boundary.** The only timestamps are the
+  runner's monotonic clock around the whole batch subprocess. The warm batch
+  script emits no timestamps of its own, and a unit test refuses one that does.
+  This document's decomposition rule already excludes "the benchmark's own
+  script timestamping itself", and this amendment does not relax it: a warm
+  measurement yields one number per batch, not a per-case decomposition.
+- **Same environment stamp, same identity witness.** A warm run witnesses the
+  pinned binary's version and writes the same `run-environment.json` every
+  other run writes. Warm numbers are environment-scoped exactly as cold ones
+  are, and are not comparable across machines.
+- **Same measurement hygiene.** The standing sequential-run discipline applies
+  unchanged. A warm run known to have shared the machine has unusable timing
+  evidence and is not published.
+
+#### What is not added
+
+- **No cold number changes.** Not one published median, quartile, minimum or
+  maximum is recomputed, adjusted, or re-derived. The cold rows are the
+  headline and stay the headline.
+- **Warm is never substituted for cold, and never subtracted from it.** They
+  are two figures answering two questions: what the benchmark's invocation
+  shape costs, and what one more case costs a process already running. A page
+  may show both; no page may show a difference of them as though it were a
+  measurement.
+- **No correctness contact whatsoever.** A warm run writes no normalized
+  report, produces no outcome, and touches no scored population. Its artifacts
+  land under `reports/raw/warm-latency/`, which the scoring path,
+  `validate-reports`, and the freeze manifest never read. Every invariant of
+  this document is untouched, including that latency and correctness are never
+  pooled.
+- **No new statistics.** A slope over five batch sizes, and nothing else. No
+  repeated trials, no confidence interval, no steady-state harness — the
+  non-goals still hold.
+- **No estimated warm figure for an adapter that cannot be measured.** A
+  decline is recorded as a decline. Nothing is inferred from an adapter's
+  runtime, its published architecture, or another adapter's slope.
+
+#### Per-adapter observability, audited against the released CLI
+
+Each verdict was reached by interrogating the pinned distribution — its help
+output, and where the help was ambiguous its own bytecode — never from a
+README or an assumption about the runtime. No adapter is patched, forked, or
+invoked outside its released interface to make a batch possible; an adapter
+that has no batch in what it ships has no warm figure.
+
+| Adapter | Warm marginal observable? | Evidence |
+| --- | --- | --- |
+| Joern 4.0.614 | **Yes — measured** | `joern --script` runs one Scala script inside one JVM, and a script may import and query any number of case workspaces sequentially. Each case takes its own project name inside the shared workspace, which is the warm process's stand-in for the cold runner's per-case scratch directory: no case can select another's CPG. Verified before any figure was fitted — a two-case batch produced evidence documents whose analyzed state, method counts, endpoint node counts and flow counts match the cold run's retained evidence for the same two cases exactly. |
+| Semgrep CE 1.175.0 | **Yes — measured, on a narrowed population** | `semgrep scan` accepts many target paths in one invocation. It accepts one `--config`, so a batch is the same work as its *k* cold runs only when all *k* cases resolve to identical rule text. The batch population is therefore the largest identical-rule group among the Java kernel's invocable assertions, the narrowing is recorded on the artifact, and the cold comparator is restricted to the same cases. The kernel's declared-capability `unsupported` partition is excluded from both, exactly as it is from every cold timing. |
+| FlowDroid 2.15.1 | **Yes in the released CLI — not measured here** | `-a/--apkfile` accepts a *directory*: the released `soot-infoflow-cmd` main class lists the directory's APK files, constructs the taint wrapper once outside the loop, and iterates the APKs in one JVM. Its own help text confirms the mode — `-si/--skipapkfile` is documented as "APK file to skip when processing a directory of input files", and the binary refuses a non-directory output with "The output file must be a directory when analyzing multiple APKs". So the batch exists and is observable. It is **not measured under this amendment** because one invocation carries one `-s` sources-and-sinks definition, so a *k*-APK batch runs a union of *k* per-case endpoint configurations rather than each case's own; whether that changes any case's result is an empirical question that must be answered case by case, over the whole population, before a marginal derived from it may be published. Recorded as named follow-up work, not as a decline. |
+| OpenTaint `analyzer/2026.08.27.17eb0fe` | **No** | `--project` and `--output-dir` are single-valued and the analyzer exits after one project. A `project.yaml` may list several `javaProjects`, but analyzing that union is one whole-program analysis over a merged call graph with a merged entry-point set — different work, not *k* independent case analyses — and `--semgrep-rule-set` is likewise one rule set for the whole invocation while the benchmark's rules are resolved per case. There is no released mode in which the pinned analyzer processes separate case projects in one process, so the warm marginal is **not observable**, and none is published or estimated. |
+| Pysa (pyre-check 0.10.0 + Pyrefly 1.2.0) | **No** | `pyre analyze` is one-shot. The pinned client does expose daemon commands — `start`, `incremental`, `query`, `stop` — but they serve the type checker, not the taint analysis, and `analyze` never attaches to a running server. `--source-directory` is repeatable and merges directories into one project, which is again one whole-program analysis rather than *k*. Each case also carries its own `.pyre_configuration`, its own `pyrefly.toml`, and its own resolved models, which a shared process would have to hold simultaneously. A daemon-shaped measurement would be stateful and not reproducibly preregisterable with this pin, so it is declined rather than attempted. |
+| CodeQL 2.26.4 | **No** | `codeql database analyze` takes exactly one mandatory `<database>`, and `database create` produces exactly one database per invocation. Neither subcommand has a multi-database form in the pinned CLI. |
+| Infer v1.3.0 | **No** | `--results-dir` names one capture database for one project and the analyzer exits after it. Worth stating rather than leaving implicit: Infer's analyzer is a native binary, and the JVM cost inside its Java row is the traced `javac` in `capture`, which is per-project compilation work, not process start-up that a batch could amortize. |
+| Bifrost v0.10.7 | **No — and the decline cannot flatter it** | The policy CLI takes one `--root` per invocation; the repeatable `--workspace NAME=PATH` is documented as requiring `--mcp` and does not reach the policy path. So no warm figure is published for Bifrost. What can be said without measuring anything is a bound, and it is stated so that the missing row is not read as a missing advantage: Bifrost's published cold median already **includes its own process start**, and any warm marginal lies between zero and the cold number it is part of. Adding warm figures can therefore only ever move the *other* rows down toward Bifrost's, never Bifrost's row down further. The asymmetry this amendment corrects is one the publishing vendor's engine loses by, which is the reason to correct it in public. |
+
+#### Where the figures are published, and how they are labelled
+
+- The latency page gains a **separate, explicitly labelled warm-marginal
+  section** carrying this table, the measured slopes, the batch series behind
+  them, and the declines in the same words they are recorded here.
+- Where the ranked chart shows a row that has a warm figure, it may carry a
+  **secondary, visually distinguished mark** for the warm marginal beside the
+  cold distribution. The cold distribution remains the row's primary and
+  determines the ordering. A row without a warm figure carries no mark and the
+  page says "not observable with the released CLI" rather than leaving a blank
+  that reads as a zero.
+- Every warm number is written as what it is: "*X* s marginal per case in a
+  warm process, *k* up to *N*", never as a latency, never as *the* number for
+  an adapter, and never in the same column as a cold median.
+
+#### Provenance of the warm artifacts
+
+Warm artifacts are retained under `reports/raw/warm-latency/<adapter>-<language>-kernel/`:
+the batch series and fitted slopes in `warm-latency.json`, the environment
+stamp in `run-environment.json`, and the per-case evidence each batch produced
+so that a reader can check the batch did the real work rather than less of it.
+
+They are **auxiliary evidence, outside the freeze**. `freeze/v1` binds
+normalized reports and one raw-evidence digest per result; it does not bind
+these files, and this amendment does not extend it to — that remains a
+`freeze/v2` question, exactly as the timing sidecars' status does under "First
+publication" above. A warm figure therefore carries the release commit's
+immutability for its bytes and no stronger guarantee, and the publication says
+so rather than implying the freeze stands behind it.
+
+**What does not change.** The decomposition rule, the per-adapter granularity
+table, the exclusion list, the cache declarations, the environment-scope rule,
+the aggregation and presentation rules for the cold tier, the non-goals, and
+every invariant. No phase boundary is moved. No number that existed before this
+amendment is redescribed by it.
+
+**Freezes invalidated.** None. No cold number changes, no normalized report is
+rewritten, and `v0.6.0` is byte-identical before and after this amendment.

@@ -34,6 +34,7 @@
 //   * the conditions the numbers were produced under travel with the chart
 //     wherever it renders, rather than living only on the page it links to.
 import { latencyModel, latencyRanking, formatMs } from '../data/latency';
+import { warmLatency } from '../data/warm-latency';
 import { vendorColorClass, vendorName } from '../data/snapshots';
 
 interface Props {
@@ -80,6 +81,34 @@ const x = (value: number) => {
   );
 };
 
+// ---- The warm-marginal secondary mark (Amendment A13) ---------------------
+//
+// A row whose adapter has a *measured* warm marginal for this view's language
+// carries a second, deliberately different mark: an open caret, never a bar,
+// never in the ordering, and never in place of the median.
+//
+// Two restrictions keep the mark honest, and both are enforced here rather
+// than trusted to the reader:
+//
+//   * it is drawn only in the kernel view whose language it was measured on.
+//     The whole-corpus view mixes languages, and hanging a Java-derived
+//     marginal on a mixed-language row would be a cross-population claim;
+//   * a row without a measurement gets no mark at all. The amendment's rule is
+//     that a decline is recorded as a decline — an absent mark reads as
+//     "not measured", where a mark at zero would read as "free".
+//
+// The mark never moves a row: ordering stays by cold median, because the cold
+// per-invocation figure remains the headline and the warm marginal is a
+// separate quantity set beside it, not a correction to it.
+const warmMeasurements = warmLatency().measurements;
+function warmMarkFor(viewId: string, tool: string): number | null {
+  if (viewId === 'all') return null;
+  const measurement = warmMeasurements.find(
+    (candidate) => candidate.tool === tool && candidate.language === viewId,
+  );
+  return measurement ? measurement.leastSquaresMs : null;
+}
+
 interface Row {
   kind: 'adapter' | 'phase';
   tool: string;
@@ -93,6 +122,8 @@ interface Row {
     p90: number;
     n: number;
   };
+  /** Warm marginal per case, when one was measured for this view. */
+  warm: number | null;
   title: string;
   y: number;
 }
@@ -103,6 +134,7 @@ function layout(view: (typeof ranking.views)[number]) {
   let y = padTop;
   for (const entry of view.entries) {
     const name = vendorName(entry.tool);
+    const warm = warmMarkFor(view.id, entry.tool);
     y += mainRowHeight / 2;
     rows.push({
       kind: 'adapter',
@@ -113,11 +145,15 @@ function layout(view: (typeof ranking.views)[number]) {
           ? `${entry.timed} timed`
           : `${entry.timed} of ${entry.covered} timed`,
       d: entry.whole,
+      warm,
       title:
         `${name} — median ${formatMs(entry.whole.median)}, ` +
         `IQR ${formatMs(entry.whole.q1)} to ${formatMs(entry.whole.q3)}, ` +
         `p10–p90 ${formatMs(entry.whole.p10)} to ${formatMs(entry.whole.p90)}, ` +
-        `over ${entry.timed} timed whole invocations`,
+        `over ${entry.timed} timed whole invocations` +
+        (warm === null
+          ? ''
+          : `. Warm marginal, measured separately: ${formatMs(warm)} per case in one process`),
       y,
     });
     y += mainRowHeight / 2;
@@ -129,6 +165,7 @@ function layout(view: (typeof ranking.views)[number]) {
         label: phase.phase,
         sublabel: '',
         d: phase,
+        warm: null,
         title:
           `${name} phase ${phase.phase} — median ${formatMs(phase.median)}, ` +
           `IQR ${formatMs(phase.q1)} to ${formatMs(phase.q3)}, ` +
@@ -190,6 +227,14 @@ const decomposedCount = general.entries.filter(
   (entry) => entry.phases.length > 0,
 ).length;
 const environment = model.environments[0];
+// Whether this render actually draws a caret: the marks live in the per-kernel
+// views, so the whole-corpus-only render (the landing page's) carries the
+// annotation in prose and no key for a symbol it never draws.
+const drawsWarmMarks =
+  kernelViews &&
+  panels.some((panel) =>
+    panel.rows.some((row) => row.warm !== null),
+  );
 ---
 
 <div class="latency-ranking">
@@ -344,6 +389,13 @@ const environment = model.environments[0];
                     y1={row.y - medianHeight / 2}
                     y2={row.y + medianHeight / 2}
                   />
+                  {row.warm !== null && (
+                    <polyline
+                      class="warm-mark"
+                      points={`${x(row.warm) - 5},${row.y + 11} ${x(row.warm)},${row.y + 4} ${x(row.warm) + 5},${row.y + 11}`}
+                      fill="none"
+                    />
+                  )}
                   <text
                     class={row.kind === 'adapter' ? 'row-value' : 'phase-value'}
                     x={padLeft + plotWidth + 12}
@@ -415,8 +467,49 @@ const environment = model.environments[0];
       <span class="swatch" aria-hidden="true"></span>
       indented rows: an adapter's own declared phases
     </li>
+    {drawsWarmMarks && (
+      <li class="key-warm">
+        <span class="swatch" aria-hidden="true"></span>
+        warm marginal per case, where the released CLI let it be measured
+      </li>
+    )}
   </ul>
 </div>
+
+{warmMeasurements.length > 0 && (
+  <p class="caption">
+    <strong>Every bar above is cold per-invocation wall-clock, and the warm
+    marginal is a different quantity measured separately.</strong> Cold is what
+    this benchmark actually runs — one process per case, start-up inside the
+    number, because start-up is not observable from inside a single invocation.
+    Read across runtimes, though, those bars overstate the steady-state gap: a
+    JVM engine's row carries a JVM start a long-lived deployment pays once. So
+    the other quantity is measured directly rather than estimated and
+    subtracted — <em>k</em> cases through one tool process, for increasing
+    <em>k</em>, reporting the <em>slope</em> of batch wall-clock against{' '}
+    <em>k</em>.
+    {drawsWarmMarks ? (
+      <>
+        {' '}The caret marks it on the rows that have one. It is never
+        subtracted from a median, never substituted for one, and never used to
+        order the rows.
+      </>
+    ) : (
+      <>
+        {' '}No caret is drawn in this view: the whole-corpus view mixes
+        languages, and a marginal measured on one kernel is not a claim about a
+        mixed-language row. The per-kernel views carry the marks.
+      </>
+    )}{' '}
+    Only adapters whose released CLI exposes a real multi-case batch have a
+    figure at all; the rest are{' '}
+    <strong>not observable with the released CLI</strong>, and the{' '}
+    <a href="/dataflowbench/snapshots/v0-6-0/latency/#warm-marginal">
+      warm-marginal section
+    </a>{' '}
+    records every verdict, measured and declined, with the evidence behind it.
+  </p>
+)}
 
 <p class="caption">
   <strong>The axis is logarithmic.</strong> Each labelled tick is three times
@@ -609,6 +702,17 @@ const environment = model.environments[0];
     stroke-width: 2;
     opacity: 0.75;
   }
+  /* The warm-marginal mark is deliberately not a bar and not a tick: an open
+     caret below the row, in the same vendor colour but hollow, so it reads as
+     an annotation on the row rather than as another distribution on the same
+     footing as the cold one it sits under. */
+  .ranking-chart .row .warm-mark {
+    stroke: var(--vendor-rule, var(--sl-color-accent));
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    opacity: 0.85;
+  }
   .chart-legend {
     list-style: none;
     display: flex;
@@ -647,6 +751,11 @@ const environment = model.environments[0];
     height: 0.35rem;
     opacity: 0.28;
     border-radius: 0.1rem;
+  }
+  .chart-legend .key-warm .swatch {
+    width: 0.7rem;
+    height: 0.45rem;
+    clip-path: polygon(0% 100%, 50% 0%, 100% 100%);
   }
   .caption {
     font-size: var(--sl-text-sm);

@@ -14,6 +14,7 @@
 //   * the environment stamp is displayed verbatim and travels with the
 //     numbers, because they are not comparable across machines.
 import { latencyModel, formatMs } from '../data/latency';
+import { warmLatency } from '../data/warm-latency';
 import {
   vendorColorClass,
   vendorName,
@@ -22,6 +23,7 @@ import {
 import LatencyRanking from './LatencyRanking.astro';
 
 const model = latencyModel();
+const warm = warmLatency();
 
 const decomposed = model.adapters.filter((a) => a.phases.length > 0);
 const single = model.adapters.filter((a) => a.phases.length === 0);
@@ -353,6 +355,240 @@ const slowest = model.adapters.at(-1)!;
   dominated any particular case. The whole-invocation row is the distribution
   of per-case sums, computed per case and then summarized — not the sum of the
   phase medians.
+</p>
+
+<h2 id="warm-marginal">Warm marginal cost, measured separately</h2>
+
+<p>
+  Everything above is <strong>cold per-invocation</strong> wall-clock, and it
+  stays the headline of this tier. It is also what this benchmark actually
+  runs: one analyzer process per case, start-up inside the number, because
+  start-up is not observable from inside a single invocation. Nothing in this
+  section adjusts, corrects, or replaces one number above it.
+</p>
+
+<p>
+  But the ranked chart sets a native binary, a Python CLI, and five JVM or
+  JVM-fronted engines on one axis, and read across runtimes those bars
+  overstate the steady-state gap: a JVM row carries a JVM start that a
+  long-lived deployment of the same engine pays once. The honest response is
+  not to estimate that start-up and subtract it — that would be exactly the
+  after-the-fact adjustment this tier's contract refuses. It is to
+  <strong>measure the other quantity directly</strong>, which is what this
+  section reports, under
+  <a href="https://github.com/BrokkAi/dataflowbench/blob/main/docs/latency-tier.md#amendments">Amendment A13</a>,
+  preregistered before the first warm number existed.
+</p>
+
+<p>
+  <strong>The method, in one sentence:</strong> run <em>k</em> cases through
+  one tool process for increasing <em>k</em>, and report the <em>slope</em> of
+  batch wall-clock against <em>k</em> — the cost of one more case in a process
+  that has already paid its start-up. A slope, never an average: an average per
+  case at <em>k</em> still carries a <em>1/k</em> share of the fixed cost,
+  which is the very quantity the figure exists to remove. The batch reuses the
+  cold runner's own case selection, endpoint resolution, workspace
+  materialization, and query logic, so what is timed is the same work; only the
+  number of cases sharing one process differs.
+</p>
+
+{warm.measurements.length === 0 ? (
+  <p>
+    No warm measurement is published in this release.
+  </p>
+) : (
+  <>
+    <div class="table-scroll">
+      <table>
+        <thead>
+          <tr>
+            <th>Adapter</th>
+            <th>Kernel</th>
+            <th>Cold median, same cases</th>
+            <th>Warm marginal (least squares)</th>
+            <th>Warm marginal (endpoint)</th>
+            <th>Batches</th>
+            <th>Fitted fixed cost</th>
+          </tr>
+        </thead>
+        <tbody>
+          {warm.measurements.map((measurement) => (
+            <tr>
+              <td>
+                <span
+                  class:list={['vendor-dot', vendorColorClass(measurement.tool)]}
+                  aria-hidden="true"></span>
+                {vendorName(measurement.tool)}
+              </td>
+              <td><code>{measurement.language}</code></td>
+              <td>
+                {measurement.coldMedianMs === null
+                  ? 'n/a'
+                  : formatMs(measurement.coldMedianMs)}
+              </td>
+              <td><strong>{formatMs(measurement.leastSquaresMs)}</strong></td>
+              <td>{formatMs(measurement.endpointMs)}</td>
+              <td>
+                <code>
+                  k = {measurement.batches.map((batch) => batch.k).join(', ')}
+                </code>
+              </td>
+              <td class="muted">{formatMs(measurement.fittedFixedCostMs)}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+
+    <p class="caption">
+      The cold column is the median over <em>exactly</em> the cases the warm
+      batch analyzed, not over the whole kernel: two figures compared across
+      different populations would mix a population effect into a start-up
+      effect. <strong>The two columns are never subtracted.</strong> The
+      "fitted fixed cost" is the same fit's intercept, published as the
+      descriptive estimate it is — it is not measured, it is not a
+      decomposition of any cold number, and nothing on this site subtracts it
+      from one.
+    </p>
+
+    {warm.measurements.map((measurement) => (
+      <details class="data-table">
+        <summary>
+          {`Show the batch series — ${vendorName(measurement.tool)} on the ${
+            measurement.language
+          } kernel`}
+        </summary>
+        <div class="table-scroll">
+          <table>
+            <thead>
+              <tr>
+                <th>Cases in the batch (<em>k</em>)</th>
+                <th>Wall-clock of the one process</th>
+                <th>Average per case (not the reported figure)</th>
+              </tr>
+            </thead>
+            <tbody>
+              {measurement.batches.map((batch) => (
+                <tr>
+                  <td>{batch.k}</td>
+                  <td><strong>{formatMs(batch.wallMs)}</strong></td>
+                  <td class="muted">{formatMs(batch.wallMs / batch.k)}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <p class="caption">
+          The third column is shown precisely so it can be discarded: it falls
+          with <em>k</em> because it is still paying a shrinking share of the
+          fixed cost, and it would keep falling with a larger <em>k</em>
+          without ever being the marginal cost. The reported figure is the
+          slope of the second column against the first.
+          {measurement.restriction && (
+            <>
+              {' '}
+              <strong>Population:</strong> {measurement.restriction}.
+            </>
+          )}
+          {measurement.environment && (
+            <>
+              {' '}
+              Measured on <code>{measurement.environment.hardwareModel}</code>,{' '}
+              <code>{measurement.environment.os} {measurement.environment.osRelease}</code>,{' '}
+              {measurement.environment.cpuCount} logical CPUs — the same stamp
+              rule as every other number here, and not comparable across
+              machines.
+            </>
+          )}
+        </p>
+      </details>
+    ))}
+  </>
+)}
+
+<h3 id="warm-observability">Which adapters this could be measured on, and why not the rest</h3>
+
+<p>
+  Each verdict below was reached by interrogating the pinned distribution — its
+  help output, and where that was ambiguous its own bytecode — never from a
+  README or an assumption about the runtime. <strong>No adapter is patched,
+  forked, or invoked outside its released interface to make a batch
+  possible.</strong> An adapter that ships no way to analyze several cases in
+  one process has no warm figure here, and none is estimated for it from its
+  runtime or from another adapter's slope.
+</p>
+
+<div class="table-scroll">
+  <table>
+    <thead>
+      <tr>
+        <th>Adapter</th>
+        <th>Observable with the released CLI?</th>
+        <th>Evidence</th>
+      </tr>
+    </thead>
+    <tbody>
+      {warm.measurements.map((measurement) => (
+        <tr>
+          <td>
+            <span
+              class:list={['vendor-dot', vendorColorClass(measurement.tool)]}
+              aria-hidden="true"></span>
+            {vendorName(measurement.tool)}
+          </td>
+          <td><strong>Yes — measured</strong></td>
+          <td>
+            A released multi-case batch that does the same per-case work, timed
+            above.
+            {measurement.restriction && <> {measurement.restriction}.</>}
+          </td>
+        </tr>
+      ))}
+      {warm.declines.map((decline) => (
+        <tr>
+          <td>
+            <span
+              class:list={['vendor-dot', vendorColorClass(decline.tool)]}
+              aria-hidden="true"></span>
+            {vendorName(decline.tool)}
+          </td>
+          <td>
+            {decline.verdict === 'deferred' ? (
+              <strong>Yes in the CLI — not measured here</strong>
+            ) : (
+              <strong>Not observable with the released CLI</strong>
+            )}
+          </td>
+          <td>{decline.evidence}</td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+</div>
+
+<p class="caption">
+  <strong>The decline that matters most is Bifrost's, and it is stated in the
+  direction that costs this benchmark's publisher something.</strong> Bifrost
+  has no warm figure here, and its cold median already includes its own process
+  start — so whatever its warm marginal is, it lies between zero and a number
+  already published. Adding warm figures can therefore only move the
+  <em>other</em> rows down toward Bifrost's, never Bifrost's row down further.
+  The conflation this section corrects is one the vendor's own engine benefits
+  from, which is the reason to correct it in public rather than leave the
+  cold chart to be read as a steady-state ranking.
+</p>
+
+<p class="caption">
+  These artifacts are <strong>auxiliary evidence, outside the freeze</strong>.
+  They are retained under <code>reports/raw/warm-latency/</code> — the batch
+  series, the environment stamp, and the per-case evidence each batch produced,
+  so that a reader can check the batch did the real work rather than less of
+  it — but <code>freeze/v1</code> does not digest them, and this amendment does
+  not extend it to. A warm number carries the release commit's immutability for
+  its bytes and no stronger guarantee, exactly as the cold timing sidecars do.
+  No warm run wrote a normalized report, produced an outcome, or touched a
+  scored population; <code>validate-reports</code> and the freeze manifest never
+  read this directory.
 </p>
 
 <h2 id="slices">Per-slice medians</h2>

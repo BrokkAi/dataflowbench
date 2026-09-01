@@ -79,6 +79,40 @@ case and fixture byte, so nothing under `cases/` was touched to add this
 adapter; the invocation is pinned in the runner instead, the way the Kotlin
 Bifrost run pins its policy.
 
+### The warm-marginal batch invocation
+
+A second, **timing-only** invocation shape exists for the latency tier's
+warm-marginal measurement
+([Amendment A13](../../docs/latency-tier.md#amendments)). It scores nothing,
+writes no normalized report, and is never part of a scored population:
+
+```bash
+cargo run -- measure-warm-latency --tool joern --language java \
+  --batch-sizes 1,2,4,8,16 --joern <joern-cli>/joern
+```
+
+which spawns, once per batch size *k*:
+
+```bash
+joern --script adapters/joern/queries/warm-batch.sc \
+  --param manifestPath=<tab-separated batch manifest of k cases> \
+  --param completionPath=<batch completion marker>
+```
+
+`warm-batch.sc` imports and queries *k* case workspaces sequentially inside one
+JVM, giving each case its own project name inside the shared workspace — the
+warm process's stand-in for the cold runner's per-case scratch directory, so no
+case can select another's CPG. **`kernel.sc` is untouched by this**, exactly as
+it is untouched by the modeling and native scripts: every Joern report's
+`configuration_hash` is a digest over `kernel.sc` alone, so no frozen number
+moves. A unit test asserts the two scripts' load-bearing query block — the
+frontend dispatch, both selectors, and the `reachableByFlows` call — is
+character-for-character identical, so the warm measurement cannot drift into
+timing different work than the cold rows it stands beside. The batch script
+deliberately emits **no timestamps of its own**: the only clock is the runner's,
+around the whole batch subprocess, because the tier's decomposition rule admits
+only adapter-observable subprocess boundaries.
+
 ## Case selection
 
 Each command selects, runner-side:
