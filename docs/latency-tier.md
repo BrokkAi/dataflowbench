@@ -641,3 +641,146 @@ warm-marginal figure: these are cold, per-case, single-process phases.
 
 **Freezes invalidated.** None. The v0.6.0 latency snapshot predates the
 population and binds none of its artifacts.
+
+### A21 — 2026-09-01: the warm marginal is published as a range over retained repeats, superseding A15's point figures and its Semgrep withhold
+
+> **Amendment number.** This document's amendments continue the repository's
+> single sequence, whose top was A20 when this amendment was written, so it
+> claims **A21**. The OpenTaint, FlowDroid and Pysa modeling sessions were
+> landing amendments concurrently; if another A21 merges first this one is
+> renumbered at its own merge, with every citation moved, because an amendment
+> identifier must name exactly one amendment.
+
+**What A15 preregistered, and what it published.**
+[A15](#a15--2026-09-01-warm-marginal-cost-is-measured-as-a-separate-labelled-figure-and-the-cold-rows-stay-the-headline)
+established the warm-marginal measurement — *k* cases through one tool process,
+for increasing *k*, reporting the slope — and gated publication on a **stability
+check**: each measurement run twice, the figure withheld if "the two runs'
+slopes do not agree closely", and otherwise the second run retained and
+published as a point estimate.
+
+Under that rule A15 published one figure and withheld another:
+
+| A15's outcome | What it published |
+| --- | --- |
+| Joern 4.0.614, Java kernel | **1.55 s** per case (least squares), 1.54 s (endpoint), from a single retained run |
+| Semgrep CE 1.175.0, Java kernel | **Withheld.** Two runs' slopes differed by roughly a factor of two, recorded in the observability table as a decline |
+
+**The defect.** The stability rule named no tolerance. "Agree closely" is not a
+criterion, and the only moment at which a number could have been chosen for it
+was *after* the spreads were known — which is precisely the after-the-fact
+decision this document's motivation refuses. The rule therefore did not do the
+work it appeared to do: it left the decision to publish or withhold resting on
+an unstated judgement, applied once in each direction.
+
+The defect was found the way it should have been: by measuring again. Two
+repeats taken on a quiet machine disagreed by 12%, where two taken under load
+had agreed to 5%. There was no tolerance that could have been written down at
+that point without being fitted to spreads already seen.
+
+**The correction is a rule with no free parameter.** A slope over a handful of
+batches on a developer machine has a precision, and there were three ways to
+give it one. Publishing a single run to two significant figures hides the
+spread and claims more than was measured — that is what A15 did. Gating on an
+agreement tolerance requires choosing the tolerance. **Publishing the interval
+that was actually measured requires neither.**
+
+So, from this amendment:
+
+- The whole batch series is measured **more than once** — the repeat count is
+  fixed in the runner's source, not chosen per run, so a measurement cannot be
+  extended until its spread looks narrow.
+- **Every repeat is retained**, and what is published is the **range the repeats
+  span**, low to high. Its **width is the precision**, visible to the reader
+  rather than inferred.
+- The repeats are **never averaged** — that would make a repeated trial into a
+  statistic, which this tier's non-goals rule out — and **never chosen between**.
+- **No figure is withheld or promoted by a threshold.** A wide range is a
+  publishable result that reports its own precision, not a disqualification.
+
+Everything else A15 established is untouched and carries forward unchanged: the
+slope estimators, the prefix-ordered populations, the same-work requirement, the
+single clock at the subprocess boundary, the environment stamp, the
+sequential-run hygiene rule, the artifacts' place outside the freeze, and every
+rule keeping the warm figure separate from the cold rows. **The cold
+per-invocation rows remain the headline and are still neither adjusted nor
+subtracted from.**
+
+#### What is superseded
+
+A15's figures are **retired, not edited**. A15 stands as the record of what was
+published under the rule it preregistered; the numbers below replace it as the
+current figures, re-measured on an idle machine under the range rule.
+
+| Adapter | A15 published | A21 publishes | Cold median, same cases |
+| --- | --- | --- | --- |
+| Joern 4.0.614, Java | 1.55 s (point) | **996 ms – 1.01 s** | 15.6 s |
+| Semgrep CE 1.175.0, Java | *withheld* | **74 – 77 ms** | 1.16 s |
+
+Both A15 artifacts are kept where a reader can find them:
+`joern-java-kernel/superseded-a15-warm-latency.json` holds A15's published
+Joern figure unedited, beside the live one, and
+`reports/raw/warm-latency/README.md` maps the whole directory.
+
+The Joern figure moved by about a third, and the reason is stated rather than
+absorbed: **A15's measurement was taken on a busier machine**. Both runs
+recorded the one-minute load average before every batch, so this is read off
+the artifacts rather than recalled — A15's published run at **9.09 to 9.52** on
+a 10-core machine, A21's at **2.02 to 3.92**, in both cases with no competing
+analyzer. This document's hygiene rule always required that no other analyzer
+compete for the machine, and it was met both times — but "no other *analyzer*"
+is a weaker condition than "idle", and the two figures show what the gap
+between them is worth. Hence the additional rule below.
+
+- **Observed machine conditions are published beside the figure.** The runner
+  already samples the one-minute load average before every batch and retains it;
+  from this amendment that sample is **displayed on the page**, as the range
+  observed across every batch of every repeat. A reader can then discount a
+  figure taken on a busy machine instead of taking the word "quiet" on trust.
+
+#### The Semgrep withhold is reversed, and the misattribution is named
+
+A15 withheld Semgrep's figure because its two runs' slopes differed by a factor
+of two, and its observability table recorded that as a property of the
+measurement's subject: the batch was too small and the per-case work too slight
+for a stable slope. The retained probe README went further and called it an
+instability that should not be published.
+
+The retained probe carries the explanation A15 missed, in its own recorded
+loads: **probe run 1 ran at load 11.8–11.9 and probe run 2 at load 7.8–8.2**.
+Those were not two repeats of one measurement under one condition — the machine
+changed underneath them, and the slope moved with it. Re-measured at load
+4.1–4.3, **Semgrep's two repeats agree to about 4%**.
+
+The factor-of-two spread was produced by the machine, not by the engine. **The
+instability was the measurement's conditions, and attributing it to Semgrep was
+a mistake this amendment records rather than quietly drops.**
+
+Two consequences, both deliberate:
+
+- Semgrep's row in the observability table becomes **measured**, on the same
+  narrowed population A15 already described: one `--config` per `semgrep scan`
+  restricts a batch to cases resolving to identical rule text, so the batched
+  population is the largest identical-rule group among the kernel's invocable
+  assertions, and the cold median it is compared against is restricted to
+  exactly those cases.
+- The probe directory A15 cites stays **exactly where A15 put it**, with its
+  numbers unedited and a superseding header added. A retracted claim is only
+  auditable if it is still legible.
+
+It is worth being plain about the direction of this correction, since this
+benchmark is published by the vendor of one of the engines it measures. Both
+changes here move numbers **against** that vendor's interest: Joern's marginal
+falls by about a third, and a competitor's withheld figure is restored and
+turns out to be the *fastest* warm marginal on the page. The rule that produced
+them was replaced because it was unsound, not because of which way it pointed.
+
+**What does not change.** The decomposition rule, the per-adapter granularity
+table, the exclusion list, the cache declarations, the environment-scope rule,
+the cold tier's aggregation and presentation, the non-goals, and every
+invariant. No cold number changes. No phase boundary moves. A15's text is
+untouched.
+
+**Freezes invalidated.** None. `v0.6.0` is byte-identical before and after this
+amendment; warm artifacts are outside the freeze, and no normalized report is
+rewritten.
