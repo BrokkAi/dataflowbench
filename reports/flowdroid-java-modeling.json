@@ -1,0 +1,408 @@
+{
+  "adapter_version": "0.1.0",
+  "cold_or_warm": "cold",
+  "configuration_hash": "7ab02ca4b68b9fa86f8487959f5bd718e33bdcd02dbca2ac21d71bb2c6637d1e",
+  "ended_at_unix_seconds": 1788260120,
+  "fixture_revision": "sha256:9df209ed3d7723a3ee33f2b289cf2afe34a3add781bdf2a2ac445de42b8d0151",
+  "results": [
+    {
+      "case_id": "dfb-taint-java-model-declared-sink-negative",
+      "diagnostics": [],
+      "duration_ms": 1369,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/flowdroid-java-modeling/dfb-taint-java-model-declared-sink-negative.json",
+      "sink_anchors": [
+        "DFB-SINK: model-declared-sink-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: model-declared-sink-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-java-model-declared-sink-positive",
+      "diagnostics": [
+        "flow reported to anchored sink \"<dataflowbench.taint.Audit: void record(java.lang.String)>\""
+      ],
+      "duration_ms": 1318,
+      "outcome": "reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/flowdroid-java-modeling/dfb-taint-java-model-declared-sink-positive.json",
+      "sink_anchors": [
+        "DFB-SINK: model-declared-sink-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: model-declared-sink-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-java-model-declared-source-negative",
+      "diagnostics": [],
+      "duration_ms": 1317,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/flowdroid-java-modeling/dfb-taint-java-model-declared-source-negative.json",
+      "sink_anchors": [
+        "DFB-SINK: model-declared-source-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: model-declared-source-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-java-model-declared-source-positive",
+      "diagnostics": [
+        "flow reported to anchored sink \"<dataflowbench.taint.ModelDeclaredSourcePositive: void dfb_sink(java.lang.String)>\""
+      ],
+      "duration_ms": 1334,
+      "outcome": "reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/flowdroid-java-modeling/dfb-taint-java-model-declared-source-positive.json",
+      "sink_anchors": [
+        "DFB-SINK: model-declared-source-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: model-declared-source-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-java-model-entrypoint-parameter-negative",
+      "diagnostics": [
+        "category E — framework entry points — is unsupported for 2.15.1 by the preregistered modeling partition (docs/modeling-matrix.md#per-tool-capability-partition): the released CLI derives analysis roots exclusively from the APK manifest's Android components; no per-method entry-root declaration surface exists. Probed on the pinned 2.15.1: an XML sources-and-sinks definition binding the handler's parameter as a `callback` source parses (\"Loaded 1 sources\") and the analysis still finds zero sources, because a declaration cannot create a root the manifest does not (reports/raw/load-bearing-java-modeling/flowdroid-entrypoint-parameter-undeclarable.json)"
+      ],
+      "duration_ms": 0,
+      "outcome": "unsupported",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/flowdroid-java-modeling/dfb-taint-java-model-entrypoint-parameter-negative-unsupported.json",
+      "sink_anchors": [
+        "DFB-SINK: model-entrypoint-parameter-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: model-entrypoint-parameter-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-java-model-entrypoint-parameter-positive",
+      "diagnostics": [
+        "category E — framework entry points — is unsupported for 2.15.1 by the preregistered modeling partition (docs/modeling-matrix.md#per-tool-capability-partition): the released CLI derives analysis roots exclusively from the APK manifest's Android components; no per-method entry-root declaration surface exists. Probed on the pinned 2.15.1: an XML sources-and-sinks definition binding the handler's parameter as a `callback` source parses (\"Loaded 1 sources\") and the analysis still finds zero sources, because a declaration cannot create a root the manifest does not (reports/raw/load-bearing-java-modeling/flowdroid-entrypoint-parameter-undeclarable.json)"
+      ],
+      "duration_ms": 0,
+      "outcome": "unsupported",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/flowdroid-java-modeling/dfb-taint-java-model-entrypoint-parameter-positive-unsupported.json",
+      "sink_anchors": [
+        "DFB-SINK: model-entrypoint-parameter-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: model-entrypoint-parameter-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-java-model-entrypoint-selectivity-negative",
+      "diagnostics": [
+        "category E — framework entry points — is unsupported for 2.15.1 by the preregistered modeling partition (docs/modeling-matrix.md#per-tool-capability-partition): the released CLI derives analysis roots exclusively from the APK manifest's Android components; no per-method entry-root declaration surface exists. Probed on the pinned 2.15.1: an XML sources-and-sinks definition binding the handler's parameter as a `callback` source parses (\"Loaded 1 sources\") and the analysis still finds zero sources, because a declaration cannot create a root the manifest does not (reports/raw/load-bearing-java-modeling/flowdroid-entrypoint-parameter-undeclarable.json)"
+      ],
+      "duration_ms": 0,
+      "outcome": "unsupported",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/flowdroid-java-modeling/dfb-taint-java-model-entrypoint-selectivity-negative-unsupported.json",
+      "sink_anchors": [
+        "DFB-SINK: model-entrypoint-selectivity-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: model-entrypoint-selectivity-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-java-model-entrypoint-selectivity-positive",
+      "diagnostics": [
+        "category E — framework entry points — is unsupported for 2.15.1 by the preregistered modeling partition (docs/modeling-matrix.md#per-tool-capability-partition): the released CLI derives analysis roots exclusively from the APK manifest's Android components; no per-method entry-root declaration surface exists. Probed on the pinned 2.15.1: an XML sources-and-sinks definition binding the handler's parameter as a `callback` source parses (\"Loaded 1 sources\") and the analysis still finds zero sources, because a declaration cannot create a root the manifest does not (reports/raw/load-bearing-java-modeling/flowdroid-entrypoint-parameter-undeclarable.json)"
+      ],
+      "duration_ms": 0,
+      "outcome": "unsupported",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/flowdroid-java-modeling/dfb-taint-java-model-entrypoint-selectivity-positive-unsupported.json",
+      "sink_anchors": [
+        "DFB-SINK: model-entrypoint-selectivity-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: model-entrypoint-selectivity-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-java-model-opaque-propagator-negative",
+      "diagnostics": [],
+      "duration_ms": 1372,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/flowdroid-java-modeling/dfb-taint-java-model-opaque-propagator-negative.json",
+      "sink_anchors": [
+        "DFB-SINK: model-opaque-propagator-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: model-opaque-propagator-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-java-model-opaque-propagator-positive",
+      "diagnostics": [
+        "flow reported to anchored sink \"<dataflowbench.taint.ModelOpaquePropagatorPositive: void dfb_sink(java.lang.String)>\""
+      ],
+      "duration_ms": 1407,
+      "outcome": "reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/flowdroid-java-modeling/dfb-taint-java-model-opaque-propagator-positive.json",
+      "sink_anchors": [
+        "DFB-SINK: model-opaque-propagator-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: model-opaque-propagator-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-java-model-propagator-position-negative",
+      "diagnostics": [],
+      "duration_ms": 1389,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/flowdroid-java-modeling/dfb-taint-java-model-propagator-position-negative.json",
+      "sink_anchors": [
+        "DFB-SINK: model-propagator-position-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: model-propagator-position-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-java-model-propagator-position-positive",
+      "diagnostics": [
+        "flow reported to anchored sink \"<dataflowbench.taint.ModelPropagatorPositionPositive: void dfb_sink(java.lang.String)>\""
+      ],
+      "duration_ms": 1332,
+      "outcome": "reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/flowdroid-java-modeling/dfb-taint-java-model-propagator-position-positive.json",
+      "sink_anchors": [
+        "DFB-SINK: model-propagator-position-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: model-propagator-position-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-java-model-sanitizer-kill-negative",
+      "diagnostics": [],
+      "duration_ms": 1278,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/flowdroid-java-modeling/dfb-taint-java-model-sanitizer-kill-negative.json",
+      "sink_anchors": [
+        "DFB-SINK: model-sanitizer-kill-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: model-sanitizer-kill-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-java-model-sanitizer-kill-positive",
+      "diagnostics": [
+        "flow reported to anchored sink \"<dataflowbench.taint.ModelSanitizerKillPositive: void dfb_sink(java.lang.String)>\""
+      ],
+      "duration_ms": 1325,
+      "outcome": "reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/flowdroid-java-modeling/dfb-taint-java-model-sanitizer-kill-positive.json",
+      "sink_anchors": [
+        "DFB-SINK: model-sanitizer-kill-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: model-sanitizer-kill-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-java-model-sanitizer-selectivity-negative",
+      "diagnostics": [
+        "category Z — declared sanitizers — is unsupported for 2.15.1 by the preregistered modeling partition (docs/modeling-matrix.md#per-tool-capability-partition): FlowDroid cannot express sanitizer suppression and selectivity in one invocation: summary resolution is exclusive for the whole declaring class, so the declared scrub kill also suppresses the flow through the undeclared sanitizer-lookalike and the positive is undecidable by construction (Amendment A16)"
+      ],
+      "duration_ms": 0,
+      "outcome": "unsupported",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/flowdroid-java-modeling/dfb-taint-java-model-sanitizer-selectivity-negative-unsupported.json",
+      "sink_anchors": [
+        "DFB-SINK: model-sanitizer-selectivity-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: model-sanitizer-selectivity-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-java-model-sanitizer-selectivity-positive",
+      "diagnostics": [
+        "category Z — declared sanitizers — is unsupported for 2.15.1 by the preregistered modeling partition (docs/modeling-matrix.md#per-tool-capability-partition): FlowDroid cannot express sanitizer suppression and selectivity in one invocation: summary resolution is exclusive for the whole declaring class, so the declared scrub kill also suppresses the flow through the undeclared sanitizer-lookalike and the positive is undecidable by construction (Amendment A16)"
+      ],
+      "duration_ms": 0,
+      "outcome": "unsupported",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/flowdroid-java-modeling/dfb-taint-java-model-sanitizer-selectivity-positive-unsupported.json",
+      "sink_anchors": [
+        "DFB-SINK: model-sanitizer-selectivity-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: model-sanitizer-selectivity-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-java-model-store-roundtrip-negative",
+      "diagnostics": [
+        "category B — persistence boundaries — is unsupported for 2.15.1 by the preregistered modeling partition (docs/modeling-matrix.md#per-tool-capability-partition): no FlowDroid declaration surface carries a store identity or a key position: the sources-and-sinks formats declare source/sink/both roles, the EasyTaintWrapper lists declare taint/exclude/kill per method, and a StubDroid summary's positions are parameters, fields, and the return value — none can express the `store:` and `key:` bindings templates 11 and 12 declare, so a persistence declaration has no encoding on the pinned 2.15.1"
+      ],
+      "duration_ms": 0,
+      "outcome": "unsupported",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/flowdroid-java-modeling/dfb-taint-java-model-store-roundtrip-negative-unsupported.json",
+      "sink_anchors": [
+        "DFB-SINK: model-store-roundtrip-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: model-store-roundtrip-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-java-model-store-roundtrip-positive",
+      "diagnostics": [
+        "category B — persistence boundaries — is unsupported for 2.15.1 by the preregistered modeling partition (docs/modeling-matrix.md#per-tool-capability-partition): no FlowDroid declaration surface carries a store identity or a key position: the sources-and-sinks formats declare source/sink/both roles, the EasyTaintWrapper lists declare taint/exclude/kill per method, and a StubDroid summary's positions are parameters, fields, and the return value — none can express the `store:` and `key:` bindings templates 11 and 12 declare, so a persistence declaration has no encoding on the pinned 2.15.1"
+      ],
+      "duration_ms": 0,
+      "outcome": "unsupported",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/flowdroid-java-modeling/dfb-taint-java-model-store-roundtrip-positive-unsupported.json",
+      "sink_anchors": [
+        "DFB-SINK: model-store-roundtrip-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: model-store-roundtrip-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-java-model-store-separation-negative",
+      "diagnostics": [
+        "category B — persistence boundaries — is unsupported for 2.15.1 by the preregistered modeling partition (docs/modeling-matrix.md#per-tool-capability-partition): no FlowDroid declaration surface carries a store identity or a key position: the sources-and-sinks formats declare source/sink/both roles, the EasyTaintWrapper lists declare taint/exclude/kill per method, and a StubDroid summary's positions are parameters, fields, and the return value — none can express the `store:` and `key:` bindings templates 11 and 12 declare, so a persistence declaration has no encoding on the pinned 2.15.1"
+      ],
+      "duration_ms": 0,
+      "outcome": "unsupported",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/flowdroid-java-modeling/dfb-taint-java-model-store-separation-negative-unsupported.json",
+      "sink_anchors": [
+        "DFB-SINK: model-store-separation-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: model-store-separation-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-java-model-store-separation-positive",
+      "diagnostics": [
+        "category B — persistence boundaries — is unsupported for 2.15.1 by the preregistered modeling partition (docs/modeling-matrix.md#per-tool-capability-partition): no FlowDroid declaration surface carries a store identity or a key position: the sources-and-sinks formats declare source/sink/both roles, the EasyTaintWrapper lists declare taint/exclude/kill per method, and a StubDroid summary's positions are parameters, fields, and the return value — none can express the `store:` and `key:` bindings templates 11 and 12 declare, so a persistence declaration has no encoding on the pinned 2.15.1"
+      ],
+      "duration_ms": 0,
+      "outcome": "unsupported",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/flowdroid-java-modeling/dfb-taint-java-model-store-separation-positive-unsupported.json",
+      "sink_anchors": [
+        "DFB-SINK: model-store-separation-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: model-store-separation-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-java-model-summary-field-negative",
+      "diagnostics": [],
+      "duration_ms": 1338,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/flowdroid-java-modeling/dfb-taint-java-model-summary-field-negative.json",
+      "sink_anchors": [
+        "DFB-SINK: model-summary-field-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: model-summary-field-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-java-model-summary-field-positive",
+      "diagnostics": [
+        "flow reported to anchored sink \"<dataflowbench.taint.ModelSummaryFieldPositive: void dfb_sink(java.lang.String)>\""
+      ],
+      "duration_ms": 1319,
+      "outcome": "reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/flowdroid-java-modeling/dfb-taint-java-model-summary-field-positive.json",
+      "sink_anchors": [
+        "DFB-SINK: model-summary-field-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: model-summary-field-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-java-model-summary-through-negative",
+      "diagnostics": [],
+      "duration_ms": 1351,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/flowdroid-java-modeling/dfb-taint-java-model-summary-through-negative.json",
+      "sink_anchors": [
+        "DFB-SINK: model-summary-through-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: model-summary-through-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-java-model-summary-through-positive",
+      "diagnostics": [
+        "flow reported to anchored sink \"<dataflowbench.taint.ModelSummaryThroughPositive: void dfb_sink(java.lang.String)>\""
+      ],
+      "duration_ms": 1319,
+      "outcome": "reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/flowdroid-java-modeling/dfb-taint-java-model-summary-through-positive.json",
+      "sink_anchors": [
+        "DFB-SINK: model-summary-through-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: model-summary-through-input"
+      ],
+      "witness_checkpoints": []
+    }
+  ],
+  "schema_version": 1,
+  "started_at_unix_seconds": 1788260098,
+  "tool": "flowdroid",
+  "tool_build_identity": "soot-infoflow-cmd-2.15.1-jar-with-dependencies.jar sha256:51dadead47a173c494c2fa4855b1e8bd3b54e702a2c4b5ed58e60153009ae218; android-34 platform android.jar sha256:6cea1df3efb77103ac3e2beb9bf4718964b0e0869ab16d39d29d5cbae1c147ad; dexed by D8 8.5.35 (build 2c176ec131a9edb97721fb8578b7fbb462376632 from go/r8bot (luci-r8-custom-ci-archive-0-gths)); r8 jar sha256:4733945987ee0a840fafc34080b135259e01678412e07212b23f706334290294",
+  "tool_version": "2.15.1"
+}

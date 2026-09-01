@@ -1,0 +1,13 @@
+{
+  "adapter": "flowdroid",
+  "case_id": "dfb-taint-java-model-sanitizer-selectivity-positive",
+  "evidence_kind": "retained-capability-decision",
+  "modeling_category": "Z",
+  "modeling_category_label": "declared sanitizers",
+  "partition_source": "docs/modeling-matrix.md#per-tool-capability-partition",
+  "reason": "category Z — declared sanitizers — is unsupported for 2.15.1 by the preregistered modeling partition (docs/modeling-matrix.md#per-tool-capability-partition): FlowDroid cannot express sanitizer suppression and selectivity in one invocation: summary resolution is exclusive for the whole declaring class, so the declared scrub kill also suppresses the flow through the undeclared sanitizer-lookalike and the positive is undecidable by construction (Amendment A16)",
+  "stage": "preregistered-modeling-partition",
+  "state": "unsupported",
+  "template_id": "dfb-template-model-sanitizer-selectivity",
+  "witnessed_tool_identity": "2.15.1"
+}

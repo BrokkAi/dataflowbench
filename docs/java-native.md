@@ -290,3 +290,34 @@ witnessing rule.
 - It licenses no aggregate that combines these numbers with
   benchmark-controlled engine accuracy. That is
   [an invariant](native-profile.md#invariants), not a preference.
+
+## FlowDroid — declined on the shipped catalog's text (Amendment A17, 2026-09-01)
+
+[Amendment A16](native-profile.md#a17--2026-09-01-flowdroid-joins-the-tool-native-profile-with-a-live-activation-contract-and-six-cells-declined-on-catalog-evidence)
+added a sixth adapter to this row after its original runs, with a **Java-only**
+activation contract. The contract is live — the vendor's documented default
+`SourcesAndSinks.txt` ships inside the pinned, digest-witnessed jar, the CLI's
+mandatory `-s` flag is pointed at that catalog extracted verbatim, and the
+release-default StubDroid summaries stay on — but the catalog's own text binds
+no identity these twelve fixtures read (`Runtime.exec` is a bound sink;
+`System.getenv` occurs nowhere), so all six templates are `unsupported` on
+shipped-model evidence, the same shape as the other declines above.
+
+`reports/flowdroid-java-native.json` records the twelve retained decisions,
+each carrying the witnessed jar identity and the pinned activation shape:
+
+```bash
+cargo run -- run-flowdroid-native --language java \
+  --flowdroid-jar soot-infoflow-cmd-2.15.1-jar-with-dependencies.jar \
+  --android-platform android-34.jar
+```
+
+The gap this makes legible is the same one Joern's and Infer's rows state, doubled:
+FlowDroid scores **seven of twelve benchmark-controlled modeling templates**
+on this language ([Amendment A16](modeling-matrix.md#a16--2026-09-01-flowdroid-joins-the-modeling-matrix-with-a-java-only-partition-row))
+and **zero of six native templates**, with the same engine, the same jar, and
+the same day's runs. The engine can be told nearly anything; the product ships
+an Android-oriented catalog that knows none of the platform identities this
+probe set uses. That distance — between what the model layer can activate and
+what the shipped model set covers — is exactly what keeping the two profiles
+separate is for.

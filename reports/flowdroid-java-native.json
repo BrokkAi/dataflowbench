@@ -1,0 +1,218 @@
+{
+  "adapter_version": "0.1.0",
+  "cold_or_warm": "cold",
+  "configuration_hash": "297ad249b96b70b527d5717be3fd23c85cf47063d280fd76d177a415a22b7ecf",
+  "ended_at_unix_seconds": 1788260123,
+  "fixture_revision": "sha256:9df209ed3d7723a3ee33f2b289cf2afe34a3add781bdf2a2ac445de42b8d0151",
+  "results": [
+    {
+      "case_id": "dfb-taint-java-native-entrypoint-negative",
+      "diagnostics": [
+        "tool-native activation of dfb-template-native-entrypoint (category E — framework entry points) is unsupported for 2.15.1 over Java by the activation partition (docs/native-profile.md#partition-summary, as amended): FlowDroid's shipped entry convention is the Android component lifecycle derived from the APK manifest; the JVM process-entry convention — `public static void main(String[])` reading its argument vector — does not exist on the analyzed platform, appears in no shipped model, and cannot be a root the manifest does not declare (Amendment A17)"
+      ],
+      "duration_ms": 0,
+      "outcome": "unsupported",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/flowdroid-java-native/dfb-taint-java-native-entrypoint-negative-unsupported.json",
+      "sink_anchors": [
+        "DFB-SINK: native-entrypoint-exec"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: native-entrypoint-argv"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-java-native-entrypoint-positive",
+      "diagnostics": [
+        "tool-native activation of dfb-template-native-entrypoint (category E — framework entry points) is unsupported for 2.15.1 over Java by the activation partition (docs/native-profile.md#partition-summary, as amended): FlowDroid's shipped entry convention is the Android component lifecycle derived from the APK manifest; the JVM process-entry convention — `public static void main(String[])` reading its argument vector — does not exist on the analyzed platform, appears in no shipped model, and cannot be a root the manifest does not declare (Amendment A17)"
+      ],
+      "duration_ms": 0,
+      "outcome": "unsupported",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/flowdroid-java-native/dfb-taint-java-native-entrypoint-positive-unsupported.json",
+      "sink_anchors": [
+        "DFB-SINK: native-entrypoint-exec"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: native-entrypoint-argv"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-java-native-persistence-negative",
+      "diagnostics": [
+        "tool-native activation of dfb-template-native-persistence (category B — persistence boundaries) is unsupported for 2.15.1 over Java by the activation partition (docs/native-profile.md#partition-summary, as amended): no shipped model links `System.setProperty` to `System.getProperty` as a keyed store: the shipped `java.lang.System` summary models `getProperty` as key-argument → return taint — a propagator on the key, not a store read — `setProperty` has no summary at all, and no shipped source binds the environment read that starts the flow (Amendment A17)"
+      ],
+      "duration_ms": 0,
+      "outcome": "unsupported",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/flowdroid-java-native/dfb-taint-java-native-persistence-negative-unsupported.json",
+      "sink_anchors": [
+        "DFB-SINK: native-persistence-exec"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: native-persistence-env"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-java-native-persistence-positive",
+      "diagnostics": [
+        "tool-native activation of dfb-template-native-persistence (category B — persistence boundaries) is unsupported for 2.15.1 over Java by the activation partition (docs/native-profile.md#partition-summary, as amended): no shipped model links `System.setProperty` to `System.getProperty` as a keyed store: the shipped `java.lang.System` summary models `getProperty` as key-argument → return taint — a propagator on the key, not a store read — `setProperty` has no summary at all, and no shipped source binds the environment read that starts the flow (Amendment A17)"
+      ],
+      "duration_ms": 0,
+      "outcome": "unsupported",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/flowdroid-java-native/dfb-taint-java-native-persistence-positive-unsupported.json",
+      "sink_anchors": [
+        "DFB-SINK: native-persistence-exec"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: native-persistence-env"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-java-native-propagator-negative",
+      "diagnostics": [
+        "tool-native activation of dfb-template-native-propagator (category P — declared propagators) is unsupported for 2.15.1 over Java by the activation partition (docs/native-profile.md#partition-summary, as amended): the release default's summariesManual wrapper ships a `String.concat` taint summary, so the propagator half is covered — but no shipped source binds `System.getenv`, and a propagator with nothing to carry produces nothing (Amendment A17)"
+      ],
+      "duration_ms": 0,
+      "outcome": "unsupported",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/flowdroid-java-native/dfb-taint-java-native-propagator-negative-unsupported.json",
+      "sink_anchors": [
+        "DFB-SINK: native-propagator-exec"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: native-propagator-env"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-java-native-propagator-positive",
+      "diagnostics": [
+        "tool-native activation of dfb-template-native-propagator (category P — declared propagators) is unsupported for 2.15.1 over Java by the activation partition (docs/native-profile.md#partition-summary, as amended): the release default's summariesManual wrapper ships a `String.concat` taint summary, so the propagator half is covered — but no shipped source binds `System.getenv`, and a propagator with nothing to carry produces nothing (Amendment A17)"
+      ],
+      "duration_ms": 0,
+      "outcome": "unsupported",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/flowdroid-java-native/dfb-taint-java-native-propagator-positive-unsupported.json",
+      "sink_anchors": [
+        "DFB-SINK: native-propagator-exec"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: native-propagator-env"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-java-native-sanitizer-negative",
+      "diagnostics": [
+        "tool-native activation of dfb-template-native-sanitizer (category Z — declared sanitizers) is unsupported for 2.15.1 over Java by the activation partition (docs/native-profile.md#partition-summary, as amended): the shipped catalog's txt format has no sanitizer role at all — its entries are `_SOURCE_`/`_SINK_`/`_BOTH_` — and the shipped `java.lang.Integer` summary models `parseInt` as taint-*preserving* rather than as a barrier; prior to either, no shipped source binds the flow's environment read, so there is no flow for a sanitizer to be credited against (Amendment A17)"
+      ],
+      "duration_ms": 0,
+      "outcome": "unsupported",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/flowdroid-java-native/dfb-taint-java-native-sanitizer-negative-unsupported.json",
+      "sink_anchors": [
+        "DFB-SINK: native-sanitizer-exec"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: native-sanitizer-env"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-java-native-sanitizer-positive",
+      "diagnostics": [
+        "tool-native activation of dfb-template-native-sanitizer (category Z — declared sanitizers) is unsupported for 2.15.1 over Java by the activation partition (docs/native-profile.md#partition-summary, as amended): the shipped catalog's txt format has no sanitizer role at all — its entries are `_SOURCE_`/`_SINK_`/`_BOTH_` — and the shipped `java.lang.Integer` summary models `parseInt` as taint-*preserving* rather than as a barrier; prior to either, no shipped source binds the flow's environment read, so there is no flow for a sanitizer to be credited against (Amendment A17)"
+      ],
+      "duration_ms": 0,
+      "outcome": "unsupported",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/flowdroid-java-native/dfb-taint-java-native-sanitizer-positive-unsupported.json",
+      "sink_anchors": [
+        "DFB-SINK: native-sanitizer-exec"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: native-sanitizer-env"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-java-native-source-sink-negative",
+      "diagnostics": [
+        "tool-native activation of dfb-template-native-source-sink (category S — declared sources and sinks) is unsupported for 2.15.1 over Java by the activation partition (docs/native-profile.md#partition-summary, as amended): the shipped SourcesAndSinks.txt binds the template's sink — `<java.lang.Runtime: java.lang.Process exec(java.lang.String)> -> _SINK_` is in the catalog — but no shipped source binds a platform environment read: `System.getenv` does not occur in the catalog, whose sources are servlet, Spring, and Android framework identities. A catalog with a bound sink and no applicable source cannot produce a finding on these fixtures (Amendment A17)"
+      ],
+      "duration_ms": 0,
+      "outcome": "unsupported",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/flowdroid-java-native/dfb-taint-java-native-source-sink-negative-unsupported.json",
+      "sink_anchors": [
+        "DFB-SINK: native-source-sink-exec"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: native-source-sink-env"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-java-native-source-sink-positive",
+      "diagnostics": [
+        "tool-native activation of dfb-template-native-source-sink (category S — declared sources and sinks) is unsupported for 2.15.1 over Java by the activation partition (docs/native-profile.md#partition-summary, as amended): the shipped SourcesAndSinks.txt binds the template's sink — `<java.lang.Runtime: java.lang.Process exec(java.lang.String)> -> _SINK_` is in the catalog — but no shipped source binds a platform environment read: `System.getenv` does not occur in the catalog, whose sources are servlet, Spring, and Android framework identities. A catalog with a bound sink and no applicable source cannot produce a finding on these fixtures (Amendment A17)"
+      ],
+      "duration_ms": 0,
+      "outcome": "unsupported",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/flowdroid-java-native/dfb-taint-java-native-source-sink-positive-unsupported.json",
+      "sink_anchors": [
+        "DFB-SINK: native-source-sink-exec"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: native-source-sink-env"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-java-native-summary-negative",
+      "diagnostics": [
+        "tool-native activation of dfb-template-native-summary (category O — opaque procedure summaries) is unsupported for 2.15.1 over Java by the activation partition (docs/native-profile.md#partition-summary, as amended): summariesManual ships no `java.util.Base64` summary, and no shipped source binds the environment read that would have to survive the round trip (Amendment A17)"
+      ],
+      "duration_ms": 0,
+      "outcome": "unsupported",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/flowdroid-java-native/dfb-taint-java-native-summary-negative-unsupported.json",
+      "sink_anchors": [
+        "DFB-SINK: native-summary-exec"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: native-summary-env"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-java-native-summary-positive",
+      "diagnostics": [
+        "tool-native activation of dfb-template-native-summary (category O — opaque procedure summaries) is unsupported for 2.15.1 over Java by the activation partition (docs/native-profile.md#partition-summary, as amended): summariesManual ships no `java.util.Base64` summary, and no shipped source binds the environment read that would have to survive the round trip (Amendment A17)"
+      ],
+      "duration_ms": 0,
+      "outcome": "unsupported",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/flowdroid-java-native/dfb-taint-java-native-summary-positive-unsupported.json",
+      "sink_anchors": [
+        "DFB-SINK: native-summary-exec"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: native-summary-env"
+      ],
+      "witness_checkpoints": []
+    }
+  ],
+  "schema_version": 1,
+  "started_at_unix_seconds": 1788260123,
+  "tool": "flowdroid",
+  "tool_build_identity": "soot-infoflow-cmd-2.15.1-jar-with-dependencies.jar sha256:51dadead47a173c494c2fa4855b1e8bd3b54e702a2c4b5ed58e60153009ae218; android-34 platform android.jar sha256:6cea1df3efb77103ac3e2beb9bf4718964b0e0869ab16d39d29d5cbae1c147ad — FlowDroid 2.15.1 shipped SourcesAndSinks.txt catalog (extracted verbatim from the pinned soot-infoflow-cmd jar) and default summariesManual taint wrapper",
+  "tool_version": "2.15.1"
+}
