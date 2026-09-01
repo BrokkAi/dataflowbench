@@ -35,6 +35,11 @@
 //     wherever it renders, rather than living only on the page it links to.
 import { latencyModel, latencyRanking, formatMs } from '../data/latency';
 import { warmLatency } from '../data/warm-latency';
+import {
+  invocationOverhead,
+  overheadMarkFor,
+  SIGNIFICANCE_SHARE,
+} from '../data/invocation-overhead';
 import { vendorColorClass, vendorName } from '../data/snapshots';
 
 interface Props {
@@ -112,6 +117,32 @@ function warmMarkFor(
   return measurement ? measurement.leastSquaresRangeMs : null;
 }
 
+// ---- The estimated-overhead secondary mark (Amendment A24) ----------------
+//
+// A second, differently drawn annotation: the wall-clock of one complete
+// adapter invocation over a trivial no-flow fixture, which is fixed overhead
+// plus near-zero analysis and therefore an *upper bound* on start-up and
+// warm-up. It is an estimate, drawn as a hollow dashed *span* — never a point,
+// never a solid caret — so that it can be read neither as a precise figure nor
+// as A15's measured warm marginal, and it obeys the same three restrictions
+// that caret does: never in the ordering, never subtracted from a median,
+// absent where there is no figure.
+//
+// The span is the whole of it. The published figure is the range the repeats
+// spanned, its width is the measurement's precision, and drawing that width is
+// the only honest way to put it on a chart: a point would claim a precision
+// the repeats did not have.
+//
+// It carries one restriction of its own. A24 draws a mark only where the
+// estimate is a *substantial* share of the row it annotates — a mark at 16 ms
+// on a 123 ms row is unreadable at chart scale and invites the reading that a
+// mark means "slow start-up" when it would mean "a mark was drawn". The
+// threshold is preregistered, relative to each row's own cold median, and
+// applied to the range's *low* end so no mark appears on the strength of one
+// slow repeat. Every value, marked or not, is in the latency page's table.
+const overhead = invocationOverhead();
+const overheadPublished = overhead.estimates;
+
 interface Row {
   kind: 'adapter' | 'phase';
   tool: string;
@@ -127,6 +158,8 @@ interface Row {
   };
   /** Warm marginal per case, low to high across the retained repeats. */
   warm: [number, number] | null;
+  /** Estimated per-invocation overhead range, when one clears the threshold. */
+  estimate: { lowMs: number; highMs: number; language: string } | null;
   title: string;
   y: number;
 }
@@ -138,6 +171,7 @@ function layout(view: (typeof ranking.views)[number]) {
   for (const entry of view.entries) {
     const name = vendorName(entry.tool);
     const warm = warmMarkFor(view.id, entry.tool);
+    const estimate = overheadMarkFor(view.id, entry.tool);
     y += mainRowHeight / 2;
     rows.push({
       kind: 'adapter',
@@ -149,6 +183,7 @@ function layout(view: (typeof ranking.views)[number]) {
           : `${entry.timed} of ${entry.covered} timed`,
       d: entry.whole,
       warm,
+      estimate,
       title:
         `${name} — median ${formatMs(entry.whole.median)}, ` +
         `IQR ${formatMs(entry.whole.q1)} to ${formatMs(entry.whole.q3)}, ` +
@@ -165,7 +200,12 @@ function layout(view: (typeof ranking.views)[number]) {
                 (candidate) =>
                   candidate.tool === entry.tool && candidate.language === view.id,
               )!.runs.length
-            } retained repeats`),
+            } retained repeats`) +
+        (estimate === null
+          ? ''
+          : `. Estimated per-invocation overhead, an upper bound from a trivial ` +
+            `no-flow ${estimate.language} fixture: ${formatMs(estimate.lowMs)} to ` +
+            `${formatMs(estimate.highMs)} across repeats`),
       y,
     });
     y += mainRowHeight / 2;
@@ -178,6 +218,7 @@ function layout(view: (typeof ranking.views)[number]) {
         sublabel: '',
         d: phase,
         warm: null,
+        estimate: null,
         title:
           `${name} phase ${phase.phase} — median ${formatMs(phase.median)}, ` +
           `IQR ${formatMs(phase.q1)} to ${formatMs(phase.q3)}, ` +
@@ -247,6 +288,18 @@ const drawsWarmMarks =
   panels.some((panel) =>
     panel.rows.some((row) => row.warm !== null),
   );
+// The estimate marks, unlike the warm caret, do appear in the whole-corpus
+// view: an adapter's invocation overhead is a property of its invocation
+// shape, measured on one named language, and that language is stated on the
+// row and in the caption rather than being read as language-free.
+const drawsEstimateMarks = panels.some((panel) =>
+  panel.rows.some((row) => row.estimate !== null),
+);
+// Adapters whose estimate was published but sits below the threshold: named
+// in the caption so an absent mark reads as "small", never as "unmeasured".
+const belowThreshold = overheadPublished.filter(
+  (estimate) => !estimate.significant,
+);
 ---
 
 <div class="latency-ranking">
@@ -297,6 +350,12 @@ const drawsWarmMarks =
               the adapter above them only. The latency page carries every
               value, including the minima and maxima this chart does not draw,
               in the data tables behind its "Show the data table" disclosures.
+              A solid caret below a row is that adapter's separately measured
+              warm marginal per case; a dashed span above a row is its
+              estimated per-invocation overhead, an upper bound measured on a
+              trivial no-flow fixture, drawn across the range its repeats
+              spanned rather than at a point. Neither is a cold median, neither
+              affects the ordering, and neither is subtracted from anything.
             </desc>
 
             {ranking.ticks.map((tick) => (
@@ -419,6 +478,42 @@ const drawsWarmMarks =
                       ))}
                     </>
                   )}
+                  {row.estimate !== null &&
+                    (() => {
+                      // The span is the figure. A range whose repeats agreed
+                      // closely would otherwise collapse to a hairline on a
+                      // log axis and read as a point claim, so it is drawn at
+                      // a floor width — the end caps still mark where the
+                      // range actually falls.
+                      const left = x(row.estimate.lowMs);
+                      const right = Math.max(x(row.estimate.highMs), left + 6);
+                      const top = row.y - 13;
+                      return (
+                        <>
+                          <line
+                            class="estimate-span"
+                            x1={left}
+                            x2={right}
+                            y1={top}
+                            y2={top}
+                          />
+                          <line
+                            class="estimate-cap"
+                            x1={left}
+                            x2={left}
+                            y1={top - 4}
+                            y2={top + 4}
+                          />
+                          <line
+                            class="estimate-cap"
+                            x1={right}
+                            x2={right}
+                            y1={top - 4}
+                            y2={top + 4}
+                          />
+                        </>
+                      );
+                    })()}
                   <text
                     class={row.kind === 'adapter' ? 'row-value' : 'phase-value'}
                     x={padLeft + plotWidth + 12}
@@ -493,7 +588,17 @@ const drawsWarmMarks =
     {drawsWarmMarks && (
       <li class="key-warm">
         <span class="swatch" aria-hidden="true"></span>
-        warm marginal per case — the range its retained repeats span
+        <strong>measured</strong>&nbsp;warm marginal per case — the range its
+        retained repeats span
+      </li>
+    )}
+    {drawsEstimateMarks && (
+      <li class="key-estimate">
+        <span class="swatch" aria-hidden="true"></span>
+        <strong>estimated</strong>&nbsp;per-invocation overhead (trivial
+        fixture, upper bound), drawn across the range its repeats spanned, where
+        that range starts at or above{' '}
+        {Math.round(SIGNIFICANCE_SHARE * 100)}% of the row's median
       </li>
     )}
   </ul>
@@ -534,6 +639,56 @@ const drawsWarmMarks =
       warm-marginal section
     </a>{' '}
     records every verdict, measured and declined, with the evidence behind it.
+  </p>
+)}
+
+{overheadPublished.length > 0 && (
+  <p class="caption">
+    <strong>The dashed spans are estimates, not measurements of the same kind
+    as the bars.</strong> Each is the wall-clock of one complete
+    adapter invocation — same pipeline, same policy, rule or query, same
+    subprocess shape — over a <em>trivial no-flow fixture</em>: both benchmark
+    endpoints declared, nothing connecting them, nothing to find. That is fixed
+    per-invocation overhead <em>plus</em> the trivial fixture's own near-zero
+    analysis, so it is an <strong>upper bound</strong> on what an adapter pays
+    before it starts work, and it is a cold single-shot execution — the same
+    posture the bars are measured in, and not a steady-state one. It is never
+    subtracted from a median, never substituted for one, and never used to
+    order the rows.{' '}
+    <strong>The width of a span is the figure's precision, not a
+    decoration:</strong> each measurement is repeated a fixed number of times
+    and what is published is the range those repeats spanned — never a mean,
+    never one chosen repeat, and never withheld for repeats that disagree,
+    because a disagreement widens the range and that is the honest consequence
+    of it.{' '}
+    {drawsEstimateMarks && (
+      <>
+        A span is drawn only where the range <em>starts</em> at or above{' '}
+        {Math.round(SIGNIFICANCE_SHARE * 100)}% of that row's own cold median —
+        a threshold fixed in the amendment before any estimate was measured,
+        read at the low end so that no mark can appear on the strength of one
+        slow repeat.{' '}
+        {belowThreshold.length > 0 && (
+          <>
+            The{' '}
+            {belowThreshold
+              .map((estimate) => vendorName(estimate.tool))
+              .join(', ')}{' '}
+            {belowThreshold.length === 1 ? 'estimate is' : 'estimates are'}{' '}
+            below it and{' '}
+            {belowThreshold.length === 1 ? 'carries' : 'carry'} no mark —{' '}
+            <strong>small, not unmeasured</strong>.{' '}
+          </>
+        )}
+      </>
+    )}
+    Each estimate is measured in one named language, stated on the row it
+    annotates, because boot cost is not language-free.{' '}
+    <a href="/dataflowbench/snapshots/v0-6-0/latency/#invocation-overhead">
+      The estimates table
+    </a>{' '}
+    carries every value — every repeat behind every range, every unmarked row,
+    and every adapter for which no estimate could be taken at all.
   </p>
 )}
 
@@ -608,6 +763,18 @@ const drawsWarmMarks =
         </a>{' '}
         of one more case in a process that has already started, wherever the
         released CLI let it be measured.{' '}
+      </>
+    )}
+    {overheadPublished.length > 0 && (
+      <>
+        <strong>And what an invocation costs before it has anything to find is
+        estimated for every adapter it could be estimated for</strong> — the{' '}
+        <a href="/dataflowbench/snapshots/v0-6-0/latency/#invocation-overhead">
+          per-invocation overhead
+        </a>{' '}
+        of one complete invocation over a trivial no-flow fixture, an upper
+        bound published across the range its repeats spanned, never subtracted
+        from a bar above.{' '}
       </>
     )}
     Read this as characterization of what the
@@ -757,6 +924,23 @@ const drawsWarmMarks =
     stroke-dasharray: 2 2;
     opacity: 0.65;
   }
+  /* The estimated-overhead mark is deliberately unlike the measured warm mark
+     it shares an axis with. Both are dashed spans, because both publish a
+     range whose width is its precision — so the cues that separate them are
+     the side of the row (estimate above, warm below), the endpoint glyph
+     (a plain tick, not the warm mark's caret), and a longer dash. An estimate
+     must not be mistakable for a measurement. */
+  .ranking-chart .row .estimate-span {
+    stroke: var(--vendor-rule, var(--sl-color-accent));
+    stroke-width: 1.5;
+    stroke-dasharray: 5 3;
+    opacity: 0.9;
+  }
+  .ranking-chart .row .estimate-cap {
+    stroke: var(--vendor-rule, var(--sl-color-accent));
+    stroke-width: 1.5;
+    opacity: 0.9;
+  }
   .chart-legend {
     list-style: none;
     display: flex;
@@ -800,6 +984,14 @@ const drawsWarmMarks =
     width: 0.7rem;
     height: 0.45rem;
     clip-path: polygon(0% 100%, 50% 0%, 100% 100%);
+  }
+  .chart-legend .key-estimate .swatch {
+    width: 1.1rem;
+    height: 0.45rem;
+    background: none;
+    border-top: 1.5px dashed var(--sl-color-gray-3);
+    border-left: 1.5px solid var(--sl-color-gray-3);
+    border-right: 1.5px solid var(--sl-color-gray-3);
   }
   .caption {
     font-size: var(--sl-text-sm);
