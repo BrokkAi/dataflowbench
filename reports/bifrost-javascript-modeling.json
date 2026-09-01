@@ -2,7 +2,7 @@
   "adapter_version": "0.1.0",
   "cold_or_warm": "cold",
   "configuration_hash": "af5cc89e2d93f23cfcc552636c8d77a3aaae48f0901c38aa7d1977817a70b9d4",
-  "ended_at_unix_seconds": 1787918984,
+  "ended_at_unix_seconds": 1788193102,
   "fixture_revision": "sha256:9df209ed3d7723a3ee33f2b289cf2afe34a3add781bdf2a2ac445de42b8d0151",
   "results": [
     {
@@ -11,7 +11,7 @@
         "Bifrost reported incomplete analysis: partial_discovery",
         "taint discovery is incomplete: procedure value-flow snapshot for Audit.js:Audit.js.run is unknown"
       ],
-      "duration_ms": 169,
+      "duration_ms": 204,
       "outcome": "inconclusive",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-javascript-modeling/dfb-taint-javascript-model-declared-sink-negative.json",
@@ -30,7 +30,7 @@
         "Bifrost reported incomplete analysis: partial_discovery",
         "taint discovery is incomplete: procedure value-flow snapshot for Audit.js:Audit.js.run is unknown"
       ],
-      "duration_ms": 150,
+      "duration_ms": 203,
       "outcome": "inconclusive",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-javascript-modeling/dfb-taint-javascript-model-declared-sink-positive.json",
@@ -47,7 +47,7 @@
       "diagnostics": [
         "taint policy `dataflowbench.taint.model-javascript` bound no source endpoint: its source selectors matched no location in the scanned workspace, so this run reports zero findings vacuously rather than proving that no flow exists"
       ],
-      "duration_ms": 131,
+      "duration_ms": 290,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-javascript-modeling/dfb-taint-javascript-model-declared-source-negative.json",
@@ -66,7 +66,7 @@
         "Bifrost reported incomplete analysis: partial_discovery",
         "taint discovery is incomplete: procedure value-flow snapshot for Config.js:Config.js.run is unknown"
       ],
-      "duration_ms": 314,
+      "duration_ms": 212,
       "outcome": "inconclusive",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-javascript-modeling/dfb-taint-javascript-model-declared-source-positive.json",
@@ -117,7 +117,7 @@
       "diagnostics": [
         "category E — framework entry points — is unsupported for bifrost 0.10.7 by the preregistered modeling partition (docs/modeling-matrix.md#per-tool-capability-partition): to be verified — unsupported until shown: nothing in the repository or the README describes an entry-root declaration for the policy CLI"
       ],
-      "duration_ms": 2,
+      "duration_ms": 0,
       "outcome": "unsupported",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-javascript-modeling/dfb-taint-javascript-model-entrypoint-selectivity-negative-unsupported.json",
@@ -134,7 +134,7 @@
       "diagnostics": [
         "category E — framework entry points — is unsupported for bifrost 0.10.7 by the preregistered modeling partition (docs/modeling-matrix.md#per-tool-capability-partition): to be verified — unsupported until shown: nothing in the repository or the README describes an entry-root declaration for the policy CLI"
       ],
-      "duration_ms": 2,
+      "duration_ms": 0,
       "outcome": "unsupported",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-javascript-modeling/dfb-taint-javascript-model-entrypoint-selectivity-positive-unsupported.json",
@@ -202,7 +202,7 @@
       "diagnostics": [
         "category P — declared propagators — is unsupported for bifrost 0.10.7 by the preregistered modeling partition (docs/modeling-matrix.md#per-tool-capability-partition): to be verified — unsupported until shown: no committed policy declares a propagator or transform, and the adapter README makes no propagator claim. Additionally, every committed policy sets `:unmodeled optimistic`, so the modeling policy must also be shown to accept `require-model` before either P cell is load-bearing. Both must be demonstrated on the pinned build"
       ],
-      "duration_ms": 2,
+      "duration_ms": 0,
       "outcome": "unsupported",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-javascript-modeling/dfb-taint-javascript-model-propagator-position-positive-unsupported.json",
@@ -217,7 +217,7 @@
     {
       "case_id": "dfb-taint-javascript-model-sanitizer-kill-negative",
       "diagnostics": [],
-      "duration_ms": 154,
+      "duration_ms": 164,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-javascript-modeling/dfb-taint-javascript-model-sanitizer-kill-negative.json",
@@ -234,7 +234,7 @@
       "diagnostics": [
         "A benchmark-declared source reaches a benchmark-declared sink"
       ],
-      "duration_ms": 152,
+      "duration_ms": 175,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-javascript-modeling/dfb-taint-javascript-model-sanitizer-kill-positive.json",
@@ -249,7 +249,7 @@
     {
       "case_id": "dfb-taint-javascript-model-sanitizer-selectivity-negative",
       "diagnostics": [],
-      "duration_ms": 142,
+      "duration_ms": 166,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-javascript-modeling/dfb-taint-javascript-model-sanitizer-selectivity-negative.json",
@@ -266,7 +266,7 @@
       "diagnostics": [
         "A benchmark-declared source reaches a benchmark-declared sink"
       ],
-      "duration_ms": 144,
+      "duration_ms": 193,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-javascript-modeling/dfb-taint-javascript-model-sanitizer-selectivity-positive.json",
@@ -416,7 +416,7 @@
     }
   ],
   "schema_version": 1,
-  "started_at_unix_seconds": 1787918983,
+  "started_at_unix_seconds": 1788193101,
   "tool": "bifrost",
   "tool_build_identity": "44d9a5be416432bf8ed414afd3ea0031245ebb57",
   "tool_version": "bifrost 0.10.7"

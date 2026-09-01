@@ -4,7 +4,7 @@ Adapter `bifrost-go-kernel`: `bifrost` `bifrost 0.10.7` (build `44d9a5be416432bf
 
 Track `taint`, score dimension `taint`, model profile `benchmark-controlled`. This scorecard is a single result population; it is never pooled with other tracks, dimensions, or model profiles.
 
-Normalized report: `reports/bifrost-go-kernel.json` (`sha256:919e62b265d16b69a8288c39d5be0eff12ab7d878df3d42e116895403c4f7382`, normalized `sha256:919e62b265d16b69a8288c39d5be0eff12ab7d878df3d42e116895403c4f7382`). Generated from freeze manifest `reports/freeze.json` (`sha256:43a34341ca3f818f55878bb23562da03b8fc4b1fc0c83f47b954eb22ec3f41e4`).
+Normalized report: `reports/bifrost-go-kernel.json` (`sha256:010ac34f973a976371a81968484b885eb1cd47ec2a6b10679de24a3abcbcb260`, normalized `sha256:010ac34f973a976371a81968484b885eb1cd47ec2a6b10679de24a3abcbcb260`). Generated from freeze manifest `reports/freeze.json` (`sha256:3228af686d09f8666989368483bef375bb28b94025b55e31eaa7a0bdd29506ee`).
 
 ## Language `go`, tier `core`
 

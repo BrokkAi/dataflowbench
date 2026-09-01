@@ -4,7 +4,7 @@ Adapter `bifrost-kotlin-kernel`: `bifrost` `bifrost 0.10.7` (build `44d9a5be4164
 
 Track `taint`, score dimension `taint`, model profile `benchmark-controlled`. This scorecard is a single result population; it is never pooled with other tracks, dimensions, or model profiles.
 
-Normalized report: `reports/bifrost-kotlin-kernel.json` (`sha256:db5e0633a1313a18cb248961a7a6ae5ea2bba2e31bd0a00c17b66601337705c1`, normalized `sha256:db5e0633a1313a18cb248961a7a6ae5ea2bba2e31bd0a00c17b66601337705c1`). Generated from freeze manifest `reports/freeze.json` (`sha256:43a34341ca3f818f55878bb23562da03b8fc4b1fc0c83f47b954eb22ec3f41e4`).
+Normalized report: `reports/bifrost-kotlin-kernel.json` (`sha256:5015b8561bcf114af5a115a91320782406fba2a0e5fe2fb9f96a5518f3e98c89`, normalized `sha256:5015b8561bcf114af5a115a91320782406fba2a0e5fe2fb9f96a5518f3e98c89`). Generated from freeze manifest `reports/freeze.json` (`sha256:3228af686d09f8666989368483bef375bb28b94025b55e31eaa7a0bdd29506ee`).
 
 ## Language `kotlin`, tier `core`
 

@@ -4,7 +4,7 @@ Adapter `bifrost-rust-kernel`: `bifrost` `bifrost 0.10.7` (build `44d9a5be416432
 
 Track `taint`, score dimension `taint`, model profile `benchmark-controlled`. This scorecard is a single result population; it is never pooled with other tracks, dimensions, or model profiles.
 
-Normalized report: `reports/bifrost-rust-kernel.json` (`sha256:340d6104d3ecdfba2de9429cfdfc4380bbcb30e708180644dacef588b060ca02`, normalized `sha256:340d6104d3ecdfba2de9429cfdfc4380bbcb30e708180644dacef588b060ca02`). Generated from freeze manifest `reports/freeze.json` (`sha256:43a34341ca3f818f55878bb23562da03b8fc4b1fc0c83f47b954eb22ec3f41e4`).
+Normalized report: `reports/bifrost-rust-kernel.json` (`sha256:633c21813ff38d24bc9b5c73acdc71608b43bdafb281a673e4722d692c187a4e`, normalized `sha256:633c21813ff38d24bc9b5c73acdc71608b43bdafb281a673e4722d692c187a4e`). Generated from freeze manifest `reports/freeze.json` (`sha256:3228af686d09f8666989368483bef375bb28b94025b55e31eaa7a0bdd29506ee`).
 
 ## Language `rust`, tier `core`
 

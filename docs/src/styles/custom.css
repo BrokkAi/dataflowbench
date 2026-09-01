@@ -11,6 +11,30 @@
   --sl-color-accent-high: #155e75;
 }
 
+/* Vendor colour slots 4-7, added for the four analyzers v0.6.0 introduced.
+   Slots 0-3 (Bifrost, CodeQL, Joern, Semgrep CE) are deliberately *not*
+   defined here: they keep the per-component definitions they were published
+   with in v0.1.0-v0.5.0, because a reader who learned a colour from an
+   archived snapshot must still read it that way.
+
+   The hues are chosen to sit in the gaps the published four already leave.
+   Those occupy hue 41 (CodeQL, Starlight orange), 101 (Semgrep CE, green),
+   281 (Joern, purple) and roughly 187 (Bifrost, the cyan accent), so the new
+   slots take 339, 234, 150 and 310 — the widest remaining spacing available
+   for four more. Colour is never the only cue on any view: every bar, row,
+   and legend entry that carries one also carries the analyzer's name. */
+:root {
+  --dfb-vendor-4: var(--sl-color-red); /* hue 339 */
+  --dfb-vendor-5: var(--sl-color-blue); /* hue 234 */
+  --dfb-vendor-6: hsl(150, 72%, 48%);
+  --dfb-vendor-7: hsl(310, 82%, 66%);
+}
+
+:root[data-theme='light'] {
+  --dfb-vendor-6: hsl(150, 90%, 28%);
+  --dfb-vendor-7: hsl(310, 80%, 42%);
+}
+
 table code {
   white-space: nowrap;
 }

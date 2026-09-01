@@ -8,7 +8,7 @@ export default defineConfig({
   base: '/dataflowbench',
   redirects: {
     // Explicit current-snapshot pointer alongside versioned snapshot URLs.
-    '/current': '/dataflowbench/snapshots/v0-5-0/',
+    '/current': '/dataflowbench/snapshots/v0-6-0/',
   },
   integrations: [
     starlight({
@@ -34,7 +34,19 @@ export default defineConfig({
           items: [
             { label: 'All snapshots', slug: 'snapshots' },
             {
-              label: 'v0.5.0 (current)',
+              label: 'v0.6.0 (current)',
+              items: [
+                { label: 'Snapshot overview', slug: 'snapshots/v0-6-0' },
+                { label: 'Analyzers', slug: 'snapshots/v0-6-0/analyzers' },
+                { label: 'Languages', slug: 'snapshots/v0-6-0/languages' },
+                { label: 'Semantic templates', slug: 'snapshots/v0-6-0/templates' },
+                { label: 'Case evidence', slug: 'snapshots/v0-6-0/evidence' },
+                { label: 'Latency', slug: 'snapshots/v0-6-0/latency' },
+              ],
+            },
+            {
+              label: 'v0.5.0 (archived)',
+              collapsed: true,
               items: [
                 { label: 'Snapshot overview', slug: 'snapshots/v0-5-0' },
                 { label: 'Analyzers', slug: 'snapshots/v0-5-0/analyzers' },
@@ -107,6 +119,10 @@ export default defineConfig({
             {
               label: 'Adapter contract',
               link: 'https://github.com/BrokkAi/dataflowbench/blob/main/docs/adapters.md',
+            },
+            {
+              label: 'Latency tier (preregistration)',
+              link: 'https://github.com/BrokkAi/dataflowbench/blob/main/docs/latency-tier.md',
             },
           ],
         },

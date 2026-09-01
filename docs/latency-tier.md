@@ -119,6 +119,10 @@ preregistration.
 | Joern 4.0.614 | 1 — `joern --script` with per-case parameters | `total` | One number, honestly labelled: frontend import, CPG construction, and query-script execution happen inside a single JVM invocation, and the boundary between them is not adapter-observable. **JVM start-up policy: cold, per case** — each case is a fresh JVM in a fresh scratch directory, and that start-up cost is inside the number, stated rather than hidden. |
 | Bifrost v0.10.7 | 1 — one policy-CLI invocation | `total` | A single CLI invocation is indivisible from the adapter's vantage: one number per case. |
 | Semgrep CE 1.175.0 | 1 — one `semgrep scan` | `total` | Same: one number per case, interpreter start-up included. |
+| Infer v1.3.0 | 2 — `infer capture`, then `infer analyze` | `capture`, `analyze` | Added by [Amendment A12](#a12--2026-09-01-the-four-adapters-added-in-v060-take-their-granularity-rows). `capture` is the traced compile into Infer's own intermediate representation — the same cost, and the same attribution, as CodeQL's `extract`. `analyze` is Pulse evaluation *and* SARIF emission, which the pinned CLI performs inside one subprocess as invoked. |
+| OpenTaint `analyzer/2026.08.27.17eb0fe` | 1 — one analyzer-jar invocation | `total` | Added by Amendment A12. One JVM invocation per case, indivisible from the adapter's vantage. **JVM start-up policy: cold, per case**, and that start-up is inside the number. |
+| FlowDroid 2.15.1 | 1 — one command-line analyzer invocation | `total` | Added by Amendment A12. One number per case, cold JVM start-up included. **The per-case APK materialization the released CLI requires is *not* in the number**: the D8 dex translation and APK assembly are fixture materialization, performed before the analyzer subprocess is spawned, and are excluded by the rule below exactly as every other adapter's workspace preparation is. |
+| Pysa (pyre-check 0.10.0 + Pyrefly 1.2.0) | 1 — one `pyre analyze` invocation | `total` | Added by Amendment A12. The pinned client drives the Pyrefly front end and the taint analysis inside a single invocation the adapter cannot observe as separate subprocesses, so the front-end cost is inside the one number rather than split out. Interpreter start-up included. |
 
 Notes that bound the table:
 
@@ -183,6 +187,18 @@ is of their state, not a promise to defeat them:
   declared as found.
 - **Semgrep**: rule parsing is per-invocation on the pinned CE build; the
   vendored ruleset is on local disk.
+- **Infer** (Amendment A12): no cross-case cache — each case gets its own
+  scratch workspace and its own `--results-dir`, so no case can observe
+  another's capture database; the pinned distribution is on local disk.
+- **OpenTaint** (Amendment A12): no cross-case cache; one cold JVM per case
+  over a per-case scratch workspace, with the pinned jar on local disk.
+- **FlowDroid** (Amendment A12): no cross-case cache; one cold JVM per case
+  over a per-case scratch workspace holding that case's freshly materialized
+  APK, with the pinned jar and the Android platform jar on local disk.
+- **Pysa** (Amendment A12): no cross-case cache; each case gets its own
+  scratch project, its own `.pyre_configuration`, and its own `pyrefly.toml`,
+  so no case can observe another's front-end resolution state. The pinned
+  client, analysis binary, and Pyrefly build are on local disk.
 - **Cross-cutting**: OS page cache warmth is not controlled and not claimed to
   be; the sequential-run discipline below is the only isolation asserted.
 
@@ -235,6 +251,31 @@ quietly averaged in.
   every other published number does. The site page for this tier follows the
   first such freeze and is out of scope for this document beyond the rules
   above.
+
+### First publication
+
+Dated so that the tier's publication history is as auditable as its contract.
+
+| Date | Freeze | What was published | Where |
+| --- | --- | --- | --- |
+| 2026-09-01 | `v0.6.0` | Per-slice and per-adapter medians, quartiles, minima and maxima of per-case wall-clock over 2657 timed analyzer invocations on eight adapters, with phase splits for the two adapters whose rows declare them (CodeQL, Infer) and one whole-invocation number for the six that do not. One environment stamp, displayed verbatim. | `docs/src/content/docs/snapshots/v0-6-0/latency.mdx`, and the tier section of `docs/releases/v0.6.0.md` |
+
+Two properties of that first publication are stated here rather than only on
+the page, because they bound how far the numbers may be read:
+
+- **The gate is the manifest's bound case set.** The site derives its latency
+  aggregates at build time from the retained sidecars, and admits a case only
+  if `reports/freeze.json` binds that case's result. A sidecar left in the
+  tree by a run the freeze does not bind cannot reach a published number.
+- **The sidecars are retained beside digest-bound evidence, but `freeze/v1`
+  does not itself digest them.** The manifest binds one raw-evidence digest
+  per result, and the timing sidecar and the environment stamp are additive
+  files beside it. So a latency number in v0.6.0 carries the freeze's
+  guarantee that the *run* it belongs to is bound and byte-verified, and only
+  the release commit's own immutability for the timing bytes themselves.
+  Extending the manifest to bind them is a `freeze/v2` question, deliberately
+  not smuggled in under a schema version that does not describe it, and the
+  publication says so rather than implying a stronger guarantee than it has.
 
 ## Non-goals
 
@@ -296,10 +337,87 @@ touch, name the freezes they invalidate, and land as their own commits.
 Their numbers continue the repository's **single** amendment sequence rather
 than restarting per document: A1 is in
 [the challenge tier](challenge-tier.md#amendments), A2–A5 and A9 are in
-[the modeling matrix](modeling-matrix.md#amendments), and A6–A8 and A10 are in
-[the tool-native profile](native-profile.md#amendments). This document joins
+[the modeling matrix](modeling-matrix.md#amendments), A6–A8 and A10 are in
+[the tool-native profile](native-profile.md#amendments), and A11 is in
+[the adapter contract](adapters.md#amendments). This document joins
 that sequence — its first amendment takes the next unused number in the
 repository, not A1 — so that an amendment identifier names exactly one
 amendment wherever it is cited.
 
-None yet.
+### A12 — 2026-09-01: the four adapters added in v0.6.0 take their granularity rows
+
+**What was preregistered.** The per-adapter granularity table above was
+written against the four adapters the benchmark had when this document
+merged — CodeQL, Joern, Bifrost, and Semgrep CE — and states that "the
+granularity actually achieved per adapter is part of this preregistration".
+It named no row for OpenTaint, Infer, FlowDroid, or Pysa, because none of them
+existed as an adapter yet.
+
+**Why an amendment and not a silent edit.** Those four adapters landed in the
+v0.6.0 cycle (issues #96, #97, #99, #100) and their runners retain timing
+sidecars like every other runner. Publishing a latency number for an adapter
+whose invocation shape and phase cuts were never declared would be exactly the
+after-the-fact decomposition the motivation section above refuses. The table
+is immutable from the moment the first latency-bearing artifact was retained,
+so the rows are **added by dated amendment, before the first publication of
+any number they describe**, rather than backfilled into the original table as
+if they had always been there.
+
+**What changes.** Four rows are added to the per-adapter granularity table and
+four entries to the cache declarations, each recording the invocation shape
+the pinned runner actually uses:
+
+| Adapter | Subprocesses per case | Phases timed |
+| --- | --- | --- |
+| Infer v1.3.0 | 2 — `infer capture`, then `infer analyze` | `capture`, `analyze` |
+| OpenTaint `analyzer/2026.08.27.17eb0fe` | 1 | `total` |
+| FlowDroid 2.15.1 | 1 | `total` |
+| Pysa (pyre-check 0.10.0 + Pyrefly 1.2.0) | 1 | `total` |
+
+Infer is the second adapter with an observable two-phase shape, and it is the
+**same** shape as CodeQL's: a traced compile, then evaluation-and-emission
+inside one subprocess. Its `capture` is attributed to capture and never to
+analysis, on the same rule that puts CodeQL's traced compiles in `extract`.
+The other three expose one subprocess and take one honestly labelled number.
+
+Two costs are named explicitly so that neither is read into a number it is not
+in:
+
+- **FlowDroid's per-case APK materialization is excluded.** The released CLI
+  analyzes APKs only, so the adapter runs a D8 dex translation and assembles a
+  stored-zip APK before spawning the analyzer. That is fixture materialization
+  under the exclusion list above, it happens before the timed subprocess is
+  spawned, and it is outside every FlowDroid number. A reader comparing
+  FlowDroid's total against another adapter's is comparing analyzer
+  wall-clock, not the cost of getting a case in front of FlowDroid.
+- **Pysa's front-end cost is inside its one number.** The pinned client drives
+  the Pyrefly front end and the taint analysis within a single invocation, so
+  the front-end/analysis boundary is not adapter-observable and is not guessed
+  at. Pysa's `total` is not comparable, phase for phase, with CodeQL's
+  `extract` or Infer's `capture`; only whole-invocation totals compare across
+  adapters, exactly as corollary 2 above requires.
+
+**A labelling discrepancy, recorded rather than reconciled away.** This
+document's CodeQL row names its two phases `extract` and `analyze`. The
+instrumentation that landed under issue #90 labels the same two phases
+`database-create` and `database-analyze` in the retained sidecars, after the
+subcommands that produce them — which is also how this document's own
+"subprocesses per case" column already describes them (`database create`, then
+`database analyze`). **These are the same two subprocess boundaries with two
+spellings; no boundary moved, and nothing is attributed differently.** Because
+this document is immutable from the first retained artifact, the row is not
+edited to match: the discrepancy is recorded here instead, and publications
+use the labels the artifacts actually carry, so a reader can find any
+published phase name in the evidence it came from. Infer's row above is
+written with the labels its sidecars already use (`capture`, `analyze`), so it
+introduces no second instance of this.
+
+**What does not change.** The decomposition rule, the exclusion list, the
+environment-scope rule, the aggregation and presentation rules, the non-goals,
+and every invariant are untouched, and no existing row is edited: CodeQL's,
+Joern's, Bifrost's, and Semgrep's phase cuts are byte-identical to what they
+were preregistered as. No phase boundary is moved, and no number that existed
+before this amendment is redescribed by it.
+
+**Freezes invalidated.** None. No freeze published a latency number before
+this amendment: v0.6.0 is the first, and it is assembled after it.
