@@ -1,0 +1,384 @@
+---
+// Per-analyzer profile radars, as small multiples.
+//
+// One radar per analyzer, in a grid. They are **never overlaid**: a single
+// radar carrying eight coloured polygons invites exactly the comparison these
+// shapes cannot support, and the small-multiple form makes each analyzer's
+// profile a thing you read on its own.
+//
+// Four axes, four independent readings, no composite anywhere. The enclosed
+// area of one of these quadrilaterals is not a quantity: it depends on the
+// order the axes happen to be drawn in, and swapping two axes changes it
+// without changing a single number. Nothing in this component or in
+// `analyzerProfiles()` computes an area, a sum, or a weighted blend, and the
+// caption says so where a reader will see it.
+//
+// The axes are also not the same *kind* of number, which is the thing most
+// worth stating twice:
+//
+//   * `speed` is log-normalized on an absolute three-decade scale and
+//     inverted, so it is the only axis whose spacing is not linear;
+//   * `recall` counts non-answers against the tool, `precision` leaves them
+//     out of its denominator entirely — the same case is a miss on one axis
+//     and invisible on the other;
+//   * `recall` and `precision` are over each tool's **own covered slice**, so
+//     an analyzer covering one kernel and one covering thirteen are not
+//     sitting the same exam. That is the honesty note the normalized view of
+//     the cross-snapshot evolution chart carries, and it applies here with
+//     more force, because here the slice size is itself one of the axes.
+import { analyzerProfiles } from '../data/profiles';
+import { formatMs } from '../data/latency';
+import { vendorColorClass, vendorName } from '../data/snapshots';
+
+const model = analyzerProfiles();
+
+// ---- Geometry -------------------------------------------------------------
+// The box is wider than it is tall because the left and right axis labels sit
+// outside the outer ring: at a narrower width `coverage` runs off the edge and
+// is clipped to "overage".
+const viewWidth = 268;
+const viewHeight = 216;
+const cx = 134;
+const cy = 104;
+const radius = 66;
+const rings = [0.25, 0.5, 0.75, 1];
+
+/** Axis order around the circle, starting at the top and going clockwise. */
+const axes = [
+  { id: 'speed', label: 'speed' },
+  { id: 'recall', label: 'recall' },
+  { id: 'precision', label: 'precision' },
+  { id: 'coverage', label: 'coverage' },
+] as const;
+
+function point(index: number, value: number) {
+  const angle = (-90 + index * (360 / axes.length)) * (Math.PI / 180);
+  return {
+    x: cx + radius * value * Math.cos(angle),
+    y: cy + radius * value * Math.sin(angle),
+  };
+}
+
+function polygon(values: number[]): string {
+  return values
+    .map((value, index) => {
+      const p = point(index, value);
+      return `${p.x.toFixed(1)},${p.y.toFixed(1)}`;
+    })
+    .join(' ');
+}
+
+const labelOffsets = [
+  { dx: 0, dy: -radius - 12, anchor: 'middle' },
+  { dx: radius + 8, dy: 4, anchor: 'start' },
+  { dx: 0, dy: radius + 20, anchor: 'middle' },
+  { dx: -radius - 8, dy: 4, anchor: 'end' },
+];
+
+const percent = (value: number | null) =>
+  value === null ? 'n/a' : `${(value * 100).toFixed(1)}%`;
+
+const cards = model.profiles.map((profile) => {
+  const values = [
+    profile.speed ?? 0,
+    profile.recall ?? 0,
+    profile.precision ?? 0,
+    profile.coverage,
+  ];
+  return {
+    profile,
+    values,
+    readings: [
+      {
+        label: 'speed',
+        value:
+          profile.medianMs === null
+            ? 'n/a'
+            : `${formatMs(profile.medianMs)} median`,
+        basis:
+          profile.medianMs === null
+            ? 'no timed invocation'
+            : `${profile.timed} timed invocations`,
+      },
+      {
+        label: 'recall',
+        value: percent(profile.recall),
+        basis: `${profile.truePositives} of ${profile.positives} positive assertions it covers`,
+      },
+      {
+        label: 'precision',
+        value: percent(profile.precision),
+        basis: `${profile.truePositives} of ${
+          profile.truePositives + profile.falsePositives
+        } decided positives`,
+      },
+      {
+        label: 'coverage',
+        value: percent(profile.coverage),
+        basis: `${profile.kernels} of ${model.totalKernels} kernels, ${profile.covered} assertions`,
+      },
+    ],
+  };
+});
+---
+
+<div class="profile-grid">
+  {cards.map((card) => (
+    <figure class:list={['profile-card', vendorColorClass(card.profile.tool)]}>
+      <figcaption class="profile-name">
+        <span class="vendor-dot" aria-hidden="true"></span>
+        {vendorName(card.profile.tool)}
+      </figcaption>
+      <svg
+        class="profile-radar"
+        viewBox={`0 0 ${viewWidth} ${viewHeight}`}
+        role="img"
+        aria-labelledby={`profile-${card.profile.tool}-desc`}
+      >
+        <desc id={`profile-${card.profile.tool}-desc`}>
+          {`Four-axis profile for ${vendorName(card.profile.tool)}: speed ` +
+            `${percent(card.profile.speed)} of the log scale, recall ` +
+            `${percent(card.profile.recall)}, precision ` +
+            `${percent(card.profile.precision)}, kernel coverage ` +
+            `${percent(card.profile.coverage)}. The list beneath the shape ` +
+            `carries every value and its denominator. The shape is a profile, ` +
+            `not a score, and its area means nothing.`}
+        </desc>
+
+        {rings.map((ring) => (
+          <polygon
+            class="ring"
+            points={polygon(axes.map(() => ring))}
+          />
+        ))}
+        {axes.map((_axis, index) => {
+          const outer = point(index, 1);
+          return (
+            <line class="spoke" x1={cx} y1={cy} x2={outer.x} y2={outer.y} />
+          );
+        })}
+
+        <polygon class="shape" points={polygon(card.values)} />
+        {card.values.map((value, index) => {
+          const p = point(index, value);
+          return <circle class="vertex" cx={p.x} cy={p.y} r="3" />;
+        })}
+
+        {axes.map((axis, index) => (
+          <text
+            class="axis-label"
+            x={cx + labelOffsets[index]!.dx}
+            y={cy + labelOffsets[index]!.dy}
+            text-anchor={labelOffsets[index]!.anchor}
+          >
+            {axis.label}
+          </text>
+        ))}
+      </svg>
+      <dl class="readings">
+        {card.readings.map((reading) => (
+          <>
+            <dt>{reading.label}</dt>
+            <dd>
+              <strong>{reading.value}</strong>
+              <span class="basis">{reading.basis}</span>
+            </dd>
+          </>
+        ))}
+      </dl>
+    </figure>
+  ))}
+</div>
+
+<p class="caption">
+  <strong>These are profiles, not scores, and their areas are not
+  comparable.</strong> A radar's enclosed area depends on the order the axes
+  happen to be drawn in — swap two of them and the area changes without a
+  single number changing — so nothing on this page computes one, and a shape
+  that looks "bigger" is not a better analyzer. Nor are two shapes comparable
+  as wholes: read one axis at a time, against the denominator printed under it.
+  There is no combined score here or anywhere else on this site.
+</p>
+
+<p class="caption">
+  <strong>What each axis is over, since they are four different
+  denominators.</strong>
+</p>
+
+<ul class="axis-notes">
+  <li>
+    <strong>speed</strong> — the median whole-invocation wall-clock over these
+    same kernel populations, <em>log-normalized and inverted</em> so that
+    faster reads as larger. The scale is absolute, not relative to the
+    analyzers present: {formatMs(model.speedFastMs)} maps to the outer ring and{' '}
+    {formatMs(model.speedSlowMs)} to the centre, the same three decades the
+    latency chart's axis spans. Adding or removing an analyzer cannot move
+    anyone else's mark. It is the only axis whose spacing is not linear, so
+    equal distances along it are equal <em>ratios</em> of time. Every latency
+    caveat on the <a href="/dataflowbench/snapshots/v0-6-0/latency/">latency
+    page</a> applies to it unchanged: one machine, one environment stamp, no
+    repeated trials, per-invocation start-up costs inside the number.
+  </li>
+  <li>
+    <strong>recall</strong> — true positives over <em>every</em>
+    positive-polarity assertion in the kernels the analyzer covers.
+    <strong>Non-answers count against it</strong>: a case it answered
+    <code>inconclusive</code> or declined as <code>unsupported</code> stays in
+    the denominator, because it is a case the analyzer took on and did not
+    resolve.
+  </li>
+  <li>
+    <strong>precision</strong> — true positives over decided positives, true
+    plus false. <strong>Non-answers are absent from this denominator
+    entirely.</strong> That asymmetry with recall is deliberate and it is the
+    thing most easily misread on this page: the very same case can lower an
+    analyzer's recall while being invisible to its precision, so an analyzer
+    that decides little can hold a high precision and a low recall at once.
+  </li>
+  <li>
+    <strong>coverage</strong> — kernels covered of the snapshot's{' '}
+    {model.totalKernels}. It is on the picture precisely because the two rates
+    beside it are over each tool's <em>own</em> covered slice: recall and
+    precision from a one-kernel slice and from a thirteen-kernel slice are not
+    the same exam, and this axis is how far apart those exams are. It is the
+    same honesty note the
+    <a href="/dataflowbench/#evolution">cross-snapshot evolution chart's
+    normalized view</a> carries, and it binds harder here, because there the
+    coverage was an annotation and here it is an axis of the same shape.
+  </li>
+</ul>
+
+<p class="caption">
+  <strong>One population, so that the four numbers describe one exam.</strong>
+  Every axis is computed over the benchmark-controlled <code>core</code> kernel
+  populations — the same no-pooling filter the landing page's cards read — and
+  not over the whole freeze. The latency figure here is therefore narrower than
+  the whole-corpus median on the latency page, which also includes the modeling
+  and tool-native runs; where the two differ, they differ because they are over
+  different populations and both say which.
+</p>
+
+<p class="caption">
+  <strong>Latency and correctness are still never pooled.</strong> Placing them
+  on one picture is not combining them: no arithmetic here crosses an axis
+  boundary, no correctness outcome in this freeze was derived from or
+  tie-broken by a timing value, and "correct but slow" and "fast but wrong" are
+  as independently visible on these shapes as they are in the tables. If a
+  reader wants a single number that ranks these analyzers, this page does not
+  have one, and that is the point of it.
+</p>
+
+<style>
+  .profile-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+    gap: 0.75rem;
+    margin: 1rem 0;
+  }
+  .profile-card {
+    margin: 0;
+    border: 1px solid var(--sl-color-hairline);
+    border-radius: 0.75rem;
+    padding: 0.75rem 0.75rem 0.6rem;
+    background: var(--sl-color-bg-sidebar);
+  }
+  .profile-name {
+    display: flex;
+    align-items: center;
+    font-weight: 600;
+    font-size: var(--sl-text-base);
+    color: var(--sl-color-white);
+    margin: 0 0 0.25rem;
+  }
+  .vendor-dot {
+    display: inline-block;
+    width: 0.55rem;
+    height: 0.55rem;
+    border-radius: 50%;
+    margin-right: 0.4rem;
+    background: var(--vendor-rule, var(--sl-color-accent));
+  }
+  .profile-radar {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+  .profile-radar .ring {
+    fill: none;
+    stroke: var(--sl-color-hairline);
+    stroke-width: 1;
+  }
+  .profile-radar .spoke {
+    stroke: var(--sl-color-hairline);
+    stroke-width: 1;
+  }
+  .profile-radar .shape {
+    fill: var(--vendor-rule, var(--sl-color-accent));
+    fill-opacity: 0.28;
+    stroke: var(--vendor-rule, var(--sl-color-accent));
+    stroke-width: 2;
+    stroke-linejoin: round;
+  }
+  .profile-radar .vertex {
+    fill: var(--vendor-rule, var(--sl-color-accent));
+  }
+  .profile-radar .axis-label {
+    font-family: var(--__sl-font-mono);
+    font-size: 11px;
+    fill: var(--sl-color-gray-3);
+  }
+  .readings {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 0.1rem 0.6rem;
+    margin: 0.5rem 0 0;
+    font-size: var(--sl-text-xs);
+  }
+  .readings dt {
+    font-family: var(--__sl-font-mono);
+    color: var(--sl-color-gray-3);
+  }
+  .readings dd {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    line-height: 1.3;
+    color: var(--sl-color-gray-2);
+  }
+  .readings .basis {
+    color: var(--sl-color-gray-3);
+  }
+  .axis-notes {
+    font-size: var(--sl-text-sm);
+    color: var(--sl-color-gray-3);
+  }
+  .caption {
+    font-size: var(--sl-text-sm);
+    color: var(--sl-color-gray-3);
+  }
+  /* The same fixed vendor→colour identity map every other section uses. */
+  .v0 {
+    --vendor-rule: var(--sl-color-accent-high);
+  }
+  .v1 {
+    --vendor-rule: var(--sl-color-orange);
+  }
+  .v2 {
+    --vendor-rule: var(--sl-color-purple);
+  }
+  .v3 {
+    --vendor-rule: var(--sl-color-green);
+  }
+  .v4 {
+    --vendor-rule: var(--dfb-vendor-4);
+  }
+  .v5 {
+    --vendor-rule: var(--dfb-vendor-5);
+  }
+  .v6 {
+    --vendor-rule: var(--dfb-vendor-6);
+  }
+  .v7 {
+    --vendor-rule: var(--dfb-vendor-7);
+  }
+</style>

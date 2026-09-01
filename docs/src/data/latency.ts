@@ -612,6 +612,37 @@ export function latencyRanking(model: LatencyModel): LatencyRanking {
   };
 }
 
+/**
+ * Per tool, the distribution of whole-invocation wall-clock over the
+ * benchmark-controlled `core` kernel populations only — not over every timed
+ * invocation in the freeze.
+ *
+ * It exists for the one consumer that needs latency and correctness figures to
+ * share a denominator: a view that shows both must show them over the *same*
+ * population, or the two numbers describe two different exams. Every value is
+ * computed per case and then summarized, because a median of medians is not a
+ * median.
+ */
+export function kernelCorpusDistributions(): Map<string, Distribution> {
+  const values = new Map<string, number[]>();
+  for (const population of coreKernelPopulations(currentSnapshot.results)) {
+    for (const [tool, coverage] of population.entries) {
+      for (const result of coverage.tier.cases) {
+        const timing = readTiming(
+          coverage.card.report.path,
+          result.case_id,
+          result.raw_evidence?.path,
+        );
+        if (!timing) continue;
+        values.set(tool, [...(values.get(tool) ?? []), timing.whole]);
+      }
+    }
+  }
+  return new Map(
+    [...values.entries()].map(([tool, list]) => [tool, distribution(list)]),
+  );
+}
+
 export function formatMs(value: number): string {
   const ms = Math.round(value);
   if (ms < 1000) return `${ms} ms`;
