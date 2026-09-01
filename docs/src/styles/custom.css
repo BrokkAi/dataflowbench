@@ -107,6 +107,19 @@ table code {
   .sl-markdown-content :where(p, ul:not([class]), ol:not([class]), blockquote, dl) {
     max-width: var(--dfb-measure);
   }
+
+  /* On the landing (recognized by its stat grid), top-level explanatory
+     paragraphs flow as two newspaper columns instead of a capped single
+     measure that leaves the right third of the wide column dead. Each column
+     is ~half the content width, i.e. the same readable measure the cap
+     enforces — the width is spent on flow, not on line length. Short
+     paragraphs simply occupy the first column; the eyebrow label stays as
+     is. Browsers without :has() keep the capped single column. */
+  .sl-markdown-content:has(.stat-grid) > p:not(.eyebrow) {
+    columns: 2;
+    column-gap: 2.5rem;
+    max-width: none;
+  }
 }
 
 /* The two viewBox charts scale with their container in both axes, so an
