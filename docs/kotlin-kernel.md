@@ -102,7 +102,7 @@ adapters can do.
 | Bifrost v0.10.5 | **Deferred** | `reports/bifrost-kotlin-kernel.json` | Freeze-bound |
 | CodeQL 2.26.4 | **Deferred** | `reports/codeql-kotlin-kernel.json` | Freeze-bound |
 | Joern 4.0.614 | **Not covered** | — | No Kotlin slice exists in this repository |
-| OpenTaint `analyzer/2026.08.27.17eb0fe` | Yes | `reports/opentaint-kotlin-kernel.json` | New adapter (#17); post-freeze, binds nothing |
+| OpenTaint `analyzer/2026.08.27.17eb0fe` | Yes | `reports/opentaint-kotlin-kernel.json` | New adapter (#17); post-freeze, binds nothing; re-run under Amendment A11's amended templates |
 | FlowDroid 2.15.1 | Yes | `reports/flowdroid-kotlin-kernel.json` | New adapter (#82); post-freeze, binds nothing |
 
 **Both `reports/bifrost-kotlin-kernel.json` and
@@ -155,28 +155,33 @@ single case between the partitions — the same statement the classic run made.
 
 ### OpenTaint `analyzer/2026.08.27.17eb0fe` — expanded core
 
-`reports/opentaint-kotlin-kernel.json`, from the new OpenTaint adapter (#17):
+`reports/opentaint-kotlin-kernel.json`, from the OpenTaint adapter (#17):
 the pinned JVM-bytecode engine over the whole 58-assertion population, all of
 it scored — OpenTaint's pinned documentation fences no capability, so unlike
 Semgrep CE there is no documented boundary to preregister an `unsupported`
-partition from. 17 `reached`, 41 `not-reached`, zero `inconclusive`, zero
-`unsupported`, zero `runner-error`; **38/58** polarity match.
+partition from. 33 `reached`, 25 `not-reached`, zero `inconclusive`, zero
+`unsupported`, zero `runner-error`; **50/58** polarity match — 29/32 classic
+and 21/26 challenge.
 
-Kotlin is the population where this engine is actually measurable, and the
-reason is fixture encoding rather than anything Kotlin-specific: the pinned
-engine drops taint on numeric values (the retained value-kind probe under
-`reports/raw/opentaint-value-kind-probe/` isolates this), and Kotlin's core
-splits 15 `Int`-encoded templates against 14 `String`-encoded ones — the
-`direct` pair plus the entire challenge tier. Every `Int`-encoded positive is
-missed on that boundary; the `String`-encoded subset scores 23/28. On the
-challenge strata the engine scores **21/26**, including correct
-discrimination of the depth-6 `deep-relay-chain` pair that Joern's pinned
-`maxCallDepth=4` misses in five languages; the one challenge false negative
-is the reflective-invocation positive, and the four false positives are one
-family of dynamic-heap-location over-approximation (`computed-property`,
-`dispatch-table`, `element-object`, `function-field` negatives). See
+This is the
+[Amendment A11](adapters.md#a11--2026-08-31-opentaints-value-kind-boundary-is-a-default-rule-configuration-and-primitive-tracking-is-enabled-in-both-kernel-templates)
+re-run: the original run read 38/58, with every one of the 15 `Int`-encoded
+positives missed on what turned out to be the engine's default rule
+configuration — primitive tracking off unless a rule opts in, identified
+upstream and enabled in the amended templates. On the digest-identical jar
+every previously value-kind-missed positive is now `reached`; the two
+remaining false negatives are `exception-catch` (taint through a thrown
+exception's payload field) and `reflective-invocation` (the string-resolved
+callee), and the depth-6 `deep-relay-chain` pair that Joern's pinned
+`maxCallDepth=4` misses in five languages still discriminates correctly. The
+six false positives are the dynamic-heap-location over-approximation family
+reported upstream — the original run's `computed-property`,
+`dispatch-table`, `element-object`, and `function-field` negatives,
+unchanged, joined by `array-element` (whose `Int`-encoded negative was
+trivially clean before primitives carried) — plus `loop-carried-negative`;
+`infeasible-branch-negative` stays clean. See
 [the OpenTaint adapter notes](../adapters/opentaint/README.md) for the
-per-subset tables and the retained evidence conventions.
+per-template results and the retained evidence conventions.
 
 ### FlowDroid 2.15.1 — expanded core
 
@@ -192,9 +197,10 @@ challenge, four false negatives and five false positives.
 
 The pinned CLI analyzes APKs only, so each case's `kotlinc` bytecode is
 dexed (with the pinned `kotlin-stdlib.jar`) into a minimal APK from pinned
-JVM-only pieces. Unlike OpenTaint there is no value-kind boundary — taint
-survives Kotlin's `Int`-encoded templates — so this is Kotlin's second
-whole-population engine measurement and its strongest: the depth-6
+JVM-only pieces. There is no value-kind boundary here — taint survives
+Kotlin's `Int`-encoded templates without a rule option, where OpenTaint's
+default configuration needed Amendment A11's opt-in — so this is Kotlin's
+second whole-population engine measurement: the depth-6
 `deep-relay-chain`, `recursive-carry`, `alias-propagation`, and the heap
 field flows all discriminate correctly. The misses concentrate in
 stored-function indirection and reflection (`dispatch-table`,
