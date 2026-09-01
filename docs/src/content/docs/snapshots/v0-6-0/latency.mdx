@@ -1,0 +1,26 @@
+---
+title: Latency — v0.6.0
+description: The first publication of the latency-characterization tier — per-case analyzer wall-clock, descriptive, and never pooled with correctness.
+---
+
+import LatencyTier from '../../../../components/LatencyTier.astro';
+
+The first publication of DataFlowBench's latency-characterization tier. It
+stands **beside** the correctness scorecards, on its own page, and never as a
+column inside one.
+
+The contract governing every number here —
+[`docs/latency-tier.md`](https://github.com/BrokkAi/dataflowbench/blob/main/docs/latency-tier.md)
+— was written and merged **before any timestamp was captured**, and it is
+explicit about why. DataFlowBench is published by the vendor of one of the
+engines measured, and a latency page assembled after the numbers were known,
+with its phase boundaries and its aggregation chosen afterwards, would deserve
+exactly the skepticism it would get. So the decomposition rule, the exclusion
+list, the per-adapter granularity, and the aggregation were all fixed while
+every number was still unmeasured. The four analyzers this release adds took
+their granularity rows by
+[Amendment A12](https://github.com/BrokkAi/dataflowbench/blob/main/docs/latency-tier.md#amendments),
+dated and landed **before** this page published any of their numbers, rather
+than being backfilled into the original table.
+
+<LatencyTier />

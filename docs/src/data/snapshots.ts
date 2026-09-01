@@ -3,6 +3,7 @@
 // `cargo run -- generate-results` from a validated immutable freeze — never
 // from hand-authored prose. CI proves the checked-in model is current.
 import currentResults from '../../../results/results.json';
+import v050Results from './archive/v0-5-0-results.json';
 import v040Results from './archive/v0-4-0-results.json';
 import v030Results from './archive/v0-3-0-results.json';
 import v020Results from './archive/v0-2-0-results.json';
@@ -129,11 +130,20 @@ export const repository = 'https://github.com/BrokkAi/dataflowbench';
 
 export const snapshots: Snapshot[] = [
   {
-    version: 'v0.5.0',
-    slug: 'v0-5-0',
+    version: 'v0.6.0',
+    slug: 'v0-6-0',
     evidenceRef: 'main',
     current: true,
     results: currentResults as unknown as ResultsModel,
+  },
+  {
+    version: 'v0.5.0',
+    slug: 'v0-5-0',
+    // Permanently pinned: the commit whose tree holds v0.5.0's manifest and
+    // retained evidence, immutable even as main moves on.
+    evidenceRef: 'd6582d1c29c121d4d3655874a7bab122444424b2',
+    current: false,
+    results: v050Results as unknown as ResultsModel,
   },
   {
     version: 'v0.4.0',
@@ -196,26 +206,65 @@ const vendorNames: Record<string, string> = {
   codeql: 'CodeQL',
   joern: 'Joern',
   semgrep: 'Semgrep CE',
+  opentaint: 'OpenTaint',
+  infer: 'Infer',
+  flowdroid: 'FlowDroid',
+  pysa: 'Pysa',
 };
 
 /**
  * Fixed vendor→colour identity map. Keyed by tool rather than by row position
  * so a vendor keeps its colour across every section and every snapshot.
+ *
+ * The first four slots are frozen: `v0`–`v3` were published in v0.1.0–v0.5.0
+ * and a reader who learned "orange is CodeQL" from an archived snapshot must
+ * still read it that way here. The four analyzers added in v0.6.0 therefore
+ * take **new** slots `v4`–`v7` rather than reusing or reshuffling any of the
+ * existing ones. Every consumer of this map defines all eight classes.
  */
 const vendorColorClasses: Record<string, string> = {
   bifrost: 'v0',
   codeql: 'v1',
   joern: 'v2',
   semgrep: 'v3',
+  opentaint: 'v4',
+  infer: 'v5',
+  flowdroid: 'v6',
+  pysa: 'v7',
 };
+
+/** How many stable colour slots the stylesheets define. */
+export const vendorColorSlots = 8;
 
 export function vendorName(tool: string): string {
   return vendorNames[tool] ?? tool.charAt(0).toUpperCase() + tool.slice(1);
 }
 
-export function vendorColorClass(tool: string, index = 0): string {
-  return vendorColorClasses[tool] ?? `v${index % 4}`;
+/**
+ * The witnessed `tool_version` as a version *label*, for display beside the
+ * analyzer's name. Bifrost's version banner witnesses itself as
+ * `bifrost 0.10.7`, so rendering it next to the name reads "Bifrost bifrost
+ * 0.10.7". The witnessed string in the manifest is untouched; only the label
+ * drops the redundant prefix.
+ */
+export function toolVersionLabel(tool: string, toolVersion: string): string {
+  const prefix = `${tool} `;
+  return toolVersion.startsWith(prefix)
+    ? toolVersion.slice(prefix.length)
+    : toolVersion;
 }
+
+export function vendorColorClass(tool: string, index = 0): string {
+  return vendorColorClasses[tool] ?? `v${index % vendorColorSlots}`;
+}
+
+/**
+ * The identity map itself, for the one consumer that needs it as data: the
+ * landing page's client-side dialog script, which cannot import this module
+ * and would otherwise hand-copy the map and drift from it.
+ */
+export const vendorColorMap: Readonly<Record<string, string>> =
+  vendorColorClasses;
 
 /** Stable ordering of analyzers: the colour identity map, then alphabetical. */
 export function vendorOrder(tool: string): number {

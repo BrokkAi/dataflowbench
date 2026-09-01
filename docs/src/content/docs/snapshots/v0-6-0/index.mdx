@@ -1,0 +1,126 @@
+---
+title: Snapshot v0.6.0
+description: Four new analyzers, the first pin-currency review, and the first publication of the latency tier.
+---
+
+import SnapshotBanner from '../../../../components/SnapshotBanner.astro';
+import { snapshots, evidenceUrl } from '../../../../data/snapshots';
+
+export const snapshot = snapshots.find((s) => s.version === 'v0.6.0');
+
+<SnapshotBanner snapshot={snapshot} />
+
+The sixth immutable DataFlowBench snapshot, and the widest one so far. It is
+three things at once: the freeze in which the benchmark **doubles its analyzer
+count from four to eight** — OpenTaint, Infer v1.3.0, FlowDroid 2.15.1, and
+Pysa join Bifrost, CodeQL, Joern, and Semgrep CE — the first **pin-currency
+review**, and the **first publication of the latency-characterization tier**.
+
+## The eight analyzers
+
+Every one is bound at one fixture revision, with the identity of the binary
+actually invoked witnessed and digest-recorded in the manifest.
+
+<table>
+  <thead>
+    <tr>
+      <th>Analyzer</th>
+      <th>Version</th>
+      <th>Since</th>
+    </tr>
+  </thead>
+  <tbody>
+    {[...new Map(
+      snapshot.results.scorecards.map((card) => [
+        card.adapter.tool,
+        card.adapter.tool_version,
+      ]),
+    ).entries()]
+      .sort((left, right) => left[0].localeCompare(right[0]))
+      .map(([tool, version]) => (
+        <tr>
+          <td><code>{tool}</code></td>
+          <td><code>{version}</code></td>
+          <td>
+            {['opentaint', 'infer', 'flowdroid', 'pysa'].includes(tool)
+              ? 'v0.6.0'
+              : 'earlier'}
+          </td>
+        </tr>
+      ))}
+  </tbody>
+</table>
+
+The four new adapters each enter **whole** expanded cores, with no partition
+fenced off: their pinned distributions declare interprocedural taint analysis
+and document no capability this benchmark exercises as out of scope, so every
+incapacity they show is a measured mismatch rather than a declared decline.
+Read them that way. A row of nine mismatches on a 58-assertion core is nine
+measurements, and the per-template detail is on the
+[semantic templates](/dataflowbench/snapshots/v0-6-0/templates/) page.
+
+Two of the four also change what a *language* can be read as. Infer joins
+Bifrost, CodeQL, and Semgrep CE on the c and cpp kernel cores — the third
+analyzer there to enter the whole core rather than a declared intraprocedural
+partition, and the first that is neither this project's own engine nor CodeQL.
+Pysa makes python a five-analyzer kernel. Java goes from four analyzers to
+seven.
+
+## Model profiles and tiers
+
+This snapshot carries **two model profiles**, as v0.5.0 did. The
+`benchmark-controlled` profile covers the thirteen language kernels and the
+twelve-template modeling matrix; the `tool-native` profile covers the
+six-template probe set, where each tool decides with nothing but what it
+ships. **The two profiles are never pooled, never compared number-to-number,
+and never share a denominator.**
+
+Coverage differs by analyzer as well as by language and by tier. A kernel with
+no report for an analyzer means no extractor, no frontend, or no adapter —
+that is coverage, not a score. `inconclusive` and `unsupported` are capability
+coverage and are never converted into clean negatives.
+
+## Claim
+
+- Scope: <code>{snapshot.results.claim.scope}</code>
+- Tracks: {snapshot.results.claim.tracks.map((t) => <code>{t}</code>)}
+- Score tiers: {snapshot.results.claim.score_tiers.map((t) => <code>{t} </code>)}
+- Model profiles: {snapshot.results.claim.model_profiles.map((p) => <code>{p} </code>)}
+- Exclusions: {snapshot.results.claim.exclusions.length === 0 ? 'none' : ''}
+
+{snapshot.results.claim.exclusions.length > 0 && (
+  <table>
+    <thead>
+      <tr><th>Case</th><th>Reason</th></tr>
+    </thead>
+    <tbody>
+      {snapshot.results.claim.exclusions.map((exclusion) => (
+        <tr>
+          <td><code>{exclusion.id}</code></td>
+          <td>{exclusion.reason}</td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+)}
+
+## Bound evidence
+
+Freeze ID (manifest SHA-256): <code>{snapshot.results.manifest.sha256}</code>
+
+Freeze manifest: <a href={evidenceUrl(snapshot, snapshot.results.manifest.path)}><code>{snapshot.results.manifest.path}</code></a>
+— every case, fixture, normalized report, and raw-evidence file is
+digest-bound; `cargo run -- validate-freeze reports/freeze.json` re-verifies
+all of it. {snapshot.results.scorecards.length} scorecards are bound, one per
+frozen report.
+
+The full release note — with the pin-currency review's zero-drift result, the
+four new analyzers' misses published as-is, and the OpenTaint amendment whose
+superseded row is restated rather than removed — is
+[`docs/releases/v0.6.0.md`](https://github.com/BrokkAi/dataflowbench/blob/main/docs/releases/v0.6.0.md).
+
+Continue to [analyzers](/dataflowbench/snapshots/v0-6-0/analyzers/),
+[languages](/dataflowbench/snapshots/v0-6-0/languages/),
+[semantic templates](/dataflowbench/snapshots/v0-6-0/templates/),
+[case evidence](/dataflowbench/snapshots/v0-6-0/evidence/), or
+[latency](/dataflowbench/snapshots/v0-6-0/latency/).

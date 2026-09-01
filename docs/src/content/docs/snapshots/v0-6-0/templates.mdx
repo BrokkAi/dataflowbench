@@ -1,0 +1,34 @@
+---
+title: Semantic templates — v0.6.0
+description: Per-template positive/negative outcomes for every scorecard, across both model profiles.
+---
+
+import TemplateMatrix from '../../../../components/TemplateMatrix.astro';
+import { snapshots } from '../../../../data/snapshots';
+
+export const snapshot = snapshots.find((s) => s.version === 'v0.6.0');
+
+Each scored template is a balanced pair: one positive case (the flow exists)
+and one minimally different negative case (it does not). Reading a row: a
+sound-and-precise analyzer shows `reached` / `not-reached`.
+
+Three template families appear here, and they belong to different populations.
+`chal-*` and the unprefixed kernel templates are the benchmark-controlled
+kernels. `model-*` templates are the modeling matrix, also
+benchmark-controlled: twelve templates in six categories, where a category the
+tool's own model surface cannot express is `unsupported` before the tool runs.
+`native-*` templates are the tool-native probe set, where the tool decides with
+nothing supplied by us. The **Model profile** column separates the last of
+these from the first two; **rows from different profiles are never comparable**,
+and a `native-*` row of `unsupported` / `unsupported` is a declared decline,
+not two wrong answers.
+
+This is the page on which the four analyzers new in v0.6.0 are meant to be
+read. None of them declines a kernel template, so each of their rows is a
+measurement, and their misses concentrate visibly: the `chal-*` reflection,
+dispatch and callback families for all four, `loop-carried-kill` for every one
+of them, and the dynamic-heap-location negatives — `array-element`,
+`computed-property`, `dispatch-table`, `element-object` — for OpenTaint and
+FlowDroid. Those cells are published exactly as the runs produced them.
+
+<TemplateMatrix snapshot={snapshot} />

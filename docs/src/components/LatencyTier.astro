@@ -1,0 +1,574 @@
+---
+// The latency-characterization tier's presentation.
+//
+// Derived at build time from the frozen artifacts by `latencyModel()`, which
+// gates on the freeze manifest's bound case set. Every rule this page follows
+// is preregistered in `docs/latency-tier.md`:
+//
+//   * descriptive only — medians, quartiles, minima and maxima, no score;
+//   * never a column inside a correctness table, and never pooled with one;
+//   * phases compare *within* an adapter, whole invocations *across* them,
+//     and the granularity asymmetry is stated on the page rather than hidden
+//     by summing a decomposed adapter into a single number and pretending
+//     every row is the same kind of quantity;
+//   * the environment stamp is displayed verbatim and travels with the
+//     numbers, because they are not comparable across machines.
+import { latencyModel, formatMs } from '../data/latency';
+import {
+  vendorColorClass,
+  vendorName,
+  toolVersionLabel,
+} from '../data/snapshots';
+
+const model = latencyModel();
+
+/** Bar geometry, scaled to the slowest adapter's median. */
+const scale = Math.max(...model.adapters.map((a) => a.whole.median));
+const width = (value: number) => `${Math.max(0.6, (value / scale) * 100)}%`;
+
+const decomposed = model.adapters.filter((a) => a.phases.length > 0);
+const single = model.adapters.filter((a) => a.phases.length === 0);
+const fastest = model.adapters[0]!;
+const slowest = model.adapters.at(-1)!;
+---
+
+<h2 id="scope">What these numbers are, and what they are not</h2>
+
+<p>
+  This is a <strong>descriptive characterization</strong> of per-case analyzer
+  wall-clock, published under the contract preregistered in
+  <a href="https://github.com/BrokkAi/dataflowbench/blob/main/docs/latency-tier.md"><code>docs/latency-tier.md</code></a>,
+  which was merged before a single timestamp was captured. It is not a score,
+  not a ranking, and not a benchmark result in the sense the rest of this site
+  uses that phrase.
+</p>
+
+<ul>
+  <li>
+    <strong>Latency is never pooled with correctness.</strong> There is no
+    combined number anywhere on this site, no efficiency-adjusted rate, and no
+    leaderboard that blends the two. "Correct but slow" and "fast but wrong"
+    stay independently visible. No correctness outcome in this freeze was
+    derived from, conditioned on, or tie-broken by a timing value.
+  </li>
+  <li>
+    <strong>A latency number is a property of a run, not of a case.</strong>
+    No case carries a timing assertion, threshold, or budget.
+  </li>
+  <li>
+    <strong>Characterization, not micro-benchmark.</strong> There are no
+    repeated trials, no warm-up iterations, and no steady-state harness. The
+    case population is the sample and its spread is the statistics. The
+    distribution columns below are that spread — not error bars on a
+    measurement that was repeated, because it was not.
+  </li>
+  <li>
+    <strong>These are the conditions the numbers were produced under:</strong>
+    a single developer machine, under light concurrent load, running the
+    benchmark's standing sequential-run discipline — one analyzer at a time,
+    never two at once. That discipline is what makes the numbers usable at
+    all; the light concurrent load is what stops them being a controlled
+    measurement. Read them as characterization of what this benchmark
+    actually costs to run, at the order-of-magnitude and shape level, and not
+    as a precise figure for any engine.
+  </li>
+</ul>
+
+<h2 id="environment">Environment stamp</h2>
+
+<p>
+  Recorded once per run beside the tool identity the run witnessed, and shown
+  here verbatim. <strong>Latency numbers are comparable within one
+  environment and are not comparable across machines.</strong> Every published
+  run to date executes on one maintainer machine, and that caveat travels with
+  every number on this page.
+</p>
+
+<div class="table-scroll">
+  <table>
+    <thead>
+      <tr>
+        <th>Hardware model</th>
+        <th>OS</th>
+        <th>OS release</th>
+        <th>Logical CPUs</th>
+        <th>CPU architecture</th>
+        <th>Timed runs stamped</th>
+      </tr>
+    </thead>
+    <tbody>
+      {model.environments.map((environment) => (
+        <tr>
+          <td><code>{environment.hardwareModel}</code></td>
+          <td><code>{environment.os}</code></td>
+          <td><code>{environment.osRelease}</code></td>
+          <td><code>{environment.cpuCount}</code></td>
+          <td><code>{environment.cpuArchitecture}</code></td>
+          <td>{environment.runs}</td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+</div>
+
+{model.environments.length === 1 && (
+  <p class="caption">
+    One row: every timed invocation in this freeze ran in the same stamped
+    environment, so no number on this page is a cross-environment comparison.
+    Were there two rows, this page would say so in the table rather than
+    averaging across them. The count is of run directories that contain at
+    least one timed invocation — a run that invoked no analyzer at all still
+    stamps its environment and witnesses its tool identity, but contributes no
+    latency number and is not counted here.
+  </p>
+)}
+
+<h2 id="granularity">The granularity is unequal, and that is the point</h2>
+
+<p>
+  A phase is timed <strong>if and only if the adapter already invokes it as a
+  separate subprocess</strong>. The benchmark never instruments analyzer
+  internals, never patches an upstream tool, and never infers a boundary a
+  subprocess boundary does not expose. The adapters do not expose the same
+  boundaries, so the rows below are <em>not</em> equally decomposed — and the
+  two ways of papering over that would both misdescribe the evidence: summing
+  a decomposed adapter's phases and presenting every row as one number of the
+  same kind, or guessing phase splits for the adapters that expose only one.
+</p>
+
+<p>
+  So the table states each adapter's declared granularity as data.
+  <strong>Phases compare within an adapter; whole invocations compare across
+  adapters.</strong> A CodeQL <code>database-create</code> number and a Joern
+  total are not the same kind of quantity, and nothing on this page sets them
+  side by side as though they were.
+</p>
+
+<div class="table-scroll">
+  <table>
+    <thead>
+      <tr>
+        <th>Adapter</th>
+        <th>Version</th>
+        <th>Subprocesses per case</th>
+        <th>Phases timed</th>
+        <th>Timed invocations</th>
+      </tr>
+    </thead>
+    <tbody>
+      {model.adapters.map((adapter) => (
+        <tr>
+          <td>
+            <span
+              class:list={['vendor-dot', vendorColorClass(adapter.tool)]}
+              aria-hidden="true"></span>
+            {vendorName(adapter.tool)}
+          </td>
+          <td><code>{toolVersionLabel(adapter.tool, adapter.toolVersion)}</code></td>
+          <td>{adapter.subprocessesPerCase}</td>
+          <td>
+            {adapter.granularity.map((phase) => (
+              <><code>{phase}</code>{' '}</>
+            ))}
+          </td>
+          <td>{adapter.timed}</td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+</div>
+
+<p class="caption">
+  {decomposed.length} of {model.adapters.length} adapters expose more than one
+  subprocess and are decomposed here
+  ({decomposed.map((a) => vendorName(a.tool)).join(' and ')}); the other{' '}
+  {single.length} expose a single invocation and take one honestly labelled
+  number, with interpreter or JVM start-up inside it. That is a fact about
+  invocation shapes, not about engine architecture: an adapter with one number
+  is not an adapter that does one thing.
+</p>
+
+<p class="caption">
+  The phase names above are the ones the retained evidence carries, so any
+  name here can be found in the artifact it came from. For CodeQL those are
+  <code>database-create</code> and <code>database-analyze</code>, after the
+  subcommands that produce them, where the preregistration's table spells the
+  same two boundaries <code>extract</code> and <code>analyze</code>. Two
+  spellings, one pair of subprocess boundaries: nothing moved and nothing is
+  attributed differently. The contract is immutable, so the difference is
+  recorded in its
+  <a href="https://github.com/BrokkAi/dataflowbench/blob/main/docs/latency-tier.md#amendments">Amendment A12</a>
+  rather than edited out of its table.
+</p>
+
+<h2 id="cross-adapter">Whole-invocation wall-clock, per adapter</h2>
+
+<p>
+  The only cross-adapter reading this tier supports: each adapter's
+  whole-invocation wall-clock, over every case in this freeze it actually
+  invoked. Per-case timing at this granularity includes per-invocation fixed
+  costs — JVM start-up, extractor initialization, interpreter start — that a
+  long-lived deployment of the same engine would amortize. This tier does not
+  correct for that; it characterizes what the benchmark actually runs.
+</p>
+
+<div class="latency-bars">
+  {model.adapters.map((adapter) => (
+    <div class:list={['bar-row', vendorColorClass(adapter.tool)]}>
+      <div class="bar-label">
+        <span class="who">{vendorName(adapter.tool)}</span>
+        <span class="caption">{toolVersionLabel(adapter.tool, adapter.toolVersion)}</span>
+      </div>
+      <div class="bar-track">
+        <div class="bar-fill" style={`width: ${width(adapter.whole.median)}`}>
+        </div>
+        <span class="bar-value">{formatMs(adapter.whole.median)}</span>
+      </div>
+    </div>
+  ))}
+</div>
+
+<p class="caption">
+  Median whole-invocation wall-clock, on a linear scale. The spread behind
+  each bar is in the table below, and it is wide: read the median with its
+  quartiles, never on its own.
+</p>
+
+<div class="table-scroll">
+  <table>
+    <thead>
+      <tr>
+        <th>Adapter</th>
+        <th>Timed invocations</th>
+        <th>Median</th>
+        <th>Q1</th>
+        <th>Q3</th>
+        <th>Min</th>
+        <th>Max</th>
+      </tr>
+    </thead>
+    <tbody>
+      {model.adapters.map((adapter) => (
+        <tr>
+          <td>
+            <span
+              class:list={['vendor-dot', vendorColorClass(adapter.tool)]}
+              aria-hidden="true"></span>
+            {vendorName(adapter.tool)}
+          </td>
+          <td>{adapter.whole.n}</td>
+          <td><strong>{formatMs(adapter.whole.median)}</strong></td>
+          <td>{formatMs(adapter.whole.q1)}</td>
+          <td>{formatMs(adapter.whole.q3)}</td>
+          <td>{formatMs(adapter.whole.min)}</td>
+          <td>{formatMs(adapter.whole.max)}</td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+</div>
+
+<p class="caption">
+  No mean is headlined anywhere on this page. The distributions are skewed by
+  per-invocation fixed costs and by a small number of very long tails — the
+  slowest single invocation in this freeze is{' '}
+  {formatMs(Math.max(...model.adapters.map((a) => a.whole.max)))}, against a
+  page-wide fastest median of {formatMs(fastest.whole.median)} — and a mean
+  over that shape would describe neither the typical case nor the tail.
+  The adapters span roughly{' '}
+  {Math.round(slowest.whole.median / fastest.whole.median)}× between the
+  fastest and slowest medians, which is the order-of-magnitude claim this tier
+  is entitled to make, and the strongest one it makes.
+</p>
+
+<h2 id="phases">Phase decomposition, within each adapter that has one</h2>
+
+<p>
+  Only the {decomposed.length} adapters whose declared row has phases appear
+  here, and each is read <em>down its own column</em>. These numbers exist to
+  decompose one adapter's own cost. Racing one adapter's phase against
+  another's total is exactly the reading the granularity rule forbids.
+</p>
+
+{decomposed.map((adapter) => (
+  <>
+    <h3>
+      <span
+        class:list={['vendor-dot', vendorColorClass(adapter.tool)]}
+        aria-hidden="true"></span>
+      {vendorName(adapter.tool)} {toolVersionLabel(adapter.tool, adapter.toolVersion)}
+    </h3>
+    <div class="table-scroll">
+      <table>
+        <thead>
+          <tr>
+            <th>Phase</th>
+            <th>Median</th>
+            <th>Q1</th>
+            <th>Q3</th>
+            <th>Min</th>
+            <th>Max</th>
+            <th>Share of the median invocation</th>
+          </tr>
+        </thead>
+        <tbody>
+          {adapter.phases.map((phase) => (
+            <tr>
+              <td><code>{phase.phase}</code></td>
+              <td><strong>{formatMs(phase.median)}</strong></td>
+              <td>{formatMs(phase.q1)}</td>
+              <td>{formatMs(phase.q3)}</td>
+              <td>{formatMs(phase.min)}</td>
+              <td>{formatMs(phase.max)}</td>
+              <td class="muted">
+                {`${Math.round((phase.median / adapter.whole.median) * 100)}%`}
+              </td>
+            </tr>
+          ))}
+          <tr>
+            <td><strong>whole invocation</strong></td>
+            <td><strong>{formatMs(adapter.whole.median)}</strong></td>
+            <td>{formatMs(adapter.whole.q1)}</td>
+            <td>{formatMs(adapter.whole.q3)}</td>
+            <td>{formatMs(adapter.whole.min)}</td>
+            <td>{formatMs(adapter.whole.max)}</td>
+            <td class="muted">—</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </>
+))}
+
+<p class="caption">
+  The share column is each phase's median against the whole invocation's
+  median, and the shares need not sum to 100%: a median is not additive, and
+  the phase whose median is largest is not necessarily the phase that
+  dominated any particular case. The whole-invocation row is the distribution
+  of per-case sums, computed per case and then summarized — not the sum of the
+  phase medians.
+</p>
+
+<h2 id="slices">Per-slice medians</h2>
+
+<p>
+  The tier's declared unit of aggregation: one row per slice — adapter ×
+  language × population — because a median over a whole adapter mixes
+  languages whose fixtures differ in size and whose front ends differ in cost.
+  Each row is one bound report. <strong>Rows are not ranked and columns are
+  not compared across adapters with different granularity.</strong>
+</p>
+
+{model.adapters.map((adapter) => (
+  <>
+    <h3>
+      <span
+        class:list={['vendor-dot', vendorColorClass(adapter.tool)]}
+        aria-hidden="true"></span>
+      {vendorName(adapter.tool)} — {adapter.slices.length}{' '}
+      {adapter.slices.length === 1 ? 'slice' : 'slices'}
+    </h3>
+    <div class="table-scroll">
+      <table>
+        <thead>
+          <tr>
+            <th>Slice</th>
+            <th>Language</th>
+            <th>Profile</th>
+            <th>Timed / bound</th>
+            <th>Median</th>
+            <th>Q1</th>
+            <th>Q3</th>
+            {adapter.phases.map((phase) => (
+              <th>
+                <code>{phase.phase}</code> median
+              </th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {adapter.slices.map((slice) => (
+            <tr>
+              <td><code>{slice.report.replace(/^reports\//, '').replace(/\.json$/, '')}</code></td>
+              <td>{slice.language}</td>
+              <td><code>{slice.modelProfile}</code></td>
+              <td>
+                {slice.timed} / {slice.cases}
+              </td>
+              <td>
+                {slice.whole ? <strong>{formatMs(slice.whole.median)}</strong> : 'n/a'}
+              </td>
+              <td>{slice.whole ? formatMs(slice.whole.q1) : 'n/a'}</td>
+              <td>{slice.whole ? formatMs(slice.whole.q3) : 'n/a'}</td>
+              {adapter.phases.map((phase) => {
+                const match = slice.phases.find(
+                  (candidate) => candidate.phase === phase.phase,
+                );
+                return <td>{match ? formatMs(match.median) : 'n/a'}</td>;
+              })}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  </>
+))}
+
+<h2 id="untimed">Cases with no latency number</h2>
+
+<p>
+  Of the bound case results in this freeze, <strong>{model.totalTimed}</strong>
+  invoked an analyzer and carry a timing sidecar.{' '}
+  <strong>{model.totalUntimed}</strong> do not, and every one of them is
+  accounted for:
+</p>
+
+<div class="table-scroll">
+  <table>
+    <thead>
+      <tr>
+        <th>Outcome of the untimed case</th>
+        <th>Cases</th>
+      </tr>
+    </thead>
+    <tbody>
+      {model.untimedOutcomes.map((row) => (
+        <tr>
+          <td><code>{row.outcome}</code></td>
+          <td>{row.cases}</td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+</div>
+
+<p class="caption">
+  An <code>unsupported</code> case is decided from case metadata
+  <em>before</em> the analyzer is invoked, so there is no subprocess and there
+  is nothing to time. Those cases are <strong>absent from every distribution
+  on this page, not entered as zero</strong> — entering them as zero would
+  make the adapters that decline the most look the fastest, which is exactly
+  backwards. Every case that did invoke an analyzer is timed; the timed and
+  untimed columns account for the whole bound population with no remainder.
+</p>
+
+<h2 id="provenance">Provenance and what the freeze does and does not guarantee</h2>
+
+<p>
+  Every number above was derived at build time from
+  <code>{model.release}</code>'s own retained artifacts. The publication gate
+  is the freeze manifest
+  (<code>{model.manifestSha256.slice(0, 12)}…</code>): a timing sidecar is read
+  only when the manifest binds that report and that case, so a sidecar left in
+  the tree by a run the freeze does not bind cannot reach a number here.
+</p>
+
+<p>
+  One limit, stated rather than left to be assumed. The
+  <code>freeze/v1</code> manifest binds one raw-evidence digest per result; the
+  timing sidecar and the environment stamp are <strong>additive files beside
+  that evidence and are not themselves digested by the manifest</strong>. So a
+  number on this page carries the freeze's guarantee that the run it belongs
+  to is bound and byte-verified, and the release commit's own immutability for
+  the timing bytes. It does not carry a manifest digest over those bytes.
+  Extending the manifest to bind them is a <code>freeze/v2</code> question,
+  and it is named here rather than smuggled in under a schema version that
+  does not describe it.
+</p>
+
+<style>
+  .latency-bars {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin: 1rem 0;
+    border: 1px solid var(--sl-color-hairline);
+    border-radius: 0.75rem;
+    padding: 1rem;
+    background: var(--sl-color-bg-sidebar);
+  }
+  .bar-row {
+    display: grid;
+    grid-template-columns: minmax(7rem, 9rem) 1fr;
+    align-items: center;
+    gap: 0.75rem;
+  }
+  .bar-label {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.2;
+  }
+  .bar-label .who {
+    font-weight: 600;
+  }
+  .bar-label .caption {
+    font-family: var(--__sl-font-mono);
+    font-size: var(--sl-text-xs);
+    color: var(--sl-color-gray-3);
+  }
+  .bar-track {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    min-width: 0;
+  }
+  .bar-fill {
+    height: 0.85rem;
+    border-radius: 0.2rem;
+    background: var(--vendor-rule, var(--sl-color-accent));
+    min-width: 2px;
+  }
+  .bar-value {
+    font-family: var(--__sl-font-mono);
+    font-size: var(--sl-text-sm);
+    color: var(--sl-color-gray-2);
+    white-space: nowrap;
+  }
+  .vendor-dot {
+    display: inline-block;
+    width: 0.55rem;
+    height: 0.55rem;
+    border-radius: 50%;
+    margin-right: 0.4rem;
+    vertical-align: baseline;
+    background: var(--vendor-rule, var(--sl-color-accent));
+  }
+  .caption {
+    font-size: var(--sl-text-sm);
+    color: var(--sl-color-gray-3);
+  }
+  .muted {
+    color: var(--sl-color-gray-3);
+  }
+  .table-scroll {
+    overflow-x: auto;
+  }
+  /* The same fixed vendor→colour identity map the kernel cards and the
+     evolution graph use, keyed by tool rather than by row position. Slots
+     v0–v3 keep the definitions they were published with; v4–v7 were added
+     with the four analyzers v0.6.0 introduced. */
+  .v0 {
+    --vendor-rule: var(--sl-color-accent-high);
+  }
+  .v1 {
+    --vendor-rule: var(--sl-color-orange);
+  }
+  .v2 {
+    --vendor-rule: var(--sl-color-purple);
+  }
+  .v3 {
+    --vendor-rule: var(--sl-color-green);
+  }
+  .v4 {
+    --vendor-rule: var(--dfb-vendor-4);
+  }
+  .v5 {
+    --vendor-rule: var(--dfb-vendor-5);
+  }
+  .v6 {
+    --vendor-rule: var(--dfb-vendor-6);
+  }
+  .v7 {
+    --vendor-rule: var(--dfb-vendor-7);
+  }
+</style>

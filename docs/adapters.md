@@ -41,12 +41,19 @@ whose phase labels state the boundary the adapter genuinely observes:
 traced compile, then query evaluation and SARIF interpretation, which the
 pinned CLI performs in one subprocess), `capture` and `analyze` for Infer
 (the traced compile, then Pulse evaluation and SARIF emission — the same
-two-phase shape as CodeQL's), and `total` for Joern, Semgrep, Bifrost, and
-Pysa, whose single invocation is indivisible from the adapter's vantage —
-Pysa's client drives its front end and its analysis binary inside one
-invocation the adapter cannot observe as separate subprocesses.
-Unequal granularity is stated, not papered over; any phase timings a tool
-emits itself ride in its own retained document, verbatim. Each run also stamps
+two-phase shape as CodeQL's), and `total` for Joern, Semgrep, Bifrost,
+OpenTaint, FlowDroid, and Pysa, whose single invocation is indivisible from
+the adapter's vantage — Pysa's client drives its front end and its analysis
+binary inside one invocation the adapter cannot observe as separate
+subprocesses, and FlowDroid's per-case APK materialization happens *before*
+the timed subprocess is spawned and is outside its number.
+Unequal granularity is stated, not papered over; every adapter's row is
+declared in the
+[latency tier's granularity table](latency-tier.md#per-adapter-granularity),
+the four adapters added in v0.6.0 by
+[Amendment A12](latency-tier.md#a12--2026-09-01-the-four-adapters-added-in-v060-take-their-granularity-rows);
+any phase timings a tool emits itself ride in its own retained document,
+verbatim. Each run also stamps
 `reports/raw/<slice>/run-environment.json` once — hardware model, OS, CPU
 count — beside the tool identity the run witnessed, because a latency number
 is only comparable within the environment that produced it.
@@ -1180,10 +1187,10 @@ Their numbers continue the repository's **single** amendment sequence rather
 than restarting per document: A1 is in
 [the challenge tier](challenge-tier.md#amendments), A2–A5 and A9 are in
 [the modeling matrix](modeling-matrix.md#amendments), A6–A8 and A10 are in
-[the tool-native profile](native-profile.md#amendments), and
-[the latency tier](latency-tier.md#amendments) has joined the sequence with
-none yet. This document joins it here, so that an amendment identifier names
-exactly one amendment wherever it is cited.
+[the tool-native profile](native-profile.md#amendments), and A12 is in
+[the latency tier](latency-tier.md#amendments). This document joins it here
+with A11, so that an amendment identifier names exactly one amendment wherever
+it is cited.
 
 ### A11 — 2026-08-31: OpenTaint's value-kind boundary is a default rule configuration, and primitive tracking is enabled in both kernel templates
 
