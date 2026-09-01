@@ -457,18 +457,34 @@ export function warmLatency(): {
 }
 
 /**
- * Per tool, the warm marginal to draw as a secondary mark on the ranked chart,
- * keyed by tool. Only tools with a measured figure appear; a tool without one
- * gets no mark, never a zero-length one.
+ * Per tool, the measured warm marginal **as a range**, keyed by tool.
+ *
+ * Deliberately a range and not a point, for any consumer deriving a further
+ * figure from it — a per-vendor overhead estimate, say. Handing out one
+ * endpoint would let a derived number carry a precision the measurement does
+ * not have, and would silently pick an endpoint, which is the failure A21's
+ * range rule exists to prevent. A consumer that wants a scalar has to choose
+ * one visibly and say which.
+ *
+ * Only tools with a measured figure appear. A tool that declined is absent
+ * rather than present with a zero: absent reads as "not measured", zero reads
+ * as "free". Callers should pair this with `warmLatency().declines` so a
+ * missing tool is rendered as its recorded decline.
+ *
+ * Where one tool has figures on several kernels, the entry spans them all:
+ * the low end of the lowest and the high end of the highest.
  */
-export function warmMarginalByTool(): Map<string, number> {
-  const marks = new Map<string, number>();
+export function warmMarginalRangeByTool(): Map<string, [number, number]> {
+  const marks = new Map<string, [number, number]>();
   for (const measurement of warmLatency().measurements) {
+    const [low, high] = measurement.leastSquaresRangeMs;
     const existing = marks.get(measurement.tool);
-    const value = measurement.leastSquaresRangeMs[0];
-    if (existing === undefined || value < existing) {
-      marks.set(measurement.tool, value);
-    }
+    marks.set(
+      measurement.tool,
+      existing
+        ? [Math.min(existing[0], low), Math.max(existing[1], high)]
+        : [low, high],
+    );
   }
   return marks;
 }
