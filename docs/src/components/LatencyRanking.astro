@@ -1,0 +1,673 @@
+---
+// Ranked whole-invocation wall-clock: fastest to slowest median, on one
+// shared logarithmic axis, optionally with a per-kernel view behind a
+// CSS-only toggle.
+//
+// Why a log axis. The medians this freeze produced span 123 ms to 10.8 s — a
+// factor of about ninety. On a linear axis every adapter below the slowest
+// collapses into a sliver against the origin, which reads as "they are all
+// the same" when the whole point of the tier is that they are not. The axis is
+// therefore logarithmic, labelled as such, with 1–3–10 decade ticks whose
+// labels are the plain durations they stand for, and every median is also
+// printed as a number beside its own row so that no reading of the chart
+// depends on decoding the scale.
+//
+// What this adds to the contract, which is nothing. The marks are the
+// aggregation `docs/latency-tier.md` preregisters — median, quartiles, and
+// (as whiskers) the tenth and ninetieth percentiles of the same per-case
+// wall-clock. There is no new statistic, no mean, no pooling with any
+// correctness figure, and no composite. Ordering rows by median is a reading
+// aid for one descriptive quantity, not a score.
+//
+// The rules the drawing obeys, each of them the contract's:
+//
+//   * phases are drawn only for the adapters whose declared row has them, are
+//     indented under their own adapter, and are never set beside another
+//     adapter's total — phases compare within an adapter, totals across them;
+//   * an adapter that never invoked on a kernel is *absent* from that kernel's
+//     view, never a zero-length bar, because declining a case is not a fast
+//     answer to it;
+//   * every row states how many invocations are behind it, and in a kernel
+//     view how many of that kernel's assertions those were, so a median over
+//     a partly-declined population cannot be misread as a median over all of
+//     it;
+//   * the conditions the numbers were produced under travel with the chart
+//     wherever it renders, rather than living only on the page it links to.
+import { latencyModel, latencyRanking, formatMs } from '../data/latency';
+import { vendorColorClass, vendorName } from '../data/snapshots';
+
+interface Props {
+  /**
+   * Render the thirteen per-kernel panels behind the toggle. The landing page
+   * takes the general view alone: fourteen panels of inline SVG is a fair
+   * weight for the page dedicated to this tier and a poor one for a summary
+   * page that already carries the evolution chart.
+   */
+  kernelViews?: boolean;
+  /**
+   * Restate the environment stamp and the run-conditions caveat inline. The
+   * tier page already carries both in full above the chart; the landing page
+   * does not, and the chart may not appear there without them.
+   */
+  stamp?: boolean;
+}
+
+const { kernelViews = true, stamp = false } = Astro.props;
+
+const model = latencyModel();
+const ranking = latencyRanking(model);
+// The axis is computed across *every* view, including the kernel views this
+// render may not draw, so the same duration sits at the same place on the
+// landing page and on the tier page.
+const panelsToRender = kernelViews ? ranking.views : ranking.views.slice(0, 1);
+
+// ---- Geometry -------------------------------------------------------------
+const width = 820;
+const padLeft = 172;
+const padRight = 104;
+const padTop = 18;
+const padBottom = 44;
+const plotWidth = width - padLeft - padRight;
+const mainRowHeight = 34;
+const phaseRowHeight = 22;
+
+const logMin = Math.log10(ranking.axisMin);
+const logMax = Math.log10(ranking.axisMax);
+const x = (value: number) => {
+  const clamped = Math.min(Math.max(value, ranking.axisMin), ranking.axisMax);
+  return (
+    padLeft + (plotWidth * (Math.log10(clamped) - logMin)) / (logMax - logMin)
+  );
+};
+
+interface Row {
+  kind: 'adapter' | 'phase';
+  tool: string;
+  label: string;
+  sublabel: string;
+  d: {
+    p10: number;
+    q1: number;
+    median: number;
+    q3: number;
+    p90: number;
+    n: number;
+  };
+  title: string;
+  y: number;
+}
+
+/** One view's rows, laid out top to bottom, and the height they need. */
+function layout(view: (typeof ranking.views)[number]) {
+  const rows: Row[] = [];
+  let y = padTop;
+  for (const entry of view.entries) {
+    const name = vendorName(entry.tool);
+    y += mainRowHeight / 2;
+    rows.push({
+      kind: 'adapter',
+      tool: entry.tool,
+      label: name,
+      sublabel:
+        entry.covered === null
+          ? `${entry.timed} timed`
+          : `${entry.timed} of ${entry.covered} timed`,
+      d: entry.whole,
+      title:
+        `${name} — median ${formatMs(entry.whole.median)}, ` +
+        `IQR ${formatMs(entry.whole.q1)} to ${formatMs(entry.whole.q3)}, ` +
+        `p10–p90 ${formatMs(entry.whole.p10)} to ${formatMs(entry.whole.p90)}, ` +
+        `over ${entry.timed} timed whole invocations`,
+      y,
+    });
+    y += mainRowHeight / 2;
+    for (const phase of entry.phases) {
+      y += phaseRowHeight / 2;
+      rows.push({
+        kind: 'phase',
+        tool: entry.tool,
+        label: phase.phase,
+        sublabel: '',
+        d: phase,
+        title:
+          `${name} phase ${phase.phase} — median ${formatMs(phase.median)}, ` +
+          `IQR ${formatMs(phase.q1)} to ${formatMs(phase.q3)}, ` +
+          `p10–p90 ${formatMs(phase.p10)} to ${formatMs(phase.p90)}. ` +
+          `Comparable only against this adapter's own numbers.`,
+        y,
+      });
+      y += phaseRowHeight / 2;
+    }
+  }
+  return { rows, height: y + padBottom };
+}
+
+// A suffix keeps element identifiers unique when both renders of this
+// component end up in one document, and keeps the radio group of one render
+// from capturing the labels of another.
+const scope = kernelViews ? 'k' : 'g';
+const panels = panelsToRender.map((view) => ({
+  view,
+  ...layout(view),
+  radioId: `lat-${scope}-view-${view.id}`,
+  panelId: `lat-${scope}-panel-${view.id}`,
+}));
+
+// The toggle is a plain radio group, exactly as the cross-snapshot evolution
+// chart's is: no JavaScript, keyboard-operable by default, and it degrades to
+// a list of labelled radios if the stylesheet never arrives. Fourteen options
+// need fourteen `:checked ~ …` pairs, and hand-writing them would be a list
+// that silently rots the next time a kernel is added — so they are emitted
+// from the same array the panels are, and cannot drift from it.
+//
+// The selected pill takes the accent rather than the evolution toggle's
+// `--sl-color-gray-6`: with two options a subtle fill is enough to find, and
+// in the dark theme gray-6 happens to equal the ribbon's own background, so
+// the only cue left is the label's colour. With fourteen options that is not
+// enough, and the accent reads against the ribbon in both themes.
+const toggleCss = panels
+  .map(
+    (panel) => `
+#${panel.radioId}:checked ~ .lat-ribbon label[for='${panel.radioId}'] {
+  background: var(--sl-color-accent-low);
+  color: var(--sl-color-white);
+  box-shadow: inset 0 0 0 1px var(--sl-color-accent);
+}
+#${panel.radioId}:focus-visible ~ .lat-ribbon label[for='${panel.radioId}'] {
+  outline: 2px solid var(--sl-color-accent-high);
+  outline-offset: 2px;
+}
+#${panel.radioId}:checked ~ .lat-panels > #${panel.panelId} {
+  display: block;
+}`,
+  )
+  .join('\n');
+
+const general = ranking.views[0]!;
+const fastest = general.entries[0]!;
+const slowest = general.entries.at(-1)!;
+const decomposedCount = general.entries.filter(
+  (entry) => entry.phases.length > 0,
+).length;
+const environment = model.environments[0];
+---
+
+<div class="latency-ranking">
+  {kernelViews &&
+    panels.map((panel, index) => (
+      <input
+        class="lat-radio"
+        type="radio"
+        name={`latency-ranking-${scope}`}
+        id={panel.radioId}
+        checked={index === 0}
+      />
+    ))}
+
+  {kernelViews && (
+    <div class="lat-ribbon" role="group" aria-label="Latency ranking view">
+      {panels.map((panel) => (
+        <label for={panel.radioId}>{panel.view.label}</label>
+      ))}
+    </div>
+  )}
+
+  <div class="lat-panels">
+    {panels.map((panel) => (
+      <section
+        class:list={['lat-panel', !kernelViews && 'lat-panel-only']}
+        id={panel.panelId}
+      >
+        <div class="chart-frame">
+          <svg
+            class="ranking-chart"
+            viewBox={`0 0 ${width} ${panel.height}`}
+            role="img"
+            aria-labelledby={`${panel.panelId}-title ${panel.panelId}-desc`}
+          >
+            <title id={`${panel.panelId}-title`}>
+              {panel.view.population === null
+                ? 'Whole-invocation wall-clock per analyzer, over every timed invocation in the freeze'
+                : `Whole-invocation wall-clock per analyzer on the ${panel.view.label} kernel`}
+            </title>
+            <desc id={`${panel.panelId}-desc`}>
+              One row per analyzer, ordered fastest median first, on a
+              logarithmic time axis. Each row draws the tenth to ninetieth
+              percentile as a thin line, the interquartile range as a bar, and
+              the median as a thick tick, with the median also printed as a
+              number. Indented rows are the declared phases of the two adapters
+              whose invocation exposes more than one subprocess, and belong to
+              the adapter above them only. The tables on the latency page carry
+              every value.
+            </desc>
+
+            {ranking.ticks.map((tick) => (
+              <>
+                <line
+                  class="grid"
+                  x1={x(tick.value)}
+                  x2={x(tick.value)}
+                  y1={padTop - 6}
+                  y2={panel.height - padBottom + 6}
+                />
+                <text
+                  class="tick"
+                  x={x(tick.value)}
+                  y={panel.height - padBottom + 22}
+                  text-anchor="middle"
+                >
+                  {tick.label}
+                </text>
+              </>
+            ))}
+
+            <line
+              class="axis"
+              x1={padLeft}
+              x2={padLeft + plotWidth}
+              y1={panel.height - padBottom + 6}
+              y2={panel.height - padBottom + 6}
+            />
+            <text
+              class="axis-title"
+              x={padLeft + plotWidth / 2}
+              y={panel.height - padBottom + 39}
+              text-anchor="middle"
+            >
+              wall-clock per invocation — logarithmic scale
+            </text>
+
+            {panel.rows.map((row) => {
+              const boxHeight = row.kind === 'adapter' ? 13 : 7;
+              const medianHeight = row.kind === 'adapter' ? 21 : 13;
+              return (
+                <g
+                  class:list={[
+                    'row',
+                    row.kind === 'phase' && 'phase-row',
+                    vendorColorClass(row.tool),
+                  ]}
+                >
+                  <title>{row.title}</title>
+                  <text
+                    class={row.kind === 'adapter' ? 'row-label' : 'phase-label'}
+                    x={padLeft - 12}
+                    y={row.kind === 'adapter' ? row.y - 1 : row.y + 4}
+                    text-anchor="end"
+                  >
+                    {row.label}
+                  </text>
+                  {row.sublabel !== '' && (
+                    <text
+                      class="row-sublabel"
+                      x={padLeft - 12}
+                      y={row.y + 12}
+                      text-anchor="end"
+                    >
+                      {row.sublabel}
+                    </text>
+                  )}
+                  <line
+                    class="whisker"
+                    x1={x(row.d.p10)}
+                    x2={x(row.d.p90)}
+                    y1={row.y}
+                    y2={row.y}
+                  />
+                  <line
+                    class="whisker-cap"
+                    x1={x(row.d.p10)}
+                    x2={x(row.d.p10)}
+                    y1={row.y - boxHeight / 2}
+                    y2={row.y + boxHeight / 2}
+                  />
+                  <line
+                    class="whisker-cap"
+                    x1={x(row.d.p90)}
+                    x2={x(row.d.p90)}
+                    y1={row.y - boxHeight / 2}
+                    y2={row.y + boxHeight / 2}
+                  />
+                  <rect
+                    class="box"
+                    x={x(row.d.q1)}
+                    y={row.y - boxHeight / 2}
+                    width={Math.max(1.5, x(row.d.q3) - x(row.d.q1))}
+                    height={boxHeight}
+                    rx="2"
+                  />
+                  <line
+                    class="median"
+                    x1={x(row.d.median)}
+                    x2={x(row.d.median)}
+                    y1={row.y - medianHeight / 2}
+                    y2={row.y + medianHeight / 2}
+                  />
+                  <text
+                    class={row.kind === 'adapter' ? 'row-value' : 'phase-value'}
+                    x={padLeft + plotWidth + 12}
+                    y={row.y + 4}
+                    text-anchor="start"
+                  >
+                    {formatMs(row.d.median)}
+                  </text>
+                </g>
+              );
+            })}
+          </svg>
+        </div>
+
+        <p class="caption">
+          {panel.view.population === null ? (
+            <>
+              Every timed analyzer invocation the freeze binds —{' '}
+              {model.totalTimed} of them, across every score tier and both
+              model profiles. This is the widest denominator on the site and
+              the only one here that is not a single population: an adapter's
+              median mixes the languages it runs on, whose fixtures differ in
+              size and whose front ends differ in cost.{' '}
+              {kernelViews ? (
+                <>The per-kernel views hold the language fixed.</>
+              ) : (
+                <>
+                  The{' '}
+                  <a href="/dataflowbench/snapshots/v0-6-0/latency/#ranking">
+                    per-kernel views on the latency page
+                  </a>{' '}
+                  hold the language fixed.
+                </>
+              )}
+            </>
+          ) : (
+            <>
+              The <code>{panel.view.label}</code> kernel's{' '}
+              {panel.view.population} benchmark-controlled <code>core</code>{' '}
+              assertions, the same no-pooling population the correctness
+              sections read. {panel.view.entries.length} of the{' '}
+              {general.entries.length} analyzers invoked here at all; the rest
+              do not cover this kernel and are{' '}
+              <strong>absent from this view rather than drawn at zero</strong>.
+              Where a row's count is below {panel.view.population}, the
+              remaining assertions were declined before any subprocess was
+              spawned and so have nothing to time.
+            </>
+          )}
+        </p>
+      </section>
+    ))}
+  </div>
+
+  <ul class="chart-legend">
+    <li class="key-median">
+      <span class="swatch" aria-hidden="true"></span>
+      median, printed beside every row
+    </li>
+    <li class="key-box">
+      <span class="swatch" aria-hidden="true"></span>
+      interquartile range (Q1–Q3)
+    </li>
+    <li class="key-whisker">
+      <span class="swatch" aria-hidden="true"></span>
+      p10–p90; the minimum and maximum are in the tables, not the whiskers
+    </li>
+    <li class="key-phase">
+      <span class="swatch" aria-hidden="true"></span>
+      indented rows: an adapter's own declared phases
+    </li>
+  </ul>
+</div>
+
+<p class="caption">
+  <strong>The axis is logarithmic.</strong> Each labelled tick is three times
+  the one before it, so equal distances are equal <em>ratios</em>, not equal
+  durations — the gap from 100&nbsp;ms to 300&nbsp;ms is drawn the same width
+  as the gap from 10&nbsp;s to 30&nbsp;s. That is the only way this freeze's
+  medians fit in one picture: they span {formatMs(fastest.whole.median)} to{' '}
+  {formatMs(slowest.whole.median)}, and on a linear axis every analyzer except
+  the slowest would be a sliver against the origin. Because a log axis is easy
+  to misread, every median is also printed as a number at the right of its own
+  row.
+</p>
+
+<p class="caption">
+  <strong>The indented rows are phases, and they are not comparable across
+  adapters.</strong> Only the {decomposedCount} adapters whose preregistered
+  row declares more than one subprocess have them. A phase mark sits on the
+  same axis as the totals because it is the same kind of measurement —
+  wall-clock of a subprocess — but reading one adapter's phase against another
+  adapter's total is precisely the comparison the granularity rule forbids.
+  Read a phase against the adapter it is indented under, and nothing else.
+</p>
+
+<p class="caption">
+  <strong>Ordering is not scoring, and this is never pooled with
+  correctness.</strong> Rows are sorted by median because an unsorted ranking
+  is unreadable, not because latency is a result. No correctness figure appears
+  in this chart and no number here is blended with one: there is no combined
+  score anywhere on this site, and a fast analyzer that answers wrongly is
+  neither rewarded nor penalised by anything drawn above. Cases an analyzer
+  declined before invocation are <strong>absent, not entered as zero</strong> —
+  entering them as zero would make the analyzers that decline the most look the
+  fastest, which is exactly backwards.
+</p>
+
+{stamp && (
+  <p class="caption">
+    <strong>The conditions these numbers were produced under.</strong> A single
+    developer machine{' '}
+    {environment && (
+      <>
+        (<code>{environment.hardwareModel}</code>, <code>{environment.os}</code>{' '}
+        <code>{environment.osRelease}</code>, {environment.cpuCount} logical
+        CPUs),
+      </>
+    )} under light concurrent load, running the benchmark's standing
+    sequential-run discipline — one analyzer at a time, never two at once.
+    <strong>
+      Latency numbers are comparable within one environment and are not
+      comparable across machines.
+    </strong>{' '}
+    There are no repeated trials and no warm-up iterations: the case population
+    is the sample and its spread is the statistics, so the whiskers are that
+    spread and not error bars on a repeated measurement. Read this as
+    characterization of what the benchmark actually costs to run, at the
+    order-of-magnitude and shape level, and not as a precise figure for any
+    engine. The full contract, the per-adapter granularity, the cache
+    declarations and every quartile are on the{' '}
+    <a href="/dataflowbench/snapshots/v0-6-0/latency/">latency page</a>.
+  </p>
+)}
+
+<style is:inline set:html={toggleCss}></style>
+
+<style>
+  .latency-ranking {
+    position: relative;
+  }
+  .lat-radio {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+  .lat-ribbon {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.25rem;
+    margin: 0 0 0.75rem;
+    padding: 0.2rem;
+    border: 1px solid var(--sl-color-hairline);
+    border-radius: 0.6rem;
+    background: var(--sl-color-bg-sidebar);
+  }
+  .lat-ribbon label {
+    /* The content area's global sibling rule adds margin-top to successive
+       elements; inside the pill row that staggers the labels vertically. */
+    margin: 0 !important;
+    cursor: pointer;
+    border-radius: 0.45rem;
+    padding: 0.28rem 0.6rem;
+    font-size: var(--sl-text-sm);
+    color: var(--sl-color-gray-2);
+    line-height: 1.3;
+  }
+  .lat-ribbon label:hover {
+    color: var(--sl-color-white);
+  }
+  .lat-panel {
+    display: none;
+  }
+  /* With no toggle there is nothing to switch: the one panel always shows. */
+  .lat-panel-only {
+    display: block;
+  }
+  .lat-panel > .caption {
+    margin-top: 0.6rem;
+  }
+  .chart-frame {
+    border: 1px solid var(--sl-color-hairline);
+    border-radius: 0.75rem;
+    padding: 0.75rem 0.5rem 0.25rem;
+    background: var(--sl-color-bg-sidebar);
+    overflow-x: auto;
+  }
+  .ranking-chart {
+    display: block;
+    width: 100%;
+    min-width: 36rem;
+    height: auto;
+  }
+  .ranking-chart .grid {
+    stroke: var(--sl-color-hairline);
+    stroke-width: 1;
+  }
+  .ranking-chart .axis {
+    stroke: var(--sl-color-gray-4);
+    stroke-width: 1.5;
+  }
+  .ranking-chart .row-sublabel,
+  .ranking-chart .phase-label,
+  .ranking-chart .phase-value {
+    font-family: var(--__sl-font-mono);
+    font-size: 10px;
+    fill: var(--sl-color-gray-3);
+  }
+  .ranking-chart .tick,
+  .ranking-chart .axis-title {
+    font-family: var(--__sl-font-mono);
+    font-size: 11px;
+    fill: var(--sl-color-gray-3);
+  }
+  .ranking-chart .row-label {
+    font-size: 13px;
+    font-weight: 600;
+    fill: var(--sl-color-white);
+  }
+  .ranking-chart .row-value {
+    font-family: var(--__sl-font-mono);
+    font-size: 12px;
+    fill: var(--sl-color-gray-2);
+  }
+  .ranking-chart .row .whisker {
+    stroke: var(--vendor-rule, var(--sl-color-accent));
+    stroke-width: 2;
+    opacity: 0.4;
+  }
+  .ranking-chart .row .whisker-cap {
+    stroke: var(--vendor-rule, var(--sl-color-accent));
+    stroke-width: 1.5;
+    opacity: 0.5;
+  }
+  .ranking-chart .row .box {
+    fill: var(--vendor-rule, var(--sl-color-accent));
+    opacity: 0.42;
+  }
+  .ranking-chart .row .median {
+    stroke: var(--vendor-rule, var(--sl-color-accent));
+    stroke-width: 3;
+    stroke-linecap: round;
+  }
+  .ranking-chart .phase-row .box {
+    opacity: 0.24;
+  }
+  .ranking-chart .phase-row .median {
+    stroke-width: 2;
+    opacity: 0.75;
+  }
+  .chart-legend {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem 1.25rem;
+    margin: 0.75rem 0 0;
+    padding: 0;
+    font-size: var(--sl-text-sm);
+    color: var(--sl-color-gray-2);
+  }
+  .chart-legend li {
+    margin: 0;
+    display: flex;
+    align-items: center;
+  }
+  .chart-legend .swatch {
+    display: inline-block;
+    width: 1.1rem;
+    height: 0.7rem;
+    margin-right: 0.45rem;
+    background: var(--sl-color-gray-3);
+  }
+  .chart-legend .key-median .swatch {
+    width: 0.2rem;
+    border-radius: 0.1rem;
+  }
+  .chart-legend .key-box .swatch {
+    opacity: 0.42;
+    border-radius: 0.15rem;
+  }
+  .chart-legend .key-whisker .swatch {
+    height: 0.15rem;
+    opacity: 0.5;
+  }
+  .chart-legend .key-phase .swatch {
+    height: 0.35rem;
+    opacity: 0.28;
+    border-radius: 0.1rem;
+  }
+  .caption {
+    font-size: var(--sl-text-sm);
+    color: var(--sl-color-gray-3);
+  }
+  /* The same fixed vendor→colour identity map every other section uses, keyed
+     by tool rather than by row position. Slots v0–v3 keep the definitions they
+     were published with; v4–v7 arrived with v0.6.0's four analyzers. */
+  .v0 {
+    --vendor-rule: var(--sl-color-accent-high);
+  }
+  .v1 {
+    --vendor-rule: var(--sl-color-orange);
+  }
+  .v2 {
+    --vendor-rule: var(--sl-color-purple);
+  }
+  .v3 {
+    --vendor-rule: var(--sl-color-green);
+  }
+  .v4 {
+    --vendor-rule: var(--dfb-vendor-4);
+  }
+  .v5 {
+    --vendor-rule: var(--dfb-vendor-5);
+  }
+  .v6 {
+    --vendor-rule: var(--dfb-vendor-6);
+  }
+  .v7 {
+    --vendor-rule: var(--dfb-vendor-7);
+  }
+</style>

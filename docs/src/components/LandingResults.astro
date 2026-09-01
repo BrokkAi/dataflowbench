@@ -15,6 +15,7 @@ import {
   type ScoreTier,
 } from '../data/snapshots';
 import SnapshotEvolution from './SnapshotEvolution.astro';
+import LatencyRanking from './LatencyRanking.astro';
 
 const snapshot = currentSnapshot;
 const scorecards = snapshot.results.scorecards;
@@ -856,6 +857,24 @@ const caseCount = snapshot.results.scorecards
     </tbody>
   </table>
 </div>
+
+<h2>How long an answer takes — beside the answers, never inside them</h2>
+
+<p>
+  A <strong>descriptive characterization</strong> of per-case analyzer
+  wall-clock, published under the contract preregistered in
+  <a href="https://github.com/BrokkAi/dataflowbench/blob/main/docs/latency-tier.md"><code>docs/latency-tier.md</code></a>,
+  which merged before a single timestamp was captured — because a latency page
+  assembled after the numbers were known, by the vendor of one of the engines
+  measured, would deserve exactly the skepticism it would get. It is not a
+  score and not a ranking of engines. <strong>Nothing on this site pools it
+  with correctness</strong>: there is no combined number, no
+  efficiency-adjusted rate, and no leaderboard that blends the two, so "correct
+  but slow" and "fast but wrong" stay independently visible. Read this section
+  against the correctness sections above, not through them.
+</p>
+
+<LatencyRanking kernelViews={false} stamp />
 
 <h2>Kernels, template by template</h2>
 
