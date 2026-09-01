@@ -1,0 +1,255 @@
+{
+    "$schema": "https://docs.oasis-open.org/sarif/sarif/v2.1.0/errata01/os/schemas/sarif-schema-2.1.0.json",
+    "version": "2.1.0",
+    "runs": [
+        {
+            "originalUriBaseIds": {
+                "%SRCROOT%": {
+                    "uri": "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/tmp.OB14BoQet1/ws-z-kill-negative-unmodeled/source"
+                }
+            },
+            "tool": {
+                "driver": {
+                    "name": "OpenTaint",
+                    "organization": "Seqra",
+                    "rules": [
+                        {
+                            "defaultConfiguration": {
+                                "level": "error"
+                            },
+                            "fullDescription": {
+                                "markdown": "OpenTaint modeling-surface probe",
+                                "text": "OpenTaint modeling-surface probe"
+                            },
+                            "id": ":probe-opentaint-modeling",
+                            "name": ":probe-opentaint-modeling",
+                            "properties": {
+                                "tags": []
+                            },
+                            "shortDescription": {
+                                "text": "OpenTaint Finding: :probe-opentaint-modeling"
+                            }
+                        }
+                    ],
+                    "semanticVersion": "latest",
+                    "version": "latest"
+                }
+            },
+            "results": [
+                {
+                    "codeFlows": [
+                        {
+                            "threadFlows": [
+                                {
+                                    "locations": [
+                                        {
+                                            "executionOrder": 0,
+                                            "kinds": [
+                                                "taint"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.taint.ModelSanitizerKillNegative#run():0:(%0 = dataflowbench.taint.ModelSanitizerKillNegative.dfb_source())",
+                                                        "fullyQualifiedName": "dataflowbench.taint.ModelSanitizerKillNegative#run"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "Call to \"dfb_source\" puts marked data to a local variable"
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/taint/ModelSanitizerKillNegative.java",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 42,
+                                                        "endLine": 17,
+                                                        "startColumn": 30,
+                                                        "startLine": 17
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 1,
+                                            "kinds": [
+                                                "call"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.taint.ModelSanitizerKillNegative#run():1:(%1 = dataflowbench.taint.Clean.scrub(%0))",
+                                                        "fullyQualifiedName": "dataflowbench.taint.ModelSanitizerKillNegative#run"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "Calling \"scrub\" with marked data at a local variable"
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/taint/ModelSanitizerKillNegative.java",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 43,
+                                                        "endLine": 17,
+                                                        "startColumn": 18,
+                                                        "startLine": 17
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 2,
+                                            "kinds": [
+                                                "unknown"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.taint.Clean#scrub(java.lang.String):0:(return arg$0)",
+                                                        "fullyQualifiedName": "dataflowbench.taint.Clean#scrub"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "Takes marked data at the 1st argument of \"scrub\" and ends up with marked data at the returned value"
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/taint/ModelSanitizerKillNegative.java",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 22,
+                                                        "endLine": 5,
+                                                        "startColumn": 9,
+                                                        "startLine": 5
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 3,
+                                            "kinds": [
+                                                "unknown"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.taint.Clean#scrub(java.lang.String):0:(return arg$0)",
+                                                        "fullyQualifiedName": "dataflowbench.taint.Clean#scrub"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "Exiting \"scrub\""
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/taint/ModelSanitizerKillNegative.java",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 6,
+                                                        "endLine": 6,
+                                                        "startColumn": 5,
+                                                        "startLine": 6
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 4,
+                                            "kinds": [
+                                                "return"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.taint.ModelSanitizerKillNegative#run():1:(%1 = dataflowbench.taint.Clean.scrub(%0))",
+                                                        "fullyQualifiedName": "dataflowbench.taint.ModelSanitizerKillNegative#run"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "Method \"scrub\" propagates marked data from a local variable to a local variable"
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/taint/ModelSanitizerKillNegative.java",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 43,
+                                                        "endLine": 17,
+                                                        "startColumn": 18,
+                                                        "startLine": 17
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 5,
+                                            "kinds": [
+                                                "taint"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.taint.ModelSanitizerKillNegative#run():2:(dataflowbench.taint.ModelSanitizerKillNegative.dfb_sink(%1))",
+                                                        "fullyQualifiedName": "dataflowbench.taint.ModelSanitizerKillNegative#run"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "OpenTaint modeling-surface probe"
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/taint/ModelSanitizerKillNegative.java",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 44,
+                                                        "endLine": 17,
+                                                        "startColumn": 9,
+                                                        "startLine": 17
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ],
+                    "level": "error",
+                    "locations": [
+                        {
+                            "logicalLocations": [
+                                {
+                                    "decoratedName": "dataflowbench.taint.ModelSanitizerKillNegative#run():2:(dataflowbench.taint.ModelSanitizerKillNegative.dfb_sink(%1))",
+                                    "fullyQualifiedName": "dataflowbench.taint.ModelSanitizerKillNegative#run"
+                                }
+                            ],
+                            "physicalLocation": {
+                                "artifactLocation": {
+                                    "uri": "dataflowbench/taint/ModelSanitizerKillNegative.java",
+                                    "uriBaseId": "%SRCROOT%"
+                                },
+                                "region": {
+                                    "endColumn": 44,
+                                    "endLine": 17,
+                                    "startColumn": 9,
+                                    "startLine": 17
+                                }
+                            }
+                        }
+                    ],
+                    "message": {
+                        "text": "OpenTaint modeling-surface probe"
+                    },
+                    "ruleId": ":probe-opentaint-modeling"
+                }
+            ]
+        }
+    ]
+}

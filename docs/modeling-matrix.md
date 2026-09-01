@@ -760,12 +760,13 @@ every existing adapter artifact is:
 | CodeQL | `adapters/codeql/queries/<Language>Modeling.ql` (+ any `ext/*.model.yml`) | `DataFlow::ConfigSig` predicates `isSource` / `isSink` / `isBarrier` / `isAdditionalFlowStep`, optionally models-as-data rows |
 | Joern | `adapters/joern/queries/modeling.sc` plus a flow-semantics file | query roots over `cpg.method…parameter` and `FlowSemantic` / `FlowMapping` entries |
 | Semgrep | `adapters/semgrep/rules/model-<language>.yaml` | `mode: taint` with `pattern-sources` / `pattern-sinks` / `pattern-propagators` / `pattern-sanitizers` |
+| OpenTaint (Java only; [A13](#a13--2026-09-01-opentaint-joins-the-modeling-matrix-with-a-preregistered-java-partition-row)) | `adapters/opentaint/rules/model-java.yaml` | Semgrep-syntax `mode: taint` rule translated into the engine's whole-program IFDS configuration; arg→return propagators are spelled assignment-shaped (`$TO = Opaque.carry($FROM)`) against the lifted JVM IR |
 
 Bifrost and CodeQL cases name their artifact through the `tool_model_references`
-keys the case schema already carries — `policy` and `query` respectively. Joern
-and Semgrep have no case-level model reference today (both pin their invocation
-in the runner, as their READMEs record), and the modeling matrix does not change
-that. **No new `tool_model_references` key is required**, because each adapter's
+keys the case schema already carries — `policy` and `query` respectively. Joern,
+Semgrep, and OpenTaint have no case-level model reference today (all three pin
+their invocation in the runner, as their READMEs record), and the modeling
+matrix does not change that. **No new `tool_model_references` key is required**, because each adapter's
 modeling declarations live inside the single per-language artifact its existing
 key already names.
 
@@ -947,20 +948,75 @@ expectation from the kernels would be the opposite — it enters with a *larger*
 share of this matrix than Bifrost does. Modeling capability and propagation
 capability are not the same axis, which is the whole reason this tier exists.
 
+### OpenTaint — `analyzer/2026.08.27.17eb0fe` (Java only)
+
+> **Added by [Amendment A13](#a13--2026-09-01-opentaint-joins-the-modeling-matrix-with-a-preregistered-java-partition-row).**
+> This row was not part of the original preregistration — the adapter did not
+> exist when it merged — and it joins on the rollout plan's own terms: *"a new
+> adapter joining this matrix arrives with its own preregistered partition row,
+> added by amendment before its first modeling run."* Every cell below was
+> decided by executing the pinned analyzer over the committed Java modeling
+> fixtures with hand-written probe declarations, before any scored run, and the
+> evidence is retained under `reports/raw/opentaint-modeling-surface-probe/`
+> (`scripts/probe-opentaint-modeling-surface.sh`).
+
+**Language scope.** This row is for **Java alone**. OpenTaint analyzes JVM
+bytecode only, so JavaScript and Python — wave M1's other two languages — have
+**no OpenTaint modeling denominator at all**, which is different from a zero:
+the adapter contract's applicability vocabulary, not an `unsupported` outcome.
+Kotlin, the adapter's other kernel language, has no modeling denominator in any
+adapter until the applicability pass the preregistration describes merges.
+
+Verified surface, by execution: the pinned analyzer's Semgrep-syntax rule
+front end accepts `pattern-sources`, `pattern-sinks`, `pattern-propagators`
+(`from` / `to` / `by-side-effect`), and `pattern-sanitizers`, and translates
+them into whole-program IFDS taint configurations over the lifted JVM IR.
+Two facts about that surface decide cells below and are worth stating up
+front. First, **the engine has no optimistic unmodeled-call default**: with no
+propagator declared, the reflective `Opaque.carry` body carries nothing
+(`p-unmodeled-positive`, zero findings), so there is no switch the
+load-bearing-model requirement needs pinned — the engine is `require-model`-
+shaped out of the box for calls it cannot follow. Second, **the engine reads
+every fixture body it can follow**, which is what a whole-program bytecode
+analysis is; that is propagation, not optimism, and it is what decides
+category O against this adapter.
+
+| Cat. | Decision | Rationale |
+| --- | --- | --- |
+| S | **supported** | Verified on all four cells: `Config.fetchRemote()` as a `pattern-sources` entry and `Audit.record($V)` (with `focus-metavariable`) as a `pattern-sinks` entry activate, and the undeclared siblings `fetchLocal` and `discard` stay silent — identity binding, not name-shape matching. Probe arms `s-source-*`, `s-sink-*`. |
+| P | **supported** | The load-bearing baseline holds: unmodeled, the reflective body carries nothing. The arg→return binding is expressed through the **assignment-shaped propagator** `$TO = Opaque.carry($FROM)` — the engine matches patterns against its lifted JVM IR, where a nested call is a temporary assignment, so the call's result is nameable as a metavariable, which is exactly the spelling Semgrep CE's own surface lacks. Positional fidelity is native: `$TO = Opaque.select($IGNORED, $FROM)` with `from: $FROM` carries taint at declared position 1 and not at undeclared position 0. All four cells decide correctly. Probe arms `p-unmodeled-positive`, `p-opaque-*`, `p-position-*`. |
+| Z | **supported** | `pattern-sanitizers: Clean.scrub($X)` suppresses the declared route (`z-kill-negative`, zero findings on a completing run), removing the declaration restores the flow (`z-kill-negative-unmodeled`, one finding), and the undeclared sanitizer-shaped sibling `Clean.sanitize` is not suppressed (`z-selectivity-positive` reports through it). Load-bearing in both directions and selective by identity. Unlike Semgrep CE, no safe-function assumption is needed to keep P load-bearing, so template 6's positive is decidable and Amendment A3's conflict does not arise here. |
+| O | **unsupported** | Template 7 is decided by the engine's body-reading default in both cells: with **no** summary declared, both `Bridge.pass` and `Bridge.hold` identity bodies are read and both cells report (`o-through-*-endpoints-only`). A summary is an instruction to ignore a present body, and the surface has no way to say it — so no declaration for `pass` could be load-bearing and no no-flow declaration for `hold` exists (a `pattern-sanitizers` entry would be a sanitizer role, not a summary). Template 8's `out: 1.payload` field destination has no spelling in the `from`/`to` vocabulary — `to:` reaches a whole metavariable or nothing — and both attempted store-through encodings (side-effect and plain) produce no flow (`o-field-*`). |
+| E | **unsupported** | The rule front end **silently drops** method-definition-shaped `pattern-sources` — both the `focus-metavariable` and the `pattern-inside` encodings — and the rule then degenerates to sink-existence matching: both cells of template 9 are flagged at **constant-argument** callsites (`e-def-pattern-*`, `e-inside-pattern-*`, two findings each, including `dfb_sink("clean")`), while the control arm with an unmatchable call-shaped source produces nothing (`e-sink-only-control`). No entry-root declaration is expressible, and what the degenerate rule decides, neither the model nor a flow decided. The pinned invocation's all-methods entry-point selector already analyzes the uncalled handlers; what is missing is any way to declare their parameters tainted on entry. |
+| B | **unsupported** | The surface has no store, key, or cross-procedure vocabulary at all: a propagator carries taint between the metavariables of **one matched callsite** and cannot span `put` in one procedure and `get` in another. Measured on all three available encodings — endpoints only (`b-roundtrip-endpoints-only`), a static-store spelling through the key argument (`b-roundtrip-static`), and an instance-store spelling through a side-effect-tainted receiver (`b-separation-*`) — every positive stays at zero findings. |
+
+OpenTaint therefore enters this matrix with **three of six categories scored —
+six templates, twelve of Java's twenty-four assertions**. The partition is the
+exact mirror of the adapter's kernel position stated in its README: everything
+the pinned engine's rule surface can express is scored whole, and the three
+declined categories are declined on executed evidence about the surface, not on
+a reading of upstream documentation.
+
 ### Partition summary
 
 Preregistered, before any modeling fixture exists. `TBV` = to be verified at
 implementation, treated as unsupported until shown otherwise.
 
-| Category | Bifrost v0.10.7 | CodeQL 2.26.4 | Joern 4.0.614 | Semgrep CE 1.175.0 |
-| --- | --- | --- | --- | --- |
-| S — sources and sinks | supported | supported | supported | supported |
-| P — propagators | TBV | supported | supported | unsupported |
-| Z — sanitizers | unsupported | supported | supported | supported |
-| O — summaries | unsupported | supported | supported (T8 TBV) | unsupported |
-| E — entry points | TBV | supported | supported | supported |
-| B — persistence | TBV | supported | supported | unsupported |
-| **Scored today** | **1 / 6** | **6 / 6** | **6 / 6** | **3 / 6** |
+> **Amended.** The OpenTaint column was added by
+> [Amendment A13](#a13--2026-09-01-opentaint-joins-the-modeling-matrix-with-a-preregistered-java-partition-row)
+> before that adapter's first modeling run; it covers **Java only** (the
+> adapter's one wave-M1 language), and the four preregistered columns are
+> unchanged.
+
+| Category | Bifrost v0.10.7 | CodeQL 2.26.4 | Joern 4.0.614 | Semgrep CE 1.175.0 | OpenTaint 2026.08.27 (Java only, A13) |
+| --- | --- | --- | --- | --- | --- |
+| S — sources and sinks | supported | supported | supported | supported | supported |
+| P — propagators | TBV | supported | supported | unsupported | supported |
+| Z — sanitizers | unsupported | supported | supported | supported | supported |
+| O — summaries | unsupported | supported | supported (T8 TBV) | unsupported | unsupported |
+| E — entry points | TBV | supported | supported | supported | unsupported |
+| B — persistence | TBV | supported | supported | unsupported | unsupported |
+| **Scored today** | **1 / 6** | **6 / 6** | **6 / 6** | **3 / 6** | **3 / 6** |
 
 These counts are categories, not scores. A tool with six of six has six
 categories' worth of assertions it can get wrong, and a tool with one of six has
@@ -1169,10 +1225,12 @@ Restating the obligations this tier is most at risk of eroding:
 ## Amendments
 
 Amendment numbers continue the repository's **single** sequence rather than
-restarting per document: A1 is in [the challenge tier](challenge-tier.md#amendments)
-and A6–A8 are in [the tool-native profile](native-profile.md#amendments), so an
-identifier names exactly one amendment wherever it is cited. That is why this
-document's own sequence reads A2–A5 and then A9.
+restarting per document: A1 is in [the challenge tier](challenge-tier.md#amendments),
+A6–A8 and A10 and A14 are in [the tool-native profile](native-profile.md#amendments),
+A11 is in [the adapter contract](adapters.md#amendments), and A12 is in
+[the latency tier](latency-tier.md#amendments), so an identifier names exactly
+one amendment wherever it is cited. That is why this document's own sequence
+reads A2–A5, then A9, then A13.
 
 ### A2 — 2026-08-26: Joern's propagator and summary categories are not load-bearing
 
@@ -1438,3 +1496,88 @@ carry the sanitizer declaration.
 core or challenge result changes. The scored evidence for the promoted cells
 lands with the next evidence re-run; until it does, the retained modeling
 reports predate this amendment and record category Z as `unsupported`.
+
+### A13 — 2026-09-01: OpenTaint joins the modeling matrix with a preregistered Java partition row
+
+**What changed.** The [per-tool capability partition](#per-tool-capability-partition)
+gains a fifth row — OpenTaint, pinned release `analyzer/2026.08.27.17eb0fe` by
+asset digest, the identity convention its adapter README records — for **Java
+only**. Its scored set is categories S, P, and Z: six of the twelve templates,
+twelve of Java's twenty-four assertions. Categories O, E, and B are
+`unsupported`. The [partition summary](#partition-summary) gains the matching
+column, and the equivalence contract's
+[encoding table](#the-equivalence-contract) gains the adapter's artifact row
+(`adapters/opentaint/rules/model-java.yaml`). No preregistered cell of any
+other tool moves.
+
+**Why it is an amendment and not an edit.** The
+[rollout plan](#rollout-plan) preregisters the mechanism: *"a new adapter
+joining this matrix arrives with its own preregistered partition row, added by
+amendment before its first modeling run."* This is that amendment for issue
+#17's adapter, dated and landed **before** any scored OpenTaint modeling run
+exists, so the partition stays a capability classification rather than a
+result being relabelled.
+
+**Language scope, stated before anything else.** OpenTaint analyzes JVM
+bytecode only. Java is therefore its only wave-M1 modeling population;
+JavaScript and Python have **no OpenTaint modeling denominator** — the
+applicability vocabulary's absence-of-a-denominator, not an `unsupported`
+outcome and not a zero — and the runner refuses to plan an OpenTaint modeling
+run for either. Kotlin, the adapter's other kernel language, has no modeling
+denominator in any adapter until the applicability pass merges.
+
+**How the row was decided.** By execution, on the pinned analyzer, over the
+**committed Java modeling fixtures**, with hand-written probe declarations —
+never from upstream documentation. `scripts/probe-opentaint-modeling-surface.sh`
+retains every arm's rule, rule-load trace, and verbatim SARIF under
+`reports/raw/opentaint-modeling-surface-probe/`, and the probe is evidence for
+this preregistration, never a partition input taken from a scored result: no
+scored population existed when it ran. Per cell:
+
+- **S — supported.** `Config.fetchRemote()` and `Audit.record($V)` activate as
+  declared source and sink; the undeclared siblings `fetchLocal` and `discard`
+  stay silent. Four of four probe cells decide correctly.
+- **P — supported, on a load-bearing baseline measured first.** With no
+  propagator declared, the reflective `Opaque.carry` body carries nothing
+  (`p-unmodeled-positive`, zero findings): the engine has **no optimistic
+  unmodeled-call default**, so the
+  [load-bearing-model requirement](#the-load-bearing-model-requirement) needs
+  no switch pinned for this adapter — there is nothing to disable. The
+  arg→return binding that Semgrep CE's surface cannot express is expressible
+  here as the **assignment-shaped propagator** `$TO = Opaque.carry($FROM)`,
+  because the engine matches patterns against its lifted JVM IR, where a
+  nested call is a temporary assignment and the call's result is a nameable
+  metavariable. Positional fidelity is native (`from:` names the declared
+  position and the undeclared position is not carried). Four of four probe
+  cells decide correctly.
+- **Z — supported.** The `Clean.scrub` sanitizer suppresses on a completing
+  run, its removal restores the flow, and the undeclared sanitizer-shaped
+  `Clean.sanitize` is not suppressed — load-bearing in both directions and
+  selective by identity. Because P needs no safe-function assumption, the
+  conflict that cost Semgrep CE template 6
+  ([Amendment A3](#a3--2026-08-26-semgreps-sanitizer-selectivity-cell-is-undecidable-by-construction))
+  does not arise: both category-Z templates are scored.
+- **O — unsupported.** With no summary declared, the engine reads both
+  identity bodies of template 7 and reports both cells — the body-reading
+  default decides the template, and the surface has no instruction to ignore
+  a present body, so no summary declaration can be load-bearing. Template 8's
+  `out: 1.payload` field destination has no spelling in the `from`/`to`
+  vocabulary, and both attempted store-through encodings produce no flow.
+- **E — unsupported.** Method-definition-shaped `pattern-sources` are
+  **silently dropped** by the rule loader (both the `focus-metavariable` and
+  the `pattern-inside` encodings), and the rule degenerates to sink-existence
+  matching — both cells flag constant-argument callsites — while the control
+  arm with an unmatchable call-shaped source produces nothing. No entry-root
+  declaration is expressible on the pinned build.
+- **B — unsupported.** The surface has no store, key, or cross-procedure
+  vocabulary; a propagator carries taint between the metavariables of one
+  matched callsite. All three attempted encodings leave every positive at
+  zero findings.
+
+**Templates and languages touched.** All twelve templates, for `java` alone,
+for OpenTaint alone. No cell of Bifrost, CodeQL, Joern, or Semgrep moves.
+
+**Freezes invalidated.** None. No published freeze binds any OpenTaint
+modeling report — the v0.6.0 manifest froze this adapter's two propagation
+kernels and nothing else — and the scored runs this row entitles land after
+this amendment, as post-freeze live evidence.
