@@ -222,6 +222,79 @@ flows, `closure-capture` in Java, `anonymous-implementation`,
 (`infeasible-branch`, `loop-carried`) that Semgrep CE's engine reports as
 false positives in every language.
 
+## Benchmark-controlled modeling matrix (Java)
+
+Infer joined the modeling matrix by
+[Amendment A13](../../docs/modeling-matrix.md#a13--2026-09-01-infer-joins-the-modeling-matrix-with-a-field-evaluated-partition-row),
+with a partition row **field-evaluated by execution** over the committed Java
+modeling fixtures before its first modeling run
+(`reports/raw/amendment-a13-infer-partition/`, produced by
+`scripts/probe-infer-modeling-partition.sh`). Java is the row's only
+language: the pinned distribution executes no JavaScript or Python frontend,
+so those languages have no Infer modeling denominator at all, and
+`run-infer-modeling` refuses them rather than writing an empty report.
+
+The partition scores **S, P (template 3 alone), and Z** — five of the twelve
+templates. The declarations live in one committed configuration,
+`adapters/infer/config/model-java.json`, which states the declared identities
+literally (nothing is templated) through exact `class_names` +
+`method_names` matchers, and which declares exactly the scored categories.
+The measured boundaries behind the declined cells:
+
+- **Template 4** — a Pulse propagator declares an output (`taint_target`)
+  but no input position: the declared `select` propagator carries taint from
+  the undeclared position 0 exactly as from the declared position 1, and
+  unknown configuration fields are **silently ignored**, so no spelling can
+  be trusted to bind the position.
+- **Category O** — captured bodies are read: template 7's identity bodies
+  decide both cells with no declaration at all
+  (`--pulse-taint-opaque-files` is accepted and measured inert for Java),
+  and template 8's `FieldsOfValue` destination taints the sibling field, so
+  the field-separation negative is decided by the heap approximation.
+- **Category E** — a source matcher's argument `taint_target` applies at
+  call boundaries only; declared on the uncalled handler's parameter, the
+  analysis synthesizes no root.
+- **Category B** — no store-write/store-read vocabulary exists anywhere in
+  the configuration surface.
+
+Three silent-failure shapes of the configuration surface are gated per run,
+all measured in the probes: a configuration with no `pulse-taint-policies`
+loads and asks no taint question; a sanitizer whose kind no policy's
+`sanitizer_kinds` names is **silently inert**; and the plain `procedure`
+matcher is a substring match. `require_infer_modeling_load_bearing` refuses
+all three before any case runs.
+
+The retained run (`reports/infer-java-modeling.json`, raw evidence under
+`reports/raw/infer-java-modeling/`) decides **all ten scored assertions
+correctly** — both S templates, template 3's pair, and both Z templates —
+with the fourteen declined assertions retained as
+`preregistered-modeling-partition` capability decisions. Per-case
+`capture`/`analyze` phase timings are retained exactly as the kernels'.
+Reconciliation uses the member-qualified Java anchor dialect, because a
+declared modeling entity is reached through its declaring type
+(`Audit.record(v)`), which the kernel dialect deliberately refuses.
+
+## Tool-native profile (Java): declines on a measured silence
+
+Infer's tool-native row
+([Amendment A14](../../docs/native-profile.md#a14--2026-09-01-infers-native-row-declines-on-a-measured-silence))
+is **0 / 6**: the pinned release ships Pulse's taint analysis disabled absent
+a `--pulse-taint-config`, and no Java endpoint catalog. Because this adapter's
+own silent-failure guard exists precisely because a *mis-pathed*
+configuration is silently ignored, the decline had to be a **measured**
+silence rather than an asserted one: `scripts/probe-infer-native-silence.sh`
+runs the shipped product over all twelve Java native fixtures with **no
+configuration argument at all** — nothing to mis-path — and retains the
+verbatim SARIF, exact argv, and exit status per fixture
+(`reports/raw/amendment-a14-infer-native-silence/`). Every run produced zero
+findings of any rule.
+
+`run-infer-native --language java` writes the twelve retained
+`unsupported` decisions with the run's identity witnessed from the binary —
+the same version-pin-refusing witness the kernels use — per the 0 / 6
+witnessing rule of the native profile. The other two languages have no Infer
+native denominator and are refused outright.
+
 ## Retained artifacts
 
 Per case under `reports/raw/infer-<language>-kernel/`: the verbatim SARIF
@@ -230,6 +303,14 @@ Per case under `reports/raw/infer-<language>-kernel/`: the verbatim SARIF
 (`<case-id>-timing.json`, phases `capture` and `analyze`); `-error.json`
 diagnostics replace the SARIF where a stage failed. Once per run:
 `run-environment.json` with the witnessed identity.
+
+The modeling run retains the same shapes under
+`reports/raw/infer-java-modeling/` (the committed configuration is
+hash-bound rather than resolved per case, so no per-case config copy exists),
+with `-unsupported.json` capability decisions for the declined cells; the
+native run retains twelve `-unsupported.json` decisions under
+`reports/raw/infer-java-native/`, plus `run-environment.json` with the
+witnessed identity.
 
 ## Reproduction
 
@@ -249,6 +330,16 @@ Then run each kernel (the runner re-witnesses the version before any case):
 cargo run -- run-infer-c-kernel    --infer /path/to/infer-osx-arm64-v1.3.0/bin/infer
 cargo run -- run-infer-cpp-kernel  --infer /path/to/infer-osx-arm64-v1.3.0/bin/infer
 cargo run -- run-infer-java-kernel --infer /path/to/infer-osx-arm64-v1.3.0/bin/infer
+```
+
+The Java modeling tiers, and the two probe scripts whose retained evidence
+backs Amendments A13 and A14:
+
+```bash
+cargo run -- run-infer-modeling --language java --infer /path/to/infer-osx-arm64-v1.3.0/bin/infer
+cargo run -- run-infer-native   --language java --infer /path/to/infer-osx-arm64-v1.3.0/bin/infer
+scripts/probe-infer-modeling-partition.sh --infer /path/to/infer-osx-arm64-v1.3.0/bin/infer
+scripts/probe-infer-native-silence.sh     --infer /path/to/infer-osx-arm64-v1.3.0/bin/infer
 ```
 
 The C and C++ compiles run under the distribution's own bundled clang; the

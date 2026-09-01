@@ -553,18 +553,27 @@ fn modeling_category(template: &str) -> Option<ModelingCategory> {
         .find(|category| category.templates().contains(&template))
 }
 
-/// The four adapters the preregistration partitions. A fifth adapter joins by
-/// amendment with its own partition row, never by inheriting another's.
+/// The four adapters the preregistration partitions, plus the adapters that
+/// joined later, each by a dated amendment with its own partition row, never
+/// by inheriting another's. Infer joined by Amendment A13 with a
+/// field-evaluated row (`reports/raw/amendment-a13-infer-partition/`).
 #[derive(Clone, Copy, PartialEq, Eq, Debug, clap::ValueEnum)]
 enum ModelingTool {
     Bifrost,
     Codeql,
+    Infer,
     Joern,
     Semgrep,
 }
 
 impl ModelingTool {
-    const ALL: [Self; 4] = [Self::Bifrost, Self::Codeql, Self::Joern, Self::Semgrep];
+    const ALL: [Self; 5] = [
+        Self::Bifrost,
+        Self::Codeql,
+        Self::Infer,
+        Self::Joern,
+        Self::Semgrep,
+    ];
 
     /// The `tool` value the normalized report carries, and the first component
     /// of the report and raw-evidence paths.
@@ -572,6 +581,7 @@ impl ModelingTool {
         match self {
             Self::Bifrost => "bifrost",
             Self::Codeql => "codeql",
+            Self::Infer => "infer",
             Self::Joern => "joern",
             Self::Semgrep => "semgrep",
         }
@@ -593,6 +603,7 @@ impl ModelingTool {
         match self {
             Self::Bifrost => "Bifrost v0.10.7",
             Self::Codeql => "CodeQL CLI 2.26.4",
+            Self::Infer => "Infer v1.3.0",
             Self::Joern => "Joern 4.0.614",
             Self::Semgrep => "Semgrep CE 1.175.0",
         }
@@ -626,7 +637,7 @@ struct ModelingPartitionCell {
 /// than four, and why its second — category Z — arrived as
 /// [Amendment A9](../docs/modeling-matrix.md#amendments) with a measurement
 /// behind it rather than as an edit to this array.
-const MODELING_PARTITION: [ModelingPartitionCell; 24] = [
+const MODELING_PARTITION: [ModelingPartitionCell; 30] = [
     // Bifrost — preregistered 1 / 6; 2 / 6 as amended, after Amendment A9
     // promoted category Z.
     ModelingPartitionCell {
@@ -705,6 +716,49 @@ const MODELING_PARTITION: [ModelingPartitionCell; 24] = [
         tool: ModelingTool::Codeql,
         category: ModelingCategory::Persistence,
         unsupported_reason: None,
+    },
+    // Infer — v1.3.0: 3 / 6 categories (S, P, Z), joined by Amendment A13 on
+    // a field evaluation executed against the committed Java modeling
+    // fixtures before this row existed
+    // (reports/raw/amendment-a13-infer-partition/, produced by
+    // scripts/probe-infer-modeling-partition.sh). Category P is scored by
+    // template 3 alone: template 4 is declined by a template-level override
+    // below, on the measured absence of an input-position vocabulary.
+    ModelingPartitionCell {
+        tool: ModelingTool::Infer,
+        category: ModelingCategory::SourcesAndSinks,
+        unsupported_reason: None,
+    },
+    ModelingPartitionCell {
+        tool: ModelingTool::Infer,
+        category: ModelingCategory::Propagators,
+        unsupported_reason: None,
+    },
+    ModelingPartitionCell {
+        tool: ModelingTool::Infer,
+        category: ModelingCategory::Sanitizers,
+        unsupported_reason: None,
+    },
+    ModelingPartitionCell {
+        tool: ModelingTool::Infer,
+        category: ModelingCategory::Summaries,
+        unsupported_reason: Some(
+            "measured on the pinned v1.3.0 (Amendment A13): template 7's identity bodies are captured and Pulse reads them — both cells report with no declaration at all, so the cells are decided by body analysis rather than by a summary, and the release has no surface that makes a captured body ignored (`--pulse-taint-opaque-files` is accepted and measured inert for Java). Template 8's `FieldsOfValue` destination is not field-precise: the declared `1.payload` summary taints the sibling field too, so the field-separation negative is decided by the heap approximation rather than by the summary",
+        ),
+    },
+    ModelingPartitionCell {
+        tool: ModelingTool::Infer,
+        category: ModelingCategory::EntryPoints,
+        unsupported_reason: Some(
+            "measured on the pinned v1.3.0 (Amendment A13): a source matcher's argument `taint_target` applies at call boundaries only — declared on the uncalled handler's parameter, the analysis synthesizes no root and reports nothing inside the handler's body — and the pulse-taint surface documents no entry-root or endpoint vocabulary",
+        ),
+    },
+    ModelingPartitionCell {
+        tool: ModelingTool::Infer,
+        category: ModelingCategory::Persistence,
+        unsupported_reason: Some(
+            "the pulse-taint configuration surface defines sources, sinks, sanitizers, propagators, policies, and data-flow kinds and nothing else — no store-write/store-read vocabulary and no key discrimination (the binary's own enumeration is retained as amendment A13 evidence) — and `Store.put`/`Store.get` have empty bodies, so nothing else can carry the roundtrip",
+        ),
     },
     // Joern — 4.0.614: 4 / 6 (Amendment A2 moved P and O to unsupported).
     ModelingPartitionCell {
@@ -807,14 +861,34 @@ const MODELING_PARTITION: [ModelingPartitionCell; 24] = [
 /// load-bearing — itself suppresses flow through the undeclared
 /// sanitizer-lookalike, so selectivity's positive is undecidable by
 /// construction in a single CE invocation.
-const MODELING_TEMPLATE_OVERRIDES: [(ModelingTool, &str, &str); 1] = [(
-    ModelingTool::Semgrep,
-    "dfb-template-model-sanitizer-selectivity",
-    "Semgrep CE cannot express sanitizer selectivity and the safe-function \
-     assumption in one invocation: taint_assume_safe_functions suppresses \
-     flow through the undeclared sanitizer-lookalike, so the positive is \
-     undecidable by construction (Amendment A3)",
-)];
+/// A second override carries Infer's template 4 (Amendment A13): a Pulse
+/// propagator declares an output (`taint_target`) but no input position, and
+/// the measured propagator carries taint from the undeclared position 0
+/// exactly as from the declared position 1 — both cells are decided by the
+/// any-argument default, not the declared position. Unknown configuration
+/// fields are silently ignored on the pinned build, so no spelling can be
+/// trusted to bind the position either.
+const MODELING_TEMPLATE_OVERRIDES: [(ModelingTool, &str, &str); 2] = [
+    (
+        ModelingTool::Semgrep,
+        "dfb-template-model-sanitizer-selectivity",
+        "Semgrep CE cannot express sanitizer selectivity and the safe-function \
+         assumption in one invocation: taint_assume_safe_functions suppresses \
+         flow through the undeclared sanitizer-lookalike, so the positive is \
+         undecidable by construction (Amendment A3)",
+    ),
+    (
+        ModelingTool::Infer,
+        "dfb-template-model-propagator-position",
+        "a Pulse taint propagator declares an output (`taint_target`) but no \
+         input position: measured on the pinned v1.3.0, the declared `select` \
+         propagator carries taint from the undeclared position 0 exactly as \
+         from the declared position 1, so both cells are decided by the \
+         any-argument default rather than by the declared binding — and \
+         unknown configuration fields are silently ignored, so no spelling \
+         can be trusted to bind the position (Amendment A13)",
+    ),
+];
 
 fn modeling_partition_reason(tool: ModelingTool, template: &str) -> Result<Option<&'static str>> {
     let category = modeling_category(template).with_context(|| {
@@ -867,7 +941,7 @@ fn modeling_unsupported_reason(
 /// The templates a tool is entitled to score, in preregistered order. The
 /// counts are the document's partition summary **as amended**: Bifrost 4
 /// (Amendment A9), Semgrep 5 (Amendment A3), CodeQL 12, Joern 8
-/// (Amendment A2).
+/// (Amendment A2), Infer 5 (Amendment A13).
 fn modeling_supported_templates(tool: ModelingTool) -> Vec<&'static str> {
     MODELING_TEMPLATE_IDS
         .into_iter()
@@ -937,32 +1011,48 @@ impl ModelingLanguage {
     /// `adapters/codeql/java/` pack exists to descend into, so a query placed
     /// under one would resolve no dependency at all. Java therefore lands on
     /// the schematic path, by the same rule that moved the other two off it.
-    fn artifact(self, tool: ModelingTool) -> &'static str {
+    ///
+    /// `None` means the tool has **no modeling denominator** for this language
+    /// at all — which is different from having a zero, and different from a
+    /// missing artifact (a hard error). Infer's pinned distribution executes
+    /// no JavaScript or Python frontend, so its modeling row exists for Java
+    /// alone (Amendment A13).
+    fn artifact(self, tool: ModelingTool) -> Option<&'static str> {
         match (tool, self) {
-            (ModelingTool::Bifrost, Self::Java) => "adapters/bifrost/policies/model-java.rqlp",
-            (ModelingTool::Bifrost, Self::Javascript) => {
-                "adapters/bifrost/policies/model-javascript.rqlp"
+            (ModelingTool::Bifrost, Self::Java) => {
+                Some("adapters/bifrost/policies/model-java.rqlp")
             }
-            (ModelingTool::Bifrost, Self::Python) => "adapters/bifrost/policies/model-python.rqlp",
-            (ModelingTool::Codeql, Self::Java) => "adapters/codeql/queries/JavaModeling.ql",
+            (ModelingTool::Bifrost, Self::Javascript) => {
+                Some("adapters/bifrost/policies/model-javascript.rqlp")
+            }
+            (ModelingTool::Bifrost, Self::Python) => {
+                Some("adapters/bifrost/policies/model-python.rqlp")
+            }
+            (ModelingTool::Codeql, Self::Java) => Some("adapters/codeql/queries/JavaModeling.ql"),
             (ModelingTool::Codeql, Self::Javascript) => {
-                "adapters/codeql/javascript/queries/JavaScriptModeling.ql"
+                Some("adapters/codeql/javascript/queries/JavaScriptModeling.ql")
             }
             (ModelingTool::Codeql, Self::Python) => {
-                "adapters/codeql/python/queries/PythonModeling.ql"
+                Some("adapters/codeql/python/queries/PythonModeling.ql")
             }
-            (ModelingTool::Joern, Self::Java) => "adapters/joern/semantics/model-java.semantics",
+            (ModelingTool::Infer, Self::Java) => Some("adapters/infer/config/model-java.json"),
+            (ModelingTool::Infer, Self::Javascript | Self::Python) => None,
+            (ModelingTool::Joern, Self::Java) => {
+                Some("adapters/joern/semantics/model-java.semantics")
+            }
             (ModelingTool::Joern, Self::Javascript) => {
-                "adapters/joern/semantics/model-javascript.semantics"
+                Some("adapters/joern/semantics/model-javascript.semantics")
             }
             (ModelingTool::Joern, Self::Python) => {
-                "adapters/joern/semantics/model-python.semantics"
+                Some("adapters/joern/semantics/model-python.semantics")
             }
-            (ModelingTool::Semgrep, Self::Java) => "adapters/semgrep/rules/model-java.yaml",
+            (ModelingTool::Semgrep, Self::Java) => Some("adapters/semgrep/rules/model-java.yaml"),
             (ModelingTool::Semgrep, Self::Javascript) => {
-                "adapters/semgrep/rules/model-javascript.yaml"
+                Some("adapters/semgrep/rules/model-javascript.yaml")
             }
-            (ModelingTool::Semgrep, Self::Python) => "adapters/semgrep/rules/model-python.yaml",
+            (ModelingTool::Semgrep, Self::Python) => {
+                Some("adapters/semgrep/rules/model-python.yaml")
+            }
         }
     }
 
@@ -1027,6 +1117,84 @@ fn require_semgrep_modeling_load_bearing(rule: &str, path: &str) -> Result<()> {
         bail!(
             "{path} does not set `options: {SEMGREP_MODELING_ASSUME_SAFE_OPTION}`; without it the pinned CE engine carries taint from any tainted argument to a call's result and the declared model is not what decides the cell (docs/modeling-matrix.md#the-load-bearing-model-requirement)"
         );
+    }
+    Ok(())
+}
+
+/// Enforce the pinned Infer release's silent-configuration hazards on its
+/// modeling artifact, all three measured in the field
+/// (`reports/raw/amendment-a13-infer-partition/`):
+///
+/// - a configuration that parses but declares no `pulse-taint-policies` loads
+///   and reports nothing — the kernel adapter's own quirk, guarded here for
+///   the same reason;
+/// - a sanitizer whose kind is not named in a policy's `sanitizer_kinds` is
+///   **silently inert**: the declaration is accepted, the flow it should
+///   suppress is still reported, and every category-Z cell would then be
+///   decided by the engine rather than the model;
+/// - the plain `procedure` matcher is a substring match (`dfb_source` also
+///   matches `dfb_source_extra`), so a modeling artifact — whose whole claim
+///   is identity binding — may not use it.
+fn require_infer_modeling_load_bearing(config: &str, path: &str) -> Result<()> {
+    let parsed: Value = serde_json::from_str(config)
+        .with_context(|| format!("parse the Infer modeling configuration {path}"))?;
+    if parsed["pulse-taint-policies"]
+        .as_array()
+        .is_none_or(Vec::is_empty)
+    {
+        bail!(
+            "{path} declares no pulse-taint-policies; the pinned binary loads such a configuration and asks no taint question at all, so every cell would read as a clean negative"
+        );
+    }
+    let mut wired_sanitizer_kinds = BTreeSet::new();
+    for policy in parsed["pulse-taint-policies"]
+        .as_array()
+        .into_iter()
+        .flatten()
+    {
+        for flow in policy["taint_flows"].as_array().into_iter().flatten() {
+            for kind in flow["sanitizer_kinds"].as_array().into_iter().flatten() {
+                if let Some(kind) = kind.as_str() {
+                    wired_sanitizer_kinds.insert(kind.to_string());
+                }
+            }
+        }
+    }
+    for sanitizer in parsed["pulse-taint-sanitizers"]
+        .as_array()
+        .into_iter()
+        .flatten()
+    {
+        let kinds = sanitizer["kinds"].as_array().cloned().unwrap_or_default();
+        if kinds.is_empty() {
+            bail!(
+                "{path} declares a sanitizer with no `kinds`; on the pinned binary a sanitizer is credited only through a policy's `sanitizer_kinds`, and an unnamed kind cannot be wired into one"
+            );
+        }
+        for kind in kinds {
+            let Some(kind) = kind.as_str() else {
+                bail!("{path} declares a non-string sanitizer kind");
+            };
+            if !wired_sanitizer_kinds.contains(kind) {
+                bail!(
+                    "{path} declares a sanitizer of kind {kind:?} that no policy's `sanitizer_kinds` names; measured on the pinned v1.3.0, such a sanitizer is silently inert and the category-Z cells would be decided by the engine rather than the model (docs/modeling-matrix.md#the-load-bearing-model-requirement)"
+                );
+            }
+        }
+    }
+    for section in [
+        "pulse-taint-sources",
+        "pulse-taint-sinks",
+        "pulse-taint-sanitizers",
+        "pulse-taint-propagators",
+    ] {
+        for matcher in parsed[section].as_array().into_iter().flatten() {
+            if matcher.get("procedure").is_some() {
+                bail!(
+                    "{path} uses a plain `procedure` matcher in {section}; the pinned binary matches it as a substring, which cannot carry the identity binding a modeling declaration claims — use `class_names` + `method_names` or an anchored `procedure_regex`"
+                );
+            }
+        }
     }
     Ok(())
 }
@@ -1226,7 +1394,7 @@ struct NativePartitionCell {
 /// is unsupported until shown otherwise, and promoting one is a dated
 /// amendment. That is why three of the four tools enter with nothing scored —
 /// which is a statement about product packaging, not about an engine.
-const NATIVE_PARTITION: [NativePartitionCell; 24] = [
+const NATIVE_PARTITION: [NativePartitionCell; 30] = [
     // Bifrost — v0.10.7: 0 / 6. The standalone policy CLI ships no taint
     // policy and no source/sink endpoint catalog, so no template can produce a
     // finding regardless of what else it can express.
@@ -1321,6 +1489,74 @@ const NATIVE_PARTITION: [NativePartitionCell; 24] = [
         tool: ModelingTool::Codeql,
         template: NATIVE_TEMPLATE_IDS[5],
         unsupported_reason: None,
+    },
+    // Infer — v1.3.0, shipped Pulse checker with no taint configuration:
+    // 0 / 6, joined by Amendment A14 on a measured silence
+    // (reports/raw/amendment-a14-infer-native-silence/, produced by
+    // scripts/probe-infer-native-silence.sh): with no `--pulse-taint-config`
+    // supplied, `infer analyze --pulse-only --sarif` over the twelve Java
+    // native fixtures produced zero findings of any rule, and the invocation
+    // passed no configuration path at all — so the pinned release's
+    // silently-ignored-missing-config quirk cannot be the explanation; there
+    // was nothing to mis-path. Infer's native row exists for Java alone: the
+    // pinned distribution executes no JavaScript or Python frontend.
+    NativePartitionCell {
+        tool: ModelingTool::Infer,
+        template: NATIVE_TEMPLATE_IDS[0],
+        unsupported_reason: Some(
+            "the pinned release ships Pulse's taint analysis disabled absent a \
+             `--pulse-taint-config`, and no Java endpoint catalog: measured with no \
+             configuration supplied — nothing to mis-path, so the silent-missing-config quirk \
+             cannot be the explanation — the shipped product decides nothing on any of the \
+             twelve Java native fixtures, and the one always-enabled policy (Simple→Simple) has \
+             no shipped Java source or sink bound to it (Amendment A14)",
+        ),
+    },
+    NativePartitionCell {
+        tool: ModelingTool::Infer,
+        template: NATIVE_TEMPLATE_IDS[1],
+        unsupported_reason: Some(
+            "same measured silence (Amendment A14): a shipped propagator summary would need a \
+             shipped source and sink to carry anything between, and the pinned release ships \
+             neither — Pulse taint is disabled absent a `--pulse-taint-config`",
+        ),
+    },
+    NativePartitionCell {
+        tool: ModelingTool::Infer,
+        template: NATIVE_TEMPLATE_IDS[2],
+        unsupported_reason: Some(
+            "same measured silence (Amendment A14): the sanitizer surface Amendment A13 measured \
+             load-bearing is reachable only through `--pulse-taint-config`, which this profile's \
+             activation contract supplies nothing through, and the shipped product declares no \
+             sanitizer and no endpoints for one to sit between",
+        ),
+    },
+    NativePartitionCell {
+        tool: ModelingTool::Infer,
+        template: NATIVE_TEMPLATE_IDS[3],
+        unsupported_reason: Some(
+            "same measured silence (Amendment A14): no shipped summary catalog exists — the \
+             taint question itself is off absent a `--pulse-taint-config`, so a base64 round \
+             trip has no flow to survive",
+        ),
+    },
+    NativePartitionCell {
+        tool: ModelingTool::Infer,
+        template: NATIVE_TEMPLATE_IDS[4],
+        unsupported_reason: Some(
+            "same measured silence (Amendment A14), and doubly out of reach: the shipped product \
+             activates no taint question, and Amendment A13 measured that the pulse-taint \
+             surface has no entry-root vocabulary even when configured",
+        ),
+    },
+    NativePartitionCell {
+        tool: ModelingTool::Infer,
+        template: NATIVE_TEMPLATE_IDS[5],
+        unsupported_reason: Some(
+            "same measured silence (Amendment A14), and doubly out of reach: the shipped product \
+             activates no taint question, and the pulse-taint surface has no store-write/\
+             store-read vocabulary even when configured (Amendment A13)",
+        ),
     },
     // Joern — 4.0.614, `DefaultSemantics` only: 0 / 6.
     NativePartitionCell {
@@ -1701,6 +1937,27 @@ fn native_activation(
             ],
             configuration_paths: BTreeSet::new(),
         },
+        // The shipped product as shipped: `analyze --pulse-only --sarif` and
+        // no `--pulse-taint-config`, which is precisely the activation the
+        // measured silence of Amendment A14 was read from. Java alone: the
+        // pinned distribution executes no JavaScript or Python frontend, so
+        // those languages have no Infer native denominator at all — which is
+        // different from a 0 / 6 decline.
+        ModelingTool::Infer => {
+            if language != ModelingLanguage::Java {
+                bail!(
+                    "{} has no {} tool-native denominator: the pinned distribution executes no {} frontend, so its native row exists for Java alone (docs/native-profile.md, Amendment A14). No denominator is different from a zero; refusing to write a report",
+                    tool.pinned_identity(),
+                    language.display_name(),
+                    language.display_name()
+                );
+            }
+            NativeActivation {
+                identity: format!("{identity} shipped Pulse checker, no taint configuration"),
+                arguments: vec!["--pulse-only".to_string()],
+                configuration_paths: BTreeSet::new(),
+            }
+        }
         ModelingTool::Joern => NativeActivation {
             identity: format!("{identity} DefaultSemantics only"),
             arguments: Vec::new(),
@@ -1720,7 +1977,9 @@ fn benchmark_model_artifacts() -> BTreeSet<String> {
             ModelingLanguage::Javascript,
             ModelingLanguage::Python,
         ] {
-            artifacts.insert(language.artifact(tool).to_string());
+            if let Some(artifact) = language.artifact(tool) {
+                artifacts.insert(artifact.to_string());
+            }
         }
     }
     artifacts
@@ -2421,6 +2680,25 @@ enum Commands {
         #[arg(long)]
         codeql_packs: Option<PathBuf>,
     },
+    /// Run one language's benchmark-controlled taint-modeling matrix through
+    /// the pinned Infer release's Pulse taint configuration. The partition
+    /// (Amendment A13) scores categories S, P (template 3 alone), and Z; O,
+    /// E, and B are `unsupported` with a retained rationale, decided before
+    /// the binary is invoked. Java only — the pinned distribution executes no
+    /// JavaScript or Python frontend, so those languages have no Infer
+    /// modeling denominator.
+    RunInferModeling {
+        #[arg(long, value_enum)]
+        language: ModelingLanguage,
+        /// Path to the pinned Infer binary; its self-reported version is
+        /// witnessed per run.
+        #[arg(long, default_value = "infer")]
+        infer: PathBuf,
+        /// Java compiler traced by `infer capture` to materialize each
+        /// fixture's bytecode.
+        #[arg(long, default_value = "javac")]
+        javac: PathBuf,
+    },
     /// Run one language's modeling matrix through Joern's flow-semantics
     /// surface and a dedicated `modeling.sc`, leaving the kernel script
     /// untouched. All six categories are scored.
@@ -2460,6 +2738,21 @@ enum Commands {
         codeql: PathBuf,
         #[arg(long)]
         codeql_packs: Option<PathBuf>,
+    },
+    /// Run one language's tool-native probe set through the pinned Infer
+    /// release as shipped: `analyze --pulse-only --sarif` with no
+    /// `--pulse-taint-config`. The partition (Amendment A14) scores nothing —
+    /// the shipped product's taint analysis is off absent a configuration, a
+    /// silence measured rather than assumed — so all six templates are
+    /// `unsupported` with a retained rationale and a witnessed identity. Java
+    /// only.
+    RunInferNative {
+        #[arg(long, value_enum)]
+        language: ModelingLanguage,
+        /// Path to the pinned Infer binary; its self-reported version is
+        /// witnessed per run.
+        #[arg(long, default_value = "infer")]
+        infer: PathBuf,
     },
     /// Run one language's tool-native probe set through Joern under
     /// `DefaultSemantics` alone. No benchmark semantics file may load; the
@@ -2678,7 +2971,7 @@ fn main() -> Result<()> {
             run_infer_kernel(&infer, InferKernel::Java { javac })
         }
         Commands::RunBifrostModeling { language, bifrost } => {
-            run_modeling(ModelingTool::Bifrost, &bifrost, language, None)
+            run_modeling(ModelingTool::Bifrost, &bifrost, language, None, None)
         }
         Commands::RunCodeqlModeling {
             language,
@@ -2689,12 +2982,18 @@ fn main() -> Result<()> {
             &codeql,
             language,
             codeql_packs.as_deref(),
+            None,
         ),
+        Commands::RunInferModeling {
+            language,
+            infer,
+            javac,
+        } => run_modeling(ModelingTool::Infer, &infer, language, None, Some(&javac)),
         Commands::RunJoernModeling { language, joern } => {
-            run_modeling(ModelingTool::Joern, &joern, language, None)
+            run_modeling(ModelingTool::Joern, &joern, language, None, None)
         }
         Commands::RunSemgrepModeling { language, semgrep } => {
-            run_modeling(ModelingTool::Semgrep, &semgrep, language, None)
+            run_modeling(ModelingTool::Semgrep, &semgrep, language, None, None)
         }
         Commands::RunBifrostNative { language, bifrost } => {
             run_native(ModelingTool::Bifrost, &bifrost, language, None)
@@ -2709,6 +3008,9 @@ fn main() -> Result<()> {
             language,
             codeql_packs.as_deref(),
         ),
+        Commands::RunInferNative { language, infer } => {
+            run_native(ModelingTool::Infer, &infer, language, None)
+        }
         Commands::RunJoernNative { language, joern } => {
             run_native(ModelingTool::Joern, &joern, language, None)
         }
@@ -13205,7 +13507,14 @@ fn plan_modeling_run(tool: ModelingTool, language: ModelingLanguage) -> Result<M
 
     // A scored cell with no declaration behind it is a benchmark defect, not
     // evidence about the analyzer. It is a hard error, never an outcome.
-    let artifact = language.artifact(tool);
+    let Some(artifact) = language.artifact(tool) else {
+        bail!(
+            "{} has no {} modeling denominator at all: the pinned distribution executes no {} frontend, so its modeling row exists for Java alone (docs/modeling-matrix.md, Amendment A13). No denominator is different from a zero; refusing to write a report",
+            tool.pinned_identity(),
+            language.display_name(),
+            language.display_name()
+        );
+    };
     let contents = fs::read_to_string(artifact).map_err(|error| {
         anyhow::anyhow!(
             "{} has a {} modeling population but its modeling artifact {artifact} cannot be read: {error}. docs/modeling-matrix.md makes a missing model a benchmark defect that fails the build; it is never `unsupported`, never `not-reached`, and never a result",
@@ -13216,6 +13525,12 @@ fn plan_modeling_run(tool: ModelingTool, language: ModelingLanguage) -> Result<M
     match tool {
         ModelingTool::Bifrost => require_bifrost_modeling_load_bearing(&contents, artifact)?,
         ModelingTool::Semgrep => require_semgrep_modeling_load_bearing(&contents, artifact)?,
+        // Infer has no unmodeled-call default to pin — where a body is
+        // captured, Pulse reads it, which is exactly why Amendment A13 marks
+        // category O unsupported rather than gating it here — but its
+        // configuration surface has three silent-failure shapes of its own,
+        // and the gate refuses each of them.
+        ModelingTool::Infer => require_infer_modeling_load_bearing(&contents, artifact)?,
         // Neither surface has a switch to pin. CodeQL has no unmodeled-call
         // default that would decide a cell on its own: a `ConfigSig` with no
         // `isAdditionalFlowStep` adds no step. Joern's default pass-through
@@ -13393,7 +13708,10 @@ fn run_bifrost_modeling_case(
         fs::remove_file(&raw_path).with_context(|| format!("clear {}", raw_path.display()))?;
     }
     clear_stale_case_timing(&plan.raw_dir, id)?;
-    let policy = plan.language.artifact(ModelingTool::Bifrost);
+    let policy = plan
+        .language
+        .artifact(ModelingTool::Bifrost)
+        .expect("every wave-M1 language has a Bifrost modeling policy");
     let scratch = modeling_case_scratch(ModelingTool::Bifrost, plan.language, id)?;
     materialize_modeling_workspace(case_path, case, &scratch)?;
     fs::copy(policy, scratch.join("policy.rqlp"))?;
@@ -13753,6 +14071,188 @@ fn run_semgrep_modeling_case(
     }
 }
 
+/// Run one scored modeling cell through the pinned Infer release's Pulse
+/// taint analysis.
+///
+/// The kernel runner's per-case shape is reused deliberately — materialize on
+/// package paths, `infer capture` around a traced `javac`, `infer analyze
+/// --pulse-only --sarif --pulse-taint-config`, the two phase timings, the
+/// silent-missing-config guard — with two modeling differences: nothing is
+/// templated (the committed `model-java.json` states the declared identities
+/// literally, the way the Semgrep modeling rule does), and reconciliation uses
+/// the member-qualified Java dialect, because a declared modeling entity is
+/// reached through its declaring type (`Audit.record(v)`), which the kernel
+/// dialect deliberately refuses.
+fn run_infer_modeling_case(
+    binary: &Path,
+    javac: &Path,
+    config: &Path,
+    case_path: &Path,
+    case: &Value,
+    plan: &ModelingRunPlan,
+) -> Result<(&'static str, Vec<String>, PathBuf)> {
+    let id = required_string(case, "id", "modeling case")?;
+    let dialect = modeling_anchor_dialect(plan.language)?;
+    let raw_path = plan.raw_dir.join(format!("{id}.json"));
+    let error_path = plan.raw_dir.join(format!("{id}-error.json"));
+    let timing_path = case_timing_path(&plan.raw_dir, id);
+    for stale in [&raw_path, &error_path, &timing_path] {
+        if stale.exists() {
+            fs::remove_file(stale).with_context(|| format!("clear {}", stale.display()))?;
+        }
+    }
+
+    let scratch = modeling_case_scratch(ModelingTool::Infer, plan.language, id)?;
+    let result = (|| {
+        let fixture_root = case_path.parent().expect("case path has parent");
+        let mut compile_inputs = Vec::new();
+        for fixture in case["fixture_files"].as_array().expect("schema validated") {
+            let fixture = fixture.as_str().expect("schema validated");
+            let body = fs::read_to_string(fixture_root.join(fixture))?;
+            let package = jvm_fixture_package(fixture, &body)?;
+            let package_dir = PathBuf::from(package.replace('.', "/"));
+            fs::create_dir_all(scratch.join(&package_dir))?;
+            let target = package_dir.join(fixture);
+            fs::copy(fixture_root.join(fixture), scratch.join(&target))?;
+            compile_inputs.push(target);
+        }
+
+        let results_dir = scratch.join("infer-out");
+        let mut capture = Command::new(binary);
+        capture
+            .arg("capture")
+            .arg("--results-dir")
+            .arg(&results_dir)
+            .arg("--")
+            .arg(javac)
+            .args(&compile_inputs)
+            .current_dir(&scratch)
+            .stdin(std::process::Stdio::null());
+        let capture_started = Instant::now();
+        let captured = match capture.output() {
+            Ok(output) => output,
+            Err(error) => {
+                let diagnostic = format!(
+                    "failed to spawn infer capture with {}: {error}",
+                    binary.display()
+                );
+                let path = write_infer_error(&plan.raw_dir, id, "capture", &diagnostic, None)?;
+                return Ok(("runner-error", vec![diagnostic], path));
+            }
+        };
+        let capture_elapsed = capture_started.elapsed();
+        if !captured.status.success() {
+            let diagnostic = format!(
+                "infer capture of the Java modeling fixture compile failed with status {}",
+                captured.status
+            );
+            let path =
+                write_infer_error(&plan.raw_dir, id, "capture", &diagnostic, Some(&captured))?;
+            return Ok(("runner-error", vec![diagnostic], path));
+        }
+
+        // The pinned binary silently analyzes with no taint question at all
+        // when the file its `--pulse-taint-config` names does not exist —
+        // exit status zero, an empty report — so the committed artifact's
+        // presence is proven immediately before the analyzer runs, exactly as
+        // the kernel runner proves its resolved configuration's.
+        if !config.is_file() {
+            let diagnostic = format!(
+                "the committed modeling configuration {} vanished before analysis; the pinned binary would silently analyze without a taint question",
+                config.display()
+            );
+            let path = write_infer_error(&plan.raw_dir, id, "taint-config", &diagnostic, None)?;
+            return Ok(("runner-error", vec![diagnostic], path));
+        }
+        let mut analyze = Command::new(binary);
+        analyze
+            .arg("analyze")
+            .arg("--results-dir")
+            .arg(&results_dir)
+            .arg("--pulse-only")
+            .arg("--sarif")
+            .arg("--pulse-taint-config")
+            .arg(config)
+            .current_dir(&scratch)
+            .stdin(std::process::Stdio::null());
+        let analyze_started = Instant::now();
+        let analyzed = match analyze.output() {
+            Ok(output) => output,
+            Err(error) => {
+                let diagnostic = format!(
+                    "failed to spawn infer analyze with {}: {error}",
+                    binary.display()
+                );
+                let path = write_infer_error(&plan.raw_dir, id, "analyze", &diagnostic, None)?;
+                return Ok(("runner-error", vec![diagnostic], path));
+            }
+        };
+        write_case_phase_timings(
+            &plan.raw_dir,
+            "infer",
+            id,
+            &[
+                ("capture", capture_elapsed),
+                ("analyze", analyze_started.elapsed()),
+            ],
+        )?;
+        if !analyzed.status.success() {
+            let diagnostic = format!(
+                "infer analyze of the Java modeling case failed with status {}",
+                analyzed.status
+            );
+            let path =
+                write_infer_error(&plan.raw_dir, id, "analyze", &diagnostic, Some(&analyzed))?;
+            return Ok(("runner-error", vec![diagnostic], path));
+        }
+        let sarif_path = results_dir.join("report.sarif");
+        if !sarif_path.exists() {
+            let diagnostic = "infer analyze exited cleanly but wrote no SARIF report".to_string();
+            let path = write_infer_error(
+                &plan.raw_dir,
+                id,
+                "analyzer-output",
+                &diagnostic,
+                Some(&analyzed),
+            )?;
+            return Ok(("runner-error", vec![diagnostic], path));
+        }
+        fs::copy(&sarif_path, &raw_path)?;
+        let sarif: Value = match serde_json::from_str(&fs::read_to_string(&raw_path)?) {
+            Ok(sarif) => sarif,
+            Err(error) => {
+                let diagnostic = format!("parse Infer evidence {}: {error}", raw_path.display());
+                let path =
+                    write_infer_error(&plan.raw_dir, id, "analyzer-output", &diagnostic, None)?;
+                return Ok(("runner-error", vec![diagnostic], path));
+            }
+        };
+        let (taint_only, mut diagnostics) = infer_taint_results_only(&sarif);
+        let (outcome, anchor_diagnostics) =
+            callsite_anchored_outcome(case_path, case, &taint_only, dialect);
+        diagnostics.extend(anchor_diagnostics);
+        diagnostics.sort();
+        diagnostics.dedup();
+        Ok((outcome, diagnostics, raw_path.clone()))
+    })();
+
+    let cleanup =
+        fs::remove_dir_all(&scratch).with_context(|| format!("clear {}", scratch.display()));
+    match (result, cleanup) {
+        (Ok(normalized), Ok(())) => Ok(normalized),
+        (Ok((_, mut diagnostics, path)), Err(error)) => {
+            diagnostics.push(format!("Infer case artifact cleanup failed: {error}"));
+            diagnostics.sort();
+            diagnostics.dedup();
+            Ok(("runner-error", diagnostics, path))
+        }
+        (Err(error), Ok(())) => Err(error),
+        (Err(error), Err(cleanup_error)) => Err(error.context(format!(
+            "Infer case artifact cleanup also failed: {cleanup_error}"
+        ))),
+    }
+}
+
 /// Run one adapter's modeling matrix for one language.
 ///
 /// The staged shape of this command is recorded in docs/adapters.md: the
@@ -13767,6 +14267,7 @@ fn run_modeling(
     binary: &Path,
     language: ModelingLanguage,
     codeql_packs: Option<&Path>,
+    javac: Option<&Path>,
 ) -> Result<()> {
     if let Some(packs) = codeql_packs
         && !packs.is_dir()
@@ -13782,8 +14283,12 @@ fn run_modeling(
     let joern_paths = if plan.tool == ModelingTool::Joern {
         let script =
             fs::canonicalize(JOERN_MODELING_SCRIPT).context("resolve the Joern modeling script")?;
-        let semantics = fs::canonicalize(plan.language.artifact(ModelingTool::Joern))
-            .context("resolve the Joern modeling semantics")?;
+        let semantics = fs::canonicalize(
+            plan.language
+                .artifact(ModelingTool::Joern)
+                .expect("every wave-M1 language has a Joern semantics file"),
+        )
+        .context("resolve the Joern modeling semantics")?;
         let raw_root =
             fs::canonicalize(&plan.raw_dir).context("resolve the Joern evidence directory")?;
         Some((script, semantics, raw_root))
@@ -13792,8 +14297,27 @@ fn run_modeling(
     };
     let semgrep_rule = if plan.tool == ModelingTool::Semgrep {
         Some(
-            fs::canonicalize(plan.language.artifact(ModelingTool::Semgrep))
-                .context("resolve the Semgrep modeling rule")?,
+            fs::canonicalize(
+                plan.language
+                    .artifact(ModelingTool::Semgrep)
+                    .expect("every wave-M1 language has a Semgrep modeling rule"),
+            )
+            .context("resolve the Semgrep modeling rule")?,
+        )
+    } else {
+        None
+    };
+    // Infer's committed configuration is resolved once for the whole run: the
+    // analyzer's working directory is the per-case scratch root, so the path
+    // it receives must be absolute.
+    let infer_config = if plan.tool == ModelingTool::Infer {
+        Some(
+            fs::canonicalize(
+                plan.language
+                    .artifact(ModelingTool::Infer)
+                    .expect("the Infer modeling row exists for Java"),
+            )
+            .context("resolve the Infer modeling configuration")?,
         )
     } else {
         None
@@ -13823,9 +14347,23 @@ fn run_modeling(
                     codeql_packs,
                     path,
                     case,
-                    Path::new(plan.language.artifact(ModelingTool::Codeql)),
+                    Path::new(
+                        plan.language
+                            .artifact(ModelingTool::Codeql)
+                            .expect("every wave-M1 language has a CodeQL modeling query"),
+                    ),
                     &plan.raw_dir,
                     modeling_codeql_language(plan.language)?,
+                )?,
+                ModelingTool::Infer => run_infer_modeling_case(
+                    binary,
+                    javac.unwrap_or(Path::new("javac")),
+                    infer_config
+                        .as_ref()
+                        .expect("Infer run resolved its configuration"),
+                    path,
+                    case,
+                    &plan,
                 )?,
                 ModelingTool::Joern => {
                     let (script, semantics, raw_root) =
@@ -13931,6 +14469,10 @@ fn witness_tool_identity(tool: ModelingTool, binary: &Path) -> Result<(String, S
             })?,
         )),
         ModelingTool::Codeql => codeql_version_identity(binary),
+        // The kernel witness, unchanged: it refuses a binary whose
+        // self-reported version is not the pinned release, so a modeling or
+        // tool-native report can never carry an asserted Infer identity.
+        ModelingTool::Infer => witness_infer_identity(binary),
         ModelingTool::Joern => joern_version_identity(binary),
         ModelingTool::Semgrep => semgrep_version_identity(binary),
     }
@@ -14666,14 +15208,14 @@ fn run_native(
                 // for the languages whose Semgrep cells are still `unsupported`,
                 // because the partition above answers those before this match.
                 ModelingTool::Semgrep => run_semgrep_native_case(binary, path, case, &plan)?,
-                // Bifrost and Joern decline every one of the six templates, so
-                // the partition arm above answers each of their cells and this
-                // arm is unreachable for them today. It stays a hard error
-                // rather than a synthesized outcome: an amendment that promotes
-                // one of their cells to scored must land the arm that runs it,
-                // and until then a promotion fails the run instead of
-                // publishing a silent zero.
-                ModelingTool::Bifrost | ModelingTool::Joern => bail!(
+                // Bifrost, Infer, and Joern decline every one of the six
+                // templates, so the partition arm above answers each of their
+                // cells and this arm is unreachable for them today. It stays a
+                // hard error rather than a synthesized outcome: an amendment
+                // that promotes one of their cells to scored must land the arm
+                // that runs it, and until then a promotion fails the run
+                // instead of publishing a silent zero.
+                ModelingTool::Bifrost | ModelingTool::Infer | ModelingTool::Joern => bail!(
                     "the tool-native execution arm for {} × {} is not wired: {id} is a scored cell and no wave has yet had a reason to invoke this adapter natively — its preregistered partition declines all six templates (docs/native-profile.md#partition-summary). A cell promoted by a dated amendment lands its execution arm in the same pull request; synthesizing an outcome here is what docs/adapters.md forbids",
                     plan.tool.pinned_identity(),
                     plan.language.display_name(),
@@ -19781,7 +20323,7 @@ mod tests {
                     .unwrap_or_else(|_| panic!("{} × {template} is undecided", tool.key()));
             }
         }
-        assert_eq!(MODELING_PARTITION.len(), 24);
+        assert_eq!(MODELING_PARTITION.len(), 30);
         assert!(
             modeling_partition_reason(ModelingTool::Codeql, "dfb-template-chal-dispatch-table")
                 .is_err()
@@ -19803,6 +20345,10 @@ mod tests {
         // Amendment A2 moved Joern's propagator and summary categories to
         // unsupported: FlowSemantic is additive on the pinned 4.0.610.
         assert_eq!(modeling_supported_templates(ModelingTool::Joern).len(), 8);
+        // Amendment A13: Infer joins with S, P (template 3 alone — template 4
+        // is overridden out on the measured absence of an input-position
+        // vocabulary), and Z.
+        assert_eq!(modeling_supported_templates(ModelingTool::Infer).len(), 5);
     }
 
     /// Bifrost entered with category S alone — the honest starting position the
@@ -19859,6 +20405,104 @@ mod tests {
         let mut scored = modeling_supported_templates(ModelingTool::Semgrep);
         scored.sort_unstable();
         assert_eq!(scored, expected);
+    }
+
+    /// Infer joins by Amendment A13 with S, P, and Z — and P by template 3
+    /// alone: the field evaluation measured the declared `select` propagator
+    /// carrying taint from the undeclared position exactly as from the
+    /// declared one, so template 4 is overridden out of the scored set the
+    /// way Amendment A3 overrode Semgrep's template 6.
+    #[test]
+    fn infer_modeling_partition_scores_sources_one_propagator_and_sanitizers() {
+        let mut expected = ModelingCategory::SourcesAndSinks.templates().to_vec();
+        expected.extend(ModelingCategory::Propagators.templates());
+        expected.extend(ModelingCategory::Sanitizers.templates());
+        expected.retain(|template| *template != "dfb-template-model-propagator-position");
+        expected.sort_unstable();
+        let mut scored = modeling_supported_templates(ModelingTool::Infer);
+        scored.sort_unstable();
+        assert_eq!(scored, expected);
+        let position = modeling_partition_reason(
+            ModelingTool::Infer,
+            "dfb-template-model-propagator-position",
+        )
+        .unwrap()
+        .expect("template 4 is overridden out of Infer's scored set");
+        assert!(position.contains("Amendment A13"), "{position}");
+        assert!(position.contains("input position"), "{position}");
+        for (category, fragment) in [
+            (ModelingCategory::Summaries, "decided by body analysis"),
+            (ModelingCategory::EntryPoints, "synthesizes no root"),
+            (
+                ModelingCategory::Persistence,
+                "no store-write/store-read vocabulary",
+            ),
+        ] {
+            for template in category.templates() {
+                let reason = modeling_partition_reason(ModelingTool::Infer, template)
+                    .unwrap()
+                    .unwrap_or_else(|| panic!("{template} must be unsupported for Infer"));
+                assert!(reason.contains(fragment), "{template}: {reason}");
+            }
+        }
+    }
+
+    /// The three silent-failure shapes of the pinned Infer configuration
+    /// surface, each measured in the field, each refused by the gate: a
+    /// policy-less configuration asks no taint question, an unwired sanitizer
+    /// is silently inert, and the plain `procedure` matcher is a substring
+    /// match that cannot carry identity binding.
+    #[test]
+    fn an_infer_modeling_configuration_must_be_load_bearing() {
+        let no_policy = r#"{"pulse-taint-sources": [], "pulse-taint-policies": []}"#;
+        let error = require_infer_modeling_load_bearing(no_policy, "adapters/infer/config/x.json")
+            .unwrap_err()
+            .to_string();
+        assert!(error.contains("no pulse-taint-policies"), "{error}");
+
+        let unwired = r#"{
+            "pulse-taint-sanitizers": [{"class_names": ["C"], "method_names": ["scrub"], "kinds": ["K"]}],
+            "pulse-taint-policies": [{"taint_flows": [{"source_kinds": ["S"], "sink_kinds": ["T"]}]}]
+        }"#;
+        let error = require_infer_modeling_load_bearing(unwired, "adapters/infer/config/x.json")
+            .unwrap_err()
+            .to_string();
+        assert!(error.contains("silently inert"), "{error}");
+
+        let substring = r#"{
+            "pulse-taint-sources": [{"procedure": "dfb_source"}],
+            "pulse-taint-policies": [{"taint_flows": [{"source_kinds": ["S"], "sink_kinds": ["T"]}]}]
+        }"#;
+        let error = require_infer_modeling_load_bearing(substring, "adapters/infer/config/x.json")
+            .unwrap_err()
+            .to_string();
+        assert!(error.contains("substring"), "{error}");
+
+        let wired = r#"{
+            "pulse-taint-sanitizers": [{"class_names": ["C"], "method_names": ["scrub"], "kinds": ["K"]}],
+            "pulse-taint-policies": [{"taint_flows": [{"source_kinds": ["S"], "sanitizer_kinds": ["K"], "sink_kinds": ["T"]}]}]
+        }"#;
+        require_infer_modeling_load_bearing(wired, "adapters/infer/config/x.json").unwrap();
+    }
+
+    /// The committed Infer artifact passes the runner's gate and declares
+    /// exactly its scored categories: the `carry` propagator but not the
+    /// position-bound `select` (template 4 is overridden out), and nothing for
+    /// the declined `Bridge`, `Handler`, or `Store` entities.
+    #[test]
+    fn the_infer_modeling_artifact_is_load_bearing_and_scoped_to_its_partition() {
+        let path = ModelingLanguage::Java
+            .artifact(ModelingTool::Infer)
+            .unwrap();
+        let config = fs::read_to_string(path).unwrap();
+        require_infer_modeling_load_bearing(&config, path).unwrap();
+        assert!(config.contains("\"carry\""));
+        for declined in ["\"select\"", "Bridge", "Handler", "Store", "deposit"] {
+            assert!(
+                !config.contains(declined),
+                "the Infer modeling configuration declares {declined}, which its partition marks unsupported"
+            );
+        }
     }
 
     /// The partition is keyed by template identity alone. No `feature_tags`
@@ -20222,7 +20866,8 @@ mod tests {
                 ["dataflowbench.taint.Opaque", "dataflowbench.taint.Bridge"],
             ),
         ] {
-            let policy = fs::read_to_string(language.artifact(ModelingTool::Bifrost)).unwrap();
+            let policy =
+                fs::read_to_string(language.artifact(ModelingTool::Bifrost).unwrap()).unwrap();
             require_bifrost_modeling_load_bearing(&policy, policy_name).unwrap();
             // Amendment A9 promoted category Z, so the sanitizer section is now
             // required rather than forbidden: the invariant is that an artifact
@@ -20244,7 +20889,8 @@ mod tests {
                 );
             }
 
-            let rule = fs::read_to_string(language.artifact(ModelingTool::Semgrep)).unwrap();
+            let rule =
+                fs::read_to_string(language.artifact(ModelingTool::Semgrep).unwrap()).unwrap();
             require_semgrep_modeling_load_bearing(&rule, rule_name).unwrap();
             assert!(rule.contains("pattern-sanitizers"));
             assert!(
@@ -20256,7 +20902,8 @@ mod tests {
             // file must not declare their entities: the cells are decided by the
             // partition, and a declaration behind them would be a claim the
             // partition does not make.
-            let semantics = fs::read_to_string(language.artifact(ModelingTool::Joern)).unwrap();
+            let semantics =
+                fs::read_to_string(language.artifact(ModelingTool::Joern).unwrap()).unwrap();
             for declined in declined_joern_files {
                 assert!(
                     !semantics.contains(&format!("\"{declined}")),
@@ -20360,7 +21007,9 @@ mod tests {
     }
 
     /// The model-artifact, report, and raw-evidence paths the language pull
-    /// requests populate. Twelve distinct artifacts, one per tool per language.
+    /// requests populate. Thirteen distinct artifacts: one per tool per
+    /// language for the wave-M1 four, plus Infer's Java-only configuration —
+    /// its other two combinations have no denominator at all (Amendment A13).
     #[test]
     fn modeling_artifact_and_report_paths_follow_the_convention() {
         let mut artifacts = BTreeSet::new();
@@ -20370,7 +21019,12 @@ mod tests {
                 ModelingLanguage::Javascript,
                 ModelingLanguage::Python,
             ] {
-                assert!(artifacts.insert(language.artifact(tool)));
+                if let Some(artifact) = language.artifact(tool) {
+                    assert!(artifacts.insert(artifact));
+                } else {
+                    assert_eq!(tool, ModelingTool::Infer);
+                    assert_ne!(language, ModelingLanguage::Java);
+                }
                 assert_eq!(
                     language.report(tool),
                     PathBuf::from(format!(
@@ -20389,39 +21043,50 @@ mod tests {
                 );
             }
         }
-        assert_eq!(artifacts.len(), 12);
+        assert_eq!(artifacts.len(), 13);
         assert_eq!(
             ModelingLanguage::Java.artifact(ModelingTool::Bifrost),
-            "adapters/bifrost/policies/model-java.rqlp"
+            Some("adapters/bifrost/policies/model-java.rqlp")
         );
         assert_eq!(
             ModelingLanguage::Python.artifact(ModelingTool::Semgrep),
-            "adapters/semgrep/rules/model-python.yaml"
+            Some("adapters/semgrep/rules/model-python.yaml")
         );
         assert_eq!(
             ModelingLanguage::Javascript.artifact(ModelingTool::Joern),
-            "adapters/joern/semantics/model-javascript.semantics"
+            Some("adapters/joern/semantics/model-javascript.semantics")
         );
         assert_eq!(
             ModelingLanguage::Javascript.artifact(ModelingTool::Codeql),
-            "adapters/codeql/javascript/queries/JavaScriptModeling.ql"
+            Some("adapters/codeql/javascript/queries/JavaScriptModeling.ql")
         );
         // Java's CodeQL query is the one that stays on the preregistration's
         // schematic path, because the Java pack *is* the adapter root.
         assert_eq!(
             ModelingLanguage::Java.artifact(ModelingTool::Codeql),
-            "adapters/codeql/queries/JavaModeling.ql"
+            Some("adapters/codeql/queries/JavaModeling.ql")
         );
-        // Each artifact arrives with the language pull request that authors its
-        // declarations. Wave M1 is complete, so all twelve are committed.
+        assert_eq!(
+            ModelingLanguage::Java.artifact(ModelingTool::Infer),
+            Some("adapters/infer/config/model-java.json")
+        );
+        assert_eq!(ModelingLanguage::Python.artifact(ModelingTool::Infer), None);
+        assert_eq!(
+            ModelingLanguage::Javascript.artifact(ModelingTool::Infer),
+            None
+        );
+        // Each artifact arrives with the pull request that authors its
+        // declarations. Wave M1 is complete and Infer's Java row landed with
+        // Amendment A13, so all thirteen are committed.
         for tool in ModelingTool::ALL {
             for language in [
                 ModelingLanguage::Python,
                 ModelingLanguage::Javascript,
                 ModelingLanguage::Java,
             ] {
-                let artifact = language.artifact(tool);
-                assert!(Path::new(artifact).is_file(), "{artifact} is missing");
+                if let Some(artifact) = language.artifact(tool) {
+                    assert!(Path::new(artifact).is_file(), "{artifact} is missing");
+                }
             }
         }
         assert!(Path::new(JOERN_MODELING_SCRIPT).is_file());
@@ -20432,7 +21097,7 @@ mod tests {
             ModelingLanguage::Javascript,
             ModelingLanguage::Java,
         ] {
-            let query = PathBuf::from(language.artifact(ModelingTool::Codeql));
+            let query = PathBuf::from(language.artifact(ModelingTool::Codeql).unwrap());
             let pack = query
                 .parent()
                 .and_then(Path::parent)
@@ -20521,7 +21186,11 @@ mod tests {
     fn a_semgrep_modeling_rule_is_outside_the_kernel_configuration_hash() {
         let kernel_rules = semgrep_rule_paths().unwrap();
         assert_eq!(kernel_rules.len(), 11);
-        let modeling = PathBuf::from(ModelingLanguage::Javascript.artifact(ModelingTool::Semgrep));
+        let modeling = PathBuf::from(
+            ModelingLanguage::Javascript
+                .artifact(ModelingTool::Semgrep)
+                .unwrap(),
+        );
         assert!(modeling.is_file());
         assert!(!kernel_rules.contains(&modeling));
         // The v0.4.0 freeze binds this hash; it is reproduced here rather than
@@ -20537,13 +21206,17 @@ mod tests {
     /// of them fails the test suite rather than a run.
     #[test]
     fn the_javascript_modeling_artifacts_are_load_bearing() {
-        let policy_path = ModelingLanguage::Javascript.artifact(ModelingTool::Bifrost);
+        let policy_path = ModelingLanguage::Javascript
+            .artifact(ModelingTool::Bifrost)
+            .unwrap();
         require_bifrost_modeling_load_bearing(
             &fs::read_to_string(policy_path).unwrap(),
             policy_path,
         )
         .unwrap();
-        let rule_path = ModelingLanguage::Javascript.artifact(ModelingTool::Semgrep);
+        let rule_path = ModelingLanguage::Javascript
+            .artifact(ModelingTool::Semgrep)
+            .unwrap();
         require_semgrep_modeling_load_bearing(&fs::read_to_string(rule_path).unwrap(), rule_path)
             .unwrap();
     }
@@ -20555,11 +21228,15 @@ mod tests {
     /// verification; this test is what keeps it true.
     #[test]
     fn the_java_modeling_artifacts_are_load_bearing() {
-        let policy_path = ModelingLanguage::Java.artifact(ModelingTool::Bifrost);
+        let policy_path = ModelingLanguage::Java
+            .artifact(ModelingTool::Bifrost)
+            .unwrap();
         let policy = fs::read_to_string(policy_path).unwrap();
         require_bifrost_modeling_load_bearing(&policy, policy_path).unwrap();
         assert!(policy.contains(BIFROST_MODELING_CALL_MODELING));
-        let rule_path = ModelingLanguage::Java.artifact(ModelingTool::Semgrep);
+        let rule_path = ModelingLanguage::Java
+            .artifact(ModelingTool::Semgrep)
+            .unwrap();
         let rule = fs::read_to_string(rule_path).unwrap();
         require_semgrep_modeling_load_bearing(&rule, rule_path).unwrap();
         assert!(rule.contains(SEMGREP_MODELING_ASSUME_SAFE_OPTION));
@@ -20709,7 +21386,7 @@ mod tests {
     /// six is an error rather than a silent scored default.
     #[test]
     fn the_native_partition_decides_every_tool_and_template() {
-        assert_eq!(NATIVE_PARTITION.len(), 24);
+        assert_eq!(NATIVE_PARTITION.len(), 30);
         for tool in ModelingTool::ALL {
             for template in NATIVE_TEMPLATE_IDS {
                 for language in [
@@ -20765,6 +21442,11 @@ mod tests {
             );
             assert!(native_supported_templates(ModelingTool::Bifrost, language).is_empty());
             assert!(native_supported_templates(ModelingTool::Joern, language).is_empty());
+            // Amendment A14: Infer declines all six on a measured silence. The
+            // partition decides every language's cells, but only Java has an
+            // Infer native denominator — `native_activation` refuses the other
+            // two before a run can be shaped.
+            assert!(native_supported_templates(ModelingTool::Infer, language).is_empty());
         }
         // Amendment A8: Python only.
         assert_eq!(
@@ -21216,12 +21898,26 @@ mod tests {
                 ModelingLanguage::Javascript,
                 ModelingLanguage::Python,
             ] {
+                if tool == ModelingTool::Infer && language != ModelingLanguage::Java {
+                    // No denominator at all: the activation itself refuses the
+                    // combination rather than shaping a run for it.
+                    let Err(error) = native_activation(tool, language, WITNESSED_IDENTITY) else {
+                        panic!("Infer × {} must have no native denominator", language.key());
+                    };
+                    assert!(
+                        error
+                            .to_string()
+                            .contains("No denominator is different from a zero"),
+                        "{error}"
+                    );
+                    continue;
+                }
                 let activation = native_activation(tool, language, WITNESSED_IDENTITY).unwrap();
                 require_no_benchmark_models(tool, &activation.arguments).unwrap();
             }
         }
         let artifacts = benchmark_model_artifacts();
-        assert_eq!(artifacts.len(), 13);
+        assert_eq!(artifacts.len(), 14);
         assert!(artifacts.contains(JOERN_MODELING_SCRIPT));
         for artifact in &artifacts {
             let spliced = vec![format!("--config={artifact}")];
@@ -21376,7 +22072,7 @@ mod tests {
                 dir,
                 PathBuf::from(format!("adapters/semgrep/native/{}", language.key()))
             );
-            let modeling_rule = PathBuf::from(language.artifact(ModelingTool::Semgrep));
+            let modeling_rule = PathBuf::from(language.artifact(ModelingTool::Semgrep).unwrap());
             assert!(!modeling_rule.starts_with(&dir));
             // A vendored snapshot exists only for a language whose wave-N1 pull
             // request has landed, and when it does it carries its provenance:

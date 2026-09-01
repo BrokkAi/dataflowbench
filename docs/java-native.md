@@ -256,6 +256,24 @@ of six has declined the profile rather than failed it.
   The first is capability coverage; the second would have been six false
   negatives.
 
+## Infer — declined on a measured silence (Amendment A14, 2026-09-01)
+
+Infer v1.3.0 joined the profile after this row landed, by
+[Amendment A14](native-profile.md#a14--2026-09-01-infers-native-row-declines-on-a-measured-silence),
+for Java alone — the one modeling-tier language its pinned distribution
+executes. Its row is **0 / 6**, and unlike the three declines above it could
+not rest on a reading: the pinned release ships Pulse's taint analysis
+disabled absent a `--pulse-taint-config`, and it *also* silently ignores a
+mis-pathed configuration, so an asserted decline would be indistinguishable
+from a swallowed mistake. The decline is therefore measured:
+`scripts/probe-infer-native-silence.sh` ran the shipped product over all
+twelve fixtures of this document with **no configuration argument at all** —
+nothing to mis-path — and every run produced zero findings of any rule
+(`reports/raw/amendment-a14-infer-native-silence/`). The retained run,
+`reports/infer-java-native.json`, carries the twelve `unsupported` decisions
+with the identity witnessed from the binary, per the profile's 0 / 6
+witnessing rule.
+
 ## What this row does and does not license
 
 - It licenses the statement that CodeQL's shipped Java catalog covers the

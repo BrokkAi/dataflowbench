@@ -1,0 +1,412 @@
+{
+  "adapter_version": "0.1.0",
+  "cold_or_warm": "cold",
+  "configuration_hash": "dbaf52e6df1492a80324e8da387d463a12d584160a04bc8c668ee49f0a39c758",
+  "ended_at_unix_seconds": 1788257608,
+  "fixture_revision": "sha256:9df209ed3d7723a3ee33f2b289cf2afe34a3add781bdf2a2ac445de42b8d0151",
+  "results": [
+    {
+      "case_id": "dfb-taint-java-model-declared-sink-negative",
+      "diagnostics": [],
+      "duration_ms": 6427,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/infer-java-modeling/dfb-taint-java-model-declared-sink-negative.json",
+      "sink_anchors": [
+        "DFB-SINK: model-declared-sink-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: model-declared-sink-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-java-model-declared-sink-positive",
+      "diagnostics": [
+        "DataFlowBench benchmark-controlled modeling flow. `String ModelDeclaredSinkPositive.dfb_source()` is tainted by value returned from `String ModelDeclaredSinkPositive.dfb_source()` with kind `DataFlowBenchModelSource` and flows to value passed as argument `#0` to `void Audit.record(String)` with kind `DataFlowBenchModelSink`."
+      ],
+      "duration_ms": 5385,
+      "outcome": "reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/infer-java-modeling/dfb-taint-java-model-declared-sink-positive.json",
+      "sink_anchors": [
+        "DFB-SINK: model-declared-sink-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: model-declared-sink-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-java-model-declared-source-negative",
+      "diagnostics": [],
+      "duration_ms": 6946,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/infer-java-modeling/dfb-taint-java-model-declared-source-negative.json",
+      "sink_anchors": [
+        "DFB-SINK: model-declared-source-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: model-declared-source-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-java-model-declared-source-positive",
+      "diagnostics": [
+        "DataFlowBench benchmark-controlled modeling flow. `String Config.fetchRemote()` is tainted by value returned from `String Config.fetchRemote()` with kind `DataFlowBenchModelSource` and flows to value passed as argument `#0` to `void ModelDeclaredSourcePositive.dfb_sink(String)` with kind `DataFlowBenchModelSink`."
+      ],
+      "duration_ms": 5140,
+      "outcome": "reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/infer-java-modeling/dfb-taint-java-model-declared-source-positive.json",
+      "sink_anchors": [
+        "DFB-SINK: model-declared-source-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: model-declared-source-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-java-model-entrypoint-parameter-negative",
+      "diagnostics": [
+        "category E — framework entry points — is unsupported for v1.3.0 by the preregistered modeling partition (docs/modeling-matrix.md#per-tool-capability-partition): measured on the pinned v1.3.0 (Amendment A13): a source matcher's argument `taint_target` applies at call boundaries only — declared on the uncalled handler's parameter, the analysis synthesizes no root and reports nothing inside the handler's body — and the pulse-taint surface documents no entry-root or endpoint vocabulary"
+      ],
+      "duration_ms": 0,
+      "outcome": "unsupported",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/infer-java-modeling/dfb-taint-java-model-entrypoint-parameter-negative-unsupported.json",
+      "sink_anchors": [
+        "DFB-SINK: model-entrypoint-parameter-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: model-entrypoint-parameter-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-java-model-entrypoint-parameter-positive",
+      "diagnostics": [
+        "category E — framework entry points — is unsupported for v1.3.0 by the preregistered modeling partition (docs/modeling-matrix.md#per-tool-capability-partition): measured on the pinned v1.3.0 (Amendment A13): a source matcher's argument `taint_target` applies at call boundaries only — declared on the uncalled handler's parameter, the analysis synthesizes no root and reports nothing inside the handler's body — and the pulse-taint surface documents no entry-root or endpoint vocabulary"
+      ],
+      "duration_ms": 0,
+      "outcome": "unsupported",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/infer-java-modeling/dfb-taint-java-model-entrypoint-parameter-positive-unsupported.json",
+      "sink_anchors": [
+        "DFB-SINK: model-entrypoint-parameter-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: model-entrypoint-parameter-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-java-model-entrypoint-selectivity-negative",
+      "diagnostics": [
+        "category E — framework entry points — is unsupported for v1.3.0 by the preregistered modeling partition (docs/modeling-matrix.md#per-tool-capability-partition): measured on the pinned v1.3.0 (Amendment A13): a source matcher's argument `taint_target` applies at call boundaries only — declared on the uncalled handler's parameter, the analysis synthesizes no root and reports nothing inside the handler's body — and the pulse-taint surface documents no entry-root or endpoint vocabulary"
+      ],
+      "duration_ms": 0,
+      "outcome": "unsupported",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/infer-java-modeling/dfb-taint-java-model-entrypoint-selectivity-negative-unsupported.json",
+      "sink_anchors": [
+        "DFB-SINK: model-entrypoint-selectivity-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: model-entrypoint-selectivity-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-java-model-entrypoint-selectivity-positive",
+      "diagnostics": [
+        "category E — framework entry points — is unsupported for v1.3.0 by the preregistered modeling partition (docs/modeling-matrix.md#per-tool-capability-partition): measured on the pinned v1.3.0 (Amendment A13): a source matcher's argument `taint_target` applies at call boundaries only — declared on the uncalled handler's parameter, the analysis synthesizes no root and reports nothing inside the handler's body — and the pulse-taint surface documents no entry-root or endpoint vocabulary"
+      ],
+      "duration_ms": 0,
+      "outcome": "unsupported",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/infer-java-modeling/dfb-taint-java-model-entrypoint-selectivity-positive-unsupported.json",
+      "sink_anchors": [
+        "DFB-SINK: model-entrypoint-selectivity-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: model-entrypoint-selectivity-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-java-model-opaque-propagator-negative",
+      "diagnostics": [],
+      "duration_ms": 5666,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/infer-java-modeling/dfb-taint-java-model-opaque-propagator-negative.json",
+      "sink_anchors": [
+        "DFB-SINK: model-opaque-propagator-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: model-opaque-propagator-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-java-model-opaque-propagator-positive",
+      "diagnostics": [
+        "DataFlowBench benchmark-controlled modeling flow. `String Opaque.carry(String)` is tainted by value returned from `String ModelOpaquePropagatorPositive.dfb_source()` with kind `DataFlowBenchModelSource` and flows to value passed as argument `#0` to `void ModelOpaquePropagatorPositive.dfb_sink(String)` with kind `DataFlowBenchModelSink`."
+      ],
+      "duration_ms": 6758,
+      "outcome": "reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/infer-java-modeling/dfb-taint-java-model-opaque-propagator-positive.json",
+      "sink_anchors": [
+        "DFB-SINK: model-opaque-propagator-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: model-opaque-propagator-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-java-model-propagator-position-negative",
+      "diagnostics": [
+        "category P — declared propagators — is unsupported for v1.3.0 by the preregistered modeling partition (docs/modeling-matrix.md#per-tool-capability-partition): a Pulse taint propagator declares an output (`taint_target`) but no input position: measured on the pinned v1.3.0, the declared `select` propagator carries taint from the undeclared position 0 exactly as from the declared position 1, so both cells are decided by the any-argument default rather than by the declared binding — and unknown configuration fields are silently ignored, so no spelling can be trusted to bind the position (Amendment A13)"
+      ],
+      "duration_ms": 0,
+      "outcome": "unsupported",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/infer-java-modeling/dfb-taint-java-model-propagator-position-negative-unsupported.json",
+      "sink_anchors": [
+        "DFB-SINK: model-propagator-position-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: model-propagator-position-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-java-model-propagator-position-positive",
+      "diagnostics": [
+        "category P — declared propagators — is unsupported for v1.3.0 by the preregistered modeling partition (docs/modeling-matrix.md#per-tool-capability-partition): a Pulse taint propagator declares an output (`taint_target`) but no input position: measured on the pinned v1.3.0, the declared `select` propagator carries taint from the undeclared position 0 exactly as from the declared position 1, so both cells are decided by the any-argument default rather than by the declared binding — and unknown configuration fields are silently ignored, so no spelling can be trusted to bind the position (Amendment A13)"
+      ],
+      "duration_ms": 0,
+      "outcome": "unsupported",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/infer-java-modeling/dfb-taint-java-model-propagator-position-positive-unsupported.json",
+      "sink_anchors": [
+        "DFB-SINK: model-propagator-position-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: model-propagator-position-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-java-model-sanitizer-kill-negative",
+      "diagnostics": [],
+      "duration_ms": 5313,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/infer-java-modeling/dfb-taint-java-model-sanitizer-kill-negative.json",
+      "sink_anchors": [
+        "DFB-SINK: model-sanitizer-kill-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: model-sanitizer-kill-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-java-model-sanitizer-kill-positive",
+      "diagnostics": [
+        "DataFlowBench benchmark-controlled modeling flow. `String ModelSanitizerKillPositive.dfb_source()` is tainted by value returned from `String ModelSanitizerKillPositive.dfb_source()` with kind `DataFlowBenchModelSource` and flows to value passed as argument `#0` to `void ModelSanitizerKillPositive.dfb_sink(String)` with kind `DataFlowBenchModelSink`."
+      ],
+      "duration_ms": 5875,
+      "outcome": "reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/infer-java-modeling/dfb-taint-java-model-sanitizer-kill-positive.json",
+      "sink_anchors": [
+        "DFB-SINK: model-sanitizer-kill-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: model-sanitizer-kill-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-java-model-sanitizer-selectivity-negative",
+      "diagnostics": [],
+      "duration_ms": 6892,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/infer-java-modeling/dfb-taint-java-model-sanitizer-selectivity-negative.json",
+      "sink_anchors": [
+        "DFB-SINK: model-sanitizer-selectivity-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: model-sanitizer-selectivity-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-java-model-sanitizer-selectivity-positive",
+      "diagnostics": [
+        "DataFlowBench benchmark-controlled modeling flow. `String Clean.sanitize(String)` is tainted by value returned from `String ModelSanitizerSelectivityPositive.dfb_source()` with kind `DataFlowBenchModelSource` and flows to value passed as argument `#0` to `void ModelSanitizerSelectivityPositive.dfb_sink(String)` with kind `DataFlowBenchModelSink`."
+      ],
+      "duration_ms": 6849,
+      "outcome": "reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/infer-java-modeling/dfb-taint-java-model-sanitizer-selectivity-positive.json",
+      "sink_anchors": [
+        "DFB-SINK: model-sanitizer-selectivity-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: model-sanitizer-selectivity-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-java-model-store-roundtrip-negative",
+      "diagnostics": [
+        "category B — persistence boundaries — is unsupported for v1.3.0 by the preregistered modeling partition (docs/modeling-matrix.md#per-tool-capability-partition): the pulse-taint configuration surface defines sources, sinks, sanitizers, propagators, policies, and data-flow kinds and nothing else — no store-write/store-read vocabulary and no key discrimination (the binary's own enumeration is retained as amendment A13 evidence) — and `Store.put`/`Store.get` have empty bodies, so nothing else can carry the roundtrip"
+      ],
+      "duration_ms": 0,
+      "outcome": "unsupported",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/infer-java-modeling/dfb-taint-java-model-store-roundtrip-negative-unsupported.json",
+      "sink_anchors": [
+        "DFB-SINK: model-store-roundtrip-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: model-store-roundtrip-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-java-model-store-roundtrip-positive",
+      "diagnostics": [
+        "category B — persistence boundaries — is unsupported for v1.3.0 by the preregistered modeling partition (docs/modeling-matrix.md#per-tool-capability-partition): the pulse-taint configuration surface defines sources, sinks, sanitizers, propagators, policies, and data-flow kinds and nothing else — no store-write/store-read vocabulary and no key discrimination (the binary's own enumeration is retained as amendment A13 evidence) — and `Store.put`/`Store.get` have empty bodies, so nothing else can carry the roundtrip"
+      ],
+      "duration_ms": 0,
+      "outcome": "unsupported",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/infer-java-modeling/dfb-taint-java-model-store-roundtrip-positive-unsupported.json",
+      "sink_anchors": [
+        "DFB-SINK: model-store-roundtrip-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: model-store-roundtrip-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-java-model-store-separation-negative",
+      "diagnostics": [
+        "category B — persistence boundaries — is unsupported for v1.3.0 by the preregistered modeling partition (docs/modeling-matrix.md#per-tool-capability-partition): the pulse-taint configuration surface defines sources, sinks, sanitizers, propagators, policies, and data-flow kinds and nothing else — no store-write/store-read vocabulary and no key discrimination (the binary's own enumeration is retained as amendment A13 evidence) — and `Store.put`/`Store.get` have empty bodies, so nothing else can carry the roundtrip"
+      ],
+      "duration_ms": 0,
+      "outcome": "unsupported",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/infer-java-modeling/dfb-taint-java-model-store-separation-negative-unsupported.json",
+      "sink_anchors": [
+        "DFB-SINK: model-store-separation-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: model-store-separation-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-java-model-store-separation-positive",
+      "diagnostics": [
+        "category B — persistence boundaries — is unsupported for v1.3.0 by the preregistered modeling partition (docs/modeling-matrix.md#per-tool-capability-partition): the pulse-taint configuration surface defines sources, sinks, sanitizers, propagators, policies, and data-flow kinds and nothing else — no store-write/store-read vocabulary and no key discrimination (the binary's own enumeration is retained as amendment A13 evidence) — and `Store.put`/`Store.get` have empty bodies, so nothing else can carry the roundtrip"
+      ],
+      "duration_ms": 0,
+      "outcome": "unsupported",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/infer-java-modeling/dfb-taint-java-model-store-separation-positive-unsupported.json",
+      "sink_anchors": [
+        "DFB-SINK: model-store-separation-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: model-store-separation-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-java-model-summary-field-negative",
+      "diagnostics": [
+        "category O — opaque procedure summaries — is unsupported for v1.3.0 by the preregistered modeling partition (docs/modeling-matrix.md#per-tool-capability-partition): measured on the pinned v1.3.0 (Amendment A13): template 7's identity bodies are captured and Pulse reads them — both cells report with no declaration at all, so the cells are decided by body analysis rather than by a summary, and the release has no surface that makes a captured body ignored (`--pulse-taint-opaque-files` is accepted and measured inert for Java). Template 8's `FieldsOfValue` destination is not field-precise: the declared `1.payload` summary taints the sibling field too, so the field-separation negative is decided by the heap approximation rather than by the summary"
+      ],
+      "duration_ms": 0,
+      "outcome": "unsupported",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/infer-java-modeling/dfb-taint-java-model-summary-field-negative-unsupported.json",
+      "sink_anchors": [
+        "DFB-SINK: model-summary-field-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: model-summary-field-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-java-model-summary-field-positive",
+      "diagnostics": [
+        "category O — opaque procedure summaries — is unsupported for v1.3.0 by the preregistered modeling partition (docs/modeling-matrix.md#per-tool-capability-partition): measured on the pinned v1.3.0 (Amendment A13): template 7's identity bodies are captured and Pulse reads them — both cells report with no declaration at all, so the cells are decided by body analysis rather than by a summary, and the release has no surface that makes a captured body ignored (`--pulse-taint-opaque-files` is accepted and measured inert for Java). Template 8's `FieldsOfValue` destination is not field-precise: the declared `1.payload` summary taints the sibling field too, so the field-separation negative is decided by the heap approximation rather than by the summary"
+      ],
+      "duration_ms": 0,
+      "outcome": "unsupported",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/infer-java-modeling/dfb-taint-java-model-summary-field-positive-unsupported.json",
+      "sink_anchors": [
+        "DFB-SINK: model-summary-field-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: model-summary-field-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-java-model-summary-through-negative",
+      "diagnostics": [
+        "category O — opaque procedure summaries — is unsupported for v1.3.0 by the preregistered modeling partition (docs/modeling-matrix.md#per-tool-capability-partition): measured on the pinned v1.3.0 (Amendment A13): template 7's identity bodies are captured and Pulse reads them — both cells report with no declaration at all, so the cells are decided by body analysis rather than by a summary, and the release has no surface that makes a captured body ignored (`--pulse-taint-opaque-files` is accepted and measured inert for Java). Template 8's `FieldsOfValue` destination is not field-precise: the declared `1.payload` summary taints the sibling field too, so the field-separation negative is decided by the heap approximation rather than by the summary"
+      ],
+      "duration_ms": 0,
+      "outcome": "unsupported",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/infer-java-modeling/dfb-taint-java-model-summary-through-negative-unsupported.json",
+      "sink_anchors": [
+        "DFB-SINK: model-summary-through-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: model-summary-through-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-java-model-summary-through-positive",
+      "diagnostics": [
+        "category O — opaque procedure summaries — is unsupported for v1.3.0 by the preregistered modeling partition (docs/modeling-matrix.md#per-tool-capability-partition): measured on the pinned v1.3.0 (Amendment A13): template 7's identity bodies are captured and Pulse reads them — both cells report with no declaration at all, so the cells are decided by body analysis rather than by a summary, and the release has no surface that makes a captured body ignored (`--pulse-taint-opaque-files` is accepted and measured inert for Java). Template 8's `FieldsOfValue` destination is not field-precise: the declared `1.payload` summary taints the sibling field too, so the field-separation negative is decided by the heap approximation rather than by the summary"
+      ],
+      "duration_ms": 0,
+      "outcome": "unsupported",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/infer-java-modeling/dfb-taint-java-model-summary-through-positive-unsupported.json",
+      "sink_anchors": [
+        "DFB-SINK: model-summary-through-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: model-summary-through-input"
+      ],
+      "witness_checkpoints": []
+    }
+  ],
+  "schema_version": 1,
+  "started_at_unix_seconds": 1788257541,
+  "tool": "infer",
+  "tool_build_identity": "infer:v1.3.0 bin-sha256:17ed4818dadda60124e083a1e82124f104092e70c5e6d764551581a375eabf62",
+  "tool_version": "v1.3.0"
+}
