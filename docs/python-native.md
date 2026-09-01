@@ -318,3 +318,34 @@ error that fails the build, never an `unsupported` and never a result.
   fact, and it is published as one.
 - The partition was fixed before every run, and the one promotion is a dated
   amendment made from rule text before the scan it affects.
+
+## Pysa joins the probe set (Amendment A14)
+
+Python's native row gained a fifth adapter after wave N1 closed:
+[Amendment A14](native-profile.md#a14--2026-09-01-pysa-joins-the-tool-native-profile-with-a-live-activation-row)
+added Pysa over the model suite the pinned pyre-check wheel ships in
+`lib/pyre_check/taint/` — activated by pointing `taint_models_path` at it
+with `--no-verify`, both facts established by probe
+(`reports/raw/amendment-a14-pysa-native/`) — with all six templates scored
+and the expectation preregistered: a near-blind-baseline score, because the
+shipped source catalog is framework-shaped and models neither a bare
+`os.environ` read nor a `sys.argv` subscript.
+
+**The scored run — `reports/pysa-python-native.json` — lands exactly on that
+expectation: 6 / 12, the blind baseline.** All twelve cells are
+`not-reached`: every positive is a coverage miss by an activated suite —
+the retained evidence carries the shipped `os.system` sink model in every
+cell, so the suite demonstrably loaded and simply had no source to start
+from — and every negative is the free true negative the
+[blind-baseline reading](scoring.md#balanced-pairs-and-the-blind-baseline)
+prices in. Read beside [the modeling row](python-modeling.md), the pair of
+rows says something precise: handed equivalent models, this engine activates
+five of six categories flawlessly; as shipped, its suite covers none of these
+platform reads. That is the product-versus-engine distinction the two
+profiles exist to keep separate, and Pysa is its sharpest example yet —
+sharper than Joern's, whose native zero is a packaging fact rather than a
+measured sweep of misses. Notably, not one shipped rule fired on sink
+existence alone: unlike the vendored Semgrep audit rules, the suite's
+taint-mode rules stay silent on a clean flow into `os.system`, so the six
+true negatives are earned by silence rather than luck — but with every
+positive also silent, silence is all this measurement got to see.
