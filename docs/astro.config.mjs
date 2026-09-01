@@ -16,6 +16,12 @@ export default defineConfig({
       description:
         'Analyzer-neutral benchmark for data-flow analysis, published exclusively from immutable freeze evidence.',
       customCss: ['./src/styles/custom.css'],
+      components: {
+        // Starlight's own footer, with the floating "back to top" control
+        // appended. The footer is the one slot that renders exactly once on
+        // every page, including the landing page.
+        Footer: './src/components/Footer.astro',
+      },
       social: [
         {
           icon: 'github',
