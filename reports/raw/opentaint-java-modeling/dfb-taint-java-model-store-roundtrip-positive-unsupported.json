@@ -1,0 +1,13 @@
+{
+  "adapter": "opentaint",
+  "case_id": "dfb-taint-java-model-store-roundtrip-positive",
+  "evidence_kind": "retained-capability-decision",
+  "modeling_category": "B",
+  "modeling_category_label": "persistence boundaries",
+  "partition_source": "docs/modeling-matrix.md#per-tool-capability-partition",
+  "reason": "category B — persistence boundaries — is unsupported for analyzer/2026.08.27.17eb0fe by the preregistered modeling partition (docs/modeling-matrix.md#per-tool-capability-partition): the rule surface has no store, key, or cross-procedure vocabulary: a propagator carries taint between the metavariables of one matched callsite and cannot span `put` in one procedure and `get` in another. All three attempted encodings — endpoints only, the static-store spelling through the key argument, and the instance-store spelling through a side-effect-tainted receiver — leave every positive at zero findings (probe arms `b-*`) (Amendment A22)",
+  "stage": "preregistered-modeling-partition",
+  "state": "unsupported",
+  "template_id": "dfb-template-model-store-roundtrip",
+  "witnessed_tool_identity": "analyzer/2026.08.27.17eb0fe"
+}

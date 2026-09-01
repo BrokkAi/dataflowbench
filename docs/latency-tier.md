@@ -336,10 +336,10 @@ touch, name the freezes they invalidate, and land as their own commits.
 
 Their numbers continue the repository's **single** amendment sequence rather
 than restarting per document: A1 is in
-[the challenge tier](challenge-tier.md#amendments), A2–A5 and A9 are in
-[the modeling matrix](modeling-matrix.md#amendments), A6–A8 and A10 are in
-[the tool-native profile](native-profile.md#amendments), and A11 is in
-[the adapter contract](adapters.md#amendments). This document joins
+[the challenge tier](challenge-tier.md#amendments), A2–A5, A9, A13, and A16
+are in [the modeling matrix](modeling-matrix.md#amendments), A6–A8, A10, A14,
+and A17 are in [the tool-native profile](native-profile.md#amendments), and
+A11 is in [the adapter contract](adapters.md#amendments). This document joins
 that sequence — its first amendment takes the next unused number in the
 repository, not A1 — so that an amendment identifier names exactly one
 amendment wherever it is cited.

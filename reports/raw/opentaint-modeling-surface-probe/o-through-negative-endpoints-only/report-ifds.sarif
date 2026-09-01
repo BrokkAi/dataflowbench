@@ -1,0 +1,255 @@
+{
+    "$schema": "https://docs.oasis-open.org/sarif/sarif/v2.1.0/errata01/os/schemas/sarif-schema-2.1.0.json",
+    "version": "2.1.0",
+    "runs": [
+        {
+            "originalUriBaseIds": {
+                "%SRCROOT%": {
+                    "uri": "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/tmp.OB14BoQet1/ws-o-through-negative-endpoints-only/source"
+                }
+            },
+            "tool": {
+                "driver": {
+                    "name": "OpenTaint",
+                    "organization": "Seqra",
+                    "rules": [
+                        {
+                            "defaultConfiguration": {
+                                "level": "error"
+                            },
+                            "fullDescription": {
+                                "markdown": "OpenTaint modeling-surface probe",
+                                "text": "OpenTaint modeling-surface probe"
+                            },
+                            "id": ":probe-opentaint-modeling",
+                            "name": ":probe-opentaint-modeling",
+                            "properties": {
+                                "tags": []
+                            },
+                            "shortDescription": {
+                                "text": "OpenTaint Finding: :probe-opentaint-modeling"
+                            }
+                        }
+                    ],
+                    "semanticVersion": "latest",
+                    "version": "latest"
+                }
+            },
+            "results": [
+                {
+                    "codeFlows": [
+                        {
+                            "threadFlows": [
+                                {
+                                    "locations": [
+                                        {
+                                            "executionOrder": 0,
+                                            "kinds": [
+                                                "taint"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.taint.ModelSummaryThroughNegative#run():0:(%0 = dataflowbench.taint.ModelSummaryThroughNegative.dfb_source())",
+                                                        "fullyQualifiedName": "dataflowbench.taint.ModelSummaryThroughNegative#run"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "Call to \"dfb_source\" puts marked data to a local variable"
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/taint/ModelSummaryThroughNegative.java",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 42,
+                                                        "endLine": 11,
+                                                        "startColumn": 30,
+                                                        "startLine": 11
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 1,
+                                            "kinds": [
+                                                "call"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.taint.ModelSummaryThroughNegative#run():1:(%1 = dataflowbench.taint.Bridge.hold(%0))",
+                                                        "fullyQualifiedName": "dataflowbench.taint.ModelSummaryThroughNegative#run"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "Calling \"hold\" with marked data at a local variable"
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/taint/ModelSummaryThroughNegative.java",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 43,
+                                                        "endLine": 11,
+                                                        "startColumn": 18,
+                                                        "startLine": 11
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 2,
+                                            "kinds": [
+                                                "unknown"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.taint.Bridge#hold(java.lang.String):0:(return arg$0)",
+                                                        "fullyQualifiedName": "dataflowbench.taint.Bridge#hold"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "Takes marked data at the 1st argument of \"hold\" and ends up with marked data at the returned value"
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/taint/Bridge.java",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 22,
+                                                        "endLine": 9,
+                                                        "startColumn": 9,
+                                                        "startLine": 9
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 3,
+                                            "kinds": [
+                                                "unknown"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.taint.Bridge#hold(java.lang.String):0:(return arg$0)",
+                                                        "fullyQualifiedName": "dataflowbench.taint.Bridge#hold"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "Exiting \"hold\""
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/taint/Bridge.java",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 6,
+                                                        "endLine": 10,
+                                                        "startColumn": 5,
+                                                        "startLine": 10
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 4,
+                                            "kinds": [
+                                                "return"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.taint.ModelSummaryThroughNegative#run():1:(%1 = dataflowbench.taint.Bridge.hold(%0))",
+                                                        "fullyQualifiedName": "dataflowbench.taint.ModelSummaryThroughNegative#run"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "Method \"hold\" propagates marked data from a local variable to a local variable"
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/taint/ModelSummaryThroughNegative.java",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 43,
+                                                        "endLine": 11,
+                                                        "startColumn": 18,
+                                                        "startLine": 11
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 5,
+                                            "kinds": [
+                                                "taint"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.taint.ModelSummaryThroughNegative#run():2:(dataflowbench.taint.ModelSummaryThroughNegative.dfb_sink(%1))",
+                                                        "fullyQualifiedName": "dataflowbench.taint.ModelSummaryThroughNegative#run"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "OpenTaint modeling-surface probe"
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/taint/ModelSummaryThroughNegative.java",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 44,
+                                                        "endLine": 11,
+                                                        "startColumn": 9,
+                                                        "startLine": 11
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ],
+                    "level": "error",
+                    "locations": [
+                        {
+                            "logicalLocations": [
+                                {
+                                    "decoratedName": "dataflowbench.taint.ModelSummaryThroughNegative#run():2:(dataflowbench.taint.ModelSummaryThroughNegative.dfb_sink(%1))",
+                                    "fullyQualifiedName": "dataflowbench.taint.ModelSummaryThroughNegative#run"
+                                }
+                            ],
+                            "physicalLocation": {
+                                "artifactLocation": {
+                                    "uri": "dataflowbench/taint/ModelSummaryThroughNegative.java",
+                                    "uriBaseId": "%SRCROOT%"
+                                },
+                                "region": {
+                                    "endColumn": 44,
+                                    "endLine": 11,
+                                    "startColumn": 9,
+                                    "startLine": 11
+                                }
+                            }
+                        }
+                    ],
+                    "message": {
+                        "text": "OpenTaint modeling-surface probe"
+                    },
+                    "ruleId": ":probe-opentaint-modeling"
+                }
+            ]
+        }
+    ]
+}

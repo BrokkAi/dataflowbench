@@ -1,0 +1,139 @@
+{
+    "$schema": "https://docs.oasis-open.org/sarif/sarif/v2.1.0/errata01/os/schemas/sarif-schema-2.1.0.json",
+    "version": "2.1.0",
+    "runs": [
+        {
+            "originalUriBaseIds": {
+                "%SRCROOT%": {
+                    "uri": "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/tmp.OB14BoQet1/ws-z-kill-positive/source"
+                }
+            },
+            "tool": {
+                "driver": {
+                    "name": "OpenTaint",
+                    "organization": "Seqra",
+                    "rules": [
+                        {
+                            "defaultConfiguration": {
+                                "level": "error"
+                            },
+                            "fullDescription": {
+                                "markdown": "OpenTaint modeling-surface probe",
+                                "text": "OpenTaint modeling-surface probe"
+                            },
+                            "id": ":probe-opentaint-modeling",
+                            "name": ":probe-opentaint-modeling",
+                            "properties": {
+                                "tags": []
+                            },
+                            "shortDescription": {
+                                "text": "OpenTaint Finding: :probe-opentaint-modeling"
+                            }
+                        }
+                    ],
+                    "semanticVersion": "latest",
+                    "version": "latest"
+                }
+            },
+            "results": [
+                {
+                    "codeFlows": [
+                        {
+                            "threadFlows": [
+                                {
+                                    "locations": [
+                                        {
+                                            "executionOrder": 0,
+                                            "kinds": [
+                                                "taint"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.taint.ModelSanitizerKillPositive#run():0:(%0 = dataflowbench.taint.ModelSanitizerKillPositive.dfb_source())",
+                                                        "fullyQualifiedName": "dataflowbench.taint.ModelSanitizerKillPositive#run"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "Call to \"dfb_source\" puts marked data to a local variable"
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/taint/ModelSanitizerKillPositive.java",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 30,
+                                                        "endLine": 17,
+                                                        "startColumn": 18,
+                                                        "startLine": 17
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 1,
+                                            "kinds": [
+                                                "taint"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.taint.ModelSanitizerKillPositive#run():1:(dataflowbench.taint.ModelSanitizerKillPositive.dfb_sink(%0))",
+                                                        "fullyQualifiedName": "dataflowbench.taint.ModelSanitizerKillPositive#run"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "OpenTaint modeling-surface probe"
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/taint/ModelSanitizerKillPositive.java",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 31,
+                                                        "endLine": 17,
+                                                        "startColumn": 9,
+                                                        "startLine": 17
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ],
+                    "level": "error",
+                    "locations": [
+                        {
+                            "logicalLocations": [
+                                {
+                                    "decoratedName": "dataflowbench.taint.ModelSanitizerKillPositive#run():1:(dataflowbench.taint.ModelSanitizerKillPositive.dfb_sink(%0))",
+                                    "fullyQualifiedName": "dataflowbench.taint.ModelSanitizerKillPositive#run"
+                                }
+                            ],
+                            "physicalLocation": {
+                                "artifactLocation": {
+                                    "uri": "dataflowbench/taint/ModelSanitizerKillPositive.java",
+                                    "uriBaseId": "%SRCROOT%"
+                                },
+                                "region": {
+                                    "endColumn": 31,
+                                    "endLine": 17,
+                                    "startColumn": 9,
+                                    "startLine": 17
+                                }
+                            }
+                        }
+                    ],
+                    "message": {
+                        "text": "OpenTaint modeling-surface probe"
+                    },
+                    "ruleId": ":probe-opentaint-modeling"
+                }
+            ]
+        }
+    ]
+}

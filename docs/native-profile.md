@@ -897,6 +897,66 @@ retained Semgrep's JavaScript and Java cells on — so all six templates are
 (`src/main.rs`), and FlowDroid enters this profile at **0 / 6** with a live
 activation contract behind the zero.
 
+### OpenTaint — `analyzer/2026.08.27.17eb0fe`, shipped models archive only (Java only)
+
+> **Added by [Amendment A23](#a23--2026-09-01-opentaint-joins-the-tool-native-profile-at-0--6-and-the-shipped-models-archive-is-ruled-shipped-product).**
+> This row was not part of the original preregistration — the adapter did not
+> exist when it merged — and it joins on the same terms every row here holds
+> to: decided from the pinned release's own assets, by execution, before any
+> native run, with the evidence retained.
+
+**Language scope.** Java only — the one wave-N1 language the pinned engine
+analyzes. JavaScript and Python have **no OpenTaint native denominator at
+all**, which is different from a zero, and the runner refuses to plan an
+OpenTaint native run for either. Kotlin has no native population in any
+adapter.
+
+**Activation contract, and the boundary it settles.** The pinned release ships
+exactly two assets: the analyzer jar and `opentaint-models.tar.gz`. The
+archive is ruled **shipped product**, not benchmark-supplied configuration —
+it is vendor-authored, versioned and digest-pinned in the same release as the
+analyzer, and it is this tool's exact analogue of the standard-library rows
+CodeQL's packs bundle and the flow-constraint table inside Joern's
+`DefaultSemantics`. Nothing in it was written by this benchmark, which is the
+only thing [the activation rule](#the-activation-rule) forbids. A native
+OpenTaint run therefore loads the archive through the pinned
+`--passthrough-approximations` / `--java-dataflow-approximations` flags — and
+supplies **no `--semgrep-rule-set`**, because the rule set is where every
+source, sink, and sanitizer lives, the benchmark's rules are
+benchmark-authored by definition, and the pinned release ships none of its
+own.
+
+**What the shipped assets activate, verified by execution.** The archive's
+contents are `passThrough`/`copy` propagation rows, accumulated-field
+approximations, and compiled dataflow-approximation classes — it declares no
+source, no sink, and no sanitizer anywhere. Run over the committed Java
+`native-source-sink-positive` fixture (`System.getenv` into `Runtime.exec`,
+the floor of this profile) with the archive loaded and no rule set, the pinned
+analyzer registers **zero rules and reports zero results**
+(`scripts/probe-opentaint-native-activation.sh`, retained under
+`reports/raw/opentaint-native-activation-probe/`). The upstream repository
+does develop a rules component (MIT-licensed), but it is not an asset of the
+pinned analyzer release; a vendored snapshot of it is a possible future
+amendment under [the vendoring provenance rule](#provenance-for-vendored-activation-artifacts),
+exactly as Semgrep's registry rulesets were vendored, and it is not part of
+this row.
+
+| # | Category | Decision | Rationale |
+| --- | --- | --- | --- |
+| 1 | S | **unsupported — no shipped endpoint catalog** | The models archive declares no source and no sink, the release ships no rule set, and the analyzer with no rule set registers zero rules over the platform's own `getenv`→`exec` (probe retained). Without endpoints, no template in this profile can produce a finding, which is why every row below reads the same way. |
+| 2 | P | **unsupported — propagation with no endpoints carries nothing** | The archive is precisely a propagation catalog — `passThrough` copy rows for the JDK and common libraries — and it is genuinely shipped product; but propagation with no source and no sink carries nothing anywhere. The same gap, in the same direction, as Joern's `DefaultSemantics` row. |
+| 3 | Z | **unsupported — no shipped sanitizer, and no flow for one to suppress** | No sanitizer appears anywhere in the shipped assets, and prior to that no flow can start for a barrier to be observable against. |
+| 4 | O | **unsupported — shipped summaries, no endpoints** | The archive's approximation classes are exactly template 4's round-trip material, and they activate — behind endpoints the release does not ship. |
+| 5 | E | **unsupported — no shipped entry-point convention** | Entry-point *selection* exists (`--debug-run-analysis-on-selected-entry-points`), but selecting a method analyzes it, it does not taint its parameters; sources live in the rule set, and none ships. |
+| 6 | B | **unsupported — no shipped store link** | No store vocabulary ships in any asset. |
+
+OpenTaint enters this profile with **zero of six**, and — as with Joern — that
+is a statement about the pinned release's *product packaging*, not about its
+engine: the benchmark-controlled matrix scores the same binary on three of six
+categories ([Amendment A22](modeling-matrix.md#a22--2026-09-01-opentaint-joins-the-modeling-matrix-with-a-preregistered-java-partition-row)),
+and the gap between those two rows is exactly what this profile exists to make
+legible.
+
 ### Partition summary
 
 Preregistered before any native fixture exists or any ruleset is vendored.
@@ -913,28 +973,32 @@ until shown otherwise.
 > [A8](#a8--2026-08-27-semgrep-ces-six-python-cells-are-promoted-to-scored-and-the-partition-gains-a-language-dimension)
 > promotes Python's six to scored and keys the partition by language. Every cell
 > for every language with no amendment row is still the cell below.
-> [A17](#a17--2026-09-01-pysa-joins-the-tool-native-profile-with-a-live-activation-row)
-> later added the Pysa column — Python-scoped, the engine's one language —
-> with the activation row above; the four preregistered columns are unchanged.
 
-> [A14](#a14--2026-09-01-infers-native-row-declines-on-a-measured-silence)
-> adds the Infer v1.3.0 column — a new adapter's own activation row, measured
-> before its first native run, Java-only —
-> [A17](#a17--2026-09-01-pysa-joins-the-tool-native-profile-with-a-live-activation-row)
-> adds the Pysa column the same way, Python-only, the engine's one language,
-> and [A19](#a19--2026-09-01-flowdroid-joins-the-tool-native-profile-with-a-live-activation-contract-and-six-cells-declined-on-catalog-evidence)
-> adds the FlowDroid column — Java only, all six cells declined on the shipped
-> catalog's own text, with a live activation contract behind the zero.
+| # | Template | Cat. | Bifrost v0.10.7 | CodeQL 2.26.4 | Joern 4.0.614 | Semgrep CE 1.175.0 |
+| --- | --- | --- | --- | --- | --- | --- |
+| 1 | `native-source-sink` | S | unsupported | supported | unsupported | TBV |
+| 2 | `native-propagator` | P | unsupported | supported | unsupported | TBV |
+| 3 | `native-sanitizer` | Z | unsupported | supported | unsupported | TBV |
+| 4 | `native-summary` | O | unsupported | supported | unsupported | TBV |
+| 5 | `native-entrypoint` | E | TBV | supported | unsupported | TBV |
+| 6 | `native-persistence` | B | TBV | supported | unsupported | TBV |
+| | **Scored today** | | **0 / 6** | **6 / 6** | **0 / 6** | **0 / 6** |
 
-| # | Template | Cat. | Bifrost v0.10.7 | CodeQL 2.26.4 | Joern 4.0.614 | Semgrep CE 1.175.0 | Infer v1.3.0 (A14) | Pysa 0.10.0 (+Pyrefly 1.2.0, A17) | FlowDroid 2.15.1 (A19) |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 1 | `native-source-sink` | S | unsupported | supported | unsupported | TBV | unsupported | supported | unsupported |
-| 2 | `native-propagator` | P | unsupported | supported | unsupported | TBV | unsupported | supported | unsupported |
-| 3 | `native-sanitizer` | Z | unsupported | supported | unsupported | TBV | unsupported | supported | unsupported |
-| 4 | `native-summary` | O | unsupported | supported | unsupported | TBV | unsupported | supported | unsupported |
-| 5 | `native-entrypoint` | E | TBV | supported | unsupported | TBV | unsupported | supported | unsupported |
-| 6 | `native-persistence` | B | TBV | supported | unsupported | TBV | unsupported | supported | unsupported |
-| | **Scored today** | | **0 / 6** | **6 / 6** | **0 / 6** | **0 / 6** | **0 / 6** | **6 / 6** | **0 / 6** |
+#### Adapters added by amendment
+
+A new adapter never splices a column into the preregistered table above — its
+four columns are frozen as written. An amendment-added adapter instead appends
+**one row** to the table below, so concurrent adapter amendments compose
+without rewriting each other's cells; the columns are the six templates in
+order, and each row's amendment carries the activation contract and the
+evidence.
+
+| Adapter (amendment, language scope) | 1 S | 2 P | 3 Z | 4 O | 5 E | 6 B | Scored |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| Infer v1.3.0 ([A14](#a14--2026-09-01-infers-native-row-declines-on-a-measured-silence), Java only) | unsupported | unsupported | unsupported | unsupported | unsupported | unsupported | 0 / 6 |
+| Pysa 0.10.0 + Pyrefly 1.2.0 ([A17](#a17--2026-09-01-pysa-joins-the-tool-native-profile-with-a-live-activation-row), Python only) | supported | supported | supported | supported | supported | supported | 6 / 6 |
+| FlowDroid 2.15.1 ([A19](#a19--2026-09-01-flowdroid-joins-the-tool-native-profile-with-a-live-activation-contract-and-six-cells-declined-on-catalog-evidence), Java only) | unsupported | unsupported | unsupported | unsupported | unsupported | unsupported | 0 / 6 |
+| OpenTaint 2026.08.27 ([A23](#a23--2026-09-01-opentaint-joins-the-tool-native-profile-at-0--6-and-the-shipped-models-archive-is-ruled-shipped-product), Java only) | unsupported | unsupported | unsupported | unsupported | unsupported | unsupported | 0 / 6 |
 
 These counts are activation surfaces, not scores. A tool with six of six has six
 templates' worth of assertions it can get wrong; a tool with zero of six has
@@ -1081,14 +1145,19 @@ Amendments are dated, state what changed and which template IDs and languages
 they touch, name the freezes they invalidate, and land as their own commits.
 
 Their numbers continue the repository's **single** amendment sequence rather
-than restarting per document: A1 is in [the challenge tier](challenge-tier.md#amendments),
-A2–A5, A9, A13, and A16 are in [the modeling matrix](modeling-matrix.md#amendments),
-A11 is in [docs/adapters.md](adapters.md#amendments), and A12, A15, and A20 are
-in [the latency tier](latency-tier.md#amendments), so an amendment identifier
-names exactly one amendment wherever it is cited. The sequence interleaves
-across documents — A8 here is followed by A9 there, and A10, A14, A17, and A19
-return here — which is the point: the number, not the document, is the
-identity.
+than restarting per document, so an identifier names exactly one amendment
+wherever it is cited and this document's own numbering is deliberately gappy.
+Each amendment-bearing document holds only its own entries, and no document
+keeps a list of where the other numbers live: the authoritative index is the
+set of `### A<n>` headings across the five amendment-bearing documents
+([the challenge tier](challenge-tier.md#amendments),
+[the modeling matrix](modeling-matrix.md#amendments), this one,
+[the adapter contract](adapters.md#amendments), and
+[the latency tier](latency-tier.md#amendments)), and a new amendment takes the
+first number no heading anywhere claims. Concurrent pull requests can still
+race for a number; the loser renumbers at merge, which is cheaper than every
+amendment editing five cross-lists. The sequence interleaves across documents
+— the number, not the document, is the identity.
 
 ### A6 — 2026-08-27: Semgrep CE's JavaScript cells, evaluated against the vendored snapshot
 
@@ -1515,3 +1584,74 @@ runner refuses them.
 
 **Freezes invalidated.** None. No published freeze manifest contains a
 tool-native report.
+
+### A23 — 2026-09-01: OpenTaint joins the tool-native profile at 0 / 6, and the shipped models archive is ruled shipped product
+
+**What changed.** The [activation partition](#partition-summary) gains an eighth row — OpenTaint, pinned release `analyzer/2026.08.27.17eb0fe` by asset
+digest — for **Java only**, with all six templates **unsupported**: 0 / 6, the
+same shape as Joern's row and for the same kind of reason. A new
+[activation-contract section](#opentaint--analyzer2026082717eb0fe-shipped-models-archive-only-java-only)
+records the contract and the boundary decision below. No preregistered cell of
+any other tool moves. JavaScript and Python have no OpenTaint native
+denominator at all — the engine analyzes JVM bytecode only — and Kotlin has no
+native population in any adapter.
+
+**The boundary question this amendment settles.** OpenTaint's pinned release
+ships `opentaint-models.tar.gz` alongside the analyzer jar. Does that archive
+count as *shipped product* (a native run activates it) or as
+*benchmark-supplied configuration* (a native run declines it)? The activation
+rule's own text answers: it forbids **benchmark-authored** declarations, and
+nothing in the archive is benchmark-authored. The archive is vendor-authored,
+versioned and digest-pinned in the same release as the analyzer, and is this
+tool's analogue of the standard-library taint rows CodeQL's query packs bundle
+and of the flow-constraint table inside Joern's `DefaultSemantics` — platform
+propagation models, shipped with the product. **A native OpenTaint run
+therefore loads the archive**, through the same pinned
+`--passthrough-approximations` / `--java-dataflow-approximations` flags every
+benchmark-controlled OpenTaint run uses. The line the activation rule actually
+draws for this adapter is `--semgrep-rule-set`: the rule set is where every
+source, sink, and sanitizer lives, the benchmark's rules are benchmark-authored
+by definition, and the runner's no-benchmark-models gate refuses a native
+invocation that names one. This is the same division Bifrost's row draws
+between built-in packs (allowed) and `--policy-file` (forbidden).
+
+**Why the row is still 0 / 6, on executed evidence.** Ruling the archive
+shipped product does not put an endpoint in it. Its contents are
+`passThrough`/`copy` propagation rows, accumulated-field approximations, and
+compiled dataflow-approximation classes; no source, sink, or sanitizer is
+declared anywhere in the release's assets, and the release ships no rule set.
+Run over the committed Java `native-source-sink-positive` fixture —
+`System.getenv` into `Runtime.exec`, the floor of this profile — with the
+archive loaded and no rule set supplied, the pinned analyzer registers **zero
+rules and reports zero results**. The evidence is retained under
+`reports/raw/opentaint-native-activation-probe/`, produced by
+`scripts/probe-opentaint-native-activation.sh` before any native run of this
+adapter existed. Propagation with no endpoints carries nothing anywhere, so
+every cell is `unsupported` before any fixture is handed to the analyzer — and
+the run that records those decisions still witnesses the release assets'
+digests, per
+[the run-level identity rule](#the-run-level-identity-is-witnessed-including-at-0--6).
+
+**What would move a cell.** The upstream repository develops a rules component
+(MIT-licensed) that is not an asset of the pinned analyzer release. A future
+amendment may vendor a pinned snapshot of it under
+[the vendoring provenance rule](#provenance-for-vendored-activation-artifacts),
+exactly as Semgrep's registry rulesets were vendored, and re-decide these cells
+against what that snapshot actually binds. Nothing is vendored by this
+amendment.
+
+**The deliberate asymmetry, restated for this adapter.** The
+benchmark-controlled matrix scores the same pinned binary on three of six
+categories
+([Amendment A22](modeling-matrix.md#a22--2026-09-01-opentaint-joins-the-modeling-matrix-with-a-preregistered-java-partition-row));
+this profile scores it on none. That gap is product packaging versus engine
+capability — the exact gap Joern's two rows already exhibit — and it is what
+this profile exists to make legible, not a contradiction to reconcile.
+
+**Templates and languages touched.** All six native templates, for `java`
+alone, for OpenTaint alone.
+
+**Freezes invalidated.** None. No published freeze manifest contains a
+tool-native report, and the v0.6.0 manifest binds this adapter's two
+propagation kernels and nothing else. The declined-cell report this row
+entitles lands after this amendment, as post-freeze live evidence.

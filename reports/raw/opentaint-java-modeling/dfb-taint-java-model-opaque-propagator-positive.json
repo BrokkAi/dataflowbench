@@ -1,0 +1,139 @@
+{
+    "$schema": "https://docs.oasis-open.org/sarif/sarif/v2.1.0/errata01/os/schemas/sarif-schema-2.1.0.json",
+    "version": "2.1.0",
+    "runs": [
+        {
+            "originalUriBaseIds": {
+                "%SRCROOT%": {
+                    "uri": "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dataflowbench-modeling-opentaint-java/dfb-taint-java-model-opaque-propagator-positive/source"
+                }
+            },
+            "tool": {
+                "driver": {
+                    "name": "OpenTaint",
+                    "organization": "Seqra",
+                    "rules": [
+                        {
+                            "defaultConfiguration": {
+                                "level": "error"
+                            },
+                            "fullDescription": {
+                                "markdown": "a benchmark-declared model carried input to the declared sink",
+                                "text": "a benchmark-declared model carried input to the declared sink"
+                            },
+                            "id": ":dfb-opentaint-model",
+                            "name": ":dfb-opentaint-model",
+                            "properties": {
+                                "tags": []
+                            },
+                            "shortDescription": {
+                                "text": "OpenTaint Finding: :dfb-opentaint-model"
+                            }
+                        }
+                    ],
+                    "semanticVersion": "latest",
+                    "version": "latest"
+                }
+            },
+            "results": [
+                {
+                    "codeFlows": [
+                        {
+                            "threadFlows": [
+                                {
+                                    "locations": [
+                                        {
+                                            "executionOrder": 0,
+                                            "kinds": [
+                                                "taint"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.taint.ModelOpaquePropagatorPositive#run():1:(%1 = dataflowbench.taint.Opaque.carry(%0))",
+                                                        "fullyQualifiedName": "dataflowbench.taint.ModelOpaquePropagatorPositive#run"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "Puts marked data to a local variable"
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/taint/ModelOpaquePropagatorPositive.java",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 46,
+                                                        "endLine": 37,
+                                                        "startColumn": 9,
+                                                        "startLine": 37
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 1,
+                                            "kinds": [
+                                                "taint"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.taint.ModelOpaquePropagatorPositive#run():2:(dataflowbench.taint.ModelOpaquePropagatorPositive.dfb_sink(%1))",
+                                                        "fullyQualifiedName": "dataflowbench.taint.ModelOpaquePropagatorPositive#run"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "A benchmark-declared model carried input to the declared sink"
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/taint/ModelOpaquePropagatorPositive.java",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 45,
+                                                        "endLine": 37,
+                                                        "startColumn": 9,
+                                                        "startLine": 37
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ],
+                    "level": "error",
+                    "locations": [
+                        {
+                            "logicalLocations": [
+                                {
+                                    "decoratedName": "dataflowbench.taint.ModelOpaquePropagatorPositive#run():2:(dataflowbench.taint.ModelOpaquePropagatorPositive.dfb_sink(%1))",
+                                    "fullyQualifiedName": "dataflowbench.taint.ModelOpaquePropagatorPositive#run"
+                                }
+                            ],
+                            "physicalLocation": {
+                                "artifactLocation": {
+                                    "uri": "dataflowbench/taint/ModelOpaquePropagatorPositive.java",
+                                    "uriBaseId": "%SRCROOT%"
+                                },
+                                "region": {
+                                    "endColumn": 45,
+                                    "endLine": 37,
+                                    "startColumn": 9,
+                                    "startLine": 37
+                                }
+                            }
+                        }
+                    ],
+                    "message": {
+                        "text": "a benchmark-declared model carried input to the declared sink"
+                    },
+                    "ruleId": ":dfb-opentaint-model"
+                }
+            ]
+        }
+    ]
+}

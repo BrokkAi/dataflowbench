@@ -561,7 +561,9 @@ fn modeling_category(template: &str) -> Option<ModelingCategory> {
 /// (`reports/raw/load-bearing-java-modeling/flowdroid-*.json`), and like
 /// Infer its row applies to Java alone — the analyzer consumes JVM bytecode,
 /// so the other modeling languages are outside its reach entirely, which is
-/// different from being declined.
+/// different from being declined. OpenTaint joined by Amendments A22 and
+/// A23, likewise decided by execution before its first modeling or native
+/// run (`reports/raw/opentaint-modeling-surface-probe/`).
 #[derive(Clone, Copy, PartialEq, Eq, Debug, clap::ValueEnum)]
 enum ModelingTool {
     Bifrost,
@@ -571,10 +573,14 @@ enum ModelingTool {
     Joern,
     Semgrep,
     Pysa,
+    Opentaint,
 }
 
 impl ModelingTool {
-    const ALL: [Self; 7] = [
+    /// Every adapter the partitions cover, in a fixed display order. A slice
+    /// rather than a fixed-size array so that a new adapter's arrival is one
+    /// appended line with no length literal to race other pull requests for.
+    const ALL: &'static [Self] = &[
         Self::Bifrost,
         Self::Codeql,
         Self::Flowdroid,
@@ -582,6 +588,7 @@ impl ModelingTool {
         Self::Joern,
         Self::Semgrep,
         Self::Pysa,
+        Self::Opentaint,
     ];
 
     /// The `tool` value the normalized report carries, and the first component
@@ -595,6 +602,7 @@ impl ModelingTool {
             Self::Joern => "joern",
             Self::Semgrep => "semgrep",
             Self::Pysa => "pysa",
+            Self::Opentaint => "opentaint",
         }
     }
 
@@ -619,6 +627,7 @@ impl ModelingTool {
             Self::Joern => "Joern 4.0.614",
             Self::Semgrep => "Semgrep CE 1.175.0",
             Self::Pysa => "Pysa (pyre-check 0.10.0 + Pyrefly 1.2.0)",
+            Self::Opentaint => "OpenTaint analyzer/2026.08.27.17eb0fe",
         }
     }
 }
@@ -650,7 +659,7 @@ struct ModelingPartitionCell {
 /// than four, and why its second — category Z — arrived as
 /// [Amendment A9](../docs/modeling-matrix.md#amendments) with a measurement
 /// behind it rather than as an edit to this array.
-const MODELING_PARTITION: [ModelingPartitionCell; 42] = [
+const MODELING_PARTITION: &[ModelingPartitionCell] = &[
     // Bifrost — preregistered 1 / 6; 2 / 6 as amended, after Amendment A9
     // promoted category Z.
     ModelingPartitionCell {
@@ -966,6 +975,57 @@ const MODELING_PARTITION: [ModelingPartitionCell; 42] = [
             "the `.pysa` DSL binds taint roles to callables and parameter positions — `TaintSource`, `TaintSink`, `TaintInTaintOut`, `Sanitize`, and mode annotations — and has no store identity, key position, or vocabulary linking a write entity to a read entity through a shared store, per instance or otherwise. The nearest encoding, a source model on `Store.get`, would report both polarities of template 11 without ever reading the key: a different model, not an approximation of this one (Amendment A16)",
         ),
     },
+    // OpenTaint — analyzer/2026.08.27.17eb0fe, Java only: 3 / 6 (S, P, Z).
+    // Added by Amendment A22, decided by executing the pinned analyzer over
+    // the committed Java modeling fixtures before any scored run; the probe
+    // evidence is retained under reports/raw/opentaint-modeling-surface-probe/
+    // (scripts/probe-opentaint-modeling-surface.sh). This adapter has no
+    // wave-M1 language other than Java — the engine analyzes JVM bytecode
+    // only, so JavaScript and Python have no OpenTaint modeling denominator
+    // at all, and `plan_modeling_run` refuses them before this partition is
+    // consulted.
+    ModelingPartitionCell {
+        tool: ModelingTool::Opentaint,
+        category: ModelingCategory::SourcesAndSinks,
+        unsupported_reason: None,
+    },
+    ModelingPartitionCell {
+        tool: ModelingTool::Opentaint,
+        category: ModelingCategory::Propagators,
+        // The load-bearing baseline was measured first: with no propagator
+        // declared, the reflective `Opaque.carry` body carries nothing, so
+        // the engine has no optimistic unmodeled-call default to disable and
+        // the assignment-shaped propagator (`$TO = Opaque.carry($FROM)`,
+        // matched against the lifted JVM IR where a nested call is a
+        // temporary assignment) is what decides both cells.
+        unsupported_reason: None,
+    },
+    ModelingPartitionCell {
+        tool: ModelingTool::Opentaint,
+        category: ModelingCategory::Sanitizers,
+        unsupported_reason: None,
+    },
+    ModelingPartitionCell {
+        tool: ModelingTool::Opentaint,
+        category: ModelingCategory::Summaries,
+        unsupported_reason: Some(
+            "the engine's whole-program body reading decides template 7 in both cells — with no summary declared, both identity bodies are read and both cells report (probe arms `o-through-*-endpoints-only`) — and the surface has no instruction to ignore a present body, so no summary declaration can be load-bearing; template 8's `out: 1.payload` field destination has no spelling in the propagator's from/to vocabulary, and both attempted store-through encodings produce no flow (`o-field-*`) (Amendment A22)",
+        ),
+    },
+    ModelingPartitionCell {
+        tool: ModelingTool::Opentaint,
+        category: ModelingCategory::EntryPoints,
+        unsupported_reason: Some(
+            "the pinned rule front end silently drops method-definition-shaped `pattern-sources` — both the focus-metavariable and the pattern-inside encodings — and the rule degenerates to sink-existence matching that flags constant-argument callsites in both cells (probe arms `e-def-pattern-*`, `e-inside-pattern-*`, against the `e-sink-only-control` arm), so no entry-root declaration is expressible; the invocation's all-methods entry-point selector analyzes the uncalled handlers but nothing can declare their parameters tainted on entry (Amendment A22)",
+        ),
+    },
+    ModelingPartitionCell {
+        tool: ModelingTool::Opentaint,
+        category: ModelingCategory::Persistence,
+        unsupported_reason: Some(
+            "the rule surface has no store, key, or cross-procedure vocabulary: a propagator carries taint between the metavariables of one matched callsite and cannot span `put` in one procedure and `get` in another. All three attempted encodings — endpoints only, the static-store spelling through the key argument, and the instance-store spelling through a side-effect-tainted receiver — leave every positive at zero findings (probe arms `b-*`) (Amendment A22)",
+        ),
+    },
 ];
 
 /// The preregistered decision for one tool × template cell, keyed by template
@@ -1151,9 +1211,15 @@ impl ModelingLanguage {
     /// at all — which is different from having a zero, and different from a
     /// missing artifact (a hard error). Infer's pinned distribution executes
     /// no JavaScript or Python frontend, so its modeling row exists for Java
-    /// alone (Amendment A13).
+    /// alone (Amendment A13); OpenTaint analyzes JVM bytecode only, so the
+    /// same holds for it (Amendment A18); and Pysa's modeling row exists for
+    /// Python alone (Amendment A16).
     fn artifact(self, tool: ModelingTool) -> Option<&'static str> {
         match (tool, self) {
+            (ModelingTool::Opentaint, Self::Java) => {
+                Some("adapters/opentaint/rules/model-java.yaml")
+            }
+            (ModelingTool::Opentaint, Self::Javascript | Self::Python) => None,
             (ModelingTool::Bifrost, Self::Java) => {
                 Some("adapters/bifrost/policies/model-java.rqlp")
             }
@@ -1535,7 +1601,7 @@ fn validate_modeling_cases(cases: &[(PathBuf, Value)]) -> Result<()> {
         // for some adapter. The other half — that a scored cell's declaration
         // is actually present in that adapter's artifact — is enforced by the
         // runner, which refuses to run without the artifact.
-        for tool in ModelingTool::ALL {
+        for tool in ModelingTool::ALL.iter().copied() {
             modeling_partition_reason(tool, template).with_context(|| {
                 format!(
                     "{}: no preregistered {} partition decision",
@@ -1664,7 +1730,7 @@ struct NativePartitionCell {
 /// is unsupported until shown otherwise, and promoting one is a dated
 /// amendment. That is why three of the four tools enter with nothing scored —
 /// which is a statement about product packaging, not about an engine.
-const NATIVE_PARTITION: [NativePartitionCell; 42] = [
+const NATIVE_PARTITION: &[NativePartitionCell] = &[
     // Bifrost — v0.10.7: 0 / 6. The standalone policy CLI ships no taint
     // policy and no source/sink endpoint catalog, so no template can produce a
     // finding regardless of what else it can express.
@@ -2056,6 +2122,78 @@ const NATIVE_PARTITION: [NativePartitionCell; 42] = [
         template: NATIVE_TEMPLATE_IDS[5],
         unsupported_reason: None,
     },
+    // OpenTaint — analyzer/2026.08.27.17eb0fe, Java only: 0 / 6. Added by
+    // Amendment A23. The pinned release ships two assets: the analyzer jar
+    // and `opentaint-models.tar.gz`. The archive is shipped product — vendor
+    // pass-through propagation rows, accumulated-field approximations, and
+    // compiled dataflow-approximation classes, this tool's analogue of
+    // Joern's DefaultSemantics table — and a native run loads it. But it
+    // declares no source, sink, or sanitizer anywhere; every endpoint lives
+    // in a `--semgrep-rule-set`, the benchmark's rules are benchmark-authored
+    // by definition, and the release ships no rule set of its own. Verified
+    // by execution: with the archive loaded and no rule set, the analyzer
+    // registers zero rules and reports zero results over the platform's own
+    // `System.getenv` → `Runtime.exec`
+    // (reports/raw/opentaint-native-activation-probe/, produced by
+    // scripts/probe-opentaint-native-activation.sh). This row is Java-only:
+    // the other languages have no OpenTaint native denominator, and
+    // `native_activation` refuses them before this partition is consulted.
+    NativePartitionCell {
+        tool: ModelingTool::Opentaint,
+        template: NATIVE_TEMPLATE_IDS[0],
+        unsupported_reason: Some(
+            "the pinned release ships no endpoint catalog: `opentaint-models.tar.gz` is \
+             propagation only — passThrough/copy rows, accumulated fields, approximation \
+             classes — and no rule set ships, so the analyzer with the shipped assets alone \
+             registers zero rules over the platform's own `System.getenv` → `Runtime.exec` \
+             (retained native-activation probe). Without a source and a sink, no template in \
+             this profile can produce a finding (Amendment A23)",
+        ),
+    },
+    NativePartitionCell {
+        tool: ModelingTool::Opentaint,
+        template: NATIVE_TEMPLATE_IDS[1],
+        unsupported_reason: Some(
+            "the shipped models archive is precisely a propagation catalog, and it is \
+             genuinely shipped product — but propagation with no shipped source and no \
+             shipped sink carries nothing anywhere, the same gap in the same direction as \
+             Joern's DefaultSemantics row (Amendment A23)",
+        ),
+    },
+    NativePartitionCell {
+        tool: ModelingTool::Opentaint,
+        template: NATIVE_TEMPLATE_IDS[2],
+        unsupported_reason: Some(
+            "no sanitizer appears anywhere in the shipped assets, and prior to that no flow \
+             can start for a barrier to be observable against — the same absent endpoint \
+             catalog that decides templates 1 and 2 (Amendment A23)",
+        ),
+    },
+    NativePartitionCell {
+        tool: ModelingTool::Opentaint,
+        template: NATIVE_TEMPLATE_IDS[3],
+        unsupported_reason: Some(
+            "the archive's dataflow-approximation classes are exactly this template's \
+             round-trip material and they do activate — behind endpoints the pinned release \
+             does not ship, so the summary has nothing to carry (Amendment A23)",
+        ),
+    },
+    NativePartitionCell {
+        tool: ModelingTool::Opentaint,
+        template: NATIVE_TEMPLATE_IDS[4],
+        unsupported_reason: Some(
+            "entry-point *selection* exists (`--debug-run-analysis-on-selected-entry-points`) \
+             but selecting a method analyzes it rather than tainting its parameters; sources \
+             live in the rule set, and the pinned release ships none (Amendment A23)",
+        ),
+    },
+    NativePartitionCell {
+        tool: ModelingTool::Opentaint,
+        template: NATIVE_TEMPLATE_IDS[5],
+        unsupported_reason: Some(
+            "no store vocabulary ships in any asset of the pinned release (Amendment A23)",
+        ),
+    },
 ];
 
 /// Dated amendments to `NATIVE_PARTITION`, one row per amended cell.
@@ -2407,6 +2545,38 @@ fn native_activation(
                 configuration_paths: BTreeSet::new(),
             }
         }
+        // The pinned release's two assets, and nothing else. The models
+        // archive is shipped product (Amendment A23) and a native run loads
+        // it through the pinned flags below; the archive-member notation is
+        // symbolic — the runner extracts the digest-verified archive to a
+        // scratch root per run — so the pinned shape is stable however the
+        // scratch paths fall. The line the activation rule draws for this
+        // adapter is `--semgrep-rule-set`: every endpoint lives in a rule
+        // set, the benchmark's rules are benchmark-authored by definition,
+        // and the release ships none, so the shape carries no rule-set
+        // argument at all and a test pins that absence.
+        ModelingTool::Opentaint => {
+            if language != ModelingLanguage::Java {
+                bail!(
+                    "{} has no {} tool-native denominator at all: the pinned engine analyzes JVM bytecode only, so its native row exists for Java alone (docs/native-profile.md, Amendment A23). No denominator is different from a zero; refusing to write a report",
+                    tool.pinned_identity(),
+                    language.display_name()
+                );
+            }
+            NativeActivation {
+                identity: format!("{identity} shipped models archive only — no rule set"),
+                arguments: vec![
+                    "--project-kind=unknown".to_string(),
+                    "--debug-run-analysis-on-selected-entry-points=*".to_string(),
+                    "--passthrough-approximations=opentaint-models.tar.gz!/java/accumulated-fields.yaml"
+                        .to_string(),
+                    "--passthrough-approximations=opentaint-models.tar.gz!/java/config".to_string(),
+                    "--java-dataflow-approximations=opentaint-models.tar.gz!/java/dataflow/build/classes/java/main"
+                        .to_string(),
+                ],
+                configuration_paths: BTreeSet::new(),
+            }
+        }
     })
 }
 
@@ -2436,7 +2606,7 @@ const PYSA_NATIVE_SINK_MODEL: &str = "os.system";
 /// modeling artifact is covered by this gate the moment it is declared.
 fn benchmark_model_artifacts() -> BTreeSet<String> {
     let mut artifacts = BTreeSet::from([JOERN_MODELING_SCRIPT.to_string()]);
-    for tool in ModelingTool::ALL {
+    for tool in ModelingTool::ALL.iter().copied() {
         for language in [
             ModelingLanguage::Java,
             ModelingLanguage::Javascript,
@@ -2532,7 +2702,7 @@ fn validate_native_cases(cases: &[(PathBuf, Value)]) -> Result<()> {
                 path.display()
             )
         })?;
-        for tool in ModelingTool::ALL {
+        for tool in ModelingTool::ALL.iter().copied() {
             native_partition_reason(tool, language, template).with_context(|| {
                 format!(
                     "{}: no preregistered {} activation decision",
@@ -3333,6 +3503,45 @@ enum Commands {
         #[arg(long)]
         pyrefly: PathBuf,
     },
+    /// Run one language's benchmark-controlled taint-modeling matrix through
+    /// the pinned OpenTaint analyzer. Java is the adapter's one modeling
+    /// language (Amendment A22); the partition scores categories S, P, and Z,
+    /// so O, E, and B are `unsupported` with a retained rationale, decided
+    /// before the analyzer is invoked. The release assets are verified by
+    /// witnessed digest before any case runs.
+    RunOpentaintModeling {
+        #[arg(long, value_enum)]
+        language: ModelingLanguage,
+        /// Path to the pinned `opentaint-project-analyzer.jar` release asset.
+        #[arg(long)]
+        analyzer_jar: PathBuf,
+        /// Path to the pinned `opentaint-models.tar.gz` release asset.
+        #[arg(long)]
+        models_archive: PathBuf,
+        /// Java runtime that executes the analyzer jar.
+        #[arg(long, default_value = "java")]
+        java: PathBuf,
+        /// Java compiler that materializes each fixture's bytecode.
+        #[arg(long, default_value = "javac")]
+        javac: PathBuf,
+    },
+    /// Run one language's tool-native probe set against the pinned OpenTaint
+    /// release's shipped assets. The partition scores nothing (Amendment
+    /// A23): the shipped models archive is propagation only and the release
+    /// ships no rule set, so all six templates are `unsupported` with a
+    /// retained rationale — but the run still witnesses the release assets'
+    /// digests, because a report whose whole evidence is retained rationales
+    /// must name a measured identity.
+    RunOpentaintNative {
+        #[arg(long, value_enum)]
+        language: ModelingLanguage,
+        /// Path to the pinned `opentaint-project-analyzer.jar` release asset.
+        #[arg(long)]
+        analyzer_jar: PathBuf,
+        /// Path to the pinned `opentaint-models.tar.gz` release asset.
+        #[arg(long)]
+        models_archive: PathBuf,
+    },
     /// Measure one adapter's **warm marginal** per-case cost: the wall-clock
     /// slope of running k cases through a single tool process, per
     /// [Amendment A15](docs/latency-tier.md#amendments).
@@ -3696,6 +3905,18 @@ fn main() -> Result<()> {
             },
             language,
         ),
+        Commands::RunOpentaintModeling {
+            language,
+            analyzer_jar,
+            models_archive,
+            java,
+            javac,
+        } => run_opentaint_modeling(&analyzer_jar, &models_archive, &java, &javac, language),
+        Commands::RunOpentaintNative {
+            language,
+            analyzer_jar,
+            models_archive,
+        } => run_opentaint_native(&analyzer_jar, &models_archive, language),
     }
 }
 
@@ -11258,7 +11479,7 @@ fn write_opentaint_error(
 /// does. The analyzer exits zero and writes a well-formed empty SARIF even
 /// when the rule set failed to load, so an unchecked load failure would read
 /// as a clean `not-reached`; this guard is what makes that impossible.
-fn opentaint_rule_load_failure(trace: &Value) -> Option<String> {
+fn opentaint_rule_load_failure(trace: &Value, rule_id: &str) -> Option<String> {
     let mut registered = false;
     for file in trace["fileTraces"].as_array().into_iter().flatten() {
         for entry in file["entries"].as_array().into_iter().flatten() {
@@ -11279,14 +11500,14 @@ fn opentaint_rule_load_failure(trace: &Value) -> Option<String> {
                     ));
                 }
             }
-            if rule["ruleIdInFile"] == OPENTAINT_RULE_ID {
+            if rule["ruleIdInFile"] == rule_id {
                 registered = true;
             }
         }
     }
     if !registered {
         return Some(format!(
-            "rule {OPENTAINT_RULE_ID:?} was never registered by the analyzer"
+            "rule {rule_id:?} was never registered by the analyzer"
         ));
     }
     None
@@ -11512,7 +11733,7 @@ fn run_opentaint_case(
         }
         let trace: Value = serde_json::from_str(&fs::read_to_string(&trace_path)?)
             .with_context(|| format!("parse rule-load trace {}", trace_path.display()))?;
-        if let Some(reason) = opentaint_rule_load_failure(&trace) {
+        if let Some(reason) = opentaint_rule_load_failure(&trace, OPENTAINT_RULE_ID) {
             let diagnostic = format!("the benchmark rule did not activate: {reason}");
             let path = write_opentaint_error(raw_dir, id, "rule-load", &diagnostic, Some(&output))?;
             return Ok(("runner-error", vec![diagnostic], path));
@@ -11555,6 +11776,424 @@ fn run_opentaint_case(
             "OpenTaint case artifact cleanup also failed: {cleanup_error}"
         ))),
     }
+}
+
+/// The rule id the committed OpenTaint modeling artifact declares. Checked in
+/// the retained rule-load trace on every scored cell, exactly as the kernel
+/// checks its own id: a modeling rule that fails to load must never turn an
+/// unanalyzed fixture into a clean negative.
+const OPENTAINT_MODEL_RULE_ID: &str = "dfb-opentaint-model";
+
+/// Run one *scored* Java modeling cell through the pinned OpenTaint analyzer,
+/// under the committed modeling rule rather than the kernel template.
+///
+/// Nothing is templated: the endpoint identities *are* the model, so the
+/// committed `adapters/opentaint/rules/model-java.yaml` states them literally
+/// and the runner substitutes nothing — the same shape as the Semgrep
+/// modeling arm. The execution plumbing mirrors the kernel's: fixtures are
+/// materialized on their package paths and compiled (`javac`, a harness step
+/// outside the timed boundary), a minimal `project.yaml` is synthesized, and
+/// the one analyzer invocation is timed as `total`. Reconciliation uses the
+/// modeling tier's `JavaMember` dialect, because a declared modeling entity
+/// is reached through its declaring type (`Audit.record(v)`), which the
+/// kernel's bare-call dialect deliberately does not count.
+#[allow(clippy::too_many_arguments)]
+fn run_opentaint_modeling_case(
+    analyzer_jar: &Path,
+    java: &Path,
+    javac: &Path,
+    models: &OpentaintModels,
+    rule: &Path,
+    case_path: &Path,
+    case: &Value,
+    raw_dir: &Path,
+) -> Result<(&'static str, Vec<String>, PathBuf)> {
+    let id = required_string(case, "id", "modeling case")?;
+    let raw_path = raw_dir.join(format!("{id}.json"));
+    let error_path = raw_dir.join(format!("{id}-error.json"));
+    let trace_path = raw_dir.join(format!("{id}-load-trace.json"));
+    let timing_path = case_timing_path(raw_dir, id);
+    for stale in [&raw_path, &error_path, &trace_path, &timing_path] {
+        if stale.exists() {
+            fs::remove_file(stale).with_context(|| format!("clear {}", stale.display()))?;
+        }
+    }
+
+    let scratch = modeling_case_scratch(ModelingTool::Opentaint, ModelingLanguage::Java, id)?;
+    let result = (|| {
+        let source_root = scratch.join("source");
+        let classes = scratch.join("classes");
+        let output_dir = scratch.join("out");
+        for directory in [&source_root, &classes, &output_dir] {
+            fs::create_dir_all(directory)?;
+        }
+        let fixture_root = case_path.parent().expect("case path has parent");
+        let mut packages = BTreeSet::new();
+        let mut compile_inputs = Vec::new();
+        for fixture in case["fixture_files"].as_array().expect("schema validated") {
+            let fixture = fixture.as_str().expect("schema validated");
+            let body = fs::read_to_string(fixture_root.join(fixture))?;
+            let package = jvm_fixture_package(fixture, &body)?;
+            let package_dir = source_root.join(package.replace('.', "/"));
+            fs::create_dir_all(&package_dir)?;
+            let target = package_dir.join(fixture);
+            fs::copy(fixture_root.join(fixture), &target)?;
+            packages.insert(package);
+            compile_inputs.push(target);
+        }
+
+        // The compile is a harness step — the fixture's bytecode is this
+        // adapter's input encoding — so it is not timed, per docs/adapters.md.
+        let mut compile = Command::new(javac);
+        compile
+            .arg("-nowarn")
+            .arg("-d")
+            .arg(&classes)
+            .args(&compile_inputs)
+            .stdin(std::process::Stdio::null());
+        let compiled = match compile.output() {
+            Ok(output) => output,
+            Err(error) => {
+                let diagnostic = format!("failed to spawn the Java fixture compiler: {error}");
+                let path =
+                    write_opentaint_error(raw_dir, id, "fixture-compile", &diagnostic, None)?;
+                return Ok(("runner-error", vec![diagnostic], path));
+            }
+        };
+        if !compiled.status.success() {
+            let diagnostic = format!(
+                "Java fixture compilation failed with status {}",
+                compiled.status
+            );
+            let path = write_opentaint_error(
+                raw_dir,
+                id,
+                "fixture-compile",
+                &diagnostic,
+                Some(&compiled),
+            )?;
+            return Ok(("runner-error", vec![diagnostic], path));
+        }
+
+        let mut project = String::from("javaProjects:\n");
+        project.push_str(&format!("  - sourceRoot: {}\n", source_root.display()));
+        project.push_str("    modules:\n");
+        project.push_str(&format!(
+            "      - moduleSourceRoot: {}\n",
+            source_root.display()
+        ));
+        project.push_str("        packages:\n");
+        for package in &packages {
+            project.push_str(&format!("          - {package}\n"));
+        }
+        project.push_str("        moduleClasses:\n");
+        project.push_str(&format!("          - {}\n", classes.display()));
+        let project_path = scratch.join("project.yaml");
+        fs::write(&project_path, project)?;
+
+        let scratch_trace = output_dir.join("load-trace.json");
+        let mut command = Command::new(java);
+        command
+            .arg("-jar")
+            .arg(analyzer_jar)
+            .arg(format!("--project={}", project_path.display()))
+            .arg("--project-kind=unknown")
+            // The same pinned all-methods entry-point selector the kernel
+            // uses, for the same reason: the fixtures declare no framework
+            // entry point, and without it Java's package-private statics are
+            // never analyzed. It changes which methods are analyzed, never
+            // what the engine claims about a flow — category E's roots are
+            // decided by the partition, not by this flag.
+            .arg("--debug-run-analysis-on-selected-entry-points=*")
+            .arg(format!("--semgrep-rule-set={}", rule.display()))
+            .arg(format!(
+                "--semgrep-rule-load-trace={}",
+                scratch_trace.display()
+            ))
+            .arg(format!(
+                "--passthrough-approximations={}",
+                models.passthrough_yaml.display()
+            ))
+            .arg(format!(
+                "--passthrough-approximations={}",
+                models.passthrough_config_dir.display()
+            ))
+            .arg(format!(
+                "--java-dataflow-approximations={}",
+                models.dataflow_approximations_classes.display()
+            ))
+            .arg(format!("--output-dir={}", output_dir.display()))
+            .stdin(std::process::Stdio::null());
+        let invoked = Instant::now();
+        let output = match command.output() {
+            Ok(output) => output,
+            Err(error) => {
+                let diagnostic = format!(
+                    "failed to run the OpenTaint Java modeling analysis with {}: {error}",
+                    java.display()
+                );
+                let path = write_opentaint_error(raw_dir, id, "analyzer-spawn", &diagnostic, None)?;
+                return Ok(("runner-error", vec![diagnostic], path));
+            }
+        };
+        write_case_phase_timings(raw_dir, "opentaint", id, &[("total", invoked.elapsed())])?;
+        if scratch_trace.exists() {
+            fs::copy(&scratch_trace, &trace_path)?;
+        }
+        if !output.status.success() {
+            let diagnostic = format!(
+                "OpenTaint Java modeling analysis failed with status {}",
+                output.status
+            );
+            let path = write_opentaint_error(
+                raw_dir,
+                id,
+                "analyzer-execution",
+                &diagnostic,
+                Some(&output),
+            )?;
+            return Ok(("runner-error", vec![diagnostic], path));
+        }
+        if !trace_path.exists() {
+            let diagnostic =
+                "the analyzer wrote no rule-load trace, so rule activation cannot be proven"
+                    .to_string();
+            let path = write_opentaint_error(raw_dir, id, "rule-load", &diagnostic, Some(&output))?;
+            return Ok(("runner-error", vec![diagnostic], path));
+        }
+        let trace: Value = serde_json::from_str(&fs::read_to_string(&trace_path)?)
+            .with_context(|| format!("parse rule-load trace {}", trace_path.display()))?;
+        if let Some(reason) = opentaint_rule_load_failure(&trace, OPENTAINT_MODEL_RULE_ID) {
+            let diagnostic = format!("the benchmark modeling rule did not activate: {reason}");
+            let path = write_opentaint_error(raw_dir, id, "rule-load", &diagnostic, Some(&output))?;
+            return Ok(("runner-error", vec![diagnostic], path));
+        }
+        let sarif_path = output_dir.join("report-ifds.sarif");
+        if !sarif_path.exists() {
+            let diagnostic = "the analyzer exited cleanly but wrote no SARIF report".to_string();
+            let path =
+                write_opentaint_error(raw_dir, id, "analyzer-output", &diagnostic, Some(&output))?;
+            return Ok(("runner-error", vec![diagnostic], path));
+        }
+        fs::copy(&sarif_path, &raw_path)?;
+        let sarif: Value = match serde_json::from_str(&fs::read_to_string(&raw_path)?) {
+            Ok(sarif) => sarif,
+            Err(error) => {
+                let diagnostic =
+                    format!("parse OpenTaint evidence {}: {error}", raw_path.display());
+                let path =
+                    write_opentaint_error(raw_dir, id, "analyzer-output", &diagnostic, None)?;
+                return Ok(("runner-error", vec![diagnostic], path));
+            }
+        };
+        let (outcome, diagnostics) =
+            callsite_anchored_outcome(case_path, case, &sarif, AnchorDialect::JavaMember);
+        Ok((outcome, diagnostics, raw_path.clone()))
+    })();
+
+    let cleanup =
+        fs::remove_dir_all(&scratch).with_context(|| format!("clear {}", scratch.display()));
+    match (result, cleanup) {
+        (Ok(normalized), Ok(())) => Ok(normalized),
+        (Ok((_, mut diagnostics, path)), Err(error)) => {
+            diagnostics.push(format!("OpenTaint case artifact cleanup failed: {error}"));
+            diagnostics.sort();
+            diagnostics.dedup();
+            Ok(("runner-error", diagnostics, path))
+        }
+        (Err(error), Ok(())) => Err(error),
+        (Err(error), Err(cleanup_error)) => Err(error.context(format!(
+            "OpenTaint case artifact cleanup also failed: {cleanup_error}"
+        ))),
+    }
+}
+
+/// Run the OpenTaint benchmark-controlled modeling matrix for one language.
+///
+/// The house shape of `run_modeling`, with the one difference the adapter
+/// forces: the run-level identity is the witnessed digest pair of the pinned
+/// release assets (`witness_opentaint_identity`), not a binary's version
+/// banner, because the analyzer jar self-reports no version at all. The
+/// partition is consulted per case before the analyzer is touched — the
+/// declined categories O, E, and B (Amendment A22) retain their rationales
+/// without a fixture ever being handed to the tool — and a language other
+/// than Java fails the plan on applicability: it has no OpenTaint modeling
+/// denominator, which is different from a zero.
+fn run_opentaint_modeling(
+    analyzer_jar: &Path,
+    models_archive: &Path,
+    java: &Path,
+    javac: &Path,
+    language: ModelingLanguage,
+) -> Result<()> {
+    let plan = plan_modeling_run(ModelingTool::Opentaint, language)?;
+    let rule = fs::canonicalize(
+        plan.language
+            .artifact(ModelingTool::Opentaint)
+            .expect("the plan verified the artifact exists"),
+    )
+    .context("resolve the OpenTaint modeling rule")?;
+
+    fs::create_dir_all(&plan.raw_dir)?;
+    let started = now_seconds()?;
+    let (version, build_identity) = witness_opentaint_identity(analyzer_jar, models_archive)?;
+    write_run_environment(&plan.raw_dir, plan.tool.key(), &version, &build_identity)?;
+    let models = extract_opentaint_models(models_archive)?;
+    let revision = fixture_revision()?;
+    let mut results = Vec::with_capacity(plan.cases.len());
+    for (path, case) in &plan.cases {
+        let id = required_string(case, "id", "modeling case")?;
+        let start = Instant::now();
+        let (outcome, diagnostics, raw_path) = if let Some((outcome, reason, raw_path)) =
+            modeling_partition_outcome(plan.tool, case, &plan.raw_dir, &version)?
+        {
+            (outcome, vec![reason], raw_path)
+        } else {
+            run_opentaint_modeling_case(
+                analyzer_jar,
+                java,
+                javac,
+                &models,
+                &rule,
+                path,
+                case,
+                &plan.raw_dir,
+            )?
+        };
+        results.push(normalized_result(
+            case,
+            id,
+            outcome,
+            diagnostics,
+            start.elapsed(),
+            &raw_path,
+        ));
+    }
+    let report = json!({
+        "schema_version": 1,
+        "tool": plan.tool.key(),
+        "tool_version": version,
+        "tool_build_identity": build_identity,
+        "adapter_version": ADAPTER_VERSION,
+        "configuration_hash": hash_paths(&plan.configuration_paths)?,
+        "fixture_revision": revision,
+        "started_at_unix_seconds": started,
+        "ended_at_unix_seconds": now_seconds()?,
+        "cold_or_warm": "cold",
+        "results": results
+    });
+    write_and_validate_report(&plan.report, &report)?;
+    let scored = modeling_supported_templates(plan.tool);
+    let scored_assertions = plan
+        .cases
+        .iter()
+        .filter(|(_, case)| {
+            case["template_id"]
+                .as_str()
+                .is_some_and(|template| scored.contains(&template))
+        })
+        .count();
+    let scored_categories: BTreeSet<ModelingCategory> = scored
+        .iter()
+        .filter_map(|template| modeling_category(template))
+        .collect();
+    println!(
+        "wrote {} ({scored_assertions} scored, {} preregistered-unsupported, {} of six categories scored for {})",
+        plan.report.display(),
+        plan.cases.len() - scored_assertions,
+        scored_categories.len(),
+        plan.tool.pinned_identity()
+    );
+    Ok(())
+}
+
+/// Run the OpenTaint tool-native probe set for one language.
+///
+/// The partition declines all six templates (Amendment A23) — the pinned
+/// release ships propagation models and no endpoint catalog — so no fixture
+/// is ever handed to the analyzer. The run still witnesses the release
+/// assets' digests once, per the run-level identity rule the native profile
+/// states for exactly this 0 / 6 case: the twelve retained rationales are the
+/// whole of the report's evidence, and they must name a measured identity
+/// rather than an asserted one.
+fn run_opentaint_native(
+    analyzer_jar: &Path,
+    models_archive: &Path,
+    language: ModelingLanguage,
+) -> Result<()> {
+    let (version, build) = witness_opentaint_identity(analyzer_jar, models_archive)?;
+    let plan = plan_native_run(ModelingTool::Opentaint, language, &version)?;
+    let scored_templates = native_supported_templates(plan.tool, plan.language);
+
+    fs::create_dir_all(&plan.raw_dir)?;
+    let started = now_seconds()?;
+    let build_identity = format!("{build} — {}", plan.activation.identity);
+    write_run_environment(&plan.raw_dir, plan.tool.key(), &version, &build_identity)?;
+    let revision = fixture_revision()?;
+    let mut results = Vec::with_capacity(plan.cases.len());
+    for (_path, case) in &plan.cases {
+        let id = required_string(case, "id", "tool-native case")?;
+        let start = Instant::now();
+        let (outcome, diagnostics, raw_path) = if let Some((outcome, reason, raw_path)) =
+            native_partition_outcome(
+                plan.tool,
+                plan.language,
+                case,
+                &plan.activation,
+                &plan.raw_dir,
+                &version,
+            )? {
+            (outcome, vec![reason], raw_path)
+        } else {
+            // Unreachable while the partition declines all six templates,
+            // and a hard error rather than a synthesized outcome if a future
+            // amendment promotes a cell without landing the arm that runs it.
+            bail!(
+                "the tool-native execution arm for {} × {} is not wired: {id} is a scored cell, and a cell promoted by a dated amendment lands its execution arm in the same pull request (docs/native-profile.md#partition-summary)",
+                plan.tool.pinned_identity(),
+                plan.language.display_name(),
+            );
+        };
+        results.push(normalized_result(
+            case,
+            id,
+            outcome,
+            diagnostics,
+            start.elapsed(),
+            &raw_path,
+        ));
+    }
+    let report = json!({
+        "schema_version": 1,
+        "tool": plan.tool.key(),
+        "tool_version": version,
+        "tool_build_identity": build_identity,
+        "adapter_version": ADAPTER_VERSION,
+        "configuration_hash": native_configuration_hash(&plan.activation)?,
+        "fixture_revision": revision,
+        "started_at_unix_seconds": started,
+        "ended_at_unix_seconds": now_seconds()?,
+        "cold_or_warm": "cold",
+        "results": results
+    });
+    write_and_validate_report(&plan.report, &report)?;
+    let scored_assertions = plan
+        .cases
+        .iter()
+        .filter(|(_, case)| {
+            case["template_id"]
+                .as_str()
+                .is_some_and(|template| scored_templates.contains(&template))
+        })
+        .count();
+    println!(
+        "wrote {} ({scored_assertions} scored, {} preregistered-unsupported, {} of six templates activated for {})",
+        plan.report.display(),
+        plan.cases.len() - scored_assertions,
+        scored_templates.len(),
+        plan.tool.pinned_identity()
+    );
+    Ok(())
 }
 
 // ---------------------------------------------------------------------------
@@ -14247,10 +14886,13 @@ fn plan_modeling_run(tool: ModelingTool, language: ModelingLanguage) -> Result<M
     }
 
     // A scored cell with no declaration behind it is a benchmark defect, not
-    // evidence about the analyzer. It is a hard error, never an outcome.
+    // evidence about the analyzer. It is a hard error, never an outcome —
+    // and it is a different thing again from a tool × language pair with no
+    // modeling denominator at all, which is refused here on applicability
+    // rather than on a missing file.
     let Some(artifact) = language.artifact(tool) else {
         bail!(
-            "{} has no {} modeling denominator at all: the pinned distribution executes no {} frontend, so its modeling row does not extend to the language (docs/modeling-matrix.md — Infer by Amendment A13, Pysa by Amendment A16, FlowDroid by Amendment A18). No denominator is different from a zero; refusing to write a report",
+            "{} has no {} modeling denominator at all: the pinned distribution executes no {} frontend, so its modeling row does not extend to the language (docs/modeling-matrix.md — Infer by Amendment A13, Pysa by Amendment A16, FlowDroid by Amendment A18, OpenTaint by Amendment A22). No denominator is different from a zero; refusing to write a report",
             tool.pinned_identity(),
             language.display_name(),
             language.display_name()
@@ -14280,17 +14922,20 @@ fn plan_modeling_run(tool: ModelingTool, language: ModelingLanguage) -> Result<M
             // configuration surface has three silent-failure shapes of its own,
             // and the gate refuses each of them.
             ModelingTool::Infer => require_infer_modeling_load_bearing(&contents, artifact)?,
+            // Pysa's switch is per-entity: the `@SkipAnalysis` + `@SkipObscure`
+            // modes on every declared propagator and summary (Amendment A16).
+            ModelingTool::Pysa => require_pysa_modeling_load_bearing(&contents, artifact)?,
             // Neither surface has a switch to pin. CodeQL has no unmodeled-call
             // default that would decide a cell on its own: a `ConfigSig` with no
             // `isAdditionalFlowStep` adds no step. Joern's default pass-through
             // *is* load-bearing, but it cannot be disabled — `FlowSemantic`
             // mappings are additive over it — which is why Amendment A2 moved its
             // propagator and summary categories to unsupported activation instead
-            // of gating them here.
-            // Pysa's switch is per-entity: the `@SkipAnalysis` + `@SkipObscure`
-            // modes on every declared propagator and summary (Amendment A16).
-            ModelingTool::Pysa => require_pysa_modeling_load_bearing(&contents, artifact)?,
-            ModelingTool::Codeql | ModelingTool::Joern => {}
+            // of gating them here. OpenTaint has no switch either, and needs
+            // none: the surface probe measured that with no propagator declared
+            // the reflective body carries nothing, so the engine has no
+            // optimistic unmodeled-call default to disable (Amendment A22).
+            ModelingTool::Codeql | ModelingTool::Joern | ModelingTool::Opentaint => {}
             ModelingTool::Flowdroid => unreachable!("handled above"),
         }
     }
@@ -15468,6 +16113,12 @@ fn run_modeling(
                 ModelingTool::Pysa => bail!(
                     "Pysa modeling runs through run_pysa_modeling with the pinned pair, not through the single-binary runner"
                 ),
+                // OpenTaint's run is driven by `run_opentaint_modeling`,
+                // which witnesses the release assets' digests instead of a
+                // binary banner; `run_modeling` is never entered for it.
+                ModelingTool::Opentaint => bail!(
+                    "the OpenTaint modeling run is driven by run-opentaint-modeling, which witnesses the pinned release assets; run_modeling has no OpenTaint arm"
+                ),
             }
         };
         results.push(normalized_result(
@@ -15578,6 +16229,14 @@ fn witness_tool_identity(tool: ModelingTool, binary: &Path) -> Result<(String, S
         ),
         ModelingTool::Joern => joern_version_identity(binary),
         ModelingTool::Semgrep => semgrep_version_identity(binary),
+        // OpenTaint's identity is not a binary's banner: the analyzer jar
+        // self-reports no version at all, so its runs witness the release
+        // assets' digests through `witness_opentaint_identity`, and the
+        // dedicated `run-opentaint-modeling` / `run-opentaint-native`
+        // commands never reach this function.
+        ModelingTool::Opentaint => bail!(
+            "OpenTaint witnesses its identity from the pinned release assets' digests, not from a binary banner; use run-opentaint-modeling or run-opentaint-native, which call witness_opentaint_identity"
+        ),
     }
 }
 
@@ -16682,14 +17341,17 @@ fn run_native_with_identity(
                 // that runs it, and until then a promotion fails the run
                 // instead of publishing a silent zero.
                 // FlowDroid additionally routes through its own runner
-                // (`run-flowdroid-native`), which witnesses the jar identity;
-                // its A17 partition likewise declines all six templates, so a
-                // scored cell reaching any generic arm is the same unwired
-                // promotion this error exists to catch.
+                // (`run-flowdroid-native`), which witnesses the jar identity,
+                // and OpenTaint through `run-opentaint-native`, which
+                // witnesses the release assets' digests; both partitions
+                // likewise decline all six templates, so a scored cell
+                // reaching this generic arm is the same unwired promotion
+                // this error exists to catch.
                 ModelingTool::Bifrost
                 | ModelingTool::Infer
                 | ModelingTool::Joern
-                | ModelingTool::Flowdroid => bail!(
+                | ModelingTool::Flowdroid
+                | ModelingTool::Opentaint => bail!(
                     "the tool-native execution arm for {} × {} is not wired: {id} is a scored cell and no wave has yet had a reason to invoke this adapter natively — its preregistered partition declines all six templates (docs/native-profile.md#partition-summary). A cell promoted by a dated amendment lands its execution arm in the same pull request; synthesizing an outcome here is what docs/adapters.md forbids",
                     plan.tool.pinned_identity(),
                     plan.language.display_name(),
@@ -18031,7 +18693,7 @@ mod tests {
     /// call — is character-for-character the same in the cold kernel script
     /// and the warm batch script.
     ///
-    /// This is the mechanical form of Amendment A13's promise that the warm
+    /// This is the mechanical form of Amendment A15's promise that the warm
     /// measurement times the *same work* as the cold rows it stands beside. If
     /// either script's query drifts, the warm marginal stops describing the
     /// cold number's cost and this test fails rather than a page quietly
@@ -20974,18 +21636,18 @@ mod tests {
             {"ruleId": ":dfb-opentaint-kernel", "ruleIdInFile": "dfb-opentaint-kernel",
              "entries": [{"type": "Info", "message": "Generate 4 rules"}]}
         ], "entries": [{"type": "Info", "message": "Register 1 rules"}]}]});
-        assert!(opentaint_rule_load_failure(&loaded).is_none());
+        assert!(opentaint_rule_load_failure(&loaded, OPENTAINT_RULE_ID).is_none());
         let errored: Value = json!({"fileTraces": [{"path": "", "entries": [
             {"type": "Error", "message": "Failed to load rule set", "severity": "BLOCKING"}
         ]}]});
         assert!(
-            opentaint_rule_load_failure(&errored)
+            opentaint_rule_load_failure(&errored, OPENTAINT_RULE_ID)
                 .unwrap()
                 .contains("Failed to load rule set")
         );
         let unregistered: Value = json!({"fileTraces": [{"path": "", "entries": []}]});
         assert!(
-            opentaint_rule_load_failure(&unregistered)
+            opentaint_rule_load_failure(&unregistered, OPENTAINT_RULE_ID)
                 .unwrap()
                 .contains("never registered")
         );
@@ -22796,13 +23458,20 @@ mod tests {
     /// undecided cell is an error, not a silent `supported`.
     #[test]
     fn the_modeling_partition_decides_every_tool_and_template() {
-        for tool in ModelingTool::ALL {
+        for tool in ModelingTool::ALL.iter().copied() {
             for template in MODELING_TEMPLATE_IDS {
                 modeling_partition_reason(tool, template)
                     .unwrap_or_else(|_| panic!("{} × {template} is undecided", tool.key()));
             }
         }
-        assert_eq!(MODELING_PARTITION.len(), 42);
+        // One cell per tool per category, for every tool in `ALL`: the
+        // preregistered four plus each amendment-added adapter's six. The
+        // count is derived, not a literal, so a new adapter's six cells
+        // cannot collide with another's in this assertion.
+        assert_eq!(
+            MODELING_PARTITION.len(),
+            ModelingTool::ALL.len() * ModelingCategory::ALL.len()
+        );
         assert!(
             modeling_partition_reason(ModelingTool::Codeql, "dfb-template-chal-dispatch-table")
                 .is_err()
@@ -22903,6 +23572,77 @@ mod tests {
         );
         require_no_benchmark_models(ModelingTool::Flowdroid, &activation.arguments).unwrap();
         assert!(activation.configuration_paths.is_empty());
+        // Amendment A22 preregistered OpenTaint's Java row: S, P, and Z.
+        assert_eq!(
+            modeling_supported_templates(ModelingTool::Opentaint).len(),
+            6
+        );
+    }
+
+    /// OpenTaint's modeling row (Amendment A22), pinned exactly: categories S,
+    /// P, and Z are scored and O, E, and B are declined — a partition decided
+    /// by executing the pinned analyzer over the committed Java fixtures with
+    /// probe declarations, before any scored run, and retained under
+    /// reports/raw/opentaint-modeling-surface-probe/.
+    #[test]
+    fn opentaint_modeling_partition_scores_sources_propagators_and_sanitizers() {
+        let mut expected = ModelingCategory::SourcesAndSinks.templates().to_vec();
+        expected.extend(ModelingCategory::Propagators.templates());
+        expected.extend(ModelingCategory::Sanitizers.templates());
+        expected.sort_unstable();
+        let mut scored = modeling_supported_templates(ModelingTool::Opentaint);
+        scored.sort_unstable();
+        assert_eq!(scored, expected);
+        for category in [
+            ModelingCategory::Summaries,
+            ModelingCategory::EntryPoints,
+            ModelingCategory::Persistence,
+        ] {
+            for template in category.templates() {
+                let reason = modeling_partition_reason(ModelingTool::Opentaint, template)
+                    .unwrap()
+                    .unwrap_or_else(|| panic!("{template} must be unsupported for OpenTaint"));
+                assert!(reason.contains("Amendment A22"), "{reason}");
+            }
+        }
+    }
+
+    /// OpenTaint's modeling denominator is Java alone: the other two wave-M1
+    /// languages have no artifact and `plan_modeling_run` refuses them on
+    /// applicability rather than reporting anything.
+    #[test]
+    fn opentaint_modeling_is_java_only() {
+        assert_eq!(
+            ModelingLanguage::Java.artifact(ModelingTool::Opentaint),
+            Some("adapters/opentaint/rules/model-java.yaml")
+        );
+        assert_eq!(
+            ModelingLanguage::Javascript.artifact(ModelingTool::Opentaint),
+            None
+        );
+        assert_eq!(
+            ModelingLanguage::Python.artifact(ModelingTool::Opentaint),
+            None
+        );
+        // The committed modeling rule declares exactly its scored categories:
+        // the load-trace-checked id, the propagators category P entitles it
+        // to, the sanitizer category Z entitles it to — and none of the
+        // declined categories' entities.
+        let rule = fs::read_to_string(
+            ModelingLanguage::Java
+                .artifact(ModelingTool::Opentaint)
+                .unwrap(),
+        )
+        .unwrap();
+        assert!(rule.contains(&format!("id: {OPENTAINT_MODEL_RULE_ID}")));
+        assert!(rule.contains("pattern-propagators"));
+        assert!(rule.contains("pattern-sanitizers"));
+        for declined_entity in ["Bridge.", "Handler.", "onRequest", "onDeclared", "Store."] {
+            assert!(
+                !rule.contains(declined_entity),
+                "the OpenTaint modeling rule declares {declined_entity}, whose category its partition marks unsupported"
+            );
+        }
     }
 
     /// Amendment A16's partition row, cell by cell: five categories scored,
@@ -23252,7 +23992,7 @@ mod tests {
         assert!(reason.contains(WITNESSED_IDENTITY));
         assert!(reason.contains("External semantic-model activation requires an embedding"));
         assert!(reason.contains("docs/modeling-matrix.md"));
-        for tool in ModelingTool::ALL {
+        for tool in ModelingTool::ALL.iter().copied() {
             for template in MODELING_TEMPLATE_IDS {
                 if let Some(reason) =
                     modeling_unsupported_reason(tool, template, WITNESSED_IDENTITY).unwrap()
@@ -23695,13 +24435,13 @@ mod tests {
     }
 
     /// The model-artifact, report, and raw-evidence paths the language pull
-    /// requests populate. Thirteen distinct artifacts: one per tool per
-    /// language for the wave-M1 four, plus Infer's Java-only configuration —
-    /// its other two combinations have no denominator at all (Amendment A13).
+    /// requests populate: one per tool per language for the wave-M1 four,
+    /// plus the amendment-added adapters' single-language artifacts — their
+    /// other combinations have no denominator at all.
     #[test]
     fn modeling_artifact_and_report_paths_follow_the_convention() {
         let mut artifacts = BTreeSet::new();
-        for tool in ModelingTool::ALL {
+        for tool in ModelingTool::ALL.iter().copied() {
             for language in [
                 ModelingLanguage::Java,
                 ModelingLanguage::Javascript,
@@ -23711,7 +24451,7 @@ mod tests {
                     assert!(artifacts.insert(artifact));
                 } else {
                     match tool {
-                        ModelingTool::Infer | ModelingTool::Flowdroid => {
+                        ModelingTool::Infer | ModelingTool::Flowdroid | ModelingTool::Opentaint => {
                             assert_ne!(language, ModelingLanguage::Java)
                         }
                         ModelingTool::Pysa => assert_ne!(language, ModelingLanguage::Python),
@@ -23736,10 +24476,14 @@ mod tests {
                 );
             }
         }
-        // Wave M1's twelve, Infer's and Pysa's single-language
-        // configurations (A13, A16), and FlowDroid's Java-only summaries
-        // directory (A18).
-        assert_eq!(artifacts.len(), 15);
+        // Wave M1's twelve, Infer's, Pysa's, and OpenTaint's
+        // single-language artifacts (A13, A16, A22), and FlowDroid's
+        // Java-only summaries directory (A18). Uniqueness is the content of
+        // the `insert` assertions above, and membership of the
+        // amendment-added artifacts is pinned below — no total is pinned as
+        // a literal, so a new adapter's artifact cannot race another's in
+        // this assertion.
+        assert!(artifacts.contains("adapters/opentaint/rules/model-java.yaml"));
         assert_eq!(
             ModelingLanguage::Python.artifact(ModelingTool::Pysa),
             Some("adapters/pysa/models/modeling-python.pysa")
@@ -23788,12 +24532,13 @@ mod tests {
             None
         );
         // Each artifact arrives with the pull request that authors its
-        // declarations. Wave M1 is complete, Infer's Java row landed with
-        // Amendment A13, and FlowDroid's with Amendment A18 — whose artifact
-        // is a directory of three committed summary files, checked
-        // individually because a directory has no bytes for the configuration
-        // hash to bind.
-        for tool in ModelingTool::ALL {
+        // declarations. Wave M1 is complete; Infer's, FlowDroid's, and
+        // OpenTaint's Java rows landed with Amendments A13, A18, and A22,
+        // and Pysa's Python row with Amendment A16. FlowDroid's artifact is
+        // a directory of three committed summary files, checked individually
+        // because a directory has no bytes for the configuration hash to
+        // bind.
+        for tool in ModelingTool::ALL.iter().copied() {
             for language in [
                 ModelingLanguage::Python,
                 ModelingLanguage::Javascript,
@@ -24113,8 +24858,13 @@ mod tests {
     /// six is an error rather than a silent scored default.
     #[test]
     fn the_native_partition_decides_every_tool_and_template() {
-        assert_eq!(NATIVE_PARTITION.len(), 42);
-        for tool in ModelingTool::ALL {
+        // One cell per tool per template, for every tool in `ALL` — derived,
+        // not a literal, for the same reason as the modeling count above.
+        assert_eq!(
+            NATIVE_PARTITION.len(),
+            ModelingTool::ALL.len() * NATIVE_TEMPLATE_IDS.len()
+        );
+        for tool in ModelingTool::ALL.iter().copied() {
             for template in NATIVE_TEMPLATE_IDS {
                 for language in [
                     ModelingLanguage::Java,
@@ -24174,6 +24924,11 @@ mod tests {
             // Infer native denominator — `native_activation` refuses the other
             // two before a run can be shaped.
             assert!(native_supported_templates(ModelingTool::Infer, language).is_empty());
+            // Amendment A23: the pinned OpenTaint release ships propagation
+            // models and no endpoint catalog, so nothing activates. (The row
+            // itself is Java-only; the partition cells exist for every
+            // language, and the activation shape is what refuses the others.)
+            assert!(native_supported_templates(ModelingTool::Opentaint, language).is_empty());
         }
         // Amendment A8: Python only.
         assert_eq!(
@@ -24271,7 +25026,7 @@ mod tests {
         assert!(reason.contains("BrokkAi/bifrost-dev #2620"));
         assert!(reason.contains(WITNESSED_IDENTITY));
         assert!(reason.contains("docs/native-profile.md"));
-        for tool in ModelingTool::ALL {
+        for tool in ModelingTool::ALL.iter().copied() {
             for template in NATIVE_TEMPLATE_IDS {
                 if let Some(reason) = native_unsupported_reason(
                     tool,
@@ -24500,7 +25255,7 @@ mod tests {
     /// disjoint from the benchmark-controlled matrix's.
     #[test]
     fn native_report_and_raw_paths_follow_the_convention() {
-        for tool in ModelingTool::ALL {
+        for tool in ModelingTool::ALL.iter().copied() {
             for language in [
                 ModelingLanguage::Java,
                 ModelingLanguage::Javascript,
@@ -24610,6 +25365,49 @@ mod tests {
         .unwrap();
         assert!(joern.arguments.is_empty());
         assert!(joern.identity.contains("DefaultSemantics"));
+
+        // OpenTaint (Amendment A23): the shipped models archive loads, and no
+        // rule set of any kind is named — the rule set is where every
+        // endpoint lives, and the pinned release ships none. Java only; the
+        // other languages have no native denominator.
+        let opentaint = native_activation(
+            ModelingTool::Opentaint,
+            ModelingLanguage::Java,
+            WITNESSED_IDENTITY,
+        )
+        .unwrap();
+        assert!(opentaint.identity.contains("shipped models archive"));
+        assert!(
+            opentaint
+                .arguments
+                .iter()
+                .all(|argument| !argument.contains("--semgrep-rule-set"))
+        );
+        assert!(
+            opentaint
+                .arguments
+                .iter()
+                .any(|argument| argument.contains("--passthrough-approximations"))
+        );
+        assert!(
+            opentaint
+                .arguments
+                .iter()
+                .any(|argument| argument.contains("--java-dataflow-approximations"))
+        );
+        require_no_benchmark_models(ModelingTool::Opentaint, &opentaint.arguments).unwrap();
+        for language in [ModelingLanguage::Javascript, ModelingLanguage::Python] {
+            let error =
+                match native_activation(ModelingTool::Opentaint, language, WITNESSED_IDENTITY) {
+                    Ok(_) => panic!(
+                        "{} must have no OpenTaint native denominator",
+                        language.key()
+                    ),
+                    Err(error) => error.to_string(),
+                };
+            assert!(error.contains("no"), "{error}");
+            assert!(error.contains("denominator"), "{error}");
+        }
     }
 
     /// The activation rule, enforced: every pinned shape passes the gate, and
@@ -24619,22 +25417,25 @@ mod tests {
     /// declared.
     #[test]
     fn the_no_benchmark_models_gate_refuses_a_spliced_model_artifact() {
-        for tool in ModelingTool::ALL {
+        for tool in ModelingTool::ALL.iter().copied() {
             for language in [
                 ModelingLanguage::Java,
                 ModelingLanguage::Javascript,
                 ModelingLanguage::Python,
             ] {
+                // Infer's and OpenTaint's native denominators are Java alone
+                // (Amendments A14 and A19) and Pysa's is Python alone
+                // (Amendment A17): the other languages have no activation
+                // shape at all, and asking for one is an applicability
+                // error, not a gate result.
                 let covered = match tool {
-                    ModelingTool::Infer | ModelingTool::Flowdroid => {
+                    ModelingTool::Infer | ModelingTool::Flowdroid | ModelingTool::Opentaint => {
                         language == ModelingLanguage::Java
                     }
                     ModelingTool::Pysa => language == ModelingLanguage::Python,
                     _ => true,
                 };
                 if !covered {
-                    // No denominator at all: the activation itself refuses the
-                    // combination rather than shaping a run for it.
                     let Err(error) = native_activation(tool, language, WITNESSED_IDENTITY) else {
                         panic!(
                             "{} × {} must have no native denominator",
@@ -24655,10 +25456,12 @@ mod tests {
             }
         }
         let artifacts = benchmark_model_artifacts();
-        // Wave M1's twelve, the shared Joern script, Infer's and Pysa's
-        // single-language configurations, and FlowDroid's Java summaries
-        // directory.
-        assert_eq!(artifacts.len(), 16);
+        // Wave M1's twelve, the shared Joern script, Infer's, Pysa's, and
+        // OpenTaint's single-language artifacts, and FlowDroid's Java
+        // summaries directory. Membership, not a pinned total: a new
+        // adapter's artifact joins the derived set the moment it is declared,
+        // with no literal here to race another pull request for.
+        assert!(artifacts.contains("adapters/opentaint/rules/model-java.yaml"));
         assert!(artifacts.contains(JOERN_MODELING_SCRIPT));
         assert!(artifacts.contains(FLOWDROID_MODELING_SUMMARIES_DIR));
         assert!(artifacts.contains("adapters/pysa/models/modeling-python.pysa"));
