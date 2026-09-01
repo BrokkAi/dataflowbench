@@ -956,11 +956,23 @@ estimate of the same adapter.
 
 #### Measurement hygiene, environment, and artifacts
 
-- **Same discipline.** The measurements run sequentially on a machine checked
-  quiet — no analyzer under measurement competes with another — and each
-  invocation records the machine's **one-minute load average** immediately
-  before the subprocess is spawned, on the artifact, exactly as A15's batches
-  do. Conditions travel with the numbers instead of being asserted.
+- **Same discipline, plus a settle step.** The measurements run sequentially on
+  a machine checked quiet — no analyzer under measurement competes with
+  another — and each invocation records the machine's **one-minute load
+  average** immediately before the subprocess is spawned, on the artifact,
+  exactly as A21's batches do. Conditions travel with the numbers instead of
+  being asserted.
+
+  One addition this measurement needs and A21's did not: nine heavy analyzers
+  run back to back **drive the load average up by themselves**, so a run
+  started immediately after the previous one records — and is taken under —
+  conditions produced by the measurement order rather than by the machine.
+  Each adapter's measurement therefore **waits for the load to settle** before
+  it begins. The effect is visible in the artifacts of a discarded first
+  attempt, where the load climbed from 3.8 on the first adapter to 12.2 by the
+  sixth; with the settle step every measurement starts from a comparable idle
+  state, and the load each artifact records is a fact about the machine rather
+  than about its position in the sequence.
 - **Same environment stamp.** Each measurement witnesses the pinned binary's
   version and writes the same `run-environment.json` every other run writes.
   These numbers are environment-scoped and are not comparable across machines.

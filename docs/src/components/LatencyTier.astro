@@ -860,6 +860,7 @@ const slowest = model.adapters.at(-1)!;
         <th>Every repeat</th>
         <th>Cold median, same kernel</th>
         <th>Low end as a share of cold</th>
+        <th>Load observed</th>
         <th>Marked on the chart?</th>
       </tr>
     </thead>
@@ -894,6 +895,13 @@ const slowest = model.adapters.at(-1)!;
               ? '—'
               : `${Math.round(estimate.shareOfCold * 100)}%`}
           </td>
+          <td class="muted">
+            {estimate.loadRange === null
+              ? '—'
+              : estimate.loadRange[0] === estimate.loadRange[1]
+                ? estimate.loadRange[0].toFixed(2)
+                : `${estimate.loadRange[0].toFixed(2)}–${estimate.loadRange[1].toFixed(2)}`}
+          </td>
           <td>
             {estimate.significant
               ? 'yes'
@@ -903,7 +911,7 @@ const slowest = model.adapters.at(-1)!;
       ))}
       {overhead.estimates.length === 0 && (
         <tr>
-          <td colspan="8" class="muted">
+          <td colspan="9" class="muted">
             No estimate is published in this release; every adapter's verdict is
             in the table below.
           </td>
@@ -939,6 +947,19 @@ const slowest = model.adapters.at(-1)!;
   its overhead actually was; and it reads the range's low end so that a mark
   can never appear on the strength of one slow repeat. <strong>An unmarked row
   is not an unmeasured one</strong> — every value is in the table above.
+</p>
+
+<p class="caption">
+  <strong>The load column is the machine's own condition, published rather than
+  summarized as the word "quiet".</strong> Each repeat samples the one-minute
+  load average immediately before its subprocess is spawned, and the column is
+  the range those samples span, so a figure taken on a busy machine can be
+  discounted instead of taken on trust. Two disciplines stand behind those
+  numbers: no other analyzer under measurement competes for the machine, and —
+  because nine heavy analyzers run back to back drive the load up by
+  themselves — each adapter's measurement waits for the load to settle before
+  it begins, so what a row records is the machine's state and not its own
+  position in the sequence.
 </p>
 
 {joernEstimateJava && joernWarm && (
