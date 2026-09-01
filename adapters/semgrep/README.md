@@ -365,7 +365,7 @@ kernels and the Kotlin Bifrost run pin theirs.
 
 A second, **timing-only** invocation shape exists for the latency tier's
 warm-marginal measurement
-([Amendment A13](../../docs/latency-tier.md#amendments)). It scores nothing and
+([Amendment A15](../../docs/latency-tier.md#amendments)). It scores nothing and
 writes no normalized report:
 
 ```bash

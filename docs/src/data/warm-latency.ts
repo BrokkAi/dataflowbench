@@ -1,4 +1,4 @@
-// Build-time derivation of the warm-marginal latency figures (Amendment A13).
+// Build-time derivation of the warm-marginal latency figures (Amendment A15).
 //
 // The published latency rows are cold per-invocation wall-clock and stay so.
 // This module derives the *other* figure the amendment preregisters: the
@@ -74,7 +74,7 @@ export interface WarmDecline {
 }
 
 /**
- * The observability audit, mirroring Amendment A13's table.
+ * The observability audit, mirroring Amendment A15's table.
  *
  * This is contract text, not measurement: it records what the released CLI of
  * each unmeasured adapter does and does not expose. It is held here so the
