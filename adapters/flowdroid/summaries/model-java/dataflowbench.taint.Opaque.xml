@@ -1,0 +1,37 @@
+<?xml version="1.0" ?>
+<!-- Benchmark-controlled category-P declarations for the Java modeling
+     matrix (docs/modeling-matrix.md, Amendment A18), in FlowDroid's own
+     StubDroid summary format, activated per case as
+     `-tw STUBDROID -t adapters/flowdroid/summaries/model-java`.
+
+     `carry` is template 3's propagator: `in: 0`, `out: return`. `select` is
+     template 4's positional propagator: `in: 1` only, `out: return` - the
+     summary engine applies the declared parameter index natively, which is
+     what makes the position-negative decidable. `block` is template 3's
+     explicit no-flow declaration: an entry with no flows, under which the
+     summary resolution drops taint at the call instead of reading the
+     reflective body. -->
+<summary fileFormatVersion="101">
+	<methods>
+		<method id="java.lang.String carry(java.lang.String)">
+			<flows>
+				<flow isAlias="false" typeChecking="false">
+					<from sourceSinkType="Parameter" ParameterIndex="0" />
+					<to sourceSinkType="Return" />
+				</flow>
+			</flows>
+		</method>
+		<method id="java.lang.String select(java.lang.String,java.lang.String)">
+			<flows>
+				<flow isAlias="false" typeChecking="false">
+					<from sourceSinkType="Parameter" ParameterIndex="1" />
+					<to sourceSinkType="Return" />
+				</flow>
+			</flows>
+		</method>
+		<method id="java.lang.String block(java.lang.String)">
+			<flows>
+			</flows>
+		</method>
+	</methods>
+</summary>

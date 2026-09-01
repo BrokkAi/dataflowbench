@@ -35,7 +35,7 @@ it been told, and the modeling row is where that question is already answered.
 | Vendored ruleset provenance | `adapters/semgrep/native/java/provenance.json` |
 | Reports | `reports/{bifrost,codeql,joern,semgrep,opentaint}-java-native.json` |
 | Raw evidence | `reports/raw/{bifrost,codeql,joern,semgrep,opentaint}-java-native/` |
-| OpenTaint activation probe | `scripts/probe-opentaint-native-activation.sh` (joined by [Amendment A19](native-profile.md#a19--2026-09-01-opentaint-joins-the-tool-native-profile-at-0--6-and-the-shipped-models-archive-is-ruled-shipped-product); see [below](#opentaint--declined-on-the-same-terms-amendment-a14)) |
+| OpenTaint activation probe | `scripts/probe-opentaint-native-activation.sh` (joined by [Amendment A22](native-profile.md#a22--2026-09-01-opentaint-joins-the-tool-native-profile-at-0--6-and-the-shipped-models-archive-is-ruled-shipped-product); see [below](#opentaint--declined-on-the-same-terms-amendment-a14)) |
 
 There is **no model artifact**, and that absence is the profile. A native run
 loads only what the vendor ships; the runner's no-benchmark-models gate reads
@@ -275,10 +275,10 @@ nothing to mis-path — and every run produced zero findings of any rule
 with the identity witnessed from the binary, per the profile's 0 / 6
 witnessing rule.
 
-## OpenTaint — declined on the same terms (Amendment A19, 2026-09-01)
+## OpenTaint — declined on the same terms (Amendment A22, 2026-09-01)
 
 OpenTaint joined the profile the same day, by
-[Amendment A19](native-profile.md#a19--2026-09-01-opentaint-joins-the-tool-native-profile-at-0--6-and-the-shipped-models-archive-is-ruled-shipped-product),
+[Amendment A22](native-profile.md#a22--2026-09-01-opentaint-joins-the-tool-native-profile-at-0--6-and-the-shipped-models-archive-is-ruled-shipped-product),
 at **0 / 6** — and its report (`reports/opentaint-java-native.json`,
 2026-09-01) carries twelve `unsupported` outcomes with the amendment's
 rationale retained per cell, no fixture ever handed to the analyzer, and the
@@ -295,7 +295,7 @@ own `native-source-sink-positive` fixture with the archive loaded and no rule
 set, the pinned analyzer registers zero rules and reports zero results
 (`reports/raw/opentaint-native-activation-probe/`). Propagation without
 endpoints carries nothing, so every cell is declined — packaging, not engine:
-[the Java modeling row](java-modeling.md#opentaint-joins-the-row--amendment-a18-2026-09-01)
+[the Java modeling row](java-modeling.md#opentaint-joins-the-row--amendment-a21-2026-09-01)
 scores the same binary 12/12 on the three categories its rule surface can be
 told.
 
@@ -315,3 +315,34 @@ told.
 - It licenses no aggregate that combines these numbers with
   benchmark-controlled engine accuracy. That is
   [an invariant](native-profile.md#invariants), not a preference.
+
+## FlowDroid — declined on the shipped catalog's text (Amendment A19, 2026-09-01)
+
+[Amendment A19](native-profile.md#a19--2026-09-01-flowdroid-joins-the-tool-native-profile-with-a-live-activation-contract-and-six-cells-declined-on-catalog-evidence)
+added a sixth adapter to this row after its original runs, with a **Java-only**
+activation contract. The contract is live — the vendor's documented default
+`SourcesAndSinks.txt` ships inside the pinned, digest-witnessed jar, the CLI's
+mandatory `-s` flag is pointed at that catalog extracted verbatim, and the
+release-default StubDroid summaries stay on — but the catalog's own text binds
+no identity these twelve fixtures read (`Runtime.exec` is a bound sink;
+`System.getenv` occurs nowhere), so all six templates are `unsupported` on
+shipped-model evidence, the same shape as the other declines above.
+
+`reports/flowdroid-java-native.json` records the twelve retained decisions,
+each carrying the witnessed jar identity and the pinned activation shape:
+
+```bash
+cargo run -- run-flowdroid-native --language java \
+  --flowdroid-jar soot-infoflow-cmd-2.15.1-jar-with-dependencies.jar \
+  --android-platform android-34.jar
+```
+
+The gap this makes legible is the same one Joern's and Infer's rows state, doubled:
+FlowDroid scores **seven of twelve benchmark-controlled modeling templates**
+on this language ([Amendment A18](modeling-matrix.md#a18--2026-09-01-flowdroid-joins-the-modeling-matrix-with-a-java-only-partition-row))
+and **zero of six native templates**, with the same engine, the same jar, and
+the same day's runs. The engine can be told nearly anything; the product ships
+an Android-oriented catalog that knows none of the platform identities this
+probe set uses. That distance — between what the model layer can activate and
+what the shipped model set covers — is exactly what keeping the two profiles
+separate is for.

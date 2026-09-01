@@ -1,0 +1,34 @@
+<?xml version="1.0" ?>
+<!-- Benchmark-controlled category-O declarations for the Java modeling
+     matrix (docs/modeling-matrix.md, Amendment A18). `pass` is template 7's
+     through-summary (`in: 0`, `out: return`); `hold` is its explicit no-flow
+     sibling - both bodies are the identity function, so the engine
+     activating these summaries reports exactly one of the two cells.
+     `deposit` is template 8's store-through summary: `in: 0`,
+     `out: 1.payload`, the field destination written as a StubDroid access
+     path, under which the sibling-field read (`box.spare`) stays clean. -->
+<summary fileFormatVersion="101">
+	<methods>
+		<method id="java.lang.String pass(java.lang.String)">
+			<flows>
+				<flow isAlias="false" typeChecking="false">
+					<from sourceSinkType="Parameter" ParameterIndex="0" />
+					<to sourceSinkType="Return" />
+				</flow>
+			</flows>
+		</method>
+		<method id="java.lang.String hold(java.lang.String)">
+			<flows>
+			</flows>
+		</method>
+		<method id="void deposit(java.lang.String,dataflowbench.taint.Box)">
+			<flows>
+				<flow isAlias="false" typeChecking="false">
+					<from sourceSinkType="Parameter" ParameterIndex="0" />
+					<to sourceSinkType="Parameter" ParameterIndex="1"
+					    AccessPath="[dataflowbench.taint.Box: java.lang.String payload]" />
+				</flow>
+			</flows>
+		</method>
+	</methods>
+</summary>

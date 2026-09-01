@@ -39,7 +39,7 @@ it can be told things.
 | Joern semantics | `adapters/joern/semantics/model-java.semantics` |
 | Joern query | `adapters/joern/queries/modeling.sc` (shared by every wave-M1 language) |
 | Semgrep rule | `adapters/semgrep/rules/model-java.yaml` |
-| OpenTaint rule | `adapters/opentaint/rules/model-java.yaml` (joined by [Amendment A18](modeling-matrix.md#a18--2026-09-01-opentaint-joins-the-modeling-matrix-with-a-preregistered-java-partition-row); see [below](#opentaint-joins-the-row--amendment-a18-2026-09-01)) |
+| OpenTaint rule | `adapters/opentaint/rules/model-java.yaml` (joined by [Amendment A21](modeling-matrix.md#a21--2026-09-01-opentaint-joins-the-modeling-matrix-with-a-preregistered-java-partition-row); see [below](#opentaint-joins-the-row--amendment-a21-2026-09-01)) |
 | Reports | `reports/{bifrost,codeql,joern,semgrep,opentaint}-java-modeling.json` |
 | Load-bearing probe | `scripts/probe-java-modeling-load-bearing.sh` |
 | OpenTaint surface probe | `scripts/probe-opentaint-modeling-surface.sh` |
@@ -465,13 +465,13 @@ undeclared `sanitize`). The fourteen declined assertions are retained
 [the Infer adapter notes](../adapters/infer/README.md) for the measured
 boundaries and the three gated silent-configuration hazards.
 
-## OpenTaint joins the row — Amendment A18, 2026-09-01
+## OpenTaint joins the row — Amendment A21, 2026-09-01
 
 None of the sections above move for this adapter either. OpenTaint — issue #17's adapter, whose
 [Java propagation kernel](java-kernel.md) landed with v0.6.0 — joined this
 matrix afterwards on the rollout plan's own terms: a preregistered partition
 row, added by
-[Amendment A18](modeling-matrix.md#a18--2026-09-01-opentaint-joins-the-modeling-matrix-with-a-preregistered-java-partition-row)
+[Amendment A21](modeling-matrix.md#a21--2026-09-01-opentaint-joins-the-modeling-matrix-with-a-preregistered-java-partition-row)
 and decided by executing the pinned analyzer over these very fixtures with
 probe declarations **before** its first scored run
 (`scripts/probe-opentaint-modeling-surface.sh`, evidence under
@@ -521,7 +521,7 @@ decides correctly here.
 
 Its tool-native mirror is the opposite corner:
 [the Java native row](java-native.md) records OpenTaint at 0 / 6 under
-[Amendment A19](native-profile.md#a19--2026-09-01-opentaint-joins-the-tool-native-profile-at-0--6-and-the-shipped-models-archive-is-ruled-shipped-product),
+[Amendment A22](native-profile.md#a22--2026-09-01-opentaint-joins-the-tool-native-profile-at-0--6-and-the-shipped-models-archive-is-ruled-shipped-product),
 because the pinned release ships propagation models and no endpoint catalog.
 Engine capability and product packaging, side by side, on one binary — which is
 what the two profiles exist to separate.
@@ -553,3 +553,79 @@ Run them sequentially, never concurrently. Each writes
 `reports/raw/<tool>-java-modeling/`; none of the paths collides with a
 report the v0.4.0 freeze binds, and the OpenTaint runner re-verifies both
 release-asset digests before any case.
+
+## FlowDroid — the seventh adapter (Amendment A18, 2026-09-01)
+
+[Amendment A18](modeling-matrix.md#a18--2026-09-01-flowdroid-joins-the-modeling-matrix-with-a-java-only-partition-row)
+added the matrix's sixth adapter after this row's original four-tool run and Infer's A13 row, with
+a **Java-only** partition preregistered on retained probe evidence
+(`reports/raw/load-bearing-java-modeling/flowdroid-*.json`, produced by
+`scripts/probe-flowdroid-modeling-load-bearing.sh`) before the first scored
+run. Nothing above this section is re-run or re-stated by it: the four
+original reports stand, and FlowDroid's arrives beside them.
+
+**The encoding.** FlowDroid's declarations use the two surfaces the adapter's
+kernel already established plus one new committed artifact:
+
+| Adapter | Artifact | Categories it declares |
+| --- | --- | --- |
+| FlowDroid 2.15.1 | `adapters/flowdroid/summaries/model-java/` (three StubDroid summary XMLs), plus the per-case marker-resolved sources-and-sinks file | S, P, Z (template 5), O |
+
+The endpoint identities (category S, and every case's `dfb_source`/`dfb_sink`)
+resolve per case from the fixtures' own markers and are witnessed as Soot
+signatures from the compiled classes, exactly as the kernels do. The
+propagator, sanitizer, and summary declarations are StubDroid `flow` and
+`clear` stanzas — `carry` (`in: 0` → `out: return`), `select` (`in: 1` →
+`out: return`, the positional cell), `scrub` (a `clear` on parameter 0),
+`pass`/`hold` (through and explicit no-flow), and `deposit`
+(`in: 0` → `out: 1.payload`, a field-destination access path) — activated as
+`-tw STUBDROID -t <dir>`, which replaces the release default's bundled
+summary provider so the committed declarations are the only summaries in the
+run. Categories E and B are absent from the artifact, as the partition
+requires: no entry-root declaration surface exists (probed — a parameter
+source on the uncalled handler parses and creates no root), and no surface
+carries a store identity or key position.
+
+**Results.** Run on 2026-09-01 against the pinned, digest-witnessed 2.15.1
+jar; retained in `reports/flowdroid-java-modeling.json` with raw evidence
+under `reports/raw/flowdroid-java-modeling/`.
+
+| Adapter | Scored | `reached` | `not-reached` | `inconclusive` | `unsupported` | Matches |
+| --- | --- | --- | --- | --- | --- | --- |
+| FlowDroid 2.15.1 | 14 (S, P, Z template 5, O) | 7 | 7 | 0 | 10 | **14 / 14** |
+
+| Category | FlowDroid |
+| --- | --- |
+| S — sources and sinks | 4/4 |
+| P — propagators | 4/4 |
+| Z — sanitizers | 2/2 (template 6 declined, A18) |
+| O — summaries | 4/4 |
+| E — entry points | — (A18) |
+| B — persistence | — (A18) |
+
+Fourteen of fourteen, over the second-largest scored denominator in the row.
+Worth stating the way the matrix's framing rules require: this is a modeling
+score, not a propagation score. The same engine's Java kernel misses every
+stored-function-indirection positive and over-approximates container
+elements; here it activates every declaration it can express, positionally
+faithfully and field-precisely. The two axes are independent, which is this
+tier's founding observation, and FlowDroid is now its clearest single-engine
+demonstration.
+
+Each scored case's timing sidecar records `compile`, `dex`, and `analyze`
+phases (the three adapter-observable subprocess boundaries;
+[latency-tier Amendment A20](latency-tier.md#a20--2026-09-01-flowdroids-modeling-population-declares-three-subprocess-phases)),
+of which only `analyze` is an analyzer number.
+
+**Reproduction, appended to the sequence above:**
+
+```bash
+cargo run -- run-flowdroid-modeling --language java \
+  --flowdroid-jar soot-infoflow-cmd-2.15.1-jar-with-dependencies.jar \
+  --android-platform android-34.jar \
+  --d8-jar r8-8.5.35.jar
+
+scripts/probe-flowdroid-modeling-load-bearing.sh \
+  --flowdroid-jar soot-infoflow-cmd-2.15.1-jar-with-dependencies.jar \
+  --android-platform android-34.jar --d8-jar r8-8.5.35.jar
+```

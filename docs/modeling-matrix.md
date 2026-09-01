@@ -758,11 +758,12 @@ every existing adapter artifact is:
 | --- | --- | --- |
 | Bifrost | `adapters/bifrost/policies/model-<language>.rqlp` | RQLP `:analysis` endpoint sets — verified in the committed policies for `:sources` (`:bind return-value`) and `:sinks` (`:dangerous-operand (argument :index N)`); other sections per the partition below |
 | CodeQL | `adapters/codeql/queries/<Language>Modeling.ql` (+ any `ext/*.model.yml`) | `DataFlow::ConfigSig` predicates `isSource` / `isSink` / `isBarrier` / `isAdditionalFlowStep`, optionally models-as-data rows |
+| FlowDroid | `adapters/flowdroid/summaries/model-java/` (added by [Amendment A18](#a18--2026-09-01-flowdroid-joins-the-modeling-matrix-with-a-java-only-partition-row)) | sources-and-sinks definitions resolved per case from the fixtures' own markers (the kernel mechanism), plus StubDroid summary XMLs — `flow` (`from`/`to` with parameter indices, `Return`, and field access paths) and `clear` stanzas — activated as `-tw STUBDROID -t <dir>` |
 | Infer | `adapters/infer/config/model-java.json` (Java only; added by [A13](#a13--2026-09-01-infer-joins-the-modeling-matrix-with-a-field-evaluated-partition-row)) | Pulse `--pulse-taint-config` JSON — `pulse-taint-sources` / `-sinks` / `-propagators` / `-sanitizers` with exact `class_names` + `method_names` matchers, wired through a `pulse-taint-policies` flow whose `sanitizer_kinds` names every declared sanitizer kind |
 | Joern | `adapters/joern/queries/modeling.sc` plus a flow-semantics file | query roots over `cpg.method…parameter` and `FlowSemantic` / `FlowMapping` entries |
 | Semgrep | `adapters/semgrep/rules/model-<language>.yaml` | `mode: taint` with `pattern-sources` / `pattern-sinks` / `pattern-propagators` / `pattern-sanitizers` |
 | Pysa (added by [A16](#a16--2026-09-01-pysa-joins-the-modeling-matrix-with-a-measured-partition-row)) | `adapters/pysa/models/modeling-python.pysa` | `.pysa` declarations — `TaintSource` / `TaintSink` annotations, `TaintInTaintOut` (with `Updates` / `UpdatePath`), `@Sanitize`, under the `@SkipAnalysis` / `@SkipObscure` modes that keep them load-bearing |
-| OpenTaint (Java only; [A18](#a18--2026-09-01-opentaint-joins-the-modeling-matrix-with-a-preregistered-java-partition-row)) | `adapters/opentaint/rules/model-java.yaml` | Semgrep-syntax `mode: taint` rule translated into the engine's whole-program IFDS configuration; arg→return propagators are spelled assignment-shaped (`$TO = Opaque.carry($FROM)`) against the lifted JVM IR |
+| OpenTaint (Java only; [A21](#a21--2026-09-01-opentaint-joins-the-modeling-matrix-with-a-preregistered-java-partition-row)) | `adapters/opentaint/rules/model-java.yaml` | Semgrep-syntax `mode: taint` rule translated into the engine's whole-program IFDS configuration; arg→return propagators are spelled assignment-shaped (`$TO = Opaque.carry($FROM)`) against the lifted JVM IR |
 
 Like Joern and Semgrep, Infer has no case-level `tool_model_references` key: its
 invocation is pinned in the runner and its declarations live inside the single
@@ -891,6 +892,50 @@ CodeQL enters with **six of six**, which is unsurprising: a query language whose
 data-flow configuration *is* a model declaration surface has no category to
 decline. The interesting question for CodeQL is not whether it can be told, but
 whether the resulting semantics match — which is what the assertions measure.
+
+### FlowDroid — 2.15.1 (Java only; added by Amendment A18)
+
+> **Added by [Amendment A18](#a18--2026-09-01-flowdroid-joins-the-modeling-matrix-with-a-java-only-partition-row)**,
+> per the joining rule the rollout plan states: a new adapter arrives with its
+> own preregistered partition row, added by amendment before its first
+> modeling run. The row applies to **Java alone** — the pinned CLI analyzes
+> JVM bytecode packaged as an APK, so the JavaScript and Python modeling
+> populations are outside the adapter's language reach, which is different
+> from being declined.
+
+Verified **by execution** against the pinned 2.15.1 jar, on the committed
+Java modeling fixtures themselves, before any scored run; the retained probe
+evidence is `reports/raw/load-bearing-java-modeling/flowdroid-*.json`,
+produced by `scripts/probe-flowdroid-modeling-load-bearing.sh`. The
+declaration surface is two-part: the sources-and-sinks definition file the
+kernels already use (endpoint identities resolved per case from the
+fixtures' own markers and witnessed as Soot signatures from the compiled
+classes), and a committed directory of StubDroid summary XMLs activated as
+`-tw STUBDROID -t adapters/flowdroid/summaries/model-java` — which
+**replaces** the release default's bundled `summariesManual` provider, so the
+benchmark's declarations are the only summaries in the run and the
+[load-bearing-model requirement](#the-load-bearing-model-requirement) is met
+by the invocation shape itself: the engine's only alternative for an
+unmodeled call is reading its body, and the opaque bodies carry nothing on
+the pinned defaults (probed — the kernel's `reflective-invocation` misses are
+the same measurement at core scale).
+
+| Cat. | Decision | Rationale |
+| --- | --- | --- |
+| S | **supported** | The sources-and-sinks file is the engine's own endpoint mechanism, and identity binding is by exact Soot signature. Probed: the declared `Config.fetchRemote` source flows, the undeclared `fetchLocal` sibling does not. One field quirk worth recording for reproducers: the *EasyTaintWrapper* text format needs a `^` include-prefix line before any entry registers — measured, and one reason the summaries surface was chosen instead. |
+| P | **supported** | A StubDroid `flow` stanza expresses `in: <index>` → `out: return` directly, and positional fidelity is native: the `select` summary names parameter 1 and the pinned engine does not apply it to position 0 (`flowdroid-propagator-position-{declared,undeclared}-position.json`). The `carry` declaration is load-bearing in both directions (`flowdroid-opaque-propagator-{with,without}-model.json`). |
+| Z | **template 5 supported; template 6 unsupported** | A `clear` stanza is the format's kill declaration: it suppresses template 5's negative on a completing run and deleting it restores the flow through `scrub`'s identity body (`flowdroid-sanitizer-kill-{with,without}-model.json`). Template 6 is undecidable by construction: `SummaryTaintWrapper.isExclusive` answers true for **any method of a class that has summaries**, so the one file that suppresses `scrub` also swallows the undeclared `sanitize` sibling — measured as zero leaks on the positive (`flowdroid-sanitizer-selectivity-undecidable.json`) — and suppression and selectivity cannot coexist in one invocation. The same class-level exclusivity holds for the EasyTaintWrapper surface (`hasWrappedMethodsForClass`), so no alternative encoding rescues the cell. This is Amendment A3's shape, for a different mechanical reason. |
+| O | **supported** | Template 7's identical identity bodies decide nothing — the summaries do: `pass` (declared through) is reported, `hold` (explicit no-flow) is not, and deleting the model reports both, which is exactly the three-way distinguishability the template requires. Template 8's field destination is expressible as a StubDroid access path (`out: 1.payload`), the sibling-field read stays clean, and `deposit`'s body writes nothing, so the flow exists only in the model (`flowdroid-summary-field-{with-model,sibling,without-model}.json`). |
+| E | **unsupported** | The released CLI derives analysis roots exclusively from the APK manifest's Android components; no per-method entry-root declaration surface exists. Probed: the XML sources-and-sinks format *parses* a `callback` parameter source on the uncalled handler ("Loaded 1 sources") and the analysis still finds zero, because a declaration cannot create a root the manifest does not (`flowdroid-entrypoint-parameter-undeclarable.json`). Correctly `unsupported`, never `not-reached`, per [the category's own rule](#category-e--framework-entry-points). |
+| B | **unsupported** | No FlowDroid declaration surface carries a store identity or a key position: sources-and-sinks roles are `_SOURCE_`/`_SINK_`/`_BOTH_`, EasyTaintWrapper lists are taint/exclude/kill per method, and StubDroid positions are parameters, fields, and the return value. The `store:` and `key:` bindings of templates 11 and 12 have no encoding, so the category is declined rather than approximated, as the equivalence contract requires. |
+
+FlowDroid enters with **seven of the twelve templates scored, four of six
+categories** — more than any adapter except CodeQL — which is worth a
+sentence of framing: the engine whose *kernel* results show heavy
+container-conflation and stored-function misses is simultaneously the
+second-best modeling substrate in the field. Modeling capability and
+propagation capability are different axes, which is this tier's founding
+observation.
 
 ### Joern — 4.0.614
 
@@ -1044,7 +1089,7 @@ decide what the activation is worth.
 
 ### OpenTaint — `analyzer/2026.08.27.17eb0fe` (Java only)
 
-> **Added by [Amendment A18](#a18--2026-09-01-opentaint-joins-the-modeling-matrix-with-a-preregistered-java-partition-row).**
+> **Added by [Amendment A21](#a21--2026-09-01-opentaint-joins-the-modeling-matrix-with-a-preregistered-java-partition-row).**
 > This row was not part of the original preregistration — the adapter did not
 > exist when it merged — and it joins on the rollout plan's own terms: *"a new
 > adapter joining this matrix arrives with its own preregistered partition row,
@@ -1096,24 +1141,32 @@ a reading of upstream documentation.
 Preregistered, before any modeling fixture exists. `TBV` = to be verified at
 implementation, treated as unsupported until shown otherwise.
 
-> **Amended.** [A13](#a13--2026-09-01-infer-joins-the-modeling-matrix-with-a-field-evaluated-partition-row)
-> adds the Infer v1.3.0 column — a new adapter's own row, field-evaluated
-> before its first modeling run, Java-only —
-> [A16](#a16--2026-09-01-pysa-joins-the-modeling-matrix-with-a-measured-partition-row)
-> adds the Pysa column the same way, Python-only, the engine's one language,
-> and [A18](#a18--2026-09-01-opentaint-joins-the-modeling-matrix-with-a-preregistered-java-partition-row)
-> the OpenTaint column, Java-only. The four preregistered columns are
-> unchanged.
+| Category | Bifrost v0.10.7 | CodeQL 2.26.4 | Joern 4.0.614 | Semgrep CE 1.175.0 |
+| --- | --- | --- | --- | --- |
+| S — sources and sinks | supported | supported | supported | supported |
+| P — propagators | TBV | supported | supported | unsupported |
+| Z — sanitizers | unsupported | supported | supported | supported |
+| O — summaries | unsupported | supported | supported (T8 TBV) | unsupported |
+| E — entry points | TBV | supported | supported | supported |
+| B — persistence | TBV | supported | supported | unsupported |
+| **Scored today** | **1 / 6** | **6 / 6** | **6 / 6** | **3 / 6** |
 
-| Category | Bifrost v0.10.7 | CodeQL 2.26.4 | Joern 4.0.614 | Semgrep CE 1.175.0 | Infer v1.3.0 (A13) | Pysa 0.10.0 (+Pyrefly 1.2.0, A16) | OpenTaint 2026.08.27 (A18) |
+#### Adapters added by amendment
+
+A new adapter never splices a column into the preregistered table above — its
+four columns are frozen as written, and the amendments that move their cells
+(A2, A3, A9) are recorded against them in the per-tool sections. An
+amendment-added adapter instead appends **one row** to the table below, so
+concurrent adapter amendments compose without rewriting each other's cells;
+the vocabulary is the same, `Tn` marks a template-level exception within a
+category, and each row's amendment carries the evidence.
+
+| Adapter (amendment, language scope) | S | P | Z | O | E | B | Scored |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| S — sources and sinks | supported | supported | supported | supported | supported | supported | supported |
-| P — propagators | TBV | supported | supported | unsupported | supported (T4 unsupported) | supported | supported |
-| Z — sanitizers | unsupported | supported | supported | supported | supported | supported | supported |
-| O — summaries | unsupported | supported | supported (T8 TBV) | unsupported | unsupported | supported | unsupported |
-| E — entry points | TBV | supported | supported | supported | unsupported | supported | unsupported |
-| B — persistence | TBV | supported | supported | unsupported | unsupported | unsupported | unsupported |
-| **Scored today** | **1 / 6** | **6 / 6** | **6 / 6** | **3 / 6** | **3 / 6** | **5 / 6** | **3 / 6** |
+| Infer v1.3.0 ([A13](#a13--2026-09-01-infer-joins-the-modeling-matrix-with-a-field-evaluated-partition-row), Java only) | supported | supported (T4 unsupported) | supported | unsupported | unsupported | unsupported | 3 / 6 |
+| Pysa 0.10.0 + Pyrefly 1.2.0 ([A16](#a16--2026-09-01-pysa-joins-the-modeling-matrix-with-a-measured-partition-row), Python only) | supported | supported | supported | supported | supported | unsupported | 5 / 6 |
+| FlowDroid 2.15.1 ([A18](#a18--2026-09-01-flowdroid-joins-the-modeling-matrix-with-a-java-only-partition-row), Java only) | supported | supported | T5 only | supported | unsupported | unsupported | 4 / 6 |
+| OpenTaint 2026.08.27 ([A21](#a21--2026-09-01-opentaint-joins-the-modeling-matrix-with-a-preregistered-java-partition-row), Java only) | supported | supported | supported | unsupported | unsupported | unsupported | 3 / 6 |
 
 These counts are categories, not scores. A tool with six of six has six
 categories' worth of assertions it can get wrong, and a tool with one of six has
@@ -1322,13 +1375,17 @@ Restating the obligations this tier is most at risk of eroding:
 ## Amendments
 
 Amendment numbers continue the repository's **single** sequence rather than
-restarting per document: A1 is in [the challenge tier](challenge-tier.md#amendments),
-A6–A8, A10, A14, A17, and A19 are in
-[the tool-native profile](native-profile.md#amendments), A11 is in
-[the adapter contract](adapters.md#amendments), and A12 and A15 are in
-[the latency tier](latency-tier.md#amendments), so an identifier names
-exactly one amendment wherever it is cited. That is why this document's own
-sequence reads A2–A5, then A9, then A13, A16, and A18.
+restarting per document, so an identifier names exactly one amendment wherever
+it is cited and this document's own numbering is deliberately gappy. Each
+amendment-bearing document — [the challenge tier](challenge-tier.md#amendments),
+this one, [the tool-native profile](native-profile.md#amendments),
+[the adapter contract](adapters.md#amendments), and
+[the latency tier](latency-tier.md#amendments) — holds only its own entries,
+and no document keeps a list of where the other numbers live: the authoritative
+index is the set of `### A<n>` headings across those five documents, and a new
+amendment takes the first number no heading anywhere claims. Concurrent pull
+requests can still race for a number; the loser renumbers at merge, which is
+cheaper than every amendment editing five cross-lists.
 
 ### A2 — 2026-08-26: Joern's propagator and summary categories are not load-bearing
 
@@ -1747,10 +1804,87 @@ model rather than an approximation of the declared one.
 **Freezes invalidated.** None. No published freeze binds a Pysa modeling
 report; v0.6.0 is untouched.
 
-### A18 — 2026-09-01: OpenTaint joins the modeling matrix with a preregistered Java partition row
+### A18 — 2026-09-01: FlowDroid joins the modeling matrix, with a Java-only partition row
+
+**What changed.** The matrix gains its seventh adapter. FlowDroid 2.15.1 — the
+adapter [issue #99 landed over the Java and Kotlin expanded cores](adapters.md) —
+takes its own preregistered capability partition row, added here per
+[the rollout plan's joining rule](#rollout-plan): *"a new adapter joining this
+matrix arrives with its own preregistered partition row, added by amendment
+before its first modeling run."* This amendment is that row, and it merged
+with the probe evidence retained and **before** the first scored modeling run
+of the adapter. No existing adapter's cell moves; no template changes.
+
+**The row is Java-only, and the partition gains nothing for the other
+languages.** The pinned CLI analyzes JVM bytecode packaged as an APK.
+JavaScript and Python — the other two wave-M1 modeling languages — are outside
+the adapter's language reach, so those combinations have **no FlowDroid
+modeling denominator at all**, which is the applicability-matrix distinction
+(inapplicable, not zero, not declined) applied to an adapter dimension. The
+runner refuses `run-flowdroid-modeling` for them outright.
+
+**The partition, preregistered on evidence.** The full row and its rationale
+table are in [the partition section](#flowdroid--2151-java-only-added-by-amendment-a15);
+in summary: categories S, P, and O supported; category Z split at the template
+level — template 5 (`sanitizer-kill`) scored, template 6
+(`sanitizer-selectivity`) unsupported because the summary resolution's
+class-level exclusivity makes suppression and selectivity undecidable in one
+invocation, the same shape as
+[Amendment A3](#a3--2026-08-26-semgreps-sanitizer-selectivity-cell-is-undecidable-by-construction)
+for a different mechanical reason; categories E and B unsupported (no
+entry-root declaration surface; no store/key vocabulary). Seven of twelve
+templates, four of six categories.
+
+**Evidence.** Eleven retained probe documents under
+`reports/raw/load-bearing-java-modeling/flowdroid-*.json`, produced by
+`scripts/probe-flowdroid-modeling-load-bearing.sh` against the pinned,
+digest-witnessed jar, on the committed Java modeling fixtures, before any
+scored run:
+
+- **Load-bearing in both directions.** Template 3's positive leaks under the
+  committed `carry` summary and stops when the declaration is deleted;
+  template 5's negative is suppressed under the committed `scrub` `clear` and
+  leaks through the identity body when it is deleted; template 8's positive
+  exists only under the committed `deposit` summary (`deposit`'s body writes
+  nothing).
+- **Identity and positional binding.** Undeclared siblings do not activate
+  (`fetchLocal`, `block`, `hold`, the sibling field `spare`), and the
+  positional declaration `in: 1` is not applied to position 0.
+- **The declined cells' grounds are measured, not assumed.** Template 6's
+  positive is suppressed by class-level exclusivity under the committed model
+  (the undecidability itself), and category E's parameter-source declaration
+  parses yet creates no root.
+
+**The load-bearing mechanism, stated for the record.** FlowDroid has no
+unmodeled-call *optimism* to disable — the analogue of Bifrost's
+`require-model` and Semgrep's `taint_assume_safe_functions` is the invocation
+shape itself: `-tw STUBDROID -t adapters/flowdroid/summaries/model-java`
+replaces the release default's bundled `summariesManual` provider, so the
+benchmark's declarations are the only summaries in the run and an unmodeled
+call is decided by its body, which the probes show carries nothing through
+the opaque shapes. The runner additionally refuses a run whose committed
+summaries no longer carry the declarations the scored cells rest on
+(`require_flowdroid_modeling_declarations` in `src/main.rs`).
+
+**Mechanics.** `ModelingTool` gains `Flowdroid`; `MODELING_PARTITION` gains
+its six cells and `MODELING_TEMPLATE_OVERRIDES` its template-6 override;
+`run-flowdroid-modeling --language java` lands in the same change, reusing the
+kernel adapter's APK materialization, witnessed jar identity, leak-line and
+failure-banner guards, and echoed-sink reconciliation unchanged. Its timing
+sidecars record the three adapter-observable subprocess phases the latency
+tier's [Amendment A20](latency-tier.md#amendments) declares for this
+population.
+
+**Tools, templates, and languages touched.** FlowDroid only; all twelve
+templates (seven scored, five declined); Java only.
+
+**Freezes invalidated.** None. No modeling report is bound by any published
+freeze, and no core or challenge result changes.
+
+### A21 — 2026-09-01: OpenTaint joins the modeling matrix with a preregistered Java partition row
 
 **What changed.** The [per-tool capability partition](#per-tool-capability-partition)
-gains a seventh row — OpenTaint, pinned release `analyzer/2026.08.27.17eb0fe` by
+gains an eighth row — OpenTaint, pinned release `analyzer/2026.08.27.17eb0fe` by
 asset digest, the identity convention its adapter README records — for **Java
 only**. Its scored set is categories S, P, and Z: six of the twelve templates,
 twelve of Java's twenty-four assertions. Categories O, E, and B are

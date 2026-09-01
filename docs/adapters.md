@@ -19,7 +19,7 @@ The initial adapter plan is:
 | Semgrep CE | Supported local analysis only | Implemented as eleven separate language-scoped populations over one committed taint rule per language; only the documented intraprocedural partition is scored. Four front ends are non-GA in the pinned distribution (Kotlin `beta`; Rust, C, C++ `alpha`) and the label is retained without ever changing the partition |
 | OpenTaint | Java and Kotlin profile | Implemented as two language-scoped populations over the pinned `analyzer/2026.08.27.17eb0fe` release, both run over their full expanded 58-assertion cores. The whole core is scored — the pinned documentation fences no capability. The first runs' dominant result, a value-kind boundary dropping taint on numeric values, was identified upstream as the default rule configuration and resolved by Amendment A11 (`primitive-tracking: true` in both templates); the amended-template re-runs measure propagation semantics in both languages |
 | Infer | C, C++, and Java profile | Implemented as three language-scoped populations over the pinned v1.3.0 release's Pulse taint configuration — the release's one operable taint surface, Quandary being removed — each run over its full expanded core (48, 56, and 58 assertions). The whole core is scored in all three; C and C++ gain their first benchmark-controlled interprocedural second engine |
-| FlowDroid | Java and Kotlin profile | Implemented as two language-scoped populations over the pinned 2.15.1 release's command-line analyzer, both run over their full expanded 58-assertion cores. The released CLI analyzes APKs only — verified in the field — so each case materializes a minimal APK from pinned, JVM-only pieces (a D8 dex translation, a committed benchmark-generated binary manifest, a harness entry activity); the whole core is scored, the pinned defaults fencing no capability |
+| FlowDroid | Java and Kotlin profile | Implemented as two language-scoped populations over the pinned 2.15.1 release's command-line analyzer, both run over their full expanded 58-assertion cores. The released CLI analyzes APKs only — verified in the field — so each case materializes a minimal APK from pinned, JVM-only pieces (a D8 dex translation, a committed benchmark-generated binary manifest, a harness entry activity); the whole core is scored, the pinned defaults fencing no capability. Amendments A18 and A19 add its Java modeling row (seven of twelve templates scored, via StubDroid summaries) and its Java tool-native row (a live activation contract over the jar's shipped catalog, all six cells declined on the catalog's own text) |
 | Pysa | Python profile | Implemented as one language-scoped population over the pinned pyre-check 0.10.0 release's taint analysis, run over Python's full expanded 58-assertion core. The pin is a pair — the client drives the separately released Pyrefly 1.2.0 front end for call-graph resolution, and without a per-case `pyrefly.toml` that front end exports every call unresolved while exiting cleanly, a verified silent-failure mode the runner guards. The whole core is scored, and Python becomes the five-analyzer kernel issue #82 intended |
 
 No adapter may synthesize a tool result. If a supported case cannot complete,
@@ -355,26 +355,26 @@ on the tier, a modeling case cannot leak into any of them; `smoke_population_cas
 additionally refuses modeling cases outright, the same way it refuses challenge
 ones, so the frozen 118-case Bifrost smoke population cannot absorb one.
 
-**The partition is `CHALLENGE_SEMGREP_PARTITION` generalized to seven
-tools.** `MODELING_PARTITION` holds one cell per tool per category —
-forty-two cells, transcribed from the preregistration's tables and the dated
-amendments that added the fifth, sixth, and seventh rows (Infer's six by
-[Amendment A13](modeling-matrix.md#a13--2026-09-01-infer-joins-the-modeling-matrix-with-a-field-evaluated-partition-row),
-field-evaluated before its first modeling run; Pysa's six by
-[Amendment A16](modeling-matrix.md#a16--2026-09-01-pysa-joins-the-modeling-matrix-with-a-measured-partition-row),
-likewise; OpenTaint's six by
-[Amendment A18](modeling-matrix.md#a18--2026-09-01-opentaint-joins-the-modeling-matrix-with-a-preregistered-java-partition-row),
-likewise), with the cells the documents mark *to be verified* recorded as
-`unsupported` per their own rule, and with the dated amendments applied on
-top as template-level overrides. Scored today, after Amendments A2, A3, A9,
-A13, A16, and A18: **Bifrost 4 templates of 12** (S, and Z since A9),
-**Semgrep CE 5 of 12** (S, E, and one of Z's two templates), **CodeQL 12 of
-12**, **Joern 8 of 12** (S, Z, E, B), **Pysa 10 of 12** (S, P, Z, O, E —
-Python only, the engine's one language; the artifact map refuses every other
-pairing as *no denominator* rather than zero), **Infer 5 of 12** (S, Z, and
-template 3 of P, Java only), and **OpenTaint 6 of 12** (S, P, Z — Java only;
-the pinned engine analyzes JVM bytecode, so JavaScript and Python have no
-OpenTaint modeling denominator at all). A declined cell is decided from the
+**The partition is `CHALLENGE_SEMGREP_PARTITION` generalized across the
+adapters.** `MODELING_PARTITION` holds one cell per tool per category, for
+every adapter in `ModelingTool::ALL` — the preregistration's four plus each
+amendment-added adapter's six, with the cells the documents mark *to be
+verified* recorded as `unsupported` per their own rule and the dated
+amendments applied on top as template-level overrides. No total is stated
+here: the constant is a slice and the tests derive the count, so a new
+adapter appends its cells without editing anyone else's. Scored today, one
+line per adapter so additions compose:
+
+- **Bifrost 4 templates of 12** (S, and Z since Amendment A9)
+- **CodeQL 12 of 12**
+- **Joern 8 of 12** (S, Z, E, B — Amendment A2)
+- **Semgrep CE 5 of 12** (S, E, and one of Z's two templates — Amendment A3)
+- **Infer 5 of 12** (S, Z, and template 3 of P — Java only, Amendment A13)
+- **Pysa 10 of 12** (S, P, Z, O, E — Python only, Amendment A16)
+- **FlowDroid 7 of 12** (S, P, O, and Z's kill template — Java only, Amendment A18)
+- **OpenTaint 6 of 12** (S, P, Z — Java only, Amendment A21)
+
+A declined cell is decided from the
 template ID *before the tool is invoked*, retains the document's rationale
 verbatim as its reason, and writes a `retained-capability-decision` evidence
 document beside the report. The decision is keyed by template identity, never
@@ -389,11 +389,12 @@ tool per language, hash-bound into the report's `configuration_hash`:
 | --- | --- |
 | Bifrost | `adapters/bifrost/policies/model-<language>.rqlp` |
 | CodeQL | `adapters/codeql/<language>/queries/<Language>Modeling.ql`, except Java's, which is `adapters/codeql/queries/JavaModeling.ql` |
+| FlowDroid | `adapters/flowdroid/summaries/model-java/` — a directory of StubDroid summary XMLs, whose three files bind the hash individually, alongside the kernel's endpoint template, wrapper template, and manifest blob (Java only; Amendment A18) |
 | Infer | `adapters/infer/config/model-java.json` — Java only; the pinned distribution executes no JavaScript or Python frontend, so those combinations have no artifact and no denominator (Amendment A13) |
 | Joern | `adapters/joern/semantics/model-<language>.semantics`, plus the shared `adapters/joern/queries/modeling.sc` |
 | Semgrep | `adapters/semgrep/rules/model-<language>.yaml` |
 | Pysa | `adapters/pysa/models/modeling-python.pysa` (Python only), plus the committed `adapters/pysa/taint.config` the kernel also binds; the runner cuts the per-template block at its `# template:` markers, because the pinned pair refuses a model naming a definition the case's sources do not carry |
-| OpenTaint | `adapters/opentaint/rules/model-java.yaml` (Java only, Amendment A18) |
+| OpenTaint | `adapters/opentaint/rules/model-java.yaml` (Java only, Amendment A21) |
 
 The CodeQL path departs from the preregistration's schematic
 `adapters/codeql/queries/<Language>Modeling.ql` and sits inside that language's
@@ -407,17 +408,27 @@ language for which the schematic path is already correct, because Java's pack
 nothing. Joern is the one adapter with two files, and both bind the
 configuration hash.
 
-**Seven commands, parameterized by language.** `run-bifrost-modeling`,
-`run-codeql-modeling`, `run-infer-modeling`, `run-joern-modeling`,
-`run-semgrep-modeling`, `run-pysa-modeling` (whose identity is the
-witnessed pyre-check + Pyrefly pair, so it takes the kernel's
-`--pyre`/`--pyre-binary`/`--pyrefly` instead of one binary path, and accepts
-`--language python` alone), and `run-opentaint-modeling` (which takes the
-pinned release assets instead of a binary, witnessing their digests before
-any case runs, exactly as the OpenTaint kernels do), each taking
-`--language java|javascript|python` and writing
+**One command per adapter, parameterized by language** — listed one per line
+so a new adapter's line composes without editing the others. Each takes
+`--language java|javascript|python` and writes
 `reports/<tool>-<language>-modeling.json` with raw evidence under
-`reports/raw/<tool>-<language>-modeling/`. The per-language *kernel* commands
+`reports/raw/<tool>-<language>-modeling/`:
+
+- `run-bifrost-modeling`
+- `run-codeql-modeling`
+- `run-joern-modeling`
+- `run-semgrep-modeling`
+- `run-infer-modeling` (Java alone)
+- `run-pysa-modeling` (Python alone; its identity is the witnessed
+  pyre-check + Pyrefly pair, so it takes the kernel's
+  `--pyre`/`--pyre-binary`/`--pyrefly` instead of one binary path)
+- `run-flowdroid-modeling` (Java alone, on the kernel's jar toolchain —
+  Amendment A18)
+- `run-opentaint-modeling` (Java alone; takes the pinned release assets
+  instead of a binary, witnessing their digests before any case runs, exactly
+  as the OpenTaint kernels do — Amendment A21)
+
+The per-language *kernel* commands
 are separate commands because each language's kernel differs in real toolchain
 plumbing — a `kotlinc` trace, a `go build`, a synthesized Cargo crate, a
 different extractor. A modeling run has none of that: three languages, three
@@ -471,10 +482,10 @@ categories to unsupported activation rather than gating them.
 analyzer over a *scored* cell is written by the pull request that authors that
 adapter's declarations for that language. All three of wave M1's languages are
 wired on the same four runners: Python (`docs/python-modeling.md`), JavaScript
-(`docs/javascript-modeling.md`), and Java (`docs/java-modeling.md`); Infer's
-and OpenTaint's Java arms landed with Amendments A13 and A18, and Pysa's
-Python arm with Amendment A16, each in the same
-pull request as its declarations, per the same rule. Wave M1 is therefore
+(`docs/javascript-modeling.md`), and Java (`docs/java-modeling.md`); the
+amendment-added adapters' arms — Infer (A13), Pysa (A16), FlowDroid (A18),
+OpenTaint (A21) — each landed in the same pull request as their
+declarations, per the same rule. Wave M1 is therefore
 complete, and a scored cell in a language that has no arm stays a hard
 error rather than a synthesized outcome, which the adapter contract at the head
 of this document forbids. The `unsupported` arm is independent of all of that,
@@ -528,30 +539,47 @@ would catch.
 **The partition is keyed by template, not by category — and, since
 [Amendment N-A1](native-profile.md#n-a1--2026-08-27-semgrep-ces-six-python-cells-are-promoted-to-scored-and-the-partition-gains-a-language-dimension),
 by language too.** `NATIVE_PARTITION` holds one cell per tool per template —
-forty-two cells, transcribed from the preregistration's summary and the
-dated amendments that added the fifth, sixth, and seventh rows (Infer's by
-[Amendment A14](native-profile.md#a14--2026-09-01-infers-native-row-declines-on-a-measured-silence),
-declined on a measured silence; Pysa's by
-[Amendment A17](native-profile.md#a17--2026-09-01-pysa-joins-the-tool-native-profile-with-a-live-activation-row);
+one cell per tool per template for every adapter in `ModelingTool::ALL`,
+transcribed from the preregistration's summary and the dated amendments that
+added the later rows — Infer's by
+[Amendment A14](native-profile.md#a14--2026-09-01-infers-native-row-declines-on-a-measured-silence)
+(declined on a measured silence), Pysa's by
+[Amendment A17](native-profile.md#a17--2026-09-01-pysa-joins-the-tool-native-profile-with-a-live-activation-row),
+FlowDroid's by Amendment A19 (declined on the shipped catalog's text), and
 OpenTaint's by
-[Amendment A19](native-profile.md#a19--2026-09-01-opentaint-joins-the-tool-native-profile-at-0--6-and-the-shipped-models-archive-is-ruled-shipped-product)),
-with the *to be verified* cells recorded as `unsupported` per the documents'
-own rule — and
+[Amendment A22](native-profile.md#a22--2026-09-01-opentaint-joins-the-tool-native-profile-at-0--6-and-the-shipped-models-archive-is-ruled-shipped-product)
+— with the *to be verified* cells recorded as `unsupported` per the documents'
+own rule (no total is stated here; the constant is a slice and the tests
+derive the count) — and
 `NATIVE_PARTITION_AMENDMENTS` sits in front of it with one row per amended
 tool × language × template. The language dimension exists because a vendored
 activation snapshot is per language: reading Python's rules can only answer
 Python's cells, and a partition without a language could not say so. As
 preregistered: **CodeQL 6 templates of 6**, and **Bifrost, Joern, and Semgrep
-CE 0 of 6**. As amended: Semgrep CE is **6 of 6 for Python** on the evidence of
-its vendored snapshot, and unchanged elsewhere; **Infer is 0 of 6 for Java**
-(Amendment A14, a measured silence of the shipped Pulse checker), the other
-languages having no Infer native denominator at all; **Pysa is 6 of 6 for
-Python** (Amendment A17), over the taint model suite the pinned pyre-check
-wheel ships in `lib/pyre_check/taint/`, activated with `--no-verify` and
-guarded by the retained-evidence proof that the shipped `os.system` sink model
-bound; and **OpenTaint is 0 of 6 for Java** (Amendment A19 — its shipped
-models archive is propagation without endpoints, and the pinned release ships
-no rule set). The asymmetry with the
+CE 0 of 6**. As amended, one line per adapter so additions compose:
+
+- **Semgrep CE 6 of 6 for Python** (Amendment A8, on the evidence of its
+  vendored snapshot; unchanged elsewhere)
+- **Infer 0 of 6 for Java** (Amendment A14, a measured silence of the shipped
+  Pulse checker; the other languages have no Infer native denominator at all)
+- **Pysa 6 of 6 for Python** (Amendment A17, over the taint model suite the
+  pinned pyre-check wheel ships in `lib/pyre_check/taint/`, activated with
+  `--no-verify` and guarded by the retained-evidence proof that the shipped
+  `os.system` sink model bound)
+- **FlowDroid 0 of 6 for Java** (Amendment A19, with a live activation
+  contract — the shipped `SourcesAndSinks.txt` catalog and default summary
+  wrapper from inside the pinned jar — whose catalog binds no identity any
+  native template uses)
+- **OpenTaint 0 of 6 for Java** (Amendment A22 — its shipped models archive
+  is propagation without endpoints, and the pinned release ships no rule set)
+
+The asymmetry with the
+=======
+bound; and **FlowDroid is 0 of 6 for Java** (Amendment A19) with a live
+activation contract — the shipped `SourcesAndSinks.txt` catalog and default
+summary wrapper from inside the pinned jar — whose catalog binds no identity
+any native template uses. The asymmetry with the
+>>>>>>> origin/main
 benchmark-controlled matrix is the point rather than a defect — Joern scores four
 of six categories there on the same engine — because this profile measures
 product packaging and that one measures the engine. A declined cell is decided
@@ -559,18 +587,26 @@ from the template ID *before the tool is invoked*, retains the document's
 rationale verbatim, and writes a `retained-capability-decision` document beside
 the report carrying the pinned activation configuration with it.
 
-**Seven commands, parameterized by language.** `run-bifrost-native`,
-`run-codeql-native`, `run-infer-native`, `run-joern-native`,
-`run-semgrep-native`, `run-pysa-native` (pair-witnessed like its modeling
-sibling, Python only), and `run-opentaint-native` (which takes the pinned
-release assets instead of a binary: its partition declines every cell, and
-the run still witnesses both assets' digests, because a report whose whole
-evidence is retained rationales must name a measured identity), each taking
-`--language java|javascript|python` and writing
+**One command per adapter, parameterized by language** — listed one per line
+so a new adapter's line composes without editing the others. Each takes
+`--language java|javascript|python` and writes
 `reports/<tool>-<language>-native.json` with raw evidence under
-`reports/raw/<tool>-<language>-native/`. `run-infer-native` and
-`run-opentaint-native` accept Java alone — the other languages have no Infer
-or OpenTaint native denominator (Amendments A14 and A19).
+`reports/raw/<tool>-<language>-native/`:
+
+- `run-bifrost-native`
+- `run-codeql-native`
+- `run-joern-native`
+- `run-semgrep-native`
+- `run-infer-native` (Java alone — the pinned distribution executes no
+  JavaScript or Python frontend, so those languages have no Infer native
+  denominator, Amendment A14)
+- `run-pysa-native` (Python alone, pair-witnessed like its modeling sibling)
+- `run-flowdroid-native` (Java alone, witnessing the pinned jar and platform
+  digests before writing its twelve retained decisions — Amendment A19)
+- `run-opentaint-native` (Java alone; takes the pinned release assets instead
+  of a binary — its partition declines every cell, and the run still
+  witnesses both assets' digests, because a report whose whole evidence is
+  retained rationales must name a measured identity — Amendment A22)
 
 **Fail fast, never an empty report.** A run refuses, before touching the
 analyzer, when the language has no tool-native population, when a pinned
@@ -588,12 +624,15 @@ covered the moment it is declared. Tests pin every activation shape literally:
 `--threat-model=local` plus the shipped `<language>-security-extended.qls` suite
 for CodeQL, `--oss-only` plus `--config=adapters/semgrep/native/<language>` for
 Semgrep, `--policy-pack` and never `--policy-file` for Bifrost, nothing at
-all for Joern, which activates `DefaultSemantics` by running, `--pulse-only`
-with no `--pulse-taint-config` for Infer, whose shipped taint analysis is off
-absent one — the measured silence Amendment A14 declines on — and the shipped
-models archive's flags and never `--semgrep-rule-set` for OpenTaint, whose
-archive is shipped product (Amendment A16) while the rule set is where a
-benchmark-authored endpoint would arrive.
+all for Joern, which activates `DefaultSemantics` by running,
+`--pulse-only` with no `--pulse-taint-config` for Infer, whose shipped taint
+analysis is off absent one — the measured silence Amendment A14 declines on —
+`-s` pointed at the catalog extracted verbatim from FlowDroid's own pinned
+jar, which is why that row vendors nothing (the jar digest is the
+provenance), and the shipped models archive's flags and never
+`--semgrep-rule-set` for OpenTaint, whose archive is shipped product
+(Amendment A22) while the rule set is where a benchmark-authored endpoint
+would arrive.
 
 **Activation configuration binds the configuration hash.** Most of a native
 run's configuration is not a file in this repository — it is a suite name, a
