@@ -1,0 +1,40 @@
+# DataFlowBench benchmark-controlled endpoint rule for the OpenTaint Kotlin
+# kernel. The runner resolves dfb_source and dfb_sink per case from the
+# fixture's own DFB-SOURCE:/DFB-SINK: marker lines and retains the resolved
+# copy beside each case's raw evidence.
+#
+# `languages: [java]` is deliberate: the pinned analyzer keys its JVM rule
+# front end on `java` and analyzes Kotlin through the same bytecode IR — a rule
+# declaring `languages: [kotlin]` loads but matches nothing. The Kotlin
+# fixtures are compiled with kotlinc and analyzed as bytecode, so the `java`
+# key is the engine's name for the JVM surface, not a claim that the fixture is
+# Java. Verified against the pinned analyzer on real Kotlin fixtures.
+#
+# The receiver-qualified callsite forms are load-bearing here: every Kotlin
+# `object` member call lowers to an INSTANCE-received invocation, which the
+# receiverless pattern alone does not match.
+#
+# `primitive-tracking: true` is Amendment A11 (docs/adapters.md#amendments):
+# the engine disables taint through primitive values by default and enables it
+# per rule, which the benchmark's Int-encoded endpoint contracts require. The
+# shipped ruleset uses the same option; the retained primitive-tracking probe
+# verified it against the pinned analyzer in both directions.
+rules:
+  - id: dfb-opentaint-kernel
+    severity: ERROR
+    message: DataFlowBench benchmark-controlled endpoint flow
+    languages:
+      - java
+    mode: taint
+    options:
+      primitive-tracking: true
+    pattern-sources:
+      - pattern-either:
+          - pattern: dfb_source()
+          - pattern: $DFBRECV.dfb_source()
+    pattern-sinks:
+      - patterns:
+          - pattern-either:
+              - pattern: dfb_sink($DFBVAL);
+              - pattern: $DFBSINKRECV.dfb_sink($DFBVAL);
+          - focus-metavariable: $DFBVAL
