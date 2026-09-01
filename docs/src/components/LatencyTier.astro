@@ -19,12 +19,9 @@ import {
   vendorName,
   toolVersionLabel,
 } from '../data/snapshots';
+import LatencyRanking from './LatencyRanking.astro';
 
 const model = latencyModel();
-
-/** Bar geometry, scaled to the slowest adapter's median. */
-const scale = Math.max(...model.adapters.map((a) => a.whole.median));
-const width = (value: number) => `${Math.max(0.6, (value / scale) * 100)}%`;
 
 const decomposed = model.adapters.filter((a) => a.phases.length > 0);
 const single = model.adapters.filter((a) => a.phases.length === 0);
@@ -212,27 +209,18 @@ const slowest = model.adapters.at(-1)!;
   correct for that; it characterizes what the benchmark actually runs.
 </p>
 
-<div class="latency-bars">
-  {model.adapters.map((adapter) => (
-    <div class:list={['bar-row', vendorColorClass(adapter.tool)]}>
-      <div class="bar-label">
-        <span class="who">{vendorName(adapter.tool)}</span>
-        <span class="caption">{toolVersionLabel(adapter.tool, adapter.toolVersion)}</span>
-      </div>
-      <div class="bar-track">
-        <div class="bar-fill" style={`width: ${width(adapter.whole.median)}`}>
-        </div>
-        <span class="bar-value">{formatMs(adapter.whole.median)}</span>
-      </div>
-    </div>
-  ))}
-</div>
+<h3 id="ranking">Fastest to slowest, and the same ranking per kernel</h3>
 
-<p class="caption">
-  Median whole-invocation wall-clock, on a linear scale. The spread behind
-  each bar is in the table below, and it is wide: read the median with its
-  quartiles, never on its own.
+<p>
+  Ordered by median, on a logarithmic axis, with the spread drawn beside every
+  median rather than left to the table. The toggle scopes the same ranking to
+  one language kernel at a time: a whole-corpus median mixes the languages an
+  adapter runs on, and holding the language fixed is the difference between
+  "this engine is slow" and "this front end is expensive". Only the analyzers
+  that actually invoked on a kernel appear in its view.
 </p>
+
+<LatencyRanking />
 
 <div class="table-scroll">
   <table>
@@ -477,53 +465,6 @@ const slowest = model.adapters.at(-1)!;
 </p>
 
 <style>
-  .latency-bars {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    margin: 1rem 0;
-    border: 1px solid var(--sl-color-hairline);
-    border-radius: 0.75rem;
-    padding: 1rem;
-    background: var(--sl-color-bg-sidebar);
-  }
-  .bar-row {
-    display: grid;
-    grid-template-columns: minmax(7rem, 9rem) 1fr;
-    align-items: center;
-    gap: 0.75rem;
-  }
-  .bar-label {
-    display: flex;
-    flex-direction: column;
-    line-height: 1.2;
-  }
-  .bar-label .who {
-    font-weight: 600;
-  }
-  .bar-label .caption {
-    font-family: var(--__sl-font-mono);
-    font-size: var(--sl-text-xs);
-    color: var(--sl-color-gray-3);
-  }
-  .bar-track {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    min-width: 0;
-  }
-  .bar-fill {
-    height: 0.85rem;
-    border-radius: 0.2rem;
-    background: var(--vendor-rule, var(--sl-color-accent));
-    min-width: 2px;
-  }
-  .bar-value {
-    font-family: var(--__sl-font-mono);
-    font-size: var(--sl-text-sm);
-    color: var(--sl-color-gray-2);
-    white-space: nowrap;
-  }
   .vendor-dot {
     display: inline-block;
     width: 0.55rem;

@@ -1,0 +1,40 @@
+---
+title: Analyzer profiles — v0.6.0
+description: One four-axis profile per analyzer, as small multiples — speed, recall, precision, and kernel coverage, each over its own stated denominator, with no composite score anywhere.
+---
+
+import AnalyzerProfiles from '../../../../components/AnalyzerProfiles.astro';
+
+An **exploratory** view: one small radar per analyzer, four axes, drawn over
+the benchmark-controlled `core` kernel populations. It exists to make one
+analyzer's shape legible at a glance — where it is fast, where it decides,
+where it is right when it decides, and how much of the benchmark it covers at
+all — and for nothing else.
+
+It is not a ranking and it does not produce one. There is no composite score
+on this page, no weighted blend of the axes, and no arithmetic anywhere that
+crosses from one axis to another. The radars are deliberately **not
+overlaid**: eight polygons on one chart would invite the whole-shape
+comparison these figures cannot support, so each analyzer gets its own.
+
+Read the axis notes under the grid before reading the shapes. The four axes
+have four different denominators, one of them is on a logarithmic scale, and
+two of them treat a non-answer in opposite ways — a case that lowers an
+analyzer's recall can be entirely absent from its precision. Every value is
+also printed as a number with its denominator beneath its own radar, so no
+reading has to come from the shape.
+
+<AnalyzerProfiles />
+
+## Where these numbers come from
+
+The correctness axes are derived from the same frozen `results/results.json`
+the [correctness pages](/dataflowbench/snapshots/v0-6-0/) read, through the
+same benchmark-controlled `core` population filter, and the latency axis from
+the timing sidecars the freeze binds, under the contract preregistered in
+[`docs/latency-tier.md`](https://github.com/BrokkAi/dataflowbench/blob/main/docs/latency-tier.md).
+Placing latency on the same picture as correctness is not pooling them: the
+contract forbids a combined score, an efficiency-adjusted rate, and a
+leaderboard over a blend, and this page has none of those. No correctness
+outcome in this freeze was derived from, conditioned on, or tie-broken by a
+timing value.

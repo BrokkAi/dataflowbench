@@ -42,6 +42,10 @@ export default defineConfig({
                 { label: 'Semantic templates', slug: 'snapshots/v0-6-0/templates' },
                 { label: 'Case evidence', slug: 'snapshots/v0-6-0/evidence' },
                 { label: 'Latency', slug: 'snapshots/v0-6-0/latency' },
+                {
+                  label: 'Analyzer profiles',
+                  slug: 'snapshots/v0-6-0/profiles',
+                },
               ],
             },
             {
