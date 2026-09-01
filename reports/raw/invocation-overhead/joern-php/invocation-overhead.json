@@ -1,0 +1,58 @@
+{
+  "adapter": "joern",
+  "amendment": "A24",
+  "clock": "monotonic",
+  "ended_at_unix_seconds": 1788278292,
+  "estimate_bias": "upper bound on start-up and warm-up: it contains the trivial fixture's own near-zero analysis, and it is a cold single-shot execution — the same posture the cold rows are measured in, and not a steady-state one",
+  "estimated_overhead_ms": {
+    "high": 5335,
+    "low": 4424
+  },
+  "estimator": "one complete adapter invocation over a trivial no-flow fixture",
+  "evidence_kind": "retained-invocation-overhead-estimate",
+  "fixture_file": "fixture/dfb_trivial.php",
+  "fixture_sha256": "676a79fddb415b6e073a66ad6eae488a97f5038062c42c9db7ff97f197968307",
+  "language": "php",
+  "measured_boundary": "the adapter's own subprocess boundaries; the estimate is the sum of its declared phases, as the cold whole-invocation figure is",
+  "publication": "range over every repeat; never a mean, never a chosen repeat, and never gated on the repeats agreeing — the width is the precision",
+  "repeats": 3,
+  "runs": [
+    {
+      "load_average_1m_before": 3.84,
+      "phases": [
+        {
+          "phase": "total",
+          "wall_ms": 5335
+        }
+      ],
+      "repeat": 1,
+      "wall_ms": 5335
+    },
+    {
+      "load_average_1m_before": 4.41,
+      "phases": [
+        {
+          "phase": "total",
+          "wall_ms": 4451
+        }
+      ],
+      "repeat": 2,
+      "wall_ms": 4451
+    },
+    {
+      "load_average_1m_before": 4.62,
+      "phases": [
+        {
+          "phase": "total",
+          "wall_ms": 4424
+        }
+      ],
+      "repeat": 3,
+      "wall_ms": 4424
+    }
+  ],
+  "schema_version": 1,
+  "started_at_unix_seconds": 1788278278,
+  "tool_build_identity": "joern-cli:4.0.614",
+  "tool_version": "4.0.614"
+}

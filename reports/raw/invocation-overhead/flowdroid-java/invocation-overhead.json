@@ -1,0 +1,58 @@
+{
+  "adapter": "flowdroid",
+  "amendment": "A24",
+  "clock": "monotonic",
+  "ended_at_unix_seconds": 1788278122,
+  "estimate_bias": "upper bound on start-up and warm-up: it contains the trivial fixture's own near-zero analysis, and it is a cold single-shot execution — the same posture the cold rows are measured in, and not a steady-state one",
+  "estimated_overhead_ms": {
+    "high": 771,
+    "low": 678
+  },
+  "estimator": "one complete adapter invocation over a trivial no-flow fixture",
+  "evidence_kind": "retained-invocation-overhead-estimate",
+  "fixture_file": "fixture/DfbTrivial.java",
+  "fixture_sha256": "b1f8f5f67249ca905ca44eb0971d9d40eaf0c588f8765f8c31e8bf6fec9b4e08",
+  "language": "java",
+  "measured_boundary": "the adapter's own subprocess boundaries; the estimate is the sum of its declared phases, as the cold whole-invocation figure is",
+  "publication": "range over every repeat; never a mean, never a chosen repeat, and never gated on the repeats agreeing — the width is the precision",
+  "repeats": 3,
+  "runs": [
+    {
+      "load_average_1m_before": 3.37,
+      "phases": [
+        {
+          "phase": "total",
+          "wall_ms": 771
+        }
+      ],
+      "repeat": 1,
+      "wall_ms": 771
+    },
+    {
+      "load_average_1m_before": 3.5,
+      "phases": [
+        {
+          "phase": "total",
+          "wall_ms": 768
+        }
+      ],
+      "repeat": 2,
+      "wall_ms": 768
+    },
+    {
+      "load_average_1m_before": 3.5,
+      "phases": [
+        {
+          "phase": "total",
+          "wall_ms": 678
+        }
+      ],
+      "repeat": 3,
+      "wall_ms": 678
+    }
+  ],
+  "schema_version": 1,
+  "started_at_unix_seconds": 1788278118,
+  "tool_build_identity": "soot-infoflow-cmd-2.15.1-jar-with-dependencies.jar sha256:51dadead47a173c494c2fa4855b1e8bd3b54e702a2c4b5ed58e60153009ae218; android-34 platform android.jar sha256:6cea1df3efb77103ac3e2beb9bf4718964b0e0869ab16d39d29d5cbae1c147ad",
+  "tool_version": "2.15.1"
+}

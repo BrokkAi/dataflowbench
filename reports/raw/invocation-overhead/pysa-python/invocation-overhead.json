@@ -1,0 +1,58 @@
+{
+  "adapter": "pysa",
+  "amendment": "A24",
+  "clock": "monotonic",
+  "ended_at_unix_seconds": 1788278136,
+  "estimate_bias": "upper bound on start-up and warm-up: it contains the trivial fixture's own near-zero analysis, and it is a cold single-shot execution — the same posture the cold rows are measured in, and not a steady-state one",
+  "estimated_overhead_ms": {
+    "high": 2982,
+    "low": 2817
+  },
+  "estimator": "one complete adapter invocation over a trivial no-flow fixture",
+  "evidence_kind": "retained-invocation-overhead-estimate",
+  "fixture_file": "fixture/dfb_trivial.py",
+  "fixture_sha256": "d4dfe541d478dd9a22af5376eae5286f1cd095f4ce629cc6a0f3122d4980364a",
+  "language": "python",
+  "measured_boundary": "the adapter's own subprocess boundaries; the estimate is the sum of its declared phases, as the cold whole-invocation figure is",
+  "publication": "range over every repeat; never a mean, never a chosen repeat, and never gated on the repeats agreeing — the width is the precision",
+  "repeats": 3,
+  "runs": [
+    {
+      "load_average_1m_before": 3.46,
+      "phases": [
+        {
+          "phase": "total",
+          "wall_ms": 2817
+        }
+      ],
+      "repeat": 1,
+      "wall_ms": 2817
+    },
+    {
+      "load_average_1m_before": 3.58,
+      "phases": [
+        {
+          "phase": "total",
+          "wall_ms": 2881
+        }
+      ],
+      "repeat": 2,
+      "wall_ms": 2881
+    },
+    {
+      "load_average_1m_before": 3.58,
+      "phases": [
+        {
+          "phase": "total",
+          "wall_ms": 2982
+        }
+      ],
+      "repeat": 3,
+      "wall_ms": 2982
+    }
+  ],
+  "schema_version": 1,
+  "started_at_unix_seconds": 1788278127,
+  "tool_build_identity": "pyre-check:0.10.0 pyre.bin-sha256:035a206349193dafdac70ec4020a992add5d88e60dee76163cf39ffb0b8fe8a3 pyrefly:1.2.0 pyrefly-sha256:6b460273720d857142be562d2c0c607e8ed8e5e752ab575b5c00ea3f735d8caa",
+  "tool_version": "0.10.0"
+}
