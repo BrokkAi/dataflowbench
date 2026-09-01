@@ -1,0 +1,132 @@
+---
+/* Floating "back to top" control.
+   ----------------------------------------------------------------------
+   The landing page and the snapshot pages are long even after the desktop
+   width pass, so a way back to the title without a scroll marathon earns its
+   corner. The control itself is a plain anchor to `#_top`, the id Starlight
+   already puts on every page's `h1`: the scroll, the focus move and the
+   history entry are the browser's, not ours, which is also why
+   `prefers-reduced-motion` needs no special case in the click path — the
+   smooth behaviour is opted into from CSS and simply not opted into when the
+   user asked for less motion.
+
+   The only script is a visibility toggle. Permanently parking a "back to top"
+   button over the first screen is clutter, and there is no CSS-only way to
+   ask "has the reader scrolled". It is a passive scroll listener rather than
+   an IntersectionObserver because the thing being observed — the viewport's
+   own offset — is what `scrollY` already reports, and the listener is three
+   lines against a sentinel element plus an observer.
+
+   Without JavaScript the anchor stays hidden, which is the same page the
+   reader had before this control existed. */
+---
+
+<a class="to-top print:hidden" href="#_top" aria-label="Back to top">
+  <svg
+    aria-hidden="true"
+    viewBox="0 0 16 16"
+    width="16"
+    height="16"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  >
+    <path d="M8 13V4" />
+    <path d="M3.5 8.5 8 4l4.5 4.5" />
+  </svg>
+</a>
+
+<script>
+  const link = document.querySelector<HTMLAnchorElement>('a.to-top');
+
+  if (link) {
+    // Roughly one screen: far enough that the page title is gone, near enough
+    // that the control appears while the reader is still orienting.
+    const threshold = () => Math.max(400, window.innerHeight * 0.75);
+    const sync = () => {
+      link.toggleAttribute('data-shown', window.scrollY > threshold());
+    };
+
+    sync();
+    window.addEventListener('scroll', sync, { passive: true });
+    window.addEventListener('resize', sync, { passive: true });
+  }
+</script>
+
+<style>
+  .to-top {
+    /* Below Starlight's menu (5) and navbar (10): the mobile menu and the
+       kernel dialog both need to cover this. */
+    z-index: 4;
+    position: fixed;
+    inset-block-end: 1.25rem;
+    inset-inline-end: 1.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    border: 1px solid var(--sl-color-gray-5);
+    border-radius: 999px;
+    /* The nav's own background: this floats over the page, so it should read
+       as chrome rather than as another card. */
+    background: var(--sl-color-bg-nav);
+    color: var(--sl-color-gray-2);
+    box-shadow: var(--sl-shadow-md);
+
+    /* Hidden until the reader has scrolled. `visibility` rather than opacity
+       alone so the anchor leaves the tab order while it is not on offer. */
+    visibility: hidden;
+    opacity: 0;
+    transform: translateY(0.5rem);
+    transition:
+      opacity 0.15s ease,
+      transform 0.15s ease,
+      visibility 0.15s;
+  }
+
+  .to-top[data-shown] {
+    visibility: visible;
+    opacity: 1;
+    transform: none;
+  }
+
+  .to-top:hover {
+    color: var(--sl-color-white);
+    border-color: var(--sl-color-accent);
+  }
+
+  .to-top:focus-visible {
+    outline: 2px solid var(--sl-color-accent-high);
+    outline-offset: 2px;
+  }
+
+  /* Wider viewports have the room to sit the control clear of the content's
+     bottom-right corner. */
+  @media (min-width: 50rem) {
+    .to-top {
+      inset-block-end: 2rem;
+      inset-inline-end: 2rem;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .to-top {
+      transition: none;
+    }
+  }
+</style>
+
+<style is:global>
+  /* The anchor's target is the page title, so the smooth scroll belongs to the
+     document rather than to the control. Starlight already sets
+     `scroll-padding-top`; this only adds the easing, and only for readers who
+     have not asked for less motion. */
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
+  }
+</style>

@@ -39,6 +39,89 @@ table code {
   white-space: nowrap;
 }
 
+:root {
+  /* Roughly 75 characters at the body size: the measure the prose on these
+     pages was written against. */
+  --dfb-measure: 46rem;
+}
+
+/* Desktop content width.
+   ----------------------------------------------------------------------
+   Starlight publishes a 45rem content column, which is the right measure for
+   a page of prose and the wrong one for these pages: almost everything here
+   is a grid of cards, a bar panel or a viewBox chart, and at 45rem those stack
+   into a column several screens tall while two thirds of a desktop display
+   sits empty.
+
+   The fix is the one variable the whole layout is built from rather than a
+   per-component breakout, so every grid, chart and table on every page gets
+   the room at once. The grids are already `auto-fit minmax(...)`, so they
+   spend the extra width on columns without any further help.
+
+   The width is a clamp, not a step, so it grows with the viewport and never
+   shrinks below what Starlight published:
+     - the lower bound is 45rem, so nothing below the 72rem breakpoint — every
+       phone and tablet — is touched, and neither is a narrow desktop window;
+     - the middle term leaves room for the chrome that is actually on the page:
+       the nav sidebar always, plus the table-of-contents sidebar on the pages
+       that have one (Starlight gives the two sidebars equal width), and 6rem
+       of gutter;
+     - the upper bound is 80rem, past which a wider column stops buying
+       columns and starts buying whitespace.
+
+   `screen and` keeps this out of print, where Starlight sets its own
+   full-bleed width on `.main-pane`. */
+@media screen and (min-width: 72rem) {
+  :root[data-has-sidebar] {
+    --sl-content-width: clamp(
+      45rem,
+      calc(100vw - var(--sl-sidebar-width) - 6rem),
+      80rem
+    );
+  }
+
+  /* A page with a table of contents pays for a second sidebar, and Starlight
+     splits whatever is left over between the content pane and the contents
+     pane — so every rem of gutter asked for here costs the column two. The
+     reservation is halved to match: the same gutter, half the price. */
+  :root[data-has-sidebar][data-has-toc] {
+    --sl-content-width: clamp(
+      45rem,
+      calc(100vw - (2 * var(--sl-sidebar-width)) - 3rem),
+      80rem
+    );
+  }
+
+  /* A wider column must widen the grids and the charts, not the sentences.
+     Running text keeps a fixed measure and everything else — grids, tables,
+     charts, card strips, the components' own containers — takes the full
+     width.
+
+     The rule reaches paragraphs at any depth, because the prose that would
+     otherwise run to 130 characters is as often a chart's explanatory
+     paragraph inside a component as it is a top-level one. It is a
+     `max-width`, so on everything already narrower than the measure — every
+     paragraph inside a card, a bar row or a dialog panel — it does nothing.
+     Lists that carry a class are layout (legends, chip strips, coverage
+     lists), not prose, and are left alone. */
+  .sl-markdown-content :where(p, ul:not([class]), ol:not([class]), blockquote, dl) {
+    max-width: var(--dfb-measure);
+  }
+}
+
+/* The two viewBox charts scale with their container in both axes, so an
+   unbounded column would spend the vertical space the grids just gave back on
+   taller pictures. Past roughly 64rem the labels have stopped gaining
+   legibility and the plot has stopped gaining resolution, so that is where
+   they stop growing, centred in whatever column they are given. Semantics,
+   geometry and every number inside the SVG are untouched — this is the
+   rendered box only. */
+.evolution-chart,
+.ranking-chart {
+  max-width: 64rem;
+  margin-inline: auto;
+}
+
 /* Collapsed data tables.
    ----------------------------------------------------------------------
    A numeric table that restates what the picture above it already shows is
