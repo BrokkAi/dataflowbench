@@ -319,7 +319,8 @@ const biggestJump = columns
   pooled with the modeling matrix or the tool-native probes, and there is no
   combined cross-analyzer score: read each line on its own. The second view
   divides each analyzer's decisive-correct count by the population it actually
-  covers, so a narrow language footprint no longer reads as a weak result.
+  covers, so a narrow language footprint no longer reads as a weak result. The
+  third view drops the drawing entirely and lists every figure as a table.
 </p>
 
 <div class="evolution">
@@ -336,9 +337,16 @@ const biggestJump = columns
     name="evolution-view"
     id="evolution-view-normalized"
   />
+  <input
+    class="view-radio"
+    type="radio"
+    name="evolution-view"
+    id="evolution-view-table"
+  />
   <div class="view-toggle" role="group" aria-label="Evolution chart view">
     <label for="evolution-view-absolute">Absolute counts</label>
     <label for="evolution-view-normalized">Accuracy on covered kernels</label>
+    <label for="evolution-view-table">Data table</label>
   </div>
 
 <div class="chart-frame view-absolute">
@@ -353,8 +361,12 @@ const biggestJump = columns
     </title>
     <desc id="evolution-chart-desc">
       A stepped grey line shows each snapshot's total benchmark-controlled core
-      population. Beneath it, one line per analyzer plots that analyzer's
-      decisive-correct count. The table that follows carries every value.
+      population, growing from {first.population} assertions in {first.version}
+      to {last.population} in {last.version}. Beneath it, one line per analyzer
+      plots that analyzer's decisive-correct count, with a faint stub reaching
+      that analyzer's own covered population. Every marker also carries its
+      exact figures in a tooltip, and the toggle above this chart has a Data
+      table view that lists every value as text.
     </desc>
 
     {ticks.map((tick) => (
@@ -482,7 +494,9 @@ const biggestJump = columns
       kernels it covers, with inconclusive and unsupported outcomes left in the
       denominator. Marker size grows with the share of the snapshot's kernels
       the analyzer covers, and every point is annotated with that kernel count.
-      The table that follows carries every value.
+      Every marker also carries its exact figures in a tooltip, and the toggle
+      above this chart has a Data table view that lists every value as text,
+      including the denominator each percentage is over.
     </desc>
 
     {percentTicks.map((tick) => (
@@ -640,12 +654,16 @@ const biggestJump = columns
   in the kernels it reported on at all — so it answers how well a tool does on
   the slice it supports. Coverage is stated beside every number in that view:
   the marker grows with the share of the snapshot's kernels covered, each point
-  carries its <code>k/n</code> kernel count, and the table below spells out the
-  denominator, so 78% over 6 kernels is never mistaken for 78% over 13.
-  Inconclusive and unsupported outcomes <em>inside</em> covered kernels stay in
-  the denominator — they are non-answers on cases the analyzer took on. The
-  narrower correct ÷ decided ratio is reported only as a secondary figure, in
-  the tooltips and the last table column.
+  carries its <code>k/n</code> kernel count, and the <strong>Data table</strong>
+  view spells out the denominator, so 78% over 6 kernels is never mistaken for
+  78% over 13. Inconclusive and unsupported outcomes <em>inside</em> covered
+  kernels stay in the denominator — they are non-answers on cases the analyzer
+  took on. The narrower correct ÷ decided ratio is reported only as a secondary
+  figure, in the tooltips and the last column of the data table.
+  <strong>Data table</strong> is the third setting of the same toggle: it
+  carries the exact figures behind both charts — every count, every denominator
+  and every percentage — for anyone who would rather read the numbers than the
+  shape.
 </p>
 
 <p class="caption view-absolute">
@@ -682,9 +700,8 @@ const biggestJump = columns
   <code>k/n</code> kernel counts match. Every snapshot label links to that
   freeze's per-case evidence.
 </p>
-</div>
 
-<div class="table-scroll">
+<div class="table-scroll view-table">
   <table>
     <thead>
       <tr>
@@ -749,6 +766,16 @@ const biggestJump = columns
   </table>
 </div>
 
+<p class="caption view-table">
+  Every value the two chart views draw, one row per analyzer per snapshot, with
+  each denominator spelled out beside the figure it belongs to. This is the
+  same data the charts plot — nothing here is computed differently, and nothing
+  is rounded away except the percentages, which are given to one decimal place.
+  Switch back to <strong>Absolute counts</strong> or <strong>Accuracy on
+  covered kernels</strong> for the shape of it.
+</p>
+</div>
+
 <p>
   Read the shape, not a ranking. Two different things move a line: an analyzer
   getting better, and the benchmark getting harder. The largest expansion so
@@ -811,7 +838,8 @@ const biggestJump = columns
     label[for='evolution-view-absolute'],
   #evolution-view-normalized:checked
     ~ .view-toggle
-    label[for='evolution-view-normalized'] {
+    label[for='evolution-view-normalized'],
+  #evolution-view-table:checked ~ .view-toggle label[for='evolution-view-table'] {
     background: var(--sl-color-gray-6, var(--sl-color-hairline));
     color: var(--sl-color-white);
     box-shadow: inset 0 0 0 1px var(--sl-color-hairline);
@@ -821,12 +849,25 @@ const biggestJump = columns
     label[for='evolution-view-absolute'],
   #evolution-view-normalized:focus-visible
     ~ .view-toggle
-    label[for='evolution-view-normalized'] {
+    label[for='evolution-view-normalized'],
+  #evolution-view-table:focus-visible
+    ~ .view-toggle
+    label[for='evolution-view-table'] {
     outline: 2px solid var(--sl-color-accent-high);
     outline-offset: 2px;
   }
+  /* Each view hides the two it is not. The value table is the third view
+     rather than a permanent block under the chart: it is the same numbers the
+     charts plot, and carrying both at once was the bulk of this section's
+     height. It stays in the DOM either way — only `display` moves — and the
+     charts' own `<title>`/`<desc>` state the essentials plus where the exact
+     figures live, so nothing is only reachable through the table. */
   #evolution-view-absolute:checked ~ .view-normalized,
-  #evolution-view-normalized:checked ~ .view-absolute {
+  #evolution-view-absolute:checked ~ .view-table,
+  #evolution-view-normalized:checked ~ .view-absolute,
+  #evolution-view-normalized:checked ~ .view-table,
+  #evolution-view-table:checked ~ .view-absolute,
+  #evolution-view-table:checked ~ .view-normalized {
     display: none;
   }
   .chart-frame {

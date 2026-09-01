@@ -38,3 +38,90 @@
 table code {
   white-space: nowrap;
 }
+
+/* Collapsed data tables.
+   ----------------------------------------------------------------------
+   A numeric table that restates what the picture above it already shows is
+   worth keeping and not worth the vertical space it takes by default. The
+   disclosure is a native `<details>`: no JavaScript, keyboard-operable and
+   findable by the browser's own find-in-page in every current engine, and it
+   degrades to an always-open table if the stylesheet never arrives. The
+   markup lives where the table already lived, so the numbers stay in the
+   document order a screen reader walks.
+
+   This is deliberately *not* the radio idiom the evolution chart and the
+   latency ribbon use. Those switch between views of one region; there is no
+   competing view here, only a table that may be shown or not, and inventing
+   a second radio state for that would be a toggle with one meaningful
+   setting. */
+details.data-table {
+  margin-top: 1rem;
+  border: 1px solid var(--sl-color-hairline);
+  border-radius: 0.75rem;
+  background: var(--sl-color-bg-sidebar);
+}
+
+details.data-table > summary {
+  cursor: pointer;
+  list-style: none;
+  padding: 0.45rem 0.75rem;
+  font-size: var(--sl-text-sm);
+  color: var(--sl-color-gray-2);
+  border-radius: 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* Safari still needs the WebKit pseudo-element to drop the native triangle. */
+details.data-table > summary::-webkit-details-marker {
+  display: none;
+}
+
+details.data-table > summary::before {
+  content: '';
+  flex: none;
+  width: 0;
+  height: 0;
+  border-top: 0.3rem solid transparent;
+  border-bottom: 0.3rem solid transparent;
+  border-left: 0.42rem solid currentColor;
+  transition: transform 0.15s ease;
+}
+
+details.data-table[open] > summary::before {
+  transform: rotate(90deg);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  details.data-table > summary::before {
+    transition: none;
+  }
+}
+
+details.data-table > summary:hover {
+  color: var(--sl-color-white);
+}
+
+details.data-table > summary:focus-visible {
+  outline: 2px solid var(--sl-color-accent-high);
+  outline-offset: 2px;
+}
+
+details.data-table[open] > summary {
+  border-bottom: 1px solid var(--sl-color-hairline);
+  border-end-start-radius: 0;
+  border-end-end-radius: 0;
+}
+
+details.data-table > .table-scroll {
+  overflow-x: auto;
+  padding: 0 0.75rem 0.25rem;
+}
+
+/* The content area's global sibling rule adds a top margin to every element
+   after the first; inside the disclosure that pushes the table away from its
+   own summary. */
+details.data-table > .table-scroll > table {
+  margin-top: 0.75rem;
+}
