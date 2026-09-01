@@ -1,0 +1,20 @@
+<?xml version="1.0" ?>
+<!-- Benchmark-controlled category-Z declaration for the Java modeling matrix
+     (docs/modeling-matrix.md, Amendment A16). `scrub` is template 5's
+     declared sanitizer: `in: 0`, expressed as a StubDroid `clear` - the
+     format's taint-kill stanza - which suppresses the flow on a completing
+     run while deleting it restores the flow through scrub's identity body
+     (probe evidence under reports/raw/load-bearing-java-modeling/).
+
+     Template 6's `sanitize` sibling is deliberately NOT declared here, and
+     its cell is unsupported by the A16 partition anyway: the summary
+     resolution is exclusive for the whole declaring class, so the one file
+     that suppresses scrub also swallows the undeclared sibling, and
+     selectivity is undecidable in a single invocation. -->
+<summary fileFormatVersion="101">
+	<methods>
+		<method id="java.lang.String scrub(java.lang.String)">
+			<clear sourceSinkType="Parameter" ParameterIndex="0" />
+		</method>
+	</methods>
+</summary>
