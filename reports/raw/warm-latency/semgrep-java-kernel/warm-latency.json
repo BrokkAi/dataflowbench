@@ -1,0 +1,173 @@
+{
+  "adapter": "semgrep",
+  "amendment": "A13",
+  "clock": "monotonic",
+  "ended_at_unix_seconds": 1788265114,
+  "evidence_kind": "retained-warm-marginal-latency",
+  "fixture_revision": "sha256:9df209ed3d7723a3ee33f2b289cf2afe34a3add781bdf2a2ac445de42b8d0151",
+  "language": "java",
+  "marginal_ms_per_case_range": {
+    "endpoint": [
+      76.81818181818181,
+      82.27272727272727
+    ],
+    "least_squares": [
+      77.69471153846153,
+      81.56009615384615
+    ]
+  },
+  "measured_boundary": "one subprocess per batch, whole-invocation wall-clock",
+  "population_available": 12,
+  "population_restriction": "one `semgrep scan` carries one --config, so a batch is restricted to cases resolving to identical rule text: 12 of the 14 invocable Java kernel assertions",
+  "repeats": 2,
+  "runs": [
+    {
+      "batches": [
+        {
+          "case_ids": [
+            "dfb-taint-java-branch-join-negative"
+          ],
+          "k": 1,
+          "load_average_1m_before": 3.86,
+          "wall_ms": 1032
+        },
+        {
+          "case_ids": [
+            "dfb-taint-java-branch-join-negative",
+            "dfb-taint-java-branch-join-positive"
+          ],
+          "k": 2,
+          "load_average_1m_before": 3.86,
+          "wall_ms": 1167
+        },
+        {
+          "case_ids": [
+            "dfb-taint-java-branch-join-negative",
+            "dfb-taint-java-branch-join-positive",
+            "dfb-taint-java-expression-negative",
+            "dfb-taint-java-expression-positive"
+          ],
+          "k": 4,
+          "load_average_1m_before": 3.86,
+          "wall_ms": 1288
+        },
+        {
+          "case_ids": [
+            "dfb-taint-java-branch-join-negative",
+            "dfb-taint-java-branch-join-positive",
+            "dfb-taint-java-expression-negative",
+            "dfb-taint-java-expression-positive",
+            "dfb-taint-java-infeasible-branch-negative",
+            "dfb-taint-java-infeasible-branch-positive",
+            "dfb-taint-java-local-chain-negative",
+            "dfb-taint-java-local-chain-positive"
+          ],
+          "k": 8,
+          "load_average_1m_before": 3.64,
+          "wall_ms": 1659
+        },
+        {
+          "case_ids": [
+            "dfb-taint-java-branch-join-negative",
+            "dfb-taint-java-branch-join-positive",
+            "dfb-taint-java-expression-negative",
+            "dfb-taint-java-expression-positive",
+            "dfb-taint-java-infeasible-branch-negative",
+            "dfb-taint-java-infeasible-branch-positive",
+            "dfb-taint-java-local-chain-negative",
+            "dfb-taint-java-local-chain-positive",
+            "dfb-taint-java-local-overwrite-negative",
+            "dfb-taint-java-local-overwrite-positive",
+            "dfb-taint-java-loop-carried-negative",
+            "dfb-taint-java-loop-carried-positive"
+          ],
+          "k": 12,
+          "load_average_1m_before": 3.64,
+          "wall_ms": 1937
+        }
+      ],
+      "fitted_fixed_cost_ms": 976.1754807692307,
+      "marginal_ms_per_case": {
+        "endpoint": 82.27272727272727,
+        "least_squares": 81.56009615384615
+      },
+      "run": 1
+    },
+    {
+      "batches": [
+        {
+          "case_ids": [
+            "dfb-taint-java-branch-join-negative"
+          ],
+          "k": 1,
+          "load_average_1m_before": 3.64,
+          "wall_ms": 1098
+        },
+        {
+          "case_ids": [
+            "dfb-taint-java-branch-join-negative",
+            "dfb-taint-java-branch-join-positive"
+          ],
+          "k": 2,
+          "load_average_1m_before": 3.58,
+          "wall_ms": 1167
+        },
+        {
+          "case_ids": [
+            "dfb-taint-java-branch-join-negative",
+            "dfb-taint-java-branch-join-positive",
+            "dfb-taint-java-expression-negative",
+            "dfb-taint-java-expression-positive"
+          ],
+          "k": 4,
+          "load_average_1m_before": 3.58,
+          "wall_ms": 1281
+        },
+        {
+          "case_ids": [
+            "dfb-taint-java-branch-join-negative",
+            "dfb-taint-java-branch-join-positive",
+            "dfb-taint-java-expression-negative",
+            "dfb-taint-java-expression-positive",
+            "dfb-taint-java-infeasible-branch-negative",
+            "dfb-taint-java-infeasible-branch-positive",
+            "dfb-taint-java-local-chain-negative",
+            "dfb-taint-java-local-chain-positive"
+          ],
+          "k": 8,
+          "load_average_1m_before": 3.58,
+          "wall_ms": 1628
+        },
+        {
+          "case_ids": [
+            "dfb-taint-java-branch-join-negative",
+            "dfb-taint-java-branch-join-positive",
+            "dfb-taint-java-expression-negative",
+            "dfb-taint-java-expression-positive",
+            "dfb-taint-java-infeasible-branch-negative",
+            "dfb-taint-java-infeasible-branch-positive",
+            "dfb-taint-java-local-chain-negative",
+            "dfb-taint-java-local-chain-positive",
+            "dfb-taint-java-local-overwrite-negative",
+            "dfb-taint-java-local-overwrite-positive",
+            "dfb-taint-java-loop-carried-negative",
+            "dfb-taint-java-loop-carried-positive"
+          ],
+          "k": 12,
+          "load_average_1m_before": 3.58,
+          "wall_ms": 1943
+        }
+      ],
+      "fitted_fixed_cost_ms": 1003.8485576923078,
+      "marginal_ms_per_case": {
+        "endpoint": 76.81818181818181,
+        "least_squares": 77.69471153846153
+      },
+      "run": 2
+    }
+  ],
+  "schema_version": 1,
+  "started_at_unix_seconds": 1788265099,
+  "tool_build_identity": "semgrep-oss:1.175.0",
+  "tool_version": "1.175.0"
+}
