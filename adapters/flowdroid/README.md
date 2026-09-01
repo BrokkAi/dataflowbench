@@ -292,3 +292,81 @@ The retained runs used OpenJDK Temurin 21.0.8 as the JVM for the analyzer
 and D8, the same `javac`, and `kotlinc-jvm 2.4.10` with its distribution's
 `kotlin-stdlib.jar`. The fixture toolchain is harness plumbing: it decides
 whether an APK exists, never what the analyzer claims about it.
+
+## Modeling matrix (Java; Amendment A16)
+
+The adapter joined the benchmark-controlled taint-modeling matrix on
+2026-09-01, with a Java-only partition preregistered on retained probe
+evidence before the first scored run
+([Amendment A16](../../docs/modeling-matrix.md#a16--2026-09-01-flowdroid-joins-the-modeling-matrix-with-a-java-only-partition-row)).
+Scored: categories S, P, and O whole, plus category Z's `sanitizer-kill`
+template — fourteen of the twenty-four Java assertions. Declined with
+retained rationales: `sanitizer-selectivity` (the summary resolution is
+exclusive for the whole declaring class, so suppression and selectivity
+cannot coexist in one invocation), category E (analysis roots come
+exclusively from the APK manifest; a declared parameter source parses and
+creates no root — probed), and category B (no surface carries a store
+identity or key position).
+
+The declarations live in two surfaces. Sources and sinks resolve per case
+from the fixtures' own `DFB-SOURCE:`/`DFB-SINK:` markers through the kernel
+mechanism above, witnessed as Soot signatures from the compiled classes. The
+propagator, sanitizer, and summary declarations are committed StubDroid
+summary XMLs — [`summaries/model-java/`](summaries/model-java/) — activated
+per case as `-tw STUBDROID -t <dir>`, which **replaces** the release
+default's bundled `summariesManual` provider so the benchmark's declarations
+are the only summaries in the run; that replacement is what satisfies the
+matrix's load-bearing-model requirement, and the runner refuses a run whose
+committed XMLs no longer carry the declared entries. Two field notes for
+reproducers, both measured: the *EasyTaintWrapper* text surface needs a `^`
+include-prefix line before any entry registers (one reason the summaries
+surface was chosen), and an empty `<flows>` method entry does not register as
+a no-flow declaration on its own — the class-exclusive resolution is what
+drops taint at undeclared members of a summarized class.
+
+The retained run (`reports/flowdroid-java-modeling.json`, raw evidence under
+`reports/raw/flowdroid-java-modeling/`) decides all fourteen scored
+assertions correctly — positionally faithful on the declared-position pair
+and field-precise on the store-through summary. Per-case timing sidecars
+record `compile`, `dex`, and `analyze` subprocess phases
+([latency-tier Amendment A18](../../docs/latency-tier.md#a18--2026-09-01-flowdroids-modeling-population-declares-three-subprocess-phases));
+only `analyze` is an analyzer number. The zero-exit guards above apply
+unchanged: no negative is recorded without the analyzer's own `Found N leaks`
+completion line, and the failure banner is a `runner-error` wherever it
+appears.
+
+```bash
+cargo run -- run-flowdroid-modeling --language java \
+  --flowdroid-jar soot-infoflow-cmd-2.15.1-jar-with-dependencies.jar \
+  --android-platform android-34.jar \
+  --d8-jar r8-8.5.35.jar
+
+scripts/probe-flowdroid-modeling-load-bearing.sh \
+  --flowdroid-jar soot-infoflow-cmd-2.15.1-jar-with-dependencies.jar \
+  --android-platform android-34.jar --d8-jar r8-8.5.35.jar
+```
+
+## Tool-native profile (Java; Amendment A17)
+
+The release ships its model surface inside the pinned jar: the vendor's
+documented default `SourcesAndSinks.txt` catalog (the CLI's `-s` flag is
+mandatory — omitting it produces the zero-exit failure banner — so the
+activation shape extracts the bundled catalog verbatim and points the flag at
+it) and the default StubDroid `summariesManual` taint wrapper. That is a live
+activation contract, and it needs no vendored snapshot: the jar digest the
+run already witnesses is the provenance
+([Amendment A17](../../docs/native-profile.md#a17--2026-09-01-flowdroid-joins-the-tool-native-profile-with-a-live-activation-contract-and-six-cells-declined-on-catalog-evidence)).
+
+The catalog's own text decides the cells: it binds the probe set's command
+sink (`Runtime.exec(String)`) and **no source any native template reads** —
+`System.getenv`, the system-property pair, a `main` argument vector, and
+every sanitizer idiom are absent — so all six templates are `unsupported` on
+shipped-model evidence, decided before any run, and
+`reports/flowdroid-java-native.json` retains the twelve decisions under the
+witnessed jar identity.
+
+```bash
+cargo run -- run-flowdroid-native --language java \
+  --flowdroid-jar soot-infoflow-cmd-2.15.1-jar-with-dependencies.jar \
+  --android-platform android-34.jar
+```

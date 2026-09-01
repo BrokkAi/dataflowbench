@@ -19,7 +19,7 @@ The initial adapter plan is:
 | Semgrep CE | Supported local analysis only | Implemented as eleven separate language-scoped populations over one committed taint rule per language; only the documented intraprocedural partition is scored. Four front ends are non-GA in the pinned distribution (Kotlin `beta`; Rust, C, C++ `alpha`) and the label is retained without ever changing the partition |
 | OpenTaint | Java and Kotlin profile | Implemented as two language-scoped populations over the pinned `analyzer/2026.08.27.17eb0fe` release, both run over their full expanded 58-assertion cores. The whole core is scored — the pinned documentation fences no capability. The first runs' dominant result, a value-kind boundary dropping taint on numeric values, was identified upstream as the default rule configuration and resolved by Amendment A11 (`primitive-tracking: true` in both templates); the amended-template re-runs measure propagation semantics in both languages |
 | Infer | C, C++, and Java profile | Implemented as three language-scoped populations over the pinned v1.3.0 release's Pulse taint configuration — the release's one operable taint surface, Quandary being removed — each run over its full expanded core (48, 56, and 58 assertions). The whole core is scored in all three; C and C++ gain their first benchmark-controlled interprocedural second engine |
-| FlowDroid | Java and Kotlin profile | Implemented as two language-scoped populations over the pinned 2.15.1 release's command-line analyzer, both run over their full expanded 58-assertion cores. The released CLI analyzes APKs only — verified in the field — so each case materializes a minimal APK from pinned, JVM-only pieces (a D8 dex translation, a committed benchmark-generated binary manifest, a harness entry activity); the whole core is scored, the pinned defaults fencing no capability |
+| FlowDroid | Java and Kotlin profile | Implemented as two language-scoped populations over the pinned 2.15.1 release's command-line analyzer, both run over their full expanded 58-assertion cores. The released CLI analyzes APKs only — verified in the field — so each case materializes a minimal APK from pinned, JVM-only pieces (a D8 dex translation, a committed benchmark-generated binary manifest, a harness entry activity); the whole core is scored, the pinned defaults fencing no capability. Amendments A16 and A17 add its Java modeling row (seven of twelve templates scored, via StubDroid summaries) and its Java tool-native row (a live activation contract over the jar's shipped catalog, all six cells declined on the catalog's own text) |
 | Pysa | Python profile | Implemented as one language-scoped population over the pinned pyre-check 0.10.0 release's taint analysis, run over Python's full expanded 58-assertion core. The pin is a pair — the client drives the separately released Pyrefly 1.2.0 front end for call-graph resolution, and without a per-case `pyrefly.toml` that front end exports every call unresolved while exiting cleanly, a verified silent-failure mode the runner guards. The whole core is scored, and Python becomes the five-analyzer kernel issue #82 intended |
 
 No adapter may synthesize a tool result. If a supported case cannot complete,
@@ -355,15 +355,18 @@ on the tier, a modeling case cannot leak into any of them; `smoke_population_cas
 additionally refuses modeling cases outright, the same way it refuses challenge
 ones, so the frozen 118-case Bifrost smoke population cannot absorb one.
 
-**The partition is `CHALLENGE_SEMGREP_PARTITION` generalized to five tools.**
-`MODELING_PARTITION` holds one cell per tool per category — thirty cells,
+**The partition is `CHALLENGE_SEMGREP_PARTITION` generalized to six tools.**
+`MODELING_PARTITION` holds one cell per tool per category — thirty-six cells,
 transcribed from the preregistration's tables (Infer's six arrived by
-Amendment A13, field-evaluated before its first modeling run), with the cells
-it marks *to be verified* recorded as `unsupported` per its own rule, and with
-the dated amendments applied on top as template-level overrides. Scored today, after
-Amendments A2, A3, and A9: **Bifrost 4 templates of 12** (S, and Z since A9),
-**Semgrep CE 5 of 12** (S, E, and one of Z's two templates), **CodeQL 12 of
-12**, **Joern 8 of 12** (S, Z, E, B). A declined cell is decided from the
+Amendment A13, field-evaluated before its first modeling run, and FlowDroid's
+six by Amendment A16 on retained probe evidence), with the cells it marks *to
+be verified* recorded as `unsupported` per its own rule, and with the dated
+amendments applied on top as template-level overrides. Scored today, after
+Amendments A2, A3, A9, A13, and A16: **Bifrost 4 templates of 12** (S, and Z
+since A9), **Semgrep CE 5 of 12** (S, E, and one of Z's two templates),
+**CodeQL 12 of 12**, **Joern 8 of 12** (S, Z, E, B), **Infer 5 of 12** (S, P's
+template 3, Z; Java only), and **FlowDroid 7 of 12** (S, P, O, and one of Z's
+two templates; Java only). A declined cell is decided from the
 template ID *before the tool is invoked*, retains the document's rationale
 verbatim as its reason, and writes a `retained-capability-decision` evidence
 document beside the report. The decision is keyed by template identity, never
@@ -378,6 +381,7 @@ tool per language, hash-bound into the report's `configuration_hash`:
 | --- | --- |
 | Bifrost | `adapters/bifrost/policies/model-<language>.rqlp` |
 | CodeQL | `adapters/codeql/<language>/queries/<Language>Modeling.ql`, except Java's, which is `adapters/codeql/queries/JavaModeling.ql` |
+| FlowDroid | `adapters/flowdroid/summaries/model-java/` — a directory of StubDroid summary XMLs, whose three files bind the hash individually, alongside the kernel's endpoint template, wrapper template, and manifest blob (Java only; Amendment A16) |
 | Infer | `adapters/infer/config/model-java.json` — Java only; the pinned distribution executes no JavaScript or Python frontend, so those combinations have no artifact and no denominator (Amendment A13) |
 | Joern | `adapters/joern/semantics/model-<language>.semantics`, plus the shared `adapters/joern/queries/modeling.sc` |
 | Semgrep | `adapters/semgrep/rules/model-<language>.yaml` |
@@ -394,9 +398,10 @@ language for which the schematic path is already correct, because Java's pack
 nothing. Joern is the one adapter with two files, and both bind the
 configuration hash.
 
-**Five commands, parameterized by language.** `run-bifrost-modeling`,
-`run-codeql-modeling`, `run-infer-modeling`, `run-joern-modeling`, and
-`run-semgrep-modeling`, each taking `--language java|javascript|python` and
+**Six commands, parameterized by language.** `run-bifrost-modeling`,
+`run-codeql-modeling`, `run-infer-modeling`, `run-joern-modeling`,
+`run-semgrep-modeling`, and — since Amendment A16 — `run-flowdroid-modeling`,
+each taking `--language java|javascript|python` and
 writing `reports/<tool>-<language>-modeling.json` with raw evidence under
 `reports/raw/<tool>-<language>-modeling/`. The per-language *kernel* commands
 are separate commands because each language's kernel differs in real toolchain
@@ -494,15 +499,22 @@ would catch.
 **The partition is keyed by template, not by category — and, since
 [Amendment N-A1](native-profile.md#n-a1--2026-08-27-semgrep-ces-six-python-cells-are-promoted-to-scored-and-the-partition-gains-a-language-dimension),
 by language too.** `NATIVE_PARTITION` holds one cell per tool per template —
-twenty-four cells, transcribed from the preregistration's summary, with its *to
-be verified* cells recorded as `unsupported` per its own rule — and
+thirty-six cells: the preregistered twenty-four transcribed from the summary,
+Infer's six added by Amendment A14 on a measured silence, and FlowDroid's six
+by Amendment A17 on the shipped catalog's text — with the preregistration's
+*to be verified* cells recorded as `unsupported` per its own rule — and
 `NATIVE_PARTITION_AMENDMENTS` sits in front of it with one row per amended
 tool × language × template. The language dimension exists because a vendored
 activation snapshot is per language: reading Python's rules can only answer
 Python's cells, and a partition without a language could not say so. As
 preregistered: **CodeQL 6 templates of 6**, and **Bifrost, Joern, and Semgrep
 CE 0 of 6**. As amended: Semgrep CE is **6 of 6 for Python** on the evidence of
-its vendored snapshot, and unchanged elsewhere. The asymmetry with the
+its vendored snapshot, and unchanged elsewhere; **Infer joined at 0 of 6 for
+Java** (Amendment A14) on a measured silence; and **FlowDroid joined at 0 of 6
+for Java** (Amendment A17) with a live activation contract — the shipped
+`SourcesAndSinks.txt` catalog and default summary wrapper from inside the
+pinned jar — whose catalog binds no identity any native template uses, and its
+cells bring `NATIVE_PARTITION` to thirty-six. The asymmetry with the
 benchmark-controlled matrix is the point rather than a defect — Joern scores four
 of six categories there on the same engine — because this profile measures
 product packaging and that one measures the engine. A declined cell is decided
@@ -510,14 +522,17 @@ from the template ID *before the tool is invoked*, retains the document's
 rationale verbatim, and writes a `retained-capability-decision` document beside
 the report carrying the pinned activation configuration with it.
 
-**Five commands, parameterized by language.** `run-bifrost-native`,
-`run-codeql-native`, `run-infer-native`, `run-joern-native`, and
-`run-semgrep-native`, each taking `--language java|javascript|python` and
+**Six commands, parameterized by language.** `run-bifrost-native`,
+`run-codeql-native`, `run-infer-native`, `run-joern-native`,
+`run-semgrep-native`, and — since Amendment A17 — `run-flowdroid-native`, each
+taking `--language java|javascript|python` and
 writing `reports/<tool>-<language>-native.json` with raw evidence under
 `reports/raw/<tool>-<language>-native/`. `run-infer-native` accepts Java
 alone — the pinned Infer distribution executes no JavaScript or Python
 frontend, so those languages have no Infer native denominator (Amendment
-A14).
+A14) — and so does `run-flowdroid-native`, which additionally witnesses the
+pinned jar and platform digests before writing its twelve retained decisions
+(Amendment A16).
 
 **Fail fast, never an empty report.** A run refuses, before touching the
 analyzer, when the language has no tool-native population, when a pinned
@@ -535,9 +550,11 @@ covered the moment it is declared. Tests pin every activation shape literally:
 `--threat-model=local` plus the shipped `<language>-security-extended.qls` suite
 for CodeQL, `--oss-only` plus `--config=adapters/semgrep/native/<language>` for
 Semgrep, `--policy-pack` and never `--policy-file` for Bifrost, nothing at
-all for Joern, which activates `DefaultSemantics` by running, and
+all for Joern, which activates `DefaultSemantics` by running,
 `--pulse-only` with no `--pulse-taint-config` for Infer, whose shipped taint
-analysis is off absent one — the measured silence Amendment A14 declines on.
+analysis is off absent one — the measured silence Amendment A14 declines on —
+and `-s` pointed at the catalog extracted verbatim from FlowDroid's own pinned
+jar, which is why that row vendors nothing: the jar digest is the provenance.
 
 **Activation configuration binds the configuration hash.** Most of a native
 run's configuration is not a file in this repository — it is a suite name, a

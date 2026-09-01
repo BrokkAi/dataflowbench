@@ -556,20 +556,27 @@ fn modeling_category(template: &str) -> Option<ModelingCategory> {
 /// The four adapters the preregistration partitions, plus the adapters that
 /// joined later, each by a dated amendment with its own partition row, never
 /// by inheriting another's. Infer joined by Amendment A13 with a
-/// field-evaluated row (`reports/raw/amendment-a13-infer-partition/`).
+/// field-evaluated row (`reports/raw/amendment-a13-infer-partition/`);
+/// FlowDroid joined by Amendment A16 on retained probe evidence
+/// (`reports/raw/load-bearing-java-modeling/flowdroid-*.json`), and like
+/// Infer its row applies to Java alone — the analyzer consumes JVM bytecode,
+/// so the other modeling languages are outside its reach entirely, which is
+/// different from being declined.
 #[derive(Clone, Copy, PartialEq, Eq, Debug, clap::ValueEnum)]
 enum ModelingTool {
     Bifrost,
     Codeql,
+    Flowdroid,
     Infer,
     Joern,
     Semgrep,
 }
 
 impl ModelingTool {
-    const ALL: [Self; 5] = [
+    const ALL: [Self; 6] = [
         Self::Bifrost,
         Self::Codeql,
+        Self::Flowdroid,
         Self::Infer,
         Self::Joern,
         Self::Semgrep,
@@ -581,6 +588,7 @@ impl ModelingTool {
         match self {
             Self::Bifrost => "bifrost",
             Self::Codeql => "codeql",
+            Self::Flowdroid => "flowdroid",
             Self::Infer => "infer",
             Self::Joern => "joern",
             Self::Semgrep => "semgrep",
@@ -603,6 +611,7 @@ impl ModelingTool {
         match self {
             Self::Bifrost => "Bifrost v0.10.7",
             Self::Codeql => "CodeQL CLI 2.26.4",
+            Self::Flowdroid => "FlowDroid 2.15.1",
             Self::Infer => "Infer v1.3.0",
             Self::Joern => "Joern 4.0.614",
             Self::Semgrep => "Semgrep CE 1.175.0",
@@ -637,7 +646,7 @@ struct ModelingPartitionCell {
 /// than four, and why its second — category Z — arrived as
 /// [Amendment A9](../docs/modeling-matrix.md#amendments) with a measurement
 /// behind it rather than as an edit to this array.
-const MODELING_PARTITION: [ModelingPartitionCell; 30] = [
+const MODELING_PARTITION: [ModelingPartitionCell; 36] = [
     // Bifrost — preregistered 1 / 6; 2 / 6 as amended, after Amendment A9
     // promoted category Z.
     ModelingPartitionCell {
@@ -716,6 +725,70 @@ const MODELING_PARTITION: [ModelingPartitionCell; 30] = [
         tool: ModelingTool::Codeql,
         category: ModelingCategory::Persistence,
         unsupported_reason: None,
+    },
+    // FlowDroid — 2.15.1, Java only (Amendment A16): 4 / 6 categories, S, P,
+    // Z, and O, with category Z split at the template level (see
+    // MODELING_TEMPLATE_OVERRIDES). The row was preregistered on retained
+    // probe evidence (reports/raw/load-bearing-java-modeling/flowdroid-*.json,
+    // produced by scripts/probe-flowdroid-modeling-load-bearing.sh) before the
+    // first modeling run, per the matrix's own joining rule.
+    ModelingPartitionCell {
+        tool: ModelingTool::Flowdroid,
+        category: ModelingCategory::SourcesAndSinks,
+        unsupported_reason: None,
+    },
+    ModelingPartitionCell {
+        tool: ModelingTool::Flowdroid,
+        category: ModelingCategory::Propagators,
+        // Probed on the pinned 2.15.1: a StubDroid summary is load-bearing —
+        // the reflective opaque body carries nothing under the release's
+        // default configuration, the declared `carry` flow makes template 3's
+        // positive leak, deleting it stops the leak — and positional binding
+        // is native to the summary engine, so template 4's undeclared-position
+        // negative stays clean.
+        unsupported_reason: None,
+    },
+    ModelingPartitionCell {
+        tool: ModelingTool::Flowdroid,
+        category: ModelingCategory::Sanitizers,
+        // Template 5 scored (a `<clear>` stanza suppresses on a completing
+        // run and deleting it restores the flow through scrub's identity
+        // body); template 6 is overridden to unsupported — see
+        // MODELING_TEMPLATE_OVERRIDES and Amendment A16.
+        unsupported_reason: None,
+    },
+    ModelingPartitionCell {
+        tool: ModelingTool::Flowdroid,
+        category: ModelingCategory::Summaries,
+        // Probed: the identical identity bodies of `pass` and `hold` decide
+        // nothing — only the summaries do — and template 8's field-destination
+        // access path (`out: 1.payload`) is honored, leaving the sibling
+        // field's read clean while `deposit`'s empty body writes nothing.
+        unsupported_reason: None,
+    },
+    ModelingPartitionCell {
+        tool: ModelingTool::Flowdroid,
+        category: ModelingCategory::EntryPoints,
+        unsupported_reason: Some(
+            "the released CLI derives analysis roots exclusively from the APK manifest's Android \
+             components; no per-method entry-root declaration surface exists. Probed on the \
+             pinned 2.15.1: an XML sources-and-sinks definition binding the handler's parameter \
+             as a `callback` source parses (\"Loaded 1 sources\") and the analysis still finds \
+             zero sources, because a declaration cannot create a root the manifest does not \
+             (reports/raw/load-bearing-java-modeling/flowdroid-entrypoint-parameter-undeclarable.json)",
+        ),
+    },
+    ModelingPartitionCell {
+        tool: ModelingTool::Flowdroid,
+        category: ModelingCategory::Persistence,
+        unsupported_reason: Some(
+            "no FlowDroid declaration surface carries a store identity or a key position: the \
+             sources-and-sinks formats declare source/sink/both roles, the EasyTaintWrapper \
+             lists declare taint/exclude/kill per method, and a StubDroid summary's positions \
+             are parameters, fields, and the return value — none can express the `store:` and \
+             `key:` bindings templates 11 and 12 declare, so a persistence declaration has no \
+             encoding on the pinned 2.15.1",
+        ),
     },
     // Infer — v1.3.0: 3 / 6 categories (S, P, Z), joined by Amendment A13 on
     // a field evaluation executed against the committed Java modeling
@@ -868,7 +941,7 @@ const MODELING_PARTITION: [ModelingPartitionCell; 30] = [
 /// any-argument default, not the declared position. Unknown configuration
 /// fields are silently ignored on the pinned build, so no spelling can be
 /// trusted to bind the position either.
-const MODELING_TEMPLATE_OVERRIDES: [(ModelingTool, &str, &str); 2] = [
+const MODELING_TEMPLATE_OVERRIDES: [(ModelingTool, &str, &str); 3] = [
     (
         ModelingTool::Semgrep,
         "dfb-template-model-sanitizer-selectivity",
@@ -887,6 +960,22 @@ const MODELING_TEMPLATE_OVERRIDES: [(ModelingTool, &str, &str); 2] = [
          any-argument default rather than by the declared binding — and \
          unknown configuration fields are silently ignored, so no spelling \
          can be trusted to bind the position (Amendment A13)",
+    ),
+    // Amendment A16, measured before the first run: FlowDroid's summary
+    // resolution is exclusive for the whole declaring class
+    // (SummaryTaintWrapper.isExclusive answers true whenever the class has
+    // summaries), so the one declaration that suppresses `scrub` also
+    // swallows the undeclared sibling `sanitize` — probed as zero leaks on
+    // template 6's positive under the committed Clean summary
+    // (reports/raw/load-bearing-java-modeling/flowdroid-sanitizer-selectivity-undecidable.json).
+    (
+        ModelingTool::Flowdroid,
+        "dfb-template-model-sanitizer-selectivity",
+        "FlowDroid cannot express sanitizer suppression and selectivity in one \
+         invocation: summary resolution is exclusive for the whole declaring \
+         class, so the declared scrub kill also suppresses the flow through \
+         the undeclared sanitizer-lookalike and the positive is undecidable \
+         by construction (Amendment A16)",
     ),
 ];
 
@@ -1037,6 +1126,13 @@ impl ModelingLanguage {
             }
             (ModelingTool::Infer, Self::Java) => Some("adapters/infer/config/model-java.json"),
             (ModelingTool::Infer, Self::Javascript | Self::Python) => None,
+            // FlowDroid's artifact is a StubDroid summaries *directory* (one
+            // XML per declared fixture type); the three files inside it bind
+            // the configuration hash individually, because a directory has no
+            // bytes to hash. Java only, like Infer's, and for the same
+            // bytecode-reach reason (Amendment A16).
+            (ModelingTool::Flowdroid, Self::Java) => Some(FLOWDROID_MODELING_SUMMARIES_DIR),
+            (ModelingTool::Flowdroid, Self::Javascript | Self::Python) => None,
             (ModelingTool::Joern, Self::Java) => {
                 Some("adapters/joern/semantics/model-java.semantics")
             }
@@ -1117,6 +1213,84 @@ fn require_semgrep_modeling_load_bearing(rule: &str, path: &str) -> Result<()> {
         bail!(
             "{path} does not set `options: {SEMGREP_MODELING_ASSUME_SAFE_OPTION}`; without it the pinned CE engine carries taint from any tainted argument to a call's result and the declared model is not what decides the cell (docs/modeling-matrix.md#the-load-bearing-model-requirement)"
         );
+    }
+    Ok(())
+}
+
+/// FlowDroid's per-language modeling artifact: a directory of StubDroid
+/// summary XMLs — the release's own summary format — activated per case as
+/// `-tw STUBDROID -t <dir>`, which *replaces* the release default's bundled
+/// `summariesManual` provider so the only summaries in the run are the
+/// benchmark's declarations (Amendment A16).
+const FLOWDROID_MODELING_SUMMARIES_DIR: &str = "adapters/flowdroid/summaries/model-java";
+
+/// The three committed summary files, individually hash-bound into the
+/// modeling report's `configuration_hash` (a directory has no bytes to hash).
+const FLOWDROID_MODELING_SUMMARY_FILES: [&str; 3] = [
+    "adapters/flowdroid/summaries/model-java/dataflowbench.taint.Bridge.xml",
+    "adapters/flowdroid/summaries/model-java/dataflowbench.taint.Clean.xml",
+    "adapters/flowdroid/summaries/model-java/dataflowbench.taint.Opaque.xml",
+];
+
+/// The taint-wrapper mode a FlowDroid modeling run passes. STUBDROID over the
+/// committed summaries is what makes the declarations load-bearing: the
+/// engine's only alternative for a summarized callee is reading its body, the
+/// opaque bodies carry nothing on the pinned defaults (probed), and no shipped
+/// summary is in the run to decide a cell the benchmark's declaration was
+/// meant to decide.
+const FLOWDROID_MODELING_TAINT_WRAPPER_MODE: &str = "STUBDROID";
+
+/// The declared method identities each committed FlowDroid summary file must
+/// carry, checked by [`require_flowdroid_modeling_declarations`]: a scored
+/// cell whose declaration is missing is a benchmark defect that fails the
+/// run, never an outcome — the same rule every other adapter's artifact gate
+/// enforces.
+const FLOWDROID_MODELING_DECLARATIONS: [(&str, &str); 6] = [
+    (
+        "adapters/flowdroid/summaries/model-java/dataflowbench.taint.Opaque.xml",
+        "<method id=\"java.lang.String carry(java.lang.String)\">",
+    ),
+    (
+        "adapters/flowdroid/summaries/model-java/dataflowbench.taint.Opaque.xml",
+        "<method id=\"java.lang.String select(java.lang.String,java.lang.String)\">",
+    ),
+    (
+        "adapters/flowdroid/summaries/model-java/dataflowbench.taint.Clean.xml",
+        "<clear sourceSinkType=\"Parameter\" ParameterIndex=\"0\" />",
+    ),
+    (
+        "adapters/flowdroid/summaries/model-java/dataflowbench.taint.Bridge.xml",
+        "<method id=\"java.lang.String pass(java.lang.String)\">",
+    ),
+    (
+        "adapters/flowdroid/summaries/model-java/dataflowbench.taint.Bridge.xml",
+        "<method id=\"void deposit(java.lang.String,dataflowbench.taint.Box)\">",
+    ),
+    (
+        "adapters/flowdroid/summaries/model-java/dataflowbench.taint.Bridge.xml",
+        "AccessPath=\"[dataflowbench.taint.Box: java.lang.String payload]\"",
+    ),
+];
+
+/// Enforce that every declaration FlowDroid's scored cells rest on is present
+/// in the committed summaries. The mirror of the Bifrost, Semgrep, and Infer
+/// load-bearing gates: those pin a *default-disabling switch* or refuse a
+/// silent configuration, which FlowDroid does not need — replacing the
+/// default taint wrapper with the committed summaries directory is itself
+/// what removes every shipped model from the run — so what is pinned here is
+/// the presence of the declarations themselves.
+fn require_flowdroid_modeling_declarations() -> Result<()> {
+    for (path, declaration) in FLOWDROID_MODELING_DECLARATIONS {
+        let contents = fs::read_to_string(path).map_err(|error| {
+            anyhow::anyhow!(
+                "FlowDroid's Java modeling population needs its committed summary artifact {path}, which cannot be read: {error}. docs/modeling-matrix.md makes a missing model a benchmark defect that fails the build; it is never `unsupported`, never `not-reached`, and never a result"
+            )
+        })?;
+        if !contents.contains(declaration) {
+            bail!(
+                "{path} no longer carries the declaration {declaration:?} that a scored FlowDroid modeling cell rests on (docs/modeling-matrix.md, Amendment A16); a missing model is a benchmark defect, never a result"
+            );
+        }
     }
     Ok(())
 }
@@ -1394,7 +1568,7 @@ struct NativePartitionCell {
 /// is unsupported until shown otherwise, and promoting one is a dated
 /// amendment. That is why three of the four tools enter with nothing scored —
 /// which is a statement about product packaging, not about an engine.
-const NATIVE_PARTITION: [NativePartitionCell; 30] = [
+const NATIVE_PARTITION: [NativePartitionCell; 36] = [
     // Bifrost — v0.10.7: 0 / 6. The standalone policy CLI ships no taint
     // policy and no source/sink endpoint catalog, so no template can produce a
     // finding regardless of what else it can express.
@@ -1489,6 +1663,78 @@ const NATIVE_PARTITION: [NativePartitionCell; 30] = [
         tool: ModelingTool::Codeql,
         template: NATIVE_TEMPLATE_IDS[5],
         unsupported_reason: None,
+    },
+    // FlowDroid — 2.15.1, Java only (Amendment A17): 0 / 6, on the evidence of
+    // the shipped catalog's own text. The activation contract is live — the
+    // released CLI requires `-s`, the vendor's documented default
+    // `SourcesAndSinks.txt` ships inside the pinned jar, and pointing the flag
+    // at that catalog extracted verbatim (with the release default's
+    // summariesManual taint wrapper) is the shipped product deciding — but the
+    // catalog binds no identity any native template uses, so every cell is
+    // declined the way Amendments A6 and A7 declined Semgrep's JavaScript and
+    // Java cells: from shipped-model text, before any run.
+    NativePartitionCell {
+        tool: ModelingTool::Flowdroid,
+        template: NATIVE_TEMPLATE_IDS[0],
+        unsupported_reason: Some(
+            "the shipped SourcesAndSinks.txt binds the template's sink — `<java.lang.Runtime: \
+             java.lang.Process exec(java.lang.String)> -> _SINK_` is in the catalog — but no \
+             shipped source binds a platform environment read: `System.getenv` does not occur \
+             in the catalog, whose sources are servlet, Spring, and Android framework \
+             identities. A catalog with a bound sink and no applicable source cannot produce a \
+             finding on these fixtures (Amendment A17)",
+        ),
+    },
+    NativePartitionCell {
+        tool: ModelingTool::Flowdroid,
+        template: NATIVE_TEMPLATE_IDS[1],
+        unsupported_reason: Some(
+            "the release default's summariesManual wrapper ships a `String.concat` taint \
+             summary, so the propagator half is covered — but no shipped source binds \
+             `System.getenv`, and a propagator with nothing to carry produces nothing \
+             (Amendment A17)",
+        ),
+    },
+    NativePartitionCell {
+        tool: ModelingTool::Flowdroid,
+        template: NATIVE_TEMPLATE_IDS[2],
+        unsupported_reason: Some(
+            "the shipped catalog's txt format has no sanitizer role at all — its entries are \
+             `_SOURCE_`/`_SINK_`/`_BOTH_` — and the shipped `java.lang.Integer` summary models \
+             `parseInt` as taint-*preserving* rather than as a barrier; prior to either, no \
+             shipped source binds the flow's environment read, so there is no flow for a \
+             sanitizer to be credited against (Amendment A17)",
+        ),
+    },
+    NativePartitionCell {
+        tool: ModelingTool::Flowdroid,
+        template: NATIVE_TEMPLATE_IDS[3],
+        unsupported_reason: Some(
+            "summariesManual ships no `java.util.Base64` summary, and no shipped source binds \
+             the environment read that would have to survive the round trip (Amendment A17)",
+        ),
+    },
+    NativePartitionCell {
+        tool: ModelingTool::Flowdroid,
+        template: NATIVE_TEMPLATE_IDS[4],
+        unsupported_reason: Some(
+            "FlowDroid's shipped entry convention is the Android component lifecycle derived \
+             from the APK manifest; the JVM process-entry convention — `public static void \
+             main(String[])` reading its argument vector — does not exist on the analyzed \
+             platform, appears in no shipped model, and cannot be a root the manifest does not \
+             declare (Amendment A17)",
+        ),
+    },
+    NativePartitionCell {
+        tool: ModelingTool::Flowdroid,
+        template: NATIVE_TEMPLATE_IDS[5],
+        unsupported_reason: Some(
+            "no shipped model links `System.setProperty` to `System.getProperty` as a keyed \
+             store: the shipped `java.lang.System` summary models `getProperty` as key-argument \
+             → return taint — a propagator on the key, not a store read — `setProperty` has no \
+             summary at all, and no shipped source binds the environment read that starts the \
+             flow (Amendment A17)",
+        ),
     },
     // Infer — v1.3.0, shipped Pulse checker with no taint configuration:
     // 0 / 6, joined by Amendment A14 on a measured silence
@@ -1963,8 +2209,44 @@ fn native_activation(
             arguments: Vec::new(),
             configuration_paths: BTreeSet::new(),
         },
+        // FlowDroid's shipped model surface is entirely inside the pinned,
+        // digest-witnessed jar: the vendor's documented default
+        // `SourcesAndSinks.txt` catalog (the released CLI requires `-s`, so
+        // the activation shape extracts that catalog from the jar verbatim
+        // and points the flag at it) and the release default's StubDroid
+        // `summariesManual` taint wrapper. No vendored snapshot exists to
+        // hash — the jar digest gate is the provenance — so the
+        // configuration-path set is empty and the arguments name the
+        // activation shape (Amendment A17).
+        ModelingTool::Flowdroid => {
+            if language != ModelingLanguage::Java {
+                bail!(
+                    "{} has no {} tool-native denominator: the analyzer consumes JVM bytecode, so its native row exists for Java alone (docs/native-profile.md, Amendment A17). No denominator is different from a zero; refusing to write a report",
+                    tool.pinned_identity(),
+                    language.display_name()
+                );
+            }
+            NativeActivation {
+                identity: format!(
+                    "FlowDroid {identity} shipped SourcesAndSinks.txt catalog (extracted verbatim from the pinned soot-infoflow-cmd jar) and default summariesManual taint wrapper"
+                ),
+                arguments: vec![
+                    "-s".to_string(),
+                    FLOWDROID_NATIVE_CATALOG_ARGUMENT.to_string(),
+                ],
+                configuration_paths: BTreeSet::new(),
+            }
+        }
     })
 }
+
+/// How a FlowDroid native run's `-s` argument is recorded in the pinned
+/// activation shape: the shipped catalog is a member of the digest-witnessed
+/// jar, extracted verbatim into the run's scratch at run time, so the
+/// activation names the jar entry rather than a repository path — there is no
+/// vendored copy whose drift a hash would have to catch.
+const FLOWDROID_NATIVE_CATALOG_ARGUMENT: &str =
+    "jar:soot-infoflow-cmd-2.15.1-jar-with-dependencies.jar!/SourcesAndSinks.txt";
 
 /// Every benchmark-authored model artifact in the repository, derived from the
 /// benchmark-controlled matrix's own constants rather than restated, so a new
@@ -2717,6 +2999,36 @@ enum Commands {
         #[arg(long, default_value = "semgrep")]
         semgrep: PathBuf,
     },
+    /// Run the Java modeling matrix through the pinned FlowDroid release
+    /// (Amendment A16). The partition scores categories S, P, Z, and O —
+    /// sanitizer selectivity is template-overridden out, and categories E and
+    /// B are `unsupported` with retained rationales, decided before the
+    /// analyzer is invoked. Scored cells run under `-tw STUBDROID` over the
+    /// committed summaries directory, which replaces the release default's
+    /// bundled summary provider.
+    RunFlowdroidModeling {
+        /// Only `java` is accepted: the adapter consumes JVM bytecode, so the
+        /// other modeling languages are outside its reach.
+        #[arg(long, value_enum)]
+        language: ModelingLanguage,
+        /// Path to the pinned `soot-infoflow-cmd-2.15.1-jar-with-dependencies.jar`.
+        #[arg(long)]
+        flowdroid_jar: PathBuf,
+        /// Path to the pinned android-34 platform `android.jar`, witnessed by
+        /// digest; FlowDroid resolves the analyzed framework stubs from it.
+        #[arg(long)]
+        android_platform: PathBuf,
+        /// Path to the pinned r8 jar whose `D8` entry point translates the
+        /// compiled fixtures to dex on the same JVM.
+        #[arg(long)]
+        d8_jar: PathBuf,
+        /// Java runtime that executes the analyzer and dex-translator jars.
+        #[arg(long, default_value = "java")]
+        java: PathBuf,
+        /// Java compiler that materializes each fixture's bytecode.
+        #[arg(long, default_value = "javac")]
+        javac: PathBuf,
+    },
     /// Run one language's tool-native probe set through Bifrost's built-in
     /// policy packs, supplying no models. The preregistered partition scores
     /// nothing: the standalone policy CLI ships no source or sink endpoint
@@ -2773,6 +3085,25 @@ enum Commands {
         language: ModelingLanguage,
         #[arg(long, default_value = "semgrep")]
         semgrep: PathBuf,
+    },
+    /// Run the Java tool-native probe set for the pinned FlowDroid release
+    /// (Amendment A17): the shipped `SourcesAndSinks.txt` catalog and default
+    /// summary wrapper constitute a live activation contract, but the catalog
+    /// binds no identity any native template uses, so all six templates are
+    /// `unsupported` with retained rationales decided from the shipped text —
+    /// and the run still witnesses the pinned jar identity by digest.
+    RunFlowdroidNative {
+        /// Only `java` is accepted: the adapter consumes JVM bytecode, so the
+        /// other native populations are outside its reach.
+        #[arg(long, value_enum)]
+        language: ModelingLanguage,
+        /// Path to the pinned `soot-infoflow-cmd-2.15.1-jar-with-dependencies.jar`.
+        #[arg(long)]
+        flowdroid_jar: PathBuf,
+        /// Path to the pinned android-34 platform `android.jar`, witnessed by
+        /// digest alongside the analyzer jar.
+        #[arg(long)]
+        android_platform: PathBuf,
     },
     /// Measure one adapter's **warm marginal** per-case cost: the wall-clock
     /// slope of running k cases through a single tool process, per
@@ -3052,6 +3383,28 @@ fn main() -> Result<()> {
         Commands::RunSemgrepModeling { language, semgrep } => {
             run_modeling(ModelingTool::Semgrep, &semgrep, language, None, None)
         }
+        Commands::RunFlowdroidModeling {
+            language,
+            flowdroid_jar,
+            android_platform,
+            d8_jar,
+            java,
+            javac,
+        } => run_flowdroid_modeling(
+            &FlowdroidTools {
+                flowdroid_jar,
+                android_platform,
+                d8_jar,
+                java,
+            },
+            javac,
+            language,
+        ),
+        Commands::RunFlowdroidNative {
+            language,
+            flowdroid_jar,
+            android_platform,
+        } => run_flowdroid_native(&flowdroid_jar, &android_platform, language),
         Commands::RunBifrostNative { language, bifrost } => {
             run_native(ModelingTool::Bifrost, &bifrost, language, None)
         }
@@ -12297,6 +12650,9 @@ fn run_flowdroid_kernel(tools: &FlowdroidTools, kernel: FlowdroidKernel) -> Resu
             &path,
             &case,
             &raw_dir,
+            &[],
+            FlowdroidPhaseMode::KernelTotal,
+            kernel.dialect(),
         )?;
         results.push(normalized_result(
             &case,
@@ -12387,6 +12743,21 @@ fn write_flowdroid_inconclusive(
     Ok(error_path)
 }
 
+/// Which phase boundaries a FlowDroid case's timing sidecar records.
+///
+/// The kernels time the one analyzer subprocess as `total` and leave the APK
+/// materialization untimed, per the latency tier's preregistered FlowDroid
+/// row. The modeling population records all three adapter-observable
+/// subprocess boundaries — `compile` (both javac invocations), `dex` (the D8
+/// translation), and `analyze` (the FlowDroid invocation) — declared by the
+/// latency tier's Amendment A18; only `analyze` is an analyzer number, and it
+/// is the phase comparable to the kernels' `total`.
+#[derive(Clone, Copy, PartialEq, Eq)]
+enum FlowdroidPhaseMode {
+    KernelTotal,
+    CompileDexAnalyze,
+}
+
 #[allow(clippy::too_many_arguments)]
 fn run_flowdroid_case(
     tools: &FlowdroidTools,
@@ -12397,6 +12768,15 @@ fn run_flowdroid_case(
     case_path: &Path,
     case: &Value,
     raw_dir: &Path,
+    extra_analyzer_args: &[String],
+    phase_mode: FlowdroidPhaseMode,
+    // The dialect endpoint *names* are resolved under. The kernels use the
+    // kernel Java dialect; the modeling population resolves the declared
+    // entities' member-qualified callsites (`Audit.record(v)`) under the same
+    // `JavaMember` dialect every other adapter's modeling run uses.
+    // Reconciliation is unaffected either way: FlowDroid outcomes are decided
+    // against the echoed sink definitions, never against source lines.
+    dialect: AnchorDialect,
 ) -> Result<(&'static str, Vec<String>, PathBuf)> {
     let id = case["id"].as_str().expect("schema validated");
     let raw_path = raw_dir.join(format!("{id}.json"));
@@ -12421,7 +12801,7 @@ fn run_flowdroid_case(
     // A case whose endpoints cannot be resolved from its own markers has no
     // usable anchor evidence: `inconclusive` with a retained reason, never a
     // clean negative.
-    let endpoints = match benchmark_endpoint_names(case_path, case, kernel.dialect()) {
+    let endpoints = match benchmark_endpoint_names(case_path, case, dialect) {
         Ok(endpoints) => endpoints,
         Err(reason) => {
             let diagnostic =
@@ -12478,6 +12858,7 @@ fn run_flowdroid_case(
             .arg(&classes)
             .args(&compile_inputs)
             .stdin(std::process::Stdio::null());
+        let fixture_compile_started = Instant::now();
         let compiled = match compile.output() {
             Ok(output) => output,
             Err(error) => {
@@ -12490,6 +12871,7 @@ fn run_flowdroid_case(
                 return Ok(("runner-error", vec![diagnostic], path));
             }
         };
+        let fixture_compile_elapsed = fixture_compile_started.elapsed();
         if !compiled.status.success() {
             let diagnostic = format!(
                 "{} fixture compilation failed with status {}",
@@ -12586,6 +12968,7 @@ fn run_flowdroid_case(
             .arg(&classes)
             .arg(&wrapper_source)
             .stdin(std::process::Stdio::null());
+        let wrapper_compile_started = Instant::now();
         let wrapper_compiled = match wrapper_compile.output() {
             Ok(output) => output,
             Err(error) => {
@@ -12598,6 +12981,7 @@ fn run_flowdroid_case(
                 return Ok(("runner-error", vec![diagnostic], path));
             }
         };
+        let compile_elapsed = fixture_compile_elapsed + wrapper_compile_started.elapsed();
         if !wrapper_compiled.status.success() {
             let diagnostic = format!(
                 "{} wrapper compilation failed with status {}",
@@ -12640,6 +13024,7 @@ fn run_flowdroid_case(
         if let FlowdroidKernel::Kotlin { kotlin_stdlib, .. } = kernel {
             dex.arg(kotlin_stdlib);
         }
+        let dex_started = Instant::now();
         let dexed = match dex.output() {
             Ok(output) => output,
             Err(error) => {
@@ -12648,6 +13033,7 @@ fn run_flowdroid_case(
                 return Ok(("runner-error", vec![diagnostic], path));
             }
         };
+        let dex_elapsed = dex_started.elapsed();
         if !dexed.status.success() {
             let diagnostic = format!("D8 dex translation failed with status {}", dexed.status);
             let path = write_flowdroid_error(raw_dir, id, "dex", &diagnostic, Some(&dexed))?;
@@ -12697,7 +13083,7 @@ fn run_flowdroid_case(
         let out_xml = scratch.join("out.xml");
         let resolved_sources_sinks =
             fs::canonicalize(&sources_sinks_path).unwrap_or_else(|_| sources_sinks_path.clone());
-        let invocation = vec![
+        let mut invocation = vec![
             tools.java.display().to_string(),
             "-jar".to_string(),
             tools.flowdroid_jar.display().to_string(),
@@ -12710,6 +13096,7 @@ fn run_flowdroid_case(
             "-o".to_string(),
             out_xml.display().to_string(),
         ];
+        invocation.extend(extra_analyzer_args.iter().cloned());
         let mut command = Command::new(&tools.java);
         command
             .args(&invocation[1..])
@@ -12728,7 +13115,21 @@ fn run_flowdroid_case(
                 return Ok(("runner-error", vec![diagnostic], path));
             }
         };
-        write_case_phase_timings(raw_dir, "flowdroid", id, &[("total", invoked.elapsed())])?;
+        match phase_mode {
+            FlowdroidPhaseMode::KernelTotal => {
+                write_case_phase_timings(raw_dir, "flowdroid", id, &[("total", invoked.elapsed())])?
+            }
+            FlowdroidPhaseMode::CompileDexAnalyze => write_case_phase_timings(
+                raw_dir,
+                "flowdroid",
+                id,
+                &[
+                    ("compile", compile_elapsed),
+                    ("dex", dex_elapsed),
+                    ("analyze", invoked.elapsed()),
+                ],
+            )?,
+        }
         if !output.status.success() {
             let diagnostic = format!(
                 "FlowDroid {} kernel analysis failed with status {}",
@@ -13581,39 +13982,72 @@ fn plan_modeling_run(tool: ModelingTool, language: ModelingLanguage) -> Result<M
     // evidence about the analyzer. It is a hard error, never an outcome.
     let Some(artifact) = language.artifact(tool) else {
         bail!(
-            "{} has no {} modeling denominator at all: the pinned distribution executes no {} frontend, so its modeling row exists for Java alone (docs/modeling-matrix.md, Amendment A13). No denominator is different from a zero; refusing to write a report",
+            "{} has no {} modeling denominator at all: the pinned distribution executes no {} frontend, so its modeling row exists for Java alone (docs/modeling-matrix.md, Amendments A13 and A16). No denominator is different from a zero; refusing to write a report",
             tool.pinned_identity(),
             language.display_name(),
             language.display_name()
         );
     };
-    let contents = fs::read_to_string(artifact).map_err(|error| {
-        anyhow::anyhow!(
-            "{} has a {} modeling population but its modeling artifact {artifact} cannot be read: {error}. docs/modeling-matrix.md makes a missing model a benchmark defect that fails the build; it is never `unsupported`, never `not-reached`, and never a result",
-            tool.pinned_identity(),
-            language.display_name()
-        )
-    })?;
-    match tool {
-        ModelingTool::Bifrost => require_bifrost_modeling_load_bearing(&contents, artifact)?,
-        ModelingTool::Semgrep => require_semgrep_modeling_load_bearing(&contents, artifact)?,
-        // Infer has no unmodeled-call default to pin — where a body is
-        // captured, Pulse reads it, which is exactly why Amendment A13 marks
-        // category O unsupported rather than gating it here — but its
-        // configuration surface has three silent-failure shapes of its own,
-        // and the gate refuses each of them.
-        ModelingTool::Infer => require_infer_modeling_load_bearing(&contents, artifact)?,
-        // Neither surface has a switch to pin. CodeQL has no unmodeled-call
-        // default that would decide a cell on its own: a `ConfigSig` with no
-        // `isAdditionalFlowStep` adds no step. Joern's default pass-through
-        // *is* load-bearing, but it cannot be disabled — `FlowSemantic`
-        // mappings are additive over it — which is why Amendment A2 moved its
-        // propagator and summary categories to unsupported activation instead
-        // of gating them here.
-        ModelingTool::Codeql | ModelingTool::Joern => {}
+    if tool == ModelingTool::Flowdroid {
+        // FlowDroid's artifact is a directory of summary XMLs, checked
+        // declaration by declaration; its load-bearing property is the
+        // invocation shape itself (STUBDROID over these summaries replaces
+        // the release default's bundled provider), so there is no textual
+        // switch to pin here.
+        require_flowdroid_modeling_declarations()?;
+    } else {
+        let contents = fs::read_to_string(artifact).map_err(|error| {
+            anyhow::anyhow!(
+                "{} has a {} modeling population but its modeling artifact {artifact} cannot be read: {error}. docs/modeling-matrix.md makes a missing model a benchmark defect that fails the build; it is never `unsupported`, never `not-reached`, and never a result",
+                tool.pinned_identity(),
+                language.display_name()
+            )
+        })?;
+        match tool {
+            ModelingTool::Bifrost => require_bifrost_modeling_load_bearing(&contents, artifact)?,
+            ModelingTool::Semgrep => require_semgrep_modeling_load_bearing(&contents, artifact)?,
+            // Infer has no unmodeled-call default to pin — where a body is
+            // captured, Pulse reads it, which is exactly why Amendment A13 marks
+            // category O unsupported rather than gating it here — but its
+            // configuration surface has three silent-failure shapes of its own,
+            // and the gate refuses each of them.
+            ModelingTool::Infer => require_infer_modeling_load_bearing(&contents, artifact)?,
+            // Neither surface has a switch to pin. CodeQL has no unmodeled-call
+            // default that would decide a cell on its own: a `ConfigSig` with no
+            // `isAdditionalFlowStep` adds no step. Joern's default pass-through
+            // *is* load-bearing, but it cannot be disabled — `FlowSemantic`
+            // mappings are additive over it — which is why Amendment A2 moved its
+            // propagator and summary categories to unsupported activation instead
+            // of gating them here.
+            ModelingTool::Codeql | ModelingTool::Joern => {}
+            ModelingTool::Flowdroid => unreachable!("handled above"),
+        }
     }
 
-    let mut configuration_paths = BTreeSet::from([PathBuf::from(artifact)]);
+    let mut configuration_paths = match tool {
+        // The directory itself has no bytes; the three committed summary
+        // files bind the hash, alongside the endpoint template, the wrapper
+        // template, and the manifest blob that shape every materialized APK —
+        // the same binding the kernel reports carry, minus the Kotlin pair
+        // this Java-only population never touches.
+        ModelingTool::Flowdroid => {
+            let mut paths: BTreeSet<PathBuf> = FLOWDROID_MODELING_SUMMARY_FILES
+                .iter()
+                .map(PathBuf::from)
+                .collect();
+            paths.insert(PathBuf::from(format!(
+                "{FLOWDROID_CONFIG_DIR}/sources-sinks.txt"
+            )));
+            paths.insert(PathBuf::from(format!(
+                "{FLOWDROID_TEMPLATE_DIR}/AndroidManifest-java.xml"
+            )));
+            paths.insert(PathBuf::from(format!(
+                "{FLOWDROID_TEMPLATE_DIR}/DfbCaseActivity.java.tmpl"
+            )));
+            paths
+        }
+        _ => BTreeSet::from([PathBuf::from(artifact)]),
+    };
     if tool == ModelingTool::Joern {
         // Joern's declarations live in two files, so both bind the hash.
         configuration_paths.insert(PathBuf::from(JOERN_MODELING_SCRIPT));
@@ -14427,6 +14861,13 @@ fn run_modeling(
                     &plan.raw_dir,
                     modeling_codeql_language(plan.language)?,
                 )?,
+                // FlowDroid's modeling run needs the full APK-materialization
+                // toolchain and a digest-witnessed jar identity rather than a
+                // single binary path, so `run_flowdroid_modeling` owns it and
+                // the CLI never routes the tool here.
+                ModelingTool::Flowdroid => bail!(
+                    "FlowDroid modeling runs through run-flowdroid-modeling, which witnesses the pinned jar identity; this generic path has no toolchain for it"
+                ),
                 ModelingTool::Infer => run_infer_modeling_case(
                     binary,
                     javac.unwrap_or(Path::new("javac")),
@@ -14545,6 +14986,14 @@ fn witness_tool_identity(tool: ModelingTool, binary: &Path) -> Result<(String, S
         // self-reported version is not the pinned release, so a modeling or
         // tool-native report can never carry an asserted Infer identity.
         ModelingTool::Infer => witness_infer_identity(binary),
+        // FlowDroid's identity is two digest-witnessed jars plus the version
+        // its pom.properties self-reports — not a `--version` banner — so its
+        // own runners witness it through `witness_flowdroid_identity` and
+        // never reach this function.
+        ModelingTool::Flowdroid => bail!(
+            "FlowDroid's identity is witnessed from the pinned jar digests by its own runners ({}); this single-binary path cannot witness it",
+            binary.display()
+        ),
         ModelingTool::Joern => joern_version_identity(binary),
         ModelingTool::Semgrep => semgrep_version_identity(binary),
     }
@@ -15243,6 +15692,20 @@ fn run_native(
     // binary underneath it moved. Reading `--version` is not analyzing a
     // fixture, so the outcome-honesty contract is untouched by asking.
     let (version, build) = witness_tool_identity(tool, binary)?;
+    run_native_with_identity(tool, binary, language, version, build)
+}
+
+/// The witnessed-identity half of a tool-native run, shared between the
+/// single-binary adapters (whose identity `witness_tool_identity` reads) and
+/// FlowDroid (whose identity is two digest-witnessed jars read by
+/// `run_flowdroid_native` before this is called).
+fn run_native_with_identity(
+    tool: ModelingTool,
+    binary: &Path,
+    language: ModelingLanguage,
+    version: String,
+    build: String,
+) -> Result<()> {
     let plan = plan_native_run(tool, language, &version)?;
     let scored_templates = native_supported_templates(plan.tool, plan.language);
 
@@ -15287,7 +15750,15 @@ fn run_native(
                 // that promotes one of their cells to scored must land the arm
                 // that runs it, and until then a promotion fails the run
                 // instead of publishing a silent zero.
-                ModelingTool::Bifrost | ModelingTool::Infer | ModelingTool::Joern => bail!(
+                // FlowDroid additionally routes through its own runner
+                // (`run-flowdroid-native`), which witnesses the jar identity;
+                // its A17 partition likewise declines all six templates, so a
+                // scored cell reaching any generic arm is the same unwired
+                // promotion this error exists to catch.
+                ModelingTool::Bifrost
+                | ModelingTool::Infer
+                | ModelingTool::Joern
+                | ModelingTool::Flowdroid => bail!(
                     "the tool-native execution arm for {} × {} is not wired: {id} is a scored cell and no wave has yet had a reason to invoke this adapter natively — its preregistered partition declines all six templates (docs/native-profile.md#partition-summary). A cell promoted by a dated amendment lands its execution arm in the same pull request; synthesizing an outcome here is what docs/adapters.md forbids",
                     plan.tool.pinned_identity(),
                     plan.language.display_name(),
@@ -15892,6 +16363,184 @@ fn warm_batch_completed(
         fs::copy(&produced, retained.join(format!("{id}.json")))?;
     }
     Ok(())
+}
+
+/// Run the Java benchmark-controlled modeling matrix through the pinned
+/// FlowDroid release (Amendment A16).
+///
+/// The kernel's per-case machinery is reused unchanged — APK materialization,
+/// endpoint resolution from the fixture's own marker lines, witnessed Soot
+/// signatures, the leak-line and failure-banner guards, and the echoed
+/// sink-definition reconciliation. What differs is the model layer: the
+/// analyzer runs under `-tw STUBDROID -t` the committed summaries directory,
+/// which replaces the release default's bundled `summariesManual` provider so
+/// the benchmark's declarations are the only summaries in the run, and the
+/// timing sidecar records the three adapter-observable subprocess boundaries
+/// (`compile`, `dex`, `analyze`) the latency tier's Amendment A18 declares
+/// for this population.
+fn run_flowdroid_modeling(
+    tools: &FlowdroidTools,
+    javac: PathBuf,
+    language: ModelingLanguage,
+) -> Result<()> {
+    if language != ModelingLanguage::Java {
+        bail!(
+            "FlowDroid's modeling partition row applies to Java alone (docs/modeling-matrix.md, Amendment A16): the analyzer consumes JVM bytecode, so the {} modeling population is outside the adapter's language reach — which is different from a declined category",
+            language.display_name()
+        );
+    }
+    let plan = plan_modeling_run(ModelingTool::Flowdroid, language)?;
+    fs::create_dir_all(&plan.raw_dir)?;
+
+    let kernel = FlowdroidKernel::Java { javac };
+    let sources_sinks_template_path = format!("{FLOWDROID_CONFIG_DIR}/sources-sinks.txt");
+    let sources_sinks_template =
+        fs::read_to_string(&sources_sinks_template_path).with_context(|| {
+            format!("read the FlowDroid endpoint template {sources_sinks_template_path}")
+        })?;
+    for placeholder in [FLOWDROID_SOURCES_PLACEHOLDER, FLOWDROID_SINKS_PLACEHOLDER] {
+        if !sources_sinks_template.contains(placeholder) {
+            bail!(
+                "FlowDroid endpoint template {sources_sinks_template_path} does not carry {placeholder}"
+            );
+        }
+    }
+    let wrapper_template_path = kernel.wrapper_template();
+    let wrapper_template = fs::read_to_string(&wrapper_template_path)
+        .with_context(|| format!("read the FlowDroid wrapper template {wrapper_template_path}"))?;
+    for placeholder in [
+        FLOWDROID_PACKAGE_PLACEHOLDER,
+        FLOWDROID_ENTRY_CALL_PLACEHOLDER,
+    ] {
+        if !wrapper_template.contains(placeholder) {
+            bail!(
+                "FlowDroid wrapper template {wrapper_template_path} does not carry {placeholder}"
+            );
+        }
+    }
+    let manifest_path = kernel.manifest();
+    let manifest = fs::read(&manifest_path)
+        .with_context(|| format!("read the committed manifest blob {manifest_path}"))?;
+    // The committed summaries are the model; the analyzer's working directory
+    // is the per-case scratch, so the path is resolved once, absolutely.
+    let summaries = fs::canonicalize(FLOWDROID_MODELING_SUMMARIES_DIR)
+        .context("resolve the FlowDroid modeling summaries directory")?;
+    let analyzer_args = vec![
+        "-tw".to_string(),
+        FLOWDROID_MODELING_TAINT_WRAPPER_MODE.to_string(),
+        "-t".to_string(),
+        summaries.display().to_string(),
+    ];
+
+    let started = now_seconds()?;
+    let (version, mut build_identity) =
+        witness_flowdroid_identity(&tools.flowdroid_jar, &tools.android_platform)?;
+    let d8_identity = witness_flowdroid_d8(&tools.java, &tools.d8_jar)?;
+    build_identity = format!("{build_identity}; dexed by {d8_identity}");
+    write_run_environment(&plan.raw_dir, "flowdroid", &version, &build_identity)?;
+    let revision = fixture_revision()?;
+    let mut results = Vec::with_capacity(plan.cases.len());
+    for (path, case) in &plan.cases {
+        let id = required_string(case, "id", "modeling case")?;
+        let start = Instant::now();
+        // The preregistered partition is consulted first and decided from the
+        // template identity, so a declined cell is never handed to the
+        // analyzer and cannot produce an empty finding list that later reads
+        // as a negative.
+        let (outcome, diagnostics, raw_path) = if let Some((outcome, reason, raw_path)) =
+            modeling_partition_outcome(ModelingTool::Flowdroid, case, &plan.raw_dir, &version)?
+        {
+            (outcome, vec![reason], raw_path)
+        } else {
+            run_flowdroid_case(
+                tools,
+                &kernel,
+                &sources_sinks_template,
+                &wrapper_template,
+                &manifest,
+                path,
+                case,
+                &plan.raw_dir,
+                &analyzer_args,
+                FlowdroidPhaseMode::CompileDexAnalyze,
+                modeling_anchor_dialect(language)?,
+            )?
+        };
+        results.push(normalized_result(
+            case,
+            id,
+            outcome,
+            diagnostics,
+            start.elapsed(),
+            &raw_path,
+        ));
+    }
+    let report = json!({
+        "schema_version": 1,
+        "tool": "flowdroid",
+        "tool_version": version,
+        "tool_build_identity": build_identity,
+        "adapter_version": ADAPTER_VERSION,
+        "configuration_hash": hash_paths(&plan.configuration_paths)?,
+        "fixture_revision": revision,
+        "started_at_unix_seconds": started,
+        "ended_at_unix_seconds": now_seconds()?,
+        "cold_or_warm": "cold",
+        "results": results
+    });
+    write_and_validate_report(&plan.report, &report)?;
+    let scored = modeling_supported_templates(ModelingTool::Flowdroid);
+    let scored_assertions = plan
+        .cases
+        .iter()
+        .filter(|(_, case)| {
+            case["template_id"]
+                .as_str()
+                .is_some_and(|template| scored.contains(&template))
+        })
+        .count();
+    let scored_categories: BTreeSet<ModelingCategory> = scored
+        .iter()
+        .filter_map(|template| modeling_category(template))
+        .collect();
+    println!(
+        "wrote {} ({scored_assertions} scored, {} preregistered-unsupported, {} of six categories scored for {})",
+        plan.report.display(),
+        plan.cases.len() - scored_assertions,
+        scored_categories.len(),
+        ModelingTool::Flowdroid.pinned_identity()
+    );
+    Ok(())
+}
+
+/// Run the Java tool-native probe set for the pinned FlowDroid release
+/// (Amendment A17).
+///
+/// The A16 activation partition declines all six templates from the shipped
+/// catalog's own text, so no fixture is ever handed to the analyzer — but the
+/// run still witnesses the pinned jar identity by digest exactly the way the
+/// kernels do, because a report whose every cell is a retained capability
+/// decision has nothing *but* that identity as evidence of which build the
+/// decisions were pinned against.
+fn run_flowdroid_native(
+    flowdroid_jar: &Path,
+    android_platform: &Path,
+    language: ModelingLanguage,
+) -> Result<()> {
+    if language != ModelingLanguage::Java {
+        bail!(
+            "FlowDroid's tool-native activation row applies to Java alone (docs/native-profile.md, Amendment A17): the analyzer consumes JVM bytecode, so the {} native population is outside the adapter's language reach — which is different from a declined activation",
+            language.display_name()
+        );
+    }
+    let (version, build) = witness_flowdroid_identity(flowdroid_jar, android_platform)?;
+    run_native_with_identity(
+        ModelingTool::Flowdroid,
+        flowdroid_jar,
+        language,
+        version,
+        build,
+    )
 }
 
 #[cfg(test)]
@@ -21098,7 +21747,7 @@ mod tests {
                     .unwrap_or_else(|_| panic!("{} × {template} is undecided", tool.key()));
             }
         }
-        assert_eq!(MODELING_PARTITION.len(), 30);
+        assert_eq!(MODELING_PARTITION.len(), 36);
         assert!(
             modeling_partition_reason(ModelingTool::Codeql, "dfb-template-chal-dispatch-table")
                 .is_err()
@@ -21124,6 +21773,81 @@ mod tests {
         // is overridden out on the measured absence of an input-position
         // vocabulary), and Z.
         assert_eq!(modeling_supported_templates(ModelingTool::Infer).len(), 5);
+        // Amendment A16: FlowDroid joins with S, P, Z, and O, minus the
+        // sanitizer-selectivity template its class-exclusive summary
+        // resolution makes undecidable — seven templates, four categories.
+        assert_eq!(
+            modeling_supported_templates(ModelingTool::Flowdroid).len(),
+            7
+        );
+    }
+
+    /// FlowDroid's Amendment-A16 row, template by template: categories S, P,
+    /// and O whole, category Z's kill template alone, and categories E and B
+    /// declined with retained rationales that cite the probe evidence.
+    #[test]
+    fn flowdroid_modeling_partition_matches_amendment_a16() {
+        let mut expected = ModelingCategory::SourcesAndSinks.templates().to_vec();
+        expected.extend(ModelingCategory::Propagators.templates());
+        expected.extend(ModelingCategory::Sanitizers.templates());
+        expected.extend(ModelingCategory::Summaries.templates());
+        expected.retain(|template| *template != "dfb-template-model-sanitizer-selectivity");
+        expected.sort_unstable();
+        let mut scored = modeling_supported_templates(ModelingTool::Flowdroid);
+        scored.sort_unstable();
+        assert_eq!(scored, expected);
+        for category in [ModelingCategory::EntryPoints, ModelingCategory::Persistence] {
+            for template in category.templates() {
+                assert!(
+                    modeling_partition_reason(ModelingTool::Flowdroid, template)
+                        .unwrap()
+                        .is_some(),
+                    "{template} must be unsupported for FlowDroid"
+                );
+            }
+        }
+        // The template-level override is what splits category Z, exactly as
+        // Amendment A3 split it for Semgrep and A13 split category P for
+        // Infer.
+        assert!(
+            modeling_partition_reason(
+                ModelingTool::Flowdroid,
+                "dfb-template-model-sanitizer-selectivity"
+            )
+            .unwrap()
+            .unwrap()
+            .contains("Amendment A16")
+        );
+    }
+
+    /// FlowDroid's Amendment-A17 native row: the activation contract is live —
+    /// the shipped catalog and default summary wrapper are the product — but
+    /// the catalog binds no identity any native template uses, so all six
+    /// cells are declined from shipped-model text, and the activation shape
+    /// names the jar-internal catalog rather than any repository path.
+    #[test]
+    fn flowdroid_native_partition_declines_all_six_on_catalog_evidence() {
+        assert!(
+            native_supported_templates(ModelingTool::Flowdroid, ModelingLanguage::Java).is_empty()
+        );
+        for template in NATIVE_TEMPLATE_IDS {
+            let reason =
+                native_partition_reason(ModelingTool::Flowdroid, ModelingLanguage::Java, template)
+                    .unwrap()
+                    .expect("every FlowDroid native cell is declined");
+            assert!(reason.contains("Amendment A17"), "{template}: {reason}");
+        }
+        let activation =
+            native_activation(ModelingTool::Flowdroid, ModelingLanguage::Java, "2.15.1").unwrap();
+        assert_eq!(
+            activation.arguments,
+            vec![
+                "-s".to_string(),
+                FLOWDROID_NATIVE_CATALOG_ARGUMENT.to_string()
+            ]
+        );
+        require_no_benchmark_models(ModelingTool::Flowdroid, &activation.arguments).unwrap();
+        assert!(activation.configuration_paths.is_empty());
     }
 
     /// Bifrost entered with category S alone — the honest starting position the
@@ -21797,7 +22521,13 @@ mod tests {
                 if let Some(artifact) = language.artifact(tool) {
                     assert!(artifacts.insert(artifact));
                 } else {
-                    assert_eq!(tool, ModelingTool::Infer);
+                    // Only the two bytecode-bound adapters' out-of-reach
+                    // languages have no artifact: those combinations have no
+                    // modeling denominator at all.
+                    assert!(matches!(
+                        tool,
+                        ModelingTool::Infer | ModelingTool::Flowdroid
+                    ));
                     assert_ne!(language, ModelingLanguage::Java);
                 }
                 assert_eq!(
@@ -21818,7 +22548,9 @@ mod tests {
                 );
             }
         }
-        assert_eq!(artifacts.len(), 13);
+        // Wave M1's twelve, Infer's Java-only configuration (A13), and
+        // FlowDroid's Java-only summaries directory (A16).
+        assert_eq!(artifacts.len(), 14);
         assert_eq!(
             ModelingLanguage::Java.artifact(ModelingTool::Bifrost),
             Some("adapters/bifrost/policies/model-java.rqlp")
@@ -21850,9 +22582,24 @@ mod tests {
             ModelingLanguage::Javascript.artifact(ModelingTool::Infer),
             None
         );
+        assert_eq!(
+            ModelingLanguage::Java.artifact(ModelingTool::Flowdroid),
+            Some(FLOWDROID_MODELING_SUMMARIES_DIR)
+        );
+        assert_eq!(
+            ModelingLanguage::Python.artifact(ModelingTool::Flowdroid),
+            None
+        );
+        assert_eq!(
+            ModelingLanguage::Javascript.artifact(ModelingTool::Flowdroid),
+            None
+        );
         // Each artifact arrives with the pull request that authors its
-        // declarations. Wave M1 is complete and Infer's Java row landed with
-        // Amendment A13, so all thirteen are committed.
+        // declarations. Wave M1 is complete, Infer's Java row landed with
+        // Amendment A13, and FlowDroid's with Amendment A16 — whose artifact
+        // is a directory of three committed summary files, checked
+        // individually because a directory has no bytes for the configuration
+        // hash to bind.
         for tool in ModelingTool::ALL {
             for language in [
                 ModelingLanguage::Python,
@@ -21860,10 +22607,22 @@ mod tests {
                 ModelingLanguage::Java,
             ] {
                 if let Some(artifact) = language.artifact(tool) {
-                    assert!(Path::new(artifact).is_file(), "{artifact} is missing");
+                    if tool == ModelingTool::Flowdroid {
+                        assert!(Path::new(artifact).is_dir(), "{artifact} is missing");
+                    } else {
+                        assert!(Path::new(artifact).is_file(), "{artifact} is missing");
+                    }
                 }
             }
         }
+        for summary in FLOWDROID_MODELING_SUMMARY_FILES {
+            assert!(
+                Path::new(summary).is_file(),
+                "{summary} is missing from the committed FlowDroid modeling summaries"
+            );
+            assert!(summary.starts_with(FLOWDROID_MODELING_SUMMARIES_DIR));
+        }
+        require_flowdroid_modeling_declarations().unwrap();
         assert!(Path::new(JOERN_MODELING_SCRIPT).is_file());
         // A CodeQL modeling query must sit inside a resolvable pack, which is
         // what makes its `codeql/<lang>-all` dependency resolvable at all.
@@ -22161,7 +22920,7 @@ mod tests {
     /// six is an error rather than a silent scored default.
     #[test]
     fn the_native_partition_decides_every_tool_and_template() {
-        assert_eq!(NATIVE_PARTITION.len(), 30);
+        assert_eq!(NATIVE_PARTITION.len(), 36);
         for tool in ModelingTool::ALL {
             for template in NATIVE_TEMPLATE_IDS {
                 for language in [
@@ -22673,11 +23432,17 @@ mod tests {
                 ModelingLanguage::Javascript,
                 ModelingLanguage::Python,
             ] {
-                if tool == ModelingTool::Infer && language != ModelingLanguage::Java {
+                if matches!(tool, ModelingTool::Infer | ModelingTool::Flowdroid)
+                    && language != ModelingLanguage::Java
+                {
                     // No denominator at all: the activation itself refuses the
                     // combination rather than shaping a run for it.
                     let Err(error) = native_activation(tool, language, WITNESSED_IDENTITY) else {
-                        panic!("Infer × {} must have no native denominator", language.key());
+                        panic!(
+                            "{} × {} must have no native denominator",
+                            tool.key(),
+                            language.key()
+                        );
                     };
                     assert!(
                         error
@@ -22692,8 +23457,11 @@ mod tests {
             }
         }
         let artifacts = benchmark_model_artifacts();
-        assert_eq!(artifacts.len(), 14);
+        // Wave M1's twelve, the shared Joern script, Infer's Java
+        // configuration, and FlowDroid's Java summaries directory.
+        assert_eq!(artifacts.len(), 15);
         assert!(artifacts.contains(JOERN_MODELING_SCRIPT));
+        assert!(artifacts.contains(FLOWDROID_MODELING_SUMMARIES_DIR));
         for artifact in &artifacts {
             let spliced = vec![format!("--config={artifact}")];
             let error = require_no_benchmark_models(ModelingTool::Semgrep, &spliced)
