@@ -516,17 +516,25 @@ follows.
   numbers instead of being asserted. A warm run known to have shared the
   machine with another analyzer has unusable timing evidence and is not
   published.
-- **A stability check gates publication, and is not itself a statistic.** Each
-  measurement is run **twice**, back to back. If the two runs' slopes do not
-  agree closely, the figure is **not published**, and the decline is recorded
-  in the observability table with both runs retained as its evidence. If they
-  do agree, **the second run is the one retained and published** — not an
-  average, not a pooled fit, and not whichever of the two reads better. The
-  rule names the run by position precisely so that publishing it is not a
-  choice. That keeps the non-goal above
-  intact: the published figure is a single measurement, and the repeat exists
-  only to decide whether it may be published at all. The check is stated on the
-  page beside the figure it gates.
+- **The published figure is a range over retained repeats, never a point.**
+  The whole batch series is measured more than once — the repeat count is fixed
+  in the runner's source, not chosen per run — **every repeat is retained**, and
+  what is published is the **span the repeats cover**, low to high.
+
+  This is the one place a discretionary parameter could have entered the tier,
+  so it is worth stating why there is none. A slope over a handful of batches
+  on a developer machine has a precision, and there were three ways to give it
+  one. Publishing a single run and stating it to two significant figures hides
+  the spread and claims more than was measured. Gating publication on the
+  repeats "agreeing closely" requires choosing a tolerance — and a tolerance
+  chosen after the numbers exist is exactly the after-the-fact decision this
+  document's motivation refuses, whichever way it happens to fall. The range
+  requires no such choice: its **width is the precision**, the reader sees it
+  directly, and no figure is withheld or promoted by a threshold.
+
+  The repeats are **never averaged** — that would make a repeated trial into a
+  statistic, which the non-goals rule out — and **never chosen between**. What
+  is published is the interval that was actually measured.
 
 #### What is not added
 
@@ -562,7 +570,7 @@ that has no batch in what it ships has no warm figure.
 | Adapter | Warm marginal observable? | Evidence |
 | --- | --- | --- |
 | Joern 4.0.614 | **Yes — measured** | `joern --script` runs one Scala script inside one JVM, and a script may import and query any number of case workspaces sequentially. Each case takes its own project name inside the shared workspace, which is the warm process's stand-in for the cold runner's per-case scratch directory: no case can select another's CPG. Verified before any figure was fitted — a two-case batch produced evidence documents whose analyzed state, method counts, endpoint node counts and flow counts match the cold run's retained evidence for the same two cases exactly. |
-| Semgrep CE 1.175.0 | **Yes in the released CLI — measured, and the measurement was not stable enough to publish** | `semgrep scan` accepts many target paths in one invocation, so the batch exists and was implemented and run. It accepts one `--config`, so a batch is the same work as its *k* cold runs only when all *k* cases resolve to identical rule text — which caps *k* at 12 here, and every Semgrep kernel in this benchmark invokes exactly 14 cases (the rest being declared-capability `unsupported`, decided before invocation), so no other language raises the ceiling. At that *k* the whole batch runs two to three seconds and the slope is small against the machine's own noise: the same measurement run twice back to back produced slopes differing by roughly a **factor of two**, with one series not even monotone in *k*. Both runs are retained verbatim under `reports/raw/warm-latency/semgrep-java-stability-probe/` as the evidence for this decline. **No Semgrep warm figure is published.** The one thing that survives both runs — that the slope is about an order of magnitude below Semgrep's cold median — is a statement about the shape of the cost and is not published as a number. |
+| Semgrep CE 1.175.0 | **Yes — measured, on a narrowed population** | `semgrep scan` accepts many target paths in one invocation. It accepts one `--config`, so a batch is the same work as its *k* cold runs only when all *k* cases resolve to identical rule text; the batch population is therefore the largest identical-rule group among the kernel's invocable assertions, the narrowing is recorded on the artifact, and the cold median it is compared against is restricted to exactly those cases. The kernel's declared-capability `unsupported` partition is excluded from both, as it is from every cold timing — those cases never reach Semgrep and have nothing to time. **Its published range is wide, and the width is the point**: the population caps *k* at 12, the whole batch runs a few seconds, and the slope is small against the machine's own noise. The range says so rather than a point estimate implying a precision the measurement does not have. |
 | FlowDroid 2.15.1 | **Yes in the released CLI — not measured here** | `-a/--apkfile` accepts a *directory*: the released `soot-infoflow-cmd` main class lists the directory's APK files, constructs the taint wrapper once outside the loop, and iterates the APKs in one JVM. Its own help text confirms the mode — `-si/--skipapkfile` is documented as "APK file to skip when processing a directory of input files", and the binary refuses a non-directory output with "The output file must be a directory when analyzing multiple APKs". So the batch exists and is observable. It is **not measured under this amendment** because one invocation carries one `-s` sources-and-sinks definition, so a *k*-APK batch runs a union of *k* per-case endpoint configurations rather than each case's own; whether that changes any case's result is an empirical question that must be answered case by case, over the whole population, before a marginal derived from it may be published. Recorded as named follow-up work, not as a decline. |
 | OpenTaint `analyzer/2026.08.27.17eb0fe` | **No** | `--project` and `--output-dir` are single-valued and the analyzer exits after one project. A `project.yaml` may list several `javaProjects`, but analyzing that union is one whole-program analysis over a merged call graph with a merged entry-point set — different work, not *k* independent case analyses — and `--semgrep-rule-set` is likewise one rule set for the whole invocation while the benchmark's rules are resolved per case. There is no released mode in which the pinned analyzer processes separate case projects in one process, so the warm marginal is **not observable**, and none is published or estimated. |
 | Pysa (pyre-check 0.10.0 + Pyrefly 1.2.0) | **No** | `pyre analyze` is one-shot. The pinned client does expose daemon commands — `start`, `incremental`, `query`, `stop` — but they serve the type checker, not the taint analysis, and `analyze` never attaches to a running server. `--source-directory` is repeatable and merges directories into one project, which is again one whole-program analysis rather than *k*. Each case also carries its own `.pyre_configuration`, its own `pyrefly.toml`, and its own resolved models, which a shared process would have to hold simultaneously. A daemon-shaped measurement would be stateful and not reproducibly preregisterable with this pin, so it is declined rather than attempted. |

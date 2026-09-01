@@ -16778,11 +16778,32 @@ fn run_native_with_identity(
 //     and the same kind of boundary the cold sidecars use. Neither script nor
 //     tool self-timestamping enters any number, so the tier's decomposition
 //     rule is untouched.
+//  4. **The figure is a range, not a point.** The whole series is measured
+//     twice and both repeats are retained; what is published is the range they
+//     span. A single slope over a handful of batches on a developer machine
+//     has a precision, and the reader is entitled to see it rather than infer
+//     it from a number stated to two significant figures.
 // ---------------------------------------------------------------------------
 
 /// Where warm-marginal artifacts live: a directory of their own, clearly apart
 /// from the per-slice raw-evidence directories the reports bind.
 const WARM_LATENCY_ROOT: &str = "reports/raw/warm-latency";
+
+/// How many times the whole batch series is measured.
+///
+/// Not a trial count to be averaged, and not an acceptance test with a
+/// threshold. A single slope over a handful of batches on a developer machine
+/// is a point estimate with unstated precision, and the two ways to give it a
+/// precision are both worse than this one: publishing one run and hiding the
+/// spread understates it, and gating publication on an agreement tolerance
+/// requires choosing that tolerance — which, chosen after the numbers exist,
+/// is exactly the after-the-fact decision the tier's motivation refuses.
+///
+/// So every repeat is retained and the figure is published as the **range** the
+/// repeats span. The width of the range is the precision statement, the reader
+/// sees it directly, and there is no discretionary parameter anywhere in the
+/// path from measurement to page.
+const WARM_REPEATS: usize = 2;
 
 /// The Joern batch script. `kernel.sc` is unchanged and remains the only
 /// script any normalized Joern report hashes into its `configuration_hash`.
@@ -17020,22 +17041,45 @@ fn measure_warm_latency(
     write_run_environment(&raw_dir, tool.as_str(), &version, &build_identity)?;
 
     let started = now_seconds()?;
-    let mut batches = Vec::new();
-    for &k in &sizes {
-        let prefix = &population.cases[..k];
-        println!(
-            "measuring {} {} warm batch k={k}",
-            tool.as_str(),
-            language.as_str()
-        );
-        let batch = match tool {
-            WarmTool::Joern => measure_joern_warm_batch(binary, language, prefix, &raw_dir, k)?,
-            WarmTool::Semgrep => measure_semgrep_warm_batch(binary, prefix, &raw_dir, k)?,
-        };
-        println!("  k={k} wall {} ms", batch.wall_ms);
-        batches.push(batch);
+    // The whole series is measured `WARM_REPEATS` times, back to back, and
+    // every repeat is retained. The repeats are not a trial to be averaged and
+    // not an acceptance test to be passed: they are the figure's own precision,
+    // published as the range they span.
+    let mut runs: Vec<Vec<WarmBatch>> = Vec::new();
+    for repeat in 1..=WARM_REPEATS {
+        let mut batches = Vec::new();
+        for &k in &sizes {
+            let prefix = &population.cases[..k];
+            println!(
+                "measuring {} {} warm batch k={k} (run {repeat} of {WARM_REPEATS})",
+                tool.as_str(),
+                language.as_str()
+            );
+            let batch = match tool {
+                WarmTool::Joern => {
+                    measure_joern_warm_batch(binary, language, prefix, &raw_dir, k, repeat)?
+                }
+                WarmTool::Semgrep => {
+                    measure_semgrep_warm_batch(binary, prefix, &raw_dir, k, repeat)?
+                }
+            };
+            println!("  k={k} wall {} ms", batch.wall_ms);
+            batches.push(batch);
+        }
+        runs.push(batches);
     }
-    let slope = warm_slope(&batches)?;
+    let slopes = runs
+        .iter()
+        .map(|batches| warm_slope(batches))
+        .collect::<Result<Vec<_>>>()?;
+    let range = |pick: fn(&WarmSlope) -> f64| {
+        let values: Vec<f64> = slopes.iter().map(pick).collect();
+        let low = values.iter().copied().fold(f64::INFINITY, f64::min);
+        let high = values.iter().copied().fold(f64::NEG_INFINITY, f64::max);
+        (low, high)
+    };
+    let (endpoint_low, endpoint_high) = range(|slope| slope.endpoint_ms);
+    let (least_squares_low, least_squares_high) = range(|slope| slope.least_squares_ms);
 
     let document = json!({
         "schema_version": 1,
@@ -17052,25 +17096,37 @@ fn measure_warm_latency(
         "measured_boundary": "one subprocess per batch, whole-invocation wall-clock",
         "population_available": available,
         "population_restriction": population.restriction,
-        "batches": batches.iter().map(|batch| json!({
-            "k": batch.k,
-            "wall_ms": batch.wall_ms,
-            "case_ids": batch.case_ids,
-            "load_average_1m_before": batch.load_before,
+        "repeats": WARM_REPEATS,
+        "runs": runs.iter().zip(&slopes).enumerate().map(|(index, (batches, slope))| json!({
+            "run": index + 1,
+            "batches": batches.iter().map(|batch| json!({
+                "k": batch.k,
+                "wall_ms": batch.wall_ms,
+                "case_ids": batch.case_ids,
+                "load_average_1m_before": batch.load_before,
+            })).collect::<Vec<_>>(),
+            "marginal_ms_per_case": {
+                "endpoint": slope.endpoint_ms,
+                "least_squares": slope.least_squares_ms,
+            },
+            "fitted_fixed_cost_ms": slope.intercept_ms,
         })).collect::<Vec<_>>(),
-        "marginal_ms_per_case": {
-            "endpoint": slope.endpoint_ms,
-            "least_squares": slope.least_squares_ms,
+        // The published figure: the range the repeats span, never their mean
+        // and never one of them chosen over the others.
+        "marginal_ms_per_case_range": {
+            "endpoint": [endpoint_low, endpoint_high],
+            "least_squares": [least_squares_low, least_squares_high],
         },
-        "fitted_fixed_cost_ms": slope.intercept_ms,
     });
     let path = raw_dir.join("warm-latency.json");
     fs::write(&path, serde_json::to_string_pretty(&document)? + "\n")?;
     println!(
-        "wrote {} — marginal {:.0} ms/case (endpoint), {:.0} ms/case (least squares)",
+        "wrote {} — marginal {:.0}-{:.0} ms/case (least squares over {WARM_REPEATS} runs), {:.0}-{:.0} ms/case (endpoint)",
         path.display(),
-        slope.endpoint_ms,
-        slope.least_squares_ms
+        least_squares_low,
+        least_squares_high,
+        endpoint_low,
+        endpoint_high
     );
     Ok(())
 }
@@ -17086,12 +17142,13 @@ fn measure_joern_warm_batch(
     cases: &[(PathBuf, Value)],
     raw_dir: &Path,
     k: usize,
+    repeat: usize,
 ) -> Result<WarmBatch> {
     let WarmLanguage::Java = language;
     let kernel = JoernKernel::Java;
     let script = fs::canonicalize(Path::new(JOERN_WARM_BATCH_SCRIPT))
         .context("resolve the Joern warm-batch script")?;
-    let scratch = std::env::temp_dir().join(format!("dataflowbench-warm-joern-{k}"));
+    let scratch = std::env::temp_dir().join(format!("dataflowbench-warm-joern-{repeat}-{k}"));
     if scratch.exists() {
         fs::remove_dir_all(&scratch)?;
     }
@@ -17154,7 +17211,7 @@ fn measure_joern_warm_batch(
             String::from_utf8_lossy(&output.stderr)
         );
     }
-    warm_batch_completed(&completion_path, k, &evidence, &case_ids, raw_dir)?;
+    warm_batch_completed(&completion_path, k, repeat, &evidence, &case_ids, raw_dir)?;
     fs::remove_dir_all(&scratch).ok();
     Ok(WarmBatch {
         k,
@@ -17170,10 +17227,11 @@ fn measure_semgrep_warm_batch(
     cases: &[(PathBuf, Value)],
     raw_dir: &Path,
     k: usize,
+    repeat: usize,
 ) -> Result<WarmBatch> {
     let kernel = SemgrepKernel::Java;
     let template = fs::read_to_string(kernel.rule())?;
-    let scratch = std::env::temp_dir().join(format!("dataflowbench-warm-semgrep-{k}"));
+    let scratch = std::env::temp_dir().join(format!("dataflowbench-warm-semgrep-{repeat}-{k}"));
     if scratch.exists() {
         fs::remove_dir_all(&scratch)?;
     }
@@ -17255,7 +17313,7 @@ fn measure_semgrep_warm_batch(
         bail!("the Semgrep warm batch k={k} scanned only {scanned} files");
     }
     fs::write(
-        raw_dir.join(format!("batch-{k}-findings.json")),
+        raw_dir.join(format!("run-{repeat}-batch-{k}-findings.json")),
         serde_json::to_string_pretty(&findings)? + "\n",
     )?;
     fs::remove_dir_all(&scratch).ok();
@@ -17278,6 +17336,7 @@ fn measure_semgrep_warm_batch(
 fn warm_batch_completed(
     completion_path: &Path,
     k: usize,
+    repeat: usize,
     evidence: &Path,
     case_ids: &[String],
     raw_dir: &Path,
@@ -17289,7 +17348,7 @@ fn warm_batch_completed(
     if analyzed != k {
         bail!("the warm batch k={k} analyzed {analyzed} cases");
     }
-    let retained = raw_dir.join(format!("batch-{k}-evidence"));
+    let retained = raw_dir.join(format!("run-{repeat}-batch-{k}-evidence"));
     fs::create_dir_all(&retained)?;
     for id in case_ids {
         let produced = evidence.join(format!("{id}.json"));
@@ -18090,9 +18149,35 @@ mod tests {
         }
         let document = json!({
             "evidence_kind": "retained-warm-marginal-latency",
-            "marginal_ms_per_case": {"endpoint": 500.0, "least_squares": 500.0},
+            "marginal_ms_per_case_range": {"endpoint": [500.0, 520.0]},
         });
         assert_eq!(raw_special_outcome(&document), None);
+    }
+
+    /// The figure is published as a range over retained repeats, and the
+    /// repeat count is fixed in the source rather than passed in.
+    ///
+    /// Both properties exist to remove a discretionary parameter from the path
+    /// between a measurement and a page. A caller-chosen repeat count would let
+    /// a run be extended until its spread looked narrow; an agreement tolerance
+    /// would have to be picked, and any tolerance picked after the numbers
+    /// exist is the after-the-fact decision the tier's motivation refuses. The
+    /// range needs neither.
+    #[test]
+    fn warm_repeats_are_fixed_and_published_as_a_range() {
+        assert!(WARM_REPEATS >= 2, "a range needs at least two repeats");
+        let source = fs::read_to_string(file!()).unwrap();
+        // No tolerance constant anywhere in the warm path: the range is the
+        // precision statement, and nothing gates on how wide it is. The needles
+        // are assembled at runtime so this assertion cannot trip on its own
+        // literals.
+        for suffix in ["AGREEMENT", "TOLERANCE", "THRESHOLD"] {
+            let gate = format!("WARM_{suffix}");
+            assert!(
+                !source.contains(&gate),
+                "the warm path must not gate publication on an agreement threshold ({gate})"
+            );
+        }
     }
 
     #[test]

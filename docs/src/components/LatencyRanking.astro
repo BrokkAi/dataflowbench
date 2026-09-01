@@ -101,12 +101,15 @@ const x = (value: number) => {
 // per-invocation figure remains the headline and the warm marginal is a
 // separate quantity set beside it, not a correction to it.
 const warmMeasurements = warmLatency().measurements;
-function warmMarkFor(viewId: string, tool: string): number | null {
+function warmMarkFor(
+  viewId: string,
+  tool: string,
+): [number, number] | null {
   if (viewId === 'all') return null;
   const measurement = warmMeasurements.find(
     (candidate) => candidate.tool === tool && candidate.language === viewId,
   );
-  return measurement ? measurement.leastSquaresMs : null;
+  return measurement ? measurement.leastSquaresRangeMs : null;
 }
 
 interface Row {
@@ -122,8 +125,8 @@ interface Row {
     p90: number;
     n: number;
   };
-  /** Warm marginal per case, when one was measured for this view. */
-  warm: number | null;
+  /** Warm marginal per case, low to high across the retained repeats. */
+  warm: [number, number] | null;
   title: string;
   y: number;
 }
@@ -153,7 +156,16 @@ function layout(view: (typeof ranking.views)[number]) {
         `over ${entry.timed} timed whole invocations` +
         (warm === null
           ? ''
-          : `. Warm marginal, measured separately: ${formatMs(warm)} per case in one process`),
+          : `. Warm marginal, measured separately: ${
+              warm[0] === warm[1]
+                ? formatMs(warm[0])
+                : `${formatMs(warm[0])} to ${formatMs(warm[1])}`
+            } per case in one process, over ${
+              warmMeasurements.find(
+                (candidate) =>
+                  candidate.tool === entry.tool && candidate.language === view.id,
+              )!.runs.length
+            } retained repeats`),
       y,
     });
     y += mainRowHeight / 2;
@@ -390,11 +402,22 @@ const drawsWarmMarks =
                     y2={row.y + medianHeight / 2}
                   />
                   {row.warm !== null && (
-                    <polyline
-                      class="warm-mark"
-                      points={`${x(row.warm) - 5},${row.y + 11} ${x(row.warm)},${row.y + 4} ${x(row.warm) + 5},${row.y + 11}`}
-                      fill="none"
-                    />
+                    <>
+                      <line
+                        class="warm-span"
+                        x1={x(row.warm[0])}
+                        x2={x(row.warm[1])}
+                        y1={row.y + 11}
+                        y2={row.y + 11}
+                      />
+                      {[row.warm[0], row.warm[1]].map((value) => (
+                        <polyline
+                          class="warm-mark"
+                          points={`${x(value) - 4},${row.y + 14} ${x(value)},${row.y + 8} ${x(value) + 4},${row.y + 14}`}
+                          fill="none"
+                        />
+                      ))}
+                    </>
                   )}
                   <text
                     class={row.kind === 'adapter' ? 'row-value' : 'phase-value'}
@@ -470,7 +493,7 @@ const drawsWarmMarks =
     {drawsWarmMarks && (
       <li class="key-warm">
         <span class="swatch" aria-hidden="true"></span>
-        warm marginal per case, where the released CLI let it be measured
+        warm marginal per case — the range its retained repeats span
       </li>
     )}
   </ul>
@@ -490,9 +513,12 @@ const drawsWarmMarks =
     <em>k</em>.
     {drawsWarmMarks ? (
       <>
-        {' '}The caret marks it on the rows that have one. It is never
-        subtracted from a median, never substituted for one, and never used to
-        order the rows.
+        {' '}The carets mark it on the rows that have one, and they mark a{' '}
+        <em>range</em>: the whole series is measured more than once and the
+        figure published is the span its repeats cover, so the mark's width is
+        its own precision rather than a number stated more exactly than it was
+        measured. It is never subtracted from a median, never substituted for
+        one, and never used to order the rows.
       </>
     ) : (
       <>
@@ -561,9 +587,9 @@ const drawsWarmMarks =
       Latency numbers are comparable within one environment and are not
       comparable across machines.
     </strong>{' '}
-    There are no repeated trials and no warm-up iterations: the case population
-    is the sample and its spread is the statistics, so the whiskers are that
-    spread and not error bars on a repeated measurement.{' '}
+    The bars carry no repeated trials and no warm-up iterations: the case
+    population is the sample and its spread is the statistics, so the whiskers
+    are that spread and not error bars on a repeated measurement.{' '}
     <strong>
       Every number is a cold start: each case spawns a fresh process, so JVM
       tools (Joern, OpenTaint, FlowDroid) pay full JVM start-up in every
@@ -724,6 +750,12 @@ const drawsWarmMarks =
     stroke-linecap: round;
     stroke-linejoin: round;
     opacity: 0.85;
+  }
+  .ranking-chart .row .warm-span {
+    stroke: var(--vendor-rule, var(--sl-color-accent));
+    stroke-width: 1.5;
+    stroke-dasharray: 2 2;
+    opacity: 0.65;
   }
   .chart-legend {
     list-style: none;

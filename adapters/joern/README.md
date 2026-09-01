@@ -91,7 +91,9 @@ cargo run -- measure-warm-latency --tool joern --language java \
   --batch-sizes 1,2,4,8,16 --joern <joern-cli>/joern
 ```
 
-which spawns, once per batch size *k*:
+which spawns, once per batch size *k* and once per retained repeat (the whole
+series is measured more than once, and the published figure is the range the
+repeats span, never their mean and never one of them chosen):
 
 ```bash
 joern --script adapters/joern/queries/warm-batch.sc \

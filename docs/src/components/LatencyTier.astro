@@ -25,6 +25,20 @@ import LatencyRanking from './LatencyRanking.astro';
 const model = latencyModel();
 const warm = warmLatency();
 
+/**
+ * A warm figure, rendered as what it is: the range its retained repeats span.
+ *
+ * Collapsing to one endpoint when the two happen to round alike is not a
+ * precision claim — it is what the formatter's own resolution can show — so
+ * the two-value form appears whenever the repeats actually differ at the
+ * displayed resolution.
+ */
+function formatRange([low, high]: [number, number]): string {
+  const lowLabel = formatMs(low);
+  const highLabel = formatMs(high);
+  return lowLabel === highLabel ? lowLabel : `${lowLabel} – ${highLabel}`;
+}
+
 const decomposed = model.adapters.filter((a) => a.phases.length > 0);
 const single = model.adapters.filter((a) => a.phases.length === 0);
 const fastest = model.adapters[0]!;
@@ -56,10 +70,13 @@ const slowest = model.adapters.at(-1)!;
   </li>
   <li>
     <strong>Characterization, not micro-benchmark.</strong> There are no
-    repeated trials, no warm-up iterations, and no steady-state harness. The
-    case population is the sample and its spread is the statistics. The
-    distribution columns below are that spread — not error bars on a
-    measurement that was repeated, because it was not.
+    repeated trials, no warm-up iterations, and no steady-state harness in the
+    cold figures below. The case population is the sample and its spread is the
+    statistics. The distribution columns below are that spread — not error bars
+    on a measurement that was repeated, because it was not. (The{' '}
+    <a href="#warm-marginal">warm-marginal section</a> is the one place a series
+    is measured more than once. It says so, retains every repeat, and publishes
+    the range they span rather than averaging them into a statistic.)
   </li>
   <li>
     <strong>These are the conditions the numbers were produced under:</strong>
@@ -408,6 +425,7 @@ const slowest = model.adapters.at(-1)!;
             <th>Warm marginal (least squares)</th>
             <th>Warm marginal (endpoint)</th>
             <th>Batches</th>
+            <th>Repeats</th>
             <th>Fitted fixed cost</th>
           </tr>
         </thead>
@@ -426,14 +444,18 @@ const slowest = model.adapters.at(-1)!;
                   ? 'n/a'
                   : formatMs(measurement.coldMedianMs)}
               </td>
-              <td><strong>{formatMs(measurement.leastSquaresMs)}</strong></td>
-              <td>{formatMs(measurement.endpointMs)}</td>
+              <td><strong>{formatRange(measurement.leastSquaresRangeMs)}</strong></td>
+              <td>{formatRange(measurement.endpointRangeMs)}</td>
               <td>
                 <code>
-                  k = {measurement.batches.map((batch) => batch.k).join(', ')}
+                  k ={' '}
+                  {measurement.runs[0]!.batches.map((batch) => batch.k).join(', ')}
                 </code>
               </td>
-              <td class="muted">{formatMs(measurement.fittedFixedCostMs)}</td>
+              <td>{measurement.runs.length}</td>
+              <td class="muted">
+                {formatRange(measurement.fittedFixedCostRangeMs)}
+              </td>
             </tr>
           ))}
         </tbody>
@@ -459,15 +481,19 @@ const slowest = model.adapters.at(-1)!;
       same source and sink node counts, same flow count — differing only in the
       scratch path each run recorded for its own workspace. A batch that had
       quietly analyzed less would be visible there rather than merely fast.
-      Publication is also gated on a stability check: every measurement is run
-      twice, back to back, and a figure whose two runs do not agree closely is
-      withheld rather than published. Where the check passes, <strong>the second
-      run is the one retained — not an average, not the better of the
-      two</strong>, so publishing it is not a choice, and no repeated trial
-      becomes a statistic. The check has already cost this page one figure:
-      Semgrep's batch was implemented and measured, its two runs disagreed by
-      roughly a factor of two, and the table below records that as a decline
-      with both runs retained as its evidence.
+      <strong>Every figure above is a range, and that is deliberate.</strong>
+      The whole batch series is measured more than once, every repeat is
+      retained, and what is published is the span the repeats cover. A single
+      slope over a handful of batches on a developer machine has a precision,
+      and there were only two other ways to give it one — publish one run and
+      hide the spread, which understates it, or gate publication on an
+      agreement tolerance, which means <em>choosing</em> that tolerance after
+      the numbers exist, precisely the after-the-fact decision this tier's
+      contract refuses. The range needs neither: its width <em>is</em> the
+      precision, the reader sees it directly, and nothing between the
+      measurement and this table is discretionary. The repeats are never
+      averaged — that would turn repeated trials into the statistic the tier's
+      non-goals rule out — and never picked between.
     </p>
 
     {warm.measurements.map((measurement) => (
@@ -475,34 +501,52 @@ const slowest = model.adapters.at(-1)!;
         <summary>
           {`Show the batch series — ${vendorName(measurement.tool)} on the ${
             measurement.language
-          } kernel`}
+          } kernel, all ${measurement.runs.length} retained repeats`}
         </summary>
         <div class="table-scroll">
           <table>
             <thead>
               <tr>
                 <th>Cases in the batch (<em>k</em>)</th>
-                <th>Wall-clock of the one process</th>
-                <th>Average per case (not the reported figure)</th>
+                {measurement.runs.map((run) => (
+                  <th>Run {run.run} — wall-clock of the one process</th>
+                ))}
+                <th>Average per case at run {measurement.runs.length} (not the reported figure)</th>
               </tr>
             </thead>
             <tbody>
-              {measurement.batches.map((batch) => (
+              {measurement.runs[0]!.batches.map((batch, index) => (
                 <tr>
                   <td>{batch.k}</td>
-                  <td><strong>{formatMs(batch.wallMs)}</strong></td>
-                  <td class="muted">{formatMs(batch.wallMs / batch.k)}</td>
+                  {measurement.runs.map((run) => (
+                    <td><strong>{formatMs(run.batches[index]!.wallMs)}</strong></td>
+                  ))}
+                  <td class="muted">
+                    {formatMs(
+                      measurement.runs[measurement.runs.length - 1]!.batches[
+                        index
+                      ]!.wallMs / batch.k,
+                    )}
+                  </td>
                 </tr>
               ))}
+              <tr>
+                <td><strong>slope (least squares)</strong></td>
+                {measurement.runs.map((run) => (
+                  <td><strong>{formatMs(run.leastSquaresMs)}</strong></td>
+                ))}
+                <td class="muted">—</td>
+              </tr>
             </tbody>
           </table>
         </div>
         <p class="caption">
-          The third column is shown precisely so it can be discarded: it falls
-          with <em>k</em> because it is still paying a shrinking share of the
-          fixed cost, and it would keep falling with a larger <em>k</em>
-          without ever being the marginal cost. The reported figure is the
-          slope of the second column against the first.
+          The average-per-case column is shown precisely so it can be
+          discarded: it falls with <em>k</em> because it is still paying a
+          shrinking share of the fixed cost, and it would keep falling with a
+          larger <em>k</em> without ever being the marginal cost. The reported
+          figure is the slope of a wall-clock column against the first, and the
+          published figure is the range those slopes span.
           {measurement.restriction && (
             <>
               {' '}

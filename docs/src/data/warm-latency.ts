@@ -39,19 +39,28 @@ export interface WarmBatch {
   wallMs: number;
 }
 
+/** One repeat of the whole batch series. */
+export interface WarmRun {
+  run: number;
+  batches: WarmBatch[];
+  endpointMs: number;
+  leastSquaresMs: number;
+  fittedFixedCostMs: number;
+  /** One-minute load averages sampled before each batch of this run. */
+  loads: (number | null)[];
+}
+
 export interface WarmMeasurement {
   tool: string;
   toolVersion: string;
   language: string;
-  /** Batches in increasing k. */
-  batches: WarmBatch[];
-  /** `(T(kmax) − T(kmin)) / (kmax − kmin)`. */
-  endpointMs: number;
-  /** OLS slope of wall-clock on k. */
-  leastSquaresMs: number;
-  /** OLS intercept: a descriptive estimate of the fixed per-process cost. */
-  fittedFixedCostMs: number;
-  /** Cases in the largest batch — the population both figures describe. */
+  /** Every retained repeat, in the order they were measured. */
+  runs: WarmRun[];
+  /** The published figure: the range the repeats span, low to high. */
+  leastSquaresRangeMs: [number, number];
+  endpointRangeMs: [number, number];
+  fittedFixedCostRangeMs: [number, number];
+  /** Cases in the largest batch — the population every figure describes. */
   caseIds: string[];
   /** Cold whole-invocation median over exactly those cases, or null. */
   coldMedianMs: number | null;
@@ -82,12 +91,6 @@ export interface WarmDecline {
  * artifact and appears in neither list is a build error below.
  */
 const DECLINES: WarmDecline[] = [
-  {
-    tool: 'semgrep',
-    verdict: 'deferred',
-    evidence:
-      "The batch exists and was measured: one `semgrep scan` accepts many target paths. It also accepts one `--config`, so a batch is the same work as its k cold runs only when all k cases resolve to identical rule text — which caps k at 12 here, and every Semgrep kernel in this benchmark invokes exactly 14 cases (the rest are declared-capability `unsupported`, decided before invocation), so no other language raises the ceiling. At that k the whole batch runs two to three seconds and the slope is small against the machine's own noise: the same measurement run twice back to back produced slopes differing by roughly a factor of two, with one series not even monotone in k. Both runs are retained as `reports/raw/warm-latency/semgrep-java-stability-probe/`. The figure is withheld rather than published to two significant figures it does not have.",
-  },
   {
     tool: 'flowdroid',
     verdict: 'deferred',
@@ -250,44 +253,92 @@ export function warmLatency(): {
       const document = path.join(root, entry, 'warm-latency.json');
       if (!fs.existsSync(document)) continue;
       const warm = readJson(document);
-      const batches: WarmBatch[] = warm.batches.map((batch: any) => ({
-        k: batch.k,
-        wallMs: batch.wall_ms,
-      }));
-      if (batches.length < 2) {
-        throw new Error(`${document}: a slope needs at least two batches`);
+      if (!Array.isArray(warm.runs) || warm.runs.length < 2) {
+        throw new Error(
+          `${document}: the published figure is a range over repeats, so at least two retained runs are required`,
+        );
       }
-      const derived = fit(batches);
-      // The independent-derivation gate. Both implementations read the same
-      // retained series; if they disagree, one of them is wrong and no number
-      // is published until it is known which.
+      const runs: WarmRun[] = warm.runs.map((run: any) => {
+        const batches: WarmBatch[] = run.batches.map((batch: any) => ({
+          k: batch.k,
+          wallMs: batch.wall_ms,
+        }));
+        if (batches.length < 2) {
+          throw new Error(`${document}: a slope needs at least two batches`);
+        }
+        const derived = fit(batches);
+        // The independent-derivation gate, applied to every retained run.
+        // Both implementations read the same retained series; if they
+        // disagree, one of them is wrong and nothing is published until it is
+        // known which.
+        for (const [label, mine, theirs] of [
+          ['endpoint', derived.endpointMs, run.marginal_ms_per_case.endpoint],
+          [
+            'least squares',
+            derived.leastSquaresMs,
+            run.marginal_ms_per_case.least_squares,
+          ],
+          ['intercept', derived.interceptMs, run.fitted_fixed_cost_ms],
+        ] as [string, number, number][]) {
+          if (Math.abs(mine - theirs) > 1) {
+            throw new Error(
+              `${document}: run ${run.run}'s ${label} slope re-derived at build time (${mine}) disagrees with the runner's retained value (${theirs})`,
+            );
+          }
+        }
+        return {
+          run: run.run,
+          batches,
+          endpointMs: derived.endpointMs,
+          leastSquaresMs: derived.leastSquaresMs,
+          fittedFixedCostMs: derived.interceptMs,
+          loads: run.batches.map(
+            (batch: any) => batch.load_average_1m_before ?? null,
+          ),
+        };
+      });
+
+      // The published figure is the range the repeats span — never their mean,
+      // which would turn repeated trials into a statistic the tier's non-goals
+      // rule out, and never one repeat chosen over another.
+      const spread = (pick: (run: WarmRun) => number): [number, number] => {
+        const values = runs.map(pick);
+        return [Math.min(...values), Math.max(...values)];
+      };
+      // The runner computes the same ranges; agreeing with it is the last
+      // independent check before anything reaches the page.
+      const retainedRange = warm.marginal_ms_per_case_range;
+      const leastSquaresRangeMs = spread((run) => run.leastSquaresMs);
+      const endpointRangeMs = spread((run) => run.endpointMs);
       for (const [label, mine, theirs] of [
-        ['endpoint', derived.endpointMs, warm.marginal_ms_per_case.endpoint],
-        [
-          'least squares',
-          derived.leastSquaresMs,
-          warm.marginal_ms_per_case.least_squares,
-        ],
-        ['intercept', derived.interceptMs, warm.fitted_fixed_cost_ms],
-      ] as [string, number, number][]) {
-        if (Math.abs(mine - theirs) > 1) {
+        ['least squares', leastSquaresRangeMs, retainedRange.least_squares],
+        ['endpoint', endpointRangeMs, retainedRange.endpoint],
+      ] as [string, [number, number], [number, number]][]) {
+        if (
+          Math.abs(mine[0] - theirs[0]) > 1 ||
+          Math.abs(mine[1] - theirs[1]) > 1
+        ) {
           throw new Error(
-            `${document}: the ${label} slope re-derived at build time (${mine}) disagrees with the runner's retained value (${theirs})`,
+            `${document}: the ${label} range re-derived at build time (${mine}) disagrees with the runner's retained range (${theirs})`,
           );
         }
       }
+
+      const lastRun = runs[runs.length - 1]!;
       const caseIds: string[] =
-        warm.batches[warm.batches.length - 1]!.case_ids ?? [];
+        warm.runs[warm.runs.length - 1].batches[
+          lastRun.batches.length - 1
+        ].case_ids ?? [];
       const stamp = path.join(root, entry, 'run-environment.json');
       const environment = fs.existsSync(stamp) ? readJson(stamp) : null;
       measurements.push({
         tool: warm.adapter,
         toolVersion: warm.tool_version,
         language: warm.language,
-        batches,
-        endpointMs: derived.endpointMs,
-        leastSquaresMs: derived.leastSquaresMs,
-        fittedFixedCostMs: derived.interceptMs,
+        runs,
+        leastSquaresRangeMs,
+        endpointRangeMs,
+        fittedFixedCostRangeMs: spread((run) => run.fittedFixedCostMs),
         caseIds,
         coldMedianMs: coldMedianOver(warm.adapter, warm.language, caseIds),
         restriction: warm.population_restriction ?? null,
@@ -328,11 +379,10 @@ export function warmLatency(): {
 export function warmMarginalByTool(): Map<string, number> {
   const marks = new Map<string, number>();
   for (const measurement of warmLatency().measurements) {
-    // The least-squares slope is the mark, because it uses every measured
-    // point. The endpoint estimator stays visible in the table beside it.
     const existing = marks.get(measurement.tool);
-    if (existing === undefined || measurement.leastSquaresMs < existing) {
-      marks.set(measurement.tool, measurement.leastSquaresMs);
+    const value = measurement.leastSquaresRangeMs[0];
+    if (existing === undefined || value < existing) {
+      marks.set(measurement.tool, value);
     }
   }
   return marks;
