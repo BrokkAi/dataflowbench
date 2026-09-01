@@ -1,0 +1,108 @@
+{
+  "engine_requested": "OSS",
+  "errors": [],
+  "paths": {
+    "scanned": [
+      "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dataflowbench-warm-semgrep-2-2/source-0/BranchJoinNegative.java",
+      "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dataflowbench-warm-semgrep-2-2/source-1/BranchJoinPositive.java"
+    ]
+  },
+  "profiling_results": [],
+  "results": [
+    {
+      "check_id": "var.folders.t1.k_27wjcd4095w9w121dm92_w0000gn.T.dataflowbench-warm-semgrep-2-2.dfb-taint-endpoint-contract",
+      "end": {
+        "col": 24,
+        "line": 16,
+        "offset": 420
+      },
+      "extra": {
+        "engine_kind": "OSS",
+        "fingerprint": "requires login",
+        "lines": "requires login",
+        "message": "benchmark-controlled taint reached the case's declared sink endpoint",
+        "metadata": {},
+        "severity": "WARNING",
+        "validation_state": "NO_VALIDATOR"
+      },
+      "path": "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dataflowbench-warm-semgrep-2-2/source-1/BranchJoinPositive.java",
+      "start": {
+        "col": 9,
+        "line": 16,
+        "offset": 405
+      }
+    }
+  ],
+  "skipped_rules": [],
+  "time": {
+    "fixpoint_timeouts": [],
+    "matching_time": {
+      "per_file_and_rule_time": {
+        "mean": 0.0,
+        "std_dev": 0.0
+      },
+      "total_time": 0.0,
+      "very_slow_rules_on_files": [],
+      "very_slow_stats": {
+        "count_ratio": 0.0,
+        "time_ratio": 0.0
+      }
+    },
+    "max_memory_bytes": 97442688,
+    "parsing_time": {
+      "per_file_time": {
+        "mean": 0.0,
+        "std_dev": 0.0
+      },
+      "total_time": 0.0,
+      "very_slow_files": [],
+      "very_slow_stats": {
+        "count_ratio": 0.0,
+        "time_ratio": 0.0
+      }
+    },
+    "prefiltering": {
+      "file_level_time": 0.0,
+      "project_level_time": 0.0,
+      "rules_matched_ratio": 1.0,
+      "rules_selected_ratio": 1.0,
+      "rules_with_file_prefilters_ratio": 1.0,
+      "rules_with_project_prefilters_ratio": 0.0
+    },
+    "profiling_times": {
+      "config_time": 0.08428692817687988,
+      "core_time": 0.2607271671295166,
+      "ignores_time": 0.000034809112548828125,
+      "total_time": 0.3496530055999756
+    },
+    "rules": [],
+    "rules_parse_time": 0.0003228187561035156,
+    "scanning_time": {
+      "per_file_time": {
+        "mean": 0.005677461624145508,
+        "std_dev": 5.6843418860808015e-12
+      },
+      "total_time": 0.011354923248291016,
+      "very_slow_files": [],
+      "very_slow_stats": {
+        "count_ratio": 0.0,
+        "time_ratio": 0.0
+      }
+    },
+    "tainting_time": {
+      "per_def_and_rule_time": {
+        "mean": 0.0,
+        "std_dev": 0.0
+      },
+      "total_time": 0.0,
+      "very_slow_rules_on_defs": [],
+      "very_slow_stats": {
+        "count_ratio": 0.0,
+        "time_ratio": 0.0
+      }
+    },
+    "targets": [],
+    "total_bytes": 0
+  },
+  "version": "1.175.0"
+}
