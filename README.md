@@ -424,7 +424,7 @@ mode that proves checked-in artifacts match the freeze they cite.
 
 ## Website
 
-The public site at <https://brokkai.github.io/dataflowbench> is an Astro
+The public site at <https://dataflowbench.brokk.ai> is an Astro
 Starlight package in `docs/`; every number it shows is rendered from the
 generated `results/results.json`, never hand-authored. Develop locally with:
 
