@@ -1,0 +1,85 @@
+# Benchmark-controlled OpenTaint taint rule: the DataFlowBench Java
+# taint-modeling matrix.
+#
+# Unlike the kernel rule this file carries no runner-substituted placeholder.
+# A modeling assertion is scored on whether the engine activates the
+# benchmark's *declarations*, so the declarations are written out literally,
+# once, for the whole population — the single per-language artifact
+# docs/modeling-matrix.md's equivalence contract requires.
+#
+# Only the three categories the preregistered partition awards OpenTaint are
+# declared here (docs/modeling-matrix.md, Amendment A22). Categories O
+# (summaries), E (entry points), and B (persistence) are `unsupported` for
+# this adapter by that partition, and the artifact for an unsupported category
+# must not declare it — the partition decides those cells without the tool, so
+# declaring them anyway would smuggle a scored cell past a capability decision
+# made before the run.
+#
+# Load-bearing notes, verified against the pinned analyzer by
+# scripts/probe-opentaint-modeling-surface.sh:
+#
+# - The engine has no optimistic unmodeled-call default to disable: with no
+#   propagator declared, the reflective `Opaque.carry` body carries nothing
+#   (`p-baseline` probe, zero findings), so both category-P cells turn on the
+#   declarations below and on nothing else.
+# - Propagators bind argument→return through the **assignment-shaped**
+#   pattern. The engine matches patterns against its lifted JVM IR, where a
+#   nested call is a temporary assignment, so `$DFBTO = Opaque.carry($DFBFROM)`
+#   names the call's result as a metavariable — the arg→return binding
+#   Semgrep CE's surface cannot express. The positional binding of
+#   `Opaque.select` names parameter 1 (`$DFBFROM`) and leaves parameter 0
+#   (`$DFBIGNORED`) unbound, which the engine honors (taint at position 0 is
+#   not carried — `p-position` probes).
+# - `primitive-tracking: true` is the adapter's default rule configuration
+#   per Amendment A11 (docs/adapters.md#amendments). Every modeling fixture
+#   is String-typed, so nothing here turns on it; it is carried so the
+#   modeling rule states the same engine configuration the kernel templates
+#   pin.
+rules:
+  - id: dfb-opentaint-model
+    severity: ERROR
+    message: a benchmark-declared model carried input to the declared sink
+    languages:
+      - java
+    mode: taint
+    options:
+      primitive-tracking: true
+    pattern-sources:
+      # The benchmark's own canonical source, in the two callsite spellings
+      # the lifted JVM IR produces (see the kernel rule).
+      - pattern-either:
+          - pattern: dfb_source()
+          - pattern: $DFBRECV.dfb_source()
+      # Template 1 — role `source`, entity `Config.fetchRemote`, out: return.
+      # The undeclared sibling `Config.fetchLocal` is deliberately absent.
+      - pattern: Config.fetchRemote()
+    pattern-propagators:
+      # Template 3 — role `propagator`, entity `Opaque.carry`, in: 0,
+      # out: return. The sibling `Opaque.block` is undeclared, which is this
+      # tool's spelling of the negative's no-flow declaration: the engine
+      # carries nothing through an undeclared, unfollowable body.
+      - pattern: $DFBTO = Opaque.carry($DFBFROM)
+        from: $DFBFROM
+        to: $DFBTO
+      # Template 4 — role `propagator`, entity `Opaque.select`, in: 1,
+      # out: return. Position 0 is deliberately unbound.
+      - pattern: $DFBTO = Opaque.select($DFBIGNORED, $DFBFROM)
+        from: $DFBFROM
+        to: $DFBTO
+    pattern-sanitizers:
+      # Templates 5 and 6 — role `sanitizer`, entity `Clean.scrub`, in: 0.
+      # `Clean.sanitize` is a sibling with the same identity body and a name
+      # at least as sanitizer-shaped, and it is not declared.
+      - pattern: Clean.scrub($DFBCLEANED)
+    pattern-sinks:
+      # The benchmark's own canonical sink, both callsite spellings.
+      - patterns:
+          - pattern-either:
+              - pattern: dfb_sink($DFBVAL);
+              - pattern: $DFBSINKRECV.dfb_sink($DFBVAL);
+          - focus-metavariable: $DFBVAL
+      # Template 2 — role `sink`, entity `Audit.record`, in: 0. The undeclared
+      # sibling `Audit.discard` is deliberately absent.
+      - patterns:
+          - pattern: Audit.record($DFBVAL);
+          - focus-metavariable: $DFBVAL

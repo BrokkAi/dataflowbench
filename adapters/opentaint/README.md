@@ -267,6 +267,69 @@ minimal repro showing named object fields *are* kept separate — the
 over-approximation is specific to dynamically-keyed locations.
 `infeasible-branch-negative` stays clean here too.
 
+## Benchmark-controlled modeling matrix — Java
+
+[Amendment A22](../../docs/modeling-matrix.md#a22--2026-09-01-opentaint-joins-the-modeling-matrix-with-a-preregistered-java-partition-row)
+preregistered this adapter's modeling partition row before its first scored
+modeling run, decided by executing the pinned analyzer over the committed Java
+modeling fixtures with probe declarations
+(`scripts/probe-opentaint-modeling-surface.sh`, evidence retained under
+`reports/raw/opentaint-modeling-surface-probe/`). Java is the adapter's only
+modeling language — the engine analyzes JVM bytecode, so JavaScript and Python
+have no OpenTaint modeling denominator, and the runner refuses to plan a run
+for either. Kotlin has no modeling denominator in any adapter.
+
+Scored: categories **S, P, and Z** — six of the twelve templates, twelve of
+Java's twenty-four assertions. The declarations live in the single committed
+artifact `rules/model-java.yaml` (rule id `dfb-opentaint-model`, checked in
+every retained rule-load trace), which declares exactly the scored categories.
+Two facts about the surface carry the row:
+
+- **Propagators are assignment-shaped.** The engine matches patterns against
+  its lifted JVM IR, where a nested call is a temporary assignment, so
+  `$DFBTO = Opaque.carry($DFBFROM)` expresses `in: 0, out: return` — the
+  binding Semgrep CE's surface cannot — and positional binding is honored
+  (template 4 declares position 1 and the engine does not carry position 0).
+- **No load-bearing switch is needed.** With no propagator declared the
+  reflective probe body carries nothing, so there is no optimistic
+  unmodeled-call default to disable.
+
+Categories O, E, and B are `unsupported` by the preregistered partition, with
+the executed evidence in the amendment: template 7 is decided by the engine's
+body reading in both cells and no instruction to ignore a present body exists;
+method-definition-shaped `pattern-sources` are silently dropped and the rule
+degenerates to sink-existence matching; and the surface has no store, key, or
+cross-procedure vocabulary.
+
+The 2026-09-01 run (`reports/opentaint-java-modeling.json`, raw evidence under
+`reports/raw/opentaint-java-modeling/`) decided all twelve scored assertions
+correctly — S 4/4, P 4/4, Z 4/4, no `inconclusive`, no `runner-error` — with
+the twelve declined cells retained as `unsupported` capability decisions. The
+per-case execution mirrors the kernel's (compile as a harness step, one timed
+analyzer invocation, load-trace guard), reconciled under the modeling tier's
+member-qualified Java dialect.
+
+## Tool-native profile — Java, declined at 0 / 6
+
+[Amendment A23](../../docs/native-profile.md#a23--2026-09-01-opentaint-joins-the-tool-native-profile-at-0--6-and-the-shipped-models-archive-is-ruled-shipped-product)
+added this adapter's tool-native activation contract and partition row, also
+Java-only. The boundary it settles: `opentaint-models.tar.gz` is **shipped
+product** — vendor propagation models, digest-pinned in the release — so a
+native run loads it; but every source, sink, and sanitizer lives in a
+`--semgrep-rule-set`, the benchmark's rules are benchmark-authored by
+definition, and the pinned release ships no rule set of its own. Verified by
+execution: with the archive loaded and no rule set, the analyzer registers
+zero rules and reports zero results over the platform's own
+`System.getenv` → `Runtime.exec`
+(`scripts/probe-opentaint-native-activation.sh`, retained under
+`reports/raw/opentaint-native-activation-probe/`).
+
+All six templates are therefore `unsupported`, and the run
+(`reports/opentaint-java-native.json`) hands no fixture to the analyzer while
+still witnessing both assets' digests. The upstream repository's MIT-licensed
+rules component is not an asset of the pinned release; vendoring a snapshot of
+it is a possible future amendment under the native profile's provenance rule.
+
 ## Retained artifacts
 
 Per case under `reports/raw/opentaint-<language>-kernel/`: the verbatim SARIF
@@ -305,9 +368,27 @@ The retained runs used OpenJDK Temurin 21.0.8 (`java`/`javac`) and
 fixture toolchain is harness plumbing: it decides whether bytecode exists,
 never what the analyzer claims about it.
 
-The value-kind probe and the primitive-tracking probe that resolved it:
+The modeling and native rows:
+
+```bash
+cargo run -- run-opentaint-modeling --language java \
+  --analyzer-jar /path/to/opentaint-project-analyzer.jar \
+  --models-archive /path/to/opentaint-models.tar.gz
+cargo run -- run-opentaint-native --language java \
+  --analyzer-jar /path/to/opentaint-project-analyzer.jar \
+  --models-archive /path/to/opentaint-models.tar.gz
+```
+
+The value-kind probe and the primitive-tracking probe that resolved it, and
+the two probes behind Amendments A22 and A23:
 
 ```bash
 scripts/probe-opentaint-value-kind.sh --analyzer-jar /path/to/opentaint-project-analyzer.jar
 scripts/probe-opentaint-primitive-tracking.sh --analyzer-jar /path/to/opentaint-project-analyzer.jar
+scripts/probe-opentaint-modeling-surface.sh \
+  --analyzer-jar /path/to/opentaint-project-analyzer.jar \
+  --models-archive /path/to/opentaint-models.tar.gz
+scripts/probe-opentaint-native-activation.sh \
+  --analyzer-jar /path/to/opentaint-project-analyzer.jar \
+  --models-archive /path/to/opentaint-models.tar.gz
 ```
