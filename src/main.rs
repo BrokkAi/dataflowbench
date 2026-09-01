@@ -3598,6 +3598,32 @@ enum Commands {
         codeql: PathBuf,
         #[arg(long)]
         codeql_packs: Option<PathBuf>,
+        #[arg(long, default_value = "infer")]
+        infer: PathBuf,
+        #[arg(long, default_value = "opentaint-project-analyzer.jar")]
+        analyzer_jar: PathBuf,
+        #[arg(long, default_value = "opentaint-models.tar.gz")]
+        models_archive: PathBuf,
+        #[arg(long, default_value = "soot-infoflow-cmd-jar-with-dependencies.jar")]
+        flowdroid_jar: PathBuf,
+        #[arg(long, default_value = "android.jar")]
+        android_platform: PathBuf,
+        #[arg(long, default_value = "r8.jar")]
+        d8_jar: PathBuf,
+        #[arg(long, default_value = "java")]
+        java: PathBuf,
+        #[arg(long, default_value = "javac")]
+        javac: PathBuf,
+        #[arg(long, default_value = "kotlinc")]
+        kotlinc: PathBuf,
+        #[arg(long, default_value = "kotlin-stdlib.jar")]
+        kotlin_stdlib: PathBuf,
+        #[arg(long, default_value = "pyre")]
+        pyre: PathBuf,
+        #[arg(long, default_value = "pyre.bin")]
+        pyre_binary: PathBuf,
+        #[arg(long, default_value = "pyrefly")]
+        pyrefly: PathBuf,
     },
 }
 
@@ -4009,19 +4035,42 @@ fn main() -> Result<()> {
             bifrost,
             codeql,
             codeql_packs,
+            infer,
+            analyzer_jar,
+            models_archive,
+            flowdroid_jar,
+            android_platform,
+            d8_jar,
+            java,
+            javac,
+            kotlinc,
+            kotlin_stdlib,
+            pyre,
+            pyre_binary,
+            pyrefly,
         } => estimate_invocation_overhead(
             tool,
             language,
-            match tool {
-                OverheadTool::Joern => &joern,
-                OverheadTool::Semgrep => &semgrep,
-                OverheadTool::Bifrost => &bifrost,
-                OverheadTool::Codeql => &codeql,
-                // The remaining adapters have no arm yet; the binary is
-                // unused and the arm bails with A24's `environment` decline.
-                _ => &codeql,
+            &OverheadTools {
+                joern,
+                semgrep,
+                bifrost,
+                codeql,
+                codeql_packs,
+                infer,
+                analyzer_jar,
+                models_archive,
+                flowdroid_jar,
+                android_platform,
+                d8_jar,
+                java,
+                javac,
+                kotlinc,
+                kotlin_stdlib,
+                pyre,
+                pyre_binary,
+                pyrefly,
             },
-            codeql_packs.as_deref(),
         ),
     }
 }
@@ -18385,6 +18434,14 @@ const OVERHEAD_REPEATS: usize = 3;
 /// never connects the two. There is no flow to find, so what the invocation
 /// costs is very nearly all fixed cost.
 ///
+/// The JVM fixtures declare the same packages the corpus fixtures do
+/// (`dataflowbench.taint` for Java, `dataflowbench` for Kotlin), because the
+/// OpenTaint and FlowDroid adapters resolve package directories and manifest
+/// packages from them; a fixture in a package the adapter does not expect
+/// would be a different invocation, not a trivial one. Each also declares a
+/// single no-argument `run`, which is the entry shape FlowDroid's committed
+/// wrapper template invokes.
+///
 /// These are NOT cases. They carry no `case.json`, no template identity, no
 /// polarity and no score tier, they live outside `cases/`, and no population,
 /// denominator or freeze sees them.
@@ -18392,7 +18449,7 @@ fn trivial_fixture(language: OverheadLanguage) -> (&'static str, &'static str) {
     match language {
         OverheadLanguage::Java => (
             "DfbTrivial.java",
-            "package dataflowbench.overhead;\n\
+            "package dataflowbench.taint;\n\
              \n\
              final class DfbTrivial {\n\
              \x20   static int dfb_source() { // DFB-SOURCE: trivial-overhead-input\n\
@@ -18409,7 +18466,7 @@ fn trivial_fixture(language: OverheadLanguage) -> (&'static str, &'static str) {
         ),
         OverheadLanguage::Kotlin => (
             "DfbTrivial.kt",
-            "package dataflowbench.overhead\n\
+            "package dataflowbench\n\
              \n\
              object DfbTrivial {\n\
              \x20   fun dfb_source(): Int { // DFB-SOURCE: trivial-overhead-input\n\
@@ -18523,12 +18580,51 @@ fn overhead_range(runs: &[OverheadRun]) -> Result<OverheadRange> {
 }
 
 /// Run one adapter's estimator twice and retain the artifact.
+/// Every distribution an overhead arm may need.
+///
+/// One struct rather than a per-tool argument list, because the command takes
+/// them all and each arm reaches for the ones its own cold runner uses. The
+/// paths are exactly the ones the kernel runners take, and every arm witnesses
+/// the pinned identity through the same function its kernel does — so a wrong
+/// jar, binary or venv refuses the measurement instead of producing a number
+/// attributed to a distribution that did not make it.
+struct OverheadTools {
+    joern: PathBuf,
+    semgrep: PathBuf,
+    bifrost: PathBuf,
+    codeql: PathBuf,
+    codeql_packs: Option<PathBuf>,
+    infer: PathBuf,
+    analyzer_jar: PathBuf,
+    models_archive: PathBuf,
+    flowdroid_jar: PathBuf,
+    android_platform: PathBuf,
+    d8_jar: PathBuf,
+    java: PathBuf,
+    javac: PathBuf,
+    kotlinc: PathBuf,
+    kotlin_stdlib: PathBuf,
+    pyre: PathBuf,
+    pyre_binary: PathBuf,
+    pyrefly: PathBuf,
+}
+
 fn estimate_invocation_overhead(
     tool: OverheadTool,
     language: OverheadLanguage,
-    binary: &Path,
-    codeql_packs: Option<&Path>,
+    tools: &OverheadTools,
 ) -> Result<()> {
+    let binary: &Path = match tool {
+        OverheadTool::Joern => &tools.joern,
+        OverheadTool::Semgrep => &tools.semgrep,
+        OverheadTool::Bifrost => &tools.bifrost,
+        OverheadTool::Codeql => &tools.codeql,
+        OverheadTool::Infer => &tools.infer,
+        OverheadTool::Opentaint => &tools.analyzer_jar,
+        OverheadTool::Flowdroid => &tools.flowdroid_jar,
+        OverheadTool::Pysa => &tools.pyre,
+    };
+    let codeql_packs = tools.codeql_packs.as_deref();
     let raw_dir =
         PathBuf::from(OVERHEAD_ROOT).join(format!("{}-{}", tool.as_str(), language.as_str()));
     if raw_dir.exists() {
@@ -18548,14 +18644,20 @@ fn estimate_invocation_overhead(
             command_output(Command::new(binary).arg("--build-identity"))
                 .unwrap_or_else(|_| "unknown".into()),
         ),
-        other => bail!(
-            "no invocation-overhead arm is implemented for {}: the pinned distribution is not \
-             installed in this measurement environment. Amendment A24 records that as an \
-             `environment` decline — a fact about the machine, not about the adapter's released \
-             CLI — and it is resolved by re-running this command where the distribution is \
-             installed.",
-            other.as_str()
-        ),
+        // The four JVM-and-Python distributions witness their identity exactly
+        // as their kernels do — Infer against its pinned version and binary
+        // digest, OpenTaint and FlowDroid against their jar digests, Pysa
+        // against the pinned client, analysis binary and Pyrefly build. A
+        // measurement can therefore never be attributed to a distribution the
+        // runner did not verify.
+        OverheadTool::Infer => witness_infer_identity(binary)?,
+        OverheadTool::Opentaint => witness_opentaint_identity(binary, &tools.models_archive)?,
+        OverheadTool::Flowdroid => witness_flowdroid_identity(binary, &tools.android_platform)?,
+        OverheadTool::Pysa => witness_pysa_identity(&PysaTools {
+            pyre: tools.pyre.clone(),
+            pyre_binary: tools.pyre_binary.clone(),
+            pyrefly: tools.pyrefly.clone(),
+        })?,
     };
     write_run_environment(&raw_dir, tool.as_str(), &version, &build_identity)?;
 
@@ -18581,7 +18683,10 @@ fn estimate_invocation_overhead(
             OverheadTool::Semgrep => overhead_run_semgrep(binary, language, run, &raw_dir)?,
             OverheadTool::Bifrost => overhead_run_bifrost(binary, language, run)?,
             OverheadTool::Codeql => overhead_run_codeql(binary, codeql_packs, language, run)?,
-            other => bail!("unreachable: {} has no arm", other.as_str()),
+            OverheadTool::Infer => overhead_run_infer(binary, language, run)?,
+            OverheadTool::Opentaint => overhead_run_opentaint(tools, language, run, &raw_dir)?,
+            OverheadTool::Flowdroid => overhead_run_flowdroid(tools, language, run, &raw_dir)?,
+            OverheadTool::Pysa => overhead_run_pysa(tools, language, run, &raw_dir)?,
         };
         println!("  repeat {run}: {} ms", measured.wall_ms);
         runs.push(measured);
@@ -18915,6 +19020,521 @@ fn overhead_run_codeql(
             ("database-analyze".into(), analyze_ms),
         ],
         wall_ms: create_ms + analyze_ms,
+        load_before,
+    })
+}
+
+/// Infer: both declared subprocesses — `infer capture` around the traced
+/// compile, then `infer analyze` under the committed taint configuration —
+/// timed separately and summed, as its cold whole-invocation figure is.
+fn overhead_run_infer(infer: &Path, language: OverheadLanguage, run: usize) -> Result<OverheadRun> {
+    let config_template = match language {
+        OverheadLanguage::C => format!("{INFER_CONFIG_DIR}/kernel-c.json"),
+        other => bail!("no Infer overhead arm for {}", other.as_str()),
+    };
+    let config = fs::read_to_string(&config_template)?
+        .replace(SEMGREP_SOURCE_PLACEHOLDER, "dfb_source")
+        .replace(SEMGREP_SINK_PLACEHOLDER, "dfb_sink");
+    let (scratch, workspace) = overhead_workspace(OverheadTool::Infer, language, run)?;
+    let config_path = scratch.join("taint-config.json");
+    fs::write(&config_path, &config)?;
+    let results_dir = scratch.join("infer-out");
+    let (fixture_name, _) = trivial_fixture(language);
+
+    let load_before = load_average_one_minute();
+    let mut capture = Command::new(infer);
+    capture
+        .arg("capture")
+        .arg("--results-dir")
+        .arg(&results_dir)
+        .arg("--")
+        .arg("clang")
+        .arg("-c")
+        .arg(fixture_name)
+        .current_dir(&workspace)
+        .stdin(std::process::Stdio::null());
+    let capture_started = Instant::now();
+    let captured = capture
+        .output()
+        .with_context(|| format!("run infer capture with {}", infer.display()))?;
+    let capture_ms = capture_started.elapsed().as_millis() as u64;
+    if !captured.status.success() {
+        bail!(
+            "the Infer overhead capture failed with status {}:\n{}",
+            captured.status,
+            String::from_utf8_lossy(&captured.stderr)
+        );
+    }
+
+    // The pinned binary silently analyzes with no taint question at all when
+    // the file `--pulse-taint-config` names does not exist, so its presence is
+    // proven before the analyzer runs — the same guard the kernel keeps.
+    let resolved_config = fs::canonicalize(&config_path).unwrap_or_else(|_| config_path.clone());
+    if !resolved_config.is_file() {
+        bail!("the resolved Infer taint configuration vanished before analysis");
+    }
+    let mut analyze = Command::new(infer);
+    analyze
+        .arg("analyze")
+        .arg("--results-dir")
+        .arg(&results_dir)
+        .arg("--pulse-only")
+        .arg("--sarif")
+        .arg("--pulse-taint-config")
+        .arg(&resolved_config)
+        .current_dir(&workspace)
+        .stdin(std::process::Stdio::null());
+    let analyze_started = Instant::now();
+    let analyzed = analyze
+        .output()
+        .with_context(|| format!("run infer analyze with {}", infer.display()))?;
+    let analyze_ms = analyze_started.elapsed().as_millis() as u64;
+    if !analyzed.status.success() {
+        bail!(
+            "the Infer overhead analyze failed with status {}:\n{}",
+            analyzed.status,
+            String::from_utf8_lossy(&analyzed.stderr)
+        );
+    }
+    fs::remove_dir_all(&scratch).ok();
+    Ok(OverheadRun {
+        phases: vec![
+            ("capture".into(), capture_ms),
+            ("analyze".into(), analyze_ms),
+        ],
+        wall_ms: capture_ms + analyze_ms,
+        load_before,
+    })
+}
+
+/// OpenTaint: one analyzer-jar invocation over a synthesized `project.yaml`,
+/// under the committed kernel rule set and the pinned model archive.
+///
+/// The fixture compile is harness materialization — this adapter's input
+/// encoding is bytecode — and is outside the timed window, exactly as it is in
+/// the cold kernel.
+fn overhead_run_opentaint(
+    tools: &OverheadTools,
+    language: OverheadLanguage,
+    run: usize,
+    raw_dir: &Path,
+) -> Result<OverheadRun> {
+    let (rule_file, package, compiler) = match language {
+        OverheadLanguage::Kotlin => (
+            format!("{OPENTAINT_RULES_DIR}/kernel-kotlin.yaml"),
+            "dataflowbench",
+            &tools.kotlinc,
+        ),
+        OverheadLanguage::Java => (
+            format!("{OPENTAINT_RULES_DIR}/kernel-java.yaml"),
+            "dataflowbench.taint",
+            &tools.javac,
+        ),
+        other => bail!("no OpenTaint overhead arm for {}", other.as_str()),
+    };
+    let rule = fs::read_to_string(&rule_file)?
+        .replace(SEMGREP_SOURCE_PLACEHOLDER, "dfb_source")
+        .replace(SEMGREP_SINK_PLACEHOLDER, "dfb_sink");
+    let models = extract_opentaint_models(&tools.models_archive)?;
+
+    let (scratch, _) = overhead_workspace(OverheadTool::Opentaint, language, run)?;
+    let source_root = scratch.join("source");
+    let classes = scratch.join("classes");
+    let output_dir = scratch.join("out");
+    for directory in [&source_root, &classes, &output_dir] {
+        fs::create_dir_all(directory)?;
+    }
+    let (fixture_name, fixture_text) = trivial_fixture(language);
+    let package_dir = source_root.join(package.replace('.', "/"));
+    fs::create_dir_all(&package_dir)?;
+    fs::write(package_dir.join(fixture_name), fixture_text)?;
+
+    let compiled = Command::new(compiler)
+        .arg("-nowarn")
+        .arg("-d")
+        .arg(&classes)
+        .arg(package_dir.join(fixture_name))
+        .stdin(std::process::Stdio::null())
+        .output()
+        .with_context(|| format!("compile the trivial fixture with {}", compiler.display()))?;
+    if !compiled.status.success() {
+        bail!(
+            "the trivial {} fixture did not compile:\n{}",
+            language.as_str(),
+            String::from_utf8_lossy(&compiled.stderr)
+        );
+    }
+
+    let mut project = String::from("javaProjects:\n");
+    project.push_str(&format!("  - sourceRoot: {}\n", source_root.display()));
+    project.push_str("    modules:\n");
+    project.push_str(&format!(
+        "      - moduleSourceRoot: {}\n",
+        source_root.display()
+    ));
+    project.push_str("        packages:\n");
+    project.push_str(&format!("          - {package}\n"));
+    project.push_str("        moduleClasses:\n");
+    project.push_str(&format!("          - {}\n", classes.display()));
+    if matches!(language, OverheadLanguage::Kotlin) {
+        project.push_str("    dependencies:\n");
+        project.push_str(&format!("      - {}\n", tools.kotlin_stdlib.display()));
+    }
+    let project_path = scratch.join("project.yaml");
+    fs::write(&project_path, project)?;
+    let rule_path = scratch.join("rule.yaml");
+    fs::write(&rule_path, &rule)?;
+    fs::write(raw_dir.join("resolved-rule.yaml"), &rule)?;
+    let resolved_rule = fs::canonicalize(&rule_path).unwrap_or_else(|_| rule_path.clone());
+
+    let mut command = Command::new(&tools.java);
+    command
+        .arg("-jar")
+        .arg(&tools.analyzer_jar)
+        .arg(format!("--project={}", project_path.display()))
+        .arg("--project-kind=unknown")
+        .arg("--debug-run-analysis-on-selected-entry-points=*")
+        .arg(format!("--semgrep-rule-set={}", resolved_rule.display()))
+        .arg(format!(
+            "--semgrep-rule-load-trace={}",
+            output_dir.join("load-trace.json").display()
+        ))
+        .arg(format!(
+            "--passthrough-approximations={}",
+            models.passthrough_yaml.display()
+        ))
+        .arg(format!(
+            "--passthrough-approximations={}",
+            models.passthrough_config_dir.display()
+        ))
+        .arg(format!(
+            "--java-dataflow-approximations={}",
+            models.dataflow_approximations_classes.display()
+        ))
+        .arg(format!("--output-dir={}", output_dir.display()))
+        .stdin(std::process::Stdio::null());
+    let load_before = load_average_one_minute();
+    let invoked = Instant::now();
+    let output = command
+        .output()
+        .with_context(|| format!("run the OpenTaint analyzer with {}", tools.java.display()))?;
+    let wall_ms = invoked.elapsed().as_millis() as u64;
+    if !output.status.success() {
+        bail!(
+            "the OpenTaint overhead invocation failed with status {}:\n{}",
+            output.status,
+            String::from_utf8_lossy(&output.stderr)
+        );
+    }
+    fs::remove_dir_all(&scratch).ok();
+    Ok(OverheadRun {
+        phases: vec![("total".into(), wall_ms)],
+        wall_ms,
+        load_before,
+    })
+}
+
+/// FlowDroid: one analyzer invocation over a materialized APK.
+///
+/// The per-case APK materialization — the two compiles, the D8 dex
+/// translation, the stored-zip assembly — is **outside** the timed window,
+/// exactly as Amendment A12 puts it outside every cold FlowDroid number. The
+/// estimate is the analyzer subprocess and nothing else, so it is the same
+/// kind of quantity as the row it annotates.
+fn overhead_run_flowdroid(
+    tools: &OverheadTools,
+    language: OverheadLanguage,
+    run: usize,
+    raw_dir: &Path,
+) -> Result<OverheadRun> {
+    let (package, wrapper_extension, manifest_file, wrapper_template_file, compiler) =
+        match language {
+            OverheadLanguage::Java => (
+                "dataflowbench.taint",
+                "java",
+                format!("{FLOWDROID_TEMPLATE_DIR}/AndroidManifest-java.xml"),
+                format!("{FLOWDROID_TEMPLATE_DIR}/DfbCaseActivity.java.tmpl"),
+                &tools.javac,
+            ),
+            other => bail!("no FlowDroid overhead arm for {}", other.as_str()),
+        };
+    let sources_sinks_template =
+        fs::read_to_string(format!("{FLOWDROID_CONFIG_DIR}/sources-sinks.txt"))?;
+    let wrapper_template = fs::read_to_string(&wrapper_template_file)?;
+    let manifest = fs::read(&manifest_file)?;
+
+    let (scratch, _) = overhead_workspace(OverheadTool::Flowdroid, language, run)?;
+    let source_root = scratch.join("source");
+    let classes = scratch.join("classes");
+    for directory in [&source_root, &classes] {
+        fs::create_dir_all(directory)?;
+    }
+    let (fixture_name, fixture_text) = trivial_fixture(language);
+    let package_dir = source_root.join(package.replace('.', "/"));
+    fs::create_dir_all(&package_dir)?;
+    let fixture_path = package_dir.join(fixture_name);
+    fs::write(&fixture_path, fixture_text)?;
+
+    let compile = |inputs: &[PathBuf], classpath: Option<&str>| -> Result<()> {
+        let mut command = Command::new(compiler);
+        command.arg("-nowarn");
+        if let Some(classpath) = classpath {
+            command.arg("-cp").arg(classpath);
+        }
+        command
+            .arg("-d")
+            .arg(&classes)
+            .args(inputs)
+            .stdin(std::process::Stdio::null());
+        let output = command
+            .output()
+            .with_context(|| format!("compile with {}", compiler.display()))?;
+        if !output.status.success() {
+            bail!(
+                "the trivial FlowDroid fixture did not compile:\n{}",
+                String::from_utf8_lossy(&output.stderr)
+            );
+        }
+        Ok(())
+    };
+    compile(&[fixture_path.clone()], None)?;
+
+    // The entry call and the endpoint signatures are witnessed from the
+    // compiled classes, the way the cold runner witnesses them: what the APK
+    // will actually carry, not what source-text parsing guesses.
+    let parsed_classes = parse_class_directory(&classes)?;
+    let entry_call = flowdroid_entry_call(&parsed_classes)
+        .map_err(|reason| anyhow::anyhow!("cannot derive the harness entry call: {reason}"))?;
+    let source_signatures = flowdroid_endpoint_signatures(&parsed_classes, "dfb_source")
+        .map_err(|reason| anyhow::anyhow!("cannot witness the source signature: {reason}"))?;
+    let sink_signatures = flowdroid_endpoint_signatures(&parsed_classes, "dfb_sink")
+        .map_err(|reason| anyhow::anyhow!("cannot witness the sink signature: {reason}"))?;
+    let sources_sinks = sources_sinks_template
+        .replace(
+            FLOWDROID_SOURCES_PLACEHOLDER,
+            &source_signatures
+                .iter()
+                .map(|signature| format!("{signature} -> _SOURCE_"))
+                .collect::<Vec<_>>()
+                .join("\n"),
+        )
+        .replace(
+            FLOWDROID_SINKS_PLACEHOLDER,
+            &sink_signatures
+                .iter()
+                .map(|signature| format!("{signature} -> _SINK_"))
+                .collect::<Vec<_>>()
+                .join("\n"),
+        );
+    let sources_sinks_path = scratch.join("sources-sinks.txt");
+    fs::write(&sources_sinks_path, &sources_sinks)?;
+    fs::write(raw_dir.join("resolved-sources-sinks.txt"), &sources_sinks)?;
+
+    let wrapper = wrapper_template
+        .replace(FLOWDROID_PACKAGE_PLACEHOLDER, package)
+        .replace(FLOWDROID_ENTRY_CALL_PLACEHOLDER, &entry_call);
+    let wrapper_source = package_dir.join(format!("DfbCaseActivity.{wrapper_extension}"));
+    fs::write(&wrapper_source, &wrapper)?;
+    let classpath = format!("{}:{}", tools.android_platform.display(), classes.display());
+    compile(&[wrapper_source], Some(&classpath))?;
+
+    let mut class_files: Vec<PathBuf> = WalkDir::new(&classes)
+        .into_iter()
+        .filter_map(std::result::Result::ok)
+        .filter(|entry| entry.file_type().is_file())
+        .map(|entry| entry.into_path())
+        .filter(|path| path.extension().is_some_and(|ext| ext == "class"))
+        .collect();
+    class_files.sort();
+    let dexed = Command::new(&tools.java)
+        .arg("-cp")
+        .arg(&tools.d8_jar)
+        .arg("com.android.tools.r8.D8")
+        .arg("--release")
+        .arg("--min-api")
+        .arg("21")
+        .arg("--lib")
+        .arg(&tools.android_platform)
+        .arg("--output")
+        .arg(&scratch)
+        .args(&class_files)
+        .stdin(std::process::Stdio::null())
+        .output()
+        .context("run the D8 dex translator")?;
+    if !dexed.status.success() {
+        bail!(
+            "D8 dex translation failed with status {}:\n{}",
+            dexed.status,
+            String::from_utf8_lossy(&dexed.stderr)
+        );
+    }
+    let mut dex_files: Vec<PathBuf> = fs::read_dir(&scratch)?
+        .filter_map(std::result::Result::ok)
+        .map(|entry| entry.path())
+        .filter(|path| {
+            path.extension().is_some_and(|ext| ext == "dex")
+                && path
+                    .file_name()
+                    .and_then(|name| name.to_str())
+                    .is_some_and(|name| name.starts_with("classes"))
+        })
+        .collect();
+    dex_files.sort();
+    if dex_files.is_empty() {
+        bail!("D8 exited cleanly but produced no dex file");
+    }
+    let mut entries: Vec<(String, Vec<u8>)> =
+        vec![("AndroidManifest.xml".to_string(), manifest.clone())];
+    for dex_file in &dex_files {
+        entries.push((
+            dex_file
+                .file_name()
+                .and_then(|name| name.to_str())
+                .expect("dex file names are ASCII")
+                .to_string(),
+            fs::read(dex_file)?,
+        ));
+    }
+    let apk_path = scratch.join("case.apk");
+    write_stored_zip(
+        &apk_path,
+        &entries
+            .iter()
+            .map(|(name, bytes)| (name.as_str(), bytes.as_slice()))
+            .collect::<Vec<_>>(),
+    )?;
+
+    // Everything above is materialization. Only what follows is timed.
+    let resolved_sources_sinks =
+        fs::canonicalize(&sources_sinks_path).unwrap_or_else(|_| sources_sinks_path.clone());
+    let mut command = Command::new(&tools.java);
+    command
+        .arg("-jar")
+        .arg(&tools.flowdroid_jar)
+        .arg("-a")
+        .arg(&apk_path)
+        .arg("-p")
+        .arg(&tools.android_platform)
+        .arg("-s")
+        .arg(&resolved_sources_sinks)
+        .arg("-o")
+        .arg(scratch.join("out.xml"))
+        .current_dir(&scratch)
+        .stdin(std::process::Stdio::null());
+    let load_before = load_average_one_minute();
+    let invoked = Instant::now();
+    let output = command
+        .output()
+        .with_context(|| format!("run FlowDroid with {}", tools.java.display()))?;
+    let wall_ms = invoked.elapsed().as_millis() as u64;
+    if !output.status.success() {
+        bail!(
+            "the FlowDroid overhead invocation failed with status {}:\n{}",
+            output.status,
+            String::from_utf8_lossy(&output.stderr)
+        );
+    }
+    fs::remove_dir_all(&scratch).ok();
+    Ok(OverheadRun {
+        phases: vec![("total".into(), wall_ms)],
+        wall_ms,
+        load_before,
+    })
+}
+
+/// Pysa: one `pyre analyze`, under the committed taint configuration and the
+/// committed model template resolved against the trivial fixture's module.
+///
+/// The scratch project carries the same `.pyre_configuration` and
+/// `pyrefly.toml` the cold runner writes — without the latter the pinned
+/// Pyrefly resolves no call target and the analysis finds nothing while
+/// exiting cleanly, which would be a different invocation, not a faster one.
+fn overhead_run_pysa(
+    tools: &OverheadTools,
+    language: OverheadLanguage,
+    run: usize,
+    raw_dir: &Path,
+) -> Result<OverheadRun> {
+    let OverheadLanguage::Python = language else {
+        bail!("no Pysa overhead arm for {}", language.as_str());
+    };
+    let (fixture_name, _) = trivial_fixture(language);
+    let module = Path::new(fixture_name)
+        .file_stem()
+        .and_then(|stem| stem.to_str())
+        .context("the trivial Python fixture has no module name")?;
+    let taint_config = fs::read_to_string(format!("{PYSA_CONFIG_DIR}/taint.config"))?;
+    let models = fs::read_to_string(format!("{PYSA_CONFIG_DIR}/models/kernel-python.pysa"))?
+        .replace(PYSA_SOURCE_MODULE_PLACEHOLDER, module)
+        .replace(PYSA_SINK_MODULE_PLACEHOLDER, module)
+        .replace(SEMGREP_SOURCE_PLACEHOLDER, "dfb_source")
+        .replace(SEMGREP_SINK_PLACEHOLDER, "dfb_sink");
+    fs::write(raw_dir.join("resolved-models.pysa"), &models)?;
+
+    let (scratch, _) = overhead_workspace(OverheadTool::Pysa, language, run)?;
+    let source_root = scratch.join("src");
+    let models_dir = scratch.join("models");
+    let output_dir = scratch.join("out");
+    for directory in [&source_root, &models_dir, &output_dir] {
+        fs::create_dir_all(directory)?;
+    }
+    let (_, fixture_text) = trivial_fixture(language);
+    fs::write(source_root.join(fixture_name), fixture_text)?;
+    fs::write(models_dir.join("taint.config"), &taint_config)?;
+    fs::write(models_dir.join("dfb.pysa"), &models)?;
+    fs::write(
+        scratch.join("pyrefly.toml"),
+        "project-includes = [\"src/**/*.py\"]\n",
+    )?;
+    fs::write(
+        scratch.join(".pyre_configuration"),
+        serde_json::to_string_pretty(&json!({
+            "source_directories": ["src"],
+            "taint_models_path": ["models"]
+        }))? + "\n",
+    )?;
+
+    let pyrefly_dir = tools
+        .pyrefly
+        .parent()
+        .map(Path::to_path_buf)
+        .unwrap_or_else(|| PathBuf::from("."));
+    let mut search_path = pyrefly_dir.into_os_string();
+    if let Some(existing) = std::env::var_os("PATH") {
+        search_path.push(":");
+        search_path.push(existing);
+    }
+    let mut command = Command::new(&tools.pyre);
+    command
+        .arg("-n")
+        .arg("--binary")
+        .arg(&tools.pyre_binary)
+        .arg("analyze")
+        .arg("--save-results-to")
+        .arg(&output_dir)
+        .env("PATH", &search_path)
+        .current_dir(&scratch)
+        .stdin(std::process::Stdio::null());
+    let load_before = load_average_one_minute();
+    let invoked = Instant::now();
+    let output = command
+        .output()
+        .with_context(|| format!("run the Pysa analysis with {}", tools.pyre.display()))?;
+    let wall_ms = invoked.elapsed().as_millis() as u64;
+    if !output.status.success() {
+        bail!(
+            "the Pysa overhead invocation failed with status {}:\n{}",
+            output.status,
+            String::from_utf8_lossy(&output.stderr)
+        );
+    }
+    if !output_dir.join("taint-output.json").exists() {
+        bail!("the Pysa overhead invocation exited cleanly but wrote no taint-output.json");
+    }
+    fs::remove_dir_all(&scratch).ok();
+    Ok(OverheadRun {
+        phases: vec![("total".into(), wall_ms)],
+        wall_ms,
         load_before,
     })
 }
