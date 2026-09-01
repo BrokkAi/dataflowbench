@@ -35,6 +35,11 @@
 //     wherever it renders, rather than living only on the page it links to.
 import { latencyModel, latencyRanking, formatMs } from '../data/latency';
 import { warmLatency } from '../data/warm-latency';
+import {
+  invocationOverhead,
+  overheadMarkFor,
+  SIGNIFICANCE_SHARE,
+} from '../data/invocation-overhead';
 import { vendorColorClass, vendorName } from '../data/snapshots';
 
 interface Props {
@@ -112,6 +117,28 @@ function warmMarkFor(
   return measurement ? measurement.leastSquaresRangeMs : null;
 }
 
+// ---- The estimated-overhead secondary mark (Amendment A24) ----------------
+//
+// A second, differently drawn annotation: the wall-clock of one complete
+// adapter invocation over a trivial no-flow fixture, which is fixed overhead
+// plus near-zero analysis and therefore an *upper bound* on start-up and
+// warm-up. It is an estimate, drawn as a hollow dashed diamond so that it can
+// never be read as A15's measured warm caret, and it obeys the same three
+// restrictions that caret does — never in the ordering, never subtracted from
+// a median, absent where the amendment records a decline.
+//
+// It carries one restriction of its own. A24 draws a mark only where the
+// estimate is a *substantial* share of the row it annotates: a hollow mark at
+// 16 ms on a 123 ms row is unreadable at chart scale and invites the reading
+// that a mark means "slow start-up" when it would mean "a mark was drawn". The
+// threshold is preregistered, relative to each row's own cold median, and
+// every value — marked, unmarked, and withheld — is in the latency page's
+// table either way.
+const overhead = invocationOverhead();
+const overheadPublished = overhead.estimates.filter(
+  (estimate) => estimate.estimatedOverheadMs !== null,
+);
+
 interface Row {
   kind: 'adapter' | 'phase';
   tool: string;
@@ -127,6 +154,8 @@ interface Row {
   };
   /** Warm marginal per case, low to high across the retained repeats. */
   warm: [number, number] | null;
+  /** Estimated per-invocation overhead, when one clears the threshold. */
+  estimate: { ms: number; language: string } | null;
   title: string;
   y: number;
 }
@@ -138,6 +167,7 @@ function layout(view: (typeof ranking.views)[number]) {
   for (const entry of view.entries) {
     const name = vendorName(entry.tool);
     const warm = warmMarkFor(view.id, entry.tool);
+    const estimate = overheadMarkFor(view.id, entry.tool);
     y += mainRowHeight / 2;
     rows.push({
       kind: 'adapter',
@@ -149,6 +179,7 @@ function layout(view: (typeof ranking.views)[number]) {
           : `${entry.timed} of ${entry.covered} timed`,
       d: entry.whole,
       warm,
+      estimate,
       title:
         `${name} — median ${formatMs(entry.whole.median)}, ` +
         `IQR ${formatMs(entry.whole.q1)} to ${formatMs(entry.whole.q3)}, ` +
@@ -165,7 +196,11 @@ function layout(view: (typeof ranking.views)[number]) {
                 (candidate) =>
                   candidate.tool === entry.tool && candidate.language === view.id,
               )!.runs.length
-            } retained repeats`),
+            } retained repeats`) +
+        (estimate === null
+          ? ''
+          : `. Estimated per-invocation overhead, an upper bound from a trivial ` +
+            `no-flow ${estimate.language} fixture: ${formatMs(estimate.ms)}`),
       y,
     });
     y += mainRowHeight / 2;
@@ -178,6 +213,7 @@ function layout(view: (typeof ranking.views)[number]) {
         sublabel: '',
         d: phase,
         warm: null,
+        estimate: null,
         title:
           `${name} phase ${phase.phase} — median ${formatMs(phase.median)}, ` +
           `IQR ${formatMs(phase.q1)} to ${formatMs(phase.q3)}, ` +
@@ -247,6 +283,18 @@ const drawsWarmMarks =
   panels.some((panel) =>
     panel.rows.some((row) => row.warm !== null),
   );
+// The estimate marks, unlike the warm caret, do appear in the whole-corpus
+// view: an adapter's invocation overhead is a property of its invocation
+// shape, measured on one named language, and that language is stated on the
+// row and in the caption rather than being read as language-free.
+const drawsEstimateMarks = panels.some((panel) =>
+  panel.rows.some((row) => row.estimate !== null),
+);
+// Adapters whose estimate was published but sits below the threshold: named
+// in the caption so an absent mark reads as "small", never as "unmeasured".
+const belowThreshold = overheadPublished.filter(
+  (estimate) => !estimate.significant,
+);
 ---
 
 <div class="latency-ranking">
@@ -297,6 +345,11 @@ const drawsWarmMarks =
               the adapter above them only. The latency page carries every
               value, including the minima and maxima this chart does not draw,
               in the data tables behind its "Show the data table" disclosures.
+              A solid caret below a row is that adapter's separately measured
+              warm marginal per case; a hollow dashed diamond above a row is
+              its estimated per-invocation overhead, an upper bound measured on
+              a trivial no-flow fixture. Neither is a cold median, neither
+              affects the ordering, and neither is subtracted from anything.
             </desc>
 
             {ranking.ticks.map((tick) => (
@@ -419,6 +472,13 @@ const drawsWarmMarks =
                       ))}
                     </>
                   )}
+                  {row.estimate !== null && (
+                    <polygon
+                      class="estimate-mark"
+                      points={`${x(row.estimate.ms) - 5},${row.y - 11} ${x(row.estimate.ms)},${row.y - 16} ${x(row.estimate.ms) + 5},${row.y - 11} ${x(row.estimate.ms)},${row.y - 6}`}
+                      fill="none"
+                    />
+                  )}
                   <text
                     class={row.kind === 'adapter' ? 'row-value' : 'phase-value'}
                     x={padLeft + plotWidth + 12}
@@ -493,7 +553,16 @@ const drawsWarmMarks =
     {drawsWarmMarks && (
       <li class="key-warm">
         <span class="swatch" aria-hidden="true"></span>
-        warm marginal per case — the range its retained repeats span
+        <strong>measured</strong>&nbsp;warm marginal per case — the range its
+        retained repeats span
+      </li>
+    )}
+    {drawsEstimateMarks && (
+      <li class="key-estimate">
+        <span class="swatch" aria-hidden="true"></span>
+        <strong>estimated</strong>&nbsp;per-invocation overhead (trivial
+        fixture, upper bound), where it is at least{' '}
+        {Math.round(SIGNIFICANCE_SHARE * 100)}% of the row's median
       </li>
     )}
   </ul>
@@ -534,6 +603,50 @@ const drawsWarmMarks =
       warm-marginal section
     </a>{' '}
     records every verdict, measured and declined, with the evidence behind it.
+  </p>
+)}
+
+{overheadPublished.length > 0 && (
+  <p class="caption">
+    <strong>The hollow dashed diamonds are estimates, not measurements of the
+    same kind as the bars.</strong> Each is the wall-clock of one complete
+    adapter invocation — same pipeline, same policy, rule or query, same
+    subprocess shape — over a <em>trivial no-flow fixture</em>: both benchmark
+    endpoints declared, nothing connecting them, nothing to find. That is fixed
+    per-invocation overhead <em>plus</em> the trivial fixture's own near-zero
+    analysis, so it is an <strong>upper bound</strong> on what an adapter pays
+    before it starts work, and it is a cold single-shot execution — the same
+    posture the bars are measured in, and not a steady-state one. It is never
+    subtracted from a median, never substituted for one, and never used to
+    order the rows.{' '}
+    {drawsEstimateMarks && (
+      <>
+        A diamond is drawn only where the estimate is at least{' '}
+        {Math.round(SIGNIFICANCE_SHARE * 100)}% of that row's own cold median,
+        a threshold fixed in the amendment before any estimate was measured:
+        below it a mark would be unreadable at this scale and would say only
+        that a mark was drawn.{' '}
+        {belowThreshold.length > 0 && (
+          <>
+            The{' '}
+            {belowThreshold
+              .map((estimate) => vendorName(estimate.tool))
+              .join(', ')}{' '}
+            {belowThreshold.length === 1 ? 'estimate is' : 'estimates are'}{' '}
+            below it and{' '}
+            {belowThreshold.length === 1 ? 'carries' : 'carry'} no mark —{' '}
+            <strong>small, not unmeasured</strong>.{' '}
+          </>
+        )}
+      </>
+    )}
+    Each estimate is measured in one named language, stated on the row it
+    annotates, because boot cost is not language-free.{' '}
+    <a href="/dataflowbench/snapshots/v0-6-0/latency/#invocation-overhead">
+      The estimates table
+    </a>{' '}
+    carries every value — both runs behind every figure, every unmarked row,
+    and every adapter for which no estimate could be taken at all.
   </p>
 )}
 
@@ -757,6 +870,17 @@ const drawsWarmMarks =
     stroke-dasharray: 2 2;
     opacity: 0.65;
   }
+  /* The estimated-overhead mark is deliberately different from the measured
+     warm mark: it sits ABOVE the row where the warm mark sits below, and it is
+     drawn with a longer dash. An estimate must not be mistakable for a
+     measurement, and side-of-row is the cue that survives at chart scale. */
+  .ranking-chart .row .estimate-mark {
+    stroke: var(--vendor-rule, var(--sl-color-accent));
+    stroke-width: 1.5;
+    stroke-dasharray: 5 3;
+    stroke-linejoin: round;
+    opacity: 0.9;
+  }
   .chart-legend {
     list-style: none;
     display: flex;
@@ -800,6 +924,14 @@ const drawsWarmMarks =
     width: 0.7rem;
     height: 0.45rem;
     clip-path: polygon(0% 100%, 50% 0%, 100% 100%);
+  }
+  .chart-legend .key-estimate .swatch {
+    width: 0.5rem;
+    height: 0.5rem;
+    background: none;
+    border: 1.5px dashed var(--sl-color-gray-3);
+    transform: rotate(45deg);
+    margin-right: 0.6rem;
   }
   .caption {
     font-size: var(--sl-text-sm);
