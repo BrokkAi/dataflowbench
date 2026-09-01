@@ -293,12 +293,12 @@ and D8, the same `javac`, and `kotlinc-jvm 2.4.10` with its distribution's
 `kotlin-stdlib.jar`. The fixture toolchain is harness plumbing: it decides
 whether an APK exists, never what the analyzer claims about it.
 
-## Modeling matrix (Java; Amendment A16)
+## Modeling matrix (Java; Amendment A18)
 
 The adapter joined the benchmark-controlled taint-modeling matrix on
 2026-09-01, with a Java-only partition preregistered on retained probe
 evidence before the first scored run
-([Amendment A16](../../docs/modeling-matrix.md#a16--2026-09-01-flowdroid-joins-the-modeling-matrix-with-a-java-only-partition-row)).
+([Amendment A18](../../docs/modeling-matrix.md#a18--2026-09-01-flowdroid-joins-the-modeling-matrix-with-a-java-only-partition-row)).
 Scored: categories S, P, and O whole, plus category Z's `sanitizer-kill`
 template — fourteen of the twenty-four Java assertions. Declined with
 retained rationales: `sanitizer-selectivity` (the summary resolution is
@@ -329,7 +329,7 @@ The retained run (`reports/flowdroid-java-modeling.json`, raw evidence under
 assertions correctly — positionally faithful on the declared-position pair
 and field-precise on the store-through summary. Per-case timing sidecars
 record `compile`, `dex`, and `analyze` subprocess phases
-([latency-tier Amendment A18](../../docs/latency-tier.md#a18--2026-09-01-flowdroids-modeling-population-declares-three-subprocess-phases));
+([latency-tier Amendment A20](../../docs/latency-tier.md#a20--2026-09-01-flowdroids-modeling-population-declares-three-subprocess-phases));
 only `analyze` is an analyzer number. The zero-exit guards above apply
 unchanged: no negative is recorded without the analyzer's own `Found N leaks`
 completion line, and the failure banner is a `runner-error` wherever it
@@ -346,7 +346,7 @@ scripts/probe-flowdroid-modeling-load-bearing.sh \
   --android-platform android-34.jar --d8-jar r8-8.5.35.jar
 ```
 
-## Tool-native profile (Java; Amendment A17)
+## Tool-native profile (Java; Amendment A19)
 
 The release ships its model surface inside the pinned jar: the vendor's
 documented default `SourcesAndSinks.txt` catalog (the CLI's `-s` flag is
@@ -355,7 +355,7 @@ activation shape extracts the bundled catalog verbatim and points the flag at
 it) and the default StubDroid `summariesManual` taint wrapper. That is a live
 activation contract, and it needs no vendored snapshot: the jar digest the
 run already witnesses is the provenance
-([Amendment A17](../../docs/native-profile.md#a17--2026-09-01-flowdroid-joins-the-tool-native-profile-with-a-live-activation-contract-and-six-cells-declined-on-catalog-evidence)).
+([Amendment A19](../../docs/native-profile.md#a19--2026-09-01-flowdroid-joins-the-tool-native-profile-with-a-live-activation-contract-and-six-cells-declined-on-catalog-evidence)).
 
 The catalog's own text decides the cells: it binds the probe set's command
 sink (`Runtime.exec(String)`) and **no source any native template reads** —

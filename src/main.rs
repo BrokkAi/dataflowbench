@@ -557,7 +557,7 @@ fn modeling_category(template: &str) -> Option<ModelingCategory> {
 /// joined later, each by a dated amendment with its own partition row, never
 /// by inheriting another's. Infer joined by Amendment A13 with a
 /// field-evaluated row (`reports/raw/amendment-a13-infer-partition/`);
-/// FlowDroid joined by Amendment A16 on retained probe evidence
+/// FlowDroid joined by Amendment A18 on retained probe evidence
 /// (`reports/raw/load-bearing-java-modeling/flowdroid-*.json`), and like
 /// Infer its row applies to Java alone — the analyzer consumes JVM bytecode,
 /// so the other modeling languages are outside its reach entirely, which is
@@ -570,16 +570,18 @@ enum ModelingTool {
     Infer,
     Joern,
     Semgrep,
+    Pysa,
 }
 
 impl ModelingTool {
-    const ALL: [Self; 6] = [
+    const ALL: [Self; 7] = [
         Self::Bifrost,
         Self::Codeql,
         Self::Flowdroid,
         Self::Infer,
         Self::Joern,
         Self::Semgrep,
+        Self::Pysa,
     ];
 
     /// The `tool` value the normalized report carries, and the first component
@@ -592,6 +594,7 @@ impl ModelingTool {
             Self::Infer => "infer",
             Self::Joern => "joern",
             Self::Semgrep => "semgrep",
+            Self::Pysa => "pysa",
         }
     }
 
@@ -615,6 +618,7 @@ impl ModelingTool {
             Self::Infer => "Infer v1.3.0",
             Self::Joern => "Joern 4.0.614",
             Self::Semgrep => "Semgrep CE 1.175.0",
+            Self::Pysa => "Pysa (pyre-check 0.10.0 + Pyrefly 1.2.0)",
         }
     }
 }
@@ -646,7 +650,7 @@ struct ModelingPartitionCell {
 /// than four, and why its second — category Z — arrived as
 /// [Amendment A9](../docs/modeling-matrix.md#amendments) with a measurement
 /// behind it rather than as an edit to this array.
-const MODELING_PARTITION: [ModelingPartitionCell; 36] = [
+const MODELING_PARTITION: [ModelingPartitionCell; 42] = [
     // Bifrost — preregistered 1 / 6; 2 / 6 as amended, after Amendment A9
     // promoted category Z.
     ModelingPartitionCell {
@@ -726,7 +730,7 @@ const MODELING_PARTITION: [ModelingPartitionCell; 36] = [
         category: ModelingCategory::Persistence,
         unsupported_reason: None,
     },
-    // FlowDroid — 2.15.1, Java only (Amendment A16): 4 / 6 categories, S, P,
+    // FlowDroid — 2.15.1, Java only (Amendment A18): 4 / 6 categories, S, P,
     // Z, and O, with category Z split at the template level (see
     // MODELING_TEMPLATE_OVERRIDES). The row was preregistered on retained
     // probe evidence (reports/raw/load-bearing-java-modeling/flowdroid-*.json,
@@ -754,7 +758,7 @@ const MODELING_PARTITION: [ModelingPartitionCell; 36] = [
         // Template 5 scored (a `<clear>` stanza suppresses on a completing
         // run and deleting it restores the flow through scrub's identity
         // body); template 6 is overridden to unsupported — see
-        // MODELING_TEMPLATE_OVERRIDES and Amendment A16.
+        // MODELING_TEMPLATE_OVERRIDES and Amendment A18.
         unsupported_reason: None,
     },
     ModelingPartitionCell {
@@ -920,6 +924,48 @@ const MODELING_PARTITION: [ModelingPartitionCell; 36] = [
             "the write and the read are in two different procedures by construction, and the pinned CE engine has no interprocedural taint at all: `semgrep scan --help` offers `--pro-intrafile` (\"Intra-file inter-procedural taint analysis … Requires Semgrep Pro Engine\"), so the step from `put` to `get` is outside the engine regardless of what is declared",
         ),
     },
+    // Pysa — pyre-check 0.10.0 + Pyrefly 1.2.0: 5 / 6, Python-scoped. Added
+    // by Amendment A16, verified by execution on the committed Python
+    // modeling fixtures before the adapter's first scored modeling run
+    // (reports/raw/amendment-a13-pysa-modeling/,
+    // scripts/probe-pysa-modeling-load-bearing.sh). Categories P and O are
+    // load-bearing only under the `@SkipAnalysis` + `@SkipObscure` modes the
+    // committed artifact declares — the pinned pair resolves the matrix's
+    // reflective opaque body on its own, so without the skip modes the
+    // engine's body reading would decide those cells
+    // (`require_pysa_modeling_load_bearing` enforces the modes).
+    ModelingPartitionCell {
+        tool: ModelingTool::Pysa,
+        category: ModelingCategory::SourcesAndSinks,
+        unsupported_reason: None,
+    },
+    ModelingPartitionCell {
+        tool: ModelingTool::Pysa,
+        category: ModelingCategory::Propagators,
+        unsupported_reason: None,
+    },
+    ModelingPartitionCell {
+        tool: ModelingTool::Pysa,
+        category: ModelingCategory::Sanitizers,
+        unsupported_reason: None,
+    },
+    ModelingPartitionCell {
+        tool: ModelingTool::Pysa,
+        category: ModelingCategory::Summaries,
+        unsupported_reason: None,
+    },
+    ModelingPartitionCell {
+        tool: ModelingTool::Pysa,
+        category: ModelingCategory::EntryPoints,
+        unsupported_reason: None,
+    },
+    ModelingPartitionCell {
+        tool: ModelingTool::Pysa,
+        category: ModelingCategory::Persistence,
+        unsupported_reason: Some(
+            "the `.pysa` DSL binds taint roles to callables and parameter positions — `TaintSource`, `TaintSink`, `TaintInTaintOut`, `Sanitize`, and mode annotations — and has no store identity, key position, or vocabulary linking a write entity to a read entity through a shared store, per instance or otherwise. The nearest encoding, a source model on `Store.get`, would report both polarities of template 11 without ever reading the key: a different model, not an approximation of this one (Amendment A16)",
+        ),
+    },
 ];
 
 /// The preregistered decision for one tool × template cell, keyed by template
@@ -961,7 +1007,7 @@ const MODELING_TEMPLATE_OVERRIDES: [(ModelingTool, &str, &str); 3] = [
          unknown configuration fields are silently ignored, so no spelling \
          can be trusted to bind the position (Amendment A13)",
     ),
-    // Amendment A16, measured before the first run: FlowDroid's summary
+    // Amendment A18, measured before the first run: FlowDroid's summary
     // resolution is exclusive for the whole declaring class
     // (SummaryTaintWrapper.isExclusive answers true whenever the class has
     // summaries), so the one declaration that suppresses `scrub` also
@@ -975,7 +1021,7 @@ const MODELING_TEMPLATE_OVERRIDES: [(ModelingTool, &str, &str); 3] = [
          invocation: summary resolution is exclusive for the whole declaring \
          class, so the declared scrub kill also suppresses the flow through \
          the undeclared sanitizer-lookalike and the positive is undecidable \
-         by construction (Amendment A16)",
+         by construction (Amendment A18)",
     ),
 ];
 
@@ -1130,9 +1176,13 @@ impl ModelingLanguage {
             // XML per declared fixture type); the three files inside it bind
             // the configuration hash individually, because a directory has no
             // bytes to hash. Java only, like Infer's, and for the same
-            // bytecode-reach reason (Amendment A16).
+            // bytecode-reach reason (Amendment A18).
             (ModelingTool::Flowdroid, Self::Java) => Some(FLOWDROID_MODELING_SUMMARIES_DIR),
             (ModelingTool::Flowdroid, Self::Javascript | Self::Python) => None,
+            // Pysa analyzes Python alone, so its modeling row exists for
+            // Python alone (Amendment A16).
+            (ModelingTool::Pysa, Self::Python) => Some("adapters/pysa/models/modeling-python.pysa"),
+            (ModelingTool::Pysa, Self::Java | Self::Javascript) => None,
             (ModelingTool::Joern, Self::Java) => {
                 Some("adapters/joern/semantics/model-java.semantics")
             }
@@ -1217,11 +1267,57 @@ fn require_semgrep_modeling_load_bearing(rule: &str, path: &str) -> Result<()> {
     Ok(())
 }
 
+/// The mode annotations that make Pysa's propagator and summary declarations
+/// load-bearing. Amendment A16 measured why they are mandatory: the pinned
+/// pair resolves the matrix's reflective opaque body on its own (Pyrefly
+/// narrows `getattr(_impl, name)` over the local string constant), so without
+/// `@SkipAnalysis` (ignore the declared entity's body) and `@SkipObscure` (no
+/// obscure taint-through fallback for it) the engine's own body reading — not
+/// the declaration — would decide every category P and O cell.
+const PYSA_MODELING_SKIP_MODES: [&str; 2] = ["@SkipAnalysis", "@SkipObscure"];
+
+/// Enforce the load-bearing-model requirement on the Pysa modeling artifact:
+/// every `TaintInTaintOut` declaration — the propagator and summary surface —
+/// must sit under both skip modes. The artifact is cut into per-template
+/// blocks by the runner, so the check walks the declarations rather than the
+/// file: each `def` line carrying a `TaintInTaintOut` must be immediately
+/// preceded by the two mode lines.
+fn require_pysa_modeling_load_bearing(artifact: &str, path: &str) -> Result<()> {
+    let lines: Vec<&str> = artifact.lines().collect();
+    let mut saw_tito = false;
+    for (index, line) in lines.iter().enumerate() {
+        if !line.trim_start().starts_with("def ") || !line.contains("TaintInTaintOut") {
+            continue;
+        }
+        saw_tito = true;
+        let preceding: Vec<&str> = lines[..index]
+            .iter()
+            .rev()
+            .take(PYSA_MODELING_SKIP_MODES.len())
+            .map(|line| line.trim())
+            .collect();
+        for mode in PYSA_MODELING_SKIP_MODES {
+            if !preceding.contains(&mode) {
+                bail!(
+                    "{path}: the declaration {:?} carries TaintInTaintOut without {mode}; docs/modeling-matrix.md#the-load-bearing-model-requirement and Amendment A16 require both skip modes on every declared propagator and summary entity, because the pinned pair follows the fixture bodies on its own",
+                    line.trim()
+                );
+            }
+        }
+    }
+    if !saw_tito {
+        bail!(
+            "{path} declares no TaintInTaintOut at all; the scored category P and O blocks are missing"
+        );
+    }
+    Ok(())
+}
+
 /// FlowDroid's per-language modeling artifact: a directory of StubDroid
 /// summary XMLs — the release's own summary format — activated per case as
 /// `-tw STUBDROID -t <dir>`, which *replaces* the release default's bundled
 /// `summariesManual` provider so the only summaries in the run are the
-/// benchmark's declarations (Amendment A16).
+/// benchmark's declarations (Amendment A18).
 const FLOWDROID_MODELING_SUMMARIES_DIR: &str = "adapters/flowdroid/summaries/model-java";
 
 /// The three committed summary files, individually hash-bound into the
@@ -1288,7 +1384,7 @@ fn require_flowdroid_modeling_declarations() -> Result<()> {
         })?;
         if !contents.contains(declaration) {
             bail!(
-                "{path} no longer carries the declaration {declaration:?} that a scored FlowDroid modeling cell rests on (docs/modeling-matrix.md, Amendment A16); a missing model is a benchmark defect, never a result"
+                "{path} no longer carries the declaration {declaration:?} that a scored FlowDroid modeling cell rests on (docs/modeling-matrix.md, Amendment A18); a missing model is a benchmark defect, never a result"
             );
         }
     }
@@ -1568,7 +1664,7 @@ struct NativePartitionCell {
 /// is unsupported until shown otherwise, and promoting one is a dated
 /// amendment. That is why three of the four tools enter with nothing scored —
 /// which is a statement about product packaging, not about an engine.
-const NATIVE_PARTITION: [NativePartitionCell; 36] = [
+const NATIVE_PARTITION: [NativePartitionCell; 42] = [
     // Bifrost — v0.10.7: 0 / 6. The standalone policy CLI ships no taint
     // policy and no source/sink endpoint catalog, so no template can produce a
     // finding regardless of what else it can express.
@@ -1664,7 +1760,7 @@ const NATIVE_PARTITION: [NativePartitionCell; 36] = [
         template: NATIVE_TEMPLATE_IDS[5],
         unsupported_reason: None,
     },
-    // FlowDroid — 2.15.1, Java only (Amendment A17): 0 / 6, on the evidence of
+    // FlowDroid — 2.15.1, Java only (Amendment A19): 0 / 6, on the evidence of
     // the shipped catalog's own text. The activation contract is live — the
     // released CLI requires `-s`, the vendor's documented default
     // `SourcesAndSinks.txt` ships inside the pinned jar, and pointing the flag
@@ -1682,7 +1778,7 @@ const NATIVE_PARTITION: [NativePartitionCell; 36] = [
              shipped source binds a platform environment read: `System.getenv` does not occur \
              in the catalog, whose sources are servlet, Spring, and Android framework \
              identities. A catalog with a bound sink and no applicable source cannot produce a \
-             finding on these fixtures (Amendment A17)",
+             finding on these fixtures (Amendment A19)",
         ),
     },
     NativePartitionCell {
@@ -1692,7 +1788,7 @@ const NATIVE_PARTITION: [NativePartitionCell; 36] = [
             "the release default's summariesManual wrapper ships a `String.concat` taint \
              summary, so the propagator half is covered — but no shipped source binds \
              `System.getenv`, and a propagator with nothing to carry produces nothing \
-             (Amendment A17)",
+             (Amendment A19)",
         ),
     },
     NativePartitionCell {
@@ -1703,7 +1799,7 @@ const NATIVE_PARTITION: [NativePartitionCell; 36] = [
              `_SOURCE_`/`_SINK_`/`_BOTH_` — and the shipped `java.lang.Integer` summary models \
              `parseInt` as taint-*preserving* rather than as a barrier; prior to either, no \
              shipped source binds the flow's environment read, so there is no flow for a \
-             sanitizer to be credited against (Amendment A17)",
+             sanitizer to be credited against (Amendment A19)",
         ),
     },
     NativePartitionCell {
@@ -1711,7 +1807,7 @@ const NATIVE_PARTITION: [NativePartitionCell; 36] = [
         template: NATIVE_TEMPLATE_IDS[3],
         unsupported_reason: Some(
             "summariesManual ships no `java.util.Base64` summary, and no shipped source binds \
-             the environment read that would have to survive the round trip (Amendment A17)",
+             the environment read that would have to survive the round trip (Amendment A19)",
         ),
     },
     NativePartitionCell {
@@ -1722,7 +1818,7 @@ const NATIVE_PARTITION: [NativePartitionCell; 36] = [
              from the APK manifest; the JVM process-entry convention — `public static void \
              main(String[])` reading its argument vector — does not exist on the analyzed \
              platform, appears in no shipped model, and cannot be a root the manifest does not \
-             declare (Amendment A17)",
+             declare (Amendment A19)",
         ),
     },
     NativePartitionCell {
@@ -1733,7 +1829,7 @@ const NATIVE_PARTITION: [NativePartitionCell; 36] = [
              store: the shipped `java.lang.System` summary models `getProperty` as key-argument \
              → return taint — a propagator on the key, not a store read — `setProperty` has no \
              summary at all, and no shipped source binds the environment read that starts the \
-             flow (Amendment A17)",
+             flow (Amendment A19)",
         ),
     },
     // Infer — v1.3.0, shipped Pulse checker with no taint configuration:
@@ -1915,6 +2011,50 @@ const NATIVE_PARTITION: [NativePartitionCell; 36] = [
              requires Semgrep Pro — so a store round trip the shipped rules do not link \
              themselves is carried by nothing else",
         ),
+    },
+    // Pysa — pyre-check 0.10.0 + Pyrefly 1.2.0, shipped taint model suite:
+    // 6 / 6, Python-scoped. Added by Amendment A17: the pinned wheel ships a
+    // real suite (`lib/pyre_check/taint/` — core_privacy_security's
+    // taint.config and models plus common's propagation models), activated by
+    // pointing `taint_models_path` at it with `--no-verify`, both facts
+    // established by probe before any native fixture was scanned
+    // (reports/raw/amendment-a14-pysa-native/,
+    // scripts/probe-pysa-native-activation.sh). Every category's role is
+    // present in the shipped catalog, so every template has an activation to
+    // measure; the absent platform sources (`os.environ`, `sys.argv`) are the
+    // preregistered expectation the runs measure, never a reason to decline a
+    // cell. The Python scoping itself is enforced where the activation is
+    // assembled (`native_activation` refuses a non-Python language), never by
+    // these cells.
+    NativePartitionCell {
+        tool: ModelingTool::Pysa,
+        template: NATIVE_TEMPLATE_IDS[0],
+        unsupported_reason: None,
+    },
+    NativePartitionCell {
+        tool: ModelingTool::Pysa,
+        template: NATIVE_TEMPLATE_IDS[1],
+        unsupported_reason: None,
+    },
+    NativePartitionCell {
+        tool: ModelingTool::Pysa,
+        template: NATIVE_TEMPLATE_IDS[2],
+        unsupported_reason: None,
+    },
+    NativePartitionCell {
+        tool: ModelingTool::Pysa,
+        template: NATIVE_TEMPLATE_IDS[3],
+        unsupported_reason: None,
+    },
+    NativePartitionCell {
+        tool: ModelingTool::Pysa,
+        template: NATIVE_TEMPLATE_IDS[4],
+        unsupported_reason: None,
+    },
+    NativePartitionCell {
+        tool: ModelingTool::Pysa,
+        template: NATIVE_TEMPLATE_IDS[5],
+        unsupported_reason: None,
     },
 ];
 
@@ -2204,6 +2344,36 @@ fn native_activation(
                 configuration_paths: BTreeSet::new(),
             }
         }
+        // The suite the pinned pyre-check wheel ships in its own
+        // distribution, activated by pointing `taint_models_path` at it with
+        // `--no-verify` (docs/native-profile.md, Amendment A17; both facts
+        // established by probe). The arguments name the shape rather than a
+        // machine path — the runner resolves the directory beside the pinned
+        // binary it was handed and digests its bytes into the run identity,
+        // because a venv-absolute path would make the configuration hash a
+        // fact about one machine instead of one suite. Python alone: the
+        // engine analyzes one language, so the other languages have no Pysa
+        // native denominator at all — which is different from a 0 / 6
+        // decline.
+        ModelingTool::Pysa => {
+            if language != ModelingLanguage::Python {
+                bail!(
+                    "{} has no {} tool-native denominator: the engine analyzes Python alone, so its native row exists for Python alone (docs/native-profile.md, Amendment A17). No denominator is different from a zero; refusing to write a report",
+                    tool.pinned_identity(),
+                    language.display_name()
+                );
+            }
+            NativeActivation {
+                identity: format!(
+                    "{identity} shipped taint model suite {PYSA_NATIVE_SUITE_RELATIVE} with --no-verify"
+                ),
+                arguments: vec![
+                    "--no-verify".to_string(),
+                    format!("taint_models_path={PYSA_NATIVE_SUITE_RELATIVE}"),
+                ],
+                configuration_paths: BTreeSet::new(),
+            }
+        }
         ModelingTool::Joern => NativeActivation {
             identity: format!("{identity} DefaultSemantics only"),
             arguments: Vec::new(),
@@ -2217,11 +2387,11 @@ fn native_activation(
         // `summariesManual` taint wrapper. No vendored snapshot exists to
         // hash — the jar digest gate is the provenance — so the
         // configuration-path set is empty and the arguments name the
-        // activation shape (Amendment A17).
+        // activation shape (Amendment A19).
         ModelingTool::Flowdroid => {
             if language != ModelingLanguage::Java {
                 bail!(
-                    "{} has no {} tool-native denominator: the analyzer consumes JVM bytecode, so its native row exists for Java alone (docs/native-profile.md, Amendment A17). No denominator is different from a zero; refusing to write a report",
+                    "{} has no {} tool-native denominator: the analyzer consumes JVM bytecode, so its native row exists for Java alone (docs/native-profile.md, Amendment A19). No denominator is different from a zero; refusing to write a report",
                     tool.pinned_identity(),
                     language.display_name()
                 );
@@ -2247,6 +2417,19 @@ fn native_activation(
 /// vendored copy whose drift a hash would have to catch.
 const FLOWDROID_NATIVE_CATALOG_ARGUMENT: &str =
     "jar:soot-infoflow-cmd-2.15.1-jar-with-dependencies.jar!/SourcesAndSinks.txt";
+
+/// Where the pinned pyre-check wheel puts its shipped taint model suite,
+/// relative to the environment the pinned `pyre` client is installed in.
+const PYSA_NATIVE_SUITE_RELATIVE: &str = "lib/pyre_check/taint";
+
+/// The shipped sink model every Python native template sinks through
+/// (`rce_sinks.pysa`, kind `RemoteCodeExecution`). The native invocation
+/// carries `--no-verify` — the shipped suite does not verify over a
+/// stdlib-only project — so the proof that the suite actually loaded moves
+/// into the retained evidence: a run whose `taint-output.json` carries no
+/// model for this callable never produced a coverage result, and is a
+/// `runner-error` rather than a clean negative.
+const PYSA_NATIVE_SINK_MODEL: &str = "os.system";
 
 /// Every benchmark-authored model artifact in the repository, derived from the
 /// benchmark-controlled matrix's own constants rather than restated, so a new
@@ -3000,7 +3183,7 @@ enum Commands {
         semgrep: PathBuf,
     },
     /// Run the Java modeling matrix through the pinned FlowDroid release
-    /// (Amendment A16). The partition scores categories S, P, Z, and O —
+    /// (Amendment A18). The partition scores categories S, P, Z, and O —
     /// sanitizer selectivity is template-overridden out, and categories E and
     /// B are `unsupported` with retained rationales, decided before the
     /// analyzer is invoked. Scored cells run under `-tw STUBDROID` over the
@@ -3087,7 +3270,7 @@ enum Commands {
         semgrep: PathBuf,
     },
     /// Run the Java tool-native probe set for the pinned FlowDroid release
-    /// (Amendment A17): the shipped `SourcesAndSinks.txt` catalog and default
+    /// (Amendment A19): the shipped `SourcesAndSinks.txt` catalog and default
     /// summary wrapper constitute a live activation contract, but the catalog
     /// binds no identity any native template uses, so all six templates are
     /// `unsupported` with retained rationales decided from the shipped text —
@@ -3105,9 +3288,54 @@ enum Commands {
         #[arg(long)]
         android_platform: PathBuf,
     },
+    /// Run one language's benchmark-controlled taint-modeling matrix through
+    /// Pysa's `.pysa` model surface. The partition (Amendment A16) scores
+    /// categories S, P, Z, O, and E — P and O load-bearing under the
+    /// `@SkipAnalysis` + `@SkipObscure` modes the committed artifact declares
+    /// — and declines category B, whose store vocabulary the DSL does not
+    /// have. Python only: the engine analyzes one language.
+    RunPysaModeling {
+        #[arg(long, value_enum)]
+        language: ModelingLanguage,
+        /// Path to the pinned pyre-check client (`pyre`); its self-reported
+        /// version is witnessed per run.
+        #[arg(long)]
+        pyre: PathBuf,
+        /// Path to the pinned analysis binary (`pyre.bin`), passed to the
+        /// client explicitly and witnessed by digest.
+        #[arg(long)]
+        pyre_binary: PathBuf,
+        /// Path to the pinned `pyrefly` binary; the client resolves it from
+        /// `PATH`, so the runner prepends this binary's directory, and its
+        /// self-reported version is witnessed per run.
+        #[arg(long)]
+        pyrefly: PathBuf,
+    },
+    /// Run one language's tool-native probe set through the taint model suite
+    /// the pinned pyre-check wheel ships in `lib/pyre_check/taint/`, resolved
+    /// beside the pinned client, with `--no-verify` and no benchmark-authored
+    /// model of any kind (Amendment A17). All six templates are scored.
+    /// Python only: the engine analyzes one language.
+    RunPysaNative {
+        #[arg(long, value_enum)]
+        language: ModelingLanguage,
+        /// Path to the pinned pyre-check client (`pyre`); its self-reported
+        /// version is witnessed per run.
+        #[arg(long)]
+        pyre: PathBuf,
+        /// Path to the pinned analysis binary (`pyre.bin`), passed to the
+        /// client explicitly and witnessed by digest.
+        #[arg(long)]
+        pyre_binary: PathBuf,
+        /// Path to the pinned `pyrefly` binary; the client resolves it from
+        /// `PATH`, so the runner prepends this binary's directory, and its
+        /// self-reported version is witnessed per run.
+        #[arg(long)]
+        pyrefly: PathBuf,
+    },
     /// Measure one adapter's **warm marginal** per-case cost: the wall-clock
     /// slope of running k cases through a single tool process, per
-    /// [Amendment A13](docs/latency-tier.md#amendments).
+    /// [Amendment A15](docs/latency-tier.md#amendments).
     ///
     /// Timing-only auxiliary machinery. It writes no normalized report, scores
     /// nothing, and touches no correctness population; its artifacts land under
@@ -3115,7 +3343,7 @@ enum Commands {
     /// cold per-invocation rows stay the headline figure and are neither
     /// replaced nor adjusted by anything measured here.
     MeasureWarmLatency {
-        /// Adapter to measure. Only the adapters A13's observability table
+        /// Adapter to measure. Only the adapters A15's observability table
         /// records as observable are accepted.
         #[arg(long, value_enum)]
         tool: WarmTool,
@@ -3135,7 +3363,7 @@ enum Commands {
 
 /// The adapters whose released CLI exposes a warm, multi-case batch that does
 /// the same per-case work the cold kernel runner does. The audit behind this
-/// list — including the declines — is Amendment A13's observability table.
+/// list — including the declines — is Amendment A15's observability table.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, clap::ValueEnum)]
 enum WarmTool {
     Joern,
@@ -3442,6 +3670,32 @@ fn main() -> Result<()> {
         Commands::RunSemgrepNative { language, semgrep } => {
             run_native(ModelingTool::Semgrep, &semgrep, language, None)
         }
+        Commands::RunPysaModeling {
+            language,
+            pyre,
+            pyre_binary,
+            pyrefly,
+        } => run_pysa_modeling(
+            &PysaTools {
+                pyre,
+                pyre_binary,
+                pyrefly,
+            },
+            language,
+        ),
+        Commands::RunPysaNative {
+            language,
+            pyre,
+            pyre_binary,
+            pyrefly,
+        } => run_pysa_native(
+            &PysaTools {
+                pyre,
+                pyre_binary,
+                pyrefly,
+            },
+            language,
+        ),
     }
 }
 
@@ -12750,7 +13004,7 @@ fn write_flowdroid_inconclusive(
 /// row. The modeling population records all three adapter-observable
 /// subprocess boundaries — `compile` (both javac invocations), `dex` (the D8
 /// translation), and `analyze` (the FlowDroid invocation) — declared by the
-/// latency tier's Amendment A18; only `analyze` is an analyzer number, and it
+/// latency tier's Amendment A20; only `analyze` is an analyzer number, and it
 /// is the phase comparable to the kernels' `total`.
 #[derive(Clone, Copy, PartialEq, Eq)]
 enum FlowdroidPhaseMode {
@@ -13548,6 +13802,74 @@ fn pysa_issue_anchor_match(
     }
 }
 
+/// Decide one Pysa cell from where the declared rule's issues landed,
+/// relative to the case's sink anchors. Shared by the kernel and the
+/// benchmark-controlled modeling runner, so the two populations cannot drift
+/// into two readings of the same evidence shape.
+fn pysa_rule_outcome(
+    case_path: &Path,
+    case: &Value,
+    evidence: &PysaEvidence,
+    dialect: AnchorDialect,
+) -> (&'static str, Vec<String>) {
+    let mut diagnostics = Vec::new();
+    let mut flow_claims = Vec::new();
+    for issue in &evidence.issues {
+        if issue["code"].as_u64() == Some(PYSA_RULE_CODE) {
+            flow_claims.push(issue);
+            if let Some(message) = issue["message"].as_str() {
+                diagnostics.push(message.to_string());
+            }
+        } else {
+            diagnostics.push(format!(
+                "issue with undeclared rule code {} retained as a diagnostic, not flow evidence",
+                issue["code"]
+            ));
+        }
+    }
+    if flow_claims.is_empty() {
+        diagnostics.sort();
+        diagnostics.dedup();
+        return ("not-reached", diagnostics);
+    }
+    let sink_locations = match sink_anchor_locations(case_path, case, dialect) {
+        Ok(locations) => locations,
+        Err(reason) => {
+            return (
+                "inconclusive",
+                vec![format!(
+                    "cannot prove a Pysa issue against the sink anchor: {reason}"
+                )],
+            );
+        }
+    };
+    let mut matched = 0;
+    let mut unmatched = 0;
+    let mut ambiguous = 0;
+    for issue in flow_claims {
+        match pysa_issue_anchor_match(issue, &sink_locations) {
+            EvidenceAnchorMatch::Matched => matched += 1,
+            EvidenceAnchorMatch::Unmatched => unmatched += 1,
+            EvidenceAnchorMatch::Ambiguous => ambiguous += 1,
+        }
+    }
+    diagnostics.sort();
+    diagnostics.dedup();
+    if ambiguous > 0 {
+        diagnostics.push(format!(
+            "{ambiguous} Pysa issue(s) carry no usable or an ambiguous sink-anchor location"
+        ));
+        return ("inconclusive", diagnostics);
+    }
+    if matched > 0 {
+        return ("reached", diagnostics);
+    }
+    diagnostics.push(format!(
+        "{unmatched} Pysa issue(s) did not match the case sink anchor"
+    ));
+    ("inconclusive", diagnostics)
+}
+
 fn run_pysa_python_kernel(tools: &PysaTools) -> Result<()> {
     validate_cases()?;
     let selected = select_pysa_cases()?;
@@ -13842,63 +14164,9 @@ fn run_pysa_case(
                 write_pysa_error(raw_dir, id, "model-activation", &diagnostic, Some(&output))?;
             return Ok(("runner-error", vec![diagnostic], path));
         }
-        let mut diagnostics = Vec::new();
-        let mut flow_claims = Vec::new();
-        for issue in &evidence.issues {
-            if issue["code"].as_u64() == Some(PYSA_RULE_CODE) {
-                flow_claims.push(issue);
-                if let Some(message) = issue["message"].as_str() {
-                    diagnostics.push(message.to_string());
-                }
-            } else {
-                diagnostics.push(format!(
-                    "issue with undeclared rule code {} retained as a diagnostic, not flow evidence",
-                    issue["code"]
-                ));
-            }
-        }
-        if flow_claims.is_empty() {
-            diagnostics.sort();
-            diagnostics.dedup();
-            return Ok(("not-reached", diagnostics, raw_path.clone()));
-        }
-        let sink_locations = match sink_anchor_locations(case_path, case, AnchorDialect::Python) {
-            Ok(locations) => locations,
-            Err(reason) => {
-                return Ok((
-                    "inconclusive",
-                    vec![format!(
-                        "cannot prove a Pysa issue against the sink anchor: {reason}"
-                    )],
-                    raw_path.clone(),
-                ));
-            }
-        };
-        let mut matched = 0;
-        let mut unmatched = 0;
-        let mut ambiguous = 0;
-        for issue in flow_claims {
-            match pysa_issue_anchor_match(issue, &sink_locations) {
-                EvidenceAnchorMatch::Matched => matched += 1,
-                EvidenceAnchorMatch::Unmatched => unmatched += 1,
-                EvidenceAnchorMatch::Ambiguous => ambiguous += 1,
-            }
-        }
-        diagnostics.sort();
-        diagnostics.dedup();
-        if ambiguous > 0 {
-            diagnostics.push(format!(
-                "{ambiguous} Pysa issue(s) carry no usable or an ambiguous sink-anchor location"
-            ));
-            return Ok(("inconclusive", diagnostics, raw_path.clone()));
-        }
-        if matched > 0 {
-            return Ok(("reached", diagnostics, raw_path.clone()));
-        }
-        diagnostics.push(format!(
-            "{unmatched} Pysa issue(s) did not match the case sink anchor"
-        ));
-        Ok(("inconclusive", diagnostics, raw_path.clone()))
+        let (outcome, diagnostics) =
+            pysa_rule_outcome(case_path, case, &evidence, AnchorDialect::Python);
+        Ok((outcome, diagnostics, raw_path.clone()))
     })();
 
     let cleanup =
@@ -13982,7 +14250,7 @@ fn plan_modeling_run(tool: ModelingTool, language: ModelingLanguage) -> Result<M
     // evidence about the analyzer. It is a hard error, never an outcome.
     let Some(artifact) = language.artifact(tool) else {
         bail!(
-            "{} has no {} modeling denominator at all: the pinned distribution executes no {} frontend, so its modeling row exists for Java alone (docs/modeling-matrix.md, Amendments A13 and A16). No denominator is different from a zero; refusing to write a report",
+            "{} has no {} modeling denominator at all: the pinned distribution executes no {} frontend, so its modeling row does not extend to the language (docs/modeling-matrix.md — Infer by Amendment A13, Pysa by Amendment A16, FlowDroid by Amendment A18). No denominator is different from a zero; refusing to write a report",
             tool.pinned_identity(),
             language.display_name(),
             language.display_name()
@@ -14019,6 +14287,9 @@ fn plan_modeling_run(tool: ModelingTool, language: ModelingLanguage) -> Result<M
             // mappings are additive over it — which is why Amendment A2 moved its
             // propagator and summary categories to unsupported activation instead
             // of gating them here.
+            // Pysa's switch is per-entity: the `@SkipAnalysis` + `@SkipObscure`
+            // modes on every declared propagator and summary (Amendment A16).
+            ModelingTool::Pysa => require_pysa_modeling_load_bearing(&contents, artifact)?,
             ModelingTool::Codeql | ModelingTool::Joern => {}
             ModelingTool::Flowdroid => unreachable!("handled above"),
         }
@@ -14051,6 +14322,12 @@ fn plan_modeling_run(tool: ModelingTool, language: ModelingLanguage) -> Result<M
     if tool == ModelingTool::Joern {
         // Joern's declarations live in two files, so both bind the hash.
         configuration_paths.insert(PathBuf::from(JOERN_MODELING_SCRIPT));
+    }
+    if tool == ModelingTool::Pysa {
+        // Pysa's kind and rule declarations live in the committed
+        // taint.config the kernel also binds; the modeling artifact carries
+        // only the per-template models, so both bind the hash.
+        configuration_paths.insert(PathBuf::from(pysa_taint_config_path()));
     }
     for path in &configuration_paths {
         if !path.is_file() {
@@ -14759,6 +15036,300 @@ fn run_infer_modeling_case(
     }
 }
 
+/// Cut one template's declarations out of the committed Pysa modeling
+/// artifact. The artifact is one hash-bound file with `# template:` markers;
+/// the cut is mechanical, never an edit, and it exists because the pinned
+/// pair refuses a model that names a definition the case's sources do not
+/// carry — a whole-matrix model file would fail verification on every case.
+fn pysa_modeling_block(artifact: &str, template: &str, path: &str) -> Result<String> {
+    let marker = format!("# template: {template}\n");
+    let start = artifact.find(&marker).with_context(|| {
+        format!(
+            "{path} carries no `# template: {template}` block; docs/modeling-matrix.md makes a missing model a benchmark defect that fails the build, never an outcome"
+        )
+    })? + marker.len();
+    let rest = &artifact[start..];
+    let end = rest.find("# template: ").unwrap_or(rest.len());
+    Ok(rest[..end].trim().to_string())
+}
+
+/// The callables a resolved modeling block binds as the source and sink
+/// models. The activation guard requires each to appear as a bound model in
+/// the retained evidence — the same discipline as the kernel's guard, read
+/// from the block itself so the guard follows the declarations rather than
+/// restating them.
+fn pysa_block_model_callables(block: &str) -> Vec<String> {
+    block
+        .lines()
+        .filter(|line| line.contains("TaintSource[") || line.contains("TaintSink["))
+        .filter_map(|line| {
+            line.trim()
+                .strip_prefix("def ")
+                .and_then(|rest| rest.split('(').next())
+                .map(str::to_string)
+        })
+        .collect()
+}
+
+/// Run one *scored* modeling cell through Pysa's `.pysa` model surface.
+///
+/// The kernel's per-case machinery is mirrored — the same isolated workspace,
+/// the same load-bearing `pyrefly.toml`, the same loud model-verification
+/// failure mode, the same activation guard read from the retained evidence —
+/// and the reconciliation *is* the kernel's, through `pysa_rule_outcome`.
+/// What differs is where the models come from: the committed modeling
+/// artifact's per-template block, materialized verbatim, with no endpoint
+/// placeholders to resolve, because here the endpoint identities *are* the
+/// model.
+fn run_pysa_modeling_case(
+    tools: &PysaTools,
+    taint_config: &str,
+    artifact: &str,
+    case_path: &Path,
+    case: &Value,
+    plan: &ModelingRunPlan,
+) -> Result<(&'static str, Vec<String>, PathBuf)> {
+    let id = required_string(case, "id", "modeling case")?;
+    let template = required_string(case, "template_id", id)?;
+    let raw_path = plan.raw_dir.join(format!("{id}.json"));
+    let error_path = plan.raw_dir.join(format!("{id}-error.json"));
+    let models_path = plan.raw_dir.join(format!("{id}-models.pysa"));
+    let timing_path = case_timing_path(&plan.raw_dir, id);
+    for stale in [&raw_path, &error_path, &models_path, &timing_path] {
+        if stale.exists() {
+            fs::remove_file(stale).with_context(|| format!("clear {}", stale.display()))?;
+        }
+    }
+
+    let artifact_path = plan
+        .language
+        .artifact(ModelingTool::Pysa)
+        .expect("the plan resolved the artifact");
+    let models = pysa_modeling_block(artifact, template, artifact_path)?;
+    fs::write(&models_path, format!("{models}\n"))?;
+    let model_callables = pysa_block_model_callables(&models);
+
+    let scratch = modeling_case_scratch(ModelingTool::Pysa, plan.language, id)?;
+    let result = (|| {
+        let source_root = scratch.join("src");
+        let models_dir = scratch.join("models");
+        let output_dir = scratch.join("out");
+        for directory in [&source_root, &models_dir, &output_dir] {
+            fs::create_dir_all(directory)?;
+        }
+        materialize_modeling_workspace(case_path, case, &source_root)?;
+        fs::write(models_dir.join("taint.config"), taint_config)?;
+        fs::write(models_dir.join("dfb.pysa"), format!("{models}\n"))?;
+        // Load-bearing for the front end, exactly as in the kernel: without
+        // this project declaration Pyrefly exports every call as unresolved
+        // and the analysis finds nothing while exiting cleanly.
+        fs::write(
+            scratch.join("pyrefly.toml"),
+            "project-includes = [\"src/**/*.py\"]\n",
+        )?;
+        fs::write(
+            scratch.join(".pyre_configuration"),
+            serde_json::to_string_pretty(&json!({
+                "source_directories": ["src"],
+                "taint_models_path": ["models"]
+            }))? + "\n",
+        )?;
+
+        let pyrefly_dir = tools
+            .pyrefly
+            .parent()
+            .map(Path::to_path_buf)
+            .unwrap_or_else(|| PathBuf::from("."));
+        let mut search_path = pyrefly_dir.into_os_string();
+        if let Some(existing) = std::env::var_os("PATH") {
+            search_path.push(":");
+            search_path.push(existing);
+        }
+        let mut command = Command::new(&tools.pyre);
+        command
+            .arg("-n")
+            .arg("--binary")
+            .arg(&tools.pyre_binary)
+            .arg("analyze")
+            .arg("--save-results-to")
+            .arg(&output_dir)
+            .env("PATH", &search_path)
+            .current_dir(&scratch)
+            .stdin(std::process::Stdio::null());
+        let invoked = Instant::now();
+        let output = match command.output() {
+            Ok(output) => output,
+            Err(error) => {
+                let diagnostic = format!(
+                    "failed to spawn the Pysa analysis with {}: {error}",
+                    tools.pyre.display()
+                );
+                let path =
+                    write_pysa_error(&plan.raw_dir, id, "analyzer-spawn", &diagnostic, None)?;
+                return Ok(("runner-error", vec![diagnostic], path));
+            }
+        };
+        write_case_phase_timings(&plan.raw_dir, "pysa", id, &[("total", invoked.elapsed())])?;
+        if !output.status.success() {
+            let diagnostic = format!("the Pysa analysis failed with status {}", output.status);
+            let path = write_pysa_error(
+                &plan.raw_dir,
+                id,
+                "analyzer-execution",
+                &diagnostic,
+                Some(&output),
+            )?;
+            return Ok(("runner-error", vec![diagnostic], path));
+        }
+        let taint_output = output_dir.join("taint-output.json");
+        if !taint_output.exists() {
+            let diagnostic =
+                "the Pysa analysis exited cleanly but wrote no taint-output.json".to_string();
+            let path = write_pysa_error(
+                &plan.raw_dir,
+                id,
+                "analyzer-output",
+                &diagnostic,
+                Some(&output),
+            )?;
+            return Ok(("runner-error", vec![diagnostic], path));
+        }
+        fs::copy(&taint_output, &raw_path)?;
+        let evidence = match parse_pysa_evidence(&fs::read_to_string(&raw_path)?) {
+            Ok(evidence) => evidence,
+            Err(reason) => {
+                let diagnostic = format!("parse Pysa evidence {}: {reason}", raw_path.display());
+                let path =
+                    write_pysa_error(&plan.raw_dir, id, "analyzer-output", &diagnostic, None)?;
+                return Ok(("runner-error", vec![diagnostic], path));
+            }
+        };
+        for callable in &model_callables {
+            if !evidence.model_callables.contains(callable) {
+                let diagnostic = format!(
+                    "the benchmark models did not activate: the retained evidence carries no model for {callable:?}"
+                );
+                let path = write_pysa_error(
+                    &plan.raw_dir,
+                    id,
+                    "model-activation",
+                    &diagnostic,
+                    Some(&output),
+                )?;
+                return Ok(("runner-error", vec![diagnostic], path));
+            }
+        }
+        let (outcome, diagnostics) = pysa_rule_outcome(
+            case_path,
+            case,
+            &evidence,
+            modeling_anchor_dialect(plan.language)?,
+        );
+        Ok((outcome, diagnostics, raw_path.clone()))
+    })();
+
+    let cleanup =
+        fs::remove_dir_all(&scratch).with_context(|| format!("clear {}", scratch.display()));
+    match (result, cleanup) {
+        (Ok(normalized), Ok(())) => Ok(normalized),
+        (Ok((_, mut diagnostics, path)), Err(error)) => {
+            diagnostics.push(format!("Pysa case artifact cleanup failed: {error}"));
+            diagnostics.sort();
+            diagnostics.dedup();
+            Ok(("runner-error", diagnostics, path))
+        }
+        (Err(error), Ok(())) => Err(error),
+        (Err(error), Err(cleanup_error)) => Err(error.context(format!(
+            "Pysa case artifact cleanup also failed: {cleanup_error}"
+        ))),
+    }
+}
+
+/// Run Pysa's benchmark-controlled modeling matrix for one language — Python,
+/// the engine's only one; any other language fails the plan's coverage gate.
+///
+/// The shape is `run_modeling`'s, stated separately because the identity is a
+/// witnessed *pair* rather than a single binary: partition first, scored arm
+/// second, one report, the scored/declined split printed from the partition.
+fn run_pysa_modeling(tools: &PysaTools, language: ModelingLanguage) -> Result<()> {
+    let plan = plan_modeling_run(ModelingTool::Pysa, language)?;
+    let artifact_path = plan
+        .language
+        .artifact(ModelingTool::Pysa)
+        .expect("the plan resolved the artifact");
+    let artifact = fs::read_to_string(artifact_path)
+        .with_context(|| format!("read the Pysa modeling artifact {artifact_path}"))?;
+    let taint_config_path = pysa_taint_config_path();
+    let taint_config = fs::read_to_string(&taint_config_path)
+        .with_context(|| format!("read the Pysa taint configuration {taint_config_path}"))?;
+
+    fs::create_dir_all(&plan.raw_dir)?;
+    let started = now_seconds()?;
+    let (version, build_identity) = witness_pysa_identity(tools)?;
+    // The identity the retained partition rationales name: the witnessed
+    // pair, not a constant — witness_pysa_identity refuses either component
+    // off its pin, so both versions here were measured.
+    let witnessed_pair =
+        format!("Pysa (pyre-check {version} + Pyrefly {PYSA_PINNED_PYREFLY_VERSION})");
+    write_run_environment(&plan.raw_dir, "pysa", &version, &build_identity)?;
+    let revision = fixture_revision()?;
+    let mut results = Vec::with_capacity(plan.cases.len());
+    for (path, case) in &plan.cases {
+        let id = required_string(case, "id", "modeling case")?;
+        let start = Instant::now();
+        let (outcome, diagnostics, raw_path) = if let Some((outcome, reason, raw_path)) =
+            modeling_partition_outcome(ModelingTool::Pysa, case, &plan.raw_dir, &witnessed_pair)?
+        {
+            (outcome, vec![reason], raw_path)
+        } else {
+            run_pysa_modeling_case(tools, &taint_config, &artifact, path, case, &plan)?
+        };
+        results.push(normalized_result(
+            case,
+            id,
+            outcome,
+            diagnostics,
+            start.elapsed(),
+            &raw_path,
+        ));
+    }
+    let report = json!({
+        "schema_version": 1,
+        "tool": "pysa",
+        "tool_version": version,
+        "tool_build_identity": build_identity,
+        "adapter_version": ADAPTER_VERSION,
+        "configuration_hash": hash_paths(&plan.configuration_paths)?,
+        "fixture_revision": revision,
+        "started_at_unix_seconds": started,
+        "ended_at_unix_seconds": now_seconds()?,
+        "cold_or_warm": "cold",
+        "results": results
+    });
+    write_and_validate_report(&plan.report, &report)?;
+    let scored = modeling_supported_templates(ModelingTool::Pysa);
+    let scored_assertions = plan
+        .cases
+        .iter()
+        .filter(|(_, case)| {
+            case["template_id"]
+                .as_str()
+                .is_some_and(|template| scored.contains(&template))
+        })
+        .count();
+    let scored_categories: BTreeSet<ModelingCategory> = scored
+        .iter()
+        .filter_map(|template| modeling_category(template))
+        .collect();
+    println!(
+        "wrote {} ({scored_assertions} scored, {} preregistered-unsupported, {} of six categories scored for {})",
+        plan.report.display(),
+        plan.cases.len() - scored_assertions,
+        scored_categories.len(),
+        ModelingTool::Pysa.pinned_identity()
+    );
+    Ok(())
+}
 /// Run one adapter's modeling matrix for one language.
 ///
 /// The staged shape of this command is recorded in docs/adapters.md: the
@@ -14892,6 +15463,11 @@ fn run_modeling(
                     case,
                     &plan,
                 )?,
+                // Pysa's identity is a witnessed pair, so its modeling run is
+                // `run_pysa_modeling` and never dispatches here.
+                ModelingTool::Pysa => bail!(
+                    "Pysa modeling runs through run_pysa_modeling with the pinned pair, not through the single-binary runner"
+                ),
             }
         };
         results.push(normalized_result(
@@ -14993,6 +15569,12 @@ fn witness_tool_identity(tool: ModelingTool, binary: &Path) -> Result<(String, S
         ModelingTool::Flowdroid => bail!(
             "FlowDroid's identity is witnessed from the pinned jar digests by its own runners ({}); this single-binary path cannot witness it",
             binary.display()
+        ),
+        // Pysa's identity is a witnessed *pair* — the pyre client, the
+        // analysis binary's digest, and the Pyrefly front end — so its runs
+        // witness through `witness_pysa_identity` and never arrive here.
+        ModelingTool::Pysa => bail!(
+            "Pysa's identity is witnessed from the pinned pair via witness_pysa_identity; a single binary path cannot name it"
         ),
         ModelingTool::Joern => joern_version_identity(binary),
         ModelingTool::Semgrep => semgrep_version_identity(binary),
@@ -15633,6 +16215,355 @@ fn native_semgrep_outcome(
     )
 }
 
+/// The shipped taint model suite beside the pinned pyre client:
+/// `<environment>/bin/pyre` → `<environment>/lib/pyre_check/taint`. Resolved
+/// from the binary the run was handed, never from a hard-coded machine path,
+/// and required to exist before any case runs.
+fn pysa_native_suite_dir(tools: &PysaTools) -> Result<PathBuf> {
+    let environment = tools
+        .pyre
+        .parent()
+        .and_then(Path::parent)
+        .with_context(|| {
+            format!(
+                "cannot resolve the environment root above {}",
+                tools.pyre.display()
+            )
+        })?;
+    let suite = environment.join(PYSA_NATIVE_SUITE_RELATIVE);
+    if !suite.is_dir() {
+        bail!(
+            "the pinned pyre-check environment carries no shipped taint model suite at {}; docs/native-profile.md makes a missing activation artifact a benchmark defect that fails the build, never a result",
+            suite.display()
+        );
+    }
+    Ok(suite)
+}
+
+/// A content digest over the shipped suite the run activates: every file,
+/// sorted by relative path, hashed as path plus bytes. The suite lives inside
+/// the installed wheel rather than in this repository, so this digest is what
+/// binds the report's configuration hash to one suite instead of one machine.
+fn pysa_native_suite_digest(suite: &Path) -> Result<String> {
+    fn walk(root: &Path, directory: &Path, files: &mut Vec<PathBuf>) -> Result<()> {
+        let mut entries: Vec<PathBuf> = fs::read_dir(directory)
+            .with_context(|| format!("read {}", directory.display()))?
+            .map(|entry| entry.map(|entry| entry.path()))
+            .collect::<std::io::Result<_>>()?;
+        entries.sort();
+        for entry in entries {
+            if entry.is_dir() {
+                walk(root, &entry, files)?;
+            } else {
+                files.push(entry);
+            }
+        }
+        Ok(())
+    }
+    let mut files = Vec::new();
+    walk(suite, suite, &mut files)?;
+    let mut hasher = Sha256::new();
+    for file in files {
+        let relative = file.strip_prefix(suite).expect("walked under the suite");
+        hasher.update(relative.to_string_lossy().as_bytes());
+        hasher.update(fs::read(&file).with_context(|| format!("read {}", file.display()))?);
+    }
+    Ok(format!("{:x}", hasher.finalize()))
+}
+
+/// Run one *scored* native cell through the shipped Pysa suite.
+///
+/// Two deliberate differences from the benchmark-controlled Pysa runners,
+/// both preregistered in docs/native-profile.md (Amendment A17): the
+/// workspace's `taint_models_path` names the shipped suite and nothing else,
+/// and the invocation carries `--no-verify`, because the shipped suite does
+/// not verify over a stdlib-only project. The activation proof moves into the
+/// retained evidence — a run whose output carries no shipped model for
+/// `os.system` is a `runner-error`, never a coverage result — and the outcome
+/// is decided by `native_anchor_tally_outcome`, the same rule the CodeQL and
+/// Semgrep arms reach.
+fn run_pysa_native_case(
+    tools: &PysaTools,
+    suite: &Path,
+    case_path: &Path,
+    case: &Value,
+    plan: &NativeRunPlan,
+) -> Result<(&'static str, Vec<String>, PathBuf)> {
+    let id = required_string(case, "id", "tool-native case")?;
+    let raw_path = plan.raw_dir.join(format!("{id}.json"));
+    let error_path = plan.raw_dir.join(format!("{id}-error.json"));
+    let timing_path = case_timing_path(&plan.raw_dir, id);
+    for stale in [&raw_path, &error_path, &timing_path] {
+        if stale.exists() {
+            fs::remove_file(stale).with_context(|| format!("clear {}", stale.display()))?;
+        }
+    }
+
+    let scratch = native_case_scratch(ModelingTool::Pysa, plan.language, id)?;
+    let result = (|| {
+        let source_root = scratch.join("src");
+        let output_dir = scratch.join("out");
+        for directory in [&source_root, &output_dir] {
+            fs::create_dir_all(directory)?;
+        }
+        materialize_modeling_workspace(case_path, case, &source_root)?;
+        fs::write(
+            scratch.join("pyrefly.toml"),
+            "project-includes = [\"src/**/*.py\"]\n",
+        )?;
+        fs::write(
+            scratch.join(".pyre_configuration"),
+            serde_json::to_string_pretty(&json!({
+                "source_directories": ["src"],
+                "taint_models_path": [suite.to_string_lossy()]
+            }))? + "\n",
+        )?;
+
+        let pyrefly_dir = tools
+            .pyrefly
+            .parent()
+            .map(Path::to_path_buf)
+            .unwrap_or_else(|| PathBuf::from("."));
+        let mut search_path = pyrefly_dir.into_os_string();
+        if let Some(existing) = std::env::var_os("PATH") {
+            search_path.push(":");
+            search_path.push(existing);
+        }
+        let mut command = Command::new(&tools.pyre);
+        command
+            .arg("-n")
+            .arg("--binary")
+            .arg(&tools.pyre_binary)
+            .arg("analyze")
+            .arg("--no-verify")
+            .arg("--save-results-to")
+            .arg(&output_dir)
+            .env("PATH", &search_path)
+            .current_dir(&scratch)
+            .stdin(std::process::Stdio::null());
+        let invoked = Instant::now();
+        let output = match command.output() {
+            Ok(output) => output,
+            Err(error) => {
+                let diagnostic = format!(
+                    "failed to spawn the Pysa tool-native analysis with {}: {error}",
+                    tools.pyre.display()
+                );
+                let path =
+                    write_pysa_error(&plan.raw_dir, id, "analyzer-spawn", &diagnostic, None)?;
+                return Ok(("runner-error", vec![diagnostic], path));
+            }
+        };
+        write_case_phase_timings(&plan.raw_dir, "pysa", id, &[("total", invoked.elapsed())])?;
+        if !output.status.success() {
+            let diagnostic = format!(
+                "the Pysa tool-native analysis failed with status {}",
+                output.status
+            );
+            let path = write_pysa_error(
+                &plan.raw_dir,
+                id,
+                "analyzer-execution",
+                &diagnostic,
+                Some(&output),
+            )?;
+            return Ok(("runner-error", vec![diagnostic], path));
+        }
+        let taint_output = output_dir.join("taint-output.json");
+        if !taint_output.exists() {
+            let diagnostic =
+                "the Pysa tool-native analysis exited cleanly but wrote no taint-output.json"
+                    .to_string();
+            let path = write_pysa_error(
+                &plan.raw_dir,
+                id,
+                "analyzer-output",
+                &diagnostic,
+                Some(&output),
+            )?;
+            return Ok(("runner-error", vec![diagnostic], path));
+        }
+        fs::copy(&taint_output, &raw_path)?;
+        let evidence = match parse_pysa_evidence(&fs::read_to_string(&raw_path)?) {
+            Ok(evidence) => evidence,
+            Err(reason) => {
+                let diagnostic = format!("parse Pysa evidence {}: {reason}", raw_path.display());
+                let path =
+                    write_pysa_error(&plan.raw_dir, id, "analyzer-output", &diagnostic, None)?;
+                return Ok(("runner-error", vec![diagnostic], path));
+            }
+        };
+        // The --no-verify activation guard: the shipped suite demonstrably
+        // loaded, or nothing below is a coverage result.
+        if !evidence.model_callables.contains(PYSA_NATIVE_SINK_MODEL) {
+            let diagnostic = format!(
+                "the shipped suite did not activate: the retained evidence carries no model for {PYSA_NATIVE_SINK_MODEL:?}"
+            );
+            let path = write_pysa_error(
+                &plan.raw_dir,
+                id,
+                "shipped-suite-activation",
+                &diagnostic,
+                Some(&output),
+            )?;
+            return Ok(("runner-error", vec![diagnostic], path));
+        }
+        let mut diagnostics: Vec<String> = evidence
+            .issues
+            .iter()
+            .filter_map(|issue| issue["message"].as_str().map(str::to_string))
+            .collect();
+        diagnostics.sort();
+        diagnostics.dedup();
+        if evidence.issues.is_empty() {
+            return Ok(("not-reached", diagnostics, raw_path.clone()));
+        }
+        let sink_locations = match native_sink_anchor_locations(case_path, case) {
+            Ok(locations) => locations,
+            Err(reason) => {
+                return Ok((
+                    "inconclusive",
+                    vec![format!(
+                        "cannot prove a Pysa issue against the native sink anchor: {reason}"
+                    )],
+                    raw_path.clone(),
+                ));
+            }
+        };
+        // Every issue the shipped rules produce is classified against the
+        // platform-sink anchor and tallied by the profile's one rule: a
+        // finding on the anchor is `reached` whatever rule produced it, a
+        // finding away from it is not evidence about this assertion.
+        let (outcome, tally_diagnostics) = native_anchor_tally_outcome(
+            evidence.issues.iter().map(|issue| {
+                match pysa_issue_anchor_match(issue, &sink_locations) {
+                    EvidenceAnchorMatch::Matched => SarifAnchorMatch::Matched,
+                    EvidenceAnchorMatch::Unmatched => SarifAnchorMatch::Unmatched,
+                    EvidenceAnchorMatch::Ambiguous => SarifAnchorMatch::Ambiguous,
+                }
+            }),
+            "Pysa",
+        );
+        diagnostics.extend(tally_diagnostics);
+        diagnostics.sort();
+        diagnostics.dedup();
+        Ok((outcome, diagnostics, raw_path.clone()))
+    })();
+
+    let cleanup =
+        fs::remove_dir_all(&scratch).with_context(|| format!("clear {}", scratch.display()));
+    match (result, cleanup) {
+        (Ok(normalized), Ok(())) => Ok(normalized),
+        (Ok((_, mut diagnostics, path)), Err(error)) => {
+            diagnostics.push(format!("Pysa case artifact cleanup failed: {error}"));
+            diagnostics.sort();
+            diagnostics.dedup();
+            Ok(("runner-error", diagnostics, path))
+        }
+        (Err(error), Ok(())) => Err(error),
+        (Err(error), Err(cleanup_error)) => Err(error.context(format!(
+            "Pysa case artifact cleanup also failed: {cleanup_error}"
+        ))),
+    }
+}
+
+/// Run Pysa's tool-native probe set for one language — Python, the engine's
+/// only one; any other language fails the plan's coverage gate.
+///
+/// The shape is `run_native`'s, stated separately because the identity is a
+/// witnessed pair and the activation artifact lives inside the installed
+/// wheel rather than in this repository: the suite is resolved beside the
+/// pinned client, its bytes are digested into the run identity and the
+/// configuration hash, and the no-benchmark-models gate covers the invocation
+/// shape exactly as it covers the other four.
+fn run_pysa_native(tools: &PysaTools, language: ModelingLanguage) -> Result<()> {
+    let (version, build) = witness_pysa_identity(tools)?;
+    let witnessed_pair =
+        format!("Pysa (pyre-check {version} + Pyrefly {PYSA_PINNED_PYREFLY_VERSION})");
+    let plan = plan_native_run(ModelingTool::Pysa, language, &witnessed_pair)?;
+    let suite = pysa_native_suite_dir(tools)?;
+    let suite_digest = pysa_native_suite_digest(&suite)?;
+    let scored_templates = native_supported_templates(plan.tool, plan.language);
+
+    fs::create_dir_all(&plan.raw_dir)?;
+    let started = now_seconds()?;
+    let build_identity = format!(
+        "{build} — {} (suite-sha256:{suite_digest})",
+        plan.activation.identity
+    );
+    write_run_environment(&plan.raw_dir, "pysa", &version, &build_identity)?;
+    let revision = fixture_revision()?;
+    // The activation hash binds the shape *and* the shipped bytes: identity,
+    // arguments, and the suite digest, so two runs over two different wheel
+    // contents can never share a configuration hash.
+    let configuration_hash = {
+        let mut hasher = Sha256::new();
+        hasher.update(plan.activation.identity.as_bytes());
+        for argument in &plan.activation.arguments {
+            hasher.update(argument.as_bytes());
+        }
+        hasher.update(suite_digest.as_bytes());
+        format!("{:x}", hasher.finalize())
+    };
+    let mut results = Vec::with_capacity(plan.cases.len());
+    for (path, case) in &plan.cases {
+        let id = required_string(case, "id", "tool-native case")?;
+        let start = Instant::now();
+        let (outcome, diagnostics, raw_path) = if let Some((outcome, reason, raw_path)) =
+            native_partition_outcome(
+                plan.tool,
+                plan.language,
+                case,
+                &plan.activation,
+                &plan.raw_dir,
+                &witnessed_pair,
+            )? {
+            (outcome, vec![reason], raw_path)
+        } else {
+            run_pysa_native_case(tools, &suite, path, case, &plan)?
+        };
+        results.push(normalized_result(
+            case,
+            id,
+            outcome,
+            diagnostics,
+            start.elapsed(),
+            &raw_path,
+        ));
+    }
+    let report = json!({
+        "schema_version": 1,
+        "tool": "pysa",
+        "tool_version": version,
+        "tool_build_identity": build_identity,
+        "adapter_version": ADAPTER_VERSION,
+        "configuration_hash": configuration_hash,
+        "fixture_revision": revision,
+        "started_at_unix_seconds": started,
+        "ended_at_unix_seconds": now_seconds()?,
+        "cold_or_warm": "cold",
+        "results": results
+    });
+    write_and_validate_report(&plan.report, &report)?;
+    let scored_assertions = plan
+        .cases
+        .iter()
+        .filter(|(_, case)| {
+            case["template_id"]
+                .as_str()
+                .is_some_and(|template| scored_templates.contains(&template))
+        })
+        .count();
+    println!(
+        "wrote {} ({scored_assertions} scored, {} preregistered-unsupported, {} of six templates activated for {})",
+        plan.report.display(),
+        plan.cases.len() - scored_assertions,
+        scored_templates.len(),
+        ModelingTool::Pysa.pinned_identity()
+    );
+    Ok(())
+}
+
 /// A per-case scratch root for a tool-native run, disjoint from every kernel
 /// and modeling run's.
 fn native_case_scratch(
@@ -15762,6 +16693,11 @@ fn run_native_with_identity(
                     "the tool-native execution arm for {} × {} is not wired: {id} is a scored cell and no wave has yet had a reason to invoke this adapter natively — its preregistered partition declines all six templates (docs/native-profile.md#partition-summary). A cell promoted by a dated amendment lands its execution arm in the same pull request; synthesizing an outcome here is what docs/adapters.md forbids",
                     plan.tool.pinned_identity(),
                     plan.language.display_name(),
+                ),
+                // Pysa's identity is a witnessed pair, so its native run is
+                // `run_pysa_native` and never dispatches here.
+                ModelingTool::Pysa => bail!(
+                    "Pysa tool-native runs through run_pysa_native with the pinned pair, not through the single-binary runner"
                 ),
             }
         };
@@ -16366,7 +17302,7 @@ fn warm_batch_completed(
 }
 
 /// Run the Java benchmark-controlled modeling matrix through the pinned
-/// FlowDroid release (Amendment A16).
+/// FlowDroid release (Amendment A18).
 ///
 /// The kernel's per-case machinery is reused unchanged — APK materialization,
 /// endpoint resolution from the fixture's own marker lines, witnessed Soot
@@ -16376,7 +17312,7 @@ fn warm_batch_completed(
 /// which replaces the release default's bundled `summariesManual` provider so
 /// the benchmark's declarations are the only summaries in the run, and the
 /// timing sidecar records the three adapter-observable subprocess boundaries
-/// (`compile`, `dex`, `analyze`) the latency tier's Amendment A18 declares
+/// (`compile`, `dex`, `analyze`) the latency tier's Amendment A20 declares
 /// for this population.
 fn run_flowdroid_modeling(
     tools: &FlowdroidTools,
@@ -16385,7 +17321,7 @@ fn run_flowdroid_modeling(
 ) -> Result<()> {
     if language != ModelingLanguage::Java {
         bail!(
-            "FlowDroid's modeling partition row applies to Java alone (docs/modeling-matrix.md, Amendment A16): the analyzer consumes JVM bytecode, so the {} modeling population is outside the adapter's language reach — which is different from a declined category",
+            "FlowDroid's modeling partition row applies to Java alone (docs/modeling-matrix.md, Amendment A18): the analyzer consumes JVM bytecode, so the {} modeling population is outside the adapter's language reach — which is different from a declined category",
             language.display_name()
         );
     }
@@ -16514,7 +17450,7 @@ fn run_flowdroid_modeling(
 }
 
 /// Run the Java tool-native probe set for the pinned FlowDroid release
-/// (Amendment A17).
+/// (Amendment A19).
 ///
 /// The A16 activation partition declines all six templates from the shipped
 /// catalog's own text, so no fixture is ever handed to the analyzer — but the
@@ -16529,7 +17465,7 @@ fn run_flowdroid_native(
 ) -> Result<()> {
     if language != ModelingLanguage::Java {
         bail!(
-            "FlowDroid's tool-native activation row applies to Java alone (docs/native-profile.md, Amendment A17): the analyzer consumes JVM bytecode, so the {} native population is outside the adapter's language reach — which is different from a declined activation",
+            "FlowDroid's tool-native activation row applies to Java alone (docs/native-profile.md, Amendment A19): the analyzer consumes JVM bytecode, so the {} native population is outside the adapter's language reach — which is different from a declined activation",
             language.display_name()
         );
     }
@@ -21747,7 +22683,7 @@ mod tests {
                     .unwrap_or_else(|_| panic!("{} × {template} is undecided", tool.key()));
             }
         }
-        assert_eq!(MODELING_PARTITION.len(), 36);
+        assert_eq!(MODELING_PARTITION.len(), 42);
         assert!(
             modeling_partition_reason(ModelingTool::Codeql, "dfb-template-chal-dispatch-table")
                 .is_err()
@@ -21773,7 +22709,7 @@ mod tests {
         // is overridden out on the measured absence of an input-position
         // vocabulary), and Z.
         assert_eq!(modeling_supported_templates(ModelingTool::Infer).len(), 5);
-        // Amendment A16: FlowDroid joins with S, P, Z, and O, minus the
+        // Amendment A18: FlowDroid joins with S, P, Z, and O, minus the
         // sanitizer-selectivity template its class-exclusive summary
         // resolution makes undecidable — seven templates, four categories.
         assert_eq!(
@@ -21782,11 +22718,11 @@ mod tests {
         );
     }
 
-    /// FlowDroid's Amendment-A16 row, template by template: categories S, P,
+    /// FlowDroid's Amendment-A18 row, template by template: categories S, P,
     /// and O whole, category Z's kill template alone, and categories E and B
     /// declined with retained rationales that cite the probe evidence.
     #[test]
-    fn flowdroid_modeling_partition_matches_amendment_a16() {
+    fn flowdroid_modeling_partition_matches_amendment_a18() {
         let mut expected = ModelingCategory::SourcesAndSinks.templates().to_vec();
         expected.extend(ModelingCategory::Propagators.templates());
         expected.extend(ModelingCategory::Sanitizers.templates());
@@ -21816,11 +22752,11 @@ mod tests {
             )
             .unwrap()
             .unwrap()
-            .contains("Amendment A16")
+            .contains("Amendment A18")
         );
     }
 
-    /// FlowDroid's Amendment-A17 native row: the activation contract is live —
+    /// FlowDroid's Amendment-A19 native row: the activation contract is live —
     /// the shipped catalog and default summary wrapper are the product — but
     /// the catalog binds no identity any native template uses, so all six
     /// cells are declined from shipped-model text, and the activation shape
@@ -21835,7 +22771,7 @@ mod tests {
                 native_partition_reason(ModelingTool::Flowdroid, ModelingLanguage::Java, template)
                     .unwrap()
                     .expect("every FlowDroid native cell is declined");
-            assert!(reason.contains("Amendment A17"), "{template}: {reason}");
+            assert!(reason.contains("Amendment A19"), "{template}: {reason}");
         }
         let activation =
             native_activation(ModelingTool::Flowdroid, ModelingLanguage::Java, "2.15.1").unwrap();
@@ -21848,6 +22784,140 @@ mod tests {
         );
         require_no_benchmark_models(ModelingTool::Flowdroid, &activation.arguments).unwrap();
         assert!(activation.configuration_paths.is_empty());
+    }
+
+    /// Amendment A16's partition row, cell by cell: five categories scored,
+    /// persistence declined on the DSL's absent store vocabulary, and the
+    /// whole row Python-scoped by the artifact map and the native activation
+    /// — a no-denominator pair has no artifact and is refused before any run.
+    #[test]
+    fn pysa_modeling_partition_scores_five_categories_python_only() {
+        let mut expected = Vec::new();
+        for category in [
+            ModelingCategory::SourcesAndSinks,
+            ModelingCategory::Propagators,
+            ModelingCategory::Sanitizers,
+            ModelingCategory::Summaries,
+            ModelingCategory::EntryPoints,
+        ] {
+            expected.extend(category.templates());
+        }
+        expected.sort_unstable();
+        let mut scored = modeling_supported_templates(ModelingTool::Pysa);
+        scored.sort_unstable();
+        assert_eq!(scored, expected);
+        for template in ModelingCategory::Persistence.templates() {
+            let reason = modeling_partition_reason(ModelingTool::Pysa, template)
+                .unwrap()
+                .expect("category B is declined for Pysa");
+            assert!(reason.contains("no store identity"));
+            assert!(reason.contains("Amendment A16"));
+        }
+        assert!(
+            ModelingLanguage::Python
+                .artifact(ModelingTool::Pysa)
+                .is_some()
+        );
+        assert!(
+            ModelingLanguage::Java
+                .artifact(ModelingTool::Pysa)
+                .is_none()
+        );
+        assert!(
+            ModelingLanguage::Javascript
+                .artifact(ModelingTool::Pysa)
+                .is_none()
+        );
+        let error = native_activation(
+            ModelingTool::Pysa,
+            ModelingLanguage::Javascript,
+            WITNESSED_IDENTITY,
+        )
+        .err()
+        .expect("a no-denominator pair must be refused")
+        .to_string();
+        assert!(error.contains("no JavaScript tool-native denominator"));
+        // Amendment A17: the native row scores all six templates for Python.
+        assert_eq!(
+            native_supported_templates(ModelingTool::Pysa, ModelingLanguage::Python).len(),
+            6
+        );
+    }
+
+    /// The committed Pysa modeling artifact carries exactly the scored
+    /// templates' blocks — a block for a declined template would violate the
+    /// rule that an artifact never declares a category its partition marks
+    /// unsupported — and every block resolves the way the runner cuts it.
+    #[test]
+    fn pysa_modeling_artifact_blocks_cover_exactly_the_scored_templates() {
+        let path = ModelingLanguage::Python
+            .artifact(ModelingTool::Pysa)
+            .expect("Pysa's Python artifact is declared");
+        let artifact = fs::read_to_string(path).unwrap();
+        let scored = modeling_supported_templates(ModelingTool::Pysa);
+        for template in MODELING_TEMPLATE_IDS {
+            let block = pysa_modeling_block(&artifact, template, path);
+            if scored.contains(&template) {
+                let block = block.unwrap_or_else(|_| panic!("{template} block is missing"));
+                assert!(
+                    !block.is_empty() && !pysa_block_model_callables(&block).is_empty(),
+                    "{template} block declares no source or sink model"
+                );
+            } else {
+                block.expect_err("a declined template must have no block");
+            }
+        }
+        // The endpoint extraction the activation guard relies on.
+        let block =
+            pysa_modeling_block(&artifact, "dfb-template-model-declared-source", path).unwrap();
+        assert_eq!(
+            pysa_block_model_callables(&block),
+            vec![
+                "config.fetch_remote".to_string(),
+                "config.dfb_sink".to_string()
+            ]
+        );
+    }
+
+    /// The load-bearing gate on the Pysa artifact: the committed file passes,
+    /// and a counterfactual whose propagator loses a skip mode fails, because
+    /// Amendment A16 measured the pinned pair following the fixture bodies on
+    /// its own.
+    #[test]
+    fn pysa_modeling_artifact_is_load_bearing() {
+        let path = ModelingLanguage::Python
+            .artifact(ModelingTool::Pysa)
+            .expect("Pysa's Python artifact is declared");
+        let artifact = fs::read_to_string(path).unwrap();
+        require_pysa_modeling_load_bearing(&artifact, path).unwrap();
+        let stripped = artifact.replace("@SkipObscure\n", "");
+        let error = require_pysa_modeling_load_bearing(&stripped, path)
+            .unwrap_err()
+            .to_string();
+        assert!(error.contains("@SkipObscure"));
+        assert!(error.contains("the-load-bearing-model-requirement"));
+        let empty = "def config.dfb_sink(value: TaintSink[DfbSink]): ...\n";
+        let error = require_pysa_modeling_load_bearing(empty, path)
+            .unwrap_err()
+            .to_string();
+        assert!(error.contains("no TaintInTaintOut"));
+    }
+
+    /// Amendment A17's activation shape: the shipped suite with `--no-verify`,
+    /// no benchmark-authored model in the arguments, and the retained-evidence
+    /// guard keyed to the shipped `os.system` sink model.
+    #[test]
+    fn pysa_native_activation_is_the_shipped_suite() {
+        let activation = native_activation(
+            ModelingTool::Pysa,
+            ModelingLanguage::Python,
+            WITNESSED_IDENTITY,
+        )
+        .unwrap();
+        assert!(activation.identity.contains(PYSA_NATIVE_SUITE_RELATIVE));
+        assert!(activation.arguments.contains(&"--no-verify".to_string()));
+        require_no_benchmark_models(ModelingTool::Pysa, &activation.arguments).unwrap();
+        assert_eq!(PYSA_NATIVE_SINK_MODEL, "os.system");
     }
 
     /// Bifrost entered with category S alone — the honest starting position the
@@ -22521,14 +23591,13 @@ mod tests {
                 if let Some(artifact) = language.artifact(tool) {
                     assert!(artifacts.insert(artifact));
                 } else {
-                    // Only the two bytecode-bound adapters' out-of-reach
-                    // languages have no artifact: those combinations have no
-                    // modeling denominator at all.
-                    assert!(matches!(
-                        tool,
-                        ModelingTool::Infer | ModelingTool::Flowdroid
-                    ));
-                    assert_ne!(language, ModelingLanguage::Java);
+                    match tool {
+                        ModelingTool::Infer | ModelingTool::Flowdroid => {
+                            assert_ne!(language, ModelingLanguage::Java)
+                        }
+                        ModelingTool::Pysa => assert_ne!(language, ModelingLanguage::Python),
+                        other => panic!("{} × {} lost its artifact", other.key(), language.key()),
+                    }
                 }
                 assert_eq!(
                     language.report(tool),
@@ -22548,9 +23617,14 @@ mod tests {
                 );
             }
         }
-        // Wave M1's twelve, Infer's Java-only configuration (A13), and
-        // FlowDroid's Java-only summaries directory (A16).
-        assert_eq!(artifacts.len(), 14);
+        // Wave M1's twelve, Infer's and Pysa's single-language
+        // configurations (A13, A16), and FlowDroid's Java-only summaries
+        // directory (A18).
+        assert_eq!(artifacts.len(), 15);
+        assert_eq!(
+            ModelingLanguage::Python.artifact(ModelingTool::Pysa),
+            Some("adapters/pysa/models/modeling-python.pysa")
+        );
         assert_eq!(
             ModelingLanguage::Java.artifact(ModelingTool::Bifrost),
             Some("adapters/bifrost/policies/model-java.rqlp")
@@ -22596,7 +23670,7 @@ mod tests {
         );
         // Each artifact arrives with the pull request that authors its
         // declarations. Wave M1 is complete, Infer's Java row landed with
-        // Amendment A13, and FlowDroid's with Amendment A16 — whose artifact
+        // Amendment A13, and FlowDroid's with Amendment A18 — whose artifact
         // is a directory of three committed summary files, checked
         // individually because a directory has no bytes for the configuration
         // hash to bind.
@@ -22920,7 +23994,7 @@ mod tests {
     /// six is an error rather than a silent scored default.
     #[test]
     fn the_native_partition_decides_every_tool_and_template() {
-        assert_eq!(NATIVE_PARTITION.len(), 36);
+        assert_eq!(NATIVE_PARTITION.len(), 42);
         for tool in ModelingTool::ALL {
             for template in NATIVE_TEMPLATE_IDS {
                 for language in [
@@ -23432,9 +24506,14 @@ mod tests {
                 ModelingLanguage::Javascript,
                 ModelingLanguage::Python,
             ] {
-                if matches!(tool, ModelingTool::Infer | ModelingTool::Flowdroid)
-                    && language != ModelingLanguage::Java
-                {
+                let covered = match tool {
+                    ModelingTool::Infer | ModelingTool::Flowdroid => {
+                        language == ModelingLanguage::Java
+                    }
+                    ModelingTool::Pysa => language == ModelingLanguage::Python,
+                    _ => true,
+                };
+                if !covered {
                     // No denominator at all: the activation itself refuses the
                     // combination rather than shaping a run for it.
                     let Err(error) = native_activation(tool, language, WITNESSED_IDENTITY) else {
@@ -23457,11 +24536,13 @@ mod tests {
             }
         }
         let artifacts = benchmark_model_artifacts();
-        // Wave M1's twelve, the shared Joern script, Infer's Java
-        // configuration, and FlowDroid's Java summaries directory.
-        assert_eq!(artifacts.len(), 15);
+        // Wave M1's twelve, the shared Joern script, Infer's and Pysa's
+        // single-language configurations, and FlowDroid's Java summaries
+        // directory.
+        assert_eq!(artifacts.len(), 16);
         assert!(artifacts.contains(JOERN_MODELING_SCRIPT));
         assert!(artifacts.contains(FLOWDROID_MODELING_SUMMARIES_DIR));
+        assert!(artifacts.contains("adapters/pysa/models/modeling-python.pysa"));
         for artifact in &artifacts {
             let spliced = vec![format!("--config={artifact}")];
             let error = require_no_benchmark_models(ModelingTool::Semgrep, &spliced)

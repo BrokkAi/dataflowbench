@@ -291,9 +291,9 @@ witnessing rule.
   benchmark-controlled engine accuracy. That is
   [an invariant](native-profile.md#invariants), not a preference.
 
-## FlowDroid — declined on the shipped catalog's text (Amendment A17, 2026-09-01)
+## FlowDroid — declined on the shipped catalog's text (Amendment A19, 2026-09-01)
 
-[Amendment A16](native-profile.md#a17--2026-09-01-flowdroid-joins-the-tool-native-profile-with-a-live-activation-contract-and-six-cells-declined-on-catalog-evidence)
+[Amendment A19](native-profile.md#a19--2026-09-01-flowdroid-joins-the-tool-native-profile-with-a-live-activation-contract-and-six-cells-declined-on-catalog-evidence)
 added a sixth adapter to this row after its original runs, with a **Java-only**
 activation contract. The contract is live — the vendor's documented default
 `SourcesAndSinks.txt` ships inside the pinned, digest-witnessed jar, the CLI's
@@ -314,7 +314,7 @@ cargo run -- run-flowdroid-native --language java \
 
 The gap this makes legible is the same one Joern's and Infer's rows state, doubled:
 FlowDroid scores **seven of twelve benchmark-controlled modeling templates**
-on this language ([Amendment A16](modeling-matrix.md#a16--2026-09-01-flowdroid-joins-the-modeling-matrix-with-a-java-only-partition-row))
+on this language ([Amendment A18](modeling-matrix.md#a18--2026-09-01-flowdroid-joins-the-modeling-matrix-with-a-java-only-partition-row))
 and **zero of six native templates**, with the same engine, the same jar, and
 the same day's runs. The engine can be told nearly anything; the product ships
 an Android-oriented catalog that knows none of the platform identities this

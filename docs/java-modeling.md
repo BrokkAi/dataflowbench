@@ -484,9 +484,9 @@ Run them sequentially, never concurrently. Each writes
 `reports/raw/<tool>-java-modeling/`; none of the paths collides with a
 report the v0.4.0 freeze binds.
 
-## FlowDroid — the sixth adapter (Amendment A16, 2026-09-01)
+## FlowDroid — the seventh adapter (Amendment A18, 2026-09-01)
 
-[Amendment A16](modeling-matrix.md#a16--2026-09-01-flowdroid-joins-the-modeling-matrix-with-a-java-only-partition-row)
+[Amendment A18](modeling-matrix.md#a18--2026-09-01-flowdroid-joins-the-modeling-matrix-with-a-java-only-partition-row)
 added the matrix's sixth adapter after this row's original four-tool run and Infer's A13 row, with
 a **Java-only** partition preregistered on retained probe evidence
 (`reports/raw/load-bearing-java-modeling/flowdroid-*.json`, produced by
@@ -528,10 +528,10 @@ under `reports/raw/flowdroid-java-modeling/`.
 | --- | --- |
 | S — sources and sinks | 4/4 |
 | P — propagators | 4/4 |
-| Z — sanitizers | 2/2 (template 6 declined, A16) |
+| Z — sanitizers | 2/2 (template 6 declined, A18) |
 | O — summaries | 4/4 |
-| E — entry points | — (A16) |
-| B — persistence | — (A16) |
+| E — entry points | — (A18) |
+| B — persistence | — (A18) |
 
 Fourteen of fourteen, over the second-largest scored denominator in the row.
 Worth stating the way the matrix's framing rules require: this is a modeling
@@ -544,7 +544,7 @@ demonstration.
 
 Each scored case's timing sidecar records `compile`, `dex`, and `analyze`
 phases (the three adapter-observable subprocess boundaries;
-[latency-tier Amendment A18](latency-tier.md#a18--2026-09-01-flowdroids-modeling-population-declares-three-subprocess-phases)),
+[latency-tier Amendment A20](latency-tier.md#a20--2026-09-01-flowdroids-modeling-population-declares-three-subprocess-phases)),
 of which only `analyze` is an analyzer number.
 
 **Reproduction, appended to the sequence above:**
