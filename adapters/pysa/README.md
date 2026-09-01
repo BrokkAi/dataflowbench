@@ -227,13 +227,13 @@ scripts/probe-pysa-callee-resolution.sh \
   --pyrefly pysa-venv/bin/pyrefly
 ```
 
-## Benchmark-controlled modeling matrix (Amendment A13)
+## Benchmark-controlled modeling matrix (Amendment A15)
 
 Pysa joined the [modeling matrix](../../docs/modeling-matrix.md) as its fifth
 adapter, by dated amendment before its first scored modeling run, with a
 partition row verified by execution
 (`scripts/probe-pysa-modeling-load-bearing.sh`, retained under
-`reports/raw/amendment-a13-pysa-modeling/`): categories **S, P, Z, O, and E
+`reports/raw/amendment-a15-pysa-modeling/`): categories **S, P, Z, O, and E
 scored** — ten of the twelve templates — and **B unsupported**, because the
 `.pysa` DSL has no store identity, key, or write-to-read link vocabulary. The
 row is Python-scoped: the engine analyzes one language, so no other language
@@ -246,7 +246,7 @@ definition the case's sources do not carry, which is a guard this adapter
 keeps, not a nuisance it works around. The committed `taint.config` is the
 same one the kernel binds.
 
-**The load-bearing switch is per entity, and it is mandatory.** A13's central
+**The load-bearing switch is per entity, and it is mandatory.** A15's central
 measurement: the pinned pair resolves the matrix's reflective opaque body on
 its own — Pyrefly narrows `getattr(_impl, name)` over the local string
 constant — so without further configuration the engine's body reading, not
@@ -272,7 +272,7 @@ cargo run -- run-pysa-modeling --language python \
 Report: `reports/pysa-python-modeling.json`; raw evidence, resolved per-case
 models, and per-case timing sidecars under `reports/raw/pysa-python-modeling/`.
 
-## Tool-native profile (Amendment A14)
+## Tool-native profile (Amendment A16)
 
 The pinned pyre-check wheel ships a real model suite inside its own
 distribution — `lib/pyre_check/taint/`, with `core_privacy_security/`'s
@@ -282,7 +282,7 @@ plus `common/`'s propagation models — and the
 measures exactly that suite, with no benchmark-authored declaration of any
 kind. Three activation facts were established by probe
 (`scripts/probe-pysa-native-activation.sh`, retained under
-`reports/raw/amendment-a14-pysa-native/`): the shipped product refuses to run
+`reports/raw/amendment-a16-pysa-native/`): the shipped product refuses to run
 with no `taint_models_path` (there is no ambient default, so pointing the
 documented knob at the wheel's own suite *is* the activation); the shipped
 suite does not verify over a stdlib-only project, and the client's own hint

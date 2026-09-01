@@ -1,0 +1,18 @@
+{
+  "activation_arguments": [
+    "--pulse-only"
+  ],
+  "activation_identity": "v1.3.0 shipped Pulse checker, no taint configuration",
+  "adapter": "infer",
+  "case_id": "dfb-taint-java-native-propagator-negative",
+  "evidence_kind": "retained-capability-decision",
+  "model_profile": "tool-native",
+  "modeling_category": "P",
+  "modeling_category_label": "declared propagators",
+  "partition_source": "docs/native-profile.md#partition-summary",
+  "reason": "tool-native activation of dfb-template-native-propagator (category P — declared propagators) is unsupported for v1.3.0 over Java by the activation partition (docs/native-profile.md#partition-summary, as amended): same measured silence (Amendment A14): a shipped propagator summary would need a shipped source and sink to carry anything between, and the pinned release ships neither — Pulse taint is disabled absent a `--pulse-taint-config`",
+  "stage": "preregistered-native-activation-partition",
+  "state": "unsupported",
+  "template_id": "dfb-template-native-propagator",
+  "witnessed_tool_identity": "v1.3.0"
+}

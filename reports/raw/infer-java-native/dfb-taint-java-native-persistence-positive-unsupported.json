@@ -1,0 +1,18 @@
+{
+  "activation_arguments": [
+    "--pulse-only"
+  ],
+  "activation_identity": "v1.3.0 shipped Pulse checker, no taint configuration",
+  "adapter": "infer",
+  "case_id": "dfb-taint-java-native-persistence-positive",
+  "evidence_kind": "retained-capability-decision",
+  "model_profile": "tool-native",
+  "modeling_category": "B",
+  "modeling_category_label": "persistence boundaries",
+  "partition_source": "docs/native-profile.md#partition-summary",
+  "reason": "tool-native activation of dfb-template-native-persistence (category B — persistence boundaries) is unsupported for v1.3.0 over Java by the activation partition (docs/native-profile.md#partition-summary, as amended): same measured silence (Amendment A14), and doubly out of reach: the shipped product activates no taint question, and the pulse-taint surface has no store-write/store-read vocabulary even when configured (Amendment A13)",
+  "stage": "preregistered-native-activation-partition",
+  "state": "unsupported",
+  "template_id": "dfb-template-native-persistence",
+  "witnessed_tool_identity": "v1.3.0"
+}

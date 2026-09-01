@@ -758,9 +758,14 @@ every existing adapter artifact is:
 | --- | --- | --- |
 | Bifrost | `adapters/bifrost/policies/model-<language>.rqlp` | RQLP `:analysis` endpoint sets — verified in the committed policies for `:sources` (`:bind return-value`) and `:sinks` (`:dangerous-operand (argument :index N)`); other sections per the partition below |
 | CodeQL | `adapters/codeql/queries/<Language>Modeling.ql` (+ any `ext/*.model.yml`) | `DataFlow::ConfigSig` predicates `isSource` / `isSink` / `isBarrier` / `isAdditionalFlowStep`, optionally models-as-data rows |
+| Infer | `adapters/infer/config/model-java.json` (Java only; added by [A13](#a13--2026-09-01-infer-joins-the-modeling-matrix-with-a-field-evaluated-partition-row)) | Pulse `--pulse-taint-config` JSON — `pulse-taint-sources` / `-sinks` / `-propagators` / `-sanitizers` with exact `class_names` + `method_names` matchers, wired through a `pulse-taint-policies` flow whose `sanitizer_kinds` names every declared sanitizer kind |
 | Joern | `adapters/joern/queries/modeling.sc` plus a flow-semantics file | query roots over `cpg.method…parameter` and `FlowSemantic` / `FlowMapping` entries |
 | Semgrep | `adapters/semgrep/rules/model-<language>.yaml` | `mode: taint` with `pattern-sources` / `pattern-sinks` / `pattern-propagators` / `pattern-sanitizers` |
-| Pysa (added by [A13](#a13--2026-09-01-pysa-joins-the-modeling-matrix-with-a-measured-partition-row)) | `adapters/pysa/models/modeling-python.pysa` | `.pysa` declarations — `TaintSource` / `TaintSink` annotations, `TaintInTaintOut` (with `Updates` / `UpdatePath`), `@Sanitize`, under the `@SkipAnalysis` / `@SkipObscure` modes that keep them load-bearing |
+| Pysa (added by [A15](#a15--2026-09-01-pysa-joins-the-modeling-matrix-with-a-measured-partition-row)) | `adapters/pysa/models/modeling-python.pysa` | `.pysa` declarations — `TaintSource` / `TaintSink` annotations, `TaintInTaintOut` (with `Updates` / `UpdatePath`), `@Sanitize`, under the `@SkipAnalysis` / `@SkipObscure` modes that keep them load-bearing |
+
+Like Joern and Semgrep, Infer has no case-level `tool_model_references` key: its
+invocation is pinned in the runner and its declarations live inside the single
+committed configuration its report's `configuration_hash` binds.
 
 Bifrost and CodeQL cases name their artifact through the `tool_model_references`
 keys the case schema already carries — `policy` and `query` respectively. Joern
@@ -948,15 +953,51 @@ expectation from the kernels would be the opposite — it enters with a *larger*
 share of this matrix than Bifrost does. Modeling capability and propagation
 capability are not the same axis, which is the whole reason this tier exists.
 
+### Infer — v1.3.0
+
+> **Added by [Amendment A13](#a13--2026-09-01-infer-joins-the-modeling-matrix-with-a-field-evaluated-partition-row)
+> (2026-09-01).** A new adapter joins this matrix with its own preregistered
+> partition row, added by amendment before its first modeling run — this is
+> that row. Every cell below was decided by **field evaluation executed against
+> the committed Java modeling fixtures** before the row existed, with the
+> evidence retained under `reports/raw/amendment-a13-infer-partition/`
+> (produced by `scripts/probe-infer-modeling-partition.sh`) — acceptance was
+> the load-bearing-model requirement, not a lowered bar. Java is the row's
+> only language: the pinned distribution executes no JavaScript or Python
+> frontend, so those languages have **no Infer modeling denominator at all**,
+> which is different from having a zero.
+
+Verified surface: the pinned v1.3.0's one operable taint mode is Pulse's
+`--pulse-taint-config` (Quandary is removed from the release), whose
+configuration defines `pulse-taint-sources`, `-sinks`, `-sanitizers`,
+`-propagators`, `-policies`, and `-data-flow-kinds` — and nothing else. Exact
+`class_names` + `method_names` matchers carry the type+member identity the
+declaration language requires. Infer has no unmodeled-call default to pin:
+where a body is captured, Pulse reads it, which is what decides category O
+below.
+
+| Cat. | Decision | Rationale |
+| --- | --- | --- |
+| S | **supported** | Both templates' four cells decide correctly: exact matchers bind `Config.fetchRemote` and `Audit.record` (position 0) by identity, the undeclared same-type siblings produce nothing, and deleting the source declaration flips the positive. |
+| P | **supported — template 3 only** | Template 3 is load-bearing three ways: the reflective body carries nothing unaided, the declared `Opaque.carry` propagator carries it, and the undeclared identical `Opaque.block` does not. Template 4 is overridden out: a Pulse propagator declares an output (`taint_target`) but **no input position** — the measured propagator carries taint from the undeclared position 0 exactly as from the declared position 1, so both cells are decided by the any-argument default, and unknown configuration fields are silently ignored, so no spelling can be trusted to bind the position. |
+| Z | **supported** | The sanitizer stanza suppresses on a completing run, its removal restores the flow, and the undeclared `Clean.sanitize` lookalike is not suppressed. One measured quirk is load-bearing for the runner's gate: a sanitizer whose kind is not named in a policy's `sanitizer_kinds` is **silently inert**, so the committed artifact must wire every sanitizer kind or the run is refused. |
+| O | **unsupported** | Template 7's identity bodies are captured and read — both cells report with no declaration at all, so the cells are decided by body analysis, and the release has no surface that makes a captured body ignored (`--pulse-taint-opaque-files` is accepted and measured inert for Java). Template 8's `FieldsOfValue` destination is not field-precise: the declared `1.payload` summary taints the sibling `spare` too, so the field-separation negative is decided by the heap approximation rather than by the summary. |
+| E | **unsupported** | A source matcher's argument `taint_target` applies at call boundaries only: declared on the uncalled handler's parameter, the analysis synthesizes no root and reports nothing inside the handler's body, and the surface documents no entry-root vocabulary. |
+| B | **unsupported** | No store-write/store-read vocabulary and no key discrimination exist anywhere in the configuration surface (the binary's own enumeration is retained beside the probes), and `Store.put`/`Store.get` have empty bodies, so nothing else can carry the roundtrip. |
+
+Infer enters with **three of six categories scored — five of the twelve
+templates**, category P by template 3 alone, the same template-level override
+mechanism Amendment A3 established for Semgrep's template 6.
+
 ### Pysa — pyre-check 0.10.0 + Pyrefly 1.2.0
 
-> **Added by [Amendment A13](#a13--2026-09-01-pysa-joins-the-modeling-matrix-with-a-measured-partition-row).**
-> This row was not part of the preregistration: the four tables above merged
-> before Pysa's adapter existed, and [the rollout plan](#rollout-plan) says a
+> **Added by [Amendment A15](#a15--2026-09-01-pysa-joins-the-modeling-matrix-with-a-measured-partition-row).**
+> This row was not part of the preregistration: the preregistered tables
+> merged before Pysa's adapter existed, and [the rollout plan](#rollout-plan) says a
 > new adapter arrives with its own partition row, added by amendment before
 > its first modeling run. That is this section. Every cell was decided by
 > execution — the retained probes are under
-> `reports/raw/amendment-a13-pysa-modeling/`, produced by
+> `reports/raw/amendment-a15-pysa-modeling/`, produced by
 > `scripts/probe-pysa-modeling-load-bearing.sh` — before any scored run, and
 > the row's language scope is **Python only**: Pysa analyzes one language, so
 > no other language ever has a Pysa modeling cell.
@@ -1005,20 +1046,22 @@ decide what the activation is worth.
 Preregistered, before any modeling fixture exists. `TBV` = to be verified at
 implementation, treated as unsupported until shown otherwise.
 
-> **Amended.** The Pysa column was added by
-> [Amendment A13](#a13--2026-09-01-pysa-joins-the-modeling-matrix-with-a-measured-partition-row)
-> with the measured row above; it is Python-scoped, because the engine
-> analyzes one language. The four preregistered columns are unchanged.
+> **Amended.** [A13](#a13--2026-09-01-infer-joins-the-modeling-matrix-with-a-field-evaluated-partition-row)
+> adds the Infer v1.3.0 column — a new adapter's own row, field-evaluated
+> before its first modeling run, Java-only — and
+> [A15](#a15--2026-09-01-pysa-joins-the-modeling-matrix-with-a-measured-partition-row)
+> adds the Pysa column the same way, Python-only, the engine's one language.
+> The four preregistered columns are unchanged.
 
-| Category | Bifrost v0.10.7 | CodeQL 2.26.4 | Joern 4.0.614 | Semgrep CE 1.175.0 | Pysa 0.10.0 (+Pyrefly 1.2.0, A13) |
-| --- | --- | --- | --- | --- | --- |
-| S — sources and sinks | supported | supported | supported | supported | supported |
-| P — propagators | TBV | supported | supported | unsupported | supported |
-| Z — sanitizers | unsupported | supported | supported | supported | supported |
-| O — summaries | unsupported | supported | supported (T8 TBV) | unsupported | supported |
-| E — entry points | TBV | supported | supported | supported | supported |
-| B — persistence | TBV | supported | supported | unsupported | unsupported |
-| **Scored today** | **1 / 6** | **6 / 6** | **6 / 6** | **3 / 6** | **5 / 6** |
+| Category | Bifrost v0.10.7 | CodeQL 2.26.4 | Joern 4.0.614 | Semgrep CE 1.175.0 | Infer v1.3.0 (A13) | Pysa 0.10.0 (+Pyrefly 1.2.0, A15) |
+| --- | --- | --- | --- | --- | --- | --- |
+| S — sources and sinks | supported | supported | supported | supported | supported | supported |
+| P — propagators | TBV | supported | supported | unsupported | supported (T4 unsupported) | supported |
+| Z — sanitizers | unsupported | supported | supported | supported | supported | supported |
+| O — summaries | unsupported | supported | supported (T8 TBV) | unsupported | unsupported | supported |
+| E — entry points | TBV | supported | supported | supported | unsupported | supported |
+| B — persistence | TBV | supported | supported | unsupported | unsupported | unsupported |
+| **Scored today** | **1 / 6** | **6 / 6** | **6 / 6** | **3 / 6** | **3 / 6** | **5 / 6** |
 
 These counts are categories, not scores. A tool with six of six has six
 categories' worth of assertions it can get wrong, and a tool with one of six has
@@ -1227,12 +1270,12 @@ Restating the obligations this tier is most at risk of eroding:
 ## Amendments
 
 Amendment numbers continue the repository's **single** sequence rather than
-restarting per document: A1 is in [the challenge tier](challenge-tier.md#amendments)
-and A6–A8 are in [the tool-native profile](native-profile.md#amendments), so an
-identifier names exactly one amendment wherever it is cited. That is why this
-document's own sequence reads A2–A5, then A9, then A13 — A10 is in the
-tool-native profile, A11 in [the adapter contract](adapters.md#amendments), and
-A12 in [the latency tier](latency-tier.md#amendments).
+restarting per document: A1 is in [the challenge tier](challenge-tier.md#amendments),
+A6–A8 and A10 are in [the tool-native profile](native-profile.md#amendments),
+A11 is in [docs/adapters.md](adapters.md#amendments) and A12 in
+[the latency tier](latency-tier.md#amendments), so an identifier names exactly
+one amendment wherever it is cited. That is why this document's own sequence
+reads A2–A5, then A9, then A13 and A15.
 
 ### A2 — 2026-08-26: Joern's propagator and summary categories are not load-bearing
 
@@ -1499,9 +1542,81 @@ core or challenge result changes. The scored evidence for the promoted cells
 lands with the next evidence re-run; until it does, the retained modeling
 reports predate this amendment and record category Z as `unsupported`.
 
-### A13 — 2026-09-01: Pysa joins the modeling matrix with a measured partition row
+### A13 — 2026-09-01: Infer joins the modeling matrix with a field-evaluated partition row
 
-**What changed.** The matrix gains a fifth adapter. Pysa — the taint analysis
+**What changed.** The matrix gains a fifth adapter. Infer v1.3.0 — already
+adapted for the C, C++, and Java propagation kernels
+([`adapters/infer/README.md`](../adapters/infer/README.md)) — takes its own
+partition row, on the path [the rollout plan](#rollout-plan) preregisters: *"a
+new adapter joining this matrix arrives with its own preregistered partition
+row, added by amendment before its first modeling run."* This is that
+amendment. No cell of any other adapter moves, and no template definition
+changes.
+
+**The row, and its language.** Categories **S**, **P**, and **Z** are scored —
+category P by **template 3 alone**, with template 4 declined by the same
+template-level override mechanism [A3](#a3--2026-08-26-semgreps-sanitizer-selectivity-cell-is-undecidable-by-construction)
+established — and categories O, E, and B are unsupported. The full rationale
+table is [the Infer partition section](#infer--v130) above. The row exists for
+**Java alone**: the pinned distribution executes no JavaScript or Python
+frontend, so those languages have no Infer modeling denominator at all — which
+is different from having a zero, and the runner refuses to shape a run for
+them rather than writing an empty report.
+
+**How the cells were decided.** By **field evaluation executed against the
+committed Java modeling fixtures**, before this row existed and before any
+Infer modeling run — retained verbatim under
+`reports/raw/amendment-a13-infer-partition/`, produced by
+`scripts/probe-infer-modeling-partition.sh`. Acceptance was
+[the load-bearing-model requirement](#the-load-bearing-model-requirement)
+applied without lowering: every scored cell shows the three-way property —
+declared model enables or suppresses, removal flips it, undeclared lookalike
+does not move — and every declined cell retains the measurement that declines
+it. The decisive probes:
+
+- **S** — `class_names` + `method_names` matchers bind by exact type+member
+  identity; deleting the `Config.fetchRemote` declaration flips template 1's
+  positive to silence; the undeclared siblings produce nothing.
+- **P** — template 3's positive is silent with no propagator (the reflective
+  body is not followed unaided), reported with the declared `Opaque.carry`,
+  and silent through the undeclared identical `Opaque.block`. Template 4's
+  negative is the cell that fails: with the `select` propagator declared, the
+  flow is reported with taint at the **undeclared position 0** exactly as at
+  the declared position 1 — the surface has no input-position vocabulary, and
+  a hypothetical spelling of one is **silently ignored** rather than rejected.
+- **Z** — suppression, restoration, and identity-selectivity all measured. A
+  fourth probe pins the quirk the runner now gates: a sanitizer whose kind no
+  policy's `sanitizer_kinds` names is silently inert.
+- **O** — template 7's cells report through the captured identity bodies with
+  no declaration at all (`--pulse-taint-opaque-files` measured inert for
+  Java), and template 8's `FieldsOfValue` summary taints the sibling field.
+- **E** — the declared entry-point source on the uncalled handler synthesizes
+  no root: zero findings.
+- **B** — no store vocabulary exists to probe; the binary's own enumeration of
+  its configuration surface is retained as `pulse-taint-config-surface.txt`.
+
+**What lands with the row.** Per the rule A8 stated — a promoted or newly
+scored cell lands the runner that scores it in the same pull request —
+`run-infer-modeling --language java` lands with this amendment: partition
+consulted before invocation, five outcomes retained distinctly, witnessed
+identity (the kernel witness, which refuses a binary that is not the pinned
+release), per-case `capture`/`analyze` phase timings, and a load-bearing gate
+that refuses a configuration with no `pulse-taint-policies`, an unwired
+sanitizer kind, or a substring `procedure` matcher — all three silent-failure
+shapes measured in the probes. The committed artifact is
+`adapters/infer/config/model-java.json`, and it declares exactly the scored
+categories: the `carry` propagator but not `select`, and nothing for `Bridge`,
+`Handler`, or `Store`.
+
+**Templates and languages touched.** All twelve templates for the new Infer
+column; `java` alone. No other tool's cells change.
+
+**Freezes invalidated.** None. No published freeze binds an Infer modeling
+report; the v0.6.0 freeze is untouched.
+
+### A15 — 2026-09-01: Pysa joins the modeling matrix with a measured partition row
+
+**What changed.** The matrix gains a sixth adapter. Pysa — the taint analysis
 of Meta's pyre-check distribution, pinned as the pair pyre-check 0.10.0 +
 Pyrefly 1.2.0 that [the adapter](adapters.md) already runs over the Python
 expanded core — takes its own per-category capability partition row,
@@ -1518,7 +1633,7 @@ this adapter existed, and [the rollout plan](#rollout-plan) states the rule:
 partition row, added by amendment before its first modeling run."* This
 amendment is that arrival, dated before the adapter's first scored modeling
 run, with the probe evidence retained under
-`reports/raw/amendment-a13-pysa-modeling/`
+`reports/raw/amendment-a15-pysa-modeling/`
 (`scripts/probe-pysa-modeling-load-bearing.sh`, twenty-eight retained
 directions).
 

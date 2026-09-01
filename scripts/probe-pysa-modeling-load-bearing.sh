@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Amendment A13's evidence: Pysa's modeling partition row, measured rather
+# Amendment A15's evidence: Pysa's modeling partition row, measured rather
 # than assumed, before the adapter's first scored modeling run.
 #
 # A new adapter joins the modeling matrix with its own preregistered partition
@@ -59,7 +59,7 @@ while [ $# -gt 0 ]; do
 done
 
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
-OUT="$ROOT/reports/raw/amendment-a13-pysa-modeling"
+OUT="$ROOT/reports/raw/amendment-a15-pysa-modeling"
 ARTIFACT="$ROOT/adapters/pysa/models/modeling-python.pysa"
 TAINT_CONFIG="$ROOT/adapters/pysa/taint.config"
 CASES="$ROOT/cases/taint/python"

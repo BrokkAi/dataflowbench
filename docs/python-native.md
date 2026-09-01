@@ -319,14 +319,14 @@ error that fails the build, never an `unsupported` and never a result.
 - The partition was fixed before every run, and the one promotion is a dated
   amendment made from rule text before the scan it affects.
 
-## Pysa joins the probe set (Amendment A14)
+## Pysa joins the probe set (Amendment A16)
 
 Python's native row gained a fifth adapter after wave N1 closed:
-[Amendment A14](native-profile.md#a14--2026-09-01-pysa-joins-the-tool-native-profile-with-a-live-activation-row)
+[Amendment A16](native-profile.md#a16--2026-09-01-pysa-joins-the-tool-native-profile-with-a-live-activation-row)
 added Pysa over the model suite the pinned pyre-check wheel ships in
 `lib/pyre_check/taint/` — activated by pointing `taint_models_path` at it
 with `--no-verify`, both facts established by probe
-(`reports/raw/amendment-a14-pysa-native/`) — with all six templates scored
+(`reports/raw/amendment-a16-pysa-native/`) — with all six templates scored
 and the expectation preregistered: a near-blind-baseline score, because the
 shipped source catalog is framework-shaped and models neither a bare
 `os.environ` read nor a `sys.argv` subscript.

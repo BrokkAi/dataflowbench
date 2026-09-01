@@ -1,0 +1,18 @@
+{
+  "activation_arguments": [
+    "--pulse-only"
+  ],
+  "activation_identity": "v1.3.0 shipped Pulse checker, no taint configuration",
+  "adapter": "infer",
+  "case_id": "dfb-taint-java-native-source-sink-negative",
+  "evidence_kind": "retained-capability-decision",
+  "model_profile": "tool-native",
+  "modeling_category": "S",
+  "modeling_category_label": "declared sources and sinks",
+  "partition_source": "docs/native-profile.md#partition-summary",
+  "reason": "tool-native activation of dfb-template-native-source-sink (category S — declared sources and sinks) is unsupported for v1.3.0 over Java by the activation partition (docs/native-profile.md#partition-summary, as amended): the pinned release ships Pulse's taint analysis disabled absent a `--pulse-taint-config`, and no Java endpoint catalog: measured with no configuration supplied — nothing to mis-path, so the silent-missing-config quirk cannot be the explanation — the shipped product decides nothing on any of the twelve Java native fixtures, and the one always-enabled policy (Simple→Simple) has no shipped Java source or sink bound to it (Amendment A14)",
+  "stage": "preregistered-native-activation-partition",
+  "state": "unsupported",
+  "template_id": "dfb-template-native-source-sink",
+  "witnessed_tool_identity": "v1.3.0"
+}

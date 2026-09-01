@@ -5,7 +5,7 @@
   "modeling_category": "B",
   "modeling_category_label": "persistence boundaries",
   "partition_source": "docs/modeling-matrix.md#per-tool-capability-partition",
-  "reason": "category B — persistence boundaries — is unsupported for Pysa (pyre-check 0.10.0 + Pyrefly 1.2.0) by the preregistered modeling partition (docs/modeling-matrix.md#per-tool-capability-partition): the `.pysa` DSL binds taint roles to callables and parameter positions — `TaintSource`, `TaintSink`, `TaintInTaintOut`, `Sanitize`, and mode annotations — and has no store identity, key position, or vocabulary linking a write entity to a read entity through a shared store, per instance or otherwise. The nearest encoding, a source model on `Store.get`, would report both polarities of template 11 without ever reading the key: a different model, not an approximation of this one (Amendment A13)",
+  "reason": "category B — persistence boundaries — is unsupported for Pysa (pyre-check 0.10.0 + Pyrefly 1.2.0) by the preregistered modeling partition (docs/modeling-matrix.md#per-tool-capability-partition): the `.pysa` DSL binds taint roles to callables and parameter positions — `TaintSource`, `TaintSink`, `TaintInTaintOut`, `Sanitize`, and mode annotations — and has no store identity, key position, or vocabulary linking a write entity to a read entity through a shared store, per instance or otherwise. The nearest encoding, a source model on `Store.get`, would report both polarities of template 11 without ever reading the key: a different model, not an approximation of this one (Amendment A15)",
   "stage": "preregistered-modeling-partition",
   "state": "unsupported",
   "template_id": "dfb-template-model-store-roundtrip",

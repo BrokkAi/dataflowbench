@@ -388,10 +388,10 @@ only Joern category a probe can demonstrate. The corresponding probe on
 category P is what established that, and it is the amendment's evidence rather
 than a demonstration — which is why P is no longer scored for Joern at all.
 
-## Pysa joins the row (Amendment A13)
+## Pysa joins the row (Amendment A15)
 
 Python's modeling row gained a fifth adapter after wave M1 closed:
-[Amendment A13](modeling-matrix.md#a13--2026-09-01-pysa-joins-the-modeling-matrix-with-a-measured-partition-row)
+[Amendment A15](modeling-matrix.md#a15--2026-09-01-pysa-joins-the-modeling-matrix-with-a-measured-partition-row)
 added Pysa — the pinned pyre-check 0.10.0 + Pyrefly 1.2.0 pair the
 [Python kernel](python-kernel.md) already runs — with a partition row
 verified by execution before its first scored run: categories S, P, Z, O,
@@ -411,13 +411,13 @@ field-separation negative kept clean; Joern's template-8 cell fell to
 Amendment A2 on exactly that fidelity.
 
 **The load-bearing switch is per entity, and the row exists because of it.**
-The A13 probes measured the pinned pair resolving template 3's reflective
+The A15 probes measured the pinned pair resolving template 3's reflective
 body unaided — Pyrefly narrows `getattr(_impl, name)` over the local string
 constant, the same A4-lineage correction Joern's frontends forced — so every
 propagator and summary entity in `adapters/pysa/models/modeling-python.pysa`
 is declared under `@SkipAnalysis` + `@SkipObscure`, the runner refuses the
 artifact without them, and the retained probes
-(`reports/raw/amendment-a13-pysa-modeling/`, twenty-eight directions) show
+(`reports/raw/amendment-a15-pysa-modeling/`, twenty-eight directions) show
 each declaration deciding its cell in both directions: the `TaintInTaintOut`
 produces the flow, deleting it under the kept skip modes removes the flow,
 `@Sanitize` suppresses and its deletion restores, and every undeclared

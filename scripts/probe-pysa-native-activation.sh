@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Amendment A14's evidence: how Pysa's shipped taint models are activated, and
+# Amendment A16's evidence: how Pysa's shipped taint models are activated, and
 # that they activate at all — measured before the adapter's first tool-native
 # run, on the pinned pyre-check 0.10.0 + Pyrefly 1.2.0 pair.
 #
@@ -53,7 +53,7 @@ while [ $# -gt 0 ]; do
 done
 
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
-OUT="$ROOT/reports/raw/amendment-a14-pysa-native"
+OUT="$ROOT/reports/raw/amendment-a16-pysa-native"
 CASES="$ROOT/cases/taint/python"
 SUITE="$(cd "$(dirname "$PYRE")/.." && pwd)/lib/pyre_check/taint"
 SCRATCH="$(mktemp -d)"
