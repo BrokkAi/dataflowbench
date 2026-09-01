@@ -217,44 +217,53 @@ const slowest = model.adapters.at(-1)!;
   one language kernel at a time: a whole-corpus median mixes the languages an
   adapter runs on, and holding the language fixed is the difference between
   "this engine is slow" and "this front end is expensive". Only the analyzers
-  that actually invoked on a kernel appear in its view.
+  that actually invoked on a kernel appear in its view. The chart draws the
+  median, the quartiles and the p10–p90 spread; the disclosure beneath it opens
+  the same distributions as a table, with the minima and maxima the whiskers
+  deliberately leave out.
 </p>
 
 <LatencyRanking />
 
-<div class="table-scroll">
-  <table>
-    <thead>
-      <tr>
-        <th>Adapter</th>
-        <th>Timed invocations</th>
-        <th>Median</th>
-        <th>Q1</th>
-        <th>Q3</th>
-        <th>Min</th>
-        <th>Max</th>
-      </tr>
-    </thead>
-    <tbody>
-      {model.adapters.map((adapter) => (
+<details class="data-table">
+  <summary>
+    Show the data table — whole-invocation wall-clock per adapter, with minima
+    and maxima
+  </summary>
+  <div class="table-scroll">
+    <table>
+      <thead>
         <tr>
-          <td>
-            <span
-              class:list={['vendor-dot', vendorColorClass(adapter.tool)]}
-              aria-hidden="true"></span>
-            {vendorName(adapter.tool)}
-          </td>
-          <td>{adapter.whole.n}</td>
-          <td><strong>{formatMs(adapter.whole.median)}</strong></td>
-          <td>{formatMs(adapter.whole.q1)}</td>
-          <td>{formatMs(adapter.whole.q3)}</td>
-          <td>{formatMs(adapter.whole.min)}</td>
-          <td>{formatMs(adapter.whole.max)}</td>
+          <th>Adapter</th>
+          <th>Timed invocations</th>
+          <th>Median</th>
+          <th>Q1</th>
+          <th>Q3</th>
+          <th>Min</th>
+          <th>Max</th>
         </tr>
-      ))}
-    </tbody>
-  </table>
-</div>
+      </thead>
+      <tbody>
+        {model.adapters.map((adapter) => (
+          <tr>
+            <td>
+              <span
+                class:list={['vendor-dot', vendorColorClass(adapter.tool)]}
+                aria-hidden="true"></span>
+              {vendorName(adapter.tool)}
+            </td>
+            <td>{adapter.whole.n}</td>
+            <td><strong>{formatMs(adapter.whole.median)}</strong></td>
+            <td>{formatMs(adapter.whole.q1)}</td>
+            <td>{formatMs(adapter.whole.q3)}</td>
+            <td>{formatMs(adapter.whole.min)}</td>
+            <td>{formatMs(adapter.whole.max)}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+</details>
 
 <p class="caption">
   No mean is headlined anywhere on this page. The distributions are skewed by
@@ -275,7 +284,9 @@ const slowest = model.adapters.at(-1)!;
   Only the {decomposed.length} adapters whose declared row has phases appear
   here, and each is read <em>down its own column</em>. These numbers exist to
   decompose one adapter's own cost. Racing one adapter's phase against
-  another's total is exactly the reading the granularity rule forbids.
+  another's total is exactly the reading the granularity rule forbids. Each
+  adapter's numbers open from its own disclosure, one per adapter, which is
+  also the boundary the comparison rule draws.
 </p>
 
 {decomposed.map((adapter) => (
@@ -286,45 +297,52 @@ const slowest = model.adapters.at(-1)!;
         aria-hidden="true"></span>
       {vendorName(adapter.tool)} {toolVersionLabel(adapter.tool, adapter.toolVersion)}
     </h3>
-    <div class="table-scroll">
-      <table>
-        <thead>
-          <tr>
-            <th>Phase</th>
-            <th>Median</th>
-            <th>Q1</th>
-            <th>Q3</th>
-            <th>Min</th>
-            <th>Max</th>
-            <th>Share of the median invocation</th>
-          </tr>
-        </thead>
-        <tbody>
-          {adapter.phases.map((phase) => (
+    <details class="data-table">
+      <summary>
+        {`Show the data table — ${vendorName(adapter.tool)}'s ${
+          adapter.phases.length
+        } phases against its whole invocation`}
+      </summary>
+      <div class="table-scroll">
+        <table>
+          <thead>
             <tr>
-              <td><code>{phase.phase}</code></td>
-              <td><strong>{formatMs(phase.median)}</strong></td>
-              <td>{formatMs(phase.q1)}</td>
-              <td>{formatMs(phase.q3)}</td>
-              <td>{formatMs(phase.min)}</td>
-              <td>{formatMs(phase.max)}</td>
-              <td class="muted">
-                {`${Math.round((phase.median / adapter.whole.median) * 100)}%`}
-              </td>
+              <th>Phase</th>
+              <th>Median</th>
+              <th>Q1</th>
+              <th>Q3</th>
+              <th>Min</th>
+              <th>Max</th>
+              <th>Share of the median invocation</th>
             </tr>
-          ))}
-          <tr>
-            <td><strong>whole invocation</strong></td>
-            <td><strong>{formatMs(adapter.whole.median)}</strong></td>
-            <td>{formatMs(adapter.whole.q1)}</td>
-            <td>{formatMs(adapter.whole.q3)}</td>
-            <td>{formatMs(adapter.whole.min)}</td>
-            <td>{formatMs(adapter.whole.max)}</td>
-            <td class="muted">—</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+          </thead>
+          <tbody>
+            {adapter.phases.map((phase) => (
+              <tr>
+                <td><code>{phase.phase}</code></td>
+                <td><strong>{formatMs(phase.median)}</strong></td>
+                <td>{formatMs(phase.q1)}</td>
+                <td>{formatMs(phase.q3)}</td>
+                <td>{formatMs(phase.min)}</td>
+                <td>{formatMs(phase.max)}</td>
+                <td class="muted">
+                  {`${Math.round((phase.median / adapter.whole.median) * 100)}%`}
+                </td>
+              </tr>
+            ))}
+            <tr>
+              <td><strong>whole invocation</strong></td>
+              <td><strong>{formatMs(adapter.whole.median)}</strong></td>
+              <td>{formatMs(adapter.whole.q1)}</td>
+              <td>{formatMs(adapter.whole.q3)}</td>
+              <td>{formatMs(adapter.whole.min)}</td>
+              <td>{formatMs(adapter.whole.max)}</td>
+              <td class="muted">—</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </details>
   </>
 ))}
 
@@ -344,7 +362,9 @@ const slowest = model.adapters.at(-1)!;
   language × population — because a median over a whole adapter mixes
   languages whose fixtures differ in size and whose front ends differ in cost.
   Each row is one bound report. <strong>Rows are not ranked and columns are
-  not compared across adapters with different granularity.</strong>
+  not compared across adapters with different granularity.</strong> One
+  disclosure per adapter, for the same reason: the rows inside one of them are
+  the rows that share a granularity.
 </p>
 
 {model.adapters.map((adapter) => (
@@ -356,49 +376,56 @@ const slowest = model.adapters.at(-1)!;
       {vendorName(adapter.tool)} — {adapter.slices.length}{' '}
       {adapter.slices.length === 1 ? 'slice' : 'slices'}
     </h3>
-    <div class="table-scroll">
-      <table>
-        <thead>
-          <tr>
-            <th>Slice</th>
-            <th>Language</th>
-            <th>Profile</th>
-            <th>Timed / bound</th>
-            <th>Median</th>
-            <th>Q1</th>
-            <th>Q3</th>
-            {adapter.phases.map((phase) => (
-              <th>
-                <code>{phase.phase}</code> median
-              </th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {adapter.slices.map((slice) => (
+    <details class="data-table">
+      <summary>
+        {`Show the data table — ${adapter.slices.length} ${
+          adapter.slices.length === 1 ? 'slice' : 'slices'
+        } for ${vendorName(adapter.tool)}`}
+      </summary>
+      <div class="table-scroll">
+        <table>
+          <thead>
             <tr>
-              <td><code>{slice.report.replace(/^reports\//, '').replace(/\.json$/, '')}</code></td>
-              <td>{slice.language}</td>
-              <td><code>{slice.modelProfile}</code></td>
-              <td>
-                {slice.timed} / {slice.cases}
-              </td>
-              <td>
-                {slice.whole ? <strong>{formatMs(slice.whole.median)}</strong> : 'n/a'}
-              </td>
-              <td>{slice.whole ? formatMs(slice.whole.q1) : 'n/a'}</td>
-              <td>{slice.whole ? formatMs(slice.whole.q3) : 'n/a'}</td>
-              {adapter.phases.map((phase) => {
-                const match = slice.phases.find(
-                  (candidate) => candidate.phase === phase.phase,
-                );
-                return <td>{match ? formatMs(match.median) : 'n/a'}</td>;
-              })}
+              <th>Slice</th>
+              <th>Language</th>
+              <th>Profile</th>
+              <th>Timed / bound</th>
+              <th>Median</th>
+              <th>Q1</th>
+              <th>Q3</th>
+              {adapter.phases.map((phase) => (
+                <th>
+                  <code>{phase.phase}</code> median
+                </th>
+              ))}
             </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
+          </thead>
+          <tbody>
+            {adapter.slices.map((slice) => (
+              <tr>
+                <td><code>{slice.report.replace(/^reports\//, '').replace(/\.json$/, '')}</code></td>
+                <td>{slice.language}</td>
+                <td><code>{slice.modelProfile}</code></td>
+                <td>
+                  {slice.timed} / {slice.cases}
+                </td>
+                <td>
+                  {slice.whole ? <strong>{formatMs(slice.whole.median)}</strong> : 'n/a'}
+                </td>
+                <td>{slice.whole ? formatMs(slice.whole.q1) : 'n/a'}</td>
+                <td>{slice.whole ? formatMs(slice.whole.q3) : 'n/a'}</td>
+                {adapter.phases.map((phase) => {
+                  const match = slice.phases.find(
+                    (candidate) => candidate.phase === phase.phase,
+                  );
+                  return <td>{match ? formatMs(match.median) : 'n/a'}</td>;
+                })}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </details>
   </>
 ))}
 
