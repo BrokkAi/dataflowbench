@@ -8,7 +8,7 @@ import { snapshots } from '../../../data/snapshots';
 A snapshot is an immutable freeze: corrected evidence creates a **new**
 snapshot with a new release name and digests, and old snapshots remain
 browsable for audit. The stable pointer
-[`/current`](/dataflowbench/current) always resolves to the current snapshot.
+[`/current`](/current) always resolves to the current snapshot.
 
 <table>
   <thead>
@@ -22,7 +22,7 @@ browsable for audit. The stable pointer
     {snapshots.map((snapshot) => (
       <tr>
         <td>
-          <a href={`/dataflowbench/snapshots/${snapshot.slug}/`}>
+          <a href={`/snapshots/${snapshot.slug}/`}>
             {snapshot.version}
           </a>
         </td>

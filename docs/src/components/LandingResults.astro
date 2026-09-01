@@ -447,7 +447,7 @@ const nativeDecidingAdapters = [
   ),
 ].sort();
 
-const snapshotPage = `/dataflowbench/snapshots/${snapshot.slug}`;
+const snapshotPage = `/snapshots/${snapshot.slug}`;
 ---
 
 <p class="eyebrow">
@@ -1161,14 +1161,14 @@ const snapshotPage = `/dataflowbench/snapshots/${snapshot.slug}`;
   analyzer's identity, their normalized reports, and one retained raw
   artifact per result. CI regenerates the numbers from the manifest and fails
   on any drift; hand-authored prose cannot override a generated count. See
-  <a href="/dataflowbench/reproduction/">reproduction</a> to verify locally,
+  <a href="/reproduction/">reproduction</a> to verify locally,
   or dive into the full
-  <a href={`/dataflowbench/snapshots/${snapshot.slug}/`}>snapshot</a> —
-  <a href={`/dataflowbench/snapshots/${snapshot.slug}/analyzers/`}>analyzers</a>,
-  <a href={`/dataflowbench/snapshots/${snapshot.slug}/languages/`}>languages</a>,
-  <a href={`/dataflowbench/snapshots/${snapshot.slug}/templates/`}>templates</a>,
+  <a href={`/snapshots/${snapshot.slug}/`}>snapshot</a> —
+  <a href={`/snapshots/${snapshot.slug}/analyzers/`}>analyzers</a>,
+  <a href={`/snapshots/${snapshot.slug}/languages/`}>languages</a>,
+  <a href={`/snapshots/${snapshot.slug}/templates/`}>templates</a>,
   and per-case
-  <a href={`/dataflowbench/snapshots/${snapshot.slug}/evidence/`}>evidence</a>.
+  <a href={`/snapshots/${snapshot.slug}/evidence/`}>evidence</a>.
 </p>
 
 <style is:global>
