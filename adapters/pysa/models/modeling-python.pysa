@@ -13,7 +13,7 @@
 # The load-bearing-model requirement
 # (docs/modeling-matrix.md#the-load-bearing-model-requirement) is carried by
 # `@SkipAnalysis` + `@SkipObscure` on every declared propagator and summary
-# entity. Amendment A15 measured why the engine needs the switch: the pinned
+# entity. Amendment A16 measured why the engine needs the switch: the pinned
 # pair resolves the matrix's reflective opaque body on its own (Pyrefly
 # narrows `getattr(_impl, name)` over the local string constant), so without
 # the skip modes the engine's own body reading — not the declaration — would
@@ -25,7 +25,7 @@
 # modes was measured to flip the verdict, in both categories.
 #
 # Category B has no block: the partition declines it for this adapter
-# (docs/modeling-matrix.md, Amendment A15). The `.pysa` DSL binds taint roles
+# (docs/modeling-matrix.md, Amendment A16). The `.pysa` DSL binds taint roles
 # to callables and parameter positions and has no store identity, key, or
 # cross-procedure link vocabulary to encode a persistence boundary in.
 

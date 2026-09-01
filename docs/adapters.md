@@ -359,11 +359,11 @@ ones, so the frozen 118-case Bifrost smoke population cannot absorb one.
 `MODELING_PARTITION` holds one cell per tool per category — thirty-six cells,
 transcribed from the preregistration's tables and the dated amendments that
 added the fifth and sixth rows (Infer's six by Amendment A13, field-evaluated
-before its first modeling run; Pysa's six by Amendment A15, likewise), with
+before its first modeling run; Pysa's six by Amendment A16, likewise), with
 the cells the documents mark *to be verified* recorded as `unsupported` per
 their own rule, and with the dated amendments applied on top as
 template-level overrides. Scored today, after Amendments A2,
-A3, A9, A13, and A15: **Bifrost 4 templates of 12** (S, and Z since A9),
+A3, A9, A13, and A16: **Bifrost 4 templates of 12** (S, and Z since A9),
 **Semgrep CE 5 of 12** (S, E, and one of Z's two templates), **CodeQL 12 of
 12**, **Joern 8 of 12** (S, Z, E, B), and **Pysa 10 of 12** (S, P, Z, O, E —
 Python only, the engine's one language; the artifact map refuses every other
@@ -440,7 +440,7 @@ unless the default is disabled: a Bifrost modeling policy must set
 kernel policies' `optimistic`, and a Semgrep modeling rule must set `options:
 taint_assume_safe_functions: true`, and every `TaintInTaintOut` in the Pysa
 modeling artifact must sit under `@SkipAnalysis` + `@SkipObscure` — Amendment
-A13 measured the pinned pair resolving the matrix's reflective body on its
+A16 measured the pinned pair resolving the matrix's reflective body on its
 own, so without the skip modes the engine's body reading would decide the
 category P and O cells. Tests pin all three gates. CodeQL has no
 such switch to pin — a `ConfigSig` with no `isAdditionalFlowStep` adds no
@@ -510,7 +510,7 @@ would catch.
 by language too.** `NATIVE_PARTITION` holds one cell per tool per template —
 thirty-six cells, transcribed from the preregistration's summary and the dated
 amendments that added the fifth and sixth rows (Infer's by Amendment A14,
-declined on a measured silence; Pysa's by Amendment A16), with the *to be
+declined on a measured silence; Pysa's by Amendment A17), with the *to be
 verified* cells recorded as `unsupported` per the documents' own rule — and
 `NATIVE_PARTITION_AMENDMENTS` sits in front of it with one row per amended
 tool × language × template. The language dimension exists because a vendored
@@ -521,7 +521,7 @@ CE 0 of 6**. As amended: Semgrep CE is **6 of 6 for Python** on the evidence of
 its vendored snapshot, and unchanged elsewhere; **Infer is 0 of 6 for Java**
 (Amendment A14, a measured silence of the shipped Pulse checker), the other
 languages having no Infer native denominator at all; and **Pysa is 6 of 6 for
-Python** (Amendment A16), over the taint model suite the pinned pyre-check
+Python** (Amendment A17), over the taint model suite the pinned pyre-check
 wheel ships in `lib/pyre_check/taint/`, activated with `--no-verify` and
 guarded by the retained-evidence proof that the shipped `os.system` sink model
 bound. The asymmetry with the
@@ -1210,11 +1210,11 @@ notes](../adapters/pysa/README.md) for the eligibility evaluation, the
 pinned identities, the guarded failure modes, and the per-template results.
 
 **The adapter also holds Python's modeling and tool-native rows.** Amendment
-A13 added Pysa's benchmark-controlled partition row — categories S, P, Z, O,
+A16 added Pysa's benchmark-controlled partition row — categories S, P, Z, O,
 and E scored, ten of the twelve templates, with the category P and O
 declarations made load-bearing by the `@SkipAnalysis` + `@SkipObscure` modes
 after the pinned pair was measured resolving the matrix's reflective body on
-its own — and Amendment A14 added its tool-native row, six of six templates
+its own — and Amendment A17 added its tool-native row, six of six templates
 over the model suite the pinned wheel ships in `lib/pyre_check/taint/`. Both
 rows are Python-scoped by the engine's own language scope, run through
 `run-pysa-modeling` and `run-pysa-native`, and write

@@ -761,7 +761,7 @@ every existing adapter artifact is:
 | Infer | `adapters/infer/config/model-java.json` (Java only; added by [A13](#a13--2026-09-01-infer-joins-the-modeling-matrix-with-a-field-evaluated-partition-row)) | Pulse `--pulse-taint-config` JSON — `pulse-taint-sources` / `-sinks` / `-propagators` / `-sanitizers` with exact `class_names` + `method_names` matchers, wired through a `pulse-taint-policies` flow whose `sanitizer_kinds` names every declared sanitizer kind |
 | Joern | `adapters/joern/queries/modeling.sc` plus a flow-semantics file | query roots over `cpg.method…parameter` and `FlowSemantic` / `FlowMapping` entries |
 | Semgrep | `adapters/semgrep/rules/model-<language>.yaml` | `mode: taint` with `pattern-sources` / `pattern-sinks` / `pattern-propagators` / `pattern-sanitizers` |
-| Pysa (added by [A15](#a15--2026-09-01-pysa-joins-the-modeling-matrix-with-a-measured-partition-row)) | `adapters/pysa/models/modeling-python.pysa` | `.pysa` declarations — `TaintSource` / `TaintSink` annotations, `TaintInTaintOut` (with `Updates` / `UpdatePath`), `@Sanitize`, under the `@SkipAnalysis` / `@SkipObscure` modes that keep them load-bearing |
+| Pysa (added by [A16](#a16--2026-09-01-pysa-joins-the-modeling-matrix-with-a-measured-partition-row)) | `adapters/pysa/models/modeling-python.pysa` | `.pysa` declarations — `TaintSource` / `TaintSink` annotations, `TaintInTaintOut` (with `Updates` / `UpdatePath`), `@Sanitize`, under the `@SkipAnalysis` / `@SkipObscure` modes that keep them load-bearing |
 
 Like Joern and Semgrep, Infer has no case-level `tool_model_references` key: its
 invocation is pinned in the runner and its declarations live inside the single
@@ -991,13 +991,13 @@ mechanism Amendment A3 established for Semgrep's template 6.
 
 ### Pysa — pyre-check 0.10.0 + Pyrefly 1.2.0
 
-> **Added by [Amendment A15](#a15--2026-09-01-pysa-joins-the-modeling-matrix-with-a-measured-partition-row).**
+> **Added by [Amendment A16](#a16--2026-09-01-pysa-joins-the-modeling-matrix-with-a-measured-partition-row).**
 > This row was not part of the preregistration: the preregistered tables
 > merged before Pysa's adapter existed, and [the rollout plan](#rollout-plan) says a
 > new adapter arrives with its own partition row, added by amendment before
 > its first modeling run. That is this section. Every cell was decided by
 > execution — the retained probes are under
-> `reports/raw/amendment-a15-pysa-modeling/`, produced by
+> `reports/raw/amendment-a16-pysa-modeling/`, produced by
 > `scripts/probe-pysa-modeling-load-bearing.sh` — before any scored run, and
 > the row's language scope is **Python only**: Pysa analyzes one language, so
 > no other language ever has a Pysa modeling cell.
@@ -1049,11 +1049,11 @@ implementation, treated as unsupported until shown otherwise.
 > **Amended.** [A13](#a13--2026-09-01-infer-joins-the-modeling-matrix-with-a-field-evaluated-partition-row)
 > adds the Infer v1.3.0 column — a new adapter's own row, field-evaluated
 > before its first modeling run, Java-only — and
-> [A15](#a15--2026-09-01-pysa-joins-the-modeling-matrix-with-a-measured-partition-row)
+> [A16](#a16--2026-09-01-pysa-joins-the-modeling-matrix-with-a-measured-partition-row)
 > adds the Pysa column the same way, Python-only, the engine's one language.
 > The four preregistered columns are unchanged.
 
-| Category | Bifrost v0.10.7 | CodeQL 2.26.4 | Joern 4.0.614 | Semgrep CE 1.175.0 | Infer v1.3.0 (A13) | Pysa 0.10.0 (+Pyrefly 1.2.0, A15) |
+| Category | Bifrost v0.10.7 | CodeQL 2.26.4 | Joern 4.0.614 | Semgrep CE 1.175.0 | Infer v1.3.0 (A13) | Pysa 0.10.0 (+Pyrefly 1.2.0, A16) |
 | --- | --- | --- | --- | --- | --- | --- |
 | S — sources and sinks | supported | supported | supported | supported | supported | supported |
 | P — propagators | TBV | supported | supported | unsupported | supported (T4 unsupported) | supported |
@@ -1275,7 +1275,7 @@ A6–A8 and A10 are in [the tool-native profile](native-profile.md#amendments),
 A11 is in [docs/adapters.md](adapters.md#amendments) and A12 in
 [the latency tier](latency-tier.md#amendments), so an identifier names exactly
 one amendment wherever it is cited. That is why this document's own sequence
-reads A2–A5, then A9, then A13 and A15.
+reads A2–A5, then A9, then A13 and A16 — A15 is in [the latency tier](latency-tier.md#amendments).
 
 ### A2 — 2026-08-26: Joern's propagator and summary categories are not load-bearing
 
@@ -1614,7 +1614,7 @@ column; `java` alone. No other tool's cells change.
 **Freezes invalidated.** None. No published freeze binds an Infer modeling
 report; the v0.6.0 freeze is untouched.
 
-### A15 — 2026-09-01: Pysa joins the modeling matrix with a measured partition row
+### A16 — 2026-09-01: Pysa joins the modeling matrix with a measured partition row
 
 **What changed.** The matrix gains a sixth adapter. Pysa — the taint analysis
 of Meta's pyre-check distribution, pinned as the pair pyre-check 0.10.0 +
@@ -1633,7 +1633,7 @@ this adapter existed, and [the rollout plan](#rollout-plan) states the rule:
 partition row, added by amendment before its first modeling run."* This
 amendment is that arrival, dated before the adapter's first scored modeling
 run, with the probe evidence retained under
-`reports/raw/amendment-a15-pysa-modeling/`
+`reports/raw/amendment-a16-pysa-modeling/`
 (`scripts/probe-pysa-modeling-load-bearing.sh`, twenty-eight retained
 directions).
 

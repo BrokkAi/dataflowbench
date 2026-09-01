@@ -782,11 +782,11 @@ identity from the binary,
 
 ### Pysa — pyre-check 0.10.0 + Pyrefly 1.2.0, shipped taint model suite
 
-> **Added by [Amendment A16](#a16--2026-09-01-pysa-joins-the-tool-native-profile-with-a-live-activation-row).**
+> **Added by [Amendment A17](#a17--2026-09-01-pysa-joins-the-tool-native-profile-with-a-live-activation-row).**
 > This row was not part of the preregistration, which merged before the Pysa
 > adapter existed; it arrives the way the modeling matrix's amendment rows
 > do, dated before the adapter's first native run, with its activation
-> evidence retained under `reports/raw/amendment-a16-pysa-native/`
+> evidence retained under `reports/raw/amendment-a17-pysa-native/`
 > (`scripts/probe-pysa-native-activation.sh`). Its scope is **Python only**,
 > the engine's one language.
 
@@ -869,17 +869,17 @@ until shown otherwise.
 > [A8](#a8--2026-08-27-semgrep-ces-six-python-cells-are-promoted-to-scored-and-the-partition-gains-a-language-dimension)
 > promotes Python's six to scored and keys the partition by language. Every cell
 > for every language with no amendment row is still the cell below.
-> [A16](#a16--2026-09-01-pysa-joins-the-tool-native-profile-with-a-live-activation-row)
+> [A17](#a17--2026-09-01-pysa-joins-the-tool-native-profile-with-a-live-activation-row)
 > later added the Pysa column — Python-scoped, the engine's one language —
 > with the activation row above; the four preregistered columns are unchanged.
 
 > [A14](#a14--2026-09-01-infers-native-row-declines-on-a-measured-silence)
 > adds the Infer v1.3.0 column — a new adapter's own activation row, measured
 > before its first native run, Java-only — and
-> [A16](#a16--2026-09-01-pysa-joins-the-tool-native-profile-with-a-live-activation-row)
+> [A17](#a17--2026-09-01-pysa-joins-the-tool-native-profile-with-a-live-activation-row)
 > adds the Pysa column the same way, Python-only, the engine's one language.
 
-| # | Template | Cat. | Bifrost v0.10.7 | CodeQL 2.26.4 | Joern 4.0.614 | Semgrep CE 1.175.0 | Infer v1.3.0 (A14) | Pysa 0.10.0 (+Pyrefly 1.2.0, A16) |
+| # | Template | Cat. | Bifrost v0.10.7 | CodeQL 2.26.4 | Joern 4.0.614 | Semgrep CE 1.175.0 | Infer v1.3.0 (A14) | Pysa 0.10.0 (+Pyrefly 1.2.0, A17) |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | 1 | `native-source-sink` | S | unsupported | supported | unsupported | TBV | unsupported | supported |
 | 2 | `native-propagator` | P | unsupported | supported | unsupported | TBV | unsupported | supported |
@@ -1035,12 +1035,13 @@ they touch, name the freezes they invalidate, and land as their own commits.
 
 Their numbers continue the repository's **single** amendment sequence rather
 than restarting per document: A1 is in [the challenge tier](challenge-tier.md#amendments),
-A2–A5, A9, A13, and A15 are in [the modeling matrix](modeling-matrix.md#amendments),
+A2–A5, A9, A13, and A16 are in [the modeling matrix](modeling-matrix.md#amendments),
+A15 is in [the latency tier](latency-tier.md#amendments),
 A11 is in [docs/adapters.md](adapters.md#amendments) and A12 in
 [the latency tier](latency-tier.md#amendments), so an amendment identifier
 names exactly one amendment wherever it is cited. The sequence interleaves
 across documents — A8 here is followed by A9 there, A10 returns here, and the
-A13/A14 and A15/A16 pairs each split an adapter's arrival between the modeling
+A13/A14 and A16/A17 pairs each split an adapter's arrival between the modeling
 matrix and this document — which is the point: the number, not the document,
 is the identity.
 
@@ -1358,11 +1359,11 @@ Infer column; `java` alone carries a denominator.
 **Freezes invalidated.** None. No published freeze manifest contains a
 tool-native report, and the v0.6.0 freeze is untouched.
 
-### A16 — 2026-09-01: Pysa joins the tool-native profile with a live activation row
+### A17 — 2026-09-01: Pysa joins the tool-native profile with a live activation row
 
 **What changed.** The profile gains a sixth adapter row. Pysa — pinned as the
 pair pyre-check 0.10.0 + Pyrefly 1.2.0, the same pair the kernel and
-[Amendment A15](modeling-matrix.md#a15--2026-09-01-pysa-joins-the-modeling-matrix-with-a-measured-partition-row)
+[Amendment A16](modeling-matrix.md#a16--2026-09-01-pysa-joins-the-modeling-matrix-with-a-measured-partition-row)
 run — takes the activation contract and per-template partition
 [stated above](#pysa--pyre-check-0100--pyrefly-120-shipped-taint-model-suite):
 all six templates scored, over the model suite the pinned wheel ships in
@@ -1378,7 +1379,7 @@ which is the shape this row takes.
 
 **What was measured, and what was only read.** Three activation facts were
 measured by probe (`scripts/probe-pysa-native-activation.sh`, retained under
-`reports/raw/amendment-a16-pysa-native/`): the shipped product refuses to run
+`reports/raw/amendment-a17-pysa-native/`): the shipped product refuses to run
 with no `taint_models_path` (exit 9, its own taint-configuration error), the
 shipped suite refuses strict verification over a stdlib-only project (exit
 10, 122 model verification errors, the client's own hint naming
