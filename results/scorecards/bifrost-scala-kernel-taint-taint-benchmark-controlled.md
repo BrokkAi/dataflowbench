@@ -4,7 +4,7 @@ Adapter `bifrost-scala-kernel`: `bifrost` `bifrost 0.10.7` (build `44d9a5be41643
 
 Track `taint`, score dimension `taint`, model profile `benchmark-controlled`. This scorecard is a single result population; it is never pooled with other tracks, dimensions, or model profiles.
 
-Normalized report: `reports/bifrost-scala-kernel.json` (`sha256:67fe1b3d9a7cfa1cd6dbed6596527f60bb25e4c1d3c467274ea57e0d5ced5bdc`, normalized `sha256:67fe1b3d9a7cfa1cd6dbed6596527f60bb25e4c1d3c467274ea57e0d5ced5bdc`). Generated from freeze manifest `reports/freeze.json` (`sha256:43a34341ca3f818f55878bb23562da03b8fc4b1fc0c83f47b954eb22ec3f41e4`).
+Normalized report: `reports/bifrost-scala-kernel.json` (`sha256:992a0bc3467cc9192d56e7040b703bb9dbcd645ae8b99eb6f1c13581f4d7e52b`, normalized `sha256:992a0bc3467cc9192d56e7040b703bb9dbcd645ae8b99eb6f1c13581f4d7e52b`). Generated from freeze manifest `reports/freeze.json` (`sha256:3228af686d09f8666989368483bef375bb28b94025b55e31eaa7a0bdd29506ee`).
 
 ## Language `scala`, tier `core`
 
