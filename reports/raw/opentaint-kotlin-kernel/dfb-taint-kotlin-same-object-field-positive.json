@@ -35,7 +35,366 @@
                     "version": "latest"
                 }
             },
-            "results": []
+            "results": [
+                {
+                    "codeFlows": [
+                        {
+                            "threadFlows": [
+                                {
+                                    "locations": [
+                                        {
+                                            "executionOrder": 0,
+                                            "kinds": [
+                                                "taint"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.SameObjectFieldPositive#run():2:(%2 = this.dfb_source())",
+                                                        "fullyQualifiedName": "dataflowbench.SameObjectFieldPositive#run"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "Call to \"dfb_source\" puts marked data to a local variable"
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/SameObjectFieldPositive.kt",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 38,
+                                                        "endLine": 17,
+                                                        "startColumn": 26,
+                                                        "startLine": 17
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 1,
+                                            "kinds": [
+                                                "call"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.SameObjectFieldPositive#run():3:(holder.setTainted(%2))",
+                                                        "fullyQualifiedName": "dataflowbench.SameObjectFieldPositive#run"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "Calling \"setTainted\" with marked data at a local variable"
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/SameObjectFieldPositive.kt",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 38,
+                                                        "endLine": 17,
+                                                        "startColumn": 9,
+                                                        "startLine": 17
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 2,
+                                            "kinds": [
+                                                "unknown"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.SameObjectFieldPositive$Holder#setTainted(int):0:(this.tainted = <set-?>)",
+                                                        "fullyQualifiedName": "dataflowbench.SameObjectFieldPositive$Holder#setTainted"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "Entering \"setTainted\" with marked data at the 1st argument of \"setTainted\""
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/SameObjectFieldPositive.kt",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 29,
+                                                        "endLine": 5,
+                                                        "startColumn": 9,
+                                                        "startLine": 5
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 3,
+                                            "kinds": [
+                                                "unknown"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.SameObjectFieldPositive$Holder#setTainted(int):0:(this.tainted = <set-?>)",
+                                                        "fullyQualifiedName": "dataflowbench.SameObjectFieldPositive$Holder#setTainted"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "\"this.tainted\" is assigned a value with marked data"
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/SameObjectFieldPositive.kt",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 29,
+                                                        "endLine": 5,
+                                                        "startColumn": 9,
+                                                        "startLine": 5
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 4,
+                                            "kinds": [
+                                                "unknown"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.SameObjectFieldPositive$Holder#setTainted(int):1:(return)",
+                                                        "fullyQualifiedName": "dataflowbench.SameObjectFieldPositive$Holder#setTainted"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "Exiting \"setTainted\""
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/SameObjectFieldPositive.kt",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 29,
+                                                        "endLine": 5,
+                                                        "startColumn": 9,
+                                                        "startLine": 5
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 5,
+                                            "kinds": [
+                                                "return"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.SameObjectFieldPositive#run():3:(holder.setTainted(%2))",
+                                                        "fullyQualifiedName": "dataflowbench.SameObjectFieldPositive#run"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "Method \"setTainted\" propagates marked data from a local variable to \"holder\""
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/SameObjectFieldPositive.kt",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 38,
+                                                        "endLine": 17,
+                                                        "startColumn": 9,
+                                                        "startLine": 17
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 6,
+                                            "kinds": [
+                                                "call"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.SameObjectFieldPositive#run():5:(%3 = holder.getTainted())",
+                                                        "fullyQualifiedName": "dataflowbench.SameObjectFieldPositive#run"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "Calling \"getTainted\" with marked data at \"holder\""
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/SameObjectFieldPositive.kt",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 33,
+                                                        "endLine": 19,
+                                                        "startColumn": 9,
+                                                        "startLine": 19
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 7,
+                                            "kinds": [
+                                                "unknown"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.SameObjectFieldPositive$Holder#getTainted():1:(return %0)",
+                                                        "fullyQualifiedName": "dataflowbench.SameObjectFieldPositive$Holder#getTainted"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "The returning value is assigned marked data from \"this.tainted\""
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/SameObjectFieldPositive.kt",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 29,
+                                                        "endLine": 5,
+                                                        "startColumn": 9,
+                                                        "startLine": 5
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 8,
+                                            "kinds": [
+                                                "unknown"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.SameObjectFieldPositive$Holder#getTainted():1:(return %0)",
+                                                        "fullyQualifiedName": "dataflowbench.SameObjectFieldPositive$Holder#getTainted"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "Exiting \"getTainted\""
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/SameObjectFieldPositive.kt",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 29,
+                                                        "endLine": 5,
+                                                        "startColumn": 9,
+                                                        "startLine": 5
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 9,
+                                            "kinds": [
+                                                "return"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.SameObjectFieldPositive#run():5:(%3 = holder.getTainted())",
+                                                        "fullyQualifiedName": "dataflowbench.SameObjectFieldPositive#run"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "Method \"getTainted\" propagates marked data from \"holder\" to a local variable"
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/SameObjectFieldPositive.kt",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 33,
+                                                        "endLine": 19,
+                                                        "startColumn": 9,
+                                                        "startLine": 19
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 10,
+                                            "kinds": [
+                                                "taint"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.SameObjectFieldPositive#run():6:(this.dfb_sink(%3))",
+                                                        "fullyQualifiedName": "dataflowbench.SameObjectFieldPositive#run"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "DataFlowBench benchmark-controlled endpoint flow"
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/SameObjectFieldPositive.kt",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 33,
+                                                        "endLine": 19,
+                                                        "startColumn": 9,
+                                                        "startLine": 19
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ],
+                    "level": "error",
+                    "locations": [
+                        {
+                            "logicalLocations": [
+                                {
+                                    "decoratedName": "dataflowbench.SameObjectFieldPositive#run():6:(this.dfb_sink(%3))",
+                                    "fullyQualifiedName": "dataflowbench.SameObjectFieldPositive#run"
+                                }
+                            ],
+                            "physicalLocation": {
+                                "artifactLocation": {
+                                    "uri": "dataflowbench/SameObjectFieldPositive.kt",
+                                    "uriBaseId": "%SRCROOT%"
+                                },
+                                "region": {
+                                    "endColumn": 33,
+                                    "endLine": 19,
+                                    "startColumn": 9,
+                                    "startLine": 19
+                                }
+                            }
+                        }
+                    ],
+                    "message": {
+                        "text": "DataFlowBench benchmark-controlled endpoint flow"
+                    },
+                    "ruleId": ":dfb-opentaint-kernel"
+                }
+            ]
         }
     ]
 }

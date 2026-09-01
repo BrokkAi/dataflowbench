@@ -35,7 +35,308 @@
                     "version": "latest"
                 }
             },
-            "results": []
+            "results": [
+                {
+                    "codeFlows": [
+                        {
+                            "threadFlows": [
+                                {
+                                    "locations": [
+                                        {
+                                            "executionOrder": 0,
+                                            "kinds": [
+                                                "call"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.taint.ClosureCapturePositive#run():0:(%0 = dataflowbench.taint.ClosureCapturePositive.capture())",
+                                                        "fullyQualifiedName": "dataflowbench.taint.ClosureCapturePositive#run"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "Inside of \"capture\""
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/taint/ClosureCapturePositive.java",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 34,
+                                                        "endLine": 17,
+                                                        "startColumn": 25,
+                                                        "startLine": 17
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 1,
+                                            "kinds": [
+                                                "taint"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.taint.ClosureCapturePositive#capture():0:(%0 = dataflowbench.taint.ClosureCapturePositive.dfb_source())",
+                                                        "fullyQualifiedName": "dataflowbench.taint.ClosureCapturePositive#capture"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "Call to \"dfb_source\" puts marked data to a local variable"
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/taint/ClosureCapturePositive.java",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 35,
+                                                        "endLine": 11,
+                                                        "startColumn": 23,
+                                                        "startLine": 11
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 2,
+                                            "kinds": [
+                                                "call"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.taint.ClosureCapturePositive#capture():4:(%lambda%1.<init>(%0))",
+                                                        "fullyQualifiedName": "dataflowbench.taint.ClosureCapturePositive#capture"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "Lambda created with captured marked data at a local variable"
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/taint/ClosureCapturePositive.java",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 40,
+                                                        "endLine": 13,
+                                                        "startColumn": 9,
+                                                        "startLine": 13
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 3,
+                                            "kinds": [
+                                                "unknown"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.taint.ClosureCapturePositive#capture():2:(return %3)",
+                                                        "fullyQualifiedName": "dataflowbench.taint.ClosureCapturePositive#capture"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "Takes marked data at a local variable and ends up with marked data at the returned value"
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/taint/ClosureCapturePositive.java",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 40,
+                                                        "endLine": 13,
+                                                        "startColumn": 9,
+                                                        "startLine": 13
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 4,
+                                            "kinds": [
+                                                "unknown"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.taint.ClosureCapturePositive#capture():2:(return %3)",
+                                                        "fullyQualifiedName": "dataflowbench.taint.ClosureCapturePositive#capture"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "Exiting \"capture\""
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/taint/ClosureCapturePositive.java",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 6,
+                                                        "endLine": 14,
+                                                        "startColumn": 5,
+                                                        "startLine": 14
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 5,
+                                            "kinds": [
+                                                "unknown"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.taint.ClosureCapturePositive#run():0:(%0 = dataflowbench.taint.ClosureCapturePositive.capture())",
+                                                        "fullyQualifiedName": "dataflowbench.taint.ClosureCapturePositive#run"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "Call to \"capture\" puts marked data to a local variable"
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/taint/ClosureCapturePositive.java",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 34,
+                                                        "endLine": 17,
+                                                        "startColumn": 25,
+                                                        "startLine": 17
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 6,
+                                            "kinds": [
+                                                "unknown"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.taint.ClosureCapturePositive#run():1:(%0.run())",
+                                                        "fullyQualifiedName": "dataflowbench.taint.ClosureCapturePositive#run"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "Calling \"run\" with marked data at a local variable"
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/taint/ClosureCapturePositive.java",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 19,
+                                                        "endLine": 18,
+                                                        "startColumn": 9,
+                                                        "startLine": 18
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 7,
+                                            "kinds": [
+                                                "unknown"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.taint.ClosureCapturePositive#lambda$capture$0(int):0:(dataflowbench.taint.ClosureCapturePositive.dfb_sink(arg$0))",
+                                                        "fullyQualifiedName": "dataflowbench.taint.ClosureCapturePositive#lambda$capture$0"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "Entering lambda with marked data at a local variable"
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/taint/ClosureCapturePositive.java",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 40,
+                                                        "endLine": 13,
+                                                        "startColumn": 9,
+                                                        "startLine": 13
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 8,
+                                            "kinds": [
+                                                "taint"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.taint.ClosureCapturePositive#lambda$capture$0(int):0:(dataflowbench.taint.ClosureCapturePositive.dfb_sink(arg$0))",
+                                                        "fullyQualifiedName": "dataflowbench.taint.ClosureCapturePositive#lambda$capture$0"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "DataFlowBench benchmark-controlled endpoint flow"
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/taint/ClosureCapturePositive.java",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 39,
+                                                        "endLine": 13,
+                                                        "startColumn": 22,
+                                                        "startLine": 13
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ],
+                    "level": "error",
+                    "locations": [
+                        {
+                            "logicalLocations": [
+                                {
+                                    "decoratedName": "dataflowbench.taint.ClosureCapturePositive#lambda$capture$0(int):0:(dataflowbench.taint.ClosureCapturePositive.dfb_sink(arg$0))",
+                                    "fullyQualifiedName": "dataflowbench.taint.ClosureCapturePositive#lambda$capture$0"
+                                }
+                            ],
+                            "physicalLocation": {
+                                "artifactLocation": {
+                                    "uri": "dataflowbench/taint/ClosureCapturePositive.java",
+                                    "uriBaseId": "%SRCROOT%"
+                                },
+                                "region": {
+                                    "endColumn": 39,
+                                    "endLine": 13,
+                                    "startColumn": 22,
+                                    "startLine": 13
+                                }
+                            }
+                        }
+                    ],
+                    "message": {
+                        "text": "DataFlowBench benchmark-controlled endpoint flow"
+                    },
+                    "ruleId": ":dfb-opentaint-kernel"
+                }
+            ]
         }
     ]
 }

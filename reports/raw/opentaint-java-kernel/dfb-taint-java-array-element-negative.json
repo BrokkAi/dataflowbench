@@ -35,7 +35,163 @@
                     "version": "latest"
                 }
             },
-            "results": []
+            "results": [
+                {
+                    "codeFlows": [
+                        {
+                            "threadFlows": [
+                                {
+                                    "locations": [
+                                        {
+                                            "executionOrder": 0,
+                                            "kinds": [
+                                                "taint"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.taint.ArrayElementNegative#run():2:(%0[0] = %2)",
+                                                        "fullyQualifiedName": "dataflowbench.taint.ArrayElementNegative#run"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "Puts marked data to a local variable"
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/taint/ArrayElementNegative.java",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 34,
+                                                        "endLine": 12,
+                                                        "startColumn": 9,
+                                                        "startLine": 12
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 1,
+                                            "kinds": [
+                                                "unknown"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.taint.ArrayElementNegative#run():3:(%0[1] = 0)",
+                                                        "fullyQualifiedName": "dataflowbench.taint.ArrayElementNegative#run"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "An element of array is assigned a value with marked data"
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/taint/ArrayElementNegative.java",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 18,
+                                                        "endLine": 13,
+                                                        "startColumn": 9,
+                                                        "startLine": 13
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 2,
+                                            "kinds": [
+                                                "unknown"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.taint.ArrayElementNegative#run():4:(%3 = %0[1])",
+                                                        "fullyQualifiedName": "dataflowbench.taint.ArrayElementNegative#run"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "A local variable is assigned a value with marked data"
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/taint/ArrayElementNegative.java",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 27,
+                                                        "endLine": 14,
+                                                        "startColumn": 18,
+                                                        "startLine": 14
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 3,
+                                            "kinds": [
+                                                "taint"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.taint.ArrayElementNegative#run():5:(dataflowbench.taint.ArrayElementNegative.dfb_sink(%3))",
+                                                        "fullyQualifiedName": "dataflowbench.taint.ArrayElementNegative#run"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "DataFlowBench benchmark-controlled endpoint flow"
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/taint/ArrayElementNegative.java",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 28,
+                                                        "endLine": 14,
+                                                        "startColumn": 9,
+                                                        "startLine": 14
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ],
+                    "level": "error",
+                    "locations": [
+                        {
+                            "logicalLocations": [
+                                {
+                                    "decoratedName": "dataflowbench.taint.ArrayElementNegative#run():5:(dataflowbench.taint.ArrayElementNegative.dfb_sink(%3))",
+                                    "fullyQualifiedName": "dataflowbench.taint.ArrayElementNegative#run"
+                                }
+                            ],
+                            "physicalLocation": {
+                                "artifactLocation": {
+                                    "uri": "dataflowbench/taint/ArrayElementNegative.java",
+                                    "uriBaseId": "%SRCROOT%"
+                                },
+                                "region": {
+                                    "endColumn": 28,
+                                    "endLine": 14,
+                                    "startColumn": 9,
+                                    "startLine": 14
+                                }
+                            }
+                        }
+                    ],
+                    "message": {
+                        "text": "DataFlowBench benchmark-controlled endpoint flow"
+                    },
+                    "ruleId": ":dfb-opentaint-kernel"
+                }
+            ]
         }
     ]
 }

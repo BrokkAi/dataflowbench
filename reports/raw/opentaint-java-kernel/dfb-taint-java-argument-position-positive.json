@@ -35,7 +35,221 @@
                     "version": "latest"
                 }
             },
-            "results": []
+            "results": [
+                {
+                    "codeFlows": [
+                        {
+                            "threadFlows": [
+                                {
+                                    "locations": [
+                                        {
+                                            "executionOrder": 0,
+                                            "kinds": [
+                                                "taint"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.taint.ArgumentPositionPositive#run():0:(%0 = dataflowbench.taint.ArgumentPositionPositive.dfb_source())",
+                                                        "fullyQualifiedName": "dataflowbench.taint.ArgumentPositionPositive#run"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "Call to \"dfb_source\" puts marked data to a local variable"
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/taint/ArgumentPositionPositive.java",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 46,
+                                                        "endLine": 15,
+                                                        "startColumn": 34,
+                                                        "startLine": 15
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 1,
+                                            "kinds": [
+                                                "call"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.taint.ArgumentPositionPositive#run():1:(%1 = dataflowbench.taint.ArgumentPositionPositive.chooseFirst(%0, 0))",
+                                                        "fullyQualifiedName": "dataflowbench.taint.ArgumentPositionPositive#run"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "Calling \"chooseFirst\" with marked data at a local variable"
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/taint/ArgumentPositionPositive.java",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 50,
+                                                        "endLine": 15,
+                                                        "startColumn": 22,
+                                                        "startLine": 15
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 2,
+                                            "kinds": [
+                                                "unknown"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.taint.ArgumentPositionPositive#chooseFirst(int, int):0:(return arg$0)",
+                                                        "fullyQualifiedName": "dataflowbench.taint.ArgumentPositionPositive#chooseFirst"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "Takes marked data at the 1st argument of \"chooseFirst\" and ends up with marked data at the returned value"
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/taint/ArgumentPositionPositive.java",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 22,
+                                                        "endLine": 9,
+                                                        "startColumn": 9,
+                                                        "startLine": 9
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 3,
+                                            "kinds": [
+                                                "unknown"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.taint.ArgumentPositionPositive#chooseFirst(int, int):0:(return arg$0)",
+                                                        "fullyQualifiedName": "dataflowbench.taint.ArgumentPositionPositive#chooseFirst"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "Exiting \"chooseFirst\""
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/taint/ArgumentPositionPositive.java",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 6,
+                                                        "endLine": 10,
+                                                        "startColumn": 5,
+                                                        "startLine": 10
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 4,
+                                            "kinds": [
+                                                "return"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.taint.ArgumentPositionPositive#run():1:(%1 = dataflowbench.taint.ArgumentPositionPositive.chooseFirst(%0, 0))",
+                                                        "fullyQualifiedName": "dataflowbench.taint.ArgumentPositionPositive#run"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "Method \"chooseFirst\" propagates marked data from a local variable to a local variable"
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/taint/ArgumentPositionPositive.java",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 50,
+                                                        "endLine": 15,
+                                                        "startColumn": 22,
+                                                        "startLine": 15
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 5,
+                                            "kinds": [
+                                                "taint"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.taint.ArgumentPositionPositive#run():2:(dataflowbench.taint.ArgumentPositionPositive.dfb_sink(%1))",
+                                                        "fullyQualifiedName": "dataflowbench.taint.ArgumentPositionPositive#run"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "DataFlowBench benchmark-controlled endpoint flow"
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/taint/ArgumentPositionPositive.java",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 25,
+                                                        "endLine": 16,
+                                                        "startColumn": 9,
+                                                        "startLine": 16
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ],
+                    "level": "error",
+                    "locations": [
+                        {
+                            "logicalLocations": [
+                                {
+                                    "decoratedName": "dataflowbench.taint.ArgumentPositionPositive#run():2:(dataflowbench.taint.ArgumentPositionPositive.dfb_sink(%1))",
+                                    "fullyQualifiedName": "dataflowbench.taint.ArgumentPositionPositive#run"
+                                }
+                            ],
+                            "physicalLocation": {
+                                "artifactLocation": {
+                                    "uri": "dataflowbench/taint/ArgumentPositionPositive.java",
+                                    "uriBaseId": "%SRCROOT%"
+                                },
+                                "region": {
+                                    "endColumn": 25,
+                                    "endLine": 16,
+                                    "startColumn": 9,
+                                    "startLine": 16
+                                }
+                            }
+                        }
+                    ],
+                    "message": {
+                        "text": "DataFlowBench benchmark-controlled endpoint flow"
+                    },
+                    "ruleId": ":dfb-opentaint-kernel"
+                }
+            ]
         }
     ]
 }

@@ -35,7 +35,163 @@
                     "version": "latest"
                 }
             },
-            "results": []
+            "results": [
+                {
+                    "codeFlows": [
+                        {
+                            "threadFlows": [
+                                {
+                                    "locations": [
+                                        {
+                                            "executionOrder": 0,
+                                            "kinds": [
+                                                "taint"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.taint.AnonymousImplementationPositive#run():4:(%4 = dataflowbench.taint.AnonymousImplementationPositive.dfb_source())",
+                                                        "fullyQualifiedName": "dataflowbench.taint.AnonymousImplementationPositive#run"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "Call to \"dfb_source\" puts marked data to a local variable"
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/taint/AnonymousImplementationPositive.java",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 36,
+                                                        "endLine": 27,
+                                                        "startColumn": 24,
+                                                        "startLine": 27
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 1,
+                                            "kinds": [
+                                                "unknown"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.taint.AnonymousImplementationPositive#run():5:(%0.handle(%4))",
+                                                        "fullyQualifiedName": "dataflowbench.taint.AnonymousImplementationPositive#run"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "Calling \"handle\" with marked data at a local variable"
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/taint/AnonymousImplementationPositive.java",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 37,
+                                                        "endLine": 27,
+                                                        "startColumn": 9,
+                                                        "startLine": 27
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 2,
+                                            "kinds": [
+                                                "unknown"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.taint.AnonymousImplementationPositive$1#handle(int):0:(dataflowbench.taint.AnonymousImplementationPositive.dfb_sink(arg$0))",
+                                                        "fullyQualifiedName": "dataflowbench.taint.AnonymousImplementationPositive$1#handle"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "Entering \"handle\" with marked data at the 1st argument of \"handle\""
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/taint/AnonymousImplementationPositive.java",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 42,
+                                                        "endLine": 17,
+                                                        "startColumn": 20,
+                                                        "startLine": 17
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 3,
+                                            "kinds": [
+                                                "taint"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.taint.AnonymousImplementationPositive$1#handle(int):0:(dataflowbench.taint.AnonymousImplementationPositive.dfb_sink(arg$0))",
+                                                        "fullyQualifiedName": "dataflowbench.taint.AnonymousImplementationPositive$1#handle"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "DataFlowBench benchmark-controlled endpoint flow"
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/taint/AnonymousImplementationPositive.java",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 32,
+                                                        "endLine": 18,
+                                                        "startColumn": 17,
+                                                        "startLine": 18
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ],
+                    "level": "error",
+                    "locations": [
+                        {
+                            "logicalLocations": [
+                                {
+                                    "decoratedName": "dataflowbench.taint.AnonymousImplementationPositive$1#handle(int):0:(dataflowbench.taint.AnonymousImplementationPositive.dfb_sink(arg$0))",
+                                    "fullyQualifiedName": "dataflowbench.taint.AnonymousImplementationPositive$1#handle"
+                                }
+                            ],
+                            "physicalLocation": {
+                                "artifactLocation": {
+                                    "uri": "dataflowbench/taint/AnonymousImplementationPositive.java",
+                                    "uriBaseId": "%SRCROOT%"
+                                },
+                                "region": {
+                                    "endColumn": 32,
+                                    "endLine": 18,
+                                    "startColumn": 17,
+                                    "startLine": 18
+                                }
+                            }
+                        }
+                    ],
+                    "message": {
+                        "text": "DataFlowBench benchmark-controlled endpoint flow"
+                    },
+                    "ruleId": ":dfb-opentaint-kernel"
+                }
+            ]
         }
     ]
 }

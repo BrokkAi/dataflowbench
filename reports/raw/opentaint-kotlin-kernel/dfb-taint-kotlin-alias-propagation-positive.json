@@ -35,7 +35,366 @@
                     "version": "latest"
                 }
             },
-            "results": []
+            "results": [
+                {
+                    "codeFlows": [
+                        {
+                            "threadFlows": [
+                                {
+                                    "locations": [
+                                        {
+                                            "executionOrder": 0,
+                                            "kinds": [
+                                                "taint"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.AliasPropagationPositive#run():4:(%5 = this.dfb_source())",
+                                                        "fullyQualifiedName": "dataflowbench.AliasPropagationPositive#run"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "Call to \"dfb_source\" puts marked data to a local variable"
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/AliasPropagationPositive.kt",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 38,
+                                                        "endLine": 18,
+                                                        "startColumn": 26,
+                                                        "startLine": 18
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 1,
+                                            "kinds": [
+                                                "call"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.AliasPropagationPositive#run():5:(alias.setValue(%5))",
+                                                        "fullyQualifiedName": "dataflowbench.AliasPropagationPositive#run"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "Calling \"setValue\" with marked data at a local variable"
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/AliasPropagationPositive.kt",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 38,
+                                                        "endLine": 18,
+                                                        "startColumn": 9,
+                                                        "startLine": 18
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 2,
+                                            "kinds": [
+                                                "unknown"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.AliasPropagationPositive$Holder#setValue(int):0:(this.value = <set-?>)",
+                                                        "fullyQualifiedName": "dataflowbench.AliasPropagationPositive$Holder#setValue"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "Entering \"setValue\" with marked data at the 1st argument of \"setValue\""
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/AliasPropagationPositive.kt",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 28,
+                                                        "endLine": 5,
+                                                        "startColumn": 9,
+                                                        "startLine": 5
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 3,
+                                            "kinds": [
+                                                "unknown"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.AliasPropagationPositive$Holder#setValue(int):0:(this.value = <set-?>)",
+                                                        "fullyQualifiedName": "dataflowbench.AliasPropagationPositive$Holder#setValue"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "\"this.value\" is assigned a value with marked data"
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/AliasPropagationPositive.kt",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 28,
+                                                        "endLine": 5,
+                                                        "startColumn": 9,
+                                                        "startLine": 5
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 4,
+                                            "kinds": [
+                                                "unknown"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.AliasPropagationPositive$Holder#setValue(int):1:(return)",
+                                                        "fullyQualifiedName": "dataflowbench.AliasPropagationPositive$Holder#setValue"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "Exiting \"setValue\""
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/AliasPropagationPositive.kt",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 28,
+                                                        "endLine": 5,
+                                                        "startColumn": 9,
+                                                        "startLine": 5
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 5,
+                                            "kinds": [
+                                                "return"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.AliasPropagationPositive#run():5:(alias.setValue(%5))",
+                                                        "fullyQualifiedName": "dataflowbench.AliasPropagationPositive#run"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "Method \"setValue\" propagates marked data from a local variable to \"alias\""
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/AliasPropagationPositive.kt",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 38,
+                                                        "endLine": 18,
+                                                        "startColumn": 9,
+                                                        "startLine": 18
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 6,
+                                            "kinds": [
+                                                "call"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.AliasPropagationPositive#run():6:(%6 = alias.getValue())",
+                                                        "fullyQualifiedName": "dataflowbench.AliasPropagationPositive#run"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "Calling \"getValue\" with marked data at \"alias\""
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/AliasPropagationPositive.kt",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 30,
+                                                        "endLine": 19,
+                                                        "startColumn": 9,
+                                                        "startLine": 19
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 7,
+                                            "kinds": [
+                                                "unknown"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.AliasPropagationPositive$Holder#getValue():1:(return %0)",
+                                                        "fullyQualifiedName": "dataflowbench.AliasPropagationPositive$Holder#getValue"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "The returning value is assigned marked data from \"this.value\""
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/AliasPropagationPositive.kt",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 28,
+                                                        "endLine": 5,
+                                                        "startColumn": 9,
+                                                        "startLine": 5
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 8,
+                                            "kinds": [
+                                                "unknown"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.AliasPropagationPositive$Holder#getValue():1:(return %0)",
+                                                        "fullyQualifiedName": "dataflowbench.AliasPropagationPositive$Holder#getValue"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "Exiting \"getValue\""
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/AliasPropagationPositive.kt",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 28,
+                                                        "endLine": 5,
+                                                        "startColumn": 9,
+                                                        "startLine": 5
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 9,
+                                            "kinds": [
+                                                "return"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.AliasPropagationPositive#run():6:(%6 = alias.getValue())",
+                                                        "fullyQualifiedName": "dataflowbench.AliasPropagationPositive#run"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "Method \"getValue\" propagates marked data from \"alias\" to a local variable"
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/AliasPropagationPositive.kt",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 30,
+                                                        "endLine": 19,
+                                                        "startColumn": 9,
+                                                        "startLine": 19
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 10,
+                                            "kinds": [
+                                                "taint"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.AliasPropagationPositive#run():7:(this.dfb_sink(%6))",
+                                                        "fullyQualifiedName": "dataflowbench.AliasPropagationPositive#run"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "DataFlowBench benchmark-controlled endpoint flow"
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/AliasPropagationPositive.kt",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 30,
+                                                        "endLine": 19,
+                                                        "startColumn": 9,
+                                                        "startLine": 19
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ],
+                    "level": "error",
+                    "locations": [
+                        {
+                            "logicalLocations": [
+                                {
+                                    "decoratedName": "dataflowbench.AliasPropagationPositive#run():7:(this.dfb_sink(%6))",
+                                    "fullyQualifiedName": "dataflowbench.AliasPropagationPositive#run"
+                                }
+                            ],
+                            "physicalLocation": {
+                                "artifactLocation": {
+                                    "uri": "dataflowbench/AliasPropagationPositive.kt",
+                                    "uriBaseId": "%SRCROOT%"
+                                },
+                                "region": {
+                                    "endColumn": 30,
+                                    "endLine": 19,
+                                    "startColumn": 9,
+                                    "startLine": 19
+                                }
+                            }
+                        }
+                    ],
+                    "message": {
+                        "text": "DataFlowBench benchmark-controlled endpoint flow"
+                    },
+                    "ruleId": ":dfb-opentaint-kernel"
+                }
+            ]
         }
     ]
 }

@@ -35,7 +35,424 @@
                     "version": "latest"
                 }
             },
-            "results": []
+            "results": [
+                {
+                    "codeFlows": [
+                        {
+                            "threadFlows": [
+                                {
+                                    "locations": [
+                                        {
+                                            "executionOrder": 0,
+                                            "kinds": [
+                                                "call"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.taint.ContextPairDepth2Positive#run():0:(%0 = dataflowbench.taint.ContextPairDepth2Positive.outerTainted())",
+                                                        "fullyQualifiedName": "dataflowbench.taint.ContextPairDepth2Positive#run"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "Inside of \"outerTainted\""
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/taint/ContextPairDepth2Positive.java",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 37,
+                                                        "endLine": 27,
+                                                        "startColumn": 23,
+                                                        "startLine": 27
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 1,
+                                            "kinds": [
+                                                "taint"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.taint.ContextPairDepth2Positive#outerTainted():0:(%0 = dataflowbench.taint.ContextPairDepth2Positive.dfb_source())",
+                                                        "fullyQualifiedName": "dataflowbench.taint.ContextPairDepth2Positive#outerTainted"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "Call to \"dfb_source\" puts marked data to a local variable"
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/taint/ContextPairDepth2Positive.java",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 36,
+                                                        "endLine": 19,
+                                                        "startColumn": 24,
+                                                        "startLine": 19
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 2,
+                                            "kinds": [
+                                                "call"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.taint.ContextPairDepth2Positive#outerTainted():1:(%1 = dataflowbench.taint.ContextPairDepth2Positive.wrapper(%0))",
+                                                        "fullyQualifiedName": "dataflowbench.taint.ContextPairDepth2Positive#outerTainted"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "Calling \"wrapper\" with marked data at a local variable"
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/taint/ContextPairDepth2Positive.java",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 37,
+                                                        "endLine": 19,
+                                                        "startColumn": 16,
+                                                        "startLine": 19
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 3,
+                                            "kinds": [
+                                                "unknown"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.taint.ContextPairDepth2Positive#wrapper(int):0:(%0 = dataflowbench.taint.ContextPairDepth2Positive.helper(arg$0))",
+                                                        "fullyQualifiedName": "dataflowbench.taint.ContextPairDepth2Positive#wrapper"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "Entering \"wrapper\" with marked data at the 1st argument of \"wrapper\""
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/taint/ContextPairDepth2Positive.java",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 34,
+                                                        "endLine": 14,
+                                                        "startColumn": 12,
+                                                        "startLine": 14
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 4,
+                                            "kinds": [
+                                                "call"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.taint.ContextPairDepth2Positive#wrapper(int):0:(%0 = dataflowbench.taint.ContextPairDepth2Positive.helper(arg$0))",
+                                                        "fullyQualifiedName": "dataflowbench.taint.ContextPairDepth2Positive#wrapper"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "Calling \"helper\" with marked data at the 1st argument of \"wrapper\""
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/taint/ContextPairDepth2Positive.java",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 29,
+                                                        "endLine": 15,
+                                                        "startColumn": 16,
+                                                        "startLine": 15
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 5,
+                                            "kinds": [
+                                                "unknown"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.taint.ContextPairDepth2Positive#helper(int):0:(return arg$0)",
+                                                        "fullyQualifiedName": "dataflowbench.taint.ContextPairDepth2Positive#helper"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "Takes marked data at the 1st argument of \"helper\" and ends up with marked data at the returned value"
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/taint/ContextPairDepth2Positive.java",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 22,
+                                                        "endLine": 11,
+                                                        "startColumn": 9,
+                                                        "startLine": 11
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 6,
+                                            "kinds": [
+                                                "unknown"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.taint.ContextPairDepth2Positive#helper(int):0:(return arg$0)",
+                                                        "fullyQualifiedName": "dataflowbench.taint.ContextPairDepth2Positive#helper"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "Exiting \"helper\""
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/taint/ContextPairDepth2Positive.java",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 6,
+                                                        "endLine": 12,
+                                                        "startColumn": 5,
+                                                        "startLine": 12
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 7,
+                                            "kinds": [
+                                                "unknown"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.taint.ContextPairDepth2Positive#wrapper(int):1:(return %0)",
+                                                        "fullyQualifiedName": "dataflowbench.taint.ContextPairDepth2Positive#wrapper"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "The returning value is assigned marked data from \"helper\" call"
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/taint/ContextPairDepth2Positive.java",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 29,
+                                                        "endLine": 15,
+                                                        "startColumn": 9,
+                                                        "startLine": 15
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 8,
+                                            "kinds": [
+                                                "unknown"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.taint.ContextPairDepth2Positive#wrapper(int):1:(return %0)",
+                                                        "fullyQualifiedName": "dataflowbench.taint.ContextPairDepth2Positive#wrapper"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "Exiting \"wrapper\""
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/taint/ContextPairDepth2Positive.java",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 6,
+                                                        "endLine": 16,
+                                                        "startColumn": 5,
+                                                        "startLine": 16
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 9,
+                                            "kinds": [
+                                                "unknown"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.taint.ContextPairDepth2Positive#outerTainted():2:(return %1)",
+                                                        "fullyQualifiedName": "dataflowbench.taint.ContextPairDepth2Positive#outerTainted"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "The returning value is assigned marked data from \"wrapper\" call"
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/taint/ContextPairDepth2Positive.java",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 37,
+                                                        "endLine": 19,
+                                                        "startColumn": 9,
+                                                        "startLine": 19
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 10,
+                                            "kinds": [
+                                                "unknown"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.taint.ContextPairDepth2Positive#outerTainted():2:(return %1)",
+                                                        "fullyQualifiedName": "dataflowbench.taint.ContextPairDepth2Positive#outerTainted"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "Exiting \"outerTainted\""
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/taint/ContextPairDepth2Positive.java",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 6,
+                                                        "endLine": 20,
+                                                        "startColumn": 5,
+                                                        "startLine": 20
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 11,
+                                            "kinds": [
+                                                "unknown"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.taint.ContextPairDepth2Positive#run():0:(%0 = dataflowbench.taint.ContextPairDepth2Positive.outerTainted())",
+                                                        "fullyQualifiedName": "dataflowbench.taint.ContextPairDepth2Positive#run"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "Call to \"outerTainted\" puts marked data to a local variable"
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/taint/ContextPairDepth2Positive.java",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 37,
+                                                        "endLine": 27,
+                                                        "startColumn": 23,
+                                                        "startLine": 27
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 12,
+                                            "kinds": [
+                                                "taint"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.taint.ContextPairDepth2Positive#run():2:(dataflowbench.taint.ContextPairDepth2Positive.dfb_sink(%0))",
+                                                        "fullyQualifiedName": "dataflowbench.taint.ContextPairDepth2Positive#run"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "DataFlowBench benchmark-controlled endpoint flow"
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/taint/ContextPairDepth2Positive.java",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 26,
+                                                        "endLine": 29,
+                                                        "startColumn": 9,
+                                                        "startLine": 29
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ],
+                    "level": "error",
+                    "locations": [
+                        {
+                            "logicalLocations": [
+                                {
+                                    "decoratedName": "dataflowbench.taint.ContextPairDepth2Positive#run():2:(dataflowbench.taint.ContextPairDepth2Positive.dfb_sink(%0))",
+                                    "fullyQualifiedName": "dataflowbench.taint.ContextPairDepth2Positive#run"
+                                }
+                            ],
+                            "physicalLocation": {
+                                "artifactLocation": {
+                                    "uri": "dataflowbench/taint/ContextPairDepth2Positive.java",
+                                    "uriBaseId": "%SRCROOT%"
+                                },
+                                "region": {
+                                    "endColumn": 26,
+                                    "endLine": 29,
+                                    "startColumn": 9,
+                                    "startLine": 29
+                                }
+                            }
+                        }
+                    ],
+                    "message": {
+                        "text": "DataFlowBench benchmark-controlled endpoint flow"
+                    },
+                    "ruleId": ":dfb-opentaint-kernel"
+                }
+            ]
         }
     ]
 }
