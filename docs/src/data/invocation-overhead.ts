@@ -76,15 +76,6 @@ export interface OverheadEstimate {
   highMs: number;
   /** The range's width, which is the measurement's precision. */
   widthMs: number;
-  /**
-   * The one-minute load averages observed across the repeats, low to high.
-   *
-   * A21 requires observed machine conditions to be published beside the figure
-   * rather than summarized as the word "quiet", so a reader can discount a
-   * number taken on a busy machine instead of taking the conditions on trust.
-   * `null` only when no repeat could read a load average at all.
-   */
-  loadRange: [number, number] | null;
   /** Cold whole-invocation median for this adapter on this kernel. */
   coldMedianMs: number | null;
   /** The range's low end as a share of that cold median, when both exist. */
@@ -142,7 +133,7 @@ const ADDITIONAL: { tool: string; language: string; why: string }[] = [
   {
     tool: 'joern',
     language: 'java',
-    why: "not its cheapest arm — measured so that A15's Java warm figures have a same-language estimate to be compared against",
+    why: "not its cheapest arm — measured so that A21's Java warm figures have a same-language estimate to be compared against",
   },
 ];
 
@@ -254,14 +245,6 @@ export function invocationOverhead(): {
         lowMs,
         highMs,
         widthMs: highMs - lowMs,
-        loadRange: (() => {
-          const loads = repeats
-            .map((repeat) => repeat.loadBefore)
-            .filter((load): load is number => load !== null);
-          return loads.length > 0
-            ? [Math.min(...loads), Math.max(...loads)]
-            : null;
-        })(),
         coldMedianMs,
         shareOfCold,
         significant: shareOfCold !== null && shareOfCold >= SIGNIFICANCE_SHARE,

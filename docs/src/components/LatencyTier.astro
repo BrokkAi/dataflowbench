@@ -896,11 +896,8 @@ const slowest = model.adapters.at(-1)!;
               : `${Math.round(estimate.shareOfCold * 100)}%`}
           </td>
           <td class="muted">
-            {estimate.loadRange === null
-              ? '—'
-              : estimate.loadRange[0] === estimate.loadRange[1]
-                ? estimate.loadRange[0].toFixed(2)
-                : `${estimate.loadRange[0].toFixed(2)}–${estimate.loadRange[1].toFixed(2)}`}
+            {loadRange(estimate.repeats.map((repeat) => repeat.loadBefore)) ??
+              '—'}
           </td>
           <td>
             {estimate.significant
@@ -975,10 +972,30 @@ const slowest = model.adapters.at(-1)!;
     inferred from a line through five batches. And its measured warm marginal,
     the cost of one more case in a process already running, is{' '}
     {formatMs(joernWarm.leastSquaresRangeMs[0])} –{' '}
-    {formatMs(joernWarm.leastSquaresRangeMs[1])}. The first two describe the
-    same quantity by two routes and neither corrects the other; the third
-    describes a different quantity entirely. Their agreement or disagreement is
-    information about the estimators, not a number to publish as a difference.
+    {formatMs(joernWarm.leastSquaresRangeMs[1])}. The first two are two routes
+    to the same quantity and the third is a different quantity entirely.
+  </p>
+)}
+
+{joernEstimateJava && joernWarm && (
+  <p class="caption">
+    <strong>Those first two routes disagree, by roughly a factor of
+    three, and the disagreement is the informative part.</strong> Neither
+    corrects the other and their difference is not published as a measurement,
+    but the direction is exactly what the two constructions predict.{' '}
+    <strong>The estimate is an upper bound that contains work the intercept
+    excludes by construction:</strong> a whole trivial invocation — a fresh
+    JVM, the Java front end loaded, a CPG built for the fixture, and the kernel
+    script run over it — where the fitted intercept is what is left when a line
+    through five batch sizes is extended back to zero cases, and every
+    per-case cost the batch pays has been taken out of it. So the true
+    once-per-process cost is bounded above by the estimate and approached from
+    below by the intercept, and the gap between them is the part of "fixed
+    cost" that neither construction can see on its own:{' '}
+    <strong>not observable from inside one invocation, and not separable from
+    per-case work inside a batch.</strong> That is the honest reading, and it
+    is why this page publishes both figures rather than reconciling them into
+    one.
   </p>
 )}
 
@@ -989,7 +1006,7 @@ const slowest = model.adapters.at(-1)!;
   arm</strong> — the core kernel whose cold median is that adapter's lowest —
   because that is the arm where fixed cost is the largest share of the number,
   and the arm whose trivial-fixture invocation is least dominated by analysis.
-  Joern is additionally estimated on Java, so that A15's Java warm figures have
+  Joern is additionally estimated on Java, so that A21's Java warm figures have
   a same-language estimate to be compared against; that second figure is
   labelled by its own language and is not the one the cheapest-arm rule
   selects.
