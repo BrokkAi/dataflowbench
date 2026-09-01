@@ -1,0 +1,13 @@
+{
+  "adapter": "opentaint",
+  "case_id": "dfb-taint-java-model-summary-field-positive",
+  "evidence_kind": "retained-capability-decision",
+  "modeling_category": "O",
+  "modeling_category_label": "opaque procedure summaries",
+  "partition_source": "docs/modeling-matrix.md#per-tool-capability-partition",
+  "reason": "category O — opaque procedure summaries — is unsupported for analyzer/2026.08.27.17eb0fe by the preregistered modeling partition (docs/modeling-matrix.md#per-tool-capability-partition): the engine's whole-program body reading decides template 7 in both cells — with no summary declared, both identity bodies are read and both cells report (probe arms `o-through-*-endpoints-only`) — and the surface has no instruction to ignore a present body, so no summary declaration can be load-bearing; template 8's `out: 1.payload` field destination has no spelling in the propagator's from/to vocabulary, and both attempted store-through encodings produce no flow (`o-field-*`) (Amendment A13)",
+  "stage": "preregistered-modeling-partition",
+  "state": "unsupported",
+  "template_id": "dfb-template-model-summary-field",
+  "witnessed_tool_identity": "analyzer/2026.08.27.17eb0fe"
+}

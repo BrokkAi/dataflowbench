@@ -1,0 +1,22 @@
+{
+  "activation_arguments": [
+    "--project-kind=unknown",
+    "--debug-run-analysis-on-selected-entry-points=*",
+    "--passthrough-approximations=opentaint-models.tar.gz!/java/accumulated-fields.yaml",
+    "--passthrough-approximations=opentaint-models.tar.gz!/java/config",
+    "--java-dataflow-approximations=opentaint-models.tar.gz!/java/dataflow/build/classes/java/main"
+  ],
+  "activation_identity": "analyzer/2026.08.27.17eb0fe shipped models archive only — no rule set",
+  "adapter": "opentaint",
+  "case_id": "dfb-taint-java-native-source-sink-negative",
+  "evidence_kind": "retained-capability-decision",
+  "model_profile": "tool-native",
+  "modeling_category": "S",
+  "modeling_category_label": "declared sources and sinks",
+  "partition_source": "docs/native-profile.md#partition-summary",
+  "reason": "tool-native activation of dfb-template-native-source-sink (category S — declared sources and sinks) is unsupported for analyzer/2026.08.27.17eb0fe over Java by the activation partition (docs/native-profile.md#partition-summary, as amended): the pinned release ships no endpoint catalog: `opentaint-models.tar.gz` is propagation only — passThrough/copy rows, accumulated fields, approximation classes — and no rule set ships, so the analyzer with the shipped assets alone registers zero rules over the platform's own `System.getenv` → `Runtime.exec` (retained native-activation probe). Without a source and a sink, no template in this profile can produce a finding (Amendment A14)",
+  "stage": "preregistered-native-activation-partition",
+  "state": "unsupported",
+  "template_id": "dfb-template-native-source-sink",
+  "witnessed_tool_identity": "analyzer/2026.08.27.17eb0fe"
+}

@@ -1,0 +1,22 @@
+{
+  "activation_arguments": [
+    "--project-kind=unknown",
+    "--debug-run-analysis-on-selected-entry-points=*",
+    "--passthrough-approximations=opentaint-models.tar.gz!/java/accumulated-fields.yaml",
+    "--passthrough-approximations=opentaint-models.tar.gz!/java/config",
+    "--java-dataflow-approximations=opentaint-models.tar.gz!/java/dataflow/build/classes/java/main"
+  ],
+  "activation_identity": "analyzer/2026.08.27.17eb0fe shipped models archive only — no rule set",
+  "adapter": "opentaint",
+  "case_id": "dfb-taint-java-native-sanitizer-positive",
+  "evidence_kind": "retained-capability-decision",
+  "model_profile": "tool-native",
+  "modeling_category": "Z",
+  "modeling_category_label": "declared sanitizers",
+  "partition_source": "docs/native-profile.md#partition-summary",
+  "reason": "tool-native activation of dfb-template-native-sanitizer (category Z — declared sanitizers) is unsupported for analyzer/2026.08.27.17eb0fe over Java by the activation partition (docs/native-profile.md#partition-summary, as amended): no sanitizer appears anywhere in the shipped assets, and prior to that no flow can start for a barrier to be observable against — the same absent endpoint catalog that decides templates 1 and 2 (Amendment A14)",
+  "stage": "preregistered-native-activation-partition",
+  "state": "unsupported",
+  "template_id": "dfb-template-native-sanitizer",
+  "witnessed_tool_identity": "analyzer/2026.08.27.17eb0fe"
+}

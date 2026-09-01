@@ -1,0 +1,139 @@
+{
+    "$schema": "https://docs.oasis-open.org/sarif/sarif/v2.1.0/errata01/os/schemas/sarif-schema-2.1.0.json",
+    "version": "2.1.0",
+    "runs": [
+        {
+            "originalUriBaseIds": {
+                "%SRCROOT%": {
+                    "uri": "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dataflowbench-modeling-opentaint-java/dfb-taint-java-model-declared-sink-positive/source"
+                }
+            },
+            "tool": {
+                "driver": {
+                    "name": "OpenTaint",
+                    "organization": "Seqra",
+                    "rules": [
+                        {
+                            "defaultConfiguration": {
+                                "level": "error"
+                            },
+                            "fullDescription": {
+                                "markdown": "a benchmark-declared model carried input to the declared sink",
+                                "text": "a benchmark-declared model carried input to the declared sink"
+                            },
+                            "id": ":dfb-opentaint-model",
+                            "name": ":dfb-opentaint-model",
+                            "properties": {
+                                "tags": []
+                            },
+                            "shortDescription": {
+                                "text": "OpenTaint Finding: :dfb-opentaint-model"
+                            }
+                        }
+                    ],
+                    "semanticVersion": "latest",
+                    "version": "latest"
+                }
+            },
+            "results": [
+                {
+                    "codeFlows": [
+                        {
+                            "threadFlows": [
+                                {
+                                    "locations": [
+                                        {
+                                            "executionOrder": 0,
+                                            "kinds": [
+                                                "taint"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.taint.ModelDeclaredSinkPositive#run():0:(%0 = dataflowbench.taint.ModelDeclaredSinkPositive.dfb_source())",
+                                                        "fullyQualifiedName": "dataflowbench.taint.ModelDeclaredSinkPositive#run"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "Call to \"dfb_source\" puts marked data to a local variable"
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/taint/ModelDeclaredSinkPositive.java",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 34,
+                                                        "endLine": 15,
+                                                        "startColumn": 22,
+                                                        "startLine": 15
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 1,
+                                            "kinds": [
+                                                "taint"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.taint.ModelDeclaredSinkPositive#run():1:(dataflowbench.taint.Audit.record(%0))",
+                                                        "fullyQualifiedName": "dataflowbench.taint.ModelDeclaredSinkPositive#run"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "A benchmark-declared model carried input to the declared sink"
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/taint/ModelDeclaredSinkPositive.java",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 35,
+                                                        "endLine": 15,
+                                                        "startColumn": 9,
+                                                        "startLine": 15
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ],
+                    "level": "error",
+                    "locations": [
+                        {
+                            "logicalLocations": [
+                                {
+                                    "decoratedName": "dataflowbench.taint.ModelDeclaredSinkPositive#run():1:(dataflowbench.taint.Audit.record(%0))",
+                                    "fullyQualifiedName": "dataflowbench.taint.ModelDeclaredSinkPositive#run"
+                                }
+                            ],
+                            "physicalLocation": {
+                                "artifactLocation": {
+                                    "uri": "dataflowbench/taint/ModelDeclaredSinkPositive.java",
+                                    "uriBaseId": "%SRCROOT%"
+                                },
+                                "region": {
+                                    "endColumn": 35,
+                                    "endLine": 15,
+                                    "startColumn": 9,
+                                    "startLine": 15
+                                }
+                            }
+                        }
+                    ],
+                    "message": {
+                        "text": "a benchmark-declared model carried input to the declared sink"
+                    },
+                    "ruleId": ":dfb-opentaint-model"
+                }
+            ]
+        }
+    ]
+}

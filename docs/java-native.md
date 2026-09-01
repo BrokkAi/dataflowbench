@@ -33,8 +33,9 @@ it been told, and the modeling row is where that question is already answered.
 | Cases and fixtures | `cases/taint/java/native-*-{positive,negative}/` |
 | Vendored Semgrep ruleset | `adapters/semgrep/native/java/rules/` |
 | Vendored ruleset provenance | `adapters/semgrep/native/java/provenance.json` |
-| Reports | `reports/{bifrost,codeql,joern,semgrep}-java-native.json` |
-| Raw evidence | `reports/raw/{bifrost,codeql,joern,semgrep}-java-native/` |
+| Reports | `reports/{bifrost,codeql,joern,semgrep,opentaint}-java-native.json` |
+| Raw evidence | `reports/raw/{bifrost,codeql,joern,semgrep,opentaint}-java-native/` |
+| OpenTaint activation probe | `scripts/probe-opentaint-native-activation.sh` (joined by [Amendment A14](native-profile.md#a14--2026-09-01-opentaint-joins-the-tool-native-profile-at-0--6-and-the-shipped-models-archive-is-ruled-shipped-product); see [below](#opentaint--declined-on-the-same-terms-amendment-a14)) |
 
 There is **no model artifact**, and that absence is the profile. A native run
 loads only what the vendor ships; the runner's no-benchmark-models gate reads
@@ -255,6 +256,30 @@ of six has declined the profile rather than failed it.
   because no rule *binds* the categories, not because a run came back empty.
   The first is capability coverage; the second would have been six false
   negatives.
+
+### OpenTaint — declined on the same terms (Amendment A14)
+
+OpenTaint joined this row after the four adapters above ran, by
+[Amendment A14](native-profile.md#a14--2026-09-01-opentaint-joins-the-tool-native-profile-at-0--6-and-the-shipped-models-archive-is-ruled-shipped-product),
+at **0 / 6** — and its report (`reports/opentaint-java-native.json`,
+2026-09-01) carries twelve `unsupported` outcomes with the amendment's
+rationale retained per cell, no fixture ever handed to the analyzer, and the
+release assets' digests witnessed once for the run.
+
+The amendment settles the one boundary question this adapter poses. Its pinned
+release ships `opentaint-models.tar.gz` beside the analyzer jar, and that
+archive **is shipped product** — vendor pass-through propagation rows,
+accumulated-field approximations, compiled dataflow-approximation classes, the
+exact analogue of the flow-constraint table inside Joern's `DefaultSemantics` —
+so a native run loads it. What the release does not ship is a rule set, and the
+rule set is where every source, sink, and sanitizer lives: run over this row's
+own `native-source-sink-positive` fixture with the archive loaded and no rule
+set, the pinned analyzer registers zero rules and reports zero results
+(`reports/raw/opentaint-native-activation-probe/`). Propagation without
+endpoints carries nothing, so every cell is declined — packaging, not engine:
+[the Java modeling row](java-modeling.md#opentaint-joins-the-row--amendment-a13-2026-09-01)
+scores the same binary 12/12 on the three categories its rule surface can be
+told.
 
 ## What this row does and does not license
 

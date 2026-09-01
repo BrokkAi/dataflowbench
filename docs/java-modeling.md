@@ -39,8 +39,10 @@ it can be told things.
 | Joern semantics | `adapters/joern/semantics/model-java.semantics` |
 | Joern query | `adapters/joern/queries/modeling.sc` (shared by every wave-M1 language) |
 | Semgrep rule | `adapters/semgrep/rules/model-java.yaml` |
-| Reports | `reports/{bifrost,codeql,joern,semgrep}-java-modeling.json` |
+| OpenTaint rule | `adapters/opentaint/rules/model-java.yaml` (joined by [Amendment A13](modeling-matrix.md#a13--2026-09-01-opentaint-joins-the-modeling-matrix-with-a-preregistered-java-partition-row); see [below](#opentaint-joins-the-row--amendment-a13-2026-09-01)) |
+| Reports | `reports/{bifrost,codeql,joern,semgrep,opentaint}-java-modeling.json` |
 | Load-bearing probe | `scripts/probe-java-modeling-load-bearing.sh` |
+| OpenTaint surface probe | `scripts/probe-opentaint-modeling-surface.sh` |
 
 The CodeQL query is the one path that departs from the other two rows'
 convention, and it departs *back onto* the preregistration's schematic one.
@@ -438,6 +440,68 @@ than a published false negative. It was not tuned around: declaring a propagator
 for `Clean.sanitize` would recover the cell, and category P is one this
 partition does not award CE in the first place.
 
+## OpenTaint joins the row — Amendment A13, 2026-09-01
+
+Everything above reports the four adapters the preregistration partitioned, as
+run on 2026-08-26, and none of it moves. OpenTaint — issue #17's adapter, whose
+[Java propagation kernel](java-kernel.md) landed with v0.6.0 — joined this
+matrix afterwards on the rollout plan's own terms: a preregistered partition
+row, added by
+[Amendment A13](modeling-matrix.md#a13--2026-09-01-opentaint-joins-the-modeling-matrix-with-a-preregistered-java-partition-row)
+and decided by executing the pinned analyzer over these very fixtures with
+probe declarations **before** its first scored run
+(`scripts/probe-opentaint-modeling-surface.sh`, evidence under
+`reports/raw/opentaint-modeling-surface-probe/`). Java is this adapter's only
+modeling language — the engine analyzes JVM bytecode — so this row is the whole
+of its modeling denominator.
+
+**The encoding.** One committed Semgrep-syntax rule,
+`adapters/opentaint/rules/model-java.yaml` (rule id `dfb-opentaint-model`,
+checked in every retained rule-load trace), declaring exactly the categories
+the partition scores — S, P, and Z — and nothing else. Two spellings are the
+ones worth recording:
+
+- **Propagators are assignment-shaped.** The engine matches patterns against
+  its lifted JVM IR, where a nested call is a temporary assignment, so
+  `$DFBTO = Opaque.carry($DFBFROM)` names the call's result as a metavariable
+  and expresses the `in: 0, out: return` binding that Semgrep CE's own surface
+  cannot. Template 4's `$DFBTO = Opaque.select($DFBIGNORED, $DFBFROM)` binds
+  position 1 and leaves position 0 undeclared, and the engine honors the
+  position.
+- **No load-bearing switch is needed.** The probe measured that with no
+  propagator declared the reflective body carries nothing: the engine has no
+  optimistic unmodeled-call default, so it is `require-model`-shaped out of the
+  box, and `primitive-tracking: true` is carried only for consistency with the
+  kernel templates (every modeling fixture is String-typed).
+
+**The run.** 2026-09-01, against the pinned release
+`analyzer/2026.08.27.17eb0fe`, both assets verified by witnessed digest before
+any case; fixtures compiled per case with `javac` (a harness step outside the
+timed boundary) and reconciled under the same `AnchorDialect::JavaMember` the
+other four adapters' modeling runs use. Report:
+`reports/opentaint-java-modeling.json` (configuration hash `07c652c2…`), raw
+evidence under `reports/raw/opentaint-java-modeling/`.
+
+| Adapter | Scored | `reached` | `not-reached` | `inconclusive` | `unsupported` | Matches |
+| --- | --- | --- | --- | --- | --- | --- |
+| OpenTaint `2026.08.27.17eb0fe` | 12 (S, P, Z) | 6 | 6 | 0 | 12 | **12 / 12** |
+
+Per category: S 4/4, P 4/4, Z 4/4; O, E, and B are declined by the partition
+with the amendment's rationale retained per cell. **12/12 is not comparable to
+any other adapter's number** — it is over this adapter's own denominator — and
+it is not a propagation score. What it does add to the row's record: OpenTaint
+is the first adapter besides CodeQL to score category P at all, and its
+category-Z pair needed no safe-function assumption, so template 6's
+selectivity positive — the cell Amendment A3 had to withdraw from Semgrep CE —
+decides correctly here.
+
+Its tool-native mirror is the opposite corner:
+[the Java native row](java-native.md) records OpenTaint at 0 / 6 under
+[Amendment A14](native-profile.md#a14--2026-09-01-opentaint-joins-the-tool-native-profile-at-0--6-and-the-shipped-models-archive-is-ruled-shipped-product),
+because the pinned release ships propagation models and no endpoint catalog.
+Engine capability and product packaging, side by side, on one binary — which is
+what the two profiles exist to separate.
+
 ## Reproduction
 
 ```bash
@@ -445,13 +509,20 @@ cargo run -- run-bifrost-modeling --language java --bifrost /path/to/bifrost
 cargo run -- run-codeql-modeling  --language java --codeql  /path/to/codeql
 cargo run -- run-joern-modeling   --language java --joern   /path/to/joern-cli/joern
 cargo run -- run-semgrep-modeling --language java --semgrep /path/to/semgrep
+cargo run -- run-opentaint-modeling --language java \
+  --analyzer-jar /path/to/opentaint-project-analyzer.jar \
+  --models-archive /path/to/opentaint-models.tar.gz
 
 scripts/probe-java-modeling-load-bearing.sh \
   --bifrost /path/to/bifrost --codeql /path/to/codeql \
   --joern /path/to/joern-cli/joern --semgrep /path/to/semgrep
+scripts/probe-opentaint-modeling-surface.sh \
+  --analyzer-jar /path/to/opentaint-project-analyzer.jar \
+  --models-archive /path/to/opentaint-models.tar.gz
 ```
 
 Run them sequentially, never concurrently. Each writes
 `reports/<tool>-java-modeling.json` with retained evidence under
-`reports/raw/<tool>-java-modeling/`; none of the eight paths collides with a
-report the v0.4.0 freeze binds.
+`reports/raw/<tool>-java-modeling/`; none of the paths collides with a
+report the v0.4.0 freeze binds, and the OpenTaint runner re-verifies both
+release-asset digests before any case.
