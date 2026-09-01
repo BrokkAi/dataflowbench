@@ -1409,8 +1409,17 @@ const snapshotPage = `/snapshots/${snapshot.slug}`;
   .short-answer {
     border: 1px solid var(--sl-color-accent);
     border-radius: 0.75rem;
-    padding: 1rem 1.25rem;
+    padding: 1.25rem 1.75rem;
     background: var(--sl-color-bg-sidebar);
+  }
+  /* The verdict is the densest prose on the page; on viewports with room,
+     let its card break out of the content column symmetrically rather than
+     wrapping long sentences in a narrow measure. */
+  @media (min-width: 90rem) {
+    .short-answer {
+      width: min(72rem, calc(100vw - var(--sl-sidebar-width, 18rem) - 6rem));
+      margin-inline: calc((100% - min(72rem, 100vw - var(--sl-sidebar-width, 18rem) - 6rem)) / 2);
+    }
   }
   .short-answer .label,
   .stat-card .label {
