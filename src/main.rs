@@ -3568,6 +3568,90 @@ enum Commands {
         #[arg(long, default_value = "semgrep")]
         semgrep: PathBuf,
     },
+    /// Estimate one adapter's **per-invocation overhead**: the wall-clock of a
+    /// complete adapter invocation over a trivial no-flow fixture, per
+    /// [Amendment A24](docs/latency-tier.md#amendments).
+    ///
+    /// Timing-only auxiliary machinery, exactly like `measure-warm-latency`. It
+    /// writes no normalized report, scores nothing, adds no case, and touches
+    /// no correctness population; its artifacts land under
+    /// `reports/raw/invocation-overhead/` and are never read by the scoring
+    /// path. The measurement is an **upper bound** on start-up and warm-up —
+    /// it contains the trivial fixture's own (near-zero) analysis — and it is
+    /// never subtracted from a cold number.
+    EstimateInvocationOverhead {
+        /// Adapter to estimate.
+        #[arg(long, value_enum)]
+        tool: OverheadTool,
+        /// Language of the trivial fixture. A24 fixes one per adapter — the
+        /// language of its cheapest kernel arm — and Joern additionally takes
+        /// `java` so its estimate is comparable with A15's java warm figures.
+        #[arg(long, value_enum)]
+        language: OverheadLanguage,
+        #[arg(long, default_value = "joern")]
+        joern: PathBuf,
+        #[arg(long, default_value = "semgrep")]
+        semgrep: PathBuf,
+        #[arg(long, default_value = "bifrost")]
+        bifrost: PathBuf,
+        #[arg(long, default_value = "codeql")]
+        codeql: PathBuf,
+        #[arg(long)]
+        codeql_packs: Option<PathBuf>,
+    },
+}
+
+/// Every adapter in the benchmark. Unlike `WarmTool`, this enum is complete:
+/// A24's estimate is attempted for all eight, and an adapter that cannot be
+/// estimated here records a decline rather than being absent from the list.
+#[derive(Clone, Copy, Debug, PartialEq, Eq, clap::ValueEnum)]
+enum OverheadTool {
+    Bifrost,
+    Codeql,
+    Flowdroid,
+    Infer,
+    Joern,
+    Opentaint,
+    Pysa,
+    Semgrep,
+}
+
+impl OverheadTool {
+    fn as_str(self) -> &'static str {
+        match self {
+            Self::Bifrost => "bifrost",
+            Self::Codeql => "codeql",
+            Self::Flowdroid => "flowdroid",
+            Self::Infer => "infer",
+            Self::Joern => "joern",
+            Self::Opentaint => "opentaint",
+            Self::Pysa => "pysa",
+            Self::Semgrep => "semgrep",
+        }
+    }
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq, clap::ValueEnum)]
+enum OverheadLanguage {
+    C,
+    Java,
+    Kotlin,
+    Php,
+    Python,
+    Ruby,
+}
+
+impl OverheadLanguage {
+    fn as_str(self) -> &'static str {
+        match self {
+            Self::C => "c",
+            Self::Java => "java",
+            Self::Kotlin => "kotlin",
+            Self::Php => "php",
+            Self::Python => "python",
+            Self::Ruby => "ruby",
+        }
+    }
 }
 
 /// The adapters whose released CLI exposes a warm, multi-case batch that does
@@ -3917,6 +4001,28 @@ fn main() -> Result<()> {
             analyzer_jar,
             models_archive,
         } => run_opentaint_native(&analyzer_jar, &models_archive, language),
+        Commands::EstimateInvocationOverhead {
+            tool,
+            language,
+            joern,
+            semgrep,
+            bifrost,
+            codeql,
+            codeql_packs,
+        } => estimate_invocation_overhead(
+            tool,
+            language,
+            match tool {
+                OverheadTool::Joern => &joern,
+                OverheadTool::Semgrep => &semgrep,
+                OverheadTool::Bifrost => &bifrost,
+                OverheadTool::Codeql => &codeql,
+                // The remaining adapters have no arm yet; the binary is
+                // unused and the arm bails with A24's `environment` decline.
+                _ => &codeql,
+            },
+            codeql_packs.as_deref(),
+        ),
     }
 }
 
@@ -18219,6 +18325,616 @@ fn run_flowdroid_native(
     )
 }
 
+// ---------------------------------------------------------------------------
+// Per-invocation overhead estimation (Amendment A24, docs/latency-tier.md).
+//
+// A15 measures a *warm marginal* and declines to estimate one where the
+// released CLI has no batch. That rule is untouched. This module measures a
+// different quantity, which every adapter can supply: the wall-clock of ONE
+// COMPLETE ADAPTER INVOCATION over a trivial no-flow fixture — same pipeline,
+// same committed configuration path, same subprocess shape, a fixture with no
+// flow to find.
+//
+// What the number is, stated where the code that produces it lives:
+//
+//   * it is fixed per-invocation overhead PLUS the trivial fixture's own
+//     near-zero analysis, so it is an UPPER BOUND on start-up and warm-up and
+//     is labelled an estimate everywhere it appears;
+//   * it is a cold, single-shot execution — which is exactly what the cold
+//     rows contain, and exactly what a steady-state deployment does not do;
+//   * it is measured in one named language per adapter and is never presented
+//     as language-free;
+//   * it is never subtracted from a cold number, never substituted for one,
+//     and never enters an ordering.
+//
+// Three properties are enforced here rather than asserted in prose:
+//
+//  1. **Timing only.** Nothing here writes a normalized report, derives an
+//     outcome, or adds a case. The trivial fixtures are generated from the
+//     templates below into scratch and retained beside the artifact; nothing
+//     is written under `cases/` and no population changes.
+//  2. **The same invocation.** Each arm builds the command from the same
+//     committed policy, rule, query and flags the cold kernel runner uses.
+//  3. **A15's stability rule, verbatim, with A24's preregistered tolerance.**
+//     Every measurement runs twice; the runs must agree within
+//     `max(20% of the larger, 100 ms)`; on disagreement no figure is
+//     published and both runs are retained as the decline's evidence; on
+//     agreement the SECOND run is the retained figure, named by position so
+//     that publishing it is not a choice.
+// ---------------------------------------------------------------------------
+
+/// Where per-invocation overhead artifacts live: their own directory, apart
+/// from both the per-slice raw evidence and A15's warm artifacts.
+const OVERHEAD_ROOT: &str = "reports/raw/invocation-overhead";
+
+/// A24's preregistered stability tolerance. Two runs agree when they differ by
+/// no more than the larger of 20% of the greater run and this floor.
+const OVERHEAD_TOLERANCE_RELATIVE: f64 = 0.20;
+const OVERHEAD_TOLERANCE_FLOOR_MS: f64 = 100.0;
+
+/// How many times each measurement is taken. A15 fixes this at two, and the
+/// second is the one retained.
+const OVERHEAD_RUNS: usize = 2;
+
+/// The trivial no-flow fixture, per language.
+///
+/// Each declares the benchmark's own `dfb_source` / `dfb_sink` endpoint
+/// contract — so the committed policy, rule or query resolves exactly as it
+/// does on a real case — with a body that calls the sink on a constant and
+/// never connects the two. There is no flow to find, so what the invocation
+/// costs is very nearly all fixed cost.
+///
+/// These are NOT cases. They carry no `case.json`, no template identity, no
+/// polarity and no score tier, they live outside `cases/`, and no population,
+/// denominator or freeze sees them.
+fn trivial_fixture(language: OverheadLanguage) -> (&'static str, &'static str) {
+    match language {
+        OverheadLanguage::Java => (
+            "DfbTrivial.java",
+            "package dataflowbench.overhead;\n\
+             \n\
+             final class DfbTrivial {\n\
+             \x20   static int dfb_source() { // DFB-SOURCE: trivial-overhead-input\n\
+             \x20       return 1;\n\
+             \x20   }\n\
+             \n\
+             \x20   static void dfb_sink(int value) { } // DFB-SINK: trivial-overhead-sink\n\
+             \n\
+             \x20   static void run() {\n\
+             \x20       dfb_source();\n\
+             \x20       dfb_sink(0);\n\
+             \x20   }\n\
+             }\n",
+        ),
+        OverheadLanguage::Kotlin => (
+            "DfbTrivial.kt",
+            "package dataflowbench.overhead\n\
+             \n\
+             object DfbTrivial {\n\
+             \x20   fun dfb_source(): Int { // DFB-SOURCE: trivial-overhead-input\n\
+             \x20       return 1\n\
+             \x20   }\n\
+             \n\
+             \x20   fun dfb_sink(value: Int) {} // DFB-SINK: trivial-overhead-sink\n\
+             \n\
+             \x20   fun run() {\n\
+             \x20       dfb_source()\n\
+             \x20       dfb_sink(0)\n\
+             \x20   }\n\
+             }\n",
+        ),
+        OverheadLanguage::Python => (
+            "dfb_trivial.py",
+            "def dfb_source():  # DFB-SOURCE: trivial-overhead-input\n\
+             \x20   return 1\n\
+             \n\
+             \n\
+             def dfb_sink(value):  # DFB-SINK: trivial-overhead-sink\n\
+             \x20   pass\n\
+             \n\
+             \n\
+             def run():\n\
+             \x20   dfb_source()\n\
+             \x20   dfb_sink(0)\n",
+        ),
+        OverheadLanguage::Ruby => (
+            "dfb_trivial.rb",
+            "def dfb_source # DFB-SOURCE: trivial-overhead-input\n\
+             \x20 1\n\
+             end\n\
+             \n\
+             def dfb_sink(value) # DFB-SINK: trivial-overhead-sink\n\
+             end\n\
+             \n\
+             def run\n\
+             \x20 dfb_source\n\
+             \x20 dfb_sink(0)\n\
+             end\n",
+        ),
+        OverheadLanguage::Php => (
+            "dfb_trivial.php",
+            "<?php\n\
+             function dfb_source(): string { // DFB-SOURCE: trivial-overhead-input\n\
+             \x20   return \"tainted\";\n\
+             }\n\
+             \n\
+             function dfb_sink(string $value): void {} // DFB-SINK: trivial-overhead-sink\n\
+             \n\
+             function run(): void {\n\
+             \x20   dfb_source();\n\
+             \x20   dfb_sink(\"clean\");\n\
+             }\n",
+        ),
+        OverheadLanguage::C => (
+            "dfb_trivial.c",
+            "int dfb_source(void) { // DFB-SOURCE: trivial-overhead-input\n\
+             \x20   return 1;\n\
+             }\n\
+             \n\
+             void dfb_sink(int value) {} // DFB-SINK: trivial-overhead-sink\n\
+             \n\
+             void run(void) {\n\
+             \x20   dfb_source();\n\
+             \x20   dfb_sink(0);\n\
+             }\n",
+        ),
+    }
+}
+
+/// One run of the estimator: the phases of one complete adapter invocation.
+#[derive(Clone, Debug)]
+struct OverheadRun {
+    /// Adapter-observable phases, in invocation order. One entry for the
+    /// single-subprocess adapters; CodeQL's two for CodeQL.
+    phases: Vec<(String, u64)>,
+    /// The whole invocation: the sum of the phases, exactly as the cold
+    /// whole-invocation figure is derived.
+    wall_ms: u64,
+    /// The machine's one-minute load average, sampled immediately before the
+    /// first subprocess of this run was spawned.
+    load_before: Option<f64>,
+}
+
+/// A24's stability verdict over the two runs.
+#[derive(Clone, Copy, Debug, PartialEq)]
+struct OverheadStability {
+    stable: bool,
+    difference_ms: f64,
+    allowed_ms: f64,
+}
+
+/// The preregistered rule, as a function so that the page's independent
+/// re-derivation has something exact to agree with.
+fn overhead_stability(first_ms: u64, second_ms: u64) -> OverheadStability {
+    let first = first_ms as f64;
+    let second = second_ms as f64;
+    let allowed_ms =
+        (OVERHEAD_TOLERANCE_RELATIVE * first.max(second)).max(OVERHEAD_TOLERANCE_FLOOR_MS);
+    let difference_ms = (first - second).abs();
+    OverheadStability {
+        stable: difference_ms <= allowed_ms,
+        difference_ms,
+        allowed_ms,
+    }
+}
+
+/// Run one adapter's estimator twice and retain the artifact.
+fn estimate_invocation_overhead(
+    tool: OverheadTool,
+    language: OverheadLanguage,
+    binary: &Path,
+    codeql_packs: Option<&Path>,
+) -> Result<()> {
+    let raw_dir =
+        PathBuf::from(OVERHEAD_ROOT).join(format!("{}-{}", tool.as_str(), language.as_str()));
+    if raw_dir.exists() {
+        fs::remove_dir_all(&raw_dir).with_context(|| format!("clear {}", raw_dir.display()))?;
+    }
+    fs::create_dir_all(&raw_dir)?;
+
+    // Identity is witnessed from the binary and stamped exactly as every other
+    // run stamps it.
+    let (version, build_identity) = match tool {
+        OverheadTool::Joern => joern_version_identity(binary)?,
+        OverheadTool::Semgrep => semgrep_version_identity(binary)?,
+        OverheadTool::Codeql => codeql_version_identity(binary)?,
+        OverheadTool::Bifrost => (
+            command_output(Command::new(binary).arg("--version"))
+                .unwrap_or_else(|_| "unknown".into()),
+            command_output(Command::new(binary).arg("--build-identity"))
+                .unwrap_or_else(|_| "unknown".into()),
+        ),
+        other => bail!(
+            "no invocation-overhead arm is implemented for {}: the pinned distribution is not \
+             installed in this measurement environment. Amendment A24 records that as an \
+             `environment` decline — a fact about the machine, not about the adapter's released \
+             CLI — and it is resolved by re-running this command where the distribution is \
+             installed.",
+            other.as_str()
+        ),
+    };
+    write_run_environment(&raw_dir, tool.as_str(), &version, &build_identity)?;
+
+    // The fixture is retained beside the artifact so a reader can see exactly
+    // what was analyzed, and is written before any subprocess is spawned:
+    // fixture materialization is outside every timed window, warm and cold
+    // alike, by this tier's own exclusion list.
+    let (fixture_name, fixture_text) = trivial_fixture(language);
+    let retained_fixture = raw_dir.join("fixture");
+    fs::create_dir_all(&retained_fixture)?;
+    fs::write(retained_fixture.join(fixture_name), fixture_text)?;
+
+    let started = now_seconds()?;
+    let mut runs = Vec::new();
+    for run in 1..=OVERHEAD_RUNS {
+        println!(
+            "estimating {} {} per-invocation overhead, run {run} of {OVERHEAD_RUNS}",
+            tool.as_str(),
+            language.as_str()
+        );
+        let measured = match tool {
+            OverheadTool::Joern => overhead_run_joern(binary, language, run)?,
+            OverheadTool::Semgrep => overhead_run_semgrep(binary, language, run, &raw_dir)?,
+            OverheadTool::Bifrost => overhead_run_bifrost(binary, language, run)?,
+            OverheadTool::Codeql => overhead_run_codeql(binary, codeql_packs, language, run)?,
+            other => bail!("unreachable: {} has no arm", other.as_str()),
+        };
+        println!("  run {run}: {} ms", measured.wall_ms);
+        runs.push(measured);
+    }
+
+    let stability = overhead_stability(runs[0].wall_ms, runs[1].wall_ms);
+    // A15's rule, by position: the SECOND run is the retained figure when the
+    // two agree, and there is no figure at all when they do not.
+    let retained = if stability.stable {
+        Some(runs[OVERHEAD_RUNS - 1].wall_ms)
+    } else {
+        None
+    };
+
+    let document = json!({
+        "schema_version": 1,
+        "evidence_kind": "retained-invocation-overhead-estimate",
+        "amendment": "A24",
+        "adapter": tool.as_str(),
+        "language": language.as_str(),
+        "tool_version": version,
+        "tool_build_identity": build_identity,
+        "estimator": "one complete adapter invocation over a trivial no-flow fixture",
+        "estimate_bias": "upper bound on start-up and warm-up: it contains the trivial fixture's \
+                          own near-zero analysis, and it is a cold single-shot execution — the \
+                          same posture the cold rows are measured in, and not a steady-state one",
+        "clock": "monotonic",
+        "measured_boundary": "the adapter's own subprocess boundaries; the estimate is the sum of \
+                              its declared phases, as the cold whole-invocation figure is",
+        "fixture_file": format!("fixture/{fixture_name}"),
+        "fixture_sha256": format!("{:x}", Sha256::digest(fixture_text.as_bytes())),
+        "tolerance": {
+            "relative": OVERHEAD_TOLERANCE_RELATIVE,
+            "absolute_floor_ms": OVERHEAD_TOLERANCE_FLOOR_MS,
+            "rule": "two runs agree when |r1 - r2| <= max(0.20 * max(r1, r2), 100 ms)",
+        },
+        "runs": runs.iter().enumerate().map(|(index, run)| json!({
+            "run": index + 1,
+            "wall_ms": run.wall_ms,
+            "phases": run.phases.iter().map(|(phase, wall_ms)| json!({
+                "phase": phase,
+                "wall_ms": wall_ms,
+            })).collect::<Vec<_>>(),
+            "load_average_1m_before": run.load_before,
+        })).collect::<Vec<_>>(),
+        "stability": {
+            "verdict": if stability.stable { "stable" } else { "unstable" },
+            "difference_ms": stability.difference_ms,
+            "allowed_ms": stability.allowed_ms,
+            "retained_run": if stability.stable { json!(OVERHEAD_RUNS) } else { Value::Null },
+        },
+        "estimated_overhead_ms": retained,
+        "started_at_unix_seconds": started,
+        "ended_at_unix_seconds": now_seconds()?,
+    });
+    let path = raw_dir.join("invocation-overhead.json");
+    fs::write(&path, serde_json::to_string_pretty(&document)? + "\n")?;
+    match retained {
+        Some(ms) => println!(
+            "wrote {} — estimated per-invocation overhead {ms} ms (run 2 of {OVERHEAD_RUNS}; runs \
+             differ by {:.0} ms, tolerance {:.0} ms)",
+            path.display(),
+            stability.difference_ms,
+            stability.allowed_ms
+        ),
+        None => println!(
+            "wrote {} — WITHHELD: the two runs differ by {:.0} ms, beyond the preregistered \
+             tolerance of {:.0} ms",
+            path.display(),
+            stability.difference_ms,
+            stability.allowed_ms
+        ),
+    }
+    Ok(())
+}
+
+/// A scratch root for one overhead run, holding the trivial fixture.
+fn overhead_workspace(
+    tool: OverheadTool,
+    language: OverheadLanguage,
+    run: usize,
+) -> Result<(PathBuf, PathBuf)> {
+    let scratch = std::env::temp_dir().join(format!(
+        "dataflowbench-overhead-{}-{}-{run}",
+        tool.as_str(),
+        language.as_str()
+    ));
+    if scratch.exists() {
+        fs::remove_dir_all(&scratch)?;
+    }
+    fs::create_dir_all(&scratch)?;
+    let workspace = scratch.join("source");
+    fs::create_dir_all(&workspace)?;
+    let (name, text) = trivial_fixture(language);
+    fs::write(workspace.join(name), text)?;
+    Ok((scratch, workspace))
+}
+
+/// Joern: the committed `kernel.sc`, the kernel's own frontend, and the same
+/// five parameters the cold runner passes. One JVM, one number.
+fn overhead_run_joern(
+    binary: &Path,
+    language: OverheadLanguage,
+    run: usize,
+) -> Result<OverheadRun> {
+    let kernel = match language {
+        OverheadLanguage::Java => JoernKernel::Java,
+        OverheadLanguage::Php => JoernKernel::Php,
+        other => bail!("no Joern overhead arm for {}", other.as_str()),
+    };
+    let script = fs::canonicalize(Path::new(JOERN_KERNEL_SCRIPT))
+        .context("resolve the Joern kernel script")?;
+    let (scratch, workspace) = overhead_workspace(OverheadTool::Joern, language, run)?;
+    let evidence = scratch.join("evidence.json");
+
+    let mut command = Command::new(binary);
+    command
+        .current_dir(&scratch)
+        .arg("--script")
+        .arg(&script)
+        .arg("--param")
+        .arg(format!("inputPath={}", workspace.display()))
+        .arg("--param")
+        .arg(format!("language={}", kernel.frontend()))
+        .arg("--param")
+        .arg("sourceName=dfb_source")
+        .arg("--param")
+        .arg("sinkName=dfb_sink")
+        .arg("--param")
+        .arg(format!("outputPath={}", evidence.display()))
+        .stdin(std::process::Stdio::null());
+    let load_before = load_average_one_minute();
+    let invoked = Instant::now();
+    let output = command
+        .output()
+        .with_context(|| format!("run the Joern kernel script with {}", binary.display()))?;
+    let wall_ms = invoked.elapsed().as_millis() as u64;
+    if !output.status.success() {
+        bail!(
+            "the Joern overhead invocation failed with status {}:\n{}",
+            output.status,
+            String::from_utf8_lossy(&output.stderr)
+        );
+    }
+    if !evidence.is_file() {
+        bail!("the Joern overhead invocation produced no evidence document");
+    }
+    fs::remove_dir_all(&scratch).ok();
+    Ok(OverheadRun {
+        phases: vec![("total".into(), wall_ms)],
+        wall_ms,
+        load_before,
+    })
+}
+
+/// Semgrep: the committed rule for the language, resolved against the trivial
+/// fixture's own endpoint names, and the same scan flags the cold runner uses.
+fn overhead_run_semgrep(
+    binary: &Path,
+    language: OverheadLanguage,
+    run: usize,
+    raw_dir: &Path,
+) -> Result<OverheadRun> {
+    let kernel = match language {
+        OverheadLanguage::Kotlin => SemgrepKernel::Kotlin,
+        OverheadLanguage::Java => SemgrepKernel::Java,
+        other => bail!("no Semgrep overhead arm for {}", other.as_str()),
+    };
+    let rule = fs::read_to_string(kernel.rule())?
+        .replace(SEMGREP_SOURCE_PLACEHOLDER, "dfb_source")
+        .replace(SEMGREP_SINK_PLACEHOLDER, "dfb_sink");
+    let (scratch, workspace) = overhead_workspace(OverheadTool::Semgrep, language, run)?;
+    let rule_path = scratch.join("rule.yaml");
+    fs::write(&rule_path, &rule)?;
+    // The resolved rule is retained beside the artifact, exactly as the cold
+    // runner retains one beside each case's finding document.
+    fs::write(raw_dir.join("resolved-rule.yaml"), &rule)?;
+    let findings = scratch.join("findings.json");
+
+    let mut command = Command::new(binary);
+    command
+        .current_dir(&scratch)
+        .arg("scan")
+        .arg("--metrics=off")
+        .arg("--oss-only")
+        .arg("--disable-version-check")
+        .arg("--no-git-ignore")
+        .arg("--quiet")
+        .arg("--json")
+        .arg("--output")
+        .arg(&findings)
+        .arg("--config")
+        .arg(&rule_path)
+        .arg(&workspace)
+        .stdin(std::process::Stdio::null());
+    let load_before = load_average_one_minute();
+    let invoked = Instant::now();
+    let output = command
+        .output()
+        .with_context(|| format!("run the Semgrep scan with {}", binary.display()))?;
+    let wall_ms = invoked.elapsed().as_millis() as u64;
+    if !output.status.success() {
+        bail!(
+            "the Semgrep overhead invocation failed with status {}:\n{}",
+            output.status,
+            String::from_utf8_lossy(&output.stderr)
+        );
+    }
+    fs::remove_dir_all(&scratch).ok();
+    Ok(OverheadRun {
+        phases: vec![("total".into(), wall_ms)],
+        wall_ms,
+        load_before,
+    })
+}
+
+/// Bifrost: the committed kernel policy for the language, copied into the
+/// workspace as `policy.rqlp` exactly as the cold runner does, and the same
+/// policy-CLI flags.
+fn overhead_run_bifrost(
+    binary: &Path,
+    language: OverheadLanguage,
+    run: usize,
+) -> Result<OverheadRun> {
+    let policy = match language {
+        // The Python kernel resolves its policy per case from the frozen
+        // `tool_model_references`; every one of its core cases names this
+        // file, which is what the cold Python run evaluates.
+        OverheadLanguage::Python => "adapters/bifrost/policies/core-python-kernel.rqlp",
+        OverheadLanguage::Java => BIFROST_JAVA_POLICY,
+        other => bail!("no Bifrost overhead arm for {}", other.as_str()),
+    };
+    let (scratch, workspace) = overhead_workspace(OverheadTool::Bifrost, language, run)?;
+    fs::copy(policy, workspace.join("policy.rqlp"))?;
+    let report = scratch.join("report.json");
+
+    let mut command = Command::new(binary);
+    command
+        .arg("--root")
+        .arg(&workspace)
+        .arg("--policy-file")
+        .arg("policy.rqlp")
+        .args([
+            "--evaluation-date",
+            "2026-08-11",
+            "--format",
+            "json",
+            "--fail-on",
+            "never",
+            "--output",
+        ])
+        .arg(&report);
+    let load_before = load_average_one_minute();
+    let invoked = Instant::now();
+    let output = command
+        .output()
+        .with_context(|| format!("run the Bifrost policy CLI with {}", binary.display()))?;
+    let wall_ms = invoked.elapsed().as_millis() as u64;
+    if !report.is_file() {
+        bail!(
+            "the Bifrost overhead invocation produced no JSON report (status {}):\n{}",
+            output.status,
+            String::from_utf8_lossy(&output.stderr)
+        );
+    }
+    fs::remove_dir_all(&scratch).ok();
+    Ok(OverheadRun {
+        phases: vec![("total".into(), wall_ms)],
+        wall_ms,
+        load_before,
+    })
+}
+
+/// CodeQL: both declared subprocesses — `database create`, then
+/// `database analyze` with the committed kernel query — timed separately and
+/// summed, exactly as the cold whole-invocation figure is.
+///
+/// The two phases are retained individually as well, because CodeQL's row
+/// already declares them: a reader can see how the estimate divides between
+/// extraction and evaluation, and compare each against that adapter's own
+/// published phase medians.
+fn overhead_run_codeql(
+    binary: &Path,
+    packs: Option<&Path>,
+    language: OverheadLanguage,
+    run: usize,
+) -> Result<OverheadRun> {
+    let (codeql_language, query) = match language {
+        OverheadLanguage::Ruby => (CodeqlLanguage::Ruby, CODEQL_RUBY_QUERY),
+        OverheadLanguage::Python => (CodeqlLanguage::Python, CODEQL_PYTHON_QUERY),
+        other => bail!("no CodeQL overhead arm for {}", other.as_str()),
+    };
+    let (scratch, workspace) = overhead_workspace(OverheadTool::Codeql, language, run)?;
+    let database = scratch.join("database");
+    let sarif = scratch.join("results.sarif.json");
+    let (fixture_name, _) = trivial_fixture(language);
+    let case = json!({ "fixture_files": [fixture_name] });
+
+    let load_before = load_average_one_minute();
+    let mut create = Command::new(binary);
+    create.args(codeql_database_create_args(
+        &database,
+        &workspace,
+        &case,
+        codeql_language,
+    )?);
+    let create_started = Instant::now();
+    let created = create
+        .output()
+        .with_context(|| format!("run CodeQL database create with {}", binary.display()))?;
+    let create_ms = create_started.elapsed().as_millis() as u64;
+    if !created.status.success() {
+        bail!(
+            "the CodeQL overhead database create failed with status {}:\n{}",
+            created.status,
+            String::from_utf8_lossy(&created.stderr)
+        );
+    }
+
+    let mut analyze = Command::new(binary);
+    analyze
+        .arg("database")
+        .arg("analyze")
+        .arg(&database)
+        .arg(query)
+        .arg("--format=sarif-latest")
+        .arg(format!("--output={}", sarif.display()))
+        .arg("--rerun");
+    if let Some(packs) = packs {
+        analyze.arg(format!("--additional-packs={}", packs.display()));
+    }
+    let analyze_started = Instant::now();
+    let analyzed = analyze
+        .output()
+        .with_context(|| format!("run CodeQL database analyze with {}", binary.display()))?;
+    let analyze_ms = analyze_started.elapsed().as_millis() as u64;
+    if !analyzed.status.success() {
+        bail!(
+            "the CodeQL overhead database analyze failed with status {}:\n{}",
+            analyzed.status,
+            String::from_utf8_lossy(&analyzed.stderr)
+        );
+    }
+    if !sarif.is_file() {
+        bail!("the CodeQL overhead invocation produced no SARIF document");
+    }
+    fs::remove_dir_all(&scratch).ok();
+    Ok(OverheadRun {
+        phases: vec![
+            ("database-create".into(), create_ms),
+            ("database-analyze".into(), analyze_ms),
+        ],
+        wall_ms: create_ms + analyze_ms,
+        load_before,
+    })
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -18874,6 +19590,31 @@ mod tests {
                 "the warm path must not gate publication on an agreement threshold ({gate})"
             );
         }
+    }
+
+    /// The same property for A24's estimates: an auxiliary directory of its
+    /// own, outside every slice a normalized report binds and outside A15's
+    /// warm directory, and a document the freeze validator's special-outcome
+    /// reader cannot mistake for evidence of an outcome.
+    #[test]
+    fn invocation_overhead_artifacts_are_auxiliary_and_never_an_outcome_input() {
+        assert!(OVERHEAD_ROOT.starts_with("reports/raw/"));
+        assert!(!OVERHEAD_ROOT.starts_with(WARM_LATENCY_ROOT));
+        assert!(!WARM_LATENCY_ROOT.starts_with(OVERHEAD_ROOT));
+        for report in [
+            JOERN_JAVA_RAW_DIR.to_string(),
+            JOERN_PHP_RAW_DIR.to_string(),
+            CODEQL_RUBY_RAW_DIR.to_string(),
+            SemgrepKernel::Kotlin.raw_dir(),
+        ] {
+            assert!(!OVERHEAD_ROOT.starts_with(&report));
+            assert!(!report.starts_with(OVERHEAD_ROOT));
+        }
+        let document = json!({
+            "evidence_kind": "retained-invocation-overhead-estimate",
+            "estimated_overhead_ms": 3_000,
+        });
+        assert_eq!(raw_special_outcome(&document), None);
     }
 
     #[test]
@@ -25871,5 +26612,92 @@ mod tests {
             scan(json!([json!({"path": "env_command.py"})])),
             "inconclusive"
         );
+    }
+
+    /// A24's tolerance is the published gate, so it is pinned by test rather
+    /// than left to the one call site: two runs agree when they differ by no
+    /// more than the larger of 20% of the greater run and a 100 ms floor.
+    #[test]
+    fn invocation_overhead_tolerance_is_the_preregistered_disjunction() {
+        // The absolute floor governs small figures: 120 ms against 20 ms is a
+        // 100 ms difference, which the floor admits and the relative rule
+        // alone (24 ms) would not.
+        let small = overhead_stability(20, 120);
+        assert_eq!(small.allowed_ms, 100.0);
+        assert!(small.stable);
+        assert!(!overhead_stability(20, 121).stable);
+
+        // The relative rule governs large ones: 20% of 5000 ms is 1000 ms.
+        let large = overhead_stability(4000, 5000);
+        assert_eq!(large.allowed_ms, 1000.0);
+        assert!(large.stable);
+        assert!(!overhead_stability(3999, 5000).stable);
+
+        // It is symmetric in the two runs: which one is larger cannot change
+        // the verdict, only which figure is retained (and that is fixed by
+        // position, not by value).
+        assert_eq!(
+            overhead_stability(4000, 5000).stable,
+            overhead_stability(5000, 4000).stable
+        );
+    }
+
+    /// The estimator's fixture must be a *no-flow* fixture, or the number it
+    /// produces is not an overhead estimate but a small analysis.
+    ///
+    /// Each template is checked for the property that makes it one: both
+    /// endpoints are declared with the benchmark's own names — so the
+    /// committed policy, rule and query resolve exactly as they do on a real
+    /// case — and the sink is called on a literal, never on the source's
+    /// result.
+    #[test]
+    fn trivial_fixtures_declare_both_endpoints_and_carry_no_flow() {
+        for language in [
+            OverheadLanguage::C,
+            OverheadLanguage::Java,
+            OverheadLanguage::Kotlin,
+            OverheadLanguage::Php,
+            OverheadLanguage::Python,
+            OverheadLanguage::Ruby,
+        ] {
+            let (name, text) = trivial_fixture(language);
+            assert!(
+                !name.is_empty() && text.contains("dfb_source") && text.contains("dfb_sink"),
+                "{}: both endpoints must be declared",
+                language.as_str()
+            );
+            assert!(
+                text.contains("// DFB-SOURCE:") || text.contains("# DFB-SOURCE:"),
+                "{}: the source marker must be present",
+                language.as_str()
+            );
+            assert!(
+                text.contains("// DFB-SINK:") || text.contains("# DFB-SINK:"),
+                "{}: the sink marker must be present",
+                language.as_str()
+            );
+            // No line may pass the source's value into the sink, directly or
+            // through a name: the sink's argument is a literal on every one.
+            for line in text.lines() {
+                let call = line.trim();
+                if !call.starts_with("dfb_sink(") {
+                    continue;
+                }
+                assert!(
+                    call.starts_with("dfb_sink(0)") || call.starts_with("dfb_sink(\"clean\")"),
+                    "{}: the sink must be called on a literal, found {call:?}",
+                    language.as_str()
+                );
+            }
+            // And the fixture is never a case: nothing about it may claim a
+            // template, a polarity or a score tier.
+            for forbidden in ["dfb-template-", "score_tier", "expected_outcome"] {
+                assert!(
+                    !text.contains(forbidden),
+                    "{}: a trivial fixture is not a case and must not carry {forbidden}",
+                    language.as_str()
+                );
+            }
+        }
     }
 }
