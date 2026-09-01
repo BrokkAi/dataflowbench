@@ -10,6 +10,7 @@ import {
   shortDigest,
   vendorColorClass,
   vendorName,
+  vendorOrder,
   toolVersionLabel,
   type Scorecard,
   type ScoreTier,
@@ -226,37 +227,6 @@ breadth.sort((left, right) => left.language.localeCompare(right.language));
 const breadthCorrect = breadth.filter((row) => row.correct).length;
 const breadthIncomplete = breadth.filter((row) => row.incomplete);
 
-// Per-kernel template outcomes, one column pair per analyzer covering the
-// population.
-interface KernelRow {
-  template: string;
-  cells: { positive: string; negative: string }[];
-}
-function kernelTable(kernel: Kernel): KernelRow[] {
-  const rows = new Map<string, KernelRow>();
-  kernel.tiers.forEach((entry, index) => {
-    for (const result of entry.tier.cases) {
-      const template = result.template_id.replace('dfb-template-', '');
-      let row = rows.get(template);
-      if (!row) {
-        row = {
-          template,
-          cells: kernel.tiers.map(() => ({
-            positive: '—',
-            negative: '—',
-          })),
-        };
-        rows.set(template, row);
-      }
-      if (result.polarity === 'positive') row.cells[index]!.positive = result.outcome;
-      else row.cells[index]!.negative = result.outcome;
-    }
-  });
-  return [...rows.values()].sort((left, right) =>
-    left.template.localeCompare(right.template),
-  );
-}
-
 // A card's headline fraction is correct-of-population. For an analyzer that
 // declines part of the population, that fraction alone reads as a low score
 // rather than as a bounded profile, so the card also states the decided
@@ -361,6 +331,123 @@ const caseCount = snapshot.results.scorecards
   .flatMap((card) => card.languages)
   .flatMap((language) => language.score_tiers)
   .reduce((sum, tier) => sum + tier.cases.length, 0);
+
+// ---- Compact visual summaries ---------------------------------------------
+// The four full-width tables this page used to carry now live on the snapshot
+// pages that own them; what stays here is a build-time chart per population.
+// Every bar width and every published count below is derived from the same
+// case lists the tables read — nothing is hand-entered, and no bar mixes two
+// populations. A bar's segments are always `correct`, `wrong`, `incomplete`
+// and `declined`, in that order: the remainder of a bar is never left to read
+// as a wrong answer, exactly as the evolution graph's stubs are annotated
+// rather than implied.
+const barWidth = (part: number, whole: number) =>
+  `${whole === 0 ? 0 : ((100 * part) / whole).toFixed(4)}%`;
+
+/**
+ * Spoken form of one analyzer's split, used as the bar's accessible text.
+ * `unsupported` is named a *decline* rather than folded into "incomplete":
+ * it is a declared-capability position taken before the analyzer runs, and it
+ * gets its own neutral segment, as it does in the modeling and native cards.
+ */
+function splitLabel(vendor: VendorStats): string {
+  const parts = [`${vendor.correct} correct`];
+  if (vendor.wrong > 0) parts.push(`${vendor.wrong} wrong`);
+  const unfinished = vendor.inconclusive + vendor.runnerErrors;
+  if (unfinished > 0) parts.push(`${unfinished} incomplete`);
+  if (vendor.unsupported > 0) parts.push(`${vendor.unsupported} declined`);
+  return `${parts.join(', ')} of ${vendor.total}`;
+}
+
+// Cross-kernel figures for the kernel takeaway. These count *rows* — how many
+// analyzer/kernel pairs the freeze publishes and how many of them are wholly
+// decisive — and never a score: kernels are separate populations and are still
+// never pooled, ranked, or compared with each other.
+const kernelVendorRows = kernels.flatMap((kernel) => kernel.vendors);
+/** Rows with no coverage outcome of any kind: nothing incomplete, none declined. */
+const decisiveRows = kernelVendorRows.filter(
+  (vendor) => vendor.incomplete === 0,
+).length;
+const allCorrectRows = kernelVendorRows.filter(
+  (vendor) => vendor.correct === vendor.total,
+).length;
+
+// The breadth strip: the same rows the breadth table carried, minus the
+// per-assertion outcome columns, which the templates page owns.
+const breadthWrong = breadth.filter(
+  (row) => !row.correct && !row.incomplete,
+).length;
+// Assembled here rather than inline, so the clauses that only exist in some
+// freezes cannot leave a space before the full stop.
+const breadthTail = `${
+  breadthIncomplete.length > 0
+    ? `, and analyzes ${breadthIncomplete.length} incompletely (${breadthIncomplete
+        .map((row) => row.language)
+        .join(', ')}) — reported as coverage, never as a wrong answer`
+    : ''
+}${breadthWrong > 0 ? `, with ${breadthWrong} answered wrongly` : ''}.`;
+
+// Modeling and tool-native summaries: one card per adapter, one bar per
+// language tier inside it. Tiers keep their own denominators — nothing is
+// summed across languages, across adapters, or across the two profiles.
+interface TierCard {
+  tool: string;
+  name: string;
+  toolVersion: string;
+  colorClass: string;
+  rows: TierRow[];
+}
+function tierCards(rows: TierRow[]): TierCard[] {
+  const byTool = new Map<string, TierCard>();
+  for (const row of rows) {
+    let card = byTool.get(row.tool);
+    if (!card) {
+      card = {
+        tool: row.tool,
+        name: row.name,
+        toolVersion: row.toolVersion,
+        colorClass: row.colorClass,
+        rows: [],
+      };
+      byTool.set(row.tool, card);
+    }
+    card.rows.push(row);
+  }
+  return [...byTool.values()].sort(
+    (left, right) =>
+      vendorOrder(left.tool) - vendorOrder(right.tool) ||
+      left.name.localeCompare(right.name),
+  );
+}
+const modelingCards = tierCards(modelingRows);
+const nativeCards = tierCards(nativeRows);
+
+/** Scored-partition span across a population's tiers, the load-bearing range. */
+function scoredSpan(rows: TierRow[]): {
+  min: number;
+  max: number;
+  sizes: string;
+} {
+  const scored = rows.map((row) => row.scored);
+  const sizes = [...new Set(rows.map((row) => row.total))].sort(
+    (left, right) => left - right,
+  );
+  return {
+    min: scored.length === 0 ? 0 : Math.min(...scored),
+    max: scored.length === 0 ? 0 : Math.max(...scored),
+    sizes: sizes.join(' or '),
+  };
+}
+const modelingSpan = scoredSpan(modelingRows);
+const nativeDeclinedTiers = nativeRows.filter((row) => row.scored === 0).length;
+const nativeDecided = nativeRows.reduce((sum, row) => sum + row.decided, 0);
+const nativeDecidingAdapters = [
+  ...new Set(
+    nativeRows.filter((row) => row.decided > 0).map((row) => row.name),
+  ),
+].sort();
+
+const snapshotPage = `/dataflowbench/snapshots/${snapshot.slug}`;
 ---
 
 <p class="eyebrow">
@@ -766,42 +853,69 @@ const caseCount = snapshot.results.scorecards
   ratio inside it is only meaningful against that tool's own partition.
 </p>
 
-<div class="table-scroll">
-  <table>
-    <thead>
-      <tr>
-        <th>Analyzer</th>
-        <th>Language</th>
-        <th>Assertions</th>
-        <th>Scored</th>
-        <th>Declined</th>
-        <th>On its own scored partition</th>
-      </tr>
-    </thead>
-    <tbody>
-      {
-        modelingRows.map((row) => (
-          <tr>
-            <td>
-              <span class:list={['vendor-dot', row.colorClass]} aria-hidden="true"></span>
-              {row.name} {row.toolVersion}
-            </td>
-            <td>
-              <code>{row.language}</code>
-            </td>
-            <td>{row.total}</td>
-            <td>{row.scored}</td>
-            <td>{row.unsupported}</td>
-            <td>
-              {tierVerdict(row)}
-              {row.inconclusive > 0 ? ` · ${row.inconclusive} inconclusive` : ''}
-            </td>
-          </tr>
-        ))
-      }
-    </tbody>
-  </table>
+<div class="card-grid">
+  {modelingCards.map((card) => (
+    <div class:list={['summary-card', card.colorClass]}>
+      <p class="card-title">
+        <span class="vendor-dot" aria-hidden="true"></span>
+        {card.name} <span class="card-version">{card.toolVersion}</span>
+      </p>
+      {card.rows.map((row) => (
+        <div class="tier-row">
+          <p class="tier-head">
+            <code>{row.language}</code>
+            <span class="tier-scored">
+              {row.scored} scored · {row.unsupported} declined of {row.total}
+            </span>
+          </p>
+          <div
+            class="bar"
+            role="img"
+            aria-label={`${row.language}: ${row.scored} of ${row.total} assertions in ${card.name}'s scored partition, ${row.unsupported} declined by declared coverage`}
+          >
+            <span
+              class="seg correct"
+              style={`width:${barWidth(row.correct, row.total)}`}></span>
+            <span
+              class="seg wrong"
+              style={`width:${barWidth(row.falsePositives + row.falseNegatives, row.total)}`}></span>
+            <span
+              class="seg incomplete"
+              style={`width:${barWidth(row.inconclusive, row.total)}`}></span>
+            <span
+              class="seg declined"
+              style={`width:${barWidth(row.unsupported, row.total)}`}></span>
+          </div>
+          <p class="tier-verdict">
+            {tierVerdict(row)}
+            {row.inconclusive > 0 ? ` · ${row.inconclusive} inconclusive` : ''}
+          </p>
+        </div>
+      ))}
+    </div>
+  ))}
 </div>
+
+<ul class="bar-legend">
+  <li class="key-correct"><span class="swatch" aria-hidden="true"></span>correct</li>
+  <li class="key-wrong"><span class="swatch" aria-hidden="true"></span>wrong</li>
+  <li class="key-incomplete">
+    <span class="swatch" aria-hidden="true"></span>inconclusive — coverage, not a wrong answer
+  </li>
+  <li class="key-declined">
+    <span class="swatch" aria-hidden="true"></span>declined — outside this tool's model surface, decided before it runs
+  </li>
+</ul>
+
+<p class="takeaway">
+  Read the scored partition, not the ratio: across the {modelingRows.length}
+  language tiers it runs from {modelingSpan.min} to {modelingSpan.max} of the
+  {' '}{modelingSpan.sizes} assertions in the tier, so no two of these bars are
+  the same exam. The per-tier counts behind every bar are on the
+  <a href={`${snapshotPage}/analyzers/`}>analyzers</a> page, and the
+  template-by-template <code>model-*</code> outcomes on the
+  <a href={`${snapshotPage}/templates/`}>semantic templates</a> page.
+</p>
 
 <h2>Tool-native probes — what ships and decides on its own</h2>
 
@@ -820,43 +934,73 @@ const caseCount = snapshot.results.scorecards
   ruleset that produced them.
 </p>
 
-<div class="table-scroll">
-  <table>
-    <thead>
-      <tr>
-        <th>Analyzer</th>
-        <th>Language</th>
-        <th>Assertions</th>
-        <th>Scored</th>
-        <th>Declined</th>
-        <th>On its own scored partition</th>
-      </tr>
-    </thead>
-    <tbody>
-      {
-        nativeRows.map((row) => (
-          <tr>
-            <td>
-              <span class:list={['vendor-dot', row.colorClass]} aria-hidden="true"></span>
-              {row.name} {row.toolVersion}
-            </td>
-            <td>
-              <code>{row.language}</code>
-            </td>
-            <td>{row.total}</td>
-            <td>{row.scored}</td>
-            <td>{row.unsupported}</td>
-            <td>
-              {tierVerdict(row)}
-              {row.falsePositives > 0 ? ` · ${row.falsePositives} FP` : ''}
-              {row.falseNegatives > 0 ? ` · ${row.falseNegatives} FN` : ''}
-            </td>
-          </tr>
-        ))
-      }
-    </tbody>
-  </table>
+<div class="card-grid">
+  {nativeCards.map((card) => (
+    <div class:list={['summary-card', card.colorClass]}>
+      <p class="card-title">
+        <span class="vendor-dot" aria-hidden="true"></span>
+        {card.name} <span class="card-version">{card.toolVersion}</span>
+      </p>
+      {card.rows.map((row) => (
+        <div class="tier-row">
+          <p class="tier-head">
+            <code>{row.language}</code>
+            <span class="tier-scored">
+              {row.scored} scored · {row.unsupported} declined of {row.total}
+            </span>
+          </p>
+          <div
+            class="bar"
+            role="img"
+            aria-label={`${row.language}: ${row.scored} of ${row.total} probe assertions scored by what ${card.name} ships, ${row.unsupported} declined by declared coverage`}
+          >
+            <span
+              class="seg correct"
+              style={`width:${barWidth(row.correct, row.total)}`}></span>
+            <span
+              class="seg wrong"
+              style={`width:${barWidth(row.falsePositives + row.falseNegatives, row.total)}`}></span>
+            <span
+              class="seg incomplete"
+              style={`width:${barWidth(row.inconclusive, row.total)}`}></span>
+            <span
+              class="seg declined"
+              style={`width:${barWidth(row.unsupported, row.total)}`}></span>
+          </div>
+          <p class="tier-verdict">
+            {tierVerdict(row)}
+            {row.falsePositives > 0 ? ` · ${row.falsePositives} FP` : ''}
+            {row.falseNegatives > 0 ? ` · ${row.falseNegatives} FN` : ''}
+          </p>
+        </div>
+      ))}
+    </div>
+  ))}
 </div>
+
+<ul class="bar-legend">
+  <li class="key-correct"><span class="swatch" aria-hidden="true"></span>correct</li>
+  <li class="key-wrong"><span class="swatch" aria-hidden="true"></span>wrong</li>
+  <li class="key-incomplete">
+    <span class="swatch" aria-hidden="true"></span>inconclusive — coverage, not a wrong answer
+  </li>
+  <li class="key-declined">
+    <span class="swatch" aria-hidden="true"></span>declined — the product ships no catalog for this tier
+  </li>
+</ul>
+
+<p class="takeaway">
+  {nativeDeclinedTiers} of the {nativeRows.length} tiers decline the tier
+  outright — a declared decline drawn as declined coverage, never as
+  0/{nativeRows[0]?.total ?? 0} — and the {nativeRows.length -
+    nativeDeclinedTiers} that do decide answer {nativeDecided} assertions
+  between them ({nativeDecidingAdapters.join(' and ')}). Per-tier coverage is
+  on the <a href={`${snapshotPage}/analyzers/`}>analyzers</a> page, the
+  <code>native-*</code> template outcomes on the
+  <a href={`${snapshotPage}/templates/`}>semantic templates</a> page, and every
+  case — including the runs that decide nothing — on the
+  <a href={`${snapshotPage}/evidence/`}>case evidence</a> page.
+</p>
 
 <h2>How long an answer takes — beside the answers, never inside them</h2>
 
@@ -876,107 +1020,136 @@ const caseCount = snapshot.results.scorecards
 
 <LatencyRanking kernelViews={false} stamp />
 
-<h2>Kernels, template by template</h2>
+<h2>Kernels at a glance</h2>
 
 <p>
-  Each row is one semantic scenario with a balanced pair: the flow exists
-  (positive) and a minimally different variant where it does not (negative). A
-  sound-and-precise analyzer reads <code class="good">reached</code> /
-  <code class="good">not-reached</code>. Read the analyzers' columns
-  independently — DataFlowBench publishes no combined leaderboard, and the
-  scorecards stay separate. Every kernel below is on the
-  <code>benchmark-controlled</code> model profile; the modeling and
-  tool-native populations follow in their own sections and share no
-  denominator with these.
+  One bar per analyzer, one panel per kernel. Each bar is that analyzer's own
+  core population, split into decisive-correct, decisive-wrong,
+  <em>incomplete</em>, and <em>declined</em> — the last two are capability
+  coverage, each drawn as its own segment so the remainder of a bar is never
+  read as a wrong answer.
+  Panels are separate populations with separate denominators: compare bars
+  <em>inside</em> a panel, never across panels, and never against the modeling
+  or tool-native sections above. Every kernel here is on the
+  <code>benchmark-controlled</code> model profile.
 </p>
 
-{kernels.map((kernel) => (
-  <>
-    <h3>{kernel.language}</h3>
-    <div class="table-scroll">
-      <table>
-        <thead>
-          <tr>
-            <th rowspan="2">Template</th>
-            {kernel.vendors.map((vendor) => (
-              <th colspan="2">{vendor.name} {vendor.toolVersion}</th>
-            ))}
-          </tr>
-          <tr>
-            {kernel.vendors.map(() => (
-              <>
-                <th>positive</th>
-                <th>negative</th>
-              </>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {kernelTable(kernel).map((row) => (
-            <tr>
-              <td>
-                <code>{row.template}</code>
-              </td>
-              {row.cells.map((entry) => (
-                <>
-                  <td>
-                    <code class={outcomeClass('positive', entry.positive)}>
-                      {entry.positive}
-                    </code>
-                  </td>
-                  <td>
-                    <code class={outcomeClass('negative', entry.negative)}>
-                      {entry.negative}
-                    </code>
-                  </td>
-                </>
-              ))}
-            </tr>
-          ))}
-        </tbody>
-      </table>
+<div class="kernel-bars">
+  {kernels.map((kernel) => (
+    <div class="summary-card kernel-panel">
+      <p class="card-title">
+        {kernel.language}
+        <span class="card-version">{kernel.cases} assertions</span>
+      </p>
+      {kernel.vendors.map((vendor, index) => (
+        <div class:list={['bar-row', vendorColorClass(vendor.tool, index)]}>
+          <p class="bar-name">
+            <span class="vendor-dot" aria-hidden="true"></span>
+            {vendor.name}
+          </p>
+          <div
+            class="bar"
+            role="img"
+            aria-label={`${vendor.name} on the ${kernel.language} kernel: ${splitLabel(vendor)}`}
+          >
+            <span
+              class="seg correct"
+              style={`width:${barWidth(vendor.correct, vendor.total)}`}></span>
+            <span
+              class="seg wrong"
+              style={`width:${barWidth(vendor.wrong, vendor.total)}`}></span>
+            <span
+              class="seg incomplete"
+              style={`width:${barWidth(vendor.inconclusive + vendor.runnerErrors, vendor.total)}`}></span>
+            <span
+              class="seg declined"
+              style={`width:${barWidth(vendor.unsupported, vendor.total)}`}></span>
+          </div>
+          <p class="bar-value">
+            {vendor.correct}<span class="of">/{vendor.total}</span>
+          </p>
+        </div>
+      ))}
+      <p class="card-action">
+        <button
+          type="button"
+          class="details-button"
+          data-kernel={kernel.id}
+          aria-label={`View the confusion matrix for the ${kernel.language} kernel`}
+        >
+          Confusion matrix
+        </button>
+      </p>
     </div>
-  </>
-))}
-
-<h2>Direct-flow breadth, language by language</h2>
-
-<div class="table-scroll">
-  <table>
-    <thead>
-      <tr>
-        <th>Language</th>
-        <th>Positive assertion</th>
-        <th>Negative assertion</th>
-        <th>Verdict</th>
-      </tr>
-    </thead>
-    <tbody>
-      {
-        breadth.map((row) => (
-          <tr>
-            <td>
-              <code>{row.language}</code>
-            </td>
-            <td>
-              <code class={outcomeClass('positive', row.positive)}>{row.positive}</code>
-            </td>
-            <td>
-              <code class={outcomeClass('negative', row.negative)}>{row.negative}</code>
-            </td>
-            <td>
-              {row.correct
-                ? 'both correct'
-                : row.incomplete
-                  ? 'incomplete analysis'
-                  : 'wrong answer'}
-            </td>
-          </tr>
-        ))
-      }
-    </tbody>
-  </table>
+  ))}
 </div>
+
+<ul class="bar-legend">
+  <li class="key-correct"><span class="swatch" aria-hidden="true"></span>decisive-correct</li>
+  <li class="key-wrong"><span class="swatch" aria-hidden="true"></span>decisive-wrong</li>
+  <li class="key-incomplete">
+    <span class="swatch" aria-hidden="true"></span>incomplete —
+    <code>inconclusive</code> or <code>runner-error</code>, coverage rather
+    than a wrong answer
+  </li>
+  <li class="key-declined">
+    <span class="swatch" aria-hidden="true"></span>declined —
+    <code>unsupported</code> by declared capability, decided before the
+    analyzer runs
+  </li>
+</ul>
+
+<p class="takeaway">
+  {allCorrectRows === 0 ? 'None' : allCorrectRows} of the
+  {' '}{kernelVendorRows.length} analyzer rows published across these
+  {' '}{kernels.length} kernels answers its whole core correctly, and
+  {' '}{decisiveRows} of them answer every assertion in their kernel
+  definitively — nothing incomplete, nothing declined. The
+  template-by-template outcome for every one of these rows — each balanced
+  positive/negative pair, per analyzer — is on the
+  <a href={`${snapshotPage}/templates/`}>semantic templates</a> page, with
+  per-case classifications and retained raw evidence on the
+  <a href={`${snapshotPage}/evidence/`}>case evidence</a> page.
+</p>
+
+<h2>Direct-flow breadth across languages</h2>
+
+<p>
+  The breadth baseline is one balanced <code>direct-propagation</code> pair per
+  language, on Bifrost's all-language smoke run: a separate, much smaller
+  population from the kernels above, and never pooled with them. Each chip is
+  one language, with a mark for the positive and the negative assertion.
+</p>
+
+<ul class="breadth-strip">
+  {breadth.map((row) => (
+    <li
+      class:list={[
+        'breadth-chip',
+        row.correct ? 'ok' : row.incomplete ? 'partial' : 'miss',
+      ]}
+    >
+      <span class="breadth-language"><code>{row.language}</code></span>
+      <span
+        class="breadth-marks"
+        role="img"
+        aria-label={`positive assertion ${row.positive}, negative assertion ${row.negative}`}
+      >
+        <span class={`mark ${outcomeClass('positive', row.positive)}`}></span>
+        <span class={`mark ${outcomeClass('negative', row.negative)}`}></span>
+      </span>
+    </li>
+  ))}
+</ul>
+
+<p class="takeaway">
+  Bifrost answers both assertions correctly in
+  <strong>{breadthCorrect} of {breadth.length}</strong> languages{breadthTail} The exact
+  <code>reached</code> / <code>not-reached</code> outcome for each of those
+  assertions is on the
+  <a href={`${snapshotPage}/templates/`}>semantic templates</a> page, under the
+  smoke scorecard's <code>direct-propagation</code> rows.
+</p>
 
 <h2>Why these numbers are trustworthy</h2>
 
@@ -1473,6 +1646,287 @@ const caseCount = snapshot.results.scorecards
   }
   .table-scroll {
     overflow-x: auto;
+  }
+  /* ---- Compact population summaries -------------------------------------
+     One idiom shared by the kernel panels, the modeling cards and the
+     tool-native cards: a segmented bar whose segments are always correct,
+     wrong, incomplete, declined — in that order — over that row's *own*
+     denominator. No bar ever spans two populations. */
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+  .kernel-bars {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(19rem, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+  .summary-card {
+    border: 1px solid var(--sl-color-hairline);
+    border-radius: 0.75rem;
+    padding: 0.75rem 1rem 0.85rem;
+  }
+  /* Starlight's content flow adds margin-top to every sibling block, which
+     would stagger the grid items and every line inside a card. */
+  .card-grid > .summary-card,
+  .kernel-bars > .summary-card,
+  .summary-card > *,
+  .summary-card p,
+  .breadth-strip > li {
+    margin-top: 0 !important;
+  }
+  /* Positioned, because `.details-button::after` stretches the click target
+     over its nearest positioned ancestor — the whole card, and nothing more. */
+  .kernel-panel {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+  }
+  .kernel-panel .card-action {
+    margin-top: auto !important;
+    padding-top: 0.6rem;
+  }
+  .kernel-panel:hover {
+    border-color: var(--sl-color-accent);
+  }
+  .kernel-panel:hover .details-button {
+    border-color: var(--sl-color-accent);
+  }
+  .kernel-panel:has(.details-button:focus-visible) {
+    outline: 2px solid var(--sl-color-accent-high);
+    outline-offset: 2px;
+  }
+  .kernel-panel:has(.details-button:focus-visible) .details-button {
+    outline: none;
+  }
+  .card-title {
+    font-family: var(--__sl-font-mono);
+    font-size: var(--sl-text-xs);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--vendor-color, var(--sl-color-accent-high));
+    border-top: 3px solid var(--vendor-rule, var(--sl-color-accent));
+    padding-top: 0.3rem;
+    margin: 0 0 0.5rem !important;
+  }
+  .card-version {
+    color: var(--sl-color-gray-3);
+    text-transform: none;
+    letter-spacing: 0;
+  }
+  .bar {
+    display: flex;
+    height: 0.55rem;
+    border-radius: 0.3rem;
+    overflow: hidden;
+    background: var(--sl-color-gray-6, var(--sl-color-hairline));
+  }
+  .bar .seg {
+    display: block;
+    height: 100%;
+  }
+  /* The outcome palette, not the vendor palette: green/red/orange are what
+     `code.good`, `code.bad` and `code.incomplete` already mean on this page,
+     and one vendor slot (OpenTaint) *is* `--sl-color-red`, so colouring a
+     correct segment by vendor would make its bar read as wrong. Vendor
+     identity stays on the dot, the name, and the count beside the bar. */
+  .bar .seg.correct {
+    background: var(--sl-color-green);
+  }
+  .bar .seg.wrong {
+    background: var(--sl-color-red);
+  }
+  /* Incomplete is neither correct nor wrong: it takes the same orange the
+     dialog's coverage panel and `code.incomplete` use. */
+  .bar .seg.incomplete {
+    background: var(--sl-color-orange);
+  }
+  /* A declared decline is not an outcome at all: neutral, hatched, and always
+     labelled "declines the tier" rather than shown as a zero. */
+  .bar .seg.declined {
+    background: repeating-linear-gradient(
+      45deg,
+      var(--sl-color-gray-4) 0 3px,
+      transparent 3px 6px
+    );
+  }
+  .bar-row {
+    display: grid;
+    grid-template-columns: minmax(4.5rem, auto) 1fr auto;
+    align-items: center;
+    gap: 0.5rem;
+    margin: 0.3rem 0 0 !important;
+  }
+  .bar-name,
+  .bar-value {
+    font-family: var(--__sl-font-mono);
+    font-size: var(--sl-text-xs);
+    margin: 0 !important;
+    white-space: nowrap;
+  }
+  .bar-name {
+    color: var(--sl-color-gray-2);
+  }
+  .bar-value {
+    color: var(--vendor-color, var(--sl-color-accent-high));
+    font-weight: 700;
+  }
+  .bar-value .of {
+    color: var(--sl-color-gray-3);
+    font-weight: 400;
+  }
+  .tier-row {
+    margin-top: 0.6rem !important;
+  }
+  .tier-head {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 0.25rem 0.75rem;
+    font-size: var(--sl-text-xs);
+    margin: 0 0 0.25rem !important;
+  }
+  .tier-scored {
+    font-family: var(--__sl-font-mono);
+    color: var(--sl-color-gray-3);
+  }
+  .tier-verdict {
+    font-size: var(--sl-text-xs);
+    color: var(--sl-color-gray-2);
+    margin: 0.25rem 0 0 !important;
+  }
+  .bar-legend {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem 1.25rem;
+    margin: 0.75rem 0 0;
+    padding: 0;
+    font-size: var(--sl-text-sm);
+    color: var(--sl-color-gray-2);
+  }
+  .bar-legend li {
+    margin: 0;
+    display: flex;
+    align-items: center;
+  }
+  .bar-legend .swatch {
+    display: inline-block;
+    width: 1.1rem;
+    height: 0.55rem;
+    border-radius: 0.2rem;
+    margin-right: 0.45rem;
+    flex: 0 0 auto;
+  }
+  .bar-legend .key-correct .swatch {
+    background: var(--sl-color-green);
+  }
+  .bar-legend .key-wrong .swatch {
+    background: var(--sl-color-red);
+  }
+  .bar-legend .key-incomplete .swatch {
+    background: var(--sl-color-orange);
+  }
+  .bar-legend .key-declined .swatch {
+    background: repeating-linear-gradient(
+      45deg,
+      var(--sl-color-gray-4) 0 3px,
+      transparent 3px 6px
+    );
+  }
+  .takeaway {
+    font-size: var(--sl-text-sm);
+    color: var(--sl-color-gray-2);
+  }
+  .breadth-strip {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin: 1rem 0 0;
+    padding: 0;
+  }
+  .breadth-chip {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    border: 1px solid var(--sl-color-hairline);
+    border-radius: 0.5rem;
+    padding: 0.25rem 0.55rem;
+    font-size: var(--sl-text-xs);
+  }
+  .breadth-chip.ok {
+    border-color: var(--sl-color-green);
+  }
+  .breadth-chip.partial {
+    border-color: var(--sl-color-orange);
+  }
+  .breadth-chip.miss {
+    border-color: var(--sl-color-red);
+  }
+  .breadth-marks {
+    display: inline-flex;
+    gap: 0.2rem;
+  }
+  .breadth-marks .mark {
+    display: inline-block;
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 0.15rem;
+  }
+  .breadth-marks .mark.good {
+    background: var(--sl-color-green);
+  }
+  .breadth-marks .mark.bad {
+    background: var(--sl-color-red);
+  }
+  .breadth-marks .mark.incomplete {
+    background: var(--sl-color-orange);
+  }
+  /* The same fixed vendor→colour identity map as the cards, the dialog and the
+     evolution graph, keyed by tool rather than by row position. */
+  .summary-card.v0,
+  .bar-row.v0 {
+    --vendor-color: var(--sl-color-accent-high);
+    --vendor-rule: var(--sl-color-accent);
+  }
+  .summary-card.v1,
+  .bar-row.v1 {
+    --vendor-color: var(--sl-color-orange);
+    --vendor-rule: var(--sl-color-orange);
+  }
+  .summary-card.v2,
+  .bar-row.v2 {
+    --vendor-color: var(--sl-color-purple);
+    --vendor-rule: var(--sl-color-purple);
+  }
+  .summary-card.v3,
+  .bar-row.v3 {
+    --vendor-color: var(--sl-color-green);
+    --vendor-rule: var(--sl-color-green);
+  }
+  .summary-card.v4,
+  .bar-row.v4 {
+    --vendor-color: var(--dfb-vendor-4);
+    --vendor-rule: var(--dfb-vendor-4);
+  }
+  .summary-card.v5,
+  .bar-row.v5 {
+    --vendor-color: var(--dfb-vendor-5);
+    --vendor-rule: var(--dfb-vendor-5);
+  }
+  .summary-card.v6,
+  .bar-row.v6 {
+    --vendor-color: var(--dfb-vendor-6);
+    --vendor-rule: var(--dfb-vendor-6);
+  }
+  .summary-card.v7,
+  .bar-row.v7 {
+    --vendor-color: var(--dfb-vendor-7);
+    --vendor-rule: var(--dfb-vendor-7);
   }
   code.good {
     color: var(--sl-color-green-high);
