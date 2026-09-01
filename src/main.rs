@@ -3704,10 +3704,10 @@ fn validate_raw_evidence(
             bail!("frozen report {report_path} raw evidence path differs for {id}");
         }
         let raw_bytes = fs::read(repository_path(root, raw_path)?)?;
-        let raw: Value = serde_json::from_slice(&raw_bytes)
+        let documents = parse_raw_evidence_documents(&raw_bytes)
             .with_context(|| format!("parse raw evidence {raw_path}"))?;
         let outcome = result["outcome"].as_str().expect("result schema validated");
-        if let Some(declared) = raw_special_outcome(&raw)
+        if let Some(declared) = documents.iter().find_map(raw_special_outcome)
             && declared != outcome
         {
             bail!(
@@ -3719,6 +3719,24 @@ fn validate_raw_evidence(
         bail!("frozen report {report_path} raw evidence does not cover exactly its results");
     }
     Ok(())
+}
+
+/// Raw evidence is the analyzer's own output retained verbatim, and not every
+/// analyzer emits a single JSON document: Pysa's taint output is JSON Lines,
+/// one record per line. The special-outcome audit must read whichever shape
+/// the file has, so a file that is not one document is decoded as a stream of
+/// documents; content that is neither is still an error.
+fn parse_raw_evidence_documents(raw_bytes: &[u8]) -> Result<Vec<Value>> {
+    if let Ok(single) = serde_json::from_slice::<Value>(raw_bytes) {
+        return Ok(vec![single]);
+    }
+    let documents = serde_json::Deserializer::from_slice(raw_bytes)
+        .into_iter::<Value>()
+        .collect::<std::result::Result<Vec<_>, _>>()?;
+    if documents.is_empty() {
+        bail!("raw evidence holds no JSON documents");
+    }
+    Ok(documents)
 }
 
 fn raw_special_outcome(raw: &Value) -> Option<&'static str> {
@@ -18928,6 +18946,33 @@ mod tests {
                 "{path} does not declare the frozen fixture revision"
             );
         }
+    }
+
+    #[test]
+    fn raw_evidence_may_be_one_document_or_json_lines_and_the_audit_reads_both() {
+        let single = parse_raw_evidence_documents(br#"{"state": "unsupported"}"#).unwrap();
+        assert_eq!(single.len(), 1);
+        assert_eq!(
+            single.iter().find_map(raw_special_outcome),
+            Some("unsupported")
+        );
+
+        let lines = parse_raw_evidence_documents(
+            b"{\"file_version\":3}\n{\"kind\":\"model\"}\n{\"state\":\"inconclusive\"}\n",
+        )
+        .unwrap();
+        assert_eq!(lines.len(), 3);
+        assert_eq!(
+            lines.iter().find_map(raw_special_outcome),
+            Some("inconclusive")
+        );
+
+        let clean =
+            parse_raw_evidence_documents(b"{\"file_version\":3}\n{\"kind\":\"issue\"}\n").unwrap();
+        assert_eq!(clean.iter().find_map(raw_special_outcome), None);
+
+        assert!(parse_raw_evidence_documents(b"").is_err());
+        assert!(parse_raw_evidence_documents(b"{\"a\":1}\nnot json\n").is_err());
     }
 
     #[test]
