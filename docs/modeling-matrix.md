@@ -760,6 +760,7 @@ every existing adapter artifact is:
 | CodeQL | `adapters/codeql/queries/<Language>Modeling.ql` (+ any `ext/*.model.yml`) | `DataFlow::ConfigSig` predicates `isSource` / `isSink` / `isBarrier` / `isAdditionalFlowStep`, optionally models-as-data rows |
 | Joern | `adapters/joern/queries/modeling.sc` plus a flow-semantics file | query roots over `cpg.method…parameter` and `FlowSemantic` / `FlowMapping` entries |
 | Semgrep | `adapters/semgrep/rules/model-<language>.yaml` | `mode: taint` with `pattern-sources` / `pattern-sinks` / `pattern-propagators` / `pattern-sanitizers` |
+| Pysa (added by [A13](#a13--2026-09-01-pysa-joins-the-modeling-matrix-with-a-measured-partition-row)) | `adapters/pysa/models/modeling-python.pysa` | `.pysa` declarations — `TaintSource` / `TaintSink` annotations, `TaintInTaintOut` (with `Updates` / `UpdatePath`), `@Sanitize`, under the `@SkipAnalysis` / `@SkipObscure` modes that keep them load-bearing |
 
 Bifrost and CodeQL cases name their artifact through the `tool_model_references`
 keys the case schema already carries — `policy` and `query` respectively. Joern
@@ -947,20 +948,77 @@ expectation from the kernels would be the opposite — it enters with a *larger*
 share of this matrix than Bifrost does. Modeling capability and propagation
 capability are not the same axis, which is the whole reason this tier exists.
 
+### Pysa — pyre-check 0.10.0 + Pyrefly 1.2.0
+
+> **Added by [Amendment A13](#a13--2026-09-01-pysa-joins-the-modeling-matrix-with-a-measured-partition-row).**
+> This row was not part of the preregistration: the four tables above merged
+> before Pysa's adapter existed, and [the rollout plan](#rollout-plan) says a
+> new adapter arrives with its own partition row, added by amendment before
+> its first modeling run. That is this section. Every cell was decided by
+> execution — the retained probes are under
+> `reports/raw/amendment-a13-pysa-modeling/`, produced by
+> `scripts/probe-pysa-modeling-load-bearing.sh` — before any scored run, and
+> the row's language scope is **Python only**: Pysa analyzes one language, so
+> no other language ever has a Pysa modeling cell.
+
+This partition is **verified by execution** against the pinned pair
+(pyre-check 0.10.0 + Pyrefly 1.2.0), on the committed Python modeling
+fixtures, in the load-bearing directions each category needs: the declared
+model produces the verdict, removing it flips the verdict, and an undeclared
+lookalike is not bound.
+
+One measurement shapes the whole row, and it is stated first because it is a
+correction of the same kind Amendment A4 recorded for Joern. **Template 3's
+reflective body is not opaque to this pair.** With the benchmark endpoints
+declared and no propagator model at all, the analysis still reports the flow:
+Pyrefly narrows `getattr(_impl, name)` over the local string constant,
+resolves the self-dispatch, and the fixpoint carries the taint through the
+body unaided (retained as `opaque-propagator-unmodeled`). Left there, the
+engine's own body reading — not the declaration — would decide every category
+P and O cell, and the [load-bearing-model requirement](#the-load-bearing-model-requirement)
+would exclude both categories. Pysa, unlike Joern, has the switch the
+requirement asks for: the `.pysa` mode annotations `@SkipAnalysis` (ignore
+this entity's body) and `@SkipObscure` (no obscure taint-through fallback for
+it), declared in the modeling artifact on every propagator and summary
+entity. Under both modes the taint an entity carries is exactly what its
+declaration states, and that was measured in both directions: a
+`TaintInTaintOut` produces the flow, and deleting it — with the skip modes
+kept — removes the flow.
+
+| Cat. | Decision | Rationale |
+| --- | --- | --- |
+| S | **supported** | `TaintSource[...]` on a return value and `TaintSink[...]` on a parameter are the DSL's first-class roles, bound by fully-qualified definition. Verified in all three directions: the declared `config.fetch_remote` flow is reported, the undeclared sibling `fetch_local` is not, and deleting the source declaration removes the finding. |
+| P | **supported** | `TaintInTaintOut` on a parameter is an argument-position → return propagator, and the position is the annotation's own binding site, so positional fidelity is native: `select(first, second: TaintInTaintOut)` reports taint at position 1 and stays silent on the identical call with taint at position 0. Load-bearing under `@SkipAnalysis` + `@SkipObscure`, per the measurement above; the negative's `block` carries the explicit no-flow declaration (both modes, no `TaintInTaintOut`). |
+| Z | **supported** | `@Sanitize` on the declared entity suppresses the flow on a completing run, deleting it restores the flow, and the binding is by declared identity: the undeclared `sanitize` — same signature, same identity body, a name at least as sanitizer-shaped — is still reported. |
+| O | **supported** | `@SkipAnalysis` is the summary contract stated as a mode: the body is present in the fixture and the declaration says to ignore it. Template 7's three-way construction confirms activation — the bodies say flow in both cells, the declarations disagree, and the pair reports exactly the declared cell (the body-reading control, with no summaries declared, reports the identity-body flow the summaries exist to override). Template 8's field destination is expressible as `TaintInTaintOut[Updates[box], UpdatePath[_.payload]]`, and the access path is honored: `box.payload` reaches the sink and the sibling `box.spare` does not. |
+| E | **supported** | `TaintSource[...]` on a **parameter** of an uncalled definition is an entry-point declaration: the whole-program fixpoint analyzes every definition as a root, so the declared handler's body reports and no call site is needed. Selectivity is by declared identity — the byte-identical undeclared sibling stays silent, so the engine does not treat every uncalled function as tainted entry. |
+| B | **unsupported** | The `.pysa` DSL binds taint roles to callables and parameter positions — `TaintSource`, `TaintSink`, `TaintInTaintOut`, `Sanitize`, and mode annotations. It has no store identity, no key position, and no vocabulary that links a write entity to a read entity through a shared store, per instance or otherwise. The nearest encodings are not the declared semantics: a source model on `Store.get` would report both polarities of template 11 without ever reading the key, which is a different model, not an approximation of this one. |
+
+Pysa enters with **five of six categories scored** — ten of the twelve
+templates, the largest scored share of any adapter after CodeQL — which is
+what a taint engine whose model file *is* its user interface should look like
+on this matrix. The counts are categories, not correctness: the scored runs
+decide what the activation is worth.
+
 ### Partition summary
 
 Preregistered, before any modeling fixture exists. `TBV` = to be verified at
 implementation, treated as unsupported until shown otherwise.
 
-| Category | Bifrost v0.10.7 | CodeQL 2.26.4 | Joern 4.0.614 | Semgrep CE 1.175.0 |
-| --- | --- | --- | --- | --- |
-| S — sources and sinks | supported | supported | supported | supported |
-| P — propagators | TBV | supported | supported | unsupported |
-| Z — sanitizers | unsupported | supported | supported | supported |
-| O — summaries | unsupported | supported | supported (T8 TBV) | unsupported |
-| E — entry points | TBV | supported | supported | supported |
-| B — persistence | TBV | supported | supported | unsupported |
-| **Scored today** | **1 / 6** | **6 / 6** | **6 / 6** | **3 / 6** |
+> **Amended.** The Pysa column was added by
+> [Amendment A13](#a13--2026-09-01-pysa-joins-the-modeling-matrix-with-a-measured-partition-row)
+> with the measured row above; it is Python-scoped, because the engine
+> analyzes one language. The four preregistered columns are unchanged.
+
+| Category | Bifrost v0.10.7 | CodeQL 2.26.4 | Joern 4.0.614 | Semgrep CE 1.175.0 | Pysa 0.10.0 (+Pyrefly 1.2.0, A13) |
+| --- | --- | --- | --- | --- | --- |
+| S — sources and sinks | supported | supported | supported | supported | supported |
+| P — propagators | TBV | supported | supported | unsupported | supported |
+| Z — sanitizers | unsupported | supported | supported | supported | supported |
+| O — summaries | unsupported | supported | supported (T8 TBV) | unsupported | supported |
+| E — entry points | TBV | supported | supported | supported | supported |
+| B — persistence | TBV | supported | supported | unsupported | unsupported |
+| **Scored today** | **1 / 6** | **6 / 6** | **6 / 6** | **3 / 6** | **5 / 6** |
 
 These counts are categories, not scores. A tool with six of six has six
 categories' worth of assertions it can get wrong, and a tool with one of six has
@@ -1172,7 +1230,9 @@ Amendment numbers continue the repository's **single** sequence rather than
 restarting per document: A1 is in [the challenge tier](challenge-tier.md#amendments)
 and A6–A8 are in [the tool-native profile](native-profile.md#amendments), so an
 identifier names exactly one amendment wherever it is cited. That is why this
-document's own sequence reads A2–A5 and then A9.
+document's own sequence reads A2–A5, then A9, then A13 — A10 is in the
+tool-native profile, A11 in [the adapter contract](adapters.md#amendments), and
+A12 in [the latency tier](latency-tier.md#amendments).
 
 ### A2 — 2026-08-26: Joern's propagator and summary categories are not load-bearing
 
@@ -1438,3 +1498,83 @@ carry the sanitizer declaration.
 core or challenge result changes. The scored evidence for the promoted cells
 lands with the next evidence re-run; until it does, the retained modeling
 reports predate this amendment and record category Z as `unsupported`.
+
+### A13 — 2026-09-01: Pysa joins the modeling matrix with a measured partition row
+
+**What changed.** The matrix gains a fifth adapter. Pysa — the taint analysis
+of Meta's pyre-check distribution, pinned as the pair pyre-check 0.10.0 +
+Pyrefly 1.2.0 that [the adapter](adapters.md) already runs over the Python
+expanded core — takes its own per-category capability partition row,
+[stated above](#pysa--pyre-check-0100--pyrefly-120): categories S, P, Z, O,
+and E scored, category B unsupported, ten of the twelve templates. The row is
+**Python-scoped**: the engine analyzes one language, so no other language
+gains a Pysa modeling cell, and no other language's denominator moves. The
+four preregistered partition rows, the twelve template definitions, and every
+existing scored cell are untouched.
+
+**Why it is an amendment and not an edit.** The preregistration merged before
+this adapter existed, and [the rollout plan](#rollout-plan) states the rule:
+*"a new adapter joining this matrix arrives with its own preregistered
+partition row, added by amendment before its first modeling run."* This
+amendment is that arrival, dated before the adapter's first scored modeling
+run, with the probe evidence retained under
+`reports/raw/amendment-a13-pysa-modeling/`
+(`scripts/probe-pysa-modeling-load-bearing.sh`, twenty-eight retained
+directions).
+
+**What was measured.** Every scored category was verified by execution on the
+committed Python modeling fixtures, in the directions the load-bearing
+requirement names — the declared model produces the verdict, deleting the
+declaration flips it, and an undeclared lookalike is not bound:
+
+- **S.** `TaintSource` / `TaintSink` bind by fully-qualified definition:
+  `fetch_remote` declared reports, `fetch_local` undeclared does not, and the
+  deleted declaration removes the finding.
+- **P.** `TaintInTaintOut` on a parameter is argument-position → return
+  propagation with the position as the annotation's own binding site:
+  template 4's pair discriminates the declared position 1 from the undeclared
+  position 0 natively.
+- **Z.** `@Sanitize` suppresses on a completing run, deletion restores the
+  flow, and template 6's undeclared `sanitize` is still reported — binding is
+  by identity, not name shape.
+- **O.** Template 7's three-way construction lands exactly as designed: with
+  no summaries the identity bodies are followed (the body-reading control),
+  and under the declarations precisely the summarized cell reports. Template
+  8's field destination is expressed as
+  `TaintInTaintOut[Updates[box], UpdatePath[_.payload]]` and the access path
+  is honored — `box.payload` reaches, `box.spare` does not. This is the first
+  adapter to score template 8's store-through summary; Joern's cell fell to
+  Amendment A2 on exactly the access-path fidelity Pysa demonstrates.
+- **E.** A `TaintSource` on the parameter of an uncalled definition is a
+  synthesized root — the fixpoint analyzes every definition — and the
+  byte-identical undeclared sibling stays silent.
+
+**One evidentiary correction, in the A4 lineage.** Template 3's opaque body
+is **not** unfollowable by this pair: with the endpoints declared and no
+propagator model at all, the analysis reports the flow, because Pyrefly
+narrows `getattr(_impl, name)` over the local string constant and resolves
+the reflective self-dispatch (retained as `opaque-propagator-unmodeled`).
+A4 already withdrew the preregistration's blanket transfer of the v0.4.0
+opacity evidence to this matrix's body shape; this measurement extends the
+withdrawal to a fifth engine and a third frontend. The scoring consequence is
+the opposite of Joern's, and the difference is the whole point of the
+load-bearing requirement: Pysa **has** the switch the requirement asks for.
+The committed modeling artifact declares `@SkipAnalysis` + `@SkipObscure` on
+every propagator and summary entity, under which the entity's body is ignored
+and the obscure taint-through fallback is off — and removing a
+`TaintInTaintOut` under those modes was measured to flip the verdict in both
+categories. The runner enforces the modes on the artifact the way it enforces
+Bifrost's `require-model` and Semgrep's `taint_assume_safe_functions`.
+
+**Why category B is declined.** Not on a silence but on the DSL's vocabulary:
+`.pysa` declarations bind taint roles to callables and parameter positions,
+and no construct names a store, a key, or a link from a write entity to a
+read entity. The nearest encoding — a source model on `Store.get` — decides
+both polarities of template 11 without reading the key, which is a different
+model rather than an approximation of the declared one.
+
+**Tools, templates, and languages touched.** Pysa only; all twelve templates
+(ten scored, two declined); Python only, by the engine's own language scope.
+
+**Freezes invalidated.** None. No published freeze binds a Pysa modeling
+report; v0.6.0 is untouched.
