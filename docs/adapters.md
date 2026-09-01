@@ -355,15 +355,20 @@ on the tier, a modeling case cannot leak into any of them; `smoke_population_cas
 additionally refuses modeling cases outright, the same way it refuses challenge
 ones, so the frozen 118-case Bifrost smoke population cannot absorb one.
 
-**The partition is `CHALLENGE_SEMGREP_PARTITION` generalized to five tools.**
-`MODELING_PARTITION` holds one cell per tool per category — thirty cells,
-transcribed from the preregistration's tables (Infer's six arrived by
-Amendment A13, field-evaluated before its first modeling run), with the cells
-it marks *to be verified* recorded as `unsupported` per its own rule, and with
-the dated amendments applied on top as template-level overrides. Scored today, after
-Amendments A2, A3, and A9: **Bifrost 4 templates of 12** (S, and Z since A9),
+**The partition is `CHALLENGE_SEMGREP_PARTITION` generalized to six tools.**
+`MODELING_PARTITION` holds one cell per tool per category — thirty-six cells,
+transcribed from the preregistration's tables and the dated amendments that
+added the fifth and sixth rows (Infer's six by Amendment A13, field-evaluated
+before its first modeling run; Pysa's six by Amendment A16, likewise), with
+the cells the documents mark *to be verified* recorded as `unsupported` per
+their own rule, and with the dated amendments applied on top as
+template-level overrides. Scored today, after Amendments A2,
+A3, A9, A13, and A16: **Bifrost 4 templates of 12** (S, and Z since A9),
 **Semgrep CE 5 of 12** (S, E, and one of Z's two templates), **CodeQL 12 of
-12**, **Joern 8 of 12** (S, Z, E, B). A declined cell is decided from the
+12**, **Joern 8 of 12** (S, Z, E, B), and **Pysa 10 of 12** (S, P, Z, O, E —
+Python only, the engine's one language; the artifact map refuses every other
+pairing as *no denominator* rather than zero), plus **Infer 5 of 12** (S, Z,
+and template 3 of P, Java only). A declined cell is decided from the
 template ID *before the tool is invoked*, retains the document's rationale
 verbatim as its reason, and writes a `retained-capability-decision` evidence
 document beside the report. The decision is keyed by template identity, never
@@ -381,6 +386,7 @@ tool per language, hash-bound into the report's `configuration_hash`:
 | Infer | `adapters/infer/config/model-java.json` — Java only; the pinned distribution executes no JavaScript or Python frontend, so those combinations have no artifact and no denominator (Amendment A13) |
 | Joern | `adapters/joern/semantics/model-<language>.semantics`, plus the shared `adapters/joern/queries/modeling.sc` |
 | Semgrep | `adapters/semgrep/rules/model-<language>.yaml` |
+| Pysa | `adapters/pysa/models/modeling-python.pysa` (Python only), plus the committed `adapters/pysa/taint.config` the kernel also binds; the runner cuts the per-template block at its `# template:` markers, because the pinned pair refuses a model naming a definition the case's sources do not carry |
 
 The CodeQL path departs from the preregistration's schematic
 `adapters/codeql/queries/<Language>Modeling.ql` and sits inside that language's
@@ -394,10 +400,14 @@ language for which the schematic path is already correct, because Java's pack
 nothing. Joern is the one adapter with two files, and both bind the
 configuration hash.
 
-**Five commands, parameterized by language.** `run-bifrost-modeling`,
-`run-codeql-modeling`, `run-infer-modeling`, `run-joern-modeling`, and
-`run-semgrep-modeling`, each taking `--language java|javascript|python` and
-writing `reports/<tool>-<language>-modeling.json` with raw evidence under
+**Six commands, parameterized by language.** `run-bifrost-modeling`,
+`run-codeql-modeling`, `run-infer-modeling`, `run-joern-modeling`,
+`run-semgrep-modeling`, and `run-pysa-modeling` (whose identity is the
+witnessed pyre-check + Pyrefly pair, so it takes the kernel's
+`--pyre`/`--pyre-binary`/`--pyrefly` instead of one binary path, and accepts
+`--language python` alone), each taking
+`--language java|javascript|python` and writing
+`reports/<tool>-<language>-modeling.json` with raw evidence under
 `reports/raw/<tool>-<language>-modeling/`. The per-language *kernel* commands
 are separate commands because each language's kernel differs in real toolchain
 plumbing — a `kotlinc` trace, a `go build`, a synthesized Cargo crate, a
@@ -428,7 +438,11 @@ their own. So the runner reads each artifact before the run and refuses it
 unless the default is disabled: a Bifrost modeling policy must set
 `:call-modeling (call-modeling :unmodeled require-model)` and must not name the
 kernel policies' `optimistic`, and a Semgrep modeling rule must set `options:
-taint_assume_safe_functions: true`. Tests pin both strings. CodeQL has no
+taint_assume_safe_functions: true`, and every `TaintInTaintOut` in the Pysa
+modeling artifact must sit under `@SkipAnalysis` + `@SkipObscure` — Amendment
+A16 measured the pinned pair resolving the matrix's reflective body on its
+own, so without the skip modes the engine's body reading would decide the
+category P and O cells. Tests pin all three gates. CodeQL has no
 such switch to pin — a `ConfigSig` with no `isAdditionalFlowStep` adds no
 step. Joern's equivalent claim ("a method with no `FlowMapping` propagates
 nothing") was measured false by the first wave-M1 run: `FlowSemantic`
@@ -494,15 +508,23 @@ would catch.
 **The partition is keyed by template, not by category — and, since
 [Amendment N-A1](native-profile.md#n-a1--2026-08-27-semgrep-ces-six-python-cells-are-promoted-to-scored-and-the-partition-gains-a-language-dimension),
 by language too.** `NATIVE_PARTITION` holds one cell per tool per template —
-twenty-four cells, transcribed from the preregistration's summary, with its *to
-be verified* cells recorded as `unsupported` per its own rule — and
+thirty-six cells, transcribed from the preregistration's summary and the dated
+amendments that added the fifth and sixth rows (Infer's by Amendment A14,
+declined on a measured silence; Pysa's by Amendment A17), with the *to be
+verified* cells recorded as `unsupported` per the documents' own rule — and
 `NATIVE_PARTITION_AMENDMENTS` sits in front of it with one row per amended
 tool × language × template. The language dimension exists because a vendored
 activation snapshot is per language: reading Python's rules can only answer
 Python's cells, and a partition without a language could not say so. As
 preregistered: **CodeQL 6 templates of 6**, and **Bifrost, Joern, and Semgrep
 CE 0 of 6**. As amended: Semgrep CE is **6 of 6 for Python** on the evidence of
-its vendored snapshot, and unchanged elsewhere. The asymmetry with the
+its vendored snapshot, and unchanged elsewhere; **Infer is 0 of 6 for Java**
+(Amendment A14, a measured silence of the shipped Pulse checker), the other
+languages having no Infer native denominator at all; and **Pysa is 6 of 6 for
+Python** (Amendment A17), over the taint model suite the pinned pyre-check
+wheel ships in `lib/pyre_check/taint/`, activated with `--no-verify` and
+guarded by the retained-evidence proof that the shipped `os.system` sink model
+bound. The asymmetry with the
 benchmark-controlled matrix is the point rather than a defect — Joern scores four
 of six categories there on the same engine — because this profile measures
 product packaging and that one measures the engine. A declined cell is decided
@@ -510,9 +532,10 @@ from the template ID *before the tool is invoked*, retains the document's
 rationale verbatim, and writes a `retained-capability-decision` document beside
 the report carrying the pinned activation configuration with it.
 
-**Five commands, parameterized by language.** `run-bifrost-native`,
-`run-codeql-native`, `run-infer-native`, `run-joern-native`, and
-`run-semgrep-native`, each taking `--language java|javascript|python` and
+**Six commands, parameterized by language.** `run-bifrost-native`,
+`run-codeql-native`, `run-infer-native`, `run-joern-native`,
+`run-semgrep-native`, and `run-pysa-native` (pair-witnessed like its modeling
+sibling, Python only), each taking `--language java|javascript|python` and
 writing `reports/<tool>-<language>-native.json` with raw evidence under
 `reports/raw/<tool>-<language>-native/`. `run-infer-native` accepts Java
 alone — the pinned Infer distribution executes no JavaScript or Python
@@ -1185,6 +1208,18 @@ declared rule's issues, on anchored sink callsites, from the issue's own
 position and its backward-trace sink-reach positions. See [the Pysa adapter
 notes](../adapters/pysa/README.md) for the eligibility evaluation, the
 pinned identities, the guarded failure modes, and the per-template results.
+
+**The adapter also holds Python's modeling and tool-native rows.** Amendment
+A16 added Pysa's benchmark-controlled partition row — categories S, P, Z, O,
+and E scored, ten of the twelve templates, with the category P and O
+declarations made load-bearing by the `@SkipAnalysis` + `@SkipObscure` modes
+after the pinned pair was measured resolving the matrix's reflective body on
+its own — and Amendment A17 added its tool-native row, six of six templates
+over the model suite the pinned wheel ships in `lib/pyre_check/taint/`. Both
+rows are Python-scoped by the engine's own language scope, run through
+`run-pysa-modeling` and `run-pysa-native`, and write
+`reports/pysa-python-modeling.json` and `reports/pysa-python-native.json`
+with raw evidence under the matching `reports/raw/` roots.
 
 The checked-in Bifrost snapshot (`reports/bifrost-smoke.json`) contains 118
 normalized results from Bifrost v0.10.2 build identity

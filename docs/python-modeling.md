@@ -387,3 +387,39 @@ Joern declaration is load-bearing is the suppressive one, so category Z is the
 only Joern category a probe can demonstrate. The corresponding probe on
 category P is what established that, and it is the amendment's evidence rather
 than a demonstration — which is why P is no longer scored for Joern at all.
+
+## Pysa joins the row (Amendment A16)
+
+Python's modeling row gained a fifth adapter after wave M1 closed:
+[Amendment A16](modeling-matrix.md#a16--2026-09-01-pysa-joins-the-modeling-matrix-with-a-measured-partition-row)
+added Pysa — the pinned pyre-check 0.10.0 + Pyrefly 1.2.0 pair the
+[Python kernel](python-kernel.md) already runs — with a partition row
+verified by execution before its first scored run: categories S, P, Z, O,
+and E scored, category B declined on the `.pysa` DSL's absent store
+vocabulary. The row is Python-scoped, the engine's one language, so this
+document is the only per-language row it will ever appear in.
+
+**The scored run — `reports/pysa-python-modeling.json` — decides all twenty
+scored assertions correctly.** Ten templates, positive and negative, with
+zero `inconclusive`, `runner-error`, or mismatches; the four category-B cells
+are `unsupported` with the amendment's retained rationale, decided before the
+pair was invoked. This is the strongest scored set on Python's modeling row
+after CodeQL's — and it includes template 8 (`summary-field`), whose
+store-through access path (`TaintInTaintOut[Updates[box],
+UpdatePath[_.payload]]`) no other adapter has expressed with the
+field-separation negative kept clean; Joern's template-8 cell fell to
+Amendment A2 on exactly that fidelity.
+
+**The load-bearing switch is per entity, and the row exists because of it.**
+The A16 probes measured the pinned pair resolving template 3's reflective
+body unaided — Pyrefly narrows `getattr(_impl, name)` over the local string
+constant, the same A4-lineage correction Joern's frontends forced — so every
+propagator and summary entity in `adapters/pysa/models/modeling-python.pysa`
+is declared under `@SkipAnalysis` + `@SkipObscure`, the runner refuses the
+artifact without them, and the retained probes
+(`reports/raw/amendment-a16-pysa-modeling/`, twenty-eight directions) show
+each declaration deciding its cell in both directions: the `TaintInTaintOut`
+produces the flow, deleting it under the kept skip modes removes the flow,
+`@Sanitize` suppresses and its deletion restores, and every undeclared
+lookalike — `fetch_local`, `block`, position 0, `sanitize`, `hold`,
+`box.spare`, `on_ignored`, `on_undeclared` — stays unbound.
