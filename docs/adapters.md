@@ -145,6 +145,53 @@ verification that was never performed. They are re-probed with the v0.6.0
 re-run. The same applies to the CodeQL build-mode findings for Kotlin and Go,
 which the re-run re-exercises.
 
+#### 2026-09-01/02 — v0.6.1 Bifrost fix-cycle re-pin
+
+The second review under this policy, and a narrow one: it exists because a
+Bifrost fix cycle closed against findings this benchmark published, and the
+release's delta is deliberately scoped to that.
+
+| Analyzer | Pin at v0.6.0 | Outcome | Basis |
+| --- | --- | --- | --- |
+| Bifrost | v0.10.7 | **Bumped to v0.10.8** | `--version` witnessed `bifrost 0.10.8`; `--build-identity` witnessed `419395c8066b9eddfba06aa69c8a151ef4968249` |
+| CodeQL CLI | 2.26.4 | **Evaluated — current** | 2.26.4 is still latest stable; no upstream release since the v0.6.0 review |
+| Semgrep CE | 1.175.0 | **Evaluated — current** | 1.175.0 is still latest stable |
+| Joern | 4.0.614 | **Held** | Upstream daily 4.0.615 is one day newer. Held with this dated reason so the release's delta stays scoped to the Bifrost fix cycle; re-evaluated at the next freeze boundary |
+| OpenTaint | `analyzer/2026.08.27.17eb0fe` | **Evaluated — current** | Pinned by asset digest 2026-08-31; unchanged upstream |
+| Infer | v1.3.0 | **Evaluated — current** | Pinned 2026-08-31; unchanged upstream |
+| FlowDroid | 2.15.1 | **Evaluated — current** | Jar pinned by digest 2026-08-31; unchanged upstream |
+| Pysa | pyre-check 0.10.0 + Pyrefly 1.2.0 | **Evaluated — current** | Both wheels pinned by digest 2026-09-01; unchanged upstream |
+
+**What the bump is for.** v0.10.8 closes the fix cycle opened by
+BrokkAi/bifrost-dev #2731: all four of that issue's false positives are fixed,
+and eight assertions that were previously `inconclusive` are newly decided.
+
+**The bump is taken with a regression published, not held for it.** One
+regression was found and filed as BrokkAi/bifrost-dev #2831: the Go
+array-element pair, decided under v0.10.7, is now `inconclusive` under
+*"value-flow snapshot unsupported (`index_memory`)"*. Holding the pin to keep
+one pair decided would suppress a net improvement — four false positives fixed
+and eight cells newly decided — and would hide the regression rather than
+publish it. The benchmark's obligation runs the other way: the regression is
+filed upstream, named here, and lands visibly in the re-run's retained
+evidence.
+
+**The vendored Semgrep rules snapshot is held** at
+`semgrep/semgrep-rules@40b8c63f75dc7c22c8a77482d73bfb864b146f7e`, per the
+policy above: its currency is re-surveyed with the tool-native profile it
+feeds, not at every freeze boundary.
+
+**The latency corpus is not re-measured.** It is frozen at v0.6.0, and v0.6.1
+does not re-run it. `docs/latency-tier.md` and its artifacts therefore keep
+naming **v0.10.7** as the measured environment's Bifrost — those are
+descriptions of retained evidence under the rule above, and re-labelling them
+to v0.10.8 would assert a measurement that was never performed.
+
+**This review moves declarations only.** The Bifrost evidence re-run follows
+separately; until it lands, retained reports, results tables, configuration
+hashes, and the Amendment A5/A9/A10 measurement records keep naming the build
+they were produced on.
+
 ## Challenge-tier rollout mechanics
 
 [The challenge-tier preregistration](challenge-tier.md) fixes *what* the

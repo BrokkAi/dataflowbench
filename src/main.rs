@@ -616,11 +616,11 @@ impl ModelingTool {
     /// the run *witnessed* from the binary
     /// ([`witness_tool_identity`]), because a constant cannot witness a
     /// version. A run that asserted its own version would keep publishing
-    /// `v0.10.7` after the pin moved, which is precisely the corruption a
+    /// `v0.10.8` after the pin moved, which is precisely the corruption a
     /// freeze cannot survive.
     fn pinned_identity(self) -> &'static str {
         match self {
-            Self::Bifrost => "Bifrost v0.10.7",
+            Self::Bifrost => "Bifrost v0.10.8",
             Self::Codeql => "CodeQL CLI 2.26.4",
             Self::Flowdroid => "FlowDroid 2.15.1",
             Self::Infer => "Infer v1.3.0",
@@ -1731,7 +1731,7 @@ struct NativePartitionCell {
 /// amendment. That is why three of the four tools enter with nothing scored —
 /// which is a statement about product packaging, not about an engine.
 const NATIVE_PARTITION: &[NativePartitionCell] = &[
-    // Bifrost — v0.10.7: 0 / 6. The standalone policy CLI ships no taint
+    // Bifrost — v0.10.8: 0 / 6. The standalone policy CLI ships no taint
     // policy and no source/sink endpoint catalog, so no template can produce a
     // finding regardless of what else it can express.
     NativePartitionCell {
@@ -19993,13 +19993,13 @@ mod tests {
     #[test]
     fn run_environment_stamp_pairs_machine_with_witnessed_identity() {
         let root = unique_test_dir("dataflowbench-environment-test");
-        write_run_environment(&root, "bifrost", "0.10.7", "bifrost-build").unwrap();
+        write_run_environment(&root, "bifrost", "0.10.8", "bifrost-build").unwrap();
         let stamp: Value =
             serde_json::from_str(&fs::read_to_string(root.join("run-environment.json")).unwrap())
                 .unwrap();
         assert_eq!(stamp["schema_version"], 1);
         assert_eq!(stamp["tool"], "bifrost");
-        assert_eq!(stamp["witnessed_tool_version"], "0.10.7");
+        assert_eq!(stamp["witnessed_tool_version"], "0.10.8");
         assert_eq!(stamp["witnessed_tool_build_identity"], "bifrost-build");
         assert_eq!(stamp["os"], std::env::consts::OS);
         assert_eq!(stamp["evidence_kind"], "retained-run-environment");

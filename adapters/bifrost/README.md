@@ -608,7 +608,7 @@ verbatim with the document's own rationale.
   sibling `sanitize`, and nothing for categories P, O, E, or B — a declined
   category is absent from the artifact rather than approximated in it.
 - Load-bearing model: the policy sets `:call-modeling (call-modeling :unmodeled
-  require-model)`, which the pinned v0.10.7 build accepts. The runner refuses
+  require-model)`, which the pinned v0.10.8 build accepts. The runner refuses
   the artifact if that setting is missing, and refuses it again if it names the
   kernel policies' permissive default. This does **not** promote the
   preregistration's *to be verified* cell for category P: that cell also needs a
