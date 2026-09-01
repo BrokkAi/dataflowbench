@@ -4,11 +4,10 @@ import starlight from '@astrojs/starlight';
 
 // Production deployment target for GitHub Pages.
 export default defineConfig({
-  site: 'https://brokkai.github.io',
-  base: '/dataflowbench',
+  site: 'https://dataflowbench.brokk.ai',
   redirects: {
     // Explicit current-snapshot pointer alongside versioned snapshot URLs.
-    '/current': '/dataflowbench/snapshots/v0-6-0/',
+    '/current': '/snapshots/v0-6-0/',
   },
   integrations: [
     starlight({
