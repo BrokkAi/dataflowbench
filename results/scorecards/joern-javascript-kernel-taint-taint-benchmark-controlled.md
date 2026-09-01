@@ -1,10 +1,10 @@
 # Scorecard `joern-javascript-kernel-taint-taint-benchmark-controlled`
 
-Adapter `joern-javascript-kernel`: `joern` `4.0.610` (build `joern-cli:4.0.610`, adapter version `0.1.0`, configuration `ab10e81860305e492a930e2c2691873b23be25e97e5b354ca785058e09a20025`).
+Adapter `joern-javascript-kernel`: `joern` `4.0.614` (build `joern-cli:4.0.614`, adapter version `0.1.0`, configuration `ab10e81860305e492a930e2c2691873b23be25e97e5b354ca785058e09a20025`).
 
 Track `taint`, score dimension `taint`, model profile `benchmark-controlled`. This scorecard is a single result population; it is never pooled with other tracks, dimensions, or model profiles.
 
-Normalized report: `reports/joern-javascript-kernel.json` (`sha256:2303345687cf28bff643fe3ae57f9df01ef3fca6450e2b9f739259cdab440311`, normalized `sha256:2303345687cf28bff643fe3ae57f9df01ef3fca6450e2b9f739259cdab440311`). Generated from freeze manifest `reports/freeze.json` (`sha256:43a34341ca3f818f55878bb23562da03b8fc4b1fc0c83f47b954eb22ec3f41e4`).
+Normalized report: `reports/joern-javascript-kernel.json` (`sha256:9f54af854f6b0cdc864b8017c2ccd3ad9f3b2cf952e2376b4c988c60e90e9462`, normalized `sha256:9f54af854f6b0cdc864b8017c2ccd3ad9f3b2cf952e2376b4c988c60e90e9462`). Generated from freeze manifest `reports/freeze.json` (`sha256:3228af686d09f8666989368483bef375bb28b94025b55e31eaa7a0bdd29506ee`).
 
 ## Language `javascript`, tier `core`
 

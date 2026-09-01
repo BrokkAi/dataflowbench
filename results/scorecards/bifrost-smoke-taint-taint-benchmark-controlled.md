@@ -4,7 +4,7 @@ Adapter `bifrost-smoke`: `bifrost` `bifrost 0.10.7` (build `44d9a5be416432bf8ed4
 
 Track `taint`, score dimension `taint`, model profile `benchmark-controlled`. This scorecard is a single result population; it is never pooled with other tracks, dimensions, or model profiles.
 
-Normalized report: `reports/bifrost-smoke.json` (`sha256:c78ed974f229ada333b621a9a325ebeca7f6aa774000482205b218e26190529c`, normalized `sha256:c78ed974f229ada333b621a9a325ebeca7f6aa774000482205b218e26190529c`). Generated from freeze manifest `reports/freeze.json` (`sha256:43a34341ca3f818f55878bb23562da03b8fc4b1fc0c83f47b954eb22ec3f41e4`).
+Normalized report: `reports/bifrost-smoke.json` (`sha256:1e123684a11d684df2b07fbc6e109e81c91080034abccfa4f1d019b08d1c7482`, normalized `sha256:1e123684a11d684df2b07fbc6e109e81c91080034abccfa4f1d019b08d1c7482`). Generated from freeze manifest `reports/freeze.json` (`sha256:3228af686d09f8666989368483bef375bb28b94025b55e31eaa7a0bdd29506ee`).
 
 ## Language `c`, tier `core`
 

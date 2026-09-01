@@ -4,7 +4,7 @@ Adapter `bifrost-ruby-kernel`: `bifrost` `bifrost 0.10.7` (build `44d9a5be416432
 
 Track `taint`, score dimension `taint`, model profile `benchmark-controlled`. This scorecard is a single result population; it is never pooled with other tracks, dimensions, or model profiles.
 
-Normalized report: `reports/bifrost-ruby-kernel.json` (`sha256:afab27546ffb827a0244a05d6bfeb882cadf2eae26fd74f6c75051687ddcff97`, normalized `sha256:afab27546ffb827a0244a05d6bfeb882cadf2eae26fd74f6c75051687ddcff97`). Generated from freeze manifest `reports/freeze.json` (`sha256:43a34341ca3f818f55878bb23562da03b8fc4b1fc0c83f47b954eb22ec3f41e4`).
+Normalized report: `reports/bifrost-ruby-kernel.json` (`sha256:0c20d8e951de0675671f9da3f62ebb96c71820210b186c8ac775e2cfddb0d7ae`, normalized `sha256:0c20d8e951de0675671f9da3f62ebb96c71820210b186c8ac775e2cfddb0d7ae`). Generated from freeze manifest `reports/freeze.json` (`sha256:3228af686d09f8666989368483bef375bb28b94025b55e31eaa7a0bdd29506ee`).
 
 ## Language `ruby`, tier `core`
 

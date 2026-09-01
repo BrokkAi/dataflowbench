@@ -10,6 +10,7 @@ import {
   shortDigest,
   vendorColorClass,
   vendorName,
+  toolVersionLabel,
   type Scorecard,
   type ScoreTier,
 } from '../data/snapshots';
@@ -91,7 +92,7 @@ function statsOf(card: Scorecard, tier: ScoreTier): VendorStats {
   return {
     tool: card.adapter.tool,
     name: vendorName(card.adapter.tool),
-    toolVersion: card.adapter.tool_version.replace(/^bifrost /, ''),
+    toolVersion: toolVersionLabel(card.adapter.tool, card.adapter.tool_version),
     scorecardId: card.id,
     truePositives,
     falseNegatives,
@@ -166,6 +167,9 @@ const dialogData = kernels.map((kernel) => ({
   vendors: kernel.vendors.map((vendor) => ({
     tool: vendor.tool,
     name: vendor.name,
+    // Resolved server-side from the one shared vendor→colour identity map, so
+    // the dialog cannot drift from the cards it opened out of.
+    colorClass: vendorColorClass(vendor.tool, 0),
     toolVersion: vendor.toolVersion,
     scorecardId: vendor.scorecardId,
     truePositives: vendor.truePositives,
@@ -318,7 +322,7 @@ function tierRows(profile: string, idFragment: string): TierRow[] {
         rows.push({
           tool: card.adapter.tool,
           name: vendorName(card.adapter.tool),
-          toolVersion: card.adapter.tool_version.replace(/^bifrost /, ''),
+          toolVersion: toolVersionLabel(card.adapter.tool, card.adapter.tool_version),
           colorClass: vendorColorClass(card.adapter.tool, 0),
           language: language.language,
           scorecardId: card.id,
@@ -515,6 +519,7 @@ const caseCount = snapshot.results.scorecards
     interface VendorPayload {
       tool: string;
       name: string;
+      colorClass: string;
       toolVersion: string;
       scorecardId: string;
       truePositives: number;
@@ -559,9 +564,8 @@ const caseCount = snapshot.results.scorecards
       row.appendChild(td);
     };
 
-    const buildPanel = (vendor: VendorPayload, index: number) => {
-      const colorByTool: Record<string, string> = { bifrost: 'v0', codeql: 'v1', joern: 'v2', semgrep: 'v3' };
-      const panel = element('section', `panel ${colorByTool[vendor.tool] ?? `v${index % 4}`}`);
+    const buildPanel = (vendor: VendorPayload) => {
+      const panel = element('section', `panel ${vendor.colorClass}`);
       const head = element('div', 'panel-head');
       head.appendChild(element('p', 'who', vendor.name));
       head.appendChild(element('p', 'caption', vendor.toolVersion));
@@ -646,9 +650,9 @@ const caseCount = snapshot.results.scorecards
         kernel.vendors.length === 1 ? 'analyzer' : 'analyzers'
       }`;
       panels.textContent = '';
-      kernel.vendors.forEach((vendor, index) => {
-        panels.appendChild(buildPanel(vendor, index));
-      });
+      for (const vendor of kernel.vendors) {
+        panels.appendChild(buildPanel(vendor));
+      }
       opener = button;
       dialog.showModal();
     };
@@ -1170,6 +1174,23 @@ const caseCount = snapshot.results.scorecards
     --vendor-color: var(--sl-color-green);
     --vendor-rule: var(--sl-color-green);
   }
+  /* Slots added in v0.6.0. The four above are untouched. */
+  #kernel-dialog .v4 {
+    --vendor-color: var(--dfb-vendor-4);
+    --vendor-rule: var(--dfb-vendor-4);
+  }
+  #kernel-dialog .v5 {
+    --vendor-color: var(--dfb-vendor-5);
+    --vendor-rule: var(--dfb-vendor-5);
+  }
+  #kernel-dialog .v6 {
+    --vendor-color: var(--dfb-vendor-6);
+    --vendor-rule: var(--dfb-vendor-6);
+  }
+  #kernel-dialog .v7 {
+    --vendor-color: var(--dfb-vendor-7);
+    --vendor-rule: var(--dfb-vendor-7);
+  }
   #kernel-dialog .panel .who {
     border-top-color: var(--vendor-rule, var(--sl-color-accent));
   }
@@ -1344,6 +1365,23 @@ const caseCount = snapshot.results.scorecards
     --vendor-color: var(--sl-color-green);
     --vendor-rule: var(--sl-color-green);
   }
+  /* Slots added in v0.6.0. The four above are untouched. */
+  .vendor.v4 {
+    --vendor-color: var(--dfb-vendor-4);
+    --vendor-rule: var(--dfb-vendor-4);
+  }
+  .vendor.v5 {
+    --vendor-color: var(--dfb-vendor-5);
+    --vendor-rule: var(--dfb-vendor-5);
+  }
+  .vendor.v6 {
+    --vendor-color: var(--dfb-vendor-6);
+    --vendor-rule: var(--dfb-vendor-6);
+  }
+  .vendor.v7 {
+    --vendor-color: var(--dfb-vendor-7);
+    --vendor-rule: var(--dfb-vendor-7);
+  }
   /* Same fixed vendor→colour mapping as the cards and the dialog, keyed by
      tool identity rather than row position, so a vendor keeps its colour
      across the kernel, modeling, and tool-native sections. */
@@ -1367,6 +1405,19 @@ const caseCount = snapshot.results.scorecards
   }
   .vendor-dot.v3 {
     --vendor-rule: var(--sl-color-green);
+  }
+  /* Slots added in v0.6.0. The four above are untouched. */
+  .vendor-dot.v4 {
+    --vendor-rule: var(--dfb-vendor-4);
+  }
+  .vendor-dot.v5 {
+    --vendor-rule: var(--dfb-vendor-5);
+  }
+  .vendor-dot.v6 {
+    --vendor-rule: var(--dfb-vendor-6);
+  }
+  .vendor-dot.v7 {
+    --vendor-rule: var(--dfb-vendor-7);
   }
   .big .of {
     font-size: 1.1rem;

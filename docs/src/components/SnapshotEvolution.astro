@@ -143,11 +143,27 @@ for (let value = 0; value <= axisMax; value += step) ticks.push(value);
 
 const bandCenter = (index: number) => padLeft + (index + 0.5) * band;
 const y = (value: number) => padTop + plotHeight * (1 - value / axisMax);
+
 // A constant per-series horizontal offset: the markers of one column no longer
 // collide, and because every point of a series shifts by the same amount the
 // shape of the line is untouched.
-const seriesOffset = (index: number) =>
-  (index - (series.length - 1) / 2) * 13;
+//
+// The spacing is capped so the whole fan always fits inside one band, however
+// many analyzers a snapshot carries. With a fixed spacing, adding analyzers
+// eventually pushes the outermost series past the plot edge and into the
+// neighbouring column — which both clips markers and puts a point visually
+// under the wrong snapshot label. The preferred spacings below are the ones
+// the four-analyzer snapshots were published with, and the cap only ever
+// tightens them, so no previously published layout moves.
+const bandMargin = 24;
+const fannedOffset = (index: number, preferred: number) => {
+  const spacing =
+    series.length <= 1
+      ? 0
+      : Math.min(preferred, (band - bandMargin) / (series.length - 1));
+  return (index - (series.length - 1) / 2) * spacing;
+};
+const seriesOffset = (index: number) => fannedOffset(index, 13);
 
 const columnIndex = new Map(columns.map((column, index) => [column.version, index]));
 
@@ -176,9 +192,15 @@ const decidedShare = (point: SeriesPoint) =>
   point.decided === 0 ? null : (point.correct / point.decided) * 100;
 const formatPercent = (value: number) => `${value.toFixed(1)}%`;
 // The normalized view has no ceiling labels crowding the bands, so the series
-// can spread further apart — enough room for a per-point coverage annotation.
-const percentOffset = (index: number) =>
-  (index - (series.length - 1) / 2) * 30;
+// may spread further apart — enough room for a per-point coverage annotation —
+// but it is capped to the band just as the absolute view is.
+const percentOffset = (index: number) => fannedOffset(index, 30);
+// When the fan is tighter than a `k/n` label is wide, those labels are dealt
+// out over three rows so neighbours cannot overprint each other.
+const percentSpacing =
+  series.length <= 1 ? 0 : Math.abs(percentOffset(1) - percentOffset(0));
+const labelRows = percentSpacing >= 26 ? 1 : 3;
+const labelRow = (index: number) => index % labelRows;
 /** Marker area grows with the share of the snapshot's kernels covered. */
 const markerRadius = (point: SeriesPoint, columnKernels: number) =>
   3 + 4 * (columnKernels === 0 ? 0 : point.kernels / columnKernels);
@@ -253,6 +275,24 @@ const rows = columns.flatMap((column) =>
 
 const first = columns[0]!;
 const last = columns.at(-1)!;
+
+// Where each analyzer's line begins, derived rather than named, so an
+// analyzer added in a later freeze cannot be silently dropped from the
+// sentence that explains why a line starts where it does.
+const sentenceList = (items: string[]) =>
+  items.length <= 1
+    ? (items[0] ?? '')
+    : items.length === 2
+      ? items.join(' and ')
+      : `${items.slice(0, -1).join(', ')}, and ${items.at(-1)}`;
+const debutList = sentenceList(
+  series
+    .filter((entry) => entry.points[0]!.version !== first.version)
+    .map((entry) => `${entry.name} first appears in ${entry.points[0]!.version}`),
+);
+/** Analyzers whose line is a single point: present in exactly one freeze. */
+const singlePoint = series.filter((entry) => entry.points.length === 1);
+const singlePointList = sentenceList(singlePoint.map((entry) => entry.name));
 
 // The snapshot that expanded the population the most: the freeze where a
 // falling share is the benchmark moving, not an analyzer regressing.
@@ -515,7 +555,12 @@ const biggestJump = columns
                 <text
                   class="coverage-note"
                   x={x}
-                  y={yPercent(coveredShare(point)) + radius + 12}
+                  y={
+                    yPercent(coveredShare(point)) +
+                    radius +
+                    12 +
+                    labelRow(entryIndex) * 11
+                  }
                   text-anchor="middle"
                 >
                   {point.kernels}/{kernels}
@@ -609,11 +654,16 @@ const biggestJump = columns
   assertions it reported on — so the part of the stub above the marker is
   wrong answers plus coverage outcomes, and the remaining gap up to the grey
   step is kernels it does not cover at all. A snapshot without a marker is a
-  snapshot the analyzer was not run in: Joern first appears in
-  {series.find((entry) => entry.tool === 'joern')?.points[0]?.version ?? 'n/a'},
-  Semgrep CE in
-  {series.find((entry) => entry.tool === 'semgrep')?.points[0]?.version ?? 'n/a'}.
-  Absence is never drawn as a zero and never interpolated across.
+  snapshot the analyzer was not run in: {debutList}. Absence is never drawn as
+  a zero and never interpolated across, so an analyzer that appears in exactly
+  one freeze is one marker and no line —
+  {singlePoint.length > 0
+    ? `${singlePointList} ${
+        singlePoint.length === 1 ? 'is' : 'are'
+      } drawn that way here, and no earlier value is implied for ${
+        singlePoint.length === 1 ? 'it' : 'them'
+      }`
+    : 'no analyzer is drawn that way here'}.
   <code>inconclusive</code>, <code>unsupported</code> and
   <code>runner-error</code> are capability coverage: excluded from
   correctness, never converted into wrong answers. Every snapshot label links
@@ -625,10 +675,7 @@ const biggestJump = columns
   population; the faint stub above it runs to 100%, which is that same covered
   population, so the stub is wrong answers plus coverage outcomes inside the
   kernels it did report on. A snapshot without a marker is a snapshot the
-  analyzer was not run in: Joern first appears in
-  {series.find((entry) => entry.tool === 'joern')?.points[0]?.version ?? 'n/a'},
-  Semgrep CE in
-  {series.find((entry) => entry.tool === 'semgrep')?.points[0]?.version ?? 'n/a'}.
+  analyzer was not run in: {debutList}.
   Absence is never drawn as a zero and never interpolated across. Percentages
   from different snapshots are not the same exam, and percentages from
   different analyzers in the same snapshot are only the same exam when their
@@ -921,6 +968,19 @@ const biggestJump = columns
   }
   .v3 {
     --vendor-rule: var(--sl-color-green);
+  }
+  /* Slots added in v0.6.0. The four above are untouched. */
+  .v4 {
+    --vendor-rule: var(--dfb-vendor-4);
+  }
+  .v5 {
+    --vendor-rule: var(--dfb-vendor-5);
+  }
+  .v6 {
+    --vendor-rule: var(--dfb-vendor-6);
+  }
+  .v7 {
+    --vendor-rule: var(--dfb-vendor-7);
   }
   .muted {
     color: var(--sl-color-gray-3);
