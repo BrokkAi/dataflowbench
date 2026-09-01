@@ -361,6 +361,31 @@ case and fixture byte, so nothing under `cases/` was touched to add this
 adapter; the invocation is pinned in the runner instead, the way the Joern
 kernels and the Kotlin Bifrost run pin theirs.
 
+### The warm-marginal batch invocation
+
+A second, **timing-only** invocation shape exists for the latency tier's
+warm-marginal measurement
+([Amendment A15](../../docs/latency-tier.md#amendments)). It scores nothing and
+writes no normalized report:
+
+```bash
+cargo run -- measure-warm-latency --tool semgrep --language java \
+  --batch-sizes 1,2,4,8,12 --semgrep /opt/homebrew/bin/semgrep
+```
+
+which spawns, once per batch size *k*, one `semgrep scan` over *k* case
+workspaces at once — the same flags as the cold invocation above, with *k*
+target paths instead of one.
+
+One restriction is load-bearing and is recorded on the artifact rather than
+applied silently: **`semgrep scan` carries one `--config`**, so a batch is the
+same work as its *k* cold runs only when all *k* cases resolve to identical rule
+text. The batched population is therefore the largest identical-rule group among
+the kernel's invocable assertions, and the cold median it is compared against is
+restricted to exactly those cases. The declared-capability `unsupported`
+partition is excluded from both, as it is from every cold timing — those cases
+never reach Semgrep and have nothing to time.
+
 ## Outcome semantics
 
 | Outcome | Meaning |

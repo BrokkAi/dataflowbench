@@ -35,7 +35,7 @@ it been told, and the modeling row is where that question is already answered.
 | Vendored ruleset provenance | `adapters/semgrep/native/java/provenance.json` |
 | Reports | `reports/{bifrost,codeql,joern,semgrep,opentaint}-java-native.json` |
 | Raw evidence | `reports/raw/{bifrost,codeql,joern,semgrep,opentaint}-java-native/` |
-| OpenTaint activation probe | `scripts/probe-opentaint-native-activation.sh` (joined by [Amendment A16](native-profile.md#a16--2026-09-01-opentaint-joins-the-tool-native-profile-at-0--6-and-the-shipped-models-archive-is-ruled-shipped-product); see [below](#opentaint--declined-on-the-same-terms-amendment-a14)) |
+| OpenTaint activation probe | `scripts/probe-opentaint-native-activation.sh` (joined by [Amendment A17](native-profile.md#a17--2026-09-01-opentaint-joins-the-tool-native-profile-at-0--6-and-the-shipped-models-archive-is-ruled-shipped-product); see [below](#opentaint--declined-on-the-same-terms-amendment-a14)) |
 
 There is **no model artifact**, and that absence is the profile. A native run
 loads only what the vendor ships; the runner's no-benchmark-models gate reads
@@ -275,10 +275,10 @@ nothing to mis-path — and every run produced zero findings of any rule
 with the identity witnessed from the binary, per the profile's 0 / 6
 witnessing rule.
 
-## OpenTaint — declined on the same terms (Amendment A16, 2026-09-01)
+## OpenTaint — declined on the same terms (Amendment A17, 2026-09-01)
 
 OpenTaint joined the profile the same day, by
-[Amendment A16](native-profile.md#a16--2026-09-01-opentaint-joins-the-tool-native-profile-at-0--6-and-the-shipped-models-archive-is-ruled-shipped-product),
+[Amendment A17](native-profile.md#a17--2026-09-01-opentaint-joins-the-tool-native-profile-at-0--6-and-the-shipped-models-archive-is-ruled-shipped-product),
 at **0 / 6** — and its report (`reports/opentaint-java-native.json`,
 2026-09-01) carries twelve `unsupported` outcomes with the amendment's
 rationale retained per cell, no fixture ever handed to the analyzer, and the
@@ -295,7 +295,7 @@ own `native-source-sink-positive` fixture with the archive loaded and no rule
 set, the pinned analyzer registers zero rules and reports zero results
 (`reports/raw/opentaint-native-activation-probe/`). Propagation without
 endpoints carries nothing, so every cell is declined — packaging, not engine:
-[the Java modeling row](java-modeling.md#opentaint-joins-the-row--amendment-a15-2026-09-01)
+[the Java modeling row](java-modeling.md#opentaint-joins-the-row--amendment-a16-2026-09-01)
 scores the same binary 12/12 on the three categories its rule surface can be
 told.
 

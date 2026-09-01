@@ -782,7 +782,7 @@ identity from the binary,
 
 ### OpenTaint — `analyzer/2026.08.27.17eb0fe`, shipped models archive only (Java only)
 
-> **Added by [Amendment A16](#a16--2026-09-01-opentaint-joins-the-tool-native-profile-at-0--6-and-the-shipped-models-archive-is-ruled-shipped-product).**
+> **Added by [Amendment A17](#a17--2026-09-01-opentaint-joins-the-tool-native-profile-at-0--6-and-the-shipped-models-archive-is-ruled-shipped-product).**
 > This row was not part of the original preregistration — the adapter did not
 > exist when it merged — and it joins on the same terms every row here holds
 > to: decided from the pinned release's own assets, by execution, before any
@@ -836,7 +836,7 @@ this row.
 OpenTaint enters this profile with **zero of six**, and — as with Joern — that
 is a statement about the pinned release's *product packaging*, not about its
 engine: the benchmark-controlled matrix scores the same binary on three of six
-categories ([Amendment A15](modeling-matrix.md#a15--2026-09-01-opentaint-joins-the-modeling-matrix-with-a-preregistered-java-partition-row)),
+categories ([Amendment A16](modeling-matrix.md#a16--2026-09-01-opentaint-joins-the-modeling-matrix-with-a-preregistered-java-partition-row)),
 and the gap between those two rows is exactly what this profile exists to make
 legible.
 
@@ -859,11 +859,11 @@ until shown otherwise.
 
 > [A14](#a14--2026-09-01-infers-native-row-declines-on-a-measured-silence)
 > adds the Infer v1.3.0 column and
-> [A16](#a16--2026-09-01-opentaint-joins-the-tool-native-profile-at-0--6-and-the-shipped-models-archive-is-ruled-shipped-product)
+> [A17](#a17--2026-09-01-opentaint-joins-the-tool-native-profile-at-0--6-and-the-shipped-models-archive-is-ruled-shipped-product)
 > the OpenTaint column — each a new adapter's own activation row, measured
 > before its first native run, Java-only.
 
-| # | Template | Cat. | Bifrost v0.10.7 | CodeQL 2.26.4 | Joern 4.0.614 | Semgrep CE 1.175.0 | Infer v1.3.0 (A14) | OpenTaint 2026.08.27 (A16) |
+| # | Template | Cat. | Bifrost v0.10.7 | CodeQL 2.26.4 | Joern 4.0.614 | Semgrep CE 1.175.0 | Infer v1.3.0 (A14) | OpenTaint 2026.08.27 (A17) |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | 1 | `native-source-sink` | S | unsupported | supported | unsupported | TBV | unsupported | unsupported |
 | 2 | `native-propagator` | P | unsupported | supported | unsupported | TBV | unsupported | unsupported |
@@ -1019,11 +1019,11 @@ they touch, name the freezes they invalidate, and land as their own commits.
 
 Their numbers continue the repository's **single** amendment sequence rather
 than restarting per document: A1 is in [the challenge tier](challenge-tier.md#amendments),
-A2–A5, A9, A13, and A15 are in [the modeling matrix](modeling-matrix.md#amendments),
-A11 is in [the adapter contract](adapters.md#amendments), and A12 is in
-[the latency tier](latency-tier.md#amendments), so an amendment identifier
+A2–A5, A9, A13, and A16 are in [the modeling matrix](modeling-matrix.md#amendments),
+A11 is in [the adapter contract](adapters.md#amendments), and A12 and A15 are
+in [the latency tier](latency-tier.md#amendments), so an amendment identifier
 names exactly one amendment wherever it is cited. The sequence interleaves
-across documents — A8 here is followed by A9 there, and A10, A14, and A16
+across documents — A8 here is followed by A9 there, and A10, A14, and A17
 return here — which is the point: the number, not the document, is the
 identity.
 
@@ -1341,7 +1341,7 @@ Infer column; `java` alone carries a denominator.
 **Freezes invalidated.** None. No published freeze manifest contains a
 tool-native report, and the v0.6.0 freeze is untouched.
 
-### A16 — 2026-09-01: OpenTaint joins the tool-native profile at 0 / 6, and the shipped models archive is ruled shipped product
+### A17 — 2026-09-01: OpenTaint joins the tool-native profile at 0 / 6, and the shipped models archive is ruled shipped product
 
 **What changed.** The [activation partition](#partition-summary) gains a sixth
 column — OpenTaint, pinned release `analyzer/2026.08.27.17eb0fe` by asset
@@ -1400,7 +1400,7 @@ amendment.
 **The deliberate asymmetry, restated for this adapter.** The
 benchmark-controlled matrix scores the same pinned binary on three of six
 categories
-([Amendment A15](modeling-matrix.md#a15--2026-09-01-opentaint-joins-the-modeling-matrix-with-a-preregistered-java-partition-row));
+([Amendment A16](modeling-matrix.md#a16--2026-09-01-opentaint-joins-the-modeling-matrix-with-a-preregistered-java-partition-row));
 this profile scores it on none. That gap is product packaging versus engine
 capability — the exact gap Joern's two rows already exhibit — and it is what
 this profile exists to make legible, not a contradiction to reconcile.

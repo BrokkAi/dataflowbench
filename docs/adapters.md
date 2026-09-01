@@ -360,7 +360,7 @@ adapters.** `MODELING_PARTITION` holds one cell per tool per category — the
 preregistration's twenty-four cells plus Infer's six
 ([Amendment A13](modeling-matrix.md#a13--2026-09-01-infer-joins-the-modeling-matrix-with-a-field-evaluated-partition-row))
 and OpenTaint's six
-([Amendment A15](modeling-matrix.md#a15--2026-09-01-opentaint-joins-the-modeling-matrix-with-a-preregistered-java-partition-row)),
+([Amendment A16](modeling-matrix.md#a16--2026-09-01-opentaint-joins-the-modeling-matrix-with-a-preregistered-java-partition-row)),
 each field-evaluated before that adapter's first modeling run — transcribed
 from the preregistration's tables, with the cells it marks *to be verified*
 recorded as `unsupported` per its own rule, and with the dated amendments
@@ -388,7 +388,7 @@ tool per language, hash-bound into the report's `configuration_hash`:
 | Infer | `adapters/infer/config/model-java.json` — Java only; the pinned distribution executes no JavaScript or Python frontend, so those combinations have no artifact and no denominator (Amendment A13) |
 | Joern | `adapters/joern/semantics/model-<language>.semantics`, plus the shared `adapters/joern/queries/modeling.sc` |
 | Semgrep | `adapters/semgrep/rules/model-<language>.yaml` |
-| OpenTaint | `adapters/opentaint/rules/model-java.yaml` (Java only, Amendment A15) |
+| OpenTaint | `adapters/opentaint/rules/model-java.yaml` (Java only, Amendment A16) |
 
 The CodeQL path departs from the preregistration's schematic
 `adapters/codeql/queries/<Language>Modeling.ql` and sits inside that language's
@@ -460,7 +460,7 @@ analyzer over a *scored* cell is written by the pull request that authors that
 adapter's declarations for that language. All three of wave M1's languages are
 wired on the same four runners: Python (`docs/python-modeling.md`), JavaScript
 (`docs/javascript-modeling.md`), and Java (`docs/java-modeling.md`); Infer's
-and OpenTaint's Java arms landed with Amendments A13 and A15, each in the same
+and OpenTaint's Java arms landed with Amendments A13 and A16, each in the same
 pull request as its declarations, per the same rule. Wave M1 is therefore
 complete, and a scored cell in a language that has no arm stays a hard
 error rather than a synthesized outcome, which the adapter contract at the head
@@ -518,7 +518,7 @@ by language too.** `NATIVE_PARTITION` holds one cell per tool per template —
 the preregistration's twenty-four cells plus Infer's six
 ([Amendment A14](native-profile.md#a14--2026-09-01-infers-native-row-declines-on-a-measured-silence))
 and OpenTaint's six
-([Amendment A16](native-profile.md#a16--2026-09-01-opentaint-joins-the-tool-native-profile-at-0--6-and-the-shipped-models-archive-is-ruled-shipped-product))
+([Amendment A17](native-profile.md#a17--2026-09-01-opentaint-joins-the-tool-native-profile-at-0--6-and-the-shipped-models-archive-is-ruled-shipped-product))
 — transcribed from the preregistration's summary, with its *to
 be verified* cells recorded as `unsupported` per its own rule — and
 `NATIVE_PARTITION_AMENDMENTS` sits in front of it with one row per amended
@@ -546,7 +546,7 @@ the report carrying the pinned activation configuration with it.
 `reports/<tool>-<language>-native.json` with raw evidence under
 `reports/raw/<tool>-<language>-native/`. `run-infer-native` and
 `run-opentaint-native` accept Java alone — the other languages have no Infer
-or OpenTaint native denominator (Amendments A14 and A16) — and
+or OpenTaint native denominator (Amendments A14 and A17) — and
 `run-opentaint-native` takes the pinned release assets instead of a binary:
 its partition declines every cell, and the run still witnesses both assets'
 digests, because a report whose whole evidence is retained rationales must

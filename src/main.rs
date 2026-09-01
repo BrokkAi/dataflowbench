@@ -557,7 +557,7 @@ fn modeling_category(template: &str) -> Option<ModelingCategory> {
 /// joined later, each by a dated amendment with its own partition row, never
 /// by inheriting another's. Infer joined by Amendment A13 with a
 /// field-evaluated row (`reports/raw/amendment-a13-infer-partition/`), and
-/// OpenTaint by Amendments A15 and A16, both likewise decided by execution
+/// OpenTaint by Amendments A16 and A17, both likewise decided by execution
 /// before that adapter's first modeling or native run
 /// (`reports/raw/opentaint-modeling-surface-probe/`).
 #[derive(Clone, Copy, PartialEq, Eq, Debug, clap::ValueEnum)]
@@ -855,7 +855,7 @@ const MODELING_PARTITION: [ModelingPartitionCell; 36] = [
         ),
     },
     // OpenTaint — analyzer/2026.08.27.17eb0fe, Java only: 3 / 6 (S, P, Z).
-    // Added by Amendment A15, decided by executing the pinned analyzer over
+    // Added by Amendment A16, decided by executing the pinned analyzer over
     // the committed Java modeling fixtures before any scored run; the probe
     // evidence is retained under reports/raw/opentaint-modeling-surface-probe/
     // (scripts/probe-opentaint-modeling-surface.sh). This adapter has no
@@ -888,21 +888,21 @@ const MODELING_PARTITION: [ModelingPartitionCell; 36] = [
         tool: ModelingTool::Opentaint,
         category: ModelingCategory::Summaries,
         unsupported_reason: Some(
-            "the engine's whole-program body reading decides template 7 in both cells — with no summary declared, both identity bodies are read and both cells report (probe arms `o-through-*-endpoints-only`) — and the surface has no instruction to ignore a present body, so no summary declaration can be load-bearing; template 8's `out: 1.payload` field destination has no spelling in the propagator's from/to vocabulary, and both attempted store-through encodings produce no flow (`o-field-*`) (Amendment A15)",
+            "the engine's whole-program body reading decides template 7 in both cells — with no summary declared, both identity bodies are read and both cells report (probe arms `o-through-*-endpoints-only`) — and the surface has no instruction to ignore a present body, so no summary declaration can be load-bearing; template 8's `out: 1.payload` field destination has no spelling in the propagator's from/to vocabulary, and both attempted store-through encodings produce no flow (`o-field-*`) (Amendment A16)",
         ),
     },
     ModelingPartitionCell {
         tool: ModelingTool::Opentaint,
         category: ModelingCategory::EntryPoints,
         unsupported_reason: Some(
-            "the pinned rule front end silently drops method-definition-shaped `pattern-sources` — both the focus-metavariable and the pattern-inside encodings — and the rule degenerates to sink-existence matching that flags constant-argument callsites in both cells (probe arms `e-def-pattern-*`, `e-inside-pattern-*`, against the `e-sink-only-control` arm), so no entry-root declaration is expressible; the invocation's all-methods entry-point selector analyzes the uncalled handlers but nothing can declare their parameters tainted on entry (Amendment A15)",
+            "the pinned rule front end silently drops method-definition-shaped `pattern-sources` — both the focus-metavariable and the pattern-inside encodings — and the rule degenerates to sink-existence matching that flags constant-argument callsites in both cells (probe arms `e-def-pattern-*`, `e-inside-pattern-*`, against the `e-sink-only-control` arm), so no entry-root declaration is expressible; the invocation's all-methods entry-point selector analyzes the uncalled handlers but nothing can declare their parameters tainted on entry (Amendment A16)",
         ),
     },
     ModelingPartitionCell {
         tool: ModelingTool::Opentaint,
         category: ModelingCategory::Persistence,
         unsupported_reason: Some(
-            "the rule surface has no store, key, or cross-procedure vocabulary: a propagator carries taint between the metavariables of one matched callsite and cannot span `put` in one procedure and `get` in another. All three attempted encodings — endpoints only, the static-store spelling through the key argument, and the instance-store spelling through a side-effect-tainted receiver — leave every positive at zero findings (probe arms `b-*`) (Amendment A15)",
+            "the rule surface has no store, key, or cross-procedure vocabulary: a propagator carries taint between the metavariables of one matched callsite and cannot span `put` in one procedure and `get` in another. All three attempted encodings — endpoints only, the static-store spelling through the key argument, and the instance-store spelling through a side-effect-tainted receiver — leave every positive at zero findings (probe arms `b-*`) (Amendment A16)",
         ),
     },
 ];
@@ -1075,7 +1075,7 @@ impl ModelingLanguage {
     /// missing artifact (a hard error). Infer's pinned distribution executes
     /// no JavaScript or Python frontend, so its modeling row exists for Java
     /// alone (Amendment A13); OpenTaint analyzes JVM bytecode only, so the
-    /// same holds for it (Amendment A15).
+    /// same holds for it (Amendment A16).
     fn artifact(self, tool: ModelingTool) -> Option<&'static str> {
         match (tool, self) {
             (ModelingTool::Opentaint, Self::Java) => {
@@ -1734,7 +1734,7 @@ const NATIVE_PARTITION: [NativePartitionCell; 36] = [
         ),
     },
     // OpenTaint — analyzer/2026.08.27.17eb0fe, Java only: 0 / 6. Added by
-    // Amendment A16. The pinned release ships two assets: the analyzer jar
+    // Amendment A17. The pinned release ships two assets: the analyzer jar
     // and `opentaint-models.tar.gz`. The archive is shipped product — vendor
     // pass-through propagation rows, accumulated-field approximations, and
     // compiled dataflow-approximation classes, this tool's analogue of
@@ -1758,7 +1758,7 @@ const NATIVE_PARTITION: [NativePartitionCell; 36] = [
              classes — and no rule set ships, so the analyzer with the shipped assets alone \
              registers zero rules over the platform's own `System.getenv` → `Runtime.exec` \
              (retained native-activation probe). Without a source and a sink, no template in \
-             this profile can produce a finding (Amendment A16)",
+             this profile can produce a finding (Amendment A17)",
         ),
     },
     NativePartitionCell {
@@ -1768,7 +1768,7 @@ const NATIVE_PARTITION: [NativePartitionCell; 36] = [
             "the shipped models archive is precisely a propagation catalog, and it is \
              genuinely shipped product — but propagation with no shipped source and no \
              shipped sink carries nothing anywhere, the same gap in the same direction as \
-             Joern's DefaultSemantics row (Amendment A16)",
+             Joern's DefaultSemantics row (Amendment A17)",
         ),
     },
     NativePartitionCell {
@@ -1777,7 +1777,7 @@ const NATIVE_PARTITION: [NativePartitionCell; 36] = [
         unsupported_reason: Some(
             "no sanitizer appears anywhere in the shipped assets, and prior to that no flow \
              can start for a barrier to be observable against — the same absent endpoint \
-             catalog that decides templates 1 and 2 (Amendment A16)",
+             catalog that decides templates 1 and 2 (Amendment A17)",
         ),
     },
     NativePartitionCell {
@@ -1786,7 +1786,7 @@ const NATIVE_PARTITION: [NativePartitionCell; 36] = [
         unsupported_reason: Some(
             "the archive's dataflow-approximation classes are exactly this template's \
              round-trip material and they do activate — behind endpoints the pinned release \
-             does not ship, so the summary has nothing to carry (Amendment A16)",
+             does not ship, so the summary has nothing to carry (Amendment A17)",
         ),
     },
     NativePartitionCell {
@@ -1795,14 +1795,14 @@ const NATIVE_PARTITION: [NativePartitionCell; 36] = [
         unsupported_reason: Some(
             "entry-point *selection* exists (`--debug-run-analysis-on-selected-entry-points`) \
              but selecting a method analyzes it rather than tainting its parameters; sources \
-             live in the rule set, and the pinned release ships none (Amendment A16)",
+             live in the rule set, and the pinned release ships none (Amendment A17)",
         ),
     },
     NativePartitionCell {
         tool: ModelingTool::Opentaint,
         template: NATIVE_TEMPLATE_IDS[5],
         unsupported_reason: Some(
-            "no store vocabulary ships in any asset of the pinned release (Amendment A16)",
+            "no store vocabulary ships in any asset of the pinned release (Amendment A17)",
         ),
     },
 ];
@@ -2099,7 +2099,7 @@ fn native_activation(
             configuration_paths: BTreeSet::new(),
         },
         // The pinned release's two assets, and nothing else. The models
-        // archive is shipped product (Amendment A16) and a native run loads
+        // archive is shipped product (Amendment A17) and a native run loads
         // it through the pinned flags below; the archive-member notation is
         // symbolic — the runner extracts the digest-verified archive to a
         // scratch root per run — so the pinned shape is stable however the
@@ -2111,7 +2111,7 @@ fn native_activation(
         ModelingTool::Opentaint => {
             if language != ModelingLanguage::Java {
                 bail!(
-                    "{} has no {} tool-native denominator at all: the pinned engine analyzes JVM bytecode only, so its native row exists for Java alone (docs/native-profile.md, Amendment A16). No denominator is different from a zero; refusing to write a report",
+                    "{} has no {} tool-native denominator at all: the pinned engine analyzes JVM bytecode only, so its native row exists for Java alone (docs/native-profile.md, Amendment A17). No denominator is different from a zero; refusing to write a report",
                     tool.pinned_identity(),
                     language.display_name()
                 );
@@ -2943,7 +2943,7 @@ enum Commands {
     },
     /// Run one language's benchmark-controlled taint-modeling matrix through
     /// the pinned OpenTaint analyzer. Java is the adapter's one modeling
-    /// language (Amendment A15); the partition scores categories S, P, and Z,
+    /// language (Amendment A16); the partition scores categories S, P, and Z,
     /// so O, E, and B are `unsupported` with a retained rationale, decided
     /// before the analyzer is invoked. The release assets are verified by
     /// witnessed digest before any case runs.
@@ -2965,7 +2965,7 @@ enum Commands {
     },
     /// Run one language's tool-native probe set against the pinned OpenTaint
     /// release's shipped assets. The partition scores nothing (Amendment
-    /// A16): the shipped models archive is propagation only and the release
+    /// A17): the shipped models archive is propagation only and the release
     /// ships no rule set, so all six templates are `unsupported` with a
     /// retained rationale — but the run still witnesses the release assets'
     /// digests, because a report whose whole evidence is retained rationales
@@ -2980,6 +2980,63 @@ enum Commands {
         #[arg(long)]
         models_archive: PathBuf,
     },
+    /// Measure one adapter's **warm marginal** per-case cost: the wall-clock
+    /// slope of running k cases through a single tool process, per
+    /// [Amendment A15](docs/latency-tier.md#amendments).
+    ///
+    /// Timing-only auxiliary machinery. It writes no normalized report, scores
+    /// nothing, and touches no correctness population; its artifacts land under
+    /// `reports/raw/warm-latency/` and are never read by the scoring path. The
+    /// cold per-invocation rows stay the headline figure and are neither
+    /// replaced nor adjusted by anything measured here.
+    MeasureWarmLatency {
+        /// Adapter to measure. Only the adapters A13's observability table
+        /// records as observable are accepted.
+        #[arg(long, value_enum)]
+        tool: WarmTool,
+        /// Kernel language whose case population is batched.
+        #[arg(long, value_enum)]
+        language: WarmLanguage,
+        /// Increasing batch sizes, comma-separated. The slope is fitted over
+        /// these points.
+        #[arg(long, default_value = "1,2,4,8,16")]
+        batch_sizes: String,
+        #[arg(long, default_value = "joern")]
+        joern: PathBuf,
+        #[arg(long, default_value = "semgrep")]
+        semgrep: PathBuf,
+    },
+}
+
+/// The adapters whose released CLI exposes a warm, multi-case batch that does
+/// the same per-case work the cold kernel runner does. The audit behind this
+/// list — including the declines — is Amendment A13's observability table.
+#[derive(Clone, Copy, Debug, PartialEq, Eq, clap::ValueEnum)]
+enum WarmTool {
+    Joern,
+    Semgrep,
+}
+
+impl WarmTool {
+    fn as_str(self) -> &'static str {
+        match self {
+            Self::Joern => "joern",
+            Self::Semgrep => "semgrep",
+        }
+    }
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq, clap::ValueEnum)]
+enum WarmLanguage {
+    Java,
+}
+
+impl WarmLanguage {
+    fn as_str(self) -> &'static str {
+        match self {
+            Self::Java => "java",
+        }
+    }
 }
 
 fn main() -> Result<()> {
@@ -3220,6 +3277,21 @@ fn main() -> Result<()> {
         Commands::RunJoernNative { language, joern } => {
             run_native(ModelingTool::Joern, &joern, language, None)
         }
+        Commands::MeasureWarmLatency {
+            tool,
+            language,
+            batch_sizes,
+            joern,
+            semgrep,
+        } => measure_warm_latency(
+            tool,
+            language,
+            &batch_sizes,
+            match tool {
+                WarmTool::Joern => &joern,
+                WarmTool::Semgrep => &semgrep,
+            },
+        ),
         Commands::RunSemgrepNative { language, semgrep } => {
             run_native(ModelingTool::Semgrep, &semgrep, language, None)
         }
@@ -11333,7 +11405,7 @@ fn run_opentaint_modeling_case(
 /// release assets (`witness_opentaint_identity`), not a binary's version
 /// banner, because the analyzer jar self-reports no version at all. The
 /// partition is consulted per case before the analyzer is touched — the
-/// declined categories O, E, and B (Amendment A15) retain their rationales
+/// declined categories O, E, and B (Amendment A16) retain their rationales
 /// without a fixture ever being handed to the tool — and a language other
 /// than Java fails the plan on applicability: it has no OpenTaint modeling
 /// denominator, which is different from a zero.
@@ -11427,7 +11499,7 @@ fn run_opentaint_modeling(
 
 /// Run the OpenTaint tool-native probe set for one language.
 ///
-/// The partition declines all six templates (Amendment A16) — the pinned
+/// The partition declines all six templates (Amendment A17) — the pinned
 /// release ships propagation models and no endpoint catalog — so no fixture
 /// is ever handed to the analyzer. The run still witnesses the release
 /// assets' digests once, per the run-level identity rule the native profile
@@ -14148,7 +14220,7 @@ fn plan_modeling_run(tool: ModelingTool, language: ModelingLanguage) -> Result<M
     // rather than on a missing file.
     let Some(artifact) = language.artifact(tool) else {
         bail!(
-            "{} has no {} modeling denominator at all: the pinned distribution executes no {} frontend, so its modeling row exists for Java alone (docs/modeling-matrix.md, Amendments A13 and A15). No denominator is different from a zero; refusing to write a report",
+            "{} has no {} modeling denominator at all: the pinned distribution executes no {} frontend, so its modeling row exists for Java alone (docs/modeling-matrix.md, Amendments A13 and A16). No denominator is different from a zero; refusing to write a report",
             tool.pinned_identity(),
             language.display_name(),
             language.display_name()
@@ -14179,7 +14251,7 @@ fn plan_modeling_run(tool: ModelingTool, language: ModelingLanguage) -> Result<M
         // of gating them here. OpenTaint has no switch either, and needs
         // none: the surface probe measured that with no propagator declared
         // the reflective body carries nothing, so the engine has no
-        // optimistic unmodeled-call default to disable (Amendment A15).
+        // optimistic unmodeled-call default to disable (Amendment A16).
         ModelingTool::Codeql | ModelingTool::Joern | ModelingTool::Opentaint => {}
     }
 
@@ -15930,6 +16002,561 @@ fn run_native(
     Ok(())
 }
 
+// ---------------------------------------------------------------------------
+// Warm-marginal latency measurement (Amendment A15, docs/latency-tier.md).
+//
+// The published latency rows are cold per-invocation wall-clock, and stay so:
+// boot is not observable inside one invocation, so a benchmark that spawns one
+// process per case honestly charges each case for the whole process. But a
+// reader comparing a JVM adapter's cold median against a native adapter's is
+// reading a start-up difference as a steady-state difference, and the two are
+// not the same claim.
+//
+// This module measures the other quantity, separately and without estimating
+// anything: run k cases through ONE tool process, for increasing k, and report
+// the *slope* of batch wall-clock against k. The slope is the marginal cost of
+// one more case in a process that has already paid its start-up, so start-up
+// is amortized out by construction rather than subtracted.
+//
+// Three properties are load-bearing, and each is enforced here rather than
+// asserted in prose:
+//
+//  1. **Timing only.** Nothing in this module writes a normalized report, and
+//     no correctness outcome is derived from a warm run. Its artifacts live in
+//     their own directory under `reports/raw/warm-latency/`, which the scoring
+//     path, `validate-reports`, and the freeze manifest never read.
+//  2. **The same work.** The batch reuses the same case selection, the same
+//     endpoint resolution, the same workspace materialization, and the same
+//     query logic as the cold kernel runner. What differs is only how many
+//     cases share one process.
+//  3. **One clock, at a subprocess boundary.** The only timestamps are the
+//     runner's, around the whole batch subprocess — the same monotonic clock
+//     and the same kind of boundary the cold sidecars use. Neither script nor
+//     tool self-timestamping enters any number, so the tier's decomposition
+//     rule is untouched.
+// ---------------------------------------------------------------------------
+
+/// Where warm-marginal artifacts live: a directory of their own, clearly apart
+/// from the per-slice raw-evidence directories the reports bind.
+const WARM_LATENCY_ROOT: &str = "reports/raw/warm-latency";
+
+/// The Joern batch script. `kernel.sc` is unchanged and remains the only
+/// script any normalized Joern report hashes into its `configuration_hash`.
+const JOERN_WARM_BATCH_SCRIPT: &str = "adapters/joern/queries/warm-batch.sc";
+
+/// One batch: k cases through one tool process, and the wall-clock of that
+/// process.
+#[derive(Clone, Debug)]
+struct WarmBatch {
+    k: usize,
+    wall_ms: u64,
+    case_ids: Vec<String>,
+    /// The machine's one-minute load average, sampled immediately before the
+    /// batch was spawned.
+    ///
+    /// The tier's measurement hygiene is the standing sequential-run
+    /// discipline, and a run that shared the machine has unusable timing
+    /// evidence. On a developer machine that discipline is a convention, not
+    /// an enforcement, so the observed load rides on the artifact: a reader
+    /// can see the conditions each batch was taken under instead of taking
+    /// "quiet machine" on trust.
+    load_before: Option<f64>,
+}
+
+/// The one-minute load average, best-effort. A number a reader can weigh is
+/// worth having; failing a measurement over an unreadable one is not.
+fn load_average_one_minute() -> Option<f64> {
+    let uptime = command_output(&mut Command::new("uptime")).ok()?;
+    let tail = uptime.rsplit_once("load averages:").or_else(|| {
+        // Linux `uptime` spells it "load average:" and separates with commas.
+        uptime.rsplit_once("load average:")
+    })?;
+    tail.1
+        .trim()
+        .split([' ', ','])
+        .find(|field| !field.is_empty())
+        .and_then(|field| field.parse::<f64>().ok())
+}
+
+/// The two slope estimators the amendment preregisters, plus the fitted
+/// intercept.
+///
+/// Both are reported because they answer the same question two ways and a
+/// reader is entitled to see them disagree: the endpoint estimator uses only
+/// the smallest and largest batch and is the simplest thing that could work,
+/// while the least-squares fit uses every point. Neither is corrected by the
+/// other, and neither is ever subtracted from a cold number.
+#[derive(Clone, Copy, Debug, PartialEq)]
+struct WarmSlope {
+    endpoint_ms: f64,
+    least_squares_ms: f64,
+    intercept_ms: f64,
+}
+
+/// Fit the marginal cost from the measured batches.
+///
+/// `endpoint_ms` is `(T_kmax − T_kmin) / (kmax − kmin)`. `least_squares_ms` is
+/// the ordinary-least-squares slope of `wall_ms` on `k`, and `intercept_ms` is
+/// that fit's intercept — a *descriptive* estimate of the fixed per-process
+/// cost, published as such and never subtracted from any measured number.
+fn warm_slope(batches: &[WarmBatch]) -> Result<WarmSlope> {
+    if batches.len() < 2 {
+        bail!("a warm-marginal fit needs at least two distinct batch sizes");
+    }
+    let first = batches.first().expect("length checked");
+    let last = batches.last().expect("length checked");
+    if last.k == first.k {
+        bail!("a warm-marginal fit needs at least two distinct batch sizes");
+    }
+    let endpoint_ms =
+        (last.wall_ms as f64 - first.wall_ms as f64) / (last.k as f64 - first.k as f64);
+
+    let n = batches.len() as f64;
+    let mean_k = batches.iter().map(|batch| batch.k as f64).sum::<f64>() / n;
+    let mean_t = batches
+        .iter()
+        .map(|batch| batch.wall_ms as f64)
+        .sum::<f64>()
+        / n;
+    let mut covariance = 0.0;
+    let mut variance = 0.0;
+    for batch in batches {
+        let dk = batch.k as f64 - mean_k;
+        covariance += dk * (batch.wall_ms as f64 - mean_t);
+        variance += dk * dk;
+    }
+    if variance == 0.0 {
+        bail!("a warm-marginal fit needs at least two distinct batch sizes");
+    }
+    let least_squares_ms = covariance / variance;
+    Ok(WarmSlope {
+        endpoint_ms,
+        least_squares_ms,
+        intercept_ms: mean_t - least_squares_ms * mean_k,
+    })
+}
+
+/// Parse and check the requested batch sizes: strictly increasing, positive,
+/// and at least two of them, so a slope is always defined.
+fn warm_batch_sizes(spec: &str) -> Result<Vec<usize>> {
+    let mut sizes = Vec::new();
+    for field in spec.split(',') {
+        let field = field.trim();
+        if field.is_empty() {
+            continue;
+        }
+        let size: usize = field
+            .parse()
+            .with_context(|| format!("batch size {field:?} is not a positive integer"))?;
+        if size == 0 {
+            bail!("batch size 0 measures nothing");
+        }
+        if sizes.last().is_some_and(|last| *last >= size) {
+            bail!("batch sizes must be strictly increasing; got {spec:?}");
+        }
+        sizes.push(size);
+    }
+    if sizes.len() < 2 {
+        bail!("at least two batch sizes are needed to fit a slope; got {spec:?}");
+    }
+    Ok(sizes)
+}
+
+/// The population one warm measurement batches, in a deterministic order.
+///
+/// Order is by case identifier, so the k-case batch is always the same prefix
+/// of the same list and a larger batch is a strict superset of a smaller one.
+/// That is what makes the difference between two batches attributable to the
+/// cases that were added rather than to which cases were chosen.
+struct WarmPopulation {
+    cases: Vec<(PathBuf, Value)>,
+    /// Why the batched population is narrower than the kernel's, when it is.
+    restriction: Option<String>,
+}
+
+fn warm_population(tool: WarmTool, language: WarmLanguage) -> Result<WarmPopulation> {
+    match (tool, language) {
+        (WarmTool::Joern, WarmLanguage::Java) => {
+            let mut cases = select_joern_cases(JoernKernel::Java)?;
+            cases.sort_by(|left, right| left.1["id"].as_str().cmp(&right.1["id"].as_str()));
+            Ok(WarmPopulation {
+                cases,
+                restriction: None,
+            })
+        }
+        (WarmTool::Semgrep, WarmLanguage::Java) => {
+            // Semgrep's kernel population is partitioned before invocation:
+            // the cases its own CLI text declares out of scope are never
+            // handed to it and are never timed cold either, so they cannot be
+            // in a warm batch. And one `semgrep scan` carries one `--config`,
+            // so a batch is only the same work as its k cold runs when all k
+            // resolve to the identical rule text. Both restrictions narrow the
+            // population; both are recorded on the artifact rather than
+            // silently applied.
+            let template = fs::read_to_string(SemgrepKernel::Java.rule())?;
+            let mut keyed: Vec<(String, PathBuf, Value)> = Vec::new();
+            for (path, case) in select_semgrep_cases(SemgrepKernel::Java)? {
+                if semgrep_capability_exclusion(&case).is_some() {
+                    continue;
+                }
+                let Ok(endpoints) =
+                    benchmark_endpoint_names(&path, &case, SemgrepKernel::Java.dialect())
+                else {
+                    continue;
+                };
+                let rule = template
+                    .replace(SEMGREP_SOURCE_PLACEHOLDER, &endpoints.source_function)
+                    .replace(SEMGREP_SINK_PLACEHOLDER, &endpoints.sink_function);
+                keyed.push((rule, path, case));
+            }
+            let mut counts: BTreeMap<String, usize> = BTreeMap::new();
+            for (rule, _, _) in &keyed {
+                *counts.entry(rule.clone()).or_default() += 1;
+            }
+            let (majority, majority_count) = counts
+                .into_iter()
+                .max_by_key(|(_, count)| *count)
+                .context("the Semgrep Java kernel resolved no invocable case")?;
+            let total = keyed.len();
+            let mut cases: Vec<(PathBuf, Value)> = keyed
+                .into_iter()
+                .filter(|(rule, _, _)| *rule == majority)
+                .map(|(_, path, case)| (path, case))
+                .collect();
+            cases.sort_by(|left, right| left.1["id"].as_str().cmp(&right.1["id"].as_str()));
+            Ok(WarmPopulation {
+                cases,
+                restriction: Some(format!(
+                    "one `semgrep scan` carries one --config, so a batch is restricted to cases \
+                     resolving to identical rule text: {majority_count} of the \
+                     {total} invocable Java kernel assertions"
+                )),
+            })
+        }
+    }
+}
+
+/// Run one warm measurement and retain its auxiliary timing artifact.
+fn measure_warm_latency(
+    tool: WarmTool,
+    language: WarmLanguage,
+    batch_sizes: &str,
+    binary: &Path,
+) -> Result<()> {
+    validate_cases()?;
+    let sizes = warm_batch_sizes(batch_sizes)?;
+    let population = warm_population(tool, language)?;
+    let available = population.cases.len();
+    let largest = *sizes.last().expect("checked non-empty");
+    if largest > available {
+        bail!(
+            "batch size {largest} exceeds the {available} cases the {} {} warm population holds",
+            tool.as_str(),
+            language.as_str()
+        );
+    }
+
+    let raw_dir = PathBuf::from(WARM_LATENCY_ROOT).join(format!(
+        "{}-{}-kernel",
+        tool.as_str(),
+        language.as_str()
+    ));
+    if raw_dir.exists() {
+        fs::remove_dir_all(&raw_dir).with_context(|| format!("clear {}", raw_dir.display()))?;
+    }
+    fs::create_dir_all(&raw_dir)?;
+
+    // Identity is witnessed from the binary and stamped exactly as every other
+    // run stamps it, so a warm number is attributable to one machine and one
+    // measured tool without re-measurement.
+    let (version, build_identity) = match tool {
+        WarmTool::Joern => joern_version_identity(binary)?,
+        WarmTool::Semgrep => semgrep_version_identity(binary)?,
+    };
+    write_run_environment(&raw_dir, tool.as_str(), &version, &build_identity)?;
+
+    let started = now_seconds()?;
+    let mut batches = Vec::new();
+    for &k in &sizes {
+        let prefix = &population.cases[..k];
+        println!(
+            "measuring {} {} warm batch k={k}",
+            tool.as_str(),
+            language.as_str()
+        );
+        let batch = match tool {
+            WarmTool::Joern => measure_joern_warm_batch(binary, language, prefix, &raw_dir, k)?,
+            WarmTool::Semgrep => measure_semgrep_warm_batch(binary, prefix, &raw_dir, k)?,
+        };
+        println!("  k={k} wall {} ms", batch.wall_ms);
+        batches.push(batch);
+    }
+    let slope = warm_slope(&batches)?;
+
+    let document = json!({
+        "schema_version": 1,
+        "evidence_kind": "retained-warm-marginal-latency",
+        "amendment": "A13",
+        "adapter": tool.as_str(),
+        "language": language.as_str(),
+        "tool_version": version,
+        "tool_build_identity": build_identity,
+        "fixture_revision": fixture_revision()?,
+        "started_at_unix_seconds": started,
+        "ended_at_unix_seconds": now_seconds()?,
+        "clock": "monotonic",
+        "measured_boundary": "one subprocess per batch, whole-invocation wall-clock",
+        "population_available": available,
+        "population_restriction": population.restriction,
+        "batches": batches.iter().map(|batch| json!({
+            "k": batch.k,
+            "wall_ms": batch.wall_ms,
+            "case_ids": batch.case_ids,
+            "load_average_1m_before": batch.load_before,
+        })).collect::<Vec<_>>(),
+        "marginal_ms_per_case": {
+            "endpoint": slope.endpoint_ms,
+            "least_squares": slope.least_squares_ms,
+        },
+        "fitted_fixed_cost_ms": slope.intercept_ms,
+    });
+    let path = raw_dir.join("warm-latency.json");
+    fs::write(&path, serde_json::to_string_pretty(&document)? + "\n")?;
+    println!(
+        "wrote {} — marginal {:.0} ms/case (endpoint), {:.0} ms/case (least squares)",
+        path.display(),
+        slope.endpoint_ms,
+        slope.least_squares_ms
+    );
+    Ok(())
+}
+
+/// One Joern batch: k cases imported and queried inside one JVM.
+///
+/// Workspace materialization is the cold runner's, case by case, and is done
+/// **before** the JVM is spawned — fixture materialization is outside every
+/// timed window by the tier's exclusion list, warm and cold alike.
+fn measure_joern_warm_batch(
+    binary: &Path,
+    language: WarmLanguage,
+    cases: &[(PathBuf, Value)],
+    raw_dir: &Path,
+    k: usize,
+) -> Result<WarmBatch> {
+    let WarmLanguage::Java = language;
+    let kernel = JoernKernel::Java;
+    let script = fs::canonicalize(Path::new(JOERN_WARM_BATCH_SCRIPT))
+        .context("resolve the Joern warm-batch script")?;
+    let scratch = std::env::temp_dir().join(format!("dataflowbench-warm-joern-{k}"));
+    if scratch.exists() {
+        fs::remove_dir_all(&scratch)?;
+    }
+    fs::create_dir_all(&scratch)?;
+    let evidence = scratch.join("evidence");
+    fs::create_dir_all(&evidence)?;
+
+    let mut manifest = String::new();
+    let mut case_ids = Vec::new();
+    for (index, (case_path, case)) in cases.iter().enumerate() {
+        let id = case["id"].as_str().expect("schema validated");
+        let endpoints =
+            benchmark_endpoint_names(case_path, case, kernel.dialect()).map_err(|reason| {
+                anyhow::anyhow!("{id}: cannot derive the Joern endpoints: {reason}")
+            })?;
+        let workspace = scratch.join(format!("source-{index}"));
+        fs::create_dir_all(&workspace)?;
+        let fixture_root = case_path.parent().expect("case path has parent");
+        for fixture in case["fixture_files"].as_array().expect("schema validated") {
+            let fixture = fixture.as_str().expect("schema validated");
+            fs::copy(fixture_root.join(fixture), workspace.join(fixture))?;
+        }
+        if kernel.needs_cargo_manifest() {
+            write_rust_cargo_manifest(&workspace, case)?;
+        }
+        manifest.push_str(&format!(
+            "{id}\t{}\t{}\t{}\t{}\t{}\n",
+            workspace.display(),
+            kernel.frontend(),
+            endpoints.source_function,
+            endpoints.sink_function,
+            evidence.join(format!("{id}.json")).display(),
+        ));
+        case_ids.push(id.to_string());
+    }
+    let manifest_path = scratch.join("batch-manifest.tsv");
+    fs::write(&manifest_path, &manifest)?;
+    let completion_path = scratch.join("completion.json");
+
+    let mut command = Command::new(binary);
+    command
+        .current_dir(&scratch)
+        .arg("--script")
+        .arg(&script)
+        .arg("--param")
+        .arg(format!("manifestPath={}", manifest_path.display()))
+        .arg("--param")
+        .arg(format!("completionPath={}", completion_path.display()))
+        .stdin(std::process::Stdio::null());
+    let load_before = load_average_one_minute();
+    let invoked = Instant::now();
+    let output = command
+        .output()
+        .with_context(|| format!("run the Joern warm batch with {}", binary.display()))?;
+    let wall_ms = invoked.elapsed().as_millis() as u64;
+    if !output.status.success() {
+        bail!(
+            "the Joern warm batch k={k} failed with status {}:\n{}",
+            output.status,
+            String::from_utf8_lossy(&output.stderr)
+        );
+    }
+    warm_batch_completed(&completion_path, k, &evidence, &case_ids, raw_dir)?;
+    fs::remove_dir_all(&scratch).ok();
+    Ok(WarmBatch {
+        k,
+        wall_ms,
+        case_ids,
+        load_before,
+    })
+}
+
+/// One Semgrep batch: k case workspaces scanned by one `semgrep scan`.
+fn measure_semgrep_warm_batch(
+    binary: &Path,
+    cases: &[(PathBuf, Value)],
+    raw_dir: &Path,
+    k: usize,
+) -> Result<WarmBatch> {
+    let kernel = SemgrepKernel::Java;
+    let template = fs::read_to_string(kernel.rule())?;
+    let scratch = std::env::temp_dir().join(format!("dataflowbench-warm-semgrep-{k}"));
+    if scratch.exists() {
+        fs::remove_dir_all(&scratch)?;
+    }
+    fs::create_dir_all(&scratch)?;
+
+    let mut rules: BTreeSet<String> = BTreeSet::new();
+    let mut workspaces = Vec::new();
+    let mut case_ids = Vec::new();
+    for (index, (case_path, case)) in cases.iter().enumerate() {
+        let id = case["id"].as_str().expect("schema validated");
+        let endpoints =
+            benchmark_endpoint_names(case_path, case, kernel.dialect()).map_err(|reason| {
+                anyhow::anyhow!("{id}: cannot derive the Semgrep endpoints: {reason}")
+            })?;
+        rules.insert(
+            template
+                .replace(SEMGREP_SOURCE_PLACEHOLDER, &endpoints.source_function)
+                .replace(SEMGREP_SINK_PLACEHOLDER, &endpoints.sink_function),
+        );
+        let workspace = scratch.join(format!("source-{index}"));
+        fs::create_dir_all(&workspace)?;
+        let fixture_root = case_path.parent().expect("case path has parent");
+        for fixture in case["fixture_files"].as_array().expect("schema validated") {
+            let fixture = fixture.as_str().expect("schema validated");
+            fs::copy(fixture_root.join(fixture), workspace.join(fixture))?;
+        }
+        workspaces.push(workspace);
+        case_ids.push(id.to_string());
+    }
+    // The population filter already guarantees this; the check is here so a
+    // future population change cannot silently start timing a different
+    // configuration than the cold runs it is compared against.
+    if rules.len() != 1 {
+        bail!(
+            "a Semgrep warm batch needs one resolved rule for all {k} cases; got {}",
+            rules.len()
+        );
+    }
+    let rule_path = scratch.join("rule.yaml");
+    fs::write(&rule_path, rules.iter().next().expect("length checked"))?;
+    let findings_path = scratch.join("findings.json");
+
+    let mut command = Command::new(binary);
+    command
+        .current_dir(&scratch)
+        .arg("scan")
+        .arg("--metrics=off")
+        .arg("--oss-only")
+        .arg("--disable-version-check")
+        .arg("--no-git-ignore")
+        .arg("--quiet")
+        .arg("--json")
+        .arg("--output")
+        .arg(&findings_path)
+        .arg("--config")
+        .arg(&rule_path)
+        .args(&workspaces)
+        .stdin(std::process::Stdio::null());
+    let load_before = load_average_one_minute();
+    let invoked = Instant::now();
+    let output = command
+        .output()
+        .with_context(|| format!("run the Semgrep warm batch with {}", binary.display()))?;
+    let wall_ms = invoked.elapsed().as_millis() as u64;
+    if !output.status.success() {
+        bail!(
+            "the Semgrep warm batch k={k} failed with status {}:\n{}",
+            output.status,
+            String::from_utf8_lossy(&output.stderr)
+        );
+    }
+    let findings: Value = serde_json::from_str(&fs::read_to_string(&findings_path)?)
+        .context("parse the Semgrep warm batch findings")?;
+    let scanned = findings["paths"]["scanned"]
+        .as_array()
+        .map(Vec::len)
+        .unwrap_or_default();
+    if scanned < k {
+        bail!("the Semgrep warm batch k={k} scanned only {scanned} files");
+    }
+    fs::write(
+        raw_dir.join(format!("batch-{k}-findings.json")),
+        serde_json::to_string_pretty(&findings)? + "\n",
+    )?;
+    fs::remove_dir_all(&scratch).ok();
+    Ok(WarmBatch {
+        k,
+        wall_ms,
+        case_ids,
+        load_before,
+    })
+}
+
+/// Confirm a batch actually analyzed every case it was given, and retain the
+/// per-case evidence it produced.
+///
+/// A warm number is only the marginal cost of *the benchmark's work* if the
+/// batch really did that work. The retained evidence is what makes that
+/// auditable after the fact: it is byte-comparable against the cold run's
+/// retained evidence for the same cases, so a batch that quietly analyzed less
+/// is visible rather than fast.
+fn warm_batch_completed(
+    completion_path: &Path,
+    k: usize,
+    evidence: &Path,
+    case_ids: &[String],
+    raw_dir: &Path,
+) -> Result<()> {
+    let completion: Value = serde_json::from_str(
+        &fs::read_to_string(completion_path).context("read the warm batch completion marker")?,
+    )?;
+    let analyzed = completion["analyzed"].as_u64().unwrap_or_default() as usize;
+    if analyzed != k {
+        bail!("the warm batch k={k} analyzed {analyzed} cases");
+    }
+    let retained = raw_dir.join(format!("batch-{k}-evidence"));
+    fs::create_dir_all(&retained)?;
+    for id in case_ids {
+        let produced = evidence.join(format!("{id}.json"));
+        if !produced.is_file() {
+            bail!("the warm batch k={k} produced no evidence for {id}");
+        }
+        fs::copy(&produced, retained.join(format!("{id}.json")))?;
+    }
+    Ok(())
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -16398,6 +17025,154 @@ mod tests {
         assert!(stamp["cpu_count"].is_u64() || stamp["cpu_count"].is_null());
         let _ = fs::remove_dir_all(&root);
     }
+
+    /// The eleven-line block that decides what a Joern case's evidence says —
+    /// the frontend dispatch, the two selectors, and the `reachableByFlows`
+    /// call — is character-for-character the same in the cold kernel script
+    /// and the warm batch script.
+    ///
+    /// This is the mechanical form of Amendment A15's promise that the warm
+    /// measurement times the *same work* as the cold rows it stands beside. If
+    /// either script's query drifts, the warm marginal stops describing the
+    /// cold number's cost and this test fails rather than a page quietly
+    /// publishing an incomparable figure.
+    ///
+    /// Exactly one substitution is allowed, and it is the reason the two files
+    /// are not one: the cold runner gives every case a fresh scratch directory
+    /// and so can reuse one project name, while the warm batch shares a
+    /// workspace across k cases and must name each project distinctly. Nothing
+    /// else may differ.
+    #[test]
+    fn joern_warm_batch_script_shares_the_kernel_query_block() {
+        const BLOCK_START: &str = "if (language == \"RUBYSRC\") {";
+        const BLOCK_END: &str = "val flows = sinkNodes.reachableByFlows(sourceNodes).l";
+
+        fn block(source: &str) -> Vec<&str> {
+            let lines: Vec<&str> = source.lines().collect();
+            let start = lines
+                .iter()
+                .position(|line| line.contains(BLOCK_START))
+                .expect("the query block starts at the frontend dispatch");
+            let end = lines
+                .iter()
+                .position(|line| line.contains(BLOCK_END))
+                .expect("the query block ends at reachableByFlows");
+            assert!(start < end, "the block's anchors are out of order");
+            lines[start..=end].to_vec()
+        }
+
+        let kernel = fs::read_to_string(JOERN_KERNEL_SCRIPT).unwrap();
+        let warm = fs::read_to_string(JOERN_WARM_BATCH_SCRIPT).unwrap();
+        let expected: Vec<String> = block(&kernel)
+            .into_iter()
+            .map(|line| {
+                line.replace(
+                    "projectName = \"dataflowbench\"",
+                    "projectName = projectName",
+                )
+            })
+            .collect();
+        let measured: Vec<String> = block(&warm).into_iter().map(str::to_string).collect();
+        assert_eq!(
+            expected, measured,
+            "the warm batch script's query block has drifted from the kernel script's"
+        );
+        // The block is substantive, not an accidental one-line match.
+        assert!(expected.len() >= 8);
+
+        // And the warm script never introduces a clock of its own: the tier's
+        // decomposition rule admits only the runner's subprocess boundary, and
+        // A13 does not relax it.
+        for forbidden in ["nanoTime", "currentTimeMillis", "Instant.now"] {
+            assert!(
+                !warm.contains(forbidden),
+                "the warm batch script must not timestamp itself ({forbidden})"
+            );
+        }
+    }
+
+    /// The slope estimators are the preregistered ones, and the fit is a
+    /// slope — not an average, which would still carry the fixed cost.
+    #[test]
+    fn warm_slope_recovers_the_marginal_cost_not_the_average() {
+        // A process that pays 10 000 ms once and 500 ms per case.
+        let batches: Vec<WarmBatch> = [1usize, 2, 4, 8, 16]
+            .into_iter()
+            .map(|k| WarmBatch {
+                k,
+                wall_ms: 10_000 + 500 * k as u64,
+                case_ids: Vec::new(),
+                load_before: None,
+            })
+            .collect();
+        let slope = warm_slope(&batches).unwrap();
+        assert!((slope.endpoint_ms - 500.0).abs() < 1e-6);
+        assert!((slope.least_squares_ms - 500.0).abs() < 1e-6);
+        assert!((slope.intercept_ms - 10_000.0).abs() < 1e-6);
+        // The average per case at k=16 is 1125 ms — more than twice the
+        // marginal cost. Reporting the average would smuggle the fixed cost
+        // back into the number the slope exists to remove.
+        assert!(slope.least_squares_ms < 10_000.0 / 16.0 + 500.0);
+
+        // One point cannot define a slope, and neither can a repeated k.
+        assert!(warm_slope(&batches[..1]).is_err());
+        assert!(
+            warm_slope(&[
+                WarmBatch {
+                    k: 4,
+                    wall_ms: 1,
+                    case_ids: Vec::new(),
+                    load_before: None
+                },
+                WarmBatch {
+                    k: 4,
+                    wall_ms: 2,
+                    case_ids: Vec::new(),
+                    load_before: None
+                },
+            ])
+            .is_err()
+        );
+    }
+
+    /// Batch sizes must be strictly increasing and positive, so every larger
+    /// batch is a strict superset of every smaller one and a slope is defined.
+    #[test]
+    fn warm_batch_sizes_are_strictly_increasing() {
+        assert_eq!(
+            warm_batch_sizes("1,2,4,8,16").unwrap(),
+            vec![1, 2, 4, 8, 16]
+        );
+        assert_eq!(warm_batch_sizes(" 1 , 3 ").unwrap(), vec![1, 3]);
+        for rejected in ["1", "", "4,2", "2,2", "0,4", "1,x"] {
+            assert!(
+                warm_batch_sizes(rejected).is_err(),
+                "{rejected:?} should be refused"
+            );
+        }
+    }
+
+    /// Warm-marginal artifacts are auxiliary: they live in their own directory
+    /// and carry an evidence kind no correctness reader recognizes, so nothing
+    /// in the scoring path can mistake one for a result.
+    #[test]
+    fn warm_latency_artifacts_are_auxiliary_and_never_an_outcome_input() {
+        assert!(WARM_LATENCY_ROOT.starts_with("reports/raw/"));
+        // Not inside any slice directory a normalized report binds.
+        for report in [
+            JOERN_JAVA_RAW_DIR.to_string(),
+            SemgrepKernel::Java.raw_dir(),
+        ] {
+            assert!(!WARM_LATENCY_ROOT.starts_with(&report));
+            assert!(!report.starts_with(WARM_LATENCY_ROOT));
+        }
+        let document = json!({
+            "evidence_kind": "retained-warm-marginal-latency",
+            "marginal_ms_per_case": {"endpoint": 500.0, "least_squares": 500.0},
+        });
+        assert_eq!(raw_special_outcome(&document), None);
+    }
+
     #[test]
     fn normalizer_keeps_negative_and_unsupported_distinct() {
         let negative = json!({"expected_flows": []});
@@ -20987,7 +21762,7 @@ mod tests {
             }
         }
         // Twenty-four preregistered cells, plus Infer's six (Amendment A13)
-        // and OpenTaint's six (Amendment A15).
+        // and OpenTaint's six (Amendment A16).
         assert_eq!(MODELING_PARTITION.len(), 36);
         assert!(
             modeling_partition_reason(ModelingTool::Codeql, "dfb-template-chal-dispatch-table")
@@ -21014,14 +21789,14 @@ mod tests {
         // is overridden out on the measured absence of an input-position
         // vocabulary), and Z.
         assert_eq!(modeling_supported_templates(ModelingTool::Infer).len(), 5);
-        // Amendment A15 preregistered OpenTaint's Java row: S, P, and Z.
+        // Amendment A16 preregistered OpenTaint's Java row: S, P, and Z.
         assert_eq!(
             modeling_supported_templates(ModelingTool::Opentaint).len(),
             6
         );
     }
 
-    /// OpenTaint's modeling row (Amendment A15), pinned exactly: categories S,
+    /// OpenTaint's modeling row (Amendment A16), pinned exactly: categories S,
     /// P, and Z are scored and O, E, and B are declined — a partition decided
     /// by executing the pinned analyzer over the committed Java fixtures with
     /// probe declarations, before any scored run, and retained under
@@ -21044,7 +21819,7 @@ mod tests {
                 let reason = modeling_partition_reason(ModelingTool::Opentaint, template)
                     .unwrap()
                     .unwrap_or_else(|| panic!("{template} must be unsupported for OpenTaint"));
-                assert!(reason.contains("Amendment A15"), "{reason}");
+                assert!(reason.contains("Amendment A16"), "{reason}");
             }
         }
     }
@@ -21746,7 +22521,7 @@ mod tests {
     /// requests populate. Fourteen distinct artifacts: one per tool per
     /// language for the wave-M1 four, plus Infer's and OpenTaint's Java-only
     /// artifacts — their other combinations have no denominator at all
-    /// (Amendments A13 and A15).
+    /// (Amendments A13 and A16).
     #[test]
     fn modeling_artifact_and_report_paths_follow_the_convention() {
         let mut artifacts = BTreeSet::new();
@@ -21784,7 +22559,7 @@ mod tests {
             }
         }
         // Twelve from the preregistered four tools, plus Infer's and
-        // OpenTaint's one Java artifact each (Amendments A13 and A15) — their
+        // OpenTaint's one Java artifact each (Amendments A13 and A16) — their
         // other languages have no modeling denominator and no artifact.
         assert_eq!(artifacts.len(), 14);
         assert_eq!(
@@ -21820,7 +22595,7 @@ mod tests {
         );
         // Each artifact arrives with the pull request that authors its
         // declarations. Wave M1 is complete, and Infer's and OpenTaint's Java
-        // rows landed with Amendments A13 and A15, so all fourteen are
+        // rows landed with Amendments A13 and A16, so all fourteen are
         // committed.
         for tool in ModelingTool::ALL {
             for language in [
@@ -22131,7 +22906,7 @@ mod tests {
     #[test]
     fn the_native_partition_decides_every_tool_and_template() {
         // Twenty-four preregistered cells, plus Infer's six (Amendment A14)
-        // and OpenTaint's six (Amendment A16).
+        // and OpenTaint's six (Amendment A17).
         assert_eq!(NATIVE_PARTITION.len(), 36);
         for tool in ModelingTool::ALL {
             for template in NATIVE_TEMPLATE_IDS {
@@ -22193,7 +22968,7 @@ mod tests {
             // Infer native denominator — `native_activation` refuses the other
             // two before a run can be shaped.
             assert!(native_supported_templates(ModelingTool::Infer, language).is_empty());
-            // Amendment A16: the pinned OpenTaint release ships propagation
+            // Amendment A17: the pinned OpenTaint release ships propagation
             // models and no endpoint catalog, so nothing activates. (The row
             // itself is Java-only; the partition cells exist for every
             // language, and the activation shape is what refuses the others.)
@@ -22635,7 +23410,7 @@ mod tests {
         assert!(joern.arguments.is_empty());
         assert!(joern.identity.contains("DefaultSemantics"));
 
-        // OpenTaint (Amendment A16): the shipped models archive loads, and no
+        // OpenTaint (Amendment A17): the shipped models archive loads, and no
         // rule set of any kind is named — the rule set is where every
         // endpoint lives, and the pinned release ships none. Java only; the
         // other languages have no native denominator.
@@ -22693,7 +23468,7 @@ mod tests {
                 ModelingLanguage::Python,
             ] {
                 // Infer's and OpenTaint's native denominators are Java alone
-                // (Amendments A14 and A16): the other languages have no
+                // (Amendments A14 and A17): the other languages have no
                 // activation shape at all, and asking for one is an
                 // applicability error, not a gate result.
                 if matches!(tool, ModelingTool::Infer | ModelingTool::Opentaint)
@@ -22721,7 +23496,7 @@ mod tests {
         let artifacts = benchmark_model_artifacts();
         // Twelve wave-M1 artifacts plus the Joern modeling script plus
         // Infer's and OpenTaint's one Java artifact each (Amendments A13 and
-        // A15).
+        // A16).
         assert_eq!(artifacts.len(), 15);
         assert!(artifacts.contains(JOERN_MODELING_SCRIPT));
         for artifact in &artifacts {

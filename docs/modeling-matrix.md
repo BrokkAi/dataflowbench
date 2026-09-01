@@ -761,7 +761,7 @@ every existing adapter artifact is:
 | Infer | `adapters/infer/config/model-java.json` (Java only; added by [A13](#a13--2026-09-01-infer-joins-the-modeling-matrix-with-a-field-evaluated-partition-row)) | Pulse `--pulse-taint-config` JSON — `pulse-taint-sources` / `-sinks` / `-propagators` / `-sanitizers` with exact `class_names` + `method_names` matchers, wired through a `pulse-taint-policies` flow whose `sanitizer_kinds` names every declared sanitizer kind |
 | Joern | `adapters/joern/queries/modeling.sc` plus a flow-semantics file | query roots over `cpg.method…parameter` and `FlowSemantic` / `FlowMapping` entries |
 | Semgrep | `adapters/semgrep/rules/model-<language>.yaml` | `mode: taint` with `pattern-sources` / `pattern-sinks` / `pattern-propagators` / `pattern-sanitizers` |
-| OpenTaint (Java only; [A15](#a15--2026-09-01-opentaint-joins-the-modeling-matrix-with-a-preregistered-java-partition-row)) | `adapters/opentaint/rules/model-java.yaml` | Semgrep-syntax `mode: taint` rule translated into the engine's whole-program IFDS configuration; arg→return propagators are spelled assignment-shaped (`$TO = Opaque.carry($FROM)`) against the lifted JVM IR |
+| OpenTaint (Java only; [A16](#a16--2026-09-01-opentaint-joins-the-modeling-matrix-with-a-preregistered-java-partition-row)) | `adapters/opentaint/rules/model-java.yaml` | Semgrep-syntax `mode: taint` rule translated into the engine's whole-program IFDS configuration; arg→return propagators are spelled assignment-shaped (`$TO = Opaque.carry($FROM)`) against the lifted JVM IR |
 
 Like Joern and Semgrep, Infer has no case-level `tool_model_references` key: its
 invocation is pinned in the runner and its declarations live inside the single
@@ -991,7 +991,7 @@ mechanism Amendment A3 established for Semgrep's template 6.
 
 ### OpenTaint — `analyzer/2026.08.27.17eb0fe` (Java only)
 
-> **Added by [Amendment A15](#a15--2026-09-01-opentaint-joins-the-modeling-matrix-with-a-preregistered-java-partition-row).**
+> **Added by [Amendment A16](#a16--2026-09-01-opentaint-joins-the-modeling-matrix-with-a-preregistered-java-partition-row).**
 > This row was not part of the original preregistration — the adapter did not
 > exist when it merged — and it joins on the rollout plan's own terms: *"a new
 > adapter joining this matrix arrives with its own preregistered partition row,
@@ -1045,12 +1045,12 @@ implementation, treated as unsupported until shown otherwise.
 
 > **Amended.** [A13](#a13--2026-09-01-infer-joins-the-modeling-matrix-with-a-field-evaluated-partition-row)
 > adds the Infer v1.3.0 column and
-> [A15](#a15--2026-09-01-opentaint-joins-the-modeling-matrix-with-a-preregistered-java-partition-row)
+> [A16](#a16--2026-09-01-opentaint-joins-the-modeling-matrix-with-a-preregistered-java-partition-row)
 > the OpenTaint column — each a new adapter's own row, field-evaluated before
 > its first modeling run, Java-only. The four preregistered columns are
 > unchanged.
 
-| Category | Bifrost v0.10.7 | CodeQL 2.26.4 | Joern 4.0.614 | Semgrep CE 1.175.0 | Infer v1.3.0 (A13) | OpenTaint 2026.08.27 (A15) |
+| Category | Bifrost v0.10.7 | CodeQL 2.26.4 | Joern 4.0.614 | Semgrep CE 1.175.0 | Infer v1.3.0 (A13) | OpenTaint 2026.08.27 (A16) |
 | --- | --- | --- | --- | --- | --- | --- |
 | S — sources and sinks | supported | supported | supported | supported | supported | supported |
 | P — propagators | TBV | supported | supported | unsupported | supported (T4 unsupported) | supported |
@@ -1268,11 +1268,11 @@ Restating the obligations this tier is most at risk of eroding:
 
 Amendment numbers continue the repository's **single** sequence rather than
 restarting per document: A1 is in [the challenge tier](challenge-tier.md#amendments),
-A6–A8, A10, A14, and A16 are in [the tool-native profile](native-profile.md#amendments),
-A11 is in [the adapter contract](adapters.md#amendments), and A12 is in
-[the latency tier](latency-tier.md#amendments), so an identifier names exactly
-one amendment wherever it is cited. That is why this document's own sequence
-reads A2–A5, then A9, then A13 and A15.
+A6–A8, A10, A14, and A17 are in [the tool-native profile](native-profile.md#amendments),
+A11 is in [the adapter contract](adapters.md#amendments), and A12 and A15 are
+in [the latency tier](latency-tier.md#amendments), so an identifier names
+exactly one amendment wherever it is cited. That is why this document's own
+sequence reads A2–A5, then A9, then A13 and A16.
 
 ### A2 — 2026-08-26: Joern's propagator and summary categories are not load-bearing
 
@@ -1611,7 +1611,7 @@ column; `java` alone. No other tool's cells change.
 **Freezes invalidated.** None. No published freeze binds an Infer modeling
 report; the v0.6.0 freeze is untouched.
 
-### A15 — 2026-09-01: OpenTaint joins the modeling matrix with a preregistered Java partition row
+### A16 — 2026-09-01: OpenTaint joins the modeling matrix with a preregistered Java partition row
 
 **What changed.** The [per-tool capability partition](#per-tool-capability-partition)
 gains a sixth row — OpenTaint, pinned release `analyzer/2026.08.27.17eb0fe` by
