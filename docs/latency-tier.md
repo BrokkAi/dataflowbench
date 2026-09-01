@@ -422,14 +422,14 @@ before this amendment is redescribed by it.
 **Freezes invalidated.** None. No freeze published a latency number before
 this amendment: v0.6.0 is the first, and it is assembled after it.
 
-### A13 — 2026-09-01: warm marginal cost is measured as a separate, labelled figure, and the cold rows stay the headline
+### A15 — 2026-09-01: warm marginal cost is measured as a separate, labelled figure, and the cold rows stay the headline
 
 > **Amendment number.** This document's amendments continue the repository's
-> single sequence, and A12 was its top when this amendment was written. It
-> therefore claims **A13**. Four modeling, native, and latency sessions were
-> landing amendments concurrently; if another A13 merges first, this one is
-> renumbered at merge and every citation of it moves with it, because an
-> amendment identifier must name exactly one amendment.
+> single sequence. A12 was the sequence's top when this amendment was written
+> and it originally claimed A13, but the Infer modeling/native session's
+> amendments (A13, A14 — PR #109) merged first, so this amendment was
+> renumbered to **A15** at its own merge (PR #111), with every citation moved,
+> because an amendment identifier must name exactly one amendment.
 
 **What was preregistered.** "The unit of observation" fixes the unit as the
 per-case analyzer invocation and states the consequence in advance: per-case

@@ -83,7 +83,7 @@ Bifrost run pins its policy.
 
 A second, **timing-only** invocation shape exists for the latency tier's
 warm-marginal measurement
-([Amendment A13](../../docs/latency-tier.md#amendments)). It scores nothing,
+([Amendment A15](../../docs/latency-tier.md#amendments)). It scores nothing,
 writes no normalized report, and is never part of a scored population:
 
 ```bash
