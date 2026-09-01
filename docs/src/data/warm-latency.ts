@@ -1,12 +1,15 @@
-// Build-time derivation of the warm-marginal latency figures (Amendment A15).
+// Build-time derivation of the warm-marginal latency figures.
+//
+// Governed by two amendments in `docs/latency-tier.md`. **A15** established the
+// measurement: the marginal wall-clock of one more case in a tool process that
+// has already paid its start-up, taken as the slope of batch wall-clock against
+// batch size. **A21** supersedes how it is published — a range over retained
+// repeats rather than a point estimate gated on an unstated agreement
+// tolerance — and reverses A15's withhold of the Semgrep figure.
 //
 // The published latency rows are cold per-invocation wall-clock and stay so.
-// This module derives the *other* figure the amendment preregisters: the
-// marginal wall-clock of one more case in a tool process that has already paid
-// its start-up, measured as the slope of batch wall-clock against batch size.
 //
-// Three rules from `docs/latency-tier.md#a13--2026-09-01-warm-marginal-cost-is-measured-as-a-separate-labelled-figure-and-the-cold-rows-stay-the-headline`
-// are enforced here rather than only stated on the page:
+// Rules enforced here rather than only stated on the page:
 //
 //   * the warm figure is never substituted for a cold one and never subtracted
 //     from one — this module returns both, separately labelled, and computes
@@ -15,13 +18,17 @@
 //     analyzed, so the two numbers describe the same work and not two
 //     different populations;
 //   * an adapter with no measured batch gets a recorded decline, never an
-//     inferred number.
+//     inferred number;
+//   * the published figure is the range the retained repeats span — never
+//     their mean, which would make a repeated trial into a statistic this
+//     tier's non-goals rule out, and never one repeat chosen over another.
 //
-// The slope is re-derived here from the retained batch series rather than read
-// from the runner's own fitted value. The runner's value is read too, and a
+// Every slope is re-derived here from its retained batch series rather than
+// read from the runner's fitted value. The runner's value is read too, and a
 // disagreement beyond a millisecond is a build error: two independent
 // implementations of the same estimator agreeing is the check that neither
-// drifted.
+// drifted. A15's retired figure is re-derived on the same terms — a superseded
+// number still has to agree with the series behind it.
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -33,6 +40,17 @@ const repoRoot = path.resolve(
 
 /** Where the runner retains warm-marginal artifacts. Outside every slice. */
 const WARM_ROOT = 'reports/raw/warm-latency';
+
+/**
+ * Where A15's retired figures live.
+ *
+ * Deliberately *not* beside the live ones: the warm runner sweeps its own
+ * output directory at the start of every run, which is right for its own
+ * outputs and would silently delete retired evidence parked next to them. A
+ * separate tree the runner never writes to is the only place a superseded
+ * artifact is safe.
+ */
+const SUPERSEDED_A15_ROOT = 'reports/raw/warm-latency/superseded-a15';
 
 export interface WarmBatch {
   k: number;
@@ -66,6 +84,21 @@ export interface WarmMeasurement {
   coldMedianMs: number | null;
   /** Why the batched population is narrower than the kernel's, when it is. */
   restriction: string | null;
+  /**
+   * The figure A15 published for this adapter, read from its own retained
+   * artifact, or null where A15 published none.
+   *
+   * Read rather than transcribed: a superseded number restated by hand is a
+   * number nobody can check against the run that produced it.
+   */
+  supersededA15: {
+    endpointMs: number;
+    leastSquaresMs: number;
+    fittedFixedCostMs: number;
+    /** Load averages A15's run observed, where it recorded them. */
+    loads: (number | null)[];
+    path: string;
+  } | null;
   environment: {
     hardwareModel: string;
     os: string;
@@ -83,7 +116,8 @@ export interface WarmDecline {
 }
 
 /**
- * The observability audit, mirroring Amendment A15's table.
+ * The observability audit, mirroring the amendments' table (A15 as amended by
+ * A21, which moved Semgrep from withheld to measured).
  *
  * This is contract text, not measurement: it records what the released CLI of
  * each unmeasured adapter does and does not expose. It is held here so the
@@ -250,6 +284,9 @@ export function warmLatency(): {
   const measurements: WarmMeasurement[] = [];
   if (fs.existsSync(root)) {
     for (const entry of fs.readdirSync(root).sort()) {
+      // The retired tree holds superseded figures, not current ones; it is
+      // read per measurement below, never enumerated as one.
+      if (entry === 'superseded-a15') continue;
       const document = path.join(root, entry, 'warm-latency.json');
       if (!fs.existsSync(document)) continue;
       const warm = readJson(document);
@@ -331,6 +368,53 @@ export function warmLatency(): {
         ].case_ids ?? [];
       const stamp = path.join(root, entry, 'run-environment.json');
       const environment = fs.existsSync(stamp) ? readJson(stamp) : null;
+
+      // A15's retired figure, where one was published for this adapter. Its
+      // slopes are re-derived from its own retained batch series for the same
+      // reason the live ones are: a published number and the series behind it
+      // must agree, retired or not.
+      const retiredPath = path.join(
+        repoRoot,
+        SUPERSEDED_A15_ROOT,
+        entry,
+        'warm-latency.json',
+      );
+      let supersededA15: WarmMeasurement['supersededA15'] = null;
+      if (fs.existsSync(retiredPath)) {
+        const retired = readJson(retiredPath);
+        const retiredBatches: WarmBatch[] = retired.batches.map(
+          (batch: any) => ({ k: batch.k, wallMs: batch.wall_ms }),
+        );
+        const retiredFit = fit(retiredBatches);
+        for (const [label, mine, theirs] of [
+          [
+            'endpoint',
+            retiredFit.endpointMs,
+            retired.marginal_ms_per_case.endpoint,
+          ],
+          [
+            'least squares',
+            retiredFit.leastSquaresMs,
+            retired.marginal_ms_per_case.least_squares,
+          ],
+          ['intercept', retiredFit.interceptMs, retired.fitted_fixed_cost_ms],
+        ] as [string, number, number][]) {
+          if (Math.abs(mine - theirs) > 1) {
+            throw new Error(
+              `${retiredPath}: the retired ${label} slope re-derived at build time (${mine}) disagrees with the retained value (${theirs})`,
+            );
+          }
+        }
+        supersededA15 = {
+          endpointMs: retiredFit.endpointMs,
+          leastSquaresMs: retiredFit.leastSquaresMs,
+          fittedFixedCostMs: retiredFit.interceptMs,
+          loads: retired.batches.map(
+            (batch: any) => batch.load_average_1m_before ?? null,
+          ),
+          path: path.posix.join(SUPERSEDED_A15_ROOT, entry, 'warm-latency.json'),
+        };
+      }
       measurements.push({
         tool: warm.adapter,
         toolVersion: warm.tool_version,
@@ -342,6 +426,7 @@ export function warmLatency(): {
         caseIds,
         coldMedianMs: coldMedianOver(warm.adapter, warm.language, caseIds),
         restriction: warm.population_restriction ?? null,
+        supersededA15,
         environment: environment
           ? {
               hardwareModel: environment.hardware_model,

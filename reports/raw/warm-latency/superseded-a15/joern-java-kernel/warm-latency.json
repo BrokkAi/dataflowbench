@@ -1,0 +1,89 @@
+{
+  "adapter": "joern",
+  "amendment": "A13",
+  "batches": [
+    {
+      "case_ids": [
+        "dfb-taint-java-alias-propagation-negative"
+      ],
+      "k": 1,
+      "load_average_1m_before": 9.41,
+      "wall_ms": 5895
+    },
+    {
+      "case_ids": [
+        "dfb-taint-java-alias-propagation-negative",
+        "dfb-taint-java-alias-propagation-positive"
+      ],
+      "k": 2,
+      "load_average_1m_before": 9.22,
+      "wall_ms": 7563
+    },
+    {
+      "case_ids": [
+        "dfb-taint-java-alias-propagation-negative",
+        "dfb-taint-java-alias-propagation-positive",
+        "dfb-taint-java-anonymous-implementation-negative",
+        "dfb-taint-java-anonymous-implementation-positive"
+      ],
+      "k": 4,
+      "load_average_1m_before": 9.2,
+      "wall_ms": 10893
+    },
+    {
+      "case_ids": [
+        "dfb-taint-java-alias-propagation-negative",
+        "dfb-taint-java-alias-propagation-positive",
+        "dfb-taint-java-anonymous-implementation-negative",
+        "dfb-taint-java-anonymous-implementation-positive",
+        "dfb-taint-java-argument-position-negative",
+        "dfb-taint-java-argument-position-positive",
+        "dfb-taint-java-array-element-negative",
+        "dfb-taint-java-array-element-positive"
+      ],
+      "k": 8,
+      "load_average_1m_before": 9.52,
+      "wall_ms": 18282
+    },
+    {
+      "case_ids": [
+        "dfb-taint-java-alias-propagation-negative",
+        "dfb-taint-java-alias-propagation-positive",
+        "dfb-taint-java-anonymous-implementation-negative",
+        "dfb-taint-java-anonymous-implementation-positive",
+        "dfb-taint-java-argument-position-negative",
+        "dfb-taint-java-argument-position-positive",
+        "dfb-taint-java-array-element-negative",
+        "dfb-taint-java-array-element-positive",
+        "dfb-taint-java-branch-join-negative",
+        "dfb-taint-java-branch-join-positive",
+        "dfb-taint-java-call-context-negative",
+        "dfb-taint-java-call-context-positive",
+        "dfb-taint-java-callback-registration-negative",
+        "dfb-taint-java-callback-registration-positive",
+        "dfb-taint-java-closure-capture-negative",
+        "dfb-taint-java-closure-capture-positive"
+      ],
+      "k": 16,
+      "load_average_1m_before": 9.09,
+      "wall_ms": 28991
+    }
+  ],
+  "clock": "monotonic",
+  "ended_at_unix_seconds": 1788258190,
+  "evidence_kind": "retained-warm-marginal-latency",
+  "fitted_fixed_cost_ms": 4714.958333333334,
+  "fixture_revision": "sha256:9df209ed3d7723a3ee33f2b289cf2afe34a3add781bdf2a2ac445de42b8d0151",
+  "language": "java",
+  "marginal_ms_per_case": {
+    "endpoint": 1539.7333333333333,
+    "least_squares": 1549.974462365591
+  },
+  "measured_boundary": "one subprocess per batch, whole-invocation wall-clock",
+  "population_available": 58,
+  "population_restriction": null,
+  "schema_version": 1,
+  "started_at_unix_seconds": 1788258118,
+  "tool_build_identity": "joern-cli:4.0.432",
+  "tool_version": "4.0.432"
+}

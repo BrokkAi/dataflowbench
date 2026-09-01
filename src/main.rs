@@ -16747,7 +16747,12 @@ fn run_native_with_identity(
 }
 
 // ---------------------------------------------------------------------------
-// Warm-marginal latency measurement (Amendment A13, docs/latency-tier.md).
+// Warm-marginal latency measurement (Amendments A15 and A21,
+// docs/latency-tier.md).
+//
+// A15 established the measurement and published it as a point estimate gated on
+// an unstated agreement tolerance. A21 supersedes that: the figure is the range
+// its retained repeats span, which needs no tolerance.
 //
 // The published latency rows are cold per-invocation wall-clock, and stay so:
 // boot is not observable inside one invocation, so a benchmark that spawns one
@@ -16804,6 +16809,17 @@ const WARM_LATENCY_ROOT: &str = "reports/raw/warm-latency";
 /// sees it directly, and there is no discretionary parameter anywhere in the
 /// path from measurement to page.
 const WARM_REPEATS: usize = 2;
+
+/// Where superseded warm figures are retained, outside every directory the
+/// runner sweeps.
+///
+/// `measure-warm-latency` clears its own output directory at the start of every
+/// run, so a stale batch can never be read as part of a fresh measurement. That
+/// is right for its own outputs and destructive for a *retired* figure parked
+/// beside them — which is how the first attempt at retaining A15's superseded
+/// artifact was lost, to the very next re-measurement. Retired evidence lives
+/// here instead, in a tree the runner never writes to.
+const WARM_SUPERSEDED_ROOT: &str = "reports/raw/warm-latency/superseded-a15";
 
 /// The Joern batch script. `kernel.sc` is unchanged and remains the only
 /// script any normalized Joern report hashes into its `configuration_hash`.
@@ -17084,7 +17100,10 @@ fn measure_warm_latency(
     let document = json!({
         "schema_version": 1,
         "evidence_kind": "retained-warm-marginal-latency",
-        "amendment": "A13",
+        // The amendment this artifact is published under. A15 established
+        // the measurement; A21 supersedes how it is published.
+        "amendment": "A21",
+        "establishing_amendment": "A15",
         "adapter": tool.as_str(),
         "language": language.as_str(),
         "tool_version": version,
@@ -18146,6 +18165,21 @@ mod tests {
         ] {
             assert!(!WARM_LATENCY_ROOT.starts_with(&report));
             assert!(!report.starts_with(WARM_LATENCY_ROOT));
+        }
+        // Retired figures must not live under a directory the runner sweeps:
+        // `measure-warm-latency` removes its whole output directory before it
+        // writes, so a superseded artifact parked there is destroyed by the
+        // next re-measurement. That is not hypothetical — it happened once.
+        for tool in [WarmTool::Joern, WarmTool::Semgrep] {
+            let swept = format!(
+                "{WARM_LATENCY_ROOT}/{}-{}-kernel",
+                tool.as_str(),
+                WarmLanguage::Java.as_str()
+            );
+            assert!(
+                !WARM_SUPERSEDED_ROOT.starts_with(&swept),
+                "retired warm evidence must not sit under the swept directory {swept}"
+            );
         }
         let document = json!({
             "evidence_kind": "retained-warm-marginal-latency",

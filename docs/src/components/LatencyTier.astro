@@ -48,18 +48,22 @@ function formatRange([low, high]: [number, number]): string {
  * lets a reader discount a figure taken on a busy machine instead of having to
  * trust the word "quiet".
  */
-function loadSummary(measurement: {
-  runs: { loads: (number | null)[] }[];
-}): string | null {
-  const loads = measurement.runs
-    .flatMap((run) => run.loads)
-    .filter((load): load is number => typeof load === 'number');
+function loadRange(samples: (number | null)[]): string | null {
+  const loads = samples.filter(
+    (load): load is number => typeof load === 'number',
+  );
   if (loads.length === 0) return null;
   const low = Math.min(...loads);
   const high = Math.max(...loads);
   return low === high
     ? low.toFixed(1)
     : `${low.toFixed(1)} to ${high.toFixed(1)}`;
+}
+
+function loadSummary(measurement: {
+  runs: { loads: (number | null)[] }[];
+}): string | null {
+  return loadRange(measurement.runs.flatMap((run) => run.loads));
 }
 
 const decomposed = model.adapters.filter((a) => a.phases.length > 0);
@@ -517,6 +521,108 @@ const slowest = model.adapters.at(-1)!;
       measurement and this table is discretionary. The repeats are never
       averaged — that would turn repeated trials into the statistic the tier's
       non-goals rule out — and never picked between.
+    </p>
+
+    <h3 id="warm-superseded">What these figures replaced</h3>
+
+    <p>
+      The figures above are not the first this page published.{' '}
+      <a href="https://github.com/BrokkAi/dataflowbench/blob/main/docs/latency-tier.md#amendments">Amendment A15</a>{' '}
+      published a warm marginal as a <em>point</em> estimate, under a rule that
+      ran each measurement twice and withheld the figure unless the two runs
+      "agreed closely".{' '}
+      <a href="https://github.com/BrokkAi/dataflowbench/blob/main/docs/latency-tier.md#amendments">Amendment A21</a>{' '}
+      supersedes both the rule and the numbers it produced. Those numbers are
+      restated here rather than removed, because a retired figure is only
+      auditable if it is still legible beside the one that replaced it.
+    </p>
+
+    <div class="table-scroll">
+      <table>
+        <thead>
+          <tr>
+            <th>Adapter</th>
+            <th>A15 published</th>
+            <th>A21 publishes</th>
+            <th>Retired artifact</th>
+          </tr>
+        </thead>
+        <tbody>
+          {warm.measurements.map((measurement) => (
+            <tr>
+              <td>
+                <span
+                  class:list={['vendor-dot', vendorColorClass(measurement.tool)]}
+                  aria-hidden="true"></span>
+                {vendorName(measurement.tool)}
+              </td>
+              <td class="muted">
+                {measurement.supersededA15 ? (
+                  <s>{formatMs(measurement.supersededA15.leastSquaresMs)}</s>
+                ) : (
+                  <em>withheld</em>
+                )}
+              </td>
+              <td>
+                <strong>{formatRange(measurement.leastSquaresRangeMs)}</strong>
+              </td>
+              <td>
+                {measurement.supersededA15 ? (
+                  <code>{measurement.supersededA15.path}</code>
+                ) : (
+                  <code>{`${'reports/raw/warm-latency'}/semgrep-java-stability-probe/`}</code>
+                )}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+
+    <p class="caption">
+      <strong>Why the rule was replaced.</strong> "Agree closely" named no
+      tolerance, and the only moment at which one could have been chosen was
+      after the spreads were known — the after-the-fact decision this tier's
+      contract refuses. It was found by measuring again: two repeats on a quiet
+      machine disagreed by 12% where two under load had agreed to 5%, and no
+      tolerance could have been written down at that point without being fitted
+      to spreads already seen. Publishing the interval that was measured needs
+      no tolerance at all.
+    </p>
+
+    <p class="caption">
+      <strong>Why Joern's number moved, and why Semgrep's exists at all.</strong>{' '}
+      Machine conditions. Both runs recorded the one-minute load average before
+      every batch, so the comparison is read off the artifacts rather than
+      recalled:{' '}
+      {warm.measurements
+        .filter((measurement) => measurement.supersededA15)
+        .map((measurement) => (
+          <>
+            {vendorName(measurement.tool)} at{' '}
+            <strong>{loadRange(measurement.supersededA15!.loads)}</strong> when
+            A15 measured it, against{' '}
+            <strong>{loadSummary(measurement)}</strong> for the figure above.{' '}
+          </>
+        ))}
+      That is most of the difference in Joern's row. It is the whole of
+      Semgrep's: A15 withheld a Semgrep figure because its two runs' slopes
+      differed by a factor of two, and recorded that as a property of the
+      measurement's subject. Re-measured on an idle machine, Semgrep's two
+      repeats agree to about 5% — tighter than Joern's.{' '}
+      <strong>The instability was the machine, not the engine</strong>, and
+      attributing it to Semgrep was a mistake, recorded here rather than quietly
+      dropped. It is also why the observed load now travels with every figure on
+      this page.
+    </p>
+
+    <p class="caption">
+      Worth stating plainly, since this benchmark is published by the vendor of
+      one of the engines on it: both corrections move numbers{' '}
+      <strong>against</strong> that vendor. Joern's marginal falls by about a
+      third, and a competitor's withheld figure is restored — and turns out to
+      be the fastest warm marginal here. The rule was replaced because it was
+      unsound, not because of which way it pointed.
     </p>
 
     {warm.measurements.map((measurement) => (
