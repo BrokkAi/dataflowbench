@@ -687,7 +687,7 @@ const belowThreshold = overheadPublished.filter(
     <a href="/dataflowbench/snapshots/v0-6-0/latency/#invocation-overhead">
       The estimates table
     </a>{' '}
-    carries every value — both runs behind every figure, every unmarked row,
+    carries every value — every repeat behind every range, every unmarked row,
     and every adapter for which no estimate could be taken at all.
   </p>
 )}
@@ -763,6 +763,18 @@ const belowThreshold = overheadPublished.filter(
         </a>{' '}
         of one more case in a process that has already started, wherever the
         released CLI let it be measured.{' '}
+      </>
+    )}
+    {overheadPublished.length > 0 && (
+      <>
+        <strong>And what an invocation costs before it has anything to find is
+        estimated for every adapter it could be estimated for</strong> — the{' '}
+        <a href="/dataflowbench/snapshots/v0-6-0/latency/#invocation-overhead">
+          per-invocation overhead
+        </a>{' '}
+        of one complete invocation over a trivial no-flow fixture, an upper
+        bound published across the range its repeats spanned, never subtracted
+        from a bar above.{' '}
       </>
     )}
     Read this as characterization of what the
