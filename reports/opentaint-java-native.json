@@ -2,13 +2,13 @@
   "adapter_version": "0.1.0",
   "cold_or_warm": "cold",
   "configuration_hash": "c1f839e5cf8d4bdfd1d509456115d39cad49d44831399ed78664f1c53a59f00c",
-  "ended_at_unix_seconds": 1788259534,
+  "ended_at_unix_seconds": 1788261611,
   "fixture_revision": "sha256:9df209ed3d7723a3ee33f2b289cf2afe34a3add781bdf2a2ac445de42b8d0151",
   "results": [
     {
       "case_id": "dfb-taint-java-native-entrypoint-negative",
       "diagnostics": [
-        "tool-native activation of dfb-template-native-entrypoint (category E — framework entry points) is unsupported for analyzer/2026.08.27.17eb0fe over Java by the activation partition (docs/native-profile.md#partition-summary, as amended): entry-point *selection* exists (`--debug-run-analysis-on-selected-entry-points`) but selecting a method analyzes it rather than tainting its parameters; sources live in the rule set, and the pinned release ships none (Amendment A17)"
+        "tool-native activation of dfb-template-native-entrypoint (category E — framework entry points) is unsupported for analyzer/2026.08.27.17eb0fe over Java by the activation partition (docs/native-profile.md#partition-summary, as amended): entry-point *selection* exists (`--debug-run-analysis-on-selected-entry-points`) but selecting a method analyzes it rather than tainting its parameters; sources live in the rule set, and the pinned release ships none (Amendment A19)"
       ],
       "duration_ms": 0,
       "outcome": "unsupported",
@@ -25,7 +25,7 @@
     {
       "case_id": "dfb-taint-java-native-entrypoint-positive",
       "diagnostics": [
-        "tool-native activation of dfb-template-native-entrypoint (category E — framework entry points) is unsupported for analyzer/2026.08.27.17eb0fe over Java by the activation partition (docs/native-profile.md#partition-summary, as amended): entry-point *selection* exists (`--debug-run-analysis-on-selected-entry-points`) but selecting a method analyzes it rather than tainting its parameters; sources live in the rule set, and the pinned release ships none (Amendment A17)"
+        "tool-native activation of dfb-template-native-entrypoint (category E — framework entry points) is unsupported for analyzer/2026.08.27.17eb0fe over Java by the activation partition (docs/native-profile.md#partition-summary, as amended): entry-point *selection* exists (`--debug-run-analysis-on-selected-entry-points`) but selecting a method analyzes it rather than tainting its parameters; sources live in the rule set, and the pinned release ships none (Amendment A19)"
       ],
       "duration_ms": 0,
       "outcome": "unsupported",
@@ -42,7 +42,7 @@
     {
       "case_id": "dfb-taint-java-native-persistence-negative",
       "diagnostics": [
-        "tool-native activation of dfb-template-native-persistence (category B — persistence boundaries) is unsupported for analyzer/2026.08.27.17eb0fe over Java by the activation partition (docs/native-profile.md#partition-summary, as amended): no store vocabulary ships in any asset of the pinned release (Amendment A17)"
+        "tool-native activation of dfb-template-native-persistence (category B — persistence boundaries) is unsupported for analyzer/2026.08.27.17eb0fe over Java by the activation partition (docs/native-profile.md#partition-summary, as amended): no store vocabulary ships in any asset of the pinned release (Amendment A19)"
       ],
       "duration_ms": 0,
       "outcome": "unsupported",
@@ -59,7 +59,7 @@
     {
       "case_id": "dfb-taint-java-native-persistence-positive",
       "diagnostics": [
-        "tool-native activation of dfb-template-native-persistence (category B — persistence boundaries) is unsupported for analyzer/2026.08.27.17eb0fe over Java by the activation partition (docs/native-profile.md#partition-summary, as amended): no store vocabulary ships in any asset of the pinned release (Amendment A17)"
+        "tool-native activation of dfb-template-native-persistence (category B — persistence boundaries) is unsupported for analyzer/2026.08.27.17eb0fe over Java by the activation partition (docs/native-profile.md#partition-summary, as amended): no store vocabulary ships in any asset of the pinned release (Amendment A19)"
       ],
       "duration_ms": 0,
       "outcome": "unsupported",
@@ -76,7 +76,7 @@
     {
       "case_id": "dfb-taint-java-native-propagator-negative",
       "diagnostics": [
-        "tool-native activation of dfb-template-native-propagator (category P — declared propagators) is unsupported for analyzer/2026.08.27.17eb0fe over Java by the activation partition (docs/native-profile.md#partition-summary, as amended): the shipped models archive is precisely a propagation catalog, and it is genuinely shipped product — but propagation with no shipped source and no shipped sink carries nothing anywhere, the same gap in the same direction as Joern's DefaultSemantics row (Amendment A17)"
+        "tool-native activation of dfb-template-native-propagator (category P — declared propagators) is unsupported for analyzer/2026.08.27.17eb0fe over Java by the activation partition (docs/native-profile.md#partition-summary, as amended): the shipped models archive is precisely a propagation catalog, and it is genuinely shipped product — but propagation with no shipped source and no shipped sink carries nothing anywhere, the same gap in the same direction as Joern's DefaultSemantics row (Amendment A19)"
       ],
       "duration_ms": 0,
       "outcome": "unsupported",
@@ -93,7 +93,7 @@
     {
       "case_id": "dfb-taint-java-native-propagator-positive",
       "diagnostics": [
-        "tool-native activation of dfb-template-native-propagator (category P — declared propagators) is unsupported for analyzer/2026.08.27.17eb0fe over Java by the activation partition (docs/native-profile.md#partition-summary, as amended): the shipped models archive is precisely a propagation catalog, and it is genuinely shipped product — but propagation with no shipped source and no shipped sink carries nothing anywhere, the same gap in the same direction as Joern's DefaultSemantics row (Amendment A17)"
+        "tool-native activation of dfb-template-native-propagator (category P — declared propagators) is unsupported for analyzer/2026.08.27.17eb0fe over Java by the activation partition (docs/native-profile.md#partition-summary, as amended): the shipped models archive is precisely a propagation catalog, and it is genuinely shipped product — but propagation with no shipped source and no shipped sink carries nothing anywhere, the same gap in the same direction as Joern's DefaultSemantics row (Amendment A19)"
       ],
       "duration_ms": 0,
       "outcome": "unsupported",
@@ -110,7 +110,7 @@
     {
       "case_id": "dfb-taint-java-native-sanitizer-negative",
       "diagnostics": [
-        "tool-native activation of dfb-template-native-sanitizer (category Z — declared sanitizers) is unsupported for analyzer/2026.08.27.17eb0fe over Java by the activation partition (docs/native-profile.md#partition-summary, as amended): no sanitizer appears anywhere in the shipped assets, and prior to that no flow can start for a barrier to be observable against — the same absent endpoint catalog that decides templates 1 and 2 (Amendment A17)"
+        "tool-native activation of dfb-template-native-sanitizer (category Z — declared sanitizers) is unsupported for analyzer/2026.08.27.17eb0fe over Java by the activation partition (docs/native-profile.md#partition-summary, as amended): no sanitizer appears anywhere in the shipped assets, and prior to that no flow can start for a barrier to be observable against — the same absent endpoint catalog that decides templates 1 and 2 (Amendment A19)"
       ],
       "duration_ms": 0,
       "outcome": "unsupported",
@@ -127,9 +127,9 @@
     {
       "case_id": "dfb-taint-java-native-sanitizer-positive",
       "diagnostics": [
-        "tool-native activation of dfb-template-native-sanitizer (category Z — declared sanitizers) is unsupported for analyzer/2026.08.27.17eb0fe over Java by the activation partition (docs/native-profile.md#partition-summary, as amended): no sanitizer appears anywhere in the shipped assets, and prior to that no flow can start for a barrier to be observable against — the same absent endpoint catalog that decides templates 1 and 2 (Amendment A17)"
+        "tool-native activation of dfb-template-native-sanitizer (category Z — declared sanitizers) is unsupported for analyzer/2026.08.27.17eb0fe over Java by the activation partition (docs/native-profile.md#partition-summary, as amended): no sanitizer appears anywhere in the shipped assets, and prior to that no flow can start for a barrier to be observable against — the same absent endpoint catalog that decides templates 1 and 2 (Amendment A19)"
       ],
-      "duration_ms": 1,
+      "duration_ms": 0,
       "outcome": "unsupported",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/opentaint-java-native/dfb-taint-java-native-sanitizer-positive-unsupported.json",
@@ -144,7 +144,7 @@
     {
       "case_id": "dfb-taint-java-native-source-sink-negative",
       "diagnostics": [
-        "tool-native activation of dfb-template-native-source-sink (category S — declared sources and sinks) is unsupported for analyzer/2026.08.27.17eb0fe over Java by the activation partition (docs/native-profile.md#partition-summary, as amended): the pinned release ships no endpoint catalog: `opentaint-models.tar.gz` is propagation only — passThrough/copy rows, accumulated fields, approximation classes — and no rule set ships, so the analyzer with the shipped assets alone registers zero rules over the platform's own `System.getenv` → `Runtime.exec` (retained native-activation probe). Without a source and a sink, no template in this profile can produce a finding (Amendment A17)"
+        "tool-native activation of dfb-template-native-source-sink (category S — declared sources and sinks) is unsupported for analyzer/2026.08.27.17eb0fe over Java by the activation partition (docs/native-profile.md#partition-summary, as amended): the pinned release ships no endpoint catalog: `opentaint-models.tar.gz` is propagation only — passThrough/copy rows, accumulated fields, approximation classes — and no rule set ships, so the analyzer with the shipped assets alone registers zero rules over the platform's own `System.getenv` → `Runtime.exec` (retained native-activation probe). Without a source and a sink, no template in this profile can produce a finding (Amendment A19)"
       ],
       "duration_ms": 0,
       "outcome": "unsupported",
@@ -161,7 +161,7 @@
     {
       "case_id": "dfb-taint-java-native-source-sink-positive",
       "diagnostics": [
-        "tool-native activation of dfb-template-native-source-sink (category S — declared sources and sinks) is unsupported for analyzer/2026.08.27.17eb0fe over Java by the activation partition (docs/native-profile.md#partition-summary, as amended): the pinned release ships no endpoint catalog: `opentaint-models.tar.gz` is propagation only — passThrough/copy rows, accumulated fields, approximation classes — and no rule set ships, so the analyzer with the shipped assets alone registers zero rules over the platform's own `System.getenv` → `Runtime.exec` (retained native-activation probe). Without a source and a sink, no template in this profile can produce a finding (Amendment A17)"
+        "tool-native activation of dfb-template-native-source-sink (category S — declared sources and sinks) is unsupported for analyzer/2026.08.27.17eb0fe over Java by the activation partition (docs/native-profile.md#partition-summary, as amended): the pinned release ships no endpoint catalog: `opentaint-models.tar.gz` is propagation only — passThrough/copy rows, accumulated fields, approximation classes — and no rule set ships, so the analyzer with the shipped assets alone registers zero rules over the platform's own `System.getenv` → `Runtime.exec` (retained native-activation probe). Without a source and a sink, no template in this profile can produce a finding (Amendment A19)"
       ],
       "duration_ms": 0,
       "outcome": "unsupported",
@@ -178,7 +178,7 @@
     {
       "case_id": "dfb-taint-java-native-summary-negative",
       "diagnostics": [
-        "tool-native activation of dfb-template-native-summary (category O — opaque procedure summaries) is unsupported for analyzer/2026.08.27.17eb0fe over Java by the activation partition (docs/native-profile.md#partition-summary, as amended): the archive's dataflow-approximation classes are exactly this template's round-trip material and they do activate — behind endpoints the pinned release does not ship, so the summary has nothing to carry (Amendment A17)"
+        "tool-native activation of dfb-template-native-summary (category O — opaque procedure summaries) is unsupported for analyzer/2026.08.27.17eb0fe over Java by the activation partition (docs/native-profile.md#partition-summary, as amended): the archive's dataflow-approximation classes are exactly this template's round-trip material and they do activate — behind endpoints the pinned release does not ship, so the summary has nothing to carry (Amendment A19)"
       ],
       "duration_ms": 0,
       "outcome": "unsupported",
@@ -195,7 +195,7 @@
     {
       "case_id": "dfb-taint-java-native-summary-positive",
       "diagnostics": [
-        "tool-native activation of dfb-template-native-summary (category O — opaque procedure summaries) is unsupported for analyzer/2026.08.27.17eb0fe over Java by the activation partition (docs/native-profile.md#partition-summary, as amended): the archive's dataflow-approximation classes are exactly this template's round-trip material and they do activate — behind endpoints the pinned release does not ship, so the summary has nothing to carry (Amendment A17)"
+        "tool-native activation of dfb-template-native-summary (category O — opaque procedure summaries) is unsupported for analyzer/2026.08.27.17eb0fe over Java by the activation partition (docs/native-profile.md#partition-summary, as amended): the archive's dataflow-approximation classes are exactly this template's round-trip material and they do activate — behind endpoints the pinned release does not ship, so the summary has nothing to carry (Amendment A19)"
       ],
       "duration_ms": 0,
       "outcome": "unsupported",
@@ -211,7 +211,7 @@
     }
   ],
   "schema_version": 1,
-  "started_at_unix_seconds": 1788259534,
+  "started_at_unix_seconds": 1788261611,
   "tool": "opentaint",
   "tool_build_identity": "opentaint-project-analyzer.jar sha256:811bdb22786e539c9aabdce5bef91f0c6521cc099adbe2720e6a840c09badf54; opentaint-models.tar.gz sha256:c2a8fb0bbc3b6d59ed6db0c62732ff9a6f0f491d515cc2247932f2dd78cbb9f5 — analyzer/2026.08.27.17eb0fe shipped models archive only — no rule set",
   "tool_version": "analyzer/2026.08.27.17eb0fe"

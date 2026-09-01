@@ -780,9 +780,82 @@ what this profile exists to make legible. Its 0 / 6 run still witnesses its
 identity from the binary,
 [as every 0 / 6 run must](#the-run-level-identity-is-witnessed-including-at-0--6).
 
+### Pysa — pyre-check 0.10.0 + Pyrefly 1.2.0, shipped taint model suite
+
+> **Added by [Amendment A17](#a17--2026-09-01-pysa-joins-the-tool-native-profile-with-a-live-activation-row).**
+> This row was not part of the preregistration, which merged before the Pysa
+> adapter existed; it arrives the way the modeling matrix's amendment rows
+> do, dated before the adapter's first native run, with its activation
+> evidence retained under `reports/raw/amendment-a17-pysa-native/`
+> (`scripts/probe-pysa-native-activation.sh`). Its scope is **Python only**,
+> the engine's one language.
+
+**Activation contract.** The pinned pyre-check wheel ships a real model suite
+inside its own distribution: `lib/pyre_check/taint/` carries
+`core_privacy_security/` — a `taint.config` declaring 27 source kinds, 33
+sink kinds, and 35 rules, beside the stdlib and framework `.pysa` model files
+that bind them — and `common/`, the propagation models for builtins and
+collections. A native run points `taint_models_path` at that shipped
+directory and nothing else, and passes `--no-verify`. Both halves of that
+shape were established by probe, and both are retained:
+
+- **The shipped product refuses to run with no model path** (`Found 1 taint
+  configuration error!`): there is no ambient default, so pointing the
+  documented `taint_models_path` knob at the wheel's own suite *is* the
+  activation. It is a configuration of shipped models, the same kind of
+  switch as CodeQL's `--threat-model=local`; it adds no row of ours, so it
+  satisfies [the activation rule](#the-activation-rule).
+- **The shipped suite does not verify over a stdlib-only project** (`Found
+  122 model verification errors!` — its framework models name definitions a
+  dependency-free fixture does not carry), and the client's own remediation
+  hint names `--no-verify`. The flag is therefore part of the pinned
+  invocation, and the activation proof moves from the verifier into the
+  retained evidence: every native run's `taint-output.json` must carry the
+  shipped model binding for `os.system`, the RemoteCodeExecution sink every
+  Python native template sinks through, or the run is a `runner-error` rather
+  than a coverage result.
+
+The benchmark-authored artifacts — `adapters/pysa/taint.config`,
+`adapters/pysa/models/kernel-python.pysa`, and the modeling artifact — are
+never loaded: the no-benchmark-models gate covers the Pysa invocation shape
+exactly as it covers the other four.
+
+**What the shipped suite was read to contain**, before any native fixture was
+scanned. `rce_sinks.pysa` binds `os.system`, `subprocess.*`, `eval`, and
+`exec` as RemoteCodeExecution sinks; `general.pysa` binds framework request
+objects and `argparse.ArgumentParser.parse_args` (kind `CLIUserControlled`)
+as sources; `sanitizers.pysa` declares `@Sanitize` entities; `common/` ships
+builtin and collection propagation. What the suite does **not** contain is a
+source model for a bare `os.environ` read or a bare `sys.argv` subscript —
+the shipped source catalog is framework-shaped, plus `argparse` for the
+command line. All six templates are scored — the suite ships models in every
+category's role, so there is an activation for each cell to measure — and the
+honest expectation, stated in advance exactly as
+[the template expectations](#the-six-native-templates) require, is that the
+missing platform sources will cost every positive whose flow starts at
+`os.environ` or `sys.argv`. That is a product fact about a security suite
+aimed at framework-served code, published as the measurement, never
+re-labelled as a benchmark defect or an engine failure.
+
+| # | Category | Decision | Rationale |
+| --- | --- | --- | --- |
+| 1 | S | **supported** | `os.system` verified bound from the shipped `rce_sinks.pysa` under the pinned activation (retained probe). Whether any shipped source binds the environment read is the measurement. |
+| 2 | P | **supported** | `common/` ships propagation models and the engine summarizes stdlib bodies it can read; whether the chain survives `os.path.join` from an uncovered source is the measurement. |
+| 3 | Z | **supported** | The shipped suite declares sanitizers (`sanitizers.pysa`); whether `shlex.quote` is credited in the rule family that owns this sink is the measurement. |
+| 4 | O | **supported** | The suite ships procedure summaries; whether the base64 round trip is covered is the measurement. |
+| 5 | E | **supported** | The shipped command-line convention is `argparse` (`CLIUserControlled`), read before any scan; whether it extends to a bare `sys.argv` subscript is the measurement. |
+| 6 | B | **supported** | `os.putenv` carries a shipped model and the suite runs over the store's APIs; whether a write-read pair is linked is the measurement. |
+
+Pysa enters with **six of six templates scored**, and — stated in advance so
+the column cannot later be read backwards — with the expectation of a
+near-blind-baseline score, because the shipped source catalog does not cover
+the platform reads these fixtures start from. A 6 / 6 activation surface and
+a low score are not in tension; they are precisely the two facts this profile
+exists to keep separate.
+
 ### OpenTaint — `analyzer/2026.08.27.17eb0fe`, shipped models archive only (Java only)
 
-> **Added by [Amendment A17](#a17--2026-09-01-opentaint-joins-the-tool-native-profile-at-0--6-and-the-shipped-models-archive-is-ruled-shipped-product).**
+> **Added by [Amendment A19](#a19--2026-09-01-opentaint-joins-the-tool-native-profile-at-0--6-and-the-shipped-models-archive-is-ruled-shipped-product).**
 > This row was not part of the original preregistration — the adapter did not
 > exist when it merged — and it joins on the same terms every row here holds
 > to: decided from the pinned release's own assets, by execution, before any
@@ -836,7 +909,7 @@ this row.
 OpenTaint enters this profile with **zero of six**, and — as with Joern — that
 is a statement about the pinned release's *product packaging*, not about its
 engine: the benchmark-controlled matrix scores the same binary on three of six
-categories ([Amendment A16](modeling-matrix.md#a16--2026-09-01-opentaint-joins-the-modeling-matrix-with-a-preregistered-java-partition-row)),
+categories ([Amendment A18](modeling-matrix.md#a18--2026-09-01-opentaint-joins-the-modeling-matrix-with-a-preregistered-java-partition-row)),
 and the gap between those two rows is exactly what this profile exists to make
 legible.
 
@@ -856,22 +929,27 @@ until shown otherwise.
 > [A8](#a8--2026-08-27-semgrep-ces-six-python-cells-are-promoted-to-scored-and-the-partition-gains-a-language-dimension)
 > promotes Python's six to scored and keys the partition by language. Every cell
 > for every language with no amendment row is still the cell below.
+> [A17](#a17--2026-09-01-pysa-joins-the-tool-native-profile-with-a-live-activation-row)
+> later added the Pysa column — Python-scoped, the engine's one language —
+> with the activation row above; the four preregistered columns are unchanged.
 
 > [A14](#a14--2026-09-01-infers-native-row-declines-on-a-measured-silence)
-> adds the Infer v1.3.0 column and
-> [A17](#a17--2026-09-01-opentaint-joins-the-tool-native-profile-at-0--6-and-the-shipped-models-archive-is-ruled-shipped-product)
-> the OpenTaint column — each a new adapter's own activation row, measured
-> before its first native run, Java-only.
+> adds the Infer v1.3.0 column — a new adapter's own activation row, measured
+> before its first native run, Java-only —
+> [A17](#a17--2026-09-01-pysa-joins-the-tool-native-profile-with-a-live-activation-row)
+> adds the Pysa column the same way, Python-only, the engine's one language,
+> and [A19](#a19--2026-09-01-opentaint-joins-the-tool-native-profile-at-0--6-and-the-shipped-models-archive-is-ruled-shipped-product)
+> the OpenTaint column, Java-only.
 
-| # | Template | Cat. | Bifrost v0.10.7 | CodeQL 2.26.4 | Joern 4.0.614 | Semgrep CE 1.175.0 | Infer v1.3.0 (A14) | OpenTaint 2026.08.27 (A17) |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 1 | `native-source-sink` | S | unsupported | supported | unsupported | TBV | unsupported | unsupported |
-| 2 | `native-propagator` | P | unsupported | supported | unsupported | TBV | unsupported | unsupported |
-| 3 | `native-sanitizer` | Z | unsupported | supported | unsupported | TBV | unsupported | unsupported |
-| 4 | `native-summary` | O | unsupported | supported | unsupported | TBV | unsupported | unsupported |
-| 5 | `native-entrypoint` | E | TBV | supported | unsupported | TBV | unsupported | unsupported |
-| 6 | `native-persistence` | B | TBV | supported | unsupported | TBV | unsupported | unsupported |
-| | **Scored today** | | **0 / 6** | **6 / 6** | **0 / 6** | **0 / 6** | **0 / 6** | **0 / 6** |
+| # | Template | Cat. | Bifrost v0.10.7 | CodeQL 2.26.4 | Joern 4.0.614 | Semgrep CE 1.175.0 | Infer v1.3.0 (A14) | Pysa 0.10.0 (+Pyrefly 1.2.0, A17) | OpenTaint 2026.08.27 (A19) |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 1 | `native-source-sink` | S | unsupported | supported | unsupported | TBV | unsupported | supported | unsupported |
+| 2 | `native-propagator` | P | unsupported | supported | unsupported | TBV | unsupported | supported | unsupported |
+| 3 | `native-sanitizer` | Z | unsupported | supported | unsupported | TBV | unsupported | supported | unsupported |
+| 4 | `native-summary` | O | unsupported | supported | unsupported | TBV | unsupported | supported | unsupported |
+| 5 | `native-entrypoint` | E | TBV | supported | unsupported | TBV | unsupported | supported | unsupported |
+| 6 | `native-persistence` | B | TBV | supported | unsupported | TBV | unsupported | supported | unsupported |
+| | **Scored today** | | **0 / 6** | **6 / 6** | **0 / 6** | **0 / 6** | **0 / 6** | **6 / 6** | **0 / 6** |
 
 These counts are activation surfaces, not scores. A tool with six of six has six
 templates' worth of assertions it can get wrong; a tool with zero of six has
@@ -1019,13 +1097,14 @@ they touch, name the freezes they invalidate, and land as their own commits.
 
 Their numbers continue the repository's **single** amendment sequence rather
 than restarting per document: A1 is in [the challenge tier](challenge-tier.md#amendments),
-A2–A5, A9, A13, and A16 are in [the modeling matrix](modeling-matrix.md#amendments),
+A2–A5, A9, A13, A16, and A18 are in [the modeling matrix](modeling-matrix.md#amendments),
 A11 is in [the adapter contract](adapters.md#amendments), and A12 and A15 are
 in [the latency tier](latency-tier.md#amendments), so an amendment identifier
 names exactly one amendment wherever it is cited. The sequence interleaves
-across documents — A8 here is followed by A9 there, and A10, A14, and A17
-return here — which is the point: the number, not the document, is the
-identity.
+across documents — A8 here is followed by A9 there, A10 returns here, and the
+A13/A14, A16/A17, and A18/A19 pairs each split an adapter's arrival between
+the modeling matrix and this document — which is the point: the number, not
+the document, is the identity.
 
 ### A6 — 2026-08-27: Semgrep CE's JavaScript cells, evaluated against the vendored snapshot
 
@@ -1341,9 +1420,49 @@ Infer column; `java` alone carries a denominator.
 **Freezes invalidated.** None. No published freeze manifest contains a
 tool-native report, and the v0.6.0 freeze is untouched.
 
-### A17 — 2026-09-01: OpenTaint joins the tool-native profile at 0 / 6, and the shipped models archive is ruled shipped product
+### A17 — 2026-09-01: Pysa joins the tool-native profile with a live activation row
 
-**What changed.** The [activation partition](#partition-summary) gains a sixth
+**What changed.** The profile gains a sixth adapter row. Pysa — pinned as the
+pair pyre-check 0.10.0 + Pyrefly 1.2.0, the same pair the kernel and
+[Amendment A16](modeling-matrix.md#a16--2026-09-01-pysa-joins-the-modeling-matrix-with-a-measured-partition-row)
+run — takes the activation contract and per-template partition
+[stated above](#pysa--pyre-check-0100--pyrefly-120-shipped-taint-model-suite):
+all six templates scored, over the model suite the pinned wheel ships in
+`lib/pyre_check/taint/`. The row is **Python-scoped**, the engine's one
+language; no other language gains a Pysa native cell. The four preregistered
+columns, the six template definitions, and every existing cell are untouched.
+
+**Why it is an amendment and not an edit.** The preregistration merged before
+this adapter existed. A new adapter's row arrives dated, before its first
+native run, on the same terms the modeling matrix states for its partition —
+and this profile's own history already keys amendments by language (A8),
+which is the shape this row takes.
+
+**What was measured, and what was only read.** Three activation facts were
+measured by probe (`scripts/probe-pysa-native-activation.sh`, retained under
+`reports/raw/amendment-a17-pysa-native/`): the shipped product refuses to run
+with no `taint_models_path` (exit 9, its own taint-configuration error), the
+shipped suite refuses strict verification over a stdlib-only project (exit
+10, 122 model verification errors, the client's own hint naming
+`--no-verify`), and under the pinned activation the suite demonstrably binds
+— the retained evidence carries the shipped `os.system` sink model. The
+**cells** were decided by reading the shipped suite's rule and model text,
+before any native fixture was scanned, exactly as A8 read the vendored
+Semgrep snapshot: every category's role is present in the shipped catalog, so
+every template has an activation to measure, and the absent platform sources
+(`os.environ`, `sys.argv`) are recorded as the expectation the runs will
+measure, not as a reason to decline a cell. No cell was decided from a scan
+outcome, and no cell is declined at all.
+
+**Tools, templates, and languages touched.** Pysa only; all six templates;
+Python only, by the engine's own language scope.
+
+**Freezes invalidated.** None. No published freeze binds a Pysa tool-native
+report; v0.6.0 is untouched.
+
+### A19 — 2026-09-01: OpenTaint joins the tool-native profile at 0 / 6, and the shipped models archive is ruled shipped product
+
+**What changed.** The [activation partition](#partition-summary) gains a seventh
 column — OpenTaint, pinned release `analyzer/2026.08.27.17eb0fe` by asset
 digest — for **Java only**, with all six templates **unsupported**: 0 / 6, the
 same shape as Joern's row and for the same kind of reason. A new
@@ -1400,7 +1519,7 @@ amendment.
 **The deliberate asymmetry, restated for this adapter.** The
 benchmark-controlled matrix scores the same pinned binary on three of six
 categories
-([Amendment A16](modeling-matrix.md#a16--2026-09-01-opentaint-joins-the-modeling-matrix-with-a-preregistered-java-partition-row));
+([Amendment A18](modeling-matrix.md#a18--2026-09-01-opentaint-joins-the-modeling-matrix-with-a-preregistered-java-partition-row));
 this profile scores it on none. That gap is product packaging versus engine
 capability — the exact gap Joern's two rows already exhibit — and it is what
 this profile exists to make legible, not a contradiction to reconcile.

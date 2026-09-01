@@ -269,7 +269,7 @@ over-approximation is specific to dynamically-keyed locations.
 
 ## Benchmark-controlled modeling matrix — Java
 
-[Amendment A16](../../docs/modeling-matrix.md#a16--2026-09-01-opentaint-joins-the-modeling-matrix-with-a-preregistered-java-partition-row)
+[Amendment A18](../../docs/modeling-matrix.md#a18--2026-09-01-opentaint-joins-the-modeling-matrix-with-a-preregistered-java-partition-row)
 preregistered this adapter's modeling partition row before its first scored
 modeling run, decided by executing the pinned analyzer over the committed Java
 modeling fixtures with probe declarations
@@ -311,7 +311,7 @@ member-qualified Java dialect.
 
 ## Tool-native profile — Java, declined at 0 / 6
 
-[Amendment A17](../../docs/native-profile.md#a17--2026-09-01-opentaint-joins-the-tool-native-profile-at-0--6-and-the-shipped-models-archive-is-ruled-shipped-product)
+[Amendment A19](../../docs/native-profile.md#a19--2026-09-01-opentaint-joins-the-tool-native-profile-at-0--6-and-the-shipped-models-archive-is-ruled-shipped-product)
 added this adapter's tool-native activation contract and partition row, also
 Java-only. The boundary it settles: `opentaint-models.tar.gz` is **shipped
 product** — vendor propagation models, digest-pinned in the release — so a
@@ -380,7 +380,7 @@ cargo run -- run-opentaint-native --language java \
 ```
 
 The value-kind probe and the primitive-tracking probe that resolved it, and
-the two probes behind Amendments A16 and A17:
+the two probes behind Amendments A18 and A19:
 
 ```bash
 scripts/probe-opentaint-value-kind.sh --analyzer-jar /path/to/opentaint-project-analyzer.jar
