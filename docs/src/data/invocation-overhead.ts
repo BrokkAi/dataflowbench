@@ -15,18 +15,20 @@
 //   * the estimate is never subtracted from a cold number, never substituted
 //     for one, and never used to order a row — this module computes no such
 //     difference and exports no ordering;
-//   * the published figure is the SECOND of the two runs, and only when the
-//     two agree within the preregistered tolerance. Both the tolerance and the
-//     retained-run rule are re-derived here from the two retained runs, and a
-//     disagreement with the runner's own verdict is a build error: two
-//     independent implementations of one preregistered rule agreeing is the
-//     check that neither drifted;
+//   * the published figure is the RANGE the repeats span — the same convention
+//     the warm-marginal figures publish under, shared rather than re-derived.
+//     It is never a mean, never a chosen repeat, and never gated on the
+//     repeats agreeing: there is no tolerance in this module, because a repeat
+//     that disagrees widens the range, which is the honest consequence. The
+//     range is re-derived here from the retained repeats and a disagreement
+//     with the runner's own value is a build error;
 //   * every one of the eight adapters is accounted for — measured, or recorded
 //     with the reason there is no figure — so a missing row can never read as
 //     an omission;
 //   * a chart mark is drawn only above the preregistered significance
-//     threshold, which is computed here against exactly the cold median the
-//     chart itself draws for that adapter on that kernel.
+//     threshold, applied to the range's LOWER bound so that no mark can appear
+//     on the strength of a noisy high repeat, and computed against exactly the
+//     cold median the chart itself draws for that adapter on that kernel.
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -40,28 +42,26 @@ const repoRoot = path.resolve(
 /** Where the runner retains overhead artifacts. Outside every slice. */
 const OVERHEAD_ROOT = 'reports/raw/invocation-overhead';
 
-/** A24's stability tolerance: `max(20% of the larger, 100 ms)`. */
-const TOLERANCE_RELATIVE = 0.2;
-const TOLERANCE_FLOOR_MS = 100;
-
 /**
  * A24's significance threshold for a chart mark: an estimate is drawn only
- * when it is at least this share of that adapter's cold whole-invocation
- * median in the fixture's own language.
+ * when the **low end** of its range is at least this share of that adapter's
+ * cold whole-invocation median in the fixture's own language.
  *
  * Relative rather than absolute because the chart's axis is logarithmic and
  * its rows span two orders of magnitude: a share of the row's own median is
- * the same visual claim on every row. Below it the figure is still published —
- * in the table, with every other value — it simply is not drawn.
+ * the same visual claim on every row. Applied to the low end because a mark
+ * must not appear on the strength of one slow repeat. Below it the figure is
+ * still published — in the table, with every other value — it simply is not
+ * drawn.
  */
 export const SIGNIFICANCE_SHARE = 0.25;
 
-export interface OverheadRun {
-  run: number;
+export interface OverheadRepeat {
+  repeat: number;
   wallMs: number;
   /** The adapter's declared phases; one entry for a single-subprocess tool. */
   phases: { phase: string; wallMs: number }[];
-  /** One-minute load average sampled immediately before the run was spawned. */
+  /** One-minute load average sampled immediately before the repeat was spawned. */
   loadBefore: number | null;
 }
 
@@ -70,15 +70,15 @@ export interface OverheadEstimate {
   toolVersion: string;
   /** The language of the trivial fixture this estimate was measured on. */
   language: string;
-  runs: OverheadRun[];
-  differenceMs: number;
-  allowedMs: number;
-  stable: boolean;
-  /** The retained figure: run two's wall-clock, or `null` when withheld. */
-  estimatedOverheadMs: number | null;
+  repeats: OverheadRepeat[];
+  /** The published figure: the range every repeat spans. */
+  lowMs: number;
+  highMs: number;
+  /** The range's width, which is the measurement's precision. */
+  widthMs: number;
   /** Cold whole-invocation median for this adapter on this kernel. */
   coldMedianMs: number | null;
-  /** The estimate as a share of that cold median, when both exist. */
+  /** The range's low end as a share of that cold median, when both exist. */
   shareOfCold: number | null;
   /** Whether the chart draws a mark for this row. */
   significant: boolean;
@@ -96,9 +96,10 @@ export interface OverheadEstimate {
 export interface OverheadDecline {
   tool: string;
   language: string;
-  /** `unstable`: measured twice and the runs disagreed. `environment`: the
-   *  pinned distribution is not installed where the estimator ran. */
-  verdict: 'unstable' | 'environment';
+  /** `environment`: the pinned distribution is not installed where the
+   *  estimator ran, so the invocation was never attempted. It is the only
+   *  decline kind: the range convention has no withhold-on-disagreement. */
+  verdict: 'environment';
   evidence: string;
 }
 
@@ -145,22 +146,6 @@ function readJson(absolute: string): any {
 }
 
 /**
- * A24's stability rule, re-implemented from the amendment's own words so the
- * runner's verdict has something independent to agree with.
- */
-function stability(
-  first: number,
-  second: number,
-): { differenceMs: number; allowedMs: number; stable: boolean } {
-  const allowedMs = Math.max(
-    TOLERANCE_RELATIVE * Math.max(first, second),
-    TOLERANCE_FLOOR_MS,
-  );
-  const differenceMs = Math.abs(first - second);
-  return { differenceMs, allowedMs, stable: differenceMs <= allowedMs };
-}
-
-/**
  * The cold comparator: exactly the whole-invocation median the ranked chart
  * itself draws for this adapter on this kernel, so the threshold is a share of
  * the number the reader is looking at rather than of a differently-scoped one.
@@ -198,7 +183,7 @@ export function invocationOverhead(): {
       const document = path.join(root, entry, 'invocation-overhead.json');
       if (!fs.existsSync(document)) continue;
       const raw = readJson(document);
-      const runs: OverheadRun[] = raw.runs.map((run: any) => {
+      const repeats: OverheadRepeat[] = raw.runs.map((run: any) => {
         const phases = run.phases.map((phase: any) => ({
           phase: phase.phase,
           wallMs: phase.wall_ms,
@@ -212,67 +197,54 @@ export function invocationOverhead(): {
         );
         if (summed !== run.wall_ms) {
           throw new Error(
-            `${document}: run ${run.run}'s phases sum to ${summed} ms, but the retained whole invocation is ${run.wall_ms} ms`,
+            `${document}: repeat ${run.repeat}'s phases sum to ${summed} ms, but the retained whole invocation is ${run.wall_ms} ms`,
           );
         }
         return {
-          run: run.run,
+          repeat: run.repeat,
           wallMs: run.wall_ms,
           phases,
           loadBefore: run.load_average_1m_before ?? null,
         };
       });
-      if (runs.length !== 2) {
+      if (repeats.length !== raw.repeats || repeats.length < 2) {
         throw new Error(
-          `${document}: A24 fixes the measurement at two runs; found ${runs.length}`,
+          `${document}: the artifact declares ${raw.repeats} repeats and retains ${repeats.length}`,
         );
       }
 
-      // The independent-derivation gate: the verdict and the retained figure
-      // are recomputed from the two runs, and any disagreement with the
-      // runner's own values fails the build rather than publishing either.
-      const derived = stability(runs[0]!.wallMs, runs[1]!.wallMs);
-      const claimedStable = raw.stability.verdict === 'stable';
-      if (derived.stable !== claimedStable) {
-        throw new Error(
-          `${document}: the stability verdict re-derived at build time (${derived.stable ? 'stable' : 'unstable'}) disagrees with the runner's (${raw.stability.verdict})`,
-        );
-      }
+      // The independent-derivation gate: the published range is recomputed
+      // from the retained repeats, and any disagreement with the runner's own
+      // value fails the build rather than publishing either.
+      const walls = repeats.map((repeat) => repeat.wallMs);
+      const lowMs = Math.min(...walls);
+      const highMs = Math.max(...walls);
       for (const [label, mine, theirs] of [
-        ['difference', derived.differenceMs, raw.stability.difference_ms],
-        ['tolerance', derived.allowedMs, raw.stability.allowed_ms],
+        ['low end', lowMs, raw.estimated_overhead_ms?.low],
+        ['high end', highMs, raw.estimated_overhead_ms?.high],
       ] as [string, number, number][]) {
-        if (Math.abs(mine - theirs) > 1) {
+        if (mine !== theirs) {
           throw new Error(
-            `${document}: the ${label} re-derived at build time (${mine}) disagrees with the runner's retained value (${theirs})`,
+            `${document}: the range's ${label} re-derived at build time (${mine} ms) disagrees with the runner's retained value (${theirs} ms)`,
           );
         }
-      }
-      // A15's rule, by position: the second run is the retained figure when
-      // the two agree, and there is no figure at all when they do not.
-      const retained = derived.stable ? runs[1]!.wallMs : null;
-      if ((raw.estimated_overhead_ms ?? null) !== retained) {
-        throw new Error(
-          `${document}: the retained figure must be run two's ${retained} ms; the artifact carries ${raw.estimated_overhead_ms}`,
-        );
       }
 
       const stamp = path.join(root, entry, 'run-environment.json');
       const environment = fs.existsSync(stamp) ? readJson(stamp) : null;
       const coldMedianMs = coldMedianFor(raw.adapter, raw.language);
+      // The threshold reads the range's LOW end, so a mark can never appear on
+      // the strength of one slow repeat.
       const shareOfCold =
-        retained !== null && coldMedianMs !== null && coldMedianMs > 0
-          ? retained / coldMedianMs
-          : null;
+        coldMedianMs !== null && coldMedianMs > 0 ? lowMs / coldMedianMs : null;
       estimates.push({
         tool: raw.adapter,
         toolVersion: raw.tool_version,
         language: raw.language,
-        runs,
-        differenceMs: derived.differenceMs,
-        allowedMs: derived.allowedMs,
-        stable: derived.stable,
-        estimatedOverheadMs: retained,
+        repeats,
+        lowMs,
+        highMs,
+        widthMs: highMs - lowMs,
         coldMedianMs,
         shareOfCold,
         significant: shareOfCold !== null && shareOfCold >= SIGNIFICANCE_SHARE,
@@ -288,15 +260,6 @@ export function invocationOverhead(): {
             }
           : null,
       });
-
-      if (retained === null) {
-        declines.push({
-          tool: raw.adapter,
-          language: raw.language,
-          verdict: 'unstable',
-          evidence: `The measurement ran twice and the two runs disagreed: ${Math.round(runs[0]!.wallMs)} ms and ${Math.round(runs[1]!.wallMs)} ms, a difference of ${Math.round(derived.differenceMs)} ms against a preregistered tolerance of ${Math.round(derived.allowedMs)} ms. Both runs are retained as this decline's evidence and no figure is published.`,
-        });
-      }
     }
   }
 
@@ -325,22 +288,28 @@ export function invocationOverhead(): {
   return cache;
 }
 
+export interface OverheadMark {
+  /** The span the chart draws: the range the repeats spanned. */
+  lowMs: number;
+  highMs: number;
+  language: string;
+}
+
 /**
- * Per tool and language, the estimate the ranked chart may draw as a mark.
+ * Per tool and language, the estimate range the ranked chart may draw.
  *
- * Only estimates that were retained *and* clear A24's significance threshold
- * appear. A withheld estimate gets no mark, and neither does one below the
- * threshold — the table carries every value either way, and the caption says
- * so, because a mark that means "a mark was drawn" is clutter rather than
- * information.
+ * Only estimates whose range clears A24's significance threshold at its low
+ * end appear. An estimate below the threshold gets no mark — the table carries
+ * every value either way, and the caption says so, because a mark that means
+ * "a mark was drawn" is clutter rather than information.
  */
-export function overheadMarks(): Map<string, { ms: number; language: string }> {
-  const marks = new Map<string, { ms: number; language: string }>();
+export function overheadMarks(): Map<string, OverheadMark> {
+  const marks = new Map<string, OverheadMark>();
   for (const estimate of invocationOverhead().estimates) {
-    if (estimate.estimatedOverheadMs === null) continue;
     if (!estimate.significant) continue;
     marks.set(`${estimate.tool}/${estimate.language}`, {
-      ms: estimate.estimatedOverheadMs,
+      lowMs: estimate.lowMs,
+      highMs: estimate.highMs,
       language: estimate.language,
     });
   }
@@ -358,7 +327,7 @@ export function overheadMarks(): Map<string, { ms: number; language: string }> {
 export function overheadMarkFor(
   viewId: string,
   tool: string,
-): { ms: number; language: string } | null {
+): OverheadMark | null {
   const marks = overheadMarks();
   if (viewId !== 'all') return marks.get(`${tool}/${viewId}`) ?? null;
   const cheapest = FIXTURE_LANGUAGE.find((entry) => entry.tool === tool);

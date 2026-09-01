@@ -3585,7 +3585,7 @@ enum Commands {
         tool: OverheadTool,
         /// Language of the trivial fixture. A24 fixes one per adapter — the
         /// language of its cheapest kernel arm — and Joern additionally takes
-        /// `java` so its estimate is comparable with A15's java warm figures.
+        /// `java` so its estimate is comparable with the java warm figures.
         #[arg(long, value_enum)]
         language: OverheadLanguage,
         #[arg(long, default_value = "joern")]
@@ -18328,7 +18328,8 @@ fn run_flowdroid_native(
 // ---------------------------------------------------------------------------
 // Per-invocation overhead estimation (Amendment A24, docs/latency-tier.md).
 //
-// A15 measures a *warm marginal* and declines to estimate one where the
+// The warm-marginal figures (A15, as corrected by A21) measure the cost of one
+// more case in a process already running, and decline to estimate one where the
 // released CLI has no batch. That rule is untouched. This module measures a
 // different quantity, which every adapter can supply: the wall-clock of ONE
 // COMPLETE ADAPTER INVOCATION over a trivial no-flow fixture — same pipeline,
@@ -18355,26 +18356,26 @@ fn run_flowdroid_native(
 //     is written under `cases/` and no population changes.
 //  2. **The same invocation.** Each arm builds the command from the same
 //     committed policy, rule, query and flags the cold kernel runner uses.
-//  3. **A15's stability rule, verbatim, with A24's preregistered tolerance.**
-//     Every measurement runs twice; the runs must agree within
-//     `max(20% of the larger, 100 ms)`; on disagreement no figure is
-//     published and both runs are retained as the decline's evidence; on
-//     agreement the SECOND run is the retained figure, named by position so
-//     that publishing it is not a choice.
+//  3. **Range publication.** Every measurement is repeated a fixed number of
+//     times — the count is this constant, not a per-run choice — every repeat
+//     is retained, and the published figure is the **range the repeats span**.
+//     Its width is the measurement's precision, stated rather than hidden.
+//     There is no agreement threshold anywhere in this module: no tolerance
+//     constant, no pass/fail on repeat agreement, no mean, and no "the retained
+//     run is the nth". A repeat that disagrees widens the published range,
+//     which is the honest consequence, instead of triggering a rule that must
+//     itself be justified. This is the same convention the warm-marginal
+//     figures use (Amendment A21), shared rather than re-derived.
 // ---------------------------------------------------------------------------
 
 /// Where per-invocation overhead artifacts live: their own directory, apart
-/// from both the per-slice raw evidence and A15's warm artifacts.
+/// from both the per-slice raw evidence and the warm-marginal artifacts.
 const OVERHEAD_ROOT: &str = "reports/raw/invocation-overhead";
 
-/// A24's preregistered stability tolerance. Two runs agree when they differ by
-/// no more than the larger of 20% of the greater run and this floor.
-const OVERHEAD_TOLERANCE_RELATIVE: f64 = 0.20;
-const OVERHEAD_TOLERANCE_FLOOR_MS: f64 = 100.0;
-
-/// How many times each measurement is taken. A15 fixes this at two, and the
-/// second is the one retained.
-const OVERHEAD_RUNS: usize = 2;
+/// How many times each measurement is repeated. A source constant, so the
+/// count is a property of the method rather than of any one run, and every
+/// repeat is retained and published.
+const OVERHEAD_REPEATS: usize = 3;
 
 /// The trivial no-flow fixture, per language.
 ///
@@ -18495,27 +18496,30 @@ struct OverheadRun {
     load_before: Option<f64>,
 }
 
-/// A24's stability verdict over the two runs.
-#[derive(Clone, Copy, Debug, PartialEq)]
-struct OverheadStability {
-    stable: bool,
-    difference_ms: f64,
-    allowed_ms: f64,
+/// The published figure: the range the repeats span.
+///
+/// Not a mean, not a chosen repeat, and not a figure gated on the repeats
+/// agreeing. The width is the measurement's precision — a wide range says the
+/// estimate is imprecise, which is a thing a reader is entitled to see rather
+/// than a reason to publish nothing.
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+struct OverheadRange {
+    low_ms: u64,
+    high_ms: u64,
 }
 
-/// The preregistered rule, as a function so that the page's independent
-/// re-derivation has something exact to agree with.
-fn overhead_stability(first_ms: u64, second_ms: u64) -> OverheadStability {
-    let first = first_ms as f64;
-    let second = second_ms as f64;
-    let allowed_ms =
-        (OVERHEAD_TOLERANCE_RELATIVE * first.max(second)).max(OVERHEAD_TOLERANCE_FLOOR_MS);
-    let difference_ms = (first - second).abs();
-    OverheadStability {
-        stable: difference_ms <= allowed_ms,
-        difference_ms,
-        allowed_ms,
-    }
+fn overhead_range(runs: &[OverheadRun]) -> Result<OverheadRange> {
+    let low_ms = runs
+        .iter()
+        .map(|run| run.wall_ms)
+        .min()
+        .context("a range needs at least one repeat")?;
+    let high_ms = runs
+        .iter()
+        .map(|run| run.wall_ms)
+        .max()
+        .expect("non-empty, checked above");
+    Ok(OverheadRange { low_ms, high_ms })
 }
 
 /// Run one adapter's estimator twice and retain the artifact.
@@ -18566,9 +18570,9 @@ fn estimate_invocation_overhead(
 
     let started = now_seconds()?;
     let mut runs = Vec::new();
-    for run in 1..=OVERHEAD_RUNS {
+    for run in 1..=OVERHEAD_REPEATS {
         println!(
-            "estimating {} {} per-invocation overhead, run {run} of {OVERHEAD_RUNS}",
+            "estimating {} {} per-invocation overhead, repeat {run} of {OVERHEAD_REPEATS}",
             tool.as_str(),
             language.as_str()
         );
@@ -18579,18 +18583,13 @@ fn estimate_invocation_overhead(
             OverheadTool::Codeql => overhead_run_codeql(binary, codeql_packs, language, run)?,
             other => bail!("unreachable: {} has no arm", other.as_str()),
         };
-        println!("  run {run}: {} ms", measured.wall_ms);
+        println!("  repeat {run}: {} ms", measured.wall_ms);
         runs.push(measured);
     }
 
-    let stability = overhead_stability(runs[0].wall_ms, runs[1].wall_ms);
-    // A15's rule, by position: the SECOND run is the retained figure when the
-    // two agree, and there is no figure at all when they do not.
-    let retained = if stability.stable {
-        Some(runs[OVERHEAD_RUNS - 1].wall_ms)
-    } else {
-        None
-    };
+    // The published figure. Every repeat is retained above it, and the width
+    // of the range is the precision the measurement actually has.
+    let range = overhead_range(&runs)?;
 
     let document = json!({
         "schema_version": 1,
@@ -18609,13 +18608,11 @@ fn estimate_invocation_overhead(
                               its declared phases, as the cold whole-invocation figure is",
         "fixture_file": format!("fixture/{fixture_name}"),
         "fixture_sha256": format!("{:x}", Sha256::digest(fixture_text.as_bytes())),
-        "tolerance": {
-            "relative": OVERHEAD_TOLERANCE_RELATIVE,
-            "absolute_floor_ms": OVERHEAD_TOLERANCE_FLOOR_MS,
-            "rule": "two runs agree when |r1 - r2| <= max(0.20 * max(r1, r2), 100 ms)",
-        },
+        "publication": "range over every repeat; never a mean, never a chosen repeat, and never \
+                        gated on the repeats agreeing — the width is the precision",
+        "repeats": OVERHEAD_REPEATS,
         "runs": runs.iter().enumerate().map(|(index, run)| json!({
-            "run": index + 1,
+            "repeat": index + 1,
             "wall_ms": run.wall_ms,
             "phases": run.phases.iter().map(|(phase, wall_ms)| json!({
                 "phase": phase,
@@ -18623,34 +18620,21 @@ fn estimate_invocation_overhead(
             })).collect::<Vec<_>>(),
             "load_average_1m_before": run.load_before,
         })).collect::<Vec<_>>(),
-        "stability": {
-            "verdict": if stability.stable { "stable" } else { "unstable" },
-            "difference_ms": stability.difference_ms,
-            "allowed_ms": stability.allowed_ms,
-            "retained_run": if stability.stable { json!(OVERHEAD_RUNS) } else { Value::Null },
+        "estimated_overhead_ms": {
+            "low": range.low_ms,
+            "high": range.high_ms,
         },
-        "estimated_overhead_ms": retained,
         "started_at_unix_seconds": started,
         "ended_at_unix_seconds": now_seconds()?,
     });
     let path = raw_dir.join("invocation-overhead.json");
     fs::write(&path, serde_json::to_string_pretty(&document)? + "\n")?;
-    match retained {
-        Some(ms) => println!(
-            "wrote {} — estimated per-invocation overhead {ms} ms (run 2 of {OVERHEAD_RUNS}; runs \
-             differ by {:.0} ms, tolerance {:.0} ms)",
-            path.display(),
-            stability.difference_ms,
-            stability.allowed_ms
-        ),
-        None => println!(
-            "wrote {} — WITHHELD: the two runs differ by {:.0} ms, beyond the preregistered \
-             tolerance of {:.0} ms",
-            path.display(),
-            stability.difference_ms,
-            stability.allowed_ms
-        ),
-    }
+    println!(
+        "wrote {} — estimated per-invocation overhead {} to {} ms over {OVERHEAD_REPEATS} repeats",
+        path.display(),
+        range.low_ms,
+        range.high_ms
+    );
     Ok(())
 }
 
@@ -19593,7 +19577,7 @@ mod tests {
     }
 
     /// The same property for A24's estimates: an auxiliary directory of its
-    /// own, outside every slice a normalized report binds and outside A15's
+    /// own, outside every slice a normalized report binds and outside the
     /// warm directory, and a document the freeze validator's special-outcome
     /// reader cannot mistake for evidence of an outcome.
     #[test]
@@ -19612,7 +19596,7 @@ mod tests {
         }
         let document = json!({
             "evidence_kind": "retained-invocation-overhead-estimate",
-            "estimated_overhead_ms": 3_000,
+            "estimated_overhead_ms": {"low": 2_900, "high": 3_100},
         });
         assert_eq!(raw_special_outcome(&document), None);
     }
@@ -26614,32 +26598,62 @@ mod tests {
         );
     }
 
-    /// A24's tolerance is the published gate, so it is pinned by test rather
-    /// than left to the one call site: two runs agree when they differ by no
-    /// more than the larger of 20% of the greater run and a 100 ms floor.
+    /// The published figure is the range the repeats span, and nothing else:
+    /// not a mean, not a chosen repeat, and not a figure conditioned on the
+    /// repeats agreeing.
     #[test]
-    fn invocation_overhead_tolerance_is_the_preregistered_disjunction() {
-        // The absolute floor governs small figures: 120 ms against 20 ms is a
-        // 100 ms difference, which the floor admits and the relative rule
-        // alone (24 ms) would not.
-        let small = overhead_stability(20, 120);
-        assert_eq!(small.allowed_ms, 100.0);
-        assert!(small.stable);
-        assert!(!overhead_stability(20, 121).stable);
+    fn invocation_overhead_publishes_the_range_over_every_repeat() {
+        let run = |wall_ms: u64| OverheadRun {
+            phases: vec![("total".into(), wall_ms)],
+            wall_ms,
+            load_before: None,
+        };
+        let range = overhead_range(&[run(4200), run(3900), run(4600)]).unwrap();
+        assert_eq!(range.low_ms, 3900);
+        assert_eq!(range.high_ms, 4600);
 
-        // The relative rule governs large ones: 20% of 5000 ms is 1000 ms.
-        let large = overhead_stability(4000, 5000);
-        assert_eq!(large.allowed_ms, 1000.0);
-        assert!(large.stable);
-        assert!(!overhead_stability(3999, 5000).stable);
-
-        // It is symmetric in the two runs: which one is larger cannot change
-        // the verdict, only which figure is retained (and that is fixed by
-        // position, not by value).
+        // Order cannot change the figure: a range has no notion of a first or
+        // a last repeat, which is the point of publishing one.
         assert_eq!(
-            overhead_stability(4000, 5000).stable,
-            overhead_stability(5000, 4000).stable
+            overhead_range(&[run(4600), run(3900), run(4200)]).unwrap(),
+            range
         );
+
+        // A wide disagreement widens the range; it never withholds it. The
+        // width is the precision, and stating it is the publication.
+        let wide = overhead_range(&[run(1000), run(9000), run(2000)]).unwrap();
+        assert_eq!((wide.low_ms, wide.high_ms), (1000, 9000));
+
+        // Repeats that agree exactly collapse to a point range rather than to
+        // a special case.
+        let tight = overhead_range(&[run(500), run(500), run(500)]).unwrap();
+        assert_eq!((tight.low_ms, tight.high_ms), (500, 500));
+    }
+
+    /// No agreement threshold exists anywhere in the overhead estimator.
+    ///
+    /// The range convention replaced a withhold-on-disagreement rule, and a
+    /// tolerance constant creeping back would quietly restore it — so the
+    /// absence is asserted against the source itself rather than trusted to
+    /// review. The same property is asserted for the warm-marginal figures.
+    #[test]
+    fn no_agreement_threshold_constant_governs_the_overhead_estimate() {
+        let source = include_str!("main.rs");
+        // The needles are assembled rather than written out, so this test's
+        // own text cannot satisfy the search it performs.
+        for forbidden in [
+            format!("OVERHEAD_{}", "TOLERANCE"),
+            format!("OVERHEAD_{}", "AGREEMENT"),
+            format!("fn overhead_{}", "stability"),
+        ] {
+            assert!(
+                !source.contains(&forbidden),
+                "the overhead estimate must not be gated on its repeats agreeing, \
+                 but the source defines {forbidden}"
+            );
+        }
+        // And the repeat count is a source constant, not a per-run argument.
+        assert!(OVERHEAD_REPEATS >= 2);
     }
 
     /// The estimator's fixture must be a *no-flow* fixture, or the number it

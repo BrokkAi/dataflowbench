@@ -855,10 +855,11 @@ const slowest = model.adapters.at(-1)!;
       <tr>
         <th>Adapter</th>
         <th>Fixture language</th>
-        <th>Run 1</th>
-        <th>Run 2 (the retained figure)</th>
+        <th>Estimated overhead (range over every repeat)</th>
+        <th>Width</th>
+        <th>Every repeat</th>
         <th>Cold median, same kernel</th>
-        <th>Share of cold</th>
+        <th>Low end as a share of cold</th>
         <th>Marked on the chart?</th>
       </tr>
     </thead>
@@ -872,16 +873,16 @@ const slowest = model.adapters.at(-1)!;
             {vendorName(estimate.tool)}
           </td>
           <td><code>{estimate.language}</code></td>
-          <td class="muted">{formatMs(estimate.runs[0]!.wallMs)}</td>
           <td>
-            {estimate.estimatedOverheadMs === null ? (
-              <>
-                <span class="muted">{formatMs(estimate.runs[1]!.wallMs)}</span>{' '}
-                — <strong>withheld</strong>
-              </>
-            ) : (
-              <strong>{formatMs(estimate.estimatedOverheadMs)}</strong>
-            )}
+            <strong>
+              {formatMs(estimate.lowMs)} – {formatMs(estimate.highMs)}
+            </strong>
+          </td>
+          <td class="muted">{formatMs(estimate.widthMs)}</td>
+          <td class="muted">
+            {estimate.repeats
+              .map((repeat) => formatMs(repeat.wallMs))
+              .join(', ')}
           </td>
           <td>
             {estimate.coldMedianMs === null
@@ -894,17 +895,15 @@ const slowest = model.adapters.at(-1)!;
               : `${Math.round(estimate.shareOfCold * 100)}%`}
           </td>
           <td>
-            {estimate.estimatedOverheadMs === null
-              ? 'no — withheld'
-              : estimate.significant
-                ? 'yes'
-                : `no — below ${Math.round(SIGNIFICANCE_SHARE * 100)}%`}
+            {estimate.significant
+              ? 'yes'
+              : `no — below ${Math.round(SIGNIFICANCE_SHARE * 100)}%`}
           </td>
         </tr>
       ))}
       {overhead.estimates.length === 0 && (
         <tr>
-          <td colspan="7" class="muted">
+          <td colspan="8" class="muted">
             No estimate is published in this release; every adapter's verdict is
             in the table below.
           </td>
@@ -915,54 +914,52 @@ const slowest = model.adapters.at(-1)!;
 </div>
 
 <p class="caption">
-  <strong>Every measurement was run twice, and the rule that decides
-  publication was fixed before any of them ran.</strong> Two runs agree when
-  they differ by no more than the larger of 20% of the greater run and 100 ms —
-  a relative band because single-shot cold invocations on a developer machine
-  carry noise of that order, and an absolute floor because for a sub-second
-  figure the relative band alone would withhold on jitter rather than on
-  instability. Where the two agree, <strong>the second run is the retained
-  figure</strong> — not an average, not the better of the two — so publishing
-  it is not a choice; where they do not, no figure is published and both runs
-  are retained as the decline's evidence. The build re-derives the verdict, the
-  difference, the tolerance and the retained figure from the two runs and fails
-  if any of them disagrees with what the runner wrote.
+  <strong>The published figure is a range, and its width is the measurement's
+  precision.</strong> Each estimate is repeated a fixed number of times — the
+  count is a constant in the runner's source, not a per-run choice — every
+  repeat is retained and printed above, and what is published is the range
+  those repeats span. <strong>Never a mean, never a chosen repeat, and never
+  withheld because the repeats disagreed</strong>: a disagreement widens the
+  range, which is the honest consequence of it, and there is no agreement
+  threshold anywhere in this machinery to be justified or tuned — a unit test
+  asserts that no such constant exists. This is the same convention the
+  warm-marginal figures publish under, shared rather than re-derived. The build
+  re-derives each range from the retained repeats and fails if it disagrees
+  with what the runner wrote.
 </p>
 
 <p class="caption">
-  <strong>The "share of cold" column is what decides a chart mark, and the
-  threshold is preregistered.</strong> A row carries a hollow dashed diamond
-  only where its estimate is at least {Math.round(SIGNIFICANCE_SHARE * 100)}%
-  of that adapter's cold median on the same kernel. The cut is relative because
-  the chart's axis is logarithmic and its rows span two orders of magnitude, so
-  a share of each row's own median is the same visual claim everywhere, where a
+  <strong>The last column is what decides a chart mark, and the threshold is
+  preregistered.</strong> A row carries a dashed span only where its range
+  <em>starts</em> at or above {Math.round(SIGNIFICANCE_SHARE * 100)}% of that
+  adapter's cold median on the same kernel. The cut is relative because the
+  chart's axis is logarithmic and its rows span two orders of magnitude, so a
+  share of each row's own median is the same visual claim everywhere, where a
   fixed millisecond cut would mark every slow adapter and no fast one whatever
-  its overhead actually was. <strong>An unmarked row is not an unmeasured
-  one</strong> — every value is in the table above.
+  its overhead actually was; and it reads the range's low end so that a mark
+  can never appear on the strength of one slow repeat. <strong>An unmarked row
+  is not an unmeasured one</strong> — every value is in the table above.
 </p>
 
-{joernEstimateJava?.estimatedOverheadMs !== undefined &&
-  joernEstimateJava?.estimatedOverheadMs !== null &&
-  joernWarm && (
-    <p class="caption">
-      <strong>Joern is the one adapter where three figures can be set side by
-      side, and they are three different things.</strong> Its estimated
-      per-invocation overhead on the Java kernel is{' '}
-      {formatMs(joernEstimateJava.estimatedOverheadMs)} — a measured upper
-      bound. The <em>fitted</em> fixed cost, the intercept of the warm batch
-      series on the same kernel, is{' '}
-      {formatMs(joernWarm.fittedFixedCostRangeMs[0])} –{' '}
-      {formatMs(joernWarm.fittedFixedCostRangeMs[1])} — not measured at all,
-      but inferred from a line through five batches. And its measured warm
-      marginal, the cost of one more case in a process already running, is{' '}
-      {formatMs(joernWarm.leastSquaresRangeMs[0])} –{' '}
-      {formatMs(joernWarm.leastSquaresRangeMs[1])}. The first two describe the same
-      quantity by two routes and neither corrects the other; the third describes
-      a different quantity entirely. Their agreement or disagreement is
-      information about the estimators, not a number to publish as a
-      difference.
-    </p>
-  )}
+{joernEstimateJava && joernWarm && (
+  <p class="caption">
+    <strong>Joern is the one adapter where three figures can be set side by
+    side, and they are three different things.</strong> Its estimated
+    per-invocation overhead on the Java kernel is{' '}
+    {formatMs(joernEstimateJava.lowMs)} – {formatMs(joernEstimateJava.highMs)} —
+    a measured upper bound, published across the range its repeats spanned. The
+    <em>fitted</em> fixed cost, the intercept of the warm batch series on the
+    same kernel, is {formatMs(joernWarm.fittedFixedCostRangeMs[0])} –{' '}
+    {formatMs(joernWarm.fittedFixedCostRangeMs[1])} — not measured at all, but
+    inferred from a line through five batches. And its measured warm marginal,
+    the cost of one more case in a process already running, is{' '}
+    {formatMs(joernWarm.leastSquaresRangeMs[0])} –{' '}
+    {formatMs(joernWarm.leastSquaresRangeMs[1])}. The first two describe the
+    same quantity by two routes and neither corrects the other; the third
+    describes a different quantity entirely. Their agreement or disagreement is
+    information about the estimators, not a number to publish as a difference.
+  </p>
+)}
 
 <h3 id="overhead-verdicts">Which adapters an estimate could be taken for</h3>
 
@@ -1011,17 +1008,15 @@ const slowest = model.adapters.at(-1)!;
               <span class="muted">{entry.why}</span>
             </td>
             <td>
-              {estimate?.estimatedOverheadMs != null ? (
+              {estimate ? (
                 <strong>Measured</strong>
-              ) : decline?.verdict === 'unstable' ? (
-                <strong>Withheld — unstable</strong>
               ) : (
                 <strong>Not attempted — environment</strong>
               )}
             </td>
             <td>
-              {estimate?.estimatedOverheadMs != null
-                ? `Two runs of ${formatMs(estimate.runs[0]!.wallMs)} and ${formatMs(estimate.runs[1]!.wallMs)}, agreeing within the ${formatMs(estimate.allowedMs)} tolerance; the second is published.`
+              {estimate
+                ? `${estimate.repeats.length} repeats — ${estimate.repeats.map((repeat) => formatMs(repeat.wallMs)).join(', ')} — published as the ${formatMs(estimate.lowMs)} to ${formatMs(estimate.highMs)} range they span.`
                 : (decline?.evidence ?? '')}
             </td>
           </tr>
@@ -1032,24 +1027,26 @@ const slowest = model.adapters.at(-1)!;
 </div>
 
 <p class="caption">
-  <strong>Two kinds of missing figure, and they mean different things.</strong>{' '}
-  <em>Unstable</em> means the estimator ran twice and its two runs disagreed
-  beyond the preregistered tolerance — a fact about the measurement, with both
-  runs retained. <em>Environment</em> means the pinned distribution is not
-  installed on the machine the estimator ran on, so the invocation was never
-  attempted — a fact about that machine, and explicitly
-  <strong>not</strong> a statement about the adapter's released CLI, unlike
-  A15's capability declines above. Neither is filled in by inference: nothing
-  here is derived from an adapter's runtime, its architecture, another
-  adapter's estimate, or the same adapter's estimate in another language.
+  <strong>There is exactly one kind of missing figure here, and it is a fact
+  about a machine.</strong> <em>Environment</em> means the pinned distribution
+  is not installed where the estimator ran, so the invocation was never
+  attempted — explicitly <strong>not</strong> a statement about the adapter's
+  released CLI, unlike A15's capability declines above, and resolved by running
+  the same committed command where the distribution is installed. There is no
+  second kind: because the figure is a range over every repeat, noisy repeats
+  produce a wide range rather than a withheld number, so nothing is ever
+  missing for having been measured badly. Nothing is filled in by inference
+  either — no estimate here is derived from an adapter's runtime, its
+  architecture, another adapter's estimate, or the same adapter's estimate in
+  another language.
 </p>
 
 <p class="caption">
   These artifacts are <strong>auxiliary evidence, outside the freeze</strong>,
-  retained under <code>reports/raw/invocation-overhead/</code>: both runs with
-  their phase splits and the one-minute load average each was taken under, the
+  retained under <code>reports/raw/invocation-overhead/</code>: every repeat
+  with its phase split and the one-minute load average it was taken under, the
   trivial fixture itself with its digest, the resolved configuration where the
-  adapter's is per-case, the stability verdict, and the environment stamp.
+  adapter's is per-case, the published range, and the environment stamp.
   <code>freeze/v1</code> does not digest them, exactly as it does not digest the
   warm artifacts or the cold timing sidecars, so an estimate carries the release
   commit's immutability for its bytes and no stronger guarantee. No estimator

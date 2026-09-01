@@ -817,8 +817,8 @@ as one. It answers a question the warm marginal cannot: *what does this
 adapter's invocation cost before it has anything to find?*
 
 Because it is a new measurement, it is preregistered here — estimator, bias,
-fixtures, tolerance, artifacts, and presentation — **before the first number
-was measured**, on the same terms every other number in this tier got.
+fixtures, repeats, artifacts, and presentation — **before the first number was
+measured**, on the same terms every other number in this tier got.
 
 #### What is measured
 
@@ -866,34 +866,46 @@ stated rather than assumed away:
   difference of it and a cold number is published as a measurement, and it
   never enters an ordering.
 
-#### The stability rule, taken verbatim from A15, with a preregistered tolerance
+#### Range publication, shared with A21
 
-Each measurement is run **twice, back to back**. A15's rule applies unchanged:
-if the two runs do not agree closely the figure is **not published**, the
-decline is recorded in the observability table with both runs retained as its
-evidence, and if they do agree **the second run is the one retained and
-published** — not an average, not a pooled fit, and not whichever reads better.
-The rule names the run by position precisely so that publishing it is not a
-choice.
+Each measurement is **repeated a fixed number of times**, the count fixed as a
+constant in the runner's source rather than chosen per run, **every repeat is
+retained**, and **the published figure is the range the repeats span**.
 
-A15 left "agree closely" to the measurement it gated. This amendment fixes the
-tolerance in advance, because a single-shot estimate has no slope to sanity
-check:
+This is the **same convention
+[A21](#a21--2026-09-01-the-warm-marginal-is-published-as-a-range-over-retained-repeats-superseding-a15s-point-figures-and-its-semgrep-withhold)
+established for the warm marginal**, and it is cited here as shared rather than
+re-derived: the argument for it — that publishing a single run to two
+significant figures hides the spread, that gating on an agreement tolerance
+requires choosing the tolerance, and that publishing the interval actually
+measured requires neither — is A21's, and restating it here would let two
+statements of one rule drift apart. What this amendment fixes is that the
+estimates below are published under it.
 
-> Two runs *r₁* and *r₂* agree when
-> `|r₁ − r₂| ≤ max(0.20 × max(r₁, r₂), 100 ms)`.
+Three consequences are load-bearing enough to state:
 
-Both halves of the disjunction are chosen for a reason, and neither is chosen
-from the data — no measurement had been taken when this paragraph was written:
+- **The width of the range is the measurement's precision**, and publishing it
+  is publishing that precision. A wide range says the estimate is imprecise,
+  which is a thing a reader is entitled to see.
+- **Never a mean, and never a chosen repeat.** Not the first, not the last, not
+  the median of them, and not whichever reads better.
+- **No agreement threshold exists.** There is no tolerance, no
+  withhold-on-disagreement rule, and no pass/fail on the repeats agreeing —
+  repeats that disagree widen the range, which is the honest consequence of
+  disagreeing, rather than triggering a rule that would itself need
+  justification and could be tuned. The absence is asserted by a unit test
+  against the runner's own source — the same test A21 added for the warm path,
+  applied to this one — so a threshold constant cannot creep back in unnoticed.
 
-- **20% relative**, because these are single-shot cold invocations on a
-  developer machine, where scheduler, page-cache and thermal noise of that
-  order is ordinary; a figure quoted to two significant figures cannot survive
-  a repeat that disagrees by more.
-- **100 ms absolute floor**, because for a sub-second overhead a 20% band is a
-  few tens of milliseconds — below the jitter a single process spawn on this
-  machine exhibits — and applying the relative rule alone there would withhold
-  on noise rather than on instability.
+The earlier draft of this amendment gated publication on two runs agreeing
+within `max(20% of the larger, 100 ms)`, on the model of A15's stability check.
+**That rule was withdrawn before any estimate was published**, for exactly the
+reason A21 gives for withdrawing A15's: a tolerance chosen once the spreads are
+known is the after-the-fact decision this document's motivation refuses, and
+one chosen before them is a guess that the measurement is then judged against.
+No figure was ever published under it. It is recorded here rather than silently
+removed, because a rule that was preregistered and then dropped is part of this
+amendment's history.
 
 #### Per-adapter fixture language, and the decline vocabulary
 
@@ -924,11 +936,11 @@ them and an estimate measured on a different language would be a
 cross-population claim. The two Joern estimates are labelled by their own
 languages and neither is presented as the other.
 
-Two kinds of missing figure are distinguished, and both are recorded as
-declines rather than blanks:
+There is exactly **one** kind of missing figure, and it is recorded as a
+decline rather than a blank. Under the range convention a noisy measurement
+produces a wide range rather than no figure, so nothing is ever missing for
+having been measured badly:
 
-- **`unstable`** — the measurement ran twice and the two runs failed the
-  tolerance above. Both runs are retained as the evidence.
 - **`environment`** — the pinned distribution is not installed in the
   measurement environment, so the invocation could not be attempted at all.
   This is a fact about the machine that ran the estimator, not about the
@@ -953,10 +965,11 @@ estimate of the same adapter.
   version and writes the same `run-environment.json` every other run writes.
   These numbers are environment-scoped and are not comparable across machines.
 - **Auxiliary evidence, outside the freeze.** Artifacts are retained under
-  `reports/raw/invocation-overhead/<adapter>-<language>/`: both runs'
-  wall-clock and load averages, the retained trivial fixture, the resolved
-  configuration where the adapter's is per-case, the stability verdict, and the
-  environment stamp, in `invocation-overhead.json`. Like A15's warm artifacts
+  `reports/raw/invocation-overhead/<adapter>-<language>/`: every repeat's
+  wall-clock, phase split and load average, the retained trivial fixture, the
+  resolved configuration where the adapter's is per-case, and the published
+  range, in `invocation-overhead.json`, beside the environment stamp. Like
+  A15's warm artifacts
   and like the cold timing sidecars, `freeze/v1` does not bind these files;
   they carry the release commit's immutability for their bytes and no stronger
   guarantee, and the publication says so.
@@ -968,35 +981,38 @@ estimate of the same adapter.
 #### Where the estimates are published, and how they are drawn
 
 - **The latency page carries the full table**: every one of the eight adapters,
-  with its fixture language, both runs' values, the retained figure or the
-  decline verdict, and the estimate beside that adapter's cold median on the
-  same kernel. Every value in the table, published or declined, appears there.
+  with its fixture language, every repeat's value, the published range and its
+  width, and the range beside that adapter's cold median on the same kernel.
+  Every value in the table, published or declined, appears there.
 - **The ranked chart draws a mark only above a preregistered significance
-  threshold.** A hollow mark at 16 ms on a 123 ms row is clutter, not
-  information: it is unreadable at chart scale, and drawing it invites the
-  reading that a mark means "slow start-up" when it would mean "a mark was
-  drawn". The threshold is:
+  threshold.** A mark at 16 ms on a 123 ms row is clutter, not information: it
+  is unreadable at chart scale, and drawing it invites the reading that a mark
+  means "slow start-up" when it would mean "a mark was drawn". The threshold is:
 
-  > A row carries an estimate mark when its retained estimate is **at least
-  > 25% of that adapter's cold whole-invocation median in the fixture's
-  > language**, over that kernel's benchmark-controlled `core` population.
+  > A row carries an estimate mark when the **low end** of its published range
+  > is **at least 25% of that adapter's cold whole-invocation median in the
+  > fixture's language**, over that kernel's benchmark-controlled `core`
+  > population.
 
   It is relative rather than absolute because the chart's axis is logarithmic
   and its rows span two orders of magnitude: a share of the row's own median is
   the same visual claim on every row, where a fixed millisecond cut would mark
   every slow adapter and no fast one regardless of what its overhead actually
   is. The 25% cut is the point at which overhead is a *substantial* part of the
-  number rather than a rounding contribution to it, and — like the tolerance
-  above — it was written down before any estimate existed, so it cannot have
-  been tuned to produce a particular set of marks. **Rows below the threshold
+  number rather than a rounding contribution to it, and it was written down
+  before any estimate existed, so it cannot have been tuned to produce a
+  particular set of marks. It reads the range's **low** end so that a mark can
+  never appear on the strength of one slow repeat. **Rows below the threshold
   are not blanks**: the chart's caption says marks appear only above it, and
   points at the table, which carries every value.
 - **The mark is visually distinct from A15's measured caret**, because the two
   are different quantities and a reader must not read one as the other: the
-  measured warm marginal is a **solid caret**, the estimated per-invocation
-  overhead is a **hollow, dashed diamond**, and the legend names them in full —
-  "measured warm marginal per case" and "estimated per-invocation overhead
-  (trivial fixture, upper bound)".
+  measured warm marginal is a **solid caret below the row**, the estimated
+  per-invocation overhead is a **dashed span above it**, drawn across the range
+  the repeats spanned rather than at a point — a point would claim a precision
+  the repeats did not have — and the legend names them in full: "measured warm
+  marginal per case" and "estimated per-invocation overhead (trivial fixture,
+  upper bound)".
 - **Where the mark may be drawn.** In the whole-corpus view, whose row already
   mixes languages and says so, each adapter's mark is its cheapest-arm estimate
   and its language is named in the row's tooltip and in the caption. In a
