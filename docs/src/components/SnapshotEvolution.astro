@@ -308,7 +308,7 @@ const biggestJump = columns
 
 <h2 id="evolution">How the benchmark and its analyzers evolved</h2>
 
-<p>
+<p class="chart-note">
   One series per analyzer, across every published freeze. The vertical axis
   counts <strong>decisive-correct assertions</strong> — true positives plus
   true negatives — on the <code>benchmark-controlled</code> kernel population,
@@ -776,7 +776,7 @@ const biggestJump = columns
 </p>
 </div>
 
-<p>
+<p class="chart-note">
   Read the shape, not a ranking. Two different things move a line: an analyzer
   getting better, and the benchmark getting harder. The largest expansion so
   far is <strong>{biggestJump.column.version}</strong>, which took the core
@@ -794,8 +794,26 @@ const biggestJump = columns
      to two labelled radios if the stylesheet never arrives. The radios sit as
      direct children of `.evolution` so `:checked ~ …` can reach every element
      that belongs to one view or the other. */
+  .chart-note {
+    max-width: 64rem;
+    margin-inline: auto;
+  }
+  @media (min-width: 72rem) {
+    .chart-note,
+    .evolution .caption {
+      columns: 2;
+      column-gap: 2.5rem;
+      max-width: none;
+    }
+  }
   .evolution {
     position: relative;
+    /* The chart itself is capped at 64rem (custom.css); on the wide desktop
+       column an uncapped wrapper leaves a dead margin to the right of the
+       toggle, frame, and captions. Cap and center the whole block so its
+       edges follow the chart's. */
+    max-width: 64rem;
+    margin-inline: auto;
   }
   .view-radio {
     position: absolute;
