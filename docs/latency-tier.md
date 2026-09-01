@@ -608,3 +608,36 @@ amendment is redescribed by it.
 
 **Freezes invalidated.** None. No cold number changes, no normalized report is
 rewritten, and `v0.6.0` is byte-identical before and after this amendment.
+
+### A18 — 2026-09-01: FlowDroid's modeling population declares three subprocess phases
+
+**What changes.** One granularity declaration is **added** for a population
+that had no timed artifact before this amendment: the FlowDroid Java
+modeling run (`reports/raw/flowdroid-java-modeling/`,
+[Amendment A16](modeling-matrix.md#a16--2026-09-01-flowdroid-joins-the-modeling-matrix-with-a-java-only-partition-row)
+of the modeling matrix) records three phases per scored case — `compile`
+(the two `javac` invocations that materialize the fixture and wrapper
+bytecode), `dex` (the D8 translation), and `analyze` (the one FlowDroid
+invocation). All three sit at genuinely adapter-observable subprocess
+boundaries, so the semi-granular rule is satisfied; nothing is inferred from
+inside any tool.
+
+**What does not change, and the comparability rule it forces.** The
+FlowDroid *kernel* row above is untouched: its populations keep the single
+`analyzer-only` `total`, and no number that existed before this amendment is
+redescribed. Only the modeling population's `analyze` phase is an analyzer
+number, and it is the phase comparable to the kernels' `total` (both are the
+one FlowDroid subprocess, cold JVM start-up included). `compile` and `dex`
+are the APK materialization the exclusion rule keeps *out* of analyzer
+totals — recorded here as their own labelled phases precisely so they can be
+seen without ever being summed into an analyzer's number; a whole-invocation
+cross-adapter total for this population is `analyze` alone, per corollary 2.
+The tool-native row
+([Amendment A17](native-profile.md#a17--2026-09-01-flowdroid-joins-the-tool-native-profile-with-a-live-activation-contract-and-six-cells-declined-on-catalog-evidence))
+times nothing: its partition hands no case to the analyzer, so it has no
+per-case phases at all. Nothing here interacts with
+[Amendment A15](#a15--2026-09-01-warm-marginal-cost-is-measured-as-a-separate-labelled-figure-and-the-cold-rows-stay-the-headline)'s
+warm-marginal figure: these are cold, per-case, single-process phases.
+
+**Freezes invalidated.** None. The v0.6.0 latency snapshot predates the
+population and binds none of its artifacts.

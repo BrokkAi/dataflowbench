@@ -780,6 +780,50 @@ what this profile exists to make legible. Its 0 / 6 run still witnesses its
 identity from the binary,
 [as every 0 / 6 run must](#the-run-level-identity-is-witnessed-including-at-0--6).
 
+### FlowDroid — 2.15.1, shipped catalog and default summaries (Java only; added by Amendment A17)
+
+> **Added by [Amendment A17](#a17--2026-09-01-flowdroid-joins-the-tool-native-profile-with-a-live-activation-contract-and-six-cells-declined-on-catalog-evidence)**:
+> the adapter joined the benchmark after this document's preregistration, so
+> its activation contract and its six cells arrive as a dated amendment, on
+> the evidence of the shipped catalog's own text, before any native run. The
+> row applies to **Java alone** — the analyzer consumes JVM bytecode packaged
+> as an APK, so the JavaScript and Python native populations are outside its
+> language reach entirely.
+
+**Activation contract.** The release's shipped model surface, and nothing of
+ours: the vendor's documented default sources-and-sinks catalog — *"you can
+use our default file \"SourcesAndSinks.txt\""* (the release README) — which
+ships **inside** the pinned, digest-witnessed
+`soot-infoflow-cmd-2.15.1-jar-with-dependencies.jar`, plus the release
+default taint wrapper (StubDroid over the jar's bundled `summariesManual`
+summaries). The released CLI refuses to run without `-s` — verified: omitting
+it produces the zero-exit failure banner *"No source/sink file specified for
+the data flow analysis"* — so the activation shape extracts the bundled
+catalog from the jar **verbatim** and points the mandatory flag at it. That
+is configuration of shipped models, not supply of ours: every model byte
+comes from the pinned artifact, whose digest gates the run, which is why no
+vendored snapshot and no `provenance.json` exist for this row — the jar pin
+*is* the provenance, stronger than any retrieval record.
+
+**The cells, decided from the catalog's text.** The shipped catalog is 460
+lines — 176 source entries, 227 sink entries — of servlet, Spring, Android,
+and assorted library identities. It binds this profile's command sink
+(`<java.lang.Runtime: java.lang.Process exec(java.lang.String)> -> _SINK_`
+is in the catalog), and it binds **no source any native template uses**:
+`System.getenv` does not occur in it, nor does `System.getProperty`,
+`sys.argv`'s Java analogue (a `main` parameter), or any other identity the
+six fixtures read. The bundled summaries cover `String.concat` and
+`System.getProperty` (as key→return taint — a propagator on the key, not a
+store link) and omit `java.util.Base64`; the catalog's txt format has no
+sanitizer role at all. A catalog with a bound sink and no applicable source
+cannot produce a finding on these fixtures, which is the same shape
+[A6](#a6--2026-08-27-semgrep-ces-javascript-cells-evaluated-against-the-vendored-snapshot)
+and [A7](#a7--2026-08-27-semgrep-ces-six-java-cells-are-retained-unsupported-against-the-vendored-snapshot)
+retained Semgrep's JavaScript and Java cells on — so all six templates are
+**unsupported on shipped-model evidence**, per cell in `NATIVE_PARTITION`
+(`src/main.rs`), and FlowDroid enters this profile at **0 / 6** with a live
+activation contract behind the zero.
+
 ### Partition summary
 
 Preregistered before any native fixture exists or any ruleset is vendored.
@@ -796,20 +840,22 @@ until shown otherwise.
 > [A8](#a8--2026-08-27-semgrep-ces-six-python-cells-are-promoted-to-scored-and-the-partition-gains-a-language-dimension)
 > promotes Python's six to scored and keys the partition by language. Every cell
 > for every language with no amendment row is still the cell below.
-
 > [A14](#a14--2026-09-01-infers-native-row-declines-on-a-measured-silence)
 > adds the Infer v1.3.0 column — a new adapter's own activation row, measured
-> before its first native run, Java-only.
+> before its first native run, Java-only — and
+> [A17](#a17--2026-09-01-flowdroid-joins-the-tool-native-profile-with-a-live-activation-contract-and-six-cells-declined-on-catalog-evidence)
+> adds the FlowDroid column — Java only, all six cells declined on the shipped
+> catalog's own text, with a live activation contract behind the zero.
 
-| # | Template | Cat. | Bifrost v0.10.7 | CodeQL 2.26.4 | Joern 4.0.614 | Semgrep CE 1.175.0 | Infer v1.3.0 (A14) |
-| --- | --- | --- | --- | --- | --- | --- | --- |
-| 1 | `native-source-sink` | S | unsupported | supported | unsupported | TBV | unsupported |
-| 2 | `native-propagator` | P | unsupported | supported | unsupported | TBV | unsupported |
-| 3 | `native-sanitizer` | Z | unsupported | supported | unsupported | TBV | unsupported |
-| 4 | `native-summary` | O | unsupported | supported | unsupported | TBV | unsupported |
-| 5 | `native-entrypoint` | E | TBV | supported | unsupported | TBV | unsupported |
-| 6 | `native-persistence` | B | TBV | supported | unsupported | TBV | unsupported |
-| | **Scored today** | | **0 / 6** | **6 / 6** | **0 / 6** | **0 / 6** | **0 / 6** |
+| # | Template | Cat. | Bifrost v0.10.7 | CodeQL 2.26.4 | Joern 4.0.614 | Semgrep CE 1.175.0 | Infer v1.3.0 (A14) | FlowDroid 2.15.1 (A17) |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 1 | `native-source-sink` | S | unsupported | supported | unsupported | TBV | unsupported | unsupported |
+| 2 | `native-propagator` | P | unsupported | supported | unsupported | TBV | unsupported | unsupported |
+| 3 | `native-sanitizer` | Z | unsupported | supported | unsupported | TBV | unsupported | unsupported |
+| 4 | `native-summary` | O | unsupported | supported | unsupported | TBV | unsupported | unsupported |
+| 5 | `native-entrypoint` | E | TBV | supported | unsupported | TBV | unsupported | unsupported |
+| 6 | `native-persistence` | B | TBV | supported | unsupported | TBV | unsupported | unsupported |
+| | **Scored today** | | **0 / 6** | **6 / 6** | **0 / 6** | **0 / 6** | **0 / 6** | **0 / 6** |
 
 These counts are activation surfaces, not scores. A tool with six of six has six
 templates' worth of assertions it can get wrong; a tool with zero of six has
@@ -958,10 +1004,10 @@ they touch, name the freezes they invalidate, and land as their own commits.
 Their numbers continue the repository's **single** amendment sequence rather
 than restarting per document: A1 is in [the challenge tier](challenge-tier.md#amendments),
 A2–A5, A9, and A13 are in [the modeling matrix](modeling-matrix.md#amendments),
-A11 is in [docs/adapters.md](adapters.md#amendments) and A12 in
+A11 is in [docs/adapters.md](adapters.md#amendments), and A12, A15, and A18 are in
 [the latency tier](latency-tier.md#amendments), so an amendment identifier
 names exactly one amendment wherever it is cited. The sequence interleaves
-across documents — A8 here is followed by A9 there, and A10 and A14 return
+across documents — A8 here is followed by A9 there, A10, A14, and A17 return
 here — which is the point: the number, not the document, is the identity.
 
 ### A6 — 2026-08-27: Semgrep CE's JavaScript cells, evaluated against the vendored snapshot
@@ -1277,3 +1323,75 @@ Infer column; `java` alone carries a denominator.
 
 **Freezes invalidated.** None. No published freeze manifest contains a
 tool-native report, and the v0.6.0 freeze is untouched.
+
+### A17 — 2026-09-01: FlowDroid joins the tool-native profile, with a live activation contract and six cells declined on catalog evidence
+
+**What changed.** The profile gains its sixth adapter row. FlowDroid 2.15.1
+takes a **Java-only** activation contract and a full six-cell partition
+column, both stated in
+[its activation section](#flowdroid--2151-shipped-catalog-and-default-summaries-java-only-added-by-amendment-a16)
+and mirrored into `NATIVE_PARTITION` (`src/main.rs`). No existing tool's cell
+moves. This is the companion of the modeling matrix's
+[Amendment A16](modeling-matrix.md#a16--2026-09-01-flowdroid-joins-the-modeling-matrix-with-a-java-only-partition-row),
+and it landed before the adapter's first native run.
+
+**The boundary question, answered YES.** Unlike the four original rows, the
+question of *whether this adapter has a native activation at all* needed an
+argument, and it is recorded here either way, as the profile's discipline
+requires. FlowDroid's released CLI takes its endpoint definitions through a
+mandatory `-s` flag — verified in the field: omitting it fails with the
+zero-exit banner *"No source/sink file specified for the data flow
+analysis"* — so nothing activates *by default*. What decides the question is
+that the release **ships the models themselves**: the vendor's README names
+`SourcesAndSinks.txt` as *"our default file"*, that catalog is bundled inside
+the pinned, digest-witnessed jar, and the default taint wrapper (StubDroid
+over the jar's bundled `summariesManual`) engages with no flag at all.
+Extracting the bundled catalog verbatim and pointing the mandatory flag at it
+is configuration of shipped models — the same boundary reading that admits
+CodeQL's `--threat-model=local` — and every model byte in such a run comes
+from the vendor's pinned artifact. The activation contract is therefore
+**live**: a run under it is the shipped product deciding. No vendored
+snapshot exists for this row because none is needed — the jar digest the run
+already witnesses is the provenance, and a catalog that cannot drift needs no
+retrieval record.
+
+**The cells, declined on the catalog's text.** Read before any run, from the
+catalog extracted out of the pinned jar: 460 lines, 176 `_SOURCE_` entries,
+227 `_SINK_` entries. The command sink is bound —
+`<java.lang.Runtime: java.lang.Process exec(java.lang.String)> -> _SINK_` —
+and no identity any native fixture *reads* is: `System.getenv` does not occur,
+`System.getProperty`/`setProperty` do not occur, no `main` parameter or argv
+convention occurs (the shipped entry convention is the Android component
+lifecycle, and the JVM process-entry convention does not exist on the
+analyzed platform), and the txt format carries no sanitizer role. The bundled
+summaries supply propagation (`String.concat`; `System.getProperty` as
+key→return taint — a propagator on the key, not a store link) but propagation
+with no source carries nothing. Every cell is therefore declined for the same
+first reason — *no shipped source binds a platform environment read* — with
+the per-cell specifics retained verbatim in `NATIVE_PARTITION`. This is
+precisely the evidence shape on which
+[A6](#a6--2026-08-27-semgrep-ces-javascript-cells-evaluated-against-the-vendored-snapshot)
+and [A7](#a7--2026-08-27-semgrep-ces-six-java-cells-are-retained-unsupported-against-the-vendored-snapshot)
+retained Semgrep's JavaScript and Java columns, and the same treatment is the
+consistency this document owes its own precedent. A shipped catalog that
+gains an environment source is a promotion by dated amendment, carrying the
+new jar pin as its evidence.
+
+**What the row still runs.** `run-flowdroid-native --language java` executes
+under [the run-level identity rule](#the-run-level-identity-is-witnessed-including-at-0--6):
+it witnesses the pinned jar and platform digests and the jar's self-reported
+version before its population is walked, writes the twelve retained
+`unsupported` decisions with the witnessed identity and the pinned activation
+shape in each, and refuses to run at all against artifacts that do not match
+the pins. A 0 / 6 row's retained rationales are the whole of its evidence,
+which is exactly why the identity behind them is measured rather than
+asserted.
+
+**Templates and languages touched.** All six native templates; FlowDroid
+only; **Java only** — the JavaScript and Python native populations are
+outside the adapter's language reach (the analyzer consumes JVM bytecode),
+so those combinations have no FlowDroid native denominator at all, and the
+runner refuses them.
+
+**Freezes invalidated.** None. No published freeze manifest contains a
+tool-native report.
