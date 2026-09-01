@@ -39,6 +39,29 @@ function formatRange([low, high]: [number, number]): string {
   return lowLabel === highLabel ? lowLabel : `${lowLabel} – ${highLabel}`;
 }
 
+/**
+ * The span of one-minute load averages sampled before the batches of one
+ * measurement, or null when the runner could not read one.
+ *
+ * The tier's measurement hygiene is a discipline, not an enforcement, so what
+ * a warm run can honestly offer is the conditions it observed. Showing them
+ * lets a reader discount a figure taken on a busy machine instead of having to
+ * trust the word "quiet".
+ */
+function loadSummary(measurement: {
+  runs: { loads: (number | null)[] }[];
+}): string | null {
+  const loads = measurement.runs
+    .flatMap((run) => run.loads)
+    .filter((load): load is number => typeof load === 'number');
+  if (loads.length === 0) return null;
+  const low = Math.min(...loads);
+  const high = Math.max(...loads);
+  return low === high
+    ? low.toFixed(1)
+    : `${low.toFixed(1)} to ${high.toFixed(1)}`;
+}
+
 const decomposed = model.adapters.filter((a) => a.phases.length > 0);
 const single = model.adapters.filter((a) => a.phases.length === 0);
 const fastest = model.adapters[0]!;
@@ -561,6 +584,19 @@ const slowest = model.adapters.at(-1)!;
               {measurement.environment.cpuCount} logical CPUs — the same stamp
               rule as every other number here, and not comparable across
               machines.
+            </>
+          )}
+          {loadSummary(measurement) && (
+            <>
+              {' '}
+              <strong>Machine conditions:</strong> the one-minute load average
+              sampled immediately before each batch ranged{' '}
+              {loadSummary(measurement)} across every batch of every repeat, on
+              a {measurement.environment?.cpuCount ?? '?'}-core machine. The
+              tier's hygiene rule is that no other analyzer competes for the
+              machine while one is timed, and background load is reported
+              rather than asserted away — so the reader can weigh the
+              conditions instead of taking "quiet machine" on trust.
             </>
           )}
         </p>
