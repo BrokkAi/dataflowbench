@@ -18,6 +18,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { coreKernelPopulations, currentSnapshot } from './snapshots';
 
 /** Repository root, resolved from this file rather than the build's cwd. */
 const repoRoot = path.resolve(
@@ -29,9 +30,11 @@ export interface Distribution {
   /** Timed invocations behind the numbers. */
   n: number;
   min: number;
+  p10: number;
   q1: number;
   median: number;
   q3: number;
+  p90: number;
   max: number;
 }
 
@@ -131,11 +134,63 @@ function distribution(values: number[]): Distribution {
   return {
     n,
     min: sorted[0]!,
+    p10: quantile(0.1),
     q1: quantile(0.25),
     median: quantile(0.5),
     q3: quantile(0.75),
+    p90: quantile(0.9),
     max: sorted[n - 1]!,
   };
+}
+
+/**
+ * The freeze gate as a memoized map: report path → the case identifiers the
+ * manifest binds for it. Every latency read in this module passes through it,
+ * so no code path can reach a sidecar the freeze does not bind.
+ */
+let boundCasesCache: Map<string, Set<string>> | null = null;
+function boundCaseSets(): Map<string, Set<string>> {
+  if (boundCasesCache) return boundCasesCache;
+  const manifest = readJson('reports/freeze.json');
+  const map = new Map<string, Set<string>>();
+  for (const report of manifest.reports) {
+    map.set(
+      report.path,
+      new Set<string>(report.outcomes.map((outcome: any) => outcome.case_id)),
+    );
+  }
+  boundCasesCache = map;
+  return map;
+}
+
+interface CaseTiming {
+  phases: { phase: string; wall_ms: number }[];
+  /** The whole invocation: the sum of the adapter's own timed phases. */
+  whole: number;
+}
+
+/**
+ * One case's timing sidecar, or `null` when the freeze does not bind the case
+ * or the case never invoked an analyzer (and so has nothing to time).
+ */
+function readTiming(
+  reportPath: string,
+  caseId: string,
+  rawEvidencePath: string | undefined,
+): CaseTiming | null {
+  const bound = boundCaseSets().get(reportPath);
+  if (!bound || !bound.has(caseId)) return null;
+  if (!rawEvidencePath) return null;
+  const sidecar = path.join(
+    repoRoot,
+    path.dirname(rawEvidencePath),
+    `${caseId}-timing.json`,
+  );
+  if (!fs.existsSync(sidecar)) return null;
+  const timing = JSON.parse(fs.readFileSync(sidecar, 'utf8'));
+  let whole = 0;
+  for (const phase of timing.phases) whole += phase.wall_ms;
+  return { phases: timing.phases, whole };
 }
 
 /**
@@ -147,13 +202,7 @@ export function latencyModel(): LatencyModel {
   const manifest = readJson('reports/freeze.json');
   const results = readJson('results/results.json');
 
-  const boundCases = new Map<string, Set<string>>();
-  for (const report of manifest.reports) {
-    boundCases.set(
-      report.path,
-      new Set<string>(report.outcomes.map((outcome: any) => outcome.case_id)),
-    );
-  }
+  const boundCases = boundCaseSets();
   const outcomeOf = new Map<string, string>();
   for (const report of manifest.reports) {
     for (const outcome of report.outcomes) {
@@ -376,6 +425,193 @@ export function latencyModel(): LatencyModel {
  * unit in the last place low, and does so unpredictably. Rounding the integer
  * makes the displayed figure a deterministic function of the measurement.
  */
+// ---------------------------------------------------------------------------
+// The ranked view: fastest to slowest, whole-corpus and per kernel.
+//
+// This is presentation of the *same* aggregation the contract preregisters —
+// medians and quartiles of per-case wall-clock — ordered by median so the
+// spread between adapters is legible. It adds no new statistic, no pooling
+// with correctness, and no composite of any kind. An adapter that never
+// invoked on a kernel is absent from that kernel's view rather than entered
+// as a zero, because a decline is not a fast answer.
+// ---------------------------------------------------------------------------
+
+export interface RankedEntry {
+  tool: string;
+  toolVersion: string;
+  /** Invocations behind this entry's distribution. */
+  timed: number;
+  /**
+   * Assertions the analyzer covers in this view's population, so a median over
+   * a partly-declined kernel can never be read as a median over all of it.
+   * `null` in the whole-corpus view, whose denominator is not a population.
+   */
+  covered: number | null;
+  whole: Distribution;
+  /** Declared phases, empty for the adapters that expose one subprocess. */
+  phases: PhaseDistribution[];
+}
+
+export interface RankingView {
+  /** `all`, or the kernel's language. */
+  id: string;
+  label: string;
+  /** Assertions in the kernel population; `null` for the whole-corpus view. */
+  population: number | null;
+  /** Fastest median first. */
+  entries: RankedEntry[];
+}
+
+export interface AxisTick {
+  value: number;
+  label: string;
+}
+
+export interface LatencyRanking {
+  views: RankingView[];
+  /**
+   * One shared logarithmic axis across every view, so switching kernels never
+   * silently rescales the picture underneath the reader.
+   */
+  ticks: AxisTick[];
+  axisMin: number;
+  axisMax: number;
+}
+
+/** The 1–3–10 decade ladder, in milliseconds. */
+function tickLadder(): number[] {
+  const ladder: number[] = [];
+  for (let decade = 0; decade <= 7; decade += 1) {
+    ladder.push(10 ** decade, 3 * 10 ** decade);
+  }
+  return ladder.sort((left, right) => left - right);
+}
+
+function tickLabel(ms: number): string {
+  return ms < 1000 ? `${ms} ms` : `${ms / 1000} s`;
+}
+
+function rankedEntry(
+  tool: string,
+  toolVersion: string,
+  covered: number | null,
+  timings: CaseTiming[],
+): RankedEntry | null {
+  if (timings.length === 0) return null;
+  const phaseValues = new Map<string, number[]>();
+  const phaseOrder: string[] = [];
+  for (const timing of timings) {
+    for (const phase of timing.phases) {
+      if (!phaseValues.has(phase.phase)) {
+        phaseValues.set(phase.phase, []);
+        phaseOrder.push(phase.phase);
+      }
+      phaseValues.get(phase.phase)!.push(phase.wall_ms);
+    }
+  }
+  return {
+    tool,
+    toolVersion,
+    timed: timings.length,
+    covered,
+    whole: distribution(timings.map((timing) => timing.whole)),
+    // A single-phase adapter's one phase *is* its whole invocation; drawing it
+    // twice would invent a decomposition the adapter does not expose.
+    phases:
+      phaseOrder.length > 1
+        ? phaseOrder.map((phase) => ({
+            phase,
+            ...distribution(phaseValues.get(phase)!),
+          }))
+        : [],
+  };
+}
+
+/**
+ * The ranked views, derived from the already-computed adapter model (for the
+ * whole-corpus view) and from the benchmark-controlled kernel populations —
+ * the same no-pooling population filter the landing page reads — for the
+ * per-kernel views.
+ *
+ * The two are deliberately different denominators, and the page says so: the
+ * whole-corpus view is every timed invocation in the freeze, across every tier
+ * and profile, while a kernel view is that kernel's core assertions only.
+ */
+export function latencyRanking(model: LatencyModel): LatencyRanking {
+  const views: RankingView[] = [
+    {
+      id: 'all',
+      label: 'All timed invocations',
+      population: null,
+      entries: model.adapters
+        .map((adapter) => ({
+          tool: adapter.tool,
+          toolVersion: adapter.toolVersion,
+          timed: adapter.timed,
+          covered: null,
+          whole: adapter.whole,
+          phases: adapter.phases,
+        }))
+        .sort((left, right) => left.whole.median - right.whole.median),
+    },
+  ];
+
+  for (const population of coreKernelPopulations(currentSnapshot.results)) {
+    const entries: RankedEntry[] = [];
+    for (const [tool, coverage] of population.entries) {
+      const timings: CaseTiming[] = [];
+      for (const result of coverage.tier.cases) {
+        const timing = readTiming(
+          coverage.card.report.path,
+          result.case_id,
+          result.raw_evidence?.path,
+        );
+        if (timing) timings.push(timing);
+      }
+      const entry = rankedEntry(
+        tool,
+        coverage.card.adapter.tool_version,
+        population.cases,
+        timings,
+      );
+      // No entry at all when the analyzer never invoked on this kernel: an
+      // absent bar, never a zero-length one.
+      if (entry) entries.push(entry);
+    }
+    views.push({
+      id: population.language,
+      label: population.language,
+      population: population.cases,
+      entries: entries.sort(
+        (left, right) => left.whole.median - right.whole.median,
+      ),
+    });
+  }
+
+  // The axis spans every mark any view draws — whiskers and phase marks
+  // included — so one ladder serves all of them.
+  const marks: number[] = [];
+  for (const view of views) {
+    for (const entry of view.entries) {
+      marks.push(entry.whole.p10, entry.whole.p90);
+      for (const phase of entry.phases) marks.push(phase.p10, phase.p90);
+    }
+  }
+  const ladder = tickLadder();
+  const lowest = Math.min(...marks);
+  const highest = Math.max(...marks);
+  const axisMin = [...ladder].reverse().find((tick) => tick <= lowest) ?? 1;
+  const axisMax = ladder.find((tick) => tick >= highest) ?? 10 ** 8;
+  return {
+    views,
+    axisMin,
+    axisMax,
+    ticks: ladder
+      .filter((tick) => tick >= axisMin && tick <= axisMax)
+      .map((tick) => ({ value: tick, label: tickLabel(tick) })),
+  };
+}
+
 export function formatMs(value: number): string {
   const ms = Math.round(value);
   if (ms < 1000) return `${ms} ms`;
