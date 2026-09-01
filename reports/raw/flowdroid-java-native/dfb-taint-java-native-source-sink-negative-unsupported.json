@@ -1,0 +1,19 @@
+{
+  "activation_arguments": [
+    "-s",
+    "jar:soot-infoflow-cmd-2.15.1-jar-with-dependencies.jar!/SourcesAndSinks.txt"
+  ],
+  "activation_identity": "FlowDroid 2.15.1 shipped SourcesAndSinks.txt catalog (extracted verbatim from the pinned soot-infoflow-cmd jar) and default summariesManual taint wrapper",
+  "adapter": "flowdroid",
+  "case_id": "dfb-taint-java-native-source-sink-negative",
+  "evidence_kind": "retained-capability-decision",
+  "model_profile": "tool-native",
+  "modeling_category": "S",
+  "modeling_category_label": "declared sources and sinks",
+  "partition_source": "docs/native-profile.md#partition-summary",
+  "reason": "tool-native activation of dfb-template-native-source-sink (category S — declared sources and sinks) is unsupported for 2.15.1 over Java by the activation partition (docs/native-profile.md#partition-summary, as amended): the shipped SourcesAndSinks.txt binds the template's sink — `<java.lang.Runtime: java.lang.Process exec(java.lang.String)> -> _SINK_` is in the catalog — but no shipped source binds a platform environment read: `System.getenv` does not occur in the catalog, whose sources are servlet, Spring, and Android framework identities. A catalog with a bound sink and no applicable source cannot produce a finding on these fixtures (Amendment A19)",
+  "stage": "preregistered-native-activation-partition",
+  "state": "unsupported",
+  "template_id": "dfb-template-native-source-sink",
+  "witnessed_tool_identity": "2.15.1"
+}

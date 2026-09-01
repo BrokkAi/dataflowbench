@@ -1,0 +1,19 @@
+{
+  "activation_arguments": [
+    "-s",
+    "jar:soot-infoflow-cmd-2.15.1-jar-with-dependencies.jar!/SourcesAndSinks.txt"
+  ],
+  "activation_identity": "FlowDroid 2.15.1 shipped SourcesAndSinks.txt catalog (extracted verbatim from the pinned soot-infoflow-cmd jar) and default summariesManual taint wrapper",
+  "adapter": "flowdroid",
+  "case_id": "dfb-taint-java-native-propagator-positive",
+  "evidence_kind": "retained-capability-decision",
+  "model_profile": "tool-native",
+  "modeling_category": "P",
+  "modeling_category_label": "declared propagators",
+  "partition_source": "docs/native-profile.md#partition-summary",
+  "reason": "tool-native activation of dfb-template-native-propagator (category P — declared propagators) is unsupported for 2.15.1 over Java by the activation partition (docs/native-profile.md#partition-summary, as amended): the release default's summariesManual wrapper ships a `String.concat` taint summary, so the propagator half is covered — but no shipped source binds `System.getenv`, and a propagator with nothing to carry produces nothing (Amendment A19)",
+  "stage": "preregistered-native-activation-partition",
+  "state": "unsupported",
+  "template_id": "dfb-template-native-propagator",
+  "witnessed_tool_identity": "2.15.1"
+}
