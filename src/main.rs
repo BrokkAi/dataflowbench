@@ -100,10 +100,9 @@ const BIFROST_DIRECT_POLICY: &str = "adapters/bifrost/policies/core-direct.rqlp"
 /// than rewriting published evidence.
 const BIFROST_DIRECT_POSITIVE_POLICY: &str = "adapters/bifrost/policies/direct-positive.rqlp";
 const BIFROST_EXPLICIT_NEGATIVE_POLICY: &str = "adapters/bifrost/policies/explicit-negative.rqlp";
-/// The language-qualified Bifrost policy every Java kernel assertion is
-/// evaluated with. As with Kotlin and Scala, the frozen direct-propagation pair
-/// names its own historical policies, so the run pins this one for the whole
-/// population and every assertion shares one configuration hash.
+/// The language-qualified Bifrost policy declared by ordinary Java kernel
+/// assertions. The Java kernel consumes each case's validated declared policy,
+/// and its configuration hash covers all selected policy files.
 const BIFROST_JAVA_POLICY: &str = "adapters/bifrost/policies/core-java-kernel.rqlp";
 /// The language-qualified Bifrost policy every JavaScript kernel assertion is
 /// evaluated with. Its frozen direct-propagation pair names the cross-language
@@ -6305,19 +6304,21 @@ fn run_bifrost(binary: &Path, run: BifrostRun) -> Result<()> {
 
 /// The Bifrost policy a run evaluates for one case.
 ///
-/// Kernel runs pin the language-qualified policy for the whole population so
-/// that a single configuration hash covers all 32 assertions, including the
-/// two direct-propagation cases whose frozen v0.2.0 metadata still names the
-/// cross-language breadth policy.
-fn bifrost_policy_for<'a>(case: &'a Value, run: BifrostRun) -> Result<&'a str> {
+/// Kernel runs normally pin the language-qualified policy for the population.
+/// Java instead evaluates each case with its validated declared policy, so the
+/// direct-propagation pair and future compatible policy variants retain the
+/// selector contract recorded in their case metadata. The report configuration
+/// hash covers every policy actually selected by the run.
+fn bifrost_policy_for(case: &Value, run: BifrostRun) -> Result<&str> {
+    let declared_policy = case["tool_model_references"]["bifrost"]["policy"]
+        .as_str()
+        .context("Bifrost case lacks policy reference")?;
     match run {
-        BifrostRun::JavaKernel => Ok(BIFROST_JAVA_POLICY),
+        BifrostRun::JavaKernel => Ok(declared_policy),
         BifrostRun::JavascriptKernel => Ok(BIFROST_JAVASCRIPT_POLICY),
         BifrostRun::KotlinKernel => Ok(BIFROST_KOTLIN_POLICY),
         BifrostRun::ScalaKernel => Ok(BIFROST_SCALA_POLICY),
-        _ => case["tool_model_references"]["bifrost"]["policy"]
-            .as_str()
-            .context("Bifrost case lacks policy reference"),
+        _ => Ok(declared_policy),
     }
 }
 
@@ -24567,8 +24568,8 @@ mod tests {
     }
 
     /// The dedicated Java and JavaScript Bifrost kernels own their language's
-    /// whole core population, accept the frozen per-case policies, and pin the
-    /// language-qualified policy for the run.
+    /// whole core population. Java consumes each case's validated declared
+    /// policy; JavaScript pins its language-qualified policy throughout.
     #[test]
     fn java_and_javascript_bifrost_kernels_own_their_language_population() {
         let mut java = 0usize;
@@ -24579,9 +24580,12 @@ mod tests {
                 java += 1;
                 assert_eq!(case["language"], "java");
                 assert_eq!(case["score_tier"], "core");
+                let declared_policy = case["tool_model_references"]["bifrost"]["policy"]
+                    .as_str()
+                    .unwrap();
                 assert_eq!(
                     bifrost_policy_for(&case, BifrostRun::JavaKernel).unwrap(),
-                    BIFROST_JAVA_POLICY
+                    declared_policy
                 );
                 assert!(!selected_bifrost_case(&case, BifrostRun::JavascriptKernel));
             }
@@ -24609,25 +24613,6 @@ mod tests {
             BifrostRun::JavascriptKernel.expected_core_cases(),
             Some(expected_core_case_count("javascript"))
         );
-        // The frozen direct-propagation pair keeps its historical single
-        // assertion policies and is still part of the Java kernel population.
-        for policy in [
-            BIFROST_DIRECT_POSITIVE_POLICY,
-            BIFROST_EXPLICIT_NEGATIVE_POLICY,
-        ] {
-            let frozen = json!({
-                "language": "java",
-                "track": "taint",
-                "score_tier": "core",
-                "template_id": "dfb-template-direct-propagation",
-                "tool_model_references": {"bifrost": {"policy": policy}}
-            });
-            assert!(selected_bifrost_case(&frozen, BifrostRun::JavaKernel));
-            assert_eq!(
-                bifrost_policy_for(&frozen, BifrostRun::JavaKernel).unwrap(),
-                BIFROST_JAVA_POLICY
-            );
-        }
         // A challenge case joins its language kernel as soon as it exists, and
         // the run's expected count follows the rollout row rather than a
         // hard-coded 32.
@@ -24643,6 +24628,31 @@ mod tests {
             BifrostRun::JavascriptKernel
         ));
         assert!(!selected_bifrost_case(&challenge, BifrostRun::Smoke));
+    }
+
+    #[test]
+    fn java_kernel_preserves_the_direct_pairs_compatible_policies() {
+        for policy in [
+            BIFROST_DIRECT_POSITIVE_POLICY,
+            BIFROST_EXPLICIT_NEGATIVE_POLICY,
+        ] {
+            let direct_case = json!({
+                "language": "java",
+                "track": "taint",
+                "score_tier": "core",
+                "template_id": "dfb-template-direct-propagation",
+                "tool_model_references": {"bifrost": {"policy": policy}}
+            });
+            assert_eq!(
+                bifrost_policy_for(&direct_case, BifrostRun::Smoke).unwrap(),
+                policy
+            );
+            assert_eq!(
+                bifrost_policy_for(&direct_case, BifrostRun::JavaKernel).unwrap(),
+                policy,
+                "the Java kernel must not replace compatible legacy selectors"
+            );
+        }
     }
 
     /// The Semgrep CE partition for the challenge tier is preregistered by
