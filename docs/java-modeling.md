@@ -438,20 +438,48 @@ than a published false negative. It was not tuned around: declaring a propagator
 for `Clean.sanitize` would recover the cell, and category P is one this
 partition does not award CE in the first place.
 
+## Infer — the fifth adapter (Amendment A13, 2026-09-01)
+
+Java is the one wave-M1 language the pinned Infer v1.3.0 executes, so it is
+the one language Infer's modeling row
+([Amendment A13](modeling-matrix.md#a13--2026-09-01-infer-joins-the-modeling-matrix-with-a-field-evaluated-partition-row))
+covers — JavaScript and Python have no Infer modeling denominator at all.
+The partition was field-evaluated by execution over this document's own
+committed fixtures before the row existed
+(`reports/raw/amendment-a13-infer-partition/`): categories S, P (template 3
+alone — the propagator surface binds no input position), and Z are scored,
+five templates, through the committed
+`adapters/infer/config/model-java.json` with exact `class_names` +
+`method_names` identity matchers.
+
+The retained run — `reports/infer-java-modeling.json`, evidence under
+`reports/raw/infer-java-modeling/` — decides **all ten scored assertions
+correctly**: both declared-source/sink pairs, the opaque-propagator pair
+(the reflective body carries nothing unaided; the declared `carry` model
+carries it; the undeclared `block` does not), and both sanitizer pairs
+(suppression through the declared `scrub`, no suppression through the
+undeclared `sanitize`). The fourteen declined assertions are retained
+`preregistered-modeling-partition` capability decisions. See
+[the Infer adapter notes](../adapters/infer/README.md) for the measured
+boundaries and the three gated silent-configuration hazards.
+
 ## Reproduction
 
 ```bash
 cargo run -- run-bifrost-modeling --language java --bifrost /path/to/bifrost
 cargo run -- run-codeql-modeling  --language java --codeql  /path/to/codeql
+cargo run -- run-infer-modeling   --language java --infer   /path/to/infer-osx-arm64-v1.3.0/bin/infer
 cargo run -- run-joern-modeling   --language java --joern   /path/to/joern-cli/joern
 cargo run -- run-semgrep-modeling --language java --semgrep /path/to/semgrep
 
 scripts/probe-java-modeling-load-bearing.sh \
   --bifrost /path/to/bifrost --codeql /path/to/codeql \
   --joern /path/to/joern-cli/joern --semgrep /path/to/semgrep
+scripts/probe-infer-modeling-partition.sh \
+  --infer /path/to/infer-osx-arm64-v1.3.0/bin/infer
 ```
 
 Run them sequentially, never concurrently. Each writes
 `reports/<tool>-java-modeling.json` with retained evidence under
-`reports/raw/<tool>-java-modeling/`; none of the eight paths collides with a
+`reports/raw/<tool>-java-modeling/`; none of the paths collides with a
 report the v0.4.0 freeze binds.

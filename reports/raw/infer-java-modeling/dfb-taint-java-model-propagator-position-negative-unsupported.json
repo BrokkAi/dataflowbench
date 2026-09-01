@@ -1,0 +1,13 @@
+{
+  "adapter": "infer",
+  "case_id": "dfb-taint-java-model-propagator-position-negative",
+  "evidence_kind": "retained-capability-decision",
+  "modeling_category": "P",
+  "modeling_category_label": "declared propagators",
+  "partition_source": "docs/modeling-matrix.md#per-tool-capability-partition",
+  "reason": "category P — declared propagators — is unsupported for v1.3.0 by the preregistered modeling partition (docs/modeling-matrix.md#per-tool-capability-partition): a Pulse taint propagator declares an output (`taint_target`) but no input position: measured on the pinned v1.3.0, the declared `select` propagator carries taint from the undeclared position 0 exactly as from the declared position 1, so both cells are decided by the any-argument default rather than by the declared binding — and unknown configuration fields are silently ignored, so no spelling can be trusted to bind the position (Amendment A13)",
+  "stage": "preregistered-modeling-partition",
+  "state": "unsupported",
+  "template_id": "dfb-template-model-propagator-position",
+  "witnessed_tool_identity": "v1.3.0"
+}
