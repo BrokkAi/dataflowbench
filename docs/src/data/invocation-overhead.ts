@@ -292,7 +292,7 @@ export function invocationOverhead(): {
       tool: wanted.tool,
       language: wanted.language,
       verdict: 'environment',
-      evidence: `The pinned distribution is not installed in the environment the estimator ran in, so the invocation could not be attempted. This is a fact about that machine and says nothing about the adapter's released CLI — it is not a capability decline of A15's kind, and it is resolved by re-running \`estimate-invocation-overhead --tool ${wanted.tool} --language ${wanted.language}\` where the pinned distribution is installed.`,
+      evidence: `The pinned distribution is not installed in the environment the estimator ran in, so the invocation could not be attempted. This is a fact about that machine and says nothing about the adapter's released CLI — it is not a capability decline of the warm marginal's kind, and it is resolved by re-running \`estimate-invocation-overhead --tool ${wanted.tool} --language ${wanted.language}\` where the pinned distribution is installed.`,
     });
   }
 

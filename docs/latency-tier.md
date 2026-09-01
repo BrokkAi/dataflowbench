@@ -945,7 +945,7 @@ having been measured badly:
   measurement environment, so the invocation could not be attempted at all.
   This is a fact about the machine that ran the estimator, not about the
   adapter's released CLI, and it says nothing about the adapter. It is
-  explicitly **not** a capability decline of A15's kind, and it is resolved by
+  explicitly **not** a capability decline of A15/A21's kind, and it is resolved by
   re-running the estimator where the distribution is installed — the runner
   command and the fixtures are committed so that anyone with the pinned
   distribution can produce the missing row.
