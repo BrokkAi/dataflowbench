@@ -35,7 +35,105 @@
                     "version": "latest"
                 }
             },
-            "results": []
+            "results": [
+                {
+                    "codeFlows": [
+                        {
+                            "threadFlows": [
+                                {
+                                    "locations": [
+                                        {
+                                            "executionOrder": 0,
+                                            "kinds": [
+                                                "taint"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.InfeasibleBranchPositive#run():1:(value = this.dfb_source())",
+                                                        "fullyQualifiedName": "dataflowbench.InfeasibleBranchPositive#run"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "Call to \"dfb_source\" puts marked data to \"value\""
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/InfeasibleBranchPositive.kt",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 33,
+                                                        "endLine": 13,
+                                                        "startColumn": 21,
+                                                        "startLine": 13
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 1,
+                                            "kinds": [
+                                                "taint"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.InfeasibleBranchPositive#run():2:(this.dfb_sink(value))",
+                                                        "fullyQualifiedName": "dataflowbench.InfeasibleBranchPositive#run"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "DataFlowBench benchmark-controlled endpoint flow"
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/InfeasibleBranchPositive.kt",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 24,
+                                                        "endLine": 15,
+                                                        "startColumn": 9,
+                                                        "startLine": 15
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ],
+                    "level": "error",
+                    "locations": [
+                        {
+                            "logicalLocations": [
+                                {
+                                    "decoratedName": "dataflowbench.InfeasibleBranchPositive#run():2:(this.dfb_sink(value))",
+                                    "fullyQualifiedName": "dataflowbench.InfeasibleBranchPositive#run"
+                                }
+                            ],
+                            "physicalLocation": {
+                                "artifactLocation": {
+                                    "uri": "dataflowbench/InfeasibleBranchPositive.kt",
+                                    "uriBaseId": "%SRCROOT%"
+                                },
+                                "region": {
+                                    "endColumn": 24,
+                                    "endLine": 15,
+                                    "startColumn": 9,
+                                    "startLine": 15
+                                }
+                            }
+                        }
+                    ],
+                    "message": {
+                        "text": "DataFlowBench benchmark-controlled endpoint flow"
+                    },
+                    "ruleId": ":dfb-opentaint-kernel"
+                }
+            ]
         }
     ]
 }

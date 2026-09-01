@@ -35,7 +35,337 @@
                     "version": "latest"
                 }
             },
-            "results": []
+            "results": [
+                {
+                    "codeFlows": [
+                        {
+                            "threadFlows": [
+                                {
+                                    "locations": [
+                                        {
+                                            "executionOrder": 0,
+                                            "kinds": [
+                                                "taint"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.taint.ReturnRelayTwoHopPositive#run():0:(%0 = dataflowbench.taint.ReturnRelayTwoHopPositive.dfb_source())",
+                                                        "fullyQualifiedName": "dataflowbench.taint.ReturnRelayTwoHopPositive#run"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "Call to \"dfb_source\" puts marked data to a local variable"
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/taint/ReturnRelayTwoHopPositive.java",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 46,
+                                                        "endLine": 19,
+                                                        "startColumn": 34,
+                                                        "startLine": 19
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 1,
+                                            "kinds": [
+                                                "call"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.taint.ReturnRelayTwoHopPositive#run():1:(%1 = dataflowbench.taint.ReturnRelayTwoHopPositive.secondRelay(%0))",
+                                                        "fullyQualifiedName": "dataflowbench.taint.ReturnRelayTwoHopPositive#run"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "Calling \"secondRelay\" with marked data at a local variable"
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/taint/ReturnRelayTwoHopPositive.java",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 47,
+                                                        "endLine": 19,
+                                                        "startColumn": 22,
+                                                        "startLine": 19
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 2,
+                                            "kinds": [
+                                                "unknown"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.taint.ReturnRelayTwoHopPositive#secondRelay(int):0:(%0 = dataflowbench.taint.ReturnRelayTwoHopPositive.firstRelay(arg$0))",
+                                                        "fullyQualifiedName": "dataflowbench.taint.ReturnRelayTwoHopPositive#secondRelay"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "Entering \"secondRelay\" with marked data at the 1st argument of \"secondRelay\""
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/taint/ReturnRelayTwoHopPositive.java",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 38,
+                                                        "endLine": 12,
+                                                        "startColumn": 12,
+                                                        "startLine": 12
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 3,
+                                            "kinds": [
+                                                "call"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.taint.ReturnRelayTwoHopPositive#secondRelay(int):0:(%0 = dataflowbench.taint.ReturnRelayTwoHopPositive.firstRelay(arg$0))",
+                                                        "fullyQualifiedName": "dataflowbench.taint.ReturnRelayTwoHopPositive#secondRelay"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "Calling \"firstRelay\" with marked data at the 1st argument of \"secondRelay\""
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/taint/ReturnRelayTwoHopPositive.java",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 33,
+                                                        "endLine": 13,
+                                                        "startColumn": 16,
+                                                        "startLine": 13
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 4,
+                                            "kinds": [
+                                                "unknown"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.taint.ReturnRelayTwoHopPositive#firstRelay(int):0:(return arg$0)",
+                                                        "fullyQualifiedName": "dataflowbench.taint.ReturnRelayTwoHopPositive#firstRelay"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "Takes marked data at the 1st argument of \"firstRelay\" and ends up with marked data at the returned value"
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/taint/ReturnRelayTwoHopPositive.java",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 22,
+                                                        "endLine": 9,
+                                                        "startColumn": 9,
+                                                        "startLine": 9
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 5,
+                                            "kinds": [
+                                                "unknown"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.taint.ReturnRelayTwoHopPositive#firstRelay(int):0:(return arg$0)",
+                                                        "fullyQualifiedName": "dataflowbench.taint.ReturnRelayTwoHopPositive#firstRelay"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "Exiting \"firstRelay\""
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/taint/ReturnRelayTwoHopPositive.java",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 6,
+                                                        "endLine": 10,
+                                                        "startColumn": 5,
+                                                        "startLine": 10
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 6,
+                                            "kinds": [
+                                                "unknown"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.taint.ReturnRelayTwoHopPositive#secondRelay(int):1:(return %0)",
+                                                        "fullyQualifiedName": "dataflowbench.taint.ReturnRelayTwoHopPositive#secondRelay"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "The returning value is assigned marked data from \"firstRelay\" call"
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/taint/ReturnRelayTwoHopPositive.java",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 33,
+                                                        "endLine": 13,
+                                                        "startColumn": 9,
+                                                        "startLine": 13
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 7,
+                                            "kinds": [
+                                                "unknown"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.taint.ReturnRelayTwoHopPositive#secondRelay(int):1:(return %0)",
+                                                        "fullyQualifiedName": "dataflowbench.taint.ReturnRelayTwoHopPositive#secondRelay"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "Exiting \"secondRelay\""
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/taint/ReturnRelayTwoHopPositive.java",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 6,
+                                                        "endLine": 14,
+                                                        "startColumn": 5,
+                                                        "startLine": 14
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 8,
+                                            "kinds": [
+                                                "return"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.taint.ReturnRelayTwoHopPositive#run():1:(%1 = dataflowbench.taint.ReturnRelayTwoHopPositive.secondRelay(%0))",
+                                                        "fullyQualifiedName": "dataflowbench.taint.ReturnRelayTwoHopPositive#run"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "Method \"secondRelay\" propagates marked data from a local variable to a local variable"
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/taint/ReturnRelayTwoHopPositive.java",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 47,
+                                                        "endLine": 19,
+                                                        "startColumn": 22,
+                                                        "startLine": 19
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 9,
+                                            "kinds": [
+                                                "taint"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.taint.ReturnRelayTwoHopPositive#run():2:(dataflowbench.taint.ReturnRelayTwoHopPositive.dfb_sink(%1))",
+                                                        "fullyQualifiedName": "dataflowbench.taint.ReturnRelayTwoHopPositive#run"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "DataFlowBench benchmark-controlled endpoint flow"
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/taint/ReturnRelayTwoHopPositive.java",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 25,
+                                                        "endLine": 20,
+                                                        "startColumn": 9,
+                                                        "startLine": 20
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ],
+                    "level": "error",
+                    "locations": [
+                        {
+                            "logicalLocations": [
+                                {
+                                    "decoratedName": "dataflowbench.taint.ReturnRelayTwoHopPositive#run():2:(dataflowbench.taint.ReturnRelayTwoHopPositive.dfb_sink(%1))",
+                                    "fullyQualifiedName": "dataflowbench.taint.ReturnRelayTwoHopPositive#run"
+                                }
+                            ],
+                            "physicalLocation": {
+                                "artifactLocation": {
+                                    "uri": "dataflowbench/taint/ReturnRelayTwoHopPositive.java",
+                                    "uriBaseId": "%SRCROOT%"
+                                },
+                                "region": {
+                                    "endColumn": 25,
+                                    "endLine": 20,
+                                    "startColumn": 9,
+                                    "startLine": 20
+                                }
+                            }
+                        }
+                    ],
+                    "message": {
+                        "text": "DataFlowBench benchmark-controlled endpoint flow"
+                    },
+                    "ruleId": ":dfb-opentaint-kernel"
+                }
+            ]
         }
     ]
 }

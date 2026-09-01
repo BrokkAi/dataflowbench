@@ -35,7 +35,134 @@
                     "version": "latest"
                 }
             },
-            "results": []
+            "results": [
+                {
+                    "codeFlows": [
+                        {
+                            "threadFlows": [
+                                {
+                                    "locations": [
+                                        {
+                                            "executionOrder": 0,
+                                            "kinds": [
+                                                "taint"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.taint.ComputedPropertyNegative#run():7:(%5.setInt(%0, %7))",
+                                                        "fullyQualifiedName": "dataflowbench.taint.ComputedPropertyNegative#run"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "Puts marked data to a local variable"
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/taint/ComputedPropertyNegative.java",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 46,
+                                                        "endLine": 22,
+                                                        "startColumn": 9,
+                                                        "startLine": 22
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 1,
+                                            "kinds": [
+                                                "unknown"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.taint.ComputedPropertyNegative#run():10:(%11 = %9.getInt(%0))",
+                                                        "fullyQualifiedName": "dataflowbench.taint.ComputedPropertyNegative#run"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "Method \"getInt\" propagates marked data from a local variable to a local variable"
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/taint/ComputedPropertyNegative.java",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 37,
+                                                        "endLine": 24,
+                                                        "startColumn": 18,
+                                                        "startLine": 24
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 2,
+                                            "kinds": [
+                                                "taint"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.taint.ComputedPropertyNegative#run():11:(dataflowbench.taint.ComputedPropertyNegative.dfb_sink(%11))",
+                                                        "fullyQualifiedName": "dataflowbench.taint.ComputedPropertyNegative#run"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "DataFlowBench benchmark-controlled endpoint flow"
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/taint/ComputedPropertyNegative.java",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 38,
+                                                        "endLine": 24,
+                                                        "startColumn": 9,
+                                                        "startLine": 24
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ],
+                    "level": "error",
+                    "locations": [
+                        {
+                            "logicalLocations": [
+                                {
+                                    "decoratedName": "dataflowbench.taint.ComputedPropertyNegative#run():11:(dataflowbench.taint.ComputedPropertyNegative.dfb_sink(%11))",
+                                    "fullyQualifiedName": "dataflowbench.taint.ComputedPropertyNegative#run"
+                                }
+                            ],
+                            "physicalLocation": {
+                                "artifactLocation": {
+                                    "uri": "dataflowbench/taint/ComputedPropertyNegative.java",
+                                    "uriBaseId": "%SRCROOT%"
+                                },
+                                "region": {
+                                    "endColumn": 38,
+                                    "endLine": 24,
+                                    "startColumn": 9,
+                                    "startLine": 24
+                                }
+                            }
+                        }
+                    ],
+                    "message": {
+                        "text": "DataFlowBench benchmark-controlled endpoint flow"
+                    },
+                    "ruleId": ":dfb-opentaint-kernel"
+                }
+            ]
         }
     ]
 }

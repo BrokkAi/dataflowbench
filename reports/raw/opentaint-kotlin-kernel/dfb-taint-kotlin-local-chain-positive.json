@@ -35,7 +35,105 @@
                     "version": "latest"
                 }
             },
-            "results": []
+            "results": [
+                {
+                    "codeFlows": [
+                        {
+                            "threadFlows": [
+                                {
+                                    "locations": [
+                                        {
+                                            "executionOrder": 0,
+                                            "kinds": [
+                                                "taint"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.LocalChainPositive#run():0:(third = this.dfb_source())",
+                                                        "fullyQualifiedName": "dataflowbench.LocalChainPositive#run"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "Call to \"dfb_source\" puts marked data to \"third\""
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/LocalChainPositive.kt",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 33,
+                                                        "endLine": 11,
+                                                        "startColumn": 9,
+                                                        "startLine": 11
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 1,
+                                            "kinds": [
+                                                "taint"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.LocalChainPositive#run():1:(this.dfb_sink(third))",
+                                                        "fullyQualifiedName": "dataflowbench.LocalChainPositive#run"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "DataFlowBench benchmark-controlled endpoint flow"
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/LocalChainPositive.kt",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 24,
+                                                        "endLine": 14,
+                                                        "startColumn": 9,
+                                                        "startLine": 14
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ],
+                    "level": "error",
+                    "locations": [
+                        {
+                            "logicalLocations": [
+                                {
+                                    "decoratedName": "dataflowbench.LocalChainPositive#run():1:(this.dfb_sink(third))",
+                                    "fullyQualifiedName": "dataflowbench.LocalChainPositive#run"
+                                }
+                            ],
+                            "physicalLocation": {
+                                "artifactLocation": {
+                                    "uri": "dataflowbench/LocalChainPositive.kt",
+                                    "uriBaseId": "%SRCROOT%"
+                                },
+                                "region": {
+                                    "endColumn": 24,
+                                    "endLine": 14,
+                                    "startColumn": 9,
+                                    "startLine": 14
+                                }
+                            }
+                        }
+                    ],
+                    "message": {
+                        "text": "DataFlowBench benchmark-controlled endpoint flow"
+                    },
+                    "ruleId": ":dfb-opentaint-kernel"
+                }
+            ]
         }
     ]
 }

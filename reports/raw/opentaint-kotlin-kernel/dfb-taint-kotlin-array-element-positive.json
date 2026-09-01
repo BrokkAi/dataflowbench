@@ -35,7 +35,134 @@
                     "version": "latest"
                 }
             },
-            "results": []
+            "results": [
+                {
+                    "codeFlows": [
+                        {
+                            "threadFlows": [
+                                {
+                                    "locations": [
+                                        {
+                                            "executionOrder": 0,
+                                            "kinds": [
+                                                "taint"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.ArrayElementPositive#run():2:(values[0] = %2)",
+                                                        "fullyQualifiedName": "dataflowbench.ArrayElementPositive#run"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "Puts marked data to \"values\""
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/ArrayElementPositive.kt",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 33,
+                                                        "endLine": 12,
+                                                        "startColumn": 9,
+                                                        "startLine": 12
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 1,
+                                            "kinds": [
+                                                "unknown"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.ArrayElementPositive#run():3:(values[1] = 0)",
+                                                        "fullyQualifiedName": "dataflowbench.ArrayElementPositive#run"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "\"values[1]\" is assigned a value with marked data"
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/ArrayElementPositive.kt",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 18,
+                                                        "endLine": 13,
+                                                        "startColumn": 9,
+                                                        "startLine": 13
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 2,
+                                            "kinds": [
+                                                "taint"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.ArrayElementPositive#run():5:(this.dfb_sink(%3))",
+                                                        "fullyQualifiedName": "dataflowbench.ArrayElementPositive#run"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "DataFlowBench benchmark-controlled endpoint flow"
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/ArrayElementPositive.kt",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 28,
+                                                        "endLine": 14,
+                                                        "startColumn": 9,
+                                                        "startLine": 14
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ],
+                    "level": "error",
+                    "locations": [
+                        {
+                            "logicalLocations": [
+                                {
+                                    "decoratedName": "dataflowbench.ArrayElementPositive#run():5:(this.dfb_sink(%3))",
+                                    "fullyQualifiedName": "dataflowbench.ArrayElementPositive#run"
+                                }
+                            ],
+                            "physicalLocation": {
+                                "artifactLocation": {
+                                    "uri": "dataflowbench/ArrayElementPositive.kt",
+                                    "uriBaseId": "%SRCROOT%"
+                                },
+                                "region": {
+                                    "endColumn": 28,
+                                    "endLine": 14,
+                                    "startColumn": 9,
+                                    "startLine": 14
+                                }
+                            }
+                        }
+                    ],
+                    "message": {
+                        "text": "DataFlowBench benchmark-controlled endpoint flow"
+                    },
+                    "ruleId": ":dfb-opentaint-kernel"
+                }
+            ]
         }
     ]
 }

@@ -1,0 +1,45 @@
+rules:
+  - id: value-kind-string
+    severity: ERROR
+    message: primitive-tracking probe (string)
+    languages: [java]
+    mode: taint
+    pattern-sources:
+      - pattern: string_src()
+    pattern-sinks:
+      - patterns:
+          - pattern: string_sink($DFBVAL);
+          - focus-metavariable: $DFBVAL
+  - id: value-kind-object
+    severity: ERROR
+    message: primitive-tracking probe (object)
+    languages: [java]
+    mode: taint
+    pattern-sources:
+      - pattern: object_src()
+    pattern-sinks:
+      - patterns:
+          - pattern: object_sink($DFBVAL);
+          - focus-metavariable: $DFBVAL
+  - id: value-kind-int
+    severity: ERROR
+    message: primitive-tracking probe (int)
+    languages: [java]
+    mode: taint
+    pattern-sources:
+      - pattern: int_src()
+    pattern-sinks:
+      - patterns:
+          - pattern: int_sink($DFBVAL);
+          - focus-metavariable: $DFBVAL
+  - id: value-kind-boxed
+    severity: ERROR
+    message: primitive-tracking probe (boxed)
+    languages: [java]
+    mode: taint
+    pattern-sources:
+      - pattern: boxed_src()
+    pattern-sinks:
+      - patterns:
+          - pattern: boxed_sink($DFBVAL);
+          - focus-metavariable: $DFBVAL

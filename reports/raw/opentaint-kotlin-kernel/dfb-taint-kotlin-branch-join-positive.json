@@ -35,7 +35,105 @@
                     "version": "latest"
                 }
             },
-            "results": []
+            "results": [
+                {
+                    "codeFlows": [
+                        {
+                            "threadFlows": [
+                                {
+                                    "locations": [
+                                        {
+                                            "executionOrder": 0,
+                                            "kinds": [
+                                                "taint"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.BranchJoinPositive#run(boolean):0:(value = this.dfb_source())",
+                                                        "fullyQualifiedName": "dataflowbench.BranchJoinPositive#run"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "Call to \"dfb_source\" puts marked data to \"value\""
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/BranchJoinPositive.kt",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 33,
+                                                        "endLine": 11,
+                                                        "startColumn": 9,
+                                                        "startLine": 11
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 1,
+                                            "kinds": [
+                                                "taint"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.BranchJoinPositive#run(boolean):4:(this.dfb_sink(value))",
+                                                        "fullyQualifiedName": "dataflowbench.BranchJoinPositive#run"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "DataFlowBench benchmark-controlled endpoint flow"
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/BranchJoinPositive.kt",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 24,
+                                                        "endLine": 16,
+                                                        "startColumn": 9,
+                                                        "startLine": 16
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ],
+                    "level": "error",
+                    "locations": [
+                        {
+                            "logicalLocations": [
+                                {
+                                    "decoratedName": "dataflowbench.BranchJoinPositive#run(boolean):4:(this.dfb_sink(value))",
+                                    "fullyQualifiedName": "dataflowbench.BranchJoinPositive#run"
+                                }
+                            ],
+                            "physicalLocation": {
+                                "artifactLocation": {
+                                    "uri": "dataflowbench/BranchJoinPositive.kt",
+                                    "uriBaseId": "%SRCROOT%"
+                                },
+                                "region": {
+                                    "endColumn": 24,
+                                    "endLine": 16,
+                                    "startColumn": 9,
+                                    "startLine": 16
+                                }
+                            }
+                        }
+                    ],
+                    "message": {
+                        "text": "DataFlowBench benchmark-controlled endpoint flow"
+                    },
+                    "ruleId": ":dfb-opentaint-kernel"
+                }
+            ]
         }
     ]
 }

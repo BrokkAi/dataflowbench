@@ -35,7 +35,105 @@
                     "version": "latest"
                 }
             },
-            "results": []
+            "results": [
+                {
+                    "codeFlows": [
+                        {
+                            "threadFlows": [
+                                {
+                                    "locations": [
+                                        {
+                                            "executionOrder": 0,
+                                            "kinds": [
+                                                "taint"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.taint.LoopCarriedPositive#run():0:(%0 = dataflowbench.taint.LoopCarriedPositive.dfb_source())",
+                                                        "fullyQualifiedName": "dataflowbench.taint.LoopCarriedPositive#run"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "Call to \"dfb_source\" puts marked data to a local variable"
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/taint/LoopCarriedPositive.java",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 33,
+                                                        "endLine": 11,
+                                                        "startColumn": 21,
+                                                        "startLine": 11
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 1,
+                                            "kinds": [
+                                                "taint"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.taint.LoopCarriedPositive#run():11:(dataflowbench.taint.LoopCarriedPositive.dfb_sink(%3))",
+                                                        "fullyQualifiedName": "dataflowbench.taint.LoopCarriedPositive#run"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "DataFlowBench benchmark-controlled endpoint flow"
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/taint/LoopCarriedPositive.java",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 24,
+                                                        "endLine": 15,
+                                                        "startColumn": 9,
+                                                        "startLine": 15
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ],
+                    "level": "error",
+                    "locations": [
+                        {
+                            "logicalLocations": [
+                                {
+                                    "decoratedName": "dataflowbench.taint.LoopCarriedPositive#run():11:(dataflowbench.taint.LoopCarriedPositive.dfb_sink(%3))",
+                                    "fullyQualifiedName": "dataflowbench.taint.LoopCarriedPositive#run"
+                                }
+                            ],
+                            "physicalLocation": {
+                                "artifactLocation": {
+                                    "uri": "dataflowbench/taint/LoopCarriedPositive.java",
+                                    "uriBaseId": "%SRCROOT%"
+                                },
+                                "region": {
+                                    "endColumn": 24,
+                                    "endLine": 15,
+                                    "startColumn": 9,
+                                    "startLine": 15
+                                }
+                            }
+                        }
+                    ],
+                    "message": {
+                        "text": "DataFlowBench benchmark-controlled endpoint flow"
+                    },
+                    "ruleId": ":dfb-opentaint-kernel"
+                }
+            ]
         }
     ]
 }

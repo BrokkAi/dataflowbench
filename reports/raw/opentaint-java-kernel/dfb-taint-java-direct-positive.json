@@ -35,7 +35,105 @@
                     "version": "latest"
                 }
             },
-            "results": []
+            "results": [
+                {
+                    "codeFlows": [
+                        {
+                            "threadFlows": [
+                                {
+                                    "locations": [
+                                        {
+                                            "executionOrder": 0,
+                                            "kinds": [
+                                                "taint"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.taint.DirectPositive#run():0:(%0 = dataflowbench.taint.DirectPositive.directUntrustedInput())",
+                                                        "fullyQualifiedName": "dataflowbench.taint.DirectPositive#run"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "Call to \"directUntrustedInput\" puts marked data to a local variable"
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/taint/DirectPositive.java",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 44,
+                                                        "endLine": 11,
+                                                        "startColumn": 22,
+                                                        "startLine": 11
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 1,
+                                            "kinds": [
+                                                "taint"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.taint.DirectPositive#run():1:(dataflowbench.taint.DirectPositive.recordDirect(%0))",
+                                                        "fullyQualifiedName": "dataflowbench.taint.DirectPositive#run"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "DataFlowBench benchmark-controlled endpoint flow"
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/taint/DirectPositive.java",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 45,
+                                                        "endLine": 11,
+                                                        "startColumn": 9,
+                                                        "startLine": 11
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ],
+                    "level": "error",
+                    "locations": [
+                        {
+                            "logicalLocations": [
+                                {
+                                    "decoratedName": "dataflowbench.taint.DirectPositive#run():1:(dataflowbench.taint.DirectPositive.recordDirect(%0))",
+                                    "fullyQualifiedName": "dataflowbench.taint.DirectPositive#run"
+                                }
+                            ],
+                            "physicalLocation": {
+                                "artifactLocation": {
+                                    "uri": "dataflowbench/taint/DirectPositive.java",
+                                    "uriBaseId": "%SRCROOT%"
+                                },
+                                "region": {
+                                    "endColumn": 45,
+                                    "endLine": 11,
+                                    "startColumn": 9,
+                                    "startLine": 11
+                                }
+                            }
+                        }
+                    ],
+                    "message": {
+                        "text": "DataFlowBench benchmark-controlled endpoint flow"
+                    },
+                    "ruleId": ":dfb-opentaint-kernel"
+                }
+            ]
         }
     ]
 }

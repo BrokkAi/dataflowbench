@@ -35,7 +35,453 @@
                     "version": "latest"
                 }
             },
-            "results": []
+            "results": [
+                {
+                    "codeFlows": [
+                        {
+                            "threadFlows": [
+                                {
+                                    "locations": [
+                                        {
+                                            "executionOrder": 0,
+                                            "kinds": [
+                                                "taint"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.taint.DeepRelayChainPositive#run():0:(%0 = dataflowbench.taint.DeepRelayChainPositive.dfb_source())",
+                                                        "fullyQualifiedName": "dataflowbench.taint.DeepRelayChainPositive#run"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "Call to \"dfb_source\" puts marked data to a local variable"
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/taint/DeepRelayChainPositive.java",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 28,
+                                                        "endLine": 35,
+                                                        "startColumn": 16,
+                                                        "startLine": 35
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 1,
+                                            "kinds": [
+                                                "unknown"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.taint.DeepRelayChainPositive#run():1:(dataflowbench.taint.DeepRelayChainPositive.relay1(%0))",
+                                                        "fullyQualifiedName": "dataflowbench.taint.DeepRelayChainPositive#run"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "Calling \"relay1\" with marked data at a local variable"
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/taint/DeepRelayChainPositive.java",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 29,
+                                                        "endLine": 35,
+                                                        "startColumn": 9,
+                                                        "startLine": 35
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 2,
+                                            "kinds": [
+                                                "unknown"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.taint.DeepRelayChainPositive#relay1(int):0:(dataflowbench.taint.DeepRelayChainPositive.relay2(arg$0))",
+                                                        "fullyQualifiedName": "dataflowbench.taint.DeepRelayChainPositive#relay1"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "Entering \"relay1\" with marked data at the 1st argument of \"relay1\""
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/taint/DeepRelayChainPositive.java",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 34,
+                                                        "endLine": 10,
+                                                        "startColumn": 12,
+                                                        "startLine": 10
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 3,
+                                            "kinds": [
+                                                "unknown"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.taint.DeepRelayChainPositive#relay1(int):0:(dataflowbench.taint.DeepRelayChainPositive.relay2(arg$0))",
+                                                        "fullyQualifiedName": "dataflowbench.taint.DeepRelayChainPositive#relay1"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "Calling \"relay2\" with marked data at the 1st argument of \"relay1\""
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/taint/DeepRelayChainPositive.java",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 22,
+                                                        "endLine": 11,
+                                                        "startColumn": 9,
+                                                        "startLine": 11
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 4,
+                                            "kinds": [
+                                                "unknown"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.taint.DeepRelayChainPositive#relay2(int):0:(dataflowbench.taint.DeepRelayChainPositive.relay3(arg$0))",
+                                                        "fullyQualifiedName": "dataflowbench.taint.DeepRelayChainPositive#relay2"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "Entering \"relay2\" with marked data at the 1st argument of \"relay2\""
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/taint/DeepRelayChainPositive.java",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 34,
+                                                        "endLine": 14,
+                                                        "startColumn": 12,
+                                                        "startLine": 14
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 5,
+                                            "kinds": [
+                                                "unknown"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.taint.DeepRelayChainPositive#relay2(int):0:(dataflowbench.taint.DeepRelayChainPositive.relay3(arg$0))",
+                                                        "fullyQualifiedName": "dataflowbench.taint.DeepRelayChainPositive#relay2"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "Calling \"relay3\" with marked data at the 1st argument of \"relay2\""
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/taint/DeepRelayChainPositive.java",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 22,
+                                                        "endLine": 15,
+                                                        "startColumn": 9,
+                                                        "startLine": 15
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 6,
+                                            "kinds": [
+                                                "unknown"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.taint.DeepRelayChainPositive#relay3(int):0:(dataflowbench.taint.DeepRelayChainPositive.relay4(arg$0))",
+                                                        "fullyQualifiedName": "dataflowbench.taint.DeepRelayChainPositive#relay3"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "Entering \"relay3\" with marked data at the 1st argument of \"relay3\""
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/taint/DeepRelayChainPositive.java",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 34,
+                                                        "endLine": 18,
+                                                        "startColumn": 12,
+                                                        "startLine": 18
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 7,
+                                            "kinds": [
+                                                "unknown"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.taint.DeepRelayChainPositive#relay3(int):0:(dataflowbench.taint.DeepRelayChainPositive.relay4(arg$0))",
+                                                        "fullyQualifiedName": "dataflowbench.taint.DeepRelayChainPositive#relay3"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "Calling \"relay4\" with marked data at the 1st argument of \"relay3\""
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/taint/DeepRelayChainPositive.java",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 22,
+                                                        "endLine": 19,
+                                                        "startColumn": 9,
+                                                        "startLine": 19
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 8,
+                                            "kinds": [
+                                                "unknown"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.taint.DeepRelayChainPositive#relay4(int):0:(dataflowbench.taint.DeepRelayChainPositive.relay5(arg$0))",
+                                                        "fullyQualifiedName": "dataflowbench.taint.DeepRelayChainPositive#relay4"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "Entering \"relay4\" with marked data at the 1st argument of \"relay4\""
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/taint/DeepRelayChainPositive.java",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 34,
+                                                        "endLine": 22,
+                                                        "startColumn": 12,
+                                                        "startLine": 22
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 9,
+                                            "kinds": [
+                                                "unknown"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.taint.DeepRelayChainPositive#relay4(int):0:(dataflowbench.taint.DeepRelayChainPositive.relay5(arg$0))",
+                                                        "fullyQualifiedName": "dataflowbench.taint.DeepRelayChainPositive#relay4"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "Calling \"relay5\" with marked data at the 1st argument of \"relay4\""
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/taint/DeepRelayChainPositive.java",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 22,
+                                                        "endLine": 23,
+                                                        "startColumn": 9,
+                                                        "startLine": 23
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 10,
+                                            "kinds": [
+                                                "unknown"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.taint.DeepRelayChainPositive#relay5(int):0:(dataflowbench.taint.DeepRelayChainPositive.relay6(arg$0))",
+                                                        "fullyQualifiedName": "dataflowbench.taint.DeepRelayChainPositive#relay5"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "Entering \"relay5\" with marked data at the 1st argument of \"relay5\""
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/taint/DeepRelayChainPositive.java",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 34,
+                                                        "endLine": 26,
+                                                        "startColumn": 12,
+                                                        "startLine": 26
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 11,
+                                            "kinds": [
+                                                "unknown"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.taint.DeepRelayChainPositive#relay5(int):0:(dataflowbench.taint.DeepRelayChainPositive.relay6(arg$0))",
+                                                        "fullyQualifiedName": "dataflowbench.taint.DeepRelayChainPositive#relay5"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "Calling \"relay6\" with marked data at the 1st argument of \"relay5\""
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/taint/DeepRelayChainPositive.java",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 22,
+                                                        "endLine": 27,
+                                                        "startColumn": 9,
+                                                        "startLine": 27
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 12,
+                                            "kinds": [
+                                                "unknown"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.taint.DeepRelayChainPositive#relay6(int):0:(dataflowbench.taint.DeepRelayChainPositive.dfb_sink(arg$0))",
+                                                        "fullyQualifiedName": "dataflowbench.taint.DeepRelayChainPositive#relay6"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "Entering \"relay6\" with marked data at the 1st argument of \"relay6\""
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/taint/DeepRelayChainPositive.java",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 34,
+                                                        "endLine": 30,
+                                                        "startColumn": 12,
+                                                        "startLine": 30
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 13,
+                                            "kinds": [
+                                                "taint"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.taint.DeepRelayChainPositive#relay6(int):0:(dataflowbench.taint.DeepRelayChainPositive.dfb_sink(arg$0))",
+                                                        "fullyQualifiedName": "dataflowbench.taint.DeepRelayChainPositive#relay6"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "DataFlowBench benchmark-controlled endpoint flow"
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/taint/DeepRelayChainPositive.java",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 24,
+                                                        "endLine": 31,
+                                                        "startColumn": 9,
+                                                        "startLine": 31
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ],
+                    "level": "error",
+                    "locations": [
+                        {
+                            "logicalLocations": [
+                                {
+                                    "decoratedName": "dataflowbench.taint.DeepRelayChainPositive#relay6(int):0:(dataflowbench.taint.DeepRelayChainPositive.dfb_sink(arg$0))",
+                                    "fullyQualifiedName": "dataflowbench.taint.DeepRelayChainPositive#relay6"
+                                }
+                            ],
+                            "physicalLocation": {
+                                "artifactLocation": {
+                                    "uri": "dataflowbench/taint/DeepRelayChainPositive.java",
+                                    "uriBaseId": "%SRCROOT%"
+                                },
+                                "region": {
+                                    "endColumn": 24,
+                                    "endLine": 31,
+                                    "startColumn": 9,
+                                    "startLine": 31
+                                }
+                            }
+                        }
+                    ],
+                    "message": {
+                        "text": "DataFlowBench benchmark-controlled endpoint flow"
+                    },
+                    "ruleId": ":dfb-opentaint-kernel"
+                }
+            ]
         }
     ]
 }
