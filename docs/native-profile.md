@@ -626,7 +626,7 @@ same sink is flagged. Under
 is a false positive, and it is the single most likely observation this profile
 will produce about any tool.
 
-### Bifrost — v0.10.7, shipped policy packs
+### Bifrost — v0.10.8, shipped policy packs
 
 **Activation contract.** Built-in policy packs only: `--policy-pack` /
 `--policy-category` / `--policy-id` over the catalog `--list-policies` prints.
@@ -658,7 +658,7 @@ problem statement records the starting position: *"Zero procedure-summary packs
 ship. The embedded registry holds generator-rule packs only."*
 
 **Verification note.** The build pinned when this document was written —
-v0.10.6, since re-pinned to v0.10.7 — was not available at the time; a locally
+v0.10.6, since re-pinned to v0.10.8 — was not available at the time; a locally
 installed **v0.9.5** was inspected. Its
 `--list-policies` catalog contains exactly one pack, `bifrost.code-smells`
 v1.5.0, whose fourteen policies are all `correctness` or `performance`
@@ -974,7 +974,7 @@ until shown otherwise.
 > promotes Python's six to scored and keys the partition by language. Every cell
 > for every language with no amendment row is still the cell below.
 
-| # | Template | Cat. | Bifrost v0.10.7 | CodeQL 2.26.4 | Joern 4.0.614 | Semgrep CE 1.175.0 |
+| # | Template | Cat. | Bifrost v0.10.8 | CodeQL 2.26.4 | Joern 4.0.614 | Semgrep CE 1.175.0 |
 | --- | --- | --- | --- | --- | --- | --- |
 | 1 | `native-source-sink` | S | unsupported | supported | unsupported | TBV |
 | 2 | `native-propagator` | P | unsupported | supported | unsupported | TBV |
@@ -1400,7 +1400,7 @@ amendment to make. This is that amendment.
 **Why the outcome does not move with the citation.** The two profiles ask
 different questions of the same binary, and only one of them can reach the
 stanza A9 measured. A sanitizer declaration arrives through `--policy-file`,
-which [this profile's activation contract](#bifrost--v0107-shipped-policy-packs)
+which [this profile's activation contract](#bifrost--v0108-shipped-policy-packs)
 forbids outright and the no-benchmark-models gate refuses. What the built-in
 packs ship is what remains, and they declare no sanitizer — and, prior to that,
 no source and no sink for a sanitizer to sit between, which is the same absent
@@ -1416,7 +1416,7 @@ shared by all three. No template of any other tool changes, and the
 [partition summary](#partition-summary) is unchanged.
 
 **Where the wording now stands.** The [Bifrost row's rationale
-table](#bifrost--v0107-shipped-policy-packs) and its mirrored constant in
+table](#bifrost--v0108-shipped-policy-packs) and its mirrored constant in
 `NATIVE_PARTITION` (`src/main.rs`) both name the endpoint-catalog grounds and
 cite this amendment; the paragraph above the table records the retired sentence
 as retired rather than dropping it, because a preregistration that quietly
