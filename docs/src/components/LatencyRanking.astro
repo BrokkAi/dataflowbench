@@ -470,10 +470,18 @@ const environment = model.environments[0];
     </strong>{' '}
     There are no repeated trials and no warm-up iterations: the case population
     is the sample and its spread is the statistics, so the whiskers are that
-    spread and not error bars on a repeated measurement. Read this as
-    characterization of what the benchmark actually costs to run, at the
-    order-of-magnitude and shape level, and not as a precise figure for any
-    engine. The full contract, the per-adapter granularity, the cache
+    spread and not error bars on a repeated measurement.{' '}
+    <strong>
+      Every number is a cold start: each case spawns a fresh process, so JVM
+      tools (Joern, OpenTaint, FlowDroid) pay full JVM start-up in every
+      invocation, and Pysa pays Pyre initialization.
+    </strong>{' '}
+    In a resident deployment those costs amortize to once per session, so
+    cross-runtime comparisons here overstate the steady-state gap; the boot
+    share of a single invocation is not adapter-observable and is included,
+    stated rather than estimated. Read this as characterization of what the
+    benchmark actually costs to run, at the order-of-magnitude and shape
+    level, and not as a precise figure for any engine. The full contract, the per-adapter granularity, the cache
     declarations and every quartile are on the{' '}
     <a href="/dataflowbench/snapshots/v0-6-0/latency/">latency page</a>.
   </p>
