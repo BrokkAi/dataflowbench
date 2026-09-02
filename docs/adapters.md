@@ -627,12 +627,6 @@ CE 0 of 6**. As amended, one line per adapter so additions compose:
   is propagation without endpoints, and the pinned release ships no rule set)
 
 The asymmetry with the
-=======
-bound; and **FlowDroid is 0 of 6 for Java** (Amendment A19) with a live
-activation contract — the shipped `SourcesAndSinks.txt` catalog and default
-summary wrapper from inside the pinned jar — whose catalog binds no identity
-any native template uses. The asymmetry with the
->>>>>>> origin/main
 benchmark-controlled matrix is the point rather than a defect — Joern scores four
 of six categories there on the same engine — because this profile measures
 product packaging and that one measures the engine. A declined cell is decided

@@ -10,6 +10,19 @@ permissions:
   contents: read
 
 jobs:
+  conflict-markers:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check tracked text files for merge conflict markers
+        # The patterns are anchored to the start of the line, so this
+        # script's own indented lines never match themselves. -I skips
+        # binary files.
+        run: |
+          if git grep -I -nE '^(<<<<<<< |=======$|>>>>>>> )' -- .; then
+            echo "::error::Merge conflict markers found in tracked files (see matches above)"
+            exit 1
+          fi
   validate:
     runs-on: ubuntu-latest
     steps:
