@@ -320,6 +320,11 @@ fixtures.
 
 ## Add a case or adapter
 
+To integrate a new analyzer end to end, follow the step-ordered
+[adding-an-adapter walkthrough](docs/adding-an-adapter.md); the
+[docs index](docs/README.md) maps the whole contract surface and defines the
+repository's vocabulary.
+
 Copy the shape in `cases/taint/java/`, keep marker anchors stable, and validate
 the case. The schema is versioned and deliberately analyzer-neutral. A `core`
 case will not validate until its opposite-polarity partner exists. Read the

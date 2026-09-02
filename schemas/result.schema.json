@@ -2,13 +2,103 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://dataflowbench.dev/schemas/result/v1",
   "title": "DataFlowBench normalized result v1",
+  "description": "One adapter run over one population: the witnessed tool identity, the bound configuration, and one normalized outcome per selected case, each backed by retained raw evidence.",
   "type": "object",
   "additionalProperties": false,
   "required": ["schema_version", "tool", "tool_version", "tool_build_identity", "adapter_version", "configuration_hash", "fixture_revision", "started_at_unix_seconds", "ended_at_unix_seconds", "cold_or_warm", "results"],
   "properties": {
-    "schema_version": { "const": 1 },
-    "tool": { "type": "string" }, "tool_version": { "type": "string" }, "tool_build_identity": { "type": "string" }, "adapter_version": { "type": "string" }, "configuration_hash": { "type": "string" }, "fixture_revision": { "type": "string" },
-    "started_at_unix_seconds": { "type": "integer" }, "ended_at_unix_seconds": { "type": "integer" }, "cold_or_warm": { "enum": ["cold", "warm"] },
-    "results": { "type": "array", "items": { "type": "object", "additionalProperties": false, "required": ["case_id", "outcome", "source_anchors", "sink_anchors", "witness_checkpoints", "diagnostics", "duration_ms", "raw_output"], "properties": { "case_id": { "type": "string" }, "outcome": { "enum": ["reached", "not-reached", "inconclusive", "unsupported", "runner-error"] }, "source_anchors": { "type": "array", "items": { "type": "string" } }, "sink_anchors": { "type": "array", "items": { "type": "string" } }, "witness_checkpoints": { "type": "array", "items": { "type": "string" } }, "diagnostics": { "type": "array", "items": { "type": "string" } }, "duration_ms": { "type": "integer", "minimum": 0 }, "peak_memory_mb": { "type": ["integer", "null"], "minimum": 1 }, "raw_output": { "type": "string" } } } }
+    "schema_version": {
+      "const": 1,
+      "description": "Normalized-result schema version. A freeze binds it as benchmark.result_schema_version and rejects a report at a different version."
+    },
+    "tool": {
+      "type": "string",
+      "description": "The analyzer this report is evidence for (e.g. bifrost, codeql, joern, semgrep, opentaint, infer, flowdroid, pysa)."
+    },
+    "tool_version": {
+      "type": "string",
+      "description": "The pinned analyzer version, witnessed from the installed artifact by the run itself, never taken from a changelog. Release and website freezes reject placeholders such as unknown or n/a."
+    },
+    "tool_build_identity": {
+      "type": "string",
+      "description": "The build the run was actually pinned to (e.g. a CodeQL build SHA); read from the binary's own banner once per run, so it names something the run witnessed rather than an asserted pin."
+    },
+    "adapter_version": {
+      "type": "string",
+      "description": "Version of the DataFlowBench adapter that produced this report; also rejected as a placeholder on release and website freezes."
+    },
+    "configuration_hash": {
+      "type": "string",
+      "description": "SHA-256 over the adapter's committed configuration — rules, queries, model files — so the report binds the rules, not just the tool. Any change to a bound configuration file changes this hash and invalidates prior evidence."
+    },
+    "fixture_revision": {
+      "type": "string",
+      "description": "sha256:-prefixed digest over the whole case corpus (every case file and every declared fixture, path and bytes). Reports at different fixture revisions are never pooled."
+    },
+    "started_at_unix_seconds": {
+      "type": "integer",
+      "description": "Unix wall-clock start of the run. Provenance only — never an input to a correctness outcome or a published latency figure, which come from the monotonic-clock timing sidecars."
+    },
+    "ended_at_unix_seconds": {
+      "type": "integer",
+      "description": "Unix wall-clock end of the run; provenance only, like started_at_unix_seconds."
+    },
+    "cold_or_warm": {
+      "enum": ["cold", "warm"],
+      "description": "Whether the run started from cold caches (fresh process or database per case, start-up cost inside the number) or reused warm state. Cold rows are the headline; a warm marginal cost is a separate, labelled figure never substituted for a cold one."
+    },
+    "results": {
+      "type": "array",
+      "description": "One record per selected case. A report covers exactly one adapter, one semantic track, one score dimension, and one model profile; a freeze rejects duplicate or incomplete result sets.",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["case_id", "outcome", "source_anchors", "sink_anchors", "witness_checkpoints", "diagnostics", "duration_ms", "raw_output"],
+        "properties": {
+          "case_id": {
+            "type": "string",
+            "description": "The id of the case this record answers; appears exactly once in the report."
+          },
+          "outcome": {
+            "enum": ["reached", "not-reached", "inconclusive", "unsupported", "runner-error"],
+            "description": "The normalized state, the only five an adapter may emit. reached: anchor-backed evidence of the flow. not-reached: a successful run whose retained evidence shows no matching flow — an incomplete or failed run must never become not-reached merely because the finding list is empty. inconclusive: the tool ran but its evidence is unresolved or incomplete; decided after the run. unsupported: outside the tool's documented profile, decided from case metadata before the tool is invoked, and excluded from false-negative interpretation. runner-error: the invocation failed, with the raw failure evidence retained. The last three are coverage outcomes and are never converted into negatives."
+          },
+          "source_anchors": {
+            "type": "array",
+            "items": { "type": "string" },
+            "description": "The case's source anchors, copied verbatim; the normalizer copies, it does not re-derive."
+          },
+          "sink_anchors": {
+            "type": "array",
+            "items": { "type": "string" },
+            "description": "The case's sink anchors, copied verbatim, so a reader can check which finding was reconciled against which endpoint."
+          },
+          "witness_checkpoints": {
+            "type": "array",
+            "items": { "type": "string" },
+            "description": "Checkpoints the tool actually reported traversing — never synthesized from the case's expectations. Adapters that record only anchor-backed flow outcomes leave this empty and keep path evidence in the raw document."
+          },
+          "diagnostics": {
+            "type": "array",
+            "items": { "type": "string" },
+            "description": "Runner and tool diagnostics retained for audit, including capability-decision rationales and front-end maturity labels."
+          },
+          "duration_ms": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Wall-clock milliseconds for this case from the runner's monotonic clock around the analyzer subprocesses the adapter owns. Additive metadata: no correctness outcome may read it."
+          },
+          "peak_memory_mb": {
+            "type": ["integer", "null"],
+            "minimum": 1,
+            "description": "Peak resident memory in MiB, or null when the adapter cannot observe it."
+          },
+          "raw_output": {
+            "type": "string",
+            "description": "Repository-relative path to the retained raw evidence for this case — the tool's native document, a runner-error record, or a capability-decision document. Freeze validation digests the file and rejects a report claiming a clean not-reached over raw evidence that declares otherwise."
+          }
+        }
+      }
+    }
   }
 }
