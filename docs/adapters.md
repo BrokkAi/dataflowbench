@@ -187,10 +187,13 @@ naming **v0.10.7** as the measured environment's Bifrost — those are
 descriptions of retained evidence under the rule above, and re-labelling them
 to v0.10.8 would assert a measurement that was never performed.
 
-**This review moves declarations only.** The Bifrost evidence re-run follows
-separately; until it lands, retained reports, results tables, configuration
-hashes, and the Amendment A5/A9/A10 measurement records keep naming the build
-they were produced on.
+**This review moved declarations only; the evidence re-run followed.** The
+twenty Bifrost slices were re-executed on v0.10.8 in a settle-gated quiet
+window and are bound by the **v0.6.1** freeze, whose reports, results tables
+and configuration hashes name build `419395c8`. Everything outside those
+twenty slices — the other sixty-two reports, the latency corpus, and the
+Amendment A5/A9/A10 measurement records — still names the build it was
+produced on, because none of it was re-run.
 
 ## Challenge-tier rollout mechanics
 

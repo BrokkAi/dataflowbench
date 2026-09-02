@@ -1,0 +1,36 @@
+---
+title: Semantic templates — v0.6.1
+description: Per-template positive/negative outcomes for every scorecard, across both model profiles.
+---
+
+import TemplateMatrix from '../../../../components/TemplateMatrix.astro';
+import { snapshots } from '../../../../data/snapshots';
+
+export const snapshot = snapshots.find((s) => s.version === 'v0.6.1');
+
+Each scored template is a balanced pair: one positive case (the flow exists)
+and one minimally different negative case (it does not). Reading a row: a
+sound-and-precise analyzer shows `reached` / `not-reached`.
+
+Three template families appear here, and they belong to different populations.
+`chal-*` and the unprefixed kernel templates are the benchmark-controlled
+kernels. `model-*` templates are the modeling matrix, also
+benchmark-controlled: twelve templates in six categories, where a category the
+tool's own model surface cannot express is `unsupported` before the tool runs.
+`native-*` templates are the tool-native probe set, where the tool decides with
+nothing supplied by us. The **Model profile** column separates the last of
+these from the first two; **rows from different profiles are never comparable**,
+and a `native-*` row of `unsupported` / `unsupported` is a declared decline,
+not two wrong answers.
+
+This is the page on which the Bifrost fix cycle is legible cell by cell. Six
+template rows in Bifrost's columns changed and no others did:
+`infeasible-branch` for csharp and ruby and `loop-carried` for csharp and go
+lose their false positives; `element-object` for java, javascript, and
+typescript and `recursive-carry` for rust turn from a declined pair into a
+correct pair; and `array-element` for go moves the other way, from a correct
+pair to a declined one under bifrost-dev#2831. That last row is the reason
+this page is worth reading rather than the summary: a net improvement still
+has a cell that got worse, and it is right here.
+
+<TemplateMatrix snapshot={snapshot} />

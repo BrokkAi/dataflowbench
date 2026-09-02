@@ -7,7 +7,7 @@ export default defineConfig({
   site: 'https://dataflowbench.brokk.ai',
   redirects: {
     // Explicit current-snapshot pointer alongside versioned snapshot URLs.
-    '/current': '/snapshots/v0-6-0/',
+    '/current': '/snapshots/v0-6-1/',
   },
   integrations: [
     starlight({
@@ -39,7 +39,23 @@ export default defineConfig({
           items: [
             { label: 'All snapshots', slug: 'snapshots' },
             {
-              label: 'v0.6.0 (current)',
+              label: 'v0.6.1 (current)',
+              items: [
+                { label: 'Snapshot overview', slug: 'snapshots/v0-6-1' },
+                { label: 'Analyzers', slug: 'snapshots/v0-6-1/analyzers' },
+                { label: 'Languages', slug: 'snapshots/v0-6-1/languages' },
+                { label: 'Semantic templates', slug: 'snapshots/v0-6-1/templates' },
+                { label: 'Case evidence', slug: 'snapshots/v0-6-1/evidence' },
+                { label: 'Latency', slug: 'snapshots/v0-6-1/latency' },
+                {
+                  label: 'Analyzer profiles',
+                  slug: 'snapshots/v0-6-1/profiles',
+                },
+              ],
+            },
+            {
+              label: 'v0.6.0 (archived)',
+              collapsed: true,
               items: [
                 { label: 'Snapshot overview', slug: 'snapshots/v0-6-0' },
                 { label: 'Analyzers', slug: 'snapshots/v0-6-0/analyzers' },

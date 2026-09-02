@@ -4,7 +4,7 @@ Adapter `opentaint-kotlin-kernel`: `opentaint` `analyzer/2026.08.27.17eb0fe` (bu
 
 Track `taint`, score dimension `taint`, model profile `benchmark-controlled`. This scorecard is a single result population; it is never pooled with other tracks, dimensions, or model profiles.
 
-Normalized report: `reports/opentaint-kotlin-kernel.json` (`sha256:1fb872fea820eff6854141f77d883ef1312e1d498b0c4e850cbbe4788ce616ea`, normalized `sha256:1fb872fea820eff6854141f77d883ef1312e1d498b0c4e850cbbe4788ce616ea`). Generated from freeze manifest `reports/freeze.json` (`sha256:3228af686d09f8666989368483bef375bb28b94025b55e31eaa7a0bdd29506ee`).
+Normalized report: `reports/opentaint-kotlin-kernel.json` (`sha256:1fb872fea820eff6854141f77d883ef1312e1d498b0c4e850cbbe4788ce616ea`, normalized `sha256:1fb872fea820eff6854141f77d883ef1312e1d498b0c4e850cbbe4788ce616ea`). Generated from freeze manifest `reports/freeze.json` (`sha256:65638eafb36478120d268290479815114f244baa57994c47e19fac6b759e50ae`).
 
 ## Language `kotlin`, tier `core`
 

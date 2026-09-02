@@ -185,19 +185,19 @@ and no incomplete outcomes (under v0.10.2 it was 17/32). That population is
 frozen and does not grow; Java's expanded core is a separate slice, described
 under [the Java kernel](#java-kernel-expanded-core) below.
 
-**A retained configuration mismatch, published as observed.**
-`dfb-taint-java-direct-positive` is `reached` here and `not-reached` in
-`reports/bifrost-java-kernel.json`, at the same build and the same fixture
-revision. The two are separate populations with separate scorecards, both raw
-artifacts are retained and digest-bound, and neither run was repeated to force
-agreement: the freeze publishes what the runs produced. The 32/32 above is the
-smoke population's own result and the Java kernel's 31/32 is its own; neither
-supersedes the other. The raw reports show that the smoke run selected the
-fixture-compatible `direct-positive.rqlp`, while the Java-kernel adapter
-replaced it with `core-java-kernel.rqlp`, whose `dfb_source`/`dfb_sink`
-selectors bound zero endpoints in this legacy fixture. The adapter now keeps
-the direct pair's declared compatible policies prospectively; retained reports
-remain immutable until a fresh full-slice run supersedes them.
+**A configuration mismatch, found and resolved in v0.6.1.**
+`dfb-taint-java-direct-positive` was `reached` here and `not-reached` in
+`reports/bifrost-java-kernel.json` for three releases, at the same build and
+the same fixture revision, and was published as observed rather than re-run to
+agreement. The cause was ours: the smoke run selected the fixture-compatible
+`direct-positive.rqlp`, while the Java-kernel adapter replaced it with
+`core-java-kernel.rqlp`, whose `dfb_source`/`dfb_sink` selectors bind zero
+endpoints in this legacy fixture. The adapter now keeps each selected case's
+declared compatible policy (PR #118), and the v0.10.8 re-run in v0.6.1 has
+both populations reaching it — the Java kernel's classic 32 now match
+**32/32**, as the smoke population's always did. The v0.5.0 and v0.6.0
+freezes retain their disagreeing evidence unchanged, as immutable snapshots
+must.
 
 The classic 32 Python assertions likewise have 16 `reached`, 16 `not-reached`,
 and 32/32 matching (v0.10.2: 16/32), both inside the smoke population and
@@ -518,9 +518,10 @@ the same fixture revision. That disagreement is published as observed rather
 than re-run to agreement; the two populations keep separate scorecards and both
 raw artifacts are retained and digest-bound. It was caused by the Java-kernel
 adapter replacing this legacy case's declared policy with a kernel policy whose
-endpoint names do not occur in the fixture. The adapter now preserves the
-direct pair's compatible policies for future runs without rewriting this
-retained evidence.
+endpoint names do not occur in the fixture — a benchmark-side defect, not an
+engine one. The adapter preserves each selected case's declared policy from
+PR #118 onward, and from the v0.6.1 freeze this slice's classic 32 match
+**32/32**; the retained evidence described above is not rewritten.
 
 Of the 26 challenge assertions, six are decisive and all six are correct (both
 `recursive-carry` cells, both `context-pair-depth2` cells, and both

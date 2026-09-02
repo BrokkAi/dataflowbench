@@ -4,7 +4,7 @@ Adapter `semgrep-c-kernel`: `semgrep` `1.175.0` (build `semgrep-oss:1.175.0`, ad
 
 Track `taint`, score dimension `taint`, model profile `benchmark-controlled`. This scorecard is a single result population; it is never pooled with other tracks, dimensions, or model profiles.
 
-Normalized report: `reports/semgrep-c-kernel.json` (`sha256:5192f0b66650605bdbba4e1ec3e4d0e2da232490bdaca08a14434737dfb9bdc4`, normalized `sha256:5192f0b66650605bdbba4e1ec3e4d0e2da232490bdaca08a14434737dfb9bdc4`). Generated from freeze manifest `reports/freeze.json` (`sha256:3228af686d09f8666989368483bef375bb28b94025b55e31eaa7a0bdd29506ee`).
+Normalized report: `reports/semgrep-c-kernel.json` (`sha256:5192f0b66650605bdbba4e1ec3e4d0e2da232490bdaca08a14434737dfb9bdc4`, normalized `sha256:5192f0b66650605bdbba4e1ec3e4d0e2da232490bdaca08a14434737dfb9bdc4`). Generated from freeze manifest `reports/freeze.json` (`sha256:65638eafb36478120d268290479815114f244baa57994c47e19fac6b759e50ae`).
 
 ## Language `c`, tier `core`
 

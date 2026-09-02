@@ -1,0 +1,35 @@
+---
+title: Languages — v0.6.1
+description: Per-language coverage and rates across all eight analyzers' scorecards.
+---
+
+import LanguageMatrix from '../../../../components/LanguageMatrix.astro';
+import { snapshots } from '../../../../data/snapshots';
+
+export const snapshot = snapshots.find((s) => s.version === 'v0.6.1');
+
+Rows are (language, scorecard, tier) partitions — they share a table for
+navigation, not a denominator. *Definitive* counts `reached` and
+`not-reached` outcomes; *incomplete* counts `inconclusive`, `unsupported`,
+and `runner-error`, which are reported as capability coverage and never
+scored as negatives.
+
+Three tiers appear here for java, javascript, and python: the `core` kernel,
+the `modeling` matrix under the `benchmark-controlled` profile, and the
+`modeling` probe set under the `tool-native` profile. They are separate
+populations sharing a language name. Read the scorecard column, not just the
+language.
+
+Analyzer depth per language is unchanged from v0.6.0 — java carries seven
+analyzers, kotlin five, python five, c and cpp four, scala one. A language
+with more rows is a language this freeze can say more about, not a harder or
+an easier one, and a one-row language is a language whose numbers rest on a
+single engine's word.
+
+The only rows that moved in this patch release are Bifrost's, and only in six
+languages: csharp 32 → 34, java 37 → 40, javascript 36 → 38, ruby 21 → 22,
+rust 36 → 38, and typescript 34 → 36 correct, against go 35 → 34 where the
+`array-element` pair regressed to `inconclusive`. Every other cell in this
+table is carried over.
+
+<LanguageMatrix snapshot={snapshot} />

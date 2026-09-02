@@ -2,13 +2,13 @@
   "adapter_version": "0.1.0",
   "cold_or_warm": "cold",
   "configuration_hash": "332fdc97fe33a33ec3852bb211fbf336d67ffd7638d22e992cd2dc41d6db52a7",
-  "ended_at_unix_seconds": 1788193008,
+  "ended_at_unix_seconds": 1788311259,
   "fixture_revision": "sha256:9df209ed3d7723a3ee33f2b289cf2afe34a3add781bdf2a2ac445de42b8d0151",
   "results": [
     {
       "case_id": "dfb-taint-javascript-alias-propagation-negative",
       "diagnostics": [],
-      "duration_ms": 122,
+      "duration_ms": 171,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-alias-propagation-negative.json",
@@ -25,7 +25,7 @@
       "diagnostics": [
         "Controlled input reaches the benchmark sink"
       ],
-      "duration_ms": 124,
+      "duration_ms": 162,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-alias-propagation-positive.json",
@@ -41,9 +41,9 @@
       "case_id": "dfb-taint-javascript-anonymous-implementation-negative",
       "diagnostics": [
         "Bifrost reported incomplete analysis: partial_discovery",
-        "taint discovery is incomplete: procedure value-flow snapshot for AnonymousImplementationNegative.js:AnonymousImplementationNegative.js.run is unknown"
+        "taint discovery is incomplete: procedure entry for AnonymousImplementationNegative.js:AnonymousImplementationNegative.js.run.leakHandler is incomplete coverage"
       ],
-      "duration_ms": 106,
+      "duration_ms": 146,
       "outcome": "inconclusive",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-anonymous-implementation-negative.json",
@@ -59,9 +59,10 @@
       "case_id": "dfb-taint-javascript-anonymous-implementation-positive",
       "diagnostics": [
         "Bifrost reported incomplete analysis: partial_discovery",
-        "taint discovery is incomplete: procedure value-flow snapshot for AnonymousImplementationPositive.js:AnonymousImplementationPositive.js.run is unknown"
+        "Controlled input reaches the benchmark sink",
+        "taint discovery is incomplete: procedure entry for AnonymousImplementationPositive.js:AnonymousImplementationPositive.js.run.dropHandler is incomplete coverage"
       ],
-      "duration_ms": 109,
+      "duration_ms": 153,
       "outcome": "inconclusive",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-anonymous-implementation-positive.json",
@@ -76,7 +77,7 @@
     {
       "case_id": "dfb-taint-javascript-argument-position-negative",
       "diagnostics": [],
-      "duration_ms": 110,
+      "duration_ms": 145,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-argument-position-negative.json",
@@ -93,7 +94,7 @@
       "diagnostics": [
         "Controlled input reaches the benchmark sink"
       ],
-      "duration_ms": 117,
+      "duration_ms": 163,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-argument-position-positive.json",
@@ -108,7 +109,7 @@
     {
       "case_id": "dfb-taint-javascript-array-element-negative",
       "diagnostics": [],
-      "duration_ms": 113,
+      "duration_ms": 153,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-array-element-negative.json",
@@ -125,7 +126,7 @@
       "diagnostics": [
         "Controlled input reaches the benchmark sink"
       ],
-      "duration_ms": 127,
+      "duration_ms": 175,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-array-element-positive.json",
@@ -140,7 +141,7 @@
     {
       "case_id": "dfb-taint-javascript-branch-join-negative",
       "diagnostics": [],
-      "duration_ms": 110,
+      "duration_ms": 162,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-branch-join-negative.json",
@@ -157,7 +158,7 @@
       "diagnostics": [
         "Controlled input reaches the benchmark sink"
       ],
-      "duration_ms": 120,
+      "duration_ms": 169,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-branch-join-positive.json",
@@ -172,7 +173,7 @@
     {
       "case_id": "dfb-taint-javascript-call-context-negative",
       "diagnostics": [],
-      "duration_ms": 108,
+      "duration_ms": 161,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-call-context-negative.json",
@@ -189,7 +190,7 @@
       "diagnostics": [
         "Controlled input reaches the benchmark sink"
       ],
-      "duration_ms": 122,
+      "duration_ms": 172,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-call-context-positive.json",
@@ -207,7 +208,7 @@
         "Bifrost reported incomplete analysis: partial_discovery",
         "taint discovery is incomplete: procedure value-flow snapshot for CallbackRegistrationNegative.js:CallbackRegistrationNegative.js.fire is unknown"
       ],
-      "duration_ms": 124,
+      "duration_ms": 149,
       "outcome": "inconclusive",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-callback-registration-negative.json",
@@ -225,7 +226,7 @@
         "Bifrost reported incomplete analysis: partial_discovery",
         "taint discovery is incomplete: procedure value-flow snapshot for CallbackRegistrationPositive.js:CallbackRegistrationPositive.js.fire is unknown"
       ],
-      "duration_ms": 117,
+      "duration_ms": 150,
       "outcome": "inconclusive",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-callback-registration-positive.json",
@@ -243,7 +244,7 @@
         "Bifrost reported incomplete analysis: partial_discovery",
         "taint discovery is incomplete: procedure value-flow snapshot for ClosureCaptureNegative.js:ClosureCaptureNegative.js.run is unknown"
       ],
-      "duration_ms": 115,
+      "duration_ms": 145,
       "outcome": "inconclusive",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-closure-capture-negative.json",
@@ -261,7 +262,7 @@
         "Bifrost reported incomplete analysis: partial_discovery",
         "taint discovery is incomplete: procedure value-flow snapshot for ClosureCapturePositive.js:ClosureCapturePositive.js.run is unknown"
       ],
-      "duration_ms": 111,
+      "duration_ms": 148,
       "outcome": "inconclusive",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-closure-capture-positive.json",
@@ -280,7 +281,7 @@
         "Controlled input reaches the benchmark sink",
         "taint discovery is incomplete: procedure value-flow snapshot for ComputedPropertyNegative.js:ComputedPropertyNegative.js.run is unproven"
       ],
-      "duration_ms": 121,
+      "duration_ms": 180,
       "outcome": "inconclusive",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-computed-property-negative.json",
@@ -299,7 +300,7 @@
         "Controlled input reaches the benchmark sink",
         "taint discovery is incomplete: procedure value-flow snapshot for ComputedPropertyPositive.js:ComputedPropertyPositive.js.run is unproven"
       ],
-      "duration_ms": 119,
+      "duration_ms": 177,
       "outcome": "inconclusive",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-computed-property-positive.json",
@@ -314,7 +315,7 @@
     {
       "case_id": "dfb-taint-javascript-context-pair-depth2-negative",
       "diagnostics": [],
-      "duration_ms": 116,
+      "duration_ms": 164,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-context-pair-depth2-negative.json",
@@ -331,7 +332,7 @@
       "diagnostics": [
         "Controlled input reaches the benchmark sink"
       ],
-      "duration_ms": 135,
+      "duration_ms": 186,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-context-pair-depth2-positive.json",
@@ -346,7 +347,7 @@
     {
       "case_id": "dfb-taint-javascript-deep-relay-chain-negative",
       "diagnostics": [],
-      "duration_ms": 117,
+      "duration_ms": 162,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-deep-relay-chain-negative.json",
@@ -363,7 +364,7 @@
       "diagnostics": [
         "Controlled input reaches the benchmark sink"
       ],
-      "duration_ms": 138,
+      "duration_ms": 186,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-deep-relay-chain-positive.json",
@@ -378,7 +379,7 @@
     {
       "case_id": "dfb-taint-javascript-direct-negative",
       "diagnostics": [],
-      "duration_ms": 119,
+      "duration_ms": 152,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-direct-negative.json",
@@ -395,7 +396,7 @@
       "diagnostics": [
         "Controlled input reaches the benchmark sink"
       ],
-      "duration_ms": 119,
+      "duration_ms": 147,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-direct-positive.json",
@@ -413,7 +414,7 @@
         "Bifrost reported incomplete analysis: capability_incomplete",
         "taint semantic binding is unavailable: no analysis root contains both a selected source and sink"
       ],
-      "duration_ms": 108,
+      "duration_ms": 144,
       "outcome": "inconclusive",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-dispatch-table-negative.json",
@@ -431,7 +432,7 @@
         "Bifrost reported incomplete analysis: capability_incomplete",
         "taint semantic binding is unavailable: no analysis root contains both a selected source and sink"
       ],
-      "duration_ms": 107,
+      "duration_ms": 144,
       "outcome": "inconclusive",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-dispatch-table-positive.json",
@@ -445,12 +446,9 @@
     },
     {
       "case_id": "dfb-taint-javascript-element-object-negative",
-      "diagnostics": [
-        "Bifrost reported incomplete analysis: partial_discovery",
-        "taint discovery is incomplete: procedure value-flow snapshot for ElementObjectNegative.js:ElementObjectNegative.js.run is unknown"
-      ],
-      "duration_ms": 108,
-      "outcome": "inconclusive",
+      "diagnostics": [],
+      "duration_ms": 156,
+      "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-element-object-negative.json",
       "sink_anchors": [
@@ -464,11 +462,10 @@
     {
       "case_id": "dfb-taint-javascript-element-object-positive",
       "diagnostics": [
-        "Bifrost reported incomplete analysis: partial_discovery",
-        "taint discovery is incomplete: procedure value-flow snapshot for ElementObjectPositive.js:ElementObjectPositive.js.run is unknown"
+        "Controlled input reaches the benchmark sink"
       ],
-      "duration_ms": 111,
-      "outcome": "inconclusive",
+      "duration_ms": 165,
+      "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-element-object-positive.json",
       "sink_anchors": [
@@ -482,7 +479,7 @@
     {
       "case_id": "dfb-taint-javascript-exception-catch-negative",
       "diagnostics": [],
-      "duration_ms": 109,
+      "duration_ms": 156,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-exception-catch-negative.json",
@@ -499,7 +496,7 @@
       "diagnostics": [
         "Controlled input reaches the benchmark sink"
       ],
-      "duration_ms": 122,
+      "duration_ms": 171,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-exception-catch-positive.json",
@@ -514,7 +511,7 @@
     {
       "case_id": "dfb-taint-javascript-expression-negative",
       "diagnostics": [],
-      "duration_ms": 111,
+      "duration_ms": 162,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-expression-negative.json",
@@ -531,7 +528,7 @@
       "diagnostics": [
         "Controlled input reaches the benchmark sink"
       ],
-      "duration_ms": 142,
+      "duration_ms": 166,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-expression-positive.json",
@@ -549,7 +546,7 @@
         "Bifrost reported incomplete analysis: partial_discovery",
         "taint discovery is incomplete: procedure value-flow snapshot for FunctionFieldNegative.js:FunctionFieldNegative.js.invoke is unknown"
       ],
-      "duration_ms": 134,
+      "duration_ms": 161,
       "outcome": "inconclusive",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-function-field-negative.json",
@@ -567,7 +564,7 @@
         "Bifrost reported incomplete analysis: partial_discovery",
         "taint discovery is incomplete: procedure value-flow snapshot for FunctionFieldPositive.js:FunctionFieldPositive.js.invoke is unknown"
       ],
-      "duration_ms": 122,
+      "duration_ms": 160,
       "outcome": "inconclusive",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-function-field-positive.json",
@@ -582,7 +579,7 @@
     {
       "case_id": "dfb-taint-javascript-infeasible-branch-negative",
       "diagnostics": [],
-      "duration_ms": 115,
+      "duration_ms": 150,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-infeasible-branch-negative.json",
@@ -599,7 +596,7 @@
       "diagnostics": [
         "Controlled input reaches the benchmark sink"
       ],
-      "duration_ms": 120,
+      "duration_ms": 146,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-infeasible-branch-positive.json",
@@ -614,7 +611,7 @@
     {
       "case_id": "dfb-taint-javascript-local-chain-negative",
       "diagnostics": [],
-      "duration_ms": 116,
+      "duration_ms": 140,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-local-chain-negative.json",
@@ -631,7 +628,7 @@
       "diagnostics": [
         "Controlled input reaches the benchmark sink"
       ],
-      "duration_ms": 124,
+      "duration_ms": 152,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-local-chain-positive.json",
@@ -646,7 +643,7 @@
     {
       "case_id": "dfb-taint-javascript-local-overwrite-negative",
       "diagnostics": [],
-      "duration_ms": 119,
+      "duration_ms": 151,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-local-overwrite-negative.json",
@@ -663,7 +660,7 @@
       "diagnostics": [
         "Controlled input reaches the benchmark sink"
       ],
-      "duration_ms": 126,
+      "duration_ms": 162,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-local-overwrite-positive.json",
@@ -678,7 +675,7 @@
     {
       "case_id": "dfb-taint-javascript-loop-carried-negative",
       "diagnostics": [],
-      "duration_ms": 113,
+      "duration_ms": 165,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-loop-carried-negative.json",
@@ -695,7 +692,7 @@
       "diagnostics": [
         "Controlled input reaches the benchmark sink"
       ],
-      "duration_ms": 119,
+      "duration_ms": 178,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-loop-carried-positive.json",
@@ -713,7 +710,7 @@
         "Bifrost reported incomplete analysis: capability_incomplete",
         "taint discovery is incomplete: procedure value-flow snapshot for MapIterationNegative.js:MapIterationNegative.js.run is unsupported (normal_control_flow)"
       ],
-      "duration_ms": 113,
+      "duration_ms": 170,
       "outcome": "inconclusive",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-map-iteration-negative.json",
@@ -731,7 +728,7 @@
         "Bifrost reported incomplete analysis: capability_incomplete",
         "taint discovery is incomplete: procedure value-flow snapshot for MapIterationPositive.js:MapIterationPositive.js.run is unsupported (normal_control_flow)"
       ],
-      "duration_ms": 116,
+      "duration_ms": 168,
       "outcome": "inconclusive",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-map-iteration-positive.json",
@@ -749,7 +746,7 @@
         "Bifrost reported incomplete analysis: partial_discovery",
         "taint discovery is incomplete: procedure value-flow snapshot for NestedAccessPathNegative.js:NestedAccessPathNegative.js.run is unknown"
       ],
-      "duration_ms": 109,
+      "duration_ms": 165,
       "outcome": "inconclusive",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-nested-access-path-negative.json",
@@ -767,7 +764,7 @@
         "Bifrost reported incomplete analysis: partial_discovery",
         "taint discovery is incomplete: procedure value-flow snapshot for NestedAccessPathPositive.js:NestedAccessPathPositive.js.run is unknown"
       ],
-      "duration_ms": 112,
+      "duration_ms": 144,
       "outcome": "inconclusive",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-nested-access-path-positive.json",
@@ -782,7 +779,7 @@
     {
       "case_id": "dfb-taint-javascript-object-separation-negative",
       "diagnostics": [],
-      "duration_ms": 117,
+      "duration_ms": 145,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-object-separation-negative.json",
@@ -799,7 +796,7 @@
       "diagnostics": [
         "Controlled input reaches the benchmark sink"
       ],
-      "duration_ms": 128,
+      "duration_ms": 155,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-object-separation-positive.json",
@@ -816,7 +813,7 @@
       "diagnostics": [
         "Bifrost reported incomplete analysis: partial_discovery"
       ],
-      "duration_ms": 118,
+      "duration_ms": 150,
       "outcome": "inconclusive",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-recursive-carry-negative.json",
@@ -834,7 +831,7 @@
         "Bifrost reported incomplete analysis: partial_discovery",
         "Controlled input reaches the benchmark sink"
       ],
-      "duration_ms": 130,
+      "duration_ms": 176,
       "outcome": "inconclusive",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-recursive-carry-positive.json",
@@ -852,7 +849,7 @@
         "Bifrost reported incomplete analysis: capability_incomplete",
         "taint semantic binding is unavailable: no analysis root contains both a selected source and sink"
       ],
-      "duration_ms": 115,
+      "duration_ms": 162,
       "outcome": "inconclusive",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-reflective-invocation-negative.json",
@@ -870,7 +867,7 @@
         "Bifrost reported incomplete analysis: capability_incomplete",
         "taint semantic binding is unavailable: no analysis root contains both a selected source and sink"
       ],
-      "duration_ms": 119,
+      "duration_ms": 158,
       "outcome": "inconclusive",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-reflective-invocation-positive.json",
@@ -885,7 +882,7 @@
     {
       "case_id": "dfb-taint-javascript-return-relay-one-hop-negative",
       "diagnostics": [],
-      "duration_ms": 115,
+      "duration_ms": 162,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-return-relay-one-hop-negative.json",
@@ -902,7 +899,7 @@
       "diagnostics": [
         "Controlled input reaches the benchmark sink"
       ],
-      "duration_ms": 125,
+      "duration_ms": 173,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-return-relay-one-hop-positive.json",
@@ -917,7 +914,7 @@
     {
       "case_id": "dfb-taint-javascript-return-relay-two-hop-negative",
       "diagnostics": [],
-      "duration_ms": 118,
+      "duration_ms": 164,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-return-relay-two-hop-negative.json",
@@ -934,7 +931,7 @@
       "diagnostics": [
         "Controlled input reaches the benchmark sink"
       ],
-      "duration_ms": 130,
+      "duration_ms": 163,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-return-relay-two-hop-positive.json",
@@ -949,7 +946,7 @@
     {
       "case_id": "dfb-taint-javascript-same-object-field-negative",
       "diagnostics": [],
-      "duration_ms": 119,
+      "duration_ms": 146,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-same-object-field-negative.json",
@@ -966,7 +963,7 @@
       "diagnostics": [
         "Controlled input reaches the benchmark sink"
       ],
-      "duration_ms": 119,
+      "duration_ms": 154,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-same-object-field-positive.json",
@@ -980,8 +977,8 @@
     }
   ],
   "schema_version": 1,
-  "started_at_unix_seconds": 1788193001,
+  "started_at_unix_seconds": 1788311250,
   "tool": "bifrost",
-  "tool_build_identity": "44d9a5be416432bf8ed414afd3ea0031245ebb57",
-  "tool_version": "bifrost 0.10.7"
+  "tool_build_identity": "419395c8066b9eddfba06aa69c8a151ef4968249",
+  "tool_version": "bifrost 0.10.8"
 }

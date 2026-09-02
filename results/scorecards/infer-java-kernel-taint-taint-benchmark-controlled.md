@@ -4,7 +4,7 @@ Adapter `infer-java-kernel`: `infer` `v1.3.0` (build `infer:v1.3.0 bin-sha256:17
 
 Track `taint`, score dimension `taint`, model profile `benchmark-controlled`. This scorecard is a single result population; it is never pooled with other tracks, dimensions, or model profiles.
 
-Normalized report: `reports/infer-java-kernel.json` (`sha256:9eb9d7ce745f88bf2e6eed406de14201ccc4db8e592a1c501f7294cca590bdf4`, normalized `sha256:9eb9d7ce745f88bf2e6eed406de14201ccc4db8e592a1c501f7294cca590bdf4`). Generated from freeze manifest `reports/freeze.json` (`sha256:3228af686d09f8666989368483bef375bb28b94025b55e31eaa7a0bdd29506ee`).
+Normalized report: `reports/infer-java-kernel.json` (`sha256:9eb9d7ce745f88bf2e6eed406de14201ccc4db8e592a1c501f7294cca590bdf4`, normalized `sha256:9eb9d7ce745f88bf2e6eed406de14201ccc4db8e592a1c501f7294cca590bdf4`). Generated from freeze manifest `reports/freeze.json` (`sha256:65638eafb36478120d268290479815114f244baa57994c47e19fac6b759e50ae`).
 
 ## Language `java`, tier `core`
 
