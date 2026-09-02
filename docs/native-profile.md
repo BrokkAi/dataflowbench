@@ -572,6 +572,14 @@ is entirely pinnable. It says nothing about how many it will pass.
 > retain all twelve of those cells **on evidence**. A8 is also what keys the
 > partition by language, which is what lets one language's snapshot answer only
 > its own cells.
+> [Amendment A27](#a27--2026-09-02-semgrep-ces-javascript-and-java-declines-are-re-grounded-on-enumeration-and-execution-and-their-settled-rationales-reach-the-runner)
+> later re-grounded A6's and A7's rule-text readings on measurement — the
+> vendored snapshots are the complete upstream `lang/security/` trees at the
+> pinned commit, no rule anywhere in the upstream `javascript/`, `typescript/`,
+> or `java/` trees at that commit binds `process.env`, `process.argv`, or
+> `System.getenv`, and the pinned engine over all twenty-four fixtures emits
+> zero findings — and mirrored the settled per-cell rationales into the
+> runner's amendment table.
 
 **Activation contract.** Registry configurations (`--config p/…`) are
 network-fetched and version-unpinnable at run time: two runs a week apart are two
@@ -983,8 +991,12 @@ until shown otherwise.
 > [A7](#a7--2026-08-27-semgrep-ces-six-java-cells-are-retained-unsupported-against-the-vendored-snapshot)
 > retains Java's six, and
 > [A8](#a8--2026-08-27-semgrep-ces-six-python-cells-are-promoted-to-scored-and-the-partition-gains-a-language-dimension)
-> promotes Python's six to scored and keys the partition by language. Every cell
-> for every language with no amendment row is still the cell below.
+> promotes Python's six to scored and keys the partition by language.
+> [A27](#a27--2026-09-02-semgrep-ces-javascript-and-java-declines-are-re-grounded-on-enumeration-and-execution-and-their-settled-rationales-reach-the-runner)
+> re-grounds A6's and A7's retained cells on enumeration and execution and
+> gives them their own amendment rows, so the runner's rationale strings say
+> what those amendments decided. Every cell for every language with no
+> amendment row is still the cell below.
 
 | # | Template | Cat. | Bifrost v0.10.8 | CodeQL 2.26.4 | Joern 4.0.614 | Semgrep CE 1.175.0 |
 | --- | --- | --- | --- | --- | --- | --- |
@@ -1761,3 +1773,109 @@ amendment leaves in place.
 
 **Freezes invalidated.** None. No published freeze manifest contains a
 tool-native report; v0.6.1 is untouched.
+
+### A27 — 2026-09-02: Semgrep CE's JavaScript and Java declines are re-grounded on enumeration and execution, and their settled rationales reach the runner
+
+**What changed.** No decision: all twelve Semgrep CE cells for `javascript`
+and `java` stay `unsupported`, and both rows stay 0 / 6. Two things change,
+one evidentiary and one corrective:
+
+1. **The grounds are strengthened from a rule-text reading to a measured
+   enumeration plus a field run.**
+   [A6](#a6--2026-08-27-semgrep-ces-javascript-cells-evaluated-against-the-vendored-snapshot)
+   and
+   [A7](#a7--2026-08-27-semgrep-ces-six-java-cells-are-retained-unsupported-against-the-vendored-snapshot)
+   decided their cells by reading the vendored snapshots, before Semgrep was
+   invoked over a single JavaScript or Java native fixture — and it never
+   was. A maintainer challenge to every 0-findings native row asked whether
+   that 0 / 6 reflects the shipped product or an under-scoped snapshot, and
+   the answer is now measured rather than read
+   (`scripts/probe-semgrep-jsjava-native.sh`, retained under
+   `reports/raw/amendment-a27-semgrep-jsjava-native/`).
+2. **The runner's partition strings catch up with A6/A7.** Those amendments
+   discharged the preregistered *to be verified at vendoring* status in this
+   document but never mirrored the settled rationales into
+   `NATIVE_PARTITION_AMENDMENTS`, so every retained JavaScript and Java
+   report kept asserting *"…and no snapshot is vendored"* — false since
+   2026-08-27. Twelve `Some(reason)` rows now carry the per-cell A6/A7
+   rationales (re-grounded as below) into the runner. The preregistered
+   `NATIVE_PARTITION` cells stay as written; the amendment table is
+   consulted first, which is what it is for. The retained reports keep
+   their committed bytes, because the v0.6.1 freeze manifest binds both
+   rows' normalized reports by digest and a freeze is immutable: the
+   corrected strings land with the first evidence re-run after v0.6.1,
+   which is the same deferral
+   [A26](#a26--2026-09-02-joerns-native-decline-is-re-grounded-on-a-field-evaluation-of-the-shipped-scan-bundle)
+   chose for Joern's retained rationales — the decision those reports
+   record is the decision this amendment leaves in place.
+
+(Numbering note, per [the convention](#amendments): at authoring the top
+merged heading is A26, and the open BrokkAi/dataflowbench#121 claims A25 for
+OpenTaint, so this entry takes A27 — the first number no heading claims.)
+
+**Question 1: was the vendored snapshot complete?** Yes, measured three ways
+against the upstream archive re-fetched at the pinned commit
+(`semgrep/semgrep-rules@40b8c63f75dc7c22c8a77482d73bfb864b146f7e`, archive
+SHA-256 verified against the digest recorded at vendoring):
+
+- **File lists are identical.** Upstream `javascript/lang/security/` holds
+  exactly thirty `.yaml` rule documents and `java/lang/security/` exactly
+  eighty-six, and the vendored trees hold exactly those files under the same
+  relative paths (`snapshot-enumeration-javascript.txt`, `-java.txt`; empty
+  diffs retained).
+- **Bytes are identical.** Every vendored document is byte-identical to its
+  upstream original after the CRLF→LF normalization the Java provenance
+  already records for `jackson-unsafe-deserialization.yaml`.
+- **Nothing outside the scoped path binds the platform identities.** A8's
+  Python promotion came from a shipped audit rule binding
+  `os.environ`/`sys.argv` → `os.system`. The analogous identities occur in
+  **no rule document anywhere** in the upstream `javascript/`, `typescript/`,
+  or `java/` trees at the pinned commit: `process.env` and `process.argv`
+  match zero files, and so do `System.getenv`, `System.getProperty`, and
+  `System.setProperty` (`platform-source-grep.txt`). The one `child_process`
+  rule outside the vendored scope,
+  `javascript/aws-lambda/security/detect-child-process.yaml`, sources from a
+  Lambda handler's `$EVENT` parameter — the same framework-shaped entry
+  convention A6 found universal inside the scope. The JavaScript and Java
+  analogs of `audit/dangerous-system-call-tainted-env-args.yaml` do not
+  exist at this commit, in or out of the snapshot.
+
+**Question 2: would a run have produced anything?** No, now measured instead
+of predicted. The pinned CE 1.175.0 (`--oss-only`), pointed at the vendored
+snapshots with the exact argv the committed runner uses, was executed over
+all twenty-four JavaScript and Java native fixtures: **twenty-four scans,
+zero findings, zero errors** (`scan-summary.json`, full `--json` output
+retained per fixture). This confirms by execution both A6's reading and A7's
+stated prediction (*"a run over these fixtures would also have produced
+nothing"*), and it confirms that the
+[sink-existence hazard](#sink-existence-only-findings-and-how-they-score)
+stays dormant for these two languages: no pattern rule fires on any negative
+cell's bare sink.
+
+**Why the cells stay declined rather than becoming scored.** Unchanged from
+A6/A7, and the enumeration makes it airtight: no shipped rule — in the
+snapshot or anywhere in the upstream language trees at the pinned commit —
+binds a platform source, so the cells are capability coverage decided from
+the shipped rule set's text, confirmed by execution. The twenty-four
+zero-finding scans are the decline's evidence, not scored runs, and they
+reduce no denominator.
+
+**What would move a cell now.** A future snapshot re-vendor (a dated
+amendment with a new digest pin) whose commit gains a JavaScript or Java
+analog of the Python env-args audit rule promotes the affected cells, landing
+the execution arm that scores them in the same pull request, exactly as
+[A8](#a8--2026-08-27-semgrep-ces-six-python-cells-are-promoted-to-scored-and-the-partition-gains-a-language-dimension)
+did for Python.
+
+**Templates and languages touched.** All six native templates, for
+`javascript` and `java`, for Semgrep CE alone. No decision changes; the
+settled rationale strings reach the runner here and reach the retained
+reports with the first evidence re-run after v0.6.1.
+
+**Freezes invalidated.** None — and, unlike the boilerplate earlier
+amendments could use, not because no freeze holds a tool-native report: the
+v0.6.1 manifest binds both rows' normalized reports by digest, with every
+outcome `unsupported`. This amendment moves no outcome and rewrites no
+frozen byte, so `validate-freeze` stays green; the frozen reports carry the
+superseded rationale wording, and this entry is the durable record of what
+replaced it.
