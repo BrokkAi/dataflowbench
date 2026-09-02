@@ -776,10 +776,35 @@ produced **zero findings of any rule**. The one always-enabled policy
 probes) has no shipped Java source or sink bound to its kinds, so it decides
 nothing.
 
+**And the silence is engaged, not merely empty — measured.**
+([Amendment A28](#a28--2026-09-02-infers-native-decline-is-re-grounded--the-shipped-taint-bundle-is-loaded-unconditionally-and-holds-no-endpoint).)
+A14's phrase "Pulse taint is off absent a configuration" was imprecise in a
+direction a maintainer challenge exposed: the pinned distribution **does**
+bundle default taint data, and a zero-configuration invocation **does**
+activate it. The release ships `lib/infer/infer/config/taint/` — four
+Objective-C `NSLib` files whose own bundled README states they "are always
+included when running infer" — and the loader was proven live rather than
+read: corrupting one bundled file in a byte-copy of the distribution kills a
+zero-config Java *capture* with a parse error naming the file from
+`Config.pulse_taint_config`'s directory fold (exit 3). The bundle is parsed
+unconditionally on every invocation. What it contains is the reason the
+engagement decides nothing: every file declares `pulse-taint-propagators`
+**only** — no source, no sink, no sanitizer, no policy, and no Java identity
+anywhere in the shipped tree (no `.inferconfig` ships either, enumerated
+distribution-wide). Propagators without endpoints form no taint question, and
+no Objective-C selector ever matches a Java procedure. The full default
+surface was also executed: `infer run --sarif` — the release's whole default
+checker set, not the adapter's `--pulse-only` arm — over all twelve fixtures
+produced zero findings of any rule, taint-shaped or otherwise, so no non-taint
+Pulse finding exists to reconcile against any anchor and there is no live
+activation deciding `not-reached`. The evidence is retained under
+`reports/raw/amendment-a28-infer-native-activation/`
+(`scripts/probe-infer-native-activation.sh`).
+
 | # | Category | Decision | Rationale |
 | --- | --- | --- | --- |
-| 1 | S | **unsupported — Pulse taint is off absent a configuration, and no Java endpoint catalog ships** | Measured: zero findings of any rule on both cells, with no configuration path passed. |
-| 2 | P | **unsupported — same measured silence** | A shipped propagator summary would need a shipped source and sink to carry anything between; the release ships neither. |
+| 1 | S | **unsupported — the shipped taint bundle is loaded unconditionally and holds no endpoint** ([A28](#a28--2026-09-02-infers-native-decline-is-re-grounded--the-shipped-taint-bundle-is-loaded-unconditionally-and-holds-no-endpoint)) | Measured twice: zero findings of any rule on both cells with no configuration path passed (A14), and the zero-config activation proven engaged — the bundled `config/taint/` tree parses on every invocation, declares Objective-C propagators only, and binds no source, sink, or policy in any language (A28). `infer run`'s full default checker set decides nothing either. |
+| 2 | P | **unsupported — same engaged-and-silent measurement** | The one thing the release *does* ship natively is propagators — Objective-C `NSLib` rows a Java procedure can never match — and a propagator needs a shipped source and sink to carry anything between; the release ships neither, in any language ([A28](#a28--2026-09-02-infers-native-decline-is-re-grounded--the-shipped-taint-bundle-is-loaded-unconditionally-and-holds-no-endpoint)). |
 | 3 | Z | **unsupported — same measured silence** | The sanitizer surface [A13](modeling-matrix.md#a13--2026-09-01-infer-joins-the-modeling-matrix-with-a-field-evaluated-partition-row) measured load-bearing is reachable only through `--pulse-taint-config`, which this profile's activation contract supplies nothing through; and no endpoints ship for a barrier to sit between. |
 | 4 | O | **unsupported — same measured silence** | No shipped summary catalog; the taint question itself is off. |
 | 5 | E | **unsupported — same measured silence, doubly out of reach** | The shipped product activates no taint question, and A13 measured that the pulse-taint surface has no entry-root vocabulary even when configured. |
@@ -1887,6 +1912,95 @@ amendment leaves in place.
 
 **Templates and languages touched.** All six native templates, for `java`,
 `javascript`, and `python`, for Joern alone. No decision changes anywhere.
+
+**Freezes invalidated.** None. No published freeze manifest contains a
+tool-native report; v0.6.1 is untouched.
+
+### A28 — 2026-09-02: Infer's native decline is re-grounded — the shipped taint bundle is loaded unconditionally, and holds no endpoint
+
+**What changed.** Nothing in the partition: all six Infer cells stay
+`unsupported` and the row stays 0 / 6, Java alone. What changes is the
+grounds, in the same movement
+[A26](#a26--2026-09-02-joerns-native-decline-is-re-grounded-on-a-field-evaluation-of-the-shipped-scan-bundle)
+made for Joern: a maintainer challenge sent
+[A14](#a14--2026-09-01-infers-native-row-declines-on-a-measured-silence)'s
+central phrase — *"Pulse taint is off absent a configuration"* — into the
+field, and part of it failed. The pinned distribution **bundles default taint
+data, and a zero-configuration invocation activates it.** The decline
+survives on stronger evidence than it had: the shipped bundle was enumerated
+file by file, its loading was proven by execution rather than read from a
+README, and the release's full default checker surface was run over every
+probe cell and decided nothing. The imprecise sentence stays quoted in
+[the Infer activation section](#infer--v130-shipped-pulse-checker-with-no-taint-configuration)
+rather than being silently dropped. (Renumber-race note, per
+[the numbering convention](#amendments): the sequence's top merged heading at
+authoring was A26, with A25 claimed by the concurrent OpenTaint
+re-evaluation — a claim that merged as
+[A25](#a25--2026-09-02-the-shipped-opentaint-scan-entry-point-is-field-evaluated-and-the-six-native-declines-are-re-grounded-on-its-measured-silence)
+before this entry did. This entry was drafted as A27 — then renumbered to
+A28 before merge, because the concurrent BrokkAi/dataflowbench#123 already
+claims A27 for Semgrep's own native re-grounding. If that claim dissolves,
+the number stays A28 anyway; a gap is cheaper than a second race.)
+
+**What was measured, all three arms retained under
+`reports/raw/amendment-a28-infer-native-activation/`**
+(`scripts/probe-infer-native-activation.sh`, whose corruption arm operates on
+a byte copy of the pinned distribution — the pin itself is never mutated):
+
+1. **The bundle exists and is enumerated.** The distribution ships exactly
+   one default taint surface, `lib/infer/infer/config/taint/`: a README and
+   four Objective-C `NSLib` files (`NSString`, `NSArray`, `NSDictionary`,
+   `NSSet`), retained verbatim with digests. Every file's single top-level
+   key is `pulse-taint-propagators`. No `pulse-taint-sources`, no
+   `pulse-taint-sinks`, no `pulse-taint-sanitizers`, no
+   `pulse-taint-policies`, no `.inferconfig`, and no Java identity exist
+   anywhere in the shipped tree (`shipped-taint-bundle-manifest.json`).
+2. **The bundle is engaged by every invocation — proven, not quoted.** The
+   bundled README's own claim ("always included when running infer") was put
+   to execution: with one bundled file corrupted in a scratch copy of the
+   distribution, a zero-configuration Java **capture** dies with exit 3
+   naming the corrupted file from `Config.pulse_taint_config`'s directory
+   fold (`engagement-proof-transcript.txt`). This matters because the pinned
+   release's signature failure mode is *silent* config loss; here the
+   opposite is established — the default-config machinery is demonstrably
+   live in the exact invocation shape A14 measured, so A14's silence is an
+   **engaged** silence: the loader ran, loaded the shipped taint data, and
+   that data binds no endpoint to any policy. The always-enabled
+   Simple→Simple policy has nothing to bind: propagators declare no kind that
+   feeds it, and no Objective-C selector matches a Java procedure.
+3. **The full default surface decides nothing the split invocation missed.**
+   A14's arm was the adapter's own `analyze --pulse-only`; a shipped
+   activation could in principle live in a checker that arm disables. It does
+   not: `infer run --sarif` — capture plus analyze with the release's whole
+   default checker set — over all twelve Java native fixtures produced
+   **zero findings of any rule**, taint-shaped or otherwise (verbatim SARIF
+   per fixture). There is no non-taint Pulse finding to reconcile against any
+   anchor, so no cell becomes a live activation deciding `not-reached`: an
+   away-from-anchor diagnostic would at least witness an activated question,
+   and none exists.
+
+**Why the cells stay declined rather than becoming scored.** The distinction
+is [A7](#a7--2026-08-27-semgrep-ces-six-java-cells-are-retained-unsupported-against-the-vendored-snapshot)'s
+and A26's: the shipped model set expresses no flow question over any probe
+endpoint — the one taint artifact it ships is propagator-only and
+Objective-C-only — so the twelve zero-finding full-default runs are the
+decline's evidence, not scored runs, and `unsupported` remains the honest
+outcome. A run that reports `not-reached` asserts an asked question that
+found no flow; no question is asked.
+
+**What would move a cell now.** A future pin whose bundled tree gains a
+source or sink bound to a policy for a Java identity — or any default checker
+that fires a reconcilable finding on a probe fixture — is a promotion by
+dated amendment, landing the execution arm that scores it in the same pull
+request. The re-grounded rationale is mirrored into `NATIVE_PARTITION`
+(`src/main.rs`) and the adapter README's tool-native section; the retained
+0 / 6 report predates this amendment and carries A14's wording in its
+retained rationales, exactly as A26 left Joern's — the corrected string lands
+with the next evidence re-run, and the decision that report records is the
+decision this amendment leaves in place.
+
+**Templates and languages touched.** All six native templates, for `java`,
+for Infer alone. No decision changes anywhere.
 
 **Freezes invalidated.** None. No published freeze manifest contains a
 tool-native report; v0.6.1 is untouched.
