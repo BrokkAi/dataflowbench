@@ -692,8 +692,10 @@ exist. That is what makes issue #16's *"model/version provenance and activation
 configuration are retained"* a property of the artifact.
 
 **Vendored activation artifacts carry `derived` provenance.** Where shipped
-models are not pinnable at run time — Semgrep's registry, Joern's floating
-`querydb` release asset — the profile vendors a pinned snapshot with a
+models are not pinnable at run time — Semgrep's registry, most prominently;
+Joern's `querydb` was cited here until Amendment A26 measured that its
+release asset is versioned and pinnable after all — the profile vendors a
+pinned snapshot with a
 `provenance.json` recording the upstream repository, source commit, paths,
 license, and retrieval date. Wave N1 vendored all three:
 `adapters/semgrep/native/javascript/` (thirty rules),

@@ -709,20 +709,32 @@ arrival is a finding. In every Joern population this benchmark runs, the sources
 and sinks come from the adapter's own query parameters — which is precisely what
 the activation rule forbids here.
 
-**And the scan bundle is not shipped.** `joern-scan` is present in the
-distribution, but its query database is not: `JoernScan` downloads
-`querydb.zip` from
-`https://github.com/joernio/joern/releases/latest/download/querydb.zip` —
-verified as a string constant in `io.joern.joern-cli-4.0.432.jar`, and note the
-floating `latest`. Nothing in the distribution's `lib/` provides it, and a
-floating release asset is unpinnable at run time for the same reason Semgrep's
-registry is. A vendored `querydb` snapshot is a possible future amendment under
-[the vendoring provenance rule](#provenance-for-vendored-activation-artifacts);
-it is not part of v1.
+**And the scan bundle decides nothing over these probes — measured.**
+([Amendment A26](#a26--2026-09-02-joerns-native-decline-is-re-grounded-on-a-field-evaluation-of-the-shipped-scan-bundle).)
+The paragraph this replaces declined the scan surface on packaging:
+`joern-scan` is present in the distribution, but its query database is not —
+`JoernScan` downloads `querydb.zip` from
+`https://github.com/joernio/joern/releases/latest/download/querydb.zip`, and
+a floating `latest` asset is unpinnable at run time. Half of that claim was
+measured false: the same binary carries a **versioned** URL template, and the
+shipped `joern-scan --updatedb --dbversion 4.0.614` installs the
+`querydb.zip` published as an asset of the pinned release itself
+(digest retained). The bundle is pinnable after all, so the decline no longer
+rests on unpinnability — the retired sentence is kept above rather than
+dropped, per this document's own discipline. What the decline rests on now is
+the pinned bundle's content and behavior, field-evaluated: fifty-eight
+queries in six languages (27 `c`, 10 `android`, 9 `php`, 7 `java`, 3
+`kotlin`, 2 `ghidra` by the bundle's own dump), **none for JavaScript and
+none for Python**, no query binding any probe endpoint, and zero findings of
+any query over all thirty-six probe fixtures —
+the source-sink positives included. A vendored `querydb` snapshot under
+[the vendoring provenance rule](#provenance-for-vendored-activation-artifacts)
+remains possible and would move nothing: the enumeration is exactly what it
+would re-establish.
 
 | # | Category | Decision | Rationale |
 | --- | --- | --- | --- |
-| 1 | S | **unsupported — `DefaultSemantics` ships no source or sink catalog** | Verified by decompilation: flow constraints only. Supplying endpoints would be a benchmark-authored model, which the activation rule forbids. |
+| 1 | S | **unsupported — `DefaultSemantics` ships no source or sink catalog, and the pinned scan bundle expresses no taint question over the probe endpoints** ([A26](#a26--2026-09-02-joerns-native-decline-is-re-grounded-on-a-field-evaluation-of-the-shipped-scan-bundle)) | Verified by decompilation: flow constraints only. Supplying endpoints would be a benchmark-authored model, which the activation rule forbids. And the version-pinned `joern-scan` bundle, installed and executed, fires no query on any probe cell: its one query naming this profile's command sink (`call-to-exec`) filters the method-name property with a full-match regex and matches zero methods on a `javasrc2cpg` graph, measured on the graph whose `exec` call is present. |
 | 2 | P | **unsupported — no endpoints to propagate between** | `DefaultSemantics` does carry propagation entries, but with no source and no sink nothing is carried anywhere. |
 | 3 | Z | **unsupported — no shipped sanitizer catalog for these idioms** | `NilSemantics` is the mechanism, but the distribution declares none of the three platform sanitizers. |
 | 4 | O | **unsupported — no shipped summary for these round trips** | The JVM entries in `DefaultSemantics` do not include `java.util.Base64`; neither Python nor JavaScript has any entry at all. |
@@ -1784,3 +1796,97 @@ which was the decision of record when the freeze was taken; that is the
 historical record, kept as written. This amendment changes the grounds this
 document states for the same declines, not the partition, the outcomes, or
 any published byte.
+
+### A26 — 2026-09-02: Joern's native decline is re-grounded on a field evaluation of the shipped scan bundle
+
+**What changed.** Nothing in the partition: all eighteen Joern cells — six
+templates across `java`, `javascript`, and `python` — stay `unsupported`, and
+the row stays 0 / 6 per language. What changes is the grounds. The
+preregistered row declined the scan surface on a packaging claim —
+*"`joern-scan` is present in the distribution, but its query database is
+not... a floating `latest` release asset is unpinnable at run time"* — and a
+maintainer challenge (Joern ships a query database: https://queries.joern.io,
+the `joern-scan` bundle) sent that claim into the field, where part of it
+failed. The decline survives, on stronger evidence than it had: **the shipped
+product was installed at its pin, executed over every probe cell with zero
+benchmark input, and decided nothing.** This is the same movement
+[A10](#a10--2026-08-28-bifrosts-native-category-z-cell-is-restated-on-the-absent-endpoint-catalog)
+made for Bifrost's category-Z cell: the decision stands, the citation it
+rested on is corrected, and the retired sentence stays recorded in
+[the Joern activation section](#joern--40614-defaultsemantics-only) rather
+than being silently dropped. (Renumber-race note, per
+[the numbering convention](#amendments): the sequence's top merged heading at
+authoring was A24, and this entry was drafted as A25 — then renumbered to A26
+before opening, because the concurrent BrokkAi/dataflowbench#121 already
+claims A25 for OpenTaint. If that claim dissolves, the number stays A26
+anyway; a gap is cheaper than a second race.)
+
+**What was measured false in the old grounds.** Two things, both retained
+under `reports/raw/amendment-a26-joern-scan-native/` (produced by
+`scripts/probe-joern-scan-native.sh`, which works on a copy of the pinned
+distribution — the pin itself is never mutated):
+
+1. **The bundle is pinnable.** The floating `latest` URL is real, but the
+   same `JoernScan` carries a versioned URL template, and the shipped
+   `joern-scan --updatedb --dbversion 4.0.614` downloads and installs the
+   `querydb.zip` published as an asset of the pinned v4.0.614 release itself
+   (URL and SHA-256 retained in `querydb-zip-provenance.txt`). Unpinnability
+   was the stated reason a vendored snapshot was deferred, and it is not
+   true.
+2. **The product runs with zero input from us.** `joern-scan <dir>` builds
+   the CPG and executes the installed bundle end to end — no query, no
+   semantics file, no configuration of ours.
+
+**What the field evaluation established, per language.** The pinned bundle
+dumps fifty-eight queries (`query-names.txt`, `querydb.json`), each tagged
+with its language: 27 `c`, 10 `android`, 9 `php`, 7 `java`, 3 `kotlin`, 2
+`ghidra`.
+
+- **JavaScript and Python: the bundle ships no query for either language at
+  all.** Zero queries could bind anything, and the twenty-four
+  scans measured zero findings. The Python leg surfaced a shipped-product
+  defect worth retaining: on this pin `joern-scan`'s language auto-detection
+  emits `importCode.pythonsrc(...)`, which does not compile against the
+  product's own console (`python-autodetect-failure.txt`) — the documented
+  explicit `--language python` runs, and the probe uses it precisely so a
+  crash cannot impersonate a silence.
+- **Java: seven queries ship, and none can fire on these probes.** Six bind
+  servlet, Spring, SQL, certificate, and crypto identities no probe fixture
+  uses. The seventh — `call-to-exec`, the one query in the bundle that names
+  this profile's command sink — is
+  `cpg.method("java.lang.Runtime.exec").callIn`, and `cpg.method(...)`
+  filters the method **name** property with a full-match regex: a
+  `javasrc2cpg` method's name is `exec`, so the pattern matches zero methods
+  on the very graph whose `cpg.method("exec").callIn` is non-empty
+  (`call-to-exec-binding-check.txt`, measured on the source-sink positive's
+  own CPG). All twelve Java scans measured zero findings, the source-sink
+  positive included.
+
+**Why the cells stay declined rather than becoming scored.** The same
+distinction [A7](#a7--2026-08-27-semgrep-ces-six-java-cells-are-retained-unsupported-against-the-vendored-snapshot)
+drew for Semgrep's Java column: no shipped query binds any probe endpoint —
+by absence in two languages, by a binding that structurally cannot match in
+the third — so the cells are capability coverage, decided from the bundle's
+text and confirmed by execution, not an activated model set producing
+thirty-six false negatives. The thirty-six zero-finding scans are the
+decline's evidence, not scored runs. Even the
+[sink-existence hazard](#sink-existence-only-findings-and-how-they-score)
+cannot reach these fixtures: the one sink-existence query aimed at
+`Runtime.exec` is the one that cannot bind.
+
+**What would move a cell now.** A future pin whose bundle gains a query that
+binds a probe endpoint — a JavaScript or Python package, or a Java query
+matching by method full name — is a promotion by dated amendment, landing the
+execution arm that scores it in the same pull request. The re-grounded
+rationale is mirrored into `NATIVE_PARTITION` (`src/main.rs`) and the
+adapter README's three tool-native sections; the retained 0 / 6 reports
+predate this amendment and carry the withdrawn wording in their retained
+rationales, exactly as A10's did — the corrected string lands with the next
+evidence re-run, and the decision those reports record is the decision this
+amendment leaves in place.
+
+**Templates and languages touched.** All six native templates, for `java`,
+`javascript`, and `python`, for Joern alone. No decision changes anywhere.
+
+**Freezes invalidated.** None. No published freeze manifest contains a
+tool-native report; v0.6.1 is untouched.
