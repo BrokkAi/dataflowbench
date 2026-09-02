@@ -917,6 +917,32 @@ retained Semgrep's JavaScript and Java cells on — so all six templates are
 (`src/main.rs`), and FlowDroid enters this profile at **0 / 6** with a live
 activation contract behind the zero.
 
+**And the fuller shipped surface decides the same way — enumerated and
+executed.**
+([Amendment A29](#a29--2026-09-02-flowdroids-native-decline-is-re-grounded-on-the-shipped-surfaces-full-enumeration-and-executed-engagement).)
+A maintainer challenge asked whether the catalog-text ruling above had
+engaged everything the release ships, or only the default file. The answer,
+retained under `reports/raw/amendment-a29-flowdroid-shipped-surface/`
+(produced by `scripts/probe-flowdroid-native-shipped-surface.sh`): the
+pinned jar bundles exactly five declarative surfaces beyond its classes —
+`SourcesAndSinks.txt` (the **only** endpoint catalog instance in any format;
+the bundled `schema/SourcesAndSinks.xsd` defines an XML catalog format, but
+no XML instance ships), the EasyTaintWrapper defaults
+(`EasyTaintWrapperSource.txt`: 435 propagation entries, 12 excludes, 5
+kills, 4 include prefixes — the format has no source or sink role), the
+callback list (`AndroidCallbacks.txt`), the virtual-edge callgraph model
+(`virtualedges.xml`), and the 347-class StubDroid `summariesManual` set. No
+surface anywhere in the artifact binds `System.getenv` — the only `getenv`
+bytes in the whole jar are three shaded third-party classes that *call* it
+at tool runtime — and executed over all twelve Java native fixtures with the
+shipped catalog engaged (which parses to 71 sources and 193 sinks; 14
+malformed vendor lines are rejected by the release's own parser), the
+analyzer reports **"Found 0 leaks from 0 sources"** on every fixture,
+aborting at source lookup each time. A control run — the same APK, the same
+invocation, the shipped catalog plus a single benchmark-authored `getenv`
+source line — finds exactly the floor leak, attributing every zero to the
+shipped catalog and to nothing else.
+
 ### OpenTaint — `analyzer/2026.08.27.17eb0fe`, shipped models archive only (Java only)
 
 > **Added by [Amendment A23](#a23--2026-09-01-opentaint-joins-the-tool-native-profile-at-0--6-and-the-shipped-models-archive-is-ruled-shipped-product).**
@@ -924,6 +950,19 @@ activation contract behind the zero.
 > exist when it merged — and it joins on the same terms every row here holds
 > to: decided from the pinned release's own assets, by execution, before any
 > native run, with the evidence retained.
+
+> **Amended.** [A25](#a25--2026-09-02-the-shipped-opentaint-scan-entry-point-is-field-evaluated-and-the-six-native-declines-are-re-grounded-on-its-measured-silence)
+> re-grounds all six of this row's declines. A23's ground — *the pinned
+> release ships no rule set* — was true of the release's two assets and
+> incomplete about the shipped product: the vendor's `opentaint` CLI, the
+> entry point its own demo documents (`opentaint scan`), defaults to
+> `--ruleset builtin` and activates a versioned, digest-pinnable rules
+> release through the same `--semgrep-rule-set` flag. That rule set is
+> shipped product. Field-evaluated against the pinned analyzer over all
+> twelve Java native fixtures, it loads cleanly and stays silent on every
+> one — it binds this profile's command sink and no source any template
+> reads — so every cell below stays `unsupported`, on measured evidence
+> rather than on the absence of a rule set.
 
 **Language scope.** Java only — the one wave-N1 language the pinned engine
 analyzes. JavaScript and Python have **no OpenTaint native denominator at
@@ -961,14 +1000,39 @@ amendment under [the vendoring provenance rule](#provenance-for-vendored-activat
 exactly as Semgrep's registry rulesets were vendored, and it is not part of
 this row.
 
+**What the shipped scan entry point activates, field-evaluated
+([A25](#a25--2026-09-02-the-shipped-opentaint-scan-entry-point-is-field-evaluated-and-the-six-native-declines-are-re-grounded-on-its-measured-silence)).**
+The vendor's shipped `opentaint` CLI drives the same analyzer jar, and its
+`scan` command — the invocation the vendor's own demo repository documents —
+defaults to `--ruleset builtin`, resolved to the vendor's versioned rules
+release and passed through the same `--semgrep-rule-set` flag every
+benchmark-controlled run uses. That rule set is shipped product on exactly
+A23's own reasoning, so the six declines cannot rest on "no rule set ships";
+they rest on what the shipped rules bind, measured. The newest rules release
+at the analyzer's pin date, `rules/v0.3.0` (asset `opentaint-rules.tar.gz`,
+SHA-256 `3d789c9986479fec792333329abe737eccb15bc06fc59a978a58810118ca1d21`),
+was run against the pinned analyzer over all twelve Java native fixtures with
+the models archive loaded, at every severity — a superset of the CLI's
+warning-and-error default. The retained result
+(`scripts/probe-opentaint-scan-activation.sh`,
+`reports/raw/amendment-a25-opentaint-scan-activation/`): 86 rules registered,
+zero load errors in every retained rule-load trace, **zero results on all
+twelve fixtures** — and a positive control carrying the real
+`jakarta.servlet.http` identities fires the shipped `os-command-injection`
+rule under the identical invocation, so the silence is a source-coverage
+fact, not a dead harness. The rule set binds `Runtime.exec` as a
+command-injection sink; every source rule in it is servlet-, Spring-, or
+Seam-shaped, and nothing names `System.getenv`, a `main` parameter, or
+`System.getProperty` as a source.
+
 | # | Category | Decision | Rationale |
 | --- | --- | --- | --- |
-| 1 | S | **unsupported — no shipped endpoint catalog** | The models archive declares no source and no sink, the release ships no rule set, and the analyzer with no rule set registers zero rules over the platform's own `getenv`→`exec` (probe retained). Without endpoints, no template in this profile can produce a finding, which is why every row below reads the same way. |
-| 2 | P | **unsupported — propagation with no endpoints carries nothing** | The archive is precisely a propagation catalog — `passThrough` copy rows for the JDK and common libraries — and it is genuinely shipped product; but propagation with no source and no sink carries nothing anywhere. The same gap, in the same direction, as Joern's `DefaultSemantics` row. |
-| 3 | Z | **unsupported — no shipped sanitizer, and no flow for one to suppress** | No sanitizer appears anywhere in the shipped assets, and prior to that no flow can start for a barrier to be observable against. |
-| 4 | O | **unsupported — shipped summaries, no endpoints** | The archive's approximation classes are exactly template 4's round-trip material, and they activate — behind endpoints the release does not ship. |
-| 5 | E | **unsupported — no shipped entry-point convention** | Entry-point *selection* exists (`--debug-run-analysis-on-selected-entry-points`), but selecting a method analyzes it, it does not taint its parameters; sources live in the rule set, and none ships. |
-| 6 | B | **unsupported — no shipped store link** | No store vocabulary ships in any asset. |
+| 1 | S | **unsupported — the shipped rule set binds no platform source** ([A25](#a25--2026-09-02-the-shipped-opentaint-scan-entry-point-is-field-evaluated-and-the-six-native-declines-are-re-grounded-on-its-measured-silence)) | Originally declined because the release ships no rule set; the shipped scan entry point's builtin rule set was then field-evaluated. It binds `Runtime.exec` as a command-injection sink and no source rule in it names `System.getenv` — every source is servlet-, Spring-, or Seam-shaped. Measured: rules loaded clean, zero results on both cells, control fired. The same bound-sink-no-applicable-source shape [A7](#a7--2026-08-27-semgrep-ces-six-java-cells-are-retained-unsupported-against-the-vendored-snapshot) and [A19](#a19--2026-09-01-flowdroid-joins-the-tool-native-profile-with-a-live-activation-contract-and-six-cells-declined-on-catalog-evidence) retained cells on. |
+| 2 | P | **unsupported — propagation with no applicable source carries nothing** ([A25](#a25--2026-09-02-the-shipped-opentaint-scan-entry-point-is-field-evaluated-and-the-six-native-declines-are-re-grounded-on-its-measured-silence)) | The models archive's propagation rows and the rule set's join machinery both activate — the control's flow crosses them — but no shipped source binds the environment read this template's flow starts from. Measured silent on both cells. |
+| 3 | Z | **unsupported — no flow for a barrier to be observable against** ([A25](#a25--2026-09-02-the-shipped-opentaint-scan-entry-point-is-field-evaluated-and-the-six-native-declines-are-re-grounded-on-its-measured-silence)) | Sanitizer credit is per-rule in the shipped set, and no shipped rule starts a flow at the environment read for `Integer.parseInt` to suppress. Measured silent on both cells. |
+| 4 | O | **unsupported — shipped summaries behind no applicable source** ([A25](#a25--2026-09-02-the-shipped-opentaint-scan-entry-point-is-field-evaluated-and-the-six-native-declines-are-re-grounded-on-its-measured-silence)) | The archive's approximation classes are exactly template 4's round-trip material, and they activate — behind a source the shipped rule set does not bind. Measured silent on both cells. |
+| 5 | E | **unsupported — the shipped entry conventions are framework-shaped** ([A25](#a25--2026-09-02-the-shipped-opentaint-scan-entry-point-is-field-evaluated-and-the-six-native-declines-are-re-grounded-on-its-measured-silence)) | The rule set's source conventions are servlet handler methods and Spring mapping annotations, not `main(String[])`; entry-point *selection* (`--debug-run-analysis-on-selected-entry-points`) analyzes a method without tainting its parameters. Measured silent on both cells. |
+| 6 | B | **unsupported — no shipped store link** ([A25](#a25--2026-09-02-the-shipped-opentaint-scan-entry-point-is-field-evaluated-and-the-six-native-declines-are-re-grounded-on-its-measured-silence)) | No store vocabulary ships in any asset or rule. Measured silent on both cells. |
 
 OpenTaint enters this profile with **zero of six**, and — as with Joern — that
 is a statement about the pinned release's *product packaging*, not about its
@@ -1021,8 +1085,8 @@ evidence.
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | Infer v1.3.0 ([A14](#a14--2026-09-01-infers-native-row-declines-on-a-measured-silence), Java only) | unsupported | unsupported | unsupported | unsupported | unsupported | unsupported | 0 / 6 |
 | Pysa 0.10.0 + Pyrefly 1.2.0 ([A17](#a17--2026-09-01-pysa-joins-the-tool-native-profile-with-a-live-activation-row), Python only) | supported | supported | supported | supported | supported | supported | 6 / 6 |
-| FlowDroid 2.15.1 ([A19](#a19--2026-09-01-flowdroid-joins-the-tool-native-profile-with-a-live-activation-contract-and-six-cells-declined-on-catalog-evidence), Java only) | unsupported | unsupported | unsupported | unsupported | unsupported | unsupported | 0 / 6 |
-| OpenTaint 2026.08.27 ([A23](#a23--2026-09-01-opentaint-joins-the-tool-native-profile-at-0--6-and-the-shipped-models-archive-is-ruled-shipped-product), Java only) | unsupported | unsupported | unsupported | unsupported | unsupported | unsupported | 0 / 6 |
+| FlowDroid 2.15.1 ([A19](#a19--2026-09-01-flowdroid-joins-the-tool-native-profile-with-a-live-activation-contract-and-six-cells-declined-on-catalog-evidence), re-grounded by execution in [A29](#a29--2026-09-02-flowdroids-native-decline-is-re-grounded-on-the-shipped-surfaces-full-enumeration-and-executed-engagement), Java only) | unsupported | unsupported | unsupported | unsupported | unsupported | unsupported | 0 / 6 |
+| OpenTaint 2026.08.27 ([A23](#a23--2026-09-01-opentaint-joins-the-tool-native-profile-at-0--6-and-the-shipped-models-archive-is-ruled-shipped-product), re-grounded by [A25](#a25--2026-09-02-the-shipped-opentaint-scan-entry-point-is-field-evaluated-and-the-six-native-declines-are-re-grounded-on-its-measured-silence), Java only) | unsupported | unsupported | unsupported | unsupported | unsupported | unsupported | 0 / 6 |
 
 These counts are activation surfaces, not scores. A tool with six of six has six
 templates' worth of assertions it can get wrong; a tool with zero of six has
@@ -1680,6 +1744,97 @@ tool-native report, and the v0.6.0 manifest binds this adapter's two
 propagation kernels and nothing else. The declined-cell report this row
 entitles lands after this amendment, as post-freeze live evidence.
 
+### A25 — 2026-09-02: the shipped `opentaint scan` entry point is field-evaluated, and the six native declines are re-grounded on its measured silence
+
+**What changed.** No cell moves and no score changes: OpenTaint's Java row
+stays 0 / 6. What changes is the **ground** under all six declines, and the
+activation contract's description of the shipped product.
+[A23](#a23--2026-09-01-opentaint-joins-the-tool-native-profile-at-0--6-and-the-shipped-models-archive-is-ruled-shipped-product)
+declined every cell because "the pinned release ships no rule set" — true of
+the analyzer release's two assets, and incomplete about the shipped product.
+The six rationales in the
+[activation-contract section](#opentaint--analyzer2026082717eb0fe-shipped-models-archive-only-java-only)
+are restated on the measured evidence below, each cell carrying this
+amendment's link, per the same restatement discipline
+[A10](#a10--2026-08-28-bifrosts-native-category-z-cell-is-restated-on-the-absent-endpoint-catalog)
+established.
+
+**The challenge, and what it turned out to be.** The vendor's demo repository
+([seqra/java-spring-demo](https://github.com/seqra/java-spring-demo))
+documents the shipped product's intended invocation as `opentaint scan .` —
+an entry point A23 never engaged. Read from the vendor's own source: the
+`opentaint` CLI's `scan` command defaults to `--ruleset builtin`, and
+`builtin` is not an embedded catalog but the vendor's **versioned rules
+release**, downloaded by pinned tag and handed to the same analyzer jar
+through the same `--semgrep-rule-set` flag every benchmark-controlled run
+uses. The released CLI (v0.4.5, 2026-07-10) pins `rules/v0.2.2`; the CLI at
+the repository head pins `rules/v0.3.0` (2026-07-30), the newest rules
+release at the pinned analyzer's own date (2026-08-27). On A23's own
+reasoning that rule set is **shipped product** — vendor-authored, versioned,
+digest-pinnable (`opentaint-rules.tar.gz`, SHA-256
+`3d789c9986479fec792333329abe737eccb15bc06fc59a978a58810118ca1d21`) — so the
+declines could not go on resting on the absence of a rule set. They had to be
+re-decided against what the shipped rules actually bind.
+
+**The field evaluation.** `scripts/probe-opentaint-scan-activation.sh`,
+evidence retained under `reports/raw/amendment-a25-opentaint-scan-activation/`.
+The pinned analyzer (same digests, no version bump), the shipped models
+archive, and the `rules/v0.3.0` java rule set — the demo-shaped activation,
+at every severity, a superset of the CLI's warning-and-error default, so
+silence here implies silence under the product's own filter — over all twelve
+committed Java native fixtures. The kernel adapter's rule-load-trace guard
+applies: the analyzer exits zero with a well-formed empty SARIF on rule-load
+failure, so the silence had to be proven loaded-and-silent. It was: **86
+rules registered, 135 rule traces, zero load errors, zero results on all
+twelve fixtures.** A positive control proves the harness live rather than
+dead: a fixture carrying the real `jakarta.servlet.http` identities (stub
+classes on the real package path, so the compiled bytecode carries the
+fully-qualified names the shipped source rules bind) flows
+`request.getParameter(...)` into `Runtime.exec(...)`, and the shipped
+`os-command-injection` rule reports it under the identical jar, models, rule
+set, and flags. No finding fired anywhere on any fixture, so there is nothing
+for [the outcome-honesty section](#outcome-honesty) to re-score as
+`not-reached`: the cells never leave `unsupported`.
+
+**Why the cells stay declined.** The shipped rule set binds this profile's
+command sink — `Runtime.exec` is in `command-injection-sinks` — and binds
+**no source any native template reads**: every source rule in the java set
+(v0.3.0, and v0.2.2 was read too — SHA-256
+`367e16db53b37ecd9c0ec260a5c65dc4977dbe9164737f90394b453c37a449d6`, same
+three source files) is servlet-, Spring-, or Seam-shaped. Nothing names
+`System.getenv`, a `main(String[])` parameter, or `System.getProperty`. A
+bound sink with no applicable source cannot produce a finding on these
+fixtures — the exact shape
+[A7](#a7--2026-08-27-semgrep-ces-six-java-cells-are-retained-unsupported-against-the-vendored-snapshot)
+and
+[A19](#a19--2026-09-01-flowdroid-joins-the-tool-native-profile-with-a-live-activation-contract-and-six-cells-declined-on-catalog-evidence)
+retained Semgrep CE's and FlowDroid's Java cells on, here with the executed
+run and the live control on top of the catalog reading. The product fact this
+records is the same one FlowDroid's row records: a security suite aimed at
+framework-served code, which is a statement about the shipped catalog's
+audience, not about the engine.
+
+**What would move a cell.** A vendor rules release whose java set binds a
+platform source these templates read. Such a release would be vendored under
+[the provenance rule](#provenance-for-vendored-activation-artifacts) — or
+pinned by release digest as this evaluation pinned `rules/v0.3.0` — and the
+cells re-decided against it by a dated amendment. Nothing is vendored by this
+amendment: the declined row still hands no fixture to the analyzer, so no
+committed invocation shape changes and the no-benchmark-models gate is
+untouched.
+
+**Templates and languages touched.** All six native templates, for `java`
+alone, for OpenTaint alone. No partition decision, report, or score changes.
+
+**Freezes invalidated.** None. The v0.6.1 manifest binds
+`reports/opentaint-java-native.json` byte-for-byte, with all twelve cells
+`unsupported` — and those are still the outcomes, so nothing the freeze
+attests moves. The frozen report's retained rationales carry A23's wording,
+which was the decision of record when the freeze was taken; that is the
+historical record, kept as written. This amendment changes the grounds this
+document states for the same declines, not the partition, the outcomes, or
+any published byte.
+
 ### A26 — 2026-09-02: Joern's native decline is re-grounded on a field evaluation of the shipped scan bundle
 
 **What changed.** Nothing in the partition: all eighteen Joern cells — six
@@ -1879,3 +2034,120 @@ outcome `unsupported`. This amendment moves no outcome and rewrites no
 frozen byte, so `validate-freeze` stays green; the frozen reports carry the
 superseded rationale wording, and this entry is the durable record of what
 replaced it.
+### A29 — 2026-09-02: FlowDroid's native decline is re-grounded on the shipped surface's full enumeration and executed engagement
+
+**What changed.** Nothing in the partition: all six FlowDroid cells stay
+`unsupported`, and the row stays 0 / 6 for Java. What changes is the grounds.
+[Amendment A19](#a19--2026-09-01-flowdroid-joins-the-tool-native-profile-with-a-live-activation-contract-and-six-cells-declined-on-catalog-evidence)
+declined the cells from the shipped `SourcesAndSinks.txt` catalog's own text,
+before any run — a maintainer challenge asked whether that reading had
+engaged everything the release ships, or only the default file. This
+amendment answers by enumeration and by execution, the same movement
+[A25](#a25--2026-09-02-the-shipped-opentaint-scan-entry-point-is-field-evaluated-and-the-six-native-declines-are-re-grounded-on-its-measured-silence)
+and
+[A26](#a26--2026-09-02-joerns-native-decline-is-re-grounded-on-a-field-evaluation-of-the-shipped-scan-bundle)
+made for OpenTaint and Joern: **every declarative surface the pinned jar
+bundles was enumerated, none binds any identity the probes read, and the
+shipped catalog executed over all twelve Java native fixtures decided
+nothing** — so the decline comes back stronger than it went in.
+(Numbering note, per [the numbering convention](#amendments): the sequence's
+top merged heading at authoring was A26, and this entry was drafted as A27 —
+then renumbered to A29 before merge, because the concurrent
+BrokkAi/dataflowbench#123 and BrokkAi/dataflowbench#124 both claim A27 and,
+by PR order, A28. If either claim dissolves, the number stays A29 anyway; a
+gap is cheaper than a second race.)
+
+**The enumeration.** Retained under
+`reports/raw/amendment-a29-flowdroid-shipped-surface/` (produced by
+`scripts/probe-flowdroid-native-shipped-surface.sh`, which witnesses all
+three artifact digests and the jar's self-reported version before touching
+anything, and works entirely in scratch space — no committed artifact is
+mutated and no report is written). The pinned
+`soot-infoflow-cmd-2.15.1-jar-with-dependencies.jar` bundles exactly five
+declarative surfaces beyond compiled classes, every one retained verbatim:
+
+1. **`SourcesAndSinks.txt`** — the only endpoint catalog instance the
+   release ships **in any format**: the bundled `schema/SourcesAndSinks.xsd`
+   defines an XML catalog format the CLI can consume, but no XML instance
+   exists in the artifact, and no SuSi-style categorized variant does
+   either. Textually 176 `_SOURCE_` / 227 `_SINK_` / 4 `_BOTH_` lines; the
+   release's own parser accepts 71 sources and 193 sinks and rejects 14
+   malformed vendor lines with `Line does not match` warnings (retained in
+   every per-fixture log) — the shipped catalog is smaller in the field than
+   on paper, and A19's textual counts overstated what actually loads.
+2. **`EasyTaintWrapperSource.txt`** — the EasyTaintWrapper default
+   definitions: 435 wrap entries, 12 excludes, 5 kills, and 4 include
+   prefixes (`android.`, `java.`, `org.apache.http.`, `org.joda.time.`).
+   The format has no source or sink role at all — every entry is
+   propagation-side — so it cannot supply what the catalog lacks.
+3. **`AndroidCallbacks.txt`** — 520 callback interface names; lifecycle
+   surface, not endpoints.
+4. **`virtualedges.xml`** — the virtual-edge callgraph model; edges, not
+   endpoints.
+5. **`summariesManual/`** — the 347-class StubDroid summary set the default
+   taint wrapper loads with no flag. Its `java.lang.System` summary models
+   `getProperty` as key-argument → return propagation and declares no
+   `getenv` method; no summary links `setProperty` to `getProperty` as a
+   store; its five `Base64`-named summaries are `android.util`, `okio`, and
+   `commons-codec` — `java.util.Base64` has none, exactly as A19 read.
+
+**The load-bearing zero, checked against the whole artifact.** `getenv`
+occurs in exactly three entries of the entire jar — shaded third-party
+dependency classes that *call* `System.getenv` at tool runtime
+(`io.modelcontextprotocol`, `org.snakeyaml`, `io.agentscope` — each named in
+the retained search) — and in **no model, catalog, wrapper, or summary
+declaration anywhere**. The probe searched every surface for every identity
+the six templates use (`getenv`, the `getProperty`/`setProperty` pair, a
+`main(String[])` argv convention, `Runtime.exec`, `ProcessBuilder`,
+`Base64`): the sink side binds, the source side binds nowhere.
+
+**The execution.** Three witnessed behaviors, each under the adapter's
+zero-exit guards (a negative exists only where the analyzer's own
+`Found N leaks from M sources` line does; the failure banner anywhere is a
+probe failure):
+
+1. **No fallback catalog exists.** A bare `-a <apk> -p <platform>`
+   invocation initializes the default StubDroid wrapper (`summaries for 347
+   classes`, in the retained log) and then fails with the zero-exit banner
+   `No source/sink file specified for the data flow analysis` — the
+   activation shape A19 recorded is the only one the release has.
+2. **The shipped catalog, engaged, decides nothing.** Per-fixture APKs were
+   materialized exactly as the kernel does (javac, the committed activity
+   wrapper, D8, the committed manifest blob) and the pinned CLI ran over all
+   twelve Java native fixtures with the shipped catalog extracted verbatim
+   and the default wrapper active. Every run completed with
+   **`Found 0 leaks from 0 sources`**, aborting at source lookup — the
+   twelve logs, argv records, and parsed `SourceSinkManager` counts are
+   retained per fixture.
+3. **The control attributes the zeros.** The same source-sink-positive APK,
+   the same invocation, the shipped catalog plus one benchmark-authored line
+   — `<java.lang.System: java.lang.String getenv(java.lang.String)> ->
+   _SOURCE_`, clearly labelled a control and never part of any activation —
+   yields **`Found 1 leaks from 1 sources`**, with the results XML retained.
+   One line separates 0 / 6 from the floor flow being found; nothing about
+   the APK materialization, the entry wrapper, the platform pin, or the
+   engine explains the zeros. The catalog does.
+
+**Why the cells stay declined rather than becoming scored.** Unchanged from
+A19, now with executed evidence where a text reading stood: the activation
+rule scores a cell only when a shipped model gives the template's flow
+something to bind, and a run whose source set is empty over these fixtures
+can decide nothing a retained rationale doesn't already state. Recording
+twelve executed `Found 0 leaks from 0 sources` outcomes as `not-reached`
+would present a catalog gap as a measured miss — the exact conflation this
+profile exists to prevent. The per-cell rationales in `NATIVE_PARTITION`
+(`src/main.rs`) now carry the A29 citation beside A19's.
+
+**What would move a cell.** As A19 recorded: a shipped catalog release that
+gains a platform environment or argv source is a promotion by dated
+amendment carrying the new jar pin as its evidence — and this amendment's
+enumeration is exactly the check such a promotion would re-run.
+
+**Templates and languages touched.** All six native templates, Java only,
+FlowDroid alone. No decision changes anywhere.
+
+**Freezes invalidated.** None. The v0.6.1 freeze pins
+`reports/flowdroid-java-native.json` by digest, and this amendment does not
+touch that report: its retained decisions and their A19 rationale text are
+the run that was frozen, and the re-grounding lives in this document, the
+probe evidence, and the rationale text future runs will carry.

@@ -330,6 +330,16 @@ no identity these twelve fixtures read (`Runtime.exec` is a bound sink;
 `System.getenv` occurs nowhere), so all six templates are `unsupported` on
 shipped-model evidence, the same shape as the other declines above.
 
+[Amendment A29](native-profile.md#a29--2026-09-02-flowdroids-native-decline-is-re-grounded-on-the-shipped-surfaces-full-enumeration-and-executed-engagement)
+re-grounded the decline by enumeration and execution: every declarative
+surface the pinned jar bundles (the catalog — the only endpoint catalog
+instance in any format — the EasyTaintWrapper defaults, the callback list,
+the virtual-edge model, and the 347-class StubDroid summary set) binds no
+probe source identity anywhere, and the shipped catalog engaged over all
+twelve fixtures reports `Found 0 leaks from 0 sources` on every one, while a
+one-line control source finds the floor flow
+(`reports/raw/amendment-a29-flowdroid-shipped-surface/`).
+
 `reports/flowdroid-java-native.json` records the twelve retained decisions,
 each carrying the witnessed jar identity and the pinned activation shape:
 
