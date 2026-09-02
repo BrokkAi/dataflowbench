@@ -4,6 +4,8 @@ Generated from freeze manifest `reports/freeze.json` (`sha256:65638eafb36478120d
 
 Claim scope `release`. Every number on these pages is derived from the immutable freeze evidence above; none are maintained by hand. Tracks, score dimensions, score tiers, and model profiles are separate result populations and are never combined into one leaderboard.
 
+Caveat: `inconclusive` outcomes are excluded from every TPR and FPR denominator on these pages, so rate columns cover only each population's conclusive subset. In this freeze every `inconclusive` outcome is produced by: `bifrost-c-kernel` (9), `bifrost-cpp-kernel` (26), `bifrost-csharp-kernel` (24), `bifrost-go-kernel` (24), `bifrost-java-kernel` (18), `bifrost-javascript-kernel` (20), `bifrost-javascript-modeling` (3), `bifrost-kotlin-kernel` (30), `bifrost-php-kernel` (26), `bifrost-python-kernel` (22), `bifrost-ruby-kernel` (36), `bifrost-rust-kernel` (18), `bifrost-scala-kernel` (20), `bifrost-typescript-kernel` (22). Compare rate columns across adapters with that exclusion in mind.
+
 - Tracks: `taint`
 - Score dimensions: `taint`
 - Score tiers: `calibration`, `core`, `language-extension`, `modeling`

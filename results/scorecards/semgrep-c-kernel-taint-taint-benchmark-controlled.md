@@ -26,6 +26,8 @@ Outcome coverage: `reached` 9, `not-reached` 5, `inconclusive` 0, `unsupported` 
 
 Macro-average over semantic dimensions: TPR 100.0%, FPR 42.9%. Macro-averages pool templates first, then semantic dimensions; raw case counts are shown for audit only.
 
+Caveat: `inconclusive` outcomes are excluded from every TPR and FPR denominator above, so the rates cover only the conclusive subset of this population. This population records 0 `inconclusive` outcome(s). Compare rate columns across adapters with that exclusion in mind: an adapter that self-reports uncertainty is not penalized in its rates for the cases it declined to decide.
+
 ### Cases
 
 | Template | Case | Polarity | Outcome | Classification | Raw evidence | Raw SHA-256 |

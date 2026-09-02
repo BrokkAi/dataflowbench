@@ -6063,6 +6063,24 @@ fn build_scorecard(
                     percent_cell(&macro_tpr),
                     percent_cell(&macro_fpr),
                 ));
+                let inconclusive = coverage.get("inconclusive").copied().unwrap_or(0);
+                page.push_str(&format!(
+                    "\nCaveat: `inconclusive` outcomes are excluded from every TPR \
+                     and FPR denominator above, so the rates cover only the \
+                     conclusive subset of this population. This population records \
+                     {inconclusive} `inconclusive` outcome(s){}. Compare rate \
+                     columns across adapters with that exclusion in mind: an \
+                     adapter that self-reports uncertainty is not penalized in its \
+                     rates for the cases it declined to decide.\n",
+                    if inconclusive > 0 {
+                        format!(
+                            ", produced by `{}`",
+                            adapter["tool"].as_str().unwrap_or("unknown"),
+                        )
+                    } else {
+                        String::new()
+                    },
+                ));
             }
 
             page.push_str("\n### Cases\n\n");
@@ -6162,6 +6180,34 @@ fn build_index_page(
          populations and are never combined into one leaderboard.\n\n",
         claim["scope"].as_str().unwrap_or_default(),
     ));
+    let mut inconclusive_by_adapter: BTreeMap<&str, usize> = BTreeMap::new();
+    for report in manifest["reports"].as_array().into_iter().flatten() {
+        let inconclusive = report["outcomes"]
+            .as_array()
+            .into_iter()
+            .flatten()
+            .filter(|record| record["outcome"] == "inconclusive")
+            .count();
+        if inconclusive > 0 {
+            *inconclusive_by_adapter
+                .entry(report["adapter"].as_str().unwrap_or("unknown"))
+                .or_default() += inconclusive;
+        }
+    }
+    if !inconclusive_by_adapter.is_empty() {
+        let producers = inconclusive_by_adapter
+            .iter()
+            .map(|(adapter, count)| format!("`{adapter}` ({count})"))
+            .collect::<Vec<_>>()
+            .join(", ");
+        page.push_str(&format!(
+            "Caveat: `inconclusive` outcomes are excluded from every TPR and FPR \
+             denominator on these pages, so rate columns cover only each \
+             population's conclusive subset. In this freeze every `inconclusive` \
+             outcome is produced by: {producers}. Compare rate columns across \
+             adapters with that exclusion in mind.\n\n",
+        ));
+    }
     for (label, field) in [
         ("Tracks", "tracks"),
         ("Score dimensions", "dimensions"),
@@ -6446,7 +6492,10 @@ fn run_bifrost(binary: &Path, run: BifrostRun) -> Result<()> {
                             });
                             fs::write(&raw_path, serde_json::to_string_pretty(&report)? + "\n")?;
                         }
-                        normalize_bifrost(&case, &report, status_code)?
+                        let dialect = bifrost_anchor_dialect(
+                            case["language"].as_str().expect("schema validated"),
+                        )?;
+                        normalize_bifrost(&path, &case, &report, status_code, dialect)?
                     }
                     Err(error) => {
                         let diagnostic =
@@ -11132,9 +11181,11 @@ fn materialize_bifrost_workspace(case_path: &Path, case: &Value, policy: &str) -
 }
 
 fn normalize_bifrost(
+    case_path: &Path,
     case: &Value,
     report: &Value,
     status: Option<i32>,
+    dialect: AnchorDialect,
 ) -> Result<(&'static str, Vec<String>, Vec<Value>)> {
     let mut report_diagnostics = diagnostics(report);
     let incompleteness = incompleteness_reasons(report);
@@ -11206,21 +11257,107 @@ fn normalize_bifrost(
     if has_bifrost_empty_selection(report) {
         return Ok(("inconclusive", report_diagnostics, Vec::new()));
     }
-    let finding_count = count_findings(report);
-    let expects_flow = !case["expected_flows"]
-        .as_array()
-        .expect("schema validated")
-        .is_empty();
-    let outcome = match (expects_flow, finding_count) {
-        (true, 0) => "not-reached",
-        (true, _) => "reached",
-        (false, 0) => "not-reached",
-        (false, _) => "reached",
+    let findings = collect_bifrost_findings(report);
+    if findings.is_empty() {
+        return Ok(("not-reached", report_diagnostics, Vec::new()));
+    }
+    // A finding counts as `reached` only when it lands on a callsite of the
+    // case's own anchored sink function, in the anchored file — the same
+    // reconciliation every external adapter passes through (CodeQL's SARIF
+    // anchor match, the Joern flow-anchor match, Semgrep's finding match).
+    // A finding the case's sink anchor cannot vouch for is `inconclusive`,
+    // never a clean `reached`. The raw report retains witnesses, but expected
+    // checkpoints from the case are still never turned into observed result
+    // evidence.
+    let sink_locations = match sink_anchor_locations(case_path, case, dialect) {
+        Ok(locations) => locations,
+        Err(reason) => {
+            report_diagnostics.push(format!(
+                "cannot prove a Bifrost finding against the sink anchor: {reason}"
+            ));
+            report_diagnostics.sort();
+            report_diagnostics.dedup();
+            return Ok(("inconclusive", report_diagnostics, Vec::new()));
+        }
     };
-    // The raw Bifrost report retains witnesses, but the adapter does not yet
-    // prove their locations against canonical DFB markers. Do not turn
-    // expected checkpoints from the case into observed result evidence.
-    Ok((outcome, report_diagnostics, Vec::new()))
+    let mut matched = 0usize;
+    let mut unmatched = 0usize;
+    let mut ambiguous = 0usize;
+    for finding in findings {
+        match bifrost_finding_anchor_match(finding, &sink_locations) {
+            EvidenceAnchorMatch::Matched => matched += 1,
+            EvidenceAnchorMatch::Unmatched => unmatched += 1,
+            EvidenceAnchorMatch::Ambiguous => ambiguous += 1,
+        }
+    }
+    if ambiguous > 0 {
+        report_diagnostics.push(format!(
+            "{ambiguous} Bifrost finding(s) carry no usable or an ambiguous sink-anchor location"
+        ));
+        report_diagnostics.sort();
+        report_diagnostics.dedup();
+        return Ok(("inconclusive", report_diagnostics, Vec::new()));
+    }
+    if matched > 0 {
+        return Ok(("reached", report_diagnostics, Vec::new()));
+    }
+    report_diagnostics.push(format!(
+        "{unmatched} Bifrost finding(s) did not match the case sink anchor"
+    ));
+    report_diagnostics.sort();
+    report_diagnostics.dedup();
+    Ok(("inconclusive", report_diagnostics, Vec::new()))
+}
+
+/// The AnchorDialect a Bifrost run reconciles a case's sink anchor with,
+/// selected from the case's own language. Kotlin and Scala declare their
+/// sinks with the same identifier-before-parameter-list shape Java does, so
+/// they share Java's dialect exactly as the Joern Kotlin kernel does.
+fn bifrost_anchor_dialect(language: &str) -> Result<AnchorDialect> {
+    match language {
+        "java" | "kotlin" | "scala" => Ok(AnchorDialect::Java),
+        "javascript" | "typescript" => Ok(AnchorDialect::Ecma),
+        "python" => Ok(AnchorDialect::Python),
+        "csharp" => Ok(AnchorDialect::CSharp),
+        "go" => Ok(AnchorDialect::Go),
+        "c" | "cpp" => Ok(AnchorDialect::Cpp),
+        "rust" => Ok(AnchorDialect::Rust),
+        "ruby" => Ok(AnchorDialect::Ruby),
+        "php" => Ok(AnchorDialect::Php),
+        other => bail!("no Bifrost sink-anchor dialect is wired for language {other:?}"),
+    }
+}
+
+/// A Bifrost finding carries a single primary location, so reconciliation is
+/// the one-location form of the Joern flow match, exactly as Semgrep's: the
+/// finding's own file and line must land on a callsite of the case's anchored
+/// sink.
+fn bifrost_finding_anchor_match(
+    finding: &Value,
+    sink_locations: &[SinkAnchorLocation],
+) -> EvidenceAnchorMatch {
+    let (Some(file), Some(line)) = (
+        finding["primary"]["path"].as_str(),
+        finding["primary"]["region"]["start_line"].as_u64(),
+    ) else {
+        return EvidenceAnchorMatch::Ambiguous;
+    };
+    if line == 0 {
+        return EvidenceAnchorMatch::Ambiguous;
+    }
+    let mut matches = BTreeSet::new();
+    for (index, anchor) in sink_locations.iter().enumerate() {
+        if evidence_path_matches_file(file, &anchor.file) && anchor.callsite_lines.contains(&line) {
+            matches.insert(index);
+        }
+    }
+    if matches.len() > 1 {
+        EvidenceAnchorMatch::Ambiguous
+    } else if matches.len() == 1 {
+        EvidenceAnchorMatch::Matched
+    } else {
+        EvidenceAnchorMatch::Unmatched
+    }
 }
 
 /// An empty endpoint selection makes a taint verdict vacuous. Bifrost retains
@@ -11294,20 +11431,33 @@ fn bifrost_runner_error_reason(value: &Value) -> Option<String> {
     None
 }
 
-fn count_findings(value: &Value) -> usize {
+/// Every entry of every `findings` array anywhere in the raw document, in
+/// document order — the same recursive sweep the former finding counter
+/// performed, retained so a structural change in the report cannot silently
+/// hide findings from reconciliation.
+fn collect_bifrost_findings(value: &Value) -> Vec<&Value> {
+    let mut findings = Vec::new();
+    collect_bifrost_findings_into(value, &mut findings);
+    findings
+}
+
+fn collect_bifrost_findings_into<'a>(value: &'a Value, out: &mut Vec<&'a Value>) {
     match value {
-        Value::Object(map) => map
-            .iter()
-            .map(|(key, item)| {
+        Value::Object(map) => {
+            for (key, item) in map {
                 if key == "findings" {
-                    item.as_array().map_or(0, Vec::len)
+                    out.extend(item.as_array().into_iter().flatten());
                 } else {
-                    count_findings(item)
+                    collect_bifrost_findings_into(item, out);
                 }
-            })
-            .sum(),
-        Value::Array(items) => items.iter().map(count_findings).sum(),
-        _ => 0,
+            }
+        }
+        Value::Array(items) => {
+            for item in items {
+                collect_bifrost_findings_into(item, out);
+            }
+        }
+        _ => {}
     }
 }
 
@@ -15571,7 +15721,13 @@ fn run_bifrost_modeling_case(
                         json!({"outcome": "runner-error", "exit_status": status_code});
                     fs::write(&raw_path, serde_json::to_string_pretty(&report)? + "\n")?;
                 }
-                let (outcome, diagnostics, _) = normalize_bifrost(case, &report, status_code)?;
+                let (outcome, diagnostics, _) = normalize_bifrost(
+                    case_path,
+                    case,
+                    &report,
+                    status_code,
+                    modeling_anchor_dialect(plan.language)?,
+                )?;
                 (outcome, diagnostics, raw_path.clone())
             }
             Err(error) => (
@@ -20435,39 +20591,56 @@ mod tests {
 
     #[test]
     fn normalizer_keeps_negative_and_unsupported_distinct() {
+        let case_path = Path::new("cases/never/case.json");
         let negative = json!({"expected_flows": []});
         assert_eq!(
             normalize_bifrost(
+                case_path,
                 &negative,
                 &json!({
                     "runs": [{"completion": {"type": "complete"}, "findings": []}]
                 }),
-                Some(0)
+                Some(0),
+                AnchorDialect::Java,
             )
             .unwrap()
             .0,
             "not-reached"
         );
+        // A finding the case's sink anchor cannot vouch for is downgraded to
+        // `inconclusive`, exactly as every external adapter's evidence is.
+        let unproven = normalize_bifrost(
+            case_path,
+            &negative,
+            &json!({
+                "runs": [{"completion": {"type": "complete"}, "findings": [{}]}]
+            }),
+            Some(0),
+            AnchorDialect::Java,
+        )
+        .unwrap();
+        assert_eq!(unproven.0, "inconclusive");
+        assert!(unproven.1.iter().any(|diagnostic| {
+            diagnostic.contains("cannot prove a Bifrost finding against the sink anchor")
+        }));
         assert_eq!(
             normalize_bifrost(
+                case_path,
                 &negative,
-                &json!({
-                    "runs": [{"completion": {"type": "complete"}, "findings": [{}]}]
-                }),
-                Some(0)
+                &json!({}),
+                Some(2),
+                AnchorDialect::Java
             )
             .unwrap()
             .0,
-            "reached"
-        );
-        assert_eq!(
-            normalize_bifrost(&negative, &json!({}), Some(2)).unwrap().0,
             "inconclusive"
         );
         assert!(normalize_bifrost(
+            case_path,
             &negative,
             &json!({"runs": [{"completion": {"type": "inconclusive", "reasons": ["partial_discovery"]}}]}),
-            Some(2)
+            Some(2),
+            AnchorDialect::Java,
         )
         .unwrap()
         .1
@@ -20476,20 +20649,162 @@ mod tests {
 
     #[test]
     fn normalizer_does_not_synthesize_witness_checkpoints() {
+        let root = unique_test_dir("dataflowbench-bifrost-witness-test");
+        let case_path = root.join("case.json");
+        fs::write(
+            root.join("Fixture.java"),
+            "    static void dfbSink(int value) { } // DFB-SINK: sink\n        dfbSink(input);\n",
+        )
+        .unwrap();
         let case = json!({
             "expected_flows": [{"source": "DFB-SOURCE: input", "sink": "DFB-SINK: sink"}],
-            "witness_checkpoints": ["DFB-WITNESS: relay"]
+            "witness_checkpoints": ["DFB-WITNESS: relay"],
+            "sink_anchors": [{
+                "marker": "DFB-SINK: sink",
+                "file": "Fixture.java",
+                "line_hint": 1
+            }]
         });
         let normalized = normalize_bifrost(
+            &case_path,
             &case,
             &json!({
-                "runs": [{"completion": {"type": "complete"}, "findings": [{}]}]
+                "runs": [{"completion": {"type": "complete"}, "findings": [{
+                    "primary": {"path": "Fixture.java", "region": {"start_line": 2}}
+                }]}]
             }),
             Some(0),
+            AnchorDialect::Java,
         )
         .unwrap();
         assert_eq!(normalized.0, "reached");
         assert!(normalized.2.is_empty());
+        fs::remove_dir_all(root).unwrap();
+    }
+
+    /// The Bifrost mirror of the per-adapter sink-anchor tests: a finding on
+    /// the anchored sink's callsite is `reached`; a finding anywhere else in
+    /// the raw document, or one without a usable location, is `inconclusive`
+    /// on the same terms as CodeQL, Joern, and Semgrep evidence.
+    #[test]
+    fn bifrost_findings_require_the_sink_file_and_callsite() {
+        let root = unique_test_dir("dataflowbench-bifrost-anchor-test");
+        let case_path = root.join("case.json");
+        fs::write(
+            root.join("Fixture.java"),
+            "    static void dfbSink(int value) { } // DFB-SINK: sink\n    static void other(int value) { }\n        other(input);\n        dfbSink(input);\n",
+        )
+        .unwrap();
+        let case = json!({
+            "sink_anchors": [{
+                "marker": "DFB-SINK: sink",
+                "file": "Fixture.java",
+                "line_hint": 1
+            }]
+        });
+        let finding_report = |path: &str, line: u64| {
+            json!({
+                "runs": [{"completion": {"type": "complete"}, "findings": [{
+                    "primary": {"path": path, "region": {"start_line": line}}
+                }]}]
+            })
+        };
+        assert_eq!(
+            normalize_bifrost(
+                &case_path,
+                &case,
+                &finding_report("Fixture.java", 4),
+                Some(0),
+                AnchorDialect::Java,
+            )
+            .unwrap()
+            .0,
+            "reached"
+        );
+        let wrong_line = normalize_bifrost(
+            &case_path,
+            &case,
+            &finding_report("Fixture.java", 3),
+            Some(0),
+            AnchorDialect::Java,
+        )
+        .unwrap();
+        assert_eq!(wrong_line.0, "inconclusive");
+        assert!(
+            wrong_line
+                .1
+                .iter()
+                .any(|diagnostic| diagnostic.contains("did not match the case sink anchor"))
+        );
+        assert_eq!(
+            normalize_bifrost(
+                &case_path,
+                &case,
+                &finding_report("Elsewhere.java", 4),
+                Some(0),
+                AnchorDialect::Java,
+            )
+            .unwrap()
+            .0,
+            "inconclusive"
+        );
+        let missing_location = normalize_bifrost(
+            &case_path,
+            &case,
+            &json!({
+                "runs": [{"completion": {"type": "complete"}, "findings": [{
+                    "message": "Controlled input reaches the benchmark sink"
+                }]}]
+            }),
+            Some(0),
+            AnchorDialect::Java,
+        )
+        .unwrap();
+        assert_eq!(missing_location.0, "inconclusive");
+        assert!(
+            missing_location
+                .1
+                .iter()
+                .any(|diagnostic| diagnostic.contains("ambiguous sink-anchor location"))
+        );
+        assert_eq!(
+            normalize_bifrost(
+                &case_path,
+                &case,
+                &json!({"runs": [{"completion": {"type": "complete"}, "findings": []}]}),
+                Some(0),
+                AnchorDialect::Java,
+            )
+            .unwrap()
+            .0,
+            "not-reached"
+        );
+        fs::remove_dir_all(root).unwrap();
+    }
+
+    /// Every Bifrost population maps its case language onto the sink-anchor
+    /// dialect its fixtures actually declare sinks in; an unmapped language is
+    /// a hard error rather than an unreconciled `reached`.
+    #[test]
+    fn bifrost_anchor_dialects_cover_every_kernel_language() {
+        for (language, dialect) in [
+            ("java", AnchorDialect::Java),
+            ("kotlin", AnchorDialect::Java),
+            ("scala", AnchorDialect::Java),
+            ("javascript", AnchorDialect::Ecma),
+            ("typescript", AnchorDialect::Ecma),
+            ("python", AnchorDialect::Python),
+            ("csharp", AnchorDialect::CSharp),
+            ("go", AnchorDialect::Go),
+            ("c", AnchorDialect::Cpp),
+            ("cpp", AnchorDialect::Cpp),
+            ("rust", AnchorDialect::Rust),
+            ("ruby", AnchorDialect::Ruby),
+            ("php", AnchorDialect::Php),
+        ] {
+            assert_eq!(bifrost_anchor_dialect(language).unwrap(), dialect);
+        }
+        assert!(bifrost_anchor_dialect("cobol").is_err());
     }
 
     #[test]
@@ -20501,26 +20816,41 @@ mod tests {
                 "findings": []
             }]
         });
+        let case_path = Path::new("cases/never/case.json");
         assert_eq!(
-            normalize_bifrost(&negative, &incomplete, Some(0))
-                .unwrap()
-                .0,
+            normalize_bifrost(
+                case_path,
+                &negative,
+                &incomplete,
+                Some(0),
+                AnchorDialect::Java
+            )
+            .unwrap()
+            .0,
             "inconclusive"
         );
         assert_eq!(
             normalize_bifrost(
+                case_path,
                 &negative,
                 &json!({"runs": [{"completion": {"type": "complete"}, "findings": []}]}),
-                Some(9)
+                Some(9),
+                AnchorDialect::Java,
             )
             .unwrap()
             .0,
             "runner-error"
         );
         assert_eq!(
-            normalize_bifrost(&negative, &json!({"findings": []}), Some(0))
-                .unwrap()
-                .0,
+            normalize_bifrost(
+                case_path,
+                &negative,
+                &json!({"findings": []}),
+                Some(0),
+                AnchorDialect::Java,
+            )
+            .unwrap()
+            .0,
             "runner-error"
         );
     }
@@ -20541,7 +20871,14 @@ mod tests {
                 "findings": []
             }]
         });
-        let normalized = normalize_bifrost(&positive, &report, Some(0)).unwrap();
+        let normalized = normalize_bifrost(
+            Path::new("cases/never/case.json"),
+            &positive,
+            &report,
+            Some(0),
+            AnchorDialect::Java,
+        )
+        .unwrap();
         assert_eq!(normalized.0, "inconclusive");
         assert!(
             normalized
@@ -24287,7 +24624,15 @@ mod tests {
             "runs": []
         });
         assert_eq!(
-            normalize_bifrost(&case, &raw, Some(0)).unwrap().0,
+            normalize_bifrost(
+                Path::new("cases/never/case.json"),
+                &case,
+                &raw,
+                Some(0),
+                AnchorDialect::Java,
+            )
+            .unwrap()
+            .0,
             "runner-error"
         );
         assert_eq!(raw_special_outcome(&raw), Some("runner-error"));
@@ -24946,7 +25291,14 @@ mod tests {
                 "diagnostics": []
             }]
         });
-        let (outcome, _, _) = normalize_bifrost(&case, &raw, Some(2)).unwrap();
+        let (outcome, _, _) = normalize_bifrost(
+            Path::new("cases/never/case.json"),
+            &case,
+            &raw,
+            Some(2),
+            AnchorDialect::Java,
+        )
+        .unwrap();
         assert_eq!(outcome, "runner-error");
         assert_eq!(raw_special_outcome(&raw), Some("runner-error"));
 
@@ -24956,7 +25308,14 @@ mod tests {
                 {"completion": {"type": "failed"}, "diagnostics": []}
             ]
         });
-        let (outcome, _, _) = normalize_bifrost(&case, &inconclusive, Some(2)).unwrap();
+        let (outcome, _, _) = normalize_bifrost(
+            Path::new("cases/never/case.json"),
+            &case,
+            &inconclusive,
+            Some(2),
+            AnchorDialect::Java,
+        )
+        .unwrap();
         assert_eq!(outcome, "inconclusive");
         assert_eq!(raw_special_outcome(&inconclusive), Some("inconclusive"));
     }
