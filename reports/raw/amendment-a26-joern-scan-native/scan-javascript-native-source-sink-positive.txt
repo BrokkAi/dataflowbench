@@ -1,0 +1,146 @@
+executing /var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/joern-bundle12652912507625889959/script.sc
+Creating project `native-source-sink-positive` for code at `/Users/dave/Workspace/BrokkAi/dataflowbench/.claude/worktrees/competent-engelbart-ca384f/cases/taint/javascript/native-source-sink-positive`
+=======================================================================================================
+Invoking CPG generator in a separate process. Note that the new process will consume additional memory.
+If you are importing a large codebase (and/or running into memory issues), please try the following:
+1) exit joern
+2) invoke the frontend: /private/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/tmp.UcydNP7dbN/joern-dist/jssrc2cpg.sh -J-Xmx8192m /Users/dave/Workspace/BrokkAi/dataflowbench/.claude/worktrees/competent-engelbart-ca384f/cases/taint/javascript/native-source-sink-positive --output /private/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/tmp.UcydNP7dbN/run-javascript/workspace/native-source-sink-positive/cpg.bin.zip
+3) start joern, import the cpg: `importCpg("path/to/cpg")`
+=======================================================================================================
+
+moving cpg.bin.zip to cpg.bin because it is already a database file
+Creating working copy of CPG to be safe
+Loading base CPG from: /private/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/tmp.UcydNP7dbN/run-javascript/workspace/native-source-sink-positive/cpg.bin.tmp
+[INFO ] initialising from existing storage (/private/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/tmp.UcydNP7dbN/run-javascript/workspace/native-source-sink-positive/cpg.bin.tmp)
+Code successfully imported. You can now query it using `cpg`.
+For an overview of all imported code, type `workspace`.
+Adding default overlays to base CPG
+[INFO ] Start of pass: io.joern.x2cpg.passes.base.FileCreationPass
+[INFO ] Pass io.joern.x2cpg.passes.base.FileCreationPass completed in 13 ms (67% on mutations). 5 + 0 changes committed from 1 parts.
+[INFO ] Start of pass: io.joern.x2cpg.passes.base.NamespaceCreator
+[INFO ] Pass io.joern.x2cpg.passes.base.NamespaceCreator completed in 10 ms (70% on mutations). 2 + 0 changes committed from 1 parts.
+[INFO ] Start of pass: io.joern.x2cpg.passes.base.TypeDeclStubCreator
+[INFO ] Pass io.joern.x2cpg.passes.base.TypeDeclStubCreator completed in 5 ms (32% on mutations). 2 + 0 changes committed from 1 parts.
+[INFO ] Start of pass: io.joern.x2cpg.passes.base.MethodStubCreator
+[INFO ] Pass io.joern.x2cpg.passes.base.MethodStubCreator completed in 14 ms (17% on mutations). 18 + 0 changes committed from 1 parts.
+[INFO ] Start of pass: io.joern.x2cpg.passes.base.ParameterIndexCompatPass
+[INFO ] Pass io.joern.x2cpg.passes.base.ParameterIndexCompatPass completed in 2 ms (57% on mutations). 0 + 0 changes committed from 1 parts.
+[INFO ] Start of pass: io.joern.x2cpg.passes.base.MethodDecoratorPass
+[INFO ] Pass io.joern.x2cpg.passes.base.MethodDecoratorPass completed in 4 ms (38% on mutations). 18 + 0 changes committed from 1 parts.
+[INFO ] Start of pass: io.joern.x2cpg.passes.base.AstLinkerPass
+[INFO ] Could not create edge. Source lookup failed. edgeType=AST, srcNodeType=NAMESPACE_BLOCK, srcFullName=<global>, dstNodeType=METHOD, dstNodeId=107374182402
+[INFO ] Could not create edge. Source lookup failed. edgeType=AST, srcNodeType=NAMESPACE_BLOCK, srcFullName=<global>, dstNodeType=METHOD, dstNodeId=107374182403
+[INFO ] Could not create edge. Source lookup failed. edgeType=AST, srcNodeType=NAMESPACE_BLOCK, srcFullName=<global>, dstNodeType=TYPE_DECL, dstNodeId=167503724546
+[INFO ] Could not create edge. Source lookup failed. edgeType=AST, srcNodeType=NAMESPACE_BLOCK, srcFullName=<global>, dstNodeType=TYPE_DECL, dstNodeId=167503724547
+[INFO ] Pass io.joern.x2cpg.passes.base.AstLinkerPass completed in 4 ms (43% on mutations). 1 + 0 changes committed from 1 parts.
+[INFO ] Start of pass: io.joern.x2cpg.passes.base.ContainsEdgePass
+[INFO ] Pass io.joern.x2cpg.passes.base.ContainsEdgePass completed in 2 ms (38% on mutations). 33 + 0 changes committed from 9 parts.
+[INFO ] Start of pass: io.joern.x2cpg.passes.base.TypeRefPass
+[INFO ] Pass io.joern.x2cpg.passes.base.TypeRefPass completed in 2 ms (52% on mutations). 4 + 0 changes committed from 1 parts.
+[INFO ] Start of pass: io.joern.x2cpg.passes.base.TypeEvalPass
+[INFO ] Could not create edge. Destination lookup failed. edgeType=EVAL_TYPE, srcNodeType=LITERAL, srcNodeId=90194313216, dstNodeType=TYPE, dstFullName=__ecma.String
+[INFO ] Pass io.joern.x2cpg.passes.base.TypeEvalPass completed in 3 ms (51% on mutations). 47 + 0 changes committed from 1 parts.
+[INFO ] Start of pass: io.shiftleft.semanticcpg.Overlays$$anon$1
+[INFO ] Pass io.shiftleft.semanticcpg.Overlays$$anon$1 completed in 3 ms (37% on mutations). 1 + 0 changes committed from 1 parts.
+[INFO ] Start of pass: io.joern.x2cpg.passes.controlflow.CfgCreationPass
+[INFO ] Pass io.joern.x2cpg.passes.controlflow.CfgCreationPass completed in 7 ms (16% on mutations). 29 + 0 changes committed from 4 parts.
+[INFO ] Start of pass: io.joern.x2cpg.passes.controlflow.cfgdominator.CfgDominatorPass
+[INFO ] Pass io.joern.x2cpg.passes.controlflow.cfgdominator.CfgDominatorPass completed in 3 ms (18% on mutations). 58 + 0 changes committed from 4 parts.
+[INFO ] Start of pass: io.joern.x2cpg.passes.controlflow.codepencegraph.CdgPass
+[INFO ] Pass io.joern.x2cpg.passes.controlflow.codepencegraph.CdgPass completed in 1 ms (18% on mutations). 0 + 0 changes committed from 4 parts.
+[INFO ] Start of pass: io.shiftleft.semanticcpg.Overlays$$anon$1
+[INFO ] Pass io.shiftleft.semanticcpg.Overlays$$anon$1 completed in 0 ms (74% on mutations). 1 + 0 changes committed from 1 parts.
+[INFO ] Start of pass: io.joern.x2cpg.passes.typerelations.TypeHierarchyPass
+[INFO ] Pass io.joern.x2cpg.passes.typerelations.TypeHierarchyPass completed in 1 ms (27% on mutations). 2 + 0 changes committed from 1 parts.
+[INFO ] Start of pass: io.joern.x2cpg.passes.typerelations.AliasLinkerPass
+[INFO ] Pass io.joern.x2cpg.passes.typerelations.AliasLinkerPass completed in 1 ms (42% on mutations). 0 + 0 changes committed from 1 parts.
+[INFO ] Start of pass: io.joern.x2cpg.passes.typerelations.FieldAccessLinkerPass
+[INFO ] Could not create edge. Destination lookup failed. edgeType=REF, srcNodeType=CALL, srcNodeId=30064771073, dstNodeType=MEMBER, dstFullName=ANY.DFB_INPUT
+[INFO ] Could not create edge. Destination lookup failed. edgeType=REF, srcNodeType=CALL, srcNodeId=30064771074, dstNodeType=MEMBER, dstFullName=ANY.env
+[INFO ] Could not create edge. Destination lookup failed. edgeType=REF, srcNodeType=CALL, srcNodeId=30064771076, dstNodeType=MEMBER, dstFullName=ANY.execSync
+[INFO ] Pass io.joern.x2cpg.passes.typerelations.FieldAccessLinkerPass completed in 14 ms (2% on mutations). 0 + 0 changes committed from 1 parts.
+[INFO ] Start of pass: io.shiftleft.semanticcpg.Overlays$$anon$1
+[INFO ] Pass io.shiftleft.semanticcpg.Overlays$$anon$1 completed in 0 ms (74% on mutations). 1 + 0 changes committed from 1 parts.
+[INFO ] Start of pass: io.joern.x2cpg.passes.callgraph.MethodRefLinker
+[INFO ] Pass io.joern.x2cpg.passes.callgraph.MethodRefLinker completed in 1 ms (68% on mutations). 1 + 0 changes committed from 1 parts.
+[INFO ] Start of pass: io.joern.x2cpg.passes.callgraph.StaticCallLinker
+[INFO ] Pass io.joern.x2cpg.passes.callgraph.StaticCallLinker completed in 1 ms (36% on mutations). 6 + 0 changes committed from 1 parts.
+[INFO ] Start of pass: io.joern.x2cpg.passes.callgraph.DynamicCallLinker
+[INFO ] Pass io.joern.x2cpg.passes.callgraph.DynamicCallLinker completed in 3 ms (14% on mutations). 0 + 0 changes committed from 1 parts.
+[INFO ] Start of pass: io.shiftleft.semanticcpg.Overlays$$anon$1
+The graph has been modified. You may want to use the `save` command to persist changes to disk.  All changes will also be saved collectively on exit
+[INFO ] Pass io.shiftleft.semanticcpg.Overlays$$anon$1 completed in 1 ms (69% on mutations). 1 + 0 changes committed from 1 parts.
+[INFO ] Start of pass: io.joern.dataflowengineoss.passes.reachingdef.ReachingDefPass
+[INFO ] Calculating reaching definitions for: probe.js::program:run in probe.js
+[INFO ] Calculating reaching definitions for: probe.js::program in probe.js
+[INFO ] Calculating reaching definitions for: <operator>.fieldAccess in <empty>
+[INFO ] Calculating reaching definitions for: <operator>.assignment in <empty>
+[INFO ] Number of definitions for <operator>.fieldAccess: 2
+[INFO ] Number of definitions for <operator>.assignment: 2
+[INFO ] Number of definitions for probe.js::program: 10
+[INFO ] Number of definitions for probe.js::program:run: 7
+[INFO ] Pass io.joern.dataflowengineoss.passes.reachingdef.ReachingDefPass completed in 42 ms (2% on mutations). 64 + 0 changes committed from 4 parts.
+[INFO ] Start of pass: io.shiftleft.semanticcpg.Overlays$$anon$1
+The graph has been modified. You may want to use the `save` command to persist changes to disk.  All changes will also be saved collectively on exit
+[INFO ] Pass io.shiftleft.semanticcpg.Overlays$$anon$1 completed in 1 ms (68% on mutations). 1 + 0 changes committed from 1 parts.
+[INFO ] Start of pass: io.joern.x2cpg.frontendspecific.jssrc2cpg.JavaScriptInheritanceNamePass
+[INFO ] Pass io.joern.x2cpg.frontendspecific.jssrc2cpg.JavaScriptInheritanceNamePass completed in 1 ms (31% on mutations). 0 + 0 changes committed from 0 parts.
+[INFO ] Start of pass: io.joern.x2cpg.frontendspecific.jssrc2cpg.ConstClosurePass
+[INFO ] Pass io.joern.x2cpg.frontendspecific.jssrc2cpg.ConstClosurePass completed in 2 ms (10% on mutations). 0 + 0 changes committed from 1 parts.
+[INFO ] Start of pass: io.joern.x2cpg.frontendspecific.jssrc2cpg.JavaScriptImportResolverPass
+[INFO ] Pass io.joern.x2cpg.frontendspecific.jssrc2cpg.JavaScriptImportResolverPass completed in 9 ms (11% on mutations). 8 + 0 changes committed from 2 parts.
+[INFO ] Start of pass: io.joern.x2cpg.frontendspecific.jssrc2cpg.JavaScriptTypeRecovery
+[INFO ] Pass io.joern.x2cpg.frontendspecific.jssrc2cpg.JavaScriptTypeRecovery completed in 21 ms (6% on mutations). 29 + 0 changes committed from 1 parts.
+[INFO ] Start of pass: io.joern.x2cpg.frontendspecific.jssrc2cpg.JavaScriptTypeRecovery
+[INFO ] Pass io.joern.x2cpg.frontendspecific.jssrc2cpg.JavaScriptTypeRecovery completed in 7 ms (19% on mutations). 11 + 0 changes committed from 1 parts.
+[INFO ] Start of pass: io.joern.x2cpg.frontendspecific.jssrc2cpg.JavaScriptTypeHintCallLinker
+[INFO ] Pass io.joern.x2cpg.frontendspecific.jssrc2cpg.JavaScriptTypeHintCallLinker completed in 11 ms (13% on mutations). 34 + 0 changes committed from 1 parts.
+[INFO ] Start of pass: io.joern.x2cpg.frontendspecific.jssrc2cpg.ObjectPropertyCallLinker
+[INFO ] Pass io.joern.x2cpg.frontendspecific.jssrc2cpg.ObjectPropertyCallLinker completed in 1 ms (13% on mutations). 0 + 0 changes committed from 1 parts.
+[INFO ] Start of pass: io.joern.x2cpg.passes.callgraph.NaiveCallLinker
+[INFO ] Pass io.joern.x2cpg.passes.callgraph.NaiveCallLinker completed in 2 ms (12% on mutations). 0 + 0 changes committed from 1 parts.
+Overlay dataflowOss already exists - skipping
+The graph has been modified. You may want to use the `save` command to persist changes to disk.  All changes will also be saved collectively on exit
+Saving graphs on disk. This may take a while.
+[INFO ] writing to storage at `/private/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/tmp.UcydNP7dbN/run-javascript/workspace/native-source-sink-positive/cpg.bin.tmp`
+[INFO ] closed graph at /private/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/tmp.UcydNP7dbN/run-javascript/workspace/native-source-sink-positive/cpg.bin.tmp
+closing/saving project `native-source-sink-positive`
+Creating working copy of CPG to be safe
+Loading base CPG from: /private/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/tmp.UcydNP7dbN/run-javascript/workspace/native-source-sink-positive/cpg.bin.tmp
+[INFO ] initialising from existing storage (/private/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/tmp.UcydNP7dbN/run-javascript/workspace/native-source-sink-positive/cpg.bin.tmp)
+[INFO ] Start of pass: io.joern.console.scan.ScanPass
+[INFO ] Attempting to determine flows from empty list of sources.
+[INFO ] Attempting to determine flows to empty list of sinks.
+[INFO ] Attempting to determine flows from empty list of sources.
+[INFO ] Attempting to determine flows to empty list of sinks.
+[INFO ] Attempting to determine flows from empty list of sources.
+[INFO ] Attempting to determine flows to empty list of sinks.
+[INFO ] Attempting to determine flows from empty list of sources.
+[INFO ] Attempting to determine flows to empty list of sinks.
+[INFO ] Attempting to determine flows from empty list of sources.
+[INFO ] Attempting to determine flows to empty list of sinks.
+[INFO ] Attempting to determine flows from empty list of sources.
+[INFO ] Attempting to determine flows to empty list of sinks.
+[INFO ] Attempting to determine flows from empty list of sources.
+[INFO ] Attempting to determine flows to empty list of sinks.
+[INFO ] Attempting to determine flows from empty list of sources.
+[INFO ] Attempting to determine flows to empty list of sinks.
+[INFO ] Attempting to determine flows from empty list of sources.
+[INFO ] Attempting to determine flows from empty list of sources.
+[INFO ] Attempting to determine flows to empty list of sinks.
+[INFO ] Attempting to determine flows from empty list of sources.
+[INFO ] Attempting to determine flows to empty list of sinks.
+[INFO ] Attempting to determine flows from empty list of sources.
+[INFO ] Attempting to determine flows to empty list of sinks.
+[INFO ] Attempting to determine flows from empty list of sources.
+[INFO ] Attempting to determine flows to empty list of sinks.
+[INFO ] Attempting to determine flows from empty list of sources.
+[INFO ] Attempting to determine flows to empty list of sinks.
+[INFO ] Pass io.joern.console.scan.ScanPass completed in 59 ms (0% on mutations). 0 + 0 changes committed from 1 parts.
+[INFO ] Start of pass: io.shiftleft.semanticcpg.Overlays$$anon$1
+The graph has been modified. You may want to use the `save` command to persist changes to disk.  All changes will also be saved collectively on exit
+[INFO ] Pass io.shiftleft.semanticcpg.Overlays$$anon$1 completed in 0 ms (71% on mutations). 1 + 0 changes committed from 1 parts.
+[INFO ] writing to storage at `/private/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/tmp.UcydNP7dbN/run-javascript/workspace/native-source-sink-positive/cpg.bin.tmp`
+[INFO ] closed graph at /private/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/tmp.UcydNP7dbN/run-javascript/workspace/native-source-sink-positive/cpg.bin.tmp
+closing/saving project `native-source-sink-positive`
+Run `joern --for-input-path /Users/dave/Workspace/BrokkAi/dataflowbench/.claude/worktrees/competent-engelbart-ca384f/cases/taint/javascript/native-source-sink-positive` to explore interactively

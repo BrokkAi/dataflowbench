@@ -1085,9 +1085,12 @@ full names. It contains no source catalog and no sink catalog, and flow
 semantics never say where taint starts or where its arrival is a finding. In
 every other Joern population here the endpoints come from this adapter's own
 query parameters, which is precisely what the native activation rule forbids.
-`joern-scan` exists in the distribution but its query database does not: it
-downloads `querydb.zip` from a floating `latest` release asset, unpinnable at
-run time.
+`joern-scan` exists in the distribution, and its query database is
+installable at the pin (Amendment A26 measured the versioned release asset
+and retired the earlier unpinnability claim) — but the pinned bundle ships
+**no JavaScript query package at all**, and executed over all twelve
+JavaScript probe fixtures it fired no query
+(`reports/raw/amendment-a26-joern-scan-native/`).
 
 That is a statement about the OSS distribution's *product packaging*, not about
 its engine — the benchmark-controlled matrix scores this same engine on sixteen
@@ -1120,9 +1123,13 @@ catalog. Flow semantics constrain how taint moves through a call; they never
 say where taint starts or where its arrival is a finding. In every Joern
 population this benchmark runs, the endpoints come from the adapter's own query
 parameters, which is exactly what the tool-native activation rule forbids. The
-distribution's `joern-scan` query database is not shipped either: it is
-downloaded from a floating `latest` release asset, unpinnable at run time for
-the same reason Semgrep's registry is.
+distribution's `joern-scan` query database is installable at the pin
+(Amendment A26 measured the versioned release asset and retired the earlier
+unpinnability claim) — and the pinned bundle, executed over all twelve Java
+probe fixtures, fired no query: its one query naming the profile's command
+sink (`call-to-exec`) filters the method-name property with a full-match
+regex and matches zero methods on a `javasrc2cpg` graph
+(`reports/raw/amendment-a26-joern-scan-native/`).
 
 Worth saying plainly: this is a statement about the OSS distribution's
 **packaging**, not about its engine. The benchmark-controlled matrix scores
@@ -1158,9 +1165,14 @@ catalog and no sink catalog. Flow semantics constrain how taint moves through a
 call; they never say where taint starts or where its arrival is a finding. In
 every Joern population this benchmark runs the endpoints come from the
 adapter's own query parameters, which is exactly what the native activation
-rule forbids. The distribution's `joern-scan` query database is not shipped
-either: it is downloaded from a floating `latest` release asset, unpinnable at
-run time for the same reason Semgrep's registry is.
+rule forbids. The distribution's `joern-scan` query database is installable
+at the pin (Amendment A26 measured the versioned release asset and retired
+the earlier unpinnability claim) — but the pinned bundle ships **no Python
+query package at all**, and executed over all twelve Python probe fixtures it
+fired no query. On this pin the scan tool's Python auto-detection does not
+even compile (`importCode.pythonsrc`, a shipped-product defect A26 retains);
+the documented explicit `--language python` runs, and still decides nothing
+(`reports/raw/amendment-a26-joern-scan-native/`).
 
 Worth saying plainly: this is a statement about the OSS distribution's
 **packaging**, not about its engine. The benchmark-controlled matrix scores

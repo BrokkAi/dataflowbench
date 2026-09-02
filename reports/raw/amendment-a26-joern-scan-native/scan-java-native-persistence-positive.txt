@@ -1,0 +1,130 @@
+executing /var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/joern-bundle11750559797286915215/script.sc
+Creating project `native-persistence-positive` for code at `/Users/dave/Workspace/BrokkAi/dataflowbench/.claude/worktrees/competent-engelbart-ca384f/cases/taint/java/native-persistence-positive`
+=======================================================================================================
+Invoking CPG generator in a separate process. Note that the new process will consume additional memory.
+If you are importing a large codebase (and/or running into memory issues), please try the following:
+1) exit joern
+2) invoke the frontend: /private/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/tmp.UcydNP7dbN/joern-dist/javasrc2cpg -J-Xmx8192m /Users/dave/Workspace/BrokkAi/dataflowbench/.claude/worktrees/competent-engelbart-ca384f/cases/taint/java/native-persistence-positive --output /private/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/tmp.UcydNP7dbN/run-java/workspace/native-persistence-positive/cpg.bin.zip
+3) start joern, import the cpg: `importCpg("path/to/cpg")`
+=======================================================================================================
+
+moving cpg.bin.zip to cpg.bin because it is already a database file
+Creating working copy of CPG to be safe
+Loading base CPG from: /private/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/tmp.UcydNP7dbN/run-java/workspace/native-persistence-positive/cpg.bin.tmp
+[INFO ] initialising from existing storage (/private/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/tmp.UcydNP7dbN/run-java/workspace/native-persistence-positive/cpg.bin.tmp)
+Code successfully imported. You can now query it using `cpg`.
+For an overview of all imported code, type `workspace`.
+Adding default overlays to base CPG
+[INFO ] Start of pass: io.joern.x2cpg.passes.base.FileCreationPass
+[INFO ] Pass io.joern.x2cpg.passes.base.FileCreationPass completed in 12 ms (69% on mutations). 6 + 0 changes committed from 1 parts.
+[INFO ] Start of pass: io.joern.x2cpg.passes.base.NamespaceCreator
+[INFO ] Pass io.joern.x2cpg.passes.base.NamespaceCreator completed in 3 ms (42% on mutations). 4 + 0 changes committed from 1 parts.
+[INFO ] Start of pass: io.joern.x2cpg.passes.base.TypeDeclStubCreator
+[INFO ] Pass io.joern.x2cpg.passes.base.TypeDeclStubCreator completed in 5 ms (37% on mutations). 12 + 0 changes committed from 1 parts.
+[INFO ] Start of pass: io.joern.x2cpg.passes.base.MethodStubCreator
+[INFO ] Pass io.joern.x2cpg.passes.base.MethodStubCreator completed in 12 ms (15% on mutations). 54 + 0 changes committed from 1 parts.
+[INFO ] Start of pass: io.joern.x2cpg.passes.base.ParameterIndexCompatPass
+[INFO ] Pass io.joern.x2cpg.passes.base.ParameterIndexCompatPass completed in 1 ms (28% on mutations). 0 + 0 changes committed from 1 parts.
+[INFO ] Start of pass: io.joern.x2cpg.passes.base.MethodDecoratorPass
+[INFO ] Pass io.joern.x2cpg.passes.base.MethodDecoratorPass completed in 3 ms (26% on mutations). 39 + 0 changes committed from 1 parts.
+[INFO ] Start of pass: io.joern.x2cpg.passes.base.AstLinkerPass
+[INFO ] Pass io.joern.x2cpg.passes.base.AstLinkerPass completed in 2 ms (19% on mutations). 18 + 0 changes committed from 1 parts.
+[INFO ] Start of pass: io.joern.x2cpg.passes.base.ContainsEdgePass
+[INFO ] Pass io.joern.x2cpg.passes.base.ContainsEdgePass completed in 3 ms (16% on mutations). 29 + 0 changes committed from 23 parts.
+[INFO ] Start of pass: io.joern.x2cpg.passes.base.TypeRefPass
+[INFO ] Pass io.joern.x2cpg.passes.base.TypeRefPass completed in 1 ms (21% on mutations). 13 + 0 changes committed from 1 parts.
+[INFO ] Start of pass: io.joern.x2cpg.passes.base.TypeEvalPass
+[INFO ] Pass io.joern.x2cpg.passes.base.TypeEvalPass completed in 1 ms (38% on mutations). 61 + 0 changes committed from 1 parts.
+[INFO ] Start of pass: io.shiftleft.semanticcpg.Overlays$$anon$1
+[INFO ] Pass io.shiftleft.semanticcpg.Overlays$$anon$1 completed in 2 ms (28% on mutations). 1 + 0 changes committed from 1 parts.
+[INFO ] Start of pass: io.joern.x2cpg.passes.controlflow.CfgCreationPass
+[INFO ] Pass io.joern.x2cpg.passes.controlflow.CfgCreationPass completed in 5 ms (7% on mutations). 26 + 0 changes committed from 8 parts.
+[INFO ] Start of pass: io.joern.x2cpg.passes.controlflow.cfgdominator.CfgDominatorPass
+[INFO ] Pass io.joern.x2cpg.passes.controlflow.cfgdominator.CfgDominatorPass completed in 4 ms (11% on mutations). 52 + 0 changes committed from 8 parts.
+[INFO ] Start of pass: io.joern.x2cpg.passes.controlflow.codepencegraph.CdgPass
+[INFO ] Pass io.joern.x2cpg.passes.controlflow.codepencegraph.CdgPass completed in 2 ms (19% on mutations). 0 + 0 changes committed from 8 parts.
+[INFO ] Start of pass: io.shiftleft.semanticcpg.Overlays$$anon$1
+[INFO ] Pass io.shiftleft.semanticcpg.Overlays$$anon$1 completed in 0 ms (75% on mutations). 1 + 0 changes committed from 1 parts.
+[INFO ] Start of pass: io.joern.x2cpg.passes.typerelations.TypeHierarchyPass
+[INFO ] Pass io.joern.x2cpg.passes.typerelations.TypeHierarchyPass completed in 1 ms (39% on mutations). 1 + 0 changes committed from 1 parts.
+[INFO ] Start of pass: io.joern.x2cpg.passes.typerelations.AliasLinkerPass
+[INFO ] Pass io.joern.x2cpg.passes.typerelations.AliasLinkerPass completed in 0 ms (35% on mutations). 0 + 0 changes committed from 1 parts.
+[INFO ] Start of pass: io.joern.x2cpg.passes.typerelations.FieldAccessLinkerPass
+[INFO ] Pass io.joern.x2cpg.passes.typerelations.FieldAccessLinkerPass completed in 1 ms (13% on mutations). 0 + 0 changes committed from 1 parts.
+[INFO ] Start of pass: io.shiftleft.semanticcpg.Overlays$$anon$1
+[INFO ] Pass io.shiftleft.semanticcpg.Overlays$$anon$1 completed in 0 ms (78% on mutations). 1 + 0 changes committed from 1 parts.
+[INFO ] Start of pass: io.joern.x2cpg.passes.callgraph.MethodRefLinker
+[INFO ] Pass io.joern.x2cpg.passes.callgraph.MethodRefLinker completed in 0 ms (56% on mutations). 0 + 0 changes committed from 1 parts.
+[INFO ] Start of pass: io.joern.x2cpg.passes.callgraph.StaticCallLinker
+[INFO ] Pass io.joern.x2cpg.passes.callgraph.StaticCallLinker completed in 1 ms (38% on mutations). 6 + 0 changes committed from 1 parts.
+[INFO ] Start of pass: io.joern.x2cpg.passes.callgraph.DynamicCallLinker
+[INFO ] Pass io.joern.x2cpg.passes.callgraph.DynamicCallLinker completed in 4 ms (9% on mutations). 1 + 0 changes committed from 1 parts.
+[INFO ] Start of pass: io.shiftleft.semanticcpg.Overlays$$anon$1
+[INFO ] Pass io.shiftleft.semanticcpg.Overlays$$anon$1 completed in 0 ms (61% on mutations). 1 + 0 changes committed from 1 parts.
+The graph has been modified. You may want to use the `save` command to persist changes to disk.  All changes will also be saved collectively on exit
+[INFO ] Start of pass: io.joern.dataflowengineoss.passes.reachingdef.ReachingDefPass
+[INFO ] Calculating reaching definitions for: <operator>.assignment in <empty>
+[INFO ] Calculating reaching definitions for: java.lang.Runtime.getRuntime:java.lang.Runtime() in <empty>
+[INFO ] Calculating reaching definitions for: dataflowbench.taint.NativePersistencePositive.<init>:void() in NativePersistencePositive.java
+[INFO ] Calculating reaching definitions for: java.lang.System.getProperty:java.lang.String(java.lang.String) in <empty>
+[INFO ] Calculating reaching definitions for: java.lang.System.setProperty:java.lang.String(java.lang.String,java.lang.String) in <empty>
+[INFO ] Calculating reaching definitions for: java.lang.System.getenv:java.lang.String(java.lang.String) in <empty>
+[INFO ] Calculating reaching definitions for: java.lang.Runtime.exec:java.lang.Process(java.lang.String) in <empty>
+[INFO ] Calculating reaching definitions for: dataflowbench.taint.NativePersistencePositive.run:void() in NativePersistencePositive.java
+[INFO ] Number of definitions for java.lang.System.getProperty:java.lang.String(java.lang.String): 2
+[INFO ] Number of definitions for <operator>.assignment: 2
+[INFO ] Number of definitions for java.lang.Runtime.exec:java.lang.Process(java.lang.String): 2
+[INFO ] Number of definitions for java.lang.System.getenv:java.lang.String(java.lang.String): 2
+[INFO ] Number of definitions for dataflowbench.taint.NativePersistencePositive.<init>:void(): 1
+[INFO ] Number of definitions for java.lang.System.setProperty:java.lang.String(java.lang.String,java.lang.String): 3
+[INFO ] Number of definitions for java.lang.Runtime.getRuntime:java.lang.Runtime(): 1
+[INFO ] Number of definitions for dataflowbench.taint.NativePersistencePositive.run:void(): 17
+[INFO ] Pass io.joern.dataflowengineoss.passes.reachingdef.ReachingDefPass completed in 44 ms (1% on mutations). 87 + 0 changes committed from 8 parts.
+[INFO ] Start of pass: io.shiftleft.semanticcpg.Overlays$$anon$1
+[INFO ] Pass io.shiftleft.semanticcpg.Overlays$$anon$1 completed in 1 ms (65% on mutations). 1 + 0 changes committed from 1 parts.
+The graph has been modified. You may want to use the `save` command to persist changes to disk.  All changes will also be saved collectively on exit
+Overlay dataflowOss already exists - skipping
+The graph has been modified. You may want to use the `save` command to persist changes to disk.  All changes will also be saved collectively on exit
+Saving graphs on disk. This may take a while.
+[INFO ] writing to storage at `/private/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/tmp.UcydNP7dbN/run-java/workspace/native-persistence-positive/cpg.bin.tmp`
+[INFO ] closed graph at /private/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/tmp.UcydNP7dbN/run-java/workspace/native-persistence-positive/cpg.bin.tmp
+closing/saving project `native-persistence-positive`
+Creating working copy of CPG to be safe
+Loading base CPG from: /private/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/tmp.UcydNP7dbN/run-java/workspace/native-persistence-positive/cpg.bin.tmp
+[INFO ] initialising from existing storage (/private/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/tmp.UcydNP7dbN/run-java/workspace/native-persistence-positive/cpg.bin.tmp)
+[INFO ] Start of pass: io.joern.console.scan.ScanPass
+[INFO ] Attempting to determine flows from empty list of sources.
+[INFO ] Attempting to determine flows to empty list of sinks.
+[INFO ] Attempting to determine flows from empty list of sources.
+[INFO ] Attempting to determine flows to empty list of sinks.
+[INFO ] Attempting to determine flows from empty list of sources.
+[INFO ] Attempting to determine flows to empty list of sinks.
+[INFO ] Attempting to determine flows from empty list of sources.
+[INFO ] Attempting to determine flows from empty list of sources.
+[INFO ] Attempting to determine flows to empty list of sinks.
+[INFO ] Attempting to determine flows from empty list of sources.
+[INFO ] Attempting to determine flows to empty list of sinks.
+[INFO ] Attempting to determine flows from empty list of sources.
+[INFO ] Attempting to determine flows to empty list of sinks.
+[INFO ] Attempting to determine flows from empty list of sources.
+[INFO ] Attempting to determine flows to empty list of sinks.
+[INFO ] Attempting to determine flows from empty list of sources.
+[INFO ] Attempting to determine flows to empty list of sinks.
+[INFO ] Attempting to determine flows from empty list of sources.
+[INFO ] Attempting to determine flows to empty list of sinks.
+[INFO ] Attempting to determine flows from empty list of sources.
+[INFO ] Attempting to determine flows to empty list of sinks.
+[INFO ] Attempting to determine flows from empty list of sources.
+[INFO ] Attempting to determine flows to empty list of sinks.
+[INFO ] Attempting to determine flows from empty list of sources.
+[INFO ] Attempting to determine flows to empty list of sinks.
+[INFO ] Attempting to determine flows from empty list of sources.
+[INFO ] Attempting to determine flows to empty list of sinks.
+[INFO ] Pass io.joern.console.scan.ScanPass completed in 103 ms (1% on mutations). 0 + 0 changes committed from 1 parts.
+[INFO ] Start of pass: io.shiftleft.semanticcpg.Overlays$$anon$1
+[INFO ] Pass io.shiftleft.semanticcpg.Overlays$$anon$1 completed in 1 ms (63% on mutations). 1 + 0 changes committed from 1 parts.
+The graph has been modified. You may want to use the `save` command to persist changes to disk.  All changes will also be saved collectively on exit
+[INFO ] writing to storage at `/private/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/tmp.UcydNP7dbN/run-java/workspace/native-persistence-positive/cpg.bin.tmp`
+[INFO ] closed graph at /private/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/tmp.UcydNP7dbN/run-java/workspace/native-persistence-positive/cpg.bin.tmp
+closing/saving project `native-persistence-positive`
+Run `joern --for-input-path /Users/dave/Workspace/BrokkAi/dataflowbench/.claude/worktrees/competent-engelbart-ca384f/cases/taint/java/native-persistence-positive` to explore interactively
