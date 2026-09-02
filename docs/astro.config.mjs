@@ -1,13 +1,67 @@
 // @ts-check
+import { readdirSync } from 'node:fs';
 import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
+import { snapshots } from './src/data/snapshots';
+
+// ---------------------------------------------------------------------------
+// Snapshot navigation.
+//
+// The sidebar carries exactly three snapshot entries — the current freeze
+// (expanded), the one it superseded (collapsed), and a single link to the
+// archive page that lists everything older. Every archived snapshot keeps its
+// URL: this is navigation, not unpublication, and the freeze contract's
+// citability depends on those URLs never moving.
+//
+// All three entries are derived from `src/data/snapshots.ts`, which is
+// newest-first, so cutting the next release needs no edit here.
+// ---------------------------------------------------------------------------
+
+/** Sub-pages of a snapshot, in reading order. Not every freeze has them all. */
+const snapshotPages = [
+  ['index', 'Snapshot overview'],
+  ['analyzers', 'Analyzers'],
+  ['languages', 'Languages'],
+  ['templates', 'Semantic templates'],
+  ['evidence', 'Case evidence'],
+  ['latency', 'Latency'],
+  ['profiles', 'Analyzer profiles'],
+];
+
+/** The sub-page entries a snapshot actually has, read from its content dir. */
+function snapshotItems(snapshot) {
+  const dir = new URL(
+    `./src/content/docs/snapshots/${snapshot.slug}/`,
+    import.meta.url,
+  );
+  const present = new Set(
+    readdirSync(dir).map((file) => file.replace(/\.mdx?$/, '')),
+  );
+  return snapshotPages
+    .filter(([name]) => present.has(name))
+    .map(([name, label]) => ({
+      label,
+      slug:
+        name === 'index'
+          ? `snapshots/${snapshot.slug}`
+          : `snapshots/${snapshot.slug}/${name}`,
+    }));
+}
+
+const currentSnapshot = snapshots.find((snapshot) => snapshot.current);
+if (!currentSnapshot) throw new Error('no current snapshot in the registry');
+const previousSnapshot = snapshots[snapshots.indexOf(currentSnapshot) + 1];
+const currentLabel = `${currentSnapshot.version} (current)`;
+const previousLabel = previousSnapshot
+  ? `${previousSnapshot.version} (previous)`
+  : '';
 
 // Production deployment target for GitHub Pages.
 export default defineConfig({
   site: 'https://dataflowbench.brokk.ai',
   redirects: {
     // Explicit current-snapshot pointer alongside versioned snapshot URLs.
-    '/current': '/snapshots/v0-6-1/',
+    '/current': `/snapshots/${currentSnapshot.slug}/`,
   },
   integrations: [
     starlight({
@@ -37,93 +91,20 @@ export default defineConfig({
         {
           label: 'Snapshots',
           items: [
-            { label: 'All snapshots', slug: 'snapshots' },
             {
-              label: 'v0.6.1 (current)',
-              items: [
-                { label: 'Snapshot overview', slug: 'snapshots/v0-6-1' },
-                { label: 'Analyzers', slug: 'snapshots/v0-6-1/analyzers' },
-                { label: 'Languages', slug: 'snapshots/v0-6-1/languages' },
-                { label: 'Semantic templates', slug: 'snapshots/v0-6-1/templates' },
-                { label: 'Case evidence', slug: 'snapshots/v0-6-1/evidence' },
-                { label: 'Latency', slug: 'snapshots/v0-6-1/latency' },
-                {
-                  label: 'Analyzer profiles',
-                  slug: 'snapshots/v0-6-1/profiles',
-                },
-              ],
+              label: currentLabel,
+              items: snapshotItems(currentSnapshot),
             },
-            {
-              label: 'v0.6.0 (archived)',
-              collapsed: true,
-              items: [
-                { label: 'Snapshot overview', slug: 'snapshots/v0-6-0' },
-                { label: 'Analyzers', slug: 'snapshots/v0-6-0/analyzers' },
-                { label: 'Languages', slug: 'snapshots/v0-6-0/languages' },
-                { label: 'Semantic templates', slug: 'snapshots/v0-6-0/templates' },
-                { label: 'Case evidence', slug: 'snapshots/v0-6-0/evidence' },
-                { label: 'Latency', slug: 'snapshots/v0-6-0/latency' },
-                {
-                  label: 'Analyzer profiles',
-                  slug: 'snapshots/v0-6-0/profiles',
-                },
-              ],
-            },
-            {
-              label: 'v0.5.0 (archived)',
-              collapsed: true,
-              items: [
-                { label: 'Snapshot overview', slug: 'snapshots/v0-5-0' },
-                { label: 'Analyzers', slug: 'snapshots/v0-5-0/analyzers' },
-                { label: 'Languages', slug: 'snapshots/v0-5-0/languages' },
-                { label: 'Semantic templates', slug: 'snapshots/v0-5-0/templates' },
-                { label: 'Case evidence', slug: 'snapshots/v0-5-0/evidence' },
-              ],
-            },
-            {
-              label: 'v0.4.0 (archived)',
-              collapsed: true,
-              items: [
-                { label: 'Snapshot overview', slug: 'snapshots/v0-4-0' },
-                { label: 'Analyzers', slug: 'snapshots/v0-4-0/analyzers' },
-                { label: 'Languages', slug: 'snapshots/v0-4-0/languages' },
-                { label: 'Semantic templates', slug: 'snapshots/v0-4-0/templates' },
-                { label: 'Case evidence', slug: 'snapshots/v0-4-0/evidence' },
-              ],
-            },
-            {
-              label: 'v0.3.0 (archived)',
-              collapsed: true,
-              items: [
-                { label: 'Snapshot overview', slug: 'snapshots/v0-3-0' },
-                { label: 'Analyzers', slug: 'snapshots/v0-3-0/analyzers' },
-                { label: 'Languages', slug: 'snapshots/v0-3-0/languages' },
-                { label: 'Semantic templates', slug: 'snapshots/v0-3-0/templates' },
-                { label: 'Case evidence', slug: 'snapshots/v0-3-0/evidence' },
-              ],
-            },
-            {
-              label: 'v0.2.0 (archived)',
-              collapsed: true,
-              items: [
-                { label: 'Snapshot overview', slug: 'snapshots/v0-2-0' },
-                { label: 'Analyzers', slug: 'snapshots/v0-2-0/analyzers' },
-                { label: 'Languages', slug: 'snapshots/v0-2-0/languages' },
-                { label: 'Semantic templates', slug: 'snapshots/v0-2-0/templates' },
-                { label: 'Case evidence', slug: 'snapshots/v0-2-0/evidence' },
-              ],
-            },
-            {
-              label: 'v0.1.0 (archived)',
-              collapsed: true,
-              items: [
-                { label: 'Snapshot overview', slug: 'snapshots/v0-1-0' },
-                { label: 'Analyzers', slug: 'snapshots/v0-1-0/analyzers' },
-                { label: 'Languages', slug: 'snapshots/v0-1-0/languages' },
-                { label: 'Semantic templates', slug: 'snapshots/v0-1-0/templates' },
-                { label: 'Case evidence', slug: 'snapshots/v0-1-0/evidence' },
-              ],
-            },
+            ...(previousSnapshot
+              ? [
+                  {
+                    label: previousLabel,
+                    collapsed: true,
+                    items: snapshotItems(previousSnapshot),
+                  },
+                ]
+              : []),
+            { label: 'Older snapshots', slug: 'snapshots' },
           ],
         },
         {

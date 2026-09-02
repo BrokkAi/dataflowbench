@@ -1,36 +1,41 @@
 ---
-title: Snapshots
-description: All frozen snapshots, and which one is current.
+title: Older snapshots
+description: The full table of contents for every DataFlowBench freeze, current and archived.
 ---
 
+import SnapshotArchive from '../../../components/SnapshotArchive.astro';
 import { snapshots } from '../../../data/snapshots';
 
-A snapshot is an immutable freeze: corrected evidence creates a **new**
-snapshot with a new release name and digests, and old snapshots remain
-browsable for audit. The stable pointer
-[`/current`](/current) always resolves to the current snapshot.
+export const current = snapshots.find((s) => s.current);
+export const previous = snapshots[snapshots.indexOf(current) + 1];
 
-<table>
-  <thead>
-    <tr>
-      <th>Snapshot</th>
-      <th>Status</th>
-      <th>Freeze ID (manifest SHA-256)</th>
-    </tr>
-  </thead>
-  <tbody>
-    {snapshots.map((snapshot) => (
-      <tr>
-        <td>
-          <a href={`/snapshots/${snapshot.slug}/`}>
-            {snapshot.version}
-          </a>
-        </td>
-        <td>{snapshot.current ? 'current' : 'archived'}</td>
-        <td>
-          <code>{snapshot.results.manifest.sha256}</code>
-        </td>
-      </tr>
-    ))}
-  </tbody>
-</table>
+A snapshot is an immutable freeze. Corrected evidence never edits a published
+snapshot: it creates a **new** one with a new release name and new digests, and
+the superseded snapshot stays exactly as it was published, at the URL it was
+published at. Nothing on this site is ever unpublished, and no page below has
+been rewritten since its freeze — a citation of an archived page resolves
+today and is meant to keep resolving.
+
+The sidebar carries the two freezes most readers want — the current one and the
+one before it. This page is the table of contents for everything older.
+
+## Current and previous
+
+- **<a href={`/snapshots/${current.slug}/`}>{current.version}</a> — current.**
+  The stable pointer [`/current`](/current) always resolves here.
+- **<a href={`/snapshots/${previous.slug}/`}>{previous.version}</a> — previous.**
+  Superseded by {current.version}; its evidence and its numbers are unchanged.
+
+Both are expanded in the sidebar, with their analyzers, languages, templates,
+and case-evidence pages.
+
+## Archive
+
+Every entry below is a frozen release, newest first. The counts are read at
+build time from that freeze's own archived results model, so they are the
+numbers that snapshot published — not a later restatement of them. The freeze
+ID is the SHA-256 of its manifest, and the evidence pin is the commit whose
+tree holds that manifest and its retained evidence, permanently pinned so the
+links keep resolving as `main` moves on.
+
+<SnapshotArchive />

@@ -200,6 +200,39 @@ export const currentSnapshot: Snapshot = snapshots.find(
   (snapshot) => snapshot.current,
 )!;
 
+/** The shape of one snapshot at a glance, counted from its own results model. */
+export interface SnapshotScale {
+  /** Distinct analyzers bound in the freeze. */
+  analyzers: number;
+  /** Bound, digest-pinned normalized reports (scorecards). */
+  reports: number;
+  /** Distinct frozen case identifiers the freeze scored against. */
+  cases: number;
+}
+
+/**
+ * Counted at build time from the archived `results.json` of the freeze itself.
+ * Nothing here is hand-entered: an archive index that restated its numbers in
+ * prose would be exactly the kind of drift the freeze contract forbids.
+ */
+export function snapshotScale(results: ResultsModel): SnapshotScale {
+  const analyzers = new Set<string>();
+  const cases = new Set<string>();
+  for (const card of results.scorecards) {
+    analyzers.add(card.adapter.tool);
+    for (const language of card.languages) {
+      for (const tier of language.score_tiers) {
+        for (const result of tier.cases) cases.add(result.case_id);
+      }
+    }
+  }
+  return {
+    analyzers: analyzers.size,
+    reports: results.scorecards.length,
+    cases: cases.size,
+  };
+}
+
 /** Link into the repository tree that holds this snapshot's frozen evidence. */
 export function evidenceUrl(snapshot: Snapshot, path: string): string {
   return `${repository}/blob/${snapshot.evidenceRef}/${path}`;
