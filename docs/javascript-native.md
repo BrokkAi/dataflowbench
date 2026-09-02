@@ -273,9 +273,10 @@ fail to *link*, it also suppresses the source the read would otherwise be.
 - **Three adapters have no number here at all**, and that is the point of the
   `unsupported` mechanism. Bifrost's standalone policy CLI ships no source or
   sink endpoint catalog (bifrost-dev #2620, #2691); Joern's `DefaultSemantics`
-  ships flow constraints with no source or sink catalog, and `joern-scan`'s query
-  database is downloaded from a floating `latest` release asset rather than
-  shipped; Semgrep's vendored rules bind only framework and parameter sources.
+  ships flow constraints with no source or sink catalog, and the version-pinned
+  `joern-scan` query bundle ships no JavaScript query package at all (Amendment
+  A26, which retired the earlier unpinnable-asset grounds); Semgrep's vendored
+  rules bind only framework and parameter sources.
   Each is a statement about *product packaging*, not about an engine — the
   benchmark-controlled row scores Joern on 16 assertions and Semgrep on 10 using
   the same engines.
