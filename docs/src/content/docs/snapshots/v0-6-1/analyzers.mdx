@@ -1,0 +1,55 @@
+---
+title: Analyzers — v0.6.1
+description: One scorecard per frozen report across eight analyzers; scorecards are never pooled, and the two model profiles never mix.
+---
+
+import ScorecardSummary from '../../../../components/ScorecardSummary.astro';
+import DimensionRates from '../../../../components/DimensionRates.astro';
+import { snapshots } from '../../../../data/snapshots';
+
+export const snapshot = snapshots.find((s) => s.version === 'v0.6.1');
+
+Each scorecard is one frozen report: one analyzer, one track, one score
+dimension, one model profile. Scorecards are independent result populations
+and are never combined into a leaderboard. `TPR`/`FPR` are macro-averages
+over templates, then semantic dimensions; incomplete outcomes are coverage,
+never negatives.
+
+This snapshot's scorecards span two model profiles, and every card below
+states its own. A `benchmark-controlled` card and a `tool-native` card answer
+different questions on different populations: the first measures the engine
+with the benchmark's model supplied, the second measures the product with
+nothing supplied. **Do not read them against each other.**
+
+Eight analyzers appear here, and they do not cover the same languages. The
+number of cards an analyzer has is its coverage in this freeze, not its
+quality: Bifrost has a card for every kernel, Pysa has one. Comparing card
+counts is comparing footprints.
+
+Only the twenty **Bifrost** cards were re-run for this patch release, on the
+v0.10.8 pin. The other sixty-two cards are the same reports v0.6.0 bound,
+carried over byte-identical and re-digested into this manifest — so any card
+below that is not Bifrost's states a v0.10.7-era measurement of a tool that
+did not move.
+
+{snapshot.results.scorecards.map((scorecard) => (
+  <ScorecardSummary snapshot={snapshot} scorecard={scorecard} />
+))}
+
+## Semantic dimension detail
+
+{snapshot.results.scorecards.map((scorecard) =>
+  scorecard.languages.map((language) =>
+    language.score_tiers
+      .filter((tier) => tier.scored)
+      .map((tier) => (
+        <>
+          <h3>
+            <code>{scorecard.id}</code> — <code>{language.language}</code>,{' '}
+            {tier.score_tier}
+          </h3>
+          <DimensionRates tier={tier} />
+        </>
+      )),
+  ),
+)}

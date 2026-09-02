@@ -10,6 +10,20 @@ export const snapshot = snapshots.find((s) => s.version === 'v0.6.0');
 
 <SnapshotBanner snapshot={snapshot} />
 
+:::note[Archived — superseded by v0.6.1]
+This snapshot is no longer current. **[v0.6.1](/snapshots/v0-6-1/)** re-pins
+Bifrost to v0.10.8 and re-runs that analyzer's twenty slices at the same
+fixture revision: four false positives named on this page are fixed there,
+eight declined assertions are newly decided, Go's `array-element` pair
+regresses, and the java `direct-propagation` disagreement recorded below turns
+out to have been a bug in **our** adapter rather than in the engine. Every
+other analyzer's numbers are identical in both freezes.
+
+Nothing on this page has been rewritten. It stays exactly as v0.6.0 published
+it, bound to its own evidence commit, which is what an immutable snapshot
+means.
+:::
+
 The sixth immutable DataFlowBench snapshot, and the widest one so far. It is
 three things at once: the freeze in which the benchmark **doubles its analyzer
 count from four to eight** — OpenTaint, Infer v1.3.0, FlowDroid 2.15.1, and
