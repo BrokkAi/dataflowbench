@@ -934,6 +934,32 @@ retained Semgrep's JavaScript and Java cells on — so all six templates are
 (`src/main.rs`), and FlowDroid enters this profile at **0 / 6** with a live
 activation contract behind the zero.
 
+**And the fuller shipped surface decides the same way — enumerated and
+executed.**
+([Amendment A29](#a29--2026-09-02-flowdroids-native-decline-is-re-grounded-on-the-shipped-surfaces-full-enumeration-and-executed-engagement).)
+A maintainer challenge asked whether the catalog-text ruling above had
+engaged everything the release ships, or only the default file. The answer,
+retained under `reports/raw/amendment-a29-flowdroid-shipped-surface/`
+(produced by `scripts/probe-flowdroid-native-shipped-surface.sh`): the
+pinned jar bundles exactly five declarative surfaces beyond its classes —
+`SourcesAndSinks.txt` (the **only** endpoint catalog instance in any format;
+the bundled `schema/SourcesAndSinks.xsd` defines an XML catalog format, but
+no XML instance ships), the EasyTaintWrapper defaults
+(`EasyTaintWrapperSource.txt`: 435 propagation entries, 12 excludes, 5
+kills, 4 include prefixes — the format has no source or sink role), the
+callback list (`AndroidCallbacks.txt`), the virtual-edge callgraph model
+(`virtualedges.xml`), and the 347-class StubDroid `summariesManual` set. No
+surface anywhere in the artifact binds `System.getenv` — the only `getenv`
+bytes in the whole jar are three shaded third-party classes that *call* it
+at tool runtime — and executed over all twelve Java native fixtures with the
+shipped catalog engaged (which parses to 71 sources and 193 sinks; 14
+malformed vendor lines are rejected by the release's own parser), the
+analyzer reports **"Found 0 leaks from 0 sources"** on every fixture,
+aborting at source lookup each time. A control run — the same APK, the same
+invocation, the shipped catalog plus a single benchmark-authored `getenv`
+source line — finds exactly the floor leak, attributing every zero to the
+shipped catalog and to nothing else.
+
 ### OpenTaint — `analyzer/2026.08.27.17eb0fe`, shipped models archive only (Java only)
 
 > **Added by [Amendment A23](#a23--2026-09-01-opentaint-joins-the-tool-native-profile-at-0--6-and-the-shipped-models-archive-is-ruled-shipped-product).**
@@ -1072,7 +1098,7 @@ evidence.
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | Infer v1.3.0 ([A14](#a14--2026-09-01-infers-native-row-declines-on-a-measured-silence), Java only) | unsupported | unsupported | unsupported | unsupported | unsupported | unsupported | 0 / 6 |
 | Pysa 0.10.0 + Pyrefly 1.2.0 ([A17](#a17--2026-09-01-pysa-joins-the-tool-native-profile-with-a-live-activation-row), Python only) | supported | supported | supported | supported | supported | supported | 6 / 6 |
-| FlowDroid 2.15.1 ([A19](#a19--2026-09-01-flowdroid-joins-the-tool-native-profile-with-a-live-activation-contract-and-six-cells-declined-on-catalog-evidence), Java only) | unsupported | unsupported | unsupported | unsupported | unsupported | unsupported | 0 / 6 |
+| FlowDroid 2.15.1 ([A19](#a19--2026-09-01-flowdroid-joins-the-tool-native-profile-with-a-live-activation-contract-and-six-cells-declined-on-catalog-evidence), re-grounded by execution in [A29](#a29--2026-09-02-flowdroids-native-decline-is-re-grounded-on-the-shipped-surfaces-full-enumeration-and-executed-engagement), Java only) | unsupported | unsupported | unsupported | unsupported | unsupported | unsupported | 0 / 6 |
 | OpenTaint 2026.08.27 ([A23](#a23--2026-09-01-opentaint-joins-the-tool-native-profile-at-0--6-and-the-shipped-models-archive-is-ruled-shipped-product), re-grounded by [A25](#a25--2026-09-02-the-shipped-opentaint-scan-entry-point-is-field-evaluated-and-the-six-native-declines-are-re-grounded-on-its-measured-silence), Java only) | unsupported | unsupported | unsupported | unsupported | unsupported | unsupported | 0 / 6 |
 
 These counts are activation surfaces, not scores. A tool with six of six has six
@@ -2004,3 +2030,120 @@ for Infer alone. No decision changes anywhere.
 
 **Freezes invalidated.** None. No published freeze manifest contains a
 tool-native report; v0.6.1 is untouched.
+### A29 — 2026-09-02: FlowDroid's native decline is re-grounded on the shipped surface's full enumeration and executed engagement
+
+**What changed.** Nothing in the partition: all six FlowDroid cells stay
+`unsupported`, and the row stays 0 / 6 for Java. What changes is the grounds.
+[Amendment A19](#a19--2026-09-01-flowdroid-joins-the-tool-native-profile-with-a-live-activation-contract-and-six-cells-declined-on-catalog-evidence)
+declined the cells from the shipped `SourcesAndSinks.txt` catalog's own text,
+before any run — a maintainer challenge asked whether that reading had
+engaged everything the release ships, or only the default file. This
+amendment answers by enumeration and by execution, the same movement
+[A25](#a25--2026-09-02-the-shipped-opentaint-scan-entry-point-is-field-evaluated-and-the-six-native-declines-are-re-grounded-on-its-measured-silence)
+and
+[A26](#a26--2026-09-02-joerns-native-decline-is-re-grounded-on-a-field-evaluation-of-the-shipped-scan-bundle)
+made for OpenTaint and Joern: **every declarative surface the pinned jar
+bundles was enumerated, none binds any identity the probes read, and the
+shipped catalog executed over all twelve Java native fixtures decided
+nothing** — so the decline comes back stronger than it went in.
+(Numbering note, per [the numbering convention](#amendments): the sequence's
+top merged heading at authoring was A26, and this entry was drafted as A27 —
+then renumbered to A29 before merge, because the concurrent
+BrokkAi/dataflowbench#123 and BrokkAi/dataflowbench#124 both claim A27 and,
+by PR order, A28. If either claim dissolves, the number stays A29 anyway; a
+gap is cheaper than a second race.)
+
+**The enumeration.** Retained under
+`reports/raw/amendment-a29-flowdroid-shipped-surface/` (produced by
+`scripts/probe-flowdroid-native-shipped-surface.sh`, which witnesses all
+three artifact digests and the jar's self-reported version before touching
+anything, and works entirely in scratch space — no committed artifact is
+mutated and no report is written). The pinned
+`soot-infoflow-cmd-2.15.1-jar-with-dependencies.jar` bundles exactly five
+declarative surfaces beyond compiled classes, every one retained verbatim:
+
+1. **`SourcesAndSinks.txt`** — the only endpoint catalog instance the
+   release ships **in any format**: the bundled `schema/SourcesAndSinks.xsd`
+   defines an XML catalog format the CLI can consume, but no XML instance
+   exists in the artifact, and no SuSi-style categorized variant does
+   either. Textually 176 `_SOURCE_` / 227 `_SINK_` / 4 `_BOTH_` lines; the
+   release's own parser accepts 71 sources and 193 sinks and rejects 14
+   malformed vendor lines with `Line does not match` warnings (retained in
+   every per-fixture log) — the shipped catalog is smaller in the field than
+   on paper, and A19's textual counts overstated what actually loads.
+2. **`EasyTaintWrapperSource.txt`** — the EasyTaintWrapper default
+   definitions: 435 wrap entries, 12 excludes, 5 kills, and 4 include
+   prefixes (`android.`, `java.`, `org.apache.http.`, `org.joda.time.`).
+   The format has no source or sink role at all — every entry is
+   propagation-side — so it cannot supply what the catalog lacks.
+3. **`AndroidCallbacks.txt`** — 520 callback interface names; lifecycle
+   surface, not endpoints.
+4. **`virtualedges.xml`** — the virtual-edge callgraph model; edges, not
+   endpoints.
+5. **`summariesManual/`** — the 347-class StubDroid summary set the default
+   taint wrapper loads with no flag. Its `java.lang.System` summary models
+   `getProperty` as key-argument → return propagation and declares no
+   `getenv` method; no summary links `setProperty` to `getProperty` as a
+   store; its five `Base64`-named summaries are `android.util`, `okio`, and
+   `commons-codec` — `java.util.Base64` has none, exactly as A19 read.
+
+**The load-bearing zero, checked against the whole artifact.** `getenv`
+occurs in exactly three entries of the entire jar — shaded third-party
+dependency classes that *call* `System.getenv` at tool runtime
+(`io.modelcontextprotocol`, `org.snakeyaml`, `io.agentscope` — each named in
+the retained search) — and in **no model, catalog, wrapper, or summary
+declaration anywhere**. The probe searched every surface for every identity
+the six templates use (`getenv`, the `getProperty`/`setProperty` pair, a
+`main(String[])` argv convention, `Runtime.exec`, `ProcessBuilder`,
+`Base64`): the sink side binds, the source side binds nowhere.
+
+**The execution.** Three witnessed behaviors, each under the adapter's
+zero-exit guards (a negative exists only where the analyzer's own
+`Found N leaks from M sources` line does; the failure banner anywhere is a
+probe failure):
+
+1. **No fallback catalog exists.** A bare `-a <apk> -p <platform>`
+   invocation initializes the default StubDroid wrapper (`summaries for 347
+   classes`, in the retained log) and then fails with the zero-exit banner
+   `No source/sink file specified for the data flow analysis` — the
+   activation shape A19 recorded is the only one the release has.
+2. **The shipped catalog, engaged, decides nothing.** Per-fixture APKs were
+   materialized exactly as the kernel does (javac, the committed activity
+   wrapper, D8, the committed manifest blob) and the pinned CLI ran over all
+   twelve Java native fixtures with the shipped catalog extracted verbatim
+   and the default wrapper active. Every run completed with
+   **`Found 0 leaks from 0 sources`**, aborting at source lookup — the
+   twelve logs, argv records, and parsed `SourceSinkManager` counts are
+   retained per fixture.
+3. **The control attributes the zeros.** The same source-sink-positive APK,
+   the same invocation, the shipped catalog plus one benchmark-authored line
+   — `<java.lang.System: java.lang.String getenv(java.lang.String)> ->
+   _SOURCE_`, clearly labelled a control and never part of any activation —
+   yields **`Found 1 leaks from 1 sources`**, with the results XML retained.
+   One line separates 0 / 6 from the floor flow being found; nothing about
+   the APK materialization, the entry wrapper, the platform pin, or the
+   engine explains the zeros. The catalog does.
+
+**Why the cells stay declined rather than becoming scored.** Unchanged from
+A19, now with executed evidence where a text reading stood: the activation
+rule scores a cell only when a shipped model gives the template's flow
+something to bind, and a run whose source set is empty over these fixtures
+can decide nothing a retained rationale doesn't already state. Recording
+twelve executed `Found 0 leaks from 0 sources` outcomes as `not-reached`
+would present a catalog gap as a measured miss — the exact conflation this
+profile exists to prevent. The per-cell rationales in `NATIVE_PARTITION`
+(`src/main.rs`) now carry the A29 citation beside A19's.
+
+**What would move a cell.** As A19 recorded: a shipped catalog release that
+gains a platform environment or argv source is a promotion by dated
+amendment carrying the new jar pin as its evidence — and this amendment's
+enumeration is exactly the check such a promotion would re-run.
+
+**Templates and languages touched.** All six native templates, Java only,
+FlowDroid alone. No decision changes anywhere.
+
+**Freezes invalidated.** None. The v0.6.1 freeze pins
+`reports/flowdroid-java-native.json` by digest, and this amendment does not
+touch that report: its retained decisions and their A19 rationale text are
+the run that was frozen, and the re-grounding lives in this document, the
+probe evidence, and the rationale text future runs will carry.

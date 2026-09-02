@@ -1,0 +1,63 @@
+== SourcesAndSinks.txt (the only shipped endpoint catalog)
+   getenv: 0
+   getProperty: 0
+   setProperty: 0
+   Runtime: 1
+   exec(java.lang.String): 1
+   ProcessBuilder: 1
+   Base64: 0
+   main(java.lang.String[]): 0
+   argv: 0
+== EasyTaintWrapperSource.txt (EasyTaintWrapper defaults)
+   getenv: 0
+   getProperty: 0
+   setProperty: 0
+   Runtime: 0
+   exec(java.lang.String): 0
+   ProcessBuilder: 1
+   Base64: 0
+   main(java.lang.String[]): 0
+   argv: 0
+== AndroidCallbacks.txt (callback interface list)
+   getenv: 0
+   getProperty: 0
+   setProperty: 0
+   Runtime: 0
+   exec(java.lang.String): 0
+   ProcessBuilder: 0
+   Base64: 0
+   main(java.lang.String[]): 0
+   argv: 0
+== virtualedges.xml (virtual-edge callgraph model)
+   getenv: 0
+   getProperty: 0
+   setProperty: 0
+   Runtime: 0
+   exec(java.lang.String): 0
+   ProcessBuilder: 0
+   Base64: 0
+   main(java.lang.String[]): 0
+   argv: 0
+== summariesManual/ (all 348 StubDroid summary files)
+   getenv: 0
+   getProperty: 7
+   setProperty: 1
+   Runtime: 1
+   exec(java.lang.String): 0
+   ProcessBuilder: 7
+   Base64: 18
+   main(java.lang.String[]): 0
+   argv: 0
+== the load-bearing zero, checked against the WHOLE artifact, not just the surfaces above
+   entries containing the string 'getenv' anywhere in their bytes:
+     io/agentscope/core/nacos/a2a/registry/NacosA2aTransportPropertiesEnvParser.class
+     io/modelcontextprotocol/client/transport/ServerParameters.class
+     org/snakeyaml/engine/v2/constructor/StandardConstructor$ConstructEnv.class
+   (each is shaded third-party dependency code that itself calls System.getenv
+   at tool runtime; none is a model, catalog, wrapper, or summary declaration)
+== 'Base64'-named StubDroid summary files (java.util.Base64 does not appear)
+   android.util.Base64.xml
+   android.util.Base64InputStream.xml
+   android.util.Base64OutputStream.xml
+   okio.Base64.xml
+   org.apache.commons.codec.binary.Base64.xml

@@ -595,7 +595,10 @@ added the later rows — Infer's by
 [Amendment A14](native-profile.md#a14--2026-09-01-infers-native-row-declines-on-a-measured-silence)
 (declined on a measured silence), Pysa's by
 [Amendment A17](native-profile.md#a17--2026-09-01-pysa-joins-the-tool-native-profile-with-a-live-activation-row),
-FlowDroid's by Amendment A19 (declined on the shipped catalog's text), and
+FlowDroid's by Amendment A19 (declined on the shipped catalog's text,
+re-grounded on the shipped surface's full enumeration and executed
+engagement by
+[Amendment A29](native-profile.md#a29--2026-09-02-flowdroids-native-decline-is-re-grounded-on-the-shipped-surfaces-full-enumeration-and-executed-engagement)), and
 OpenTaint's by
 [Amendment A23](native-profile.md#a23--2026-09-01-opentaint-joins-the-tool-native-profile-at-0--6-and-the-shipped-models-archive-is-ruled-shipped-product)
 — with the *to be verified* cells recorded as `unsupported` per the documents'
