@@ -1974,8 +1974,13 @@ const NATIVE_PARTITION: &[NativePartitionCell] = &[
              library entries, and a short list of JVM method full names — and ships no source \
              catalog and no sink catalog. Every Joern population in this benchmark selects its \
              endpoints through the adapter's own query parameters, which is exactly what the \
-             tool-native activation rule forbids. The distribution's `joern-scan` query database \
-             is not shipped either: it is downloaded from a floating `latest` release asset",
+             tool-native activation rule forbids. And the version-pinned `joern-scan` query \
+             bundle, installed and executed over every probe fixture with zero benchmark input, \
+             fires no query on any cell: it ships no JavaScript or Python query package at all, \
+             and its one query naming this profile's command sink (`call-to-exec`) filters the \
+             method-name property with a full-match regex that matches zero methods on a \
+             `javasrc2cpg` graph (Amendment A26, evidence retained under \
+             reports/raw/amendment-a26-joern-scan-native/)",
         ),
     },
     NativePartitionCell {

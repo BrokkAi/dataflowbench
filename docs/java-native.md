@@ -243,8 +243,10 @@ of six has declined the profile rather than failed it.
   a category it declines here, using the same binary, because there the
   benchmark supplies the endpoints.
 - **Joern 4.0.610** — `DefaultSemantics` is a table of flow constraints with no
-  source catalog and no sink catalog, and `joern-scan`'s query database is
-  downloaded from a floating `latest` release asset rather than shipped. The
+  source catalog and no sink catalog, and the version-pinned `joern-scan`
+  query bundle, field-evaluated by Amendment A26 (which retired the earlier
+  unpinnable-asset grounds), fires no query on any Java probe cell: its one
+  query naming the command sink cannot match a `javasrc2cpg` method. The
   gap between Joern's four-of-six benchmark-controlled row and its zero-of-six
   native row is a statement about the OSS distribution's *packaging*, not about
   its engine, and making that gap legible is why this profile exists.
