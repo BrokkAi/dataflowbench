@@ -2,7 +2,10 @@
 
 An adapter executes a real supported tool surface, captures its raw output,
 and normalizes only the states in `schemas/result.schema.json`: `reached`,
-`not-reached`, `inconclusive`, `unsupported`, and `runner-error`.
+`not-reached`, `inconclusive`, `unsupported`, and `runner-error`. The
+step-ordered integration walkthrough for a new adapter is
+[adding-an-adapter.md](adding-an-adapter.md); this document stays normative
+over it.
 
 Canonical cases never contain native rule syntax. Each adapter owns its rules,
 models, command line, version discovery, configuration hash, capability notes,
@@ -627,12 +630,6 @@ CE 0 of 6**. As amended, one line per adapter so additions compose:
   is propagation without endpoints, and the pinned release ships no rule set)
 
 The asymmetry with the
-=======
-bound; and **FlowDroid is 0 of 6 for Java** (Amendment A19) with a live
-activation contract — the shipped `SourcesAndSinks.txt` catalog and default
-summary wrapper from inside the pinned jar — whose catalog binds no identity
-any native template uses. The asymmetry with the
->>>>>>> origin/main
 benchmark-controlled matrix is the point rather than a defect — Joern scores four
 of six categories there on the same engine — because this profile measures
 product packaging and that one measures the engine. A declined cell is decided

@@ -23,7 +23,7 @@ See [the scoring contract](docs/scoring.md).
 
 ## Proposing a new analyzer
 
-The full policy is packaged in
+The admission policy is packaged in
 [Proposing a new analyzer](docs/new-analyzer.md); tool maintainers are
 encouraged to integrate their own analyzers, and to file issues for anything
 this benchmark states wrongly about their tool. In brief:
@@ -43,6 +43,17 @@ this benchmark states wrongly about their tool. In brief:
 The consolidated deliverables checklist — retained evidence, configuration
 hash, capability decisions, adapter README shape, and the `src/main.rs`
 touchpoints — is in the same document.
+
+## Adapters
+
+Once an analyzer is admitted and pinned, integrate it by following the
+step-ordered [adding-an-adapter walkthrough](docs/adding-an-adapter.md):
+required case inputs, the five normalized outcomes, the
+anti-vacuous-negative guards, the evidence artifacts every run retains, the
+validation commands, and the exact `src/main.rs` touchpoints. The
+[adapter contract](docs/adapters.md) stays normative over it, and the
+[docs index](docs/README.md) maps the rest of the contract surface and
+defines the insider vocabulary.
 
 ## Validation
 

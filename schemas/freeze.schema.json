@@ -7,64 +7,105 @@
   "additionalProperties": false,
   "required": ["schema_version", "benchmark", "claim", "cases", "adapters", "reports"],
   "properties": {
-    "schema_version": { "const": 1 },
-    "benchmark": { "$ref": "#/$defs/benchmark" },
-    "claim": { "$ref": "#/$defs/claim" },
+    "schema_version": {
+      "const": 1,
+      "description": "Freeze manifest schema version."
+    },
+    "benchmark": {
+      "$ref": "#/$defs/benchmark",
+      "description": "The exact benchmark state the evidence was produced against."
+    },
+    "claim": {
+      "$ref": "#/$defs/claim",
+      "description": "What this freeze asserts and over what partition: scope, tracks, score dimensions, exclusions, score tiers, and model profiles."
+    },
     "cases": {
       "type": "array",
       "minItems": 1,
+      "description": "Every selected case with its semantic metadata, case digest, and the digest of every fixture.",
       "items": { "$ref": "#/$defs/case" }
     },
     "adapters": {
       "type": "array",
       "minItems": 1,
+      "description": "Each adapter's version, analyzer identity, configuration hash, and the single track, dimension, and profile its evidence belongs to.",
       "items": { "$ref": "#/$defs/adapter" }
     },
     "reports": {
       "type": "array",
       "minItems": 1,
+      "description": "Each normalized report with its digest, selected case IDs, outcomes, and one retained raw-evidence digest per result.",
       "items": { "$ref": "#/$defs/report" }
     }
   },
   "$defs": {
     "sha256": {
       "type": "string",
-      "pattern": "^[0-9a-f]{64}$"
+      "pattern": "^[0-9a-f]{64}$",
+      "description": "Lowercase hex SHA-256 of an artifact's bytes. The manifest digests, not revision equality, carry the byte-immutability guarantee for every referenced artifact."
     },
     "revision": {
       "type": "string",
-      "pattern": "^[0-9a-fA-F]{40}$"
+      "pattern": "^[0-9a-fA-F]{40}$",
+      "description": "A full 40-hex Git commit SHA."
     },
     "fixture_revision": {
       "type": "string",
-      "pattern": "^sha256:[0-9a-f]{64}$"
+      "pattern": "^sha256:[0-9a-f]{64}$",
+      "description": "sha256:-prefixed corpus digest as emitted by the runners; it must match across every report in the freeze."
     },
     "track": {
-      "enum": ["value-flow", "taint", "typestate", "witness", "performance"]
+      "enum": ["value-flow", "taint", "typestate", "witness", "performance"],
+      "description": "Semantic track (see the case schema). A report binds exactly one, and all of its selected cases must match it."
     },
     "dimension": {
-      "enum": ["value-flow", "taint", "typestate", "witness", "performance"]
+      "enum": ["value-flow", "taint", "typestate", "witness", "performance"],
+      "description": "Score dimension. The same five values as track but a distinct axis: witness quality is a separate dimension that may consume a semantic-flow case without being pooled with that case's correctness result."
     },
     "profile": {
-      "enum": ["benchmark-controlled", "tool-native"]
+      "enum": ["benchmark-controlled", "tool-native"],
+      "description": "Model profile (see the case schema). benchmark-controlled and tool-native results cannot be pooled."
     },
     "score_tier": {
-      "enum": ["calibration", "core", "language-extension", "modeling", "real-project"]
+      "enum": ["calibration", "core", "language-extension", "modeling", "real-project"],
+      "description": "Score tier (see the case schema). Tiers have separate denominators and result sections and are never pooled."
     },
     "outcome": {
-      "enum": ["reached", "not-reached", "inconclusive", "unsupported", "runner-error"]
+      "enum": ["reached", "not-reached", "inconclusive", "unsupported", "runner-error"],
+      "description": "Normalized outcome (see the result schema). inconclusive, unsupported, and runner-error remain evidence outcomes and are never converted into negatives."
     },
     "benchmark": {
       "type": "object",
       "additionalProperties": false,
       "required": ["revision", "release", "case_schema_version", "result_schema_version", "fixture_revision", "dirty"],
       "properties": {
-        "revision": { "$ref": "#/$defs/revision" },
-        "release": { "type": "string", "minLength": 1 },
-        "case_schema_version": { "type": "integer", "const": 2 },
-        "result_schema_version": { "type": "integer", "const": 1 },
-        "fixture_revision": { "$ref": "#/$defs/fixture_revision" },
-        "dirty": { "const": false }
+        "revision": {
+          "$ref": "#/$defs/revision",
+          "description": "The Git commit of the evidence, not of the manifest — a commit cannot contain its own hash, so the manifest is committed on top of it. Validation accepts checkout HEAD or one of its ancestors."
+        },
+        "release": {
+          "type": "string",
+          "minLength": 1,
+          "description": "The release name this freeze belongs to. Release and website scopes require a v-prefixed tag whose commit contains the frozen revision."
+        },
+        "case_schema_version": {
+          "type": "integer",
+          "const": 2,
+          "description": "Case schema version the frozen cases conform to."
+        },
+        "result_schema_version": {
+          "type": "integer",
+          "const": 1,
+          "description": "Normalized-result schema version the frozen reports conform to; a report at a different version is rejected."
+        },
+        "fixture_revision": {
+          "$ref": "#/$defs/fixture_revision",
+          "description": "The single corpus fixture revision every frozen report must declare, recomputed from the manifest's own cases and fixtures at validation time; mixed revisions are rejected."
+        },
+        "dirty": {
+          "const": false,
+          "description": "Clean-worktree assertion. A freeze cannot be created or validated from a dirty checkout."
+        }
       }
     },
     "claim": {
@@ -72,29 +113,43 @@
       "additionalProperties": false,
       "required": ["scope", "tracks", "dimensions", "exclusions", "score_tiers", "model_profiles"],
       "properties": {
-        "scope": { "enum": ["development", "release", "website"] },
+        "scope": {
+          "enum": ["development", "release", "website"],
+          "description": "What the freeze is for. development is an internal checkpoint; release and website additionally require a v-prefixed release tag containing the frozen revision and reject placeholder adapter identities."
+        },
         "tracks": {
           "type": "array",
           "minItems": 1,
           "uniqueItems": true,
+          "description": "The semantic tracks this claim covers; tracks partition the claim and are never pooled.",
           "items": { "$ref": "#/$defs/track" }
         },
         "dimensions": {
           "type": "array",
           "minItems": 1,
           "uniqueItems": true,
+          "description": "The score dimensions this claim covers; each keeps its own scorecard.",
           "items": { "$ref": "#/$defs/dimension" }
         },
         "exclusions": {
           "type": "array",
           "uniqueItems": true,
+          "description": "Cases deliberately left out of the claim, published verbatim with their reasons on the generated result pages so an exclusion cannot be silent.",
           "items": {
             "type": "object",
             "additionalProperties": false,
             "required": ["id", "reason"],
             "properties": {
-              "id": { "type": "string", "minLength": 1 },
-              "reason": { "type": "string", "minLength": 1 }
+              "id": {
+                "type": "string",
+                "minLength": 1,
+                "description": "The excluded case ID."
+              },
+              "reason": {
+                "type": "string",
+                "minLength": 1,
+                "description": "Why the case is excluded; reproduced verbatim in the published artifacts."
+              }
             }
           }
         },
@@ -102,12 +157,14 @@
           "type": "array",
           "minItems": 1,
           "uniqueItems": true,
+          "description": "The score tiers this claim covers.",
           "items": { "$ref": "#/$defs/score_tier" }
         },
         "model_profiles": {
           "type": "array",
           "minItems": 1,
           "uniqueItems": true,
+          "description": "The model profiles this claim covers; benchmark-controlled and tool-native results cannot be pooled.",
           "items": { "$ref": "#/$defs/profile" }
         }
       }
@@ -117,8 +174,15 @@
       "additionalProperties": false,
       "required": ["path", "sha256"],
       "properties": {
-        "path": { "type": "string", "minLength": 1 },
-        "sha256": { "$ref": "#/$defs/sha256" }
+        "path": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Repository-relative path to one fixture file bound by this case."
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256",
+          "description": "SHA-256 of that fixture's bytes, re-verified against a clean checkout before any claim may be published."
+        }
       }
     },
     "case": {
@@ -126,20 +190,48 @@
       "additionalProperties": false,
       "required": ["id", "path", "sha256", "fixture_digests", "track", "score_tier", "model_profile", "template_id", "polarity"],
       "properties": {
-        "id": { "type": "string", "pattern": "^dfb-[a-z0-9-]+$" },
-        "path": { "type": "string", "minLength": 1 },
-        "sha256": { "$ref": "#/$defs/sha256" },
+        "id": {
+          "type": "string",
+          "pattern": "^dfb-[a-z0-9-]+$",
+          "description": "The frozen case's id, matching the case file on disk."
+        },
+        "path": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Repository-relative path to the case JSON file."
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256",
+          "description": "SHA-256 of the case JSON bytes."
+        },
         "fixture_digests": {
           "type": "array",
           "minItems": 1,
           "uniqueItems": true,
+          "description": "One digest entry per file in the case's fixture_files.",
           "items": { "$ref": "#/$defs/fixture_digest" }
         },
-        "track": { "$ref": "#/$defs/track" },
-        "score_tier": { "$ref": "#/$defs/score_tier" },
-        "model_profile": { "$ref": "#/$defs/profile" },
-        "template_id": { "type": "string", "minLength": 1 },
-        "polarity": { "enum": ["positive", "negative"] }
+        "track": {
+          "$ref": "#/$defs/track",
+          "description": "The case's own track, restated in the manifest so stale or altered case metadata is detected."
+        },
+        "score_tier": {
+          "$ref": "#/$defs/score_tier",
+          "description": "The case's own score tier, restated so drift from the case file is rejected."
+        },
+        "model_profile": {
+          "$ref": "#/$defs/profile",
+          "description": "The case's own model profile; every case a report selects must match the report's profile."
+        },
+        "template_id": {
+          "type": "string",
+          "minLength": 1,
+          "description": "The case's language-neutral template identity, restated for drift detection."
+        },
+        "polarity": {
+          "enum": ["positive", "negative"],
+          "description": "The case's polarity, restated for drift detection."
+        }
       }
     },
     "adapter": {
@@ -147,15 +239,47 @@
       "additionalProperties": false,
       "required": ["id", "tool", "tool_version", "build_identity", "adapter_version", "configuration_hash", "track", "dimension", "model_profile"],
       "properties": {
-        "id": { "type": "string", "minLength": 1 },
-        "tool": { "type": "string", "minLength": 1 },
-        "tool_version": { "type": "string", "minLength": 1 },
-        "build_identity": { "type": "string", "minLength": 1 },
-        "adapter_version": { "type": "string", "minLength": 1 },
-        "configuration_hash": { "$ref": "#/$defs/sha256" },
-        "track": { "$ref": "#/$defs/track" },
-        "dimension": { "$ref": "#/$defs/dimension" },
-        "model_profile": { "$ref": "#/$defs/profile" }
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Manifest-local adapter key that frozen reports reference through report.adapter."
+        },
+        "tool": {
+          "type": "string",
+          "minLength": 1,
+          "description": "The analyzer, matching the normalized report's tool."
+        },
+        "tool_version": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Pinned analyzer version, matching the report's tool_version; must be concrete on a release or website freeze."
+        },
+        "build_identity": {
+          "type": "string",
+          "minLength": 1,
+          "description": "The analyzer build the run was pinned to, matching the report's tool_build_identity; must be concrete on a release or website freeze."
+        },
+        "adapter_version": {
+          "type": "string",
+          "minLength": 1,
+          "description": "DataFlowBench adapter version, matching the report's adapter_version."
+        },
+        "configuration_hash": {
+          "$ref": "#/$defs/sha256",
+          "description": "SHA-256 over the adapter's committed configuration, matching the report's configuration_hash; identity drift between report and adapter entry is rejected."
+        },
+        "track": {
+          "$ref": "#/$defs/track",
+          "description": "The single semantic track this adapter's evidence belongs to."
+        },
+        "dimension": {
+          "$ref": "#/$defs/dimension",
+          "description": "The single score dimension this adapter's evidence belongs to."
+        },
+        "model_profile": {
+          "$ref": "#/$defs/profile",
+          "description": "The single model profile this adapter's evidence belongs to."
+        }
       }
     },
     "outcome_record": {
@@ -163,8 +287,15 @@
       "additionalProperties": false,
       "required": ["case_id", "outcome"],
       "properties": {
-        "case_id": { "type": "string", "minLength": 1 },
-        "outcome": { "$ref": "#/$defs/outcome" }
+        "case_id": {
+          "type": "string",
+          "minLength": 1,
+          "description": "The case this outcome answers."
+        },
+        "outcome": {
+          "$ref": "#/$defs/outcome",
+          "description": "The normalized outcome the report recorded, restated in the manifest so the frozen claim and the report cannot drift apart."
+        }
       }
     },
     "raw_evidence": {
@@ -172,9 +303,20 @@
       "additionalProperties": false,
       "required": ["case_id", "path", "sha256"],
       "properties": {
-        "case_id": { "type": "string", "minLength": 1 },
-        "path": { "type": "string", "minLength": 1 },
-        "sha256": { "$ref": "#/$defs/sha256" }
+        "case_id": {
+          "type": "string",
+          "minLength": 1,
+          "description": "The case whose raw evidence this is; exactly one entry per result."
+        },
+        "path": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Repository-relative path to the retained raw artifact; must equal the result's raw_output."
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256",
+          "description": "SHA-256 of the raw artifact's bytes. Validation also parses the artifact and rejects raw evidence declaring inconclusive, unsupported, or runner-error beneath a normalized report claiming a clean not-reached."
+        }
       }
     },
     "report": {
@@ -182,29 +324,55 @@
       "additionalProperties": false,
       "required": ["path", "sha256", "normalized_report_sha256", "adapter", "track", "dimension", "model_profile", "case_ids", "outcomes", "raw_evidence"],
       "properties": {
-        "path": { "type": "string", "minLength": 1 },
-        "sha256": { "$ref": "#/$defs/sha256" },
-        "normalized_report_sha256": { "$ref": "#/$defs/sha256" },
-        "adapter": { "type": "string", "minLength": 1 },
-        "track": { "$ref": "#/$defs/track" },
-        "dimension": { "$ref": "#/$defs/dimension" },
-        "model_profile": { "$ref": "#/$defs/profile" },
+        "path": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Repository-relative path to the normalized report; a freeze may not list the same report twice."
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256",
+          "description": "SHA-256 of the normalized report's bytes."
+        },
+        "normalized_report_sha256": {
+          "$ref": "#/$defs/sha256",
+          "description": "The normalized report's digest, which must equal sha256; a mismatch is rejected as inconsistent normalized-report digests."
+        },
+        "adapter": {
+          "type": "string",
+          "minLength": 1,
+          "description": "The id of the adapter entry in this manifest's adapters array that produced this report."
+        },
+        "track": {
+          "$ref": "#/$defs/track",
+          "description": "The single semantic track this report binds; all of its selected cases must match it."
+        },
+        "dimension": {
+          "$ref": "#/$defs/dimension",
+          "description": "The single score dimension this report binds; each scorecard covers exactly one report."
+        },
+        "model_profile": {
+          "$ref": "#/$defs/profile",
+          "description": "The single model profile this report binds; all of its selected cases must match it."
+        },
         "case_ids": {
           "type": "array",
           "minItems": 1,
           "uniqueItems": true,
+          "description": "The exact set of cases this report covers; a duplicate or incomplete result set is rejected.",
           "items": { "type": "string", "minLength": 1 }
         },
         "outcomes": {
           "type": "array",
           "minItems": 1,
           "uniqueItems": true,
+          "description": "One outcome record per selected case, mirroring the normalized report.",
           "items": { "$ref": "#/$defs/outcome_record" }
         },
         "raw_evidence": {
           "type": "array",
           "minItems": 1,
           "uniqueItems": true,
+          "description": "One retained raw-evidence digest per result, so a reader can walk from any published number back to frozen bytes.",
           "items": { "$ref": "#/$defs/raw_evidence" }
         }
       }

@@ -111,7 +111,9 @@ evidence. Concretely:
 
 A complete integration delivers all of the following.
 [The Pysa adapter](../adapters/pysa/README.md) — the newest — is the model
-for each item.
+for each item, and the step-ordered
+[adding-an-adapter walkthrough](adding-an-adapter.md) sequences the
+implementation work behind this checklist.
 
 - [ ] **Pinned identity, witnessed from the binary.** Exact version (or
       asset digest), refused on mismatch per run, with binary digests

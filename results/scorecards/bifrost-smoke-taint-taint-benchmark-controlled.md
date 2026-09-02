@@ -18,6 +18,8 @@ Outcome coverage: `reached` 1, `not-reached` 1, `inconclusive` 0, `unsupported` 
 
 Macro-average over semantic dimensions: TPR 100.0%, FPR 0.0%. Macro-averages pool templates first, then semantic dimensions; raw case counts are shown for audit only.
 
+Caveat: `inconclusive` outcomes are excluded from every TPR and FPR denominator above, so the rates cover only the conclusive subset of this population. This population records 0 `inconclusive` outcome(s). Compare rate columns across adapters with that exclusion in mind: an adapter that self-reports uncertainty is not penalized in its rates for the cases it declined to decide.
+
 ### Cases
 
 | Template | Case | Polarity | Outcome | Classification | Raw evidence | Raw SHA-256 |
@@ -36,6 +38,8 @@ Outcome coverage: `reached` 1, `not-reached` 1, `inconclusive` 0, `unsupported` 
 | `local-flow` | 1 | 0 | 0 | 1 | 0 | 0 | 0 | 100.0% | 0.0% |
 
 Macro-average over semantic dimensions: TPR 100.0%, FPR 0.0%. Macro-averages pool templates first, then semantic dimensions; raw case counts are shown for audit only.
+
+Caveat: `inconclusive` outcomes are excluded from every TPR and FPR denominator above, so the rates cover only the conclusive subset of this population. This population records 0 `inconclusive` outcome(s). Compare rate columns across adapters with that exclusion in mind: an adapter that self-reports uncertainty is not penalized in its rates for the cases it declined to decide.
 
 ### Cases
 
@@ -56,6 +60,8 @@ Outcome coverage: `reached` 1, `not-reached` 1, `inconclusive` 0, `unsupported` 
 
 Macro-average over semantic dimensions: TPR 100.0%, FPR 0.0%. Macro-averages pool templates first, then semantic dimensions; raw case counts are shown for audit only.
 
+Caveat: `inconclusive` outcomes are excluded from every TPR and FPR denominator above, so the rates cover only the conclusive subset of this population. This population records 0 `inconclusive` outcome(s). Compare rate columns across adapters with that exclusion in mind: an adapter that self-reports uncertainty is not penalized in its rates for the cases it declined to decide.
+
 ### Cases
 
 | Template | Case | Polarity | Outcome | Classification | Raw evidence | Raw SHA-256 |
@@ -74,6 +80,8 @@ Outcome coverage: `reached` 1, `not-reached` 1, `inconclusive` 0, `unsupported` 
 | `local-flow` | 1 | 0 | 0 | 1 | 0 | 0 | 0 | 100.0% | 0.0% |
 
 Macro-average over semantic dimensions: TPR 100.0%, FPR 0.0%. Macro-averages pool templates first, then semantic dimensions; raw case counts are shown for audit only.
+
+Caveat: `inconclusive` outcomes are excluded from every TPR and FPR denominator above, so the rates cover only the conclusive subset of this population. This population records 0 `inconclusive` outcome(s). Compare rate columns across adapters with that exclusion in mind: an adapter that self-reports uncertainty is not penalized in its rates for the cases it declined to decide.
 
 ### Cases
 
@@ -113,6 +121,8 @@ Outcome coverage: `reached` 16, `not-reached` 16, `inconclusive` 0, `unsupported
 | `path-sensitivity` | 3 | 0 | 0 | 3 | 0 | 0 | 0 | 100.0% | 0.0% |
 
 Macro-average over semantic dimensions: TPR 100.0%, FPR 0.0%. Macro-averages pool templates first, then semantic dimensions; raw case counts are shown for audit only.
+
+Caveat: `inconclusive` outcomes are excluded from every TPR and FPR denominator above, so the rates cover only the conclusive subset of this population. This population records 0 `inconclusive` outcome(s). Compare rate columns across adapters with that exclusion in mind: an adapter that self-reports uncertainty is not penalized in its rates for the cases it declined to decide.
 
 ### Cases
 
@@ -170,6 +180,8 @@ Outcome coverage: `reached` 16, `not-reached` 16, `inconclusive` 0, `unsupported
 
 Macro-average over semantic dimensions: TPR 100.0%, FPR 0.0%. Macro-averages pool templates first, then semantic dimensions; raw case counts are shown for audit only.
 
+Caveat: `inconclusive` outcomes are excluded from every TPR and FPR denominator above, so the rates cover only the conclusive subset of this population. This population records 0 `inconclusive` outcome(s). Compare rate columns across adapters with that exclusion in mind: an adapter that self-reports uncertainty is not penalized in its rates for the cases it declined to decide.
+
 ### Cases
 
 | Template | Case | Polarity | Outcome | Classification | Raw evidence | Raw SHA-256 |
@@ -219,6 +231,8 @@ Outcome coverage: `reached` 1, `not-reached` 1, `inconclusive` 0, `unsupported` 
 
 Macro-average over semantic dimensions: TPR 100.0%, FPR 0.0%. Macro-averages pool templates first, then semantic dimensions; raw case counts are shown for audit only.
 
+Caveat: `inconclusive` outcomes are excluded from every TPR and FPR denominator above, so the rates cover only the conclusive subset of this population. This population records 0 `inconclusive` outcome(s). Compare rate columns across adapters with that exclusion in mind: an adapter that self-reports uncertainty is not penalized in its rates for the cases it declined to decide.
+
 ### Cases
 
 | Template | Case | Polarity | Outcome | Classification | Raw evidence | Raw SHA-256 |
@@ -237,6 +251,8 @@ Outcome coverage: `reached` 1, `not-reached` 1, `inconclusive` 0, `unsupported` 
 | `local-flow` | 1 | 0 | 0 | 1 | 0 | 0 | 0 | 100.0% | 0.0% |
 
 Macro-average over semantic dimensions: TPR 100.0%, FPR 0.0%. Macro-averages pool templates first, then semantic dimensions; raw case counts are shown for audit only.
+
+Caveat: `inconclusive` outcomes are excluded from every TPR and FPR denominator above, so the rates cover only the conclusive subset of this population. This population records 0 `inconclusive` outcome(s). Compare rate columns across adapters with that exclusion in mind: an adapter that self-reports uncertainty is not penalized in its rates for the cases it declined to decide.
 
 ### Cases
 
@@ -263,6 +279,8 @@ Outcome coverage: `reached` 16, `not-reached` 16, `inconclusive` 0, `unsupported
 | `path-sensitivity` | 3 | 0 | 0 | 3 | 0 | 0 | 0 | 100.0% | 0.0% |
 
 Macro-average over semantic dimensions: TPR 100.0%, FPR 0.0%. Macro-averages pool templates first, then semantic dimensions; raw case counts are shown for audit only.
+
+Caveat: `inconclusive` outcomes are excluded from every TPR and FPR denominator above, so the rates cover only the conclusive subset of this population. This population records 0 `inconclusive` outcome(s). Compare rate columns across adapters with that exclusion in mind: an adapter that self-reports uncertainty is not penalized in its rates for the cases it declined to decide.
 
 ### Cases
 
@@ -313,6 +331,8 @@ Outcome coverage: `reached` 1, `not-reached` 1, `inconclusive` 0, `unsupported` 
 
 Macro-average over semantic dimensions: TPR 100.0%, FPR 0.0%. Macro-averages pool templates first, then semantic dimensions; raw case counts are shown for audit only.
 
+Caveat: `inconclusive` outcomes are excluded from every TPR and FPR denominator above, so the rates cover only the conclusive subset of this population. This population records 0 `inconclusive` outcome(s). Compare rate columns across adapters with that exclusion in mind: an adapter that self-reports uncertainty is not penalized in its rates for the cases it declined to decide.
+
 ### Cases
 
 | Template | Case | Polarity | Outcome | Classification | Raw evidence | Raw SHA-256 |
@@ -331,6 +351,8 @@ Outcome coverage: `reached` 1, `not-reached` 1, `inconclusive` 0, `unsupported` 
 | `local-flow` | 1 | 0 | 0 | 1 | 0 | 0 | 0 | 100.0% | 0.0% |
 
 Macro-average over semantic dimensions: TPR 100.0%, FPR 0.0%. Macro-averages pool templates first, then semantic dimensions; raw case counts are shown for audit only.
+
+Caveat: `inconclusive` outcomes are excluded from every TPR and FPR denominator above, so the rates cover only the conclusive subset of this population. This population records 0 `inconclusive` outcome(s). Compare rate columns across adapters with that exclusion in mind: an adapter that self-reports uncertainty is not penalized in its rates for the cases it declined to decide.
 
 ### Cases
 
@@ -351,6 +373,8 @@ Outcome coverage: `reached` 1, `not-reached` 1, `inconclusive` 0, `unsupported` 
 
 Macro-average over semantic dimensions: TPR 100.0%, FPR 0.0%. Macro-averages pool templates first, then semantic dimensions; raw case counts are shown for audit only.
 
+Caveat: `inconclusive` outcomes are excluded from every TPR and FPR denominator above, so the rates cover only the conclusive subset of this population. This population records 0 `inconclusive` outcome(s). Compare rate columns across adapters with that exclusion in mind: an adapter that self-reports uncertainty is not penalized in its rates for the cases it declined to decide.
+
 ### Cases
 
 | Template | Case | Polarity | Outcome | Classification | Raw evidence | Raw SHA-256 |
@@ -369,6 +393,8 @@ Outcome coverage: `reached` 1, `not-reached` 1, `inconclusive` 0, `unsupported` 
 | `local-flow` | 1 | 0 | 0 | 1 | 0 | 0 | 0 | 100.0% | 0.0% |
 
 Macro-average over semantic dimensions: TPR 100.0%, FPR 0.0%. Macro-averages pool templates first, then semantic dimensions; raw case counts are shown for audit only.
+
+Caveat: `inconclusive` outcomes are excluded from every TPR and FPR denominator above, so the rates cover only the conclusive subset of this population. This population records 0 `inconclusive` outcome(s). Compare rate columns across adapters with that exclusion in mind: an adapter that self-reports uncertainty is not penalized in its rates for the cases it declined to decide.
 
 ### Cases
 
