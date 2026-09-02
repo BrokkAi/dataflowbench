@@ -16,37 +16,59 @@ const ADAPTER_VERSION: &str = env!("CARGO_PKG_VERSION");
 type CorePairKey<'a> = (&'a str, &'a str, &'a str, &'a str);
 type CorePairCases<'a> = Vec<(&'a Path, &'a str)>;
 
+/// Every CodeQL kernel run evaluates the kernel query **and** its companion
+/// endpoint-observation probe in one `database analyze` invocation, so the
+/// retained SARIF is the evidence for both. The probe reports each benchmark
+/// endpoint the extracted database resolves; a run that never observed both
+/// endpoints is normalized to `inconclusive` on the same terms as
+/// `JoernEndpointRule::BothMustBeObserved`, never to a clean `not-reached`.
+const CODEQL_JAVA_ENDPOINT_PROBE: &str = "adapters/codeql/queries/JavaKernelEndpointProbe.ql";
 const CODEQL_JAVASCRIPT_QUERY: &str = "adapters/codeql/javascript/queries/JavaScriptKernel.ql";
+const CODEQL_JAVASCRIPT_ENDPOINT_PROBE: &str =
+    "adapters/codeql/javascript/queries/JavaScriptKernelEndpointProbe.ql";
 const CODEQL_JAVASCRIPT_RAW_DIR: &str = "reports/raw/codeql-javascript";
 const CODEQL_JAVASCRIPT_REPORT: &str = "reports/codeql-javascript-kernel.json";
 const CODEQL_TYPESCRIPT_QUERY: &str = "adapters/codeql/typescript/queries/TypeScriptKernel.ql";
+const CODEQL_TYPESCRIPT_ENDPOINT_PROBE: &str =
+    "adapters/codeql/typescript/queries/TypeScriptKernelEndpointProbe.ql";
 const CODEQL_TYPESCRIPT_RAW_DIR: &str = "reports/raw/codeql-typescript";
 const CODEQL_TYPESCRIPT_REPORT: &str = "reports/codeql-typescript-kernel.json";
 const CODEQL_PYTHON_QUERY: &str = "adapters/codeql/python/queries/PythonKernel.ql";
+const CODEQL_PYTHON_ENDPOINT_PROBE: &str =
+    "adapters/codeql/python/queries/PythonKernelEndpointProbe.ql";
 const CODEQL_KOTLIN_QUERY: &str = "adapters/codeql/kotlin/queries/KotlinKernel.ql";
+const CODEQL_KOTLIN_ENDPOINT_PROBE: &str =
+    "adapters/codeql/kotlin/queries/KotlinKernelEndpointProbe.ql";
 const CODEQL_KOTLIN_RAW_DIR: &str = "reports/raw/codeql-kotlin-kernel";
 const CODEQL_KOTLIN_REPORT: &str = "reports/codeql-kotlin-kernel.json";
 const CODEQL_CSHARP_QUERY: &str = "adapters/codeql/csharp/queries/CSharpKernel.ql";
+const CODEQL_CSHARP_ENDPOINT_PROBE: &str =
+    "adapters/codeql/csharp/queries/CSharpKernelEndpointProbe.ql";
 const CODEQL_CSHARP_RAW_DIR: &str = "reports/raw/codeql-csharp-kernel";
 const CODEQL_CSHARP_REPORT: &str = "reports/codeql-csharp-kernel.json";
 const CODEQL_C_QUERY: &str = "adapters/codeql/cpp/queries/CKernel.ql";
+const CODEQL_C_ENDPOINT_PROBE: &str = "adapters/codeql/cpp/queries/CKernelEndpointProbe.ql";
 const CODEQL_C_RAW_DIR: &str = "reports/raw/codeql-c-kernel";
 const CODEQL_C_REPORT: &str = "reports/codeql-c-kernel.json";
 const CODEQL_CPP_QUERY: &str = "adapters/codeql/cpp/queries/CppKernel.ql";
+const CODEQL_CPP_ENDPOINT_PROBE: &str = "adapters/codeql/cpp/queries/CppKernelEndpointProbe.ql";
 const CODEQL_CPP_RAW_DIR: &str = "reports/raw/codeql-cpp-kernel";
 const CODEQL_CPP_REPORT: &str = "reports/codeql-cpp-kernel.json";
 const BIFROST_C_POLICY: &str = "adapters/bifrost/policies/core-c-kernel.rqlp";
 const BIFROST_CPP_POLICY: &str = "adapters/bifrost/policies/core-cpp-kernel.rqlp";
 const BIFROST_CSHARP_POLICY: &str = "adapters/bifrost/policies/core-csharp-kernel.rqlp";
 const CODEQL_GO_QUERY: &str = "adapters/codeql/go/queries/GoKernel.ql";
+const CODEQL_GO_ENDPOINT_PROBE: &str = "adapters/codeql/go/queries/GoKernelEndpointProbe.ql";
 const CODEQL_GO_RAW_DIR: &str = "reports/raw/codeql-go-kernel";
 const CODEQL_GO_REPORT: &str = "reports/codeql-go-kernel.json";
 const BIFROST_GO_POLICY: &str = "adapters/bifrost/policies/core-go-kernel.rqlp";
 const CODEQL_RUST_QUERY: &str = "adapters/codeql/rust/queries/RustKernel.ql";
+const CODEQL_RUST_ENDPOINT_PROBE: &str = "adapters/codeql/rust/queries/RustKernelEndpointProbe.ql";
 const CODEQL_RUST_RAW_DIR: &str = "reports/raw/codeql-rust-kernel";
 const CODEQL_RUST_REPORT: &str = "reports/codeql-rust-kernel.json";
 const BIFROST_RUST_POLICY: &str = "adapters/bifrost/policies/core-rust-kernel.rqlp";
 const CODEQL_RUBY_QUERY: &str = "adapters/codeql/ruby/queries/RubyKernel.ql";
+const CODEQL_RUBY_ENDPOINT_PROBE: &str = "adapters/codeql/ruby/queries/RubyKernelEndpointProbe.ql";
 const CODEQL_RUBY_RAW_DIR: &str = "reports/raw/codeql-ruby-kernel";
 const CODEQL_RUBY_REPORT: &str = "reports/codeql-ruby-kernel.json";
 const BIFROST_RUBY_POLICY: &str = "adapters/bifrost/policies/core-ruby-kernel.rqlp";
@@ -6806,6 +6828,13 @@ impl EcmaKernel {
         }
     }
 
+    fn endpoint_probe(self) -> &'static str {
+        match self {
+            Self::JavaScript => CODEQL_JAVASCRIPT_ENDPOINT_PROBE,
+            Self::TypeScript => CODEQL_TYPESCRIPT_ENDPOINT_PROBE,
+        }
+    }
+
     fn raw_dir(self) -> &'static str {
         match self {
             Self::JavaScript => CODEQL_JAVASCRIPT_RAW_DIR,
@@ -6877,6 +6906,13 @@ impl CFamilyKernel {
         match self {
             Self::C => CODEQL_C_QUERY,
             Self::Cpp => CODEQL_CPP_QUERY,
+        }
+    }
+
+    fn endpoint_probe(self) -> &'static str {
+        match self {
+            Self::C => CODEQL_C_ENDPOINT_PROBE,
+            Self::Cpp => CODEQL_CPP_ENDPOINT_PROBE,
         }
     }
 
@@ -7025,6 +7061,7 @@ fn run_codeql_java_kernel(binary: &Path, packs: Option<&Path>) -> Result<()> {
     }
 
     let mut configuration_paths = query_paths;
+    configuration_paths.insert(PathBuf::from(CODEQL_JAVA_ENDPOINT_PROBE));
     configuration_paths.insert(PathBuf::from("adapters/codeql/qlpack.yml"));
     configuration_paths.insert(PathBuf::from("adapters/codeql/codeql-pack.lock.yml"));
     let configuration_hash = hash_paths(&configuration_paths)?;
@@ -7114,6 +7151,7 @@ fn run_codeql_ecma_kernel(binary: &Path, packs: Option<&Path>, kernel: EcmaKerne
 
     let mut configuration_paths = query_paths;
     configuration_paths.insert(PathBuf::from(kernel.query()));
+    configuration_paths.insert(PathBuf::from(kernel.endpoint_probe()));
     let qlpack_directory = Path::new(kernel.qlpack_directory());
     configuration_paths.insert(qlpack_directory.join("qlpack.yml"));
     let pack_lock = qlpack_directory.join("codeql-pack.lock.yml");
@@ -7165,6 +7203,7 @@ fn run_codeql_python_kernel(binary: &Path, packs: Option<&Path>) -> Result<()> {
             &path,
             &case,
             Path::new(query),
+            Some(Path::new(CODEQL_PYTHON_ENDPOINT_PROBE)),
             raw_dir,
             CodeqlLanguage::Python,
         )?;
@@ -7222,6 +7261,7 @@ fn run_codeql_kotlin_kernel(binary: &Path, packs: Option<&Path>, kotlinc: &Path)
             &path,
             &case,
             Path::new(CODEQL_KOTLIN_QUERY),
+            Some(Path::new(CODEQL_KOTLIN_ENDPOINT_PROBE)),
             raw_dir,
             CodeqlLanguage::Kotlin { kotlinc },
         )?;
@@ -7278,6 +7318,7 @@ fn run_codeql_csharp_kernel(binary: &Path, packs: Option<&Path>) -> Result<()> {
             &path,
             &case,
             Path::new(CODEQL_CSHARP_QUERY),
+            Some(Path::new(CODEQL_CSHARP_ENDPOINT_PROBE)),
             raw_dir,
             CodeqlLanguage::CSharp,
         )?;
@@ -7334,6 +7375,7 @@ fn run_codeql_go_kernel(binary: &Path, packs: Option<&Path>, go: &Path) -> Resul
             &path,
             &case,
             Path::new(CODEQL_GO_QUERY),
+            Some(Path::new(CODEQL_GO_ENDPOINT_PROBE)),
             raw_dir,
             CodeqlLanguage::Go { go },
         )?;
@@ -7398,11 +7440,17 @@ fn codeql_go_cases() -> Result<Vec<(PathBuf, Value)>> {
     if !Path::new(CODEQL_GO_QUERY).is_file() {
         bail!("Go CodeQL query does not exist: {CODEQL_GO_QUERY}");
     }
+    if !Path::new(CODEQL_GO_ENDPOINT_PROBE).is_file() {
+        bail!("Go CodeQL endpoint probe does not exist: {CODEQL_GO_ENDPOINT_PROBE}");
+    }
     Ok(selected)
 }
 
 fn codeql_go_configuration_paths() -> BTreeSet<PathBuf> {
-    let mut paths = BTreeSet::from([PathBuf::from(CODEQL_GO_QUERY)]);
+    let mut paths = BTreeSet::from([
+        PathBuf::from(CODEQL_GO_QUERY),
+        PathBuf::from(CODEQL_GO_ENDPOINT_PROBE),
+    ]);
     for candidate in [
         "adapters/codeql/go/qlpack.yml",
         "adapters/codeql/go/codeql-pack.lock.yml",
@@ -7446,6 +7494,7 @@ fn run_codeql_c_family_kernel(
             &path,
             &case,
             Path::new(kernel.query()),
+            Some(Path::new(kernel.endpoint_probe())),
             raw_dir,
             CodeqlLanguage::CFamily,
         )?;
@@ -7503,6 +7552,12 @@ fn codeql_c_family_cases(kernel: CFamilyKernel) -> Result<Vec<(PathBuf, Value)>>
     validate_c_family_population(&selected, kernel)?;
     if !Path::new(kernel.query()).is_file() {
         bail!("{display} CodeQL query does not exist: {}", kernel.query());
+    }
+    if !Path::new(kernel.endpoint_probe()).is_file() {
+        bail!(
+            "{display} CodeQL endpoint probe does not exist: {}",
+            kernel.endpoint_probe()
+        );
     }
     Ok(selected)
 }
@@ -7562,6 +7617,7 @@ fn run_codeql_rust_kernel(binary: &Path, packs: Option<&Path>) -> Result<()> {
             &path,
             &case,
             Path::new(CODEQL_RUST_QUERY),
+            Some(Path::new(CODEQL_RUST_ENDPOINT_PROBE)),
             raw_dir,
             CodeqlLanguage::Rust,
         )?;
@@ -7619,6 +7675,7 @@ fn run_codeql_ruby_kernel(binary: &Path, packs: Option<&Path>) -> Result<()> {
             &path,
             &case,
             Path::new(CODEQL_RUBY_QUERY),
+            Some(Path::new(CODEQL_RUBY_ENDPOINT_PROBE)),
             raw_dir,
             CodeqlLanguage::Ruby,
         )?;
@@ -7683,11 +7740,17 @@ fn codeql_ruby_cases() -> Result<Vec<(PathBuf, Value)>> {
     if !Path::new(CODEQL_RUBY_QUERY).is_file() {
         bail!("Ruby CodeQL query does not exist: {CODEQL_RUBY_QUERY}");
     }
+    if !Path::new(CODEQL_RUBY_ENDPOINT_PROBE).is_file() {
+        bail!("Ruby CodeQL endpoint probe does not exist: {CODEQL_RUBY_ENDPOINT_PROBE}");
+    }
     Ok(selected)
 }
 
 fn codeql_ruby_configuration_paths() -> BTreeSet<PathBuf> {
-    let mut paths = BTreeSet::from([PathBuf::from(CODEQL_RUBY_QUERY)]);
+    let mut paths = BTreeSet::from([
+        PathBuf::from(CODEQL_RUBY_QUERY),
+        PathBuf::from(CODEQL_RUBY_ENDPOINT_PROBE),
+    ]);
     for candidate in [
         "adapters/codeql/ruby/qlpack.yml",
         "adapters/codeql/ruby/codeql-pack.lock.yml",
@@ -7737,6 +7800,9 @@ fn codeql_rust_cases() -> Result<Vec<(PathBuf, Value)>> {
     if !Path::new(CODEQL_RUST_QUERY).is_file() {
         bail!("Rust CodeQL query does not exist: {CODEQL_RUST_QUERY}");
     }
+    if !Path::new(CODEQL_RUST_ENDPOINT_PROBE).is_file() {
+        bail!("Rust CodeQL endpoint probe does not exist: {CODEQL_RUST_ENDPOINT_PROBE}");
+    }
     Ok(selected)
 }
 
@@ -7768,7 +7834,10 @@ fn validate_rust_kernel_population(selected: &[(PathBuf, Value)], label: &str) -
 }
 
 fn codeql_rust_configuration_paths() -> BTreeSet<PathBuf> {
-    let mut paths = BTreeSet::from([PathBuf::from(CODEQL_RUST_QUERY)]);
+    let mut paths = BTreeSet::from([
+        PathBuf::from(CODEQL_RUST_QUERY),
+        PathBuf::from(CODEQL_RUST_ENDPOINT_PROBE),
+    ]);
     for candidate in [
         "adapters/codeql/rust/qlpack.yml",
         "adapters/codeql/rust/codeql-pack.lock.yml",
@@ -7784,7 +7853,10 @@ fn codeql_rust_configuration_paths() -> BTreeSet<PathBuf> {
 }
 
 fn codeql_c_family_configuration_paths(kernel: CFamilyKernel) -> BTreeSet<PathBuf> {
-    let mut paths = BTreeSet::from([PathBuf::from(kernel.query())]);
+    let mut paths = BTreeSet::from([
+        PathBuf::from(kernel.query()),
+        PathBuf::from(kernel.endpoint_probe()),
+    ]);
     for candidate in [
         "adapters/codeql/cpp/qlpack.yml",
         "adapters/codeql/cpp/codeql-pack.lock.yml",
@@ -7831,11 +7903,17 @@ fn codeql_csharp_cases() -> Result<Vec<(PathBuf, Value)>> {
     if !Path::new(CODEQL_CSHARP_QUERY).is_file() {
         bail!("C# CodeQL query does not exist: {CODEQL_CSHARP_QUERY}");
     }
+    if !Path::new(CODEQL_CSHARP_ENDPOINT_PROBE).is_file() {
+        bail!("C# CodeQL endpoint probe does not exist: {CODEQL_CSHARP_ENDPOINT_PROBE}");
+    }
     Ok(selected)
 }
 
 fn codeql_csharp_configuration_paths() -> BTreeSet<PathBuf> {
-    let mut paths = BTreeSet::from([PathBuf::from(CODEQL_CSHARP_QUERY)]);
+    let mut paths = BTreeSet::from([
+        PathBuf::from(CODEQL_CSHARP_QUERY),
+        PathBuf::from(CODEQL_CSHARP_ENDPOINT_PROBE),
+    ]);
     for candidate in [
         "adapters/codeql/csharp/qlpack.yml",
         "adapters/codeql/csharp/codeql-pack.lock.yml",
@@ -7910,11 +7988,17 @@ fn codeql_kotlin_cases() -> Result<Vec<(PathBuf, Value)>> {
     if !Path::new(CODEQL_KOTLIN_QUERY).is_file() {
         bail!("Kotlin CodeQL query does not exist: {CODEQL_KOTLIN_QUERY}");
     }
+    if !Path::new(CODEQL_KOTLIN_ENDPOINT_PROBE).is_file() {
+        bail!("Kotlin CodeQL endpoint probe does not exist: {CODEQL_KOTLIN_ENDPOINT_PROBE}");
+    }
     Ok(selected)
 }
 
 fn codeql_kotlin_configuration_paths() -> BTreeSet<PathBuf> {
-    let mut paths = BTreeSet::from([PathBuf::from(CODEQL_KOTLIN_QUERY)]);
+    let mut paths = BTreeSet::from([
+        PathBuf::from(CODEQL_KOTLIN_QUERY),
+        PathBuf::from(CODEQL_KOTLIN_ENDPOINT_PROBE),
+    ]);
     for candidate in [
         "adapters/codeql/kotlin/qlpack.yml",
         "adapters/codeql/kotlin/codeql-pack.lock.yml",
@@ -8052,6 +8136,12 @@ fn select_codeql_ecma_cases(kernel: EcmaKernel) -> Result<Vec<(PathBuf, Value)>>
         &format!("{display} CodeQL kernel"),
         &expected_core_templates(kernel.language()),
     )?;
+    if !Path::new(kernel.endpoint_probe()).is_file() {
+        bail!(
+            "{display} CodeQL endpoint probe does not exist: {}",
+            kernel.endpoint_probe()
+        );
+    }
     Ok(selected)
 }
 
@@ -8135,6 +8225,7 @@ fn run_codeql_ecma_case(
             .arg("analyze")
             .arg(&database)
             .arg(query)
+            .arg(kernel.endpoint_probe())
             .arg("--format=sarif-latest")
             .arg(format!("--output={}", raw_path.display()))
             .arg("--rerun");
@@ -8219,6 +8310,10 @@ fn run_codeql_ecma_case(
                 vec!["CodeQL SARIF contains no analysis runs".to_string()],
                 raw_path,
             ));
+        }
+        let (sarif, observation) = split_codeql_endpoint_probe(&sarif);
+        if let Some((outcome, diagnostics)) = unobserved_codeql_endpoint_outcome(observation) {
+            return Ok((outcome, diagnostics, raw_path));
         }
         let mut diagnostics = sarif_messages(&sarif);
         let (outcome, anchor_diagnostics) = ecma_sarif_outcome(case_path, case, &sarif);
@@ -8964,6 +9059,9 @@ fn codeql_python_cases() -> Result<Vec<(PathBuf, Value)>> {
     if !query.is_file() {
         bail!("Python CodeQL query does not exist: {}", query.display());
     }
+    if !Path::new(CODEQL_PYTHON_ENDPOINT_PROBE).is_file() {
+        bail!("Python CodeQL endpoint probe does not exist: {CODEQL_PYTHON_ENDPOINT_PROBE}");
+    }
     Ok(all_cases)
 }
 
@@ -8993,6 +9091,7 @@ fn validate_codeql_python_population(cases: &[(PathBuf, Value)]) -> Result<PathB
 
 fn codeql_python_configuration_paths(query_paths: &BTreeSet<PathBuf>) -> BTreeSet<PathBuf> {
     let mut paths = query_paths.clone();
+    paths.insert(PathBuf::from(CODEQL_PYTHON_ENDPOINT_PROBE));
     for candidate in [
         "adapters/codeql/python/qlpack.yml",
         "adapters/codeql/python/codeql-pack.lock.yml",
@@ -9021,33 +9120,67 @@ fn run_codeql_case(
         case_path,
         case,
         query,
+        Some(Path::new(CODEQL_JAVA_ENDPOINT_PROBE)),
         raw_dir,
         CodeqlLanguage::Java,
     )
 }
 
+/// Run one CodeQL case: build the database, analyze it, and reconcile the
+/// SARIF into an outcome.
+///
+/// The kernel populations pass their language's companion
+/// endpoint-observation probe as `endpoint_probe`; it is evaluated in the same
+/// `database analyze` invocation as `query`, and a run in which the probe
+/// never observed both benchmark-controlled endpoints is `inconclusive` on the
+/// same terms as `JoernEndpointRule::BothMustBeObserved`. The modeling matrix
+/// passes `None`: an absent *declared* endpoint is frequently the assertion a
+/// modeling negative makes, exactly as under Joern's
+/// `AbsenceIsTheAssertion` rule.
+#[allow(clippy::too_many_arguments)]
 fn run_codeql_case_for_language(
     binary: &Path,
     packs: Option<&Path>,
     case_path: &Path,
     case: &Value,
     query: &Path,
+    endpoint_probe: Option<&Path>,
     raw_dir: &Path,
     language: CodeqlLanguage,
 ) -> Result<(&'static str, Vec<String>, PathBuf)> {
+    let mut analysis = vec![query.to_string_lossy().into_owned()];
+    if let Some(probe) = endpoint_probe {
+        analysis.push(probe.to_string_lossy().into_owned());
+    }
     let sarif = match codeql_sarif_for_case(
-        binary,
-        packs,
-        case_path,
-        case,
-        raw_dir,
-        language,
-        &[query.to_string_lossy().into_owned()],
+        binary, packs, case_path, case, raw_dir, language, &analysis,
     )? {
         CodeqlSarif::Failed(outcome) => return Ok(outcome),
         CodeqlSarif::Analyzed { sarif, raw_path } => (sarif, raw_path),
     };
     let (sarif, raw_path) = sarif;
+    let sarif = if endpoint_probe.is_some() {
+        // A document with no analysis run is malformed evidence, not an
+        // unobserved endpoint: it stays `runner-error`, exactly as the ECMA
+        // runner and `normalize_anchored_codeql_sarif` already read it.
+        if !sarif["runs"]
+            .as_array()
+            .is_some_and(|runs| !runs.is_empty())
+        {
+            return Ok((
+                "runner-error",
+                vec!["CodeQL SARIF contains no analysis runs".to_string()],
+                raw_path,
+            ));
+        }
+        let (kernel_sarif, observation) = split_codeql_endpoint_probe(&sarif);
+        if let Some((outcome, diagnostics)) = unobserved_codeql_endpoint_outcome(observation) {
+            return Ok((outcome, diagnostics, raw_path));
+        }
+        kernel_sarif
+    } else {
+        sarif
+    };
     let (outcome, diagnostics) = match language {
         CodeqlLanguage::Python => normalize_anchored_codeql_sarif(case, &sarif, "Python"),
         CodeqlLanguage::Kotlin { .. } => normalize_anchored_codeql_sarif(case, &sarif, "Kotlin"),
@@ -9535,6 +9668,78 @@ fn sink_anchor_file_matches(case: &Value, uri: &str) -> bool {
             };
             evidence_path_matches_file(uri, file)
         })
+}
+
+/// The `@id` suffix every kernel endpoint-observation probe carries. The probe
+/// runs in the same `database analyze` invocation as the kernel query, so its
+/// rows land in the same SARIF document; this suffix is how they are told apart
+/// from the kernel's own findings.
+const CODEQL_ENDPOINT_PROBE_RULE_SUFFIX: &str = "-kernel-endpoint-probe";
+
+/// What a kernel run's companion endpoint-observation probe reported: how many
+/// benchmark-controlled source and sink endpoints resolved in the extracted
+/// database. The CodeQL counterpart of Joern's `source_node_count` /
+/// `sink_node_count` evidence fields.
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+struct CodeqlEndpointObservation {
+    sources: usize,
+    sinks: usize,
+}
+
+fn codeql_endpoint_probe_result(result: &Value) -> bool {
+    result["ruleId"].as_str().is_some_and(|id| {
+        id.starts_with("dataflowbench/") && id.ends_with(CODEQL_ENDPOINT_PROBE_RULE_SUFFIX)
+    })
+}
+
+/// Separate a kernel SARIF document into the kernel query's own findings and
+/// the endpoint-observation probe's counts. The probe's rows are removed from
+/// the returned document so every existing reconciler keeps seeing exactly the
+/// kernel's result set; the original SARIF is retained on disk unmodified, so
+/// the probe rows stay available as raw evidence.
+fn split_codeql_endpoint_probe(sarif: &Value) -> (Value, CodeqlEndpointObservation) {
+    let mut kernel = sarif.clone();
+    let mut observation = CodeqlEndpointObservation {
+        sources: 0,
+        sinks: 0,
+    };
+    for run in kernel["runs"].as_array_mut().into_iter().flatten() {
+        let Some(results) = run["results"].as_array_mut() else {
+            continue;
+        };
+        results.retain(|result| {
+            if !codeql_endpoint_probe_result(result) {
+                return true;
+            }
+            let message = result["message"]["text"].as_str().unwrap_or_default();
+            if message.contains("source endpoint observed") {
+                observation.sources += 1;
+            } else if message.contains("sink endpoint observed") {
+                observation.sinks += 1;
+            }
+            false
+        });
+    }
+    (kernel, observation)
+}
+
+/// The CodeQL kernels' mirror of `JoernEndpointRule::BothMustBeObserved`: a
+/// kernel fixture always contains both of its own endpoints by construction, so
+/// a run whose probe never observed one of them is an incomplete run, never a
+/// clean negative. The evidence — the SARIF carrying the probe's rows — is
+/// retained as-is; only the interpretation is withheld.
+fn unobserved_codeql_endpoint_outcome(
+    observation: CodeqlEndpointObservation,
+) -> Option<(&'static str, Vec<String>)> {
+    (observation.sources == 0 || observation.sinks == 0).then(|| {
+        (
+            "inconclusive",
+            vec![format!(
+                "CodeQL endpoint probe resolved {} source endpoint(s) and {} sink endpoint(s); the run never observed both benchmark-controlled endpoints",
+                observation.sources, observation.sinks
+            )],
+        )
+    })
 }
 
 fn sarif_result_count(sarif: &Value) -> usize {
@@ -16443,6 +16648,10 @@ fn run_modeling(
                             .artifact(ModelingTool::Codeql)
                             .expect("every wave-M1 language has a CodeQL modeling query"),
                     ),
+                    // The modeling matrix runs no endpoint probe: an absent
+                    // *declared* endpoint is frequently the assertion a
+                    // modeling negative makes.
+                    None,
                     &plan.raw_dir,
                     modeling_codeql_language(plan.language)?,
                 )?,
@@ -21032,6 +21241,167 @@ mod tests {
                 "query evaluation failed"
             ]
         );
+    }
+
+    fn probe_row(role: &str) -> Value {
+        json!({
+            "ruleId": format!("dataflowbench/javascript{CODEQL_ENDPOINT_PROBE_RULE_SUFFIX}"),
+            "message": {"text": format!("Benchmark {role} endpoint observed.")},
+            "locations": [{"physicalLocation": {
+                "artifactLocation": {"uri": "fixture.js"},
+                "region": {"startLine": 3}
+            }}]
+        })
+    }
+
+    /// The probe's rows share the kernel's SARIF document, so they are counted
+    /// and then removed before any reconciler sees the result set: the kernel's
+    /// own finding count, and its retained messages, are unchanged by the
+    /// probe running alongside it.
+    #[test]
+    fn codeql_endpoint_probe_rows_are_split_from_kernel_findings() {
+        let sarif = json!({
+            "runs": [{
+                "results": [
+                    {
+                        "ruleId": "dataflowbench/javascript-propagation-kernel",
+                        "message": {"text": "Controlled input reaches the benchmark sink."}
+                    },
+                    probe_row("source"),
+                    probe_row("source"),
+                    probe_row("sink")
+                ]
+            }]
+        });
+        let (kernel, observation) = split_codeql_endpoint_probe(&sarif);
+        assert_eq!(
+            observation,
+            CodeqlEndpointObservation {
+                sources: 2,
+                sinks: 1
+            }
+        );
+        assert_eq!(sarif_result_count(&kernel), 1);
+        assert!(
+            sarif_messages(&kernel)
+                .iter()
+                .all(|message| !message.contains("endpoint observed"))
+        );
+        // The retained document is untouched: the probe's rows stay raw
+        // evidence on disk.
+        assert_eq!(sarif_result_count(&sarif), 4);
+        assert_eq!(unobserved_codeql_endpoint_outcome(observation), None);
+    }
+
+    /// The CodeQL kernels' anti-vacuity mirror of
+    /// `JoernEndpointRule::BothMustBeObserved`: a fixture always contains both
+    /// of its own endpoints by construction, so a zero-result SARIF whose
+    /// probe never observed one of them is an incomplete run, never a clean
+    /// `not-reached` negative — exactly the recoverable per-file extractor
+    /// parse error that drops the sink expression without failing the run.
+    #[test]
+    fn an_unobserved_codeql_endpoint_prevents_clean_negative_interpretation() {
+        let case = json!({});
+        let case_path = PathBuf::from("cases/never-read.json");
+        let sink_dropped = json!({
+            "runs": [{"results": [probe_row("source")]}]
+        });
+        let (kernel, observation) = split_codeql_endpoint_probe(&sink_dropped);
+        assert_eq!(sarif_result_count(&kernel), 0);
+        let (outcome, diagnostics) =
+            unobserved_codeql_endpoint_outcome(observation).expect("the sink was unobserved");
+        assert_eq!(outcome, "inconclusive");
+        assert!(diagnostics.iter().any(|line| {
+            line.contains("1 source endpoint(s) and 0 sink endpoint(s)")
+                && line.contains("never observed both benchmark-controlled endpoints")
+        }));
+        // A probe that observed nothing at all — or that never ran, which is
+        // indistinguishable in the document — withholds the negative too.
+        let empty = json!({"runs": [{"results": []}]});
+        let (_, observation) = split_codeql_endpoint_probe(&empty);
+        assert!(unobserved_codeql_endpoint_outcome(observation).is_some());
+        // Joern applies its endpoint rule before flow reconciliation, and the
+        // CodeQL gate sits at the same place: a kernel finding in a run whose
+        // probe contradicts it is inconsistent evidence, not `reached`.
+        let contradictory = json!({
+            "runs": [{"results": [
+                {
+                    "ruleId": "dataflowbench/javascript-propagation-kernel",
+                    "message": {"text": "Controlled input reaches the benchmark sink."}
+                },
+                probe_row("source")
+            ]}]
+        });
+        let (_, observation) = split_codeql_endpoint_probe(&contradictory);
+        assert!(unobserved_codeql_endpoint_outcome(observation).is_some());
+        // With both endpoints observed the gate opens and the zero-result
+        // reconciliation is the clean negative it always was.
+        let observed = json!({
+            "runs": [{"results": [probe_row("source"), probe_row("sink")]}]
+        });
+        let (kernel, observation) = split_codeql_endpoint_probe(&observed);
+        assert_eq!(unobserved_codeql_endpoint_outcome(observation), None);
+        assert_eq!(
+            ecma_sarif_outcome(&case_path, &case, &kernel).0,
+            "not-reached"
+        );
+    }
+
+    /// Every kernel population evaluates a companion endpoint-observation
+    /// probe beside its kernel query, and each probe is the load-bearing kind
+    /// the runner can split back out: a `problem` query under the shared
+    /// `dataflowbench/…-kernel-endpoint-probe` rule identity, observing the
+    /// benchmark's own `dfb_source`/`dfb_sink` contract.
+    #[test]
+    fn every_codeql_kernel_evaluates_an_endpoint_probe_beside_its_query() {
+        let populations = [
+            (
+                "java",
+                "adapters/codeql/queries/JavaKernel.ql",
+                CODEQL_JAVA_ENDPOINT_PROBE,
+            ),
+            (
+                "javascript",
+                CODEQL_JAVASCRIPT_QUERY,
+                CODEQL_JAVASCRIPT_ENDPOINT_PROBE,
+            ),
+            (
+                "typescript",
+                CODEQL_TYPESCRIPT_QUERY,
+                CODEQL_TYPESCRIPT_ENDPOINT_PROBE,
+            ),
+            ("python", CODEQL_PYTHON_QUERY, CODEQL_PYTHON_ENDPOINT_PROBE),
+            ("kotlin", CODEQL_KOTLIN_QUERY, CODEQL_KOTLIN_ENDPOINT_PROBE),
+            ("csharp", CODEQL_CSHARP_QUERY, CODEQL_CSHARP_ENDPOINT_PROBE),
+            ("go", CODEQL_GO_QUERY, CODEQL_GO_ENDPOINT_PROBE),
+            ("c", CODEQL_C_QUERY, CODEQL_C_ENDPOINT_PROBE),
+            ("cpp", CODEQL_CPP_QUERY, CODEQL_CPP_ENDPOINT_PROBE),
+            ("rust", CODEQL_RUST_QUERY, CODEQL_RUST_ENDPOINT_PROBE),
+            ("ruby", CODEQL_RUBY_QUERY, CODEQL_RUBY_ENDPOINT_PROBE),
+        ];
+        assert_eq!(populations.len(), 11);
+        for (language, query, probe) in populations {
+            let query_path = Path::new(query);
+            let probe_path = Path::new(probe);
+            assert!(query_path.is_file(), "{query}");
+            assert!(probe_path.is_file(), "{probe}");
+            assert_eq!(
+                query_path.parent(),
+                probe_path.parent(),
+                "the {language} probe must live in the kernel query's own pack"
+            );
+            let body = fs::read_to_string(probe_path).unwrap();
+            assert!(body.contains("@kind problem"), "{probe}");
+            let rule_id =
+                format!("@id dataflowbench/{language}{CODEQL_ENDPOINT_PROBE_RULE_SUFFIX}");
+            assert!(body.contains(&rule_id), "{probe} must declare {rule_id}");
+            assert!(body.contains("dfb_source"), "{probe}");
+            assert!(body.contains("dfb_sink"), "{probe}");
+            // A probe row is recognized by the same predicate the runner
+            // splits with, so the two can never drift apart silently.
+            let sarif_rule = format!("dataflowbench/{language}{CODEQL_ENDPOINT_PROBE_RULE_SUFFIX}");
+            assert!(codeql_endpoint_probe_result(&json!({"ruleId": sarif_rule})));
+        }
     }
 
     #[test]

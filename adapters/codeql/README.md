@@ -58,6 +58,32 @@ compiles the fixture with its real `javac` build, runs the pinned
 presence or absence of query results. It does not treat query compilation,
 database creation, or analysis failures as negative results.
 
+## Endpoint-observation probes
+
+Every kernel query has a companion endpoint-observation probe beside it in the
+same pack — `<Language>KernelEndpointProbe.ql`, with rule id
+`dataflowbench/<language>-kernel-endpoint-probe`. The runner evaluates the
+probe and the kernel query in one `database analyze` invocation, so the
+retained SARIF is the raw evidence for both. Each probe mirrors its kernel's
+own endpoint recognizers — the `dfb_source()`/`dfb_sink(value)` contract,
+including the kernel's file-extension guards where C/C++, Kotlin, and the two
+ECMA populations share an extractor — and reports one row per benchmark
+endpoint the extracted database resolves.
+
+Normalization splits the probe's rows back out before any finding is
+reconciled, so kernel result sets are unchanged by the probe running
+alongside. A run in which the probe never observed both benchmark-controlled
+endpoints is `inconclusive`, never `not-reached`, on the same terms as the
+Joern kernels' both-endpoints-must-be-observed rule: a kernel fixture contains
+both of its own endpoints by construction, so an unobserved endpoint can only
+mean the extractor failed to see it — which is execution coverage, never a
+clean negative. This closes the gap where a *recoverable* per-file parse error
+in an interpreted-language extractor (JavaScript, TypeScript, Python, Ruby)
+could drop the sink expression without failing the run, leaving a zero-result
+SARIF that would otherwise read as a vacuous clean true-negative. The modeling
+matrix deliberately runs no probe: an absent *declared* endpoint is frequently
+the assertion a modeling negative makes.
+
 ## JavaScript kernel
 
 The JavaScript runner selects the whole JavaScript core `taint` population —
