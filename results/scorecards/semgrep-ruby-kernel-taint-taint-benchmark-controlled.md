@@ -4,7 +4,7 @@ Adapter `semgrep-ruby-kernel`: `semgrep` `1.175.0` (build `semgrep-oss:1.175.0`,
 
 Track `taint`, score dimension `taint`, model profile `benchmark-controlled`. This scorecard is a single result population; it is never pooled with other tracks, dimensions, or model profiles.
 
-Normalized report: `reports/semgrep-ruby-kernel.json` (`sha256:deae3cd4a04bc9dbf9f5fb1d6e2d0c8dbdefd0e2b9c561a9f7544ce130097529`, normalized `sha256:deae3cd4a04bc9dbf9f5fb1d6e2d0c8dbdefd0e2b9c561a9f7544ce130097529`). Generated from freeze manifest `reports/freeze.json` (`sha256:3228af686d09f8666989368483bef375bb28b94025b55e31eaa7a0bdd29506ee`).
+Normalized report: `reports/semgrep-ruby-kernel.json` (`sha256:deae3cd4a04bc9dbf9f5fb1d6e2d0c8dbdefd0e2b9c561a9f7544ce130097529`, normalized `sha256:deae3cd4a04bc9dbf9f5fb1d6e2d0c8dbdefd0e2b9c561a9f7544ce130097529`). Generated from freeze manifest `reports/freeze.json` (`sha256:65638eafb36478120d268290479815114f244baa57994c47e19fac6b759e50ae`).
 
 ## Language `ruby`, tier `core`
 

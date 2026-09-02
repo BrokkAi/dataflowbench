@@ -4,7 +4,7 @@ Adapter `codeql-go-kernel`: `codeql` `2.26.4` (build `codeql-cli:6b1e4dee94adb20
 
 Track `taint`, score dimension `taint`, model profile `benchmark-controlled`. This scorecard is a single result population; it is never pooled with other tracks, dimensions, or model profiles.
 
-Normalized report: `reports/codeql-go-kernel.json` (`sha256:99dc5a3c7c17b27471028afd359830f8ee7fb51f1875c8fee1981d95826fa33d`, normalized `sha256:99dc5a3c7c17b27471028afd359830f8ee7fb51f1875c8fee1981d95826fa33d`). Generated from freeze manifest `reports/freeze.json` (`sha256:3228af686d09f8666989368483bef375bb28b94025b55e31eaa7a0bdd29506ee`).
+Normalized report: `reports/codeql-go-kernel.json` (`sha256:99dc5a3c7c17b27471028afd359830f8ee7fb51f1875c8fee1981d95826fa33d`, normalized `sha256:99dc5a3c7c17b27471028afd359830f8ee7fb51f1875c8fee1981d95826fa33d`). Generated from freeze manifest `reports/freeze.json` (`sha256:65638eafb36478120d268290479815114f244baa57994c47e19fac6b759e50ae`).
 
 ## Language `go`, tier `core`
 

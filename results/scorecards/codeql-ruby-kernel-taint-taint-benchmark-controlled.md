@@ -4,7 +4,7 @@ Adapter `codeql-ruby-kernel`: `codeql` `2.26.4` (build `codeql-cli:6b1e4dee94adb
 
 Track `taint`, score dimension `taint`, model profile `benchmark-controlled`. This scorecard is a single result population; it is never pooled with other tracks, dimensions, or model profiles.
 
-Normalized report: `reports/codeql-ruby-kernel.json` (`sha256:10fb9cc1a8d2bfdd7405f7828045217cac00be4951d1e22a3c75e35e46eebcab`, normalized `sha256:10fb9cc1a8d2bfdd7405f7828045217cac00be4951d1e22a3c75e35e46eebcab`). Generated from freeze manifest `reports/freeze.json` (`sha256:3228af686d09f8666989368483bef375bb28b94025b55e31eaa7a0bdd29506ee`).
+Normalized report: `reports/codeql-ruby-kernel.json` (`sha256:10fb9cc1a8d2bfdd7405f7828045217cac00be4951d1e22a3c75e35e46eebcab`, normalized `sha256:10fb9cc1a8d2bfdd7405f7828045217cac00be4951d1e22a3c75e35e46eebcab`). Generated from freeze manifest `reports/freeze.json` (`sha256:65638eafb36478120d268290479815114f244baa57994c47e19fac6b759e50ae`).
 
 ## Language `ruby`, tier `core`
 
