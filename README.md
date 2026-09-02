@@ -325,7 +325,11 @@ the case. The schema is versioned and deliberately analyzer-neutral. A `core`
 case will not validate until its opposite-polarity partner exists. Read the
 [fixture provenance rules](docs/fixture-provenance.md), then put a native rule
 or model in `adapters/<tool>/`; add a command and normalization mapping in the
-[adapter contract](docs/adapters.md) before publishing a result.
+[adapter contract](docs/adapters.md) before publishing a result. A whole new
+analyzer — including a tool maintainer integrating their own — starts from
+[Proposing a new analyzer](docs/new-analyzer.md), which packages the four
+eligibility bounds, the field-evaluation expectation, the pin and
+preregistration requirements, and the consolidated deliverables checklist.
 
 Reproduce a checked-in example with `cargo run -- validate-reports`; recreate a
 fresh Bifrost report with the quick-start command and compare its raw evidence.
