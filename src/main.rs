@@ -4563,6 +4563,15 @@ fn validate_reports_in(root: &Path, own_report: Option<&Path>) -> Result<()> {
         .filter(|path| path.is_file() && path.extension().is_some_and(|ext| ext == "json"))
         .collect();
     paths.sort();
+    // Configuration-hash drift is derived from repository-relative paths, so
+    // it is only checked when validating the working repository itself — the
+    // one place every kernel runner and the CLI already stand. Isolated
+    // fixture roots validate schemas and evidence exactly as before.
+    let check_configuration = configuration_drift_checkable(root);
+    let mut case_scan = None;
+    let mut drifted = Vec::new();
+    let mut checked = 0usize;
+    let mut known_stale = 0usize;
     let mut validated = 0usize;
     for path in &paths {
         let report: Value = serde_json::from_str(&fs::read_to_string(path)?)?;
@@ -4580,9 +4589,224 @@ fn validate_reports_in(root: &Path, own_report: Option<&Path>) -> Result<()> {
         if check_raw {
             validate_retained_raw(&report, path, root)?;
         }
+        if check_configuration && let Some(stem) = path.file_stem().and_then(|stem| stem.to_str()) {
+            let relative = path.to_string_lossy().replace('\\', "/");
+            let stamped = required_string(&report, "configuration_hash", &relative)?;
+            match configuration_hash_state(stem, stamped, &mut case_scan)? {
+                ConfigurationHashState::NotDerivable => {}
+                ConfigurationHashState::Current => {
+                    checked += 1;
+                    if KNOWN_STALE_CONFIGURATIONS.contains(&stem) {
+                        println!(
+                            "warning: {stem}: configuration hash is current again; remove it from KNOWN_STALE_CONFIGURATIONS (issue #138)"
+                        );
+                    }
+                }
+                ConfigurationHashState::Drifted { current } => {
+                    checked += 1;
+                    if KNOWN_STALE_CONFIGURATIONS.contains(&stem) {
+                        known_stale += 1;
+                        println!(
+                            "warning: {stem}: outcomes predate the current adapter configuration (stamped {stamped}, current {current}); the owed re-run is tracked by issue #138"
+                        );
+                    } else {
+                        drifted.push(format!(
+                            "{relative}: stamped configuration hash {stamped} does not match the current adapter configuration ({current}); re-run the adapter, or record the debt in KNOWN_STALE_CONFIGURATIONS with its tracking issue"
+                        ));
+                    }
+                }
+            }
+        }
+    }
+    if !drifted.is_empty() {
+        bail!(
+            "committed reports drifted from the current adapter configuration:\n{}",
+            drifted.join("\n")
+        );
     }
     println!("validated {validated} reports");
+    if check_configuration {
+        println!(
+            "checked {checked} configuration hashes against the working tree ({known_stale} known-stale under issue #138)"
+        );
+    }
     Ok(())
+}
+
+/// Populations whose committed outcomes are known to predate the current
+/// adapter configuration: PR #137 folded the endpoint-observation probes into
+/// every CodeQL kernel's configuration-path set without touching the committed
+/// evidence. Each entry downgrades that report's hash mismatch from an error
+/// to a warning so the debt stays visible without failing every validation
+/// run; the owed re-runs are tracked by issue #138, and the pull request that
+/// lands a population's re-run removes its entry (a test fails once an entry
+/// stops drifting). A mismatch on any report *not* listed here fails
+/// validation outright.
+const KNOWN_STALE_CONFIGURATIONS: [&str; 11] = [
+    "codeql-c-kernel",
+    "codeql-cpp-kernel",
+    "codeql-csharp-kernel",
+    "codeql-go-kernel",
+    "codeql-java-kernel",
+    "codeql-javascript-kernel",
+    "codeql-kotlin-kernel",
+    "codeql-python-kernel",
+    "codeql-ruby-kernel",
+    "codeql-rust-kernel",
+    "codeql-typescript-kernel",
+];
+
+/// Whether `root` is the repository the current process is standing in.
+/// Configuration-path derivation reuses the same repository-relative path
+/// helpers every kernel runner uses, so the comparison is only meaningful
+/// from the repository root itself.
+fn configuration_drift_checkable(root: &Path) -> bool {
+    fs::canonicalize(root)
+        .and_then(|root| fs::canonicalize(".").map(|cwd| root == cwd))
+        .unwrap_or(false)
+}
+
+/// One report's stamped configuration hash compared against the hash of the
+/// same population's configuration files as they stand in the repository now.
+#[derive(Debug, PartialEq, Eq)]
+enum ConfigurationHashState {
+    /// The population's configuration paths are not derivable from the
+    /// repository alone (tool-native activations bind the witnessed binary
+    /// identity), or the stem names no population this repository produces.
+    NotDerivable,
+    /// The stamped hash matches the current configuration.
+    Current,
+    /// The configuration changed after the report was produced: its outcomes
+    /// predate the current adapter configuration.
+    Drifted { current: String },
+}
+
+fn configuration_hash_state(
+    stem: &str,
+    stamped: &str,
+    case_scan: &mut Option<LoadedCases>,
+) -> Result<ConfigurationHashState> {
+    let Some(paths) = current_configuration_paths(stem, case_scan)? else {
+        return Ok(ConfigurationHashState::NotDerivable);
+    };
+    let current = hash_paths(&paths)?;
+    if current == stamped {
+        Ok(ConfigurationHashState::Current)
+    } else {
+        Ok(ConfigurationHashState::Drifted { current })
+    }
+}
+
+/// Every case file in the repository, parsed once and shared across the
+/// per-report configuration derivations that select from it.
+type LoadedCases = Vec<(PathBuf, Value)>;
+
+fn cached_case_scan(case_scan: &mut Option<LoadedCases>) -> Result<&LoadedCases> {
+    if case_scan.is_none() {
+        let mut cases = Vec::new();
+        for path in case_paths() {
+            let case: Value = serde_json::from_str(&fs::read_to_string(&path)?)
+                .with_context(|| format!("parse case {}", path.display()))?;
+            cases.push((path, case));
+        }
+        *case_scan = Some(cases);
+    }
+    Ok(case_scan.as_ref().expect("filled above"))
+}
+
+/// The repository's *current* configuration-path set for the population a
+/// normalized report's file stem names — the same set that population's
+/// runner would hash into `configuration_hash` if it ran now — or `None`
+/// where the hash is not derivable from the repository alone. Tool-native
+/// reports return `None`: `native_configuration_hash` binds the witnessed
+/// binary identity, which no repository file carries. Unknown stems (foreign
+/// fixtures, future adapters) also return `None` rather than guessing.
+///
+/// Paths are repository-relative, exactly as the runners record them; callers
+/// must stand at the repository root ([`configuration_drift_checkable`]).
+fn current_configuration_paths(
+    stem: &str,
+    case_scan: &mut Option<LoadedCases>,
+) -> Result<Option<BTreeSet<PathBuf>>> {
+    if stem == "bifrost-smoke" {
+        return Ok(Some(bifrost_policy_paths(
+            BifrostRun::Smoke,
+            cached_case_scan(case_scan)?,
+        )?));
+    }
+    let Some((tool, rest)) = stem.split_once('-') else {
+        return Ok(None);
+    };
+    let Some((language, population)) = rest.rsplit_once('-') else {
+        return Ok(None);
+    };
+    if population == "modeling" {
+        let (Some(modeling_tool), Some(modeling_language)) = (
+            ModelingTool::ALL
+                .iter()
+                .copied()
+                .find(|candidate| candidate.key() == tool),
+            ModelingLanguage::from_key(language),
+        ) else {
+            return Ok(None);
+        };
+        return modeling_configuration_paths(modeling_tool, modeling_language);
+    }
+    if population != "kernel" {
+        return Ok(None);
+    }
+    Ok(match tool {
+        "bifrost" => {
+            let run = match language {
+                "java" => BifrostRun::JavaKernel,
+                "javascript" => BifrostRun::JavascriptKernel,
+                "python" => BifrostRun::PythonKernel,
+                "kotlin" => BifrostRun::KotlinKernel,
+                "scala" => BifrostRun::ScalaKernel,
+                "typescript" => BifrostRun::TypescriptKernel,
+                "csharp" => BifrostRun::CsharpKernel,
+                "go" => BifrostRun::GoKernel,
+                "c" => BifrostRun::CKernel,
+                "cpp" => BifrostRun::CppKernel,
+                "rust" => BifrostRun::RustKernel,
+                "ruby" => BifrostRun::RubyKernel,
+                "php" => BifrostRun::PhpKernel,
+                _ => return Ok(None),
+            };
+            Some(bifrost_policy_paths(run, cached_case_scan(case_scan)?)?)
+        }
+        "codeql" => match language {
+            "java" => Some(codeql_java_kernel_configuration_paths(cached_case_scan(
+                case_scan,
+            )?)?),
+            "javascript" => Some(codeql_ecma_kernel_configuration_paths(
+                EcmaKernel::JavaScript,
+                cached_case_scan(case_scan)?,
+            )),
+            "typescript" => Some(codeql_ecma_kernel_configuration_paths(
+                EcmaKernel::TypeScript,
+                cached_case_scan(case_scan)?,
+            )),
+            "python" => Some(codeql_python_kernel_configuration_paths(cached_case_scan(
+                case_scan,
+            )?)?),
+            "kotlin" => Some(codeql_kotlin_configuration_paths()),
+            "csharp" => Some(codeql_csharp_configuration_paths()),
+            "go" => Some(codeql_go_configuration_paths()),
+            "c" => Some(codeql_c_family_configuration_paths(CFamilyKernel::C)),
+            "cpp" => Some(codeql_c_family_configuration_paths(CFamilyKernel::Cpp)),
+            "rust" => Some(codeql_rust_configuration_paths()),
+            "ruby" => Some(codeql_ruby_configuration_paths()),
+            _ => None,
+        },
+        "joern" => Some(BTreeSet::from([PathBuf::from(JOERN_KERNEL_SCRIPT)])),
+        "semgrep" => Some(semgrep_rule_paths()?),
+        "opentaint" => Some(opentaint_rule_paths()),
+        "infer" => Some(infer_config_paths()),
+        "flowdroid" => Some(flowdroid_template_paths()),
+        "pysa" => Some(pysa_configuration_paths()),
+        _ => None,
+    })
 }
 
 /// Every `raw_output` a report retains must exist under `root`.
@@ -5726,12 +5950,38 @@ fn build_result_artifacts(root: &Path, manifest_path: &Path) -> Result<BTreeMap<
     let mut used_identifiers: BTreeMap<String, usize> = BTreeMap::new();
     let mut scorecard_values = Vec::new();
     let mut scorecard_pages = Vec::new();
+    // The generator states configuration staleness itself, exactly like the
+    // inconclusive-exclusion caveat: a frozen report whose stamped
+    // configuration hash no longer matches the repository's current
+    // configuration for that population gets a generator-emitted caveat,
+    // never a hand-pasted one. Derivation stands on repository-relative
+    // paths, so it runs only from the repository root; isolated fixture roots
+    // generate exactly as before.
+    let check_configuration = configuration_drift_checkable(root);
+    let mut case_scan = None;
+    let mut stale_configurations = Vec::new();
     for report in manifest["reports"].as_array().expect("freeze validated") {
         let adapter_id = required_string(report, "adapter", "frozen report")?;
         let adapter = adapters
             .get(adapter_id)
             .with_context(|| format!("frozen report binds unknown adapter {adapter_id}"))?;
         let identifier = scorecard_identifier(&mut used_identifiers, adapter_id, report)?;
+        let current_configuration_hash = if check_configuration {
+            let stem = Path::new(required_string(report, "path", "frozen report")?)
+                .file_stem()
+                .map(|stem| stem.to_string_lossy().into_owned())
+                .with_context(|| format!("derive report stem for adapter {adapter_id}"))?;
+            let stamped = required_string(adapter, "configuration_hash", "adapter")?;
+            match configuration_hash_state(&stem, stamped, &mut case_scan)? {
+                ConfigurationHashState::NotDerivable | ConfigurationHashState::Current => None,
+                ConfigurationHashState::Drifted { current } => Some(current),
+            }
+        } else {
+            None
+        };
+        if current_configuration_hash.is_some() {
+            stale_configurations.push(identifier.clone());
+        }
         let (value, page) = build_scorecard(
             &identifier,
             adapter,
@@ -5739,6 +5989,7 @@ fn build_result_artifacts(root: &Path, manifest_path: &Path) -> Result<BTreeMap<
             &case_meta,
             &manifest_relative,
             &manifest_sha256,
+            current_configuration_hash.as_deref(),
         )?;
         scorecard_values.push(value);
         scorecard_pages.push((identifier, page));
@@ -5763,6 +6014,7 @@ fn build_result_artifacts(root: &Path, manifest_path: &Path) -> Result<BTreeMap<
             &manifest_relative,
             &manifest_sha256,
             &scorecard_pages,
+            &stale_configurations,
         )
         .into_bytes(),
     );
@@ -5855,6 +6107,12 @@ fn mean_percent(rates: &[f64]) -> Option<String> {
     }
 }
 
+/// Build one scorecard's JSON value and Markdown page.
+///
+/// `current_configuration_hash` is `Some` when the repository's current
+/// configuration for this population no longer hashes to the value the frozen
+/// report was stamped with; the scorecard then carries a generator-emitted
+/// staleness caveat, on the same terms as the inconclusive-exclusion caveat.
 fn build_scorecard(
     identifier: &str,
     adapter: &Value,
@@ -5862,6 +6120,7 @@ fn build_scorecard(
     case_meta: &BTreeMap<String, GeneratedCaseMeta>,
     manifest_relative: &str,
     manifest_sha256: &str,
+    current_configuration_hash: Option<&str>,
 ) -> Result<(Value, String)> {
     let mut outcomes = BTreeMap::new();
     for record in report["outcomes"].as_array().expect("freeze validated") {
@@ -5924,6 +6183,17 @@ fn build_scorecard(
          `sha256:{normalized_sha256}`). Generated from freeze manifest \
          `{manifest_relative}` (`sha256:{manifest_sha256}`).\n"
     ));
+    if let Some(current) = current_configuration_hash {
+        page.push_str(&format!(
+            "\nCaveat: these outcomes predate the current adapter configuration. \
+             The frozen report was produced under configuration hash `{}`, but \
+             this population's committed configuration currently hashes to \
+             `{current}`. The numbers stand as frozen evidence for the \
+             configuration they were measured under; they do not describe the \
+             current configuration until the population is re-run.\n",
+            required_string(adapter, "configuration_hash", "adapter")?,
+        ));
+    }
 
     let mut language_values = Vec::new();
     for (language, tiers) in &populations {
@@ -6154,7 +6424,7 @@ fn build_scorecard(
         }));
     }
 
-    let value = json!({
+    let mut value = json!({
         "id": identifier,
         "adapter": adapter,
         "track": track,
@@ -6167,6 +6437,12 @@ fn build_scorecard(
         },
         "languages": language_values,
     });
+    if let Some(current) = current_configuration_hash {
+        value["stale_configuration"] = json!({
+            "stamped_configuration_hash": required_string(adapter, "configuration_hash", "adapter")?,
+            "current_configuration_hash": current,
+        });
+    }
     Ok((value, page))
 }
 
@@ -6182,6 +6458,7 @@ fn build_index_page(
     manifest_relative: &str,
     manifest_sha256: &str,
     scorecard_pages: &[(String, String)],
+    stale_configurations: &[String],
 ) -> String {
     let benchmark = &manifest["benchmark"];
     let claim = &manifest["claim"];
@@ -6228,6 +6505,20 @@ fn build_index_page(
              population's conclusive subset. In this freeze every `inconclusive` \
              outcome is produced by: {producers}. Compare rate columns across \
              adapters with that exclusion in mind.\n\n",
+        ));
+    }
+    if !stale_configurations.is_empty() {
+        let populations = stale_configurations
+            .iter()
+            .map(|identifier| format!("`{identifier}`"))
+            .collect::<Vec<_>>()
+            .join(", ");
+        page.push_str(&format!(
+            "Caveat: the following result populations were frozen under an \
+             adapter configuration that has since changed in this repository: \
+             {populations}. Their outcomes predate the current adapter \
+             configuration; they stand as frozen evidence for the configuration \
+             they were measured under until each population is re-run.\n\n",
         ));
     }
     for (label, field) in [
@@ -6585,6 +6876,25 @@ fn bifrost_policy_for(case: &Value, run: BifrostRun) -> Result<&str> {
         BifrostRun::ScalaKernel => Ok(BIFROST_SCALA_POLICY),
         _ => Ok(declared_policy),
     }
+}
+
+/// The policy files a Bifrost run would hash into its `configuration_hash`
+/// if it ran now: every policy [`bifrost_policy_for`] selects for a case the
+/// run admits, minus preregistered-unsupported cases, which never reach a
+/// policy. This mirrors the collection the run loop in [`run_bifrost`]
+/// performs; a drift between the two fails the runner's own end-of-run
+/// validation sweep.
+fn bifrost_policy_paths(run: BifrostRun, cases: &LoadedCases) -> Result<BTreeSet<PathBuf>> {
+    let mut paths = BTreeSet::new();
+    for (_, case) in cases {
+        if !selected_bifrost_case(case, run)
+            || case["tool_model_references"]["bifrost"]["unsupported_reason"].is_string()
+        {
+            continue;
+        }
+        paths.insert(PathBuf::from(bifrost_policy_for(case, run)?));
+    }
+    Ok(paths)
 }
 
 fn selected_bifrost_case(case: &Value, run: BifrostRun) -> bool {
@@ -7135,6 +7445,83 @@ fn selected_codeql_java_case(case: &Value) -> bool {
         && case["track"] == "taint"
         && case["score_tier"] == "core"
         && case["tool_model_references"]["codeql"].is_object()
+}
+
+/// The configuration paths [`run_codeql_java_kernel`] would hash if it ran
+/// now: every selected non-unsupported case's declared query, plus the
+/// endpoint probe and the pack files the run inserts unconditionally. A drift
+/// between this mirror and the runner fails the runner's own end-of-run
+/// validation sweep.
+fn codeql_java_kernel_configuration_paths(cases: &LoadedCases) -> Result<BTreeSet<PathBuf>> {
+    let mut paths = BTreeSet::new();
+    for (_, case) in cases {
+        if !selected_codeql_java_case(case) {
+            continue;
+        }
+        let model = &case["tool_model_references"]["codeql"];
+        if model["unsupported_reason"].is_string() {
+            continue;
+        }
+        paths.insert(PathBuf::from(
+            model["query"]
+                .as_str()
+                .context("CodeQL case lacks query reference")?,
+        ));
+    }
+    paths.insert(PathBuf::from(CODEQL_JAVA_ENDPOINT_PROBE));
+    paths.insert(PathBuf::from("adapters/codeql/qlpack.yml"));
+    paths.insert(PathBuf::from("adapters/codeql/codeql-pack.lock.yml"));
+    Ok(paths)
+}
+
+/// The configuration paths [`run_codeql_ecma_kernel`] would hash if it ran
+/// now, mirroring its collection: declared (or implicitly defaulted) queries
+/// of selected non-unsupported cases, the kernel query, the endpoint probe,
+/// and the pack files.
+fn codeql_ecma_kernel_configuration_paths(
+    kernel: EcmaKernel,
+    cases: &LoadedCases,
+) -> BTreeSet<PathBuf> {
+    let mut paths = BTreeSet::new();
+    for (_, case) in cases {
+        if !ecma_core_case(case, kernel) {
+            continue;
+        }
+        let model = &case["tool_model_references"]["codeql"];
+        if model["unsupported_reason"].is_string() {
+            continue;
+        }
+        paths.insert(PathBuf::from(
+            model["query"].as_str().unwrap_or(kernel.query()),
+        ));
+    }
+    paths.insert(PathBuf::from(kernel.query()));
+    paths.insert(PathBuf::from(kernel.endpoint_probe()));
+    let qlpack_directory = Path::new(kernel.qlpack_directory());
+    paths.insert(qlpack_directory.join("qlpack.yml"));
+    let pack_lock = qlpack_directory.join("codeql-pack.lock.yml");
+    if pack_lock.is_file() {
+        paths.insert(pack_lock);
+    }
+    paths
+}
+
+/// The configuration paths [`run_codeql_python_kernel`] would hash if it ran
+/// now: every selected case's declared query folded through
+/// [`codeql_python_configuration_paths`].
+fn codeql_python_kernel_configuration_paths(cases: &LoadedCases) -> Result<BTreeSet<PathBuf>> {
+    let mut query_paths = BTreeSet::new();
+    for (_, case) in cases {
+        if !selected_codeql_python_case(case) {
+            continue;
+        }
+        query_paths.insert(PathBuf::from(
+            case["tool_model_references"]["codeql"]["query"]
+                .as_str()
+                .context("Python CodeQL case lacks query reference")?,
+        ));
+    }
+    Ok(codeql_python_configuration_paths(&query_paths))
 }
 
 /// Run one of the two ECMAScript-family CodeQL kernels. This deliberately does
@@ -15662,6 +16049,30 @@ fn plan_modeling_run(tool: ModelingTool, language: ModelingLanguage) -> Result<M
         }
     }
 
+    let configuration_paths = modeling_configuration_paths(tool, language)?
+        .expect("the applicability gate above resolved the artifact");
+
+    Ok(ModelingRunPlan {
+        tool,
+        language,
+        cases,
+        configuration_paths,
+        report: language.report(tool),
+        raw_dir: language.raw_dir(tool),
+    })
+}
+
+/// The artifacts a modeling report hash-binds into its `configuration_hash`,
+/// shared between [`plan_modeling_run`] and the validate-reports drift check
+/// so the planner and the comparator can never disagree. `None` when the tool
+/// has no modeling denominator for the language at all.
+fn modeling_configuration_paths(
+    tool: ModelingTool,
+    language: ModelingLanguage,
+) -> Result<Option<BTreeSet<PathBuf>>> {
+    let Some(artifact) = language.artifact(tool) else {
+        return Ok(None);
+    };
     let mut configuration_paths = match tool {
         // The directory itself has no bytes; the three committed summary
         // files bind the hash, alongside the endpoint template, the wrapper
@@ -15705,15 +16116,7 @@ fn plan_modeling_run(tool: ModelingTool, language: ModelingLanguage) -> Result<M
             );
         }
     }
-
-    Ok(ModelingRunPlan {
-        tool,
-        language,
-        cases,
-        configuration_paths,
-        report: language.report(tool),
-        raw_dir: language.raw_dir(tool),
-    })
+    Ok(Some(configuration_paths))
 }
 
 /// Retain the preregistered `unsupported` decision for one declined cell,
@@ -25348,6 +25751,169 @@ mod tests {
             scorecard_identifier(&mut used, "Test.Adapter", &report).unwrap(),
             "test-adapter-taint-taint-benchmark-controlled-2"
         );
+    }
+
+    /// A report stamped with the hash the current configuration derives to is
+    /// current; the same report stamped with any other value has drifted; a
+    /// population whose hash is not derivable in-repo (tool-native
+    /// activations, foreign stems) is never compared at all.
+    #[test]
+    fn configuration_hash_comparison_distinguishes_current_from_drifted() {
+        let mut case_scan = None;
+        let paths = current_configuration_paths("joern-java-kernel", &mut case_scan)
+            .unwrap()
+            .expect("the Joern kernel hash derives from the committed kernel script");
+        let current = hash_paths(&paths).unwrap();
+        assert_eq!(
+            configuration_hash_state("joern-java-kernel", &current, &mut case_scan).unwrap(),
+            ConfigurationHashState::Current
+        );
+        let drifted = "0".repeat(64);
+        assert_eq!(
+            configuration_hash_state("joern-java-kernel", &drifted, &mut case_scan).unwrap(),
+            ConfigurationHashState::Drifted { current }
+        );
+        // Tool-native hashes bind the witnessed binary identity, and unknown
+        // stems name no population this repository produces.
+        for underivable in ["bifrost-java-native", "own-kernel", "freeze"] {
+            assert_eq!(
+                configuration_hash_state(underivable, &drifted, &mut case_scan).unwrap(),
+                ConfigurationHashState::NotDerivable,
+                "{underivable} must not be compared"
+            );
+        }
+    }
+
+    /// Every committed report whose configuration hash is derivable in-repo
+    /// still matches the current configuration — except the populations
+    /// `KNOWN_STALE_CONFIGURATIONS` records against issue #138, each of which
+    /// must actually drift. The half that fails when a re-run lands is the
+    /// machine-readable reminder to delete that population's allowlist entry
+    /// in the same pull request.
+    #[test]
+    fn committed_reports_match_current_configuration_except_known_stale() {
+        let mut case_scan = None;
+        let mut seen_stale = BTreeSet::new();
+        for entry in fs::read_dir("reports").unwrap().filter_map(Result::ok) {
+            let path = entry.path();
+            if !path.is_file() || path.extension().is_none_or(|ext| ext != "json") {
+                continue;
+            }
+            let report: Value = serde_json::from_str(&fs::read_to_string(&path).unwrap()).unwrap();
+            if report.get("benchmark").is_some() && report.get("claim").is_some() {
+                continue;
+            }
+            let stem = path.file_stem().unwrap().to_str().unwrap().to_string();
+            let stamped = report["configuration_hash"].as_str().unwrap();
+            let state = configuration_hash_state(&stem, stamped, &mut case_scan).unwrap();
+            if KNOWN_STALE_CONFIGURATIONS.contains(&stem.as_str()) {
+                seen_stale.insert(stem.clone());
+                assert!(
+                    matches!(state, ConfigurationHashState::Drifted { .. }),
+                    "{stem} no longer drifts; remove it from KNOWN_STALE_CONFIGURATIONS (issue #138)"
+                );
+            } else {
+                assert!(
+                    !matches!(state, ConfigurationHashState::Drifted { .. }),
+                    "{stem} drifted from the current adapter configuration: {state:?}"
+                );
+            }
+        }
+        assert_eq!(
+            seen_stale,
+            KNOWN_STALE_CONFIGURATIONS
+                .iter()
+                .map(ToString::to_string)
+                .collect::<BTreeSet<_>>(),
+            "every KNOWN_STALE_CONFIGURATIONS entry must name a committed report"
+        );
+    }
+
+    /// The generator, never a hand edit, states configuration staleness: a
+    /// scorecard built with a current-configuration mismatch carries the
+    /// caveat and the machine-readable hash pair, and one built without the
+    /// mismatch carries neither.
+    #[test]
+    fn scorecard_staleness_caveat_is_generator_emitted() {
+        let adapter = json!({
+            "id": "test",
+            "tool": "test-tool",
+            "tool_version": "1.0.0",
+            "build_identity": "test-build",
+            "adapter_version": "0.1.0",
+            "configuration_hash": "aaaa",
+            "track": "taint",
+            "dimension": "taint",
+            "model_profile": "benchmark-controlled",
+        });
+        let report = json!({
+            "path": "reports/test.json",
+            "sha256": "cafe",
+            "normalized_report_sha256": "cafe",
+            "adapter": "test",
+            "track": "taint",
+            "dimension": "taint",
+            "model_profile": "benchmark-controlled",
+            "case_ids": ["dfb-taint-test"],
+            "outcomes": [{"case_id": "dfb-taint-test", "outcome": "reached"}],
+            "raw_evidence": [
+                {"case_id": "dfb-taint-test", "path": "reports/raw/test.json", "sha256": "feed"}
+            ],
+        });
+        let mut case_meta = BTreeMap::new();
+        case_meta.insert(
+            "dfb-taint-test".to_string(),
+            GeneratedCaseMeta {
+                language: "c".to_string(),
+                semantic_dimensions: vec!["local-flow".to_string()],
+                template_id: "dfb-t1".to_string(),
+                polarity: "positive".to_string(),
+                score_tier: "core".to_string(),
+            },
+        );
+        let (value, page) = build_scorecard(
+            "test-taint-taint-benchmark-controlled",
+            &adapter,
+            &report,
+            &case_meta,
+            "reports/freeze.json",
+            "beef",
+            Some("bbbb"),
+        )
+        .unwrap();
+        assert!(page.contains("predate the current adapter configuration"));
+        assert!(page.contains("`aaaa`"));
+        assert!(page.contains("`bbbb`"));
+        assert_eq!(
+            value["stale_configuration"],
+            json!({
+                "stamped_configuration_hash": "aaaa",
+                "current_configuration_hash": "bbbb",
+            })
+        );
+
+        let (value, page) = build_scorecard(
+            "test-taint-taint-benchmark-controlled",
+            &adapter,
+            &report,
+            &case_meta,
+            "reports/freeze.json",
+            "beef",
+            None,
+        )
+        .unwrap();
+        assert!(!page.contains("predate the current adapter configuration"));
+        assert!(value.get("stale_configuration").is_none());
+
+        // The index page names each stale population once, and only when one
+        // exists.
+        let manifest = json!({"benchmark": {}, "claim": {}, "reports": []});
+        let stale = ["stale-population".to_string()];
+        let index = build_index_page(&manifest, "reports/freeze.json", "beef", &[], &stale);
+        assert!(index.contains("`stale-population`"));
+        assert!(index.contains("predate the current adapter configuration"));
+        let index = build_index_page(&manifest, "reports/freeze.json", "beef", &[], &[]);
+        assert!(!index.contains("predate the current adapter configuration"));
     }
     /// Every challenge case that exists in the corpus belongs to a language
     /// whose row is rolled out, and lands in that language's core population
