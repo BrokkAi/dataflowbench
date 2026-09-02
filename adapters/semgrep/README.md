@@ -820,6 +820,17 @@ time, so two runs a week apart are two different rulesets under one name.
   rules matching `execSync` are taint rules, and the fifteen pattern rules match
   other constructs entirely, so a negative cell passing a clean local to
   `execSync` is flagged by none of them.
+- **Re-grounded by execution and enumeration**
+  ([Amendment A27](../../docs/native-profile.md#a27--2026-09-02-semgrep-ces-javascript-and-java-declines-are-re-grounded-on-enumeration-and-execution-and-their-settled-rationales-reach-the-runner)):
+  the vendored tree is the complete upstream `javascript/lang/security/` at the
+  pinned commit (file-list and byte identical against the re-fetched,
+  digest-verified archive); `process.env` and `process.argv` occur in **no**
+  rule anywhere in the upstream `javascript/` or `typescript/` trees at that
+  commit, so the JavaScript analog of Python's env-args audit rule does not
+  exist to be missed; and the pinned engine run over all twelve fixtures with
+  the snapshot emits zero findings and zero errors
+  (`scripts/probe-semgrep-jsjava-native.sh`, retained under
+  `reports/raw/amendment-a27-semgrep-jsjava-native/`).
 
 See [the JavaScript tool-native probe set](../../docs/javascript-native.md).
 
@@ -870,6 +881,17 @@ produced nothing, because both `Runtime.exec` pattern rules require a `+`, a
 these cells are declined because no rule **binds** the categories, which is
 capability coverage — not because a run came back empty, which would have been
 six false negatives.
+
+That prediction is no longer a prediction:
+[Amendment A27](../../docs/native-profile.md#a27--2026-09-02-semgrep-ces-javascript-and-java-declines-are-re-grounded-on-enumeration-and-execution-and-their-settled-rationales-reach-the-runner)
+ran the pinned engine with the vendored snapshot over all twelve Java fixtures
+and measured zero findings and zero errors, and its enumeration against the
+re-fetched, digest-verified upstream archive shows the vendored tree is the
+complete `java/lang/security/` at the pinned commit and that `System.getenv`,
+`System.getProperty`, and `System.setProperty` occur in no rule anywhere in
+the upstream `java/` tree — the Java analog of Python's env-args audit rule
+does not exist at that commit
+(`reports/raw/amendment-a27-semgrep-jsjava-native/`).
 
 See [the Java tool-native probe set](../../docs/java-native.md).
 

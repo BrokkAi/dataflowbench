@@ -2235,7 +2235,7 @@ const NATIVE_PARTITION: &[NativePartitionCell] = &[
 /// `unsupported` decision. A cell with no row here keeps whatever
 /// `NATIVE_PARTITION` preregistered for it.
 const NATIVE_PARTITION_AMENDMENTS: [(ModelingTool, ModelingLanguage, &str, Option<&'static str>);
-    6] = [
+    18] = [
     // Amendment A8 (2026-08-27) — Semgrep CE 1.174.0 × Python, all six
     // templates promoted to scored on the evidence of the vendored snapshot
     // (semgrep/semgrep-rules @ 40b8c63f, `python/lang/security/`), read as rule
@@ -2280,6 +2280,162 @@ const NATIVE_PARTITION_AMENDMENTS: [(ModelingTool, ModelingLanguage, &str, Optio
         ModelingLanguage::Python,
         NATIVE_TEMPLATE_IDS[5],
         None,
+    ),
+    // Amendments A6 (2026-08-27) and A27 (2026-09-02) — Semgrep CE ×
+    // JavaScript, all six cells retained unsupported. A6 read the vendored
+    // snapshot (semgrep/semgrep-rules @ 40b8c63f, `javascript/lang/security/`,
+    // thirty rule documents) and found no rule binding a platform source; the
+    // preregistered "no snapshot is vendored" rationale was discharged there
+    // but never mirrored here, so the retained reports kept carrying it. A27
+    // corrects that, and re-grounds the decline on measurement: the vendored
+    // tree is the COMPLETE upstream `javascript/lang/security/` at the pinned
+    // commit (file-list and byte identical), no rule anywhere in the upstream
+    // `javascript/` or `typescript/` trees at that commit mentions
+    // `process.env` or `process.argv`, and the pinned engine run over all
+    // twelve fixtures with the snapshot emits zero findings and zero errors
+    // (scripts/probe-semgrep-jsjava-native.sh, retained under
+    // reports/raw/amendment-a27-semgrep-jsjava-native/).
+    (
+        ModelingTool::Semgrep,
+        ModelingLanguage::Javascript,
+        NATIVE_TEMPLATE_IDS[0],
+        Some(
+            "no shipped platform-source model: the snapshot's two rules binding \
+             `child_process.execSync` (`detect-child-process.yaml`, \
+             `audit/dangerous-spawn-shell.yaml`) source only from an enclosing function's \
+             parameter, and `process.env` occurs in no rule of the snapshot — nor anywhere in \
+             the upstream `javascript/` or `typescript/` trees at the pinned commit — and the \
+             pinned engine over every fixture with the snapshot emits zero findings \
+             (Amendments A6/A27, reports/raw/amendment-a27-semgrep-jsjava-native/)",
+        ),
+    ),
+    (
+        ModelingTool::Semgrep,
+        ModelingLanguage::Javascript,
+        NATIVE_TEMPLATE_IDS[1],
+        Some(
+            "no shipped platform source for the propagator to carry: \
+             `audit/path-traversal/path-join-resolve-traversal.yaml` binds the `path.join` hop \
+             but sources from a function parameter, and no rule binds `process.env` (Amendment \
+             A6, execution-confirmed by A27's zero-finding field run)",
+        ),
+    ),
+    (
+        ModelingTool::Semgrep,
+        ModelingLanguage::Javascript,
+        NATIVE_TEMPLATE_IDS[2],
+        Some(
+            "no rule reaches the cell to credit or refuse the idiom: `encodeURIComponent` \
+             occurs nowhere in the snapshot, and sanitizer credit in the official rules is \
+             per-rule (Amendment A6, execution-confirmed by A27's zero-finding field run)",
+        ),
+    ),
+    (
+        ModelingTool::Semgrep,
+        ModelingLanguage::Javascript,
+        NATIVE_TEMPLATE_IDS[3],
+        Some(
+            "no shipped platform source, and arg-to-return summary semantics are outside CE's \
+             propagator vocabulary on the pinned version, established by execution in \
+             docs/modeling-matrix.md#semgrep-ce--11750---oss-only (Amendment A6, \
+             execution-confirmed by A27)",
+        ),
+    ),
+    (
+        ModelingTool::Semgrep,
+        ModelingLanguage::Javascript,
+        NATIVE_TEMPLATE_IDS[4],
+        Some(
+            "the snapshot's universal entry convention is a function parameter, not the \
+             platform's: `process.argv` appears in no vendored rule, nor anywhere in the \
+             upstream `javascript/` or `typescript/` trees at the pinned commit (Amendments \
+             A6/A27)",
+        ),
+    ),
+    (
+        ModelingTool::Semgrep,
+        ModelingLanguage::Javascript,
+        NATIVE_TEMPLATE_IDS[5],
+        Some(
+            "no rule links a write to `process.env.<NAME>` to a read of it, and the pinned CE \
+             engine has no interprocedural taint (`--pro-intrafile` requires Pro) (Amendment \
+             A6, execution-confirmed by A27's zero-finding field run)",
+        ),
+    ),
+    // Amendments A7 (2026-08-27) and A27 (2026-09-02) — Semgrep CE × Java,
+    // all six cells retained unsupported, on the same movement as the
+    // JavaScript block above: A7's snapshot reading is mirrored here at last,
+    // re-grounded by A27's enumeration (the vendored tree is the complete
+    // upstream `java/lang/security/` at the pinned commit; `System.getenv`,
+    // `System.getProperty`, and `System.setProperty` occur in no rule
+    // anywhere in the upstream `java/` tree) and by its field run (twelve
+    // scans, zero findings, zero errors).
+    (
+        ModelingTool::Semgrep,
+        ModelingLanguage::Java,
+        NATIVE_TEMPLATE_IDS[0],
+        Some(
+            "no shipped platform-source model: `System.getenv` occurs in no rule of the \
+             snapshot — nor anywhere in the upstream `java/` tree at the pinned commit — the \
+             two rules whose sink is the template's command API bind no source, the one \
+             taint-mode rule reaching `Runtime.exec` sources from `HttpServletRequest`, and \
+             the pinned engine over every fixture with the snapshot emits zero findings \
+             (Amendments A7/A27, reports/raw/amendment-a27-semgrep-jsjava-native/)",
+        ),
+    ),
+    (
+        ModelingTool::Semgrep,
+        ModelingLanguage::Java,
+        NATIVE_TEMPLATE_IDS[1],
+        Some(
+            "no vendored rule references `String.concat`, the concatenation-shaped rules match \
+             `+` or `String.format` inside a sink argument without binding a source, and no \
+             rule binds a platform source for a propagator to carry (Amendment A7, \
+             execution-confirmed by A27's zero-finding field run)",
+        ),
+    ),
+    (
+        ModelingTool::Semgrep,
+        ModelingLanguage::Java,
+        NATIVE_TEMPLATE_IDS[2],
+        Some(
+            "no vendored rule declares `Integer.parseInt` or `String.valueOf` as a sanitizer — \
+             neither identifier occurs in the snapshot — and no applicable rule exists at the \
+             cells the idiom would guard (Amendment A7, execution-confirmed by A27's \
+             zero-finding field run)",
+        ),
+    ),
+    (
+        ModelingTool::Semgrep,
+        ModelingLanguage::Java,
+        NATIVE_TEMPLATE_IDS[3],
+        Some(
+            "`java.util.Base64` occurs nowhere in the snapshot, and arg-to-return summary \
+             semantics are outside CE's propagator vocabulary on the pinned version, \
+             established by execution in docs/modeling-matrix.md#semgrep-ce--11750---oss-only \
+             (Amendments A7/A27)",
+        ),
+    ),
+    (
+        ModelingTool::Semgrep,
+        ModelingLanguage::Java,
+        NATIVE_TEMPLATE_IDS[4],
+        Some(
+            "no vendored rule binds `main(String[] args)` or the argument vector — neither \
+             `void main` nor `System.` occurs in the snapshot, and every entry convention it \
+             carries is framework-shaped (Amendments A7/A27)",
+        ),
+    ),
+    (
+        ModelingTool::Semgrep,
+        ModelingLanguage::Java,
+        NATIVE_TEMPLATE_IDS[5],
+        Some(
+            "no vendored rule names `System.setProperty` / `System.getProperty` as a store \
+             pair — neither occurs anywhere in the upstream `java/` tree at the pinned commit \
+             — and the pinned CE engine has no interprocedural taint (Amendment A7, \
+             execution-confirmed by A27's zero-finding field run)",
+        ),
     ),
 ];
 
