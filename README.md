@@ -4,9 +4,12 @@ DataFlowBench is an analyzer-neutral benchmark for value flow, taint tracking,
 typestate, witness quality, and data-flow performance across languages and
 static-analysis tools. It is an experimental first version, not a leaderboard.
 
-The current scored slice has four distinct semantic tracks: `value-flow`,
-`taint`, `typestate`, and `performance`. Reports preserve five independent
-score dimensions—those tracks plus `witness`—without pooling them. The first
+The current scored slice carries one executable track, `taint`. The
+`value-flow`, `typestate`, and `performance` tracks are reserved dimensions
+with no executable cases yet — each track directory (for example
+[`cases/value-flow/`](cases/value-flow/README.md)) states that itself, and the
+frozen manifest claims only `taint`. Reports preserve five independent score
+dimensions—the four tracks plus `witness`—without pooling them. The first
 scored slice includes a balanced direct-flow pair across 13 language/dialect
 entries and balanced 16-template Java, TypeScript, Python, Kotlin,
 C#, Go, and C++ propagation kernels — plus 15-template C and Rust kernels whose
@@ -48,7 +51,7 @@ External tools are compared respectfully: publish their exact version, settings,
 supported dimensions, normalized outcomes, and raw evidence. Semgrep CE stays
 in its supported local-analysis profile; OpenTaint stays in its Java/Kotlin
 profile. SootUp is a possible JVM reference framework, not a first-version
-adapter. CodeQL is implemented for all ten propagation kernels, one language-scoped
+adapter. CodeQL is implemented for all eleven propagation kernels, one language-scoped
 command and one separate result population per language. Joern is implemented
 for the Java, JavaScript, Python, Ruby, PHP, and Rust propagation kernels on the
 same terms.
@@ -61,6 +64,32 @@ that distribution — Kotlin `beta`, Rust/C/C++ `alpha` — and the label is
 retained on every assertion without ever changing the partition. Scala is left
 recorded-only by maintainer decision rather than by any tool limitation; C# is
 Pro-only and cannot be run on CE at all.
+
+## Where are the failures?
+
+Per-case pass/fail classifications live in the generated
+[`results/`](results/index.md) pages, not in `reports/`. The report JSON
+records under `reports/` preserve each case's normalized outcome and raw
+evidence for one exact tool configuration, but they carry no polarity or
+false-negative/false-positive classification — deriving one from a report
+alone requires a manual join against `cases/`. The scorecards under
+[`results/scorecards/`](results/index.md) do that join for you: each one
+carries per-dimension TP/FN/FP/TN tables plus a per-case table with polarity,
+outcome, an explicit `false-negative`/`false-positive`/`match` classification,
+and a link to the retained raw evidence. See the
+[Joern Java kernel scorecard](results/scorecards/joern-java-kernel-taint-taint-benchmark-controlled.md)
+for an example, and [`results/index.md`](results/index.md) for the full list.
+
+Scorecard filenames repeat the word `taint`
+(`joern-java-kernel-taint-taint-benchmark-controlled.md`) by construction, not
+by accident: the first `taint` is the case **track** and the second is the
+**score dimension**, and today the one executable track and its dimension share
+a name. The trailing segment (`benchmark-controlled` or `tool-native`) is the
+model profile, which keeps those populations on separate pages. These pages
+are generated from the validated freeze and are never hand-edited; the same
+respectful-comparison rules apply to them as to the prose above — a failure row
+is evidence about one pinned configuration on one bounded population, not a
+ranking.
 
 ## Quick start
 
@@ -415,12 +444,14 @@ Publishable result pages are then generated — never hand-written — from the
 validated freeze:
 
 ```bash
-cargo run -- generate-results --manifest reports/freeze.json --output-directory site/results
+cargo run -- generate-results --manifest reports/freeze.json --output-directory results
 ```
 
-The [result generation contract](docs/results.md) describes the byte-stable
-JSON and Markdown artifacts, their scorecard partitions, and the `--check`
-mode that proves checked-in artifacts match the freeze they cite.
+`results/` is where this repository commits the generated artifacts; adding
+`--check` proves the checked-in pages still match the freeze they cite instead
+of rewriting them. The [result generation contract](docs/results.md) describes
+the byte-stable JSON and Markdown artifacts, their scorecard partitions, and
+the `--check` mode.
 
 ## Website
 
