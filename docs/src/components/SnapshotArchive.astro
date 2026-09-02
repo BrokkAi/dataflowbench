@@ -1,0 +1,181 @@
+---
+// The archive index: one entry per snapshot older than the previous freeze.
+//
+// The sidebar carries the current snapshot and the one before it; everything
+// older lives here, and nothing here is unpublished. Every archived page keeps
+// the URL it was published at — a citation of `/snapshots/v0-1-0/evidence/`
+// made a year ago still resolves — so this component only *finds* those pages,
+// it never gates them.
+//
+// Every field is derived at build time. Counts come from the archived
+// `results.json` of each freeze through `snapshotScale`; the one-line summary
+// is the snapshot page's own `description` frontmatter, read back out of the
+// content collection rather than restated here; the sub-page links are the
+// pages that actually exist in that snapshot's directory, so a freeze without
+// a latency tier simply has no latency link.
+import { getCollection } from 'astro:content';
+import {
+  evidenceUrl,
+  repository,
+  shortDigest,
+  snapshotScale,
+  snapshots,
+  type Snapshot,
+} from '../data/snapshots';
+
+const currentSnapshot = snapshots.find((snapshot) => snapshot.current)!;
+const currentIndex = snapshots.indexOf(currentSnapshot);
+/** Older than the *previous* freeze — the two newest are in the sidebar. */
+const archived = snapshots.slice(currentIndex + 2);
+
+/** Sub-pages of a snapshot, in reading order. Not every freeze has them all. */
+const pageLabels: [string, string][] = [
+  ['analyzers', 'Analyzers'],
+  ['languages', 'Languages'],
+  ['templates', 'Semantic templates'],
+  ['evidence', 'Case evidence'],
+  ['latency', 'Latency'],
+  ['profiles', 'Analyzer profiles'],
+];
+
+const docs = await getCollection('docs');
+const byId = new Map(docs.map((entry) => [entry.id, entry]));
+
+function overviewSummary(snapshot: Snapshot): string | undefined {
+  return byId.get(`snapshots/${snapshot.slug}`)?.data.description;
+}
+
+function subPages(snapshot: Snapshot) {
+  return pageLabels
+    .filter(([name]) => byId.has(`snapshots/${snapshot.slug}/${name}`))
+    .map(([name, label]) => ({
+      label,
+      href: `/snapshots/${snapshot.slug}/${name}/`,
+    }));
+}
+
+const entries = archived.map((snapshot) => ({
+  snapshot,
+  scale: snapshotScale(snapshot.results),
+  summary: overviewSummary(snapshot),
+  pages: subPages(snapshot),
+}));
+---
+
+<ol class="snapshot-archive">
+  {
+    entries.map(({ snapshot, scale, summary, pages }) => (
+      <li class="archive-entry">
+        <h3 id={snapshot.slug}>
+          <a href={`/snapshots/${snapshot.slug}/`}>{snapshot.version}</a>
+          <span class="archived-pill">archived</span>
+        </h3>
+        {summary && <p class="summary">{summary}</p>}
+        <p class="scale">
+          <strong>{scale.analyzers}</strong> analyzers ·{' '}
+          <strong>{scale.reports}</strong> bound reports ·{' '}
+          <strong>{scale.cases}</strong> frozen cases
+        </p>
+        <dl class="identity">
+          <dt>Freeze ID</dt>
+          <dd>
+            <a href={evidenceUrl(snapshot, snapshot.results.manifest.path)}>
+              <code>{snapshot.results.manifest.sha256}</code>
+            </a>
+          </dd>
+          <dt>Evidence pin</dt>
+          <dd>
+            <a href={`${repository}/tree/${snapshot.evidenceRef}`}>
+              <code>{shortDigest(snapshot.evidenceRef)}</code>
+            </a>
+          </dd>
+        </dl>
+        <p class="pages">
+          <a href={`/snapshots/${snapshot.slug}/`}>Snapshot overview</a>
+          {pages.map((page) => (
+            <Fragment>
+              {' · '}
+              <a href={page.href}>{page.label}</a>
+            </Fragment>
+          ))}
+        </p>
+      </li>
+    ))
+  }
+</ol>
+
+<style>
+  .snapshot-archive {
+    list-style: none;
+    padding: 0;
+    margin: 1.5rem 0 0;
+    display: grid;
+    gap: 1rem;
+  }
+  .archive-entry {
+    border: 1px solid var(--sl-color-hairline);
+    border-inline-start: 4px solid var(--sl-color-gray-4);
+    border-radius: 0.5rem;
+    padding: 0.75rem 1rem 1rem;
+    background: var(--sl-color-bg-sidebar);
+  }
+  .archive-entry h3 {
+    margin: 0;
+    font-size: var(--sl-text-h4);
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.5rem;
+  }
+  .archived-pill {
+    padding: 0 0.5rem;
+    border-radius: 999px;
+    font-size: var(--sl-text-xs);
+    font-weight: 400;
+    background: var(--sl-color-gray-6);
+    color: var(--sl-color-gray-2);
+  }
+  .summary {
+    margin: 0.5rem 0 0;
+  }
+  .scale {
+    margin: 0.5rem 0 0;
+    font-size: var(--sl-text-sm);
+    color: var(--sl-color-gray-2);
+  }
+  .identity {
+    margin: 0.75rem 0 0;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.15rem 1rem;
+    font-size: var(--sl-text-sm);
+  }
+  .identity dt {
+    font-weight: 600;
+    color: var(--sl-color-gray-2);
+  }
+  .identity dd {
+    margin: 0 0 0.4rem;
+    /* Digests are long and must never widen the page on a phone. */
+    overflow-wrap: anywhere;
+  }
+  .identity code {
+    font-size: var(--sl-text-xs);
+  }
+  .pages {
+    margin: 0.5rem 0 0;
+    font-size: var(--sl-text-sm);
+  }
+  @media (min-width: 45rem) {
+    .identity {
+      grid-template-columns: auto 1fr;
+    }
+    .identity dt {
+      grid-column: 1;
+    }
+    .identity dd {
+      grid-column: 2;
+      margin-bottom: 0;
+    }
+  }
+</style>
