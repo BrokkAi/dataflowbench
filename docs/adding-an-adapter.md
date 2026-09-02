@@ -10,10 +10,9 @@ contract document disagree, the contract document wins.
 Whether an analyzer is *eligible* at all — the four admission bounds, the
 field-evaluation expectation, the pin/digest requirement — is decided under
 ["Analyzers evaluated and not adapted"](adapters.md) before any integration
-work starts. Packaging that election policy for outside maintainers is
-tracked separately as issue
-[#129](https://github.com/BrokkAi/dataflowbench/issues/129); this guide
-assumes the analyzer has already been admitted and pinned.
+work starts; that election policy is packaged for outside maintainers in
+[Proposing a new analyzer](new-analyzer.md). This guide assumes the analyzer
+has already been admitted and pinned.
 
 The best onboarding artifacts in this repository are the shipped adapter
 READMEs. Read two before writing any code: the
