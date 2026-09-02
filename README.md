@@ -349,7 +349,11 @@ fixtures.
 
 ## Add a case or adapter
 
-To integrate a new analyzer end to end, follow the step-ordered
+A whole new analyzer — including a tool maintainer integrating their own —
+starts from [Proposing a new analyzer](docs/new-analyzer.md), which packages
+the four eligibility bounds, the field-evaluation expectation, the pin and
+preregistration requirements, and the consolidated deliverables checklist.
+Once admitted and pinned, integrate it end to end with the step-ordered
 [adding-an-adapter walkthrough](docs/adding-an-adapter.md); the
 [docs index](docs/README.md) maps the whole contract surface and defines the
 repository's vocabulary.
