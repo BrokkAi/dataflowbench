@@ -2,6 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://dataflowbench.dev/schemas/case/v2",
   "title": "DataFlowBench case v2",
+  "description": "A canonical, analyzer-neutral case. It describes flows and nonflows without naming an analyzer; native rules, models, and commands belong under adapters/<tool>/.",
   "type": "object",
   "additionalProperties": false,
   "required": [
@@ -26,14 +27,24 @@
     "tool_model_references"
   ],
   "properties": {
-    "schema_version": { "const": 2 },
-    "id": { "type": "string", "pattern": "^dfb-[a-z0-9-]+$" },
+    "schema_version": {
+      "const": 2,
+      "description": "Case schema version. A freeze binds this value as benchmark.case_schema_version and rejects a mixed-version corpus."
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^dfb-[a-z0-9-]+$",
+      "description": "Stable, unique case identity — by convention dfb-<track>-<language>-<scenario>-<polarity>. It is the key that results, freeze records, and claim exclusions refer to."
+    },
     "template_id": {
       "type": "string",
       "pattern": "^dfb-template-[a-z0-9-]+$",
-      "description": "Language-neutral semantic scenario shared by its positive and negative cases."
+      "description": "Language-neutral semantic scenario shared by its positive and negative cases. Template IDs are immutable benchmark identities: never renamed, split, merged, or reused after retirement."
     },
-    "polarity": { "enum": ["positive", "negative"] },
+    "polarity": {
+      "enum": ["positive", "negative"],
+      "description": "Whether the case asserts that flow exists (positive: reached is a true positive) or that it does not (negative: not-reached is a true negative). Every scored core template has exactly one of each per language and model profile."
+    },
     "negative_mechanism": {
       "enum": [
         "unrelated-value",
@@ -43,18 +54,27 @@
         "call-context-separation",
         "infeasible-path",
         "sanitizer"
-      ]
+      ],
+      "description": "Why the negative case does not flow: an unrelated value at the sink, a killing overwrite, field/object separation, a calling context the case never exercises, an infeasible guard, or a sanitizer on the path. Required on negative cases, forbidden on positive ones; reports break results out by this mechanism."
     },
     "score_tier": {
       "enum": ["calibration", "core", "language-extension", "modeling", "real-project"],
-      "description": "Calibration cases validate adapters but never contribute to correctness scores. Modeling cases score the benchmark-controlled taint-modeling matrix on their own tier and never enter a core denominator."
+      "description": "Calibration cases validate adapters but never contribute to correctness scores. Modeling cases score the benchmark-controlled taint-modeling matrix on their own tier and never enter a core denominator. Language-extension and real-project cases have their own scorecards and never change the cross-language core denominator."
     },
-    "track": { "enum": ["value-flow", "taint", "typestate", "witness", "performance"] },
-    "language": { "type": "string", "minLength": 1 },
+    "track": {
+      "enum": ["value-flow", "taint", "typestate", "witness", "performance"],
+      "description": "The semantic track the case belongs to. A frozen report binds exactly one track, all of its cases must match it, and tracks are never pooled."
+    },
+    "language": {
+      "type": "string",
+      "minLength": 1,
+      "description": "The fixture language. Each language is a separate result population with its own core denominator; a runner never mixes two."
+    },
     "semantic_dimensions": {
       "type": "array",
       "minItems": 1,
       "uniqueItems": true,
+      "description": "The analysis capabilities the case exercises. Reports publish true-positive and false-positive rates per semantic dimension, and headline rates macro-average over templates and then over these dimensions.",
       "items": {
         "enum": [
           "local-flow",
@@ -77,6 +97,7 @@
       "type": "array",
       "minItems": 1,
       "uniqueItems": true,
+      "description": "Structural properties of the fixture, read by adapters to make capability decisions before invocation. A preregistered partition reads only feature_tags and expected_analysis_capability — never an observed result — so no case can move between the scored and unsupported partitions after the fact.",
       "items": {
         "enum": [
           "intraprocedural",
@@ -97,59 +118,112 @@
     },
     "model_profile": {
       "enum": ["benchmark-controlled", "tool-native"],
-      "description": "Whether DataFlowBench supplies equivalent models or evaluates models shipped by the tool."
+      "description": "Whether DataFlowBench supplies equivalent models or evaluates models shipped by the tool. Results from the two profiles are never combined."
     },
     "fixture_files": {
       "type": "array",
       "minItems": 1,
+      "description": "Fixture source files, relative to the case directory. The corpus fixture revision hashes each declared filename with its bytes, so this list is part of the corpus identity.",
       "items": { "type": "string" }
     },
-    "source_anchors": { "$ref": "#/$defs/anchors" },
-    "sink_anchors": { "$ref": "#/$defs/anchors" },
-    "expected_flows": { "$ref": "#/$defs/flows" },
-    "expected_nonflows": { "$ref": "#/$defs/flows" },
+    "source_anchors": {
+      "$ref": "#/$defs/anchors",
+      "description": "Where the tainted value originates. Normalized results copy these anchors verbatim, and only anchor-backed evidence may become reached."
+    },
+    "sink_anchors": {
+      "$ref": "#/$defs/anchors",
+      "description": "Where the value must (or must not) arrive. A tool finding matches when its own evidence reconciles to the anchored sink in the anchor file, never by adapter guesswork."
+    },
+    "expected_flows": {
+      "$ref": "#/$defs/flows",
+      "description": "Source-to-sink pairs the case asserts do reach. Non-empty on positive cases, empty on negatives."
+    },
+    "expected_nonflows": {
+      "$ref": "#/$defs/flows",
+      "description": "Source-to-sink pairs the case asserts do not reach. Non-empty on negative cases."
+    },
     "witness_checkpoints": {
       "type": "array",
+      "description": "Ordered DFB- markers a complete witness path must visit; each must occur exactly once across the fixture files. Result normalizers never synthesize them — a result carries a checkpoint only when the tool actually reported it.",
       "items": { "type": "string", "pattern": "^DFB-" }
     },
     "expected_analysis_capability": {
       "type": "object",
       "additionalProperties": false,
       "required": ["kind"],
+      "description": "The named capability an engine needs to answer this case, read together with feature_tags by preregistered partitions to decide unsupported before the tool is invoked.",
       "properties": {
-        "kind": { "type": "string" },
-        "notes": { "type": "string" }
+        "kind": {
+          "type": "string",
+          "description": "Free-form capability identifier (e.g. heap-field-sensitive-taint, reflective-dispatch-taint). Deliberately not enum-constrained so new tiers can extend the vocabulary; the values in use are fixed per template in the preregistration documents."
+        },
+        "notes": {
+          "type": "string",
+          "description": "Optional prose elaborating the capability."
+        }
       }
     },
     "execution_budget": {
       "type": "object",
       "additionalProperties": false,
       "required": ["wall_clock_seconds"],
+      "description": "The analysis budget the case is authored against — not the observed wall clock; an over-budget run is reported rather than silently rebudgeted.",
       "properties": {
-        "wall_clock_seconds": { "type": "integer", "minimum": 1 },
-        "peak_memory_mb": { "type": "integer", "minimum": 1 }
+        "wall_clock_seconds": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Wall-clock seconds allotted for the analysis."
+        },
+        "peak_memory_mb": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Optional peak-memory budget in MiB."
+        }
       }
     },
     "fixture_provenance": {
       "type": "object",
       "additionalProperties": false,
       "required": ["kind", "origin", "revision", "license"],
+      "description": "Licensing and origin record for the fixture — part of the public benchmark contract, not optional metadata. See docs/fixture-provenance.md.",
       "properties": {
-        "kind": { "enum": ["authored", "imported"] },
-        "origin": { "type": "string" },
-        "revision": { "type": "string" },
-        "license": { "type": "string" }
+        "kind": {
+          "enum": ["authored", "imported"],
+          "description": "Authored fixtures are original DataFlowBench code; imported fixtures are copied from a named upstream project at an immutable revision and keep their original license."
+        },
+        "origin": {
+          "type": "string",
+          "description": "DataFlowBench for authored fixtures; the upstream project for imported ones."
+        },
+        "revision": {
+          "type": "string",
+          "description": "The introducing revision for authored fixtures, or the upstream immutable revision or release for imported ones."
+        },
+        "license": {
+          "type": "string",
+          "description": "MIT for authored executable fixtures; otherwise the retained upstream license."
+        }
       }
     },
     "tool_model_references": {
       "type": "object",
+      "description": "Per-tool map naming the committed rule, query, or model artifact the case is run against — or the retained reason a tool declines it. Canonical cases never contain native rule syntax; adapters that resolve models globally rather than per case carry no key here, and tool-native cases carry an empty map because a native run loads only what the vendor ships.",
       "additionalProperties": {
         "type": "object",
         "additionalProperties": false,
         "properties": {
-          "policy": { "type": "string" },
-          "query": { "type": "string" },
-          "unsupported_reason": { "type": "string" }
+          "policy": {
+            "type": "string",
+            "description": "Path to the tool's committed policy file for this case."
+          },
+          "query": {
+            "type": "string",
+            "description": "Path to the tool's committed query for this case."
+          },
+          "unsupported_reason": {
+            "type": "string",
+            "description": "Verbatim, retained rationale for why this tool declines the case, emitted as unsupported rather than a negative result."
+          }
         }
       }
     }
@@ -170,9 +244,20 @@
         "additionalProperties": false,
         "required": ["marker", "file"],
         "properties": {
-          "marker": { "type": "string", "pattern": "^DFB-" },
-          "file": { "type": "string" },
-          "line_hint": { "type": "integer", "minimum": 1 }
+          "marker": {
+            "type": "string",
+            "pattern": "^DFB-",
+            "description": "The DFB-SOURCE:/DFB-SINK: comment marker text, which must appear verbatim in the named fixture file; runners resolve endpoints by reading these marker lines out of the fixture itself."
+          },
+          "file": {
+            "type": "string",
+            "description": "The fixture file containing the marker; must be one of fixture_files."
+          },
+          "line_hint": {
+            "type": "integer",
+            "minimum": 1,
+            "description": "Optional 1-based line the marker sits on. Validation fails if the marker is not on the hinted line, so a hint is an assertion, not documentation."
+          }
         }
       }
     },
@@ -183,8 +268,16 @@
         "additionalProperties": false,
         "required": ["source", "sink"],
         "properties": {
-          "source": { "type": "string", "pattern": "^DFB-" },
-          "sink": { "type": "string", "pattern": "^DFB-" }
+          "source": {
+            "type": "string",
+            "pattern": "^DFB-",
+            "description": "A DFB-SOURCE: marker declared in source_anchors, naming the origin endpoint of the asserted (non)flow."
+          },
+          "sink": {
+            "type": "string",
+            "pattern": "^DFB-",
+            "description": "A DFB-SINK: marker declared in sink_anchors, naming the destination endpoint of the asserted (non)flow."
+          }
         }
       }
     }

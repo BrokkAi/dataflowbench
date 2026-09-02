@@ -21,6 +21,16 @@ mechanism; do not satisfy the balance contract with a large class of trivial
 safe literals. Use `calibration` while adapter plumbing or a pair is incomplete.
 See [the scoring contract](docs/scoring.md).
 
+## Adapters
+
+To integrate a new analyzer, follow the step-ordered
+[adding-an-adapter walkthrough](docs/adding-an-adapter.md): required case
+inputs, the five normalized outcomes, the anti-vacuous-negative guards, the
+evidence artifacts every run retains, the validation commands, and the exact
+`src/main.rs` touchpoints. The [adapter contract](docs/adapters.md) stays
+normative over it, and the [docs index](docs/README.md) maps the rest of the
+contract surface and defines the insider vocabulary.
+
 ## Validation
 
 ```bash
