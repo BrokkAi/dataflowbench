@@ -1927,32 +1927,47 @@ const NATIVE_PARTITION: &[NativePartitionCell] = &[
     // silently-ignored-missing-config quirk cannot be the explanation; there
     // was nothing to mis-path. Infer's native row exists for Java alone: the
     // pinned distribution executes no JavaScript or Python frontend.
+    //
+    // Re-grounded by Amendment A28
+    // (reports/raw/amendment-a28-infer-native-activation/, produced by
+    // scripts/probe-infer-native-activation.sh): the silence is ENGAGED, not
+    // merely empty. The distribution bundles one default taint surface —
+    // lib/infer/infer/config/taint/, four Objective-C NSLib files declaring
+    // `pulse-taint-propagators` only — and a zero-configuration invocation
+    // demonstrably parses it (a corrupted copy dies at capture, exit 3, from
+    // Config.pulse_taint_config's directory fold). The bundle binds no
+    // source, sink, sanitizer, or policy in any language and no Java
+    // identity at all, and `infer run` — the full default checker set, not
+    // the adapter's `--pulse-only` arm — fires zero findings of any rule on
+    // all twelve fixtures, so no live activation decides `not-reached`.
     NativePartitionCell {
         tool: ModelingTool::Infer,
         template: NATIVE_TEMPLATE_IDS[0],
         unsupported_reason: Some(
-            "the pinned release ships Pulse's taint analysis disabled absent a \
-             `--pulse-taint-config`, and no Java endpoint catalog: measured with no \
-             configuration supplied — nothing to mis-path, so the silent-missing-config quirk \
-             cannot be the explanation — the shipped product decides nothing on any of the \
-             twelve Java native fixtures, and the one always-enabled policy (Simple→Simple) has \
-             no shipped Java source or sink bound to it (Amendment A14)",
+            "the shipped taint bundle is loaded unconditionally and holds no endpoint: the \
+             zero-config silence Amendment A14 measured (no configuration supplied — nothing to \
+             mis-path, so the silent-missing-config quirk cannot be the explanation) is proven \
+             engaged by Amendment A28 — the bundled `config/taint/` tree parses on every \
+             invocation, declares Objective-C propagators only, binds no source, sink, or \
+             policy in any language, and the full default checker set (`infer run`) decides \
+             nothing on any of the twelve Java native fixtures either (Amendments A14, A28)",
         ),
     },
     NativePartitionCell {
         tool: ModelingTool::Infer,
         template: NATIVE_TEMPLATE_IDS[1],
         unsupported_reason: Some(
-            "same measured silence (Amendment A14): a shipped propagator summary would need a \
-             shipped source and sink to carry anything between, and the pinned release ships \
-             neither — Pulse taint is disabled absent a `--pulse-taint-config`",
+            "same engaged-and-silent measurement (Amendments A14, A28): the one thing the \
+             release ships natively is propagators — Objective-C NSLib rows a Java procedure \
+             can never match — and a propagator needs a shipped source and sink to carry \
+             anything between; the release ships neither, in any language",
         ),
     },
     NativePartitionCell {
         tool: ModelingTool::Infer,
         template: NATIVE_TEMPLATE_IDS[2],
         unsupported_reason: Some(
-            "same measured silence (Amendment A14): the sanitizer surface Amendment A13 measured \
+            "same engaged-and-silent measurement (Amendments A14, A28): the sanitizer surface Amendment A13 measured \
              load-bearing is reachable only through `--pulse-taint-config`, which this profile's \
              activation contract supplies nothing through, and the shipped product declares no \
              sanitizer and no endpoints for one to sit between",
@@ -1962,7 +1977,7 @@ const NATIVE_PARTITION: &[NativePartitionCell] = &[
         tool: ModelingTool::Infer,
         template: NATIVE_TEMPLATE_IDS[3],
         unsupported_reason: Some(
-            "same measured silence (Amendment A14): no shipped summary catalog exists — the \
+            "same engaged-and-silent measurement (Amendments A14, A28): no shipped summary catalog exists — the \
              taint question itself is off absent a `--pulse-taint-config`, so a base64 round \
              trip has no flow to survive",
         ),
@@ -1971,7 +1986,7 @@ const NATIVE_PARTITION: &[NativePartitionCell] = &[
         tool: ModelingTool::Infer,
         template: NATIVE_TEMPLATE_IDS[4],
         unsupported_reason: Some(
-            "same measured silence (Amendment A14), and doubly out of reach: the shipped product \
+            "same engaged-and-silent measurement (Amendments A14, A28), and doubly out of reach: the shipped product \
              activates no taint question, and Amendment A13 measured that the pulse-taint \
              surface has no entry-root vocabulary even when configured",
         ),
@@ -1980,7 +1995,7 @@ const NATIVE_PARTITION: &[NativePartitionCell] = &[
         tool: ModelingTool::Infer,
         template: NATIVE_TEMPLATE_IDS[5],
         unsupported_reason: Some(
-            "same measured silence (Amendment A14), and doubly out of reach: the shipped product \
+            "same engaged-and-silent measurement (Amendments A14, A28), and doubly out of reach: the shipped product \
              activates no taint question, and the pulse-taint surface has no store-write/\
              store-read vocabulary even when configured (Amendment A13)",
         ),

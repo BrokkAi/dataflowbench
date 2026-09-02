@@ -259,20 +259,33 @@ of six has declined the profile rather than failed it.
   The first is capability coverage; the second would have been six false
   negatives.
 
-## Infer — declined on a measured silence (Amendment A14, 2026-09-01)
+## Infer — declined on an engaged-and-silent measurement (Amendments A14 and A28)
 
 Infer v1.3.0 joined the profile after this row landed, by
 [Amendment A14](native-profile.md#a14--2026-09-01-infers-native-row-declines-on-a-measured-silence),
 for Java alone — the one modeling-tier language its pinned distribution
 executes. Its row is **0 / 6**, and unlike the three declines above it could
-not rest on a reading: the pinned release ships Pulse's taint analysis
-disabled absent a `--pulse-taint-config`, and it *also* silently ignores a
-mis-pathed configuration, so an asserted decline would be indistinguishable
-from a swallowed mistake. The decline is therefore measured:
-`scripts/probe-infer-native-silence.sh` ran the shipped product over all
-twelve fixtures of this document with **no configuration argument at all** —
-nothing to mis-path — and every run produced zero findings of any rule
-(`reports/raw/amendment-a14-infer-native-silence/`). The retained run,
+not rest on a reading: the pinned release ships Pulse's taint analysis with
+no taint question absent a `--pulse-taint-config`, and it *also* silently
+ignores a mis-pathed configuration, so an asserted decline would be
+indistinguishable from a swallowed mistake. The decline is therefore
+measured: `scripts/probe-infer-native-silence.sh` ran the shipped product
+over all twelve fixtures of this document with **no configuration argument at
+all** — nothing to mis-path — and every run produced zero findings of any
+rule (`reports/raw/amendment-a14-infer-native-silence/`).
+
+A maintainer challenge then re-interrogated the silence itself, and
+[Amendment A28](native-profile.md#a28--2026-09-02-infers-native-decline-is-re-grounded--the-shipped-taint-bundle-is-loaded-unconditionally-and-holds-no-endpoint)
+re-grounded the row on what it found: the pinned distribution **does** bundle
+default taint data — four Objective-C `NSLib` files under
+`lib/infer/infer/config/taint/` — and a zero-configuration invocation
+**does** load it, proven by corrupting one bundled file in a byte copy of the
+distribution and watching a zero-config capture die naming it. The silence is
+an engaged silence: the loaded bundle declares propagators only — no source,
+sink, sanitizer, or policy in any language, and no Java identity — and the
+release's full default checker set (`infer run`, not the adapter's
+`--pulse-only` arm) fires zero findings of any rule over all twelve fixtures
+(`reports/raw/amendment-a28-infer-native-activation/`). The retained run,
 `reports/infer-java-native.json`, carries the twelve `unsupported` decisions
 with the identity witnessed from the binary, per the profile's 0 / 6
 witnessing rule.

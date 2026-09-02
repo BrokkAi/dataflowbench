@@ -274,20 +274,43 @@ Reconciliation uses the member-qualified Java anchor dialect, because a
 declared modeling entity is reached through its declaring type
 (`Audit.record(v)`), which the kernel dialect deliberately refuses.
 
-## Tool-native profile (Java): declines on a measured silence
+## Tool-native profile (Java): declines on an engaged-and-silent measurement
 
 Infer's tool-native row
-([Amendment A14](../../docs/native-profile.md#a14--2026-09-01-infers-native-row-declines-on-a-measured-silence))
-is **0 / 6**: the pinned release ships Pulse's taint analysis disabled absent
-a `--pulse-taint-config`, and no Java endpoint catalog. Because this adapter's
-own silent-failure guard exists precisely because a *mis-pathed*
-configuration is silently ignored, the decline had to be a **measured**
-silence rather than an asserted one: `scripts/probe-infer-native-silence.sh`
-runs the shipped product over all twelve Java native fixtures with **no
-configuration argument at all** — nothing to mis-path — and retains the
-verbatim SARIF, exact argv, and exit status per fixture
-(`reports/raw/amendment-a14-infer-native-silence/`). Every run produced zero
-findings of any rule.
+([Amendment A14](../../docs/native-profile.md#a14--2026-09-01-infers-native-row-declines-on-a-measured-silence),
+re-grounded by
+[Amendment A28](../../docs/native-profile.md#a28--2026-09-02-infers-native-decline-is-re-grounded--the-shipped-taint-bundle-is-loaded-unconditionally-and-holds-no-endpoint))
+is **0 / 6**. Because this adapter's own silent-failure guard exists
+precisely because a *mis-pathed* configuration is silently ignored, the
+decline had to be a **measured** silence rather than an asserted one:
+`scripts/probe-infer-native-silence.sh` runs the shipped product over all
+twelve Java native fixtures with **no configuration argument at all** —
+nothing to mis-path — and retains the verbatim SARIF, exact argv, and exit
+status per fixture (`reports/raw/amendment-a14-infer-native-silence/`).
+Every run produced zero findings of any rule.
+
+A maintainer challenge then sharpened A14's phrasing ("Pulse taint is off
+absent a configuration") into three executed facts
+(`scripts/probe-infer-native-activation.sh`, retained under
+`reports/raw/amendment-a28-infer-native-activation/`):
+
+- **The release bundles default taint data, and zero-config runs load it.**
+  `lib/infer/infer/config/taint/` ships four Objective-C `NSLib` files whose
+  own README says they "are always included when running infer" — and the
+  loading is proven, not quoted: corrupting one file in a byte copy of the
+  distribution kills a zero-config Java capture with exit 3 from
+  `Config.pulse_taint_config`'s directory fold. The taint machinery is live
+  in every invocation; A14's silence is an **engaged** silence.
+- **The bundle holds no endpoint.** Every file declares
+  `pulse-taint-propagators` only — no source, sink, sanitizer, or policy in
+  any language, no `.inferconfig` anywhere in the distribution, and no Java
+  identity. Propagators without endpoints form no taint question, and the
+  always-enabled Simple→Simple policy has nothing bound to its kinds.
+- **The full default surface decides nothing more.** `infer run --sarif` —
+  the release's whole default checker set, not this adapter's `--pulse-only`
+  arm — produced zero findings of any rule on all twelve fixtures, so no
+  non-taint Pulse finding exists to reconcile against any anchor and no cell
+  is a live activation deciding `not-reached`.
 
 `run-infer-native --language java` writes the twelve retained
 `unsupported` decisions with the run's identity witnessed from the binary —
@@ -332,14 +355,15 @@ cargo run -- run-infer-cpp-kernel  --infer /path/to/infer-osx-arm64-v1.3.0/bin/i
 cargo run -- run-infer-java-kernel --infer /path/to/infer-osx-arm64-v1.3.0/bin/infer
 ```
 
-The Java modeling tiers, and the two probe scripts whose retained evidence
-backs Amendments A13 and A14:
+The Java modeling tiers, and the three probe scripts whose retained evidence
+backs Amendments A13, A14, and A28:
 
 ```bash
 cargo run -- run-infer-modeling --language java --infer /path/to/infer-osx-arm64-v1.3.0/bin/infer
 cargo run -- run-infer-native   --language java --infer /path/to/infer-osx-arm64-v1.3.0/bin/infer
-scripts/probe-infer-modeling-partition.sh --infer /path/to/infer-osx-arm64-v1.3.0/bin/infer
-scripts/probe-infer-native-silence.sh     --infer /path/to/infer-osx-arm64-v1.3.0/bin/infer
+scripts/probe-infer-modeling-partition.sh  --infer /path/to/infer-osx-arm64-v1.3.0/bin/infer
+scripts/probe-infer-native-silence.sh      --infer /path/to/infer-osx-arm64-v1.3.0/bin/infer
+scripts/probe-infer-native-activation.sh   --infer /path/to/infer-osx-arm64-v1.3.0/bin/infer
 ```
 
 The C and C++ compiles run under the distribution's own bundled clang; the
