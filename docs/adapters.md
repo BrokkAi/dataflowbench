@@ -2,7 +2,10 @@
 
 An adapter executes a real supported tool surface, captures its raw output,
 and normalizes only the states in `schemas/result.schema.json`: `reached`,
-`not-reached`, `inconclusive`, `unsupported`, and `runner-error`.
+`not-reached`, `inconclusive`, `unsupported`, and `runner-error`. The
+step-ordered integration walkthrough for a new adapter is
+[adding-an-adapter.md](adding-an-adapter.md); this document stays normative
+over it.
 
 Canonical cases never contain native rule syntax. Each adapter owns its rules,
 models, command line, version discovery, configuration hash, capability notes,
