@@ -4330,15 +4330,13 @@ fn validate_cases() -> Result<()> {
             &row.expected_templates(),
         )?;
     }
-    // The modeling matrix is its own tier and its own denominator. Today the
-    // corpus carries no modeling case, so this is a no-op that turns into a
-    // required-set check the moment a language PR authors the first fixture.
+    // The modeling matrix is its own tier and its own denominator: every
+    // language with a modeling row is checked against its required set, and a
+    // language without one contributes nothing.
     validate_modeling_cases(&cases)?;
     // The tool-native profile shares that tier and is separated from it by
     // profile alone, so the population check and the disjointness check are two
-    // obligations rather than one. Both are no-ops on a corpus with no native
-    // case and turn into required-set checks the moment a wave-N1 PR authors
-    // the first fixture.
+    // obligations rather than one; both run over the shipped native rows.
     validate_native_cases(&cases)?;
     validate_profile_disjoint_populations(&cases)?;
     println!("validated {} cases", paths.len());
