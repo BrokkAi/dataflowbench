@@ -3,6 +3,7 @@
 // `cargo run -- generate-results` from a validated immutable freeze — never
 // from hand-authored prose. CI proves the checked-in model is current.
 import currentResults from '../../../results/results.json';
+import v060Results from './archive/v0-6-0-results.json';
 import v050Results from './archive/v0-5-0-results.json';
 import v040Results from './archive/v0-4-0-results.json';
 import v030Results from './archive/v0-3-0-results.json';
@@ -130,11 +131,23 @@ export const repository = 'https://github.com/BrokkAi/dataflowbench';
 
 export const snapshots: Snapshot[] = [
   {
-    version: 'v0.6.0',
-    slug: 'v0-6-0',
+    version: 'v0.6.1',
+    slug: 'v0-6-1',
     evidenceRef: 'main',
     current: true,
     results: currentResults as unknown as ResultsModel,
+  },
+  {
+    version: 'v0.6.0',
+    slug: 'v0-6-0',
+    // Permanently pinned: the commit whose tree holds v0.6.0's manifest and
+    // retained evidence, immutable even as main moves on. Note that the
+    // amendment rows added to `main` after this commit (A13/A14, A22/A23)
+    // are deliberately *not* in this archive: v0.6.0 published 74 scorecards
+    // and this is what it published.
+    evidenceRef: 'c0c42013a35a19107b65e652f55952669c4b9ffe',
+    current: false,
+    results: v060Results as unknown as ResultsModel,
   },
   {
     version: 'v0.5.0',
@@ -243,8 +256,8 @@ export function vendorName(tool: string): string {
 /**
  * The witnessed `tool_version` as a version *label*, for display beside the
  * analyzer's name. Bifrost's version banner witnesses itself as
- * `bifrost 0.10.7`, so rendering it next to the name reads "Bifrost bifrost
- * 0.10.7". The witnessed string in the manifest is untouched; only the label
+ * `bifrost 0.10.8`, so rendering it next to the name reads "Bifrost bifrost
+ * 0.10.8". The witnessed string in the manifest is untouched; only the label
  * drops the redundant prefix.
  */
 export function toolVersionLabel(tool: string, toolVersion: string): string {

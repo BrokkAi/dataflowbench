@@ -1,6 +1,6 @@
 # DataFlowBench frozen results
 
-Generated from freeze manifest `reports/freeze.json` (`sha256:3228af686d09f8666989368483bef375bb28b94025b55e31eaa7a0bdd29506ee`), benchmark release `v0.6.0` at revision `8b70fd39d4c8777af40adadd70c6d91467a7299e`, fixture revision `sha256:9df209ed3d7723a3ee33f2b289cf2afe34a3add781bdf2a2ac445de42b8d0151`.
+Generated from freeze manifest `reports/freeze.json` (`sha256:65638eafb36478120d268290479815114f244baa57994c47e19fac6b759e50ae`), benchmark release `v0.6.1` at revision `a8cde574287c93e802d9a9253875db141d8b87be`, fixture revision `sha256:9df209ed3d7723a3ee33f2b289cf2afe34a3add781bdf2a2ac445de42b8d0151`.
 
 Claim scope `release`. Every number on these pages is derived from the immutable freeze evidence above; none are maintained by hand. Tracks, score dimensions, score tiers, and model profiles are separate result populations and are never combined into one leaderboard.
 
@@ -53,10 +53,14 @@ None.
 - [`codeql-rust-kernel-taint-taint-benchmark-controlled`](scorecards/codeql-rust-kernel-taint-taint-benchmark-controlled.md)
 - [`codeql-typescript-kernel-taint-taint-benchmark-controlled`](scorecards/codeql-typescript-kernel-taint-taint-benchmark-controlled.md)
 - [`flowdroid-java-kernel-taint-taint-benchmark-controlled`](scorecards/flowdroid-java-kernel-taint-taint-benchmark-controlled.md)
+- [`flowdroid-java-modeling-taint-taint-benchmark-controlled`](scorecards/flowdroid-java-modeling-taint-taint-benchmark-controlled.md)
+- [`flowdroid-java-native-taint-taint-tool-native`](scorecards/flowdroid-java-native-taint-taint-tool-native.md)
 - [`flowdroid-kotlin-kernel-taint-taint-benchmark-controlled`](scorecards/flowdroid-kotlin-kernel-taint-taint-benchmark-controlled.md)
 - [`infer-c-kernel-taint-taint-benchmark-controlled`](scorecards/infer-c-kernel-taint-taint-benchmark-controlled.md)
 - [`infer-cpp-kernel-taint-taint-benchmark-controlled`](scorecards/infer-cpp-kernel-taint-taint-benchmark-controlled.md)
 - [`infer-java-kernel-taint-taint-benchmark-controlled`](scorecards/infer-java-kernel-taint-taint-benchmark-controlled.md)
+- [`infer-java-modeling-taint-taint-benchmark-controlled`](scorecards/infer-java-modeling-taint-taint-benchmark-controlled.md)
+- [`infer-java-native-taint-taint-tool-native`](scorecards/infer-java-native-taint-taint-tool-native.md)
 - [`joern-java-kernel-taint-taint-benchmark-controlled`](scorecards/joern-java-kernel-taint-taint-benchmark-controlled.md)
 - [`joern-java-modeling-taint-taint-benchmark-controlled`](scorecards/joern-java-modeling-taint-taint-benchmark-controlled.md)
 - [`joern-java-native-taint-taint-tool-native`](scorecards/joern-java-native-taint-taint-tool-native.md)
@@ -70,8 +74,12 @@ None.
 - [`joern-ruby-kernel-taint-taint-benchmark-controlled`](scorecards/joern-ruby-kernel-taint-taint-benchmark-controlled.md)
 - [`joern-rust-kernel-taint-taint-benchmark-controlled`](scorecards/joern-rust-kernel-taint-taint-benchmark-controlled.md)
 - [`opentaint-java-kernel-taint-taint-benchmark-controlled`](scorecards/opentaint-java-kernel-taint-taint-benchmark-controlled.md)
+- [`opentaint-java-modeling-taint-taint-benchmark-controlled`](scorecards/opentaint-java-modeling-taint-taint-benchmark-controlled.md)
+- [`opentaint-java-native-taint-taint-tool-native`](scorecards/opentaint-java-native-taint-taint-tool-native.md)
 - [`opentaint-kotlin-kernel-taint-taint-benchmark-controlled`](scorecards/opentaint-kotlin-kernel-taint-taint-benchmark-controlled.md)
 - [`pysa-python-kernel-taint-taint-benchmark-controlled`](scorecards/pysa-python-kernel-taint-taint-benchmark-controlled.md)
+- [`pysa-python-modeling-taint-taint-benchmark-controlled`](scorecards/pysa-python-modeling-taint-taint-benchmark-controlled.md)
+- [`pysa-python-native-taint-taint-tool-native`](scorecards/pysa-python-native-taint-taint-tool-native.md)
 - [`semgrep-c-kernel-taint-taint-benchmark-controlled`](scorecards/semgrep-c-kernel-taint-taint-benchmark-controlled.md)
 - [`semgrep-cpp-kernel-taint-taint-benchmark-controlled`](scorecards/semgrep-cpp-kernel-taint-taint-benchmark-controlled.md)
 - [`semgrep-go-kernel-taint-taint-benchmark-controlled`](scorecards/semgrep-go-kernel-taint-taint-benchmark-controlled.md)

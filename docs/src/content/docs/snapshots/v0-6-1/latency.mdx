@@ -1,0 +1,51 @@
+---
+title: Latency — v0.6.1
+description: The latency-characterization tier, unchanged from v0.6.0 and still measured on Bifrost v0.10.7 — descriptive, and never pooled with correctness.
+---
+
+import LatencyTier from '../../../../components/LatencyTier.astro';
+
+DataFlowBench's latency-characterization tier. It stands **beside** the
+correctness scorecards, on its own page, and never as a column inside one.
+
+:::caution[This corpus was not re-measured in v0.6.1]
+Every number on this page is the corpus **frozen at v0.6.0**, carried into
+this snapshot unchanged. v0.6.1 is a correctness re-run of the twenty Bifrost
+slices; it did not re-run the latency tier, which is measured under its own
+settle-gated protocol on a quiet machine and is not a by-product of a
+correctness run.
+
+So the Bifrost rows below name **v0.10.7**, not the v0.10.8 pin this
+snapshot's correctness pages report. That is deliberate. Those labels are
+descriptions of retained evidence, and re-labelling them to v0.10.8 would
+assert a measurement that was never performed. The consequence is worth
+stating plainly: **do not read these timings as v0.10.8's**, and do not read a
+correctness change on the other pages as having any timing consequence here.
+The next freeze that re-measures the corpus will say so.
+:::
+
+The contract governing every number here —
+[`docs/latency-tier.md`](https://github.com/BrokkAi/dataflowbench/blob/main/docs/latency-tier.md)
+— was written and merged **before any timestamp was captured**, and it is
+explicit about why. DataFlowBench is published by the vendor of one of the
+engines measured, and a latency page assembled after the numbers were known,
+with its phase boundaries and its aggregation chosen afterwards, would deserve
+exactly the skepticism it would get. So the decomposition rule, the exclusion
+list, the per-adapter granularity, and the aggregation were all fixed while
+every number was still unmeasured. The four analyzers added in v0.6.0 took
+their granularity rows by
+[Amendment A12](https://github.com/BrokkAi/dataflowbench/blob/main/docs/latency-tier.md#amendments),
+dated and landed **before** this page published any of their numbers, rather
+than being backfilled into the original table.
+
+The page also carries a second, separately labelled figure: the **warm marginal
+cost** of one more case in a tool process that has already started, added by
+[Amendment A15](https://github.com/BrokkAi/dataflowbench/blob/main/docs/latency-tier.md#amendments)
+and likewise preregistered before the first warm number was measured. It exists
+because the cold rows below span three runtimes, and read across runtimes they
+overstate the steady-state gap — a difference the vendor publishing this
+benchmark happens to win. The correction is a direct measurement, not an
+estimate subtracted from anything: **no cold number on this page changes, and
+the warm figure is never substituted for one.**
+
+<LatencyTier />

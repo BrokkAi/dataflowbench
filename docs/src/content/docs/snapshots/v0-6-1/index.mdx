@@ -1,0 +1,138 @@
+---
+title: Snapshot v0.6.1
+description: A patch freeze — the Bifrost v0.10.8 fix cycle re-pinned and re-run, with one regression and one benchmark-side self-correction published.
+---
+
+import SnapshotBanner from '../../../../components/SnapshotBanner.astro';
+import { snapshots, evidenceUrl } from '../../../../data/snapshots';
+
+export const snapshot = snapshots.find((s) => s.version === 'v0.6.1');
+
+<SnapshotBanner snapshot={snapshot} />
+
+A **patch snapshot**, and deliberately a narrow one. It exists because a
+Bifrost fix cycle closed against findings this benchmark published, so the
+release re-pins Bifrost from v0.10.7 to **v0.10.8** (build `419395c8`) and
+re-runs that analyzer's slices. Nothing else moved.
+
+## What re-ran, and what did not
+
+The fixture revision is **unchanged since v0.6.0**
+(<code>{snapshot.results.benchmark.fixture_revision.replace('sha256:', '').slice(0, 12)}…</code>),
+so this is not a new exam. Only the **20 Bifrost slices** were re-executed;
+the other **62 reports carry over byte-identical** into the new manifest, and
+their scorecards on these pages are the same numbers v0.6.0 published. Every
+one of the 82 reports is re-bound and re-digested here regardless, because a
+freeze binds what it publishes rather than only what changed.
+
+The re-run was taken in a single settle-gated quiet window — twenty cold
+slices between 03:07 and 03:10 local time, on the machine and under the
+conditions the run record states.
+
+## What changed in the Bifrost column
+
+Four movements, and all four are on one analyzer:
+
+- **Four false positives are fixed.** The path-feasibility and loop-kill
+  negatives filed as **bifrost-dev#2731** — C#'s `infeasible-branch` and
+  `loop-carried`, Go's `loop-carried`, and Ruby's `infeasible-branch` — now
+  read `not-reached`. Bifrost has **no false positive and no false negative
+  anywhere in this freeze**, on any tier and under either profile.
+- **Eight assertions are newly decided, and decided correctly.** The
+  `element-object` pairs in java, javascript, and typescript, and Rust's
+  `recursive-carry` pair, move from `inconclusive` to correct. Those cells
+  were previously in the declined families tracked as bifrost-dev#2839.
+- **One pair regresses, and is published as a regression.** Go's
+  `array-element` pair was decided correctly under v0.10.7 and is now
+  `inconclusive` under *"value-flow snapshot unsupported (`index_memory`)"*.
+  It is filed as **bifrost-dev#2831**. The pin was taken with this loss
+  visible rather than held to hide it.
+- **A three-release disagreement turns out to have been ours.** See below.
+
+Net on the thirteen kernels: decisive-correct **435 → 446**, decisive
+mistakes **5 → 0**, `inconclusive` **298 → 292**. Every other analyzer's
+kernel numbers are unchanged, and the core population stays at 738
+assertions. The [evolution
+chart](/#evolution) draws exactly that: one line moves, seven do not.
+
+## The java-direct disagreement was a benchmark bug
+
+For three releases this project published an unreconciled disagreement:
+`dfb-taint-java-direct-positive` was `reached` in `reports/bifrost-smoke.json`
+and `not-reached` in `reports/bifrost-java-kernel.json`, at the same build and
+the same fixture revision. It was published as an observed instability of the
+engine, and **bifrost-dev#2832** was filed upstream against it.
+
+It was not an engine defect. The Java **kernel adapter** was force-selecting
+`core-java-kernel.rqlp` in place of each case's own validated declared policy,
+and that kernel policy's `dfb_source`/`dfb_sink` selectors bind zero endpoints
+in this legacy fixture — so the kernel run asked a question the fixture could
+not answer, and got `not-reached`. The smoke run, which used the case's
+declared `direct-positive.rqlp`, was right all along. The adapter is fixed in
+**PR #118**, and #2832 is being closed as benchmark-side rather than upstream.
+
+Both populations now reach it. Java's kernel goes 37/58 to 40/58, and the
+classic-32 partition inside it goes 31/32 to **32/32**, matching the smoke
+population case for case.
+
+This is recorded here at the same volume as an engine finding would be. A
+benchmark published by the vendor of one of the engines it measures does not
+get to report only the defects it finds in other people's software, and a
+mistake that ran for three releases against our own analyzer's column is
+exactly the kind that has to be said plainly.
+
+## The latency tier is unchanged
+
+The latency-characterization corpus is **frozen at v0.6.0** and was not
+re-measured here. Its artifacts and
+[`docs/latency-tier.md`](https://github.com/BrokkAi/dataflowbench/blob/main/docs/latency-tier.md)
+therefore keep naming **v0.10.7** as the Bifrost build the timings were taken
+on, because that is the build they were taken on. Re-labelling them to v0.10.8
+would assert a measurement nobody performed. The
+[latency page](/snapshots/v0-6-1/latency/) says so at the top.
+
+## Claim
+
+- Scope: <code>{snapshot.results.claim.scope}</code>
+- Tracks: {snapshot.results.claim.tracks.map((t) => <code>{t}</code>)}
+- Score tiers: {snapshot.results.claim.score_tiers.map((t) => <code>{t} </code>)}
+- Model profiles: {snapshot.results.claim.model_profiles.map((p) => <code>{p} </code>)}
+- Exclusions: {snapshot.results.claim.exclusions.length === 0 ? 'none' : ''}
+
+{snapshot.results.claim.exclusions.length > 0 && (
+  <table>
+    <thead>
+      <tr><th>Case</th><th>Reason</th></tr>
+    </thead>
+    <tbody>
+      {snapshot.results.claim.exclusions.map((exclusion) => (
+        <tr>
+          <td><code>{exclusion.id}</code></td>
+          <td>{exclusion.reason}</td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+)}
+
+## Bound evidence
+
+Freeze ID (manifest SHA-256): <code>{snapshot.results.manifest.sha256}</code>
+
+Freeze manifest: <a href={evidenceUrl(snapshot, snapshot.results.manifest.path)}><code>{snapshot.results.manifest.path}</code></a>
+— every case, fixture, normalized report, and raw-evidence file is
+digest-bound; `cargo run -- validate-freeze reports/freeze.json` re-verifies
+all of it. {snapshot.results.scorecards.length} scorecards are bound, one per
+frozen report.
+
+The full release note — with the per-case fix-cycle deltas, the regression,
+and the java-direct self-correction — is
+[`docs/releases/v0.6.1.md`](https://github.com/BrokkAi/dataflowbench/blob/main/docs/releases/v0.6.1.md).
+The freeze it supersedes remains browsable at
+[v0.6.0](/snapshots/v0-6-0/).
+
+Continue to [analyzers](/snapshots/v0-6-1/analyzers/),
+[languages](/snapshots/v0-6-1/languages/),
+[semantic templates](/snapshots/v0-6-1/templates/),
+[case evidence](/snapshots/v0-6-1/evidence/), or
+[latency](/snapshots/v0-6-1/latency/).

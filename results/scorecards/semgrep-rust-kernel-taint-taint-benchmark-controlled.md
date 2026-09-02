@@ -4,7 +4,7 @@ Adapter `semgrep-rust-kernel`: `semgrep` `1.175.0` (build `semgrep-oss:1.175.0`,
 
 Track `taint`, score dimension `taint`, model profile `benchmark-controlled`. This scorecard is a single result population; it is never pooled with other tracks, dimensions, or model profiles.
 
-Normalized report: `reports/semgrep-rust-kernel.json` (`sha256:7b93011a586b390a0a212af70653b0c52a20dc1c535b5d9c1c78ac3ff14b36e7`, normalized `sha256:7b93011a586b390a0a212af70653b0c52a20dc1c535b5d9c1c78ac3ff14b36e7`). Generated from freeze manifest `reports/freeze.json` (`sha256:3228af686d09f8666989368483bef375bb28b94025b55e31eaa7a0bdd29506ee`).
+Normalized report: `reports/semgrep-rust-kernel.json` (`sha256:7b93011a586b390a0a212af70653b0c52a20dc1c535b5d9c1c78ac3ff14b36e7`, normalized `sha256:7b93011a586b390a0a212af70653b0c52a20dc1c535b5d9c1c78ac3ff14b36e7`). Generated from freeze manifest `reports/freeze.json` (`sha256:65638eafb36478120d268290479815114f244baa57994c47e19fac6b759e50ae`).
 
 ## Language `rust`, tier `core`
 
