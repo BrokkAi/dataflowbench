@@ -1833,7 +1833,19 @@ const NATIVE_PARTITION: &[NativePartitionCell] = &[
     // summariesManual taint wrapper) is the shipped product deciding — but the
     // catalog binds no identity any native template uses, so every cell is
     // declined the way Amendments A6 and A7 declined Semgrep's JavaScript and
-    // Java cells: from shipped-model text, before any run.
+    // Java cells: from shipped-model text, before any run. Amendment A29
+    // re-grounded the decline by enumeration and execution
+    // (reports/raw/amendment-a29-flowdroid-shipped-surface/, produced by
+    // scripts/probe-flowdroid-native-shipped-surface.sh): every declarative
+    // surface the pinned jar bundles — the catalog (the only endpoint catalog
+    // instance in any format), the EasyTaintWrapper defaults, the callback
+    // list, the virtual-edge model, and the 347-class summariesManual set —
+    // binds no probe source identity anywhere; a bare invocation has no
+    // fallback catalog (zero-exit banner witnessed); the shipped catalog
+    // engaged over all twelve Java native fixtures reports `Found 0 leaks
+    // from 0 sources` on every one; and a control run with one
+    // benchmark-authored getenv source line finds exactly the floor leak,
+    // attributing the zeros to the catalog alone.
     NativePartitionCell {
         tool: ModelingTool::Flowdroid,
         template: NATIVE_TEMPLATE_IDS[0],
@@ -1843,7 +1855,10 @@ const NATIVE_PARTITION: &[NativePartitionCell] = &[
              shipped source binds a platform environment read: `System.getenv` does not occur \
              in the catalog, whose sources are servlet, Spring, and Android framework \
              identities. A catalog with a bound sink and no applicable source cannot produce a \
-             finding on these fixtures (Amendment A19)",
+             finding on these fixtures (Amendment A19) — and executed with the shipped catalog \
+             engaged, the analyzer reports `Found 0 leaks from 0 sources` on both cells, while \
+             a one-line control source finds the floor flow (Amendment A29, evidence retained \
+             under reports/raw/amendment-a29-flowdroid-shipped-surface/)",
         ),
     },
     NativePartitionCell {
@@ -1853,7 +1868,9 @@ const NATIVE_PARTITION: &[NativePartitionCell] = &[
             "the release default's summariesManual wrapper ships a `String.concat` taint \
              summary, so the propagator half is covered — but no shipped source binds \
              `System.getenv`, and a propagator with nothing to carry produces nothing \
-             (Amendment A19)",
+             (Amendment A19; executed silent over both cells, and the EasyTaintWrapper default \
+             definitions were enumerated too — the format has no source or sink role at all — \
+             Amendment A29)",
         ),
     },
     NativePartitionCell {
@@ -1864,15 +1881,18 @@ const NATIVE_PARTITION: &[NativePartitionCell] = &[
              `_SOURCE_`/`_SINK_`/`_BOTH_` — and the shipped `java.lang.Integer` summary models \
              `parseInt` as taint-*preserving* rather than as a barrier; prior to either, no \
              shipped source binds the flow's environment read, so there is no flow for a \
-             sanitizer to be credited against (Amendment A19)",
+             sanitizer to be credited against (Amendment A19; executed silent over both cells, \
+             Amendment A29)",
         ),
     },
     NativePartitionCell {
         tool: ModelingTool::Flowdroid,
         template: NATIVE_TEMPLATE_IDS[3],
         unsupported_reason: Some(
-            "summariesManual ships no `java.util.Base64` summary, and no shipped source binds \
-             the environment read that would have to survive the round trip (Amendment A19)",
+            "summariesManual ships no `java.util.Base64` summary — its five Base64-named \
+             summaries are android.util, okio, and commons-codec — and no shipped source binds \
+             the environment read that would have to survive the round trip (Amendment A19; \
+             executed silent over both cells, Amendment A29)",
         ),
     },
     NativePartitionCell {
@@ -1883,7 +1903,7 @@ const NATIVE_PARTITION: &[NativePartitionCell] = &[
              from the APK manifest; the JVM process-entry convention — `public static void \
              main(String[])` reading its argument vector — does not exist on the analyzed \
              platform, appears in no shipped model, and cannot be a root the manifest does not \
-             declare (Amendment A19)",
+             declare (Amendment A19; executed silent over both cells, Amendment A29)",
         ),
     },
     NativePartitionCell {
@@ -1894,7 +1914,7 @@ const NATIVE_PARTITION: &[NativePartitionCell] = &[
              store: the shipped `java.lang.System` summary models `getProperty` as key-argument \
              → return taint — a propagator on the key, not a store read — `setProperty` has no \
              summary at all, and no shipped source binds the environment read that starts the \
-             flow (Amendment A19)",
+             flow (Amendment A19; executed silent over both cells, Amendment A29)",
         ),
     },
     // Infer — v1.3.0, shipped Pulse checker with no taint configuration:

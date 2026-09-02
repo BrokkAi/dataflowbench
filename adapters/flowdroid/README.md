@@ -365,6 +365,36 @@ shipped-model evidence, decided before any run, and
 `reports/flowdroid-java-native.json` retains the twelve decisions under the
 witnessed jar identity.
 
+[Amendment A29](../../docs/native-profile.md#a29--2026-09-02-flowdroids-native-decline-is-re-grounded-on-the-shipped-surfaces-full-enumeration-and-executed-engagement)
+(2026-09-02) re-grounded the decline on the shipped surface's full
+enumeration and executed engagement, answering a maintainer challenge that
+the A19 ruling had read only the default file. The probe
+(`scripts/probe-flowdroid-native-shipped-surface.sh`, evidence under
+`reports/raw/amendment-a29-flowdroid-shipped-surface/`) witnesses all three
+artifact digests, enumerates every declarative resource the jar bundles —
+`SourcesAndSinks.txt` is the only endpoint catalog instance in any format
+(the bundled `SourcesAndSinks.xsd` XML format has no shipped instance);
+`EasyTaintWrapperSource.txt` (435 wrap / 12 exclude / 5 kill entries) has no
+endpoint role in its format; `AndroidCallbacks.txt` and `virtualedges.xml`
+are lifecycle and callgraph surface; the 347-class `summariesManual` set
+declares no `getenv` method and no `java.util.Base64` class — and then
+executes. A bare `-a`/`-p` invocation has no fallback catalog (the zero-exit
+banner is witnessed after the default wrapper initializes); the shipped
+catalog engaged over all twelve Java native fixtures (it parses to 71
+sources / 193 sinks; the release's own parser rejects 14 malformed vendor
+lines) reports `Found 0 leaks from 0 sources` on every one, under this
+adapter's leak-count-line guard; and a control run — the same APK plus one
+benchmark-authored `getenv` source line, evidence only, never activation —
+finds exactly the floor leak, attributing every zero to the catalog alone.
+The only `getenv` bytes anywhere in the jar are three shaded third-party
+classes that call it at tool runtime.
+
+```bash
+scripts/probe-flowdroid-native-shipped-surface.sh \
+  --flowdroid-jar soot-infoflow-cmd-2.15.1-jar-with-dependencies.jar \
+  --android-platform android-34.jar --d8-jar r8-8.5.35.jar
+```
+
 ```bash
 cargo run -- run-flowdroid-native --language java \
   --flowdroid-jar soot-infoflow-cmd-2.15.1-jar-with-dependencies.jar \
