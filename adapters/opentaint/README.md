@@ -330,6 +330,24 @@ still witnessing both assets' digests. The upstream repository's MIT-licensed
 rules component is not an asset of the pinned release; vendoring a snapshot of
 it is a possible future amendment under the native profile's provenance rule.
 
+[Amendment A25](../../docs/native-profile.md#a25--2026-09-02-the-shipped-opentaint-scan-entry-point-is-field-evaluated-and-the-six-native-declines-are-re-grounded-on-its-measured-silence)
+later re-grounded all six declines without moving a cell. The shipped
+product's own entry point — `opentaint scan`, the invocation the vendor's
+demo repository documents — defaults to `--ruleset builtin`, which resolves
+to the vendor's versioned rules release (`rules/v0.3.0`, digest-pinned) and
+hands it to this same analyzer jar through `--semgrep-rule-set`. That rule
+set is shipped product, so the decline was re-decided against it by
+execution: over all twelve Java native fixtures with the models archive
+loaded, the rule set registers 86 rules with zero load errors and reports
+zero results, while a servlet-identity positive control fires the shipped
+`os-command-injection` rule under the identical invocation
+(`scripts/probe-opentaint-scan-activation.sh`, retained under
+`reports/raw/amendment-a25-opentaint-scan-activation/`). The shipped rules
+bind `Runtime.exec` as a sink and no platform source any native template
+reads — every source rule is servlet-, Spring-, or Seam-shaped — so the row
+stays 0 / 6, now on measured evidence about the shipped rules rather than on
+the absence of a rule set.
+
 ## Retained artifacts
 
 Per case under `reports/raw/opentaint-<language>-kernel/`: the verbatim SARIF
@@ -391,4 +409,15 @@ scripts/probe-opentaint-modeling-surface.sh \
 scripts/probe-opentaint-native-activation.sh \
   --analyzer-jar /path/to/opentaint-project-analyzer.jar \
   --models-archive /path/to/opentaint-models.tar.gz
+```
+
+The A25 probe additionally needs the vendor's `rules/v0.3.0` release asset
+(`gh release download rules/v0.3.0 --repo seqra/opentaint --pattern
+'opentaint-rules.tar.gz'`), digest-verified by the script:
+
+```bash
+scripts/probe-opentaint-scan-activation.sh \
+  --analyzer-jar /path/to/opentaint-project-analyzer.jar \
+  --models-archive /path/to/opentaint-models.tar.gz \
+  --rules-archive /path/to/opentaint-rules.tar.gz
 ```
