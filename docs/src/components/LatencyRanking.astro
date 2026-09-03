@@ -1,5 +1,5 @@
 ---
-// Ranked whole-invocation wall-clock: fastest to slowest median, on one
+// Ranked analyzer-invocation wall-clock: fastest to slowest median, on one
 // shared logarithmic axis, optionally with a per-kernel view behind a
 // CSS-only toggle.
 //
@@ -40,16 +40,21 @@ import {
   overheadMarkFor,
   SIGNIFICANCE_SHARE,
 } from '../data/invocation-overhead';
-import { currentSnapshot, vendorColorClass, vendorName } from '../data/snapshots';
+import {
+  currentSnapshot,
+  snapshotByVersion,
+  vendorColorClass,
+  vendorName,
+} from '../data/snapshots';
 
 // Self-references to the latency page follow whichever snapshot is current,
 // rather than naming a slug that goes stale the moment a freeze is archived.
 // (These were hard-coded to `v0-6-0`, and two of them additionally carried a
 // `/dataflowbench/` base path left over from the GitHub Pages subdirectory
 // deployment — both are gone now that the slug is derived.)
-const latencyPage = `/snapshots/${currentSnapshot.slug}/latency/`;
-
 interface Props {
+  /** Snapshot whose explicitly bound latency evidence this chart renders. */
+  snapshotVersion?: string;
   /**
    * Render the thirteen per-kernel panels behind the toggle. The landing page
    * takes the general view alone: fourteen panels of inline SVG is a fair
@@ -65,9 +70,15 @@ interface Props {
   stamp?: boolean;
 }
 
-const { kernelViews = true, stamp = false } = Astro.props;
+const {
+  kernelViews = true,
+  stamp = false,
+  snapshotVersion = currentSnapshot.version,
+} = Astro.props;
+const snapshot = snapshotByVersion(snapshotVersion);
+const latencyPage = `/snapshots/${snapshot.slug}/latency/`;
 
-const model = latencyModel();
+const model = latencyModel(snapshot);
 const ranking = latencyRanking(model);
 // The axis is computed across *every* view, including the kernel views this
 // render may not draw, so the same duration sits at the same place on the
@@ -195,7 +206,7 @@ function layout(view: (typeof ranking.views)[number]) {
         `${name} — median ${formatMs(entry.whole.median)}, ` +
         `IQR ${formatMs(entry.whole.q1)} to ${formatMs(entry.whole.q3)}, ` +
         `p10–p90 ${formatMs(entry.whole.p10)} to ${formatMs(entry.whole.p90)}, ` +
-        `over ${entry.timed} timed whole invocations` +
+        `over ${entry.timed} timed analyzer invocations` +
         (warm === null
           ? ''
           : `. Warm marginal, measured separately: ${
@@ -222,7 +233,7 @@ function layout(view: (typeof ranking.views)[number]) {
         kind: 'phase',
         tool: entry.tool,
         label: phase.phase,
-        sublabel: '',
+        sublabel: phase.includedInAnalyzerTotal ? '' : 'materialization; excluded',
         d: phase,
         warm: null,
         estimate: null,
@@ -230,7 +241,9 @@ function layout(view: (typeof ranking.views)[number]) {
           `${name} phase ${phase.phase} — median ${formatMs(phase.median)}, ` +
           `IQR ${formatMs(phase.q1)} to ${formatMs(phase.q3)}, ` +
           `p10–p90 ${formatMs(phase.p10)} to ${formatMs(phase.p90)}. ` +
-          `Comparable only against this adapter's own numbers.`,
+          (phase.includedInAnalyzerTotal
+            ? `Included in this adapter's analyzer total; phase detail compares only within the adapter.`
+            : `Materialization phase excluded from the analyzer total by contract.`),
         y,
       });
       y += phaseRowHeight / 2;
@@ -344,17 +357,18 @@ const belowThreshold = overheadPublished.filter(
           >
             <title id={`${panel.panelId}-title`}>
               {panel.view.population === null
-                ? 'Whole-invocation wall-clock per analyzer, over every timed invocation in the freeze'
-                : `Whole-invocation wall-clock per analyzer on the ${panel.view.label} kernel`}
+                ? 'Cold per-case analyzer-invocation wall-clock over the bound latency population'
+                : `Cold per-case analyzer-invocation wall-clock on the ${panel.view.label} kernel`}
             </title>
             <desc id={`${panel.panelId}-desc`}>
               One row per analyzer, ordered fastest median first, on a
               logarithmic time axis. Each row draws the tenth to ninetieth
               percentile as a thin line, the interquartile range as a bar, and
               the median as a thick tick, with the median also printed as a
-              number. Indented rows are the declared phases of the two adapters
-              whose invocation exposes more than one subprocess, and belong to
-              the adapter above them only. The latency page carries every
+              number. Indented rows are the declared phases of adapters whose
+              invocation exposes more than one subprocess, and belong to the
+              adapter above them only. Materialization phases are explicitly
+              labelled and excluded from the analyzer total. The latency page carries every
               value, including the minima and maxima this chart does not draw,
               in the data tables behind its "Show the data table" disclosures.
               A solid caret below a row is that adapter's separately measured
@@ -703,7 +717,7 @@ const belowThreshold = overheadPublished.filter(
   <strong>The axis is logarithmic.</strong> Each labelled tick is three times
   the one before it, so equal distances are equal <em>ratios</em>, not equal
   durations — the gap from 100&nbsp;ms to 300&nbsp;ms is drawn the same width
-  as the gap from 10&nbsp;s to 30&nbsp;s. That is the only way this freeze's
+  as the gap from 10&nbsp;s to 30&nbsp;s. That is the only way this bound corpus's
   medians fit in one picture: they span {formatMs(fastest.whole.median)} to{' '}
   {formatMs(slowest.whole.median)}, and on a linear axis every analyzer except
   the slowest would be a sliver against the origin. Because a log axis is easy
