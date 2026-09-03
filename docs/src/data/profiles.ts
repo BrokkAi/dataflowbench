@@ -40,7 +40,7 @@ export interface AnalyzerProfile {
   incomplete: number;
   /** Invocations behind the latency figure. */
   timed: number;
-  /** Median whole-invocation wall-clock over the kernel populations, in ms. */
+  /** Median analyzer-invocation wall-clock over the kernel populations, in ms. */
   medianMs: number | null;
 
   // ---- The four axes, each in [0, 1], each with its basis named. ----------
