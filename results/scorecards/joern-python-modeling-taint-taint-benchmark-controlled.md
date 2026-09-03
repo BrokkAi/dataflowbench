@@ -4,7 +4,7 @@ Adapter `joern-python-modeling`: `joern` `4.0.614` (build `joern-cli:4.0.614`, a
 
 Track `taint`, score dimension `taint`, model profile `benchmark-controlled`. This scorecard is a single result population; it is never pooled with other tracks, dimensions, or model profiles.
 
-Normalized report: `reports/joern-python-modeling.json` (`sha256:3e05499c361b7cf797281ab94cb5cc655d5ce306430a95b396f99c7b0f851e75`, normalized `sha256:3e05499c361b7cf797281ab94cb5cc655d5ce306430a95b396f99c7b0f851e75`). Generated from freeze manifest `reports/freeze.json` (`sha256:65638eafb36478120d268290479815114f244baa57994c47e19fac6b759e50ae`).
+Normalized report: `reports/joern-python-modeling.json` (`sha256:3e05499c361b7cf797281ab94cb5cc655d5ce306430a95b396f99c7b0f851e75`, normalized `sha256:3e05499c361b7cf797281ab94cb5cc655d5ce306430a95b396f99c7b0f851e75`). Generated from freeze manifest `reports/freeze.json` (`sha256:e3fbcae1eaf3f49192f7156616c4b2149893a8470e03ff445fcd1d5f984f9e5c`).
 
 ## Language `python`, tier `modeling`
 

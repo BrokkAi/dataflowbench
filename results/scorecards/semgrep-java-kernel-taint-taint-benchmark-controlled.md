@@ -4,7 +4,7 @@ Adapter `semgrep-java-kernel`: `semgrep` `1.175.0` (build `semgrep-oss:1.175.0`,
 
 Track `taint`, score dimension `taint`, model profile `benchmark-controlled`. This scorecard is a single result population; it is never pooled with other tracks, dimensions, or model profiles.
 
-Normalized report: `reports/semgrep-java-kernel.json` (`sha256:05ab32127cb788dd2b6d844015c00852a0c32cb50db6b8d5587a59cfbaa67189`, normalized `sha256:05ab32127cb788dd2b6d844015c00852a0c32cb50db6b8d5587a59cfbaa67189`). Generated from freeze manifest `reports/freeze.json` (`sha256:65638eafb36478120d268290479815114f244baa57994c47e19fac6b759e50ae`).
+Normalized report: `reports/semgrep-java-kernel.json` (`sha256:05ab32127cb788dd2b6d844015c00852a0c32cb50db6b8d5587a59cfbaa67189`, normalized `sha256:05ab32127cb788dd2b6d844015c00852a0c32cb50db6b8d5587a59cfbaa67189`). Generated from freeze manifest `reports/freeze.json` (`sha256:e3fbcae1eaf3f49192f7156616c4b2149893a8470e03ff445fcd1d5f984f9e5c`).
 
 ## Language `java`, tier `core`
 
