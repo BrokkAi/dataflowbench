@@ -4634,27 +4634,15 @@ fn validate_reports_in(root: &Path, own_report: Option<&Path>) -> Result<()> {
 }
 
 /// Populations whose committed outcomes are known to predate the current
-/// adapter configuration: PR #137 folded the endpoint-observation probes into
-/// every CodeQL kernel's configuration-path set without touching the committed
-/// evidence. Each entry downgrades that report's hash mismatch from an error
-/// to a warning so the debt stays visible without failing every validation
-/// run; the owed re-runs are tracked by issue #138, and the pull request that
-/// lands a population's re-run removes its entry (a test fails once an entry
-/// stops drifting). A mismatch on any report *not* listed here fails
-/// validation outright.
-const KNOWN_STALE_CONFIGURATIONS: [&str; 11] = [
-    "codeql-c-kernel",
-    "codeql-cpp-kernel",
-    "codeql-csharp-kernel",
-    "codeql-go-kernel",
-    "codeql-java-kernel",
-    "codeql-javascript-kernel",
-    "codeql-kotlin-kernel",
-    "codeql-python-kernel",
-    "codeql-ruby-kernel",
-    "codeql-rust-kernel",
-    "codeql-typescript-kernel",
-];
+/// adapter configuration. Each entry downgrades that report's hash mismatch
+/// from an error to a warning so a recorded debt stays visible without
+/// failing every validation run; the pull request that lands a population's
+/// re-run removes its entry (a test fails once an entry stops drifting), and
+/// every entry must cite the issue tracking its owed re-run. A mismatch on any
+/// report *not* listed here fails validation outright. The list is empty since
+/// Amendment A30 re-ran the eleven CodeQL kernel populations that PR #137 had
+/// left drifting (issue #138).
+const KNOWN_STALE_CONFIGURATIONS: [&str; 0] = [];
 
 /// Whether `root` is the repository the current process is standing in.
 /// Configuration-path derivation reuses the same repository-relative path
@@ -10151,11 +10139,19 @@ fn split_codeql_endpoint_probe(sarif: &Value) -> (Value, CodeqlEndpointObservati
             if !codeql_endpoint_probe_result(result) {
                 return true;
             }
+            // CodeQL merges `@kind problem` rows that share a location into
+            // one SARIF result whose message joins the rows' texts with
+            // newlines. A fixture whose sink argument *is* the source call
+            // (`dfb_sink(dfb_source())`) resolves both endpoints to the same
+            // expression, so one result can carry both observations; count
+            // every line, never just the first.
             let message = result["message"]["text"].as_str().unwrap_or_default();
-            if message.contains("source endpoint observed") {
-                observation.sources += 1;
-            } else if message.contains("sink endpoint observed") {
-                observation.sinks += 1;
+            for line in message.lines() {
+                if line.contains("source endpoint observed") {
+                    observation.sources += 1;
+                } else if line.contains("sink endpoint observed") {
+                    observation.sinks += 1;
+                }
             }
             false
         });
@@ -22034,6 +22030,39 @@ mod tests {
         // The retained document is untouched: the probe's rows stay raw
         // evidence on disk.
         assert_eq!(sarif_result_count(&sarif), 4);
+        assert_eq!(unobserved_codeql_endpoint_outcome(observation), None);
+    }
+
+    /// CodeQL merges same-location `@kind problem` rows into one SARIF result
+    /// with a newline-joined message. The direct templates' `dfb_sink(dfb_source())`
+    /// resolves both endpoints to one expression, so the probe's two rows
+    /// arrive as a single result that must count as one source *and* one
+    /// sink — never as a source alone, which would withhold a real finding.
+    #[test]
+    fn a_merged_codeql_endpoint_probe_result_counts_every_observed_role() {
+        let merged = json!({
+            "runs": [{
+                "results": [
+                    {
+                        "ruleId": "dataflowbench/java-propagation-kernel",
+                        "message": {"text": "Controlled input reaches the benchmark sink."}
+                    },
+                    {
+                        "ruleId": "dataflowbench/java-kernel-endpoint-probe",
+                        "message": {"text": "Benchmark source endpoint observed.\nBenchmark sink endpoint observed."}
+                    }
+                ]
+            }]
+        });
+        let (kernel, observation) = split_codeql_endpoint_probe(&merged);
+        assert_eq!(
+            observation,
+            CodeqlEndpointObservation {
+                sources: 1,
+                sinks: 1
+            }
+        );
+        assert_eq!(sarif_result_count(&kernel), 1);
         assert_eq!(unobserved_codeql_endpoint_outcome(observation), None);
     }
 

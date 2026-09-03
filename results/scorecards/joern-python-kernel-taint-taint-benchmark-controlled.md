@@ -4,7 +4,7 @@ Adapter `joern-python-kernel`: `joern` `4.0.614` (build `joern-cli:4.0.614`, ada
 
 Track `taint`, score dimension `taint`, model profile `benchmark-controlled`. This scorecard is a single result population; it is never pooled with other tracks, dimensions, or model profiles.
 
-Normalized report: `reports/joern-python-kernel.json` (`sha256:811b6d11d5f9ecde11d4c1c35bef55efb62799984dce9ecc08a46317fd0ff50a`, normalized `sha256:811b6d11d5f9ecde11d4c1c35bef55efb62799984dce9ecc08a46317fd0ff50a`). Generated from freeze manifest `reports/freeze.json` (`sha256:65638eafb36478120d268290479815114f244baa57994c47e19fac6b759e50ae`).
+Normalized report: `reports/joern-python-kernel.json` (`sha256:811b6d11d5f9ecde11d4c1c35bef55efb62799984dce9ecc08a46317fd0ff50a`, normalized `sha256:811b6d11d5f9ecde11d4c1c35bef55efb62799984dce9ecc08a46317fd0ff50a`). Generated from freeze manifest `reports/freeze.json` (`sha256:e3fbcae1eaf3f49192f7156616c4b2149893a8470e03ff445fcd1d5f984f9e5c`).
 
 ## Language `python`, tier `core`
 

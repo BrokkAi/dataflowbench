@@ -1416,8 +1416,8 @@ than restarting per document: A1 is in
 [the modeling matrix](modeling-matrix.md#amendments), A6–A8 and A10 are in
 [the tool-native profile](native-profile.md#amendments), and A12 is in
 [the latency tier](latency-tier.md#amendments). This document joins it here
-with A11, so that an amendment identifier names exactly one amendment wherever
-it is cited.
+with A11 and A30, so that an amendment identifier names exactly one amendment
+wherever it is cited.
 
 ### A11 — 2026-08-31: OpenTaint's value-kind boundary is a default rule configuration, and primitive tracking is enabled in both kernel templates
 
@@ -1480,3 +1480,100 @@ in both languages — this amendment moves no case between partitions and
 remains partition-inert), the outcome semantics, and the anchored
 reconciliation are all untouched. No published freeze is invalidated: neither
 OpenTaint report is part of a frozen set.
+
+### A30 — 2026-09-03: the eleven CodeQL kernel populations are re-run under the endpoint-observation probe, and a merged probe row is read as every role it carries
+
+**What was published.** PR #137 (fixing #131) gave every CodeQL kernel a
+companion endpoint-observation probe (`<Language>KernelEndpointProbe.ql`,
+evaluated beside the kernel query in one `database analyze` invocation) and
+folded the probe file into each population's configuration-path set, so a
+zero-result SARIF is read as `not-reached` only when the probe observed both
+benchmark-controlled endpoints. It changed normalization semantics and every
+CodeQL kernel's `configuration_hash` without touching committed evidence —
+correctly, and stated in its body — which left the eleven retained CodeQL
+kernel reports (Java, JavaScript, TypeScript, Python, Kotlin, C#, Go, C, C++,
+Rust, Ruby) carrying outcomes that predate the probe. PR #141 made that debt
+visible: `validate-reports` now compares each report's stamped hash against
+the working tree, and the eleven stems sat in `KNOWN_STALE_CONFIGURATIONS`
+under issue #138, each scorecard carrying a generator-emitted staleness
+caveat.
+
+**What this amendment does.** All eleven populations are re-run in full at
+the unchanged fixture revision
+`sha256:9df209ed3d7723a3ee33f2b289cf2afe34a3add781bdf2a2ac445de42b8d0151`
+on the pinned CodeQL CLI 2.26.4 (build
+`6b1e4dee94adb20f90a671f3fc9e04be32eecf65`), through the same traced
+toolchains the retained runs recorded (kotlinc-jvm 2.4.10, go1.26.0), with
+no `--codeql-packs` search path: every pack resolves from the committed locks.
+Each regenerated report now stamps the probe-bearing configuration hash, and
+its retained SARIF carries the probe's rows as raw evidence beside the
+kernel's findings. The eleven `KNOWN_STALE_CONFIGURATIONS` entries are
+deleted, so the list is empty and the drift guard is armed at full strength
+again.
+
+**What the re-run measured false in the probe's reader.** The first Java and
+JavaScript re-runs each turned exactly one case — the direct-propagation
+positive, `recordDirect(directUntrustedInput())` and its JavaScript twin —
+from `reached` to `inconclusive` under the diagnostic *"resolved 1 source
+endpoint(s) and 0 sink endpoint(s)"*, although the retained SARIF shows the
+kernel finding **and** both probe observations. The cause is on the
+benchmark side: CodeQL merges `@kind problem` rows that share a location into
+one SARIF result whose message joins the rows' texts with newlines, and in the
+direct templates the sink argument *is* the source call, so both endpoints
+resolve to the same expression and arrive as one result reading
+`Benchmark source endpoint observed.\nBenchmark sink endpoint observed.` The
+splitter (`split_codeql_endpoint_probe`) counted one role per result and so
+withheld a real finding. It now counts every line of a probe result's message
+(`a_merged_codeql_endpoint_probe_result_counts_every_observed_role`), and
+Java and JavaScript were re-run under the corrected reader rather than
+re-normalized from the retained SARIF, so their reports' timing sidecars and
+environment stamps describe the run that produced them. No fixture, query,
+or probe file changed, so no configuration hash moved on account of this
+correction; the hash change on every population is #137's alone.
+
+**Outcome deltas against the v0.6.1-bound reports.** Six of the eleven populations reproduce every
+committed outcome under the probe — Java (58), JavaScript (58), TypeScript
+(58), Kotlin (58), Go (58), and Rust (56) — so their hash change is the only
+change. Five populations each move exactly one case, and it is the same case
+in all five: the **infeasible-branch negative** (`if (false)` / `if False:`
+guarding the source call) goes from `not-reached` to `inconclusive` for
+Python, C#, C, C++, and Ruby, under the diagnostic *"resolved 0 source
+endpoint(s) and 1 sink endpoint(s)"*. Each of those extractors prunes the
+constant-false branch from the control-flow graph, so the source call never
+exists as a data-flow node and the kernel's clean negative was vacuous in
+precisely the sense the probe was preregistered to catch: the analyzer never
+saw the source, and a reader cannot tell "reasoned infeasible" from "never
+observed" in a zero-result SARIF. The retained SARIF shows the sink observed
+and the source absent in every one of the five. Java, Kotlin, Go, Rust, and
+the two ECMA extractors keep the dead branch as a node and so still observe
+both endpoints; their infeasible-branch negatives stay `not-reached`. Whether
+a constant-branch prune should count as a decided negative for a kernel
+template whose question is infeasibility is a contract question this
+amendment leaves to a later one; the outcome recorded here is what #137's
+preregistered rule yields, and the five cases are excluded from the decisive
+denominators as `inconclusive` rather than credited either way. No case
+moves in the other direction; no `reached` outcome is lost.
+
+**What does not change.** The pin and its witnessed build identity, the
+per-case invocation (one fresh database per case, `--additional-packs` never
+passed), the scored partitions and denominators (58 assertions per expanded
+core, 56 for Rust's with its two language-extension cases outside the
+denominator, 30 for C's classic core), the anchored reconciliation, and the
+modeling matrix — which deliberately runs no probe — are all untouched. The
+Bifrost half of #138 (twenty reports whose `reached` outcomes predate sink-anchor
+reconciliation, invisible to a configuration-file hash) is not addressed here
+and stays owed under its own amendment.
+
+**Templates and languages touched.** Every core kernel template in all eleven
+CodeQL populations; one normalization correction affecting the direct
+template's positive under CodeQL only. No partition moves.
+
+**Freezes invalidated.** v0.6.1 bound all eleven superseded reports and
+their raw evidence by digest. Its manifest and evidence stay available for
+audit at the `v0.6.1` tag and remain the release claim; `reports/freeze.json`
+on the main line moves to a **development-scope** freeze over the same 82
+reports with the eleven regenerated CodeQL reports in place of the
+superseded ones, so `generate-results --check` keeps proving the checked-in
+`results/` against the evidence they cite. No release or website claim is
+made from the development freeze; the next release freeze binds this
+evidence together with the Bifrost re-runs #138 still owes.

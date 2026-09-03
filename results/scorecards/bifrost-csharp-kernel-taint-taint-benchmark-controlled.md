@@ -4,7 +4,7 @@ Adapter `bifrost-csharp-kernel`: `bifrost` `bifrost 0.10.8` (build `419395c8066b
 
 Track `taint`, score dimension `taint`, model profile `benchmark-controlled`. This scorecard is a single result population; it is never pooled with other tracks, dimensions, or model profiles.
 
-Normalized report: `reports/bifrost-csharp-kernel.json` (`sha256:25166701816d4fb5ddf6b1d6fe7767df78b8fa21b64dc2f3ebf76bd98a0967c5`, normalized `sha256:25166701816d4fb5ddf6b1d6fe7767df78b8fa21b64dc2f3ebf76bd98a0967c5`). Generated from freeze manifest `reports/freeze.json` (`sha256:65638eafb36478120d268290479815114f244baa57994c47e19fac6b759e50ae`).
+Normalized report: `reports/bifrost-csharp-kernel.json` (`sha256:25166701816d4fb5ddf6b1d6fe7767df78b8fa21b64dc2f3ebf76bd98a0967c5`, normalized `sha256:25166701816d4fb5ddf6b1d6fe7767df78b8fa21b64dc2f3ebf76bd98a0967c5`). Generated from freeze manifest `reports/freeze.json` (`sha256:e3fbcae1eaf3f49192f7156616c4b2149893a8470e03ff445fcd1d5f984f9e5c`).
 
 ## Language `csharp`, tier `core`
 

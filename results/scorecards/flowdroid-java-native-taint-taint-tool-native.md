@@ -4,7 +4,7 @@ Adapter `flowdroid-java-native`: `flowdroid` `2.15.1` (build `soot-infoflow-cmd-
 
 Track `taint`, score dimension `taint`, model profile `tool-native`. This scorecard is a single result population; it is never pooled with other tracks, dimensions, or model profiles.
 
-Normalized report: `reports/flowdroid-java-native.json` (`sha256:6671f301cdcf1a28f4b5c125d9088b2ca8a056c1eeb4a4a52ca1f28366192f99`, normalized `sha256:6671f301cdcf1a28f4b5c125d9088b2ca8a056c1eeb4a4a52ca1f28366192f99`). Generated from freeze manifest `reports/freeze.json` (`sha256:65638eafb36478120d268290479815114f244baa57994c47e19fac6b759e50ae`).
+Normalized report: `reports/flowdroid-java-native.json` (`sha256:6671f301cdcf1a28f4b5c125d9088b2ca8a056c1eeb4a4a52ca1f28366192f99`, normalized `sha256:6671f301cdcf1a28f4b5c125d9088b2ca8a056c1eeb4a4a52ca1f28366192f99`). Generated from freeze manifest `reports/freeze.json` (`sha256:e3fbcae1eaf3f49192f7156616c4b2149893a8470e03ff445fcd1d5f984f9e5c`).
 
 ## Language `java`, tier `modeling`
 

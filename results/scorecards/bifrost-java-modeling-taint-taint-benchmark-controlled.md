@@ -4,7 +4,7 @@ Adapter `bifrost-java-modeling`: `bifrost` `bifrost 0.10.8` (build `419395c8066b
 
 Track `taint`, score dimension `taint`, model profile `benchmark-controlled`. This scorecard is a single result population; it is never pooled with other tracks, dimensions, or model profiles.
 
-Normalized report: `reports/bifrost-java-modeling.json` (`sha256:89afaf65626a9d486e53bf10c6ad2d87337c0ca31a6d0a4a30491d67417d4c7f`, normalized `sha256:89afaf65626a9d486e53bf10c6ad2d87337c0ca31a6d0a4a30491d67417d4c7f`). Generated from freeze manifest `reports/freeze.json` (`sha256:65638eafb36478120d268290479815114f244baa57994c47e19fac6b759e50ae`).
+Normalized report: `reports/bifrost-java-modeling.json` (`sha256:89afaf65626a9d486e53bf10c6ad2d87337c0ca31a6d0a4a30491d67417d4c7f`, normalized `sha256:89afaf65626a9d486e53bf10c6ad2d87337c0ca31a6d0a4a30491d67417d4c7f`). Generated from freeze manifest `reports/freeze.json` (`sha256:e3fbcae1eaf3f49192f7156616c4b2149893a8470e03ff445fcd1d5f984f9e5c`).
 
 ## Language `java`, tier `modeling`
 

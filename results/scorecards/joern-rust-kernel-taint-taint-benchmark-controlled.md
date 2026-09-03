@@ -4,7 +4,7 @@ Adapter `joern-rust-kernel`: `joern` `4.0.614` (build `joern-cli:4.0.614`, adapt
 
 Track `taint`, score dimension `taint`, model profile `benchmark-controlled`. This scorecard is a single result population; it is never pooled with other tracks, dimensions, or model profiles.
 
-Normalized report: `reports/joern-rust-kernel.json` (`sha256:465269d73a072957b318fdac73768d5e4fb538ff9f3e31c007f88f6c96bcf055`, normalized `sha256:465269d73a072957b318fdac73768d5e4fb538ff9f3e31c007f88f6c96bcf055`). Generated from freeze manifest `reports/freeze.json` (`sha256:65638eafb36478120d268290479815114f244baa57994c47e19fac6b759e50ae`).
+Normalized report: `reports/joern-rust-kernel.json` (`sha256:465269d73a072957b318fdac73768d5e4fb538ff9f3e31c007f88f6c96bcf055`, normalized `sha256:465269d73a072957b318fdac73768d5e4fb538ff9f3e31c007f88f6c96bcf055`). Generated from freeze manifest `reports/freeze.json` (`sha256:e3fbcae1eaf3f49192f7156616c4b2149893a8470e03ff445fcd1d5f984f9e5c`).
 
 ## Language `rust`, tier `core`
 
