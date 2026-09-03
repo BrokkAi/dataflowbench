@@ -454,6 +454,21 @@ const snapshotPage = `/snapshots/${snapshot.slug}`;
   Immutable evaluation · DataFlowBench {snapshot.version}
 </p>
 
+{/* Starlight's "On this page" nav is built from markdown headings and cannot
+    see the h2s this component emits, so the landing page carries its own
+    section strip. The ids it targets are permanent deep-link anchors: chosen
+    once, never renamed. */}
+<nav class="section-nav" aria-label="Sections on this page">
+  <a href="#meaning">What it means</a>
+  <a href="#evolution">Evolution</a>
+  <a href="#modeling-matrix">Modeling matrix</a>
+  <a href="#tool-native-probes">Tool-native probes</a>
+  <a href="#latency">Latency</a>
+  <a href="#kernels">Kernels</a>
+  <a href="#direct-flow">Direct-flow breadth</a>
+  <a href="#trust">Trust</a>
+</nav>
+
 <aside class="short-answer">
   <p class="label">Short answer</p>
   <p class="verdict">
@@ -796,7 +811,7 @@ const snapshotPage = `/snapshots/${snapshot.slug}`;
   }
 </script>
 
-<h2>What this result means</h2>
+<h2 id="meaning">What this result means</h2>
 
 <p>
   DataFlowBench measures whether analyzers correctly decide semantic
@@ -848,7 +863,7 @@ const snapshotPage = `/snapshots/${snapshot.slug}`;
 
 <SnapshotEvolution />
 
-<h2>Modeling matrix — is the model surface load-bearing?</h2>
+<h2 id="modeling-matrix">Modeling matrix — is the model surface load-bearing?</h2>
 
 <p>
   A separate population from the kernels above, on the same
@@ -928,7 +943,7 @@ const snapshotPage = `/snapshots/${snapshot.slug}`;
   <a href={`${snapshotPage}/templates/`}>semantic templates</a> page.
 </p>
 
-<h2>Tool-native probes — what ships and decides on its own</h2>
+<h2 id="tool-native-probes">Tool-native probes — what ships and decides on its own</h2>
 
 <p>
   A third population, under the <code>tool-native</code> model profile: six
@@ -1013,7 +1028,7 @@ const snapshotPage = `/snapshots/${snapshot.slug}`;
   <a href={`${snapshotPage}/evidence/`}>case evidence</a> page.
 </p>
 
-<h2>How long an answer takes — beside the answers, never inside them</h2>
+<h2 id="latency">How long an answer takes — beside the answers, never inside them</h2>
 
 <p>
   A <strong>descriptive characterization</strong> of per-case analyzer
@@ -1031,7 +1046,7 @@ const snapshotPage = `/snapshots/${snapshot.slug}`;
 
 <LatencyRanking kernelViews={false} stamp />
 
-<h2>Kernels at a glance</h2>
+<h2 id="kernels">Kernels at a glance</h2>
 
 <p>
   One bar per analyzer, one panel per kernel. Each bar is that analyzer's own
@@ -1123,7 +1138,7 @@ const snapshotPage = `/snapshots/${snapshot.slug}`;
   <a href={`${snapshotPage}/evidence/`}>case evidence</a> page.
 </p>
 
-<h2>Direct-flow breadth across languages</h2>
+<h2 id="direct-flow">Direct-flow breadth across languages</h2>
 
 <p>
   The breadth baseline is one balanced <code>direct-propagation</code> pair per
@@ -1162,7 +1177,7 @@ const snapshotPage = `/snapshots/${snapshot.slug}`;
   smoke scorecard's <code>direct-propagation</code> rows.
 </p>
 
-<h2>Why these numbers are trustworthy</h2>
+<h2 id="trust">Why these numbers are trustworthy</h2>
 
 <p>
   Every count on this page is generated from the
@@ -1416,6 +1431,35 @@ const snapshotPage = `/snapshots/${snapshot.slug}`;
     letter-spacing: 0.15em;
     text-transform: uppercase;
     color: var(--sl-color-accent-high);
+  }
+  /* The section strip: this page's stand-in for the "On this page" nav its
+     component-emitted headings cannot feed. Pills wrap on narrow screens, so
+     every section stays one tap away on mobile. */
+  .section-nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem 0.5rem;
+    margin-top: 0.75rem;
+  }
+  .section-nav a {
+    font-size: var(--sl-text-xs);
+    line-height: 1;
+    padding: 0.45rem 0.7rem;
+    border: 1px solid var(--sl-color-gray-5);
+    border-radius: 999px;
+    background: var(--sl-color-bg-sidebar);
+    color: var(--sl-color-gray-2);
+    text-decoration: none;
+    white-space: nowrap;
+  }
+  .section-nav a:hover,
+  .section-nav a:focus-visible {
+    border-color: var(--sl-color-accent);
+    color: var(--sl-color-white);
+  }
+  /* Anchor targets land clear of the sticky site header. */
+  h2[id] {
+    scroll-margin-top: calc(var(--sl-nav-height, 4rem) + 1rem);
   }
   .short-answer {
     border: 1px solid var(--sl-color-accent);

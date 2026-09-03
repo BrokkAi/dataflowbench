@@ -84,9 +84,33 @@ const decomposed = model.adapters.filter((a) => a.phases.length > 0);
 const single = model.adapters.filter((a) => a.phases.length === 0);
 const fastest = model.adapters[0]!;
 const slowest = model.adapters.at(-1)!;
+
+/**
+ * The tier's preregistered sections, one component instance per section.
+ *
+ * The section headings live in the snapshot pages' MDX — as markdown `##`
+ * headings carrying the legacy anchor ids (`{#scope}`, `{#environment}`, …) —
+ * so Starlight's "On this page" nav can see them; this component renders only
+ * the bodies. The ids are citable and must never change, which is why the MDX
+ * declares each one explicitly instead of trusting the auto-slugger.
+ */
+interface Props {
+  section:
+    | 'scope'
+    | 'environment'
+    | 'granularity'
+    | 'cross-adapter'
+    | 'phases'
+    | 'warm-marginal'
+    | 'invocation-overhead'
+    | 'slices'
+    | 'untimed'
+    | 'provenance';
+}
+const { section } = Astro.props;
 ---
 
-<h2 id="scope">What these numbers are, and what they are not</h2>
+{section === 'scope' && (<>
 
 <p>
   This is a <strong>descriptive characterization</strong> of per-case analyzer
@@ -131,7 +155,9 @@ const slowest = model.adapters.at(-1)!;
   </li>
 </ul>
 
-<h2 id="environment">Environment stamp</h2>
+</>)}
+
+{section === 'environment' && (<>
 
 <p>
   Recorded once per run beside the tool identity the run witnessed, and shown
@@ -180,7 +206,9 @@ const slowest = model.adapters.at(-1)!;
   </p>
 )}
 
-<h2 id="granularity">The granularity is unequal, and that is the point</h2>
+</>)}
+
+{section === 'granularity' && (<>
 
 <p>
   A phase is timed <strong>if and only if the adapter already invokes it as a
@@ -258,7 +286,9 @@ const slowest = model.adapters.at(-1)!;
   rather than edited out of its table.
 </p>
 
-<h2 id="cross-adapter">Whole-invocation wall-clock, per adapter</h2>
+</>)}
+
+{section === 'cross-adapter' && (<>
 
 <p>
   The only cross-adapter reading this tier supports: each adapter's
@@ -338,7 +368,9 @@ const slowest = model.adapters.at(-1)!;
   is entitled to make, and the strongest one it makes.
 </p>
 
-<h2 id="phases">Phase decomposition, within each adapter that has one</h2>
+</>)}
+
+{section === 'phases' && (<>
 
 <p>
   Only the {decomposed.length} adapters whose declared row has phases appear
@@ -415,7 +447,9 @@ const slowest = model.adapters.at(-1)!;
   phase medians.
 </p>
 
-<h2 id="warm-marginal">Warm marginal cost, measured separately</h2>
+</>)}
+
+{section === 'warm-marginal' && (<>
 
 <p>
   Everything above is <strong>cold per-invocation</strong> wall-clock, and it
@@ -810,7 +844,9 @@ const slowest = model.adapters.at(-1)!;
   read this directory.
 </p>
 
-<h2 id="invocation-overhead">Estimated per-invocation overhead</h2>
+</>)}
+
+{section === 'invocation-overhead' && (<>
 
 <p>
   The warm marginal above answers what one <em>more</em> case costs a process
@@ -1092,7 +1128,9 @@ const slowest = model.adapters.at(-1)!;
   population.
 </p>
 
-<h2 id="slices">Per-slice medians</h2>
+</>)}
+
+{section === 'slices' && (<>
 
 <p>
   The tier's declared unit of aggregation: one row per slice — adapter ×
@@ -1166,7 +1204,9 @@ const slowest = model.adapters.at(-1)!;
   </>
 ))}
 
-<h2 id="untimed">Cases with no latency number</h2>
+</>)}
+
+{section === 'untimed' && (<>
 
 <p>
   Of the bound case results in this freeze, <strong>{model.totalTimed}</strong>
@@ -1204,7 +1244,9 @@ const slowest = model.adapters.at(-1)!;
   untimed columns account for the whole bound population with no remainder.
 </p>
 
-<h2 id="provenance">Provenance and what the freeze does and does not guarantee</h2>
+</>)}
+
+{section === 'provenance' && (<>
 
 <p>
   Every number above was derived at build time from
@@ -1227,6 +1269,7 @@ const slowest = model.adapters.at(-1)!;
   and it is named here rather than smuggled in under a schema version that
   does not describe it.
 </p>
+</>)}
 
 <style>
   .vendor-dot {

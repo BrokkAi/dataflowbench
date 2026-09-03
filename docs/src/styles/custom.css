@@ -221,3 +221,17 @@ details.data-table > .table-scroll {
 details.data-table > .table-scroll > table {
   margin-top: 0.75rem;
 }
+
+/* In-page anchor ergonomics.
+   ----------------------------------------------------------------------
+   The landing page's section strip and the snapshot pages' "On this page"
+   entries jump to mid-page anchors; land them clear of the sticky header,
+   and glide there for readers who have not asked for reduced motion. */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+main [id] {
+  scroll-margin-top: calc(var(--sl-nav-height, 4rem) + 1rem);
+}
