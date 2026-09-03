@@ -72,7 +72,12 @@ endpoint the extracted database resolves.
 
 Normalization splits the probe's rows back out before any finding is
 reconciled, so kernel result sets are unchanged by the probe running
-alongside. A run in which the probe never observed both benchmark-controlled
+alongside. CodeQL merges `@kind problem` rows that share a location into one
+SARIF result whose message joins the rows' texts with newlines — the direct
+templates' `dfb_sink(dfb_source())` resolves both endpoints to the same
+expression — so the splitter counts every line of a probe result's message,
+never only the first (Amendment A30 in `docs/adapters.md` records the
+one-case misread this corrected). A run in which the probe never observed both benchmark-controlled
 endpoints is `inconclusive`, never `not-reached`, on the same terms as the
 Joern kernels' both-endpoints-must-be-observed rule: a kernel fixture contains
 both of its own endpoints by construction, so an unobserved endpoint can only
