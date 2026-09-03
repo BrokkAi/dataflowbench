@@ -6,6 +6,8 @@ Track `taint`, score dimension `taint`, model profile `benchmark-controlled`. Th
 
 Normalized report: `reports/codeql-typescript-kernel.json` (`sha256:49eaacb9cf7e5bdb6e49a4b8527885c2ca94c40bffe6df7d4c70f8e1187d4017`, normalized `sha256:49eaacb9cf7e5bdb6e49a4b8527885c2ca94c40bffe6df7d4c70f8e1187d4017`). Generated from freeze manifest `reports/freeze.json` (`sha256:65638eafb36478120d268290479815114f244baa57994c47e19fac6b759e50ae`).
 
+Caveat: these outcomes predate the current adapter configuration. The frozen report was produced under configuration hash `97949db804086b91f4737ad2e6a8ac5dab461f811a7a033250a00ced32eac54c`, but this population's committed configuration currently hashes to `96fa31103a229e1ddebfc942d36874401ca57a0db54b7419dffae9c3f377f69b`. The numbers stand as frozen evidence for the configuration they were measured under; they do not describe the current configuration until the population is re-run.
+
 ## Language `typescript`, tier `core`
 
 Outcome coverage: `reached` 23, `not-reached` 35, `inconclusive` 0, `unsupported` 0, `runner-error` 0, total 58. `inconclusive`, `unsupported`, and `runner-error` are capability and execution coverage; they are never counted as clean negatives.

@@ -6,6 +6,8 @@ Track `taint`, score dimension `taint`, model profile `benchmark-controlled`. Th
 
 Normalized report: `reports/codeql-javascript-kernel.json` (`sha256:78ad35bbf7886d47461940128a622540ea4de94001406ba2f0431de48c7763c9`, normalized `sha256:78ad35bbf7886d47461940128a622540ea4de94001406ba2f0431de48c7763c9`). Generated from freeze manifest `reports/freeze.json` (`sha256:65638eafb36478120d268290479815114f244baa57994c47e19fac6b759e50ae`).
 
+Caveat: these outcomes predate the current adapter configuration. The frozen report was produced under configuration hash `cb54d749e915208a1fa7fceaa1e5e5302c18960aebf724573040fda66c7a7ba8`, but this population's committed configuration currently hashes to `3bc3626be35333fb01f7b65b43e5bc49493936e1ba273a4c0026b41998105249`. The numbers stand as frozen evidence for the configuration they were measured under; they do not describe the current configuration until the population is re-run.
+
 ## Language `javascript`, tier `core`
 
 Outcome coverage: `reached` 23, `not-reached` 35, `inconclusive` 0, `unsupported` 0, `runner-error` 0, total 58. `inconclusive`, `unsupported`, and `runner-error` are capability and execution coverage; they are never counted as clean negatives.
