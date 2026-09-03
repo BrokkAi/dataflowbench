@@ -6,6 +6,8 @@ Track `taint`, score dimension `taint`, model profile `benchmark-controlled`. Th
 
 Normalized report: `reports/codeql-cpp-kernel.json` (`sha256:f314c4185eae8ef7f33feeee76b7c124cc4aef8684c923197bacb19e5190a9a8`, normalized `sha256:f314c4185eae8ef7f33feeee76b7c124cc4aef8684c923197bacb19e5190a9a8`). Generated from freeze manifest `reports/freeze.json` (`sha256:65638eafb36478120d268290479815114f244baa57994c47e19fac6b759e50ae`).
 
+Caveat: these outcomes predate the current adapter configuration. The frozen report was produced under configuration hash `8873a63a5898c8b6b10dc24a9fbf2fae3ed5a088faf024524b0bae50f0fc4cc0`, but this population's committed configuration currently hashes to `d15fb8b4723629cefdd68301e9b4c7b43dbacacd4973f7e1ad1cfbe11b75686b`. The numbers stand as frozen evidence for the configuration they were measured under; they do not describe the current configuration until the population is re-run.
+
 ## Language `cpp`, tier `core`
 
 Outcome coverage: `reached` 18, `not-reached` 38, `inconclusive` 0, `unsupported` 0, `runner-error` 0, total 56. `inconclusive`, `unsupported`, and `runner-error` are capability and execution coverage; they are never counted as clean negatives.

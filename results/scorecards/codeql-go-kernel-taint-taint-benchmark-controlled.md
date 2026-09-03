@@ -6,6 +6,8 @@ Track `taint`, score dimension `taint`, model profile `benchmark-controlled`. Th
 
 Normalized report: `reports/codeql-go-kernel.json` (`sha256:99dc5a3c7c17b27471028afd359830f8ee7fb51f1875c8fee1981d95826fa33d`, normalized `sha256:99dc5a3c7c17b27471028afd359830f8ee7fb51f1875c8fee1981d95826fa33d`). Generated from freeze manifest `reports/freeze.json` (`sha256:65638eafb36478120d268290479815114f244baa57994c47e19fac6b759e50ae`).
 
+Caveat: these outcomes predate the current adapter configuration. The frozen report was produced under configuration hash `56f44b3d983f7ea1dc2fa77a796ac547b01d12535a124f0c9975d3d0b7989161`, but this population's committed configuration currently hashes to `f7db31096c43ce3ee861fa5ed3bcfac838873466fd080b9f5af62535ef0fb2a1`. The numbers stand as frozen evidence for the configuration they were measured under; they do not describe the current configuration until the population is re-run.
+
 ## Language `go`, tier `core`
 
 Outcome coverage: `reached` 24, `not-reached` 34, `inconclusive` 0, `unsupported` 0, `runner-error` 0, total 58. `inconclusive`, `unsupported`, and `runner-error` are capability and execution coverage; they are never counted as clean negatives.

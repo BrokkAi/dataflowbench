@@ -6,6 +6,8 @@ Track `taint`, score dimension `taint`, model profile `benchmark-controlled`. Th
 
 Normalized report: `reports/codeql-ruby-kernel.json` (`sha256:10fb9cc1a8d2bfdd7405f7828045217cac00be4951d1e22a3c75e35e46eebcab`, normalized `sha256:10fb9cc1a8d2bfdd7405f7828045217cac00be4951d1e22a3c75e35e46eebcab`). Generated from freeze manifest `reports/freeze.json` (`sha256:65638eafb36478120d268290479815114f244baa57994c47e19fac6b759e50ae`).
 
+Caveat: these outcomes predate the current adapter configuration. The frozen report was produced under configuration hash `0292361f24c7b18fa59543de15e5709270a5d717f0e7fa3e61de7a9436fb59f7`, but this population's committed configuration currently hashes to `d94782cd9b11ba4c6ac6e9e8fb49c38dd9a7dbc8c2a2538eb7fe4160f5f21732`. The numbers stand as frozen evidence for the configuration they were measured under; they do not describe the current configuration until the population is re-run.
+
 ## Language `ruby`, tier `core`
 
 Outcome coverage: `reached` 22, `not-reached` 36, `inconclusive` 0, `unsupported` 0, `runner-error` 0, total 58. `inconclusive`, `unsupported`, and `runner-error` are capability and execution coverage; they are never counted as clean negatives.

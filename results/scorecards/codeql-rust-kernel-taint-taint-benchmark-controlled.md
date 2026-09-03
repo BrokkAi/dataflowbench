@@ -6,6 +6,8 @@ Track `taint`, score dimension `taint`, model profile `benchmark-controlled`. Th
 
 Normalized report: `reports/codeql-rust-kernel.json` (`sha256:b98733c392bcbca66953bb6fa779232676174c4e07c5fdaadaf3bcd94173082f`, normalized `sha256:b98733c392bcbca66953bb6fa779232676174c4e07c5fdaadaf3bcd94173082f`). Generated from freeze manifest `reports/freeze.json` (`sha256:65638eafb36478120d268290479815114f244baa57994c47e19fac6b759e50ae`).
 
+Caveat: these outcomes predate the current adapter configuration. The frozen report was produced under configuration hash `cc2c728b66e0c273545e3531a672c0987473f3830f5df80b0839f5d04c33600b`, but this population's committed configuration currently hashes to `9416cc90fab7a0f6200bb8063304db65de24b7fd96185d237bb0f34d4c049502`. The numbers stand as frozen evidence for the configuration they were measured under; they do not describe the current configuration until the population is re-run.
+
 ## Language `rust`, tier `core`
 
 Outcome coverage: `reached` 21, `not-reached` 33, `inconclusive` 0, `unsupported` 0, `runner-error` 0, total 54. `inconclusive`, `unsupported`, and `runner-error` are capability and execution coverage; they are never counted as clean negatives.

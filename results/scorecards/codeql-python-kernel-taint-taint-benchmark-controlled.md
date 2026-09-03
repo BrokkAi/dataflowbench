@@ -6,6 +6,8 @@ Track `taint`, score dimension `taint`, model profile `benchmark-controlled`. Th
 
 Normalized report: `reports/codeql-python-kernel.json` (`sha256:cd304f94b4d9af5050a8228ff96c4b530fadef1af294b7e59a2855c47b6bab6c`, normalized `sha256:cd304f94b4d9af5050a8228ff96c4b530fadef1af294b7e59a2855c47b6bab6c`). Generated from freeze manifest `reports/freeze.json` (`sha256:65638eafb36478120d268290479815114f244baa57994c47e19fac6b759e50ae`).
 
+Caveat: these outcomes predate the current adapter configuration. The frozen report was produced under configuration hash `f97f0198f19f2d1d8630b48ff5d30d947e9f83b940de38af425076cf73e82230`, but this population's committed configuration currently hashes to `f46d3b90f4b2098026f6c82b57a630e6fc047b743fb30eb8df43c2c33d8f353e`. The numbers stand as frozen evidence for the configuration they were measured under; they do not describe the current configuration until the population is re-run.
+
 ## Language `python`, tier `core`
 
 Outcome coverage: `reached` 23, `not-reached` 35, `inconclusive` 0, `unsupported` 0, `runner-error` 0, total 58. `inconclusive`, `unsupported`, and `runner-error` are capability and execution coverage; they are never counted as clean negatives.

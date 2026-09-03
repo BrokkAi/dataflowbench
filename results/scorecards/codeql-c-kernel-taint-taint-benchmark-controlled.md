@@ -6,6 +6,8 @@ Track `taint`, score dimension `taint`, model profile `benchmark-controlled`. Th
 
 Normalized report: `reports/codeql-c-kernel.json` (`sha256:0bbf4766f6a5fe4a60cbc1fdf6667b942a01456df9c0828485db8d43b201fd4d`, normalized `sha256:0bbf4766f6a5fe4a60cbc1fdf6667b942a01456df9c0828485db8d43b201fd4d`). Generated from freeze manifest `reports/freeze.json` (`sha256:65638eafb36478120d268290479815114f244baa57994c47e19fac6b759e50ae`).
 
+Caveat: these outcomes predate the current adapter configuration. The frozen report was produced under configuration hash `719415b9134dfd43390ffdb76eef45f7ed022f907f22913226c22f93277b62f8`, but this population's committed configuration currently hashes to `e1262d0ea438d0336325c8dc3e7a11ed656c44085442d916cee0d264871d5355`. The numbers stand as frozen evidence for the configuration they were measured under; they do not describe the current configuration until the population is re-run.
+
 ## Language `c`, tier `core`
 
 Outcome coverage: `reached` 23, `not-reached` 25, `inconclusive` 0, `unsupported` 0, `runner-error` 0, total 48. `inconclusive`, `unsupported`, and `runner-error` are capability and execution coverage; they are never counted as clean negatives.

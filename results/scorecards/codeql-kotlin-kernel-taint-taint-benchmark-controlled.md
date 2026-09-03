@@ -6,6 +6,8 @@ Track `taint`, score dimension `taint`, model profile `benchmark-controlled`. Th
 
 Normalized report: `reports/codeql-kotlin-kernel.json` (`sha256:ee7720f6d318834d2f01ecbdeab946cd5ae089cb70a1ffb3f39207259d442fa7`, normalized `sha256:ee7720f6d318834d2f01ecbdeab946cd5ae089cb70a1ffb3f39207259d442fa7`). Generated from freeze manifest `reports/freeze.json` (`sha256:65638eafb36478120d268290479815114f244baa57994c47e19fac6b759e50ae`).
 
+Caveat: these outcomes predate the current adapter configuration. The frozen report was produced under configuration hash `25b92ad6190d65fd76c67da51c3ec0d638cea7699e976941c027a48700b9096e`, but this population's committed configuration currently hashes to `ae1b49c9ab25d720a1f71d19ae1c6164cff9738e89cb284be0dbdbc9265ccc68`. The numbers stand as frozen evidence for the configuration they were measured under; they do not describe the current configuration until the population is re-run.
+
 ## Language `kotlin`, tier `core`
 
 Outcome coverage: `reached` 25, `not-reached` 33, `inconclusive` 0, `unsupported` 0, `runner-error` 0, total 58. `inconclusive`, `unsupported`, and `runner-error` are capability and execution coverage; they are never counted as clean negatives.

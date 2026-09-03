@@ -6,6 +6,8 @@ Track `taint`, score dimension `taint`, model profile `benchmark-controlled`. Th
 
 Normalized report: `reports/codeql-java-kernel.json` (`sha256:50418965ee291047161e4fe06d5c765f2f0fad492d6288c585be047276677ddc`, normalized `sha256:50418965ee291047161e4fe06d5c765f2f0fad492d6288c585be047276677ddc`). Generated from freeze manifest `reports/freeze.json` (`sha256:65638eafb36478120d268290479815114f244baa57994c47e19fac6b759e50ae`).
 
+Caveat: these outcomes predate the current adapter configuration. The frozen report was produced under configuration hash `eedf28b140e6aaf2c27cac6369ee552803cbc7b7674abd70583e3e962e1ef8b6`, but this population's committed configuration currently hashes to `2c0ca1f64427b38325baaf87a897fdc543ddd1e09346999c3be6f13e7e22226b`. The numbers stand as frozen evidence for the configuration they were measured under; they do not describe the current configuration until the population is re-run.
+
 ## Language `java`, tier `core`
 
 Outcome coverage: `reached` 29, `not-reached` 29, `inconclusive` 0, `unsupported` 0, `runner-error` 0, total 58. `inconclusive`, `unsupported`, and `runner-error` are capability and execution coverage; they are never counted as clean negatives.
