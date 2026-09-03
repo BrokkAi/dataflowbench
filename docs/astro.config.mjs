@@ -3,6 +3,7 @@ import { readdirSync } from 'node:fs';
 import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
 import { snapshots } from './src/data/snapshots';
+import { remarkHeadingIds } from './src/plugins/remark-heading-ids.mjs';
 
 // ---------------------------------------------------------------------------
 // Snapshot navigation.
@@ -59,6 +60,11 @@ const previousLabel = previousSnapshot
 // Production deployment target for GitHub Pages.
 export default defineConfig({
   site: 'https://dataflowbench.brokk.ai',
+  markdown: {
+    // `## Heading {#legacy-id}` — explicit anchors for headings whose ids are
+    // citable and must not follow the auto-slugger. See the plugin's comment.
+    remarkPlugins: [remarkHeadingIds],
+  },
   redirects: {
     // Explicit current-snapshot pointer alongside versioned snapshot URLs.
     '/current': `/snapshots/${currentSnapshot.slug}/`,
