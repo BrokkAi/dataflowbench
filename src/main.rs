@@ -4634,27 +4634,15 @@ fn validate_reports_in(root: &Path, own_report: Option<&Path>) -> Result<()> {
 }
 
 /// Populations whose committed outcomes are known to predate the current
-/// adapter configuration: PR #137 folded the endpoint-observation probes into
-/// every CodeQL kernel's configuration-path set without touching the committed
-/// evidence. Each entry downgrades that report's hash mismatch from an error
-/// to a warning so the debt stays visible without failing every validation
-/// run; the owed re-runs are tracked by issue #138, and the pull request that
-/// lands a population's re-run removes its entry (a test fails once an entry
-/// stops drifting). A mismatch on any report *not* listed here fails
-/// validation outright.
-const KNOWN_STALE_CONFIGURATIONS: [&str; 11] = [
-    "codeql-c-kernel",
-    "codeql-cpp-kernel",
-    "codeql-csharp-kernel",
-    "codeql-go-kernel",
-    "codeql-java-kernel",
-    "codeql-javascript-kernel",
-    "codeql-kotlin-kernel",
-    "codeql-python-kernel",
-    "codeql-ruby-kernel",
-    "codeql-rust-kernel",
-    "codeql-typescript-kernel",
-];
+/// adapter configuration. Each entry downgrades that report's hash mismatch
+/// from an error to a warning so a recorded debt stays visible without
+/// failing every validation run; the pull request that lands a population's
+/// re-run removes its entry (a test fails once an entry stops drifting), and
+/// every entry must cite the issue tracking its owed re-run. A mismatch on any
+/// report *not* listed here fails validation outright. The list is empty since
+/// Amendment A30 re-ran the eleven CodeQL kernel populations that PR #137 had
+/// left drifting (issue #138).
+const KNOWN_STALE_CONFIGURATIONS: [&str; 0] = [];
 
 /// Whether `root` is the repository the current process is standing in.
 /// Configuration-path derivation reuses the same repository-relative path
