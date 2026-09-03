@@ -20,8 +20,8 @@ contract](../../docs/php-kernel.md).
 
 | Item | Value |
 | --- | --- |
-| Version | `4.0.610` (the version the console banner reports) |
-| Build identity | `joern-cli:4.0.610` |
+| Version | `4.0.614` (the version the console banner reports) |
+| Build identity | `joern-cli:4.0.614` |
 | Installation | `joern-cli/joern` from the released `joern-cli` distribution |
 | Query script | `adapters/joern/queries/kernel.sc` |
 | Configuration hash | `ab10e81860305e492a930e2c2691873b23be25e97e5b354ca785058e09a20025` |
@@ -35,7 +35,9 @@ distribution can live anywhere; the pin recorded here is the *version*, and
 every retained Joern report carries it as `tool_version`. The pin moved from
 `4.0.432` to `4.0.610` to pick up `rust2cpg`, which does not exist in the older
 release. All six kernels — not only Rust — were re-run on `4.0.610`, so every
-retained Joern report cites one tool version and one configuration hash.
+retained Joern report cites one tool version and one configuration hash. The
+pin then moved to `4.0.614` at the v0.6.0 freeze-prep pin-currency review
+(`docs/adapters.md`), and every committed Joern report witnesses `4.0.614`.
 
 ## Invocation
 
