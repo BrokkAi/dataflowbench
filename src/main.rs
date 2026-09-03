@@ -9067,6 +9067,12 @@ fn sarif_result_anchor_match(
 /// Does a path reported by a tool denote the case's fixture file? SARIF reports
 /// a URI and Joern reports a CPG filename; both are matched the same way,
 /// against absolute, workspace-relative, and bare-filename spellings.
+///
+/// The final bare-basename fallback means a finding in a same-named file in
+/// another directory can satisfy the anchor. This is near-inert while every
+/// fixture is a single file in its own case workspace, but must be revisited
+/// (e.g. with a stricter suffix match) if fixtures ever span multiple
+/// directories.
 fn evidence_path_matches_file(uri: &str, file: &str) -> bool {
     let uri = uri.replace('\\', "/");
     let uri = uri.split(['?', '#']).next().unwrap_or(&uri);

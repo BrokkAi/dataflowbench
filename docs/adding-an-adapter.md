@@ -125,7 +125,8 @@ Every run leaves a complete audit trail under `reports/`:
   `reports/raw/<slice>/`: the tool's own SARIF, JSON, or XML verbatim, or
   a runner-error document carrying the failure, or a capability-decision
   document for a preregistered `unsupported` case. This is what
-  `validate-reports` and the freeze digest.
+  `validate-reports` reconciles against the normalized report and what the
+  freeze digest covers.
 - **Timing sidecar** — `reports/raw/<slice>/<case-id>-timing.json` per
   timed case, written by `write_case_phase_timings`, with phase labels
   stating the boundary the adapter genuinely observes (see
@@ -175,7 +176,9 @@ enumerable. Imitate Pysa (the newest family) throughout:
 6. **Tests.** In the `src/main.rs` test module, the new adapter adds at
    minimum: a population-scoping test
    (`<tool>_kernel_is_language_scoped_and_resolvable`), an identity-pin
-   test (`<tool>_identity_is_witnessed_against_the_pin`), an
+   test (`<tool>_identity_is_witnessed_against_the_pin` — Pysa's is
+   `pysa_identity_is_witnessed_against_the_pins`, plural, because it
+   witnesses two pinned tools), an
    evidence/anchor-reconciliation test, a report-path-disjointness test,
    and an anti-vacuous-negative test
    (`<tool>_runner_failures_never_become_clean_negatives`). Pysa's and
