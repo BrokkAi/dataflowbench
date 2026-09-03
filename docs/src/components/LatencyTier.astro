@@ -7,13 +7,14 @@
 //
 //   * descriptive only — medians, quartiles, minima and maxima, no score;
 //   * never a column inside a correctness table, and never pooled with one;
-//   * phases compare *within* an adapter, whole invocations *across* them,
+//   * phases compare *within* an adapter, analyzer invocations *across* them,
 //     and the granularity asymmetry is stated on the page rather than hidden
 //     by summing a decomposed adapter into a single number and pretending
 //     every row is the same kind of quantity;
 //   * the environment stamp is displayed verbatim and travels with the
 //     numbers, because they are not comparable across machines.
 import { latencyModel, formatMs } from '../data/latency';
+import { auxiliaryLatencyEvidence } from '../data/latency-auxiliary';
 import { warmLatency } from '../data/warm-latency';
 import {
   invocationOverhead,
@@ -21,15 +22,20 @@ import {
   SIGNIFICANCE_SHARE,
 } from '../data/invocation-overhead';
 import {
+  currentSnapshot,
+  snapshotByVersion,
   vendorColorClass,
   vendorName,
   toolVersionLabel,
 } from '../data/snapshots';
 import LatencyRanking from './LatencyRanking.astro';
 
-const model = latencyModel();
-const warm = warmLatency();
-const overhead = invocationOverhead();
+const { section, snapshotVersion = currentSnapshot.version } = Astro.props;
+const snapshot = snapshotByVersion(snapshotVersion);
+const model = latencyModel(snapshot);
+const auxiliaryEvidence = auxiliaryLatencyEvidence(snapshot);
+const warm = warmLatency(snapshot);
+const overhead = invocationOverhead(snapshot);
 const overheadLanguages = fixtureLanguages();
 /** Joern's three-way comparison, when all three figures exist. */
 const joernEstimateJava = overhead.estimates.find(
@@ -95,6 +101,7 @@ const slowest = model.adapters.at(-1)!;
  * declares each one explicitly instead of trusting the auto-slugger.
  */
 interface Props {
+  snapshotVersion?: string;
   section:
     | 'scope'
     | 'environment'
@@ -107,7 +114,6 @@ interface Props {
     | 'untimed'
     | 'provenance';
 }
-const { section } = Astro.props;
 ---
 
 {section === 'scope' && (<>
@@ -196,7 +202,7 @@ const { section } = Astro.props;
 
 {model.environments.length === 1 && (
   <p class="caption">
-    One row: every timed invocation in this freeze ran in the same stamped
+    One row: every timed invocation in this bound latency corpus ran in the same stamped
     environment, so no number on this page is a cross-environment comparison.
     Were there two rows, this page would say so in the table rather than
     averaging across them. The count is of run directories that contain at
@@ -223,8 +229,8 @@ const { section } = Astro.props;
 
 <p>
   So the table states each adapter's declared granularity as data.
-  <strong>Phases compare within an adapter; whole invocations compare across
-  adapters.</strong> A CodeQL <code>database-create</code> number and a Joern
+  <strong>Phases compare within an adapter; analyzer-invocation totals compare
+  across adapters.</strong> A CodeQL <code>database-create</code> number and a Joern
   total are not the same kind of quantity, and nothing on this page sets them
   side by side as though they were.
 </p>
@@ -235,7 +241,7 @@ const { section } = Astro.props;
       <tr>
         <th>Adapter</th>
         <th>Version</th>
-        <th>Subprocesses per case</th>
+        <th>Observed subprocesses per case</th>
         <th>Phases timed</th>
         <th>Timed invocations</th>
       </tr>
@@ -292,8 +298,11 @@ const { section } = Astro.props;
 
 <p>
   The only cross-adapter reading this tier supports: each adapter's
-  whole-invocation wall-clock, over every case in this freeze it actually
-  invoked. Per-case timing at this granularity includes per-invocation fixed
+  cold per-case analyzer-invocation wall-clock, over every case in this
+  snapshot's explicitly bound latency population that it actually invoked.
+  Adapter-observable setup phases remain visible below, but only phases the
+  contract classifies as analyzer work enter this total. Per-case timing at
+  this granularity includes per-invocation fixed
   costs — JVM start-up, extractor initialization, interpreter start — that a
   long-lived deployment of the same engine would amortize. This tier does not
   correct for that; it characterizes what the benchmark actually runs.
@@ -313,11 +322,11 @@ const { section } = Astro.props;
   deliberately leave out.
 </p>
 
-<LatencyRanking />
+<LatencyRanking snapshotVersion={snapshotVersion} />
 
 <details class="data-table">
   <summary>
-    Show the data table — whole-invocation wall-clock per adapter, with minima
+    Show the data table — analyzer-invocation wall-clock per adapter, with minima
     and maxima
   </summary>
   <div class="table-scroll">
@@ -358,7 +367,7 @@ const { section } = Astro.props;
 <p class="caption">
   No mean is headlined anywhere on this page. The distributions are skewed by
   per-invocation fixed costs and by a small number of very long tails — the
-  slowest single invocation in this freeze is{' '}
+  slowest single invocation in this bound latency corpus is{' '}
   {formatMs(Math.max(...model.adapters.map((a) => a.whole.max)))}, against a
   page-wide fastest median of {formatMs(fastest.whole.median)} — and a mean
   over that shape would describe neither the typical case nor the tail.
@@ -393,7 +402,7 @@ const { section } = Astro.props;
       <summary>
         {`Show the data table — ${vendorName(adapter.tool)}'s ${
           adapter.phases.length
-        } phases against its whole invocation`}
+        } observable phases against its analyzer total`}
       </summary>
       <div class="table-scroll">
         <table>
@@ -405,25 +414,31 @@ const { section } = Astro.props;
               <th>Q3</th>
               <th>Min</th>
               <th>Max</th>
-              <th>Share of the median invocation</th>
+              <th>Share of the median analyzer total</th>
             </tr>
           </thead>
           <tbody>
             {adapter.phases.map((phase) => (
               <tr>
-                <td><code>{phase.phase}</code></td>
+                <td>
+                  <code>{phase.phase}</code>{!phase.includedInAnalyzerTotal && (
+                    <span class="muted"> — materialization</span>
+                  )}
+                </td>
                 <td><strong>{formatMs(phase.median)}</strong></td>
                 <td>{formatMs(phase.q1)}</td>
                 <td>{formatMs(phase.q3)}</td>
                 <td>{formatMs(phase.min)}</td>
                 <td>{formatMs(phase.max)}</td>
                 <td class="muted">
-                  {`${Math.round((phase.median / adapter.whole.median) * 100)}%`}
+                  {phase.includedInAnalyzerTotal
+                    ? `${Math.round((phase.median / adapter.whole.median) * 100)}%`
+                    : 'excluded by contract'}
                 </td>
               </tr>
             ))}
             <tr>
-              <td><strong>whole invocation</strong></td>
+              <td><strong>analyzer total</strong></td>
               <td><strong>{formatMs(adapter.whole.median)}</strong></td>
               <td>{formatMs(adapter.whole.q1)}</td>
               <td>{formatMs(adapter.whole.q3)}</td>
@@ -439,12 +454,14 @@ const { section } = Astro.props;
 ))}
 
 <p class="caption">
-  The share column is each phase's median against the whole invocation's
-  median, and the shares need not sum to 100%: a median is not additive, and
+  For analyzer phases, the share column is the phase median against the
+  analyzer-total median, and the shares need not sum to 100%: a median is not
+  additive, and
   the phase whose median is largest is not necessarily the phase that
-  dominated any particular case. The whole-invocation row is the distribution
-  of per-case sums, computed per case and then summarized — not the sum of the
-  phase medians.
+  dominated any particular case. Materialization phases are labelled and
+  excluded rather than made to look comparable. The analyzer-total row is the
+  distribution of per-case contract-selected phase sums, computed per case
+  and then summarized — not the sum of the phase medians.
 </p>
 
 </>)}
@@ -837,7 +854,8 @@ const { section } = Astro.props;
   series, the environment stamp, and the per-case evidence each batch produced,
   so that a reader can check the batch did the real work rather than less of
   it — but <code>freeze/v1</code> does not digest them, and this amendment does
-  not extend it to. A warm number carries the release commit's immutability for
+  not extend it to. A warm number carries the pinned amendment commit
+  <code>{auxiliaryEvidence.evidence_ref.slice(0, 12)}…</code>'s immutability for
   its bytes and no stronger guarantee, exactly as the cold timing sidecars do.
   No warm run wrote a normalized report, produced an outcome, or touched a
   scored population; <code>validate-reports</code> and the freeze manifest never
@@ -1122,10 +1140,10 @@ const { section } = Astro.props;
   trivial fixture itself with its digest, the resolved configuration where the
   adapter's is per-case, the published range, and the environment stamp.
   <code>freeze/v1</code> does not digest them, exactly as it does not digest the
-  warm artifacts or the cold timing sidecars, so an estimate carries the release
-  commit's immutability for its bytes and no stronger guarantee. No estimator
-  run wrote a normalized report, produced an outcome, or touched a scored
-  population.
+  warm artifacts or the cold timing sidecars, so an estimate carries the pinned
+  amendment commit <code>{auxiliaryEvidence.evidence_ref.slice(0, 12)}…</code>'s
+  immutability for its bytes and no stronger guarantee. No estimator run wrote a
+  normalized report, produced an outcome, or touched a scored population.
 </p>
 
 </>)}
@@ -1209,7 +1227,7 @@ const { section } = Astro.props;
 {section === 'untimed' && (<>
 
 <p>
-  Of the bound case results in this freeze, <strong>{model.totalTimed}</strong>
+  Of the case results in this bound latency corpus, <strong>{model.totalTimed}</strong>
   invoked an analyzer and carry a timing sidecar.{' '}
   <strong>{model.totalUntimed}</strong> do not, and every one of them is
   accounted for:
@@ -1249,12 +1267,17 @@ const { section } = Astro.props;
 {section === 'provenance' && (<>
 
 <p>
-  Every number above was derived at build time from
-  <code>{model.release}</code>'s own retained artifacts. The publication gate
-  is the freeze manifest
-  (<code>{model.manifestSha256.slice(0, 12)}…</code>): a timing sidecar is read
-  only when the manifest binds that report and that case, so a sidecar left in
-  the tree by a run the freeze does not bind cannot reach a number here.
+  Every cold number above was derived at build time from
+  <code>{model.release}</code>'s archived latency-evidence bundle. The bundle
+  was generated from that release commit's retained timing sidecars, and its
+  population comes from the results model generated by freeze manifest
+  <code>{model.manifestSha256.slice(0, 12)}…</code>. Snapshot pages select this
+  bundle explicitly: advancing the current correctness freeze cannot add a
+  case, replace a timing, or relabel an analyzer on a historical page.
+  The warm and invocation-overhead amendments are likewise read from a
+  checked-in auxiliary bundle pinned to commit
+  <code>{auxiliaryEvidence.evidence_ref}</code>; they never read the mutable
+  working-tree artifact directories.
 </p>
 
 <p>
@@ -1263,8 +1286,9 @@ const { section } = Astro.props;
   timing sidecar and the environment stamp are <strong>additive files beside
   that evidence and are not themselves digested by the manifest</strong>. So a
   number on this page carries the freeze's guarantee that the run it belongs
-  to is bound and byte-verified, and the release commit's own immutability for
-  the timing bytes. It does not carry a manifest digest over those bytes.
+  to is bound and byte-verified, and the release commit plus the checked-in
+  archive's own Git history preserve the timing bytes selected for rendering.
+  It does not carry a freeze-manifest digest over those timing bytes.
   Extending the manifest to bind them is a <code>freeze/v2</code> question,
   and it is named here rather than smuggled in under a schema version that
   does not describe it.

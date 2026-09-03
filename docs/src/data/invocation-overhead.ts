@@ -29,15 +29,9 @@
 //     threshold, applied to the range's LOWER bound so that no mark can appear
 //     on the strength of a noisy high repeat, and computed against exactly the
 //     cold median the chart itself draws for that adapter on that kernel.
-import fs from 'node:fs';
-import path from 'node:path';
-import { fileURLToPath } from 'node:url';
 import { latencyModel, latencyRanking } from './latency';
-
-const repoRoot = path.resolve(
-  path.dirname(fileURLToPath(import.meta.url)),
-  '../../..',
-);
+import { auxiliaryLatencyEvidence } from './latency-auxiliary';
+import { currentSnapshot, type Snapshot } from './snapshots';
 
 /** Where the runner retains overhead artifacts. Outside every slice. */
 const OVERHEAD_ROOT = 'reports/raw/invocation-overhead';
@@ -45,7 +39,7 @@ const OVERHEAD_ROOT = 'reports/raw/invocation-overhead';
 /**
  * A24's significance threshold for a chart mark: an estimate is drawn only
  * when the **low end** of its range is at least this share of that adapter's
- * cold whole-invocation median in the fixture's own language.
+ * cold analyzer-invocation median in the fixture's own language.
  *
  * Relative rather than absolute because the chart's axis is logarithmic and
  * its rows span two orders of magnitude: a share of the row's own median is
@@ -76,7 +70,7 @@ export interface OverheadEstimate {
   highMs: number;
   /** The range's width, which is the measurement's precision. */
   widthMs: number;
-  /** Cold whole-invocation median for this adapter on this kernel. */
+  /** Cold analyzer-invocation median for this adapter on this kernel. */
   coldMedianMs: number | null;
   /** The range's low end as a share of that cold median, when both exist. */
   shareOfCold: number | null;
@@ -137,52 +131,75 @@ const ADDITIONAL: { tool: string; language: string; why: string }[] = [
   },
 ];
 
-export function fixtureLanguages(): { tool: string; language: string; why: string }[] {
+export function fixtureLanguages(): {
+  tool: string;
+  language: string;
+  why: string;
+}[] {
   return [...FIXTURE_LANGUAGE, ...ADDITIONAL];
 }
 
-function readJson(absolute: string): any {
-  return JSON.parse(fs.readFileSync(absolute, 'utf8'));
-}
-
 /**
- * The cold comparator: exactly the whole-invocation median the ranked chart
+ * The cold comparator: exactly the analyzer-invocation median the ranked chart
  * itself draws for this adapter on this kernel, so the threshold is a share of
  * the number the reader is looking at rather than of a differently-scoped one.
  */
-let coldByKernel: Map<string, number> | null = null;
-function coldMedianFor(tool: string, language: string): number | null {
+const coldByRelease = new Map<string, Map<string, number>>();
+function coldMedianFor(
+  snapshot: Snapshot,
+  tool: string,
+  language: string,
+): number | null {
+  const release = snapshot.latencyEvidenceRelease;
+  if (!release) throw new Error(`${snapshot.version} has no latency corpus`);
+  let coldByKernel = coldByRelease.get(release);
   if (!coldByKernel) {
-    coldByKernel = new Map();
-    for (const view of latencyRanking(latencyModel()).views) {
+    coldByKernel = new Map<string, number>();
+    for (const view of latencyRanking(latencyModel(snapshot)).views) {
       if (view.id === 'all') continue;
       for (const entry of view.entries) {
         coldByKernel.set(`${entry.tool}/${view.id}`, entry.whole.median);
       }
     }
+    coldByRelease.set(release, coldByKernel);
   }
   return coldByKernel.get(`${tool}/${language}`) ?? null;
 }
 
-let cache: {
-  estimates: OverheadEstimate[];
-  declines: OverheadDecline[];
-} | null = null;
+const cache = new Map<
+  string,
+  {
+    estimates: OverheadEstimate[];
+    declines: OverheadDecline[];
+  }
+>();
 
-export function invocationOverhead(): {
+export function invocationOverhead(snapshot: Snapshot = currentSnapshot): {
   estimates: OverheadEstimate[];
   declines: OverheadDecline[];
 } {
-  if (cache) return cache;
-  const root = path.join(repoRoot, OVERHEAD_ROOT);
+  const release = snapshot.latencyEvidenceRelease;
+  if (!release) throw new Error(`${snapshot.version} has no latency corpus`);
+  const cached = cache.get(release);
+  if (cached) return cached;
+  const { artifacts } = auxiliaryLatencyEvidence(snapshot);
   const estimates: OverheadEstimate[] = [];
   const declines: OverheadDecline[] = [];
 
-  if (fs.existsSync(root)) {
-    for (const entry of fs.readdirSync(root).sort()) {
-      const document = path.join(root, entry, 'invocation-overhead.json');
-      if (!fs.existsSync(document)) continue;
-      const raw = readJson(document);
+  const documents = Object.keys(artifacts)
+    .filter(
+      (name) =>
+        name.startsWith(`${OVERHEAD_ROOT}/`) &&
+        name.endsWith('/invocation-overhead.json'),
+    )
+    .sort();
+  if (documents.length > 0) {
+    for (const document of documents) {
+      const entry = document.slice(
+        OVERHEAD_ROOT.length + 1,
+        -'/invocation-overhead.json'.length,
+      );
+      const raw = artifacts[document];
       const repeats: OverheadRepeat[] = raw.runs.map((run: any) => {
         const phases = run.phases.map((phase: any) => ({
           phase: phase.phase,
@@ -230,9 +247,9 @@ export function invocationOverhead(): {
         }
       }
 
-      const stamp = path.join(root, entry, 'run-environment.json');
-      const environment = fs.existsSync(stamp) ? readJson(stamp) : null;
-      const coldMedianMs = coldMedianFor(raw.adapter, raw.language);
+      const stamp = `${OVERHEAD_ROOT}/${entry}/run-environment.json`;
+      const environment = artifacts[stamp] ?? null;
+      const coldMedianMs = coldMedianFor(snapshot, raw.adapter, raw.language);
       // The threshold reads the range's LOW end, so a mark can never appear on
       // the strength of one slow repeat.
       const shareOfCold =
@@ -284,8 +301,9 @@ export function invocationOverhead(): {
       left.tool.localeCompare(right.tool) ||
       left.language.localeCompare(right.language),
   );
-  cache = { estimates, declines };
-  return cache;
+  const result = { estimates, declines };
+  cache.set(release, result);
+  return result;
 }
 
 export interface OverheadMark {
@@ -303,9 +321,11 @@ export interface OverheadMark {
  * every value either way, and the caption says so, because a mark that means
  * "a mark was drawn" is clutter rather than information.
  */
-export function overheadMarks(): Map<string, OverheadMark> {
+export function overheadMarks(
+  snapshot: Snapshot = currentSnapshot,
+): Map<string, OverheadMark> {
   const marks = new Map<string, OverheadMark>();
-  for (const estimate of invocationOverhead().estimates) {
+  for (const estimate of invocationOverhead(snapshot).estimates) {
     if (!estimate.significant) continue;
     marks.set(`${estimate.tool}/${estimate.language}`, {
       lowMs: estimate.lowMs,
@@ -327,8 +347,9 @@ export function overheadMarks(): Map<string, OverheadMark> {
 export function overheadMarkFor(
   viewId: string,
   tool: string,
+  snapshot: Snapshot = currentSnapshot,
 ): OverheadMark | null {
-  const marks = overheadMarks();
+  const marks = overheadMarks(snapshot);
   if (viewId !== 'all') return marks.get(`${tool}/${viewId}`) ?? null;
   const cheapest = FIXTURE_LANGUAGE.find((entry) => entry.tool === tool);
   if (!cheapest) return null;

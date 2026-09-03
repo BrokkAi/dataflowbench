@@ -9,6 +9,7 @@ import v040Results from './archive/v0-4-0-results.json';
 import v030Results from './archive/v0-3-0-results.json';
 import v020Results from './archive/v0-2-0-results.json';
 import v010Results from './archive/v0-1-0-results.json';
+import { latencyEvidenceRelease } from './latency-sources';
 
 export interface RateFraction {
   numerator: number;
@@ -123,6 +124,8 @@ export interface Snapshot {
   slug: string;
   /** Git ref whose tree contains the manifest and retained evidence. */
   evidenceRef: string;
+  /** Release whose immutable latency corpus this snapshot renders. */
+  latencyEvidenceRelease?: string;
   current: boolean;
   results: ResultsModel;
 }
@@ -134,6 +137,9 @@ export const snapshots: Snapshot[] = [
     version: 'v0.6.1',
     slug: 'v0-6-1',
     evidenceRef: 'main',
+    // v0.6.1 deliberately reuses the v0.6.0 latency corpus. Its correctness
+    // re-run must never relabel the retained Bifrost v0.10.7 measurements.
+    latencyEvidenceRelease: latencyEvidenceRelease('v0.6.1'),
     current: true,
     results: currentResults as unknown as ResultsModel,
   },
@@ -146,6 +152,7 @@ export const snapshots: Snapshot[] = [
     // are deliberately *not* in this archive: v0.6.0 published 74 scorecards
     // and this is what it published.
     evidenceRef: 'c0c42013a35a19107b65e652f55952669c4b9ffe',
+    latencyEvidenceRelease: latencyEvidenceRelease('v0.6.0'),
     current: false,
     results: v060Results as unknown as ResultsModel,
   },
@@ -199,6 +206,12 @@ export const snapshots: Snapshot[] = [
 export const currentSnapshot: Snapshot = snapshots.find(
   (snapshot) => snapshot.current,
 )!;
+
+export function snapshotByVersion(version: string): Snapshot {
+  const snapshot = snapshots.find((candidate) => candidate.version === version);
+  if (!snapshot) throw new Error(`unknown snapshot ${version}`);
+  return snapshot;
+}
 
 /** The shape of one snapshot at a glance, counted from its own results model. */
 export interface SnapshotScale {

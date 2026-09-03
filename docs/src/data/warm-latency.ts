@@ -29,14 +29,9 @@
 // implementations of the same estimator agreeing is the check that neither
 // drifted. A15's retired figure is re-derived on the same terms — a superseded
 // number still has to agree with the series behind it.
-import fs from 'node:fs';
-import path from 'node:path';
-import { fileURLToPath } from 'node:url';
-
-const repoRoot = path.resolve(
-  path.dirname(fileURLToPath(import.meta.url)),
-  '../../..',
-);
+import { coldMedianForCases } from './latency';
+import { auxiliaryLatencyEvidence } from './latency-auxiliary';
+import { currentSnapshot, type Snapshot } from './snapshots';
 
 /** Where the runner retains warm-marginal artifacts. Outside every slice. */
 const WARM_ROOT = 'reports/raw/warm-latency';
@@ -80,7 +75,7 @@ export interface WarmMeasurement {
   fittedFixedCostRangeMs: [number, number];
   /** Cases in the largest batch — the population every figure describes. */
   caseIds: string[];
-  /** Cold whole-invocation median over exactly those cases, or null. */
+  /** Cold analyzer-invocation median over exactly those cases, or null. */
   coldMedianMs: number | null;
   /** Why the batched population is narrower than the kernel's, when it is. */
   restriction: string | null;
@@ -129,7 +124,7 @@ const DECLINES: WarmDecline[] = [
     tool: 'flowdroid',
     verdict: 'deferred',
     evidence:
-      "The released CLI does have a batch: `-a/--apkfile` accepts a directory, and the shipped `soot-infoflow-cmd` main class lists its APKs, builds the taint wrapper once outside the loop, and iterates them in one JVM — its own help documents `-si/--skipapkfile` as \"APK file to skip when processing a directory of input files\", and it refuses a non-directory output with \"The output file must be a directory when analyzing multiple APKs\". It is not measured here because one invocation carries one `-s` sources-and-sinks definition, so a k-APK batch runs a union of k per-case endpoint configurations rather than each case's own. Whether that changes any case's result is an empirical question that has to be answered across the whole population before a marginal derived from it may be published. Named follow-up work, not a decline.",
+      'The released CLI does have a batch: `-a/--apkfile` accepts a directory, and the shipped `soot-infoflow-cmd` main class lists its APKs, builds the taint wrapper once outside the loop, and iterates them in one JVM — its own help documents `-si/--skipapkfile` as "APK file to skip when processing a directory of input files", and it refuses a non-directory output with "The output file must be a directory when analyzing multiple APKs". It is not measured here because one invocation carries one `-s` sources-and-sinks definition, so a k-APK batch runs a union of k per-case endpoint configurations rather than each case\'s own. Whether that changes any case\'s result is an empirical question that has to be answered across the whole population before a marginal derived from it may be published. Named follow-up work, not a decline.',
   },
   {
     tool: 'opentaint',
@@ -162,22 +157,6 @@ const DECLINES: WarmDecline[] = [
       "The policy CLI takes one `--root` per invocation; the repeatable `--workspace NAME=PATH` is documented as requiring `--mcp` and does not reach the policy path. What can be said without measuring anything is a bound: Bifrost's cold median already includes its own process start, so its warm marginal lies between zero and that cold number. Warm figures can therefore only move the other rows down toward Bifrost's, never Bifrost's row down further — the asymmetry this amendment corrects is one the publishing vendor's engine loses by.",
   },
 ];
-
-function readJson(absolute: string): any {
-  return JSON.parse(fs.readFileSync(absolute, 'utf8'));
-}
-
-/** Median by linear interpolation, matching `latency.ts`'s estimator. */
-function median(values: number[]): number {
-  const sorted = [...values].sort((left, right) => left - right);
-  const n = sorted.length;
-  if (n === 0) return Number.NaN;
-  if (n === 1) return sorted[0]!;
-  const position = 0.5 * (n - 1);
-  const low = Math.floor(position);
-  const high = Math.min(low + 1, n - 1);
-  return sorted[low]! + (sorted[high]! - sorted[low]!) * (position - low);
-}
 
 /**
  * Independently re-derive both slope estimators from the batch series.
@@ -213,7 +192,7 @@ function fit(batches: WarmBatch[]): {
 }
 
 /**
- * The cold comparator: whole-invocation median over *exactly* the cases the
+ * The cold comparator: analyzer-invocation median over *exactly* the cases the
  * warm batch analyzed, gated on the freeze manifest like every other published
  * latency number.
  *
@@ -223,73 +202,39 @@ function fit(batches: WarmBatch[]): {
  * difference between them would be partly a population effect wearing a
  * start-up effect's name.
  */
-function coldMedianOver(
-  tool: string,
-  language: string,
-  caseIds: string[],
-): number | null {
-  const manifest = readJson(path.join(repoRoot, 'reports/freeze.json'));
-  const results = readJson(path.join(repoRoot, 'results/results.json'));
-  const bound = new Map<string, Set<string>>();
-  for (const report of manifest.reports) {
-    bound.set(
-      report.path,
-      new Set<string>(report.outcomes.map((outcome: any) => outcome.case_id)),
-    );
+const cache = new Map<
+  string,
+  {
+    measurements: WarmMeasurement[];
+    declines: WarmDecline[];
   }
-  const wanted = new Set(caseIds);
-  const values: number[] = [];
-  for (const card of results.scorecards) {
-    if (card.adapter.tool !== tool) continue;
-    if (card.languages.length !== 1) continue;
-    if (card.languages[0].language !== language) continue;
-    const boundCases = bound.get(card.report.path);
-    if (!boundCases) continue;
-    for (const tier of card.languages[0].score_tiers) {
-      for (const result of tier.cases) {
-        if (!wanted.has(result.case_id)) continue;
-        if (!boundCases.has(result.case_id)) continue;
-        const raw = result.raw_evidence?.path;
-        if (!raw) continue;
-        const sidecar = path.join(
-          repoRoot,
-          path.dirname(raw),
-          `${result.case_id}-timing.json`,
-        );
-        if (!fs.existsSync(sidecar)) continue;
-        const timing = readJson(sidecar);
-        values.push(
-          timing.phases.reduce(
-            (sum: number, phase: any) => sum + phase.wall_ms,
-            0,
-          ),
-        );
-      }
-    }
-  }
-  return values.length > 0 ? median(values) : null;
-}
+>();
 
-let cache: {
-  measurements: WarmMeasurement[];
-  declines: WarmDecline[];
-} | null = null;
-
-export function warmLatency(): {
+export function warmLatency(snapshot: Snapshot = currentSnapshot): {
   measurements: WarmMeasurement[];
   declines: WarmDecline[];
 } {
-  if (cache) return cache;
-  const root = path.join(repoRoot, WARM_ROOT);
+  const release = snapshot.latencyEvidenceRelease;
+  if (!release) throw new Error(`${snapshot.version} has no latency corpus`);
+  const cached = cache.get(release);
+  if (cached) return cached;
+  const { artifacts } = auxiliaryLatencyEvidence(snapshot);
   const measurements: WarmMeasurement[] = [];
-  if (fs.existsSync(root)) {
-    for (const entry of fs.readdirSync(root).sort()) {
-      // The retired tree holds superseded figures, not current ones; it is
-      // read per measurement below, never enumerated as one.
-      if (entry === 'superseded-a15') continue;
-      const document = path.join(root, entry, 'warm-latency.json');
-      if (!fs.existsSync(document)) continue;
-      const warm = readJson(document);
+  const documents = Object.keys(artifacts)
+    .filter(
+      (name) =>
+        name.startsWith(`${WARM_ROOT}/`) &&
+        name.endsWith('/warm-latency.json') &&
+        !name.startsWith(`${SUPERSEDED_A15_ROOT}/`),
+    )
+    .sort();
+  if (documents.length > 0) {
+    for (const document of documents) {
+      const entry = document.slice(
+        WARM_ROOT.length + 1,
+        -'/warm-latency.json'.length,
+      );
+      const warm = artifacts[document];
       if (!Array.isArray(warm.runs) || warm.runs.length < 2) {
         throw new Error(
           `${document}: the published figure is a range over repeats, so at least two retained runs are required`,
@@ -363,27 +308,24 @@ export function warmLatency(): {
 
       const lastRun = runs[runs.length - 1]!;
       const caseIds: string[] =
-        warm.runs[warm.runs.length - 1].batches[
-          lastRun.batches.length - 1
-        ].case_ids ?? [];
-      const stamp = path.join(root, entry, 'run-environment.json');
-      const environment = fs.existsSync(stamp) ? readJson(stamp) : null;
+        warm.runs[warm.runs.length - 1].batches[lastRun.batches.length - 1]
+          .case_ids ?? [];
+      const stamp = `${WARM_ROOT}/${entry}/run-environment.json`;
+      const environment = artifacts[stamp] ?? null;
 
       // A15's retired figure, where one was published for this adapter. Its
       // slopes are re-derived from its own retained batch series for the same
       // reason the live ones are: a published number and the series behind it
       // must agree, retired or not.
-      const retiredPath = path.join(
-        repoRoot,
-        SUPERSEDED_A15_ROOT,
-        entry,
-        'warm-latency.json',
-      );
+      const retiredPath = `${SUPERSEDED_A15_ROOT}/${entry}/warm-latency.json`;
       let supersededA15: WarmMeasurement['supersededA15'] = null;
-      if (fs.existsSync(retiredPath)) {
-        const retired = readJson(retiredPath);
+      if (artifacts[retiredPath]) {
+        const retired = artifacts[retiredPath];
         const retiredBatches: WarmBatch[] = retired.batches.map(
-          (batch: any) => ({ k: batch.k, wallMs: batch.wall_ms }),
+          (batch: any) => ({
+            k: batch.k,
+            wallMs: batch.wall_ms,
+          }),
         );
         const retiredFit = fit(retiredBatches);
         for (const [label, mine, theirs] of [
@@ -412,7 +354,7 @@ export function warmLatency(): {
           loads: retired.batches.map(
             (batch: any) => batch.load_average_1m_before ?? null,
           ),
-          path: path.posix.join(SUPERSEDED_A15_ROOT, entry, 'warm-latency.json'),
+          path: retiredPath,
         };
       }
       measurements.push({
@@ -424,7 +366,12 @@ export function warmLatency(): {
         endpointRangeMs,
         fittedFixedCostRangeMs: spread((run) => run.fittedFixedCostMs),
         caseIds,
-        coldMedianMs: coldMedianOver(warm.adapter, warm.language, caseIds),
+        coldMedianMs: coldMedianForCases(
+          snapshot,
+          warm.adapter,
+          warm.language,
+          caseIds,
+        ),
         restriction: warm.population_restriction ?? null,
         supersededA15,
         environment: environment
@@ -452,8 +399,9 @@ export function warmLatency(): {
     }
   }
 
-  cache = { measurements, declines: DECLINES };
-  return cache;
+  const result = { measurements, declines: DECLINES };
+  cache.set(release, result);
+  return result;
 }
 
 /**
@@ -474,9 +422,11 @@ export function warmLatency(): {
  * Where one tool has figures on several kernels, the entry spans them all:
  * the low end of the lowest and the high end of the highest.
  */
-export function warmMarginalRangeByTool(): Map<string, [number, number]> {
+export function warmMarginalRangeByTool(
+  snapshot: Snapshot = currentSnapshot,
+): Map<string, [number, number]> {
   const marks = new Map<string, [number, number]>();
-  for (const measurement of warmLatency().measurements) {
+  for (const measurement of warmLatency(snapshot).measurements) {
     const [low, high] = measurement.leastSquaresRangeMs;
     const existing = marks.get(measurement.tool);
     marks.set(

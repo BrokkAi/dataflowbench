@@ -1,12 +1,10 @@
 // Build-time derivation of the latency-characterization tier.
 //
-// Every number this module returns is read from the repository's own frozen
-// artifacts at build time: the freeze manifest gates which cases may be read,
-// the per-case timing sidecars beside the retained raw evidence supply the
-// wall-clock, and the per-run environment stamps supply the scope. Nothing
-// here is hand-entered, and no correctness value is read at all — the tier's
-// first invariant is that latency and correctness are never pooled, so this
-// module deliberately has no access to a classification.
+// Every number this module returns is read from a snapshot-selected archive of
+// the repository's frozen evidence: the generated results model gates the case
+// population, retained per-case timing sidecars supply wall-clock, and retained
+// environment stamps supply the scope. Nothing here is hand-entered, and no
+// correctness classification enters a latency calculation.
 //
 // The governing contract is `docs/latency-tier.md`, whose per-adapter
 // granularity table (as amended by A12 for the four adapters added in v0.6.0)
@@ -15,16 +13,19 @@
 // per adapter; it never invents a phase split, never sums phases across
 // adapters, and never presents a phase of one adapter beside a total of
 // another.
-import fs from 'node:fs';
-import path from 'node:path';
-import { fileURLToPath } from 'node:url';
-import { coreKernelPopulations, currentSnapshot } from './snapshots';
-
-/** Repository root, resolved from this file rather than the build's cwd. */
-const repoRoot = path.resolve(
-  path.dirname(fileURLToPath(import.meta.url)),
-  '../../..',
-);
+import v060LatencyEvidence from './archive/v0-6-0-latency-evidence.json';
+import {
+  coreKernelPopulations,
+  currentSnapshot,
+  snapshotByVersion,
+  type ResultsModel,
+  type Snapshot,
+} from './snapshots';
+import {
+  contractTiming,
+  isComparableAnalyzerPhase,
+  type TimingPhase,
+} from './latency-contract';
 
 export interface Distribution {
   /** Timed invocations behind the numbers. */
@@ -40,6 +41,8 @@ export interface Distribution {
 
 export interface PhaseDistribution extends Distribution {
   phase: string;
+  /** Whether A20 permits this phase to enter the cross-adapter total. */
+  includedInAnalyzerTotal: boolean;
 }
 
 export interface LatencySlice {
@@ -51,11 +54,12 @@ export interface LatencySlice {
   language: string;
   scoreTier: string;
   modelProfile: string;
+  subprocessesPerCase: number;
   /** Cases the freeze binds for this report. */
   cases: number;
   /** Of those, cases that actually invoked the analyzer and were timed. */
   timed: number;
-  /** Whole-invocation wall-clock: the sum of the adapter's timed phases. */
+  /** Comparable analyzer wall-clock selected by the phase contract. */
   whole: Distribution | null;
   /** Declared phases, in the adapter's own order. Empty when it exposes one. */
   phases: PhaseDistribution[];
@@ -66,7 +70,7 @@ export interface LatencyAdapter {
   toolVersion: string;
   /** Distinct build identities witnessed for this tool across its runs. */
   buildIdentities: string[];
-  subprocessesPerCase: number;
+  subprocessesPerCase: string;
   /** `total`, or the adapter's declared phase names. */
   granularity: string[];
   timed: number;
@@ -99,22 +103,47 @@ export interface LatencyModel {
   untimedOutcomes: { outcome: string; cases: number }[];
 }
 
-function readJson(relative: string): any {
-  return JSON.parse(fs.readFileSync(path.join(repoRoot, relative), 'utf8'));
+interface ArchivedLatencyEvidence {
+  schema_version: number;
+  evidence_ref: string;
+  release: string;
+  benchmark_revision: string;
+  manifest_sha256: string;
+  timings: Record<string, { phases: TimingPhase[] }>;
+  environments: Record<string, any | null>;
+}
+
+interface LatencySource {
+  results: ResultsModel;
+  evidence: ArchivedLatencyEvidence;
+}
+
+const latencyEvidenceByRelease: Record<string, ArchivedLatencyEvidence> = {
+  'v0.6.0': v060LatencyEvidence as ArchivedLatencyEvidence,
+};
+
+function latencySource(snapshot: Snapshot): LatencySource {
+  const release = snapshot.latencyEvidenceRelease;
+  if (!release) throw new Error(`${snapshot.version} has no latency corpus`);
+  const source = snapshotByVersion(release);
+  const evidence = latencyEvidenceByRelease[release];
+  if (!evidence) throw new Error(`${release} has no archived latency evidence`);
+  if (
+    evidence.release !== source.version ||
+    evidence.evidence_ref !== source.evidenceRef ||
+    evidence.manifest_sha256 !== source.results.manifest.sha256
+  ) {
+    throw new Error(
+      `${release}: latency evidence does not match its frozen snapshot`,
+    );
+  }
+  return { results: source.results, evidence };
 }
 
 /**
- * Map key for one (report, case) pair.
- *
- * The separator is a NUL, spelled as an escape so this source file stays plain
- * text. It cannot occur in a repository path or in a case identifier, so two
- * distinct pairs can never collide into a single key.
+ * Separator used only to group environment stamps by exact machine identity.
  */
 const KEY_SEPARATOR = '\u0000';
-
-function caseKey(reportPath: string, caseId: string): string {
-  return reportPath + KEY_SEPARATOR + caseId;
-}
 
 /**
  * Linear-interpolation quantile, and the plain median. The contract headlines
@@ -144,28 +173,14 @@ function distribution(values: number[]): Distribution {
 }
 
 /**
- * The freeze gate as a memoized map: report path → the case identifiers the
- * manifest binds for it. Every latency read in this module passes through it,
- * so no code path can reach a sidecar the freeze does not bind.
+ * Timing records are read only from the archived bundle selected by the
+ * snapshot's explicit latency release. The archived results model supplies
+ * the exact freeze-bound report and case population.
  */
-let boundCasesCache: Map<string, Set<string>> | null = null;
-function boundCaseSets(): Map<string, Set<string>> {
-  if (boundCasesCache) return boundCasesCache;
-  const manifest = readJson('reports/freeze.json');
-  const map = new Map<string, Set<string>>();
-  for (const report of manifest.reports) {
-    map.set(
-      report.path,
-      new Set<string>(report.outcomes.map((outcome: any) => outcome.case_id)),
-    );
-  }
-  boundCasesCache = map;
-  return map;
-}
-
 interface CaseTiming {
-  phases: { phase: string; wall_ms: number }[];
-  /** The whole invocation: the sum of the adapter's own timed phases. */
+  phases: TimingPhase[];
+  includedPhaseNames: Set<string>;
+  /** Cross-adapter analyzer wall-clock selected by the phase contract. */
   whole: number;
 }
 
@@ -174,23 +189,62 @@ interface CaseTiming {
  * or the case never invoked an analyzer (and so has nothing to time).
  */
 function readTiming(
-  reportPath: string,
+  evidence: ArchivedLatencyEvidence,
+  tool: string,
+  scoreTier: string,
   caseId: string,
   rawEvidencePath: string | undefined,
 ): CaseTiming | null {
-  const bound = boundCaseSets().get(reportPath);
-  if (!bound || !bound.has(caseId)) return null;
   if (!rawEvidencePath) return null;
-  const sidecar = path.join(
-    repoRoot,
-    path.dirname(rawEvidencePath),
-    `${caseId}-timing.json`,
-  );
-  if (!fs.existsSync(sidecar)) return null;
-  const timing = JSON.parse(fs.readFileSync(sidecar, 'utf8'));
-  let whole = 0;
-  for (const phase of timing.phases) whole += phase.wall_ms;
-  return { phases: timing.phases, whole };
+  const separator = rawEvidencePath.lastIndexOf('/');
+  const directory = rawEvidencePath.slice(0, separator);
+  const sidecar = `${directory}/${caseId}-timing.json`;
+  const timing = evidence.timings[sidecar];
+  if (!timing) return null;
+  const derived = contractTiming(tool, scoreTier, timing.phases);
+  return {
+    phases: derived.phases,
+    includedPhaseNames: new Set(
+      timing.phases
+        .filter((phase) =>
+          isComparableAnalyzerPhase(tool, scoreTier, phase.phase),
+        )
+        .map((phase) => phase.phase),
+    ),
+    whole: derived.analyzerWallMs,
+  };
+}
+
+/** Cold comparator over an exact case set from the selected frozen corpus. */
+export function coldMedianForCases(
+  snapshot: Snapshot,
+  tool: string,
+  language: string,
+  caseIds: string[],
+): number | null {
+  const { results, evidence } = latencySource(snapshot);
+  const wanted = new Set(caseIds);
+  const values: number[] = [];
+  for (const card of results.scorecards) {
+    if (card.adapter.tool !== tool) continue;
+    for (const languageResult of card.languages) {
+      if (languageResult.language !== language) continue;
+      for (const tier of languageResult.score_tiers) {
+        for (const result of tier.cases) {
+          if (!wanted.has(result.case_id)) continue;
+          const timing = readTiming(
+            evidence,
+            tool,
+            tier.score_tier,
+            result.case_id,
+            result.raw_evidence?.path,
+          );
+          if (timing) values.push(timing.whole);
+        }
+      }
+    }
+  }
+  return values.length > 0 ? distribution(values).median : null;
 }
 
 /**
@@ -198,17 +252,10 @@ function readTiming(
  * published number only if the manifest binds that report *and* that case.
  * A sidecar left in the tree by an unbound run cannot be read.
  */
-export function latencyModel(): LatencyModel {
-  const manifest = readJson('reports/freeze.json');
-  const results = readJson('results/results.json');
-
-  const boundCases = boundCaseSets();
-  const outcomeOf = new Map<string, string>();
-  for (const report of manifest.reports) {
-    for (const outcome of report.outcomes) {
-      outcomeOf.set(caseKey(report.path, outcome.case_id), outcome.outcome);
-    }
-  }
+export function latencyModel(
+  snapshot: Snapshot = currentSnapshot,
+): LatencyModel {
+  const { results, evidence } = latencySource(snapshot);
 
   const rawDirectories = new Set<string>();
   const slices: LatencySlice[] = [];
@@ -218,48 +265,47 @@ export function latencyModel(): LatencyModel {
 
   for (const card of results.scorecards) {
     const reportPath = card.report.path;
-    const bound = boundCases.get(reportPath);
-    if (!bound) continue;
-    const report = readJson(reportPath);
 
     const phaseValues = new Map<string, number[]>();
     const phaseOrder: string[] = [];
+    const includedPhases = new Set<string>();
     const wholeValues: number[] = [];
     let timed = 0;
     let cases = 0;
 
-    for (const result of report.results) {
-      if (!bound.has(result.case_id)) continue;
-      cases += 1;
-      const rawOutput: string | undefined = result.raw_output;
-      if (!rawOutput) continue;
-      const directory = path.dirname(rawOutput);
-      const sidecar = path.join(
-        repoRoot,
-        directory,
-        `${result.case_id}-timing.json`,
-      );
-      if (!fs.existsSync(sidecar)) {
-        totalUntimed += 1;
-        const outcome =
-          outcomeOf.get(caseKey(reportPath, result.case_id)) ?? 'unknown';
-        untimed.set(outcome, (untimed.get(outcome) ?? 0) + 1);
-        continue;
-      }
-      rawDirectories.add(directory);
-      const timing = JSON.parse(fs.readFileSync(sidecar, 'utf8'));
-      timed += 1;
-      totalTimed += 1;
-      let whole = 0;
-      for (const phase of timing.phases) {
-        if (!phaseValues.has(phase.phase)) {
-          phaseValues.set(phase.phase, []);
-          phaseOrder.push(phase.phase);
+    for (const language of card.languages) {
+      for (const tier of language.score_tiers) {
+        for (const result of tier.cases) {
+          cases += 1;
+          const timing = readTiming(
+            evidence,
+            card.adapter.tool,
+            tier.score_tier,
+            result.case_id,
+            result.raw_evidence?.path,
+          );
+          if (!timing) {
+            totalUntimed += 1;
+            untimed.set(result.outcome, (untimed.get(result.outcome) ?? 0) + 1);
+            continue;
+          }
+          const rawPath = result.raw_evidence.path;
+          rawDirectories.add(rawPath.slice(0, rawPath.lastIndexOf('/')));
+          timed += 1;
+          totalTimed += 1;
+          for (const phase of timing.phases) {
+            if (!phaseValues.has(phase.phase)) {
+              phaseValues.set(phase.phase, []);
+              phaseOrder.push(phase.phase);
+            }
+            phaseValues.get(phase.phase)!.push(phase.wall_ms);
+            if (timing.includedPhaseNames.has(phase.phase)) {
+              includedPhases.add(phase.phase);
+            }
+          }
+          wholeValues.push(timing.whole);
         }
-        phaseValues.get(phase.phase)!.push(phase.wall_ms);
-        whole += phase.wall_ms;
       }
-      wholeValues.push(whole);
     }
 
     const language = card.languages[0];
@@ -276,15 +322,17 @@ export function latencyModel(): LatencyModel {
           ? language.score_tiers[0].score_tier
           : language.score_tiers.map((tier: any) => tier.score_tier).join(', '),
       modelProfile: card.model_profile ?? card.adapter.model_profile,
+      subprocessesPerCase: phaseOrder.length || (timed > 0 ? 1 : 0),
       cases,
       timed,
       whole: wholeValues.length > 0 ? distribution(wholeValues) : null,
-      // A single-phase adapter's one phase *is* its whole invocation; listing
-      // it twice would invent a decomposition it does not have.
+      // A single-phase adapter's one phase is its analyzer total; listing it
+      // twice would invent a decomposition it does not have.
       phases:
         phaseOrder.length > 1
           ? phaseOrder.map((phase) => ({
               phase,
+              includedInAnalyzerTotal: includedPhases.has(phase),
               ...distribution(phaseValues.get(phase)!),
             }))
           : [],
@@ -313,6 +361,7 @@ export function latencyModel(): LatencyModel {
     const wholeValues: number[] = [];
     const phaseValues = new Map<string, number[]>();
     const phaseOrder: string[] = [];
+    const includedPhases = new Set<string>();
     let timed = 0;
     for (const slice of toolSlices) {
       timed += slice.timed;
@@ -321,28 +370,33 @@ export function latencyModel(): LatencyModel {
     // Re-read at adapter granularity rather than pooling slice summaries: a
     // median of medians is not a median.
     for (const slice of toolSlices) {
-      const report = readJson(slice.report);
-      const bound = boundCases.get(slice.report)!;
-      for (const result of report.results) {
-        if (!bound.has(result.case_id)) continue;
-        if (!result.raw_output) continue;
-        const sidecar = path.join(
-          repoRoot,
-          path.dirname(result.raw_output),
-          `${result.case_id}-timing.json`,
-        );
-        if (!fs.existsSync(sidecar)) continue;
-        const timing = JSON.parse(fs.readFileSync(sidecar, 'utf8'));
-        let whole = 0;
-        for (const phase of timing.phases) {
-          if (!phaseValues.has(phase.phase)) {
-            phaseValues.set(phase.phase, []);
-            phaseOrder.push(phase.phase);
+      const card = results.scorecards.find(
+        (candidate) => candidate.report.path === slice.report,
+      )!;
+      for (const language of card.languages) {
+        for (const tier of language.score_tiers) {
+          for (const result of tier.cases) {
+            const timing = readTiming(
+              evidence,
+              card.adapter.tool,
+              tier.score_tier,
+              result.case_id,
+              result.raw_evidence?.path,
+            );
+            if (!timing) continue;
+            for (const phase of timing.phases) {
+              if (!phaseValues.has(phase.phase)) {
+                phaseValues.set(phase.phase, []);
+                phaseOrder.push(phase.phase);
+              }
+              phaseValues.get(phase.phase)!.push(phase.wall_ms);
+              if (timing.includedPhaseNames.has(phase.phase)) {
+                includedPhases.add(phase.phase);
+              }
+            }
+            wholeValues.push(timing.whole);
           }
-          phaseValues.get(phase.phase)!.push(phase.wall_ms);
-          whole += phase.wall_ms;
         }
-        wholeValues.push(whole);
       }
     }
     const decomposed = phaseOrder.length > 1;
@@ -350,13 +404,18 @@ export function latencyModel(): LatencyModel {
       tool,
       toolVersion: toolSlices[0]!.toolVersion,
       buildIdentities: [...(buildIdentities.get(tool) ?? [])].sort(),
-      subprocessesPerCase: phaseOrder.length,
+      subprocessesPerCase: [
+        ...new Set(toolSlices.map((slice) => slice.subprocessesPerCase)),
+      ]
+        .sort((left, right) => left - right)
+        .join(' or '),
       granularity: decomposed ? phaseOrder : ['total'],
       timed,
       whole: distribution(wholeValues),
       phases: decomposed
         ? phaseOrder.map((phase) => ({
             phase,
+            includedInAnalyzerTotal: includedPhases.has(phase),
             ...distribution(phaseValues.get(phase)!),
           }))
         : [],
@@ -372,9 +431,8 @@ export function latencyModel(): LatencyModel {
   // the page shows both rather than averaging across machines.
   const environments = new Map<string, EnvironmentStamp>();
   for (const directory of [...rawDirectories].sort()) {
-    const stamp = path.join(repoRoot, directory, 'run-environment.json');
-    if (!fs.existsSync(stamp)) continue;
-    const value = JSON.parse(fs.readFileSync(stamp, 'utf8'));
+    const value = evidence.environments[directory];
+    if (!value) continue;
     const key = [
       value.hardware_model,
       value.os,
@@ -398,8 +456,8 @@ export function latencyModel(): LatencyModel {
   }
 
   return {
-    release: manifest.benchmark.release,
-    manifestSha256: results.manifest.sha256,
+    release: evidence.release,
+    manifestSha256: evidence.manifest_sha256,
     environments: [...environments.values()],
     adapters: adapters.sort((left, right) =>
       left.whole.median === right.whole.median
@@ -500,6 +558,7 @@ function rankedEntry(
   if (timings.length === 0) return null;
   const phaseValues = new Map<string, number[]>();
   const phaseOrder: string[] = [];
+  const includedPhases = new Set<string>();
   for (const timing of timings) {
     for (const phase of timing.phases) {
       if (!phaseValues.has(phase.phase)) {
@@ -507,6 +566,9 @@ function rankedEntry(
         phaseOrder.push(phase.phase);
       }
       phaseValues.get(phase.phase)!.push(phase.wall_ms);
+      if (timing.includedPhaseNames.has(phase.phase)) {
+        includedPhases.add(phase.phase);
+      }
     }
   }
   return {
@@ -515,12 +577,13 @@ function rankedEntry(
     timed: timings.length,
     covered,
     whole: distribution(timings.map((timing) => timing.whole)),
-    // A single-phase adapter's one phase *is* its whole invocation; drawing it
+    // A single-phase adapter's one phase is its analyzer total; drawing it
     // twice would invent a decomposition the adapter does not expose.
     phases:
       phaseOrder.length > 1
         ? phaseOrder.map((phase) => ({
             phase,
+            includedInAnalyzerTotal: includedPhases.has(phase),
             ...distribution(phaseValues.get(phase)!),
           }))
         : [],
@@ -538,6 +601,7 @@ function rankedEntry(
  * and profile, while a kernel view is that kernel's core assertions only.
  */
 export function latencyRanking(model: LatencyModel): LatencyRanking {
+  const { results, evidence } = latencySource(snapshotByVersion(model.release));
   const views: RankingView[] = [
     {
       id: 'all',
@@ -556,13 +620,15 @@ export function latencyRanking(model: LatencyModel): LatencyRanking {
     },
   ];
 
-  for (const population of coreKernelPopulations(currentSnapshot.results)) {
+  for (const population of coreKernelPopulations(results)) {
     const entries: RankedEntry[] = [];
     for (const [tool, coverage] of population.entries) {
       const timings: CaseTiming[] = [];
       for (const result of coverage.tier.cases) {
         const timing = readTiming(
-          coverage.card.report.path,
+          evidence,
+          coverage.card.adapter.tool,
+          coverage.tier.score_tier,
           result.case_id,
           result.raw_evidence?.path,
         );
@@ -613,7 +679,7 @@ export function latencyRanking(model: LatencyModel): LatencyRanking {
 }
 
 /**
- * Per tool, the distribution of whole-invocation wall-clock over the
+ * Per tool, the distribution of analyzer-invocation wall-clock over the
  * benchmark-controlled `core` kernel populations only — not over every timed
  * invocation in the freeze.
  *
@@ -623,13 +689,18 @@ export function latencyRanking(model: LatencyModel): LatencyRanking {
  * computed per case and then summarized, because a median of medians is not a
  * median.
  */
-export function kernelCorpusDistributions(): Map<string, Distribution> {
+export function kernelCorpusDistributions(
+  snapshot: Snapshot = currentSnapshot,
+): Map<string, Distribution> {
+  const { results, evidence } = latencySource(snapshot);
   const values = new Map<string, number[]>();
-  for (const population of coreKernelPopulations(currentSnapshot.results)) {
+  for (const population of coreKernelPopulations(results)) {
     for (const [tool, coverage] of population.entries) {
       for (const result of coverage.tier.cases) {
         const timing = readTiming(
-          coverage.card.report.path,
+          evidence,
+          coverage.card.adapter.tool,
+          coverage.tier.score_tier,
           result.case_id,
           result.raw_evidence?.path,
         );
