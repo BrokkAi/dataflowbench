@@ -17,7 +17,7 @@ see the glossary entry below.
 | [new-analyzer.md](new-analyzer.md) | The analyzer-admission policy packaged for outside maintainers: the four eligibility bounds, the field-evaluation expectation, the pin/digest and preregistration requirements, the new-adapter deliverables checklist, and the governance and correction mechanism. |
 | [adding-an-adapter.md](adding-an-adapter.md) | The step-ordered integration walkthrough for a new analyzer adapter, including the `src/main.rs` touchpoints. |
 | [scoring.md](scoring.md) | The scoring contract: templates not fixture counts, balanced pairs, outcome interpretation, the 50% blind baseline, separate populations, and the model-profile split. |
-| [freeze.md](freeze.md) | The `freeze/v1` immutable evidence-manifest contract, and the rule that a correction is a new freeze, never a rewrite. |
+| [freeze.md](freeze.md) | The `freeze/v1` immutable evidence-manifest contract, the rule that a correction is a new freeze, never a rewrite, the freeze-prep checklist (whose pin-currency step operates the adapters.md policy), and the release-notes template with its pin table. |
 | [results.md](results.md) | The result-generation contract: byte-stable artifacts generated only from a validated freeze, provable with `--check`. |
 | [applicability-matrix.md](applicability-matrix.md) | How the propagation templates port across languages: the `direct` / `adapted` / `n/a` classification and each language's core denominator. |
 | [challenge-tier.md](challenge-tier.md) | Preregistration of the thirteen challenge templates in four strata, the fold-into-core decision, and the amendment procedure. Amendment-bearing. |

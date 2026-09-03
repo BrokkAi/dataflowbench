@@ -98,6 +98,14 @@ measured decision with re-run evidence to show for it; and no chasing Joern's
 near-daily releases between freezes, because currency is evaluated at freeze
 boundaries.
 
+The policy is operated through the freeze-prep checklist in
+[freeze.md](freeze.md#freeze-prep-checklist), whose pin-currency step is the
+only place a bump-or-hold decision is taken, and it is published through the
+release-notes pin table whose shape is fixed in
+[freeze.md](freeze.md#release-notes-template). Each review is recorded below
+under a dated heading; a survey taken before the decision is recorded the
+same way, marked as moving no declaration.
+
 A pin literal in this repository is either a **pin declaration** — what the
 benchmark pins going forward, including standing capability statements about
 the pinned distribution — or a **description of retained evidence**: what a
@@ -197,6 +205,43 @@ and configuration hashes name build `419395c8`. Everything outside those
 twenty slices — the other sixty-two reports, the latency corpus, and the
 Amendment A5/A9/A10 measurement records — still names the build it was
 produced on, because none of it was re-run.
+
+#### 2026-09-03 — v0.7.0 freeze-prep pin-currency survey (no declaration moved)
+
+A survey, not a review: it records every pin's distance from upstream latest
+on the day the v0.7.0 freeze-prep opened, so the bump-or-hold decision for
+each analyzer is taken against a dated table rather than a guess. **No pin
+was bumped and no evidence was re-run for this entry.** Pins are read from
+the committed reports and adapter READMEs; upstream latest is the newest
+non-draft, non-pre-release tag on the upstream release page (or PyPI where
+the pin is a wheel), read on 2026-09-03.
+
+| Analyzer | Pin (declared and witnessed) | Upstream latest stable (date) | Distance | Hold reason on record |
+| --- | --- | --- | --- | --- |
+| Bifrost | v0.10.8, build `419395c8066b9eddfba06aa69c8a151ef4968249` | v0.10.9 (2026-09-03) | 1 release behind | No hold reason recorded. The bump-or-hold decision is owed at this freeze-prep |
+| CodeQL CLI | 2.26.4 | 2.26.4 (2026-08-26) | Current | — |
+| CodeQL query packs | `java-all@9.2.3`, `python-all@7.2.3`, `javascript-all@2.9.0`, `csharp-all@7.1.2`, `go-all@7.2.3`, `cpp-all@12.0.2`, `ruby-all@6.0.3`, `rust-all@0.2.19` | Resolved by `codeql pack install` under the CLI pin | Re-resolved with the CLI at each review; unchanged at 2.26.4 | — |
+| Semgrep CE | 1.175.0 | 1.176.0 (2026-09-01) | 1 release behind | No hold reason recorded |
+| Semgrep rules snapshot | `semgrep/semgrep-rules@40b8c63f75dc7c22c8a77482d73bfb864b146f7e` (2026-07-30) | `develop` head is the same commit | Current — 0 commits ahead of the pin | — |
+| Joern | 4.0.614 (2026-08-28) | 4.0.617 (2026-09-03) | 3 dailies behind (4.0.615, 4.0.616, 4.0.617) | The 2026-09-01 hold reason was scoped to the v0.6.1 delta and expires at this boundary; no hold reason recorded for v0.7.0 |
+| OpenTaint | `analyzer/2026.08.27.17eb0fe`, by asset digest | `analyzer/2026.09.03.9752bd2` (2026-09-03) | 1 release behind | No hold reason recorded |
+| Infer | v1.3.0 | v1.3.0 (2026-05-12) | Current | — |
+| FlowDroid | 2.15.1, jar by digest | 2.15.1 (2026-02-23) | Current | — |
+| Pysa — pyre-check | 0.10.0, wheel by digest | 0.10.0 on PyPI (2026-08-06) | Current | — |
+| Pysa — Pyrefly | 1.2.0, wheel by digest | 1.2.0 (2026-08-01); 1.3.0-dev.3 is a pre-release and does not count | Current | — |
+
+Two reading notes. The pyre-check GitHub release page stops at v0.9.23
+(2024); the pin is a PyPI wheel, so PyPI is the currency source for that
+row. And the Joern adapter README's "Pinned distribution" table still read
+`4.0.610` at the time of this survey while every committed Joern report
+witnesses `4.0.614`; that declaration is corrected in the same change as this
+survey, because a declaration that disagrees with its own retained evidence
+is exactly the silence this policy exists to remove.
+
+The four rows with a gap — Bifrost, Semgrep CE, Joern, OpenTaint — each get
+one of the two outcomes the policy allows at the v0.7.0 freeze-prep: a bump
+with a full re-run of that adapter's slices, or a dated hold reason written
+into the next review entry and repeated in the release notes.
 
 ## Challenge-tier rollout mechanics
 
