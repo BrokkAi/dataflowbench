@@ -6,13 +6,16 @@ import { latencyEvidenceRelease } from './latency-sources.ts';
 
 const dataRoot = fileURLToPath(new URL('.', import.meta.url));
 const evidence = JSON.parse(
-  fs.readFileSync(
-    `${dataRoot}/archive/v0-6-0-latency-evidence.json`,
-    'utf8',
-  ),
+  fs.readFileSync(`${dataRoot}/archive/v0-6-0-latency-evidence.json`, 'utf8'),
 );
 const results = JSON.parse(
   fs.readFileSync(`${dataRoot}/archive/v0-6-0-results.json`, 'utf8'),
+);
+const auxiliary = JSON.parse(
+  fs.readFileSync(
+    `${dataRoot}/archive/v0-6-0-latency-auxiliary-evidence.json`,
+    'utf8',
+  ),
 );
 
 test('v0.6.0 and v0.6.1 bind the same immutable latency release', () => {
@@ -24,6 +27,24 @@ test('v0.6.0 and v0.6.1 bind the same immutable latency release', () => {
     'c0c42013a35a19107b65e652f55952669c4b9ffe',
   );
   assert.equal(evidence.manifest_sha256, results.manifest.sha256);
+});
+
+test('warm and overhead panels bind immutable v0.6.0 amendment evidence', () => {
+  assert.equal(auxiliary.latency_release, 'v0.6.0');
+  assert.equal(
+    auxiliary.evidence_ref,
+    'ccbcd788aabec2abe60200573f38bc42128d00f0',
+  );
+  assert.equal(Object.keys(auxiliary.artifacts).length, 25);
+  const names = Object.keys(auxiliary.artifacts);
+  assert.equal(
+    names.filter((name) => name.endsWith('/warm-latency.json')).length,
+    3,
+  );
+  assert.equal(
+    names.filter((name) => name.endsWith('/invocation-overhead.json')).length,
+    9,
+  );
 });
 
 test('the archived corpus cannot absorb later FlowDroid modeling timings', () => {

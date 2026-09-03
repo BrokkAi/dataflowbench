@@ -215,6 +215,38 @@ function readTiming(
   };
 }
 
+/** Cold comparator over an exact case set from the selected frozen corpus. */
+export function coldMedianForCases(
+  snapshot: Snapshot,
+  tool: string,
+  language: string,
+  caseIds: string[],
+): number | null {
+  const { results, evidence } = latencySource(snapshot);
+  const wanted = new Set(caseIds);
+  const values: number[] = [];
+  for (const card of results.scorecards) {
+    if (card.adapter.tool !== tool) continue;
+    for (const languageResult of card.languages) {
+      if (languageResult.language !== language) continue;
+      for (const tier of languageResult.score_tiers) {
+        for (const result of tier.cases) {
+          if (!wanted.has(result.case_id)) continue;
+          const timing = readTiming(
+            evidence,
+            tool,
+            tier.score_tier,
+            result.case_id,
+            result.raw_evidence?.path,
+          );
+          if (timing) values.push(timing.whole);
+        }
+      }
+    }
+  }
+  return values.length > 0 ? distribution(values).median : null;
+}
+
 /**
  * The tier's freeze gate, made mechanical: a timing sidecar reaches a
  * published number only if the manifest binds that report *and* that case.
