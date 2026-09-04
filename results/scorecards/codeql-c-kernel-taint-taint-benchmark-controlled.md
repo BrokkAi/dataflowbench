@@ -4,7 +4,7 @@ Adapter `codeql-c-kernel`: `codeql` `2.26.4` (build `codeql-cli:6b1e4dee94adb20f
 
 Track `taint`, score dimension `taint`, model profile `benchmark-controlled`. This scorecard is a single result population; it is never pooled with other tracks, dimensions, or model profiles.
 
-Normalized report: `reports/codeql-c-kernel.json` (`sha256:c09c75740d6590c727c813a6a551fa2058582fb913d47389e022eaadc42a6409`, normalized `sha256:c09c75740d6590c727c813a6a551fa2058582fb913d47389e022eaadc42a6409`). Generated from freeze manifest `reports/freeze.json` (`sha256:5e57a5ee0dab3929cefa42edce222acbfb0ba0ee34e25e39e9ea882eaa66b724`).
+Normalized report: `reports/codeql-c-kernel.json` (`sha256:c09c75740d6590c727c813a6a551fa2058582fb913d47389e022eaadc42a6409`, normalized `sha256:c09c75740d6590c727c813a6a551fa2058582fb913d47389e022eaadc42a6409`). Generated from freeze manifest `reports/freeze.json` (`sha256:c92efa03098fd8b51e820ff66b942099c4b972d2fec19a90bd65424b5e01fa1e`).
 
 ## Language `c`, tier `core`
 

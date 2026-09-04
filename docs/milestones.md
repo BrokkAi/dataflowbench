@@ -322,3 +322,28 @@ Add a small, pinned, manually reviewed corpus drawn from executable or
 buggy/fixed upstream benchmarks. Keep these results separate from the synthetic
 semantic core. Performance and typestate receive independent milestone plans
 after the correctness contract is stable.
+
+### 2026-09-04 — the slice is preregistered and pinned
+
+[The real-project preregistration](real-project-preregistration.md) closes the
+selection half of issue #19. Six repositories — two Java, two JavaScript, two
+Python — were drawn by a seeded walk over a retained frame of 219 GitHub
+advisories, under eight metadata-only eligibility criteria, and pinned in
+`corpus/real-project/pins/` at a vulnerable and a fixed revision each, with
+source-archive digests and licence records. No analyzer has been run against any
+of them; `cargo run -- validate` replays the draw and refuses a walk that does
+not reproduce from the seed. Ground-truth authoring and adjudication are the
+remaining half of #19 and must close before #20 executes anything.
+
+Five preregistration decisions were taken the same day. The slice is six
+repositories, two per stratum. A multi-commit upstream fix is aggregated into
+one remediation, so a real-project pair is not minimally different and the
+scorecard says so beside every number. OpenTaint and Infer are deferred to wave
+R2, and the tier is barred from entering a freeze until every adapter that could
+analyze a pinned repository is wired against it, so no scorecard publishes while
+the build-capture engines sit out. A TypeScript stratum waits for R2. Wave R1's
+ground truth is maintainer-authored, maintainer-reviewed, and
+maintainer-adjudicated: the independence the review procedure requires is waived
+and disclosed rather than met, `ground_truth.review_independence` records it per
+case, and a standing open-review clause lets any disputing party register a
+verdict that re-opens adjudication.

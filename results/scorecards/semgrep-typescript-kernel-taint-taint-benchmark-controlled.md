@@ -4,7 +4,7 @@ Adapter `semgrep-typescript-kernel`: `semgrep` `1.175.0` (build `semgrep-oss:1.1
 
 Track `taint`, score dimension `taint`, model profile `benchmark-controlled`. This scorecard is a single result population; it is never pooled with other tracks, dimensions, or model profiles.
 
-Normalized report: `reports/semgrep-typescript-kernel.json` (`sha256:691658e531af76e919e418700e60067501e6a494f4057af36520b0d04b6a5ee6`, normalized `sha256:691658e531af76e919e418700e60067501e6a494f4057af36520b0d04b6a5ee6`). Generated from freeze manifest `reports/freeze.json` (`sha256:5e57a5ee0dab3929cefa42edce222acbfb0ba0ee34e25e39e9ea882eaa66b724`).
+Normalized report: `reports/semgrep-typescript-kernel.json` (`sha256:691658e531af76e919e418700e60067501e6a494f4057af36520b0d04b6a5ee6`, normalized `sha256:691658e531af76e919e418700e60067501e6a494f4057af36520b0d04b6a5ee6`). Generated from freeze manifest `reports/freeze.json` (`sha256:c92efa03098fd8b51e820ff66b942099c4b972d2fec19a90bd65424b5e01fa1e`).
 
 ## Language `typescript`, tier `core`
 
