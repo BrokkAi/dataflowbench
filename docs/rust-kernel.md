@@ -152,7 +152,7 @@ what reaches the sink.
 
 This tier is scored separately and **never** changes the core denominator —
 15 templates / 30 assertions classically, 27 templates / 54 assertions since
-the challenge expansion. `validate_rust_kernel_population` in `src/main.rs`
+the challenge expansion. `validate_rust_kernel_population` in `src/adapters/codeql.rs`
 enforces that: the core subset must be exactly the rollout table's Rust
 template set, balanced one positive to one negative, and the only other tier a
 Rust kernel run may select is `language-extension`. DataFlowBench's shared pair-balance validation

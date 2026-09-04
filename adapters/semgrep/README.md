@@ -218,7 +218,7 @@ nothing in this table, and no wave since has — including C's, which exercises
 only nine of the thirteen rows because the other four templates are
 inapplicable to the language and therefore never selected at all.
 
-The decision is implemented as `CHALLENGE_SEMGREP_PARTITION` in `src/main.rs`,
+The decision is implemented as `CHALLENGE_SEMGREP_PARTITION` in `src/adapters/semgrep.rs`,
 keyed by `template_id` and consulted *before* the `feature_tags` rule. Keying it
 by template rather than by tags is deliberate: it means no fixture author's tag
 choices — and no observed result — can move a challenge case between the scored

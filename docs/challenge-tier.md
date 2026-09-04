@@ -686,8 +686,8 @@ fixed here so fixtures do not drift:
 
 ### Validator scope, stated now, implemented later
 
-`validate_scored_kernel_balance` and the per-language template-ID sets in
-`src/main.rs` currently pin each language to the sixteen-template
+`validate_scored_kernel_balance` (`src/cases.rs`) and the per-language
+template-ID sets in `src/templates.rs` currently pin each language to the sixteen-template
 `KERNEL_TEMPLATE_IDS` population. Those sets **will be extended** to each
 language's expanded template set — the exact IDs given by the matrix below — as
 each language's fixtures land. That extension is deliberately **not** part of

@@ -137,21 +137,29 @@ implementation work behind this checklist.
       execution model, benchmark-controlled configuration, scored partition,
       outcome semantics, observed results, retained artifacts, and exact
       reproduction commands.
-- [ ] **Runner integration** in `src/main.rs`. The touchpoints an integrator
-      edits, with the Pysa arms as the worked example:
+- [ ] **Runner integration** as one module, `src/adapters/<tool>.rs`, over
+      the shared contract in `src/adapters/mod.rs`. The touchpoints an
+      integrator edits, with the Pysa arms as the worked example:
       - a run-command arm in the `Commands` enum (`RunPysaPythonKernel`,
-        `RunPysaModeling`, `RunPysaNative`) and its dispatch in `main`;
-      - a `ModelingTool` variant plus preregistered rows in the
-        `MODELING_PARTITION` and `NATIVE_PARTITION` constants (partition
-        revisions go through `NATIVE_PARTITION_AMENDMENTS`, one dated row
-        per amended cell);
+        `RunPysaModeling`, `RunPysaNative`) and its dispatch in `main`, the
+        only edits outside the adapter's own module and its tier rows;
+      - a population descriptor implementing `KernelPopulation`, which
+        supplies the report path, the raw-evidence root, the scored template
+        set, and the committed configuration the report's hash covers;
+      - a `ModelingTool` variant plus preregistered rows in
+        `MODELING_PARTITION` (`src/modeling.rs`) and `NATIVE_PARTITION`
+        (`src/native.rs`) — partition revisions go through
+        `NATIVE_PARTITION_AMENDMENTS`, one dated row per amended cell;
+      - an arm in `current_configuration_paths` (`src/report.rs`), so a
+        committed report can be proved current against the configuration it
+        was produced under;
       - a normalization path mapping the tool's native output to the five
         outcome states (for Pysa: `parse_pysa_evidence`,
         `pysa_issue_anchor_match`, `pysa_rule_outcome`), including the
         activation guards that keep silent failures out of `not-reached`;
       - tests pinning the identity witness, the partition counts, the
-        normalization semantics, and the retained-evidence shapes, in the
-        same file's test module.
+        normalization semantics, and the retained-evidence shapes, in
+        `src/tests/adapters/<tool>.rs`.
 
 The last two run-quality gates are the same for everyone: `cargo fmt
 --check`, `cargo test`, `cargo run -- validate`, and

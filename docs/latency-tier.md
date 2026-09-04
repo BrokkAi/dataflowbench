@@ -791,7 +791,7 @@ rewritten.
 > sequence's top; the Pysa (A16/A17), FlowDroid (A18–A20), warm-range (A21) and
 > OpenTaint (A22/A23) sessions all merged first, so it was renumbered to
 > **A24** at its own merge, with every citation in this document, in
-> `src/main.rs`, in `docs/src/data/` and in the retained artifacts moved with
+> `src/latency.rs`, in `docs/src/data/` and in the retained artifacts moved with
 > it, because an amendment identifier must name exactly one amendment. A15 and
 > A21 carry the same note for the same reason.
 

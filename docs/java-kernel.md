@@ -4,7 +4,7 @@ Java is the origin population of the semantic kernel. The sixteen scored
 propagation templates were authored here first, and every other language kernel
 is a port of them: the [applicability matrix](applicability-matrix.md)
 classifies each cell against the Java shape, and
-`validate_kernel_balance` in `src/main.rs` enforces that a ported kernel
+`validate_kernel_population_with` in `src/cases.rs` enforces that a ported kernel
 reproduces the Java classic template identities exactly. Java's own contract
 was therefore recorded across
 [the adapter contract](adapters.md) and the per-adapter READMEs rather than in a

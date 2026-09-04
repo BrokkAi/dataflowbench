@@ -384,7 +384,7 @@ mechanics: how a language moves from its classic denominator to its expanded one
 without any population check being rewritten, and how the tiers stay separated
 while only some languages have moved.
 
-**One table.** `CHALLENGE_ROLLOUT` in `src/main.rs` holds one row per language:
+**One table.** `CHALLENGE_ROLLOUT` in `src/templates.rs` holds one row per language:
 its `classic` template set (sixteen, or fifteen where the exception-catch cell
 is inapplicable), the `challenge` set the preregistration's applicability matrix
 assigns it, and a `rolled_out` flag. `expected_core_templates(language)` returns
@@ -569,7 +569,7 @@ to, and the runs. A wave never edits a template definition or a partition cell.
 `CHALLENGE_ROLLOUT` because its templates *expand an existing denominator*, so
 something had to say whether a language's core is the classic set or the
 expanded one. Modeling is its own tier with its own denominator, so the
-question does not arise: `validate_modeling_cases` in `src/main.rs` checks each
+question does not arise: `validate_modeling_cases` in `src/modeling.rs` checks each
 language that has modeling-tier cases against the preregistered twelve, and a
 language with none has no modeling denominator at all — which is different from
 having a zero, and validates trivially. The first fixture a language commits

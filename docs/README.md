@@ -15,7 +15,7 @@ see the glossary entry below.
 | --- | --- |
 | [adapters.md](adapters.md) | The adapter contract: the five normalized outcomes, no synthesized results, retained raw evidence, phase timings and the environment stamp, pin-currency policy, per-analyzer population sections, and the analyzer-election bounds. Amendment-bearing. |
 | [new-analyzer.md](new-analyzer.md) | The analyzer-admission policy packaged for outside maintainers: the four eligibility bounds, the field-evaluation expectation, the pin/digest and preregistration requirements, the new-adapter deliverables checklist, and the governance and correction mechanism. |
-| [adding-an-adapter.md](adding-an-adapter.md) | The step-ordered integration walkthrough for a new analyzer adapter, including the `src/main.rs` touchpoints. |
+| [adding-an-adapter.md](adding-an-adapter.md) | The step-ordered integration walkthrough for a new analyzer adapter, including the source-tree touchpoints and the shared adapter contract in `src/adapters/mod.rs`. |
 | [scoring.md](scoring.md) | The scoring contract: templates not fixture counts, balanced pairs, outcome interpretation, the 50% blind baseline, separate populations, and the model-profile split. |
 | [freeze.md](freeze.md) | The `freeze/v1` immutable evidence-manifest contract, the rule that a correction is a new freeze, never a rewrite, the freeze-prep checklist (whose pin-currency step operates the adapters.md policy), and the release-notes template with its pin table. |
 | [results.md](results.md) | The result-generation contract: byte-stable artifacts generated only from a validated freeze, provable with `--check`. |
