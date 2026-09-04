@@ -2,8 +2,8 @@
 
 This is the step-ordered integration walkthrough for a new analyzer adapter.
 It packages what already binds every shipped adapter — the [adapter
-contract](adapters.md), the [scoring contract](scoring.md), and the shape of
-`src/main.rs` — into one path an integrator can follow. It does not relax any
+contract](adapters.md), the [scoring contract](scoring.md), and the shape of the
+adapter modules — into one path an integrator can follow. It does not relax any
 of it: the contract documents stay normative, and where this guide and a
 contract document disagree, the contract document wins.
 
@@ -108,8 +108,8 @@ Each layer has a regression test to imitate:
 `semgrep_runner_failures_never_become_clean_negatives`,
 `joern_runner_failures_never_become_clean_negatives`,
 `codeql_missing_sarif_keeps_runner_error_evidence`, and
-`flowdroid_completion_guard_refuses_silent_failures` in the `src/main.rs`
-test module.
+`flowdroid_completion_guard_refuses_silent_failures`, each in its
+adapter's module under `src/tests/adapters/`.
 
 ## 4. Evidence artifacts to retain
 
@@ -140,49 +140,93 @@ Every run leaves a complete audit trail under `reports/`:
   per run, written by `write_run_environment`: hardware model, OS, CPU
   count, beside the tool identity the run witnessed.
 
-## 5. `src/main.rs` touchpoints
+## 5. Source-tree touchpoints
 
-There is currently no `Adapter` trait — extracting one is the open remainder
-of issue [#130](https://github.com/BrokkAi/dataflowbench/issues/130). Until
-then an integration is a bespoke function family in `src/main.rs`, and the
-convention is strict enough that the compiler-visible surface is still
-enumerable. Imitate Pysa (the newest family) throughout:
+An adapter is one module, `src/adapters/<tool>.rs`, over the shared contract
+in [`src/adapters/mod.rs`](../src/adapters/mod.rs). That module owns the
+adapter's pinned identity, its committed configuration, its case selection,
+its invocation, and the normalization of its own retained evidence — and
+nothing outside it owns any of those. Imitate Pysa (the newest module)
+throughout.
 
-1. **`Commands` enum variants.** Add `Run<Tool><Language>Kernel { … }` with
-   the tool binary taken as a flag, never a hard-coded path — plus
-   `Run<Tool>Modeling` / `Run<Tool>Native` variants if and when the adapter
-   takes modeling-matrix or native-profile rows. Wire the dispatch arm in
-   the `match` below the enum.
-2. **Case selection.** A `select_<tool>_cases()` that filters by language,
-   track, and score tier and revalidates the expected kernel population, so
-   an omitted template cannot hide in a smaller balanced subset (compare
-   `select_pysa_cases`, `select_joern_cases`).
-3. **The runner pair.** `run_<tool>_kernel` witnesses the pinned tool
-   identity from the binary, hashes the committed configuration, writes the
-   run-environment stamp, and loops `run_<tool>_case` over the selection
-   before writing the report through `write_and_validate_report`.
+**Where everything else lives.** `src/main.rs` is the command surface only.
+Beside `src/adapters/` sit `src/cases.rs` and `src/templates.rs` (the
+canonical cases and the preregistered template identities), `src/report.rs`
+(the normalized report and the configuration hash), `src/evidence.rs` (anchor
+reconciliation and the shared SARIF helpers), `src/runtime.rs` (process,
+timing, and environment plumbing), `src/modeling.rs`, `src/native.rs` and
+`src/latency.rs` (the three tiers that run beside the core kernels), and
+`src/freeze.rs` and `src/results.rs` (the evidence manifest and result
+generation).
+
+### What the shared contract gives you
+
+Four things are identical across all eight adapters and are written once, in
+`src/adapters/mod.rs`. Use them; do not re-implement them.
+
+- **`ToolIdentity`** — the witnessed `tool_version` / `tool_build_identity`
+  pair. Your witness function returns one, and both halves must be read from
+  the artifact the run invoked, never from a constant in this repository.
+- **`KernelPopulation`** — the identity of your scored population: its tool
+  key, language, display name, report path, raw-evidence root, label, scored
+  template set, the predicate deciding which canonical cases belong to it,
+  and the committed configuration its `configuration_hash` covers.
+- **`select_kernel_cases`** — the selection loop and the revalidation against
+  your language's rollout row, so an omitted template cannot hide in a
+  smaller balanced subset.
+- **`normalized_report`** and **`write_runner_error`** — the report envelope
+  every adapter writes, and the runner-error document every adapter retains.
+
+### What stays yours
+
+1. **`Commands` enum variants.** In `src/main.rs`, add
+   `Run<Tool><Language>Kernel { … }` with the tool binary taken as a flag,
+   never a hard-coded path — plus `Run<Tool>Modeling` / `Run<Tool>Native`
+   variants if and when the adapter takes modeling-matrix or native-profile
+   rows. Wire the dispatch arm in the `match` inside `main`.
+2. **The population descriptor.** An enum (or, for a single-language
+   adapter, a unit struct — compare `PysaKernel`) with one variant per
+   language, implementing `KernelPopulation`. Anything the analyzer needs
+   that the contract does not name — a frontend identifier, an anchor
+   dialect, a rule path — stays an inherent method on the same type.
+   `select_<tool>_cases` is then a one-line call to `select_kernel_cases`.
+3. **The runner pair.** `run_<tool>_kernel` witnesses the pinned identity,
+   resolves the configuration through `configuration_paths`, writes the
+   run-environment stamp, loops `run_<tool>_case` over the selection, and
+   publishes through `normalized_report` and `write_and_validate_report`.
    `run_<tool>_case` clears stale artifacts (timing sidecar included),
    materializes the case workspace, spawns the tool under the case budget,
    writes phase timings, and returns `(outcome, diagnostics, raw_path)`.
-4. **Partition constants.** Preregistered capability decisions are data,
-   not control flow scattered through the runner: a partition constant
-   consulted before invocation (compare `CHALLENGE_SEMGREP_PARTITION`,
-   `MODELING_PARTITION`, `NATIVE_PARTITION`), each `unsupported` cell
-   carrying its verbatim rationale.
-5. **The normalization function.** One `<tool>_…_outcome` function that
-   reads only the retained evidence and implements the section-3 guards
-   (compare `pysa_rule_outcome`, `semgrep_finding_outcome`,
-   `joern_flow_outcome`).
-6. **Tests.** In the `src/main.rs` test module, the new adapter adds at
+   Both are bespoke, deliberately: this is where the analyzer's real
+   invocation contract lives.
+4. **Partition constants.** Preregistered capability decisions are data, not
+   control flow scattered through the runner: a partition constant consulted
+   before invocation, each `unsupported` cell carrying its verbatim
+   rationale. Tier-wide partitions live with their tier (`MODELING_PARTITION`
+   in `src/modeling.rs`, `NATIVE_PARTITION` in `src/native.rs`); an
+   adapter-specific one lives with its adapter
+   (`CHALLENGE_SEMGREP_PARTITION` in `src/adapters/semgrep.rs`).
+5. **The normalization function.** One `<tool>_…_outcome` function that reads
+   only the retained evidence and implements the section-3 guards (compare
+   `pysa_rule_outcome`, `semgrep_finding_outcome`, `joern_flow_outcome`).
+   This is bespoke on purpose. The guards are the adapter contract's real
+   obligation, and a shared abstraction over them would hide them rather
+   than enforce them.
+6. **The configuration-hash mapping.** `current_configuration_paths` in
+   `src/report.rs` maps a committed report path to the configuration it
+   hashes, and is what proves a committed report is not stale. Add your
+   population's arm there. Nothing else in the file may reorder or rename an
+   existing path: a stamped hash is compared against this set, so a change
+   here flags every affected report as drifted.
+7. **Tests.** In `src/tests/adapters/<tool>.rs`, the new adapter adds at
    minimum: a population-scoping test
-   (`<tool>_kernel_is_language_scoped_and_resolvable`), an identity-pin
-   test (`<tool>_identity_is_witnessed_against_the_pin` — Pysa's is
+   (`<tool>_kernel_is_language_scoped_and_resolvable`), an identity-pin test
+   (`<tool>_identity_is_witnessed_against_the_pin` — Pysa's is
    `pysa_identity_is_witnessed_against_the_pins`, plural, because it
-   witnesses two pinned tools), an
-   evidence/anchor-reconciliation test, a report-path-disjointness test,
-   and an anti-vacuous-negative test
+   witnesses two pinned tools), an evidence/anchor-reconciliation test, a
+   report-path-disjointness test, and an anti-vacuous-negative test
    (`<tool>_runner_failures_never_become_clean_negatives`). Pysa's and
-   FlowDroid's test sets are the current reference lists.
+   FlowDroid's test modules are the current reference lists.
 
 ## 6. Validation
 
