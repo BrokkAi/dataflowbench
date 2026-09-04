@@ -825,7 +825,7 @@ An `unsupported` cell is coverage, never a negative, and never a false negative.
 It does not reduce any other tool's denominator, and it does not reduce the
 benchmark's — a tool that declines a category simply has no assertions in it.
 
-### Bifrost — v0.10.8 (build `419395c8`)
+### Bifrost — v0.10.9 (build `04775a7b`)
 
 > **Amended.** Category Z was promoted to scored activation by
 > [Amendment A9](#a9--2026-08-27-bifrosts-sanitizer-category-is-promoted-the-readmes-lowering-claim-was-false):
@@ -839,7 +839,7 @@ Verified surface: the seventeen committed `.rqlp` policies use exactly
 `(analysis :type taint :mode may :call-modeling (call-modeling :unmodeled
 optimistic))`. No committed policy contains a sanitizer, transform, or
 external-model section. The build pinned when this document was written —
-v0.10.6, since re-pinned to v0.10.8 — was not available at the time; a locally
+v0.10.6, since re-pinned to v0.10.9 — was not available at the time; a locally
 installed **v0.9.5** binary was inspected and exposes
 policy-schema pointers for `/analysis/sanitizers/entries/`,
 `/analysis/transforms/entries/` and `/analysis/external_models/entries/`, plus
@@ -1141,7 +1141,7 @@ a reading of upstream documentation.
 Preregistered, before any modeling fixture exists. `TBV` = to be verified at
 implementation, treated as unsupported until shown otherwise.
 
-| Category | Bifrost v0.10.8 | CodeQL 2.26.4 | Joern 4.0.614 | Semgrep CE 1.175.0 |
+| Category | Bifrost v0.10.9 | CodeQL 2.26.4 | Joern 4.0.614 | Semgrep CE 1.175.0 |
 | --- | --- | --- | --- | --- |
 | S — sources and sinks | supported | supported | supported | supported |
 | P — propagators | TBV | supported | supported | unsupported |

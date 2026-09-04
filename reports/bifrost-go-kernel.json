@@ -2,13 +2,13 @@
   "adapter_version": "0.1.0",
   "cold_or_warm": "cold",
   "configuration_hash": "3e8066742eac91518264ef6d3ad8f99d2f6dd7159ca1c3b4114dbf5d324b4fb0",
-  "ended_at_unix_seconds": 1788311321,
+  "ended_at_unix_seconds": 1788506872,
   "fixture_revision": "sha256:9df209ed3d7723a3ee33f2b289cf2afe34a3add781bdf2a2ac445de42b8d0151",
   "results": [
     {
       "case_id": "dfb-taint-go-alias-propagation-negative",
       "diagnostics": [],
-      "duration_ms": 183,
+      "duration_ms": 245,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-go-kernel/dfb-taint-go-alias-propagation-negative.json",
@@ -25,7 +25,7 @@
       "diagnostics": [
         "Controlled input reaches the benchmark sink"
       ],
-      "duration_ms": 190,
+      "duration_ms": 221,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-go-kernel/dfb-taint-go-alias-propagation-positive.json",
@@ -40,10 +40,10 @@
     {
       "case_id": "dfb-taint-go-anonymous-implementation-negative",
       "diagnostics": [
-        "Bifrost reported incomplete analysis: partial_discovery",
-        "taint discovery is incomplete: procedure value-flow snapshot for anonymous_implementation_negative.go:anonymous_implementation_negative.go.run is unknown"
+        "Bifrost reported incomplete analysis: capability_incomplete",
+        "taint discovery is incomplete: procedure value-flow snapshot for anonymous_implementation_negative.go:anonymous_implementation_negative.go.run is unsupported (values)"
       ],
-      "duration_ms": 182,
+      "duration_ms": 195,
       "outcome": "inconclusive",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-go-kernel/dfb-taint-go-anonymous-implementation-negative.json",
@@ -58,10 +58,10 @@
     {
       "case_id": "dfb-taint-go-anonymous-implementation-positive",
       "diagnostics": [
-        "Bifrost reported incomplete analysis: partial_discovery",
-        "taint discovery is incomplete: procedure value-flow snapshot for anonymous_implementation_positive.go:anonymous_implementation_positive.go.run is unknown"
+        "Bifrost reported incomplete analysis: capability_incomplete",
+        "taint discovery is incomplete: procedure value-flow snapshot for anonymous_implementation_positive.go:anonymous_implementation_positive.go.run is unsupported (values)"
       ],
-      "duration_ms": 183,
+      "duration_ms": 189,
       "outcome": "inconclusive",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-go-kernel/dfb-taint-go-anonymous-implementation-positive.json",
@@ -76,7 +76,7 @@
     {
       "case_id": "dfb-taint-go-argument-position-negative",
       "diagnostics": [],
-      "duration_ms": 185,
+      "duration_ms": 173,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-go-kernel/dfb-taint-go-argument-position-negative.json",
@@ -93,7 +93,7 @@
       "diagnostics": [
         "Controlled input reaches the benchmark sink"
       ],
-      "duration_ms": 200,
+      "duration_ms": 191,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-go-kernel/dfb-taint-go-argument-position-positive.json",
@@ -107,12 +107,9 @@
     },
     {
       "case_id": "dfb-taint-go-array-element-negative",
-      "diagnostics": [
-        "Bifrost reported incomplete analysis: capability_incomplete",
-        "taint discovery is incomplete: procedure value-flow snapshot for array_element_negative.go:array_element_negative.go.run is unsupported (index_memory)"
-      ],
-      "duration_ms": 187,
-      "outcome": "inconclusive",
+      "diagnostics": [],
+      "duration_ms": 191,
+      "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-go-kernel/dfb-taint-go-array-element-negative.json",
       "sink_anchors": [
@@ -126,12 +123,10 @@
     {
       "case_id": "dfb-taint-go-array-element-positive",
       "diagnostics": [
-        "Bifrost reported incomplete analysis: capability_incomplete",
-        "Controlled input reaches the benchmark sink",
-        "taint discovery is incomplete: procedure value-flow snapshot for array_element_positive.go:array_element_positive.go.run is unsupported (index_memory)"
+        "Controlled input reaches the benchmark sink"
       ],
-      "duration_ms": 200,
-      "outcome": "inconclusive",
+      "duration_ms": 199,
+      "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-go-kernel/dfb-taint-go-array-element-positive.json",
       "sink_anchors": [
@@ -145,7 +140,7 @@
     {
       "case_id": "dfb-taint-go-branch-join-negative",
       "diagnostics": [],
-      "duration_ms": 192,
+      "duration_ms": 184,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-go-kernel/dfb-taint-go-branch-join-negative.json",
@@ -162,7 +157,7 @@
       "diagnostics": [
         "Controlled input reaches the benchmark sink"
       ],
-      "duration_ms": 184,
+      "duration_ms": 193,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-go-kernel/dfb-taint-go-branch-join-positive.json",
@@ -177,7 +172,7 @@
     {
       "case_id": "dfb-taint-go-call-context-negative",
       "diagnostics": [],
-      "duration_ms": 182,
+      "duration_ms": 196,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-go-kernel/dfb-taint-go-call-context-negative.json",
@@ -194,7 +189,7 @@
       "diagnostics": [
         "Controlled input reaches the benchmark sink"
       ],
-      "duration_ms": 193,
+      "duration_ms": 215,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-go-kernel/dfb-taint-go-call-context-positive.json",
@@ -210,9 +205,9 @@
       "case_id": "dfb-taint-go-callback-registration-negative",
       "diagnostics": [
         "Bifrost reported incomplete analysis: partial_discovery",
-        "taint discovery is incomplete: procedure value-flow snapshot for callback_registration_negative.go:callback_registration_negative.go.fire is unknown"
+        "taint discovery is incomplete: procedure semantics for callback_registration_negative.go:callback_registration_negative.go.fire is unknown"
       ],
-      "duration_ms": 185,
+      "duration_ms": 189,
       "outcome": "inconclusive",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-go-kernel/dfb-taint-go-callback-registration-negative.json",
@@ -228,9 +223,9 @@
       "case_id": "dfb-taint-go-callback-registration-positive",
       "diagnostics": [
         "Bifrost reported incomplete analysis: partial_discovery",
-        "taint discovery is incomplete: procedure value-flow snapshot for callback_registration_positive.go:callback_registration_positive.go.fire is unknown"
+        "taint discovery is incomplete: procedure semantics for callback_registration_positive.go:callback_registration_positive.go.fire is unknown"
       ],
-      "duration_ms": 195,
+      "duration_ms": 203,
       "outcome": "inconclusive",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-go-kernel/dfb-taint-go-callback-registration-positive.json",
@@ -246,9 +241,9 @@
       "case_id": "dfb-taint-go-closure-capture-negative",
       "diagnostics": [
         "Bifrost reported incomplete analysis: partial_discovery",
-        "taint discovery is incomplete: procedure value-flow snapshot for closure_capture_negative.go:closure_capture_negative.go.run is unknown"
+        "taint discovery is incomplete: call resolution for closure_capture_negative.go:closure_capture_negative.go.run is unknown"
       ],
-      "duration_ms": 191,
+      "duration_ms": 210,
       "outcome": "inconclusive",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-go-kernel/dfb-taint-go-closure-capture-negative.json",
@@ -264,9 +259,9 @@
       "case_id": "dfb-taint-go-closure-capture-positive",
       "diagnostics": [
         "Bifrost reported incomplete analysis: partial_discovery",
-        "taint discovery is incomplete: procedure value-flow snapshot for closure_capture_positive.go:closure_capture_positive.go.run is unknown"
+        "taint discovery is incomplete: call resolution for closure_capture_positive.go:closure_capture_positive.go.run is unknown"
       ],
-      "duration_ms": 190,
+      "duration_ms": 174,
       "outcome": "inconclusive",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-go-kernel/dfb-taint-go-closure-capture-positive.json",
@@ -282,9 +277,9 @@
       "case_id": "dfb-taint-go-computed-property-negative",
       "diagnostics": [
         "Bifrost reported incomplete analysis: partial_discovery",
-        "taint discovery is incomplete: procedure value-flow snapshot for computed_property_negative.go:computed_property_negative.go.run is unknown"
+        "taint discovery is incomplete: access-path resolution for computed_property_negative.go:computed_property_negative.go.run is unknown"
       ],
-      "duration_ms": 206,
+      "duration_ms": 183,
       "outcome": "inconclusive",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-go-kernel/dfb-taint-go-computed-property-negative.json",
@@ -300,9 +295,9 @@
       "case_id": "dfb-taint-go-computed-property-positive",
       "diagnostics": [
         "Bifrost reported incomplete analysis: partial_discovery",
-        "taint discovery is incomplete: procedure value-flow snapshot for computed_property_positive.go:computed_property_positive.go.run is unknown"
+        "taint discovery is incomplete: access-path resolution for computed_property_positive.go:computed_property_positive.go.run is unknown"
       ],
-      "duration_ms": 201,
+      "duration_ms": 196,
       "outcome": "inconclusive",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-go-kernel/dfb-taint-go-computed-property-positive.json",
@@ -317,7 +312,7 @@
     {
       "case_id": "dfb-taint-go-context-pair-depth2-negative",
       "diagnostics": [],
-      "duration_ms": 184,
+      "duration_ms": 179,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-go-kernel/dfb-taint-go-context-pair-depth2-negative.json",
@@ -334,7 +329,7 @@
       "diagnostics": [
         "Controlled input reaches the benchmark sink"
       ],
-      "duration_ms": 204,
+      "duration_ms": 209,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-go-kernel/dfb-taint-go-context-pair-depth2-positive.json",
@@ -349,7 +344,7 @@
     {
       "case_id": "dfb-taint-go-deep-relay-chain-negative",
       "diagnostics": [],
-      "duration_ms": 184,
+      "duration_ms": 195,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-go-kernel/dfb-taint-go-deep-relay-chain-negative.json",
@@ -366,7 +361,7 @@
       "diagnostics": [
         "Controlled input reaches the benchmark sink"
       ],
-      "duration_ms": 213,
+      "duration_ms": 225,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-go-kernel/dfb-taint-go-deep-relay-chain-positive.json",
@@ -381,7 +376,7 @@
     {
       "case_id": "dfb-taint-go-direct-negative",
       "diagnostics": [],
-      "duration_ms": 196,
+      "duration_ms": 188,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-go-kernel/dfb-taint-go-direct-negative.json",
@@ -398,7 +393,7 @@
       "diagnostics": [
         "Controlled input reaches the direct benchmark sink"
       ],
-      "duration_ms": 194,
+      "duration_ms": 181,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-go-kernel/dfb-taint-go-direct-positive.json",
@@ -413,10 +408,10 @@
     {
       "case_id": "dfb-taint-go-dispatch-table-negative",
       "diagnostics": [
-        "Bifrost reported incomplete analysis: capability_incomplete",
-        "taint semantic binding is unavailable: no analysis root contains both a selected source and sink"
+        "Bifrost reported incomplete analysis: partial_discovery",
+        "taint discovery is incomplete: procedure value-flow snapshot for dispatch_table_negative.go:dispatch_table_negative.go.run is unproven"
       ],
-      "duration_ms": 187,
+      "duration_ms": 195,
       "outcome": "inconclusive",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-go-kernel/dfb-taint-go-dispatch-table-negative.json",
@@ -431,10 +426,10 @@
     {
       "case_id": "dfb-taint-go-dispatch-table-positive",
       "diagnostics": [
-        "Bifrost reported incomplete analysis: capability_incomplete",
-        "taint semantic binding is unavailable: no analysis root contains both a selected source and sink"
+        "Bifrost reported incomplete analysis: partial_discovery",
+        "taint discovery is incomplete: procedure value-flow snapshot for dispatch_table_positive.go:dispatch_table_positive.go.run is unproven"
       ],
-      "duration_ms": 192,
+      "duration_ms": 177,
       "outcome": "inconclusive",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-go-kernel/dfb-taint-go-dispatch-table-positive.json",
@@ -452,7 +447,7 @@
         "Bifrost reported incomplete analysis: capability_incomplete",
         "taint discovery is incomplete: procedure value-flow snapshot for element_object_negative.go:element_object_negative.go.run is unsupported (index_memory)"
       ],
-      "duration_ms": 185,
+      "duration_ms": 180,
       "outcome": "inconclusive",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-go-kernel/dfb-taint-go-element-object-negative.json",
@@ -471,7 +466,7 @@
         "Controlled input reaches the benchmark sink",
         "taint discovery is incomplete: procedure value-flow snapshot for element_object_positive.go:element_object_positive.go.run is unsupported (index_memory)"
       ],
-      "duration_ms": 191,
+      "duration_ms": 193,
       "outcome": "inconclusive",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-go-kernel/dfb-taint-go-element-object-positive.json",
@@ -489,7 +484,7 @@
         "Bifrost reported incomplete analysis: partial_discovery",
         "taint discovery is incomplete: call binding for exception_catch_negative.go:exception_catch_negative.go.dfb_sink is unknown"
       ],
-      "duration_ms": 180,
+      "duration_ms": 179,
       "outcome": "inconclusive",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-go-kernel/dfb-taint-go-exception-catch-negative.json",
@@ -507,7 +502,7 @@
         "Bifrost reported incomplete analysis: partial_discovery",
         "taint discovery is incomplete: call binding for exception_catch_positive.go:exception_catch_positive.go.dfb_sink is unknown"
       ],
-      "duration_ms": 181,
+      "duration_ms": 184,
       "outcome": "inconclusive",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-go-kernel/dfb-taint-go-exception-catch-positive.json",
@@ -522,7 +517,7 @@
     {
       "case_id": "dfb-taint-go-expression-negative",
       "diagnostics": [],
-      "duration_ms": 196,
+      "duration_ms": 185,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-go-kernel/dfb-taint-go-expression-negative.json",
@@ -539,7 +534,7 @@
       "diagnostics": [
         "Controlled input reaches the benchmark sink"
       ],
-      "duration_ms": 193,
+      "duration_ms": 195,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-go-kernel/dfb-taint-go-expression-positive.json",
@@ -555,9 +550,9 @@
       "case_id": "dfb-taint-go-function-field-negative",
       "diagnostics": [
         "Bifrost reported incomplete analysis: partial_discovery",
-        "taint discovery is incomplete: procedure value-flow snapshot for function_field_negative.go:function_field_negative.go.invoke is unknown"
+        "taint discovery is incomplete: call resolution for function_field_negative.go:function_field_negative.go.invoke is unknown"
       ],
-      "duration_ms": 190,
+      "duration_ms": 182,
       "outcome": "inconclusive",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-go-kernel/dfb-taint-go-function-field-negative.json",
@@ -573,9 +568,9 @@
       "case_id": "dfb-taint-go-function-field-positive",
       "diagnostics": [
         "Bifrost reported incomplete analysis: partial_discovery",
-        "taint discovery is incomplete: procedure value-flow snapshot for function_field_positive.go:function_field_positive.go.invoke is unknown"
+        "taint discovery is incomplete: call resolution for function_field_positive.go:function_field_positive.go.invoke is unknown"
       ],
-      "duration_ms": 192,
+      "duration_ms": 186,
       "outcome": "inconclusive",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-go-kernel/dfb-taint-go-function-field-positive.json",
@@ -590,7 +585,7 @@
     {
       "case_id": "dfb-taint-go-infeasible-branch-negative",
       "diagnostics": [],
-      "duration_ms": 189,
+      "duration_ms": 234,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-go-kernel/dfb-taint-go-infeasible-branch-negative.json",
@@ -607,7 +602,7 @@
       "diagnostics": [
         "Controlled input reaches the benchmark sink"
       ],
-      "duration_ms": 196,
+      "duration_ms": 219,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-go-kernel/dfb-taint-go-infeasible-branch-positive.json",
@@ -622,7 +617,7 @@
     {
       "case_id": "dfb-taint-go-local-chain-negative",
       "diagnostics": [],
-      "duration_ms": 177,
+      "duration_ms": 381,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-go-kernel/dfb-taint-go-local-chain-negative.json",
@@ -639,7 +634,7 @@
       "diagnostics": [
         "Controlled input reaches the benchmark sink"
       ],
-      "duration_ms": 187,
+      "duration_ms": 247,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-go-kernel/dfb-taint-go-local-chain-positive.json",
@@ -654,7 +649,7 @@
     {
       "case_id": "dfb-taint-go-local-overwrite-negative",
       "diagnostics": [],
-      "duration_ms": 179,
+      "duration_ms": 178,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-go-kernel/dfb-taint-go-local-overwrite-negative.json",
@@ -671,7 +666,7 @@
       "diagnostics": [
         "Controlled input reaches the benchmark sink"
       ],
-      "duration_ms": 190,
+      "duration_ms": 194,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-go-kernel/dfb-taint-go-local-overwrite-positive.json",
@@ -703,7 +698,7 @@
       "diagnostics": [
         "Controlled input reaches the benchmark sink"
       ],
-      "duration_ms": 208,
+      "duration_ms": 205,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-go-kernel/dfb-taint-go-loop-carried-positive.json",
@@ -718,10 +713,10 @@
     {
       "case_id": "dfb-taint-go-map-iteration-negative",
       "diagnostics": [
-        "Bifrost reported incomplete analysis: partial_discovery",
-        "taint discovery is incomplete: procedure value-flow snapshot for map_iteration_negative.go:map_iteration_negative.go.run is unproven"
+        "Bifrost reported incomplete analysis: capability_incomplete",
+        "taint discovery is incomplete: procedure value-flow snapshot for map_iteration_negative.go:map_iteration_negative.go.run is unsupported (index_memory)"
       ],
-      "duration_ms": 190,
+      "duration_ms": 195,
       "outcome": "inconclusive",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-go-kernel/dfb-taint-go-map-iteration-negative.json",
@@ -736,10 +731,10 @@
     {
       "case_id": "dfb-taint-go-map-iteration-positive",
       "diagnostics": [
-        "Bifrost reported incomplete analysis: partial_discovery",
-        "taint discovery is incomplete: procedure value-flow snapshot for map_iteration_positive.go:map_iteration_positive.go.run is unproven"
+        "Bifrost reported incomplete analysis: capability_incomplete",
+        "taint discovery is incomplete: procedure value-flow snapshot for map_iteration_positive.go:map_iteration_positive.go.run is unsupported (index_memory)"
       ],
-      "duration_ms": 191,
+      "duration_ms": 177,
       "outcome": "inconclusive",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-go-kernel/dfb-taint-go-map-iteration-positive.json",
@@ -755,9 +750,9 @@
       "case_id": "dfb-taint-go-nested-access-path-negative",
       "diagnostics": [
         "Bifrost reported incomplete analysis: partial_discovery",
-        "taint discovery is incomplete: procedure value-flow snapshot for nested_access_path_negative.go:nested_access_path_negative.go.run is unknown"
+        "taint discovery is incomplete: access-path resolution for nested_access_path_negative.go:nested_access_path_negative.go.run is unknown"
       ],
-      "duration_ms": 192,
+      "duration_ms": 174,
       "outcome": "inconclusive",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-go-kernel/dfb-taint-go-nested-access-path-negative.json",
@@ -774,9 +769,9 @@
       "diagnostics": [
         "Bifrost reported incomplete analysis: partial_discovery",
         "Controlled input reaches the benchmark sink",
-        "taint discovery is incomplete: procedure value-flow snapshot for nested_access_path_positive.go:nested_access_path_positive.go.run is unknown"
+        "taint discovery is incomplete: access-path resolution for nested_access_path_positive.go:nested_access_path_positive.go.run is unknown"
       ],
-      "duration_ms": 199,
+      "duration_ms": 193,
       "outcome": "inconclusive",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-go-kernel/dfb-taint-go-nested-access-path-positive.json",
@@ -791,7 +786,7 @@
     {
       "case_id": "dfb-taint-go-object-separation-negative",
       "diagnostics": [],
-      "duration_ms": 175,
+      "duration_ms": 180,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-go-kernel/dfb-taint-go-object-separation-negative.json",
@@ -808,7 +803,7 @@
       "diagnostics": [
         "Controlled input reaches the benchmark sink"
       ],
-      "duration_ms": 181,
+      "duration_ms": 192,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-go-kernel/dfb-taint-go-object-separation-positive.json",
@@ -823,7 +818,7 @@
     {
       "case_id": "dfb-taint-go-recursive-carry-negative",
       "diagnostics": [],
-      "duration_ms": 183,
+      "duration_ms": 186,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-go-kernel/dfb-taint-go-recursive-carry-negative.json",
@@ -840,7 +835,7 @@
       "diagnostics": [
         "Controlled input reaches the benchmark sink"
       ],
-      "duration_ms": 198,
+      "duration_ms": 201,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-go-kernel/dfb-taint-go-recursive-carry-positive.json",
@@ -855,10 +850,10 @@
     {
       "case_id": "dfb-taint-go-reflective-invocation-negative",
       "diagnostics": [
-        "Bifrost reported incomplete analysis: capability_incomplete",
-        "taint semantic binding is unavailable: no analysis root contains both a selected source and sink"
+        "Bifrost reported incomplete analysis: partial_discovery",
+        "taint discovery is incomplete: procedure semantics for reflective_invocation_negative.go:reflective_invocation_negative.go.run is unknown"
       ],
-      "duration_ms": 195,
+      "duration_ms": 192,
       "outcome": "inconclusive",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-go-kernel/dfb-taint-go-reflective-invocation-negative.json",
@@ -873,10 +868,10 @@
     {
       "case_id": "dfb-taint-go-reflective-invocation-positive",
       "diagnostics": [
-        "Bifrost reported incomplete analysis: capability_incomplete",
-        "taint semantic binding is unavailable: no analysis root contains both a selected source and sink"
+        "Bifrost reported incomplete analysis: partial_discovery",
+        "taint discovery is incomplete: procedure semantics for reflective_invocation_positive.go:reflective_invocation_positive.go.run is unknown"
       ],
-      "duration_ms": 192,
+      "duration_ms": 217,
       "outcome": "inconclusive",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-go-kernel/dfb-taint-go-reflective-invocation-positive.json",
@@ -891,7 +886,7 @@
     {
       "case_id": "dfb-taint-go-return-relay-one-hop-negative",
       "diagnostics": [],
-      "duration_ms": 189,
+      "duration_ms": 177,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-go-kernel/dfb-taint-go-return-relay-one-hop-negative.json",
@@ -908,7 +903,7 @@
       "diagnostics": [
         "Controlled input reaches the benchmark sink"
       ],
-      "duration_ms": 204,
+      "duration_ms": 184,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-go-kernel/dfb-taint-go-return-relay-one-hop-positive.json",
@@ -923,7 +918,7 @@
     {
       "case_id": "dfb-taint-go-return-relay-two-hop-negative",
       "diagnostics": [],
-      "duration_ms": 181,
+      "duration_ms": 174,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-go-kernel/dfb-taint-go-return-relay-two-hop-negative.json",
@@ -940,7 +935,7 @@
       "diagnostics": [
         "Controlled input reaches the benchmark sink"
       ],
-      "duration_ms": 193,
+      "duration_ms": 215,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-go-kernel/dfb-taint-go-return-relay-two-hop-positive.json",
@@ -955,7 +950,7 @@
     {
       "case_id": "dfb-taint-go-same-object-field-negative",
       "diagnostics": [],
-      "duration_ms": 184,
+      "duration_ms": 175,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-go-kernel/dfb-taint-go-same-object-field-negative.json",
@@ -972,7 +967,7 @@
       "diagnostics": [
         "Controlled input reaches the benchmark sink"
       ],
-      "duration_ms": 194,
+      "duration_ms": 200,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/bifrost-go-kernel/dfb-taint-go-same-object-field-positive.json",
@@ -986,8 +981,8 @@
     }
   ],
   "schema_version": 1,
-  "started_at_unix_seconds": 1788311310,
+  "started_at_unix_seconds": 1788506860,
   "tool": "bifrost",
-  "tool_build_identity": "419395c8066b9eddfba06aa69c8a151ef4968249",
-  "tool_version": "bifrost 0.10.8"
+  "tool_build_identity": "04775a7b38c9c025714168328ddb8b793a326461",
+  "tool_version": "bifrost 0.10.9"
 }

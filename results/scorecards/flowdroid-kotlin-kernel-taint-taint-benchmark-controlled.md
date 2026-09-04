@@ -4,7 +4,7 @@ Adapter `flowdroid-kotlin-kernel`: `flowdroid` `2.15.1` (build `soot-infoflow-cm
 
 Track `taint`, score dimension `taint`, model profile `benchmark-controlled`. This scorecard is a single result population; it is never pooled with other tracks, dimensions, or model profiles.
 
-Normalized report: `reports/flowdroid-kotlin-kernel.json` (`sha256:44bb26f4541c5d42b3be8cab06d47a7f29775bf273998f038166639489e66634`, normalized `sha256:44bb26f4541c5d42b3be8cab06d47a7f29775bf273998f038166639489e66634`). Generated from freeze manifest `reports/freeze.json` (`sha256:e3fbcae1eaf3f49192f7156616c4b2149893a8470e03ff445fcd1d5f984f9e5c`).
+Normalized report: `reports/flowdroid-kotlin-kernel.json` (`sha256:44bb26f4541c5d42b3be8cab06d47a7f29775bf273998f038166639489e66634`, normalized `sha256:44bb26f4541c5d42b3be8cab06d47a7f29775bf273998f038166639489e66634`). Generated from freeze manifest `reports/freeze.json` (`sha256:5e57a5ee0dab3929cefa42edce222acbfb0ba0ee34e25e39e9ea882eaa66b724`).
 
 ## Language `kotlin`, tier `core`
 

@@ -4,7 +4,7 @@ Adapter `codeql-java-modeling`: `codeql` `2.26.4` (build `codeql-cli:6b1e4dee94a
 
 Track `taint`, score dimension `taint`, model profile `benchmark-controlled`. This scorecard is a single result population; it is never pooled with other tracks, dimensions, or model profiles.
 
-Normalized report: `reports/codeql-java-modeling.json` (`sha256:14c991ee939e1d4aef3e2850551166cfc3d5de606919aa186a577e4938100975`, normalized `sha256:14c991ee939e1d4aef3e2850551166cfc3d5de606919aa186a577e4938100975`). Generated from freeze manifest `reports/freeze.json` (`sha256:e3fbcae1eaf3f49192f7156616c4b2149893a8470e03ff445fcd1d5f984f9e5c`).
+Normalized report: `reports/codeql-java-modeling.json` (`sha256:14c991ee939e1d4aef3e2850551166cfc3d5de606919aa186a577e4938100975`, normalized `sha256:14c991ee939e1d4aef3e2850551166cfc3d5de606919aa186a577e4938100975`). Generated from freeze manifest `reports/freeze.json` (`sha256:5e57a5ee0dab3929cefa42edce222acbfb0ba0ee34e25e39e9ea882eaa66b724`).
 
 ## Language `java`, tier `modeling`
 

@@ -641,7 +641,7 @@ impl ModelingTool {
     /// freeze cannot survive.
     fn pinned_identity(self) -> &'static str {
         match self {
-            Self::Bifrost => "Bifrost v0.10.8",
+            Self::Bifrost => "Bifrost v0.10.9",
             Self::Codeql => "CodeQL CLI 2.26.4",
             Self::Flowdroid => "FlowDroid 2.15.1",
             Self::Infer => "Infer v1.3.0",
@@ -1752,7 +1752,7 @@ struct NativePartitionCell {
 /// amendment. That is why three of the four tools enter with nothing scored —
 /// which is a statement about product packaging, not about an engine.
 const NATIVE_PARTITION: &[NativePartitionCell] = &[
-    // Bifrost — v0.10.8: 0 / 6. The standalone policy CLI ships no taint
+    // Bifrost — v0.10.9: 0 / 6. The standalone policy CLI ships no taint
     // policy and no source/sink endpoint catalog, so no template can produce a
     // finding regardless of what else it can express.
     NativePartitionCell {
@@ -6681,11 +6681,12 @@ fn run_bifrost(binary: &Path, run: BifrostRun) -> Result<()> {
     };
     fs::create_dir_all(raw_dir)?;
     let started = now_seconds()?;
-    let version =
+    let version_banner =
         command_output(Command::new(binary).arg("--version")).unwrap_or_else(|_| "unknown".into());
     let build_identity = command_output(Command::new(binary).arg("--build-identity"))
         .unwrap_or_else(|_| "unknown".into());
-    write_run_environment(raw_dir, "bifrost", &version, &build_identity)?;
+    write_run_environment(raw_dir, "bifrost", &version_banner, &build_identity)?;
+    let version = witnessed_version_line(&version_banner).to_string();
     let revision = fixture_revision()?;
     let mut results = Vec::new();
     let mut policy_paths = BTreeSet::new();
@@ -12091,6 +12092,21 @@ fn command_output(command: &mut Command) -> Result<String> {
     Ok(String::from_utf8_lossy(&output.stdout).trim().to_string())
 }
 
+/// The version line of a witnessed `--version` banner: its first non-empty
+/// line, trimmed. A version witness is read verbatim from the binary, but a
+/// banner may say more than the version — Bifrost 0.10.9 prints its built-in
+/// policy packs and their catalog digest on the lines beneath `bifrost 0.10.9`
+/// — and a report's `tool_version`, and every rationale that stamps it, name
+/// the version alone. The extra lines are not discarded: the run-environment
+/// stamp retains the whole banner beside the raw evidence.
+fn witnessed_version_line(banner: &str) -> &str {
+    banner
+        .lines()
+        .map(str::trim)
+        .find(|line| !line.is_empty())
+        .unwrap_or("")
+}
+
 fn now_seconds() -> Result<u64> {
     Ok(SystemTime::now().duration_since(UNIX_EPOCH)?.as_secs())
 }
@@ -12200,12 +12216,21 @@ fn hardware_model() -> String {
 /// one environment and one witnessed tool without re-measurement. Like the
 /// per-case sidecars this is additive metadata: no validation requires it and
 /// no outcome reads it.
+///
+/// `tool_version` is the banner exactly as `--version` printed it. A banner
+/// that runs to several lines — Bifrost 0.10.9 witnesses its built-in policy
+/// packs and their catalog digest beneath the version line — is retained
+/// whole under `witnessed_tool_version_banner`, while `witnessed_tool_version`
+/// carries the version line alone, the same line the report's `tool_version`
+/// stamps (see [`witnessed_version_line`]).
 fn write_run_environment(
     raw_dir: &Path,
     tool: &str,
     tool_version: &str,
     tool_build_identity: &str,
 ) -> Result<()> {
+    let version_line = witnessed_version_line(tool_version);
+    let version_banner = (version_line != tool_version.trim()).then_some(tool_version.trim());
     let os_release =
         command_output(Command::new("uname").arg("-r")).unwrap_or_else(|_| "unknown".into());
     let cpu_count = std::thread::available_parallelism()
@@ -12222,7 +12247,8 @@ fn write_run_environment(
             "cpu_architecture": std::env::consts::ARCH,
             "cpu_count": cpu_count,
             "tool": tool,
-            "witnessed_tool_version": tool_version,
+            "witnessed_tool_version": version_line,
+            "witnessed_tool_version_banner": version_banner,
             "witnessed_tool_build_identity": tool_build_identity,
             "evidence_kind": "retained-run-environment"
         }))? + "\n",
@@ -17179,8 +17205,14 @@ fn run_modeling(
     };
 
     let started = now_seconds()?;
-    let (version, build_identity) = witness_tool_identity(plan.tool, binary)?;
-    write_run_environment(&plan.raw_dir, plan.tool.key(), &version, &build_identity)?;
+    let (version_banner, build_identity) = witness_tool_identity(plan.tool, binary)?;
+    write_run_environment(
+        &plan.raw_dir,
+        plan.tool.key(),
+        &version_banner,
+        &build_identity,
+    )?;
+    let version = witnessed_version_line(&version_banner).to_string();
     let revision = fixture_revision()?;
     let mut results = Vec::with_capacity(plan.cases.len());
     for (path, case) in &plan.cases {
@@ -18433,13 +18465,22 @@ fn run_native_with_identity(
     version: String,
     build: String,
 ) -> Result<()> {
+    // The witnessed banner is retained whole in the run-environment stamp; the
+    // report and every rationale it stamps name the version line alone.
+    let version_banner = version;
+    let version = witnessed_version_line(&version_banner).to_string();
     let plan = plan_native_run(tool, language, &version)?;
     let scored_templates = native_supported_templates(plan.tool, plan.language);
 
     fs::create_dir_all(&plan.raw_dir)?;
     let started = now_seconds()?;
     let build_identity = format!("{build} — {}", plan.activation.identity);
-    write_run_environment(&plan.raw_dir, plan.tool.key(), &version, &build_identity)?;
+    write_run_environment(
+        &plan.raw_dir,
+        plan.tool.key(),
+        &version_banner,
+        &build_identity,
+    )?;
     let revision = fixture_revision()?;
     let mut results = Vec::with_capacity(plan.cases.len());
     for (path, case) in &plan.cases {
@@ -20982,11 +21023,36 @@ mod tests {
         assert_eq!(stamp["schema_version"], 1);
         assert_eq!(stamp["tool"], "bifrost");
         assert_eq!(stamp["witnessed_tool_version"], "0.10.8");
+        assert!(stamp["witnessed_tool_version_banner"].is_null());
         assert_eq!(stamp["witnessed_tool_build_identity"], "bifrost-build");
         assert_eq!(stamp["os"], std::env::consts::OS);
         assert_eq!(stamp["evidence_kind"], "retained-run-environment");
         assert!(stamp["hardware_model"].is_string());
         assert!(stamp["cpu_count"].is_u64() || stamp["cpu_count"].is_null());
+        let _ = fs::remove_dir_all(&root);
+    }
+
+    /// A `--version` banner that says more than the version (Bifrost 0.10.9
+    /// lists its built-in policy packs beneath the version line) stamps the
+    /// version line alone as the witnessed version and retains the whole
+    /// banner beside it, so neither the report nor the environment loses
+    /// what the binary said.
+    #[test]
+    fn multi_line_version_banner_is_split_into_line_and_retained_banner() {
+        let banner = "bifrost 0.10.9\nbuiltin-policy-pack bifrost.code-smells@2.10.0 policies=16\nbuiltin-policy-catalog sha256=aea2ad0c\n";
+        assert_eq!(witnessed_version_line(banner), "bifrost 0.10.9");
+        assert_eq!(
+            witnessed_version_line("  bifrost 0.10.8  "),
+            "bifrost 0.10.8"
+        );
+        assert_eq!(witnessed_version_line(""), "");
+        let root = unique_test_dir("dataflowbench-environment-banner-test");
+        write_run_environment(&root, "bifrost", banner, "bifrost-build").unwrap();
+        let stamp: Value =
+            serde_json::from_str(&fs::read_to_string(root.join("run-environment.json")).unwrap())
+                .unwrap();
+        assert_eq!(stamp["witnessed_tool_version"], "bifrost 0.10.9");
+        assert_eq!(stamp["witnessed_tool_version_banner"], banner.trim());
         let _ = fs::remove_dir_all(&root);
     }
 
