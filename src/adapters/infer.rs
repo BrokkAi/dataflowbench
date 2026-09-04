@@ -355,7 +355,7 @@ pub(crate) fn run_infer_kernel(infer: &Path, kernel: InferKernel) -> Result<()> 
     fs::create_dir_all(&raw_dir)?;
     let started = now_seconds()?;
     let identity = witness_infer_identity(infer)?;
-    write_run_environment(&raw_dir, "infer", &identity)?;
+    write_run_environment(&raw_dir, kernel.tool(), &identity)?;
     let revision = fixture_revision()?;
     let mut results = Vec::with_capacity(selected.len());
 

@@ -905,7 +905,7 @@ pub(crate) fn run_flowdroid_kernel(tools: &FlowdroidTools, kernel: FlowdroidKern
     let mut identity = witness_flowdroid_identity(&tools.flowdroid_jar, &tools.android_platform)?;
     let d8_identity = witness_flowdroid_d8(&tools.java, &tools.d8_jar)?;
     identity.build_identity = format!("{}; dexed by {d8_identity}", identity.build_identity);
-    write_run_environment(&raw_dir, "flowdroid", &identity)?;
+    write_run_environment(&raw_dir, kernel.tool(), &identity)?;
     let revision = fixture_revision()?;
     let mut results = Vec::with_capacity(selected.len());
 

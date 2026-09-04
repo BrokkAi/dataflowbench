@@ -197,7 +197,7 @@ pub(crate) fn run_joern_kernel(binary: &Path, kernel: JoernKernel) -> Result<()>
     let configuration_paths = kernel.configuration_paths(&selected)?;
     let started = now_seconds()?;
     let identity = joern_version_identity(binary)?;
-    write_run_environment(raw_dir, "joern", &identity)?;
+    write_run_environment(raw_dir, kernel.tool(), &identity)?;
     let revision = fixture_revision()?;
     let mut results = Vec::with_capacity(selected.len());
 

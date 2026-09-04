@@ -403,7 +403,7 @@ pub(crate) fn run_semgrep_kernel(binary: &Path, kernel: SemgrepKernel) -> Result
     fs::create_dir_all(&raw_dir)?;
     let started = now_seconds()?;
     let identity = semgrep_version_identity(binary)?;
-    write_run_environment(&raw_dir, "semgrep", &identity)?;
+    write_run_environment(&raw_dir, kernel.tool(), &identity)?;
     let revision = fixture_revision()?;
     let mut results = Vec::with_capacity(selected.len());
 

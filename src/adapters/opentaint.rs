@@ -306,7 +306,7 @@ pub(crate) fn run_opentaint_kernel(
     fs::create_dir_all(&raw_dir)?;
     let started = now_seconds()?;
     let identity = witness_opentaint_identity(analyzer_jar, models_archive)?;
-    write_run_environment(&raw_dir, "opentaint", &identity)?;
+    write_run_environment(&raw_dir, kernel.tool(), &identity)?;
     let models = extract_opentaint_models(models_archive)?;
     let revision = fixture_revision()?;
     let mut results = Vec::with_capacity(selected.len());
