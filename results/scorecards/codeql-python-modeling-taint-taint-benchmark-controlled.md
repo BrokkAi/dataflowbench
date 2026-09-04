@@ -4,7 +4,7 @@ Adapter `codeql-python-modeling`: `codeql` `2.26.4` (build `codeql-cli:6b1e4dee9
 
 Track `taint`, score dimension `taint`, model profile `benchmark-controlled`. This scorecard is a single result population; it is never pooled with other tracks, dimensions, or model profiles.
 
-Normalized report: `reports/codeql-python-modeling.json` (`sha256:60ff9613a8e5deedd2c1b3f787911ce6fdb94430c3caaa34eb724695b82bcd4e`, normalized `sha256:60ff9613a8e5deedd2c1b3f787911ce6fdb94430c3caaa34eb724695b82bcd4e`). Generated from freeze manifest `reports/freeze.json` (`sha256:5e57a5ee0dab3929cefa42edce222acbfb0ba0ee34e25e39e9ea882eaa66b724`).
+Normalized report: `reports/codeql-python-modeling.json` (`sha256:60ff9613a8e5deedd2c1b3f787911ce6fdb94430c3caaa34eb724695b82bcd4e`, normalized `sha256:60ff9613a8e5deedd2c1b3f787911ce6fdb94430c3caaa34eb724695b82bcd4e`). Generated from freeze manifest `reports/freeze.json` (`sha256:c92efa03098fd8b51e820ff66b942099c4b972d2fec19a90bd65424b5e01fa1e`).
 
 ## Language `python`, tier `modeling`
 
