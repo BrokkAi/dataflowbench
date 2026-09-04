@@ -1,10 +1,10 @@
 # Scorecard `opentaint-kotlin-kernel-taint-taint-benchmark-controlled`
 
-Adapter `opentaint-kotlin-kernel`: `opentaint` `analyzer/2026.09.03.9752bd2` (build `opentaint-project-analyzer.jar sha256:db3a61637207633342c15ebc40b0164205563ba6446d48a8fa5c4f8fd194b61c; opentaint-models.tar.gz sha256:8746b9594266c67f04cd93a64c6c30673f98ccaeb59baed76d202ffee327a8d4`, adapter version `0.1.0`, configuration `206e6d1fee555be8461afe56c45c8395a32006e1f8ece57b840c229061353079`).
+Adapter `opentaint-kotlin-kernel`: `opentaint` `analyzer/2026.08.27.17eb0fe` (build `opentaint-project-analyzer.jar sha256:811bdb22786e539c9aabdce5bef91f0c6521cc099adbe2720e6a840c09badf54; opentaint-models.tar.gz sha256:c2a8fb0bbc3b6d59ed6db0c62732ff9a6f0f491d515cc2247932f2dd78cbb9f5`, adapter version `0.1.0`, configuration `206e6d1fee555be8461afe56c45c8395a32006e1f8ece57b840c229061353079`).
 
 Track `taint`, score dimension `taint`, model profile `benchmark-controlled`. This scorecard is a single result population; it is never pooled with other tracks, dimensions, or model profiles.
 
-Normalized report: `reports/opentaint-kotlin-kernel.json` (`sha256:02b1514d747cb44f7fbbcf1efe4abf374b078c66823095a3fad584aef865e1bf`, normalized `sha256:02b1514d747cb44f7fbbcf1efe4abf374b078c66823095a3fad584aef865e1bf`). Generated from freeze manifest `reports/freeze.json` (`sha256:e0b86ebdd570afed63f62ec8fc6d49a2ca2e0afe3c3f288b904de4ddbacdd113`).
+Normalized report: `reports/opentaint-kotlin-kernel.json` (`sha256:1fb872fea820eff6854141f77d883ef1312e1d498b0c4e850cbbe4788ce616ea`, normalized `sha256:1fb872fea820eff6854141f77d883ef1312e1d498b0c4e850cbbe4788ce616ea`). Generated from freeze manifest `reports/freeze.json` (`sha256:c92efa03098fd8b51e820ff66b942099c4b972d2fec19a90bd65424b5e01fa1e`).
 
 ## Language `kotlin`, tier `core`
 

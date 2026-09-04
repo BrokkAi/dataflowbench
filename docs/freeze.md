@@ -61,8 +61,9 @@ order, because later steps consume what earlier ones fix.
 4. **Amendments.** Confirm every amendment the cycle recorded is in its own
    commit and names which freezes it invalidates.
 5. **Validation.** `cargo run -- validate`, `validate-reports`, then
-   `create-freeze` and `validate-freeze` from a clean checkout, as the
-   lifecycle below describes.
+   `create-freeze` and `validate-freeze` from a clean checkout of the merged
+   `main` — never from the branch that carried the re-runs of step 3, whose
+   commits the squash merge discards — as the lifecycle below describes.
 6. **Release notes.** Write `docs/releases/vX.Y.Z.md` from the
    [release-notes template](#release-notes-template), including the pin
    table with each analyzer's distance from upstream latest at freeze time.
@@ -88,9 +89,33 @@ validation accepts a `benchmark.revision` that is the checkout HEAD or one of
 its ancestors, while the manifest digests — not the revision equality — carry
 the byte-immutability guarantee for every referenced artifact. Release and
 website claims additionally require a `v`-prefixed tag whose commit contains
-the frozen revision. The flow is: commit evidence, run `create-freeze`, commit
-the manifest (and any generated result artifacts), then run `validate-freeze`
-from the clean checkout.
+the frozen revision. The flow is: merge the evidence, run `create-freeze`,
+commit the manifest (and any generated result artifacts), then run
+`validate-freeze` from the clean checkout.
+
+The evidence must be *merged* first, not merely committed, because `main` is
+squash-merged. A squash merge replaces a pull request with one new commit and
+discards the branch's own commits, so a revision recorded from a branch stops
+resolving the moment that pull request lands. The manifest is not wrong on the
+pull request — the branch commit still resolves there, and CI passes — it goes
+wrong on `main`, after the merge, where the frozen revision now names a commit
+no checkout has. A freeze therefore never shares a pull request with the
+evidence it binds:
+
+1. the re-run lands in its own pull request and is squash-merged to `main`;
+2. `create-freeze` then runs from a clean checkout of the merged `main`, so
+   `benchmark.revision` is `main`'s tip — a commit that survives, and whose
+   tree holds exactly the evidence the manifest digests;
+3. the manifest and its generated artifacts land in a second pull request on
+   top, whose squash commit has the recorded revision as its parent.
+
+`create-freeze` enforces this: it refuses to record a revision that is not
+reachable from `main`, so the mistake is caught while the freeze is being
+assembled rather than after it has broken the main line. Re-binding a
+development-scope manifest to a surviving revision is the repair when it does:
+the digests are unchanged, so no evidence is rewritten and no report is
+replaced behind an existing digest. That repair is available only to a
+development freeze; the paragraph below binds every release and website one.
 
 Keep the manifest and all retained evidence immutable once used for
 a release or website claim. A corrected result is a new freeze: it receives a

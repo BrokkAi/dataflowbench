@@ -4,7 +4,7 @@ Adapter `flowdroid-java-kernel`: `flowdroid` `2.15.1` (build `soot-infoflow-cmd-
 
 Track `taint`, score dimension `taint`, model profile `benchmark-controlled`. This scorecard is a single result population; it is never pooled with other tracks, dimensions, or model profiles.
 
-Normalized report: `reports/flowdroid-java-kernel.json` (`sha256:df7fbd5263d3d27d95ce4da36688c8d5050dd3844a6096ee258d67f4c3f3ba83`, normalized `sha256:df7fbd5263d3d27d95ce4da36688c8d5050dd3844a6096ee258d67f4c3f3ba83`). Generated from freeze manifest `reports/freeze.json` (`sha256:e0b86ebdd570afed63f62ec8fc6d49a2ca2e0afe3c3f288b904de4ddbacdd113`).
+Normalized report: `reports/flowdroid-java-kernel.json` (`sha256:df7fbd5263d3d27d95ce4da36688c8d5050dd3844a6096ee258d67f4c3f3ba83`, normalized `sha256:df7fbd5263d3d27d95ce4da36688c8d5050dd3844a6096ee258d67f4c3f3ba83`). Generated from freeze manifest `reports/freeze.json` (`sha256:c92efa03098fd8b51e820ff66b942099c4b972d2fec19a90bd65424b5e01fa1e`).
 
 ## Language `java`, tier `core`
 

@@ -1,0 +1,75 @@
+{
+  "advisory": {
+    "affected_packages": [
+      "clearml"
+    ],
+    "cve_id": "CVE-2025-8917",
+    "cwes": [
+      "CWE-22"
+    ],
+    "ghsa_id": "GHSA-579p-qf78-fqm2",
+    "published_at": "2025-10-05T12:30:24Z",
+    "severity": "medium",
+    "summary": "clearml is vulnerable to Path Traversal through its `safe_extract` function",
+    "url": "https://github.com/advisories/GHSA-579p-qf78-fqm2"
+  },
+  "ecosystem": "pip",
+  "fix_commits": [
+    "64fb2bcbdbb87a74af90dd723d5ef4a99fceeb73"
+  ],
+  "ground_truth": {
+    "adjudication": "pending",
+    "basis": "the advisory's fix diff between the two pinned revisions",
+    "review_independence": "maintainer-only",
+    "reviewers": [],
+    "status": "proposed"
+  },
+  "language": "python",
+  "license": {
+    "file_path": "LICENSE",
+    "file_sha256": "438496d1ac6c8b98d0c1aefc137b634c3ae5af693f577cc95ea31918cdeaa5d6",
+    "identical_at_both_revisions": true,
+    "redistribution": "DataFlowBench does not vendor this source. Each revision is fetched from the pinned archive URL and verified against sha256 before use.",
+    "spdx_id": "Apache-2.0"
+  },
+  "pin_id": "dfb-rp-python-clearml",
+  "repository": {
+    "name": "clearml",
+    "owner": "clearml",
+    "url": "https://github.com/clearml/clearml"
+  },
+  "revisions": {
+    "fixed": {
+      "revision": "64fb2bcbdbb87a74af90dd723d5ef4a99fceeb73",
+      "role": "the advisory's latest fix commit; the revision in which the reported defect is remediated",
+      "source_archive": {
+        "bytes": 10256969,
+        "retrieved_on": "2026-09-04",
+        "sha256": "cead36c37b57229d9555c42b4984744307e4e5359acd949b96720646ecb9292e",
+        "url": "https://codeload.github.com/clearml/clearml/tar.gz/64fb2bcbdbb87a74af90dd723d5ef4a99fceeb73"
+      }
+    },
+    "vulnerable": {
+      "revision": "7d882ddc46053e142e5c28f5ebde007e0b7523e2",
+      "role": "first parent of the advisory's earliest fix commit; the last revision that still carries the reported defect",
+      "source_archive": {
+        "bytes": 10256925,
+        "retrieved_on": "2026-09-04",
+        "sha256": "04e6a1a5ca9785fda9b09cc988ace033e15b77410ec9570323aa176436540702",
+        "url": "https://codeload.github.com/clearml/clearml/tar.gz/7d882ddc46053e142e5c28f5ebde007e0b7523e2"
+      }
+    }
+  },
+  "schema_version": 1,
+  "selection": {
+    "draw_key": "04172dd4cd93e58ca7fec84b5a753d574143a79ff9d0cf8a40292424b6a5dbe6",
+    "draw_position": 3,
+    "frame": {
+      "path": "corpus/real-project/frame.json",
+      "sha256": "1bb61bcf60d4fed8ac26dcb6f1f33dfcd61e7b285c15037ad7819595efa1ed5e"
+    },
+    "seed": "dataflowbench-real-project-wave-r1"
+  },
+  "stratum": "python",
+  "wave": "R1"
+}

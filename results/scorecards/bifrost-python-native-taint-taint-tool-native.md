@@ -4,7 +4,7 @@ Adapter `bifrost-python-native`: `bifrost` `bifrost 0.10.9` (build `04775a7b38c9
 
 Track `taint`, score dimension `taint`, model profile `tool-native`. This scorecard is a single result population; it is never pooled with other tracks, dimensions, or model profiles.
 
-Normalized report: `reports/bifrost-python-native.json` (`sha256:af7024b7bda9a820d96c4460a6816c3efac6d81c21d3c5a68eb6e86969ae6225`, normalized `sha256:af7024b7bda9a820d96c4460a6816c3efac6d81c21d3c5a68eb6e86969ae6225`). Generated from freeze manifest `reports/freeze.json` (`sha256:e0b86ebdd570afed63f62ec8fc6d49a2ca2e0afe3c3f288b904de4ddbacdd113`).
+Normalized report: `reports/bifrost-python-native.json` (`sha256:af7024b7bda9a820d96c4460a6816c3efac6d81c21d3c5a68eb6e86969ae6225`, normalized `sha256:af7024b7bda9a820d96c4460a6816c3efac6d81c21d3c5a68eb6e86969ae6225`). Generated from freeze manifest `reports/freeze.json` (`sha256:c92efa03098fd8b51e820ff66b942099c4b972d2fec19a90bd65424b5e01fa1e`).
 
 ## Language `python`, tier `modeling`
 

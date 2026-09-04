@@ -1,0 +1,79 @@
+{
+  "advisory": {
+    "affected_packages": [
+      "org.hibernate.validator:hibernate-validator",
+      "org.hibernate:hibernate-validator"
+    ],
+    "cve_id": "CVE-2025-35036",
+    "cwes": [
+      "CWE-94"
+    ],
+    "ghsa_id": "GHSA-7v6m-28jr-rg84",
+    "published_at": "2025-06-03T21:30:39Z",
+    "severity": "medium",
+    "summary": "Hibernate Validator may interpolate user-supplied input in a constraint violation message with Expression Language",
+    "url": "https://github.com/advisories/GHSA-7v6m-28jr-rg84"
+  },
+  "ecosystem": "maven",
+  "fix_commits": [
+    "e076293b0ee1bfa97b6e67d05ad9eee1ad77e893",
+    "d2db40b9e7d22c7a0b44d7665242dfc7b4d14d78",
+    "05f795bb7cf18856004f40e5042709e550ed0d6e",
+    "254858d9dcc4e7cd775d1b0f47f482218077c5e1"
+  ],
+  "ground_truth": {
+    "adjudication": "pending",
+    "basis": "the advisory's fix diff between the two pinned revisions",
+    "review_independence": "maintainer-only",
+    "reviewers": [],
+    "status": "proposed"
+  },
+  "language": "java",
+  "license": {
+    "file_path": "license.txt",
+    "file_sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+    "identical_at_both_revisions": true,
+    "redistribution": "DataFlowBench does not vendor this source. Each revision is fetched from the pinned archive URL and verified against sha256 before use.",
+    "spdx_id": "Apache-2.0"
+  },
+  "pin_id": "dfb-rp-java-hibernate-validator",
+  "repository": {
+    "name": "hibernate-validator",
+    "owner": "hibernate",
+    "url": "https://github.com/hibernate/hibernate-validator"
+  },
+  "revisions": {
+    "fixed": {
+      "revision": "254858d9dcc4e7cd775d1b0f47f482218077c5e1",
+      "role": "the advisory's latest fix commit; the revision in which the reported defect is remediated",
+      "source_archive": {
+        "bytes": 2291628,
+        "retrieved_on": "2026-09-04",
+        "sha256": "4e34537368f330ebbbdf33f0d09b153217ec28a84297cd36fced18210ce8e357",
+        "url": "https://codeload.github.com/hibernate/hibernate-validator/tar.gz/254858d9dcc4e7cd775d1b0f47f482218077c5e1"
+      }
+    },
+    "vulnerable": {
+      "revision": "56d443dbb5f4e81f2900d2563c42e68f475051e8",
+      "role": "first parent of the advisory's earliest fix commit; the last revision that still carries the reported defect",
+      "source_archive": {
+        "bytes": 2287414,
+        "retrieved_on": "2026-09-04",
+        "sha256": "7865ca315c7254296ba7ccb7a9a00cdef6e555590d9f864513c5a947582eba6d",
+        "url": "https://codeload.github.com/hibernate/hibernate-validator/tar.gz/56d443dbb5f4e81f2900d2563c42e68f475051e8"
+      }
+    }
+  },
+  "schema_version": 1,
+  "selection": {
+    "draw_key": "1b540aaa18883ea24e340061ff3161da874bb8651d446dd400b6528c49dbf8c1",
+    "draw_position": 5,
+    "frame": {
+      "path": "corpus/real-project/frame.json",
+      "sha256": "1bb61bcf60d4fed8ac26dcb6f1f33dfcd61e7b285c15037ad7819595efa1ed5e"
+    },
+    "seed": "dataflowbench-real-project-wave-r1"
+  },
+  "stratum": "java",
+  "wave": "R1"
+}

@@ -4,7 +4,7 @@ Adapter `codeql-cpp-kernel`: `codeql` `2.26.4` (build `codeql-cli:6b1e4dee94adb2
 
 Track `taint`, score dimension `taint`, model profile `benchmark-controlled`. This scorecard is a single result population; it is never pooled with other tracks, dimensions, or model profiles.
 
-Normalized report: `reports/codeql-cpp-kernel.json` (`sha256:7fce832ce98a6d76fe78dc0514e3471daf2ac868bd3c15e06f33aabcd39d2dee`, normalized `sha256:7fce832ce98a6d76fe78dc0514e3471daf2ac868bd3c15e06f33aabcd39d2dee`). Generated from freeze manifest `reports/freeze.json` (`sha256:e0b86ebdd570afed63f62ec8fc6d49a2ca2e0afe3c3f288b904de4ddbacdd113`).
+Normalized report: `reports/codeql-cpp-kernel.json` (`sha256:7fce832ce98a6d76fe78dc0514e3471daf2ac868bd3c15e06f33aabcd39d2dee`, normalized `sha256:7fce832ce98a6d76fe78dc0514e3471daf2ac868bd3c15e06f33aabcd39d2dee`). Generated from freeze manifest `reports/freeze.json` (`sha256:c92efa03098fd8b51e820ff66b942099c4b972d2fec19a90bd65424b5e01fa1e`).
 
 ## Language `cpp`, tier `core`
 
