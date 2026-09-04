@@ -5546,8 +5546,74 @@ fn git_is_ancestor(root: &Path, ancestor: &str, descendant: &str) -> Result<bool
     match output.status.code() {
         Some(0) => Ok(true),
         Some(1) => Ok(false),
-        _ => bail!("cannot resolve freeze revision {ancestor} in this checkout"),
+        // A revision that resolves nowhere is almost always one that lived
+        // only on a pull-request branch: `main` is squash-merged, so the
+        // branch commit is discarded and the manifest is left naming a commit
+        // no checkout of `main` can resolve. `create-freeze` refuses to record
+        // such a revision, so reaching here means the manifest was written by
+        // an older build or edited by hand.
+        _ => bail!(
+            "cannot resolve freeze revision {ancestor} in this checkout; \
+             a revision recorded from a pull-request branch does not survive \
+             the squash merge, so re-create the freeze from a checkout of \
+             `main` as docs/freeze.md describes"
+        ),
     }
+}
+
+/// A freeze records the commit its evidence lives at, and every later
+/// validation resolves that commit from the checkout. `main` is squash-merged,
+/// which replaces a pull-request branch with a single new commit and discards
+/// the branch's own commits, so a revision taken from a branch stops resolving
+/// the moment the pull request lands. The revision must therefore already be
+/// reachable from `main` when the freeze is created: the evidence merges
+/// first, and the freeze is assembled from a clean checkout of the merged
+/// `main`. Refusing at creation time is what makes this catchable — on the
+/// pull request itself the branch commit still resolves, so validation only
+/// discovers the loss after the merge, on `main`.
+fn require_merged_freeze_revision(root: &Path, revision: &str) -> Result<()> {
+    // No integration branch to compare against (a mirror without `main`, or a
+    // repository whose first commits predate it): the ancestry rule still
+    // holds at validation, so record the revision rather than block the freeze.
+    let Some(main) = resolve_integration_branch(root)? else {
+        return Ok(());
+    };
+    if main != revision && !git_is_ancestor(root, revision, &main)? {
+        bail!(
+            "freeze revision {revision} is not reachable from main ({main}); \
+             `main` is squash-merged, so a commit that exists only on a \
+             pull-request branch is discarded at merge time and the recorded \
+             revision becomes unresolvable. Merge the evidence first, then run \
+             create-freeze from a clean checkout of the merged `main`; never \
+             bundle the evidence and the manifest into one pull request. See \
+             docs/freeze.md."
+        );
+    }
+    Ok(())
+}
+
+/// Resolve the integration branch a freeze revision must be reachable from,
+/// preferring the local `main` so an out-of-date remote ref cannot reject a
+/// revision that is genuinely merged.
+fn resolve_integration_branch(root: &Path) -> Result<Option<String>> {
+    for reference in ["refs/heads/main", "refs/remotes/origin/main"] {
+        let output = Command::new("git")
+            .current_dir(root)
+            .args([
+                "rev-parse",
+                "--verify",
+                "--quiet",
+                &format!("{reference}^{{commit}}"),
+            ])
+            .output()
+            .context("resolve integration branch")?;
+        if output.status.success() {
+            return Ok(Some(
+                String::from_utf8_lossy(&output.stdout).trim().to_string(),
+            ));
+        }
+    }
+    Ok(None)
 }
 
 fn git_output<const N: usize>(root: &Path, args: [&str; N]) -> Result<String> {
@@ -5970,6 +6036,7 @@ fn create_freeze(
         ],
     )
     .context("resolve freeze revision")?;
+    require_merged_freeze_revision(root.as_path(), &revision)?;
     let manifest = build_freeze_manifest(&root, reports, scope, release, &revision)?;
     let mut bytes = serde_json::to_vec_pretty(&manifest)?;
     bytes.push(b'\n');
@@ -26106,6 +26173,67 @@ mod tests {
         validate_freeze_git_state(&fixture.root, &evidence, "v0.1.0", "release").unwrap();
         run_git(&["tag", "v0.0.1", &evidence]);
         assert!(validate_freeze_git_state(&fixture.root, &head, "v0.0.1", "release").is_err());
+    }
+
+    /// The failure this guards against is the one that broke `main`: an
+    /// amendment pull request that committed evidence and ran `create-freeze`
+    /// on the same branch recorded the branch commit, which the squash merge
+    /// then discarded, leaving every later `validate-freeze` unable to resolve
+    /// the frozen revision.
+    #[test]
+    fn freeze_revision_must_be_reachable_from_main() {
+        let root = unique_test_dir("dataflowbench-merged-revision-test");
+        fs::create_dir_all(&root).unwrap();
+        let run_git = |args: &[&str]| {
+            assert!(
+                Command::new("git")
+                    .args([
+                        "-c",
+                        "user.email=dataflowbench-test@example.invalid",
+                        "-c",
+                        "user.name=DataFlowBench Test",
+                        "-c",
+                        "commit.gpgsign=false",
+                    ])
+                    .args(args)
+                    .current_dir(&root)
+                    .status()
+                    .unwrap()
+                    .success()
+            );
+        };
+
+        // Without an integration branch there is nothing to compare against,
+        // so the guard defers to validation rather than blocking the freeze.
+        run_git(&["init", "-q", "--initial-branch=trunk"]);
+        fs::write(root.join("evidence.txt"), "evidence\n").unwrap();
+        run_git(&["add", "."]);
+        run_git(&["commit", "-qm", "evidence"]);
+        let merged = git_output(&root, ["rev-parse", "HEAD"]).unwrap();
+        require_merged_freeze_revision(&root, &merged).unwrap();
+
+        // On `main` itself, both the tip and its ancestors are reachable.
+        run_git(&["branch", "-m", "main"]);
+        require_merged_freeze_revision(&root, &merged).unwrap();
+        fs::write(root.join("more.txt"), "more\n").unwrap();
+        run_git(&["add", "."]);
+        run_git(&["commit", "-qm", "more evidence"]);
+        require_merged_freeze_revision(&root, &merged).unwrap();
+
+        // A commit that lives only on a pull-request branch is refused: the
+        // squash merge would discard it and orphan the recorded revision.
+        run_git(&["checkout", "-q", "-b", "amendment"]);
+        fs::write(root.join("unmerged.txt"), "unmerged\n").unwrap();
+        run_git(&["add", "."]);
+        run_git(&["commit", "-qm", "unmerged evidence"]);
+        let unmerged = git_output(&root, ["rev-parse", "HEAD"]).unwrap();
+        let error = require_merged_freeze_revision(&root, &unmerged)
+            .unwrap_err()
+            .to_string();
+        assert!(error.contains("not reachable from main"), "{error}");
+        assert!(error.contains("squash-merged"), "{error}");
+
+        fs::remove_dir_all(&root).unwrap();
     }
 
     #[test]
