@@ -115,7 +115,7 @@ table code {
      enforces — the width is spent on flow, not on line length. Short
      paragraphs simply occupy the first column; the eyebrow label stays as
      is. Browsers without :has() keep the capped single column. */
-  .sl-markdown-content:has(.stat-grid) > p:not(.eyebrow) {
+  .sl-markdown-content:has(.stat-grid) > p:not(.eyebrow):not(.subtitle) {
     columns: 2;
     column-gap: 2.5rem;
     max-width: none;

@@ -372,6 +372,36 @@ const allCorrectRows = kernelVendorRows.filter(
   (vendor) => vendor.correct === vendor.total,
 ).length;
 
+// The short answer's own figures. Derived here rather than restated in prose:
+// a headline verdict that hand-copies a count is a verdict that goes stale
+// silently, and this one has been rewritten at every freeze so far.
+const analyzerCount = new Set(scorecards.map((card) => card.adapter.tool)).size;
+const coreAssertions = kernels.reduce((sum, kernel) => sum + kernel.cases, 0);
+/**
+ * Analyzers that make no decisive mistake on any kernel they cover, and what
+ * that costs them in non-answers. An analyzer covering a single kernel could
+ * qualify cheaply, so the count of kernels it covers travels with the claim.
+ */
+const spotless = [
+  ...kernelVendorRows
+    .reduce((byTool, vendor) => {
+      const running = byTool.get(vendor.tool) ?? {
+        name: vendor.name,
+        wrong: 0,
+        incomplete: 0,
+        kernels: 0,
+      };
+      running.wrong += vendor.wrong;
+      running.incomplete += vendor.incomplete;
+      running.kernels += 1;
+      byTool.set(vendor.tool, running);
+      return byTool;
+    }, new Map<string, { name: string; wrong: number; incomplete: number; kernels: number }>())
+    .values(),
+]
+  .filter((tool) => tool.wrong === 0)
+  .sort((left, right) => right.kernels - left.kernels);
+
 // The breadth strip: the same rows the breadth table carried, minus the
 // per-assertion outcome columns, which the templates page owns.
 const breadthWrong = breadth.filter(
@@ -454,6 +484,16 @@ const snapshotPage = `/snapshots/${snapshot.slug}`;
   Immutable evaluation · DataFlowBench {snapshot.version}
 </p>
 
+{/* The subtitle the page title used to be. The h1 names the benchmark, which
+    is what a reader arriving from a citation is looking for; the motivation
+    belongs directly under it, stated rather than implied. */}
+<p class="subtitle">
+  BrokkAi's benchmark for semantic data flow: <a
+    href="https://bifrost.brokk.ai">Bifrost</a
+  > measured against {analyzerCount - 1} reference analyzers, from immutable
+  freeze evidence.
+</p>
+
 {/* Starlight's "On this page" nav is built from markdown headings and cannot
     see the h2s this component emits, so the landing page carries its own
     section strip. The ids it targets are permanent deep-link anchors: chosen
@@ -469,44 +509,83 @@ const snapshotPage = `/snapshots/${snapshot.slug}`;
   <a href="#trust">Trust</a>
 </nav>
 
+{/* What the benchmark is, ahead of what this particular freeze found. These
+    two describe the dataset and the conflict of interest behind it, so they
+    belong above the verdict rather than inside it — a reader meeting the page
+    for the first time needs them before the numbers mean anything. The
+    landing's two-column paragraph rule picks them up automatically. */}
+<p>
+  DataFlowBench is <a href="https://github.com/BrokkAi">BrokkAi</a>'s own
+  benchmark: we build it to measure where <a
+    href="https://bifrost.brokk.ai">Bifrost</a
+  > stands against other analyzers, and to keep ourselves honest while doing
+  it. The methodology is deliberately analyzer-neutral — every number below is
+  generated from digest-bound freeze evidence that we cannot edit after the
+  fact, misses and crashes included — but the motivation is not neutral, and
+  we would rather say so.
+</p>
+
+<p>
+  Each kernel poses one positive and one negative assertion per semantic
+  template, and each language's kernel is its own population — cores of
+  {templateSizes} templates, never pooled or ranked against each other, and
+  never compared with the smaller cores of an earlier snapshot. Because every
+  pair is balanced, an analyzer that always answers the same way — or answers
+  blindly where it cannot see a construct — scores exactly half on the affected
+  pairs: read correctness against that 50% blind baseline, and read
+  approximation character from each vendor's TPR/FPR split in the details
+  dialog. A blank analyzer on a kernel means no report in this freeze: no
+  extractor, no frontend, or no adapter, which is coverage rather than a score.
+</p>
+
 <aside class="short-answer">
   <p class="label">Short answer</p>
   <p class="verdict">
-    Nobody is perfect on the expanded cores. No analyzer answers a whole core
-    correctly in any of the {kernels.length} languages. The field is eight
-    analyzers, and the JVM kernels are where it is deepest: OpenTaint posts the
-    best Kotlin row in the benchmark (50 of 58 correct) and a near-top Java row
-    (49 of 58, one behind Infer's field-leading 50), FlowDroid lands 49 in
-    both, and every one of those rows is fully decisive — no incompletes. Infer
-    is also C and C++'s second engine, and Pysa Python's third.
-  </p>
-  <p class="verdict">
-    This is a currency snapshot: every pin found behind upstream was bumped and
-    re-run, and twelve of 3,480 case results moved. Bifrost still makes
-    <strong>no decisive mistake anywhere in this freeze</strong> — no false
-    positive and no false negative, on any kernel, any tier, or either
-    profile, which no other analyzer here can say. That is bought with
-    inconclusives its competitors don't record: 288 of the 738 core
-    assertions, concentrated in Ruby, Kotlin and C++. Its v0.10.9 re-pin
-    decides four of them, including the Go <code>array-element</code> pair the
-    last freeze published as a regression. Joern misses where its
-    approximations bind; Semgrep CE declines by declared capability what its
-    intraprocedural profile does not cover.
-  </p>
-  <p class="verdict">
-    CodeQL used to answer every one of its 622 kernel assertions definitively.
-    It now records five incompletes, and its decisive-correct count moves 506
-    → 501 with its 116 decisive mistakes unchanged — <strong>not because the
-    engine changed</strong>, but because this benchmark stopped scoring a
-    negative it could not prove. In five languages the extractor prunes the
-    constant-false branch before analysis, so the retained SARIF shows the sink
-    observed and the source absent: the negative was true only in the sense
-    that nothing was found. Three Bifrost modeling negatives were withdrawn on
-    the same grounds. Whether that should count as a decided negative is a
-    contract question left open; until it is answered those eight sit outside
-    the decisive denominators rather than being credited either way.
+    Nobody is perfect. No analyzer answers a whole core correctly in any of the
+    {kernels.length} languages{spotless.length === 0 ? (
+      <>, and every one of the {analyzerCount} in the field makes at least one
+      decisive mistake.</>
+    ) : (
+      <>, and of the {analyzerCount} in the field only{' '}
+      {spotless.map((tool) => tool.name).join(' and ')} makes no decisive
+      mistake at all — bought by declining{' '}
+      {spotless.reduce((sum, tool) => sum + tool.incomplete, 0)} of the{' '}
+      {coreAssertions} core assertions rather than guessing at them.</>
+    )}
   </p>
   <div class="supporting">
+  <p>
+    This is a <strong>currency snapshot</strong>: every analyzer pin found
+    behind upstream was bumped and re-run, and twelve of {caseCount} case
+    results moved. Four of them are Bifrost cells its v0.10.9 re-pin newly
+    decides, including the Go <code>array-element</code> pair the last freeze
+    published as a regression. The other eight went the other way, and are the
+    more interesting half — see below.
+  </p>
+  <p>
+    The JVM kernels are where the field is deepest: OpenTaint posts the best
+    Kotlin row in the benchmark (50 of 58 correct) and a near-top Java row (49
+    of 58, one behind Infer's field-leading 50), FlowDroid lands 49 in both,
+    and every one of those rows is fully decisive — no incompletes. Infer is
+    also C and C++'s second engine, and Pysa Python's third. Joern misses where
+    its approximations bind; Semgrep CE declines by declared capability what
+    its intraprocedural profile does not cover.
+  </p>
+  <p>
+    <strong>Through v0.6.1, CodeQL answered every kernel assertion put to it
+    definitively</strong> — 622 of 622 in each of the four freezes since the
+    core reached its present size, and not one incomplete in any freeze before
+    that either. It now records five, and its
+    decisive-correct count moves 506 → 501 with its 116 decisive mistakes
+    unchanged — not because the engine changed, but because this benchmark
+    stopped scoring a negative it could not prove. In five languages the
+    extractor prunes the constant-false branch before analysis, so the retained
+    SARIF shows the sink observed and the source absent: the negative was true
+    only in the sense that nothing was found. Three Bifrost modeling negatives
+    were withdrawn on the same grounds. Whether that should count as a decided
+    negative is a contract question left open; until it is answered those eight
+    sit outside the decisive denominators rather than being credited either way.
+  </p>
   <p>
     Below the kernels sit two further populations: the
     <strong>modeling matrix</strong>, which asks whether each tool's own
@@ -520,29 +599,6 @@ const snapshotPage = `/snapshots/${snapshot.slug}`;
     All populations have separate denominators. There is no
     combined leaderboard, and benchmark-controlled results are never pooled
     with, or compared number-to-number against, tool-native ones.
-  </p>
-  <p>
-    DataFlowBench is <a href="https://github.com/BrokkAi">BrokkAi</a>'s own
-    benchmark: we build it to measure where
-    <a href="https://bifrost.brokk.ai">Bifrost</a> stands against other
-    analyzers, and to keep ourselves honest while doing it. The methodology is
-    deliberately analyzer-neutral — every number below is generated from
-    digest-bound freeze evidence that we cannot edit after the fact, misses and
-    crashes included — but the motivation is not neutral, and we would rather
-    say so.
-  </p>
-  <p>
-    Each kernel poses one positive and one negative assertion per semantic
-    template, and each language's kernel is its own population — cores of
-    {templateSizes} templates, never pooled or ranked against each other, and
-    never compared with the smaller cores of an earlier snapshot. Because every
-    pair is balanced, an analyzer that always answers the same way — or answers
-    blindly where it cannot see a construct — scores exactly half on the
-    affected pairs: read correctness against that 50% blind baseline, and read
-    approximation character from each vendor's TPR/FPR split in the details
-    dialog. A blank
-    analyzer on a kernel means no report in this freeze: no extractor, no
-    frontend, or no adapter, which is coverage rather than a score.
   </p>
   <p>
     On the direct-flow breadth baseline, Bifrost answered both assertions
@@ -1471,6 +1527,13 @@ const snapshotPage = `/snapshots/${snapshot.slug}`;
   /* Anchor targets land clear of the sticky site header. */
   h2[id] {
     scroll-margin-top: calc(var(--sl-nav-height, 4rem) + 1rem);
+  }
+  .subtitle {
+    font-size: var(--sl-text-lg);
+    line-height: 1.5;
+    color: var(--sl-color-gray-2);
+    margin: 0 0 1.5rem;
+    max-width: 45rem;
   }
   .short-answer {
     border: 1px solid var(--sl-color-accent);

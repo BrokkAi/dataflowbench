@@ -125,15 +125,43 @@ const series: Series[] = [...byTool.entries()]
   );
 
 // ---- Geometry -------------------------------------------------------------
-const width = 800;
 const height = 440;
 const padLeft = 56;
 const padRight = 18;
 const padTop = 28;
 const padBottom = 74;
-const plotWidth = width - padLeft - padRight;
+
+// The chart grows sideways as freezes accumulate; it does not compress them.
+//
+// The width used to be a fixed 800 units, so every new snapshot divided the
+// same plot into one more column and the analyzer fan inside each column was
+// squeezed to fit (see `fannedOffset`'s cap). Seven columns had already pushed
+// the fan below its preferred spacing, and the eighth would have been worse.
+// Sizing the band from what one column actually has to hold — the whole fan at
+// its preferred spacing, plus the margin that keeps neighbouring columns apart
+// — makes the geometry stable in the number of snapshots, and the frame's
+// `overflow-x` carries whatever no longer fits the content column.
+//
+// The floor is the band the seven-snapshot chart was published with, so a
+// freeze that loses an analyzer cannot make the columns narrower than they
+// have already been seen.
+const bandMargin = 24;
+const preferredSpacing = 13;
+const band = Math.max(
+  104,
+  preferredSpacing * Math.max(series.length - 1, 1) + bandMargin,
+);
+const plotWidth = band * columns.length;
+const width = padLeft + plotWidth + padRight;
 const plotHeight = height - padTop - padBottom;
-const band = plotWidth / columns.length;
+
+/**
+ * The CSS floor for the rendered chart, in rem, kept proportional to the SVG's
+ * own aspect so a column never renders narrower than about 6rem — roughly what
+ * a `v0.7.0` label and its kernel count need side by side. Below this the frame
+ * scrolls rather than the columns shrinking.
+ */
+const minWidthRem = Math.round((columns.length * 6 + 5) * 10) / 10;
 
 const ceiling = Math.max(...columns.map((column) => column.population));
 const step = 200;
@@ -155,7 +183,6 @@ const y = (value: number) => padTop + plotHeight * (1 - value / axisMax);
 // under the wrong snapshot label. The preferred spacings below are the ones
 // the four-analyzer snapshots were published with, and the cap only ever
 // tightens them, so no previously published layout moves.
-const bandMargin = 24;
 const fannedOffset = (index: number, preferred: number) => {
   const spacing =
     series.length <= 1
@@ -163,7 +190,7 @@ const fannedOffset = (index: number, preferred: number) => {
       : Math.min(preferred, (band - bandMargin) / (series.length - 1));
   return (index - (series.length - 1) / 2) * spacing;
 };
-const seriesOffset = (index: number) => fannedOffset(index, 13);
+const seriesOffset = (index: number) => fannedOffset(index, preferredSpacing);
 
 const columnIndex = new Map(columns.map((column, index) => [column.version, index]));
 
@@ -349,7 +376,7 @@ const biggestJump = columns
     <label for="evolution-view-table">Data table</label>
   </div>
 
-<div class="chart-frame view-absolute">
+<div class="chart-frame view-absolute" style={`--evolution-min-width: ${minWidthRem}rem`}>
   <svg
     class="evolution-chart"
     viewBox={`0 0 ${width} ${height}`}
@@ -477,7 +504,7 @@ const biggestJump = columns
   </svg>
 </div>
 
-<div class="chart-frame view-normalized">
+<div class="chart-frame view-normalized" style={`--evolution-min-width: ${minWidthRem}rem`}>
   <svg
     class="evolution-chart"
     viewBox={`0 0 ${width} ${height}`}
@@ -898,7 +925,10 @@ const biggestJump = columns
   .evolution-chart {
     display: block;
     width: 100%;
-    min-width: 34rem;
+    /* Set per render from the column count, so the chart claims the width its
+       columns need and the frame scrolls the remainder. A fixed minimum let
+       every new freeze shrink the columns instead. */
+    min-width: var(--evolution-min-width, 34rem);
     height: auto;
   }
   .evolution-chart .grid {
