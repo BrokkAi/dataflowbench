@@ -3,7 +3,8 @@
 use crate::adapters::ToolIdentity;
 use crate::freeze::raw_special_outcome;
 use crate::runtime::{
-    case_timing_path, clear_stale_case_timing, write_case_phase_timings, write_run_environment,
+    case_timing_path, clear_stale_case_timing, witnessed_version_line, write_case_phase_timings,
+    write_run_environment,
 };
 use crate::tests::support::unique_test_dir;
 use serde_json::Value;
@@ -62,10 +63,47 @@ pub(crate) fn run_environment_stamp_pairs_machine_with_witnessed_identity() {
     assert_eq!(stamp["schema_version"], 1);
     assert_eq!(stamp["tool"], "bifrost");
     assert_eq!(stamp["witnessed_tool_version"], "0.10.8");
+    assert!(stamp["witnessed_tool_version_banner"].is_null());
     assert_eq!(stamp["witnessed_tool_build_identity"], "bifrost-build");
     assert_eq!(stamp["os"], std::env::consts::OS);
     assert_eq!(stamp["evidence_kind"], "retained-run-environment");
     assert!(stamp["hardware_model"].is_string());
     assert!(stamp["cpu_count"].is_u64() || stamp["cpu_count"].is_null());
+    let _ = fs::remove_dir_all(&root);
+}
+
+/// A `--version` banner that says more than the version (Bifrost 0.10.9 lists
+/// its built-in policy packs beneath the version line) stamps the version line
+/// alone as the witnessed version and retains the whole banner beside it, so
+/// neither the report nor the environment loses what the binary said.
+#[test]
+pub(crate) fn multi_line_version_banner_is_split_into_line_and_retained_banner() {
+    let banner = "bifrost 0.10.9\nbuiltin-policy-pack bifrost.code-smells@2.10.0 policies=16\nbuiltin-policy-catalog sha256=aea2ad0c\n";
+    assert_eq!(witnessed_version_line(banner), "bifrost 0.10.9");
+    assert_eq!(
+        witnessed_version_line("  bifrost 0.10.8  "),
+        "bifrost 0.10.8"
+    );
+    assert_eq!(witnessed_version_line(""), "");
+    // The identity a report carries is called down to the version line only
+    // after the banner has been stamped whole.
+    assert_eq!(
+        ToolIdentity::new(banner, "bifrost-build")
+            .version_line_only()
+            .version,
+        "bifrost 0.10.9"
+    );
+    let root = unique_test_dir("dataflowbench-environment-banner-test");
+    write_run_environment(
+        &root,
+        "bifrost",
+        &ToolIdentity::new(banner, "bifrost-build"),
+    )
+    .unwrap();
+    let stamp: Value =
+        serde_json::from_str(&fs::read_to_string(root.join("run-environment.json")).unwrap())
+            .unwrap();
+    assert_eq!(stamp["witnessed_tool_version"], "bifrost 0.10.9");
+    assert_eq!(stamp["witnessed_tool_version_banner"], banner.trim());
     let _ = fs::remove_dir_all(&root);
 }

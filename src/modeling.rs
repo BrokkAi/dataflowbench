@@ -1131,6 +1131,7 @@ pub(crate) fn run_modeling(
     let started = now_seconds()?;
     let identity = witness_tool_identity(plan.tool, binary)?;
     write_run_environment(&plan.raw_dir, plan.tool.key(), &identity)?;
+    let identity = identity.version_line_only();
     let revision = fixture_revision()?;
     let mut results = Vec::with_capacity(plan.cases.len());
     for (path, case) in &plan.cases {

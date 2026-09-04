@@ -26,7 +26,9 @@ use crate::evidence::{
 use crate::freeze::required_string;
 use crate::modeling::{MODELING_TEMPLATE_PREFIX, ModelingCategory, modeling_case};
 use crate::report::{normalized_result, write_and_validate_report};
-use crate::runtime::{clear_stale_case_timing, now_seconds, write_run_environment};
+use crate::runtime::{
+    clear_stale_case_timing, now_seconds, witnessed_version_line, write_run_environment,
+};
 use anyhow::{Context, Result, bail};
 use serde_json::{Value, json};
 use sha2::{Digest, Sha256};
@@ -113,7 +115,7 @@ pub(crate) struct NativePartitionCell {
 /// amendment. That is why three of the four tools enter with nothing scored —
 /// which is a statement about product packaging, not about an engine.
 pub(crate) const NATIVE_PARTITION: &[NativePartitionCell] = &[
-    // Bifrost — v0.10.8: 0 / 6. The standalone policy CLI ships no taint
+    // Bifrost — v0.10.9: 0 / 6. The standalone policy CLI ships no taint
     // policy and no source/sink endpoint catalog, so no template can produce a
     // finding regardless of what else it can express.
     NativePartitionCell {
@@ -1732,7 +1734,10 @@ pub(crate) fn run_native_with_identity(
     language: ModelingLanguage,
     witnessed: ToolIdentity,
 ) -> Result<()> {
-    let plan = plan_native_run(tool, language, &witnessed.version)?;
+    // The witnessed banner is retained whole in the run-environment stamp; the
+    // plan, the report, and every rationale it stamps name the version line
+    // alone.
+    let plan = plan_native_run(tool, language, witnessed_version_line(&witnessed.version))?;
     let scored_templates = native_supported_templates(plan.tool, plan.language);
 
     fs::create_dir_all(&plan.raw_dir)?;
@@ -1747,6 +1752,7 @@ pub(crate) fn run_native_with_identity(
         ),
     );
     write_run_environment(&plan.raw_dir, plan.tool.key(), &identity)?;
+    let identity = identity.version_line_only();
     let revision = fixture_revision()?;
     let mut results = Vec::with_capacity(plan.cases.len());
     for (path, case) in &plan.cases {

@@ -38,7 +38,7 @@ use crate::adapters::joern::joern_version_identity;
 use crate::adapters::semgrep::semgrep_version_identity;
 use crate::cases::{LoadedCases, case_paths, validate_kernel_population_with};
 use crate::report::ADAPTER_VERSION;
-use crate::runtime::{command_output, now_seconds};
+use crate::runtime::{command_output, now_seconds, witnessed_version_line};
 use crate::templates::expected_core_templates;
 use anyhow::{Context, Result, bail};
 use serde_json::{Value, json};
@@ -111,7 +111,7 @@ impl ModelingTool {
     /// freeze cannot survive.
     pub(crate) fn pinned_identity(self) -> &'static str {
         match self {
-            Self::Bifrost => "Bifrost v0.10.8",
+            Self::Bifrost => "Bifrost v0.10.9",
             Self::Codeql => "CodeQL CLI 2.26.4",
             Self::Flowdroid => "FlowDroid 2.15.1",
             Self::Infer => "Infer v1.3.0",
@@ -347,6 +347,20 @@ impl ToolIdentity {
         Self {
             version: version.into(),
             build_identity: build_identity.into(),
+        }
+    }
+
+    /// The same identity with `version` reduced to its banner's version line.
+    ///
+    /// A `--version` banner may say more than the version — Bifrost 0.10.9
+    /// prints its built-in policy packs and their catalog digest beneath
+    /// `bifrost 0.10.9`. The run-environment stamp retains the whole banner, so
+    /// a run is called down to this only after it has been stamped, and what a
+    /// report and its rationales then carry is the version alone.
+    pub(crate) fn version_line_only(self) -> Self {
+        Self {
+            version: witnessed_version_line(&self.version).to_string(),
+            build_identity: self.build_identity,
         }
     }
 }

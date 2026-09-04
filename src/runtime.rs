@@ -20,6 +20,21 @@ pub(crate) fn command_output(command: &mut Command) -> Result<String> {
     Ok(String::from_utf8_lossy(&output.stdout).trim().to_string())
 }
 
+/// The version line of a witnessed `--version` banner: its first non-empty
+/// line, trimmed. A version witness is read verbatim from the binary, but a
+/// banner may say more than the version — Bifrost 0.10.9 prints its built-in
+/// policy packs and their catalog digest on the lines beneath `bifrost 0.10.9`
+/// — and a report's `tool_version`, and every rationale that stamps it, name
+/// the version alone. The extra lines are not discarded: the run-environment
+/// stamp retains the whole banner beside the raw evidence.
+pub(crate) fn witnessed_version_line(banner: &str) -> &str {
+    banner
+        .lines()
+        .map(str::trim)
+        .find(|line| !line.is_empty())
+        .unwrap_or("")
+}
+
 pub(crate) fn now_seconds() -> Result<u64> {
     Ok(SystemTime::now().duration_since(UNIX_EPOCH)?.as_secs())
 }
@@ -134,6 +149,9 @@ pub(crate) fn write_run_environment(
     tool: &str,
     identity: &ToolIdentity,
 ) -> Result<()> {
+    let version_line = witnessed_version_line(&identity.version);
+    let version_banner =
+        (version_line != identity.version.trim()).then_some(identity.version.trim());
     let os_release =
         command_output(Command::new("uname").arg("-r")).unwrap_or_else(|_| "unknown".into());
     let cpu_count = std::thread::available_parallelism()
@@ -150,7 +168,8 @@ pub(crate) fn write_run_environment(
             "cpu_architecture": std::env::consts::ARCH,
             "cpu_count": cpu_count,
             "tool": tool,
-            "witnessed_tool_version": identity.version,
+            "witnessed_tool_version": version_line,
+            "witnessed_tool_version_banner": version_banner,
             "witnessed_tool_build_identity": identity.build_identity,
             "evidence_kind": "retained-run-environment"
         }))? + "\n",

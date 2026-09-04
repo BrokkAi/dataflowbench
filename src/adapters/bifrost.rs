@@ -281,6 +281,7 @@ pub(crate) fn run_bifrost(binary: &Path, run: BifrostRun) -> Result<()> {
             .unwrap_or_else(|_| "unknown".into()),
     );
     write_run_environment(raw_dir, "bifrost", &identity)?;
+    let identity = identity.version_line_only();
     let revision = fixture_revision()?;
     let mut results = Vec::new();
     let mut policy_paths = BTreeSet::new();

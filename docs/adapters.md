@@ -243,6 +243,55 @@ one of the two outcomes the policy allows at the v0.7.0 freeze-prep: a bump
 with a full re-run of that adapter's slices, or a dated hold reason written
 into the next review entry and repeated in the release notes.
 
+#### 2026-09-04 — v0.7.0 freeze-prep Bifrost re-pin
+
+The first decision taken against the 2026-09-03 survey, and a narrow one: the
+Bifrost row had no hold reason on record, so by the policy above it was a
+bump. The other three gapped rows — Semgrep CE, Joern, OpenTaint — are not
+decided here and still owe their own bump-or-hold entries before the v0.7.0
+freeze.
+
+| Analyzer | Pin at survey | Outcome | Basis |
+| --- | --- | --- | --- |
+| Bifrost | v0.10.8, build `419395c8066b9eddfba06aa69c8a151ef4968249` | **Bumped to v0.10.9** | `--version` witnessed `bifrost 0.10.9` (the first line of a four-line banner, see below); `--build-identity` witnessed `04775a7b38c9c025714168328ddb8b793a326461` |
+
+**What the bump is for.** Upstream v0.10.9 (released 2026-09-03) closes
+BrokkAi/bifrost-dev #2831, the Go array-element regression the v0.10.8 bump
+took rather than held, and the same re-run delivers the reconciliation
+re-proof that #138 owed for all twenty Bifrost reports since PR #134 — one
+re-run serves both, so the two are recorded together under
+[Amendment A31](#a31--2026-09-04-the-twenty-bifrost-populations-are-re-run-on-v0109-and-every-reached-outcome-is-anchor-proven-under-sink-anchor-reconciliation).
+
+**Which binary, and why it matters.** The pinned build is the upstream
+release asset `bifrost-v0.10.9-universal-apple-darwin.tar.gz` (SHA-256
+`69ae168ae8fb3a96046360b8796343ec124fc720b9e089f98a35133f3a260a96`). A
+`cargo install brokk-bifrost@0.10.9` build of the same version answers
+`--build-identity` with `unknown`, because the crate's build script derives
+the identity from git history that a registry source does not carry; a
+release-scope freeze rejects that value, so such a build cannot produce
+conforming evidence. Filed upstream as BrokkAi/bifrost-dev #2998. The
+witnessed `04775a7b…` is the commit the release's own identity rule names —
+the last commit touching a compiled input at tag `v0.10.9` — and the same
+rule, applied to `v0.10.8`, reproduces the retained `419395c8…`.
+
+**The banner.** v0.10.9's `--version` prints four lines: the version, its two
+built-in policy packs (`bifrost.code-smells@2.10.0`, `bifrost.security@1.0.0`),
+and the built-in policy catalog digest
+`sha256=aea2ad0c592f7252009655b62b78a884bde38c63d0b83a1e82f0db96012a797d`.
+The runners witness the banner verbatim but stamp only its version line as
+`tool_version` — the same line every earlier pin witnessed — and retain the
+whole banner beside the raw evidence as `witnessed_tool_version_banner` in
+each population's `run-environment.json`, so the shipped pack catalog the
+tool-native profile activates is now a witnessed identity rather than an
+inference.
+
+**The latency corpus is not re-measured.** It stays frozen at v0.6.0 and
+keeps naming v0.10.7 as the measured environment's Bifrost, under the same
+rule the v0.6.1 entry states.
+
+**This review moved declarations only; the evidence re-run followed** as
+Amendment A31, on the same day, at the unchanged fixture revision.
+
 ## Challenge-tier rollout mechanics
 
 [The challenge-tier preregistration](challenge-tier.md) fixes *what* the
@@ -1577,3 +1626,118 @@ superseded ones, so `generate-results --check` keeps proving the checked-in
 `results/` against the evidence they cite. No release or website claim is
 made from the development freeze; the next release freeze binds this
 evidence together with the Bifrost re-runs #138 still owes.
+
+### A31 — 2026-09-04: the twenty Bifrost populations are re-run on v0.10.9, and every `reached` outcome is anchor-proven under sink-anchor reconciliation
+
+**What was published.** PR #134 (fixing #127) put Bifrost's findings through
+the sink-anchor gate every other adapter already had: a finding counts as
+`reached` only when its primary location lands on a callsite of the case's
+anchored sink function in the anchored file, and anything else is
+`inconclusive`. It changed normalization semantics without touching committed
+evidence — correctly, and stated in its body — so the twenty retained Bifrost
+reports (thirteen kernels, the smoke slice, three modeling and three
+tool-native populations) carried `reached` outcomes that were decided from a
+bare finding count and never anchor-proven. PR #116, merged after the v0.6.1
+freeze, changed a second rule in the same normalizer: a policy whose endpoint
+selectors bind nothing is `inconclusive`, not a vacuous `not-reached`. Neither
+change moves a policy file, so the configuration-hash guard from PR #141 could
+not see either; issue #138 was the only record, and
+[A30](#a30--2026-09-03-the-eleven-codeql-kernel-populations-are-re-run-under-the-endpoint-observation-probe-and-a-merged-probe-row-is-read-as-every-role-it-carries)
+left the Bifrost half explicitly owed.
+
+**What this amendment does.** All twenty populations — 968 results — are
+re-run in full at the unchanged fixture revision
+`sha256:9df209ed3d7723a3ee33f2b289cf2afe34a3add781bdf2a2ac445de42b8d0151`
+on the newly pinned Bifrost v0.10.9, build
+`04775a7b38c9c025714168328ddb8b793a326461`, the upstream release asset
+recorded in the
+[2026-09-04 pin review](#2026-09-04--v070-freeze-prep-bifrost-re-pin). Every
+regenerated report is normalized by the reconciled rule, so every `reached`
+it carries is one whose finding the reconciler matched against the anchored
+sink's callsite. Each population's `run-environment.json` stamps the machine
+and the witnessed identity, and now also the full four-line `--version`
+banner (`witnessed_tool_version_banner`) whose version line is the report's
+`tool_version`. The runs were not taken in a settle-gated quiet window — the
+one-minute load average was between 3 and 17 across them — which the
+per-case timing sidecars record and no latency claim reads; the latency
+corpus stays v0.6.0-frozen.
+
+**What the re-run measured, separated by cause.** Of 968 results, seven move
+outcome. Diffing every case's diagnostics as well as its outcome against the
+v0.6.1-bound report attributes them as follows.
+
+- *Sink-anchor reconciliation (PR #134): no outcome moves.* Every one of the
+  293 `reached` outcomes the superseded reports carried is reproduced as
+  `reached` by the reconciler — each finding's primary location sits on a
+  callsite of the anchored sink in the anchored file — and no `reached` is
+  demoted to `inconclusive` for an unmatched, ambiguous, or location-less
+  finding. The re-proof the twenty reports owed is therefore a confirmation:
+  the pre-reconciliation `reached` set was anchor-correct throughout, and
+  the generated scorecards now describe outcomes decided under the contract
+  they render.
+- *The v0.10.9 bump: four moves, all decided correctly.* The Go
+  array-element pair goes from `inconclusive` (*"value-flow snapshot
+  unsupported (`index_memory`)"*, the v0.10.8 regression filed as
+  BrokkAi/bifrost-dev #2831 and closed by this release) to `reached` on the
+  positive and `not-reached` on the negative; the PHP map-iteration pair goes
+  from `inconclusive` (*"value-flow snapshot … is unproven"*) to the same
+  correct pair. Net across the thirteen kernels: +2 `reached`, +2
+  `not-reached`, −4 `inconclusive`. No case moves the other way.
+- *Empty endpoint selections (PR #116): three moves, none a bump or
+  reconciliation effect.* The `model-declared-source-negative` case goes from
+  `not-reached` to `inconclusive` in all three modeling populations (Java,
+  JavaScript, Python) under an unchanged diagnostic — the policy *"bound no
+  source endpoint … so this run reports zero findings vacuously"* — which is
+  exactly the vacuous negative #116 stopped crediting. The raw evidence is
+  the same shape as before; only the rule that reads it changed, and it
+  changed after the v0.6.1 freeze bound the reports.
+
+**What moved beneath the outcomes.** 218 kernel results keep their outcome
+but change their retained diagnostic under v0.10.9, and the shifts are
+named here so no later reader mistakes them for a normalization change.
+The generic *"procedure value-flow snapshot for … is unknown"* is now
+reported as one of three more specific causes — *"call resolution"* (54),
+*"procedure semantics"* (48), or *"access-path resolution"* (30) *"… is
+unknown"*. Fifty results that v0.10.8 declined as
+`capability_incomplete` — *"taint semantic binding is unavailable: no
+analysis root contains both a selected source and sink"* — are now
+`partial_discovery` with a named procedure, meaning the engine binds both
+endpoints and says where discovery stopped. Ten recursive-carry and
+nested-access-path results gain a fixed-point summary (*"2 unproven edge(s),
+2 partial edge(s), and 1 open boundary row(s)"*). Four new named unsupported
+signatures appear, each on a pair that was and stays `inconclusive`: C++
+dispatch-table and Go anonymous-implementation (`values`), Ruby
+reflective-invocation (`callable_references`), Scala callback-registration
+(`deferred_execution`). And the `index_memory` signature of #2831 does not
+disappear — it moves from the Go array-element pair, now decided, to the Go
+map-iteration pair, previously *"unproven"* and still `inconclusive`. No
+outcome moved on account of it, so it is published here rather than held
+against the pin; it is a candidate for an upstream report, not a regression
+this benchmark measured.
+
+**What does not change.** Every configuration hash except two: the three
+tool-native hashes move because `native_configuration_hash` binds the
+witnessed binary identity, which is what the bump changes, and the
+JavaScript modeling hash moves because its policy file's preregistration
+comment cites the modeling matrix's Bifrost heading by anchor and that
+anchor now names v0.10.9 — the policy body is unchanged. The thirteen kernel
+hashes, the smoke hash, and the Java and Python modeling hashes are
+byte-identical to the superseded reports', which is the guard from PR #141
+confirming that no policy moved. The three tool-native populations stay
+12 / 12 `unsupported` with their preregistered rationales; the modeling
+partition stays S and Z scored, four categories unsupported; the scored
+denominators and the anchored reconciliation contract are untouched.
+
+**Templates and languages touched.** Every core kernel template in all
+thirteen Bifrost kernel populations and the smoke slice; the S and Z modeling
+categories for Java, JavaScript, and Python; the six tool-native templates
+for the same three languages. No partition moves.
+
+**Freezes invalidated.** v0.6.1 bound all twenty superseded reports and
+their raw evidence by digest. Its manifest and evidence stay available for
+audit at the `v0.6.1` tag and remain the release claim; `reports/freeze.json`
+on the main line moves to a new **development-scope** freeze over the same
+82 reports with the twenty regenerated Bifrost reports in place of the
+superseded ones, the movement A30 made for CodeQL. No release or website
+claim is made from the development freeze; with this amendment both halves
+of #138 are re-run, and the next release freeze binds the whole set.
