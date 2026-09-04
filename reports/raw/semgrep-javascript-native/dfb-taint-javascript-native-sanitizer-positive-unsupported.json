@@ -3,7 +3,7 @@
     "--oss-only",
     "--config=adapters/semgrep/native/javascript"
   ],
-  "activation_identity": "1.175.0 over the pinned snapshot vendored from https://github.com/semgrep/semgrep-rules into adapters/semgrep/native/javascript",
+  "activation_identity": "1.176.0 over the pinned snapshot vendored from https://github.com/semgrep/semgrep-rules into adapters/semgrep/native/javascript",
   "adapter": "semgrep",
   "case_id": "dfb-taint-javascript-native-sanitizer-positive",
   "evidence_kind": "retained-capability-decision",
@@ -11,9 +11,9 @@
   "modeling_category": "Z",
   "modeling_category_label": "declared sanitizers",
   "partition_source": "docs/native-profile.md#partition-summary",
-  "reason": "tool-native activation of dfb-template-native-sanitizer (category Z — declared sanitizers) is unsupported for 1.175.0 over JavaScript by the activation partition (docs/native-profile.md#partition-summary, as amended): to be verified at vendoring — unsupported until shown: sanitizer credit in the official rules is per-rule rather than global, so it is unverifiable before the snapshot exists",
+  "reason": "tool-native activation of dfb-template-native-sanitizer (category Z — declared sanitizers) is unsupported for 1.176.0 over JavaScript by the activation partition (docs/native-profile.md#partition-summary, as amended): no rule reaches the cell to credit or refuse the idiom: `encodeURIComponent` occurs nowhere in the snapshot, and sanitizer credit in the official rules is per-rule (Amendment A6, execution-confirmed by A27's zero-finding field run)",
   "stage": "preregistered-native-activation-partition",
   "state": "unsupported",
   "template_id": "dfb-template-native-sanitizer",
-  "witnessed_tool_identity": "1.175.0"
+  "witnessed_tool_identity": "1.176.0"
 }
