@@ -558,7 +558,7 @@ CodeQL enters this profile with **six of six** templates scored, which reflects
 that it ships the largest model set of the four and that its activation surface
 is entirely pinnable. It says nothing about how many it will pass.
 
-### Semgrep CE — 1.175.0 (`--oss-only`), vendored official rulesets
+### Semgrep CE — 1.176.0 (`--oss-only`), vendored official rulesets
 
 > **Amended.** All six **Python** cells were promoted from *to be verified at
 > vendoring* to scored by
@@ -615,7 +615,7 @@ head above is evidence that the scheme resolves, not the pin.
 | 1 | S | **to be verified at vendoring — unsupported until shown** | Inspection of the upstream head shows taint-mode rules whose sinks cover the template's command APIs (e.g. `python/lang/security/dangerous-system-call.yaml`, `mode: taint`, sink `os.system`), but whose `pattern-sources` are **framework** endpoints — Flask, Django, DRF — not `os.environ`. Whether any vendored rule binds a platform environment source is decided by the snapshot, and the snapshot does not exist yet. |
 | 2 | P | **to be verified at vendoring — unsupported until shown** | Depends entirely on which rules the snapshot contains and on CE's default propagation through the platform join; neither is fixed until a commit is pinned. |
 | 3 | Z | **to be verified at vendoring — unsupported until shown** | Sanitizer credit in the official rules is per-rule, not global; unverifiable before the snapshot. |
-| 4 | O | **to be verified at vendoring — unsupported until shown** | Arg→return summary semantics are outside CE's propagator vocabulary on the pinned version, as [the modeling matrix established by execution](modeling-matrix.md#semgrep-ce--11750---oss-only); a shipped rule cannot supply what the engine does not express. |
+| 4 | O | **to be verified at vendoring — unsupported until shown** | Arg→return summary semantics are outside CE's propagator vocabulary on the pinned version, as [the modeling matrix established by execution](modeling-matrix.md#semgrep-ce--11760---oss-only); a shipped rule cannot supply what the engine does not express. |
 | 5 | E | **to be verified at vendoring — unsupported until shown** | The upstream rules' entry conventions are framework-shaped; whether any covers `sys.argv`/`process.argv`/`main` is the snapshot's to answer. |
 | 6 | B | **to be verified at vendoring — unsupported until shown** | The pinned CE engine has no interprocedural taint (`--pro-intrafile` requires Pro), and a store round trip that the rules do not link is not carried by anything else. |
 
@@ -691,7 +691,7 @@ position the benchmark-controlled matrix recorded for five of its six categories
 and stating it in a preregistration published by Bifrost's own vendor — before a
 run, with the vendor's open issues named — is the point.
 
-### Joern — 4.0.614, `DefaultSemantics` only
+### Joern — 4.0.617, `DefaultSemantics` only
 
 **Activation contract.** Whatever the distribution activates without a
 user-authored query or semantics file. Concretely: `DefaultSemantics`, and
@@ -968,7 +968,7 @@ invocation, the shipped catalog plus a single benchmark-authored `getenv`
 source line — finds exactly the floor leak, attributing every zero to the
 shipped catalog and to nothing else.
 
-### OpenTaint — `analyzer/2026.08.27.17eb0fe`, shipped models archive only (Java only)
+### OpenTaint — `analyzer/2026.09.03.9752bd2`, shipped models archive only (Java only)
 
 > **Added by [Amendment A23](#a23--2026-09-01-opentaint-joins-the-tool-native-profile-at-0--6-and-the-shipped-models-archive-is-ruled-shipped-product).**
 > This row was not part of the original preregistration — the adapter did not
@@ -1087,7 +1087,7 @@ until shown otherwise.
 > what those amendments decided. Every cell for every language with no
 > amendment row is still the cell below.
 
-| # | Template | Cat. | Bifrost v0.10.9 | CodeQL 2.26.4 | Joern 4.0.614 | Semgrep CE 1.175.0 |
+| # | Template | Cat. | Bifrost v0.10.9 | CodeQL 2.26.4 | Joern 4.0.617 | Semgrep CE 1.176.0 |
 | --- | --- | --- | --- | --- | --- | --- |
 | 1 | `native-source-sink` | S | unsupported | supported | unsupported | TBV |
 | 2 | `native-propagator` | P | unsupported | supported | unsupported | TBV |
@@ -1293,7 +1293,7 @@ report.
 from `semgrep/semgrep-rules` at commit
 `40b8c63f75dc7c22c8a77482d73bfb864b146f7e` — thirty `.yaml` rule files from
 `javascript/lang/security/`, the path
-[the preregistration names](#semgrep-ce--11750---oss-only). The evaluation
+[the preregistration names](#semgrep-ce--11760---oss-only). The evaluation
 below is a reading of the vendored rule text, made before Semgrep was invoked
 over any native fixture, which is the order
 [the vendoring rule requires](#provenance-for-vendored-activation-artifacts).
@@ -1326,7 +1326,7 @@ the six templates is declined for the same reason.
 | 1 | `native-source-sink` | S | **retained unsupported — no shipped platform-source model** | `detect-child-process.yaml` binds the `child_process.execSync($CMD)` sink under `require('child_process')`, so the sink half is covered; its only `pattern-sources` entry is an enclosing function's parameter. Nothing in the snapshot binds `process.env`. |
 | 2 | `native-propagator` | P | **retained unsupported — no shipped platform-source model** | `path-join-resolve-traversal.yaml` binds `$PATH.join(...,$SINK,...)` under `require('path')`; its source is a function parameter. With no source bound, the propagator has nothing to carry. |
 | 3 | `native-sanitizer` | Z | **retained unsupported — no rule reaches this cell to credit or refuse the idiom** | `encodeURIComponent` appears nowhere in the snapshot. Sanitizer credit in the official rules is per-rule (`path-join-resolve-traversal.yaml` lists `$Y.replace`, `$Y.indexOf`, and a `sanitize`-named call), and no rule that could fire on this fixture exists to credit it either way. |
-| 4 | `native-summary` | O | **retained unsupported — no shipped source, and no arg→return summary vocabulary** | Both halves of the preregistered rationale hold: no rule binds a platform source, and CE 1.175.0 does not express arg→return summaries, [as the modeling matrix established by execution](modeling-matrix.md#semgrep-ce--11750---oss-only). |
+| 4 | `native-summary` | O | **retained unsupported — no shipped source, and no arg→return summary vocabulary** | Both halves of the preregistered rationale hold: no rule binds a platform source, and CE 1.175.0 does not express arg→return summaries, [as the modeling matrix established by execution](modeling-matrix.md#semgrep-ce--11760---oss-only). |
 | 5 | `native-entrypoint` | E | **retained unsupported — the shipped entry convention is a function parameter, not `process.argv`** | The snapshot's universal source shape *is* an entry convention — it just is not the platform's. `process.argv` appears in no rule. |
 | 6 | `native-persistence` | B | **retained unsupported — no store vocabulary, and no interprocedural taint** | No rule links a write to `process.env.<NAME>` to a read of it, and the pinned CE engine has no interprocedural taint (`--pro-intrafile` requires Pro). |
 
@@ -1376,7 +1376,7 @@ part of the ruleset, and are deliberately not vendored.
 | 1 | S | **retained unsupported** | No vendored rule names `System.getenv` — the string does not occur in the snapshot at all. The two rules whose sink is this template's command API, `audit/command-injection-formatted-runtime-call.yaml` and `audit/command-injection-process-builder.yaml`, are pattern rules that bind no source. The one taint-mode rule that reaches `Runtime.exec`, `audit/tainted-cmd-from-http-request.yaml`, has `pattern-sources: (HttpServletRequest $REQ)`. No shipped rule binds a platform environment source. |
 | 2 | P | **retained unsupported** | No vendored rule references `String.concat`. The concatenation-shaped rules (`command-injection-formatted-runtime-call`, `audit/formatted-sql-string.yaml`, `audit/jdbc-sql-formatted-string.yaml`) match `+` or `String.format` *inside a sink argument*; none declares a propagator step, and none binds a platform source for one to carry. |
 | 3 | Z | **retained unsupported** | Sanitizer credit in the official rules is per-rule, and no vendored rule declares `Integer.parseInt` or `String.valueOf` as a sanitizer — neither identifier occurs in the snapshot. With no applicable rule at cells 1 and 2, there is also no rule inside which credit could be given. |
-| 4 | O | **retained unsupported** | `java.util.Base64` does not occur in the snapshot. This confirms from rule text what [the modeling matrix established by execution](modeling-matrix.md#semgrep-ce--11750---oss-only): argument-to-return summary semantics are outside CE's propagator vocabulary on the pinned version, and a shipped rule cannot supply what the engine does not express. |
+| 4 | O | **retained unsupported** | `java.util.Base64` does not occur in the snapshot. This confirms from rule text what [the modeling matrix established by execution](modeling-matrix.md#semgrep-ce--11760---oss-only): argument-to-return summary semantics are outside CE's propagator vocabulary on the pinned version, and a shipped rule cannot supply what the engine does not express. |
 | 5 | E | **retained unsupported** | No vendored rule binds `main(String[] args)` or the argument vector; neither `void main` nor `System.` occurs anywhere in the snapshot. Every entry convention it carries is framework-shaped. |
 | 6 | B | **retained unsupported** | No vendored rule names `System.setProperty` / `System.getProperty` as a store pair. The one `setProperty` sink shape in the snapshot, `audit/ognl-injection.yaml`, is bound to an `OgnlReflectionProvider` parameter. The pinned CE engine has no interprocedural taint, so an unlinked store round trip is carried by nothing else. |
 
@@ -1703,7 +1703,7 @@ tool-native report.
 **What changed.** The [activation partition](#partition-summary) gains an eighth row — OpenTaint, pinned release `analyzer/2026.08.27.17eb0fe` by asset
 digest — for **Java only**, with all six templates **unsupported**: 0 / 6, the
 same shape as Joern's row and for the same kind of reason. A new
-[activation-contract section](#opentaint--analyzer2026082717eb0fe-shipped-models-archive-only-java-only)
+[activation-contract section](#opentaint--analyzer202609039752bd2-shipped-models-archive-only-java-only)
 records the contract and the boundary decision below. No preregistered cell of
 any other tool moves. JavaScript and Python have no OpenTaint native
 denominator at all — the engine analyzes JVM bytecode only — and Kotlin has no
@@ -1778,7 +1778,7 @@ activation contract's description of the shipped product.
 declined every cell because "the pinned release ships no rule set" — true of
 the analyzer release's two assets, and incomplete about the shipped product.
 The six rationales in the
-[activation-contract section](#opentaint--analyzer2026082717eb0fe-shipped-models-archive-only-java-only)
+[activation-contract section](#opentaint--analyzer202609039752bd2-shipped-models-archive-only-java-only)
 are restated on the measured evidence below, each cell carrying this
 amendment's link, per the same restatement discipline
 [A10](#a10--2026-08-28-bifrosts-native-category-z-cell-is-restated-on-the-absent-endpoint-catalog)
@@ -1876,7 +1876,7 @@ benchmark input, and decided nothing.** This is the same movement
 [A10](#a10--2026-08-28-bifrosts-native-category-z-cell-is-restated-on-the-absent-endpoint-catalog)
 made for Bifrost's category-Z cell: the decision stands, the citation it
 rested on is corrected, and the retired sentence stays recorded in
-[the Joern activation section](#joern--40614-defaultsemantics-only) rather
+[the Joern activation section](#joern--40617-defaultsemantics-only) rather
 than being silently dropped. (Renumber-race note, per
 [the numbering convention](#amendments): the sequence's top merged heading at
 authoring was A24, and this entry was drafted as A25 — then renumbered to A26

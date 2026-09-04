@@ -124,7 +124,7 @@ reasons are different and the difference matters:
 | Semgrep CE 1.174.0 | Yes | `reports/semgrep-c-kernel.json` |
 | Bifrost v0.10.5 | **Deferred (freeze-bound)** | `reports/bifrost-c-kernel.json` |
 | CodeQL 2.26.4 | **Deferred (freeze-bound)** | `reports/codeql-c-kernel.json` |
-| Joern 4.0.614 | **No C slice exists** | — |
+| Joern 4.0.617 | **No C slice exists** | — |
 | Infer v1.3.0 | **Ran, whole population** — new adapter (#82), landed after the wave, post-freeze | `reports/infer-c-kernel.json` |
 
 **Infer arrived after this wave and is C's second engine.** The Infer adapter
@@ -157,7 +157,7 @@ Deferral is not absence of coverage: both engines cover C, both will attempt all
 them to.
 
 **Joern has no C slice, and this wave did not invent one.** The pinned
-`joern-v4.0.614` adapter covers Java, JavaScript, Python, Ruby, PHP, and Rust.
+`joern-v4.0.617` adapter covers Java, JavaScript, Python, Ruby, PHP, and Rust.
 `c2cpg` ships with it and `adapters/joern/README.md` already records C as
 "Available, not yet in scope", but this repository has no
 `run-joern-c-kernel` command, no C selection, and no

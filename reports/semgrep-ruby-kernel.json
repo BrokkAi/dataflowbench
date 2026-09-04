@@ -2,7 +2,7 @@
   "adapter_version": "0.1.0",
   "cold_or_warm": "cold",
   "configuration_hash": "865d0bd2989f9ddd0b90f2d6675584e86706b109a033d4a1ac00bd21a617b100",
-  "ended_at_unix_seconds": 1788193238,
+  "ended_at_unix_seconds": 1788508793,
   "fixture_revision": "sha256:9df209ed3d7723a3ee33f2b289cf2afe34a3add781bdf2a2ac445de42b8d0151",
   "results": [
     {
@@ -83,7 +83,7 @@
         "pinned Semgrep CE records the Ruby front end's maturity as \"ga\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition",
         "outside the bounded Semgrep CE profile: the case declares an interprocedural relay; Semgrep CE has no interprocedural taint at all (`--pro-intrafile`, \"Intra-file inter-procedural taint analysis ... Requires Semgrep Pro Engine\"). The case requires \"argument-sensitive-interprocedural-taint\"; the scored CE profile is the kernel's `intraprocedural` partition only."
       ],
-      "duration_ms": 1,
+      "duration_ms": 0,
       "outcome": "unsupported",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-argument-position-negative-unsupported.json",
@@ -118,7 +118,7 @@
       "diagnostics": [
         "pinned Semgrep CE records the Ruby front end's maturity as \"ga\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition"
       ],
-      "duration_ms": 2331,
+      "duration_ms": 1041,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-arithmetic-expression-negative.json",
@@ -135,7 +135,7 @@
       "diagnostics": [
         "pinned Semgrep CE records the Ruby front end's maturity as \"ga\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition"
       ],
-      "duration_ms": 2547,
+      "duration_ms": 1100,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-arithmetic-expression-positive.json",
@@ -188,7 +188,7 @@
       "diagnostics": [
         "pinned Semgrep CE records the Ruby front end's maturity as \"ga\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition"
       ],
-      "duration_ms": 2908,
+      "duration_ms": 1029,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-branch-join-negative.json",
@@ -205,7 +205,7 @@
       "diagnostics": [
         "pinned Semgrep CE records the Ruby front end's maturity as \"ga\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition"
       ],
-      "duration_ms": 2625,
+      "duration_ms": 1130,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-branch-join-positive.json",
@@ -277,7 +277,7 @@
         "pinned Semgrep CE records the Ruby front end's maturity as \"ga\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition",
         "outside the bounded Semgrep CE profile: a callback registered by one method is invoked by a separate driver method; inversion of control is interprocedural by construction and CE has no interprocedural taint. The case requires \"inverted-control-callback-taint\"; the scored CE profile is the kernel's `intraprocedural` partition only."
       ],
-      "duration_ms": 1,
+      "duration_ms": 0,
       "outcome": "unsupported",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-callback-registration-positive-unsupported.json",
@@ -313,7 +313,7 @@
         "pinned Semgrep CE records the Ruby front end's maturity as \"ga\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition",
         "outside the bounded Semgrep CE profile: the sink is inside a closure body invoked from a different function than the one that captured the tainted local; CE has no interprocedural taint. The case requires \"closure-capture-taint\"; the scored CE profile is the kernel's `intraprocedural` partition only."
       ],
-      "duration_ms": 1,
+      "duration_ms": 0,
       "outcome": "unsupported",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-closure-capture-positive-unsupported.json",
@@ -331,7 +331,7 @@
         "pinned Semgrep CE records the Ruby front end's maturity as \"ga\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition",
         "outside the bounded Semgrep CE profile: the case writes and reads a member located by a run-time key; the pinned CE engine documents only \"Experimental support for basic field-sensitive taint tracking\", while \"Pro: taint-mode: Added basic support for 'index sensitivity'\" places keyed access outside CE — the same documented boundary that already excludes `dfb-template-array-element-separation` and `dfb-template-same-object-field-separation`. The case requires \"computed-member-access-taint\"; the scored CE profile is the kernel's `intraprocedural` partition only."
       ],
-      "duration_ms": 2,
+      "duration_ms": 0,
       "outcome": "unsupported",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-computed-property-negative-unsupported.json",
@@ -367,7 +367,7 @@
         "pinned Semgrep CE records the Ruby front end's maturity as \"ga\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition",
         "outside the bounded Semgrep CE profile: the case declares two-level context sensitivity; CE has no interprocedural taint and therefore no calling context to be sensitive to. The case requires \"two-level-context-sensitive-taint\"; the scored CE profile is the kernel's `intraprocedural` partition only."
       ],
-      "duration_ms": 1,
+      "duration_ms": 0,
       "outcome": "unsupported",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-context-pair-depth2-negative-unsupported.json",
@@ -438,7 +438,7 @@
       "diagnostics": [
         "pinned Semgrep CE records the Ruby front end's maturity as \"ga\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition"
       ],
-      "duration_ms": 2259,
+      "duration_ms": 1040,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-direct-negative.json",
@@ -455,7 +455,7 @@
       "diagnostics": [
         "pinned Semgrep CE records the Ruby front end's maturity as \"ga\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition"
       ],
-      "duration_ms": 2393,
+      "duration_ms": 1114,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-direct-positive.json",
@@ -616,7 +616,7 @@
       "diagnostics": [
         "pinned Semgrep CE records the Ruby front end's maturity as \"ga\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition"
       ],
-      "duration_ms": 3354,
+      "duration_ms": 1036,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-infeasible-branch-negative.json",
@@ -633,7 +633,7 @@
       "diagnostics": [
         "pinned Semgrep CE records the Ruby front end's maturity as \"ga\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition"
       ],
-      "duration_ms": 2414,
+      "duration_ms": 1092,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-infeasible-branch-positive.json",
@@ -650,7 +650,7 @@
       "diagnostics": [
         "pinned Semgrep CE records the Ruby front end's maturity as \"ga\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition"
       ],
-      "duration_ms": 2772,
+      "duration_ms": 1035,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-local-chain-negative.json",
@@ -667,7 +667,7 @@
       "diagnostics": [
         "pinned Semgrep CE records the Ruby front end's maturity as \"ga\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition"
       ],
-      "duration_ms": 2522,
+      "duration_ms": 1099,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-local-chain-positive.json",
@@ -684,7 +684,7 @@
       "diagnostics": [
         "pinned Semgrep CE records the Ruby front end's maturity as \"ga\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition"
       ],
-      "duration_ms": 2397,
+      "duration_ms": 1032,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-local-overwrite-negative.json",
@@ -701,7 +701,7 @@
       "diagnostics": [
         "pinned Semgrep CE records the Ruby front end's maturity as \"ga\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition"
       ],
-      "duration_ms": 2369,
+      "duration_ms": 1128,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-local-overwrite-positive.json",
@@ -718,7 +718,7 @@
       "diagnostics": [
         "pinned Semgrep CE records the Ruby front end's maturity as \"ga\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition"
       ],
-      "duration_ms": 2554,
+      "duration_ms": 1047,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-loop-carried-negative.json",
@@ -735,7 +735,7 @@
       "diagnostics": [
         "pinned Semgrep CE records the Ruby front end's maturity as \"ga\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition"
       ],
-      "duration_ms": 2843,
+      "duration_ms": 1077,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-loop-carried-positive.json",
@@ -1037,8 +1037,8 @@
     }
   ],
   "schema_version": 1,
-  "started_at_unix_seconds": 1788193200,
+  "started_at_unix_seconds": 1788508777,
   "tool": "semgrep",
-  "tool_build_identity": "semgrep-oss:1.175.0",
-  "tool_version": "1.175.0"
+  "tool_build_identity": "semgrep-oss:1.176.0",
+  "tool_version": "1.176.0"
 }

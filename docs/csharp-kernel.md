@@ -282,7 +282,7 @@ in the fixtures:
   `reports/joern-csharp-kernel.json`. Adding one is a separate change with its
   own reproduction contract, not something a fixture wave may improvise.
 - **Semgrep CE — impossible.** C# is a **Pro-only** language in the pinned
-  Semgrep CE 1.175.0 distribution, named in the CLI's own `--pro-languages`
+  Semgrep CE 1.176.0 distribution, named in the CLI's own `--pro-languages`
   text. There is no C# Semgrep slice and there cannot be one on CE; this is
   recorded in [the Semgrep adapter notes](../adapters/semgrep/README.md) as a
   tool limitation, not a benchmark gap.

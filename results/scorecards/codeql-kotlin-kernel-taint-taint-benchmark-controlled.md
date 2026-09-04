@@ -4,7 +4,7 @@ Adapter `codeql-kotlin-kernel`: `codeql` `2.26.4` (build `codeql-cli:6b1e4dee94a
 
 Track `taint`, score dimension `taint`, model profile `benchmark-controlled`. This scorecard is a single result population; it is never pooled with other tracks, dimensions, or model profiles.
 
-Normalized report: `reports/codeql-kotlin-kernel.json` (`sha256:8f657c13f95c35b55da0b62e8f128cb32900e421ba59d95607a0631c9a0b5346`, normalized `sha256:8f657c13f95c35b55da0b62e8f128cb32900e421ba59d95607a0631c9a0b5346`). Generated from freeze manifest `reports/freeze.json` (`sha256:c92efa03098fd8b51e820ff66b942099c4b972d2fec19a90bd65424b5e01fa1e`).
+Normalized report: `reports/codeql-kotlin-kernel.json` (`sha256:8f657c13f95c35b55da0b62e8f128cb32900e421ba59d95607a0631c9a0b5346`, normalized `sha256:8f657c13f95c35b55da0b62e8f128cb32900e421ba59d95607a0631c9a0b5346`). Generated from freeze manifest `reports/freeze.json` (`sha256:95faa71908b637ba349c1890ce913abd865c670a9093e123a25d975430bfe52c`).
 
 ## Language `kotlin`, tier `core`
 

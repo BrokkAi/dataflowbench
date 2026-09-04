@@ -20,8 +20,8 @@ contract](../../docs/php-kernel.md).
 
 | Item | Value |
 | --- | --- |
-| Version | `4.0.614` (the version the console banner reports) |
-| Build identity | `joern-cli:4.0.614` |
+| Version | `4.0.617` (the version the console banner reports) |
+| Build identity | `joern-cli:4.0.617` |
 | Installation | `joern-cli/joern` from the released `joern-cli` distribution |
 | Query script | `adapters/joern/queries/kernel.sc` |
 | Configuration hash | `ab10e81860305e492a930e2c2691873b23be25e97e5b354ca785058e09a20025` |

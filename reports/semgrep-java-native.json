@@ -1,14 +1,14 @@
 {
   "adapter_version": "0.1.0",
   "cold_or_warm": "cold",
-  "configuration_hash": "445cee9f6886885c22f5081d6dc391849210a2787a4a0d505dfeca788c337f49",
-  "ended_at_unix_seconds": 1788193466,
+  "configuration_hash": "1f9829f642c20d3521f0d991477e068e49c168f67bb7df861da14c043280621e",
+  "ended_at_unix_seconds": 1788508186,
   "fixture_revision": "sha256:9df209ed3d7723a3ee33f2b289cf2afe34a3add781bdf2a2ac445de42b8d0151",
   "results": [
     {
       "case_id": "dfb-taint-java-native-entrypoint-negative",
       "diagnostics": [
-        "tool-native activation of dfb-template-native-entrypoint (category E — framework entry points) is unsupported for 1.175.0 over Java by the activation partition (docs/native-profile.md#partition-summary, as amended): to be verified at vendoring — unsupported until shown: the upstream rules' entry conventions are framework-shaped, and whether any covers `sys.argv`, `process.argv`, or a `main` parameter is the snapshot's to answer"
+        "tool-native activation of dfb-template-native-entrypoint (category E — framework entry points) is unsupported for 1.176.0 over Java by the activation partition (docs/native-profile.md#partition-summary, as amended): no vendored rule binds `main(String[] args)` or the argument vector — neither `void main` nor `System.` occurs in the snapshot, and every entry convention it carries is framework-shaped (Amendments A7/A27)"
       ],
       "duration_ms": 0,
       "outcome": "unsupported",
@@ -25,7 +25,7 @@
     {
       "case_id": "dfb-taint-java-native-entrypoint-positive",
       "diagnostics": [
-        "tool-native activation of dfb-template-native-entrypoint (category E — framework entry points) is unsupported for 1.175.0 over Java by the activation partition (docs/native-profile.md#partition-summary, as amended): to be verified at vendoring — unsupported until shown: the upstream rules' entry conventions are framework-shaped, and whether any covers `sys.argv`, `process.argv`, or a `main` parameter is the snapshot's to answer"
+        "tool-native activation of dfb-template-native-entrypoint (category E — framework entry points) is unsupported for 1.176.0 over Java by the activation partition (docs/native-profile.md#partition-summary, as amended): no vendored rule binds `main(String[] args)` or the argument vector — neither `void main` nor `System.` occurs in the snapshot, and every entry convention it carries is framework-shaped (Amendments A7/A27)"
       ],
       "duration_ms": 0,
       "outcome": "unsupported",
@@ -42,7 +42,7 @@
     {
       "case_id": "dfb-taint-java-native-persistence-negative",
       "diagnostics": [
-        "tool-native activation of dfb-template-native-persistence (category B — persistence boundaries) is unsupported for 1.175.0 over Java by the activation partition (docs/native-profile.md#partition-summary, as amended): the pinned CE engine has no interprocedural taint at all — `--pro-intrafile` requires Semgrep Pro — so a store round trip the shipped rules do not link themselves is carried by nothing else"
+        "tool-native activation of dfb-template-native-persistence (category B — persistence boundaries) is unsupported for 1.176.0 over Java by the activation partition (docs/native-profile.md#partition-summary, as amended): no vendored rule names `System.setProperty` / `System.getProperty` as a store pair — neither occurs anywhere in the upstream `java/` tree at the pinned commit — and the pinned CE engine has no interprocedural taint (Amendment A7, execution-confirmed by A27's zero-finding field run)"
       ],
       "duration_ms": 0,
       "outcome": "unsupported",
@@ -59,7 +59,7 @@
     {
       "case_id": "dfb-taint-java-native-persistence-positive",
       "diagnostics": [
-        "tool-native activation of dfb-template-native-persistence (category B — persistence boundaries) is unsupported for 1.175.0 over Java by the activation partition (docs/native-profile.md#partition-summary, as amended): the pinned CE engine has no interprocedural taint at all — `--pro-intrafile` requires Semgrep Pro — so a store round trip the shipped rules do not link themselves is carried by nothing else"
+        "tool-native activation of dfb-template-native-persistence (category B — persistence boundaries) is unsupported for 1.176.0 over Java by the activation partition (docs/native-profile.md#partition-summary, as amended): no vendored rule names `System.setProperty` / `System.getProperty` as a store pair — neither occurs anywhere in the upstream `java/` tree at the pinned commit — and the pinned CE engine has no interprocedural taint (Amendment A7, execution-confirmed by A27's zero-finding field run)"
       ],
       "duration_ms": 0,
       "outcome": "unsupported",
@@ -76,7 +76,7 @@
     {
       "case_id": "dfb-taint-java-native-propagator-negative",
       "diagnostics": [
-        "tool-native activation of dfb-template-native-propagator (category P — declared propagators) is unsupported for 1.175.0 over Java by the activation partition (docs/native-profile.md#partition-summary, as amended): to be verified at vendoring — unsupported until shown: which rules the snapshot carries, and how the pinned CE engine's default propagation treats the platform join, are both undecided until a commit is pinned"
+        "tool-native activation of dfb-template-native-propagator (category P — declared propagators) is unsupported for 1.176.0 over Java by the activation partition (docs/native-profile.md#partition-summary, as amended): no vendored rule references `String.concat`, the concatenation-shaped rules match `+` or `String.format` inside a sink argument without binding a source, and no rule binds a platform source for a propagator to carry (Amendment A7, execution-confirmed by A27's zero-finding field run)"
       ],
       "duration_ms": 0,
       "outcome": "unsupported",
@@ -93,7 +93,7 @@
     {
       "case_id": "dfb-taint-java-native-propagator-positive",
       "diagnostics": [
-        "tool-native activation of dfb-template-native-propagator (category P — declared propagators) is unsupported for 1.175.0 over Java by the activation partition (docs/native-profile.md#partition-summary, as amended): to be verified at vendoring — unsupported until shown: which rules the snapshot carries, and how the pinned CE engine's default propagation treats the platform join, are both undecided until a commit is pinned"
+        "tool-native activation of dfb-template-native-propagator (category P — declared propagators) is unsupported for 1.176.0 over Java by the activation partition (docs/native-profile.md#partition-summary, as amended): no vendored rule references `String.concat`, the concatenation-shaped rules match `+` or `String.format` inside a sink argument without binding a source, and no rule binds a platform source for a propagator to carry (Amendment A7, execution-confirmed by A27's zero-finding field run)"
       ],
       "duration_ms": 0,
       "outcome": "unsupported",
@@ -110,7 +110,7 @@
     {
       "case_id": "dfb-taint-java-native-sanitizer-negative",
       "diagnostics": [
-        "tool-native activation of dfb-template-native-sanitizer (category Z — declared sanitizers) is unsupported for 1.175.0 over Java by the activation partition (docs/native-profile.md#partition-summary, as amended): to be verified at vendoring — unsupported until shown: sanitizer credit in the official rules is per-rule rather than global, so it is unverifiable before the snapshot exists"
+        "tool-native activation of dfb-template-native-sanitizer (category Z — declared sanitizers) is unsupported for 1.176.0 over Java by the activation partition (docs/native-profile.md#partition-summary, as amended): no vendored rule declares `Integer.parseInt` or `String.valueOf` as a sanitizer — neither identifier occurs in the snapshot — and no applicable rule exists at the cells the idiom would guard (Amendment A7, execution-confirmed by A27's zero-finding field run)"
       ],
       "duration_ms": 0,
       "outcome": "unsupported",
@@ -127,7 +127,7 @@
     {
       "case_id": "dfb-taint-java-native-sanitizer-positive",
       "diagnostics": [
-        "tool-native activation of dfb-template-native-sanitizer (category Z — declared sanitizers) is unsupported for 1.175.0 over Java by the activation partition (docs/native-profile.md#partition-summary, as amended): to be verified at vendoring — unsupported until shown: sanitizer credit in the official rules is per-rule rather than global, so it is unverifiable before the snapshot exists"
+        "tool-native activation of dfb-template-native-sanitizer (category Z — declared sanitizers) is unsupported for 1.176.0 over Java by the activation partition (docs/native-profile.md#partition-summary, as amended): no vendored rule declares `Integer.parseInt` or `String.valueOf` as a sanitizer — neither identifier occurs in the snapshot — and no applicable rule exists at the cells the idiom would guard (Amendment A7, execution-confirmed by A27's zero-finding field run)"
       ],
       "duration_ms": 0,
       "outcome": "unsupported",
@@ -144,7 +144,7 @@
     {
       "case_id": "dfb-taint-java-native-source-sink-negative",
       "diagnostics": [
-        "tool-native activation of dfb-template-native-source-sink (category S — declared sources and sinks) is unsupported for 1.175.0 over Java by the activation partition (docs/native-profile.md#partition-summary, as amended): to be verified at vendoring — unsupported until shown: the upstream head's taint-mode rules cover the template's command sinks (`dangerous-system-call.yaml` declares `os.system`) but bind their `pattern-sources` to framework endpoints — Flask, Django, DRF — rather than to a platform environment read. Whether any vendored rule binds one is the snapshot's to answer, and no snapshot is vendored"
+        "tool-native activation of dfb-template-native-source-sink (category S — declared sources and sinks) is unsupported for 1.176.0 over Java by the activation partition (docs/native-profile.md#partition-summary, as amended): no shipped platform-source model: `System.getenv` occurs in no rule of the snapshot — nor anywhere in the upstream `java/` tree at the pinned commit — the two rules whose sink is the template's command API bind no source, the one taint-mode rule reaching `Runtime.exec` sources from `HttpServletRequest`, and the pinned engine over every fixture with the snapshot emits zero findings (Amendments A7/A27, reports/raw/amendment-a27-semgrep-jsjava-native/)"
       ],
       "duration_ms": 0,
       "outcome": "unsupported",
@@ -161,7 +161,7 @@
     {
       "case_id": "dfb-taint-java-native-source-sink-positive",
       "diagnostics": [
-        "tool-native activation of dfb-template-native-source-sink (category S — declared sources and sinks) is unsupported for 1.175.0 over Java by the activation partition (docs/native-profile.md#partition-summary, as amended): to be verified at vendoring — unsupported until shown: the upstream head's taint-mode rules cover the template's command sinks (`dangerous-system-call.yaml` declares `os.system`) but bind their `pattern-sources` to framework endpoints — Flask, Django, DRF — rather than to a platform environment read. Whether any vendored rule binds one is the snapshot's to answer, and no snapshot is vendored"
+        "tool-native activation of dfb-template-native-source-sink (category S — declared sources and sinks) is unsupported for 1.176.0 over Java by the activation partition (docs/native-profile.md#partition-summary, as amended): no shipped platform-source model: `System.getenv` occurs in no rule of the snapshot — nor anywhere in the upstream `java/` tree at the pinned commit — the two rules whose sink is the template's command API bind no source, the one taint-mode rule reaching `Runtime.exec` sources from `HttpServletRequest`, and the pinned engine over every fixture with the snapshot emits zero findings (Amendments A7/A27, reports/raw/amendment-a27-semgrep-jsjava-native/)"
       ],
       "duration_ms": 0,
       "outcome": "unsupported",
@@ -178,7 +178,7 @@
     {
       "case_id": "dfb-taint-java-native-summary-negative",
       "diagnostics": [
-        "tool-native activation of dfb-template-native-summary (category O — opaque procedure summaries) is unsupported for 1.175.0 over Java by the activation partition (docs/native-profile.md#partition-summary, as amended): arg-to-return summary semantics are outside CE's propagator vocabulary on the pinned version, established by execution in docs/modeling-matrix.md#semgrep-ce--11750---oss-only; a shipped rule cannot supply what the engine does not express"
+        "tool-native activation of dfb-template-native-summary (category O — opaque procedure summaries) is unsupported for 1.176.0 over Java by the activation partition (docs/native-profile.md#partition-summary, as amended): `java.util.Base64` occurs nowhere in the snapshot, and arg-to-return summary semantics are outside CE's propagator vocabulary on the pinned version, established by execution in docs/modeling-matrix.md#semgrep-ce--11760---oss-only (Amendments A7/A27)"
       ],
       "duration_ms": 0,
       "outcome": "unsupported",
@@ -195,7 +195,7 @@
     {
       "case_id": "dfb-taint-java-native-summary-positive",
       "diagnostics": [
-        "tool-native activation of dfb-template-native-summary (category O — opaque procedure summaries) is unsupported for 1.175.0 over Java by the activation partition (docs/native-profile.md#partition-summary, as amended): arg-to-return summary semantics are outside CE's propagator vocabulary on the pinned version, established by execution in docs/modeling-matrix.md#semgrep-ce--11750---oss-only; a shipped rule cannot supply what the engine does not express"
+        "tool-native activation of dfb-template-native-summary (category O — opaque procedure summaries) is unsupported for 1.176.0 over Java by the activation partition (docs/native-profile.md#partition-summary, as amended): `java.util.Base64` occurs nowhere in the snapshot, and arg-to-return summary semantics are outside CE's propagator vocabulary on the pinned version, established by execution in docs/modeling-matrix.md#semgrep-ce--11760---oss-only (Amendments A7/A27)"
       ],
       "duration_ms": 0,
       "outcome": "unsupported",
@@ -211,8 +211,8 @@
     }
   ],
   "schema_version": 1,
-  "started_at_unix_seconds": 1788193466,
+  "started_at_unix_seconds": 1788508185,
   "tool": "semgrep",
-  "tool_build_identity": "semgrep-oss:1.175.0 — 1.175.0 over the pinned snapshot vendored from https://github.com/semgrep/semgrep-rules into adapters/semgrep/native/java",
-  "tool_version": "1.175.0"
+  "tool_build_identity": "semgrep-oss:1.176.0 — 1.176.0 over the pinned snapshot vendored from https://github.com/semgrep/semgrep-rules into adapters/semgrep/native/java",
+  "tool_version": "1.176.0"
 }

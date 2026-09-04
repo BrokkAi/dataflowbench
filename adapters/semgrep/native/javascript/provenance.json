@@ -45,6 +45,6 @@
     "rules/spawn-git-clone.yaml"
   ],
   "selection": "Every `.yaml` rule file under the upstream per-language security path, copied byte for byte with its upstream directory structure preserved. The co-located `.js`/`.ts` rule-test fixtures are not part of the ruleset and are not vendored; nothing else is filtered, edited, reordered, or added.",
-  "activation": "`semgrep scan --oss-only --config adapters/semgrep/native/javascript`. `taint_assume_safe_functions` is deliberately NOT set: the shipped default is the product under test (docs/native-profile.md#semgrep-ce--11750---oss-only).",
+  "activation": "`semgrep scan --oss-only --config adapters/semgrep/native/javascript`. `taint_assume_safe_functions` is deliberately NOT set: the shipped default is the product under test (docs/native-profile.md#semgrep-ce--11760---oss-only).",
   "notes": "Vendored under docs/native-profile.md#provenance-for-vendored-activation-artifacts because Semgrep registry configurations are network-fetched and unpinnable at run time. This snapshot is an activation artifact, not a fixture: it carries `derived` provenance, never `authored`."
 }

@@ -285,7 +285,7 @@ No template proved unimplementable and no amendment is proposed by this wave.
 | Semgrep CE 1.174.0 | **Ran, whole population** | `reports/semgrep-cpp-kernel.json` |
 | Bifrost v0.10.5 | **Deferred (freeze-bound)** | `reports/bifrost-cpp-kernel.json` |
 | CodeQL 2.26.4 | **Deferred (freeze-bound)** | `reports/codeql-cpp-kernel.json` |
-| Joern 4.0.614 | **No C++ slice exists** | — |
+| Joern 4.0.617 | **No C++ slice exists** | — |
 | Infer v1.3.0 | **Ran, whole population** — new adapter (#82), landed after the wave, post-freeze | `reports/infer-cpp-kernel.json` |
 
 **Infer arrived after this wave and is C++'s second engine.** The Infer
@@ -321,7 +321,7 @@ selectors already expect the full 56, and this wave simply had no freeze-legal
 file to write the expanded results to.
 
 **Joern has no C++ slice, and this wave did not invent one.** The pinned
-`joern-v4.0.614` distribution ships `c2cpg`, which handles C++ upstream, but
+`joern-v4.0.617` distribution ships `c2cpg`, which handles C++ upstream, but
 this repository has no `JoernKernel` variant for C++, no C++ Joern query, and
 no `reports/joern-cpp-kernel.json`; `adapters/joern/README.md` records C++ as
 "Available, not yet in scope". Standing up a language slice is its own change

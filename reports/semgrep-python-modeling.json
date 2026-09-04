@@ -2,13 +2,13 @@
   "adapter_version": "0.1.0",
   "cold_or_warm": "cold",
   "configuration_hash": "a2eefdc01e1df0c60b7aa2ceb0967814426f9211b61b79be0cf11de92f0b9825",
-  "ended_at_unix_seconds": 1788193497,
+  "ended_at_unix_seconds": 1788508202,
   "fixture_revision": "sha256:9df209ed3d7723a3ee33f2b289cf2afe34a3add781bdf2a2ac445de42b8d0151",
   "results": [
     {
       "case_id": "dfb-taint-python-model-declared-sink-negative",
       "diagnostics": [],
-      "duration_ms": 1188,
+      "duration_ms": 1472,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/semgrep-python-modeling/dfb-taint-python-model-declared-sink-negative.json",
@@ -23,7 +23,7 @@
     {
       "case_id": "dfb-taint-python-model-declared-sink-positive",
       "diagnostics": [],
-      "duration_ms": 1166,
+      "duration_ms": 1501,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/semgrep-python-modeling/dfb-taint-python-model-declared-sink-positive.json",
@@ -38,7 +38,7 @@
     {
       "case_id": "dfb-taint-python-model-declared-source-negative",
       "diagnostics": [],
-      "duration_ms": 1563,
+      "duration_ms": 1374,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/semgrep-python-modeling/dfb-taint-python-model-declared-source-negative.json",
@@ -53,7 +53,7 @@
     {
       "case_id": "dfb-taint-python-model-declared-source-positive",
       "diagnostics": [],
-      "duration_ms": 1815,
+      "duration_ms": 1340,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/semgrep-python-modeling/dfb-taint-python-model-declared-source-positive.json",
@@ -68,7 +68,7 @@
     {
       "case_id": "dfb-taint-python-model-entrypoint-parameter-negative",
       "diagnostics": [],
-      "duration_ms": 1949,
+      "duration_ms": 1457,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/semgrep-python-modeling/dfb-taint-python-model-entrypoint-parameter-negative.json",
@@ -83,7 +83,7 @@
     {
       "case_id": "dfb-taint-python-model-entrypoint-parameter-positive",
       "diagnostics": [],
-      "duration_ms": 1989,
+      "duration_ms": 1345,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/semgrep-python-modeling/dfb-taint-python-model-entrypoint-parameter-positive.json",
@@ -98,7 +98,7 @@
     {
       "case_id": "dfb-taint-python-model-entrypoint-selectivity-negative",
       "diagnostics": [],
-      "duration_ms": 1864,
+      "duration_ms": 1510,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/semgrep-python-modeling/dfb-taint-python-model-entrypoint-selectivity-negative.json",
@@ -113,7 +113,7 @@
     {
       "case_id": "dfb-taint-python-model-entrypoint-selectivity-positive",
       "diagnostics": [],
-      "duration_ms": 1693,
+      "duration_ms": 1681,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/semgrep-python-modeling/dfb-taint-python-model-entrypoint-selectivity-positive.json",
@@ -128,7 +128,7 @@
     {
       "case_id": "dfb-taint-python-model-opaque-propagator-negative",
       "diagnostics": [
-        "category P — declared propagators — is unsupported for 1.175.0 by the preregistered modeling partition (docs/modeling-matrix.md#per-tool-capability-partition): verified twice over. First, `pattern-propagators` binds `to:` to a **metavariable**, not to a call's return value: a propagator written `pattern: prop($A,$B) / from: $B / to: prop(...)` produced no finding when the default pass-through was disabled. Second, with the default enabled, CE reports the sink whether taint sits at the declared position 1 or the undeclared position 0 — so both cells of template 4 are decided by the default, not the model, and the load-bearing-model requirement is violated either way. Arg→return propagation is outside CE's propagator vocabulary"
+        "category P — declared propagators — is unsupported for 1.176.0 by the preregistered modeling partition (docs/modeling-matrix.md#per-tool-capability-partition): verified twice over. First, `pattern-propagators` binds `to:` to a **metavariable**, not to a call's return value: a propagator written `pattern: prop($A,$B) / from: $B / to: prop(...)` produced no finding when the default pass-through was disabled. Second, with the default enabled, CE reports the sink whether taint sits at the declared position 1 or the undeclared position 0 — so both cells of template 4 are decided by the default, not the model, and the load-bearing-model requirement is violated either way. Arg→return propagation is outside CE's propagator vocabulary"
       ],
       "duration_ms": 0,
       "outcome": "unsupported",
@@ -145,7 +145,7 @@
     {
       "case_id": "dfb-taint-python-model-opaque-propagator-positive",
       "diagnostics": [
-        "category P — declared propagators — is unsupported for 1.175.0 by the preregistered modeling partition (docs/modeling-matrix.md#per-tool-capability-partition): verified twice over. First, `pattern-propagators` binds `to:` to a **metavariable**, not to a call's return value: a propagator written `pattern: prop($A,$B) / from: $B / to: prop(...)` produced no finding when the default pass-through was disabled. Second, with the default enabled, CE reports the sink whether taint sits at the declared position 1 or the undeclared position 0 — so both cells of template 4 are decided by the default, not the model, and the load-bearing-model requirement is violated either way. Arg→return propagation is outside CE's propagator vocabulary"
+        "category P — declared propagators — is unsupported for 1.176.0 by the preregistered modeling partition (docs/modeling-matrix.md#per-tool-capability-partition): verified twice over. First, `pattern-propagators` binds `to:` to a **metavariable**, not to a call's return value: a propagator written `pattern: prop($A,$B) / from: $B / to: prop(...)` produced no finding when the default pass-through was disabled. Second, with the default enabled, CE reports the sink whether taint sits at the declared position 1 or the undeclared position 0 — so both cells of template 4 are decided by the default, not the model, and the load-bearing-model requirement is violated either way. Arg→return propagation is outside CE's propagator vocabulary"
       ],
       "duration_ms": 0,
       "outcome": "unsupported",
@@ -162,7 +162,7 @@
     {
       "case_id": "dfb-taint-python-model-propagator-position-negative",
       "diagnostics": [
-        "category P — declared propagators — is unsupported for 1.175.0 by the preregistered modeling partition (docs/modeling-matrix.md#per-tool-capability-partition): verified twice over. First, `pattern-propagators` binds `to:` to a **metavariable**, not to a call's return value: a propagator written `pattern: prop($A,$B) / from: $B / to: prop(...)` produced no finding when the default pass-through was disabled. Second, with the default enabled, CE reports the sink whether taint sits at the declared position 1 or the undeclared position 0 — so both cells of template 4 are decided by the default, not the model, and the load-bearing-model requirement is violated either way. Arg→return propagation is outside CE's propagator vocabulary"
+        "category P — declared propagators — is unsupported for 1.176.0 by the preregistered modeling partition (docs/modeling-matrix.md#per-tool-capability-partition): verified twice over. First, `pattern-propagators` binds `to:` to a **metavariable**, not to a call's return value: a propagator written `pattern: prop($A,$B) / from: $B / to: prop(...)` produced no finding when the default pass-through was disabled. Second, with the default enabled, CE reports the sink whether taint sits at the declared position 1 or the undeclared position 0 — so both cells of template 4 are decided by the default, not the model, and the load-bearing-model requirement is violated either way. Arg→return propagation is outside CE's propagator vocabulary"
       ],
       "duration_ms": 0,
       "outcome": "unsupported",
@@ -179,7 +179,7 @@
     {
       "case_id": "dfb-taint-python-model-propagator-position-positive",
       "diagnostics": [
-        "category P — declared propagators — is unsupported for 1.175.0 by the preregistered modeling partition (docs/modeling-matrix.md#per-tool-capability-partition): verified twice over. First, `pattern-propagators` binds `to:` to a **metavariable**, not to a call's return value: a propagator written `pattern: prop($A,$B) / from: $B / to: prop(...)` produced no finding when the default pass-through was disabled. Second, with the default enabled, CE reports the sink whether taint sits at the declared position 1 or the undeclared position 0 — so both cells of template 4 are decided by the default, not the model, and the load-bearing-model requirement is violated either way. Arg→return propagation is outside CE's propagator vocabulary"
+        "category P — declared propagators — is unsupported for 1.176.0 by the preregistered modeling partition (docs/modeling-matrix.md#per-tool-capability-partition): verified twice over. First, `pattern-propagators` binds `to:` to a **metavariable**, not to a call's return value: a propagator written `pattern: prop($A,$B) / from: $B / to: prop(...)` produced no finding when the default pass-through was disabled. Second, with the default enabled, CE reports the sink whether taint sits at the declared position 1 or the undeclared position 0 — so both cells of template 4 are decided by the default, not the model, and the load-bearing-model requirement is violated either way. Arg→return propagation is outside CE's propagator vocabulary"
       ],
       "duration_ms": 0,
       "outcome": "unsupported",
@@ -196,7 +196,7 @@
     {
       "case_id": "dfb-taint-python-model-sanitizer-kill-negative",
       "diagnostics": [],
-      "duration_ms": 1184,
+      "duration_ms": 1388,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/semgrep-python-modeling/dfb-taint-python-model-sanitizer-kill-negative.json",
@@ -211,7 +211,7 @@
     {
       "case_id": "dfb-taint-python-model-sanitizer-kill-positive",
       "diagnostics": [],
-      "duration_ms": 1157,
+      "duration_ms": 1399,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/semgrep-python-modeling/dfb-taint-python-model-sanitizer-kill-positive.json",
@@ -226,7 +226,7 @@
     {
       "case_id": "dfb-taint-python-model-sanitizer-selectivity-negative",
       "diagnostics": [
-        "category Z — declared sanitizers — is unsupported for 1.175.0 by the preregistered modeling partition (docs/modeling-matrix.md#per-tool-capability-partition): Semgrep CE cannot express sanitizer selectivity and the safe-function assumption in one invocation: taint_assume_safe_functions suppresses flow through the undeclared sanitizer-lookalike, so the positive is undecidable by construction (Amendment A3)"
+        "category Z — declared sanitizers — is unsupported for 1.176.0 by the preregistered modeling partition (docs/modeling-matrix.md#per-tool-capability-partition): Semgrep CE cannot express sanitizer selectivity and the safe-function assumption in one invocation: taint_assume_safe_functions suppresses flow through the undeclared sanitizer-lookalike, so the positive is undecidable by construction (Amendment A3)"
       ],
       "duration_ms": 0,
       "outcome": "unsupported",
@@ -243,7 +243,7 @@
     {
       "case_id": "dfb-taint-python-model-sanitizer-selectivity-positive",
       "diagnostics": [
-        "category Z — declared sanitizers — is unsupported for 1.175.0 by the preregistered modeling partition (docs/modeling-matrix.md#per-tool-capability-partition): Semgrep CE cannot express sanitizer selectivity and the safe-function assumption in one invocation: taint_assume_safe_functions suppresses flow through the undeclared sanitizer-lookalike, so the positive is undecidable by construction (Amendment A3)"
+        "category Z — declared sanitizers — is unsupported for 1.176.0 by the preregistered modeling partition (docs/modeling-matrix.md#per-tool-capability-partition): Semgrep CE cannot express sanitizer selectivity and the safe-function assumption in one invocation: taint_assume_safe_functions suppresses flow through the undeclared sanitizer-lookalike, so the positive is undecidable by construction (Amendment A3)"
       ],
       "duration_ms": 0,
       "outcome": "unsupported",
@@ -260,7 +260,7 @@
     {
       "case_id": "dfb-taint-python-model-store-roundtrip-negative",
       "diagnostics": [
-        "category B — persistence boundaries — is unsupported for 1.175.0 by the preregistered modeling partition (docs/modeling-matrix.md#per-tool-capability-partition): the write and the read are in two different procedures by construction, and the pinned CE engine has no interprocedural taint at all: `semgrep scan --help` offers `--pro-intrafile` (\"Intra-file inter-procedural taint analysis … Requires Semgrep Pro Engine\"), so the step from `put` to `get` is outside the engine regardless of what is declared"
+        "category B — persistence boundaries — is unsupported for 1.176.0 by the preregistered modeling partition (docs/modeling-matrix.md#per-tool-capability-partition): the write and the read are in two different procedures by construction, and the pinned CE engine has no interprocedural taint at all: `semgrep scan --help` offers `--pro-intrafile` (\"Intra-file inter-procedural taint analysis … Requires Semgrep Pro Engine\"), so the step from `put` to `get` is outside the engine regardless of what is declared"
       ],
       "duration_ms": 0,
       "outcome": "unsupported",
@@ -277,7 +277,7 @@
     {
       "case_id": "dfb-taint-python-model-store-roundtrip-positive",
       "diagnostics": [
-        "category B — persistence boundaries — is unsupported for 1.175.0 by the preregistered modeling partition (docs/modeling-matrix.md#per-tool-capability-partition): the write and the read are in two different procedures by construction, and the pinned CE engine has no interprocedural taint at all: `semgrep scan --help` offers `--pro-intrafile` (\"Intra-file inter-procedural taint analysis … Requires Semgrep Pro Engine\"), so the step from `put` to `get` is outside the engine regardless of what is declared"
+        "category B — persistence boundaries — is unsupported for 1.176.0 by the preregistered modeling partition (docs/modeling-matrix.md#per-tool-capability-partition): the write and the read are in two different procedures by construction, and the pinned CE engine has no interprocedural taint at all: `semgrep scan --help` offers `--pro-intrafile` (\"Intra-file inter-procedural taint analysis … Requires Semgrep Pro Engine\"), so the step from `put` to `get` is outside the engine regardless of what is declared"
       ],
       "duration_ms": 0,
       "outcome": "unsupported",
@@ -294,7 +294,7 @@
     {
       "case_id": "dfb-taint-python-model-store-separation-negative",
       "diagnostics": [
-        "category B — persistence boundaries — is unsupported for 1.175.0 by the preregistered modeling partition (docs/modeling-matrix.md#per-tool-capability-partition): the write and the read are in two different procedures by construction, and the pinned CE engine has no interprocedural taint at all: `semgrep scan --help` offers `--pro-intrafile` (\"Intra-file inter-procedural taint analysis … Requires Semgrep Pro Engine\"), so the step from `put` to `get` is outside the engine regardless of what is declared"
+        "category B — persistence boundaries — is unsupported for 1.176.0 by the preregistered modeling partition (docs/modeling-matrix.md#per-tool-capability-partition): the write and the read are in two different procedures by construction, and the pinned CE engine has no interprocedural taint at all: `semgrep scan --help` offers `--pro-intrafile` (\"Intra-file inter-procedural taint analysis … Requires Semgrep Pro Engine\"), so the step from `put` to `get` is outside the engine regardless of what is declared"
       ],
       "duration_ms": 0,
       "outcome": "unsupported",
@@ -311,7 +311,7 @@
     {
       "case_id": "dfb-taint-python-model-store-separation-positive",
       "diagnostics": [
-        "category B — persistence boundaries — is unsupported for 1.175.0 by the preregistered modeling partition (docs/modeling-matrix.md#per-tool-capability-partition): the write and the read are in two different procedures by construction, and the pinned CE engine has no interprocedural taint at all: `semgrep scan --help` offers `--pro-intrafile` (\"Intra-file inter-procedural taint analysis … Requires Semgrep Pro Engine\"), so the step from `put` to `get` is outside the engine regardless of what is declared"
+        "category B — persistence boundaries — is unsupported for 1.176.0 by the preregistered modeling partition (docs/modeling-matrix.md#per-tool-capability-partition): the write and the read are in two different procedures by construction, and the pinned CE engine has no interprocedural taint at all: `semgrep scan --help` offers `--pro-intrafile` (\"Intra-file inter-procedural taint analysis … Requires Semgrep Pro Engine\"), so the step from `put` to `get` is outside the engine regardless of what is declared"
       ],
       "duration_ms": 0,
       "outcome": "unsupported",
@@ -328,7 +328,7 @@
     {
       "case_id": "dfb-taint-python-model-summary-field-negative",
       "diagnostics": [
-        "category O — opaque procedure summaries — is unsupported for 1.175.0 by the preregistered modeling partition (docs/modeling-matrix.md#per-tool-capability-partition): template 7 needs arg→return summary semantics, which P has already established CE cannot express, and puts the summarized procedure in a separate file, which CE's intra-file engine does not cross. Template 8's destination is a *field* of an argument; `to: $L` reaches the whole object, and the pinned CE documents only \"Experimental support for basic field-sensitive taint tracking\" — so the field-separation negative would be decided by CE's heap approximation rather than by the summary"
+        "category O — opaque procedure summaries — is unsupported for 1.176.0 by the preregistered modeling partition (docs/modeling-matrix.md#per-tool-capability-partition): template 7 needs arg→return summary semantics, which P has already established CE cannot express, and puts the summarized procedure in a separate file, which CE's intra-file engine does not cross. Template 8's destination is a *field* of an argument; `to: $L` reaches the whole object, and the pinned CE documents only \"Experimental support for basic field-sensitive taint tracking\" — so the field-separation negative would be decided by CE's heap approximation rather than by the summary"
       ],
       "duration_ms": 0,
       "outcome": "unsupported",
@@ -345,7 +345,7 @@
     {
       "case_id": "dfb-taint-python-model-summary-field-positive",
       "diagnostics": [
-        "category O — opaque procedure summaries — is unsupported for 1.175.0 by the preregistered modeling partition (docs/modeling-matrix.md#per-tool-capability-partition): template 7 needs arg→return summary semantics, which P has already established CE cannot express, and puts the summarized procedure in a separate file, which CE's intra-file engine does not cross. Template 8's destination is a *field* of an argument; `to: $L` reaches the whole object, and the pinned CE documents only \"Experimental support for basic field-sensitive taint tracking\" — so the field-separation negative would be decided by CE's heap approximation rather than by the summary"
+        "category O — opaque procedure summaries — is unsupported for 1.176.0 by the preregistered modeling partition (docs/modeling-matrix.md#per-tool-capability-partition): template 7 needs arg→return summary semantics, which P has already established CE cannot express, and puts the summarized procedure in a separate file, which CE's intra-file engine does not cross. Template 8's destination is a *field* of an argument; `to: $L` reaches the whole object, and the pinned CE documents only \"Experimental support for basic field-sensitive taint tracking\" — so the field-separation negative would be decided by CE's heap approximation rather than by the summary"
       ],
       "duration_ms": 0,
       "outcome": "unsupported",
@@ -362,7 +362,7 @@
     {
       "case_id": "dfb-taint-python-model-summary-through-negative",
       "diagnostics": [
-        "category O — opaque procedure summaries — is unsupported for 1.175.0 by the preregistered modeling partition (docs/modeling-matrix.md#per-tool-capability-partition): template 7 needs arg→return summary semantics, which P has already established CE cannot express, and puts the summarized procedure in a separate file, which CE's intra-file engine does not cross. Template 8's destination is a *field* of an argument; `to: $L` reaches the whole object, and the pinned CE documents only \"Experimental support for basic field-sensitive taint tracking\" — so the field-separation negative would be decided by CE's heap approximation rather than by the summary"
+        "category O — opaque procedure summaries — is unsupported for 1.176.0 by the preregistered modeling partition (docs/modeling-matrix.md#per-tool-capability-partition): template 7 needs arg→return summary semantics, which P has already established CE cannot express, and puts the summarized procedure in a separate file, which CE's intra-file engine does not cross. Template 8's destination is a *field* of an argument; `to: $L` reaches the whole object, and the pinned CE documents only \"Experimental support for basic field-sensitive taint tracking\" — so the field-separation negative would be decided by CE's heap approximation rather than by the summary"
       ],
       "duration_ms": 0,
       "outcome": "unsupported",
@@ -379,7 +379,7 @@
     {
       "case_id": "dfb-taint-python-model-summary-through-positive",
       "diagnostics": [
-        "category O — opaque procedure summaries — is unsupported for 1.175.0 by the preregistered modeling partition (docs/modeling-matrix.md#per-tool-capability-partition): template 7 needs arg→return summary semantics, which P has already established CE cannot express, and puts the summarized procedure in a separate file, which CE's intra-file engine does not cross. Template 8's destination is a *field* of an argument; `to: $L` reaches the whole object, and the pinned CE documents only \"Experimental support for basic field-sensitive taint tracking\" — so the field-separation negative would be decided by CE's heap approximation rather than by the summary"
+        "category O — opaque procedure summaries — is unsupported for 1.176.0 by the preregistered modeling partition (docs/modeling-matrix.md#per-tool-capability-partition): template 7 needs arg→return summary semantics, which P has already established CE cannot express, and puts the summarized procedure in a separate file, which CE's intra-file engine does not cross. Template 8's destination is a *field* of an argument; `to: $L` reaches the whole object, and the pinned CE documents only \"Experimental support for basic field-sensitive taint tracking\" — so the field-separation negative would be decided by CE's heap approximation rather than by the summary"
       ],
       "duration_ms": 0,
       "outcome": "unsupported",
@@ -395,8 +395,8 @@
     }
   ],
   "schema_version": 1,
-  "started_at_unix_seconds": 1788193481,
+  "started_at_unix_seconds": 1788508187,
   "tool": "semgrep",
-  "tool_build_identity": "semgrep-oss:1.175.0",
-  "tool_version": "1.175.0"
+  "tool_build_identity": "semgrep-oss:1.176.0",
+  "tool_version": "1.176.0"
 }

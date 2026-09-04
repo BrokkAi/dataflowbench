@@ -937,7 +937,7 @@ second-best modeling substrate in the field. Modeling capability and
 propagation capability are different axes, which is this tier's founding
 observation.
 
-### Joern — 4.0.614
+### Joern — 4.0.617
 
 > **Amended.** Categories P and O were moved to unsupported activation by
 > Amendment A2 after the first wave-M1 run measured `FlowSemantic` as
@@ -968,7 +968,7 @@ scoped to a separate `modeling.sc` so the kernel script is untouched.
 | E | **supported** | `reachableByFlows` takes arbitrary CPG nodes as sources; `cpg.method.fullNameExact(…).parameter.index(1)` is a valid root regardless of whether any call site reaches the method. Selectivity is the query's own predicate. |
 | B | **supported** | Two `FlowSemantic` entries — `put` mapping its value parameter into its store parameter, `get` mapping its receiver to its return — leave the key and instance discrimination to the engine, which is the correct division: the model declares the boundary, the analysis decides whether the roundtrip closes. |
 
-### Semgrep CE — 1.175.0 (`--oss-only`)
+### Semgrep CE — 1.176.0 (`--oss-only`)
 
 > **Amended.** Template 6 (sanitizer-selectivity) was moved to unsupported
 > activation by Amendment A3: the mandated safe-function assumption and
@@ -1087,7 +1087,7 @@ what a taint engine whose model file *is* its user interface should look like
 on this matrix. The counts are categories, not correctness: the scored runs
 decide what the activation is worth.
 
-### OpenTaint — `analyzer/2026.08.27.17eb0fe` (Java only)
+### OpenTaint — `analyzer/2026.09.03.9752bd2` (Java only)
 
 > **Added by [Amendment A22](#a22--2026-09-01-opentaint-joins-the-modeling-matrix-with-a-preregistered-java-partition-row).**
 > This row was not part of the original preregistration — the adapter did not
@@ -1141,7 +1141,7 @@ a reading of upstream documentation.
 Preregistered, before any modeling fixture exists. `TBV` = to be verified at
 implementation, treated as unsupported until shown otherwise.
 
-| Category | Bifrost v0.10.9 | CodeQL 2.26.4 | Joern 4.0.614 | Semgrep CE 1.175.0 |
+| Category | Bifrost v0.10.9 | CodeQL 2.26.4 | Joern 4.0.617 | Semgrep CE 1.176.0 |
 | --- | --- | --- | --- | --- |
 | S — sources and sinks | supported | supported | supported | supported |
 | P — propagators | TBV | supported | supported | unsupported |
