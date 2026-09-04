@@ -474,27 +474,37 @@ const snapshotPage = `/snapshots/${snapshot.slug}`;
   <p class="verdict">
     Nobody is perfect on the expanded cores. No analyzer answers a whole core
     correctly in any of the {kernels.length} languages. The field is eight
-    analyzers, and the newcomers of the previous freeze remain strong on the
-    JVM kernels: OpenTaint posts the best Kotlin row in the benchmark (50 of
-    58 correct) and a near-top Java row (49 of 58, one behind Infer's
-    field-leading 50), FlowDroid lands 49 in both, and every one of those
-    rows is fully decisive — no incompletes. Infer is also C and C++'s second
-    engine, and Pysa Python's third.
+    analyzers, and the JVM kernels are where it is deepest: OpenTaint posts the
+    best Kotlin row in the benchmark (50 of 58 correct) and a near-top Java row
+    (49 of 58, one behind Infer's field-leading 50), FlowDroid lands 49 in
+    both, and every one of those rows is fully decisive — no incompletes. Infer
+    is also C and C++'s second engine, and Pysa Python's third.
   </p>
   <p class="verdict">
-    This is a patch snapshot, and only one column moved in it. Bifrost's
-    v0.10.8 re-pin fixes the four path-feasibility and loop-kill false
-    positives the last two freezes published against it, so Bifrost now makes
+    This is a currency snapshot: every pin found behind upstream was bumped and
+    re-run, and twelve of 3,480 case results moved. Bifrost still makes
     <strong>no decisive mistake anywhere in this freeze</strong> — no false
     positive and no false negative, on any kernel, any tier, or either
     profile, which no other analyzer here can say. That is bought with
-    inconclusives its competitors don't record: 292 of the 738 core
-    assertions, concentrated in Ruby, Kotlin, PHP and C++. The same re-pin
-    also cost it a decided pair — Go's <code>array-element</code> now declines
-    under a value-flow limitation, filed upstream and published here rather
-    than held back. CodeQL and Joern answer everything definitively and miss
-    where their approximations bind; Semgrep CE declines by declared
-    capability what its intraprocedural profile does not cover.
+    inconclusives its competitors don't record: 288 of the 738 core
+    assertions, concentrated in Ruby, Kotlin and C++. Its v0.10.9 re-pin
+    decides four of them, including the Go <code>array-element</code> pair the
+    last freeze published as a regression. Joern misses where its
+    approximations bind; Semgrep CE declines by declared capability what its
+    intraprocedural profile does not cover.
+  </p>
+  <p class="verdict">
+    CodeQL used to answer every one of its 622 kernel assertions definitively.
+    It now records five incompletes, and its decisive-correct count moves 506
+    → 501 with its 116 decisive mistakes unchanged — <strong>not because the
+    engine changed</strong>, but because this benchmark stopped scoring a
+    negative it could not prove. In five languages the extractor prunes the
+    constant-false branch before analysis, so the retained SARIF shows the sink
+    observed and the source absent: the negative was true only in the sense
+    that nothing was found. Three Bifrost modeling negatives were withdrawn on
+    the same grounds. Whether that should count as a decided negative is a
+    contract question left open; until it is answered those eight sit outside
+    the decisive denominators rather than being credited either way.
   </p>
   <div class="supporting">
   <p>
@@ -505,9 +515,9 @@ const snapshotPage = `/snapshots/${snapshot.slug}`;
     with nothing supplied by us. Beside them sits the
     <strong>latency tier</strong> — descriptive per-case timings on a stated
     machine, kept strictly beside the correctness results, and carried into
-    this snapshot from v0.6.0 without re-measurement, so its Bifrost rows
-    still name the v0.10.7 build they were taken on. All populations have
-    separate denominators. There is no
+    this snapshot from v0.6.0 without re-measurement, so its rows still name
+    the older pins they were taken on rather than the ones re-pinned here.
+    All populations have separate denominators. There is no
     combined leaderboard, and benchmark-controlled results are never pooled
     with, or compared number-to-number against, tool-native ones.
   </p>

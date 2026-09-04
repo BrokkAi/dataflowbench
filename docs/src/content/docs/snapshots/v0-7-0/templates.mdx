@@ -1,0 +1,53 @@
+---
+title: Semantic templates — v0.7.0
+description: Per-template positive/negative outcomes for every scorecard, across both model profiles.
+---
+
+import TemplateMatrix from '../../../../components/TemplateMatrix.astro';
+import { snapshots } from '../../../../data/snapshots';
+
+export const snapshot = snapshots.find((s) => s.version === 'v0.7.0');
+
+Each scored template is a balanced pair: one positive case (the flow exists)
+and one minimally different negative case (it does not). Reading a row: a
+sound-and-precise analyzer shows `reached` / `not-reached`.
+
+Three template families appear here, and they belong to different populations.
+`chal-*` and the unprefixed kernel templates are the benchmark-controlled
+kernels. `model-*` templates are the modeling matrix, also
+benchmark-controlled: twelve templates in six categories, where a category the
+tool's own model surface cannot express is `unsupported` before the tool runs.
+`native-*` templates are the tool-native probe set, where the tool decides with
+nothing supplied by us. The **Model profile** column separates the last of
+these from the first two; **rows from different profiles are never comparable**,
+and a `native-*` row of `unsupported` / `unsupported` is a declared decline,
+not two wrong answers.
+
+Three template rows carry this release's twelve moved cells, and they are the
+reason this page is worth reading rather than the summary.
+
+`array-element` for go and `map-iteration` for php turn from a declined pair
+into a correct pair in Bifrost's columns — the v0.10.9 pin deciding what
+v0.10.8 could not. Note that `array-element` for go is the exact row v0.6.1
+published as a *regression*: it was correct at v0.10.7, declined at v0.10.8,
+and is correct again here. A benchmark that only showed you the current column
+would have let that round trip disappear.
+
+`infeasible-branch` is the row to read in CodeQL's columns, and it now splits
+eleven languages three ways. The positive is `reached` everywhere. The negative
+stays **decisive** in six languages whose extractors keep the constant-false
+branch as a control-flow node, so the probe finds both endpoints: `not-reached`
+for java, kotlin, rust, javascript and typescript, and `reached` for go — a
+false positive it already carried, which the probe leaves exactly where it was
+rather than converting into an incomplete. The negative turns **`inconclusive`**
+for python, csharp, c, cpp and ruby, whose extractors prune the branch, leaving
+the source with no data-flow node to be found at. Same engine, same query, same
+pinned CLI — the difference is in eleven extractors, and until this freeze it
+was invisible, because a pruned source and a genuinely blocked flow produce the
+same empty SARIF.
+
+`model-declared-source-negative` moves the same way in Bifrost's three modeling
+populations, on an unchanged diagnostic that always said the policy bound no
+endpoint.
+
+<TemplateMatrix snapshot={snapshot} />

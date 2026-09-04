@@ -1,0 +1,95 @@
+---
+title: Latency — v0.7.0
+description: The latency-characterization tier, unchanged from v0.6.0 and still naming the pins it was measured on — descriptive, and never pooled with correctness.
+---
+
+import LatencyTier from '../../../../components/LatencyTier.astro';
+
+DataFlowBench's latency-characterization tier. It stands **beside** the
+correctness scorecards, on its own page, and never as a column inside one.
+
+:::caution[This corpus was not re-measured in v0.7.0]
+Every number on this page is the corpus **frozen at v0.6.0**, carried into this
+snapshot unchanged — the second release in a row to render it without
+re-measuring it. v0.7.0 is a correctness release: it re-pinned four analyzers
+and re-ran sixty-four reports, and it did not re-run the latency tier, which is
+measured under its own settle-gated protocol on a quiet machine and is not a
+by-product of a correctness run.
+
+So the rows below name the pins the timings were taken on, not the pins this
+snapshot's correctness pages report: **Bifrost v0.10.7** (not v0.10.9),
+**Joern 4.0.614** (not 4.0.617), **Semgrep CE 1.175.0** (not 1.176.0), and
+**OpenTaint `analyzer/2026.08.27.17eb0fe`** (not `analyzer/2026.09.03.9752bd2`).
+That is deliberate. These labels are descriptions of retained evidence, and
+re-labelling them onto the newer pins would assert four measurements that were
+never performed. The consequence is worth stating plainly: **do not read these
+timings as the current pins'**, and do not read a correctness change on the
+other pages as having any timing consequence here. Re-measuring on a different
+machine load would also replace a comparable series with an incomparable one,
+which is the other reason this corpus is being held rather than refreshed
+casually. The next freeze that re-measures the corpus will say so.
+:::
+
+The contract governing every number here —
+[`docs/latency-tier.md`](https://github.com/BrokkAi/dataflowbench/blob/main/docs/latency-tier.md)
+— was written and merged **before any timestamp was captured**, and it is
+explicit about why. DataFlowBench is published by the vendor of one of the
+engines measured, and a latency page assembled after the numbers were known,
+with its phase boundaries and its aggregation chosen afterwards, would deserve
+exactly the skepticism it would get. So the decomposition rule, the exclusion
+list, the per-adapter granularity, and the aggregation were all fixed while
+every number was still unmeasured. The four analyzers added in v0.6.0 took
+their granularity rows by
+[Amendment A12](https://github.com/BrokkAi/dataflowbench/blob/main/docs/latency-tier.md#amendments),
+dated and landed **before** this page published any of their numbers, rather
+than being backfilled into the original table.
+
+The page also carries a second, separately labelled figure: the **warm marginal
+cost** of one more case in a tool process that has already started, added by
+[Amendment A15](https://github.com/BrokkAi/dataflowbench/blob/main/docs/latency-tier.md#amendments)
+and likewise preregistered before the first warm number was measured. It exists
+because the cold rows below span three runtimes, and read across runtimes they
+overstate the steady-state gap — a difference the vendor publishing this
+benchmark happens to win. The correction is a direct measurement, not an
+estimate subtracted from anything: **no cold number on this page changes, and
+the warm figure is never substituted for one.**
+
+## What these numbers are, and what they are not \{#scope\}
+
+<LatencyTier snapshotVersion="v0.7.0" section="scope" />
+
+## Environment stamp \{#environment\}
+
+<LatencyTier snapshotVersion="v0.7.0" section="environment" />
+
+## The granularity is unequal, and that is the point \{#granularity\}
+
+<LatencyTier snapshotVersion="v0.7.0" section="granularity" />
+
+## Analyzer-invocation wall-clock, per adapter \{#cross-adapter\}
+
+<LatencyTier snapshotVersion="v0.7.0" section="cross-adapter" />
+
+## Phase decomposition, within each adapter that has one \{#phases\}
+
+<LatencyTier snapshotVersion="v0.7.0" section="phases" />
+
+## Warm marginal cost, measured separately \{#warm-marginal\}
+
+<LatencyTier snapshotVersion="v0.7.0" section="warm-marginal" />
+
+## Estimated per-invocation overhead \{#invocation-overhead\}
+
+<LatencyTier snapshotVersion="v0.7.0" section="invocation-overhead" />
+
+## Per-slice medians \{#slices\}
+
+<LatencyTier snapshotVersion="v0.7.0" section="slices" />
+
+## Cases with no latency number \{#untimed\}
+
+<LatencyTier snapshotVersion="v0.7.0" section="untimed" />
+
+## Provenance and what the freeze does and does not guarantee \{#provenance\}
+
+<LatencyTier snapshotVersion="v0.7.0" section="provenance" />

@@ -1,0 +1,58 @@
+---
+title: Analyzer profiles — v0.7.0
+description: One four-axis profile per analyzer, as small multiples — speed, recall, precision, and kernel coverage, each over its own stated denominator, with no composite score anywhere.
+---
+
+import AnalyzerProfiles from '../../../../components/AnalyzerProfiles.astro';
+
+An **exploratory** view: one small radar per analyzer, four axes, drawn over
+the benchmark-controlled `core` kernel populations. It exists to make one
+analyzer's shape legible at a glance — where it is fast, where it decides,
+where it is right when it decides, and how much of the benchmark it covers at
+all — and for nothing else.
+
+It is not a ranking and it does not produce one. There is no composite score
+on this page, no weighted blend of the axes, and no arithmetic anywhere that
+crosses from one axis to another. The radars are deliberately **not
+overlaid**: eight polygons on one chart would invite the whole-shape
+comparison these figures cannot support, so each analyzer gets its own.
+
+Read the axis notes under the grid before reading the shapes. The four axes
+have four different denominators, one of them is on a logarithmic scale, and
+two of them treat a non-answer in opposite ways — a case that lowers an
+analyzer's recall can be entirely absent from its precision. Every value is
+also printed as a number with its denominator beneath its own radar, so no
+reading has to come from the shape.
+
+:::caution[Four analyzers' axes are not all from the same run]
+The **correctness** axes are re-derived from this freeze, but the **latency**
+axis is the v0.6.0 corpus, which was not re-measured here — see the
+[latency page](/snapshots/v0-7-0/latency/). For the four analyzers this release
+re-pinned — Bifrost, Semgrep CE, Joern and OpenTaint — the radar therefore
+mixes two builds on one picture: correctness from v0.10.9, CE 1.176.0, 4.0.617
+and `analyzer/2026.09.03.9752bd2`, and latency from v0.10.7, CE 1.175.0,
+4.0.614 and `analyzer/2026.08.27.17eb0fe`. CodeQL, Infer, FlowDroid and Pysa
+did not change pin between these freezes, so their four axes remain internally
+consistent.
+
+Three of the four re-pins moved nothing at all on the correctness axes —
+Semgrep CE, Joern and OpenTaint reproduced every committed outcome exactly —
+so for those three the mixture is real but inert. This is recorded rather than
+smoothed over: the alternative was to silently re-label the older timings as
+the new pins', which is the thing this tier exists to refuse.
+:::
+
+<AnalyzerProfiles />
+
+## Where these numbers come from
+
+The correctness axes are derived from the same frozen `results/results.json`
+the [correctness pages](/snapshots/v0-7-0/) read, through the
+same benchmark-controlled `core` population filter, and the latency axis from
+the timing sidecars the v0.6.0 freeze bound, under the contract preregistered in
+[`docs/latency-tier.md`](https://github.com/BrokkAi/dataflowbench/blob/main/docs/latency-tier.md).
+Placing latency on the same picture as correctness is not pooling them: the
+contract forbids a combined score, an efficiency-adjusted rate, and a
+leaderboard over a blend, and this page has none of those. No correctness
+outcome in this freeze was derived from, conditioned on, or tie-broken by a
+timing value.
