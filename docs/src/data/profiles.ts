@@ -21,6 +21,7 @@
 //     tool's *own* covered slice, and the fourth axis states how big that
 //     slice is, so a narrow footprint is visible on the same picture as the
 //     rates it produced.
+import type { Snapshot } from './snapshots';
 import { coreKernelPopulations, currentSnapshot } from './snapshots';
 import { kernelCorpusDistributions } from './latency';
 
@@ -82,9 +83,23 @@ export interface ProfileModel {
 const SPEED_FAST_MS = 100;
 const SPEED_SLOW_MS = 100_000;
 
-export function analyzerProfiles(): ProfileModel {
-  const populations = coreKernelPopulations(currentSnapshot.results);
-  const latency = kernelCorpusDistributions();
+/**
+ * The four axes for one snapshot. The snapshot is a parameter and not a
+ * module-level constant because these radars are rendered on archived
+ * snapshot pages as well as the current one: a page below `/snapshots/` shows
+ * the figures its own freeze published, and re-deriving it from
+ * `currentSnapshot` would rewrite every archived page on the next freeze.
+ *
+ * The latency axis follows the snapshot's `latencyEvidenceRelease` rather
+ * than the snapshot itself, so freezes that bind the same timing corpus show
+ * the same speed mark on different correctness figures — which is exactly the
+ * mixed-run caveat the snapshot pages carry.
+ */
+export function analyzerProfiles(
+  snapshot: Snapshot = currentSnapshot,
+): ProfileModel {
+  const populations = coreKernelPopulations(snapshot.results);
+  const latency = kernelCorpusDistributions(snapshot);
 
   const accumulator = new Map<string, AnalyzerProfile>();
   for (const population of populations) {
