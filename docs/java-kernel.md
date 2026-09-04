@@ -306,7 +306,7 @@ The configuration hash is unchanged
 file was touched for this expansion, and the Java rule that analyzed the
 scored subset is byte-identical to the one the other ten kernels use.
 
-### OpenTaint `analyzer/2026.08.27.17eb0fe` — `reports/opentaint-java-kernel.json`
+### OpenTaint `analyzer/2026.09.03.9752bd2` — `reports/opentaint-java-kernel.json`
 
 58 results: 30 `reached`, 28 `not-reached`, with zero `inconclusive`, zero
 `unsupported`, and zero `runner-error`; **49/58 match expected polarity** —

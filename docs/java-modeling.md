@@ -136,8 +136,8 @@ its partition marks unsupported.
 | --- | --- | --- |
 | Bifrost v0.10.9 | `adapters/bifrost/policies/model-java.rqlp` | S, Z (Amendment [A9](modeling-matrix.md#a9--2026-08-27-bifrosts-sanitizer-category-is-promoted-the-readmes-lowering-claim-was-false)) |
 | CodeQL 2.26.4 | `adapters/codeql/queries/JavaModeling.ql` | S, P, Z, O, E, B |
-| Joern 4.0.614 | `adapters/joern/semantics/model-java.semantics` + `adapters/joern/queries/modeling.sc` | S, Z, E, B |
-| Semgrep CE 1.175.0 | `adapters/semgrep/rules/model-java.yaml` | S, Z, E |
+| Joern 4.0.617 | `adapters/joern/semantics/model-java.semantics` + `adapters/joern/queries/modeling.sc` | S, Z, E, B |
+| Semgrep CE 1.176.0 | `adapters/semgrep/rules/model-java.yaml` | S, Z, E |
 
 **Bifrost** declared category S alone when this row ran, as two `:sources`
 entries bound to `return-value` and two `:sinks` entries bound to

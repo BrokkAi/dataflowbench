@@ -23,10 +23,10 @@ property of the *parser*, and it never moves a case between the scored and
 
 | Item | Value |
 | --- | --- |
-| Version | `1.175.0` (`semgrep --version`) |
+| Version | `1.176.0` (`semgrep --version`) |
 | Edition | Community Edition / open-source engine, pinned with `--oss-only` |
-| Build identity | `semgrep-oss:1.175.0` |
-| Installation | Homebrew (`brew install semgrep`), `/opt/homebrew/bin/semgrep` → `../Cellar/semgrep/1.175.0/bin/semgrep` |
+| Build identity | `semgrep-oss:1.176.0` |
+| Installation | Homebrew (`brew install semgrep`), `/opt/homebrew/bin/semgrep` → `../Cellar/semgrep/1.176.0/bin/semgrep` |
 | Rules | `adapters/semgrep/rules/<language>.yaml` (eleven committed files) |
 | Language table | `semgrep_interfaces/lang.json`, shipped inside the pinned wheel |
 | Configuration hash | `865d0bd2989f9ddd0b90f2d6675584e86706b109a033d4a1ac00bd21a617b100` |

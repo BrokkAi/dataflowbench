@@ -20,7 +20,7 @@ evaluated in the field, not from its README:
 2. **Local, pinnable execution** — holds. The project publishes dated,
    content-addressed analyzer releases (near-daily); the analyzer is a single
    jar invoked locally with no account, network, or service dependency. The
-   pin is `analyzer/2026.08.27.17eb0fe`, by asset digest (below).
+   pin is `analyzer/2026.09.03.9752bd2`, by asset digest (below).
 3. **Retained native output** — holds. The analyzer writes SARIF 2.1.0, one
    document per invocation, retained verbatim per case.
 4. **Publishable results** — holds. The engine is Apache-2.0; the CLI, rules,
@@ -38,13 +38,13 @@ matching the issue's intended profile.
 
 ## Pinned tool identity, witnessed per run
 
-The pin is release **`analyzer/2026.08.27.17eb0fe`**, by the SHA-256 of its
+The pin is release **`analyzer/2026.09.03.9752bd2`**, by the SHA-256 of its
 two assets:
 
 | Asset | SHA-256 |
 | --- | --- |
-| `opentaint-project-analyzer.jar` | `811bdb22786e539c9aabdce5bef91f0c6521cc099adbe2720e6a840c09badf54` |
-| `opentaint-models.tar.gz` | `c2a8fb0bbc3b6d59ed6db0c62732ff9a6f0f491d515cc2247932f2dd78cbb9f5` |
+| `opentaint-project-analyzer.jar` | `db3a61637207633342c15ebc40b0164205563ba6446d48a8fa5c4f8fd194b61c` |
+| `opentaint-models.tar.gz` | `8746b9594266c67f04cd93a64c6c30673f98ccaeb59baed76d202ffee327a8d4` |
 
 The analyzer jar self-reports **no version at all**: no manifest attribute, no
 version flag, and a SARIF `tool.driver.version` of `"latest"`. So the
@@ -363,7 +363,7 @@ Download the pinned release assets and verify their digests against the table
 above:
 
 ```bash
-gh release download analyzer/2026.08.27.17eb0fe --repo seqra/opentaint \
+gh release download analyzer/2026.09.03.9752bd2 --repo seqra/opentaint \
   --pattern 'opentaint-project-analyzer.jar' --pattern 'opentaint-models.tar.gz'
 shasum -a 256 opentaint-project-analyzer.jar opentaint-models.tar.gz
 ```
