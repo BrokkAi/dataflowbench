@@ -1,0 +1,66 @@
+{
+  "schema_version": 2,
+  "id": "dfb-taint-go-interprocedural-exception-persistence-negative",
+  "template_id": "dfb-template-chal-interprocedural-exception-persistence",
+  "polarity": "negative",
+  "negative_mechanism": "overwrite-kill",
+  "score_tier": "core",
+  "track": "taint",
+  "language": "go",
+  "semantic_dimensions": [
+    "interprocedural-flow",
+    "heap-field-sensitivity",
+    "flow-sensitivity",
+    "exceptional-flow"
+  ],
+  "feature_tags": [
+    "interprocedural-one-hop",
+    "heap-access-path",
+    "exceptional"
+  ],
+  "model_profile": "benchmark-controlled",
+  "fixture_files": [
+    "interprocedural_exception_persistence_negative.go"
+  ],
+  "source_anchors": [
+    {
+      "marker": "DFB-SOURCE: exception-persistence-input",
+      "file": "interprocedural_exception_persistence_negative.go"
+    }
+  ],
+  "sink_anchors": [
+    {
+      "marker": "DFB-SINK: exception-persistence-sink",
+      "file": "interprocedural_exception_persistence_negative.go"
+    }
+  ],
+  "expected_flows": [],
+  "expected_nonflows": [
+    {
+      "source": "DFB-SOURCE: exception-persistence-input",
+      "sink": "DFB-SINK: exception-persistence-sink"
+    }
+  ],
+  "witness_checkpoints": [],
+  "expected_analysis_capability": {
+    "kind": "exception-sensitive-interprocedural-heap-taint"
+  },
+  "execution_budget": {
+    "wall_clock_seconds": 60,
+    "peak_memory_mb": 512
+  },
+  "fixture_provenance": {
+    "kind": "authored",
+    "origin": "DataFlowBench",
+    "revision": "v0.8.0",
+    "license": "MIT"
+  },
+  "tool_model_references": {
+    "bifrost": {
+      "policy": "adapters/bifrost/policies/core-go-kernel.rqlp"
+    },
+    "codeql": {
+      "query": "adapters/codeql/go/queries/GoKernel.ql"
+    }
+  }
+}

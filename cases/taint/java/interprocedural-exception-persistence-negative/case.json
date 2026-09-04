@@ -1,0 +1,68 @@
+{
+  "schema_version": 2,
+  "id": "dfb-taint-java-interprocedural-exception-persistence-negative",
+  "template_id": "dfb-template-chal-interprocedural-exception-persistence",
+  "polarity": "negative",
+  "negative_mechanism": "overwrite-kill",
+  "score_tier": "core",
+  "track": "taint",
+  "language": "java",
+  "semantic_dimensions": [
+    "interprocedural-flow",
+    "heap-field-sensitivity",
+    "flow-sensitivity",
+    "exceptional-flow"
+  ],
+  "feature_tags": [
+    "interprocedural-one-hop",
+    "heap-access-path",
+    "exceptional"
+  ],
+  "model_profile": "benchmark-controlled",
+  "fixture_files": [
+    "InterproceduralExceptionNegative.java"
+  ],
+  "source_anchors": [
+    {
+      "marker": "DFB-SOURCE: interprocedural-exception-input",
+      "file": "InterproceduralExceptionNegative.java",
+      "line_hint": 12
+    }
+  ],
+  "sink_anchors": [
+    {
+      "marker": "DFB-SINK: interprocedural-exception-sink",
+      "file": "InterproceduralExceptionNegative.java",
+      "line_hint": 16
+    }
+  ],
+  "expected_flows": [],
+  "expected_nonflows": [
+    {
+      "source": "DFB-SOURCE: interprocedural-exception-input",
+      "sink": "DFB-SINK: interprocedural-exception-sink"
+    }
+  ],
+  "witness_checkpoints": [],
+  "expected_analysis_capability": {
+    "kind": "exception-sensitive-interprocedural-heap-taint"
+  },
+  "execution_budget": {
+    "wall_clock_seconds": 60,
+    "peak_memory_mb": 512
+  },
+  "fixture_provenance": {
+    "kind": "authored",
+    "origin": "DataFlowBench",
+      "revision": "v0.8.0-challenge-java",
+    "license": "MIT"
+  },
+  "tool_model_references": {
+    "bifrost": {
+      "policy": "adapters/bifrost/policies/core-java-kernel.rqlp"
+    },
+    "codeql": {
+      "query": "adapters/codeql/queries/JavaKernel.ql"
+    }
+  }
+}

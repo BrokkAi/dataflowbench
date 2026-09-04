@@ -1,0 +1,73 @@
+{
+  "schema_version": 2,
+  "id": "dfb-taint-kotlin-interprocedural-exception-persistence-positive",
+  "template_id": "dfb-template-chal-interprocedural-exception-persistence",
+  "polarity": "positive",
+  "score_tier": "core",
+  "track": "taint",
+  "language": "kotlin",
+  "semantic_dimensions": [
+    "interprocedural-flow",
+    "heap-field-sensitivity",
+    "flow-sensitivity",
+    "exceptional-flow"
+  ],
+  "feature_tags": [
+    "interprocedural-one-hop",
+    "heap-access-path",
+    "exceptional"
+  ],
+  "model_profile": "benchmark-controlled",
+  "fixture_files": [
+    "InterproceduralExceptionPositive.kt"
+  ],
+  "source_anchors": [
+    {
+      "marker": "DFB-SOURCE: interprocedural-exception-input",
+      "file": "InterproceduralExceptionPositive.kt",
+      "line_hint": 10
+    }
+  ],
+  "sink_anchors": [
+    {
+      "marker": "DFB-SINK: interprocedural-exception-sink",
+      "file": "InterproceduralExceptionPositive.kt",
+      "line_hint": 14
+    }
+  ],
+  "expected_flows": [
+    {
+      "source": "DFB-SOURCE: interprocedural-exception-input",
+      "sink": "DFB-SINK: interprocedural-exception-sink"
+    }
+  ],
+  "expected_nonflows": [],
+  "witness_checkpoints": [
+    "DFB-SOURCE: interprocedural-exception-input",
+    "DFB-WITNESS: interprocedural-exception-store",
+    "DFB-WITNESS: interprocedural-exception-throw",
+    "DFB-WITNESS: interprocedural-exception-recovery",
+    "DFB-SINK: interprocedural-exception-sink"
+  ],
+  "expected_analysis_capability": {
+    "kind": "exception-sensitive-interprocedural-heap-taint"
+  },
+  "execution_budget": {
+    "wall_clock_seconds": 60,
+    "peak_memory_mb": 512
+  },
+  "fixture_provenance": {
+    "kind": "authored",
+    "origin": "DataFlowBench",
+      "revision": "v0.8.0-challenge-kotlin",
+    "license": "MIT"
+  },
+  "tool_model_references": {
+    "bifrost": {
+      "policy": "adapters/bifrost/policies/core-kotlin-kernel.rqlp"
+    },
+    "codeql": {
+      "query": "adapters/codeql/kotlin/queries/KotlinKernel.ql"
+    }
+  }
+}

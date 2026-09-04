@@ -229,7 +229,7 @@ pub(crate) fn select_semgrep_cases(kernel: SemgrepKernel) -> Result<LoadedCases>
     select_kernel_cases(&kernel)
 }
 
-/// The preregistered Semgrep CE partition for the thirteen challenge templates,
+/// The preregistered Semgrep CE partition for the fourteen challenge templates,
 /// decided from the pinned distribution's own documentation **before any
 /// challenge fixture was authored or any analyzer was pointed at one**, and
 /// recorded in full in `adapters/semgrep/README.md`.
@@ -252,7 +252,7 @@ pub(crate) fn select_semgrep_cases(kernel: SemgrepKernel) -> Result<LoadedCases>
 /// shape the CE partition scores. Every entry is `unsupported` by declared
 /// capability, never a false negative, and the decision cannot be revisited
 /// after a run without an amendment on the preregistration's terms.
-pub(crate) const CHALLENGE_SEMGREP_PARTITION: [(&str, &str); 13] = [
+pub(crate) const CHALLENGE_SEMGREP_PARTITION: [(&str, &str); 14] = [
     (
         "dfb-template-chal-reflective-invocation",
         "the case resolves a callee from a run-time string and the sink is reached inside that callee's body; CE has no interprocedural taint at all (`--pro-intrafile`, \"Intra-file inter-procedural taint analysis ... Requires Semgrep Pro Engine\"), and the pinned CE documentation nowhere claims to resolve a reflective handle",
@@ -304,6 +304,10 @@ pub(crate) const CHALLENGE_SEMGREP_PARTITION: [(&str, &str); 13] = [
     (
         "dfb-template-chal-context-pair-depth2",
         "the case declares two-level context sensitivity; CE has no interprocedural taint and therefore no calling context to be sensitive to",
+    ),
+    (
+        "dfb-template-chal-interprocedural-exception-persistence",
+        "the case requires a heap side effect to survive an exceptional callee exit and return through its caller; CE has no interprocedural taint",
     ),
 ];
 
