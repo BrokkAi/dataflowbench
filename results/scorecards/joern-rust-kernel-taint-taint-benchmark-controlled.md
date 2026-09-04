@@ -1,10 +1,10 @@
 # Scorecard `joern-rust-kernel-taint-taint-benchmark-controlled`
 
-Adapter `joern-rust-kernel`: `joern` `4.0.614` (build `joern-cli:4.0.614`, adapter version `0.1.0`, configuration `ab10e81860305e492a930e2c2691873b23be25e97e5b354ca785058e09a20025`).
+Adapter `joern-rust-kernel`: `joern` `4.0.617` (build `joern-cli:4.0.617`, adapter version `0.1.0`, configuration `ab10e81860305e492a930e2c2691873b23be25e97e5b354ca785058e09a20025`).
 
 Track `taint`, score dimension `taint`, model profile `benchmark-controlled`. This scorecard is a single result population; it is never pooled with other tracks, dimensions, or model profiles.
 
-Normalized report: `reports/joern-rust-kernel.json` (`sha256:465269d73a072957b318fdac73768d5e4fb538ff9f3e31c007f88f6c96bcf055`, normalized `sha256:465269d73a072957b318fdac73768d5e4fb538ff9f3e31c007f88f6c96bcf055`). Generated from freeze manifest `reports/freeze.json` (`sha256:5e57a5ee0dab3929cefa42edce222acbfb0ba0ee34e25e39e9ea882eaa66b724`).
+Normalized report: `reports/joern-rust-kernel.json` (`sha256:cd7400ca9619876b03c4e6fe6e3dca1151fcd0e6ee67b9533044a956b138abc1`, normalized `sha256:cd7400ca9619876b03c4e6fe6e3dca1151fcd0e6ee67b9533044a956b138abc1`). Generated from freeze manifest `reports/freeze.json` (`sha256:e0b86ebdd570afed63f62ec8fc6d49a2ca2e0afe3c3f288b904de4ddbacdd113`).
 
 ## Language `rust`, tier `core`
 

@@ -1,10 +1,10 @@
 # Scorecard `joern-php-kernel-taint-taint-benchmark-controlled`
 
-Adapter `joern-php-kernel`: `joern` `4.0.614` (build `joern-cli:4.0.614`, adapter version `0.1.0`, configuration `ab10e81860305e492a930e2c2691873b23be25e97e5b354ca785058e09a20025`).
+Adapter `joern-php-kernel`: `joern` `4.0.617` (build `joern-cli:4.0.617`, adapter version `0.1.0`, configuration `ab10e81860305e492a930e2c2691873b23be25e97e5b354ca785058e09a20025`).
 
 Track `taint`, score dimension `taint`, model profile `benchmark-controlled`. This scorecard is a single result population; it is never pooled with other tracks, dimensions, or model profiles.
 
-Normalized report: `reports/joern-php-kernel.json` (`sha256:153d0fb50e2cbe7241aaf7eb6d1a5a5b092fb11c39bf9d0bdfc54838608bb4ed`, normalized `sha256:153d0fb50e2cbe7241aaf7eb6d1a5a5b092fb11c39bf9d0bdfc54838608bb4ed`). Generated from freeze manifest `reports/freeze.json` (`sha256:5e57a5ee0dab3929cefa42edce222acbfb0ba0ee34e25e39e9ea882eaa66b724`).
+Normalized report: `reports/joern-php-kernel.json` (`sha256:f0cbbcf1d95da15be5aed5a7dc802b038202fa0f6b470256762d04793f81e27e`, normalized `sha256:f0cbbcf1d95da15be5aed5a7dc802b038202fa0f6b470256762d04793f81e27e`). Generated from freeze manifest `reports/freeze.json` (`sha256:e0b86ebdd570afed63f62ec8fc6d49a2ca2e0afe3c3f288b904de4ddbacdd113`).
 
 ## Language `php`, tier `core`
 

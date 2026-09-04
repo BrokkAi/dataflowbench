@@ -4,7 +4,7 @@ Adapter `bifrost-typescript-kernel`: `bifrost` `bifrost 0.10.9` (build `04775a7b
 
 Track `taint`, score dimension `taint`, model profile `benchmark-controlled`. This scorecard is a single result population; it is never pooled with other tracks, dimensions, or model profiles.
 
-Normalized report: `reports/bifrost-typescript-kernel.json` (`sha256:5d23bd4bfea0651ab5fcf62668f0b7893a0cb461d52241444480479e838e2259`, normalized `sha256:5d23bd4bfea0651ab5fcf62668f0b7893a0cb461d52241444480479e838e2259`). Generated from freeze manifest `reports/freeze.json` (`sha256:5e57a5ee0dab3929cefa42edce222acbfb0ba0ee34e25e39e9ea882eaa66b724`).
+Normalized report: `reports/bifrost-typescript-kernel.json` (`sha256:5d23bd4bfea0651ab5fcf62668f0b7893a0cb461d52241444480479e838e2259`, normalized `sha256:5d23bd4bfea0651ab5fcf62668f0b7893a0cb461d52241444480479e838e2259`). Generated from freeze manifest `reports/freeze.json` (`sha256:e0b86ebdd570afed63f62ec8fc6d49a2ca2e0afe3c3f288b904de4ddbacdd113`).
 
 ## Language `typescript`, tier `core`
 

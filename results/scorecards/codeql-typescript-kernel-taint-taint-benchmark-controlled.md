@@ -4,7 +4,7 @@ Adapter `codeql-typescript-kernel`: `codeql` `2.26.4` (build `codeql-cli:6b1e4de
 
 Track `taint`, score dimension `taint`, model profile `benchmark-controlled`. This scorecard is a single result population; it is never pooled with other tracks, dimensions, or model profiles.
 
-Normalized report: `reports/codeql-typescript-kernel.json` (`sha256:0ae5a9e811cc8347097fc5ea3203325cc45408c20af03622dd8f08dbf00c963a`, normalized `sha256:0ae5a9e811cc8347097fc5ea3203325cc45408c20af03622dd8f08dbf00c963a`). Generated from freeze manifest `reports/freeze.json` (`sha256:5e57a5ee0dab3929cefa42edce222acbfb0ba0ee34e25e39e9ea882eaa66b724`).
+Normalized report: `reports/codeql-typescript-kernel.json` (`sha256:0ae5a9e811cc8347097fc5ea3203325cc45408c20af03622dd8f08dbf00c963a`, normalized `sha256:0ae5a9e811cc8347097fc5ea3203325cc45408c20af03622dd8f08dbf00c963a`). Generated from freeze manifest `reports/freeze.json` (`sha256:e0b86ebdd570afed63f62ec8fc6d49a2ca2e0afe3c3f288b904de4ddbacdd113`).
 
 ## Language `typescript`, tier `core`
 
