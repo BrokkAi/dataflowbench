@@ -65,13 +65,13 @@ interface SnapshotColumn {
 // Oldest first: the registry is newest-first for the sidebar's sake.
 const timeline = [...snapshots].reverse();
 
-const columns: SnapshotColumn[] = [];
+const allColumns: SnapshotColumn[] = [];
 const byTool = new Map<string, SeriesPoint[]>();
 
 for (const snapshot of timeline) {
   const populations = coreKernelPopulations(snapshot.results);
   const population = populations.reduce((sum, entry) => sum + entry.cases, 0);
-  columns.push({
+  allColumns.push({
     version: snapshot.version,
     slug: snapshot.slug,
     population,
@@ -139,6 +139,14 @@ const series: Series[] = [...byTool.entries()]
       left.name.localeCompare(right.name),
   );
 const cohortSeries = series.filter((entry) => analyzerCohort(entry.tool) === cohort);
+// Do not draw empty historical columns in a cohort facet. Specialists first
+// entered the benchmark in v0.6.0, so earlier freezes carry neither a point
+// nor a meaningful cohort comparison. Their full benchmark populations still
+// contribute to the shared y-axis below, keeping the two facets comparable.
+const cohortVersions = new Set(
+  cohortSeries.flatMap((entry) => entry.points.map((point) => point.version)),
+);
+const columns = allColumns.filter((column) => cohortVersions.has(column.version));
 
 // ---- Geometry -------------------------------------------------------------
 const height = 440;
@@ -179,7 +187,7 @@ const plotHeight = height - padTop - padBottom;
  */
 const minWidthRem = Math.round((columns.length * 6 + 5) * 10) / 10;
 
-const ceiling = Math.max(...columns.map((column) => column.population));
+const ceiling = Math.max(...allColumns.map((column) => column.population));
 const step = 200;
 const axisMax = Math.max(step, Math.ceil(ceiling / step) * step);
 const ticks: number[] = [];
