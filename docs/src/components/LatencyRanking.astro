@@ -625,14 +625,15 @@ const belowThreshold = overheadPublished.filter(
   </ul>
 </div>
 
-{/* One newspaper block, not six. Each of these captions used to carry its
-    own two columns, which put the tail of one caption at the top of the
-    right column and the tail of the next directly under it — six half-
-    captions stacked in an order nobody reads them in. Wrapping the run
-    flows every caption down the left column first. */}
+{/* The sentence directly below each chart is its caption. The longer reading
+    guidance is ordinary companion prose: title it explicitly so it does not
+    present as one enormous caption, while preserving its evidence and the
+    wrapper that gives adjacent paragraphs one coherent column flow. */}
+<section class="figure-notes" aria-labelledby={`figure-notes-${scope}`}>
+<h3 id={`figure-notes-${scope}`}>How to read this figure</h3>
 <div class="prose-columns">
   {warmMeasurements.length > 0 && (
-    <p class="caption">
+    <p>
       <strong>Every bar above is cold per-invocation wall-clock, and the warm
       marginal is a different quantity measured separately.</strong> Cold is what
       this benchmark actually runs — one process per case, start-up inside the
@@ -670,7 +671,7 @@ const belowThreshold = overheadPublished.filter(
   )}
 
   {overheadPublished.length > 0 && (
-    <p class="caption">
+    <p>
       <strong>The dashed spans are estimates, not measurements of the same kind
       as the bars.</strong> Each is the wall-clock of one complete
       adapter invocation — same pipeline, same policy, rule or query, same
@@ -719,7 +720,7 @@ const belowThreshold = overheadPublished.filter(
     </p>
   )}
 
-  <p class="caption">
+  <p>
     <strong>The axis is logarithmic.</strong> Each labelled tick is three times
     the one before it, so equal distances are equal <em>ratios</em>, not equal
     durations — the gap from 100&nbsp;ms to 300&nbsp;ms is drawn the same width
@@ -731,7 +732,7 @@ const belowThreshold = overheadPublished.filter(
     row.
   </p>
 
-  <p class="caption">
+  <p>
     <strong>The indented rows are phases, and they are not comparable across
     adapters.</strong> Only the {decomposedCount} adapters whose preregistered
     row declares more than one subprocess have them. A phase mark sits on the
@@ -741,7 +742,7 @@ const belowThreshold = overheadPublished.filter(
     Read a phase against the adapter it is indented under, and nothing else.
   </p>
 
-  <p class="caption">
+  <p>
     <strong>Ordering is not scoring, and this is never pooled with
     correctness.</strong> Rows are sorted by median because an unsorted ranking
     is unreadable, not because latency is a result. No correctness figure appears
@@ -754,7 +755,7 @@ const belowThreshold = overheadPublished.filter(
   </p>
 
   {stamp && (
-    <p class="caption">
+    <p>
       <strong>The conditions these numbers were produced under.</strong> A single
       developer machine{' '}
       {environment && (
@@ -812,6 +813,7 @@ const belowThreshold = overheadPublished.filter(
     </p>
   )}
 </div>
+</section>
 
 <style is:inline set:html={toggleCss}></style>
 
@@ -864,6 +866,15 @@ const belowThreshold = overheadPublished.filter(
   }
   .lat-panel > .caption {
     margin-top: 0.6rem;
+  }
+  .figure-notes {
+    margin-top: 1.5rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--sl-color-hairline);
+  }
+  .figure-notes > h3 {
+    margin: 0 0 0.75rem;
+    font-size: var(--sl-text-lg);
   }
   .chart-frame {
     border: 1px solid var(--sl-color-hairline);

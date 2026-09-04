@@ -499,6 +499,7 @@ const snapshotPage = `/snapshots/${snapshot.slug}`;
     section strip. The ids it targets are permanent deep-link anchors: chosen
     once, never renamed. */}
 <nav class="section-nav" aria-label="Sections on this page">
+  <span class="section-nav-label">On this page</span>
   <a href="#meaning">What it means</a>
   <a href="#evolution">Evolution</a>
   <a href="#modeling-matrix">Modeling matrix</a>
@@ -1509,9 +1510,17 @@ const snapshotPage = `/snapshots/${snapshot.slug}`;
      every section stays one tap away on mobile. */
   .section-nav {
     display: flex;
+    align-items: center;
     flex-wrap: wrap;
     gap: 0.4rem 0.5rem;
     margin-top: 0.75rem;
+  }
+  .section-nav-label {
+    margin-right: 0.2rem;
+    font-size: var(--sl-text-sm);
+    font-weight: 600;
+    color: var(--sl-color-gray-2);
+    white-space: nowrap;
   }
   .section-nav a {
     font-size: var(--sl-text-xs);
@@ -1538,7 +1547,7 @@ const snapshotPage = `/snapshots/${snapshot.slug}`;
     line-height: 1.5;
     color: var(--sl-color-gray-2);
     margin: 0 0 1.5rem;
-    max-width: 45rem;
+    max-width: none;
   }
   .short-answer {
     border: 1px solid var(--sl-color-accent);
