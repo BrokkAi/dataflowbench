@@ -636,14 +636,36 @@ will produce about any tool.
 
 ### Bifrost — v0.10.9, shipped policy packs
 
-**Activation contract.** Built-in policy packs only: `--policy-pack` /
-`--policy-category` / `--policy-id` over the catalog `--list-policies` prints.
-A native run may not pass `--policy-file`, which is how every
-benchmark-controlled Bifrost run supplies its models, and the no-benchmark-models
-gate refuses one.
+**Activation contract, as amended by
+[A32](#a32--2026-09-04-bifrosts-native-row-is-re-grounded-on-the-shipped-scan-entry-point-and-the-shipped-security-pack-and-its-activation-becomes-the-products-own-default).**
+The shipped product's own zero-configuration entry point, `bifrost scan
+<root>`: it activates the **complete** built-in policy catalog — every pack the
+pinned build ships, whatever that set turns out to be — and prints the activated
+pack identities, their versions, and the catalog digest on stderr before the
+report. Equivalently on the flag surface, `--policy` with no selector. A native
+run may not pass `--policy-file`, which is how every benchmark-controlled
+Bifrost run supplies its models, and the no-benchmark-models gate refuses one.
 
-**Grounded in the adapter README and the vendor's own issue tracker.** The
-adapter README states the surface gap directly: *"External semantic-model
+**The preregistered contract, and why it had to be replaced.** This row was
+preregistered as *"Built-in policy packs only: `--policy-pack` /
+`--policy-category` / `--policy-id` over the catalog `--list-policies`
+prints"*, and the runner spelled that as `--policy-pack bifrost.code-smells`.
+At the pins that wording was written against, that argument named the whole
+shipped catalog, because `bifrost.code-smells` was the only pack in it. It is
+not the whole catalog at v0.10.9, and the pinned CLI is explicit that an
+explicit selector **replaces** the built-in default rather than narrowing to it:
+`--policy` with no selector "evaluates every built-in policy pack; any explicit
+selection replaces that default". Measured on the Java category-S fixture, the
+preregistered activation loads sixteen of the seventeen shipped policies and
+excludes exactly one — `bifrost.security.java.servlet-parameter-to-jdbc`, the
+only taint policy the product ships
+(`reports/raw/amendment-a32-bifrost-scan-native/activation-narrowing.json`). A
+profile that exists to measure what the product decides with nothing supplied by
+us cannot hand-pick a subset of the product, so A32 moved the contract to the
+default the product itself runs.
+
+**Grounded in the shipped binary, and in the vendor's own issue tracker.** The
+adapter README states a surface gap directly: *"External semantic-model
 activation requires an embedding with an explicit catalog, so the
 modeled-external case is reported as `unsupported` by this CLI adapter with an
 explicit retained reason. It is not a negative result."*
@@ -663,33 +685,106 @@ shipped source and sink endpoints — its own candidate inventory names
 **#1871** (*Ship procedure-summary packs for taint-relevant standard-library
 APIs*, closed 2026-08-24 as completed) supplies summaries, not endpoints, and its
 problem statement records the starting position: *"Zero procedure-summary packs
-ship. The embedded registry holds generator-rule packs only."*
+ship. The embedded registry holds generator-rule packs only."* That starting
+position has since moved once, and #2620 is the reason the rows below no longer
+rest on it: **the first open-core security endpoints have shipped**, as one
+pack of one policy, described next.
 
-**Verification note.** The build pinned when this document was written —
-v0.10.6, since re-pinned to v0.10.9 — was not available at the time; a locally
-installed **v0.9.5** was inspected. Its
-`--list-policies` catalog contains exactly one pack, `bifrost.code-smells`
-v1.5.0, whose fourteen policies are all `correctness` or `performance`
-structural checks — no taint policy, no source or sink endpoint set. Per the
-same discipline the modeling matrix applied to its own v0.9.5 inspection, this
-is treated as indicative and **not** as verification of the pinned build; every
-cell below is unsupported on the *to be verified* rule regardless, so nothing
-turns on the difference.
+**Verification note, replaced by [A32]. The build this row was written against
+was never inspected; the pinned build now has been.** The preregistration
+recorded that v0.10.6 "was not available at the time" and that a locally
+installed **v0.9.5** was inspected instead, whose `--list-policies` catalog held
+exactly one pack, `bifrost.code-smells` v1.5.0, with "no taint policy, no source
+or sink endpoint set" — and it declined every row below on the *to be verified*
+rule so that nothing turned on the difference. At v0.10.9 the difference is
+real. The pinned build ships **two** packs and **seventeen** policies, its
+`--version` banner says so on every run, and A32 read the catalog, the shipped
+`scan` entry point, and the security policy's verbatim RQLP source out of the
+pinned executable. What follows is that reading, and every row below is decided
+against it rather than against v0.9.5.
+
+**What the shipped catalog actually declares.** Enumerated from the pinned
+binary; `bifrost scan --list-builtin-policies` and `--list-policies` print the
+same document, and the probe proves it
+(`reports/raw/amendment-a32-bifrost-scan-native/`).
+
+| Pack | Policies | Analysis types | Declared taint endpoints |
+| --- | --- | --- | --- |
+| `bifrost.code-smells@2.10.0` | 16 | `match`, `assertion` | none — every one reports `endpoint dependencies: none` |
+| `bifrost.security@1.0.0` | 1 | `taint` | **two**, both local to the one policy |
+
+The one taint policy is `bifrost.security.java.servlet-parameter-to-jdbc`,
+`supported_languages: [java]`, and its embedded source
+(`security-policy-source.rqlp`, extracted verbatim from the pinned executable)
+declares:
+
+- **one source** — `ServletRequest.getParameter(String)`, `:resolves-to
+  member.servletrequest.getparameter :proof exact`, `:bind return-value`,
+  `:labels [attacker-controlled]`;
+- **one sink** — `Statement.execute(String)`, `:resolves-to
+  member.statement.execute :proof exact`, `:dangerous-operand (argument :name
+  "sql")`, `:accepts [attacker-controlled]`;
+- **no sanitizer, no propagator, no procedure summary, no entry-point
+  convention, and no store link in the activated built-in policy** — the `analysis` document carries `:sources`
+  and `:sinks` and no other endpoint stanza at all;
+- `:call-modeling (call-modeling :unmodeled require-model)` — an unmodeled call
+  carries nothing across; a platform operation with no shipped model is a stop,
+  not a pass-through.
+
+So the answer to *"does the shipped catalog bind any source or sink endpoint?"*
+is **yes, exactly two**, and the answer to *"does it bind any endpoint the six
+native templates read?"* is **no**. The templates' identities are
+`System.getenv` / `Runtime.exec` (Java), `process.env` / `child_process.execSync`
+(JavaScript), and `os.environ` / `os.system` (Python); the shipped pair is a
+servlet request parameter and a JDBC statement, in Java alone. The intersection
+is empty, and it is empty by identity rather than by coverage — which is why the
+rows below are `unsupported` and not `not-reached`.
+
+**And the product says so itself.** `bifrost scan` was run over all thirty-six
+committed tool-native fixtures — the shipped product, zero configuration, no
+benchmark input of any kind. All 612 policy runs (36 × 17) came back
+`completion: complete`, with **zero findings anywhere**, exit status 0
+throughout, and the two-pack banner witnessed on stderr for every one. On every
+fixture the taint policy retains its own `empty_selection` notes:
+
+> taint policy `bifrost.security.java.servlet-parameter-to-jdbc` bound no source
+> endpoint: its source selectors matched no location in the scanned workspace,
+> so this run reports zero findings **vacuously** rather than proving that no
+> flow exists
+
+with `taint.compiled_source_endpoints: 0` and `taint.compiled_sink_endpoints: 0`
+beside it. That is the analyzer stating, in its own report and in its own words,
+that its silence on these fixtures is not a negative — which is exactly what
+[outcome honesty](#outcome-honesty) requires before a cell may be declined
+rather than scored. A dead run could not have produced those notes; the policy
+ran, and bound nothing.
 
 | # | Category | Decision | Rationale |
 | --- | --- | --- | --- |
-| 1 | S | **unsupported — no shipped endpoint catalog** | The standalone CLI ships no taint policy and no source/sink endpoint set; bifrost-dev #2620 is the open issue under which the first ones would ship. Without a source and a sink, no cell in this profile can produce a finding, which is why every row below reads the same way. |
-| 2 | P | **unsupported — no shipped endpoint catalog** | Same. Summary packs (#1871) carry propagation, not endpoints; propagation with nothing to propagate from produces nothing. |
-| 3 | Z | **unsupported — no shipped endpoint catalog, and no shipped sanitizer** ([A10](#a10--2026-08-28-bifrosts-native-category-z-cell-is-restated-on-the-absent-endpoint-catalog)) | Preregistered on `adapters/bifrost/README.md`'s *"Sanitizer lowering is a future Bifrost CLI capability"*, which [Amendment A9](modeling-matrix.md#a9--2026-08-27-bifrosts-sanitizer-category-is-promoted-the-readmes-lowering-claim-was-false) measured false and retired; A10 restates the same outcome on the grounds that survive it. The sanitizer stanza A9 measured is reachable only through `--policy-file`, which this profile's activation contract forbids, and the built-in packs declare no sanitizer, no source, and no sink for one to sit between (#2620). A barrier on a flow that cannot start is unobservable either way. |
-| 4 | O | **unsupported — external activation requires an embedding catalog** | `adapters/bifrost/README.md`, and bifrost-dev #2691 is the issue that would change it. |
-| 5 | E | **to be verified — unsupported until shown** | No entry-root convention is described anywhere for the policy CLI. |
-| 6 | B | **to be verified — unsupported until shown** | No persistence-boundary vocabulary is described for any adapter, Bifrost included. |
+| 1 | S | **unsupported — the shipped endpoint pair is a different pair** ([A32](#a32--2026-09-04-bifrosts-native-row-is-re-grounded-on-the-shipped-scan-entry-point-and-the-shipped-security-pack-and-its-activation-becomes-the-products-own-default)) | The shipped catalog declares exactly two taint endpoints, both inside `bifrost.security.java.servlet-parameter-to-jdbc`: `ServletRequest.getParameter(String)` and `Statement.execute(String)`, Java only. This template reads `System.getenv` into `Runtime.exec` (and the `process.env` / `os.environ` equivalents), and no shipped selector names any of them. Measured, not inferred: zero source endpoints and zero sink endpoints compile on all twelve Java fixtures, and the analyzer files its own `empty_selection` note calling the resulting silence vacuous. Shipping endpoints that would reach these identities — the candidate inventory names `System.getenv` and `Runtime.exec` — is BrokkAi/bifrost-dev #2620, still open. Preregistered instead on "the standalone policy CLI ships no taint policy and no source or sink endpoint catalog", which was read from a v0.9.5 that is two minor versions behind the pin and is false at it. |
+| 2 | P | **unsupported — the activated catalog declares no propagator or summary** ([A32](#a32--2026-09-04-bifrosts-native-row-is-re-grounded-on-the-shipped-scan-entry-point-and-the-shipped-security-pack-and-its-activation-becomes-the-products-own-default)) | The one activated taint policy carries `:sources` and `:sinks` and no propagator or summary stanza of any kind, and its `:call-modeling :unmodeled require-model` disposition makes an unmodeled platform call a stop rather than a pass-through — so `String.concat`, `path.join`, and `os.path.join` carry nothing under this activation. And the endpoints this template would propagate *between* are the ones template 1 records as absent, so the cell is undecidable twice over. |
+| 3 | Z | **unsupported — the activated catalog declares no sanitizer, and no flow exists for one to interrupt** ([A10](#a10--2026-08-28-bifrosts-native-category-z-cell-is-restated-on-the-absent-endpoint-catalog), re-grounded by [A32](#a32--2026-09-04-bifrosts-native-row-is-re-grounded-on-the-shipped-scan-entry-point-and-the-shipped-security-pack-and-its-activation-becomes-the-products-own-default)) | Preregistered on `adapters/bifrost/README.md`'s *"Sanitizer lowering is a future Bifrost CLI capability"*, which [Amendment A9](modeling-matrix.md#a9--2026-08-27-bifrosts-sanitizer-category-is-promoted-the-readmes-lowering-claim-was-false) measured false and retired; A10 restated the outcome on the absent endpoint catalog, and A32 restates it again on the catalog as it now actually reads. The sanitizer stanza A9 measured is reachable only through `--policy-file`, which this profile's activation contract forbids. The activated catalog declares no sanitizer, and the flow it would interrupt cannot start because template 1's endpoints are unbound. A barrier on a flow that cannot start is unobservable either way. |
+| 4 | O | **unsupported — the activated catalog declares no procedure summary, and its unmodeled calls are stops** ([A32](#a32--2026-09-04-bifrosts-native-row-is-re-grounded-on-the-shipped-scan-entry-point-and-the-shipped-security-pack-and-its-activation-becomes-the-products-own-default)) | `adapters/bifrost/README.md`, and bifrost-dev #2691 is the issue that would change it. A32 adds the measurement the preregistration asserted from documentation: the activated built-in catalog declares zero procedure summaries, so neither half of a Base64 round trip is modeled, and the activated policy's `:call-modeling :unmodeled require-model` disposition means the value stops at the encoder rather than passing through it. The half-modeled hazard this template exists to expose cannot arise under this activation. |
+| 5 | E | **unsupported — the activated catalog declares no applicable entry-point convention** ([A32](#a32--2026-09-04-bifrosts-native-row-is-re-grounded-on-the-shipped-scan-entry-point-and-the-shipped-security-pack-and-its-activation-becomes-the-products-own-default)) | Preregistered as *to be verified — unsupported until shown*; A32 is the verification, and it retains the decline. The activated catalog's only source is a call-shaped selector on `getParameter`, so nothing in it treats a `main(String[])` parameter, `process.argv`, or `sys.argv` as an entry root, and no threat-model switch exists on the scan surface to turn one on. Measured: zero source endpoints compile on all twelve entry-point fixtures across the three languages. |
+| 6 | B | **unsupported — the activated catalog declares no applicable store write/read link** ([A32](#a32--2026-09-04-bifrosts-native-row-is-re-grounded-on-the-shipped-scan-entry-point-and-the-shipped-security-pack-and-its-activation-becomes-the-products-own-default)) | Preregistered as *to be verified — unsupported until shown*; A32 is the verification, and it retains the decline. No persistence-boundary vocabulary appears in the activated built-in catalog: no store, no key discrimination, and no `System.setProperty` / `process.env` / `os.environ` write model. The read side is not modeled as a source either, so this row does not even produce the false positive [the template's own expectation](#6-dfb-template-native-persistence--category-b) names as the hazard. |
 
-Bifrost enters with **zero of six**. That is the honest starting position for a
-standalone policy CLI whose model surface lives in an embedding, it is the same
-position the benchmark-controlled matrix recorded for five of its six categories,
-and stating it in a preregistration published by Bifrost's own vendor — before a
-run, with the vendor's open issues named — is the point.
+Bifrost enters with **zero of six**, and stays there. That is the honest
+position for a standalone analyzer whose open-core security catalog is one
+Java policy aimed at framework-served web code — the same audience statement
+FlowDroid's and OpenTaint's rows record — and it is the same position the
+benchmark-controlled matrix recorded for five of its six categories. Stating it
+in a preregistration published by Bifrost's own vendor, before a run, with the
+vendor's open issues named, is the point; keeping it stated on grounds that are
+still true after the vendor ships something is the same point, one release
+later.
+
+**What would move a cell.** A built-in pack whose declared endpoints name a
+platform identity these templates read — `System.getenv`, `Runtime.exec`,
+`process.env`, `child_process.execSync`, `os.environ`, `os.system` — or a
+shipped procedure summary, sanitizer, entry-point convention, or store link of
+any kind. Each is a `--list-policies` enumeration away from being checked, and
+each would be re-decided by a dated amendment against the pinned build of the
+day, never against a locally installed one.
 
 ### Joern — 4.0.617, `DefaultSemantics` only
 
@@ -2265,3 +2360,163 @@ FlowDroid alone. No decision changes anywhere.
 touch that report: its retained decisions and their A19 rationale text are
 the run that was frozen, and the re-grounding lives in this document, the
 probe evidence, and the rationale text future runs will carry.
+
+### A32 — 2026-09-04: Bifrost's native row is re-grounded on the shipped `scan` entry point and the shipped security pack, and its activation becomes the product's own default
+
+**What changed.** No cell moves and no score changes: all eighteen Bifrost
+tool-native cells — six templates across `java`, `javascript`, and `python` —
+stay `unsupported`, and the row stays 0 / 6 per language. Two things do change,
+and the second changes retained evidence:
+
+1. **The grounds under all eighteen declines.** Every row rested on "the
+   standalone policy CLI ships no taint policy and no source or sink endpoint
+   catalog". At the pinned v0.10.9 build that is **false**, and this amendment
+   replaces it cell for cell with what the pinned build actually ships.
+2. **The activation contract.** The retained activation `--policy-pack
+   bifrost.code-smells` is replaced by the shipped zero-configuration default —
+   `bifrost scan <root>`, equivalently `--policy` with no selector — because at
+   this pin the preregistered argument no longer names the whole shipped
+   catalog. It names a subset that excludes the only taint policy the product
+   ships.
+
+**How the grounds failed.** This row's own verification note said so in
+advance and was never acted on: the build it was written against "was not
+available at the time", so a locally installed **v0.9.5** was inspected
+instead, and the note leaned on the *to be verified* rule so that nothing would
+turn on the difference. Something turned on it. Since
+[Amendment A31](adapters.md#a31--2026-09-04-the-twenty-bifrost-populations-are-re-run-on-v0109-and-every-reached-outcome-is-anchor-proven-under-sink-anchor-reconciliation)
+each Bifrost population retains the pinned build's `--version` banner verbatim
+beside its evidence, and the banner this profile's own freeze carries
+(`reports/raw/bifrost-java-native/run-environment.json`) names **two** packs,
+not one:
+
+```
+bifrost 0.10.9
+builtin-policy-pack bifrost.code-smells@2.10.0 policies=16
+builtin-policy-pack bifrost.security@1.0.0 policies=1
+builtin-policy-catalog sha256=aea2ad0c592f7252009655b62b78a884bde38c63d0b83a1e82f0db96012a797d
+```
+
+A pack literally named `bifrost.security` shipped, this document went on saying
+no taint policy existed, and A31 re-ran the evidence on that build without
+revisiting the partition. Retaining a witnessed identity is only worth the
+retention if something reads it; this amendment is that reading, arriving one
+release late.
+
+**The second failure: an unengaged entry point.** Nothing in this repository
+had ever invoked `bifrost scan`. The tool-native profile exists to measure what
+the product decides *with nothing supplied by us*, and `bifrost scan` is the
+product's own name for exactly that: its help text reads "evaluate every
+built-in policy pack on a project with zero configuration", and it prints the
+activated pack identities, versions, and catalog digest on stderr before the
+report. The runner instead passed `--policy-pack bifrost.code-smells`. On the
+pins that argument was written against it was a faithful spelling of "the whole
+built-in catalog", because that pack was the whole built-in catalog. At v0.10.9
+it is a proper subset, and the CLI is explicit that an explicit selector
+**replaces** the default rather than narrowing to it. Run side by side on the
+Java category-S fixture, the preregistered activation evaluates 16 policies and
+the shipped default evaluates 17; the one it drops is
+`bifrost.security.java.servlet-parameter-to-jdbc`
+(`activation-narrowing.json`). This is our own engine's column, and it was the
+one column measuring a surface we had chosen rather than the one the vendor
+ships.
+
+**The field evaluation.** `scripts/probe-bifrost-scan-native.sh`, evidence
+retained under `reports/raw/amendment-a32-bifrost-scan-native/`. The pinned
+binary (`--build-identity 04775a7b38c9c025714168328ddb8b793a326461`, the release
+asset the [pin review](adapters.md#which-binary-and-why-it-matters) requires),
+no version bump, no vendored artifact, no committed file touched. Four things
+established, each from the binary rather than from documentation:
+
+1. **The `scan` entry point exists, and activates everything.** `bifrost scan
+   [PATH]`, with `--list-builtin-policies` for discovery. It "activates the
+   complete shipped policy catalog — no `--policy-file`, no selectors". Its
+   catalog document is byte-identical to the one `--list-policies` prints, so
+   no claim here turns on which flag was read.
+2. **What ships.** Two packs, seventeen policies.
+   `bifrost.code-smells@2.10.0` holds sixteen `match` and `assertion` policies,
+   every one of which reports `endpoint dependencies: none`.
+   `bifrost.security@1.0.0` holds one, `bifrost.security.java.servlet-parameter-to-jdbc`,
+   `analysis_type: taint`, `supported_languages: [java]`.
+3. **What that one policy declares** — its verbatim embedded RQLP source,
+   extracted from the pinned executable and retained as
+   `security-policy-source.rqlp`. It binds **exactly two endpoints**: a source
+   `ServletRequest.getParameter(String)` (`:resolves-to
+   member.servletrequest.getparameter :proof exact`, `:bind return-value`,
+   `:labels [attacker-controlled]`) and a sink `Statement.execute(String)`
+   (`:resolves-to member.statement.execute :proof exact`, `:dangerous-operand
+   (argument :name "sql")`). It declares **no** sanitizer, propagator, procedure
+   summary, entry-point convention, or store link, and it sets
+   `:call-modeling (call-modeling :unmodeled require-model)`, which makes an
+   unmodeled platform call a stop rather than a pass-through.
+4. **What it does on our fixtures.** `bifrost scan` over all thirty-six
+   committed tool-native fixtures — twelve per language, the shipped product,
+   zero configuration. Exit 0 on all thirty-six, the two-pack banner witnessed
+   on stderr for every one, all **612** policy runs `completion: complete`, and
+   **zero findings anywhere** — including from the sixteen code-smell policies,
+   which is the [sink-existence-only](#sink-existence-only-findings-and-how-they-score)
+   hazard checked rather than assumed.
+
+**Why the cells stay declined, on grounds the new banner cannot undo.** The
+shipped catalog now binds source and sink endpoints; they are simply not this
+profile's. The templates read `System.getenv` → `Runtime.exec`, `process.env` →
+`child_process.execSync`, and `os.environ` → `os.system`; the product ships a
+servlet request parameter and a JDBC statement, in Java alone. The intersection
+is empty **by identity**, which is a different and stronger fact than a coverage
+miss — and the analyzer confirms it in its own report rather than leaving us to
+infer it. On every fixture the taint policy retains two `empty_selection` notes
+saying it "bound no source endpoint" and "bound no sink endpoint", with
+`taint.compiled_source_endpoints: 0` and `taint.compiled_sink_endpoints: 0`, and
+saying in the tool's own words that the resulting zero findings are reported
+"**vacuously** rather than proving that no flow exists". That is precisely the
+line [outcome honesty](#outcome-honesty) draws: scoring these as `not-reached`
+would publish a catalog audience as an engine miss, which is the conflation this
+profile exists to prevent. For `javascript` and `python` the case is shorter
+still — the only taint policy the product ships declares `supported_languages:
+[java]`, so those two languages have no shipped taint surface of any kind.
+
+**The positive control did not fire, and that is retained too.** A live control
+would have shown the shipped security policy producing a finding on the one
+shape it names. Four shapes were tried — a Maven project declaring the real
+`jakarta.servlet:jakarta.servlet-api:6.1.0` (which the scan report shows the CLI
+selecting as a dependency pack), the declaring `ServletRequest` interface in
+place of `HttpServletRequest`, workspace-local stubs on the real package paths,
+and workspace-local concrete types — and every one came back `inconclusive
+(partial_discovery)` with the source selector unable to prove its selection
+(`dispatch outcome=unknown`) and the JVM external-model pack
+`bifrost.external.java` reported `incompatible`. The policy declares `:proof
+exact` on both selectors and lists `exact-call-target` and
+`semantic-model-provenance` among its required capabilities, so it refuses an
+unproven dispatch rather than guessing; what this probe could not do on this
+host is assemble a project where the proof is available. The attempt, its argv,
+and the tool's exact diagnostics are retained under
+`positive-control/`. **Nothing below rests on it.** The liveness argument this
+amendment actually uses is stronger and lives in the sweep: a policy that failed
+to load could not file `empty_selection` notes naming itself by id on
+thirty-six fixtures while reporting `completion: complete`.
+
+**Why this is not a partition promotion.** A32 verifies the two cells the
+preregistration marked *to be verified* (E and B) and retains both as
+unsupported, restates the four that were decided, and moves no cell in either
+direction. The [partition summary](#partition-summary) is unchanged, and so is
+every other tool's column. What changes is that Bifrost's row is now decided
+against the build it is pinned to instead of against a v0.9.5 that was never the
+pin.
+
+**Templates and languages touched.** All six native templates, for `java`,
+`javascript`, and `python`, for Bifrost alone. The per-cell rationale constants
+in `NATIVE_PARTITION` (`src/native.rs`) carry this amendment's grounds, and the
+Bifrost `NativeActivation` becomes the shipped default, per the discipline
+[A27](#a27--2026-09-02-semgrep-ces-javascript-and-java-declines-are-re-grounded-on-enumeration-and-execution-and-their-settled-rationales-reach-the-runner)
+established for getting a settled rationale to the runner.
+
+**Freezes invalidated.** None, and one consequence worth stating plainly. The
+published v0.7.0 manifest binds `reports/bifrost-{java,javascript,python}-native.json`
+by digest, with all thirty-six cells `unsupported` — and those are still the
+decisions, so nothing that freeze attests moves. Those frozen reports carry the
+withdrawn rationale wording and the superseded `activation_arguments`
+`["--policy-pack", "bifrost.code-smells"]`, which was the contract of record when
+the freeze was taken; that is the historical record, kept as written. The
+corrected rationale strings and the shipped-default activation land with the
+evidence re-run that follows this amendment as its own commit, per the
+[amendment contract](#preregistration-and-immutability)'s fourth clause.

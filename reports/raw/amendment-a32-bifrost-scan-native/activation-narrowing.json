@@ -1,0 +1,22 @@
+{
+  "fixture": "cases/taint/java/native-source-sink-positive",
+  "retained_activation": {
+    "arguments": [
+      "--policy-pack",
+      "bifrost.code-smells"
+    ],
+    "policies_evaluated": 16,
+    "security_pack_loaded": false
+  },
+  "shipped_default_activation": {
+    "arguments": [
+      "--policy"
+    ],
+    "policies_evaluated": 17,
+    "security_pack_loaded": true
+  },
+  "policies_the_retained_activation_excludes": [
+    "bifrost.security.java.servlet-parameter-to-jdbc"
+  ],
+  "evidence_kind": "retained-activation-narrowing-check"
+}

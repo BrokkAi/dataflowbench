@@ -1,0 +1,174 @@
+bifrost 0.10.9 — Tree-sitter-backed code analyzer with MCP search-tool and LSP servers (stdio).
+
+USAGE:
+    bifrost scan [PATH]        Evaluate every built-in policy pack on a project with zero
+                               configuration, witnessing the activated pack set on stderr.
+                               Run `bifrost scan --help` for the scan options.
+    bifrost                  Run an MCP server over stdio (default: --mcp searchtools)
+    bifrost --mcp TOOLSETS     Run an MCP server over stdio (e.g. --mcp core)
+    bifrost --lsp              Run a Language Server (LSP) over stdio
+    bifrost --repl             Run the interactive code-query REPL
+    bifrost --tool NAME        Run a single tool once, print JSON result, and exit
+    bifrost --query-file PATH  Run a .rql or .json code query once, print JSON result, and exit
+    bifrost --install          Register brokk with installed coding hosts and exit
+    bifrost --policy           Evaluate the built-in policy packs on the project and exit
+    bifrost --policy-file PATH Evaluate workspace or built-in static-analysis policies and exit
+    bifrost --list-policies    Print the built-in policy catalog and exit
+    bifrost --list-row-schemas Print the row-relation field catalog and exit
+    bifrost --version | --help [TOOL]
+
+OPTIONS:
+    --install              Register a user-scoped brokk MCP server with Codex, Claude Code,
+                           OpenCode, Kimi Code, Hermes, and Oh My Pi. This option does not
+                           install host applications, skills, instructions, or Pi extensions.
+    --root DIR             Project root to analyze (default: current directory)
+    --workspace NAME=PATH  Named project root for MCP mode; repeat as needed.
+                           Cannot be combined with --root. Requires --mcp.
+                           Root and nested .bifrostignore files exclude matching tracked or
+                           untracked files from code intelligence, but not file-level tools.
+    --diff-snapshot-object-dir DIR
+                           Trusted Git objects directory for immutable diff-tool endpoints;
+                           valid only with --tool and MCP server modes.
+    --args JSON            Inline JSON arguments for --tool, e.g. '{"patterns":["MyClass"]}'.
+                           File path arguments may use <commit-ish>:<path> in --tool mode.
+                           Optional; omission supplies {}, which suits get_active_workspace and
+                           the default diff-tool worktree comparison.
+    --query-file PATH      Run a workspace-relative .rql or .json CodeQuery directly.
+    --sources PATH         Restrict one-shot --tool or policy workspace construction to selected
+                           files, directories, or globs. Repeatable. Explicit sources override
+                           .bifrostignore.
+    --policy               Enter policy mode explicitly. A policy invocation with no
+                           --policy-file and no built-in selector evaluates every built-in
+                           policy pack; any explicit selection replaces that default.
+    --no-builtin-policies  Refuse the built-in default: evaluate only explicit --policy-file
+                           inputs. Requires at least one --policy-file and cannot be combined
+                           with --policy-pack, --policy-category, or --policy-id.
+    --policy-file PATH     Evaluate a workspace-relative .rqlp policy. Repeatable.
+    --policy-pack ID       Evaluate every built-in policy in a pack. Repeatable.
+    --policy-category NAME Evaluate built-in policies in a category. Repeatable.
+    --policy-id ID         Evaluate one built-in policy by stable id. Repeatable.
+    --list-policies        Print the deterministic built-in policy catalog as JSON
+    --list-row-schemas     Print the deterministic bifrost_relation_schema/v1 catalog as JSON:
+                           every row domain a relational policy may bind, each field's scalar
+                           type, nullability, join-key status, and enum values, and the
+                           expansions admitted from the domain. The REPL's :doc <row-domain>
+                           prints one domain of the same catalog.
+    --format FORMAT        Policy output: human, json, or sarif (default: human)
+    --verbose              Include complete evidence, provenance, and rule details in human output
+    --color MODE           Human output color: auto, always, or never (default: auto)
+    --fail-on THRESHOLD    Policy finding threshold: never, finding, note, warning, or error
+                           (default: warning; finding includes unrated findings)
+    --suppressions-file PATH
+                           Load accepted findings from this workspace-relative JSON file
+                           (default: .bifrost/suppressions.json)
+    --scope-file PATH      Load accepted directory scopes from this workspace-relative JSON file
+                           (default: .bifrost/policy-scope.json)
+    --baseline-file PATH   Load bulk-accepted finding identities from this workspace-relative
+                           JSON file (default: .bifrost/baseline.json)
+    --accept-current       Run the selected policies and write the baseline document accepting
+                           every current strong unclaimed finding, then exit 0. An unreliable
+                           run refuses to define a baseline and exits 2 without writing.
+                           Cannot be combined with --fail-on or --diff-base
+    --evaluation-date YYYY-MM-DD
+                           Evaluate suppression expiration on this UTC date (default: today)
+    --diff-base REV        Also evaluate the committed content of this git revision, classify
+                           each finding as new or persisting against it, and fail only on new
+                           findings. REV is any revision git rev-parse accepts; pass the pull
+                           request's merge base in CI. An unresolvable base is unreliable (exit 2)
+    --no-incremental       Evaluate every policy in full instead of reusing per-unit results a
+                           previous run published in this repository's analyzer cache. Reuse is on
+                           by default and produces the same findings; this switch is for comparing
+                           against the full dual-snapshot evaluation when diagnosing a difference
+    --require-explicit-schema-versions
+                           Reject inferred policy and RQL schema versions
+    --explain-finding ID   Explain why the selected policy's run produced the finding with this
+                           stable id, and print the bounded explanation JSON. The selection must
+                           resolve to exactly one policy
+    --explain-candidate PATH:BYTE_START[-BYTE_END]
+                           Explain why the selected policy did not report this exact position,
+                           and print the bounded explanation JSON. Nothing is scanned for: the
+                           position you pass is the one explained
+    --explain-near-misses N
+                           Rank the N subjects that came closest to satisfying the selected
+                           policy, and print the bounded ranking JSON. Each entry says how many
+                           of the policy's own declared predicates it missed and names the first
+                           one it failed. Candidates come from the policy's own seed scope --
+                           its kind union, language filter and path globs -- so a policy whose
+                           seed declares no such scope is refused rather than scanned; the
+                           repository is never walked
+                           All three explanation flags are queries, not gates: a produced answer
+                           exits 0 even when its outcome is failed or unknown and even when a
+                           ranking is empty, and only a failure to produce one exits 2. They
+                           exclude each other, and none can be combined with --format,
+                           --fail-on, --suppressions-file, --scope-file, --baseline-file,
+                           --accept-current, --evaluation-date, --diff-base, --verbose, or --color
+    --output PATH          Atomically write policy output to PATH instead of stdout
+    --no-line-numbers      Render source output without leading line numbers
+    -h, --help [TOOL]      Show this help, or a single tool's description and parameters
+    -V, --version          Show version and exit
+        --build-identity   Show the exact embedded source identity and exit
+
+MCP TOOLSETS (--mcp):
+    searchtools   every toolset below
+    core          symbol + workspace + diff (the set agents typically connect to)
+    symbol        search_symbols, get_symbol_sources, get_summaries, scan_usages_by_location,
+                  get_declarations_by_location, get_definitions_by_location,
+                  get_type_by_location, rename_symbol, usage_graph
+    workspace     refresh, activate_workspace, get_active_workspace
+    diff          analyze_diff, blast_radius, cyclomatic_complexity, missing_tests, score_diff
+    extended      query_code, list_policies, run_policy, explain_policy, get_symbol_locations,
+                  get_symbol_ancestors, most_relevant_files
+    text          get_file_contents, search_file_contents, find_files_containing
+    slopcop       compute_cyclomatic_complexity, compute_cognitive_complexity,
+                  report_comment_density_for_code_unit, report_exception_handling_smells,
+                  report_comment_density_for_files, analyze_git_hotspots,
+                  report_test_assertion_smells, report_structural_clone_smells,
+                  report_long_method_and_god_object_smells,
+                  report_dead_code_and_unused_abstraction_smells, report_secret_like_code
+    cli           classify_test_files
+    Combine toolsets with '|', e.g. --mcp symbol|workspace
+    Run `bifrost --help <tool>` for a tool's description and parameters.
+
+EXAMPLES:
+    # MCP server from the current directory, using the compatibility searchtools set:
+    bifrost
+
+    # MCP server an agent connects to (core toolset), speaking MCP over stdio:
+    bifrost --root /path/to/project --mcp core
+
+    # One server with two fixed named workspaces:
+    bifrost --workspace api=/src/api --workspace ui=/src/ui --mcp core
+
+    # One-shot: run a single tool and print its JSON result, then exit:
+    bifrost --root /path/to/project --tool search_symbols --args '{"patterns":["MyClass"]}'
+
+    # Run a saved RQL or JSON code query (current directory is the default root):
+    bifrost --query-file queries/audit.rql
+
+    # Evaluate two policy roots together and emit one canonical JSON report:
+    bifrost --root /path/to/project --policy-file policies/security.rqlp --policy-file policies/correctness.rqlp --evaluation-date 2026-07-27 --format json
+
+    # Iterate on one policy against a small source subset:
+    bifrost --root /path/to/project --policy-file policies/security.rqlp --sources src/auth --sources 'tests/auth/**/*.rs'
+
+    # Evaluate every built-in policy pack with zero configuration:
+    bifrost --root /path/to/project --policy
+
+    # Discover the row domains, fields, and expansions a relational policy may bind:
+    bifrost --list-row-schemas
+
+    # Discover and run the built-in code-smell pack:
+    bifrost --list-policies
+    bifrost --root /path/to/project --policy-pack bifrost.code-smells --evaluation-date 2026-07-28 --format json
+
+    # Human code-query exploration with S-expressions, completion, docs, and history:
+    bifrost --root /path/to/project --repl
+
+    # One-shot against a subset workspace built from a directory and a glob:
+    bifrost --root /path/to/project --tool get_symbol_sources --sources src --sources 'tests/**/*.rs' --args '{"symbols":["src/main.rs"]}'
+
+    # Language server over stdio:
+    bifrost --root /path/to/project --lsp
+
+Servers speak their protocol over stdio (no network port). The workspace index is built
+in the background: the server is ready immediately and the first request waits for indexing.

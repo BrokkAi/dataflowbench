@@ -1,0 +1,55 @@
+pack bifrost.code-smells@2.10.0 policies=16 — Bifrost code smells
+  Curated structured RQLP checks for bug-prone and potentially expensive source patterns.
+  - bifrost.correctness.dynamic-evaluation  category=correctness  languages=python,javascript,typescript
+      path=policies/dynamic-evaluation.rqlp
+      required_capabilities=structural-match,normalized-call
+  - bifrost.correctness.unsafe-deserialization  category=correctness  languages=python
+      path=policies/unsafe-deserialization.rqlp
+      required_capabilities=structural-match,normalized-call-roles
+  - bifrost.correctness.go-data-race  category=correctness  languages=go
+      path=policies/go-data-race.rqlp
+      required_capabilities=structural-match,normalized-concurrent-spawn,concurrent-access-conflicts,canonical-workspace-dispatch,heap-location-identity,reviewed-concurrency-models
+  - bifrost.correctness.go-nil-dereference  category=correctness  languages=go
+      path=policies/go-nil-dereference.rqlp
+      required_capabilities=structural-match,canonical-external-dispatch,conditional-result-contracts,operation-precondition-contracts,result-contract-operation-uses,procedure-local-scalar-refinement,nilness-operations,reaching-definitions,guard-dominance
+  - bifrost.correctness.go-wrong-error-on-failure-path  category=correctness  languages=go
+      path=policies/go-wrong-error-on-failure-path.rqlp
+      required_capabilities=structural-match,canonical-external-dispatch,conditional-result-contracts,result-contract-failure-uses,reaching-definitions,failure-edge-control
+  - bifrost.performance.loop-invariant-sort  category=performance  languages=rust,python,java,typescript,javascript
+      path=policies/loop-invariant-sort.rqlp
+      required_capabilities=structural-match,normalized-call-roles,lexical-environment,reaching-binding-assertion,value-origin-assertion
+  - bifrost.performance.regex-compile-in-loop  category=performance  languages=python,java,javascript,typescript,rust
+      path=policies/regex-compile-in-loop.rqlp
+      required_capabilities=structural-match,declaration-bounded-containment,normalized-call-roles,lexical-environment,origin-shape-assertion
+  - bifrost.performance.file-read-in-loop  category=performance  languages=python,java,javascript,typescript,rust
+      path=policies/file-read-in-loop.rqlp
+      required_capabilities=structural-match,declaration-bounded-containment,normalized-call-roles,lexical-environment,origin-shape-assertion
+  - bifrost.performance.serialization-in-loop  category=performance  languages=python,java,javascript,typescript,rust
+      path=policies/serialization-in-loop.rqlp
+      required_capabilities=structural-match,declaration-bounded-containment,normalized-call-roles,lexical-environment,origin-shape-assertion
+  - bifrost.performance.parsing-in-loop  category=performance  languages=python,java,javascript,typescript,rust
+      path=policies/parsing-in-loop.rqlp
+      required_capabilities=structural-match,declaration-bounded-containment,normalized-call-roles,lexical-environment,origin-shape-assertion
+  - bifrost.performance.database-call-in-loop  category=performance  languages=python,java,javascript,typescript
+      path=policies/database-call-in-loop.rqlp
+      required_capabilities=structural-match,declaration-bounded-containment,normalized-call-roles,lexical-environment,origin-shape-assertion
+  - bifrost.performance.network-call-in-loop  category=performance  languages=python,java,javascript,typescript,rust
+      path=policies/network-call-in-loop.rqlp
+      required_capabilities=structural-match,declaration-bounded-containment,normalized-call-roles,lexical-environment,origin-shape-assertion
+  - bifrost.performance.subprocess-in-loop  category=performance  languages=python,java,javascript,typescript
+      path=policies/subprocess-in-loop.rqlp
+      required_capabilities=structural-match,declaration-bounded-containment,normalized-call-roles,lexical-environment,origin-shape-assertion
+  - bifrost.performance.sleep-in-loop  category=performance  languages=python,java,rust
+      path=policies/sleep-in-loop.rqlp
+      required_capabilities=structural-match,declaration-bounded-containment,normalized-call-roles,lexical-environment,origin-shape-assertion
+  - bifrost.performance.expensive-operation-in-nested-loop  category=performance  languages=python,java,javascript,typescript,rust
+      path=policies/expensive-operation-in-nested-loop.rqlp
+      required_capabilities=structural-match,descendant-match,normalized-call,lexical-environment,origin-shape-assertion
+  - bifrost.correctness.rayon-in-blocking-lazy-init  category=correctness  languages=rust
+      path=policies/rayon-in-blocking-lazy-init.rqlp
+      required_capabilities=structural-match,descendant-match,normalized-call-roles
+pack bifrost.security@1.0.0 policies=1 — Bifrost security
+  High-precision security policies backed by exact structural identity and value-flow evidence.
+  - bifrost.security.java.servlet-parameter-to-jdbc  category=security  languages=java
+      path=policies/jvm/servlet-parameter-to-jdbc.rqlp
+      required_capabilities=taint,exact-call-target,actual-to-formal-binding,semantic-model-provenance,scoped-callable-completeness
