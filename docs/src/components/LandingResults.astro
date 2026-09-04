@@ -512,8 +512,10 @@ const snapshotPage = `/snapshots/${snapshot.slug}`;
 {/* What the benchmark is, ahead of what this particular freeze found. These
     two describe the dataset and the conflict of interest behind it, so they
     belong above the verdict rather than inside it — a reader meeting the page
-    for the first time needs them before the numbers mean anything. The
-    landing's two-column paragraph rule picks them up automatically. */}
+    for the first time needs them before the numbers mean anything. Wrapped
+    because they are adjacent: two paragraphs each holding their own pair of
+    columns read in the wrong order (see `.prose-columns` in custom.css). */}
+<div class="prose-columns">
 <p>
   DataFlowBench is <a href="https://github.com/BrokkAi">BrokkAi</a>'s own
   benchmark: we build it to measure where <a
@@ -537,6 +539,7 @@ const snapshotPage = `/snapshots/${snapshot.slug}`;
   dialog. A blank analyzer on a kernel means no report in this freeze: no
   extractor, no frontend, or no adapter, which is coverage rather than a score.
 </p>
+</div>
 
 <aside class="short-answer">
   <p class="label">Short answer</p>
@@ -880,6 +883,7 @@ const snapshotPage = `/snapshots/${snapshot.slug}`;
 
 <h2 id="meaning">What this result means</h2>
 
+<div class="prose-columns">
 <p>
   DataFlowBench measures whether analyzers correctly decide semantic
   data-flow questions — and whether they stay quiet when they should. Cases
@@ -908,6 +912,7 @@ const snapshotPage = `/snapshots/${snapshot.slug}`;
   <code>runner-error</code> are capability coverage and are never converted
   into clean negatives.
 </p>
+</div>
 
 <div class="tile-grid">
   <div class="tile">

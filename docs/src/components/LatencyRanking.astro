@@ -625,186 +625,193 @@ const belowThreshold = overheadPublished.filter(
   </ul>
 </div>
 
-{warmMeasurements.length > 0 && (
+{/* One newspaper block, not six. Each of these captions used to carry its
+    own two columns, which put the tail of one caption at the top of the
+    right column and the tail of the next directly under it — six half-
+    captions stacked in an order nobody reads them in. Wrapping the run
+    flows every caption down the left column first. */}
+<div class="prose-columns">
+  {warmMeasurements.length > 0 && (
+    <p class="caption">
+      <strong>Every bar above is cold per-invocation wall-clock, and the warm
+      marginal is a different quantity measured separately.</strong> Cold is what
+      this benchmark actually runs — one process per case, start-up inside the
+      number, because start-up is not observable from inside a single invocation.
+      Read across runtimes, though, those bars overstate the steady-state gap: a
+      JVM engine's row carries a JVM start a long-lived deployment pays once. So
+      the other quantity is measured directly rather than estimated and
+      subtracted — <em>k</em> cases through one tool process, for increasing
+      <em>k</em>, reporting the <em>slope</em> of batch wall-clock against{' '}
+      <em>k</em>.
+      {drawsWarmMarks ? (
+        <>
+          {' '}The carets mark it on the rows that have one, and they mark a{' '}
+          <em>range</em>: the whole series is measured more than once and the
+          figure published is the span its repeats cover, so the mark's width is
+          its own precision rather than a number stated more exactly than it was
+          measured. It is never subtracted from a median, never substituted for
+          one, and never used to order the rows.
+        </>
+      ) : (
+        <>
+          {' '}No caret is drawn in this view: the whole-corpus view mixes
+          languages, and a marginal measured on one kernel is not a claim about a
+          mixed-language row. The per-kernel views carry the marks.
+        </>
+      )}{' '}
+      Only adapters whose released CLI exposes a real multi-case batch have a
+      figure at all; the rest are{' '}
+      <strong>not observable with the released CLI</strong>, and the{' '}
+      <a href={`${latencyPage}#warm-marginal`}>
+        warm-marginal section
+      </a>{' '}
+      records every verdict, measured and declined, with the evidence behind it.
+    </p>
+  )}
+
+  {overheadPublished.length > 0 && (
+    <p class="caption">
+      <strong>The dashed spans are estimates, not measurements of the same kind
+      as the bars.</strong> Each is the wall-clock of one complete
+      adapter invocation — same pipeline, same policy, rule or query, same
+      subprocess shape — over a <em>trivial no-flow fixture</em>: both benchmark
+      endpoints declared, nothing connecting them, nothing to find. That is fixed
+      per-invocation overhead <em>plus</em> the trivial fixture's own near-zero
+      analysis, so it is an <strong>upper bound</strong> on what an adapter pays
+      before it starts work, and it is a cold single-shot execution — the same
+      posture the bars are measured in, and not a steady-state one. It is never
+      subtracted from a median, never substituted for one, and never used to
+      order the rows.{' '}
+      <strong>The width of a span is the figure's precision, not a
+      decoration:</strong> each measurement is repeated a fixed number of times
+      and what is published is the range those repeats spanned — never a mean,
+      never one chosen repeat, and never withheld for repeats that disagree,
+      because a disagreement widens the range and that is the honest consequence
+      of it.{' '}
+      {drawsEstimateMarks && (
+        <>
+          A span is drawn only where the range <em>starts</em> at or above{' '}
+          {Math.round(SIGNIFICANCE_SHARE * 100)}% of that row's own cold median —
+          a threshold fixed in the amendment before any estimate was measured,
+          read at the low end so that no mark can appear on the strength of one
+          slow repeat.{' '}
+          {belowThreshold.length > 0 && (
+            <>
+              The{' '}
+              {belowThreshold
+                .map((estimate) => vendorName(estimate.tool))
+                .join(', ')}{' '}
+              {belowThreshold.length === 1 ? 'estimate is' : 'estimates are'}{' '}
+              below it and{' '}
+              {belowThreshold.length === 1 ? 'carries' : 'carry'} no mark —{' '}
+              <strong>small, not unmeasured</strong>.{' '}
+            </>
+          )}
+        </>
+      )}
+      Each estimate is measured in one named language, stated on the row it
+      annotates, because boot cost is not language-free.{' '}
+      <a href={`${latencyPage}#invocation-overhead`}>
+        The estimates table
+      </a>{' '}
+      carries every value — every repeat behind every range, every unmarked row,
+      and every adapter for which no estimate could be taken at all.
+    </p>
+  )}
+
   <p class="caption">
-    <strong>Every bar above is cold per-invocation wall-clock, and the warm
-    marginal is a different quantity measured separately.</strong> Cold is what
-    this benchmark actually runs — one process per case, start-up inside the
-    number, because start-up is not observable from inside a single invocation.
-    Read across runtimes, though, those bars overstate the steady-state gap: a
-    JVM engine's row carries a JVM start a long-lived deployment pays once. So
-    the other quantity is measured directly rather than estimated and
-    subtracted — <em>k</em> cases through one tool process, for increasing
-    <em>k</em>, reporting the <em>slope</em> of batch wall-clock against{' '}
-    <em>k</em>.
-    {drawsWarmMarks ? (
-      <>
-        {' '}The carets mark it on the rows that have one, and they mark a{' '}
-        <em>range</em>: the whole series is measured more than once and the
-        figure published is the span its repeats cover, so the mark's width is
-        its own precision rather than a number stated more exactly than it was
-        measured. It is never subtracted from a median, never substituted for
-        one, and never used to order the rows.
-      </>
-    ) : (
-      <>
-        {' '}No caret is drawn in this view: the whole-corpus view mixes
-        languages, and a marginal measured on one kernel is not a claim about a
-        mixed-language row. The per-kernel views carry the marks.
-      </>
-    )}{' '}
-    Only adapters whose released CLI exposes a real multi-case batch have a
-    figure at all; the rest are{' '}
-    <strong>not observable with the released CLI</strong>, and the{' '}
-    <a href={`${latencyPage}#warm-marginal`}>
-      warm-marginal section
-    </a>{' '}
-    records every verdict, measured and declined, with the evidence behind it.
+    <strong>The axis is logarithmic.</strong> Each labelled tick is three times
+    the one before it, so equal distances are equal <em>ratios</em>, not equal
+    durations — the gap from 100&nbsp;ms to 300&nbsp;ms is drawn the same width
+    as the gap from 10&nbsp;s to 30&nbsp;s. That is the only way this bound corpus's
+    medians fit in one picture: they span {formatMs(fastest.whole.median)} to{' '}
+    {formatMs(slowest.whole.median)}, and on a linear axis every analyzer except
+    the slowest would be a sliver against the origin. Because a log axis is easy
+    to misread, every median is also printed as a number at the right of its own
+    row.
   </p>
-)}
 
-{overheadPublished.length > 0 && (
   <p class="caption">
-    <strong>The dashed spans are estimates, not measurements of the same kind
-    as the bars.</strong> Each is the wall-clock of one complete
-    adapter invocation — same pipeline, same policy, rule or query, same
-    subprocess shape — over a <em>trivial no-flow fixture</em>: both benchmark
-    endpoints declared, nothing connecting them, nothing to find. That is fixed
-    per-invocation overhead <em>plus</em> the trivial fixture's own near-zero
-    analysis, so it is an <strong>upper bound</strong> on what an adapter pays
-    before it starts work, and it is a cold single-shot execution — the same
-    posture the bars are measured in, and not a steady-state one. It is never
-    subtracted from a median, never substituted for one, and never used to
-    order the rows.{' '}
-    <strong>The width of a span is the figure's precision, not a
-    decoration:</strong> each measurement is repeated a fixed number of times
-    and what is published is the range those repeats spanned — never a mean,
-    never one chosen repeat, and never withheld for repeats that disagree,
-    because a disagreement widens the range and that is the honest consequence
-    of it.{' '}
-    {drawsEstimateMarks && (
-      <>
-        A span is drawn only where the range <em>starts</em> at or above{' '}
-        {Math.round(SIGNIFICANCE_SHARE * 100)}% of that row's own cold median —
-        a threshold fixed in the amendment before any estimate was measured,
-        read at the low end so that no mark can appear on the strength of one
-        slow repeat.{' '}
-        {belowThreshold.length > 0 && (
-          <>
-            The{' '}
-            {belowThreshold
-              .map((estimate) => vendorName(estimate.tool))
-              .join(', ')}{' '}
-            {belowThreshold.length === 1 ? 'estimate is' : 'estimates are'}{' '}
-            below it and{' '}
-            {belowThreshold.length === 1 ? 'carries' : 'carry'} no mark —{' '}
-            <strong>small, not unmeasured</strong>.{' '}
-          </>
-        )}
-      </>
-    )}
-    Each estimate is measured in one named language, stated on the row it
-    annotates, because boot cost is not language-free.{' '}
-    <a href={`${latencyPage}#invocation-overhead`}>
-      The estimates table
-    </a>{' '}
-    carries every value — every repeat behind every range, every unmarked row,
-    and every adapter for which no estimate could be taken at all.
+    <strong>The indented rows are phases, and they are not comparable across
+    adapters.</strong> Only the {decomposedCount} adapters whose preregistered
+    row declares more than one subprocess have them. A phase mark sits on the
+    same axis as the totals because it is the same kind of measurement —
+    wall-clock of a subprocess — but reading one adapter's phase against another
+    adapter's total is precisely the comparison the granularity rule forbids.
+    Read a phase against the adapter it is indented under, and nothing else.
   </p>
-)}
 
-<p class="caption">
-  <strong>The axis is logarithmic.</strong> Each labelled tick is three times
-  the one before it, so equal distances are equal <em>ratios</em>, not equal
-  durations — the gap from 100&nbsp;ms to 300&nbsp;ms is drawn the same width
-  as the gap from 10&nbsp;s to 30&nbsp;s. That is the only way this bound corpus's
-  medians fit in one picture: they span {formatMs(fastest.whole.median)} to{' '}
-  {formatMs(slowest.whole.median)}, and on a linear axis every analyzer except
-  the slowest would be a sliver against the origin. Because a log axis is easy
-  to misread, every median is also printed as a number at the right of its own
-  row.
-</p>
-
-<p class="caption">
-  <strong>The indented rows are phases, and they are not comparable across
-  adapters.</strong> Only the {decomposedCount} adapters whose preregistered
-  row declares more than one subprocess have them. A phase mark sits on the
-  same axis as the totals because it is the same kind of measurement —
-  wall-clock of a subprocess — but reading one adapter's phase against another
-  adapter's total is precisely the comparison the granularity rule forbids.
-  Read a phase against the adapter it is indented under, and nothing else.
-</p>
-
-<p class="caption">
-  <strong>Ordering is not scoring, and this is never pooled with
-  correctness.</strong> Rows are sorted by median because an unsorted ranking
-  is unreadable, not because latency is a result. No correctness figure appears
-  in this chart and no number here is blended with one: there is no combined
-  score anywhere on this site, and a fast analyzer that answers wrongly is
-  neither rewarded nor penalised by anything drawn above. Cases an analyzer
-  declined before invocation are <strong>absent, not entered as zero</strong> —
-  entering them as zero would make the analyzers that decline the most look the
-  fastest, which is exactly backwards.
-</p>
-
-{stamp && (
   <p class="caption">
-    <strong>The conditions these numbers were produced under.</strong> A single
-    developer machine{' '}
-    {environment && (
-      <>
-        (<code>{environment.hardwareModel}</code>, <code>{environment.os}</code>{' '}
-        <code>{environment.osRelease}</code>, {environment.cpuCount} logical
-        CPUs),
-      </>
-    )} under light concurrent load, running the benchmark's standing
-    sequential-run discipline — one analyzer at a time, never two at once.
-    <strong>
-      Latency numbers are comparable within one environment and are not
-      comparable across machines.
-    </strong>{' '}
-    The bars carry no repeated trials and no warm-up iterations: the case
-    population is the sample and its spread is the statistics, so the whiskers
-    are that spread and not error bars on a repeated measurement.{' '}
-    <strong>
-      Every number is a cold start: each case spawns a fresh process, so JVM
-      tools (Joern, OpenTaint, FlowDroid) pay full JVM start-up in every
-      invocation, and Pysa pays Pyre initialization.
-    </strong>{' '}
-    In a resident deployment those costs amortize to once per session, so
-    cross-runtime comparisons here overstate the steady-state gap; the boot
-    share of a single invocation is not adapter-observable and is included,
-    stated rather than estimated.{' '}
-    {warmMeasurements.length > 0 && (
-      <>
-        <strong>How much they overstate it is now measured, not left as a
-        caveat</strong> — separately, as the{' '}
-        <a href={`${latencyPage}#warm-marginal`}>
-          warm marginal cost
-        </a>{' '}
-        of one more case in a process that has already started, wherever the
-        released CLI let it be measured.{' '}
-      </>
-    )}
-    {overheadPublished.length > 0 && (
-      <>
-        <strong>And what an invocation costs before it has anything to find is
-        estimated for every adapter it could be estimated for</strong> — the{' '}
-        <a href={`${latencyPage}#invocation-overhead`}>
-          per-invocation overhead
-        </a>{' '}
-        of one complete invocation over a trivial no-flow fixture, an upper
-        bound published across the range its repeats spanned, never subtracted
-        from a bar above.{' '}
-      </>
-    )}
-    Read this as characterization of what the
-    benchmark actually costs to run, at the order-of-magnitude and shape
-    level, and not as a precise figure for any engine. The full contract, the per-adapter granularity, the cache
-    declarations and every quartile are on the{' '}
-    <a href={latencyPage}>latency page</a>.
+    <strong>Ordering is not scoring, and this is never pooled with
+    correctness.</strong> Rows are sorted by median because an unsorted ranking
+    is unreadable, not because latency is a result. No correctness figure appears
+    in this chart and no number here is blended with one: there is no combined
+    score anywhere on this site, and a fast analyzer that answers wrongly is
+    neither rewarded nor penalised by anything drawn above. Cases an analyzer
+    declined before invocation are <strong>absent, not entered as zero</strong> —
+    entering them as zero would make the analyzers that decline the most look the
+    fastest, which is exactly backwards.
   </p>
-)}
+
+  {stamp && (
+    <p class="caption">
+      <strong>The conditions these numbers were produced under.</strong> A single
+      developer machine{' '}
+      {environment && (
+        <>
+          (<code>{environment.hardwareModel}</code>, <code>{environment.os}</code>{' '}
+          <code>{environment.osRelease}</code>, {environment.cpuCount} logical
+          CPUs),
+        </>
+      )} under light concurrent load, running the benchmark's standing
+      sequential-run discipline — one analyzer at a time, never two at once.
+      <strong>
+        Latency numbers are comparable within one environment and are not
+        comparable across machines.
+      </strong>{' '}
+      The bars carry no repeated trials and no warm-up iterations: the case
+      population is the sample and its spread is the statistics, so the whiskers
+      are that spread and not error bars on a repeated measurement.{' '}
+      <strong>
+        Every number is a cold start: each case spawns a fresh process, so JVM
+        tools (Joern, OpenTaint, FlowDroid) pay full JVM start-up in every
+        invocation, and Pysa pays Pyre initialization.
+      </strong>{' '}
+      In a resident deployment those costs amortize to once per session, so
+      cross-runtime comparisons here overstate the steady-state gap; the boot
+      share of a single invocation is not adapter-observable and is included,
+      stated rather than estimated.{' '}
+      {warmMeasurements.length > 0 && (
+        <>
+          <strong>How much they overstate it is now measured, not left as a
+          caveat</strong> — separately, as the{' '}
+          <a href={`${latencyPage}#warm-marginal`}>
+            warm marginal cost
+          </a>{' '}
+          of one more case in a process that has already started, wherever the
+          released CLI let it be measured.{' '}
+        </>
+      )}
+      {overheadPublished.length > 0 && (
+        <>
+          <strong>And what an invocation costs before it has anything to find is
+          estimated for every adapter it could be estimated for</strong> — the{' '}
+          <a href={`${latencyPage}#invocation-overhead`}>
+            per-invocation overhead
+          </a>{' '}
+          of one complete invocation over a trivial no-flow fixture, an upper
+          bound published across the range its repeats spanned, never subtracted
+          from a bar above.{' '}
+        </>
+      )}
+      Read this as characterization of what the
+      benchmark actually costs to run, at the order-of-magnitude and shape
+      level, and not as a precise figure for any engine. The full contract, the per-adapter granularity, the cache
+      declarations and every quartile are on the{' '}
+      <a href={latencyPage}>latency page</a>.
+    </p>
+  )}
+</div>
 
 <style is:inline set:html={toggleCss}></style>
 

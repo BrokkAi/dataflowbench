@@ -114,11 +114,38 @@ table code {
      is ~half the content width, i.e. the same readable measure the cap
      enforces — the width is spent on flow, not on line length. Short
      paragraphs simply occupy the first column; the eyebrow label stays as
-     is. Browsers without :has() keep the capped single column. */
+     is. Browsers without :has() keep the capped single column.
+
+     This applies to a paragraph *on its own*, where the two columns are one
+     continuous read: down the left, then down the right, and nothing else is
+     interleaved. It must never be given to two adjacent paragraphs, which
+     would put the tail of the first at the top of the right column and the
+     tail of the second directly beneath it — two half-paragraphs stacked in
+     reading order, which is not the order they are meant to be read in. Runs
+     of adjacent paragraphs use `.prose-columns` below, which flows the whole
+     run through one multicol box instead. */
   .sl-markdown-content:has(.stat-grid) > p:not(.eyebrow):not(.subtitle) {
     columns: 2;
     column-gap: 2.5rem;
     max-width: none;
+  }
+
+  /* A run of consecutive paragraphs as one newspaper block: every paragraph
+     of the run flows down the left column before any of it appears on the
+     right. The wrapper is what carries the columns, so the paragraphs inside
+     are ordinary block children and the rule above no longer reaches them. */
+  .sl-markdown-content:has(.stat-grid) .prose-columns {
+    columns: 2;
+    column-gap: 2.5rem;
+    max-width: none;
+  }
+  .sl-markdown-content:has(.stat-grid) .prose-columns > p {
+    max-width: none;
+  }
+  /* A paragraph must not straddle the column break: broken across it, the
+     reader has no way to tell a continuation from a new paragraph. */
+  .sl-markdown-content:has(.stat-grid) .prose-columns > * {
+    break-inside: avoid;
   }
 }
 

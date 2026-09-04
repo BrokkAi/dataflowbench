@@ -671,62 +671,68 @@ const biggestJump = columns
   </li>
 </ul>
 
-<p class="caption view-note">
-  <strong>Absolute counts</strong> plot progress against the whole growing
-  benchmark: the marker is the analyzer's decisive-correct count and the grey
-  step is the entire core population of that snapshot, so an analyzer that
-  supports only part of the benchmark sits far below the step by construction.
-  <strong>Accuracy on covered kernels</strong> instead divides each analyzer's
-  decisive-correct count by <em>its own</em> covered population — the assertions
-  in the kernels it reported on at all — so it answers how well a tool does on
-  the slice it supports. Coverage is stated beside every number in that view:
-  the marker grows with the share of the snapshot's kernels covered, each point
-  carries its <code>k/n</code> kernel count, and the <strong>Data table</strong>
-  view spells out the denominator, so 78% over 6 kernels is never mistaken for
-  78% over 13. Inconclusive and unsupported outcomes <em>inside</em> covered
-  kernels stay in the denominator — they are non-answers on cases the analyzer
-  took on. The narrower correct ÷ decided ratio is reported only as a secondary
-  figure, in the tooltips and the last column of the data table.
-  <strong>Data table</strong> is the third setting of the same toggle: it
-  carries the exact figures behind both charts — every count, every denominator
-  and every percentage — for anyone who would rather read the numbers than the
-  shape.
-</p>
+{/* The view-note caption and whichever view caption is showing are adjacent
+    and were each carrying their own two columns, so the right column held
+    the tail of one and then the tail of the other. One wrapper flows both
+    down the left column first; the hidden view captions cost it nothing. */}
+<div class="prose-columns">
+  <p class="caption view-note">
+    <strong>Absolute counts</strong> plot progress against the whole growing
+    benchmark: the marker is the analyzer's decisive-correct count and the grey
+    step is the entire core population of that snapshot, so an analyzer that
+    supports only part of the benchmark sits far below the step by construction.
+    <strong>Accuracy on covered kernels</strong> instead divides each analyzer's
+    decisive-correct count by <em>its own</em> covered population — the assertions
+    in the kernels it reported on at all — so it answers how well a tool does on
+    the slice it supports. Coverage is stated beside every number in that view:
+    the marker grows with the share of the snapshot's kernels covered, each point
+    carries its <code>k/n</code> kernel count, and the <strong>Data table</strong>
+    view spells out the denominator, so 78% over 6 kernels is never mistaken for
+    78% over 13. Inconclusive and unsupported outcomes <em>inside</em> covered
+    kernels stay in the denominator — they are non-answers on cases the analyzer
+    took on. The narrower correct ÷ decided ratio is reported only as a secondary
+    figure, in the tooltips and the last column of the data table.
+    <strong>Data table</strong> is the third setting of the same toggle: it
+    carries the exact figures behind both charts — every count, every denominator
+    and every percentage — for anyone who would rather read the numbers than the
+    shape.
+  </p>
 
-<p class="caption view-absolute">
-  Each marker sits at the analyzer's decisive-correct count. The faint stub
-  above it reaches that analyzer's <em>own</em> covered population — the
-  assertions it reported on — so the part of the stub above the marker is
-  wrong answers plus coverage outcomes, and the remaining gap up to the grey
-  step is kernels it does not cover at all. A snapshot without a marker is a
-  snapshot the analyzer was not run in: {debutList}. Absence is never drawn as
-  a zero and never interpolated across, so an analyzer that appears in exactly
-  one freeze is one marker and no line —
-  {singlePoint.length > 0
-    ? `${singlePointList} ${
-        singlePoint.length === 1 ? 'is' : 'are'
-      } drawn that way here, and no earlier value is implied for ${
-        singlePoint.length === 1 ? 'it' : 'them'
-      }`
-    : 'no analyzer is drawn that way here'}.
-  <code>inconclusive</code>, <code>unsupported</code> and
-  <code>runner-error</code> are capability coverage: excluded from
-  correctness, never converted into wrong answers. Every snapshot label links
-  to that freeze's per-case evidence.
-</p>
+  <p class="caption view-absolute">
+    Each marker sits at the analyzer's decisive-correct count. The faint stub
+    above it reaches that analyzer's <em>own</em> covered population — the
+    assertions it reported on — so the part of the stub above the marker is
+    wrong answers plus coverage outcomes, and the remaining gap up to the grey
+    step is kernels it does not cover at all. A snapshot without a marker is a
+    snapshot the analyzer was not run in: {debutList}. Absence is never drawn as
+    a zero and never interpolated across, so an analyzer that appears in exactly
+    one freeze is one marker and no line —
+    {singlePoint.length > 0
+      ? `${singlePointList} ${
+          singlePoint.length === 1 ? 'is' : 'are'
+        } drawn that way here, and no earlier value is implied for ${
+          singlePoint.length === 1 ? 'it' : 'them'
+        }`
+      : 'no analyzer is drawn that way here'}.
+    <code>inconclusive</code>, <code>unsupported</code> and
+    <code>runner-error</code> are capability coverage: excluded from
+    correctness, never converted into wrong answers. Every snapshot label links
+    to that freeze's per-case evidence.
+  </p>
 
-<p class="caption view-normalized">
-  Each marker sits at the analyzer's decisive-correct share of its own covered
-  population; the faint stub above it runs to 100%, which is that same covered
-  population, so the stub is wrong answers plus coverage outcomes inside the
-  kernels it did report on. A snapshot without a marker is a snapshot the
-  analyzer was not run in: {debutList}.
-  Absence is never drawn as a zero and never interpolated across. Percentages
-  from different snapshots are not the same exam, and percentages from
-  different analyzers in the same snapshot are only the same exam when their
-  <code>k/n</code> kernel counts match. Every snapshot label links to that
-  freeze's per-case evidence.
-</p>
+  <p class="caption view-normalized">
+    Each marker sits at the analyzer's decisive-correct share of its own covered
+    population; the faint stub above it runs to 100%, which is that same covered
+    population, so the stub is wrong answers plus coverage outcomes inside the
+    kernels it did report on. A snapshot without a marker is a snapshot the
+    analyzer was not run in: {debutList}.
+    Absence is never drawn as a zero and never interpolated across. Percentages
+    from different snapshots are not the same exam, and percentages from
+    different analyzers in the same snapshot are only the same exam when their
+    <code>k/n</code> kernel counts match. Every snapshot label links to that
+    freeze's per-case evidence.
+  </p>
+</div>
 
 <div class="table-scroll view-table">
   <table>
@@ -826,10 +832,16 @@ const biggestJump = columns
     margin-inline: auto;
   }
   @media (min-width: 72rem) {
-    .chart-note,
-    .evolution .caption {
+    /* A lone note reads correctly as its own two columns: down the left, then
+       down the right, with nothing else interleaved. The captions do not —
+       they come in adjacent runs — so they are flowed by the `.prose-columns`
+       wrapper around them instead, and must not also column themselves. */
+    .chart-note {
       columns: 2;
       column-gap: 2.5rem;
+      max-width: none;
+    }
+    .evolution .caption {
       max-width: none;
     }
   }
