@@ -3,7 +3,7 @@
     "--oss-only",
     "--config=adapters/semgrep/native/java"
   ],
-  "activation_identity": "1.175.0 over the pinned snapshot vendored from https://github.com/semgrep/semgrep-rules into adapters/semgrep/native/java",
+  "activation_identity": "1.176.0 over the pinned snapshot vendored from https://github.com/semgrep/semgrep-rules into adapters/semgrep/native/java",
   "adapter": "semgrep",
   "case_id": "dfb-taint-java-native-propagator-positive",
   "evidence_kind": "retained-capability-decision",
@@ -11,9 +11,9 @@
   "modeling_category": "P",
   "modeling_category_label": "declared propagators",
   "partition_source": "docs/native-profile.md#partition-summary",
-  "reason": "tool-native activation of dfb-template-native-propagator (category P — declared propagators) is unsupported for 1.175.0 over Java by the activation partition (docs/native-profile.md#partition-summary, as amended): to be verified at vendoring — unsupported until shown: which rules the snapshot carries, and how the pinned CE engine's default propagation treats the platform join, are both undecided until a commit is pinned",
+  "reason": "tool-native activation of dfb-template-native-propagator (category P — declared propagators) is unsupported for 1.176.0 over Java by the activation partition (docs/native-profile.md#partition-summary, as amended): no vendored rule references `String.concat`, the concatenation-shaped rules match `+` or `String.format` inside a sink argument without binding a source, and no rule binds a platform source for a propagator to carry (Amendment A7, execution-confirmed by A27's zero-finding field run)",
   "stage": "preregistered-native-activation-partition",
   "state": "unsupported",
   "template_id": "dfb-template-native-propagator",
-  "witnessed_tool_identity": "1.175.0"
+  "witnessed_tool_identity": "1.176.0"
 }

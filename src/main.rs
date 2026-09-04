@@ -140,7 +140,7 @@ const BIFROST_JAVASCRIPT_POLICY: &str = "adapters/bifrost/policies/core-javascri
 const BIFROST_KOTLIN_POLICY: &str = "adapters/bifrost/policies/core-kotlin-kernel.rqlp";
 /// The language-qualified Bifrost policy every Scala kernel assertion is
 /// evaluated with. Scala has single-analyzer coverage: CodeQL CLI 2.26.4 has no
-/// Scala extractor at all, and the pinned Joern 4.0.614 has no Scala *source*
+/// Scala extractor at all, and the pinned Joern 4.0.617 has no Scala *source*
 /// frontend. Both absences are analyzer coverage recorded in
 /// docs/scala-kernel.md, never negative results. As with Kotlin, the frozen
 /// v0.2.0 direct-propagation pair still names the language-neutral breadth
@@ -645,10 +645,10 @@ impl ModelingTool {
             Self::Codeql => "CodeQL CLI 2.26.4",
             Self::Flowdroid => "FlowDroid 2.15.1",
             Self::Infer => "Infer v1.3.0",
-            Self::Joern => "Joern 4.0.614",
-            Self::Semgrep => "Semgrep CE 1.175.0",
+            Self::Joern => "Joern 4.0.617",
+            Self::Semgrep => "Semgrep CE 1.176.0",
             Self::Pysa => "Pysa (pyre-check 0.10.0 + Pyrefly 1.2.0)",
-            Self::Opentaint => "OpenTaint analyzer/2026.08.27.17eb0fe",
+            Self::Opentaint => "OpenTaint analyzer/2026.09.03.9752bd2",
         }
     }
 }
@@ -867,7 +867,7 @@ const MODELING_PARTITION: &[ModelingPartitionCell] = &[
             "the pulse-taint configuration surface defines sources, sinks, sanitizers, propagators, policies, and data-flow kinds and nothing else — no store-write/store-read vocabulary and no key discrimination (the binary's own enumeration is retained as amendment A13 evidence) — and `Store.put`/`Store.get` have empty bodies, so nothing else can carry the roundtrip",
         ),
     },
-    // Joern — 4.0.614: 4 / 6 (Amendment A2 moved P and O to unsupported).
+    // Joern — 4.0.617: 4 / 6 (Amendment A2 moved P and O to unsupported).
     ModelingPartitionCell {
         tool: ModelingTool::Joern,
         category: ModelingCategory::SourcesAndSinks,
@@ -916,7 +916,7 @@ const MODELING_PARTITION: &[ModelingPartitionCell] = &[
         category: ModelingCategory::Persistence,
         unsupported_reason: None,
     },
-    // Semgrep CE — 1.175.0 (`--oss-only`): 3 / 6 categories, and Amendment A3
+    // Semgrep CE — 1.176.0 (`--oss-only`): 3 / 6 categories, and Amendment A3
     // splits category Z at the template level (see MODELING_TEMPLATE_OVERRIDES).
     ModelingPartitionCell {
         tool: ModelingTool::Semgrep,
@@ -996,7 +996,7 @@ const MODELING_PARTITION: &[ModelingPartitionCell] = &[
             "the `.pysa` DSL binds taint roles to callables and parameter positions — `TaintSource`, `TaintSink`, `TaintInTaintOut`, `Sanitize`, and mode annotations — and has no store identity, key position, or vocabulary linking a write entity to a read entity through a shared store, per instance or otherwise. The nearest encoding, a source model on `Store.get`, would report both polarities of template 11 without ever reading the key: a different model, not an approximation of this one (Amendment A16)",
         ),
     },
-    // OpenTaint — analyzer/2026.08.27.17eb0fe, Java only: 3 / 6 (S, P, Z).
+    // OpenTaint — analyzer/2026.09.03.9752bd2, Java only: 3 / 6 (S, P, Z).
     // Added by Amendment A22, decided by executing the pinned analyzer over
     // the committed Java modeling fixtures before any scored run; the probe
     // evidence is retained under reports/raw/opentaint-modeling-surface-probe/
@@ -2022,7 +2022,7 @@ const NATIVE_PARTITION: &[NativePartitionCell] = &[
              store-read vocabulary even when configured (Amendment A13)",
         ),
     },
-    // Joern — 4.0.614, `DefaultSemantics` only: 0 / 6.
+    // Joern — 4.0.617, `DefaultSemantics` only: 0 / 6.
     NativePartitionCell {
         tool: ModelingTool::Joern,
         template: NATIVE_TEMPLATE_IDS[0],
@@ -2078,7 +2078,7 @@ const NATIVE_PARTITION: &[NativePartitionCell] = &[
         template: NATIVE_TEMPLATE_IDS[5],
         unsupported_reason: Some("no persistence vocabulary ships with the distribution"),
     },
-    // Semgrep CE — 1.175.0 (`--oss-only`): 0 / 6 until a snapshot is vendored.
+    // Semgrep CE — 1.176.0 (`--oss-only`): 0 / 6 until a snapshot is vendored.
     // Every cell is *to be verified at vendoring*, which this document's own
     // rule records as unsupported; promotion is a dated amendment carrying the
     // vendored commit as its evidence.
@@ -2117,7 +2117,7 @@ const NATIVE_PARTITION: &[NativePartitionCell] = &[
         unsupported_reason: Some(
             "arg-to-return summary semantics are outside CE's propagator vocabulary on the \
              pinned version, established by execution in \
-             docs/modeling-matrix.md#semgrep-ce--11750---oss-only; a shipped rule cannot supply \
+             docs/modeling-matrix.md#semgrep-ce--11760---oss-only; a shipped rule cannot supply \
              what the engine does not express",
         ),
     },
@@ -2183,7 +2183,7 @@ const NATIVE_PARTITION: &[NativePartitionCell] = &[
         template: NATIVE_TEMPLATE_IDS[5],
         unsupported_reason: None,
     },
-    // OpenTaint — analyzer/2026.08.27.17eb0fe, Java only: 0 / 6. Added by
+    // OpenTaint — analyzer/2026.09.03.9752bd2, Java only: 0 / 6. Added by
     // Amendment A23. The pinned release ships two assets: the analyzer jar
     // and `opentaint-models.tar.gz`. The archive is shipped product — vendor
     // pass-through propagation rows, accumulated-field approximations, and
@@ -2374,7 +2374,7 @@ const NATIVE_PARTITION_AMENDMENTS: [(ModelingTool, ModelingLanguage, &str, Optio
         Some(
             "no shipped platform source, and arg-to-return summary semantics are outside CE's \
              propagator vocabulary on the pinned version, established by execution in \
-             docs/modeling-matrix.md#semgrep-ce--11750---oss-only (Amendment A6, \
+             docs/modeling-matrix.md#semgrep-ce--11760---oss-only (Amendment A6, \
              execution-confirmed by A27)",
         ),
     ),
@@ -2449,7 +2449,7 @@ const NATIVE_PARTITION_AMENDMENTS: [(ModelingTool, ModelingLanguage, &str, Optio
         Some(
             "`java.util.Base64` occurs nowhere in the snapshot, and arg-to-return summary \
              semantics are outside CE's propagator vocabulary on the pinned version, \
-             established by execution in docs/modeling-matrix.md#semgrep-ce--11750---oss-only \
+             established by execution in docs/modeling-matrix.md#semgrep-ce--11760---oss-only \
              (Amendments A7/A27)",
         ),
     ),
@@ -12727,7 +12727,7 @@ fn write_run_environment(
 /// The pinned OpenTaint release. The project publishes dated, content-
 /// addressed analyzer releases (near-daily); this tag is the one this
 /// adapter's evidence was produced under.
-const OPENTAINT_RELEASE_TAG: &str = "analyzer/2026.08.27.17eb0fe";
+const OPENTAINT_RELEASE_TAG: &str = "analyzer/2026.09.03.9752bd2";
 
 /// SHA-256 of the pinned `opentaint-project-analyzer.jar` release asset. The
 /// jar self-reports no version at all — no manifest attribute, no `--version`
@@ -12738,7 +12738,7 @@ const OPENTAINT_RELEASE_TAG: &str = "analyzer/2026.08.27.17eb0fe";
 /// before any case is analyzed rather than publishing an asserted identity,
 /// per the identity-witnessing convention (#87).
 const OPENTAINT_ANALYZER_JAR_SHA256: &str =
-    "811bdb22786e539c9aabdce5bef91f0c6521cc099adbe2720e6a840c09badf54";
+    "db3a61637207633342c15ebc40b0164205563ba6446d48a8fa5c4f8fd194b61c";
 
 /// SHA-256 of the pinned `opentaint-models.tar.gz` release asset — the
 /// analyzer's own shipped standard-library dataflow approximations and
@@ -12748,7 +12748,7 @@ const OPENTAINT_ANALYZER_JAR_SHA256: &str =
 /// benchmark-controlled sources and sinks come only from the committed rule
 /// templates below.
 const OPENTAINT_MODELS_ARCHIVE_SHA256: &str =
-    "c2a8fb0bbc3b6d59ed6db0c62732ff9a6f0f491d515cc2247932f2dd78cbb9f5";
+    "8746b9594266c67f04cd93a64c6c30673f98ccaeb59baed76d202ffee327a8d4";
 
 const OPENTAINT_RULES_DIR: &str = "adapters/opentaint/rules";
 
@@ -18268,7 +18268,7 @@ fn run_codeql_native_case(
 /// Run one *scored* native cell through Semgrep CE over the vendored snapshot.
 ///
 /// Two deliberate differences from the benchmark-controlled Semgrep runner, both
-/// recorded in docs/native-profile.md#semgrep-ce--11750---oss-only:
+/// recorded in docs/native-profile.md#semgrep-ce--11760---oss-only:
 /// `--config` points at the vendored rule directory rather than at an authored
 /// rule, and `taint_assume_safe_functions` is **not** set. There the permissive
 /// default would decide a cell the supplied model was meant to decide; here the
