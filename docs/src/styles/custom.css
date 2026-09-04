@@ -142,10 +142,16 @@ table code {
   .sl-markdown-content:has(.stat-grid) .prose-columns > p {
     max-width: none;
   }
-  /* A paragraph must not straddle the column break: broken across it, the
-     reader has no way to tell a continuation from a new paragraph. */
+  /* Paragraphs may straddle the column break, and should: the balancer needs
+     to split something, and a run of two or three long paragraphs that each
+     refuse to break leaves one column half-empty. A continuation is legible
+     here in a way it was not under the old per-paragraph rule — the right
+     column carries one text in reading order, so the reader arrives at the
+     top of it from the bottom of the left. Orphans and widows are held at
+     three lines so a break can never strand one line at either end. */
   .sl-markdown-content:has(.stat-grid) .prose-columns > * {
-    break-inside: avoid;
+    orphans: 3;
+    widows: 3;
   }
 }
 
