@@ -18,9 +18,9 @@ evaluated in the field, not from its README:
    probe: flows through calls, aliases, and standard-library containers are
    reported with full SARIF `codeFlows` step traces.
 2. **Local, pinnable execution** — holds. The project publishes dated,
-   content-addressed analyzer releases (near-daily); the analyzer is a single
-   jar invoked locally with no account, network, or service dependency. The
-   pin is `analyzer/2026.09.03.9752bd2`, by asset digest (below).
+   semantic releases as well as content-addressed analyzer builds; the
+   analyzer is a single jar invoked locally with no account, network, or
+   service dependency. The pin is `v0.4.6`, by component asset digest (below).
 3. **Retained native output** — holds. The analyzer writes SARIF 2.1.0, one
    document per invocation, retained verbatim per case.
 4. **Publishable results** — holds. The engine is Apache-2.0; the CLI, rules,
@@ -38,13 +38,14 @@ matching the issue's intended profile.
 
 ## Pinned tool identity, witnessed per run
 
-The pin is release **`analyzer/2026.09.03.9752bd2`**, by the SHA-256 of its
-two assets:
+The pin is semantic release **`v0.4.6`**. Its full distribution records the
+bundled analyzer as `analyzer/2026.09.04.c51dc3e`; the adapter binds the
+SHA-256 of that analyzer release's two component assets:
 
 | Asset | SHA-256 |
 | --- | --- |
-| `opentaint-project-analyzer.jar` | `db3a61637207633342c15ebc40b0164205563ba6446d48a8fa5c4f8fd194b61c` |
-| `opentaint-models.tar.gz` | `8746b9594266c67f04cd93a64c6c30673f98ccaeb59baed76d202ffee327a8d4` |
+| `opentaint-project-analyzer.jar` | `2ca93b6c33462bdbc23ceccdc5375e1a900682b33371cd906e5214dc7c48f569` |
+| `opentaint-models.tar.gz` | `20a96a50fba9ab6f6e98e8562019e5ecbe2a77de7947981eaf6e379f04065329` |
 
 The analyzer jar self-reports **no version at all**: no manifest attribute, no
 version flag, and a SARIF `tool.driver.version` of `"latest"`. So the
@@ -363,7 +364,7 @@ Download the pinned release assets and verify their digests against the table
 above:
 
 ```bash
-gh release download analyzer/2026.09.03.9752bd2 --repo seqra/opentaint \
+gh release download analyzer/2026.09.04.c51dc3e --repo seqra/opentaint \
   --pattern 'opentaint-project-analyzer.jar' --pattern 'opentaint-models.tar.gz'
 shasum -a 256 opentaint-project-analyzer.jar opentaint-models.tar.gz
 ```

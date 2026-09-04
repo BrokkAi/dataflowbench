@@ -118,7 +118,7 @@ impl ModelingTool {
             Self::Joern => "Joern 4.0.617",
             Self::Semgrep => "Semgrep CE 1.176.0",
             Self::Pysa => "Pysa (pyre-check 0.10.0 + Pyrefly 1.2.0)",
-            Self::Opentaint => "OpenTaint analyzer/2026.09.03.9752bd2",
+            Self::Opentaint => "OpenTaint v0.4.6",
         }
     }
 }

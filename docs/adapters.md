@@ -20,7 +20,7 @@ The initial adapter plan is:
 | CodeQL | 16-template Java and JavaScript propagation kernels and the 29-template expanded Python kernel | Java, JavaScript, and Python runners implemented as separate language-scoped populations |
 | Joern | The Ruby 16-template propagation kernel, the 27-template expanded Rust kernel, and the 29-template expanded Java, Python, JavaScript, and PHP kernels | Implemented as six separate language-scoped populations over one CPG query script |
 | Semgrep CE | Supported local analysis only | Implemented as eleven separate language-scoped populations over one committed taint rule per language; only the documented intraprocedural partition is scored. Four front ends are non-GA in the pinned distribution (Kotlin `beta`; Rust, C, C++ `alpha`) and the label is retained without ever changing the partition |
-| OpenTaint | Java and Kotlin profile | Implemented as two language-scoped populations over the pinned `analyzer/2026.09.03.9752bd2` release, both run over their full expanded 58-assertion cores. The whole core is scored — the pinned documentation fences no capability. The first runs' dominant result, a value-kind boundary dropping taint on numeric values, was identified upstream as the default rule configuration and resolved by Amendment A11 (`primitive-tracking: true` in both templates); the amended-template re-runs measure propagation semantics in both languages |
+| OpenTaint | Java and Kotlin profile | Implemented as two language-scoped populations over the pinned `v0.4.6` release, both run over their full expanded 58-assertion cores. The whole core is scored — the pinned documentation fences no capability. The first runs' dominant result, a value-kind boundary dropping taint on numeric values, was identified upstream as the default rule configuration and resolved by Amendment A11 (`primitive-tracking: true` in both templates); the amended-template re-runs measure propagation semantics in both languages |
 | Infer | C, C++, and Java profile | Implemented as three language-scoped populations over the pinned v1.3.0 release's Pulse taint configuration — the release's one operable taint surface, Quandary being removed — each run over its full expanded core (48, 56, and 58 assertions). The whole core is scored in all three; C and C++ gain their first benchmark-controlled interprocedural second engine |
 | FlowDroid | Java and Kotlin profile | Implemented as two language-scoped populations over the pinned 2.15.1 release's command-line analyzer, both run over their full expanded 58-assertion cores. The released CLI analyzes APKs only — verified in the field — so each case materializes a minimal APK from pinned, JVM-only pieces (a D8 dex translation, a committed benchmark-generated binary manifest, a harness entry activity); the whole core is scored, the pinned defaults fencing no capability. Amendments A18 and A19 add its Java modeling row (seven of twelve templates scored, via StubDroid summaries) and its Java tool-native row (a live activation contract over the jar's shipped catalog, all six cells declined on the catalog's own text) |
 | Pysa | Python profile | Implemented as one language-scoped population over the pinned pyre-check 0.10.0 release's taint analysis, run over Python's full expanded 58-assertion core. The pin is a pair — the client drives the separately released Pyrefly 1.2.0 front end for call-graph resolution, and without a per-case `pyrefly.toml` that front end exports every call unresolved while exiting cleanly, a verified silent-failure mode the runner guards. The whole core is scored, and Python becomes the five-analyzer kernel issue #82 intended |
@@ -399,7 +399,7 @@ record.
 Every other row was read the same day and is current: Bifrost v0.10.9, CodeQL
 CLI 2.26.4, Semgrep CE 1.176.0, the vendored Semgrep rules snapshot at
 `semgrep/semgrep-rules@40b8c63f75dc7c22c8a77482d73bfb864b146f7e` (still
-`develop` head), OpenTaint `analyzer/2026.09.03.9752bd2`, Infer v1.3.0,
+`develop` head), OpenTaint `v0.4.6`, Infer v1.3.0,
 FlowDroid 2.15.1, and the Pysa pair at pyre-check 0.10.0 and Pyrefly 1.2.0
 (Pyrefly 1.3.0.dev4 is a pre-release and does not count).
 
@@ -1350,7 +1350,7 @@ analyzer exits zero and writes a well-formed empty SARIF even when its rule
 set fails to load, so a load failure is a `runner-error` and can never read as
 `not-reached`.
 
-The pin is by release-asset digest — `analyzer/2026.09.03.9752bd2`, jar and
+The pin is by component-asset digest — `v0.4.6`, jar and
 models archive both SHA-256-bound — because the analyzer jar self-reports no
 version anywhere; the runner witnesses both digests per run and publishes the
 release tag only when they match, refusing the run otherwise. The whole
