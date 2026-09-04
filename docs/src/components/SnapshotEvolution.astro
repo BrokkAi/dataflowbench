@@ -345,24 +345,28 @@ const last = columns.at(-1)!;
   ) : (
     <>
       {cohortDescription}, separated because breadth and specialization are not
-      directly comparable. Uses the same axes as the generalist panel.
+      directly comparable. Uses the same percentage axis as the generalists'
+      covered-kernel view.
     </>
   )}
 </p>
 
 <div class="evolution">
-  <input
-    class="view-radio absolute-radio"
-    type="radio"
-    name={`evolution-view-${scope}`}
-    id={`evolution-view-absolute-${scope}`}
-    checked
-  />
+  {heading && (
+    <input
+      class="view-radio absolute-radio"
+      type="radio"
+      name={`evolution-view-${scope}`}
+      id={`evolution-view-absolute-${scope}`}
+      checked
+    />
+  )}
   <input
     class="view-radio normalized-radio"
     type="radio"
     name={`evolution-view-${scope}`}
     id={`evolution-view-normalized-${scope}`}
+    checked={!heading}
   />
   <input
     class="view-radio table-radio"
@@ -371,11 +375,14 @@ const last = columns.at(-1)!;
     id={`evolution-view-table-${scope}`}
   />
   <div class="view-toggle" role="group" aria-label="Evolution chart view">
-    <label class="absolute-label" for={`evolution-view-absolute-${scope}`}>Absolute counts</label>
+    {heading && (
+      <label class="absolute-label" for={`evolution-view-absolute-${scope}`}>Absolute counts</label>
+    )}
     <label class="normalized-label" for={`evolution-view-normalized-${scope}`}>Accuracy on covered kernels</label>
     <label class="table-label" for={`evolution-view-table-${scope}`}>Data table</label>
   </div>
 
+{heading && (
 <div class="chart-frame view-absolute" style={`--evolution-min-width: ${minWidthRem}rem`}>
   <svg
     class="evolution-chart"
@@ -503,6 +510,7 @@ const last = columns.at(-1)!;
     </text>
   </svg>
 </div>
+)}
 
 <div class="chart-frame view-normalized" style={`--evolution-min-width: ${minWidthRem}rem`}>
   <svg
@@ -640,6 +648,7 @@ const last = columns.at(-1)!;
   </svg>
 </div>
 
+{heading && (
 <ul class="chart-legend view-absolute">
   {cohortSeries.map((entry) => (
     <li class:list={[entry.colorClass]}>
@@ -656,6 +665,7 @@ const last = columns.at(-1)!;
     remainder of that analyzer's own covered population
   </li>
 </ul>
+)}
 
 <ul class="chart-legend view-normalized">
   {cohortSeries.map((entry) => (
