@@ -4,7 +4,7 @@ Adapter `joern-java-native`: `joern` `4.0.617` (build `joern-cli:4.0.617 — 4.0
 
 Track `taint`, score dimension `taint`, model profile `tool-native`. This scorecard is a single result population; it is never pooled with other tracks, dimensions, or model profiles.
 
-Normalized report: `reports/joern-java-native.json` (`sha256:5cc36ea1cb3c0e1d11451bb2bf5193e7c8912408c2c2fdd3a0184d6da61701d9`, normalized `sha256:5cc36ea1cb3c0e1d11451bb2bf5193e7c8912408c2c2fdd3a0184d6da61701d9`). Generated from freeze manifest `reports/freeze.json` (`sha256:95faa71908b637ba349c1890ce913abd865c670a9093e123a25d975430bfe52c`).
+Normalized report: `reports/joern-java-native.json` (`sha256:5cc36ea1cb3c0e1d11451bb2bf5193e7c8912408c2c2fdd3a0184d6da61701d9`, normalized `sha256:5cc36ea1cb3c0e1d11451bb2bf5193e7c8912408c2c2fdd3a0184d6da61701d9`). Generated from freeze manifest `reports/freeze.json` (`sha256:c543ae4ebd11ed6f3495f4461b5b4bd7c84d0874997f1b62044e9df62817b28b`).
 
 ## Language `java`, tier `modeling`
 

@@ -4,7 +4,7 @@ Adapter `semgrep-python-native`: `semgrep` `1.176.0` (build `semgrep-oss:1.176.0
 
 Track `taint`, score dimension `taint`, model profile `tool-native`. This scorecard is a single result population; it is never pooled with other tracks, dimensions, or model profiles.
 
-Normalized report: `reports/semgrep-python-native.json` (`sha256:47778dec953ecc4350f75af9ffb36a22946523c84e877a05ca870bcf923eb8d2`, normalized `sha256:47778dec953ecc4350f75af9ffb36a22946523c84e877a05ca870bcf923eb8d2`). Generated from freeze manifest `reports/freeze.json` (`sha256:95faa71908b637ba349c1890ce913abd865c670a9093e123a25d975430bfe52c`).
+Normalized report: `reports/semgrep-python-native.json` (`sha256:47778dec953ecc4350f75af9ffb36a22946523c84e877a05ca870bcf923eb8d2`, normalized `sha256:47778dec953ecc4350f75af9ffb36a22946523c84e877a05ca870bcf923eb8d2`). Generated from freeze manifest `reports/freeze.json` (`sha256:c543ae4ebd11ed6f3495f4461b5b4bd7c84d0874997f1b62044e9df62817b28b`).
 
 ## Language `python`, tier `modeling`
 

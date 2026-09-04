@@ -4,7 +4,7 @@ Adapter `pysa-python-native`: `pysa` `0.10.0` (build `pyre-check:0.10.0 pyre.bin
 
 Track `taint`, score dimension `taint`, model profile `tool-native`. This scorecard is a single result population; it is never pooled with other tracks, dimensions, or model profiles.
 
-Normalized report: `reports/pysa-python-native.json` (`sha256:c3ad2ee142ea248c4ecfd111dda9efc98b2c83972f68d4570d889d0946e4fbc2`, normalized `sha256:c3ad2ee142ea248c4ecfd111dda9efc98b2c83972f68d4570d889d0946e4fbc2`). Generated from freeze manifest `reports/freeze.json` (`sha256:95faa71908b637ba349c1890ce913abd865c670a9093e123a25d975430bfe52c`).
+Normalized report: `reports/pysa-python-native.json` (`sha256:c3ad2ee142ea248c4ecfd111dda9efc98b2c83972f68d4570d889d0946e4fbc2`, normalized `sha256:c3ad2ee142ea248c4ecfd111dda9efc98b2c83972f68d4570d889d0946e4fbc2`). Generated from freeze manifest `reports/freeze.json` (`sha256:c543ae4ebd11ed6f3495f4461b5b4bd7c84d0874997f1b62044e9df62817b28b`).
 
 ## Language `python`, tier `modeling`
 

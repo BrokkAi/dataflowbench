@@ -4,7 +4,7 @@ Adapter `joern-javascript-modeling`: `joern` `4.0.617` (build `joern-cli:4.0.617
 
 Track `taint`, score dimension `taint`, model profile `benchmark-controlled`. This scorecard is a single result population; it is never pooled with other tracks, dimensions, or model profiles.
 
-Normalized report: `reports/joern-javascript-modeling.json` (`sha256:9912c4e6e183f49a360ee8cdd0de3afea1a153a21c2b5e06f83e5f790bdd3670`, normalized `sha256:9912c4e6e183f49a360ee8cdd0de3afea1a153a21c2b5e06f83e5f790bdd3670`). Generated from freeze manifest `reports/freeze.json` (`sha256:95faa71908b637ba349c1890ce913abd865c670a9093e123a25d975430bfe52c`).
+Normalized report: `reports/joern-javascript-modeling.json` (`sha256:9912c4e6e183f49a360ee8cdd0de3afea1a153a21c2b5e06f83e5f790bdd3670`, normalized `sha256:9912c4e6e183f49a360ee8cdd0de3afea1a153a21c2b5e06f83e5f790bdd3670`). Generated from freeze manifest `reports/freeze.json` (`sha256:c543ae4ebd11ed6f3495f4461b5b4bd7c84d0874997f1b62044e9df62817b28b`).
 
 ## Language `javascript`, tier `modeling`
 

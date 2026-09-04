@@ -4,7 +4,7 @@ Adapter `joern-ruby-kernel`: `joern` `4.0.617` (build `joern-cli:4.0.617`, adapt
 
 Track `taint`, score dimension `taint`, model profile `benchmark-controlled`. This scorecard is a single result population; it is never pooled with other tracks, dimensions, or model profiles.
 
-Normalized report: `reports/joern-ruby-kernel.json` (`sha256:bb1502c4db855e91918c637733d964268f7472b25ddf0fec21c1b8c1f44f992b`, normalized `sha256:bb1502c4db855e91918c637733d964268f7472b25ddf0fec21c1b8c1f44f992b`). Generated from freeze manifest `reports/freeze.json` (`sha256:95faa71908b637ba349c1890ce913abd865c670a9093e123a25d975430bfe52c`).
+Normalized report: `reports/joern-ruby-kernel.json` (`sha256:bb1502c4db855e91918c637733d964268f7472b25ddf0fec21c1b8c1f44f992b`, normalized `sha256:bb1502c4db855e91918c637733d964268f7472b25ddf0fec21c1b8c1f44f992b`). Generated from freeze manifest `reports/freeze.json` (`sha256:c543ae4ebd11ed6f3495f4461b5b4bd7c84d0874997f1b62044e9df62817b28b`).
 
 ## Language `ruby`, tier `core`
 

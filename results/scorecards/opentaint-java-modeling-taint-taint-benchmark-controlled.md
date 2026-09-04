@@ -4,7 +4,7 @@ Adapter `opentaint-java-modeling`: `opentaint` `analyzer/2026.09.03.9752bd2` (bu
 
 Track `taint`, score dimension `taint`, model profile `benchmark-controlled`. This scorecard is a single result population; it is never pooled with other tracks, dimensions, or model profiles.
 
-Normalized report: `reports/opentaint-java-modeling.json` (`sha256:bd5030d1777fe04d5d068a83ab37ae692e9301f0e36c698c8e3c0aa71929121c`, normalized `sha256:bd5030d1777fe04d5d068a83ab37ae692e9301f0e36c698c8e3c0aa71929121c`). Generated from freeze manifest `reports/freeze.json` (`sha256:95faa71908b637ba349c1890ce913abd865c670a9093e123a25d975430bfe52c`).
+Normalized report: `reports/opentaint-java-modeling.json` (`sha256:bd5030d1777fe04d5d068a83ab37ae692e9301f0e36c698c8e3c0aa71929121c`, normalized `sha256:bd5030d1777fe04d5d068a83ab37ae692e9301f0e36c698c8e3c0aa71929121c`). Generated from freeze manifest `reports/freeze.json` (`sha256:c543ae4ebd11ed6f3495f4461b5b4bd7c84d0874997f1b62044e9df62817b28b`).
 
 ## Language `java`, tier `modeling`
 

@@ -69,7 +69,7 @@ other by `model_profile` and never pooled:
 - [milestones.md](milestones.md) — the M0–M4 roadmap with dated status
   sections; names the governance model in passing.
 - [releases/](releases/) — one immutable snapshot per published release
-  (`v0.1.0.md` through `v0.6.1.md`): the freeze identity, the bound
+  (`v0.1.0.md` through `v0.7.0.md`): the freeze identity, the bound
   evidence, the scorecards, and which amendments the cycle recorded.
   Release notes cite amendments; they never hold them.
 
