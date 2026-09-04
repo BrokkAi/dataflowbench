@@ -374,6 +374,35 @@ Joern, Semgrep, and OpenTaint reports in place of the superseded ones,
 following A30 and A31; every pin the 2026-09-03 survey found behind is now
 current, and the next release freeze binds the whole set.
 
+#### 2026-09-04 — v0.7.0 freeze cut: Joern held at 4.0.617
+
+Read at the freeze cut, after the three re-pins above and their evidence had
+landed. Every pin is current except one, and that one is held with the reason
+here rather than left silent.
+
+| Analyzer | Pin at v0.7.0 | Upstream latest stable (2026-09-04) | Distance | Outcome |
+| --- | --- | --- | --- | --- |
+| Joern | 4.0.617 | 4.0.618 (2026-09-04) | 1 daily behind | **Held** |
+
+**The hold reason.** 4.0.618 was published after the bump-or-hold decision for
+this freeze-prep was taken and after all twelve Joern slices had been re-run
+against 4.0.617. Joern publishes near-daily, so re-opening the decision for a
+daily that lands mid-cut does not converge: each re-run takes long enough that
+another daily can arrive before the freeze closes, and a release that chases
+them never ships. The policy above already scopes Joern's currency evaluation
+to freeze-prep and only to freeze-prep, which is what makes this a hold with a
+reason rather than an unrecorded gap. 4.0.618's release notes are empty, as
+4.0.615 through 4.0.617's were. The gap is re-evaluated at the next freeze
+boundary, where the hold expires and the row starts again with no reason on
+record.
+
+Every other row was read the same day and is current: Bifrost v0.10.9, CodeQL
+CLI 2.26.4, Semgrep CE 1.176.0, the vendored Semgrep rules snapshot at
+`semgrep/semgrep-rules@40b8c63f75dc7c22c8a77482d73bfb864b146f7e` (still
+`develop` head), OpenTaint `analyzer/2026.09.03.9752bd2`, Infer v1.3.0,
+FlowDroid 2.15.1, and the Pysa pair at pyre-check 0.10.0 and Pyrefly 1.2.0
+(Pyrefly 1.3.0.dev4 is a pre-release and does not count).
+
 ## Challenge-tier rollout mechanics
 
 [The challenge-tier preregistration](challenge-tier.md) fixes *what* the

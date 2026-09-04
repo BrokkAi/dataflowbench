@@ -4,7 +4,7 @@ Adapter `semgrep-cpp-kernel`: `semgrep` `1.176.0` (build `semgrep-oss:1.176.0`, 
 
 Track `taint`, score dimension `taint`, model profile `benchmark-controlled`. This scorecard is a single result population; it is never pooled with other tracks, dimensions, or model profiles.
 
-Normalized report: `reports/semgrep-cpp-kernel.json` (`sha256:2b7b7c583c0958640f7c214b8cb34e56d0aee741b38220594bdfb42f92826f56`, normalized `sha256:2b7b7c583c0958640f7c214b8cb34e56d0aee741b38220594bdfb42f92826f56`). Generated from freeze manifest `reports/freeze.json` (`sha256:95faa71908b637ba349c1890ce913abd865c670a9093e123a25d975430bfe52c`).
+Normalized report: `reports/semgrep-cpp-kernel.json` (`sha256:2b7b7c583c0958640f7c214b8cb34e56d0aee741b38220594bdfb42f92826f56`, normalized `sha256:2b7b7c583c0958640f7c214b8cb34e56d0aee741b38220594bdfb42f92826f56`). Generated from freeze manifest `reports/freeze.json` (`sha256:c543ae4ebd11ed6f3495f4461b5b4bd7c84d0874997f1b62044e9df62817b28b`).
 
 ## Language `cpp`, tier `core`
 
