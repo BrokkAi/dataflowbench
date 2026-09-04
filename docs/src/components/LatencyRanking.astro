@@ -42,9 +42,11 @@ import {
 } from '../data/invocation-overhead';
 import {
   currentSnapshot,
+  analyzerCohort,
   snapshotByVersion,
   vendorColorClass,
   vendorName,
+  type AnalyzerCohort,
 } from '../data/snapshots';
 
 // Self-references to the latency page follow whichever snapshot is current,
@@ -68,11 +70,14 @@ interface Props {
    * does not, and the chart may not appear there without them.
    */
   stamp?: boolean;
+  /** Optional overview facet; detailed latency pages keep the full field. */
+  cohort?: AnalyzerCohort;
 }
 
 const {
   kernelViews = true,
   stamp = false,
+  cohort,
   snapshotVersion = currentSnapshot.version,
 } = Astro.props;
 const snapshot = snapshotByVersion(snapshotVersion);
@@ -83,7 +88,15 @@ const ranking = latencyRanking(model);
 // The axis is computed across *every* view, including the kernel views this
 // render may not draw, so the same duration sits at the same place on the
 // landing page and on the tier page.
-const panelsToRender = kernelViews ? ranking.views : ranking.views.slice(0, 1);
+const panelsToRender = (kernelViews ? ranking.views : ranking.views.slice(0, 1)).map(
+  (view) => ({
+    ...view,
+    entries:
+      cohort === undefined
+        ? view.entries
+        : view.entries.filter((entry) => analyzerCohort(entry.tool) === cohort),
+  }),
+);
 
 // ---- Geometry -------------------------------------------------------------
 const width = 820;
@@ -255,7 +268,7 @@ function layout(view: (typeof ranking.views)[number]) {
 // A suffix keeps element identifiers unique when both renders of this
 // component end up in one document, and keeps the radio group of one render
 // from capturing the labels of another.
-const scope = kernelViews ? 'k' : 'g';
+const scope = kernelViews ? 'k' : cohort ?? 'g';
 const panels = panelsToRender.map((view) => ({
   view,
   ...layout(view),
@@ -294,9 +307,10 @@ const toggleCss = panels
   .join('\n');
 
 const general = ranking.views[0]!;
-const fastest = general.entries[0]!;
-const slowest = general.entries.at(-1)!;
-const decomposedCount = general.entries.filter(
+const displayedGeneral = panelsToRender[0]!;
+const fastest = displayedGeneral.entries[0]!;
+const slowest = displayedGeneral.entries.at(-1)!;
+const decomposedCount = displayedGeneral.entries.filter(
   (entry) => entry.phases.length > 0,
 ).length;
 const environment = model.environments[0];
@@ -321,6 +335,10 @@ const belowThreshold = overheadPublished.filter(
   (estimate) => !estimate.significant,
 );
 ---
+
+{cohort && (
+  <h3>{cohort === 'generalist' ? 'Generalists' : 'Specialists'}</h3>
+)}
 
 <div class="latency-ranking">
   {kernelViews &&

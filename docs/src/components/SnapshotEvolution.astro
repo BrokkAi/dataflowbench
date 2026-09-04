@@ -8,11 +8,26 @@
 // kernels only, `core` tiers only, one series per analyzer, no combined score.
 import {
   snapshots,
+  analyzerCohort,
   coreKernelPopulations,
   vendorColorClass,
   vendorName,
   vendorOrder,
+  type AnalyzerCohort,
 } from '../data/snapshots';
+
+interface Props {
+  cohort: AnalyzerCohort;
+  heading?: boolean;
+}
+
+const { cohort, heading = false } = Astro.props;
+const cohortLabel = cohort === 'generalist' ? 'Generalists' : 'Specialists';
+const cohortDescription =
+  cohort === 'generalist'
+    ? 'analyzers spanning several language ecosystems'
+    : 'analyzers deliberately focused on one ecosystem or a small related family';
+const scope = cohort === 'generalist' ? 'generalists' : 'specialists';
 
 interface SeriesPoint {
   version: string;
@@ -123,6 +138,7 @@ const series: Series[] = [...byTool.entries()]
       vendorOrder(left.tool) - vendorOrder(right.tool) ||
       left.name.localeCompare(right.name),
   );
+const cohortSeries = series.filter((entry) => analyzerCohort(entry.tool) === cohort);
 
 // ---- Geometry -------------------------------------------------------------
 const height = 440;
@@ -149,7 +165,7 @@ const bandMargin = 24;
 const preferredSpacing = 13;
 const band = Math.max(
   104,
-  preferredSpacing * Math.max(series.length - 1, 1) + bandMargin,
+  preferredSpacing * Math.max(cohortSeries.length - 1, 1) + bandMargin,
 );
 const plotWidth = band * columns.length;
 const width = padLeft + plotWidth + padRight;
@@ -185,10 +201,10 @@ const y = (value: number) => padTop + plotHeight * (1 - value / axisMax);
 // tightens them, so no previously published layout moves.
 const fannedOffset = (index: number, preferred: number) => {
   const spacing =
-    series.length <= 1
+    cohortSeries.length <= 1
       ? 0
-      : Math.min(preferred, (band - bandMargin) / (series.length - 1));
-  return (index - (series.length - 1) / 2) * spacing;
+      : Math.min(preferred, (band - bandMargin) / (cohortSeries.length - 1));
+  return (index - (cohortSeries.length - 1) / 2) * spacing;
 };
 const seriesOffset = (index: number) => fannedOffset(index, preferredSpacing);
 
@@ -225,7 +241,7 @@ const percentOffset = (index: number) => fannedOffset(index, 30);
 // When the fan is tighter than a `k/n` label is wide, those labels are dealt
 // out over three rows so neighbours cannot overprint each other.
 const percentSpacing =
-  series.length <= 1 ? 0 : Math.abs(percentOffset(1) - percentOffset(0));
+  cohortSeries.length <= 1 ? 0 : Math.abs(percentOffset(1) - percentOffset(0));
 const labelRows = percentSpacing >= 26 ? 1 : 3;
 const labelRow = (index: number) => index % labelRows;
 /** Marker area grows with the share of the snapshot's kernels covered. */
@@ -288,7 +304,7 @@ const evidenceHref = (slug: string) =>
   `/snapshots/${slug}/evidence/`;
 
 const rows = columns.flatMap((column) =>
-  series
+  cohortSeries
     .map((entry) => ({
       column,
       entry,
@@ -313,12 +329,12 @@ const sentenceList = (items: string[]) =>
       ? items.join(' and ')
       : `${items.slice(0, -1).join(', ')}, and ${items.at(-1)}`;
 const debutList = sentenceList(
-  series
+  cohortSeries
     .filter((entry) => entry.points[0]!.version !== first.version)
     .map((entry) => `${entry.name} first appears in ${entry.points[0]!.version}`),
 );
 /** Analyzers whose line is a single point: present in exactly one freeze. */
-const singlePoint = series.filter((entry) => entry.points.length === 1);
+const singlePoint = cohortSeries.filter((entry) => entry.points.length === 1);
 const singlePointList = sentenceList(singlePoint.map((entry) => entry.name));
 
 // The snapshot that expanded the population the most: the freeze where a
@@ -333,10 +349,15 @@ const biggestJump = columns
   .sort((left, right) => right.growth - left.growth)[0]!;
 ---
 
-<h2 id="evolution">How the benchmark and its analyzers evolved</h2>
+{heading && <h2 id="evolution">How the benchmark and its analyzers evolved</h2>}
+
+<h3>{cohortLabel}</h3>
 
 <p class="chart-note">
-  One series per analyzer, across every published freeze. The vertical axis
+  One series per {cohort === 'generalist' ? 'generalist' : 'specialist'} analyzer,
+  across every published freeze. This panel contains {cohortDescription}; the
+  other cohort is drawn separately because breadth and specialization are not
+  directly comparable. The vertical axis
   counts <strong>decisive-correct assertions</strong> — true positives plus
   true negatives — on the <code>benchmark-controlled</code> kernel population,
   the same no-pooling population the cards at the top of this page read. The
@@ -352,28 +373,28 @@ const biggestJump = columns
 
 <div class="evolution">
   <input
-    class="view-radio"
+    class="view-radio absolute-radio"
     type="radio"
-    name="evolution-view"
-    id="evolution-view-absolute"
+    name={`evolution-view-${scope}`}
+    id={`evolution-view-absolute-${scope}`}
     checked
   />
   <input
-    class="view-radio"
+    class="view-radio normalized-radio"
     type="radio"
-    name="evolution-view"
-    id="evolution-view-normalized"
+    name={`evolution-view-${scope}`}
+    id={`evolution-view-normalized-${scope}`}
   />
   <input
-    class="view-radio"
+    class="view-radio table-radio"
     type="radio"
-    name="evolution-view"
-    id="evolution-view-table"
+    name={`evolution-view-${scope}`}
+    id={`evolution-view-table-${scope}`}
   />
   <div class="view-toggle" role="group" aria-label="Evolution chart view">
-    <label for="evolution-view-absolute">Absolute counts</label>
-    <label for="evolution-view-normalized">Accuracy on covered kernels</label>
-    <label for="evolution-view-table">Data table</label>
+    <label class="absolute-label" for={`evolution-view-absolute-${scope}`}>Absolute counts</label>
+    <label class="normalized-label" for={`evolution-view-normalized-${scope}`}>Accuracy on covered kernels</label>
+    <label class="table-label" for={`evolution-view-table-${scope}`}>Data table</label>
   </div>
 
 <div class="chart-frame view-absolute" style={`--evolution-min-width: ${minWidthRem}rem`}>
@@ -431,7 +452,7 @@ const biggestJump = columns
       </text>
     ))}
 
-    {series.map((entry, entryIndex) => {
+    {cohortSeries.map((entry, entryIndex) => {
       const offset = seriesOffset(entryIndex);
       return (
         <g class:list={['series', entry.colorClass]}>
@@ -554,7 +575,7 @@ const biggestJump = columns
       y2={yPercent(0)}
     />
 
-    {series.map((entry, entryIndex) => {
+    {cohortSeries.map((entry, entryIndex) => {
       const offset = percentOffset(entryIndex);
       return (
         <g class:list={['series', entry.colorClass]}>
@@ -641,7 +662,7 @@ const biggestJump = columns
 </div>
 
 <ul class="chart-legend view-absolute">
-  {series.map((entry) => (
+  {cohortSeries.map((entry) => (
     <li class:list={[entry.colorClass]}>
       <span class="swatch" aria-hidden="true"></span>
       {entry.name} · decisive-correct
@@ -658,7 +679,7 @@ const biggestJump = columns
 </ul>
 
 <ul class="chart-legend view-normalized">
-  {series.map((entry) => (
+  {cohortSeries.map((entry) => (
     <li class:list={[entry.colorClass]}>
       <span class="swatch" aria-hidden="true"></span>
       {entry.name} · decisive-correct ÷ its covered population
@@ -890,26 +911,16 @@ const biggestJump = columns
   .view-toggle label:hover {
     color: var(--sl-color-white);
   }
-  #evolution-view-absolute:checked
-    ~ .view-toggle
-    label[for='evolution-view-absolute'],
-  #evolution-view-normalized:checked
-    ~ .view-toggle
-    label[for='evolution-view-normalized'],
-  #evolution-view-table:checked ~ .view-toggle label[for='evolution-view-table'] {
+  .absolute-radio:checked ~ .view-toggle .absolute-label,
+  .normalized-radio:checked ~ .view-toggle .normalized-label,
+  .table-radio:checked ~ .view-toggle .table-label {
     background: var(--sl-color-gray-6, var(--sl-color-hairline));
     color: var(--sl-color-white);
     box-shadow: inset 0 0 0 1px var(--sl-color-hairline);
   }
-  #evolution-view-absolute:focus-visible
-    ~ .view-toggle
-    label[for='evolution-view-absolute'],
-  #evolution-view-normalized:focus-visible
-    ~ .view-toggle
-    label[for='evolution-view-normalized'],
-  #evolution-view-table:focus-visible
-    ~ .view-toggle
-    label[for='evolution-view-table'] {
+  .absolute-radio:focus-visible ~ .view-toggle .absolute-label,
+  .normalized-radio:focus-visible ~ .view-toggle .normalized-label,
+  .table-radio:focus-visible ~ .view-toggle .table-label {
     outline: 2px solid var(--sl-color-accent-high);
     outline-offset: 2px;
   }
@@ -919,12 +930,12 @@ const biggestJump = columns
      height. It stays in the DOM either way — only `display` moves — and the
      charts' own `<title>`/`<desc>` state the essentials plus where the exact
      figures live, so nothing is only reachable through the table. */
-  #evolution-view-absolute:checked ~ .view-normalized,
-  #evolution-view-absolute:checked ~ .view-table,
-  #evolution-view-normalized:checked ~ .view-absolute,
-  #evolution-view-normalized:checked ~ .view-table,
-  #evolution-view-table:checked ~ .view-absolute,
-  #evolution-view-table:checked ~ .view-normalized {
+  .absolute-radio:checked ~ .view-normalized,
+  .absolute-radio:checked ~ .view-table,
+  .normalized-radio:checked ~ .view-absolute,
+  .normalized-radio:checked ~ .view-table,
+  .table-radio:checked ~ .view-absolute,
+  .table-radio:checked ~ .view-normalized {
     display: none;
   }
   .chart-frame {
