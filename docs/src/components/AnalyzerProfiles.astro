@@ -30,15 +30,30 @@ import { analyzerProfiles } from '../data/profiles';
 import { formatMs } from '../data/latency';
 import {
   currentSnapshot,
+  snapshotByVersion,
   vendorColorClass,
   vendorName,
 } from '../data/snapshots';
 
-// Follows the current snapshot rather than naming a slug that goes stale as
-// soon as that freeze is archived.
-const latencyPage = `/snapshots/${currentSnapshot.slug}/latency/`;
+/**
+ * The snapshot whose figures this grid draws. It defaults to the current
+ * freeze for the unversioned view, but every page below `/snapshots/` names
+ * its own: an archived page must keep showing the numbers its freeze
+ * published, and reading `currentSnapshot` here silently rewrote all of them
+ * on every new freeze.
+ */
+interface Props {
+  snapshotVersion?: string;
+}
 
-const model = analyzerProfiles();
+const { snapshotVersion = currentSnapshot.version } = Astro.props;
+const snapshot = snapshotByVersion(snapshotVersion);
+
+// This page's own freeze, not the newest one: on an archived page the latency
+// caveats that apply are the ones that freeze published.
+const latencyPage = `/snapshots/${snapshot.slug}/latency/`;
+
+const model = analyzerProfiles(snapshot);
 
 // ---- Geometry -------------------------------------------------------------
 // The box is wider than it is tall because the left and right axis labels sit
