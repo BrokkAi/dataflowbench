@@ -1,6 +1,6 @@
 # DataFlowBench frozen results
 
-Generated from freeze manifest `reports/freeze.json` (`sha256:5e57a5ee0dab3929cefa42edce222acbfb0ba0ee34e25e39e9ea882eaa66b724`), benchmark release `development` at revision `98c93bfe809f25e90fbe661c75808d8e1922ddb5`, fixture revision `sha256:9df209ed3d7723a3ee33f2b289cf2afe34a3add781bdf2a2ac445de42b8d0151`.
+Generated from freeze manifest `reports/freeze.json` (`sha256:c92efa03098fd8b51e820ff66b942099c4b972d2fec19a90bd65424b5e01fa1e`), benchmark release `development` at revision `e242ab6f54d4e52c88fb0c32d4bd04b7c0d9934a`, fixture revision `sha256:9df209ed3d7723a3ee33f2b289cf2afe34a3add781bdf2a2ac445de42b8d0151`.
 
 Claim scope `development`. Every number on these pages is derived from the immutable freeze evidence above; none are maintained by hand. Tracks, score dimensions, score tiers, and model profiles are separate result populations and are never combined into one leaderboard.
 
