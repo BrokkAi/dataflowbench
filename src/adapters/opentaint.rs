@@ -31,7 +31,6 @@ use crate::report::{hash_paths, normalized_result, write_and_validate_report};
 use crate::runtime::{
     case_timing_path, now_seconds, write_case_phase_timings, write_run_environment,
 };
-use crate::templates::expected_core_templates;
 use anyhow::{Context, Result, bail};
 use serde_json::{Value, json};
 use sha2::{Digest, Sha256};
@@ -108,6 +107,15 @@ impl OpentaintKernel {
 }
 
 /// OpenTaint's populations over the shared contract.
+///
+/// The whole core denominator is scored. OpenTaint's pinned documentation
+/// declares whole-program interprocedural JVM taint — across function
+/// boundaries, fields, aliases, and async code — and fences nothing off behind
+/// a paid tier or a documented capability boundary, so unlike Semgrep CE there
+/// is no documented partition to preregister `unsupported` cells from. Every
+/// incapacity the engine actually has surfaces as a measured mismatch rather
+/// than a decision taken from observation, which the adapter contract
+/// forbids.
 impl KernelPopulation for OpentaintKernel {
     fn tool(&self) -> &'static str {
         "opentaint"
@@ -137,19 +145,6 @@ impl KernelPopulation for OpentaintKernel {
 
     fn label(&self) -> String {
         format!("OpenTaint {} kernel", self.display_name())
-    }
-
-    /// The scored template set, read from this language's rollout row like
-    /// every other kernel's. OpenTaint's pinned documentation declares
-    /// whole-program interprocedural JVM taint — across function boundaries,
-    /// fields, aliases, and async code — and fences nothing off behind a paid
-    /// tier or a documented capability boundary, so unlike Semgrep CE there is
-    /// no documented partition to preregister `unsupported` cells from: the
-    /// entire core denominator is scored, and every incapacity the engine
-    /// actually has surfaces as a measured mismatch rather than being decided
-    /// from observation, which the adapter contract forbids.
-    fn templates(&self) -> Vec<&'static str> {
-        expected_core_templates(self.language())
     }
 
     /// Both committed kernel rules, so one hash binds the pair.

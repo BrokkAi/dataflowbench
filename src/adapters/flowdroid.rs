@@ -28,7 +28,6 @@ use crate::report::{hash_paths, normalized_result, write_and_validate_report};
 use crate::runtime::{
     case_timing_path, now_seconds, write_case_phase_timings, write_run_environment,
 };
-use crate::templates::expected_core_templates;
 use anyhow::{Context, Result, bail};
 use serde_json::{Value, json};
 use sha2::{Digest, Sha256};
@@ -251,6 +250,10 @@ impl FlowdroidKernel {
 }
 
 /// FlowDroid's population over the shared contract.
+///
+/// The whole core denominator is scored: the analyzer's documented surface
+/// fences no construct class off, so there is no documented partition to
+/// preregister `unsupported` cells from.
 impl KernelPopulation for FlowdroidKernel {
     fn tool(&self) -> &'static str {
         "flowdroid"
@@ -280,22 +283,6 @@ impl KernelPopulation for FlowdroidKernel {
 
     fn label(&self) -> String {
         format!("FlowDroid {} kernel", self.display_name())
-    }
-
-    /// The scored template set, read from this language's rollout row like
-    /// every other kernel's. FlowDroid's pinned distribution declares
-    /// whole-program, context- and flow-sensitive IFDS taint analysis over
-    /// the full APK and fences no construct class behind a tier or a
-    /// documented capability boundary — features such as reflection support
-    /// are documented opt-in *flags*, and the run pins the release's default
-    /// configuration the way the Joern kernels pin `maxCallDepth` — so as
-    /// with the OpenTaint and Infer kernels there is no documented partition
-    /// to preregister `unsupported` cells from: the entire core denominator
-    /// is scored, and every incapacity the engine actually has surfaces as a
-    /// measured mismatch rather than a decision taken from observation,
-    /// which the adapter contract forbids.
-    fn templates(&self) -> Vec<&'static str> {
-        expected_core_templates(self.language())
     }
 
     /// Every committed template and configuration file, so one hash binds the

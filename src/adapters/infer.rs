@@ -25,7 +25,6 @@ use crate::report::{hash_paths, normalized_result, write_and_validate_report};
 use crate::runtime::{
     case_timing_path, now_seconds, write_case_phase_timings, write_run_environment,
 };
-use crate::templates::expected_core_templates;
 use anyhow::{Context, Result, bail};
 use serde_json::{Value, json};
 use sha2::{Digest, Sha256};
@@ -163,6 +162,13 @@ impl InferKernel {
 }
 
 /// Infer's populations over the shared contract.
+///
+/// The whole core denominator is scored. Infer's pinned distribution declares
+/// whole-program interprocedural analysis, and its Pulse taint configuration
+/// surface — sources, sinks, propagators, sanitizers, with field accesses
+/// followed by default — fences no construct class behind a tier or a
+/// documented capability boundary, so like the OpenTaint kernels there is no
+/// documented partition to preregister `unsupported` cells from.
 impl KernelPopulation for InferKernel {
     fn tool(&self) -> &'static str {
         "infer"
@@ -194,21 +200,6 @@ impl KernelPopulation for InferKernel {
 
     fn label(&self) -> String {
         format!("Infer {} kernel", self.display_name())
-    }
-
-    /// The scored template set, read from this language's rollout row like
-    /// every other kernel's. Infer's pinned distribution declares
-    /// whole-program interprocedural analysis, and its Pulse taint
-    /// configuration surface — sources, sinks, propagators, sanitizers, with
-    /// field accesses followed by default — fences no construct class behind
-    /// a tier or a documented capability boundary, so like the OpenTaint
-    /// kernels there is no documented partition to preregister `unsupported`
-    /// cells from: the entire core denominator is scored, and every
-    /// incapacity the engine actually has surfaces as a measured mismatch
-    /// rather than a decision taken from observation, which the adapter
-    /// contract forbids.
-    fn templates(&self) -> Vec<&'static str> {
-        expected_core_templates(self.language())
     }
 
     /// All three committed taint-configuration templates, so one hash binds

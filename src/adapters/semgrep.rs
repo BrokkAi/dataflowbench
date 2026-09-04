@@ -31,7 +31,6 @@ use crate::report::{hash_paths, normalized_result, write_and_validate_report};
 use crate::runtime::{
     case_timing_path, now_seconds, write_case_phase_timings, write_run_environment,
 };
-use crate::templates::expected_core_templates;
 use anyhow::{Context, Result, bail};
 use serde_json::{Value, json};
 use std::{collections::BTreeSet, fs, path::Path, path::PathBuf, process::Command, time::Instant};
@@ -152,6 +151,12 @@ impl SemgrepKernel {
 /// Semgrep's populations over the shared contract. One taint engine stands
 /// behind all eleven; the selector and the dedicated report and evidence roots
 /// are what keep them apart.
+///
+/// The scored template set is the language's rollout row, so C and Rust — whose
+/// exception-catch cell docs/applicability-matrix.md classifies as inapplicable
+/// — have a fifteen-template, thirty-assertion classic core and every other
+/// kernel has the full sixteen. Selection expands with the row; what is
+/// *scored* is decided separately, per case, by `semgrep_capability_exclusion`.
 impl KernelPopulation for SemgrepKernel {
     fn tool(&self) -> &'static str {
         "semgrep"
@@ -199,17 +204,6 @@ impl KernelPopulation for SemgrepKernel {
 
     fn label(&self) -> String {
         format!("Semgrep {} kernel", self.display_name())
-    }
-
-    /// The scored template set of this kernel's language, read from its rollout
-    /// row. docs/applicability-matrix.md classifies the exception-catch cell as
-    /// inapplicable to both C and Rust, so those two kernels have a
-    /// fifteen-template, thirty-assertion classic core; every other Semgrep
-    /// kernel has the full sixteen. Selection expands with the row; what is
-    /// *scored* is decided separately, per case, by
-    /// `semgrep_capability_exclusion`.
-    fn templates(&self) -> Vec<&'static str> {
-        expected_core_templates(self.language())
     }
 
     /// Every committed kernel rule, so one hash binds the whole set: a
