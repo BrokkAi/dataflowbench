@@ -1,0 +1,42 @@
+{
+  "shape": "jakarta.servlet HttpServletRequest.getParameter -> java.sql.Statement.execute",
+  "scan_exit_status": 2,
+  "dependency_pack_decisions": [
+    {
+      "pack": "bifrost.external.java",
+      "status": "incompatible",
+      "reason": "complete activation evidence does not satisfy the manifest and shard selector"
+    },
+    {
+      "pack": "bifrost.java.lombok",
+      "status": "incompatible",
+      "reason": "complete activation evidence does not satisfy the manifest and shard selector"
+    },
+    {
+      "pack": "jakarta.servlet:jakarta.servlet-api:6.1.0",
+      "status": "selected"
+    },
+    {
+      "pack": "jdk:21.0.8",
+      "status": "selected"
+    }
+  ],
+  "completion": {
+    "type": "inconclusive",
+    "reasons": [
+      "partial_discovery"
+    ]
+  },
+  "findings": 0,
+  "compiled_source_endpoints": 0,
+  "compiled_sink_endpoints": 0,
+  "diagnostics": [
+    {
+      "severity": "warning",
+      "family": "evaluation_failure",
+      "message": "taint selector did not execute completely: selector `/analysis/sources/entries/servlet-request-parameter/selector` could not prove an empty row selection (calls: semantic_analysis_partial: call_bindings did not establish complete actual-to-formal coverage (dispatch outcome=unknown, coverage=open, target_count=1, binding coverage=unknown))"
+    }
+  ],
+  "evidence_kind": "retained-positive-control-attempt",
+  "outcome": "did-not-fire"
+}

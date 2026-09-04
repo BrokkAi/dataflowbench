@@ -4,7 +4,7 @@
 //! benchmark-controlled matrix. See docs/native-profile.md.
 
 use crate::adapters::ToolIdentity;
-use crate::adapters::bifrost::BIFROST_NATIVE_POLICY_PACK_FLAG;
+use crate::adapters::bifrost::BIFROST_NATIVE_DEFAULT_PACKS_FLAG;
 use crate::adapters::codeql::{
     CODEQL_NATIVE_QUERY_PACKS, CODEQL_NATIVE_SUITE_KIND, CODEQL_NATIVE_THREAT_MODEL,
     run_codeql_native_case,
@@ -115,41 +115,58 @@ pub(crate) struct NativePartitionCell {
 /// amendment. That is why three of the four tools enter with nothing scored —
 /// which is a statement about product packaging, not about an engine.
 pub(crate) const NATIVE_PARTITION: &[NativePartitionCell] = &[
-    // Bifrost — v0.10.9: 0 / 6. The standalone policy CLI ships no taint
-    // policy and no source/sink endpoint catalog, so no template can produce a
-    // finding regardless of what else it can express.
+    // Bifrost — v0.10.9: 0 / 6, re-grounded by Amendment A32. The shipped
+    // catalog does bind taint endpoints — exactly two, inside one Java policy
+    // — and they are a servlet request parameter and a JDBC statement, neither
+    // of which any native template reads. The intersection is empty by
+    // identity rather than by coverage, which is why these are `unsupported`
+    // and not `not-reached`; the analyzer files its own `empty_selection`
+    // notes on all thirty-six fixtures calling its silence vacuous.
     NativePartitionCell {
         tool: ModelingTool::Bifrost,
         template: NATIVE_TEMPLATE_IDS[0],
         unsupported_reason: Some(
-            "the standalone policy CLI ships no taint policy and no source or sink endpoint \
-             catalog: the built-in catalog `--list-policies` prints is one `bifrost.code-smells` \
-             pack of structural correctness and performance checks. Shipping the first open-core \
-             security endpoints — whose candidate inventory names `System.getenv` and \
-             `Runtime.exec` — is BrokkAi/bifrost-dev #2620, still open",
+            "re-grounded by Amendment A32: the shipped catalog binds exactly two taint \
+             endpoints, both inside `bifrost.security.java.servlet-parameter-to-jdbc` — the \
+             source `ServletRequest.getParameter(String)` and the sink `Statement.execute(String)`, \
+             Java only — and this template reads `System.getenv` into `Runtime.exec` (with the \
+             `process.env` and `os.environ` equivalents), which no shipped selector names. \
+             Measured under the product's own zero-configuration `bifrost scan`: zero source and \
+             zero sink endpoints compile on every fixture, and the analyzer's own \
+             `empty_selection` note calls the resulting silence vacuous rather than a proof that \
+             no flow exists. Shipping endpoints that would reach these identities — whose \
+             candidate inventory names `System.getenv` and `Runtime.exec` — is \
+             BrokkAi/bifrost-dev #2620, still open. The preregistration declined this cell \
+             instead on \"no taint policy and no source or sink endpoint catalog\", read from a \
+             locally installed v0.9.5 and false at the pinned build",
         ),
     },
     NativePartitionCell {
         tool: ModelingTool::Bifrost,
         template: NATIVE_TEMPLATE_IDS[1],
         unsupported_reason: Some(
-            "same absent endpoint catalog (BrokkAi/bifrost-dev #2620). Procedure-summary packs \
-             (#1871) carry propagation rather than endpoints, and propagation with no source and \
-             no sink carries nothing anywhere",
+            "re-grounded by Amendment A32: the one shipped taint policy declares `:sources` and \
+             `:sinks` and no propagator or summary stanza of any kind, and its \
+             activated built-in policy's `:call-modeling :unmodeled require-model` disposition makes an unmodeled platform \
+             call a stop rather than a pass-through — so `String.concat`, `path.join`, and \
+             `os.path.join` carry nothing even in principle. Procedure-summary packs (#1871) \
+             are absent from the activated built-in catalog. And the endpoints this template would propagate between are the \
+             ones template 1 records as unbound, so the cell is undecidable twice over",
         ),
     },
     NativePartitionCell {
         tool: ModelingTool::Bifrost,
         template: NATIVE_TEMPLATE_IDS[2],
         unsupported_reason: Some(
-            "restated by Amendment A10: a sanitizer declaration arrives only through \
-             `--policy-file`, which this profile's activation contract forbids, and the built-in \
-             packs declare no sanitizer and — prior to that — no source and no sink for one to \
-             sit between (the same absent endpoint catalog as templates 1 and 2, \
-             BrokkAi/bifrost-dev #2620). A barrier on a flow that cannot start is unobservable in \
-             either direction. The preregistration declined this cell instead on the adapter \
-             README's \"Sanitizer lowering is a future Bifrost CLI capability\", which Amendment \
-             A9 measured false and withdrew",
+            "restated by Amendment A10 and re-grounded by Amendment A32: a sanitizer \
+             declaration arrives only through `--policy-file`, which this profile's activation \
+             contract forbids; the activated built-in catalog, enumerated from the pinned binary, declares \
+             no sanitizer at all; and the flow a barrier would interrupt cannot start, because \
+             the two endpoints the product does ship are a servlet parameter and a JDBC \
+             statement rather than this template's identities. A barrier on a flow that cannot \
+             start is unobservable in either direction. The preregistration declined this cell \
+             instead on the adapter README's \"Sanitizer lowering is a future Bifrost CLI \
+             capability\", which Amendment A9 measured false and withdrew",
         ),
     },
     NativePartitionCell {
@@ -159,24 +176,36 @@ pub(crate) const NATIVE_PARTITION: &[NativePartitionCell] = &[
             "the adapter README: \"External semantic-model activation requires an embedding with \
              an explicit catalog, so the modeled-external case is reported as `unsupported` by \
              this CLI adapter with an explicit retained reason. It is not a negative result.\" \
-             Activating a catalog from the standalone CLI is BrokkAi/bifrost-dev #2691, still open",
+             Activating a catalog from the standalone CLI is BrokkAi/bifrost-dev #2691, still \
+             open. Amendment A32 adds the measurement the preregistration asserted from \
+             documentation: the activated built-in catalog declares zero procedure summaries, so neither \
+             half of a Base64 round trip is modeled, and `:call-modeling :unmodeled require-model` \
+             is the activated policy's disposition and stops the value at the encoder rather than passing it through. The half-modeled \
+             hazard this template exists to expose cannot arise where neither half is modeled",
         ),
     },
     NativePartitionCell {
         tool: ModelingTool::Bifrost,
         template: NATIVE_TEMPLATE_IDS[4],
         unsupported_reason: Some(
-            "to be verified — unsupported until shown: no entry-root convention is described \
-             anywhere for the policy CLI, and no endpoint catalog exists for its argument to \
-             reach in any case",
+            "preregistered as to be verified — unsupported until shown; Amendment A32 is the \
+             verification and retains the decline. The shipped catalog's only source is a \
+             call-shaped selector on `getParameter`, so nothing in the product treats a \
+             `main(String[])` parameter, `process.argv`, or `sys.argv` as an entry root, and the \
+             scan surface carries no threat-model switch to turn one on. Measured: zero source \
+             endpoints compile on all six entry-point fixtures in each language",
         ),
     },
     NativePartitionCell {
         tool: ModelingTool::Bifrost,
         template: NATIVE_TEMPLATE_IDS[5],
         unsupported_reason: Some(
-            "to be verified — unsupported until shown: no persistence-boundary vocabulary is \
-             described anywhere for any adapter, Bifrost included",
+            "preregistered as to be verified — unsupported until shown; Amendment A32 is the \
+             verification and retains the decline. No persistence-boundary vocabulary appears \
+             anywhere in the shipped catalog: no store, no key discrimination, and no \
+             `System.setProperty` / `process.env` / `os.environ` write model. The read side is \
+             not modeled as a source either, so this row does not even produce the false positive \
+             the template names as its hazard",
         ),
     },
     // CodeQL — CLI 2.26.4, shipped `security-extended` suites: 6 / 6.
@@ -991,12 +1020,17 @@ pub(crate) fn native_activation(
                 configuration_paths: BTreeSet::from([dir.join(SEMGREP_NATIVE_PROVENANCE_FILE)]),
             }
         }
+        // The shipped product as shipped, and nothing else: the
+        // zero-configuration default `bifrost scan` runs, spelled on the flag
+        // surface as `--policy` with no selector. Amendment A32 replaced the
+        // preregistered `--policy-pack bifrost.code-smells` with it, because at
+        // v0.10.9 that selector stopped naming the whole built-in catalog and
+        // started naming a subset of it — the one excluding
+        // `bifrost.security@1.0.0`, which holds the only taint policy the
+        // product ships.
         ModelingTool::Bifrost => NativeActivation {
             identity: format!("{identity} built-in policy packs"),
-            arguments: vec![
-                BIFROST_NATIVE_POLICY_PACK_FLAG.to_string(),
-                "bifrost.code-smells".to_string(),
-            ],
+            arguments: vec![BIFROST_NATIVE_DEFAULT_PACKS_FLAG.to_string()],
             configuration_paths: BTreeSet::new(),
         },
         // The shipped product as shipped: `analyze --pulse-only --sarif` and

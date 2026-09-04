@@ -1,0 +1,42 @@
+bifrost scan 0.10.9 — evaluate every built-in policy pack on a project with zero configuration.
+
+USAGE:
+    bifrost scan [PATH] [OPTIONS]
+    bifrost scan --list-builtin-policies
+
+    PATH is the project root to scan (default: current directory).
+
+    A scan activates the complete shipped policy catalog -- no --policy-file,
+    no selectors -- and prints the activated pack identities, versions, and
+    the catalog SHA-256 to stderr before the report, in the same line shape
+    `bifrost --version` prints. Exit status follows the policy contract:
+    0 clean, 1 findings at or above the --fail-on threshold, 2 unreliable.
+    A build that ships no packs scans to a clean, empty result and says so.
+
+OPTIONS:
+    --list-builtin-policies
+                           Print the shipped built-in policy catalog as JSON and exit
+                           without scanning anything. Cannot be combined with a project
+                           path or evaluation options.
+    --format FORMAT        Report output: human, json, or sarif (default: human)
+    --fail-on THRESHOLD    Finding threshold: never, finding, note, warning, or error
+                           (default: warning; finding includes unrated findings)
+    --evaluation-date YYYY-MM-DD
+                           Evaluate suppression expiration on this UTC date (default: today)
+    --output PATH          Atomically write the report to PATH instead of stdout
+    --verbose              Include complete evidence and rule details in human output
+    --color MODE           Human output color: auto, always, or never (default: auto)
+    -h, --help             Show this help
+
+EXAMPLES:
+    # The shipped product, out of the box:
+    bifrost scan /path/to/project
+
+    # Machine-readable report with the pack witness on stderr:
+    bifrost scan /path/to/project --format json
+
+    # Discover what ships without running anything:
+    bifrost scan --list-builtin-policies
+
+For explicit policy selection, suppressions, baselines, and diff gating, use
+the policy options on the flag surface: see `bifrost --help`.

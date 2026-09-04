@@ -114,10 +114,20 @@ pub(crate) fn require_bifrost_modeling_load_bearing(policy: &str, path: &str) ->
     Ok(())
 }
 
-/// Bifrost's native activation surface: built-in policy packs only. A native
-/// run may not pass `--policy-file`, which is how every benchmark-controlled
-/// Bifrost run supplies its models.
-pub(crate) const BIFROST_NATIVE_POLICY_PACK_FLAG: &str = "--policy-pack";
+/// Bifrost's native activation surface: the shipped product's own
+/// zero-configuration default, which evaluates every built-in policy pack and
+/// nothing else. A native run may not pass `--policy-file`, which is how every
+/// benchmark-controlled Bifrost run supplies its models, and it may not pass a
+/// pack, category, or id selector either — the pinned CLI treats an explicit
+/// selection as a *replacement* for the built-in default, so a selector would
+/// measure a surface we chose rather than the one the vendor ships.
+///
+/// Amendment A32 replaced the preregistered `--policy-pack bifrost.code-smells`
+/// with this flag. That argument named the whole shipped catalog at the pins it
+/// was written against, and stopped doing so at v0.10.9, which ships a second
+/// pack: `bifrost.security@1.0.0`, holding the only taint policy in the
+/// product. See `docs/native-profile.md#bifrost--v0109-shipped-policy-packs`.
+pub(crate) const BIFROST_NATIVE_DEFAULT_PACKS_FLAG: &str = "--policy";
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub(crate) enum BifrostRun {
