@@ -199,6 +199,18 @@ both populations reaching it — the Java kernel's classic 32 now match
 freezes retain their disagreeing evidence unchanged, as immutable snapshots
 must.
 
+**The v0.10.9 re-run (Amendment A31, 2026-09-04).** All twenty Bifrost
+populations were re-run on the v0.10.9 release build
+(`04775a7b38c9c025714168328ddb8b793a326461`) under the sink-anchor
+reconciliation PR #134 introduced, at the unchanged fixture revision. Every
+`reached` outcome the v0.10.8 reports carried is reproduced anchor-proven;
+the Go array-element pair (bifrost-dev #2831) and the PHP map-iteration pair
+are decided again, and no case moves the other way. The per-kernel
+narratives below keep naming the build each retained observation was made
+on; the amendment in
+[docs/adapters.md](../../docs/adapters.md#a31--2026-09-04-the-twenty-bifrost-populations-are-re-run-on-v0109-and-every-reached-outcome-is-anchor-proven-under-sink-anchor-reconciliation)
+carries the full delta and its attribution.
+
 The classic 32 Python assertions likewise have 16 `reached`, 16 `not-reached`,
 and 32/32 matching (v0.10.2: 16/32), both inside the smoke population and
 inside the dedicated 58-assertion report
