@@ -1,7 +1,7 @@
 //! Regression tests for `crate::native`.
 
 use crate::adapters::bifrost::{
-    BIFROST_JAVA_POLICY, BIFROST_NATIVE_POLICY_PACK_FLAG, smoke_population_case,
+    BIFROST_JAVA_POLICY, BIFROST_NATIVE_DEFAULT_PACKS_FLAG, smoke_population_case,
 };
 use crate::adapters::codeql::{CODEQL_NATIVE_QUERY_PACKS, CODEQL_NATIVE_SUITE_KIND};
 use crate::adapters::flowdroid::{
@@ -325,10 +325,11 @@ pub(crate) fn native_unsupported_reasons_are_retained_and_attributed() {
     )
     .unwrap()
     .expect("declined");
-    // Amendment A10 replaced the withdrawn README citation with the
-    // endpoint-catalog grounds; the cell's decision is unchanged.
+    // Amendment A10 replaced the withdrawn README citation; Amendment A32
+    // then re-grounded the same decline on the catalog v0.10.9 actually ships.
     assert!(reason.contains("restated by Amendment A10"));
-    assert!(reason.contains("BrokkAi/bifrost-dev #2620"));
+    assert!(reason.contains("re-grounded by Amendment A32"));
+    assert!(reason.contains("declares no sanitizer"));
     assert!(reason.contains(WITNESSED_IDENTITY));
     assert!(reason.contains("docs/native-profile.md"));
     for tool in ModelingTool::ALL.iter().copied() {
@@ -655,10 +656,13 @@ pub(crate) fn the_native_activation_shapes_are_pinned() {
         WITNESSED_IDENTITY,
     )
     .unwrap();
-    assert_eq!(bifrost.arguments[0], BIFROST_NATIVE_POLICY_PACK_FLAG);
+    assert_eq!(bifrost.arguments, vec![BIFROST_NATIVE_DEFAULT_PACKS_FLAG]);
     assert!(
-        !bifrost.arguments.iter().any(|a| a == "--policy-file"),
-        "a native Bifrost run may not name a policy file"
+        !bifrost.arguments.iter().any(|a| matches!(
+            a.as_str(),
+            "--policy-file" | "--policy-pack" | "--policy-category" | "--policy-id"
+        )),
+        "a native Bifrost run may not name a policy file or narrow the shipped catalog"
     );
 
     let joern = native_activation(

@@ -651,11 +651,12 @@ enum Commands {
         #[arg(long, default_value = "javac")]
         javac: PathBuf,
     },
-    /// Run one language's tool-native probe set through Bifrost's built-in
-    /// policy packs, supplying no models. The preregistered partition scores
-    /// nothing: the standalone policy CLI ships no source or sink endpoint
-    /// catalog, so all six templates are `unsupported` with a retained
-    /// rationale, decided before the binary is invoked.
+    /// Run one language's tool-native probe set through Bifrost's complete
+    /// built-in catalog, supplying no models or selectors. Amendment A32
+    /// measured the v0.10.9 `bifrost scan` default: its one shipped taint
+    /// policy binds a servlet source and JDBC sink rather than any identity in
+    /// these templates, so all six remain `unsupported` with retained,
+    /// catalog-grounded rationales.
     RunBifrostNative {
         #[arg(long, value_enum)]
         language: ModelingLanguage,
