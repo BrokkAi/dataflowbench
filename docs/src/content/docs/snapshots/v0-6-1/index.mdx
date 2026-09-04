@@ -10,6 +10,23 @@ export const snapshot = snapshots.find((s) => s.version === 'v0.6.1');
 
 <SnapshotBanner snapshot={snapshot} />
 
+:::note[Archived — superseded by v0.7.0]
+This snapshot is no longer current. **[v0.7.0](/snapshots/v0-7-0/)** brings
+every analyzer pin up to date and re-runs sixty-four of the eighty-two reports
+at the same fixture revision, and binds two amendments this page predates.
+Twelve of its 3,480 case results differ from the ones below: Bifrost's Go
+`array-element` pair — the regression published on this page — is decided
+again, its PHP `map-iteration` pair is newly decided, and eight clean negatives
+are withdrawn as vacuous, five of CodeQL's and three of Bifrost's, because the
+retained evidence never showed the source endpoint at all. Semgrep CE, Joern
+and OpenTaint were re-pinned and re-run there, and reproduced every outcome on
+this page exactly.
+
+Nothing on this page has been rewritten. It stays exactly as v0.6.1 published
+it, bound to its own evidence commit, which is what an immutable snapshot
+means.
+:::
+
 A **patch snapshot**, and deliberately a narrow one. It exists because a
 Bifrost fix cycle closed against findings this benchmark published, so the
 release re-pins Bifrost from v0.10.7 to **v0.10.8** (build `419395c8`) and

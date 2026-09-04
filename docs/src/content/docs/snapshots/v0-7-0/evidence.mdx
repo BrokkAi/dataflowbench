@@ -1,0 +1,71 @@
+---
+title: Case evidence — v0.7.0
+description: Every result, its classification, and its retained raw evidence.
+---
+
+import CaseEvidence from '../../../../components/CaseEvidence.astro';
+import { snapshots, evidenceUrl } from '../../../../data/snapshots';
+
+export const snapshot = snapshots.find((s) => s.version === 'v0.7.0');
+
+Every result links its retained raw-evidence artifact (SARIF or analyzer
+output), digest-bound in the
+<a href={evidenceUrl(snapshot, snapshot.results.manifest.path)}>freeze manifest</a>.
+That includes the runs that decide nothing: a `tool-native` scorecard whose
+twelve results are all `unsupported` still retains its evidence and its
+witnessed run identity.
+
+Bifrost's, Semgrep CE's, Joern's, OpenTaint's, and the eleven CodeQL kernel
+populations' artifacts here are **new bytes**, produced by this release's
+re-runs. The eighteen carried-over reports keep the artifacts v0.6.1 retained,
+carried into this manifest unchanged and re-verified against their recorded
+digests. Nothing was re-run to make a number agree with another number.
+
+This is the page the two amendments are actually decided on, because both of
+them are claims about what the retained evidence *shows* rather than about what
+a tool concluded.
+
+- **The five withdrawn CodeQL negatives.** Open any of the
+  `infeasible-branch-negative` cases for python, csharp, c, cpp, or ruby. The
+  SARIF is empty of results, exactly as it was in v0.6.1 — and the endpoint
+  probe evaluated beside the kernel query records the sink observed and the
+  source **absent**, because the extractor pruned the constant-false branch
+  before the source call ever became a data-flow node. A negative that rests on
+  a source the analysis never had is not a decided negative, and under
+  Amendment A30 it is no longer scored as one.
+- **The three withdrawn Bifrost modeling negatives.** The
+  `model-declared-source-negative` artifacts are unchanged in substance: they
+  said, and still say, that the declared policy bound no endpoint. What changed
+  is the normalizer, which now reads that diagnostic instead of scoring the
+  empty result as a clean negative.
+- **The four newly decided Bifrost cells.** The go `array-element` and php
+  `map-iteration` artifacts no longer carry the `index_memory` value-flow
+  diagnostic that made them decline under v0.10.8. That signature has not
+  vanished from the freeze, though — it moved to the go `map-iteration` pair,
+  which was and remains `inconclusive`. No outcome turns on it, and it is left
+  visible here rather than tidied away.
+
+Thirty-three slices are worth opening for the opposite reason. Semgrep CE,
+Joern and OpenTaint all produced **new artifacts on new pins** whose normalized
+outcomes are identical to v0.6.1's, case for case. The report digests differ,
+the decisions do not.
+
+Every invoked case in this freeze also retains a phase-timing sidecar beside
+its raw evidence, and every run retains an environment stamp. Those are
+additive metadata read only by the
+[latency page](/snapshots/v0-7-0/latency/); no correctness
+outcome on this page was derived from, or conditioned on, a timing value.
+
+{snapshot.results.scorecards.map((scorecard) =>
+  scorecard.languages.map((language) =>
+    language.score_tiers.map((tier) => (
+      <>
+        <h2>
+          <code>{scorecard.id}</code> — <code>{language.language}</code>,{' '}
+          {tier.score_tier} (<code>{scorecard.model_profile}</code>)
+        </h2>
+        <CaseEvidence snapshot={snapshot} tier={tier} />
+      </>
+    )),
+  ),
+)}
