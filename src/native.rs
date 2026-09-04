@@ -385,7 +385,7 @@ pub(crate) const NATIVE_PARTITION: &[NativePartitionCell] = &[
              store-read vocabulary even when configured (Amendment A13)",
         ),
     },
-    // Joern — 4.0.614, `DefaultSemantics` only: 0 / 6.
+    // Joern — 4.0.617, `DefaultSemantics` only: 0 / 6.
     NativePartitionCell {
         tool: ModelingTool::Joern,
         template: NATIVE_TEMPLATE_IDS[0],
@@ -441,7 +441,7 @@ pub(crate) const NATIVE_PARTITION: &[NativePartitionCell] = &[
         template: NATIVE_TEMPLATE_IDS[5],
         unsupported_reason: Some("no persistence vocabulary ships with the distribution"),
     },
-    // Semgrep CE — 1.175.0 (`--oss-only`): 0 / 6 until a snapshot is vendored.
+    // Semgrep CE — 1.176.0 (`--oss-only`): 0 / 6 until a snapshot is vendored.
     // Every cell is *to be verified at vendoring*, which this document's own
     // rule records as unsupported; promotion is a dated amendment carrying the
     // vendored commit as its evidence.
@@ -480,7 +480,7 @@ pub(crate) const NATIVE_PARTITION: &[NativePartitionCell] = &[
         unsupported_reason: Some(
             "arg-to-return summary semantics are outside CE's propagator vocabulary on the \
              pinned version, established by execution in \
-             docs/modeling-matrix.md#semgrep-ce--11750---oss-only; a shipped rule cannot supply \
+             docs/modeling-matrix.md#semgrep-ce--11760---oss-only; a shipped rule cannot supply \
              what the engine does not express",
         ),
     },
@@ -546,7 +546,7 @@ pub(crate) const NATIVE_PARTITION: &[NativePartitionCell] = &[
         template: NATIVE_TEMPLATE_IDS[5],
         unsupported_reason: None,
     },
-    // OpenTaint — analyzer/2026.08.27.17eb0fe, Java only: 0 / 6. Added by
+    // OpenTaint — analyzer/2026.09.03.9752bd2, Java only: 0 / 6. Added by
     // Amendment A23. The pinned release ships two assets: the analyzer jar
     // and `opentaint-models.tar.gz`. The archive is shipped product — vendor
     // pass-through propagation rows, accumulated-field approximations, and
@@ -741,7 +741,7 @@ pub(crate) const NATIVE_PARTITION_AMENDMENTS: [(
         Some(
             "no shipped platform source, and arg-to-return summary semantics are outside CE's \
              propagator vocabulary on the pinned version, established by execution in \
-             docs/modeling-matrix.md#semgrep-ce--11750---oss-only (Amendment A6, \
+             docs/modeling-matrix.md#semgrep-ce--11760---oss-only (Amendment A6, \
              execution-confirmed by A27)",
         ),
     ),
@@ -816,7 +816,7 @@ pub(crate) const NATIVE_PARTITION_AMENDMENTS: [(
         Some(
             "`java.util.Base64` occurs nowhere in the snapshot, and arg-to-return summary \
              semantics are outside CE's propagator vocabulary on the pinned version, \
-             established by execution in docs/modeling-matrix.md#semgrep-ce--11750---oss-only \
+             established by execution in docs/modeling-matrix.md#semgrep-ce--11760---oss-only \
              (Amendments A7/A27)",
         ),
     ),

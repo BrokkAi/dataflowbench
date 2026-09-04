@@ -3,7 +3,7 @@
     "--oss-only",
     "--config=adapters/semgrep/native/java"
   ],
-  "activation_identity": "1.175.0 over the pinned snapshot vendored from https://github.com/semgrep/semgrep-rules into adapters/semgrep/native/java",
+  "activation_identity": "1.176.0 over the pinned snapshot vendored from https://github.com/semgrep/semgrep-rules into adapters/semgrep/native/java",
   "adapter": "semgrep",
   "case_id": "dfb-taint-java-native-entrypoint-positive",
   "evidence_kind": "retained-capability-decision",
@@ -11,9 +11,9 @@
   "modeling_category": "E",
   "modeling_category_label": "framework entry points",
   "partition_source": "docs/native-profile.md#partition-summary",
-  "reason": "tool-native activation of dfb-template-native-entrypoint (category E — framework entry points) is unsupported for 1.175.0 over Java by the activation partition (docs/native-profile.md#partition-summary, as amended): to be verified at vendoring — unsupported until shown: the upstream rules' entry conventions are framework-shaped, and whether any covers `sys.argv`, `process.argv`, or a `main` parameter is the snapshot's to answer",
+  "reason": "tool-native activation of dfb-template-native-entrypoint (category E — framework entry points) is unsupported for 1.176.0 over Java by the activation partition (docs/native-profile.md#partition-summary, as amended): no vendored rule binds `main(String[] args)` or the argument vector — neither `void main` nor `System.` occurs in the snapshot, and every entry convention it carries is framework-shaped (Amendments A7/A27)",
   "stage": "preregistered-native-activation-partition",
   "state": "unsupported",
   "template_id": "dfb-template-native-entrypoint",
-  "witnessed_tool_identity": "1.175.0"
+  "witnessed_tool_identity": "1.176.0"
 }

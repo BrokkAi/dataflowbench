@@ -52,7 +52,7 @@ use std::{collections::BTreeSet, fs, path::Path, path::PathBuf, process::Command
 /// The pinned OpenTaint release. The project publishes dated, content-
 /// addressed analyzer releases (near-daily); this tag is the one this
 /// adapter's evidence was produced under.
-pub(crate) const OPENTAINT_RELEASE_TAG: &str = "analyzer/2026.08.27.17eb0fe";
+pub(crate) const OPENTAINT_RELEASE_TAG: &str = "analyzer/2026.09.03.9752bd2";
 
 /// SHA-256 of the pinned `opentaint-project-analyzer.jar` release asset. The
 /// jar self-reports no version at all — no manifest attribute, no `--version`
@@ -63,7 +63,7 @@ pub(crate) const OPENTAINT_RELEASE_TAG: &str = "analyzer/2026.08.27.17eb0fe";
 /// before any case is analyzed rather than publishing an asserted identity,
 /// per the identity-witnessing convention (#87).
 pub(crate) const OPENTAINT_ANALYZER_JAR_SHA256: &str =
-    "811bdb22786e539c9aabdce5bef91f0c6521cc099adbe2720e6a840c09badf54";
+    "db3a61637207633342c15ebc40b0164205563ba6446d48a8fa5c4f8fd194b61c";
 
 /// SHA-256 of the pinned `opentaint-models.tar.gz` release asset — the
 /// analyzer's own shipped standard-library dataflow approximations and
@@ -73,7 +73,7 @@ pub(crate) const OPENTAINT_ANALYZER_JAR_SHA256: &str =
 /// benchmark-controlled sources and sinks come only from the committed rule
 /// templates below.
 pub(crate) const OPENTAINT_MODELS_ARCHIVE_SHA256: &str =
-    "c2a8fb0bbc3b6d59ed6db0c62732ff9a6f0f491d515cc2247932f2dd78cbb9f5";
+    "8746b9594266c67f04cd93a64c6c30673f98ccaeb59baed76d202ffee327a8d4";
 
 pub(crate) const OPENTAINT_RULES_DIR: &str = "adapters/opentaint/rules";
 

@@ -153,7 +153,7 @@ the difference between them matters:
 | Semgrep CE 1.174.0 | Yes | `reports/semgrep-typescript-kernel.json` |
 | Bifrost v0.10.5 | **Deferred (freeze-bound)** | `reports/bifrost-typescript-kernel.json` |
 | CodeQL 2.26.4 | **Deferred (freeze-bound)** | `reports/codeql-typescript-kernel.json` |
-| Joern 4.0.614 | **No TypeScript slice exists** | — |
+| Joern 4.0.617 | **No TypeScript slice exists** | — |
 
 **Both Bifrost and CodeQL are deferred, and both for the same reason.**
 `reports/bifrost-typescript-kernel.json` and
@@ -171,7 +171,7 @@ JavaScript and Python waves each had at least one non-freeze-bound report to
 write.
 
 **Joern has no TypeScript slice, and this wave did not invent one.** The pinned
-`joern-v4.0.614` adapter covers Java, JavaScript, Python, Ruby, PHP, and Rust;
+`joern-v4.0.617` adapter covers Java, JavaScript, Python, Ruby, PHP, and Rust;
 `adapters/joern/README.md` already records TypeScript as "Available, not yet in
 scope" — its `jssrc2cpg` frontend can parse `.ts`, but no
 `run-joern-typescript-kernel` command, query selection, or report exists, and

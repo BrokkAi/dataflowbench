@@ -356,7 +356,7 @@ pub(crate) const MODELING_PARTITION: &[ModelingPartitionCell] = &[
             "the pulse-taint configuration surface defines sources, sinks, sanitizers, propagators, policies, and data-flow kinds and nothing else — no store-write/store-read vocabulary and no key discrimination (the binary's own enumeration is retained as amendment A13 evidence) — and `Store.put`/`Store.get` have empty bodies, so nothing else can carry the roundtrip",
         ),
     },
-    // Joern — 4.0.614: 4 / 6 (Amendment A2 moved P and O to unsupported).
+    // Joern — 4.0.617: 4 / 6 (Amendment A2 moved P and O to unsupported).
     ModelingPartitionCell {
         tool: ModelingTool::Joern,
         category: ModelingCategory::SourcesAndSinks,
@@ -405,7 +405,7 @@ pub(crate) const MODELING_PARTITION: &[ModelingPartitionCell] = &[
         category: ModelingCategory::Persistence,
         unsupported_reason: None,
     },
-    // Semgrep CE — 1.175.0 (`--oss-only`): 3 / 6 categories, and Amendment A3
+    // Semgrep CE — 1.176.0 (`--oss-only`): 3 / 6 categories, and Amendment A3
     // splits category Z at the template level (see MODELING_TEMPLATE_OVERRIDES).
     ModelingPartitionCell {
         tool: ModelingTool::Semgrep,
@@ -485,7 +485,7 @@ pub(crate) const MODELING_PARTITION: &[ModelingPartitionCell] = &[
             "the `.pysa` DSL binds taint roles to callables and parameter positions — `TaintSource`, `TaintSink`, `TaintInTaintOut`, `Sanitize`, and mode annotations — and has no store identity, key position, or vocabulary linking a write entity to a read entity through a shared store, per instance or otherwise. The nearest encoding, a source model on `Store.get`, would report both polarities of template 11 without ever reading the key: a different model, not an approximation of this one (Amendment A16)",
         ),
     },
-    // OpenTaint — analyzer/2026.08.27.17eb0fe, Java only: 3 / 6 (S, P, Z).
+    // OpenTaint — analyzer/2026.09.03.9752bd2, Java only: 3 / 6 (S, P, Z).
     // Added by Amendment A22, decided by executing the pinned analyzer over
     // the committed Java modeling fixtures before any scored run; the probe
     // evidence is retained under reports/raw/opentaint-modeling-surface-probe/

@@ -101,8 +101,8 @@ adapters can do.
 | Semgrep CE 1.174.0 | Yes | `reports/semgrep-kotlin-kernel.json` | No freeze binds it |
 | Bifrost v0.10.5 | **Deferred** | `reports/bifrost-kotlin-kernel.json` | Freeze-bound |
 | CodeQL 2.26.4 | **Deferred** | `reports/codeql-kotlin-kernel.json` | Freeze-bound |
-| Joern 4.0.614 | **Not covered** | — | No Kotlin slice exists in this repository |
-| OpenTaint `analyzer/2026.08.27.17eb0fe` | Yes | `reports/opentaint-kotlin-kernel.json` | New adapter (#17); post-freeze, binds nothing; re-run under Amendment A11's amended templates |
+| Joern 4.0.617 | **Not covered** | — | No Kotlin slice exists in this repository |
+| OpenTaint `analyzer/2026.09.03.9752bd2` | Yes | `reports/opentaint-kotlin-kernel.json` | New adapter (#17); post-freeze, binds nothing; re-run under Amendment A11's amended templates |
 | FlowDroid 2.15.1 | Yes | `reports/flowdroid-kotlin-kernel.json` | New adapter (#82); post-freeze, binds nothing |
 
 **Both `reports/bifrost-kotlin-kernel.json` and
@@ -153,7 +153,7 @@ Kotlin's `beta` maturity label in the pinned distribution's own
 `semgrep_interfaces/lang.json` is retained in the report, and it did not move a
 single case between the partitions — the same statement the classic run made.
 
-### OpenTaint `analyzer/2026.08.27.17eb0fe` — expanded core
+### OpenTaint `analyzer/2026.09.03.9752bd2` — expanded core
 
 `reports/opentaint-kotlin-kernel.json`, from the OpenTaint adapter (#17):
 the pinned JVM-bytecode engine over the whole 58-assertion population, all of

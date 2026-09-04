@@ -20,7 +20,7 @@ The initial adapter plan is:
 | CodeQL | 16-template Java and JavaScript propagation kernels and the 29-template expanded Python kernel | Java, JavaScript, and Python runners implemented as separate language-scoped populations |
 | Joern | The Ruby 16-template propagation kernel, the 27-template expanded Rust kernel, and the 29-template expanded Java, Python, JavaScript, and PHP kernels | Implemented as six separate language-scoped populations over one CPG query script |
 | Semgrep CE | Supported local analysis only | Implemented as eleven separate language-scoped populations over one committed taint rule per language; only the documented intraprocedural partition is scored. Four front ends are non-GA in the pinned distribution (Kotlin `beta`; Rust, C, C++ `alpha`) and the label is retained without ever changing the partition |
-| OpenTaint | Java and Kotlin profile | Implemented as two language-scoped populations over the pinned `analyzer/2026.08.27.17eb0fe` release, both run over their full expanded 58-assertion cores. The whole core is scored — the pinned documentation fences no capability. The first runs' dominant result, a value-kind boundary dropping taint on numeric values, was identified upstream as the default rule configuration and resolved by Amendment A11 (`primitive-tracking: true` in both templates); the amended-template re-runs measure propagation semantics in both languages |
+| OpenTaint | Java and Kotlin profile | Implemented as two language-scoped populations over the pinned `analyzer/2026.09.03.9752bd2` release, both run over their full expanded 58-assertion cores. The whole core is scored — the pinned documentation fences no capability. The first runs' dominant result, a value-kind boundary dropping taint on numeric values, was identified upstream as the default rule configuration and resolved by Amendment A11 (`primitive-tracking: true` in both templates); the amended-template re-runs measure propagation semantics in both languages |
 | Infer | C, C++, and Java profile | Implemented as three language-scoped populations over the pinned v1.3.0 release's Pulse taint configuration — the release's one operable taint surface, Quandary being removed — each run over its full expanded core (48, 56, and 58 assertions). The whole core is scored in all three; C and C++ gain their first benchmark-controlled interprocedural second engine |
 | FlowDroid | Java and Kotlin profile | Implemented as two language-scoped populations over the pinned 2.15.1 release's command-line analyzer, both run over their full expanded 58-assertion cores. The released CLI analyzes APKs only — verified in the field — so each case materializes a minimal APK from pinned, JVM-only pieces (a D8 dex translation, a committed benchmark-generated binary manifest, a harness entry activity); the whole core is scored, the pinned defaults fencing no capability. Amendments A18 and A19 add its Java modeling row (seven of twelve templates scored, via StubDroid summaries) and its Java tool-native row (a live activation contract over the jar's shipped catalog, all six cells declined on the catalog's own text) |
 | Pysa | Python profile | Implemented as one language-scoped population over the pinned pyre-check 0.10.0 release's taint analysis, run over Python's full expanded 58-assertion core. The pin is a pair — the client drives the separately released Pyrefly 1.2.0 front end for call-graph resolution, and without a per-case `pyrefly.toml` that front end exports every call unresolved while exiting cleanly, a verified silent-failure mode the runner guards. The whole core is scored, and Python becomes the five-analyzer kernel issue #82 intended |
@@ -291,6 +291,88 @@ rule the v0.6.1 entry states.
 
 **This review moved declarations only; the evidence re-run followed** as
 Amendment A31, on the same day, at the unchanged fixture revision.
+
+#### 2026-09-04 — v0.7.0 freeze-prep: Semgrep CE, Joern, and OpenTaint re-pins
+
+The remaining three decisions against the 2026-09-03 survey, taken together
+because none of the three rows had a hold reason on record and the policy
+makes each of them a bump. With the Bifrost re-pin above, every gapped row of
+the survey is now decided; the pin table of the v0.7.0 release notes will
+read from these entries.
+
+| Analyzer | Pin at survey | Outcome | Basis |
+| --- | --- | --- | --- |
+| Semgrep CE | 1.175.0 | **Bumped to 1.176.0** | `semgrep --version` witnessed `1.176.0` (Homebrew, `/opt/homebrew/Cellar/semgrep/1.176.0`) |
+| Joern | 4.0.614 | **Bumped to 4.0.617** | console banner witnessed `Version: 4.0.617`; distribution `joern-cli-macos-arm64.zip` of the `v4.0.617` release, SHA-512 verified against the published `.sha512` (`f73c7db9…`) |
+| OpenTaint | `analyzer/2026.08.27.17eb0fe` | **Bumped to `analyzer/2026.09.03.9752bd2`** | jar SHA-256 `db3a61637207633342c15ebc40b0164205563ba6446d48a8fa5c4f8fd194b61c`, models archive SHA-256 `8746b9594266c67f04cd93a64c6c30673f98ccaeb59baed76d202ffee327a8d4`, both witnessed by the runner before any case and matching the release API's published digests |
+
+**What the bumps are for.** Currency alone: none of the three upstream
+releases names a change this benchmark's populations exercise. Semgrep
+1.176.0's only changelog entry drops Homebrew support on Intel Macs; Joern
+4.0.615 through 4.0.617 are daily releases with empty release notes;
+OpenTaint's dated analyzer release lists one change, the Go toolchain moving
+to 1.26.0, which the Java and Kotlin populations never touch. The evidence
+re-run is what decides whether the engines moved beneath those notes, and it
+is recorded below.
+
+**The vendored Semgrep rules snapshot is held** at
+`semgrep/semgrep-rules@40b8c63f75dc7c22c8a77482d73bfb864b146f7e`, per the
+policy above; the 2026-09-03 survey found `develop` at the same commit.
+
+**OpenTaint stays on the analyzer jar; the CLI switch is owed, dated.** The
+adapter drives `opentaint-project-analyzer.jar` directly because the
+product's own entry point, `opentaint scan`, did not expose the
+`--debug-run-analysis-on-selected-entry-points` selector the fixtures need
+(seqra/opentaint#390). Upstream closed that on 2026-09-03 by adding a hidden
+`--entry-points` flag to `scan` (seqra/opentaint#395), but the flag has not
+shipped: the CLI's latest release is still v0.4.5 (2026-07-10), and the dated
+`analyzer/*` releases carry only the jar and the models archive. A CLI built
+from `main` would have no release identity to witness, so the switch waits
+for the first CLI release that includes #395 and is recorded here as owed
+rather than taken. Nothing about the invocation changes in this entry.
+
+**The latency corpus is not re-measured.** It stays frozen at v0.6.0 and
+keeps naming Joern 4.0.614, Semgrep CE 1.175.0, and OpenTaint
+`analyzer/2026.08.27.17eb0fe` as the measured environment's tools, under the
+rule stated for Bifrost above.
+
+**Installations retired with the pins.** The superseded Joern distributions
+(4.0.610, 4.0.614) and the 2026-08-27 OpenTaint assets were removed from the
+measuring machine once the re-runs completed; the retained probe scripts
+under `scripts/` keep naming the distributions they were run against, as
+records of what was probed.
+
+**The evidence re-run followed, the same day, at the unchanged fixture
+revision** `sha256:9df209ed3d7723a3ee33f2b289cf2afe34a3add781bdf2a2ac445de42b8d0151`:
+all thirty-three populations of the three adapters — Joern's six kernels,
+three modeling and three tool-native populations; Semgrep CE's eleven
+kernels, three modeling and three tool-native populations; OpenTaint's two
+kernels, one modeling and one tool-native population — 1,278 results in all.
+**No outcome moves in any of them.** Every `reached`, `not-reached`,
+`inconclusive`, and `unsupported` outcome the v0.6.1-bound reports carried
+is reproduced by the bumped engines, and every kernel's retained diagnostics
+are byte-identical to the superseded run's. Every kernel configuration hash,
+and every modeling hash but one, is byte-identical too — the guard from PR
+#141 confirming no query, rule, or semantics file moved. The exceptions are
+mechanical: the seven tool-native hashes move because `native_configuration_hash`
+binds the witnessed tool identity, which is what a bump changes, and the
+Semgrep JavaScript modeling hash and the three Semgrep native provenance
+files move because they cite the modeling matrix's Semgrep heading by
+anchor, which now names 1.176.0 — the same edit the v0.6.0 review made. What
+does change in the retained evidence is the rationale text of the
+tool-native declines: the re-run embeds the partition constants as they
+stand today, so Joern's category-S cells now carry the A26 scan-bundle
+grounds and Semgrep's Java and JavaScript cells the A27-confirmed wording,
+where the v0.6.0-era reports carried the earlier text. The
+[amendment convention](#amendments) requires exactly that — a rationale is
+re-witnessed by the run that publishes it, never patched in place.
+
+**Freezes.** v0.6.1 bound all thirty-three superseded reports by digest and
+stays intact at its tag. `reports/freeze.json` on the main line moves to a
+new development-scope freeze over the same 82 reports with the regenerated
+Joern, Semgrep, and OpenTaint reports in place of the superseded ones,
+following A30 and A31; every pin the 2026-09-03 survey found behind is now
+current, and the next release freeze binds the whole set.
 
 ## Challenge-tier rollout mechanics
 
@@ -1239,7 +1321,7 @@ analyzer exits zero and writes a well-formed empty SARIF even when its rule
 set fails to load, so a load failure is a `runner-error` and can never read as
 `not-reached`.
 
-The pin is by release-asset digest — `analyzer/2026.08.27.17eb0fe`, jar and
+The pin is by release-asset digest — `analyzer/2026.09.03.9752bd2`, jar and
 models archive both SHA-256-bound — because the analyzer jar self-reports no
 version anywhere; the runner witnesses both digests per run and publishes the
 release tag only when they match, refusing the run otherwise. The whole

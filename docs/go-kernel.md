@@ -145,7 +145,7 @@ between them matters:
 | Semgrep CE 1.174.0 | Yes | `reports/semgrep-go-kernel.json` |
 | Bifrost v0.10.5 | **Deferred (freeze-bound)** | `reports/bifrost-go-kernel.json` |
 | CodeQL 2.26.4 | **Deferred (freeze-bound)** | `reports/codeql-go-kernel.json` |
-| Joern 4.0.614 | **No Go slice exists** | — |
+| Joern 4.0.617 | **No Go slice exists** | — |
 
 **Both Bifrost and CodeQL are deferred, and both for the same reason.**
 `reports/bifrost-go-kernel.json` and `reports/codeql-go-kernel.json` are two of
@@ -160,7 +160,7 @@ will attempt all 58 assertions at v0.4.0. This wave simply had no freeze-legal
 file to write them to.
 
 **Joern has no Go slice, and this wave did not invent one.** The pinned
-`joern-v4.0.614` adapter covers Java, JavaScript, Python, Ruby, PHP, and Rust.
+`joern-v4.0.617` adapter covers Java, JavaScript, Python, Ruby, PHP, and Rust.
 Joern's Go frontend, `gosrc2cpg`, lives upstream and is **not built into the
 pinned distribution**, so there is no `run-joern-go-kernel` command, no Go
 selection, and no `reports/joern-go-kernel.json` — and standing a slice up is a

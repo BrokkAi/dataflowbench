@@ -80,7 +80,7 @@ pub(crate) const BIFROST_JAVASCRIPT_POLICY: &str =
 pub(crate) const BIFROST_KOTLIN_POLICY: &str = "adapters/bifrost/policies/core-kotlin-kernel.rqlp";
 /// The language-qualified Bifrost policy every Scala kernel assertion is
 /// evaluated with. Scala has single-analyzer coverage: CodeQL CLI 2.26.4 has no
-/// Scala extractor at all, and the pinned Joern 4.0.614 has no Scala *source*
+/// Scala extractor at all, and the pinned Joern 4.0.617 has no Scala *source*
 /// frontend. Both absences are analyzer coverage recorded in
 /// docs/scala-kernel.md, never negative results. As with Kotlin, the frozen
 /// v0.2.0 direct-propagation pair still names the language-neutral breadth

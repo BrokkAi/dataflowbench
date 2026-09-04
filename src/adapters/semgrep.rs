@@ -958,7 +958,7 @@ pub(crate) fn run_semgrep_modeling_case(
 /// Run one *scored* native cell through Semgrep CE over the vendored snapshot.
 ///
 /// Two deliberate differences from the benchmark-controlled Semgrep runner, both
-/// recorded in docs/native-profile.md#semgrep-ce--11750---oss-only:
+/// recorded in docs/native-profile.md#semgrep-ce--11760---oss-only:
 /// `--config` points at the vendored rule directory rather than at an authored
 /// rule, and `taint_assume_safe_functions` is **not** set. There the permissive
 /// default would decide a cell the supplied model was meant to decide; here the

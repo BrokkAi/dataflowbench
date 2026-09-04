@@ -115,10 +115,10 @@ impl ModelingTool {
             Self::Codeql => "CodeQL CLI 2.26.4",
             Self::Flowdroid => "FlowDroid 2.15.1",
             Self::Infer => "Infer v1.3.0",
-            Self::Joern => "Joern 4.0.614",
-            Self::Semgrep => "Semgrep CE 1.175.0",
+            Self::Joern => "Joern 4.0.617",
+            Self::Semgrep => "Semgrep CE 1.176.0",
             Self::Pysa => "Pysa (pyre-check 0.10.0 + Pyrefly 1.2.0)",
-            Self::Opentaint => "OpenTaint analyzer/2026.08.27.17eb0fe",
+            Self::Opentaint => "OpenTaint analyzer/2026.09.03.9752bd2",
         }
     }
 }

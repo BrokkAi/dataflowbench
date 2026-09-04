@@ -4,7 +4,7 @@ Adapter `codeql-javascript-native`: `codeql` `2.26.4` (build `codeql-cli:6b1e4de
 
 Track `taint`, score dimension `taint`, model profile `tool-native`. This scorecard is a single result population; it is never pooled with other tracks, dimensions, or model profiles.
 
-Normalized report: `reports/codeql-javascript-native.json` (`sha256:bd5fe87f32f7fc30ea5deb365de613d2d49b5db3db57dbe724fc8625007d6db6`, normalized `sha256:bd5fe87f32f7fc30ea5deb365de613d2d49b5db3db57dbe724fc8625007d6db6`). Generated from freeze manifest `reports/freeze.json` (`sha256:c92efa03098fd8b51e820ff66b942099c4b972d2fec19a90bd65424b5e01fa1e`).
+Normalized report: `reports/codeql-javascript-native.json` (`sha256:bd5fe87f32f7fc30ea5deb365de613d2d49b5db3db57dbe724fc8625007d6db6`, normalized `sha256:bd5fe87f32f7fc30ea5deb365de613d2d49b5db3db57dbe724fc8625007d6db6`). Generated from freeze manifest `reports/freeze.json` (`sha256:95faa71908b637ba349c1890ce913abd865c670a9093e123a25d975430bfe52c`).
 
 ## Language `javascript`, tier `modeling`
 
