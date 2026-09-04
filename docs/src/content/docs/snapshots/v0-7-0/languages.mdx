@@ -1,0 +1,43 @@
+---
+title: Languages — v0.7.0
+description: Per-language coverage and rates across all eight analyzers' scorecards.
+---
+
+import LanguageMatrix from '../../../../components/LanguageMatrix.astro';
+import { snapshots } from '../../../../data/snapshots';
+
+export const snapshot = snapshots.find((s) => s.version === 'v0.7.0');
+
+Rows are (language, scorecard, tier) partitions — they share a table for
+navigation, not a denominator. *Definitive* counts `reached` and
+`not-reached` outcomes; *incomplete* counts `inconclusive`, `unsupported`,
+and `runner-error`, which are reported as capability coverage and never
+scored as negatives.
+
+Three tiers appear here for java, javascript, and python: the `core` kernel,
+the `modeling` matrix under the `benchmark-controlled` profile, and the
+`modeling` probe set under the `tool-native` profile. They are separate
+populations sharing a language name. Read the scorecard column, not just the
+language.
+
+Analyzer depth per language is unchanged from v0.6.1 — java carries seven
+analyzers, kotlin five, python five, c and cpp four, scala one. A language
+with more rows is a language this freeze can say more about, not a harder or
+an easier one, and a one-row language is a language whose numbers rest on a
+single engine's word.
+
+Seven rows moved in this release, and they moved in two opposite directions.
+**Bifrost gains in two languages**: go 34 → 36 and php 32 → 34 correct, as the
+`array-element` and `map-iteration` pairs each turn from a declined pair into a
+decided one on the v0.10.9 pin. **CodeQL loses one definitive answer in five**:
+c 41 → 40, cpp 42 → 41, csharp 47 → 46, python 48 → 47, and ruby 49 → 48
+correct, with each of those five gaining one `inconclusive` — the
+infeasible-branch negative the endpoint probe withdrew, in the five languages
+whose extractor prunes the dead branch before the analyzer ever sees it. No
+decisive mistake was added or removed in any language.
+
+Every other cell in this table is the number v0.6.1 published, including all
+thirty-three Semgrep CE, Joern and OpenTaint slices, which were re-run on new
+pins and came back identical.
+
+<LanguageMatrix snapshot={snapshot} />

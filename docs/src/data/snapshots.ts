@@ -3,6 +3,7 @@
 // `cargo run -- generate-results` from a validated immutable freeze — never
 // from hand-authored prose. CI proves the checked-in model is current.
 import currentResults from '../../../results/results.json';
+import v061Results from './archive/v0-6-1-results.json';
 import v060Results from './archive/v0-6-0-results.json';
 import v050Results from './archive/v0-5-0-results.json';
 import v040Results from './archive/v0-4-0-results.json';
@@ -134,14 +135,28 @@ export const repository = 'https://github.com/BrokkAi/dataflowbench';
 
 export const snapshots: Snapshot[] = [
   {
-    version: 'v0.6.1',
-    slug: 'v0-6-1',
+    version: 'v0.7.0',
+    slug: 'v0-7-0',
     evidenceRef: 'main',
-    // v0.6.1 deliberately reuses the v0.6.0 latency corpus. Its correctness
-    // re-run must never relabel the retained Bifrost v0.10.7 measurements.
-    latencyEvidenceRelease: latencyEvidenceRelease('v0.6.1'),
+    // v0.7.0 re-ran correctness only. It reuses the v0.6.0 latency corpus for
+    // the same reason v0.6.1 did: nothing was re-measured, so nothing may be
+    // relabelled onto the newer pins.
+    latencyEvidenceRelease: latencyEvidenceRelease('v0.7.0'),
     current: true,
     results: currentResults as unknown as ResultsModel,
+  },
+  {
+    version: 'v0.6.1',
+    slug: 'v0-6-1',
+    // Permanently pinned: the commit whose tree holds v0.6.1's manifest and
+    // retained evidence, immutable even as main moves on. The A30 and A31
+    // amendments landed on `main` after this commit and are deliberately not
+    // in this archive: v0.6.1 published these outcomes, and this is what it
+    // published.
+    evidenceRef: '3eab449bcd40e037eee1b33e81a60cc646a600af',
+    latencyEvidenceRelease: latencyEvidenceRelease('v0.6.1'),
+    current: false,
+    results: v061Results as unknown as ResultsModel,
   },
   {
     version: 'v0.6.0',
@@ -302,8 +317,8 @@ export function vendorName(tool: string): string {
 /**
  * The witnessed `tool_version` as a version *label*, for display beside the
  * analyzer's name. Bifrost's version banner witnesses itself as
- * `bifrost 0.10.8`, so rendering it next to the name reads "Bifrost bifrost
- * 0.10.8". The witnessed string in the manifest is untouched; only the label
+ * `bifrost 0.10.9`, so rendering it next to the name reads "Bifrost bifrost
+ * 0.10.9". The witnessed string in the manifest is untouched; only the label
  * drops the redundant prefix.
  */
 export function toolVersionLabel(tool: string, toolVersion: string): string {

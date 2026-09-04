@@ -1,0 +1,170 @@
+---
+title: Snapshot v0.7.0
+description: The currency freeze — every analyzer pin brought up to date and re-run, with two preregistered amendments bound for the first time and eight clean negatives withdrawn as vacuous.
+---
+
+import SnapshotBanner from '../../../../components/SnapshotBanner.astro';
+import { snapshots, evidenceUrl } from '../../../../data/snapshots';
+
+export const snapshot = snapshots.find((s) => s.version === 'v0.7.0');
+
+<SnapshotBanner snapshot={snapshot} />
+
+A **currency snapshot**. Every analyzer pin that the 2026-09-03 survey found
+behind upstream is bumped and its evidence re-run, and the two amendments
+recorded since v0.6.1 — the CodeQL endpoint probe (A30) and the Bifrost
+sink-anchor reconciliation (A31) — are bound by a freeze for the first time.
+
+The exam did not change. The fixture revision is **unchanged since v0.5.0**
+(<code>{snapshot.results.benchmark.fixture_revision.replace('sha256:', '').slice(0, 12)}…</code>),
+the same 852 cases are asked in the same four score tiers under the same two
+model profiles, and no template was renamed, split, merged, or dropped. Of
+**3,480 scored case results, twelve moved.**
+
+## What re-ran, and what did not
+
+Sixty-four of the {snapshot.results.scorecards.length} bound reports were
+re-executed. Eighteen carry over with the digests v0.6.1 bound — CodeQL's six
+modeling and tool-native populations, Infer's five, FlowDroid's four, and
+Pysa's three — which is the check that they were not quietly re-run.
+
+| Analyzer | Reports | Why |
+| --- | --- | --- |
+| Bifrost | 20 re-run | Re-pinned to v0.10.9, re-run under sink-anchor reconciliation (A31) |
+| Semgrep CE | 17 re-run | Re-pinned to CE 1.176.0 |
+| Joern | 12 re-run | Re-pinned to 4.0.617 |
+| CodeQL CLI | 11 of 17 re-run | The eleven kernel populations re-run under the endpoint probe (A30) |
+| OpenTaint | 4 re-run | Re-pinned to `analyzer/2026.09.03.9752bd2` |
+| CodeQL, Infer, FlowDroid, Pysa | 18 carried over | No pin moved and no amendment touched them |
+
+Every one of the {snapshot.results.scorecards.length} reports is re-bound and
+re-digested here regardless, because a freeze binds what it publishes rather
+than only what changed.
+
+## Twelve cells moved. Four got better; eight got honest.
+
+Nothing moved into a false positive or a false negative. The decisive-wrong
+count across the thirteen kernels is **280 in both freezes** — this release
+did not trade a mistake for a mistake.
+
+- **Four cells were decided that were previously undecided, and decided
+  correctly.** Bifrost's Go `array-element` pair and PHP `map-iteration` pair
+  each go from `inconclusive` to `reached` on the positive and `not-reached`
+  on the negative. The Go pair is the regression **bifrost-dev#2831** that
+  v0.6.1 published against v0.10.8 and that v0.10.9 closes; the PHP pair had
+  been declining on an unproven value-flow snapshot. Bifrost's kernel decisive-correct count
+  goes **446 → 450**, its `inconclusive` **292 → 288**, and it still records
+  **no false positive and no false negative anywhere in this freeze** — on any
+  kernel, either profile, any tier.
+- **Five CodeQL clean negatives were withdrawn as vacuous.** Under the endpoint
+  probe, the `infeasible-branch` negative moves from `not-reached` to
+  `inconclusive` for Python, C#, C, C++, and Ruby. Those five extractors prune
+  the constant-false branch out of the control-flow graph, so the source call
+  never exists as a data-flow node: the retained SARIF shows the sink observed
+  and the source absent. The negative was true only in the sense that nothing
+  was found — precisely what A30 was preregistered to catch. The other six
+  extractors — Java, Kotlin, Go, Rust, and the two ECMA ones — keep the dead
+  branch as a node and observe both endpoints, so their negatives stay
+  decisive: `not-reached` in five of them, and in Go the false positive it
+  already carried, which the probe leaves standing rather than converting into
+  an incomplete.
+- **Three Bifrost modeling negatives were withdrawn for the same reason.**
+  `model-declared-source-negative` goes from `not-reached` to `inconclusive` in
+  the Java, JavaScript, and Python modeling populations, under an *unchanged*
+  diagnostic reporting that the policy bound no endpoint. This is neither a
+  bump effect nor a reconciliation effect: the evidence always said the
+  selection was empty, and the normalizer now reads what it says.
+
+Across all thirteen kernels the net is small and it points slightly downward:
+decisive-correct **1738 → 1737**, `inconclusive` **292 → 293**, `unsupported`
+468 unchanged. A release whose headline is "we stopped crediting five clean
+negatives we could not prove" is supposed to look like that.
+
+## CodeQL no longer answers everything
+
+Until this freeze, CodeQL was the analyzer that decided every assertion put to
+it — 622 of 622 kernel assertions, right or wrong. Under A30 it now records
+**five `inconclusive` results**, and its kernel decisive-correct count moves
+**506 → 501** with its 116 decisive mistakes unchanged. Nothing about the
+engine changed: the pin is the same CodeQL CLI 2.26.4 the last freeze bound,
+and the six populations the probe does not cover carry over byte-identical.
+What changed is what this benchmark is willing to score.
+
+Whether a constant-branch prune should count as a decided negative for a
+template whose question *is* infeasibility is a contract question A30 leaves
+open. Until it is answered, those five sit outside the decisive denominators
+rather than being credited either way — read them as coverage, not as misses.
+
+## Three engines moved a version and none moved a number
+
+Semgrep CE **1.176.0**, Joern **4.0.617**, and OpenTaint
+**`analyzer/2026.09.03.9752bd2`** were re-run across all thirty-three of their
+slices and reproduced every committed outcome **exactly**. That is the result
+the re-run existed to establish, and it is worth stating plainly rather than
+burying as an absence: a currency bump that changes nothing is evidence, and it
+only counts as evidence if the run actually happened.
+
+Joern is held one daily release behind at 4.0.617. 4.0.618 published after the
+bump-or-hold decision was taken and after all twelve slices had been re-run;
+Joern ships near-daily, so re-opening the decision for a daily that lands
+mid-cut does not converge. The full pin-currency table, every analyzer, held or
+not, is in the
+[release note](https://github.com/BrokkAi/dataflowbench/blob/main/docs/releases/v0.7.0.md).
+
+## The latency tier is unchanged
+
+The latency-characterization corpus is **frozen at v0.6.0** and was not
+re-measured here, exactly as in v0.6.1. Its rows therefore keep naming the pins
+that produced them — Bifrost **v0.10.7**, Joern **4.0.614**, Semgrep CE
+**1.175.0**, OpenTaint **`analyzer/2026.08.27.17eb0fe`** — and not the newer
+pins this snapshot's correctness pages report. Re-labelling them would assert a
+measurement nobody performed, and re-measuring them on a different machine load
+would replace a comparable series with an incomparable one. The
+[latency page](/snapshots/v0-7-0/latency/) says so at the top.
+
+## Claim
+
+- Scope: <code>{snapshot.results.claim.scope}</code>
+- Tracks: {snapshot.results.claim.tracks.map((t) => <code>{t}</code>)}
+- Score tiers: {snapshot.results.claim.score_tiers.map((t) => <code>{t} </code>)}
+- Model profiles: {snapshot.results.claim.model_profiles.map((p) => <code>{p} </code>)}
+- Exclusions: {snapshot.results.claim.exclusions.length === 0 ? 'none' : ''}
+
+{snapshot.results.claim.exclusions.length > 0 && (
+  <table>
+    <thead>
+      <tr><th>Case</th><th>Reason</th></tr>
+    </thead>
+    <tbody>
+      {snapshot.results.claim.exclusions.map((exclusion) => (
+        <tr>
+          <td><code>{exclusion.id}</code></td>
+          <td>{exclusion.reason}</td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+)}
+
+## Bound evidence
+
+Freeze ID (manifest SHA-256): <code>{snapshot.results.manifest.sha256}</code>
+
+Freeze manifest: <a href={evidenceUrl(snapshot, snapshot.results.manifest.path)}><code>{snapshot.results.manifest.path}</code></a>
+— every case, fixture, normalized report, and raw-evidence file is
+digest-bound; `cargo run -- validate-freeze reports/freeze.json` re-verifies
+all of it. {snapshot.results.scorecards.length} scorecards are bound, one per
+frozen report.
+
+The full release note — with the per-adapter pin currency table, the twelve
+moved cells one by one, and the owed OpenTaint CLI switch — is
+[`docs/releases/v0.7.0.md`](https://github.com/BrokkAi/dataflowbench/blob/main/docs/releases/v0.7.0.md).
+The freeze it supersedes remains browsable at
+[v0.6.1](/snapshots/v0-6-1/), bound to its own evidence commit, with the
+outcomes A30 and A31 supersede still readable exactly as it published them.
+
+Continue to [analyzers](/snapshots/v0-7-0/analyzers/),
+[languages](/snapshots/v0-7-0/languages/),
+[semantic templates](/snapshots/v0-7-0/templates/),
+[case evidence](/snapshots/v0-7-0/evidence/), or
+[latency](/snapshots/v0-7-0/latency/).
