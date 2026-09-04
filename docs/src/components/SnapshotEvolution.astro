@@ -8,11 +8,26 @@
 // kernels only, `core` tiers only, one series per analyzer, no combined score.
 import {
   snapshots,
+  analyzerCohort,
   coreKernelPopulations,
   vendorColorClass,
   vendorName,
   vendorOrder,
+  type AnalyzerCohort,
 } from '../data/snapshots';
+
+interface Props {
+  cohort: AnalyzerCohort;
+  heading?: boolean;
+}
+
+const { cohort, heading = false } = Astro.props;
+const cohortLabel = cohort === 'generalist' ? 'Generalists' : 'Specialists';
+const cohortDescription =
+  cohort === 'generalist'
+    ? 'analyzers spanning several language ecosystems'
+    : 'Analyzers deliberately focused on one ecosystem or a small related family';
+const scope = cohort === 'generalist' ? 'generalists' : 'specialists';
 
 interface SeriesPoint {
   version: string;
@@ -50,13 +65,13 @@ interface SnapshotColumn {
 // Oldest first: the registry is newest-first for the sidebar's sake.
 const timeline = [...snapshots].reverse();
 
-const columns: SnapshotColumn[] = [];
+const allColumns: SnapshotColumn[] = [];
 const byTool = new Map<string, SeriesPoint[]>();
 
 for (const snapshot of timeline) {
   const populations = coreKernelPopulations(snapshot.results);
   const population = populations.reduce((sum, entry) => sum + entry.cases, 0);
-  columns.push({
+  allColumns.push({
     version: snapshot.version,
     slug: snapshot.slug,
     population,
@@ -123,6 +138,15 @@ const series: Series[] = [...byTool.entries()]
       vendorOrder(left.tool) - vendorOrder(right.tool) ||
       left.name.localeCompare(right.name),
   );
+const cohortSeries = series.filter((entry) => analyzerCohort(entry.tool) === cohort);
+// Do not draw empty historical columns in a cohort facet. Specialists first
+// entered the benchmark in v0.6.0, so earlier freezes carry neither a point
+// nor a meaningful cohort comparison. Their full benchmark populations still
+// contribute to the shared y-axis below, keeping the two facets comparable.
+const cohortVersions = new Set(
+  cohortSeries.flatMap((entry) => entry.points.map((point) => point.version)),
+);
+const columns = allColumns.filter((column) => cohortVersions.has(column.version));
 
 // ---- Geometry -------------------------------------------------------------
 const height = 440;
@@ -149,7 +173,7 @@ const bandMargin = 24;
 const preferredSpacing = 13;
 const band = Math.max(
   104,
-  preferredSpacing * Math.max(series.length - 1, 1) + bandMargin,
+  preferredSpacing * Math.max(cohortSeries.length - 1, 1) + bandMargin,
 );
 const plotWidth = band * columns.length;
 const width = padLeft + plotWidth + padRight;
@@ -163,7 +187,7 @@ const plotHeight = height - padTop - padBottom;
  */
 const minWidthRem = Math.round((columns.length * 6 + 5) * 10) / 10;
 
-const ceiling = Math.max(...columns.map((column) => column.population));
+const ceiling = Math.max(...allColumns.map((column) => column.population));
 const step = 200;
 const axisMax = Math.max(step, Math.ceil(ceiling / step) * step);
 const ticks: number[] = [];
@@ -185,10 +209,10 @@ const y = (value: number) => padTop + plotHeight * (1 - value / axisMax);
 // tightens them, so no previously published layout moves.
 const fannedOffset = (index: number, preferred: number) => {
   const spacing =
-    series.length <= 1
+    cohortSeries.length <= 1
       ? 0
-      : Math.min(preferred, (band - bandMargin) / (series.length - 1));
-  return (index - (series.length - 1) / 2) * spacing;
+      : Math.min(preferred, (band - bandMargin) / (cohortSeries.length - 1));
+  return (index - (cohortSeries.length - 1) / 2) * spacing;
 };
 const seriesOffset = (index: number) => fannedOffset(index, preferredSpacing);
 
@@ -225,7 +249,7 @@ const percentOffset = (index: number) => fannedOffset(index, 30);
 // When the fan is tighter than a `k/n` label is wide, those labels are dealt
 // out over three rows so neighbours cannot overprint each other.
 const percentSpacing =
-  series.length <= 1 ? 0 : Math.abs(percentOffset(1) - percentOffset(0));
+  cohortSeries.length <= 1 ? 0 : Math.abs(percentOffset(1) - percentOffset(0));
 const labelRows = percentSpacing >= 26 ? 1 : 3;
 const labelRow = (index: number) => index % labelRows;
 /** Marker area grows with the share of the snapshot's kernels covered. */
@@ -288,7 +312,7 @@ const evidenceHref = (slug: string) =>
   `/snapshots/${slug}/evidence/`;
 
 const rows = columns.flatMap((column) =>
-  series
+  cohortSeries
     .map((entry) => ({
       column,
       entry,
@@ -303,79 +327,62 @@ const rows = columns.flatMap((column) =>
 const first = columns[0]!;
 const last = columns.at(-1)!;
 
-// Where each analyzer's line begins, derived rather than named, so an
-// analyzer added in a later freeze cannot be silently dropped from the
-// sentence that explains why a line starts where it does.
-const sentenceList = (items: string[]) =>
-  items.length <= 1
-    ? (items[0] ?? '')
-    : items.length === 2
-      ? items.join(' and ')
-      : `${items.slice(0, -1).join(', ')}, and ${items.at(-1)}`;
-const debutList = sentenceList(
-  series
-    .filter((entry) => entry.points[0]!.version !== first.version)
-    .map((entry) => `${entry.name} first appears in ${entry.points[0]!.version}`),
-);
-/** Analyzers whose line is a single point: present in exactly one freeze. */
-const singlePoint = series.filter((entry) => entry.points.length === 1);
-const singlePointList = sentenceList(singlePoint.map((entry) => entry.name));
-
-// The snapshot that expanded the population the most: the freeze where a
-// falling share is the benchmark moving, not an analyzer regressing.
-const biggestJump = columns
-  .map((column, index) => ({
-    column,
-    previous: columns[index - 1],
-    growth: column.population - (columns[index - 1]?.population ?? 0),
-  }))
-  .filter((entry) => entry.previous !== undefined)
-  .sort((left, right) => right.growth - left.growth)[0]!;
 ---
 
-<h2 id="evolution">How the benchmark and its analyzers evolved</h2>
+{heading && <h2 id="evolution">How the benchmark and its analyzers evolved</h2>}
+
+<h3>{cohortLabel}</h3>
 
 <p class="chart-note">
-  One series per analyzer, across every published freeze. The vertical axis
-  counts <strong>decisive-correct assertions</strong> — true positives plus
-  true negatives — on the <code>benchmark-controlled</code> kernel population,
-  the same no-pooling population the cards at the top of this page read. The
-  grey step is the benchmark itself: the total core population of that
-  snapshot, which grew from {first.population} assertions in
-  {first.version} to {last.population} in {last.version}. Nothing here is
-  pooled with the modeling matrix or the tool-native probes, and there is no
-  combined cross-analyzer score: read each line on its own. The second view
-  divides each analyzer's decisive-correct count by the population it actually
-  covers, so a narrow language footprint no longer reads as a weak result. The
-  third view drops the drawing entirely and lists every figure as a table.
+  {heading ? (
+    <>
+      One line per analyzer across every freeze. The vertical axis counts
+      decisive-correct assertions; the grey step is the full benchmark core,
+      which grew from {first.population} assertions in {first.version} to{' '}
+      {last.population} in {last.version}. Nothing is pooled with other result
+      profiles or turned into a combined score.
+    </>
+  ) : (
+    <>
+      {cohortDescription}, separated because breadth and specialization are not
+      directly comparable. Uses the same percentage axis as the generalists'
+      covered-kernel view.
+    </>
+  )}
 </p>
 
 <div class="evolution">
+  {heading && (
+    <input
+      class="view-radio absolute-radio"
+      type="radio"
+      name={`evolution-view-${scope}`}
+      id={`evolution-view-absolute-${scope}`}
+      checked
+    />
+  )}
   <input
-    class="view-radio"
+    class="view-radio normalized-radio"
     type="radio"
-    name="evolution-view"
-    id="evolution-view-absolute"
-    checked
+    name={`evolution-view-${scope}`}
+    id={`evolution-view-normalized-${scope}`}
+    checked={!heading}
   />
   <input
-    class="view-radio"
+    class="view-radio table-radio"
     type="radio"
-    name="evolution-view"
-    id="evolution-view-normalized"
-  />
-  <input
-    class="view-radio"
-    type="radio"
-    name="evolution-view"
-    id="evolution-view-table"
+    name={`evolution-view-${scope}`}
+    id={`evolution-view-table-${scope}`}
   />
   <div class="view-toggle" role="group" aria-label="Evolution chart view">
-    <label for="evolution-view-absolute">Absolute counts</label>
-    <label for="evolution-view-normalized">Accuracy on covered kernels</label>
-    <label for="evolution-view-table">Data table</label>
+    {heading && (
+      <label class="absolute-label" for={`evolution-view-absolute-${scope}`}>Absolute counts</label>
+    )}
+    <label class="normalized-label" for={`evolution-view-normalized-${scope}`}>Accuracy on covered kernels</label>
+    <label class="table-label" for={`evolution-view-table-${scope}`}>Data table</label>
   </div>
 
+{heading && (
 <div class="chart-frame view-absolute" style={`--evolution-min-width: ${minWidthRem}rem`}>
   <svg
     class="evolution-chart"
@@ -431,7 +438,7 @@ const biggestJump = columns
       </text>
     ))}
 
-    {series.map((entry, entryIndex) => {
+    {cohortSeries.map((entry, entryIndex) => {
       const offset = seriesOffset(entryIndex);
       return (
         <g class:list={['series', entry.colorClass]}>
@@ -503,6 +510,7 @@ const biggestJump = columns
     </text>
   </svg>
 </div>
+)}
 
 <div class="chart-frame view-normalized" style={`--evolution-min-width: ${minWidthRem}rem`}>
   <svg
@@ -554,7 +562,7 @@ const biggestJump = columns
       y2={yPercent(0)}
     />
 
-    {series.map((entry, entryIndex) => {
+    {cohortSeries.map((entry, entryIndex) => {
       const offset = percentOffset(entryIndex);
       return (
         <g class:list={['series', entry.colorClass]}>
@@ -640,8 +648,9 @@ const biggestJump = columns
   </svg>
 </div>
 
+{heading && (
 <ul class="chart-legend view-absolute">
-  {series.map((entry) => (
+  {cohortSeries.map((entry) => (
     <li class:list={[entry.colorClass]}>
       <span class="swatch" aria-hidden="true"></span>
       {entry.name} · decisive-correct
@@ -656,9 +665,10 @@ const biggestJump = columns
     remainder of that analyzer's own covered population
   </li>
 </ul>
+)}
 
 <ul class="chart-legend view-normalized">
-  {series.map((entry) => (
+  {cohortSeries.map((entry) => (
     <li class:list={[entry.colorClass]}>
       <span class="swatch" aria-hidden="true"></span>
       {entry.name} · decisive-correct ÷ its covered population
@@ -671,68 +681,21 @@ const biggestJump = columns
   </li>
 </ul>
 
-{/* The view-note caption and whichever view caption is showing are adjacent
-    and were each carrying their own two columns, so the right column held
-    the tail of one and then the tail of the other. One wrapper flows both
-    down the left column first; the hidden view captions cost it nothing. */}
-<div class="prose-columns">
-  <p class="caption view-note">
-    <strong>Absolute counts</strong> plot progress against the whole growing
-    benchmark: the marker is the analyzer's decisive-correct count and the grey
-    step is the entire core population of that snapshot, so an analyzer that
-    supports only part of the benchmark sits far below the step by construction.
-    <strong>Accuracy on covered kernels</strong> instead divides each analyzer's
-    decisive-correct count by <em>its own</em> covered population — the assertions
-    in the kernels it reported on at all — so it answers how well a tool does on
-    the slice it supports. Coverage is stated beside every number in that view:
-    the marker grows with the share of the snapshot's kernels covered, each point
-    carries its <code>k/n</code> kernel count, and the <strong>Data table</strong>
-    view spells out the denominator, so 78% over 6 kernels is never mistaken for
-    78% over 13. Inconclusive and unsupported outcomes <em>inside</em> covered
-    kernels stay in the denominator — they are non-answers on cases the analyzer
-    took on. The narrower correct ÷ decided ratio is reported only as a secondary
-    figure, in the tooltips and the last column of the data table.
-    <strong>Data table</strong> is the third setting of the same toggle: it
-    carries the exact figures behind both charts — every count, every denominator
-    and every percentage — for anyone who would rather read the numbers than the
-    shape.
-  </p>
-
-  <p class="caption view-absolute">
-    Each marker sits at the analyzer's decisive-correct count. The faint stub
-    above it reaches that analyzer's <em>own</em> covered population — the
-    assertions it reported on — so the part of the stub above the marker is
-    wrong answers plus coverage outcomes, and the remaining gap up to the grey
-    step is kernels it does not cover at all. A snapshot without a marker is a
-    snapshot the analyzer was not run in: {debutList}. Absence is never drawn as
-    a zero and never interpolated across, so an analyzer that appears in exactly
-    one freeze is one marker and no line —
-    {singlePoint.length > 0
-      ? `${singlePointList} ${
-          singlePoint.length === 1 ? 'is' : 'are'
-        } drawn that way here, and no earlier value is implied for ${
-          singlePoint.length === 1 ? 'it' : 'them'
-        }`
-      : 'no analyzer is drawn that way here'}.
-    <code>inconclusive</code>, <code>unsupported</code> and
-    <code>runner-error</code> are capability coverage: excluded from
-    correctness, never converted into wrong answers. Every snapshot label links
-    to that freeze's per-case evidence.
-  </p>
-
-  <p class="caption view-normalized">
-    Each marker sits at the analyzer's decisive-correct share of its own covered
-    population; the faint stub above it runs to 100%, which is that same covered
-    population, so the stub is wrong answers plus coverage outcomes inside the
-    kernels it did report on. A snapshot without a marker is a snapshot the
-    analyzer was not run in: {debutList}.
-    Absence is never drawn as a zero and never interpolated across. Percentages
-    from different snapshots are not the same exam, and percentages from
-    different analyzers in the same snapshot are only the same exam when their
-    <code>k/n</code> kernel counts match. Every snapshot label links to that
-    freeze's per-case evidence.
-  </p>
-</div>
+<p class="caption chart-key">
+  {heading ? (
+    <>
+      Marker: decisive-correct. Cap or stub: that analyzer's covered population.
+      Grey step: the full core population. The covered-kernel view keeps
+      non-answers in its denominator and shows coverage as <code>k/n</code>;
+      missing runs are absent, never zero. Exact figures are in the table.
+    </>
+  ) : (
+    <>
+      Same scales and encoding as the generalists. The covered-kernel view keeps
+      specialist scope visible as <code>k/n</code>; exact figures are in the table.
+    </>
+  )}
+</p>
 
 <div class="table-scroll view-table">
   <table>
@@ -800,26 +763,9 @@ const biggestJump = columns
 </div>
 
 <p class="caption view-table">
-  Every value the two chart views draw, one row per analyzer per snapshot, with
-  each denominator spelled out beside the figure it belongs to. This is the
-  same data the charts plot — nothing here is computed differently, and nothing
-  is rounded away except the percentages, which are given to one decimal place.
-  Switch back to <strong>Absolute counts</strong> or <strong>Accuracy on
-  covered kernels</strong> for the shape of it.
+  The exact values behind both chart views, one row per analyzer and snapshot.
 </p>
 </div>
-
-<p class="chart-note">
-  Read the shape, not a ranking. Two different things move a line: an analyzer
-  getting better, and the benchmark getting harder. The largest expansion so
-  far is <strong>{biggestJump.column.version}</strong>, which took the core
-  population from {biggestJump.previous!.population} to
-  {biggestJump.column.population} assertions — every analyzer's share of the
-  population fell there without any of them changing. Because the denominator
-  is drawn alongside the counts, saturation and expansion stay
-  distinguishable, and no two snapshots' fractions are ever compared as if
-  they were the same exam.
-</p>
 
 <style>
   /* The view toggle is a plain radio group: no JavaScript, keyboard-operable
@@ -890,26 +836,16 @@ const biggestJump = columns
   .view-toggle label:hover {
     color: var(--sl-color-white);
   }
-  #evolution-view-absolute:checked
-    ~ .view-toggle
-    label[for='evolution-view-absolute'],
-  #evolution-view-normalized:checked
-    ~ .view-toggle
-    label[for='evolution-view-normalized'],
-  #evolution-view-table:checked ~ .view-toggle label[for='evolution-view-table'] {
+  .absolute-radio:checked ~ .view-toggle .absolute-label,
+  .normalized-radio:checked ~ .view-toggle .normalized-label,
+  .table-radio:checked ~ .view-toggle .table-label {
     background: var(--sl-color-gray-6, var(--sl-color-hairline));
     color: var(--sl-color-white);
     box-shadow: inset 0 0 0 1px var(--sl-color-hairline);
   }
-  #evolution-view-absolute:focus-visible
-    ~ .view-toggle
-    label[for='evolution-view-absolute'],
-  #evolution-view-normalized:focus-visible
-    ~ .view-toggle
-    label[for='evolution-view-normalized'],
-  #evolution-view-table:focus-visible
-    ~ .view-toggle
-    label[for='evolution-view-table'] {
+  .absolute-radio:focus-visible ~ .view-toggle .absolute-label,
+  .normalized-radio:focus-visible ~ .view-toggle .normalized-label,
+  .table-radio:focus-visible ~ .view-toggle .table-label {
     outline: 2px solid var(--sl-color-accent-high);
     outline-offset: 2px;
   }
@@ -919,12 +855,12 @@ const biggestJump = columns
      height. It stays in the DOM either way — only `display` moves — and the
      charts' own `<title>`/`<desc>` state the essentials plus where the exact
      figures live, so nothing is only reachable through the table. */
-  #evolution-view-absolute:checked ~ .view-normalized,
-  #evolution-view-absolute:checked ~ .view-table,
-  #evolution-view-normalized:checked ~ .view-absolute,
-  #evolution-view-normalized:checked ~ .view-table,
-  #evolution-view-table:checked ~ .view-absolute,
-  #evolution-view-table:checked ~ .view-normalized {
+  .absolute-radio:checked ~ .view-normalized,
+  .absolute-radio:checked ~ .view-table,
+  .normalized-radio:checked ~ .view-absolute,
+  .normalized-radio:checked ~ .view-table,
+  .table-radio:checked ~ .view-absolute,
+  .table-radio:checked ~ .view-normalized {
     display: none;
   }
   .chart-frame {
