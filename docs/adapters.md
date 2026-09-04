@@ -243,6 +243,55 @@ one of the two outcomes the policy allows at the v0.7.0 freeze-prep: a bump
 with a full re-run of that adapter's slices, or a dated hold reason written
 into the next review entry and repeated in the release notes.
 
+#### 2026-09-04 — v0.7.0 freeze-prep Bifrost re-pin
+
+The first decision taken against the 2026-09-03 survey, and a narrow one: the
+Bifrost row had no hold reason on record, so by the policy above it was a
+bump. The other three gapped rows — Semgrep CE, Joern, OpenTaint — are not
+decided here and still owe their own bump-or-hold entries before the v0.7.0
+freeze.
+
+| Analyzer | Pin at survey | Outcome | Basis |
+| --- | --- | --- | --- |
+| Bifrost | v0.10.8, build `419395c8066b9eddfba06aa69c8a151ef4968249` | **Bumped to v0.10.9** | `--version` witnessed `bifrost 0.10.9` (the first line of a four-line banner, see below); `--build-identity` witnessed `04775a7b38c9c025714168328ddb8b793a326461` |
+
+**What the bump is for.** Upstream v0.10.9 (released 2026-09-03) closes
+BrokkAi/bifrost-dev #2831, the Go array-element regression the v0.10.8 bump
+took rather than held, and the same re-run delivers the reconciliation
+re-proof that #138 owed for all twenty Bifrost reports since PR #134 — one
+re-run serves both, so the two are recorded together under
+[Amendment A31](#a31--2026-09-04-the-twenty-bifrost-populations-are-re-run-on-v0109-and-every-reached-outcome-is-anchor-proven-under-sink-anchor-reconciliation).
+
+**Which binary, and why it matters.** The pinned build is the upstream
+release asset `bifrost-v0.10.9-universal-apple-darwin.tar.gz` (SHA-256
+`69ae168ae8fb3a96046360b8796343ec124fc720b9e089f98a35133f3a260a96`). A
+`cargo install brokk-bifrost@0.10.9` build of the same version answers
+`--build-identity` with `unknown`, because the crate's build script derives
+the identity from git history that a registry source does not carry; a
+release-scope freeze rejects that value, so such a build cannot produce
+conforming evidence. Filed upstream as BrokkAi/bifrost-dev #2998. The
+witnessed `04775a7b…` is the commit the release's own identity rule names —
+the last commit touching a compiled input at tag `v0.10.9` — and the same
+rule, applied to `v0.10.8`, reproduces the retained `419395c8…`.
+
+**The banner.** v0.10.9's `--version` prints four lines: the version, its two
+built-in policy packs (`bifrost.code-smells@2.10.0`, `bifrost.security@1.0.0`),
+and the built-in policy catalog digest
+`sha256=aea2ad0c592f7252009655b62b78a884bde38c63d0b83a1e82f0db96012a797d`.
+The runners witness the banner verbatim but stamp only its version line as
+`tool_version` — the same line every earlier pin witnessed — and retain the
+whole banner beside the raw evidence as `witnessed_tool_version_banner` in
+each population's `run-environment.json`, so the shipped pack catalog the
+tool-native profile activates is now a witnessed identity rather than an
+inference.
+
+**The latency corpus is not re-measured.** It stays frozen at v0.6.0 and
+keeps naming v0.10.7 as the measured environment's Bifrost, under the same
+rule the v0.6.1 entry states.
+
+**This review moved declarations only; the evidence re-run followed** as
+Amendment A31, on the same day, at the unchanged fixture revision.
+
 ## Challenge-tier rollout mechanics
 
 [The challenge-tier preregistration](challenge-tier.md) fixes *what* the

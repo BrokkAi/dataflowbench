@@ -134,7 +134,7 @@ its partition marks unsupported.
 
 | Adapter | Artifact | Categories it declares |
 | --- | --- | --- |
-| Bifrost v0.10.8 | `adapters/bifrost/policies/model-java.rqlp` | S, Z (Amendment [A9](modeling-matrix.md#a9--2026-08-27-bifrosts-sanitizer-category-is-promoted-the-readmes-lowering-claim-was-false)) |
+| Bifrost v0.10.9 | `adapters/bifrost/policies/model-java.rqlp` | S, Z (Amendment [A9](modeling-matrix.md#a9--2026-08-27-bifrosts-sanitizer-category-is-promoted-the-readmes-lowering-claim-was-false)) |
 | CodeQL 2.26.4 | `adapters/codeql/queries/JavaModeling.ql` | S, P, Z, O, E, B |
 | Joern 4.0.614 | `adapters/joern/semantics/model-java.semantics` + `adapters/joern/queries/modeling.sc` | S, Z, E, B |
 | Semgrep CE 1.175.0 | `adapters/semgrep/rules/model-java.yaml` | S, Z, E |
@@ -145,7 +145,7 @@ entries bound to `return-value` and two `:sinks` entries bound to
 committed artifact now also carries one `:sanitizers` entry, whose scored
 evidence lands with the next re-run. It sets
 `:call-modeling (call-modeling :unmodeled require-model)`, which the pinned
-v0.10.8 build accepts — see [A5](#amendment-a5-require-model-is-accepted) below.
+v0.10.9 build accepts — see [A5](#amendment-a5-require-model-is-accepted) below.
 That acceptance does **not** promote category P, which also requires a
 propagator or transform declaration surface no committed policy has.
 

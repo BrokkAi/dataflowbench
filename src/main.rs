@@ -641,7 +641,7 @@ impl ModelingTool {
     /// freeze cannot survive.
     fn pinned_identity(self) -> &'static str {
         match self {
-            Self::Bifrost => "Bifrost v0.10.8",
+            Self::Bifrost => "Bifrost v0.10.9",
             Self::Codeql => "CodeQL CLI 2.26.4",
             Self::Flowdroid => "FlowDroid 2.15.1",
             Self::Infer => "Infer v1.3.0",
@@ -1752,7 +1752,7 @@ struct NativePartitionCell {
 /// amendment. That is why three of the four tools enter with nothing scored —
 /// which is a statement about product packaging, not about an engine.
 const NATIVE_PARTITION: &[NativePartitionCell] = &[
-    // Bifrost — v0.10.8: 0 / 6. The standalone policy CLI ships no taint
+    // Bifrost — v0.10.9: 0 / 6. The standalone policy CLI ships no taint
     // policy and no source/sink endpoint catalog, so no template can produce a
     // finding regardless of what else it can express.
     NativePartitionCell {
