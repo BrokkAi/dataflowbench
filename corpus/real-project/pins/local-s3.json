@@ -1,0 +1,74 @@
+{
+  "advisory": {
+    "affected_packages": [
+      "io.github.robothy:local-s3-rest"
+    ],
+    "cve_id": "CVE-2025-27136",
+    "cwes": [
+      "CWE-611"
+    ],
+    "ghsa_id": "GHSA-g6wm-2v64-wq36",
+    "published_at": "2025-03-10T18:24:35Z",
+    "severity": "medium",
+    "summary": "LocalS3 CreateBucketConfiguration Endpoint XML External Entity (XXE) Injection",
+    "url": "https://github.com/advisories/GHSA-g6wm-2v64-wq36"
+  },
+  "ecosystem": "maven",
+  "fix_commits": [
+    "d6ed756ceb30c1eb9d4263321ac683d734f8836f"
+  ],
+  "ground_truth": {
+    "adjudication": "pending",
+    "basis": "the advisory's fix diff between the two pinned revisions",
+    "reviewers": [],
+    "status": "proposed"
+  },
+  "language": "java",
+  "license": {
+    "file_path": "LICENSE",
+    "file_sha256": "43070e2d4e532684de521b885f385d0841030efa2b1a20bafb76133a5e1379c1",
+    "identical_at_both_revisions": true,
+    "redistribution": "DataFlowBench does not vendor this source. Each revision is fetched from the pinned archive URL and verified against sha256 before use.",
+    "spdx_id": "Apache-2.0"
+  },
+  "pin_id": "dfb-rp-java-local-s3",
+  "repository": {
+    "name": "local-s3",
+    "owner": "Robothy",
+    "url": "https://github.com/Robothy/local-s3"
+  },
+  "revisions": {
+    "fixed": {
+      "revision": "d6ed756ceb30c1eb9d4263321ac683d734f8836f",
+      "role": "the advisory's latest fix commit; the revision in which the reported defect is remediated",
+      "source_archive": {
+        "bytes": 191277,
+        "retrieved_on": "2026-09-04",
+        "sha256": "7ee61b71025915f3e8c8c8931214b59cb4fc43a93316e0a17774a30686000d5c",
+        "url": "https://codeload.github.com/Robothy/local-s3/tar.gz/d6ed756ceb30c1eb9d4263321ac683d734f8836f"
+      }
+    },
+    "vulnerable": {
+      "revision": "009901882be8b543e85b67c5ec2e9f30d83d62ef",
+      "role": "first parent of the advisory's earliest fix commit; the last revision that still carries the reported defect",
+      "source_archive": {
+        "bytes": 191201,
+        "retrieved_on": "2026-09-04",
+        "sha256": "7d7baeb07b189ada02330dbe842eeec09b04223f0cc7e9d06f1c2c951cfd7627",
+        "url": "https://codeload.github.com/Robothy/local-s3/tar.gz/009901882be8b543e85b67c5ec2e9f30d83d62ef"
+      }
+    }
+  },
+  "schema_version": 1,
+  "selection": {
+    "draw_key": "27fcd05f0199e717d012d51e2c92baee280f687c1222f6153182663bce1742d2",
+    "draw_position": 6,
+    "frame": {
+      "path": "corpus/real-project/frame.json",
+      "sha256": "1bb61bcf60d4fed8ac26dcb6f1f33dfcd61e7b285c15037ad7819595efa1ed5e"
+    },
+    "seed": "dataflowbench-real-project-wave-r1"
+  },
+  "stratum": "java",
+  "wave": "R1"
+}

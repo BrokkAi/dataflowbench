@@ -322,3 +322,16 @@ Add a small, pinned, manually reviewed corpus drawn from executable or
 buggy/fixed upstream benchmarks. Keep these results separate from the synthetic
 semantic core. Performance and typestate receive independent milestone plans
 after the correctness contract is stable.
+
+### 2026-09-04 — the slice is preregistered and pinned
+
+[The real-project preregistration](real-project-preregistration.md) closes the
+selection half of issue #19. Six repositories — two Java, two JavaScript, two
+Python — were drawn by a seeded walk over a retained frame of 219 GitHub
+advisories, under eight metadata-only eligibility criteria, and pinned in
+`corpus/real-project/pins/` at a vulnerable and a fixed revision each, with
+source-archive digests and licence records. No analyzer has been run against any
+of them; `cargo run -- validate` replays the draw and refuses a walk that does
+not reproduce from the seed. Ground-truth authoring, independent review, and
+adjudication are the remaining half of #19 and must close before #20 executes
+anything.

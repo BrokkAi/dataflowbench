@@ -1,0 +1,74 @@
+{
+  "advisory": {
+    "affected_packages": [
+      "llamafactory"
+    ],
+    "cve_id": "CVE-2025-53002",
+    "cwes": [
+      "CWE-94"
+    ],
+    "ghsa_id": "GHSA-xj56-p8mm-qmxj",
+    "published_at": "2025-06-27T15:27:01Z",
+    "severity": "high",
+    "summary": "LLaMA-Factory allows Code Injection through improper vhead_file safeguards",
+    "url": "https://github.com/advisories/GHSA-xj56-p8mm-qmxj"
+  },
+  "ecosystem": "pip",
+  "fix_commits": [
+    "bb7bf51554d4ba8432333c35a5e3b52705955ede"
+  ],
+  "ground_truth": {
+    "adjudication": "pending",
+    "basis": "the advisory's fix diff between the two pinned revisions",
+    "reviewers": [],
+    "status": "proposed"
+  },
+  "language": "python",
+  "license": {
+    "file_path": "LICENSE",
+    "file_sha256": "50e6751797c50dedd75ef1b8a0d9e42f5f8472e9fbce91f34718e9f97b0c780a",
+    "identical_at_both_revisions": true,
+    "redistribution": "DataFlowBench does not vendor this source. Each revision is fetched from the pinned archive URL and verified against sha256 before use.",
+    "spdx_id": "Apache-2.0"
+  },
+  "pin_id": "dfb-rp-python-llama-factory",
+  "repository": {
+    "name": "LLaMA-Factory",
+    "owner": "hiyouga",
+    "url": "https://github.com/hiyouga/LLaMA-Factory"
+  },
+  "revisions": {
+    "fixed": {
+      "revision": "bb7bf51554d4ba8432333c35a5e3b52705955ede",
+      "role": "the advisory's latest fix commit; the revision in which the reported defect is remediated",
+      "source_archive": {
+        "bytes": 10061873,
+        "retrieved_on": "2026-09-04",
+        "sha256": "665f03ed3142334482e86eb3eff08f6fbb334198a24096ad4206013fed84681d",
+        "url": "https://codeload.github.com/hiyouga/LLaMA-Factory/tar.gz/bb7bf51554d4ba8432333c35a5e3b52705955ede"
+      }
+    },
+    "vulnerable": {
+      "revision": "7242caf0ff5baddefcbd93020e551e5e72f32314",
+      "role": "first parent of the advisory's earliest fix commit; the last revision that still carries the reported defect",
+      "source_archive": {
+        "bytes": 10061809,
+        "retrieved_on": "2026-09-04",
+        "sha256": "8aa1414c7326073181739a1371f46b804d8d683a00abd6b3317268a9d0e7841c",
+        "url": "https://codeload.github.com/hiyouga/LLaMA-Factory/tar.gz/7242caf0ff5baddefcbd93020e551e5e72f32314"
+      }
+    }
+  },
+  "schema_version": 1,
+  "selection": {
+    "draw_key": "0244741370f1a808604879dd4cbea568e7ccb1e9012da8bad0643bb06cc4a43a",
+    "draw_position": 2,
+    "frame": {
+      "path": "corpus/real-project/frame.json",
+      "sha256": "1bb61bcf60d4fed8ac26dcb6f1f33dfcd61e7b285c15037ad7819595efa1ed5e"
+    },
+    "seed": "dataflowbench-real-project-wave-r1"
+  },
+  "stratum": "python",
+  "wave": "R1"
+}

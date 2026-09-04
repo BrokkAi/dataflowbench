@@ -1,0 +1,82 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://dataflowbench.dev/schemas/real-project-draw/v1",
+  "title": "DataFlowBench real-project draw record v1",
+  "description": "The executed sampling draw for one real-project wave: the seed, the frame it consumed, and the ordered walk over each stratum with a disposition for every candidate the walk reached. See docs/real-project-preregistration.md.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "wave",
+    "drawn_on",
+    "seed",
+    "ordering_rule",
+    "target_per_stratum",
+    "frame",
+    "analyzer_evidence_consulted",
+    "criteria",
+    "walk"
+  ],
+  "properties": {
+    "schema_version": { "const": 1 },
+    "wave": { "type": "string", "pattern": "^R[0-9]+$" },
+    "drawn_on": { "type": "string", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$" },
+    "seed": { "type": "string", "minLength": 1 },
+    "ordering_rule": { "type": "string", "minLength": 1 },
+    "target_per_stratum": { "type": "integer", "minimum": 1 },
+    "frame": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": { "type": "string", "minLength": 1 },
+        "sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" }
+      }
+    },
+    "analyzer_evidence_consulted": {
+      "const": false,
+      "description": "The draw is executed before any analyzer is pointed at any candidate. The validator rejects any other value; a draw that consulted analyzer evidence is not a draw this benchmark can publish."
+    },
+    "criteria": {
+      "type": "object",
+      "minProperties": 1,
+      "description": "Eligibility criterion identifiers declared by the preregistration, mapped to their short names. Every exclusion must cite one of these keys.",
+      "additionalProperties": { "type": "string", "minLength": 1 },
+      "propertyNames": { "pattern": "^E[0-9]+$" }
+    },
+    "walk": {
+      "type": "object",
+      "minProperties": 1,
+      "description": "One ordered candidate list per stratum, truncated at the last selected candidate.",
+      "propertyNames": { "pattern": "^[a-z][a-z0-9-]*$" },
+      "additionalProperties": {
+        "type": "array",
+        "minItems": 1,
+        "items": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["draw_position", "draw_key", "ghsa_id", "repository", "disposition", "exclusions"],
+          "properties": {
+            "draw_position": { "type": "integer", "minimum": 1 },
+            "draw_key": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+            "ghsa_id": { "type": "string", "pattern": "^GHSA-[0-9a-z]{4}-[0-9a-z]{4}-[0-9a-z]{4}$" },
+            "repository": { "type": "string", "pattern": "^[^/]+/[^/]+$" },
+            "disposition": { "enum": ["selected", "excluded"] },
+            "exclusions": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": ["criterion", "observed"],
+                "properties": {
+                  "criterion": { "type": "string", "pattern": "^E[0-9]+$" },
+                  "observed": { "type": "string", "minLength": 1 }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
