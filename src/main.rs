@@ -4720,6 +4720,27 @@ fn validate_real_project_slice() -> Result<usize> {
             }
         }
 
+        // Invariant 9 of the preregistration: a wave whose ground truth was not
+        // independently reviewed has to say so beside its numbers. The
+        // disclosure is only worth anything if it cannot drift away from the
+        // staffing that produced it, so the record is checked against its own
+        // reviewer list rather than trusted to stay in step by hand.
+        let reviewers: BTreeSet<&str> = pin["ground_truth"]["reviewers"]
+            .as_array()
+            .expect("schema validated")
+            .iter()
+            .filter_map(|value| value.as_str())
+            .collect();
+        let independence = pin["ground_truth"]["review_independence"]
+            .as_str()
+            .expect("schema validated");
+        if reviewers.len() < 2 && independence != "maintainer-only" {
+            bail!(
+                "{display}: ground truth names {} reviewer(s) and cannot claim independent review",
+                reviewers.len()
+            );
+        }
+
         let spdx = pin["license"]["spdx_id"]
             .as_str()
             .expect("schema validated");
@@ -29440,6 +29461,15 @@ mod tests {
             }
             assert_eq!(pin["ground_truth"]["status"], json!("proposed"));
             assert_eq!(pin["ground_truth"]["adjudication"], json!("pending"));
+            // Wave R1's review is maintainer-only by an explicit, recorded
+            // waiver. A pin that ever claims independent review has to name the
+            // reviewers who back the claim.
+            assert_eq!(
+                pin["ground_truth"]["review_independence"],
+                json!("maintainer-only"),
+                "{}",
+                path.display()
+            );
         }
     }
 }

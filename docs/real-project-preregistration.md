@@ -249,15 +249,12 @@ rejected by the validator.
 
 **Target size: two repositories per stratum, six in total.**
 
-> **DECISION NEEDED — sample size.** Six repositories across three languages is
-> the proposed size: small enough that each case can carry a hand-authored,
-> independently reviewed ground truth, and large enough that no single
-> repository's peculiarity dominates the whole slice. It is not derived from a
-> power calculation, and n = 6 supports no inferential statistic — see the claim
-> bounds. A maintainer who wants a different size should change
-> `target_per_stratum` and re-run the walk **now**, before any analyzer runs;
-> after that point the size is fixed by the immutability rule and can only move
-> by amendment.
+**Decided 2026-09-04.** Six is small enough that every case can carry a
+hand-authored, reviewed ground truth, and large enough that no single
+repository's peculiarity dominates the slice. It is not derived from a power
+calculation, and n = 6 supports no inferential statistic — see the claim bounds,
+which forbid every quantity that would need one. The size is now fixed by the
+immutability rule and can move only by amendment.
 
 ### The executed draw
 
@@ -317,19 +314,40 @@ redistributing anything.
 
 The two revisions are the *candidate* positive/negative pair, in the sense the
 [scoring contract](scoring.md) already uses: the vulnerable revision should
-carry the flow and the fixed revision should not. Whether that pair is
-*minimally different* — the property every synthetic negative has by
-construction — is an adjudication question, not a schema one. An upstream fix
-that also refactors, renames, or upgrades a dependency is not a minimal
-negative, and reviewers may decline the pair on exactly that ground.
+carry the flow and the fixed revision should not.
 
-> **DECISION NEEDED — the hibernate-validator fix span.** That advisory names
-> four fix commits spanning 2020-12-04 to 2020-12-16, so its pinned pair spans
-> twelve days of unrelated development rather than one focused change. The
-> proposal is to keep the pin and let the reviewers decide whether a minimal
-> pair can be stated over it; if they cannot, the repository is declined under
-> the replacement rule and the walk continues from position 7 of the Java
-> stratum.
+### A multi-commit fix is one remediation
+
+**Decided 2026-09-04.** When an advisory names several fix commits, they are
+**aggregated**: the pair spans the whole set, from the parent of the earliest to
+the latest. A real remediation is often not one commit — a serious flaw is
+frequently closed by a sequence of them, sometimes over weeks, as the first
+attempt turns out to be incomplete. Log4Shell is the well-known example.
+Requiring a single-commit fix would exclude exactly the defects most worth
+confirming against, and picking one commit out of a set would be the maintainer
+choosing which part of the fix counts.
+
+The cost is stated rather than hidden, because it is the one place this
+population is weaker than every authored one. **A real-project pair is not
+minimally different**, and cannot be. The synthetic kernels get that property by
+construction: one edit, one mechanism, everything else held. An aggregated
+upstream fix may also refactor, rename, retune, or upgrade a dependency along
+the way. `hibernate/hibernate-validator` is the sharpest case in this slice —
+four commits across twelve days of ordinary development.
+
+Two consequences follow, and both bind:
+
+- **A true negative on a fixed revision is weaker evidence than a synthetic true
+  negative**, because the engine may be answering "no flow" for something the
+  fix changed incidentally rather than for the remediation itself. The
+  [claim bounds](#what-the-scorecard-may-not-claim) already forbid treating the
+  two as equivalent, and the scorecard repeats the caveat beside every such
+  number.
+- **Reviewers state the pair's span, not just its endpoints.** The ground truth
+  records which of the aggregated commits carries the remediation of the flow
+  under test and which are incidental, so a reader can see how much unrelated
+  change the negative is riding on. A pair whose remediation cannot be located
+  within the set at all is declined under the replacement rule.
 
 ## Replacement rule
 
@@ -388,23 +406,50 @@ carries on every kernel: cells outside that partition are declined
 `unsupported` by declared capability, from the case metadata, before the tool is
 invoked.
 
-> **DECISION NEEDED — the bytecode-and-build adapters.** OpenTaint (Java) and
-> Infer (Java, C, C++) both require a compiled or build-captured artifact rather
-> than a source tree, and CodeQL's Java extractor requires a traced build. The
-> proposal is: CodeQL Java is in scope with a pinned Maven build recipe recorded
-> per repository; OpenTaint and Infer are **deferred to wave R2**, because
-> admitting them now means preregistering a per-repository build contract before
-> anyone has confirmed the two Java repositories build reproducibly under the
-> pinned toolchains, and a build that fails during execution is a
-> `runner-error`, which blocks a freeze. Deferral is a maintainer scope
-> decision, recorded so that neither tool's absence reads as an inability to
-> analyze real projects.
+### The bytecode-and-build adapters, and the publication gate
 
-> **DECISION NEEDED — a TypeScript stratum.** E1 excluded ten of the first
-> fourteen JavaScript candidates for being TypeScript-primary. Adding a fourth
-> stratum would cover a large and growing share of the npm advisory population
-> and would exercise the TypeScript kernel's adapters. The proposal is to defer
-> it to wave R2 rather than widen wave R1 after its draw has run.
+**Decided 2026-09-04.** OpenTaint (Java) and Infer (Java, C, C++) both require a
+compiled or build-captured artifact rather than a source tree, and CodeQL's Java
+extractor requires a traced build. CodeQL Java stays in scope, with a pinned
+build recipe recorded per repository. OpenTaint and Infer are **deferred to wave
+R2**: admitting them now would mean preregistering a per-repository build
+contract before anyone has confirmed that the two Java repositories build
+reproducibly under the pinned toolchains, and a build that fails during
+execution is a `runner-error`, which blocks a freeze.
+
+The deferral comes with a condition, and it is the stronger half of the
+decision:
+
+> **The real-project tier does not enter a freeze until every adapter that could
+> analyze a pinned repository is running against it.** A partial slice may be
+> executed and reviewed; it may not be published.
+
+The reason is that a build is not incidental to what these engines do. An engine
+designed around a compiled artifact is being asked a different, and usually
+easier, question than one reading loose source: it gets resolved types, a real
+classpath, and a call graph the build already computed. Publishing a
+real-project scorecard while the build-capture adapters sit out would therefore
+not be a scorecard with two rows missing. It would be a scorecard whose
+population was quietly restricted to the engines that need no build, and every
+number on it would carry an advantage no reader could see. Waiting is the only
+honest option, and the gate is written as an invariant so that "we can add them
+next time" cannot become the reason it never happens.
+
+The gate is about **wiring**, not about capability. FlowDroid's Java row
+analyzes Android APKs, and neither pinned Java repository is an Android
+application; that is a declared capability boundary, decided from the repository
+before any run, and it is satisfied by the recorded-only decline in the table
+above rather than by adding an adapter. An adapter that *could* run a pinned
+repository and simply is not wired yet is what holds the gate shut.
+
+### A TypeScript stratum
+
+**Decided 2026-09-04.** Deferred to wave R2. Criterion E1 excluded ten of the
+first fourteen JavaScript candidates for being TypeScript-primary, so a fourth
+stratum would cover a large and growing share of the npm advisory population and
+would exercise the TypeScript kernel's adapters. It is not added to wave R1,
+because widening a wave after its draw has run is the one move this document
+exists to prevent.
 
 ## Bounded claims
 
@@ -455,6 +500,12 @@ observed is retained and published either way.
 - **No claim about a repository the slice excluded.** The walk's exclusions are
   provenance, not verdicts. That `apache/tika` exceeded the size budget says
   nothing whatsoever about any analyzer's behavior on `apache/tika`.
+- **No real-project number published without the two disclosures that qualify
+  it.** Every figure carries, in the same place it appears, that wave R1's
+  ground truth is maintainer-authored and maintainer-adjudicated, and that a
+  real-project pair is not minimally different. Both are reasons a reader should
+  discount these numbers, and burying either would make the scorecard less
+  honest than publishing nothing.
 
 ### Outcome honesty is unchanged
 
@@ -519,6 +570,10 @@ having seen the first person's reasoning.
 
 ### Procedure
 
+This is the standing procedure. Wave R1 runs it with one person in every seat,
+which is a waiver rather than a variant; see
+[the staffing section](#staffing-for-wave-r1-and-what-it-does-not-satisfy).
+
 1. The author writes the candidate ground truth for each case from the fix diff
    and commits it with the pin record, `ground_truth.status: "proposed"` and
    `ground_truth.adjudication: "pending"`.
@@ -544,7 +599,7 @@ having seen the first person's reasoning.
 
 DataFlowBench is published by the vendor of Bifrost, one of the engines this
 slice will score. Pretending otherwise would be worse than useless, so the
-independence requirement is stated in terms of that conflict:
+standing independence requirement is stated in terms of that conflict:
 
 - The two reviewers for a case must not both be the same person as the author,
   and no person holds two roles on one case.
@@ -557,18 +612,46 @@ independence requirement is stated in terms of that conflict:
   participant who has is disqualified from all three roles for that case, and
   says so rather than proceeding carefully.
 
-> **DECISION NEEDED — who fills the roles.** The procedure above is complete;
-> the assignment is not. The proposal is that the maintainer who authors the
-> ground truth (D. Baker Effendi) takes the author role for all six cases, that
-> the two reviewer slots per case are filled from the project's contributor pool
-> with at least one non-Bifrost reviewer per case, and that a single
-> non-Bifrost adjudicator is named for the whole wave rather than per case. A
-> named adjudicator is required before adjudication opens — an unnamed
-> adjudicator chosen after a disagreement appears is a tie-break chosen with
-> knowledge of the tie. If the project cannot staff an independent adjudicator,
-> the honest fallback is to declare it and publish the slice with every
-> adjudicated case flagged as maintainer-adjudicated, not to quietly fill the
-> seat.
+### Staffing for wave R1, and what it does not satisfy
+
+**Decided 2026-09-04.** The project has no second reviewer to assign, so for
+wave R1 the maintainer (D. Baker Effendi) holds **all three roles** on all six
+cases: author, sole reviewer, and adjudicator.
+
+Stated without softening: **wave R1's ground truth is not independently
+reviewed.** The separation the procedure above requires is not met, the blind
+second reading does not happen, and the conflict-of-interest rule is waived by
+the same person it exists to constrain. Issue #19's acceptance criterion that
+ground truth "receives independent review and adjudication before freeze" is
+therefore **not satisfied by single-person review**, and no later step in this
+document quietly converts it into satisfied.
+
+What follows from that, and all of it binds:
+
+- **Every case is labelled maintainer-authored and maintainer-adjudicated** on
+  the scorecard, in the same place the number appears, not in a footnote and not
+  only here.
+- **The scorecard states the waiver in its own words** wherever a real-project
+  result is published, alongside the bounded-claims caveats. A reader must be
+  able to discount these numbers for the reason a reader should discount them.
+- **Standing open review.** Anyone who disputes a ground-truth call in this
+  slice may register as an external reviewer for the case they dispute, and
+  their verdict and rationale are recorded and published beside the maintainer's
+  exactly as a staffed reviewer's would be. A disagreement re-opens adjudication
+  for that case, and an external reviewer who is independent of Bifrost
+  engineering adjudicates it. The invitation is open before the first run and
+  stays open afterwards; it is not a promise to reconsider if pressed, but the
+  documented route by which the record gets corrected.
+- **The waiver is per wave, not permanent.** It applies to R1 only. A later wave
+  that can staff two reviewers and an independent adjudicator runs the full
+  procedure, and R1's cases are eligible for re-review under it.
+
+The [publication gate](#the-bytecode-and-build-adapters-and-the-publication-gate)
+makes this less costly than it would otherwise be. The tier cannot be published
+until the build-capture adapters are wired, so there is a real window between
+ground truth being fixed and any number reaching a reader, and an external
+reviewer who appears in that window can still change the record before anything
+is claimed on it.
 
 ## Invariants
 
@@ -582,9 +665,13 @@ independence requirement is stated in terms of that conflict:
 6. `inconclusive`, `unsupported`, and `runner-error` are never clean negatives.
 7. Ground truth is adjudicated before the first analyzer runs, and every verdict
    is published.
-8. A `pin_id` is never reused, and no pinned revision or digest is ever rewritten
-   in place.
-9. DataFlowBench pins and fetches upstream source; it never vendors it.
+8. The real-project tier does not enter a freeze until every adapter that could
+   analyze a pinned repository is wired and running against it.
+9. Any wave whose ground truth was not independently reviewed says so on its
+   scorecard, beside the numbers.
+10. A `pin_id` is never reused, and no pinned revision or digest is ever
+    rewritten in place.
+11. DataFlowBench pins and fetches upstream source; it never vendors it.
 
 ## Amendments
 

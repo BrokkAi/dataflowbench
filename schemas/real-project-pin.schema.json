@@ -126,13 +126,17 @@
     "ground_truth": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["status", "basis", "adjudication", "reviewers"],
+      "required": ["status", "basis", "adjudication", "reviewers", "review_independence"],
       "description": "Ground truth is authored and adjudicated by reviewers, never inherited from the advisory and never derived from an analyzer result.",
       "properties": {
         "status": { "enum": ["proposed", "accepted", "declined"] },
         "basis": { "type": "string", "minLength": 1 },
         "adjudication": { "enum": ["pending", "agreed", "adjudicated", "declined"] },
-        "reviewers": { "type": "array", "items": { "type": "string" } }
+        "reviewers": { "type": "array", "items": { "type": "string" } },
+        "review_independence": {
+          "enum": ["independent", "maintainer-only"],
+          "description": "Whether this case's ground truth was reviewed by someone other than its author. `maintainer-only` means the separation the preregistration's review procedure requires was waived, and the scorecard must say so beside every number derived from this case. It is a property of the record so that the disclosure cannot be lost between the review and the report."
+        }
       }
     }
   },
