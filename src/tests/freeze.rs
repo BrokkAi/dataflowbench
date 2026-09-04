@@ -4,12 +4,13 @@ use crate::adapters::ToolIdentity;
 use crate::cases::case_paths;
 use crate::freeze::{
     build_freeze_manifest, compile_schema, fixture_revision_for_manifest_cases, git_output,
-    parse_raw_evidence_documents, raw_special_outcome, validate_adapter_identities,
-    validate_freeze_at, validate_freeze_git_state,
+    parse_raw_evidence_documents, raw_special_outcome, require_merged_freeze_revision,
+    validate_adapter_identities, validate_freeze_at, validate_freeze_git_state,
 };
 use crate::results::generate_results_at;
 use crate::runtime::{write_case_phase_timings, write_run_environment};
 use crate::tests::support::FreezeFixture;
+use crate::tests::support::unique_test_dir;
 use serde_json::{Value, json};
 use std::{
     collections::BTreeMap, collections::BTreeSet, fs, path::Path, path::PathBuf, process::Command,
@@ -348,4 +349,65 @@ pub(crate) fn generate_results_requires_a_valid_freeze() {
     let output = fixture.root.join("generated");
     assert!(generate_results_at(&fixture.root, &fixture.manifest, &output, false, false).is_err());
     assert!(!output.exists());
+}
+
+/// The failure this guards against is the one that broke `main`: an
+/// amendment pull request that committed evidence and ran `create-freeze`
+/// on the same branch recorded the branch commit, which the squash merge
+/// then discarded, leaving every later `validate-freeze` unable to resolve
+/// the frozen revision.
+#[test]
+pub(crate) fn freeze_revision_must_be_reachable_from_main() {
+    let root = unique_test_dir("dataflowbench-merged-revision-test");
+    fs::create_dir_all(&root).unwrap();
+    let run_git = |args: &[&str]| {
+        assert!(
+            Command::new("git")
+                .args([
+                    "-c",
+                    "user.email=dataflowbench-test@example.invalid",
+                    "-c",
+                    "user.name=DataFlowBench Test",
+                    "-c",
+                    "commit.gpgsign=false",
+                ])
+                .args(args)
+                .current_dir(&root)
+                .status()
+                .unwrap()
+                .success()
+        );
+    };
+
+    // Without an integration branch there is nothing to compare against,
+    // so the guard defers to validation rather than blocking the freeze.
+    run_git(&["init", "-q", "--initial-branch=trunk"]);
+    fs::write(root.join("evidence.txt"), "evidence\n").unwrap();
+    run_git(&["add", "."]);
+    run_git(&["commit", "-qm", "evidence"]);
+    let merged = git_output(&root, ["rev-parse", "HEAD"]).unwrap();
+    require_merged_freeze_revision(&root, &merged).unwrap();
+
+    // On `main` itself, both the tip and its ancestors are reachable.
+    run_git(&["branch", "-m", "main"]);
+    require_merged_freeze_revision(&root, &merged).unwrap();
+    fs::write(root.join("more.txt"), "more\n").unwrap();
+    run_git(&["add", "."]);
+    run_git(&["commit", "-qm", "more evidence"]);
+    require_merged_freeze_revision(&root, &merged).unwrap();
+
+    // A commit that lives only on a pull-request branch is refused: the
+    // squash merge would discard it and orphan the recorded revision.
+    run_git(&["checkout", "-q", "-b", "amendment"]);
+    fs::write(root.join("unmerged.txt"), "unmerged\n").unwrap();
+    run_git(&["add", "."]);
+    run_git(&["commit", "-qm", "unmerged evidence"]);
+    let unmerged = git_output(&root, ["rev-parse", "HEAD"]).unwrap();
+    let error = require_merged_freeze_revision(&root, &unmerged)
+        .unwrap_err()
+        .to_string();
+    assert!(error.contains("not reachable from main"), "{error}");
+    assert!(error.contains("squash-merged"), "{error}");
+
+    fs::remove_dir_all(&root).unwrap();
 }

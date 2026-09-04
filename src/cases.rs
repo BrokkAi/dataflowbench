@@ -4,6 +4,7 @@
 
 use crate::modeling::validate_modeling_cases;
 use crate::native::{validate_native_cases, validate_profile_disjoint_populations};
+use crate::real_project::validate_real_project_slice;
 use crate::templates::CHALLENGE_ROLLOUT;
 use anyhow::{Context, Result, bail};
 use jsonschema::JSONSchema;
@@ -84,7 +85,14 @@ pub(crate) fn validate_cases() -> Result<()> {
     // obligations rather than one; both run over the shipped native rows.
     validate_native_cases(&cases)?;
     validate_profile_disjoint_populations(&cases)?;
+    // The real-project slice is preregistered evidence, not a case population:
+    // it has no fixtures yet and contributes to no denominator. It is checked
+    // here because this is the command CI already runs over every committed
+    // JSON fixture, and a seeded draw that stops being reproducible should fail
+    // the same build that a malformed case fails.
+    let pins = validate_real_project_slice()?;
     println!("validated {} cases", paths.len());
+    println!("validated {pins} real-project pin records");
     Ok(())
 }
 

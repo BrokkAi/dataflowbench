@@ -12,6 +12,7 @@ mod freeze;
 mod latency;
 mod modeling;
 mod native;
+mod real_project;
 mod report;
 mod results;
 mod runtime;

@@ -1,0 +1,76 @@
+{
+  "advisory": {
+    "affected_packages": [
+      "tar-fs"
+    ],
+    "cve_id": "CVE-2025-59343",
+    "cwes": [
+      "CWE-22",
+      "CWE-61"
+    ],
+    "ghsa_id": "GHSA-vj76-c3g6-qr5v",
+    "published_at": "2025-09-24T18:57:04Z",
+    "severity": "high",
+    "summary": "tar-fs has a symlink validation bypass if destination directory is predictable with a specific tarball",
+    "url": "https://github.com/advisories/GHSA-vj76-c3g6-qr5v"
+  },
+  "ecosystem": "npm",
+  "fix_commits": [
+    "0bd54cdf06da2b7b5b95cd4b062c9f4e0a8c4e09"
+  ],
+  "ground_truth": {
+    "adjudication": "pending",
+    "basis": "the advisory's fix diff between the two pinned revisions",
+    "review_independence": "maintainer-only",
+    "reviewers": [],
+    "status": "proposed"
+  },
+  "language": "javascript",
+  "license": {
+    "file_path": "LICENSE",
+    "file_sha256": "3fe8d55a98dbf260eace67c00cf9bc53edb46234e840098a0b93df3096b97fb6",
+    "identical_at_both_revisions": true,
+    "redistribution": "DataFlowBench does not vendor this source. Each revision is fetched from the pinned archive URL and verified against sha256 before use.",
+    "spdx_id": "MIT"
+  },
+  "pin_id": "dfb-rp-javascript-tar-fs",
+  "repository": {
+    "name": "tar-fs",
+    "owner": "mafintosh",
+    "url": "https://github.com/mafintosh/tar-fs"
+  },
+  "revisions": {
+    "fixed": {
+      "revision": "0bd54cdf06da2b7b5b95cd4b062c9f4e0a8c4e09",
+      "role": "the advisory's latest fix commit; the revision in which the reported defect is remediated",
+      "source_archive": {
+        "bytes": 9032,
+        "retrieved_on": "2026-09-04",
+        "sha256": "3d7beb10aa572ba2d3efbe0ca6d8c6df7c5c6fff3be7a806e7d7ffb4e906a484",
+        "url": "https://codeload.github.com/mafintosh/tar-fs/tar.gz/0bd54cdf06da2b7b5b95cd4b062c9f4e0a8c4e09"
+      }
+    },
+    "vulnerable": {
+      "revision": "cb1c571fba8ec6dd56340f55dcd5d284372a8249",
+      "role": "first parent of the advisory's earliest fix commit; the last revision that still carries the reported defect",
+      "source_archive": {
+        "bytes": 9017,
+        "retrieved_on": "2026-09-04",
+        "sha256": "d9fa1b3eb0258e0cf2cb268ab1c41c2aa5f400736baa83efe90711c11aff9aae",
+        "url": "https://codeload.github.com/mafintosh/tar-fs/tar.gz/cb1c571fba8ec6dd56340f55dcd5d284372a8249"
+      }
+    }
+  },
+  "schema_version": 1,
+  "selection": {
+    "draw_key": "0d4260b164eb9f1eb560508d963d434d7a12b3a5418b7285ce07fc42a4388099",
+    "draw_position": 2,
+    "frame": {
+      "path": "corpus/real-project/frame.json",
+      "sha256": "1bb61bcf60d4fed8ac26dcb6f1f33dfcd61e7b285c15037ad7819595efa1ed5e"
+    },
+    "seed": "dataflowbench-real-project-wave-r1"
+  },
+  "stratum": "javascript",
+  "wave": "R1"
+}

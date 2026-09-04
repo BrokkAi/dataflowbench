@@ -11,6 +11,7 @@
 //!   the core kernels.
 //! - [`report`], [`freeze`], [`results`] — the normalized report, the
 //!   immutable evidence manifest, and byte-stable result generation.
+//! - [`real_project`] — the preregistered real-project confirmation slice.
 //! - [`evidence`] and [`runtime`] — anchor reconciliation and the process,
 //!   timing, and environment plumbing every adapter shares.
 
@@ -21,6 +22,7 @@ mod freeze;
 mod latency;
 mod modeling;
 mod native;
+mod real_project;
 mod report;
 mod results;
 mod runtime;

@@ -262,8 +262,74 @@ pub(crate) fn git_is_ancestor(root: &Path, ancestor: &str, descendant: &str) -> 
     match output.status.code() {
         Some(0) => Ok(true),
         Some(1) => Ok(false),
-        _ => bail!("cannot resolve freeze revision {ancestor} in this checkout"),
+        // A revision that resolves nowhere is almost always one that lived
+        // only on a pull-request branch: `main` is squash-merged, so the
+        // branch commit is discarded and the manifest is left naming a commit
+        // no checkout of `main` can resolve. `create-freeze` refuses to record
+        // such a revision, so reaching here means the manifest was written by
+        // an older build or edited by hand.
+        _ => bail!(
+            "cannot resolve freeze revision {ancestor} in this checkout; \
+             a revision recorded from a pull-request branch does not survive \
+             the squash merge, so re-create the freeze from a checkout of \
+             `main` as docs/freeze.md describes"
+        ),
     }
+}
+
+/// A freeze records the commit its evidence lives at, and every later
+/// validation resolves that commit from the checkout. `main` is squash-merged,
+/// which replaces a pull-request branch with a single new commit and discards
+/// the branch's own commits, so a revision taken from a branch stops resolving
+/// the moment the pull request lands. The revision must therefore already be
+/// reachable from `main` when the freeze is created: the evidence merges
+/// first, and the freeze is assembled from a clean checkout of the merged
+/// `main`. Refusing at creation time is what makes this catchable — on the
+/// pull request itself the branch commit still resolves, so validation only
+/// discovers the loss after the merge, on `main`.
+pub(crate) fn require_merged_freeze_revision(root: &Path, revision: &str) -> Result<()> {
+    // No integration branch to compare against (a mirror without `main`, or a
+    // repository whose first commits predate it): the ancestry rule still
+    // holds at validation, so record the revision rather than block the freeze.
+    let Some(main) = resolve_integration_branch(root)? else {
+        return Ok(());
+    };
+    if main != revision && !git_is_ancestor(root, revision, &main)? {
+        bail!(
+            "freeze revision {revision} is not reachable from main ({main}); \
+             `main` is squash-merged, so a commit that exists only on a \
+             pull-request branch is discarded at merge time and the recorded \
+             revision becomes unresolvable. Merge the evidence first, then run \
+             create-freeze from a clean checkout of the merged `main`; never \
+             bundle the evidence and the manifest into one pull request. See \
+             docs/freeze.md."
+        );
+    }
+    Ok(())
+}
+
+/// Resolve the integration branch a freeze revision must be reachable from,
+/// preferring the local `main` so an out-of-date remote ref cannot reject a
+/// revision that is genuinely merged.
+pub(crate) fn resolve_integration_branch(root: &Path) -> Result<Option<String>> {
+    for reference in ["refs/heads/main", "refs/remotes/origin/main"] {
+        let output = Command::new("git")
+            .current_dir(root)
+            .args([
+                "rev-parse",
+                "--verify",
+                "--quiet",
+                &format!("{reference}^{{commit}}"),
+            ])
+            .output()
+            .context("resolve integration branch")?;
+        if output.status.success() {
+            return Ok(Some(
+                String::from_utf8_lossy(&output.stdout).trim().to_string(),
+            ));
+        }
+    }
+    Ok(None)
 }
 
 pub(crate) fn git_output<const N: usize>(root: &Path, args: [&str; N]) -> Result<String> {
@@ -703,6 +769,7 @@ pub(crate) fn create_freeze(
         ],
     )
     .context("resolve freeze revision")?;
+    require_merged_freeze_revision(root.as_path(), &revision)?;
     let manifest = build_freeze_manifest(&root, reports, scope, release, &revision)?;
     let mut bytes = serde_json::to_vec_pretty(&manifest)?;
     bytes.push(b'\n');

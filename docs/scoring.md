@@ -77,6 +77,16 @@ it did not activate and banks half the assertions, so modeling results are read
 against the same 50% blind baseline, with per-category true-positive and
 false-positive rates carrying the evidence rather than the raw correct count.
 
+The [real-project confirmation slice](real-project-preregistration.md) is a
+further separate population, on the `real-project` tier. It asks whether the
+semantics the kernels measure survive contact with an upstream repository, over
+six pinned projects drawn by a seeded, preregistered sample. Its unit is a
+repository at two pinned revisions rather than an authored pair, so its
+negatives are weaker evidence than a synthetic negative and are labelled as
+such. Its claims are bounded to the named repositories: no rate over the slice
+generalizes, nothing in it is ranked, and no real-project outcome ever changes a
+core denominator.
+
 An analyzer may report a candidate finding with incomplete discovery or an
 incomplete witness. That evidence remains `inconclusive` until the tool proves
 the required path. It must not be normalized to `not-reached` merely because
