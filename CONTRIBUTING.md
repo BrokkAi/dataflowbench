@@ -41,7 +41,7 @@ this benchmark states wrongly about their tool. In brief:
   exists, and revised only by dated amendment.
 
 The consolidated deliverables checklist — retained evidence, configuration
-hash, capability decisions, adapter README shape, and the `src/main.rs`
+hash, capability decisions, adapter README shape, and the source-tree
 touchpoints — is in the same document.
 
 ## Adapters
@@ -50,7 +50,9 @@ Once an analyzer is admitted and pinned, integrate it by following the
 step-ordered [adding-an-adapter walkthrough](docs/adding-an-adapter.md):
 required case inputs, the five normalized outcomes, the
 anti-vacuous-negative guards, the evidence artifacts every run retains, the
-validation commands, and the exact `src/main.rs` touchpoints. The
+validation commands, and the exact source-tree touchpoints — one module
+per adapter under `src/adapters/`, over the shared contract in
+`src/adapters/mod.rs`. The
 [adapter contract](docs/adapters.md) stays normative over it, and the
 [docs index](docs/README.md) maps the rest of the contract surface and
 defines the insider vocabulary.

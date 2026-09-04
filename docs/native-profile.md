@@ -939,7 +939,7 @@ cannot produce a finding on these fixtures, which is the same shape
 and [A7](#a7--2026-08-27-semgrep-ces-six-java-cells-are-retained-unsupported-against-the-vendored-snapshot)
 retained Semgrep's JavaScript and Java cells on — so all six templates are
 **unsupported on shipped-model evidence**, per cell in `NATIVE_PARTITION`
-(`src/main.rs`), and FlowDroid enters this profile at **0 / 6** with a live
+(`src/native.rs`), and FlowDroid enters this profile at **0 / 6** with a live
 activation contract behind the zero.
 
 **And the fuller shipped surface decides the same way — enumerated and
@@ -1191,7 +1191,7 @@ those two fields.
 The runner infrastructure lands with this preregistration, before any fixture,
 on the same terms as [the modeling matrix's](adapters.md#modeling-matrix-rollout-mechanics):
 
-- `NATIVE_TEMPLATE_IDS` and the six-template category mapping in `src/main.rs`,
+- `NATIVE_TEMPLATE_IDS` and the six-template category mapping in `src/native.rs`,
   transcribed from [the summary table](#summary-table);
 - `NATIVE_PARTITION`, twenty-four cells transcribed from
   [the partition summary](#partition-summary), consulted by template identity
@@ -1530,7 +1530,7 @@ shared by all three. No template of any other tool changes, and the
 
 **Where the wording now stands.** The [Bifrost row's rationale
 table](#bifrost--v0108-shipped-policy-packs) and its mirrored constant in
-`NATIVE_PARTITION` (`src/main.rs`) both name the endpoint-catalog grounds and
+`NATIVE_PARTITION` (`src/native.rs`) both name the endpoint-catalog grounds and
 cite this amendment; the paragraph above the table records the retired sentence
 as retired rather than dropping it, because a preregistration that quietly
 loses the claim it was decided on is worse than one that was wrong.
@@ -1632,7 +1632,7 @@ report; v0.6.0 is untouched.
 takes a **Java-only** activation contract and a full six-cell partition
 column, both stated in
 [its activation section](#flowdroid--2151-shipped-catalog-and-default-summaries-java-only-added-by-amendment-a16)
-and mirrored into `NATIVE_PARTITION` (`src/main.rs`). No existing tool's cell
+and mirrored into `NATIVE_PARTITION` (`src/native.rs`). No existing tool's cell
 moves. This is the companion of the modeling matrix's
 [Amendment A18](modeling-matrix.md#a18--2026-09-01-flowdroid-joins-the-modeling-matrix-with-a-java-only-partition-row),
 and it landed before the adapter's first native run.
@@ -1941,7 +1941,7 @@ cannot reach these fixtures: the one sink-existence query aimed at
 binds a probe endpoint — a JavaScript or Python package, or a Java query
 matching by method full name — is a promotion by dated amendment, landing the
 execution arm that scores it in the same pull request. The re-grounded
-rationale is mirrored into `NATIVE_PARTITION` (`src/main.rs`) and the
+rationale is mirrored into `NATIVE_PARTITION` (`src/native.rs`) and the
 adapter README's three tool-native sections; the retained 0 / 6 reports
 predate this amendment and carry the withdrawn wording in their retained
 rationales, exactly as A10's did — the corrected string lands with the next
@@ -2137,7 +2137,7 @@ source or sink bound to a policy for a Java identity — or any default checker
 that fires a reconcilable finding on a probe fixture — is a promotion by
 dated amendment, landing the execution arm that scores it in the same pull
 request. The re-grounded rationale is mirrored into `NATIVE_PARTITION`
-(`src/main.rs`) and the adapter README's tool-native section; the retained
+(`src/native.rs`) and the adapter README's tool-native section; the retained
 0 / 6 report predates this amendment and carries A14's wording in its
 retained rationales, exactly as A26 left Joern's — the corrected string lands
 with the next evidence re-run, and the decision that report records is the
@@ -2250,7 +2250,7 @@ can decide nothing a retained rationale doesn't already state. Recording
 twelve executed `Found 0 leaks from 0 sources` outcomes as `not-reached`
 would present a catalog gap as a measured miss — the exact conflation this
 profile exists to prevent. The per-cell rationales in `NATIVE_PARTITION`
-(`src/main.rs`) now carry the A29 citation beside A19's.
+(`src/native.rs`) now carry the A29 citation beside A19's.
 
 **What would move a cell.** As A19 recorded: a shipped catalog release that
 gains a platform environment or argv source is a promotion by dated

@@ -808,7 +808,7 @@ that a permissive default overrides, is not activation.
 ## Per-tool capability partition
 
 Preregistered here, in this document, before any modeling fixture or model file
-exists — the same discipline `CHALLENGE_SEMGREP_PARTITION` in `src/main.rs`
+exists — the same discipline `CHALLENGE_SEMGREP_PARTITION` in `src/adapters/semgrep.rs`
 already applies to the challenge tier, and for the same reason: a partition
 decided from a result is not a capability classification.
 
@@ -1247,7 +1247,7 @@ enum first; nothing already expressible was duplicated.
 is manifest-scoped, and an added enum value changes nothing that a
 previously-validated manifest asserts.
 
-The result-generation tier ordering in `src/main.rs` (`SCORE_TIER_ORDER`) is
+The result-generation tier ordering in `src/results.rs` (`SCORE_TIER_ORDER`) is
 extended in the same change. That constant decides which tiers get a section on a
 generated scorecard, and a tier absent from it would be **silently dropped** from
 every generated result rather than reported as an error — so it is registered
@@ -1533,7 +1533,7 @@ records the committed `model-java.rqlp` evaluated with an empty `diagnostics`
 array and one finding on template 1's positive. The runner has enforced the
 setting since the infrastructure landed
 ([the load-bearing-model requirement](#the-load-bearing-model-requirement)), and
-`the_java_modeling_artifacts_are_load_bearing` in `src/main.rs` keeps it true.
+`the_java_modeling_artifacts_are_load_bearing` in `src/tests/modeling.rs` keeps it true.
 
 **Why no cell moves.** The *first* obstacle is untouched. Nothing here shows
 that a propagator or transform section lowers to a flow step on the pinned
@@ -1864,7 +1864,7 @@ benchmark's declarations are the only summaries in the run and an unmodeled
 call is decided by its body, which the probes show carries nothing through
 the opaque shapes. The runner additionally refuses a run whose committed
 summaries no longer carry the declarations the scored cells rest on
-(`require_flowdroid_modeling_declarations` in `src/main.rs`).
+(`require_flowdroid_modeling_declarations` in `src/adapters/flowdroid.rs`).
 
 **Mechanics.** `ModelingTool` gains `Flowdroid`; `MODELING_PARTITION` gains
 its six cells and `MODELING_TEMPLATE_OVERRIDES` its template-6 override;
