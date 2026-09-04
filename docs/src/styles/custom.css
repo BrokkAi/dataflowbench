@@ -114,11 +114,44 @@ table code {
      is ~half the content width, i.e. the same readable measure the cap
      enforces — the width is spent on flow, not on line length. Short
      paragraphs simply occupy the first column; the eyebrow label stays as
-     is. Browsers without :has() keep the capped single column. */
-  .sl-markdown-content:has(.stat-grid) > p:not(.eyebrow) {
+     is. Browsers without :has() keep the capped single column.
+
+     This applies to a paragraph *on its own*, where the two columns are one
+     continuous read: down the left, then down the right, and nothing else is
+     interleaved. It must never be given to two adjacent paragraphs, which
+     would put the tail of the first at the top of the right column and the
+     tail of the second directly beneath it — two half-paragraphs stacked in
+     reading order, which is not the order they are meant to be read in. Runs
+     of adjacent paragraphs use `.prose-columns` below, which flows the whole
+     run through one multicol box instead. */
+  .sl-markdown-content:has(.stat-grid) > p:not(.eyebrow):not(.subtitle) {
     columns: 2;
     column-gap: 2.5rem;
     max-width: none;
+  }
+
+  /* A run of consecutive paragraphs as one newspaper block: every paragraph
+     of the run flows down the left column before any of it appears on the
+     right. The wrapper is what carries the columns, so the paragraphs inside
+     are ordinary block children and the rule above no longer reaches them. */
+  .sl-markdown-content:has(.stat-grid) .prose-columns {
+    columns: 2;
+    column-gap: 2.5rem;
+    max-width: none;
+  }
+  .sl-markdown-content:has(.stat-grid) .prose-columns > p {
+    max-width: none;
+  }
+  /* Paragraphs may straddle the column break, and should: the balancer needs
+     to split something, and a run of two or three long paragraphs that each
+     refuse to break leaves one column half-empty. A continuation is legible
+     here in a way it was not under the old per-paragraph rule — the right
+     column carries one text in reading order, so the reader arrives at the
+     top of it from the bottom of the left. Orphans and widows are held at
+     three lines so a break can never strand one line at either end. */
+  .sl-markdown-content:has(.stat-grid) .prose-columns > * {
+    orphans: 3;
+    widows: 3;
   }
 }
 

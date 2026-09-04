@@ -8,26 +8,19 @@ import LatencyTier from '../../../../components/LatencyTier.astro';
 DataFlowBench's latency-characterization tier. It stands **beside** the
 correctness scorecards, on its own page, and never as a column inside one.
 
-:::caution[This corpus was not re-measured in v0.7.0]
-Every number on this page is the corpus **frozen at v0.6.0**, carried into this
-snapshot unchanged — the second release in a row to render it without
-re-measuring it. v0.7.0 is a correctness release: it re-pinned four analyzers
-and re-ran sixty-four reports, and it did not re-run the latency tier, which is
-measured under its own settle-gated protocol on a quiet machine and is not a
-by-product of a correctness run.
+:::note[Measured on v0.6.0's pins, and not re-measured since]
+These timings are the corpus **frozen at v0.6.0**, carried into this snapshot
+unchanged. v0.7.0 re-ran *correctness* on the new pins; it did not re-run the
+latency tier, which is measured under its own settle-gated protocol on a quiet
+machine rather than as a by-product of a correctness run.
 
-So the rows below name the pins the timings were taken on, not the pins this
-snapshot's correctness pages report: **Bifrost v0.10.7** (not v0.10.9),
-**Joern 4.0.614** (not 4.0.617), **Semgrep CE 1.175.0** (not 1.176.0), and
-**OpenTaint `analyzer/2026.08.27.17eb0fe`** (not `analyzer/2026.09.03.9752bd2`).
-That is deliberate. These labels are descriptions of retained evidence, and
-re-labelling them onto the newer pins would assert four measurements that were
-never performed. The consequence is worth stating plainly: **do not read these
-timings as the current pins'**, and do not read a correctness change on the
-other pages as having any timing consequence here. Re-measuring on a different
-machine load would also replace a comparable series with an incomparable one,
-which is the other reason this corpus is being held rather than refreshed
-casually. The next freeze that re-measures the corpus will say so.
+So the rows below name the builds they were taken on — Bifrost **v0.10.7**,
+Joern **4.0.614**, Semgrep CE **1.175.0**, OpenTaint
+**`analyzer/2026.08.27.17eb0fe`** — and not the newer pins the correctness
+pages report. Re-labelling them would assert four measurements nobody
+performed, and re-measuring on a different machine load would replace a
+comparable series with an incomparable one. The next freeze that re-measures
+the corpus will say so.
 :::
 
 The contract governing every number here —
