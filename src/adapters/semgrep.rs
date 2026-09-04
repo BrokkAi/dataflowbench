@@ -5,8 +5,13 @@
 //! See adapters/semgrep/README.md for the published capability record, and
 //! docs/adding-an-adapter.md for the shape every adapter follows.
 
+use crate::adapters::ToolIdentity;
+use crate::adapters::normalized_report;
+use crate::adapters::write_runner_error;
+use crate::adapters::{KernelPopulation, select_kernel_cases};
 use crate::adapters::{ModelingLanguage, ModelingTool};
-use crate::cases::{case_paths, fixture_revision, validate_cases, validate_kernel_population_with};
+use crate::cases::LoadedCases;
+use crate::cases::{fixture_revision, validate_cases};
 use crate::evidence::{
     AnchorDialect, EvidenceAnchorMatch, SarifAnchorMatch, SinkAnchorLocation,
     benchmark_endpoint_names, evidence_path_matches_file, sink_anchor_locations,
@@ -22,7 +27,7 @@ use crate::modeling::{
 use crate::native::{
     NativeRunPlan, native_anchor_tally_outcome, native_case_scratch, native_sink_anchor_locations,
 };
-use crate::report::{ADAPTER_VERSION, hash_paths, normalized_result, write_and_validate_report};
+use crate::report::{hash_paths, normalized_result, write_and_validate_report};
 use crate::runtime::{
     case_timing_path, now_seconds, write_case_phase_timings, write_run_environment,
 };
@@ -92,38 +97,6 @@ pub(crate) enum SemgrepKernel {
 }
 
 impl SemgrepKernel {
-    pub(crate) fn language(self) -> &'static str {
-        match self {
-            Self::Java => "java",
-            Self::JavaScript => "javascript",
-            Self::TypeScript => "typescript",
-            Self::Python => "python",
-            Self::Go => "go",
-            Self::Ruby => "ruby",
-            Self::Php => "php",
-            Self::Kotlin => "kotlin",
-            Self::Rust => "rust",
-            Self::C => "c",
-            Self::Cpp => "cpp",
-        }
-    }
-
-    pub(crate) fn display_name(self) -> &'static str {
-        match self {
-            Self::Java => "Java",
-            Self::JavaScript => "JavaScript",
-            Self::TypeScript => "TypeScript",
-            Self::Python => "Python",
-            Self::Go => "Go",
-            Self::Ruby => "Ruby",
-            Self::Php => "PHP",
-            Self::Kotlin => "Kotlin",
-            Self::Rust => "Rust",
-            Self::C => "C",
-            Self::Cpp => "C++",
-        }
-    }
-
     /// The maturity the pinned distribution records for this kernel's Semgrep
     /// language in its own `semgrep_interfaces/lang.json`. It is retained
     /// verbatim in the adapter README and in every capability-decision
@@ -145,30 +118,11 @@ impl SemgrepKernel {
         }
     }
 
-    /// The scored template set of this kernel's language, read from its rollout
-    /// row. docs/applicability-matrix.md classifies the exception-catch cell as
-    /// inapplicable to both C and Rust, so those two kernels have a
-    /// fifteen-template, thirty-assertion classic core; every other Semgrep
-    /// kernel has the full sixteen. Selection expands with the row; what is
-    /// *scored* is decided separately, per case, by
-    /// `semgrep_capability_exclusion`.
-    pub(crate) fn templates(self) -> Vec<&'static str> {
-        expected_core_templates(self.language())
-    }
-
     /// The committed rule file for this kernel. Each is its own file even
     /// where two would be byte-identical apart from the `languages:` key, so a
     /// population is never scored by a rule spelled for another language.
     pub(crate) fn rule(self) -> String {
         format!("{SEMGREP_RULES_DIR}/{}.yaml", self.language())
-    }
-
-    pub(crate) fn report(self) -> String {
-        format!("reports/semgrep-{}-kernel.json", self.language())
-    }
-
-    pub(crate) fn raw_dir(self) -> String {
-        format!("reports/raw/semgrep-{}-kernel", self.language())
     }
 
     pub(crate) fn dialect(self) -> AnchorDialect {
@@ -193,16 +147,77 @@ impl SemgrepKernel {
             Self::C | Self::Cpp => AnchorDialect::Cpp,
         }
     }
-
-    pub(crate) fn label(self) -> String {
-        format!("Semgrep {} kernel", self.display_name())
-    }
 }
 
-pub(crate) fn semgrep_core_case(case: &Value, kernel: SemgrepKernel) -> bool {
-    case["language"] == kernel.language()
-        && case["track"] == "taint"
-        && case["score_tier"] == "core"
+/// Semgrep's populations over the shared contract. One taint engine stands
+/// behind all eleven; the selector and the dedicated report and evidence roots
+/// are what keep them apart.
+impl KernelPopulation for SemgrepKernel {
+    fn tool(&self) -> &'static str {
+        "semgrep"
+    }
+
+    fn language(&self) -> &'static str {
+        match self {
+            Self::Java => "java",
+            Self::JavaScript => "javascript",
+            Self::TypeScript => "typescript",
+            Self::Python => "python",
+            Self::Go => "go",
+            Self::Ruby => "ruby",
+            Self::Php => "php",
+            Self::Kotlin => "kotlin",
+            Self::Rust => "rust",
+            Self::C => "c",
+            Self::Cpp => "cpp",
+        }
+    }
+
+    fn display_name(&self) -> &'static str {
+        match self {
+            Self::Java => "Java",
+            Self::JavaScript => "JavaScript",
+            Self::TypeScript => "TypeScript",
+            Self::Python => "Python",
+            Self::Go => "Go",
+            Self::Ruby => "Ruby",
+            Self::Php => "PHP",
+            Self::Kotlin => "Kotlin",
+            Self::Rust => "Rust",
+            Self::C => "C",
+            Self::Cpp => "C++",
+        }
+    }
+
+    fn report(&self) -> String {
+        format!("reports/semgrep-{}-kernel.json", self.language())
+    }
+
+    fn raw_dir(&self) -> String {
+        format!("reports/raw/semgrep-{}-kernel", self.language())
+    }
+
+    fn label(&self) -> String {
+        format!("Semgrep {} kernel", self.display_name())
+    }
+
+    /// The scored template set of this kernel's language, read from its rollout
+    /// row. docs/applicability-matrix.md classifies the exception-catch cell as
+    /// inapplicable to both C and Rust, so those two kernels have a
+    /// fifteen-template, thirty-assertion classic core; every other Semgrep
+    /// kernel has the full sixteen. Selection expands with the row; what is
+    /// *scored* is decided separately, per case, by
+    /// `semgrep_capability_exclusion`.
+    fn templates(&self) -> Vec<&'static str> {
+        expected_core_templates(self.language())
+    }
+
+    /// Every committed kernel rule, so one hash binds the whole set: a
+    /// population is never scored under a rule file that changed without the
+    /// report's `configuration_hash` moving with it.
+    fn configuration_paths(&self, _cases: &LoadedCases) -> Result<BTreeSet<PathBuf>> {
+        semgrep_rule_paths()
+    }
 }
 
 /// Select a Semgrep kernel population runner-side. The v0.3.0 freeze binds
@@ -216,16 +231,8 @@ pub(crate) fn semgrep_core_case(case: &Value, kernel: SemgrepKernel) -> bool {
 /// error-code-return and goto-cleanup cases and Rust's `Result`/`?` extension
 /// pair out of the core run. The bounded profile is applied afterwards, per
 /// case, by `semgrep_capability_exclusion`.
-pub(crate) fn select_semgrep_cases(kernel: SemgrepKernel) -> Result<Vec<(PathBuf, Value)>> {
-    let mut selected = Vec::new();
-    for path in case_paths() {
-        let case: Value = serde_json::from_str(&fs::read_to_string(&path)?)?;
-        if semgrep_core_case(&case, kernel) {
-            selected.push((path, case));
-        }
-    }
-    validate_kernel_population_with(&selected, &kernel.label(), &kernel.templates())?;
-    Ok(selected)
+pub(crate) fn select_semgrep_cases(kernel: SemgrepKernel) -> Result<LoadedCases> {
+    select_kernel_cases(&kernel)
 }
 
 /// The preregistered Semgrep CE partition for the thirteen challenge templates,
@@ -389,6 +396,7 @@ pub(crate) fn semgrep_maturity_diagnostic(kernel: SemgrepKernel) -> String {
 pub(crate) fn run_semgrep_kernel(binary: &Path, kernel: SemgrepKernel) -> Result<()> {
     validate_cases()?;
     let selected = select_semgrep_cases(kernel)?;
+    let configuration_paths = kernel.configuration_paths(&selected)?;
     let rule_path = kernel.rule();
     let template = fs::read_to_string(&rule_path)
         .with_context(|| format!("read the Semgrep kernel rule {rule_path}"))?;
@@ -400,8 +408,8 @@ pub(crate) fn run_semgrep_kernel(binary: &Path, kernel: SemgrepKernel) -> Result
     let raw_dir = PathBuf::from(kernel.raw_dir());
     fs::create_dir_all(&raw_dir)?;
     let started = now_seconds()?;
-    let (version, build_identity) = semgrep_version_identity(binary)?;
-    write_run_environment(&raw_dir, "semgrep", &version, &build_identity)?;
+    let identity = semgrep_version_identity(binary)?;
+    write_run_environment(&raw_dir, "semgrep", &identity)?;
     let revision = fixture_revision()?;
     let mut results = Vec::with_capacity(selected.len());
 
@@ -427,20 +435,15 @@ pub(crate) fn run_semgrep_kernel(binary: &Path, kernel: SemgrepKernel) -> Result
         ));
     }
 
-    let configuration_hash = hash_paths(&semgrep_rule_paths()?)?;
-    let report = json!({
-        "schema_version": 1,
-        "tool": "semgrep",
-        "tool_version": version,
-        "tool_build_identity": build_identity,
-        "adapter_version": ADAPTER_VERSION,
-        "configuration_hash": configuration_hash,
-        "fixture_revision": revision,
-        "started_at_unix_seconds": started,
-        "ended_at_unix_seconds": now_seconds()?,
-        "cold_or_warm": "cold",
-        "results": results
-    });
+    let configuration_hash = hash_paths(&configuration_paths)?;
+    let report = normalized_report(
+        kernel.tool(),
+        &identity,
+        &configuration_hash,
+        &revision,
+        started,
+        results,
+    )?;
     let report_path = kernel.report();
     write_and_validate_report(Path::new(&report_path), &report)?;
     println!("wrote {report_path}");
@@ -489,7 +492,7 @@ pub(crate) fn semgrep_rule_paths() -> Result<BTreeSet<PathBuf>> {
 /// version, so the released version *is* the build identity, recorded
 /// literally rather than padded with a synthetic identifier. `semgrep
 /// --version` needs no `--metrics` flag: it performs no scan.
-pub(crate) fn semgrep_version_identity(binary: &Path) -> Result<(String, String)> {
+pub(crate) fn semgrep_version_identity(binary: &Path) -> Result<ToolIdentity> {
     let output = Command::new(binary)
         .arg("--version")
         .stdin(std::process::Stdio::null())
@@ -509,7 +512,7 @@ pub(crate) fn semgrep_version_identity(binary: &Path) -> Result<(String, String)
         .context("Semgrep did not report a version")?
         .to_string();
     let build_identity = format!("semgrep-oss:{version}");
-    Ok((version, build_identity))
+    Ok(ToolIdentity::new(version, build_identity))
 }
 
 pub(crate) fn run_semgrep_case(
@@ -698,22 +701,7 @@ pub(crate) fn write_semgrep_error(
     diagnostic: &str,
     output: Option<&std::process::Output>,
 ) -> Result<PathBuf> {
-    let error_path = raw_dir.join(format!("{id}-error.json"));
-    let mut evidence = json!({
-        "adapter": "semgrep",
-        "case_id": id,
-        "state": "runner-error",
-        "stage": stage,
-        "diagnostic": diagnostic,
-        "evidence_kind": "retained-process-diagnostics"
-    });
-    if let Some(output) = output {
-        evidence["status"] = json!(output.status.code());
-        evidence["stdout"] = json!(String::from_utf8_lossy(&output.stdout).trim());
-        evidence["stderr"] = json!(String::from_utf8_lossy(&output.stderr).trim());
-    }
-    fs::write(&error_path, serde_json::to_string_pretty(&evidence)? + "\n")?;
-    Ok(error_path)
+    write_runner_error("semgrep", raw_dir, id, stage, diagnostic, output)
 }
 
 /// Normalize one retained Semgrep `--json` document.

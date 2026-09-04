@@ -2,6 +2,7 @@
 //! invocation overhead. Auxiliary measurement only — nothing here is ever an
 //! input to a correctness outcome. See docs/latency-tier.md.
 
+use crate::adapters::ToolIdentity;
 use crate::adapters::bifrost::overhead_run_bifrost;
 use crate::adapters::codeql::{codeql_version_identity, overhead_run_codeql};
 use crate::adapters::flowdroid::{overhead_run_flowdroid, witness_flowdroid_identity};
@@ -409,11 +410,11 @@ pub(crate) fn measure_warm_latency(
     // Identity is witnessed from the binary and stamped exactly as every other
     // run stamps it, so a warm number is attributable to one machine and one
     // measured tool without re-measurement.
-    let (version, build_identity) = match tool {
+    let identity = match tool {
         WarmTool::Joern => joern_version_identity(binary)?,
         WarmTool::Semgrep => semgrep_version_identity(binary)?,
     };
-    write_run_environment(&raw_dir, tool.as_str(), &version, &build_identity)?;
+    write_run_environment(&raw_dir, tool.as_str(), &identity)?;
 
     let started = now_seconds()?;
     // The whole series is measured `WARM_REPEATS` times, back to back, and
@@ -465,8 +466,8 @@ pub(crate) fn measure_warm_latency(
         "establishing_amendment": "A15",
         "adapter": tool.as_str(),
         "language": language.as_str(),
-        "tool_version": version,
-        "tool_build_identity": build_identity,
+        "tool_version": identity.version,
+        "tool_build_identity": identity.build_identity,
         "fixture_revision": fixture_revision()?,
         "started_at_unix_seconds": started,
         "ended_at_unix_seconds": now_seconds()?,
@@ -804,11 +805,11 @@ pub(crate) fn estimate_invocation_overhead(
 
     // Identity is witnessed from the binary and stamped exactly as every other
     // run stamps it.
-    let (version, build_identity) = match tool {
+    let identity = match tool {
         OverheadTool::Joern => joern_version_identity(binary)?,
         OverheadTool::Semgrep => semgrep_version_identity(binary)?,
         OverheadTool::Codeql => codeql_version_identity(binary)?,
-        OverheadTool::Bifrost => (
+        OverheadTool::Bifrost => ToolIdentity::new(
             command_output(Command::new(binary).arg("--version"))
                 .unwrap_or_else(|_| "unknown".into()),
             command_output(Command::new(binary).arg("--build-identity"))
@@ -829,7 +830,7 @@ pub(crate) fn estimate_invocation_overhead(
             pyrefly: tools.pyrefly.clone(),
         })?,
     };
-    write_run_environment(&raw_dir, tool.as_str(), &version, &build_identity)?;
+    write_run_environment(&raw_dir, tool.as_str(), &identity)?;
 
     // The fixture is retained beside the artifact so a reader can see exactly
     // what was analyzed, and is written before any subprocess is spawned:
@@ -872,8 +873,8 @@ pub(crate) fn estimate_invocation_overhead(
         "amendment": "A24",
         "adapter": tool.as_str(),
         "language": language.as_str(),
-        "tool_version": version,
-        "tool_build_identity": build_identity,
+        "tool_version": identity.version,
+        "tool_build_identity": identity.build_identity,
         "estimator": "one complete adapter invocation over a trivial no-flow fixture",
         "estimate_bias": "upper bound on start-up and warm-up: it contains the trivial fixture's \
                           own near-zero analysis, and it is a cold single-shot execution — the \

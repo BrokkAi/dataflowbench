@@ -36,9 +36,13 @@ use crate::adapters::flowdroid::FLOWDROID_MODELING_SUMMARIES_DIR;
 use crate::adapters::infer::witness_infer_identity;
 use crate::adapters::joern::joern_version_identity;
 use crate::adapters::semgrep::semgrep_version_identity;
-use crate::runtime::command_output;
+use crate::cases::{LoadedCases, case_paths, validate_kernel_population_with};
+use crate::report::ADAPTER_VERSION;
+use crate::runtime::{command_output, now_seconds};
+use crate::templates::expected_core_templates;
 use anyhow::{Context, Result, bail};
-use std::{path::Path, path::PathBuf, process::Command};
+use serde_json::{Value, json};
+use std::{collections::BTreeSet, fs, path::Path, path::PathBuf, process::Command};
 
 /// The four adapters the preregistration partitions, plus the adapters that
 /// joined later, each by a dated amendment with its own partition row, never
@@ -273,9 +277,9 @@ impl ModelingLanguage {
 /// evidence; a run whose every cell is a capability decision has nothing else,
 /// so an unwitnessed identity there would be a report that asserts a pin it
 /// never observed.
-pub(crate) fn witness_tool_identity(tool: ModelingTool, binary: &Path) -> Result<(String, String)> {
+pub(crate) fn witness_tool_identity(tool: ModelingTool, binary: &Path) -> Result<ToolIdentity> {
     match tool {
-        ModelingTool::Bifrost => Ok((
+        ModelingTool::Bifrost => Ok(ToolIdentity::new(
             command_output(Command::new(binary).arg("--version")).with_context(|| {
                 format!(
                     "witness the pinned Bifrost version with {} --version; a modeling or tool-native report may not assert a version it could not read",
@@ -319,4 +323,164 @@ pub(crate) fn witness_tool_identity(tool: ModelingTool, binary: &Path) -> Result
             "OpenTaint witnesses its identity from the pinned release assets' digests, not from a binary banner; use run-opentaint-modeling or run-opentaint-native, which call witness_opentaint_identity"
         ),
     }
+}
+
+/// The identity of the pinned tool a run actually witnessed, as the two
+/// fields every normalized report carries.
+///
+/// Both halves are read from the artifact the run invoked — a `--version`
+/// banner, a release-asset digest, a `pom.properties` entry — never from a
+/// constant in this repository, so no report can assert a version its run did
+/// not observe. The two halves were a bare `(String, String)` tuple until they
+/// were named here; the ordering was a standing footgun.
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub(crate) struct ToolIdentity {
+    /// The report's `tool_version`: what the invoked artifact calls itself.
+    pub(crate) version: String,
+    /// The report's `tool_build_identity`: which build of that version it is —
+    /// a commit, a digest, or a distribution string.
+    pub(crate) build_identity: String,
+}
+
+impl ToolIdentity {
+    pub(crate) fn new(version: impl Into<String>, build_identity: impl Into<String>) -> Self {
+        Self {
+            version: version.into(),
+            build_identity: build_identity.into(),
+        }
+    }
+}
+
+/// One scored population: a single analyzer over a single language, with its
+/// own case selection, its own committed configuration, its own normalized
+/// report, and its own retained-evidence root.
+///
+/// This is the uniform half of an adapter. The bespoke half — the invocation,
+/// the workspace materialization, and the outcome normalization with its
+/// anti-vacuous-negative guards — is deliberately not behind this trait: those
+/// are where docs/adapters.md places an adapter's real obligations, and a
+/// shared abstraction over them would hide the guards rather than enforce
+/// them.
+pub(crate) trait KernelPopulation {
+    /// The tool key this population's normalized report carries.
+    fn tool(&self) -> &'static str;
+
+    /// The benchmark language whose core denominator this population scores.
+    fn language(&self) -> &'static str;
+
+    /// How that language is spelled in operator-facing output.
+    fn display_name(&self) -> &'static str;
+
+    /// The dedicated normalized-report path. Report paths are never shared
+    /// between adapters or between languages.
+    fn report(&self) -> String;
+
+    /// The dedicated retained-evidence root, one native document per case.
+    fn raw_dir(&self) -> String;
+
+    /// The population label carried in progress output and in the balance
+    /// check's diagnostics.
+    fn label(&self) -> String;
+
+    /// The committed configuration this population's `configuration_hash`
+    /// covers. Some adapters read the selection to resolve it, so the
+    /// selection is passed in; most ignore it.
+    fn configuration_paths(&self, cases: &LoadedCases) -> Result<BTreeSet<PathBuf>>;
+
+    /// The scored template set of this language's core denominator, read from
+    /// its rollout row.
+    fn templates(&self) -> Vec<&'static str> {
+        expected_core_templates(self.language())
+    }
+
+    /// Whether a canonical case belongs to this population. The default is the
+    /// selection every kernel uses: this language's `core` cases on the taint
+    /// track. An adapter overrides it only where its population is genuinely
+    /// different, never to narrow a denominator.
+    fn selects(&self, case: &Value) -> bool {
+        case["language"] == self.language()
+            && case["track"] == "taint"
+            && case["score_tier"] == "core"
+    }
+}
+
+/// Select one population's cases runner-side, then revalidate the expected
+/// balanced denominator.
+///
+/// The revalidation is the point: an omitted template cannot hide in a smaller
+/// balanced subset, because the selection is checked against the template set
+/// this language's rollout row declares, not against whatever it happened to
+/// find.
+pub(crate) fn select_kernel_cases(population: &impl KernelPopulation) -> Result<LoadedCases> {
+    let mut selected = Vec::new();
+    for path in case_paths() {
+        let case: Value = serde_json::from_str(&fs::read_to_string(&path)?)?;
+        if population.selects(&case) {
+            selected.push((path, case));
+        }
+    }
+    validate_kernel_population_with(&selected, &population.label(), &population.templates())?;
+    Ok(selected)
+}
+
+/// The normalized report envelope, identical for every adapter and every tier.
+///
+/// Everything above the results list is fixed by `schemas/result.schema.json`:
+/// the witnessed identity, the adapter version, the hash of the committed
+/// configuration the run used, the fixture revision it read, and the run's own
+/// clock bounds.
+pub(crate) fn normalized_report(
+    tool: &str,
+    identity: &ToolIdentity,
+    configuration_hash: &str,
+    fixture_revision: &str,
+    started_at_unix_seconds: u64,
+    results: Vec<Value>,
+) -> Result<Value> {
+    Ok(json!({
+        "schema_version": 1,
+        "tool": tool,
+        "tool_version": identity.version,
+        "tool_build_identity": identity.build_identity,
+        "adapter_version": ADAPTER_VERSION,
+        "configuration_hash": configuration_hash,
+        "fixture_revision": fixture_revision,
+        "started_at_unix_seconds": started_at_unix_seconds,
+        "ended_at_unix_seconds": now_seconds()?,
+        "cold_or_warm": "cold",
+        "results": results
+    }))
+}
+
+/// Retain one case's runner-error document.
+///
+/// A failed invocation is evidence, not an absence of findings: the failure is
+/// written to the population's evidence root and the result points at it, so
+/// `validate-reports` and the freeze digest cover it exactly as they cover a
+/// native finding document. `output` carries the process diagnostics when the
+/// tool ran at all, and is `None` when the failure was in reaching it.
+pub(crate) fn write_runner_error(
+    adapter: &str,
+    raw_dir: &Path,
+    id: &str,
+    stage: &str,
+    diagnostic: &str,
+    output: Option<&std::process::Output>,
+) -> Result<PathBuf> {
+    let error_path = raw_dir.join(format!("{id}-error.json"));
+    let mut evidence = json!({
+        "adapter": adapter,
+        "case_id": id,
+        "state": "runner-error",
+        "stage": stage,
+        "diagnostic": diagnostic,
+        "evidence_kind": "retained-process-diagnostics"
+    });
+    if let Some(output) = output {
+        evidence["status"] = json!(output.status.code());
+        evidence["stdout"] = json!(String::from_utf8_lossy(&output.stdout).trim());
+        evidence["stderr"] = json!(String::from_utf8_lossy(&output.stderr).trim());
+    }
+    fs::write(&error_path, serde_json::to_string_pretty(&evidence)? + "\n")?;
+    Ok(error_path)
 }

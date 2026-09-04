@@ -5,9 +5,14 @@
 //! See adapters/opentaint/README.md for the published capability record, and
 //! docs/adding-an-adapter.md for the shape every adapter follows.
 
+use crate::adapters::ToolIdentity;
+use crate::adapters::normalized_report;
 use crate::adapters::semgrep::{SEMGREP_SINK_PLACEHOLDER, SEMGREP_SOURCE_PLACEHOLDER};
+use crate::adapters::write_runner_error;
+use crate::adapters::{KernelPopulation, select_kernel_cases};
 use crate::adapters::{ModelingLanguage, ModelingTool};
-use crate::cases::{case_paths, fixture_revision, validate_cases, validate_kernel_population_with};
+use crate::cases::LoadedCases;
+use crate::cases::{fixture_revision, validate_cases};
 use crate::evidence::{AnchorDialect, benchmark_endpoint_names, callsite_anchored_outcome};
 use crate::freeze::required_string;
 use crate::latency::{
@@ -22,7 +27,7 @@ use crate::native::{
     native_configuration_hash, native_partition_outcome, native_supported_templates,
     plan_native_run,
 };
-use crate::report::{ADAPTER_VERSION, hash_paths, normalized_result, write_and_validate_report};
+use crate::report::{hash_paths, normalized_result, write_and_validate_report};
 use crate::runtime::{
     case_timing_path, now_seconds, write_case_phase_timings, write_run_environment,
 };
@@ -89,30 +94,8 @@ pub(crate) enum OpentaintKernel {
 }
 
 impl OpentaintKernel {
-    pub(crate) fn language(&self) -> &'static str {
-        match self {
-            Self::Java { .. } => "java",
-            Self::Kotlin { .. } => "kotlin",
-        }
-    }
-
-    pub(crate) fn display_name(&self) -> &'static str {
-        match self {
-            Self::Java { .. } => "Java",
-            Self::Kotlin { .. } => "Kotlin",
-        }
-    }
-
     pub(crate) fn rule(&self) -> String {
         format!("{OPENTAINT_RULES_DIR}/kernel-{}.yaml", self.language())
-    }
-
-    pub(crate) fn report(&self) -> String {
-        format!("reports/opentaint-{}-kernel.json", self.language())
-    }
-
-    pub(crate) fn raw_dir(&self) -> String {
-        format!("reports/raw/opentaint-{}-kernel", self.language())
     }
 
     /// Both kernels reconcile with the Java anchor dialect. The Kotlin
@@ -122,8 +105,37 @@ impl OpentaintKernel {
     pub(crate) fn dialect(&self) -> AnchorDialect {
         AnchorDialect::Java
     }
+}
 
-    pub(crate) fn label(&self) -> String {
+/// OpenTaint's populations over the shared contract.
+impl KernelPopulation for OpentaintKernel {
+    fn tool(&self) -> &'static str {
+        "opentaint"
+    }
+
+    fn language(&self) -> &'static str {
+        match self {
+            Self::Java { .. } => "java",
+            Self::Kotlin { .. } => "kotlin",
+        }
+    }
+
+    fn display_name(&self) -> &'static str {
+        match self {
+            Self::Java { .. } => "Java",
+            Self::Kotlin { .. } => "Kotlin",
+        }
+    }
+
+    fn report(&self) -> String {
+        format!("reports/opentaint-{}-kernel.json", self.language())
+    }
+
+    fn raw_dir(&self) -> String {
+        format!("reports/raw/opentaint-{}-kernel", self.language())
+    }
+
+    fn label(&self) -> String {
         format!("OpenTaint {} kernel", self.display_name())
     }
 
@@ -136,8 +148,13 @@ impl OpentaintKernel {
     /// entire core denominator is scored, and every incapacity the engine
     /// actually has surfaces as a measured mismatch rather than being decided
     /// from observation, which the adapter contract forbids.
-    pub(crate) fn templates(&self) -> Vec<&'static str> {
+    fn templates(&self) -> Vec<&'static str> {
         expected_core_templates(self.language())
+    }
+
+    /// Both committed kernel rules, so one hash binds the pair.
+    fn configuration_paths(&self, _cases: &LoadedCases) -> Result<BTreeSet<PathBuf>> {
+        Ok(opentaint_rule_paths())
     }
 }
 
@@ -152,7 +169,7 @@ impl OpentaintKernel {
 pub(crate) fn witness_opentaint_identity(
     analyzer_jar: &Path,
     models_archive: &Path,
-) -> Result<(String, String)> {
+) -> Result<ToolIdentity> {
     let jar_digest = format!(
         "{:x}",
         Sha256::digest(fs::read(analyzer_jar).with_context(|| {
@@ -180,8 +197,8 @@ pub(crate) fn witness_opentaint_identity(
             models_archive.display()
         );
     }
-    Ok((
-        OPENTAINT_RELEASE_TAG.to_string(),
+    Ok(ToolIdentity::new(
+        OPENTAINT_RELEASE_TAG,
         format!(
             "opentaint-project-analyzer.jar sha256:{jar_digest}; opentaint-models.tar.gz sha256:{models_digest}"
         ),
@@ -269,19 +286,8 @@ pub(crate) fn jvm_fixture_package(fixture: &str, body: &str) -> Result<String> {
     bail!("fixture {fixture} declares no package")
 }
 
-pub(crate) fn select_opentaint_cases(kernel: &OpentaintKernel) -> Result<Vec<(PathBuf, Value)>> {
-    let mut selected = Vec::new();
-    for path in case_paths() {
-        let case: Value = serde_json::from_str(&fs::read_to_string(&path)?)?;
-        if case["language"] == kernel.language()
-            && case["track"] == "taint"
-            && case["score_tier"] == "core"
-        {
-            selected.push((path, case));
-        }
-    }
-    validate_kernel_population_with(&selected, &kernel.label(), &kernel.templates())?;
-    Ok(selected)
+pub(crate) fn select_opentaint_cases(kernel: &OpentaintKernel) -> Result<LoadedCases> {
+    select_kernel_cases(kernel)
 }
 
 pub(crate) fn run_opentaint_kernel(
@@ -292,6 +298,7 @@ pub(crate) fn run_opentaint_kernel(
 ) -> Result<()> {
     validate_cases()?;
     let selected = select_opentaint_cases(&kernel)?;
+    let configuration_paths = kernel.configuration_paths(&selected)?;
     let rule_path = kernel.rule();
     let template = fs::read_to_string(&rule_path)
         .with_context(|| format!("read the OpenTaint kernel rule {rule_path}"))?;
@@ -303,8 +310,8 @@ pub(crate) fn run_opentaint_kernel(
     let raw_dir = PathBuf::from(kernel.raw_dir());
     fs::create_dir_all(&raw_dir)?;
     let started = now_seconds()?;
-    let (version, build_identity) = witness_opentaint_identity(analyzer_jar, models_archive)?;
-    write_run_environment(&raw_dir, "opentaint", &version, &build_identity)?;
+    let identity = witness_opentaint_identity(analyzer_jar, models_archive)?;
+    write_run_environment(&raw_dir, "opentaint", &identity)?;
     let models = extract_opentaint_models(models_archive)?;
     let revision = fixture_revision()?;
     let mut results = Vec::with_capacity(selected.len());
@@ -332,20 +339,15 @@ pub(crate) fn run_opentaint_kernel(
         ));
     }
 
-    let configuration_hash = hash_paths(&opentaint_rule_paths())?;
-    let report = json!({
-        "schema_version": 1,
-        "tool": "opentaint",
-        "tool_version": version,
-        "tool_build_identity": build_identity,
-        "adapter_version": ADAPTER_VERSION,
-        "configuration_hash": configuration_hash,
-        "fixture_revision": revision,
-        "started_at_unix_seconds": started,
-        "ended_at_unix_seconds": now_seconds()?,
-        "cold_or_warm": "cold",
-        "results": results
-    });
+    let configuration_hash = hash_paths(&configuration_paths)?;
+    let report = normalized_report(
+        kernel.tool(),
+        &identity,
+        &configuration_hash,
+        &revision,
+        started,
+        results,
+    )?;
     let report_path = kernel.report();
     write_and_validate_report(Path::new(&report_path), &report)?;
     println!("wrote {report_path}");
@@ -370,22 +372,7 @@ pub(crate) fn write_opentaint_error(
     diagnostic: &str,
     output: Option<&std::process::Output>,
 ) -> Result<PathBuf> {
-    let error_path = raw_dir.join(format!("{id}-error.json"));
-    let mut evidence = json!({
-        "adapter": "opentaint",
-        "case_id": id,
-        "state": "runner-error",
-        "stage": stage,
-        "diagnostic": diagnostic,
-        "evidence_kind": "retained-process-diagnostics"
-    });
-    if let Some(output) = output {
-        evidence["status"] = json!(output.status.code());
-        evidence["stdout"] = json!(String::from_utf8_lossy(&output.stdout).trim());
-        evidence["stderr"] = json!(String::from_utf8_lossy(&output.stderr).trim());
-    }
-    fs::write(&error_path, serde_json::to_string_pretty(&evidence)? + "\n")?;
-    Ok(error_path)
+    write_runner_error("opentaint", raw_dir, id, stage, diagnostic, output)
 }
 
 /// Why the analyzer's rule-load trace disqualifies this run's evidence, if it
@@ -949,8 +936,8 @@ pub(crate) fn run_opentaint_modeling(
 
     fs::create_dir_all(&plan.raw_dir)?;
     let started = now_seconds()?;
-    let (version, build_identity) = witness_opentaint_identity(analyzer_jar, models_archive)?;
-    write_run_environment(&plan.raw_dir, plan.tool.key(), &version, &build_identity)?;
+    let identity = witness_opentaint_identity(analyzer_jar, models_archive)?;
+    write_run_environment(&plan.raw_dir, plan.tool.key(), &identity)?;
     let models = extract_opentaint_models(models_archive)?;
     let revision = fixture_revision()?;
     let mut results = Vec::with_capacity(plan.cases.len());
@@ -958,7 +945,7 @@ pub(crate) fn run_opentaint_modeling(
         let id = required_string(case, "id", "modeling case")?;
         let start = Instant::now();
         let (outcome, diagnostics, raw_path) = if let Some((outcome, reason, raw_path)) =
-            modeling_partition_outcome(plan.tool, case, &plan.raw_dir, &version)?
+            modeling_partition_outcome(plan.tool, case, &plan.raw_dir, &identity.version)?
         {
             (outcome, vec![reason], raw_path)
         } else {
@@ -982,19 +969,14 @@ pub(crate) fn run_opentaint_modeling(
             &raw_path,
         ));
     }
-    let report = json!({
-        "schema_version": 1,
-        "tool": plan.tool.key(),
-        "tool_version": version,
-        "tool_build_identity": build_identity,
-        "adapter_version": ADAPTER_VERSION,
-        "configuration_hash": hash_paths(&plan.configuration_paths)?,
-        "fixture_revision": revision,
-        "started_at_unix_seconds": started,
-        "ended_at_unix_seconds": now_seconds()?,
-        "cold_or_warm": "cold",
-        "results": results
-    });
+    let report = normalized_report(
+        plan.tool.key(),
+        &identity,
+        &hash_paths(&plan.configuration_paths)?,
+        &revision,
+        started,
+        results,
+    )?;
     write_and_validate_report(&plan.report, &report)?;
     let scored = modeling_supported_templates(plan.tool);
     let scored_assertions = plan
@@ -1034,14 +1016,20 @@ pub(crate) fn run_opentaint_native(
     models_archive: &Path,
     language: ModelingLanguage,
 ) -> Result<()> {
-    let (version, build) = witness_opentaint_identity(analyzer_jar, models_archive)?;
-    let plan = plan_native_run(ModelingTool::Opentaint, language, &version)?;
+    let witnessed = witness_opentaint_identity(analyzer_jar, models_archive)?;
+    let plan = plan_native_run(ModelingTool::Opentaint, language, &witnessed.version)?;
     let scored_templates = native_supported_templates(plan.tool, plan.language);
 
     fs::create_dir_all(&plan.raw_dir)?;
     let started = now_seconds()?;
-    let build_identity = format!("{build} — {}", plan.activation.identity);
-    write_run_environment(&plan.raw_dir, plan.tool.key(), &version, &build_identity)?;
+    let identity = ToolIdentity::new(
+        witnessed.version,
+        format!(
+            "{} — {}",
+            witnessed.build_identity, plan.activation.identity
+        ),
+    );
+    write_run_environment(&plan.raw_dir, plan.tool.key(), &identity)?;
     let revision = fixture_revision()?;
     let mut results = Vec::with_capacity(plan.cases.len());
     for (_path, case) in &plan.cases {
@@ -1054,7 +1042,7 @@ pub(crate) fn run_opentaint_native(
                 case,
                 &plan.activation,
                 &plan.raw_dir,
-                &version,
+                &identity.version,
             )? {
             (outcome, vec![reason], raw_path)
         } else {
@@ -1076,19 +1064,14 @@ pub(crate) fn run_opentaint_native(
             &raw_path,
         ));
     }
-    let report = json!({
-        "schema_version": 1,
-        "tool": plan.tool.key(),
-        "tool_version": version,
-        "tool_build_identity": build_identity,
-        "adapter_version": ADAPTER_VERSION,
-        "configuration_hash": native_configuration_hash(&plan.activation)?,
-        "fixture_revision": revision,
-        "started_at_unix_seconds": started,
-        "ended_at_unix_seconds": now_seconds()?,
-        "cold_or_warm": "cold",
-        "results": results
-    });
+    let report = normalized_report(
+        plan.tool.key(),
+        &identity,
+        &native_configuration_hash(&plan.activation)?,
+        &revision,
+        started,
+        results,
+    )?;
     write_and_validate_report(&plan.report, &report)?;
     let scored_assertions = plan
         .cases

@@ -5,8 +5,12 @@
 //! See adapters/codeql/README.md for the published capability record, and
 //! docs/adding-an-adapter.md for the shape every adapter follows.
 
+use crate::adapters::KernelPopulation;
 use crate::adapters::ModelingLanguage;
+use crate::adapters::ToolIdentity;
 use crate::adapters::bifrost::{BIFROST_C_POLICY, BIFROST_CPP_POLICY};
+use crate::adapters::normalized_report;
+use crate::adapters::write_runner_error;
 use crate::cases::{
     LoadedCases, case_paths, csharp_core_case, fixture_revision, go_core_case, kotlin_core_case,
     ruby_core_case, validate_cases, validate_kernel_population_with,
@@ -20,7 +24,7 @@ use crate::latency::{
     trivial_fixture,
 };
 use crate::native::{NativeRunPlan, native_sarif_outcome};
-use crate::report::{ADAPTER_VERSION, hash_paths, normalized_result, write_and_validate_report};
+use crate::report::{hash_paths, normalized_result, write_and_validate_report};
 use crate::runtime::{
     case_timing_path, clear_stale_case_timing, command_output, now_seconds,
     write_case_phase_timings, write_run_environment,
@@ -139,20 +143,6 @@ pub(crate) enum EcmaKernel {
 }
 
 impl EcmaKernel {
-    pub(crate) fn language(self) -> &'static str {
-        match self {
-            Self::JavaScript => "javascript",
-            Self::TypeScript => "typescript",
-        }
-    }
-
-    pub(crate) fn display_name(self) -> &'static str {
-        match self {
-            Self::JavaScript => "JavaScript",
-            Self::TypeScript => "TypeScript",
-        }
-    }
-
     pub(crate) fn adapter(self) -> &'static str {
         match self {
             Self::JavaScript => "codeql-javascript",
@@ -174,20 +164,6 @@ impl EcmaKernel {
         }
     }
 
-    pub(crate) fn raw_dir(self) -> &'static str {
-        match self {
-            Self::JavaScript => CODEQL_JAVASCRIPT_RAW_DIR,
-            Self::TypeScript => CODEQL_TYPESCRIPT_RAW_DIR,
-        }
-    }
-
-    pub(crate) fn report(self) -> &'static str {
-        match self {
-            Self::JavaScript => CODEQL_JAVASCRIPT_REPORT,
-            Self::TypeScript => CODEQL_TYPESCRIPT_REPORT,
-        }
-    }
-
     pub(crate) fn qlpack_directory(self) -> &'static str {
         match self {
             Self::JavaScript => "adapters/codeql/javascript",
@@ -204,6 +180,59 @@ impl EcmaKernel {
     /// published evidence. A declared query still has to be this kernel's.
     pub(crate) fn allows_implicit_query_reference(self) -> bool {
         matches!(self, Self::TypeScript)
+    }
+}
+
+/// The two CodeQL ECMA populations over the shared contract.
+///
+/// Their selection stays bespoke — `select_codeql_ecma_cases` enforces the
+/// query-reference rules the other adapters have no equivalent of — so this
+/// impl overrides `selects` and leaves the loop where the rules are. What it
+/// does supply is the uniform half: the report and evidence roots, the label,
+/// and the committed configuration the report's hash covers.
+impl KernelPopulation for EcmaKernel {
+    fn tool(&self) -> &'static str {
+        "codeql"
+    }
+
+    fn language(&self) -> &'static str {
+        match self {
+            Self::JavaScript => "javascript",
+            Self::TypeScript => "typescript",
+        }
+    }
+
+    fn display_name(&self) -> &'static str {
+        match self {
+            Self::JavaScript => "JavaScript",
+            Self::TypeScript => "TypeScript",
+        }
+    }
+
+    fn report(&self) -> String {
+        (match self {
+            Self::JavaScript => CODEQL_JAVASCRIPT_REPORT,
+            Self::TypeScript => CODEQL_TYPESCRIPT_REPORT,
+        })
+        .to_string()
+    }
+
+    fn raw_dir(&self) -> String {
+        (match self {
+            Self::JavaScript => CODEQL_JAVASCRIPT_RAW_DIR,
+            Self::TypeScript => CODEQL_TYPESCRIPT_RAW_DIR,
+        })
+        .to_string()
+    }
+
+    fn label(&self) -> String {
+        format!("{} CodeQL kernel", self.display_name())
+    }
+
+    /// The kernel query, the endpoint probe, the owning pack, and every query
+    /// a selected case names — so a report's hash moves if any of them does.
+    fn configuration_paths(&self, cases: &LoadedCases) -> Result<BTreeSet<PathBuf>> {
+        Ok(codeql_ecma_kernel_configuration_paths(*self, cases))
     }
 }
 
@@ -353,8 +382,8 @@ pub(crate) fn run_codeql_java_kernel(binary: &Path, packs: Option<&Path>) -> Res
     let raw_dir = Path::new("reports/raw/codeql");
     fs::create_dir_all(raw_dir)?;
     let started = now_seconds()?;
-    let (version, build_identity) = codeql_version_identity(binary)?;
-    write_run_environment(raw_dir, "codeql", &version, &build_identity)?;
+    let identity = codeql_version_identity(binary)?;
+    write_run_environment(raw_dir, "codeql", &identity)?;
     let revision = fixture_revision()?;
     let mut results = Vec::new();
     let mut query_paths = BTreeSet::new();
@@ -404,19 +433,14 @@ pub(crate) fn run_codeql_java_kernel(binary: &Path, packs: Option<&Path>) -> Res
     configuration_paths.insert(PathBuf::from("adapters/codeql/qlpack.yml"));
     configuration_paths.insert(PathBuf::from("adapters/codeql/codeql-pack.lock.yml"));
     let configuration_hash = hash_paths(&configuration_paths)?;
-    let report = json!({
-        "schema_version": 1,
-        "tool": "codeql",
-        "tool_version": version,
-        "tool_build_identity": build_identity,
-        "adapter_version": ADAPTER_VERSION,
-        "configuration_hash": configuration_hash,
-        "fixture_revision": revision,
-        "started_at_unix_seconds": started,
-        "ended_at_unix_seconds": now_seconds()?,
-        "cold_or_warm": "cold",
-        "results": results
-    });
+    let report = normalized_report(
+        "codeql",
+        &identity,
+        &configuration_hash,
+        &revision,
+        started,
+        results,
+    )?;
     write_and_validate_report(Path::new("reports/codeql-java-kernel.json"), &report)?;
     println!("wrote reports/codeql-java-kernel.json");
     Ok(())
@@ -468,7 +492,7 @@ pub(crate) fn codeql_ecma_kernel_configuration_paths(
 ) -> BTreeSet<PathBuf> {
     let mut paths = BTreeSet::new();
     for (_, case) in cases {
-        if !ecma_core_case(case, kernel) {
+        if !kernel.selects(case) {
             continue;
         }
         let model = &case["tool_model_references"]["codeql"];
@@ -522,11 +546,12 @@ pub(crate) fn run_codeql_ecma_kernel(
 ) -> Result<()> {
     validate_cases()?;
     let selected = select_codeql_ecma_cases(kernel)?;
-    let raw_dir = Path::new(kernel.raw_dir());
+    let raw_dir = kernel.raw_dir();
+    let raw_dir = Path::new(&raw_dir);
     fs::create_dir_all(raw_dir)?;
     let started = now_seconds()?;
-    let (version, build_identity) = codeql_version_identity(binary)?;
-    write_run_environment(raw_dir, "codeql", &version, &build_identity)?;
+    let identity = codeql_version_identity(binary)?;
+    write_run_environment(raw_dir, kernel.tool(), &identity)?;
     let revision = fixture_revision()?;
     let mut results = Vec::with_capacity(selected.len());
     let mut query_paths = BTreeSet::new();
@@ -583,21 +608,17 @@ pub(crate) fn run_codeql_ecma_kernel(
         configuration_paths.insert(pack_lock);
     }
     let configuration_hash = hash_paths(&configuration_paths)?;
-    let report = json!({
-        "schema_version": 1,
-        "tool": "codeql",
-        "tool_version": version,
-        "tool_build_identity": build_identity,
-        "adapter_version": ADAPTER_VERSION,
-        "configuration_hash": configuration_hash,
-        "fixture_revision": revision,
-        "started_at_unix_seconds": started,
-        "ended_at_unix_seconds": now_seconds()?,
-        "cold_or_warm": "cold",
-        "results": results
-    });
-    write_and_validate_report(Path::new(kernel.report()), &report)?;
-    println!("wrote {}", kernel.report());
+    let report = normalized_report(
+        kernel.tool(),
+        &identity,
+        &configuration_hash,
+        &revision,
+        started,
+        results,
+    )?;
+    let report_path = kernel.report();
+    write_and_validate_report(Path::new(&report_path), &report)?;
+    println!("wrote {report_path}");
     Ok(())
 }
 
@@ -607,8 +628,8 @@ pub(crate) fn run_codeql_python_kernel(binary: &Path, packs: Option<&Path>) -> R
     let raw_dir = Path::new("reports/raw/codeql-python-kernel");
     fs::create_dir_all(raw_dir)?;
     let started = now_seconds()?;
-    let (version, build_identity) = codeql_version_identity(binary)?;
-    write_run_environment(raw_dir, "codeql", &version, &build_identity)?;
+    let identity = codeql_version_identity(binary)?;
+    write_run_environment(raw_dir, "codeql", &identity)?;
     let revision = fixture_revision()?;
     let mut results = Vec::with_capacity(selected.len());
     let mut query_paths = BTreeSet::new();
@@ -643,19 +664,14 @@ pub(crate) fn run_codeql_python_kernel(binary: &Path, packs: Option<&Path>) -> R
 
     let configuration_paths = codeql_python_configuration_paths(&query_paths);
     let configuration_hash = hash_paths(&configuration_paths)?;
-    let report = json!({
-        "schema_version": 1,
-        "tool": "codeql",
-        "tool_version": version,
-        "tool_build_identity": build_identity,
-        "adapter_version": ADAPTER_VERSION,
-        "configuration_hash": configuration_hash,
-        "fixture_revision": revision,
-        "started_at_unix_seconds": started,
-        "ended_at_unix_seconds": now_seconds()?,
-        "cold_or_warm": "cold",
-        "results": results
-    });
+    let report = normalized_report(
+        "codeql",
+        &identity,
+        &configuration_hash,
+        &revision,
+        started,
+        results,
+    )?;
     write_and_validate_report(Path::new("reports/codeql-python-kernel.json"), &report)?;
     println!("wrote reports/codeql-python-kernel.json");
     Ok(())
@@ -675,8 +691,8 @@ pub(crate) fn run_codeql_kotlin_kernel(
     let raw_dir = Path::new(CODEQL_KOTLIN_RAW_DIR);
     fs::create_dir_all(raw_dir)?;
     let started = now_seconds()?;
-    let (version, build_identity) = codeql_version_identity(binary)?;
-    write_run_environment(raw_dir, "codeql", &version, &build_identity)?;
+    let identity = codeql_version_identity(binary)?;
+    write_run_environment(raw_dir, "codeql", &identity)?;
     let revision = fixture_revision()?;
     let mut results = Vec::with_capacity(selected.len());
 
@@ -704,19 +720,14 @@ pub(crate) fn run_codeql_kotlin_kernel(
     }
 
     let configuration_hash = hash_paths(&codeql_kotlin_configuration_paths())?;
-    let report = json!({
-        "schema_version": 1,
-        "tool": "codeql",
-        "tool_version": version,
-        "tool_build_identity": build_identity,
-        "adapter_version": ADAPTER_VERSION,
-        "configuration_hash": configuration_hash,
-        "fixture_revision": revision,
-        "started_at_unix_seconds": started,
-        "ended_at_unix_seconds": now_seconds()?,
-        "cold_or_warm": "cold",
-        "results": results
-    });
+    let report = normalized_report(
+        "codeql",
+        &identity,
+        &configuration_hash,
+        &revision,
+        started,
+        results,
+    )?;
     write_and_validate_report(Path::new(CODEQL_KOTLIN_REPORT), &report)?;
     println!("wrote {CODEQL_KOTLIN_REPORT}");
     Ok(())
@@ -732,8 +743,8 @@ pub(crate) fn run_codeql_csharp_kernel(binary: &Path, packs: Option<&Path>) -> R
     let raw_dir = Path::new(CODEQL_CSHARP_RAW_DIR);
     fs::create_dir_all(raw_dir)?;
     let started = now_seconds()?;
-    let (version, build_identity) = codeql_version_identity(binary)?;
-    write_run_environment(raw_dir, "codeql", &version, &build_identity)?;
+    let identity = codeql_version_identity(binary)?;
+    write_run_environment(raw_dir, "codeql", &identity)?;
     let revision = fixture_revision()?;
     let mut results = Vec::with_capacity(selected.len());
 
@@ -761,19 +772,14 @@ pub(crate) fn run_codeql_csharp_kernel(binary: &Path, packs: Option<&Path>) -> R
     }
 
     let configuration_hash = hash_paths(&codeql_csharp_configuration_paths())?;
-    let report = json!({
-        "schema_version": 1,
-        "tool": "codeql",
-        "tool_version": version,
-        "tool_build_identity": build_identity,
-        "adapter_version": ADAPTER_VERSION,
-        "configuration_hash": configuration_hash,
-        "fixture_revision": revision,
-        "started_at_unix_seconds": started,
-        "ended_at_unix_seconds": now_seconds()?,
-        "cold_or_warm": "cold",
-        "results": results
-    });
+    let report = normalized_report(
+        "codeql",
+        &identity,
+        &configuration_hash,
+        &revision,
+        started,
+        results,
+    )?;
     write_and_validate_report(Path::new(CODEQL_CSHARP_REPORT), &report)?;
     println!("wrote {CODEQL_CSHARP_REPORT}");
     Ok(())
@@ -789,8 +795,8 @@ pub(crate) fn run_codeql_go_kernel(binary: &Path, packs: Option<&Path>, go: &Pat
     let raw_dir = Path::new(CODEQL_GO_RAW_DIR);
     fs::create_dir_all(raw_dir)?;
     let started = now_seconds()?;
-    let (version, build_identity) = codeql_version_identity(binary)?;
-    write_run_environment(raw_dir, "codeql", &version, &build_identity)?;
+    let identity = codeql_version_identity(binary)?;
+    write_run_environment(raw_dir, "codeql", &identity)?;
     let revision = fixture_revision()?;
     let mut results = Vec::with_capacity(selected.len());
 
@@ -818,19 +824,14 @@ pub(crate) fn run_codeql_go_kernel(binary: &Path, packs: Option<&Path>, go: &Pat
     }
 
     let configuration_hash = hash_paths(&codeql_go_configuration_paths())?;
-    let report = json!({
-        "schema_version": 1,
-        "tool": "codeql",
-        "tool_version": version,
-        "tool_build_identity": build_identity,
-        "adapter_version": ADAPTER_VERSION,
-        "configuration_hash": configuration_hash,
-        "fixture_revision": revision,
-        "started_at_unix_seconds": started,
-        "ended_at_unix_seconds": now_seconds()?,
-        "cold_or_warm": "cold",
-        "results": results
-    });
+    let report = normalized_report(
+        "codeql",
+        &identity,
+        &configuration_hash,
+        &revision,
+        started,
+        results,
+    )?;
     write_and_validate_report(Path::new(CODEQL_GO_REPORT), &report)?;
     println!("wrote {CODEQL_GO_REPORT}");
     Ok(())
@@ -901,11 +902,12 @@ pub(crate) fn run_codeql_c_family_kernel(
 ) -> Result<()> {
     validate_cases()?;
     let selected = codeql_c_family_cases(kernel)?;
-    let raw_dir = Path::new(kernel.raw_dir());
+    let raw_dir = kernel.raw_dir();
+    let raw_dir = Path::new(&raw_dir);
     fs::create_dir_all(raw_dir)?;
     let started = now_seconds()?;
-    let (version, build_identity) = codeql_version_identity(binary)?;
-    write_run_environment(raw_dir, "codeql", &version, &build_identity)?;
+    let identity = codeql_version_identity(binary)?;
+    write_run_environment(raw_dir, "codeql", &identity)?;
     let revision = fixture_revision()?;
     let mut results = Vec::with_capacity(selected.len());
 
@@ -933,21 +935,17 @@ pub(crate) fn run_codeql_c_family_kernel(
     }
 
     let configuration_hash = hash_paths(&codeql_c_family_configuration_paths(kernel))?;
-    let report = json!({
-        "schema_version": 1,
-        "tool": "codeql",
-        "tool_version": version,
-        "tool_build_identity": build_identity,
-        "adapter_version": ADAPTER_VERSION,
-        "configuration_hash": configuration_hash,
-        "fixture_revision": revision,
-        "started_at_unix_seconds": started,
-        "ended_at_unix_seconds": now_seconds()?,
-        "cold_or_warm": "cold",
-        "results": results
-    });
-    write_and_validate_report(Path::new(kernel.report()), &report)?;
-    println!("wrote {}", kernel.report());
+    let report = normalized_report(
+        "codeql",
+        &identity,
+        &configuration_hash,
+        &revision,
+        started,
+        results,
+    )?;
+    let report_path = kernel.report();
+    write_and_validate_report(Path::new(&report_path), &report)?;
+    println!("wrote {report_path}");
     Ok(())
 }
 
@@ -1027,8 +1025,8 @@ pub(crate) fn run_codeql_rust_kernel(binary: &Path, packs: Option<&Path>) -> Res
     let raw_dir = Path::new(CODEQL_RUST_RAW_DIR);
     fs::create_dir_all(raw_dir)?;
     let started = now_seconds()?;
-    let (version, build_identity) = codeql_version_identity(binary)?;
-    write_run_environment(raw_dir, "codeql", &version, &build_identity)?;
+    let identity = codeql_version_identity(binary)?;
+    write_run_environment(raw_dir, "codeql", &identity)?;
     let revision = fixture_revision()?;
     let mut results = Vec::with_capacity(selected.len());
 
@@ -1056,19 +1054,14 @@ pub(crate) fn run_codeql_rust_kernel(binary: &Path, packs: Option<&Path>) -> Res
     }
 
     let configuration_hash = hash_paths(&codeql_rust_configuration_paths())?;
-    let report = json!({
-        "schema_version": 1,
-        "tool": "codeql",
-        "tool_version": version,
-        "tool_build_identity": build_identity,
-        "adapter_version": ADAPTER_VERSION,
-        "configuration_hash": configuration_hash,
-        "fixture_revision": revision,
-        "started_at_unix_seconds": started,
-        "ended_at_unix_seconds": now_seconds()?,
-        "cold_or_warm": "cold",
-        "results": results
-    });
+    let report = normalized_report(
+        "codeql",
+        &identity,
+        &configuration_hash,
+        &revision,
+        started,
+        results,
+    )?;
     write_and_validate_report(Path::new(CODEQL_RUST_REPORT), &report)?;
     println!("wrote {CODEQL_RUST_REPORT}");
     Ok(())
@@ -1085,8 +1078,8 @@ pub(crate) fn run_codeql_ruby_kernel(binary: &Path, packs: Option<&Path>) -> Res
     let raw_dir = Path::new(CODEQL_RUBY_RAW_DIR);
     fs::create_dir_all(raw_dir)?;
     let started = now_seconds()?;
-    let (version, build_identity) = codeql_version_identity(binary)?;
-    write_run_environment(raw_dir, "codeql", &version, &build_identity)?;
+    let identity = codeql_version_identity(binary)?;
+    write_run_environment(raw_dir, "codeql", &identity)?;
     let revision = fixture_revision()?;
     let mut results = Vec::with_capacity(selected.len());
 
@@ -1114,19 +1107,14 @@ pub(crate) fn run_codeql_ruby_kernel(binary: &Path, packs: Option<&Path>) -> Res
     }
 
     let configuration_hash = hash_paths(&codeql_ruby_configuration_paths())?;
-    let report = json!({
-        "schema_version": 1,
-        "tool": "codeql",
-        "tool_version": version,
-        "tool_build_identity": build_identity,
-        "adapter_version": ADAPTER_VERSION,
-        "configuration_hash": configuration_hash,
-        "fixture_revision": revision,
-        "started_at_unix_seconds": started,
-        "ended_at_unix_seconds": now_seconds()?,
-        "cold_or_warm": "cold",
-        "results": results
-    });
+    let report = normalized_report(
+        "codeql",
+        &identity,
+        &configuration_hash,
+        &revision,
+        started,
+        results,
+    )?;
     write_and_validate_report(Path::new(CODEQL_RUBY_REPORT), &report)?;
     println!("wrote {CODEQL_RUBY_REPORT}");
     Ok(())
@@ -1348,7 +1336,7 @@ pub(crate) fn codeql_csharp_configuration_paths() -> BTreeSet<PathBuf> {
 }
 
 /// The exact CLI version and build SHA every normalized CodeQL report records.
-pub(crate) fn codeql_version_identity(binary: &Path) -> Result<(String, String)> {
+pub(crate) fn codeql_version_identity(binary: &Path) -> Result<ToolIdentity> {
     let version_output = command_output(Command::new(binary).args(["version", "--format=json"]))
         .context("read CodeQL version")?;
     let version_json: Value =
@@ -1361,7 +1349,7 @@ pub(crate) fn codeql_version_identity(binary: &Path) -> Result<(String, String)>
         .as_str()
         .map(|sha| format!("codeql-cli:{sha}"))
         .context("CodeQL version JSON lacks build sha")?;
-    Ok((version, build_identity))
+    Ok(ToolIdentity::new(version, build_identity))
 }
 
 pub(crate) fn codeql_kotlin_cases() -> Result<Vec<(PathBuf, Value)>> {
@@ -1423,7 +1411,7 @@ pub(crate) fn select_codeql_ecma_cases(kernel: EcmaKernel) -> Result<Vec<(PathBu
     let mut selected = Vec::new();
     for path in case_paths() {
         let case: Value = serde_json::from_str(&fs::read_to_string(&path)?)?;
-        if !ecma_core_case(&case, kernel) {
+        if !kernel.selects(&case) {
             continue;
         }
         let model = &case["tool_model_references"]["codeql"];
@@ -1466,12 +1454,6 @@ pub(crate) fn select_codeql_ecma_cases(kernel: EcmaKernel) -> Result<Vec<(PathBu
         );
     }
     Ok(selected)
-}
-
-pub(crate) fn ecma_core_case(case: &Value, kernel: EcmaKernel) -> bool {
-    case["language"] == kernel.language()
-        && case["track"] == "taint"
-        && case["score_tier"] == "core"
 }
 
 pub(crate) fn run_codeql_ecma_case(
@@ -1729,19 +1711,7 @@ pub(crate) fn write_codeql_ecma_spawn_error(
     diagnostic: &str,
     kernel: EcmaKernel,
 ) -> Result<PathBuf> {
-    let error_path = raw_dir.join(format!("{id}-error.json"));
-    fs::write(
-        &error_path,
-        serde_json::to_string_pretty(&json!({
-            "adapter": kernel.adapter(),
-            "case_id": id,
-            "state": "runner-error",
-            "stage": stage,
-            "diagnostic": diagnostic,
-            "evidence_kind": "retained-process-diagnostics"
-        }))? + "\n",
-    )?;
-    Ok(error_path)
+    write_runner_error(kernel.adapter(), raw_dir, id, stage, diagnostic, None)
 }
 
 pub(crate) fn ecma_sarif_outcome(
@@ -2188,19 +2158,7 @@ pub(crate) fn write_codeql_spawn_error(
     stage: &str,
     diagnostic: &str,
 ) -> Result<PathBuf> {
-    let raw_path = raw_dir.join(format!("{id}-error.json"));
-    fs::write(
-        &raw_path,
-        serde_json::to_string_pretty(&json!({
-            "adapter": "codeql",
-            "case_id": id,
-            "state": "runner-error",
-            "stage": stage,
-            "diagnostic": diagnostic,
-            "evidence_kind": "retained-process-diagnostics"
-        }))? + "\n",
-    )?;
-    Ok(raw_path)
+    write_runner_error("codeql", raw_dir, id, stage, diagnostic, None)
 }
 
 pub(crate) fn codeql_missing_sarif_error(

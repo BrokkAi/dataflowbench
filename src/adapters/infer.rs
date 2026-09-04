@@ -6,9 +6,14 @@
 //! docs/adding-an-adapter.md for the shape every adapter follows.
 
 use crate::adapters::ModelingTool;
+use crate::adapters::ToolIdentity;
+use crate::adapters::normalized_report;
 use crate::adapters::opentaint::jvm_fixture_package;
 use crate::adapters::semgrep::{SEMGREP_SINK_PLACEHOLDER, SEMGREP_SOURCE_PLACEHOLDER};
-use crate::cases::{case_paths, fixture_revision, validate_cases, validate_kernel_population_with};
+use crate::adapters::write_runner_error;
+use crate::adapters::{KernelPopulation, select_kernel_cases};
+use crate::cases::LoadedCases;
+use crate::cases::{fixture_revision, validate_cases};
 use crate::evidence::{AnchorDialect, benchmark_endpoint_names, callsite_anchored_outcome};
 use crate::freeze::required_string;
 use crate::latency::{
@@ -16,7 +21,7 @@ use crate::latency::{
     trivial_fixture,
 };
 use crate::modeling::{ModelingRunPlan, modeling_anchor_dialect, modeling_case_scratch};
-use crate::report::{ADAPTER_VERSION, hash_paths, normalized_result, write_and_validate_report};
+use crate::report::{hash_paths, normalized_result, write_and_validate_report};
 use crate::runtime::{
     case_timing_path, now_seconds, write_case_phase_timings, write_run_environment,
 };
@@ -143,32 +148,8 @@ pub(crate) enum InferKernel {
 }
 
 impl InferKernel {
-    pub(crate) fn language(&self) -> &'static str {
-        match self {
-            Self::C => "c",
-            Self::Cpp => "cpp",
-            Self::Java { .. } => "java",
-        }
-    }
-
-    pub(crate) fn display_name(&self) -> &'static str {
-        match self {
-            Self::C => "C",
-            Self::Cpp => "C++",
-            Self::Java { .. } => "Java",
-        }
-    }
-
     pub(crate) fn config_template(&self) -> String {
         format!("{INFER_CONFIG_DIR}/kernel-{}.json", self.language())
-    }
-
-    pub(crate) fn report(&self) -> String {
-        format!("reports/infer-{}-kernel.json", self.language())
-    }
-
-    pub(crate) fn raw_dir(&self) -> String {
-        format!("reports/raw/infer-{}-kernel", self.language())
     }
 
     /// C and C++ share the C-family anchor dialect the CodeQL and Bifrost
@@ -179,8 +160,39 @@ impl InferKernel {
             Self::Java { .. } => AnchorDialect::Java,
         }
     }
+}
 
-    pub(crate) fn label(&self) -> String {
+/// Infer's populations over the shared contract.
+impl KernelPopulation for InferKernel {
+    fn tool(&self) -> &'static str {
+        "infer"
+    }
+
+    fn language(&self) -> &'static str {
+        match self {
+            Self::C => "c",
+            Self::Cpp => "cpp",
+            Self::Java { .. } => "java",
+        }
+    }
+
+    fn display_name(&self) -> &'static str {
+        match self {
+            Self::C => "C",
+            Self::Cpp => "C++",
+            Self::Java { .. } => "Java",
+        }
+    }
+
+    fn report(&self) -> String {
+        format!("reports/infer-{}-kernel.json", self.language())
+    }
+
+    fn raw_dir(&self) -> String {
+        format!("reports/raw/infer-{}-kernel", self.language())
+    }
+
+    fn label(&self) -> String {
         format!("Infer {} kernel", self.display_name())
     }
 
@@ -195,8 +207,14 @@ impl InferKernel {
     /// incapacity the engine actually has surfaces as a measured mismatch
     /// rather than a decision taken from observation, which the adapter
     /// contract forbids.
-    pub(crate) fn templates(&self) -> Vec<&'static str> {
+    fn templates(&self) -> Vec<&'static str> {
         expected_core_templates(self.language())
+    }
+
+    /// All three committed taint-configuration templates, so one hash binds
+    /// the whole set the way the Semgrep and OpenTaint kernels' does.
+    fn configuration_paths(&self, _cases: &LoadedCases) -> Result<BTreeSet<PathBuf>> {
+        Ok(infer_config_paths())
     }
 }
 
@@ -205,7 +223,7 @@ impl InferKernel {
 /// The pinned version is published only when the witnessed version matches
 /// it; a mismatch fails the run with both values in the error, so a report
 /// can never carry an asserted identity.
-pub(crate) fn witness_infer_identity(infer: &Path) -> Result<(String, String)> {
+pub(crate) fn witness_infer_identity(infer: &Path) -> Result<ToolIdentity> {
     let output = Command::new(infer)
         .arg("--version")
         .stdin(std::process::Stdio::null())
@@ -240,7 +258,7 @@ pub(crate) fn witness_infer_identity(infer: &Path) -> Result<(String, String)> {
         )
     );
     let build_identity = format!("infer:{version} bin-sha256:{digest}");
-    Ok((version, build_identity))
+    Ok(ToolIdentity::new(version, build_identity))
 }
 
 /// All three committed Infer taint-configuration templates, so one
@@ -254,19 +272,8 @@ pub(crate) fn infer_config_paths() -> BTreeSet<PathBuf> {
     ])
 }
 
-pub(crate) fn select_infer_cases(kernel: &InferKernel) -> Result<Vec<(PathBuf, Value)>> {
-    let mut selected = Vec::new();
-    for path in case_paths() {
-        let case: Value = serde_json::from_str(&fs::read_to_string(&path)?)?;
-        if case["language"] == kernel.language()
-            && case["track"] == "taint"
-            && case["score_tier"] == "core"
-        {
-            selected.push((path, case));
-        }
-    }
-    validate_kernel_population_with(&selected, &kernel.label(), &kernel.templates())?;
-    Ok(selected)
+pub(crate) fn select_infer_cases(kernel: &InferKernel) -> Result<LoadedCases> {
+    select_kernel_cases(kernel)
 }
 
 /// Split an Infer SARIF document into the taint results the benchmark policy
@@ -328,6 +335,7 @@ pub(crate) fn infer_taint_sink_step_location(result: &Value) -> Option<Value> {
 pub(crate) fn run_infer_kernel(infer: &Path, kernel: InferKernel) -> Result<()> {
     validate_cases()?;
     let selected = select_infer_cases(&kernel)?;
+    let configuration_paths = kernel.configuration_paths(&selected)?;
     let template_path = kernel.config_template();
     let template = fs::read_to_string(&template_path)
         .with_context(|| format!("read the Infer taint-configuration template {template_path}"))?;
@@ -355,8 +363,8 @@ pub(crate) fn run_infer_kernel(infer: &Path, kernel: InferKernel) -> Result<()> 
     let raw_dir = PathBuf::from(kernel.raw_dir());
     fs::create_dir_all(&raw_dir)?;
     let started = now_seconds()?;
-    let (version, build_identity) = witness_infer_identity(infer)?;
-    write_run_environment(&raw_dir, "infer", &version, &build_identity)?;
+    let identity = witness_infer_identity(infer)?;
+    write_run_environment(&raw_dir, "infer", &identity)?;
     let revision = fixture_revision()?;
     let mut results = Vec::with_capacity(selected.len());
 
@@ -375,20 +383,15 @@ pub(crate) fn run_infer_kernel(infer: &Path, kernel: InferKernel) -> Result<()> 
         ));
     }
 
-    let configuration_hash = hash_paths(&infer_config_paths())?;
-    let report = json!({
-        "schema_version": 1,
-        "tool": "infer",
-        "tool_version": version,
-        "tool_build_identity": build_identity,
-        "adapter_version": ADAPTER_VERSION,
-        "configuration_hash": configuration_hash,
-        "fixture_revision": revision,
-        "started_at_unix_seconds": started,
-        "ended_at_unix_seconds": now_seconds()?,
-        "cold_or_warm": "cold",
-        "results": results
-    });
+    let configuration_hash = hash_paths(&configuration_paths)?;
+    let report = normalized_report(
+        kernel.tool(),
+        &identity,
+        &configuration_hash,
+        &revision,
+        started,
+        results,
+    )?;
     let report_path = kernel.report();
     write_and_validate_report(Path::new(&report_path), &report)?;
     println!("wrote {report_path}");
@@ -413,22 +416,7 @@ pub(crate) fn write_infer_error(
     diagnostic: &str,
     output: Option<&std::process::Output>,
 ) -> Result<PathBuf> {
-    let error_path = raw_dir.join(format!("{id}-error.json"));
-    let mut evidence = json!({
-        "adapter": "infer",
-        "case_id": id,
-        "state": "runner-error",
-        "stage": stage,
-        "diagnostic": diagnostic,
-        "evidence_kind": "retained-process-diagnostics"
-    });
-    if let Some(output) = output {
-        evidence["status"] = json!(output.status.code());
-        evidence["stdout"] = json!(String::from_utf8_lossy(&output.stdout).trim());
-        evidence["stderr"] = json!(String::from_utf8_lossy(&output.stderr).trim());
-    }
-    fs::write(&error_path, serde_json::to_string_pretty(&evidence)? + "\n")?;
-    Ok(error_path)
+    write_runner_error("infer", raw_dir, id, stage, diagnostic, output)
 }
 
 pub(crate) fn run_infer_case(

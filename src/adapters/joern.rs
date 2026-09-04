@@ -5,9 +5,14 @@
 //! See adapters/joern/README.md for the published capability record, and
 //! docs/adding-an-adapter.md for the shape every adapter follows.
 
+use crate::adapters::ToolIdentity;
 use crate::adapters::codeql::write_rust_cargo_manifest;
+use crate::adapters::normalized_report;
+use crate::adapters::write_runner_error;
+use crate::adapters::{KernelPopulation, select_kernel_cases};
 use crate::adapters::{ModelingLanguage, ModelingTool};
-use crate::cases::{case_paths, fixture_revision, validate_cases, validate_kernel_population_with};
+use crate::cases::LoadedCases;
+use crate::cases::{fixture_revision, validate_cases};
 use crate::evidence::{
     AnchorDialect, EvidenceAnchorMatch, SinkAnchorLocation, benchmark_endpoint_names,
     evidence_path_matches_file, sink_anchor_locations,
@@ -21,11 +26,10 @@ use crate::modeling::{
     ModelingCategory, ModelingRunPlan, materialize_modeling_workspace, modeling_anchor_dialect,
     modeling_case_scratch, modeling_category,
 };
-use crate::report::{ADAPTER_VERSION, hash_paths, normalized_result, write_and_validate_report};
+use crate::report::{hash_paths, normalized_result, write_and_validate_report};
 use crate::runtime::{
     case_timing_path, now_seconds, write_case_phase_timings, write_run_environment,
 };
-use crate::templates::expected_core_templates;
 use anyhow::{Context, Result, bail};
 use serde_json::{Value, json};
 use std::{collections::BTreeSet, fs, path::Path, path::PathBuf, process::Command, time::Instant};
@@ -67,28 +71,6 @@ pub(crate) enum JoernKernel {
 }
 
 impl JoernKernel {
-    pub(crate) fn language(self) -> &'static str {
-        match self {
-            Self::Java => "java",
-            Self::JavaScript => "javascript",
-            Self::Python => "python",
-            Self::Ruby => "ruby",
-            Self::Php => "php",
-            Self::Rust => "rust",
-        }
-    }
-
-    pub(crate) fn display_name(self) -> &'static str {
-        match self {
-            Self::Java => "Java",
-            Self::JavaScript => "JavaScript",
-            Self::Python => "Python",
-            Self::Ruby => "Ruby",
-            Self::Php => "PHP",
-            Self::Rust => "Rust",
-        }
-    }
-
     /// The `importCode` language identifier the script is invoked with, which
     /// selects `javasrc2cpg`, `jssrc2cpg`, `pysrc2cpg`, `rubysrc2cpg`,
     /// `php2cpg`, and `rust2cpg` respectively. Each kernel names exactly one
@@ -105,28 +87,6 @@ impl JoernKernel {
         }
     }
 
-    pub(crate) fn report(self) -> &'static str {
-        match self {
-            Self::Java => JOERN_JAVA_REPORT,
-            Self::JavaScript => JOERN_JAVASCRIPT_REPORT,
-            Self::Python => JOERN_PYTHON_REPORT,
-            Self::Ruby => JOERN_RUBY_REPORT,
-            Self::Php => JOERN_PHP_REPORT,
-            Self::Rust => JOERN_RUST_REPORT,
-        }
-    }
-
-    pub(crate) fn raw_dir(self) -> &'static str {
-        match self {
-            Self::Java => JOERN_JAVA_RAW_DIR,
-            Self::JavaScript => JOERN_JAVASCRIPT_RAW_DIR,
-            Self::Python => JOERN_PYTHON_RAW_DIR,
-            Self::Ruby => JOERN_RUBY_RAW_DIR,
-            Self::Php => JOERN_PHP_RAW_DIR,
-            Self::Rust => JOERN_RUST_RAW_DIR,
-        }
-    }
-
     pub(crate) fn dialect(self) -> AnchorDialect {
         match self {
             Self::Java => AnchorDialect::Java,
@@ -138,15 +98,6 @@ impl JoernKernel {
         }
     }
 
-    /// The scored templates of this language's core denominator, read from its
-    /// rollout row. Rust's exception-catch cell is inapplicable —
-    /// docs/applicability-matrix.md records why — so its classic core is 15
-    /// templates, and the `Result`/`?` `language-extension` pair that stands in
-    /// for the missing cell is scored on its own tier and is not selected here.
-    pub(crate) fn templates(self) -> Vec<&'static str> {
-        expected_core_templates(self.language())
-    }
-
     /// Whether a case of this language needs a synthesized build manifest in
     /// its workspace before the frontend can extract it. `rust2cpg` walks a
     /// Cargo crate, not a loose `.rs` file: given a bare fixture it produces an
@@ -155,32 +106,80 @@ impl JoernKernel {
     pub(crate) fn needs_cargo_manifest(self) -> bool {
         matches!(self, Self::Rust)
     }
-
-    pub(crate) fn label(self) -> String {
-        format!("Joern {} kernel", self.display_name())
-    }
 }
 
-pub(crate) fn joern_core_case(case: &Value, kernel: JoernKernel) -> bool {
-    case["language"] == kernel.language()
-        && case["track"] == "taint"
-        && case["score_tier"] == "core"
+/// Joern's populations over the shared contract. One engine and one query
+/// language stand behind all six, exactly as CodeQL's standard library stands
+/// behind its kernels; what keeps them apart is the selector and the dedicated
+/// report and evidence roots below, never the engine.
+impl KernelPopulation for JoernKernel {
+    fn tool(&self) -> &'static str {
+        "joern"
+    }
+
+    fn language(&self) -> &'static str {
+        match self {
+            Self::Java => "java",
+            Self::JavaScript => "javascript",
+            Self::Python => "python",
+            Self::Ruby => "ruby",
+            Self::Php => "php",
+            Self::Rust => "rust",
+        }
+    }
+
+    fn display_name(&self) -> &'static str {
+        match self {
+            Self::Java => "Java",
+            Self::JavaScript => "JavaScript",
+            Self::Python => "Python",
+            Self::Ruby => "Ruby",
+            Self::Php => "PHP",
+            Self::Rust => "Rust",
+        }
+    }
+
+    fn report(&self) -> String {
+        (match self {
+            Self::Java => JOERN_JAVA_REPORT,
+            Self::JavaScript => JOERN_JAVASCRIPT_REPORT,
+            Self::Python => JOERN_PYTHON_REPORT,
+            Self::Ruby => JOERN_RUBY_REPORT,
+            Self::Php => JOERN_PHP_REPORT,
+            Self::Rust => JOERN_RUST_REPORT,
+        })
+        .to_string()
+    }
+
+    fn raw_dir(&self) -> String {
+        (match self {
+            Self::Java => JOERN_JAVA_RAW_DIR,
+            Self::JavaScript => JOERN_JAVASCRIPT_RAW_DIR,
+            Self::Python => JOERN_PYTHON_RAW_DIR,
+            Self::Ruby => JOERN_RUBY_RAW_DIR,
+            Self::Php => JOERN_PHP_RAW_DIR,
+            Self::Rust => JOERN_RUST_RAW_DIR,
+        })
+        .to_string()
+    }
+
+    fn label(&self) -> String {
+        format!("Joern {} kernel", self.display_name())
+    }
+
+    /// One committed script drives every Joern kernel, so one hash binds the
+    /// whole set.
+    fn configuration_paths(&self, _cases: &LoadedCases) -> Result<BTreeSet<PathBuf>> {
+        Ok(BTreeSet::from([PathBuf::from(JOERN_KERNEL_SCRIPT)]))
+    }
 }
 
 /// Select a Joern kernel population runner-side. The v0.3.0 freeze binds every
 /// `case.json` byte, so no case declares a Joern model reference; the selection
 /// is by language, track, and score tier alone, and the invocation is pinned
 /// here the way the Kotlin Bifrost run pins its policy.
-pub(crate) fn select_joern_cases(kernel: JoernKernel) -> Result<Vec<(PathBuf, Value)>> {
-    let mut selected = Vec::new();
-    for path in case_paths() {
-        let case: Value = serde_json::from_str(&fs::read_to_string(&path)?)?;
-        if joern_core_case(&case, kernel) {
-            selected.push((path, case));
-        }
-    }
-    validate_kernel_population_with(&selected, &kernel.label(), &kernel.templates())?;
-    Ok(selected)
+pub(crate) fn select_joern_cases(kernel: JoernKernel) -> Result<LoadedCases> {
+    select_kernel_cases(&kernel)
 }
 
 pub(crate) fn run_joern_kernel(binary: &Path, kernel: JoernKernel) -> Result<()> {
@@ -191,12 +190,14 @@ pub(crate) fn run_joern_kernel(binary: &Path, kernel: JoernKernel) -> Result<()>
         bail!("Joern kernel script does not exist: {JOERN_KERNEL_SCRIPT}");
     }
     let script = fs::canonicalize(script).context("resolve the Joern kernel script")?;
-    let raw_dir = Path::new(kernel.raw_dir());
+    let raw_dir = kernel.raw_dir();
+    let raw_dir = Path::new(&raw_dir);
     fs::create_dir_all(raw_dir)?;
     let raw_root = fs::canonicalize(raw_dir).context("resolve the Joern evidence directory")?;
+    let configuration_paths = kernel.configuration_paths(&selected)?;
     let started = now_seconds()?;
-    let (version, build_identity) = joern_version_identity(binary)?;
-    write_run_environment(raw_dir, "joern", &version, &build_identity)?;
+    let identity = joern_version_identity(binary)?;
+    write_run_environment(raw_dir, "joern", &identity)?;
     let revision = fixture_revision()?;
     let mut results = Vec::with_capacity(selected.len());
 
@@ -215,29 +216,25 @@ pub(crate) fn run_joern_kernel(binary: &Path, kernel: JoernKernel) -> Result<()>
         ));
     }
 
-    let configuration_hash = hash_paths(&BTreeSet::from([PathBuf::from(JOERN_KERNEL_SCRIPT)]))?;
-    let report = json!({
-        "schema_version": 1,
-        "tool": "joern",
-        "tool_version": version,
-        "tool_build_identity": build_identity,
-        "adapter_version": ADAPTER_VERSION,
-        "configuration_hash": configuration_hash,
-        "fixture_revision": revision,
-        "started_at_unix_seconds": started,
-        "ended_at_unix_seconds": now_seconds()?,
-        "cold_or_warm": "cold",
-        "results": results
-    });
-    write_and_validate_report(Path::new(kernel.report()), &report)?;
-    println!("wrote {}", kernel.report());
+    let configuration_hash = hash_paths(&configuration_paths)?;
+    let report = normalized_report(
+        kernel.tool(),
+        &identity,
+        &configuration_hash,
+        &revision,
+        started,
+        results,
+    )?;
+    let report_path = kernel.report();
+    write_and_validate_report(Path::new(&report_path), &report)?;
+    println!("wrote {report_path}");
     Ok(())
 }
 
 /// The exact Joern version every normalized Joern report records. The pinned
 /// distribution reports no separate build SHA, so the released version is the
 /// build identity.
-pub(crate) fn joern_version_identity(binary: &Path) -> Result<(String, String)> {
+pub(crate) fn joern_version_identity(binary: &Path) -> Result<ToolIdentity> {
     let output = Command::new(binary)
         .arg("--version")
         .stdin(std::process::Stdio::null())
@@ -259,7 +256,7 @@ pub(crate) fn joern_version_identity(binary: &Path) -> Result<(String, String)> 
         .context("Joern did not report a version")?
         .to_string();
     let build_identity = format!("joern-cli:{version}");
-    Ok((version, build_identity))
+    Ok(ToolIdentity::new(version, build_identity))
 }
 
 pub(crate) fn run_joern_case(
@@ -442,22 +439,7 @@ pub(crate) fn write_joern_error(
     diagnostic: &str,
     output: Option<&std::process::Output>,
 ) -> Result<PathBuf> {
-    let error_path = raw_dir.join(format!("{id}-error.json"));
-    let mut evidence = json!({
-        "adapter": "joern",
-        "case_id": id,
-        "state": "runner-error",
-        "stage": stage,
-        "diagnostic": diagnostic,
-        "evidence_kind": "retained-process-diagnostics"
-    });
-    if let Some(output) = output {
-        evidence["status"] = json!(output.status.code());
-        evidence["stdout"] = json!(String::from_utf8_lossy(&output.stdout).trim());
-        evidence["stderr"] = json!(String::from_utf8_lossy(&output.stderr).trim());
-    }
-    fs::write(&error_path, serde_json::to_string_pretty(&evidence)? + "\n")?;
-    Ok(error_path)
+    write_runner_error("joern", raw_dir, id, stage, diagnostic, output)
 }
 
 /// What an absent endpoint means in a Joern evidence document.

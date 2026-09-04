@@ -3,6 +3,7 @@
 //! amendments, and the tier's run planner. Never pooled with the
 //! benchmark-controlled matrix. See docs/native-profile.md.
 
+use crate::adapters::ToolIdentity;
 use crate::adapters::bifrost::BIFROST_NATIVE_POLICY_PACK_FLAG;
 use crate::adapters::codeql::{
     CODEQL_NATIVE_QUERY_PACKS, CODEQL_NATIVE_SUITE_KIND, CODEQL_NATIVE_THREAT_MODEL,
@@ -10,6 +11,7 @@ use crate::adapters::codeql::{
 };
 use crate::adapters::flowdroid::FLOWDROID_NATIVE_CATALOG_ARGUMENT;
 use crate::adapters::joern::JOERN_MODELING_SCRIPT;
+use crate::adapters::normalized_report;
 use crate::adapters::pysa::PYSA_NATIVE_SUITE_RELATIVE;
 use crate::adapters::semgrep::{
     SEMGREP_NATIVE_PROVENANCE_FILE, SEMGREP_NATIVE_UPSTREAM, run_semgrep_native_case,
@@ -23,7 +25,7 @@ use crate::evidence::{
 };
 use crate::freeze::required_string;
 use crate::modeling::{MODELING_TEMPLATE_PREFIX, ModelingCategory, modeling_case};
-use crate::report::{ADAPTER_VERSION, normalized_result, write_and_validate_report};
+use crate::report::{normalized_result, write_and_validate_report};
 use crate::runtime::{clear_stale_case_timing, now_seconds, write_run_environment};
 use anyhow::{Context, Result, bail};
 use serde_json::{Value, json};
@@ -1716,8 +1718,8 @@ pub(crate) fn run_native(
     // evidence, and a constant would keep naming the previous pin after the
     // binary underneath it moved. Reading `--version` is not analyzing a
     // fixture, so the outcome-honesty contract is untouched by asking.
-    let (version, build) = witness_tool_identity(tool, binary)?;
-    run_native_with_identity(tool, binary, language, version, build)
+    let identity = witness_tool_identity(tool, binary)?;
+    run_native_with_identity(tool, binary, language, identity)
 }
 
 /// The witnessed-identity half of a tool-native run, shared between the
@@ -1728,16 +1730,23 @@ pub(crate) fn run_native_with_identity(
     tool: ModelingTool,
     binary: &Path,
     language: ModelingLanguage,
-    version: String,
-    build: String,
+    witnessed: ToolIdentity,
 ) -> Result<()> {
-    let plan = plan_native_run(tool, language, &version)?;
+    let plan = plan_native_run(tool, language, &witnessed.version)?;
     let scored_templates = native_supported_templates(plan.tool, plan.language);
 
     fs::create_dir_all(&plan.raw_dir)?;
     let started = now_seconds()?;
-    let build_identity = format!("{build} — {}", plan.activation.identity);
-    write_run_environment(&plan.raw_dir, plan.tool.key(), &version, &build_identity)?;
+    // Both halves of the identity, and both witnessed: the build the binary
+    // reported, and the activation surface that build was pointed at.
+    let identity = ToolIdentity::new(
+        witnessed.version,
+        format!(
+            "{} — {}",
+            witnessed.build_identity, plan.activation.identity
+        ),
+    );
+    write_run_environment(&plan.raw_dir, plan.tool.key(), &identity)?;
     let revision = fixture_revision()?;
     let mut results = Vec::with_capacity(plan.cases.len());
     for (path, case) in &plan.cases {
@@ -1754,7 +1763,7 @@ pub(crate) fn run_native_with_identity(
                 case,
                 &plan.activation,
                 &plan.raw_dir,
-                &version,
+                &identity.version,
             )? {
             (outcome, vec![reason], raw_path)
         } else {
@@ -1807,21 +1816,14 @@ pub(crate) fn run_native_with_identity(
             &raw_path,
         ));
     }
-    let report = json!({
-        "schema_version": 1,
-        "tool": plan.tool.key(),
-        "tool_version": version,
-        // Both halves of the identity, and both witnessed: the build the binary
-        // reported, and the activation surface that build was pointed at.
-        "tool_build_identity": build_identity,
-        "adapter_version": ADAPTER_VERSION,
-        "configuration_hash": native_configuration_hash(&plan.activation)?,
-        "fixture_revision": revision,
-        "started_at_unix_seconds": started,
-        "ended_at_unix_seconds": now_seconds()?,
-        "cold_or_warm": "cold",
-        "results": results
-    });
+    let report = normalized_report(
+        plan.tool.key(),
+        &identity,
+        &native_configuration_hash(&plan.activation)?,
+        &revision,
+        started,
+        results,
+    )?;
     write_and_validate_report(&plan.report, &report)?;
     let scored = scored_templates;
     let scored_assertions = plan

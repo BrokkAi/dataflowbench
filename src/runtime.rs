@@ -4,6 +4,7 @@
 //! Timing is additive metadata. No correctness outcome may read it, and a case
 //! arm that never invokes the analyzer retains none.
 
+use crate::adapters::ToolIdentity;
 use anyhow::{Context, Result, bail};
 use serde_json::{Value, json};
 use std::{
@@ -131,8 +132,7 @@ pub(crate) fn hardware_model() -> String {
 pub(crate) fn write_run_environment(
     raw_dir: &Path,
     tool: &str,
-    tool_version: &str,
-    tool_build_identity: &str,
+    identity: &ToolIdentity,
 ) -> Result<()> {
     let os_release =
         command_output(Command::new("uname").arg("-r")).unwrap_or_else(|_| "unknown".into());
@@ -150,8 +150,8 @@ pub(crate) fn write_run_environment(
             "cpu_architecture": std::env::consts::ARCH,
             "cpu_count": cpu_count,
             "tool": tool,
-            "witnessed_tool_version": tool_version,
-            "witnessed_tool_build_identity": tool_build_identity,
+            "witnessed_tool_version": identity.version,
+            "witnessed_tool_build_identity": identity.build_identity,
             "evidence_kind": "retained-run-environment"
         }))? + "\n",
     )?;

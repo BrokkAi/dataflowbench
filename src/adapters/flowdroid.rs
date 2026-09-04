@@ -5,9 +5,14 @@
 //! See adapters/flowdroid/README.md for the published capability record, and
 //! docs/adding-an-adapter.md for the shape every adapter follows.
 
+use crate::adapters::ToolIdentity;
+use crate::adapters::normalized_report;
 use crate::adapters::opentaint::jvm_fixture_package;
+use crate::adapters::write_runner_error;
+use crate::adapters::{KernelPopulation, select_kernel_cases};
 use crate::adapters::{ModelingLanguage, ModelingTool};
-use crate::cases::{case_paths, fixture_revision, validate_cases, validate_kernel_population_with};
+use crate::cases::LoadedCases;
+use crate::cases::{fixture_revision, validate_cases};
 use crate::evidence::{AnchorDialect, benchmark_endpoint_names};
 use crate::freeze::required_string;
 use crate::latency::{
@@ -19,7 +24,7 @@ use crate::modeling::{
     modeling_supported_templates, plan_modeling_run,
 };
 use crate::native::run_native_with_identity;
-use crate::report::{ADAPTER_VERSION, hash_paths, normalized_result, write_and_validate_report};
+use crate::report::{hash_paths, normalized_result, write_and_validate_report};
 use crate::runtime::{
     case_timing_path, now_seconds, write_case_phase_timings, write_run_environment,
 };
@@ -203,20 +208,6 @@ pub(crate) enum FlowdroidKernel {
 }
 
 impl FlowdroidKernel {
-    pub(crate) fn language(&self) -> &'static str {
-        match self {
-            Self::Java { .. } => "java",
-            Self::Kotlin { .. } => "kotlin",
-        }
-    }
-
-    pub(crate) fn display_name(&self) -> &'static str {
-        match self {
-            Self::Java { .. } => "Java",
-            Self::Kotlin { .. } => "Kotlin",
-        }
-    }
-
     /// The one package this language's core fixtures declare. The committed
     /// binary manifest names the harness activity inside it, so a fixture
     /// declaring any other package is a benchmark defect the runner refuses,
@@ -251,22 +242,43 @@ impl FlowdroidKernel {
         }
     }
 
-    pub(crate) fn report(&self) -> String {
-        format!("reports/flowdroid-{}-kernel.json", self.language())
-    }
-
-    pub(crate) fn raw_dir(&self) -> String {
-        format!("reports/raw/flowdroid-{}-kernel", self.language())
-    }
-
     /// Both kernels resolve endpoint names with the Java anchor dialect, as
     /// the OpenTaint kernels do: the Kotlin fixtures satisfy its surface
     /// contract (`fun name(params)` declarations, `//` comments).
     pub(crate) fn dialect(&self) -> AnchorDialect {
         AnchorDialect::Java
     }
+}
 
-    pub(crate) fn label(&self) -> String {
+/// FlowDroid's population over the shared contract.
+impl KernelPopulation for FlowdroidKernel {
+    fn tool(&self) -> &'static str {
+        "flowdroid"
+    }
+
+    fn language(&self) -> &'static str {
+        match self {
+            Self::Java { .. } => "java",
+            Self::Kotlin { .. } => "kotlin",
+        }
+    }
+
+    fn display_name(&self) -> &'static str {
+        match self {
+            Self::Java { .. } => "Java",
+            Self::Kotlin { .. } => "Kotlin",
+        }
+    }
+
+    fn report(&self) -> String {
+        format!("reports/flowdroid-{}-kernel.json", self.language())
+    }
+
+    fn raw_dir(&self) -> String {
+        format!("reports/raw/flowdroid-{}-kernel", self.language())
+    }
+
+    fn label(&self) -> String {
         format!("FlowDroid {} kernel", self.display_name())
     }
 
@@ -282,8 +294,14 @@ impl FlowdroidKernel {
     /// is scored, and every incapacity the engine actually has surfaces as a
     /// measured mismatch rather than a decision taken from observation,
     /// which the adapter contract forbids.
-    pub(crate) fn templates(&self) -> Vec<&'static str> {
+    fn templates(&self) -> Vec<&'static str> {
         expected_core_templates(self.language())
+    }
+
+    /// Every committed template and configuration file, so one hash binds the
+    /// whole set.
+    fn configuration_paths(&self, _cases: &LoadedCases) -> Result<BTreeSet<PathBuf>> {
+        Ok(flowdroid_template_paths())
     }
 }
 
@@ -314,7 +332,7 @@ pub(crate) fn flowdroid_template_paths() -> BTreeSet<PathBuf> {
 pub(crate) fn witness_flowdroid_identity(
     flowdroid_jar: &Path,
     android_platform: &Path,
-) -> Result<(String, String)> {
+) -> Result<ToolIdentity> {
     let jar_digest =
         format!(
             "{:x}",
@@ -371,7 +389,7 @@ pub(crate) fn witness_flowdroid_identity(
             flowdroid_jar.display()
         );
     }
-    Ok((
+    Ok(ToolIdentity::new(
         version,
         format!(
             "soot-infoflow-cmd-{FLOWDROID_PINNED_VERSION}-jar-with-dependencies.jar sha256:{jar_digest}; android-34 platform android.jar sha256:{platform_digest}"
@@ -848,19 +866,8 @@ pub(crate) fn flowdroid_completion_leaks(log: &str) -> std::result::Result<u64, 
     Err("the analyzer log carries no completion line, so the analysis cannot be shown to have finished".to_string())
 }
 
-pub(crate) fn select_flowdroid_cases(kernel: &FlowdroidKernel) -> Result<Vec<(PathBuf, Value)>> {
-    let mut selected = Vec::new();
-    for path in case_paths() {
-        let case: Value = serde_json::from_str(&fs::read_to_string(&path)?)?;
-        if case["language"] == kernel.language()
-            && case["track"] == "taint"
-            && case["score_tier"] == "core"
-        {
-            selected.push((path, case));
-        }
-    }
-    validate_kernel_population_with(&selected, &kernel.label(), &kernel.templates())?;
-    Ok(selected)
+pub(crate) fn select_flowdroid_cases(kernel: &FlowdroidKernel) -> Result<LoadedCases> {
+    select_kernel_cases(kernel)
 }
 
 /// Everything a FlowDroid run needs beyond the kernel's own toolchain: the
@@ -876,6 +883,7 @@ pub(crate) struct FlowdroidTools {
 pub(crate) fn run_flowdroid_kernel(tools: &FlowdroidTools, kernel: FlowdroidKernel) -> Result<()> {
     validate_cases()?;
     let selected = select_flowdroid_cases(&kernel)?;
+    let configuration_paths = kernel.configuration_paths(&selected)?;
     let sources_sinks_template_path = format!("{FLOWDROID_CONFIG_DIR}/sources-sinks.txt");
     let sources_sinks_template =
         fs::read_to_string(&sources_sinks_template_path).with_context(|| {
@@ -907,11 +915,10 @@ pub(crate) fn run_flowdroid_kernel(tools: &FlowdroidTools, kernel: FlowdroidKern
     let raw_dir = PathBuf::from(kernel.raw_dir());
     fs::create_dir_all(&raw_dir)?;
     let started = now_seconds()?;
-    let (version, mut build_identity) =
-        witness_flowdroid_identity(&tools.flowdroid_jar, &tools.android_platform)?;
+    let mut identity = witness_flowdroid_identity(&tools.flowdroid_jar, &tools.android_platform)?;
     let d8_identity = witness_flowdroid_d8(&tools.java, &tools.d8_jar)?;
-    build_identity = format!("{build_identity}; dexed by {d8_identity}");
-    write_run_environment(&raw_dir, "flowdroid", &version, &build_identity)?;
+    identity.build_identity = format!("{}; dexed by {d8_identity}", identity.build_identity);
+    write_run_environment(&raw_dir, "flowdroid", &identity)?;
     let revision = fixture_revision()?;
     let mut results = Vec::with_capacity(selected.len());
 
@@ -941,20 +948,15 @@ pub(crate) fn run_flowdroid_kernel(tools: &FlowdroidTools, kernel: FlowdroidKern
         ));
     }
 
-    let configuration_hash = hash_paths(&flowdroid_template_paths())?;
-    let report = json!({
-        "schema_version": 1,
-        "tool": "flowdroid",
-        "tool_version": version,
-        "tool_build_identity": build_identity,
-        "adapter_version": ADAPTER_VERSION,
-        "configuration_hash": configuration_hash,
-        "fixture_revision": revision,
-        "started_at_unix_seconds": started,
-        "ended_at_unix_seconds": now_seconds()?,
-        "cold_or_warm": "cold",
-        "results": results
-    });
+    let configuration_hash = hash_paths(&configuration_paths)?;
+    let report = normalized_report(
+        kernel.tool(),
+        &identity,
+        &configuration_hash,
+        &revision,
+        started,
+        results,
+    )?;
     let report_path = kernel.report();
     write_and_validate_report(Path::new(&report_path), &report)?;
     println!("wrote {report_path}");
@@ -979,22 +981,7 @@ pub(crate) fn write_flowdroid_error(
     diagnostic: &str,
     output: Option<&std::process::Output>,
 ) -> Result<PathBuf> {
-    let error_path = raw_dir.join(format!("{id}-error.json"));
-    let mut evidence = json!({
-        "adapter": "flowdroid",
-        "case_id": id,
-        "state": "runner-error",
-        "stage": stage,
-        "diagnostic": diagnostic,
-        "evidence_kind": "retained-process-diagnostics"
-    });
-    if let Some(output) = output {
-        evidence["status"] = json!(output.status.code());
-        evidence["stdout"] = json!(String::from_utf8_lossy(&output.stdout).trim());
-        evidence["stderr"] = json!(String::from_utf8_lossy(&output.stderr).trim());
-    }
-    fs::write(&error_path, serde_json::to_string_pretty(&evidence)? + "\n")?;
-    Ok(error_path)
+    write_runner_error("flowdroid", raw_dir, id, stage, diagnostic, output)
 }
 
 /// Record an `inconclusive` decision with its retained reason: evidence the
@@ -1624,11 +1611,10 @@ pub(crate) fn run_flowdroid_modeling(
     ];
 
     let started = now_seconds()?;
-    let (version, mut build_identity) =
-        witness_flowdroid_identity(&tools.flowdroid_jar, &tools.android_platform)?;
+    let mut identity = witness_flowdroid_identity(&tools.flowdroid_jar, &tools.android_platform)?;
     let d8_identity = witness_flowdroid_d8(&tools.java, &tools.d8_jar)?;
-    build_identity = format!("{build_identity}; dexed by {d8_identity}");
-    write_run_environment(&plan.raw_dir, "flowdroid", &version, &build_identity)?;
+    identity.build_identity = format!("{}; dexed by {d8_identity}", identity.build_identity);
+    write_run_environment(&plan.raw_dir, "flowdroid", &identity)?;
     let revision = fixture_revision()?;
     let mut results = Vec::with_capacity(plan.cases.len());
     for (path, case) in &plan.cases {
@@ -1639,8 +1625,12 @@ pub(crate) fn run_flowdroid_modeling(
         // analyzer and cannot produce an empty finding list that later reads
         // as a negative.
         let (outcome, diagnostics, raw_path) = if let Some((outcome, reason, raw_path)) =
-            modeling_partition_outcome(ModelingTool::Flowdroid, case, &plan.raw_dir, &version)?
-        {
+            modeling_partition_outcome(
+                ModelingTool::Flowdroid,
+                case,
+                &plan.raw_dir,
+                &identity.version,
+            )? {
             (outcome, vec![reason], raw_path)
         } else {
             run_flowdroid_case(
@@ -1666,19 +1656,14 @@ pub(crate) fn run_flowdroid_modeling(
             &raw_path,
         ));
     }
-    let report = json!({
-        "schema_version": 1,
-        "tool": "flowdroid",
-        "tool_version": version,
-        "tool_build_identity": build_identity,
-        "adapter_version": ADAPTER_VERSION,
-        "configuration_hash": hash_paths(&plan.configuration_paths)?,
-        "fixture_revision": revision,
-        "started_at_unix_seconds": started,
-        "ended_at_unix_seconds": now_seconds()?,
-        "cold_or_warm": "cold",
-        "results": results
-    });
+    let report = normalized_report(
+        "flowdroid",
+        &identity,
+        &hash_paths(&plan.configuration_paths)?,
+        &revision,
+        started,
+        results,
+    )?;
     write_and_validate_report(&plan.report, &report)?;
     let scored = modeling_supported_templates(ModelingTool::Flowdroid);
     let scored_assertions = plan
@@ -1724,14 +1709,8 @@ pub(crate) fn run_flowdroid_native(
             language.display_name()
         );
     }
-    let (version, build) = witness_flowdroid_identity(flowdroid_jar, android_platform)?;
-    run_native_with_identity(
-        ModelingTool::Flowdroid,
-        flowdroid_jar,
-        language,
-        version,
-        build,
-    )
+    let identity = witness_flowdroid_identity(flowdroid_jar, android_platform)?;
+    run_native_with_identity(ModelingTool::Flowdroid, flowdroid_jar, language, identity)
 }
 
 /// FlowDroid: one analyzer invocation over a materialized APK.

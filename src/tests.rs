@@ -5,6 +5,8 @@
 //! report-path-disjointness test, and an anti-vacuous-negative test. See
 //! docs/adding-an-adapter.md.
 
+use crate::adapters::KernelPopulation;
+use crate::adapters::ToolIdentity;
 use crate::adapters::bifrost::{
     BIFROST_DIRECT_POLICY, BIFROST_DIRECT_POSITIVE_POLICY, BIFROST_EXPLICIT_NEGATIVE_POLICY,
     BIFROST_JAVA_POLICY, BIFROST_JAVASCRIPT_POLICY, BIFROST_KOTLIN_POLICY,
@@ -28,11 +30,11 @@ use crate::adapters::codeql::{
     CODEQL_TYPESCRIPT_REPORT, CodeqlEndpointObservation, CodeqlLanguage, EcmaKernel,
     codeql_c_family_cases, codeql_csharp_cases, codeql_database_create_args,
     codeql_endpoint_probe_result, codeql_go_cases, codeql_kotlin_cases, codeql_missing_sarif_error,
-    codeql_ruby_cases, codeql_rust_cases, ecma_core_case, ecma_sarif_outcome,
-    modeling_codeql_language, normalize_anchored_codeql_sarif, rust_kernel_case,
-    select_codeql_ecma_cases, selected_codeql_java_case, selected_codeql_python_case,
-    split_codeql_endpoint_probe, unobserved_codeql_endpoint_outcome,
-    validate_codeql_python_population, validate_rust_kernel_population, write_rust_cargo_manifest,
+    codeql_ruby_cases, codeql_rust_cases, ecma_sarif_outcome, modeling_codeql_language,
+    normalize_anchored_codeql_sarif, rust_kernel_case, select_codeql_ecma_cases,
+    selected_codeql_java_case, selected_codeql_python_case, split_codeql_endpoint_probe,
+    unobserved_codeql_endpoint_outcome, validate_codeql_python_population,
+    validate_rust_kernel_population, write_rust_cargo_manifest,
 };
 use crate::adapters::flowdroid::{
     FLOWDROID_ANDROID_PLATFORM_SHA256, FLOWDROID_CONFIG_DIR, FLOWDROID_ENTRY_CALL_PLACEHOLDER,
@@ -524,7 +526,12 @@ fn validate_reports_accepts_raw_evidence_with_and_without_timing_metadata() {
         ],
     )
     .unwrap();
-    write_run_environment(&raw_dir, "test-tool", "1.0.0", "test-build-1").unwrap();
+    write_run_environment(
+        &raw_dir,
+        "test-tool",
+        &ToolIdentity::new("1.0.0", "test-build-1"),
+    )
+    .unwrap();
     validate_reports_in(&fixture.root, Some(&own)).unwrap();
     validate_reports_in(&fixture.root, None).unwrap();
 }
@@ -545,7 +552,12 @@ fn validate_freeze_accepts_timing_metadata_beside_frozen_raw_evidence() {
         &[("total", Duration::from_millis(75))],
     )
     .unwrap();
-    write_run_environment(&raw_dir, "test-tool", "1.0.0", "test-build-1").unwrap();
+    write_run_environment(
+        &raw_dir,
+        "test-tool",
+        &ToolIdentity::new("1.0.0", "test-build-1"),
+    )
+    .unwrap();
     validate_freeze_at(&fixture.root, &fixture.manifest, false).unwrap();
 }
 
@@ -590,7 +602,12 @@ fn timing_sidecar_is_additive_metadata_never_an_outcome_input() {
 #[test]
 fn run_environment_stamp_pairs_machine_with_witnessed_identity() {
     let root = unique_test_dir("dataflowbench-environment-test");
-    write_run_environment(&root, "bifrost", "0.10.8", "bifrost-build").unwrap();
+    write_run_environment(
+        &root,
+        "bifrost",
+        &ToolIdentity::new("0.10.8", "bifrost-build"),
+    )
+    .unwrap();
     let stamp: Value =
         serde_json::from_str(&fs::read_to_string(root.join("run-environment.json")).unwrap())
             .unwrap();
@@ -1496,10 +1513,10 @@ fn ecma_codeql_selection_refuses_the_other_kernel_query() {
     for path in case_paths() {
         let case: Value = serde_json::from_str(&fs::read_to_string(&path).unwrap()).unwrap();
         let query = case["tool_model_references"]["codeql"]["query"].as_str();
-        if ecma_core_case(&case, EcmaKernel::TypeScript) {
+        if EcmaKernel::TypeScript.selects(&case) {
             assert!(query.is_none_or(|query| query == EcmaKernel::TypeScript.query()));
         }
-        if ecma_core_case(&case, EcmaKernel::JavaScript) {
+        if EcmaKernel::JavaScript.selects(&case) {
             assert_eq!(query, Some(EcmaKernel::JavaScript.query()));
         }
     }
@@ -1790,7 +1807,7 @@ fn ecma_core_selections_are_exactly_32_balanced_assertions() {
         let mut selected = Vec::new();
         for path in case_paths() {
             let case: Value = serde_json::from_str(&fs::read_to_string(path).unwrap()).unwrap();
-            if ecma_core_case(&case, kernel) {
+            if kernel.selects(&case) {
                 selected.push(case);
             }
         }
@@ -1829,15 +1846,15 @@ fn java_javascript_and_typescript_codeql_selectors_are_language_disjoint() {
             java += 1;
             assert_eq!(case["language"], "java");
         }
-        if ecma_core_case(&case, EcmaKernel::JavaScript) {
+        if EcmaKernel::JavaScript.selects(&case) {
             javascript += 1;
             assert_eq!(case["language"], "javascript");
-            assert!(!ecma_core_case(&case, EcmaKernel::TypeScript));
+            assert!(!EcmaKernel::TypeScript.selects(&case));
         }
-        if ecma_core_case(&case, EcmaKernel::TypeScript) {
+        if EcmaKernel::TypeScript.selects(&case) {
             typescript += 1;
             assert_eq!(case["language"], "typescript");
-            assert!(!ecma_core_case(&case, EcmaKernel::JavaScript));
+            assert!(!EcmaKernel::JavaScript.selects(&case));
         }
     }
     assert_eq!(java, expected_core_case_count("java"));
@@ -1855,7 +1872,7 @@ fn ecma_kernel_fixtures_carry_their_own_extension() {
     ] {
         for path in case_paths() {
             let case: Value = serde_json::from_str(&fs::read_to_string(&path).unwrap()).unwrap();
-            if !ecma_core_case(&case, kernel) {
+            if !kernel.selects(&case) {
                 continue;
             }
             for fixture in case["fixture_files"].as_array().unwrap() {
@@ -2790,18 +2807,18 @@ fn ecma_core_selection_is_language_and_track_scoped() {
             "track": "taint",
             "score_tier": "core"
         });
-        assert!(ecma_core_case(&selected, kernel));
+        assert!(kernel.selects(&selected));
         for other_language in others {
             let mut other = selected.clone();
             other["language"] = json!(other_language);
-            assert!(!ecma_core_case(&other, kernel));
+            assert!(!kernel.selects(&other));
         }
         let mut other = selected.clone();
         other["track"] = json!("value-flow");
-        assert!(!ecma_core_case(&other, kernel));
+        assert!(!kernel.selects(&other));
         other["track"] = json!("taint");
         other["score_tier"] = json!("calibration");
-        assert!(!ecma_core_case(&other, kernel));
+        assert!(!kernel.selects(&other));
     }
 }
 
@@ -4094,7 +4111,10 @@ fn pysa_identity_is_witnessed_against_the_pins() {
     .to_string();
     assert!(error.contains("0.0.1"));
     assert!(error.contains(PYSA_PINNED_PYREFLY_VERSION));
-    let (version, build_identity) = witness_pysa_identity(&PysaTools {
+    let ToolIdentity {
+        version,
+        build_identity,
+    } = witness_pysa_identity(&PysaTools {
         pyre: pinned_pyre,
         pyre_binary: binary,
         pyrefly: pinned_pyrefly,
@@ -4254,7 +4274,10 @@ fn infer_identity_is_witnessed_against_the_pin() {
     assert!(error.contains("v0.0.1"));
     assert!(error.contains(INFER_PINNED_VERSION));
     let pinned = write_fake("pinned-version", INFER_PINNED_VERSION);
-    let (version, build_identity) = witness_infer_identity(&pinned).unwrap();
+    let ToolIdentity {
+        version,
+        build_identity,
+    } = witness_infer_identity(&pinned).unwrap();
     assert_eq!(version, INFER_PINNED_VERSION);
     assert!(build_identity.contains("bin-sha256:"));
     fs::remove_dir_all(&root).unwrap();

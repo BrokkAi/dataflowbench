@@ -6,7 +6,9 @@
 //! docs/adding-an-adapter.md for the shape every adapter follows.
 
 use crate::adapters::ModelingTool;
+use crate::adapters::ToolIdentity;
 use crate::adapters::codeql::{CFamilyKernel, c_family_selected_case, rust_kernel_case};
+use crate::adapters::normalized_report;
 use crate::cases::{
     LoadedCases, case_paths, csharp_core_case, fixture_revision, go_core_case, java_core_case,
     javascript_core_case, kotlin_core_case, php_core_case, ruby_core_case, scala_core_case,
@@ -23,7 +25,7 @@ use crate::latency::{
 use crate::modeling::{
     ModelingRunPlan, materialize_modeling_workspace, modeling_anchor_dialect, modeling_case_scratch,
 };
-use crate::report::{ADAPTER_VERSION, hash_paths, write_and_validate_report};
+use crate::report::{hash_paths, write_and_validate_report};
 use crate::runtime::{
     clear_stale_case_timing, command_output, now_seconds, write_case_phase_timings,
     write_run_environment,
@@ -273,11 +275,12 @@ pub(crate) fn run_bifrost(binary: &Path, run: BifrostRun) -> Result<()> {
     };
     fs::create_dir_all(raw_dir)?;
     let started = now_seconds()?;
-    let version =
-        command_output(Command::new(binary).arg("--version")).unwrap_or_else(|_| "unknown".into());
-    let build_identity = command_output(Command::new(binary).arg("--build-identity"))
-        .unwrap_or_else(|_| "unknown".into());
-    write_run_environment(raw_dir, "bifrost", &version, &build_identity)?;
+    let identity = ToolIdentity::new(
+        command_output(Command::new(binary).arg("--version")).unwrap_or_else(|_| "unknown".into()),
+        command_output(Command::new(binary).arg("--build-identity"))
+            .unwrap_or_else(|_| "unknown".into()),
+    );
+    write_run_environment(raw_dir, "bifrost", &identity)?;
     let revision = fixture_revision()?;
     let mut results = Vec::new();
     let mut policy_paths = BTreeSet::new();
@@ -420,19 +423,14 @@ pub(crate) fn run_bifrost(binary: &Path, run: BifrostRun) -> Result<()> {
         );
     }
     let configuration_hash = hash_paths(&policy_paths)?;
-    let report = json!({
-        "schema_version": 1,
-        "tool": "bifrost",
-        "tool_version": version,
-        "tool_build_identity": build_identity,
-        "adapter_version": ADAPTER_VERSION,
-        "configuration_hash": configuration_hash,
-        "fixture_revision": revision,
-        "started_at_unix_seconds": started,
-        "ended_at_unix_seconds": now_seconds()?,
-        "cold_or_warm": "cold",
-        "results": results
-    });
+    let report = normalized_report(
+        "bifrost",
+        &identity,
+        &configuration_hash,
+        &revision,
+        started,
+        results,
+    )?;
     write_and_validate_report(report_path, &report)?;
     println!("wrote {}", report_path.display());
     Ok(())

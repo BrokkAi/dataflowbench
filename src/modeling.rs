@@ -11,6 +11,7 @@ use crate::adapters::flowdroid::{
 };
 use crate::adapters::infer::{require_infer_modeling_load_bearing, run_infer_modeling_case};
 use crate::adapters::joern::{JOERN_MODELING_SCRIPT, run_joern_modeling_case};
+use crate::adapters::normalized_report;
 use crate::adapters::pysa::{pysa_taint_config_path, require_pysa_modeling_load_bearing};
 use crate::adapters::semgrep::{require_semgrep_modeling_load_bearing, run_semgrep_modeling_case};
 use crate::adapters::{ModelingLanguage, ModelingTool, witness_tool_identity};
@@ -18,7 +19,7 @@ use crate::cases::{case_paths, fixture_revision, validate_cases, validate_kernel
 use crate::evidence::AnchorDialect;
 use crate::freeze::required_string;
 use crate::native::NATIVE_TEMPLATE_PREFIX;
-use crate::report::{ADAPTER_VERSION, hash_paths, normalized_result, write_and_validate_report};
+use crate::report::{hash_paths, normalized_result, write_and_validate_report};
 use crate::runtime::{clear_stale_case_timing, now_seconds, write_run_environment};
 use anyhow::{Context, Result, bail};
 use serde_json::{Value, json};
@@ -1128,8 +1129,8 @@ pub(crate) fn run_modeling(
     };
 
     let started = now_seconds()?;
-    let (version, build_identity) = witness_tool_identity(plan.tool, binary)?;
-    write_run_environment(&plan.raw_dir, plan.tool.key(), &version, &build_identity)?;
+    let identity = witness_tool_identity(plan.tool, binary)?;
+    write_run_environment(&plan.raw_dir, plan.tool.key(), &identity)?;
     let revision = fixture_revision()?;
     let mut results = Vec::with_capacity(plan.cases.len());
     for (path, case) in &plan.cases {
@@ -1140,7 +1141,7 @@ pub(crate) fn run_modeling(
         // analyzer and cannot produce an empty finding list that later reads
         // as a negative.
         let (outcome, diagnostics, raw_path) = if let Some((outcome, reason, raw_path)) =
-            modeling_partition_outcome(plan.tool, case, &plan.raw_dir, &version)?
+            modeling_partition_outcome(plan.tool, case, &plan.raw_dir, &identity.version)?
         {
             (outcome, vec![reason], raw_path)
         } else {
@@ -1216,19 +1217,14 @@ pub(crate) fn run_modeling(
             &raw_path,
         ));
     }
-    let report = json!({
-        "schema_version": 1,
-        "tool": plan.tool.key(),
-        "tool_version": version,
-        "tool_build_identity": build_identity,
-        "adapter_version": ADAPTER_VERSION,
-        "configuration_hash": hash_paths(&plan.configuration_paths)?,
-        "fixture_revision": revision,
-        "started_at_unix_seconds": started,
-        "ended_at_unix_seconds": now_seconds()?,
-        "cold_or_warm": "cold",
-        "results": results
-    });
+    let report = normalized_report(
+        plan.tool.key(),
+        &identity,
+        &hash_paths(&plan.configuration_paths)?,
+        &revision,
+        started,
+        results,
+    )?;
     write_and_validate_report(&plan.report, &report)?;
     // The scored/declined split is a property of the preregistered partition,
     // not of the run, so it is stated from the partition rather than counted

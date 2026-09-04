@@ -5,9 +5,14 @@
 //! See adapters/pysa/README.md for the published capability record, and
 //! docs/adding-an-adapter.md for the shape every adapter follows.
 
+use crate::adapters::ToolIdentity;
+use crate::adapters::normalized_report;
 use crate::adapters::semgrep::{SEMGREP_SINK_PLACEHOLDER, SEMGREP_SOURCE_PLACEHOLDER};
+use crate::adapters::write_runner_error;
+use crate::adapters::{KernelPopulation, select_kernel_cases};
 use crate::adapters::{ModelingLanguage, ModelingTool};
-use crate::cases::{case_paths, fixture_revision, validate_cases, validate_kernel_population_with};
+use crate::cases::LoadedCases;
+use crate::cases::{fixture_revision, validate_cases};
 use crate::evidence::{
     AnchorDialect, EvidenceAnchorMatch, SarifAnchorMatch, SinkAnchorLocation,
     benchmark_endpoint_names, evidence_path_matches_file, sink_anchor_locations,
@@ -26,11 +31,10 @@ use crate::native::{
     NativeRunPlan, native_anchor_tally_outcome, native_case_scratch, native_partition_outcome,
     native_sink_anchor_locations, native_supported_templates, plan_native_run,
 };
-use crate::report::{ADAPTER_VERSION, hash_paths, normalized_result, write_and_validate_report};
+use crate::report::{hash_paths, normalized_result, write_and_validate_report};
 use crate::runtime::{
     case_timing_path, now_seconds, write_case_phase_timings, write_run_environment,
 };
-use crate::templates::expected_core_templates;
 use anyhow::{Context, Result, bail};
 use serde_json::{Value, json};
 use sha2::{Digest, Sha256};
@@ -161,7 +165,7 @@ pub(crate) fn pysa_configuration_paths() -> BTreeSet<PathBuf> {
 /// refused with both values in the error when it is not the pinned one, plus
 /// the measured digests of the analysis and front-end binaries actually
 /// handed to the client.
-pub(crate) fn witness_pysa_identity(tools: &PysaTools) -> Result<(String, String)> {
+pub(crate) fn witness_pysa_identity(tools: &PysaTools) -> Result<ToolIdentity> {
     let pyre_output = Command::new(&tools.pyre)
         .arg("--version")
         .stdin(std::process::Stdio::null())
@@ -233,24 +237,53 @@ pub(crate) fn witness_pysa_identity(tools: &PysaTools) -> Result<(String, String
     let build_identity = format!(
         "pyre-check:{pyre_version} pyre.bin-sha256:{pyre_binary_digest} pyrefly:{pyrefly_version} pyrefly-sha256:{pyrefly_digest}"
     );
-    Ok((pyre_version, build_identity))
+    Ok(ToolIdentity::new(pyre_version, build_identity))
 }
 
-pub(crate) fn select_pysa_cases() -> Result<Vec<(PathBuf, Value)>> {
-    let mut selected = Vec::new();
-    for path in case_paths() {
-        let case: Value = serde_json::from_str(&fs::read_to_string(&path)?)?;
-        if case["language"] == "python" && case["track"] == "taint" && case["score_tier"] == "core"
-        {
-            selected.push((path, case));
-        }
+/// The Pysa kernel population.
+///
+/// Pysa analyzes Python alone, so this descriptor carries no language
+/// variants; it exists so the population presents the same surface as every
+/// other adapter's, and is selected and reported through the same shared
+/// contract.
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub(crate) struct PysaKernel;
+
+impl KernelPopulation for PysaKernel {
+    fn tool(&self) -> &'static str {
+        "pysa"
     }
-    validate_kernel_population_with(
-        &selected,
-        "Pysa Python kernel",
-        &expected_core_templates("python"),
-    )?;
-    Ok(selected)
+
+    fn language(&self) -> &'static str {
+        "python"
+    }
+
+    fn display_name(&self) -> &'static str {
+        "Python"
+    }
+
+    fn report(&self) -> String {
+        "reports/pysa-python-kernel.json".to_string()
+    }
+
+    fn raw_dir(&self) -> String {
+        "reports/raw/pysa-python-kernel".to_string()
+    }
+
+    fn label(&self) -> String {
+        "Pysa Python kernel".to_string()
+    }
+
+    /// The committed taint configuration and model template, so one hash binds
+    /// both: a run under an edited model template can never share a
+    /// `configuration_hash` with the run before it.
+    fn configuration_paths(&self, _cases: &LoadedCases) -> Result<BTreeSet<PathBuf>> {
+        Ok(pysa_configuration_paths())
+    }
+}
+
+pub(crate) fn select_pysa_cases() -> Result<LoadedCases> {
+    select_kernel_cases(&PysaKernel)
 }
 
 /// The issues and models of one retained Pysa evidence document — the
@@ -459,11 +492,12 @@ pub(crate) fn run_pysa_python_kernel(tools: &PysaTools) -> Result<()> {
             bail!("Pysa model template {template_path} does not carry {placeholder}");
         }
     }
-    let raw_dir = PathBuf::from("reports/raw/pysa-python-kernel");
+    let configuration_paths = PysaKernel.configuration_paths(&selected)?;
+    let raw_dir = PathBuf::from(PysaKernel.raw_dir());
     fs::create_dir_all(&raw_dir)?;
     let started = now_seconds()?;
-    let (version, build_identity) = witness_pysa_identity(tools)?;
-    write_run_environment(&raw_dir, "pysa", &version, &build_identity)?;
+    let identity = witness_pysa_identity(tools)?;
+    write_run_environment(&raw_dir, "pysa", &identity)?;
     let revision = fixture_revision()?;
     let mut results = Vec::with_capacity(selected.len());
 
@@ -482,22 +516,17 @@ pub(crate) fn run_pysa_python_kernel(tools: &PysaTools) -> Result<()> {
         ));
     }
 
-    let configuration_hash = hash_paths(&pysa_configuration_paths())?;
-    let report = json!({
-        "schema_version": 1,
-        "tool": "pysa",
-        "tool_version": version,
-        "tool_build_identity": build_identity,
-        "adapter_version": ADAPTER_VERSION,
-        "configuration_hash": configuration_hash,
-        "fixture_revision": revision,
-        "started_at_unix_seconds": started,
-        "ended_at_unix_seconds": now_seconds()?,
-        "cold_or_warm": "cold",
-        "results": results
-    });
-    let report_path = "reports/pysa-python-kernel.json";
-    write_and_validate_report(Path::new(report_path), &report)?;
+    let configuration_hash = hash_paths(&configuration_paths)?;
+    let report = normalized_report(
+        PysaKernel.tool(),
+        &identity,
+        &configuration_hash,
+        &revision,
+        started,
+        results,
+    )?;
+    let report_path = PysaKernel.report();
+    write_and_validate_report(Path::new(&report_path), &report)?;
     println!("wrote {report_path}");
     Ok(())
 }
@@ -509,22 +538,7 @@ pub(crate) fn write_pysa_error(
     diagnostic: &str,
     output: Option<&std::process::Output>,
 ) -> Result<PathBuf> {
-    let error_path = raw_dir.join(format!("{id}-error.json"));
-    let mut evidence = json!({
-        "adapter": "pysa",
-        "case_id": id,
-        "state": "runner-error",
-        "stage": stage,
-        "diagnostic": diagnostic,
-        "evidence_kind": "retained-process-diagnostics"
-    });
-    if let Some(output) = output {
-        evidence["status"] = json!(output.status.code());
-        evidence["stdout"] = json!(String::from_utf8_lossy(&output.stdout).trim());
-        evidence["stderr"] = json!(String::from_utf8_lossy(&output.stderr).trim());
-    }
-    fs::write(&error_path, serde_json::to_string_pretty(&evidence)? + "\n")?;
-    Ok(error_path)
+    write_runner_error("pysa", raw_dir, id, stage, diagnostic, output)
 }
 
 /// The module Pysa knows an anchored fixture file as: its stem, because the
@@ -977,13 +991,15 @@ pub(crate) fn run_pysa_modeling(tools: &PysaTools, language: ModelingLanguage) -
 
     fs::create_dir_all(&plan.raw_dir)?;
     let started = now_seconds()?;
-    let (version, build_identity) = witness_pysa_identity(tools)?;
+    let identity = witness_pysa_identity(tools)?;
     // The identity the retained partition rationales name: the witnessed
     // pair, not a constant — witness_pysa_identity refuses either component
     // off its pin, so both versions here were measured.
-    let witnessed_pair =
-        format!("Pysa (pyre-check {version} + Pyrefly {PYSA_PINNED_PYREFLY_VERSION})");
-    write_run_environment(&plan.raw_dir, "pysa", &version, &build_identity)?;
+    let witnessed_pair = format!(
+        "Pysa (pyre-check {} + Pyrefly {PYSA_PINNED_PYREFLY_VERSION})",
+        identity.version
+    );
+    write_run_environment(&plan.raw_dir, "pysa", &identity)?;
     let revision = fixture_revision()?;
     let mut results = Vec::with_capacity(plan.cases.len());
     for (path, case) in &plan.cases {
@@ -1005,19 +1021,14 @@ pub(crate) fn run_pysa_modeling(tools: &PysaTools, language: ModelingLanguage) -
             &raw_path,
         ));
     }
-    let report = json!({
-        "schema_version": 1,
-        "tool": "pysa",
-        "tool_version": version,
-        "tool_build_identity": build_identity,
-        "adapter_version": ADAPTER_VERSION,
-        "configuration_hash": hash_paths(&plan.configuration_paths)?,
-        "fixture_revision": revision,
-        "started_at_unix_seconds": started,
-        "ended_at_unix_seconds": now_seconds()?,
-        "cold_or_warm": "cold",
-        "results": results
-    });
+    let report = normalized_report(
+        "pysa",
+        &identity,
+        &hash_paths(&plan.configuration_paths)?,
+        &revision,
+        started,
+        results,
+    )?;
     write_and_validate_report(&plan.report, &report)?;
     let scored = modeling_supported_templates(ModelingTool::Pysa);
     let scored_assertions = plan
@@ -1304,9 +1315,11 @@ pub(crate) fn run_pysa_native_case(
 /// configuration hash, and the no-benchmark-models gate covers the invocation
 /// shape exactly as it covers the other four.
 pub(crate) fn run_pysa_native(tools: &PysaTools, language: ModelingLanguage) -> Result<()> {
-    let (version, build) = witness_pysa_identity(tools)?;
-    let witnessed_pair =
-        format!("Pysa (pyre-check {version} + Pyrefly {PYSA_PINNED_PYREFLY_VERSION})");
+    let witnessed = witness_pysa_identity(tools)?;
+    let witnessed_pair = format!(
+        "Pysa (pyre-check {} + Pyrefly {PYSA_PINNED_PYREFLY_VERSION})",
+        witnessed.version
+    );
     let plan = plan_native_run(ModelingTool::Pysa, language, &witnessed_pair)?;
     let suite = pysa_native_suite_dir(tools)?;
     let suite_digest = pysa_native_suite_digest(&suite)?;
@@ -1314,11 +1327,14 @@ pub(crate) fn run_pysa_native(tools: &PysaTools, language: ModelingLanguage) -> 
 
     fs::create_dir_all(&plan.raw_dir)?;
     let started = now_seconds()?;
-    let build_identity = format!(
-        "{build} — {} (suite-sha256:{suite_digest})",
-        plan.activation.identity
+    let identity = ToolIdentity::new(
+        witnessed.version,
+        format!(
+            "{} — {} (suite-sha256:{suite_digest})",
+            witnessed.build_identity, plan.activation.identity
+        ),
     );
-    write_run_environment(&plan.raw_dir, "pysa", &version, &build_identity)?;
+    write_run_environment(&plan.raw_dir, "pysa", &identity)?;
     let revision = fixture_revision()?;
     // The activation hash binds the shape *and* the shipped bytes: identity,
     // arguments, and the suite digest, so two runs over two different wheel
@@ -1358,19 +1374,14 @@ pub(crate) fn run_pysa_native(tools: &PysaTools, language: ModelingLanguage) -> 
             &raw_path,
         ));
     }
-    let report = json!({
-        "schema_version": 1,
-        "tool": "pysa",
-        "tool_version": version,
-        "tool_build_identity": build_identity,
-        "adapter_version": ADAPTER_VERSION,
-        "configuration_hash": configuration_hash,
-        "fixture_revision": revision,
-        "started_at_unix_seconds": started,
-        "ended_at_unix_seconds": now_seconds()?,
-        "cold_or_warm": "cold",
-        "results": results
-    });
+    let report = normalized_report(
+        "pysa",
+        &identity,
+        &configuration_hash,
+        &revision,
+        started,
+        results,
+    )?;
     write_and_validate_report(&plan.report, &report)?;
     let scored_assertions = plan
         .cases
