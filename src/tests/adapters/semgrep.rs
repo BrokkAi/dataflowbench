@@ -496,7 +496,7 @@ pub(crate) fn semgrep_runner_failures_never_become_clean_negatives() {
 
 /// The Semgrep CE partition for the challenge tier is preregistered by
 /// template ID and decided from the pinned distribution's documentation. It
-/// must cover all thirteen templates, and no fixture's `feature_tags` may
+/// must cover all fourteen templates, and no fixture's `feature_tags` may
 /// move a challenge case into the scored partition after the fact.
 #[test]
 pub(crate) fn the_challenge_semgrep_partition_is_preregistered_and_tag_proof() {

@@ -40,8 +40,8 @@ pub(crate) fn kotlin_codeql_population_is_the_expanded_balanced_core() {
     let selected = codeql_kotlin_cases().unwrap();
     assert_eq!(selected.len(), 2 * expected.len());
     // Kotlin's challenge row is rolled out, so the population is the
-    // expanded 29-template / 58-assertion core, not the classic 32.
-    assert_eq!(selected.len(), 58);
+    // expanded 30-template / 60-assertion core, not the classic 32.
+    assert_eq!(selected.len(), 60);
     assert!(selected.len() > KERNEL_CASE_COUNT);
     let templates = selected
         .iter()
@@ -417,8 +417,8 @@ pub(crate) fn csharp_core_selection_is_the_expanded_balanced_population() {
     let selected = codeql_csharp_cases().unwrap();
     assert_eq!(selected.len(), expected_core_case_count("csharp"));
     // C#'s challenge row is rolled out, so the population is the expanded
-    // 29 templates / 58 assertions, not the classic 32.
-    assert_eq!(selected.len(), 58);
+    // 30 templates / 60 assertions, not the classic 32.
+    assert_eq!(selected.len(), 60);
     let mut templates = BTreeMap::<String, (usize, usize)>::new();
     for (_, case) in &selected {
         assert_eq!(case["language"], "csharp");
@@ -434,7 +434,7 @@ pub(crate) fn csharp_core_selection_is_the_expanded_balanced_population() {
         }
     }
     assert_eq!(templates.len(), expected_templates.len());
-    assert_eq!(templates.len(), 29);
+    assert_eq!(templates.len(), 30);
     assert!(
         templates
             .values()
@@ -467,7 +467,7 @@ pub(crate) fn csharp_core_selection_is_language_and_track_scoped() {
 /// out: C's core is the fifteen applicable classic templates plus its nine
 /// applicable challenge templates — 24 templates and 48 assertions — and
 /// the C++ core is all sixteen classic templates plus its twelve
-/// applicable challenge templates — 28 templates and 56 assertions. The C
+/// applicable challenge templates — 29 templates and 58 assertions. The C
 /// `language-extension` cases ride along in the C slice without changing
 /// its core denominator.
 #[test]
@@ -483,7 +483,7 @@ pub(crate) fn c_and_cpp_core_populations_keep_their_own_denominators() {
     assert_eq!(core(&c), expected_core_case_count("c"));
     assert_eq!(core(&c), 48);
     assert_eq!(core(&cpp), expected_core_case_count("cpp"));
-    assert_eq!(core(&cpp), 56);
+    assert_eq!(core(&cpp), 58);
     assert_eq!(c.len() - core(&c), 2);
     assert_eq!(cpp.len(), core(&cpp));
 
@@ -639,8 +639,8 @@ pub(crate) fn go_core_selection_is_the_expanded_balanced_population() {
     let selected = codeql_go_cases().unwrap();
     assert_eq!(selected.len(), expected_core_case_count("go"));
     // Go's challenge row is rolled out, so the population is the expanded
-    // 29 templates / 58 assertions, not the classic 32.
-    assert_eq!(selected.len(), 58);
+    // 30 templates / 60 assertions, not the classic 32.
+    assert_eq!(selected.len(), 60);
     let mut templates = BTreeMap::<String, (usize, usize)>::new();
     for (_, case) in &selected {
         assert_eq!(case["language"], "go");
@@ -656,7 +656,7 @@ pub(crate) fn go_core_selection_is_the_expanded_balanced_population() {
         }
     }
     assert_eq!(templates.len(), expected_templates.len());
-    assert_eq!(templates.len(), 29);
+    assert_eq!(templates.len(), 30);
     assert!(
         templates
             .values()
@@ -1249,9 +1249,9 @@ pub(crate) fn ruby_codeql_report_paths_are_dedicated() {
 
     let selected = codeql_ruby_cases().unwrap();
     // The Ruby row is rolled out, so the CodeQL population is the expanded
-    // 29 templates / 58 assertions.
+    // 30 templates / 60 assertions.
     assert_eq!(selected.len(), expected_core_case_count("ruby"));
-    assert_eq!(selected.len(), 58);
+    assert_eq!(selected.len(), 60);
     for (_, case) in &selected {
         assert_eq!(case["language"], "ruby");
         assert_eq!(case["score_tier"], "core");
