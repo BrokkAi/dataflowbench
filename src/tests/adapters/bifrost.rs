@@ -394,7 +394,7 @@ pub(crate) fn scala_kernel_selection_is_separate_from_every_other_language() {
 
 /// Scala has no CodeQL and no Joern population, so the only in-repo
 /// guarantee that its assertions are complete and balanced is the Bifrost
-/// run's own core denominator — now the expanded 29-template / 58-assertion
+/// run's own core denominator — now the expanded 30-template / 60-assertion
 /// core, since Scala's challenge row is rolled out.
 #[test]
 pub(crate) fn scala_bifrost_population_is_the_expanded_balanced_core() {
@@ -411,7 +411,7 @@ pub(crate) fn scala_bifrost_population_is_the_expanded_balanced_core() {
         selected.len(),
         BifrostRun::ScalaKernel.expected_core_cases().unwrap()
     );
-    assert_eq!(selected.len(), 58);
+    assert_eq!(selected.len(), 60);
     assert!(selected.len() > KERNEL_CASE_COUNT);
     assert!(
         selected
@@ -586,7 +586,7 @@ pub(crate) fn bifrost_c_and_cpp_kernels_select_disjoint_populations() {
     assert_eq!(c_core, 48);
     assert_eq!(c - c_core, 2);
     assert_eq!(cpp, expected_core_case_count("cpp"));
-    assert_eq!(cpp, 56);
+    assert_eq!(cpp, 58);
 }
 
 #[test]
@@ -641,9 +641,9 @@ pub(crate) fn bifrost_php_kernel_selects_only_php_core_cases() {
         }
     }
     // PHP's challenge row is rolled out, so the slice covers the expanded
-    // 29 templates / 58 assertions, not the classic 32.
+    // 30 templates / 60 assertions, not the classic 32.
     assert_eq!(selected, expected_core_case_count("php"));
-    assert_eq!(selected, 58);
+    assert_eq!(selected, 60);
     assert_eq!(
         BifrostRun::PhpKernel.expected_core_cases(),
         Some(expected_core_case_count("php"))
@@ -718,9 +718,9 @@ pub(crate) fn bifrost_ruby_kernel_selects_only_ruby_core_cases() {
         }
     }
     // The Ruby row is rolled out, so the kernel run covers the expanded
-    // core: 29 templates / 58 assertions, not the classic 32.
+    // core: 30 templates / 60 assertions, not the classic 32.
     assert_eq!(core, expected_core_case_count("ruby"));
-    assert_eq!(core, 58);
+    assert_eq!(core, 60);
     assert!(core > KERNEL_CASE_COUNT);
     assert_eq!(
         BifrostRun::RubyKernel.expected_core_cases(),
@@ -883,9 +883,9 @@ pub(crate) fn java_and_javascript_bifrost_kernels_own_their_language_population(
     }
     assert_eq!(java, expected_core_case_count("java"));
     assert_eq!(javascript, expected_core_case_count("javascript"));
-    // Both rows are rolled out, so both kernels are the expanded 58.
-    assert_eq!(java, 58);
-    assert_eq!(javascript, 58);
+    // Both rows are rolled out, so both kernels are the expanded 60.
+    assert_eq!(java, 60);
+    assert_eq!(javascript, 60);
     assert_eq!(
         BifrostRun::JavaKernel.expected_core_cases(),
         Some(expected_core_case_count("java"))

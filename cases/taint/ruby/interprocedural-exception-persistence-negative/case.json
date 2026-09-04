@@ -1,0 +1,68 @@
+{
+  "schema_version": 2,
+  "id": "dfb-taint-ruby-interprocedural-exception-persistence-negative",
+  "template_id": "dfb-template-chal-interprocedural-exception-persistence",
+  "polarity": "negative",
+  "score_tier": "core",
+  "track": "taint",
+  "language": "ruby",
+  "semantic_dimensions": [
+    "interprocedural-flow",
+    "heap-field-sensitivity",
+    "flow-sensitivity",
+    "exceptional-flow"
+  ],
+  "feature_tags": [
+    "interprocedural-one-hop",
+    "heap-access-path",
+    "exceptional"
+  ],
+  "model_profile": "benchmark-controlled",
+  "fixture_files": [
+    "interprocedural_exception_persistence_negative.rb"
+  ],
+  "source_anchors": [
+    {
+      "marker": "DFB-SOURCE: exception-persistence-input",
+      "file": "interprocedural_exception_persistence_negative.rb",
+      "line_hint": 1
+    }
+  ],
+  "sink_anchors": [
+    {
+      "marker": "DFB-SINK: exception-persistence-sink",
+      "file": "interprocedural_exception_persistence_negative.rb",
+      "line_hint": 5
+    }
+  ],
+  "expected_flows": [],
+  "expected_nonflows": [
+    {
+      "source": "DFB-SOURCE: exception-persistence-input",
+      "sink": "DFB-SINK: exception-persistence-sink"
+    }
+  ],
+  "negative_mechanism": "overwrite-kill",
+  "witness_checkpoints": [],
+  "expected_analysis_capability": {
+    "kind": "exception-sensitive-interprocedural-heap-taint"
+  },
+  "execution_budget": {
+    "wall_clock_seconds": 60,
+    "peak_memory_mb": 512
+  },
+  "fixture_provenance": {
+    "kind": "authored",
+    "origin": "DataFlowBench",
+    "revision": "v0.8.0",
+    "license": "MIT"
+  },
+  "tool_model_references": {
+    "bifrost": {
+      "policy": "adapters/bifrost/policies/core-ruby-kernel.rqlp"
+    },
+    "codeql": {
+      "query": "adapters/codeql/ruby/queries/RubyKernel.ql"
+    }
+  }
+}

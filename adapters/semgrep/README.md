@@ -218,6 +218,12 @@ nothing in this table, and no wave since has — including C's, which exercises
 only nine of the thirteen rows because the other four templates are
 inapplicable to the language and therefore never selected at all.
 
+Challenge Amendment A2 prospectively adds a fourteenth row for v0.8.0.
+`chal-interprocedural-exception-persistence` is likewise `unsupported`: it
+requires an interprocedural heap side effect to survive exceptional return,
+while the pinned CE profile has no interprocedural taint. This addition does
+not change any v0.7.0-or-earlier partition or result.
+
 The decision is implemented as `CHALLENGE_SEMGREP_PARTITION` in `src/adapters/semgrep.rs`,
 keyed by `template_id` and consulted *before* the `feature_tags` rule. Keying it
 by template rather than by tags is deliberate: it means no fixture author's tag
@@ -251,6 +257,7 @@ single-function challenge templates too.
 | D | `chal-deep-relay-chain` | `unsupported` | A six-hop interprocedural relay. `docs/challenge-tier.md` already records stratum D as beyond CE's documented scope. |
 | D | `chal-recursive-carry` | `unsupported` | A recursive summary is interprocedural; CE has no interprocedural taint. |
 | D | `chal-context-pair-depth2` | `unsupported` | Two-level context sensitivity; CE has no interprocedural taint and therefore no calling context to be sensitive to. |
+| D | `chal-interprocedural-exception-persistence` | `unsupported` | Requires a heap side effect to survive an exceptional callee exit and then return normally through the caller; CE has no interprocedural taint. |
 
 The consequence, stated in advance: when a language's challenge fixtures land,
 its Semgrep kernel's selected population grows with its rollout row while its
@@ -947,4 +954,3 @@ store read whatever key is subscripted.
 This is coverage, not accuracy, and it is never pooled with the
 benchmark-controlled Python row above. See
 [the Python tool-native probe set](../../docs/python-native.md).
-

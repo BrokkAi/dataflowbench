@@ -1,14 +1,14 @@
 #!/usr/bin/env python3
-"""Validate the exact 29-template expanded Python taint-kernel population.
+"""Validate the exact 30-template expanded Python taint-kernel population.
 
 The Rust validator checks that every individual core key has one positive and
 one negative. This narrow, analyzer-independent check additionally prevents a
 Python port from silently omitting a template (or adding a second core
 template under a different spelling).
 
-The population is the sixteen v0.3.0 propagation templates plus the thirteen
-challenge templates docs/challenge-tier.md preregistered and classifies as
-applicable to Python. The two are separate populations of the same name and
+The population is the sixteen v0.3.0 propagation templates plus the fourteen
+challenge templates preregistered through the v0.8.0 amendment and classified
+as applicable to Python. The two are separate populations of the same name and
 are never compared number-to-number; this check only asserts that the expanded
 one is complete and balanced.
 """
@@ -51,6 +51,7 @@ CHALLENGE_TEMPLATES = {
     "dfb-template-chal-dispatch-table",
     "dfb-template-chal-element-object",
     "dfb-template-chal-function-field",
+    "dfb-template-chal-interprocedural-exception-persistence",
     "dfb-template-chal-map-iteration",
     "dfb-template-chal-nested-access-path",
     "dfb-template-chal-recursive-carry",

@@ -1,6 +1,6 @@
 //! The preregistered template identities every scored population is built
 //! from: the sixteen kernel templates, the reduced set for languages whose
-//! exception-catch cell is inapplicable, the thirteen challenge templates,
+//! exception-catch cell is inapplicable, the fourteen challenge templates,
 //! and the per-language rollout rows that decide which of them a language's
 //! core denominator contains.
 
@@ -77,12 +77,12 @@ pub(crate) const KERNEL_CASE_COUNT_WITHOUT_EXCEPTION_CATCH: usize =
 /// keyed by template ID rather than by fixture tags.
 pub(crate) const CHALLENGE_TEMPLATE_PREFIX: &str = "dfb-template-chal-";
 
-/// The thirteen challenge templates preregistered in docs/challenge-tier.md.
+/// The fourteen challenge templates preregistered in docs/challenge-tier.md.
 /// The IDs are fixed by that document and are never reused for different
 /// semantics; a badly posed template is retired by amendment, not rewritten.
 /// They carry `score_tier: "core"` — there is no new score tier — so they fold
 /// into each language's core denominator as that language's fixtures land.
-pub(crate) const CHALLENGE_TEMPLATE_IDS: [&str; 13] = [
+pub(crate) const CHALLENGE_TEMPLATE_IDS: [&str; 14] = [
     "dfb-template-chal-anonymous-implementation",
     "dfb-template-chal-callback-registration",
     "dfb-template-chal-closure-capture",
@@ -92,6 +92,7 @@ pub(crate) const CHALLENGE_TEMPLATE_IDS: [&str; 13] = [
     "dfb-template-chal-dispatch-table",
     "dfb-template-chal-element-object",
     "dfb-template-chal-function-field",
+    "dfb-template-chal-interprocedural-exception-persistence",
     "dfb-template-chal-map-iteration",
     "dfb-template-chal-nested-access-path",
     "dfb-template-chal-recursive-carry",
@@ -105,7 +106,26 @@ pub(crate) const CHALLENGE_TEMPLATE_IDS: [&str; 13] = [
 /// to Rust (`std::any::Any` downcasts to a known static type and offers no
 /// name-based lookup). The two exclusions land on the same template, so the two
 /// languages share one set rather than two identical copies.
-pub(crate) const CHALLENGE_TEMPLATE_IDS_WITHOUT_REFLECTIVE_INVOCATION: [&str; 12] = [
+pub(crate) const CHALLENGE_TEMPLATE_IDS_WITHOUT_REFLECTIVE_INVOCATION: [&str; 13] = [
+    "dfb-template-chal-anonymous-implementation",
+    "dfb-template-chal-callback-registration",
+    "dfb-template-chal-closure-capture",
+    "dfb-template-chal-computed-property",
+    "dfb-template-chal-context-pair-depth2",
+    "dfb-template-chal-deep-relay-chain",
+    "dfb-template-chal-dispatch-table",
+    "dfb-template-chal-element-object",
+    "dfb-template-chal-function-field",
+    "dfb-template-chal-interprocedural-exception-persistence",
+    "dfb-template-chal-map-iteration",
+    "dfb-template-chal-nested-access-path",
+    "dfb-template-chal-recursive-carry",
+];
+/// Rust excludes both run-time reflection and interprocedural exception
+/// persistence. Its recoverable non-local transfer is `Result`, already scored
+/// as a language extension; panic unwinding is neither guaranteed nor a typed
+/// exception channel.
+pub(crate) const CHALLENGE_TEMPLATE_IDS_RUST: [&str; 12] = [
     "dfb-template-chal-anonymous-implementation",
     "dfb-template-chal-callback-registration",
     "dfb-template-chal-closure-capture",
@@ -253,7 +273,7 @@ pub(crate) const CHALLENGE_ROLLOUT: [ChallengeRollout; 13] = [
         language: "rust",
         display: "Rust",
         classic: &KERNEL_TEMPLATE_IDS_WITHOUT_EXCEPTION_CATCH,
-        challenge: &CHALLENGE_TEMPLATE_IDS_WITHOUT_REFLECTIVE_INVOCATION,
+        challenge: &CHALLENGE_TEMPLATE_IDS_RUST,
         rolled_out: true,
     },
     ChallengeRollout {

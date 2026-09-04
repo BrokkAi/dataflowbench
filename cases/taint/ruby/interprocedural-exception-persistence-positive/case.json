@@ -1,0 +1,73 @@
+{
+  "schema_version": 2,
+  "id": "dfb-taint-ruby-interprocedural-exception-persistence-positive",
+  "template_id": "dfb-template-chal-interprocedural-exception-persistence",
+  "polarity": "positive",
+  "score_tier": "core",
+  "track": "taint",
+  "language": "ruby",
+  "semantic_dimensions": [
+    "interprocedural-flow",
+    "heap-field-sensitivity",
+    "flow-sensitivity",
+    "exceptional-flow"
+  ],
+  "feature_tags": [
+    "interprocedural-one-hop",
+    "heap-access-path",
+    "exceptional"
+  ],
+  "model_profile": "benchmark-controlled",
+  "fixture_files": [
+    "interprocedural_exception_persistence_positive.rb"
+  ],
+  "source_anchors": [
+    {
+      "marker": "DFB-SOURCE: exception-persistence-input",
+      "file": "interprocedural_exception_persistence_positive.rb",
+      "line_hint": 1
+    }
+  ],
+  "sink_anchors": [
+    {
+      "marker": "DFB-SINK: exception-persistence-sink",
+      "file": "interprocedural_exception_persistence_positive.rb",
+      "line_hint": 5
+    }
+  ],
+  "expected_flows": [
+    {
+      "source": "DFB-SOURCE: exception-persistence-input",
+      "sink": "DFB-SINK: exception-persistence-sink"
+    }
+  ],
+  "expected_nonflows": [],
+  "witness_checkpoints": [
+    "DFB-SOURCE: exception-persistence-input",
+    "DFB-WITNESS: exception-persistence-store",
+    "DFB-WITNESS: exception-persistence-throw",
+    "DFB-WITNESS: exception-persistence-recovery",
+    "DFB-SINK: exception-persistence-sink"
+  ],
+  "expected_analysis_capability": {
+    "kind": "exception-sensitive-interprocedural-heap-taint"
+  },
+  "execution_budget": {
+    "wall_clock_seconds": 60,
+    "peak_memory_mb": 512
+  },
+  "fixture_provenance": {
+    "kind": "authored",
+    "origin": "DataFlowBench",
+    "revision": "v0.8.0",
+    "license": "MIT"
+  },
+  "tool_model_references": {
+    "bifrost": {
+      "policy": "adapters/bifrost/policies/core-ruby-kernel.rqlp"
+    },
+    "codeql": {
+      "query": "adapters/codeql/ruby/queries/RubyKernel.ql"
+    }
+  }
+}

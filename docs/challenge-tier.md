@@ -608,8 +608,6 @@ Named here so that their absence is a recorded decision rather than an
 oversight. None of them is part of this tier's population, and adding one later
 is a new preregistration, not an amendment to this one.
 
-- **Interprocedural exception flow** — a tainted value thrown across a call
-  boundary and caught by the caller.
 - **Async/await and promise scheduling** — taint through a scheduled
   continuation. The `asynchronous-flow` semantic dimension already exists in the
   schema for it.
@@ -1060,6 +1058,49 @@ at risk of eroding:
   as a ranking.
 
 ## Amendments
+
+### A2 — 2026-09-04: v0.8.0 interprocedural exceptional-exit persistence
+
+**What changed.** Beginning with v0.8.0, the challenge population adds
+`dfb-template-chal-interprocedural-exception-persistence`. A callee stores its
+input into a caller-owned object's field and then exits exceptionally. The
+caller catches the exact exception, reads the field, returns it normally, and
+an outer caller passes that return value to the sink. The positive stores the
+source-backed value. The balanced negative performs the same store, overwrites
+the same field with a clean constant before throwing, and therefore uses
+`negative_mechanism: overwrite-kill`.
+
+This deliberately composes four analysis obligations that the classic
+intraprocedural exception pair and ordinary return relays test only separately:
+an interprocedural call, a heap side effect preserved on an exceptional exit,
+catch-handler recovery, and a normal return relay after recovery. The pair is
+standard-library-only and uses one call boundary in every applicable language.
+Its fixed metadata is `semantic_dimensions: [interprocedural-flow,
+heap-field-sensitivity, flow-sensitivity, exceptional-flow]`, `feature_tags:
+[interprocedural-one-hop, heap-access-path, exceptional]`, and capability
+`exception-sensitive-interprocedural-heap-taint`.
+
+**Applicability.** Direct in Java, JavaScript, Python, TypeScript, Kotlin,
+Scala, C#, PHP, Ruby, and C++. Go is adapted through `panic`/`recover`, with an
+exact private signal type and the persisted value kept in the caller-owned
+box rather than in the panic payload. C is inapplicable because it has no
+exceptional unwinding construct. Rust is inapplicable for the same reasons its
+classic exception-catch cell is excluded: panic unwinding is not guaranteed
+and is not Rust's typed recoverable transfer; `Result` remains a separate
+language-extension question.
+
+**Population boundary.** No v0.7.0-or-earlier freeze contains this identity.
+For v0.8.0 the applicable challenge counts become 14 (Java, JavaScript,
+Python, TypeScript, Kotlin, Scala, C#, Go, PHP, Ruby), 13 (C++), 12 (Rust), and
+9 (C). Their complete core template/assertion denominators therefore become
+30/60, 29/58, 27/54, and 24/48 respectively. Snapshot manifests keep every
+earlier denominator immutable.
+
+**Lineage.** NIST Juliet exceptional-control and interprocedural flow variants;
+the heap-survival composition is an original DataFlowBench authored fixture.
+
+**Freezes invalidated.** None. This is an additive, prospectively versioned
+template whose first eligible freeze is v0.8.0.
 
 ### A1 — 2026-08-25: canonical construction for `dfb-template-chal-context-pair-depth2`
 

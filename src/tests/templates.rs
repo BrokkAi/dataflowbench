@@ -121,17 +121,17 @@ pub(crate) fn challenge_cases_exist_only_for_rolled_out_languages() {
 pub(crate) fn the_rollout_table_matches_the_preregistered_denominators() {
     let expanded: BTreeMap<&str, (usize, usize)> = BTreeMap::from([
         // language => (classic templates, applicable challenge templates)
-        ("java", (16, 13)),
-        ("javascript", (16, 13)),
-        ("python", (16, 13)),
-        ("typescript", (16, 13)),
-        ("kotlin", (16, 13)),
-        ("scala", (16, 13)),
-        ("csharp", (16, 13)),
-        ("go", (16, 13)),
-        ("php", (16, 13)),
-        ("ruby", (16, 13)),
-        ("cpp", (16, 12)),
+        ("java", (16, 14)),
+        ("javascript", (16, 14)),
+        ("python", (16, 14)),
+        ("typescript", (16, 14)),
+        ("kotlin", (16, 14)),
+        ("scala", (16, 14)),
+        ("csharp", (16, 14)),
+        ("go", (16, 14)),
+        ("php", (16, 14)),
+        ("ruby", (16, 14)),
+        ("cpp", (16, 13)),
         ("c", (15, 9)),
         ("rust", (15, 12)),
     ]);
@@ -140,7 +140,7 @@ pub(crate) fn the_rollout_table_matches_the_preregistered_denominators() {
         let (classic, challenge) = expanded[row.language];
         assert_eq!(row.classic.len(), classic, "{} classic", row.language);
         assert_eq!(row.challenge.len(), challenge, "{} challenge", row.language);
-        // Every challenge cell is one of the thirteen preregistered
+        // Every challenge cell is one of the fourteen preregistered
         // templates; a language can narrow the set, never invent one.
         for template in row.challenge {
             assert!(
@@ -172,6 +172,9 @@ pub(crate) fn the_rollout_table_matches_the_preregistered_denominators() {
     let c = challenge_rollout("c").unwrap().challenge;
     for set in [cpp, rust, c] {
         assert!(!set.contains(&"dfb-template-chal-reflective-invocation"));
+    }
+    for set in [rust, c] {
+        assert!(!set.contains(&"dfb-template-chal-interprocedural-exception-persistence"));
     }
     for excluded in [
         "dfb-template-chal-computed-property",
