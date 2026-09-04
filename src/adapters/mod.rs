@@ -343,6 +343,7 @@ pub(crate) struct ToolIdentity {
 }
 
 impl ToolIdentity {
+    /// Both halves as the run read them out of the artifact it invoked.
     pub(crate) fn new(version: impl Into<String>, build_identity: impl Into<String>) -> Self {
         Self {
             version: version.into(),
@@ -354,8 +355,8 @@ impl ToolIdentity {
     ///
     /// A `--version` banner may say more than the version — Bifrost 0.10.9
     /// prints its built-in policy packs and their catalog digest beneath
-    /// `bifrost 0.10.9`. The run-environment stamp retains the whole banner, so
-    /// a run is called down to this only after it has been stamped, and what a
+    /// `bifrost 0.10.9`. The run-environment stamp retains that banner whole,
+    /// so a runner reduces its identity only after stamping it, and what the
     /// report and its rationales then carry is the version alone.
     pub(crate) fn version_line_only(self) -> Self {
         Self {
