@@ -4,7 +4,7 @@ Adapter `bifrost-php-kernel`: `bifrost` `bifrost 0.10.9` (build `04775a7b38c9c02
 
 Track `taint`, score dimension `taint`, model profile `benchmark-controlled`. This scorecard is a single result population; it is never pooled with other tracks, dimensions, or model profiles.
 
-Normalized report: `reports/bifrost-php-kernel.json` (`sha256:be0e4aad6b4552973f6b2c643495417620e387ea1de110e40d5a75521e565682`, normalized `sha256:be0e4aad6b4552973f6b2c643495417620e387ea1de110e40d5a75521e565682`). Generated from freeze manifest `reports/freeze.json` (`sha256:5e57a5ee0dab3929cefa42edce222acbfb0ba0ee34e25e39e9ea882eaa66b724`).
+Normalized report: `reports/bifrost-php-kernel.json` (`sha256:be0e4aad6b4552973f6b2c643495417620e387ea1de110e40d5a75521e565682`, normalized `sha256:be0e4aad6b4552973f6b2c643495417620e387ea1de110e40d5a75521e565682`). Generated from freeze manifest `reports/freeze.json` (`sha256:c92efa03098fd8b51e820ff66b942099c4b972d2fec19a90bd65424b5e01fa1e`).
 
 ## Language `php`, tier `core`
 

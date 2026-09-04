@@ -1,0 +1,76 @@
+{
+  "advisory": {
+    "affected_packages": [
+      "psitransfer"
+    ],
+    "cve_id": null,
+    "cwes": [
+      "CWE-22",
+      "CWE-23"
+    ],
+    "ghsa_id": "GHSA-xphh-5v4r-r3rx",
+    "published_at": "2025-12-30T19:25:04Z",
+    "severity": "high",
+    "summary": "PsiTransfer has Zip Slip Path Traversal via TAR Archive Download",
+    "url": "https://github.com/advisories/GHSA-xphh-5v4r-r3rx"
+  },
+  "ecosystem": "npm",
+  "fix_commits": [
+    "6c71bc0b8afa1ffa7aabd6c5fb28677651fd57b6"
+  ],
+  "ground_truth": {
+    "adjudication": "pending",
+    "basis": "the advisory's fix diff between the two pinned revisions",
+    "review_independence": "maintainer-only",
+    "reviewers": [],
+    "status": "proposed"
+  },
+  "language": "javascript",
+  "license": {
+    "file_path": "LICENSE",
+    "file_sha256": "51441b6ecd95361c313950f3b07c46b1cd99afdfdd99329511333152c4effce9",
+    "identical_at_both_revisions": true,
+    "redistribution": "DataFlowBench does not vendor this source. Each revision is fetched from the pinned archive URL and verified against sha256 before use.",
+    "spdx_id": "BSD-2-Clause"
+  },
+  "pin_id": "dfb-rp-javascript-psitransfer",
+  "repository": {
+    "name": "psitransfer",
+    "owner": "psi-4ward",
+    "url": "https://github.com/psi-4ward/psitransfer"
+  },
+  "revisions": {
+    "fixed": {
+      "revision": "6c71bc0b8afa1ffa7aabd6c5fb28677651fd57b6",
+      "role": "the advisory's latest fix commit; the revision in which the reported defect is remediated",
+      "source_archive": {
+        "bytes": 1147286,
+        "retrieved_on": "2026-09-04",
+        "sha256": "914641e0440b1df426c7b8b03aba44d74c775b3628fae8f8454a1ead8b3e9150",
+        "url": "https://codeload.github.com/psi-4ward/psitransfer/tar.gz/6c71bc0b8afa1ffa7aabd6c5fb28677651fd57b6"
+      }
+    },
+    "vulnerable": {
+      "revision": "0eaa8d06fa8a5b73b002d5bdbd176d49a857725e",
+      "role": "first parent of the advisory's earliest fix commit; the last revision that still carries the reported defect",
+      "source_archive": {
+        "bytes": 1146447,
+        "retrieved_on": "2026-09-04",
+        "sha256": "db9fddb9d93d2be317e4a09f00f5f2375ef97ebc4f39a18d791df6cc21db8132",
+        "url": "https://codeload.github.com/psi-4ward/psitransfer/tar.gz/0eaa8d06fa8a5b73b002d5bdbd176d49a857725e"
+      }
+    }
+  },
+  "schema_version": 1,
+  "selection": {
+    "draw_key": "4cafa302a65d0ada3bc663a91ca05a80e054fb3c6a6b7411a76c039805b8107d",
+    "draw_position": 15,
+    "frame": {
+      "path": "corpus/real-project/frame.json",
+      "sha256": "1bb61bcf60d4fed8ac26dcb6f1f33dfcd61e7b285c15037ad7819595efa1ed5e"
+    },
+    "seed": "dataflowbench-real-project-wave-r1"
+  },
+  "stratum": "javascript",
+  "wave": "R1"
+}

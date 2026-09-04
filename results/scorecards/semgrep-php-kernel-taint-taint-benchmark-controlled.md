@@ -4,7 +4,7 @@ Adapter `semgrep-php-kernel`: `semgrep` `1.175.0` (build `semgrep-oss:1.175.0`, 
 
 Track `taint`, score dimension `taint`, model profile `benchmark-controlled`. This scorecard is a single result population; it is never pooled with other tracks, dimensions, or model profiles.
 
-Normalized report: `reports/semgrep-php-kernel.json` (`sha256:b04ee7111c66f3cab105ae0bf992495f59e86faf7153f08890a16650f712923e`, normalized `sha256:b04ee7111c66f3cab105ae0bf992495f59e86faf7153f08890a16650f712923e`). Generated from freeze manifest `reports/freeze.json` (`sha256:5e57a5ee0dab3929cefa42edce222acbfb0ba0ee34e25e39e9ea882eaa66b724`).
+Normalized report: `reports/semgrep-php-kernel.json` (`sha256:b04ee7111c66f3cab105ae0bf992495f59e86faf7153f08890a16650f712923e`, normalized `sha256:b04ee7111c66f3cab105ae0bf992495f59e86faf7153f08890a16650f712923e`). Generated from freeze manifest `reports/freeze.json` (`sha256:c92efa03098fd8b51e820ff66b942099c4b972d2fec19a90bd65424b5e01fa1e`).
 
 ## Language `php`, tier `core`
 

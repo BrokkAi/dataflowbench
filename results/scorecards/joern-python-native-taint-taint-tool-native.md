@@ -4,7 +4,7 @@ Adapter `joern-python-native`: `joern` `4.0.614` (build `joern-cli:4.0.614 — 4
 
 Track `taint`, score dimension `taint`, model profile `tool-native`. This scorecard is a single result population; it is never pooled with other tracks, dimensions, or model profiles.
 
-Normalized report: `reports/joern-python-native.json` (`sha256:d7015cc6c9b14ee41ba7c05f547909c8b67a48df076d76c00758401ae4fb296e`, normalized `sha256:d7015cc6c9b14ee41ba7c05f547909c8b67a48df076d76c00758401ae4fb296e`). Generated from freeze manifest `reports/freeze.json` (`sha256:5e57a5ee0dab3929cefa42edce222acbfb0ba0ee34e25e39e9ea882eaa66b724`).
+Normalized report: `reports/joern-python-native.json` (`sha256:d7015cc6c9b14ee41ba7c05f547909c8b67a48df076d76c00758401ae4fb296e`, normalized `sha256:d7015cc6c9b14ee41ba7c05f547909c8b67a48df076d76c00758401ae4fb296e`). Generated from freeze manifest `reports/freeze.json` (`sha256:c92efa03098fd8b51e820ff66b942099c4b972d2fec19a90bd65424b5e01fa1e`).
 
 ## Language `python`, tier `modeling`
 

@@ -1,0 +1,341 @@
+{
+  "analyzer_evidence_consulted": false,
+  "criteria": {
+    "E1": "stratum language",
+    "E2": "license",
+    "E3": "repository status",
+    "E4": "size budget",
+    "E5": "not a donor, benchmark corpus, or analyzer under evaluation",
+    "E6": "unambiguous vulnerable revision",
+    "E7": "substance floor",
+    "E8": "one advisory per repository"
+  },
+  "drawn_on": "2026-09-04",
+  "frame": {
+    "path": "corpus/real-project/frame.json",
+    "sha256": "1bb61bcf60d4fed8ac26dcb6f1f33dfcd61e7b285c15037ad7819595efa1ed5e"
+  },
+  "ordering_rule": "Within a stratum, candidates are ordered ascending by draw_key = SHA-256(seed + \"\\n\" + ghsa_id), rendered lowercase hex.",
+  "schema_version": 1,
+  "seed": "dataflowbench-real-project-wave-r1",
+  "target_per_stratum": 2,
+  "walk": {
+    "java": [
+      {
+        "disposition": "excluded",
+        "draw_key": "077bbe5a04a5e92a742c44894c8edc57da186541ce8a6d1775799d4199705458",
+        "draw_position": 1,
+        "exclusions": [
+          {
+            "criterion": "E4",
+            "observed": "560 MB repository"
+          }
+        ],
+        "ghsa_id": "GHSA-3v67-545x-ffc3",
+        "repository": "apache/kylin"
+      },
+      {
+        "disposition": "excluded",
+        "draw_key": "09a37c44cd3a11acfc4c288988700d6d2137721c90734469a05cedb29a4b05b3",
+        "draw_position": 2,
+        "exclusions": [
+          {
+            "criterion": "E2",
+            "observed": "license NOASSERTION"
+          },
+          {
+            "criterion": "E4",
+            "observed": "510 MB repository"
+          }
+        ],
+        "ghsa_id": "GHSA-39hr-239p-fhqc",
+        "repository": "OpenIdentityPlatform/OpenAM"
+      },
+      {
+        "disposition": "excluded",
+        "draw_key": "11e4d526eabfc6d4cee9e3b8ec8e1ef22633b7f406c91d926e800f1e79befe80",
+        "draw_position": 3,
+        "exclusions": [
+          {
+            "criterion": "E4",
+            "observed": "361 MB repository"
+          }
+        ],
+        "ghsa_id": "GHSA-p72g-pv48-7w9x",
+        "repository": "apache/tika"
+      },
+      {
+        "disposition": "excluded",
+        "draw_key": "1648346ec9533e2fcce427ae3f65bab1e84bc446f8670c3166ed90cdb307ac50",
+        "draw_position": 4,
+        "exclusions": [
+          {
+            "criterion": "E4",
+            "observed": "627 MB repository"
+          }
+        ],
+        "ghsa_id": "GHSA-prwh-7838-xf82",
+        "repository": "xwiki/xwiki-platform"
+      },
+      {
+        "disposition": "selected",
+        "draw_key": "1b540aaa18883ea24e340061ff3161da874bb8651d446dd400b6528c49dbf8c1",
+        "draw_position": 5,
+        "exclusions": [],
+        "ghsa_id": "GHSA-7v6m-28jr-rg84",
+        "repository": "hibernate/hibernate-validator"
+      },
+      {
+        "disposition": "selected",
+        "draw_key": "27fcd05f0199e717d012d51e2c92baee280f687c1222f6153182663bce1742d2",
+        "draw_position": 6,
+        "exclusions": [],
+        "ghsa_id": "GHSA-g6wm-2v64-wq36",
+        "repository": "Robothy/local-s3"
+      }
+    ],
+    "javascript": [
+      {
+        "disposition": "excluded",
+        "draw_key": "0805fbef12e541a9d8082a75e565ba4c3a6a6d54d520e241929672b0fc2a31d0",
+        "draw_position": 1,
+        "exclusions": [
+          {
+            "criterion": "E1",
+            "observed": "primary language TypeScript"
+          },
+          {
+            "criterion": "E2",
+            "observed": "license NOASSERTION"
+          }
+        ],
+        "ghsa_id": "GHSA-qpr4-c339-7vq8",
+        "repository": "withastro/astro"
+      },
+      {
+        "disposition": "selected",
+        "draw_key": "0d4260b164eb9f1eb560508d963d434d7a12b3a5418b7285ce07fc42a4388099",
+        "draw_position": 2,
+        "exclusions": [],
+        "ghsa_id": "GHSA-vj76-c3g6-qr5v",
+        "repository": "mafintosh/tar-fs"
+      },
+      {
+        "disposition": "excluded",
+        "draw_key": "183bdad4ffd728b403d249bf4d7134b6f5c53f5d4097e3240cc2ed802db994f6",
+        "draw_position": 3,
+        "exclusions": [
+          {
+            "criterion": "E6",
+            "observed": "earliest fix commit eb53a4f2cc8b is a merge with 2 parents"
+          }
+        ],
+        "ghsa_id": "GHSA-6f6r-m9pv-67jw",
+        "repository": "joshuayoes/ios-simulator-mcp"
+      },
+      {
+        "disposition": "excluded",
+        "draw_key": "1a297c214593980fd7feddb17bf7a0f0f4efb4bac755a15dd0bfb7adc5fb6923",
+        "draw_position": 4,
+        "exclusions": [
+          {
+            "criterion": "E1",
+            "observed": "primary language TypeScript"
+          }
+        ],
+        "ghsa_id": "GHSA-8gvc-j273-4wm5",
+        "repository": "vitest-dev/vitest"
+      },
+      {
+        "disposition": "excluded",
+        "draw_key": "1b8e3f44d54dc7d399b939979729d68186367eb7748085ee1a5643662a0614d5",
+        "draw_position": 5,
+        "exclusions": [
+          {
+            "criterion": "E1",
+            "observed": "primary language TypeScript"
+          },
+          {
+            "criterion": "E2",
+            "observed": "license NOASSERTION"
+          },
+          {
+            "criterion": "E4",
+            "observed": "887 MB repository"
+          }
+        ],
+        "ghsa_id": "GHSA-fgx4-p8xf-qhp9",
+        "repository": "lobehub/lobe-chat"
+      },
+      {
+        "disposition": "excluded",
+        "draw_key": "1f0a6f4b2ab65117033e21e0f00dac67c3b5690b880b188f909061e07605dd2a",
+        "draw_position": 6,
+        "exclusions": [
+          {
+            "criterion": "E3",
+            "observed": "archived"
+          }
+        ],
+        "ghsa_id": "GHSA-54j7-grvr-9xwg",
+        "repository": "srmorete/adb-mcp"
+      },
+      {
+        "disposition": "excluded",
+        "draw_key": "1ffe242159c9327492f6cd446690fe97914f8836dd891ff6a49461611e31d1e8",
+        "draw_position": 7,
+        "exclusions": [
+          {
+            "criterion": "E1",
+            "observed": "primary language TypeScript"
+          }
+        ],
+        "ghsa_id": "GHSA-55jh-84jv-8mx8",
+        "repository": "Flow-Scanner/lightning-flow-scanner"
+      },
+      {
+        "disposition": "excluded",
+        "draw_key": "22ac86a75c22877ada607db3fd6d08d9ad217be478531cdd4fe4c24d6c957a53",
+        "draw_position": 8,
+        "exclusions": [
+          {
+            "criterion": "E1",
+            "observed": "primary language C++"
+          }
+        ],
+        "ghsa_id": "GHSA-vmqv-hx8q-j7mg",
+        "repository": "electron/electron"
+      },
+      {
+        "disposition": "excluded",
+        "draw_key": "2973e5c68ec8c50cb31fe98ade91d15da8936554677ab3932b1d6205fae9cffc",
+        "draw_position": 9,
+        "exclusions": [
+          {
+            "criterion": "E1",
+            "observed": "primary language TypeScript"
+          }
+        ],
+        "ghsa_id": "GHSA-8g98-m4j9-qww5",
+        "repository": "tailot/taylored"
+      },
+      {
+        "disposition": "excluded",
+        "draw_key": "344506b1abe3835a6566971b1fb4a576025fb58ea5c0f0ea6c98ef8e8429acff",
+        "draw_position": 10,
+        "exclusions": [
+          {
+            "criterion": "E1",
+            "observed": "primary language TypeScript"
+          },
+          {
+            "criterion": "E7",
+            "observed": "8350 bytes of JavaScript"
+          }
+        ],
+        "ghsa_id": "GHSA-hhh5-2cvx-vmfp",
+        "repository": "Portkey-AI/gateway"
+      },
+      {
+        "disposition": "excluded",
+        "draw_key": "3cc2ad798519dd9ec1377ce2528a4a2180dc28f471f688364623a0a1f55439d2",
+        "draw_position": 11,
+        "exclusions": [
+          {
+            "criterion": "E1",
+            "observed": "primary language TypeScript"
+          }
+        ],
+        "ghsa_id": "GHSA-g4jq-h2w9-997c",
+        "repository": "vitejs/vite"
+      },
+      {
+        "disposition": "excluded",
+        "draw_key": "4155ad0a4dc2a8f434cea646533149c9e174f7243a1e8036f0d6a58406a38fed",
+        "draw_position": 12,
+        "exclusions": [
+          {
+            "criterion": "E1",
+            "observed": "primary language TypeScript"
+          },
+          {
+            "criterion": "E2",
+            "observed": "license NOASSERTION"
+          }
+        ],
+        "ghsa_id": "GHSA-x3h8-62x9-952g",
+        "repository": "withastro/astro"
+      },
+      {
+        "disposition": "excluded",
+        "draw_key": "459b7bed1878050aa5bbce8ee30c300870154d6204992226496d21ea3523d642",
+        "draw_position": 13,
+        "exclusions": [
+          {
+            "criterion": "E1",
+            "observed": "primary language TypeScript"
+          },
+          {
+            "criterion": "E7",
+            "observed": "1569 bytes of JavaScript"
+          }
+        ],
+        "ghsa_id": "GHSA-rvpw-p7vw-wj3m",
+        "repository": "opennextjs/opennextjs-cloudflare"
+      },
+      {
+        "disposition": "excluded",
+        "draw_key": "460e6acab2f0fe2181e2a6e14dbf1c6ea855de072e3be00db2895b43eee79711",
+        "draw_position": 14,
+        "exclusions": [
+          {
+            "criterion": "E1",
+            "observed": "primary language TypeScript"
+          }
+        ],
+        "ghsa_id": "GHSA-93m4-6634-74q7",
+        "repository": "vitejs/vite"
+      },
+      {
+        "disposition": "selected",
+        "draw_key": "4cafa302a65d0ada3bc663a91ca05a80e054fb3c6a6b7411a76c039805b8107d",
+        "draw_position": 15,
+        "exclusions": [],
+        "ghsa_id": "GHSA-xphh-5v4r-r3rx",
+        "repository": "psi-4ward/psitransfer"
+      }
+    ],
+    "python": [
+      {
+        "disposition": "excluded",
+        "draw_key": "01b1ad0cb0ce5ec8ced2488a6c1b139ff6aedeb2a8c70302d9bbc13c15a7caf9",
+        "draw_position": 1,
+        "exclusions": [
+          {
+            "criterion": "E3",
+            "observed": "archived"
+          }
+        ],
+        "ghsa_id": "GHSA-pc6w-59fv-rh23",
+        "repository": "langchain-ai/langchain-community"
+      },
+      {
+        "disposition": "selected",
+        "draw_key": "0244741370f1a808604879dd4cbea568e7ccb1e9012da8bad0643bb06cc4a43a",
+        "draw_position": 2,
+        "exclusions": [],
+        "ghsa_id": "GHSA-xj56-p8mm-qmxj",
+        "repository": "hiyouga/LLaMA-Factory"
+      },
+      {
+        "disposition": "selected",
+        "draw_key": "04172dd4cd93e58ca7fec84b5a753d574143a79ff9d0cf8a40292424b6a5dbe6",
+        "draw_position": 3,
+        "exclusions": [],
+        "ghsa_id": "GHSA-579p-qf78-fqm2",
+        "repository": "clearml/clearml"
+      }
+    ]
+  },
+  "wave": "R1"
+}

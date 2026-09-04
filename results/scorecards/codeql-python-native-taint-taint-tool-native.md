@@ -4,7 +4,7 @@ Adapter `codeql-python-native`: `codeql` `2.26.4` (build `codeql-cli:6b1e4dee94a
 
 Track `taint`, score dimension `taint`, model profile `tool-native`. This scorecard is a single result population; it is never pooled with other tracks, dimensions, or model profiles.
 
-Normalized report: `reports/codeql-python-native.json` (`sha256:2958f4e44c4075463079503bd7c222860076fc159475f76532a258f1aa0bf49e`, normalized `sha256:2958f4e44c4075463079503bd7c222860076fc159475f76532a258f1aa0bf49e`). Generated from freeze manifest `reports/freeze.json` (`sha256:5e57a5ee0dab3929cefa42edce222acbfb0ba0ee34e25e39e9ea882eaa66b724`).
+Normalized report: `reports/codeql-python-native.json` (`sha256:2958f4e44c4075463079503bd7c222860076fc159475f76532a258f1aa0bf49e`, normalized `sha256:2958f4e44c4075463079503bd7c222860076fc159475f76532a258f1aa0bf49e`). Generated from freeze manifest `reports/freeze.json` (`sha256:c92efa03098fd8b51e820ff66b942099c4b972d2fec19a90bd65424b5e01fa1e`).
 
 ## Language `python`, tier `modeling`
 

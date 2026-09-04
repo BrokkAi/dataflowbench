@@ -6,7 +6,7 @@ Starlight package for the public site (`astro.config.mjs`, `src/`,
 below is repo-only and this index is its map. Documents fall into two kinds:
 **normative contracts**, which bind what the benchmark does going forward,
 and **historical records**, which preserve what was decided, measured, and
-released. Five contract documents also carry the repository's amendments —
+released. Six contract documents also carry the repository's amendments —
 see the glossary entry below.
 
 ## Normative contracts
@@ -24,6 +24,7 @@ see the glossary entry below.
 | [modeling-matrix.md](modeling-matrix.md) | Preregistration of the benchmark-controlled taint-modeling matrix, on its own `modeling` tier. Amendment-bearing. |
 | [native-profile.md](native-profile.md) | Preregistration of the tool-native model profile: shipped-model coverage, never pooled with the controlled matrix. Amendment-bearing. |
 | [latency-tier.md](latency-tier.md) | Preregistration of the descriptive latency-characterization tier and the per-adapter granularity table. Amendment-bearing. |
+| [real-project-preregistration.md](real-project-preregistration.md) | Preregistration of the real-project confirmation slice: the advisory-derived population, the eligibility criteria, the seeded draw and its replacement rule, the bounded per-repository claims, the independent ground-truth review, and the rule that no real-project outcome touches a core denominator. Amendment-bearing. |
 | [fixture-provenance.md](fixture-provenance.md) | The required provenance fields for every fixture and the MIT/CC0 licensing split. |
 | [benchmark-sources.md](benchmark-sources.md) | The external suites treated as design inputs, and why none is imported as ground truth. |
 
@@ -99,11 +100,14 @@ other by `model_profile` and never pooled:
   isolates one well-known engine limit (for the challenge tier: A dynamic
   dispatch and reflection, B higher-order flow, C containers and deep
   access paths, D context and depth stress). Per-stratum breakdowns are
-  always reported so a fold-in cannot hide them.
+  always reported so a fold-in cannot hide them. The real-project slice reuses
+  the word for its per-language sampling strata, which are drawn independently
+  and never pooled.
 - **Wave** — a bounded rollout unit that adds one language's fixtures (or
   one language row of a tier) and its adapter artifacts without editing any
   template definition. Waves are numbered per tier: M1 is the
-  benchmark-controlled modeling rows, N1 the tool-native rows.
+  benchmark-controlled modeling rows, N1 the tool-native rows, R1 the first
+  real-project confirmation slice.
 - **Benchmark-controlled vs tool-native profile** — the two values of
   `model_profile` and a hard partition of every claim. The controlled
   profile supplies equivalent models to each tool and measures the
@@ -115,12 +119,13 @@ other by `model_profile` and never pooled:
   stating what changed, why, and which freezes it invalidates, in a
   separate commit from any fixture or result change. Numbering is a single
   repository-wide sequence (A1, A2, …); the authoritative index is the set
-  of amendment headings across the five amendment-bearing documents
+  of amendment headings across the six amendment-bearing documents
   ([challenge-tier.md](challenge-tier.md),
   [modeling-matrix.md](modeling-matrix.md),
   [native-profile.md](native-profile.md), [adapters.md](adapters.md),
-  [latency-tier.md](latency-tier.md)), so each document's own numbering is
-  deliberately gappy.
+  [latency-tier.md](latency-tier.md),
+  [real-project-preregistration.md](real-project-preregistration.md)), so each
+  document's own numbering is deliberately gappy.
 - **Freeze-bound** — a report whose bytes are digest-bound by a published
   `freeze/v1` manifest and may not be overwritten. A freeze-bound report is
   deferred to the next freeze-prep re-run rather than re-run in place;
@@ -141,3 +146,14 @@ other by `model_profile` and never pooled:
 - **Slice** — one adapter × language × population unit of execution and
   reporting; the aggregation unit for latency and for raw-evidence
   directories (`reports/raw/<slice>/`).
+- **Real-project confirmation slice** — the six pinned upstream repositories
+  of [real-project-preregistration.md](real-project-preregistration.md), on
+  the `real-project` score tier. Its unit is a repository at two pinned
+  revisions, vulnerable and fixed, rather than an authored fixture; its
+  selection artifacts live under `corpus/real-project/` and are replayed by
+  `cargo run -- validate`. Confusingly close to the term above and distinct
+  from it: this one is a population, that one is an execution unit.
+- **Draw record** — `corpus/real-project/draw.json`: the seed, the retained
+  frame it consumed, and the ordered walk over each stratum with a disposition
+  for every candidate the walk reached. It is what makes "analyzer outcomes did
+  not influence selection" a checkable claim instead of an assurance.

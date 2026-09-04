@@ -4,7 +4,7 @@ Adapter `semgrep-python-modeling`: `semgrep` `1.175.0` (build `semgrep-oss:1.175
 
 Track `taint`, score dimension `taint`, model profile `benchmark-controlled`. This scorecard is a single result population; it is never pooled with other tracks, dimensions, or model profiles.
 
-Normalized report: `reports/semgrep-python-modeling.json` (`sha256:a269705d853a642979a357b9a03fd698cf2bc3e853c9afff1513e9c4b0001086`, normalized `sha256:a269705d853a642979a357b9a03fd698cf2bc3e853c9afff1513e9c4b0001086`). Generated from freeze manifest `reports/freeze.json` (`sha256:5e57a5ee0dab3929cefa42edce222acbfb0ba0ee34e25e39e9ea882eaa66b724`).
+Normalized report: `reports/semgrep-python-modeling.json` (`sha256:a269705d853a642979a357b9a03fd698cf2bc3e853c9afff1513e9c4b0001086`, normalized `sha256:a269705d853a642979a357b9a03fd698cf2bc3e853c9afff1513e9c4b0001086`). Generated from freeze manifest `reports/freeze.json` (`sha256:c92efa03098fd8b51e820ff66b942099c4b972d2fec19a90bd65424b5e01fa1e`).
 
 ## Language `python`, tier `modeling`
 

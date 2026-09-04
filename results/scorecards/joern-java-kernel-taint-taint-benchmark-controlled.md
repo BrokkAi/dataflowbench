@@ -4,7 +4,7 @@ Adapter `joern-java-kernel`: `joern` `4.0.614` (build `joern-cli:4.0.614`, adapt
 
 Track `taint`, score dimension `taint`, model profile `benchmark-controlled`. This scorecard is a single result population; it is never pooled with other tracks, dimensions, or model profiles.
 
-Normalized report: `reports/joern-java-kernel.json` (`sha256:8f74bb4d958ba21cfc236a9382b4b67a09fc5ebfd16d71b7e8bc3a112f7b722e`, normalized `sha256:8f74bb4d958ba21cfc236a9382b4b67a09fc5ebfd16d71b7e8bc3a112f7b722e`). Generated from freeze manifest `reports/freeze.json` (`sha256:5e57a5ee0dab3929cefa42edce222acbfb0ba0ee34e25e39e9ea882eaa66b724`).
+Normalized report: `reports/joern-java-kernel.json` (`sha256:8f74bb4d958ba21cfc236a9382b4b67a09fc5ebfd16d71b7e8bc3a112f7b722e`, normalized `sha256:8f74bb4d958ba21cfc236a9382b4b67a09fc5ebfd16d71b7e8bc3a112f7b722e`). Generated from freeze manifest `reports/freeze.json` (`sha256:c92efa03098fd8b51e820ff66b942099c4b972d2fec19a90bd65424b5e01fa1e`).
 
 ## Language `java`, tier `core`
 

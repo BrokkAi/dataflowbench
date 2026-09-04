@@ -4,7 +4,7 @@ Adapter `joern-java-modeling`: `joern` `4.0.614` (build `joern-cli:4.0.614`, ada
 
 Track `taint`, score dimension `taint`, model profile `benchmark-controlled`. This scorecard is a single result population; it is never pooled with other tracks, dimensions, or model profiles.
 
-Normalized report: `reports/joern-java-modeling.json` (`sha256:21fb1d444a2db6dd5dbd8c1aba56abd2d728a1aa616f049a417ebc73e3fee7d8`, normalized `sha256:21fb1d444a2db6dd5dbd8c1aba56abd2d728a1aa616f049a417ebc73e3fee7d8`). Generated from freeze manifest `reports/freeze.json` (`sha256:5e57a5ee0dab3929cefa42edce222acbfb0ba0ee34e25e39e9ea882eaa66b724`).
+Normalized report: `reports/joern-java-modeling.json` (`sha256:21fb1d444a2db6dd5dbd8c1aba56abd2d728a1aa616f049a417ebc73e3fee7d8`, normalized `sha256:21fb1d444a2db6dd5dbd8c1aba56abd2d728a1aa616f049a417ebc73e3fee7d8`). Generated from freeze manifest `reports/freeze.json` (`sha256:c92efa03098fd8b51e820ff66b942099c4b972d2fec19a90bd65424b5e01fa1e`).
 
 ## Language `java`, tier `modeling`
 
