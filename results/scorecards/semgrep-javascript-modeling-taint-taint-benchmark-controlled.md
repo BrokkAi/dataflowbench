@@ -4,7 +4,7 @@ Adapter `semgrep-javascript-modeling`: `semgrep` `1.176.0` (build `semgrep-oss:1
 
 Track `taint`, score dimension `taint`, model profile `benchmark-controlled`. This scorecard is a single result population; it is never pooled with other tracks, dimensions, or model profiles.
 
-Normalized report: `reports/semgrep-javascript-modeling.json` (`sha256:9bc8b0619b34ca98b5b6e3044cb5ff7c0798b8c9ec19554a9f27b2aac3815d8c`, normalized `sha256:9bc8b0619b34ca98b5b6e3044cb5ff7c0798b8c9ec19554a9f27b2aac3815d8c`). Generated from freeze manifest `reports/freeze.json` (`sha256:95faa71908b637ba349c1890ce913abd865c670a9093e123a25d975430bfe52c`).
+Normalized report: `reports/semgrep-javascript-modeling.json` (`sha256:9bc8b0619b34ca98b5b6e3044cb5ff7c0798b8c9ec19554a9f27b2aac3815d8c`, normalized `sha256:9bc8b0619b34ca98b5b6e3044cb5ff7c0798b8c9ec19554a9f27b2aac3815d8c`). Generated from freeze manifest `reports/freeze.json` (`sha256:c543ae4ebd11ed6f3495f4461b5b4bd7c84d0874997f1b62044e9df62817b28b`).
 
 ## Language `javascript`, tier `modeling`
 

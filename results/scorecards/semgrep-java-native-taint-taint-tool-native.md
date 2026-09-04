@@ -4,7 +4,7 @@ Adapter `semgrep-java-native`: `semgrep` `1.176.0` (build `semgrep-oss:1.176.0 â
 
 Track `taint`, score dimension `taint`, model profile `tool-native`. This scorecard is a single result population; it is never pooled with other tracks, dimensions, or model profiles.
 
-Normalized report: `reports/semgrep-java-native.json` (`sha256:77f2501e818bbb6f136043d2af8316efab11582def633dff10d1448a4b93ab22`, normalized `sha256:77f2501e818bbb6f136043d2af8316efab11582def633dff10d1448a4b93ab22`). Generated from freeze manifest `reports/freeze.json` (`sha256:95faa71908b637ba349c1890ce913abd865c670a9093e123a25d975430bfe52c`).
+Normalized report: `reports/semgrep-java-native.json` (`sha256:77f2501e818bbb6f136043d2af8316efab11582def633dff10d1448a4b93ab22`, normalized `sha256:77f2501e818bbb6f136043d2af8316efab11582def633dff10d1448a4b93ab22`). Generated from freeze manifest `reports/freeze.json` (`sha256:c543ae4ebd11ed6f3495f4461b5b4bd7c84d0874997f1b62044e9df62817b28b`).
 
 ## Language `java`, tier `modeling`
 

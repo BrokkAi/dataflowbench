@@ -1,8 +1,8 @@
 # DataFlowBench frozen results
 
-Generated from freeze manifest `reports/freeze.json` (`sha256:95faa71908b637ba349c1890ce913abd865c670a9093e123a25d975430bfe52c`), benchmark release `development` at revision `9dba9a7267e4141d9c08ce897541ed0bbe100bd1`, fixture revision `sha256:9df209ed3d7723a3ee33f2b289cf2afe34a3add781bdf2a2ac445de42b8d0151`.
+Generated from freeze manifest `reports/freeze.json` (`sha256:c543ae4ebd11ed6f3495f4461b5b4bd7c84d0874997f1b62044e9df62817b28b`), benchmark release `v0.7.0` at revision `0a4d8b66c1e458b10e2c6196d0e4f9622f4c8ef5`, fixture revision `sha256:9df209ed3d7723a3ee33f2b289cf2afe34a3add781bdf2a2ac445de42b8d0151`.
 
-Claim scope `development`. Every number on these pages is derived from the immutable freeze evidence above; none are maintained by hand. Tracks, score dimensions, score tiers, and model profiles are separate result populations and are never combined into one leaderboard.
+Claim scope `release`. Every number on these pages is derived from the immutable freeze evidence above; none are maintained by hand. Tracks, score dimensions, score tiers, and model profiles are separate result populations and are never combined into one leaderboard.
 
 Caveat: `inconclusive` outcomes are excluded from every TPR and FPR denominator on these pages, so rate columns cover only each population's conclusive subset. In this freeze every `inconclusive` outcome is produced by: `bifrost-c-kernel` (9), `bifrost-cpp-kernel` (26), `bifrost-csharp-kernel` (24), `bifrost-go-kernel` (22), `bifrost-java-kernel` (18), `bifrost-java-modeling` (1), `bifrost-javascript-kernel` (20), `bifrost-javascript-modeling` (4), `bifrost-kotlin-kernel` (30), `bifrost-php-kernel` (24), `bifrost-python-kernel` (22), `bifrost-python-modeling` (1), `bifrost-ruby-kernel` (36), `bifrost-rust-kernel` (18), `bifrost-scala-kernel` (20), `bifrost-typescript-kernel` (22), `codeql-c-kernel` (1), `codeql-cpp-kernel` (1), `codeql-csharp-kernel` (1), `codeql-python-kernel` (1), `codeql-ruby-kernel` (1). Compare rate columns across adapters with that exclusion in mind.
 
