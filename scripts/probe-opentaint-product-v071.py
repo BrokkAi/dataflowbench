@@ -10,7 +10,7 @@ def run(name,args):
  with open(OUT/(name+'-stdout.txt'),'wb') as o,open(OUT/(name+'-stderr.txt'),'wb') as e:code=subprocess.run([str(x) for x in args],cwd=ROOT,stdout=o,stderr=e).returncode
  with open(OUT/'commands.jsonl','a') as f:f.write(json.dumps({'id':name,'argv':[str(x) for x in args],'start_utc':start,'end_utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),'exit_code':code,'load_before':load})+'\n')
  return code
-run('wrapper-version',[WRAPPER,'--version']);run('scan-help',[WRAPPER,'scan','--help'])
+run('wrapper-version',[WRAPPER,'--version']);run('wrapper-help',[WRAPPER,'--help']);run('scan-help',[WRAPPER,'scan','--help'])
 
 def scan(name,source_files,packages,rules='builtin'):
  work=OUT/name;source=work/'source';classes=work/'classes';source.mkdir(parents=True);classes.mkdir()

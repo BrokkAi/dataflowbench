@@ -64,8 +64,8 @@ the hidden `--entry-points` selector. Equivalence for the adapter's
 rule-load-trace, passthrough-model, and compiled approximation controls has
 not yet been demonstrated. The product does expose `--project-model`
 for a precompiled project model (skipping compilation); the initial v0.7.1
-pin-preparation claim that this flag was absent was incorrect, as the retained
-scan help shows. Wrapper migration remains pending executed capability
+pin-preparation claim that this flag was absent was incorrect according to
+the preparation CLI observation; the refresh probe retains fresh help output. Wrapper migration remains pending executed capability
 equivalence and a dated amendment; the wrapper's presence does not silently
 change the modeling or native partition.
 
