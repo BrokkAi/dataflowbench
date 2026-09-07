@@ -36,7 +36,20 @@ jobs:
       - run: cargo test
       - run: cargo run -- validate
       - run: cargo run -- validate-reports
-      - run: cargo run -- generate-results --manifest reports/freeze.json --output-directory results --check
+      # TEMPORARY v0.7.1 evidence transition. Restore current-checkout generation
+      # in the separate final manifest PR; the byte guard rejects a new freeze.
+      - name: Validate unchanged published results during evidence refresh
+        run: |
+          set -euo pipefail
+          test -z "$(git status --porcelain --untracked-files=all)"
+          git diff --exit-code 61300f47de7affa651fbd4a125ca6b894b29ce71 HEAD -- reports/freeze.json results/
+          snapshot_dir="$(mktemp -d "$RUNNER_TEMP/dfb-published.XXXXXX")"
+          git worktree add --detach "$snapshot_dir" 61300f47de7affa651fbd4a125ca6b894b29ce71
+          trap 'git worktree remove --force "$snapshot_dir"' EXIT
+          (
+            cd "$snapshot_dir"
+            cargo run --locked -- generate-results --manifest reports/freeze.json --output-directory results --check
+          )
   site:
     runs-on: ubuntu-latest
     defaults:
