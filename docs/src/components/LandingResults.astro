@@ -17,6 +17,7 @@ import {
 } from '../data/snapshots';
 import SnapshotEvolution from './SnapshotEvolution.astro';
 import AnalyzerLandscape from './AnalyzerLandscape.astro';
+import DecisionLandscape from './DecisionLandscape.astro';
 import LatencyRanking from './LatencyRanking.astro';
 
 const snapshot = currentSnapshot;
@@ -227,19 +228,6 @@ for (const language of smoke.languages) {
 breadth.sort((left, right) => left.language.localeCompare(right.language));
 const breadthCorrect = breadth.filter((row) => row.correct).length;
 const breadthIncomplete = breadth.filter((row) => row.incomplete);
-
-// A card's headline fraction is correct-of-population. For an analyzer that
-// declines part of the population, that fraction alone reads as a low score
-// rather than as a bounded profile, so the card also states the decided
-// fraction and names *why* the rest is absent — declared-capability declines
-// (`unsupported`) are a design position, not a miss.
-function coverageNote(vendor: VendorStats): string {
-  const parts: string[] = [];
-  if (vendor.unsupported > 0) parts.push(`${vendor.unsupported} declined`);
-  if (vendor.inconclusive > 0) parts.push(`${vendor.inconclusive} incomplete`);
-  if (vendor.runnerErrors > 0) parts.push(`${vendor.runnerErrors} runner-error`);
-  return `${vendor.name}: ${parts.join(', ')}`;
-}
 
 const outcomeClass = (polarity: 'positive' | 'negative', outcome: string) => {
   if (polarity === 'positive' && outcome === 'reached') return 'good';
@@ -615,63 +603,7 @@ const snapshotPage = `/snapshots/${snapshot.slug}`;
   </div>
 </aside>
 
-<div class="stat-grid">
-  {kernels.map((kernel) => (
-    <div
-      class:list={[
-        'stat-card',
-        'kernel-card',
-        { many: kernel.vendors.length > 2, dense: kernel.vendors.length > 3 },
-      ]}
-    >
-      <p class="label">{kernel.language} kernel · correct decisions</p>
-      <div class="stat-pair">
-        {kernel.vendors.map((vendor, index) => (
-          <div class={`vendor ${vendorColorClass(vendor.tool, index)}`}>
-            <p class="who">{vendor.name}</p>
-            <p class="big">{vendor.correct}<span class="of">/{vendor.total}</span></p>
-            {vendor.incomplete > 0 && (
-              <p class="decided">
-                {vendor.correct} of {vendor.correct + vendor.wrong} decided
-              </p>
-            )}
-          </div>
-        ))}
-      </div>
-      <p class="caption">
-        {kernel.vendors.some((vendor) => vendor.incomplete > 0)
-          ? `${kernel.templates} templates · unanswered outcomes (${kernel.vendors
-              .filter((vendor) => vendor.incomplete > 0)
-              .map(coverageNote)
-              .join('; ')}) are coverage, excluded from correctness and never
-              counted against it`
-          : `${kernel.templates} templates · all outcomes definitive`}
-      </p>
-      <p class="card-action">
-        <button
-          type="button"
-          class="details-button"
-          data-kernel={kernel.id}
-          aria-label={`View details for the ${kernel.language} kernel`}
-        >
-          View details
-        </button>
-      </p>
-    </div>
-  ))}
-  <div class="stat-card">
-    <p class="label">Direct-flow breadth · languages fully correct</p>
-    <div class="stat-pair">
-      <div class="vendor v0">
-        <p class="who">Bifrost</p>
-        <p class="big">{breadthCorrect}<span class="of">/{breadth.length}</span></p>
-      </div>
-    </div>
-    <p class="caption">
-      one positive and one negative direct-propagation assertion per language
-    </p>
-  </div>
-</div>
+<DecisionLandscape />
 
 <dialog id="kernel-dialog" aria-labelledby="kernel-dialog-title">
   <div class="dialog-head">
