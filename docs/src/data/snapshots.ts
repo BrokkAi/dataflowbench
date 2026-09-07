@@ -137,7 +137,9 @@ export const snapshots: Snapshot[] = [
   {
     version: 'v0.7.0',
     slug: 'v0-7-0',
-    evidenceRef: '0a4d8b66c1e458b10e2c6196d0e4f9622f4c8ef5',
+    // The tag names the evidence commit; this later commit contains the
+    // published release manifest and generated results.
+    evidenceRef: '61300f47de7affa651fbd4a125ca6b894b29ce71',
     // v0.7.0 re-ran correctness only. It reuses the v0.6.0 latency corpus for
     // the same reason v0.6.1 did: nothing was re-measured, so nothing may be
     // relabelled onto the newer pins.

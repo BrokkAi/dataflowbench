@@ -29,10 +29,32 @@ test('release, revision and schema drift fail closed', () => {
   assert.throws(() => boundEvidence('v0.6.0', { 'v0.6.0': { evidenceRef: 'main', evidence: {...historical, evidence_ref: 'main'} } }, identity), /immutable binding/);
 });
 
-test('v0.7.0 archive is byte-identical to the release tag', () => {
+test('v0.7.0 archive binds the published release rather than its development tag tree', () => {
   const archived = fs.readFileSync(new URL('./archive/v0-7-0-results.json', import.meta.url));
-  const digest = (bytes: Buffer) => createHash('sha256').update(bytes).digest('hex');
-  // SHA-256 of git show 0a4d8b66c1e458b10e2c6196d0e4f9622f4c8ef5:results/results.json.
-  // Keep this literal independent of the working tree and shallow CI history.
-  assert.equal(digest(archived), '6d5933490d2ea7500a8b3ce0fd26f87074bd8db4ea1a6cb03a4c79172c8d444d');
+  const results = JSON.parse(archived.toString('utf8'));
+  assert.equal(results.benchmark.release, 'v0.7.0');
+  assert.equal(results.claim.scope, 'release');
+  assert.equal(results.benchmark.revision, '0a4d8b66c1e458b10e2c6196d0e4f9622f4c8ef5');
+  assert.equal(results.benchmark.dirty, false);
+  assert.equal(results.manifest.path, 'reports/freeze.json');
+  assert.equal(results.manifest.sha256, 'c543ae4ebd11ed6f3495f4461b5b4bd7c84d0874997f1b62044e9df62817b28b');
+  // SHA-256 of git show 61300f47de7affa651fbd4a125ca6b894b29ce71:results/results.json.
+  // The tag predates this manifest commit and still contains development results.
+  // Keep the expected digest independent of the working tree and shallow CI history.
+  assert.equal(createHash('sha256').update(archived).digest('hex'), '2de0ea1726072d98e134e9b48bc3fdcd07184c286d3259cfe6ea8f2b4b82075b');
+});
+
+
+test('the temporary historical CI checkout must be removed when the published freeze changes', () => {
+  const workflow = fs.readFileSync(new URL('../../../.github/workflows/ci.yml', import.meta.url), 'utf8');
+  if (!workflow.includes('TEMPORARY v0.7.1 evidence transition')) {
+    assert.ok(workflow.includes('- run: cargo run -- generate-results --manifest reports/freeze.json --output-directory results --check'));
+    return;
+  }
+  const manifest = fs.readFileSync(new URL('../../../reports/freeze.json', import.meta.url));
+  assert.equal(
+    createHash('sha256').update(manifest).digest('hex'),
+    'c543ae4ebd11ed6f3495f4461b5b4bd7c84d0874997f1b62044e9df62817b28b',
+    'Restore current-checkout generate-results --check in the final manifest PR',
+  );
 });
