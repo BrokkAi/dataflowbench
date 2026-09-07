@@ -108,7 +108,7 @@ table code {
     max-width: var(--dfb-measure);
   }
 
-  /* On the landing (recognized by its stat grid), top-level explanatory
+  /* On the landing (recognized by its decision landscape), top-level explanatory
      paragraphs flow as two newspaper columns instead of a capped single
      measure that leaves the right third of the wide column dead. Each column
      is ~half the content width, i.e. the same readable measure the cap
@@ -124,7 +124,7 @@ table code {
      reading order, which is not the order they are meant to be read in. Runs
      of adjacent paragraphs use `.prose-columns` below, which flows the whole
      run through one multicol box instead. */
-  .sl-markdown-content:has(.stat-grid) > p:not(.eyebrow):not(.subtitle) {
+  .sl-markdown-content:has(.decision-landscape) > p:not(.eyebrow):not(.subtitle) {
     columns: 2;
     column-gap: 2.5rem;
     max-width: none;
@@ -134,12 +134,12 @@ table code {
      of the run flows down the left column before any of it appears on the
      right. The wrapper is what carries the columns, so the paragraphs inside
      are ordinary block children and the rule above no longer reaches them. */
-  .sl-markdown-content:has(.stat-grid) .prose-columns {
+  .sl-markdown-content:has(.decision-landscape) .prose-columns {
     columns: 2;
     column-gap: 2.5rem;
     max-width: none;
   }
-  .sl-markdown-content:has(.stat-grid) .prose-columns > p {
+  .sl-markdown-content:has(.decision-landscape) .prose-columns > p {
     max-width: none;
   }
   /* Paragraphs may straddle the column break, and should: the balancer needs
@@ -149,7 +149,7 @@ table code {
      column carries one text in reading order, so the reader arrives at the
      top of it from the bottom of the left. Orphans and widows are held at
      three lines so a break can never strand one line at either end. */
-  .sl-markdown-content:has(.stat-grid) .prose-columns > * {
+  .sl-markdown-content:has(.decision-landscape) .prose-columns > * {
     orphans: 3;
     widows: 3;
   }

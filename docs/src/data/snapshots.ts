@@ -347,6 +347,33 @@ export function vendorOrder(tool: string): number {
 }
 
 /**
+ * Comparison cohort for overview-level cross-analyzer figures.
+ *
+ * Generalists publish benchmark-controlled kernels across several language
+ * ecosystems; specialists deliberately concentrate on one ecosystem or a
+ * small related family. The distinction is presentation metadata, not a
+ * score, and keeps unlike product scopes out of the same aggregate panel.
+ */
+export type AnalyzerCohort = 'generalist' | 'specialist';
+
+const analyzerCohorts: Readonly<Record<string, AnalyzerCohort>> = {
+  bifrost: 'generalist',
+  codeql: 'generalist',
+  joern: 'generalist',
+  semgrep: 'generalist',
+  opentaint: 'specialist',
+  infer: 'specialist',
+  flowdroid: 'specialist',
+  pysa: 'specialist',
+};
+
+export function analyzerCohort(tool: string): AnalyzerCohort {
+  // Unknown future adapters remain visible, but do not silently acquire the
+  // narrower specialist label without an explicit classification decision.
+  return analyzerCohorts[tool] ?? 'generalist';
+}
+
+/**
  * One benchmark-controlled `core` population, carrying every analyzer whose
  * own core tier covers exactly the same case identifiers.
  */

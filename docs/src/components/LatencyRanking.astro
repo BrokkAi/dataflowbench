@@ -255,7 +255,7 @@ function layout(view: (typeof ranking.views)[number]) {
 // A suffix keeps element identifiers unique when both renders of this
 // component end up in one document, and keeps the radio group of one render
 // from capturing the labels of another.
-const scope = kernelViews ? 'k' : 'g';
+const scope = kernelViews ? 'k' : 'all';
 const panels = panelsToRender.map((view) => ({
   view,
   ...layout(view),
@@ -294,9 +294,10 @@ const toggleCss = panels
   .join('\n');
 
 const general = ranking.views[0]!;
-const fastest = general.entries[0]!;
-const slowest = general.entries.at(-1)!;
-const decomposedCount = general.entries.filter(
+const displayedGeneral = panelsToRender[0]!;
+const fastest = displayedGeneral.entries[0]!;
+const slowest = displayedGeneral.entries.at(-1)!;
+const decomposedCount = displayedGeneral.entries.filter(
   (entry) => entry.phases.length > 0,
 ).length;
 const environment = model.environments[0];
