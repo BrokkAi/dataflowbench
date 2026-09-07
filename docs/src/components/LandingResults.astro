@@ -16,6 +16,7 @@ import {
   type ScoreTier,
 } from '../data/snapshots';
 import SnapshotEvolution from './SnapshotEvolution.astro';
+import AnalyzerLandscape from './AnalyzerLandscape.astro';
 import LatencyRanking from './LatencyRanking.astro';
 
 const snapshot = currentSnapshot;
@@ -501,7 +502,7 @@ const snapshotPage = `/snapshots/${snapshot.slug}`;
 <nav class="section-nav" aria-label="Sections on this page">
   <span class="section-nav-label">On this page</span>
   <a href="#meaning">What it means</a>
-  <a href="#evolution">Evolution</a>
+  <a href="#landscape">Analyzer landscape</a>
   <a href="#modeling-matrix">Modeling matrix</a>
   <a href="#tool-native-probes">Tool-native probes</a>
   <a href="#latency">Latency</a>
@@ -934,8 +935,7 @@ const snapshotPage = `/snapshots/${snapshot.slug}`;
   </div>
 </div>
 
-<SnapshotEvolution cohort="generalist" heading />
-<SnapshotEvolution cohort="specialist" />
+<AnalyzerLandscape />
 
 <h2 id="modeling-matrix">Modeling matrix — is the model surface load-bearing?</h2>
 
@@ -1120,6 +1120,12 @@ const snapshotPage = `/snapshots/${snapshot.slug}`;
 
 <LatencyRanking kernelViews={false} stamp cohort="generalist" />
 <LatencyRanking kernelViews={false} cohort="specialist" />
+
+<details class="historical-progress">
+  <summary>Progress over time</summary>
+  <SnapshotEvolution cohort="generalist" heading />
+  <SnapshotEvolution cohort="specialist" />
+</details>
 
 <h2 id="kernels">Kernels at a glance</h2>
 

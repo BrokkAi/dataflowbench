@@ -1,0 +1,176 @@
+---
+// Current-snapshot tradeoff view. Unlike the historical evolution charts,
+// this deliberately puts every analyzer in one field: breadth is one axis,
+// correctness on the populations actually covered is the other. The two
+// dimensions remain separate; no composite score or ranking is manufactured.
+import {
+  analyzerCohort,
+  coreKernelPopulations,
+  currentSnapshot,
+  vendorColorClass,
+  vendorName,
+  vendorOrder,
+} from '../data/snapshots';
+
+interface AnalyzerPoint {
+  tool: string;
+  name: string;
+  colorClass: string;
+  cohort: 'generalist' | 'specialist';
+  kernels: number;
+  covered: number;
+  correct: number;
+  wrong: number;
+  incomplete: number;
+}
+
+const populations = coreKernelPopulations(currentSnapshot.results);
+const totals = new Map<string, AnalyzerPoint>();
+for (const population of populations) {
+  for (const [tool, entry] of population.entries) {
+    const point = totals.get(tool) ?? {
+      tool,
+      name: vendorName(tool),
+      colorClass: vendorColorClass(tool),
+      cohort: analyzerCohort(tool),
+      kernels: 0,
+      covered: 0,
+      correct: 0,
+      wrong: 0,
+      incomplete: 0,
+    };
+    point.kernels += 1;
+    point.covered += population.cases;
+    for (const result of entry.tier.cases) {
+      if (result.classification === 'true-positive' || result.classification === 'true-negative') {
+        point.correct += 1;
+      } else if (result.classification === 'false-positive' || result.classification === 'false-negative') {
+        point.wrong += 1;
+      } else {
+        point.incomplete += 1;
+      }
+    }
+    totals.set(tool, point);
+  }
+}
+
+const points = [...totals.values()].sort(
+  (left, right) => vendorOrder(left.tool) - vendorOrder(right.tool) || left.name.localeCompare(right.name),
+);
+const kernelCount = populations.length;
+const percent = (part: number, whole: number) => whole === 0 ? 0 : (100 * part) / whole;
+const formatPercent = (value: number) => `${value.toFixed(1)}%`;
+
+const width = 820;
+const height = 470;
+const padLeft = 66;
+const padRight = 30;
+const padTop = 34;
+const padBottom = 62;
+const plotWidth = width - padLeft - padRight;
+const plotHeight = height - padTop - padBottom;
+const x = (kernels: number) => padLeft + percent(kernels, kernelCount) * plotWidth / 100;
+const y = (correct: number, covered: number) => padTop + (100 - percent(correct, covered)) * plotHeight / 100;
+const xTicks = [0, 25, 50, 75, 100];
+const yTicks = [50, 60, 70, 80, 90, 100];
+// Small, stable offsets keep labels readable without changing point geometry.
+const labelOffsets: Record<string, { x: number; y: number; anchor?: 'start' | 'end' }> = {
+  bifrost: { x: -9, y: -11, anchor: 'end' },
+  codeql: { x: -9, y: 17, anchor: 'end' },
+  joern: { x: -9, y: -11, anchor: 'end' },
+  semgrep: { x: -9, y: 17, anchor: 'end' },
+  opentaint: { x: -10, y: -11, anchor: 'end' },
+  infer: { x: 9, y: -11 },
+  flowdroid: { x: 9, y: 17 },
+  pysa: { x: 9, y: 17 },
+};
+---
+
+<h2 id="landscape">Accuracy and language coverage — current snapshot</h2>
+
+<p>
+  Every analyzer is shown in the same field. Farther right means coverage of
+  more of the benchmark's {kernelCount} language kernels; higher means more
+  correct assertions within the kernels the analyzer covers. A specialist can
+  therefore show its accuracy without hiding the cost of its narrower language
+  support. These are two independent dimensions, not a combined score.
+</p>
+
+<div class="landscape-frame">
+  <svg class="landscape-chart" viewBox={`0 0 ${width} ${height}`} role="img" aria-labelledby="landscape-title landscape-desc">
+    <title id="landscape-title">Current analyzer accuracy by language-kernel coverage</title>
+    <desc id="landscape-desc">Scatter plot of all analyzers in DataFlowBench {currentSnapshot.version}. The horizontal axis is the share of language kernels covered. The vertical axis is decisive-correct assertions divided by every assertion in those covered kernels, including non-answers in the denominator.</desc>
+    {yTicks.map((tick) => {
+      const tickY = padTop + (100 - tick) * plotHeight / 100;
+      return <>
+        <line class="grid" x1={padLeft} y1={tickY} x2={width - padRight} y2={tickY} />
+        <text class="tick" x={padLeft - 10} y={tickY + 4} text-anchor="end">{tick}%</text>
+      </>;
+    })}
+    {xTicks.map((tick) => {
+      const tickX = padLeft + tick * plotWidth / 100;
+      return <>
+        <line class="grid vertical" x1={tickX} y1={padTop} x2={tickX} y2={height - padBottom} />
+        <text class="tick" x={tickX} y={height - padBottom + 22} text-anchor="middle">{tick}%</text>
+      </>;
+    })}
+    <line class="axis" x1={padLeft} y1={height - padBottom} x2={width - padRight} y2={height - padBottom} />
+    <line class="axis" x1={padLeft} y1={padTop} x2={padLeft} y2={height - padBottom} />
+    <text class="axis-title" x={(padLeft + width - padRight) / 2} y={height - 10} text-anchor="middle">language-kernel coverage</text>
+    <text class="axis-title" transform={`translate(17 ${(padTop + height - padBottom) / 2}) rotate(-90)`} text-anchor="middle">accuracy within covered kernels</text>
+    {points.map((point) => {
+      const pointX = x(point.kernels);
+      const pointY = y(point.correct, point.covered);
+      const offset = labelOffsets[point.tool] ?? { x: 9, y: -9 };
+      const accuracy = percent(point.correct, point.covered);
+      return <g class:list={['analyzer', point.colorClass]}>
+        <title>{point.name}: {formatPercent(accuracy)} accuracy across {point.kernels}/{kernelCount} language kernels; {point.correct} correct, {point.wrong} wrong, {point.incomplete} incomplete of {point.covered}</title>
+        <circle class:list={['point', point.cohort]} cx={pointX} cy={pointY} r="7" />
+        <text class="point-label" x={pointX + offset.x} y={pointY + offset.y} text-anchor={offset.anchor ?? 'start'}>{point.name}</text>
+      </g>;
+    })}
+  </svg>
+</div>
+
+<ul class="landscape-key">
+  <li><span class="shape generalist" aria-hidden="true"></span>generalist</li>
+  <li><span class="shape specialist" aria-hidden="true"></span>specialist</li>
+</ul>
+
+<details class="landscape-data">
+  <summary>Exact figures</summary>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Analyzer</th><th>Scope</th><th>Kernel coverage</th><th>Accuracy</th><th>Correct</th><th>Wrong</th><th>Incomplete</th></tr></thead>
+      <tbody>{points.map((point) => <tr>
+        <th scope="row"><span class:list={['vendor-dot', point.colorClass]}></span>{point.name}</th>
+        <td>{point.cohort}</td>
+        <td>{point.kernels}/{kernelCount} ({formatPercent(percent(point.kernels, kernelCount))})</td>
+        <td>{point.correct}/{point.covered} ({formatPercent(percent(point.correct, point.covered))})</td>
+        <td>{point.correct}</td><td>{point.wrong}</td><td>{point.incomplete}</td>
+      </tr>)}</tbody>
+    </table>
+  </div>
+</details>
+
+<style>
+  .landscape-frame { border: 1px solid var(--sl-color-hairline); border-radius: .75rem; padding: .75rem .5rem .25rem; background: var(--sl-color-bg-sidebar); overflow-x: auto; }
+  .landscape-chart { display: block; width: 100%; min-width: 42rem; height: auto; }
+  .grid { stroke: var(--sl-color-hairline); stroke-width: 1; }
+  .grid.vertical { stroke-dasharray: 3 5; }
+  .axis { stroke: var(--sl-color-gray-4); stroke-width: 1.5; }
+  .tick, .axis-title { font-family: var(--__sl-font-mono); font-size: 11px; fill: var(--sl-color-gray-3); }
+  .axis-title { font-size: 12px; }
+  .point { fill: var(--vendor-rule); stroke: var(--sl-color-bg-sidebar); stroke-width: 2; }
+  .point.specialist { stroke-dasharray: 3 2; stroke-width: 3; }
+  .point-label { font-family: var(--__sl-font-mono); font-size: 12px; font-weight: 650; fill: var(--vendor-rule); paint-order: stroke; stroke: var(--sl-color-bg-sidebar); stroke-width: 4px; stroke-linejoin: round; }
+  .landscape-key { list-style: none; display: flex; gap: 1.25rem; margin: .65rem 0 0; padding: 0; color: var(--sl-color-gray-2); font-size: var(--sl-text-sm); }
+  .landscape-key li { display: flex; align-items: center; margin: 0; }
+  .shape { width: .7rem; height: .7rem; border-radius: 50%; margin-right: .4rem; background: var(--sl-color-gray-3); border: 2px solid var(--sl-color-bg); }
+  .shape.specialist { border: 2px dashed var(--sl-color-gray-3); background: transparent; }
+  .landscape-data { margin-top: .8rem; }
+  .table-wrap { overflow-x: auto; }
+  .vendor-dot { display: inline-block; width: .55rem; height: .55rem; border-radius: 50%; margin-right: .4rem; background: var(--vendor-rule); }
+  .v0 { --vendor-rule: var(--sl-color-accent-high); } .v1 { --vendor-rule: var(--sl-color-orange); } .v2 { --vendor-rule: var(--sl-color-purple); } .v3 { --vendor-rule: var(--sl-color-green); }
+  .v4 { --vendor-rule: var(--dfb-vendor-4); } .v5 { --vendor-rule: var(--dfb-vendor-5); } .v6 { --vendor-rule: var(--dfb-vendor-6); } .v7 { --vendor-rule: var(--dfb-vendor-7); }
+</style>
