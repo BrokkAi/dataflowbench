@@ -1,3 +1,4 @@
+import { boundEvidence } from './evidence-binding';
 // Build-time derivation of the latency-characterization tier.
 //
 // Every number this module returns is read from a snapshot-selected archive of
@@ -118,16 +119,25 @@ interface LatencySource {
   evidence: ArchivedLatencyEvidence;
 }
 
-const latencyEvidenceByRelease: Record<string, ArchivedLatencyEvidence> = {
-  'v0.6.0': v060LatencyEvidence as ArchivedLatencyEvidence,
+const latencyEvidenceByRelease: Record<
+  string,
+  { evidenceRef: string; evidence: ArchivedLatencyEvidence }
+> = {
+  'v0.6.0': {
+    evidenceRef: 'c0c42013a35a19107b65e652f55952669c4b9ffe',
+    evidence: v060LatencyEvidence as ArchivedLatencyEvidence,
+  },
 };
 
 function latencySource(snapshot: Snapshot): LatencySource {
   const release = snapshot.latencyEvidenceRelease;
   if (!release) throw new Error(`${snapshot.version} has no latency corpus`);
   const source = snapshotByVersion(release);
-  const evidence = latencyEvidenceByRelease[release];
-  if (!evidence) throw new Error(`${release} has no archived latency evidence`);
+  const evidence = boundEvidence(release, latencyEvidenceByRelease, (value) => ({
+    release: value.release,
+    revision: value.evidence_ref,
+    schema: value.schema_version,
+  }));
   if (
     evidence.release !== source.version ||
     evidence.evidence_ref !== source.evidenceRef ||

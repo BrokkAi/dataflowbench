@@ -2,7 +2,7 @@
 // digest rendered on a page comes from a generated results model produced by
 // `cargo run -- generate-results` from a validated immutable freeze — never
 // from hand-authored prose. CI proves the checked-in model is current.
-import currentResults from '../../../results/results.json';
+import v070Results from './archive/v0-7-0-results.json';
 import v061Results from './archive/v0-6-1-results.json';
 import v060Results from './archive/v0-6-0-results.json';
 import v050Results from './archive/v0-5-0-results.json';
@@ -137,13 +137,13 @@ export const snapshots: Snapshot[] = [
   {
     version: 'v0.7.0',
     slug: 'v0-7-0',
-    evidenceRef: 'main',
+    evidenceRef: '0a4d8b66c1e458b10e2c6196d0e4f9622f4c8ef5',
     // v0.7.0 re-ran correctness only. It reuses the v0.6.0 latency corpus for
     // the same reason v0.6.1 did: nothing was re-measured, so nothing may be
     // relabelled onto the newer pins.
     latencyEvidenceRelease: latencyEvidenceRelease('v0.7.0'),
     current: true,
-    results: currentResults as unknown as ResultsModel,
+    results: v070Results as unknown as ResultsModel,
   },
   {
     version: 'v0.6.1',

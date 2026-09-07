@@ -1,3 +1,4 @@
+import { boundEvidence } from './evidence-binding';
 import v060AuxiliaryEvidence from './archive/v0-6-0-latency-auxiliary-evidence.json';
 import type { Snapshot } from './snapshots';
 
@@ -11,8 +12,14 @@ interface AuxiliaryEvidence {
   artifacts: Record<string, any>;
 }
 
-const evidenceByRelease: Record<string, AuxiliaryEvidence> = {
-  'v0.6.0': v060AuxiliaryEvidence as AuxiliaryEvidence,
+const evidenceByRelease: Record<
+  string,
+  { evidenceRef: string; evidence: AuxiliaryEvidence }
+> = {
+  'v0.6.0': {
+    evidenceRef: V060_AUXILIARY_EVIDENCE_REF,
+    evidence: v060AuxiliaryEvidence as AuxiliaryEvidence,
+  },
 };
 
 /** Immutable amendment evidence associated with a snapshot's cold corpus. */
@@ -21,17 +28,9 @@ export function auxiliaryLatencyEvidence(
 ): AuxiliaryEvidence {
   const release = snapshot.latencyEvidenceRelease;
   if (!release) throw new Error(`${snapshot.version} has no latency corpus`);
-  const evidence = evidenceByRelease[release];
-  if (!evidence)
-    throw new Error(`${release} has no auxiliary latency evidence`);
-  if (
-    evidence.schema_version !== 1 ||
-    evidence.latency_release !== release ||
-    evidence.evidence_ref !== V060_AUXILIARY_EVIDENCE_REF
-  ) {
-    throw new Error(
-      `${release}: auxiliary latency evidence is not the pinned bundle`,
-    );
-  }
-  return evidence;
+  return boundEvidence(release, evidenceByRelease, (evidence) => ({
+    release: evidence.latency_release,
+    revision: evidence.evidence_ref,
+    schema: evidence.schema_version,
+  }));
 }
