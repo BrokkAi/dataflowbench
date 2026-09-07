@@ -17,9 +17,11 @@ run('wrapper-version',[WRAPPER,'--version']);run('wrapper-help',[WRAPPER,'--help
 def scan(name,source_files,packages,rules='builtin'):
  work=OUT/name;source=work/'source';classes=work/'classes';source.mkdir(parents=True);classes.mkdir()
  for path,text in source_files.items():p=source/path;p.parent.mkdir(parents=True,exist_ok=True);p.write_text(text)
- if run(name+'-compile',[t['javac']['path'],'-nowarn','-d',classes,*sorted(source.rglob('*.java'))])!=0:return
+ compile_code=run(name+'-compile',[t['javac']['path'],'-nowarn','-d',classes,*sorted(source.rglob('*.java'))])
+ if compile_code:raise SystemExit(compile_code)
  model=work/'project.yaml';model.write_text('javaProjects:\n  - sourceRoot: '+str(source)+'\n    modules:\n      - moduleSourceRoot: '+str(source)+'\n        packages:\n'+''.join('          - '+x+'\n' for x in packages)+'        moduleClasses:\n          - '+str(classes)+'\n')
- run(name+'-product',[WRAPPER,'scan',source,'--project-model',model,'--entry-points','*','--ruleset',rules,'--output',work/'product','--log-file',work/'product.log'])
+ product_code=run(name+'-product',[WRAPPER,'scan','--project-model',work,'--entry-points','*','--ruleset',rules,'--output',work/'product.sarif.json','--log-file',work/'product.log'])
+ if product_code:raise SystemExit(product_code)
 
 for case in sorted((ROOT/'cases/taint/java').glob('native-*')):
  scan(case.name,{'dataflowbench/taint/'+p.name:p.read_text() for p in case.glob('*.java')},['dataflowbench.taint'])
