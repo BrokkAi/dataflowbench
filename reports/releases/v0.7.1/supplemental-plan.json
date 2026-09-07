@@ -25,7 +25,7 @@
         "python3",
         "scripts/probe-warm-observability.py"
       ],
-      "script_sha256": "de5257b8ec00e5dde849da44f7dcc033ff27b05943b3578a5a5669977c86cbd7",
+      "script_sha256": "caca962dd1d737aadd9c24317fbedeedf6e6ba4dd6c38d592215615703a2e78e",
       "output_roots": [
         "reports/raw/warm-observability-v071"
       ],
@@ -37,7 +37,7 @@
         "python3",
         "scripts/probe-opentaint-product-v071.py"
       ],
-      "script_sha256": "fc118d8e293a57c028477b9610aa93e43047e2fb0b6d02cb24b4e7a91b990d8d",
+      "script_sha256": "0b4d3eec5b1a31aa73e18133aba60d71a779a70d457bbf88e2588b5cff22cdb6",
       "output_roots": [
         "reports/raw/opentaint-product-v071"
       ],
@@ -46,9 +46,10 @@
         "servlet source/Runtime.exec positive",
         "same sink constant negative"
       ],
-      "identity_record": "reports/releases/v0.7.1/opentaint-bundle-identity.json",
+      "identity_record": "reports/releases/v0.7.1/opentaint-full-bundle-identity.json",
       "normalization": "None; actual output and engagement must be audited before native decisions or wrapper equivalence.",
-      "help_provenance": "Fresh root and scan help captured in this probe; previous help was tool output, not a named historical artifact."
+      "help_provenance": "Fresh root and scan help captured in this probe; previous help was tool output, not a named historical artifact.",
+      "prerequisite": "Extract and hash complete verified full release, including bundled JRE, at untimed DFB boundary before activation; prior base comparison preserved separately."
     }
   ]
 }

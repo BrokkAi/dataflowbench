@@ -2,7 +2,7 @@
 """Execute shipped wrapper/native controls; retain evidence without assuming equivalence."""
 import datetime,json,pathlib,shutil,subprocess,os
 ROOT=pathlib.Path(__file__).resolve().parents[1];OUT=ROOT/'reports/raw/opentaint-product-v071';OUT.mkdir(parents=True,exist_ok=True)
-WRAPPER='/private/tmp/opentaint-v0.4.6-inspect/base/opentaint'
+WRAPPER='/private/tmp/dfb-v071-opentaint-full-653a/opentaint'
 t=json.loads((ROOT/'reports/releases/v0.7.1/identities.json').read_text())['tools']
 
 def run(name,args):
