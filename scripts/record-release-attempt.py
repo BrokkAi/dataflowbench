@@ -22,6 +22,8 @@ def run(identifier,argv,settle=False):
  plan=json.loads((BASE/'plan.json').read_text());before=state();samples=[]
  supplement=json.loads((BASE/'supplemental-plan.json').read_text()) if (BASE/'supplemental-plan.json').exists() else {'commands':[]}
  planned=next((r for r in [*[r for g in ['reports','script_probes','warm','overhead'] for r in plan[g]],*supplement['commands']] if r.get('id')==identifier),{})
+ if not planned and (BASE/'bifrost-access-control-plan.json').exists():
+  planned=next((r for r in json.loads((BASE/'bifrost-access-control-plan.json').read_text()).get('commands',[]) if r['id']==identifier),{})
  roots=planned.get('output_roots',[])
  for root in roots:
   src=ROOT/root
