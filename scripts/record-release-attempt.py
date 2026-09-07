@@ -18,7 +18,8 @@ def run(identifier,argv,settle=False):
  n=sum(r['planned_id']==identifier for r in rows)+1;aid=f'{identifier}-attempt-{n:02d}';dest=BASE/'attempts'/aid
  dest.mkdir(parents=True,exist_ok=False)
  plan=json.loads((BASE/'plan.json').read_text());before=state();samples=[]
- planned=next((r for g in ['reports','script_probes','warm','overhead'] for r in plan[g] if r.get('id')==identifier),{})
+ supplement=json.loads((BASE/'supplemental-plan.json').read_text()) if (BASE/'supplemental-plan.json').exists() else {'commands':[]}
+ planned=next((r for r in [*[r for g in ['reports','script_probes','warm','overhead'] for r in plan[g]],*supplement['commands']] if r.get('id')==identifier),{})
  roots=planned.get('output_roots',[])
  for root in roots:
   src=ROOT/root
@@ -26,7 +27,7 @@ def run(identifier,argv,settle=False):
    backup=dest/'preexisting'/root;backup.parent.mkdir(parents=True,exist_ok=True);shutil.move(str(src),str(backup))
  if settle:
   for _ in range(6):samples.append({'utc':now(),'load':os.getloadavg()});time.sleep(10)
- row={'id':aid,'planned_id':identifier,'argv':argv,'cwd':str(ROOT),'input_commits':plan['input_commits'],'execution_revision':subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip(),'population':plan['population'],'fixture_revision':plan['fixture_revision'],'plan':ref(BASE/'plan.json'),'identities':ref(BASE/'identities.json'),'start_utc':now(),'host':{'platform':platform.platform(),'cpu_count':os.cpu_count(),'load_before':os.getloadavg()},'settle_observations':samples,'cache_posture':'isolated case workspaces; local distributions and prefetched CodeQL packs; OS page cache uncontrolled; warm only for explicit warm series','supersedes':rows[-1]['id'] if rows and rows[-1]['planned_id']==identifier else None}
+ row={'id':aid,'planned_id':identifier,'argv':argv,'cwd':str(ROOT),'input_commits':plan['input_commits'],'execution_revision':subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip(),'population':plan['population'],'fixture_revision':plan['fixture_revision'],'plan':ref(BASE/'plan.json'),'identities':ref(BASE/'identities.json'),'start_utc':now(),'host':{'platform':platform.platform(),'cpu_count':os.cpu_count(),'load_before':os.getloadavg()},'settle_observations':samples,'cache_posture':'isolated case workspaces; local distributions and prefetched CodeQL packs; OS page cache uncontrolled; warm only for explicit warm series','supersedes':next((r['id'] for r in reversed(rows) if r['planned_id']==identifier),None)}
  (dest/'started.json').write_text(json.dumps(row,indent=2)+'\n')
  print('START',aid,flush=True)
  with open(dest/'stdout.txt','wb') as out,open(dest/'stderr.txt','wb') as err:
