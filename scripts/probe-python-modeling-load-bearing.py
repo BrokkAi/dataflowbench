@@ -44,7 +44,7 @@ for role in ['source','sink']:
 work=fixture('model-opaque-propagator-positive','codeql-source');db=W/'codeql-db'
 if run('codeql-extract',[TOOLS['codeql']['path'],'database','create',db,'--language=python','--source-root='+str(work),'--overwrite'])==0:
  for variant,query in [('with','PythonModeling.ql'),('without','PythonModelingProbe.ql')]:
-  run('codeql-opaque-'+variant,[TOOLS['codeql']['path'],'database','analyze',db,ROOT/'adapters/codeql/python/queries'/query,'--format=sarif-latest','--output='+str(OUT/('codeql-opaque-'+variant+'.sarif.json')),'--rerun','--additional-packs=/Users/dave/.codeql/packages'])
+  run('codeql-opaque-'+variant,[TOOLS['codeql']['path'],'database','analyze',db,ROOT/'adapters/codeql/python/queries'/query,'--format=sarif-latest','--output='+str(OUT/('codeql-opaque-'+variant+'.sarif.json')),'--rerun'])
 
 # Z and the unsupported P/O rationale: declared and deleted NilSemantics.
 sem=(ROOT/'adapters/joern/semantics/model-python.semantics').read_text()

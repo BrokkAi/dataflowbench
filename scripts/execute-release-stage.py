@@ -9,6 +9,9 @@ elif args.stage=='native':steps=[r for r in plan['reports'] if r['id'].endswith(
 elif args.stage=='repeats':steps=[next(r for r in plan['reports'] if r['id']==i) for i in json.loads((BASE/'overlap-rerun-plan.json').read_text())['repeat_once']]
 elif args.stage=='probes':steps=plan['script_probes']+supp
 else:steps=plan[args.stage]
+correction=json.loads((BASE/'invocation-correction.json').read_text()) if (BASE/'invocation-correction.json').exists() else {'argv_overrides':{}}
+for r in steps:
+ if r['id'] in correction['argv_overrides']:r['argv']=correction['argv_overrides'][r['id']]
 if args.from_id:
  ids=[r['id'] for r in steps];steps=steps[ids.index(args.from_id):]
 if args.only_id:

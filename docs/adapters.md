@@ -453,8 +453,18 @@ Infer 1.3.0:    /Users/dave/.cache/dataflowbench-tools/infer-osx-arm64-v1.3.0/li
 Pysa pair:      /Users/dave/.cache/dataflowbench-tools/pysa-venv/bin/{pyre,pyre.bin,pyrefly}
 FlowDroid:      /Users/dave/.cache/dataflowbench-tools/flowdroid/{soot-infoflow-cmd-2.15.1-jar-with-dependencies.jar,android-34.jar,r8-8.5.35.jar}
 OpenTaint:      /Users/dave/.cache/dataflowbench-tools/opentaint-v0.4.6/{opentaint-project-analyzer.jar,opentaint-models.tar.gz}
-CodeQL packs:   /Users/dave/.codeql/packages
+CodeQL cache:   /Users/dave/.codeql/packages (default locked resolution; do not pass as --codeql-packs)
 ```
+
+**2026-09-07 invocation correction.** The initial CodeQL C refresh passed the
+whole shared cache as `--codeql-packs`, which forwards to `--additional-packs`.
+That surface treats cached versions as competing source packs, so query
+resolution failed and all 50 results were retained as `runner-error`. The
+corrected commands omit that optional override and resolve the committed
+locks normally. The retained resolver output matches every root and
+transitive version for all eleven kernel queries. The failed attempt is
+preserved and the entire C population is retried; no pin, configuration, or
+threshold is changed. See the release attempt ledger and invocation correction.
 
 The paths are an operator-facing map, not a claim that a tool's current
 process has witnessed its identity. Before the first case, each runner must
@@ -480,7 +490,7 @@ Invocation overhead retains every repeat and publishes a range over
 `OVERHEAD_REPEATS=3`. Run these nine groups with their matching released paths:
 
 cargo run -- --population v0.7.0 estimate-invocation-overhead --tool bifrost --language python --bifrost <0.11.0/bifrost>
-cargo run -- --population v0.7.0 estimate-invocation-overhead --tool codeql --language ruby --codeql <2.26.4/codeql> --codeql-packs </Users/dave/.codeql/packages>
+cargo run -- --population v0.7.0 estimate-invocation-overhead --tool codeql --language ruby --codeql <2.26.4/codeql>
 cargo run -- --population v0.7.0 estimate-invocation-overhead --tool flowdroid --language java --flowdroid-jar <2.15.1/jar> --android-platform <android-34.jar> --d8-jar <r8-8.5.35.jar>
 cargo run -- --population v0.7.0 estimate-invocation-overhead --tool infer --language c --infer <1.3.0/infer>
 cargo run -- --population v0.7.0 estimate-invocation-overhead --tool joern --language php --joern <4.0.621/joern-cli/joern>
