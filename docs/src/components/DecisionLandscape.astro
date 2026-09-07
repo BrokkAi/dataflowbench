@@ -172,7 +172,8 @@ const toggleCss = panels.map((panel) => `
 <style>
   .decision-landscape { display: grid; gap: 1rem; margin-top: 1rem; }
   .decision-radio { position: absolute; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
-  .decision-ribbon { display: flex; gap: .25rem; overflow-x: auto; padding: .35rem; border-radius: .65rem; background: var(--sl-color-bg-sidebar); }
+  .decision-ribbon { display: flex; gap: .25rem; overflow-x: auto; padding: .35rem; border-radius: .65rem; background: var(--sl-color-bg-sidebar); scrollbar-width: none; -ms-overflow-style: none; }
+  .decision-ribbon::-webkit-scrollbar { display: none; }
   .decision-ribbon label { flex: 0 0 auto; padding: .35rem .65rem; border-radius: .45rem; cursor: pointer; color: var(--sl-color-gray-2); font-size: var(--sl-text-sm); }
   .decision-ribbon, .decision-panels, .decision-panel, .decision-panel > :first-child { margin-top: 0; }
   .decision-panel { display: none; }
