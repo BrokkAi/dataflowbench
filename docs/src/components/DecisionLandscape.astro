@@ -170,11 +170,12 @@ const toggleCss = panels.map((panel) => `
 
 <style is:inline set:html={toggleCss}></style>
 <style>
-  .decision-landscape { margin-top: 1.25rem; }
+  .decision-landscape { display: grid; gap: 1rem; margin-top: 1rem; }
   .decision-radio { position: absolute; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
   .decision-ribbon { display: flex; gap: .25rem; overflow-x: auto; padding: .35rem; border-radius: .65rem; background: var(--sl-color-bg-sidebar); }
   .decision-ribbon label { flex: 0 0 auto; padding: .35rem .65rem; border-radius: .45rem; cursor: pointer; color: var(--sl-color-gray-2); font-size: var(--sl-text-sm); }
-  .decision-panel { display: none; margin-top: .75rem; }
+  .decision-ribbon, .decision-panels, .decision-panel, .decision-panel > :first-child { margin-top: 0; }
+  .decision-panel { display: none; }
   .chart-frame { border: 1px solid var(--sl-color-hairline); border-radius: .75rem; padding: .75rem .5rem .25rem; background: var(--sl-color-bg-sidebar); overflow-x: auto; }
   .decision-chart { display: block; width: 100%; min-width: 42rem; height: auto; }
   .grid { stroke: var(--sl-color-hairline); stroke-width: 1; }
