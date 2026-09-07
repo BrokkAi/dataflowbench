@@ -6,9 +6,11 @@ WRAPPER='/private/tmp/dfb-v071-opentaint-full-653a/opentaint'
 t=json.loads((ROOT/'reports/releases/v0.7.1/identities.json').read_text())['tools']
 
 def run(name,args):
- start=datetime.datetime.now(datetime.timezone.utc).isoformat();load=os.getloadavg()
- with open(OUT/(name+'-stdout.txt'),'wb') as o,open(OUT/(name+'-stderr.txt'),'wb') as e:code=subprocess.run([str(x) for x in args],cwd=ROOT,stdout=o,stderr=e).returncode
- with open(OUT/'commands.jsonl','a') as f:f.write(json.dumps({'id':name,'argv':[str(x) for x in args],'start_utc':start,'end_utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),'exit_code':code,'load_before':load})+'\n')
+ start=datetime.datetime.now(datetime.timezone.utc).isoformat();load=os.getloadavg();env=os.environ.copy()
+ if str(args[0])==WRAPPER:
+  env['JAVA_HOME']=str(pathlib.Path(WRAPPER).parent/'jre');env['PATH']=env['JAVA_HOME']+'/bin:'+env.get('PATH','')
+ with open(OUT/(name+'-stdout.txt'),'wb') as o,open(OUT/(name+'-stderr.txt'),'wb') as e:code=subprocess.run([str(x) for x in args],cwd=ROOT,stdout=o,stderr=e,env=env).returncode
+ with open(OUT/'commands.jsonl','a') as f:f.write(json.dumps({'id':name,'argv':[str(x) for x in args],'start_utc':start,'end_utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),'exit_code':code,'load_before':load,'JAVA_HOME':env.get('JAVA_HOME'),'product_uses_bundled_jre':str(args[0])==WRAPPER})+'\n')
  return code
 run('wrapper-version',[WRAPPER,'--version']);run('wrapper-help',[WRAPPER,'--help']);run('scan-help',[WRAPPER,'scan','--help'])
 
