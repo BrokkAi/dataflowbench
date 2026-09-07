@@ -107,7 +107,7 @@ const toggleCss = panels.map((panel) => `
 `).join('\n');
 ---
 
-<div class="decision-landscape">
+<div class="decision-landscape" id="decisions">
   {panels.map((panel, index) => <input class="decision-radio" type="radio" name="decision-view" id={`decision-view-${panel.id}`} checked={index === 0} />)}
   <div class="decision-ribbon" role="group" aria-label="Decisiveness and correctness view">
     {panels.map((panel) => <label for={`decision-view-${panel.id}`}>{panel.label}</label>)}
@@ -172,13 +172,12 @@ const toggleCss = panels.map((panel) => `
 <style>
   .decision-landscape { display: grid; gap: 1rem; margin-top: 1rem; }
   .decision-radio { position: absolute; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
-  .decision-ribbon { display: flex; gap: .25rem; overflow-x: auto; padding: .35rem; border-radius: .65rem; background: var(--sl-color-bg-sidebar); scrollbar-width: none; -ms-overflow-style: none; }
-  .decision-ribbon::-webkit-scrollbar { display: none; }
-  .decision-ribbon label { flex: 0 0 auto; padding: .35rem .65rem; border-radius: .45rem; cursor: pointer; color: var(--sl-color-gray-2); font-size: var(--sl-text-sm); }
+  .decision-ribbon { display: flex; flex-wrap: wrap; align-items: stretch; gap: .25rem; padding: .35rem; border-radius: .65rem; background: var(--sl-color-bg-sidebar); }
+  .decision-ribbon label { display: flex; align-items: center; flex: 0 0 auto; min-height: 2rem; padding: .35rem .65rem; border-radius: .45rem; cursor: pointer; color: var(--sl-color-gray-2); font-size: var(--sl-text-sm); line-height: 1.2; }
   .decision-ribbon, .decision-panels, .decision-panel, .decision-panel > :first-child { margin-top: 0; }
   .decision-panel { display: none; }
-  .chart-frame { border: 1px solid var(--sl-color-hairline); border-radius: .75rem; padding: .75rem .5rem .25rem; background: var(--sl-color-bg-sidebar); overflow-x: auto; }
-  .decision-chart { display: block; width: 100%; min-width: 42rem; height: auto; }
+  .chart-frame { min-width: 0; border: 1px solid var(--sl-color-hairline); border-radius: .75rem; padding: .75rem .5rem .25rem; background: var(--sl-color-bg-sidebar); overflow: hidden; }
+  .decision-chart { display: block; width: 100%; max-width: 100%; min-width: 0; height: auto; }
   .grid { stroke: var(--sl-color-hairline); stroke-width: 1; }
   .grid.vertical { stroke-dasharray: 3 5; }
   .axis { stroke: var(--sl-color-gray-4); stroke-width: 1.5; }
