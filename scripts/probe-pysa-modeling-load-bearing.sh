@@ -64,7 +64,7 @@ ARTIFACT="$ROOT/adapters/pysa/models/modeling-python.pysa"
 TAINT_CONFIG="$ROOT/adapters/pysa/taint.config"
 CASES="$ROOT/cases/taint/python"
 SCRATCH="$(mktemp -d)"
-trap 'rm -rf "$SCRATCH"' EXIT
+trap 'probe_status=$?; if [ "$probe_status" -eq 0 ]; then rm -rf "$SCRATCH"; else echo "retained failed probe scratch: $SCRATCH" >&2; fi' EXIT
 mkdir -p "$OUT"
 
 "$PYRE" --version >/dev/null

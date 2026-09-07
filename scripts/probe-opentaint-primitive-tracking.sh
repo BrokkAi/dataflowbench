@@ -63,7 +63,7 @@ fi
 ROOT=$(cd "$(dirname "$0")/.." && pwd)
 OUT="$ROOT/reports/raw/opentaint-primitive-tracking-probe"
 WORK=$(mktemp -d)
-trap 'rm -rf "$WORK"' EXIT
+trap 'probe_status=$?; if [ "$probe_status" -eq 0 ]; then rm -rf "$WORK"; else echo "retained failed probe scratch: $WORK" >&2; fi' EXIT
 rm -rf "$OUT"
 mkdir -p "$OUT" "$WORK/source/probe" "$WORK/classes"
 

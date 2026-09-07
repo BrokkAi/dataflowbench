@@ -47,7 +47,7 @@ done
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 OUT="$ROOT/reports/raw/amendment-a32-bifrost-scan-native"
 SCRATCH="$(mktemp -d)"
-trap 'rm -rf "$SCRATCH"' EXIT
+trap 'probe_status=$?; if [ "$probe_status" -eq 0 ]; then rm -rf "$SCRATCH"; else echo "retained failed probe scratch: $SCRATCH" >&2; fi' EXIT
 STAGED_OUT="$SCRATCH/amendment-a32-bifrost-scan-native"
 mkdir -p "$STAGED_OUT" "$STAGED_OUT/scan" "$STAGED_OUT/positive-control"
 OUT="$STAGED_OUT"

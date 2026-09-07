@@ -55,7 +55,7 @@ done
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 OUT="$ROOT/reports/raw/load-bearing-java-modeling"
 SCRATCH="$(mktemp -d)"
-trap 'rm -rf "$SCRATCH"' EXIT
+trap 'probe_status=$?; if [ "$probe_status" -eq 0 ]; then rm -rf "$SCRATCH"; else echo "retained failed probe scratch: $SCRATCH" >&2; fi' EXIT
 mkdir -p "$OUT"
 
 # ---------------------------------------------------------------------------
