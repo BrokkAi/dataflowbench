@@ -1,0 +1,20 @@
+{
+  "recorded_utc": "2026-09-07T15:08:04.751513+00:00",
+  "reason": "External Bifrost test gate overlapped initial report attempts; parent coordinated reservation and requested complete matched post-handoff cold series.",
+  "first_post_handoff_observation_utc": "2026-09-07T15:07:18Z",
+  "observation": {
+    "path": "reports/releases/v0.7.1/process-observation-post-handoff.txt",
+    "sha256": "6cc16c0f5b58c719f5122b187728fde71ece999c7ae68bae9e60e5cdff67cd51"
+  },
+  "repeat_once": [
+    "bifrost-c-kernel",
+    "bifrost-cpp-kernel",
+    "bifrost-csharp-kernel",
+    "bifrost-go-kernel",
+    "bifrost-java-kernel"
+  ],
+  "selection_rule": "Finish current Java unchanged; retain first attempts as diagnostic. Repeat each full listed population once after external workload handoff, unchanged inputs. Use these complete post-handoff attempts for publication; no case-level mixing or favorable-repeat selection. New contention must be recorded and revisited explicitly.",
+  "unstarted_populations": "continue serially after current Java; no presumed contamination from earlier snapshot",
+  "timing_caveat": "process samples constrain observed windows only; they do not prove all intervals quiet",
+  "input_plan_sha256": "cb948f4a5cff80b95d3dcc755ab8249d87449e43f70e6eb80a456789faf12f26"
+}
