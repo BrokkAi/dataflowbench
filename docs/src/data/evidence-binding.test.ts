@@ -32,5 +32,7 @@ test('release, revision and schema drift fail closed', () => {
 test('v0.7.0 archive is byte-identical to the release tag', () => {
   const archived = fs.readFileSync(new URL('./archive/v0-7-0-results.json', import.meta.url));
   const digest = (bytes: Buffer) => createHash('sha256').update(bytes).digest('hex');
+  // SHA-256 of git show 0a4d8b66c1e458b10e2c6196d0e4f9622f4c8ef5:results/results.json.
+  // Keep this literal independent of the working tree and shallow CI history.
   assert.equal(digest(archived), '6d5933490d2ea7500a8b3ce0fd26f87074bd8db4ea1a6cb03a4c79172c8d444d');
 });
