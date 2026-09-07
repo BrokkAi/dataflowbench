@@ -317,6 +317,9 @@ pub(crate) fn challenge_rolled_out(language: &str) -> bool {
 /// language with no row keeps the sixteen-template classic core, which is what
 /// a new language starts from.
 pub(crate) fn expected_core_templates(language: &str) -> Vec<&'static str> {
+    if let Some(population) = crate::population::active() {
+        return population.core_templates(language);
+    }
     challenge_rollout(language)
         .map(ChallengeRollout::expected_templates)
         .unwrap_or_else(|| KERNEL_TEMPLATE_IDS.to_vec())

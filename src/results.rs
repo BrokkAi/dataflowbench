@@ -96,6 +96,7 @@ pub(crate) fn build_result_artifacts(
     let manifest_relative = manifest_display_path(root, manifest_path);
 
     let mut case_meta = BTreeMap::new();
+    let mut frozen_cases = Vec::new();
     for selected in manifest["cases"].as_array().expect("freeze validated") {
         let id = required_string(selected, "id", "selected case")?;
         let relative_path = required_string(selected, "path", id)?;
@@ -124,6 +125,7 @@ pub(crate) fn build_result_artifacts(
                 score_tier: required_string(selected, "score_tier", id)?.to_string(),
             },
         );
+        frozen_cases.push((Path::new(relative_path).to_path_buf(), case));
     }
 
     let mut adapters = BTreeMap::new();
@@ -145,7 +147,9 @@ pub(crate) fn build_result_artifacts(
     // paths, so it runs only from the repository root; isolated fixture roots
     // generate exactly as before.
     let check_configuration = configuration_drift_checkable(root);
-    let mut case_scan = None;
+    // Configuration provenance is evaluated for the population this validated
+    // freeze binds, even when main has since acquired additional cases.
+    let mut case_scan = Some(frozen_cases);
     let mut stale_configurations = Vec::new();
     for report in manifest["reports"].as_array().expect("freeze validated") {
         let adapter_id = required_string(report, "adapter", "frozen report")?;

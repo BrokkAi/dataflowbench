@@ -929,6 +929,12 @@ pub(crate) fn build_freeze_manifest(
         }));
     }
 
+    // A refresh of a named population must bind that entire population and
+    // cannot silently acquire newer cases through a report's result IDs.
+    if let Some(population) = crate::population::active() {
+        population.validate_case_ids(&selected_case_ids)?;
+    }
+
     let mut case_values = Vec::new();
     let mut selected_paths = Vec::new();
     let mut tracks = BTreeSet::new();

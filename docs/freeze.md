@@ -74,6 +74,10 @@ without a freeze behind it.
 
 ## Freeze lifecycle
 
+For a patch release that refreshes an existing corpus while main contains
+future-release cases, use the explicit [released population](populations.md)
+boundary for every run and for `create-freeze`.
+
 Create the manifest in a clean checkout after the benchmark and adapter inputs
 are fixed:
 
