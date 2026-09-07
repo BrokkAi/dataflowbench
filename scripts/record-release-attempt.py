@@ -16,6 +16,7 @@ def run(identifier,argv,settle=False):
  BASE.mkdir(parents=True,exist_ok=True);ledger=BASE/'ledger.jsonl'
  rows=[json.loads(x) for x in ledger.read_text().splitlines()] if ledger.exists() else []
  prior_numbers=[int(p.name.rsplit('-attempt-',1)[1]) for p in (BASE/'attempts').glob(identifier+'-attempt-*') if p.name.rsplit('-attempt-',1)[1].isdigit()]
+ prior_numbers.extend(int(r['id'].rsplit('-attempt-',1)[1]) for r in rows if r['planned_id']==identifier)
  n=max(prior_numbers,default=0)+1;aid=f'{identifier}-attempt-{n:02d}';dest=BASE/'attempts'/aid
  dest.mkdir(parents=True,exist_ok=False)
  plan=json.loads((BASE/'plan.json').read_text());before=state();samples=[]
