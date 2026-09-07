@@ -57,6 +57,15 @@ constants; a mismatch fails the run with both values in the error, so a report
 can never carry an asserted identity. The digests ride in
 `tool_build_identity` and in each run's `run-environment.json`.
 
+The v0.4.6 semantic bundle also ships the public `opentaint` CLI and its
+`rules/v0.3.0` product rules. The benchmark deliberately continues to invoke
+the digest-pinned analyzer jar directly: the wrapper's `scan` command accepts
+the hidden `--entry-points` selector, but does not expose the adapter's
+explicit project-model, rule-load-trace, passthrough-model, and compiled
+approximation paths. Wrapper migration is therefore held pending a dedicated
+capability-equivalence probe and dated amendment; the wrapper's presence does
+not silently change the modeling or native partition.
+
 `opentaint-models.tar.gz` is the analyzer's own shipped standard-library
 model set — pass-through approximations and compiled dataflow-approximation
 classes for the JDK, Kotlin builders, and common serialization libraries,

@@ -53,7 +53,7 @@ if [ -z "$ANALYZER" ]; then
   exit 2
 fi
 
-EXPECTED_SHA256=811bdb22786e539c9aabdce5bef91f0c6521cc099adbe2720e6a840c09badf54
+EXPECTED_SHA256=2ca93b6c33462bdbc23ceccdc5375e1a900682b33371cd906e5214dc7c48f569
 ACTUAL_SHA256=$(shasum -a 256 "$ANALYZER" | cut -d' ' -f1)
 if [ "$ACTUAL_SHA256" != "$EXPECTED_SHA256" ]; then
   echo "analyzer jar sha256 $ACTUAL_SHA256 is not the pinned $EXPECTED_SHA256" >&2
