@@ -1,0 +1,43 @@
+{
+  "mode": "elevated",
+  "fixture": "/Users/dave/.codex/worktrees/653a/dataflowbench/cases/taint/c/alias-propagation-positive/alias_propagation_positive.c",
+  "fixture_sha256": "8375b766a34e642bbe35151be70ba48241f04890fde936523134f9ad70d5a852",
+  "environment": {
+    "PATH": "/Users/dave/Library/Application Support/mbx/bin:/Users/dave/.cargo/bin:/Users/dave/.jbang/bin:/Users/dave/.local/bin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/pkg/env/global/bin:/Library/Apple/usr/bin:/Library/TeX/texbin:/usr/local/share/dotnet:~/.dotnet/tools:/usr/local/go/bin:/opt/homebrew/bin:/Users/dave/Library/Application Support/mbx/bin:/Users/dave/.codex/tmp/arg0/codex-arg0dpr6V4:/Users/dave/.cache/codex-runtimes/codex-primary-runtime/dependencies/bin/override:/Users/dave/.cargo/bin:/Users/dave/.railway/bin:/Users/dave/Library/pnpm:/Users/dave/.jbang/bin:/Users/dave/.local/bin:/Users/dave/.sdkman/candidates/sbt/current/bin:/Users/dave/.sdkman/candidates/java/current/bin:/Users/dave/Library/Application Support/JetBrains/Toolbox/scripts:/Users/dave/async-profiler-4.3-macos/bin:/Users/dave/.dotnet:/Users/dave/.dotnet/tools:/Users/dave/scripts:/Users/dave/.cache/codex-runtimes/codex-primary-runtime/dependencies/bin/fallback:/Applications/ChatGPT.app/Contents/Resources:/Users/dave/Library/Application Support/JetBrains/Toolbox/scripts:/Users/dave/async-profiler-4.3-macos/bin:/Users/dave/.dotnet:/Users/dave/.dotnet/tools:/Users/dave/scripts",
+    "JAVA_HOME": "/Users/dave/.sdkman/candidates/java/current",
+    "TMPDIR": "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/"
+  },
+  "commands": [
+    {
+      "argv": [
+        "/opt/homebrew/bin/codeql",
+        "database",
+        "create",
+        "/private/tmp/dfb-v071-codeql-extraction-control/database",
+        "--language=cpp",
+        "--source-root=/private/tmp/dfb-v071-codeql-extraction-control/source",
+        "--overwrite",
+        "--build-mode=none"
+      ],
+      "start_utc": "2026-09-07T16:42:41.764930+00:00",
+      "exit_code": 0,
+      "end_utc": "2026-09-07T16:42:43.130021+00:00"
+    },
+    {
+      "argv": [
+        "/opt/homebrew/bin/codeql",
+        "database",
+        "analyze",
+        "/private/tmp/dfb-v071-codeql-extraction-control/database",
+        "adapters/codeql/cpp/queries/CKernel.ql",
+        "adapters/codeql/cpp/queries/CKernelEndpointProbe.ql",
+        "--format=sarif-latest",
+        "--output=/Users/dave/.codex/worktrees/653a/dataflowbench/reports/releases/v0.7.1/codeql-extraction-diagnosis/elevated/result.sarif.json",
+        "--rerun"
+      ],
+      "start_utc": "2026-09-07T16:42:43.130297+00:00",
+      "exit_code": 0,
+      "end_utc": "2026-09-07T16:43:11.106979+00:00"
+    }
+  ]
+}

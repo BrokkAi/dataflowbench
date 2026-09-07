@@ -1,0 +1,98 @@
+{
+  "sandboxed": {
+    "commands": "reports/releases/v0.7.1/codeql-extraction-diagnosis/sandboxed/commands.json",
+    "fixture_sha256": "8375b766a34e642bbe35151be70ba48241f04890fde936523134f9ad70d5a852",
+    "extraction_status": [
+      {
+        "#errors": 1,
+        "#partial": 0,
+        "#success": 0,
+        "#total": 1,
+        "all_counts": {
+          "Signalled": 1
+        }
+      }
+    ],
+    "results": []
+  },
+  "elevated": {
+    "commands": "reports/releases/v0.7.1/codeql-extraction-diagnosis/elevated/commands.json",
+    "fixture_sha256": "8375b766a34e642bbe35151be70ba48241f04890fde936523134f9ad70d5a852",
+    "extraction_status": [
+      {
+        "#errors": 0,
+        "#partial": 0,
+        "#success": 1,
+        "#total": 1,
+        "all_counts": {
+          "ExitCode: 0": 1
+        }
+      }
+    ],
+    "results": [
+      {
+        "ruleId": "dataflowbench/c-kernel-endpoint-probe",
+        "ruleIndex": 1,
+        "rule": {
+          "id": "dataflowbench/c-kernel-endpoint-probe",
+          "index": 1
+        },
+        "message": {
+          "text": "Benchmark source endpoint observed."
+        },
+        "locations": [
+          {
+            "physicalLocation": {
+              "artifactLocation": {
+                "uri": "alias_propagation_positive.c",
+                "uriBaseId": "%SRCROOT%",
+                "index": 0
+              },
+              "region": {
+                "startLine": 15,
+                "startColumn": 22,
+                "endColumn": 32
+              }
+            }
+          }
+        ],
+        "partialFingerprints": {
+          "primaryLocationLineHash": "a4baa3fd0abbb2ba:1",
+          "primaryLocationStartColumnFingerprint": "17"
+        }
+      },
+      {
+        "ruleId": "dataflowbench/c-kernel-endpoint-probe",
+        "ruleIndex": 1,
+        "rule": {
+          "id": "dataflowbench/c-kernel-endpoint-probe",
+          "index": 1
+        },
+        "message": {
+          "text": "Benchmark sink endpoint observed."
+        },
+        "locations": [
+          {
+            "physicalLocation": {
+              "artifactLocation": {
+                "uri": "alias_propagation_positive.c",
+                "uriBaseId": "%SRCROOT%",
+                "index": 0
+              },
+              "region": {
+                "startLine": 17,
+                "startColumn": 21,
+                "endColumn": 26
+              }
+            }
+          }
+        ],
+        "partialFingerprints": {
+          "primaryLocationLineHash": "29581b14fa4621e2:1",
+          "primaryLocationStartColumnFingerprint": "16"
+        }
+      }
+    ]
+  },
+  "interpretation": "Controlled access comparison: sandbox LMDB open error 1 and Signalled; elevated same fixture/database-create argv/pins succeeds with both endpoints. No exact numeric signal for retry02 retained; older SIGABRT crash reports corroborative only. Partial retry02 produced no normalized report; existing endpoint guard would return inconclusive for zero endpoints."
+}
