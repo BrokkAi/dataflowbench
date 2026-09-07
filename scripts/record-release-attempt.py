@@ -18,6 +18,12 @@ def run(identifier,argv,settle=False):
  n=sum(r['planned_id']==identifier for r in rows)+1;aid=f'{identifier}-attempt-{n:02d}';dest=BASE/'attempts'/aid
  dest.mkdir(parents=True,exist_ok=False)
  plan=json.loads((BASE/'plan.json').read_text());before=state();samples=[]
+ planned=next((r for g in ['reports','script_probes','warm','overhead'] for r in plan[g] if r.get('id')==identifier),{})
+ roots=planned.get('output_roots',[])
+ for root in roots:
+  src=ROOT/root
+  if src.exists():
+   backup=dest/'preexisting'/root;backup.parent.mkdir(parents=True,exist_ok=True);shutil.move(str(src),str(backup))
  if settle:
   for _ in range(6):samples.append({'utc':now(),'load':os.getloadavg()});time.sleep(10)
  row={'id':aid,'planned_id':identifier,'argv':argv,'cwd':str(ROOT),'input_commits':plan['input_commits'],'execution_revision':subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip(),'population':plan['population'],'fixture_revision':plan['fixture_revision'],'plan':ref(BASE/'plan.json'),'identities':ref(BASE/'identities.json'),'start_utc':now(),'host':{'platform':platform.platform(),'cpu_count':os.cpu_count(),'load_before':os.getloadavg()},'settle_observations':samples,'cache_posture':'isolated case workspaces; local distributions and prefetched CodeQL packs; OS page cache uncontrolled; warm only for explicit warm series','supersedes':rows[-1]['id'] if rows and rows[-1]['planned_id']==identifier else None}
@@ -29,8 +35,15 @@ def run(identifier,argv,settle=False):
  row['end_utc']=now();row['host']['load_after']=os.getloadavg();row['stdout']=ref(dest/'stdout.txt');row['stderr']=ref(dest/'stderr.txt')
  after=state();row['outputs']=[]
  for p,h in after.items():
-  if before.get(p)!=h:
+  if before.get(p)!=h or any(p==r or p.startswith(r+'/') for r in roots):
    copy=dest/'outputs'/p;copy.parent.mkdir(parents=True,exist_ok=True);shutil.copy2(ROOT/p,copy);row['outputs'].append({'original_path':p,**ref(copy)})
+ row['expected_output_roots']=roots;row['missing_fresh_output_roots']=[r for r in roots if not any(p==r or p.startswith(r+'/') for p in after)]
+ # Restore only files absent from the fresh attempt, especially shared probe roots.
+ # They remain marked preexisting and are never counted as fresh output.
+ for old in (dest/'preexisting').rglob('*') if (dest/'preexisting').exists() else []:
+  if old.is_file():
+   target=ROOT/old.relative_to(dest/'preexisting')
+   if not target.exists():target.parent.mkdir(parents=True,exist_ok=True);shutil.copy2(old,target)
  row['removed_paths']=sorted(set(before)-set(after));(dest/'completed.json').write_text(json.dumps(row,indent=2)+'\n')
  with open(ledger,'a') as f:f.write(json.dumps(row)+'\n');f.flush();os.fsync(f.fileno())
  print('END',aid,'exit',row['exit_code'],'outputs',len(row['outputs']),flush=True)
