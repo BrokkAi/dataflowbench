@@ -1,0 +1,100 @@
+Usage: codeql resolve library-path [OPTIONS]
+[Deep plumbing] Determine QL library path and dbscheme for a query.
+
+Determine which QL library path a particular query should be compiled against.
+This computation is implicit in several subcommands that may need to compile
+queries. It is exposed as a separate plumbing command in order to (a) help with
+troubleshooting, and (b) provide a starting point for modifying the path in
+extraordinary cases where exact control is needed.
+
+The command will also detect a language and dbscheme to compile a query
+against, as these may also depend on autodetecting the language of a QL query.
+
+The command is deeply internal and its behavior or existence may change without
+much notice as the QL language ecosystem evolves.
+
+      --format=<fmt>         Select output format. Choices include:
+                             lines (default): Print command line arguments on
+                               one line each.
+                             json: Print a JSON object with all the data.
+                             path: Print just the computed library path.
+                             dbscheme: Print just the detected dbscheme.
+                             cache: Print the default compilation cache
+                               location, or nothing if none.
+Options from the invoking command's command line:
+      --search-path=<dir>[:<dir>...]
+                             A list of directories under which QL packs may be
+                               found. Each directory can either be a QL pack
+                               (or bundle of packs containing a .codeqlmanifest.
+                               json file at the root) or the immediate parent
+                               of one or more such directories.
+                             If the path contains more than one directory,
+                               their order defines precedence between them:
+                               when a pack name that must be resolved is
+                               matched in more than one of the directory trees,
+                               the one given first wins.
+                             Pointing this at a checkout of the open-source
+                               CodeQL repository ought to work when querying
+                               one of the languages that live there.
+                             If you have checked out the CodeQL repository as a
+                               sibling of the unpacked CodeQL toolchain, you
+                               don't need to give this option; such sibling
+                               directories will always be searched for QL packs
+                               that cannot be found otherwise. (If this default
+                               does not work, it is strongly recommended to set
+                               up --search-path once and for all in a per-user
+                               configuration file).
+      --additional-packs=<dir>[:<dir>...]
+                             If this list of directories is given, they will be
+                               searched for packs before the ones in
+                               --search-path. The order between these doesn't
+                               matter; it is an error if a pack name is found
+                               in two different places through this list.
+                             This is useful if you're temporarily developing a
+                               new version of a pack that also appears in the
+                               default path. On the other hand, it is not
+                               recommended to override this option in a config
+                               file; some internal actions will add this option
+                               on the fly, overriding any configured value.
+Options for configuring the CodeQL package manager:
+      --registries-auth-stdin
+                             Authenticate to GitHub Enterprise Server Container
+                               registries by passing a comma-separated list of
+                               <registry_url>=<token> pairs.
+
+                             For example, you can pass "https://containers.
+                               GHEHOSTNAME1/v2/=TOKEN1,https://containers.
+                               GHEHOSTNAME2/v2/=TOKEN2" to authenticate to two
+                               GitHub Enterprise Server instances.
+
+                             This overrides the CODEQL_REGISTRIES_AUTH and
+                               GITHUB_TOKEN environment variables. If you only
+                               need to authenticate to the github.com Container
+                               registry, you can instead authenticate using the
+                               simpler --github-auth-stdin option.
+      --github-auth-stdin    Authenticate to the github.com Container registry
+                               by passing a github.com GitHub Apps token or
+                               personal access token via standard input.
+
+                             To authenticate to GitHub Enterprise Server
+                               Container registries, pass
+                               --registries-auth-stdin or use the
+                               CODEQL_REGISTRIES_AUTH environment variable.
+
+                             This overrides the GITHUB_TOKEN environment
+                               variable.
+Options for specifying what we're about to compile: [Exactly one of these must
+appear]:
+      --query=<qlfile>       The path to the QL file we want to compile. Its
+                               directory and parent directories will be
+                               searched for qlpack.yml or legacy queries.xml
+                               files to determine necessary packs.
+      --dir=<dir>            The root directory of the pack containing queries
+                               to compile.
+Common options:
+  -h, --help                 Show this help text.
+  -v, --verbose              Incrementally increase the number of progress
+                               messages printed.
+  -q, --quiet                Incrementally decrease the number of progress
+                               messages printed.
+Some advanced options have been hidden; try --help -v for a fuller view.

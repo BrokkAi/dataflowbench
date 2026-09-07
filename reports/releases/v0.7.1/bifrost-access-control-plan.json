@@ -1,0 +1,17 @@
+{
+  "created_utc": "2026-09-07T17:29:58.243842+00:00",
+  "phase": "after current non-native report sweep; before Bifrost timing qualification and approved repeats",
+  "cases": [
+    "dfb-taint-java-alias-propagation-positive",
+    "dfb-taint-java-alias-propagation-negative"
+  ],
+  "tool": "exact pinned Bifrost v0.11.0",
+  "order": [
+    "sandbox positive",
+    "elevated positive",
+    "sandbox negative",
+    "elevated negative"
+  ],
+  "contract": "Same fixture/policy/CLI settings and toolchain for each pair; retain full stdout/stderr, argv, environment, hashes, pack decisions, endpoints, run status and explicit cache/ordering observations. Establish exact invocations prospectively before execution. No simultaneous analyzer. Small diagnostic controls do not establish whole-population timing parity.",
+  "decision": "If outcomes or pack availability change, report to parent before choosing additional full repeats. Existing five whole-population elevated repeats remain authorized."
+}

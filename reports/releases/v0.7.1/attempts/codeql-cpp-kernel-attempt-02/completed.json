@@ -1,0 +1,636 @@
+{
+  "id": "codeql-cpp-kernel-attempt-02",
+  "planned_id": "codeql-cpp-kernel",
+  "argv": [
+    "/Users/dave/.codex/worktrees/653a/dataflowbench/target/debug/dataflowbench",
+    "--population",
+    "v0.7.0",
+    "run-codeql-cpp-kernel",
+    "--codeql",
+    "/opt/homebrew/bin/codeql"
+  ],
+  "cwd": "/Users/dave/.codex/worktrees/653a/dataflowbench",
+  "input_commits": {
+    "corpus": "0c82e8093ff899d5ee72809a82c951ab76b5bb76",
+    "publication_infrastructure": "53050fa64628997e866303bcd5299d74f1e3e45d",
+    "pins": "c0899dab0d2c043dcc5b1aa6a1aad0e49f482fea"
+  },
+  "execution_revision": "14258e11b1b8f64d28ae206f6657e731fda89a9e",
+  "population": "v0.7.0",
+  "fixture_revision": "sha256:9df209ed3d7723a3ee33f2b289cf2afe34a3add781bdf2a2ac445de42b8d0151",
+  "plan": {
+    "path": "reports/releases/v0.7.1/plan.json",
+    "sha256": "cb948f4a5cff80b95d3dcc755ab8249d87449e43f70e6eb80a456789faf12f26"
+  },
+  "identities": {
+    "path": "reports/releases/v0.7.1/identities.json",
+    "sha256": "0b8b1bb07d1df1ec8687613bb355f5f6021a2c664d3488dc3bc763553ce1a83c"
+  },
+  "execution_access": "require_escalated",
+  "start_utc": "2026-09-07T17:06:18.956325+00:00",
+  "host": {
+    "platform": "macOS-26.6.2-arm64-arm-64bit",
+    "cpu_count": 10,
+    "load_before": [
+      2.09326171875,
+      6.72412109375,
+      7.3330078125
+    ],
+    "load_after": [
+      4.89404296875,
+      5.0537109375,
+      6.025390625
+    ]
+  },
+  "settle_observations": [],
+  "cache_posture": "isolated case workspaces; local distributions and prefetched CodeQL packs; OS page cache uncontrolled; warm only for explicit warm series",
+  "supersedes": null,
+  "exit_code": 1,
+  "end_utc": "2026-09-07T17:16:30.646967+00:00",
+  "stdout": {
+    "path": "reports/releases/v0.7.1/attempts/codeql-cpp-kernel-attempt-02/stdout.txt",
+    "sha256": "e5f4125b7275fa9228693fa24407debffe73f2d0c70624118ccaf5e30dc4e426"
+  },
+  "stderr": {
+    "path": "reports/releases/v0.7.1/attempts/codeql-cpp-kernel-attempt-02/stderr.txt",
+    "sha256": "0aefc50fd7c4e0ed6c837d882bfcc0707ef02fbaad103ff35bf5375dfe86d6f4"
+  },
+  "outputs": [
+    {
+      "original_path": "reports/codeql-cpp-kernel.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-cpp-kernel-attempt-02/outputs/reports/codeql-cpp-kernel.json",
+      "sha256": "73a40bf1258a6df1d159de256f1cdcd895da7b8961ac3704d6ee0bf0ab17225d"
+    },
+    {
+      "original_path": "reports/raw/codeql-cpp-kernel/dfb-taint-cpp-direct-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-cpp-kernel-attempt-02/outputs/reports/raw/codeql-cpp-kernel/dfb-taint-cpp-direct-positive-timing.json",
+      "sha256": "c4810c9716f685b162f35f27b0c7c9ba5d0a923cdc1202c07e4c303fa002e9d2"
+    },
+    {
+      "original_path": "reports/raw/codeql-cpp-kernel/dfb-taint-cpp-expression-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-cpp-kernel-attempt-02/outputs/reports/raw/codeql-cpp-kernel/dfb-taint-cpp-expression-positive-timing.json",
+      "sha256": "307749e6e78c662a770a43bff641b3a617a3a777151436408e2d0eac2b34438c"
+    },
+    {
+      "original_path": "reports/raw/codeql-cpp-kernel/dfb-taint-cpp-deep-relay-chain-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-cpp-kernel-attempt-02/outputs/reports/raw/codeql-cpp-kernel/dfb-taint-cpp-deep-relay-chain-positive-timing.json",
+      "sha256": "5aaf5b9d0ce3885d5165c5e1e7f22f500832777e3292c0fb1019e04ce834d70c"
+    },
+    {
+      "original_path": "reports/raw/codeql-cpp-kernel/dfb-taint-cpp-context-pair-depth2-positive.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-cpp-kernel-attempt-02/outputs/reports/raw/codeql-cpp-kernel/dfb-taint-cpp-context-pair-depth2-positive.sarif.json",
+      "sha256": "309b69147de8ff96065b795af74c4766d4d057bd4b94114637c7e9b27b38b548"
+    },
+    {
+      "original_path": "reports/raw/codeql-cpp-kernel/dfb-taint-cpp-loop-carried-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-cpp-kernel-attempt-02/outputs/reports/raw/codeql-cpp-kernel/dfb-taint-cpp-loop-carried-positive-timing.json",
+      "sha256": "1bed0151896f4562d3de5aa915f98d9a197e44bea26e7c06ab71c2ffcb64546d"
+    },
+    {
+      "original_path": "reports/raw/codeql-cpp-kernel/dfb-taint-cpp-expression-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-cpp-kernel-attempt-02/outputs/reports/raw/codeql-cpp-kernel/dfb-taint-cpp-expression-negative-timing.json",
+      "sha256": "54c00ba747346f10551bbf68a393538b06a7810898bd4e09694f720c0f0e3345"
+    },
+    {
+      "original_path": "reports/raw/codeql-cpp-kernel/dfb-taint-cpp-deep-relay-chain-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-cpp-kernel-attempt-02/outputs/reports/raw/codeql-cpp-kernel/dfb-taint-cpp-deep-relay-chain-negative-timing.json",
+      "sha256": "41153d6aab98440422653a672b8e38bac27ca6a449896defee4d88e6156e1fb3"
+    },
+    {
+      "original_path": "reports/raw/codeql-cpp-kernel/dfb-taint-cpp-direct-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-cpp-kernel-attempt-02/outputs/reports/raw/codeql-cpp-kernel/dfb-taint-cpp-direct-negative-timing.json",
+      "sha256": "a75763b3f2edc6338b8d74eca7d777d0a35a337e97dbe37d464b829935ac7eaa"
+    },
+    {
+      "original_path": "reports/raw/codeql-cpp-kernel/dfb-taint-cpp-element-object-positive.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-cpp-kernel-attempt-02/outputs/reports/raw/codeql-cpp-kernel/dfb-taint-cpp-element-object-positive.sarif.json",
+      "sha256": "3968b9f3299686b2d12dac1fa479969184f2e4676b250804377dbc187100a8ae"
+    },
+    {
+      "original_path": "reports/raw/codeql-cpp-kernel/dfb-taint-cpp-function-field-negative.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-cpp-kernel-attempt-02/outputs/reports/raw/codeql-cpp-kernel/dfb-taint-cpp-function-field-negative.sarif.json",
+      "sha256": "8278bfafe5f672fd342faf85b2e33571b5fe8bc67199aecb2dfeeeeb5c4a5df0"
+    },
+    {
+      "original_path": "reports/raw/codeql-cpp-kernel/dfb-taint-cpp-array-element-positive.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-cpp-kernel-attempt-02/outputs/reports/raw/codeql-cpp-kernel/dfb-taint-cpp-array-element-positive.sarif.json",
+      "sha256": "3bfe23ad5679f7cb583ac32bfc7c9729e9e9589344754093fb30c068819d0cb3"
+    },
+    {
+      "original_path": "reports/raw/codeql-cpp-kernel/dfb-taint-cpp-loop-carried-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-cpp-kernel-attempt-02/outputs/reports/raw/codeql-cpp-kernel/dfb-taint-cpp-loop-carried-negative-timing.json",
+      "sha256": "e21df47c1afbdd87fd64f877a2081b7cf74a1e9cd9bc29a129e7c507a4774d2e"
+    },
+    {
+      "original_path": "reports/raw/codeql-cpp-kernel/dfb-taint-cpp-element-object-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-cpp-kernel-attempt-02/outputs/reports/raw/codeql-cpp-kernel/dfb-taint-cpp-element-object-negative-timing.json",
+      "sha256": "5c93bfe4df0fc06dbf9e114ca6c7d7092dfc6c914152c115ec70e094f41a4c4f"
+    },
+    {
+      "original_path": "reports/raw/codeql-cpp-kernel/dfb-taint-cpp-return-relay-two-hop-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-cpp-kernel-attempt-02/outputs/reports/raw/codeql-cpp-kernel/dfb-taint-cpp-return-relay-two-hop-negative-timing.json",
+      "sha256": "f50467615108a7d055b76af418812bc6c414f4473fcb4ab9aaacfaee71ed605d"
+    },
+    {
+      "original_path": "reports/raw/codeql-cpp-kernel/dfb-taint-cpp-function-field-positive.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-cpp-kernel-attempt-02/outputs/reports/raw/codeql-cpp-kernel/dfb-taint-cpp-function-field-positive.sarif.json",
+      "sha256": "4f2768cf6eec5591de0a5ec3d5e53fa9e6a763abac2819920f4ead2b6dad3d23"
+    },
+    {
+      "original_path": "reports/raw/codeql-cpp-kernel/dfb-taint-cpp-element-object-negative.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-cpp-kernel-attempt-02/outputs/reports/raw/codeql-cpp-kernel/dfb-taint-cpp-element-object-negative.sarif.json",
+      "sha256": "f67bfa615ab90e3cdacd52f0bb09736ec54d58cd525c954bbd2384e4a54150e9"
+    },
+    {
+      "original_path": "reports/raw/codeql-cpp-kernel/dfb-taint-cpp-array-element-negative.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-cpp-kernel-attempt-02/outputs/reports/raw/codeql-cpp-kernel/dfb-taint-cpp-array-element-negative.sarif.json",
+      "sha256": "3e0b4791e48764030b1ddaf6a2aed7f75694656a8309cfc4e16ad5cff95e1f3f"
+    },
+    {
+      "original_path": "reports/raw/codeql-cpp-kernel/dfb-taint-cpp-return-relay-two-hop-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-cpp-kernel-attempt-02/outputs/reports/raw/codeql-cpp-kernel/dfb-taint-cpp-return-relay-two-hop-positive-timing.json",
+      "sha256": "a9a6963c2855c98383bc05dc7cdace11b8e1e758b9b3efe19a55f7d3a6fdc936"
+    },
+    {
+      "original_path": "reports/raw/codeql-cpp-kernel/dfb-taint-cpp-element-object-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-cpp-kernel-attempt-02/outputs/reports/raw/codeql-cpp-kernel/dfb-taint-cpp-element-object-positive-timing.json",
+      "sha256": "fe9dceaadfe921bcf1349962b87c42db95f607ac39650e5dddc310a0c735a2f6"
+    },
+    {
+      "original_path": "reports/raw/codeql-cpp-kernel/dfb-taint-cpp-context-pair-depth2-negative.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-cpp-kernel-attempt-02/outputs/reports/raw/codeql-cpp-kernel/dfb-taint-cpp-context-pair-depth2-negative.sarif.json",
+      "sha256": "d3ae1a73939103303d7b56eba99f266aea3543766d8f1bb60187032f58afe3df"
+    },
+    {
+      "original_path": "reports/raw/codeql-cpp-kernel/dfb-taint-cpp-closure-capture-positive.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-cpp-kernel-attempt-02/outputs/reports/raw/codeql-cpp-kernel/dfb-taint-cpp-closure-capture-positive.sarif.json",
+      "sha256": "54609fe648b93aed29d4282c17a66a21e185186d010898f5d7b4e104ce4a988c"
+    },
+    {
+      "original_path": "reports/raw/codeql-cpp-kernel/dfb-taint-cpp-same-object-field-negative.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-cpp-kernel-attempt-02/outputs/reports/raw/codeql-cpp-kernel/dfb-taint-cpp-same-object-field-negative.sarif.json",
+      "sha256": "22786269e45dfae4677b4795818e5e5a2c255ff036f94793705fc4a8b98f12ad"
+    },
+    {
+      "original_path": "reports/raw/codeql-cpp-kernel/dfb-taint-cpp-direct-negative.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-cpp-kernel-attempt-02/outputs/reports/raw/codeql-cpp-kernel/dfb-taint-cpp-direct-negative.sarif.json",
+      "sha256": "c87fc38cbaa4d2b591e07451750ba2951ed34b86067ba5a7835a92225bba335f"
+    },
+    {
+      "original_path": "reports/raw/codeql-cpp-kernel/dfb-taint-cpp-object-separation-negative.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-cpp-kernel-attempt-02/outputs/reports/raw/codeql-cpp-kernel/dfb-taint-cpp-object-separation-negative.sarif.json",
+      "sha256": "78233ab7c8875f296f8a1c89fd61c0be0c2dce4b611c013ef6c70a92b1c921c3"
+    },
+    {
+      "original_path": "reports/raw/codeql-cpp-kernel/dfb-taint-cpp-branch-join-positive.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-cpp-kernel-attempt-02/outputs/reports/raw/codeql-cpp-kernel/dfb-taint-cpp-branch-join-positive.sarif.json",
+      "sha256": "8e7fb43cdfdfa6d83f42c0f6c7c464ba374d1c3afb0585966c74ba2888d0f66a"
+    },
+    {
+      "original_path": "reports/raw/codeql-cpp-kernel/dfb-taint-cpp-context-pair-depth2-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-cpp-kernel-attempt-02/outputs/reports/raw/codeql-cpp-kernel/dfb-taint-cpp-context-pair-depth2-negative-timing.json",
+      "sha256": "e579b037f656387a31ec9b6259cbc46a384843f8de34925dd7690075b6be208d"
+    },
+    {
+      "original_path": "reports/raw/codeql-cpp-kernel/dfb-taint-cpp-infeasible-branch-positive.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-cpp-kernel-attempt-02/outputs/reports/raw/codeql-cpp-kernel/dfb-taint-cpp-infeasible-branch-positive.sarif.json",
+      "sha256": "dbcd3478affe2993f44d5af629317ffb1de5302d40ea01c37a80147e67951e76"
+    },
+    {
+      "original_path": "reports/raw/codeql-cpp-kernel/run-environment.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-cpp-kernel-attempt-02/outputs/reports/raw/codeql-cpp-kernel/run-environment.json",
+      "sha256": "01576eeb84d07c08dfc26a4af068363e1baaadf587b67e11d54d37011eb4894c"
+    },
+    {
+      "original_path": "reports/raw/codeql-cpp-kernel/dfb-taint-cpp-callback-registration-positive.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-cpp-kernel-attempt-02/outputs/reports/raw/codeql-cpp-kernel/dfb-taint-cpp-callback-registration-positive.sarif.json",
+      "sha256": "8c292b8028f7a88621fbfeefe514706814e60b82e18ee9fb2d4de63ac5ed4474"
+    },
+    {
+      "original_path": "reports/raw/codeql-cpp-kernel/dfb-taint-cpp-return-relay-one-hop-positive.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-cpp-kernel-attempt-02/outputs/reports/raw/codeql-cpp-kernel/dfb-taint-cpp-return-relay-one-hop-positive.sarif.json",
+      "sha256": "e86850e722c71cb7e66d609b529aff691884ee1e44c3e89d156eb20b95821f0b"
+    },
+    {
+      "original_path": "reports/raw/codeql-cpp-kernel/dfb-taint-cpp-argument-position-positive.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-cpp-kernel-attempt-02/outputs/reports/raw/codeql-cpp-kernel/dfb-taint-cpp-argument-position-positive.sarif.json",
+      "sha256": "e9b3f1ef9298f64f7f4fc77ab2d53e06a9281412e7b9d07227a0bc0f7b183bfe"
+    },
+    {
+      "original_path": "reports/raw/codeql-cpp-kernel/dfb-taint-cpp-map-iteration-positive.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-cpp-kernel-attempt-02/outputs/reports/raw/codeql-cpp-kernel/dfb-taint-cpp-map-iteration-positive.sarif.json",
+      "sha256": "d743a6f5e6aa66bc2bae3ad905e533a1bf3f03b69879851c0b9649921b273153"
+    },
+    {
+      "original_path": "reports/raw/codeql-cpp-kernel/dfb-taint-cpp-context-pair-depth2-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-cpp-kernel-attempt-02/outputs/reports/raw/codeql-cpp-kernel/dfb-taint-cpp-context-pair-depth2-positive-timing.json",
+      "sha256": "dab0d5bc9a803f6f7cd62a06d34a169a742408d93a3afc1fbf59e5d551881c52"
+    },
+    {
+      "original_path": "reports/raw/codeql-cpp-kernel/dfb-taint-cpp-exception-catch-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-cpp-kernel-attempt-02/outputs/reports/raw/codeql-cpp-kernel/dfb-taint-cpp-exception-catch-positive-timing.json",
+      "sha256": "50de4f5de7c0851d7a08e62d183c572c058ea14af9db7711ae15c2807cda4bb6"
+    },
+    {
+      "original_path": "reports/raw/codeql-cpp-kernel/dfb-taint-cpp-callback-registration-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-cpp-kernel-attempt-02/outputs/reports/raw/codeql-cpp-kernel/dfb-taint-cpp-callback-registration-negative-timing.json",
+      "sha256": "99cd668656dfba1990961141179df1efbb9d3442cc2afa46dc8768d8d4e8928d"
+    },
+    {
+      "original_path": "reports/raw/codeql-cpp-kernel/dfb-taint-cpp-branch-join-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-cpp-kernel-attempt-02/outputs/reports/raw/codeql-cpp-kernel/dfb-taint-cpp-branch-join-negative-timing.json",
+      "sha256": "f4839421dbe87b45ba81c427b3a290f0f5c81bf0e3c9259218cac39ebe13ca86"
+    },
+    {
+      "original_path": "reports/raw/codeql-cpp-kernel/dfb-taint-cpp-array-element-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-cpp-kernel-attempt-02/outputs/reports/raw/codeql-cpp-kernel/dfb-taint-cpp-array-element-positive-timing.json",
+      "sha256": "cfba9eb657ed559972cc0dda2b7219cbf2e2abb089ca9ff7d6f0beb3d9ad5534"
+    },
+    {
+      "original_path": "reports/raw/codeql-cpp-kernel/dfb-taint-cpp-dispatch-table-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-cpp-kernel-attempt-02/outputs/reports/raw/codeql-cpp-kernel/dfb-taint-cpp-dispatch-table-positive-timing.json",
+      "sha256": "caafec3078a0dc686c1fdfd32c22dad6e0b165c4fb1d2222dc96b420cc2fcd08"
+    },
+    {
+      "original_path": "reports/raw/codeql-cpp-kernel/dfb-taint-cpp-callback-registration-negative.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-cpp-kernel-attempt-02/outputs/reports/raw/codeql-cpp-kernel/dfb-taint-cpp-callback-registration-negative.sarif.json",
+      "sha256": "958f05157b0fe1d50a62c9e889bac6c6f5da9c7003ad661980e0cb478ce68f41"
+    },
+    {
+      "original_path": "reports/raw/codeql-cpp-kernel/dfb-taint-cpp-argument-position-negative.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-cpp-kernel-attempt-02/outputs/reports/raw/codeql-cpp-kernel/dfb-taint-cpp-argument-position-negative.sarif.json",
+      "sha256": "3171a0c9f326f5578439d618b6402250e35d1e12a642ccc7a6f5248f6a41151e"
+    },
+    {
+      "original_path": "reports/raw/codeql-cpp-kernel/dfb-taint-cpp-map-iteration-negative.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-cpp-kernel-attempt-02/outputs/reports/raw/codeql-cpp-kernel/dfb-taint-cpp-map-iteration-negative.sarif.json",
+      "sha256": "a53dc56f7cc6bac207c1eac2c352215ca8157c3cdb75bfba9e0ceb602df1b674"
+    },
+    {
+      "original_path": "reports/raw/codeql-cpp-kernel/dfb-taint-cpp-function-field-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-cpp-kernel-attempt-02/outputs/reports/raw/codeql-cpp-kernel/dfb-taint-cpp-function-field-positive-timing.json",
+      "sha256": "c20c09ba8bb65d55c3bddc59c7c4be92add4265583520ca2f6b2fdd2c2e8c1ba"
+    },
+    {
+      "original_path": "reports/raw/codeql-cpp-kernel/dfb-taint-cpp-return-relay-one-hop-negative.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-cpp-kernel-attempt-02/outputs/reports/raw/codeql-cpp-kernel/dfb-taint-cpp-return-relay-one-hop-negative.sarif.json",
+      "sha256": "8a2df445c013678db279b300740c3dde56e16e0aab00e182ffc92a836b9da34e"
+    },
+    {
+      "original_path": "reports/raw/codeql-cpp-kernel/dfb-taint-cpp-exception-catch-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-cpp-kernel-attempt-02/outputs/reports/raw/codeql-cpp-kernel/dfb-taint-cpp-exception-catch-negative-timing.json",
+      "sha256": "30cbe96bc0d636095ea2cfffe1735e6da2b159c6ecbff37fb70abeb730f40a32"
+    },
+    {
+      "original_path": "reports/raw/codeql-cpp-kernel/dfb-taint-cpp-branch-join-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-cpp-kernel-attempt-02/outputs/reports/raw/codeql-cpp-kernel/dfb-taint-cpp-branch-join-positive-timing.json",
+      "sha256": "0c20c0090433fdd78769fbb1a7b06e5828e28f99c91c591fbfee4ba41c5e4d85"
+    },
+    {
+      "original_path": "reports/raw/codeql-cpp-kernel/dfb-taint-cpp-callback-registration-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-cpp-kernel-attempt-02/outputs/reports/raw/codeql-cpp-kernel/dfb-taint-cpp-callback-registration-positive-timing.json",
+      "sha256": "79cad4411a7726d60ab1a87620dfe624e30f7fbef3b95a5c9a893eccfb5823b5"
+    },
+    {
+      "original_path": "reports/raw/codeql-cpp-kernel/dfb-taint-cpp-closure-capture-negative.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-cpp-kernel-attempt-02/outputs/reports/raw/codeql-cpp-kernel/dfb-taint-cpp-closure-capture-negative.sarif.json",
+      "sha256": "73d8b78f9f08b068c08385cad78e1c11692d8bc7644f89ceebc1bcf92167a34e"
+    },
+    {
+      "original_path": "reports/raw/codeql-cpp-kernel/dfb-taint-cpp-same-object-field-positive.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-cpp-kernel-attempt-02/outputs/reports/raw/codeql-cpp-kernel/dfb-taint-cpp-same-object-field-positive.sarif.json",
+      "sha256": "61101051dfdfb3f667c1b3776197d699ffbab04febd6874994e9e1685599cc3b"
+    },
+    {
+      "original_path": "reports/raw/codeql-cpp-kernel/dfb-taint-cpp-direct-positive.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-cpp-kernel-attempt-02/outputs/reports/raw/codeql-cpp-kernel/dfb-taint-cpp-direct-positive.sarif.json",
+      "sha256": "bd8ef3a1a482c901efca0cc917ddf2071605da64dd9c5ebab3840a81d4739989"
+    },
+    {
+      "original_path": "reports/raw/codeql-cpp-kernel/dfb-taint-cpp-object-separation-positive.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-cpp-kernel-attempt-02/outputs/reports/raw/codeql-cpp-kernel/dfb-taint-cpp-object-separation-positive.sarif.json",
+      "sha256": "4f4e210b4732893bfa0fb75da9c78bdad6a128b09386e09ebc63bdb1fa5c399a"
+    },
+    {
+      "original_path": "reports/raw/codeql-cpp-kernel/dfb-taint-cpp-branch-join-negative.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-cpp-kernel-attempt-02/outputs/reports/raw/codeql-cpp-kernel/dfb-taint-cpp-branch-join-negative.sarif.json",
+      "sha256": "4592d222377a0b60b19e0196f9d3f1c81b5bebe62ee84bcc57acdc3224486d35"
+    },
+    {
+      "original_path": "reports/raw/codeql-cpp-kernel/dfb-taint-cpp-function-field-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-cpp-kernel-attempt-02/outputs/reports/raw/codeql-cpp-kernel/dfb-taint-cpp-function-field-negative-timing.json",
+      "sha256": "2bb41077b21a1d9d582acdc1ba40f129daef8292afc1e3aebbbf08f247f9ab6d"
+    },
+    {
+      "original_path": "reports/raw/codeql-cpp-kernel/dfb-taint-cpp-infeasible-branch-negative.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-cpp-kernel-attempt-02/outputs/reports/raw/codeql-cpp-kernel/dfb-taint-cpp-infeasible-branch-negative.sarif.json",
+      "sha256": "7238bb6974a58f3c808278276248d2f047cc6c4ad54150a747ccf2e92c28743b"
+    },
+    {
+      "original_path": "reports/raw/codeql-cpp-kernel/dfb-taint-cpp-array-element-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-cpp-kernel-attempt-02/outputs/reports/raw/codeql-cpp-kernel/dfb-taint-cpp-array-element-negative-timing.json",
+      "sha256": "989a44135f2b0a03a5e3e7be1d9b7abaaf0dad8db89ff03a27876c117b38df90"
+    },
+    {
+      "original_path": "reports/raw/codeql-cpp-kernel/dfb-taint-cpp-dispatch-table-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-cpp-kernel-attempt-02/outputs/reports/raw/codeql-cpp-kernel/dfb-taint-cpp-dispatch-table-negative-timing.json",
+      "sha256": "960013e8f5a570d6bb589b4776c20e6d0eb1a88f9096752789059a2f8820d533"
+    },
+    {
+      "original_path": "reports/raw/codeql-cpp-kernel/dfb-taint-cpp-local-chain-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-cpp-kernel-attempt-02/outputs/reports/raw/codeql-cpp-kernel/dfb-taint-cpp-local-chain-negative-timing.json",
+      "sha256": "539c1b5c74f2bb580c848f7c8f07c1459b701448fc0ab88c70d3fe070cc27ae7"
+    },
+    {
+      "original_path": "reports/raw/codeql-cpp-kernel/dfb-taint-cpp-nested-access-path-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-cpp-kernel-attempt-02/outputs/reports/raw/codeql-cpp-kernel/dfb-taint-cpp-nested-access-path-negative-timing.json",
+      "sha256": "4868ac35be10e70a0e5a3d7c9de556c004a4850f6020019957aa5da76cfd6da6"
+    },
+    {
+      "original_path": "reports/raw/codeql-cpp-kernel/dfb-taint-cpp-deep-relay-chain-negative.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-cpp-kernel-attempt-02/outputs/reports/raw/codeql-cpp-kernel/dfb-taint-cpp-deep-relay-chain-negative.sarif.json",
+      "sha256": "1b61b7ae16f27276f0e0e0971b614b1a6767b03299dffe39d267f1b72acb65ab"
+    },
+    {
+      "original_path": "reports/raw/codeql-cpp-kernel/dfb-taint-cpp-infeasible-branch-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-cpp-kernel-attempt-02/outputs/reports/raw/codeql-cpp-kernel/dfb-taint-cpp-infeasible-branch-negative-timing.json",
+      "sha256": "30add4fe88d754d87553201a0f48ab7f42c54150cfaea05ef8fc8b58cafc295c"
+    },
+    {
+      "original_path": "reports/raw/codeql-cpp-kernel/dfb-taint-cpp-computed-property-negative.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-cpp-kernel-attempt-02/outputs/reports/raw/codeql-cpp-kernel/dfb-taint-cpp-computed-property-negative.sarif.json",
+      "sha256": "e372920300a45c00eb5eab83d81b704e1d7fc449154f02bc72d648f2aafd15f2"
+    },
+    {
+      "original_path": "reports/raw/codeql-cpp-kernel/dfb-taint-cpp-return-relay-two-hop-positive.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-cpp-kernel-attempt-02/outputs/reports/raw/codeql-cpp-kernel/dfb-taint-cpp-return-relay-two-hop-positive.sarif.json",
+      "sha256": "db97a3723b7f576e37940852dec73c9c40562d4dd110ac7115eaefd1db04ee92"
+    },
+    {
+      "original_path": "reports/raw/codeql-cpp-kernel/dfb-taint-cpp-argument-position-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-cpp-kernel-attempt-02/outputs/reports/raw/codeql-cpp-kernel/dfb-taint-cpp-argument-position-negative-timing.json",
+      "sha256": "94d642baa74f4ea8e65071a5233e24a53c6bc155b5f67e518b6cb0d8c076af69"
+    },
+    {
+      "original_path": "reports/raw/codeql-cpp-kernel/dfb-taint-cpp-exception-catch-negative.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-cpp-kernel-attempt-02/outputs/reports/raw/codeql-cpp-kernel/dfb-taint-cpp-exception-catch-negative.sarif.json",
+      "sha256": "5c8042b691016f67ccd08913eabf0437958b53b9a736ad42a8c3018c02fa8d02"
+    },
+    {
+      "original_path": "reports/raw/codeql-cpp-kernel/dfb-taint-cpp-call-context-negative.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-cpp-kernel-attempt-02/outputs/reports/raw/codeql-cpp-kernel/dfb-taint-cpp-call-context-negative.sarif.json",
+      "sha256": "5fd90bcff3c76edba548e4d219d561d98fff228c40854db0c297f60aebec6184"
+    },
+    {
+      "original_path": "reports/raw/codeql-cpp-kernel/dfb-taint-cpp-nested-access-path-negative.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-cpp-kernel-attempt-02/outputs/reports/raw/codeql-cpp-kernel/dfb-taint-cpp-nested-access-path-negative.sarif.json",
+      "sha256": "3b9cd3d212d8ac3435987b8d9f45079690eafd857ca50ef6bbc30b4b903f5284"
+    },
+    {
+      "original_path": "reports/raw/codeql-cpp-kernel/dfb-taint-cpp-infeasible-branch-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-cpp-kernel-attempt-02/outputs/reports/raw/codeql-cpp-kernel/dfb-taint-cpp-infeasible-branch-positive-timing.json",
+      "sha256": "8edc2ece5375917c9b59c6644eda36e96846621e91a26c1948825b2796ee7861"
+    },
+    {
+      "original_path": "reports/raw/codeql-cpp-kernel/dfb-taint-cpp-nested-access-path-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-cpp-kernel-attempt-02/outputs/reports/raw/codeql-cpp-kernel/dfb-taint-cpp-nested-access-path-positive-timing.json",
+      "sha256": "cb222b060af2053952bb864cd97b9528ee7834815a3075f30b0ba975e93a180a"
+    },
+    {
+      "original_path": "reports/raw/codeql-cpp-kernel/dfb-taint-cpp-loop-carried-positive.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-cpp-kernel-attempt-02/outputs/reports/raw/codeql-cpp-kernel/dfb-taint-cpp-loop-carried-positive.sarif.json",
+      "sha256": "b80d9381cd88792f50773088a79a41900825ed1d42882a6fd7bc58e29bf87198"
+    },
+    {
+      "original_path": "reports/raw/codeql-cpp-kernel/dfb-taint-cpp-local-chain-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-cpp-kernel-attempt-02/outputs/reports/raw/codeql-cpp-kernel/dfb-taint-cpp-local-chain-positive-timing.json",
+      "sha256": "6bca95ee379735beef71283fc3e857524ed831b04f7d2b9b20b4c1fcef4d101d"
+    },
+    {
+      "original_path": "reports/raw/codeql-cpp-kernel/dfb-taint-cpp-anonymous-implementation-positive.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-cpp-kernel-attempt-02/outputs/reports/raw/codeql-cpp-kernel/dfb-taint-cpp-anonymous-implementation-positive.sarif.json",
+      "sha256": "63db34305ba781ef3a48a4bbbaa0d3b67c33388d7ce400698912d4841e503286"
+    },
+    {
+      "original_path": "reports/raw/codeql-cpp-kernel/dfb-taint-cpp-argument-position-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-cpp-kernel-attempt-02/outputs/reports/raw/codeql-cpp-kernel/dfb-taint-cpp-argument-position-positive-timing.json",
+      "sha256": "1220d7c2c3dee885aad2a2e4da480a6b0e45c89621d4d769f3d4ff2cc8865aae"
+    },
+    {
+      "original_path": "reports/raw/codeql-cpp-kernel/dfb-taint-cpp-dispatch-table-positive.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-cpp-kernel-attempt-02/outputs/reports/raw/codeql-cpp-kernel/dfb-taint-cpp-dispatch-table-positive.sarif.json",
+      "sha256": "d4a07101ca9ddba159357dbba5b8416db02fa588c93f5d918934ecceb0d10c27"
+    },
+    {
+      "original_path": "reports/raw/codeql-cpp-kernel/dfb-taint-cpp-nested-access-path-positive.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-cpp-kernel-attempt-02/outputs/reports/raw/codeql-cpp-kernel/dfb-taint-cpp-nested-access-path-positive.sarif.json",
+      "sha256": "c063a9584f7a76500743b9dad21f7ca31187cc678c7c69d227e68cee639bc423"
+    },
+    {
+      "original_path": "reports/raw/codeql-cpp-kernel/dfb-taint-cpp-call-context-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-cpp-kernel-attempt-02/outputs/reports/raw/codeql-cpp-kernel/dfb-taint-cpp-call-context-positive-timing.json",
+      "sha256": "a6feb33b1af7c903bcc98d78698501a1aeb79aac75b25ca182e2eea19f274d40"
+    },
+    {
+      "original_path": "reports/raw/codeql-cpp-kernel/dfb-taint-cpp-loop-carried-negative.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-cpp-kernel-attempt-02/outputs/reports/raw/codeql-cpp-kernel/dfb-taint-cpp-loop-carried-negative.sarif.json",
+      "sha256": "bb286e94f78899b2e4eed1a5d3cf8162a57bb333fe1653d3a19948aa569ede7d"
+    },
+    {
+      "original_path": "reports/raw/codeql-cpp-kernel/dfb-taint-cpp-return-relay-one-hop-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-cpp-kernel-attempt-02/outputs/reports/raw/codeql-cpp-kernel/dfb-taint-cpp-return-relay-one-hop-negative-timing.json",
+      "sha256": "c35b0f00c929035ddbddb00c0a616a79c13a5ede3afc2568c18d6af4501f59e7"
+    },
+    {
+      "original_path": "reports/raw/codeql-cpp-kernel/dfb-taint-cpp-anonymous-implementation-negative.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-cpp-kernel-attempt-02/outputs/reports/raw/codeql-cpp-kernel/dfb-taint-cpp-anonymous-implementation-negative.sarif.json",
+      "sha256": "044df50b2ee8cd5624df5ad339a26b73d8cbfbddf7fb029fc9f9a9e479092111"
+    },
+    {
+      "original_path": "reports/raw/codeql-cpp-kernel/dfb-taint-cpp-dispatch-table-negative.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-cpp-kernel-attempt-02/outputs/reports/raw/codeql-cpp-kernel/dfb-taint-cpp-dispatch-table-negative.sarif.json",
+      "sha256": "f3a56941175de16e248eb00faaaebb47d0fa3dfd12974e7ec5caeb9a85fcf628"
+    },
+    {
+      "original_path": "reports/raw/codeql-cpp-kernel/dfb-taint-cpp-deep-relay-chain-positive.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-cpp-kernel-attempt-02/outputs/reports/raw/codeql-cpp-kernel/dfb-taint-cpp-deep-relay-chain-positive.sarif.json",
+      "sha256": "b85e508590fe391e7beb666daa6952b00a219cc0a515999d613ad5ff5818b8a5"
+    },
+    {
+      "original_path": "reports/raw/codeql-cpp-kernel/dfb-taint-cpp-return-relay-one-hop-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-cpp-kernel-attempt-02/outputs/reports/raw/codeql-cpp-kernel/dfb-taint-cpp-return-relay-one-hop-positive-timing.json",
+      "sha256": "1829fa6ddf74d55c896ca05368420e7e92f82b08c93db8078cd9d509db9a9eb0"
+    },
+    {
+      "original_path": "reports/raw/codeql-cpp-kernel/dfb-taint-cpp-call-context-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-cpp-kernel-attempt-02/outputs/reports/raw/codeql-cpp-kernel/dfb-taint-cpp-call-context-negative-timing.json",
+      "sha256": "c429de406f5645687e2c1159f26e91c3cf9c35a19d04ee4c7d9a071127f79085"
+    },
+    {
+      "original_path": "reports/raw/codeql-cpp-kernel/dfb-taint-cpp-return-relay-two-hop-negative.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-cpp-kernel-attempt-02/outputs/reports/raw/codeql-cpp-kernel/dfb-taint-cpp-return-relay-two-hop-negative.sarif.json",
+      "sha256": "9c20b6a4dda0a146d6edf02b122481ac0849bc94f4cc97b0ff6b5d83a47da085"
+    },
+    {
+      "original_path": "reports/raw/codeql-cpp-kernel/dfb-taint-cpp-computed-property-positive.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-cpp-kernel-attempt-02/outputs/reports/raw/codeql-cpp-kernel/dfb-taint-cpp-computed-property-positive.sarif.json",
+      "sha256": "4389f04632264e8a1665ed0aeb26392ff257ee992cb2142981c56cdccc04a0e8"
+    },
+    {
+      "original_path": "reports/raw/codeql-cpp-kernel/dfb-taint-cpp-exception-catch-positive.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-cpp-kernel-attempt-02/outputs/reports/raw/codeql-cpp-kernel/dfb-taint-cpp-exception-catch-positive.sarif.json",
+      "sha256": "a077370a8ddd27745e967bec903647570560fa97c8486a42fc6e48c9edf0c7e7"
+    },
+    {
+      "original_path": "reports/raw/codeql-cpp-kernel/dfb-taint-cpp-call-context-positive.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-cpp-kernel-attempt-02/outputs/reports/raw/codeql-cpp-kernel/dfb-taint-cpp-call-context-positive.sarif.json",
+      "sha256": "bc7c3737d1a88cba741781d9767a7414de433e373234fa60a4866bc6a783a564"
+    },
+    {
+      "original_path": "reports/raw/codeql-cpp-kernel/dfb-taint-cpp-local-overwrite-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-cpp-kernel-attempt-02/outputs/reports/raw/codeql-cpp-kernel/dfb-taint-cpp-local-overwrite-negative-timing.json",
+      "sha256": "c0b6373f075e28ab93fd3c236483994951e48500c57f44567faf2c463d1323cf"
+    },
+    {
+      "original_path": "reports/raw/codeql-cpp-kernel/dfb-taint-cpp-computed-property-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-cpp-kernel-attempt-02/outputs/reports/raw/codeql-cpp-kernel/dfb-taint-cpp-computed-property-negative-timing.json",
+      "sha256": "9acad4717a4f2d5a4285edcb42486f11d9ad8be6f76d8f42280530acec00570a"
+    },
+    {
+      "original_path": "reports/raw/codeql-cpp-kernel/dfb-taint-cpp-closure-capture-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-cpp-kernel-attempt-02/outputs/reports/raw/codeql-cpp-kernel/dfb-taint-cpp-closure-capture-negative-timing.json",
+      "sha256": "3aede49ba3a3d244334161fec1bde74acc45937557e0c45b2a782e6652bcd3f1"
+    },
+    {
+      "original_path": "reports/raw/codeql-cpp-kernel/dfb-taint-cpp-object-separation-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-cpp-kernel-attempt-02/outputs/reports/raw/codeql-cpp-kernel/dfb-taint-cpp-object-separation-positive-timing.json",
+      "sha256": "96f3fe352b4ef0b23c7c654ab40d7d5d19181e11595aea4dffd62aa9f1eec7ff"
+    },
+    {
+      "original_path": "reports/raw/codeql-cpp-kernel/dfb-taint-cpp-same-object-field-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-cpp-kernel-attempt-02/outputs/reports/raw/codeql-cpp-kernel/dfb-taint-cpp-same-object-field-positive-timing.json",
+      "sha256": "bba48a6bb26981981e590172e6378cec5560c335108941bc82facec24b2273c0"
+    },
+    {
+      "original_path": "reports/raw/codeql-cpp-kernel/dfb-taint-cpp-alias-propagation-positive.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-cpp-kernel-attempt-02/outputs/reports/raw/codeql-cpp-kernel/dfb-taint-cpp-alias-propagation-positive.sarif.json",
+      "sha256": "00eca87dc57bb31f10b8f3a8da2376ea50b386f18fa7b0f51a95206ab5cd8488"
+    },
+    {
+      "original_path": "reports/raw/codeql-cpp-kernel/dfb-taint-cpp-expression-positive.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-cpp-kernel-attempt-02/outputs/reports/raw/codeql-cpp-kernel/dfb-taint-cpp-expression-positive.sarif.json",
+      "sha256": "6abe8775a9cffaad2cc485c31bafa4773c29de7a2bdf84cb877d98d8eb3f9105"
+    },
+    {
+      "original_path": "reports/raw/codeql-cpp-kernel/dfb-taint-cpp-computed-property-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-cpp-kernel-attempt-02/outputs/reports/raw/codeql-cpp-kernel/dfb-taint-cpp-computed-property-positive-timing.json",
+      "sha256": "3f7a63381fb411bdd5e7c96f9e4bd069141d9f6bf1d5dbfd5a79be9a2a07644e"
+    },
+    {
+      "original_path": "reports/raw/codeql-cpp-kernel/dfb-taint-cpp-closure-capture-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-cpp-kernel-attempt-02/outputs/reports/raw/codeql-cpp-kernel/dfb-taint-cpp-closure-capture-positive-timing.json",
+      "sha256": "cf058e95ad5179a3e4d87bc7520adb074e7a849c616a1ce668dbff366fd50011"
+    },
+    {
+      "original_path": "reports/raw/codeql-cpp-kernel/dfb-taint-cpp-object-separation-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-cpp-kernel-attempt-02/outputs/reports/raw/codeql-cpp-kernel/dfb-taint-cpp-object-separation-negative-timing.json",
+      "sha256": "7665950e67b58c6b9e3293a18a4945ab2120324cb645a3e9d18e0672c52b23f4"
+    },
+    {
+      "original_path": "reports/raw/codeql-cpp-kernel/dfb-taint-cpp-local-chain-positive.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-cpp-kernel-attempt-02/outputs/reports/raw/codeql-cpp-kernel/dfb-taint-cpp-local-chain-positive.sarif.json",
+      "sha256": "2ebcffdc1f6432f10150e589ffd27f153a36bfad0726cd467e5e262cee94bf18"
+    },
+    {
+      "original_path": "reports/raw/codeql-cpp-kernel/dfb-taint-cpp-same-object-field-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-cpp-kernel-attempt-02/outputs/reports/raw/codeql-cpp-kernel/dfb-taint-cpp-same-object-field-negative-timing.json",
+      "sha256": "de532dab18ea9c20a364ebb05569d4d0a0ff17e1f0bdbec7733354361b2c58bf"
+    },
+    {
+      "original_path": "reports/raw/codeql-cpp-kernel/dfb-taint-cpp-recursive-carry-positive.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-cpp-kernel-attempt-02/outputs/reports/raw/codeql-cpp-kernel/dfb-taint-cpp-recursive-carry-positive.sarif.json",
+      "sha256": "04990d47cc64bfc7a8b7d01ac1945f524d18c664c4feb74170063fcdddbcafff"
+    },
+    {
+      "original_path": "reports/raw/codeql-cpp-kernel/dfb-taint-cpp-local-overwrite-positive.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-cpp-kernel-attempt-02/outputs/reports/raw/codeql-cpp-kernel/dfb-taint-cpp-local-overwrite-positive.sarif.json",
+      "sha256": "10b59c9b6df2e9aa9b9875814f369766c62b86b0336596ba3280b5e4d2e54c71"
+    },
+    {
+      "original_path": "reports/raw/codeql-cpp-kernel/dfb-taint-cpp-local-overwrite-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-cpp-kernel-attempt-02/outputs/reports/raw/codeql-cpp-kernel/dfb-taint-cpp-local-overwrite-positive-timing.json",
+      "sha256": "03c46a508e96fe07809cbbb2cc797ebdfa2d3c163ceba95d0641bb18488c2da7"
+    },
+    {
+      "original_path": "reports/raw/codeql-cpp-kernel/dfb-taint-cpp-map-iteration-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-cpp-kernel-attempt-02/outputs/reports/raw/codeql-cpp-kernel/dfb-taint-cpp-map-iteration-positive-timing.json",
+      "sha256": "768f5f770c38f472ac066445e5aa4506c003bc7b465ec64bce24a7bf2c354518"
+    },
+    {
+      "original_path": "reports/raw/codeql-cpp-kernel/dfb-taint-cpp-anonymous-implementation-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-cpp-kernel-attempt-02/outputs/reports/raw/codeql-cpp-kernel/dfb-taint-cpp-anonymous-implementation-positive-timing.json",
+      "sha256": "08b69e4992d921047b6c496e198eef5815e40e3884f9b7faab8f42b89a288fc7"
+    },
+    {
+      "original_path": "reports/raw/codeql-cpp-kernel/dfb-taint-cpp-alias-propagation-negative.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-cpp-kernel-attempt-02/outputs/reports/raw/codeql-cpp-kernel/dfb-taint-cpp-alias-propagation-negative.sarif.json",
+      "sha256": "337a2e12582f21fddd394c8aa01414880b9cf04a86b729d972772df68e64b8ee"
+    },
+    {
+      "original_path": "reports/raw/codeql-cpp-kernel/dfb-taint-cpp-expression-negative.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-cpp-kernel-attempt-02/outputs/reports/raw/codeql-cpp-kernel/dfb-taint-cpp-expression-negative.sarif.json",
+      "sha256": "8faeceacc6bc15d8a0d73b613ea62474f30e2f217e918fb638382e16c0e45548"
+    },
+    {
+      "original_path": "reports/raw/codeql-cpp-kernel/dfb-taint-cpp-alias-propagation-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-cpp-kernel-attempt-02/outputs/reports/raw/codeql-cpp-kernel/dfb-taint-cpp-alias-propagation-negative-timing.json",
+      "sha256": "d5f0ebc58c016e2486fa24065d43312df0ec8a742b70936feec57da0d9dafe6c"
+    },
+    {
+      "original_path": "reports/raw/codeql-cpp-kernel/dfb-taint-cpp-local-chain-negative.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-cpp-kernel-attempt-02/outputs/reports/raw/codeql-cpp-kernel/dfb-taint-cpp-local-chain-negative.sarif.json",
+      "sha256": "67662536e7c58d677658fef9d647f39e0e7a6ca23aa24115561b77325740d3f4"
+    },
+    {
+      "original_path": "reports/raw/codeql-cpp-kernel/dfb-taint-cpp-local-overwrite-negative.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-cpp-kernel-attempt-02/outputs/reports/raw/codeql-cpp-kernel/dfb-taint-cpp-local-overwrite-negative.sarif.json",
+      "sha256": "80f904bf3ce4cf8acae1f15e2c52ae039bb7ae16e426ca725560c26b79a28576"
+    },
+    {
+      "original_path": "reports/raw/codeql-cpp-kernel/dfb-taint-cpp-recursive-carry-negative.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-cpp-kernel-attempt-02/outputs/reports/raw/codeql-cpp-kernel/dfb-taint-cpp-recursive-carry-negative.sarif.json",
+      "sha256": "853c5dcbfea4c23c3b58df4f1cc7b6085f22b3f7db9ec3375acdd926b946f4fa"
+    },
+    {
+      "original_path": "reports/raw/codeql-cpp-kernel/dfb-taint-cpp-recursive-carry-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-cpp-kernel-attempt-02/outputs/reports/raw/codeql-cpp-kernel/dfb-taint-cpp-recursive-carry-positive-timing.json",
+      "sha256": "1ee47db598cc8491a722dc33a712635631da74d52548f18252c8534c667625e7"
+    },
+    {
+      "original_path": "reports/raw/codeql-cpp-kernel/dfb-taint-cpp-anonymous-implementation-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-cpp-kernel-attempt-02/outputs/reports/raw/codeql-cpp-kernel/dfb-taint-cpp-anonymous-implementation-negative-timing.json",
+      "sha256": "69b0fcde018ffff38522b6a482a66ddd77e70865cd595274bd674c05c14104fc"
+    },
+    {
+      "original_path": "reports/raw/codeql-cpp-kernel/dfb-taint-cpp-map-iteration-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-cpp-kernel-attempt-02/outputs/reports/raw/codeql-cpp-kernel/dfb-taint-cpp-map-iteration-negative-timing.json",
+      "sha256": "0d59c8bb70407d46cf632e4f8b4ccf32f71136275df7c0de147a2c88c30a273a"
+    },
+    {
+      "original_path": "reports/raw/codeql-cpp-kernel/dfb-taint-cpp-recursive-carry-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-cpp-kernel-attempt-02/outputs/reports/raw/codeql-cpp-kernel/dfb-taint-cpp-recursive-carry-negative-timing.json",
+      "sha256": "1ea171e133e2e2c902cab682a05ec8cf44e2637717f5fd9f237fce268bf29bfc"
+    },
+    {
+      "original_path": "reports/raw/codeql-cpp-kernel/dfb-taint-cpp-alias-propagation-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-cpp-kernel-attempt-02/outputs/reports/raw/codeql-cpp-kernel/dfb-taint-cpp-alias-propagation-positive-timing.json",
+      "sha256": "6cb5e4dcde21c7f1e019865ea4c76899315b71a75fc392366a68892cf8ae4f2e"
+    }
+  ],
+  "expected_output_roots": [
+    "reports/codeql-cpp-kernel.json",
+    "reports/raw/codeql-cpp-kernel"
+  ],
+  "missing_fresh_output_roots": [],
+  "removed_paths": []
+}
