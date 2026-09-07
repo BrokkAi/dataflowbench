@@ -30,6 +30,24 @@
         "reports/raw/warm-observability-v071"
       ],
       "scope": "Current CLI observations plus preregistered same-work controls; no declined capability inferred merely from help absence."
+    },
+    {
+      "id": "probe-opentaint-product-v071",
+      "argv": [
+        "python3",
+        "scripts/probe-opentaint-product-v071.py"
+      ],
+      "script_sha256": "89ee448a7d03987de969cf054e6a30b384e43cc6f29a8e5ea55fef3f6725c140",
+      "output_roots": [
+        "reports/raw/opentaint-product-v071"
+      ],
+      "controls": [
+        "12 unchanged native Java fixtures",
+        "servlet source/Runtime.exec positive",
+        "same sink constant negative"
+      ],
+      "identity_record": "reports/releases/v0.7.1/opentaint-bundle-identity.json",
+      "normalization": "None; actual output and engagement must be audited before native decisions or wrapper equivalence."
     }
   ]
 }
