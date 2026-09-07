@@ -22,6 +22,7 @@ mod freeze;
 mod latency;
 mod modeling;
 mod native;
+mod population;
 mod real_project;
 mod report;
 mod results;
@@ -70,6 +71,9 @@ use std::path::PathBuf;
 #[derive(Parser)]
 #[command(name = "dataflowbench")]
 struct Cli {
+    /// Select an immutable released corpus (currently v0.7.0).
+    #[arg(long, global = true)]
+    population: Option<String>,
     #[command(subcommand)]
     command: Commands,
 }
@@ -898,7 +902,9 @@ enum Commands {
 }
 
 fn main() -> Result<()> {
-    match Cli::parse().command {
+    let cli = Cli::parse();
+    population::initialize(cli.population.as_deref())?;
+    match cli.command {
         Commands::Validate => validate_cases(),
         Commands::ValidateReports => validate_reports(),
         Commands::ValidateFreeze { manifest } => validate_freeze(&manifest),

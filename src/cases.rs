@@ -25,6 +25,13 @@ pub(crate) fn schema(path: &str) -> Result<JSONSchema> {
 }
 
 pub(crate) fn case_paths() -> Vec<PathBuf> {
+    if let Some(population) = crate::population::active() {
+        return population.paths();
+    }
+    all_case_paths()
+}
+
+pub(crate) fn all_case_paths() -> Vec<PathBuf> {
     let mut paths: Vec<_> = WalkDir::new("cases")
         .into_iter()
         .filter_map(Result::ok)
@@ -48,7 +55,7 @@ pub(crate) fn validate_value(compiled: &JSONSchema, value: &Value, path: &Path) 
 
 pub(crate) fn validate_cases() -> Result<()> {
     let compiled = schema("schemas/case.schema.json")?;
-    let paths = case_paths();
+    let paths = all_case_paths();
     if paths.is_empty() {
         bail!("no case.json files found beneath cases/");
     }
@@ -340,6 +347,9 @@ pub(crate) fn validate_kernel_population_with(
     label: &str,
     expected_templates: &[&str],
 ) -> Result<()> {
+    if let Some(population) = crate::population::active() {
+        population.validate_members(cases)?;
+    }
     let expected_case_count = 2 * expected_templates.len();
     if cases.len() != expected_case_count {
         bail!(
