@@ -15,6 +15,7 @@ import {
   vendorOrder,
   type AnalyzerCohort,
 } from '../data/snapshots';
+import ScatterTooltip from './ScatterTooltip.astro';
 
 interface Props {
   cohort: AnalyzerCohort;
@@ -383,7 +384,7 @@ const last = columns.at(-1)!;
   </div>
 
 {heading && (
-<div class="chart-frame view-absolute" style={`--evolution-min-width: ${minWidthRem}rem`}>
+<div class="chart-frame view-absolute" data-scatter-frame style={`--evolution-min-width: ${minWidthRem}rem`}>
   <svg
     class="evolution-chart"
     viewBox={`0 0 ${width} ${height}`}
@@ -468,16 +469,9 @@ const last = columns.at(-1)!;
           ))}
           {entry.points.map((point) => {
             const x = bandCenter(columnIndex.get(point.version) ?? 0) + offset;
+            const tooltip = `${entry.name} — x: ${point.version} · y: ${point.correct} decisive-correct assertions`;
             return (
-              <circle class="dot" cx={x} cy={y(point.correct)} r="4.5">
-                <title>
-                  {entry.name} · {point.version} · {point.correct} decisive-correct
-                  of {point.covered} covered ({point.kernels} of{' '}
-                  {columnKernelsOf(point.version)} kernels) ={' '}
-                  {formatPercent(coveredShare(point))}; secondary,
-                  correct ÷ decided = {point.correct} of {point.decided}
-                </title>
-              </circle>
+              <circle class="dot" cx={x} cy={y(point.correct)} r="4.5" tabindex="0" role="img" aria-label={tooltip} data-tooltip={tooltip} />
             );
           })}
         </g>
@@ -509,10 +503,11 @@ const last = columns.at(-1)!;
       assertions
     </text>
   </svg>
+  <ScatterTooltip />
 </div>
 )}
 
-<div class="chart-frame view-normalized" style={`--evolution-min-width: ${minWidthRem}rem`}>
+<div class="chart-frame view-normalized" data-scatter-frame style={`--evolution-min-width: ${minWidthRem}rem`}>
   <svg
     class="evolution-chart"
     viewBox={`0 0 ${width} ${height}`}
@@ -585,6 +580,7 @@ const last = columns.at(-1)!;
             const x = bandCenter(columnIndex.get(point.version) ?? 0) + offset;
             const kernels = columnKernelsOf(point.version);
             const radius = markerRadius(point, kernels);
+            const tooltip = `${entry.name} — x: ${point.version} · y: ${formatPercent(coveredShare(point))} accuracy on covered kernels`;
             return (
               <>
                 <circle
@@ -592,15 +588,11 @@ const last = columns.at(-1)!;
                   cx={x}
                   cy={yPercent(coveredShare(point))}
                   r={radius.toFixed(2)}
-                >
-                  <title>
-                    {entry.name} · {point.version} ·{' '}
-                    {formatPercent(coveredShare(point))} — {point.correct} of{' '}
-                    {point.covered} covered ({point.kernels} of {kernels}{' '}
-                    {kernels === 1 ? 'kernel' : 'kernels'}); secondary, correct ÷
-                    decided = {point.correct} of {point.decided}
-                  </title>
-                </circle>
+                  tabindex="0"
+                  role="img"
+                  aria-label={tooltip}
+                  data-tooltip={tooltip}
+                />
                 <text
                   class="coverage-note"
                   x={x}
@@ -646,6 +638,7 @@ const last = columns.at(-1)!;
       % of its covered population
     </text>
   </svg>
+  <ScatterTooltip />
 </div>
 
 {heading && (
@@ -864,12 +857,15 @@ const last = columns.at(-1)!;
     display: none;
   }
   .chart-frame {
+    position: relative;
     border: 1px solid var(--sl-color-hairline);
     border-radius: 0.75rem;
     padding: 0.75rem 0.5rem 0.25rem;
     background: var(--sl-color-bg-sidebar);
     overflow-x: auto;
   }
+  .dot { cursor: default; outline: none; }
+  .dot:is(:hover, :focus-visible) { stroke: var(--sl-color-text); stroke-width: 3; }
   .evolution-chart {
     display: block;
     width: 100%;
