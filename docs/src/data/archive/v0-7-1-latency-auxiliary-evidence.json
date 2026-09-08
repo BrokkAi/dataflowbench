@@ -1,0 +1,1063 @@
+{
+  "artifacts": {
+    "reports/raw/invocation-overhead/bifrost-python/invocation-overhead.json": {
+      "adapter": "bifrost",
+      "amendment": "A24",
+      "clock": "monotonic",
+      "ended_at_unix_seconds": 1788851960,
+      "estimate_bias": "upper bound on start-up and warm-up: it contains the trivial fixture's own near-zero analysis, and it is a cold single-shot execution \u2014 the same posture the cold rows are measured in, and not a steady-state one",
+      "estimated_overhead_ms": {
+        "high": 236,
+        "low": 135
+      },
+      "estimator": "one complete adapter invocation over a trivial no-flow fixture",
+      "evidence_kind": "retained-invocation-overhead-estimate",
+      "fixture_file": "fixture/dfb_trivial.py",
+      "fixture_sha256": "d4dfe541d478dd9a22af5376eae5286f1cd095f4ce629cc6a0f3122d4980364a",
+      "language": "python",
+      "measured_boundary": "the adapter's own subprocess boundaries; the estimate is the sum of its declared phases, as the cold whole-invocation figure is",
+      "publication": "range over every repeat; never a mean, never a chosen repeat, and never gated on the repeats agreeing \u2014 the width is the precision",
+      "repeats": 3,
+      "runs": [
+        {
+          "load_average_1m_before": 4.18,
+          "phases": [
+            {
+              "phase": "total",
+              "wall_ms": 236
+            }
+          ],
+          "repeat": 1,
+          "wall_ms": 236
+        },
+        {
+          "load_average_1m_before": 4.18,
+          "phases": [
+            {
+              "phase": "total",
+              "wall_ms": 135
+            }
+          ],
+          "repeat": 2,
+          "wall_ms": 135
+        },
+        {
+          "load_average_1m_before": 4.18,
+          "phases": [
+            {
+              "phase": "total",
+              "wall_ms": 138
+            }
+          ],
+          "repeat": 3,
+          "wall_ms": 138
+        }
+      ],
+      "schema_version": 1,
+      "started_at_unix_seconds": 1788851959,
+      "tool_build_identity": "bd77fd7e47c1d683231a9a2f552c997fd13634e2",
+      "tool_version": "bifrost 0.11.0\nbuiltin-policy-pack bifrost.code-smells@2.10.0 policies=16\nbuiltin-policy-pack bifrost.security@1.0.0 policies=1\nbuiltin-policy-catalog sha256=0f29dc31238434719b84d15e3954539d6a7c25ed3e42923e23efa4e87e2b8542"
+    },
+    "reports/raw/invocation-overhead/bifrost-python/run-environment.json": {
+      "captured_at_unix_seconds": 1788851959,
+      "cpu_architecture": "aarch64",
+      "cpu_count": 10,
+      "evidence_kind": "retained-run-environment",
+      "hardware_model": "Mac16,1",
+      "os": "macos",
+      "os_release": "25.6.0",
+      "schema_version": 1,
+      "tool": "bifrost",
+      "witnessed_tool_build_identity": "bd77fd7e47c1d683231a9a2f552c997fd13634e2",
+      "witnessed_tool_version": "bifrost 0.11.0",
+      "witnessed_tool_version_banner": "bifrost 0.11.0\nbuiltin-policy-pack bifrost.code-smells@2.10.0 policies=16\nbuiltin-policy-pack bifrost.security@1.0.0 policies=1\nbuiltin-policy-catalog sha256=0f29dc31238434719b84d15e3954539d6a7c25ed3e42923e23efa4e87e2b8542"
+    },
+    "reports/raw/invocation-overhead/codeql-ruby/invocation-overhead.json": {
+      "adapter": "codeql",
+      "amendment": "A24",
+      "clock": "monotonic",
+      "ended_at_unix_seconds": 1788852034,
+      "estimate_bias": "upper bound on start-up and warm-up: it contains the trivial fixture's own near-zero analysis, and it is a cold single-shot execution \u2014 the same posture the cold rows are measured in, and not a steady-state one",
+      "estimated_overhead_ms": {
+        "high": 3791,
+        "low": 3501
+      },
+      "estimator": "one complete adapter invocation over a trivial no-flow fixture",
+      "evidence_kind": "retained-invocation-overhead-estimate",
+      "fixture_file": "fixture/dfb_trivial.rb",
+      "fixture_sha256": "aff8dce380e5b54990302a18e09f1420f11e670f1bc9bc6e06b1895fc966a889",
+      "language": "ruby",
+      "measured_boundary": "the adapter's own subprocess boundaries; the estimate is the sum of its declared phases, as the cold whole-invocation figure is",
+      "publication": "range over every repeat; never a mean, never a chosen repeat, and never gated on the repeats agreeing \u2014 the width is the precision",
+      "repeats": 3,
+      "runs": [
+        {
+          "load_average_1m_before": 2.88,
+          "phases": [
+            {
+              "phase": "database-create",
+              "wall_ms": 1165
+            },
+            {
+              "phase": "database-analyze",
+              "wall_ms": 2626
+            }
+          ],
+          "repeat": 1,
+          "wall_ms": 3791
+        },
+        {
+          "load_average_1m_before": 2.81,
+          "phases": [
+            {
+              "phase": "database-create",
+              "wall_ms": 1052
+            },
+            {
+              "phase": "database-analyze",
+              "wall_ms": 2449
+            }
+          ],
+          "repeat": 2,
+          "wall_ms": 3501
+        },
+        {
+          "load_average_1m_before": 2.81,
+          "phases": [
+            {
+              "phase": "database-create",
+              "wall_ms": 1066
+            },
+            {
+              "phase": "database-analyze",
+              "wall_ms": 2481
+            }
+          ],
+          "repeat": 3,
+          "wall_ms": 3547
+        }
+      ],
+      "schema_version": 1,
+      "started_at_unix_seconds": 1788852023,
+      "tool_build_identity": "codeql-cli:6b1e4dee94adb20f90a671f3fc9e04be32eecf65",
+      "tool_version": "2.26.4"
+    },
+    "reports/raw/invocation-overhead/codeql-ruby/run-environment.json": {
+      "captured_at_unix_seconds": 1788852023,
+      "cpu_architecture": "aarch64",
+      "cpu_count": 10,
+      "evidence_kind": "retained-run-environment",
+      "hardware_model": "Mac16,1",
+      "os": "macos",
+      "os_release": "25.6.0",
+      "schema_version": 1,
+      "tool": "codeql",
+      "witnessed_tool_build_identity": "codeql-cli:6b1e4dee94adb20f90a671f3fc9e04be32eecf65",
+      "witnessed_tool_version": "2.26.4",
+      "witnessed_tool_version_banner": null
+    },
+    "reports/raw/invocation-overhead/flowdroid-java/invocation-overhead.json": {
+      "adapter": "flowdroid",
+      "amendment": "A24",
+      "clock": "monotonic",
+      "ended_at_unix_seconds": 1788852101,
+      "estimate_bias": "upper bound on start-up and warm-up: it contains the trivial fixture's own near-zero analysis, and it is a cold single-shot execution \u2014 the same posture the cold rows are measured in, and not a steady-state one",
+      "estimated_overhead_ms": {
+        "high": 616,
+        "low": 594
+      },
+      "estimator": "one complete adapter invocation over a trivial no-flow fixture",
+      "evidence_kind": "retained-invocation-overhead-estimate",
+      "fixture_file": "fixture/DfbTrivial.java",
+      "fixture_sha256": "b1f8f5f67249ca905ca44eb0971d9d40eaf0c588f8765f8c31e8bf6fec9b4e08",
+      "language": "java",
+      "measured_boundary": "the adapter's own subprocess boundaries; the estimate is the sum of its declared phases, as the cold whole-invocation figure is",
+      "publication": "range over every repeat; never a mean, never a chosen repeat, and never gated on the repeats agreeing \u2014 the width is the precision",
+      "repeats": 3,
+      "runs": [
+        {
+          "load_average_1m_before": 1.91,
+          "phases": [
+            {
+              "phase": "total",
+              "wall_ms": 616
+            }
+          ],
+          "repeat": 1,
+          "wall_ms": 616
+        },
+        {
+          "load_average_1m_before": 1.91,
+          "phases": [
+            {
+              "phase": "total",
+              "wall_ms": 594
+            }
+          ],
+          "repeat": 2,
+          "wall_ms": 594
+        },
+        {
+          "load_average_1m_before": 1.91,
+          "phases": [
+            {
+              "phase": "total",
+              "wall_ms": 608
+            }
+          ],
+          "repeat": 3,
+          "wall_ms": 608
+        }
+      ],
+      "schema_version": 1,
+      "started_at_unix_seconds": 1788852097,
+      "tool_build_identity": "soot-infoflow-cmd-2.15.1-jar-with-dependencies.jar sha256:51dadead47a173c494c2fa4855b1e8bd3b54e702a2c4b5ed58e60153009ae218; android-34 platform android.jar sha256:6cea1df3efb77103ac3e2beb9bf4718964b0e0869ab16d39d29d5cbae1c147ad",
+      "tool_version": "2.15.1"
+    },
+    "reports/raw/invocation-overhead/flowdroid-java/run-environment.json": {
+      "captured_at_unix_seconds": 1788852097,
+      "cpu_architecture": "aarch64",
+      "cpu_count": 10,
+      "evidence_kind": "retained-run-environment",
+      "hardware_model": "Mac16,1",
+      "os": "macos",
+      "os_release": "25.6.0",
+      "schema_version": 1,
+      "tool": "flowdroid",
+      "witnessed_tool_build_identity": "soot-infoflow-cmd-2.15.1-jar-with-dependencies.jar sha256:51dadead47a173c494c2fa4855b1e8bd3b54e702a2c4b5ed58e60153009ae218; android-34 platform android.jar sha256:6cea1df3efb77103ac3e2beb9bf4718964b0e0869ab16d39d29d5cbae1c147ad",
+      "witnessed_tool_version": "2.15.1",
+      "witnessed_tool_version_banner": null
+    },
+    "reports/raw/invocation-overhead/infer-c/invocation-overhead.json": {
+      "adapter": "infer",
+      "amendment": "A24",
+      "clock": "monotonic",
+      "ended_at_unix_seconds": 1788852167,
+      "estimate_bias": "upper bound on start-up and warm-up: it contains the trivial fixture's own near-zero analysis, and it is a cold single-shot execution \u2014 the same posture the cold rows are measured in, and not a steady-state one",
+      "estimated_overhead_ms": {
+        "high": 463,
+        "low": 253
+      },
+      "estimator": "one complete adapter invocation over a trivial no-flow fixture",
+      "evidence_kind": "retained-invocation-overhead-estimate",
+      "fixture_file": "fixture/dfb_trivial.c",
+      "fixture_sha256": "a76e074c14f1b089c82a8890215c53beaf50a6092794798b5345a339a3ec624a",
+      "language": "c",
+      "measured_boundary": "the adapter's own subprocess boundaries; the estimate is the sum of its declared phases, as the cold whole-invocation figure is",
+      "publication": "range over every repeat; never a mean, never a chosen repeat, and never gated on the repeats agreeing \u2014 the width is the precision",
+      "repeats": 3,
+      "runs": [
+        {
+          "load_average_1m_before": 2.2,
+          "phases": [
+            {
+              "phase": "capture",
+              "wall_ms": 267
+            },
+            {
+              "phase": "analyze",
+              "wall_ms": 196
+            }
+          ],
+          "repeat": 1,
+          "wall_ms": 463
+        },
+        {
+          "load_average_1m_before": 2.18,
+          "phases": [
+            {
+              "phase": "capture",
+              "wall_ms": 68
+            },
+            {
+              "phase": "analyze",
+              "wall_ms": 185
+            }
+          ],
+          "repeat": 2,
+          "wall_ms": 253
+        },
+        {
+          "load_average_1m_before": 2.18,
+          "phases": [
+            {
+              "phase": "capture",
+              "wall_ms": 66
+            },
+            {
+              "phase": "analyze",
+              "wall_ms": 187
+            }
+          ],
+          "repeat": 3,
+          "wall_ms": 253
+        }
+      ],
+      "schema_version": 1,
+      "started_at_unix_seconds": 1788852166,
+      "tool_build_identity": "infer:v1.3.0 bin-sha256:17ed4818dadda60124e083a1e82124f104092e70c5e6d764551581a375eabf62",
+      "tool_version": "v1.3.0"
+    },
+    "reports/raw/invocation-overhead/infer-c/run-environment.json": {
+      "captured_at_unix_seconds": 1788852166,
+      "cpu_architecture": "aarch64",
+      "cpu_count": 10,
+      "evidence_kind": "retained-run-environment",
+      "hardware_model": "Mac16,1",
+      "os": "macos",
+      "os_release": "25.6.0",
+      "schema_version": 1,
+      "tool": "infer",
+      "witnessed_tool_build_identity": "infer:v1.3.0 bin-sha256:17ed4818dadda60124e083a1e82124f104092e70c5e6d764551581a375eabf62",
+      "witnessed_tool_version": "v1.3.0",
+      "witnessed_tool_version_banner": null
+    },
+    "reports/raw/invocation-overhead/joern-java/invocation-overhead.json": {
+      "adapter": "joern",
+      "amendment": "A24",
+      "clock": "monotonic",
+      "ended_at_unix_seconds": 1788852334,
+      "estimate_bias": "upper bound on start-up and warm-up: it contains the trivial fixture's own near-zero analysis, and it is a cold single-shot execution \u2014 the same posture the cold rows are measured in, and not a steady-state one",
+      "estimated_overhead_ms": {
+        "high": 8504,
+        "low": 7797
+      },
+      "estimator": "one complete adapter invocation over a trivial no-flow fixture",
+      "evidence_kind": "retained-invocation-overhead-estimate",
+      "fixture_file": "fixture/DfbTrivial.java",
+      "fixture_sha256": "b1f8f5f67249ca905ca44eb0971d9d40eaf0c588f8765f8c31e8bf6fec9b4e08",
+      "language": "java",
+      "measured_boundary": "the adapter's own subprocess boundaries; the estimate is the sum of its declared phases, as the cold whole-invocation figure is",
+      "publication": "range over every repeat; never a mean, never a chosen repeat, and never gated on the repeats agreeing \u2014 the width is the precision",
+      "repeats": 3,
+      "runs": [
+        {
+          "load_average_1m_before": 4.82,
+          "phases": [
+            {
+              "phase": "total",
+              "wall_ms": 8484
+            }
+          ],
+          "repeat": 1,
+          "wall_ms": 8484
+        },
+        {
+          "load_average_1m_before": 4.99,
+          "phases": [
+            {
+              "phase": "total",
+              "wall_ms": 8504
+            }
+          ],
+          "repeat": 2,
+          "wall_ms": 8504
+        },
+        {
+          "load_average_1m_before": 5.34,
+          "phases": [
+            {
+              "phase": "total",
+              "wall_ms": 7797
+            }
+          ],
+          "repeat": 3,
+          "wall_ms": 7797
+        }
+      ],
+      "schema_version": 1,
+      "started_at_unix_seconds": 1788852309,
+      "tool_build_identity": "joern-cli:4.0.621",
+      "tool_version": "4.0.621"
+    },
+    "reports/raw/invocation-overhead/joern-java/run-environment.json": {
+      "captured_at_unix_seconds": 1788852309,
+      "cpu_architecture": "aarch64",
+      "cpu_count": 10,
+      "evidence_kind": "retained-run-environment",
+      "hardware_model": "Mac16,1",
+      "os": "macos",
+      "os_release": "25.6.0",
+      "schema_version": 1,
+      "tool": "joern",
+      "witnessed_tool_build_identity": "joern-cli:4.0.621",
+      "witnessed_tool_version": "4.0.621",
+      "witnessed_tool_version_banner": null
+    },
+    "reports/raw/invocation-overhead/joern-php/invocation-overhead.json": {
+      "adapter": "joern",
+      "amendment": "A24",
+      "clock": "monotonic",
+      "ended_at_unix_seconds": 1788852244,
+      "estimate_bias": "upper bound on start-up and warm-up: it contains the trivial fixture's own near-zero analysis, and it is a cold single-shot execution \u2014 the same posture the cold rows are measured in, and not a steady-state one",
+      "estimated_overhead_ms": {
+        "high": 4394,
+        "low": 3650
+      },
+      "estimator": "one complete adapter invocation over a trivial no-flow fixture",
+      "evidence_kind": "retained-invocation-overhead-estimate",
+      "fixture_file": "fixture/dfb_trivial.php",
+      "fixture_sha256": "676a79fddb415b6e073a66ad6eae488a97f5038062c42c9db7ff97f197968307",
+      "language": "php",
+      "measured_boundary": "the adapter's own subprocess boundaries; the estimate is the sum of its declared phases, as the cold whole-invocation figure is",
+      "publication": "range over every repeat; never a mean, never a chosen repeat, and never gated on the repeats agreeing \u2014 the width is the precision",
+      "repeats": 3,
+      "runs": [
+        {
+          "load_average_1m_before": 2.24,
+          "phases": [
+            {
+              "phase": "total",
+              "wall_ms": 4394
+            }
+          ],
+          "repeat": 1,
+          "wall_ms": 4394
+        },
+        {
+          "load_average_1m_before": 2.24,
+          "phases": [
+            {
+              "phase": "total",
+              "wall_ms": 3761
+            }
+          ],
+          "repeat": 2,
+          "wall_ms": 3761
+        },
+        {
+          "load_average_1m_before": 2.14,
+          "phases": [
+            {
+              "phase": "total",
+              "wall_ms": 3650
+            }
+          ],
+          "repeat": 3,
+          "wall_ms": 3650
+        }
+      ],
+      "schema_version": 1,
+      "started_at_unix_seconds": 1788852232,
+      "tool_build_identity": "joern-cli:4.0.621",
+      "tool_version": "4.0.621"
+    },
+    "reports/raw/invocation-overhead/joern-php/run-environment.json": {
+      "captured_at_unix_seconds": 1788852232,
+      "cpu_architecture": "aarch64",
+      "cpu_count": 10,
+      "evidence_kind": "retained-run-environment",
+      "hardware_model": "Mac16,1",
+      "os": "macos",
+      "os_release": "25.6.0",
+      "schema_version": 1,
+      "tool": "joern",
+      "witnessed_tool_build_identity": "joern-cli:4.0.621",
+      "witnessed_tool_version": "4.0.621",
+      "witnessed_tool_version_banner": null
+    },
+    "reports/raw/invocation-overhead/opentaint-kotlin/invocation-overhead.json": {
+      "adapter": "opentaint",
+      "amendment": "A24",
+      "clock": "monotonic",
+      "ended_at_unix_seconds": 1788852415,
+      "estimate_bias": "upper bound on start-up and warm-up: it contains the trivial fixture's own near-zero analysis, and it is a cold single-shot execution \u2014 the same posture the cold rows are measured in, and not a steady-state one",
+      "estimated_overhead_ms": {
+        "high": 3705,
+        "low": 3640
+      },
+      "estimator": "one complete adapter invocation over a trivial no-flow fixture",
+      "evidence_kind": "retained-invocation-overhead-estimate",
+      "fixture_file": "fixture/DfbTrivial.kt",
+      "fixture_sha256": "d6ef47a7d8bdbf00b355f60935b05f60b019235d08b5935be0363823e8164b46",
+      "language": "kotlin",
+      "measured_boundary": "the adapter's own subprocess boundaries; the estimate is the sum of its declared phases, as the cold whole-invocation figure is",
+      "publication": "range over every repeat; never a mean, never a chosen repeat, and never gated on the repeats agreeing \u2014 the width is the precision",
+      "repeats": 3,
+      "runs": [
+        {
+          "load_average_1m_before": 2.74,
+          "phases": [
+            {
+              "phase": "total",
+              "wall_ms": 3699
+            }
+          ],
+          "repeat": 1,
+          "wall_ms": 3699
+        },
+        {
+          "load_average_1m_before": 3.48,
+          "phases": [
+            {
+              "phase": "total",
+              "wall_ms": 3640
+            }
+          ],
+          "repeat": 2,
+          "wall_ms": 3640
+        },
+        {
+          "load_average_1m_before": 3.92,
+          "phases": [
+            {
+              "phase": "total",
+              "wall_ms": 3705
+            }
+          ],
+          "repeat": 3,
+          "wall_ms": 3705
+        }
+      ],
+      "schema_version": 1,
+      "started_at_unix_seconds": 1788852398,
+      "tool_build_identity": "opentaint-project-analyzer.jar sha256:2ca93b6c33462bdbc23ceccdc5375e1a900682b33371cd906e5214dc7c48f569; opentaint-models.tar.gz sha256:20a96a50fba9ab6f6e98e8562019e5ecbe2a77de7947981eaf6e379f04065329",
+      "tool_version": "v0.4.6"
+    },
+    "reports/raw/invocation-overhead/opentaint-kotlin/run-environment.json": {
+      "captured_at_unix_seconds": 1788852398,
+      "cpu_architecture": "aarch64",
+      "cpu_count": 10,
+      "evidence_kind": "retained-run-environment",
+      "hardware_model": "Mac16,1",
+      "os": "macos",
+      "os_release": "25.6.0",
+      "schema_version": 1,
+      "tool": "opentaint",
+      "witnessed_tool_build_identity": "opentaint-project-analyzer.jar sha256:2ca93b6c33462bdbc23ceccdc5375e1a900682b33371cd906e5214dc7c48f569; opentaint-models.tar.gz sha256:20a96a50fba9ab6f6e98e8562019e5ecbe2a77de7947981eaf6e379f04065329",
+      "witnessed_tool_version": "v0.4.6",
+      "witnessed_tool_version_banner": null
+    },
+    "reports/raw/invocation-overhead/pysa-python/invocation-overhead.json": {
+      "adapter": "pysa",
+      "amendment": "A24",
+      "clock": "monotonic",
+      "ended_at_unix_seconds": 1788852489,
+      "estimate_bias": "upper bound on start-up and warm-up: it contains the trivial fixture's own near-zero analysis, and it is a cold single-shot execution \u2014 the same posture the cold rows are measured in, and not a steady-state one",
+      "estimated_overhead_ms": {
+        "high": 2510,
+        "low": 2415
+      },
+      "estimator": "one complete adapter invocation over a trivial no-flow fixture",
+      "evidence_kind": "retained-invocation-overhead-estimate",
+      "fixture_file": "fixture/dfb_trivial.py",
+      "fixture_sha256": "d4dfe541d478dd9a22af5376eae5286f1cd095f4ce629cc6a0f3122d4980364a",
+      "language": "python",
+      "measured_boundary": "the adapter's own subprocess boundaries; the estimate is the sum of its declared phases, as the cold whole-invocation figure is",
+      "publication": "range over every repeat; never a mean, never a chosen repeat, and never gated on the repeats agreeing \u2014 the width is the precision",
+      "repeats": 3,
+      "runs": [
+        {
+          "load_average_1m_before": 2.35,
+          "phases": [
+            {
+              "phase": "total",
+              "wall_ms": 2415
+            }
+          ],
+          "repeat": 1,
+          "wall_ms": 2415
+        },
+        {
+          "load_average_1m_before": 2.56,
+          "phases": [
+            {
+              "phase": "total",
+              "wall_ms": 2475
+            }
+          ],
+          "repeat": 2,
+          "wall_ms": 2475
+        },
+        {
+          "load_average_1m_before": 2.56,
+          "phases": [
+            {
+              "phase": "total",
+              "wall_ms": 2510
+            }
+          ],
+          "repeat": 3,
+          "wall_ms": 2510
+        }
+      ],
+      "schema_version": 1,
+      "started_at_unix_seconds": 1788852481,
+      "tool_build_identity": "pyre-check:0.10.0 pyre.bin-sha256:035a206349193dafdac70ec4020a992add5d88e60dee76163cf39ffb0b8fe8a3 pyrefly:1.2.0 pyrefly-sha256:6b460273720d857142be562d2c0c607e8ed8e5e752ab575b5c00ea3f735d8caa",
+      "tool_version": "0.10.0"
+    },
+    "reports/raw/invocation-overhead/pysa-python/run-environment.json": {
+      "captured_at_unix_seconds": 1788852481,
+      "cpu_architecture": "aarch64",
+      "cpu_count": 10,
+      "evidence_kind": "retained-run-environment",
+      "hardware_model": "Mac16,1",
+      "os": "macos",
+      "os_release": "25.6.0",
+      "schema_version": 1,
+      "tool": "pysa",
+      "witnessed_tool_build_identity": "pyre-check:0.10.0 pyre.bin-sha256:035a206349193dafdac70ec4020a992add5d88e60dee76163cf39ffb0b8fe8a3 pyrefly:1.2.0 pyrefly-sha256:6b460273720d857142be562d2c0c607e8ed8e5e752ab575b5c00ea3f735d8caa",
+      "witnessed_tool_version": "0.10.0",
+      "witnessed_tool_version_banner": null
+    },
+    "reports/raw/invocation-overhead/semgrep-kotlin/invocation-overhead.json": {
+      "adapter": "semgrep",
+      "amendment": "A24",
+      "clock": "monotonic",
+      "ended_at_unix_seconds": 1788852554,
+      "estimate_bias": "upper bound on start-up and warm-up: it contains the trivial fixture's own near-zero analysis, and it is a cold single-shot execution \u2014 the same posture the cold rows are measured in, and not a steady-state one",
+      "estimated_overhead_ms": {
+        "high": 944,
+        "low": 936
+      },
+      "estimator": "one complete adapter invocation over a trivial no-flow fixture",
+      "evidence_kind": "retained-invocation-overhead-estimate",
+      "fixture_file": "fixture/DfbTrivial.kt",
+      "fixture_sha256": "d6ef47a7d8bdbf00b355f60935b05f60b019235d08b5935be0363823e8164b46",
+      "language": "kotlin",
+      "measured_boundary": "the adapter's own subprocess boundaries; the estimate is the sum of its declared phases, as the cold whole-invocation figure is",
+      "publication": "range over every repeat; never a mean, never a chosen repeat, and never gated on the repeats agreeing \u2014 the width is the precision",
+      "repeats": 3,
+      "runs": [
+        {
+          "load_average_1m_before": 1.69,
+          "phases": [
+            {
+              "phase": "total",
+              "wall_ms": 940
+            }
+          ],
+          "repeat": 1,
+          "wall_ms": 940
+        },
+        {
+          "load_average_1m_before": 1.69,
+          "phases": [
+            {
+              "phase": "total",
+              "wall_ms": 944
+            }
+          ],
+          "repeat": 2,
+          "wall_ms": 944
+        },
+        {
+          "load_average_1m_before": 1.64,
+          "phases": [
+            {
+              "phase": "total",
+              "wall_ms": 936
+            }
+          ],
+          "repeat": 3,
+          "wall_ms": 936
+        }
+      ],
+      "schema_version": 1,
+      "started_at_unix_seconds": 1788852552,
+      "tool_build_identity": "semgrep-oss:1.176.0",
+      "tool_version": "1.176.0"
+    },
+    "reports/raw/invocation-overhead/semgrep-kotlin/run-environment.json": {
+      "captured_at_unix_seconds": 1788852552,
+      "cpu_architecture": "aarch64",
+      "cpu_count": 10,
+      "evidence_kind": "retained-run-environment",
+      "hardware_model": "Mac16,1",
+      "os": "macos",
+      "os_release": "25.6.0",
+      "schema_version": 1,
+      "tool": "semgrep",
+      "witnessed_tool_build_identity": "semgrep-oss:1.176.0",
+      "witnessed_tool_version": "1.176.0",
+      "witnessed_tool_version_banner": null
+    },
+    "reports/raw/warm-latency/joern-java-kernel/run-environment.json": {
+      "captured_at_unix_seconds": 1788851371,
+      "cpu_architecture": "aarch64",
+      "cpu_count": 10,
+      "evidence_kind": "retained-run-environment",
+      "hardware_model": "Mac16,1",
+      "os": "macos",
+      "os_release": "25.6.0",
+      "schema_version": 1,
+      "tool": "joern",
+      "witnessed_tool_build_identity": "joern-cli:4.0.621",
+      "witnessed_tool_version": "4.0.621",
+      "witnessed_tool_version_banner": null
+    },
+    "reports/raw/warm-latency/joern-java-kernel/warm-latency.json": {
+      "adapter": "joern",
+      "amendment": "A21",
+      "clock": "monotonic",
+      "ended_at_unix_seconds": 1788851727,
+      "establishing_amendment": "A15",
+      "evidence_kind": "retained-warm-marginal-latency",
+      "fixture_revision": "sha256:9df209ed3d7723a3ee33f2b289cf2afe34a3add781bdf2a2ac445de42b8d0151",
+      "language": "java",
+      "marginal_ms_per_case_range": {
+        "endpoint": [
+          5063.2,
+          5238.2
+        ],
+        "least_squares": [
+          5057.90322580645,
+          5234.990591397849
+        ]
+      },
+      "measured_boundary": "one subprocess per batch, whole-invocation wall-clock",
+      "population_available": 58,
+      "population_restriction": null,
+      "repeats": 2,
+      "runs": [
+        {
+          "batches": [
+            {
+              "case_ids": [
+                "dfb-taint-java-alias-propagation-negative"
+              ],
+              "k": 1,
+              "load_average_1m_before": 6.04,
+              "wall_ms": 9293
+            },
+            {
+              "case_ids": [
+                "dfb-taint-java-alias-propagation-negative",
+                "dfb-taint-java-alias-propagation-positive"
+              ],
+              "k": 2,
+              "load_average_1m_before": 13.98,
+              "wall_ms": 14749
+            },
+            {
+              "case_ids": [
+                "dfb-taint-java-alias-propagation-negative",
+                "dfb-taint-java-alias-propagation-positive",
+                "dfb-taint-java-anonymous-implementation-negative",
+                "dfb-taint-java-anonymous-implementation-positive"
+              ],
+              "k": 4,
+              "load_average_1m_before": 11.8,
+              "wall_ms": 24161
+            },
+            {
+              "case_ids": [
+                "dfb-taint-java-alias-propagation-negative",
+                "dfb-taint-java-alias-propagation-positive",
+                "dfb-taint-java-anonymous-implementation-negative",
+                "dfb-taint-java-anonymous-implementation-positive",
+                "dfb-taint-java-argument-position-negative",
+                "dfb-taint-java-argument-position-positive",
+                "dfb-taint-java-array-element-negative",
+                "dfb-taint-java-array-element-positive"
+              ],
+              "k": 8,
+              "load_average_1m_before": 8.52,
+              "wall_ms": 44821
+            },
+            {
+              "case_ids": [
+                "dfb-taint-java-alias-propagation-negative",
+                "dfb-taint-java-alias-propagation-positive",
+                "dfb-taint-java-anonymous-implementation-negative",
+                "dfb-taint-java-anonymous-implementation-positive",
+                "dfb-taint-java-argument-position-negative",
+                "dfb-taint-java-argument-position-positive",
+                "dfb-taint-java-array-element-negative",
+                "dfb-taint-java-array-element-positive",
+                "dfb-taint-java-branch-join-negative",
+                "dfb-taint-java-branch-join-positive",
+                "dfb-taint-java-call-context-negative",
+                "dfb-taint-java-call-context-positive",
+                "dfb-taint-java-callback-registration-negative",
+                "dfb-taint-java-callback-registration-positive",
+                "dfb-taint-java-closure-capture-negative",
+                "dfb-taint-java-closure-capture-positive"
+              ],
+              "k": 16,
+              "load_average_1m_before": 8.24,
+              "wall_ms": 85241
+            }
+          ],
+          "fitted_fixed_cost_ms": 4294.000000000011,
+          "marginal_ms_per_case": {
+            "endpoint": 5063.2,
+            "least_squares": 5057.90322580645
+          },
+          "run": 1
+        },
+        {
+          "batches": [
+            {
+              "case_ids": [
+                "dfb-taint-java-alias-propagation-negative"
+              ],
+              "k": 1,
+              "load_average_1m_before": 4.07,
+              "wall_ms": 8375
+            },
+            {
+              "case_ids": [
+                "dfb-taint-java-alias-propagation-negative",
+                "dfb-taint-java-alias-propagation-positive"
+              ],
+              "k": 2,
+              "load_average_1m_before": 3.9,
+              "wall_ms": 13510
+            },
+            {
+              "case_ids": [
+                "dfb-taint-java-alias-propagation-negative",
+                "dfb-taint-java-alias-propagation-positive",
+                "dfb-taint-java-anonymous-implementation-negative",
+                "dfb-taint-java-anonymous-implementation-positive"
+              ],
+              "k": 4,
+              "load_average_1m_before": 3.69,
+              "wall_ms": 23785
+            },
+            {
+              "case_ids": [
+                "dfb-taint-java-alias-propagation-negative",
+                "dfb-taint-java-alias-propagation-positive",
+                "dfb-taint-java-anonymous-implementation-negative",
+                "dfb-taint-java-anonymous-implementation-positive",
+                "dfb-taint-java-argument-position-negative",
+                "dfb-taint-java-argument-position-positive",
+                "dfb-taint-java-array-element-negative",
+                "dfb-taint-java-array-element-positive"
+              ],
+              "k": 8,
+              "load_average_1m_before": 3.25,
+              "wall_ms": 44164
+            },
+            {
+              "case_ids": [
+                "dfb-taint-java-alias-propagation-negative",
+                "dfb-taint-java-alias-propagation-positive",
+                "dfb-taint-java-anonymous-implementation-negative",
+                "dfb-taint-java-anonymous-implementation-positive",
+                "dfb-taint-java-argument-position-negative",
+                "dfb-taint-java-argument-position-positive",
+                "dfb-taint-java-array-element-negative",
+                "dfb-taint-java-array-element-positive",
+                "dfb-taint-java-branch-join-negative",
+                "dfb-taint-java-branch-join-positive",
+                "dfb-taint-java-call-context-negative",
+                "dfb-taint-java-call-context-positive",
+                "dfb-taint-java-callback-registration-negative",
+                "dfb-taint-java-callback-registration-positive",
+                "dfb-taint-java-closure-capture-negative",
+                "dfb-taint-java-closure-capture-positive"
+              ],
+              "k": 16,
+              "load_average_1m_before": 3.46,
+              "wall_ms": 86948
+            }
+          ],
+          "fitted_fixed_cost_ms": 2899.4583333333358,
+          "marginal_ms_per_case": {
+            "endpoint": 5238.2,
+            "least_squares": 5234.990591397849
+          },
+          "run": 2
+        }
+      ],
+      "schema_version": 1,
+      "started_at_unix_seconds": 1788851371,
+      "tool_build_identity": "joern-cli:4.0.621",
+      "tool_version": "4.0.621"
+    },
+    "reports/raw/warm-latency/semgrep-java-kernel/run-environment.json": {
+      "captured_at_unix_seconds": 1788851819,
+      "cpu_architecture": "aarch64",
+      "cpu_count": 10,
+      "evidence_kind": "retained-run-environment",
+      "hardware_model": "Mac16,1",
+      "os": "macos",
+      "os_release": "25.6.0",
+      "schema_version": 1,
+      "tool": "semgrep",
+      "witnessed_tool_build_identity": "semgrep-oss:1.176.0",
+      "witnessed_tool_version": "1.176.0",
+      "witnessed_tool_version_banner": null
+    },
+    "reports/raw/warm-latency/semgrep-java-kernel/warm-latency.json": {
+      "adapter": "semgrep",
+      "amendment": "A21",
+      "clock": "monotonic",
+      "ended_at_unix_seconds": 1788851832,
+      "establishing_amendment": "A15",
+      "evidence_kind": "retained-warm-marginal-latency",
+      "fixture_revision": "sha256:9df209ed3d7723a3ee33f2b289cf2afe34a3add781bdf2a2ac445de42b8d0151",
+      "language": "java",
+      "marginal_ms_per_case_range": {
+        "endpoint": [
+          73.81818181818181,
+          77.0909090909091
+        ],
+        "least_squares": [
+          74.34375,
+          76.38221153846153
+        ]
+      },
+      "measured_boundary": "one subprocess per batch, whole-invocation wall-clock",
+      "population_available": 12,
+      "population_restriction": "one `semgrep scan` carries one --config, so a batch is restricted to cases resolving to identical rule text: 12 of the 14 invocable Java kernel assertions",
+      "repeats": 2,
+      "runs": [
+        {
+          "batches": [
+            {
+              "case_ids": [
+                "dfb-taint-java-branch-join-negative"
+              ],
+              "k": 1,
+              "load_average_1m_before": 2.41,
+              "wall_ms": 977
+            },
+            {
+              "case_ids": [
+                "dfb-taint-java-branch-join-negative",
+                "dfb-taint-java-branch-join-positive"
+              ],
+              "k": 2,
+              "load_average_1m_before": 2.41,
+              "wall_ms": 1047
+            },
+            {
+              "case_ids": [
+                "dfb-taint-java-branch-join-negative",
+                "dfb-taint-java-branch-join-positive",
+                "dfb-taint-java-expression-negative",
+                "dfb-taint-java-expression-positive"
+              ],
+              "k": 4,
+              "load_average_1m_before": 2.38,
+              "wall_ms": 1190
+            },
+            {
+              "case_ids": [
+                "dfb-taint-java-branch-join-negative",
+                "dfb-taint-java-branch-join-positive",
+                "dfb-taint-java-expression-negative",
+                "dfb-taint-java-expression-positive",
+                "dfb-taint-java-infeasible-branch-negative",
+                "dfb-taint-java-infeasible-branch-positive",
+                "dfb-taint-java-local-chain-negative",
+                "dfb-taint-java-local-chain-positive"
+              ],
+              "k": 8,
+              "load_average_1m_before": 2.38,
+              "wall_ms": 1501
+            },
+            {
+              "case_ids": [
+                "dfb-taint-java-branch-join-negative",
+                "dfb-taint-java-branch-join-positive",
+                "dfb-taint-java-expression-negative",
+                "dfb-taint-java-expression-positive",
+                "dfb-taint-java-infeasible-branch-negative",
+                "dfb-taint-java-infeasible-branch-positive",
+                "dfb-taint-java-local-chain-negative",
+                "dfb-taint-java-local-chain-positive",
+                "dfb-taint-java-local-overwrite-negative",
+                "dfb-taint-java-local-overwrite-positive",
+                "dfb-taint-java-loop-carried-negative",
+                "dfb-taint-java-loop-carried-positive"
+              ],
+              "k": 12,
+              "load_average_1m_before": 2.38,
+              "wall_ms": 1789
+            }
+          ],
+          "fitted_fixed_cost_ms": 899.34375,
+          "marginal_ms_per_case": {
+            "endpoint": 73.81818181818181,
+            "least_squares": 74.34375
+          },
+          "run": 1
+        },
+        {
+          "batches": [
+            {
+              "case_ids": [
+                "dfb-taint-java-branch-join-negative"
+              ],
+              "k": 1,
+              "load_average_1m_before": 2.35,
+              "wall_ms": 973
+            },
+            {
+              "case_ids": [
+                "dfb-taint-java-branch-join-negative",
+                "dfb-taint-java-branch-join-positive"
+              ],
+              "k": 2,
+              "load_average_1m_before": 2.35,
+              "wall_ms": 1055
+            },
+            {
+              "case_ids": [
+                "dfb-taint-java-branch-join-negative",
+                "dfb-taint-java-branch-join-positive",
+                "dfb-taint-java-expression-negative",
+                "dfb-taint-java-expression-positive"
+              ],
+              "k": 4,
+              "load_average_1m_before": 2.35,
+              "wall_ms": 1198
+            },
+            {
+              "case_ids": [
+                "dfb-taint-java-branch-join-negative",
+                "dfb-taint-java-branch-join-positive",
+                "dfb-taint-java-expression-negative",
+                "dfb-taint-java-expression-positive",
+                "dfb-taint-java-infeasible-branch-negative",
+                "dfb-taint-java-infeasible-branch-positive",
+                "dfb-taint-java-local-chain-negative",
+                "dfb-taint-java-local-chain-positive"
+              ],
+              "k": 8,
+              "load_average_1m_before": 2.35,
+              "wall_ms": 1493
+            },
+            {
+              "case_ids": [
+                "dfb-taint-java-branch-join-negative",
+                "dfb-taint-java-branch-join-positive",
+                "dfb-taint-java-expression-negative",
+                "dfb-taint-java-expression-positive",
+                "dfb-taint-java-infeasible-branch-negative",
+                "dfb-taint-java-infeasible-branch-positive",
+                "dfb-taint-java-local-chain-negative",
+                "dfb-taint-java-local-chain-positive",
+                "dfb-taint-java-local-overwrite-negative",
+                "dfb-taint-java-local-overwrite-positive",
+                "dfb-taint-java-loop-carried-negative",
+                "dfb-taint-java-loop-carried-positive"
+              ],
+              "k": 12,
+              "load_average_1m_before": 2.32,
+              "wall_ms": 1821
+            }
+          ],
+          "fitted_fixed_cost_ms": 895.5360576923076,
+          "marginal_ms_per_case": {
+            "endpoint": 77.0909090909091,
+            "least_squares": 76.38221153846153
+          },
+          "run": 2
+        }
+      ],
+      "schema_version": 1,
+      "started_at_unix_seconds": 1788851819,
+      "tool_build_identity": "semgrep-oss:1.176.0",
+      "tool_version": "1.176.0"
+    }
+  },
+  "evidence_ref": "2007f15d687e0081c948e55bba39c952d248ee0f",
+  "latency_release": "v0.7.1",
+  "schema_version": 1
+}

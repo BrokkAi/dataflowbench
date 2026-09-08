@@ -4,7 +4,7 @@ Adapter `semgrep-javascript-native`: `semgrep` `1.176.0` (build `semgrep-oss:1.1
 
 Track `taint`, score dimension `taint`, model profile `tool-native`. This scorecard is a single result population; it is never pooled with other tracks, dimensions, or model profiles.
 
-Normalized report: `reports/semgrep-javascript-native.json` (`sha256:417dab4e591b42003bca6ec418f4196a0f67c7d1970f6c97a6b1b51d379e93e4`, normalized `sha256:417dab4e591b42003bca6ec418f4196a0f67c7d1970f6c97a6b1b51d379e93e4`). Generated from freeze manifest `reports/freeze.json` (`sha256:c543ae4ebd11ed6f3495f4461b5b4bd7c84d0874997f1b62044e9df62817b28b`).
+Normalized report: `reports/semgrep-javascript-native.json` (`sha256:367d6cf4371ef82cf6e0c1c1eac43ca145f7493cf7897b3e33351081179e8c0f`, normalized `sha256:367d6cf4371ef82cf6e0c1c1eac43ca145f7493cf7897b3e33351081179e8c0f`). Generated from freeze manifest `reports/freeze.json` (`sha256:f5416cded5891c92418d23ec5e2c638eb73f86695255cd5ea5f818b10f6c9e1d`).
 
 ## Language `javascript`, tier `modeling`
 

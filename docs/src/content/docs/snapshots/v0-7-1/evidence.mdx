@@ -1,0 +1,72 @@
+---
+title: Case evidence — v0.7.1
+description: Every v0.7.1 result, its classification, and its retained raw evidence.
+---
+
+import CaseEvidence from '../../../../components/CaseEvidence.astro';
+import { snapshots, evidenceUrl } from '../../../../data/snapshots';
+
+export const snapshot = snapshots.find((s) => s.version === 'v0.7.1');
+
+Every result links its retained raw-evidence artifact, digest-bound in the
+<a href={evidenceUrl(snapshot, snapshot.results.manifest.path)}>freeze manifest</a>.
+The manifest binds the unchanged 852-case set, all 82 freshly rerun reports,
+and their 3,480 normalized outcomes. A `tool-native` decline retains its
+capability-decision evidence just as a decided flow retains its analyzer
+output.
+
+## The four changed cells
+
+The published v0.7.0 comparison is fixed at
+[`61300f47`](https://github.com/BrokkAi/dataflowbench/tree/61300f47de7affa651fbd4a125ca6b894b29ce71).
+The v0.7.1 evidence commit is
+[`2007f15d`](https://github.com/BrokkAi/dataflowbench/tree/2007f15d687e0081c948e55bba39c952d248ee0f).
+The only changed outcomes are:
+
+- Bifrost Java `anonymous-implementation`: positive `inconclusive` →
+  `reached`; negative `inconclusive` → `not-reached`.
+- OpenTaint Java `callback-registration` positive: `not-reached` → `reached`.
+- OpenTaint Java `map-iteration` positive: `not-reached` → `reached`.
+
+The <a href={evidenceUrl(snapshot, 'reports/releases/v0.7.1/inventory.json')}>release inventory</a>
+and <a href={evidenceUrl(snapshot, 'reports/releases/v0.7.1/committed-ledger-integrity.json')}>committed-ledger integrity audit</a>
+provide the digest and immutable-blob checks for the retained evidence.
+
+## Native and access-boundary evidence
+
+Bifrost's 36 native `unsupported` cells are catalog/selector-grounded. The
+separate positive control remains `inconclusive` with `partial_discovery` and
+does not promote any native cell. The <a href={evidenceUrl(snapshot, 'reports/releases/v0.7.1/bifrost-native-mapping-audit.json')}>mapping audit</a>
+keeps those two facts separate.
+
+The Bifrost access record includes 17 initial sandboxed executions and five
+approved full elevated repeats. The paired controls have equal outcomes across
+access modes; that establishes outcome equality for those controls, not timing
+parity. Desktop activity and cache state remain uncontrolled. The retained
+<a href={evidenceUrl(snapshot, 'reports/releases/v0.7.1/bifrost-access-control-results.json')}>access-control evidence</a>
+states the scope explicitly.
+
+OpenTaint's native qualification is source-selector grounded: the shipped
+servlet/Spring selectors do not match the environment-variable fixture source
+shape. The product probe shows activation on a servlet control, while its
+functional-probe timings are diagnostic and excluded from cold, warm, and
+overhead latency. See the <a href={evidenceUrl(snapshot, 'reports/releases/v0.7.1/opentaint-native-category-audit.json')}>selector audit</a>
+and <a href={evidenceUrl(snapshot, 'reports/releases/v0.7.1/opentaint-functional-timing-exclusion.json')}>timing exclusion</a>.
+
+Every invoked case also retains its phase-timing sidecar beside raw evidence;
+the [latency page](./latency/) interprets those sidecars without conditioning
+any correctness outcome on a timing value.
+
+{snapshot.results.scorecards.map((scorecard) =>
+  scorecard.languages.map((language) =>
+    language.score_tiers.map((tier) => (
+      <>
+        <h2>
+          <code>{scorecard.id}</code> — <code>{language.language}</code>,{' '}
+          {tier.score_tier} (<code>{scorecard.model_profile}</code>)
+        </h2>
+        <CaseEvidence snapshot={snapshot} tier={tier} />
+      </>
+    )),
+  ),
+)}
