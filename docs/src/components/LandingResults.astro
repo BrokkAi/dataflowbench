@@ -547,6 +547,15 @@ const snapshotPage = `/snapshots/${snapshot.slug}`;
     )}
   </p>
   <div class="supporting">
+  {snapshot.version === 'v0.7.1' ? (
+    <p>
+      This is a full refresh of the same 852-case population: all 82 reports
+      and 3,480 outcomes were rerun. Four outcomes changed from published
+      v0.7.0: Bifrost's Java anonymous-implementation pair became decisive,
+      and OpenTaint reached the Java callback-registration and map-iteration
+      positives. Incomplete and unsupported outcomes remain distinct.
+    </p>
+  ) : (<>
   <p>
     This is a <strong>currency snapshot</strong>: every analyzer pin found
     behind upstream was bumped and re-run, and twelve of {caseCount} case
@@ -579,6 +588,7 @@ const snapshotPage = `/snapshots/${snapshot.slug}`;
     negative is a contract question left open; until it is answered those eight
     sit outside the decisive denominators rather than being credited either way.
   </p>
+  </>)}
   <p>
     Below the kernels sit two further populations: the
     <strong>modeling matrix</strong>, which asks whether each tool's own
@@ -586,9 +596,15 @@ const snapshotPage = `/snapshots/${snapshot.slug}`;
     <strong>tool-native probes</strong>, which ask what each product decides
     with nothing supplied by us. Beside them sits the
     <strong>latency tier</strong> — descriptive per-case timings on a stated
-    machine, kept strictly beside the correctness results, and carried into
-    this snapshot from v0.6.0 without re-measurement, so its rows still name
-    the older pins they were taken on rather than the ones re-pinned here.
+    machine, kept strictly beside the correctness results.
+    {snapshot.version === 'v0.7.1' ? (
+      <>These timings were freshly measured on the current pins, with desktop
+      activity, cache state and sandbox/elevated execution contexts retained;
+      no uncontended-host or timing-parity claim is implied.</>
+    ) : (
+      <>They are carried into this snapshot from v0.6.0 without re-measurement,
+      so the rows retain the older pins they were measured on.</>
+    )}
     All populations have separate denominators. There is no
     combined leaderboard, and benchmark-controlled results are never pooled
     with, or compared number-to-number against, tool-native ones.

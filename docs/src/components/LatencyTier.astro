@@ -588,6 +588,15 @@ interface Props {
       non-goals rule out — and never picked between.
     </p>
 
+    {snapshot.version === 'v0.7.1' ? (
+      <p id="warm-superseded" class="caption">
+        These are fresh v0.7.1 series. Historical A15/A21 measurements remain
+        on their original snapshot pages. Semgrep's original batch-16 attempt
+        failed before analysis; its prospectively corrected largest batch is
+        12. No batch-16 comparison, idle-machine explanation, or causal
+        cross-release speedup is inferred from these desktop observations.
+      </p>
+    ) : (<>
     <h3 id="warm-superseded">What these figures replaced</h3>
 
     <p>
@@ -690,6 +699,7 @@ interface Props {
       unsound, not because of which way it pointed.
     </p>
 
+    </>)}
     {warm.measurements.map((measurement) => (
       <details class="data-table">
         <summary>
