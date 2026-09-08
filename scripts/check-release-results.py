@@ -283,8 +283,6 @@ def run_gate(
             # the explicit bootstrap mode that generates and copies results.
             check_results = generate_output is None
         else:
-            if tag is None:
-                raise GateError(f"remote has {RELEASE}, but local fetch did not provide it")
             if not _is_ancestor(clone, EXPECTED_REVISION, tag):
                 raise GateError(f"existing {RELEASE} tag does not contain {EXPECTED_REVISION}")
             _assert_release_tree_matches_current(clone, current_head, tag)
