@@ -12,12 +12,15 @@ import importlib.util
 import json
 import os
 import subprocess
+import sys
 import tempfile
 import unittest
 from pathlib import Path
 from typing import Iterable
 from unittest import mock
 
+
+sys.dont_write_bytecode = True
 
 SCRIPT = Path(__file__).with_name("check-release-results.py")
 SPEC = importlib.util.spec_from_file_location("check_release_results", SCRIPT)
