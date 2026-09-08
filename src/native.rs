@@ -931,6 +931,21 @@ pub(crate) fn native_unsupported_reason(
          activation validation remains partial. The following A32/v0.10.9 rationale \
          is historical context, including its activation wording and issue-status \
          statements, which were not freshly verified: "
+    } else if tool == ModelingTool::Opentaint {
+        "Current v0.7.1 evidence: reports/releases/v0.7.1/opentaint-native-category-audit.json \
+         and opentaint-native-catalog-index.json retain the per-category source identities \
+         and full v0.4.6 shipped selector bytes/hashes. The shipped os-command-injection \
+         rule joins only servlet-untrusted-data-source or spring-untrusted-data-source \
+         to command-injection-sink, which covers Runtime.exec. Neither source selector \
+         matches these fixtures' System.getenv(String) source or main(String[]) argument \
+         vector: they contain none of the servlet/Spring entrypoint, MessageBodyReader, \
+         upload/Part, or cookie source shapes selected by those rules. \
+         This source-activation barrier retains the decline; it does not establish absence \
+         of propagator, sanitizer, summary, or store-link capabilities behind that barrier. \
+         The full-product positive/negative control is retained in \
+         reports/releases/v0.7.1/opentaint-product-functional-audit.json. The following \
+         A23 rationale is superseded historical context, including its obsolete claims \
+         that no endpoint catalog or rules ship: "
     } else {
         ""
     };

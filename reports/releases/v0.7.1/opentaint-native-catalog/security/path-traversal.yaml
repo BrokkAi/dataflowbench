@@ -1,0 +1,78 @@
+rules:
+  - id: path-traversal
+    severity: ERROR
+    message: >-
+      Path traversal: detected user input controlling a file path. An attacker could control the location of this
+      file, to include going backwards in the directory with '../'. To address this, ensure that user-controlled
+      variables in file paths are sanitized.
+    metadata:
+      cwe: CWE-22
+      short-description: Interaction with file system via untrusted path, potential path traversal
+      full-description: |-
+        Path traversal risk exists when untrusted data reaches filesystem APIs (file reads/writes,
+        file metadata checks, resource loaders, or path-based utility calls).
+
+        Vulnerable example:
+
+        ```java
+        import java.nio.file.Files;
+        import java.nio.file.Path;
+        import java.nio.file.Paths;
+
+        public class FileService {
+            public byte[] read(String pathFromRequest) throws Exception {
+                // pathFromRequest is untrusted
+                Path p = Paths.get(pathFromRequest);
+
+                // VULNERABLE
+                return Files.readAllBytes(p);
+            }
+        }
+        ```
+
+        Safe example:
+
+        ```java
+        import java.nio.file.Files;
+        import java.nio.file.Path;
+        import java.nio.file.Paths;
+
+        public class FileService {
+            private static final Path BASE = Paths.get("/srv/app/files").toAbsolutePath().normalize();
+
+            public byte[] read(String pathFromRequest) throws Exception {
+                if (pathFromRequest == null || !pathFromRequest.matches("[A-Za-z0-9._-]+")) {
+                    throw new IllegalArgumentException("Invalid file name");
+                }
+
+                Path target = BASE.resolve(pathFromRequest).normalize();
+                if (!target.startsWith(BASE)) {
+                    throw new SecurityException("Traversal attempt");
+                }
+
+                // Safe usage: canonicalized, constrained path
+                return Files.readAllBytes(target);
+            }
+        }
+        ```
+
+        Key vulnerable patterns covered by this rule include `java.io.File*`, `java.nio.file.Files.*`,
+        Spring resource/file utilities, and classpath/resource lookups with tainted path values.
+      references:
+        - https://owasp.org/www-community/attacks/Path_Traversal
+        - https://en.wikipedia.org/wiki/Directory_traversal
+      provenance: https://github.com/semgrep/semgrep-rules/blob/develop/java/spring/security/injection/tainted-file-path.yaml
+    languages:
+      - java
+    mode: join
+    join:
+      refs:
+        - tag: servlet-untrusted-data-source
+          as: untrusted-data
+        - tag: spring-untrusted-path-source
+          as: spring-untrusted-data
+        - tag: path-traversal-sink
+          as: sink
+      on:
+        - 'untrusted-data.$UNTRUSTED -> sink.$FILE'
+        - 'spring-untrusted-data.$UNTRUSTED -> sink.$FILE'

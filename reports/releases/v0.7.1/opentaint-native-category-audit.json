@@ -1,0 +1,70 @@
+{
+  "utc": "2026-09-08T06:11:41.697870+00:00",
+  "catalog_index": "opentaint-native-catalog-index.json",
+  "selector_files": [
+    "opentaint-native-catalog/security/command-injection.yaml",
+    "opentaint-native-catalog/lib/generic/command-injection-sinks.yaml",
+    "opentaint-native-catalog/lib/generic/servlet-untrusted-data-source.yaml",
+    "opentaint-native-catalog/lib/spring/untrusted-data-source.yaml"
+  ],
+  "rows": [
+    {
+      "category": "S",
+      "fixture_source": "java.lang.System.getenv(java.lang.String)",
+      "sink": "java.lang.Runtime.exec(java.lang.String)",
+      "proposed_classification": "unsupported unchanged",
+      "reason": "os-command-injection joins only servlet-untrusted-data-source or spring-untrusted-data-source to command-injection-sink; fixtures contain none of their servlet/Spring, MessageBodyReader, upload/Part, or cookie source shapes.",
+      "limitation": "direct source/sink pair"
+    },
+    {
+      "category": "P",
+      "fixture_source": "java.lang.System.getenv(java.lang.String)",
+      "sink": "java.lang.Runtime.exec(java.lang.String)",
+      "proposed_classification": "unsupported unchanged",
+      "reason": "os-command-injection joins only servlet-untrusted-data-source or spring-untrusted-data-source to command-injection-sink; fixtures contain none of their servlet/Spring, MessageBodyReader, upload/Part, or cookie source shapes.",
+      "limitation": "String.concat behavior is not resolved by absent source activation"
+    },
+    {
+      "category": "Z",
+      "fixture_source": "java.lang.System.getenv(java.lang.String)",
+      "sink": "java.lang.Runtime.exec(java.lang.String)",
+      "proposed_classification": "unsupported unchanged",
+      "reason": "os-command-injection joins only servlet-untrusted-data-source or spring-untrusted-data-source to command-injection-sink; fixtures contain none of their servlet/Spring, MessageBodyReader, upload/Part, or cookie source shapes.",
+      "limitation": "Integer.parseInt/String.valueOf sanitizer capability is not resolved by absent source activation"
+    },
+    {
+      "category": "O",
+      "fixture_source": "java.lang.System.getenv(java.lang.String)",
+      "sink": "java.lang.Runtime.exec(java.lang.String)",
+      "proposed_classification": "unsupported unchanged",
+      "reason": "os-command-injection joins only servlet-untrusted-data-source or spring-untrusted-data-source to command-injection-sink; fixtures contain none of their servlet/Spring, MessageBodyReader, upload/Part, or cookie source shapes.",
+      "limitation": "Base64 round-trip summary capability is not resolved by absent source activation"
+    },
+    {
+      "category": "E",
+      "fixture_source": "main(java.lang.String[]) argument vector",
+      "sink": "java.lang.Runtime.exec(java.lang.String)",
+      "proposed_classification": "unsupported unchanged",
+      "reason": "os-command-injection joins only servlet-untrusted-data-source or spring-untrusted-data-source to command-injection-sink; fixtures contain none of their servlet/Spring, MessageBodyReader, upload/Part, or cookie source shapes.",
+      "limitation": "entrypoint selection does not match the shipped servlet/Spring source selectors"
+    },
+    {
+      "category": "B",
+      "fixture_source": "java.lang.System.getenv(java.lang.String)",
+      "sink": "java.lang.Runtime.exec(java.lang.String)",
+      "proposed_classification": "unsupported unchanged",
+      "reason": "os-command-injection joins only servlet-untrusted-data-source or spring-untrusted-data-source to command-injection-sink; fixtures contain none of their servlet/Spring, MessageBodyReader, upload/Part, or cookie source shapes.",
+      "limitation": "System.setProperty/getProperty store-link capability is not resolved by absent source activation"
+    }
+  ],
+  "scope": "Source-selector barrier for this exact command-execution fixture pair, not global engine/model absence. Fresh full bundle and product audit; A23 obsolete no-rules rationale historical. A25 corroborated by reading current selectors, not assumed current.",
+  "source_alternatives_reviewed": [
+    "Servlet doDelete/doGet/doPost/doPut/doTrace/_jspService HttpServletRequest parameter",
+    "MessageBodyReader.readFrom",
+    "FileUpload.parseRequest file name",
+    "servlet.http.Part.getSubmittedFileName",
+    "Spring mapping-annotated parameter",
+    "WebUtils.getCookie then Cookie.getValue"
+  ],
+  "sink_catalog_audit": "All47Java YAML documents inventoried; Runtime.exec sink selector occurs in command-injection-sinks. Its command-injection-sink tag is joined only by os-command-injection, to the two source tags audited. Other Runtime mentions are explanatory metadata or RuntimePermission, not this exec selector."
+}

@@ -1,0 +1,73 @@
+rules:
+  - id: sql-injection
+    severity: ERROR
+    message: >-
+      SQL injection: detected unescaped input from a user-manipulated data source going into a SQL execution call or statement
+    metadata:
+      cwe: CWE-89
+      short-description: SQL injection
+      full-description: |-
+        SQL injection happens when untrusted data is embedded into a SQL string that is executed by a SQL execution API.
+        This rule focuses on the security-sensitive call itself (for example `Statement.executeQuery(...)`, `JdbcTemplate.query(...)`,
+        or `EntityManager.createNativeQuery(...)`).
+
+        Vulnerable example:
+
+        ```java
+        import java.sql.Connection;
+        import java.sql.ResultSet;
+        import java.sql.Statement;
+
+        public class UserRepository {
+            public ResultSet findById(Connection conn, String userIdFromRequest) throws Exception {
+                // userIdFromRequest is untrusted (source can be Servlet, Spring, etc.)
+                String sql = "SELECT * FROM users WHERE id = '" + userIdFromRequest + "'";
+
+                // VULNERABLE: tainted data reaches SQL execution API
+                Statement st = conn.createStatement();
+                return st.executeQuery(sql);
+            }
+        }
+        ```
+
+        Safe example:
+
+        ```java
+        import java.sql.Connection;
+        import java.sql.PreparedStatement;
+        import java.sql.ResultSet;
+
+        public class UserRepository {
+            public ResultSet findById(Connection conn, String userIdFromRequest) throws Exception {
+                String sql = "SELECT * FROM users WHERE id = ?";
+
+                PreparedStatement ps = conn.prepareStatement(sql);
+                ps.setString(1, userIdFromRequest); // bound as data, not SQL syntax
+                return ps.executeQuery();
+            }
+        }
+        ```
+
+        Key vulnerable patterns covered by this rule include JDBC statement execution, Spring JDBC operations,
+        and dynamic JPA/Hibernate query creation when untrusted input controls query text.
+      references:
+        - https://owasp.org/www-community/attacks/SQL_Injection
+        - https://en.wikipedia.org/wiki/SQL_injection
+      license: LGPL 2.1 (GNU Lesser General Public License, Version 2.1)
+      provenance:
+        - https://find-sec-bugs.github.io/bugs.htm#SQL_INJECTION
+        - https://gitlab.com/gitlab-org/security-products/sast-rules/-/blob/main/rules/lgpl-cc/java/inject/rule-SqlInjection.yml
+    languages:
+      - java
+    mode: join
+    join:
+      refs:
+        - tag: servlet-untrusted-data-source
+          as: servlet-untrusted-data
+        - tag: spring-untrusted-data-source
+          as: spring-untrusted-data
+        - tag: sqli-sink
+          as: sink
+      on:
+        - 'servlet-untrusted-data.$UNTRUSTED -> sink.$UNTRUSTED'
+        - 'spring-untrusted-data.$UNTRUSTED -> sink.$UNTRUSTED'

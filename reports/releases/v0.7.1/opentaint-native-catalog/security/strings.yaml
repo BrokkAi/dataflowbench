@@ -1,0 +1,127 @@
+rules:
+  - id: string-normalize-after-validation
+    severity: WARNING
+    message: >-
+      The application was found matching a variable during a regular expression
+      pattern match, and then calling a Unicode normalize function after validation has occurred.
+      This is usually indicative of a poor input validation strategy as an adversary may attempt to
+      exploit the normalization process.
+    metadata:
+      cwe: CWE-180
+      short-description: String validate before canonicalization
+      full-description: |-
+        The application was found matching a variable during a regular expression
+        pattern match, and then calling a Unicode normalize function after validation has occurred.
+        This is usually indicative of a poor input validation strategy as an adversary may attempt to
+        exploit the normalization process.
+
+        To remediate this issue, always perform Unicode normalization before any validation of a
+        string.
+
+        Example of normalizing a string before validation:
+        ```
+        // User input possibly containing malicious unicode
+        String userInput = "\uFE64" + "tag" + "\uFE65";
+        // Normalize the input
+        userInput = Normalizer.normalize(userInput, Normalizer.Form.NFKC);
+        // Compile our regex pattern looking for < or > characters
+        Pattern pattern = Pattern.compile("[<>]");
+        // Create a matcher from the userInput
+        Matcher matcher = pattern.matcher(userInput);
+        // See if the matcher matches
+        if (matcher.find()) {
+            // It did so throw an error
+            throw new Exception("found banned characters in input");
+        }
+        ```
+      references:
+        - https://wiki.sei.cmu.edu/confluence/display/java/IDS01-J.+Normalize+strings+before+validating+them
+      provenance: https://gitlab.com/gitlab-org/security-products/sast-rules/-/blob/main/java/strings/rule-NormalizeAfterValidation.yml
+    languages:
+      - java
+    patterns:
+      - pattern: |
+          $Y = java.util.regex.Pattern.compile("[<>]");
+          ...
+          $Y.matcher($VAR);
+          ...
+          java.text.Normalizer.normalize($VAR, ...);
+
+  - id: format-string-external-manipulation
+    severity: WARNING
+    message: >-
+      The application allows user input to control format string parameters. By passing invalid format
+      string specifiers an adversary could cause the application to throw exceptions or possibly leak
+      internal information depending on application logic.
+    metadata:
+      cwe: CWE-134
+      short-description: Use of externally-controlled format string
+      full-description: |-
+        Format-string misuse occurs when untrusted data reaches a formatting API as the format template
+        (for example `String.format($FORMAT, ...)`, `Formatter.format(...)`, or `printf(...)`).
+
+        Vulnerable example:
+
+        ```java
+        public class MessageService {
+            public String render(String formatFromRequest, String userValue) {
+                // formatFromRequest is untrusted and controls the format string
+                return String.format(formatFromRequest, userValue); // VULNERABLE
+            }
+        }
+        ```
+
+        Safe example:
+
+        ```java
+        public class MessageService {
+            public String render(String formatFromRequest, String userValue) {
+                // Keep format string constant; use untrusted data only as arguments
+                return String.format("User value: %s", userValue);
+            }
+        }
+        ```
+
+        Key vulnerable patterns covered by this rule include `String.format`, `Formatter.format`,
+        `PrintStream.printf/format`, and `System.out.printf/format` when template text is tainted.
+      provenance: https://gitlab.com/gitlab-org/security-products/sast-rules/-/blob/main/java/strings/rule-FormatStringManipulation.yml
+    languages:
+      - java
+    mode: join
+    join:
+      refs:
+        - tag: servlet-untrusted-data-source
+          as: servlet-untrusted-data
+        - tag: spring-untrusted-data-source
+          as: spring-untrusted-data
+        - tag: format-string-sink
+          as: sink
+      on:
+        - 'servlet-untrusted-data.$UNTRUSTED -> sink.$FORMAT_STR'
+        - 'spring-untrusted-data.$UNTRUSTED -> sink.$FORMAT_STR'
+
+  - id: java-string-format-sinks
+    options:
+      lib: true
+    tags:
+      - format-string-sink
+    severity: NOTE
+    message: String formatter is obtained from untrusted data source
+    metadata:
+      provenance: https://gitlab.com/gitlab-org/security-products/sast-rules/-/blob/main/java/strings/rule-FormatStringManipulation.yml
+    languages:
+      - java
+    patterns:
+      - pattern-either:
+          - pattern: String.format($FORMAT_STR, ...);
+          - pattern: String.format((java.util.Locale $LOCALE), $FORMAT_STR, ...);
+          - pattern: (java.util.Formatter $F).format($FORMAT_STR, ...);
+          - pattern: (java.util.Formatter $F).format((java.util.Locale $LOCALE), $FORMAT_STR, ...);
+          - pattern: (java.io.PrintStream $F).printf($FORMAT_STR, ...);
+          - pattern: (java.io.PrintStream $F).printf((java.util.Locale $LOCALE), $FORMAT_STR, ...);
+          - pattern: (java.io.PrintStream $F).format($FORMAT_STR, ...);
+          - pattern: (java.io.PrintStream $F).format((java.util.Locale $LOCALE), $FORMAT_STR, ...);
+          - pattern: System.out.printf($FORMAT_STR, ...);
+          - pattern: System.out.printf((java.util.Locale $LOCALE), $FORMAT_STR, ...);
+          - pattern: System.out.format($FORMAT_STR, ...);
+          - pattern: System.out.format((java.util.Locale $LOCALE), $FORMAT_STR, ...);

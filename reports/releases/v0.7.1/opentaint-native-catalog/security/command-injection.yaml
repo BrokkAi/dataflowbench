@@ -1,0 +1,68 @@
+rules:
+  - id: os-command-injection
+    severity: ERROR
+    message: >-
+      OS command injection: command line depends on a user provided value
+    metadata:
+      cwe: CWE-78
+      short-description: Command line depends on a user provided value
+      full-description: |-
+        Command injection occurs when untrusted data reaches process-execution APIs such as
+        `Runtime.exec(...)` or `ProcessBuilder.command(...)`.
+
+        Vulnerable example:
+
+        ```java
+        import java.io.IOException;
+
+        public class CommandService {
+            public Process runPing(String hostFromRequest) throws IOException {
+                // hostFromRequest is untrusted
+                String cmd = "ping -c 4 " + hostFromRequest;
+
+                // VULNERABLE
+                return Runtime.getRuntime().exec(cmd);
+            }
+        }
+        ```
+
+        Safe example:
+
+        ```java
+        import java.io.IOException;
+
+        public class CommandService {
+            public Process runPing(String hostFromRequest) throws IOException {
+                if (hostFromRequest == null || !hostFromRequest.matches("^[A-Za-z0-9.-]{1,255}$")) {
+                    throw new IllegalArgumentException("Invalid host");
+                }
+
+                // Safe usage: fixed executable + separated arguments
+                ProcessBuilder pb = new ProcessBuilder("ping", "-c", "4", hostFromRequest);
+                pb.redirectErrorStream(true);
+                return pb.start();
+            }
+        }
+        ```
+
+        Key vulnerable patterns covered by this rule include `Runtime.exec/load/loadLibrary` and
+        `ProcessBuilder` command construction with tainted arguments.
+      references:
+        - https://owasp.org/www-community/attacks/Command_Injection
+        - https://cwe.mitre.org/data/definitions/78.html
+      license: MIT
+      provenance: https://find-sec-bugs.github.io/bugs.htm#COMMAND_INJECTION
+    languages:
+      - java
+    mode: join
+    join:
+      refs:
+        - tag: servlet-untrusted-data-source
+          as: servlet-untrusted-data
+        - tag: spring-untrusted-data-source
+          as: spring-untrusted-data
+        - tag: command-injection-sink
+          as: sink
+      on:
+        - 'servlet-untrusted-data.$UNTRUSTED -> sink.$UNTRUSTED'
+        - 'spring-untrusted-data.$UNTRUSTED -> sink.$UNTRUSTED'
