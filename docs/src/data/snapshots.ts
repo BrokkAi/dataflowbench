@@ -2,6 +2,7 @@
 // digest rendered on a page comes from a generated results model produced by
 // `cargo run -- generate-results` from a validated immutable freeze — never
 // from hand-authored prose. CI proves the checked-in model is current.
+import currentResults from '../../../results/results.json';
 import v070Results from './archive/v0-7-0-results.json';
 import v061Results from './archive/v0-6-1-results.json';
 import v060Results from './archive/v0-6-0-results.json';
@@ -125,6 +126,8 @@ export interface Snapshot {
   slug: string;
   /** Git ref whose tree contains the manifest and retained evidence. */
   evidenceRef: string;
+  /** Final release tag containing downstream manifest and publication artifacts. */
+  publicationRef?: string;
   /** Release whose immutable latency corpus this snapshot renders. */
   latencyEvidenceRelease?: string;
   current: boolean;
@@ -135,6 +138,17 @@ export const repository = 'https://github.com/BrokkAi/dataflowbench';
 
 export const snapshots: Snapshot[] = [
   {
+    version: 'v0.7.1',
+    publicationRef: 'v0.7.1',
+    slug: 'v0-7-1',
+    // This surviving evidence commit holds every raw artifact; the manifest
+    // link is handled separately because it lands in the release commit.
+    evidenceRef: '2007f15d687e0081c948e55bba39c952d248ee0f',
+    latencyEvidenceRelease: latencyEvidenceRelease('v0.7.1'),
+    current: true,
+    results: currentResults as unknown as ResultsModel,
+  },
+  {
     version: 'v0.7.0',
     slug: 'v0-7-0',
     // The tag names the evidence commit; this later commit contains the
@@ -144,7 +158,7 @@ export const snapshots: Snapshot[] = [
     // the same reason v0.6.1 did: nothing was re-measured, so nothing may be
     // relabelled onto the newer pins.
     latencyEvidenceRelease: latencyEvidenceRelease('v0.7.0'),
-    current: true,
+    current: false,
     results: v070Results as unknown as ResultsModel,
   },
   {
@@ -265,7 +279,11 @@ export function snapshotScale(results: ResultsModel): SnapshotScale {
 
 /** Link into the repository tree that holds this snapshot's frozen evidence. */
 export function evidenceUrl(snapshot: Snapshot, path: string): string {
-  return `${repository}/blob/${snapshot.evidenceRef}/${path}`;
+  const downstream = path === snapshot.results.manifest.path ||
+    path === 'reports/releases/v0.7.1/inventory.json' ||
+    path.startsWith('results/') || path === 'docs/releases/v0.7.1.md';
+  const ref = downstream && snapshot.publicationRef ? snapshot.publicationRef : snapshot.evidenceRef;
+  return `${repository}/blob/${ref}/${path}`;
 }
 
 export function shortDigest(sha256: string): string {

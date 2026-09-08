@@ -1,0 +1,27 @@
+---
+title: Languages — v0.7.1
+description: Per-language coverage and rates across the freshly rerun v0.7.1 scorecards.
+---
+
+import LanguageMatrix from '../../../../components/LanguageMatrix.astro';
+import { snapshots } from '../../../../data/snapshots';
+
+export const snapshot = snapshots.find((s) => s.version === 'v0.7.1');
+
+Rows are (language, scorecard, tier) partitions — they share a table for
+navigation, not a denominator. *Definitive* counts `reached` and
+`not-reached` outcomes; *incomplete* counts `inconclusive`, `unsupported`,
+and `runner-error`, which are reported as capability coverage and never scored
+as negatives.
+
+The language population is unchanged from v0.7.0: 852 cases, with all 82
+reports freshly rerun. The only outcome deltas are in Java: Bifrost's
+`anonymous-implementation` pair moved from `inconclusive` to a decisive
+`reached` / `not-reached` pair, while OpenTaint's `callback-registration` and
+`map-iteration` positives moved from `not-reached` to `reached`.
+
+Languages with more rows have broader analyzer coverage in this freeze. A row
+count is not a quality score, and rows from different model profiles remain
+separate populations even when they share a language name.
+
+<LanguageMatrix snapshot={snapshot} />

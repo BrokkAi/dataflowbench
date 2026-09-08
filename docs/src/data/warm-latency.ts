@@ -219,6 +219,7 @@ export function warmLatency(snapshot: Snapshot = currentSnapshot): {
   const cached = cache.get(release);
   if (cached) return cached;
   const { artifacts } = auxiliaryLatencyEvidence(snapshot);
+  const declines = release === 'v0.7.1' ? V071_DECLINES : DECLINES;
   const measurements: WarmMeasurement[] = [];
   const documents = Object.keys(artifacts)
     .filter(
@@ -391,7 +392,7 @@ export function warmLatency(snapshot: Snapshot = currentSnapshot): {
   // A silently missing adapter would read as an omission rather than a
   // decline, which is the failure mode the amendment's table exists to stop.
   const measured = new Set(measurements.map((m) => m.tool));
-  for (const decline of DECLINES) {
+  for (const decline of declines) {
     if (measured.has(decline.tool)) {
       throw new Error(
         `${decline.tool} is both measured and recorded as unmeasurable`,
@@ -399,7 +400,7 @@ export function warmLatency(snapshot: Snapshot = currentSnapshot): {
     }
   }
 
-  const result = { measurements, declines: DECLINES };
+  const result = { measurements, declines };
   cache.set(release, result);
   return result;
 }
@@ -438,3 +439,14 @@ export function warmMarginalRangeByTool(
   }
   return marks;
 }
+
+
+/** Current pin observations; historical snapshots retain their original contract text. */
+const V071_DECLINES: WarmDecline[] = [
+  { tool: 'flowdroid', verdict: 'deferred', evidence: 'The shipped CLI accepts a directory batch, but a batch shares one sources-and-sinks configuration. Whole-population equivalence to independent case configurations remains unresolved (A15). No warm marginal is qualified. Fresh CLI observations: reports/raw/warm-observability-v071/.' },
+  { tool: 'opentaint', verdict: 'no', evidence: 'Under the retained adapter contract, one project and entrypoint set forms one analysis. Multiple project inputs do not establish repeated independent case analysis in a persistent process. The fresh v0.4.6 wrapper and jar observations are retained under reports/raw/warm-observability-v071/; help absence alone is not the basis of this decline.' },
+  { tool: 'pysa', verdict: 'no', evidence: 'The retained contract uses one-shot pyre analyze; type-checker daemon commands do not establish a reusable taint-analysis process. Fresh CLI observations are retained under reports/raw/warm-observability-v071/.' },
+  { tool: 'codeql', verdict: 'no', evidence: 'The pinned database create/analyze interfaces operate on one database per invocation. No same-work multi-database warm series was qualified; fresh interface observations are retained under reports/raw/warm-observability-v071/.' },
+  { tool: 'infer', verdict: 'no', evidence: 'The retained invocation operates on one capture database and exits. Java capture includes javac work; it is not an independently measured JVM startup term. Fresh CLI observations are retained under reports/raw/warm-observability-v071/.' },
+  { tool: 'bifrost', verdict: 'no', evidence: 'The retained policy CLI operates on one root per invocation; the workspace/MCP surface does not establish an equivalent reusable policy process. No warm marginal was measured for this pin. Cold timings do not establish a comparative warm ranking. Fresh CLI observations are retained under reports/raw/warm-observability-v071/.' },
+];

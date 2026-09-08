@@ -1,10 +1,10 @@
 # Scorecard `joern-python-kernel-taint-taint-benchmark-controlled`
 
-Adapter `joern-python-kernel`: `joern` `4.0.617` (build `joern-cli:4.0.617`, adapter version `0.1.0`, configuration `ab10e81860305e492a930e2c2691873b23be25e97e5b354ca785058e09a20025`).
+Adapter `joern-python-kernel`: `joern` `4.0.621` (build `joern-cli:4.0.621`, adapter version `0.1.0`, configuration `ab10e81860305e492a930e2c2691873b23be25e97e5b354ca785058e09a20025`).
 
 Track `taint`, score dimension `taint`, model profile `benchmark-controlled`. This scorecard is a single result population; it is never pooled with other tracks, dimensions, or model profiles.
 
-Normalized report: `reports/joern-python-kernel.json` (`sha256:287c97ae95f6d7fd0766a98eb6b16ee4f86f3ee3cdf07d4f549bd2c68471c027`, normalized `sha256:287c97ae95f6d7fd0766a98eb6b16ee4f86f3ee3cdf07d4f549bd2c68471c027`). Generated from freeze manifest `reports/freeze.json` (`sha256:c543ae4ebd11ed6f3495f4461b5b4bd7c84d0874997f1b62044e9df62817b28b`).
+Normalized report: `reports/joern-python-kernel.json` (`sha256:838b2a50df7af22b799170b23db1cbb29215cb484af2dd7a2f1a06b8d5bfc32e`, normalized `sha256:838b2a50df7af22b799170b23db1cbb29215cb484af2dd7a2f1a06b8d5bfc32e`). Generated from freeze manifest `reports/freeze.json` (`sha256:f5416cded5891c92418d23ec5e2c638eb73f86695255cd5ea5f818b10f6c9e1d`).
 
 ## Language `python`, tier `core`
 
