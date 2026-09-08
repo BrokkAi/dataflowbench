@@ -1,5 +1,25 @@
 # Immutable freeze and release evidence
 
+## Release versioning
+
+DataFlowBench release versions distinguish changes to the benchmark kernels
+from refreshed measurements of candidate analyzers:
+
+- **Minor version** (`v0.7.x` → `v0.8.0`): the kernels change, including
+  additions, removals, or changes to cases, fixtures, or expected behavior.
+  Reset the patch version to zero.
+- **Patch version** (`v0.7.0` → `v0.7.1`): newer candidate analyzer versions
+  are retested against the same released population. Preserve its case
+  membership, case and fixture bytes, and expected behavior.
+
+For example, v0.7.1 refreshed candidate versions and measurements against the
+v0.7.0 population; it did not introduce new kernels. See
+[refreshing a released population](populations.md) for the pinned-population
+workflow. Each refresh gets a new freeze and retains the prior release's
+manifest and evidence.
+
+## Evidence contract
+
 `schemas/freeze.schema.json` defines the versioned `freeze/v1` contract. A
 freeze is an evidence manifest, not a generated score table. It is valid only
 when `cargo run -- validate-freeze reports/freeze.json` can re-read every

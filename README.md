@@ -437,6 +437,12 @@ of scope.
 
 ## Freeze release evidence
 
+Release versions track benchmark populations: bump the **minor** version when
+the kernels change, and the **patch** version when retesting newer candidate
+analyzers against an unchanged released population. For example, v0.7.1
+refreshes candidates against the v0.7.0 kernels. See the
+[release versioning policy](docs/freeze.md#release-versioning).
+
 Before using benchmark results in a release or website claim, create an
 immutable `freeze/v1` manifest and validate it from a clean checkout:
 
