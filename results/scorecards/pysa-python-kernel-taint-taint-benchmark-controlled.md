@@ -4,7 +4,7 @@ Adapter `pysa-python-kernel`: `pysa` `0.10.0` (build `pyre-check:0.10.0 pyre.bin
 
 Track `taint`, score dimension `taint`, model profile `benchmark-controlled`. This scorecard is a single result population; it is never pooled with other tracks, dimensions, or model profiles.
 
-Normalized report: `reports/pysa-python-kernel.json` (`sha256:125faf9d9127b71b9b0d2b0d55229bdd26136c0e151fc2c2f555abcf500d609a`, normalized `sha256:125faf9d9127b71b9b0d2b0d55229bdd26136c0e151fc2c2f555abcf500d609a`). Generated from freeze manifest `reports/freeze.json` (`sha256:c543ae4ebd11ed6f3495f4461b5b4bd7c84d0874997f1b62044e9df62817b28b`).
+Normalized report: `reports/pysa-python-kernel.json` (`sha256:d97985a57e65033706346b5870a14ecb922265d921d287502140cccd6f2471b2`, normalized `sha256:d97985a57e65033706346b5870a14ecb922265d921d287502140cccd6f2471b2`). Generated from freeze manifest `reports/freeze.json` (`sha256:f5416cded5891c92418d23ec5e2c638eb73f86695255cd5ea5f818b10f6c9e1d`).
 
 ## Language `python`, tier `core`
 

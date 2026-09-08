@@ -1,31 +1,31 @@
 # Scorecard `opentaint-java-kernel-taint-taint-benchmark-controlled`
 
-Adapter `opentaint-java-kernel`: `opentaint` `analyzer/2026.09.03.9752bd2` (build `opentaint-project-analyzer.jar sha256:db3a61637207633342c15ebc40b0164205563ba6446d48a8fa5c4f8fd194b61c; opentaint-models.tar.gz sha256:8746b9594266c67f04cd93a64c6c30673f98ccaeb59baed76d202ffee327a8d4`, adapter version `0.1.0`, configuration `206e6d1fee555be8461afe56c45c8395a32006e1f8ece57b840c229061353079`).
+Adapter `opentaint-java-kernel`: `opentaint` `v0.4.6` (build `opentaint-project-analyzer.jar sha256:2ca93b6c33462bdbc23ceccdc5375e1a900682b33371cd906e5214dc7c48f569; opentaint-models.tar.gz sha256:20a96a50fba9ab6f6e98e8562019e5ecbe2a77de7947981eaf6e379f04065329`, adapter version `0.1.0`, configuration `206e6d1fee555be8461afe56c45c8395a32006e1f8ece57b840c229061353079`).
 
 Track `taint`, score dimension `taint`, model profile `benchmark-controlled`. This scorecard is a single result population; it is never pooled with other tracks, dimensions, or model profiles.
 
-Normalized report: `reports/opentaint-java-kernel.json` (`sha256:797a748114ba8b9ef603fec0f611c6fac31eb1adf15df3f271b8f2d33030d235`, normalized `sha256:797a748114ba8b9ef603fec0f611c6fac31eb1adf15df3f271b8f2d33030d235`). Generated from freeze manifest `reports/freeze.json` (`sha256:c543ae4ebd11ed6f3495f4461b5b4bd7c84d0874997f1b62044e9df62817b28b`).
+Normalized report: `reports/opentaint-java-kernel.json` (`sha256:33ef292f0166ae61584696e65ec4a640b853919406b1acf6c608a356aa1916dd`, normalized `sha256:33ef292f0166ae61584696e65ec4a640b853919406b1acf6c608a356aa1916dd`). Generated from freeze manifest `reports/freeze.json` (`sha256:f5416cded5891c92418d23ec5e2c638eb73f86695255cd5ea5f818b10f6c9e1d`).
 
 ## Language `java`, tier `core`
 
-Outcome coverage: `reached` 30, `not-reached` 28, `inconclusive` 0, `unsupported` 0, `runner-error` 0, total 58. `inconclusive`, `unsupported`, and `runner-error` are capability and execution coverage; they are never counted as clean negatives.
+Outcome coverage: `reached` 32, `not-reached` 26, `inconclusive` 0, `unsupported` 0, `runner-error` 0, total 58. `inconclusive`, `unsupported`, and `runner-error` are capability and execution coverage; they are never counted as clean negatives.
 
 ### Semantic dimension rates
 
 | Semantic dimension | TP | FN | FP | TN | Inconclusive | Unsupported | Runner error | TPR (template macro) | FPR (template macro) |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | `context-sensitivity` | 5 | 0 | 1 | 4 | 0 | 0 | 0 | 100.0% | 20.0% |
-| `dynamic-dispatch` | 5 | 2 | 2 | 5 | 0 | 0 | 0 | 71.4% | 28.6% |
+| `dynamic-dispatch` | 6 | 1 | 2 | 5 | 0 | 0 | 0 | 85.7% | 28.6% |
 | `exceptional-flow` | 0 | 1 | 0 | 1 | 0 | 0 | 0 | 0.0% | 0.0% |
 | `flow-sensitivity` | 3 | 0 | 1 | 2 | 0 | 0 | 0 | 100.0% | 33.3% |
-| `heap-field-sensitivity` | 8 | 2 | 3 | 7 | 0 | 0 | 0 | 80.0% | 30.0% |
-| `interprocedural-flow` | 8 | 1 | 0 | 9 | 0 | 0 | 0 | 88.9% | 0.0% |
+| `heap-field-sensitivity` | 9 | 1 | 3 | 7 | 0 | 0 | 0 | 90.0% | 30.0% |
+| `interprocedural-flow` | 9 | 0 | 0 | 9 | 0 | 0 | 0 | 100.0% | 0.0% |
 | `local-flow` | 7 | 1 | 1 | 7 | 0 | 0 | 0 | 87.5% | 12.5% |
-| `object-sensitivity` | 4 | 1 | 1 | 4 | 0 | 0 | 0 | 80.0% | 20.0% |
+| `object-sensitivity` | 5 | 0 | 1 | 4 | 0 | 0 | 0 | 100.0% | 20.0% |
 | `path-sensitivity` | 3 | 0 | 1 | 2 | 0 | 0 | 0 | 100.0% | 33.3% |
 | `recursion` | 1 | 0 | 0 | 1 | 0 | 0 | 0 | 100.0% | 0.0% |
 
-Macro-average over semantic dimensions: TPR 80.8%, FPR 17.8%. Macro-averages pool templates first, then semantic dimensions; raw case counts are shown for audit only.
+Macro-average over semantic dimensions: TPR 86.3%, FPR 17.8%. Macro-averages pool templates first, then semantic dimensions; raw case counts are shown for audit only.
 
 Caveat: `inconclusive` outcomes are excluded from every TPR and FPR denominator above, so the rates cover only the conclusive subset of this population. This population records 0 `inconclusive` outcome(s). Compare rate columns across adapters with that exclusion in mind: an adapter that self-reports uncertainty is not penalized in its rates for the cases it declined to decide.
 
@@ -48,7 +48,7 @@ Caveat: `inconclusive` outcomes are excluded from every TPR and FPR denominator 
 | `dfb-template-chal-anonymous-implementation` | `dfb-taint-java-anonymous-implementation-negative` | negative | `not-reached` | true-negative | `reports/raw/opentaint-java-kernel/dfb-taint-java-anonymous-implementation-negative.json` | `f69fb1ae63a52e64cbe8e1cebd8826880a524e89383b4c5b8e8e8ebc80fd9c7b` |
 | `dfb-template-chal-anonymous-implementation` | `dfb-taint-java-anonymous-implementation-positive` | positive | `reached` | true-positive | `reports/raw/opentaint-java-kernel/dfb-taint-java-anonymous-implementation-positive.json` | `2853a202e2f67c8b5b6e05603339cc82398b719734e601e393ec1d11257bd3ca` |
 | `dfb-template-chal-callback-registration` | `dfb-taint-java-callback-registration-negative` | negative | `not-reached` | true-negative | `reports/raw/opentaint-java-kernel/dfb-taint-java-callback-registration-negative.json` | `61e9c7d6a428562e2fea03ef2e55345732a7f591953257d23bcf96d90c8c5a74` |
-| `dfb-template-chal-callback-registration` | `dfb-taint-java-callback-registration-positive` | positive | `not-reached` | false-negative | `reports/raw/opentaint-java-kernel/dfb-taint-java-callback-registration-positive.json` | `7cf1f59ec859e2120e0811719f35a54cb8b2bccc3d0fd477f5b7672bca09b747` |
+| `dfb-template-chal-callback-registration` | `dfb-taint-java-callback-registration-positive` | positive | `reached` | true-positive | `reports/raw/opentaint-java-kernel/dfb-taint-java-callback-registration-positive.json` | `ebcfd03610e63bacf714f00d8c547481daaf99879cbf645a1725faa55d80ee41` |
 | `dfb-template-chal-closure-capture` | `dfb-taint-java-closure-capture-negative` | negative | `not-reached` | true-negative | `reports/raw/opentaint-java-kernel/dfb-taint-java-closure-capture-negative.json` | `a6797cef057462632013c58f1fe60231e628e857177ab69381893ce7cc4b4055` |
 | `dfb-template-chal-closure-capture` | `dfb-taint-java-closure-capture-positive` | positive | `reached` | true-positive | `reports/raw/opentaint-java-kernel/dfb-taint-java-closure-capture-positive.json` | `e5d762fefd80b2e9358d9d1fc79b657b16351628b8f4503f17aa5e53d46f0ec2` |
 | `dfb-template-chal-computed-property` | `dfb-taint-java-computed-property-negative` | negative | `reached` | false-positive | `reports/raw/opentaint-java-kernel/dfb-taint-java-computed-property-negative.json` | `d435e6b14eed7b578dbfccc0e59d14a1d727e37d7b917ec360ce7c71d4cff0ff` |
@@ -64,7 +64,7 @@ Caveat: `inconclusive` outcomes are excluded from every TPR and FPR denominator 
 | `dfb-template-chal-function-field` | `dfb-taint-java-function-field-negative` | negative | `not-reached` | true-negative | `reports/raw/opentaint-java-kernel/dfb-taint-java-function-field-negative.json` | `8a0e3e55a05fd1b7256615b982e7d6bb95b3b140d68c50d3306dbd478540902d` |
 | `dfb-template-chal-function-field` | `dfb-taint-java-function-field-positive` | positive | `reached` | true-positive | `reports/raw/opentaint-java-kernel/dfb-taint-java-function-field-positive.json` | `fad474f452f43d25184997496334bbcfc4a0e07f65d9dddb3cd440b2037b245f` |
 | `dfb-template-chal-map-iteration` | `dfb-taint-java-map-iteration-negative` | negative | `not-reached` | true-negative | `reports/raw/opentaint-java-kernel/dfb-taint-java-map-iteration-negative.json` | `032482a5764d8031a4855ad832aa31fe418d5f60c1df38cac0ee24e32b4caeb1` |
-| `dfb-template-chal-map-iteration` | `dfb-taint-java-map-iteration-positive` | positive | `not-reached` | false-negative | `reports/raw/opentaint-java-kernel/dfb-taint-java-map-iteration-positive.json` | `3e4154004f7cf671aff187f5a419f24e4fc87df39eb2ec634218f2e3313ee96b` |
+| `dfb-template-chal-map-iteration` | `dfb-taint-java-map-iteration-positive` | positive | `reached` | true-positive | `reports/raw/opentaint-java-kernel/dfb-taint-java-map-iteration-positive.json` | `49e6041c68d3640f4bce937e075a73fe48dcde94dd4928d580629a2f46253868` |
 | `dfb-template-chal-nested-access-path` | `dfb-taint-java-nested-access-path-negative` | negative | `not-reached` | true-negative | `reports/raw/opentaint-java-kernel/dfb-taint-java-nested-access-path-negative.json` | `a7a081aca72dc7e7dfa8b39e71c9953bbf3fef744608843b342c694c3f176dd5` |
 | `dfb-template-chal-nested-access-path` | `dfb-taint-java-nested-access-path-positive` | positive | `reached` | true-positive | `reports/raw/opentaint-java-kernel/dfb-taint-java-nested-access-path-positive.json` | `e82e5770988f8a5e0f40fa30efa8957d277bb2d0105a9ec2c092c0fcf4610816` |
 | `dfb-template-chal-recursive-carry` | `dfb-taint-java-recursive-carry-negative` | negative | `not-reached` | true-negative | `reports/raw/opentaint-java-kernel/dfb-taint-java-recursive-carry-negative.json` | `00865128cd0174a4570bceb74aca44e15a96edf7045ec26769531da95c701f11` |

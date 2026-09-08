@@ -45,16 +45,26 @@ test('v0.7.0 archive binds the published release rather than its development tag
 });
 
 
-test('the temporary historical CI checkout must be removed when the published freeze changes', () => {
+test('the final freeze uses current release validation rather than historical transition', () => {
   const workflow = fs.readFileSync(new URL('../../../.github/workflows/ci.yml', import.meta.url), 'utf8');
-  if (!workflow.includes('TEMPORARY v0.7.1 evidence transition')) {
-    assert.ok(workflow.includes('- run: cargo run -- generate-results --manifest reports/freeze.json --output-directory results --check'));
-    return;
-  }
+  assert.equal(workflow.includes('TEMPORARY v0.7.1 evidence transition'), false);
+  assert.ok(workflow.includes('scripts/check-release-results.py'));
+});
+
+test('v0.7.1 fresh latency binds its own manifest and actual warm batch sizes', () => {
+  const read = (path: string) => JSON.parse(fs.readFileSync(new URL(path, import.meta.url), 'utf8'));
+  const cold = read('./archive/v0-7-1-latency-evidence.json');
+  const aux = read('./archive/v0-7-1-latency-auxiliary-evidence.json');
   const manifest = fs.readFileSync(new URL('../../../reports/freeze.json', import.meta.url));
-  assert.equal(
-    createHash('sha256').update(manifest).digest('hex'),
-    'c543ae4ebd11ed6f3495f4461b5b4bd7c84d0874997f1b62044e9df62817b28b',
-    'Restore current-checkout generate-results --check in the final manifest PR',
-  );
+  assert.equal(cold.manifest_sha256, createHash('sha256').update(manifest).digest('hex'));
+  assert.equal(cold.release, 'v0.7.1');
+  assert.equal(cold.evidence_ref, '2007f15d687e0081c948e55bba39c952d248ee0f');
+  assert.equal(aux.evidence_ref, cold.evidence_ref);
+  assert.equal(Object.keys(cold.timings).length, 2725);
+  assert.equal(Object.keys(cold.environments).length, 82);
+  assert.equal(Object.keys(aux.artifacts).length, 22);
+  const warm = aux.artifacts['reports/raw/warm-latency/semgrep-java-kernel/warm-latency.json'];
+  assert.equal(warm.runs.length, 2);
+  for (const run of warm.runs) assert.deepEqual(run.batches.map((b: any) => b.k), [1, 2, 4, 8, 12]);
+  assert.equal(Object.keys(aux.artifacts).some((p) => p.includes('superseded')), false);
 });

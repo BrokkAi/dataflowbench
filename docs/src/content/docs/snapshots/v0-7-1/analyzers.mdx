@@ -1,0 +1,55 @@
+---
+title: Analyzers — v0.7.1
+description: One scorecard per freshly rerun report across eight analyzers; scorecards and model profiles remain separate.
+---
+
+import ScorecardSummary from '../../../../components/ScorecardSummary.astro';
+import DimensionRates from '../../../../components/DimensionRates.astro';
+import { snapshots } from '../../../../data/snapshots';
+
+export const snapshot = snapshots.find((s) => s.version === 'v0.7.1');
+
+Each scorecard is one frozen report: one analyzer, one track, one score
+dimension, and one model profile. Scorecards are independent result
+populations and are never combined into a leaderboard. `TPR`/`FPR` are
+macro-averages over templates and then semantic dimensions; incomplete
+outcomes are coverage, never negatives.
+
+All **82 reports** in this snapshot were freshly rerun over the unchanged
+852-case population. This includes the sixteen tool-native reports. The
+freshness claim is evidence-backed: the <a href="https://github.com/BrokkAi/dataflowbench/blob/2007f15d687e0081c948e55bba39c952d248ee0f/reports/releases/v0.7.1/completed-measurement-audit.json">measurement audit</a>
+records 82 fresh reports and 3,480 results.
+
+The four changed cells are all in Java. Bifrost's `anonymous-implementation`
+pair changed from `inconclusive` to `reached` / `not-reached`; OpenTaint's
+`callback-registration` and `map-iteration` positive cells changed from
+`not-reached` to `reached`. The per-scorecard tables below are the authority
+for rates and denominators.
+
+The two model profiles answer different questions. A
+`benchmark-controlled` card measures an engine with the benchmark's model
+supplied; a `tool-native` card measures the product with nothing supplied.
+Native `unsupported` outcomes are declared capability boundaries and do not
+mean two wrong answers.
+
+{snapshot.results.scorecards.map((scorecard) => (
+  <ScorecardSummary snapshot={snapshot} scorecard={scorecard} />
+))}
+
+## Semantic dimension detail
+
+{snapshot.results.scorecards.map((scorecard) =>
+  scorecard.languages.map((language) =>
+    language.score_tiers
+      .filter((tier) => tier.scored)
+      .map((tier) => (
+        <>
+          <h3>
+            <code>{scorecard.id}</code> — <code>{language.language}</code>,{' '}
+            {tier.score_tier}
+          </h3>
+          <DimensionRates tier={tier} />
+        </>
+      )),
+  ),
+)}

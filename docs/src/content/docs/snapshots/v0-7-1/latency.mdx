@@ -1,0 +1,74 @@
+---
+title: Latency — v0.7.1
+description: v0.7.1 cold and warm latency characterization, with its observed desktop conditions and explicit exclusions.
+---
+
+import LatencyTier from '../../../../components/LatencyTier.astro';
+
+DataFlowBench's latency-characterization tier stands beside the correctness
+scorecards, on its own page, and never as a column inside one. This release
+retains **2,725 cold timings** across the unchanged population. The 755
+unsupported outcomes have no invented timing.
+
+:::note[Characterization on one desktop machine]
+The cold rows describe the runs this freeze actually performed. Desktop
+activity and cache state were observed but uncontrolled, so the figures do not
+support an uncontended-machine claim. The Bifrost access controls establish
+equal outcomes for their paired sandboxed/elevated controls, not timing parity.
+:::
+
+The contract governing every number here —
+[`docs/latency-tier.md`](https://github.com/BrokkAi/dataflowbench/blob/main/docs/latency-tier.md)
+— keeps latency descriptive and independent from correctness. No outcome was
+derived from, conditioned on, or tie-broken by a timing value.
+
+The warm series retain Joern batches `1, 2, 4, 8, 16`, with two repeats, and
+Semgrep batches `1, 2, 4, 8, 12`, with two repeats. Semgrep's original batch
+size-16 attempt failed during pre-analysis because its eligible identical-rule
+population contained twelve cases; that attempt is retained, and no size-16
+comparison is claimed. Nine overhead groups were measured three times each.
+
+OpenTaint's functional product-probe timings are diagnostic and excluded from
+cold, warm, and overhead qualification. The <a href="https://github.com/BrokkAi/dataflowbench/blob/2007f15d687e0081c948e55bba39c952d248ee0f/reports/releases/v0.7.1/completed-measurement-audit.json">measurement audit</a>
+and <a href="https://github.com/BrokkAi/dataflowbench/blob/2007f15d687e0081c948e55bba39c952d248ee0f/reports/releases/v0.7.1/warm-series-audit.json">warm-series audit</a>
+retain the execution boundaries and limitations.
+
+## What these numbers are, and what they are not \{#scope\}
+
+<LatencyTier snapshotVersion="v0.7.1" section="scope" />
+
+## Environment stamp \{#environment\}
+
+<LatencyTier snapshotVersion="v0.7.1" section="environment" />
+
+## The granularity is unequal, and that is the point \{#granularity\}
+
+<LatencyTier snapshotVersion="v0.7.1" section="granularity" />
+
+## Analyzer-invocation wall-clock, per adapter \{#cross-adapter\}
+
+<LatencyTier snapshotVersion="v0.7.1" section="cross-adapter" />
+
+## Phase decomposition, within each adapter that has one \{#phases\}
+
+<LatencyTier snapshotVersion="v0.7.1" section="phases" />
+
+## Warm marginal cost, measured separately \{#warm-marginal\}
+
+<LatencyTier snapshotVersion="v0.7.1" section="warm-marginal" />
+
+## Estimated per-invocation overhead \{#invocation-overhead\}
+
+<LatencyTier snapshotVersion="v0.7.1" section="invocation-overhead" />
+
+## Per-slice medians \{#slices\}
+
+<LatencyTier snapshotVersion="v0.7.1" section="slices" />
+
+## Cases with no latency number \{#untimed\}
+
+<LatencyTier snapshotVersion="v0.7.1" section="untimed" />
+
+## Provenance and what the freeze does and does not guarantee \{#provenance\}
+
+<LatencyTier snapshotVersion="v0.7.1" section="provenance" />

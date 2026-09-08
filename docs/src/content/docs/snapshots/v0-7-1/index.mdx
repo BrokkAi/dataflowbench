@@ -1,0 +1,97 @@
+---
+title: Snapshot v0.7.1
+description: A fresh measurement of the v0.7.0 population, with all 82 reports rerun and four evidence-backed Java outcome changes.
+---
+
+import SnapshotBanner from '../../../../components/SnapshotBanner.astro';
+import { snapshots, evidenceUrl } from '../../../../data/snapshots';
+
+export const snapshot = snapshots.find((s) => s.version === 'v0.7.1');
+
+<SnapshotBanner snapshot={snapshot} />
+
+v0.7.1 is a fresh measurement of the **v0.7.0 population**. The benchmark
+still contains **852 cases** and the same score tiers and model profiles; no
+new case population was introduced. All **82 bound reports** were freshly
+rerun, including the sixteen tool-native reports. The resulting freeze has
+**3,480 outcomes**:
+
+| Outcome | Count |
+| --- | ---: |
+| `not-reached` | 1,294 |
+| `reached` | 1,131 |
+| `inconclusive` | 300 |
+| `unsupported` | 755 |
+
+The counts are outcome coverage across the retained reports. They do not pool
+scorecards into a leaderboard: benchmark-controlled and tool-native profiles
+remain separate populations, and incomplete outcomes are coverage rather than
+negative decisions.
+
+## Four outcome deltas
+
+Against the published v0.7.0 manifest ref
+([`61300f47`](https://github.com/BrokkAi/dataflowbench/tree/61300f47de7affa651fbd4a125ca6b894b29ce71)),
+four cells changed:
+
+- Bifrost's Java `anonymous-implementation` pair moved from `inconclusive` to
+  `reached` on the positive and `not-reached` on the negative.
+- OpenTaint's Java `callback-registration` positive moved from `not-reached` to
+  `reached`.
+- OpenTaint's Java `map-iteration` positive moved from `not-reached` to
+  `reached`.
+
+No case was added, removed, or silently reclassified to make the totals agree.
+The [case-evidence page](./evidence/) links each retained artifact and its
+digest.
+
+## What the fresh evidence says
+
+The release audit records 82 fresh reports, 3,480 results, and verified
+membership and retained-hash references. The <a href={evidenceUrl(snapshot, 'reports/releases/v0.7.1/completed-measurement-audit.json')}>measurement audit</a>
+is retained at the evidence commit; the <a href={evidenceUrl(snapshot, 'reports/releases/v0.7.1/inventory.json')}>release inventory</a>
+is bound by the publication ref used by this snapshot.
+
+The tool-native profile needs its own qualification. Bifrost's 36 native
+outcomes remain `unsupported` where the shipped selector/catalog evidence
+does not bind the fixture surface. A separate positive control is retained as
+`inconclusive` with `partial_discovery`; it is not used to turn those catalog-
+grounded declines into successful activation claims. OpenTaint's native
+fixture results remain bounded by the source-selector barrier between the
+environment-variable fixtures and its servlet/Spring source selectors, so
+downstream semantics remain unresolved. Its functional product probe
+demonstrates activation for a servlet control, while its timings are excluded
+from latency qualification.
+
+## Timing qualification
+
+This release has **2,725 cold timings**. The remaining 755 outcomes are
+unsupported and have no invented timing. Warm measurements retain Joern
+batch sizes `1, 2, 4, 8, 16`, twice, and Semgrep's corrected eligible series
+`1, 2, 4, 8, 12`, twice; the original Semgrep size-16 attempt failed during
+pre-analysis and is retained as an unavailable attempt. Nine overhead groups
+were measured three times each.
+
+These are desktop characterization results with cache and background activity
+observed but uncontrolled. They do not support an uncontended-machine claim
+or timing parity between sandboxed and elevated execution. The [latency
+page](./latency/) states the boundaries and exclusions beside the component
+tables.
+
+## Claim
+
+- Scope: <code>{snapshot.results.claim.scope}</code>
+- Tracks: {snapshot.results.claim.tracks.map((t) => <code>{t} </code>)}
+- Score tiers: {snapshot.results.claim.score_tiers.map((t) => <code>{t} </code>)}
+- Model profiles: {snapshot.results.claim.model_profiles.map((p) => <code>{p} </code>)}
+- Exclusions: {snapshot.results.claim.exclusions.length === 0 ? 'none' : ''}
+
+## Bound evidence
+
+Freeze ID (manifest SHA-256): <code>{snapshot.results.manifest.sha256}</code>
+
+Freeze manifest: <a href={evidenceUrl(snapshot, snapshot.results.manifest.path)}><code>{snapshot.results.manifest.path}</code></a>
+
+Continue to [analyzers](./analyzers/), [languages](./languages/), [semantic
+templates](./templates/), [case evidence](./evidence/), [profiles](./profiles/),
+or [latency](./latency/).

@@ -4,7 +4,7 @@ Adapter `infer-cpp-kernel`: `infer` `v1.3.0` (build `infer:v1.3.0 bin-sha256:17e
 
 Track `taint`, score dimension `taint`, model profile `benchmark-controlled`. This scorecard is a single result population; it is never pooled with other tracks, dimensions, or model profiles.
 
-Normalized report: `reports/infer-cpp-kernel.json` (`sha256:fc3b5fd70a89dbe9bd400c3a1f7d8eaf44f461fd02a1f3cf19264ec67cd98199`, normalized `sha256:fc3b5fd70a89dbe9bd400c3a1f7d8eaf44f461fd02a1f3cf19264ec67cd98199`). Generated from freeze manifest `reports/freeze.json` (`sha256:c543ae4ebd11ed6f3495f4461b5b4bd7c84d0874997f1b62044e9df62817b28b`).
+Normalized report: `reports/infer-cpp-kernel.json` (`sha256:b36c1bf27f4f303db75ccb3d115515bc19a53e80d7785562f5bc84cdc590f69f`, normalized `sha256:b36c1bf27f4f303db75ccb3d115515bc19a53e80d7785562f5bc84cdc590f69f`). Generated from freeze manifest `reports/freeze.json` (`sha256:f5416cded5891c92418d23ec5e2c638eb73f86695255cd5ea5f818b10f6c9e1d`).
 
 ## Language `cpp`, tier `core`
 

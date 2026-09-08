@@ -1,0 +1,35 @@
+---
+title: Analyzer profiles — v0.7.1
+description: One four-axis profile per analyzer — speed, recall, precision, and kernel coverage — with no composite score.
+---
+
+import AnalyzerProfiles from '../../../../components/AnalyzerProfiles.astro';
+
+An **exploratory** view: one small radar per analyzer, four axes, drawn over
+the benchmark-controlled `core` kernel populations. It makes one analyzer's
+shape legible at a glance — where it is fast, where it decides, where it is
+right when it decides, and how much of the benchmark it covers — without
+creating a composite score.
+
+The correctness axes use v0.7.1's freshly rerun evidence. The latency axis
+uses this release's separately qualified characterization data. The two are
+shown together for orientation only: they have different denominators and no
+calculation on this page combines them. In particular, this page is not a
+ranking and does not claim that one analyzer dominates another.
+
+The four correctness deltas are confined to Java: Bifrost's
+`anonymous-implementation` pair became `reached` / `not-reached` from
+`inconclusive`, and OpenTaint's `callback-registration` and `map-iteration`
+positive cells became `reached` from `not-reached`.
+
+<AnalyzerProfiles snapshotVersion="v0.7.1" />
+
+## Where these numbers come from
+
+The correctness axes are derived from the same frozen `results/results.json`
+that the [correctness pages](./) read, through the benchmark-controlled `core`
+population filter. The latency axis is derived from the v0.7.1 timing
+evidence under the preregistered
+[`docs/latency-tier.md`](https://github.com/BrokkAi/dataflowbench/blob/main/docs/latency-tier.md)
+contract. No correctness outcome is derived from, conditioned on, or tie-broken
+by a timing value.
