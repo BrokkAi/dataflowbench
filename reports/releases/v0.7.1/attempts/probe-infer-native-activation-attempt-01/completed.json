@@ -1,0 +1,230 @@
+{
+  "id": "probe-infer-native-activation-attempt-01",
+  "planned_id": "probe-infer-native-activation",
+  "argv": [
+    "bash",
+    "scripts/probe-infer-native-activation.sh",
+    "--infer",
+    "/Users/dave/.cache/dataflowbench-tools/infer-osx-arm64-v1.3.0/lib/infer/infer/bin/infer",
+    "--javac",
+    "/usr/bin/javac"
+  ],
+  "cwd": "/Users/dave/.codex/worktrees/653a/dataflowbench",
+  "input_commits": {
+    "corpus": "0c82e8093ff899d5ee72809a82c951ab76b5bb76",
+    "publication_infrastructure": "53050fa64628997e866303bcd5299d74f1e3e45d",
+    "pins": "c0899dab0d2c043dcc5b1aa6a1aad0e49f482fea"
+  },
+  "execution_revision": "d0d50697581bb35e9d50ff60cc0e22e2484eabf0",
+  "population": "v0.7.0",
+  "fixture_revision": "sha256:9df209ed3d7723a3ee33f2b289cf2afe34a3add781bdf2a2ac445de42b8d0151",
+  "plan": {
+    "path": "reports/releases/v0.7.1/plan.json",
+    "sha256": "cb948f4a5cff80b95d3dcc755ab8249d87449e43f70e6eb80a456789faf12f26"
+  },
+  "identities": {
+    "path": "reports/releases/v0.7.1/identities.json",
+    "sha256": "0b8b1bb07d1df1ec8687613bb355f5f6021a2c664d3488dc3bc763553ce1a83c"
+  },
+  "execution_access": "require_escalated",
+  "start_utc": "2026-09-07T21:55:23.133597+00:00",
+  "host": {
+    "platform": "macOS-26.6.2-arm64-arm-64bit",
+    "cpu_count": 10,
+    "load_before": [
+      4.607421875,
+      3.921875,
+      4.3466796875
+    ],
+    "load_after": [
+      3.7421875,
+      3.82080078125,
+      4.27880859375
+    ]
+  },
+  "settle_observations": [],
+  "cache_posture": "isolated case workspaces; local distributions and prefetched CodeQL packs; OS page cache uncontrolled; warm only for explicit warm series",
+  "supersedes": null,
+  "exit_code": 0,
+  "end_utc": "2026-09-07T21:56:19.833535+00:00",
+  "stdout": {
+    "path": "reports/releases/v0.7.1/attempts/probe-infer-native-activation-attempt-01/stdout.txt",
+    "sha256": "2547bf88889a7a4eb957a8d415e3618eb443de83076180981a48ad3297a264d8"
+  },
+  "stderr": {
+    "path": "reports/releases/v0.7.1/attempts/probe-infer-native-activation-attempt-01/stderr.txt",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "outputs": [
+    {
+      "original_path": "reports/raw/amendment-a28-infer-native-activation/native-source-sink-positive-full-default.json",
+      "path": "reports/releases/v0.7.1/attempts/probe-infer-native-activation-attempt-01/outputs/reports/raw/amendment-a28-infer-native-activation/native-source-sink-positive-full-default.json",
+      "sha256": "f4cb8f75031cc69c71fb95c4e9b01fe58dd7db7b070fa7a35f207122b1fbaee0"
+    },
+    {
+      "original_path": "reports/raw/amendment-a28-infer-native-activation/native-persistence-positive-full-default.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/probe-infer-native-activation-attempt-01/outputs/reports/raw/amendment-a28-infer-native-activation/native-persistence-positive-full-default.sarif.json",
+      "sha256": "49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811"
+    },
+    {
+      "original_path": "reports/raw/amendment-a28-infer-native-activation/witnessed-version.txt",
+      "path": "reports/releases/v0.7.1/attempts/probe-infer-native-activation-attempt-01/outputs/reports/raw/amendment-a28-infer-native-activation/witnessed-version.txt",
+      "sha256": "6fbc8c350c86f4ca36e7a4185214a03b7507f2edcc0962b663ffac9ffbf3306f"
+    },
+    {
+      "original_path": "reports/raw/amendment-a28-infer-native-activation/native-persistence-negative-full-default.json",
+      "path": "reports/releases/v0.7.1/attempts/probe-infer-native-activation-attempt-01/outputs/reports/raw/amendment-a28-infer-native-activation/native-persistence-negative-full-default.json",
+      "sha256": "eec98b6433c39a3e624f3e175d9268639c2f8c07abbd7a4d607d86ff08720bff"
+    },
+    {
+      "original_path": "reports/raw/amendment-a28-infer-native-activation/native-sanitizer-negative-full-default.json",
+      "path": "reports/releases/v0.7.1/attempts/probe-infer-native-activation-attempt-01/outputs/reports/raw/amendment-a28-infer-native-activation/native-sanitizer-negative-full-default.json",
+      "sha256": "2ac353626f49a7881c642748a84dcd35de094f6324d785240e9bd934ac629194"
+    },
+    {
+      "original_path": "reports/raw/amendment-a28-infer-native-activation/native-sanitizer-negative-full-default.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/probe-infer-native-activation-attempt-01/outputs/reports/raw/amendment-a28-infer-native-activation/native-sanitizer-negative-full-default.sarif.json",
+      "sha256": "49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811"
+    },
+    {
+      "original_path": "reports/raw/amendment-a28-infer-native-activation/shipped-taint-bundle-manifest.json",
+      "path": "reports/releases/v0.7.1/attempts/probe-infer-native-activation-attempt-01/outputs/reports/raw/amendment-a28-infer-native-activation/shipped-taint-bundle-manifest.json",
+      "sha256": "fab7a4d402736caad5f74408be8395e0f005cad4ff1e13cff8ad2fc49538df85"
+    },
+    {
+      "original_path": "reports/raw/amendment-a28-infer-native-activation/native-source-sink-negative-full-default.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/probe-infer-native-activation-attempt-01/outputs/reports/raw/amendment-a28-infer-native-activation/native-source-sink-negative-full-default.sarif.json",
+      "sha256": "49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811"
+    },
+    {
+      "original_path": "reports/raw/amendment-a28-infer-native-activation/native-entrypoint-negative-full-default.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/probe-infer-native-activation-attempt-01/outputs/reports/raw/amendment-a28-infer-native-activation/native-entrypoint-negative-full-default.sarif.json",
+      "sha256": "49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811"
+    },
+    {
+      "original_path": "reports/raw/amendment-a28-infer-native-activation/native-propagator-negative-full-default.json",
+      "path": "reports/releases/v0.7.1/attempts/probe-infer-native-activation-attempt-01/outputs/reports/raw/amendment-a28-infer-native-activation/native-propagator-negative-full-default.json",
+      "sha256": "3baa723aeefd0142d43b60c318919283c9f53dee7dbf445e5e2a79eca406b3e0"
+    },
+    {
+      "original_path": "reports/raw/amendment-a28-infer-native-activation/engagement-proof-transcript.txt",
+      "path": "reports/releases/v0.7.1/attempts/probe-infer-native-activation-attempt-01/outputs/reports/raw/amendment-a28-infer-native-activation/engagement-proof-transcript.txt",
+      "sha256": "f32dc3e4402188cb500e9e6d1a66d55c933246b58f44fa8dd40f53f45dedecab"
+    },
+    {
+      "original_path": "reports/raw/amendment-a28-infer-native-activation/native-propagator-negative-full-default.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/probe-infer-native-activation-attempt-01/outputs/reports/raw/amendment-a28-infer-native-activation/native-propagator-negative-full-default.sarif.json",
+      "sha256": "49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811"
+    },
+    {
+      "original_path": "reports/raw/amendment-a28-infer-native-activation/native-entrypoint-negative-full-default.json",
+      "path": "reports/releases/v0.7.1/attempts/probe-infer-native-activation-attempt-01/outputs/reports/raw/amendment-a28-infer-native-activation/native-entrypoint-negative-full-default.json",
+      "sha256": "36b33450cce87acb1cbd8a1bc6acbd5000cc8b5c00df27b7211212cd8fdc4560"
+    },
+    {
+      "original_path": "reports/raw/amendment-a28-infer-native-activation/native-summary-negative-full-default.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/probe-infer-native-activation-attempt-01/outputs/reports/raw/amendment-a28-infer-native-activation/native-summary-negative-full-default.sarif.json",
+      "sha256": "49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811"
+    },
+    {
+      "original_path": "reports/raw/amendment-a28-infer-native-activation/native-summary-positive-full-default.json",
+      "path": "reports/releases/v0.7.1/attempts/probe-infer-native-activation-attempt-01/outputs/reports/raw/amendment-a28-infer-native-activation/native-summary-positive-full-default.json",
+      "sha256": "3d5473bbdfee1039abf7138a1778dcfcbbe8c07d0c446f92e4ac5beb92b654bf"
+    },
+    {
+      "original_path": "reports/raw/amendment-a28-infer-native-activation/native-propagator-positive-full-default.json",
+      "path": "reports/releases/v0.7.1/attempts/probe-infer-native-activation-attempt-01/outputs/reports/raw/amendment-a28-infer-native-activation/native-propagator-positive-full-default.json",
+      "sha256": "8c57998c8731cc57be10440a9a9279d5455b51970693935639436c0920f70d6b"
+    },
+    {
+      "original_path": "reports/raw/amendment-a28-infer-native-activation/native-entrypoint-positive-full-default.json",
+      "path": "reports/releases/v0.7.1/attempts/probe-infer-native-activation-attempt-01/outputs/reports/raw/amendment-a28-infer-native-activation/native-entrypoint-positive-full-default.json",
+      "sha256": "db6935fba03f36ab76212b04459c7483ce9dd57d6959f2782a3fa9c4f3ac7e70"
+    },
+    {
+      "original_path": "reports/raw/amendment-a28-infer-native-activation/engagement-proof.json",
+      "path": "reports/releases/v0.7.1/attempts/probe-infer-native-activation-attempt-01/outputs/reports/raw/amendment-a28-infer-native-activation/engagement-proof.json",
+      "sha256": "6c3eb2877c42c92fb5dee875b5b937544fc32c617094ef3de09e0d78dd58a699"
+    },
+    {
+      "original_path": "reports/raw/amendment-a28-infer-native-activation/native-summary-positive-full-default.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/probe-infer-native-activation-attempt-01/outputs/reports/raw/amendment-a28-infer-native-activation/native-summary-positive-full-default.sarif.json",
+      "sha256": "49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811"
+    },
+    {
+      "original_path": "reports/raw/amendment-a28-infer-native-activation/native-propagator-positive-full-default.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/probe-infer-native-activation-attempt-01/outputs/reports/raw/amendment-a28-infer-native-activation/native-propagator-positive-full-default.sarif.json",
+      "sha256": "49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811"
+    },
+    {
+      "original_path": "reports/raw/amendment-a28-infer-native-activation/native-summary-negative-full-default.json",
+      "path": "reports/releases/v0.7.1/attempts/probe-infer-native-activation-attempt-01/outputs/reports/raw/amendment-a28-infer-native-activation/native-summary-negative-full-default.json",
+      "sha256": "f147e71c5c57929b4e879dbf18e9cd3e133c4e0198af6e34b674c0b231800abf"
+    },
+    {
+      "original_path": "reports/raw/amendment-a28-infer-native-activation/native-entrypoint-positive-full-default.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/probe-infer-native-activation-attempt-01/outputs/reports/raw/amendment-a28-infer-native-activation/native-entrypoint-positive-full-default.sarif.json",
+      "sha256": "49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811"
+    },
+    {
+      "original_path": "reports/raw/amendment-a28-infer-native-activation/native-source-sink-positive-full-default.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/probe-infer-native-activation-attempt-01/outputs/reports/raw/amendment-a28-infer-native-activation/native-source-sink-positive-full-default.sarif.json",
+      "sha256": "49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811"
+    },
+    {
+      "original_path": "reports/raw/amendment-a28-infer-native-activation/native-persistence-positive-full-default.json",
+      "path": "reports/releases/v0.7.1/attempts/probe-infer-native-activation-attempt-01/outputs/reports/raw/amendment-a28-infer-native-activation/native-persistence-positive-full-default.json",
+      "sha256": "e15c047e24f05b8f67af330984428a8c00e9491627927509987399d3fa4e7cd9"
+    },
+    {
+      "original_path": "reports/raw/amendment-a28-infer-native-activation/native-source-sink-negative-full-default.json",
+      "path": "reports/releases/v0.7.1/attempts/probe-infer-native-activation-attempt-01/outputs/reports/raw/amendment-a28-infer-native-activation/native-source-sink-negative-full-default.json",
+      "sha256": "90e82fb6d0f82e314f8badafe8717575ea7f9339955c8085824d53a9ea416310"
+    },
+    {
+      "original_path": "reports/raw/amendment-a28-infer-native-activation/native-sanitizer-positive-full-default.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/probe-infer-native-activation-attempt-01/outputs/reports/raw/amendment-a28-infer-native-activation/native-sanitizer-positive-full-default.sarif.json",
+      "sha256": "49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811"
+    },
+    {
+      "original_path": "reports/raw/amendment-a28-infer-native-activation/native-persistence-negative-full-default.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/probe-infer-native-activation-attempt-01/outputs/reports/raw/amendment-a28-infer-native-activation/native-persistence-negative-full-default.sarif.json",
+      "sha256": "49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811"
+    },
+    {
+      "original_path": "reports/raw/amendment-a28-infer-native-activation/native-sanitizer-positive-full-default.json",
+      "path": "reports/releases/v0.7.1/attempts/probe-infer-native-activation-attempt-01/outputs/reports/raw/amendment-a28-infer-native-activation/native-sanitizer-positive-full-default.json",
+      "sha256": "78c577affe426d283a2637f1a1c40238915643be4544116964d4cb56f9998ab1"
+    },
+    {
+      "original_path": "reports/raw/amendment-a28-infer-native-activation/shipped-taint-bundle/taint/README.md",
+      "path": "reports/releases/v0.7.1/attempts/probe-infer-native-activation-attempt-01/outputs/reports/raw/amendment-a28-infer-native-activation/shipped-taint-bundle/taint/README.md",
+      "sha256": "5a492117892f3f3e25974b15b08f9ae6cd1b6003db366cd32d598d8825ae9c7a"
+    },
+    {
+      "original_path": "reports/raw/amendment-a28-infer-native-activation/shipped-taint-bundle/taint/objc/NSLib/NSDictionary_taintconfig.json",
+      "path": "reports/releases/v0.7.1/attempts/probe-infer-native-activation-attempt-01/outputs/reports/raw/amendment-a28-infer-native-activation/shipped-taint-bundle/taint/objc/NSLib/NSDictionary_taintconfig.json",
+      "sha256": "bd205e3f60200267bf47aeda85335e1300c4e1cb7a2f801cdb5a0e47a698e46b"
+    },
+    {
+      "original_path": "reports/raw/amendment-a28-infer-native-activation/shipped-taint-bundle/taint/objc/NSLib/NSSet_taintconfig.json",
+      "path": "reports/releases/v0.7.1/attempts/probe-infer-native-activation-attempt-01/outputs/reports/raw/amendment-a28-infer-native-activation/shipped-taint-bundle/taint/objc/NSLib/NSSet_taintconfig.json",
+      "sha256": "b065f5d6be2368a706cf9eee2d6899e5047ea989e1902dc0c68d5ad6350478d2"
+    },
+    {
+      "original_path": "reports/raw/amendment-a28-infer-native-activation/shipped-taint-bundle/taint/objc/NSLib/NSString_taintconfig.json",
+      "path": "reports/releases/v0.7.1/attempts/probe-infer-native-activation-attempt-01/outputs/reports/raw/amendment-a28-infer-native-activation/shipped-taint-bundle/taint/objc/NSLib/NSString_taintconfig.json",
+      "sha256": "eaab6258a9f8952c7f8e2be3a632ffb90d79ae1d13ca70bb3b1a67a691ce960b"
+    },
+    {
+      "original_path": "reports/raw/amendment-a28-infer-native-activation/shipped-taint-bundle/taint/objc/NSLib/NSArray_taintconfig.json",
+      "path": "reports/releases/v0.7.1/attempts/probe-infer-native-activation-attempt-01/outputs/reports/raw/amendment-a28-infer-native-activation/shipped-taint-bundle/taint/objc/NSLib/NSArray_taintconfig.json",
+      "sha256": "650edccc546367d2a79c64c9b29c016e6d24f60dff3ec5ea305479349fbe8bc6"
+    }
+  ],
+  "expected_output_roots": [
+    "reports/raw/amendment-a28-infer-native-activation"
+  ],
+  "missing_fresh_output_roots": [],
+  "removed_paths": []
+}

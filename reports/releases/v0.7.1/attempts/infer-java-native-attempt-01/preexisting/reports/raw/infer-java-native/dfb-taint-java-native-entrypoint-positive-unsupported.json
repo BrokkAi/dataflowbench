@@ -1,0 +1,18 @@
+{
+  "activation_arguments": [
+    "--pulse-only"
+  ],
+  "activation_identity": "v1.3.0 shipped Pulse checker, no taint configuration",
+  "adapter": "infer",
+  "case_id": "dfb-taint-java-native-entrypoint-positive",
+  "evidence_kind": "retained-capability-decision",
+  "model_profile": "tool-native",
+  "modeling_category": "E",
+  "modeling_category_label": "framework entry points",
+  "partition_source": "docs/native-profile.md#partition-summary",
+  "reason": "tool-native activation of dfb-template-native-entrypoint (category E — framework entry points) is unsupported for v1.3.0 over Java by the activation partition (docs/native-profile.md#partition-summary, as amended): same measured silence (Amendment A14), and doubly out of reach: the shipped product activates no taint question, and Amendment A13 measured that the pulse-taint surface has no entry-root vocabulary even when configured",
+  "stage": "preregistered-native-activation-partition",
+  "state": "unsupported",
+  "template_id": "dfb-template-native-entrypoint",
+  "witnessed_tool_identity": "v1.3.0"
+}

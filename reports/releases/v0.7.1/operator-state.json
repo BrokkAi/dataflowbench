@@ -1,25 +1,50 @@
 {
-  "updated_utc": "2026-09-07T18:28:41.887885+00:00",
-  "stage": "third slot pause after complete CodeQL Kotlin",
-  "supervisor_pid": 75447,
-  "exec_session_id": 55751,
-  "supervisor_source": "scripts/execute-release-stage.py reports --from-id codeql-cpp-kernel",
+  "updated_utc": "2026-09-08T07:18:18.746843+00:00",
+  "stage": "native and warm complete; overhead9 running",
+  "supervisor_pid": null,
+  "exec_session_id": null,
+  "supervisor_source": "scripts/execute-release-stage.py probes",
   "measurement_branch": "dave/v071-measurement-evidence",
-  "lane": "paused awaiting parent explicit third-slot return",
+  "lane": "exclusive DFB active after persistent updater disable and fresh60secsettle",
   "after_supervisor_finishes": [
-    "Bifrost Java alias positive/negative same-pin sandbox/elevated control per bifrost-access-control-plan.json; retain all outputs, report changes before additional repeats",
-    "execute-release-stage.py repeats (five whole populations once)",
     "execute-release-stage.py probes (19 historical scripts + Python controls + warm surface + full OpenTaint product; diagnose failures before continuation)",
     "execute-release-stage.py native (16 report populations only after activation evidence audited)",
     "execute-release-stage.py warm (2 built-in repeats)",
     "execute-release-stage.py overhead (3 built-in repeats + settle)",
-    "final report/format/tests validation; outcome and evidence completeness audit; parent-coordinated PR162/replacement, no merge/freeze here"
+    "final report/format/tests validation; outcome/evidence audit; integrate PR163 then new ready replacement PR linking162; no merge/freeze here"
   ],
-  "preservation": "Use record-release-attempt helper for all attempts; complete outputs preserved even identical; missing fresh roots explicit. Keep preexisting and failed scratch.",
+  "preservation": "All existing successful, failed, partial and control evidence remains retained. No analyzer launches while paused.",
   "known_exit_1": "Completed reports currently fail final global configuration check on stale CodeQL reports until full refresh; never add allowlist/suppression.",
   "pause_history": "15:30:38Z to16:02:42Z; preserved boundary/resume artifacts. Approved five full repeats exclude initial overlapping cold attempts from publication.",
   "invocation_correction": "reports/releases/v0.7.1/invocation-correction.json",
   "execution_access": "require_escalated",
   "context_requirement": "All remaining stage invocations use require_escalated and DFB_EXECUTION_ACCESS=require_escalated; previous Bifrost17 were sandboxed. Pin owner permission audit pending; no additional broad Bifrost repeats beyond approved5.",
-  "resume_instructions": "Verify no competitors after explicit return, record60sec settle with elevated tool, SIGCONT75447 to continue same elevated supervisor; do not restart/duplicate staged next attempt."
+  "delivery": "Parent closed standalone pins PR162 as superseded. After full measurement/required checks and integration of merged PR163, create a new ready replacement PR including pins+full evidence and link closed PR162. No merge/tag/freeze here.",
+  "pending_native_rationale_cleanup": "Before native generation, narrowly prefix Bifrost generated capability rationale with current v0.11.0 probe provenance and explicit positive-control inconclusive/partial_discovery; quote existing A32/v0.10.9 rationale as historical, including unverified issue status. Classification unchanged. Apply/build/test metadata-only runner change after current probe stage at untimed boundary, record new runner hash.",
+  "approval_hold": null,
+  "resume_requirements": [
+    "Explicit user approval; heartbeat is not approval",
+    "Parent reacquires quiet CPU lane and confirms no competing heavy work",
+    "Record process verification and60second settle",
+    "Then launch corrected OpenTaint product retry03 using authorized elevated route; do not substitute sandbox execution or alternate analyzer"
+  ],
+  "latest_functional": "OpenTaintretry03exit0;31nested0;14scans finish IFDS;positive1negative0;timings diagnostic excluded",
+  "runner_identity": "native-runner-identity-amendment.json superseded_by_opentaint_clarification",
+  "latest_settle": {
+    "interval_utc": "06:18:14\u201306:19:15 2026-09-08",
+    "qualification": "not quiet; native/warm/overhead held",
+    "evidence": "quiet-lane-observations.jsonl"
+  },
+  "remaining": [
+    "16native reports",
+    "2warm groups",
+    "9overhead groups",
+    "final integration PR163, validation, evidence PR"
+  ],
+  "failed_settle_after_term": {
+    "utc": "2026-09-08T06:39:07Z",
+    "pid": 58211,
+    "cpu_percent": 28.5,
+    "qualification": "failed; no measurements launched"
+  }
 }

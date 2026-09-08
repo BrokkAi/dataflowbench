@@ -1,0 +1,170 @@
+{
+  "id": "overhead-flowdroid-java-attempt-01",
+  "planned_id": "overhead-flowdroid-java",
+  "argv": [
+    "/Users/dave/.codex/worktrees/653a/dataflowbench/target/debug/dataflowbench",
+    "--population",
+    "v0.7.0",
+    "estimate-invocation-overhead",
+    "--tool",
+    "flowdroid",
+    "--language",
+    "java",
+    "--joern",
+    "/Users/dave/.cache/dataflowbench-tools/joern-v4.0.621/joern-cli-macos-arm64/joern-cli/joern",
+    "--semgrep",
+    "/opt/homebrew/bin/semgrep",
+    "--bifrost",
+    "/Users/dave/.cache/dataflowbench-tools/bifrost-v0.11.0/bifrost-v0.11.0-universal-apple-darwin/bifrost",
+    "--codeql",
+    "/opt/homebrew/bin/codeql",
+    "--infer",
+    "/Users/dave/.cache/dataflowbench-tools/infer-osx-arm64-v1.3.0/lib/infer/infer/bin/infer",
+    "--analyzer-jar",
+    "/Users/dave/.cache/dataflowbench-tools/opentaint-v0.4.6/opentaint-project-analyzer.jar",
+    "--models-archive",
+    "/Users/dave/.cache/dataflowbench-tools/opentaint-v0.4.6/opentaint-models.tar.gz",
+    "--flowdroid-jar",
+    "/Users/dave/.cache/dataflowbench-tools/flowdroid/soot-infoflow-cmd-2.15.1-jar-with-dependencies.jar",
+    "--android-platform",
+    "/Users/dave/.cache/dataflowbench-tools/flowdroid/android-34.jar",
+    "--d8-jar",
+    "/Users/dave/.cache/dataflowbench-tools/flowdroid/r8-8.5.35.jar",
+    "--java",
+    "/usr/bin/java",
+    "--javac",
+    "/usr/bin/javac",
+    "--kotlinc",
+    "/opt/homebrew/bin/kotlinc",
+    "--kotlin-stdlib",
+    "/opt/homebrew/Cellar/kotlin/2.4.10/libexec/lib/kotlin-stdlib.jar",
+    "--pyre",
+    "/Users/dave/.cache/dataflowbench-tools/pysa-venv/bin/pyre",
+    "--pyre-binary",
+    "/Users/dave/.cache/dataflowbench-tools/pysa-venv/bin/pyre.bin",
+    "--pyrefly",
+    "/Users/dave/.cache/dataflowbench-tools/pysa-venv/bin/pyrefly"
+  ],
+  "cwd": "/Users/dave/.codex/worktrees/653a/dataflowbench",
+  "input_commits": {
+    "corpus": "0c82e8093ff899d5ee72809a82c951ab76b5bb76",
+    "publication_infrastructure": "53050fa64628997e866303bcd5299d74f1e3e45d",
+    "pins": "c0899dab0d2c043dcc5b1aa6a1aad0e49f482fea"
+  },
+  "execution_revision": "4964392125861a34af6576784e56cc1fd11aadd9",
+  "population": "v0.7.0",
+  "fixture_revision": "sha256:9df209ed3d7723a3ee33f2b289cf2afe34a3add781bdf2a2ac445de42b8d0151",
+  "plan": {
+    "path": "reports/releases/v0.7.1/plan.json",
+    "sha256": "cb948f4a5cff80b95d3dcc755ab8249d87449e43f70e6eb80a456789faf12f26"
+  },
+  "identities": {
+    "path": "reports/releases/v0.7.1/identities.json",
+    "sha256": "0b8b1bb07d1df1ec8687613bb355f5f6021a2c664d3488dc3bc763553ce1a83c"
+  },
+  "execution_access": "require_escalated",
+  "start_utc": "2026-09-08T07:21:35.428112+00:00",
+  "host": {
+    "platform": "macOS-26.6.2-arm64-arm-64bit",
+    "cpu_count": 10,
+    "load_before": [
+      1.90283203125,
+      3.5546875,
+      4.2744140625
+    ],
+    "load_after": [
+      2.1572265625,
+      3.55322265625,
+      4.2646484375
+    ]
+  },
+  "settle_observations": [
+    {
+      "utc": "2026-09-08T07:20:35.356978+00:00",
+      "load": [
+        2.90283203125,
+        4.0673828125,
+        4.4970703125
+      ]
+    },
+    {
+      "utc": "2026-09-08T07:20:45.367088+00:00",
+      "load": [
+        2.60302734375,
+        3.96533203125,
+        4.4560546875
+      ]
+    },
+    {
+      "utc": "2026-09-08T07:20:55.370203+00:00",
+      "load": [
+        2.2763671875,
+        3.8505859375,
+        4.4091796875
+      ]
+    },
+    {
+      "utc": "2026-09-08T07:21:05.378468+00:00",
+      "load": [
+        2.07958984375,
+        3.75634765625,
+        4.369140625
+      ]
+    },
+    {
+      "utc": "2026-09-08T07:21:15.388632+00:00",
+      "load": [
+        1.9130859375,
+        3.6650390625,
+        4.3291015625
+      ]
+    },
+    {
+      "utc": "2026-09-08T07:21:25.397417+00:00",
+      "load": [
+        2.06689453125,
+        3.64208984375,
+        4.3134765625
+      ]
+    }
+  ],
+  "cache_posture": "isolated case workspaces; local distributions and prefetched CodeQL packs; OS page cache uncontrolled; warm only for explicit warm series",
+  "supersedes": null,
+  "exit_code": 0,
+  "end_utc": "2026-09-08T07:21:41.790611+00:00",
+  "stdout": {
+    "path": "reports/releases/v0.7.1/attempts/overhead-flowdroid-java-attempt-01/stdout.txt",
+    "sha256": "383f79504a56eb5309133f84a540b88ce06dcdb99206dd609206011c50a64dbf"
+  },
+  "stderr": {
+    "path": "reports/releases/v0.7.1/attempts/overhead-flowdroid-java-attempt-01/stderr.txt",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "outputs": [
+    {
+      "original_path": "reports/raw/invocation-overhead/flowdroid-java/invocation-overhead.json",
+      "path": "reports/releases/v0.7.1/attempts/overhead-flowdroid-java-attempt-01/outputs/reports/raw/invocation-overhead/flowdroid-java/invocation-overhead.json",
+      "sha256": "9884eab11b5b1f09aec52a1073c88d06cc1b6a93bcd55f0bf521c95aa7f4c46d"
+    },
+    {
+      "original_path": "reports/raw/invocation-overhead/flowdroid-java/run-environment.json",
+      "path": "reports/releases/v0.7.1/attempts/overhead-flowdroid-java-attempt-01/outputs/reports/raw/invocation-overhead/flowdroid-java/run-environment.json",
+      "sha256": "cec48e0bebd1d755d3e23118bee5d873b8e405dd406c474b91402f85f5a5a40e"
+    },
+    {
+      "original_path": "reports/raw/invocation-overhead/flowdroid-java/resolved-sources-sinks.txt",
+      "path": "reports/releases/v0.7.1/attempts/overhead-flowdroid-java-attempt-01/outputs/reports/raw/invocation-overhead/flowdroid-java/resolved-sources-sinks.txt",
+      "sha256": "5c3851f396f148fbd546fc141b862c9696c66d2e67f77bc49e9c4426ac23d25c"
+    },
+    {
+      "original_path": "reports/raw/invocation-overhead/flowdroid-java/fixture/DfbTrivial.java",
+      "path": "reports/releases/v0.7.1/attempts/overhead-flowdroid-java-attempt-01/outputs/reports/raw/invocation-overhead/flowdroid-java/fixture/DfbTrivial.java",
+      "sha256": "b1f8f5f67249ca905ca44eb0971d9d40eaf0c588f8765f8c31e8bf6fec9b4e08"
+    }
+  ],
+  "expected_output_roots": [
+    "reports/raw/invocation-overhead/flowdroid-java"
+  ],
+  "missing_fresh_output_roots": [],
+  "removed_paths": []
+}

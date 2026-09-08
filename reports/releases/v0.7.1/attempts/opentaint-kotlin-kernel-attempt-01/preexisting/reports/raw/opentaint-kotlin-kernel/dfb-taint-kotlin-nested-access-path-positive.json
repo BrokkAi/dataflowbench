@@ -1,0 +1,632 @@
+{
+    "$schema": "https://docs.oasis-open.org/sarif/sarif/v2.1.0/errata01/os/schemas/sarif-schema-2.1.0.json",
+    "version": "2.1.0",
+    "runs": [
+        {
+            "originalUriBaseIds": {
+                "%SRCROOT%": {
+                    "uri": "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dataflowbench-opentaint-kotlin/dfb-taint-kotlin-nested-access-path-positive/source"
+                }
+            },
+            "tool": {
+                "driver": {
+                    "name": "OpenTaint",
+                    "organization": "Seqra",
+                    "rules": [
+                        {
+                            "defaultConfiguration": {
+                                "level": "error"
+                            },
+                            "fullDescription": {
+                                "markdown": "DataFlowBench benchmark-controlled endpoint flow",
+                                "text": "DataFlowBench benchmark-controlled endpoint flow"
+                            },
+                            "id": ":dfb-opentaint-kernel",
+                            "name": ":dfb-opentaint-kernel",
+                            "properties": {
+                                "tags": []
+                            },
+                            "shortDescription": {
+                                "text": "OpenTaint Finding: :dfb-opentaint-kernel"
+                            }
+                        }
+                    ],
+                    "semanticVersion": "latest",
+                    "version": "latest"
+                }
+            },
+            "results": [
+                {
+                    "codeFlows": [
+                        {
+                            "threadFlows": [
+                                {
+                                    "locations": [
+                                        {
+                                            "executionOrder": 0,
+                                            "kinds": [
+                                                "taint"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.NestedAccessPathPositive#run():4:(%4 = this.dfb_source())",
+                                                        "fullyQualifiedName": "dataflowbench.NestedAccessPathPositive#run"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "Call to \"dfb_source\" puts marked data to a local variable"
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/NestedAccessPathPositive.kt",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 48,
+                                                        "endLine": 25,
+                                                        "startColumn": 36,
+                                                        "startLine": 25
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 1,
+                                            "kinds": [
+                                                "call"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.NestedAccessPathPositive#run():5:(%3.setValue(%4))",
+                                                        "fullyQualifiedName": "dataflowbench.NestedAccessPathPositive#run"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "Calling \"setValue\" with marked data at a local variable"
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/NestedAccessPathPositive.kt",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 48,
+                                                        "endLine": 25,
+                                                        "startColumn": 9,
+                                                        "startLine": 25
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 2,
+                                            "kinds": [
+                                                "unknown"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.NestedAccessPathPositive$Inner#setValue(java.lang.String):0:(kotlin.jvm.internal.Intrinsics.checkNotNullParameter(<set-?>, \"<set-?>\"))",
+                                                        "fullyQualifiedName": "dataflowbench.NestedAccessPathPositive$Inner#setValue"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "Entering \"setValue\" with marked data at the 1st argument of \"setValue\""
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/NestedAccessPathPositive.kt",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 36,
+                                                        "endLine": 5,
+                                                        "startColumn": 9,
+                                                        "startLine": 5
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 3,
+                                            "kinds": [
+                                                "unknown"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.NestedAccessPathPositive$Inner#setValue(java.lang.String):1:(this.value = <set-?>)",
+                                                        "fullyQualifiedName": "dataflowbench.NestedAccessPathPositive$Inner#setValue"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "\"this.value\" is assigned a value with marked data"
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/NestedAccessPathPositive.kt",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 36,
+                                                        "endLine": 5,
+                                                        "startColumn": 9,
+                                                        "startLine": 5
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 4,
+                                            "kinds": [
+                                                "unknown"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.NestedAccessPathPositive$Inner#setValue(java.lang.String):2:(return)",
+                                                        "fullyQualifiedName": "dataflowbench.NestedAccessPathPositive$Inner#setValue"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "Exiting \"setValue\""
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/NestedAccessPathPositive.kt",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 36,
+                                                        "endLine": 5,
+                                                        "startColumn": 9,
+                                                        "startLine": 5
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 5,
+                                            "kinds": [
+                                                "return"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.NestedAccessPathPositive#run():5:(%3.setValue(%4))",
+                                                        "fullyQualifiedName": "dataflowbench.NestedAccessPathPositive#run"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "Method \"setValue\" propagates marked data from a local variable to \"outer\""
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/NestedAccessPathPositive.kt",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 48,
+                                                        "endLine": 25,
+                                                        "startColumn": 9,
+                                                        "startLine": 25
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 6,
+                                            "kinds": [
+                                                "call"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.NestedAccessPathPositive#run():6:(%5 = outer.getMiddle())",
+                                                        "fullyQualifiedName": "dataflowbench.NestedAccessPathPositive#run"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "Calling \"getMiddle\" with marked data at \"outer\""
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/NestedAccessPathPositive.kt",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 43,
+                                                        "endLine": 26,
+                                                        "startColumn": 9,
+                                                        "startLine": 26
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 7,
+                                            "kinds": [
+                                                "unknown"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.NestedAccessPathPositive$Outer#getMiddle():1:(return %0)",
+                                                        "fullyQualifiedName": "dataflowbench.NestedAccessPathPositive$Outer#getMiddle"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "The returning value is assigned marked data from \"this.middle\""
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/NestedAccessPathPositive.kt",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 39,
+                                                        "endLine": 14,
+                                                        "startColumn": 9,
+                                                        "startLine": 14
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 8,
+                                            "kinds": [
+                                                "unknown"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.NestedAccessPathPositive$Outer#getMiddle():1:(return %0)",
+                                                        "fullyQualifiedName": "dataflowbench.NestedAccessPathPositive$Outer#getMiddle"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "Exiting \"getMiddle\""
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/NestedAccessPathPositive.kt",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 39,
+                                                        "endLine": 14,
+                                                        "startColumn": 9,
+                                                        "startLine": 14
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 9,
+                                            "kinds": [
+                                                "return"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.NestedAccessPathPositive#run():6:(%5 = outer.getMiddle())",
+                                                        "fullyQualifiedName": "dataflowbench.NestedAccessPathPositive#run"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "Method \"getMiddle\" propagates marked data from \"outer\" to a local variable"
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/NestedAccessPathPositive.kt",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 43,
+                                                        "endLine": 26,
+                                                        "startColumn": 9,
+                                                        "startLine": 26
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 10,
+                                            "kinds": [
+                                                "call"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.NestedAccessPathPositive#run():7:(%6 = %5.getInner())",
+                                                        "fullyQualifiedName": "dataflowbench.NestedAccessPathPositive#run"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "Calling \"getInner\" with marked data at a local variable"
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/NestedAccessPathPositive.kt",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 43,
+                                                        "endLine": 26,
+                                                        "startColumn": 9,
+                                                        "startLine": 26
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 11,
+                                            "kinds": [
+                                                "unknown"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.NestedAccessPathPositive$Middle#getInner():1:(return %0)",
+                                                        "fullyQualifiedName": "dataflowbench.NestedAccessPathPositive$Middle#getInner"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "The returning value is assigned marked data from \"this.inner\""
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/NestedAccessPathPositive.kt",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 36,
+                                                        "endLine": 10,
+                                                        "startColumn": 9,
+                                                        "startLine": 10
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 12,
+                                            "kinds": [
+                                                "unknown"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.NestedAccessPathPositive$Middle#getInner():1:(return %0)",
+                                                        "fullyQualifiedName": "dataflowbench.NestedAccessPathPositive$Middle#getInner"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "Exiting \"getInner\""
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/NestedAccessPathPositive.kt",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 36,
+                                                        "endLine": 10,
+                                                        "startColumn": 9,
+                                                        "startLine": 10
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 13,
+                                            "kinds": [
+                                                "return"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.NestedAccessPathPositive#run():7:(%6 = %5.getInner())",
+                                                        "fullyQualifiedName": "dataflowbench.NestedAccessPathPositive#run"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "Method \"getInner\" propagates marked data from a local variable to a local variable"
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/NestedAccessPathPositive.kt",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 43,
+                                                        "endLine": 26,
+                                                        "startColumn": 9,
+                                                        "startLine": 26
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 14,
+                                            "kinds": [
+                                                "call"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.NestedAccessPathPositive#run():8:(%7 = %6.getValue())",
+                                                        "fullyQualifiedName": "dataflowbench.NestedAccessPathPositive#run"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "Calling \"getValue\" with marked data at a local variable"
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/NestedAccessPathPositive.kt",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 43,
+                                                        "endLine": 26,
+                                                        "startColumn": 9,
+                                                        "startLine": 26
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 15,
+                                            "kinds": [
+                                                "unknown"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.NestedAccessPathPositive$Inner#getValue():1:(return %0)",
+                                                        "fullyQualifiedName": "dataflowbench.NestedAccessPathPositive$Inner#getValue"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "The returning value is assigned marked data from \"this.value\""
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/NestedAccessPathPositive.kt",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 36,
+                                                        "endLine": 5,
+                                                        "startColumn": 9,
+                                                        "startLine": 5
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 16,
+                                            "kinds": [
+                                                "unknown"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.NestedAccessPathPositive$Inner#getValue():1:(return %0)",
+                                                        "fullyQualifiedName": "dataflowbench.NestedAccessPathPositive$Inner#getValue"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "Exiting \"getValue\""
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/NestedAccessPathPositive.kt",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 36,
+                                                        "endLine": 5,
+                                                        "startColumn": 9,
+                                                        "startLine": 5
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 17,
+                                            "kinds": [
+                                                "return"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.NestedAccessPathPositive#run():8:(%7 = %6.getValue())",
+                                                        "fullyQualifiedName": "dataflowbench.NestedAccessPathPositive#run"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "Method \"getValue\" propagates marked data from a local variable to a local variable"
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/NestedAccessPathPositive.kt",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 43,
+                                                        "endLine": 26,
+                                                        "startColumn": 9,
+                                                        "startLine": 26
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 18,
+                                            "kinds": [
+                                                "taint"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.NestedAccessPathPositive#run():9:(this.dfb_sink(%7))",
+                                                        "fullyQualifiedName": "dataflowbench.NestedAccessPathPositive#run"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "DataFlowBench benchmark-controlled endpoint flow"
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/NestedAccessPathPositive.kt",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 43,
+                                                        "endLine": 26,
+                                                        "startColumn": 9,
+                                                        "startLine": 26
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ],
+                    "level": "error",
+                    "locations": [
+                        {
+                            "logicalLocations": [
+                                {
+                                    "decoratedName": "dataflowbench.NestedAccessPathPositive#run():9:(this.dfb_sink(%7))",
+                                    "fullyQualifiedName": "dataflowbench.NestedAccessPathPositive#run"
+                                }
+                            ],
+                            "physicalLocation": {
+                                "artifactLocation": {
+                                    "uri": "dataflowbench/NestedAccessPathPositive.kt",
+                                    "uriBaseId": "%SRCROOT%"
+                                },
+                                "region": {
+                                    "endColumn": 43,
+                                    "endLine": 26,
+                                    "startColumn": 9,
+                                    "startLine": 26
+                                }
+                            }
+                        }
+                    ],
+                    "message": {
+                        "text": "DataFlowBench benchmark-controlled endpoint flow"
+                    },
+                    "ruleId": ":dfb-opentaint-kernel"
+                }
+            ]
+        }
+    ]
+}

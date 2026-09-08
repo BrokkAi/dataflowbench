@@ -1,0 +1,400 @@
+{
+    "$schema": "https://docs.oasis-open.org/sarif/sarif/v2.1.0/errata01/os/schemas/sarif-schema-2.1.0.json",
+    "version": "2.1.0",
+    "runs": [
+        {
+            "originalUriBaseIds": {
+                "%SRCROOT%": {
+                    "uri": "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dataflowbench-opentaint-kotlin/dfb-taint-kotlin-function-field-negative/source"
+                }
+            },
+            "tool": {
+                "driver": {
+                    "name": "OpenTaint",
+                    "organization": "Seqra",
+                    "rules": [
+                        {
+                            "defaultConfiguration": {
+                                "level": "error"
+                            },
+                            "fullDescription": {
+                                "markdown": "DataFlowBench benchmark-controlled endpoint flow",
+                                "text": "DataFlowBench benchmark-controlled endpoint flow"
+                            },
+                            "id": ":dfb-opentaint-kernel",
+                            "name": ":dfb-opentaint-kernel",
+                            "properties": {
+                                "tags": []
+                            },
+                            "shortDescription": {
+                                "text": "OpenTaint Finding: :dfb-opentaint-kernel"
+                            }
+                        }
+                    ],
+                    "semanticVersion": "latest",
+                    "version": "latest"
+                }
+            },
+            "results": [
+                {
+                    "codeFlows": [
+                        {
+                            "threadFlows": [
+                                {
+                                    "locations": [
+                                        {
+                                            "executionOrder": 0,
+                                            "kinds": [
+                                                "taint"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.FunctionFieldNegative#run():12:(%8 = this.dfb_source())",
+                                                        "fullyQualifiedName": "dataflowbench.FunctionFieldNegative#run"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "Call to \"dfb_source\" puts marked data to a local variable"
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/FunctionFieldNegative.kt",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 37,
+                                                        "endLine": 31,
+                                                        "startColumn": 25,
+                                                        "startLine": 31
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 1,
+                                            "kinds": [
+                                                "unknown"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.FunctionFieldNegative#run():13:(this.dispatch(other, %8))",
+                                                        "fullyQualifiedName": "dataflowbench.FunctionFieldNegative#run"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "Calling \"dispatch\" with marked data at a local variable"
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/FunctionFieldNegative.kt",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 38,
+                                                        "endLine": 31,
+                                                        "startColumn": 9,
+                                                        "startLine": 31
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 2,
+                                            "kinds": [
+                                                "unknown"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.FunctionFieldNegative#dispatch(dataflowbench.FunctionFieldNegative$Holder, java.lang.String):0:(kotlin.jvm.internal.Intrinsics.checkNotNullParameter(holder, \"holder\"))",
+                                                        "fullyQualifiedName": "dataflowbench.FunctionFieldNegative#dispatch"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "Entering \"dispatch\" with marked data at \"value\""
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/FunctionFieldNegative.kt",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 48,
+                                                        "endLine": 22,
+                                                        "startColumn": 5,
+                                                        "startLine": 22
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 3,
+                                            "kinds": [
+                                                "unknown"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.FunctionFieldNegative#dispatch(dataflowbench.FunctionFieldNegative$Holder, java.lang.String):3:(%1 = %0.invoke(value))",
+                                                        "fullyQualifiedName": "dataflowbench.FunctionFieldNegative#dispatch"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "Calling \"invoke\" with marked data at \"value\""
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/FunctionFieldNegative.kt",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 25,
+                                                        "endLine": 23,
+                                                        "startColumn": 9,
+                                                        "startLine": 23
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 4,
+                                            "kinds": [
+                                                "unknown"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.FunctionFieldNegative$run$1#invoke(java.lang.Object):0:(%0 = (java.lang.String) p1)",
+                                                        "fullyQualifiedName": "dataflowbench.FunctionFieldNegative$run$1#invoke"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "Entering \"invoke\" with marked data at the 1st argument of \"invoke\""
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/FunctionFieldNegative.kt",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 27,
+                                                        "endLine": 28,
+                                                        "startColumn": 9,
+                                                        "startLine": 28
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 5,
+                                            "kinds": [
+                                                "unknown"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.FunctionFieldNegative$run$1#invoke(java.lang.Object):0:(%0 = (java.lang.String) p1)",
+                                                        "fullyQualifiedName": "dataflowbench.FunctionFieldNegative$run$1#invoke"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "A local variable is assigned a value with marked data"
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/FunctionFieldNegative.kt",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 27,
+                                                        "endLine": 28,
+                                                        "startColumn": 9,
+                                                        "startLine": 28
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 6,
+                                            "kinds": [
+                                                "unknown"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.FunctionFieldNegative$run$1#invoke(java.lang.Object):1:(this.invoke(%0))",
+                                                        "fullyQualifiedName": "dataflowbench.FunctionFieldNegative$run$1#invoke"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "Calling \"invoke\" with marked data at a local variable"
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/FunctionFieldNegative.kt",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 27,
+                                                        "endLine": 28,
+                                                        "startColumn": 9,
+                                                        "startLine": 28
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 7,
+                                            "kinds": [
+                                                "unknown"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.FunctionFieldNegative$run$1#invoke(java.lang.String):0:(kotlin.jvm.internal.Intrinsics.checkNotNullParameter(p0, \"p0\"))",
+                                                        "fullyQualifiedName": "dataflowbench.FunctionFieldNegative$run$1#invoke"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "Entering \"invoke\" with marked data at the 1st argument of \"invoke\""
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/FunctionFieldNegative.kt",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 27,
+                                                        "endLine": 28,
+                                                        "startColumn": 9,
+                                                        "startLine": 28
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 8,
+                                            "kinds": [
+                                                "unknown"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.FunctionFieldNegative$run$1#invoke(java.lang.String):3:(%1.leak(p0))",
+                                                        "fullyQualifiedName": "dataflowbench.FunctionFieldNegative$run$1#invoke"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "Calling \"leak\" with marked data at the 1st argument of \"invoke\""
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/FunctionFieldNegative.kt",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 27,
+                                                        "endLine": 28,
+                                                        "startColumn": 9,
+                                                        "startLine": 28
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 9,
+                                            "kinds": [
+                                                "unknown"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.FunctionFieldNegative#leak(java.lang.String):0:(kotlin.jvm.internal.Intrinsics.checkNotNullParameter(value, \"value\"))",
+                                                        "fullyQualifiedName": "dataflowbench.FunctionFieldNegative#leak"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "Entering \"leak\" with marked data at \"value\""
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/FunctionFieldNegative.kt",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 28,
+                                                        "endLine": 14,
+                                                        "startColumn": 5,
+                                                        "startLine": 14
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 10,
+                                            "kinds": [
+                                                "taint"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.FunctionFieldNegative#leak(java.lang.String):1:(this.dfb_sink(value))",
+                                                        "fullyQualifiedName": "dataflowbench.FunctionFieldNegative#leak"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "DataFlowBench benchmark-controlled endpoint flow"
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/FunctionFieldNegative.kt",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 24,
+                                                        "endLine": 15,
+                                                        "startColumn": 9,
+                                                        "startLine": 15
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ],
+                    "level": "error",
+                    "locations": [
+                        {
+                            "logicalLocations": [
+                                {
+                                    "decoratedName": "dataflowbench.FunctionFieldNegative#leak(java.lang.String):1:(this.dfb_sink(value))",
+                                    "fullyQualifiedName": "dataflowbench.FunctionFieldNegative#leak"
+                                }
+                            ],
+                            "physicalLocation": {
+                                "artifactLocation": {
+                                    "uri": "dataflowbench/FunctionFieldNegative.kt",
+                                    "uriBaseId": "%SRCROOT%"
+                                },
+                                "region": {
+                                    "endColumn": 24,
+                                    "endLine": 15,
+                                    "startColumn": 9,
+                                    "startLine": 15
+                                }
+                            }
+                        }
+                    ],
+                    "message": {
+                        "text": "DataFlowBench benchmark-controlled endpoint flow"
+                    },
+                    "ruleId": ":dfb-opentaint-kernel"
+                }
+            ]
+        }
+    ]
+}

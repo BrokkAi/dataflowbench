@@ -1,0 +1,70 @@
+{
+  "adapter": "infer",
+  "amendment": "A24",
+  "clock": "monotonic",
+  "ended_at_unix_seconds": 1788278111,
+  "estimate_bias": "upper bound on start-up and warm-up: it contains the trivial fixture's own near-zero analysis, and it is a cold single-shot execution — the same posture the cold rows are measured in, and not a steady-state one",
+  "estimated_overhead_ms": {
+    "high": 491,
+    "low": 288
+  },
+  "estimator": "one complete adapter invocation over a trivial no-flow fixture",
+  "evidence_kind": "retained-invocation-overhead-estimate",
+  "fixture_file": "fixture/dfb_trivial.c",
+  "fixture_sha256": "a76e074c14f1b089c82a8890215c53beaf50a6092794798b5345a339a3ec624a",
+  "language": "c",
+  "measured_boundary": "the adapter's own subprocess boundaries; the estimate is the sum of its declared phases, as the cold whole-invocation figure is",
+  "publication": "range over every repeat; never a mean, never a chosen repeat, and never gated on the repeats agreeing — the width is the precision",
+  "repeats": 3,
+  "runs": [
+    {
+      "load_average_1m_before": 3.32,
+      "phases": [
+        {
+          "phase": "capture",
+          "wall_ms": 251
+        },
+        {
+          "phase": "analyze",
+          "wall_ms": 240
+        }
+      ],
+      "repeat": 1,
+      "wall_ms": 491
+    },
+    {
+      "load_average_1m_before": 3.32,
+      "phases": [
+        {
+          "phase": "capture",
+          "wall_ms": 85
+        },
+        {
+          "phase": "analyze",
+          "wall_ms": 212
+        }
+      ],
+      "repeat": 2,
+      "wall_ms": 297
+    },
+    {
+      "load_average_1m_before": 3.32,
+      "phases": [
+        {
+          "phase": "capture",
+          "wall_ms": 82
+        },
+        {
+          "phase": "analyze",
+          "wall_ms": 206
+        }
+      ],
+      "repeat": 3,
+      "wall_ms": 288
+    }
+  ],
+  "schema_version": 1,
+  "started_at_unix_seconds": 1788278110,
+  "tool_build_identity": "infer:v1.3.0 bin-sha256:17ed4818dadda60124e083a1e82124f104092e70c5e6d764551581a375eabf62",
+  "tool_version": "v1.3.0"
+}

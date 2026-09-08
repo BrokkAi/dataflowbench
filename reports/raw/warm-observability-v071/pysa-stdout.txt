@@ -1,0 +1,115 @@
+Usage: pyre analyze [OPTIONS] [ANALYSIS]
+
+  Run Pysa, the inter-procedural static analysis tool.
+
+Options:
+  --taint-models-path DIRECTORY   Location of taint models.
+  --no-verify                     Do not verify models or DSL model queries
+                                  for the taint analysis.
+  --group-missing-module-errors   Group and downgrade model errors for symbols
+                                  whose base module is not in the search path.
+  --verify-dsl                    Verify DSL model queries for the taint
+                                  analysis.
+  --verify-taint-config-only      Verify taint.config files. Skips analysis.
+  --version [none|client|client_and_binary]
+                                  Print the versions of Pysa.
+  --save-results-to PATH          Directory to write analysis results to.
+  --output-format [json|sharded-json]
+                                  Format of the taint output file(s).
+  --pyrefly-results PATH          Directory to pyrefly results (pyrefly
+                                  --report-pysa).
+  --use-pyrefly                   Use pyrefly as the type checker, instead of
+                                  pyre (now the default, kept for backwards
+                                  compatibility).
+  --use-pyre1                     Use Pyre1 instead of Pyrefly for type
+                                  checking.
+  --pyrefly-binary PATH           Override location of the Pyrefly binary.
+                                  [env var: PYREFLY_BINARY]
+  --show-type-errors              Show type errors from Pyrefly.
+  --skip-buck-dependencies        Skip checking dependencies in Pyrefly buck-
+                                  check mode.
+  --skip-buck-dependency-module TEXT
+                                  When analyzing a buck target with the
+                                  Pyrefly backend, skip type-checking
+                                  dependency modules whose fully-qualified
+                                  name matches this regular expression. May be
+                                  passed multiple times. Has no effect with
+                                  the Pyre backend or when not analyzing a
+                                  buck target.
+  --debug-pyrefly-report          Preserve the Pyrefly report directory and
+                                  use JSON output format for debugging.
+  --dump-call-graph TEXT          Dump the call graph in the given file.
+  --repository-root ABSPATH
+  --rule INTEGER                  Only track taint flows for the given
+                                  rule(s).
+  --source TEXT                   Only track taint flows for the given
+                                  source(s).
+  --sink TEXT                     Only track taint flows for the given
+                                  sink(s).
+  --transform TEXT                Only track taint flows for the given
+                                  transform(s).
+  --find-missing-flows [obscure|type]
+                                  Perform a taint analysis to find flows
+                                  through obscure models.
+  --dump-model-query-results TEXT
+                                  Dump model query results in the given file.
+  --disable-model-shaping         Disable model shaping during the taint
+                                  analysis.
+  --infer-self-tito / --no-infer-self-tito
+                                  Infer taint propagations (tito) from
+                                  arguments to `self` for all methods.
+  --infer-argument-tito / --no-infer-argument-tito
+                                  Infer taint propagations (tito) from
+                                  arguments to other arguments.
+  --maximum-model-source-tree-width INTEGER
+                                  Limits the width of the source tree in the
+                                  model for a callable.
+  --maximum-model-sink-tree-width INTEGER
+                                  Limits the width of the sink tree in the
+                                  model for a callable.
+  --maximum-model-tito-tree-width INTEGER
+                                  Limits the width of the tito tree in the
+                                  model for a callable.
+  --maximum-tree-depth-after-widening INTEGER
+                                  Limits the depth of source, sink and tito
+                                  trees within loops.
+  --maximum-return-access-path-width INTEGER
+                                  Limits the width of the return access path
+                                  tree in the model for a callable.
+  --maximum-return-access-path-depth-after-widening INTEGER
+                                  Limits the depth of the return access path
+                                  tree within loops.
+  --maximum-tito-collapse-depth INTEGER
+                                  Limits the depth of taint trees after
+                                  applying taint-in-taitn-out.
+  --maximum-tito-positions INTEGER
+                                  Limits the number of tito positions.
+  --maximum-overrides-to-analyze INTEGER
+                                  Limits the number of overrides to consider
+                                  at a call site.
+  --maximum-trace-length INTEGER  Limit the trace length of taint flows.
+  --maximum-tito-depth INTEGER    Limit the depth of inferred taint-in-taint-
+                                  out in taint flows.
+  --check-invariants              Perform additional assertions about analysis
+                                  invariants.
+  --limit-entrypoints             Only analyze functions within the call graph
+                                  of entrypoint models.
+  --compact-ocaml-heap            Compact OCaml heap during the analysis to
+                                  save memory.
+  --compute-coverage              Whether to compute the file, kind, and rule
+                                  coverage.
+  --kill-buck-after-build         Kill Buck after building the project.
+  --number-of-buck-threads INTEGER
+                                  Limits the number of threads during Buck
+                                  build.
+  --higher-order-call-graph-max-iterations INTEGER
+                                  Limits the number of fixpoint iterations
+                                  when building higher order call graphs.
+  --maximum-target-depth INTEGER  Limits the depth of parameterized targets
+                                  that are created during higher order call
+                                  graph building.
+  --maximum-parameterized-targets-at-call-site INTEGER
+                                  Limits the number of parameterized targets
+                                  that can be created at any call site, during
+                                  higher order call graph building.
+  -h, --help                      Show this message and exit.

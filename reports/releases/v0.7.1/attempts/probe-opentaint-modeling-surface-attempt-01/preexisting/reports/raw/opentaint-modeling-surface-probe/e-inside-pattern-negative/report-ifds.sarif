@@ -1,0 +1,102 @@
+{
+    "$schema": "https://docs.oasis-open.org/sarif/sarif/v2.1.0/errata01/os/schemas/sarif-schema-2.1.0.json",
+    "version": "2.1.0",
+    "runs": [
+        {
+            "originalUriBaseIds": {
+                "%SRCROOT%": {
+                    "uri": "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/tmp.OB14BoQet1/ws-e-inside-pattern-negative/source"
+                }
+            },
+            "tool": {
+                "driver": {
+                    "name": "OpenTaint",
+                    "organization": "Seqra",
+                    "rules": [
+                        {
+                            "defaultConfiguration": {
+                                "level": "error"
+                            },
+                            "fullDescription": {
+                                "markdown": "OpenTaint modeling-surface probe",
+                                "text": "OpenTaint modeling-surface probe"
+                            },
+                            "id": ":probe-opentaint-modeling",
+                            "name": ":probe-opentaint-modeling",
+                            "properties": {
+                                "tags": []
+                            },
+                            "shortDescription": {
+                                "text": "OpenTaint Finding: :probe-opentaint-modeling"
+                            }
+                        }
+                    ],
+                    "semanticVersion": "latest",
+                    "version": "latest"
+                }
+            },
+            "results": [
+                {
+                    "codeFlows": [],
+                    "level": "error",
+                    "locations": [
+                        {
+                            "logicalLocations": [
+                                {
+                                    "decoratedName": "dataflowbench.taint.Handler#onRequest(java.lang.String):0:(dataflowbench.taint.Handler.dfb_sink(\"clean\"))",
+                                    "fullyQualifiedName": "dataflowbench.taint.Handler#onRequest"
+                                }
+                            ],
+                            "physicalLocation": {
+                                "artifactLocation": {
+                                    "uri": "dataflowbench/taint/Handler.java",
+                                    "uriBaseId": "%SRCROOT%"
+                                },
+                                "region": {
+                                    "endColumn": 26,
+                                    "endLine": 7,
+                                    "startColumn": 9,
+                                    "startLine": 7
+                                }
+                            }
+                        }
+                    ],
+                    "message": {
+                        "text": "OpenTaint modeling-surface probe"
+                    },
+                    "ruleId": ":probe-opentaint-modeling"
+                },
+                {
+                    "codeFlows": [],
+                    "level": "error",
+                    "locations": [
+                        {
+                            "logicalLocations": [
+                                {
+                                    "decoratedName": "dataflowbench.taint.Handler#onIgnored(java.lang.String):0:(dataflowbench.taint.Handler.dfb_sink(arg$0))",
+                                    "fullyQualifiedName": "dataflowbench.taint.Handler#onIgnored"
+                                }
+                            ],
+                            "physicalLocation": {
+                                "artifactLocation": {
+                                    "uri": "dataflowbench/taint/Handler.java",
+                                    "uriBaseId": "%SRCROOT%"
+                                },
+                                "region": {
+                                    "endColumn": 24,
+                                    "endLine": 11,
+                                    "startColumn": 9,
+                                    "startLine": 11
+                                }
+                            }
+                        }
+                    ],
+                    "message": {
+                        "text": "OpenTaint modeling-surface probe"
+                    },
+                    "ruleId": ":probe-opentaint-modeling"
+                }
+            ]
+        }
+    ]
+}

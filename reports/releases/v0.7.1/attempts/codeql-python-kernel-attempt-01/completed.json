@@ -1,0 +1,656 @@
+{
+  "id": "codeql-python-kernel-attempt-01",
+  "planned_id": "codeql-python-kernel",
+  "argv": [
+    "/Users/dave/.codex/worktrees/653a/dataflowbench/target/debug/dataflowbench",
+    "--population",
+    "v0.7.0",
+    "run-codeql-python-kernel",
+    "--codeql",
+    "/opt/homebrew/bin/codeql"
+  ],
+  "cwd": "/Users/dave/.codex/worktrees/653a/dataflowbench",
+  "input_commits": {
+    "corpus": "0c82e8093ff899d5ee72809a82c951ab76b5bb76",
+    "publication_infrastructure": "53050fa64628997e866303bcd5299d74f1e3e45d",
+    "pins": "c0899dab0d2c043dcc5b1aa6a1aad0e49f482fea"
+  },
+  "execution_revision": "4ec8cb4bc7552246dc75b1bc39a18340432880a3",
+  "population": "v0.7.0",
+  "fixture_revision": "sha256:9df209ed3d7723a3ee33f2b289cf2afe34a3add781bdf2a2ac445de42b8d0151",
+  "plan": {
+    "path": "reports/releases/v0.7.1/plan.json",
+    "sha256": "cb948f4a5cff80b95d3dcc755ab8249d87449e43f70e6eb80a456789faf12f26"
+  },
+  "identities": {
+    "path": "reports/releases/v0.7.1/identities.json",
+    "sha256": "0b8b1bb07d1df1ec8687613bb355f5f6021a2c664d3488dc3bc763553ce1a83c"
+  },
+  "execution_access": "require_escalated",
+  "start_utc": "2026-09-07T18:56:01.047624+00:00",
+  "host": {
+    "platform": "macOS-26.6.2-arm64-arm-64bit",
+    "cpu_count": 10,
+    "load_before": [
+      3.44677734375,
+      3.60693359375,
+      4.38427734375
+    ],
+    "load_after": [
+      7.7568359375,
+      6.2841796875,
+      5.36767578125
+    ]
+  },
+  "settle_observations": [],
+  "cache_posture": "isolated case workspaces; local distributions and prefetched CodeQL packs; OS page cache uncontrolled; warm only for explicit warm series",
+  "supersedes": null,
+  "exit_code": 1,
+  "end_utc": "2026-09-07T19:01:50.852016+00:00",
+  "stdout": {
+    "path": "reports/releases/v0.7.1/attempts/codeql-python-kernel-attempt-01/stdout.txt",
+    "sha256": "e5f4125b7275fa9228693fa24407debffe73f2d0c70624118ccaf5e30dc4e426"
+  },
+  "stderr": {
+    "path": "reports/releases/v0.7.1/attempts/codeql-python-kernel-attempt-01/stderr.txt",
+    "sha256": "77e77171c5cded98fc8147199d7fb0aa64313ce20bdbdd74a5fc756c8adc9c5f"
+  },
+  "outputs": [
+    {
+      "original_path": "reports/codeql-python-kernel.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-python-kernel-attempt-01/outputs/reports/codeql-python-kernel.json",
+      "sha256": "f4dae64dd7b127d667621e3cc2d7876b9a7190ee4556fec973b0fe8862466267"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-kernel/dfb-taint-python-deep-relay-chain-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-python-kernel-attempt-01/outputs/reports/raw/codeql-python-kernel/dfb-taint-python-deep-relay-chain-negative-timing.json",
+      "sha256": "151a789504b013d96564b80cd09cce678e42d895ba91dcef40cbe0845fede5c7"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-kernel/dfb-taint-python-arithmetic-expression-negative.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-python-kernel-attempt-01/outputs/reports/raw/codeql-python-kernel/dfb-taint-python-arithmetic-expression-negative.sarif.json",
+      "sha256": "7211445bd1e85fd2bf62bf8b96d40e75db154880677a87d888d8519fca37e570"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-kernel/dfb-taint-python-local-overwrite-negative.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-python-kernel-attempt-01/outputs/reports/raw/codeql-python-kernel/dfb-taint-python-local-overwrite-negative.sarif.json",
+      "sha256": "49bf94deff8859332579429d762e1ecdaf57f5553c403abe107419d0dbe4fbbb"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-kernel/dfb-taint-python-recursive-carry-negative.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-python-kernel-attempt-01/outputs/reports/raw/codeql-python-kernel/dfb-taint-python-recursive-carry-negative.sarif.json",
+      "sha256": "f710b322637fa597ab94201597c8510cb4e09400af954c5b617426ebaf42c11b"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-kernel/dfb-taint-python-deep-relay-chain-negative.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-python-kernel-attempt-01/outputs/reports/raw/codeql-python-kernel/dfb-taint-python-deep-relay-chain-negative.sarif.json",
+      "sha256": "dfea11c0675e9ae34acc97a14e4087c83bd5f3a3686b968a79b6ab9fea282b65"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-kernel/dfb-taint-python-anonymous-implementation-positive.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-python-kernel-attempt-01/outputs/reports/raw/codeql-python-kernel/dfb-taint-python-anonymous-implementation-positive.sarif.json",
+      "sha256": "314c9e328f99d17d3ffaf3aa194e276fa6a2bb256cd09b824e2af46dbc1af30a"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-kernel/dfb-taint-python-deep-relay-chain-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-python-kernel-attempt-01/outputs/reports/raw/codeql-python-kernel/dfb-taint-python-deep-relay-chain-positive-timing.json",
+      "sha256": "5e2372e53404a6f30ba218eadde0e62ee6d6dd09f79dbe0035d1cbbc3c30e996"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-kernel/dfb-taint-python-anonymous-implementation-negative.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-python-kernel-attempt-01/outputs/reports/raw/codeql-python-kernel/dfb-taint-python-anonymous-implementation-negative.sarif.json",
+      "sha256": "6c8784c81d090b93a22dff829673becaa4988435f4c8f33d496a065ed97e0441"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-kernel/dfb-taint-python-deep-relay-chain-positive.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-python-kernel-attempt-01/outputs/reports/raw/codeql-python-kernel/dfb-taint-python-deep-relay-chain-positive.sarif.json",
+      "sha256": "c685f34e3361109c3ec5d1882250ca84944fd41dcf40687e69bbe0abb850dc6d"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-kernel/dfb-taint-python-call-context-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-python-kernel-attempt-01/outputs/reports/raw/codeql-python-kernel/dfb-taint-python-call-context-positive-timing.json",
+      "sha256": "73c27a1a865c2ac1711058a85071c8fbc35c9286ea2a6146eb23b87311d69a5e"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-kernel/dfb-taint-python-return-relay-one-hop-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-python-kernel-attempt-01/outputs/reports/raw/codeql-python-kernel/dfb-taint-python-return-relay-one-hop-positive-timing.json",
+      "sha256": "9893a77a906b7fb05b9bc0b7dcf715596c900ee7c331efeb5d5e10316973bc36"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-kernel/dfb-taint-python-anonymous-implementation-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-python-kernel-attempt-01/outputs/reports/raw/codeql-python-kernel/dfb-taint-python-anonymous-implementation-positive-timing.json",
+      "sha256": "c449e9d57b24a455b6a5cc19548e667d498c7e451ac9651bcd5d2be27a0d2d12"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-kernel/dfb-taint-python-map-iteration-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-python-kernel-attempt-01/outputs/reports/raw/codeql-python-kernel/dfb-taint-python-map-iteration-negative-timing.json",
+      "sha256": "cd20d410244df31069ee1e5952e3b2bc8385b6053bfda48b7fc7de55ecc8dfe5"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-kernel/dfb-taint-python-call-context-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-python-kernel-attempt-01/outputs/reports/raw/codeql-python-kernel/dfb-taint-python-call-context-negative-timing.json",
+      "sha256": "05d91c59a3de3721da54bb4626343076d0a030693dd5255db20059f4aac7c426"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-kernel/dfb-taint-python-map-iteration-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-python-kernel-attempt-01/outputs/reports/raw/codeql-python-kernel/dfb-taint-python-map-iteration-positive-timing.json",
+      "sha256": "fa81021392216169704389522eca8d7868dfc0b89f1da359c43bf76874eea32f"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-kernel/dfb-taint-python-arithmetic-expression-positive.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-python-kernel-attempt-01/outputs/reports/raw/codeql-python-kernel/dfb-taint-python-arithmetic-expression-positive.sarif.json",
+      "sha256": "01dd4f436487209d6e52c94b2a14359b732abc14b3762ea4571b532a45a721bc"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-kernel/dfb-taint-python-return-relay-one-hop-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-python-kernel-attempt-01/outputs/reports/raw/codeql-python-kernel/dfb-taint-python-return-relay-one-hop-negative-timing.json",
+      "sha256": "49397296d57b219590ab1ae8ce1a69f801c07696795b4441c57223cc668efbd8"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-kernel/dfb-taint-python-recursive-carry-positive.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-python-kernel-attempt-01/outputs/reports/raw/codeql-python-kernel/dfb-taint-python-recursive-carry-positive.sarif.json",
+      "sha256": "1f3a7a80ea18568dcaeaa3f3a1b35e5afa95b096fa10589e089c4d1ea57c7c34"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-kernel/dfb-taint-python-anonymous-implementation-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-python-kernel-attempt-01/outputs/reports/raw/codeql-python-kernel/dfb-taint-python-anonymous-implementation-negative-timing.json",
+      "sha256": "337af18fa6105075bf78667c658dbe42745d86a97ac99d7bf350be9fdcb02845"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-kernel/dfb-taint-python-local-overwrite-positive.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-python-kernel-attempt-01/outputs/reports/raw/codeql-python-kernel/dfb-taint-python-local-overwrite-positive.sarif.json",
+      "sha256": "514ebda5b82b684fa930ef333e6125e58133a7a8b42924174ee6a0084267b89e"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-kernel/dfb-taint-python-dispatch-table-positive.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-python-kernel-attempt-01/outputs/reports/raw/codeql-python-kernel/dfb-taint-python-dispatch-table-positive.sarif.json",
+      "sha256": "1660ab770c6d503c302a6db48d358fdaeb5947371940369333d61d4609a51661"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-kernel/dfb-taint-python-nested-access-path-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-python-kernel-attempt-01/outputs/reports/raw/codeql-python-kernel/dfb-taint-python-nested-access-path-positive-timing.json",
+      "sha256": "319c2ca493976e8f2f9e26b73b342f11bfc99c6a5831926966bc0c379f099d21"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-kernel/dfb-taint-python-argument-position-positive.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-python-kernel-attempt-01/outputs/reports/raw/codeql-python-kernel/dfb-taint-python-argument-position-positive.sarif.json",
+      "sha256": "826a28a021b8897b18a33faaf1801628f6ab3ea245113edb69e6ebbabe65a7e8"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-kernel/dfb-taint-python-context-pair-depth2-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-python-kernel-attempt-01/outputs/reports/raw/codeql-python-kernel/dfb-taint-python-context-pair-depth2-negative-timing.json",
+      "sha256": "8966a6f2ef5f69679661a2c4c011e4d600840d93d5b52eef672ac0744f276ebd"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-kernel/dfb-taint-python-closure-capture-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-python-kernel-attempt-01/outputs/reports/raw/codeql-python-kernel/dfb-taint-python-closure-capture-positive-timing.json",
+      "sha256": "b9174d4567380ddafc7aaa961a0fa3a860c1be08e086dbbf75a28be9c92d00a5"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-kernel/dfb-taint-python-local-overwrite-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-python-kernel-attempt-01/outputs/reports/raw/codeql-python-kernel/dfb-taint-python-local-overwrite-positive-timing.json",
+      "sha256": "919b9981097541a023501bd2862e59c7778015034713c29820d3badfb37b2646"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-kernel/dfb-taint-python-branch-join-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-python-kernel-attempt-01/outputs/reports/raw/codeql-python-kernel/dfb-taint-python-branch-join-negative-timing.json",
+      "sha256": "160ee62355967658257f0d2bedfe4b65b7ba753736c4e9e537cf20e30f01806e"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-kernel/dfb-taint-python-nested-access-path-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-python-kernel-attempt-01/outputs/reports/raw/codeql-python-kernel/dfb-taint-python-nested-access-path-negative-timing.json",
+      "sha256": "d0cecc0c6da61b0d70d1a1cd9d16e23e9001bd799c0d1c3163c9a569de0583fb"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-kernel/dfb-taint-python-infeasible-branch-positive.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-python-kernel-attempt-01/outputs/reports/raw/codeql-python-kernel/dfb-taint-python-infeasible-branch-positive.sarif.json",
+      "sha256": "0731e642ec3ada325e864bb06268f41e742103562eb580a69fe14ec8f70f95f1"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-kernel/run-environment.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-python-kernel-attempt-01/outputs/reports/raw/codeql-python-kernel/run-environment.json",
+      "sha256": "d700a0d7722e3a717944c31b01683baad4f1357443cd612571de22739182464e"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-kernel/dfb-taint-python-same-object-field-negative.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-python-kernel-attempt-01/outputs/reports/raw/codeql-python-kernel/dfb-taint-python-same-object-field-negative.sarif.json",
+      "sha256": "13079c51b3dccff2ad98950fe77d659d4b3dc11b56ac84e7cedc58fcfd2a1956"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-kernel/dfb-taint-python-local-overwrite-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-python-kernel-attempt-01/outputs/reports/raw/codeql-python-kernel/dfb-taint-python-local-overwrite-negative-timing.json",
+      "sha256": "b386cb4a21f7b2717d17dc84f3ae20061de241541938ad7ed710f6c69a01c42d"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-kernel/dfb-taint-python-branch-join-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-python-kernel-attempt-01/outputs/reports/raw/codeql-python-kernel/dfb-taint-python-branch-join-positive-timing.json",
+      "sha256": "51a8cddc4f0add3551d4e257195836e9cbbc9f73f86a9ce17a80ba1e817d0858"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-kernel/dfb-taint-python-object-separation-negative.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-python-kernel-attempt-01/outputs/reports/raw/codeql-python-kernel/dfb-taint-python-object-separation-negative.sarif.json",
+      "sha256": "18ee88cbe84f59aee81c94d188c4d99a384f16cb009ea25809d800bda65b13e2"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-kernel/dfb-taint-python-exception-catch-positive.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-python-kernel-attempt-01/outputs/reports/raw/codeql-python-kernel/dfb-taint-python-exception-catch-positive.sarif.json",
+      "sha256": "3a4367d83d69762f891c9e3ae4103e95f1a0c65aea830d113d99fee8e308ee10"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-kernel/dfb-taint-python-return-relay-one-hop-positive.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-python-kernel-attempt-01/outputs/reports/raw/codeql-python-kernel/dfb-taint-python-return-relay-one-hop-positive.sarif.json",
+      "sha256": "f1f7c637e92b6d94e97b8a10ebf44958d4765c741f09a5c572291a34652daf20"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-kernel/dfb-taint-python-closure-capture-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-python-kernel-attempt-01/outputs/reports/raw/codeql-python-kernel/dfb-taint-python-closure-capture-negative-timing.json",
+      "sha256": "49bc1cefd6845aa50614a2f7a6412b44f3a9aa5b74f68f06d95cae42a057c6e2"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-kernel/dfb-taint-python-local-chain-negative.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-python-kernel-attempt-01/outputs/reports/raw/codeql-python-kernel/dfb-taint-python-local-chain-negative.sarif.json",
+      "sha256": "e072d84d35ac7eb805f4fa96fe7fd1184611bcb72aa8ce3f2253aa8f91c44394"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-kernel/dfb-taint-python-context-pair-depth2-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-python-kernel-attempt-01/outputs/reports/raw/codeql-python-kernel/dfb-taint-python-context-pair-depth2-positive-timing.json",
+      "sha256": "6c29bd11c6cf8dff5acff736a2ce53fc5fdbd8363087d086f20e620603489015"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-kernel/dfb-taint-python-infeasible-branch-negative.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-python-kernel-attempt-01/outputs/reports/raw/codeql-python-kernel/dfb-taint-python-infeasible-branch-negative.sarif.json",
+      "sha256": "c27eaa59282adff79714f02b4eb47c4702ad62349e33c8af288e96cb8192cc70"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-kernel/dfb-taint-python-callback-registration-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-python-kernel-attempt-01/outputs/reports/raw/codeql-python-kernel/dfb-taint-python-callback-registration-negative-timing.json",
+      "sha256": "576f220b3437d05b7ee255491ae50ad9f36787ed23e437798ee7ad974ea47ef0"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-kernel/dfb-taint-python-same-object-field-positive.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-python-kernel-attempt-01/outputs/reports/raw/codeql-python-kernel/dfb-taint-python-same-object-field-positive.sarif.json",
+      "sha256": "d625491652dd2ecee60d06d70e324570e46e4f117bf80cd202af0ae09fa82deb"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-kernel/dfb-taint-python-recursive-carry-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-python-kernel-attempt-01/outputs/reports/raw/codeql-python-kernel/dfb-taint-python-recursive-carry-negative-timing.json",
+      "sha256": "4d2b6994ae24a227c1e1e46e2a4af6a16f9537eb97dfa311abf27b5a8a7c89ab"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-kernel/dfb-taint-python-arithmetic-expression-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-python-kernel-attempt-01/outputs/reports/raw/codeql-python-kernel/dfb-taint-python-arithmetic-expression-positive-timing.json",
+      "sha256": "2c3f89b21f29c43880f19f8b412e9ab6608201a8fa8e79bcc49d9723d56e2630"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-kernel/dfb-taint-python-local-chain-positive.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-python-kernel-attempt-01/outputs/reports/raw/codeql-python-kernel/dfb-taint-python-local-chain-positive.sarif.json",
+      "sha256": "39334d96cc2ad85b84a99da3974eda52db4109ee901fb2ee2f6329791e4eaa5c"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-kernel/dfb-taint-python-object-separation-positive.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-python-kernel-attempt-01/outputs/reports/raw/codeql-python-kernel/dfb-taint-python-object-separation-positive.sarif.json",
+      "sha256": "73ffa1dec80256e5d089754cbfe71f4934cd8cfadc01ca04daae6bd3099f379c"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-kernel/dfb-taint-python-return-relay-one-hop-negative.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-python-kernel-attempt-01/outputs/reports/raw/codeql-python-kernel/dfb-taint-python-return-relay-one-hop-negative.sarif.json",
+      "sha256": "7de35efc9e8ad55e7ae8b6a383984d95a901f98f93be6652afd6c561128a9129"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-kernel/dfb-taint-python-exception-catch-negative.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-python-kernel-attempt-01/outputs/reports/raw/codeql-python-kernel/dfb-taint-python-exception-catch-negative.sarif.json",
+      "sha256": "45dc175c5eb20b4ebc0242dd4cbd55db80169d3f3161c744eea633d92e74ca60"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-kernel/dfb-taint-python-argument-position-negative.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-python-kernel-attempt-01/outputs/reports/raw/codeql-python-kernel/dfb-taint-python-argument-position-negative.sarif.json",
+      "sha256": "22679643bf203f2aa0096c4a317314e865fc11320cc61e96302ffff7f6b62c15"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-kernel/dfb-taint-python-dispatch-table-negative.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-python-kernel-attempt-01/outputs/reports/raw/codeql-python-kernel/dfb-taint-python-dispatch-table-negative.sarif.json",
+      "sha256": "fea6b36f403ef72cf01b4c12cc72bf8c3536c6f3791776998c7b37ea4be53a91"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-kernel/dfb-taint-python-arithmetic-expression-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-python-kernel-attempt-01/outputs/reports/raw/codeql-python-kernel/dfb-taint-python-arithmetic-expression-negative-timing.json",
+      "sha256": "80964ccfd0a6846e466046ef69f8e888e6e3e7511b3094b04f4d640fc5d1c8b6"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-kernel/dfb-taint-python-recursive-carry-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-python-kernel-attempt-01/outputs/reports/raw/codeql-python-kernel/dfb-taint-python-recursive-carry-positive-timing.json",
+      "sha256": "544d2f2ed3619cdbb9bf40dc547eb3fce8855988b5b11f7bcca9b2304b1b3cf5"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-kernel/dfb-taint-python-callback-registration-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-python-kernel-attempt-01/outputs/reports/raw/codeql-python-kernel/dfb-taint-python-callback-registration-positive-timing.json",
+      "sha256": "0a1206c0b56f6789f94f55376e7ab2dcb5e79ddbbccb52710057e8421c9b5b72"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-kernel/dfb-taint-python-direct-positive.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-python-kernel-attempt-01/outputs/reports/raw/codeql-python-kernel/dfb-taint-python-direct-positive.sarif.json",
+      "sha256": "32574d3745b8bef9fb415c03eb7342f34e1d8699a7ca13be09e309e1b69f6f80"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-kernel/dfb-taint-python-dispatch-table-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-python-kernel-attempt-01/outputs/reports/raw/codeql-python-kernel/dfb-taint-python-dispatch-table-positive-timing.json",
+      "sha256": "08c3e8a46a67d626cf8f9d49bbe8f31fd134f711e89032e17d41a1d3d298220d"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-kernel/dfb-taint-python-same-object-field-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-python-kernel-attempt-01/outputs/reports/raw/codeql-python-kernel/dfb-taint-python-same-object-field-negative-timing.json",
+      "sha256": "68f6956458ae467d2fed4c3b1f4f775364bfa303e12800a412dc29388277e8d1"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-kernel/dfb-taint-python-return-relay-two-hop-positive.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-python-kernel-attempt-01/outputs/reports/raw/codeql-python-kernel/dfb-taint-python-return-relay-two-hop-positive.sarif.json",
+      "sha256": "0d68f99ce9fe1ac547231d519eeb876e8e48f871ab5996074f8d13c86e3dc661"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-kernel/dfb-taint-python-computed-property-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-python-kernel-attempt-01/outputs/reports/raw/codeql-python-kernel/dfb-taint-python-computed-property-positive-timing.json",
+      "sha256": "ae04db478e9c080b71dbd0c14f0f92bd1b12a45fb7f5ea6c26ce909fb311feaf"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-kernel/dfb-taint-python-object-separation-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-python-kernel-attempt-01/outputs/reports/raw/codeql-python-kernel/dfb-taint-python-object-separation-negative-timing.json",
+      "sha256": "77bfd634311356ab1a74d44c9f3ef2bb18af42744b6e466ba1056d10e0b62b0f"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-kernel/dfb-taint-python-loop-carried-negative.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-python-kernel-attempt-01/outputs/reports/raw/codeql-python-kernel/dfb-taint-python-loop-carried-negative.sarif.json",
+      "sha256": "ca7a2e4a30e605217e01fc7c83eab963132d2be4fd29b6c18990d17f00fd4d65"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-kernel/dfb-taint-python-loop-carried-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-python-kernel-attempt-01/outputs/reports/raw/codeql-python-kernel/dfb-taint-python-loop-carried-positive-timing.json",
+      "sha256": "ccca8225f18624eb2c359bd5d89ab8fda1e1c1fa0ddbe5d1b5531ee1d4604e7e"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-kernel/dfb-taint-python-reflective-invocation-negative.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-python-kernel-attempt-01/outputs/reports/raw/codeql-python-kernel/dfb-taint-python-reflective-invocation-negative.sarif.json",
+      "sha256": "6d12e65951c2c5b60ab74cd0637bf2643826a459cf8ec166536733395b476dc2"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-kernel/dfb-taint-python-function-field-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-python-kernel-attempt-01/outputs/reports/raw/codeql-python-kernel/dfb-taint-python-function-field-positive-timing.json",
+      "sha256": "ea63249eaa15f77acb5688572992288f8bb8cd44813631b6e2d2556a288f51f1"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-kernel/dfb-taint-python-computed-property-negative.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-python-kernel-attempt-01/outputs/reports/raw/codeql-python-kernel/dfb-taint-python-computed-property-negative.sarif.json",
+      "sha256": "85ddf195c044745277e18983b6ab542d401aa60f80f85a087dccf243c98a4cab"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-kernel/dfb-taint-python-closure-capture-negative.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-python-kernel-attempt-01/outputs/reports/raw/codeql-python-kernel/dfb-taint-python-closure-capture-negative.sarif.json",
+      "sha256": "afb831d5568403abc2d5a1d1463d1741201bec4879648b4e2dfbfb194f917457"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-kernel/dfb-taint-python-call-context-positive.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-python-kernel-attempt-01/outputs/reports/raw/codeql-python-kernel/dfb-taint-python-call-context-positive.sarif.json",
+      "sha256": "75c20f861d379d26a068c18408a1516f836089d9fe8737f3d2ef0c7cf4a8cb60"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-kernel/dfb-taint-python-function-field-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-python-kernel-attempt-01/outputs/reports/raw/codeql-python-kernel/dfb-taint-python-function-field-negative-timing.json",
+      "sha256": "c0afd3b3ec6672fa53694591f2ccb639d4a465e66caeaf324442a2eb19498664"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-kernel/dfb-taint-python-loop-carried-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-python-kernel-attempt-01/outputs/reports/raw/codeql-python-kernel/dfb-taint-python-loop-carried-negative-timing.json",
+      "sha256": "81375dde1071ee8e0b72eb9a7d6b5d8f765c0e3e6e256a5a858275bbf5ba69f2"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-kernel/dfb-taint-python-array-element-positive.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-python-kernel-attempt-01/outputs/reports/raw/codeql-python-kernel/dfb-taint-python-array-element-positive.sarif.json",
+      "sha256": "3e4a4882f4d4fa5e8cc1aa1240c671cef90db02733bfaec01544ee531f159ea0"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-kernel/dfb-taint-python-same-object-field-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-python-kernel-attempt-01/outputs/reports/raw/codeql-python-kernel/dfb-taint-python-same-object-field-positive-timing.json",
+      "sha256": "5c937a257103d59b73e9139598d0a39e36f817ec574254b87b6564e3464a92b8"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-kernel/dfb-taint-python-computed-property-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-python-kernel-attempt-01/outputs/reports/raw/codeql-python-kernel/dfb-taint-python-computed-property-negative-timing.json",
+      "sha256": "66eb0cb1e2ce73a157f34384f95c95e80778e9fd416e43dfcd0cf55bc22ecad1"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-kernel/dfb-taint-python-object-separation-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-python-kernel-attempt-01/outputs/reports/raw/codeql-python-kernel/dfb-taint-python-object-separation-positive-timing.json",
+      "sha256": "1d4ca179cf0cbb34c9f33f9f195f2562bf5445de7a63c3f398821af6d903627b"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-kernel/dfb-taint-python-dispatch-table-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-python-kernel-attempt-01/outputs/reports/raw/codeql-python-kernel/dfb-taint-python-dispatch-table-negative-timing.json",
+      "sha256": "2971c371e9214ace5c280d3d6549bdc0584b36c32ad984bf4188b7de1c9a9e57"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-kernel/dfb-taint-python-closure-capture-positive.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-python-kernel-attempt-01/outputs/reports/raw/codeql-python-kernel/dfb-taint-python-closure-capture-positive.sarif.json",
+      "sha256": "a7e162f6a657a89221230438cdb05c258853ccbc1e51255336ab078057a4fa0a"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-kernel/dfb-taint-python-computed-property-positive.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-python-kernel-attempt-01/outputs/reports/raw/codeql-python-kernel/dfb-taint-python-computed-property-positive.sarif.json",
+      "sha256": "5dc6010d368054821fb8d25e0f70a77f77e0b141fadf94cae9308e369810c2cb"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-kernel/dfb-taint-python-array-element-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-python-kernel-attempt-01/outputs/reports/raw/codeql-python-kernel/dfb-taint-python-array-element-negative-timing.json",
+      "sha256": "a541024f9cbebaf309a4c87b0e5834034127cbbacb51181622a4bf8c72efdf2f"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-kernel/dfb-taint-python-call-context-negative.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-python-kernel-attempt-01/outputs/reports/raw/codeql-python-kernel/dfb-taint-python-call-context-negative.sarif.json",
+      "sha256": "e893437ddc426d2d7bf3e4f3668cfd8ab8b9233da6830e7a91d6443c92fad6a2"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-kernel/dfb-taint-python-direct-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-python-kernel-attempt-01/outputs/reports/raw/codeql-python-kernel/dfb-taint-python-direct-positive-timing.json",
+      "sha256": "65b99db35ecc2d327e78668549b792176459fe07d861bb1ce4076690191a1874"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-kernel/dfb-taint-python-array-element-negative.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-python-kernel-attempt-01/outputs/reports/raw/codeql-python-kernel/dfb-taint-python-array-element-negative.sarif.json",
+      "sha256": "f2174df9c0ffd6c0112e28d125dd85f4d42a2199d35815e80338c0afac56d872"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-kernel/dfb-taint-python-local-chain-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-python-kernel-attempt-01/outputs/reports/raw/codeql-python-kernel/dfb-taint-python-local-chain-negative-timing.json",
+      "sha256": "507668fd95a13c8262f9f7fe17891a14213a0702bede3db8a1b8cfc7ea466437"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-kernel/dfb-taint-python-return-relay-two-hop-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-python-kernel-attempt-01/outputs/reports/raw/codeql-python-kernel/dfb-taint-python-return-relay-two-hop-positive-timing.json",
+      "sha256": "970d230a03e4dbb1083654dc2d7a2dc5ff0bde4f52ce0634fda4858fd1bc1f27"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-kernel/dfb-taint-python-reflective-invocation-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-python-kernel-attempt-01/outputs/reports/raw/codeql-python-kernel/dfb-taint-python-reflective-invocation-positive-timing.json",
+      "sha256": "a112182859b3dca36500db8ba43ba31436407f637fd6f7099b3d704549239242"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-kernel/dfb-taint-python-alias-propagation-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-python-kernel-attempt-01/outputs/reports/raw/codeql-python-kernel/dfb-taint-python-alias-propagation-positive-timing.json",
+      "sha256": "c3c0b20888fb570de09cad8a7cf5c9aaaedcea36e0acb5950ef7e36925795ff6"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-kernel/dfb-taint-python-direct-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-python-kernel-attempt-01/outputs/reports/raw/codeql-python-kernel/dfb-taint-python-direct-negative-timing.json",
+      "sha256": "69ed2a58599615e7a58177b5a14865bde0adf0c2c701db3e99d3429f63786bbb"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-kernel/dfb-taint-python-array-element-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-python-kernel-attempt-01/outputs/reports/raw/codeql-python-kernel/dfb-taint-python-array-element-positive-timing.json",
+      "sha256": "cb53d2bc85d19cbeec2a2c0e9faaca056889752b11618bdf42978bb06ecf780f"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-kernel/dfb-taint-python-direct-negative.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-python-kernel-attempt-01/outputs/reports/raw/codeql-python-kernel/dfb-taint-python-direct-negative.sarif.json",
+      "sha256": "626f1f51624be35ad8bb061af8170b12558c775090cef14c1a151185a3cffa40"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-kernel/dfb-taint-python-return-relay-two-hop-negative.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-python-kernel-attempt-01/outputs/reports/raw/codeql-python-kernel/dfb-taint-python-return-relay-two-hop-negative.sarif.json",
+      "sha256": "3ae9de8e1df741716bc0c3c03ae2bbdcbb935fa8b8e583a665814339a0478263"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-kernel/dfb-taint-python-alias-propagation-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-python-kernel-attempt-01/outputs/reports/raw/codeql-python-kernel/dfb-taint-python-alias-propagation-negative-timing.json",
+      "sha256": "f52eac821f92ee8bf33bb90fa2e7b151128d3a470ae6ac5b76c4ed4a6c88cb10"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-kernel/dfb-taint-python-reflective-invocation-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-python-kernel-attempt-01/outputs/reports/raw/codeql-python-kernel/dfb-taint-python-reflective-invocation-negative-timing.json",
+      "sha256": "3c3ec85228e83f466f88ba658182556bfc2a4933f2dca7116ef3f669900a67b5"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-kernel/dfb-taint-python-return-relay-two-hop-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-python-kernel-attempt-01/outputs/reports/raw/codeql-python-kernel/dfb-taint-python-return-relay-two-hop-negative-timing.json",
+      "sha256": "b9a5c5c03538519bb8ae5135631dbe9111f19fc2dd1dafc67864849acb70ba4d"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-kernel/dfb-taint-python-loop-carried-positive.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-python-kernel-attempt-01/outputs/reports/raw/codeql-python-kernel/dfb-taint-python-loop-carried-positive.sarif.json",
+      "sha256": "b4375ec9b2ad9d75e548728874992f248c69ad91cff5b7149a795c3b803dcad2"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-kernel/dfb-taint-python-local-chain-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-python-kernel-attempt-01/outputs/reports/raw/codeql-python-kernel/dfb-taint-python-local-chain-positive-timing.json",
+      "sha256": "523edfe175a86e0b4edcfef35d3ebca11c71fb5270292199f7ba108b6cd39cb0"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-kernel/dfb-taint-python-reflective-invocation-positive.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-python-kernel-attempt-01/outputs/reports/raw/codeql-python-kernel/dfb-taint-python-reflective-invocation-positive.sarif.json",
+      "sha256": "df8617a9a6159959861bc16180d8b44dd28c0bd9e6389b410903ea9f64a6dea2"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-kernel/dfb-taint-python-callback-registration-positive.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-python-kernel-attempt-01/outputs/reports/raw/codeql-python-kernel/dfb-taint-python-callback-registration-positive.sarif.json",
+      "sha256": "9d920088c410e3bddd3bec1ab06819d6bbdc4f2c8061d7293e871b143e178c0c"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-kernel/dfb-taint-python-function-field-negative.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-python-kernel-attempt-01/outputs/reports/raw/codeql-python-kernel/dfb-taint-python-function-field-negative.sarif.json",
+      "sha256": "651619bff76b2b776d2e3a99aba770367f82d8e16972091a754f302856ffaa06"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-kernel/dfb-taint-python-branch-join-negative.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-python-kernel-attempt-01/outputs/reports/raw/codeql-python-kernel/dfb-taint-python-branch-join-negative.sarif.json",
+      "sha256": "343e7d5d9c59e6916eb5cb91949980c7ff262a7656cbe57b9385d1d16da6a81a"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-kernel/dfb-taint-python-element-object-positive.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-python-kernel-attempt-01/outputs/reports/raw/codeql-python-kernel/dfb-taint-python-element-object-positive.sarif.json",
+      "sha256": "3f7fe12e66fdaada3c691074a759acb2da6236c63069f53287ed62238091ce34"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-kernel/dfb-taint-python-nested-access-path-negative.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-python-kernel-attempt-01/outputs/reports/raw/codeql-python-kernel/dfb-taint-python-nested-access-path-negative.sarif.json",
+      "sha256": "3a3a7c97b16c8b39d8e0673ceb4875c75c012719f2dd003dff142fd2aea47d35"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-kernel/dfb-taint-python-element-object-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-python-kernel-attempt-01/outputs/reports/raw/codeql-python-kernel/dfb-taint-python-element-object-negative-timing.json",
+      "sha256": "f3acbb5ea1da477b2d021bec590c5acd751f4e7c5da373ab786d327c87548dab"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-kernel/dfb-taint-python-infeasible-branch-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-python-kernel-attempt-01/outputs/reports/raw/codeql-python-kernel/dfb-taint-python-infeasible-branch-positive-timing.json",
+      "sha256": "512f4ca4a84b57adf689722e80da9c203a58fc353b624ecd623a81ddb1e68b66"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-kernel/dfb-taint-python-alias-propagation-positive.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-python-kernel-attempt-01/outputs/reports/raw/codeql-python-kernel/dfb-taint-python-alias-propagation-positive.sarif.json",
+      "sha256": "e68306cec3891201c57ce100e263e7afe43a5f12eb0d48db4c8e3f804cde3f1d"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-kernel/dfb-taint-python-argument-position-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-python-kernel-attempt-01/outputs/reports/raw/codeql-python-kernel/dfb-taint-python-argument-position-positive-timing.json",
+      "sha256": "317e5218c2ce74bd3ca95c4dfe54c6baacec4b328669e05cb7d6040359e53be0"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-kernel/dfb-taint-python-infeasible-branch-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-python-kernel-attempt-01/outputs/reports/raw/codeql-python-kernel/dfb-taint-python-infeasible-branch-negative-timing.json",
+      "sha256": "b177d7f3ebbec8d48e12e2447680efd020604913446c36a19d90b838b6936c4d"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-kernel/dfb-taint-python-element-object-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-python-kernel-attempt-01/outputs/reports/raw/codeql-python-kernel/dfb-taint-python-element-object-positive-timing.json",
+      "sha256": "dbdf89bc701c055cabae99dc3e353aa4280674994f12c6acbf122bcdd4ccec88"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-kernel/dfb-taint-python-map-iteration-positive.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-python-kernel-attempt-01/outputs/reports/raw/codeql-python-kernel/dfb-taint-python-map-iteration-positive.sarif.json",
+      "sha256": "a96f90a77083765a4e9719a8ce618fac391c33bafc5b289ebfae22523ac4c8c4"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-kernel/dfb-taint-python-context-pair-depth2-positive.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-python-kernel-attempt-01/outputs/reports/raw/codeql-python-kernel/dfb-taint-python-context-pair-depth2-positive.sarif.json",
+      "sha256": "f63371dfbf40da9b100452c2ea9a6c003b6c028170fe5fdc2576d6accdc61b3f"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-kernel/dfb-taint-python-argument-position-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-python-kernel-attempt-01/outputs/reports/raw/codeql-python-kernel/dfb-taint-python-argument-position-negative-timing.json",
+      "sha256": "1730de013e87cd5ffe69ca777e24976cf70383bb95e4af18444ff66d154aeaf8"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-kernel/dfb-taint-python-exception-catch-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-python-kernel-attempt-01/outputs/reports/raw/codeql-python-kernel/dfb-taint-python-exception-catch-negative-timing.json",
+      "sha256": "2f147b93ebc92c571e8fcf484368e1952bac0ecb8cb8d438b056102b089de070"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-kernel/dfb-taint-python-map-iteration-negative.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-python-kernel-attempt-01/outputs/reports/raw/codeql-python-kernel/dfb-taint-python-map-iteration-negative.sarif.json",
+      "sha256": "590cea058aadadd5a829edb488531a898e1b6d34ba146585f351b43fd5260214"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-kernel/dfb-taint-python-context-pair-depth2-negative.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-python-kernel-attempt-01/outputs/reports/raw/codeql-python-kernel/dfb-taint-python-context-pair-depth2-negative.sarif.json",
+      "sha256": "c8b1234e3a8387b13c220ee8ffcf6b16ca26ba8adb7e5c2b24537cc486f2569c"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-kernel/dfb-taint-python-branch-join-positive.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-python-kernel-attempt-01/outputs/reports/raw/codeql-python-kernel/dfb-taint-python-branch-join-positive.sarif.json",
+      "sha256": "4627ef65e01f2d2742cda45df929e67253a5d6f409ce82043cccd2c614457772"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-kernel/dfb-taint-python-element-object-negative.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-python-kernel-attempt-01/outputs/reports/raw/codeql-python-kernel/dfb-taint-python-element-object-negative.sarif.json",
+      "sha256": "a7c92871fc362f7f4cbc34c48d2811195bf92eae5e432e2f3fab8fe75146d2b8"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-kernel/dfb-taint-python-nested-access-path-positive.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-python-kernel-attempt-01/outputs/reports/raw/codeql-python-kernel/dfb-taint-python-nested-access-path-positive.sarif.json",
+      "sha256": "5f8a023b12d439a4c5a4c0b41893cc63e7d916bc9074bed6066c6b8eda5f0a39"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-kernel/dfb-taint-python-callback-registration-negative.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-python-kernel-attempt-01/outputs/reports/raw/codeql-python-kernel/dfb-taint-python-callback-registration-negative.sarif.json",
+      "sha256": "3f1cb3328809db1f667356bc89efa6ce9e50b0d0ddf5dd1b396e4baaa49ed5c8"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-kernel/dfb-taint-python-function-field-positive.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-python-kernel-attempt-01/outputs/reports/raw/codeql-python-kernel/dfb-taint-python-function-field-positive.sarif.json",
+      "sha256": "e10af960eb6688fb0e0644ba074e80096f1984a64d34931134f8e63bef50b6bb"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-kernel/dfb-taint-python-exception-catch-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-python-kernel-attempt-01/outputs/reports/raw/codeql-python-kernel/dfb-taint-python-exception-catch-positive-timing.json",
+      "sha256": "fc4db808872f9c00294e89e1bd57f78ea606d9719b58422e4217019c4534ee6d"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-kernel/dfb-taint-python-alias-propagation-negative.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-python-kernel-attempt-01/outputs/reports/raw/codeql-python-kernel/dfb-taint-python-alias-propagation-negative.sarif.json",
+      "sha256": "82205ab5bc9a56a60bd219137fd6d888b42913ec96044e4ef2815746f2f731c5"
+    }
+  ],
+  "expected_output_roots": [
+    "reports/codeql-python-kernel.json",
+    "reports/raw/codeql-python-kernel"
+  ],
+  "missing_fresh_output_roots": [],
+  "removed_paths": []
+}

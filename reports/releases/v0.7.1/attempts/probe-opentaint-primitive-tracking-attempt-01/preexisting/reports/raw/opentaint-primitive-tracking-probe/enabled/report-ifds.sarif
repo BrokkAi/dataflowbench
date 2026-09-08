@@ -1,0 +1,481 @@
+{
+    "$schema": "https://docs.oasis-open.org/sarif/sarif/v2.1.0/errata01/os/schemas/sarif-schema-2.1.0.json",
+    "version": "2.1.0",
+    "runs": [
+        {
+            "originalUriBaseIds": {
+                "%SRCROOT%": {
+                    "uri": "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/tmp.NFNMwJpLhO/source"
+                }
+            },
+            "tool": {
+                "driver": {
+                    "name": "OpenTaint",
+                    "organization": "Seqra",
+                    "rules": [
+                        {
+                            "defaultConfiguration": {
+                                "level": "error"
+                            },
+                            "fullDescription": {
+                                "markdown": "primitive-tracking probe (object)",
+                                "text": "primitive-tracking probe (object)"
+                            },
+                            "id": ":value-kind-object",
+                            "name": ":value-kind-object",
+                            "properties": {
+                                "tags": []
+                            },
+                            "shortDescription": {
+                                "text": "OpenTaint Finding: :value-kind-object"
+                            }
+                        },
+                        {
+                            "defaultConfiguration": {
+                                "level": "error"
+                            },
+                            "fullDescription": {
+                                "markdown": "primitive-tracking probe (boxed)",
+                                "text": "primitive-tracking probe (boxed)"
+                            },
+                            "id": ":value-kind-boxed",
+                            "name": ":value-kind-boxed",
+                            "properties": {
+                                "tags": []
+                            },
+                            "shortDescription": {
+                                "text": "OpenTaint Finding: :value-kind-boxed"
+                            }
+                        },
+                        {
+                            "defaultConfiguration": {
+                                "level": "error"
+                            },
+                            "fullDescription": {
+                                "markdown": "primitive-tracking probe (int)",
+                                "text": "primitive-tracking probe (int)"
+                            },
+                            "id": ":value-kind-int",
+                            "name": ":value-kind-int",
+                            "properties": {
+                                "tags": []
+                            },
+                            "shortDescription": {
+                                "text": "OpenTaint Finding: :value-kind-int"
+                            }
+                        },
+                        {
+                            "defaultConfiguration": {
+                                "level": "error"
+                            },
+                            "fullDescription": {
+                                "markdown": "primitive-tracking probe (string)",
+                                "text": "primitive-tracking probe (string)"
+                            },
+                            "id": ":value-kind-string",
+                            "name": ":value-kind-string",
+                            "properties": {
+                                "tags": []
+                            },
+                            "shortDescription": {
+                                "text": "OpenTaint Finding: :value-kind-string"
+                            }
+                        }
+                    ],
+                    "semanticVersion": "latest",
+                    "version": "latest"
+                }
+            },
+            "results": [
+                {
+                    "codeFlows": [
+                        {
+                            "threadFlows": [
+                                {
+                                    "locations": [
+                                        {
+                                            "executionOrder": 0,
+                                            "kinds": [
+                                                "taint"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "probe.PrimitiveTrackingProbe#runInt():0:(%0 = probe.PrimitiveTrackingProbe.int_src())",
+                                                        "fullyQualifiedName": "probe.PrimitiveTrackingProbe#runInt"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "Call to \"int_src\" puts marked data to a local variable"
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "probe/PrimitiveTrackingProbe.java",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 46,
+                                                        "endLine": 21,
+                                                        "startColumn": 37,
+                                                        "startLine": 21
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 1,
+                                            "kinds": [
+                                                "taint"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "probe.PrimitiveTrackingProbe#runInt():1:(probe.PrimitiveTrackingProbe.int_sink(%0))",
+                                                        "fullyQualifiedName": "probe.PrimitiveTrackingProbe#runInt"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "Primitive-tracking probe (int)"
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "probe/PrimitiveTrackingProbe.java",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 47,
+                                                        "endLine": 21,
+                                                        "startColumn": 28,
+                                                        "startLine": 21
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ],
+                    "level": "error",
+                    "locations": [
+                        {
+                            "logicalLocations": [
+                                {
+                                    "decoratedName": "probe.PrimitiveTrackingProbe#runInt():1:(probe.PrimitiveTrackingProbe.int_sink(%0))",
+                                    "fullyQualifiedName": "probe.PrimitiveTrackingProbe#runInt"
+                                }
+                            ],
+                            "physicalLocation": {
+                                "artifactLocation": {
+                                    "uri": "probe/PrimitiveTrackingProbe.java",
+                                    "uriBaseId": "%SRCROOT%"
+                                },
+                                "region": {
+                                    "endColumn": 47,
+                                    "endLine": 21,
+                                    "startColumn": 28,
+                                    "startLine": 21
+                                }
+                            }
+                        }
+                    ],
+                    "message": {
+                        "text": "primitive-tracking probe (int)"
+                    },
+                    "ruleId": ":value-kind-int"
+                },
+                {
+                    "codeFlows": [
+                        {
+                            "threadFlows": [
+                                {
+                                    "locations": [
+                                        {
+                                            "executionOrder": 0,
+                                            "kinds": [
+                                                "taint"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "probe.PrimitiveTrackingProbe#runObject():0:(%0 = probe.PrimitiveTrackingProbe.object_src())",
+                                                        "fullyQualifiedName": "probe.PrimitiveTrackingProbe#runObject"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "Call to \"object_src\" puts marked data to a local variable"
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "probe/PrimitiveTrackingProbe.java",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 55,
+                                                        "endLine": 14,
+                                                        "startColumn": 43,
+                                                        "startLine": 14
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 1,
+                                            "kinds": [
+                                                "taint"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "probe.PrimitiveTrackingProbe#runObject():1:(probe.PrimitiveTrackingProbe.object_sink(%0))",
+                                                        "fullyQualifiedName": "probe.PrimitiveTrackingProbe#runObject"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "Primitive-tracking probe (object)"
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "probe/PrimitiveTrackingProbe.java",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 56,
+                                                        "endLine": 14,
+                                                        "startColumn": 31,
+                                                        "startLine": 14
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ],
+                    "level": "error",
+                    "locations": [
+                        {
+                            "logicalLocations": [
+                                {
+                                    "decoratedName": "probe.PrimitiveTrackingProbe#runObject():1:(probe.PrimitiveTrackingProbe.object_sink(%0))",
+                                    "fullyQualifiedName": "probe.PrimitiveTrackingProbe#runObject"
+                                }
+                            ],
+                            "physicalLocation": {
+                                "artifactLocation": {
+                                    "uri": "probe/PrimitiveTrackingProbe.java",
+                                    "uriBaseId": "%SRCROOT%"
+                                },
+                                "region": {
+                                    "endColumn": 56,
+                                    "endLine": 14,
+                                    "startColumn": 31,
+                                    "startLine": 14
+                                }
+                            }
+                        }
+                    ],
+                    "message": {
+                        "text": "primitive-tracking probe (object)"
+                    },
+                    "ruleId": ":value-kind-object"
+                },
+                {
+                    "codeFlows": [
+                        {
+                            "threadFlows": [
+                                {
+                                    "locations": [
+                                        {
+                                            "executionOrder": 0,
+                                            "kinds": [
+                                                "taint"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "probe.PrimitiveTrackingProbe#runString():0:(%0 = probe.PrimitiveTrackingProbe.string_src())",
+                                                        "fullyQualifiedName": "probe.PrimitiveTrackingProbe#runString"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "Call to \"string_src\" puts marked data to a local variable"
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "probe/PrimitiveTrackingProbe.java",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 55,
+                                                        "endLine": 7,
+                                                        "startColumn": 43,
+                                                        "startLine": 7
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 1,
+                                            "kinds": [
+                                                "taint"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "probe.PrimitiveTrackingProbe#runString():1:(probe.PrimitiveTrackingProbe.string_sink(%0))",
+                                                        "fullyQualifiedName": "probe.PrimitiveTrackingProbe#runString"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "Primitive-tracking probe (string)"
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "probe/PrimitiveTrackingProbe.java",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 56,
+                                                        "endLine": 7,
+                                                        "startColumn": 31,
+                                                        "startLine": 7
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ],
+                    "level": "error",
+                    "locations": [
+                        {
+                            "logicalLocations": [
+                                {
+                                    "decoratedName": "probe.PrimitiveTrackingProbe#runString():1:(probe.PrimitiveTrackingProbe.string_sink(%0))",
+                                    "fullyQualifiedName": "probe.PrimitiveTrackingProbe#runString"
+                                }
+                            ],
+                            "physicalLocation": {
+                                "artifactLocation": {
+                                    "uri": "probe/PrimitiveTrackingProbe.java",
+                                    "uriBaseId": "%SRCROOT%"
+                                },
+                                "region": {
+                                    "endColumn": 56,
+                                    "endLine": 7,
+                                    "startColumn": 31,
+                                    "startLine": 7
+                                }
+                            }
+                        }
+                    ],
+                    "message": {
+                        "text": "primitive-tracking probe (string)"
+                    },
+                    "ruleId": ":value-kind-string"
+                },
+                {
+                    "codeFlows": [
+                        {
+                            "threadFlows": [
+                                {
+                                    "locations": [
+                                        {
+                                            "executionOrder": 0,
+                                            "kinds": [
+                                                "taint"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "probe.PrimitiveTrackingProbe#runBoxed():0:(%0 = probe.PrimitiveTrackingProbe.boxed_src())",
+                                                        "fullyQualifiedName": "probe.PrimitiveTrackingProbe#runBoxed"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "Call to \"boxed_src\" puts marked data to a local variable"
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "probe/PrimitiveTrackingProbe.java",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 52,
+                                                        "endLine": 28,
+                                                        "startColumn": 41,
+                                                        "startLine": 28
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 1,
+                                            "kinds": [
+                                                "taint"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "probe.PrimitiveTrackingProbe#runBoxed():1:(probe.PrimitiveTrackingProbe.boxed_sink(%0))",
+                                                        "fullyQualifiedName": "probe.PrimitiveTrackingProbe#runBoxed"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "Primitive-tracking probe (boxed)"
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "probe/PrimitiveTrackingProbe.java",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 53,
+                                                        "endLine": 28,
+                                                        "startColumn": 30,
+                                                        "startLine": 28
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ],
+                    "level": "error",
+                    "locations": [
+                        {
+                            "logicalLocations": [
+                                {
+                                    "decoratedName": "probe.PrimitiveTrackingProbe#runBoxed():1:(probe.PrimitiveTrackingProbe.boxed_sink(%0))",
+                                    "fullyQualifiedName": "probe.PrimitiveTrackingProbe#runBoxed"
+                                }
+                            ],
+                            "physicalLocation": {
+                                "artifactLocation": {
+                                    "uri": "probe/PrimitiveTrackingProbe.java",
+                                    "uriBaseId": "%SRCROOT%"
+                                },
+                                "region": {
+                                    "endColumn": 53,
+                                    "endLine": 28,
+                                    "startColumn": 30,
+                                    "startLine": 28
+                                }
+                            }
+                        }
+                    ],
+                    "message": {
+                        "text": "primitive-tracking probe (boxed)"
+                    },
+                    "ruleId": ":value-kind-boxed"
+                }
+            ]
+        }
+    ]
+}

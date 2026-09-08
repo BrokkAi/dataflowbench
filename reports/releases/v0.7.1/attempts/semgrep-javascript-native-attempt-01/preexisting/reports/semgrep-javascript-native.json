@@ -1,0 +1,218 @@
+{
+  "adapter_version": "0.1.0",
+  "cold_or_warm": "cold",
+  "configuration_hash": "b967e681ec7440927e1b11617873ce746c12ef7beca50b90c714a57fa851c4de",
+  "ended_at_unix_seconds": 1788508166,
+  "fixture_revision": "sha256:9df209ed3d7723a3ee33f2b289cf2afe34a3add781bdf2a2ac445de42b8d0151",
+  "results": [
+    {
+      "case_id": "dfb-taint-javascript-native-entrypoint-negative",
+      "diagnostics": [
+        "tool-native activation of dfb-template-native-entrypoint (category E — framework entry points) is unsupported for 1.176.0 over JavaScript by the activation partition (docs/native-profile.md#partition-summary, as amended): the snapshot's universal entry convention is a function parameter, not the platform's: `process.argv` appears in no vendored rule, nor anywhere in the upstream `javascript/` or `typescript/` trees at the pinned commit (Amendments A6/A27)"
+      ],
+      "duration_ms": 0,
+      "outcome": "unsupported",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/semgrep-javascript-native/dfb-taint-javascript-native-entrypoint-negative-unsupported.json",
+      "sink_anchors": [
+        "DFB-SINK: native-entrypoint-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: native-entrypoint-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-javascript-native-entrypoint-positive",
+      "diagnostics": [
+        "tool-native activation of dfb-template-native-entrypoint (category E — framework entry points) is unsupported for 1.176.0 over JavaScript by the activation partition (docs/native-profile.md#partition-summary, as amended): the snapshot's universal entry convention is a function parameter, not the platform's: `process.argv` appears in no vendored rule, nor anywhere in the upstream `javascript/` or `typescript/` trees at the pinned commit (Amendments A6/A27)"
+      ],
+      "duration_ms": 0,
+      "outcome": "unsupported",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/semgrep-javascript-native/dfb-taint-javascript-native-entrypoint-positive-unsupported.json",
+      "sink_anchors": [
+        "DFB-SINK: native-entrypoint-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: native-entrypoint-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-javascript-native-persistence-negative",
+      "diagnostics": [
+        "tool-native activation of dfb-template-native-persistence (category B — persistence boundaries) is unsupported for 1.176.0 over JavaScript by the activation partition (docs/native-profile.md#partition-summary, as amended): no rule links a write to `process.env.<NAME>` to a read of it, and the pinned CE engine has no interprocedural taint (`--pro-intrafile` requires Pro) (Amendment A6, execution-confirmed by A27's zero-finding field run)"
+      ],
+      "duration_ms": 0,
+      "outcome": "unsupported",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/semgrep-javascript-native/dfb-taint-javascript-native-persistence-negative-unsupported.json",
+      "sink_anchors": [
+        "DFB-SINK: native-persistence-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: native-persistence-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-javascript-native-persistence-positive",
+      "diagnostics": [
+        "tool-native activation of dfb-template-native-persistence (category B — persistence boundaries) is unsupported for 1.176.0 over JavaScript by the activation partition (docs/native-profile.md#partition-summary, as amended): no rule links a write to `process.env.<NAME>` to a read of it, and the pinned CE engine has no interprocedural taint (`--pro-intrafile` requires Pro) (Amendment A6, execution-confirmed by A27's zero-finding field run)"
+      ],
+      "duration_ms": 0,
+      "outcome": "unsupported",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/semgrep-javascript-native/dfb-taint-javascript-native-persistence-positive-unsupported.json",
+      "sink_anchors": [
+        "DFB-SINK: native-persistence-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: native-persistence-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-javascript-native-propagator-negative",
+      "diagnostics": [
+        "tool-native activation of dfb-template-native-propagator (category P — declared propagators) is unsupported for 1.176.0 over JavaScript by the activation partition (docs/native-profile.md#partition-summary, as amended): no shipped platform source for the propagator to carry: `audit/path-traversal/path-join-resolve-traversal.yaml` binds the `path.join` hop but sources from a function parameter, and no rule binds `process.env` (Amendment A6, execution-confirmed by A27's zero-finding field run)"
+      ],
+      "duration_ms": 0,
+      "outcome": "unsupported",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/semgrep-javascript-native/dfb-taint-javascript-native-propagator-negative-unsupported.json",
+      "sink_anchors": [
+        "DFB-SINK: native-propagator-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: native-propagator-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-javascript-native-propagator-positive",
+      "diagnostics": [
+        "tool-native activation of dfb-template-native-propagator (category P — declared propagators) is unsupported for 1.176.0 over JavaScript by the activation partition (docs/native-profile.md#partition-summary, as amended): no shipped platform source for the propagator to carry: `audit/path-traversal/path-join-resolve-traversal.yaml` binds the `path.join` hop but sources from a function parameter, and no rule binds `process.env` (Amendment A6, execution-confirmed by A27's zero-finding field run)"
+      ],
+      "duration_ms": 0,
+      "outcome": "unsupported",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/semgrep-javascript-native/dfb-taint-javascript-native-propagator-positive-unsupported.json",
+      "sink_anchors": [
+        "DFB-SINK: native-propagator-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: native-propagator-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-javascript-native-sanitizer-negative",
+      "diagnostics": [
+        "tool-native activation of dfb-template-native-sanitizer (category Z — declared sanitizers) is unsupported for 1.176.0 over JavaScript by the activation partition (docs/native-profile.md#partition-summary, as amended): no rule reaches the cell to credit or refuse the idiom: `encodeURIComponent` occurs nowhere in the snapshot, and sanitizer credit in the official rules is per-rule (Amendment A6, execution-confirmed by A27's zero-finding field run)"
+      ],
+      "duration_ms": 0,
+      "outcome": "unsupported",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/semgrep-javascript-native/dfb-taint-javascript-native-sanitizer-negative-unsupported.json",
+      "sink_anchors": [
+        "DFB-SINK: native-sanitizer-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: native-sanitizer-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-javascript-native-sanitizer-positive",
+      "diagnostics": [
+        "tool-native activation of dfb-template-native-sanitizer (category Z — declared sanitizers) is unsupported for 1.176.0 over JavaScript by the activation partition (docs/native-profile.md#partition-summary, as amended): no rule reaches the cell to credit or refuse the idiom: `encodeURIComponent` occurs nowhere in the snapshot, and sanitizer credit in the official rules is per-rule (Amendment A6, execution-confirmed by A27's zero-finding field run)"
+      ],
+      "duration_ms": 0,
+      "outcome": "unsupported",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/semgrep-javascript-native/dfb-taint-javascript-native-sanitizer-positive-unsupported.json",
+      "sink_anchors": [
+        "DFB-SINK: native-sanitizer-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: native-sanitizer-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-javascript-native-source-sink-negative",
+      "diagnostics": [
+        "tool-native activation of dfb-template-native-source-sink (category S — declared sources and sinks) is unsupported for 1.176.0 over JavaScript by the activation partition (docs/native-profile.md#partition-summary, as amended): no shipped platform-source model: the snapshot's two rules binding `child_process.execSync` (`detect-child-process.yaml`, `audit/dangerous-spawn-shell.yaml`) source only from an enclosing function's parameter, and `process.env` occurs in no rule of the snapshot — nor anywhere in the upstream `javascript/` or `typescript/` trees at the pinned commit — and the pinned engine over every fixture with the snapshot emits zero findings (Amendments A6/A27, reports/raw/amendment-a27-semgrep-jsjava-native/)"
+      ],
+      "duration_ms": 0,
+      "outcome": "unsupported",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/semgrep-javascript-native/dfb-taint-javascript-native-source-sink-negative-unsupported.json",
+      "sink_anchors": [
+        "DFB-SINK: native-source-sink-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: native-source-sink-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-javascript-native-source-sink-positive",
+      "diagnostics": [
+        "tool-native activation of dfb-template-native-source-sink (category S — declared sources and sinks) is unsupported for 1.176.0 over JavaScript by the activation partition (docs/native-profile.md#partition-summary, as amended): no shipped platform-source model: the snapshot's two rules binding `child_process.execSync` (`detect-child-process.yaml`, `audit/dangerous-spawn-shell.yaml`) source only from an enclosing function's parameter, and `process.env` occurs in no rule of the snapshot — nor anywhere in the upstream `javascript/` or `typescript/` trees at the pinned commit — and the pinned engine over every fixture with the snapshot emits zero findings (Amendments A6/A27, reports/raw/amendment-a27-semgrep-jsjava-native/)"
+      ],
+      "duration_ms": 0,
+      "outcome": "unsupported",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/semgrep-javascript-native/dfb-taint-javascript-native-source-sink-positive-unsupported.json",
+      "sink_anchors": [
+        "DFB-SINK: native-source-sink-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: native-source-sink-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-javascript-native-summary-negative",
+      "diagnostics": [
+        "tool-native activation of dfb-template-native-summary (category O — opaque procedure summaries) is unsupported for 1.176.0 over JavaScript by the activation partition (docs/native-profile.md#partition-summary, as amended): no shipped platform source, and arg-to-return summary semantics are outside CE's propagator vocabulary on the pinned version, established by execution in docs/modeling-matrix.md#semgrep-ce--11760---oss-only (Amendment A6, execution-confirmed by A27)"
+      ],
+      "duration_ms": 0,
+      "outcome": "unsupported",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/semgrep-javascript-native/dfb-taint-javascript-native-summary-negative-unsupported.json",
+      "sink_anchors": [
+        "DFB-SINK: native-summary-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: native-summary-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-javascript-native-summary-positive",
+      "diagnostics": [
+        "tool-native activation of dfb-template-native-summary (category O — opaque procedure summaries) is unsupported for 1.176.0 over JavaScript by the activation partition (docs/native-profile.md#partition-summary, as amended): no shipped platform source, and arg-to-return summary semantics are outside CE's propagator vocabulary on the pinned version, established by execution in docs/modeling-matrix.md#semgrep-ce--11760---oss-only (Amendment A6, execution-confirmed by A27)"
+      ],
+      "duration_ms": 0,
+      "outcome": "unsupported",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/semgrep-javascript-native/dfb-taint-javascript-native-summary-positive-unsupported.json",
+      "sink_anchors": [
+        "DFB-SINK: native-summary-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: native-summary-input"
+      ],
+      "witness_checkpoints": []
+    }
+  ],
+  "schema_version": 1,
+  "started_at_unix_seconds": 1788508166,
+  "tool": "semgrep",
+  "tool_build_identity": "semgrep-oss:1.176.0 — 1.176.0 over the pinned snapshot vendored from https://github.com/semgrep/semgrep-rules into adapters/semgrep/native/javascript",
+  "tool_version": "1.176.0"
+}

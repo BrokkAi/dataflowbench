@@ -1,0 +1,19 @@
+rules:
+  - id: probe-opentaint-modeling
+    severity: ERROR
+    message: OpenTaint modeling-surface probe
+    languages: [java]
+    mode: taint
+    options:
+      primitive-tracking: true
+    pattern-sources:
+      - patterns:
+          - pattern-inside: |
+              void onRequest(String $DFBP) { ... }
+          - pattern: $DFBP
+    pattern-sinks:
+      - patterns:
+          - pattern-either:
+              - pattern: dfb_sink($DFBVAL);
+              - pattern: $DFBSINKRECV.dfb_sink($DFBVAL);
+          - focus-metavariable: $DFBVAL

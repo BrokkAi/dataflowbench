@@ -1,0 +1,796 @@
+{
+  "id": "infer-c-kernel-attempt-01",
+  "planned_id": "infer-c-kernel",
+  "argv": [
+    "/Users/dave/.codex/worktrees/653a/dataflowbench/target/debug/dataflowbench",
+    "--population",
+    "v0.7.0",
+    "run-infer-c-kernel",
+    "--infer",
+    "/Users/dave/.cache/dataflowbench-tools/infer-osx-arm64-v1.3.0/lib/infer/infer/bin/infer"
+  ],
+  "cwd": "/Users/dave/.codex/worktrees/653a/dataflowbench",
+  "input_commits": {
+    "corpus": "0c82e8093ff899d5ee72809a82c951ab76b5bb76",
+    "publication_infrastructure": "53050fa64628997e866303bcd5299d74f1e3e45d",
+    "pins": "c0899dab0d2c043dcc5b1aa6a1aad0e49f482fea"
+  },
+  "execution_revision": "4ec8cb4bc7552246dc75b1bc39a18340432880a3",
+  "population": "v0.7.0",
+  "fixture_revision": "sha256:9df209ed3d7723a3ee33f2b289cf2afe34a3add781bdf2a2ac445de42b8d0151",
+  "plan": {
+    "path": "reports/releases/v0.7.1/plan.json",
+    "sha256": "cb948f4a5cff80b95d3dcc755ab8249d87449e43f70e6eb80a456789faf12f26"
+  },
+  "identities": {
+    "path": "reports/releases/v0.7.1/identities.json",
+    "sha256": "0b8b1bb07d1df1ec8687613bb355f5f6021a2c664d3488dc3bc763553ce1a83c"
+  },
+  "execution_access": "require_escalated",
+  "start_utc": "2026-09-07T20:12:59.933008+00:00",
+  "host": {
+    "platform": "macOS-26.6.2-arm64-arm-64bit",
+    "cpu_count": 10,
+    "load_before": [
+      6.30908203125,
+      7.9970703125,
+      6.77392578125
+    ],
+    "load_after": [
+      5.43408203125,
+      7.71923828125,
+      6.69580078125
+    ]
+  },
+  "settle_observations": [],
+  "cache_posture": "isolated case workspaces; local distributions and prefetched CodeQL packs; OS page cache uncontrolled; warm only for explicit warm series",
+  "supersedes": null,
+  "exit_code": 0,
+  "end_utc": "2026-09-07T20:13:18.991796+00:00",
+  "stdout": {
+    "path": "reports/releases/v0.7.1/attempts/infer-c-kernel-attempt-01/stdout.txt",
+    "sha256": "444a2704046dadb2589e7b8866afcc765bc72607d1d72113334a4b54d02d2d61"
+  },
+  "stderr": {
+    "path": "reports/releases/v0.7.1/attempts/infer-c-kernel-attempt-01/stderr.txt",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "outputs": [
+    {
+      "original_path": "reports/infer-c-kernel.json",
+      "path": "reports/releases/v0.7.1/attempts/infer-c-kernel-attempt-01/outputs/reports/infer-c-kernel.json",
+      "sha256": "6486e611e6b766c952ed8eaf3dbad1d8d3493af5784d9d6bc1aba0f78feae5b4"
+    },
+    {
+      "original_path": "reports/raw/infer-c-kernel/dfb-taint-c-alias-propagation-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/infer-c-kernel-attempt-01/outputs/reports/raw/infer-c-kernel/dfb-taint-c-alias-propagation-negative.json",
+      "sha256": "49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811"
+    },
+    {
+      "original_path": "reports/raw/infer-c-kernel/dfb-taint-c-return-relay-two-hop-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/infer-c-kernel-attempt-01/outputs/reports/raw/infer-c-kernel/dfb-taint-c-return-relay-two-hop-positive-timing.json",
+      "sha256": "efdfcebd88bcd4ac542e811ea962cc2ce4ad71ce0563b3b44114249561c1f89a"
+    },
+    {
+      "original_path": "reports/raw/infer-c-kernel/dfb-taint-c-call-context-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/infer-c-kernel-attempt-01/outputs/reports/raw/infer-c-kernel/dfb-taint-c-call-context-negative-timing.json",
+      "sha256": "4049d88bf620d0929ef224dd21d248cde86727966b71552ab1bef598d90d8c22"
+    },
+    {
+      "original_path": "reports/raw/infer-c-kernel/dfb-taint-c-alias-propagation-negative-taint-config.json",
+      "path": "reports/releases/v0.7.1/attempts/infer-c-kernel-attempt-01/outputs/reports/raw/infer-c-kernel/dfb-taint-c-alias-propagation-negative-taint-config.json",
+      "sha256": "fa5348e3a698b6933f4305a7fe78d3abbbbfff2e42ee2420b938496595ad4618"
+    },
+    {
+      "original_path": "reports/raw/infer-c-kernel/dfb-taint-c-dispatch-table-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/infer-c-kernel-attempt-01/outputs/reports/raw/infer-c-kernel/dfb-taint-c-dispatch-table-negative.json",
+      "sha256": "14f55897a26873086305b8a663e55f5bb445610c1b5b357936390f997fe20289"
+    },
+    {
+      "original_path": "reports/raw/infer-c-kernel/dfb-taint-c-call-context-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/infer-c-kernel-attempt-01/outputs/reports/raw/infer-c-kernel/dfb-taint-c-call-context-positive-timing.json",
+      "sha256": "f75643d08e6715de1d8b4c1922f56f19753caeb4344e514418e6a50a093e3d4f"
+    },
+    {
+      "original_path": "reports/raw/infer-c-kernel/dfb-taint-c-direct-positive-taint-config.json",
+      "path": "reports/releases/v0.7.1/attempts/infer-c-kernel-attempt-01/outputs/reports/raw/infer-c-kernel/dfb-taint-c-direct-positive-taint-config.json",
+      "sha256": "fa5348e3a698b6933f4305a7fe78d3abbbbfff2e42ee2420b938496595ad4618"
+    },
+    {
+      "original_path": "reports/raw/infer-c-kernel/dfb-taint-c-element-object-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/infer-c-kernel-attempt-01/outputs/reports/raw/infer-c-kernel/dfb-taint-c-element-object-negative.json",
+      "sha256": "49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811"
+    },
+    {
+      "original_path": "reports/raw/infer-c-kernel/dfb-taint-c-expression-positive-taint-config.json",
+      "path": "reports/releases/v0.7.1/attempts/infer-c-kernel-attempt-01/outputs/reports/raw/infer-c-kernel/dfb-taint-c-expression-positive-taint-config.json",
+      "sha256": "fa5348e3a698b6933f4305a7fe78d3abbbbfff2e42ee2420b938496595ad4618"
+    },
+    {
+      "original_path": "reports/raw/infer-c-kernel/dfb-taint-c-dispatch-table-positive-taint-config.json",
+      "path": "reports/releases/v0.7.1/attempts/infer-c-kernel-attempt-01/outputs/reports/raw/infer-c-kernel/dfb-taint-c-dispatch-table-positive-taint-config.json",
+      "sha256": "fa5348e3a698b6933f4305a7fe78d3abbbbfff2e42ee2420b938496595ad4618"
+    },
+    {
+      "original_path": "reports/raw/infer-c-kernel/dfb-taint-c-recursive-carry-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/infer-c-kernel-attempt-01/outputs/reports/raw/infer-c-kernel/dfb-taint-c-recursive-carry-positive.json",
+      "sha256": "49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811"
+    },
+    {
+      "original_path": "reports/raw/infer-c-kernel/dfb-taint-c-return-relay-two-hop-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/infer-c-kernel-attempt-01/outputs/reports/raw/infer-c-kernel/dfb-taint-c-return-relay-two-hop-negative-timing.json",
+      "sha256": "2d34b7e61a3f85c0a81ccf3f9245771db40c55adb15ad18b6ae542d824c5f2d2"
+    },
+    {
+      "original_path": "reports/raw/infer-c-kernel/dfb-taint-c-call-context-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/infer-c-kernel-attempt-01/outputs/reports/raw/infer-c-kernel/dfb-taint-c-call-context-negative.json",
+      "sha256": "49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811"
+    },
+    {
+      "original_path": "reports/raw/infer-c-kernel/dfb-taint-c-element-object-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/infer-c-kernel-attempt-01/outputs/reports/raw/infer-c-kernel/dfb-taint-c-element-object-positive.json",
+      "sha256": "abf8c42641ed2b138231bdc8dd6d319b6fd387191778e17398cbf19e41667672"
+    },
+    {
+      "original_path": "reports/raw/infer-c-kernel/dfb-taint-c-local-chain-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/infer-c-kernel-attempt-01/outputs/reports/raw/infer-c-kernel/dfb-taint-c-local-chain-negative-timing.json",
+      "sha256": "28c40279c3cbbcf23983f65ea6145553087bfeed0a358c1c07511ef0220b56b2"
+    },
+    {
+      "original_path": "reports/raw/infer-c-kernel/dfb-taint-c-recursive-carry-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/infer-c-kernel-attempt-01/outputs/reports/raw/infer-c-kernel/dfb-taint-c-recursive-carry-negative.json",
+      "sha256": "49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811"
+    },
+    {
+      "original_path": "reports/raw/infer-c-kernel/dfb-taint-c-deep-relay-chain-negative-taint-config.json",
+      "path": "reports/releases/v0.7.1/attempts/infer-c-kernel-attempt-01/outputs/reports/raw/infer-c-kernel/dfb-taint-c-deep-relay-chain-negative-taint-config.json",
+      "sha256": "fa5348e3a698b6933f4305a7fe78d3abbbbfff2e42ee2420b938496595ad4618"
+    },
+    {
+      "original_path": "reports/raw/infer-c-kernel/dfb-taint-c-context-pair-depth2-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/infer-c-kernel-attempt-01/outputs/reports/raw/infer-c-kernel/dfb-taint-c-context-pair-depth2-positive-timing.json",
+      "sha256": "b2d2822ef2a2cb7bc6e4c0dbd662740d65c9dd77dc91ded2c8be0be1acfc76f6"
+    },
+    {
+      "original_path": "reports/raw/infer-c-kernel/dfb-taint-c-callback-registration-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/infer-c-kernel-attempt-01/outputs/reports/raw/infer-c-kernel/dfb-taint-c-callback-registration-negative-timing.json",
+      "sha256": "877594b08f374afe5934e709902ff9a3f5ad9741e35ed4c380cf0f281da07799"
+    },
+    {
+      "original_path": "reports/raw/infer-c-kernel/dfb-taint-c-nested-access-path-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/infer-c-kernel-attempt-01/outputs/reports/raw/infer-c-kernel/dfb-taint-c-nested-access-path-negative-timing.json",
+      "sha256": "cae7daa6c23d2fdb9d4761aa29a33739d53667ccd4a41ef42c837f8318b04c3e"
+    },
+    {
+      "original_path": "reports/raw/infer-c-kernel/dfb-taint-c-return-relay-two-hop-negative-taint-config.json",
+      "path": "reports/releases/v0.7.1/attempts/infer-c-kernel-attempt-01/outputs/reports/raw/infer-c-kernel/dfb-taint-c-return-relay-two-hop-negative-taint-config.json",
+      "sha256": "fa5348e3a698b6933f4305a7fe78d3abbbbfff2e42ee2420b938496595ad4618"
+    },
+    {
+      "original_path": "reports/raw/infer-c-kernel/dfb-taint-c-call-context-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/infer-c-kernel-attempt-01/outputs/reports/raw/infer-c-kernel/dfb-taint-c-call-context-positive.json",
+      "sha256": "cfb09d2331e0ac041a8e47ade970587bdecda2874bfaf0f2ce2259dc8e0ca950"
+    },
+    {
+      "original_path": "reports/raw/infer-c-kernel/dfb-taint-c-alias-propagation-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/infer-c-kernel-attempt-01/outputs/reports/raw/infer-c-kernel/dfb-taint-c-alias-propagation-positive.json",
+      "sha256": "736d6511eb6b1c0ac3604c732084a5a141670acbd14351200f13a38d921eeb27"
+    },
+    {
+      "original_path": "reports/raw/infer-c-kernel/dfb-taint-c-context-pair-depth2-negative-taint-config.json",
+      "path": "reports/releases/v0.7.1/attempts/infer-c-kernel-attempt-01/outputs/reports/raw/infer-c-kernel/dfb-taint-c-context-pair-depth2-negative-taint-config.json",
+      "sha256": "fa5348e3a698b6933f4305a7fe78d3abbbbfff2e42ee2420b938496595ad4618"
+    },
+    {
+      "original_path": "reports/raw/infer-c-kernel/dfb-taint-c-local-overwrite-negative-taint-config.json",
+      "path": "reports/releases/v0.7.1/attempts/infer-c-kernel-attempt-01/outputs/reports/raw/infer-c-kernel/dfb-taint-c-local-overwrite-negative-taint-config.json",
+      "sha256": "fa5348e3a698b6933f4305a7fe78d3abbbbfff2e42ee2420b938496595ad4618"
+    },
+    {
+      "original_path": "reports/raw/infer-c-kernel/dfb-taint-c-local-chain-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/infer-c-kernel-attempt-01/outputs/reports/raw/infer-c-kernel/dfb-taint-c-local-chain-positive-timing.json",
+      "sha256": "76ea30023af561f8fe444303b61075758fddaafbde15a49545ce8071ba1c2c23"
+    },
+    {
+      "original_path": "reports/raw/infer-c-kernel/dfb-taint-c-infeasible-branch-negative-taint-config.json",
+      "path": "reports/releases/v0.7.1/attempts/infer-c-kernel-attempt-01/outputs/reports/raw/infer-c-kernel/dfb-taint-c-infeasible-branch-negative-taint-config.json",
+      "sha256": "fa5348e3a698b6933f4305a7fe78d3abbbbfff2e42ee2420b938496595ad4618"
+    },
+    {
+      "original_path": "reports/raw/infer-c-kernel/dfb-taint-c-element-object-negative-taint-config.json",
+      "path": "reports/releases/v0.7.1/attempts/infer-c-kernel-attempt-01/outputs/reports/raw/infer-c-kernel/dfb-taint-c-element-object-negative-taint-config.json",
+      "sha256": "fa5348e3a698b6933f4305a7fe78d3abbbbfff2e42ee2420b938496595ad4618"
+    },
+    {
+      "original_path": "reports/raw/infer-c-kernel/dfb-taint-c-nested-access-path-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/infer-c-kernel-attempt-01/outputs/reports/raw/infer-c-kernel/dfb-taint-c-nested-access-path-positive-timing.json",
+      "sha256": "39d80f38e6363ddb08d4b77eb794e784e188c9ba9a26a16065b12b2111c6e9d2"
+    },
+    {
+      "original_path": "reports/raw/infer-c-kernel/dfb-taint-c-nested-access-path-positive-taint-config.json",
+      "path": "reports/releases/v0.7.1/attempts/infer-c-kernel-attempt-01/outputs/reports/raw/infer-c-kernel/dfb-taint-c-nested-access-path-positive-taint-config.json",
+      "sha256": "fa5348e3a698b6933f4305a7fe78d3abbbbfff2e42ee2420b938496595ad4618"
+    },
+    {
+      "original_path": "reports/raw/infer-c-kernel/dfb-taint-c-callback-registration-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/infer-c-kernel-attempt-01/outputs/reports/raw/infer-c-kernel/dfb-taint-c-callback-registration-positive-timing.json",
+      "sha256": "bc7e981352e44869e278d596717890949f4206ad2f3b6b5f3deff21853fed043"
+    },
+    {
+      "original_path": "reports/raw/infer-c-kernel/dfb-taint-c-context-pair-depth2-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/infer-c-kernel-attempt-01/outputs/reports/raw/infer-c-kernel/dfb-taint-c-context-pair-depth2-negative-timing.json",
+      "sha256": "188431a1b7de28774669202d940ea19f182a03522b71935923c6106cdcd9edac"
+    },
+    {
+      "original_path": "reports/raw/infer-c-kernel/dfb-taint-c-dispatch-table-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/infer-c-kernel-attempt-01/outputs/reports/raw/infer-c-kernel/dfb-taint-c-dispatch-table-positive.json",
+      "sha256": "6eea20fdb5a69dd786bdddc3b5d132792f58feeeaad48e5480c62987dd7629a4"
+    },
+    {
+      "original_path": "reports/raw/infer-c-kernel/dfb-taint-c-call-context-negative-taint-config.json",
+      "path": "reports/releases/v0.7.1/attempts/infer-c-kernel-attempt-01/outputs/reports/raw/infer-c-kernel/dfb-taint-c-call-context-negative-taint-config.json",
+      "sha256": "fa5348e3a698b6933f4305a7fe78d3abbbbfff2e42ee2420b938496595ad4618"
+    },
+    {
+      "original_path": "reports/raw/infer-c-kernel/dfb-taint-c-deep-relay-chain-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/infer-c-kernel-attempt-01/outputs/reports/raw/infer-c-kernel/dfb-taint-c-deep-relay-chain-negative-timing.json",
+      "sha256": "0f28caadab3282992ab13741c05da2c552bc9455187d7996e351d1854ef2ae0c"
+    },
+    {
+      "original_path": "reports/raw/infer-c-kernel/dfb-taint-c-object-separation-negative-taint-config.json",
+      "path": "reports/releases/v0.7.1/attempts/infer-c-kernel-attempt-01/outputs/reports/raw/infer-c-kernel/dfb-taint-c-object-separation-negative-taint-config.json",
+      "sha256": "fa5348e3a698b6933f4305a7fe78d3abbbbfff2e42ee2420b938496595ad4618"
+    },
+    {
+      "original_path": "reports/raw/infer-c-kernel/dfb-taint-c-callback-registration-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/infer-c-kernel-attempt-01/outputs/reports/raw/infer-c-kernel/dfb-taint-c-callback-registration-positive.json",
+      "sha256": "49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811"
+    },
+    {
+      "original_path": "reports/raw/infer-c-kernel/dfb-taint-c-expression-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/infer-c-kernel-attempt-01/outputs/reports/raw/infer-c-kernel/dfb-taint-c-expression-positive-timing.json",
+      "sha256": "cf6e56ef7499750024f6e35ce81029803fcebd7b0fbd7587fe9ec10d27042a32"
+    },
+    {
+      "original_path": "reports/raw/infer-c-kernel/dfb-taint-c-map-iteration-positive-taint-config.json",
+      "path": "reports/releases/v0.7.1/attempts/infer-c-kernel-attempt-01/outputs/reports/raw/infer-c-kernel/dfb-taint-c-map-iteration-positive-taint-config.json",
+      "sha256": "fa5348e3a698b6933f4305a7fe78d3abbbbfff2e42ee2420b938496595ad4618"
+    },
+    {
+      "original_path": "reports/raw/infer-c-kernel/dfb-taint-c-same-object-field-positive-taint-config.json",
+      "path": "reports/releases/v0.7.1/attempts/infer-c-kernel-attempt-01/outputs/reports/raw/infer-c-kernel/dfb-taint-c-same-object-field-positive-taint-config.json",
+      "sha256": "fa5348e3a698b6933f4305a7fe78d3abbbbfff2e42ee2420b938496595ad4618"
+    },
+    {
+      "original_path": "reports/raw/infer-c-kernel/dfb-taint-c-deep-relay-chain-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/infer-c-kernel-attempt-01/outputs/reports/raw/infer-c-kernel/dfb-taint-c-deep-relay-chain-positive.json",
+      "sha256": "ec6dd5159ac352504cc2f079405146d30609392dfb01798fe60f45ebe8533170"
+    },
+    {
+      "original_path": "reports/raw/infer-c-kernel/run-environment.json",
+      "path": "reports/releases/v0.7.1/attempts/infer-c-kernel-attempt-01/outputs/reports/raw/infer-c-kernel/run-environment.json",
+      "sha256": "64cf93793898b7d5b044c3ffca6635bc2da8b82ec09188988c5a966c37b366dd"
+    },
+    {
+      "original_path": "reports/raw/infer-c-kernel/dfb-taint-c-deep-relay-chain-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/infer-c-kernel-attempt-01/outputs/reports/raw/infer-c-kernel/dfb-taint-c-deep-relay-chain-positive-timing.json",
+      "sha256": "786a8b257fe4e48418ad1837711c02719b6a6fe034fd58132ceece9c3c461c58"
+    },
+    {
+      "original_path": "reports/raw/infer-c-kernel/dfb-taint-c-return-relay-two-hop-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/infer-c-kernel-attempt-01/outputs/reports/raw/infer-c-kernel/dfb-taint-c-return-relay-two-hop-positive.json",
+      "sha256": "1e8e62447750b86062a437e50735168df521dc5e2f3de9e79b072266c9fddc04"
+    },
+    {
+      "original_path": "reports/raw/infer-c-kernel/dfb-taint-c-array-element-positive-taint-config.json",
+      "path": "reports/releases/v0.7.1/attempts/infer-c-kernel-attempt-01/outputs/reports/raw/infer-c-kernel/dfb-taint-c-array-element-positive-taint-config.json",
+      "sha256": "fa5348e3a698b6933f4305a7fe78d3abbbbfff2e42ee2420b938496595ad4618"
+    },
+    {
+      "original_path": "reports/raw/infer-c-kernel/dfb-taint-c-recursive-carry-positive-taint-config.json",
+      "path": "reports/releases/v0.7.1/attempts/infer-c-kernel-attempt-01/outputs/reports/raw/infer-c-kernel/dfb-taint-c-recursive-carry-positive-taint-config.json",
+      "sha256": "fa5348e3a698b6933f4305a7fe78d3abbbbfff2e42ee2420b938496595ad4618"
+    },
+    {
+      "original_path": "reports/raw/infer-c-kernel/dfb-taint-c-loop-carried-positive-taint-config.json",
+      "path": "reports/releases/v0.7.1/attempts/infer-c-kernel-attempt-01/outputs/reports/raw/infer-c-kernel/dfb-taint-c-loop-carried-positive-taint-config.json",
+      "sha256": "fa5348e3a698b6933f4305a7fe78d3abbbbfff2e42ee2420b938496595ad4618"
+    },
+    {
+      "original_path": "reports/raw/infer-c-kernel/dfb-taint-c-expression-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/infer-c-kernel-attempt-01/outputs/reports/raw/infer-c-kernel/dfb-taint-c-expression-negative-timing.json",
+      "sha256": "71396f4a235fd47fb93865e6dbc5b7930e32455b3e4bfab30d6874fd9ba51d39"
+    },
+    {
+      "original_path": "reports/raw/infer-c-kernel/dfb-taint-c-argument-position-positive-taint-config.json",
+      "path": "reports/releases/v0.7.1/attempts/infer-c-kernel-attempt-01/outputs/reports/raw/infer-c-kernel/dfb-taint-c-argument-position-positive-taint-config.json",
+      "sha256": "fa5348e3a698b6933f4305a7fe78d3abbbbfff2e42ee2420b938496595ad4618"
+    },
+    {
+      "original_path": "reports/raw/infer-c-kernel/dfb-taint-c-deep-relay-chain-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/infer-c-kernel-attempt-01/outputs/reports/raw/infer-c-kernel/dfb-taint-c-deep-relay-chain-negative.json",
+      "sha256": "49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811"
+    },
+    {
+      "original_path": "reports/raw/infer-c-kernel/dfb-taint-c-return-relay-two-hop-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/infer-c-kernel-attempt-01/outputs/reports/raw/infer-c-kernel/dfb-taint-c-return-relay-two-hop-negative.json",
+      "sha256": "49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811"
+    },
+    {
+      "original_path": "reports/raw/infer-c-kernel/dfb-taint-c-map-iteration-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/infer-c-kernel-attempt-01/outputs/reports/raw/infer-c-kernel/dfb-taint-c-map-iteration-positive-timing.json",
+      "sha256": "15eeac87d75a671b69610839e7cb79fd8e5dd2b3b0f9dd7a0a0270b783ed034a"
+    },
+    {
+      "original_path": "reports/raw/infer-c-kernel/dfb-taint-c-local-chain-positive-taint-config.json",
+      "path": "reports/releases/v0.7.1/attempts/infer-c-kernel-attempt-01/outputs/reports/raw/infer-c-kernel/dfb-taint-c-local-chain-positive-taint-config.json",
+      "sha256": "fa5348e3a698b6933f4305a7fe78d3abbbbfff2e42ee2420b938496595ad4618"
+    },
+    {
+      "original_path": "reports/raw/infer-c-kernel/dfb-taint-c-callback-registration-negative-taint-config.json",
+      "path": "reports/releases/v0.7.1/attempts/infer-c-kernel-attempt-01/outputs/reports/raw/infer-c-kernel/dfb-taint-c-callback-registration-negative-taint-config.json",
+      "sha256": "fa5348e3a698b6933f4305a7fe78d3abbbbfff2e42ee2420b938496595ad4618"
+    },
+    {
+      "original_path": "reports/raw/infer-c-kernel/dfb-taint-c-branch-join-negative-taint-config.json",
+      "path": "reports/releases/v0.7.1/attempts/infer-c-kernel-attempt-01/outputs/reports/raw/infer-c-kernel/dfb-taint-c-branch-join-negative-taint-config.json",
+      "sha256": "fa5348e3a698b6933f4305a7fe78d3abbbbfff2e42ee2420b938496595ad4618"
+    },
+    {
+      "original_path": "reports/raw/infer-c-kernel/dfb-taint-c-return-relay-one-hop-positive-taint-config.json",
+      "path": "reports/releases/v0.7.1/attempts/infer-c-kernel-attempt-01/outputs/reports/raw/infer-c-kernel/dfb-taint-c-return-relay-one-hop-positive-taint-config.json",
+      "sha256": "fa5348e3a698b6933f4305a7fe78d3abbbbfff2e42ee2420b938496595ad4618"
+    },
+    {
+      "original_path": "reports/raw/infer-c-kernel/dfb-taint-c-callback-registration-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/infer-c-kernel-attempt-01/outputs/reports/raw/infer-c-kernel/dfb-taint-c-callback-registration-negative.json",
+      "sha256": "49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811"
+    },
+    {
+      "original_path": "reports/raw/infer-c-kernel/dfb-taint-c-function-field-positive-taint-config.json",
+      "path": "reports/releases/v0.7.1/attempts/infer-c-kernel-attempt-01/outputs/reports/raw/infer-c-kernel/dfb-taint-c-function-field-positive-taint-config.json",
+      "sha256": "fa5348e3a698b6933f4305a7fe78d3abbbbfff2e42ee2420b938496595ad4618"
+    },
+    {
+      "original_path": "reports/raw/infer-c-kernel/dfb-taint-c-map-iteration-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/infer-c-kernel-attempt-01/outputs/reports/raw/infer-c-kernel/dfb-taint-c-map-iteration-negative-timing.json",
+      "sha256": "38c911f27e904fa986887238e01118697000365d848c006de465efaedabc02d3"
+    },
+    {
+      "original_path": "reports/raw/infer-c-kernel/dfb-taint-c-map-iteration-negative-taint-config.json",
+      "path": "reports/releases/v0.7.1/attempts/infer-c-kernel-attempt-01/outputs/reports/raw/infer-c-kernel/dfb-taint-c-map-iteration-negative-taint-config.json",
+      "sha256": "fa5348e3a698b6933f4305a7fe78d3abbbbfff2e42ee2420b938496595ad4618"
+    },
+    {
+      "original_path": "reports/raw/infer-c-kernel/dfb-taint-c-return-relay-one-hop-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/infer-c-kernel-attempt-01/outputs/reports/raw/infer-c-kernel/dfb-taint-c-return-relay-one-hop-positive-timing.json",
+      "sha256": "8e353c2dc4942be848ec5efdce6ea1747daf043730b30f9fd59406e76ed8ea38"
+    },
+    {
+      "original_path": "reports/raw/infer-c-kernel/dfb-taint-c-same-object-field-negative-taint-config.json",
+      "path": "reports/releases/v0.7.1/attempts/infer-c-kernel-attempt-01/outputs/reports/raw/infer-c-kernel/dfb-taint-c-same-object-field-negative-taint-config.json",
+      "sha256": "fa5348e3a698b6933f4305a7fe78d3abbbbfff2e42ee2420b938496595ad4618"
+    },
+    {
+      "original_path": "reports/raw/infer-c-kernel/dfb-taint-c-loop-carried-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/infer-c-kernel-attempt-01/outputs/reports/raw/infer-c-kernel/dfb-taint-c-loop-carried-positive.json",
+      "sha256": "49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811"
+    },
+    {
+      "original_path": "reports/raw/infer-c-kernel/dfb-taint-c-alias-propagation-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/infer-c-kernel-attempt-01/outputs/reports/raw/infer-c-kernel/dfb-taint-c-alias-propagation-negative-timing.json",
+      "sha256": "620bbbbf34538d3a0df00a9a452cf978dd84181c19836c19accdd8ae83dec67c"
+    },
+    {
+      "original_path": "reports/raw/infer-c-kernel/dfb-taint-c-direct-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/infer-c-kernel-attempt-01/outputs/reports/raw/infer-c-kernel/dfb-taint-c-direct-negative.json",
+      "sha256": "49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811"
+    },
+    {
+      "original_path": "reports/raw/infer-c-kernel/dfb-taint-c-array-element-negative-taint-config.json",
+      "path": "reports/releases/v0.7.1/attempts/infer-c-kernel-attempt-01/outputs/reports/raw/infer-c-kernel/dfb-taint-c-array-element-negative-taint-config.json",
+      "sha256": "fa5348e3a698b6933f4305a7fe78d3abbbbfff2e42ee2420b938496595ad4618"
+    },
+    {
+      "original_path": "reports/raw/infer-c-kernel/dfb-taint-c-recursive-carry-negative-taint-config.json",
+      "path": "reports/releases/v0.7.1/attempts/infer-c-kernel-attempt-01/outputs/reports/raw/infer-c-kernel/dfb-taint-c-recursive-carry-negative-taint-config.json",
+      "sha256": "fa5348e3a698b6933f4305a7fe78d3abbbbfff2e42ee2420b938496595ad4618"
+    },
+    {
+      "original_path": "reports/raw/infer-c-kernel/dfb-taint-c-loop-carried-negative-taint-config.json",
+      "path": "reports/releases/v0.7.1/attempts/infer-c-kernel-attempt-01/outputs/reports/raw/infer-c-kernel/dfb-taint-c-loop-carried-negative-taint-config.json",
+      "sha256": "fa5348e3a698b6933f4305a7fe78d3abbbbfff2e42ee2420b938496595ad4618"
+    },
+    {
+      "original_path": "reports/raw/infer-c-kernel/dfb-taint-c-return-relay-one-hop-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/infer-c-kernel-attempt-01/outputs/reports/raw/infer-c-kernel/dfb-taint-c-return-relay-one-hop-negative.json",
+      "sha256": "49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811"
+    },
+    {
+      "original_path": "reports/raw/infer-c-kernel/dfb-taint-c-infeasible-branch-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/infer-c-kernel-attempt-01/outputs/reports/raw/infer-c-kernel/dfb-taint-c-infeasible-branch-positive.json",
+      "sha256": "0f29ddf90cfb343702d8f5a4c6bccbee3fe5cb5ba5acf79095a7533d8ea52cf2"
+    },
+    {
+      "original_path": "reports/raw/infer-c-kernel/dfb-taint-c-expression-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/infer-c-kernel-attempt-01/outputs/reports/raw/infer-c-kernel/dfb-taint-c-expression-positive.json",
+      "sha256": "49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811"
+    },
+    {
+      "original_path": "reports/raw/infer-c-kernel/dfb-taint-c-alias-propagation-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/infer-c-kernel-attempt-01/outputs/reports/raw/infer-c-kernel/dfb-taint-c-alias-propagation-positive-timing.json",
+      "sha256": "3a868f8c1a7fae446df49eb5cbccc83e826131b98321a057dc75ef1edbd57f42"
+    },
+    {
+      "original_path": "reports/raw/infer-c-kernel/dfb-taint-c-return-relay-one-hop-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/infer-c-kernel-attempt-01/outputs/reports/raw/infer-c-kernel/dfb-taint-c-return-relay-one-hop-negative-timing.json",
+      "sha256": "2934f6068d95e8775f7e959f799924bde195f84248af72996cb98f31b4dcd7cb"
+    },
+    {
+      "original_path": "reports/raw/infer-c-kernel/dfb-taint-c-object-separation-positive-taint-config.json",
+      "path": "reports/releases/v0.7.1/attempts/infer-c-kernel-attempt-01/outputs/reports/raw/infer-c-kernel/dfb-taint-c-object-separation-positive-taint-config.json",
+      "sha256": "fa5348e3a698b6933f4305a7fe78d3abbbbfff2e42ee2420b938496595ad4618"
+    },
+    {
+      "original_path": "reports/raw/infer-c-kernel/dfb-taint-c-map-iteration-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/infer-c-kernel-attempt-01/outputs/reports/raw/infer-c-kernel/dfb-taint-c-map-iteration-negative.json",
+      "sha256": "49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811"
+    },
+    {
+      "original_path": "reports/raw/infer-c-kernel/dfb-taint-c-local-overwrite-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/infer-c-kernel-attempt-01/outputs/reports/raw/infer-c-kernel/dfb-taint-c-local-overwrite-positive.json",
+      "sha256": "30b885b325b87d1bf3c63d20cef5061ec0df131de954b18c3cb27cc775793ef4"
+    },
+    {
+      "original_path": "reports/raw/infer-c-kernel/dfb-taint-c-array-element-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/infer-c-kernel-attempt-01/outputs/reports/raw/infer-c-kernel/dfb-taint-c-array-element-positive.json",
+      "sha256": "e3e44e05ca6e041e64f0c54f6a512e10d77e7bad1cb962e2577edd243c456f34"
+    },
+    {
+      "original_path": "reports/raw/infer-c-kernel/dfb-taint-c-callback-registration-positive-taint-config.json",
+      "path": "reports/releases/v0.7.1/attempts/infer-c-kernel-attempt-01/outputs/reports/raw/infer-c-kernel/dfb-taint-c-callback-registration-positive-taint-config.json",
+      "sha256": "fa5348e3a698b6933f4305a7fe78d3abbbbfff2e42ee2420b938496595ad4618"
+    },
+    {
+      "original_path": "reports/raw/infer-c-kernel/dfb-taint-c-object-separation-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/infer-c-kernel-attempt-01/outputs/reports/raw/infer-c-kernel/dfb-taint-c-object-separation-positive-timing.json",
+      "sha256": "2fc4166c6c99012f024bead151a251578764fcd8e7f66e39c9e8e0b967e80cf3"
+    },
+    {
+      "original_path": "reports/raw/infer-c-kernel/dfb-taint-c-same-object-field-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/infer-c-kernel-attempt-01/outputs/reports/raw/infer-c-kernel/dfb-taint-c-same-object-field-positive-timing.json",
+      "sha256": "87d2c57f73b61115a8b6d8ae65ad1ee36103a34f049094883957f1f94a0c3a95"
+    },
+    {
+      "original_path": "reports/raw/infer-c-kernel/dfb-taint-c-branch-join-positive-taint-config.json",
+      "path": "reports/releases/v0.7.1/attempts/infer-c-kernel-attempt-01/outputs/reports/raw/infer-c-kernel/dfb-taint-c-branch-join-positive-taint-config.json",
+      "sha256": "fa5348e3a698b6933f4305a7fe78d3abbbbfff2e42ee2420b938496595ad4618"
+    },
+    {
+      "original_path": "reports/raw/infer-c-kernel/dfb-taint-c-return-relay-one-hop-negative-taint-config.json",
+      "path": "reports/releases/v0.7.1/attempts/infer-c-kernel-attempt-01/outputs/reports/raw/infer-c-kernel/dfb-taint-c-return-relay-one-hop-negative-taint-config.json",
+      "sha256": "fa5348e3a698b6933f4305a7fe78d3abbbbfff2e42ee2420b938496595ad4618"
+    },
+    {
+      "original_path": "reports/raw/infer-c-kernel/dfb-taint-c-map-iteration-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/infer-c-kernel-attempt-01/outputs/reports/raw/infer-c-kernel/dfb-taint-c-map-iteration-positive.json",
+      "sha256": "055631f5438eb198ffcb36597f80b3caf62585d81ced352e91a629121780621b"
+    },
+    {
+      "original_path": "reports/raw/infer-c-kernel/dfb-taint-c-local-overwrite-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/infer-c-kernel-attempt-01/outputs/reports/raw/infer-c-kernel/dfb-taint-c-local-overwrite-negative.json",
+      "sha256": "49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811"
+    },
+    {
+      "original_path": "reports/raw/infer-c-kernel/dfb-taint-c-element-object-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/infer-c-kernel-attempt-01/outputs/reports/raw/infer-c-kernel/dfb-taint-c-element-object-positive-timing.json",
+      "sha256": "7fed14089f4cd6786571503f4084dbd671813c7da9a872f615bc3d789f1d818a"
+    },
+    {
+      "original_path": "reports/raw/infer-c-kernel/dfb-taint-c-loop-carried-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/infer-c-kernel-attempt-01/outputs/reports/raw/infer-c-kernel/dfb-taint-c-loop-carried-negative-timing.json",
+      "sha256": "811163036cbdb99b172283a8e2a2057bd419cd879bca923f03d02a723a07fe78"
+    },
+    {
+      "original_path": "reports/raw/infer-c-kernel/dfb-taint-c-array-element-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/infer-c-kernel-attempt-01/outputs/reports/raw/infer-c-kernel/dfb-taint-c-array-element-negative.json",
+      "sha256": "49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811"
+    },
+    {
+      "original_path": "reports/raw/infer-c-kernel/dfb-taint-c-function-field-negative-taint-config.json",
+      "path": "reports/releases/v0.7.1/attempts/infer-c-kernel-attempt-01/outputs/reports/raw/infer-c-kernel/dfb-taint-c-function-field-negative-taint-config.json",
+      "sha256": "fa5348e3a698b6933f4305a7fe78d3abbbbfff2e42ee2420b938496595ad4618"
+    },
+    {
+      "original_path": "reports/raw/infer-c-kernel/dfb-taint-c-argument-position-negative-taint-config.json",
+      "path": "reports/releases/v0.7.1/attempts/infer-c-kernel-attempt-01/outputs/reports/raw/infer-c-kernel/dfb-taint-c-argument-position-negative-taint-config.json",
+      "sha256": "fa5348e3a698b6933f4305a7fe78d3abbbbfff2e42ee2420b938496595ad4618"
+    },
+    {
+      "original_path": "reports/raw/infer-c-kernel/dfb-taint-c-object-separation-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/infer-c-kernel-attempt-01/outputs/reports/raw/infer-c-kernel/dfb-taint-c-object-separation-negative-timing.json",
+      "sha256": "41b536232f91cdf8c6300a79676eec6ab1bb5ed7cc914ff073ff0e93a6f12b3d"
+    },
+    {
+      "original_path": "reports/raw/infer-c-kernel/dfb-taint-c-same-object-field-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/infer-c-kernel-attempt-01/outputs/reports/raw/infer-c-kernel/dfb-taint-c-same-object-field-negative-timing.json",
+      "sha256": "0aad8b782082ddf49d3ecca85feabdb27f2ad3db52a0a94bff66b426f2987251"
+    },
+    {
+      "original_path": "reports/raw/infer-c-kernel/dfb-taint-c-loop-carried-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/infer-c-kernel-attempt-01/outputs/reports/raw/infer-c-kernel/dfb-taint-c-loop-carried-negative.json",
+      "sha256": "49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811"
+    },
+    {
+      "original_path": "reports/raw/infer-c-kernel/dfb-taint-c-direct-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/infer-c-kernel-attempt-01/outputs/reports/raw/infer-c-kernel/dfb-taint-c-direct-positive.json",
+      "sha256": "72187de570b36757c0fdfe035f93c5c48ae50c3c92912859310adc9e62526781"
+    },
+    {
+      "original_path": "reports/raw/infer-c-kernel/dfb-taint-c-local-chain-negative-taint-config.json",
+      "path": "reports/releases/v0.7.1/attempts/infer-c-kernel-attempt-01/outputs/reports/raw/infer-c-kernel/dfb-taint-c-local-chain-negative-taint-config.json",
+      "sha256": "fa5348e3a698b6933f4305a7fe78d3abbbbfff2e42ee2420b938496595ad4618"
+    },
+    {
+      "original_path": "reports/raw/infer-c-kernel/dfb-taint-c-loop-carried-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/infer-c-kernel-attempt-01/outputs/reports/raw/infer-c-kernel/dfb-taint-c-loop-carried-positive-timing.json",
+      "sha256": "6004b3891d5c5e537aa61e4712afe6d75e3d5d0196e6697d063052438039fcaf"
+    },
+    {
+      "original_path": "reports/raw/infer-c-kernel/dfb-taint-c-return-relay-one-hop-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/infer-c-kernel-attempt-01/outputs/reports/raw/infer-c-kernel/dfb-taint-c-return-relay-one-hop-positive.json",
+      "sha256": "1acdd9fcc2b064dcc5967063d25d3e7a2c1e54e592b7163a8f9459a943cea8bc"
+    },
+    {
+      "original_path": "reports/raw/infer-c-kernel/dfb-taint-c-infeasible-branch-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/infer-c-kernel-attempt-01/outputs/reports/raw/infer-c-kernel/dfb-taint-c-infeasible-branch-negative.json",
+      "sha256": "49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811"
+    },
+    {
+      "original_path": "reports/raw/infer-c-kernel/dfb-taint-c-expression-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/infer-c-kernel-attempt-01/outputs/reports/raw/infer-c-kernel/dfb-taint-c-expression-negative.json",
+      "sha256": "49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811"
+    },
+    {
+      "original_path": "reports/raw/infer-c-kernel/dfb-taint-c-element-object-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/infer-c-kernel-attempt-01/outputs/reports/raw/infer-c-kernel/dfb-taint-c-element-object-negative-timing.json",
+      "sha256": "3eb24c055d3fa606c0f736b75f3de487a21f348033fce5a13358574f17e77af9"
+    },
+    {
+      "original_path": "reports/raw/infer-c-kernel/dfb-taint-c-branch-join-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/infer-c-kernel-attempt-01/outputs/reports/raw/infer-c-kernel/dfb-taint-c-branch-join-negative-timing.json",
+      "sha256": "acb91c25bd5f0087f892040e211b72c2d65b8426dc79f0b46cdc8b045e7deed1"
+    },
+    {
+      "original_path": "reports/raw/infer-c-kernel/dfb-taint-c-dispatch-table-negative-taint-config.json",
+      "path": "reports/releases/v0.7.1/attempts/infer-c-kernel-attempt-01/outputs/reports/raw/infer-c-kernel/dfb-taint-c-dispatch-table-negative-taint-config.json",
+      "sha256": "fa5348e3a698b6933f4305a7fe78d3abbbbfff2e42ee2420b938496595ad4618"
+    },
+    {
+      "original_path": "reports/raw/infer-c-kernel/dfb-taint-c-recursive-carry-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/infer-c-kernel-attempt-01/outputs/reports/raw/infer-c-kernel/dfb-taint-c-recursive-carry-negative-timing.json",
+      "sha256": "734ae19b51fd7ca27bb02b793fdc62ab5983bc58dc9f82e791031cbec1d81eb7"
+    },
+    {
+      "original_path": "reports/raw/infer-c-kernel/dfb-taint-c-direct-negative-taint-config.json",
+      "path": "reports/releases/v0.7.1/attempts/infer-c-kernel-attempt-01/outputs/reports/raw/infer-c-kernel/dfb-taint-c-direct-negative-taint-config.json",
+      "sha256": "fa5348e3a698b6933f4305a7fe78d3abbbbfff2e42ee2420b938496595ad4618"
+    },
+    {
+      "original_path": "reports/raw/infer-c-kernel/dfb-taint-c-expression-negative-taint-config.json",
+      "path": "reports/releases/v0.7.1/attempts/infer-c-kernel-attempt-01/outputs/reports/raw/infer-c-kernel/dfb-taint-c-expression-negative-taint-config.json",
+      "sha256": "fa5348e3a698b6933f4305a7fe78d3abbbbfff2e42ee2420b938496595ad4618"
+    },
+    {
+      "original_path": "reports/raw/infer-c-kernel/dfb-taint-c-context-pair-depth2-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/infer-c-kernel-attempt-01/outputs/reports/raw/infer-c-kernel/dfb-taint-c-context-pair-depth2-negative.json",
+      "sha256": "49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811"
+    },
+    {
+      "original_path": "reports/raw/infer-c-kernel/dfb-taint-c-function-field-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/infer-c-kernel-attempt-01/outputs/reports/raw/infer-c-kernel/dfb-taint-c-function-field-negative.json",
+      "sha256": "49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811"
+    },
+    {
+      "original_path": "reports/raw/infer-c-kernel/dfb-taint-c-branch-join-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/infer-c-kernel-attempt-01/outputs/reports/raw/infer-c-kernel/dfb-taint-c-branch-join-negative.json",
+      "sha256": "49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811"
+    },
+    {
+      "original_path": "reports/raw/infer-c-kernel/dfb-taint-c-argument-position-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/infer-c-kernel-attempt-01/outputs/reports/raw/infer-c-kernel/dfb-taint-c-argument-position-positive.json",
+      "sha256": "69a9663fe29dde98ca55dce124a267940de794cc530561dc36dcc8620ea144b7"
+    },
+    {
+      "original_path": "reports/raw/infer-c-kernel/dfb-taint-c-same-object-field-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/infer-c-kernel-attempt-01/outputs/reports/raw/infer-c-kernel/dfb-taint-c-same-object-field-negative.json",
+      "sha256": "49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811"
+    },
+    {
+      "original_path": "reports/raw/infer-c-kernel/dfb-taint-c-branch-join-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/infer-c-kernel-attempt-01/outputs/reports/raw/infer-c-kernel/dfb-taint-c-branch-join-positive-timing.json",
+      "sha256": "0ad17d96214fdd53e2de22998f858dded885833b1572964784bd51b13f7f00cc"
+    },
+    {
+      "original_path": "reports/raw/infer-c-kernel/dfb-taint-c-local-chain-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/infer-c-kernel-attempt-01/outputs/reports/raw/infer-c-kernel/dfb-taint-c-local-chain-negative.json",
+      "sha256": "49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811"
+    },
+    {
+      "original_path": "reports/raw/infer-c-kernel/dfb-taint-c-recursive-carry-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/infer-c-kernel-attempt-01/outputs/reports/raw/infer-c-kernel/dfb-taint-c-recursive-carry-positive-timing.json",
+      "sha256": "46d585edf3568e03d3f3d33e7e0fd013060e969bf2145968ab5a0470fae81b78"
+    },
+    {
+      "original_path": "reports/raw/infer-c-kernel/dfb-taint-c-nested-access-path-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/infer-c-kernel-attempt-01/outputs/reports/raw/infer-c-kernel/dfb-taint-c-nested-access-path-negative.json",
+      "sha256": "49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811"
+    },
+    {
+      "original_path": "reports/raw/infer-c-kernel/dfb-taint-c-object-separation-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/infer-c-kernel-attempt-01/outputs/reports/raw/infer-c-kernel/dfb-taint-c-object-separation-negative.json",
+      "sha256": "49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811"
+    },
+    {
+      "original_path": "reports/raw/infer-c-kernel/dfb-taint-c-alias-propagation-positive-taint-config.json",
+      "path": "reports/releases/v0.7.1/attempts/infer-c-kernel-attempt-01/outputs/reports/raw/infer-c-kernel/dfb-taint-c-alias-propagation-positive-taint-config.json",
+      "sha256": "fa5348e3a698b6933f4305a7fe78d3abbbbfff2e42ee2420b938496595ad4618"
+    },
+    {
+      "original_path": "reports/raw/infer-c-kernel/dfb-taint-c-context-pair-depth2-positive-taint-config.json",
+      "path": "reports/releases/v0.7.1/attempts/infer-c-kernel-attempt-01/outputs/reports/raw/infer-c-kernel/dfb-taint-c-context-pair-depth2-positive-taint-config.json",
+      "sha256": "fa5348e3a698b6933f4305a7fe78d3abbbbfff2e42ee2420b938496595ad4618"
+    },
+    {
+      "original_path": "reports/raw/infer-c-kernel/dfb-taint-c-same-object-field-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/infer-c-kernel-attempt-01/outputs/reports/raw/infer-c-kernel/dfb-taint-c-same-object-field-positive.json",
+      "sha256": "d7592d7bd3455d8554d78d6ff8e58666b4299c968a337bdb8c8797f4f3dc1f7d"
+    },
+    {
+      "original_path": "reports/raw/infer-c-kernel/dfb-taint-c-local-overwrite-positive-taint-config.json",
+      "path": "reports/releases/v0.7.1/attempts/infer-c-kernel-attempt-01/outputs/reports/raw/infer-c-kernel/dfb-taint-c-local-overwrite-positive-taint-config.json",
+      "sha256": "fa5348e3a698b6933f4305a7fe78d3abbbbfff2e42ee2420b938496595ad4618"
+    },
+    {
+      "original_path": "reports/raw/infer-c-kernel/dfb-taint-c-array-element-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/infer-c-kernel-attempt-01/outputs/reports/raw/infer-c-kernel/dfb-taint-c-array-element-positive-timing.json",
+      "sha256": "5728083442c5e417690256f9c6b406f91635f32608515b34c095d7866089907b"
+    },
+    {
+      "original_path": "reports/raw/infer-c-kernel/dfb-taint-c-function-field-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/infer-c-kernel-attempt-01/outputs/reports/raw/infer-c-kernel/dfb-taint-c-function-field-negative-timing.json",
+      "sha256": "82c7b7ae408b766770fbd05b71f89729a8281b5e39d0efd4dc11594ee33cbeb1"
+    },
+    {
+      "original_path": "reports/raw/infer-c-kernel/dfb-taint-c-dispatch-table-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/infer-c-kernel-attempt-01/outputs/reports/raw/infer-c-kernel/dfb-taint-c-dispatch-table-negative-timing.json",
+      "sha256": "d78223fc1f139750785d070d65bdb5852f03bf96fdd4b1d600c12792c1f6658e"
+    },
+    {
+      "original_path": "reports/raw/infer-c-kernel/dfb-taint-c-local-chain-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/infer-c-kernel-attempt-01/outputs/reports/raw/infer-c-kernel/dfb-taint-c-local-chain-positive.json",
+      "sha256": "5416b45826b5c2eae80f33451dc23552b3c089aafb3ef01ebc413ea022e22642"
+    },
+    {
+      "original_path": "reports/raw/infer-c-kernel/dfb-taint-c-local-overwrite-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/infer-c-kernel-attempt-01/outputs/reports/raw/infer-c-kernel/dfb-taint-c-local-overwrite-positive-timing.json",
+      "sha256": "c5c576f137b3f694d39e8458a1836c67d661392dd441fa409799a44f778a3848"
+    },
+    {
+      "original_path": "reports/raw/infer-c-kernel/dfb-taint-c-infeasible-branch-positive-taint-config.json",
+      "path": "reports/releases/v0.7.1/attempts/infer-c-kernel-attempt-01/outputs/reports/raw/infer-c-kernel/dfb-taint-c-infeasible-branch-positive-taint-config.json",
+      "sha256": "fa5348e3a698b6933f4305a7fe78d3abbbbfff2e42ee2420b938496595ad4618"
+    },
+    {
+      "original_path": "reports/raw/infer-c-kernel/dfb-taint-c-argument-position-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/infer-c-kernel-attempt-01/outputs/reports/raw/infer-c-kernel/dfb-taint-c-argument-position-negative-timing.json",
+      "sha256": "74560a02b8231afef58d5c5b8d64546223397eac74a63158481a47708432b4b6"
+    },
+    {
+      "original_path": "reports/raw/infer-c-kernel/dfb-taint-c-element-object-positive-taint-config.json",
+      "path": "reports/releases/v0.7.1/attempts/infer-c-kernel-attempt-01/outputs/reports/raw/infer-c-kernel/dfb-taint-c-element-object-positive-taint-config.json",
+      "sha256": "fa5348e3a698b6933f4305a7fe78d3abbbbfff2e42ee2420b938496595ad4618"
+    },
+    {
+      "original_path": "reports/raw/infer-c-kernel/dfb-taint-c-nested-access-path-negative-taint-config.json",
+      "path": "reports/releases/v0.7.1/attempts/infer-c-kernel-attempt-01/outputs/reports/raw/infer-c-kernel/dfb-taint-c-nested-access-path-negative-taint-config.json",
+      "sha256": "fa5348e3a698b6933f4305a7fe78d3abbbbfff2e42ee2420b938496595ad4618"
+    },
+    {
+      "original_path": "reports/raw/infer-c-kernel/dfb-taint-c-direct-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/infer-c-kernel-attempt-01/outputs/reports/raw/infer-c-kernel/dfb-taint-c-direct-negative-timing.json",
+      "sha256": "875e5d6c1756d6ab8ddd8b8c360cf46b34a5c8ecee86609f0e427e840c2ed2db"
+    },
+    {
+      "original_path": "reports/raw/infer-c-kernel/dfb-taint-c-nested-access-path-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/infer-c-kernel-attempt-01/outputs/reports/raw/infer-c-kernel/dfb-taint-c-nested-access-path-positive.json",
+      "sha256": "9bf111ba7e40d732fe076500dfdb789234bcf149ff0c03017789df4746ed4b87"
+    },
+    {
+      "original_path": "reports/raw/infer-c-kernel/dfb-taint-c-object-separation-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/infer-c-kernel-attempt-01/outputs/reports/raw/infer-c-kernel/dfb-taint-c-object-separation-positive.json",
+      "sha256": "13c5fdcde78cb767a55e8bb9726442a70be120c28b4e6ea7e0d1fafc03ebc3ca"
+    },
+    {
+      "original_path": "reports/raw/infer-c-kernel/dfb-taint-c-infeasible-branch-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/infer-c-kernel-attempt-01/outputs/reports/raw/infer-c-kernel/dfb-taint-c-infeasible-branch-negative-timing.json",
+      "sha256": "f6780d08087a5ad1dbaf6d3e46e6447dcc85a34077c9cab57bd9e61bd0d66f82"
+    },
+    {
+      "original_path": "reports/raw/infer-c-kernel/dfb-taint-c-call-context-positive-taint-config.json",
+      "path": "reports/releases/v0.7.1/attempts/infer-c-kernel-attempt-01/outputs/reports/raw/infer-c-kernel/dfb-taint-c-call-context-positive-taint-config.json",
+      "sha256": "fa5348e3a698b6933f4305a7fe78d3abbbbfff2e42ee2420b938496595ad4618"
+    },
+    {
+      "original_path": "reports/raw/infer-c-kernel/dfb-taint-c-argument-position-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/infer-c-kernel-attempt-01/outputs/reports/raw/infer-c-kernel/dfb-taint-c-argument-position-positive-timing.json",
+      "sha256": "0d214a5afe4016cb8983e9683b7ef61758936013d16c1d534f25bfd95ca249b9"
+    },
+    {
+      "original_path": "reports/raw/infer-c-kernel/dfb-taint-c-dispatch-table-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/infer-c-kernel-attempt-01/outputs/reports/raw/infer-c-kernel/dfb-taint-c-dispatch-table-positive-timing.json",
+      "sha256": "71b963ea4410df5a09d5f2e0b193c9f7d6d6bceac8095edfaf48d2aab34ca27c"
+    },
+    {
+      "original_path": "reports/raw/infer-c-kernel/dfb-taint-c-local-overwrite-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/infer-c-kernel-attempt-01/outputs/reports/raw/infer-c-kernel/dfb-taint-c-local-overwrite-negative-timing.json",
+      "sha256": "d628e5a45c0d889b9dd8c02e31b48fba66449f84f7d85e89196bf2f6995629d8"
+    },
+    {
+      "original_path": "reports/raw/infer-c-kernel/dfb-taint-c-array-element-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/infer-c-kernel-attempt-01/outputs/reports/raw/infer-c-kernel/dfb-taint-c-array-element-negative-timing.json",
+      "sha256": "55871c6f4c38e2c914f5535fa67b96bf2a7e790195dab267143c60a030d4d099"
+    },
+    {
+      "original_path": "reports/raw/infer-c-kernel/dfb-taint-c-function-field-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/infer-c-kernel-attempt-01/outputs/reports/raw/infer-c-kernel/dfb-taint-c-function-field-positive-timing.json",
+      "sha256": "d195d5ad66f363f755496b2da8b409d9902e188370b1a452039819753f6d14ff"
+    },
+    {
+      "original_path": "reports/raw/infer-c-kernel/dfb-taint-c-context-pair-depth2-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/infer-c-kernel-attempt-01/outputs/reports/raw/infer-c-kernel/dfb-taint-c-context-pair-depth2-positive.json",
+      "sha256": "04d85d1461fbfc574460a015edc422d5c3a70eaad14923c3e44602c888d21ca8"
+    },
+    {
+      "original_path": "reports/raw/infer-c-kernel/dfb-taint-c-deep-relay-chain-positive-taint-config.json",
+      "path": "reports/releases/v0.7.1/attempts/infer-c-kernel-attempt-01/outputs/reports/raw/infer-c-kernel/dfb-taint-c-deep-relay-chain-positive-taint-config.json",
+      "sha256": "fa5348e3a698b6933f4305a7fe78d3abbbbfff2e42ee2420b938496595ad4618"
+    },
+    {
+      "original_path": "reports/raw/infer-c-kernel/dfb-taint-c-infeasible-branch-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/infer-c-kernel-attempt-01/outputs/reports/raw/infer-c-kernel/dfb-taint-c-infeasible-branch-positive-timing.json",
+      "sha256": "b5b2509fcf44abeed6c1a245ab54d1502a977090492c024e0f39c62522e2a34c"
+    },
+    {
+      "original_path": "reports/raw/infer-c-kernel/dfb-taint-c-function-field-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/infer-c-kernel-attempt-01/outputs/reports/raw/infer-c-kernel/dfb-taint-c-function-field-positive.json",
+      "sha256": "75db72185d8dfab64e78d6e5aab0d94bb538cdf22a2cc1abdd5ea04359182575"
+    },
+    {
+      "original_path": "reports/raw/infer-c-kernel/dfb-taint-c-branch-join-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/infer-c-kernel-attempt-01/outputs/reports/raw/infer-c-kernel/dfb-taint-c-branch-join-positive.json",
+      "sha256": "f8215e270821517f562111c98ac06a46f4aade64a207a2d9df8c2edd160a54c6"
+    },
+    {
+      "original_path": "reports/raw/infer-c-kernel/dfb-taint-c-argument-position-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/infer-c-kernel-attempt-01/outputs/reports/raw/infer-c-kernel/dfb-taint-c-argument-position-negative.json",
+      "sha256": "49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811"
+    },
+    {
+      "original_path": "reports/raw/infer-c-kernel/dfb-taint-c-direct-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/infer-c-kernel-attempt-01/outputs/reports/raw/infer-c-kernel/dfb-taint-c-direct-positive-timing.json",
+      "sha256": "c52a3ad60295304e626a3c9f714e8f94972e652b96f54fcf5df5fbec32d8c849"
+    },
+    {
+      "original_path": "reports/raw/infer-c-kernel/dfb-taint-c-return-relay-two-hop-positive-taint-config.json",
+      "path": "reports/releases/v0.7.1/attempts/infer-c-kernel-attempt-01/outputs/reports/raw/infer-c-kernel/dfb-taint-c-return-relay-two-hop-positive-taint-config.json",
+      "sha256": "fa5348e3a698b6933f4305a7fe78d3abbbbfff2e42ee2420b938496595ad4618"
+    }
+  ],
+  "expected_output_roots": [
+    "reports/infer-c-kernel.json",
+    "reports/raw/infer-c-kernel"
+  ],
+  "missing_fresh_output_roots": [],
+  "removed_paths": []
+}

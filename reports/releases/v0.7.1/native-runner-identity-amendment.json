@@ -1,0 +1,63 @@
+{
+  "utc": "2026-09-08T06:07:38.617437+00:00",
+  "source_commit": "fcb37b5ff76e14a4afd03448c11c2b02f04362bb",
+  "binary": "/Users/dave/.codex/worktrees/653a/dataflowbench/target/debug/dataflowbench",
+  "sha256": "4f8fe307477557f8ca0eabbf27e1cf3ce8c588881163d862f62a6f717fa273fc",
+  "change": "Bifrost native rationale provenance only; classifications unchanged",
+  "validation": [
+    "cargo fmt --check previously passed",
+    "25 native tests previously passed",
+    "cargo build --bin dataflowbench via PATH mbx exit0; Cargo.lock unchanged",
+    "/Users/dave/.cargo/bin/cargo build --locked exit0",
+    "Expected target absent after those builds; direct locked message-format=json rebuild exit0 in17.11s; final executable verified"
+  ],
+  "build_artifact": {
+    "reason": "compiler-artifact",
+    "package_id": "path+file:///Users/dave/.codex/worktrees/653a/dataflowbench#0.1.0",
+    "manifest_path": "/Users/dave/.codex/worktrees/653a/dataflowbench/Cargo.toml",
+    "target": {
+      "kind": [
+        "bin"
+      ],
+      "crate_types": [
+        "bin"
+      ],
+      "name": "dataflowbench",
+      "src_path": "/Users/dave/.codex/worktrees/653a/dataflowbench/src/main.rs",
+      "edition": "2024",
+      "doc": true,
+      "doctest": false,
+      "test": true
+    },
+    "profile": {
+      "opt_level": "0",
+      "debuginfo": 2,
+      "debug_assertions": true,
+      "overflow_checks": true,
+      "test": false
+    },
+    "features": [],
+    "filenames": [
+      "/Users/dave/.codex/worktrees/653a/dataflowbench/target/debug/dataflowbench"
+    ],
+    "executable": "/Users/dave/.codex/worktrees/653a/dataflowbench/target/debug/dataflowbench",
+    "fresh": false
+  },
+  "previous_binary_sha256": "a8bbe76962a064889fcc3e39cbe1560666d3290616f5897f32b7057cd44b981e",
+  "environment_check": {
+    "utc": "2026-09-08T06:08:06.374871+00:00",
+    "CARGO_TARGET_DIR": null,
+    "cwd": "/Users/dave/.codex/worktrees/653a/dataflowbench",
+    "target_resolved": "/Users/dave/.codex/worktrees/653a/dataflowbench/target",
+    "target_is_symlink": false,
+    "cause": "unknown; no deletion attribution",
+    "artifact_log": "reports/releases/v0.7.1/native-runner-build-artifacts.jsonl"
+  },
+  "superseded_by_opentaint_clarification": {
+    "utc": "2026-09-08T06:14:12.116780+00:00",
+    "source_commit": "4964392125861a34af6576784e56cc1fd11aadd9",
+    "sha256": "e42110bcbd5252a1aa7fc7b004a964f3fe3e7ab203fcd0c9e1fa20be4258451a",
+    "artifact_log": "reports/releases/v0.7.1/opentaint-runner-build-artifacts.jsonl",
+    "validation": "fmt check,25native tests,locked build passed"
+  }
+}

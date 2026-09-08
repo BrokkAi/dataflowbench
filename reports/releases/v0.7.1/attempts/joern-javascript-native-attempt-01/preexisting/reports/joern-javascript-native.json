@@ -1,0 +1,218 @@
+{
+  "adapter_version": "0.1.0",
+  "cold_or_warm": "cold",
+  "configuration_hash": "e5e1ed92c0e9664b9124b647698318e835c57067ba610c62f3b627ccb6d576ce",
+  "ended_at_unix_seconds": 1788511581,
+  "fixture_revision": "sha256:9df209ed3d7723a3ee33f2b289cf2afe34a3add781bdf2a2ac445de42b8d0151",
+  "results": [
+    {
+      "case_id": "dfb-taint-javascript-native-entrypoint-negative",
+      "diagnostics": [
+        "tool-native activation of dfb-template-native-entrypoint (category E — framework entry points) is unsupported for 4.0.617 over JavaScript by the activation partition (docs/native-profile.md#partition-summary, as amended): entry roots are query-selected in every Joern population here; the distribution activates no entry-point convention by itself"
+      ],
+      "duration_ms": 0,
+      "outcome": "unsupported",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/joern-javascript-native/dfb-taint-javascript-native-entrypoint-negative-unsupported.json",
+      "sink_anchors": [
+        "DFB-SINK: native-entrypoint-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: native-entrypoint-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-javascript-native-entrypoint-positive",
+      "diagnostics": [
+        "tool-native activation of dfb-template-native-entrypoint (category E — framework entry points) is unsupported for 4.0.617 over JavaScript by the activation partition (docs/native-profile.md#partition-summary, as amended): entry roots are query-selected in every Joern population here; the distribution activates no entry-point convention by itself"
+      ],
+      "duration_ms": 0,
+      "outcome": "unsupported",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/joern-javascript-native/dfb-taint-javascript-native-entrypoint-positive-unsupported.json",
+      "sink_anchors": [
+        "DFB-SINK: native-entrypoint-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: native-entrypoint-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-javascript-native-persistence-negative",
+      "diagnostics": [
+        "tool-native activation of dfb-template-native-persistence (category B — persistence boundaries) is unsupported for 4.0.617 over JavaScript by the activation partition (docs/native-profile.md#partition-summary, as amended): no persistence vocabulary ships with the distribution"
+      ],
+      "duration_ms": 0,
+      "outcome": "unsupported",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/joern-javascript-native/dfb-taint-javascript-native-persistence-negative-unsupported.json",
+      "sink_anchors": [
+        "DFB-SINK: native-persistence-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: native-persistence-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-javascript-native-persistence-positive",
+      "diagnostics": [
+        "tool-native activation of dfb-template-native-persistence (category B — persistence boundaries) is unsupported for 4.0.617 over JavaScript by the activation partition (docs/native-profile.md#partition-summary, as amended): no persistence vocabulary ships with the distribution"
+      ],
+      "duration_ms": 0,
+      "outcome": "unsupported",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/joern-javascript-native/dfb-taint-javascript-native-persistence-positive-unsupported.json",
+      "sink_anchors": [
+        "DFB-SINK: native-persistence-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: native-persistence-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-javascript-native-propagator-negative",
+      "diagnostics": [
+        "tool-native activation of dfb-template-native-propagator (category P — declared propagators) is unsupported for 4.0.617 over JavaScript by the activation partition (docs/native-profile.md#partition-summary, as amended): `DefaultSemantics` carries propagation entries but no endpoints; with no shipped source and no shipped sink there is nothing to propagate between"
+      ],
+      "duration_ms": 0,
+      "outcome": "unsupported",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/joern-javascript-native/dfb-taint-javascript-native-propagator-negative-unsupported.json",
+      "sink_anchors": [
+        "DFB-SINK: native-propagator-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: native-propagator-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-javascript-native-propagator-positive",
+      "diagnostics": [
+        "tool-native activation of dfb-template-native-propagator (category P — declared propagators) is unsupported for 4.0.617 over JavaScript by the activation partition (docs/native-profile.md#partition-summary, as amended): `DefaultSemantics` carries propagation entries but no endpoints; with no shipped source and no shipped sink there is nothing to propagate between"
+      ],
+      "duration_ms": 0,
+      "outcome": "unsupported",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/joern-javascript-native/dfb-taint-javascript-native-propagator-positive-unsupported.json",
+      "sink_anchors": [
+        "DFB-SINK: native-propagator-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: native-propagator-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-javascript-native-sanitizer-negative",
+      "diagnostics": [
+        "tool-native activation of dfb-template-native-sanitizer (category Z — declared sanitizers) is unsupported for 4.0.617 over JavaScript by the activation partition (docs/native-profile.md#partition-summary, as amended): `NilSemantics` is the mechanism a sanitizer would use, but the distribution declares none of the three platform sanitization idioms, and no endpoint catalog ships for a sanitizer to sit between"
+      ],
+      "duration_ms": 0,
+      "outcome": "unsupported",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/joern-javascript-native/dfb-taint-javascript-native-sanitizer-negative-unsupported.json",
+      "sink_anchors": [
+        "DFB-SINK: native-sanitizer-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: native-sanitizer-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-javascript-native-sanitizer-positive",
+      "diagnostics": [
+        "tool-native activation of dfb-template-native-sanitizer (category Z — declared sanitizers) is unsupported for 4.0.617 over JavaScript by the activation partition (docs/native-profile.md#partition-summary, as amended): `NilSemantics` is the mechanism a sanitizer would use, but the distribution declares none of the three platform sanitization idioms, and no endpoint catalog ships for a sanitizer to sit between"
+      ],
+      "duration_ms": 0,
+      "outcome": "unsupported",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/joern-javascript-native/dfb-taint-javascript-native-sanitizer-positive-unsupported.json",
+      "sink_anchors": [
+        "DFB-SINK: native-sanitizer-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: native-sanitizer-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-javascript-native-source-sink-negative",
+      "diagnostics": [
+        "tool-native activation of dfb-template-native-source-sink (category S — declared sources and sinks) is unsupported for 4.0.617 over JavaScript by the activation partition (docs/native-profile.md#partition-summary, as amended): `DefaultSemantics` is a table of flow constraints — operator semantics, C standard library entries, and a short list of JVM method full names — and ships no source catalog and no sink catalog. Every Joern population in this benchmark selects its endpoints through the adapter's own query parameters, which is exactly what the tool-native activation rule forbids. And the version-pinned `joern-scan` query bundle, installed and executed over every probe fixture with zero benchmark input, fires no query on any cell: it ships no JavaScript or Python query package at all, and its one query naming this profile's command sink (`call-to-exec`) filters the method-name property with a full-match regex that matches zero methods on a `javasrc2cpg` graph (Amendment A26, evidence retained under reports/raw/amendment-a26-joern-scan-native/)"
+      ],
+      "duration_ms": 0,
+      "outcome": "unsupported",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/joern-javascript-native/dfb-taint-javascript-native-source-sink-negative-unsupported.json",
+      "sink_anchors": [
+        "DFB-SINK: native-source-sink-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: native-source-sink-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-javascript-native-source-sink-positive",
+      "diagnostics": [
+        "tool-native activation of dfb-template-native-source-sink (category S — declared sources and sinks) is unsupported for 4.0.617 over JavaScript by the activation partition (docs/native-profile.md#partition-summary, as amended): `DefaultSemantics` is a table of flow constraints — operator semantics, C standard library entries, and a short list of JVM method full names — and ships no source catalog and no sink catalog. Every Joern population in this benchmark selects its endpoints through the adapter's own query parameters, which is exactly what the tool-native activation rule forbids. And the version-pinned `joern-scan` query bundle, installed and executed over every probe fixture with zero benchmark input, fires no query on any cell: it ships no JavaScript or Python query package at all, and its one query naming this profile's command sink (`call-to-exec`) filters the method-name property with a full-match regex that matches zero methods on a `javasrc2cpg` graph (Amendment A26, evidence retained under reports/raw/amendment-a26-joern-scan-native/)"
+      ],
+      "duration_ms": 0,
+      "outcome": "unsupported",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/joern-javascript-native/dfb-taint-javascript-native-source-sink-positive-unsupported.json",
+      "sink_anchors": [
+        "DFB-SINK: native-source-sink-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: native-source-sink-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-javascript-native-summary-negative",
+      "diagnostics": [
+        "tool-native activation of dfb-template-native-summary (category O — opaque procedure summaries) is unsupported for 4.0.617 over JavaScript by the activation partition (docs/native-profile.md#partition-summary, as amended): the JVM entries in `DefaultSemantics` do not include `java.util.Base64`, and neither Python nor JavaScript has any entry at all"
+      ],
+      "duration_ms": 0,
+      "outcome": "unsupported",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/joern-javascript-native/dfb-taint-javascript-native-summary-negative-unsupported.json",
+      "sink_anchors": [
+        "DFB-SINK: native-summary-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: native-summary-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-javascript-native-summary-positive",
+      "diagnostics": [
+        "tool-native activation of dfb-template-native-summary (category O — opaque procedure summaries) is unsupported for 4.0.617 over JavaScript by the activation partition (docs/native-profile.md#partition-summary, as amended): the JVM entries in `DefaultSemantics` do not include `java.util.Base64`, and neither Python nor JavaScript has any entry at all"
+      ],
+      "duration_ms": 0,
+      "outcome": "unsupported",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/joern-javascript-native/dfb-taint-javascript-native-summary-positive-unsupported.json",
+      "sink_anchors": [
+        "DFB-SINK: native-summary-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: native-summary-input"
+      ],
+      "witness_checkpoints": []
+    }
+  ],
+  "schema_version": 1,
+  "started_at_unix_seconds": 1788511581,
+  "tool": "joern",
+  "tool_build_identity": "joern-cli:4.0.617 — 4.0.617 DefaultSemantics only",
+  "tool_version": "4.0.617"
+}

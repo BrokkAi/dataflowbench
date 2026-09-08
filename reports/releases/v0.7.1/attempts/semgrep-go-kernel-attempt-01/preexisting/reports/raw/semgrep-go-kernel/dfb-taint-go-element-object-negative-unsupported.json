@@ -1,0 +1,18 @@
+{
+  "adapter": "semgrep",
+  "case_id": "dfb-taint-go-element-object-negative",
+  "engine_profile": "semgrep-ce-oss-intrafile-intraprocedural-taint",
+  "evidence_kind": "retained-capability-decision",
+  "expected_analysis_capability": {
+    "kind": "element-scoped-field-sensitive-taint"
+  },
+  "feature_tags": [
+    "heap-access-path"
+  ],
+  "language": "go",
+  "language_maturity": "ga",
+  "language_maturity_source": "semgrep_interfaces/lang.json (pinned distribution)",
+  "reason": "outside the bounded Semgrep CE profile: the case combines element separation with field separation in one query; index sensitivity is recorded as Pro and CE's field sensitivity is experimental and basic. The case requires \"element-scoped-field-sensitive-taint\"; the scored CE profile is the kernel's `intraprocedural` partition only.",
+  "stage": "declared-capability",
+  "state": "unsupported"
+}

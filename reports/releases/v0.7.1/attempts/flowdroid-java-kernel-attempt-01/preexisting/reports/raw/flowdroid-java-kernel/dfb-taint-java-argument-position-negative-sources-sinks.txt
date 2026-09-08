@@ -1,0 +1,9 @@
+% Benchmark-controlled FlowDroid sources-and-sinks definition template. The
+% runner replaces each placeholder line with one line per matching method
+% signature — `<signature> -> _SOURCE_` and `<signature> -> _SINK_` — where
+% the method names come from the case's own DFB-SOURCE:/DFB-SINK: marker
+% lines and the exact Soot signatures are witnessed from the compiled
+% fixture classes. The resolved copy is retained per case beside the raw
+% evidence.
+<dataflowbench.taint.ArgumentPositionNegative: int dfb_source()> -> _SOURCE_
+<dataflowbench.taint.ArgumentPositionNegative: void dfb_sink(int)> -> _SINK_

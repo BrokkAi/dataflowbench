@@ -1,0 +1,58 @@
+{
+  "adapter": "bifrost",
+  "amendment": "A24",
+  "clock": "monotonic",
+  "ended_at_unix_seconds": 1788278106,
+  "estimate_bias": "upper bound on start-up and warm-up: it contains the trivial fixture's own near-zero analysis, and it is a cold single-shot execution — the same posture the cold rows are measured in, and not a steady-state one",
+  "estimated_overhead_ms": {
+    "high": 239,
+    "low": 108
+  },
+  "estimator": "one complete adapter invocation over a trivial no-flow fixture",
+  "evidence_kind": "retained-invocation-overhead-estimate",
+  "fixture_file": "fixture/dfb_trivial.py",
+  "fixture_sha256": "d4dfe541d478dd9a22af5376eae5286f1cd095f4ce629cc6a0f3122d4980364a",
+  "language": "python",
+  "measured_boundary": "the adapter's own subprocess boundaries; the estimate is the sum of its declared phases, as the cold whole-invocation figure is",
+  "publication": "range over every repeat; never a mean, never a chosen repeat, and never gated on the repeats agreeing — the width is the precision",
+  "repeats": 3,
+  "runs": [
+    {
+      "load_average_1m_before": 3.35,
+      "phases": [
+        {
+          "phase": "total",
+          "wall_ms": 239
+        }
+      ],
+      "repeat": 1,
+      "wall_ms": 239
+    },
+    {
+      "load_average_1m_before": 3.35,
+      "phases": [
+        {
+          "phase": "total",
+          "wall_ms": 114
+        }
+      ],
+      "repeat": 2,
+      "wall_ms": 114
+    },
+    {
+      "load_average_1m_before": 3.35,
+      "phases": [
+        {
+          "phase": "total",
+          "wall_ms": 108
+        }
+      ],
+      "repeat": 3,
+      "wall_ms": 108
+    }
+  ],
+  "schema_version": 1,
+  "started_at_unix_seconds": 1788278105,
+  "tool_build_identity": "44d9a5be416432bf8ed414afd3ea0031245ebb57",
+  "tool_version": "bifrost 0.10.7"
+}

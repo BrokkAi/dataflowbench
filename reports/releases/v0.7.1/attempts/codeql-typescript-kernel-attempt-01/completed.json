@@ -1,0 +1,656 @@
+{
+  "id": "codeql-typescript-kernel-attempt-01",
+  "planned_id": "codeql-typescript-kernel",
+  "argv": [
+    "/Users/dave/.codex/worktrees/653a/dataflowbench/target/debug/dataflowbench",
+    "--population",
+    "v0.7.0",
+    "run-codeql-typescript-kernel",
+    "--codeql",
+    "/opt/homebrew/bin/codeql"
+  ],
+  "cwd": "/Users/dave/.codex/worktrees/653a/dataflowbench",
+  "input_commits": {
+    "corpus": "0c82e8093ff899d5ee72809a82c951ab76b5bb76",
+    "publication_infrastructure": "53050fa64628997e866303bcd5299d74f1e3e45d",
+    "pins": "c0899dab0d2c043dcc5b1aa6a1aad0e49f482fea"
+  },
+  "execution_revision": "4ec8cb4bc7552246dc75b1bc39a18340432880a3",
+  "population": "v0.7.0",
+  "fixture_revision": "sha256:9df209ed3d7723a3ee33f2b289cf2afe34a3add781bdf2a2ac445de42b8d0151",
+  "plan": {
+    "path": "reports/releases/v0.7.1/plan.json",
+    "sha256": "cb948f4a5cff80b95d3dcc755ab8249d87449e43f70e6eb80a456789faf12f26"
+  },
+  "identities": {
+    "path": "reports/releases/v0.7.1/identities.json",
+    "sha256": "0b8b1bb07d1df1ec8687613bb355f5f6021a2c664d3488dc3bc763553ce1a83c"
+  },
+  "execution_access": "require_escalated",
+  "start_utc": "2026-09-07T19:54:31.772499+00:00",
+  "host": {
+    "platform": "macOS-26.6.2-arm64-arm-64bit",
+    "cpu_count": 10,
+    "load_before": [
+      3.83056640625,
+      3.66015625,
+      3.64697265625
+    ],
+    "load_after": [
+      6.26611328125,
+      6.43701171875,
+      5.16162109375
+    ]
+  },
+  "settle_observations": [],
+  "cache_posture": "isolated case workspaces; local distributions and prefetched CodeQL packs; OS page cache uncontrolled; warm only for explicit warm series",
+  "supersedes": null,
+  "exit_code": 0,
+  "end_utc": "2026-09-07T20:03:02.791543+00:00",
+  "stdout": {
+    "path": "reports/releases/v0.7.1/attempts/codeql-typescript-kernel-attempt-01/stdout.txt",
+    "sha256": "748f78d91b1fb5ddf1d1984d95feb404723fb108e95c750ce8fe45682dbda192"
+  },
+  "stderr": {
+    "path": "reports/releases/v0.7.1/attempts/codeql-typescript-kernel-attempt-01/stderr.txt",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "outputs": [
+    {
+      "original_path": "reports/codeql-typescript-kernel.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-typescript-kernel-attempt-01/outputs/reports/codeql-typescript-kernel.json",
+      "sha256": "7eeb8c0375431c8fd9f0b233b1c98ee31d5f7ba8443908d5b5a1165fea9bd604"
+    },
+    {
+      "original_path": "reports/raw/codeql-typescript/dfb-taint-typescript-element-object-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-typescript-kernel-attempt-01/outputs/reports/raw/codeql-typescript/dfb-taint-typescript-element-object-negative-timing.json",
+      "sha256": "153966c854e8c1f9496e2d4eacf6cf6b1e80bff16dfaae5a47c243693e1b7ca2"
+    },
+    {
+      "original_path": "reports/raw/codeql-typescript/dfb-taint-typescript-direct-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-typescript-kernel-attempt-01/outputs/reports/raw/codeql-typescript/dfb-taint-typescript-direct-negative-timing.json",
+      "sha256": "75f9dc65c53ad6d5b0da8844ed0ff2eaa2d688c6dc81e5ff605f58690b29f48a"
+    },
+    {
+      "original_path": "reports/raw/codeql-typescript/dfb-taint-typescript-alias-propagation-negative.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-typescript-kernel-attempt-01/outputs/reports/raw/codeql-typescript/dfb-taint-typescript-alias-propagation-negative.sarif.json",
+      "sha256": "0402e6da9f09a35af7474bacdaa0f5b7f1d460cbad878bc02382e5edbbfde739"
+    },
+    {
+      "original_path": "reports/raw/codeql-typescript/dfb-taint-typescript-callback-registration-positive.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-typescript-kernel-attempt-01/outputs/reports/raw/codeql-typescript/dfb-taint-typescript-callback-registration-positive.sarif.json",
+      "sha256": "e2b6a062a728f09116f8f08ad808eef2b9d481963facd0ca7705bf84c14fb1ba"
+    },
+    {
+      "original_path": "reports/raw/codeql-typescript/dfb-taint-typescript-element-object-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-typescript-kernel-attempt-01/outputs/reports/raw/codeql-typescript/dfb-taint-typescript-element-object-positive-timing.json",
+      "sha256": "1cc3c74b03b78464a0e6a96acf7c326f8def8f6c2faf48cfd47c35031884e65f"
+    },
+    {
+      "original_path": "reports/raw/codeql-typescript/dfb-taint-typescript-context-pair-depth2-negative.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-typescript-kernel-attempt-01/outputs/reports/raw/codeql-typescript/dfb-taint-typescript-context-pair-depth2-negative.sarif.json",
+      "sha256": "1571e2e57c2a1d51be573ee50ef47c71547c80fbe0b9e584bd36021bd75b2b05"
+    },
+    {
+      "original_path": "reports/raw/codeql-typescript/dfb-taint-typescript-nested-access-path-positive.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-typescript-kernel-attempt-01/outputs/reports/raw/codeql-typescript/dfb-taint-typescript-nested-access-path-positive.sarif.json",
+      "sha256": "5e6319c165a53566126e0f12ccdaba1b2e160c58b0fcb76ae5ac7d2e2768b238"
+    },
+    {
+      "original_path": "reports/raw/codeql-typescript/dfb-taint-typescript-local-chain-negative.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-typescript-kernel-attempt-01/outputs/reports/raw/codeql-typescript/dfb-taint-typescript-local-chain-negative.sarif.json",
+      "sha256": "50d6cc016619627ecc48b75f57c3563e6a738792a4f1dabbf2955594d8197a4b"
+    },
+    {
+      "original_path": "reports/raw/codeql-typescript/dfb-taint-typescript-direct-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-typescript-kernel-attempt-01/outputs/reports/raw/codeql-typescript/dfb-taint-typescript-direct-positive-timing.json",
+      "sha256": "d94fc9254cd76a7a72a19e0ea58777db2da378606f97957d3702531735b8a779"
+    },
+    {
+      "original_path": "reports/raw/codeql-typescript/dfb-taint-typescript-element-object-negative.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-typescript-kernel-attempt-01/outputs/reports/raw/codeql-typescript/dfb-taint-typescript-element-object-negative.sarif.json",
+      "sha256": "c2b144a8922de8ef8241ce585a4611809d4a42753afea6c28aaffff815ccc3e5"
+    },
+    {
+      "original_path": "reports/raw/codeql-typescript/dfb-taint-typescript-function-field-positive.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-typescript-kernel-attempt-01/outputs/reports/raw/codeql-typescript/dfb-taint-typescript-function-field-positive.sarif.json",
+      "sha256": "400dfce22bb15bc623ebcf34d85fa212ff835066f67f668a3567dc52b34c55e5"
+    },
+    {
+      "original_path": "reports/raw/codeql-typescript/dfb-taint-typescript-return-relay-two-hop-positive.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-typescript-kernel-attempt-01/outputs/reports/raw/codeql-typescript/dfb-taint-typescript-return-relay-two-hop-positive.sarif.json",
+      "sha256": "d16dd9f688635c98571c810130f6bdd2f5c78b08c99c378dc59774a18dfecb7f"
+    },
+    {
+      "original_path": "reports/raw/codeql-typescript/dfb-taint-typescript-infeasible-branch-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-typescript-kernel-attempt-01/outputs/reports/raw/codeql-typescript/dfb-taint-typescript-infeasible-branch-positive-timing.json",
+      "sha256": "3dbfb9f6b3371fbd494d7f5c668f3bc82cef4f53866a3d0f983124436644d664"
+    },
+    {
+      "original_path": "reports/raw/codeql-typescript/dfb-taint-typescript-callback-registration-negative.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-typescript-kernel-attempt-01/outputs/reports/raw/codeql-typescript/dfb-taint-typescript-callback-registration-negative.sarif.json",
+      "sha256": "82695b0c20966d2242a085887bc66f11a68ca128b816ce21cdffaa532c6b4f6e"
+    },
+    {
+      "original_path": "reports/raw/codeql-typescript/dfb-taint-typescript-nested-access-path-negative.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-typescript-kernel-attempt-01/outputs/reports/raw/codeql-typescript/dfb-taint-typescript-nested-access-path-negative.sarif.json",
+      "sha256": "97ca6a4f303500f9bb97618653d34c5e00cddfbac05cad505192570bd1a2534b"
+    },
+    {
+      "original_path": "reports/raw/codeql-typescript/dfb-taint-typescript-context-pair-depth2-positive.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-typescript-kernel-attempt-01/outputs/reports/raw/codeql-typescript/dfb-taint-typescript-context-pair-depth2-positive.sarif.json",
+      "sha256": "880d07b4f06265cfbaa6c9353f08f193d14048baaaab09f9fc7a50b8af23a024"
+    },
+    {
+      "original_path": "reports/raw/codeql-typescript/dfb-taint-typescript-argument-position-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-typescript-kernel-attempt-01/outputs/reports/raw/codeql-typescript/dfb-taint-typescript-argument-position-positive-timing.json",
+      "sha256": "327a74efe7a8493af11b075733f86775b5d6fb552bceda592348815630474412"
+    },
+    {
+      "original_path": "reports/raw/codeql-typescript/dfb-taint-typescript-local-chain-positive.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-typescript-kernel-attempt-01/outputs/reports/raw/codeql-typescript/dfb-taint-typescript-local-chain-positive.sarif.json",
+      "sha256": "b5a0048f894e08d3a689763f04ff522f3d7b163652842a1a522804233e6e1056"
+    },
+    {
+      "original_path": "reports/raw/codeql-typescript/dfb-taint-typescript-function-field-negative.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-typescript-kernel-attempt-01/outputs/reports/raw/codeql-typescript/dfb-taint-typescript-function-field-negative.sarif.json",
+      "sha256": "5b179516835f9b24f94431843339d06c1bff5e04b4085f6bd27593ea98ebfb1c"
+    },
+    {
+      "original_path": "reports/raw/codeql-typescript/dfb-taint-typescript-return-relay-two-hop-negative.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-typescript-kernel-attempt-01/outputs/reports/raw/codeql-typescript/dfb-taint-typescript-return-relay-two-hop-negative.sarif.json",
+      "sha256": "4347fbf9f575973e37bfb0f6c1618f4e45724c65392140839061426c3de56a53"
+    },
+    {
+      "original_path": "reports/raw/codeql-typescript/dfb-taint-typescript-exception-catch-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-typescript-kernel-attempt-01/outputs/reports/raw/codeql-typescript/dfb-taint-typescript-exception-catch-negative-timing.json",
+      "sha256": "cf1020afe5c758a3e5e401b83708de4871d1687d505d26e2997646b144b3f707"
+    },
+    {
+      "original_path": "reports/raw/codeql-typescript/dfb-taint-typescript-element-object-positive.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-typescript-kernel-attempt-01/outputs/reports/raw/codeql-typescript/dfb-taint-typescript-element-object-positive.sarif.json",
+      "sha256": "59e9da06e7b24919c8b4c9a41c17f0bcc2c771086d3bd4ce217dc0c8a735e379"
+    },
+    {
+      "original_path": "reports/raw/codeql-typescript/dfb-taint-typescript-infeasible-branch-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-typescript-kernel-attempt-01/outputs/reports/raw/codeql-typescript/dfb-taint-typescript-infeasible-branch-negative-timing.json",
+      "sha256": "9384f6a7d35c99207c868a8958bb23c71e07f63dc019f3a022ab6d2fea6efed1"
+    },
+    {
+      "original_path": "reports/raw/codeql-typescript/dfb-taint-typescript-alias-propagation-positive.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-typescript-kernel-attempt-01/outputs/reports/raw/codeql-typescript/dfb-taint-typescript-alias-propagation-positive.sarif.json",
+      "sha256": "7ba6e4c80d74d47a81da9ccb635ae283dda7ec6004114912f75d4ed82afc68ce"
+    },
+    {
+      "original_path": "reports/raw/codeql-typescript/dfb-taint-typescript-exception-catch-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-typescript-kernel-attempt-01/outputs/reports/raw/codeql-typescript/dfb-taint-typescript-exception-catch-positive-timing.json",
+      "sha256": "3eaf625adb2bb1dc8bc57419b50054299d89650b4ac0cb67e8c6961ffbbcf4b9"
+    },
+    {
+      "original_path": "reports/raw/codeql-typescript/dfb-taint-typescript-argument-position-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-typescript-kernel-attempt-01/outputs/reports/raw/codeql-typescript/dfb-taint-typescript-argument-position-negative-timing.json",
+      "sha256": "4e3bce73923801f286160fa1407f811e701a22ace1a17c2a1662cee781c590c1"
+    },
+    {
+      "original_path": "reports/raw/codeql-typescript/dfb-taint-typescript-direct-negative.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-typescript-kernel-attempt-01/outputs/reports/raw/codeql-typescript/dfb-taint-typescript-direct-negative.sarif.json",
+      "sha256": "08e238ebf640c5a14cc8cb21a16aa0c4bba1a05183b2380d49240076fdf14f91"
+    },
+    {
+      "original_path": "reports/raw/codeql-typescript/dfb-taint-typescript-reflective-invocation-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-typescript-kernel-attempt-01/outputs/reports/raw/codeql-typescript/dfb-taint-typescript-reflective-invocation-negative-timing.json",
+      "sha256": "32187976898d98fdf159072ecc1abaaa243b65618f9a0d8bb80c2fa5f6417a7b"
+    },
+    {
+      "original_path": "reports/raw/codeql-typescript/dfb-taint-typescript-alias-propagation-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-typescript-kernel-attempt-01/outputs/reports/raw/codeql-typescript/dfb-taint-typescript-alias-propagation-positive-timing.json",
+      "sha256": "5913e2be1a7cc1f54cfccd681bcaf79792f83cbabe4604bc151b00be3e024861"
+    },
+    {
+      "original_path": "reports/raw/codeql-typescript/dfb-taint-typescript-array-element-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-typescript-kernel-attempt-01/outputs/reports/raw/codeql-typescript/dfb-taint-typescript-array-element-negative-timing.json",
+      "sha256": "0d9a0912ec3238db425632741cd0d2317647888a815819232240c31832fa9f83"
+    },
+    {
+      "original_path": "reports/raw/codeql-typescript/dfb-taint-typescript-dispatch-table-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-typescript-kernel-attempt-01/outputs/reports/raw/codeql-typescript/dfb-taint-typescript-dispatch-table-positive-timing.json",
+      "sha256": "069f5e0f6e9566a0b698a9d17d240df9d6930b0f4475c5c5d57518a1a6d20fc2"
+    },
+    {
+      "original_path": "reports/raw/codeql-typescript/dfb-taint-typescript-function-field-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-typescript-kernel-attempt-01/outputs/reports/raw/codeql-typescript/dfb-taint-typescript-function-field-positive-timing.json",
+      "sha256": "73ab167952e6bcff877b3ae5cd62ad1cc989defd42860155b184efe02856c720"
+    },
+    {
+      "original_path": "reports/raw/codeql-typescript/dfb-taint-typescript-reflective-invocation-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-typescript-kernel-attempt-01/outputs/reports/raw/codeql-typescript/dfb-taint-typescript-reflective-invocation-positive-timing.json",
+      "sha256": "5ebf9dd4b3d5e433169359dfb22a3a9f01630228b39736586785e72cf14d5a4e"
+    },
+    {
+      "original_path": "reports/raw/codeql-typescript/dfb-taint-typescript-closure-capture-negative.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-typescript-kernel-attempt-01/outputs/reports/raw/codeql-typescript/dfb-taint-typescript-closure-capture-negative.sarif.json",
+      "sha256": "2d44dc76915f0d599c172637925d4aedc6a98de90950437c95ae910f898e3c39"
+    },
+    {
+      "original_path": "reports/raw/codeql-typescript/dfb-taint-typescript-computed-property-positive.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-typescript-kernel-attempt-01/outputs/reports/raw/codeql-typescript/dfb-taint-typescript-computed-property-positive.sarif.json",
+      "sha256": "7a45970bb1851388a2562adb25322c310100d5296b806b96eee4ed010d0db21b"
+    },
+    {
+      "original_path": "reports/raw/codeql-typescript/run-environment.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-typescript-kernel-attempt-01/outputs/reports/raw/codeql-typescript/run-environment.json",
+      "sha256": "076d7a2c9d62e21072130abfc1af47ff5edaa3512d88f1008b7944ed1f3de184"
+    },
+    {
+      "original_path": "reports/raw/codeql-typescript/dfb-taint-typescript-function-field-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-typescript-kernel-attempt-01/outputs/reports/raw/codeql-typescript/dfb-taint-typescript-function-field-negative-timing.json",
+      "sha256": "1b3b2a918d6313950cb79ae3efb0faa249e1896dcaafce2c7530368afa100aed"
+    },
+    {
+      "original_path": "reports/raw/codeql-typescript/dfb-taint-typescript-dispatch-table-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-typescript-kernel-attempt-01/outputs/reports/raw/codeql-typescript/dfb-taint-typescript-dispatch-table-negative-timing.json",
+      "sha256": "b30917da6c221a9f1e6bbd9e03d8a9447c61aa33b7112771bc3653f863a9776a"
+    },
+    {
+      "original_path": "reports/raw/codeql-typescript/dfb-taint-typescript-alias-propagation-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-typescript-kernel-attempt-01/outputs/reports/raw/codeql-typescript/dfb-taint-typescript-alias-propagation-negative-timing.json",
+      "sha256": "e27e6f2878e30fb9507eddd8b2edfdaae6d8bdf2f08508419484faa0752b4b2d"
+    },
+    {
+      "original_path": "reports/raw/codeql-typescript/dfb-taint-typescript-reflective-invocation-negative.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-typescript-kernel-attempt-01/outputs/reports/raw/codeql-typescript/dfb-taint-typescript-reflective-invocation-negative.sarif.json",
+      "sha256": "b409564c0f8e86583d5d78526a214d1eb64d8fc26305add27d3bb8ae974ba69f"
+    },
+    {
+      "original_path": "reports/raw/codeql-typescript/dfb-taint-typescript-array-element-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-typescript-kernel-attempt-01/outputs/reports/raw/codeql-typescript/dfb-taint-typescript-array-element-positive-timing.json",
+      "sha256": "a757cdbc7b6573d3f4a2dd787020ba1c771dabade5e849f53c4e473b6ddb7e03"
+    },
+    {
+      "original_path": "reports/raw/codeql-typescript/dfb-taint-typescript-branch-join-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-typescript-kernel-attempt-01/outputs/reports/raw/codeql-typescript/dfb-taint-typescript-branch-join-negative-timing.json",
+      "sha256": "3ad28e103498fc5420501590988b57b73554872c43a89f19c45f39eda59deea5"
+    },
+    {
+      "original_path": "reports/raw/codeql-typescript/dfb-taint-typescript-closure-capture-positive.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-typescript-kernel-attempt-01/outputs/reports/raw/codeql-typescript/dfb-taint-typescript-closure-capture-positive.sarif.json",
+      "sha256": "c9913a36335538d3d60d497f0527ec47f8237779ba9ef9bbc264f698c4ee9321"
+    },
+    {
+      "original_path": "reports/raw/codeql-typescript/dfb-taint-typescript-call-context-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-typescript-kernel-attempt-01/outputs/reports/raw/codeql-typescript/dfb-taint-typescript-call-context-negative-timing.json",
+      "sha256": "3df3f812529ac59025d801354ac677f064ea9d5f11e9cba6b913e45c3dead99c"
+    },
+    {
+      "original_path": "reports/raw/codeql-typescript/dfb-taint-typescript-computed-property-negative.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-typescript-kernel-attempt-01/outputs/reports/raw/codeql-typescript/dfb-taint-typescript-computed-property-negative.sarif.json",
+      "sha256": "5ef1c1e9fc6b28571dd7a227bc75a81185b02117fa95f0ce12412f60eb2c8ce7"
+    },
+    {
+      "original_path": "reports/raw/codeql-typescript/dfb-taint-typescript-computed-property-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-typescript-kernel-attempt-01/outputs/reports/raw/codeql-typescript/dfb-taint-typescript-computed-property-positive-timing.json",
+      "sha256": "1c380315197252242900d498a49b32406beb5d54e2561d853e1a68632523826b"
+    },
+    {
+      "original_path": "reports/raw/codeql-typescript/dfb-taint-typescript-return-relay-two-hop-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-typescript-kernel-attempt-01/outputs/reports/raw/codeql-typescript/dfb-taint-typescript-return-relay-two-hop-negative-timing.json",
+      "sha256": "7807088cbab8dbc50f6191db96d54bd771232cd674e7d8ebf7064049f72d23b3"
+    },
+    {
+      "original_path": "reports/raw/codeql-typescript/dfb-taint-typescript-object-separation-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-typescript-kernel-attempt-01/outputs/reports/raw/codeql-typescript/dfb-taint-typescript-object-separation-negative-timing.json",
+      "sha256": "aef6cae534db6ddfcaab7d5f369a9e11d3641c873bc5496b4896a390ab8d078b"
+    },
+    {
+      "original_path": "reports/raw/codeql-typescript/dfb-taint-typescript-same-object-field-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-typescript-kernel-attempt-01/outputs/reports/raw/codeql-typescript/dfb-taint-typescript-same-object-field-negative-timing.json",
+      "sha256": "539d1f6f4d12acf1683a7dc4da7196e867facf34f6bfecdc3d14337b58cf08bd"
+    },
+    {
+      "original_path": "reports/raw/codeql-typescript/dfb-taint-typescript-reflective-invocation-positive.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-typescript-kernel-attempt-01/outputs/reports/raw/codeql-typescript/dfb-taint-typescript-reflective-invocation-positive.sarif.json",
+      "sha256": "f3814f88b993daed470718bbf583e4bdf88f9aa9f8636a39cff0c6292d9ff324"
+    },
+    {
+      "original_path": "reports/raw/codeql-typescript/dfb-taint-typescript-direct-positive.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-typescript-kernel-attempt-01/outputs/reports/raw/codeql-typescript/dfb-taint-typescript-direct-positive.sarif.json",
+      "sha256": "e18e79ebac88dab8e27764b032de806513998b589b5de1c6e4b2409f2cfd95f7"
+    },
+    {
+      "original_path": "reports/raw/codeql-typescript/dfb-taint-typescript-call-context-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-typescript-kernel-attempt-01/outputs/reports/raw/codeql-typescript/dfb-taint-typescript-call-context-positive-timing.json",
+      "sha256": "293b76b1abceb94b2901cebedd8f70092f4b6cc1f22576cc3e88965520885ac1"
+    },
+    {
+      "original_path": "reports/raw/codeql-typescript/dfb-taint-typescript-branch-join-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-typescript-kernel-attempt-01/outputs/reports/raw/codeql-typescript/dfb-taint-typescript-branch-join-positive-timing.json",
+      "sha256": "6ba4f7d42349fd18b3d65ef1c58fd70a18364d63e00248d5d4deeca3cd3215d0"
+    },
+    {
+      "original_path": "reports/raw/codeql-typescript/dfb-taint-typescript-computed-property-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-typescript-kernel-attempt-01/outputs/reports/raw/codeql-typescript/dfb-taint-typescript-computed-property-negative-timing.json",
+      "sha256": "666458d0a5c9cac22eb030644fcde4d5534b16ee305d80f29d79e1a9cebd2c0a"
+    },
+    {
+      "original_path": "reports/raw/codeql-typescript/dfb-taint-typescript-return-relay-two-hop-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-typescript-kernel-attempt-01/outputs/reports/raw/codeql-typescript/dfb-taint-typescript-return-relay-two-hop-positive-timing.json",
+      "sha256": "6c7abb936b9e50a194ff167686a26c77936288f01fade075b07411d0cd86d5b3"
+    },
+    {
+      "original_path": "reports/raw/codeql-typescript/dfb-taint-typescript-object-separation-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-typescript-kernel-attempt-01/outputs/reports/raw/codeql-typescript/dfb-taint-typescript-object-separation-positive-timing.json",
+      "sha256": "627c2a14ddab6db4795bd4e87bd4125c5268dc36e13ff5cf6bab2c1a473cf6aa"
+    },
+    {
+      "original_path": "reports/raw/codeql-typescript/dfb-taint-typescript-same-object-field-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-typescript-kernel-attempt-01/outputs/reports/raw/codeql-typescript/dfb-taint-typescript-same-object-field-positive-timing.json",
+      "sha256": "3d3476d346f6005c7326f27e9ceb68e2f1b2f1b8dbf43082c9165c63151dc3c7"
+    },
+    {
+      "original_path": "reports/raw/codeql-typescript/dfb-taint-typescript-local-overwrite-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-typescript-kernel-attempt-01/outputs/reports/raw/codeql-typescript/dfb-taint-typescript-local-overwrite-positive-timing.json",
+      "sha256": "7b5b9cd9326393a45926dfd29609232b10f80c68ae56a42a80410e7f4361b633"
+    },
+    {
+      "original_path": "reports/raw/codeql-typescript/dfb-taint-typescript-argument-position-negative.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-typescript-kernel-attempt-01/outputs/reports/raw/codeql-typescript/dfb-taint-typescript-argument-position-negative.sarif.json",
+      "sha256": "5aaa4f52beec4a62b71d95d76eecd1d2fc7443d87a858059659076583df492f6"
+    },
+    {
+      "original_path": "reports/raw/codeql-typescript/dfb-taint-typescript-callback-registration-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-typescript-kernel-attempt-01/outputs/reports/raw/codeql-typescript/dfb-taint-typescript-callback-registration-positive-timing.json",
+      "sha256": "2b596b1dd43af5ec6cc8f0ff1be097275c38a7a363038097cedb731ae25e4678"
+    },
+    {
+      "original_path": "reports/raw/codeql-typescript/dfb-taint-typescript-branch-join-negative.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-typescript-kernel-attempt-01/outputs/reports/raw/codeql-typescript/dfb-taint-typescript-branch-join-negative.sarif.json",
+      "sha256": "18cda37e840d9f92217c3c5d44e7a3c6b63cd2fa2fcc817d82858e58d9fb7dc4"
+    },
+    {
+      "original_path": "reports/raw/codeql-typescript/dfb-taint-typescript-local-chain-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-typescript-kernel-attempt-01/outputs/reports/raw/codeql-typescript/dfb-taint-typescript-local-chain-negative-timing.json",
+      "sha256": "30085c01b6220305644f48788d89f17652b1f404c0f67713de20e768ad54e3af"
+    },
+    {
+      "original_path": "reports/raw/codeql-typescript/dfb-taint-typescript-closure-capture-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-typescript-kernel-attempt-01/outputs/reports/raw/codeql-typescript/dfb-taint-typescript-closure-capture-positive-timing.json",
+      "sha256": "75e26ea40d105290d89545f8354eaedb8de0721de093c8dc9e58872d98db6d15"
+    },
+    {
+      "original_path": "reports/raw/codeql-typescript/dfb-taint-typescript-call-context-negative.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-typescript-kernel-attempt-01/outputs/reports/raw/codeql-typescript/dfb-taint-typescript-call-context-negative.sarif.json",
+      "sha256": "94bef75454a53f74f6f660b1eef20b2a878baa4301663cbc2f43a7fc73c69490"
+    },
+    {
+      "original_path": "reports/raw/codeql-typescript/dfb-taint-typescript-map-iteration-positive.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-typescript-kernel-attempt-01/outputs/reports/raw/codeql-typescript/dfb-taint-typescript-map-iteration-positive.sarif.json",
+      "sha256": "3251ee2d71b66e95c5af8b015bf383ad2d9d9d79948f7628ed0db0aa95fb0233"
+    },
+    {
+      "original_path": "reports/raw/codeql-typescript/dfb-taint-typescript-loop-carried-positive.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-typescript-kernel-attempt-01/outputs/reports/raw/codeql-typescript/dfb-taint-typescript-loop-carried-positive.sarif.json",
+      "sha256": "c48443515b847dff8c39fc6ba4252a087e8e2e284e1e085d658138d785b9a455"
+    },
+    {
+      "original_path": "reports/raw/codeql-typescript/dfb-taint-typescript-local-chain-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-typescript-kernel-attempt-01/outputs/reports/raw/codeql-typescript/dfb-taint-typescript-local-chain-positive-timing.json",
+      "sha256": "bc02d190e9423b1450e8679ecc14826556ddb1f8d970d6000fc0384d7f48a348"
+    },
+    {
+      "original_path": "reports/raw/codeql-typescript/dfb-taint-typescript-closure-capture-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-typescript-kernel-attempt-01/outputs/reports/raw/codeql-typescript/dfb-taint-typescript-closure-capture-negative-timing.json",
+      "sha256": "0e92e122a790165b216af0d18f3a0f1bf1d224a701f2eec40b440e8ed14fe7e2"
+    },
+    {
+      "original_path": "reports/raw/codeql-typescript/dfb-taint-typescript-callback-registration-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-typescript-kernel-attempt-01/outputs/reports/raw/codeql-typescript/dfb-taint-typescript-callback-registration-negative-timing.json",
+      "sha256": "0e52b3ae9629a440145cdba226a9de9d403d98aa9568372ce1602061426eea16"
+    },
+    {
+      "original_path": "reports/raw/codeql-typescript/dfb-taint-typescript-anonymous-implementation-positive.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-typescript-kernel-attempt-01/outputs/reports/raw/codeql-typescript/dfb-taint-typescript-anonymous-implementation-positive.sarif.json",
+      "sha256": "3128201c134c73ed6490c6647855009d218a8803f629c4eca8bcc80ed712ae11"
+    },
+    {
+      "original_path": "reports/raw/codeql-typescript/dfb-taint-typescript-local-overwrite-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-typescript-kernel-attempt-01/outputs/reports/raw/codeql-typescript/dfb-taint-typescript-local-overwrite-negative-timing.json",
+      "sha256": "da128b5eebfe3f9ebf38bbf77526c3e94c090b973427dd3166b944c15689245f"
+    },
+    {
+      "original_path": "reports/raw/codeql-typescript/dfb-taint-typescript-infeasible-branch-negative.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-typescript-kernel-attempt-01/outputs/reports/raw/codeql-typescript/dfb-taint-typescript-infeasible-branch-negative.sarif.json",
+      "sha256": "a32d157e1d5bd71a77cd10b44f01ac23e7c80df30210f0c67037892871d948c8"
+    },
+    {
+      "original_path": "reports/raw/codeql-typescript/dfb-taint-typescript-object-separation-positive.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-typescript-kernel-attempt-01/outputs/reports/raw/codeql-typescript/dfb-taint-typescript-object-separation-positive.sarif.json",
+      "sha256": "19a97fe3a78b91502362c03f87fe0bcd79b4059acdafc5d2babf45cbb4bbf23e"
+    },
+    {
+      "original_path": "reports/raw/codeql-typescript/dfb-taint-typescript-dispatch-table-negative.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-typescript-kernel-attempt-01/outputs/reports/raw/codeql-typescript/dfb-taint-typescript-dispatch-table-negative.sarif.json",
+      "sha256": "91eabc1869b4696a6693766d6bcc04aed920ae07019bf0e4866471196f2db8bb"
+    },
+    {
+      "original_path": "reports/raw/codeql-typescript/dfb-taint-typescript-same-object-field-positive.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-typescript-kernel-attempt-01/outputs/reports/raw/codeql-typescript/dfb-taint-typescript-same-object-field-positive.sarif.json",
+      "sha256": "a442aa4972b8cf048fd8f1bf09a4e0735eb0e20ae71d858920b8d759ff695207"
+    },
+    {
+      "original_path": "reports/raw/codeql-typescript/dfb-taint-typescript-exception-catch-positive.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-typescript-kernel-attempt-01/outputs/reports/raw/codeql-typescript/dfb-taint-typescript-exception-catch-positive.sarif.json",
+      "sha256": "c8bfa867fa9b8451005e259906e7d27e894e017e4d2b461e8de67ade7526ce2f"
+    },
+    {
+      "original_path": "reports/raw/codeql-typescript/dfb-taint-typescript-anonymous-implementation-negative.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-typescript-kernel-attempt-01/outputs/reports/raw/codeql-typescript/dfb-taint-typescript-anonymous-implementation-negative.sarif.json",
+      "sha256": "1bbedcb0c0f14ae85f22144aeecae9511bfa888cacd0ef65ac2e61841021e63b"
+    },
+    {
+      "original_path": "reports/raw/codeql-typescript/dfb-taint-typescript-anonymous-implementation-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-typescript-kernel-attempt-01/outputs/reports/raw/codeql-typescript/dfb-taint-typescript-anonymous-implementation-negative-timing.json",
+      "sha256": "62eb45094b4bb21043b558fb4fa919493ed746754b4eccc217379cc97726e3de"
+    },
+    {
+      "original_path": "reports/raw/codeql-typescript/dfb-taint-typescript-loop-carried-negative.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-typescript-kernel-attempt-01/outputs/reports/raw/codeql-typescript/dfb-taint-typescript-loop-carried-negative.sarif.json",
+      "sha256": "a7e6eaca29c19890e2c232f1d642cc40364b8bf00fdb84d2c0b71250a66fcd13"
+    },
+    {
+      "original_path": "reports/raw/codeql-typescript/dfb-taint-typescript-infeasible-branch-positive.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-typescript-kernel-attempt-01/outputs/reports/raw/codeql-typescript/dfb-taint-typescript-infeasible-branch-positive.sarif.json",
+      "sha256": "19498178a3a671c159dbdc226f27ec68fbd926a5c6293c876e220db3ea3d34c0"
+    },
+    {
+      "original_path": "reports/raw/codeql-typescript/dfb-taint-typescript-recursive-carry-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-typescript-kernel-attempt-01/outputs/reports/raw/codeql-typescript/dfb-taint-typescript-recursive-carry-negative-timing.json",
+      "sha256": "c6fc97fa0e8e28b6fb76a9a758a3f9b76da51009fb514cba84e2fad1668793c3"
+    },
+    {
+      "original_path": "reports/raw/codeql-typescript/dfb-taint-typescript-dispatch-table-positive.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-typescript-kernel-attempt-01/outputs/reports/raw/codeql-typescript/dfb-taint-typescript-dispatch-table-positive.sarif.json",
+      "sha256": "62bf598c60328102e24822aa4a9983ea1de89e40e529592cafd0974351231f40"
+    },
+    {
+      "original_path": "reports/raw/codeql-typescript/dfb-taint-typescript-object-separation-negative.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-typescript-kernel-attempt-01/outputs/reports/raw/codeql-typescript/dfb-taint-typescript-object-separation-negative.sarif.json",
+      "sha256": "9dc68f21386e6279c8b69a7cf0d12e36be8da00dd56db4206d5430fbadebf338"
+    },
+    {
+      "original_path": "reports/raw/codeql-typescript/dfb-taint-typescript-exception-catch-negative.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-typescript-kernel-attempt-01/outputs/reports/raw/codeql-typescript/dfb-taint-typescript-exception-catch-negative.sarif.json",
+      "sha256": "99ad1d94313f586bdccd9c262723f66406d0d3aff3f6fe7aed72a371664dc6b9"
+    },
+    {
+      "original_path": "reports/raw/codeql-typescript/dfb-taint-typescript-nested-access-path-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-typescript-kernel-attempt-01/outputs/reports/raw/codeql-typescript/dfb-taint-typescript-nested-access-path-negative-timing.json",
+      "sha256": "d342fc1a4bfd350ccbe5136ced4a8cf4e5ba4d6206a0db53e0933deadbc6117e"
+    },
+    {
+      "original_path": "reports/raw/codeql-typescript/dfb-taint-typescript-same-object-field-negative.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-typescript-kernel-attempt-01/outputs/reports/raw/codeql-typescript/dfb-taint-typescript-same-object-field-negative.sarif.json",
+      "sha256": "78b33d09d526404fb8771ab98b2d47acb386e8cc24b7c5bd1b02b04509296b66"
+    },
+    {
+      "original_path": "reports/raw/codeql-typescript/dfb-taint-typescript-argument-position-positive.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-typescript-kernel-attempt-01/outputs/reports/raw/codeql-typescript/dfb-taint-typescript-argument-position-positive.sarif.json",
+      "sha256": "66095e29a977be88f2ce65ee7e6f51afc4d839495944c5370b117f683baf58f8"
+    },
+    {
+      "original_path": "reports/raw/codeql-typescript/dfb-taint-typescript-recursive-carry-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-typescript-kernel-attempt-01/outputs/reports/raw/codeql-typescript/dfb-taint-typescript-recursive-carry-positive-timing.json",
+      "sha256": "82823a38a72b22d52e408bdcfa3b4e688bdabb996735ec847f3d30ac2a00de8b"
+    },
+    {
+      "original_path": "reports/raw/codeql-typescript/dfb-taint-typescript-branch-join-positive.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-typescript-kernel-attempt-01/outputs/reports/raw/codeql-typescript/dfb-taint-typescript-branch-join-positive.sarif.json",
+      "sha256": "a101c2513424a0c6de73a36ebda39b932699be5e45d16f563ff53b4c94616487"
+    },
+    {
+      "original_path": "reports/raw/codeql-typescript/dfb-taint-typescript-anonymous-implementation-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-typescript-kernel-attempt-01/outputs/reports/raw/codeql-typescript/dfb-taint-typescript-anonymous-implementation-positive-timing.json",
+      "sha256": "800dca6d5138daa010b8642d61abac29afdfdb976013994bec411db19f303971"
+    },
+    {
+      "original_path": "reports/raw/codeql-typescript/dfb-taint-typescript-nested-access-path-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-typescript-kernel-attempt-01/outputs/reports/raw/codeql-typescript/dfb-taint-typescript-nested-access-path-positive-timing.json",
+      "sha256": "28825ec988b2bc23817dae179a3d29ba1f5e05573fafe99cd24932d410d60a12"
+    },
+    {
+      "original_path": "reports/raw/codeql-typescript/dfb-taint-typescript-call-context-positive.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-typescript-kernel-attempt-01/outputs/reports/raw/codeql-typescript/dfb-taint-typescript-call-context-positive.sarif.json",
+      "sha256": "a10f4df663e8786a07fd28295091e7c6116cee540d9e505e9fccf2305e070781"
+    },
+    {
+      "original_path": "reports/raw/codeql-typescript/dfb-taint-typescript-map-iteration-negative.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-typescript-kernel-attempt-01/outputs/reports/raw/codeql-typescript/dfb-taint-typescript-map-iteration-negative.sarif.json",
+      "sha256": "5d855e85883b7ae4c537e575871149dfdad48133108549650b96fb4d6e2d28de"
+    },
+    {
+      "original_path": "reports/raw/codeql-typescript/dfb-taint-typescript-map-iteration-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-typescript-kernel-attempt-01/outputs/reports/raw/codeql-typescript/dfb-taint-typescript-map-iteration-negative-timing.json",
+      "sha256": "48aa36c33e1345ac9b28d1840ff764a76fdd83bebb27796e6fc051078dc9699a"
+    },
+    {
+      "original_path": "reports/raw/codeql-typescript/dfb-taint-typescript-expression-positive.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-typescript-kernel-attempt-01/outputs/reports/raw/codeql-typescript/dfb-taint-typescript-expression-positive.sarif.json",
+      "sha256": "d655b10f36d0ed009e9b7dfa3bf0e8eb979fe2520d20e3edb4ecc04ef5c93a91"
+    },
+    {
+      "original_path": "reports/raw/codeql-typescript/dfb-taint-typescript-loop-carried-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-typescript-kernel-attempt-01/outputs/reports/raw/codeql-typescript/dfb-taint-typescript-loop-carried-negative-timing.json",
+      "sha256": "f2df0bf310b992fc8959e108146554caa700ebaa50d4be2303a6eb468acaa6ff"
+    },
+    {
+      "original_path": "reports/raw/codeql-typescript/dfb-taint-typescript-return-relay-one-hop-positive.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-typescript-kernel-attempt-01/outputs/reports/raw/codeql-typescript/dfb-taint-typescript-return-relay-one-hop-positive.sarif.json",
+      "sha256": "55ade2927a85805485b0d0f9c88f3b38e5bc832c24dc2cae1a647272d7ce43fb"
+    },
+    {
+      "original_path": "reports/raw/codeql-typescript/dfb-taint-typescript-array-element-positive.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-typescript-kernel-attempt-01/outputs/reports/raw/codeql-typescript/dfb-taint-typescript-array-element-positive.sarif.json",
+      "sha256": "65a3c0e8ad8118e97edefc575ef7e2b2fa8eacdbef7f6405cb653a1066ab7686"
+    },
+    {
+      "original_path": "reports/raw/codeql-typescript/dfb-taint-typescript-context-pair-depth2-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-typescript-kernel-attempt-01/outputs/reports/raw/codeql-typescript/dfb-taint-typescript-context-pair-depth2-positive-timing.json",
+      "sha256": "4b6489c4050541d27ecbb4dc3e8d88bf48f259ca98fbc19998700e37652b7d52"
+    },
+    {
+      "original_path": "reports/raw/codeql-typescript/dfb-taint-typescript-recursive-carry-negative.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-typescript-kernel-attempt-01/outputs/reports/raw/codeql-typescript/dfb-taint-typescript-recursive-carry-negative.sarif.json",
+      "sha256": "060ffd1c2fc75d8762170efc61b148c0ae79f050136d36f41cc0f74c3905caa6"
+    },
+    {
+      "original_path": "reports/raw/codeql-typescript/dfb-taint-typescript-local-overwrite-negative.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-typescript-kernel-attempt-01/outputs/reports/raw/codeql-typescript/dfb-taint-typescript-local-overwrite-negative.sarif.json",
+      "sha256": "c1675784be3cb93071e26e1e1933dbf2c3106650adb5ee1365d85a17d8c6e929"
+    },
+    {
+      "original_path": "reports/raw/codeql-typescript/dfb-taint-typescript-map-iteration-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-typescript-kernel-attempt-01/outputs/reports/raw/codeql-typescript/dfb-taint-typescript-map-iteration-positive-timing.json",
+      "sha256": "76ab0b7bc3938840b5b5d287968e45b45a4485ebd44db279e1d7639431b78e03"
+    },
+    {
+      "original_path": "reports/raw/codeql-typescript/dfb-taint-typescript-context-pair-depth2-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-typescript-kernel-attempt-01/outputs/reports/raw/codeql-typescript/dfb-taint-typescript-context-pair-depth2-negative-timing.json",
+      "sha256": "fe6fb11b268597eae2dd60fba540fc1c8dd0d746ac3754838687686070b41709"
+    },
+    {
+      "original_path": "reports/raw/codeql-typescript/dfb-taint-typescript-deep-relay-chain-negative.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-typescript-kernel-attempt-01/outputs/reports/raw/codeql-typescript/dfb-taint-typescript-deep-relay-chain-negative.sarif.json",
+      "sha256": "df4f650881a0363a2f2cd66291088cdc96aca7006c8d9262480a212323d43a4a"
+    },
+    {
+      "original_path": "reports/raw/codeql-typescript/dfb-taint-typescript-loop-carried-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-typescript-kernel-attempt-01/outputs/reports/raw/codeql-typescript/dfb-taint-typescript-loop-carried-positive-timing.json",
+      "sha256": "0c17ed35ac3d8b1ddfb8431115ba82368c69f7e11a49cb1dac3c01ff12081168"
+    },
+    {
+      "original_path": "reports/raw/codeql-typescript/dfb-taint-typescript-expression-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-typescript-kernel-attempt-01/outputs/reports/raw/codeql-typescript/dfb-taint-typescript-expression-negative-timing.json",
+      "sha256": "bded7723e2061068331b23e5877ad20eb438ab326fcb22f2edd24aa2651c4ff6"
+    },
+    {
+      "original_path": "reports/raw/codeql-typescript/dfb-taint-typescript-deep-relay-chain-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-typescript-kernel-attempt-01/outputs/reports/raw/codeql-typescript/dfb-taint-typescript-deep-relay-chain-positive-timing.json",
+      "sha256": "86881ded68cbbdf04af0bf738200724c603a11af04928475e7403613c1f15fb3"
+    },
+    {
+      "original_path": "reports/raw/codeql-typescript/dfb-taint-typescript-return-relay-one-hop-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-typescript-kernel-attempt-01/outputs/reports/raw/codeql-typescript/dfb-taint-typescript-return-relay-one-hop-negative-timing.json",
+      "sha256": "0688894d41c7ff872835b88accd92a16d189d5a6f1681ba5ad0adc35ca32053f"
+    },
+    {
+      "original_path": "reports/raw/codeql-typescript/dfb-taint-typescript-deep-relay-chain-positive.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-typescript-kernel-attempt-01/outputs/reports/raw/codeql-typescript/dfb-taint-typescript-deep-relay-chain-positive.sarif.json",
+      "sha256": "98cf1778ff5a0e02fb8239c876d7f26fd64a00e0a978320c18641aca604800cf"
+    },
+    {
+      "original_path": "reports/raw/codeql-typescript/dfb-taint-typescript-expression-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-typescript-kernel-attempt-01/outputs/reports/raw/codeql-typescript/dfb-taint-typescript-expression-positive-timing.json",
+      "sha256": "f47a55f2104e38c4179f1084e4e052af2989fe17114797eda5dec0aac649f2cc"
+    },
+    {
+      "original_path": "reports/raw/codeql-typescript/dfb-taint-typescript-expression-negative.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-typescript-kernel-attempt-01/outputs/reports/raw/codeql-typescript/dfb-taint-typescript-expression-negative.sarif.json",
+      "sha256": "e4de42cf039368f32fa401532e85cf70d8b3fee23e864e09f8a7761abc0f7925"
+    },
+    {
+      "original_path": "reports/raw/codeql-typescript/dfb-taint-typescript-array-element-negative.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-typescript-kernel-attempt-01/outputs/reports/raw/codeql-typescript/dfb-taint-typescript-array-element-negative.sarif.json",
+      "sha256": "0f250a2766c2392e47c66b2d167e97ac5abc220e7b425c2abae9aedca4bd4852"
+    },
+    {
+      "original_path": "reports/raw/codeql-typescript/dfb-taint-typescript-return-relay-one-hop-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-typescript-kernel-attempt-01/outputs/reports/raw/codeql-typescript/dfb-taint-typescript-return-relay-one-hop-positive-timing.json",
+      "sha256": "292e0f79f7f9b2552e0b67dcde8d175e09e559aa4320b0aa2c6879c83d9f16d1"
+    },
+    {
+      "original_path": "reports/raw/codeql-typescript/dfb-taint-typescript-return-relay-one-hop-negative.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-typescript-kernel-attempt-01/outputs/reports/raw/codeql-typescript/dfb-taint-typescript-return-relay-one-hop-negative.sarif.json",
+      "sha256": "68dec4277a0ce59f1f3da28e8c16d99a84b7504672e4c66d83ab77918e32053d"
+    },
+    {
+      "original_path": "reports/raw/codeql-typescript/dfb-taint-typescript-local-overwrite-positive.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-typescript-kernel-attempt-01/outputs/reports/raw/codeql-typescript/dfb-taint-typescript-local-overwrite-positive.sarif.json",
+      "sha256": "35fb80514f77b924ee10e116e2d45948349782bb6e075ea7c421db2b4e49d9f5"
+    },
+    {
+      "original_path": "reports/raw/codeql-typescript/dfb-taint-typescript-recursive-carry-positive.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-typescript-kernel-attempt-01/outputs/reports/raw/codeql-typescript/dfb-taint-typescript-recursive-carry-positive.sarif.json",
+      "sha256": "ef2dbf83a5a866cc909ba42a4690e14a42ecd3b7a2d5f84761723131df8ddfd1"
+    },
+    {
+      "original_path": "reports/raw/codeql-typescript/dfb-taint-typescript-deep-relay-chain-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-typescript-kernel-attempt-01/outputs/reports/raw/codeql-typescript/dfb-taint-typescript-deep-relay-chain-negative-timing.json",
+      "sha256": "277fc313e19e23291f983d3ecdf0683c3202a5f7ff6d71a0e98909608a10aaa1"
+    }
+  ],
+  "expected_output_roots": [
+    "reports/codeql-typescript-kernel.json",
+    "reports/raw/codeql-typescript"
+  ],
+  "missing_fresh_output_roots": [],
+  "removed_paths": []
+}

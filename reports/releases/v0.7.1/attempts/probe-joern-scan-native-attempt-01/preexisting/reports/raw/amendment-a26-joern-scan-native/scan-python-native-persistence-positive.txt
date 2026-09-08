@@ -1,0 +1,147 @@
+executing /var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/joern-bundle13875046464286234740/script.sc
+Creating project `native-persistence-positive` for code at `/Users/dave/Workspace/BrokkAi/dataflowbench/.claude/worktrees/competent-engelbart-ca384f/cases/taint/python/native-persistence-positive`
+=======================================================================================================
+Invoking CPG generator in a separate process. Note that the new process will consume additional memory.
+If you are importing a large codebase (and/or running into memory issues), please try the following:
+1) exit joern
+2) invoke the frontend: /private/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/tmp.UcydNP7dbN/joern-dist/pysrc2cpg -J-Xmx8192m /Users/dave/Workspace/BrokkAi/dataflowbench/.claude/worktrees/competent-engelbart-ca384f/cases/taint/python/native-persistence-positive -o /private/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/tmp.UcydNP7dbN/run-python/workspace/native-persistence-positive/cpg.bin.zip
+3) start joern, import the cpg: `importCpg("path/to/cpg")`
+=======================================================================================================
+
+moving cpg.bin.zip to cpg.bin because it is already a database file
+Creating working copy of CPG to be safe
+Loading base CPG from: /private/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/tmp.UcydNP7dbN/run-python/workspace/native-persistence-positive/cpg.bin.tmp
+[INFO ] initialising from existing storage (/private/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/tmp.UcydNP7dbN/run-python/workspace/native-persistence-positive/cpg.bin.tmp)
+Code successfully imported. You can now query it using `cpg`.
+For an overview of all imported code, type `workspace`.
+Adding default overlays to base CPG
+[INFO ] Start of pass: io.joern.x2cpg.passes.base.FileCreationPass
+[INFO ] Pass io.joern.x2cpg.passes.base.FileCreationPass completed in 19 ms (60% on mutations). 8 + 0 changes committed from 1 parts.
+[INFO ] Start of pass: io.joern.x2cpg.passes.base.NamespaceCreator
+[INFO ] Pass io.joern.x2cpg.passes.base.NamespaceCreator completed in 4 ms (38% on mutations). 3 + 0 changes committed from 1 parts.
+[INFO ] Start of pass: io.joern.x2cpg.passes.base.TypeDeclStubCreator
+[INFO ] Pass io.joern.x2cpg.passes.base.TypeDeclStubCreator completed in 2 ms (50% on mutations). 0 + 0 changes committed from 1 parts.
+[INFO ] Start of pass: io.joern.x2cpg.passes.base.MethodStubCreator
+[INFO ] Pass io.joern.x2cpg.passes.base.MethodStubCreator completed in 12 ms (14% on mutations). 36 + 0 changes committed from 1 parts.
+[INFO ] Start of pass: io.joern.x2cpg.passes.base.ParameterIndexCompatPass
+[INFO ] Pass io.joern.x2cpg.passes.base.ParameterIndexCompatPass completed in 1 ms (51% on mutations). 0 + 0 changes committed from 1 parts.
+[INFO ] Start of pass: io.joern.x2cpg.passes.base.MethodDecoratorPass
+[INFO ] Pass io.joern.x2cpg.passes.base.MethodDecoratorPass completed in 4 ms (43% on mutations). 24 + 0 changes committed from 1 parts.
+[INFO ] Start of pass: io.joern.x2cpg.passes.base.AstLinkerPass
+[INFO ] Pass io.joern.x2cpg.passes.base.AstLinkerPass completed in 4 ms (30% on mutations). 4 + 0 changes committed from 1 parts.
+[INFO ] Start of pass: io.joern.x2cpg.passes.base.ContainsEdgePass
+[INFO ] Pass io.joern.x2cpg.passes.base.ContainsEdgePass completed in 2 ms (51% on mutations). 54 + 0 changes committed from 11 parts.
+[INFO ] Start of pass: io.joern.x2cpg.passes.base.TypeRefPass
+[INFO ] Pass io.joern.x2cpg.passes.base.TypeRefPass completed in 2 ms (24% on mutations). 3 + 0 changes committed from 1 parts.
+[INFO ] Start of pass: io.joern.x2cpg.passes.base.TypeEvalPass
+[INFO ] Pass io.joern.x2cpg.passes.base.TypeEvalPass completed in 1 ms (36% on mutations). 74 + 0 changes committed from 1 parts.
+[INFO ] Start of pass: io.shiftleft.semanticcpg.Overlays$$anon$1
+[INFO ] Pass io.shiftleft.semanticcpg.Overlays$$anon$1 completed in 2 ms (26% on mutations). 1 + 0 changes committed from 1 parts.
+[INFO ] Start of pass: io.joern.x2cpg.passes.controlflow.CfgCreationPass
+[INFO ] Pass io.joern.x2cpg.passes.controlflow.CfgCreationPass completed in 11 ms (6% on mutations). 49 + 0 changes committed from 6 parts.
+[INFO ] Start of pass: io.joern.x2cpg.passes.controlflow.cfgdominator.CfgDominatorPass
+[INFO ] Pass io.joern.x2cpg.passes.controlflow.cfgdominator.CfgDominatorPass completed in 4 ms (19% on mutations). 96 + 0 changes committed from 6 parts.
+[INFO ] Start of pass: io.joern.x2cpg.passes.controlflow.codepencegraph.CdgPass
+[INFO ] Pass io.joern.x2cpg.passes.controlflow.codepencegraph.CdgPass completed in 2 ms (20% on mutations). 2 + 0 changes committed from 6 parts.
+[INFO ] Start of pass: io.shiftleft.semanticcpg.Overlays$$anon$1
+[INFO ] Pass io.shiftleft.semanticcpg.Overlays$$anon$1 completed in 0 ms (79% on mutations). 1 + 0 changes committed from 1 parts.
+[INFO ] Start of pass: io.joern.x2cpg.passes.typerelations.TypeHierarchyPass
+[INFO ] Pass io.joern.x2cpg.passes.typerelations.TypeHierarchyPass completed in 2 ms (26% on mutations). 2 + 0 changes committed from 1 parts.
+[INFO ] Start of pass: io.joern.x2cpg.passes.typerelations.AliasLinkerPass
+[INFO ] Pass io.joern.x2cpg.passes.typerelations.AliasLinkerPass completed in 1 ms (48% on mutations). 0 + 0 changes committed from 1 parts.
+[INFO ] Start of pass: io.joern.x2cpg.passes.typerelations.FieldAccessLinkerPass
+[INFO ] Could not create edge. Destination lookup failed. edgeType=REF, srcNodeType=CALL, srcNodeId=30064771074, dstNodeType=MEMBER, dstFullName=ANY.environ
+[INFO ] Could not create edge. Destination lookup failed. edgeType=REF, srcNodeType=CALL, srcNodeId=30064771077, dstNodeType=MEMBER, dstFullName=ANY.environ
+[INFO ] Could not create edge. Destination lookup failed. edgeType=REF, srcNodeType=CALL, srcNodeId=30064771080, dstNodeType=MEMBER, dstFullName=ANY.environ
+[INFO ] Could not create edge. Destination lookup failed. edgeType=REF, srcNodeType=CALL, srcNodeId=30064771083, dstNodeType=MEMBER, dstFullName=ANY.system
+[INFO ] Pass io.joern.x2cpg.passes.typerelations.FieldAccessLinkerPass completed in 13 ms (2% on mutations). 0 + 0 changes committed from 1 parts.
+[INFO ] Start of pass: io.shiftleft.semanticcpg.Overlays$$anon$1
+[INFO ] Pass io.shiftleft.semanticcpg.Overlays$$anon$1 completed in 1 ms (70% on mutations). 1 + 0 changes committed from 1 parts.
+[INFO ] Start of pass: io.joern.x2cpg.passes.callgraph.MethodRefLinker
+[INFO ] Pass io.joern.x2cpg.passes.callgraph.MethodRefLinker completed in 1 ms (44% on mutations). 1 + 0 changes committed from 1 parts.
+[INFO ] Start of pass: io.joern.x2cpg.passes.callgraph.StaticCallLinker
+[INFO ] Pass io.joern.x2cpg.passes.callgraph.StaticCallLinker completed in 1 ms (38% on mutations). 13 + 0 changes committed from 1 parts.
+[INFO ] Start of pass: io.joern.x2cpg.passes.callgraph.DynamicCallLinker
+[INFO ] Pass io.joern.x2cpg.passes.callgraph.DynamicCallLinker completed in 1 ms (20% on mutations). 0 + 0 changes committed from 1 parts.
+[INFO ] Start of pass: io.shiftleft.semanticcpg.Overlays$$anon$1
+[INFO ] Pass io.shiftleft.semanticcpg.Overlays$$anon$1 completed in 0 ms (77% on mutations). 1 + 0 changes committed from 1 parts.
+The graph has been modified. You may want to use the `save` command to persist changes to disk.  All changes will also be saved collectively on exit
+[INFO ] Start of pass: io.joern.dataflowengineoss.passes.reachingdef.ReachingDefPass
+[INFO ] Calculating reaching definitions for: <operator>.fieldAccess in <empty>
+[INFO ] Calculating reaching definitions for: <operator>.equals in <empty>
+[INFO ] Calculating reaching definitions for: <operator>.assignment in <empty>
+[INFO ] Calculating reaching definitions for: store_command.py:<module>.run in store_command.py
+[INFO ] Calculating reaching definitions for: <operator>.indexAccess in <empty>
+[INFO ] Calculating reaching definitions for: store_command.py:<module> in store_command.py
+[INFO ] Number of definitions for <operator>.fieldAccess: 2
+[INFO ] Number of definitions for <operator>.assignment: 2
+[INFO ] Number of definitions for <operator>.indexAccess: 2
+[INFO ] Number of definitions for <operator>.equals: 2
+[INFO ] Number of definitions for store_command.py:<module>: 9
+[INFO ] Number of definitions for store_command.py:<module>.run: 12
+[INFO ] Pass io.joern.dataflowengineoss.passes.reachingdef.ReachingDefPass completed in 28 ms (3% on mutations). 92 + 0 changes committed from 6 parts.
+[INFO ] Start of pass: io.shiftleft.semanticcpg.Overlays$$anon$1
+[INFO ] Pass io.shiftleft.semanticcpg.Overlays$$anon$1 completed in 1 ms (77% on mutations). 1 + 0 changes committed from 1 parts.
+The graph has been modified. You may want to use the `save` command to persist changes to disk.  All changes will also be saved collectively on exit
+[INFO ] Start of pass: io.joern.x2cpg.frontendspecific.pysrc2cpg.ImportsPass
+[INFO ] Pass io.joern.x2cpg.frontendspecific.pysrc2cpg.ImportsPass completed in 5 ms (15% on mutations). 3 + 0 changes committed from 1 parts.
+[INFO ] Start of pass: io.joern.x2cpg.frontendspecific.pysrc2cpg.PythonImportResolverPass
+[INFO ] Pass io.joern.x2cpg.frontendspecific.pysrc2cpg.PythonImportResolverPass completed in 7 ms (6% on mutations). 2 + 0 changes committed from 1 parts.
+[INFO ] Start of pass: io.joern.x2cpg.frontendspecific.pysrc2cpg.DynamicTypeHintFullNamePass
+[INFO ] Pass io.joern.x2cpg.frontendspecific.pysrc2cpg.DynamicTypeHintFullNamePass completed in 0 ms (36% on mutations). 0 + 0 changes committed from 0 parts.
+[INFO ] Start of pass: io.joern.x2cpg.frontendspecific.pysrc2cpg.PythonInheritanceNamePass
+[INFO ] Pass io.joern.x2cpg.frontendspecific.pysrc2cpg.PythonInheritanceNamePass completed in 0 ms (36% on mutations). 0 + 0 changes committed from 0 parts.
+[INFO ] Start of pass: io.joern.x2cpg.frontendspecific.pysrc2cpg.PythonTypeRecovery
+[INFO ] Pass io.joern.x2cpg.frontendspecific.pysrc2cpg.PythonTypeRecovery completed in 13 ms (3% on mutations). 23 + 0 changes committed from 2 parts.
+[INFO ] Start of pass: io.joern.x2cpg.frontendspecific.pysrc2cpg.PythonTypeRecovery
+[INFO ] Pass io.joern.x2cpg.frontendspecific.pysrc2cpg.PythonTypeRecovery completed in 3 ms (11% on mutations). 7 + 0 changes committed from 2 parts.
+[INFO ] Start of pass: io.joern.x2cpg.frontendspecific.pysrc2cpg.PythonTypeHintCallLinker
+[INFO ] Pass io.joern.x2cpg.frontendspecific.pysrc2cpg.PythonTypeHintCallLinker completed in 5 ms (15% on mutations). 20 + 0 changes committed from 1 parts.
+[INFO ] Start of pass: io.joern.x2cpg.passes.callgraph.NaiveCallLinker
+[INFO ] Pass io.joern.x2cpg.passes.callgraph.NaiveCallLinker completed in 2 ms (21% on mutations). 0 + 0 changes committed from 1 parts.
+[INFO ] Start of pass: io.joern.x2cpg.passes.base.AstLinkerPass
+[INFO ] Pass io.joern.x2cpg.passes.base.AstLinkerPass completed in 0 ms (49% on mutations). 0 + 0 changes committed from 1 parts.
+Overlay dataflowOss already exists - skipping
+The graph has been modified. You may want to use the `save` command to persist changes to disk.  All changes will also be saved collectively on exit
+Saving graphs on disk. This may take a while.
+[INFO ] writing to storage at `/private/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/tmp.UcydNP7dbN/run-python/workspace/native-persistence-positive/cpg.bin.tmp`
+[INFO ] closed graph at /private/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/tmp.UcydNP7dbN/run-python/workspace/native-persistence-positive/cpg.bin.tmp
+closing/saving project `native-persistence-positive`
+Creating working copy of CPG to be safe
+Loading base CPG from: /private/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/tmp.UcydNP7dbN/run-python/workspace/native-persistence-positive/cpg.bin.tmp
+[INFO ] initialising from existing storage (/private/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/tmp.UcydNP7dbN/run-python/workspace/native-persistence-positive/cpg.bin.tmp)
+[INFO ] Start of pass: io.joern.console.scan.ScanPass
+[INFO ] Attempting to determine flows from empty list of sources.
+[INFO ] Attempting to determine flows to empty list of sinks.
+[INFO ] Attempting to determine flows from empty list of sources.
+[INFO ] Attempting to determine flows from empty list of sources.
+[INFO ] Attempting to determine flows to empty list of sinks.
+[INFO ] Attempting to determine flows from empty list of sources.
+[INFO ] Attempting to determine flows to empty list of sinks.
+[INFO ] Attempting to determine flows from empty list of sources.
+[INFO ] Attempting to determine flows to empty list of sinks.
+[INFO ] Attempting to determine flows from empty list of sources.
+[INFO ] Attempting to determine flows to empty list of sinks.
+[INFO ] Attempting to determine flows from empty list of sources.
+[INFO ] Attempting to determine flows to empty list of sinks.
+[INFO ] Attempting to determine flows from empty list of sources.
+[INFO ] Attempting to determine flows from empty list of sources.
+[INFO ] Attempting to determine flows to empty list of sinks.
+[INFO ] Attempting to determine flows from empty list of sources.
+[INFO ] Attempting to determine flows to empty list of sinks.
+[INFO ] Attempting to determine flows from empty list of sources.
+[INFO ] Attempting to determine flows to empty list of sinks.
+[INFO ] Attempting to determine flows from empty list of sources.
+[INFO ] Attempting to determine flows to empty list of sinks.
+[INFO ] Attempting to determine flows from empty list of sources.
+[INFO ] Attempting to determine flows to empty list of sinks.
+[INFO ] Attempting to determine flows from empty list of sources.
+[INFO ] Attempting to determine flows to empty list of sinks.
+[INFO ] Pass io.joern.console.scan.ScanPass completed in 49 ms (2% on mutations). 0 + 0 changes committed from 1 parts.
+[INFO ] Start of pass: io.shiftleft.semanticcpg.Overlays$$anon$1
+The graph has been modified. You may want to use the `save` command to persist changes to disk.  All changes will also be saved collectively on exit
+[INFO ] Pass io.shiftleft.semanticcpg.Overlays$$anon$1 completed in 1 ms (65% on mutations). 1 + 0 changes committed from 1 parts.
+[INFO ] writing to storage at `/private/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/tmp.UcydNP7dbN/run-python/workspace/native-persistence-positive/cpg.bin.tmp`
+[INFO ] closed graph at /private/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/tmp.UcydNP7dbN/run-python/workspace/native-persistence-positive/cpg.bin.tmp
+closing/saving project `native-persistence-positive`
+Run `joern --for-input-path /Users/dave/Workspace/BrokkAi/dataflowbench/.claude/worktrees/competent-engelbart-ca384f/cases/taint/python/native-persistence-positive` to explore interactively

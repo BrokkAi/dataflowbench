@@ -1,0 +1,318 @@
+{
+  "id": "codeql-python-modeling-attempt-01",
+  "planned_id": "codeql-python-modeling",
+  "argv": [
+    "/Users/dave/.codex/worktrees/653a/dataflowbench/target/debug/dataflowbench",
+    "--population",
+    "v0.7.0",
+    "run-codeql-modeling",
+    "--language",
+    "python",
+    "--codeql",
+    "/opt/homebrew/bin/codeql"
+  ],
+  "cwd": "/Users/dave/.codex/worktrees/653a/dataflowbench",
+  "input_commits": {
+    "corpus": "0c82e8093ff899d5ee72809a82c951ab76b5bb76",
+    "publication_infrastructure": "53050fa64628997e866303bcd5299d74f1e3e45d",
+    "pins": "c0899dab0d2c043dcc5b1aa6a1aad0e49f482fea"
+  },
+  "execution_revision": "4ec8cb4bc7552246dc75b1bc39a18340432880a3",
+  "population": "v0.7.0",
+  "fixture_revision": "sha256:9df209ed3d7723a3ee33f2b289cf2afe34a3add781bdf2a2ac445de42b8d0151",
+  "plan": {
+    "path": "reports/releases/v0.7.1/plan.json",
+    "sha256": "cb948f4a5cff80b95d3dcc755ab8249d87449e43f70e6eb80a456789faf12f26"
+  },
+  "identities": {
+    "path": "reports/releases/v0.7.1/identities.json",
+    "sha256": "0b8b1bb07d1df1ec8687613bb355f5f6021a2c664d3488dc3bc763553ce1a83c"
+  },
+  "execution_access": "require_escalated",
+  "start_utc": "2026-09-07T19:01:52.419863+00:00",
+  "host": {
+    "platform": "macOS-26.6.2-arm64-arm-64bit",
+    "cpu_count": 10,
+    "load_before": [
+      7.29541015625,
+      6.212890625,
+      5.34765625
+    ],
+    "load_after": [
+      5.66748046875,
+      5.859375,
+      5.32666015625
+    ]
+  },
+  "settle_observations": [],
+  "cache_posture": "isolated case workspaces; local distributions and prefetched CodeQL packs; OS page cache uncontrolled; warm only for explicit warm series",
+  "supersedes": null,
+  "exit_code": 1,
+  "end_utc": "2026-09-07T19:04:13.332778+00:00",
+  "stdout": {
+    "path": "reports/releases/v0.7.1/attempts/codeql-python-modeling-attempt-01/stdout.txt",
+    "sha256": "e5f4125b7275fa9228693fa24407debffe73f2d0c70624118ccaf5e30dc4e426"
+  },
+  "stderr": {
+    "path": "reports/releases/v0.7.1/attempts/codeql-python-modeling-attempt-01/stderr.txt",
+    "sha256": "77e77171c5cded98fc8147199d7fb0aa64313ce20bdbdd74a5fc756c8adc9c5f"
+  },
+  "outputs": [
+    {
+      "original_path": "reports/codeql-python-modeling.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-python-modeling-attempt-01/outputs/reports/codeql-python-modeling.json",
+      "sha256": "63a1406a605fc6bb42daa663bf1fa0ac7838a887b908e88aeca0d73679cf8ad7"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-modeling/dfb-taint-python-model-sanitizer-kill-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-python-modeling-attempt-01/outputs/reports/raw/codeql-python-modeling/dfb-taint-python-model-sanitizer-kill-positive-timing.json",
+      "sha256": "57da28f49e4ac01aed738e2a7ada00678afff0463e69161878ab67b4aea27f64"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-modeling/dfb-taint-python-model-opaque-propagator-negative.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-python-modeling-attempt-01/outputs/reports/raw/codeql-python-modeling/dfb-taint-python-model-opaque-propagator-negative.sarif.json",
+      "sha256": "2e2441b50e13276a569b3377491497db93116e83813d099ac333be1b6c39f2d4"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-modeling/dfb-taint-python-model-sanitizer-kill-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-python-modeling-attempt-01/outputs/reports/raw/codeql-python-modeling/dfb-taint-python-model-sanitizer-kill-negative-timing.json",
+      "sha256": "028b913b93f4fa92e02aadfb8be67dd89736dad39d67bd861d5a85fe9c3a86eb"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-modeling/dfb-taint-python-model-summary-through-positive.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-python-modeling-attempt-01/outputs/reports/raw/codeql-python-modeling/dfb-taint-python-model-summary-through-positive.sarif.json",
+      "sha256": "d22ebeb6c046b0ebb2d2b95120df901a68f4a7b84996d756aa93369c727f7b92"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-modeling/dfb-taint-python-model-declared-sink-negative.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-python-modeling-attempt-01/outputs/reports/raw/codeql-python-modeling/dfb-taint-python-model-declared-sink-negative.sarif.json",
+      "sha256": "1aec72397ba3d6f7282853c5b989cbe43a1d29a32b7007e4e3159f51a5a9b6bd"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-modeling/dfb-taint-python-model-declared-sink-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-python-modeling-attempt-01/outputs/reports/raw/codeql-python-modeling/dfb-taint-python-model-declared-sink-negative-timing.json",
+      "sha256": "ebed65cb8c6554253daf214b3af1db2f87e7afde8df94b31ff4e8311d9ad3d2e"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-modeling/dfb-taint-python-model-entrypoint-selectivity-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-python-modeling-attempt-01/outputs/reports/raw/codeql-python-modeling/dfb-taint-python-model-entrypoint-selectivity-negative-timing.json",
+      "sha256": "d44805c7f18d094cab15a14f073db47cbb1ed0f788287294d5a1d4f7b0b9d4a7"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-modeling/dfb-taint-python-model-opaque-propagator-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-python-modeling-attempt-01/outputs/reports/raw/codeql-python-modeling/dfb-taint-python-model-opaque-propagator-positive-timing.json",
+      "sha256": "1b31a859a9b641fe930cbf94fb9ec62c278fa750a388e4eff094a0434a327817"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-modeling/dfb-taint-python-model-summary-through-negative.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-python-modeling-attempt-01/outputs/reports/raw/codeql-python-modeling/dfb-taint-python-model-summary-through-negative.sarif.json",
+      "sha256": "a0c29f85824984e79fae7dc383a0d0b025f9f3c73d4ef7424d59815f3253368e"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-modeling/dfb-taint-python-model-store-roundtrip-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-python-modeling-attempt-01/outputs/reports/raw/codeql-python-modeling/dfb-taint-python-model-store-roundtrip-negative-timing.json",
+      "sha256": "90d013d1979bdd1962bcf1ae365022411a9b0da36f7e7b563bc59d462aab4781"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-modeling/dfb-taint-python-model-declared-sink-positive.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-python-modeling-attempt-01/outputs/reports/raw/codeql-python-modeling/dfb-taint-python-model-declared-sink-positive.sarif.json",
+      "sha256": "81549a67a2dcf8fa821b20dfc601fcd4ffd5696a40fbc49731bf00dea5427941"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-modeling/dfb-taint-python-model-opaque-propagator-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-python-modeling-attempt-01/outputs/reports/raw/codeql-python-modeling/dfb-taint-python-model-opaque-propagator-negative-timing.json",
+      "sha256": "f6691dff3bd9a1f8bed33a3f95a0d59f42ea7b777bf31794505b29dcc85c34ec"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-modeling/dfb-taint-python-model-entrypoint-selectivity-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-python-modeling-attempt-01/outputs/reports/raw/codeql-python-modeling/dfb-taint-python-model-entrypoint-selectivity-positive-timing.json",
+      "sha256": "d559a57ec0df1c6740605ee8d4a0a3b792895e88aaa297b6d343da8f7308ec14"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-modeling/dfb-taint-python-model-opaque-propagator-positive.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-python-modeling-attempt-01/outputs/reports/raw/codeql-python-modeling/dfb-taint-python-model-opaque-propagator-positive.sarif.json",
+      "sha256": "13e0bb7a5487aa6d6061f336c19249a7ed479f596b799a51c430e29546c3275f"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-modeling/dfb-taint-python-model-declared-sink-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-python-modeling-attempt-01/outputs/reports/raw/codeql-python-modeling/dfb-taint-python-model-declared-sink-positive-timing.json",
+      "sha256": "7be9e5be4b987aba9efa33013081d4e93c3ad6039416413236cae5532628eb98"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-modeling/dfb-taint-python-model-store-roundtrip-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-python-modeling-attempt-01/outputs/reports/raw/codeql-python-modeling/dfb-taint-python-model-store-roundtrip-positive-timing.json",
+      "sha256": "a7de436daaff211baf8442c1f1ada21844433dee20d32c886ce4f956c3705bef"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-modeling/dfb-taint-python-model-summary-through-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-python-modeling-attempt-01/outputs/reports/raw/codeql-python-modeling/dfb-taint-python-model-summary-through-negative-timing.json",
+      "sha256": "bcbfabba0d53414a486db638b71ab04272e76be3cea2eff07086306fa3bdf31b"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-modeling/dfb-taint-python-model-declared-source-positive.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-python-modeling-attempt-01/outputs/reports/raw/codeql-python-modeling/dfb-taint-python-model-declared-source-positive.sarif.json",
+      "sha256": "334ea3b4384e6051b5288711d696c308a280281138c197b55c2c1fb54814246f"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-modeling/dfb-taint-python-model-propagator-position-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-python-modeling-attempt-01/outputs/reports/raw/codeql-python-modeling/dfb-taint-python-model-propagator-position-negative-timing.json",
+      "sha256": "b2bdc37107639850f8a3103bc13f123c5454073863dcb48b9fbd266e020eb8ff"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-modeling/dfb-taint-python-model-sanitizer-kill-negative.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-python-modeling-attempt-01/outputs/reports/raw/codeql-python-modeling/dfb-taint-python-model-sanitizer-kill-negative.sarif.json",
+      "sha256": "09160eb8abd28e20bf85f50887bb6877615efce027cafa807c94ab59a7bce418"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-modeling/dfb-taint-python-model-summary-through-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-python-modeling-attempt-01/outputs/reports/raw/codeql-python-modeling/dfb-taint-python-model-summary-through-positive-timing.json",
+      "sha256": "04835ade9f0984d1e0912ff67d967aacd19e6d10b9fe5eb6fca5f9f6ad7f6c4e"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-modeling/run-environment.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-python-modeling-attempt-01/outputs/reports/raw/codeql-python-modeling/run-environment.json",
+      "sha256": "8b4b6e2354cb8513065087e734bd0efa8106d322ba860a6bdfc0b682d767a3cd"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-modeling/dfb-taint-python-model-propagator-position-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-python-modeling-attempt-01/outputs/reports/raw/codeql-python-modeling/dfb-taint-python-model-propagator-position-positive-timing.json",
+      "sha256": "3c57c28c65f4b2c2c5a769d688c586aaadb7a528bce581ca80a3d2f705f2e9ab"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-modeling/dfb-taint-python-model-declared-source-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-python-modeling-attempt-01/outputs/reports/raw/codeql-python-modeling/dfb-taint-python-model-declared-source-positive-timing.json",
+      "sha256": "dbc85b0f2ecb4eb39c8fe99f6822c26867d9a0b980d12fe08beee7aa13ce38ac"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-modeling/dfb-taint-python-model-sanitizer-selectivity-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-python-modeling-attempt-01/outputs/reports/raw/codeql-python-modeling/dfb-taint-python-model-sanitizer-selectivity-negative-timing.json",
+      "sha256": "9b73c4481b21b98d58bef6d3e3a4f6ffcfaf70d958faaabd48356476f61e0eae"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-modeling/dfb-taint-python-model-declared-source-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-python-modeling-attempt-01/outputs/reports/raw/codeql-python-modeling/dfb-taint-python-model-declared-source-negative-timing.json",
+      "sha256": "53cd8fe448b0d4b7dee32ced2eceade1ae7ee83ae282ed882baeabc8dc66ac16"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-modeling/dfb-taint-python-model-declared-source-negative.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-python-modeling-attempt-01/outputs/reports/raw/codeql-python-modeling/dfb-taint-python-model-declared-source-negative.sarif.json",
+      "sha256": "51b610e9fc215cb8f6cece591b4c5b0cebafcc24d06eab306807d3cabc91de28"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-modeling/dfb-taint-python-model-sanitizer-kill-positive.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-python-modeling-attempt-01/outputs/reports/raw/codeql-python-modeling/dfb-taint-python-model-sanitizer-kill-positive.sarif.json",
+      "sha256": "ca945a0292140d9c5b4d08b2a1f9410fe3df234cd0762bc0dabf3c616da8991b"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-modeling/dfb-taint-python-model-sanitizer-selectivity-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-python-modeling-attempt-01/outputs/reports/raw/codeql-python-modeling/dfb-taint-python-model-sanitizer-selectivity-positive-timing.json",
+      "sha256": "9c089cd822ff2fdc7c4fd9cd5f28957717aa45decbaece49e8141387b03f57cf"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-modeling/dfb-taint-python-model-sanitizer-selectivity-positive.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-python-modeling-attempt-01/outputs/reports/raw/codeql-python-modeling/dfb-taint-python-model-sanitizer-selectivity-positive.sarif.json",
+      "sha256": "12872757da91d8141e41784d5d2b96540ffb6339dbb1a3d5aaf954f57dd2b0c5"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-modeling/dfb-taint-python-model-store-roundtrip-negative.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-python-modeling-attempt-01/outputs/reports/raw/codeql-python-modeling/dfb-taint-python-model-store-roundtrip-negative.sarif.json",
+      "sha256": "c207ec3d79c882dcf46e838562a76fd827dde54251be8c7068926bb4c6857ed0"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-modeling/dfb-taint-python-model-entrypoint-parameter-negative.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-python-modeling-attempt-01/outputs/reports/raw/codeql-python-modeling/dfb-taint-python-model-entrypoint-parameter-negative.sarif.json",
+      "sha256": "9d18356d82d43510cc6c1e13eeef48736c59206243a1b398c27445fe3f6bf0b9"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-modeling/dfb-taint-python-model-store-separation-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-python-modeling-attempt-01/outputs/reports/raw/codeql-python-modeling/dfb-taint-python-model-store-separation-negative-timing.json",
+      "sha256": "3344d80592aae55066cb816501be433e5fbedb48e58fe8e0b4e32c451f964304"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-modeling/dfb-taint-python-model-summary-field-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-python-modeling-attempt-01/outputs/reports/raw/codeql-python-modeling/dfb-taint-python-model-summary-field-negative-timing.json",
+      "sha256": "50aa26a5acd3551e113134f09488c7e319cfbbb578602ae5d6c5364a542496f3"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-modeling/dfb-taint-python-model-summary-field-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-python-modeling-attempt-01/outputs/reports/raw/codeql-python-modeling/dfb-taint-python-model-summary-field-positive-timing.json",
+      "sha256": "3c9f5007208881d7e5d2893f02caa19b5a9fc801c223b076117dc6c63c739639"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-modeling/dfb-taint-python-model-store-separation-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-python-modeling-attempt-01/outputs/reports/raw/codeql-python-modeling/dfb-taint-python-model-store-separation-positive-timing.json",
+      "sha256": "c085b0a3358715cba9a9d5f19cec9a0909c77288886b52e0a9684676b34fdd6c"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-modeling/dfb-taint-python-model-store-roundtrip-positive.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-python-modeling-attempt-01/outputs/reports/raw/codeql-python-modeling/dfb-taint-python-model-store-roundtrip-positive.sarif.json",
+      "sha256": "8e599af6c47f38f854f5154e5b1b94a45d3213e99e890bc22e4058008f8c7b39"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-modeling/dfb-taint-python-model-sanitizer-selectivity-negative.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-python-modeling-attempt-01/outputs/reports/raw/codeql-python-modeling/dfb-taint-python-model-sanitizer-selectivity-negative.sarif.json",
+      "sha256": "7e771711340125a8989439ca1b7eb122623fa86db10277a919606dfbb7ddae0f"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-modeling/dfb-taint-python-model-entrypoint-parameter-positive.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-python-modeling-attempt-01/outputs/reports/raw/codeql-python-modeling/dfb-taint-python-model-entrypoint-parameter-positive.sarif.json",
+      "sha256": "f6bf34c926dc0bc63e22215be59379df61ac4b126fccc514e342ad0730502dc3"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-modeling/dfb-taint-python-model-propagator-position-negative.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-python-modeling-attempt-01/outputs/reports/raw/codeql-python-modeling/dfb-taint-python-model-propagator-position-negative.sarif.json",
+      "sha256": "3a7a6725ece6cd46b0a6061e19aae85f2ed6ae0e7be6c49520e5bed96d67020d"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-modeling/dfb-taint-python-model-summary-field-negative.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-python-modeling-attempt-01/outputs/reports/raw/codeql-python-modeling/dfb-taint-python-model-summary-field-negative.sarif.json",
+      "sha256": "df0366fd3651445bd1778a3773be12c254ffd159fab849d319e0e01697599f56"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-modeling/dfb-taint-python-model-entrypoint-selectivity-negative.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-python-modeling-attempt-01/outputs/reports/raw/codeql-python-modeling/dfb-taint-python-model-entrypoint-selectivity-negative.sarif.json",
+      "sha256": "6be9461942129c57367a179b71750b2eec89f49f35288b6b4c695721bfc8745a"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-modeling/dfb-taint-python-model-store-separation-negative.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-python-modeling-attempt-01/outputs/reports/raw/codeql-python-modeling/dfb-taint-python-model-store-separation-negative.sarif.json",
+      "sha256": "846d649e6dc1626a8df08a7db9d275e47127b34572388c942011f62642d2356c"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-modeling/dfb-taint-python-model-summary-field-positive.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-python-modeling-attempt-01/outputs/reports/raw/codeql-python-modeling/dfb-taint-python-model-summary-field-positive.sarif.json",
+      "sha256": "2482e665dc73554a21a4396e67fb668ef511a3d4de2df9546592a2395b125293"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-modeling/dfb-taint-python-model-entrypoint-selectivity-positive.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-python-modeling-attempt-01/outputs/reports/raw/codeql-python-modeling/dfb-taint-python-model-entrypoint-selectivity-positive.sarif.json",
+      "sha256": "b711d54e65320022e9df96deaad3dcd34b0830e48bfc1550aa3e7598a3b7db3a"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-modeling/dfb-taint-python-model-store-separation-positive.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-python-modeling-attempt-01/outputs/reports/raw/codeql-python-modeling/dfb-taint-python-model-store-separation-positive.sarif.json",
+      "sha256": "1be2d2939e327fcb6dbeaf73fc1a398efc007c4cea0e6a05ecb0c555de8ac50f"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-modeling/dfb-taint-python-model-entrypoint-parameter-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-python-modeling-attempt-01/outputs/reports/raw/codeql-python-modeling/dfb-taint-python-model-entrypoint-parameter-negative-timing.json",
+      "sha256": "fb1947f2d31b83a39fd42f622aba406b225a40bf2ebfaa2797f4b54641b6941f"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-modeling/dfb-taint-python-model-propagator-position-positive.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-python-modeling-attempt-01/outputs/reports/raw/codeql-python-modeling/dfb-taint-python-model-propagator-position-positive.sarif.json",
+      "sha256": "775b7601f8af0f02577d25d4921492988863741f3a209452a816a80116161a82"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-modeling/dfb-taint-python-model-entrypoint-parameter-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-python-modeling-attempt-01/outputs/reports/raw/codeql-python-modeling/dfb-taint-python-model-entrypoint-parameter-positive-timing.json",
+      "sha256": "e5899f595bba280c955f296fcc6bbafcd773bd36e23337c496b9fc133ca7a195"
+    }
+  ],
+  "expected_output_roots": [
+    "reports/codeql-python-modeling.json",
+    "reports/raw/codeql-python-modeling"
+  ],
+  "missing_fresh_output_roots": [],
+  "removed_paths": []
+}

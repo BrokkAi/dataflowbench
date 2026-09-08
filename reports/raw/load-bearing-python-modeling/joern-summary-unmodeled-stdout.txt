@@ -1,0 +1,103 @@
+=======================================================================================================
+Invoking CPG generator in a separate process. Note that the new process will consume additional memory.
+If you are importing a large codebase (and/or running into memory issues), please try the following:
+1) exit joern
+2) invoke the frontend: /Users/dave/.cache/dataflowbench-tools/joern-v4.0.621/joern-cli-macos-arm64/joern-cli/pysrc2cpg -J-Xmx8192m /var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-python-modeling-4itt3ird/joern-summary-unmodeled -o /private/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-python-modeling-4itt3ird/workspace/dataflowbench/cpg.bin.zip
+3) start joern, import the cpg: `importCpg("path/to/cpg")`
+=======================================================================================================
+
+[INFO ] initialising from existing storage (/private/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-python-modeling-4itt3ird/workspace/dataflowbench/cpg.bin.tmp)
+[INFO ] Start of pass: io.joern.x2cpg.passes.base.FileCreationPass
+[INFO ] Pass io.joern.x2cpg.passes.base.FileCreationPass completed in 12 ms (72% on mutations). 21 + 0 changes committed from 1 parts.
+[INFO ] Start of pass: io.joern.x2cpg.passes.base.NamespaceCreator
+[INFO ] Pass io.joern.x2cpg.passes.base.NamespaceCreator completed in 3 ms (52% on mutations). 4 + 0 changes committed from 1 parts.
+[INFO ] Start of pass: io.joern.x2cpg.passes.base.TypeDeclStubCreator
+[INFO ] Pass io.joern.x2cpg.passes.base.TypeDeclStubCreator completed in 2 ms (66% on mutations). 0 + 0 changes committed from 1 parts.
+[INFO ] Start of pass: io.joern.x2cpg.passes.base.MethodStubCreator
+[INFO ] Inconsistent/erroneous callInfo on calls to method fullname <operator>.pass (we have 1 many variants)
+[INFO ] Pass io.joern.x2cpg.passes.base.MethodStubCreator completed in 9 ms (21% on mutations). 25 + 0 changes committed from 1 parts.
+[INFO ] Start of pass: io.joern.x2cpg.passes.base.ParameterIndexCompatPass
+[INFO ] Pass io.joern.x2cpg.passes.base.ParameterIndexCompatPass completed in 1 ms (50% on mutations). 0 + 0 changes committed from 1 parts.
+[INFO ] Start of pass: io.joern.x2cpg.passes.base.MethodDecoratorPass
+[INFO ] Pass io.joern.x2cpg.passes.base.MethodDecoratorPass completed in 3 ms (23% on mutations). 24 + 0 changes committed from 1 parts.
+[INFO ] Start of pass: io.joern.x2cpg.passes.base.AstLinkerPass
+[INFO ] Pass io.joern.x2cpg.passes.base.AstLinkerPass completed in 2 ms (14% on mutations). 3 + 0 changes committed from 1 parts.
+[INFO ] Start of pass: io.joern.x2cpg.passes.base.ContainsEdgePass
+[INFO ] Pass io.joern.x2cpg.passes.base.ContainsEdgePass completed in 1 ms (41% on mutations). 75 + 0 changes committed from 23 parts.
+[INFO ] Start of pass: io.joern.x2cpg.passes.base.TypeRefPass
+[INFO ] Pass io.joern.x2cpg.passes.base.TypeRefPass completed in 1 ms (28% on mutations). 9 + 0 changes committed from 1 parts.
+[INFO ] Start of pass: io.joern.x2cpg.passes.base.TypeEvalPass
+[INFO ] Pass io.joern.x2cpg.passes.base.TypeEvalPass completed in 2 ms (24% on mutations). 96 + 0 changes committed from 1 parts.
+[INFO ] Start of pass: io.shiftleft.semanticcpg.Overlays$$anon$1
+[INFO ] Pass io.shiftleft.semanticcpg.Overlays$$anon$1 completed in 2 ms (22% on mutations). 1 + 0 changes committed from 1 parts.
+[INFO ] Start of pass: io.joern.x2cpg.passes.controlflow.CfgCreationPass
+[INFO ] Pass io.joern.x2cpg.passes.controlflow.CfgCreationPass completed in 12 ms (8% on mutations). 59 + 0 changes committed from 11 parts.
+[INFO ] Start of pass: io.joern.x2cpg.passes.controlflow.cfgdominator.CfgDominatorPass
+[INFO ] Pass io.joern.x2cpg.passes.controlflow.cfgdominator.CfgDominatorPass completed in 4 ms (17% on mutations). 118 + 0 changes committed from 11 parts.
+[INFO ] Start of pass: io.joern.x2cpg.passes.controlflow.codepencegraph.CdgPass
+[INFO ] Pass io.joern.x2cpg.passes.controlflow.codepencegraph.CdgPass completed in 2 ms (13% on mutations). 0 + 0 changes committed from 11 parts.
+[INFO ] Start of pass: io.shiftleft.semanticcpg.Overlays$$anon$1
+[INFO ] Pass io.shiftleft.semanticcpg.Overlays$$anon$1 completed in 0 ms (77% on mutations). 1 + 0 changes committed from 1 parts.
+[INFO ] Start of pass: io.joern.x2cpg.passes.typerelations.TypeHierarchyPass
+[INFO ] Pass io.joern.x2cpg.passes.typerelations.TypeHierarchyPass completed in 2 ms (15% on mutations). 8 + 0 changes committed from 1 parts.
+[INFO ] Start of pass: io.joern.x2cpg.passes.typerelations.AliasLinkerPass
+[INFO ] Pass io.joern.x2cpg.passes.typerelations.AliasLinkerPass completed in 1 ms (28% on mutations). 0 + 0 changes committed from 1 parts.
+[INFO ] Start of pass: io.joern.x2cpg.passes.typerelations.FieldAccessLinkerPass
+[INFO ] Pass io.joern.x2cpg.passes.typerelations.FieldAccessLinkerPass completed in 1 ms (23% on mutations). 0 + 0 changes committed from 1 parts.
+[INFO ] Start of pass: io.shiftleft.semanticcpg.Overlays$$anon$1
+[INFO ] Pass io.shiftleft.semanticcpg.Overlays$$anon$1 completed in 0 ms (78% on mutations). 1 + 0 changes committed from 1 parts.
+[INFO ] Start of pass: io.joern.x2cpg.passes.callgraph.MethodRefLinker
+[INFO ] Pass io.joern.x2cpg.passes.callgraph.MethodRefLinker completed in 0 ms (49% on mutations). 6 + 0 changes committed from 1 parts.
+[INFO ] Start of pass: io.joern.x2cpg.passes.callgraph.StaticCallLinker
+[INFO ] Pass io.joern.x2cpg.passes.callgraph.StaticCallLinker completed in 1 ms (43% on mutations). 10 + 0 changes committed from 1 parts.
+[INFO ] Start of pass: io.joern.x2cpg.passes.callgraph.DynamicCallLinker
+[INFO ] Pass io.joern.x2cpg.passes.callgraph.DynamicCallLinker completed in 2 ms (12% on mutations). 0 + 0 changes committed from 1 parts.
+[INFO ] Start of pass: io.shiftleft.semanticcpg.Overlays$$anon$1
+[INFO ] Pass io.shiftleft.semanticcpg.Overlays$$anon$1 completed in 1 ms (76% on mutations). 1 + 0 changes committed from 1 parts.
+[INFO ] Start of pass: io.joern.dataflowengineoss.passes.reachingdef.ReachingDefPass
+[INFO ] Calculating reaching definitions for: flow.py:<module>.unused in flow.py
+[INFO ] Calculating reaching definitions for: <operator>.tupleLiteral in <empty>
+[INFO ] Calculating reaching definitions for: bridge.py:<module>.hold in bridge.py
+[INFO ] Calculating reaching definitions for: bridge.py:<module> in bridge.py
+[INFO ] Calculating reaching definitions for: flow.py:<module>.dfb_source in flow.py
+[INFO ] Calculating reaching definitions for: flow.py:<module>.dfb_sink in flow.py
+[INFO ] Calculating reaching definitions for: flow.py:<module>.run in flow.py
+[INFO ] Calculating reaching definitions for: <operator>.assignment in <empty>
+[INFO ] Calculating reaching definitions for: bridge.py:<module>.pass_through in bridge.py
+[INFO ] Calculating reaching definitions for: <operator>.pass in <empty>
+[INFO ] Number of definitions for <operator>.assignment: 2
+[INFO ] Number of definitions for flow.py:<module>.dfb_source: 0
+[INFO ] Number of definitions for <operator>.tupleLiteral: 2
+[INFO ] Number of definitions for bridge.py:<module>.hold: 1
+[INFO ] Number of definitions for bridge.py:<module>.pass_through: 1
+[INFO ] Number of definitions for <operator>.pass: 1
+[INFO ] Number of definitions for flow.py:<module>.run: 5
+[INFO ] Number of definitions for flow.py:<module>.dfb_sink: 2
+[INFO ] Number of definitions for bridge.py:<module>: 4
+[INFO ] Number of definitions for flow.py:<module>.unused: 3
+[INFO ] Calculating reaching definitions for: flow.py:<module> in flow.py
+[INFO ] Number of definitions for flow.py:<module>: 16
+[INFO ] Pass io.joern.dataflowengineoss.passes.reachingdef.ReachingDefPass completed in 31 ms (2% on mutations). 134 + 0 changes committed from 11 parts.
+[INFO ] Start of pass: io.shiftleft.semanticcpg.Overlays$$anon$1
+[INFO ] Pass io.shiftleft.semanticcpg.Overlays$$anon$1 completed in 1 ms (57% on mutations). 1 + 0 changes committed from 1 parts.
+[INFO ] Start of pass: io.joern.x2cpg.frontendspecific.pysrc2cpg.ImportsPass
+[INFO ] Pass io.joern.x2cpg.frontendspecific.pysrc2cpg.ImportsPass completed in 3 ms (18% on mutations). 6 + 0 changes committed from 2 parts.
+[INFO ] Start of pass: io.joern.x2cpg.frontendspecific.pysrc2cpg.PythonImportResolverPass
+[INFO ] Pass io.joern.x2cpg.frontendspecific.pysrc2cpg.PythonImportResolverPass completed in 7 ms (9% on mutations). 8 + 0 changes committed from 2 parts.
+[INFO ] Start of pass: io.joern.x2cpg.frontendspecific.pysrc2cpg.DynamicTypeHintFullNamePass
+[INFO ] Pass io.joern.x2cpg.frontendspecific.pysrc2cpg.DynamicTypeHintFullNamePass completed in 2 ms (37% on mutations). 0 + 0 changes committed from 0 parts.
+[INFO ] Start of pass: io.joern.x2cpg.frontendspecific.pysrc2cpg.PythonInheritanceNamePass
+[INFO ] Pass io.joern.x2cpg.frontendspecific.pysrc2cpg.PythonInheritanceNamePass completed in 1 ms (31% on mutations). 0 + 0 changes committed from 0 parts.
+[INFO ] Start of pass: io.joern.x2cpg.frontendspecific.pysrc2cpg.PythonTypeRecovery
+[INFO ] Pass io.joern.x2cpg.frontendspecific.pysrc2cpg.PythonTypeRecovery completed in 9 ms (8% on mutations). 12 + 0 changes committed from 3 parts.
+[INFO ] Start of pass: io.joern.x2cpg.frontendspecific.pysrc2cpg.PythonTypeRecovery
+[INFO ] Pass io.joern.x2cpg.frontendspecific.pysrc2cpg.PythonTypeRecovery completed in 11 ms (6% on mutations). 24 + 0 changes committed from 3 parts.
+[INFO ] Start of pass: io.joern.x2cpg.frontendspecific.pysrc2cpg.PythonTypeHintCallLinker
+[INFO ] Pass io.joern.x2cpg.frontendspecific.pysrc2cpg.PythonTypeHintCallLinker completed in 5 ms (13% on mutations). 13 + 0 changes committed from 1 parts.
+[INFO ] Start of pass: io.joern.x2cpg.passes.callgraph.NaiveCallLinker
+[INFO ] Pass io.joern.x2cpg.passes.callgraph.NaiveCallLinker completed in 2 ms (9% on mutations). 0 + 0 changes committed from 1 parts.
+[INFO ] Start of pass: io.joern.x2cpg.passes.base.AstLinkerPass
+[INFO ] Pass io.joern.x2cpg.passes.base.AstLinkerPass completed in 0 ms (50% on mutations). 0 + 0 changes committed from 1 parts.
+dataflowbench-joern-modeling wrote /Users/dave/.codex/worktrees/653a/dataflowbench/reports/raw/load-bearing-python-modeling/joern-summary-unmodeled.json
+[INFO ] writing to storage at `/private/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-python-modeling-4itt3ird/workspace/dataflowbench/cpg.bin.tmp`
+[INFO ] closed graph at /private/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-python-modeling-4itt3ird/workspace/dataflowbench/cpg.bin.tmp

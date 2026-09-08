@@ -1,0 +1,18 @@
+{
+  "adapter": "semgrep",
+  "case_id": "dfb-taint-java-deep-relay-chain-positive",
+  "engine_profile": "semgrep-ce-oss-intrafile-intraprocedural-taint",
+  "evidence_kind": "retained-capability-decision",
+  "expected_analysis_capability": {
+    "kind": "deep-interprocedural-relay-taint"
+  },
+  "feature_tags": [
+    "interprocedural-deep"
+  ],
+  "language": "java",
+  "language_maturity": "ga",
+  "language_maturity_source": "semgrep_interfaces/lang.json (pinned distribution)",
+  "reason": "outside the bounded Semgrep CE profile: the case declares a six-hop interprocedural relay; CE has no interprocedural taint at all (`--pro-intrafile` is Pro), which docs/challenge-tier.md already records as this stratum's expected outcome. The case requires \"deep-interprocedural-relay-taint\"; the scored CE profile is the kernel's `intraprocedural` partition only.",
+  "stage": "declared-capability",
+  "state": "unsupported"
+}

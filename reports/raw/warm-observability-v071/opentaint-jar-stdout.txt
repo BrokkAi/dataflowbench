@@ -1,0 +1,64 @@
+Usage: project-analyzer-runner [<options>]
+
+Options:
+  --logs-file=<path>             File to which logs will be saved
+  --verbosity=(TRACE|DEBUG|INFO|WARN|ERROR)
+                                 Analyzer verbosity (log level)
+  --ifds-analysis-timeout=<int>  IFDS analysis timeout in seconds
+  --ifds-ap-mode=(Tree|Cactus|Automata)
+                                 IFDS Ap mode
+  --debug-taint-rules-stats      Enable reporting stats about analyzer steps
+                                 per taint rule
+  --debug-taint-rules-stats-sampling-period=<int>
+                                 Number of analyzer steps per one taint rule
+                                 stats sample
+  --debug-ifds-coverage          Enable coverage report by ifds engine
+  --debug-fact-reachability-sarif
+                                 Generate SARIF with fact reachability info
+  --debug-run-analysis-on-selected-entry-points=<text>
+                                 Run analysis on selected entry points. Use '*'
+                                 to run on all methods Use method fqn (e.g.
+                                 com.example.Class#method) to run on specific
+                                 method
+  --debug-run-rule-tests         Run rule tests instead of project analysis
+  --project=<path>               Project configuration (yaml)
+  --project-kind=(unknown|spring-web)
+                                 Project kind
+  --output-dir=<path>            Analyzer output directory
+  --cwe=<int>                    Analyzer CWE
+  --use-symbolic-execution=true|false
+                                 Use symbolic execution engine
+  --symbolic-execution-timeout=<int>
+                                 Symbolic execution timeout in seconds
+  --passthrough-approximations=<path>
+                                 passThrough approximation YAML file or
+                                 directory (walked recursively, OVERRIDE mode,
+                                 repeatable)
+  --semgrep-rule-set=<path>      Semgrep YAML rule file or directory containing
+                                 YAML rules
+  --semgrep-rule-severity=(note|warning|error)
+                                 Rule severity
+  --semgrep-rule-id=<text>       Filter active rules by ID
+  --semgrep-rule-id-exclude=<text>
+                                 Exclude rules by ID (applied after any
+                                 --semgrep-rule-id filter)
+  --track-external-methods       Track external methods, produce external
+                                 methods YAML lists
+  --disable-default-get-model    Disable default model for java getter
+  --java-dataflow-approximations=<path>
+                                 Directory of compiled approximation class
+                                 files
+  --semgrep-rule-load-trace=<path>
+                                 Output file for Semgrep rules loader trace
+  --sarif-file-name=<text>       Sarif file name
+  --sarif-code-flow-limit=<int>  Sarif code flow limit
+  --sarif-semgrep-style-id       Use semgrep style ids
+  --sarif-tool-version=<text>    Tool version
+  --sarif-tool-semantic-version=<text>
+                                 Tool semantic version
+  --sarif-generate-fingerprint   Generate partial fingerprints
+  --sarif-uri-base=<text>        Sarif sources root uri
+  --experimental-aainter-proc-call-depth=<int>
+                                 Experimental options: inter-proc alias
+                                 analysis call depth
+  -h, --help                     Show this message and exit

@@ -1,0 +1,506 @@
+{
+  "id": "semgrep-php-kernel-attempt-01",
+  "planned_id": "semgrep-php-kernel",
+  "argv": [
+    "/Users/dave/.codex/worktrees/653a/dataflowbench/target/debug/dataflowbench",
+    "--population",
+    "v0.7.0",
+    "run-semgrep-php-kernel",
+    "--semgrep",
+    "/opt/homebrew/bin/semgrep"
+  ],
+  "cwd": "/Users/dave/.codex/worktrees/653a/dataflowbench",
+  "input_commits": {
+    "corpus": "0c82e8093ff899d5ee72809a82c951ab76b5bb76",
+    "publication_infrastructure": "53050fa64628997e866303bcd5299d74f1e3e45d",
+    "pins": "c0899dab0d2c043dcc5b1aa6a1aad0e49f482fea"
+  },
+  "execution_revision": "4ec8cb4bc7552246dc75b1bc39a18340432880a3",
+  "population": "v0.7.0",
+  "fixture_revision": "sha256:9df209ed3d7723a3ee33f2b289cf2afe34a3add781bdf2a2ac445de42b8d0151",
+  "plan": {
+    "path": "reports/releases/v0.7.1/plan.json",
+    "sha256": "cb948f4a5cff80b95d3dcc755ab8249d87449e43f70e6eb80a456789faf12f26"
+  },
+  "identities": {
+    "path": "reports/releases/v0.7.1/identities.json",
+    "sha256": "0b8b1bb07d1df1ec8687613bb355f5f6021a2c664d3488dc3bc763553ce1a83c"
+  },
+  "execution_access": "require_escalated",
+  "start_utc": "2026-09-07T21:17:57.139706+00:00",
+  "host": {
+    "platform": "macOS-26.6.2-arm64-arm-64bit",
+    "cpu_count": 10,
+    "load_before": [
+      8.7958984375,
+      9.37255859375,
+      9.58056640625
+    ],
+    "load_after": [
+      7.50146484375,
+      9.03955078125,
+      9.4560546875
+    ]
+  },
+  "settle_observations": [],
+  "cache_posture": "isolated case workspaces; local distributions and prefetched CodeQL packs; OS page cache uncontrolled; warm only for explicit warm series",
+  "supersedes": null,
+  "exit_code": 0,
+  "end_utc": "2026-09-07T21:18:15.746228+00:00",
+  "stdout": {
+    "path": "reports/releases/v0.7.1/attempts/semgrep-php-kernel-attempt-01/stdout.txt",
+    "sha256": "364968d6917097a886fb7a8f6075c05bbcf98b3c5bd33a0f3c752a651cb63720"
+  },
+  "stderr": {
+    "path": "reports/releases/v0.7.1/attempts/semgrep-php-kernel-attempt-01/stderr.txt",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "outputs": [
+    {
+      "original_path": "reports/semgrep-php-kernel.json",
+      "path": "reports/releases/v0.7.1/attempts/semgrep-php-kernel-attempt-01/outputs/reports/semgrep-php-kernel.json",
+      "sha256": "e35ba046d60a914c4bcbc7df1e65b336006a31fd8d6c6fd6df48b3bb076e3fbc"
+    },
+    {
+      "original_path": "reports/raw/semgrep-php-kernel/dfb-taint-php-local-overwrite-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/semgrep-php-kernel-attempt-01/outputs/reports/raw/semgrep-php-kernel/dfb-taint-php-local-overwrite-positive-timing.json",
+      "sha256": "3b6ff5b3ed5468dedf9f4fd8e7ff8b30de26977997f030a139b746b7e39f6024"
+    },
+    {
+      "original_path": "reports/raw/semgrep-php-kernel/dfb-taint-php-closure-capture-positive-unsupported.json",
+      "path": "reports/releases/v0.7.1/attempts/semgrep-php-kernel-attempt-01/outputs/reports/raw/semgrep-php-kernel/dfb-taint-php-closure-capture-positive-unsupported.json",
+      "sha256": "bcf95ff75aa0cbcae51aa91405599c1767a84fa8a9abb4b9cd743fa2f034fe56"
+    },
+    {
+      "original_path": "reports/raw/semgrep-php-kernel/dfb-taint-php-return-relay-two-hop-negative-unsupported.json",
+      "path": "reports/releases/v0.7.1/attempts/semgrep-php-kernel-attempt-01/outputs/reports/raw/semgrep-php-kernel/dfb-taint-php-return-relay-two-hop-negative-unsupported.json",
+      "sha256": "3f9b4e990473551a232d2fc4e13c2763377026438737eabc42e976044cf6e7f4"
+    },
+    {
+      "original_path": "reports/raw/semgrep-php-kernel/dfb-taint-php-exception-catch-negative-unsupported.json",
+      "path": "reports/releases/v0.7.1/attempts/semgrep-php-kernel-attempt-01/outputs/reports/raw/semgrep-php-kernel/dfb-taint-php-exception-catch-negative-unsupported.json",
+      "sha256": "ce428bd23a7570d9bb2c5b628b725440dabcfdba739cf9f2da210721b556cc78"
+    },
+    {
+      "original_path": "reports/raw/semgrep-php-kernel/dfb-taint-php-expression-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/semgrep-php-kernel-attempt-01/outputs/reports/raw/semgrep-php-kernel/dfb-taint-php-expression-negative-timing.json",
+      "sha256": "a85abec14b87b853fe78a08ca5455b3d35b7f4fc7d01d097ac40d130c77de785"
+    },
+    {
+      "original_path": "reports/raw/semgrep-php-kernel/dfb-taint-php-alias-propagation-positive-unsupported.json",
+      "path": "reports/releases/v0.7.1/attempts/semgrep-php-kernel-attempt-01/outputs/reports/raw/semgrep-php-kernel/dfb-taint-php-alias-propagation-positive-unsupported.json",
+      "sha256": "2e6ea2972a81130cfc43f75bd473de498a9fdcbb70743580ebef389d5b6dbef6"
+    },
+    {
+      "original_path": "reports/raw/semgrep-php-kernel/dfb-taint-php-argument-position-positive-unsupported.json",
+      "path": "reports/releases/v0.7.1/attempts/semgrep-php-kernel-attempt-01/outputs/reports/raw/semgrep-php-kernel/dfb-taint-php-argument-position-positive-unsupported.json",
+      "sha256": "15d2c5fdbfc3117e0807b59e585b9d0bb99e509aded44794f4d5d93842e83c9e"
+    },
+    {
+      "original_path": "reports/raw/semgrep-php-kernel/dfb-taint-php-array-element-negative-unsupported.json",
+      "path": "reports/releases/v0.7.1/attempts/semgrep-php-kernel-attempt-01/outputs/reports/raw/semgrep-php-kernel/dfb-taint-php-array-element-negative-unsupported.json",
+      "sha256": "e3af14ab4e89224ed553eb5c7180fef7b6f83ed600701b3aefed602f058a826a"
+    },
+    {
+      "original_path": "reports/raw/semgrep-php-kernel/dfb-taint-php-local-overwrite-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/semgrep-php-kernel-attempt-01/outputs/reports/raw/semgrep-php-kernel/dfb-taint-php-local-overwrite-negative-timing.json",
+      "sha256": "7985a8abf4b57255ba414feb8e32d02655f4f28d21bf3789dae09de9dcaa0472"
+    },
+    {
+      "original_path": "reports/raw/semgrep-php-kernel/dfb-taint-php-reflective-invocation-negative-unsupported.json",
+      "path": "reports/releases/v0.7.1/attempts/semgrep-php-kernel-attempt-01/outputs/reports/raw/semgrep-php-kernel/dfb-taint-php-reflective-invocation-negative-unsupported.json",
+      "sha256": "9e459c222fbdd96ac05544b3ce8eda53b580d89b18af6d04acdd826c5f89dfc8"
+    },
+    {
+      "original_path": "reports/raw/semgrep-php-kernel/dfb-taint-php-expression-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/semgrep-php-kernel-attempt-01/outputs/reports/raw/semgrep-php-kernel/dfb-taint-php-expression-positive.json",
+      "sha256": "cc1338efa09e3a3b8c8d00ed2ee6e795dc1c448b8c0f7b9f8209e0d2bcfeb37e"
+    },
+    {
+      "original_path": "reports/raw/semgrep-php-kernel/dfb-taint-php-expression-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/semgrep-php-kernel-attempt-01/outputs/reports/raw/semgrep-php-kernel/dfb-taint-php-expression-positive-timing.json",
+      "sha256": "dcc2083b25a214b776c1cf8ed7d082caa73311a27c3b8ff2d3d7a7506380bb42"
+    },
+    {
+      "original_path": "reports/raw/semgrep-php-kernel/dfb-taint-php-expression-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/semgrep-php-kernel-attempt-01/outputs/reports/raw/semgrep-php-kernel/dfb-taint-php-expression-negative.json",
+      "sha256": "95c7cf1ad72751a906022ff87369d5d88b3c8f9a581d0749a160b5ec23940987"
+    },
+    {
+      "original_path": "reports/raw/semgrep-php-kernel/dfb-taint-php-branch-join-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/semgrep-php-kernel-attempt-01/outputs/reports/raw/semgrep-php-kernel/dfb-taint-php-branch-join-negative-timing.json",
+      "sha256": "5232f027d1d70552004823dfe2bfc2b3389a8ca0b7cbec96ed78f72380c1b021"
+    },
+    {
+      "original_path": "reports/raw/semgrep-php-kernel/dfb-taint-php-local-chain-negative-rule.yaml",
+      "path": "reports/releases/v0.7.1/attempts/semgrep-php-kernel-attempt-01/outputs/reports/raw/semgrep-php-kernel/dfb-taint-php-local-chain-negative-rule.yaml",
+      "sha256": "3fb3c2fc89a94995712a61972c81c544d88bff4b0c8a5bea61ee88cd6aaec2b6"
+    },
+    {
+      "original_path": "reports/raw/semgrep-php-kernel/dfb-taint-php-function-field-negative-unsupported.json",
+      "path": "reports/releases/v0.7.1/attempts/semgrep-php-kernel-attempt-01/outputs/reports/raw/semgrep-php-kernel/dfb-taint-php-function-field-negative-unsupported.json",
+      "sha256": "bf185c0f5ee9146d3d9fc99eb74eebfdab634a501dd904935798a580adc16462"
+    },
+    {
+      "original_path": "reports/raw/semgrep-php-kernel/dfb-taint-php-object-separation-positive-unsupported.json",
+      "path": "reports/releases/v0.7.1/attempts/semgrep-php-kernel-attempt-01/outputs/reports/raw/semgrep-php-kernel/dfb-taint-php-object-separation-positive-unsupported.json",
+      "sha256": "914ca3ee901676394b6066412507ef35ecf61af48308c46a30e10f6a2933eb11"
+    },
+    {
+      "original_path": "reports/raw/semgrep-php-kernel/dfb-taint-php-branch-join-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/semgrep-php-kernel-attempt-01/outputs/reports/raw/semgrep-php-kernel/dfb-taint-php-branch-join-positive-timing.json",
+      "sha256": "7c149f5d80a6392375d59c599c8a31bc25c92c79ec79e7418da0e5830d285ef5"
+    },
+    {
+      "original_path": "reports/raw/semgrep-php-kernel/dfb-taint-php-return-relay-one-hop-positive-unsupported.json",
+      "path": "reports/releases/v0.7.1/attempts/semgrep-php-kernel-attempt-01/outputs/reports/raw/semgrep-php-kernel/dfb-taint-php-return-relay-one-hop-positive-unsupported.json",
+      "sha256": "7c457804ddb4812e575d999781602e82bd3cc04f7f53b6005c633a6810a0ca42"
+    },
+    {
+      "original_path": "reports/raw/semgrep-php-kernel/dfb-taint-php-infeasible-branch-positive-rule.yaml",
+      "path": "reports/releases/v0.7.1/attempts/semgrep-php-kernel-attempt-01/outputs/reports/raw/semgrep-php-kernel/dfb-taint-php-infeasible-branch-positive-rule.yaml",
+      "sha256": "3fb3c2fc89a94995712a61972c81c544d88bff4b0c8a5bea61ee88cd6aaec2b6"
+    },
+    {
+      "original_path": "reports/raw/semgrep-php-kernel/dfb-taint-php-expression-negative-rule.yaml",
+      "path": "reports/releases/v0.7.1/attempts/semgrep-php-kernel-attempt-01/outputs/reports/raw/semgrep-php-kernel/dfb-taint-php-expression-negative-rule.yaml",
+      "sha256": "3fb3c2fc89a94995712a61972c81c544d88bff4b0c8a5bea61ee88cd6aaec2b6"
+    },
+    {
+      "original_path": "reports/raw/semgrep-php-kernel/dfb-taint-php-infeasible-branch-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/semgrep-php-kernel-attempt-01/outputs/reports/raw/semgrep-php-kernel/dfb-taint-php-infeasible-branch-positive-timing.json",
+      "sha256": "11520180c14f342aa88eeeda27432d039aa890ffbfb95cfe88112a5b71e1ba20"
+    },
+    {
+      "original_path": "reports/raw/semgrep-php-kernel/run-environment.json",
+      "path": "reports/releases/v0.7.1/attempts/semgrep-php-kernel-attempt-01/outputs/reports/raw/semgrep-php-kernel/run-environment.json",
+      "sha256": "256d33c92ed064cf0b49957ebdddfaf234da19113dbfd396b4d30bdf40dcba28"
+    },
+    {
+      "original_path": "reports/raw/semgrep-php-kernel/dfb-taint-php-return-relay-one-hop-negative-unsupported.json",
+      "path": "reports/releases/v0.7.1/attempts/semgrep-php-kernel-attempt-01/outputs/reports/raw/semgrep-php-kernel/dfb-taint-php-return-relay-one-hop-negative-unsupported.json",
+      "sha256": "94af5a1defd0b65648caf2b71becb63c90d3505cd48e4caf81bd04a583f4a6bc"
+    },
+    {
+      "original_path": "reports/raw/semgrep-php-kernel/dfb-taint-php-function-field-positive-unsupported.json",
+      "path": "reports/releases/v0.7.1/attempts/semgrep-php-kernel-attempt-01/outputs/reports/raw/semgrep-php-kernel/dfb-taint-php-function-field-positive-unsupported.json",
+      "sha256": "97fd3a8c317110729c71105fa029902b50a390c9ca9ce0a875771b33566cfff2"
+    },
+    {
+      "original_path": "reports/raw/semgrep-php-kernel/dfb-taint-php-object-separation-negative-unsupported.json",
+      "path": "reports/releases/v0.7.1/attempts/semgrep-php-kernel-attempt-01/outputs/reports/raw/semgrep-php-kernel/dfb-taint-php-object-separation-negative-unsupported.json",
+      "sha256": "6fc4ad077e7e9901fe1369928a6f35901b74b5589515b0e5ea3063417a5afb3d"
+    },
+    {
+      "original_path": "reports/raw/semgrep-php-kernel/dfb-taint-php-infeasible-branch-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/semgrep-php-kernel-attempt-01/outputs/reports/raw/semgrep-php-kernel/dfb-taint-php-infeasible-branch-negative-timing.json",
+      "sha256": "89e68127dbe37d5c0cf275d5d05b06cc957e47b6fb34cb60d0e26536329a4576"
+    },
+    {
+      "original_path": "reports/raw/semgrep-php-kernel/dfb-taint-php-alias-propagation-negative-unsupported.json",
+      "path": "reports/releases/v0.7.1/attempts/semgrep-php-kernel-attempt-01/outputs/reports/raw/semgrep-php-kernel/dfb-taint-php-alias-propagation-negative-unsupported.json",
+      "sha256": "0ff33b65967fc1f44cfa2bcd0cc6e6966e8a301ff54b59a61d2f27a48c7941bc"
+    },
+    {
+      "original_path": "reports/raw/semgrep-php-kernel/dfb-taint-php-argument-position-negative-unsupported.json",
+      "path": "reports/releases/v0.7.1/attempts/semgrep-php-kernel-attempt-01/outputs/reports/raw/semgrep-php-kernel/dfb-taint-php-argument-position-negative-unsupported.json",
+      "sha256": "006869563c6e798af5751c2c70318100465cfe68663bd2b15fd61523fb16a361"
+    },
+    {
+      "original_path": "reports/raw/semgrep-php-kernel/dfb-taint-php-exception-catch-positive-unsupported.json",
+      "path": "reports/releases/v0.7.1/attempts/semgrep-php-kernel-attempt-01/outputs/reports/raw/semgrep-php-kernel/dfb-taint-php-exception-catch-positive-unsupported.json",
+      "sha256": "1434cdeba173c9bdecf01c1129df2d4768a3dbca1fd4b501e2c43838f3f7155a"
+    },
+    {
+      "original_path": "reports/raw/semgrep-php-kernel/dfb-taint-php-loop-carried-positive-rule.yaml",
+      "path": "reports/releases/v0.7.1/attempts/semgrep-php-kernel-attempt-01/outputs/reports/raw/semgrep-php-kernel/dfb-taint-php-loop-carried-positive-rule.yaml",
+      "sha256": "3fb3c2fc89a94995712a61972c81c544d88bff4b0c8a5bea61ee88cd6aaec2b6"
+    },
+    {
+      "original_path": "reports/raw/semgrep-php-kernel/dfb-taint-php-branch-join-positive-rule.yaml",
+      "path": "reports/releases/v0.7.1/attempts/semgrep-php-kernel-attempt-01/outputs/reports/raw/semgrep-php-kernel/dfb-taint-php-branch-join-positive-rule.yaml",
+      "sha256": "3fb3c2fc89a94995712a61972c81c544d88bff4b0c8a5bea61ee88cd6aaec2b6"
+    },
+    {
+      "original_path": "reports/raw/semgrep-php-kernel/dfb-taint-php-loop-carried-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/semgrep-php-kernel-attempt-01/outputs/reports/raw/semgrep-php-kernel/dfb-taint-php-loop-carried-negative-timing.json",
+      "sha256": "32f0b096c93197ea573daed20c1410b4800ac8b59926117f3faef4c46506b024"
+    },
+    {
+      "original_path": "reports/raw/semgrep-php-kernel/dfb-taint-php-local-overwrite-negative-rule.yaml",
+      "path": "reports/releases/v0.7.1/attempts/semgrep-php-kernel-attempt-01/outputs/reports/raw/semgrep-php-kernel/dfb-taint-php-local-overwrite-negative-rule.yaml",
+      "sha256": "3fb3c2fc89a94995712a61972c81c544d88bff4b0c8a5bea61ee88cd6aaec2b6"
+    },
+    {
+      "original_path": "reports/raw/semgrep-php-kernel/dfb-taint-php-return-relay-two-hop-positive-unsupported.json",
+      "path": "reports/releases/v0.7.1/attempts/semgrep-php-kernel-attempt-01/outputs/reports/raw/semgrep-php-kernel/dfb-taint-php-return-relay-two-hop-positive-unsupported.json",
+      "sha256": "97a659d0e42be0bf44100ebb947774942d47703226bb011e06c6d8f8c6f7df1e"
+    },
+    {
+      "original_path": "reports/raw/semgrep-php-kernel/dfb-taint-php-closure-capture-negative-unsupported.json",
+      "path": "reports/releases/v0.7.1/attempts/semgrep-php-kernel-attempt-01/outputs/reports/raw/semgrep-php-kernel/dfb-taint-php-closure-capture-negative-unsupported.json",
+      "sha256": "c18a198dce4b96c5852949a04c0617f000865ba616f2ec44a8e73a8d59967b62"
+    },
+    {
+      "original_path": "reports/raw/semgrep-php-kernel/dfb-taint-php-direct-positive-rule.yaml",
+      "path": "reports/releases/v0.7.1/attempts/semgrep-php-kernel-attempt-01/outputs/reports/raw/semgrep-php-kernel/dfb-taint-php-direct-positive-rule.yaml",
+      "sha256": "3fb3c2fc89a94995712a61972c81c544d88bff4b0c8a5bea61ee88cd6aaec2b6"
+    },
+    {
+      "original_path": "reports/raw/semgrep-php-kernel/dfb-taint-php-reflective-invocation-positive-unsupported.json",
+      "path": "reports/releases/v0.7.1/attempts/semgrep-php-kernel-attempt-01/outputs/reports/raw/semgrep-php-kernel/dfb-taint-php-reflective-invocation-positive-unsupported.json",
+      "sha256": "40c3557b9070f054b80758741991b0c4feea7a1895851200bc4b9096767e7f7a"
+    },
+    {
+      "original_path": "reports/raw/semgrep-php-kernel/dfb-taint-php-array-element-positive-unsupported.json",
+      "path": "reports/releases/v0.7.1/attempts/semgrep-php-kernel-attempt-01/outputs/reports/raw/semgrep-php-kernel/dfb-taint-php-array-element-positive-unsupported.json",
+      "sha256": "6cf9ff550669f4f843d7c9290b04108f4b31e74fb75f5c126492fbd03862e19b"
+    },
+    {
+      "original_path": "reports/raw/semgrep-php-kernel/dfb-taint-php-loop-carried-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/semgrep-php-kernel-attempt-01/outputs/reports/raw/semgrep-php-kernel/dfb-taint-php-loop-carried-positive-timing.json",
+      "sha256": "c82ad86fbaf5b441e4e6e53b41d32fb10a932cbe358f3904f01ec101b1d4be41"
+    },
+    {
+      "original_path": "reports/raw/semgrep-php-kernel/dfb-taint-php-branch-join-negative-rule.yaml",
+      "path": "reports/releases/v0.7.1/attempts/semgrep-php-kernel-attempt-01/outputs/reports/raw/semgrep-php-kernel/dfb-taint-php-branch-join-negative-rule.yaml",
+      "sha256": "3fb3c2fc89a94995712a61972c81c544d88bff4b0c8a5bea61ee88cd6aaec2b6"
+    },
+    {
+      "original_path": "reports/raw/semgrep-php-kernel/dfb-taint-php-direct-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/semgrep-php-kernel-attempt-01/outputs/reports/raw/semgrep-php-kernel/dfb-taint-php-direct-positive-timing.json",
+      "sha256": "b7c2ca66c53df6878420d573cf41adb0edf6a69560415d0d14f759d99a9b8ef9"
+    },
+    {
+      "original_path": "reports/raw/semgrep-php-kernel/dfb-taint-php-loop-carried-negative-rule.yaml",
+      "path": "reports/releases/v0.7.1/attempts/semgrep-php-kernel-attempt-01/outputs/reports/raw/semgrep-php-kernel/dfb-taint-php-loop-carried-negative-rule.yaml",
+      "sha256": "3fb3c2fc89a94995712a61972c81c544d88bff4b0c8a5bea61ee88cd6aaec2b6"
+    },
+    {
+      "original_path": "reports/raw/semgrep-php-kernel/dfb-taint-php-dispatch-table-positive-unsupported.json",
+      "path": "reports/releases/v0.7.1/attempts/semgrep-php-kernel-attempt-01/outputs/reports/raw/semgrep-php-kernel/dfb-taint-php-dispatch-table-positive-unsupported.json",
+      "sha256": "4d9e77b7ce99b17fdbc14a3250901661aa00455bf1f6ed4fdaf549722977585a"
+    },
+    {
+      "original_path": "reports/raw/semgrep-php-kernel/dfb-taint-php-local-chain-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/semgrep-php-kernel-attempt-01/outputs/reports/raw/semgrep-php-kernel/dfb-taint-php-local-chain-positive.json",
+      "sha256": "6b4da5868a2011418520903fcf7a3b20dd8728b1756a2682d603fbe74f3cbc2d"
+    },
+    {
+      "original_path": "reports/raw/semgrep-php-kernel/dfb-taint-php-anonymous-implementation-positive-unsupported.json",
+      "path": "reports/releases/v0.7.1/attempts/semgrep-php-kernel-attempt-01/outputs/reports/raw/semgrep-php-kernel/dfb-taint-php-anonymous-implementation-positive-unsupported.json",
+      "sha256": "7f81251b921560965810cd7d40364897f4b3eda2de93823fefffd884ec8f8123"
+    },
+    {
+      "original_path": "reports/raw/semgrep-php-kernel/dfb-taint-php-direct-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/semgrep-php-kernel-attempt-01/outputs/reports/raw/semgrep-php-kernel/dfb-taint-php-direct-negative.json",
+      "sha256": "115ae434cc92613a20b4b88501cd854dbeb6d903c801e67ef677d5213c1ccb8c"
+    },
+    {
+      "original_path": "reports/raw/semgrep-php-kernel/dfb-taint-php-map-iteration-negative-unsupported.json",
+      "path": "reports/releases/v0.7.1/attempts/semgrep-php-kernel-attempt-01/outputs/reports/raw/semgrep-php-kernel/dfb-taint-php-map-iteration-negative-unsupported.json",
+      "sha256": "cf7a280fe5d619cbf50230308d706aa72ee2777d3facd7b1e625a1d73034834a"
+    },
+    {
+      "original_path": "reports/raw/semgrep-php-kernel/dfb-taint-php-local-overwrite-positive-rule.yaml",
+      "path": "reports/releases/v0.7.1/attempts/semgrep-php-kernel-attempt-01/outputs/reports/raw/semgrep-php-kernel/dfb-taint-php-local-overwrite-positive-rule.yaml",
+      "sha256": "3fb3c2fc89a94995712a61972c81c544d88bff4b0c8a5bea61ee88cd6aaec2b6"
+    },
+    {
+      "original_path": "reports/raw/semgrep-php-kernel/dfb-taint-php-deep-relay-chain-negative-unsupported.json",
+      "path": "reports/releases/v0.7.1/attempts/semgrep-php-kernel-attempt-01/outputs/reports/raw/semgrep-php-kernel/dfb-taint-php-deep-relay-chain-negative-unsupported.json",
+      "sha256": "8a183a79853e416a64040480a33cfd649b58689eca7361972a8cba02039024f9"
+    },
+    {
+      "original_path": "reports/raw/semgrep-php-kernel/dfb-taint-php-computed-property-negative-unsupported.json",
+      "path": "reports/releases/v0.7.1/attempts/semgrep-php-kernel-attempt-01/outputs/reports/raw/semgrep-php-kernel/dfb-taint-php-computed-property-negative-unsupported.json",
+      "sha256": "f0a5d4633c8a367b4e6707d38173305c6d842626ef59eeacd09e669e5cea6a2a"
+    },
+    {
+      "original_path": "reports/raw/semgrep-php-kernel/dfb-taint-php-direct-negative-rule.yaml",
+      "path": "reports/releases/v0.7.1/attempts/semgrep-php-kernel-attempt-01/outputs/reports/raw/semgrep-php-kernel/dfb-taint-php-direct-negative-rule.yaml",
+      "sha256": "3fb3c2fc89a94995712a61972c81c544d88bff4b0c8a5bea61ee88cd6aaec2b6"
+    },
+    {
+      "original_path": "reports/raw/semgrep-php-kernel/dfb-taint-php-branch-join-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/semgrep-php-kernel-attempt-01/outputs/reports/raw/semgrep-php-kernel/dfb-taint-php-branch-join-positive.json",
+      "sha256": "addde09dcbb263ae482897f2c14d1fa791384296e567a76043ca81eeb03c8346"
+    },
+    {
+      "original_path": "reports/raw/semgrep-php-kernel/dfb-taint-php-direct-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/semgrep-php-kernel-attempt-01/outputs/reports/raw/semgrep-php-kernel/dfb-taint-php-direct-negative-timing.json",
+      "sha256": "130d8bddf16366c4a124bca8bb11c645301bbb610b4f02e96586cd73946accf2"
+    },
+    {
+      "original_path": "reports/raw/semgrep-php-kernel/dfb-taint-php-call-context-negative-unsupported.json",
+      "path": "reports/releases/v0.7.1/attempts/semgrep-php-kernel-attempt-01/outputs/reports/raw/semgrep-php-kernel/dfb-taint-php-call-context-negative-unsupported.json",
+      "sha256": "7600f0b3f1615354e77124cfa5e161f7848f520c51c9c964de5547da8263cd31"
+    },
+    {
+      "original_path": "reports/raw/semgrep-php-kernel/dfb-taint-php-recursive-carry-negative-unsupported.json",
+      "path": "reports/releases/v0.7.1/attempts/semgrep-php-kernel-attempt-01/outputs/reports/raw/semgrep-php-kernel/dfb-taint-php-recursive-carry-negative-unsupported.json",
+      "sha256": "306e461e20087f78082a47cb16670084d44b99efc5f2255f2cc83541ca6b2366"
+    },
+    {
+      "original_path": "reports/raw/semgrep-php-kernel/dfb-taint-php-local-overwrite-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/semgrep-php-kernel-attempt-01/outputs/reports/raw/semgrep-php-kernel/dfb-taint-php-local-overwrite-negative.json",
+      "sha256": "0ea7e949cd87bec348e544ef43b7835e4db907383f1e4c865df6491799ba5b24"
+    },
+    {
+      "original_path": "reports/raw/semgrep-php-kernel/dfb-taint-php-branch-join-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/semgrep-php-kernel-attempt-01/outputs/reports/raw/semgrep-php-kernel/dfb-taint-php-branch-join-negative.json",
+      "sha256": "ad9d5e2b58c35650805f4d869726fb8e7048c0b50414f8e28f887c9daa9f579c"
+    },
+    {
+      "original_path": "reports/raw/semgrep-php-kernel/dfb-taint-php-expression-positive-rule.yaml",
+      "path": "reports/releases/v0.7.1/attempts/semgrep-php-kernel-attempt-01/outputs/reports/raw/semgrep-php-kernel/dfb-taint-php-expression-positive-rule.yaml",
+      "sha256": "3fb3c2fc89a94995712a61972c81c544d88bff4b0c8a5bea61ee88cd6aaec2b6"
+    },
+    {
+      "original_path": "reports/raw/semgrep-php-kernel/dfb-taint-php-callback-registration-positive-unsupported.json",
+      "path": "reports/releases/v0.7.1/attempts/semgrep-php-kernel-attempt-01/outputs/reports/raw/semgrep-php-kernel/dfb-taint-php-callback-registration-positive-unsupported.json",
+      "sha256": "dd458a910593c99dffcb3ccca2ae2640f39b73362b88b4aa0b98ede2030bb5b2"
+    },
+    {
+      "original_path": "reports/raw/semgrep-php-kernel/dfb-taint-php-nested-access-path-negative-unsupported.json",
+      "path": "reports/releases/v0.7.1/attempts/semgrep-php-kernel-attempt-01/outputs/reports/raw/semgrep-php-kernel/dfb-taint-php-nested-access-path-negative-unsupported.json",
+      "sha256": "3203d856a9974e45ec3caf3d98831583d1d18ac67068592b8782971015c3e72d"
+    },
+    {
+      "original_path": "reports/raw/semgrep-php-kernel/dfb-taint-php-local-overwrite-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/semgrep-php-kernel-attempt-01/outputs/reports/raw/semgrep-php-kernel/dfb-taint-php-local-overwrite-positive.json",
+      "sha256": "776542edda987c4a55c942fd3e9c0fd6ad7d8ac0d0ba2ec67432fb91cbb58eff"
+    },
+    {
+      "original_path": "reports/raw/semgrep-php-kernel/dfb-taint-php-same-object-field-positive-unsupported.json",
+      "path": "reports/releases/v0.7.1/attempts/semgrep-php-kernel-attempt-01/outputs/reports/raw/semgrep-php-kernel/dfb-taint-php-same-object-field-positive-unsupported.json",
+      "sha256": "9dc3e5f3b1c4087bfc9b8ed2686a21fb9b3bf17667891c1ba9f4f3e846643dbb"
+    },
+    {
+      "original_path": "reports/raw/semgrep-php-kernel/dfb-taint-php-local-chain-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/semgrep-php-kernel-attempt-01/outputs/reports/raw/semgrep-php-kernel/dfb-taint-php-local-chain-negative.json",
+      "sha256": "f0ef673a7d02df7046cb3bf38b1e329caaad775ce160112295bab6172a39cdeb"
+    },
+    {
+      "original_path": "reports/raw/semgrep-php-kernel/dfb-taint-php-element-object-negative-unsupported.json",
+      "path": "reports/releases/v0.7.1/attempts/semgrep-php-kernel-attempt-01/outputs/reports/raw/semgrep-php-kernel/dfb-taint-php-element-object-negative-unsupported.json",
+      "sha256": "0184ca4356e54ab36669eef4cf72c6f8f09ba61a1b7fc31c35b775ebe7b03150"
+    },
+    {
+      "original_path": "reports/raw/semgrep-php-kernel/dfb-taint-php-direct-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/semgrep-php-kernel-attempt-01/outputs/reports/raw/semgrep-php-kernel/dfb-taint-php-direct-positive.json",
+      "sha256": "2b91f521c5f7934e22111b7084f384d9cb5b833dbdd3b4efa204c7c709cab3fe"
+    },
+    {
+      "original_path": "reports/raw/semgrep-php-kernel/dfb-taint-php-context-pair-depth2-negative-unsupported.json",
+      "path": "reports/releases/v0.7.1/attempts/semgrep-php-kernel-attempt-01/outputs/reports/raw/semgrep-php-kernel/dfb-taint-php-context-pair-depth2-negative-unsupported.json",
+      "sha256": "93c4910c533c04494e59203a75011e1822a284f92c2d81ba4f4fb4e5cd462923"
+    },
+    {
+      "original_path": "reports/raw/semgrep-php-kernel/dfb-taint-php-callback-registration-negative-unsupported.json",
+      "path": "reports/releases/v0.7.1/attempts/semgrep-php-kernel-attempt-01/outputs/reports/raw/semgrep-php-kernel/dfb-taint-php-callback-registration-negative-unsupported.json",
+      "sha256": "f701c2dde2e2f0bee29c255b94b253b814224d658967aaea57da25b31fa3f85e"
+    },
+    {
+      "original_path": "reports/raw/semgrep-php-kernel/dfb-taint-php-same-object-field-negative-unsupported.json",
+      "path": "reports/releases/v0.7.1/attempts/semgrep-php-kernel-attempt-01/outputs/reports/raw/semgrep-php-kernel/dfb-taint-php-same-object-field-negative-unsupported.json",
+      "sha256": "9eecd4f1c5735823dc2a9ddfa2f58f42fb83f7352e57f0e51a50599baa2dd837"
+    },
+    {
+      "original_path": "reports/raw/semgrep-php-kernel/dfb-taint-php-nested-access-path-positive-unsupported.json",
+      "path": "reports/releases/v0.7.1/attempts/semgrep-php-kernel-attempt-01/outputs/reports/raw/semgrep-php-kernel/dfb-taint-php-nested-access-path-positive-unsupported.json",
+      "sha256": "7c1b2c036696a519e3aa030ac76a3145127b7aea1eb8a6b6dc9112b4b8171f1b"
+    },
+    {
+      "original_path": "reports/raw/semgrep-php-kernel/dfb-taint-php-local-chain-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/semgrep-php-kernel-attempt-01/outputs/reports/raw/semgrep-php-kernel/dfb-taint-php-local-chain-negative-timing.json",
+      "sha256": "8416532fdf65e1da6df6e7e203243f127c93267fc8ca03d845cd5eb411a8272e"
+    },
+    {
+      "original_path": "reports/raw/semgrep-php-kernel/dfb-taint-php-context-pair-depth2-positive-unsupported.json",
+      "path": "reports/releases/v0.7.1/attempts/semgrep-php-kernel-attempt-01/outputs/reports/raw/semgrep-php-kernel/dfb-taint-php-context-pair-depth2-positive-unsupported.json",
+      "sha256": "429ee1182e5ebdebcd9df4ef7d40b71e44ace4818a22eb77eb3679f97be945f8"
+    },
+    {
+      "original_path": "reports/raw/semgrep-php-kernel/dfb-taint-php-local-chain-positive-rule.yaml",
+      "path": "reports/releases/v0.7.1/attempts/semgrep-php-kernel-attempt-01/outputs/reports/raw/semgrep-php-kernel/dfb-taint-php-local-chain-positive-rule.yaml",
+      "sha256": "3fb3c2fc89a94995712a61972c81c544d88bff4b0c8a5bea61ee88cd6aaec2b6"
+    },
+    {
+      "original_path": "reports/raw/semgrep-php-kernel/dfb-taint-php-element-object-positive-unsupported.json",
+      "path": "reports/releases/v0.7.1/attempts/semgrep-php-kernel-attempt-01/outputs/reports/raw/semgrep-php-kernel/dfb-taint-php-element-object-positive-unsupported.json",
+      "sha256": "9580d1d905b49548be4ab72979c4888bb19f7c10d7cf08692e6b7e4ae424599f"
+    },
+    {
+      "original_path": "reports/raw/semgrep-php-kernel/dfb-taint-php-infeasible-branch-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/semgrep-php-kernel-attempt-01/outputs/reports/raw/semgrep-php-kernel/dfb-taint-php-infeasible-branch-positive.json",
+      "sha256": "a8ea29b26e52398250d27909a052a55a7045fd59e08f02cedf55af56e8e9ff4d"
+    },
+    {
+      "original_path": "reports/raw/semgrep-php-kernel/dfb-taint-php-infeasible-branch-negative-rule.yaml",
+      "path": "reports/releases/v0.7.1/attempts/semgrep-php-kernel-attempt-01/outputs/reports/raw/semgrep-php-kernel/dfb-taint-php-infeasible-branch-negative-rule.yaml",
+      "sha256": "3fb3c2fc89a94995712a61972c81c544d88bff4b0c8a5bea61ee88cd6aaec2b6"
+    },
+    {
+      "original_path": "reports/raw/semgrep-php-kernel/dfb-taint-php-loop-carried-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/semgrep-php-kernel-attempt-01/outputs/reports/raw/semgrep-php-kernel/dfb-taint-php-loop-carried-positive.json",
+      "sha256": "b0a9bc02964eb5bfc502b723b89a43ef216730103973f788bd2dda1e9f829575"
+    },
+    {
+      "original_path": "reports/raw/semgrep-php-kernel/dfb-taint-php-local-chain-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/semgrep-php-kernel-attempt-01/outputs/reports/raw/semgrep-php-kernel/dfb-taint-php-local-chain-positive-timing.json",
+      "sha256": "2a375d36a3ced88659ae82bd819f5d2461a7fe41a017d91252369a25159c59ae"
+    },
+    {
+      "original_path": "reports/raw/semgrep-php-kernel/dfb-taint-php-deep-relay-chain-positive-unsupported.json",
+      "path": "reports/releases/v0.7.1/attempts/semgrep-php-kernel-attempt-01/outputs/reports/raw/semgrep-php-kernel/dfb-taint-php-deep-relay-chain-positive-unsupported.json",
+      "sha256": "fb9d446d306607bb2b4399827ba3e32a275167cf5c92326e96b6e003bf2937ce"
+    },
+    {
+      "original_path": "reports/raw/semgrep-php-kernel/dfb-taint-php-dispatch-table-negative-unsupported.json",
+      "path": "reports/releases/v0.7.1/attempts/semgrep-php-kernel-attempt-01/outputs/reports/raw/semgrep-php-kernel/dfb-taint-php-dispatch-table-negative-unsupported.json",
+      "sha256": "90d699815559f67f1d332c8988d8a78f1f8f426de6d59fba2172a526421d047b"
+    },
+    {
+      "original_path": "reports/raw/semgrep-php-kernel/dfb-taint-php-map-iteration-positive-unsupported.json",
+      "path": "reports/releases/v0.7.1/attempts/semgrep-php-kernel-attempt-01/outputs/reports/raw/semgrep-php-kernel/dfb-taint-php-map-iteration-positive-unsupported.json",
+      "sha256": "09460c154fde50a682ae681c6763fab3bcf462825e43d9dd0690ccf5466a09cb"
+    },
+    {
+      "original_path": "reports/raw/semgrep-php-kernel/dfb-taint-php-anonymous-implementation-negative-unsupported.json",
+      "path": "reports/releases/v0.7.1/attempts/semgrep-php-kernel-attempt-01/outputs/reports/raw/semgrep-php-kernel/dfb-taint-php-anonymous-implementation-negative-unsupported.json",
+      "sha256": "1fc6ea9ae797cabd378ab36306b0fa274f082f039506c2d9cbfcf8799af0556a"
+    },
+    {
+      "original_path": "reports/raw/semgrep-php-kernel/dfb-taint-php-infeasible-branch-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/semgrep-php-kernel-attempt-01/outputs/reports/raw/semgrep-php-kernel/dfb-taint-php-infeasible-branch-negative.json",
+      "sha256": "3460402bfd8dca0f79001d919f8ad78d27aaa3961b7e3e540e02246853dcced2"
+    },
+    {
+      "original_path": "reports/raw/semgrep-php-kernel/dfb-taint-php-loop-carried-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/semgrep-php-kernel-attempt-01/outputs/reports/raw/semgrep-php-kernel/dfb-taint-php-loop-carried-negative.json",
+      "sha256": "d465278a5320b6ee216bd018e6cd3ee90d11af7da341ac01071be75ea7f396cf"
+    },
+    {
+      "original_path": "reports/raw/semgrep-php-kernel/dfb-taint-php-recursive-carry-positive-unsupported.json",
+      "path": "reports/releases/v0.7.1/attempts/semgrep-php-kernel-attempt-01/outputs/reports/raw/semgrep-php-kernel/dfb-taint-php-recursive-carry-positive-unsupported.json",
+      "sha256": "9bfb54235cd43f5ecee5410adb92478609706850bf0e1719bd6f7aafe960a5a5"
+    },
+    {
+      "original_path": "reports/raw/semgrep-php-kernel/dfb-taint-php-call-context-positive-unsupported.json",
+      "path": "reports/releases/v0.7.1/attempts/semgrep-php-kernel-attempt-01/outputs/reports/raw/semgrep-php-kernel/dfb-taint-php-call-context-positive-unsupported.json",
+      "sha256": "9b784512d8168339e9c8e26f30cf484bb1cafac5f9cd75d4e6baa7fb9c0fe5da"
+    },
+    {
+      "original_path": "reports/raw/semgrep-php-kernel/dfb-taint-php-computed-property-positive-unsupported.json",
+      "path": "reports/releases/v0.7.1/attempts/semgrep-php-kernel-attempt-01/outputs/reports/raw/semgrep-php-kernel/dfb-taint-php-computed-property-positive-unsupported.json",
+      "sha256": "53fbfca4d533d833719818ef0ec79523ad24b47ee3e1cf851a62fd3462b8a150"
+    }
+  ],
+  "expected_output_roots": [
+    "reports/semgrep-php-kernel.json",
+    "reports/raw/semgrep-php-kernel"
+  ],
+  "missing_fresh_output_roots": [],
+  "removed_paths": []
+}

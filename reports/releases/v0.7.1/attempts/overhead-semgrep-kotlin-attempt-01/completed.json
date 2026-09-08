@@ -1,0 +1,170 @@
+{
+  "id": "overhead-semgrep-kotlin-attempt-01",
+  "planned_id": "overhead-semgrep-kotlin",
+  "argv": [
+    "/Users/dave/.codex/worktrees/653a/dataflowbench/target/debug/dataflowbench",
+    "--population",
+    "v0.7.0",
+    "estimate-invocation-overhead",
+    "--tool",
+    "semgrep",
+    "--language",
+    "kotlin",
+    "--joern",
+    "/Users/dave/.cache/dataflowbench-tools/joern-v4.0.621/joern-cli-macos-arm64/joern-cli/joern",
+    "--semgrep",
+    "/opt/homebrew/bin/semgrep",
+    "--bifrost",
+    "/Users/dave/.cache/dataflowbench-tools/bifrost-v0.11.0/bifrost-v0.11.0-universal-apple-darwin/bifrost",
+    "--codeql",
+    "/opt/homebrew/bin/codeql",
+    "--infer",
+    "/Users/dave/.cache/dataflowbench-tools/infer-osx-arm64-v1.3.0/lib/infer/infer/bin/infer",
+    "--analyzer-jar",
+    "/Users/dave/.cache/dataflowbench-tools/opentaint-v0.4.6/opentaint-project-analyzer.jar",
+    "--models-archive",
+    "/Users/dave/.cache/dataflowbench-tools/opentaint-v0.4.6/opentaint-models.tar.gz",
+    "--flowdroid-jar",
+    "/Users/dave/.cache/dataflowbench-tools/flowdroid/soot-infoflow-cmd-2.15.1-jar-with-dependencies.jar",
+    "--android-platform",
+    "/Users/dave/.cache/dataflowbench-tools/flowdroid/android-34.jar",
+    "--d8-jar",
+    "/Users/dave/.cache/dataflowbench-tools/flowdroid/r8-8.5.35.jar",
+    "--java",
+    "/usr/bin/java",
+    "--javac",
+    "/usr/bin/javac",
+    "--kotlinc",
+    "/opt/homebrew/bin/kotlinc",
+    "--kotlin-stdlib",
+    "/opt/homebrew/Cellar/kotlin/2.4.10/libexec/lib/kotlin-stdlib.jar",
+    "--pyre",
+    "/Users/dave/.cache/dataflowbench-tools/pysa-venv/bin/pyre",
+    "--pyre-binary",
+    "/Users/dave/.cache/dataflowbench-tools/pysa-venv/bin/pyre.bin",
+    "--pyrefly",
+    "/Users/dave/.cache/dataflowbench-tools/pysa-venv/bin/pyrefly"
+  ],
+  "cwd": "/Users/dave/.codex/worktrees/653a/dataflowbench",
+  "input_commits": {
+    "corpus": "0c82e8093ff899d5ee72809a82c951ab76b5bb76",
+    "publication_infrastructure": "53050fa64628997e866303bcd5299d74f1e3e45d",
+    "pins": "c0899dab0d2c043dcc5b1aa6a1aad0e49f482fea"
+  },
+  "execution_revision": "4964392125861a34af6576784e56cc1fd11aadd9",
+  "population": "v0.7.0",
+  "fixture_revision": "sha256:9df209ed3d7723a3ee33f2b289cf2afe34a3add781bdf2a2ac445de42b8d0151",
+  "plan": {
+    "path": "reports/releases/v0.7.1/plan.json",
+    "sha256": "cb948f4a5cff80b95d3dcc755ab8249d87449e43f70e6eb80a456789faf12f26"
+  },
+  "identities": {
+    "path": "reports/releases/v0.7.1/identities.json",
+    "sha256": "0b8b1bb07d1df1ec8687613bb355f5f6021a2c664d3488dc3bc763553ce1a83c"
+  },
+  "execution_access": "require_escalated",
+  "start_utc": "2026-09-08T07:29:10.838557+00:00",
+  "host": {
+    "platform": "macOS-26.6.2-arm64-arm-64bit",
+    "cpu_count": 10,
+    "load_before": [
+      1.69482421875,
+      2.90869140625,
+      3.70263671875
+    ],
+    "load_after": [
+      1.63916015625,
+      2.876953125,
+      3.6865234375
+    ]
+  },
+  "settle_observations": [
+    {
+      "utc": "2026-09-08T07:28:10.774384+00:00",
+      "load": [
+        2.7529296875,
+        3.3173828125,
+        3.89697265625
+      ]
+    },
+    {
+      "utc": "2026-09-08T07:28:20.784495+00:00",
+      "load": [
+        2.56298828125,
+        3.25732421875,
+        3.86865234375
+      ]
+    },
+    {
+      "utc": "2026-09-08T07:28:30.792639+00:00",
+      "load": [
+        2.40234375,
+        3.19921875,
+        3.84033203125
+      ]
+    },
+    {
+      "utc": "2026-09-08T07:28:40.802140+00:00",
+      "load": [
+        2.11279296875,
+        3.1103515625,
+        3.80078125
+      ]
+    },
+    {
+      "utc": "2026-09-08T07:28:50.803646+00:00",
+      "load": [
+        1.86767578125,
+        3.0244140625,
+        3.76171875
+      ]
+    },
+    {
+      "utc": "2026-09-08T07:29:00.810700+00:00",
+      "load": [
+        1.81396484375,
+        2.97412109375,
+        3.73486328125
+      ]
+    }
+  ],
+  "cache_posture": "isolated case workspaces; local distributions and prefetched CodeQL packs; OS page cache uncontrolled; warm only for explicit warm series",
+  "supersedes": null,
+  "exit_code": 0,
+  "end_utc": "2026-09-08T07:29:14.949025+00:00",
+  "stdout": {
+    "path": "reports/releases/v0.7.1/attempts/overhead-semgrep-kotlin-attempt-01/stdout.txt",
+    "sha256": "f4ad3ff1234642607022170d812bb170049af41598648d340a82a56dd12281f5"
+  },
+  "stderr": {
+    "path": "reports/releases/v0.7.1/attempts/overhead-semgrep-kotlin-attempt-01/stderr.txt",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "outputs": [
+    {
+      "original_path": "reports/raw/invocation-overhead/semgrep-kotlin/invocation-overhead.json",
+      "path": "reports/releases/v0.7.1/attempts/overhead-semgrep-kotlin-attempt-01/outputs/reports/raw/invocation-overhead/semgrep-kotlin/invocation-overhead.json",
+      "sha256": "f610f21f19845ac31e82310a02a2fc984b778b7084d00f8bc92c62284c20786e"
+    },
+    {
+      "original_path": "reports/raw/invocation-overhead/semgrep-kotlin/resolved-rule.yaml",
+      "path": "reports/releases/v0.7.1/attempts/overhead-semgrep-kotlin-attempt-01/outputs/reports/raw/invocation-overhead/semgrep-kotlin/resolved-rule.yaml",
+      "sha256": "a31a7aa14af183199d35907d3abb877f25478449f83c50720866b57e5628e4f8"
+    },
+    {
+      "original_path": "reports/raw/invocation-overhead/semgrep-kotlin/run-environment.json",
+      "path": "reports/releases/v0.7.1/attempts/overhead-semgrep-kotlin-attempt-01/outputs/reports/raw/invocation-overhead/semgrep-kotlin/run-environment.json",
+      "sha256": "60f87205b1c53739b8523aae6e329011ef72e0d7c157643dffd42c2294259d9e"
+    },
+    {
+      "original_path": "reports/raw/invocation-overhead/semgrep-kotlin/fixture/DfbTrivial.kt",
+      "path": "reports/releases/v0.7.1/attempts/overhead-semgrep-kotlin-attempt-01/outputs/reports/raw/invocation-overhead/semgrep-kotlin/fixture/DfbTrivial.kt",
+      "sha256": "d6ef47a7d8bdbf00b355f60935b05f60b019235d08b5935be0363823e8164b46"
+    }
+  ],
+  "expected_output_roots": [
+    "reports/raw/invocation-overhead/semgrep-kotlin"
+  ],
+  "missing_fresh_output_roots": [],
+  "removed_paths": []
+}

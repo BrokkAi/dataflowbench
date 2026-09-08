@@ -1,0 +1,197 @@
+{
+    "$schema": "https://docs.oasis-open.org/sarif/sarif/v2.1.0/errata01/os/schemas/sarif-schema-2.1.0.json",
+    "version": "2.1.0",
+    "runs": [
+        {
+            "originalUriBaseIds": {
+                "%SRCROOT%": {
+                    "uri": "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dataflowbench-opentaint-kotlin/dfb-taint-kotlin-anonymous-implementation-positive/source"
+                }
+            },
+            "tool": {
+                "driver": {
+                    "name": "OpenTaint",
+                    "organization": "Seqra",
+                    "rules": [
+                        {
+                            "defaultConfiguration": {
+                                "level": "error"
+                            },
+                            "fullDescription": {
+                                "markdown": "DataFlowBench benchmark-controlled endpoint flow",
+                                "text": "DataFlowBench benchmark-controlled endpoint flow"
+                            },
+                            "id": ":dfb-opentaint-kernel",
+                            "name": ":dfb-opentaint-kernel",
+                            "properties": {
+                                "tags": []
+                            },
+                            "shortDescription": {
+                                "text": "OpenTaint Finding: :dfb-opentaint-kernel"
+                            }
+                        }
+                    ],
+                    "semanticVersion": "latest",
+                    "version": "latest"
+                }
+            },
+            "results": [
+                {
+                    "codeFlows": [
+                        {
+                            "threadFlows": [
+                                {
+                                    "locations": [
+                                        {
+                                            "executionOrder": 0,
+                                            "kinds": [
+                                                "taint"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.AnonymousImplementationPositive#run():6:(%6 = this.dfb_source())",
+                                                        "fullyQualifiedName": "dataflowbench.AnonymousImplementationPositive#run"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "Call to \"dfb_source\" puts marked data to a local variable"
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/AnonymousImplementationPositive.kt",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 33,
+                                                        "endLine": 25,
+                                                        "startColumn": 21,
+                                                        "startLine": 25
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 1,
+                                            "kinds": [
+                                                "unknown"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.AnonymousImplementationPositive#run():7:(leak.handle(%6))",
+                                                        "fullyQualifiedName": "dataflowbench.AnonymousImplementationPositive#run"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "Calling \"handle\" with marked data at a local variable"
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/AnonymousImplementationPositive.kt",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 34,
+                                                        "endLine": 25,
+                                                        "startColumn": 14,
+                                                        "startLine": 25
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 2,
+                                            "kinds": [
+                                                "unknown"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.AnonymousImplementationPositive$run$leak$1#handle(java.lang.String):0:(kotlin.jvm.internal.Intrinsics.checkNotNullParameter(value, \"value\"))",
+                                                        "fullyQualifiedName": "dataflowbench.AnonymousImplementationPositive$run$leak$1#handle"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "Entering \"handle\" with marked data at \"value\""
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/AnonymousImplementationPositive.kt",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 47,
+                                                        "endLine": 16,
+                                                        "startColumn": 22,
+                                                        "startLine": 16
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 3,
+                                            "kinds": [
+                                                "taint"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.AnonymousImplementationPositive$run$leak$1#handle(java.lang.String):2:(%0.dfb_sink(value))",
+                                                        "fullyQualifiedName": "dataflowbench.AnonymousImplementationPositive$run$leak$1#handle"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "DataFlowBench benchmark-controlled endpoint flow"
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/AnonymousImplementationPositive.kt",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 32,
+                                                        "endLine": 17,
+                                                        "startColumn": 17,
+                                                        "startLine": 17
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ],
+                    "level": "error",
+                    "locations": [
+                        {
+                            "logicalLocations": [
+                                {
+                                    "decoratedName": "dataflowbench.AnonymousImplementationPositive$run$leak$1#handle(java.lang.String):2:(%0.dfb_sink(value))",
+                                    "fullyQualifiedName": "dataflowbench.AnonymousImplementationPositive$run$leak$1#handle"
+                                }
+                            ],
+                            "physicalLocation": {
+                                "artifactLocation": {
+                                    "uri": "dataflowbench/AnonymousImplementationPositive.kt",
+                                    "uriBaseId": "%SRCROOT%"
+                                },
+                                "region": {
+                                    "endColumn": 32,
+                                    "endLine": 17,
+                                    "startColumn": 17,
+                                    "startLine": 17
+                                }
+                            }
+                        }
+                    ],
+                    "message": {
+                        "text": "DataFlowBench benchmark-controlled endpoint flow"
+                    },
+                    "ruleId": ":dfb-opentaint-kernel"
+                }
+            ]
+        }
+    ]
+}
