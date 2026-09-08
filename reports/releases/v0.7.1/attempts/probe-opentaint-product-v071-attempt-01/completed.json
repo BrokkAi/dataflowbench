@@ -1,0 +1,651 @@
+{
+  "id": "probe-opentaint-product-v071-attempt-01",
+  "planned_id": "probe-opentaint-product-v071",
+  "argv": [
+    "python3",
+    "scripts/probe-opentaint-product-v071.py"
+  ],
+  "cwd": "/Users/dave/.codex/worktrees/653a/dataflowbench",
+  "input_commits": {
+    "corpus": "0c82e8093ff899d5ee72809a82c951ab76b5bb76",
+    "publication_infrastructure": "53050fa64628997e866303bcd5299d74f1e3e45d",
+    "pins": "c0899dab0d2c043dcc5b1aa6a1aad0e49f482fea"
+  },
+  "execution_revision": "d0d50697581bb35e9d50ff60cc0e22e2484eabf0",
+  "population": "v0.7.0",
+  "fixture_revision": "sha256:9df209ed3d7723a3ee33f2b289cf2afe34a3add781bdf2a2ac445de42b8d0151",
+  "plan": {
+    "path": "reports/releases/v0.7.1/plan.json",
+    "sha256": "cb948f4a5cff80b95d3dcc755ab8249d87449e43f70e6eb80a456789faf12f26"
+  },
+  "identities": {
+    "path": "reports/releases/v0.7.1/identities.json",
+    "sha256": "0b8b1bb07d1df1ec8687613bb355f5f6021a2c664d3488dc3bc763553ce1a83c"
+  },
+  "execution_access": "require_escalated",
+  "start_utc": "2026-09-07T22:13:41.481286+00:00",
+  "host": {
+    "platform": "macOS-26.6.2-arm64-arm-64bit",
+    "cpu_count": 10,
+    "load_before": [
+      5.9775390625,
+      6.173828125,
+      5.55908203125
+    ],
+    "load_after": [
+      5.9775390625,
+      6.173828125,
+      5.55908203125
+    ]
+  },
+  "settle_observations": [],
+  "cache_posture": "isolated case workspaces; local distributions and prefetched CodeQL packs; OS page cache uncontrolled; warm only for explicit warm series",
+  "supersedes": null,
+  "exit_code": 0,
+  "end_utc": "2026-09-07T22:13:44.766628+00:00",
+  "stdout": {
+    "path": "reports/releases/v0.7.1/attempts/probe-opentaint-product-v071-attempt-01/stdout.txt",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "stderr": {
+    "path": "reports/releases/v0.7.1/attempts/probe-opentaint-product-v071-attempt-01/stderr.txt",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "outputs": [
+    {
+      "original_path": "reports/raw/opentaint-product-v071/wrapper-help-stdout.txt",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-product-v071-attempt-01/outputs/reports/raw/opentaint-product-v071/wrapper-help-stdout.txt",
+      "sha256": "72ef7c51b9f4c3555f0d06889f36f93f2210738f36ead30b9757a99a10bd93b6"
+    },
+    {
+      "original_path": "reports/raw/opentaint-product-v071/native-persistence-negative-product-stdout.txt",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-product-v071-attempt-01/outputs/reports/raw/opentaint-product-v071/native-persistence-negative-product-stdout.txt",
+      "sha256": "2a41d1ddd0b2f2e281fe05e6569076ee3dd2870e261c81a107c92e146dcafa78"
+    },
+    {
+      "original_path": "reports/raw/opentaint-product-v071/native-persistence-negative-compile-stderr.txt",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-product-v071-attempt-01/outputs/reports/raw/opentaint-product-v071/native-persistence-negative-compile-stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original_path": "reports/raw/opentaint-product-v071/native-sanitizer-negative-compile-stdout.txt",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-product-v071-attempt-01/outputs/reports/raw/opentaint-product-v071/native-sanitizer-negative-compile-stdout.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original_path": "reports/raw/opentaint-product-v071/native-sanitizer-negative-product-stderr.txt",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-product-v071-attempt-01/outputs/reports/raw/opentaint-product-v071/native-sanitizer-negative-product-stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original_path": "reports/raw/opentaint-product-v071/native-source-sink-negative-compile-stdout.txt",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-product-v071-attempt-01/outputs/reports/raw/opentaint-product-v071/native-source-sink-negative-compile-stdout.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original_path": "reports/raw/opentaint-product-v071/servlet-positive-compile-stdout.txt",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-product-v071-attempt-01/outputs/reports/raw/opentaint-product-v071/servlet-positive-compile-stdout.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original_path": "reports/raw/opentaint-product-v071/servlet-positive-product-stderr.txt",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-product-v071-attempt-01/outputs/reports/raw/opentaint-product-v071/servlet-positive-product-stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original_path": "reports/raw/opentaint-product-v071/native-source-sink-negative-product-stderr.txt",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-product-v071-attempt-01/outputs/reports/raw/opentaint-product-v071/native-source-sink-negative-product-stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original_path": "reports/raw/opentaint-product-v071/native-entrypoint-negative-compile-stdout.txt",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-product-v071-attempt-01/outputs/reports/raw/opentaint-product-v071/native-entrypoint-negative-compile-stdout.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original_path": "reports/raw/opentaint-product-v071/native-entrypoint-negative-product-stderr.txt",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-product-v071-attempt-01/outputs/reports/raw/opentaint-product-v071/native-entrypoint-negative-product-stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original_path": "reports/raw/opentaint-product-v071/native-propagator-negative-compile-stdout.txt",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-product-v071-attempt-01/outputs/reports/raw/opentaint-product-v071/native-propagator-negative-compile-stdout.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original_path": "reports/raw/opentaint-product-v071/native-summary-positive-compile-stdout.txt",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-product-v071-attempt-01/outputs/reports/raw/opentaint-product-v071/native-summary-positive-compile-stdout.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original_path": "reports/raw/opentaint-product-v071/native-summary-positive-product-stderr.txt",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-product-v071-attempt-01/outputs/reports/raw/opentaint-product-v071/native-summary-positive-product-stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original_path": "reports/raw/opentaint-product-v071/native-propagator-negative-product-stderr.txt",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-product-v071-attempt-01/outputs/reports/raw/opentaint-product-v071/native-propagator-negative-product-stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original_path": "reports/raw/opentaint-product-v071/wrapper-version-stdout.txt",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-product-v071-attempt-01/outputs/reports/raw/opentaint-product-v071/wrapper-version-stdout.txt",
+      "sha256": "99cd2326e1d622d863ecfdcdba3ca968f08f153cd82cda7f0d0edc086ae94907"
+    },
+    {
+      "original_path": "reports/raw/opentaint-product-v071/scope.json",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-product-v071-attempt-01/outputs/reports/raw/opentaint-product-v071/scope.json",
+      "sha256": "5bbbf42a92885413de5d44236558de472f95b761157a77168d078fa8c8dbd6d4"
+    },
+    {
+      "original_path": "reports/raw/opentaint-product-v071/native-sanitizer-positive-compile-stdout.txt",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-product-v071-attempt-01/outputs/reports/raw/opentaint-product-v071/native-sanitizer-positive-compile-stdout.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original_path": "reports/raw/opentaint-product-v071/native-sanitizer-positive-product-stderr.txt",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-product-v071-attempt-01/outputs/reports/raw/opentaint-product-v071/native-sanitizer-positive-product-stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original_path": "reports/raw/opentaint-product-v071/native-summary-negative-compile-stdout.txt",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-product-v071-attempt-01/outputs/reports/raw/opentaint-product-v071/native-summary-negative-compile-stdout.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original_path": "reports/raw/opentaint-product-v071/native-propagator-positive-compile-stdout.txt",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-product-v071-attempt-01/outputs/reports/raw/opentaint-product-v071/native-propagator-positive-compile-stdout.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original_path": "reports/raw/opentaint-product-v071/native-propagator-positive-product-stderr.txt",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-product-v071-attempt-01/outputs/reports/raw/opentaint-product-v071/native-propagator-positive-product-stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original_path": "reports/raw/opentaint-product-v071/native-summary-negative-product-stderr.txt",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-product-v071-attempt-01/outputs/reports/raw/opentaint-product-v071/native-summary-negative-product-stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original_path": "reports/raw/opentaint-product-v071/native-entrypoint-positive-compile-stdout.txt",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-product-v071-attempt-01/outputs/reports/raw/opentaint-product-v071/native-entrypoint-positive-compile-stdout.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original_path": "reports/raw/opentaint-product-v071/native-entrypoint-positive-product-stderr.txt",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-product-v071-attempt-01/outputs/reports/raw/opentaint-product-v071/native-entrypoint-positive-product-stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original_path": "reports/raw/opentaint-product-v071/native-source-sink-positive-compile-stdout.txt",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-product-v071-attempt-01/outputs/reports/raw/opentaint-product-v071/native-source-sink-positive-compile-stdout.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original_path": "reports/raw/opentaint-product-v071/servlet-negative-compile-stdout.txt",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-product-v071-attempt-01/outputs/reports/raw/opentaint-product-v071/servlet-negative-compile-stdout.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original_path": "reports/raw/opentaint-product-v071/servlet-negative-product-stderr.txt",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-product-v071-attempt-01/outputs/reports/raw/opentaint-product-v071/servlet-negative-product-stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original_path": "reports/raw/opentaint-product-v071/native-source-sink-positive-product-stderr.txt",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-product-v071-attempt-01/outputs/reports/raw/opentaint-product-v071/native-source-sink-positive-product-stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original_path": "reports/raw/opentaint-product-v071/commands.jsonl",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-product-v071-attempt-01/outputs/reports/raw/opentaint-product-v071/commands.jsonl",
+      "sha256": "c4ade5a36f8fbc56e5a2300ac811cfd04facba59600b33811d92c8d4977f5932"
+    },
+    {
+      "original_path": "reports/raw/opentaint-product-v071/native-persistence-positive-product-stdout.txt",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-product-v071-attempt-01/outputs/reports/raw/opentaint-product-v071/native-persistence-positive-product-stdout.txt",
+      "sha256": "2a41d1ddd0b2f2e281fe05e6569076ee3dd2870e261c81a107c92e146dcafa78"
+    },
+    {
+      "original_path": "reports/raw/opentaint-product-v071/native-persistence-positive-compile-stderr.txt",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-product-v071-attempt-01/outputs/reports/raw/opentaint-product-v071/native-persistence-positive-compile-stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original_path": "reports/raw/opentaint-product-v071/scan-help-stderr.txt",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-product-v071-attempt-01/outputs/reports/raw/opentaint-product-v071/scan-help-stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original_path": "reports/raw/opentaint-product-v071/native-persistence-negative-product-stderr.txt",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-product-v071-attempt-01/outputs/reports/raw/opentaint-product-v071/native-persistence-negative-product-stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original_path": "reports/raw/opentaint-product-v071/wrapper-help-stderr.txt",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-product-v071-attempt-01/outputs/reports/raw/opentaint-product-v071/wrapper-help-stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original_path": "reports/raw/opentaint-product-v071/native-persistence-negative-compile-stdout.txt",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-product-v071-attempt-01/outputs/reports/raw/opentaint-product-v071/native-persistence-negative-compile-stdout.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original_path": "reports/raw/opentaint-product-v071/servlet-positive-compile-stderr.txt",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-product-v071-attempt-01/outputs/reports/raw/opentaint-product-v071/servlet-positive-compile-stderr.txt",
+      "sha256": "83d8e155032d06015c222e9064657f4fd41896b4646614eadeabc7ee5ab4b03c"
+    },
+    {
+      "original_path": "reports/raw/opentaint-product-v071/native-source-sink-negative-compile-stderr.txt",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-product-v071-attempt-01/outputs/reports/raw/opentaint-product-v071/native-source-sink-negative-compile-stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original_path": "reports/raw/opentaint-product-v071/native-source-sink-negative-product-stdout.txt",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-product-v071-attempt-01/outputs/reports/raw/opentaint-product-v071/native-source-sink-negative-product-stdout.txt",
+      "sha256": "2a41d1ddd0b2f2e281fe05e6569076ee3dd2870e261c81a107c92e146dcafa78"
+    },
+    {
+      "original_path": "reports/raw/opentaint-product-v071/servlet-positive-product-stdout.txt",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-product-v071-attempt-01/outputs/reports/raw/opentaint-product-v071/servlet-positive-product-stdout.txt",
+      "sha256": "2a41d1ddd0b2f2e281fe05e6569076ee3dd2870e261c81a107c92e146dcafa78"
+    },
+    {
+      "original_path": "reports/raw/opentaint-product-v071/native-summary-positive-compile-stderr.txt",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-product-v071-attempt-01/outputs/reports/raw/opentaint-product-v071/native-summary-positive-compile-stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original_path": "reports/raw/opentaint-product-v071/native-propagator-negative-compile-stderr.txt",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-product-v071-attempt-01/outputs/reports/raw/opentaint-product-v071/native-propagator-negative-compile-stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original_path": "reports/raw/opentaint-product-v071/native-propagator-negative-product-stdout.txt",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-product-v071-attempt-01/outputs/reports/raw/opentaint-product-v071/native-propagator-negative-product-stdout.txt",
+      "sha256": "2a41d1ddd0b2f2e281fe05e6569076ee3dd2870e261c81a107c92e146dcafa78"
+    },
+    {
+      "original_path": "reports/raw/opentaint-product-v071/native-summary-positive-product-stdout.txt",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-product-v071-attempt-01/outputs/reports/raw/opentaint-product-v071/native-summary-positive-product-stdout.txt",
+      "sha256": "2a41d1ddd0b2f2e281fe05e6569076ee3dd2870e261c81a107c92e146dcafa78"
+    },
+    {
+      "original_path": "reports/raw/opentaint-product-v071/native-entrypoint-negative-compile-stderr.txt",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-product-v071-attempt-01/outputs/reports/raw/opentaint-product-v071/native-entrypoint-negative-compile-stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original_path": "reports/raw/opentaint-product-v071/native-entrypoint-negative-product-stdout.txt",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-product-v071-attempt-01/outputs/reports/raw/opentaint-product-v071/native-entrypoint-negative-product-stdout.txt",
+      "sha256": "2a41d1ddd0b2f2e281fe05e6569076ee3dd2870e261c81a107c92e146dcafa78"
+    },
+    {
+      "original_path": "reports/raw/opentaint-product-v071/native-sanitizer-negative-compile-stderr.txt",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-product-v071-attempt-01/outputs/reports/raw/opentaint-product-v071/native-sanitizer-negative-compile-stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original_path": "reports/raw/opentaint-product-v071/native-sanitizer-negative-product-stdout.txt",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-product-v071-attempt-01/outputs/reports/raw/opentaint-product-v071/native-sanitizer-negative-product-stdout.txt",
+      "sha256": "2a41d1ddd0b2f2e281fe05e6569076ee3dd2870e261c81a107c92e146dcafa78"
+    },
+    {
+      "original_path": "reports/raw/opentaint-product-v071/native-entrypoint-positive-compile-stderr.txt",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-product-v071-attempt-01/outputs/reports/raw/opentaint-product-v071/native-entrypoint-positive-compile-stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original_path": "reports/raw/opentaint-product-v071/native-entrypoint-positive-product-stdout.txt",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-product-v071-attempt-01/outputs/reports/raw/opentaint-product-v071/native-entrypoint-positive-product-stdout.txt",
+      "sha256": "2a41d1ddd0b2f2e281fe05e6569076ee3dd2870e261c81a107c92e146dcafa78"
+    },
+    {
+      "original_path": "reports/raw/opentaint-product-v071/native-propagator-positive-compile-stderr.txt",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-product-v071-attempt-01/outputs/reports/raw/opentaint-product-v071/native-propagator-positive-compile-stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original_path": "reports/raw/opentaint-product-v071/native-summary-negative-compile-stderr.txt",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-product-v071-attempt-01/outputs/reports/raw/opentaint-product-v071/native-summary-negative-compile-stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original_path": "reports/raw/opentaint-product-v071/native-summary-negative-product-stdout.txt",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-product-v071-attempt-01/outputs/reports/raw/opentaint-product-v071/native-summary-negative-product-stdout.txt",
+      "sha256": "2a41d1ddd0b2f2e281fe05e6569076ee3dd2870e261c81a107c92e146dcafa78"
+    },
+    {
+      "original_path": "reports/raw/opentaint-product-v071/native-propagator-positive-product-stdout.txt",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-product-v071-attempt-01/outputs/reports/raw/opentaint-product-v071/native-propagator-positive-product-stdout.txt",
+      "sha256": "2a41d1ddd0b2f2e281fe05e6569076ee3dd2870e261c81a107c92e146dcafa78"
+    },
+    {
+      "original_path": "reports/raw/opentaint-product-v071/servlet-negative-compile-stderr.txt",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-product-v071-attempt-01/outputs/reports/raw/opentaint-product-v071/servlet-negative-compile-stderr.txt",
+      "sha256": "744142f8c97dfaaa493ce55801eca3583aa33d9a4c04a30f9316ab967486c79c"
+    },
+    {
+      "original_path": "reports/raw/opentaint-product-v071/native-source-sink-positive-compile-stderr.txt",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-product-v071-attempt-01/outputs/reports/raw/opentaint-product-v071/native-source-sink-positive-compile-stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original_path": "reports/raw/opentaint-product-v071/native-source-sink-positive-product-stdout.txt",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-product-v071-attempt-01/outputs/reports/raw/opentaint-product-v071/native-source-sink-positive-product-stdout.txt",
+      "sha256": "2a41d1ddd0b2f2e281fe05e6569076ee3dd2870e261c81a107c92e146dcafa78"
+    },
+    {
+      "original_path": "reports/raw/opentaint-product-v071/servlet-negative-product-stdout.txt",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-product-v071-attempt-01/outputs/reports/raw/opentaint-product-v071/servlet-negative-product-stdout.txt",
+      "sha256": "2a41d1ddd0b2f2e281fe05e6569076ee3dd2870e261c81a107c92e146dcafa78"
+    },
+    {
+      "original_path": "reports/raw/opentaint-product-v071/wrapper-version-stderr.txt",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-product-v071-attempt-01/outputs/reports/raw/opentaint-product-v071/wrapper-version-stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original_path": "reports/raw/opentaint-product-v071/native-sanitizer-positive-compile-stderr.txt",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-product-v071-attempt-01/outputs/reports/raw/opentaint-product-v071/native-sanitizer-positive-compile-stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original_path": "reports/raw/opentaint-product-v071/native-sanitizer-positive-product-stdout.txt",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-product-v071-attempt-01/outputs/reports/raw/opentaint-product-v071/native-sanitizer-positive-product-stdout.txt",
+      "sha256": "2a41d1ddd0b2f2e281fe05e6569076ee3dd2870e261c81a107c92e146dcafa78"
+    },
+    {
+      "original_path": "reports/raw/opentaint-product-v071/scan-help-stdout.txt",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-product-v071-attempt-01/outputs/reports/raw/opentaint-product-v071/scan-help-stdout.txt",
+      "sha256": "82fddf704624e0cc1ffbe36c385412dec1d6b3dce809969ec9f725fcc772c487"
+    },
+    {
+      "original_path": "reports/raw/opentaint-product-v071/native-persistence-positive-product-stderr.txt",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-product-v071-attempt-01/outputs/reports/raw/opentaint-product-v071/native-persistence-positive-product-stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original_path": "reports/raw/opentaint-product-v071/native-persistence-positive-compile-stdout.txt",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-product-v071-attempt-01/outputs/reports/raw/opentaint-product-v071/native-persistence-positive-compile-stdout.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original_path": "reports/raw/opentaint-product-v071/native-sanitizer-positive/project.yaml",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-product-v071-attempt-01/outputs/reports/raw/opentaint-product-v071/native-sanitizer-positive/project.yaml",
+      "sha256": "931e953812fbaee832e0788402465c746987239d9c9287fb01e7072c7436f4a9"
+    },
+    {
+      "original_path": "reports/raw/opentaint-product-v071/native-sanitizer-positive/classes/dataflowbench/taint/NativeSanitizerPositive.class",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-product-v071-attempt-01/outputs/reports/raw/opentaint-product-v071/native-sanitizer-positive/classes/dataflowbench/taint/NativeSanitizerPositive.class",
+      "sha256": "49a84dce8c11ef4b1375a670a1ba767fab1eabdfbffb11934213bd0fdee8f290"
+    },
+    {
+      "original_path": "reports/raw/opentaint-product-v071/native-sanitizer-positive/source/dataflowbench/taint/NativeSanitizerPositive.java",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-product-v071-attempt-01/outputs/reports/raw/opentaint-product-v071/native-sanitizer-positive/source/dataflowbench/taint/NativeSanitizerPositive.java",
+      "sha256": "65fb165e566c48a778f3f91cb1812ed604189ecaf7b993c0b881921bd3fd1dcd"
+    },
+    {
+      "original_path": "reports/raw/opentaint-product-v071/native-entrypoint-negative/project.yaml",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-product-v071-attempt-01/outputs/reports/raw/opentaint-product-v071/native-entrypoint-negative/project.yaml",
+      "sha256": "b18281625efafd26c4050baa3ba65b674bdea26f6ac21365726db9b2d84f525e"
+    },
+    {
+      "original_path": "reports/raw/opentaint-product-v071/native-entrypoint-negative/classes/dataflowbench/taint/NativeEntrypointNegative.class",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-product-v071-attempt-01/outputs/reports/raw/opentaint-product-v071/native-entrypoint-negative/classes/dataflowbench/taint/NativeEntrypointNegative.class",
+      "sha256": "a97374c02ea47e0cfb57078661d85d4a147be3a69a24b451628c3d73e6e57dcc"
+    },
+    {
+      "original_path": "reports/raw/opentaint-product-v071/native-entrypoint-negative/source/dataflowbench/taint/NativeEntrypointNegative.java",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-product-v071-attempt-01/outputs/reports/raw/opentaint-product-v071/native-entrypoint-negative/source/dataflowbench/taint/NativeEntrypointNegative.java",
+      "sha256": "ef5f0c275ffb70d4f9db18abb654be25f8690239f1ef85578d3e79cdddaedd92"
+    },
+    {
+      "original_path": "reports/raw/opentaint-product-v071/native-entrypoint-positive/project.yaml",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-product-v071-attempt-01/outputs/reports/raw/opentaint-product-v071/native-entrypoint-positive/project.yaml",
+      "sha256": "660846d4fae15d5036686185145c2f4e5654fb1788d44c62dfe7612282d20ff7"
+    },
+    {
+      "original_path": "reports/raw/opentaint-product-v071/native-entrypoint-positive/classes/dataflowbench/taint/NativeEntrypointPositive.class",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-product-v071-attempt-01/outputs/reports/raw/opentaint-product-v071/native-entrypoint-positive/classes/dataflowbench/taint/NativeEntrypointPositive.class",
+      "sha256": "2527ec51e6f159f3efa2749fb4e74b42230a87ed85248e4edb2a0adf598f9c2d"
+    },
+    {
+      "original_path": "reports/raw/opentaint-product-v071/native-entrypoint-positive/source/dataflowbench/taint/NativeEntrypointPositive.java",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-product-v071-attempt-01/outputs/reports/raw/opentaint-product-v071/native-entrypoint-positive/source/dataflowbench/taint/NativeEntrypointPositive.java",
+      "sha256": "b8247dc2871b383a3237d9ee6da85083face3542332221430a14af61af3c89a2"
+    },
+    {
+      "original_path": "reports/raw/opentaint-product-v071/native-sanitizer-negative/project.yaml",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-product-v071-attempt-01/outputs/reports/raw/opentaint-product-v071/native-sanitizer-negative/project.yaml",
+      "sha256": "ac5b788b03bc2318e97e3b6af5768b1dc85514747b7c4b3c4135d82eedaf445b"
+    },
+    {
+      "original_path": "reports/raw/opentaint-product-v071/native-sanitizer-negative/classes/dataflowbench/taint/NativeSanitizerNegative.class",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-product-v071-attempt-01/outputs/reports/raw/opentaint-product-v071/native-sanitizer-negative/classes/dataflowbench/taint/NativeSanitizerNegative.class",
+      "sha256": "acb8b3f066897e750d075397f98bbfbdd9760bd4aec8b1e34bb4d25c7efa7c53"
+    },
+    {
+      "original_path": "reports/raw/opentaint-product-v071/native-sanitizer-negative/source/dataflowbench/taint/NativeSanitizerNegative.java",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-product-v071-attempt-01/outputs/reports/raw/opentaint-product-v071/native-sanitizer-negative/source/dataflowbench/taint/NativeSanitizerNegative.java",
+      "sha256": "84b0ed2539d09ef97ce2b0015289d05ecf390e0bea19a218386814b94b2d7aff"
+    },
+    {
+      "original_path": "reports/raw/opentaint-product-v071/servlet-negative/project.yaml",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-product-v071-attempt-01/outputs/reports/raw/opentaint-product-v071/servlet-negative/project.yaml",
+      "sha256": "f9127565ecc16bbac99186519ebf82ea33eec8b8be53b27e68c6c741fe110011"
+    },
+    {
+      "original_path": "reports/raw/opentaint-product-v071/servlet-negative/classes/dataflowbench/control/ControlServlet.class",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-product-v071-attempt-01/outputs/reports/raw/opentaint-product-v071/servlet-negative/classes/dataflowbench/control/ControlServlet.class",
+      "sha256": "2f29527502ee54822ea1f65359d01d5a735eb22c81c15ffea94f9e58df44e14d"
+    },
+    {
+      "original_path": "reports/raw/opentaint-product-v071/servlet-negative/classes/jakarta/servlet/http/HttpServletResponse.class",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-product-v071-attempt-01/outputs/reports/raw/opentaint-product-v071/servlet-negative/classes/jakarta/servlet/http/HttpServletResponse.class",
+      "sha256": "e2137e5c22fbf9587b5003ab521db20d4af0a21c4aa3faa75ff5bfe42c3d0f44"
+    },
+    {
+      "original_path": "reports/raw/opentaint-product-v071/servlet-negative/classes/jakarta/servlet/http/HttpServlet.class",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-product-v071-attempt-01/outputs/reports/raw/opentaint-product-v071/servlet-negative/classes/jakarta/servlet/http/HttpServlet.class",
+      "sha256": "e84e7c3d80b74c8528b387c188597263e04d97ec36a4ea45754888f0ff129851"
+    },
+    {
+      "original_path": "reports/raw/opentaint-product-v071/servlet-negative/classes/jakarta/servlet/http/HttpServletRequest.class",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-product-v071-attempt-01/outputs/reports/raw/opentaint-product-v071/servlet-negative/classes/jakarta/servlet/http/HttpServletRequest.class",
+      "sha256": "6fc66080ecd50c43fa662f15ed175615fdb5922497d94a836dfdb9ac3ed042fd"
+    },
+    {
+      "original_path": "reports/raw/opentaint-product-v071/servlet-negative/source/dataflowbench/control/ControlServlet.java",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-product-v071-attempt-01/outputs/reports/raw/opentaint-product-v071/servlet-negative/source/dataflowbench/control/ControlServlet.java",
+      "sha256": "6cea263ced3c4bdc8d49bf444d0fec663aab110592286c588687f2d9b27015bc"
+    },
+    {
+      "original_path": "reports/raw/opentaint-product-v071/servlet-negative/source/jakarta/servlet/http/HttpServletRequest.java",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-product-v071-attempt-01/outputs/reports/raw/opentaint-product-v071/servlet-negative/source/jakarta/servlet/http/HttpServletRequest.java",
+      "sha256": "98f632d7bfa46582a9451da5ac654d2b0d40f8f1ae3d5cdb18645768fd982dad"
+    },
+    {
+      "original_path": "reports/raw/opentaint-product-v071/servlet-negative/source/jakarta/servlet/http/HttpServletResponse.java",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-product-v071-attempt-01/outputs/reports/raw/opentaint-product-v071/servlet-negative/source/jakarta/servlet/http/HttpServletResponse.java",
+      "sha256": "862503075c7770751b2ea4663396605eef780c849c7fbf9f75aed10546cda285"
+    },
+    {
+      "original_path": "reports/raw/opentaint-product-v071/servlet-negative/source/jakarta/servlet/http/HttpServlet.java",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-product-v071-attempt-01/outputs/reports/raw/opentaint-product-v071/servlet-negative/source/jakarta/servlet/http/HttpServlet.java",
+      "sha256": "d52d3ca4d41ea605570dd19c4e7aace2b583ccb7b2b0fa8bcbc34de76c37057d"
+    },
+    {
+      "original_path": "reports/raw/opentaint-product-v071/native-summary-positive/project.yaml",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-product-v071-attempt-01/outputs/reports/raw/opentaint-product-v071/native-summary-positive/project.yaml",
+      "sha256": "91bbf379718e0482da4b3e2372cbf9d025853d940196091c7e1e6aeff987a027"
+    },
+    {
+      "original_path": "reports/raw/opentaint-product-v071/native-summary-positive/classes/dataflowbench/taint/NativeSummaryPositive.class",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-product-v071-attempt-01/outputs/reports/raw/opentaint-product-v071/native-summary-positive/classes/dataflowbench/taint/NativeSummaryPositive.class",
+      "sha256": "0504ad81fd14b7a1c0e568fbfdefe22973d2fbcdd7c91bdbfafeb3ad114273ef"
+    },
+    {
+      "original_path": "reports/raw/opentaint-product-v071/native-summary-positive/source/dataflowbench/taint/NativeSummaryPositive.java",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-product-v071-attempt-01/outputs/reports/raw/opentaint-product-v071/native-summary-positive/source/dataflowbench/taint/NativeSummaryPositive.java",
+      "sha256": "717a379ae5025c09f824fdab074dfde7c45eb5453992bcc98e1e70c16bac0ba5"
+    },
+    {
+      "original_path": "reports/raw/opentaint-product-v071/native-propagator-negative/project.yaml",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-product-v071-attempt-01/outputs/reports/raw/opentaint-product-v071/native-propagator-negative/project.yaml",
+      "sha256": "4d9b6da915f87ef96bd2f77946ef754401fe2a0ff6e36fa2b3cb8f488171c90e"
+    },
+    {
+      "original_path": "reports/raw/opentaint-product-v071/native-propagator-negative/classes/dataflowbench/taint/NativePropagatorNegative.class",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-product-v071-attempt-01/outputs/reports/raw/opentaint-product-v071/native-propagator-negative/classes/dataflowbench/taint/NativePropagatorNegative.class",
+      "sha256": "75f0dbaa2bcb6edc521a1bada280084402e8ee24581c3b87c3daf1243a1e2ec4"
+    },
+    {
+      "original_path": "reports/raw/opentaint-product-v071/native-propagator-negative/source/dataflowbench/taint/NativePropagatorNegative.java",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-product-v071-attempt-01/outputs/reports/raw/opentaint-product-v071/native-propagator-negative/source/dataflowbench/taint/NativePropagatorNegative.java",
+      "sha256": "b9d6c04c65e16de060f903afff4f4a8c7fedeea9b78b45be12e16e0dbd69b25f"
+    },
+    {
+      "original_path": "reports/raw/opentaint-product-v071/native-source-sink-negative/project.yaml",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-product-v071-attempt-01/outputs/reports/raw/opentaint-product-v071/native-source-sink-negative/project.yaml",
+      "sha256": "03b272344d2ba50beb19b2ca2f71ef75922aab413fcae5db5c325bc48ecf4985"
+    },
+    {
+      "original_path": "reports/raw/opentaint-product-v071/native-source-sink-negative/classes/dataflowbench/taint/NativeSourceSinkNegative.class",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-product-v071-attempt-01/outputs/reports/raw/opentaint-product-v071/native-source-sink-negative/classes/dataflowbench/taint/NativeSourceSinkNegative.class",
+      "sha256": "a7e70e7a67c4b0d643fb4bf14f38f2dc75d78786eb6b174b39a4139da4f28f67"
+    },
+    {
+      "original_path": "reports/raw/opentaint-product-v071/native-source-sink-negative/source/dataflowbench/taint/NativeSourceSinkNegative.java",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-product-v071-attempt-01/outputs/reports/raw/opentaint-product-v071/native-source-sink-negative/source/dataflowbench/taint/NativeSourceSinkNegative.java",
+      "sha256": "c23810b65ee7ecce0cd6011a5e5f6954aba92c0889db536e97b044573413bdc3"
+    },
+    {
+      "original_path": "reports/raw/opentaint-product-v071/native-persistence-negative/project.yaml",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-product-v071-attempt-01/outputs/reports/raw/opentaint-product-v071/native-persistence-negative/project.yaml",
+      "sha256": "ed18897a629621f4b66cf77a57b766b9641963287897750bb794cffe364209f0"
+    },
+    {
+      "original_path": "reports/raw/opentaint-product-v071/native-persistence-negative/classes/dataflowbench/taint/NativePersistenceNegative.class",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-product-v071-attempt-01/outputs/reports/raw/opentaint-product-v071/native-persistence-negative/classes/dataflowbench/taint/NativePersistenceNegative.class",
+      "sha256": "1c6ac22f2b3274c562c6a05212185a4d05ef8c51ba349c12c51daa2d085b5e54"
+    },
+    {
+      "original_path": "reports/raw/opentaint-product-v071/native-persistence-negative/source/dataflowbench/taint/NativePersistenceNegative.java",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-product-v071-attempt-01/outputs/reports/raw/opentaint-product-v071/native-persistence-negative/source/dataflowbench/taint/NativePersistenceNegative.java",
+      "sha256": "fac4702fbd75d51b40b77cf2ba70c492ba09380444a7b9d8718c5df2e553be8b"
+    },
+    {
+      "original_path": "reports/raw/opentaint-product-v071/native-source-sink-positive/project.yaml",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-product-v071-attempt-01/outputs/reports/raw/opentaint-product-v071/native-source-sink-positive/project.yaml",
+      "sha256": "e81c1dd5f8b96ee68298b02972be59a79f4c3526f087f7cf7c63ba0608e0161e"
+    },
+    {
+      "original_path": "reports/raw/opentaint-product-v071/native-source-sink-positive/classes/dataflowbench/taint/NativeSourceSinkPositive.class",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-product-v071-attempt-01/outputs/reports/raw/opentaint-product-v071/native-source-sink-positive/classes/dataflowbench/taint/NativeSourceSinkPositive.class",
+      "sha256": "02b51aa8b52a47902ba6cc44cfcd63c071baaf055ec0c6df4cc920d2efd5acc7"
+    },
+    {
+      "original_path": "reports/raw/opentaint-product-v071/native-source-sink-positive/source/dataflowbench/taint/NativeSourceSinkPositive.java",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-product-v071-attempt-01/outputs/reports/raw/opentaint-product-v071/native-source-sink-positive/source/dataflowbench/taint/NativeSourceSinkPositive.java",
+      "sha256": "2fda485032d9e9e8ae8ef0c75ecd00476488e471c1680be42a874492f2981ed3"
+    },
+    {
+      "original_path": "reports/raw/opentaint-product-v071/native-persistence-positive/project.yaml",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-product-v071-attempt-01/outputs/reports/raw/opentaint-product-v071/native-persistence-positive/project.yaml",
+      "sha256": "ca64a7a21823fa102fd4b09311894e77fc996665d66d954190d7d69c3e8349b5"
+    },
+    {
+      "original_path": "reports/raw/opentaint-product-v071/native-persistence-positive/classes/dataflowbench/taint/NativePersistencePositive.class",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-product-v071-attempt-01/outputs/reports/raw/opentaint-product-v071/native-persistence-positive/classes/dataflowbench/taint/NativePersistencePositive.class",
+      "sha256": "416fd35b54158311095bcfacef833c2f23222fcfacc1776258ca9c5c32ca7710"
+    },
+    {
+      "original_path": "reports/raw/opentaint-product-v071/native-persistence-positive/source/dataflowbench/taint/NativePersistencePositive.java",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-product-v071-attempt-01/outputs/reports/raw/opentaint-product-v071/native-persistence-positive/source/dataflowbench/taint/NativePersistencePositive.java",
+      "sha256": "bc7272f7faa6a2cccbdb89b566b528bcec423162302aa115b0e007616db247cf"
+    },
+    {
+      "original_path": "reports/raw/opentaint-product-v071/servlet-positive/project.yaml",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-product-v071-attempt-01/outputs/reports/raw/opentaint-product-v071/servlet-positive/project.yaml",
+      "sha256": "cb85f2744c0c53d4dcf45e83f7da07395013bfad31895116bbd9015cdffa489a"
+    },
+    {
+      "original_path": "reports/raw/opentaint-product-v071/servlet-positive/classes/dataflowbench/control/ControlServlet.class",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-product-v071-attempt-01/outputs/reports/raw/opentaint-product-v071/servlet-positive/classes/dataflowbench/control/ControlServlet.class",
+      "sha256": "6d3da925b82a7e07343bf1fa8c808b9fc99c129bd57fd1444b892857b84aa13d"
+    },
+    {
+      "original_path": "reports/raw/opentaint-product-v071/servlet-positive/classes/jakarta/servlet/http/HttpServletResponse.class",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-product-v071-attempt-01/outputs/reports/raw/opentaint-product-v071/servlet-positive/classes/jakarta/servlet/http/HttpServletResponse.class",
+      "sha256": "e2137e5c22fbf9587b5003ab521db20d4af0a21c4aa3faa75ff5bfe42c3d0f44"
+    },
+    {
+      "original_path": "reports/raw/opentaint-product-v071/servlet-positive/classes/jakarta/servlet/http/HttpServlet.class",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-product-v071-attempt-01/outputs/reports/raw/opentaint-product-v071/servlet-positive/classes/jakarta/servlet/http/HttpServlet.class",
+      "sha256": "e84e7c3d80b74c8528b387c188597263e04d97ec36a4ea45754888f0ff129851"
+    },
+    {
+      "original_path": "reports/raw/opentaint-product-v071/servlet-positive/classes/jakarta/servlet/http/HttpServletRequest.class",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-product-v071-attempt-01/outputs/reports/raw/opentaint-product-v071/servlet-positive/classes/jakarta/servlet/http/HttpServletRequest.class",
+      "sha256": "6fc66080ecd50c43fa662f15ed175615fdb5922497d94a836dfdb9ac3ed042fd"
+    },
+    {
+      "original_path": "reports/raw/opentaint-product-v071/servlet-positive/source/dataflowbench/control/ControlServlet.java",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-product-v071-attempt-01/outputs/reports/raw/opentaint-product-v071/servlet-positive/source/dataflowbench/control/ControlServlet.java",
+      "sha256": "db7649d6f5c915bb684e7388b4de9b59c1fc0ad169d0eda95a62c01eda0d7b60"
+    },
+    {
+      "original_path": "reports/raw/opentaint-product-v071/servlet-positive/source/jakarta/servlet/http/HttpServletRequest.java",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-product-v071-attempt-01/outputs/reports/raw/opentaint-product-v071/servlet-positive/source/jakarta/servlet/http/HttpServletRequest.java",
+      "sha256": "98f632d7bfa46582a9451da5ac654d2b0d40f8f1ae3d5cdb18645768fd982dad"
+    },
+    {
+      "original_path": "reports/raw/opentaint-product-v071/servlet-positive/source/jakarta/servlet/http/HttpServletResponse.java",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-product-v071-attempt-01/outputs/reports/raw/opentaint-product-v071/servlet-positive/source/jakarta/servlet/http/HttpServletResponse.java",
+      "sha256": "862503075c7770751b2ea4663396605eef780c849c7fbf9f75aed10546cda285"
+    },
+    {
+      "original_path": "reports/raw/opentaint-product-v071/servlet-positive/source/jakarta/servlet/http/HttpServlet.java",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-product-v071-attempt-01/outputs/reports/raw/opentaint-product-v071/servlet-positive/source/jakarta/servlet/http/HttpServlet.java",
+      "sha256": "d52d3ca4d41ea605570dd19c4e7aace2b583ccb7b2b0fa8bcbc34de76c37057d"
+    },
+    {
+      "original_path": "reports/raw/opentaint-product-v071/native-summary-negative/project.yaml",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-product-v071-attempt-01/outputs/reports/raw/opentaint-product-v071/native-summary-negative/project.yaml",
+      "sha256": "1a8cf20b3630197b1e6675bec270e7a32febe4c070fc92e4e50dedd31e9f00f3"
+    },
+    {
+      "original_path": "reports/raw/opentaint-product-v071/native-summary-negative/classes/dataflowbench/taint/NativeSummaryNegative.class",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-product-v071-attempt-01/outputs/reports/raw/opentaint-product-v071/native-summary-negative/classes/dataflowbench/taint/NativeSummaryNegative.class",
+      "sha256": "a63043d763ae2a4487da19ec9264e4f21573ef9cb3eecbe184e727ca57fb3432"
+    },
+    {
+      "original_path": "reports/raw/opentaint-product-v071/native-summary-negative/source/dataflowbench/taint/NativeSummaryNegative.java",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-product-v071-attempt-01/outputs/reports/raw/opentaint-product-v071/native-summary-negative/source/dataflowbench/taint/NativeSummaryNegative.java",
+      "sha256": "730cd0b3b04a82853a53521dc6c89205c74c617c1d8a5ab827c1b5dd3d57d2b1"
+    },
+    {
+      "original_path": "reports/raw/opentaint-product-v071/native-propagator-positive/project.yaml",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-product-v071-attempt-01/outputs/reports/raw/opentaint-product-v071/native-propagator-positive/project.yaml",
+      "sha256": "f73faad7cbcf3828894f39a6fa05bb84a7fc5cdf187e9c90d667a0860e75e9c2"
+    },
+    {
+      "original_path": "reports/raw/opentaint-product-v071/native-propagator-positive/classes/dataflowbench/taint/NativePropagatorPositive.class",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-product-v071-attempt-01/outputs/reports/raw/opentaint-product-v071/native-propagator-positive/classes/dataflowbench/taint/NativePropagatorPositive.class",
+      "sha256": "cdf276e2a749bf640097f5071f949459950ac738ff5adf6736b2d6c39a756f48"
+    },
+    {
+      "original_path": "reports/raw/opentaint-product-v071/native-propagator-positive/source/dataflowbench/taint/NativePropagatorPositive.java",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-product-v071-attempt-01/outputs/reports/raw/opentaint-product-v071/native-propagator-positive/source/dataflowbench/taint/NativePropagatorPositive.java",
+      "sha256": "d566552c0b19f75ac87cf7cc5c21755b829b0e3ec281fcb37abd7b7a50383cdc"
+    }
+  ],
+  "expected_output_roots": [
+    "reports/raw/opentaint-product-v071"
+  ],
+  "missing_fresh_output_roots": [],
+  "removed_paths": []
+}

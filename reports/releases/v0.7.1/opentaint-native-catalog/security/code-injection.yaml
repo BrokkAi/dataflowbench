@@ -1,0 +1,482 @@
+rules:
+  - id: groovy-injection
+    severity: ERROR
+    message: >-
+      Code injection: Groovy invocation with user-controlled input.
+    metadata:
+      cwe:
+        - CWE-94
+      short-description: Found Groovy invocation with user-controlled input
+      full-description: |-
+        Groovy code injection occurs when untrusted input reaches Groovy evaluation APIs
+        such as `GroovyShell.evaluate(...)`, `parse(...)`, or `Eval.me(...)`.
+
+        Vulnerable example:
+
+        ```java
+        import groovy.lang.GroovyShell;
+
+        public class ScriptService {
+            public Object run(String scriptFromRequest) {
+                GroovyShell shell = new GroovyShell();
+                return shell.evaluate(scriptFromRequest); // VULNERABLE
+            }
+        }
+        ```
+
+        Safe example:
+
+        ```java
+        import groovy.lang.Binding;
+        import groovy.lang.GroovyShell;
+
+        public class ScriptService {
+            public Object run(int a, int b) {
+                String trustedScript = "x + y";
+                Binding binding = new Binding();
+                binding.setVariable("x", a);
+                binding.setVariable("y", b);
+                GroovyShell shell = new GroovyShell(binding);
+                return shell.evaluate(trustedScript);
+            }
+        }
+        ```
+
+        Key vulnerable patterns covered by this rule include Groovy shell parse/evaluate APIs and `groovy.util.Eval.*`.
+      references:
+        - https://owasp.org/www-community/attacks/Code_Injection
+      provenance: https://find-sec-bugs.github.io/bugs.htm#GROOVY_SHELL
+    languages:
+      - java
+    mode: join
+    join:
+      refs:
+        - tag: servlet-untrusted-data-source
+          as: servlet-untrusted-data
+        - tag: spring-untrusted-data-source
+          as: spring-untrusted-data
+        - tag: groovy-injection-sink
+          as: sink
+      on:
+        - 'servlet-untrusted-data.$UNTRUSTED -> sink.$UNTRUSTED'
+        - 'spring-untrusted-data.$UNTRUSTED -> sink.$UNTRUSTED'
+
+  - id: ognl-injection
+    severity: ERROR
+    message: >-
+      Code injection: OGNL expression construction from user-controlled input.
+    metadata:
+      cwe:
+        - CWE-94
+      short-description: OGNL expression construction from user-controlled input
+      full-description: |-
+        OGNL injection occurs when untrusted input reaches OGNL evaluation APIs
+        (`Ognl.getValue(...)`, Struts OGNL utility/value-stack evaluation methods).
+
+        Vulnerable example:
+
+        ```java
+        import ognl.Ognl;
+        import ognl.OgnlContext;
+
+        public class OgnlService {
+            public Object eval(String exprFromRequest) throws Exception {
+                OgnlContext ctx = new OgnlContext();
+                return Ognl.getValue(exprFromRequest, ctx, ctx.getRoot()); // VULNERABLE
+            }
+        }
+        ```
+
+        Safe example:
+
+        ```java
+        public class OgnlService {
+            public Object dispatch(String actionFromRequest, UserService userService) {
+                if ("profile".equals(actionFromRequest)) {
+                    return userService.currentProfile();
+                }
+                if ("list".equals(actionFromRequest)) {
+                    return userService.listUsers();
+                }
+                throw new IllegalArgumentException("Unsupported action");
+            }
+        }
+        ```
+
+        Key vulnerable patterns covered by this rule include OGNL direct evaluators and Struts OGNL helpers
+        when tainted expression text is evaluated.
+      references:
+        - https://struts.apache.org/security/#do-not-use-incoming-untrusted-user-input-in-forced-expression-evaluation
+        - https://owasp.org/www-community/attacks/Expression_Language_Injection
+      provenance: https://find-sec-bugs.github.io/bugs.htm#OGNL_INJECTION
+    languages:
+      - java
+    mode: join
+    join:
+      refs:
+        - tag: servlet-untrusted-data-source
+          as: servlet-untrusted-data
+        - tag: spring-untrusted-data-source
+          as: spring-untrusted-data
+        - tag: ognl-injection-sink
+          as: sink
+      on:
+        - 'servlet-untrusted-data.$UNTRUSTED -> sink.$INPUT'
+        - 'spring-untrusted-data.$UNTRUSTED -> sink.$INPUT'
+
+  - id: script-engine-injection
+    severity: ERROR
+    message: |
+      Code injection: ScriptEngine executes user-controlled code.
+    metadata:
+      cwe:
+        - CWE-94
+      short-description: Injection into javax.script.ScriptEngine
+      full-description: |-
+        Script-engine injection occurs when untrusted input reaches Java script-evaluation APIs
+        such as `ScriptEngine.eval(...)` and `Invocable.invoke*` with tainted script content.
+
+        Vulnerable example:
+
+        ```java
+        import javax.script.ScriptEngine;
+        import javax.script.ScriptEngineManager;
+
+        public class ScriptEngineService {
+            public Object eval(String exprFromRequest) throws Exception {
+                ScriptEngine engine = new ScriptEngineManager().getEngineByName("javascript");
+                return engine.eval(exprFromRequest); // VULNERABLE
+            }
+        }
+        ```
+
+        Safe example:
+
+        ```java
+        import javax.script.Bindings;
+        import javax.script.Compilable;
+        import javax.script.CompiledScript;
+        import javax.script.ScriptEngine;
+        import javax.script.ScriptEngineManager;
+
+        public class ScriptEngineService {
+            private final ScriptEngine engine = new ScriptEngineManager().getEngineByName("javascript");
+            private final CompiledScript compiled;
+
+            public ScriptEngineService() throws Exception {
+                this.compiled = ((Compilable) engine).compile("a + b");
+            }
+
+            public Object eval(int a, int b) throws Exception {
+                Bindings bindings = engine.createBindings();
+                bindings.put("a", a);
+                bindings.put("b", b);
+                return compiled.eval(bindings);
+            }
+        }
+        ```
+
+        Key vulnerable patterns covered by this rule include `ScriptEngine.eval` and `Invocable.invokeFunction/invokeMethod`
+        when script text or callable selector is tainted.
+      references:
+        - https://owasp.org/www-community/attacks/Code_Injection
+      provenance: https://find-sec-bugs.github.io/bugs.htm#SCRIPT_ENGINE_INJECTION
+    languages:
+      - java
+    mode: join
+    join:
+      refs:
+        - tag: servlet-untrusted-data-source
+          as: servlet-untrusted-data
+        - tag: spring-untrusted-data-source
+          as: spring-untrusted-data
+        - tag: script-engine-injection-sink
+          as: sink
+      on:
+        - 'servlet-untrusted-data.$UNTRUSTED -> sink.$UNTRUSTED'
+        - 'spring-untrusted-data.$UNTRUSTED -> sink.$UNTRUSTED'
+
+  - id: ssti
+    severity: ERROR
+    message: >-
+      Template injection: unvalidated user data flows into template engine
+    metadata:
+      cwe:
+        - CWE-94
+        - CWE-1336
+      short-description: Unvalidated user data flows into template engine
+      full-description: |-
+        Server-side template injection occurs when untrusted input reaches template-engine APIs
+        as template content, template name, or expression-bearing payload.
+
+        Vulnerable example:
+
+        ```java
+        import freemarker.template.Configuration;
+        import freemarker.template.Template;
+        import java.io.StringReader;
+
+        public class TemplateService {
+            public Template compile(Configuration cfg, String templateFromRequest) throws Exception {
+                // templateFromRequest is untrusted
+                return new Template("userTpl", new StringReader(templateFromRequest), cfg); // VULNERABLE
+            }
+        }
+        ```
+
+        Safe example:
+
+        ```java
+        import freemarker.template.Configuration;
+        import freemarker.template.Template;
+        import java.util.Map;
+
+        public class TemplateService {
+            public String render(Configuration cfg, String templateKey, Map<String, Object> model) throws Exception {
+                String selected = switch (templateKey) {
+                    case "welcome" -> "welcome.ftl";
+                    case "receipt" -> "receipt.ftl";
+                    default -> throw new IllegalArgumentException("Unsupported template");
+                };
+
+                Template tpl = cfg.getTemplate(selected);
+                java.io.StringWriter out = new java.io.StringWriter();
+                tpl.process(model, out);
+                return out.toString();
+            }
+        }
+        ```
+
+        Key vulnerable patterns covered by this rule include FreeMarker/Velocity/Thymeleaf/Jinjava/Pebble
+        template compilation and processing APIs with tainted template identifiers/content.
+      references:
+        - https://portswigger.net/web-security/server-side-template-injection
+      provenance: https://github.com/github/codeql/tree/cdd8aa49e16650a96b8993e8745c7672600fe930/java/ql/lib/ext
+    languages:
+      - java
+    mode: join
+    join:
+      refs:
+        - tag: servlet-untrusted-data-source
+          as: servlet-untrusted-data
+        - tag: spring-untrusted-data-source
+          as: spring-untrusted-data
+        - tag: template-injection-sink
+          as: sink
+      on:
+        - 'servlet-untrusted-data.$UNTRUSTED -> sink.$UNTRUSTED'
+        - 'spring-untrusted-data.$UNTRUSTED -> sink.$UNTRUSTED'
+
+
+  - id: el-injection-in-servlet-app
+    severity: ERROR
+    message: >-
+      Code injection: calling Java Expression Language method directly with user-supplied input may allow an adversary to
+      execute arbitrary Java code, including OS system commands.
+    metadata:
+      cwe: CWE-917
+      short-description: Expression language injection
+      full-description: |-
+        Expression Language (EL) injection in Java occurs when user-controlled input is evaluated as an expression by
+        an EL engine (e.g., Java Expression Language, JSP/JSF EL, Spring Expression Language / SpEL).
+        Because EL can access object properties, call methods, and sometimes invoke static methods,
+        an attacker who controls the expression string can often read sensitive data, manipulate the server-side state,
+        or even achieve remote code execution (RCE), depending on the framework and configuration.
+
+        ```java
+        // Vulnerable code sample (Java EE / Jakarta EE style EL)
+
+        import jakarta.el.ELContext;
+        import jakarta.el.ExpressionFactory;
+        import jakarta.el.ValueExpression;
+        import jakarta.servlet.http.*;
+
+        public class EvalServlet extends HttpServlet {
+            private final ExpressionFactory factory = ExpressionFactory.newInstance();
+
+            @Override
+            protected void doGet(HttpServletRequest request, HttpServletResponse response) throws java.io.IOException {
+                String expr = request.getParameter("expr"); // e.g. attacker-controlled: "${''.getClass().forName('java.lang.Runtime').getRuntime().exec('id')}"
+                ELContext elContext = getServletContext().getELContext(); // simplified for example
+
+                // VULNERABLE: evaluating raw user input as an EL expression
+                ValueExpression ve = factory.createValueExpression(elContext, expr, Object.class);
+                Object result = ve.getValue(elContext);
+
+                response.getWriter().println("Result: " + result);
+            }
+        }
+        ```
+
+        In this example, the attacker fully controls `expr`. Depending on what the EL implementation allows,
+        they may be able to call arbitrary methods, access beans, read environment variables, or execute system commands.
+
+        To remediate this issue, never evaluate user input as an EL/SpEL expression.
+        Treat user input strictly as data, not as code or templates. Use static (developer-defined)
+        expressions and bind user values as variables/parameters, or avoid EL evaluation entirely for untrusted strings.
+
+        Safer approach (expression is static, user data is just a variable):
+
+        ```java
+        import jakarta.el.ELContext;
+        import jakarta.el.ExpressionFactory;
+        import jakarta.el.ValueExpression;
+        import jakarta.servlet.http.*;
+
+        public class SafeServlet extends HttpServlet {
+            private final ExpressionFactory factory = ExpressionFactory.newInstance();
+
+            @Override
+            protected void doGet(HttpServletRequest request, HttpServletResponse response) throws java.io.IOException {
+                String userName = request.getParameter("name"); // untrusted, but only used as data
+                if (userName == null) userName = "";
+
+                ELContext elContext = getServletContext().getELContext();
+                elContext.getELResolver().setValue(elContext, null, "name", userName);
+
+                // SAFE: expression is hard-coded, attacker cannot change what gets evaluated
+                String template = "Hello ${name}";
+                ValueExpression ve = factory.createValueExpression(elContext, template, String.class);
+                String output = (String) ve.getValue(elContext);
+
+                // Optionally also HTML-encode before output to prevent XSS
+                response.getWriter().println(output);
+            }
+        }
+        ```
+
+        Additional remediation steps:
+
+        - **Do not** pass raw user input to `ExpressionFactory.createValueExpression`,
+          `SpelExpressionParser.parseExpression`, or similar “evaluate expression” APIs.
+        - If you must support some kind of user-defined mini-language, implement a **strict parser/whitelist**
+          that only allows safe operations (e.g., numeric operations only, no method calls, no property access).
+        - In Spring, prefer `SimpleEvaluationContext` or a custom `EvaluationContext` with:
+          - No bean resolver or only a whitelisted bean resolver.
+          - Restricted method/property resolvers (disallow reflection, system-level classes, `Runtime`, etc.).
+        - Keep frameworks and EL libraries up to date; many EL engines have configuration options or security
+          patches that disable or restrict dangerous features.
+      references:
+        - https://owasp.org/www-community/vulnerabilities/Expression_Language_Injection
+        - https://en.wikipedia.org/wiki/Unified_Expression_Language
+      provenance: https://gitlab.com/gitlab-org/security-products/sast-rules/-/blob/main/java/inject/rule-ELInjection.yml
+    languages:
+      - java
+    mode: join
+    join:
+      refs:
+        - tag: servlet-untrusted-data-source
+          as: untrusted-data
+        - tag: el-injection-sink
+          as: sink
+      on:
+        - 'untrusted-data.$UNTRUSTED -> sink.$EXPR'
+
+  - id: spring-el-injection
+    severity: ERROR
+    message: >-
+      Code injection: calling Spring Expression Language method directly with user-supplied input
+      may allow an adversary to  read or modify sensitive data, bypass security checks, or, in severe cases,
+      execute arbitrary code within the application's context.
+    metadata:
+      cwe: CWE-917
+      short-description: Expression language injection
+      full-description: |-
+        Spring Expression Language (SpEL) injection is an expression-language injection vulnerability in Spring-based applications. It occurs when untrusted input is directly embedded into, or used as, a SpEL expression and then evaluated. Because SpEL can access bean methods, system properties, and other internal objects, a successful injection can allow an attacker to read or modify sensitive data, bypass security checks, or, in severe cases, execute arbitrary code within the application's context.
+
+        Vulnerable code sample
+
+        ```java
+        @RestController
+        public class SearchController {
+          private final ExpressionParser parser = new SpelExpressionParser();
+          private final SearchService searchService = new SearchService();
+
+          @GetMapping("/search")
+          public String search(@RequestParam("expr") String exprParam) {
+            // VULNERABLE: directly interpreting user input as a SpEL expression
+            EvaluationContext context = new StandardEvaluationContext(searchService);
+            Expression expression = parser.parseExpression(exprParam);
+            Object result = expression.getValue(context);
+            return result == null ? "" : result.toString();
+          }
+        }
+
+        class SearchService {
+          public String searchByKeyword(String keyword) {
+            // perform a search
+            return "Results for: " + keyword;
+          }
+
+          public String internalAdminMethod() {
+              // not meant to be publicly exposed
+              return "Sensitive admin info";
+          }
+        }
+        ```
+
+        In this example, an attacker controls `exprParam` (e.g., via `GET /search?expr=...`) and can craft a SpEL expression that calls methods on `SearchService`, reads internal data, or interacts with other beans accessible through the context.
+
+        To remediate this issue, avoid evaluating user input as SpEL code and strictly separate data from expressions. Never build SpEL expressions by concatenating or directly passing untrusted values to `parseExpression`. Instead:
+
+        1. **Use fixed expressions and bind user input as data (variables or parameters)**
+             The expression string should be constant and not influenced by user input; only variable values should come from outside.
+
+        ```java
+        @RestController
+        public class SafeSearchController {
+          private final SearchService searchService = new SearchService();
+
+          @GetMapping("/search")
+          public String search(@RequestParam("q") String query) {
+            // SAFE: treat query as plain text input, not as SpEL
+            return searchService.searchByKeyword(query);
+          }
+        }
+        ```
+
+        If you truly need SpEL for dynamic evaluation, keep the expression static and inject untrusted values only as variables:
+
+        ```java
+        ExpressionParser parser = new SpelExpressionParser();
+        Expression expression = parser.parseExpression("searchByKeyword(#q)");
+
+        EvaluationContext context = new StandardEvaluationContext(searchService);
+        context.setVariable("q", userSuppliedQuery); // value, not code
+
+        Object result = expression.getValue(context); // userSuppliedQuery is data only
+        ```
+
+        2. **Use restricted evaluation contexts where possible**
+          - Prefer `SimpleEvaluationContext` for read‑only, data-binding scenarios; it disables many powerful SpEL features (like arbitrary method invocation) that increase risk.
+          - Limit accessible root objects and properties in the evaluation context to the bare minimum required.
+
+        3. **Avoid dynamic security annotations based on user input**
+          For annotations like `@PreAuthorize` or `@PostAuthorize`, use constant expressions and avoid string concatenation with user input:
+
+        ```java
+        // Safe usage (constant expression)
+        @PreAuthorize("hasRole('ADMIN')")
+        public void adminOnlyAction() { ... }
+
+        // Do NOT do this (dynamic SpEL built from user data)
+        // @PreAuthorize("@permissionService.hasPermission(authentication, '" + userControlled + "')")
+        ```
+
+        4. **Validate and constrain input**
+        Where you must accept structured expressions from users (e.g., filters, search languages), define a custom, limited grammar or DSL and parse it yourself. Do not reuse SpEL as a general-purpose query language for untrusted input.
+      references:
+        - https://owasp.org/www-community/vulnerabilities/Expression_Language_Injection
+        - https://en.wikipedia.org/wiki/Unified_Expression_Language
+      provenance: https://docs.spring.io/spring-framework/reference/core/expressions.html
+    languages:
+      - java
+    mode: join
+    join:
+      refs:
+        - tag: spring-untrusted-data-source
+          as: untrusted-data
+        - tag: spel-injection-sink
+          as: sink
+      on:
+        - 'untrusted-data.$UNTRUSTED -> sink.$UNTRUSTED'

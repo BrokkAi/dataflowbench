@@ -403,6 +403,126 @@ CLI 2.26.4, Semgrep CE 1.176.0, the vendored Semgrep rules snapshot at
 FlowDroid 2.15.1, and the Pysa pair at pyre-check 0.10.0 and Pyrefly 1.2.0
 (Pyrefly 1.3.0.dev4 is a pre-release and does not count).
 
+#### 2026-09-07 — v0.7.1 freeze-prep pin-currency cutoff and rerun declarations
+
+This is the dated cutoff for the v0.7.1 refresh. The table was read from the
+public release APIs, the CodeQL registry using CLI 2.26.4, PyPI for the Pysa
+pair, and the `semgrep-rules` `develop` head. It is a declaration review, not
+benchmark evidence: no normalized report, timing sidecar, or retained probe is
+changed by this entry.
+
+| Analyzer or dependency | Pin entering v0.7.1 | Latest stable at cutoff | Decision before rerun | Basis / exact identity |
+| --- | --- | --- | --- | --- |
+| Bifrost | v0.10.9 | **v0.11.0** (2026-09-05) | **Bump** | Public `bifrost-v0.11.0-universal-apple-darwin.tar.gz`, SHA-256 `b76fe92859798deb684f38cb454b3acec735b6b6cce91cec714c4a24a345c472`; release binary reports `bifrost 0.11.0`, build identity is witnessed at run time |
+| CodeQL CLI | 2.26.4 | 2.26.4 (2026-08-26) | **Hold/current** | CLI build SHA `6b1e4dee94adb20f90a671f3fc9e04be32eecf65`; macOS archive SHA-256 `b65e8c65fc66ffca1976f73268ffe2cacaf91c4941efab22b0f2a189787bb899` |
+| CodeQL benchmark-controlled language packs | `java-all@9.2.3`, `javascript-all@2.9.0`, `python-all@7.2.3`, `csharp-all@7.1.2`, `go-all@7.2.3`, `cpp-all@12.0.2`, `ruby-all@6.0.3`, `rust-all@0.2.19` | `java-all@9.2.4`, `javascript-all@2.10.0`, `python-all@7.2.4`, `csharp-all@7.2.0`, `go-all@7.3.0`, `cpp-all@12.0.3`, `ruby-all@6.0.4`, `rust-all@0.2.20` | **Bump all eight** | Resolved with `codeql pack download/install` under the pinned CLI; exact roots and transitive locks are committed under `adapters/codeql/**/codeql-pack.lock.yml` |
+| CodeQL native query packs | `java-queries@1.11.9`, `javascript-queries@2.4.4`, `python-queries@1.8.9` | Same registry `@latest` releases at cutoff | **Hold/current** | Three CLI 2.26.4 registry lookups — `codeql pack download --format=json codeql/java-queries@latest`, `.../javascript-queries@latest`, and `.../python-queries@latest` — resolved 1.11.9 / 2.4.4 / 1.8.9; these shipped suites remain distinct from benchmark-controlled language packs |
+| Semgrep CE | 1.176.0 | 1.176.0 (2026-09-01) | **Hold/current** | `/opt/homebrew/Cellar/semgrep/1.176.0/bin/semgrep`; `semgrep --version` witnesses 1.176.0 |
+| Semgrep rules snapshot | `semgrep/semgrep-rules@40b8c63f75dc7c22c8a77482d73bfb864b146f7e` | Same `develop` commit (2026-07-30) | **Hold/current** | Public `develop` head is byte-identical to the vendored provenance records; no snapshot refresh is due |
+| Joern | 4.0.617 | **4.0.621** (2026-09-07) | **Bump** | Public `joern-cli-macos-arm64.zip`, SHA-256 `42bff7c2a2a5c1ee9d91ffe8e506a364ca8e7dc342f029c30c003217a3ad3374`; console banner witnesses `Version: 4.0.621` |
+| OpenTaint | v0.4.6 / analyzer `2026.09.04.c51dc3e` | v0.4.6 (2026-09-04) | **Hold/current; eligibility re-evaluation pending** | Public full arm64 archive SHA-256 `95c14073cb94b3a942488531c74d7812653bc7f684d1efa53f422d5ba22d3d92`; `.versions` names analyzer `2026.09.04.c51dc3e` and rules `v0.3.0`; adapter jar/model digests are `2ca93b6c33462bdbc23ceccdc5375e1a900682b33371cd906e5214dc7c48f569` / `20a96a50fba9ab6f6e98e8562019e5ecbe2a77de7947981eaf6e379f04065329` |
+| Infer | v1.3.0 | v1.3.0 (2026-05-12) | **Hold/current** | Latest non-prerelease release; the Pulse taint surface remains the pinned operable mode |
+| FlowDroid | 2.15.1 | 2.15.1 (2026-02-23) | **Hold/current** | Latest public release; adapter continues to digest-witness the Maven jar and Android platform inputs |
+| Pysa — pyre-check | 0.10.0 | 0.10.0 (PyPI, 2026-08-06) | **Hold/current** | macOS arm64 wheel SHA-256 `e458fa2926f462971016a421a22d0ab7658222cfc5c455d39df9ddfd85f242e1` |
+| Pysa — Pyrefly | 1.2.0 | 1.2.0 (PyPI, 2026-08-01) | **Hold/current** | macOS arm64 wheel SHA-256 `756f669b5555090f5c1a4fef30db1785fabe657764f7e4e6dc88994dfb8ca82d`; 1.3.0-dev pre-releases are excluded |
+
+**OpenTaint CLI migration decision.** v0.4.6 now ships the public
+`opentaint` wrapper and its hidden `--entry-points` selector; a dry-run probe
+accepted that selector, while the analyzer jar still exposes the existing
+`--debug-run-analysis-on-selected-entry-points=*` flag. The adapter stays on
+the direct jar invocation for this cycle: `opentaint scan` does not expose the
+adapter's required explicit project model, rule-load trace, passthrough-model,
+and compiled-approximation paths in its public scan surface, so wrapper
+equivalence is not established. This is a pending measurement, not a conclusion
+from help text: the v0.7.1 matrix must run the shipped wrapper with its
+`rules/v0.3.0` product rules and retain entry-point, rule-activation, and output
+parity observations alongside the direct-jar probes. Existing A22/A23/A25
+modeling and native eligibility must be re-evaluated against those observations;
+no amendment or scored rerun is authorized until the dated equivalence result is
+recorded. The wrapper's existence alone does not silently change a partition.
+
+**Public tool materialization.** The measurement lane must use these exact
+released artifacts, not private development builds:
+
+```text
+Bifrost 0.11.0: /Users/dave/.cache/dataflowbench-tools/bifrost-v0.11.0/bifrost-v0.11.0-universal-apple-darwin/bifrost
+Joern 4.0.621:  /Users/dave/.cache/dataflowbench-tools/joern-v4.0.621/joern-cli-macos-arm64/joern-cli/joern
+CodeQL CLI:      /opt/homebrew/bin/codeql (2.26.4)
+Semgrep CE:     /opt/homebrew/bin/semgrep (1.176.0)
+Infer 1.3.0:    /Users/dave/.cache/dataflowbench-tools/infer-osx-arm64-v1.3.0/lib/infer/infer/bin/infer
+Pysa pair:      /Users/dave/.cache/dataflowbench-tools/pysa-venv/bin/{pyre,pyre.bin,pyrefly}
+FlowDroid:      /Users/dave/.cache/dataflowbench-tools/flowdroid/{soot-infoflow-cmd-2.15.1-jar-with-dependencies.jar,android-34.jar,r8-8.5.35.jar}
+OpenTaint:      /Users/dave/.cache/dataflowbench-tools/opentaint-v0.4.6/{opentaint-project-analyzer.jar,opentaint-models.tar.gz}
+CodeQL cache:   /Users/dave/.codeql/packages (default locked resolution; do not pass as --codeql-packs)
+```
+
+**2026-09-07 invocation correction.** The initial CodeQL C refresh passed the
+whole shared cache as `--codeql-packs`, which forwards to `--additional-packs`.
+That surface treats cached versions as competing source packs, so query
+resolution failed and all 50 results were retained as `runner-error`. The
+corrected commands omit that optional override and resolve the committed
+locks normally. The retained resolver output matches every root and
+transitive version for all eleven kernel queries. The failed attempt is
+preserved and the entire C population is retried; no pin, configuration, or
+threshold is changed. See the release attempt ledger and invocation correction.
+
+The paths are an operator-facing map, not a claim that a tool's current
+process has witnessed its identity. Before the first case, each runner must
+hash and self-report the artifact it invokes; a mismatch is a preparation
+failure, never an `unsupported` or clean result.
+
+**v0.7.1 refresh matrix.** Run each command from the clean v0.7.1 checkout,
+with the exact paths above and `--population v0.7.0`. Every correctness,
+modeling, native, cold-latency, warm-latency, and invocation-overhead row is
+new evidence; do not overwrite a prior normalized report until its replacement
+raw evidence has been retained.
+
+```text
+Correctness: Bifrost {smoke,java,javascript,python,kotlin,scala,typescript,csharp,go,c,cpp,rust,ruby,php}; CodeQL {java,javascript,typescript,python,kotlin,csharp,go,c,cpp,rust,ruby}; Joern {java,javascript,python,ruby,php,rust}; Semgrep {java,javascript,typescript,python,go,ruby,php,kotlin,rust,c,cpp}; Infer {c,cpp,java}; FlowDroid {java,kotlin}; OpenTaint {java,kotlin}; Pysa {python}.
+Modeling: Bifrost, CodeQL, Joern, and Semgrep for --language {java,javascript,python}; Infer Java; FlowDroid Java; OpenTaint Java; Pysa Python.
+Native probes: Bifrost, CodeQL, Joern, and Semgrep for --language {java,javascript,python}; Infer Java; FlowDroid Java; OpenTaint Java; Pysa Python.
+Warm marginal (the runner retains its built-in `WARM_REPEATS=2`; do not invoke
+the command twice, because each invocation clears its output):
+`cargo run -- --population v0.7.0 measure-warm-latency --tool joern --language
+java --batch-sizes 1,2,4,8,16 --joern <4.0.621/joern-cli/joern>`; use the same
+command shape for Semgrep with `--tool semgrep --semgrep <1.176.0/semgrep>`.
+Invocation overhead retains every repeat and publishes a range over
+`OVERHEAD_REPEATS=3`. Run these nine groups with their matching released paths:
+
+cargo run -- --population v0.7.0 estimate-invocation-overhead --tool bifrost --language python --bifrost <0.11.0/bifrost>
+cargo run -- --population v0.7.0 estimate-invocation-overhead --tool codeql --language ruby --codeql <2.26.4/codeql>
+cargo run -- --population v0.7.0 estimate-invocation-overhead --tool flowdroid --language java --flowdroid-jar <2.15.1/jar> --android-platform <android-34.jar> --d8-jar <r8-8.5.35.jar>
+cargo run -- --population v0.7.0 estimate-invocation-overhead --tool infer --language c --infer <1.3.0/infer>
+cargo run -- --population v0.7.0 estimate-invocation-overhead --tool joern --language php --joern <4.0.621/joern-cli/joern>
+cargo run -- --population v0.7.0 estimate-invocation-overhead --tool joern --language java --joern <4.0.621/joern-cli/joern>
+cargo run -- --population v0.7.0 estimate-invocation-overhead --tool opentaint --language kotlin --analyzer-jar <opentaint-project-analyzer.jar> --models-archive <opentaint-models.tar.gz>
+cargo run -- --population v0.7.0 estimate-invocation-overhead --tool pysa --language python --pyre <pyre> --pyre-binary <pyre.bin> --pyrefly <pyrefly>
+cargo run -- --population v0.7.0 estimate-invocation-overhead --tool semgrep --language kotlin --semgrep <1.176.0/semgrep>
+
+Retain declines and runner errors distinctly.
+Capability/activation probes (the canonical nineteen scripts; shell probes do
+not take `--population`): `probe-bifrost-sanitizer-lowering.sh`,
+`probe-bifrost-scan-native.sh`, `probe-flowdroid-modeling-load-bearing.sh`,
+`probe-flowdroid-native-shipped-surface.sh`, `probe-infer-modeling-partition.sh`,
+`probe-infer-native-activation.sh`, `probe-infer-native-silence.sh`,
+`probe-java-modeling-load-bearing.sh`, `probe-javascript-modeling-load-bearing.sh`,
+`probe-joern-scan-native.sh`, `probe-opentaint-modeling-surface.sh`,
+`probe-opentaint-native-activation.sh`, `probe-opentaint-primitive-tracking.sh`,
+`probe-opentaint-scan-activation.sh`, `probe-opentaint-value-kind.sh`,
+`probe-pysa-callee-resolution.sh`, `probe-pysa-modeling-load-bearing.sh`,
+`probe-pysa-native-activation.sh`, and `probe-semgrep-jsjava-native.sh`.
+Invoke the Joern probe explicitly as
+`scripts/probe-joern-scan-native.sh --joern-dist
+<4.0.621/joern-cli-macos-arm64/joern-cli> --dbversion 4.0.621`.
+```
+
+The matrix deliberately names capability probes separately from scored
+populations: a probe may support an `unsupported`/declined rationale, but it
+never manufactures a normalized result. Bifrost, Joern, and CodeQL declaration
+bumps require every slice of that adapter to be refreshed at the frozen
+fixture revision; held/current pins still rerun because v0.7.1 refreshes all
+correctness and profile evidence.
+
 ## Challenge-tier rollout mechanics
 
 [The challenge-tier preregistration](challenge-tier.md) fixes *what* the

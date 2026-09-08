@@ -1,0 +1,393 @@
+{
+  "id": "warm-joern-java-attempt-01",
+  "planned_id": "warm-joern-java",
+  "argv": [
+    "/Users/dave/.codex/worktrees/653a/dataflowbench/target/debug/dataflowbench",
+    "--population",
+    "v0.7.0",
+    "measure-warm-latency",
+    "--tool",
+    "joern",
+    "--language",
+    "java",
+    "--batch-sizes",
+    "1,2,4,8,16",
+    "--joern",
+    "/Users/dave/.cache/dataflowbench-tools/joern-v4.0.621/joern-cli-macos-arm64/joern-cli/joern",
+    "--semgrep",
+    "/opt/homebrew/bin/semgrep"
+  ],
+  "cwd": "/Users/dave/.codex/worktrees/653a/dataflowbench",
+  "input_commits": {
+    "corpus": "0c82e8093ff899d5ee72809a82c951ab76b5bb76",
+    "publication_infrastructure": "53050fa64628997e866303bcd5299d74f1e3e45d",
+    "pins": "c0899dab0d2c043dcc5b1aa6a1aad0e49f482fea"
+  },
+  "execution_revision": "4964392125861a34af6576784e56cc1fd11aadd9",
+  "population": "v0.7.0",
+  "fixture_revision": "sha256:9df209ed3d7723a3ee33f2b289cf2afe34a3add781bdf2a2ac445de42b8d0151",
+  "plan": {
+    "path": "reports/releases/v0.7.1/plan.json",
+    "sha256": "cb948f4a5cff80b95d3dcc755ab8249d87449e43f70e6eb80a456789faf12f26"
+  },
+  "identities": {
+    "path": "reports/releases/v0.7.1/identities.json",
+    "sha256": "0b8b1bb07d1df1ec8687613bb355f5f6021a2c664d3488dc3bc763553ce1a83c"
+  },
+  "execution_access": "require_escalated",
+  "start_utc": "2026-09-08T07:09:28.051706+00:00",
+  "host": {
+    "platform": "macOS-26.6.2-arm64-arm-64bit",
+    "cpu_count": 10,
+    "load_before": [
+      6.21337890625,
+      5.1044921875,
+      4.80078125
+    ],
+    "load_after": [
+      3.10595703125,
+      4.55712890625,
+      4.80224609375
+    ]
+  },
+  "settle_observations": [],
+  "cache_posture": "isolated case workspaces; local distributions and prefetched CodeQL packs; OS page cache uncontrolled; warm only for explicit warm series",
+  "supersedes": null,
+  "exit_code": 0,
+  "end_utc": "2026-09-08T07:15:27.164059+00:00",
+  "stdout": {
+    "path": "reports/releases/v0.7.1/attempts/warm-joern-java-attempt-01/stdout.txt",
+    "sha256": "5106143da132c1fe3fac1bdb6af27ca3dfd440cc1f8719b4342d813bd2e9a346"
+  },
+  "stderr": {
+    "path": "reports/releases/v0.7.1/attempts/warm-joern-java-attempt-01/stderr.txt",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "outputs": [
+    {
+      "original_path": "reports/raw/warm-latency/joern-java-kernel/run-environment.json",
+      "path": "reports/releases/v0.7.1/attempts/warm-joern-java-attempt-01/outputs/reports/raw/warm-latency/joern-java-kernel/run-environment.json",
+      "sha256": "7eaf2e52d94d2fb2e4b934a0fe212aa4f55aa12a54c4f09cc3547af129abcb90"
+    },
+    {
+      "original_path": "reports/raw/warm-latency/joern-java-kernel/warm-latency.json",
+      "path": "reports/releases/v0.7.1/attempts/warm-joern-java-attempt-01/outputs/reports/raw/warm-latency/joern-java-kernel/warm-latency.json",
+      "sha256": "4bacfcb89dcea35633d18d6aee167253e2af464d1bd15e42675307ec60a6ad97"
+    },
+    {
+      "original_path": "reports/raw/warm-latency/joern-java-kernel/run-2-batch-4-evidence/dfb-taint-java-alias-propagation-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/warm-joern-java-attempt-01/outputs/reports/raw/warm-latency/joern-java-kernel/run-2-batch-4-evidence/dfb-taint-java-alias-propagation-negative.json",
+      "sha256": "0667edcc1c6dfa23f3f46efdbc41c8dbb52ace5f1db5a3af105df5ff65335230"
+    },
+    {
+      "original_path": "reports/raw/warm-latency/joern-java-kernel/run-2-batch-4-evidence/dfb-taint-java-alias-propagation-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/warm-joern-java-attempt-01/outputs/reports/raw/warm-latency/joern-java-kernel/run-2-batch-4-evidence/dfb-taint-java-alias-propagation-positive.json",
+      "sha256": "583836dfb5791c3d5a2382df1682071b99ae1cf0dfbc3e624f404811890516cd"
+    },
+    {
+      "original_path": "reports/raw/warm-latency/joern-java-kernel/run-2-batch-4-evidence/dfb-taint-java-anonymous-implementation-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/warm-joern-java-attempt-01/outputs/reports/raw/warm-latency/joern-java-kernel/run-2-batch-4-evidence/dfb-taint-java-anonymous-implementation-negative.json",
+      "sha256": "6f22fe159f5b9ebbf2e575d63fa8095dd55fdc350897a65da5a7483b68b58e3e"
+    },
+    {
+      "original_path": "reports/raw/warm-latency/joern-java-kernel/run-2-batch-4-evidence/dfb-taint-java-anonymous-implementation-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/warm-joern-java-attempt-01/outputs/reports/raw/warm-latency/joern-java-kernel/run-2-batch-4-evidence/dfb-taint-java-anonymous-implementation-positive.json",
+      "sha256": "ecfd7b069c4a58f97348f385e572f540f1c1ab47be77593ae9a3aa97c91e7ac1"
+    },
+    {
+      "original_path": "reports/raw/warm-latency/joern-java-kernel/run-1-batch-1-evidence/dfb-taint-java-alias-propagation-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/warm-joern-java-attempt-01/outputs/reports/raw/warm-latency/joern-java-kernel/run-1-batch-1-evidence/dfb-taint-java-alias-propagation-negative.json",
+      "sha256": "c8b4fb5047e8589fe3ab95a68b3d5af65683b46677029b3af5816e6282415b31"
+    },
+    {
+      "original_path": "reports/raw/warm-latency/joern-java-kernel/run-2-batch-16-evidence/dfb-taint-java-closure-capture-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/warm-joern-java-attempt-01/outputs/reports/raw/warm-latency/joern-java-kernel/run-2-batch-16-evidence/dfb-taint-java-closure-capture-positive.json",
+      "sha256": "4b1fe3aac71ee6075212b8f65d2e592013683e1d75f12730903e7e2a9ca0a00e"
+    },
+    {
+      "original_path": "reports/raw/warm-latency/joern-java-kernel/run-2-batch-16-evidence/dfb-taint-java-array-element-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/warm-joern-java-attempt-01/outputs/reports/raw/warm-latency/joern-java-kernel/run-2-batch-16-evidence/dfb-taint-java-array-element-negative.json",
+      "sha256": "3b7d3d0186f6224d310a4f3d1791a816281460bf072241b15a85da19c29bcd96"
+    },
+    {
+      "original_path": "reports/raw/warm-latency/joern-java-kernel/run-2-batch-16-evidence/dfb-taint-java-callback-registration-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/warm-joern-java-attempt-01/outputs/reports/raw/warm-latency/joern-java-kernel/run-2-batch-16-evidence/dfb-taint-java-callback-registration-negative.json",
+      "sha256": "0a7df287be0cb0c353b89ddc10c1fea8d9be91cea4fbd61f1d8bbee0f33a16f4"
+    },
+    {
+      "original_path": "reports/raw/warm-latency/joern-java-kernel/run-2-batch-16-evidence/dfb-taint-java-callback-registration-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/warm-joern-java-attempt-01/outputs/reports/raw/warm-latency/joern-java-kernel/run-2-batch-16-evidence/dfb-taint-java-callback-registration-positive.json",
+      "sha256": "05b345002da02e0f3376f04f0380404a7068f59737cb65b3d3fe91e595b5dabc"
+    },
+    {
+      "original_path": "reports/raw/warm-latency/joern-java-kernel/run-2-batch-16-evidence/dfb-taint-java-closure-capture-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/warm-joern-java-attempt-01/outputs/reports/raw/warm-latency/joern-java-kernel/run-2-batch-16-evidence/dfb-taint-java-closure-capture-negative.json",
+      "sha256": "b675e3435557a395d4bbd963e66629baea727d9cc754e84d8d1ae27b8196bd11"
+    },
+    {
+      "original_path": "reports/raw/warm-latency/joern-java-kernel/run-2-batch-16-evidence/dfb-taint-java-array-element-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/warm-joern-java-attempt-01/outputs/reports/raw/warm-latency/joern-java-kernel/run-2-batch-16-evidence/dfb-taint-java-array-element-positive.json",
+      "sha256": "926bbe49284b0fff4a4e5b917efab964e6cb3137360cdf6cb48254f06da55e30"
+    },
+    {
+      "original_path": "reports/raw/warm-latency/joern-java-kernel/run-2-batch-16-evidence/dfb-taint-java-alias-propagation-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/warm-joern-java-attempt-01/outputs/reports/raw/warm-latency/joern-java-kernel/run-2-batch-16-evidence/dfb-taint-java-alias-propagation-negative.json",
+      "sha256": "89c9aeca56086eb803c7f13fffb61e0164b9e428b78dc550db0133a188fba111"
+    },
+    {
+      "original_path": "reports/raw/warm-latency/joern-java-kernel/run-2-batch-16-evidence/dfb-taint-java-branch-join-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/warm-joern-java-attempt-01/outputs/reports/raw/warm-latency/joern-java-kernel/run-2-batch-16-evidence/dfb-taint-java-branch-join-negative.json",
+      "sha256": "8a0269430e2b1b609c1129e878d8cd57b4298348d3e4db19441e67cefa92f0ce"
+    },
+    {
+      "original_path": "reports/raw/warm-latency/joern-java-kernel/run-2-batch-16-evidence/dfb-taint-java-alias-propagation-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/warm-joern-java-attempt-01/outputs/reports/raw/warm-latency/joern-java-kernel/run-2-batch-16-evidence/dfb-taint-java-alias-propagation-positive.json",
+      "sha256": "1f1e9a65b9624b128a62e8d4a0ac85b2bc68b14fb1a056d438ae3c527c39e4e6"
+    },
+    {
+      "original_path": "reports/raw/warm-latency/joern-java-kernel/run-2-batch-16-evidence/dfb-taint-java-branch-join-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/warm-joern-java-attempt-01/outputs/reports/raw/warm-latency/joern-java-kernel/run-2-batch-16-evidence/dfb-taint-java-branch-join-positive.json",
+      "sha256": "5b7f2e542e1ffcbcca46472fd2b0074e9a0c9b31690b1a02d422cecbcd2b35f3"
+    },
+    {
+      "original_path": "reports/raw/warm-latency/joern-java-kernel/run-2-batch-16-evidence/dfb-taint-java-anonymous-implementation-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/warm-joern-java-attempt-01/outputs/reports/raw/warm-latency/joern-java-kernel/run-2-batch-16-evidence/dfb-taint-java-anonymous-implementation-negative.json",
+      "sha256": "e3a13aab83f75d44a5646547a10f2ae8cfcfe68c4e9a9971637afc9be9c579f7"
+    },
+    {
+      "original_path": "reports/raw/warm-latency/joern-java-kernel/run-2-batch-16-evidence/dfb-taint-java-argument-position-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/warm-joern-java-attempt-01/outputs/reports/raw/warm-latency/joern-java-kernel/run-2-batch-16-evidence/dfb-taint-java-argument-position-positive.json",
+      "sha256": "7c64cf7d7038dd8d9c2d3066b73df8e4863ae879c4540222a5caeae9ba099f21"
+    },
+    {
+      "original_path": "reports/raw/warm-latency/joern-java-kernel/run-2-batch-16-evidence/dfb-taint-java-argument-position-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/warm-joern-java-attempt-01/outputs/reports/raw/warm-latency/joern-java-kernel/run-2-batch-16-evidence/dfb-taint-java-argument-position-negative.json",
+      "sha256": "84e624c48ad502d8ca81ea8c413a8b945004737da434fe4ba87517ee6b6473d7"
+    },
+    {
+      "original_path": "reports/raw/warm-latency/joern-java-kernel/run-2-batch-16-evidence/dfb-taint-java-anonymous-implementation-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/warm-joern-java-attempt-01/outputs/reports/raw/warm-latency/joern-java-kernel/run-2-batch-16-evidence/dfb-taint-java-anonymous-implementation-positive.json",
+      "sha256": "08e4bcbf0ec79ea4991efee6c60efd9e00fc13833dbfc0e074f71f3fddd8486a"
+    },
+    {
+      "original_path": "reports/raw/warm-latency/joern-java-kernel/run-2-batch-16-evidence/dfb-taint-java-call-context-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/warm-joern-java-attempt-01/outputs/reports/raw/warm-latency/joern-java-kernel/run-2-batch-16-evidence/dfb-taint-java-call-context-positive.json",
+      "sha256": "692f08e4ef4126ff7a0bdaab8de56303707e44b0264a9fef647c4de6c7bd136a"
+    },
+    {
+      "original_path": "reports/raw/warm-latency/joern-java-kernel/run-2-batch-16-evidence/dfb-taint-java-call-context-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/warm-joern-java-attempt-01/outputs/reports/raw/warm-latency/joern-java-kernel/run-2-batch-16-evidence/dfb-taint-java-call-context-negative.json",
+      "sha256": "51e13b92fbbbd9337297fc846e472015e3d8bbfe8316615c2bdafbc97a9379ab"
+    },
+    {
+      "original_path": "reports/raw/warm-latency/joern-java-kernel/run-2-batch-2-evidence/dfb-taint-java-alias-propagation-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/warm-joern-java-attempt-01/outputs/reports/raw/warm-latency/joern-java-kernel/run-2-batch-2-evidence/dfb-taint-java-alias-propagation-negative.json",
+      "sha256": "6d52408a79d905a11cdfffc5c267805dceea619b38c3f64fb4f9b3b3406fa885"
+    },
+    {
+      "original_path": "reports/raw/warm-latency/joern-java-kernel/run-2-batch-2-evidence/dfb-taint-java-alias-propagation-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/warm-joern-java-attempt-01/outputs/reports/raw/warm-latency/joern-java-kernel/run-2-batch-2-evidence/dfb-taint-java-alias-propagation-positive.json",
+      "sha256": "2a0595ffcbd67ec0dd8277956e11c0468c5e9a0e7bd14c7f7a7c04d1dc1b81e3"
+    },
+    {
+      "original_path": "reports/raw/warm-latency/joern-java-kernel/run-1-batch-16-evidence/dfb-taint-java-closure-capture-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/warm-joern-java-attempt-01/outputs/reports/raw/warm-latency/joern-java-kernel/run-1-batch-16-evidence/dfb-taint-java-closure-capture-positive.json",
+      "sha256": "3b1fe64b9d107505ad425c6063e045180fa03a0b689abb28c25d20034a20ee41"
+    },
+    {
+      "original_path": "reports/raw/warm-latency/joern-java-kernel/run-1-batch-16-evidence/dfb-taint-java-array-element-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/warm-joern-java-attempt-01/outputs/reports/raw/warm-latency/joern-java-kernel/run-1-batch-16-evidence/dfb-taint-java-array-element-negative.json",
+      "sha256": "8817e0cd725ef05b9e7dd5c545634acfef05fece76d85258658f77de7581f626"
+    },
+    {
+      "original_path": "reports/raw/warm-latency/joern-java-kernel/run-1-batch-16-evidence/dfb-taint-java-callback-registration-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/warm-joern-java-attempt-01/outputs/reports/raw/warm-latency/joern-java-kernel/run-1-batch-16-evidence/dfb-taint-java-callback-registration-negative.json",
+      "sha256": "d8b6d79f204598fde9737a8abfa3c54ca3a17fba5d33c15962fde80d5a141820"
+    },
+    {
+      "original_path": "reports/raw/warm-latency/joern-java-kernel/run-1-batch-16-evidence/dfb-taint-java-callback-registration-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/warm-joern-java-attempt-01/outputs/reports/raw/warm-latency/joern-java-kernel/run-1-batch-16-evidence/dfb-taint-java-callback-registration-positive.json",
+      "sha256": "d215b5e3a1f8c67654e9559f74f3c4b2a0af41e0e3ab26bc6990fc7c20aa7576"
+    },
+    {
+      "original_path": "reports/raw/warm-latency/joern-java-kernel/run-1-batch-16-evidence/dfb-taint-java-closure-capture-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/warm-joern-java-attempt-01/outputs/reports/raw/warm-latency/joern-java-kernel/run-1-batch-16-evidence/dfb-taint-java-closure-capture-negative.json",
+      "sha256": "8a9706d320b7106577907624e87063cf6334a7ee291f249e32d125d4a24c2375"
+    },
+    {
+      "original_path": "reports/raw/warm-latency/joern-java-kernel/run-1-batch-16-evidence/dfb-taint-java-array-element-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/warm-joern-java-attempt-01/outputs/reports/raw/warm-latency/joern-java-kernel/run-1-batch-16-evidence/dfb-taint-java-array-element-positive.json",
+      "sha256": "53a5bd7ef1f4a6957462c6e247ae240adcf46c05c47433ce2e2ff20db96ef046"
+    },
+    {
+      "original_path": "reports/raw/warm-latency/joern-java-kernel/run-1-batch-16-evidence/dfb-taint-java-alias-propagation-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/warm-joern-java-attempt-01/outputs/reports/raw/warm-latency/joern-java-kernel/run-1-batch-16-evidence/dfb-taint-java-alias-propagation-negative.json",
+      "sha256": "69d4a7f788661063e1a033d27e85c84d9bac7dbbf6b7a7526b12867465842046"
+    },
+    {
+      "original_path": "reports/raw/warm-latency/joern-java-kernel/run-1-batch-16-evidence/dfb-taint-java-branch-join-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/warm-joern-java-attempt-01/outputs/reports/raw/warm-latency/joern-java-kernel/run-1-batch-16-evidence/dfb-taint-java-branch-join-negative.json",
+      "sha256": "05487780ad10196b85446365fc779faee8c7fece9138d5e0b86db27d3d5879b3"
+    },
+    {
+      "original_path": "reports/raw/warm-latency/joern-java-kernel/run-1-batch-16-evidence/dfb-taint-java-alias-propagation-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/warm-joern-java-attempt-01/outputs/reports/raw/warm-latency/joern-java-kernel/run-1-batch-16-evidence/dfb-taint-java-alias-propagation-positive.json",
+      "sha256": "dda5f19679ac63be4608b96c1290954d5bb5bc095084c55448ea2622b04ae7a8"
+    },
+    {
+      "original_path": "reports/raw/warm-latency/joern-java-kernel/run-1-batch-16-evidence/dfb-taint-java-branch-join-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/warm-joern-java-attempt-01/outputs/reports/raw/warm-latency/joern-java-kernel/run-1-batch-16-evidence/dfb-taint-java-branch-join-positive.json",
+      "sha256": "aff64ed816f80b4d61dddb32e9518c9206321dc6cb72492a80511e59e915706a"
+    },
+    {
+      "original_path": "reports/raw/warm-latency/joern-java-kernel/run-1-batch-16-evidence/dfb-taint-java-anonymous-implementation-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/warm-joern-java-attempt-01/outputs/reports/raw/warm-latency/joern-java-kernel/run-1-batch-16-evidence/dfb-taint-java-anonymous-implementation-negative.json",
+      "sha256": "283b6d2e89fe34d13b109844578924a9ce2ed131417c2edae99ad25af439b8ed"
+    },
+    {
+      "original_path": "reports/raw/warm-latency/joern-java-kernel/run-1-batch-16-evidence/dfb-taint-java-argument-position-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/warm-joern-java-attempt-01/outputs/reports/raw/warm-latency/joern-java-kernel/run-1-batch-16-evidence/dfb-taint-java-argument-position-positive.json",
+      "sha256": "eb9329e829587dc8d47aaf7ea733db4d893cefd9ab44f95ffd54d530acbb9ef8"
+    },
+    {
+      "original_path": "reports/raw/warm-latency/joern-java-kernel/run-1-batch-16-evidence/dfb-taint-java-argument-position-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/warm-joern-java-attempt-01/outputs/reports/raw/warm-latency/joern-java-kernel/run-1-batch-16-evidence/dfb-taint-java-argument-position-negative.json",
+      "sha256": "c0083139fb2f24902a428976c1425d50c22c3e03044f36dcab7053898394ab3f"
+    },
+    {
+      "original_path": "reports/raw/warm-latency/joern-java-kernel/run-1-batch-16-evidence/dfb-taint-java-anonymous-implementation-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/warm-joern-java-attempt-01/outputs/reports/raw/warm-latency/joern-java-kernel/run-1-batch-16-evidence/dfb-taint-java-anonymous-implementation-positive.json",
+      "sha256": "734b0fc56b61d277e2d05f5aa8931c0efffe65298cdb05c5a8c1063935f9d007"
+    },
+    {
+      "original_path": "reports/raw/warm-latency/joern-java-kernel/run-1-batch-16-evidence/dfb-taint-java-call-context-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/warm-joern-java-attempt-01/outputs/reports/raw/warm-latency/joern-java-kernel/run-1-batch-16-evidence/dfb-taint-java-call-context-positive.json",
+      "sha256": "554a462c37368a05945af4a0342f0bc40b4a20624e95b39c7761e3a71fca37ea"
+    },
+    {
+      "original_path": "reports/raw/warm-latency/joern-java-kernel/run-1-batch-16-evidence/dfb-taint-java-call-context-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/warm-joern-java-attempt-01/outputs/reports/raw/warm-latency/joern-java-kernel/run-1-batch-16-evidence/dfb-taint-java-call-context-negative.json",
+      "sha256": "3e5bce4c1c0cc61b51b5d73b6a630b982c4b435bc0f1b71da78ab0909d47330e"
+    },
+    {
+      "original_path": "reports/raw/warm-latency/joern-java-kernel/run-2-batch-8-evidence/dfb-taint-java-array-element-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/warm-joern-java-attempt-01/outputs/reports/raw/warm-latency/joern-java-kernel/run-2-batch-8-evidence/dfb-taint-java-array-element-negative.json",
+      "sha256": "3174e43bf9d1d38b62e1ee669944a161534d84f67f9eec19e5f01351c0756519"
+    },
+    {
+      "original_path": "reports/raw/warm-latency/joern-java-kernel/run-2-batch-8-evidence/dfb-taint-java-array-element-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/warm-joern-java-attempt-01/outputs/reports/raw/warm-latency/joern-java-kernel/run-2-batch-8-evidence/dfb-taint-java-array-element-positive.json",
+      "sha256": "c61ff15a2d0e8144f1cfba28f6909ae60a7d7e137443600b30140bf885258015"
+    },
+    {
+      "original_path": "reports/raw/warm-latency/joern-java-kernel/run-2-batch-8-evidence/dfb-taint-java-alias-propagation-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/warm-joern-java-attempt-01/outputs/reports/raw/warm-latency/joern-java-kernel/run-2-batch-8-evidence/dfb-taint-java-alias-propagation-negative.json",
+      "sha256": "ca1d625d3add74fea015401d84d9ea3df2f5b6be74f551c3a4b5c0beab80ab7a"
+    },
+    {
+      "original_path": "reports/raw/warm-latency/joern-java-kernel/run-2-batch-8-evidence/dfb-taint-java-alias-propagation-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/warm-joern-java-attempt-01/outputs/reports/raw/warm-latency/joern-java-kernel/run-2-batch-8-evidence/dfb-taint-java-alias-propagation-positive.json",
+      "sha256": "a1bac2d1dceafe6b9ffed649e6def9b1c615ca52fa895a8cfae122eb53cfa595"
+    },
+    {
+      "original_path": "reports/raw/warm-latency/joern-java-kernel/run-2-batch-8-evidence/dfb-taint-java-anonymous-implementation-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/warm-joern-java-attempt-01/outputs/reports/raw/warm-latency/joern-java-kernel/run-2-batch-8-evidence/dfb-taint-java-anonymous-implementation-negative.json",
+      "sha256": "64ce5710d8bfb6ba05b6358e4e4a3c5075fb8b9a51b23b6a4288da91d87c5df8"
+    },
+    {
+      "original_path": "reports/raw/warm-latency/joern-java-kernel/run-2-batch-8-evidence/dfb-taint-java-argument-position-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/warm-joern-java-attempt-01/outputs/reports/raw/warm-latency/joern-java-kernel/run-2-batch-8-evidence/dfb-taint-java-argument-position-positive.json",
+      "sha256": "d66709e5225a4230c0adaec671ef3f8b630af36ccbf69e393462366196497920"
+    },
+    {
+      "original_path": "reports/raw/warm-latency/joern-java-kernel/run-2-batch-8-evidence/dfb-taint-java-argument-position-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/warm-joern-java-attempt-01/outputs/reports/raw/warm-latency/joern-java-kernel/run-2-batch-8-evidence/dfb-taint-java-argument-position-negative.json",
+      "sha256": "e78a4e62ece6040ed9108b8475205cdb849f87bc00b403a01497ec9ca32ba9ca"
+    },
+    {
+      "original_path": "reports/raw/warm-latency/joern-java-kernel/run-2-batch-8-evidence/dfb-taint-java-anonymous-implementation-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/warm-joern-java-attempt-01/outputs/reports/raw/warm-latency/joern-java-kernel/run-2-batch-8-evidence/dfb-taint-java-anonymous-implementation-positive.json",
+      "sha256": "1fcd2e030b72a831542615ad41157508fc0651ac16dc37224d27746aef35ee9e"
+    },
+    {
+      "original_path": "reports/raw/warm-latency/joern-java-kernel/run-1-batch-8-evidence/dfb-taint-java-array-element-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/warm-joern-java-attempt-01/outputs/reports/raw/warm-latency/joern-java-kernel/run-1-batch-8-evidence/dfb-taint-java-array-element-negative.json",
+      "sha256": "27b3a7cdb91e38852e97dc024147d918d9dc742483e72b3df4b3efe89aea3cbb"
+    },
+    {
+      "original_path": "reports/raw/warm-latency/joern-java-kernel/run-1-batch-8-evidence/dfb-taint-java-array-element-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/warm-joern-java-attempt-01/outputs/reports/raw/warm-latency/joern-java-kernel/run-1-batch-8-evidence/dfb-taint-java-array-element-positive.json",
+      "sha256": "68c21db4e2a6f667de74d5f936714b5bac623c4598fb3aaa1e7f6a66a4eafdb3"
+    },
+    {
+      "original_path": "reports/raw/warm-latency/joern-java-kernel/run-1-batch-8-evidence/dfb-taint-java-alias-propagation-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/warm-joern-java-attempt-01/outputs/reports/raw/warm-latency/joern-java-kernel/run-1-batch-8-evidence/dfb-taint-java-alias-propagation-negative.json",
+      "sha256": "510409947120da7897e3e5cff28b009df778c5b032af3eee13b3fcf443ef9e86"
+    },
+    {
+      "original_path": "reports/raw/warm-latency/joern-java-kernel/run-1-batch-8-evidence/dfb-taint-java-alias-propagation-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/warm-joern-java-attempt-01/outputs/reports/raw/warm-latency/joern-java-kernel/run-1-batch-8-evidence/dfb-taint-java-alias-propagation-positive.json",
+      "sha256": "c1aa13f725e4253da552f903f695a4e6392933d68ae062248c1d0b0d4a57bc4b"
+    },
+    {
+      "original_path": "reports/raw/warm-latency/joern-java-kernel/run-1-batch-8-evidence/dfb-taint-java-anonymous-implementation-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/warm-joern-java-attempt-01/outputs/reports/raw/warm-latency/joern-java-kernel/run-1-batch-8-evidence/dfb-taint-java-anonymous-implementation-negative.json",
+      "sha256": "b6ad9577d369ec7fb615d8628fd470459fadba7ca97b014b27dd34bea627865b"
+    },
+    {
+      "original_path": "reports/raw/warm-latency/joern-java-kernel/run-1-batch-8-evidence/dfb-taint-java-argument-position-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/warm-joern-java-attempt-01/outputs/reports/raw/warm-latency/joern-java-kernel/run-1-batch-8-evidence/dfb-taint-java-argument-position-positive.json",
+      "sha256": "5443e05dd504c1fc2ff9cd014dc874a11bd9192ec15b7ba93410cd9007fef9ab"
+    },
+    {
+      "original_path": "reports/raw/warm-latency/joern-java-kernel/run-1-batch-8-evidence/dfb-taint-java-argument-position-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/warm-joern-java-attempt-01/outputs/reports/raw/warm-latency/joern-java-kernel/run-1-batch-8-evidence/dfb-taint-java-argument-position-negative.json",
+      "sha256": "84bfc9a68792be3393a04e3ddf720967b8035164e1003606fdc287a521109070"
+    },
+    {
+      "original_path": "reports/raw/warm-latency/joern-java-kernel/run-1-batch-8-evidence/dfb-taint-java-anonymous-implementation-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/warm-joern-java-attempt-01/outputs/reports/raw/warm-latency/joern-java-kernel/run-1-batch-8-evidence/dfb-taint-java-anonymous-implementation-positive.json",
+      "sha256": "186d474dd45b523bd79ebdfcbf869ae7af35157720999ac02198504e281d89f4"
+    },
+    {
+      "original_path": "reports/raw/warm-latency/joern-java-kernel/run-1-batch-2-evidence/dfb-taint-java-alias-propagation-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/warm-joern-java-attempt-01/outputs/reports/raw/warm-latency/joern-java-kernel/run-1-batch-2-evidence/dfb-taint-java-alias-propagation-negative.json",
+      "sha256": "42640d88e9fe17f7359cec6d3c4785adc0324208702245948f83e2e322760d8c"
+    },
+    {
+      "original_path": "reports/raw/warm-latency/joern-java-kernel/run-1-batch-2-evidence/dfb-taint-java-alias-propagation-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/warm-joern-java-attempt-01/outputs/reports/raw/warm-latency/joern-java-kernel/run-1-batch-2-evidence/dfb-taint-java-alias-propagation-positive.json",
+      "sha256": "22c00ad0b0be5f532f965ab490e5eab8310b0460d94d14c5c6fc96097f0362d4"
+    },
+    {
+      "original_path": "reports/raw/warm-latency/joern-java-kernel/run-1-batch-4-evidence/dfb-taint-java-alias-propagation-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/warm-joern-java-attempt-01/outputs/reports/raw/warm-latency/joern-java-kernel/run-1-batch-4-evidence/dfb-taint-java-alias-propagation-negative.json",
+      "sha256": "9b6d9b0ff821c420a05eda15cc7a82f1e863780fc724198857db6031f3019688"
+    },
+    {
+      "original_path": "reports/raw/warm-latency/joern-java-kernel/run-1-batch-4-evidence/dfb-taint-java-alias-propagation-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/warm-joern-java-attempt-01/outputs/reports/raw/warm-latency/joern-java-kernel/run-1-batch-4-evidence/dfb-taint-java-alias-propagation-positive.json",
+      "sha256": "3b57d459181a1cb5203994717f5220359f65083288714a22b8198a599cf2e029"
+    },
+    {
+      "original_path": "reports/raw/warm-latency/joern-java-kernel/run-1-batch-4-evidence/dfb-taint-java-anonymous-implementation-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/warm-joern-java-attempt-01/outputs/reports/raw/warm-latency/joern-java-kernel/run-1-batch-4-evidence/dfb-taint-java-anonymous-implementation-negative.json",
+      "sha256": "340e843e51dfa139abc5dc2fd4e47fa5ccf1d8b903bd81ca3aad108ffe0a7564"
+    },
+    {
+      "original_path": "reports/raw/warm-latency/joern-java-kernel/run-1-batch-4-evidence/dfb-taint-java-anonymous-implementation-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/warm-joern-java-attempt-01/outputs/reports/raw/warm-latency/joern-java-kernel/run-1-batch-4-evidence/dfb-taint-java-anonymous-implementation-positive.json",
+      "sha256": "cff9791162ca232a83f9d014b4b3669976eb4cc9a890fc45cf8eeadeb77fe60b"
+    },
+    {
+      "original_path": "reports/raw/warm-latency/joern-java-kernel/run-2-batch-1-evidence/dfb-taint-java-alias-propagation-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/warm-joern-java-attempt-01/outputs/reports/raw/warm-latency/joern-java-kernel/run-2-batch-1-evidence/dfb-taint-java-alias-propagation-negative.json",
+      "sha256": "acd73db368b3d8d291de21bcb9bb9cb3f4308df32d7f63433431db4e060efd96"
+    }
+  ],
+  "expected_output_roots": [
+    "reports/raw/warm-latency/joern-java-kernel"
+  ],
+  "missing_fresh_output_roots": [],
+  "removed_paths": []
+}

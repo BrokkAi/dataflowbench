@@ -1,0 +1,636 @@
+{
+  "id": "codeql-rust-kernel-attempt-01",
+  "planned_id": "codeql-rust-kernel",
+  "argv": [
+    "/Users/dave/.codex/worktrees/653a/dataflowbench/target/debug/dataflowbench",
+    "--population",
+    "v0.7.0",
+    "run-codeql-rust-kernel",
+    "--codeql",
+    "/opt/homebrew/bin/codeql"
+  ],
+  "cwd": "/Users/dave/.codex/worktrees/653a/dataflowbench",
+  "input_commits": {
+    "corpus": "0c82e8093ff899d5ee72809a82c951ab76b5bb76",
+    "publication_infrastructure": "53050fa64628997e866303bcd5299d74f1e3e45d",
+    "pins": "c0899dab0d2c043dcc5b1aa6a1aad0e49f482fea"
+  },
+  "execution_revision": "4ec8cb4bc7552246dc75b1bc39a18340432880a3",
+  "population": "v0.7.0",
+  "fixture_revision": "sha256:9df209ed3d7723a3ee33f2b289cf2afe34a3add781bdf2a2ac445de42b8d0151",
+  "plan": {
+    "path": "reports/releases/v0.7.1/plan.json",
+    "sha256": "cb948f4a5cff80b95d3dcc755ab8249d87449e43f70e6eb80a456789faf12f26"
+  },
+  "identities": {
+    "path": "reports/releases/v0.7.1/identities.json",
+    "sha256": "0b8b1bb07d1df1ec8687613bb355f5f6021a2c664d3488dc3bc763553ce1a83c"
+  },
+  "execution_access": "require_escalated",
+  "start_utc": "2026-09-07T19:09:59.304241+00:00",
+  "host": {
+    "platform": "macOS-26.6.2-arm64-arm-64bit",
+    "cpu_count": 10,
+    "load_before": [
+      5.4833984375,
+      5.1435546875,
+      5.095703125
+    ],
+    "load_after": [
+      3.83056640625,
+      3.66015625,
+      3.64697265625
+    ]
+  },
+  "settle_observations": [],
+  "cache_posture": "isolated case workspaces; local distributions and prefetched CodeQL packs; OS page cache uncontrolled; warm only for explicit warm series",
+  "supersedes": null,
+  "exit_code": 1,
+  "end_utc": "2026-09-07T19:54:29.971567+00:00",
+  "stdout": {
+    "path": "reports/releases/v0.7.1/attempts/codeql-rust-kernel-attempt-01/stdout.txt",
+    "sha256": "e5f4125b7275fa9228693fa24407debffe73f2d0c70624118ccaf5e30dc4e426"
+  },
+  "stderr": {
+    "path": "reports/releases/v0.7.1/attempts/codeql-rust-kernel-attempt-01/stderr.txt",
+    "sha256": "aea8aa9598ce077dcc7c55dd63c6bf8e82d3031a2a4ef0bdc67527d870d15bd8"
+  },
+  "outputs": [
+    {
+      "original_path": "reports/codeql-rust-kernel.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-rust-kernel-attempt-01/outputs/reports/codeql-rust-kernel.json",
+      "sha256": "ba05e002a47f703e1915347b4e9d8f5e6643577dd7323e990ce5df890d33a1dc"
+    },
+    {
+      "original_path": "reports/raw/codeql-rust-kernel/dfb-taint-rust-element-object-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-rust-kernel-attempt-01/outputs/reports/raw/codeql-rust-kernel/dfb-taint-rust-element-object-negative-timing.json",
+      "sha256": "2d1618b1658942ec5435c1a0e80457bfce5e7b9b691a3cd75ff4dd9ead8e9ecc"
+    },
+    {
+      "original_path": "reports/raw/codeql-rust-kernel/dfb-taint-rust-nested-access-path-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-rust-kernel-attempt-01/outputs/reports/raw/codeql-rust-kernel/dfb-taint-rust-nested-access-path-negative-timing.json",
+      "sha256": "071e0cea5304ec4aac3fb512e4173379e3aa9c220b4316c68ce35853a98ad094"
+    },
+    {
+      "original_path": "reports/raw/codeql-rust-kernel/dfb-taint-rust-deep-relay-chain-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-rust-kernel-attempt-01/outputs/reports/raw/codeql-rust-kernel/dfb-taint-rust-deep-relay-chain-negative-timing.json",
+      "sha256": "4fb8c02bc03fe8606c97cdb1f363aaa69d1b4aa58e78769f949e131fc2fa0e31"
+    },
+    {
+      "original_path": "reports/raw/codeql-rust-kernel/dfb-taint-rust-map-iteration-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-rust-kernel-attempt-01/outputs/reports/raw/codeql-rust-kernel/dfb-taint-rust-map-iteration-negative-timing.json",
+      "sha256": "b2b6cffc4d9333aac578ab86c8bda32716047a6b495720bb9cf0e144b0e90655"
+    },
+    {
+      "original_path": "reports/raw/codeql-rust-kernel/dfb-taint-rust-loop-carried-negative.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-rust-kernel-attempt-01/outputs/reports/raw/codeql-rust-kernel/dfb-taint-rust-loop-carried-negative.sarif.json",
+      "sha256": "4e7c9a0986451ebb67aba86bb1afc30296764a32fa3618e642de605d022459b9"
+    },
+    {
+      "original_path": "reports/raw/codeql-rust-kernel/dfb-taint-rust-deep-relay-chain-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-rust-kernel-attempt-01/outputs/reports/raw/codeql-rust-kernel/dfb-taint-rust-deep-relay-chain-positive-timing.json",
+      "sha256": "cfdf3e448b4f0b0dec42e904e71631e607261bb23e6e5c5d3dbfe2fbe1f91110"
+    },
+    {
+      "original_path": "reports/raw/codeql-rust-kernel/dfb-taint-rust-nested-access-path-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-rust-kernel-attempt-01/outputs/reports/raw/codeql-rust-kernel/dfb-taint-rust-nested-access-path-positive-timing.json",
+      "sha256": "1961fe34063a70b53c1d067cf1ec2e25bc534ea5ffa48163e107e1372835b36a"
+    },
+    {
+      "original_path": "reports/raw/codeql-rust-kernel/dfb-taint-rust-element-object-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-rust-kernel-attempt-01/outputs/reports/raw/codeql-rust-kernel/dfb-taint-rust-element-object-positive-timing.json",
+      "sha256": "6788bd21de75bee7437bcc4e27ffa24d9fb38f18e2d09f1cb00b8e2a23932964"
+    },
+    {
+      "original_path": "reports/raw/codeql-rust-kernel/dfb-taint-rust-call-context-positive.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-rust-kernel-attempt-01/outputs/reports/raw/codeql-rust-kernel/dfb-taint-rust-call-context-positive.sarif.json",
+      "sha256": "49d9ff619b248fd9eee51e4033972395f64f2bb6a7cc80335b41b7744dce57d4"
+    },
+    {
+      "original_path": "reports/raw/codeql-rust-kernel/dfb-taint-rust-local-chain-negative.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-rust-kernel-attempt-01/outputs/reports/raw/codeql-rust-kernel/dfb-taint-rust-local-chain-negative.sarif.json",
+      "sha256": "8c20720ad58342536ab9c63b3ba72cd376e0575c20e02efaa19671f4eb10ebd5"
+    },
+    {
+      "original_path": "reports/raw/codeql-rust-kernel/dfb-taint-rust-return-relay-two-hop-positive.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-rust-kernel-attempt-01/outputs/reports/raw/codeql-rust-kernel/dfb-taint-rust-return-relay-two-hop-positive.sarif.json",
+      "sha256": "a401011cf74203210623c56701a26d16d771d4b2ee1c4cb58e3f05e4338c04b9"
+    },
+    {
+      "original_path": "reports/raw/codeql-rust-kernel/dfb-taint-rust-deep-relay-chain-positive.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-rust-kernel-attempt-01/outputs/reports/raw/codeql-rust-kernel/dfb-taint-rust-deep-relay-chain-positive.sarif.json",
+      "sha256": "835068771b1b4b78a5b10570f67ccfe71af64393e08d086f8bcb10279ddce12f"
+    },
+    {
+      "original_path": "reports/raw/codeql-rust-kernel/dfb-taint-rust-result-error-propagation-negative.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-rust-kernel-attempt-01/outputs/reports/raw/codeql-rust-kernel/dfb-taint-rust-result-error-propagation-negative.sarif.json",
+      "sha256": "979b47b193e79c5d857cb1130c51fea906071436881c589f9e0b008f7fcfd157"
+    },
+    {
+      "original_path": "reports/raw/codeql-rust-kernel/dfb-taint-rust-map-iteration-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-rust-kernel-attempt-01/outputs/reports/raw/codeql-rust-kernel/dfb-taint-rust-map-iteration-positive-timing.json",
+      "sha256": "b6c7ae77568c651d83efe1aaf10894a20755353e0f1186e7771c69dadd40445e"
+    },
+    {
+      "original_path": "reports/raw/codeql-rust-kernel/dfb-taint-rust-direct-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-rust-kernel-attempt-01/outputs/reports/raw/codeql-rust-kernel/dfb-taint-rust-direct-negative-timing.json",
+      "sha256": "f31907728c2f7c4714c43ffb05343c2470809cc7e78c7474bb661947f8e42d2c"
+    },
+    {
+      "original_path": "reports/raw/codeql-rust-kernel/dfb-taint-rust-call-context-negative.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-rust-kernel-attempt-01/outputs/reports/raw/codeql-rust-kernel/dfb-taint-rust-call-context-negative.sarif.json",
+      "sha256": "615243851bbf68dc64a119debd007c6faf06692e16741a9287b222446163fff0"
+    },
+    {
+      "original_path": "reports/raw/codeql-rust-kernel/dfb-taint-rust-local-chain-positive.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-rust-kernel-attempt-01/outputs/reports/raw/codeql-rust-kernel/dfb-taint-rust-local-chain-positive.sarif.json",
+      "sha256": "9dfdbd7138320089b9e788bdcf795931af2ba3abe3708b71157cd9e5334f8f85"
+    },
+    {
+      "original_path": "reports/raw/codeql-rust-kernel/dfb-taint-rust-return-relay-two-hop-negative.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-rust-kernel-attempt-01/outputs/reports/raw/codeql-rust-kernel/dfb-taint-rust-return-relay-two-hop-negative.sarif.json",
+      "sha256": "fe62b934998d2d264c8072eacc288c3fb08456191bac076e9e947d1292f60b28"
+    },
+    {
+      "original_path": "reports/raw/codeql-rust-kernel/dfb-taint-rust-deep-relay-chain-negative.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-rust-kernel-attempt-01/outputs/reports/raw/codeql-rust-kernel/dfb-taint-rust-deep-relay-chain-negative.sarif.json",
+      "sha256": "7b20fd1d288593389d27546acc60afd03370fb3bb6922eda958586012f43a594"
+    },
+    {
+      "original_path": "reports/raw/codeql-rust-kernel/dfb-taint-rust-anonymous-implementation-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-rust-kernel-attempt-01/outputs/reports/raw/codeql-rust-kernel/dfb-taint-rust-anonymous-implementation-negative-timing.json",
+      "sha256": "2024453b862307575834a9a3681134514159c13e4151ee231f38165c47e30bd7"
+    },
+    {
+      "original_path": "reports/raw/codeql-rust-kernel/dfb-taint-rust-local-chain-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-rust-kernel-attempt-01/outputs/reports/raw/codeql-rust-kernel/dfb-taint-rust-local-chain-negative-timing.json",
+      "sha256": "435e5f3134a9d7c900d5d8559eb6264ee0e2edbcc0a12a59564aaf0aa819c94f"
+    },
+    {
+      "original_path": "reports/raw/codeql-rust-kernel/dfb-taint-rust-result-error-propagation-positive.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-rust-kernel-attempt-01/outputs/reports/raw/codeql-rust-kernel/dfb-taint-rust-result-error-propagation-positive.sarif.json",
+      "sha256": "2fbfafab00fcfa0a8539b2697814e2fc877234b5e2ea4de9649052d4931cd772"
+    },
+    {
+      "original_path": "reports/raw/codeql-rust-kernel/dfb-taint-rust-direct-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-rust-kernel-attempt-01/outputs/reports/raw/codeql-rust-kernel/dfb-taint-rust-direct-positive-timing.json",
+      "sha256": "bad44c900c316513a74e8d534bf75a0dcac544a262fef4dfcf2b1a5122305bc5"
+    },
+    {
+      "original_path": "reports/raw/codeql-rust-kernel/dfb-taint-rust-local-chain-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-rust-kernel-attempt-01/outputs/reports/raw/codeql-rust-kernel/dfb-taint-rust-local-chain-positive-timing.json",
+      "sha256": "eeab80672c6937dbcaf1c5dd91e69abc5fd2522a95d7f80c400b9119499f71c2"
+    },
+    {
+      "original_path": "reports/raw/codeql-rust-kernel/dfb-taint-rust-loop-carried-positive.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-rust-kernel-attempt-01/outputs/reports/raw/codeql-rust-kernel/dfb-taint-rust-loop-carried-positive.sarif.json",
+      "sha256": "eb048a31917bbe861a496dd0733d95c473104c9ffb3f9afcf5b4283bc098cabd"
+    },
+    {
+      "original_path": "reports/raw/codeql-rust-kernel/dfb-taint-rust-anonymous-implementation-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-rust-kernel-attempt-01/outputs/reports/raw/codeql-rust-kernel/dfb-taint-rust-anonymous-implementation-positive-timing.json",
+      "sha256": "0388ecfcc2209af91c8a932339b47e32967620032d3d3642bf96cf3a6166ea98"
+    },
+    {
+      "original_path": "reports/raw/codeql-rust-kernel/dfb-taint-rust-recursive-carry-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-rust-kernel-attempt-01/outputs/reports/raw/codeql-rust-kernel/dfb-taint-rust-recursive-carry-positive-timing.json",
+      "sha256": "609a8bce4131953c67ed689d9adaa19ea3a6d031957047a69281b20975d09831"
+    },
+    {
+      "original_path": "reports/raw/codeql-rust-kernel/dfb-taint-rust-argument-position-positive.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-rust-kernel-attempt-01/outputs/reports/raw/codeql-rust-kernel/dfb-taint-rust-argument-position-positive.sarif.json",
+      "sha256": "3ac2c1adb16cc3af5e38de2783867410319486b6697ff1e30eb0eb8f49d1774f"
+    },
+    {
+      "original_path": "reports/raw/codeql-rust-kernel/dfb-taint-rust-dispatch-table-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-rust-kernel-attempt-01/outputs/reports/raw/codeql-rust-kernel/dfb-taint-rust-dispatch-table-positive-timing.json",
+      "sha256": "eed769611fea940962983dec77b1caae82d6d07957ef08d29a4f51cb7a537952"
+    },
+    {
+      "original_path": "reports/raw/codeql-rust-kernel/dfb-taint-rust-call-context-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-rust-kernel-attempt-01/outputs/reports/raw/codeql-rust-kernel/dfb-taint-rust-call-context-negative-timing.json",
+      "sha256": "1f86b04423e8cb212d677670975da63b2590b8fcc3fe99c66a29574a1e55f33b"
+    },
+    {
+      "original_path": "reports/raw/codeql-rust-kernel/dfb-taint-rust-function-field-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-rust-kernel-attempt-01/outputs/reports/raw/codeql-rust-kernel/dfb-taint-rust-function-field-positive-timing.json",
+      "sha256": "5a6d82ff8f1a27b3ae9bedebc3ef0049bb4c764fe63d4f31b15610c15a9bf8bd"
+    },
+    {
+      "original_path": "reports/raw/codeql-rust-kernel/dfb-taint-rust-dispatch-table-negative.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-rust-kernel-attempt-01/outputs/reports/raw/codeql-rust-kernel/dfb-taint-rust-dispatch-table-negative.sarif.json",
+      "sha256": "9893dd00dcee54b4ad4a57ee3ac185643d87de27cad1b57ce400b251d2707c14"
+    },
+    {
+      "original_path": "reports/raw/codeql-rust-kernel/dfb-taint-rust-closure-capture-negative.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-rust-kernel-attempt-01/outputs/reports/raw/codeql-rust-kernel/dfb-taint-rust-closure-capture-negative.sarif.json",
+      "sha256": "7ad68de6a274108d14a60378978bde51dfacfa7650cd7c155fee26106c87df1a"
+    },
+    {
+      "original_path": "reports/raw/codeql-rust-kernel/dfb-taint-rust-recursive-carry-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-rust-kernel-attempt-01/outputs/reports/raw/codeql-rust-kernel/dfb-taint-rust-recursive-carry-negative-timing.json",
+      "sha256": "f94a61d3ffec6876f600cc110cc08a16e5865034c44fe44bce2aca002367d8c2"
+    },
+    {
+      "original_path": "reports/raw/codeql-rust-kernel/dfb-taint-rust-object-separation-negative.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-rust-kernel-attempt-01/outputs/reports/raw/codeql-rust-kernel/dfb-taint-rust-object-separation-negative.sarif.json",
+      "sha256": "4b1c5066db9b74bf55a24355257d14956e69490f1bb429079d428412feaf7f5a"
+    },
+    {
+      "original_path": "reports/raw/codeql-rust-kernel/dfb-taint-rust-direct-positive.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-rust-kernel-attempt-01/outputs/reports/raw/codeql-rust-kernel/dfb-taint-rust-direct-positive.sarif.json",
+      "sha256": "00fd69ceaa19398f9de2cc11f6ade301deb4ad4b610b7f0eefd840d8aabbdcd6"
+    },
+    {
+      "original_path": "reports/raw/codeql-rust-kernel/run-environment.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-rust-kernel-attempt-01/outputs/reports/raw/codeql-rust-kernel/run-environment.json",
+      "sha256": "212e472accfd4df1d5a2b2e4e446b1b3f2cf84e27a736d8f5aa9de8fbeb1e32b"
+    },
+    {
+      "original_path": "reports/raw/codeql-rust-kernel/dfb-taint-rust-same-object-field-negative.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-rust-kernel-attempt-01/outputs/reports/raw/codeql-rust-kernel/dfb-taint-rust-same-object-field-negative.sarif.json",
+      "sha256": "8ae63b79a23db2b3ead72dbeb4b79ffa4c3b3d43d366ee85c3bf1d996847514a"
+    },
+    {
+      "original_path": "reports/raw/codeql-rust-kernel/dfb-taint-rust-call-context-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-rust-kernel-attempt-01/outputs/reports/raw/codeql-rust-kernel/dfb-taint-rust-call-context-positive-timing.json",
+      "sha256": "fc66eb4ef508d8d42569911652a26f1d7f99df645ef729180b074aa893726259"
+    },
+    {
+      "original_path": "reports/raw/codeql-rust-kernel/dfb-taint-rust-function-field-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-rust-kernel-attempt-01/outputs/reports/raw/codeql-rust-kernel/dfb-taint-rust-function-field-negative-timing.json",
+      "sha256": "9d332292f817385639a0442b7e33023c0f03a310f2ca0adf73dfc9880c55ae29"
+    },
+    {
+      "original_path": "reports/raw/codeql-rust-kernel/dfb-taint-rust-infeasible-branch-positive.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-rust-kernel-attempt-01/outputs/reports/raw/codeql-rust-kernel/dfb-taint-rust-infeasible-branch-positive.sarif.json",
+      "sha256": "a3cef1664025433122fc62cd4d808c505615a9ef6daed0ab69d592115056c41b"
+    },
+    {
+      "original_path": "reports/raw/codeql-rust-kernel/dfb-taint-rust-dispatch-table-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-rust-kernel-attempt-01/outputs/reports/raw/codeql-rust-kernel/dfb-taint-rust-dispatch-table-negative-timing.json",
+      "sha256": "5f30a960fa7f82b4b0dc0b1b84985f372eb9f18b0b78d164725b0ea965e9d416"
+    },
+    {
+      "original_path": "reports/raw/codeql-rust-kernel/dfb-taint-rust-closure-capture-positive.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-rust-kernel-attempt-01/outputs/reports/raw/codeql-rust-kernel/dfb-taint-rust-closure-capture-positive.sarif.json",
+      "sha256": "39913cc46ef69d72edee0dcc5c43998d309be8b9401cd8c0d848a77be93db969"
+    },
+    {
+      "original_path": "reports/raw/codeql-rust-kernel/dfb-taint-rust-object-separation-positive.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-rust-kernel-attempt-01/outputs/reports/raw/codeql-rust-kernel/dfb-taint-rust-object-separation-positive.sarif.json",
+      "sha256": "3860afee30db80e7f73abc293a94edc393b9b6a3ec0bfe21a9cfaa1eef2a65b8"
+    },
+    {
+      "original_path": "reports/raw/codeql-rust-kernel/dfb-taint-rust-direct-negative.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-rust-kernel-attempt-01/outputs/reports/raw/codeql-rust-kernel/dfb-taint-rust-direct-negative.sarif.json",
+      "sha256": "5addf647ca6dd392ab1eda8c1a434bc438793857b26645c946b00e1b4fc94de2"
+    },
+    {
+      "original_path": "reports/raw/codeql-rust-kernel/dfb-taint-rust-local-overwrite-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-rust-kernel-attempt-01/outputs/reports/raw/codeql-rust-kernel/dfb-taint-rust-local-overwrite-negative-timing.json",
+      "sha256": "d2821b2a55f79c7a2cc455d2129743db2b504b1f04ebf5c827b630a27d1eaeac"
+    },
+    {
+      "original_path": "reports/raw/codeql-rust-kernel/dfb-taint-rust-dispatch-table-positive.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-rust-kernel-attempt-01/outputs/reports/raw/codeql-rust-kernel/dfb-taint-rust-dispatch-table-positive.sarif.json",
+      "sha256": "ffe0acd887edca30cf5c983900c9fa6b17f2f71436258e25b8070cac22c8359c"
+    },
+    {
+      "original_path": "reports/raw/codeql-rust-kernel/dfb-taint-rust-same-object-field-positive.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-rust-kernel-attempt-01/outputs/reports/raw/codeql-rust-kernel/dfb-taint-rust-same-object-field-positive.sarif.json",
+      "sha256": "497d82eae31426a79e7ff841c60aae2ffe40e12ac63188e0372efabd419a4b35"
+    },
+    {
+      "original_path": "reports/raw/codeql-rust-kernel/dfb-taint-rust-result-error-propagation-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-rust-kernel-attempt-01/outputs/reports/raw/codeql-rust-kernel/dfb-taint-rust-result-error-propagation-positive-timing.json",
+      "sha256": "fc661c1971154aedcd5a182a04da6ab009bfe9fd9fb4ca8ce0ddad5daa8694e3"
+    },
+    {
+      "original_path": "reports/raw/codeql-rust-kernel/dfb-taint-rust-closure-capture-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-rust-kernel-attempt-01/outputs/reports/raw/codeql-rust-kernel/dfb-taint-rust-closure-capture-negative-timing.json",
+      "sha256": "be22dcec35563297c2cdf8c176824ee137665145803c5a68e0166b5fb57d298e"
+    },
+    {
+      "original_path": "reports/raw/codeql-rust-kernel/dfb-taint-rust-infeasible-branch-negative.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-rust-kernel-attempt-01/outputs/reports/raw/codeql-rust-kernel/dfb-taint-rust-infeasible-branch-negative.sarif.json",
+      "sha256": "31a753845289ce1f7b42afd68f4435ecaa95e7928a0f588a00703b2e1ffea2eb"
+    },
+    {
+      "original_path": "reports/raw/codeql-rust-kernel/dfb-taint-rust-return-relay-one-hop-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-rust-kernel-attempt-01/outputs/reports/raw/codeql-rust-kernel/dfb-taint-rust-return-relay-one-hop-negative-timing.json",
+      "sha256": "803b3ed48ba2371a680b1d609bda4bc25fd2f9c4aff2ee47497e8b0f70e8b6b0"
+    },
+    {
+      "original_path": "reports/raw/codeql-rust-kernel/dfb-taint-rust-result-error-propagation-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-rust-kernel-attempt-01/outputs/reports/raw/codeql-rust-kernel/dfb-taint-rust-result-error-propagation-negative-timing.json",
+      "sha256": "43f61ff31ff1566a7a27b3b0c8a26bbc3f2d537fad751db9544963333e9b53fb"
+    },
+    {
+      "original_path": "reports/raw/codeql-rust-kernel/dfb-taint-rust-closure-capture-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-rust-kernel-attempt-01/outputs/reports/raw/codeql-rust-kernel/dfb-taint-rust-closure-capture-positive-timing.json",
+      "sha256": "628ab87e3ebb35c6f5ffa0575fed59fb0c4e653c3ca3ff9382b34ef14eb98d3d"
+    },
+    {
+      "original_path": "reports/raw/codeql-rust-kernel/dfb-taint-rust-local-overwrite-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-rust-kernel-attempt-01/outputs/reports/raw/codeql-rust-kernel/dfb-taint-rust-local-overwrite-positive-timing.json",
+      "sha256": "72297f40cf5a44530f2a80a7698b632e3d0a834f3ecb84ce438f85054b1583ed"
+    },
+    {
+      "original_path": "reports/raw/codeql-rust-kernel/dfb-taint-rust-return-relay-one-hop-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-rust-kernel-attempt-01/outputs/reports/raw/codeql-rust-kernel/dfb-taint-rust-return-relay-one-hop-positive-timing.json",
+      "sha256": "61f8d82fe46c96ae0018b37a6b8385cebc53b9d4ec985d0777fbeaceae355d3f"
+    },
+    {
+      "original_path": "reports/raw/codeql-rust-kernel/dfb-taint-rust-argument-position-negative.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-rust-kernel-attempt-01/outputs/reports/raw/codeql-rust-kernel/dfb-taint-rust-argument-position-negative.sarif.json",
+      "sha256": "7472742f72645e21c3135e2211659d80abc1de457b2a5a20152de6ee6f1370b0"
+    },
+    {
+      "original_path": "reports/raw/codeql-rust-kernel/dfb-taint-rust-array-element-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-rust-kernel-attempt-01/outputs/reports/raw/codeql-rust-kernel/dfb-taint-rust-array-element-negative-timing.json",
+      "sha256": "02479ceff0d30ca32f596831f78f77d014ec977f2d23e5791e192684005b894a"
+    },
+    {
+      "original_path": "reports/raw/codeql-rust-kernel/dfb-taint-rust-nested-access-path-positive.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-rust-kernel-attempt-01/outputs/reports/raw/codeql-rust-kernel/dfb-taint-rust-nested-access-path-positive.sarif.json",
+      "sha256": "811fd910f4ab3fdaeadf04d81c238ed8b35b3805a35c1e9351a3579f22054900"
+    },
+    {
+      "original_path": "reports/raw/codeql-rust-kernel/dfb-taint-rust-branch-join-negative.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-rust-kernel-attempt-01/outputs/reports/raw/codeql-rust-kernel/dfb-taint-rust-branch-join-negative.sarif.json",
+      "sha256": "a72f544f946c75b3ac6c08ded4e06e4876e0b61ab4affa65fd3a812bd31ce3dc"
+    },
+    {
+      "original_path": "reports/raw/codeql-rust-kernel/dfb-taint-rust-callback-registration-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-rust-kernel-attempt-01/outputs/reports/raw/codeql-rust-kernel/dfb-taint-rust-callback-registration-negative-timing.json",
+      "sha256": "08d8eea757e3a94cb6153c953043b90976371f67ded79f3cae5581df05a10fab"
+    },
+    {
+      "original_path": "reports/raw/codeql-rust-kernel/dfb-taint-rust-context-pair-depth2-positive.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-rust-kernel-attempt-01/outputs/reports/raw/codeql-rust-kernel/dfb-taint-rust-context-pair-depth2-positive.sarif.json",
+      "sha256": "c201a869f7912a9a5915611e52ecd7eb1353062c7e87a42d604c59c6dab530fd"
+    },
+    {
+      "original_path": "reports/raw/codeql-rust-kernel/dfb-taint-rust-callback-registration-positive.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-rust-kernel-attempt-01/outputs/reports/raw/codeql-rust-kernel/dfb-taint-rust-callback-registration-positive.sarif.json",
+      "sha256": "c8765d58380070b0e60b8b72e837599f8a07b46bb33472bfa407fc826e393485"
+    },
+    {
+      "original_path": "reports/raw/codeql-rust-kernel/dfb-taint-rust-array-element-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-rust-kernel-attempt-01/outputs/reports/raw/codeql-rust-kernel/dfb-taint-rust-array-element-positive-timing.json",
+      "sha256": "dd09841570cc19f94bedd4c703bc6b45f36a6586d983c8e0212fb7cbb7ec9f39"
+    },
+    {
+      "original_path": "reports/raw/codeql-rust-kernel/dfb-taint-rust-map-iteration-negative.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-rust-kernel-attempt-01/outputs/reports/raw/codeql-rust-kernel/dfb-taint-rust-map-iteration-negative.sarif.json",
+      "sha256": "b18ecde523be080504a742a39fe49436bf478d964de3326b91c92a80db535d38"
+    },
+    {
+      "original_path": "reports/raw/codeql-rust-kernel/dfb-taint-rust-callback-registration-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-rust-kernel-attempt-01/outputs/reports/raw/codeql-rust-kernel/dfb-taint-rust-callback-registration-positive-timing.json",
+      "sha256": "3cb74886d241ff7646f67395d501b5097c4990117a3e53818cc3ddf7b976446d"
+    },
+    {
+      "original_path": "reports/raw/codeql-rust-kernel/dfb-taint-rust-computed-property-negative.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-rust-kernel-attempt-01/outputs/reports/raw/codeql-rust-kernel/dfb-taint-rust-computed-property-negative.sarif.json",
+      "sha256": "4a739d685c60bdd7c0d45e3b4cb9210f7a0ffbf37db4cf812549ba4823856850"
+    },
+    {
+      "original_path": "reports/raw/codeql-rust-kernel/dfb-taint-rust-callback-registration-negative.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-rust-kernel-attempt-01/outputs/reports/raw/codeql-rust-kernel/dfb-taint-rust-callback-registration-negative.sarif.json",
+      "sha256": "22b2751e206d57a64bfcdc25128b9efbea9880b4bcda20ddb498d19dcf930dff"
+    },
+    {
+      "original_path": "reports/raw/codeql-rust-kernel/dfb-taint-rust-map-iteration-positive.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-rust-kernel-attempt-01/outputs/reports/raw/codeql-rust-kernel/dfb-taint-rust-map-iteration-positive.sarif.json",
+      "sha256": "21f98b57cb2060926d977fb20db0c7c1df26c61e9eca0086fcf2d07855839ad3"
+    },
+    {
+      "original_path": "reports/raw/codeql-rust-kernel/dfb-taint-rust-infeasible-branch-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-rust-kernel-attempt-01/outputs/reports/raw/codeql-rust-kernel/dfb-taint-rust-infeasible-branch-negative-timing.json",
+      "sha256": "c6d18dfeb402bf4815f4c4ac64e8d16502821396a213ea6d53b60696f88aa40a"
+    },
+    {
+      "original_path": "reports/raw/codeql-rust-kernel/dfb-taint-rust-computed-property-positive.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-rust-kernel-attempt-01/outputs/reports/raw/codeql-rust-kernel/dfb-taint-rust-computed-property-positive.sarif.json",
+      "sha256": "53ac6dfde3fe33b909242e9ecdbf1305e6e509c9d77d49a0091f35ba74bb0f66"
+    },
+    {
+      "original_path": "reports/raw/codeql-rust-kernel/dfb-taint-rust-argument-position-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-rust-kernel-attempt-01/outputs/reports/raw/codeql-rust-kernel/dfb-taint-rust-argument-position-negative-timing.json",
+      "sha256": "bdd8ea6d05134c24c13505745c76c39eb856f1c50e27446e7c4acdcc4343621b"
+    },
+    {
+      "original_path": "reports/raw/codeql-rust-kernel/dfb-taint-rust-infeasible-branch-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-rust-kernel-attempt-01/outputs/reports/raw/codeql-rust-kernel/dfb-taint-rust-infeasible-branch-positive-timing.json",
+      "sha256": "91a6289a734676f00ea012e121557cf32ae90d17ba0e0bb2674e987f60d7cc69"
+    },
+    {
+      "original_path": "reports/raw/codeql-rust-kernel/dfb-taint-rust-nested-access-path-negative.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-rust-kernel-attempt-01/outputs/reports/raw/codeql-rust-kernel/dfb-taint-rust-nested-access-path-negative.sarif.json",
+      "sha256": "2690c5e8132640d2d84bcb7fdaf39fc1bc479b97fadfdd4fe87f23939ab006c5"
+    },
+    {
+      "original_path": "reports/raw/codeql-rust-kernel/dfb-taint-rust-branch-join-positive.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-rust-kernel-attempt-01/outputs/reports/raw/codeql-rust-kernel/dfb-taint-rust-branch-join-positive.sarif.json",
+      "sha256": "8c8d7b41d779575c3d6fa1ab5f783811e27f008d83b309c26ad13c03ee40b25e"
+    },
+    {
+      "original_path": "reports/raw/codeql-rust-kernel/dfb-taint-rust-argument-position-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-rust-kernel-attempt-01/outputs/reports/raw/codeql-rust-kernel/dfb-taint-rust-argument-position-positive-timing.json",
+      "sha256": "a4e49403b525818edce632dd0c51a91e0142d99c2d5fd5cbd7e0e930e2bac754"
+    },
+    {
+      "original_path": "reports/raw/codeql-rust-kernel/dfb-taint-rust-context-pair-depth2-negative.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-rust-kernel-attempt-01/outputs/reports/raw/codeql-rust-kernel/dfb-taint-rust-context-pair-depth2-negative.sarif.json",
+      "sha256": "cbc012cd301096ce719389e19e36b9ed8ce25750dd527e5762524664e6681e47"
+    },
+    {
+      "original_path": "reports/raw/codeql-rust-kernel/dfb-taint-rust-return-relay-one-hop-positive.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-rust-kernel-attempt-01/outputs/reports/raw/codeql-rust-kernel/dfb-taint-rust-return-relay-one-hop-positive.sarif.json",
+      "sha256": "1e0f64212ef0a80be29c5d01de8cb9c16805cdd420d91b943e66984745361df6"
+    },
+    {
+      "original_path": "reports/raw/codeql-rust-kernel/dfb-taint-rust-alias-propagation-positive.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-rust-kernel-attempt-01/outputs/reports/raw/codeql-rust-kernel/dfb-taint-rust-alias-propagation-positive.sarif.json",
+      "sha256": "b3ceabf4eb00de22d06f00d3fc9c25c38c06be4605672919a3e2b1f2904b279e"
+    },
+    {
+      "original_path": "reports/raw/codeql-rust-kernel/dfb-taint-rust-context-pair-depth2-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-rust-kernel-attempt-01/outputs/reports/raw/codeql-rust-kernel/dfb-taint-rust-context-pair-depth2-positive-timing.json",
+      "sha256": "ce3ea361e2f294b1c655ca201b6ceab1efe5cb2794741603d916d8f8846826a0"
+    },
+    {
+      "original_path": "reports/raw/codeql-rust-kernel/dfb-taint-rust-anonymous-implementation-negative.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-rust-kernel-attempt-01/outputs/reports/raw/codeql-rust-kernel/dfb-taint-rust-anonymous-implementation-negative.sarif.json",
+      "sha256": "4b2738ea26021fbb3c678c713c39bec075973f958d639c22e5168487d51af3bf"
+    },
+    {
+      "original_path": "reports/raw/codeql-rust-kernel/dfb-taint-rust-branch-join-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-rust-kernel-attempt-01/outputs/reports/raw/codeql-rust-kernel/dfb-taint-rust-branch-join-negative-timing.json",
+      "sha256": "66eab9881d8a3d16e63426efae430379145b771c240e99b254e3cd142548df00"
+    },
+    {
+      "original_path": "reports/raw/codeql-rust-kernel/dfb-taint-rust-local-overwrite-negative.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-rust-kernel-attempt-01/outputs/reports/raw/codeql-rust-kernel/dfb-taint-rust-local-overwrite-negative.sarif.json",
+      "sha256": "e1c94da0835cb9569d0a37cf17ba6fa52cefcb09ca976274800070bedd2e38b6"
+    },
+    {
+      "original_path": "reports/raw/codeql-rust-kernel/dfb-taint-rust-recursive-carry-negative.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-rust-kernel-attempt-01/outputs/reports/raw/codeql-rust-kernel/dfb-taint-rust-recursive-carry-negative.sarif.json",
+      "sha256": "ac240901a659b7857c5a32a8aa5070a0aa60e1ce2a7e585693ab0347ce4ae5dd"
+    },
+    {
+      "original_path": "reports/raw/codeql-rust-kernel/dfb-taint-rust-alias-propagation-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-rust-kernel-attempt-01/outputs/reports/raw/codeql-rust-kernel/dfb-taint-rust-alias-propagation-negative-timing.json",
+      "sha256": "7bb36c74290f08883cbbb22ed7811ef77c16df7fd536eb64f013e882712f2942"
+    },
+    {
+      "original_path": "reports/raw/codeql-rust-kernel/dfb-taint-rust-expression-negative.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-rust-kernel-attempt-01/outputs/reports/raw/codeql-rust-kernel/dfb-taint-rust-expression-negative.sarif.json",
+      "sha256": "e958a898e9132a7f4b9b5ac0d613d9785b71d1120bd374d9d37da0232213e374"
+    },
+    {
+      "original_path": "reports/raw/codeql-rust-kernel/dfb-taint-rust-context-pair-depth2-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-rust-kernel-attempt-01/outputs/reports/raw/codeql-rust-kernel/dfb-taint-rust-context-pair-depth2-negative-timing.json",
+      "sha256": "19e75f1b5524150a547f2354c18b5bee28397868f516af2d8327a5d23bb1255e"
+    },
+    {
+      "original_path": "reports/raw/codeql-rust-kernel/dfb-taint-rust-array-element-negative.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-rust-kernel-attempt-01/outputs/reports/raw/codeql-rust-kernel/dfb-taint-rust-array-element-negative.sarif.json",
+      "sha256": "ab036cde3f6839e3cdc6b4548f5283b71ecec5d9b69185ed1f7d353fc503ee94"
+    },
+    {
+      "original_path": "reports/raw/codeql-rust-kernel/dfb-taint-rust-function-field-positive.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-rust-kernel-attempt-01/outputs/reports/raw/codeql-rust-kernel/dfb-taint-rust-function-field-positive.sarif.json",
+      "sha256": "75650c1ae1529babf552e49abf4241361f5c69f474a61c8438981b8e789dcd0e"
+    },
+    {
+      "original_path": "reports/raw/codeql-rust-kernel/dfb-taint-rust-element-object-negative.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-rust-kernel-attempt-01/outputs/reports/raw/codeql-rust-kernel/dfb-taint-rust-element-object-negative.sarif.json",
+      "sha256": "d32e6f128019ef9026c628a09b8f48313712307bc90a12777d148157fe075278"
+    },
+    {
+      "original_path": "reports/raw/codeql-rust-kernel/dfb-taint-rust-alias-propagation-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-rust-kernel-attempt-01/outputs/reports/raw/codeql-rust-kernel/dfb-taint-rust-alias-propagation-positive-timing.json",
+      "sha256": "9d59ae08ec6d993a595e2105d45c5db4f7041dba9b03cacf0367abeb5bc70b2c"
+    },
+    {
+      "original_path": "reports/raw/codeql-rust-kernel/dfb-taint-rust-branch-join-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-rust-kernel-attempt-01/outputs/reports/raw/codeql-rust-kernel/dfb-taint-rust-branch-join-positive-timing.json",
+      "sha256": "92a0bf53568b8792e112fa954dd26118acf7c93ac8fa58abd052e1f4f8fb068a"
+    },
+    {
+      "original_path": "reports/raw/codeql-rust-kernel/dfb-taint-rust-expression-positive.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-rust-kernel-attempt-01/outputs/reports/raw/codeql-rust-kernel/dfb-taint-rust-expression-positive.sarif.json",
+      "sha256": "9b23d4577a8e21b5bfab0d875d3b10c50d77059bc0599128e8d12d87c388b9ca"
+    },
+    {
+      "original_path": "reports/raw/codeql-rust-kernel/dfb-taint-rust-element-object-positive.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-rust-kernel-attempt-01/outputs/reports/raw/codeql-rust-kernel/dfb-taint-rust-element-object-positive.sarif.json",
+      "sha256": "d6a3e32c88197f4a56f59e1185b2873898010b153e54e1da3aa0baa23546e740"
+    },
+    {
+      "original_path": "reports/raw/codeql-rust-kernel/dfb-taint-rust-loop-carried-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-rust-kernel-attempt-01/outputs/reports/raw/codeql-rust-kernel/dfb-taint-rust-loop-carried-negative-timing.json",
+      "sha256": "5db28f84a37d626ebf9853b79a398768eed3b8f9ab61bfee6496500f7b482a94"
+    },
+    {
+      "original_path": "reports/raw/codeql-rust-kernel/dfb-taint-rust-array-element-positive.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-rust-kernel-attempt-01/outputs/reports/raw/codeql-rust-kernel/dfb-taint-rust-array-element-positive.sarif.json",
+      "sha256": "4904a47b856c1444cfdf90058b049f17b0d79cad676628a5016208d7283335e5"
+    },
+    {
+      "original_path": "reports/raw/codeql-rust-kernel/dfb-taint-rust-function-field-negative.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-rust-kernel-attempt-01/outputs/reports/raw/codeql-rust-kernel/dfb-taint-rust-function-field-negative.sarif.json",
+      "sha256": "3adc607e662a14bee9110fc9555b13c9dd28b572bd1b3710e969c07b125210d3"
+    },
+    {
+      "original_path": "reports/raw/codeql-rust-kernel/dfb-taint-rust-same-object-field-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-rust-kernel-attempt-01/outputs/reports/raw/codeql-rust-kernel/dfb-taint-rust-same-object-field-positive-timing.json",
+      "sha256": "cc705a42ca3947bed13f93840f923182966abd86f8e6d6aa932d67d4d5908c34"
+    },
+    {
+      "original_path": "reports/raw/codeql-rust-kernel/dfb-taint-rust-computed-property-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-rust-kernel-attempt-01/outputs/reports/raw/codeql-rust-kernel/dfb-taint-rust-computed-property-negative-timing.json",
+      "sha256": "eba9337bf4ecb37476648c22b8bc2fb15e16f00eaedaf4e0c97f4bb80c707d28"
+    },
+    {
+      "original_path": "reports/raw/codeql-rust-kernel/dfb-taint-rust-object-separation-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-rust-kernel-attempt-01/outputs/reports/raw/codeql-rust-kernel/dfb-taint-rust-object-separation-positive-timing.json",
+      "sha256": "596552525ab14ef8b4e45bb404cfa1c3e68a2344cc983260b9ac24e1dbe5f700"
+    },
+    {
+      "original_path": "reports/raw/codeql-rust-kernel/dfb-taint-rust-expression-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-rust-kernel-attempt-01/outputs/reports/raw/codeql-rust-kernel/dfb-taint-rust-expression-negative-timing.json",
+      "sha256": "e6e99d417420d07f9b309a6b0a872c18258863b0e2df09805449d0e451f1df2e"
+    },
+    {
+      "original_path": "reports/raw/codeql-rust-kernel/dfb-taint-rust-return-relay-two-hop-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-rust-kernel-attempt-01/outputs/reports/raw/codeql-rust-kernel/dfb-taint-rust-return-relay-two-hop-negative-timing.json",
+      "sha256": "ff33cdbd6824487134820d3415849e46876af38311dc381a1bdd1633364462b8"
+    },
+    {
+      "original_path": "reports/raw/codeql-rust-kernel/dfb-taint-rust-return-relay-one-hop-negative.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-rust-kernel-attempt-01/outputs/reports/raw/codeql-rust-kernel/dfb-taint-rust-return-relay-one-hop-negative.sarif.json",
+      "sha256": "be801c24a80490c9b62f530e92cc504e490b22f4666e8fa5646d6ee89116c6d9"
+    },
+    {
+      "original_path": "reports/raw/codeql-rust-kernel/dfb-taint-rust-alias-propagation-negative.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-rust-kernel-attempt-01/outputs/reports/raw/codeql-rust-kernel/dfb-taint-rust-alias-propagation-negative.sarif.json",
+      "sha256": "08a7c554cd2d7e23853e82df592e6955118f37b8554d404dec08ea2b1324030b"
+    },
+    {
+      "original_path": "reports/raw/codeql-rust-kernel/dfb-taint-rust-loop-carried-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-rust-kernel-attempt-01/outputs/reports/raw/codeql-rust-kernel/dfb-taint-rust-loop-carried-positive-timing.json",
+      "sha256": "160885972c92f6bd0ecb54f7eb41ac2d2e70eb080300e371b35b913dc7038734"
+    },
+    {
+      "original_path": "reports/raw/codeql-rust-kernel/dfb-taint-rust-anonymous-implementation-positive.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-rust-kernel-attempt-01/outputs/reports/raw/codeql-rust-kernel/dfb-taint-rust-anonymous-implementation-positive.sarif.json",
+      "sha256": "221284f17a5fc6c61f0877562483b6f78a9f43486cd1f642761c3623b2eac5b9"
+    },
+    {
+      "original_path": "reports/raw/codeql-rust-kernel/dfb-taint-rust-return-relay-two-hop-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-rust-kernel-attempt-01/outputs/reports/raw/codeql-rust-kernel/dfb-taint-rust-return-relay-two-hop-positive-timing.json",
+      "sha256": "68c381fe1ffcea25e7e7699f55e0bc198d8226e6ca7fbe3c847ea5b51e228291"
+    },
+    {
+      "original_path": "reports/raw/codeql-rust-kernel/dfb-taint-rust-expression-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-rust-kernel-attempt-01/outputs/reports/raw/codeql-rust-kernel/dfb-taint-rust-expression-positive-timing.json",
+      "sha256": "c54d6c022e138305d383ef4cc8773602e94085df718b5bc65d268fe76c733577"
+    },
+    {
+      "original_path": "reports/raw/codeql-rust-kernel/dfb-taint-rust-same-object-field-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-rust-kernel-attempt-01/outputs/reports/raw/codeql-rust-kernel/dfb-taint-rust-same-object-field-negative-timing.json",
+      "sha256": "a25105654cd6436fb0ae2907b4de5e597bc43777d5e5d01ded63f5e5d0ed04b0"
+    },
+    {
+      "original_path": "reports/raw/codeql-rust-kernel/dfb-taint-rust-recursive-carry-positive.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-rust-kernel-attempt-01/outputs/reports/raw/codeql-rust-kernel/dfb-taint-rust-recursive-carry-positive.sarif.json",
+      "sha256": "502372451613cd7e61166776e0560515b7343ac8e21d37fcc5cea42de16d6fe4"
+    },
+    {
+      "original_path": "reports/raw/codeql-rust-kernel/dfb-taint-rust-computed-property-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-rust-kernel-attempt-01/outputs/reports/raw/codeql-rust-kernel/dfb-taint-rust-computed-property-positive-timing.json",
+      "sha256": "bbf9c602cadf69b96d8aed7436c2822f80d725d55eed87d00a20af42c33891d9"
+    },
+    {
+      "original_path": "reports/raw/codeql-rust-kernel/dfb-taint-rust-object-separation-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-rust-kernel-attempt-01/outputs/reports/raw/codeql-rust-kernel/dfb-taint-rust-object-separation-negative-timing.json",
+      "sha256": "a1fde16b522fdf698a0f3ff718c27a44b4565f9a28bdfb41a66114d167a0c0f8"
+    },
+    {
+      "original_path": "reports/raw/codeql-rust-kernel/dfb-taint-rust-local-overwrite-positive.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-rust-kernel-attempt-01/outputs/reports/raw/codeql-rust-kernel/dfb-taint-rust-local-overwrite-positive.sarif.json",
+      "sha256": "a35182beac4d3b4db12a037b865f1e16b01ecd38e8b9da6c226a59f65e7d34bd"
+    }
+  ],
+  "expected_output_roots": [
+    "reports/codeql-rust-kernel.json",
+    "reports/raw/codeql-rust-kernel"
+  ],
+  "missing_fresh_output_roots": [],
+  "removed_paths": []
+}

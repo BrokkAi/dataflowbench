@@ -1,0 +1,576 @@
+{
+  "id": "bifrost-c-kernel-attempt-02",
+  "planned_id": "bifrost-c-kernel",
+  "argv": [
+    "/Users/dave/.codex/worktrees/653a/dataflowbench/target/debug/dataflowbench",
+    "--population",
+    "v0.7.0",
+    "run-bifrost-c-kernel",
+    "--bifrost",
+    "/Users/dave/.cache/dataflowbench-tools/bifrost-v0.11.0/bifrost-v0.11.0-universal-apple-darwin/bifrost"
+  ],
+  "cwd": "/Users/dave/.codex/worktrees/653a/dataflowbench",
+  "input_commits": {
+    "corpus": "0c82e8093ff899d5ee72809a82c951ab76b5bb76",
+    "publication_infrastructure": "53050fa64628997e866303bcd5299d74f1e3e45d",
+    "pins": "c0899dab0d2c043dcc5b1aa6a1aad0e49f482fea"
+  },
+  "execution_revision": "d0d50697581bb35e9d50ff60cc0e22e2484eabf0",
+  "population": "v0.7.0",
+  "fixture_revision": "sha256:9df209ed3d7723a3ee33f2b289cf2afe34a3add781bdf2a2ac445de42b8d0151",
+  "plan": {
+    "path": "reports/releases/v0.7.1/plan.json",
+    "sha256": "cb948f4a5cff80b95d3dcc755ab8249d87449e43f70e6eb80a456789faf12f26"
+  },
+  "identities": {
+    "path": "reports/releases/v0.7.1/identities.json",
+    "sha256": "0b8b1bb07d1df1ec8687613bb355f5f6021a2c664d3488dc3bc763553ce1a83c"
+  },
+  "execution_access": "require_escalated",
+  "start_utc": "2026-09-07T21:26:33.740257+00:00",
+  "host": {
+    "platform": "macOS-26.6.2-arm64-arm-64bit",
+    "cpu_count": 10,
+    "load_before": [
+      4.736328125,
+      5.68798828125,
+      7.45751953125
+    ],
+    "load_after": [
+      5.8876953125,
+      5.91015625,
+      7.515625
+    ]
+  },
+  "settle_observations": [],
+  "cache_posture": "isolated case workspaces; local distributions and prefetched CodeQL packs; OS page cache uncontrolled; warm only for explicit warm series",
+  "supersedes": "bifrost-c-kernel-attempt-01",
+  "exit_code": 0,
+  "end_utc": "2026-09-07T21:26:44.798334+00:00",
+  "stdout": {
+    "path": "reports/releases/v0.7.1/attempts/bifrost-c-kernel-attempt-02/stdout.txt",
+    "sha256": "34f21ca9f29ba8381f4507db5de13d51265d9ab788e5662110e636540f7a2f73"
+  },
+  "stderr": {
+    "path": "reports/releases/v0.7.1/attempts/bifrost-c-kernel-attempt-02/stderr.txt",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "outputs": [
+    {
+      "original_path": "reports/bifrost-c-kernel.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-c-kernel-attempt-02/outputs/reports/bifrost-c-kernel.json",
+      "sha256": "41713490c40230560c5c9235eb4a2153d7a2d8cea90e8cc407f00abd63f4aef6"
+    },
+    {
+      "original_path": "reports/raw/bifrost-c-kernel/dfb-taint-c-alias-propagation-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-c-kernel-attempt-02/outputs/reports/raw/bifrost-c-kernel/dfb-taint-c-alias-propagation-negative.json",
+      "sha256": "780ce321f7fda9fe2cef2e8739ef68e6c134b6d653c6925b0127499b726ccc3c"
+    },
+    {
+      "original_path": "reports/raw/bifrost-c-kernel/dfb-taint-c-return-relay-two-hop-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-c-kernel-attempt-02/outputs/reports/raw/bifrost-c-kernel/dfb-taint-c-return-relay-two-hop-positive-timing.json",
+      "sha256": "aeced985653803eddf7b7652c3121a10bcb3f53a7ca027517a112ca9cd83ba6c"
+    },
+    {
+      "original_path": "reports/raw/bifrost-c-kernel/dfb-taint-c-call-context-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-c-kernel-attempt-02/outputs/reports/raw/bifrost-c-kernel/dfb-taint-c-call-context-negative-timing.json",
+      "sha256": "06811025d3c4a3a1f69ce10eda39efc6803b75cd617d4edb94b2facbf2481d16"
+    },
+    {
+      "original_path": "reports/raw/bifrost-c-kernel/dfb-taint-c-dispatch-table-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-c-kernel-attempt-02/outputs/reports/raw/bifrost-c-kernel/dfb-taint-c-dispatch-table-negative.json",
+      "sha256": "d453d9a62f684aa2c6c6f454d8d5882d60338b373c2187b8a99a854c9a66fcff"
+    },
+    {
+      "original_path": "reports/raw/bifrost-c-kernel/dfb-taint-c-call-context-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-c-kernel-attempt-02/outputs/reports/raw/bifrost-c-kernel/dfb-taint-c-call-context-positive-timing.json",
+      "sha256": "79762380d0266af5a2345319c5ef1f7727479ddb4a80fd1647e0f62c484fec65"
+    },
+    {
+      "original_path": "reports/raw/bifrost-c-kernel/dfb-taint-c-element-object-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-c-kernel-attempt-02/outputs/reports/raw/bifrost-c-kernel/dfb-taint-c-element-object-negative.json",
+      "sha256": "e14b3e903762e5fbcb53f6972b1562c96825a9922e9762f026390f348fcc7e1b"
+    },
+    {
+      "original_path": "reports/raw/bifrost-c-kernel/dfb-taint-c-recursive-carry-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-c-kernel-attempt-02/outputs/reports/raw/bifrost-c-kernel/dfb-taint-c-recursive-carry-positive.json",
+      "sha256": "f8265c828d74c10115c1154ca88215e3942070dfd08d3c485458aba0853b1203"
+    },
+    {
+      "original_path": "reports/raw/bifrost-c-kernel/dfb-taint-c-return-relay-two-hop-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-c-kernel-attempt-02/outputs/reports/raw/bifrost-c-kernel/dfb-taint-c-return-relay-two-hop-negative-timing.json",
+      "sha256": "875efdba853f5ecd5e2b343f04bbb42d1a4c7a0ac8c8d76667b25610c9aaacca"
+    },
+    {
+      "original_path": "reports/raw/bifrost-c-kernel/dfb-taint-c-call-context-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-c-kernel-attempt-02/outputs/reports/raw/bifrost-c-kernel/dfb-taint-c-call-context-negative.json",
+      "sha256": "cd2dc38d4afdb5313604b3756f60fd1b127d1050eb04de2138d05ccc6b514f7b"
+    },
+    {
+      "original_path": "reports/raw/bifrost-c-kernel/dfb-taint-c-element-object-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-c-kernel-attempt-02/outputs/reports/raw/bifrost-c-kernel/dfb-taint-c-element-object-positive.json",
+      "sha256": "7adb8c7591c6fcd9de97556b6cb1d5134c64d2b411a85dd18afeb42122e65027"
+    },
+    {
+      "original_path": "reports/raw/bifrost-c-kernel/dfb-taint-c-local-chain-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-c-kernel-attempt-02/outputs/reports/raw/bifrost-c-kernel/dfb-taint-c-local-chain-negative-timing.json",
+      "sha256": "5cff777c3f07a97a0b701bc230d5672fd225350a0a9ceda9bc0d59ce13664cee"
+    },
+    {
+      "original_path": "reports/raw/bifrost-c-kernel/dfb-taint-c-recursive-carry-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-c-kernel-attempt-02/outputs/reports/raw/bifrost-c-kernel/dfb-taint-c-recursive-carry-negative.json",
+      "sha256": "5ea600a60f3db905984f5cc5a04b916c049e893c10da1f17e9519da2bd238b09"
+    },
+    {
+      "original_path": "reports/raw/bifrost-c-kernel/dfb-taint-c-context-pair-depth2-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-c-kernel-attempt-02/outputs/reports/raw/bifrost-c-kernel/dfb-taint-c-context-pair-depth2-positive-timing.json",
+      "sha256": "662517e0b08b2ce96d760f4875c928cb13edd68784ada6abf22f26283cfb9d57"
+    },
+    {
+      "original_path": "reports/raw/bifrost-c-kernel/dfb-taint-c-callback-registration-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-c-kernel-attempt-02/outputs/reports/raw/bifrost-c-kernel/dfb-taint-c-callback-registration-negative-timing.json",
+      "sha256": "81ec223e6629e430c44c900c10643688f0cb4acff0253d8d8532de750aa2cd5a"
+    },
+    {
+      "original_path": "reports/raw/bifrost-c-kernel/dfb-taint-c-nested-access-path-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-c-kernel-attempt-02/outputs/reports/raw/bifrost-c-kernel/dfb-taint-c-nested-access-path-negative-timing.json",
+      "sha256": "4cdd82b706870da0903d8bc7ff6e65c9294e277cf6a6751d89d3dea601691564"
+    },
+    {
+      "original_path": "reports/raw/bifrost-c-kernel/dfb-taint-c-call-context-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-c-kernel-attempt-02/outputs/reports/raw/bifrost-c-kernel/dfb-taint-c-call-context-positive.json",
+      "sha256": "888ad0ebe5265a40a8de111eaa4c461dfc9696eac508e820b5bd1b6fe258fc53"
+    },
+    {
+      "original_path": "reports/raw/bifrost-c-kernel/dfb-taint-c-alias-propagation-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-c-kernel-attempt-02/outputs/reports/raw/bifrost-c-kernel/dfb-taint-c-alias-propagation-positive.json",
+      "sha256": "6a9b1c02868163576b9cf71ec539e92bd770be686fc29e95dee98f8cc4f01d3f"
+    },
+    {
+      "original_path": "reports/raw/bifrost-c-kernel/dfb-taint-c-local-chain-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-c-kernel-attempt-02/outputs/reports/raw/bifrost-c-kernel/dfb-taint-c-local-chain-positive-timing.json",
+      "sha256": "71580f23d62ca57bf66b7deda215c76177696504a6feb6bab867654429f5754a"
+    },
+    {
+      "original_path": "reports/raw/bifrost-c-kernel/dfb-taint-c-nested-access-path-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-c-kernel-attempt-02/outputs/reports/raw/bifrost-c-kernel/dfb-taint-c-nested-access-path-positive-timing.json",
+      "sha256": "c50c53672e8551626ab0fb4ee3519c646b01f5c006a9c4cf3b465702fdf44ef0"
+    },
+    {
+      "original_path": "reports/raw/bifrost-c-kernel/dfb-taint-c-callback-registration-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-c-kernel-attempt-02/outputs/reports/raw/bifrost-c-kernel/dfb-taint-c-callback-registration-positive-timing.json",
+      "sha256": "555eabc6e20703504ecb7f0853c4cb0b7a94076e0386b47da131d252c5f623e5"
+    },
+    {
+      "original_path": "reports/raw/bifrost-c-kernel/dfb-taint-c-context-pair-depth2-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-c-kernel-attempt-02/outputs/reports/raw/bifrost-c-kernel/dfb-taint-c-context-pair-depth2-negative-timing.json",
+      "sha256": "1a1d18c713710cf160c1034f817d15816d1cbaee883d801d8e529953bef0a028"
+    },
+    {
+      "original_path": "reports/raw/bifrost-c-kernel/dfb-taint-c-dispatch-table-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-c-kernel-attempt-02/outputs/reports/raw/bifrost-c-kernel/dfb-taint-c-dispatch-table-positive.json",
+      "sha256": "66befdbfd5b992964ed1ee3729b486d18ffe5b4b4c39663b77e4bb866dd784ff"
+    },
+    {
+      "original_path": "reports/raw/bifrost-c-kernel/dfb-taint-c-deep-relay-chain-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-c-kernel-attempt-02/outputs/reports/raw/bifrost-c-kernel/dfb-taint-c-deep-relay-chain-negative-timing.json",
+      "sha256": "cbef91266f9e5e383be0cbe682e420b8da91b224565b65c54d74d5b7194b3db9"
+    },
+    {
+      "original_path": "reports/raw/bifrost-c-kernel/dfb-taint-c-error-code-return-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-c-kernel-attempt-02/outputs/reports/raw/bifrost-c-kernel/dfb-taint-c-error-code-return-positive-timing.json",
+      "sha256": "c21bda00c0bb4d7fdf15a1e65eafd1ef3104391b2c2496629889a7251c8d6448"
+    },
+    {
+      "original_path": "reports/raw/bifrost-c-kernel/dfb-taint-c-callback-registration-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-c-kernel-attempt-02/outputs/reports/raw/bifrost-c-kernel/dfb-taint-c-callback-registration-positive.json",
+      "sha256": "559466fb3d2f24b3d4df3876c21e1c379e220751614b1cbac5a862b48c3c1b3f"
+    },
+    {
+      "original_path": "reports/raw/bifrost-c-kernel/dfb-taint-c-expression-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-c-kernel-attempt-02/outputs/reports/raw/bifrost-c-kernel/dfb-taint-c-expression-positive-timing.json",
+      "sha256": "57e5900ab6cda916495636151ae06ef9b94c0be8e1b006dd8524dfc12e73056a"
+    },
+    {
+      "original_path": "reports/raw/bifrost-c-kernel/dfb-taint-c-deep-relay-chain-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-c-kernel-attempt-02/outputs/reports/raw/bifrost-c-kernel/dfb-taint-c-deep-relay-chain-positive.json",
+      "sha256": "d15258986c72c2e0c08e929067aaf4767547ed68abeb84b3f134474ee9d1a095"
+    },
+    {
+      "original_path": "reports/raw/bifrost-c-kernel/run-environment.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-c-kernel-attempt-02/outputs/reports/raw/bifrost-c-kernel/run-environment.json",
+      "sha256": "6ad6a90ad4ebc22ac7adee450d368148c5e2d798755c90ac95413632663faf99"
+    },
+    {
+      "original_path": "reports/raw/bifrost-c-kernel/dfb-taint-c-deep-relay-chain-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-c-kernel-attempt-02/outputs/reports/raw/bifrost-c-kernel/dfb-taint-c-deep-relay-chain-positive-timing.json",
+      "sha256": "ddb402a958cd026bf50cbb63d2a4e08b2ac28cda6fee834aadfdca9b9ec1110b"
+    },
+    {
+      "original_path": "reports/raw/bifrost-c-kernel/dfb-taint-c-return-relay-two-hop-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-c-kernel-attempt-02/outputs/reports/raw/bifrost-c-kernel/dfb-taint-c-return-relay-two-hop-positive.json",
+      "sha256": "57a7bdeb6d41d064491dab10c2f6955928eb5812f40ab4c2bb8bede167a99808"
+    },
+    {
+      "original_path": "reports/raw/bifrost-c-kernel/dfb-taint-c-goto-cleanup-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-c-kernel-attempt-02/outputs/reports/raw/bifrost-c-kernel/dfb-taint-c-goto-cleanup-positive-timing.json",
+      "sha256": "5854b245c0ab82c4cdbd2919c7ce70aff6222fd3e30eeea9ad921a8d3759a343"
+    },
+    {
+      "original_path": "reports/raw/bifrost-c-kernel/dfb-taint-c-expression-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-c-kernel-attempt-02/outputs/reports/raw/bifrost-c-kernel/dfb-taint-c-expression-negative-timing.json",
+      "sha256": "c72caedaf2cd36d441595c1f31c2afe12c6bb6a4ddf011c59e9c3b608f440815"
+    },
+    {
+      "original_path": "reports/raw/bifrost-c-kernel/dfb-taint-c-deep-relay-chain-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-c-kernel-attempt-02/outputs/reports/raw/bifrost-c-kernel/dfb-taint-c-deep-relay-chain-negative.json",
+      "sha256": "c63e33dbc194a7ea803e3cbfd7d047286e3ea7805ebe0f411a4ddceaebc89433"
+    },
+    {
+      "original_path": "reports/raw/bifrost-c-kernel/dfb-taint-c-return-relay-two-hop-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-c-kernel-attempt-02/outputs/reports/raw/bifrost-c-kernel/dfb-taint-c-return-relay-two-hop-negative.json",
+      "sha256": "68c2fa2832dc267a7f9f17a0a7f0c78b16c066bf6db9e12a19038813819738a8"
+    },
+    {
+      "original_path": "reports/raw/bifrost-c-kernel/dfb-taint-c-map-iteration-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-c-kernel-attempt-02/outputs/reports/raw/bifrost-c-kernel/dfb-taint-c-map-iteration-positive-timing.json",
+      "sha256": "f90777df7c9542b187ef4d1165be8c0578a4fcf5125b25322a51a96d87f73577"
+    },
+    {
+      "original_path": "reports/raw/bifrost-c-kernel/dfb-taint-c-callback-registration-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-c-kernel-attempt-02/outputs/reports/raw/bifrost-c-kernel/dfb-taint-c-callback-registration-negative.json",
+      "sha256": "ec94dc71ca59a3161280c8f9eb3375e5181a59a988555b3471f43ba23bd7507e"
+    },
+    {
+      "original_path": "reports/raw/bifrost-c-kernel/dfb-taint-c-map-iteration-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-c-kernel-attempt-02/outputs/reports/raw/bifrost-c-kernel/dfb-taint-c-map-iteration-negative-timing.json",
+      "sha256": "3d04c4bf24e7df87afe7669a5c9f1ea81342ceedefde3063c39f025d22fb7fb3"
+    },
+    {
+      "original_path": "reports/raw/bifrost-c-kernel/dfb-taint-c-return-relay-one-hop-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-c-kernel-attempt-02/outputs/reports/raw/bifrost-c-kernel/dfb-taint-c-return-relay-one-hop-positive-timing.json",
+      "sha256": "a91ce9e733908260bd736cf5f5c0cc675afc22fedc26bf6a58470cdfc3a52772"
+    },
+    {
+      "original_path": "reports/raw/bifrost-c-kernel/dfb-taint-c-loop-carried-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-c-kernel-attempt-02/outputs/reports/raw/bifrost-c-kernel/dfb-taint-c-loop-carried-positive.json",
+      "sha256": "b7cf441b8a011f4cf0759e48ab12a00f6557a7e882a1f22a32a44d6b5b027aec"
+    },
+    {
+      "original_path": "reports/raw/bifrost-c-kernel/dfb-taint-c-alias-propagation-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-c-kernel-attempt-02/outputs/reports/raw/bifrost-c-kernel/dfb-taint-c-alias-propagation-negative-timing.json",
+      "sha256": "203dd4d6eeeb26657a0739c889ece0d4e077621c001b9d4e71fdc5891040ff9c"
+    },
+    {
+      "original_path": "reports/raw/bifrost-c-kernel/dfb-taint-c-direct-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-c-kernel-attempt-02/outputs/reports/raw/bifrost-c-kernel/dfb-taint-c-direct-negative.json",
+      "sha256": "41e4429cc9dbf74a5528e90db6b87a1c5ef7d8cd1ab553507e54062ecb37043a"
+    },
+    {
+      "original_path": "reports/raw/bifrost-c-kernel/dfb-taint-c-return-relay-one-hop-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-c-kernel-attempt-02/outputs/reports/raw/bifrost-c-kernel/dfb-taint-c-return-relay-one-hop-negative.json",
+      "sha256": "1686c25ea26604149d0af638ad690d6d60ac9c8d19ac2acc2594635a471d5de3"
+    },
+    {
+      "original_path": "reports/raw/bifrost-c-kernel/dfb-taint-c-infeasible-branch-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-c-kernel-attempt-02/outputs/reports/raw/bifrost-c-kernel/dfb-taint-c-infeasible-branch-positive.json",
+      "sha256": "95bb1c67b299b7e47d535275620c2cdb5b89ede4c321ed30ad4bd144b17682f2"
+    },
+    {
+      "original_path": "reports/raw/bifrost-c-kernel/dfb-taint-c-expression-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-c-kernel-attempt-02/outputs/reports/raw/bifrost-c-kernel/dfb-taint-c-expression-positive.json",
+      "sha256": "f417a29bcdb2c4a3a7dff0f9979021f8f569ce210e03b3fad8c06afe9cf0e6f0"
+    },
+    {
+      "original_path": "reports/raw/bifrost-c-kernel/dfb-taint-c-alias-propagation-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-c-kernel-attempt-02/outputs/reports/raw/bifrost-c-kernel/dfb-taint-c-alias-propagation-positive-timing.json",
+      "sha256": "d4c0c6613954f76a110bf8fcbbadd005010654916b85d92ad02bab4b775aa67a"
+    },
+    {
+      "original_path": "reports/raw/bifrost-c-kernel/dfb-taint-c-return-relay-one-hop-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-c-kernel-attempt-02/outputs/reports/raw/bifrost-c-kernel/dfb-taint-c-return-relay-one-hop-negative-timing.json",
+      "sha256": "805ffed850fcac9797bd0de6f2943e35f8ae0d67ad8601a76a7e31ec2b4dea5a"
+    },
+    {
+      "original_path": "reports/raw/bifrost-c-kernel/dfb-taint-c-map-iteration-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-c-kernel-attempt-02/outputs/reports/raw/bifrost-c-kernel/dfb-taint-c-map-iteration-negative.json",
+      "sha256": "a19057a17951980a51dc7733d54a7273c8d1bc590bad401b8cb874f62a60918e"
+    },
+    {
+      "original_path": "reports/raw/bifrost-c-kernel/dfb-taint-c-local-overwrite-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-c-kernel-attempt-02/outputs/reports/raw/bifrost-c-kernel/dfb-taint-c-local-overwrite-positive.json",
+      "sha256": "38fd129025ab578053e30fcad5a738caea5eef30e013968869555a6045bfce4b"
+    },
+    {
+      "original_path": "reports/raw/bifrost-c-kernel/dfb-taint-c-array-element-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-c-kernel-attempt-02/outputs/reports/raw/bifrost-c-kernel/dfb-taint-c-array-element-positive.json",
+      "sha256": "c06d9e718f1641ea08ebe9bf33c47dd54e5eb7b5677120ad36d28e31b3e24a27"
+    },
+    {
+      "original_path": "reports/raw/bifrost-c-kernel/dfb-taint-c-error-code-return-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-c-kernel-attempt-02/outputs/reports/raw/bifrost-c-kernel/dfb-taint-c-error-code-return-positive.json",
+      "sha256": "57c293ab38822bc0453332a08fc57a1b2e101dddf02b815de35552b69e02e6bd"
+    },
+    {
+      "original_path": "reports/raw/bifrost-c-kernel/dfb-taint-c-object-separation-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-c-kernel-attempt-02/outputs/reports/raw/bifrost-c-kernel/dfb-taint-c-object-separation-positive-timing.json",
+      "sha256": "4e2ba359c681d8017e82ac5edacca1a90780f841b3d94e2b93d5d26d1ef9011b"
+    },
+    {
+      "original_path": "reports/raw/bifrost-c-kernel/dfb-taint-c-same-object-field-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-c-kernel-attempt-02/outputs/reports/raw/bifrost-c-kernel/dfb-taint-c-same-object-field-positive-timing.json",
+      "sha256": "d7feca17e7e92c66466a638b404e2a0078ed350ac09bf5d84e4298041e53bd4b"
+    },
+    {
+      "original_path": "reports/raw/bifrost-c-kernel/dfb-taint-c-map-iteration-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-c-kernel-attempt-02/outputs/reports/raw/bifrost-c-kernel/dfb-taint-c-map-iteration-positive.json",
+      "sha256": "6ce8a810b3d8dd8913a346a14b5ff9e54543a505227855282721c80585af2bfe"
+    },
+    {
+      "original_path": "reports/raw/bifrost-c-kernel/dfb-taint-c-local-overwrite-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-c-kernel-attempt-02/outputs/reports/raw/bifrost-c-kernel/dfb-taint-c-local-overwrite-negative.json",
+      "sha256": "a9e51e1d73888c5adb0fa5a44567a793f7e13433c5c03bdf7c7658b805524fbe"
+    },
+    {
+      "original_path": "reports/raw/bifrost-c-kernel/dfb-taint-c-element-object-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-c-kernel-attempt-02/outputs/reports/raw/bifrost-c-kernel/dfb-taint-c-element-object-positive-timing.json",
+      "sha256": "105798dc079eabf856dcef171fb4b6470d724dd758d925a0e3167dbbea66791e"
+    },
+    {
+      "original_path": "reports/raw/bifrost-c-kernel/dfb-taint-c-loop-carried-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-c-kernel-attempt-02/outputs/reports/raw/bifrost-c-kernel/dfb-taint-c-loop-carried-negative-timing.json",
+      "sha256": "e72810d46598385f705ad4f58b38f180852a072006740e35512c860077def365"
+    },
+    {
+      "original_path": "reports/raw/bifrost-c-kernel/dfb-taint-c-array-element-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-c-kernel-attempt-02/outputs/reports/raw/bifrost-c-kernel/dfb-taint-c-array-element-negative.json",
+      "sha256": "ede48da8e254aeec39fc559b1fb229e3590211348bb503865200b35595381b73"
+    },
+    {
+      "original_path": "reports/raw/bifrost-c-kernel/dfb-taint-c-object-separation-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-c-kernel-attempt-02/outputs/reports/raw/bifrost-c-kernel/dfb-taint-c-object-separation-negative-timing.json",
+      "sha256": "5f55cb39f60dbff73e8a24e2c86235b52ecb1db0454875bb0eef842673735c06"
+    },
+    {
+      "original_path": "reports/raw/bifrost-c-kernel/dfb-taint-c-same-object-field-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-c-kernel-attempt-02/outputs/reports/raw/bifrost-c-kernel/dfb-taint-c-same-object-field-negative-timing.json",
+      "sha256": "820f9131034a2e5827656a29be9cef82bd6e1625678b9df71ca86d0d6f16b5f4"
+    },
+    {
+      "original_path": "reports/raw/bifrost-c-kernel/dfb-taint-c-loop-carried-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-c-kernel-attempt-02/outputs/reports/raw/bifrost-c-kernel/dfb-taint-c-loop-carried-negative.json",
+      "sha256": "3270b956edd99a7e09ad5c73076d87639f744c5a02c1b7fc556a480017c79758"
+    },
+    {
+      "original_path": "reports/raw/bifrost-c-kernel/dfb-taint-c-direct-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-c-kernel-attempt-02/outputs/reports/raw/bifrost-c-kernel/dfb-taint-c-direct-positive.json",
+      "sha256": "a4ddaeef10a7129a03ede4ee83e2b1f645ee8cbd01f6c65bdb351d283a9b2e2f"
+    },
+    {
+      "original_path": "reports/raw/bifrost-c-kernel/dfb-taint-c-loop-carried-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-c-kernel-attempt-02/outputs/reports/raw/bifrost-c-kernel/dfb-taint-c-loop-carried-positive-timing.json",
+      "sha256": "6b628a0ffeb3e975022c5173aefc935d117cf3f31d4ecb0164774e7befd3cec3"
+    },
+    {
+      "original_path": "reports/raw/bifrost-c-kernel/dfb-taint-c-return-relay-one-hop-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-c-kernel-attempt-02/outputs/reports/raw/bifrost-c-kernel/dfb-taint-c-return-relay-one-hop-positive.json",
+      "sha256": "1550b8234eafd468a05b660e49e7b637becd6664736523ed0266c9389d264006"
+    },
+    {
+      "original_path": "reports/raw/bifrost-c-kernel/dfb-taint-c-infeasible-branch-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-c-kernel-attempt-02/outputs/reports/raw/bifrost-c-kernel/dfb-taint-c-infeasible-branch-negative.json",
+      "sha256": "ee8b33256994cbec156b261dc07aa43479c98e86c2071a49e0622b6e82be322d"
+    },
+    {
+      "original_path": "reports/raw/bifrost-c-kernel/dfb-taint-c-expression-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-c-kernel-attempt-02/outputs/reports/raw/bifrost-c-kernel/dfb-taint-c-expression-negative.json",
+      "sha256": "c61c4025d3a3006598d93dae52ce9b3896418dce66e92975091fb4b928c4f18a"
+    },
+    {
+      "original_path": "reports/raw/bifrost-c-kernel/dfb-taint-c-element-object-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-c-kernel-attempt-02/outputs/reports/raw/bifrost-c-kernel/dfb-taint-c-element-object-negative-timing.json",
+      "sha256": "2e628ebdc97fa1ae023a3948d05d5da99b2ab944fd9e90a2ba4a784789110f09"
+    },
+    {
+      "original_path": "reports/raw/bifrost-c-kernel/dfb-taint-c-branch-join-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-c-kernel-attempt-02/outputs/reports/raw/bifrost-c-kernel/dfb-taint-c-branch-join-negative-timing.json",
+      "sha256": "0231f1ec0069d00969ef91f0086eecafd8c9bd889dbf2ebdad78f3ae9f3a9d4e"
+    },
+    {
+      "original_path": "reports/raw/bifrost-c-kernel/dfb-taint-c-recursive-carry-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-c-kernel-attempt-02/outputs/reports/raw/bifrost-c-kernel/dfb-taint-c-recursive-carry-negative-timing.json",
+      "sha256": "4aac646660f60c5b0b056b463edf8a3508aa15e7aac9c0155032c7da9b5da161"
+    },
+    {
+      "original_path": "reports/raw/bifrost-c-kernel/dfb-taint-c-context-pair-depth2-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-c-kernel-attempt-02/outputs/reports/raw/bifrost-c-kernel/dfb-taint-c-context-pair-depth2-negative.json",
+      "sha256": "5975ece7d6478cebfc71d0d789567ebd067737cdbab28d38425ba04c4fcd16b7"
+    },
+    {
+      "original_path": "reports/raw/bifrost-c-kernel/dfb-taint-c-function-field-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-c-kernel-attempt-02/outputs/reports/raw/bifrost-c-kernel/dfb-taint-c-function-field-negative.json",
+      "sha256": "1489359333f08833bcf0276c50f09dabab68662db2fa82c492a3c29ca016d36d"
+    },
+    {
+      "original_path": "reports/raw/bifrost-c-kernel/dfb-taint-c-branch-join-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-c-kernel-attempt-02/outputs/reports/raw/bifrost-c-kernel/dfb-taint-c-branch-join-negative.json",
+      "sha256": "4e362563a9251237f57a798fe2bb7550a9cd3afdce5c2315b9571ae2b9ffb41e"
+    },
+    {
+      "original_path": "reports/raw/bifrost-c-kernel/dfb-taint-c-argument-position-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-c-kernel-attempt-02/outputs/reports/raw/bifrost-c-kernel/dfb-taint-c-argument-position-positive.json",
+      "sha256": "2b75b2503209a456885ae1c2009346c108b9b5f90759bf35647ab8cf8672ac9d"
+    },
+    {
+      "original_path": "reports/raw/bifrost-c-kernel/dfb-taint-c-same-object-field-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-c-kernel-attempt-02/outputs/reports/raw/bifrost-c-kernel/dfb-taint-c-same-object-field-negative.json",
+      "sha256": "7f5472d84280377655a1cc730bba1f83259650468b6922efbc8634f8c253c02a"
+    },
+    {
+      "original_path": "reports/raw/bifrost-c-kernel/dfb-taint-c-goto-cleanup-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-c-kernel-attempt-02/outputs/reports/raw/bifrost-c-kernel/dfb-taint-c-goto-cleanup-positive.json",
+      "sha256": "e4f55aecb3a343e3d174ccfcb836c94c73ebf147ed01a92752dc7dce9ca53428"
+    },
+    {
+      "original_path": "reports/raw/bifrost-c-kernel/dfb-taint-c-branch-join-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-c-kernel-attempt-02/outputs/reports/raw/bifrost-c-kernel/dfb-taint-c-branch-join-positive-timing.json",
+      "sha256": "8c02cf14fffc3dbfefb2195e5356f2aa44ef453b6635f2b74333500dc0d6ec85"
+    },
+    {
+      "original_path": "reports/raw/bifrost-c-kernel/dfb-taint-c-local-chain-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-c-kernel-attempt-02/outputs/reports/raw/bifrost-c-kernel/dfb-taint-c-local-chain-negative.json",
+      "sha256": "d0f828667c86fdb8177599c790b66626020bc4060c5db19fa565442de4ed4aae"
+    },
+    {
+      "original_path": "reports/raw/bifrost-c-kernel/dfb-taint-c-recursive-carry-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-c-kernel-attempt-02/outputs/reports/raw/bifrost-c-kernel/dfb-taint-c-recursive-carry-positive-timing.json",
+      "sha256": "ecfbd17c1532ea1ece24317212532783e5c47c195490967518be841bfa111c96"
+    },
+    {
+      "original_path": "reports/raw/bifrost-c-kernel/dfb-taint-c-nested-access-path-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-c-kernel-attempt-02/outputs/reports/raw/bifrost-c-kernel/dfb-taint-c-nested-access-path-negative.json",
+      "sha256": "9b4389e027ba7b7d6f48bdcd1e6e57a7e03bcf078a895343f823a499a20f77ce"
+    },
+    {
+      "original_path": "reports/raw/bifrost-c-kernel/dfb-taint-c-object-separation-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-c-kernel-attempt-02/outputs/reports/raw/bifrost-c-kernel/dfb-taint-c-object-separation-negative.json",
+      "sha256": "4476aca330d7640b8657c71e1191c937156c5f16e906b4533261763f63174f95"
+    },
+    {
+      "original_path": "reports/raw/bifrost-c-kernel/dfb-taint-c-same-object-field-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-c-kernel-attempt-02/outputs/reports/raw/bifrost-c-kernel/dfb-taint-c-same-object-field-positive.json",
+      "sha256": "943d73446e4d23318ed93e048d60a739e713810dbbc6946ad2609eb9e0e81d0d"
+    },
+    {
+      "original_path": "reports/raw/bifrost-c-kernel/dfb-taint-c-array-element-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-c-kernel-attempt-02/outputs/reports/raw/bifrost-c-kernel/dfb-taint-c-array-element-positive-timing.json",
+      "sha256": "b6592a23ebee476eb54d0c95dec30f0f84d2c3ec525c02ed8bdfd49c29533d77"
+    },
+    {
+      "original_path": "reports/raw/bifrost-c-kernel/dfb-taint-c-function-field-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-c-kernel-attempt-02/outputs/reports/raw/bifrost-c-kernel/dfb-taint-c-function-field-negative-timing.json",
+      "sha256": "63cd70199e36c434f5b1029ec504c7bef3d218048b0c49cb1005500bfa36f773"
+    },
+    {
+      "original_path": "reports/raw/bifrost-c-kernel/dfb-taint-c-dispatch-table-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-c-kernel-attempt-02/outputs/reports/raw/bifrost-c-kernel/dfb-taint-c-dispatch-table-negative-timing.json",
+      "sha256": "4ef4b00f0833bf3e91bc2d5c7fcaa026c86bc28d9cc32c6bbda8c2243824bbfb"
+    },
+    {
+      "original_path": "reports/raw/bifrost-c-kernel/dfb-taint-c-local-chain-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-c-kernel-attempt-02/outputs/reports/raw/bifrost-c-kernel/dfb-taint-c-local-chain-positive.json",
+      "sha256": "b8a0852b9fc80edc31cea668f90adcad94f6df7267c99b383f9fb46a11ebce49"
+    },
+    {
+      "original_path": "reports/raw/bifrost-c-kernel/dfb-taint-c-local-overwrite-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-c-kernel-attempt-02/outputs/reports/raw/bifrost-c-kernel/dfb-taint-c-local-overwrite-positive-timing.json",
+      "sha256": "781cfc98d2106ca5d9ac6630c466b66cf6311caa052414c2a7e390047ab9637e"
+    },
+    {
+      "original_path": "reports/raw/bifrost-c-kernel/dfb-taint-c-argument-position-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-c-kernel-attempt-02/outputs/reports/raw/bifrost-c-kernel/dfb-taint-c-argument-position-negative-timing.json",
+      "sha256": "32e4cfa75efd8ecd17be6662be26706849cc669fb30bb12dcf5b3f4c2045ec8b"
+    },
+    {
+      "original_path": "reports/raw/bifrost-c-kernel/dfb-taint-c-direct-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-c-kernel-attempt-02/outputs/reports/raw/bifrost-c-kernel/dfb-taint-c-direct-negative-timing.json",
+      "sha256": "71329eb1fa4850fe22b9616791cff152b0fd94ed43a5f6fadf05ea8277f3640c"
+    },
+    {
+      "original_path": "reports/raw/bifrost-c-kernel/dfb-taint-c-nested-access-path-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-c-kernel-attempt-02/outputs/reports/raw/bifrost-c-kernel/dfb-taint-c-nested-access-path-positive.json",
+      "sha256": "9f3f3106ee88f7cc8829c742fec08d2f7713d0957babe37d51d51609f938d36e"
+    },
+    {
+      "original_path": "reports/raw/bifrost-c-kernel/dfb-taint-c-object-separation-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-c-kernel-attempt-02/outputs/reports/raw/bifrost-c-kernel/dfb-taint-c-object-separation-positive.json",
+      "sha256": "027673502eccb6e5cc2c907df086b735413f278a32d5248068c644ac206f3479"
+    },
+    {
+      "original_path": "reports/raw/bifrost-c-kernel/dfb-taint-c-infeasible-branch-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-c-kernel-attempt-02/outputs/reports/raw/bifrost-c-kernel/dfb-taint-c-infeasible-branch-negative-timing.json",
+      "sha256": "e4713d7e9d2f01b2846229d83f622e409a8f37894825d916124254cb600803a6"
+    },
+    {
+      "original_path": "reports/raw/bifrost-c-kernel/dfb-taint-c-argument-position-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-c-kernel-attempt-02/outputs/reports/raw/bifrost-c-kernel/dfb-taint-c-argument-position-positive-timing.json",
+      "sha256": "834c1b7194c55faf6657369c80bc5593b676db311340a5ec6951ca63413aff30"
+    },
+    {
+      "original_path": "reports/raw/bifrost-c-kernel/dfb-taint-c-dispatch-table-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-c-kernel-attempt-02/outputs/reports/raw/bifrost-c-kernel/dfb-taint-c-dispatch-table-positive-timing.json",
+      "sha256": "0cfd0d19be555d649d756ebb912baa793d596565633e773182847f8503c682e7"
+    },
+    {
+      "original_path": "reports/raw/bifrost-c-kernel/dfb-taint-c-local-overwrite-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-c-kernel-attempt-02/outputs/reports/raw/bifrost-c-kernel/dfb-taint-c-local-overwrite-negative-timing.json",
+      "sha256": "6619ef1e0c31381808678cd4cd27e8ed5ea81baaa9124bde387eee97f5e23228"
+    },
+    {
+      "original_path": "reports/raw/bifrost-c-kernel/dfb-taint-c-array-element-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-c-kernel-attempt-02/outputs/reports/raw/bifrost-c-kernel/dfb-taint-c-array-element-negative-timing.json",
+      "sha256": "6de1782faf0a1551f98f4709f610cb3343c3eb0212c9f39c78bf5bda2f1c32d9"
+    },
+    {
+      "original_path": "reports/raw/bifrost-c-kernel/dfb-taint-c-function-field-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-c-kernel-attempt-02/outputs/reports/raw/bifrost-c-kernel/dfb-taint-c-function-field-positive-timing.json",
+      "sha256": "7f7a3172e19c362b5f7a1068ec0d8a33af5e8598064d0a1ead010a886f8b8c52"
+    },
+    {
+      "original_path": "reports/raw/bifrost-c-kernel/dfb-taint-c-context-pair-depth2-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-c-kernel-attempt-02/outputs/reports/raw/bifrost-c-kernel/dfb-taint-c-context-pair-depth2-positive.json",
+      "sha256": "3a41d6a6d5c13e43136a9231bc79c7d4e890e58fa2c5213aed7a2fc322e55d7c"
+    },
+    {
+      "original_path": "reports/raw/bifrost-c-kernel/dfb-taint-c-infeasible-branch-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-c-kernel-attempt-02/outputs/reports/raw/bifrost-c-kernel/dfb-taint-c-infeasible-branch-positive-timing.json",
+      "sha256": "aaa76a2830915e0d420658232f758555d877d971ce2c1ec2efa47a7a27949445"
+    },
+    {
+      "original_path": "reports/raw/bifrost-c-kernel/dfb-taint-c-function-field-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-c-kernel-attempt-02/outputs/reports/raw/bifrost-c-kernel/dfb-taint-c-function-field-positive.json",
+      "sha256": "8ff3e57ed42c5907e3e6a6a945a6dd646ae87ebf7910afcc157cfbbda1d45132"
+    },
+    {
+      "original_path": "reports/raw/bifrost-c-kernel/dfb-taint-c-branch-join-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-c-kernel-attempt-02/outputs/reports/raw/bifrost-c-kernel/dfb-taint-c-branch-join-positive.json",
+      "sha256": "34f2f73275bbdb92aacf06ca50938c71aeda9ea523de0c44d19727703505a27b"
+    },
+    {
+      "original_path": "reports/raw/bifrost-c-kernel/dfb-taint-c-argument-position-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-c-kernel-attempt-02/outputs/reports/raw/bifrost-c-kernel/dfb-taint-c-argument-position-negative.json",
+      "sha256": "52f3cab712c931a14baddf21d8d7a82c1b3880aa10e1b3a04ff80a5486c029cf"
+    },
+    {
+      "original_path": "reports/raw/bifrost-c-kernel/dfb-taint-c-direct-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-c-kernel-attempt-02/outputs/reports/raw/bifrost-c-kernel/dfb-taint-c-direct-positive-timing.json",
+      "sha256": "95a3586b393429e9d7388f5b317f56a910542c4edbeee182269c45633a88984c"
+    }
+  ],
+  "expected_output_roots": [
+    "reports/bifrost-c-kernel.json",
+    "reports/raw/bifrost-c-kernel"
+  ],
+  "missing_fresh_output_roots": [],
+  "removed_paths": []
+}

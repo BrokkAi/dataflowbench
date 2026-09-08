@@ -1,0 +1,18 @@
+{
+  "activation_arguments": [
+    "--pulse-only"
+  ],
+  "activation_identity": "v1.3.0 shipped Pulse checker, no taint configuration",
+  "adapter": "infer",
+  "case_id": "dfb-taint-java-native-sanitizer-negative",
+  "evidence_kind": "retained-capability-decision",
+  "model_profile": "tool-native",
+  "modeling_category": "Z",
+  "modeling_category_label": "declared sanitizers",
+  "partition_source": "docs/native-profile.md#partition-summary",
+  "reason": "tool-native activation of dfb-template-native-sanitizer (category Z — declared sanitizers) is unsupported for v1.3.0 over Java by the activation partition (docs/native-profile.md#partition-summary, as amended): same measured silence (Amendment A14): the sanitizer surface Amendment A13 measured load-bearing is reachable only through `--pulse-taint-config`, which this profile's activation contract supplies nothing through, and the shipped product declares no sanitizer and no endpoints for one to sit between",
+  "stage": "preregistered-native-activation-partition",
+  "state": "unsupported",
+  "template_id": "dfb-template-native-sanitizer",
+  "witnessed_tool_identity": "v1.3.0"
+}

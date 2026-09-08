@@ -1,0 +1,656 @@
+{
+  "id": "bifrost-go-kernel-attempt-02",
+  "planned_id": "bifrost-go-kernel",
+  "argv": [
+    "/Users/dave/.codex/worktrees/653a/dataflowbench/target/debug/dataflowbench",
+    "--population",
+    "v0.7.0",
+    "run-bifrost-go-kernel",
+    "--bifrost",
+    "/Users/dave/.cache/dataflowbench-tools/bifrost-v0.11.0/bifrost-v0.11.0-universal-apple-darwin/bifrost"
+  ],
+  "cwd": "/Users/dave/.codex/worktrees/653a/dataflowbench",
+  "input_commits": {
+    "corpus": "0c82e8093ff899d5ee72809a82c951ab76b5bb76",
+    "publication_infrastructure": "53050fa64628997e866303bcd5299d74f1e3e45d",
+    "pins": "c0899dab0d2c043dcc5b1aa6a1aad0e49f482fea"
+  },
+  "execution_revision": "d0d50697581bb35e9d50ff60cc0e22e2484eabf0",
+  "population": "v0.7.0",
+  "fixture_revision": "sha256:9df209ed3d7723a3ee33f2b289cf2afe34a3add781bdf2a2ac445de42b8d0151",
+  "plan": {
+    "path": "reports/releases/v0.7.1/plan.json",
+    "sha256": "cb948f4a5cff80b95d3dcc755ab8249d87449e43f70e6eb80a456789faf12f26"
+  },
+  "identities": {
+    "path": "reports/releases/v0.7.1/identities.json",
+    "sha256": "0b8b1bb07d1df1ec8687613bb355f5f6021a2c664d3488dc3bc763553ce1a83c"
+  },
+  "execution_access": "require_escalated",
+  "start_utc": "2026-09-07T21:27:13.586839+00:00",
+  "host": {
+    "platform": "macOS-26.6.2-arm64-arm-64bit",
+    "cpu_count": 10,
+    "load_before": [
+      5.63623046875,
+      5.8525390625,
+      7.43798828125
+    ],
+    "load_after": [
+      5.451171875,
+      5.80712890625,
+      7.40283203125
+    ]
+  },
+  "settle_observations": [],
+  "cache_posture": "isolated case workspaces; local distributions and prefetched CodeQL packs; OS page cache uncontrolled; warm only for explicit warm series",
+  "supersedes": "bifrost-go-kernel-attempt-01",
+  "exit_code": 0,
+  "end_utc": "2026-09-07T21:27:27.845771+00:00",
+  "stdout": {
+    "path": "reports/releases/v0.7.1/attempts/bifrost-go-kernel-attempt-02/stdout.txt",
+    "sha256": "de37c5ae7f0b6c3143b949b1bf6aa7e879dd8c723629179bf24c94b96b498797"
+  },
+  "stderr": {
+    "path": "reports/releases/v0.7.1/attempts/bifrost-go-kernel-attempt-02/stderr.txt",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "outputs": [
+    {
+      "original_path": "reports/bifrost-go-kernel.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-go-kernel-attempt-02/outputs/reports/bifrost-go-kernel.json",
+      "sha256": "b9e8c94bd0333c23cee21935de3c78968dda9506634023e19a7aaf144e1aed18"
+    },
+    {
+      "original_path": "reports/raw/bifrost-go-kernel/dfb-taint-go-function-field-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-go-kernel-attempt-02/outputs/reports/raw/bifrost-go-kernel/dfb-taint-go-function-field-negative-timing.json",
+      "sha256": "d5bba7241afc5b55c2e8788a7bd7ec2839c4576e43e104408007b10a617cc622"
+    },
+    {
+      "original_path": "reports/raw/bifrost-go-kernel/dfb-taint-go-map-iteration-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-go-kernel-attempt-02/outputs/reports/raw/bifrost-go-kernel/dfb-taint-go-map-iteration-negative-timing.json",
+      "sha256": "597bc9dee31d497b9e0f140a904baffca9ec61957c64bdc2fc8ff0fc7ca5fb1c"
+    },
+    {
+      "original_path": "reports/raw/bifrost-go-kernel/dfb-taint-go-dispatch-table-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-go-kernel-attempt-02/outputs/reports/raw/bifrost-go-kernel/dfb-taint-go-dispatch-table-negative-timing.json",
+      "sha256": "28f7c0b5068e5d0b55cead5a454d50323d0cc267a466577c2d8074783b58f46b"
+    },
+    {
+      "original_path": "reports/raw/bifrost-go-kernel/dfb-taint-go-nested-access-path-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-go-kernel-attempt-02/outputs/reports/raw/bifrost-go-kernel/dfb-taint-go-nested-access-path-positive-timing.json",
+      "sha256": "2e57997849b691d8d21c21255467ad8a16a21e83eb3c17a2755c047ab8ee134e"
+    },
+    {
+      "original_path": "reports/raw/bifrost-go-kernel/dfb-taint-go-call-context-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-go-kernel-attempt-02/outputs/reports/raw/bifrost-go-kernel/dfb-taint-go-call-context-positive-timing.json",
+      "sha256": "41efcd51d38781badb41cd3400ebdbc13a2e5611a9bba6f6a45069e15bbbe280"
+    },
+    {
+      "original_path": "reports/raw/bifrost-go-kernel/dfb-taint-go-return-relay-one-hop-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-go-kernel-attempt-02/outputs/reports/raw/bifrost-go-kernel/dfb-taint-go-return-relay-one-hop-positive-timing.json",
+      "sha256": "5f8c471ffc5b94f00bd75a879d6d3df46457383a63f0e83ea71274ad6730a9d7"
+    },
+    {
+      "original_path": "reports/raw/bifrost-go-kernel/dfb-taint-go-object-separation-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-go-kernel-attempt-02/outputs/reports/raw/bifrost-go-kernel/dfb-taint-go-object-separation-negative-timing.json",
+      "sha256": "98fcaa7d7baa0c5cf6f3168d60f5432ca800220ed885c067db4e56a3aecf3dbe"
+    },
+    {
+      "original_path": "reports/raw/bifrost-go-kernel/dfb-taint-go-computed-property-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-go-kernel-attempt-02/outputs/reports/raw/bifrost-go-kernel/dfb-taint-go-computed-property-positive-timing.json",
+      "sha256": "7eda0c77424e7c935821f2f92c16272dc80c8f8e6f7e143418f19b8b11ffce1d"
+    },
+    {
+      "original_path": "reports/raw/bifrost-go-kernel/dfb-taint-go-same-object-field-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-go-kernel-attempt-02/outputs/reports/raw/bifrost-go-kernel/dfb-taint-go-same-object-field-negative-timing.json",
+      "sha256": "6154757e8809c8afea219c69f4d031882b41b30d992e80dc4b6ab91e8a7360ff"
+    },
+    {
+      "original_path": "reports/raw/bifrost-go-kernel/dfb-taint-go-dispatch-table-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-go-kernel-attempt-02/outputs/reports/raw/bifrost-go-kernel/dfb-taint-go-dispatch-table-positive-timing.json",
+      "sha256": "1566b34e59cb7ca9c1860cc16a6db73cf623f9f9651935eab093fb600e00286e"
+    },
+    {
+      "original_path": "reports/raw/bifrost-go-kernel/dfb-taint-go-map-iteration-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-go-kernel-attempt-02/outputs/reports/raw/bifrost-go-kernel/dfb-taint-go-map-iteration-positive-timing.json",
+      "sha256": "9fb5a9472ada9f31940a95037a75249ca0fd95a0989494b038a0bced4ead84f4"
+    },
+    {
+      "original_path": "reports/raw/bifrost-go-kernel/dfb-taint-go-infeasible-branch-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-go-kernel-attempt-02/outputs/reports/raw/bifrost-go-kernel/dfb-taint-go-infeasible-branch-positive.json",
+      "sha256": "59ef4604b4744889e323f933b204cd27d64441fc557f82702cba794726d4525e"
+    },
+    {
+      "original_path": "reports/raw/bifrost-go-kernel/dfb-taint-go-function-field-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-go-kernel-attempt-02/outputs/reports/raw/bifrost-go-kernel/dfb-taint-go-function-field-positive-timing.json",
+      "sha256": "ab19bb901518990e2b32fe763ea3fa3097dba038818ebb3629d0992f4296a404"
+    },
+    {
+      "original_path": "reports/raw/bifrost-go-kernel/dfb-taint-go-nested-access-path-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-go-kernel-attempt-02/outputs/reports/raw/bifrost-go-kernel/dfb-taint-go-nested-access-path-positive.json",
+      "sha256": "fb9fa502de518d347b1d3c64c312aed7a55258dad3121a1a4cb330e72080a0e2"
+    },
+    {
+      "original_path": "reports/raw/bifrost-go-kernel/dfb-taint-go-object-separation-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-go-kernel-attempt-02/outputs/reports/raw/bifrost-go-kernel/dfb-taint-go-object-separation-positive-timing.json",
+      "sha256": "9b838b5c769b7725ba0fe2e3f6e7fce7d8cc00ea1b14a96ec8280fcb347fa1af"
+    },
+    {
+      "original_path": "reports/raw/bifrost-go-kernel/dfb-taint-go-computed-property-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-go-kernel-attempt-02/outputs/reports/raw/bifrost-go-kernel/dfb-taint-go-computed-property-negative-timing.json",
+      "sha256": "66b4b049fa81ffdbba506f00cee01f405a347afbcbcee9e25f8f6d8e173fae8d"
+    },
+    {
+      "original_path": "reports/raw/bifrost-go-kernel/dfb-taint-go-same-object-field-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-go-kernel-attempt-02/outputs/reports/raw/bifrost-go-kernel/dfb-taint-go-same-object-field-positive-timing.json",
+      "sha256": "335bc47f38edb001772427f4bd3e1e4aa0a734a5e18e0cc83e8c53d9e7b76071"
+    },
+    {
+      "original_path": "reports/raw/bifrost-go-kernel/dfb-taint-go-return-relay-one-hop-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-go-kernel-attempt-02/outputs/reports/raw/bifrost-go-kernel/dfb-taint-go-return-relay-one-hop-negative-timing.json",
+      "sha256": "575b7d70e92a79a3e6ec2aa3e3d6e09e1d0a0759f0de48374e08a2a04abfab23"
+    },
+    {
+      "original_path": "reports/raw/bifrost-go-kernel/dfb-taint-go-call-context-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-go-kernel-attempt-02/outputs/reports/raw/bifrost-go-kernel/dfb-taint-go-call-context-negative-timing.json",
+      "sha256": "d6e6c5cc8790182d5e8dfc004169a478ec7c288e2ad4ed7b5c9fd8235d7a5282"
+    },
+    {
+      "original_path": "reports/raw/bifrost-go-kernel/dfb-taint-go-return-relay-two-hop-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-go-kernel-attempt-02/outputs/reports/raw/bifrost-go-kernel/dfb-taint-go-return-relay-two-hop-negative.json",
+      "sha256": "0e6ded32f72c9ebdc4ec2e829184975f02cff3f55a77244a818ea3a4869e6d79"
+    },
+    {
+      "original_path": "reports/raw/bifrost-go-kernel/dfb-taint-go-call-context-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-go-kernel-attempt-02/outputs/reports/raw/bifrost-go-kernel/dfb-taint-go-call-context-positive.json",
+      "sha256": "8027c63a77430c3e86d6fffd6bedb249fad6d3effd987caa39ffc993f6f0b3b3"
+    },
+    {
+      "original_path": "reports/raw/bifrost-go-kernel/dfb-taint-go-nested-access-path-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-go-kernel-attempt-02/outputs/reports/raw/bifrost-go-kernel/dfb-taint-go-nested-access-path-negative-timing.json",
+      "sha256": "286612f417be7a27474927b3ba7f0e204f708e20c37a79e1fcaf6c19118a2f9a"
+    },
+    {
+      "original_path": "reports/raw/bifrost-go-kernel/dfb-taint-go-branch-join-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-go-kernel-attempt-02/outputs/reports/raw/bifrost-go-kernel/dfb-taint-go-branch-join-positive-timing.json",
+      "sha256": "8936896d9fb35888160fc017edf55d4967f0d9bee8d0fe73c53879cf448a17ab"
+    },
+    {
+      "original_path": "reports/raw/bifrost-go-kernel/dfb-taint-go-infeasible-branch-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-go-kernel-attempt-02/outputs/reports/raw/bifrost-go-kernel/dfb-taint-go-infeasible-branch-negative.json",
+      "sha256": "ab7f5b5b38f88d53f324e85289c32fb1480514fe822e3cd4e8b792f243497d8e"
+    },
+    {
+      "original_path": "reports/raw/bifrost-go-kernel/dfb-taint-go-nested-access-path-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-go-kernel-attempt-02/outputs/reports/raw/bifrost-go-kernel/dfb-taint-go-nested-access-path-negative.json",
+      "sha256": "c9ec27f8c62dd213085d81489a51c536f9d0a9465f3bdbb53b5ed49dfd6304cb"
+    },
+    {
+      "original_path": "reports/raw/bifrost-go-kernel/dfb-taint-go-alias-propagation-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-go-kernel-attempt-02/outputs/reports/raw/bifrost-go-kernel/dfb-taint-go-alias-propagation-positive-timing.json",
+      "sha256": "e80da227c7b25db4b3616c761427d731c7c69714f340bf9b7372ed837ebf3df4"
+    },
+    {
+      "original_path": "reports/raw/bifrost-go-kernel/dfb-taint-go-return-relay-two-hop-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-go-kernel-attempt-02/outputs/reports/raw/bifrost-go-kernel/dfb-taint-go-return-relay-two-hop-positive.json",
+      "sha256": "08519ea752d7344219a2dcbd6e48bf06f40e9768af327a0972ac8047be231d7c"
+    },
+    {
+      "original_path": "reports/raw/bifrost-go-kernel/dfb-taint-go-call-context-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-go-kernel-attempt-02/outputs/reports/raw/bifrost-go-kernel/dfb-taint-go-call-context-negative.json",
+      "sha256": "68338faf545f237bb98b0ba6101f791f8aafe1dcd8705dc14a93015c00bd1f10"
+    },
+    {
+      "original_path": "reports/raw/bifrost-go-kernel/dfb-taint-go-branch-join-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-go-kernel-attempt-02/outputs/reports/raw/bifrost-go-kernel/dfb-taint-go-branch-join-negative-timing.json",
+      "sha256": "ece933dc35aa59140a02ddc7ce41a7bc53792c9dd07b1e785bebefbf064134f3"
+    },
+    {
+      "original_path": "reports/raw/bifrost-go-kernel/dfb-taint-go-alias-propagation-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-go-kernel-attempt-02/outputs/reports/raw/bifrost-go-kernel/dfb-taint-go-alias-propagation-negative-timing.json",
+      "sha256": "bab93cff8881a11c1889b6cadbc0ac6966f44e05c24876de5df8bf5583b420a7"
+    },
+    {
+      "original_path": "reports/raw/bifrost-go-kernel/dfb-taint-go-local-overwrite-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-go-kernel-attempt-02/outputs/reports/raw/bifrost-go-kernel/dfb-taint-go-local-overwrite-positive.json",
+      "sha256": "9ecc86c38349910cf25230a1d4ebdae8ee2559540a28fba8a9cd6bfe8db0d120"
+    },
+    {
+      "original_path": "reports/raw/bifrost-go-kernel/dfb-taint-go-deep-relay-chain-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-go-kernel-attempt-02/outputs/reports/raw/bifrost-go-kernel/dfb-taint-go-deep-relay-chain-positive.json",
+      "sha256": "b2614d740417e48c1dbf7258920bdcb6de83d296a9f11acae2f070acc9f3febc"
+    },
+    {
+      "original_path": "reports/raw/bifrost-go-kernel/dfb-taint-go-local-overwrite-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-go-kernel-attempt-02/outputs/reports/raw/bifrost-go-kernel/dfb-taint-go-local-overwrite-positive-timing.json",
+      "sha256": "930d54766f34c4078722d9e46612b8301429ac771d9f12c4505e66061860906e"
+    },
+    {
+      "original_path": "reports/raw/bifrost-go-kernel/dfb-taint-go-infeasible-branch-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-go-kernel-attempt-02/outputs/reports/raw/bifrost-go-kernel/dfb-taint-go-infeasible-branch-positive-timing.json",
+      "sha256": "378e9de7f9d3e002a5271d68b4c6d4c2a891bad2f4f793ca7854de12a2a5068d"
+    },
+    {
+      "original_path": "reports/raw/bifrost-go-kernel/dfb-taint-go-closure-capture-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-go-kernel-attempt-02/outputs/reports/raw/bifrost-go-kernel/dfb-taint-go-closure-capture-positive-timing.json",
+      "sha256": "9f102d9fa32c9f3e6b09107e0f7ce93bcde102914f5bd10c9bc3d450bed9ac4f"
+    },
+    {
+      "original_path": "reports/raw/bifrost-go-kernel/dfb-taint-go-object-separation-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-go-kernel-attempt-02/outputs/reports/raw/bifrost-go-kernel/dfb-taint-go-object-separation-negative.json",
+      "sha256": "493808408232f363716022c2c2b6399040bcf28ab12ed25e7ae4af921a4c78ac"
+    },
+    {
+      "original_path": "reports/raw/bifrost-go-kernel/dfb-taint-go-element-object-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-go-kernel-attempt-02/outputs/reports/raw/bifrost-go-kernel/dfb-taint-go-element-object-positive.json",
+      "sha256": "b3860ad69e08ab994beb09d2e19ccefce8906eb295d805a39680a50c4f20dd91"
+    },
+    {
+      "original_path": "reports/raw/bifrost-go-kernel/dfb-taint-go-element-object-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-go-kernel-attempt-02/outputs/reports/raw/bifrost-go-kernel/dfb-taint-go-element-object-positive-timing.json",
+      "sha256": "f97e98c8e33014cead37f61ec2bf86d29d658b3e38464a4c8acdd9ad7ce76b8d"
+    },
+    {
+      "original_path": "reports/raw/bifrost-go-kernel/dfb-taint-go-same-object-field-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-go-kernel-attempt-02/outputs/reports/raw/bifrost-go-kernel/dfb-taint-go-same-object-field-negative.json",
+      "sha256": "5929792366d084979697dbfeb03e36c43992291a263c7c1db224e6148bc05486"
+    },
+    {
+      "original_path": "reports/raw/bifrost-go-kernel/dfb-taint-go-argument-position-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-go-kernel-attempt-02/outputs/reports/raw/bifrost-go-kernel/dfb-taint-go-argument-position-positive-timing.json",
+      "sha256": "9ca9b02ede64454741e85685e104676a90f90b024d56349cb57db06a0acd08cd"
+    },
+    {
+      "original_path": "reports/raw/bifrost-go-kernel/dfb-taint-go-expression-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-go-kernel-attempt-02/outputs/reports/raw/bifrost-go-kernel/dfb-taint-go-expression-positive.json",
+      "sha256": "d673dd40bf3a88bb6172a79ce309a652335fa4e9328fc36fb989fddec94b0b84"
+    },
+    {
+      "original_path": "reports/raw/bifrost-go-kernel/dfb-taint-go-closure-capture-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-go-kernel-attempt-02/outputs/reports/raw/bifrost-go-kernel/dfb-taint-go-closure-capture-negative-timing.json",
+      "sha256": "aa6079b46daecc7f2eb1ce5559f41cd241cb9695e4ee7f00a04b867fbe930656"
+    },
+    {
+      "original_path": "reports/raw/bifrost-go-kernel/run-environment.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-go-kernel-attempt-02/outputs/reports/raw/bifrost-go-kernel/run-environment.json",
+      "sha256": "08d3f3cfc6d537842d65108b13044821ce010c11dfe1ce731189077a45daec2e"
+    },
+    {
+      "original_path": "reports/raw/bifrost-go-kernel/dfb-taint-go-argument-position-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-go-kernel-attempt-02/outputs/reports/raw/bifrost-go-kernel/dfb-taint-go-argument-position-positive.json",
+      "sha256": "1eda6e36a098182593101138b96501340500040fab9c30170adfd8b18c162b4c"
+    },
+    {
+      "original_path": "reports/raw/bifrost-go-kernel/dfb-taint-go-infeasible-branch-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-go-kernel-attempt-02/outputs/reports/raw/bifrost-go-kernel/dfb-taint-go-infeasible-branch-negative-timing.json",
+      "sha256": "76965e0b9d13941f471c480bff0b92ed08931958c3a8a0cee9a386998f43066f"
+    },
+    {
+      "original_path": "reports/raw/bifrost-go-kernel/dfb-taint-go-local-overwrite-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-go-kernel-attempt-02/outputs/reports/raw/bifrost-go-kernel/dfb-taint-go-local-overwrite-negative-timing.json",
+      "sha256": "ce28790fe37e4144dfa6ec17b94b0459c6ae8ab89908a4681e5b2d633db6da57"
+    },
+    {
+      "original_path": "reports/raw/bifrost-go-kernel/dfb-taint-go-exception-catch-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-go-kernel-attempt-02/outputs/reports/raw/bifrost-go-kernel/dfb-taint-go-exception-catch-negative.json",
+      "sha256": "419f08d8fb123931406f90fd43edbb7b63906029a9be8b95a670cc1f9e50fe44"
+    },
+    {
+      "original_path": "reports/raw/bifrost-go-kernel/dfb-taint-go-dispatch-table-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-go-kernel-attempt-02/outputs/reports/raw/bifrost-go-kernel/dfb-taint-go-dispatch-table-positive.json",
+      "sha256": "dae64af158a7e78e83670dca1b47d212e90dde4d9981cbee26b7d38eaffd03da"
+    },
+    {
+      "original_path": "reports/raw/bifrost-go-kernel/dfb-taint-go-element-object-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-go-kernel-attempt-02/outputs/reports/raw/bifrost-go-kernel/dfb-taint-go-element-object-negative-timing.json",
+      "sha256": "fcd882a0fe9483b409ed64005c9bfcd8ec6ce0fb18efa0e999304062c1543511"
+    },
+    {
+      "original_path": "reports/raw/bifrost-go-kernel/dfb-taint-go-argument-position-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-go-kernel-attempt-02/outputs/reports/raw/bifrost-go-kernel/dfb-taint-go-argument-position-negative-timing.json",
+      "sha256": "870d05b67ddcf63500665c4b3a41786cf4cf9e261a429e666c93b142cf3ef105"
+    },
+    {
+      "original_path": "reports/raw/bifrost-go-kernel/dfb-taint-go-callback-registration-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-go-kernel-attempt-02/outputs/reports/raw/bifrost-go-kernel/dfb-taint-go-callback-registration-negative-timing.json",
+      "sha256": "4db69c4293a672285fb034b7123fb01a2c1d77049dc32c21559b2236f9dddbd9"
+    },
+    {
+      "original_path": "reports/raw/bifrost-go-kernel/dfb-taint-go-argument-position-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-go-kernel-attempt-02/outputs/reports/raw/bifrost-go-kernel/dfb-taint-go-argument-position-negative.json",
+      "sha256": "5666f7eddaa64f153298644217b8979300b5cae5640c2074ff84b7b263837ed1"
+    },
+    {
+      "original_path": "reports/raw/bifrost-go-kernel/dfb-taint-go-recursive-carry-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-go-kernel-attempt-02/outputs/reports/raw/bifrost-go-kernel/dfb-taint-go-recursive-carry-negative-timing.json",
+      "sha256": "d18bd1ca05f5533a4b9117e6606dadd192805a3e4083e16c3176110ec22c1273"
+    },
+    {
+      "original_path": "reports/raw/bifrost-go-kernel/dfb-taint-go-exception-catch-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-go-kernel-attempt-02/outputs/reports/raw/bifrost-go-kernel/dfb-taint-go-exception-catch-positive.json",
+      "sha256": "2c4cb5f46d1da1711216c2d3d56c6ab873fb890a51ab6d457906893ebfd86b69"
+    },
+    {
+      "original_path": "reports/raw/bifrost-go-kernel/dfb-taint-go-dispatch-table-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-go-kernel-attempt-02/outputs/reports/raw/bifrost-go-kernel/dfb-taint-go-dispatch-table-negative.json",
+      "sha256": "e9a9c231311f927b75784a7a43f8656eed82eb371ac91e473324684418ad0a50"
+    },
+    {
+      "original_path": "reports/raw/bifrost-go-kernel/dfb-taint-go-local-overwrite-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-go-kernel-attempt-02/outputs/reports/raw/bifrost-go-kernel/dfb-taint-go-local-overwrite-negative.json",
+      "sha256": "c4c288323c3e28d5882b9397b855dd0b35c3df5a4bd9678d6b804df8f20c2071"
+    },
+    {
+      "original_path": "reports/raw/bifrost-go-kernel/dfb-taint-go-callback-registration-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-go-kernel-attempt-02/outputs/reports/raw/bifrost-go-kernel/dfb-taint-go-callback-registration-positive-timing.json",
+      "sha256": "f89081f031196b8e6ab7431b2fd2913e30d973b7f04375228a288ca1e50d1d9f"
+    },
+    {
+      "original_path": "reports/raw/bifrost-go-kernel/dfb-taint-go-recursive-carry-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-go-kernel-attempt-02/outputs/reports/raw/bifrost-go-kernel/dfb-taint-go-recursive-carry-positive-timing.json",
+      "sha256": "d7672175d7ca92edd59ea6c5eda33e30722047e36738f5389dafef5fa037724c"
+    },
+    {
+      "original_path": "reports/raw/bifrost-go-kernel/dfb-taint-go-deep-relay-chain-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-go-kernel-attempt-02/outputs/reports/raw/bifrost-go-kernel/dfb-taint-go-deep-relay-chain-negative.json",
+      "sha256": "1b1786283a565a84f2c3c52aa58da8629204b88fb29a2957b9f955447a7d836e"
+    },
+    {
+      "original_path": "reports/raw/bifrost-go-kernel/dfb-taint-go-object-separation-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-go-kernel-attempt-02/outputs/reports/raw/bifrost-go-kernel/dfb-taint-go-object-separation-positive.json",
+      "sha256": "b7a97a390e0223284964ad61dd097afa95846d067c1a649f70f3f3e58e328228"
+    },
+    {
+      "original_path": "reports/raw/bifrost-go-kernel/dfb-taint-go-element-object-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-go-kernel-attempt-02/outputs/reports/raw/bifrost-go-kernel/dfb-taint-go-element-object-negative.json",
+      "sha256": "56648ca1f541581d0031fa004b166a435a4870b774817a2b80597a1449e4f088"
+    },
+    {
+      "original_path": "reports/raw/bifrost-go-kernel/dfb-taint-go-same-object-field-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-go-kernel-attempt-02/outputs/reports/raw/bifrost-go-kernel/dfb-taint-go-same-object-field-positive.json",
+      "sha256": "413d1c2ae115890441f4cf58593e89e1b2dfaad32fe603917110982b828f9768"
+    },
+    {
+      "original_path": "reports/raw/bifrost-go-kernel/dfb-taint-go-expression-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-go-kernel-attempt-02/outputs/reports/raw/bifrost-go-kernel/dfb-taint-go-expression-negative.json",
+      "sha256": "87082fca55da0083c8741f604f23ee42af2ad4d507751b1cb91fb50c17245c45"
+    },
+    {
+      "original_path": "reports/raw/bifrost-go-kernel/dfb-taint-go-reflective-invocation-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-go-kernel-attempt-02/outputs/reports/raw/bifrost-go-kernel/dfb-taint-go-reflective-invocation-negative.json",
+      "sha256": "e0c329766fd7ca8899f044829774a6d4576da9182d04ef74b385365501292566"
+    },
+    {
+      "original_path": "reports/raw/bifrost-go-kernel/dfb-taint-go-closure-capture-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-go-kernel-attempt-02/outputs/reports/raw/bifrost-go-kernel/dfb-taint-go-closure-capture-positive.json",
+      "sha256": "5ce70bf734ce4ded8f89966b1b2b4d52eb6db57ee6a9168bf16198b11ec42369"
+    },
+    {
+      "original_path": "reports/raw/bifrost-go-kernel/dfb-taint-go-branch-join-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-go-kernel-attempt-02/outputs/reports/raw/bifrost-go-kernel/dfb-taint-go-branch-join-positive.json",
+      "sha256": "55db0d314291f4af11eddf0123e39f030d6d2fad10c4f99005b713e75fad1adc"
+    },
+    {
+      "original_path": "reports/raw/bifrost-go-kernel/dfb-taint-go-loop-carried-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-go-kernel-attempt-02/outputs/reports/raw/bifrost-go-kernel/dfb-taint-go-loop-carried-negative.json",
+      "sha256": "1b5c9157850775fd08642c7a4a77cb3fb9d97521145b4151efcca7ed9c3ff3cc"
+    },
+    {
+      "original_path": "reports/raw/bifrost-go-kernel/dfb-taint-go-return-relay-two-hop-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-go-kernel-attempt-02/outputs/reports/raw/bifrost-go-kernel/dfb-taint-go-return-relay-two-hop-positive-timing.json",
+      "sha256": "415b4a34f40d7d9212eba558d4515a09ccb4ad46a2bf34a615ee3d4e62b3275a"
+    },
+    {
+      "original_path": "reports/raw/bifrost-go-kernel/dfb-taint-go-array-element-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-go-kernel-attempt-02/outputs/reports/raw/bifrost-go-kernel/dfb-taint-go-array-element-negative-timing.json",
+      "sha256": "14396fe6a056c16f8ffcbf8061c87daf72ef73dd68e2be9b779e0aa9c1f6cd59"
+    },
+    {
+      "original_path": "reports/raw/bifrost-go-kernel/dfb-taint-go-anonymous-implementation-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-go-kernel-attempt-02/outputs/reports/raw/bifrost-go-kernel/dfb-taint-go-anonymous-implementation-negative.json",
+      "sha256": "a3fd157590b4fc336a1f65deb33a2ec01c76184638579820db521c7f42660f57"
+    },
+    {
+      "original_path": "reports/raw/bifrost-go-kernel/dfb-taint-go-function-field-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-go-kernel-attempt-02/outputs/reports/raw/bifrost-go-kernel/dfb-taint-go-function-field-positive.json",
+      "sha256": "6adfe18712fc3832e33c458be2cba6e1e4a7e0abd6d28a3ee9a74a235dea8b9e"
+    },
+    {
+      "original_path": "reports/raw/bifrost-go-kernel/dfb-taint-go-array-element-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-go-kernel-attempt-02/outputs/reports/raw/bifrost-go-kernel/dfb-taint-go-array-element-positive-timing.json",
+      "sha256": "967cfd86d67faee6bc26b45ecb5d142972db44e76c23c7958773d3a870eeb8af"
+    },
+    {
+      "original_path": "reports/raw/bifrost-go-kernel/dfb-taint-go-alias-propagation-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-go-kernel-attempt-02/outputs/reports/raw/bifrost-go-kernel/dfb-taint-go-alias-propagation-negative.json",
+      "sha256": "288d3264452021015b7b8ee327a9716ffc90b781b3b8fd90fd7a0075979c206f"
+    },
+    {
+      "original_path": "reports/raw/bifrost-go-kernel/dfb-taint-go-callback-registration-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-go-kernel-attempt-02/outputs/reports/raw/bifrost-go-kernel/dfb-taint-go-callback-registration-negative.json",
+      "sha256": "42e51b3eef48baee2c8b1c4166b0430c92f965a69745eca7f5064d4ed947e6d1"
+    },
+    {
+      "original_path": "reports/raw/bifrost-go-kernel/dfb-taint-go-return-relay-two-hop-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-go-kernel-attempt-02/outputs/reports/raw/bifrost-go-kernel/dfb-taint-go-return-relay-two-hop-negative-timing.json",
+      "sha256": "75f7073224e684c8ee90eec321d4983ad176d4e8f10a322d9cf30de82a496af5"
+    },
+    {
+      "original_path": "reports/raw/bifrost-go-kernel/dfb-taint-go-direct-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-go-kernel-attempt-02/outputs/reports/raw/bifrost-go-kernel/dfb-taint-go-direct-positive.json",
+      "sha256": "de57dc3870c18cfe26d9ac3e3274ce579e262e602c43d33bcb1da00b0867a0eb"
+    },
+    {
+      "original_path": "reports/raw/bifrost-go-kernel/dfb-taint-go-local-chain-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-go-kernel-attempt-02/outputs/reports/raw/bifrost-go-kernel/dfb-taint-go-local-chain-positive.json",
+      "sha256": "b273fc163a4567efb988d6bcfc401ed93f5ea2e9ef72a95a16c9b0d5846b7ba5"
+    },
+    {
+      "original_path": "reports/raw/bifrost-go-kernel/dfb-taint-go-loop-carried-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-go-kernel-attempt-02/outputs/reports/raw/bifrost-go-kernel/dfb-taint-go-loop-carried-positive-timing.json",
+      "sha256": "78b0533114ea8c6ff4d0d2da8ef94454647f8cdb67cbb3dacdd1ce799c022843"
+    },
+    {
+      "original_path": "reports/raw/bifrost-go-kernel/dfb-taint-go-anonymous-implementation-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-go-kernel-attempt-02/outputs/reports/raw/bifrost-go-kernel/dfb-taint-go-anonymous-implementation-positive.json",
+      "sha256": "409b31182d64f194c925ce9a5752f0e640a884cd55e932de518fe64c2d96d664"
+    },
+    {
+      "original_path": "reports/raw/bifrost-go-kernel/dfb-taint-go-direct-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-go-kernel-attempt-02/outputs/reports/raw/bifrost-go-kernel/dfb-taint-go-direct-negative-timing.json",
+      "sha256": "af5258a47650a88d55865cba9b4c7876d18d7eab8517d092f3512a3605f391c1"
+    },
+    {
+      "original_path": "reports/raw/bifrost-go-kernel/dfb-taint-go-deep-relay-chain-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-go-kernel-attempt-02/outputs/reports/raw/bifrost-go-kernel/dfb-taint-go-deep-relay-chain-negative-timing.json",
+      "sha256": "1bbfacedf91540b16d671eec9049483842016a0fa8e65d7c57d0405d2d4b4c50"
+    },
+    {
+      "original_path": "reports/raw/bifrost-go-kernel/dfb-taint-go-reflective-invocation-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-go-kernel-attempt-02/outputs/reports/raw/bifrost-go-kernel/dfb-taint-go-reflective-invocation-positive-timing.json",
+      "sha256": "bd534eab0ac19a740abbcfc80a5b34ea7fbb623c90c413521d0f40c656eabed8"
+    },
+    {
+      "original_path": "reports/raw/bifrost-go-kernel/dfb-taint-go-function-field-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-go-kernel-attempt-02/outputs/reports/raw/bifrost-go-kernel/dfb-taint-go-function-field-negative.json",
+      "sha256": "8d2229f4e9f1fd696e0d79c79759007e362a90c1e005f72de29ce3ea5efcb41a"
+    },
+    {
+      "original_path": "reports/raw/bifrost-go-kernel/dfb-taint-go-callback-registration-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-go-kernel-attempt-02/outputs/reports/raw/bifrost-go-kernel/dfb-taint-go-callback-registration-positive.json",
+      "sha256": "c9358c21a8301fdf21b741a3ae173f4c0e9a2381c3dbb6561ca750510438fbff"
+    },
+    {
+      "original_path": "reports/raw/bifrost-go-kernel/dfb-taint-go-alias-propagation-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-go-kernel-attempt-02/outputs/reports/raw/bifrost-go-kernel/dfb-taint-go-alias-propagation-positive.json",
+      "sha256": "ab0791411ae68f8b572e90673bfd274f8e49f005c7fcb0cdb0b8be98877d0aa0"
+    },
+    {
+      "original_path": "reports/raw/bifrost-go-kernel/dfb-taint-go-direct-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-go-kernel-attempt-02/outputs/reports/raw/bifrost-go-kernel/dfb-taint-go-direct-negative.json",
+      "sha256": "23898049f8fcba24aa6daa6875ca069e10438dbc247b745ad090ecc922128d32"
+    },
+    {
+      "original_path": "reports/raw/bifrost-go-kernel/dfb-taint-go-context-pair-depth2-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-go-kernel-attempt-02/outputs/reports/raw/bifrost-go-kernel/dfb-taint-go-context-pair-depth2-negative-timing.json",
+      "sha256": "45410da386020c36385fa5d03ce3effe50418df1936dc6cfa10b2c9b361af28d"
+    },
+    {
+      "original_path": "reports/raw/bifrost-go-kernel/dfb-taint-go-local-chain-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-go-kernel-attempt-02/outputs/reports/raw/bifrost-go-kernel/dfb-taint-go-local-chain-negative.json",
+      "sha256": "d515cf2e30975946ef0bfd7968582398db4ad24cb9e2f460c61d569603d1416e"
+    },
+    {
+      "original_path": "reports/raw/bifrost-go-kernel/dfb-taint-go-reflective-invocation-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-go-kernel-attempt-02/outputs/reports/raw/bifrost-go-kernel/dfb-taint-go-reflective-invocation-positive.json",
+      "sha256": "bed06006cee0a0bde301a51905f893448b7f8ab261a7f2b0dde4127b63629fbb"
+    },
+    {
+      "original_path": "reports/raw/bifrost-go-kernel/dfb-taint-go-closure-capture-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-go-kernel-attempt-02/outputs/reports/raw/bifrost-go-kernel/dfb-taint-go-closure-capture-negative.json",
+      "sha256": "1a1faba96c8c276a93ab64d0c49183be53f774e0d0ed77b80b3d4c0c1fcfd382"
+    },
+    {
+      "original_path": "reports/raw/bifrost-go-kernel/dfb-taint-go-reflective-invocation-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-go-kernel-attempt-02/outputs/reports/raw/bifrost-go-kernel/dfb-taint-go-reflective-invocation-negative-timing.json",
+      "sha256": "8620a178245cbc1c8e7e0bdbf20c0826cdeb5bf88755b866754737727abb31ff"
+    },
+    {
+      "original_path": "reports/raw/bifrost-go-kernel/dfb-taint-go-direct-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-go-kernel-attempt-02/outputs/reports/raw/bifrost-go-kernel/dfb-taint-go-direct-positive-timing.json",
+      "sha256": "1a2f9cf7bdbe46ae2d5fa91691045da9a16ff2a8025e8e397336b7f3db8a5907"
+    },
+    {
+      "original_path": "reports/raw/bifrost-go-kernel/dfb-taint-go-deep-relay-chain-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-go-kernel-attempt-02/outputs/reports/raw/bifrost-go-kernel/dfb-taint-go-deep-relay-chain-positive-timing.json",
+      "sha256": "68db776f929068d0911ce4ff42cf3c30cdbed4beae86d8d32d238fb66acd8943"
+    },
+    {
+      "original_path": "reports/raw/bifrost-go-kernel/dfb-taint-go-branch-join-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-go-kernel-attempt-02/outputs/reports/raw/bifrost-go-kernel/dfb-taint-go-branch-join-negative.json",
+      "sha256": "98ada52ef10b5e559b1eab7c4ec6615b8096f2b57944bf650609c3b313f64ff9"
+    },
+    {
+      "original_path": "reports/raw/bifrost-go-kernel/dfb-taint-go-loop-carried-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-go-kernel-attempt-02/outputs/reports/raw/bifrost-go-kernel/dfb-taint-go-loop-carried-negative-timing.json",
+      "sha256": "0824e9037b7bfaed20d72ef764ec962eef624e8b84d2d0ed5db99eda911539b7"
+    },
+    {
+      "original_path": "reports/raw/bifrost-go-kernel/dfb-taint-go-loop-carried-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-go-kernel-attempt-02/outputs/reports/raw/bifrost-go-kernel/dfb-taint-go-loop-carried-positive.json",
+      "sha256": "5ee46712a12954edef0b7baaea0b22db7b1797088f21f42414b7f7fbe303429e"
+    },
+    {
+      "original_path": "reports/raw/bifrost-go-kernel/dfb-taint-go-context-pair-depth2-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-go-kernel-attempt-02/outputs/reports/raw/bifrost-go-kernel/dfb-taint-go-context-pair-depth2-positive-timing.json",
+      "sha256": "c07c3bcb1c7d727c887f850cdc22487b1b42c2c920fd913c9f356b8da19aaf12"
+    },
+    {
+      "original_path": "reports/raw/bifrost-go-kernel/dfb-taint-go-local-chain-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-go-kernel-attempt-02/outputs/reports/raw/bifrost-go-kernel/dfb-taint-go-local-chain-positive-timing.json",
+      "sha256": "649993a7069cb86f75255f69ac4eeb8d05d1c59d43fb942cb15f6ccd6bf58e8f"
+    },
+    {
+      "original_path": "reports/raw/bifrost-go-kernel/dfb-taint-go-expression-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-go-kernel-attempt-02/outputs/reports/raw/bifrost-go-kernel/dfb-taint-go-expression-negative-timing.json",
+      "sha256": "1269ba7cecf24fa6894d739cec0e3cb359c51272a3e61e817335284103e615b0"
+    },
+    {
+      "original_path": "reports/raw/bifrost-go-kernel/dfb-taint-go-return-relay-one-hop-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-go-kernel-attempt-02/outputs/reports/raw/bifrost-go-kernel/dfb-taint-go-return-relay-one-hop-positive.json",
+      "sha256": "a6486b246752c514ad2f19c6e8ed404685e4dff61a7358574dbec32226c9fa05"
+    },
+    {
+      "original_path": "reports/raw/bifrost-go-kernel/dfb-taint-go-computed-property-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-go-kernel-attempt-02/outputs/reports/raw/bifrost-go-kernel/dfb-taint-go-computed-property-negative.json",
+      "sha256": "6367633c5d95c1c77cbf3112d6277a6d3d100396cc5244b31dc1c5bdb1f909f4"
+    },
+    {
+      "original_path": "reports/raw/bifrost-go-kernel/dfb-taint-go-recursive-carry-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-go-kernel-attempt-02/outputs/reports/raw/bifrost-go-kernel/dfb-taint-go-recursive-carry-positive.json",
+      "sha256": "3fc28a5bd9fa07fdb7843345fca2eb349b9d12378974db21927bfdcaa3e47c37"
+    },
+    {
+      "original_path": "reports/raw/bifrost-go-kernel/dfb-taint-go-array-element-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-go-kernel-attempt-02/outputs/reports/raw/bifrost-go-kernel/dfb-taint-go-array-element-positive.json",
+      "sha256": "e45746ab0ef1114a33314ca82d9d635fc5de5af121a291136e706543e5c0c04f"
+    },
+    {
+      "original_path": "reports/raw/bifrost-go-kernel/dfb-taint-go-context-pair-depth2-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-go-kernel-attempt-02/outputs/reports/raw/bifrost-go-kernel/dfb-taint-go-context-pair-depth2-negative.json",
+      "sha256": "a43af9368fad443d95a6d3c9c3610e11d98f7050e820096fe8d15e9c201aaa60"
+    },
+    {
+      "original_path": "reports/raw/bifrost-go-kernel/dfb-taint-go-expression-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-go-kernel-attempt-02/outputs/reports/raw/bifrost-go-kernel/dfb-taint-go-expression-positive-timing.json",
+      "sha256": "e3665ff3fbfab3732b58069a2677e96edd6dcc15a4721801b08c2cd7aeadd914"
+    },
+    {
+      "original_path": "reports/raw/bifrost-go-kernel/dfb-taint-go-map-iteration-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-go-kernel-attempt-02/outputs/reports/raw/bifrost-go-kernel/dfb-taint-go-map-iteration-negative.json",
+      "sha256": "744800963a8e389a27387b4088dac93e940d0b0907eb45f43beb6f49f6f424bd"
+    },
+    {
+      "original_path": "reports/raw/bifrost-go-kernel/dfb-taint-go-local-chain-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-go-kernel-attempt-02/outputs/reports/raw/bifrost-go-kernel/dfb-taint-go-local-chain-negative-timing.json",
+      "sha256": "9d332f3a80091a15fa3da532807b3efc7b8daf262b048b247bd021a3f474f5cb"
+    },
+    {
+      "original_path": "reports/raw/bifrost-go-kernel/dfb-taint-go-array-element-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-go-kernel-attempt-02/outputs/reports/raw/bifrost-go-kernel/dfb-taint-go-array-element-negative.json",
+      "sha256": "b86ff3d5da9565c82fdb66f13a27171a411515f9bc0c3501bd9ca4c3b7cd2071"
+    },
+    {
+      "original_path": "reports/raw/bifrost-go-kernel/dfb-taint-go-context-pair-depth2-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-go-kernel-attempt-02/outputs/reports/raw/bifrost-go-kernel/dfb-taint-go-context-pair-depth2-positive.json",
+      "sha256": "5a5a84a705445b75c12dd8b9db27eb1bd0386f9c2a54681953cc2abdda611a47"
+    },
+    {
+      "original_path": "reports/raw/bifrost-go-kernel/dfb-taint-go-map-iteration-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-go-kernel-attempt-02/outputs/reports/raw/bifrost-go-kernel/dfb-taint-go-map-iteration-positive.json",
+      "sha256": "2f1f716eec2c4d829c32952e5659e036dc657949267a7dd57f6bf486b597729f"
+    },
+    {
+      "original_path": "reports/raw/bifrost-go-kernel/dfb-taint-go-anonymous-implementation-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-go-kernel-attempt-02/outputs/reports/raw/bifrost-go-kernel/dfb-taint-go-anonymous-implementation-negative-timing.json",
+      "sha256": "427c134424bed95ad9b9f4016514bff0940c98f67abb56c39908f4656d3aebd1"
+    },
+    {
+      "original_path": "reports/raw/bifrost-go-kernel/dfb-taint-go-exception-catch-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-go-kernel-attempt-02/outputs/reports/raw/bifrost-go-kernel/dfb-taint-go-exception-catch-negative-timing.json",
+      "sha256": "145eb4f6a7145c6dcb76771b153b5e0425118cec2cc4501a11be8a0eb606b380"
+    },
+    {
+      "original_path": "reports/raw/bifrost-go-kernel/dfb-taint-go-anonymous-implementation-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-go-kernel-attempt-02/outputs/reports/raw/bifrost-go-kernel/dfb-taint-go-anonymous-implementation-positive-timing.json",
+      "sha256": "fcc52d58a008c59b2ea5f2a4cdc8f45dfeeed86022377ac3c23f708ad9e5bd5e"
+    },
+    {
+      "original_path": "reports/raw/bifrost-go-kernel/dfb-taint-go-return-relay-one-hop-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-go-kernel-attempt-02/outputs/reports/raw/bifrost-go-kernel/dfb-taint-go-return-relay-one-hop-negative.json",
+      "sha256": "228ceb99922dbcc31c1abd91c5b946443367475d01ffa9988525c18c7f376fc8"
+    },
+    {
+      "original_path": "reports/raw/bifrost-go-kernel/dfb-taint-go-exception-catch-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-go-kernel-attempt-02/outputs/reports/raw/bifrost-go-kernel/dfb-taint-go-exception-catch-positive-timing.json",
+      "sha256": "76f316b59a58b6a4b0402215d1796e62f15bda2da309d384d62e1cedac39a8fb"
+    },
+    {
+      "original_path": "reports/raw/bifrost-go-kernel/dfb-taint-go-computed-property-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-go-kernel-attempt-02/outputs/reports/raw/bifrost-go-kernel/dfb-taint-go-computed-property-positive.json",
+      "sha256": "340959da02fb59c2059714f6cb18a5ef58c93828b8f775f38492cab70bb35f21"
+    },
+    {
+      "original_path": "reports/raw/bifrost-go-kernel/dfb-taint-go-recursive-carry-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/bifrost-go-kernel-attempt-02/outputs/reports/raw/bifrost-go-kernel/dfb-taint-go-recursive-carry-negative.json",
+      "sha256": "5cd8bf155fac860c3d423c773907675f003a36e88e2bf56da5c8397305234abb"
+    }
+  ],
+  "expected_output_roots": [
+    "reports/bifrost-go-kernel.json",
+    "reports/raw/bifrost-go-kernel"
+  ],
+  "missing_fresh_output_roots": [],
+  "removed_paths": []
+}

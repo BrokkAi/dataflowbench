@@ -1,0 +1,287 @@
+{
+    "$schema": "https://docs.oasis-open.org/sarif/sarif/v2.1.0/errata01/os/schemas/sarif-schema-2.1.0.json",
+    "version": "2.1.0",
+    "runs": [
+        {
+            "originalUriBaseIds": {
+                "%SRCROOT%": {
+                    "uri": "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/tmp.f47PIX2zPR/source"
+                }
+            },
+            "tool": {
+                "driver": {
+                    "name": "OpenTaint",
+                    "organization": "Seqra",
+                    "rules": [
+                        {
+                            "defaultConfiguration": {
+                                "level": "error"
+                            },
+                            "fullDescription": {
+                                "markdown": "value-kind probe (object)",
+                                "text": "value-kind probe (object)"
+                            },
+                            "id": ":value-kind-object",
+                            "name": ":value-kind-object",
+                            "properties": {
+                                "tags": []
+                            },
+                            "shortDescription": {
+                                "text": "OpenTaint Finding: :value-kind-object"
+                            }
+                        },
+                        {
+                            "defaultConfiguration": {
+                                "level": "error"
+                            },
+                            "fullDescription": {
+                                "markdown": "value-kind probe (boxed)",
+                                "text": "value-kind probe (boxed)"
+                            },
+                            "id": ":value-kind-boxed",
+                            "name": ":value-kind-boxed",
+                            "properties": {
+                                "tags": []
+                            },
+                            "shortDescription": {
+                                "text": "OpenTaint Finding: :value-kind-boxed"
+                            }
+                        },
+                        {
+                            "defaultConfiguration": {
+                                "level": "error"
+                            },
+                            "fullDescription": {
+                                "markdown": "value-kind probe (int)",
+                                "text": "value-kind probe (int)"
+                            },
+                            "id": ":value-kind-int",
+                            "name": ":value-kind-int",
+                            "properties": {
+                                "tags": []
+                            },
+                            "shortDescription": {
+                                "text": "OpenTaint Finding: :value-kind-int"
+                            }
+                        },
+                        {
+                            "defaultConfiguration": {
+                                "level": "error"
+                            },
+                            "fullDescription": {
+                                "markdown": "value-kind probe (string)",
+                                "text": "value-kind probe (string)"
+                            },
+                            "id": ":value-kind-string",
+                            "name": ":value-kind-string",
+                            "properties": {
+                                "tags": []
+                            },
+                            "shortDescription": {
+                                "text": "OpenTaint Finding: :value-kind-string"
+                            }
+                        }
+                    ],
+                    "semanticVersion": "latest",
+                    "version": "latest"
+                }
+            },
+            "results": [
+                {
+                    "codeFlows": [
+                        {
+                            "threadFlows": [
+                                {
+                                    "locations": [
+                                        {
+                                            "executionOrder": 0,
+                                            "kinds": [
+                                                "taint"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "probe.ValueKindProbe#runObject():0:(%0 = probe.ValueKindProbe.object_src())",
+                                                        "fullyQualifiedName": "probe.ValueKindProbe#runObject"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "Call to \"object_src\" puts marked data to a local variable"
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "probe/ValueKindProbe.java",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 55,
+                                                        "endLine": 10,
+                                                        "startColumn": 43,
+                                                        "startLine": 10
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 1,
+                                            "kinds": [
+                                                "taint"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "probe.ValueKindProbe#runObject():1:(probe.ValueKindProbe.object_sink(%0))",
+                                                        "fullyQualifiedName": "probe.ValueKindProbe#runObject"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "Value-kind probe (object)"
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "probe/ValueKindProbe.java",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 56,
+                                                        "endLine": 10,
+                                                        "startColumn": 31,
+                                                        "startLine": 10
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ],
+                    "level": "error",
+                    "locations": [
+                        {
+                            "logicalLocations": [
+                                {
+                                    "decoratedName": "probe.ValueKindProbe#runObject():1:(probe.ValueKindProbe.object_sink(%0))",
+                                    "fullyQualifiedName": "probe.ValueKindProbe#runObject"
+                                }
+                            ],
+                            "physicalLocation": {
+                                "artifactLocation": {
+                                    "uri": "probe/ValueKindProbe.java",
+                                    "uriBaseId": "%SRCROOT%"
+                                },
+                                "region": {
+                                    "endColumn": 56,
+                                    "endLine": 10,
+                                    "startColumn": 31,
+                                    "startLine": 10
+                                }
+                            }
+                        }
+                    ],
+                    "message": {
+                        "text": "value-kind probe (object)"
+                    },
+                    "ruleId": ":value-kind-object"
+                },
+                {
+                    "codeFlows": [
+                        {
+                            "threadFlows": [
+                                {
+                                    "locations": [
+                                        {
+                                            "executionOrder": 0,
+                                            "kinds": [
+                                                "taint"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "probe.ValueKindProbe#runString():0:(%0 = probe.ValueKindProbe.string_src())",
+                                                        "fullyQualifiedName": "probe.ValueKindProbe#runString"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "Call to \"string_src\" puts marked data to a local variable"
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "probe/ValueKindProbe.java",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 55,
+                                                        "endLine": 6,
+                                                        "startColumn": 43,
+                                                        "startLine": 6
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 1,
+                                            "kinds": [
+                                                "taint"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "probe.ValueKindProbe#runString():1:(probe.ValueKindProbe.string_sink(%0))",
+                                                        "fullyQualifiedName": "probe.ValueKindProbe#runString"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "Value-kind probe (string)"
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "probe/ValueKindProbe.java",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 56,
+                                                        "endLine": 6,
+                                                        "startColumn": 31,
+                                                        "startLine": 6
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ],
+                    "level": "error",
+                    "locations": [
+                        {
+                            "logicalLocations": [
+                                {
+                                    "decoratedName": "probe.ValueKindProbe#runString():1:(probe.ValueKindProbe.string_sink(%0))",
+                                    "fullyQualifiedName": "probe.ValueKindProbe#runString"
+                                }
+                            ],
+                            "physicalLocation": {
+                                "artifactLocation": {
+                                    "uri": "probe/ValueKindProbe.java",
+                                    "uriBaseId": "%SRCROOT%"
+                                },
+                                "region": {
+                                    "endColumn": 56,
+                                    "endLine": 6,
+                                    "startColumn": 31,
+                                    "startLine": 6
+                                }
+                            }
+                        }
+                    ],
+                    "message": {
+                        "text": "value-kind probe (string)"
+                    },
+                    "ruleId": ":value-kind-string"
+                }
+            ]
+        }
+    ]
+}

@@ -35,7 +35,7 @@ done
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 OUT_DIR="$ROOT/reports/raw/pysa-callee-resolution-probe"
 WORK="$(mktemp -d "${TMPDIR:-/tmp}/dataflowbench-pysa-probe.XXXXXX")"
-trap 'rm -rf "$WORK"' EXIT
+trap 'probe_status=$?; if [ "$probe_status" -eq 0 ]; then rm -rf "$WORK"; else echo "retained failed probe scratch: $WORK" >&2; fi' EXIT
 
 mkdir -p "$WORK/src" "$WORK/models"
 cp "$ROOT/cases/taint/python/dispatch-table-positive/dispatch_table.py" "$WORK/src/"

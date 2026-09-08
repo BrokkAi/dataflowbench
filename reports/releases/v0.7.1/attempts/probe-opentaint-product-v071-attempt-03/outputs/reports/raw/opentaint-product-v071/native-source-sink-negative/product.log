@@ -1,0 +1,299 @@
+╭─OpenTaint Scan─╮
+╰─┬──────────────╯
+  ├─ Project model
+  │  └─ /Users/dave/.codex/worktrees/653a/dataflowbench/reports/raw/opentaint-product-v071/native-source-sink-negative
+  ├─ Analyzer
+  │  └─ 2026.09.04.c51dc3e
+  └─ Bundled ruleset
+     └─ v0.3.0
+2026-09-08 08:02:56 |D| Starting Java resolution with specific version strategy only: Java 21
+2026-09-08 08:02:56 |D| Trying bundled JRE resolution
+2026-09-08 08:02:56 |D| Found bundled JRE (/private/tmp/dfb-v071-opentaint-full-653a/jre/bin/java)
+2026-09-08 08:02:56 |D| Excluding JAVA_HOME from command environment
+2026-09-08 08:02:56 |D| Created clean environment with 60 variables (excluded Java variables)
+2026-09-08 08:02:56 |D| Using clean environment for managed Java version strategy
+2026-09-08 08:02:56 |D| Executing Java command: /private/tmp/dfb-v071-opentaint-full-653a/jre/bin/java [-Xmx8g -Dorg.opentaint.ir.impl.storage.defaultBatchSize=2000 -Djdk.util.jar.enableMultiRelease=false -jar /private/tmp/dfb-v071-opentaint-full-653a/lib/opentaint-project-analyzer.jar --project /Users/dave/.codex/worktrees/653a/dataflowbench/reports/raw/opentaint-product-v071/native-source-sink-negative/project.yaml --output-dir /Users/dave/.codex/worktrees/653a/dataflowbench/reports/raw/opentaint-product-v071/native-source-sink-negative --logs-file /var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/opentaint-2271465011/analyzer.log --sarif-file-name product.sarif.json --sarif-tool-version analyzer/2026.09.04.c51dc3e --sarif-tool-semantic-version 0.4.6 --sarif-uri-base /Users/dave/.codex/worktrees/653a/dataflowbench/reports/raw/opentaint-product-v071/native-source-sink-negative/source/ --sarif-semgrep-style-id --sarif-generate-fingerprint --verbosity=info --semgrep-rule-severity=warning --semgrep-rule-severity=error --ifds-analysis-timeout=900 --semgrep-rule-set /private/tmp/dfb-v071-opentaint-full-653a/lib/rules --semgrep-rule-load-trace /Users/dave/.opentaint/logs/dataflowbench-959b53f0/rule-load-trace-2026-09-08_08-02-56.json --debug-run-analysis-on-selected-entry-points *] (full: /private/tmp/dfb-v071-opentaint-full-653a/jre/bin/java -Xmx8g -Dorg.opentaint.ir.impl.storage.defaultBatchSize=2000 -Djdk.util.jar.enableMultiRelease=false -jar /private/tmp/dfb-v071-opentaint-full-653a/lib/opentaint-project-analyzer.jar --project /Users/dave/.codex/worktrees/653a/dataflowbench/reports/raw/opentaint-product-v071/native-source-sink-negative/project.yaml --output-dir /Users/dave/.codex/worktrees/653a/dataflowbench/reports/raw/opentaint-product-v071/native-source-sink-negative --logs-file /var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/opentaint-2271465011/analyzer.log --sarif-file-name product.sarif.json --sarif-tool-version analyzer/2026.09.04.c51dc3e --sarif-tool-semantic-version 0.4.6 --sarif-uri-base /Users/dave/.codex/worktrees/653a/dataflowbench/reports/raw/opentaint-product-v071/native-source-sink-negative/source/ --sarif-semgrep-style-id --sarif-generate-fingerprint --verbosity=info --semgrep-rule-severity=warning --semgrep-rule-severity=error --ifds-analysis-timeout=900 --semgrep-rule-set /private/tmp/dfb-v071-opentaint-full-653a/lib/rules --semgrep-rule-load-trace /Users/dave/.opentaint/logs/dataflowbench-959b53f0/rule-load-trace-2026-09-08_08-02-56.json --debug-run-analysis-on-selected-entry-points *)
+2026-09-08 08:02:56 |D| 08:02:56.845 |I| CommonProjectAnalyzer - Start analysis for project: /Users/dave/.codex/worktrees/653a/dataflowbench/reports/raw/opentaint-product-v071/native-source-sink-negative/source
+2026-09-08 08:02:56 |D| 08:02:56.866 |I| SemgrepTraceLogger - ssti.yaml | Found 0 supported rules
+2026-09-08 08:02:56 |D| 08:02:56.866 |I| SemgrepTraceLogger - ssti.yaml | Register 0 rules
+2026-09-08 08:02:56 |D| 08:02:56.873 |I| SemgrepTraceLogger - trust-boundary.yaml | Found 0 supported rules
+2026-09-08 08:02:56 |D| 08:02:56.873 |I| SemgrepTraceLogger - trust-boundary.yaml | Register 0 rules
+2026-09-08 08:02:56 |D| 08:02:56.875 |I| SemgrepTraceLogger - sql-injection.yaml | Found 0 supported rules
+2026-09-08 08:02:56 |D| 08:02:56.875 |I| SemgrepTraceLogger - sql-injection.yaml | Register 0 rules
+2026-09-08 08:02:56 |D| 08:02:56.876 |I| SemgrepTraceLogger - weak-hash.yaml | Found 0 supported rules
+2026-09-08 08:02:56 |D| 08:02:56.876 |I| SemgrepTraceLogger - weak-hash.yaml | Register 0 rules
+2026-09-08 08:02:56 |D| 08:02:56.877 |I| SemgrepTraceLogger - xss.yaml | Found 0 supported rules
+2026-09-08 08:02:56 |D| 08:02:56.877 |I| SemgrepTraceLogger - xss.yaml | Register 0 rules
+2026-09-08 08:02:56 |D| 08:02:56.878 |I| SemgrepTraceLogger - cmdinj.yaml | Found 0 supported rules
+2026-09-08 08:02:56 |D| 08:02:56.878 |I| SemgrepTraceLogger - cmdinj.yaml | Register 0 rules
+2026-09-08 08:02:56 |D| 08:02:56.879 |I| SemgrepTraceLogger - weak-crypto.yaml | Found 0 supported rules
+2026-09-08 08:02:56 |D| 08:02:56.879 |I| SemgrepTraceLogger - weak-crypto.yaml | Register 0 rules
+2026-09-08 08:02:56 |D| 08:02:56.880 |I| SemgrepTraceLogger - path-traversal.yaml | Found 0 supported rules
+2026-09-08 08:02:56 |D| 08:02:56.880 |I| SemgrepTraceLogger - path-traversal.yaml | Register 0 rules
+2026-09-08 08:02:56 |D| 08:02:56.882 |I| SemgrepTraceLogger - weak-random.yaml | Found 0 supported rules
+2026-09-08 08:02:56 |D| 08:02:56.882 |I| SemgrepTraceLogger - weak-random.yaml | Register 0 rules
+2026-09-08 08:02:56 |D| 08:02:56.883 |I| SemgrepTraceLogger - ssrf.yaml | Found 0 supported rules
+2026-09-08 08:02:56 |D| 08:02:56.883 |I| SemgrepTraceLogger - ssrf.yaml | Register 0 rules
+2026-09-08 08:02:56 |D| 08:02:56.885 |I| SemgrepTraceLogger - path-sinks.yaml | Found 0 supported rules
+2026-09-08 08:02:56 |D| 08:02:56.885 |I| SemgrepTraceLogger - path-sinks.yaml | Register 0 rules
+2026-09-08 08:02:56 |D| 08:02:56.887 |I| SemgrepTraceLogger - cmdi-sinks.yaml | Found 0 supported rules
+2026-09-08 08:02:56 |D| 08:02:56.887 |I| SemgrepTraceLogger - cmdi-sinks.yaml | Register 0 rules
+2026-09-08 08:02:56 |D| 08:02:56.889 |I| SemgrepTraceLogger - http-sources.yaml | Found 0 supported rules
+2026-09-08 08:02:56 |D| 08:02:56.889 |I| SemgrepTraceLogger - http-sources.yaml | Register 0 rules
+2026-09-08 08:02:56 |D| 08:02:56.890 |I| SemgrepTraceLogger - xss-sinks.yaml | Found 0 supported rules
+2026-09-08 08:02:56 |D| 08:02:56.890 |I| SemgrepTraceLogger - xss-sinks.yaml | Register 0 rules
+2026-09-08 08:02:56 |D| 08:02:56.891 |I| SemgrepTraceLogger - http-sources-header-index.yaml | Found 0 supported rules
+2026-09-08 08:02:56 |D| 08:02:56.891 |I| SemgrepTraceLogger - http-sources-header-index.yaml | Register 0 rules
+2026-09-08 08:02:56 |D| 08:02:56.892 |I| SemgrepTraceLogger - sql-sinks.yaml | Found 0 supported rules
+2026-09-08 08:02:56 |D| 08:02:56.892 |I| SemgrepTraceLogger - sql-sinks.yaml | Register 0 rules
+2026-09-08 08:02:56 |D| 08:02:56.893 |I| SemgrepTraceLogger - http-sources-requesturi.yaml | Found 0 supported rules
+2026-09-08 08:02:56 |D| 08:02:56.893 |I| SemgrepTraceLogger - http-sources-requesturi.yaml | Register 0 rules
+2026-09-08 08:02:56 |D| 08:02:56.894 |I| SemgrepTraceLogger - ssti-sinks.yaml | Found 0 supported rules
+2026-09-08 08:02:56 |D| 08:02:56.894 |I| SemgrepTraceLogger - ssti-sinks.yaml | Register 0 rules
+2026-09-08 08:02:56 |D| 08:02:56.894 |I| SemgrepTraceLogger - ssrf-sinks.yaml | Found 0 supported rules
+2026-09-08 08:02:56 |D| 08:02:56.894 |I| SemgrepTraceLogger - ssrf-sinks.yaml | Register 0 rules
+2026-09-08 08:02:56 |D| 08:02:56.897 |I| SemgrepTraceLogger - unvalidated-redirect.yaml | Found 2 supported rules
+2026-09-08 08:02:56 |D| 08:02:56.898 |I| SemgrepTraceLogger - unvalidated-redirect.yaml | Register 2 rules
+2026-09-08 08:02:56 |D| 08:02:56.900 |I| SemgrepTraceLogger - ldap.yaml | Found 3 supported rules
+2026-09-08 08:02:56 |D| 08:02:56.900 |I| SemgrepTraceLogger - ldap.yaml | Register 3 rules
+2026-09-08 08:02:56 |D| 08:02:56.908 |I| SemgrepTraceLogger - crypto.yaml | Found 33 supported rules
+2026-09-08 08:02:56 |D| 08:02:56.908 |I| SemgrepTraceLogger - crypto.yaml | Register 33 rules
+2026-09-08 08:02:56 |D| 08:02:56.909 |I| SemgrepTraceLogger - permissions.yaml | Found 2 supported rules
+2026-09-08 08:02:56 |D| 08:02:56.909 |I| SemgrepTraceLogger - permissions.yaml | Register 2 rules
+2026-09-08 08:02:56 |D| 08:02:56.910 |I| SemgrepTraceLogger - csrf.yaml | Found 2 supported rules
+2026-09-08 08:02:56 |D| 08:02:56.910 |I| SemgrepTraceLogger - csrf.yaml | Register 2 rules
+2026-09-08 08:02:56 |D| 08:02:56.912 |I| SemgrepTraceLogger - xss.yaml | Found 6 supported rules
+2026-09-08 08:02:56 |D| 08:02:56.912 |I| SemgrepTraceLogger - xss.yaml | Register 6 rules
+2026-09-08 08:02:56 |D| 08:02:56.914 |I| SemgrepTraceLogger - insecure-design.yaml | Found 5 supported rules
+2026-09-08 08:02:56 |D| 08:02:56.914 |I| SemgrepTraceLogger - insecure-design.yaml | Register 5 rules
+2026-09-08 08:02:56 |D| 08:02:56.914 |I| SemgrepTraceLogger - xxe.yaml | Found 1 supported rules
+2026-09-08 08:02:56 |D| 08:02:56.914 |I| SemgrepTraceLogger - xxe.yaml | Register 1 rules
+2026-09-08 08:02:56 |D| 08:02:56.916 |I| SemgrepTraceLogger - code-injection.yaml | Found 6 supported rules
+2026-09-08 08:02:56 |D| 08:02:56.916 |I| SemgrepTraceLogger - code-injection.yaml | Register 6 rules
+2026-09-08 08:02:56 |D| 08:02:56.917 |I| SemgrepTraceLogger - sqli.yaml | Found 1 supported rules
+2026-09-08 08:02:56 |D| 08:02:56.917 |I| SemgrepTraceLogger - sqli.yaml | Register 1 rules
+2026-09-08 08:02:56 |D| 08:02:56.918 |I| SemgrepTraceLogger - external-configuration-control.yaml | Found 5 supported rules
+2026-09-08 08:02:56 |D| 08:02:56.918 |I| SemgrepTraceLogger - external-configuration-control.yaml | Register 5 rules
+2026-09-08 08:02:56 |D| 08:02:56.919 |I| SemgrepTraceLogger - data-query-injection.yaml | Found 2 supported rules
+2026-09-08 08:02:56 |D| 08:02:56.919 |I| SemgrepTraceLogger - data-query-injection.yaml | Register 2 rules
+2026-09-08 08:02:56 |D| 08:02:56.919 |I| SemgrepTraceLogger - strings.yaml | Found 3 supported rules
+2026-09-08 08:02:56 |D| 08:02:56.919 |I| SemgrepTraceLogger - strings.yaml | Register 3 rules
+2026-09-08 08:02:56 |D| 08:02:56.920 |I| SemgrepTraceLogger - crlf-injection.yaml | Found 2 supported rules
+2026-09-08 08:02:56 |D| 08:02:56.920 |I| SemgrepTraceLogger - crlf-injection.yaml | Register 2 rules
+2026-09-08 08:02:56 |D| 08:02:56.922 |I| SemgrepTraceLogger - sensitive-data-exposure.yaml | Found 8 supported rules
+2026-09-08 08:02:56 |D| 08:02:56.922 |I| SemgrepTraceLogger - sensitive-data-exposure.yaml | Register 8 rules
+2026-09-08 08:02:56 |D| 08:02:56.922 |I| SemgrepTraceLogger - path-traversal.yaml | Found 1 supported rules
+2026-09-08 08:02:56 |D| 08:02:56.922 |I| SemgrepTraceLogger - path-traversal.yaml | Register 1 rules
+2026-09-08 08:02:56 |D| 08:02:56.923 |I| SemgrepTraceLogger - log-injection.yaml | Found 2 supported rules
+2026-09-08 08:02:56 |D| 08:02:56.923 |I| SemgrepTraceLogger - log-injection.yaml | Register 2 rules
+2026-09-08 08:02:56 |D| 08:02:56.923 |I| SemgrepTraceLogger - command-injection.yaml | Found 1 supported rules
+2026-09-08 08:02:56 |D| 08:02:56.923 |I| SemgrepTraceLogger - command-injection.yaml | Register 1 rules
+2026-09-08 08:02:56 |D| 08:02:56.924 |I| SemgrepTraceLogger - ssrf.yaml | Found 2 supported rules
+2026-09-08 08:02:56 |D| 08:02:56.924 |I| SemgrepTraceLogger - ssrf.yaml | Register 2 rules
+2026-09-08 08:02:56 |D| 08:02:56.924 |I| SemgrepTraceLogger - weak-authentication.yaml | Found 2 supported rules
+2026-09-08 08:02:56 |D| 08:02:56.924 |I| SemgrepTraceLogger - weak-authentication.yaml | Register 2 rules
+2026-09-08 08:02:56 |D| 08:02:56.926 |I| SemgrepTraceLogger - hardcoded-credentials.yaml | Found 5 supported rules
+2026-09-08 08:02:56 |D| 08:02:56.926 |I| SemgrepTraceLogger - hardcoded-credentials.yaml | Register 5 rules
+2026-09-08 08:02:56 |D| 08:02:56.928 |I| SemgrepTraceLogger - unsafe-deserialization.yaml | Found 9 supported rules
+2026-09-08 08:02:56 |D| 08:02:56.928 |I| SemgrepTraceLogger - unsafe-deserialization.yaml | Register 9 rules
+2026-09-08 08:02:56 |D| 08:02:56.929 |I| SemgrepTraceLogger - logging-sinks.yaml | Found 2 supported rules
+2026-09-08 08:02:56 |D| 08:02:56.929 |I| SemgrepTraceLogger - logging-sinks.yaml | Register 2 rules
+2026-09-08 08:02:56 |D| 08:02:56.930 |I| SemgrepTraceLogger - path-traversal-sinks.yaml | Found 1 supported rules
+2026-09-08 08:02:56 |D| 08:02:56.930 |I| SemgrepTraceLogger - path-traversal-sinks.yaml | Register 1 rules
+2026-09-08 08:02:56 |D| 08:02:56.931 |I| SemgrepTraceLogger - servlet-unvalidated-redirect-sinks.yaml | Found 1 supported rules
+2026-09-08 08:02:56 |D| 08:02:56.931 |I| SemgrepTraceLogger - servlet-unvalidated-redirect-sinks.yaml | Register 1 rules
+2026-09-08 08:02:56 |D| 08:02:56.931 |I| SemgrepTraceLogger - ldap-injection-sinks.yaml | Found 1 supported rules
+2026-09-08 08:02:56 |D| 08:02:56.931 |I| SemgrepTraceLogger - ldap-injection-sinks.yaml | Register 1 rules
+2026-09-08 08:02:56 |D| 08:02:56.932 |I| SemgrepTraceLogger - command-injection-sinks.yaml | Found 2 supported rules
+2026-09-08 08:02:56 |D| 08:02:56.932 |I| SemgrepTraceLogger - command-injection-sinks.yaml | Register 2 rules
+2026-09-08 08:02:56 |D| 08:02:56.932 |I| SemgrepTraceLogger - unsafe-reflection.yaml | Found 1 supported rules
+2026-09-08 08:02:56 |D| 08:02:56.932 |I| SemgrepTraceLogger - unsafe-reflection.yaml | Register 1 rules
+2026-09-08 08:02:56 |D| 08:02:56.932 |I| SemgrepTraceLogger - servlet-untrusted-data-source.yaml | Found 1 supported rules
+2026-09-08 08:02:56 |D| 08:02:56.932 |I| SemgrepTraceLogger - servlet-untrusted-data-source.yaml | Register 1 rules
+2026-09-08 08:02:56 |D| 08:02:56.933 |I| SemgrepTraceLogger - xxe-sinks.yaml | Found 1 supported rules
+2026-09-08 08:02:56 |D| 08:02:56.933 |I| SemgrepTraceLogger - xxe-sinks.yaml | Register 1 rules
+2026-09-08 08:02:56 |D| 08:02:56.934 |I| SemgrepTraceLogger - servlet-xss-html-response-sinks.yaml | Found 1 supported rules
+2026-09-08 08:02:56 |D| 08:02:56.934 |I| SemgrepTraceLogger - servlet-xss-html-response-sinks.yaml | Register 1 rules
+2026-09-08 08:02:56 |D| 08:02:56.934 |I| SemgrepTraceLogger - template-injection-sinks.yaml | Found 1 supported rules
+2026-09-08 08:02:56 |D| 08:02:56.934 |I| SemgrepTraceLogger - template-injection-sinks.yaml | Register 1 rules
+2026-09-08 08:02:56 |D| 08:02:56.935 |I| SemgrepTraceLogger - data-query-injection-sinks.yaml | Found 2 supported rules
+2026-09-08 08:02:56 |D| 08:02:56.935 |I| SemgrepTraceLogger - data-query-injection-sinks.yaml | Register 2 rules
+2026-09-08 08:02:56 |D| 08:02:56.935 |I| SemgrepTraceLogger - seam-untrusted-data-source.yaml | Found 1 supported rules
+2026-09-08 08:02:56 |D| 08:02:56.935 |I| SemgrepTraceLogger - seam-untrusted-data-source.yaml | Register 1 rules
+2026-09-08 08:02:56 |D| 08:02:56.936 |I| SemgrepTraceLogger - http-response-splitting-sinks.yaml | Found 1 supported rules
+2026-09-08 08:02:56 |D| 08:02:56.936 |I| SemgrepTraceLogger - http-response-splitting-sinks.yaml | Register 1 rules
+2026-09-08 08:02:56 |D| 08:02:56.936 |I| SemgrepTraceLogger - servlet-response-injection-sinks.yaml | Found 1 supported rules
+2026-09-08 08:02:56 |D| 08:02:56.936 |I| SemgrepTraceLogger - servlet-response-injection-sinks.yaml | Register 1 rules
+2026-09-08 08:02:56 |D| 08:02:56.937 |I| SemgrepTraceLogger - code-injection-sinks.yaml | Found 3 supported rules
+2026-09-08 08:02:56 |D| 08:02:56.937 |I| SemgrepTraceLogger - code-injection-sinks.yaml | Register 3 rules
+2026-09-08 08:02:56 |D| 08:02:56.937 |I| SemgrepTraceLogger - smtp-injection-sinks.yaml | Found 1 supported rules
+2026-09-08 08:02:56 |D| 08:02:56.937 |I| SemgrepTraceLogger - smtp-injection-sinks.yaml | Register 1 rules
+2026-09-08 08:02:56 |D| 08:02:56.938 |I| SemgrepTraceLogger - unsafe-deserialization-sinks.yaml | Found 2 supported rules
+2026-09-08 08:02:56 |D| 08:02:56.938 |I| SemgrepTraceLogger - unsafe-deserialization-sinks.yaml | Register 2 rules
+2026-09-08 08:02:56 |D| 08:02:56.938 |I| SemgrepTraceLogger - ssrf-sinks.yaml | Found 2 supported rules
+2026-09-08 08:02:56 |D| 08:02:56.938 |I| SemgrepTraceLogger - ssrf-sinks.yaml | Register 2 rules
+2026-09-08 08:02:56 |D| 08:02:56.939 |I| SemgrepTraceLogger - spring-response-injection-sinks.yaml | Found 1 supported rules
+2026-09-08 08:02:56 |D| 08:02:56.939 |I| SemgrepTraceLogger - spring-response-injection-sinks.yaml | Register 1 rules
+2026-09-08 08:02:56 |D| 08:02:56.939 |I| SemgrepTraceLogger - unvalidated-redirect-sinks.yaml | Found 1 supported rules
+2026-09-08 08:02:56 |D| 08:02:56.939 |I| SemgrepTraceLogger - unvalidated-redirect-sinks.yaml | Register 1 rules
+2026-09-08 08:02:56 |D| 08:02:56.941 |I| SemgrepTraceLogger - spring-xss-html-response-sinks.yaml | Found 1 supported rules
+2026-09-08 08:02:56 |D| 08:02:56.941 |I| SemgrepTraceLogger - spring-xss-html-response-sinks.yaml | Register 1 rules
+2026-09-08 08:02:56 |D| 08:02:56.942 |I| SemgrepTraceLogger - untrusted-path-source.yaml | Found 1 supported rules
+2026-09-08 08:02:56 |D| 08:02:56.942 |I| SemgrepTraceLogger - untrusted-path-source.yaml | Register 1 rules
+2026-09-08 08:02:56 |D| 08:02:56.943 |I| SemgrepTraceLogger - jdbc-sqli-sinks.yaml | Found 1 supported rules
+2026-09-08 08:02:56 |D| 08:02:56.943 |I| SemgrepTraceLogger - jdbc-sqli-sinks.yaml | Register 1 rules
+2026-09-08 08:02:56 |D| 08:02:56.943 |I| SemgrepTraceLogger - untrusted-data-source.yaml | Found 1 supported rules
+2026-09-08 08:02:56 |D| 08:02:56.943 |I| SemgrepTraceLogger - untrusted-data-source.yaml | Register 1 rules
+2026-09-08 08:02:56 |D| 08:02:56.943 |I| SemgrepTraceLogger - spel-injection-sinks.yaml | Found 1 supported rules
+2026-09-08 08:02:56 |D| 08:02:56.943 |I| SemgrepTraceLogger - spel-injection-sinks.yaml | Register 1 rules
+2026-09-08 08:02:56 |D| 08:02:56.946 |I| SemgrepTraceLogger - crypto.yaml/weak-tls-protocol/load-ruleset | Skip disabled rule
+2026-09-08 08:02:56 |D| 08:02:56.946 |I| SemgrepTraceLogger - crypto.yaml/weak-tls-protocol-version/load-ruleset | Skip disabled rule
+2026-09-08 08:02:56 |D| 08:02:56.947 |I| SemgrepTraceLogger - crypto.yaml/blowfish-insufficient-key-size/load-ruleset | Skip disabled rule
+2026-09-08 08:02:56 |D| 08:02:56.947 |I| SemgrepTraceLogger - crypto.yaml/insecure-hostname-verifier/load-ruleset | Skip disabled rule
+2026-09-08 08:02:56 |D| 08:02:56.948 |I| SemgrepTraceLogger - crypto.yaml/insecure-smtp/load-ruleset | Skip disabled rule
+2026-09-08 08:02:56 |D| 08:02:56.948 |I| SemgrepTraceLogger - crypto.yaml/use-of-weak-rsa-key/load-ruleset | Skip disabled rule
+2026-09-08 08:02:56 |D| 08:02:56.948 |I| SemgrepTraceLogger - hardcoded-credentials.yaml/hardcoded-cryptographic-key/load-ruleset | Skip disabled rule
+2026-09-08 08:02:56 |D| 08:02:56.949 |I| SemgrepTraceLogger - crypto.yaml/no-static-initialization-vector/load-ruleset | Skip disabled rule
+2026-09-08 08:02:56 |D| 08:02:56.949 |I| SemgrepTraceLogger - xss.yaml/xssrequestwrapper-is-insecure/load-ruleset | Skip disabled rule
+2026-09-08 08:02:56 |D| 08:02:56.949 |I| SemgrepTraceLogger - crypto.yaml/insecure-trust-manager/load-ruleset | Skip disabled rule
+2026-09-08 08:02:56 |D| 08:02:56.949 |I| SemgrepTraceLogger - insecure-design.yaml/persistent-cookie/load-ruleset | Skip disabled rule
+2026-09-08 08:03:05 |D| 08:03:05.224 |I| SemgrepTraceLogger - crypto.yaml/avoid-implementing-custom-digests | Generate 1 rules from java/security/crypto.yaml:avoid-implementing-custom-digests
+2026-09-08 08:03:05 |D| 08:03:05.226 |I| SemgrepTraceLogger - unsafe-deserialization.yaml/insecure-resteasy-deserialization | Generate 2 rules from java/security/unsafe-deserialization.yaml:insecure-resteasy-deserialization
+2026-09-08 08:03:05 |D| 08:03:05.229 |I| SemgrepTraceLogger - permissions.yaml/overly-permissive-file-permission-inline | Generate 13 rules from java/security/permissions.yaml:overly-permissive-file-permission-inline
+2026-09-08 08:03:05 |D| 08:03:05.230 |I| SemgrepTraceLogger - crypto.yaml/gcm-nonce-reuse | Generate 4 rules from java/security/crypto.yaml:gcm-nonce-reuse
+2026-09-08 08:03:05 |D| 08:03:05.230 |I| SemgrepTraceLogger - crypto.yaml/use-of-rc2 | Generate 1 rules from java/security/crypto.yaml:use-of-rc2
+2026-09-08 08:03:05 |D| 08:03:05.231 |I| SemgrepTraceLogger - crypto.yaml/use-of-rc4 | Generate 1 rules from java/security/crypto.yaml:use-of-rc4
+2026-09-08 08:03:05 |D| 08:03:05.231 |I| SemgrepTraceLogger - csrf.yaml/csrf-disabled-in-spring-app | Generate 6 rules from java/security/csrf.yaml:csrf-disabled-in-spring-app
+2026-09-08 08:03:05 |D| 08:03:05.232 |I| SemgrepTraceLogger - weak-authentication.yaml/java-jwt-decode-without-verify | Generate 3 rules from java/security/weak-authentication.yaml:java-jwt-decode-without-verify
+2026-09-08 08:03:05 |D| 08:03:05.232 |I| SemgrepTraceLogger - permissions.yaml/dangerous-permissions | Generate 4 rules from java/security/permissions.yaml:dangerous-permissions
+2026-09-08 08:03:05 |D| 08:03:05.233 |I| SemgrepTraceLogger - crypto.yaml/use-of-sha1 | Generate 4 rules from java/security/crypto.yaml:use-of-sha1
+2026-09-08 08:03:05 |D| 08:03:05.233 |I| SemgrepTraceLogger - hardcoded-credentials.yaml/constant-db-password | Generate 1 rules from java/security/hardcoded-credentials.yaml:constant-db-password
+2026-09-08 08:03:05 |D| 08:03:05.234 |W| SemgrepTraceLogger - crypto.yaml/bad-hexa-conversion/automata-to-taint-rule | Internal warning: no user action is required. Impact: Processing continues with best-effort fallback. Details: 1 automata edge(s) have no positive predicate and were removed; rule coverage may be reduced.
+2026-09-08 08:03:05 |D| 08:03:05.234 |I| SemgrepTraceLogger - crypto.yaml/bad-hexa-conversion | Generate 2 rules from java/security/crypto.yaml:bad-hexa-conversion
+2026-09-08 08:03:05 |D| 08:03:05.235 |W| SemgrepTraceLogger - sensitive-data-exposure.yaml/url-rewriting/automata-to-taint-rule | Internal warning: no user action is required. Impact: Processing continues with best-effort fallback. Details: 1 automata edge(s) have no positive predicate and were removed; rule coverage may be reduced.
+2026-09-08 08:03:05 |D| 08:03:05.236 |W| SemgrepTraceLogger - sensitive-data-exposure.yaml/url-rewriting/automata-to-taint-rule | Internal warning: no user action is required. Impact: Processing continues with best-effort fallback. Details: 1 automata edge(s) have no positive predicate and were removed; rule coverage may be reduced.
+2026-09-08 08:03:05 |D| 08:03:05.236 |W| SemgrepTraceLogger - sensitive-data-exposure.yaml/url-rewriting/automata-to-taint-rule | Internal warning: no user action is required. Impact: Processing continues with best-effort fallback. Details: 1 automata edge(s) have no positive predicate and were removed; rule coverage may be reduced.
+2026-09-08 08:03:05 |D| 08:03:05.236 |W| SemgrepTraceLogger - sensitive-data-exposure.yaml/url-rewriting/automata-to-taint-rule | Internal warning: no user action is required. Impact: Processing continues with best-effort fallback. Details: 1 automata edge(s) have no positive predicate and were removed; rule coverage may be reduced.
+2026-09-08 08:03:05 |D| 08:03:05.236 |I| SemgrepTraceLogger - sensitive-data-exposure.yaml/url-rewriting | Generate 16 rules from java/security/sensitive-data-exposure.yaml:url-rewriting
+2026-09-08 08:03:05 |D| 08:03:05.237 |I| SemgrepTraceLogger - unsafe-deserialization.yaml/server-dangerous-object-deserialization | Generate 1 rules from java/security/unsafe-deserialization.yaml:server-dangerous-object-deserialization
+2026-09-08 08:03:05 |D| 08:03:05.237 |I| SemgrepTraceLogger - hardcoded-credentials.yaml/java-empty-db-password | Generate 1 rules from java/security/hardcoded-credentials.yaml:java-empty-db-password
+2026-09-08 08:03:05 |D| 08:03:05.237 |I| SemgrepTraceLogger - crypto.yaml/use-of-blowfish | Generate 2 rules from java/security/crypto.yaml:use-of-blowfish
+2026-09-08 08:03:05 |D| 08:03:05.237 |I| SemgrepTraceLogger - unsafe-deserialization.yaml/insecure-jms-deserialization | Generate 2 rules from java/security/unsafe-deserialization.yaml:insecure-jms-deserialization
+2026-09-08 08:03:05 |D| 08:03:05.238 |I| SemgrepTraceLogger - ldap.yaml/java-anonymous-ldap | Generate 3 rules from java/security/ldap.yaml:java-anonymous-ldap
+2026-09-08 08:03:05 |D| 08:03:05.238 |I| SemgrepTraceLogger - crypto.yaml/use-of-md5 | Generate 4 rules from java/security/crypto.yaml:use-of-md5
+2026-09-08 08:03:05 |D| 08:03:05.238 |I| SemgrepTraceLogger - crypto.yaml/use-of-default-aes | Generate 2 rules from java/security/crypto.yaml:use-of-default-aes
+2026-09-08 08:03:05 |D| 08:03:05.244 |I| SemgrepTraceLogger - crypto.yaml/jjwt-none-alg | Generate 6 rules from java/security/crypto.yaml:jjwt-none-alg
+2026-09-08 08:03:05 |D| 08:03:05.245 |I| SemgrepTraceLogger - strings.yaml/string-normalize-after-validation | Generate 3 rules from java/security/strings.yaml:string-normalize-after-validation
+2026-09-08 08:03:05 |D| 08:03:05.245 |I| SemgrepTraceLogger - crypto.yaml/jjwt-hs256 | Generate 6 rules from java/security/crypto.yaml:jjwt-hs256
+2026-09-08 08:03:05 |D| 08:03:05.246 |I| SemgrepTraceLogger - unsafe-deserialization.yaml/apache-rpc-enabled-extensions | Generate 4 rules from java/security/unsafe-deserialization.yaml:apache-rpc-enabled-extensions
+2026-09-08 08:03:05 |D| 08:03:05.246 |I| SemgrepTraceLogger - xss.yaml/wicket-xss | Generate 1 rules from java/security/xss.yaml:wicket-xss
+2026-09-08 08:03:05 |D| 08:03:05.248 |I| SemgrepTraceLogger - hardcoded-credentials.yaml/hardcoded-password | Generate 19 rules from java/security/hardcoded-credentials.yaml:hardcoded-password
+2026-09-08 08:03:05 |D| 08:03:05.248 |I| SemgrepTraceLogger - crypto.yaml/desede-is-deprecated | Generate 3 rules from java/security/crypto.yaml:desede-is-deprecated
+2026-09-08 08:03:05 |D| 08:03:05.248 |I| SemgrepTraceLogger - weak-authentication.yaml/java-saml-ignore-comments | Generate 1 rules from java/security/weak-authentication.yaml:java-saml-ignore-comments
+2026-09-08 08:03:05 |D| 08:03:05.248 |I| SemgrepTraceLogger - ldap.yaml/ldap-entry-poisoning | Generate 3 rules from java/security/ldap.yaml:ldap-entry-poisoning
+2026-09-08 08:03:05 |D| 08:03:05.249 |I| SemgrepTraceLogger - crypto.yaml/no-null-cipher | Generate 2 rules from java/security/crypto.yaml:no-null-cipher
+2026-09-08 08:03:05 |D| 08:03:05.252 |W| SemgrepTraceLogger - insecure-design.yaml/cookie-missing-httponly/automata-to-taint-rule | Internal warning: no user action is required. Impact: Processing continues with best-effort fallback. Details: 2 automata edge(s) have no positive predicate and were removed; rule coverage may be reduced.
+2026-09-08 08:03:05 |D| 08:03:05.253 |W| SemgrepTraceLogger - insecure-design.yaml/cookie-missing-httponly/automata-to-taint-rule | Internal warning: no user action is required. Impact: Processing continues with best-effort fallback. Details: Type name could not be resolved and was substituted with a placeholder; matching precision is reduced.
+2026-09-08 08:03:05 |D| 08:03:05.253 |W| SemgrepTraceLogger - insecure-design.yaml/cookie-missing-httponly/automata-to-taint-rule | Internal warning: no user action is required. Impact: Processing continues with best-effort fallback. Details: Type name could not be resolved and was substituted with a placeholder; matching precision is reduced.
+2026-09-08 08:03:05 |D| 08:03:05.253 |W| SemgrepTraceLogger - insecure-design.yaml/cookie-missing-httponly/automata-to-taint-rule | Internal warning: no user action is required. Impact: Processing continues with best-effort fallback. Details: Type name could not be resolved and was substituted with a placeholder; matching precision is reduced.
+2026-09-08 08:03:05 |D| 08:03:05.254 |W| SemgrepTraceLogger - insecure-design.yaml/cookie-missing-httponly/automata-to-taint-rule | Internal warning: no user action is required. Impact: Processing continues with best-effort fallback. Details: 2 automata edge(s) have no positive predicate and were removed; rule coverage may be reduced.
+2026-09-08 08:03:05 |D| 08:03:05.255 |I| SemgrepTraceLogger - insecure-design.yaml/cookie-missing-httponly | Generate 23 rules from java/security/insecure-design.yaml:cookie-missing-httponly
+2026-09-08 08:03:05 |D| 08:03:05.255 |I| SemgrepTraceLogger - crypto.yaml/cbc-padding-oracle | Generate 1 rules from java/security/crypto.yaml:cbc-padding-oracle
+2026-09-08 08:03:05 |D| 08:03:05.256 |I| SemgrepTraceLogger - crypto.yaml/des-is-deprecated | Generate 3 rules from java/security/crypto.yaml:des-is-deprecated
+2026-09-08 08:03:05 |D| 08:03:05.256 |I| SemgrepTraceLogger - sensitive-data-exposure.yaml/stacktrace-printing-in-error-message | Generate 1 rules from java/security/sensitive-data-exposure.yaml:stacktrace-printing-in-error-message
+2026-09-08 08:03:05 |D| 08:03:05.256 |I| SemgrepTraceLogger - crypto.yaml/jwt-none-alg | Generate 2 rules from java/security/crypto.yaml:jwt-none-alg
+2026-09-08 08:03:05 |D| 08:03:05.256 |I| SemgrepTraceLogger - crypto.yaml/aes-hardcoded-key | Generate 3 rules from java/security/crypto.yaml:aes-hardcoded-key
+2026-09-08 08:03:05 |D| 08:03:05.257 |I| SemgrepTraceLogger - crypto.yaml/weak-ec-key-size | Generate 12 rules from java/security/crypto.yaml:weak-ec-key-size
+2026-09-08 08:03:05 |D| 08:03:05.258 |I| SemgrepTraceLogger - insecure-design.yaml/permissive-cors | Generate 12 rules from java/security/insecure-design.yaml:permissive-cors
+2026-09-08 08:03:05 |D| 08:03:05.259 |I| SemgrepTraceLogger - crypto.yaml/rsa-no-padding | Generate 3 rules from java/security/crypto.yaml:rsa-no-padding
+2026-09-08 08:03:05 |D| 08:03:05.262 |W| SemgrepTraceLogger - sensitive-data-exposure.yaml/cookie-issecure-false/automata-to-taint-rule | Internal warning: no user action is required. Impact: Processing continues with best-effort fallback. Details: 2 automata edge(s) have no positive predicate and were removed; rule coverage may be reduced.
+2026-09-08 08:03:05 |D| 08:03:05.262 |W| SemgrepTraceLogger - sensitive-data-exposure.yaml/cookie-issecure-false/automata-to-taint-rule | Internal warning: no user action is required. Impact: Processing continues with best-effort fallback. Details: Type name could not be resolved and was substituted with a placeholder; matching precision is reduced.
+2026-09-08 08:03:05 |D| 08:03:05.262 |W| SemgrepTraceLogger - sensitive-data-exposure.yaml/cookie-issecure-false/automata-to-taint-rule | Internal warning: no user action is required. Impact: Processing continues with best-effort fallback. Details: Type name could not be resolved and was substituted with a placeholder; matching precision is reduced.
+2026-09-08 08:03:05 |D| 08:03:05.262 |W| SemgrepTraceLogger - sensitive-data-exposure.yaml/cookie-issecure-false/automata-to-taint-rule | Internal warning: no user action is required. Impact: Processing continues with best-effort fallback. Details: Type name could not be resolved and was substituted with a placeholder; matching precision is reduced.
+2026-09-08 08:03:05 |D| 08:03:05.263 |W| SemgrepTraceLogger - sensitive-data-exposure.yaml/cookie-issecure-false/automata-to-taint-rule | Internal warning: no user action is required. Impact: Processing continues with best-effort fallback. Details: 2 automata edge(s) have no positive predicate and were removed; rule coverage may be reduced.
+2026-09-08 08:03:05 |D| 08:03:05.264 |I| SemgrepTraceLogger - sensitive-data-exposure.yaml/cookie-issecure-false | Generate 30 rules from java/security/sensitive-data-exposure.yaml:cookie-issecure-false
+2026-09-08 08:03:05 |D| 08:03:05.264 |I| SemgrepTraceLogger - crypto.yaml/mongo-hostname-verification-disabled | Generate 1 rules from java/security/crypto.yaml:mongo-hostname-verification-disabled
+2026-09-08 08:03:05 |D| 08:03:05.264 |I| SemgrepTraceLogger - crypto.yaml/defaulthttpclient-is-deprecated | Generate 1 rules from java/security/crypto.yaml:defaulthttpclient-is-deprecated
+2026-09-08 08:03:05 |D| 08:03:05.265 |I| SemgrepTraceLogger - csrf.yaml/unrestricted-request-mapping | Generate 1 rules from java/security/csrf.yaml:unrestricted-request-mapping
+2026-09-08 08:03:05 |D| 08:03:05.265 |I| SemgrepTraceLogger - crypto.yaml/ecb-cipher | Generate 3 rules from java/security/crypto.yaml:ecb-cipher
+2026-09-08 08:03:05 |D| 08:03:05.265 |I| SemgrepTraceLogger - crypto.yaml/hazelcast-symmetric-encryption | Generate 1 rules from java/security/crypto.yaml:hazelcast-symmetric-encryption
+2026-09-08 08:03:05 |D| 08:03:05.265 |I| SemgrepTraceLogger - hardcoded-credentials.yaml/jwt-hardcoded-secret | Generate 2 rules from java/security/hardcoded-credentials.yaml:jwt-hardcoded-secret
+2026-09-08 08:03:05 |D| 08:03:05.265 |I| SemgrepTraceLogger - unsafe-deserialization.yaml/default-resteasy-provider-abuse | Generate 1 rules from java/security/unsafe-deserialization.yaml:default-resteasy-provider-abuse
+2026-09-08 08:03:05 |D| 08:03:05.277 |I| SemgrepTraceLogger - xxe.yaml/xxe | Generate 130 rules from java/security/xxe.yaml:xxe
+2026-09-08 08:03:05 |D| 08:03:05.279 |I| SemgrepTraceLogger - ssrf.yaml/ssrf | Generate 38 rules from java/security/ssrf.yaml:ssrf
+2026-09-08 08:03:05 |D| 08:03:05.281 |I| SemgrepTraceLogger - command-injection.yaml/os-command-injection | Generate 29 rules from java/security/command-injection.yaml:os-command-injection
+2026-09-08 08:03:05 |D| 08:03:05.282 |I| SemgrepTraceLogger - external-configuration-control.yaml/bean-injection | Generate 18 rules from java/security/external-configuration-control.yaml:bean-injection
+2026-09-08 08:03:05 |D| 08:03:05.283 |W| SemgrepTraceLogger - code-injection.yaml/spring-el-injection/automata-to-taint-rule | Internal warning: no user action is required. Impact: Processing continues with best-effort fallback. Details: 1 automata edge(s) have no positive predicate and were removed; rule coverage may be reduced.
+2026-09-08 08:03:05 |D| 08:03:05.284 |I| SemgrepTraceLogger - code-injection.yaml/spring-el-injection | Generate 17 rules from java/security/code-injection.yaml:spring-el-injection
+2026-09-08 08:03:05 |D| 08:03:05.289 |I| SemgrepTraceLogger - code-injection.yaml/ssti | Generate 99 rules from java/security/code-injection.yaml:ssti
+2026-09-08 08:03:05 |D| 08:03:05.290 |I| SemgrepTraceLogger - sensitive-data-exposure.yaml/file-disclosure-request-dispatcher | Generate 16 rules from java/security/sensitive-data-exposure.yaml:file-disclosure-request-dispatcher
+2026-09-08 08:03:05 |D| 08:03:05.292 |I| SemgrepTraceLogger - code-injection.yaml/groovy-injection | Generate 26 rules from java/security/code-injection.yaml:groovy-injection
+2026-09-08 08:03:05 |D| 08:03:05.293 |I| SemgrepTraceLogger - unvalidated-redirect.yaml/unvalidated-redirect-in-servlet-app | Generate 15 rules from java/security/unvalidated-redirect.yaml:unvalidated-redirect-in-servlet-app
+2026-09-08 08:03:05 |D| 08:03:05.296 |I| SemgrepTraceLogger - crlf-injection.yaml/http-response-splitting | Generate 26 rules from java/security/crlf-injection.yaml:http-response-splitting
+2026-09-08 08:03:05 |D| 08:03:05.391 |I| SemgrepTraceLogger - xss.yaml/xss-in-spring-app | Generate 4089 rules from java/security/xss.yaml:xss-in-spring-app
+2026-09-08 08:03:05 |D| 08:03:05.392 |I| SemgrepTraceLogger - strings.yaml/format-string-external-manipulation | Generate 32 rules from java/security/strings.yaml:format-string-external-manipulation
+2026-09-08 08:03:05 |D| 08:03:05.393 |I| SemgrepTraceLogger - code-injection.yaml/script-engine-injection | Generate 19 rules from java/security/code-injection.yaml:script-engine-injection
+2026-09-08 08:03:05 |D| 08:03:05.394 |I| SemgrepTraceLogger - code-injection.yaml/el-injection-in-servlet-app | Generate 18 rules from java/security/code-injection.yaml:el-injection-in-servlet-app
+2026-09-08 08:03:05 |D| 08:03:05.396 |I| SemgrepTraceLogger - sqli.yaml/sql-injection | Generate 55 rules from java/security/sqli.yaml:sql-injection
+2026-09-08 08:03:05 |D| 08:03:05.398 |I| SemgrepTraceLogger - ldap.yaml/ldap-injection | Generate 43 rules from java/security/ldap.yaml:ldap-injection
+2026-09-08 08:03:05 |D| 08:03:05.398 |I| SemgrepTraceLogger - ssrf.yaml/java-servlet-parameter-pollution | Generate 18 rules from java/security/ssrf.yaml:java-servlet-parameter-pollution
+2026-09-08 08:03:05 |D| 08:03:05.399 |I| SemgrepTraceLogger - unvalidated-redirect.yaml/unvalidated-redirect-in-spring-app | Generate 12 rules from java/security/unvalidated-redirect.yaml:unvalidated-redirect-in-spring-app
+2026-09-08 08:03:05 |D| 08:03:05.399 |I| SemgrepTraceLogger - unsafe-deserialization.yaml/unsafe-object-mapper | Generate 17 rules from java/security/unsafe-deserialization.yaml:unsafe-object-mapper
+2026-09-08 08:03:05 |D| 08:03:05.401 |I| SemgrepTraceLogger - unsafe-deserialization.yaml/unsafe-snake-yaml-deserialization | Generate 18 rules from java/security/unsafe-deserialization.yaml:unsafe-snake-yaml-deserialization
+2026-09-08 08:03:05 |D| 08:03:05.402 |I| SemgrepTraceLogger - data-query-injection.yaml/mongodb-injection | Generate 34 rules from java/security/data-query-injection.yaml:mongodb-injection
+2026-09-08 08:03:05 |D| 08:03:05.405 |I| SemgrepTraceLogger - path-traversal.yaml/path-traversal | Generate 110 rules from java/security/path-traversal.yaml:path-traversal
+2026-09-08 08:03:05 |D| 08:03:05.406 |I| SemgrepTraceLogger - sensitive-data-exposure.yaml/jsp-file-disclosure | Generate 13 rules from java/security/sensitive-data-exposure.yaml:jsp-file-disclosure
+2026-09-08 08:03:05 |D| 08:03:05.407 |I| SemgrepTraceLogger - external-configuration-control.yaml/sql-catalog-external-manipulation | Generate 17 rules from java/security/external-configuration-control.yaml:sql-catalog-external-manipulation
+2026-09-08 08:03:05 |D| 08:03:05.408 |I| SemgrepTraceLogger - log-injection.yaml/seam-log-injection | Generate 14 rules from java/security/log-injection.yaml:seam-log-injection
+2026-09-08 08:03:05 |D| 08:03:05.427 |I| SemgrepTraceLogger - unsafe-deserialization.yaml/unsafe-jackson-deserialization | Generate 724 rules from java/security/unsafe-deserialization.yaml:unsafe-jackson-deserialization
+2026-09-08 08:03:05 |D| 08:03:05.429 |I| SemgrepTraceLogger - code-injection.yaml/ognl-injection | Generate 55 rules from java/security/code-injection.yaml:ognl-injection
+2026-09-08 08:03:05 |D| 08:03:05.430 |I| SemgrepTraceLogger - crlf-injection.yaml/smtp-crlf-injection | Generate 21 rules from java/security/crlf-injection.yaml:smtp-crlf-injection
+2026-09-08 08:03:05 |D| 08:03:05.430 |I| SemgrepTraceLogger - external-configuration-control.yaml/unsafe-reflection | Generate 18 rules from java/security/external-configuration-control.yaml:unsafe-reflection
+2026-09-08 08:03:05 |D| 08:03:05.433 |I| SemgrepTraceLogger - xss.yaml/xss-in-servlet-app | Generate 64 rules from java/security/xss.yaml:xss-in-servlet-app
+2026-09-08 08:03:05 |D| 08:03:05.434 |I| SemgrepTraceLogger - data-query-injection.yaml/xpath-injection | Generate 22 rules from java/security/data-query-injection.yaml:xpath-injection
+2026-09-08 08:03:05 |D| 08:03:05.436 |I| LoadSemgrepRulesKt - Total loaded 6048 rules
+2026-09-08 08:03:05 |D| 08:03:05.446 |I| LoadSemgrepRulesKt - Wrote semgrep load trace to /Users/dave/.opentaint/logs/dataflowbench-959b53f0/rule-load-trace-2026-09-08_08-02-56.json
+2026-09-08 08:03:05 |D| 08:03:05.723 |I| JavaRuntime - Can't find or parse 'release' file inside java runtime folder. Use 8 java version for this runtime.
+2026-09-08 08:03:05 |D| 08:03:05.754 |I| JavaRuntime - Can't find or parse 'release' file inside java runtime folder. Use 8 java version for this runtime.
+2026-09-08 08:03:08 |D| 08:03:08.161 |I| ProjectEntryPointsSelectorKt - Search entry points for project: /Users/dave/.codex/worktrees/653a/dataflowbench/reports/raw/opentaint-product-v071/native-source-sink-negative/source
+2026-09-08 08:03:08 |D| 08:03:08.262 |I| ProjectAnalyzerBase - Start IFDS analysis for project: /Users/dave/.codex/worktrees/653a/dataflowbench/reports/raw/opentaint-product-v071/native-source-sink-negative/source
+2026-09-08 08:03:08 |D| 08:03:08.262 |I| TaintAnalyzer - Start prescan phase
+2026-09-08 08:03:08 |D| 08:03:08.278 |I| TaintAnalysisUnitRunnerManager - Starting analysis of 3 methods in 1 units
+2026-09-08 08:03:08 |D| 08:03:08.431 |I| TaintAnalysisUnitRunnerManager - Progress: 8/0 (+8)
+2026-09-08 08:03:08 |D| 08:03:08.434 |I| TaintAnalysisUnitRunnerManager - Memory usage: 6875759608/8589934592 (80,04%)
+2026-09-08 08:03:08 |D| 08:03:08.434 |I| TaintAnalysisUnitRunnerManager - Analysis done in 156.497250ms
+2026-09-08 08:03:08 |D| 08:03:08.434 |I| TaintAnalyzer - Finish prescan phase
+2026-09-08 08:03:08 |D| 08:03:08.434 |I| TaintAnalyzer - Start full scan phase
+2026-09-08 08:03:08 |D| 08:03:08.437 |I| TaintAnalysisUnitRunnerManager - Starting analysis of 3 methods in 1 units
+2026-09-08 08:03:08 |D| 08:03:08.438 |I| TaintAnalysisUnitRunnerManager - Progress: 7/0 (+7)
+2026-09-08 08:03:08 |D| 08:03:08.438 |I| TaintAnalysisUnitRunnerManager - Memory usage: 6881463888/8589934592 (80,11%)
+2026-09-08 08:03:08 |D| 08:03:08.438 |I| TaintAnalysisUnitRunnerManager - Analysis done in 1.547916ms
+2026-09-08 08:03:08 |D| 08:03:08.438 |I| TaintAnalyzer - Start vulnerability confirmation
+2026-09-08 08:03:08 |D| 08:03:08.439 |I| TaintAnalyzer - Total vulnerabilities: 0
+2026-09-08 08:03:08 |D| 08:03:08.439 |I| TaintAnalyzer - Start trace generation
+2026-09-08 08:03:08 |D| 08:03:08.439 |I| TaintAnalyzer - Finish trace generation
+2026-09-08 08:03:08 |D| 08:03:08.439 |I| TaintAnalyzer - Finish full scan phase
+2026-09-08 08:03:08 |D| 08:03:08.440 |I| ProjectAnalyzerBase - Finish IFDS analysis for project: /Users/dave/.codex/worktrees/653a/dataflowbench/reports/raw/opentaint-product-v071/native-source-sink-negative/source
+2026-09-08 08:03:08 |D| 08:03:08.440 |I| ProjectAnalyzerBase - Start SARIF report generation for project: /Users/dave/.codex/worktrees/653a/dataflowbench/reports/raw/opentaint-product-v071/native-source-sink-negative/source
+2026-09-08 08:03:08 |D| 08:03:08.452 |I| ProjectAnalyzerBase - Sarif trace generation stats: TraceGenerationStats(total=0, simple=0, generatedSuccess=0, generationFailed=0)
+2026-09-08 08:03:08 |D| 08:03:08.452 |I| ProjectAnalyzerBase - Finish SARIF report for project: /Users/dave/.codex/worktrees/653a/dataflowbench/reports/raw/opentaint-product-v071/native-source-sink-negative/source
+2026-09-08 08:03:08 |D| 08:03:08.454 |I| CommonProjectAnalyzer - Finish analysis for project: /Users/dave/.codex/worktrees/653a/dataflowbench/reports/raw/opentaint-product-v071/native-source-sink-negative/source
+2026-09-08 08:03:08 |D| 08:03:08.454 |I| ProjectAnalysisResults - Write analysis results
+╭─Rule Statistics─╮
+╰─┬───────────────╯
+  └─ Rule parsing issues
+     └─ No issues found
+╭─Scan Summary─╮
+╰─┬────────────╯
+  ├─ Findings
+  │  ├─ Total: 0 findings
+  │  ├─ Files affected: 0
+  │  ├─ Rules executed: 78
+  │  └─ Rules triggered: 0
+  └─ Output
+     ├─ Report: /Users/dave/.codex/worktrees/653a/dataflowbench/reports/raw/opentaint-product-v071/native-source-sink-negative/product.sarif.json
+     └─ Log: /Users/dave/.codex/worktrees/653a/dataflowbench/reports/raw/opentaint-product-v071/native-source-sink-negative/product.log
+╭─Suggestions─╮
+╰─┬───────────╯
+  └─ To view findings run
+     └─ opentaint summary /Users/dave/.codex/worktrees/653a/dataflowbench/reports/raw/opentaint-product-v071/native-source-sink-negative/product.sarif.json --show-findings

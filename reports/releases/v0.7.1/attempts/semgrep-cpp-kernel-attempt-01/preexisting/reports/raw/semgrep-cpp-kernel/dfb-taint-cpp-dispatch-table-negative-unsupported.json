@@ -1,0 +1,19 @@
+{
+  "adapter": "semgrep",
+  "case_id": "dfb-taint-cpp-dispatch-table-negative",
+  "engine_profile": "semgrep-ce-oss-intrafile-intraprocedural-taint",
+  "evidence_kind": "retained-capability-decision",
+  "expected_analysis_capability": {
+    "kind": "indirect-callee-resolution-taint"
+  },
+  "feature_tags": [
+    "higher-order",
+    "ambiguous-dispatch"
+  ],
+  "language": "cpp",
+  "language_maturity": "alpha",
+  "language_maturity_source": "semgrep_interfaces/lang.json (pinned distribution)",
+  "reason": "outside the bounded Semgrep CE profile: the callee is a function value fetched from a standard-library map and the sink is inside it; the call-graph edge and the sink are both outside the intraprocedural CE engine (`--pro-intrafile` is Pro). The case requires \"indirect-callee-resolution-taint\"; the scored CE profile is the kernel's `intraprocedural` partition only.",
+  "stage": "declared-capability",
+  "state": "unsupported"
+}

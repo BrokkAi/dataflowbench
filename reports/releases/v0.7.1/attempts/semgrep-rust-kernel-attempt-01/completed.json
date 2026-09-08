@@ -1,0 +1,486 @@
+{
+  "id": "semgrep-rust-kernel-attempt-01",
+  "planned_id": "semgrep-rust-kernel",
+  "argv": [
+    "/Users/dave/.codex/worktrees/653a/dataflowbench/target/debug/dataflowbench",
+    "--population",
+    "v0.7.0",
+    "run-semgrep-rust-kernel",
+    "--semgrep",
+    "/opt/homebrew/bin/semgrep"
+  ],
+  "cwd": "/Users/dave/.codex/worktrees/653a/dataflowbench",
+  "input_commits": {
+    "corpus": "0c82e8093ff899d5ee72809a82c951ab76b5bb76",
+    "publication_infrastructure": "53050fa64628997e866303bcd5299d74f1e3e45d",
+    "pins": "c0899dab0d2c043dcc5b1aa6a1aad0e49f482fea"
+  },
+  "execution_revision": "4ec8cb4bc7552246dc75b1bc39a18340432880a3",
+  "population": "v0.7.0",
+  "fixture_revision": "sha256:9df209ed3d7723a3ee33f2b289cf2afe34a3add781bdf2a2ac445de42b8d0151",
+  "plan": {
+    "path": "reports/releases/v0.7.1/plan.json",
+    "sha256": "cb948f4a5cff80b95d3dcc755ab8249d87449e43f70e6eb80a456789faf12f26"
+  },
+  "identities": {
+    "path": "reports/releases/v0.7.1/identities.json",
+    "sha256": "0b8b1bb07d1df1ec8687613bb355f5f6021a2c664d3488dc3bc763553ce1a83c"
+  },
+  "execution_access": "require_escalated",
+  "start_utc": "2026-09-07T21:19:19.057572+00:00",
+  "host": {
+    "platform": "macOS-26.6.2-arm64-arm-64bit",
+    "cpu_count": 10,
+    "load_before": [
+      6.49853515625,
+      8.40576171875,
+      9.18310546875
+    ],
+    "load_after": [
+      6.8046875,
+      8.34716796875,
+      9.1435546875
+    ]
+  },
+  "settle_observations": [],
+  "cache_posture": "isolated case workspaces; local distributions and prefetched CodeQL packs; OS page cache uncontrolled; warm only for explicit warm series",
+  "supersedes": null,
+  "exit_code": 0,
+  "end_utc": "2026-09-07T21:19:40.694819+00:00",
+  "stdout": {
+    "path": "reports/releases/v0.7.1/attempts/semgrep-rust-kernel-attempt-01/stdout.txt",
+    "sha256": "3fbbfcc37b0e749e5a0354d1954fcc797428a689d0ac68af1e56a6191e929caf"
+  },
+  "stderr": {
+    "path": "reports/releases/v0.7.1/attempts/semgrep-rust-kernel-attempt-01/stderr.txt",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "outputs": [
+    {
+      "original_path": "reports/semgrep-rust-kernel.json",
+      "path": "reports/releases/v0.7.1/attempts/semgrep-rust-kernel-attempt-01/outputs/reports/semgrep-rust-kernel.json",
+      "sha256": "a8a9672f2ffb144b9e2af1a18626a179de049347a78bcea12fae2f44d534f420"
+    },
+    {
+      "original_path": "reports/raw/semgrep-rust-kernel/dfb-taint-rust-local-overwrite-negative-rule.yaml",
+      "path": "reports/releases/v0.7.1/attempts/semgrep-rust-kernel-attempt-01/outputs/reports/raw/semgrep-rust-kernel/dfb-taint-rust-local-overwrite-negative-rule.yaml",
+      "sha256": "0326015edbfce66dcd52d72c67058183816a89c41a8269333dac9c3f9cefe326"
+    },
+    {
+      "original_path": "reports/raw/semgrep-rust-kernel/dfb-taint-rust-loop-carried-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/semgrep-rust-kernel-attempt-01/outputs/reports/raw/semgrep-rust-kernel/dfb-taint-rust-loop-carried-negative.json",
+      "sha256": "639f7037ef8bc7eef973f9ab98adf77d7c87948f581a6ef622eef1f8d4046b53"
+    },
+    {
+      "original_path": "reports/raw/semgrep-rust-kernel/dfb-taint-rust-callback-registration-positive-unsupported.json",
+      "path": "reports/releases/v0.7.1/attempts/semgrep-rust-kernel-attempt-01/outputs/reports/raw/semgrep-rust-kernel/dfb-taint-rust-callback-registration-positive-unsupported.json",
+      "sha256": "1b3b2e5f0cf7cd66924c07f72e1b8853eda22310174edb4c017a322b9f0a17e2"
+    },
+    {
+      "original_path": "reports/raw/semgrep-rust-kernel/dfb-taint-rust-dispatch-table-negative-unsupported.json",
+      "path": "reports/releases/v0.7.1/attempts/semgrep-rust-kernel-attempt-01/outputs/reports/raw/semgrep-rust-kernel/dfb-taint-rust-dispatch-table-negative-unsupported.json",
+      "sha256": "4533e0e455d8ff549b3c26e000658b3e4dd4b18c66c9dc303ec111dd9f8b1ee6"
+    },
+    {
+      "original_path": "reports/raw/semgrep-rust-kernel/dfb-taint-rust-local-chain-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/semgrep-rust-kernel-attempt-01/outputs/reports/raw/semgrep-rust-kernel/dfb-taint-rust-local-chain-positive.json",
+      "sha256": "925474bf66255456f74c4187f964916c6b436ccaf9d43b1aeb29d18850b2ad48"
+    },
+    {
+      "original_path": "reports/raw/semgrep-rust-kernel/dfb-taint-rust-return-relay-two-hop-negative-unsupported.json",
+      "path": "reports/releases/v0.7.1/attempts/semgrep-rust-kernel-attempt-01/outputs/reports/raw/semgrep-rust-kernel/dfb-taint-rust-return-relay-two-hop-negative-unsupported.json",
+      "sha256": "de3ba79c293bc85ce0d65c693aafefec5280005b6edbf640fd133cfffa07609f"
+    },
+    {
+      "original_path": "reports/raw/semgrep-rust-kernel/dfb-taint-rust-call-context-positive-unsupported.json",
+      "path": "reports/releases/v0.7.1/attempts/semgrep-rust-kernel-attempt-01/outputs/reports/raw/semgrep-rust-kernel/dfb-taint-rust-call-context-positive-unsupported.json",
+      "sha256": "ae23c9f825761d4c69c028befde4222341474a3fb9885e340bb0994defd7425e"
+    },
+    {
+      "original_path": "reports/raw/semgrep-rust-kernel/dfb-taint-rust-object-separation-negative-unsupported.json",
+      "path": "reports/releases/v0.7.1/attempts/semgrep-rust-kernel-attempt-01/outputs/reports/raw/semgrep-rust-kernel/dfb-taint-rust-object-separation-negative-unsupported.json",
+      "sha256": "2c61763e68ebb0f1025d78c678bb4b396d776c3d5acd5eb7f1fddaeb328ad7c6"
+    },
+    {
+      "original_path": "reports/raw/semgrep-rust-kernel/dfb-taint-rust-infeasible-branch-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/semgrep-rust-kernel-attempt-01/outputs/reports/raw/semgrep-rust-kernel/dfb-taint-rust-infeasible-branch-negative.json",
+      "sha256": "ac5978f7450ca200a0373ffa2171e208a7ddd34e9582c31820af970190043805"
+    },
+    {
+      "original_path": "reports/raw/semgrep-rust-kernel/dfb-taint-rust-nested-access-path-negative-unsupported.json",
+      "path": "reports/releases/v0.7.1/attempts/semgrep-rust-kernel-attempt-01/outputs/reports/raw/semgrep-rust-kernel/dfb-taint-rust-nested-access-path-negative-unsupported.json",
+      "sha256": "680de297dc11dbb6cbd3f61242f39a3d77ebd128fa438b2169c09fa684f1aa48"
+    },
+    {
+      "original_path": "reports/raw/semgrep-rust-kernel/dfb-taint-rust-branch-join-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/semgrep-rust-kernel-attempt-01/outputs/reports/raw/semgrep-rust-kernel/dfb-taint-rust-branch-join-positive.json",
+      "sha256": "19f894ec047b9973f723bdfa71aa5e8d1cec6d0a7549959ced12a01bd278b167"
+    },
+    {
+      "original_path": "reports/raw/semgrep-rust-kernel/dfb-taint-rust-direct-negative-rule.yaml",
+      "path": "reports/releases/v0.7.1/attempts/semgrep-rust-kernel-attempt-01/outputs/reports/raw/semgrep-rust-kernel/dfb-taint-rust-direct-negative-rule.yaml",
+      "sha256": "0326015edbfce66dcd52d72c67058183816a89c41a8269333dac9c3f9cefe326"
+    },
+    {
+      "original_path": "reports/raw/semgrep-rust-kernel/dfb-taint-rust-recursive-carry-positive-unsupported.json",
+      "path": "reports/releases/v0.7.1/attempts/semgrep-rust-kernel-attempt-01/outputs/reports/raw/semgrep-rust-kernel/dfb-taint-rust-recursive-carry-positive-unsupported.json",
+      "sha256": "c51a1fe2e5a46c4937536a2410199d15a11187ae40bea9c027b7780cd224bf73"
+    },
+    {
+      "original_path": "reports/raw/semgrep-rust-kernel/dfb-taint-rust-direct-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/semgrep-rust-kernel-attempt-01/outputs/reports/raw/semgrep-rust-kernel/dfb-taint-rust-direct-negative-timing.json",
+      "sha256": "bd025f7055894faeb6b483fce22b443b421836fc5cf925bd70d063c0fd64a9ad"
+    },
+    {
+      "original_path": "reports/raw/semgrep-rust-kernel/dfb-taint-rust-local-chain-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/semgrep-rust-kernel-attempt-01/outputs/reports/raw/semgrep-rust-kernel/dfb-taint-rust-local-chain-negative-timing.json",
+      "sha256": "b84c1c765c8fd038b021659e143883b493901597bf90a7f2b7e9e52512548f78"
+    },
+    {
+      "original_path": "reports/raw/semgrep-rust-kernel/dfb-taint-rust-branch-join-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/semgrep-rust-kernel-attempt-01/outputs/reports/raw/semgrep-rust-kernel/dfb-taint-rust-branch-join-negative.json",
+      "sha256": "d0738e5483cacf154ddd7913cdae445439a6f3159353934719889931524d501e"
+    },
+    {
+      "original_path": "reports/raw/semgrep-rust-kernel/dfb-taint-rust-branch-join-positive-rule.yaml",
+      "path": "reports/releases/v0.7.1/attempts/semgrep-rust-kernel-attempt-01/outputs/reports/raw/semgrep-rust-kernel/dfb-taint-rust-branch-join-positive-rule.yaml",
+      "sha256": "0326015edbfce66dcd52d72c67058183816a89c41a8269333dac9c3f9cefe326"
+    },
+    {
+      "original_path": "reports/raw/semgrep-rust-kernel/dfb-taint-rust-direct-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/semgrep-rust-kernel-attempt-01/outputs/reports/raw/semgrep-rust-kernel/dfb-taint-rust-direct-positive-timing.json",
+      "sha256": "0b698602d040efb2e2e2125b8e843e1ee04b0d94f0f5fbc175c9985a81893ef0"
+    },
+    {
+      "original_path": "reports/raw/semgrep-rust-kernel/dfb-taint-rust-loop-carried-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/semgrep-rust-kernel-attempt-01/outputs/reports/raw/semgrep-rust-kernel/dfb-taint-rust-loop-carried-positive.json",
+      "sha256": "277af17bd322299a16a650511ec4b1c5d50e4d11c6564ee778c74031676a5ab9"
+    },
+    {
+      "original_path": "reports/raw/semgrep-rust-kernel/dfb-taint-rust-argument-position-negative-unsupported.json",
+      "path": "reports/releases/v0.7.1/attempts/semgrep-rust-kernel-attempt-01/outputs/reports/raw/semgrep-rust-kernel/dfb-taint-rust-argument-position-negative-unsupported.json",
+      "sha256": "1c6560246eb711af15db7f78f65f2af7bd6e97b39ee928b6b05d539af2e149c2"
+    },
+    {
+      "original_path": "reports/raw/semgrep-rust-kernel/dfb-taint-rust-alias-propagation-negative-unsupported.json",
+      "path": "reports/releases/v0.7.1/attempts/semgrep-rust-kernel-attempt-01/outputs/reports/raw/semgrep-rust-kernel/dfb-taint-rust-alias-propagation-negative-unsupported.json",
+      "sha256": "883f9f482ae4278902f0605f6b048ebfe24105f99a67d6e01931b4eb7d15ea4c"
+    },
+    {
+      "original_path": "reports/raw/semgrep-rust-kernel/dfb-taint-rust-local-chain-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/semgrep-rust-kernel-attempt-01/outputs/reports/raw/semgrep-rust-kernel/dfb-taint-rust-local-chain-negative.json",
+      "sha256": "c17eeecd5b1fe942ee9a2bc36d3bce029e7eb6ce2496eef530cc6a0858a59c2d"
+    },
+    {
+      "original_path": "reports/raw/semgrep-rust-kernel/dfb-taint-rust-element-object-positive-unsupported.json",
+      "path": "reports/releases/v0.7.1/attempts/semgrep-rust-kernel-attempt-01/outputs/reports/raw/semgrep-rust-kernel/dfb-taint-rust-element-object-positive-unsupported.json",
+      "sha256": "2841ac0c9e601e790f234958aad8df0ffb257133dc791e8038afe50392b35cd5"
+    },
+    {
+      "original_path": "reports/raw/semgrep-rust-kernel/dfb-taint-rust-return-relay-one-hop-positive-unsupported.json",
+      "path": "reports/releases/v0.7.1/attempts/semgrep-rust-kernel-attempt-01/outputs/reports/raw/semgrep-rust-kernel/dfb-taint-rust-return-relay-one-hop-positive-unsupported.json",
+      "sha256": "e29f6fc1e4dc8ca8cbfb16fe5b97a6799f1a7a06f5535b66ce062fd37268501a"
+    },
+    {
+      "original_path": "reports/raw/semgrep-rust-kernel/dfb-taint-rust-local-chain-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/semgrep-rust-kernel-attempt-01/outputs/reports/raw/semgrep-rust-kernel/dfb-taint-rust-local-chain-positive-timing.json",
+      "sha256": "92b6c810c4a0cd44e46b1497a891f25942832ccf937b4ac90093e83766f586a5"
+    },
+    {
+      "original_path": "reports/raw/semgrep-rust-kernel/dfb-taint-rust-array-element-negative-unsupported.json",
+      "path": "reports/releases/v0.7.1/attempts/semgrep-rust-kernel-attempt-01/outputs/reports/raw/semgrep-rust-kernel/dfb-taint-rust-array-element-negative-unsupported.json",
+      "sha256": "d726c175c79e4d51261ffb42cee1121d23aa341148733c2de40390ae2dd0ad85"
+    },
+    {
+      "original_path": "reports/raw/semgrep-rust-kernel/dfb-taint-rust-infeasible-branch-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/semgrep-rust-kernel-attempt-01/outputs/reports/raw/semgrep-rust-kernel/dfb-taint-rust-infeasible-branch-positive.json",
+      "sha256": "969439a47a9bff4ecedf41c91440a6f08667bb66bd53a17bddf9ef85ba42901d"
+    },
+    {
+      "original_path": "reports/raw/semgrep-rust-kernel/dfb-taint-rust-infeasible-branch-positive-rule.yaml",
+      "path": "reports/releases/v0.7.1/attempts/semgrep-rust-kernel-attempt-01/outputs/reports/raw/semgrep-rust-kernel/dfb-taint-rust-infeasible-branch-positive-rule.yaml",
+      "sha256": "0326015edbfce66dcd52d72c67058183816a89c41a8269333dac9c3f9cefe326"
+    },
+    {
+      "original_path": "reports/raw/semgrep-rust-kernel/dfb-taint-rust-expression-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/semgrep-rust-kernel-attempt-01/outputs/reports/raw/semgrep-rust-kernel/dfb-taint-rust-expression-negative.json",
+      "sha256": "d4fc168a7899a139d873f39691b22bd10cf3f06d3079794d48fcb63c11a4dd42"
+    },
+    {
+      "original_path": "reports/raw/semgrep-rust-kernel/dfb-taint-rust-recursive-carry-negative-unsupported.json",
+      "path": "reports/releases/v0.7.1/attempts/semgrep-rust-kernel-attempt-01/outputs/reports/raw/semgrep-rust-kernel/dfb-taint-rust-recursive-carry-negative-unsupported.json",
+      "sha256": "bf79069b9d0e01b0122e677c463799153b723dd44914ab1bd8c1fd35b0baa2cd"
+    },
+    {
+      "original_path": "reports/raw/semgrep-rust-kernel/dfb-taint-rust-array-element-positive-unsupported.json",
+      "path": "reports/releases/v0.7.1/attempts/semgrep-rust-kernel-attempt-01/outputs/reports/raw/semgrep-rust-kernel/dfb-taint-rust-array-element-positive-unsupported.json",
+      "sha256": "2789c4820e4f7ef8ee92323ee4fa247f24cacbf42c2e3e9686a7bd4959a4d65a"
+    },
+    {
+      "original_path": "reports/raw/semgrep-rust-kernel/run-environment.json",
+      "path": "reports/releases/v0.7.1/attempts/semgrep-rust-kernel-attempt-01/outputs/reports/raw/semgrep-rust-kernel/run-environment.json",
+      "sha256": "b2b5ef9fbe7ba63ee0eae6c506125a86d00101edde13e2f4bf8074d20ae71244"
+    },
+    {
+      "original_path": "reports/raw/semgrep-rust-kernel/dfb-taint-rust-argument-position-positive-unsupported.json",
+      "path": "reports/releases/v0.7.1/attempts/semgrep-rust-kernel-attempt-01/outputs/reports/raw/semgrep-rust-kernel/dfb-taint-rust-argument-position-positive-unsupported.json",
+      "sha256": "7f74be6b54e451a4b0c3ceec3a6668427888125f99200a8bcaa8ea2368aa1011"
+    },
+    {
+      "original_path": "reports/raw/semgrep-rust-kernel/dfb-taint-rust-return-relay-one-hop-negative-unsupported.json",
+      "path": "reports/releases/v0.7.1/attempts/semgrep-rust-kernel-attempt-01/outputs/reports/raw/semgrep-rust-kernel/dfb-taint-rust-return-relay-one-hop-negative-unsupported.json",
+      "sha256": "e22cd48d4189de0f00f2f90ae0748d0ff76719c38e575074cf0f1f18b1db1c72"
+    },
+    {
+      "original_path": "reports/raw/semgrep-rust-kernel/dfb-taint-rust-element-object-negative-unsupported.json",
+      "path": "reports/releases/v0.7.1/attempts/semgrep-rust-kernel-attempt-01/outputs/reports/raw/semgrep-rust-kernel/dfb-taint-rust-element-object-negative-unsupported.json",
+      "sha256": "787c6e01c729cba8d5e05acbd846cd8657d49325b58beda2fe65d7bb690060d2"
+    },
+    {
+      "original_path": "reports/raw/semgrep-rust-kernel/dfb-taint-rust-alias-propagation-positive-unsupported.json",
+      "path": "reports/releases/v0.7.1/attempts/semgrep-rust-kernel-attempt-01/outputs/reports/raw/semgrep-rust-kernel/dfb-taint-rust-alias-propagation-positive-unsupported.json",
+      "sha256": "909bab6e67288c2e008952e6ede5152065785b435efd3f286f5defc247236173"
+    },
+    {
+      "original_path": "reports/raw/semgrep-rust-kernel/dfb-taint-rust-direct-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/semgrep-rust-kernel-attempt-01/outputs/reports/raw/semgrep-rust-kernel/dfb-taint-rust-direct-positive.json",
+      "sha256": "1cd94b759e1f70071ff2336d463c1ac29aaf0d67ba510d05b0ebba0343b0ef17"
+    },
+    {
+      "original_path": "reports/raw/semgrep-rust-kernel/dfb-taint-rust-call-context-negative-unsupported.json",
+      "path": "reports/releases/v0.7.1/attempts/semgrep-rust-kernel-attempt-01/outputs/reports/raw/semgrep-rust-kernel/dfb-taint-rust-call-context-negative-unsupported.json",
+      "sha256": "82710418b1a97f16fd775257bdb33cf906017f1a6430daa6d8aeb575c8bd78c7"
+    },
+    {
+      "original_path": "reports/raw/semgrep-rust-kernel/dfb-taint-rust-object-separation-positive-unsupported.json",
+      "path": "reports/releases/v0.7.1/attempts/semgrep-rust-kernel-attempt-01/outputs/reports/raw/semgrep-rust-kernel/dfb-taint-rust-object-separation-positive-unsupported.json",
+      "sha256": "2e6fcb02df6e2f4271b96db4febcebad6cadd55629f470648f1cff1465ab381f"
+    },
+    {
+      "original_path": "reports/raw/semgrep-rust-kernel/dfb-taint-rust-local-overwrite-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/semgrep-rust-kernel-attempt-01/outputs/reports/raw/semgrep-rust-kernel/dfb-taint-rust-local-overwrite-negative-timing.json",
+      "sha256": "d527b156ba8086f3138f1dd91c366a156b994dfa2fea292785550facde87f218"
+    },
+    {
+      "original_path": "reports/raw/semgrep-rust-kernel/dfb-taint-rust-loop-carried-negative-rule.yaml",
+      "path": "reports/releases/v0.7.1/attempts/semgrep-rust-kernel-attempt-01/outputs/reports/raw/semgrep-rust-kernel/dfb-taint-rust-loop-carried-negative-rule.yaml",
+      "sha256": "0326015edbfce66dcd52d72c67058183816a89c41a8269333dac9c3f9cefe326"
+    },
+    {
+      "original_path": "reports/raw/semgrep-rust-kernel/dfb-taint-rust-return-relay-two-hop-positive-unsupported.json",
+      "path": "reports/releases/v0.7.1/attempts/semgrep-rust-kernel-attempt-01/outputs/reports/raw/semgrep-rust-kernel/dfb-taint-rust-return-relay-two-hop-positive-unsupported.json",
+      "sha256": "c49df2d9301fa041392b452c5f1288b1b39a74a9c663151eb8aa28ab5eb94669"
+    },
+    {
+      "original_path": "reports/raw/semgrep-rust-kernel/dfb-taint-rust-dispatch-table-positive-unsupported.json",
+      "path": "reports/releases/v0.7.1/attempts/semgrep-rust-kernel-attempt-01/outputs/reports/raw/semgrep-rust-kernel/dfb-taint-rust-dispatch-table-positive-unsupported.json",
+      "sha256": "18f7524589ce612004e9b28e9b7471c57e5a500365650ae1b56e9a4afa80e63d"
+    },
+    {
+      "original_path": "reports/raw/semgrep-rust-kernel/dfb-taint-rust-direct-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/semgrep-rust-kernel-attempt-01/outputs/reports/raw/semgrep-rust-kernel/dfb-taint-rust-direct-negative.json",
+      "sha256": "542816660672fcb35ab34c162ab054599d1adf073b348f8ec2b8f6b2979d4cb4"
+    },
+    {
+      "original_path": "reports/raw/semgrep-rust-kernel/dfb-taint-rust-callback-registration-negative-unsupported.json",
+      "path": "reports/releases/v0.7.1/attempts/semgrep-rust-kernel-attempt-01/outputs/reports/raw/semgrep-rust-kernel/dfb-taint-rust-callback-registration-negative-unsupported.json",
+      "sha256": "1ec84220688fe7d6e83d52bdd31248a3bfebac132cee56dd5f3bab10af118d0a"
+    },
+    {
+      "original_path": "reports/raw/semgrep-rust-kernel/dfb-taint-rust-local-overwrite-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/semgrep-rust-kernel-attempt-01/outputs/reports/raw/semgrep-rust-kernel/dfb-taint-rust-local-overwrite-positive-timing.json",
+      "sha256": "3da4d60b1d2e405182eaf7311d1719f0230274c69392880aedef1fd7fcb45833"
+    },
+    {
+      "original_path": "reports/raw/semgrep-rust-kernel/dfb-taint-rust-local-chain-negative-rule.yaml",
+      "path": "reports/releases/v0.7.1/attempts/semgrep-rust-kernel-attempt-01/outputs/reports/raw/semgrep-rust-kernel/dfb-taint-rust-local-chain-negative-rule.yaml",
+      "sha256": "0326015edbfce66dcd52d72c67058183816a89c41a8269333dac9c3f9cefe326"
+    },
+    {
+      "original_path": "reports/raw/semgrep-rust-kernel/dfb-taint-rust-expression-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/semgrep-rust-kernel-attempt-01/outputs/reports/raw/semgrep-rust-kernel/dfb-taint-rust-expression-positive.json",
+      "sha256": "f8665bc0dfea07a34dcd0727c69c1ae2d7eabdd8ace8b4681c93b1850eed24b8"
+    },
+    {
+      "original_path": "reports/raw/semgrep-rust-kernel/dfb-taint-rust-nested-access-path-positive-unsupported.json",
+      "path": "reports/releases/v0.7.1/attempts/semgrep-rust-kernel-attempt-01/outputs/reports/raw/semgrep-rust-kernel/dfb-taint-rust-nested-access-path-positive-unsupported.json",
+      "sha256": "6f58ae3800b52789ffd58320be450dfd919641ffc032e1bced7d22501d5cdcf6"
+    },
+    {
+      "original_path": "reports/raw/semgrep-rust-kernel/dfb-taint-rust-expression-negative-rule.yaml",
+      "path": "reports/releases/v0.7.1/attempts/semgrep-rust-kernel-attempt-01/outputs/reports/raw/semgrep-rust-kernel/dfb-taint-rust-expression-negative-rule.yaml",
+      "sha256": "0326015edbfce66dcd52d72c67058183816a89c41a8269333dac9c3f9cefe326"
+    },
+    {
+      "original_path": "reports/raw/semgrep-rust-kernel/dfb-taint-rust-loop-carried-positive-rule.yaml",
+      "path": "reports/releases/v0.7.1/attempts/semgrep-rust-kernel-attempt-01/outputs/reports/raw/semgrep-rust-kernel/dfb-taint-rust-loop-carried-positive-rule.yaml",
+      "sha256": "0326015edbfce66dcd52d72c67058183816a89c41a8269333dac9c3f9cefe326"
+    },
+    {
+      "original_path": "reports/raw/semgrep-rust-kernel/dfb-taint-rust-deep-relay-chain-negative-unsupported.json",
+      "path": "reports/releases/v0.7.1/attempts/semgrep-rust-kernel-attempt-01/outputs/reports/raw/semgrep-rust-kernel/dfb-taint-rust-deep-relay-chain-negative-unsupported.json",
+      "sha256": "f989b3c9a38920d932f9aa46e5a1d4051ac71628fea291f47eae93e120113179"
+    },
+    {
+      "original_path": "reports/raw/semgrep-rust-kernel/dfb-taint-rust-context-pair-depth2-negative-unsupported.json",
+      "path": "reports/releases/v0.7.1/attempts/semgrep-rust-kernel-attempt-01/outputs/reports/raw/semgrep-rust-kernel/dfb-taint-rust-context-pair-depth2-negative-unsupported.json",
+      "sha256": "28eac0ac5a4d5158d3f06c17a3241caee3d002acbe07cf7005e13821eaa8832e"
+    },
+    {
+      "original_path": "reports/raw/semgrep-rust-kernel/dfb-taint-rust-same-object-field-negative-unsupported.json",
+      "path": "reports/releases/v0.7.1/attempts/semgrep-rust-kernel-attempt-01/outputs/reports/raw/semgrep-rust-kernel/dfb-taint-rust-same-object-field-negative-unsupported.json",
+      "sha256": "33449d4e08a4957023a9732369a70ecc28b55f2510c5f4efbb3b618c2e056c4e"
+    },
+    {
+      "original_path": "reports/raw/semgrep-rust-kernel/dfb-taint-rust-local-overwrite-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/semgrep-rust-kernel-attempt-01/outputs/reports/raw/semgrep-rust-kernel/dfb-taint-rust-local-overwrite-positive.json",
+      "sha256": "32d50d0358b65ca52ffd6b23d1dbf933ec4068038983a861be034bb343b29f9e"
+    },
+    {
+      "original_path": "reports/raw/semgrep-rust-kernel/dfb-taint-rust-expression-positive-rule.yaml",
+      "path": "reports/releases/v0.7.1/attempts/semgrep-rust-kernel-attempt-01/outputs/reports/raw/semgrep-rust-kernel/dfb-taint-rust-expression-positive-rule.yaml",
+      "sha256": "0326015edbfce66dcd52d72c67058183816a89c41a8269333dac9c3f9cefe326"
+    },
+    {
+      "original_path": "reports/raw/semgrep-rust-kernel/dfb-taint-rust-local-chain-positive-rule.yaml",
+      "path": "reports/releases/v0.7.1/attempts/semgrep-rust-kernel-attempt-01/outputs/reports/raw/semgrep-rust-kernel/dfb-taint-rust-local-chain-positive-rule.yaml",
+      "sha256": "0326015edbfce66dcd52d72c67058183816a89c41a8269333dac9c3f9cefe326"
+    },
+    {
+      "original_path": "reports/raw/semgrep-rust-kernel/dfb-taint-rust-map-iteration-negative-unsupported.json",
+      "path": "reports/releases/v0.7.1/attempts/semgrep-rust-kernel-attempt-01/outputs/reports/raw/semgrep-rust-kernel/dfb-taint-rust-map-iteration-negative-unsupported.json",
+      "sha256": "8ffced5aac420c100e33897e696961b47db352866ba079893cd2ebec344f9981"
+    },
+    {
+      "original_path": "reports/raw/semgrep-rust-kernel/dfb-taint-rust-infeasible-branch-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/semgrep-rust-kernel-attempt-01/outputs/reports/raw/semgrep-rust-kernel/dfb-taint-rust-infeasible-branch-negative-timing.json",
+      "sha256": "b43fa4c9059eba716100d90692473ffc3686ed87d7b1728f18637daeee8d5ec2"
+    },
+    {
+      "original_path": "reports/raw/semgrep-rust-kernel/dfb-taint-rust-local-overwrite-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/semgrep-rust-kernel-attempt-01/outputs/reports/raw/semgrep-rust-kernel/dfb-taint-rust-local-overwrite-negative.json",
+      "sha256": "eab5c10ee2b378057358ff0ba0f438933d34498345bf0240c53b4059912babb7"
+    },
+    {
+      "original_path": "reports/raw/semgrep-rust-kernel/dfb-taint-rust-computed-property-positive-unsupported.json",
+      "path": "reports/releases/v0.7.1/attempts/semgrep-rust-kernel-attempt-01/outputs/reports/raw/semgrep-rust-kernel/dfb-taint-rust-computed-property-positive-unsupported.json",
+      "sha256": "3c2cdb3f219db08c4cd0ec3abb24a2c02f0b9ccbddcbd99605b9e72949395d2b"
+    },
+    {
+      "original_path": "reports/raw/semgrep-rust-kernel/dfb-taint-rust-infeasible-branch-negative-rule.yaml",
+      "path": "reports/releases/v0.7.1/attempts/semgrep-rust-kernel-attempt-01/outputs/reports/raw/semgrep-rust-kernel/dfb-taint-rust-infeasible-branch-negative-rule.yaml",
+      "sha256": "0326015edbfce66dcd52d72c67058183816a89c41a8269333dac9c3f9cefe326"
+    },
+    {
+      "original_path": "reports/raw/semgrep-rust-kernel/dfb-taint-rust-anonymous-implementation-negative-unsupported.json",
+      "path": "reports/releases/v0.7.1/attempts/semgrep-rust-kernel-attempt-01/outputs/reports/raw/semgrep-rust-kernel/dfb-taint-rust-anonymous-implementation-negative-unsupported.json",
+      "sha256": "8071dd53231976c7c482ec8cf0e09fbbc0b755429b2bf8a1384853c268aa0186"
+    },
+    {
+      "original_path": "reports/raw/semgrep-rust-kernel/dfb-taint-rust-infeasible-branch-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/semgrep-rust-kernel-attempt-01/outputs/reports/raw/semgrep-rust-kernel/dfb-taint-rust-infeasible-branch-positive-timing.json",
+      "sha256": "8c25e8504e98c877f6f8bf71f1af1f06a362e2d9f557c803e62402e21ed6cec4"
+    },
+    {
+      "original_path": "reports/raw/semgrep-rust-kernel/dfb-taint-rust-function-field-positive-unsupported.json",
+      "path": "reports/releases/v0.7.1/attempts/semgrep-rust-kernel-attempt-01/outputs/reports/raw/semgrep-rust-kernel/dfb-taint-rust-function-field-positive-unsupported.json",
+      "sha256": "0205549548c2263f637e48acea0fee72c039f56b3f4b6a033c4709f946bfb8c8"
+    },
+    {
+      "original_path": "reports/raw/semgrep-rust-kernel/dfb-taint-rust-closure-capture-negative-unsupported.json",
+      "path": "reports/releases/v0.7.1/attempts/semgrep-rust-kernel-attempt-01/outputs/reports/raw/semgrep-rust-kernel/dfb-taint-rust-closure-capture-negative-unsupported.json",
+      "sha256": "54726389c9073bedb5b3c1d94aef50f0f7aad85d4083c5ffa9c210090e43ca1e"
+    },
+    {
+      "original_path": "reports/raw/semgrep-rust-kernel/dfb-taint-rust-anonymous-implementation-positive-unsupported.json",
+      "path": "reports/releases/v0.7.1/attempts/semgrep-rust-kernel-attempt-01/outputs/reports/raw/semgrep-rust-kernel/dfb-taint-rust-anonymous-implementation-positive-unsupported.json",
+      "sha256": "9dd76957dfab22728163ad8df6d9fb4594edd92eea01a19441e11dd0bbc1fc7a"
+    },
+    {
+      "original_path": "reports/raw/semgrep-rust-kernel/dfb-taint-rust-computed-property-negative-unsupported.json",
+      "path": "reports/releases/v0.7.1/attempts/semgrep-rust-kernel-attempt-01/outputs/reports/raw/semgrep-rust-kernel/dfb-taint-rust-computed-property-negative-unsupported.json",
+      "sha256": "82c7c1b38649212af7666d54d401f5856c1ad5348cd1421edb0060ef305ff519"
+    },
+    {
+      "original_path": "reports/raw/semgrep-rust-kernel/dfb-taint-rust-map-iteration-positive-unsupported.json",
+      "path": "reports/releases/v0.7.1/attempts/semgrep-rust-kernel-attempt-01/outputs/reports/raw/semgrep-rust-kernel/dfb-taint-rust-map-iteration-positive-unsupported.json",
+      "sha256": "670293a7f20cdcab1e2151e3672dfb2985a833195b14b45e013d45d12b9656ad"
+    },
+    {
+      "original_path": "reports/raw/semgrep-rust-kernel/dfb-taint-rust-branch-join-negative-rule.yaml",
+      "path": "reports/releases/v0.7.1/attempts/semgrep-rust-kernel-attempt-01/outputs/reports/raw/semgrep-rust-kernel/dfb-taint-rust-branch-join-negative-rule.yaml",
+      "sha256": "0326015edbfce66dcd52d72c67058183816a89c41a8269333dac9c3f9cefe326"
+    },
+    {
+      "original_path": "reports/raw/semgrep-rust-kernel/dfb-taint-rust-branch-join-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/semgrep-rust-kernel-attempt-01/outputs/reports/raw/semgrep-rust-kernel/dfb-taint-rust-branch-join-negative-timing.json",
+      "sha256": "2de0090d0d927c6cd81980a9d8ca10ea144290a0306496f6e31dcd49ffdc6e46"
+    },
+    {
+      "original_path": "reports/raw/semgrep-rust-kernel/dfb-taint-rust-function-field-negative-unsupported.json",
+      "path": "reports/releases/v0.7.1/attempts/semgrep-rust-kernel-attempt-01/outputs/reports/raw/semgrep-rust-kernel/dfb-taint-rust-function-field-negative-unsupported.json",
+      "sha256": "3e9a38e7b1e0d7af7a02ca6286ba71795ccd6890d3ddc090aeff9a8f5f850af4"
+    },
+    {
+      "original_path": "reports/raw/semgrep-rust-kernel/dfb-taint-rust-closure-capture-positive-unsupported.json",
+      "path": "reports/releases/v0.7.1/attempts/semgrep-rust-kernel-attempt-01/outputs/reports/raw/semgrep-rust-kernel/dfb-taint-rust-closure-capture-positive-unsupported.json",
+      "sha256": "2a20bd8a3223c4add1b34a9c3496bdb4fb869d25a710d4515e6bdd664152637d"
+    },
+    {
+      "original_path": "reports/raw/semgrep-rust-kernel/dfb-taint-rust-branch-join-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/semgrep-rust-kernel-attempt-01/outputs/reports/raw/semgrep-rust-kernel/dfb-taint-rust-branch-join-positive-timing.json",
+      "sha256": "825256e9fdb53c14c9d90b58ea5649fe943af000247d5fad700e43730a62906f"
+    },
+    {
+      "original_path": "reports/raw/semgrep-rust-kernel/dfb-taint-rust-local-overwrite-positive-rule.yaml",
+      "path": "reports/releases/v0.7.1/attempts/semgrep-rust-kernel-attempt-01/outputs/reports/raw/semgrep-rust-kernel/dfb-taint-rust-local-overwrite-positive-rule.yaml",
+      "sha256": "0326015edbfce66dcd52d72c67058183816a89c41a8269333dac9c3f9cefe326"
+    },
+    {
+      "original_path": "reports/raw/semgrep-rust-kernel/dfb-taint-rust-loop-carried-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/semgrep-rust-kernel-attempt-01/outputs/reports/raw/semgrep-rust-kernel/dfb-taint-rust-loop-carried-negative-timing.json",
+      "sha256": "186ea558e94197901f852d52bad0e839ec9a6322a2c949517732b50de114a1dd"
+    },
+    {
+      "original_path": "reports/raw/semgrep-rust-kernel/dfb-taint-rust-context-pair-depth2-positive-unsupported.json",
+      "path": "reports/releases/v0.7.1/attempts/semgrep-rust-kernel-attempt-01/outputs/reports/raw/semgrep-rust-kernel/dfb-taint-rust-context-pair-depth2-positive-unsupported.json",
+      "sha256": "4a92aafc09fc391b346fde0dc6a2a1171391c480cc26617bd1480b7f8e791298"
+    },
+    {
+      "original_path": "reports/raw/semgrep-rust-kernel/dfb-taint-rust-deep-relay-chain-positive-unsupported.json",
+      "path": "reports/releases/v0.7.1/attempts/semgrep-rust-kernel-attempt-01/outputs/reports/raw/semgrep-rust-kernel/dfb-taint-rust-deep-relay-chain-positive-unsupported.json",
+      "sha256": "4ac9cc80a7cdebf222eac1b5b77c064fa683104721c00079d8679a7de36ef560"
+    },
+    {
+      "original_path": "reports/raw/semgrep-rust-kernel/dfb-taint-rust-expression-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/semgrep-rust-kernel-attempt-01/outputs/reports/raw/semgrep-rust-kernel/dfb-taint-rust-expression-negative-timing.json",
+      "sha256": "22b544583f40f7f8941e70f1907ccf2ed6d903fb8860df79b68220c93bb3f481"
+    },
+    {
+      "original_path": "reports/raw/semgrep-rust-kernel/dfb-taint-rust-loop-carried-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/semgrep-rust-kernel-attempt-01/outputs/reports/raw/semgrep-rust-kernel/dfb-taint-rust-loop-carried-positive-timing.json",
+      "sha256": "dd8dd59b1156239e990043a0409269a80c72a50d66906abf82c8ddc176dc8634"
+    },
+    {
+      "original_path": "reports/raw/semgrep-rust-kernel/dfb-taint-rust-same-object-field-positive-unsupported.json",
+      "path": "reports/releases/v0.7.1/attempts/semgrep-rust-kernel-attempt-01/outputs/reports/raw/semgrep-rust-kernel/dfb-taint-rust-same-object-field-positive-unsupported.json",
+      "sha256": "61764de7bcf77b5aea5c6b5f75454c8d6bd7bcf8468f6bb8aaa6ebf754839279"
+    },
+    {
+      "original_path": "reports/raw/semgrep-rust-kernel/dfb-taint-rust-direct-positive-rule.yaml",
+      "path": "reports/releases/v0.7.1/attempts/semgrep-rust-kernel-attempt-01/outputs/reports/raw/semgrep-rust-kernel/dfb-taint-rust-direct-positive-rule.yaml",
+      "sha256": "0326015edbfce66dcd52d72c67058183816a89c41a8269333dac9c3f9cefe326"
+    },
+    {
+      "original_path": "reports/raw/semgrep-rust-kernel/dfb-taint-rust-expression-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/semgrep-rust-kernel-attempt-01/outputs/reports/raw/semgrep-rust-kernel/dfb-taint-rust-expression-positive-timing.json",
+      "sha256": "b503da8738414c636030f5b4ac03d293cfe1d1d17164f3486224b036fab1f128"
+    }
+  ],
+  "expected_output_roots": [
+    "reports/semgrep-rust-kernel.json",
+    "reports/raw/semgrep-rust-kernel"
+  ],
+  "missing_fresh_output_roots": [],
+  "removed_paths": []
+}

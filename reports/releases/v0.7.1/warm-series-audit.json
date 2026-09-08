@@ -1,0 +1,73 @@
+{
+  "utc": "2026-09-08T07:19:48.023661+00:00",
+  "series": [
+    {
+      "tool": "joern",
+      "path": "reports/raw/warm-latency/joern-java-kernel/warm-latency.json",
+      "repeats": 2,
+      "batch_sizes_by_repeat": [
+        [
+          1,
+          2,
+          4,
+          8,
+          16
+        ],
+        [
+          1,
+          2,
+          4,
+          8,
+          16
+        ]
+      ],
+      "population_available": 58,
+      "restriction": null,
+      "ranges": {
+        "endpoint": [
+          5063.2,
+          5238.2
+        ],
+        "least_squares": [
+          5057.90322580645,
+          5234.990591397849
+        ]
+      }
+    },
+    {
+      "tool": "semgrep",
+      "path": "reports/raw/warm-latency/semgrep-java-kernel/warm-latency.json",
+      "repeats": 2,
+      "batch_sizes_by_repeat": [
+        [
+          1,
+          2,
+          4,
+          8,
+          12
+        ],
+        [
+          1,
+          2,
+          4,
+          8,
+          12
+        ]
+      ],
+      "population_available": 12,
+      "restriction": "one `semgrep scan` carries one --config, so a batch is restricted to cases resolving to identical rule text: 12 of the 14 invocable Java kernel assertions",
+      "ranges": {
+        "endpoint": [
+          73.81818181818181,
+          77.0909090909091
+        ],
+        "least_squares": [
+          74.34375,
+          76.38221153846153
+        ]
+      }
+    }
+  ],
+  "semgrep16": "Unavailable byexisting12caseidenticalrulepopulation; no16comparison",
+  "qualification": "Actualobservedboundary anddesktopconditions retained; no idleOS claim"
+}

@@ -1,0 +1,169 @@
+rules:
+  - id: ssrf
+    severity: ERROR
+    message: >-
+      SSRF: the web server receives a URL or similar request from an upstream component and retrieves the contents of this URL,
+      it does not sufficiently ensure that the request is being sent to the expected destination.
+    metadata:
+      cwe: CWE-918
+      short-description: Server-side request forgery (SSRF)
+      full-description: |-
+        SSRF occurs when untrusted input reaches outbound network APIs without strict destination controls.
+        This rule focuses on calls such as URL/URI connection methods, `RestTemplate` requests,
+        socket address creation, and URL-based DB connection entrypoints.
+
+        Vulnerable example:
+
+        ```java
+        import java.net.URL;
+
+        public class FetchService {
+            public String fetch(String targetFromRequest) throws Exception {
+                // targetFromRequest is untrusted
+                URL url = new URL(targetFromRequest);
+
+                // VULNERABLE
+                return new String(url.openStream().readAllBytes());
+            }
+        }
+        ```
+
+        Safe example:
+
+        ```java
+        import java.net.InetAddress;
+        import java.net.URI;
+        import java.util.Set;
+
+        public class FetchService {
+            private static final Set<String> ALLOWED_HOSTS = Set.of("api.example.com", "partner.example.com");
+
+            public URI validate(String targetFromRequest) throws Exception {
+                URI uri = new URI(targetFromRequest);
+                if (!"https".equalsIgnoreCase(uri.getScheme())) {
+                    throw new IllegalArgumentException("Only HTTPS allowed");
+                }
+
+                String host = uri.getHost();
+                if (host == null || !ALLOWED_HOSTS.contains(host.toLowerCase())) {
+                    throw new SecurityException("Host not allowed");
+                }
+
+                InetAddress addr = InetAddress.getByName(host);
+                if (addr.isAnyLocalAddress() || addr.isLoopbackAddress() || addr.isSiteLocalAddress()) {
+                    throw new SecurityException("Internal addresses are forbidden");
+                }
+
+                return uri;
+            }
+        }
+        ```
+
+        Key vulnerable patterns covered by this rule include `URL.open*`, `URI.create(...).toURL()`,
+        `RestTemplate` request methods with tainted URI/string targets, and tainted socket/connection targets.
+      references:
+        - https://owasp.org/www-community/attacks/Server_Side_Request_Forgery
+        - https://portswigger.net/web-security/ssrf
+      provenance: https://gitlab.com/gitlab-org/security-products/sast-rules/-/blob/main/java/ssrf/rule-SSRF.yml
+    languages:
+      - java
+    mode: join
+    join:
+      refs:
+        - tag: servlet-untrusted-data-source
+          as: servlet-untrusted-data
+        - tag: spring-untrusted-data-source
+          as: spring-untrusted-data
+        - tag: ssrf-sink
+          as: sink
+      on:
+        - 'servlet-untrusted-data.$UNTRUSTED -> sink.$UNTRUSTED'
+        - 'spring-untrusted-data.$UNTRUSTED -> sink.$UNTRUSTED'
+
+  - id: java-servlet-parameter-pollution
+    severity: ERROR
+    message: |
+      The application was found including unvalidated user input into a URL, which could lead to
+      HTTP Parameter Pollution (HPP) or worse, Server Side Request Forgery (SSRF). This could
+      allow an adversary to override the value of a URL or a request parameter.  HTTP Parameter
+      Pollution
+      (HPP) attacks consist of injecting encoded query string delimiters into other existing
+      parameters. If a web
+      application does not properly sanitize the user input, an adversary may modify the logic of
+      these
+      requests to other applications.
+
+      To remediate this issue, never allow user input directly into creation of a URL or URL
+      parameter. Consider
+      using a map to look up user-supplied information and return exact values to be used in the
+      generation of
+      requests.
+
+      Example using a map to look up a key to be used in a HTTP request:
+      ```
+      HashMap<String, String> lookupTable = new HashMap<>();
+      lookupTable.put("key1", "value1");
+      lookupTable.put("key2", "value2");
+      String userInput = request.getParameter("key");
+
+      // Create a CloseableHttpClient, ideally any requests issued should be done
+      // out-of-band from the servlet request itself (such as using a separate thread/scheduler
+      system)
+      try (final CloseableHttpClient httpClient = HttpClients.createDefault()) {
+          // Lookup the value from our user input from our lookupTable
+          String value = lookupTable.getOrDefault(userInput, "value1");
+          // Construct the url, with the hardcoded url and only pass in the value from the
+      lookupTable,
+          // not direct user input
+          final HttpGet httpget = new HttpGet("https://example.com/getId?key="+value);
+          // Execute the request
+          CloseableHttpResponse clientResponse = httpClient.execute(httpget);
+          // Read the response
+          byte[] responseData = clientResponse.getEntity().getContent().readAllBytes();
+          // Handle the response
+          // ...
+      }
+      ```
+
+      If using a map is not possible, the user-supplied input must be encoded prior to use, and
+      never allow full
+      URLs:
+      ```
+      // Get user input
+      String userInput = request.getParameter("key");
+      // Encode the string using java.net.URLEncoder with the UTF-8 character set
+      String encodedString = java.net.URLEncoder.encode(userInput, StandardCharsets.UTF_8);
+      // Create a CloseableHttpClient, ideally any requests issued should be done
+      // out-of-band from the servlet request itself (such as using a separate thread/scheduler
+      system)
+      try (final CloseableHttpClient httpClient = HttpClients.createDefault()) {
+        // Construct the url, with the hardcoded url and only pass in the encoded value, never a
+      full URL
+        final HttpGet httpget = new HttpGet("https://example.com/getId?key="+encodedString);
+        // Execute the request
+        CloseableHttpResponse clientResponse = httpClient.execute(httpget);
+        // Read the response
+        byte[] responseData = clientResponse.getEntity().getContent().readAllBytes();
+        // handle the response
+      }
+      ```
+
+      For more information on SSRF see OWASP:
+      https://cheatsheetseries.owasp.org/cheatsheets/Server_Side_Request_Forgery_Prevention_Cheat_Sheet.html
+
+      For more information on HTTP Parameter Pollution see:
+      https://en.wikipedia.org/wiki/HTTP_parameter_pollution
+    metadata:
+      cwe: "CWE-88"
+      short-description: "Improper neutralization of argument delimiters in a command ('Argument Injection')"
+    languages:
+      - java
+    mode: join
+    join:
+      refs:
+        - tag: servlet-untrusted-data-source
+          as: untrusted-data
+        - tag: http-parameter-pollution-sink
+          as: sink
+      on:
+        - 'untrusted-data.$UNTRUSTED -> sink.$UNTRUSTED'

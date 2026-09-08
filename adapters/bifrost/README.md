@@ -8,6 +8,16 @@ remain empty until the adapter can prove raw witness locations against the
 canonical fixture markers; expected checkpoints are never copied into results
 as if they were observed evidence.
 
+## Current pin declaration
+
+The v0.7.1 pin is the public **Bifrost v0.11.0** universal Apple release
+asset, SHA-256
+`b76fe92859798deb684f38cb454b3acec735b6b6cce91cec714c4a24a345c472`.
+The runner witnesses the release binary's version and build identity before
+any case. Reports and probe records from earlier freezes retain the Bifrost
+version that produced them; this declaration does not relabel historical
+evidence.
+
 The core smoke slice applies one balanced direct-flow template to all 13
 currently supported language/dialect entries: C, C++, C#, Go, Java,
 JavaScript, Kotlin, PHP, Python, Ruby, Rust, Scala, and TypeScript. A Java

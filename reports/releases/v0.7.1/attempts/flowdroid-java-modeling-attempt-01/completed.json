@@ -1,0 +1,451 @@
+{
+  "id": "flowdroid-java-modeling-attempt-01",
+  "planned_id": "flowdroid-java-modeling",
+  "argv": [
+    "/Users/dave/.codex/worktrees/653a/dataflowbench/target/debug/dataflowbench",
+    "--population",
+    "v0.7.0",
+    "run-flowdroid-modeling",
+    "--language",
+    "java",
+    "--flowdroid-jar",
+    "/Users/dave/.cache/dataflowbench-tools/flowdroid/soot-infoflow-cmd-2.15.1-jar-with-dependencies.jar",
+    "--android-platform",
+    "/Users/dave/.cache/dataflowbench-tools/flowdroid/android-34.jar",
+    "--d8-jar",
+    "/Users/dave/.cache/dataflowbench-tools/flowdroid/r8-8.5.35.jar",
+    "--java",
+    "/usr/bin/java",
+    "--javac",
+    "/usr/bin/javac"
+  ],
+  "cwd": "/Users/dave/.codex/worktrees/653a/dataflowbench",
+  "input_commits": {
+    "corpus": "0c82e8093ff899d5ee72809a82c951ab76b5bb76",
+    "publication_infrastructure": "53050fa64628997e866303bcd5299d74f1e3e45d",
+    "pins": "c0899dab0d2c043dcc5b1aa6a1aad0e49f482fea"
+  },
+  "execution_revision": "4ec8cb4bc7552246dc75b1bc39a18340432880a3",
+  "population": "v0.7.0",
+  "fixture_revision": "sha256:9df209ed3d7723a3ee33f2b289cf2afe34a3add781bdf2a2ac445de42b8d0151",
+  "plan": {
+    "path": "reports/releases/v0.7.1/plan.json",
+    "sha256": "cb948f4a5cff80b95d3dcc755ab8249d87449e43f70e6eb80a456789faf12f26"
+  },
+  "identities": {
+    "path": "reports/releases/v0.7.1/identities.json",
+    "sha256": "0b8b1bb07d1df1ec8687613bb355f5f6021a2c664d3488dc3bc763553ce1a83c"
+  },
+  "execution_access": "require_escalated",
+  "start_utc": "2026-09-07T20:04:41.116646+00:00",
+  "host": {
+    "platform": "macOS-26.6.2-arm64-arm-64bit",
+    "cpu_count": 10,
+    "load_before": [
+      4.28466796875,
+      5.70751953125,
+      5.0166015625
+    ],
+    "load_after": [
+      4.62841796875,
+      5.66650390625,
+      5.02001953125
+    ]
+  },
+  "settle_observations": [],
+  "cache_posture": "isolated case workspaces; local distributions and prefetched CodeQL packs; OS page cache uncontrolled; warm only for explicit warm series",
+  "supersedes": null,
+  "exit_code": 0,
+  "end_utc": "2026-09-07T20:05:04.675904+00:00",
+  "stdout": {
+    "path": "reports/releases/v0.7.1/attempts/flowdroid-java-modeling-attempt-01/stdout.txt",
+    "sha256": "ba6e248b4c0eb42aa673c1c1245da1b85880f4db3872554e463c13038bfb2897"
+  },
+  "stderr": {
+    "path": "reports/releases/v0.7.1/attempts/flowdroid-java-modeling-attempt-01/stderr.txt",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "outputs": [
+    {
+      "original_path": "reports/flowdroid-java-modeling.json",
+      "path": "reports/releases/v0.7.1/attempts/flowdroid-java-modeling-attempt-01/outputs/reports/flowdroid-java-modeling.json",
+      "sha256": "51dd054808a9b3e5298f3b3c4d8f1946d655ee536af9b85d9257b8bbaf3d319d"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-java-modeling/dfb-taint-java-model-declared-sink-negative-sources-sinks.txt",
+      "path": "reports/releases/v0.7.1/attempts/flowdroid-java-modeling-attempt-01/outputs/reports/raw/flowdroid-java-modeling/dfb-taint-java-model-declared-sink-negative-sources-sinks.txt",
+      "sha256": "7111774faba40575ce5b2d0d785fb9e9201e2b704d223fa906b15c89e3e516c8"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-java-modeling/dfb-taint-java-model-store-separation-positive-unsupported.json",
+      "path": "reports/releases/v0.7.1/attempts/flowdroid-java-modeling-attempt-01/outputs/reports/raw/flowdroid-java-modeling/dfb-taint-java-model-store-separation-positive-unsupported.json",
+      "sha256": "8ffd2bf727db5a970bf8c893083d5aeef389672de98ebebe82a862b9e4686d13"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-java-modeling/dfb-taint-java-model-summary-through-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/flowdroid-java-modeling-attempt-01/outputs/reports/raw/flowdroid-java-modeling/dfb-taint-java-model-summary-through-negative-timing.json",
+      "sha256": "30708ec098052aa9df15da994e7730d26b2ca625d85644baf65fdb9f4d46db49"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-java-modeling/dfb-taint-java-model-summary-field-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/flowdroid-java-modeling-attempt-01/outputs/reports/raw/flowdroid-java-modeling/dfb-taint-java-model-summary-field-positive.json",
+      "sha256": "0befaf77548ab5e31c40babeb2ae8f91e2124e85fa7b6cca7338535da28b08a6"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-java-modeling/dfb-taint-java-model-propagator-position-positive-wrapper.java",
+      "path": "reports/releases/v0.7.1/attempts/flowdroid-java-modeling-attempt-01/outputs/reports/raw/flowdroid-java-modeling/dfb-taint-java-model-propagator-position-positive-wrapper.java",
+      "sha256": "36b93d5b426ae2a25e1137cc47031d2ee3b54d493db40a1fc90c7751bdb3c6e4"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-java-modeling/dfb-taint-java-model-declared-sink-positive-wrapper.java",
+      "path": "reports/releases/v0.7.1/attempts/flowdroid-java-modeling-attempt-01/outputs/reports/raw/flowdroid-java-modeling/dfb-taint-java-model-declared-sink-positive-wrapper.java",
+      "sha256": "c4020425d9f29309fb0cf12b2a526cc0d38fda86f98875ca73749879eb4a9386"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-java-modeling/dfb-taint-java-model-summary-through-positive-results.xml",
+      "path": "reports/releases/v0.7.1/attempts/flowdroid-java-modeling-attempt-01/outputs/reports/raw/flowdroid-java-modeling/dfb-taint-java-model-summary-through-positive-results.xml",
+      "sha256": "2e55461ad0afab498ec31179455c680f0887ba6cd25106affa679f2568e2b3a4"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-java-modeling/dfb-taint-java-model-summary-through-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/flowdroid-java-modeling-attempt-01/outputs/reports/raw/flowdroid-java-modeling/dfb-taint-java-model-summary-through-positive-timing.json",
+      "sha256": "2e59c121576ece3759cb8c3e02043b00b0166e7e79ecff3d5338da95576eecd6"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-java-modeling/dfb-taint-java-model-entrypoint-parameter-positive-unsupported.json",
+      "path": "reports/releases/v0.7.1/attempts/flowdroid-java-modeling-attempt-01/outputs/reports/raw/flowdroid-java-modeling/dfb-taint-java-model-entrypoint-parameter-positive-unsupported.json",
+      "sha256": "92a733deb54a21250babd37a9f7d8b82fcfa3ba604d6345576632981a86d749a"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-java-modeling/dfb-taint-java-model-declared-source-negative-wrapper.java",
+      "path": "reports/releases/v0.7.1/attempts/flowdroid-java-modeling-attempt-01/outputs/reports/raw/flowdroid-java-modeling/dfb-taint-java-model-declared-source-negative-wrapper.java",
+      "sha256": "9a6601538e5968bc93ccb6bd28965924af64bd74124743ffbf81e81f0428cc2a"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-java-modeling/dfb-taint-java-model-declared-source-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/flowdroid-java-modeling-attempt-01/outputs/reports/raw/flowdroid-java-modeling/dfb-taint-java-model-declared-source-positive-timing.json",
+      "sha256": "2c180138a37a40983eb0c4de49bace65ecc114ff8aa1f9f0659750b774579ddd"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-java-modeling/dfb-taint-java-model-summary-field-positive-wrapper.java",
+      "path": "reports/releases/v0.7.1/attempts/flowdroid-java-modeling-attempt-01/outputs/reports/raw/flowdroid-java-modeling/dfb-taint-java-model-summary-field-positive-wrapper.java",
+      "sha256": "4961ffab0d571bf408db04f282f9c206a5ac3a232ac2ee571b1c804161b05a1a"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-java-modeling/dfb-taint-java-model-propagator-position-negative-sources-sinks.txt",
+      "path": "reports/releases/v0.7.1/attempts/flowdroid-java-modeling-attempt-01/outputs/reports/raw/flowdroid-java-modeling/dfb-taint-java-model-propagator-position-negative-sources-sinks.txt",
+      "sha256": "bb036703125d1f65ca56b7041436effd1247098f9ea05d6251c95eb04fa3f54a"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-java-modeling/dfb-taint-java-model-opaque-propagator-positive-wrapper.java",
+      "path": "reports/releases/v0.7.1/attempts/flowdroid-java-modeling-attempt-01/outputs/reports/raw/flowdroid-java-modeling/dfb-taint-java-model-opaque-propagator-positive-wrapper.java",
+      "sha256": "99ec28d036416850849f73779b04cf17b06ca0bc5915cac9e55c27006726e814"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-java-modeling/dfb-taint-java-model-opaque-propagator-negative-sources-sinks.txt",
+      "path": "reports/releases/v0.7.1/attempts/flowdroid-java-modeling-attempt-01/outputs/reports/raw/flowdroid-java-modeling/dfb-taint-java-model-opaque-propagator-negative-sources-sinks.txt",
+      "sha256": "afe3b687e747a5ba9a92f8cfa94c38a42d87cd836a8b1884282e4889efcc8348"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-java-modeling/dfb-taint-java-model-declared-sink-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/flowdroid-java-modeling-attempt-01/outputs/reports/raw/flowdroid-java-modeling/dfb-taint-java-model-declared-sink-positive-timing.json",
+      "sha256": "9b7d1eed953d95f5191de8a8d897506c2c49afd28b95d63e40cd9bb6453b6c7d"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-java-modeling/dfb-taint-java-model-sanitizer-kill-positive-sources-sinks.txt",
+      "path": "reports/releases/v0.7.1/attempts/flowdroid-java-modeling-attempt-01/outputs/reports/raw/flowdroid-java-modeling/dfb-taint-java-model-sanitizer-kill-positive-sources-sinks.txt",
+      "sha256": "2ab66ac6a2e0b6da32b831688dae73cdd4ae1ff6ae520268a0a31bd28e0ff242"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-java-modeling/dfb-taint-java-model-declared-sink-positive-results.xml",
+      "path": "reports/releases/v0.7.1/attempts/flowdroid-java-modeling-attempt-01/outputs/reports/raw/flowdroid-java-modeling/dfb-taint-java-model-declared-sink-positive-results.xml",
+      "sha256": "77ea0eff23dfb1903136f82a688b5fab28170c0af8507c9fff5c62e2a781fa26"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-java-modeling/dfb-taint-java-model-declared-source-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/flowdroid-java-modeling-attempt-01/outputs/reports/raw/flowdroid-java-modeling/dfb-taint-java-model-declared-source-negative-timing.json",
+      "sha256": "9031162e1b15f29ec591e1b7f776106a8e14fa803590f941ff495b9dcb597f1d"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-java-modeling/dfb-taint-java-model-summary-field-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/flowdroid-java-modeling-attempt-01/outputs/reports/raw/flowdroid-java-modeling/dfb-taint-java-model-summary-field-negative.json",
+      "sha256": "ab8baacf9a8d7da7853a6678a613779f19b552268bc68293a6dc99bbb12cb7d5"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-java-modeling/dfb-taint-java-model-declared-source-positive-results.xml",
+      "path": "reports/releases/v0.7.1/attempts/flowdroid-java-modeling-attempt-01/outputs/reports/raw/flowdroid-java-modeling/dfb-taint-java-model-declared-source-positive-results.xml",
+      "sha256": "9316a2e619fa0d89e027e0eade4729d03a487991ea12fd1fa5d241d38434cc58"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-java-modeling/dfb-taint-java-model-sanitizer-selectivity-negative-unsupported.json",
+      "path": "reports/releases/v0.7.1/attempts/flowdroid-java-modeling-attempt-01/outputs/reports/raw/flowdroid-java-modeling/dfb-taint-java-model-sanitizer-selectivity-negative-unsupported.json",
+      "sha256": "53296be3130002c2aa4fda21e1c0578bbdb5f91cfa407416e1b833985ab448ed"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-java-modeling/dfb-taint-java-model-declared-sink-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/flowdroid-java-modeling-attempt-01/outputs/reports/raw/flowdroid-java-modeling/dfb-taint-java-model-declared-sink-negative-timing.json",
+      "sha256": "6c00150bf13604556247dc73cdbe99d5a1dd4fb234217955c9607445c1adeab9"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-java-modeling/dfb-taint-java-model-declared-sink-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/flowdroid-java-modeling-attempt-01/outputs/reports/raw/flowdroid-java-modeling/dfb-taint-java-model-declared-sink-positive.json",
+      "sha256": "242dff5951750d5c018122a18753af685b1fb3694c73ed0b4d682fa775083f44"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-java-modeling/dfb-taint-java-model-sanitizer-selectivity-positive-unsupported.json",
+      "path": "reports/releases/v0.7.1/attempts/flowdroid-java-modeling-attempt-01/outputs/reports/raw/flowdroid-java-modeling/dfb-taint-java-model-sanitizer-selectivity-positive-unsupported.json",
+      "sha256": "fd286cb3d7ee0daa3b8b3b9afcc8a347b93bb0022b487f22e0636c5a77b0cbfc"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-java-modeling/run-environment.json",
+      "path": "reports/releases/v0.7.1/attempts/flowdroid-java-modeling-attempt-01/outputs/reports/raw/flowdroid-java-modeling/run-environment.json",
+      "sha256": "0c9b0bb326d94e8ad83c45026e7c516e709bef5679164c3262a743ba392feef8"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-java-modeling/dfb-taint-java-model-declared-source-positive-sources-sinks.txt",
+      "path": "reports/releases/v0.7.1/attempts/flowdroid-java-modeling-attempt-01/outputs/reports/raw/flowdroid-java-modeling/dfb-taint-java-model-declared-source-positive-sources-sinks.txt",
+      "sha256": "1c1d3c5a202618760e319627fd36481d09a321a41f0700368a711a64aa3ffaef"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-java-modeling/dfb-taint-java-model-declared-source-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/flowdroid-java-modeling-attempt-01/outputs/reports/raw/flowdroid-java-modeling/dfb-taint-java-model-declared-source-positive.json",
+      "sha256": "08dbfa3b71148f0f4b0e925bf1a72ae8ab4a7db49947ceb3f91f62fd89f28faa"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-java-modeling/dfb-taint-java-model-summary-through-positive-sources-sinks.txt",
+      "path": "reports/releases/v0.7.1/attempts/flowdroid-java-modeling-attempt-01/outputs/reports/raw/flowdroid-java-modeling/dfb-taint-java-model-summary-through-positive-sources-sinks.txt",
+      "sha256": "2921e08c2b69fe149e26a62e1e3594960207ebed63100e23736489ea07eaa03a"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-java-modeling/dfb-taint-java-model-declared-sink-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/flowdroid-java-modeling-attempt-01/outputs/reports/raw/flowdroid-java-modeling/dfb-taint-java-model-declared-sink-negative.json",
+      "sha256": "412960c412c43905b7bbfcc23e5ed66808498672ff71dda7a0755f426a5a3dba"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-java-modeling/dfb-taint-java-model-declared-source-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/flowdroid-java-modeling-attempt-01/outputs/reports/raw/flowdroid-java-modeling/dfb-taint-java-model-declared-source-negative.json",
+      "sha256": "d91ee8d8ef496a46c1c6884d196b5cfde5aa53b902482918f67084e91b9b2ad0"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-java-modeling/dfb-taint-java-model-store-separation-negative-unsupported.json",
+      "path": "reports/releases/v0.7.1/attempts/flowdroid-java-modeling-attempt-01/outputs/reports/raw/flowdroid-java-modeling/dfb-taint-java-model-store-separation-negative-unsupported.json",
+      "sha256": "d34b5ed1be84c5fb667b045b4fb0fdaec3e0f3beb1a05ad28d1fda5dcdffe33e"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-java-modeling/dfb-taint-java-model-summary-field-negative-sources-sinks.txt",
+      "path": "reports/releases/v0.7.1/attempts/flowdroid-java-modeling-attempt-01/outputs/reports/raw/flowdroid-java-modeling/dfb-taint-java-model-summary-field-negative-sources-sinks.txt",
+      "sha256": "10aa2ec2f754cfb7b994195c3134ec7e007f3bdf82473929d3b471f4302f801d"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-java-modeling/dfb-taint-java-model-sanitizer-kill-positive-wrapper.java",
+      "path": "reports/releases/v0.7.1/attempts/flowdroid-java-modeling-attempt-01/outputs/reports/raw/flowdroid-java-modeling/dfb-taint-java-model-sanitizer-kill-positive-wrapper.java",
+      "sha256": "5e42ffc4d9a195386029e667df54a2ccbbfcdbac698eb13004a4190b82d026f6"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-java-modeling/dfb-taint-java-model-entrypoint-parameter-negative-unsupported.json",
+      "path": "reports/releases/v0.7.1/attempts/flowdroid-java-modeling-attempt-01/outputs/reports/raw/flowdroid-java-modeling/dfb-taint-java-model-entrypoint-parameter-negative-unsupported.json",
+      "sha256": "2863ad6eaff0116f18166bf6ca56ff1ca76c024737e0e139a6eddb8cef6eb529"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-java-modeling/dfb-taint-java-model-summary-through-negative-wrapper.java",
+      "path": "reports/releases/v0.7.1/attempts/flowdroid-java-modeling-attempt-01/outputs/reports/raw/flowdroid-java-modeling/dfb-taint-java-model-summary-through-negative-wrapper.java",
+      "sha256": "2b915429ea9f8b9f8f670d43d9493e5bb184957aeaf43eda79edee5c1abbb205"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-java-modeling/dfb-taint-java-model-opaque-propagator-negative-wrapper.java",
+      "path": "reports/releases/v0.7.1/attempts/flowdroid-java-modeling-attempt-01/outputs/reports/raw/flowdroid-java-modeling/dfb-taint-java-model-opaque-propagator-negative-wrapper.java",
+      "sha256": "605f634b387ae0b5a0b251c4304e7dbcd5d13b55b51d7846b3bf7098ffdda50b"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-java-modeling/dfb-taint-java-model-declared-source-negative-sources-sinks.txt",
+      "path": "reports/releases/v0.7.1/attempts/flowdroid-java-modeling-attempt-01/outputs/reports/raw/flowdroid-java-modeling/dfb-taint-java-model-declared-source-negative-sources-sinks.txt",
+      "sha256": "aabe26eb73751d07aeb8999a0b7833e242ebe605a0135d093bec8d074da74b98"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-java-modeling/dfb-taint-java-model-summary-field-negative-wrapper.java",
+      "path": "reports/releases/v0.7.1/attempts/flowdroid-java-modeling-attempt-01/outputs/reports/raw/flowdroid-java-modeling/dfb-taint-java-model-summary-field-negative-wrapper.java",
+      "sha256": "3a1a3e19604e686603ff7e56e66cd5c2eca212974e30f2bd45db7dc7ac1cf984"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-java-modeling/dfb-taint-java-model-summary-through-negative-sources-sinks.txt",
+      "path": "reports/releases/v0.7.1/attempts/flowdroid-java-modeling-attempt-01/outputs/reports/raw/flowdroid-java-modeling/dfb-taint-java-model-summary-through-negative-sources-sinks.txt",
+      "sha256": "6c826b8851dd845a895711f47d8e27e7e9352f92c93044005342adfad6089987"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-java-modeling/dfb-taint-java-model-opaque-propagator-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/flowdroid-java-modeling-attempt-01/outputs/reports/raw/flowdroid-java-modeling/dfb-taint-java-model-opaque-propagator-negative.json",
+      "sha256": "3ca880fbf2f1a98dcc05d62f21da1223716f045691276c0894f224da8e74f110"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-java-modeling/dfb-taint-java-model-store-roundtrip-positive-unsupported.json",
+      "path": "reports/releases/v0.7.1/attempts/flowdroid-java-modeling-attempt-01/outputs/reports/raw/flowdroid-java-modeling/dfb-taint-java-model-store-roundtrip-positive-unsupported.json",
+      "sha256": "a8d69db556f3dcc01ccc10643d020f077a234354fa64572944bb0cb6777b73c1"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-java-modeling/dfb-taint-java-model-opaque-propagator-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/flowdroid-java-modeling-attempt-01/outputs/reports/raw/flowdroid-java-modeling/dfb-taint-java-model-opaque-propagator-positive.json",
+      "sha256": "b9ff1d34aa4ac7c1efc46bb70ce938998850d3e06bd4bd99059eb6978e71ec6e"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-java-modeling/dfb-taint-java-model-summary-field-positive-sources-sinks.txt",
+      "path": "reports/releases/v0.7.1/attempts/flowdroid-java-modeling-attempt-01/outputs/reports/raw/flowdroid-java-modeling/dfb-taint-java-model-summary-field-positive-sources-sinks.txt",
+      "sha256": "41c48b85548361f05bc64d5b8ad53c8e8cf553fb4267adb2e782376491ab3324"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-java-modeling/dfb-taint-java-model-summary-field-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/flowdroid-java-modeling-attempt-01/outputs/reports/raw/flowdroid-java-modeling/dfb-taint-java-model-summary-field-positive-timing.json",
+      "sha256": "093349798e74dfc43bfed032133f39f93cb33b1ec940b88a74fafc0f3dc88d3a"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-java-modeling/dfb-taint-java-model-propagator-position-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/flowdroid-java-modeling-attempt-01/outputs/reports/raw/flowdroid-java-modeling/dfb-taint-java-model-propagator-position-positive-timing.json",
+      "sha256": "f2c2d4a57e91d70e788311adb98b247f1e14bebe1ccf5543bd45a5a65071de93"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-java-modeling/dfb-taint-java-model-declared-sink-negative-wrapper.java",
+      "path": "reports/releases/v0.7.1/attempts/flowdroid-java-modeling-attempt-01/outputs/reports/raw/flowdroid-java-modeling/dfb-taint-java-model-declared-sink-negative-wrapper.java",
+      "sha256": "70e743bc921ff030cf0fd56c88bb6cf8cefd127cd1fe4d2be58d99ab8231fe3f"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-java-modeling/dfb-taint-java-model-propagator-position-negative-wrapper.java",
+      "path": "reports/releases/v0.7.1/attempts/flowdroid-java-modeling-attempt-01/outputs/reports/raw/flowdroid-java-modeling/dfb-taint-java-model-propagator-position-negative-wrapper.java",
+      "sha256": "ccc762d8ed36f2ab1a959ed86d770d3b2f6c89e87632b6fcf1e73badc6d1fbcd"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-java-modeling/dfb-taint-java-model-sanitizer-kill-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/flowdroid-java-modeling-attempt-01/outputs/reports/raw/flowdroid-java-modeling/dfb-taint-java-model-sanitizer-kill-positive-timing.json",
+      "sha256": "65ee7490653b2d66556531983116ce859f3eeb372c2316d6f8f8b38d3933aede"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-java-modeling/dfb-taint-java-model-entrypoint-selectivity-negative-unsupported.json",
+      "path": "reports/releases/v0.7.1/attempts/flowdroid-java-modeling-attempt-01/outputs/reports/raw/flowdroid-java-modeling/dfb-taint-java-model-entrypoint-selectivity-negative-unsupported.json",
+      "sha256": "f44355431f9e136062f29284c8052315f8e13649b823ec9f22aa9447e6af407a"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-java-modeling/dfb-taint-java-model-summary-field-positive-results.xml",
+      "path": "reports/releases/v0.7.1/attempts/flowdroid-java-modeling-attempt-01/outputs/reports/raw/flowdroid-java-modeling/dfb-taint-java-model-summary-field-positive-results.xml",
+      "sha256": "fce361c48b27dfbbbab9927f5f43b6ad689287ea6c203ba15cc93c6eb9005c77"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-java-modeling/dfb-taint-java-model-propagator-position-positive-results.xml",
+      "path": "reports/releases/v0.7.1/attempts/flowdroid-java-modeling-attempt-01/outputs/reports/raw/flowdroid-java-modeling/dfb-taint-java-model-propagator-position-positive-results.xml",
+      "sha256": "4c2ea25717caa9856bd6ae0178bc87db75aba1857ada4514e1af256a52f47cc7"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-java-modeling/dfb-taint-java-model-sanitizer-kill-positive-results.xml",
+      "path": "reports/releases/v0.7.1/attempts/flowdroid-java-modeling-attempt-01/outputs/reports/raw/flowdroid-java-modeling/dfb-taint-java-model-sanitizer-kill-positive-results.xml",
+      "sha256": "88c9427ae85449a4b9a6d4d3401c11a582f8f4db2a74b6e6dea08b7469a6af41"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-java-modeling/dfb-taint-java-model-sanitizer-kill-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/flowdroid-java-modeling-attempt-01/outputs/reports/raw/flowdroid-java-modeling/dfb-taint-java-model-sanitizer-kill-negative-timing.json",
+      "sha256": "3a21c890a0d03e49776a94c39d138e79b9edccc4ef827e192af30ab8011b9bfc"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-java-modeling/dfb-taint-java-model-propagator-position-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/flowdroid-java-modeling-attempt-01/outputs/reports/raw/flowdroid-java-modeling/dfb-taint-java-model-propagator-position-negative-timing.json",
+      "sha256": "7cccbff09d20bcbdf799cbef45b4aedfba65221d6d8e5ae2c5de2b3edc652145"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-java-modeling/dfb-taint-java-model-declared-source-positive-wrapper.java",
+      "path": "reports/releases/v0.7.1/attempts/flowdroid-java-modeling-attempt-01/outputs/reports/raw/flowdroid-java-modeling/dfb-taint-java-model-declared-source-positive-wrapper.java",
+      "sha256": "7e26533f2848e50f693fae5bd31e944bfe9e8fbe01678e12b7de8af6e3f971b5"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-java-modeling/dfb-taint-java-model-summary-field-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/flowdroid-java-modeling-attempt-01/outputs/reports/raw/flowdroid-java-modeling/dfb-taint-java-model-summary-field-negative-timing.json",
+      "sha256": "e5522c02b3c1a4e76f2059346434d93c5bdb598556324912f948322770d69150"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-java-modeling/dfb-taint-java-model-sanitizer-kill-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/flowdroid-java-modeling-attempt-01/outputs/reports/raw/flowdroid-java-modeling/dfb-taint-java-model-sanitizer-kill-positive.json",
+      "sha256": "51f38f831925e529b14239a8ffbc60019e855491ec6247e67acda5e767f3cc1b"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-java-modeling/dfb-taint-java-model-opaque-propagator-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/flowdroid-java-modeling-attempt-01/outputs/reports/raw/flowdroid-java-modeling/dfb-taint-java-model-opaque-propagator-negative-timing.json",
+      "sha256": "8bbe34b4af8d30f9148decdd0f5cd38ba535039eab3cea614b4d57139f709c32"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-java-modeling/dfb-taint-java-model-opaque-propagator-positive-results.xml",
+      "path": "reports/releases/v0.7.1/attempts/flowdroid-java-modeling-attempt-01/outputs/reports/raw/flowdroid-java-modeling/dfb-taint-java-model-opaque-propagator-positive-results.xml",
+      "sha256": "3657930ad6cf4517a7ad7f3aab24f197611042ab86d6a573fc4db703babfae66"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-java-modeling/dfb-taint-java-model-declared-sink-positive-sources-sinks.txt",
+      "path": "reports/releases/v0.7.1/attempts/flowdroid-java-modeling-attempt-01/outputs/reports/raw/flowdroid-java-modeling/dfb-taint-java-model-declared-sink-positive-sources-sinks.txt",
+      "sha256": "440e1cd416b3ae3010c4bfc1b5283a8776792bb58e3072dfe24f8b74a5e3b8a4"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-java-modeling/dfb-taint-java-model-sanitizer-kill-negative-wrapper.java",
+      "path": "reports/releases/v0.7.1/attempts/flowdroid-java-modeling-attempt-01/outputs/reports/raw/flowdroid-java-modeling/dfb-taint-java-model-sanitizer-kill-negative-wrapper.java",
+      "sha256": "200469087412476b3885e677b5bd6bf0e54421ec5a90e3652383dea0029ba801"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-java-modeling/dfb-taint-java-model-opaque-propagator-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/flowdroid-java-modeling-attempt-01/outputs/reports/raw/flowdroid-java-modeling/dfb-taint-java-model-opaque-propagator-positive-timing.json",
+      "sha256": "a3058402d67c731bd8201a0b259807189685ff1e606e65d94e7cdfc0f8662ef4"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-java-modeling/dfb-taint-java-model-propagator-position-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/flowdroid-java-modeling-attempt-01/outputs/reports/raw/flowdroid-java-modeling/dfb-taint-java-model-propagator-position-negative.json",
+      "sha256": "644346a5cdc2ca1414a0141ef7555aa2b6bda7d2d1681e1ebe2cf464378b2636"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-java-modeling/dfb-taint-java-model-summary-through-positive-wrapper.java",
+      "path": "reports/releases/v0.7.1/attempts/flowdroid-java-modeling-attempt-01/outputs/reports/raw/flowdroid-java-modeling/dfb-taint-java-model-summary-through-positive-wrapper.java",
+      "sha256": "bb0f858ce452fa6e4336548a6c5dcec993674ef889597a423a66b4410b8aed29"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-java-modeling/dfb-taint-java-model-entrypoint-selectivity-positive-unsupported.json",
+      "path": "reports/releases/v0.7.1/attempts/flowdroid-java-modeling-attempt-01/outputs/reports/raw/flowdroid-java-modeling/dfb-taint-java-model-entrypoint-selectivity-positive-unsupported.json",
+      "sha256": "fafa0aa47432f43a201a67e08f0b6b8896dac6608553caf76f8f2b36e10539d4"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-java-modeling/dfb-taint-java-model-summary-through-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/flowdroid-java-modeling-attempt-01/outputs/reports/raw/flowdroid-java-modeling/dfb-taint-java-model-summary-through-positive.json",
+      "sha256": "3469d14d933c0d293bd83c3a5e307ad7a090b0b8e248c0cc431ba3a3a639f505"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-java-modeling/dfb-taint-java-model-sanitizer-kill-negative-sources-sinks.txt",
+      "path": "reports/releases/v0.7.1/attempts/flowdroid-java-modeling-attempt-01/outputs/reports/raw/flowdroid-java-modeling/dfb-taint-java-model-sanitizer-kill-negative-sources-sinks.txt",
+      "sha256": "c93aca93e5e49ef9f5afe8ea754c1fe122f09e6d9e1b5d27e9555bd63835e584"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-java-modeling/dfb-taint-java-model-propagator-position-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/flowdroid-java-modeling-attempt-01/outputs/reports/raw/flowdroid-java-modeling/dfb-taint-java-model-propagator-position-positive.json",
+      "sha256": "8636bf986888240454ca7397ae78118c8bc13ddb4b7a6519376b3fe6080b722a"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-java-modeling/dfb-taint-java-model-summary-through-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/flowdroid-java-modeling-attempt-01/outputs/reports/raw/flowdroid-java-modeling/dfb-taint-java-model-summary-through-negative.json",
+      "sha256": "103efa54016fd863e8d0f289dfe2d729ff96f58b0db19d651a9ab2eb8408ba25"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-java-modeling/dfb-taint-java-model-store-roundtrip-negative-unsupported.json",
+      "path": "reports/releases/v0.7.1/attempts/flowdroid-java-modeling-attempt-01/outputs/reports/raw/flowdroid-java-modeling/dfb-taint-java-model-store-roundtrip-negative-unsupported.json",
+      "sha256": "0f05b99a0ccc1ad6613a5d0ef432b05dfbb22105e9e686d5b4a18bcab4b3cfef"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-java-modeling/dfb-taint-java-model-sanitizer-kill-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/flowdroid-java-modeling-attempt-01/outputs/reports/raw/flowdroid-java-modeling/dfb-taint-java-model-sanitizer-kill-negative.json",
+      "sha256": "60dec0e3ae9c889af9a0296c31e1cd41a50e08696952ab7cd60dadabff1bc6dd"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-java-modeling/dfb-taint-java-model-propagator-position-positive-sources-sinks.txt",
+      "path": "reports/releases/v0.7.1/attempts/flowdroid-java-modeling-attempt-01/outputs/reports/raw/flowdroid-java-modeling/dfb-taint-java-model-propagator-position-positive-sources-sinks.txt",
+      "sha256": "9f01552a2af89b61064ccdf304134b1a47ec055c542261b8de43e78bf8979805"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-java-modeling/dfb-taint-java-model-opaque-propagator-positive-sources-sinks.txt",
+      "path": "reports/releases/v0.7.1/attempts/flowdroid-java-modeling-attempt-01/outputs/reports/raw/flowdroid-java-modeling/dfb-taint-java-model-opaque-propagator-positive-sources-sinks.txt",
+      "sha256": "713262c416c9b02030cca8a7bc06d014ae8c205d3a865ed7ae8b5b4e19e46a8a"
+    }
+  ],
+  "expected_output_roots": [
+    "reports/flowdroid-java-modeling.json",
+    "reports/raw/flowdroid-java-modeling"
+  ],
+  "missing_fresh_output_roots": [],
+  "removed_paths": []
+}

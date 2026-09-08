@@ -1,0 +1,31 @@
+External Error: Could not read or parse Infer Pulse JSON config in /private/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/tmp.JU9yhkvrG6/dist-copy/lib/infer/infer/bin/../config/taint/objc/NSLib/NSString_taintconfig.json:
+Line 1, bytes 7-19:
+Expected ':' but found 'is not json
+'
+
+Error backtrace:
+Raised at IBase__Die.raise_error.do_raise in file "src/base/Die.ml" (inlined), line 24, characters 8-17
+Called from IBase__Die.die.(fun) in file "src/base/Die.ml", line 43, characters 44-66
+Called from IBase__Config.pulse_taint_config.explore_file in file "src/base/Config.ml", lines 4777-4778, characters 10-24
+Called from IBase__Utils.fold_file_tree.traverse_dir_aux in file "src/base/Utils.ml" (inlined), line 26, characters 31-45
+Called from Base__Array0.fold in file "src/array0.ml" (inlined), line 100, characters 9-30
+Called from IStdlib__ISys.fold_dir in file "src/istd/ISys.ml" (inlined), line 38, characters 34-84
+Called from IBase__Utils.fold_file_tree.traverse_dir_aux in file "src/base/Utils.ml" (inlined), line 26, characters 4-54
+Called from IStdlib__ISys.fold_dir in file "src/istd/ISys.ml" (inlined), line 38, characters 34-84
+Called from IBase__Utils.fold_file_tree.traverse_dir_aux in file "src/base/Utils.ml", line 26, characters 4-54
+Called from IBase__Utils.fold_file_tree.traverse_dir_aux in file "src/base/Utils.ml" (inlined), line 26, characters 31-45
+Called from Base__Array0.fold in file "src/array0.ml" (inlined), line 100, characters 9-30
+Called from IStdlib__ISys.fold_dir in file "src/istd/ISys.ml" (inlined), line 38, characters 34-84
+Called from IBase__Utils.fold_file_tree.traverse_dir_aux in file "src/base/Utils.ml" (inlined), line 26, characters 4-54
+Called from IStdlib__ISys.fold_dir in file "src/istd/ISys.ml" (inlined), line 38, characters 34-84
+Called from IBase__Utils.fold_file_tree.traverse_dir_aux in file "src/base/Utils.ml", line 26, characters 4-54
+Called from IBase__Utils.fold_file_tree.traverse_dir_aux in file "src/base/Utils.ml" (inlined), line 26, characters 31-45
+Called from Base__Array0.fold in file "src/array0.ml" (inlined), line 100, characters 9-30
+Called from IStdlib__ISys.fold_dir in file "src/istd/ISys.ml" (inlined), line 38, characters 34-84
+Called from IBase__Utils.fold_file_tree.traverse_dir_aux in file "src/base/Utils.ml" (inlined), line 26, characters 4-54
+Called from IStdlib__ISys.fold_dir in file "src/istd/ISys.ml" (inlined), line 38, characters 34-84
+Called from IBase__Utils.fold_file_tree.traverse_dir_aux in file "src/base/Utils.ml", line 26, characters 4-54
+Called from Base__List0.fold in file "src/list0.ml", line 43, characters 27-37
+Called from IBase__Config.pulse_taint_config in file "src/base/Config.ml", lines 4800-4814, characters 2-24
+
+Run the command again with `--keep-going` to try and ignore this error.

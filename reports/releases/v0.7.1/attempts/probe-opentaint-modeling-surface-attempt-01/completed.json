@@ -1,0 +1,489 @@
+{
+  "id": "probe-opentaint-modeling-surface-attempt-01",
+  "planned_id": "probe-opentaint-modeling-surface",
+  "argv": [
+    "bash",
+    "scripts/probe-opentaint-modeling-surface.sh",
+    "--analyzer-jar",
+    "/Users/dave/.cache/dataflowbench-tools/opentaint-v0.4.6/opentaint-project-analyzer.jar",
+    "--java",
+    "/usr/bin/java",
+    "--javac",
+    "/usr/bin/javac",
+    "--models-archive",
+    "/Users/dave/.cache/dataflowbench-tools/opentaint-v0.4.6/opentaint-models.tar.gz"
+  ],
+  "cwd": "/Users/dave/.codex/worktrees/653a/dataflowbench",
+  "input_commits": {
+    "corpus": "0c82e8093ff899d5ee72809a82c951ab76b5bb76",
+    "publication_infrastructure": "53050fa64628997e866303bcd5299d74f1e3e45d",
+    "pins": "c0899dab0d2c043dcc5b1aa6a1aad0e49f482fea"
+  },
+  "execution_revision": "d0d50697581bb35e9d50ff60cc0e22e2484eabf0",
+  "population": "v0.7.0",
+  "fixture_revision": "sha256:9df209ed3d7723a3ee33f2b289cf2afe34a3add781bdf2a2ac445de42b8d0151",
+  "plan": {
+    "path": "reports/releases/v0.7.1/plan.json",
+    "sha256": "cb948f4a5cff80b95d3dcc755ab8249d87449e43f70e6eb80a456789faf12f26"
+  },
+  "identities": {
+    "path": "reports/releases/v0.7.1/identities.json",
+    "sha256": "0b8b1bb07d1df1ec8687613bb355f5f6021a2c664d3488dc3bc763553ce1a83c"
+  },
+  "execution_access": "require_escalated",
+  "start_utc": "2026-09-07T22:04:27.203321+00:00",
+  "host": {
+    "platform": "macOS-26.6.2-arm64-arm-64bit",
+    "cpu_count": 10,
+    "load_before": [
+      5.07275390625,
+      4.7353515625,
+      4.57666015625
+    ],
+    "load_after": [
+      8.66845703125,
+      6.56884765625,
+      5.35400390625
+    ]
+  },
+  "settle_observations": [],
+  "cache_posture": "isolated case workspaces; local distributions and prefetched CodeQL packs; OS page cache uncontrolled; warm only for explicit warm series",
+  "supersedes": null,
+  "exit_code": 0,
+  "end_utc": "2026-09-07T22:06:49.104118+00:00",
+  "stdout": {
+    "path": "reports/releases/v0.7.1/attempts/probe-opentaint-modeling-surface-attempt-01/stdout.txt",
+    "sha256": "94431d78700cdfee788f8fcff7541a5a1b2de0d724d428d0280d308a8315d835"
+  },
+  "stderr": {
+    "path": "reports/releases/v0.7.1/attempts/probe-opentaint-modeling-surface-attempt-01/stderr.txt",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "outputs": [
+    {
+      "original_path": "reports/raw/opentaint-modeling-surface-probe/o-field-negative-side-effect/report-ifds.sarif",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-modeling-surface-attempt-01/outputs/reports/raw/opentaint-modeling-surface-probe/o-field-negative-side-effect/report-ifds.sarif",
+      "sha256": "b53fbf42ccd48774a79a3f31a4b5b2891d2701fd3e458c10b46550f290e4568c"
+    },
+    {
+      "original_path": "reports/raw/opentaint-modeling-surface-probe/o-field-negative-side-effect/rule.yaml",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-modeling-surface-attempt-01/outputs/reports/raw/opentaint-modeling-surface-probe/o-field-negative-side-effect/rule.yaml",
+      "sha256": "846f8200e0660f5b0955f15834b753f4c88b990dd5ec1c18613868227b2154f2"
+    },
+    {
+      "original_path": "reports/raw/opentaint-modeling-surface-probe/o-field-negative-side-effect/load-trace.json",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-modeling-surface-attempt-01/outputs/reports/raw/opentaint-modeling-surface-probe/o-field-negative-side-effect/load-trace.json",
+      "sha256": "40c2bb3884181b7bcff7f63dba5b163099680d859fe667fffb193ab47ff8c932"
+    },
+    {
+      "original_path": "reports/raw/opentaint-modeling-surface-probe/e-inside-pattern-negative/report-ifds.sarif",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-modeling-surface-attempt-01/outputs/reports/raw/opentaint-modeling-surface-probe/e-inside-pattern-negative/report-ifds.sarif",
+      "sha256": "f9b413b59188cb7987da0728b23ce2e2bc464bb206472cd879ad7b50f54b87f4"
+    },
+    {
+      "original_path": "reports/raw/opentaint-modeling-surface-probe/e-inside-pattern-negative/rule.yaml",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-modeling-surface-attempt-01/outputs/reports/raw/opentaint-modeling-surface-probe/e-inside-pattern-negative/rule.yaml",
+      "sha256": "d3225b9f5d1d62a198bb205c9d14a5d91de0f17d5c8cd91281f19e88b0b087ab"
+    },
+    {
+      "original_path": "reports/raw/opentaint-modeling-surface-probe/e-inside-pattern-negative/load-trace.json",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-modeling-surface-attempt-01/outputs/reports/raw/opentaint-modeling-surface-probe/e-inside-pattern-negative/load-trace.json",
+      "sha256": "f4d317537ba1c598dcb1de8d9dcebba9143f501c4cf033f72f639360a7db53cf"
+    },
+    {
+      "original_path": "reports/raw/opentaint-modeling-surface-probe/o-field-positive-side-effect/report-ifds.sarif",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-modeling-surface-attempt-01/outputs/reports/raw/opentaint-modeling-surface-probe/o-field-positive-side-effect/report-ifds.sarif",
+      "sha256": "fbb2973468d9837a2858cf68298923bbb7aab72d5efa225e208fec24ff030b95"
+    },
+    {
+      "original_path": "reports/raw/opentaint-modeling-surface-probe/o-field-positive-side-effect/rule.yaml",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-modeling-surface-attempt-01/outputs/reports/raw/opentaint-modeling-surface-probe/o-field-positive-side-effect/rule.yaml",
+      "sha256": "846f8200e0660f5b0955f15834b753f4c88b990dd5ec1c18613868227b2154f2"
+    },
+    {
+      "original_path": "reports/raw/opentaint-modeling-surface-probe/o-field-positive-side-effect/load-trace.json",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-modeling-surface-attempt-01/outputs/reports/raw/opentaint-modeling-surface-probe/o-field-positive-side-effect/load-trace.json",
+      "sha256": "40c2bb3884181b7bcff7f63dba5b163099680d859fe667fffb193ab47ff8c932"
+    },
+    {
+      "original_path": "reports/raw/opentaint-modeling-surface-probe/z-kill-negative-unmodeled/report-ifds.sarif",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-modeling-surface-attempt-01/outputs/reports/raw/opentaint-modeling-surface-probe/z-kill-negative-unmodeled/report-ifds.sarif",
+      "sha256": "d0c273cae66bfc45a36d13adcd0501dfaf8c3660bc137ece7d391b09c8882cda"
+    },
+    {
+      "original_path": "reports/raw/opentaint-modeling-surface-probe/z-kill-negative-unmodeled/rule.yaml",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-modeling-surface-attempt-01/outputs/reports/raw/opentaint-modeling-surface-probe/z-kill-negative-unmodeled/rule.yaml",
+      "sha256": "a7274a773a78253f139a25c88d91c5abd91361cc3afb5912d0f29978111a9c7f"
+    },
+    {
+      "original_path": "reports/raw/opentaint-modeling-surface-probe/z-kill-negative-unmodeled/load-trace.json",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-modeling-surface-attempt-01/outputs/reports/raw/opentaint-modeling-surface-probe/z-kill-negative-unmodeled/load-trace.json",
+      "sha256": "fffbb55d9f813cef0002921d7975fd0bfaa0e5803d8419595b3f220f83b64bb1"
+    },
+    {
+      "original_path": "reports/raw/opentaint-modeling-surface-probe/z-selectivity-negative/report-ifds.sarif",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-modeling-surface-attempt-01/outputs/reports/raw/opentaint-modeling-surface-probe/z-selectivity-negative/report-ifds.sarif",
+      "sha256": "fd7448072dbd10a4321c4577d683254abe4de0a977e7b4ecda0a871bc79e4f88"
+    },
+    {
+      "original_path": "reports/raw/opentaint-modeling-surface-probe/z-selectivity-negative/rule.yaml",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-modeling-surface-attempt-01/outputs/reports/raw/opentaint-modeling-surface-probe/z-selectivity-negative/rule.yaml",
+      "sha256": "c0b555ddf7ba87dab63c2600721e9f68327341e90e083a866fa53ac8e261f0d3"
+    },
+    {
+      "original_path": "reports/raw/opentaint-modeling-surface-probe/z-selectivity-negative/load-trace.json",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-modeling-surface-attempt-01/outputs/reports/raw/opentaint-modeling-surface-probe/z-selectivity-negative/load-trace.json",
+      "sha256": "40c2bb3884181b7bcff7f63dba5b163099680d859fe667fffb193ab47ff8c932"
+    },
+    {
+      "original_path": "reports/raw/opentaint-modeling-surface-probe/s-source-positive/report-ifds.sarif",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-modeling-surface-attempt-01/outputs/reports/raw/opentaint-modeling-surface-probe/s-source-positive/report-ifds.sarif",
+      "sha256": "19c0a330223739979d1aaa5250794fabb3ab3276614b87f66f64bd4e881475e3"
+    },
+    {
+      "original_path": "reports/raw/opentaint-modeling-surface-probe/s-source-positive/rule.yaml",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-modeling-surface-attempt-01/outputs/reports/raw/opentaint-modeling-surface-probe/s-source-positive/rule.yaml",
+      "sha256": "e8f99778d20996cc025602bf48de289f3a90f5da9a894a9fcfe3b23b4143ba0a"
+    },
+    {
+      "original_path": "reports/raw/opentaint-modeling-surface-probe/s-source-positive/load-trace.json",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-modeling-surface-attempt-01/outputs/reports/raw/opentaint-modeling-surface-probe/s-source-positive/load-trace.json",
+      "sha256": "40c2bb3884181b7bcff7f63dba5b163099680d859fe667fffb193ab47ff8c932"
+    },
+    {
+      "original_path": "reports/raw/opentaint-modeling-surface-probe/p-opaque-positive/report-ifds.sarif",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-modeling-surface-attempt-01/outputs/reports/raw/opentaint-modeling-surface-probe/p-opaque-positive/report-ifds.sarif",
+      "sha256": "2633d36d41e20e2db39fbfe52baf555bfc25c3b92e8016def44f9bd7c26ea1c8"
+    },
+    {
+      "original_path": "reports/raw/opentaint-modeling-surface-probe/p-opaque-positive/rule.yaml",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-modeling-surface-attempt-01/outputs/reports/raw/opentaint-modeling-surface-probe/p-opaque-positive/rule.yaml",
+      "sha256": "a4a624b1b1866c59290ce3aa6df96cede6638567511c0dd3ec9c71a7dcca9421"
+    },
+    {
+      "original_path": "reports/raw/opentaint-modeling-surface-probe/p-opaque-positive/load-trace.json",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-modeling-surface-attempt-01/outputs/reports/raw/opentaint-modeling-surface-probe/p-opaque-positive/load-trace.json",
+      "sha256": "40c2bb3884181b7bcff7f63dba5b163099680d859fe667fffb193ab47ff8c932"
+    },
+    {
+      "original_path": "reports/raw/opentaint-modeling-surface-probe/o-through-negative-endpoints-only/report-ifds.sarif",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-modeling-surface-attempt-01/outputs/reports/raw/opentaint-modeling-surface-probe/o-through-negative-endpoints-only/report-ifds.sarif",
+      "sha256": "244652b5d77fbbd27b0cf15bc011c0d661f07b1927a703a7a338512323ac23d1"
+    },
+    {
+      "original_path": "reports/raw/opentaint-modeling-surface-probe/o-through-negative-endpoints-only/rule.yaml",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-modeling-surface-attempt-01/outputs/reports/raw/opentaint-modeling-surface-probe/o-through-negative-endpoints-only/rule.yaml",
+      "sha256": "a7274a773a78253f139a25c88d91c5abd91361cc3afb5912d0f29978111a9c7f"
+    },
+    {
+      "original_path": "reports/raw/opentaint-modeling-surface-probe/o-through-negative-endpoints-only/load-trace.json",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-modeling-surface-attempt-01/outputs/reports/raw/opentaint-modeling-surface-probe/o-through-negative-endpoints-only/load-trace.json",
+      "sha256": "fffbb55d9f813cef0002921d7975fd0bfaa0e5803d8419595b3f220f83b64bb1"
+    },
+    {
+      "original_path": "reports/raw/opentaint-modeling-surface-probe/p-opaque-negative/report-ifds.sarif",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-modeling-surface-attempt-01/outputs/reports/raw/opentaint-modeling-surface-probe/p-opaque-negative/report-ifds.sarif",
+      "sha256": "3a2c7a92b75efdc0cd7820d2b5e6e71e07c0894a2a92bd31074cc2465a7e94f9"
+    },
+    {
+      "original_path": "reports/raw/opentaint-modeling-surface-probe/p-opaque-negative/rule.yaml",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-modeling-surface-attempt-01/outputs/reports/raw/opentaint-modeling-surface-probe/p-opaque-negative/rule.yaml",
+      "sha256": "a4a624b1b1866c59290ce3aa6df96cede6638567511c0dd3ec9c71a7dcca9421"
+    },
+    {
+      "original_path": "reports/raw/opentaint-modeling-surface-probe/p-opaque-negative/load-trace.json",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-modeling-surface-attempt-01/outputs/reports/raw/opentaint-modeling-surface-probe/p-opaque-negative/load-trace.json",
+      "sha256": "40c2bb3884181b7bcff7f63dba5b163099680d859fe667fffb193ab47ff8c932"
+    },
+    {
+      "original_path": "reports/raw/opentaint-modeling-surface-probe/z-selectivity-positive/report-ifds.sarif",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-modeling-surface-attempt-01/outputs/reports/raw/opentaint-modeling-surface-probe/z-selectivity-positive/report-ifds.sarif",
+      "sha256": "db571b3c90724bc17b0d55810edf04b222299fb6cfbfe083e46925dad3a893f6"
+    },
+    {
+      "original_path": "reports/raw/opentaint-modeling-surface-probe/z-selectivity-positive/rule.yaml",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-modeling-surface-attempt-01/outputs/reports/raw/opentaint-modeling-surface-probe/z-selectivity-positive/rule.yaml",
+      "sha256": "c0b555ddf7ba87dab63c2600721e9f68327341e90e083a866fa53ac8e261f0d3"
+    },
+    {
+      "original_path": "reports/raw/opentaint-modeling-surface-probe/z-selectivity-positive/load-trace.json",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-modeling-surface-attempt-01/outputs/reports/raw/opentaint-modeling-surface-probe/z-selectivity-positive/load-trace.json",
+      "sha256": "40c2bb3884181b7bcff7f63dba5b163099680d859fe667fffb193ab47ff8c932"
+    },
+    {
+      "original_path": "reports/raw/opentaint-modeling-surface-probe/s-source-negative/report-ifds.sarif",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-modeling-surface-attempt-01/outputs/reports/raw/opentaint-modeling-surface-probe/s-source-negative/report-ifds.sarif",
+      "sha256": "20b8c5c212db1ea726f28d4d4a8553642bcd3e67ef0f9f0c94d132d579cd25de"
+    },
+    {
+      "original_path": "reports/raw/opentaint-modeling-surface-probe/s-source-negative/rule.yaml",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-modeling-surface-attempt-01/outputs/reports/raw/opentaint-modeling-surface-probe/s-source-negative/rule.yaml",
+      "sha256": "e8f99778d20996cc025602bf48de289f3a90f5da9a894a9fcfe3b23b4143ba0a"
+    },
+    {
+      "original_path": "reports/raw/opentaint-modeling-surface-probe/s-source-negative/load-trace.json",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-modeling-surface-attempt-01/outputs/reports/raw/opentaint-modeling-surface-probe/s-source-negative/load-trace.json",
+      "sha256": "40c2bb3884181b7bcff7f63dba5b163099680d859fe667fffb193ab47ff8c932"
+    },
+    {
+      "original_path": "reports/raw/opentaint-modeling-surface-probe/b-roundtrip-endpoints-only/report-ifds.sarif",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-modeling-surface-attempt-01/outputs/reports/raw/opentaint-modeling-surface-probe/b-roundtrip-endpoints-only/report-ifds.sarif",
+      "sha256": "f277e08975a49692435a08bdc170e675ac38646975b616b2af51ade56244e593"
+    },
+    {
+      "original_path": "reports/raw/opentaint-modeling-surface-probe/b-roundtrip-endpoints-only/rule.yaml",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-modeling-surface-attempt-01/outputs/reports/raw/opentaint-modeling-surface-probe/b-roundtrip-endpoints-only/rule.yaml",
+      "sha256": "a7274a773a78253f139a25c88d91c5abd91361cc3afb5912d0f29978111a9c7f"
+    },
+    {
+      "original_path": "reports/raw/opentaint-modeling-surface-probe/b-roundtrip-endpoints-only/load-trace.json",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-modeling-surface-attempt-01/outputs/reports/raw/opentaint-modeling-surface-probe/b-roundtrip-endpoints-only/load-trace.json",
+      "sha256": "fffbb55d9f813cef0002921d7975fd0bfaa0e5803d8419595b3f220f83b64bb1"
+    },
+    {
+      "original_path": "reports/raw/opentaint-modeling-surface-probe/e-inside-pattern-positive/report-ifds.sarif",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-modeling-surface-attempt-01/outputs/reports/raw/opentaint-modeling-surface-probe/e-inside-pattern-positive/report-ifds.sarif",
+      "sha256": "67457524db6d0d66042a819dc2ffa2dd70f5afcb22523b7a2adafb4e384dbe69"
+    },
+    {
+      "original_path": "reports/raw/opentaint-modeling-surface-probe/e-inside-pattern-positive/rule.yaml",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-modeling-surface-attempt-01/outputs/reports/raw/opentaint-modeling-surface-probe/e-inside-pattern-positive/rule.yaml",
+      "sha256": "d3225b9f5d1d62a198bb205c9d14a5d91de0f17d5c8cd91281f19e88b0b087ab"
+    },
+    {
+      "original_path": "reports/raw/opentaint-modeling-surface-probe/e-inside-pattern-positive/load-trace.json",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-modeling-surface-attempt-01/outputs/reports/raw/opentaint-modeling-surface-probe/e-inside-pattern-positive/load-trace.json",
+      "sha256": "f4d317537ba1c598dcb1de8d9dcebba9143f501c4cf033f72f639360a7db53cf"
+    },
+    {
+      "original_path": "reports/raw/opentaint-modeling-surface-probe/b-roundtrip-static/report-ifds.sarif",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-modeling-surface-attempt-01/outputs/reports/raw/opentaint-modeling-surface-probe/b-roundtrip-static/report-ifds.sarif",
+      "sha256": "1334d32d31e7a5cd648614d4116bd7428868a7f3cad1b242954bd45c90ff18be"
+    },
+    {
+      "original_path": "reports/raw/opentaint-modeling-surface-probe/b-roundtrip-static/rule.yaml",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-modeling-surface-attempt-01/outputs/reports/raw/opentaint-modeling-surface-probe/b-roundtrip-static/rule.yaml",
+      "sha256": "e87a5337f7e61869a085f91be8e5e9fce05703dd12bdfcd35e6550368fda5971"
+    },
+    {
+      "original_path": "reports/raw/opentaint-modeling-surface-probe/b-roundtrip-static/load-trace.json",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-modeling-surface-attempt-01/outputs/reports/raw/opentaint-modeling-surface-probe/b-roundtrip-static/load-trace.json",
+      "sha256": "89b7ec8101d74e627784fd183c92217f15807cfe53794d117208711b88a592a5"
+    },
+    {
+      "original_path": "reports/raw/opentaint-modeling-surface-probe/s-sink-positive/report-ifds.sarif",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-modeling-surface-attempt-01/outputs/reports/raw/opentaint-modeling-surface-probe/s-sink-positive/report-ifds.sarif",
+      "sha256": "7d91eb890c2d35fc6768a0367d2fcad5144728fb01619a57049ccf8ff1bc4702"
+    },
+    {
+      "original_path": "reports/raw/opentaint-modeling-surface-probe/s-sink-positive/rule.yaml",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-modeling-surface-attempt-01/outputs/reports/raw/opentaint-modeling-surface-probe/s-sink-positive/rule.yaml",
+      "sha256": "5d2e38f8753222c1170dc631df293fd80fab53fc0fc256825eb98cf0a9201121"
+    },
+    {
+      "original_path": "reports/raw/opentaint-modeling-surface-probe/s-sink-positive/load-trace.json",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-modeling-surface-attempt-01/outputs/reports/raw/opentaint-modeling-surface-probe/s-sink-positive/load-trace.json",
+      "sha256": "40c2bb3884181b7bcff7f63dba5b163099680d859fe667fffb193ab47ff8c932"
+    },
+    {
+      "original_path": "reports/raw/opentaint-modeling-surface-probe/o-through-positive-endpoints-only/report-ifds.sarif",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-modeling-surface-attempt-01/outputs/reports/raw/opentaint-modeling-surface-probe/o-through-positive-endpoints-only/report-ifds.sarif",
+      "sha256": "b8c73dec0275c768bf245562d2d45d5db96607cbe4bdda95fcb4048a93547b42"
+    },
+    {
+      "original_path": "reports/raw/opentaint-modeling-surface-probe/o-through-positive-endpoints-only/rule.yaml",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-modeling-surface-attempt-01/outputs/reports/raw/opentaint-modeling-surface-probe/o-through-positive-endpoints-only/rule.yaml",
+      "sha256": "a7274a773a78253f139a25c88d91c5abd91361cc3afb5912d0f29978111a9c7f"
+    },
+    {
+      "original_path": "reports/raw/opentaint-modeling-surface-probe/o-through-positive-endpoints-only/load-trace.json",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-modeling-surface-attempt-01/outputs/reports/raw/opentaint-modeling-surface-probe/o-through-positive-endpoints-only/load-trace.json",
+      "sha256": "fffbb55d9f813cef0002921d7975fd0bfaa0e5803d8419595b3f220f83b64bb1"
+    },
+    {
+      "original_path": "reports/raw/opentaint-modeling-surface-probe/p-unmodeled-positive/report-ifds.sarif",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-modeling-surface-attempt-01/outputs/reports/raw/opentaint-modeling-surface-probe/p-unmodeled-positive/report-ifds.sarif",
+      "sha256": "ae4912abf57fb44a2cf0e718e92df7ed3086d43c2ea1e79c8b64b30b1dd0eeb6"
+    },
+    {
+      "original_path": "reports/raw/opentaint-modeling-surface-probe/p-unmodeled-positive/rule.yaml",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-modeling-surface-attempt-01/outputs/reports/raw/opentaint-modeling-surface-probe/p-unmodeled-positive/rule.yaml",
+      "sha256": "a7274a773a78253f139a25c88d91c5abd91361cc3afb5912d0f29978111a9c7f"
+    },
+    {
+      "original_path": "reports/raw/opentaint-modeling-surface-probe/p-unmodeled-positive/load-trace.json",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-modeling-surface-attempt-01/outputs/reports/raw/opentaint-modeling-surface-probe/p-unmodeled-positive/load-trace.json",
+      "sha256": "fffbb55d9f813cef0002921d7975fd0bfaa0e5803d8419595b3f220f83b64bb1"
+    },
+    {
+      "original_path": "reports/raw/opentaint-modeling-surface-probe/e-def-pattern-positive/report-ifds.sarif",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-modeling-surface-attempt-01/outputs/reports/raw/opentaint-modeling-surface-probe/e-def-pattern-positive/report-ifds.sarif",
+      "sha256": "31b9d876429f40e1f473286d794e7dd9b6376e0a1c446b4e1b899293d15c0523"
+    },
+    {
+      "original_path": "reports/raw/opentaint-modeling-surface-probe/e-def-pattern-positive/rule.yaml",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-modeling-surface-attempt-01/outputs/reports/raw/opentaint-modeling-surface-probe/e-def-pattern-positive/rule.yaml",
+      "sha256": "0a260466aa0cc8ca71038f30b1d8f9b6e327db4798461b99a9bced8b1694fc5e"
+    },
+    {
+      "original_path": "reports/raw/opentaint-modeling-surface-probe/e-def-pattern-positive/load-trace.json",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-modeling-surface-attempt-01/outputs/reports/raw/opentaint-modeling-surface-probe/e-def-pattern-positive/load-trace.json",
+      "sha256": "a198665c4e13ac238bc4f7c6e08b3d2782eff4ca968a2286382663e6c4d3a8b6"
+    },
+    {
+      "original_path": "reports/raw/opentaint-modeling-surface-probe/p-position-positive/report-ifds.sarif",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-modeling-surface-attempt-01/outputs/reports/raw/opentaint-modeling-surface-probe/p-position-positive/report-ifds.sarif",
+      "sha256": "b67090b7b7a6d187ea2420b7283320546a5c327508ba8f453d4ddd91590673cb"
+    },
+    {
+      "original_path": "reports/raw/opentaint-modeling-surface-probe/p-position-positive/rule.yaml",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-modeling-surface-attempt-01/outputs/reports/raw/opentaint-modeling-surface-probe/p-position-positive/rule.yaml",
+      "sha256": "89385b85cac639492b248aaf3846ed47c2b3c2a4f8fb2645dc87d0fa2edfa654"
+    },
+    {
+      "original_path": "reports/raw/opentaint-modeling-surface-probe/p-position-positive/load-trace.json",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-modeling-surface-attempt-01/outputs/reports/raw/opentaint-modeling-surface-probe/p-position-positive/load-trace.json",
+      "sha256": "40c2bb3884181b7bcff7f63dba5b163099680d859fe667fffb193ab47ff8c932"
+    },
+    {
+      "original_path": "reports/raw/opentaint-modeling-surface-probe/b-separation-positive/report-ifds.sarif",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-modeling-surface-attempt-01/outputs/reports/raw/opentaint-modeling-surface-probe/b-separation-positive/report-ifds.sarif",
+      "sha256": "b71f44fddc137e9293bba40fd88cd1e4f0e51cbf786ce1e73704d5596c70fa20"
+    },
+    {
+      "original_path": "reports/raw/opentaint-modeling-surface-probe/b-separation-positive/rule.yaml",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-modeling-surface-attempt-01/outputs/reports/raw/opentaint-modeling-surface-probe/b-separation-positive/rule.yaml",
+      "sha256": "2653581ba20e1727152df12ccaf67cd2c3a74118adb538fa49af8dfa62afe15f"
+    },
+    {
+      "original_path": "reports/raw/opentaint-modeling-surface-probe/b-separation-positive/load-trace.json",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-modeling-surface-attempt-01/outputs/reports/raw/opentaint-modeling-surface-probe/b-separation-positive/load-trace.json",
+      "sha256": "89b7ec8101d74e627784fd183c92217f15807cfe53794d117208711b88a592a5"
+    },
+    {
+      "original_path": "reports/raw/opentaint-modeling-surface-probe/z-kill-negative/report-ifds.sarif",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-modeling-surface-attempt-01/outputs/reports/raw/opentaint-modeling-surface-probe/z-kill-negative/report-ifds.sarif",
+      "sha256": "15f53230cb9bae04b02775404a09a7d9faabba178cbfa3eb57a55c2f298640f3"
+    },
+    {
+      "original_path": "reports/raw/opentaint-modeling-surface-probe/z-kill-negative/rule.yaml",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-modeling-surface-attempt-01/outputs/reports/raw/opentaint-modeling-surface-probe/z-kill-negative/rule.yaml",
+      "sha256": "c0b555ddf7ba87dab63c2600721e9f68327341e90e083a866fa53ac8e261f0d3"
+    },
+    {
+      "original_path": "reports/raw/opentaint-modeling-surface-probe/z-kill-negative/load-trace.json",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-modeling-surface-attempt-01/outputs/reports/raw/opentaint-modeling-surface-probe/z-kill-negative/load-trace.json",
+      "sha256": "40c2bb3884181b7bcff7f63dba5b163099680d859fe667fffb193ab47ff8c932"
+    },
+    {
+      "original_path": "reports/raw/opentaint-modeling-surface-probe/p-position-negative/report-ifds.sarif",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-modeling-surface-attempt-01/outputs/reports/raw/opentaint-modeling-surface-probe/p-position-negative/report-ifds.sarif",
+      "sha256": "d9038b9fb935b4e206c386cbb48483ca0d421520eba52f7d39c563306313e889"
+    },
+    {
+      "original_path": "reports/raw/opentaint-modeling-surface-probe/p-position-negative/rule.yaml",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-modeling-surface-attempt-01/outputs/reports/raw/opentaint-modeling-surface-probe/p-position-negative/rule.yaml",
+      "sha256": "89385b85cac639492b248aaf3846ed47c2b3c2a4f8fb2645dc87d0fa2edfa654"
+    },
+    {
+      "original_path": "reports/raw/opentaint-modeling-surface-probe/p-position-negative/load-trace.json",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-modeling-surface-attempt-01/outputs/reports/raw/opentaint-modeling-surface-probe/p-position-negative/load-trace.json",
+      "sha256": "40c2bb3884181b7bcff7f63dba5b163099680d859fe667fffb193ab47ff8c932"
+    },
+    {
+      "original_path": "reports/raw/opentaint-modeling-surface-probe/e-def-pattern-negative/report-ifds.sarif",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-modeling-surface-attempt-01/outputs/reports/raw/opentaint-modeling-surface-probe/e-def-pattern-negative/report-ifds.sarif",
+      "sha256": "38dfa2f8c79d4aa69c3d97b71a59690d8fce89acc1b5321b6a6358e3816b50c5"
+    },
+    {
+      "original_path": "reports/raw/opentaint-modeling-surface-probe/e-def-pattern-negative/rule.yaml",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-modeling-surface-attempt-01/outputs/reports/raw/opentaint-modeling-surface-probe/e-def-pattern-negative/rule.yaml",
+      "sha256": "0a260466aa0cc8ca71038f30b1d8f9b6e327db4798461b99a9bced8b1694fc5e"
+    },
+    {
+      "original_path": "reports/raw/opentaint-modeling-surface-probe/e-def-pattern-negative/load-trace.json",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-modeling-surface-attempt-01/outputs/reports/raw/opentaint-modeling-surface-probe/e-def-pattern-negative/load-trace.json",
+      "sha256": "a198665c4e13ac238bc4f7c6e08b3d2782eff4ca968a2286382663e6c4d3a8b6"
+    },
+    {
+      "original_path": "reports/raw/opentaint-modeling-surface-probe/b-separation-negative/report-ifds.sarif",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-modeling-surface-attempt-01/outputs/reports/raw/opentaint-modeling-surface-probe/b-separation-negative/report-ifds.sarif",
+      "sha256": "909cb681af59a7698768e1c6660ba22b58d7a2779bd49932dbb56aa1960743c3"
+    },
+    {
+      "original_path": "reports/raw/opentaint-modeling-surface-probe/b-separation-negative/rule.yaml",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-modeling-surface-attempt-01/outputs/reports/raw/opentaint-modeling-surface-probe/b-separation-negative/rule.yaml",
+      "sha256": "2653581ba20e1727152df12ccaf67cd2c3a74118adb538fa49af8dfa62afe15f"
+    },
+    {
+      "original_path": "reports/raw/opentaint-modeling-surface-probe/b-separation-negative/load-trace.json",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-modeling-surface-attempt-01/outputs/reports/raw/opentaint-modeling-surface-probe/b-separation-negative/load-trace.json",
+      "sha256": "89b7ec8101d74e627784fd183c92217f15807cfe53794d117208711b88a592a5"
+    },
+    {
+      "original_path": "reports/raw/opentaint-modeling-surface-probe/z-kill-positive/report-ifds.sarif",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-modeling-surface-attempt-01/outputs/reports/raw/opentaint-modeling-surface-probe/z-kill-positive/report-ifds.sarif",
+      "sha256": "0bc2741a5c65f5a2f2c75035589e0dd6a0ea5b9a7984ec3e8da876181aacad42"
+    },
+    {
+      "original_path": "reports/raw/opentaint-modeling-surface-probe/z-kill-positive/rule.yaml",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-modeling-surface-attempt-01/outputs/reports/raw/opentaint-modeling-surface-probe/z-kill-positive/rule.yaml",
+      "sha256": "c0b555ddf7ba87dab63c2600721e9f68327341e90e083a866fa53ac8e261f0d3"
+    },
+    {
+      "original_path": "reports/raw/opentaint-modeling-surface-probe/z-kill-positive/load-trace.json",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-modeling-surface-attempt-01/outputs/reports/raw/opentaint-modeling-surface-probe/z-kill-positive/load-trace.json",
+      "sha256": "40c2bb3884181b7bcff7f63dba5b163099680d859fe667fffb193ab47ff8c932"
+    },
+    {
+      "original_path": "reports/raw/opentaint-modeling-surface-probe/s-sink-negative/report-ifds.sarif",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-modeling-surface-attempt-01/outputs/reports/raw/opentaint-modeling-surface-probe/s-sink-negative/report-ifds.sarif",
+      "sha256": "eb85354f1390aba7c3afedda2d6e8c937bb262ffd213ae7c2cc40103f4e0dd4d"
+    },
+    {
+      "original_path": "reports/raw/opentaint-modeling-surface-probe/s-sink-negative/rule.yaml",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-modeling-surface-attempt-01/outputs/reports/raw/opentaint-modeling-surface-probe/s-sink-negative/rule.yaml",
+      "sha256": "5d2e38f8753222c1170dc631df293fd80fab53fc0fc256825eb98cf0a9201121"
+    },
+    {
+      "original_path": "reports/raw/opentaint-modeling-surface-probe/s-sink-negative/load-trace.json",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-modeling-surface-attempt-01/outputs/reports/raw/opentaint-modeling-surface-probe/s-sink-negative/load-trace.json",
+      "sha256": "40c2bb3884181b7bcff7f63dba5b163099680d859fe667fffb193ab47ff8c932"
+    },
+    {
+      "original_path": "reports/raw/opentaint-modeling-surface-probe/o-field-positive-plain/report-ifds.sarif",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-modeling-surface-attempt-01/outputs/reports/raw/opentaint-modeling-surface-probe/o-field-positive-plain/report-ifds.sarif",
+      "sha256": "5bb93edbbec2dee80b2eaee204b0449de97822d5aaa65e6e6425a77551a01a21"
+    },
+    {
+      "original_path": "reports/raw/opentaint-modeling-surface-probe/o-field-positive-plain/rule.yaml",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-modeling-surface-attempt-01/outputs/reports/raw/opentaint-modeling-surface-probe/o-field-positive-plain/rule.yaml",
+      "sha256": "c142d75b2bc7824d7e082802eb12ef53b3b1762ec13726b83479ce2f99660787"
+    },
+    {
+      "original_path": "reports/raw/opentaint-modeling-surface-probe/o-field-positive-plain/load-trace.json",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-modeling-surface-attempt-01/outputs/reports/raw/opentaint-modeling-surface-probe/o-field-positive-plain/load-trace.json",
+      "sha256": "40c2bb3884181b7bcff7f63dba5b163099680d859fe667fffb193ab47ff8c932"
+    },
+    {
+      "original_path": "reports/raw/opentaint-modeling-surface-probe/e-sink-only-control/report-ifds.sarif",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-modeling-surface-attempt-01/outputs/reports/raw/opentaint-modeling-surface-probe/e-sink-only-control/report-ifds.sarif",
+      "sha256": "6a9cc17848eb62852b491f79f53c42016fbfbfa7d96d676463d4e4b18b0ffe1f"
+    },
+    {
+      "original_path": "reports/raw/opentaint-modeling-surface-probe/e-sink-only-control/rule.yaml",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-modeling-surface-attempt-01/outputs/reports/raw/opentaint-modeling-surface-probe/e-sink-only-control/rule.yaml",
+      "sha256": "0b6e8fe99f31eb1948d0159d30f7b6a9ed51113ceddf60169294fbfe467cb91c"
+    },
+    {
+      "original_path": "reports/raw/opentaint-modeling-surface-probe/e-sink-only-control/load-trace.json",
+      "path": "reports/releases/v0.7.1/attempts/probe-opentaint-modeling-surface-attempt-01/outputs/reports/raw/opentaint-modeling-surface-probe/e-sink-only-control/load-trace.json",
+      "sha256": "c9a0d0568881b7b1d2acc1cc6044efd5b5d5bb30b9be4714085e789da0abf5d4"
+    }
+  ],
+  "expected_output_roots": [
+    "reports/raw/opentaint-modeling-surface-probe"
+  ],
+  "missing_fresh_output_roots": [],
+  "removed_paths": []
+}

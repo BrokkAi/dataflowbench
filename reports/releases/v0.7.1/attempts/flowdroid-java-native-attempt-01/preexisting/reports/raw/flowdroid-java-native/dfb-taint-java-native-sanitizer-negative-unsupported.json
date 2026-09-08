@@ -1,0 +1,19 @@
+{
+  "activation_arguments": [
+    "-s",
+    "jar:soot-infoflow-cmd-2.15.1-jar-with-dependencies.jar!/SourcesAndSinks.txt"
+  ],
+  "activation_identity": "FlowDroid 2.15.1 shipped SourcesAndSinks.txt catalog (extracted verbatim from the pinned soot-infoflow-cmd jar) and default summariesManual taint wrapper",
+  "adapter": "flowdroid",
+  "case_id": "dfb-taint-java-native-sanitizer-negative",
+  "evidence_kind": "retained-capability-decision",
+  "model_profile": "tool-native",
+  "modeling_category": "Z",
+  "modeling_category_label": "declared sanitizers",
+  "partition_source": "docs/native-profile.md#partition-summary",
+  "reason": "tool-native activation of dfb-template-native-sanitizer (category Z — declared sanitizers) is unsupported for 2.15.1 over Java by the activation partition (docs/native-profile.md#partition-summary, as amended): the shipped catalog's txt format has no sanitizer role at all — its entries are `_SOURCE_`/`_SINK_`/`_BOTH_` — and the shipped `java.lang.Integer` summary models `parseInt` as taint-*preserving* rather than as a barrier; prior to either, no shipped source binds the flow's environment read, so there is no flow for a sanitizer to be credited against (Amendment A19)",
+  "stage": "preregistered-native-activation-partition",
+  "state": "unsupported",
+  "template_id": "dfb-template-native-sanitizer",
+  "witnessed_tool_identity": "2.15.1"
+}

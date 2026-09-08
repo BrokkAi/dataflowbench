@@ -1,0 +1,1242 @@
+{
+  "id": "opentaint-java-kernel-attempt-01",
+  "planned_id": "opentaint-java-kernel",
+  "argv": [
+    "/Users/dave/.codex/worktrees/653a/dataflowbench/target/debug/dataflowbench",
+    "--population",
+    "v0.7.0",
+    "run-opentaint-java-kernel",
+    "--analyzer-jar",
+    "/Users/dave/.cache/dataflowbench-tools/opentaint-v0.4.6/opentaint-project-analyzer.jar",
+    "--models-archive",
+    "/Users/dave/.cache/dataflowbench-tools/opentaint-v0.4.6/opentaint-models.tar.gz",
+    "--java",
+    "/usr/bin/java",
+    "--javac",
+    "/usr/bin/javac"
+  ],
+  "cwd": "/Users/dave/.codex/worktrees/653a/dataflowbench",
+  "input_commits": {
+    "corpus": "0c82e8093ff899d5ee72809a82c951ab76b5bb76",
+    "publication_infrastructure": "53050fa64628997e866303bcd5299d74f1e3e45d",
+    "pins": "c0899dab0d2c043dcc5b1aa6a1aad0e49f482fea"
+  },
+  "execution_revision": "4ec8cb4bc7552246dc75b1bc39a18340432880a3",
+  "population": "v0.7.0",
+  "fixture_revision": "sha256:9df209ed3d7723a3ee33f2b289cf2afe34a3add781bdf2a2ac445de42b8d0151",
+  "plan": {
+    "path": "reports/releases/v0.7.1/plan.json",
+    "sha256": "cb948f4a5cff80b95d3dcc755ab8249d87449e43f70e6eb80a456789faf12f26"
+  },
+  "identities": {
+    "path": "reports/releases/v0.7.1/identities.json",
+    "sha256": "0b8b1bb07d1df1ec8687613bb355f5f6021a2c664d3488dc3bc763553ce1a83c"
+  },
+  "execution_access": "require_escalated",
+  "start_utc": "2026-09-07T20:59:20.521153+00:00",
+  "host": {
+    "platform": "macOS-26.6.2-arm64-arm-64bit",
+    "cpu_count": 10,
+    "load_before": [
+      9.6923828125,
+      8.595703125,
+      8.3974609375
+    ],
+    "load_after": [
+      8.70361328125,
+      9.197265625,
+      8.7529296875
+    ]
+  },
+  "settle_observations": [],
+  "cache_posture": "isolated case workspaces; local distributions and prefetched CodeQL packs; OS page cache uncontrolled; warm only for explicit warm series",
+  "supersedes": null,
+  "exit_code": 0,
+  "end_utc": "2026-09-07T21:03:44.139624+00:00",
+  "stdout": {
+    "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/stdout.txt",
+    "sha256": "e527c2eca8238653b736986df10dff6b99652d3216c76926d4398be5a8fdde10"
+  },
+  "stderr": {
+    "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/stderr.txt",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "outputs": [
+    {
+      "original_path": "reports/opentaint-java-kernel.json",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/opentaint-java-kernel.json",
+      "sha256": "33ef292f0166ae61584696e65ec4a640b853919406b1acf6c608a356aa1916dd"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-same-object-field-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-same-object-field-positive-timing.json",
+      "sha256": "26a7d86c325b393a7366db9dc4c12c9cf00d0d02f8c91a40ec0fece02f420f40"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-object-separation-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-object-separation-positive-timing.json",
+      "sha256": "019d427faf38a87e17ddc34418f6ffe4d05433f41719385ee320e65a92ae9cda"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-computed-property-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-computed-property-negative-timing.json",
+      "sha256": "e14c4aec227190139fcb7b0dd67e01d0296a7b9e5c7eda4615bc7555fe63472c"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-reflective-invocation-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-reflective-invocation-negative.json",
+      "sha256": "b6767cc416f8a9b72fdf2583e29afef2853d3fff61a3a5cee3586e6327123a94"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-return-relay-two-hop-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-return-relay-two-hop-positive-timing.json",
+      "sha256": "37794a6582093ed4f4ea807bccd68877ab6965980f938b8fcdc24bb97f99c497"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-closure-capture-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-closure-capture-positive.json",
+      "sha256": "e5d762fefd80b2e9358d9d1fc79b657b16351628b8f4503f17aa5e53d46f0ec2"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-deep-relay-chain-positive-rule.yaml",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-deep-relay-chain-positive-rule.yaml",
+      "sha256": "b2ca2e5af2cd7ed43a8366dd4e7f4d34ca136be77a9a90835dcd6b4c73240bec"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-infeasible-branch-negative-rule.yaml",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-infeasible-branch-negative-rule.yaml",
+      "sha256": "b2ca2e5af2cd7ed43a8366dd4e7f4d34ca136be77a9a90835dcd6b4c73240bec"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-loop-carried-positive-load-trace.json",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-loop-carried-positive-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-computed-property-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-computed-property-negative.json",
+      "sha256": "d435e6b14eed7b578dbfccc0e59d14a1d727e37d7b917ec360ce7c71d4cff0ff"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-branch-join-positive-load-trace.json",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-branch-join-positive-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-function-field-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-function-field-positive.json",
+      "sha256": "fad474f452f43d25184997496334bbcfc4a0e07f65d9dddb3cd440b2037b245f"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-map-iteration-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-map-iteration-positive.json",
+      "sha256": "49e6041c68d3640f4bce937e075a73fe48dcde94dd4928d580629a2f46253868"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-object-separation-positive-rule.yaml",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-object-separation-positive-rule.yaml",
+      "sha256": "b2ca2e5af2cd7ed43a8366dd4e7f4d34ca136be77a9a90835dcd6b4c73240bec"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-same-object-field-negative-load-trace.json",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-same-object-field-negative-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-array-element-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-array-element-negative.json",
+      "sha256": "98d6569078fa64f46a28bd440751ce2d546e88534362041c584ce44fd5a26dba"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-alias-propagation-positive-rule.yaml",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-alias-propagation-positive-rule.yaml",
+      "sha256": "b2ca2e5af2cd7ed43a8366dd4e7f4d34ca136be77a9a90835dcd6b4c73240bec"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-deep-relay-chain-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-deep-relay-chain-negative-timing.json",
+      "sha256": "dd3d84f44e3b35cb2cc59459037a424e1f8c48cfe32a393022e621d22508b7a8"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-element-object-negative-rule.yaml",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-element-object-negative-rule.yaml",
+      "sha256": "b2ca2e5af2cd7ed43a8366dd4e7f4d34ca136be77a9a90835dcd6b4c73240bec"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-expression-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-expression-negative-timing.json",
+      "sha256": "4bdd3168ab6ad8f4bf412ea4ff1b27c5caabb7c37df14faaee8d2a6d8b604500"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-deep-relay-chain-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-deep-relay-chain-negative.json",
+      "sha256": "9b86909009b5b50d76d4d18cbac8b8a2926df0caabd5ee3ec7f0dd4558c7be18"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-return-relay-two-hop-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-return-relay-two-hop-negative-timing.json",
+      "sha256": "48f29964c81c6edb45b59ede4e3713f1cf918e0087dec0230219441b10c3f4fa"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-explicit-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-explicit-negative-timing.json",
+      "sha256": "ff4ad930c98c20b215d90c97e41cf21e360f57f772a1e71766c111f9d4a7f8fb"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-same-object-field-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-same-object-field-negative-timing.json",
+      "sha256": "4318f3a41cecbff0946a9f82e4f9de22ee031323dcf1d6cb57b2e1827c298aef"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-object-separation-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-object-separation-negative-timing.json",
+      "sha256": "cd3745d5025773fc795f2b3c16498fde23fa0f2a7dea0cccab3a45c6d04f5c8f"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-computed-property-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-computed-property-positive-timing.json",
+      "sha256": "f908744a4caad61348bbf9ab848f5125009c7303fd5eb35f32438df75c62b2f5"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-element-object-negative-load-trace.json",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-element-object-negative-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-reflective-invocation-negative-load-trace.json",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-reflective-invocation-negative-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-deep-relay-chain-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-deep-relay-chain-positive-timing.json",
+      "sha256": "aefa105b9ee66bb93e4b8cb709303b327b5887b39f8aa4904f47b8ac44cb04e7"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-expression-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-expression-positive-timing.json",
+      "sha256": "402afc3199407bc4937d67840d16c699b4d6d4b4bdc6b96561728703c7837a02"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-local-chain-negative-load-trace.json",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-local-chain-negative-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-callback-registration-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-callback-registration-negative.json",
+      "sha256": "61e9c7d6a428562e2fea03ef2e55345732a7f591953257d23bcf96d90c8c5a74"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-recursive-carry-positive-load-trace.json",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-recursive-carry-positive-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-context-pair-depth2-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-context-pair-depth2-positive.json",
+      "sha256": "d727992ab363b22f1d4f4b77e897f60c26949c65e7f0ffee787465dd31ad7ca0"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-reflective-invocation-negative-rule.yaml",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-reflective-invocation-negative-rule.yaml",
+      "sha256": "b2ca2e5af2cd7ed43a8366dd4e7f4d34ca136be77a9a90835dcd6b4c73240bec"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-deep-relay-chain-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-deep-relay-chain-positive.json",
+      "sha256": "ecd7dc79efe92c300e0e3388baaccd48ad307b56ddd5b8b61898dc3af0828f6a"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-alias-propagation-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-alias-propagation-negative-timing.json",
+      "sha256": "b67d6b15ea9fb8688acf8d5c9dc992229ce3e3c0ac5e3cd6e05d3b13575adb95"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-nested-access-path-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-nested-access-path-negative-timing.json",
+      "sha256": "7f08661305cc4052a1e2f19548ff03e61d5a171cdc4e377696706ab306dbf91d"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-deep-relay-chain-negative-load-trace.json",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-deep-relay-chain-negative-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-callback-registration-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-callback-registration-negative-timing.json",
+      "sha256": "13a94f893a9facf1e6493567e3b01875bbf286029c190cdb9b60b93b1f0ee0cd"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-callback-registration-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-callback-registration-positive.json",
+      "sha256": "ebcfd03610e63bacf714f00d8c547481daaf99879cbf645a1725faa55d80ee41"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-infeasible-branch-positive-load-trace.json",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-infeasible-branch-positive-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-branch-join-positive-rule.yaml",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-branch-join-positive-rule.yaml",
+      "sha256": "b2ca2e5af2cd7ed43a8366dd4e7f4d34ca136be77a9a90835dcd6b4c73240bec"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-expression-negative-rule.yaml",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-expression-negative-rule.yaml",
+      "sha256": "b2ca2e5af2cd7ed43a8366dd4e7f4d34ca136be77a9a90835dcd6b4c73240bec"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-same-object-field-negative-rule.yaml",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-same-object-field-negative-rule.yaml",
+      "sha256": "b2ca2e5af2cd7ed43a8366dd4e7f4d34ca136be77a9a90835dcd6b4c73240bec"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-context-pair-depth2-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-context-pair-depth2-negative.json",
+      "sha256": "bdfc50a09309d4c949476e67ea5ace9872db141080072a98aa8bd8c82e05fbfe"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-reflective-invocation-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-reflective-invocation-positive.json",
+      "sha256": "6391218a32013cf7b21b5395aef994844dda388e8b1659455c8456ff4fae2806"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-expression-positive-load-trace.json",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-expression-positive-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-closure-capture-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-closure-capture-negative.json",
+      "sha256": "a6797cef057462632013c58f1fe60231e628e857177ab69381893ce7cc4b4055"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-nested-access-path-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-nested-access-path-positive-timing.json",
+      "sha256": "8faa22e7a016ab107da423ea8dc3dc9e2701d5b17c5b81be0e0c0d02ffe51bb6"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-alias-propagation-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-alias-propagation-positive-timing.json",
+      "sha256": "04d44a67f3e420f94195502bf02f2bf42400ae608b3586f4cd3ca705a2ccd3cf"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-exception-catch-positive-load-trace.json",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-exception-catch-positive-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-function-field-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-function-field-negative.json",
+      "sha256": "8a0e3e55a05fd1b7256615b982e7d6bb95b3b140d68c50d3306dbd478540902d"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-computed-property-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-computed-property-positive.json",
+      "sha256": "a2f26401a7f91cdfb946b5071fc90a9795ce0d04df136d8c56a5aa9f3bdb083c"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-map-iteration-positive-load-trace.json",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-map-iteration-positive-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-map-iteration-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-map-iteration-negative.json",
+      "sha256": "032482a5764d8031a4855ad832aa31fe418d5f60c1df38cac0ee24e32b4caeb1"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-return-relay-one-hop-positive-load-trace.json",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-return-relay-one-hop-positive-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-alias-propagation-negative-load-trace.json",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-alias-propagation-negative-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-exception-catch-negative-rule.yaml",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-exception-catch-negative-rule.yaml",
+      "sha256": "b2ca2e5af2cd7ed43a8366dd4e7f4d34ca136be77a9a90835dcd6b4c73240bec"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-array-element-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-array-element-positive.json",
+      "sha256": "631fdbc6fb1142dd37c9bb0dfc2d7897b6e6e528507c32c7ce45d8661c2c83d8"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-array-element-positive-rule.yaml",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-array-element-positive-rule.yaml",
+      "sha256": "b2ca2e5af2cd7ed43a8366dd4e7f4d34ca136be77a9a90835dcd6b4c73240bec"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-computed-property-positive-load-trace.json",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-computed-property-positive-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-callback-registration-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-callback-registration-positive-timing.json",
+      "sha256": "ced6f7ac45414dfde049147199c0cff4d93a5f782005ca7eb32607769e41231f"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-map-iteration-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-map-iteration-positive-timing.json",
+      "sha256": "757720573436a7cca5e52f85bafac9987ddbd1d870bc897fe6a517bb998aedff"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-argument-position-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-argument-position-negative-timing.json",
+      "sha256": "84526a4dcd04612d6d9c0ca9d1b98fd3221b83de25773d5836ba983a68e146d0"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-array-element-positive-load-trace.json",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-array-element-positive-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-local-chain-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-local-chain-negative.json",
+      "sha256": "602c71801c40f7a59f244409dbbd1671c241ffe35178d4fb4bc9a58e5bbc9607"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-context-pair-depth2-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-context-pair-depth2-positive-timing.json",
+      "sha256": "bb1583797b608b190ee753f0dea68a6074adfb299394e42ca0016431bb68933c"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-loop-carried-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-loop-carried-negative.json",
+      "sha256": "494b68136838ad6350f18fde2f9625b49fde1931d2d5534e4ce0bbe4e4f606fb"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-loop-carried-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-loop-carried-negative-timing.json",
+      "sha256": "4cba3ab54b1ed86c7fe26d44c8703194e12f91695beca10b87ad423164b9ad76"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-return-relay-two-hop-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-return-relay-two-hop-negative.json",
+      "sha256": "68e74d13ba66c884fe469ea0f29cf81a49b2936b560771db7a91b80c5bfb6aa6"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-infeasible-branch-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-infeasible-branch-negative-timing.json",
+      "sha256": "8701a95970b15f55fc8d9be49585078903c3bf15d6bcd5e7edb6a3a4e976937e"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-return-relay-two-hop-negative-rule.yaml",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-return-relay-two-hop-negative-rule.yaml",
+      "sha256": "b2ca2e5af2cd7ed43a8366dd4e7f4d34ca136be77a9a90835dcd6b4c73240bec"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-recursive-carry-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-recursive-carry-positive.json",
+      "sha256": "ff2248d05978e35ccc1b564a6f9da96d80f9ad7ed800a9080a2ffc45095bc37c"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-nested-access-path-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-nested-access-path-positive.json",
+      "sha256": "e82e5770988f8a5e0f40fa30efa8957d277bb2d0105a9ec2c092c0fcf4610816"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-alias-propagation-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-alias-propagation-negative.json",
+      "sha256": "f72611ed7bddbf9026c1550bf78f453fe6960491c519a7a91ea419111f247561"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-object-separation-positive-load-trace.json",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-object-separation-positive-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-context-pair-depth2-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-context-pair-depth2-negative-timing.json",
+      "sha256": "5d3bd7277928d318f308a2dc08485a71d4fc7d129d98f97478e70cef79d06c5d"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-anonymous-implementation-negative-load-trace.json",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-anonymous-implementation-negative-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-argument-position-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-argument-position-positive-timing.json",
+      "sha256": "9cfdaf7bd5bc35e2d4134f10cef6c89a45c9478a65a2d7c9be16b6a20643fe1a"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-map-iteration-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-map-iteration-negative-timing.json",
+      "sha256": "97d52a7aa2f3c6ee1ff8264123776d0814123ff1a00e3f746ff8cd6dff594c1f"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/run-environment.json",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/run-environment.json",
+      "sha256": "38357b31c131e8697eb55f3c91da09eca3b7ba5c7a7c025bc0ecb1f6c984b4ca"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-dispatch-table-negative-rule.yaml",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-dispatch-table-negative-rule.yaml",
+      "sha256": "b2ca2e5af2cd7ed43a8366dd4e7f4d34ca136be77a9a90835dcd6b4c73240bec"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-infeasible-branch-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-infeasible-branch-positive-timing.json",
+      "sha256": "ae2a7ae01a4299dc7448268552d16a2808c8cb03089528e5dbd7978777767f78"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-local-overwrite-positive-load-trace.json",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-local-overwrite-positive-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-branch-join-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-branch-join-negative.json",
+      "sha256": "c6ae1984eb9c088f9062a8d80dfdd90062d39635dbf2b48fc4e23c2f2888b2c6"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-local-overwrite-negative-rule.yaml",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-local-overwrite-negative-rule.yaml",
+      "sha256": "b2ca2e5af2cd7ed43a8366dd4e7f4d34ca136be77a9a90835dcd6b4c73240bec"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-loop-carried-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-loop-carried-positive-timing.json",
+      "sha256": "c8f98d5884b2d783af0ab83f8262dfcd353df6b30084d28aed455bb18e0060c3"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-direct-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-direct-positive-timing.json",
+      "sha256": "6d820eff5b47fbb4562a6b8e37b844fe0b2017e838be3c56a8c7cdfe5c88df22"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-argument-position-positive-load-trace.json",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-argument-position-positive-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-function-field-negative-rule.yaml",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-function-field-negative-rule.yaml",
+      "sha256": "b2ca2e5af2cd7ed43a8366dd4e7f4d34ca136be77a9a90835dcd6b4c73240bec"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-anonymous-implementation-negative-rule.yaml",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-anonymous-implementation-negative-rule.yaml",
+      "sha256": "b2ca2e5af2cd7ed43a8366dd4e7f4d34ca136be77a9a90835dcd6b4c73240bec"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-function-field-negative-load-trace.json",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-function-field-negative-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-nested-access-path-positive-load-trace.json",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-nested-access-path-positive-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-alias-propagation-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-alias-propagation-positive.json",
+      "sha256": "9880d305fde734c12fe3bba2e201cc67584a2d93834dabb2c5dacb726fa93783"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-call-context-negative-load-trace.json",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-call-context-negative-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-loop-carried-positive-rule.yaml",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-loop-carried-positive-rule.yaml",
+      "sha256": "b2ca2e5af2cd7ed43a8366dd4e7f4d34ca136be77a9a90835dcd6b4c73240bec"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-nested-access-path-negative-rule.yaml",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-nested-access-path-negative-rule.yaml",
+      "sha256": "b2ca2e5af2cd7ed43a8366dd4e7f4d34ca136be77a9a90835dcd6b4c73240bec"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-exception-catch-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-exception-catch-positive-timing.json",
+      "sha256": "6cb27a5489130406a99312d56f8e11e2f96b3d4599e10f75c98cfd8fca4288b7"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-closure-capture-negative-rule.yaml",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-closure-capture-negative-rule.yaml",
+      "sha256": "b2ca2e5af2cd7ed43a8366dd4e7f4d34ca136be77a9a90835dcd6b4c73240bec"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-closure-capture-positive-load-trace.json",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-closure-capture-positive-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-context-pair-depth2-negative-load-trace.json",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-context-pair-depth2-negative-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-branch-join-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-branch-join-negative-timing.json",
+      "sha256": "a618415b82f36900b9bf4ccf65cf50858a9a0cbdf1ab37e83713c78a2b350be6"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-context-pair-depth2-positive-rule.yaml",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-context-pair-depth2-positive-rule.yaml",
+      "sha256": "b2ca2e5af2cd7ed43a8366dd4e7f4d34ca136be77a9a90835dcd6b4c73240bec"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-callback-registration-negative-load-trace.json",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-callback-registration-negative-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-branch-join-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-branch-join-positive.json",
+      "sha256": "2e9375319706c41a9fa8c2ce5df3035685f6953e6fba0760ed8e4e8c6885cc91"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-return-relay-one-hop-positive-rule.yaml",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-return-relay-one-hop-positive-rule.yaml",
+      "sha256": "b2ca2e5af2cd7ed43a8366dd4e7f4d34ca136be77a9a90835dcd6b4c73240bec"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-recursive-carry-positive-rule.yaml",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-recursive-carry-positive-rule.yaml",
+      "sha256": "b2ca2e5af2cd7ed43a8366dd4e7f4d34ca136be77a9a90835dcd6b4c73240bec"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-argument-position-positive-rule.yaml",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-argument-position-positive-rule.yaml",
+      "sha256": "b2ca2e5af2cd7ed43a8366dd4e7f4d34ca136be77a9a90835dcd6b4c73240bec"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-dispatch-table-positive-load-trace.json",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-dispatch-table-positive-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-exception-catch-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-exception-catch-negative-timing.json",
+      "sha256": "7fb42657a17b6a334382fe333cce6ff3207aebddc26c1290b76efa63d7209227"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-return-relay-two-hop-positive-load-trace.json",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-return-relay-two-hop-positive-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-branch-join-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-branch-join-positive-timing.json",
+      "sha256": "a0c05d09a3e4d120a41d7726bed51ffa1b26abf0f2ea9254e274464ec0eeac7b"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-explicit-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-explicit-negative.json",
+      "sha256": "709f084dce9340a0943f0450444ebe6caec847c456bfd0769aabe9aae5a058d0"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-computed-property-negative-rule.yaml",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-computed-property-negative-rule.yaml",
+      "sha256": "b2ca2e5af2cd7ed43a8366dd4e7f4d34ca136be77a9a90835dcd6b4c73240bec"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-local-chain-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-local-chain-positive.json",
+      "sha256": "1048c6c740ef93016f0ad541257d217b9eb8dcc180d235ed24808b47fabcc375"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-call-context-negative-rule.yaml",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-call-context-negative-rule.yaml",
+      "sha256": "b2ca2e5af2cd7ed43a8366dd4e7f4d34ca136be77a9a90835dcd6b4c73240bec"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-loop-carried-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-loop-carried-positive.json",
+      "sha256": "feaa2d045e763adff35a2abb9a480fcf510a80216def435f7130a0fddf0db7c2"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-recursive-carry-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-recursive-carry-negative.json",
+      "sha256": "00865128cd0174a4570bceb74aca44e15a96edf7045ec26769531da95c701f11"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-local-chain-negative-rule.yaml",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-local-chain-negative-rule.yaml",
+      "sha256": "b2ca2e5af2cd7ed43a8366dd4e7f4d34ca136be77a9a90835dcd6b4c73240bec"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-return-relay-two-hop-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-return-relay-two-hop-positive.json",
+      "sha256": "5f99fa7cc28426ddf1d35359422fbad47b21b73f9a35b2357610ef615bd18f0c"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-callback-registration-negative-rule.yaml",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-callback-registration-negative-rule.yaml",
+      "sha256": "b2ca2e5af2cd7ed43a8366dd4e7f4d34ca136be77a9a90835dcd6b4c73240bec"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-map-iteration-negative-rule.yaml",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-map-iteration-negative-rule.yaml",
+      "sha256": "b2ca2e5af2cd7ed43a8366dd4e7f4d34ca136be77a9a90835dcd6b4c73240bec"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-nested-access-path-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-nested-access-path-negative.json",
+      "sha256": "a7a081aca72dc7e7dfa8b39e71c9953bbf3fef744608843b342c694c3f176dd5"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-dispatch-table-negative-load-trace.json",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-dispatch-table-negative-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-function-field-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-function-field-negative-timing.json",
+      "sha256": "4e09168c509159713acfed66683f8483e8da416abeaa8e1ff161bb2a8184524d"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-local-chain-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-local-chain-negative-timing.json",
+      "sha256": "5c07f12c84f4723b752468fdb18973106782265df01316f46e375d63aed4d97b"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-same-object-field-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-same-object-field-negative.json",
+      "sha256": "e1d60db6f060f6cf4c92ce3d9d08cb54d6a766756430e676cf41d93860874a95"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-return-relay-two-hop-negative-load-trace.json",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-return-relay-two-hop-negative-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-return-relay-one-hop-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-return-relay-one-hop-positive-timing.json",
+      "sha256": "a9ed066af1de6dc5d2ceb7f00e10a98aa273770a0278b940b5251117b729aa4e"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-context-pair-depth2-negative-rule.yaml",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-context-pair-depth2-negative-rule.yaml",
+      "sha256": "b2ca2e5af2cd7ed43a8366dd4e7f4d34ca136be77a9a90835dcd6b4c73240bec"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-closure-capture-positive-rule.yaml",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-closure-capture-positive-rule.yaml",
+      "sha256": "b2ca2e5af2cd7ed43a8366dd4e7f4d34ca136be77a9a90835dcd6b4c73240bec"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-loop-carried-negative-rule.yaml",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-loop-carried-negative-rule.yaml",
+      "sha256": "b2ca2e5af2cd7ed43a8366dd4e7f4d34ca136be77a9a90835dcd6b4c73240bec"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-nested-access-path-positive-rule.yaml",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-nested-access-path-positive-rule.yaml",
+      "sha256": "b2ca2e5af2cd7ed43a8366dd4e7f4d34ca136be77a9a90835dcd6b4c73240bec"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-dispatch-table-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-dispatch-table-negative-timing.json",
+      "sha256": "9669aece3d9b8019948296795bee12661e587dc6dd27fb68d43f45cdaf4981d5"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-anonymous-implementation-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-anonymous-implementation-negative.json",
+      "sha256": "f69fb1ae63a52e64cbe8e1cebd8826880a524e89383b4c5b8e8e8ebc80fd9c7b"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-explicit-negative-rule.yaml",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-explicit-negative-rule.yaml",
+      "sha256": "2143de7a30edad8c311a4255db453f30fb8754f647607f4b0eca0977dd22f82c"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-direct-positive-load-trace.json",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-direct-positive-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-return-relay-one-hop-negative-rule.yaml",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-return-relay-one-hop-negative-rule.yaml",
+      "sha256": "b2ca2e5af2cd7ed43a8366dd4e7f4d34ca136be77a9a90835dcd6b4c73240bec"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-argument-position-negative-rule.yaml",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-argument-position-negative-rule.yaml",
+      "sha256": "b2ca2e5af2cd7ed43a8366dd4e7f4d34ca136be77a9a90835dcd6b4c73240bec"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-direct-positive-rule.yaml",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-direct-positive-rule.yaml",
+      "sha256": "e7013e41ceb991a66912051e2c3cad5c39aa1245d948c9cdf61e0cb1facc2e73"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-recursive-carry-negative-rule.yaml",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-recursive-carry-negative-rule.yaml",
+      "sha256": "b2ca2e5af2cd7ed43a8366dd4e7f4d34ca136be77a9a90835dcd6b4c73240bec"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-object-separation-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-object-separation-negative.json",
+      "sha256": "d9f29ab7e3aa8f24d0c19b4c877ede7344eacc1e8a7af60d516988919aa7c38e"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-function-field-positive-load-trace.json",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-function-field-positive-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-nested-access-path-negative-load-trace.json",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-nested-access-path-negative-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-dispatch-table-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-dispatch-table-positive-timing.json",
+      "sha256": "6d1900de6da67838799349860c38b68d3590d41276bd6ee92abe6baa2106c490"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-call-context-positive-load-trace.json",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-call-context-positive-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-return-relay-one-hop-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-return-relay-one-hop-negative-timing.json",
+      "sha256": "7027043cabb0af0dbb5cfbb30236f3bcc4635645ce08c06ead447dc827d5d653"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-closure-capture-negative-load-trace.json",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-closure-capture-negative-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-computed-property-positive-rule.yaml",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-computed-property-positive-rule.yaml",
+      "sha256": "b2ca2e5af2cd7ed43a8366dd4e7f4d34ca136be77a9a90835dcd6b4c73240bec"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-local-chain-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-local-chain-positive-timing.json",
+      "sha256": "456918d5333ab625d5ad16330a7187bce669c4131be361fe2d5120dc96c235be"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-function-field-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-function-field-positive-timing.json",
+      "sha256": "168043caab6219d01a439d4dfa24d11ded39a4a74d4c38e6afaa9f48ea72dc17"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-context-pair-depth2-positive-load-trace.json",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-context-pair-depth2-positive-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-return-relay-one-hop-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-return-relay-one-hop-positive.json",
+      "sha256": "39eecdc07347fbbd2fe25f35e4c60a26a13cda07d65402c221e2db70ab38d6ed"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-local-chain-positive-rule.yaml",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-local-chain-positive-rule.yaml",
+      "sha256": "b2ca2e5af2cd7ed43a8366dd4e7f4d34ca136be77a9a90835dcd6b4c73240bec"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-map-iteration-positive-rule.yaml",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-map-iteration-positive-rule.yaml",
+      "sha256": "b2ca2e5af2cd7ed43a8366dd4e7f4d34ca136be77a9a90835dcd6b4c73240bec"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-callback-registration-positive-rule.yaml",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-callback-registration-positive-rule.yaml",
+      "sha256": "b2ca2e5af2cd7ed43a8366dd4e7f4d34ca136be77a9a90835dcd6b4c73240bec"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-callback-registration-positive-load-trace.json",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-callback-registration-positive-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-call-context-positive-rule.yaml",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-call-context-positive-rule.yaml",
+      "sha256": "b2ca2e5af2cd7ed43a8366dd4e7f4d34ca136be77a9a90835dcd6b4c73240bec"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-argument-position-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-argument-position-positive.json",
+      "sha256": "7e13e78870031a96b7410b1321421cc0e18c4256722bbcc367f9f39e047d6d6f"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-object-separation-negative-load-trace.json",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-object-separation-negative-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-anonymous-implementation-positive-load-trace.json",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-anonymous-implementation-positive-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-direct-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-direct-positive.json",
+      "sha256": "d689113c5a1fbbbeb7278088ff42bd1fa0d85382062ab2b3340cfd5082fecb1a"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-return-relay-one-hop-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-return-relay-one-hop-negative.json",
+      "sha256": "a006dc74126bc5c5bb98818666033d60efa8d0712764d2c0c2f1ee639120c3b9"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-return-relay-two-hop-positive-rule.yaml",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-return-relay-two-hop-positive-rule.yaml",
+      "sha256": "b2ca2e5af2cd7ed43a8366dd4e7f4d34ca136be77a9a90835dcd6b4c73240bec"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-local-overwrite-negative-load-trace.json",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-local-overwrite-negative-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-argument-position-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-argument-position-negative.json",
+      "sha256": "26a92ca7bfaffc7e7b5972612529025e0d344d5b6df05f7485e5e4ae8f3e6c6d"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-argument-position-negative-load-trace.json",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-argument-position-negative-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-same-object-field-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-same-object-field-positive.json",
+      "sha256": "8254761236b4266cb1db2e0ecf465d60255715887af2bd0f5d044c61fa23313a"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-array-element-negative-load-trace.json",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-array-element-negative-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-anonymous-implementation-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-anonymous-implementation-positive.json",
+      "sha256": "2853a202e2f67c8b5b6e05603339cc82398b719734e601e393ec1d11257bd3ca"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-local-overwrite-positive-rule.yaml",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-local-overwrite-positive-rule.yaml",
+      "sha256": "b2ca2e5af2cd7ed43a8366dd4e7f4d34ca136be77a9a90835dcd6b4c73240bec"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-anonymous-implementation-positive-rule.yaml",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-anonymous-implementation-positive-rule.yaml",
+      "sha256": "b2ca2e5af2cd7ed43a8366dd4e7f4d34ca136be77a9a90835dcd6b4c73240bec"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-function-field-positive-rule.yaml",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-function-field-positive-rule.yaml",
+      "sha256": "b2ca2e5af2cd7ed43a8366dd4e7f4d34ca136be77a9a90835dcd6b4c73240bec"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-dispatch-table-positive-rule.yaml",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-dispatch-table-positive-rule.yaml",
+      "sha256": "b2ca2e5af2cd7ed43a8366dd4e7f4d34ca136be77a9a90835dcd6b4c73240bec"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-object-separation-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-object-separation-positive.json",
+      "sha256": "6a6094cb98256a7242665c786b305e67329d4c3eeeaf63d254029ed36a0bf81c"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-expression-negative-load-trace.json",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-expression-negative-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-reflective-invocation-positive-rule.yaml",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-reflective-invocation-positive-rule.yaml",
+      "sha256": "b2ca2e5af2cd7ed43a8366dd4e7f4d34ca136be77a9a90835dcd6b4c73240bec"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-local-overwrite-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-local-overwrite-positive.json",
+      "sha256": "90690c93c6971980530badbfcf4f1d3470fc4235e4106298e45042948adee380"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-exception-catch-negative-load-trace.json",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-exception-catch-negative-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-dispatch-table-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-dispatch-table-positive.json",
+      "sha256": "244de71a56d3767920d399fadb54be991f9a9780b0a9406d8ef9e757d3f82a1a"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-same-object-field-positive-rule.yaml",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-same-object-field-positive-rule.yaml",
+      "sha256": "b2ca2e5af2cd7ed43a8366dd4e7f4d34ca136be77a9a90835dcd6b4c73240bec"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-array-element-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-array-element-positive-timing.json",
+      "sha256": "c5ca12c95c81eef08ac6986188d8fdc3cdd4af36001e3877eef96226d69c4f1e"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-map-iteration-negative-load-trace.json",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-map-iteration-negative-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-local-overwrite-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-local-overwrite-negative-timing.json",
+      "sha256": "dcbb4da8fd09698b998782197a1815552fecab3c013ed2f61ef804090adb4dfb"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-return-relay-one-hop-negative-load-trace.json",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-return-relay-one-hop-negative-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-alias-propagation-positive-load-trace.json",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-alias-propagation-positive-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-element-object-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-element-object-positive-timing.json",
+      "sha256": "11597d3c6ff681bb0d99210e3f9a61fc9c27e184255c00e5dda02dd6d4c1441f"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-expression-positive-rule.yaml",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-expression-positive-rule.yaml",
+      "sha256": "b2ca2e5af2cd7ed43a8366dd4e7f4d34ca136be77a9a90835dcd6b4c73240bec"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-computed-property-negative-load-trace.json",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-computed-property-negative-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-branch-join-negative-rule.yaml",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-branch-join-negative-rule.yaml",
+      "sha256": "b2ca2e5af2cd7ed43a8366dd4e7f4d34ca136be77a9a90835dcd6b4c73240bec"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-closure-capture-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-closure-capture-negative-timing.json",
+      "sha256": "1eeb717c7b75b14082ac090aca964bac9c843719a288d13cbf7d1dd8c5bd67f1"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-expression-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-expression-positive.json",
+      "sha256": "b4ebe07228dcd0979d3cbef09a1f33bdd32880db4e0dcbb668becf16284e478c"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-call-context-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-call-context-positive.json",
+      "sha256": "54eb888125fcc5bdf1c792f5e488cd60c9347edbe1bef9740b253fd688e237fb"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-deep-relay-chain-positive-load-trace.json",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-deep-relay-chain-positive-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-closure-capture-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-closure-capture-positive-timing.json",
+      "sha256": "5d12bd15d033e348f1c99b480b70834472a465cc0e758a90b21278fe8b7062fd"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-element-object-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-element-object-positive.json",
+      "sha256": "ffc0285152fd7823e67736f14dfa334339c52fdf4959dd63913302f051553609"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-array-element-negative-rule.yaml",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-array-element-negative-rule.yaml",
+      "sha256": "b2ca2e5af2cd7ed43a8366dd4e7f4d34ca136be77a9a90835dcd6b4c73240bec"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-exception-catch-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-exception-catch-negative.json",
+      "sha256": "dcf0c50d2b951b92b36e08ce29c109f8dd8423d9bb76c2160fd12a68ba442777"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-infeasible-branch-negative-load-trace.json",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-infeasible-branch-negative-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-element-object-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-element-object-negative-timing.json",
+      "sha256": "fd4a5a02ad97a2d6be847f76158102f50ac8b66509a1a1ea729862f2641eace6"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-infeasible-branch-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-infeasible-branch-positive.json",
+      "sha256": "5f55de49f130e94e71535d2aae81a8dcb42f7922a4532253f0273cefe14789df"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-array-element-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-array-element-negative-timing.json",
+      "sha256": "c467f9a47b79420428dd667eb8d40d3ef4183256220cb8608db356161366f3c0"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-local-overwrite-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-local-overwrite-positive-timing.json",
+      "sha256": "44bf58de985a0bc34be677fe6baac76b9bbf32c97237e92aed55515364777a4b"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-exception-catch-positive-rule.yaml",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-exception-catch-positive-rule.yaml",
+      "sha256": "b2ca2e5af2cd7ed43a8366dd4e7f4d34ca136be77a9a90835dcd6b4c73240bec"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-deep-relay-chain-negative-rule.yaml",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-deep-relay-chain-negative-rule.yaml",
+      "sha256": "b2ca2e5af2cd7ed43a8366dd4e7f4d34ca136be77a9a90835dcd6b4c73240bec"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-call-context-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-call-context-negative-timing.json",
+      "sha256": "362b43f6a201c0ae416afda15a38a417fc222d2adea665e3119aa14abe837111"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-call-context-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-call-context-negative.json",
+      "sha256": "099e0a56be24650a307cfe341eb6ba1e6eecee37523b9b6400ae0d2d2800d152"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-anonymous-implementation-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-anonymous-implementation-positive-timing.json",
+      "sha256": "aa25231311794426bb8c853bf6ed87861a49ad6abc00d94c64a31037d39ad2d8"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-infeasible-branch-positive-rule.yaml",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-infeasible-branch-positive-rule.yaml",
+      "sha256": "b2ca2e5af2cd7ed43a8366dd4e7f4d34ca136be77a9a90835dcd6b4c73240bec"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-expression-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-expression-negative.json",
+      "sha256": "c3881ca896229c08f8a37cbe098e1a1b5f28f28277679025345724728db4fc8e"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-element-object-positive-load-trace.json",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-element-object-positive-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-alias-propagation-negative-rule.yaml",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-alias-propagation-negative-rule.yaml",
+      "sha256": "b2ca2e5af2cd7ed43a8366dd4e7f4d34ca136be77a9a90835dcd6b4c73240bec"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-reflective-invocation-positive-load-trace.json",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-reflective-invocation-positive-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-element-object-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-element-object-negative.json",
+      "sha256": "196d318a75c80f47cca2859dfc564f4db1d4af3a056fc035ac7b858b1868fad8"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-local-chain-positive-load-trace.json",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-local-chain-positive-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-element-object-positive-rule.yaml",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-element-object-positive-rule.yaml",
+      "sha256": "b2ca2e5af2cd7ed43a8366dd4e7f4d34ca136be77a9a90835dcd6b4c73240bec"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-reflective-invocation-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-reflective-invocation-positive-timing.json",
+      "sha256": "86ff1c8103522340af7d2cce70d4430d7a956cd5f7b73664c76df186d703e21b"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-exception-catch-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-exception-catch-positive.json",
+      "sha256": "19155940bfad0531e4dbff74ad2dc3d7e8ac10faf3bce4ab44989f540e968f10"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-infeasible-branch-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-infeasible-branch-negative.json",
+      "sha256": "34cae7e84c673e59b1801de029fed39f7a117e96b5bd1f5567d8370e1c3c3e55"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-recursive-carry-negative-load-trace.json",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-recursive-carry-negative-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-object-separation-negative-rule.yaml",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-object-separation-negative-rule.yaml",
+      "sha256": "b2ca2e5af2cd7ed43a8366dd4e7f4d34ca136be77a9a90835dcd6b4c73240bec"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-recursive-carry-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-recursive-carry-positive-timing.json",
+      "sha256": "9e7387775253c013b49f4721a103c5ff5efa41c89c99a66386ed9dad32ca690c"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-explicit-negative-load-trace.json",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-explicit-negative-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-local-overwrite-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-local-overwrite-negative.json",
+      "sha256": "621949839847d1697e0d22180e149db961247667b4bfb45713991138bf7a761b"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-dispatch-table-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-dispatch-table-negative.json",
+      "sha256": "f7146234d76c43a29524501c14bf23ad95bac4355ea46908aab0fc58c62e167d"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-anonymous-implementation-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-anonymous-implementation-negative-timing.json",
+      "sha256": "2457bff20bbf55c7579bd1516e3fa703537334269b51745e5c241a4742b9cfd4"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-branch-join-negative-load-trace.json",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-branch-join-negative-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-loop-carried-negative-load-trace.json",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-loop-carried-negative-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-call-context-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-call-context-positive-timing.json",
+      "sha256": "8e6ba19e3f63925949f5744728d8e3099ae71b428fd3e973e43024ed6900b9aa"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-recursive-carry-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-recursive-carry-negative-timing.json",
+      "sha256": "99f2d4dfdd2bea145862caf85af5b297793b3d49f2fef229b35bfe97d1358ebc"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-same-object-field-positive-load-trace.json",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-same-object-field-positive-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "original_path": "reports/raw/opentaint-java-kernel/dfb-taint-java-reflective-invocation-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/opentaint-java-kernel-attempt-01/outputs/reports/raw/opentaint-java-kernel/dfb-taint-java-reflective-invocation-negative-timing.json",
+      "sha256": "6ed8ed505aadf0679bb617ab38dd4a1ce1b7794c21dfd0e4d01118700a7aff33"
+    }
+  ],
+  "expected_output_roots": [
+    "reports/opentaint-java-kernel.json",
+    "reports/raw/opentaint-java-kernel"
+  ],
+  "missing_fresh_output_roots": [],
+  "removed_paths": []
+}

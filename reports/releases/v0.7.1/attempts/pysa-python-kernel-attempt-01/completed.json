@@ -1,0 +1,950 @@
+{
+  "id": "pysa-python-kernel-attempt-01",
+  "planned_id": "pysa-python-kernel",
+  "argv": [
+    "/Users/dave/.codex/worktrees/653a/dataflowbench/target/debug/dataflowbench",
+    "--population",
+    "v0.7.0",
+    "run-pysa-python-kernel",
+    "--pyre",
+    "/Users/dave/.cache/dataflowbench-tools/pysa-venv/bin/pyre",
+    "--pyre-binary",
+    "/Users/dave/.cache/dataflowbench-tools/pysa-venv/bin/pyre.bin",
+    "--pyrefly",
+    "/Users/dave/.cache/dataflowbench-tools/pysa-venv/bin/pyrefly"
+  ],
+  "cwd": "/Users/dave/.codex/worktrees/653a/dataflowbench",
+  "input_commits": {
+    "corpus": "0c82e8093ff899d5ee72809a82c951ab76b5bb76",
+    "publication_infrastructure": "53050fa64628997e866303bcd5299d74f1e3e45d",
+    "pins": "c0899dab0d2c043dcc5b1aa6a1aad0e49f482fea"
+  },
+  "execution_revision": "4ec8cb4bc7552246dc75b1bc39a18340432880a3",
+  "population": "v0.7.0",
+  "fixture_revision": "sha256:9df209ed3d7723a3ee33f2b289cf2afe34a3add781bdf2a2ac445de42b8d0151",
+  "plan": {
+    "path": "reports/releases/v0.7.1/plan.json",
+    "sha256": "cb948f4a5cff80b95d3dcc755ab8249d87449e43f70e6eb80a456789faf12f26"
+  },
+  "identities": {
+    "path": "reports/releases/v0.7.1/identities.json",
+    "sha256": "0b8b1bb07d1df1ec8687613bb355f5f6021a2c664d3488dc3bc763553ce1a83c"
+  },
+  "execution_access": "require_escalated",
+  "start_utc": "2026-09-07T21:11:09.440576+00:00",
+  "host": {
+    "platform": "macOS-26.6.2-arm64-arm-64bit",
+    "cpu_count": 10,
+    "load_before": [
+      23.80712890625,
+      13.98388671875,
+      10.7578125
+    ],
+    "load_after": [
+      6.7431640625,
+      10.8369140625,
+      10.0791015625
+    ]
+  },
+  "settle_observations": [],
+  "cache_posture": "isolated case workspaces; local distributions and prefetched CodeQL packs; OS page cache uncontrolled; warm only for explicit warm series",
+  "supersedes": null,
+  "exit_code": 0,
+  "end_utc": "2026-09-07T21:14:06.361966+00:00",
+  "stdout": {
+    "path": "reports/releases/v0.7.1/attempts/pysa-python-kernel-attempt-01/stdout.txt",
+    "sha256": "a13b157909c493c9258a87f80afbf35e2d2ff91c985c12b2944177d6053ce655"
+  },
+  "stderr": {
+    "path": "reports/releases/v0.7.1/attempts/pysa-python-kernel-attempt-01/stderr.txt",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "outputs": [
+    {
+      "original_path": "reports/pysa-python-kernel.json",
+      "path": "reports/releases/v0.7.1/attempts/pysa-python-kernel-attempt-01/outputs/reports/pysa-python-kernel.json",
+      "sha256": "d97985a57e65033706346b5870a14ecb922265d921d287502140cccd6f2471b2"
+    },
+    {
+      "original_path": "reports/raw/pysa-python-kernel/dfb-taint-python-dispatch-table-positive-models.pysa",
+      "path": "reports/releases/v0.7.1/attempts/pysa-python-kernel-attempt-01/outputs/reports/raw/pysa-python-kernel/dfb-taint-python-dispatch-table-positive-models.pysa",
+      "sha256": "5f0a66d7f1a0c6027cb46cf4a6696938ed4e3f4be50c35361e019db44ad2df4a"
+    },
+    {
+      "original_path": "reports/raw/pysa-python-kernel/dfb-taint-python-same-object-field-negative-models.pysa",
+      "path": "reports/releases/v0.7.1/attempts/pysa-python-kernel-attempt-01/outputs/reports/raw/pysa-python-kernel/dfb-taint-python-same-object-field-negative-models.pysa",
+      "sha256": "a2b4dac86933ab0b25fa27ced71e212f686ba65c8305a6dab768a47c0715092c"
+    },
+    {
+      "original_path": "reports/raw/pysa-python-kernel/dfb-taint-python-object-separation-negative-models.pysa",
+      "path": "reports/releases/v0.7.1/attempts/pysa-python-kernel-attempt-01/outputs/reports/raw/pysa-python-kernel/dfb-taint-python-object-separation-negative-models.pysa",
+      "sha256": "d2023e02f24f904475ce205c41e9ea0f01c87621f7505753153c418714766bf2"
+    },
+    {
+      "original_path": "reports/raw/pysa-python-kernel/dfb-taint-python-computed-property-positive-models.pysa",
+      "path": "reports/releases/v0.7.1/attempts/pysa-python-kernel-attempt-01/outputs/reports/raw/pysa-python-kernel/dfb-taint-python-computed-property-positive-models.pysa",
+      "sha256": "8d6b68302aefad248bb669eff8434ea3b1cdfada6fe5d65a0695dc67107a7413"
+    },
+    {
+      "original_path": "reports/raw/pysa-python-kernel/dfb-taint-python-callback-registration-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/pysa-python-kernel-attempt-01/outputs/reports/raw/pysa-python-kernel/dfb-taint-python-callback-registration-negative.json",
+      "sha256": "1f602fcc158b0c9947cb7314191690ecb9cf5d4d71710f52726b2d1d80126ee4"
+    },
+    {
+      "original_path": "reports/raw/pysa-python-kernel/dfb-taint-python-argument-position-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/pysa-python-kernel-attempt-01/outputs/reports/raw/pysa-python-kernel/dfb-taint-python-argument-position-negative.json",
+      "sha256": "4b8a5cb0b85b286fb64450ae9f9861f9f766118ea630def3754f65f18acd2b27"
+    },
+    {
+      "original_path": "reports/raw/pysa-python-kernel/dfb-taint-python-return-relay-two-hop-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/pysa-python-kernel-attempt-01/outputs/reports/raw/pysa-python-kernel/dfb-taint-python-return-relay-two-hop-positive.json",
+      "sha256": "b2c2e176c579da3f73b8efe4bb9ba0d3cf9e24564bb55a904680b083ef81e790"
+    },
+    {
+      "original_path": "reports/raw/pysa-python-kernel/dfb-taint-python-loop-carried-positive-models.pysa",
+      "path": "reports/releases/v0.7.1/attempts/pysa-python-kernel-attempt-01/outputs/reports/raw/pysa-python-kernel/dfb-taint-python-loop-carried-positive-models.pysa",
+      "sha256": "0662884df2853803e6e472320147227d3c34b5d928b28d1cd7aa22b48719953a"
+    },
+    {
+      "original_path": "reports/raw/pysa-python-kernel/dfb-taint-python-function-field-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/pysa-python-kernel-attempt-01/outputs/reports/raw/pysa-python-kernel/dfb-taint-python-function-field-negative.json",
+      "sha256": "0b86de5162587fd81630d9b2547f88a833aee34ac5d5e722c1268db1af123be6"
+    },
+    {
+      "original_path": "reports/raw/pysa-python-kernel/dfb-taint-python-function-field-positive-models.pysa",
+      "path": "reports/releases/v0.7.1/attempts/pysa-python-kernel-attempt-01/outputs/reports/raw/pysa-python-kernel/dfb-taint-python-function-field-positive-models.pysa",
+      "sha256": "6f10cebfc73659b98874f34adef7cb81404e4ebca25e1151839296404c981760"
+    },
+    {
+      "original_path": "reports/raw/pysa-python-kernel/dfb-taint-python-deep-relay-chain-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/pysa-python-kernel-attempt-01/outputs/reports/raw/pysa-python-kernel/dfb-taint-python-deep-relay-chain-negative-timing.json",
+      "sha256": "7e9fcb870a10d87753990aed10cdf196d588df267593c489b564ca801e167d20"
+    },
+    {
+      "original_path": "reports/raw/pysa-python-kernel/dfb-taint-python-function-field-negative-models.pysa",
+      "path": "reports/releases/v0.7.1/attempts/pysa-python-kernel-attempt-01/outputs/reports/raw/pysa-python-kernel/dfb-taint-python-function-field-negative-models.pysa",
+      "sha256": "6f10cebfc73659b98874f34adef7cb81404e4ebca25e1151839296404c981760"
+    },
+    {
+      "original_path": "reports/raw/pysa-python-kernel/dfb-taint-python-loop-carried-negative-models.pysa",
+      "path": "reports/releases/v0.7.1/attempts/pysa-python-kernel-attempt-01/outputs/reports/raw/pysa-python-kernel/dfb-taint-python-loop-carried-negative-models.pysa",
+      "sha256": "0662884df2853803e6e472320147227d3c34b5d928b28d1cd7aa22b48719953a"
+    },
+    {
+      "original_path": "reports/raw/pysa-python-kernel/dfb-taint-python-same-object-field-positive-models.pysa",
+      "path": "reports/releases/v0.7.1/attempts/pysa-python-kernel-attempt-01/outputs/reports/raw/pysa-python-kernel/dfb-taint-python-same-object-field-positive-models.pysa",
+      "sha256": "a2b4dac86933ab0b25fa27ced71e212f686ba65c8305a6dab768a47c0715092c"
+    },
+    {
+      "original_path": "reports/raw/pysa-python-kernel/dfb-taint-python-anonymous-implementation-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/pysa-python-kernel-attempt-01/outputs/reports/raw/pysa-python-kernel/dfb-taint-python-anonymous-implementation-negative.json",
+      "sha256": "d6c59881a762885aff42e0f665d4986f883656932205831bc780d94b3b3d46dc"
+    },
+    {
+      "original_path": "reports/raw/pysa-python-kernel/dfb-taint-python-object-separation-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/pysa-python-kernel-attempt-01/outputs/reports/raw/pysa-python-kernel/dfb-taint-python-object-separation-positive.json",
+      "sha256": "4cb2ddaaea8ec734c748a701a528a228c79ab912a5a6615fb18cc74585691214"
+    },
+    {
+      "original_path": "reports/raw/pysa-python-kernel/dfb-taint-python-object-separation-positive-models.pysa",
+      "path": "reports/releases/v0.7.1/attempts/pysa-python-kernel-attempt-01/outputs/reports/raw/pysa-python-kernel/dfb-taint-python-object-separation-positive-models.pysa",
+      "sha256": "d2023e02f24f904475ce205c41e9ea0f01c87621f7505753153c418714766bf2"
+    },
+    {
+      "original_path": "reports/raw/pysa-python-kernel/dfb-taint-python-computed-property-negative-models.pysa",
+      "path": "reports/releases/v0.7.1/attempts/pysa-python-kernel-attempt-01/outputs/reports/raw/pysa-python-kernel/dfb-taint-python-computed-property-negative-models.pysa",
+      "sha256": "8d6b68302aefad248bb669eff8434ea3b1cdfada6fe5d65a0695dc67107a7413"
+    },
+    {
+      "original_path": "reports/raw/pysa-python-kernel/dfb-taint-python-dispatch-table-negative-models.pysa",
+      "path": "reports/releases/v0.7.1/attempts/pysa-python-kernel-attempt-01/outputs/reports/raw/pysa-python-kernel/dfb-taint-python-dispatch-table-negative-models.pysa",
+      "sha256": "5f0a66d7f1a0c6027cb46cf4a6696938ed4e3f4be50c35361e019db44ad2df4a"
+    },
+    {
+      "original_path": "reports/raw/pysa-python-kernel/dfb-taint-python-closure-capture-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/pysa-python-kernel-attempt-01/outputs/reports/raw/pysa-python-kernel/dfb-taint-python-closure-capture-negative.json",
+      "sha256": "79c1fdfc8f2a545b6ccd65b51dbf4b3b70acaa8d7648aea1337b7c6121b7d11a"
+    },
+    {
+      "original_path": "reports/raw/pysa-python-kernel/dfb-taint-python-reflective-invocation-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/pysa-python-kernel-attempt-01/outputs/reports/raw/pysa-python-kernel/dfb-taint-python-reflective-invocation-negative.json",
+      "sha256": "db17f007564b891c79ff3517c5d0991dc69dfdaf08937774b57e70f16bcb4cfd"
+    },
+    {
+      "original_path": "reports/raw/pysa-python-kernel/dfb-taint-python-same-object-field-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/pysa-python-kernel-attempt-01/outputs/reports/raw/pysa-python-kernel/dfb-taint-python-same-object-field-positive.json",
+      "sha256": "29b0c615c3e2b6c69db5149820cfb6bb9dd31313d27303d8290329bf61568f3e"
+    },
+    {
+      "original_path": "reports/raw/pysa-python-kernel/dfb-taint-python-deep-relay-chain-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/pysa-python-kernel-attempt-01/outputs/reports/raw/pysa-python-kernel/dfb-taint-python-deep-relay-chain-positive-timing.json",
+      "sha256": "0cb538eeb4c0b650a559514aec20cd02323997044b11efab5d10f61cd0aefd9b"
+    },
+    {
+      "original_path": "reports/raw/pysa-python-kernel/dfb-taint-python-local-chain-negative-models.pysa",
+      "path": "reports/releases/v0.7.1/attempts/pysa-python-kernel-attempt-01/outputs/reports/raw/pysa-python-kernel/dfb-taint-python-local-chain-negative-models.pysa",
+      "sha256": "414a056e345e9fe63d00d2d7de7d38ed1df96014856dc6cd073037fcc43df748"
+    },
+    {
+      "original_path": "reports/raw/pysa-python-kernel/dfb-taint-python-reflective-invocation-positive-models.pysa",
+      "path": "reports/releases/v0.7.1/attempts/pysa-python-kernel-attempt-01/outputs/reports/raw/pysa-python-kernel/dfb-taint-python-reflective-invocation-positive-models.pysa",
+      "sha256": "131b52d1db27af8c92a93f32cab22197bf9a2433ded1c02ac6485b1ffee607f7"
+    },
+    {
+      "original_path": "reports/raw/pysa-python-kernel/dfb-taint-python-return-relay-two-hop-positive-models.pysa",
+      "path": "reports/releases/v0.7.1/attempts/pysa-python-kernel-attempt-01/outputs/reports/raw/pysa-python-kernel/dfb-taint-python-return-relay-two-hop-positive-models.pysa",
+      "sha256": "815c7358e8bbb51c0a253a82d0225ff0df579bfe52d759a08c661f48b888eb62"
+    },
+    {
+      "original_path": "reports/raw/pysa-python-kernel/dfb-taint-python-call-context-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/pysa-python-kernel-attempt-01/outputs/reports/raw/pysa-python-kernel/dfb-taint-python-call-context-positive-timing.json",
+      "sha256": "c62a5cf0bdef2691221bc83348f1a18767b18224f70b559eefd89bc31c1bcc34"
+    },
+    {
+      "original_path": "reports/raw/pysa-python-kernel/dfb-taint-python-anonymous-implementation-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/pysa-python-kernel-attempt-01/outputs/reports/raw/pysa-python-kernel/dfb-taint-python-anonymous-implementation-positive.json",
+      "sha256": "e77d9b01c74f05d59eaf8c3abd4a14bcbfd98f1c367176fc9012ee00ab93eaa6"
+    },
+    {
+      "original_path": "reports/raw/pysa-python-kernel/dfb-taint-python-object-separation-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/pysa-python-kernel-attempt-01/outputs/reports/raw/pysa-python-kernel/dfb-taint-python-object-separation-negative.json",
+      "sha256": "afe50588383efe1be79ba2e3c25fe511252529adfee6145bc4d8eb23e2bdc146"
+    },
+    {
+      "original_path": "reports/raw/pysa-python-kernel/dfb-taint-python-alias-propagation-positive-models.pysa",
+      "path": "reports/releases/v0.7.1/attempts/pysa-python-kernel-attempt-01/outputs/reports/raw/pysa-python-kernel/dfb-taint-python-alias-propagation-positive-models.pysa",
+      "sha256": "441dab03f9fcbf990b2143e1b758e50e7373fd910b6bbd7f91046e133bc494f4"
+    },
+    {
+      "original_path": "reports/raw/pysa-python-kernel/dfb-taint-python-closure-capture-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/pysa-python-kernel-attempt-01/outputs/reports/raw/pysa-python-kernel/dfb-taint-python-closure-capture-positive.json",
+      "sha256": "41f15e46def155aa98248d7b8cd97f7e8bc956af9d41b80f93edadee3bacb208"
+    },
+    {
+      "original_path": "reports/raw/pysa-python-kernel/dfb-taint-python-reflective-invocation-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/pysa-python-kernel-attempt-01/outputs/reports/raw/pysa-python-kernel/dfb-taint-python-reflective-invocation-positive.json",
+      "sha256": "244e73f4d548e23f24526155b4a6bbfe9fb246596de53d459477cbd85af73922"
+    },
+    {
+      "original_path": "reports/raw/pysa-python-kernel/dfb-taint-python-return-relay-one-hop-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/pysa-python-kernel-attempt-01/outputs/reports/raw/pysa-python-kernel/dfb-taint-python-return-relay-one-hop-positive-timing.json",
+      "sha256": "48b985f64c65bbb0753685513039f53e175a543e952996528f6a63f130136fb3"
+    },
+    {
+      "original_path": "reports/raw/pysa-python-kernel/dfb-taint-python-same-object-field-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/pysa-python-kernel-attempt-01/outputs/reports/raw/pysa-python-kernel/dfb-taint-python-same-object-field-negative.json",
+      "sha256": "d4b45708a624b28e02c372fec8b848e8ede330a71b0e3e38d0aa032cadb25792"
+    },
+    {
+      "original_path": "reports/raw/pysa-python-kernel/dfb-taint-python-anonymous-implementation-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/pysa-python-kernel-attempt-01/outputs/reports/raw/pysa-python-kernel/dfb-taint-python-anonymous-implementation-positive-timing.json",
+      "sha256": "57e0347f514bb0f459ab9d796bd1f5a308244586c98d310e087a0b90a6d92be4"
+    },
+    {
+      "original_path": "reports/raw/pysa-python-kernel/dfb-taint-python-array-element-negative-models.pysa",
+      "path": "reports/releases/v0.7.1/attempts/pysa-python-kernel-attempt-01/outputs/reports/raw/pysa-python-kernel/dfb-taint-python-array-element-negative-models.pysa",
+      "sha256": "9fcdc508a726f793f8d1467a978c48e411c26559d1d2358880854d85087c4441"
+    },
+    {
+      "original_path": "reports/raw/pysa-python-kernel/dfb-taint-python-direct-positive-models.pysa",
+      "path": "reports/releases/v0.7.1/attempts/pysa-python-kernel-attempt-01/outputs/reports/raw/pysa-python-kernel/dfb-taint-python-direct-positive-models.pysa",
+      "sha256": "2ce6eb6892b13aa0a1b3019e4aaa728e2bcb98a64c5591ea8b18619ebd8bca4f"
+    },
+    {
+      "original_path": "reports/raw/pysa-python-kernel/dfb-taint-python-map-iteration-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/pysa-python-kernel-attempt-01/outputs/reports/raw/pysa-python-kernel/dfb-taint-python-map-iteration-negative-timing.json",
+      "sha256": "4c0659cf3800d58ebe01803e79f294f387edfe318976a6e549f53c174e95e29a"
+    },
+    {
+      "original_path": "reports/raw/pysa-python-kernel/dfb-taint-python-alias-propagation-negative-models.pysa",
+      "path": "reports/releases/v0.7.1/attempts/pysa-python-kernel-attempt-01/outputs/reports/raw/pysa-python-kernel/dfb-taint-python-alias-propagation-negative-models.pysa",
+      "sha256": "441dab03f9fcbf990b2143e1b758e50e7373fd910b6bbd7f91046e133bc494f4"
+    },
+    {
+      "original_path": "reports/raw/pysa-python-kernel/dfb-taint-python-callback-registration-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/pysa-python-kernel-attempt-01/outputs/reports/raw/pysa-python-kernel/dfb-taint-python-callback-registration-positive.json",
+      "sha256": "dc9e442eff1941b9065a7d92816f6b9b18f8960bf58d82c2a09eb5d74ab537c8"
+    },
+    {
+      "original_path": "reports/raw/pysa-python-kernel/dfb-taint-python-call-context-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/pysa-python-kernel-attempt-01/outputs/reports/raw/pysa-python-kernel/dfb-taint-python-call-context-negative-timing.json",
+      "sha256": "67803612e8bfe947b43e8de069e803190d9bb803384799a4d0dbed562a2a8548"
+    },
+    {
+      "original_path": "reports/raw/pysa-python-kernel/dfb-taint-python-return-relay-two-hop-negative-models.pysa",
+      "path": "reports/releases/v0.7.1/attempts/pysa-python-kernel-attempt-01/outputs/reports/raw/pysa-python-kernel/dfb-taint-python-return-relay-two-hop-negative-models.pysa",
+      "sha256": "815c7358e8bbb51c0a253a82d0225ff0df579bfe52d759a08c661f48b888eb62"
+    },
+    {
+      "original_path": "reports/raw/pysa-python-kernel/dfb-taint-python-reflective-invocation-negative-models.pysa",
+      "path": "reports/releases/v0.7.1/attempts/pysa-python-kernel-attempt-01/outputs/reports/raw/pysa-python-kernel/dfb-taint-python-reflective-invocation-negative-models.pysa",
+      "sha256": "131b52d1db27af8c92a93f32cab22197bf9a2433ded1c02ac6485b1ffee607f7"
+    },
+    {
+      "original_path": "reports/raw/pysa-python-kernel/dfb-taint-python-local-chain-positive-models.pysa",
+      "path": "reports/releases/v0.7.1/attempts/pysa-python-kernel-attempt-01/outputs/reports/raw/pysa-python-kernel/dfb-taint-python-local-chain-positive-models.pysa",
+      "sha256": "414a056e345e9fe63d00d2d7de7d38ed1df96014856dc6cd073037fcc43df748"
+    },
+    {
+      "original_path": "reports/raw/pysa-python-kernel/dfb-taint-python-argument-position-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/pysa-python-kernel-attempt-01/outputs/reports/raw/pysa-python-kernel/dfb-taint-python-argument-position-positive.json",
+      "sha256": "73c5d4230e95765bf93b758e2429c7dbea34be823cc07da121be45a1e1d4e871"
+    },
+    {
+      "original_path": "reports/raw/pysa-python-kernel/dfb-taint-python-return-relay-two-hop-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/pysa-python-kernel-attempt-01/outputs/reports/raw/pysa-python-kernel/dfb-taint-python-return-relay-two-hop-negative.json",
+      "sha256": "ab9e8536b9a1a96e38f9e0cee0bf6563966f4ea91ff003952bd57471c3036a19"
+    },
+    {
+      "original_path": "reports/raw/pysa-python-kernel/dfb-taint-python-function-field-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/pysa-python-kernel-attempt-01/outputs/reports/raw/pysa-python-kernel/dfb-taint-python-function-field-positive.json",
+      "sha256": "8579ac497955d8deb00a5a365aa2504ecdf54cad82087a485988b5c890b5dfed"
+    },
+    {
+      "original_path": "reports/raw/pysa-python-kernel/dfb-taint-python-map-iteration-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/pysa-python-kernel-attempt-01/outputs/reports/raw/pysa-python-kernel/dfb-taint-python-map-iteration-positive-timing.json",
+      "sha256": "a99cf74820ec27c08178e0334cff26b27f18a3c079fe3787f84b35d3a0a5b22e"
+    },
+    {
+      "original_path": "reports/raw/pysa-python-kernel/dfb-taint-python-direct-negative-models.pysa",
+      "path": "reports/releases/v0.7.1/attempts/pysa-python-kernel-attempt-01/outputs/reports/raw/pysa-python-kernel/dfb-taint-python-direct-negative-models.pysa",
+      "sha256": "2ce6eb6892b13aa0a1b3019e4aaa728e2bcb98a64c5591ea8b18619ebd8bca4f"
+    },
+    {
+      "original_path": "reports/raw/pysa-python-kernel/dfb-taint-python-array-element-positive-models.pysa",
+      "path": "reports/releases/v0.7.1/attempts/pysa-python-kernel-attempt-01/outputs/reports/raw/pysa-python-kernel/dfb-taint-python-array-element-positive-models.pysa",
+      "sha256": "9fcdc508a726f793f8d1467a978c48e411c26559d1d2358880854d85087c4441"
+    },
+    {
+      "original_path": "reports/raw/pysa-python-kernel/dfb-taint-python-return-relay-one-hop-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/pysa-python-kernel-attempt-01/outputs/reports/raw/pysa-python-kernel/dfb-taint-python-return-relay-one-hop-negative-timing.json",
+      "sha256": "63b1005079ba6e3ad8790e31592f3f89b21c1d255eb8a197912c4fb22a69145f"
+    },
+    {
+      "original_path": "reports/raw/pysa-python-kernel/dfb-taint-python-anonymous-implementation-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/pysa-python-kernel-attempt-01/outputs/reports/raw/pysa-python-kernel/dfb-taint-python-anonymous-implementation-negative-timing.json",
+      "sha256": "b607320f830b16ee476df902e984784c26b8872e0b8ed3914c898d25c7be119a"
+    },
+    {
+      "original_path": "reports/raw/pysa-python-kernel/dfb-taint-python-arithmetic-expression-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/pysa-python-kernel-attempt-01/outputs/reports/raw/pysa-python-kernel/dfb-taint-python-arithmetic-expression-positive.json",
+      "sha256": "c73ac1b1d6ba1dd05c846de1810b02bb6f778113972b9ea6359f2d68d75d4956"
+    },
+    {
+      "original_path": "reports/raw/pysa-python-kernel/dfb-taint-python-nested-access-path-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/pysa-python-kernel-attempt-01/outputs/reports/raw/pysa-python-kernel/dfb-taint-python-nested-access-path-positive-timing.json",
+      "sha256": "0c1f87cfcaba53b15d9f08547f7355a140953a41b07394c4cf4a48289908c0fb"
+    },
+    {
+      "original_path": "reports/raw/pysa-python-kernel/dfb-taint-python-infeasible-branch-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/pysa-python-kernel-attempt-01/outputs/reports/raw/pysa-python-kernel/dfb-taint-python-infeasible-branch-negative.json",
+      "sha256": "a7d9d4582020f13ac9d68fb4fe99da9dd13957378cc0f750391f739d6ea07d2b"
+    },
+    {
+      "original_path": "reports/raw/pysa-python-kernel/dfb-taint-python-argument-position-positive-models.pysa",
+      "path": "reports/releases/v0.7.1/attempts/pysa-python-kernel-attempt-01/outputs/reports/raw/pysa-python-kernel/dfb-taint-python-argument-position-positive-models.pysa",
+      "sha256": "3244f40ddd6a55a7d1f11302c0661cfb3892405fb6d35a0b2fab4064f1e3fb09"
+    },
+    {
+      "original_path": "reports/raw/pysa-python-kernel/dfb-taint-python-call-context-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/pysa-python-kernel-attempt-01/outputs/reports/raw/pysa-python-kernel/dfb-taint-python-call-context-positive.json",
+      "sha256": "1d3dbd7d3a6dd4951d8b74833be601d49c2587b7e62993ac60fc1ad9e9282282"
+    },
+    {
+      "original_path": "reports/raw/pysa-python-kernel/dfb-taint-python-context-pair-depth2-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/pysa-python-kernel-attempt-01/outputs/reports/raw/pysa-python-kernel/dfb-taint-python-context-pair-depth2-negative-timing.json",
+      "sha256": "0ae04f00cfa8e1700ec7b75dfc8ce9c8d558cce92930cdf5ec42feda1e7da716"
+    },
+    {
+      "original_path": "reports/raw/pysa-python-kernel/dfb-taint-python-closure-capture-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/pysa-python-kernel-attempt-01/outputs/reports/raw/pysa-python-kernel/dfb-taint-python-closure-capture-positive-timing.json",
+      "sha256": "ea814ad7666f0d510633c1360f378decfdafabb1b190d6ca1bf7abce242472bb"
+    },
+    {
+      "original_path": "reports/raw/pysa-python-kernel/dfb-taint-python-local-overwrite-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/pysa-python-kernel-attempt-01/outputs/reports/raw/pysa-python-kernel/dfb-taint-python-local-overwrite-positive-timing.json",
+      "sha256": "164f36cd89eff04bed16ff448ad8ce0b0703955d7698a1354489be640d6edc10"
+    },
+    {
+      "original_path": "reports/raw/pysa-python-kernel/dfb-taint-python-deep-relay-chain-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/pysa-python-kernel-attempt-01/outputs/reports/raw/pysa-python-kernel/dfb-taint-python-deep-relay-chain-negative.json",
+      "sha256": "4e94875e04c4bdc297d1e03852853b2599f2eee3b6f766c35309310fdad29923"
+    },
+    {
+      "original_path": "reports/raw/pysa-python-kernel/dfb-taint-python-element-object-negative-models.pysa",
+      "path": "reports/releases/v0.7.1/attempts/pysa-python-kernel-attempt-01/outputs/reports/raw/pysa-python-kernel/dfb-taint-python-element-object-negative-models.pysa",
+      "sha256": "c13d7b80c503a2f672fbc8143d945e89e0413f8e99bfac9dfa7f6061b925a9c9"
+    },
+    {
+      "original_path": "reports/raw/pysa-python-kernel/dfb-taint-python-branch-join-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/pysa-python-kernel-attempt-01/outputs/reports/raw/pysa-python-kernel/dfb-taint-python-branch-join-negative-timing.json",
+      "sha256": "aa07ca233062c6abc570383f537d06b881fb3bd24bece875398f956ecd07cdf9"
+    },
+    {
+      "original_path": "reports/raw/pysa-python-kernel/dfb-taint-python-infeasible-branch-positive-models.pysa",
+      "path": "reports/releases/v0.7.1/attempts/pysa-python-kernel-attempt-01/outputs/reports/raw/pysa-python-kernel/dfb-taint-python-infeasible-branch-positive-models.pysa",
+      "sha256": "eceeb69a9842852906c93f8632aaa0244d664c68a434fde219047f659cbf6881"
+    },
+    {
+      "original_path": "reports/raw/pysa-python-kernel/dfb-taint-python-argument-position-negative-models.pysa",
+      "path": "reports/releases/v0.7.1/attempts/pysa-python-kernel-attempt-01/outputs/reports/raw/pysa-python-kernel/dfb-taint-python-argument-position-negative-models.pysa",
+      "sha256": "3244f40ddd6a55a7d1f11302c0661cfb3892405fb6d35a0b2fab4064f1e3fb09"
+    },
+    {
+      "original_path": "reports/raw/pysa-python-kernel/dfb-taint-python-nested-access-path-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/pysa-python-kernel-attempt-01/outputs/reports/raw/pysa-python-kernel/dfb-taint-python-nested-access-path-negative-timing.json",
+      "sha256": "0e5bb9aed21638fafa485b347bae6317f658b52ff173835baa0bfde00194448b"
+    },
+    {
+      "original_path": "reports/raw/pysa-python-kernel/run-environment.json",
+      "path": "reports/releases/v0.7.1/attempts/pysa-python-kernel-attempt-01/outputs/reports/raw/pysa-python-kernel/run-environment.json",
+      "sha256": "8796188194c1ae52d07d51e0881233d926a6af2c123dc63a0e90fe98ef55bcb3"
+    },
+    {
+      "original_path": "reports/raw/pysa-python-kernel/dfb-taint-python-nested-access-path-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/pysa-python-kernel-attempt-01/outputs/reports/raw/pysa-python-kernel/dfb-taint-python-nested-access-path-negative.json",
+      "sha256": "fb1214a004f36177a695c7851c2ac73f9108cd103189c2317895c81f5af530ea"
+    },
+    {
+      "original_path": "reports/raw/pysa-python-kernel/dfb-taint-python-recursive-carry-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/pysa-python-kernel-attempt-01/outputs/reports/raw/pysa-python-kernel/dfb-taint-python-recursive-carry-negative.json",
+      "sha256": "9a3348f54a382345af6d70ac6755e7ebd707890482e69c5e49f2c363e7d32099"
+    },
+    {
+      "original_path": "reports/raw/pysa-python-kernel/dfb-taint-python-infeasible-branch-negative-models.pysa",
+      "path": "reports/releases/v0.7.1/attempts/pysa-python-kernel-attempt-01/outputs/reports/raw/pysa-python-kernel/dfb-taint-python-infeasible-branch-negative-models.pysa",
+      "sha256": "eceeb69a9842852906c93f8632aaa0244d664c68a434fde219047f659cbf6881"
+    },
+    {
+      "original_path": "reports/raw/pysa-python-kernel/dfb-taint-python-local-overwrite-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/pysa-python-kernel-attempt-01/outputs/reports/raw/pysa-python-kernel/dfb-taint-python-local-overwrite-negative-timing.json",
+      "sha256": "68f69fec7d605822c5144552f65ca4db344a4009ed91892afe2b170c9ef9b034"
+    },
+    {
+      "original_path": "reports/raw/pysa-python-kernel/dfb-taint-python-branch-join-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/pysa-python-kernel-attempt-01/outputs/reports/raw/pysa-python-kernel/dfb-taint-python-branch-join-positive-timing.json",
+      "sha256": "0220bfb6df556e08fd36ae33d59b166a2fb302762c8a0ccaf152ba56d23eadd3"
+    },
+    {
+      "original_path": "reports/raw/pysa-python-kernel/dfb-taint-python-element-object-positive-models.pysa",
+      "path": "reports/releases/v0.7.1/attempts/pysa-python-kernel-attempt-01/outputs/reports/raw/pysa-python-kernel/dfb-taint-python-element-object-positive-models.pysa",
+      "sha256": "c13d7b80c503a2f672fbc8143d945e89e0413f8e99bfac9dfa7f6061b925a9c9"
+    },
+    {
+      "original_path": "reports/raw/pysa-python-kernel/dfb-taint-python-closure-capture-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/pysa-python-kernel-attempt-01/outputs/reports/raw/pysa-python-kernel/dfb-taint-python-closure-capture-negative-timing.json",
+      "sha256": "cd567f96cb59d355f7b0a90258e7bbb3b40da396caa6ecbf164dba5b03487e5e"
+    },
+    {
+      "original_path": "reports/raw/pysa-python-kernel/dfb-taint-python-context-pair-depth2-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/pysa-python-kernel-attempt-01/outputs/reports/raw/pysa-python-kernel/dfb-taint-python-context-pair-depth2-positive-timing.json",
+      "sha256": "1728d25bf0c5a4403ba54a6803fcbe0441de3b01381adcb8520e539be73f6669"
+    },
+    {
+      "original_path": "reports/raw/pysa-python-kernel/dfb-taint-python-nested-access-path-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/pysa-python-kernel-attempt-01/outputs/reports/raw/pysa-python-kernel/dfb-taint-python-nested-access-path-positive.json",
+      "sha256": "e5d145e9d57e340b5b500e6a6d7b006b5bf1092db45bce3f23dfb12d60f6ca32"
+    },
+    {
+      "original_path": "reports/raw/pysa-python-kernel/dfb-taint-python-recursive-carry-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/pysa-python-kernel-attempt-01/outputs/reports/raw/pysa-python-kernel/dfb-taint-python-recursive-carry-positive.json",
+      "sha256": "a3bbae693cbb170432a7104c14ca1e7de71c2416bc64c7c6dd57e64536b59226"
+    },
+    {
+      "original_path": "reports/raw/pysa-python-kernel/dfb-taint-python-callback-registration-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/pysa-python-kernel-attempt-01/outputs/reports/raw/pysa-python-kernel/dfb-taint-python-callback-registration-negative-timing.json",
+      "sha256": "c9e175175a45010f7804497c837b0df4894165a985f456d6e1cd054d391f5fab"
+    },
+    {
+      "original_path": "reports/raw/pysa-python-kernel/dfb-taint-python-recursive-carry-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/pysa-python-kernel-attempt-01/outputs/reports/raw/pysa-python-kernel/dfb-taint-python-recursive-carry-negative-timing.json",
+      "sha256": "6230850c938124c02b26bf7c4762722fb65fab203a85a531ae58482bae8d7c95"
+    },
+    {
+      "original_path": "reports/raw/pysa-python-kernel/dfb-taint-python-arithmetic-expression-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/pysa-python-kernel-attempt-01/outputs/reports/raw/pysa-python-kernel/dfb-taint-python-arithmetic-expression-positive-timing.json",
+      "sha256": "01e370699914b09911ae3daa633baab10c006fda7db3c0dae369c695391b7922"
+    },
+    {
+      "original_path": "reports/raw/pysa-python-kernel/dfb-taint-python-exception-catch-negative-models.pysa",
+      "path": "reports/releases/v0.7.1/attempts/pysa-python-kernel-attempt-01/outputs/reports/raw/pysa-python-kernel/dfb-taint-python-exception-catch-negative-models.pysa",
+      "sha256": "c7f34ada4735418a622613bdd54cea8925e9f7f03c616a213fadc3fe1b9979bc"
+    },
+    {
+      "original_path": "reports/raw/pysa-python-kernel/dfb-taint-python-arithmetic-expression-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/pysa-python-kernel-attempt-01/outputs/reports/raw/pysa-python-kernel/dfb-taint-python-arithmetic-expression-negative.json",
+      "sha256": "9c0c6e392014c034ce377b9495a9c04039c9a49840ccb6634c5f9752405d7fff"
+    },
+    {
+      "original_path": "reports/raw/pysa-python-kernel/dfb-taint-python-infeasible-branch-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/pysa-python-kernel-attempt-01/outputs/reports/raw/pysa-python-kernel/dfb-taint-python-infeasible-branch-positive.json",
+      "sha256": "08388eedc324a45e082398b5b1ebbb184366655959b25950204bbaa8a0be37cd"
+    },
+    {
+      "original_path": "reports/raw/pysa-python-kernel/dfb-taint-python-call-context-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/pysa-python-kernel-attempt-01/outputs/reports/raw/pysa-python-kernel/dfb-taint-python-call-context-negative.json",
+      "sha256": "c1835e04b8f77fbe0fef89126e854a96ec7c7640444aee92d8318f6be93515f1"
+    },
+    {
+      "original_path": "reports/raw/pysa-python-kernel/dfb-taint-python-arithmetic-expression-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/pysa-python-kernel-attempt-01/outputs/reports/raw/pysa-python-kernel/dfb-taint-python-arithmetic-expression-negative-timing.json",
+      "sha256": "8f1c018120e79501c9634fefe6d00749e0120f858b0f0eab1f19bd439b07bb1c"
+    },
+    {
+      "original_path": "reports/raw/pysa-python-kernel/dfb-taint-python-recursive-carry-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/pysa-python-kernel-attempt-01/outputs/reports/raw/pysa-python-kernel/dfb-taint-python-recursive-carry-positive-timing.json",
+      "sha256": "44845091e8ac1b843893184e66da54814bfa1b58b8fb1591bfc0eaf171c3405c"
+    },
+    {
+      "original_path": "reports/raw/pysa-python-kernel/dfb-taint-python-deep-relay-chain-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/pysa-python-kernel-attempt-01/outputs/reports/raw/pysa-python-kernel/dfb-taint-python-deep-relay-chain-positive.json",
+      "sha256": "62f9a9873ec42209d8592de8275ff39cf9d27925e39d5770927147e655e035a2"
+    },
+    {
+      "original_path": "reports/raw/pysa-python-kernel/dfb-taint-python-exception-catch-positive-models.pysa",
+      "path": "reports/releases/v0.7.1/attempts/pysa-python-kernel-attempt-01/outputs/reports/raw/pysa-python-kernel/dfb-taint-python-exception-catch-positive-models.pysa",
+      "sha256": "c7f34ada4735418a622613bdd54cea8925e9f7f03c616a213fadc3fe1b9979bc"
+    },
+    {
+      "original_path": "reports/raw/pysa-python-kernel/dfb-taint-python-callback-registration-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/pysa-python-kernel-attempt-01/outputs/reports/raw/pysa-python-kernel/dfb-taint-python-callback-registration-positive-timing.json",
+      "sha256": "5a4f2a255d5ded7634d07d676400c70f95efdd5e31679995c5246d5edaeb299d"
+    },
+    {
+      "original_path": "reports/raw/pysa-python-kernel/dfb-taint-python-deep-relay-chain-negative-models.pysa",
+      "path": "reports/releases/v0.7.1/attempts/pysa-python-kernel-attempt-01/outputs/reports/raw/pysa-python-kernel/dfb-taint-python-deep-relay-chain-negative-models.pysa",
+      "sha256": "96c8e61ba9759e90ec2764d5b852aa4215ad9135f4a3accf154e6d0b629899c2"
+    },
+    {
+      "original_path": "reports/raw/pysa-python-kernel/dfb-taint-python-direct-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/pysa-python-kernel-attempt-01/outputs/reports/raw/pysa-python-kernel/dfb-taint-python-direct-negative.json",
+      "sha256": "0c0b240d192df4759f8ce14c1706234a88e659b3c184aca17d5d7cb78eb8fc45"
+    },
+    {
+      "original_path": "reports/raw/pysa-python-kernel/dfb-taint-python-dispatch-table-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/pysa-python-kernel-attempt-01/outputs/reports/raw/pysa-python-kernel/dfb-taint-python-dispatch-table-positive-timing.json",
+      "sha256": "ea83ccd28947c7ce718554defee1ac7c34d3d166ed667fbc64f70f7a4e92f72f"
+    },
+    {
+      "original_path": "reports/raw/pysa-python-kernel/dfb-taint-python-same-object-field-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/pysa-python-kernel-attempt-01/outputs/reports/raw/pysa-python-kernel/dfb-taint-python-same-object-field-negative-timing.json",
+      "sha256": "821aa20b896fbcc3ee98b95bb8332f62524360faaad2e97da9a18ad2433f7bdc"
+    },
+    {
+      "original_path": "reports/raw/pysa-python-kernel/dfb-taint-python-computed-property-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/pysa-python-kernel-attempt-01/outputs/reports/raw/pysa-python-kernel/dfb-taint-python-computed-property-positive-timing.json",
+      "sha256": "10addb5f0fb6a5f389e362e29c6b458e7e080df2a2829e5a3877f2cc79968bd2"
+    },
+    {
+      "original_path": "reports/raw/pysa-python-kernel/dfb-taint-python-object-separation-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/pysa-python-kernel-attempt-01/outputs/reports/raw/pysa-python-kernel/dfb-taint-python-object-separation-negative-timing.json",
+      "sha256": "7c0ea363d5d19a4e36f0bd2dfaddac1cbe2d939a6b3280416ca5e353767c3db6"
+    },
+    {
+      "original_path": "reports/raw/pysa-python-kernel/dfb-taint-python-loop-carried-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/pysa-python-kernel-attempt-01/outputs/reports/raw/pysa-python-kernel/dfb-taint-python-loop-carried-positive-timing.json",
+      "sha256": "febd5d4f648293c20537dd4ef4292541c1149fdc65adbfd6b8cd85ce658cf271"
+    },
+    {
+      "original_path": "reports/raw/pysa-python-kernel/dfb-taint-python-function-field-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/pysa-python-kernel-attempt-01/outputs/reports/raw/pysa-python-kernel/dfb-taint-python-function-field-positive-timing.json",
+      "sha256": "a5ceec6078faecc344ba3cd853b1db2eb10dc163847ed4bcbf9bdb00bfb7fd81"
+    },
+    {
+      "original_path": "reports/raw/pysa-python-kernel/dfb-taint-python-deep-relay-chain-positive-models.pysa",
+      "path": "reports/releases/v0.7.1/attempts/pysa-python-kernel-attempt-01/outputs/reports/raw/pysa-python-kernel/dfb-taint-python-deep-relay-chain-positive-models.pysa",
+      "sha256": "96c8e61ba9759e90ec2764d5b852aa4215ad9135f4a3accf154e6d0b629899c2"
+    },
+    {
+      "original_path": "reports/raw/pysa-python-kernel/dfb-taint-python-function-field-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/pysa-python-kernel-attempt-01/outputs/reports/raw/pysa-python-kernel/dfb-taint-python-function-field-negative-timing.json",
+      "sha256": "e37a781b796fb9dcb05700226fc7f39b5f39168fc3127b47ca1089578a9f1c30"
+    },
+    {
+      "original_path": "reports/raw/pysa-python-kernel/dfb-taint-python-loop-carried-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/pysa-python-kernel-attempt-01/outputs/reports/raw/pysa-python-kernel/dfb-taint-python-loop-carried-negative-timing.json",
+      "sha256": "2076ec2dec3d52630e1a1bfa92c9f4391965218e503c86bfb51598e228b3d643"
+    },
+    {
+      "original_path": "reports/raw/pysa-python-kernel/dfb-taint-python-same-object-field-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/pysa-python-kernel-attempt-01/outputs/reports/raw/pysa-python-kernel/dfb-taint-python-same-object-field-positive-timing.json",
+      "sha256": "9b862d57cda644ea4aebcd866e5146f7efbdabffe614af36ccc15936b46e4d2d"
+    },
+    {
+      "original_path": "reports/raw/pysa-python-kernel/dfb-taint-python-computed-property-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/pysa-python-kernel-attempt-01/outputs/reports/raw/pysa-python-kernel/dfb-taint-python-computed-property-positive.json",
+      "sha256": "515a3d2ac3475c4eabc90e44e5624f234ec616109b5bf6d989a041379854b8db"
+    },
+    {
+      "original_path": "reports/raw/pysa-python-kernel/dfb-taint-python-computed-property-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/pysa-python-kernel-attempt-01/outputs/reports/raw/pysa-python-kernel/dfb-taint-python-computed-property-negative-timing.json",
+      "sha256": "88e324ffa9d6e27a000a06913c66f158e68e6aadeab9126deef3b99610613e5c"
+    },
+    {
+      "original_path": "reports/raw/pysa-python-kernel/dfb-taint-python-object-separation-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/pysa-python-kernel-attempt-01/outputs/reports/raw/pysa-python-kernel/dfb-taint-python-object-separation-positive-timing.json",
+      "sha256": "45d0055928d53824802caf71525cd0e35cd30a28262673b9ccbbfb11dde28bcb"
+    },
+    {
+      "original_path": "reports/raw/pysa-python-kernel/dfb-taint-python-dispatch-table-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/pysa-python-kernel-attempt-01/outputs/reports/raw/pysa-python-kernel/dfb-taint-python-dispatch-table-negative-timing.json",
+      "sha256": "8346308a147f072f5eb80a83c4ce7609d54f375ece278e82d3175ad79a5f2d0c"
+    },
+    {
+      "original_path": "reports/raw/pysa-python-kernel/dfb-taint-python-return-relay-one-hop-positive-models.pysa",
+      "path": "reports/releases/v0.7.1/attempts/pysa-python-kernel-attempt-01/outputs/reports/raw/pysa-python-kernel/dfb-taint-python-return-relay-one-hop-positive-models.pysa",
+      "sha256": "815c7358e8bbb51c0a253a82d0225ff0df579bfe52d759a08c661f48b888eb62"
+    },
+    {
+      "original_path": "reports/raw/pysa-python-kernel/dfb-taint-python-anonymous-implementation-positive-models.pysa",
+      "path": "reports/releases/v0.7.1/attempts/pysa-python-kernel-attempt-01/outputs/reports/raw/pysa-python-kernel/dfb-taint-python-anonymous-implementation-positive-models.pysa",
+      "sha256": "87bfa26c21b76ea0be74b02963df123d0780fac6832a46eca84708082a9a8d3f"
+    },
+    {
+      "original_path": "reports/raw/pysa-python-kernel/dfb-taint-python-array-element-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/pysa-python-kernel-attempt-01/outputs/reports/raw/pysa-python-kernel/dfb-taint-python-array-element-negative-timing.json",
+      "sha256": "d503c44f60a73136b9a93f92a35ae4ec0895169ab4019db83220dcd7c16ee48d"
+    },
+    {
+      "original_path": "reports/raw/pysa-python-kernel/dfb-taint-python-direct-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/pysa-python-kernel-attempt-01/outputs/reports/raw/pysa-python-kernel/dfb-taint-python-direct-positive-timing.json",
+      "sha256": "d7e73d0a57d5ed98d27e4df55b915a5f388a17bf2460404685bcad9953f0a0d4"
+    },
+    {
+      "original_path": "reports/raw/pysa-python-kernel/dfb-taint-python-map-iteration-negative-models.pysa",
+      "path": "reports/releases/v0.7.1/attempts/pysa-python-kernel-attempt-01/outputs/reports/raw/pysa-python-kernel/dfb-taint-python-map-iteration-negative-models.pysa",
+      "sha256": "6ea43fa1ee6da74b45f484149f70ba83e2e998e78a48e46292e0ceb58785297e"
+    },
+    {
+      "original_path": "reports/raw/pysa-python-kernel/dfb-taint-python-local-chain-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/pysa-python-kernel-attempt-01/outputs/reports/raw/pysa-python-kernel/dfb-taint-python-local-chain-negative-timing.json",
+      "sha256": "72b9eb27d90282ffac56e3a8fda2cd106886e1324505d79447a4f5d3a1fd52b8"
+    },
+    {
+      "original_path": "reports/raw/pysa-python-kernel/dfb-taint-python-return-relay-two-hop-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/pysa-python-kernel-attempt-01/outputs/reports/raw/pysa-python-kernel/dfb-taint-python-return-relay-two-hop-positive-timing.json",
+      "sha256": "fb89bae40e9444500360845be6e27ec48f2bd98d60d3fb9d6aaf27d3260e2d14"
+    },
+    {
+      "original_path": "reports/raw/pysa-python-kernel/dfb-taint-python-reflective-invocation-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/pysa-python-kernel-attempt-01/outputs/reports/raw/pysa-python-kernel/dfb-taint-python-reflective-invocation-positive-timing.json",
+      "sha256": "a74c42c87b0c559933b166d921113805e0e92a0189b13af1171153dd7620dc4b"
+    },
+    {
+      "original_path": "reports/raw/pysa-python-kernel/dfb-taint-python-call-context-positive-models.pysa",
+      "path": "reports/releases/v0.7.1/attempts/pysa-python-kernel-attempt-01/outputs/reports/raw/pysa-python-kernel/dfb-taint-python-call-context-positive-models.pysa",
+      "sha256": "b4fd2bce46c633176315cae0b21b18b52a5d8e4859c5bd04586ed7de7c045a11"
+    },
+    {
+      "original_path": "reports/raw/pysa-python-kernel/dfb-taint-python-computed-property-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/pysa-python-kernel-attempt-01/outputs/reports/raw/pysa-python-kernel/dfb-taint-python-computed-property-negative.json",
+      "sha256": "31dd100d216291d4a9065fab284fefdeadfc004212edc71ebe231e7984fd6cb0"
+    },
+    {
+      "original_path": "reports/raw/pysa-python-kernel/dfb-taint-python-alias-propagation-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/pysa-python-kernel-attempt-01/outputs/reports/raw/pysa-python-kernel/dfb-taint-python-alias-propagation-positive-timing.json",
+      "sha256": "786ab04f7c1ce85ebb4150561ac90ed2d3a9ed5736c5c5c40f8d7444ff7c47ae"
+    },
+    {
+      "original_path": "reports/raw/pysa-python-kernel/dfb-taint-python-map-iteration-positive-models.pysa",
+      "path": "reports/releases/v0.7.1/attempts/pysa-python-kernel-attempt-01/outputs/reports/raw/pysa-python-kernel/dfb-taint-python-map-iteration-positive-models.pysa",
+      "sha256": "6ea43fa1ee6da74b45f484149f70ba83e2e998e78a48e46292e0ceb58785297e"
+    },
+    {
+      "original_path": "reports/raw/pysa-python-kernel/dfb-taint-python-direct-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/pysa-python-kernel-attempt-01/outputs/reports/raw/pysa-python-kernel/dfb-taint-python-direct-negative-timing.json",
+      "sha256": "62c402591af5ee8045f3ed37c8baabac2bf0454f14bfb27cf99e9fde86b7361c"
+    },
+    {
+      "original_path": "reports/raw/pysa-python-kernel/dfb-taint-python-array-element-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/pysa-python-kernel-attempt-01/outputs/reports/raw/pysa-python-kernel/dfb-taint-python-array-element-positive-timing.json",
+      "sha256": "87354bb54746c166ad3ba98695652ad86374bdca6a1e94a197a658f49eaa1cef"
+    },
+    {
+      "original_path": "reports/raw/pysa-python-kernel/dfb-taint-python-return-relay-one-hop-negative-models.pysa",
+      "path": "reports/releases/v0.7.1/attempts/pysa-python-kernel-attempt-01/outputs/reports/raw/pysa-python-kernel/dfb-taint-python-return-relay-one-hop-negative-models.pysa",
+      "sha256": "815c7358e8bbb51c0a253a82d0225ff0df579bfe52d759a08c661f48b888eb62"
+    },
+    {
+      "original_path": "reports/raw/pysa-python-kernel/dfb-taint-python-anonymous-implementation-negative-models.pysa",
+      "path": "reports/releases/v0.7.1/attempts/pysa-python-kernel-attempt-01/outputs/reports/raw/pysa-python-kernel/dfb-taint-python-anonymous-implementation-negative-models.pysa",
+      "sha256": "87bfa26c21b76ea0be74b02963df123d0780fac6832a46eca84708082a9a8d3f"
+    },
+    {
+      "original_path": "reports/raw/pysa-python-kernel/dfb-taint-python-alias-propagation-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/pysa-python-kernel-attempt-01/outputs/reports/raw/pysa-python-kernel/dfb-taint-python-alias-propagation-negative-timing.json",
+      "sha256": "f79cfb457fa078bea143abacc29c18fffb3d560550f75960f59ac0b299622e34"
+    },
+    {
+      "original_path": "reports/raw/pysa-python-kernel/dfb-taint-python-direct-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/pysa-python-kernel-attempt-01/outputs/reports/raw/pysa-python-kernel/dfb-taint-python-direct-positive.json",
+      "sha256": "66f4271bbaf269ea388331db1123c9f3c956462393e9ed738eb66c0c5cfeb1cd"
+    },
+    {
+      "original_path": "reports/raw/pysa-python-kernel/dfb-taint-python-call-context-negative-models.pysa",
+      "path": "reports/releases/v0.7.1/attempts/pysa-python-kernel-attempt-01/outputs/reports/raw/pysa-python-kernel/dfb-taint-python-call-context-negative-models.pysa",
+      "sha256": "b4fd2bce46c633176315cae0b21b18b52a5d8e4859c5bd04586ed7de7c045a11"
+    },
+    {
+      "original_path": "reports/raw/pysa-python-kernel/dfb-taint-python-reflective-invocation-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/pysa-python-kernel-attempt-01/outputs/reports/raw/pysa-python-kernel/dfb-taint-python-reflective-invocation-negative-timing.json",
+      "sha256": "d9174a2e6ba4e6df9bd8695b57f4f935dac79a405d088da79e2d62ce02bbcd86"
+    },
+    {
+      "original_path": "reports/raw/pysa-python-kernel/dfb-taint-python-return-relay-two-hop-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/pysa-python-kernel-attempt-01/outputs/reports/raw/pysa-python-kernel/dfb-taint-python-return-relay-two-hop-negative-timing.json",
+      "sha256": "dcf3c15c5c6c34d2f5b1f2a8a77f50dbc953ac2b308c273ed8fb28a693970eb6"
+    },
+    {
+      "original_path": "reports/raw/pysa-python-kernel/dfb-taint-python-local-chain-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/pysa-python-kernel-attempt-01/outputs/reports/raw/pysa-python-kernel/dfb-taint-python-local-chain-positive-timing.json",
+      "sha256": "cf387b207994ff21267133512ad4c4864ce12f84352edb19c0a62270be207a4b"
+    },
+    {
+      "original_path": "reports/raw/pysa-python-kernel/dfb-taint-python-map-iteration-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/pysa-python-kernel-attempt-01/outputs/reports/raw/pysa-python-kernel/dfb-taint-python-map-iteration-negative.json",
+      "sha256": "0ac2f71a260f744c8cae94e4fbf5c7dec952407c4ce29839a6b540e2aa93d154"
+    },
+    {
+      "original_path": "reports/raw/pysa-python-kernel/dfb-taint-python-exception-catch-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/pysa-python-kernel-attempt-01/outputs/reports/raw/pysa-python-kernel/dfb-taint-python-exception-catch-positive.json",
+      "sha256": "947214856053d2f310e541de9bc39a735c18bb94aa54b4ab2610e347e12e55dd"
+    },
+    {
+      "original_path": "reports/raw/pysa-python-kernel/dfb-taint-python-context-pair-depth2-negative-models.pysa",
+      "path": "reports/releases/v0.7.1/attempts/pysa-python-kernel-attempt-01/outputs/reports/raw/pysa-python-kernel/dfb-taint-python-context-pair-depth2-negative-models.pysa",
+      "sha256": "47f32cf285478251ca746bbd135464e7ebef18ca4ed2a6846ccf50e6cab33c95"
+    },
+    {
+      "original_path": "reports/raw/pysa-python-kernel/dfb-taint-python-closure-capture-positive-models.pysa",
+      "path": "reports/releases/v0.7.1/attempts/pysa-python-kernel-attempt-01/outputs/reports/raw/pysa-python-kernel/dfb-taint-python-closure-capture-positive-models.pysa",
+      "sha256": "2757d149b86c12bf85d558c45a695854dbd1c0dbded30f15b6d5e7ec9cd13535"
+    },
+    {
+      "original_path": "reports/raw/pysa-python-kernel/dfb-taint-python-array-element-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/pysa-python-kernel-attempt-01/outputs/reports/raw/pysa-python-kernel/dfb-taint-python-array-element-positive.json",
+      "sha256": "ed55022e6c78b1a1dad01c7e7d169cd41abe5d282a125c930a2e39849811be14"
+    },
+    {
+      "original_path": "reports/raw/pysa-python-kernel/dfb-taint-python-local-overwrite-positive-models.pysa",
+      "path": "reports/releases/v0.7.1/attempts/pysa-python-kernel-attempt-01/outputs/reports/raw/pysa-python-kernel/dfb-taint-python-local-overwrite-positive-models.pysa",
+      "sha256": "d037656da81b03683da08bc5515f46e212a35c9f10a22182757e405bf634773f"
+    },
+    {
+      "original_path": "reports/raw/pysa-python-kernel/dfb-taint-python-dispatch-table-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/pysa-python-kernel-attempt-01/outputs/reports/raw/pysa-python-kernel/dfb-taint-python-dispatch-table-negative.json",
+      "sha256": "1abdbe16accf7c7419f2841814743a8b091dde8eeee87cfc1ca1959c8c86b62a"
+    },
+    {
+      "original_path": "reports/raw/pysa-python-kernel/dfb-taint-python-element-object-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/pysa-python-kernel-attempt-01/outputs/reports/raw/pysa-python-kernel/dfb-taint-python-element-object-negative-timing.json",
+      "sha256": "4921bf9b2759751d014df8668800366d7f1a19969dbe7ed2bdcf44de9de4ac89"
+    },
+    {
+      "original_path": "reports/raw/pysa-python-kernel/dfb-taint-python-branch-join-negative-models.pysa",
+      "path": "reports/releases/v0.7.1/attempts/pysa-python-kernel-attempt-01/outputs/reports/raw/pysa-python-kernel/dfb-taint-python-branch-join-negative-models.pysa",
+      "sha256": "918ca2d4c0bb51554752ec03a381d22a25f63c828de0bf1e997858b6ce7b9815"
+    },
+    {
+      "original_path": "reports/raw/pysa-python-kernel/dfb-taint-python-infeasible-branch-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/pysa-python-kernel-attempt-01/outputs/reports/raw/pysa-python-kernel/dfb-taint-python-infeasible-branch-positive-timing.json",
+      "sha256": "e5db467310438f5cb968170e02801646c97f7cff29ee41aed34f598e006a2642"
+    },
+    {
+      "original_path": "reports/raw/pysa-python-kernel/dfb-taint-python-alias-propagation-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/pysa-python-kernel-attempt-01/outputs/reports/raw/pysa-python-kernel/dfb-taint-python-alias-propagation-positive.json",
+      "sha256": "9946071e70d84440fd1085eba4e9d4084ea4295fdda2a57c67cc9ed2350d20f3"
+    },
+    {
+      "original_path": "reports/raw/pysa-python-kernel/dfb-taint-python-context-pair-depth2-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/pysa-python-kernel-attempt-01/outputs/reports/raw/pysa-python-kernel/dfb-taint-python-context-pair-depth2-positive.json",
+      "sha256": "99fde4acb6d00af63e229f8162a378c9d7866f99fc43aeb1980fdab94e1c9d88"
+    },
+    {
+      "original_path": "reports/raw/pysa-python-kernel/dfb-taint-python-nested-access-path-positive-models.pysa",
+      "path": "reports/releases/v0.7.1/attempts/pysa-python-kernel-attempt-01/outputs/reports/raw/pysa-python-kernel/dfb-taint-python-nested-access-path-positive-models.pysa",
+      "sha256": "cbfd02d7980a8768e38740210043e2532540ab6aadd5d11b7ecd1254206fdfc6"
+    },
+    {
+      "original_path": "reports/raw/pysa-python-kernel/dfb-taint-python-local-chain-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/pysa-python-kernel-attempt-01/outputs/reports/raw/pysa-python-kernel/dfb-taint-python-local-chain-positive.json",
+      "sha256": "da87553f4609e16cdba4f3978653f137096c1fee1a08ac4a08710bff9461d0a2"
+    },
+    {
+      "original_path": "reports/raw/pysa-python-kernel/dfb-taint-python-argument-position-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/pysa-python-kernel-attempt-01/outputs/reports/raw/pysa-python-kernel/dfb-taint-python-argument-position-positive-timing.json",
+      "sha256": "06047537737251125b7336bc2f0dbc7be7242147a98b413738fbef35489253e5"
+    },
+    {
+      "original_path": "reports/raw/pysa-python-kernel/dfb-taint-python-loop-carried-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/pysa-python-kernel-attempt-01/outputs/reports/raw/pysa-python-kernel/dfb-taint-python-loop-carried-negative.json",
+      "sha256": "3e099168f79c4fbd844ac9f5abfdedc4e8866d3ad9c562e92c1f2e65c6b35f5f"
+    },
+    {
+      "original_path": "reports/raw/pysa-python-kernel/dfb-taint-python-infeasible-branch-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/pysa-python-kernel-attempt-01/outputs/reports/raw/pysa-python-kernel/dfb-taint-python-infeasible-branch-negative-timing.json",
+      "sha256": "a5805e94797a82dcd0a5c176de8674a2d175071bf735b8f391755a54643de966"
+    },
+    {
+      "original_path": "reports/raw/pysa-python-kernel/dfb-taint-python-local-overwrite-negative-models.pysa",
+      "path": "reports/releases/v0.7.1/attempts/pysa-python-kernel-attempt-01/outputs/reports/raw/pysa-python-kernel/dfb-taint-python-local-overwrite-negative-models.pysa",
+      "sha256": "d037656da81b03683da08bc5515f46e212a35c9f10a22182757e405bf634773f"
+    },
+    {
+      "original_path": "reports/raw/pysa-python-kernel/dfb-taint-python-branch-join-positive-models.pysa",
+      "path": "reports/releases/v0.7.1/attempts/pysa-python-kernel-attempt-01/outputs/reports/raw/pysa-python-kernel/dfb-taint-python-branch-join-positive-models.pysa",
+      "sha256": "918ca2d4c0bb51554752ec03a381d22a25f63c828de0bf1e997858b6ce7b9815"
+    },
+    {
+      "original_path": "reports/raw/pysa-python-kernel/dfb-taint-python-element-object-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/pysa-python-kernel-attempt-01/outputs/reports/raw/pysa-python-kernel/dfb-taint-python-element-object-positive-timing.json",
+      "sha256": "5528a246709c3925e3a1619ea6dab822a6fc985d230846b15a8208b7c6f5eb93"
+    },
+    {
+      "original_path": "reports/raw/pysa-python-kernel/dfb-taint-python-closure-capture-negative-models.pysa",
+      "path": "reports/releases/v0.7.1/attempts/pysa-python-kernel-attempt-01/outputs/reports/raw/pysa-python-kernel/dfb-taint-python-closure-capture-negative-models.pysa",
+      "sha256": "2757d149b86c12bf85d558c45a695854dbd1c0dbded30f15b6d5e7ec9cd13535"
+    },
+    {
+      "original_path": "reports/raw/pysa-python-kernel/dfb-taint-python-branch-join-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/pysa-python-kernel-attempt-01/outputs/reports/raw/pysa-python-kernel/dfb-taint-python-branch-join-positive.json",
+      "sha256": "2c6036dad5682bc4507beb07172a6801bd51c880e4fc1ad7f3152f5e7866e108"
+    },
+    {
+      "original_path": "reports/raw/pysa-python-kernel/dfb-taint-python-context-pair-depth2-positive-models.pysa",
+      "path": "reports/releases/v0.7.1/attempts/pysa-python-kernel-attempt-01/outputs/reports/raw/pysa-python-kernel/dfb-taint-python-context-pair-depth2-positive-models.pysa",
+      "sha256": "47f32cf285478251ca746bbd135464e7ebef18ca4ed2a6846ccf50e6cab33c95"
+    },
+    {
+      "original_path": "reports/raw/pysa-python-kernel/dfb-taint-python-local-overwrite-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/pysa-python-kernel-attempt-01/outputs/reports/raw/pysa-python-kernel/dfb-taint-python-local-overwrite-negative.json",
+      "sha256": "e9498a7891a29fb7fa9069e88cac026fbbcefc2f8e81bc248f5b738fc1d67289"
+    },
+    {
+      "original_path": "reports/raw/pysa-python-kernel/dfb-taint-python-argument-position-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/pysa-python-kernel-attempt-01/outputs/reports/raw/pysa-python-kernel/dfb-taint-python-argument-position-negative-timing.json",
+      "sha256": "5a7ef85ca7ff3b8f6b1ce3c0c4772bbeb8417d3eb4b01aa2c31a9da03356efa3"
+    },
+    {
+      "original_path": "reports/raw/pysa-python-kernel/dfb-taint-python-element-object-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/pysa-python-kernel-attempt-01/outputs/reports/raw/pysa-python-kernel/dfb-taint-python-element-object-negative.json",
+      "sha256": "4bd34096141b60ba298469aace676930c16e38053b96c8d8c4f43b8c183719f6"
+    },
+    {
+      "original_path": "reports/raw/pysa-python-kernel/dfb-taint-python-nested-access-path-negative-models.pysa",
+      "path": "reports/releases/v0.7.1/attempts/pysa-python-kernel-attempt-01/outputs/reports/raw/pysa-python-kernel/dfb-taint-python-nested-access-path-negative-models.pysa",
+      "sha256": "cbfd02d7980a8768e38740210043e2532540ab6aadd5d11b7ecd1254206fdfc6"
+    },
+    {
+      "original_path": "reports/raw/pysa-python-kernel/dfb-taint-python-return-relay-one-hop-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/pysa-python-kernel-attempt-01/outputs/reports/raw/pysa-python-kernel/dfb-taint-python-return-relay-one-hop-negative.json",
+      "sha256": "b7c56695a7826e15b3c841837412eb4ee7b497648c8a93ae25d2d5249cd37541"
+    },
+    {
+      "original_path": "reports/raw/pysa-python-kernel/dfb-taint-python-callback-registration-negative-models.pysa",
+      "path": "reports/releases/v0.7.1/attempts/pysa-python-kernel-attempt-01/outputs/reports/raw/pysa-python-kernel/dfb-taint-python-callback-registration-negative-models.pysa",
+      "sha256": "257a75b111f9f73d9f064506b992f050bd68b43ffb5cc7983c31ed5f561837d0"
+    },
+    {
+      "original_path": "reports/raw/pysa-python-kernel/dfb-taint-python-loop-carried-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/pysa-python-kernel-attempt-01/outputs/reports/raw/pysa-python-kernel/dfb-taint-python-loop-carried-positive.json",
+      "sha256": "7455c13d02fdda98bb3238c91a51369e15822cad2c58ed419d1dc1f5476e3682"
+    },
+    {
+      "original_path": "reports/raw/pysa-python-kernel/dfb-taint-python-recursive-carry-negative-models.pysa",
+      "path": "reports/releases/v0.7.1/attempts/pysa-python-kernel-attempt-01/outputs/reports/raw/pysa-python-kernel/dfb-taint-python-recursive-carry-negative-models.pysa",
+      "sha256": "de36e75c16a776dd4513c4bec45fc0a00bab977911bf6e7305f75272d45d9914"
+    },
+    {
+      "original_path": "reports/raw/pysa-python-kernel/dfb-taint-python-arithmetic-expression-positive-models.pysa",
+      "path": "reports/releases/v0.7.1/attempts/pysa-python-kernel-attempt-01/outputs/reports/raw/pysa-python-kernel/dfb-taint-python-arithmetic-expression-positive-models.pysa",
+      "sha256": "eeea781c09d494d89b5a2f894bb703a571e33eaaf81b56f80dab0802f8a90822"
+    },
+    {
+      "original_path": "reports/raw/pysa-python-kernel/dfb-taint-python-exception-catch-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/pysa-python-kernel-attempt-01/outputs/reports/raw/pysa-python-kernel/dfb-taint-python-exception-catch-negative-timing.json",
+      "sha256": "2ca8e1f11c53f98458b30ac9ef65fdf77efaf44a884a41d3c147ea655c765146"
+    },
+    {
+      "original_path": "reports/raw/pysa-python-kernel/dfb-taint-python-branch-join-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/pysa-python-kernel-attempt-01/outputs/reports/raw/pysa-python-kernel/dfb-taint-python-branch-join-negative.json",
+      "sha256": "82b099332348276d3ee519190737b084243c48419ce746d8c8300fddaef171ad"
+    },
+    {
+      "original_path": "reports/raw/pysa-python-kernel/dfb-taint-python-element-object-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/pysa-python-kernel-attempt-01/outputs/reports/raw/pysa-python-kernel/dfb-taint-python-element-object-positive.json",
+      "sha256": "2ff7d826f65db95cdbad70f74cd81e7fc2d8109047d3cc5d71d3bac26f03a0ec"
+    },
+    {
+      "original_path": "reports/raw/pysa-python-kernel/dfb-taint-python-local-overwrite-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/pysa-python-kernel-attempt-01/outputs/reports/raw/pysa-python-kernel/dfb-taint-python-local-overwrite-positive.json",
+      "sha256": "896cd8698751b215d847b7c6476a135e0236d3ebb7cfa97b22f8fa88299fa739"
+    },
+    {
+      "original_path": "reports/raw/pysa-python-kernel/dfb-taint-python-return-relay-one-hop-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/pysa-python-kernel-attempt-01/outputs/reports/raw/pysa-python-kernel/dfb-taint-python-return-relay-one-hop-positive.json",
+      "sha256": "a24ac8f7c1d457d1807c288a71c8b7a41c23c280af9843499dbe8bc9b4708501"
+    },
+    {
+      "original_path": "reports/raw/pysa-python-kernel/dfb-taint-python-exception-catch-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/pysa-python-kernel-attempt-01/outputs/reports/raw/pysa-python-kernel/dfb-taint-python-exception-catch-negative.json",
+      "sha256": "bfa3996a4eeb48675a38a9a3ef3cd21ab282a63e7b4e3c6534500ba4778b90aa"
+    },
+    {
+      "original_path": "reports/raw/pysa-python-kernel/dfb-taint-python-map-iteration-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/pysa-python-kernel-attempt-01/outputs/reports/raw/pysa-python-kernel/dfb-taint-python-map-iteration-positive.json",
+      "sha256": "ff66581fffc4bdb722e785e4a411a5377c55ba67c92ad38d7889edd50cdafb9a"
+    },
+    {
+      "original_path": "reports/raw/pysa-python-kernel/dfb-taint-python-arithmetic-expression-negative-models.pysa",
+      "path": "reports/releases/v0.7.1/attempts/pysa-python-kernel-attempt-01/outputs/reports/raw/pysa-python-kernel/dfb-taint-python-arithmetic-expression-negative-models.pysa",
+      "sha256": "eeea781c09d494d89b5a2f894bb703a571e33eaaf81b56f80dab0802f8a90822"
+    },
+    {
+      "original_path": "reports/raw/pysa-python-kernel/dfb-taint-python-recursive-carry-positive-models.pysa",
+      "path": "reports/releases/v0.7.1/attempts/pysa-python-kernel-attempt-01/outputs/reports/raw/pysa-python-kernel/dfb-taint-python-recursive-carry-positive-models.pysa",
+      "sha256": "de36e75c16a776dd4513c4bec45fc0a00bab977911bf6e7305f75272d45d9914"
+    },
+    {
+      "original_path": "reports/raw/pysa-python-kernel/dfb-taint-python-dispatch-table-positive.json",
+      "path": "reports/releases/v0.7.1/attempts/pysa-python-kernel-attempt-01/outputs/reports/raw/pysa-python-kernel/dfb-taint-python-dispatch-table-positive.json",
+      "sha256": "72db6ee354ffb428862882c8a73cadfbb8fd7a6c905d2bab03b8f7071bb2030b"
+    },
+    {
+      "original_path": "reports/raw/pysa-python-kernel/dfb-taint-python-array-element-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/pysa-python-kernel-attempt-01/outputs/reports/raw/pysa-python-kernel/dfb-taint-python-array-element-negative.json",
+      "sha256": "2c9bb5085c1075fc926df5ea2188149ac9a77d2ffa6dfccbc4f1d76c0c9859f0"
+    },
+    {
+      "original_path": "reports/raw/pysa-python-kernel/dfb-taint-python-exception-catch-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/pysa-python-kernel-attempt-01/outputs/reports/raw/pysa-python-kernel/dfb-taint-python-exception-catch-positive-timing.json",
+      "sha256": "1d7a37311772a869682d697629953e45faf4241dd03f845646d64dbcb00a2bce"
+    },
+    {
+      "original_path": "reports/raw/pysa-python-kernel/dfb-taint-python-callback-registration-positive-models.pysa",
+      "path": "reports/releases/v0.7.1/attempts/pysa-python-kernel-attempt-01/outputs/reports/raw/pysa-python-kernel/dfb-taint-python-callback-registration-positive-models.pysa",
+      "sha256": "257a75b111f9f73d9f064506b992f050bd68b43ffb5cc7983c31ed5f561837d0"
+    },
+    {
+      "original_path": "reports/raw/pysa-python-kernel/dfb-taint-python-alias-propagation-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/pysa-python-kernel-attempt-01/outputs/reports/raw/pysa-python-kernel/dfb-taint-python-alias-propagation-negative.json",
+      "sha256": "d972b1de6de74fce51b4d90df2927424c8a2f26743d8360aa8c791dacc95a11e"
+    },
+    {
+      "original_path": "reports/raw/pysa-python-kernel/dfb-taint-python-context-pair-depth2-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/pysa-python-kernel-attempt-01/outputs/reports/raw/pysa-python-kernel/dfb-taint-python-context-pair-depth2-negative.json",
+      "sha256": "8d4ac1a46af30147f70d1a2370e068525e441d9c6b2022f87ad3672967c1253a"
+    },
+    {
+      "original_path": "reports/raw/pysa-python-kernel/dfb-taint-python-local-chain-negative.json",
+      "path": "reports/releases/v0.7.1/attempts/pysa-python-kernel-attempt-01/outputs/reports/raw/pysa-python-kernel/dfb-taint-python-local-chain-negative.json",
+      "sha256": "f5c21123911809c4dc79c48c670e29caa1fbf6efd0431ff8dec3f92c6cbc5817"
+    }
+  ],
+  "expected_output_roots": [
+    "reports/pysa-python-kernel.json",
+    "reports/raw/pysa-python-kernel"
+  ],
+  "missing_fresh_output_roots": [],
+  "removed_paths": []
+}

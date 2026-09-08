@@ -1,0 +1,52 @@
+rules:
+  - id: java-ldap-injection-sinks
+    options:
+      lib: true
+    tags:
+      - ldap-injection-sink
+    severity: NOTE
+    message: Call of LDAP injection-sensitive function with untrusted data.
+    metadata:
+      provenance: https://gitlab.com/gitlab-org/security-products/sast-rules/-/blob/main/java/inject/rule-LDAPInjection.yml
+    languages:
+      - java
+    mode: taint
+    pattern-sinks:
+      - patterns:
+          - pattern: new javax.naming.ldap.LdapName(..., $QUERY, ...)
+          - focus-metavariable: $QUERY
+      - patterns:
+          - pattern: (javax.naming.directory.Context $C).lookup(..., $QUERY, ...)
+          - focus-metavariable: $QUERY
+      - patterns:
+          - pattern: (javax.naming.Context $C).lookup(..., $QUERY, ...)
+          - focus-metavariable: $QUERY
+      - patterns:
+          - pattern: (com.unboundid.ldap.sdk.LDAPConnection $C).search($QUERY, ...)
+          - focus-metavariable: $QUERY
+      - patterns:
+          - pattern-either:
+              - pattern: ($CTXTYPE $CTX).lookup(..., $QUERY, ...)
+              - pattern: ($CTXTYPE $CTX).search($QUERY, ...)
+              - pattern: ($CTXTYPE $CTX).search($NAME, $QUERY, ...)
+          - metavariable-pattern:
+              metavariable: $CTXTYPE
+              pattern-either:
+                - pattern: javax.naming.directory.DirContext
+                - pattern: javax.naming.directory.InitialDirContext
+                - pattern: javax.naming.ldap.LdapContext
+                - pattern: javax.naming.event.EventDirContext
+                - pattern: com.sun.jndi.ldap.LdapCtx
+          - focus-metavariable: $QUERY
+      - patterns:
+          - pattern-either:
+              - pattern: ($CTXTYPE $CTX).list($QUERY, ...)
+              - pattern: ($CTXTYPE $CTX).lookup($QUERY, ...)
+              - pattern: ($CTXTYPE $CTX).search($QUERY, ...)
+              - pattern: ($CTXTYPE $CTX).search($NAME, $QUERY, ...)
+          - metavariable-pattern:
+              metavariable: $CTXTYPE
+              pattern-either:
+                - pattern: org.springframework.ldap.core.LdapTemplate
+                - pattern: org.springframework.ldap.core.LdapOperations
+          - focus-metavariable: $QUERY

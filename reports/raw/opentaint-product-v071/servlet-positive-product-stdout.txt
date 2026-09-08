@@ -1,0 +1,32 @@
+on Spring projects this method is added to the auto-discovered entry points, not used to restrict them
+╭─OpenTaint Scan─╮
+╰─┬──────────────╯
+  ├─ Project model
+  │  └─ /Users/dave/.codex/worktrees/653a/dataflowbench/reports/raw/opentaint-product-v071/servlet-positive
+  ├─ Analyzer
+  │  └─ 2026.09.04.c51dc3e
+  └─ Bundled ruleset
+     └─ v0.3.0
+
+╭─Rule Statistics─╮
+╰─┬───────────────╯
+  └─ Rule parsing issues
+     └─ No issues found
+
+╭─Scan Summary─╮
+╰─┬────────────╯
+  ├─ Findings
+  │  ├─ Total: 1 error
+  │  ├─ Files affected: 1
+  │  ├─ Rules executed: 78
+  │  └─ Rules triggered: 1
+  │     └─ java.security.os-command-injection: 1 error [CWE-78]
+  │        └─ Command line depends on a user provided value
+  └─ Output
+     ├─ Report: /Users/dave/.codex/worktrees/653a/dataflowbench/reports/raw/opentaint-product-v071/servlet-positive/product.sarif.json
+     └─ Log: /Users/dave/.codex/worktrees/653a/dataflowbench/reports/raw/opentaint-product-v071/servlet-positive/product.log
+
+╭─Suggestions─╮
+╰─┬───────────╯
+  └─ To view findings run
+     └─ opentaint summary /Users/dave/.codex/worktrees/653a/dataflowbench/reports/raw/opentaint-product-v071/servlet-positive/product.sarif.json --show-findings

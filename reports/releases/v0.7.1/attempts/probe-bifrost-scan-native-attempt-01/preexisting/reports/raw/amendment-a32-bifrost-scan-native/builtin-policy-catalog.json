@@ -1,0 +1,365 @@
+{
+  "schema_version": 1,
+  "packs": [
+    {
+      "schema_version": 1,
+      "id": "bifrost.code-smells",
+      "version": "2.10.0",
+      "name": "Bifrost code smells",
+      "description": "Curated structured RQLP checks for bug-prone and potentially expensive source patterns.",
+      "policies": [
+        {
+          "path": "policies/dynamic-evaluation.rqlp",
+          "id": "bifrost.correctness.dynamic-evaluation",
+          "semantic_hash": "455fca5f51f3291329d71adaa89b4c5e478df8a869272e633b6cd138afe54fb3",
+          "category": "correctness",
+          "supported_languages": [
+            "python",
+            "javascript",
+            "typescript"
+          ],
+          "required_capabilities": [
+            "structural-match",
+            "normalized-call"
+          ],
+          "severity_rationale": "Dynamic evaluation converts data into executable code and expands both correctness and security risk.",
+          "remediation": "Replace dynamic evaluation with explicit dispatch, parsing, or a bounded data representation."
+        },
+        {
+          "path": "policies/unsafe-deserialization.rqlp",
+          "id": "bifrost.correctness.unsafe-deserialization",
+          "semantic_hash": "04fe7a69f28ebc3d702bf909b01b29bad3def6fe5d6072351337fcd17c0ed867",
+          "category": "correctness",
+          "supported_languages": [
+            "python"
+          ],
+          "required_capabilities": [
+            "structural-match",
+            "normalized-call-roles"
+          ],
+          "severity_rationale": "General-purpose object deserializers can construct unexpected objects or execute attacker-controlled behavior.",
+          "remediation": "Use a data-only format, then validate the decoded schema before use."
+        },
+        {
+          "path": "policies/go-data-race.rqlp",
+          "id": "bifrost.correctness.go-data-race",
+          "semantic_hash": "dde932e5e433d813cfd60d5bafcbe8b4a1728496b92f04845229b9263b965424",
+          "category": "correctness",
+          "supported_languages": [
+            "go"
+          ],
+          "required_capabilities": [
+            "structural-match",
+            "normalized-concurrent-spawn",
+            "concurrent-access-conflicts",
+            "canonical-workspace-dispatch",
+            "heap-location-identity",
+            "reviewed-concurrency-models"
+          ],
+          "severity_rationale": "Two exact conflicting accesses without ordering or compatible protection violate Go's data-race-free execution contract and can produce undefined program behavior.",
+          "remediation": "Order the accesses with a channel or completed task group, protect both accesses with the same compatible mutex, use an appropriate atomic operation consistently, or stop sharing the location."
+        },
+        {
+          "path": "policies/go-nil-dereference.rqlp",
+          "id": "bifrost.correctness.go-nil-dereference",
+          "semantic_hash": "1ba11d2cee5c025a03683f037e07509ab70752b058710bcba350d050a7ba78a0",
+          "category": "correctness",
+          "supported_languages": [
+            "go"
+          ],
+          "required_capabilities": [
+            "structural-match",
+            "canonical-external-dispatch",
+            "conditional-result-contracts",
+            "operation-precondition-contracts",
+            "result-contract-operation-uses",
+            "procedure-local-scalar-refinement",
+            "nilness-operations",
+            "reaching-definitions",
+            "guard-dominance"
+          ],
+          "severity_rationale": "Dereferencing a value that is nil on one or every reachable local path can panic, including a success-gated API result used before its reviewed condition is established.",
+          "remediation": "Prove the pointer non-nil before the operation, return from the nil path, or establish the API's reviewed success condition before using its result."
+        },
+        {
+          "path": "policies/go-wrong-error-on-failure-path.rqlp",
+          "id": "bifrost.correctness.go-wrong-error-on-failure-path",
+          "semantic_hash": "2e83c5bd2b4ad34ec4d9b5c1919c233728a231cb04ffa83deae4b7e67447b869",
+          "category": "correctness",
+          "supported_languages": [
+            "go"
+          ],
+          "required_capabilities": [
+            "structural-match",
+            "canonical-external-dispatch",
+            "conditional-result-contracts",
+            "result-contract-failure-uses",
+            "reaching-definitions",
+            "failure-edge-control"
+          ],
+          "severity_rationale": "Returning an error-construction call that receives a different, provably nil error binding on an exact API failure path can hide the actual cause and may itself return nil.",
+          "remediation": "Pass the reviewed API's exact failure result to the returned error-construction call, or deliberately establish and use a separate non-nil error."
+        },
+        {
+          "path": "policies/loop-invariant-sort.rqlp",
+          "id": "bifrost.performance.loop-invariant-sort",
+          "semantic_hash": "933ab0a333030b76e26fdc97b8139797a6d388fa258cabc9f7fdb50d1222fcf1",
+          "category": "performance",
+          "supported_languages": [
+            "rust",
+            "python",
+            "java",
+            "typescript",
+            "javascript"
+          ],
+          "required_capabilities": [
+            "structural-match",
+            "normalized-call-roles",
+            "lexical-environment",
+            "reaching-binding-assertion",
+            "value-origin-assertion"
+          ],
+          "severity_rationale": "The receiver's value is established outside the loop and no assignment inside re-establishes it, so the loop provably re-sorts one unchanged-identity value on every pass.",
+          "remediation": "Sort once before the loop or maintain order incrementally. Calls in deferred bodies are reported lexically; verify how often the body runs before restructuring."
+        },
+        {
+          "path": "policies/regex-compile-in-loop.rqlp",
+          "id": "bifrost.performance.regex-compile-in-loop",
+          "semantic_hash": "c7347566fe5db86bf385d136b9585da5be6f8e3e8f4ef57922aadd22b306b165",
+          "category": "performance",
+          "supported_languages": [
+            "python",
+            "java",
+            "javascript",
+            "typescript",
+            "rust"
+          ],
+          "required_capabilities": [
+            "structural-match",
+            "declaration-bounded-containment",
+            "normalized-call-roles",
+            "lexical-environment",
+            "origin-shape-assertion"
+          ],
+          "severity_rationale": "Compiling the same regular expression repeatedly adds avoidable parser and automaton construction work.",
+          "remediation": "Compile loop-invariant expressions once and reuse the compiled pattern."
+        },
+        {
+          "path": "policies/file-read-in-loop.rqlp",
+          "id": "bifrost.performance.file-read-in-loop",
+          "semantic_hash": "4f0b625d3cdef7c80700d6e72e997428321ec4afacc99fe89a246169a4acb3f1",
+          "category": "performance",
+          "supported_languages": [
+            "python",
+            "java",
+            "javascript",
+            "typescript",
+            "rust"
+          ],
+          "required_capabilities": [
+            "structural-match",
+            "declaration-bounded-containment",
+            "normalized-call-roles",
+            "lexical-environment",
+            "origin-shape-assertion"
+          ],
+          "severity_rationale": "Synchronous or whole-file reads inside a loop can multiply I/O and allocation cost.",
+          "remediation": "Read once, stream or batch inputs, and cache loop-invariant content where semantics permit."
+        },
+        {
+          "path": "policies/serialization-in-loop.rqlp",
+          "id": "bifrost.performance.serialization-in-loop",
+          "semantic_hash": "aa047adba257c80f10812f857e4fd647344dab04d60ba1935f2fc4b13bf2e74c",
+          "category": "performance",
+          "supported_languages": [
+            "python",
+            "java",
+            "javascript",
+            "typescript",
+            "rust"
+          ],
+          "required_capabilities": [
+            "structural-match",
+            "declaration-bounded-containment",
+            "normalized-call-roles",
+            "lexical-environment",
+            "origin-shape-assertion"
+          ],
+          "severity_rationale": "Repeated serialization can dominate loops through traversal, encoding, and allocation.",
+          "remediation": "Move loop-invariant serialization out of the loop or batch records into one encoder call."
+        },
+        {
+          "path": "policies/parsing-in-loop.rqlp",
+          "id": "bifrost.performance.parsing-in-loop",
+          "semantic_hash": "1b5b748be4794ffb11a0924d228346c63403dc4e4dfade76ed93655f5cd469c4",
+          "category": "performance",
+          "supported_languages": [
+            "python",
+            "java",
+            "javascript",
+            "typescript",
+            "rust"
+          ],
+          "required_capabilities": [
+            "structural-match",
+            "declaration-bounded-containment",
+            "normalized-call-roles",
+            "lexical-environment",
+            "origin-shape-assertion"
+          ],
+          "severity_rationale": "Parsing the same representation per iteration repeats validation, tokenization, and object construction.",
+          "remediation": "Parse loop-invariant data once or use an incremental/batched parser for per-item input."
+        },
+        {
+          "path": "policies/database-call-in-loop.rqlp",
+          "id": "bifrost.performance.database-call-in-loop",
+          "semantic_hash": "f184707c0021d42dde7e6c4a77985a3854e5b7db970ec30ff109856ebd74da21",
+          "category": "performance",
+          "supported_languages": [
+            "python",
+            "java",
+            "javascript",
+            "typescript"
+          ],
+          "required_capabilities": [
+            "structural-match",
+            "declaration-bounded-containment",
+            "normalized-call-roles",
+            "lexical-environment",
+            "origin-shape-assertion"
+          ],
+          "severity_rationale": "A database round trip per iteration is a common N+1 query pattern.",
+          "remediation": "Batch the operation, prefetch required rows, or use one set-oriented query."
+        },
+        {
+          "path": "policies/network-call-in-loop.rqlp",
+          "id": "bifrost.performance.network-call-in-loop",
+          "semantic_hash": "b48032b76b82c4c449aa2d2fa45aff95b36350314e4cbcefd6f4ed86de47cd83",
+          "category": "performance",
+          "supported_languages": [
+            "python",
+            "java",
+            "javascript",
+            "typescript",
+            "rust"
+          ],
+          "required_capabilities": [
+            "structural-match",
+            "declaration-bounded-containment",
+            "normalized-call-roles",
+            "lexical-environment",
+            "origin-shape-assertion"
+          ],
+          "severity_rationale": "A serial network request per iteration amplifies latency and remote-service load.",
+          "remediation": "Batch requests, prefetch data, or use explicitly bounded concurrency with backpressure."
+        },
+        {
+          "path": "policies/subprocess-in-loop.rqlp",
+          "id": "bifrost.performance.subprocess-in-loop",
+          "semantic_hash": "0c264195a730138def1054723dffb3ec40ad13a0bc7c3bb7b74b72ea5996fd37",
+          "category": "performance",
+          "supported_languages": [
+            "python",
+            "java",
+            "javascript",
+            "typescript"
+          ],
+          "required_capabilities": [
+            "structural-match",
+            "declaration-bounded-containment",
+            "normalized-call-roles",
+            "lexical-environment",
+            "origin-shape-assertion"
+          ],
+          "severity_rationale": "Process creation is expensive and repeated launches can exhaust OS resources.",
+          "remediation": "Move invariant work outside the loop, use one long-lived process, or batch subprocess input."
+        },
+        {
+          "path": "policies/sleep-in-loop.rqlp",
+          "id": "bifrost.performance.sleep-in-loop",
+          "semantic_hash": "16b1be4131f57ee9dff8c34d8a083241bbfbd0992cc0a6e215e9b142d7e551ab",
+          "category": "performance",
+          "supported_languages": [
+            "python",
+            "java",
+            "rust"
+          ],
+          "required_capabilities": [
+            "structural-match",
+            "declaration-bounded-containment",
+            "normalized-call-roles",
+            "lexical-environment",
+            "origin-shape-assertion"
+          ],
+          "severity_rationale": "Sleeping for every iterated item throttles the whole batch in lockstep.",
+          "remediation": "Prefer rate limiters or batching over per-item sleeps; keep deliberate poll and backoff sleeps in condition-controlled loops, which this rule does not flag."
+        },
+        {
+          "path": "policies/expensive-operation-in-nested-loop.rqlp",
+          "id": "bifrost.performance.expensive-operation-in-nested-loop",
+          "semantic_hash": "2bf75d3cc91deae0675196ee82c530b82f96096430aeafa2a2642faf7583bbc5",
+          "category": "performance",
+          "supported_languages": [
+            "python",
+            "java",
+            "javascript",
+            "typescript",
+            "rust"
+          ],
+          "required_capabilities": [
+            "structural-match",
+            "descendant-match",
+            "normalized-call",
+            "lexical-environment",
+            "origin-shape-assertion"
+          ],
+          "severity_rationale": "I/O, parsing, serialization, sorting, or remote work under two loop levels can grow multiplicatively.",
+          "remediation": "Hoist invariant work, precompute indexes, batch external operations, or reduce the nested iteration space."
+        },
+        {
+          "path": "policies/rayon-in-blocking-lazy-init.rqlp",
+          "id": "bifrost.correctness.rayon-in-blocking-lazy-init",
+          "semantic_hash": "498af02f7cc9183b55ce0efb3059c87f7cefd17ee87caa83ef5302e4878712a8",
+          "category": "correctness",
+          "supported_languages": [
+            "rust"
+          ],
+          "required_capabilities": [
+            "structural-match",
+            "descendant-match",
+            "normalized-call-roles"
+          ],
+          "severity_rationale": "A blocking once-cell whose initializer joins on rayon can park the worker that owns the stolen re-entrant job and wedge the whole pool.",
+          "remediation": "Use a pool-safe memoization such as PoolSafeMemo::get_or_build_parallel, or build the value eagerly before entering the parallel region."
+        }
+      ]
+    },
+    {
+      "schema_version": 1,
+      "id": "bifrost.security",
+      "version": "1.0.0",
+      "name": "Bifrost security",
+      "description": "High-precision security policies backed by exact structural identity and value-flow evidence.",
+      "policies": [
+        {
+          "path": "policies/jvm/servlet-parameter-to-jdbc.rqlp",
+          "id": "bifrost.security.java.servlet-parameter-to-jdbc",
+          "semantic_hash": "3b62d7d3dbc90110cc078e8d19a0a3a892c0b90c8ee6322e96d9e510517aeb4c",
+          "category": "security",
+          "supported_languages": [
+            "java"
+          ],
+          "required_capabilities": [
+            "taint",
+            "exact-call-target",
+            "actual-to-formal-binding",
+            "semantic-model-provenance",
+            "scoped-callable-completeness"
+          ],
+          "severity_rationale": "Attacker-controlled data used as JDBC SQL structure can change the executed statement and compromise application data.",
+          "remediation": "Use a PreparedStatement with placeholders and bind untrusted values through typed setter methods instead of concatenating SQL text."
+        }
+      ]
+    }
+  ]
+}

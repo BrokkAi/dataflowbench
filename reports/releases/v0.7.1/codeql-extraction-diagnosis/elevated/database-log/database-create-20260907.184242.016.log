@@ -1,0 +1,562 @@
+[2026-09-07 18:42:42] This is codeql database create /private/tmp/dfb-v071-codeql-extraction-control/database --language=cpp --source-root=/private/tmp/dfb-v071-codeql-extraction-control/source --overwrite --build-mode=none
+[2026-09-07 18:42:42] Log file was started late.
+[2026-09-07 18:42:42] [PROGRESS] database create> Initializing database at /private/tmp/dfb-v071-codeql-extraction-control/database.
+[2026-09-07 18:42:42] Running plumbing command: codeql database init --overwrite --language=cpp --extractor-options-verbosity=1 --qlconfig-file=/Users/dave/.codex/worktrees/653a/dataflowbench/qlconfig.yml --build-mode=none --source-root=/private/tmp/dfb-v071-codeql-extraction-control/source --allow-missing-source-root=false --allow-already-existing -- /private/tmp/dfb-v071-codeql-extraction-control/database
+[2026-09-07 18:42:42] Calling plumbing command: codeql resolve languages --extractor-options-verbosity=1 --format=betterjson
+[2026-09-07 18:42:42] [DETAILS] resolve languages> Scanning for [codeql-extractor.yml] from /opt/homebrew/Caskroom/codeql/2.26.4/codeql/.codeqlmanifest.json
+[2026-09-07 18:42:42] [DETAILS] resolve languages> Parsing /opt/homebrew/Caskroom/codeql/2.26.4/codeql/go/codeql-extractor.yml.
+[2026-09-07 18:42:42] [DETAILS] resolve languages> Parsing /opt/homebrew/Caskroom/codeql/2.26.4/codeql/python/codeql-extractor.yml.
+[2026-09-07 18:42:42] [DETAILS] resolve languages> Parsing /opt/homebrew/Caskroom/codeql/2.26.4/codeql/rust/codeql-extractor.yml.
+[2026-09-07 18:42:42] [DETAILS] resolve languages> Parsing /opt/homebrew/Caskroom/codeql/2.26.4/codeql/java/codeql-extractor.yml.
+[2026-09-07 18:42:42] [DETAILS] resolve languages> Parsing /opt/homebrew/Caskroom/codeql/2.26.4/codeql/html/codeql-extractor.yml.
+[2026-09-07 18:42:42] [DETAILS] resolve languages> Parsing /opt/homebrew/Caskroom/codeql/2.26.4/codeql/xml/codeql-extractor.yml.
+[2026-09-07 18:42:42] [DETAILS] resolve languages> Parsing /opt/homebrew/Caskroom/codeql/2.26.4/codeql/properties/codeql-extractor.yml.
+[2026-09-07 18:42:42] [DETAILS] resolve languages> Parsing /opt/homebrew/Caskroom/codeql/2.26.4/codeql/cpp/codeql-extractor.yml.
+[2026-09-07 18:42:42] [DETAILS] resolve languages> Parsing /opt/homebrew/Caskroom/codeql/2.26.4/codeql/swift/codeql-extractor.yml.
+[2026-09-07 18:42:42] [DETAILS] resolve languages> Parsing /opt/homebrew/Caskroom/codeql/2.26.4/codeql/csv/codeql-extractor.yml.
+[2026-09-07 18:42:42] [DETAILS] resolve languages> Parsing /opt/homebrew/Caskroom/codeql/2.26.4/codeql/actions/codeql-extractor.yml.
+[2026-09-07 18:42:42] [DETAILS] resolve languages> Parsing /opt/homebrew/Caskroom/codeql/2.26.4/codeql/yaml/codeql-extractor.yml.
+[2026-09-07 18:42:42] [DETAILS] resolve languages> Parsing /opt/homebrew/Caskroom/codeql/2.26.4/codeql/csharp/codeql-extractor.yml.
+[2026-09-07 18:42:42] [DETAILS] resolve languages> Parsing /opt/homebrew/Caskroom/codeql/2.26.4/codeql/javascript/codeql-extractor.yml.
+[2026-09-07 18:42:42] [DETAILS] resolve languages> Parsing /opt/homebrew/Caskroom/codeql/2.26.4/codeql/ruby/codeql-extractor.yml.
+[2026-09-07 18:42:42] Plumbing command codeql resolve languages completed:
+                      {
+                        "aliases" : {
+                          "c" : "cpp",
+                          "c++" : "cpp",
+                          "c-c++" : "cpp",
+                          "c-cpp" : "cpp",
+                          "c#" : "csharp",
+                          "java-kotlin" : "java",
+                          "kotlin" : "java",
+                          "javascript-typescript" : "javascript",
+                          "typescript" : "javascript"
+                        },
+                        "extractors" : {
+                          "go" : [
+                            {
+                              "extractor_root" : "/opt/homebrew/Caskroom/codeql/2.26.4/codeql/go",
+                              "extractor_options" : {
+                                "extract_tests" : {
+                                  "title" : "Whether to include Go test files in the CodeQL database.",
+                                  "description" : "A value indicating whether Go test files should be included in the CodeQL database. The default is 'false'.\n",
+                                  "type" : "string",
+                                  "pattern" : "^(false|true)$"
+                                },
+                                "extract_vendor_dirs" : {
+                                  "title" : "Whether to include Go vendor directories in the CodeQL database.",
+                                  "description" : "A value indicating whether Go vendor directories should be included in the CodeQL database. The default is 'false'.\n",
+                                  "type" : "string",
+                                  "pattern" : "^(false|true)$"
+                                }
+                              }
+                            }
+                          ],
+                          "python" : [
+                            {
+                              "extractor_root" : "/opt/homebrew/Caskroom/codeql/2.26.4/codeql/python",
+                              "extractor_options" : {
+                                "logging" : {
+                                  "title" : "Options pertaining to logging.",
+                                  "description" : "Options pertaining to logging.",
+                                  "type" : "object",
+                                  "properties" : {
+                                    "verbosity" : {
+                                      "title" : "Python extractor logging verbosity level.",
+                                      "description" : "Controls the level of verbosity of the CodeQL Python extractor.\nThe supported levels are (in order of increasing verbosity):\n\n  - off\n  - errors\n  - warnings\n  - info or progress\n  - debug or progress+\n  - trace or progress++\n  - progress+++\n",
+                                      "type" : "string",
+                                      "pattern" : "^(off|errors|warnings|(info|progress)|(debug|progress\\+)|(trace|progress\\+\\+)|progress\\+\\+\\+)$"
+                                    }
+                                  }
+                                },
+                                "python_executable_name" : {
+                                  "title" : "Controls the name of the Python executable used by the Python extractor.",
+                                  "description" : "The Python extractor uses platform-dependent heuristics to determine the name of the Python executable to use. Specifying a value for this option overrides the name of the Python executable used by the extractor. Accepted values are py, python and python3. Use this setting with caution, the Python extractor requires Python 3 to run.\n",
+                                  "type" : "string",
+                                  "pattern" : "^(py|python|python3)$"
+                                }
+                              }
+                            }
+                          ],
+                          "rust" : [
+                            {
+                              "extractor_root" : "/opt/homebrew/Caskroom/codeql/2.26.4/codeql/rust",
+                              "extractor_options" : {
+                                "trap" : {
+                                  "title" : "Options pertaining to TRAP.",
+                                  "description" : "Options pertaining to TRAP.",
+                                  "type" : "object",
+                                  "properties" : {
+                                    "compression" : {
+                                      "title" : "Controls compression for the TRAP files written by the extractor.",
+                                      "description" : "This option is only intended for use in debugging the extractor. Accepted values are 'gzip' (to write gzip-compressed TRAP) 'zstd' (the default, to write Zstandard-compressed TRAP) and 'none' (to write uncompressed TRAP).\n",
+                                      "type" : "string",
+                                      "pattern" : "^(none|gzip|zstd)$"
+                                    }
+                                  }
+                                },
+                                "cargo_target_dir" : {
+                                  "title" : "Directory to use for cargo output files.",
+                                  "description" : "This value is an optional path to use as `CARGO_TARGET_DIR` for the internal cargo commands the extractor uses. Pointing it to a persistent directory may reduce execution time of consecutive extractor runs. By default, a new scratch directory is used for each run.\n",
+                                  "type" : "string"
+                                },
+                                "cargo_target" : {
+                                  "title" : "Target architecture",
+                                  "description" : "Target architecture to use for analysis, analogous to `cargo --target`. By default the host architecture is used.\n",
+                                  "type" : "string"
+                                },
+                                "cargo_features" : {
+                                  "title" : "Cargo features to turn on",
+                                  "description" : "Comma-separated list of features to turn on. By default all features are enabled. If any features are specified, then only those features are enabled. The `default` feature must be explicitly specified if only default features are desired. Can be repeated.\n",
+                                  "type" : "array"
+                                },
+                                "cargo_cfg_overrides" : {
+                                  "title" : "Cargo cfg overrides",
+                                  "description" : "Comma-separated list of cfg settings to enable, or disable if prefixed with `-`. Can be repeated.\n",
+                                  "type" : "array"
+                                },
+                                "logging" : {
+                                  "title" : "Options pertaining to logging.",
+                                  "description" : "Options pertaining to logging.",
+                                  "type" : "object",
+                                  "properties" : {
+                                    "verbosity" : {
+                                      "title" : "Extractor logging verbosity level.",
+                                      "description" : "Controls the level of verbosity of the extractor. The supported levels are (in order of increasing verbosity):\n  - off\n  - errors\n  - warnings\n  - info or progress\n  - debug or progress+\n  - trace or progress++\n  - progress+++\n",
+                                      "type" : "string",
+                                      "pattern" : "^(off|errors|warnings|(info|progress)|(debug|progress\\+)|(trace|progress\\+\\+)|progress\\+\\+\\+)$"
+                                    },
+                                    "flamegraph" : {
+                                      "title" : "[Experimental] File path for write flame graph log",
+                                      "description" : "Collect flame graph data using the `tracing-flame` crate. To render a flame graph or chart, run the `inferno-flamegraph` command. See also: https://crates.io/crates/tracing-flame\n",
+                                      "type" : "string"
+                                    }
+                                  }
+                                },
+                                "extract_dependencies_as_source" : {
+                                  "title" : "Extract dependencies as source code",
+                                  "description" : "Extract the full source code of dependencies instead of only extracting signatures.\n",
+                                  "type" : "string",
+                                  "pattern" : "^(false|true)$"
+                                }
+                              }
+                            }
+                          ],
+                          "java" : [
+                            {
+                              "extractor_root" : "/opt/homebrew/Caskroom/codeql/2.26.4/codeql/java",
+                              "extractor_options" : {
+                                "exclude" : {
+                                  "title" : "A glob excluding files from analysis.",
+                                  "description" : "A glob indicating what files to exclude from the analysis. This accepts glob patterns that are supported by Java's 'getPathMatcher' implementation.\n",
+                                  "type" : "string"
+                                },
+                                "add_prefer_source" : {
+                                  "title" : "Whether to always prefer source files over class files.",
+                                  "description" : "A value indicating whether source files should be preferred over class files. If set to 'true', the extraction adds '-Xprefer:source' to the javac command line. If set to 'false', the extraction uses the default javac behavior ('-Xprefer:newer'). The default is 'true'.\n",
+                                  "type" : "string",
+                                  "pattern" : "^(false|true)$"
+                                },
+                                "buildless" : {
+                                  "title" : "Whether to use buildless (standalone) extraction (experimental).",
+                                  "description" : "A value indicating, which type of extraction the autobuilder should perform. If 'true', then the standalone extractor will be used, otherwise tracing extraction will be performed. The default is 'false'. Note that buildless extraction will generally yield less accurate analysis results, and should only be used in cases where it is not possible to build the code (for example if it uses inaccessible dependencies).\n",
+                                  "type" : "string",
+                                  "pattern" : "^(false|true)$"
+                                },
+                                "buildless_dependency_dir" : {
+                                  "title" : "The path where buildless (standalone) extraction should keep dependencies.",
+                                  "description" : "If set, the buildless (standalone) extractor will store dependencies in this directory.\n",
+                                  "type" : "string"
+                                },
+                                "minimize_dependency_jars" : {
+                                  "title" : "Whether to rewrite and minimize downloaded JAR dependencies (experimental).",
+                                  "description" : "If 'true', JAR dependencies downloaded during extraction will be rewritten to remove unneeded data, such as method bodies. The default is 'false'.\n",
+                                  "type" : "string",
+                                  "pattern" : "^(false|true)$"
+                                }
+                              }
+                            }
+                          ],
+                          "html" : [
+                            {
+                              "extractor_root" : "/opt/homebrew/Caskroom/codeql/2.26.4/codeql/html"
+                            }
+                          ],
+                          "xml" : [
+                            {
+                              "extractor_root" : "/opt/homebrew/Caskroom/codeql/2.26.4/codeql/xml"
+                            }
+                          ],
+                          "properties" : [
+                            {
+                              "extractor_root" : "/opt/homebrew/Caskroom/codeql/2.26.4/codeql/properties"
+                            }
+                          ],
+                          "cpp" : [
+                            {
+                              "extractor_root" : "/opt/homebrew/Caskroom/codeql/2.26.4/codeql/cpp",
+                              "extractor_options" : {
+                                "scale_timeouts" : {
+                                  "title" : "Value to scale compiler introspection timeouts with",
+                                  "description" : "The extractor attempts to determine what compiler the source code being extracted is compiled with. To this end the extractor makes additional calls to the compiler, some of which are expected to return within a certain fixed time (either 10s or 15s). On some systems that are under high load this time might be too short, and can be scaled up using this option.\n",
+                                  "type" : "string",
+                                  "pattern" : "[0-9]+"
+                                },
+                                "log_verbosity" : {
+                                  "title" : "Verbosity of the extractor logging",
+                                  "description" : "Set the verbosity of the extractor logging to 'quiet' (0), 'normal' (1), 'chatty' (2), or 'noisy' (3). The default is 'normal'.\n",
+                                  "type" : "string",
+                                  "pattern" : "[0-3]"
+                                }
+                              }
+                            }
+                          ],
+                          "swift" : [
+                            {
+                              "extractor_root" : "/opt/homebrew/Caskroom/codeql/2.26.4/codeql/swift"
+                            }
+                          ],
+                          "csv" : [
+                            {
+                              "extractor_root" : "/opt/homebrew/Caskroom/codeql/2.26.4/codeql/csv"
+                            }
+                          ],
+                          "actions" : [
+                            {
+                              "extractor_root" : "/opt/homebrew/Caskroom/codeql/2.26.4/codeql/actions",
+                              "extractor_options" : { }
+                            }
+                          ],
+                          "yaml" : [
+                            {
+                              "extractor_root" : "/opt/homebrew/Caskroom/codeql/2.26.4/codeql/yaml"
+                            }
+                          ],
+                          "csharp" : [
+                            {
+                              "extractor_root" : "/opt/homebrew/Caskroom/codeql/2.26.4/codeql/csharp",
+                              "extractor_options" : {
+                                "trap" : {
+                                  "title" : "Options pertaining to TRAP.",
+                                  "description" : "Options pertaining to TRAP.",
+                                  "type" : "object",
+                                  "properties" : {
+                                    "compression" : {
+                                      "title" : "Controls compression for the TRAP files written by the extractor.",
+                                      "description" : "This option is only intended for use in debugging the extractor. Accepted values are 'brotli' (the default, to write brotli-compressed TRAP), 'gzip', and 'none' (to write uncompressed TRAP).\n",
+                                      "type" : "string",
+                                      "pattern" : "^(none|gzip|brotli)$"
+                                    }
+                                  }
+                                },
+                                "buildless" : {
+                                  "title" : "DEPRECATED - Whether to use buildless (standalone) extraction.",
+                                  "description" : "DEPRECATED: Use `--build-mode none` instead.\nA value indicating, which type of extraction the autobuilder should perform. If 'true', then the standalone extractor will be used, otherwise tracing extraction will be performed. The default is 'false'. Note that buildless extraction will generally yield less accurate analysis results, and should only be used in cases where it is not possible to build the code (for example if it uses inaccessible dependencies).\n",
+                                  "type" : "string",
+                                  "pattern" : "^(false|true)$"
+                                },
+                                "logging" : {
+                                  "title" : "Options pertaining to logging.",
+                                  "description" : "Options pertaining to logging.",
+                                  "type" : "object",
+                                  "properties" : {
+                                    "verbosity" : {
+                                      "title" : "Extractor logging verbosity level.",
+                                      "description" : "Controls the level of verbosity of the extractor. The supported levels are (in order of increasing verbosity):\n  - off\n  - errors\n  - warnings\n  - info or progress\n  - debug or progress+\n  - trace or progress++\n  - progress+++\n",
+                                      "type" : "string",
+                                      "pattern" : "^(off|errors|warnings|(info|progress)|(debug|progress\\+)|(trace|progress\\+\\+)|progress\\+\\+\\+)$"
+                                    }
+                                  }
+                                },
+                                "binlog" : {
+                                  "title" : "Binlog",
+                                  "description" : "[EXPERIMENTAL] The value is a path to the MsBuild binary log file that should be extracted. This option only works when `--build-mode none` is also specified.\n",
+                                  "type" : "array"
+                                },
+                                "buildless_dependency_dir" : {
+                                  "title" : "The path where buildless (standalone) extraction should keep dependencies.",
+                                  "description" : "If set, the buildless (standalone) extractor will store dependencies in this directory.\n",
+                                  "type" : "string"
+                                }
+                              }
+                            }
+                          ],
+                          "javascript" : [
+                            {
+                              "extractor_root" : "/opt/homebrew/Caskroom/codeql/2.26.4/codeql/javascript",
+                              "extractor_options" : {
+                                "skip_types" : {
+                                  "title" : "Skip type extraction for TypeScript",
+                                  "description" : "Whether to skip the extraction of types in a TypeScript application",
+                                  "type" : "string",
+                                  "pattern" : "^(false|true)$"
+                                }
+                              }
+                            }
+                          ],
+                          "ruby" : [
+                            {
+                              "extractor_root" : "/opt/homebrew/Caskroom/codeql/2.26.4/codeql/ruby",
+                              "extractor_options" : {
+                                "trap" : {
+                                  "title" : "Options pertaining to TRAP.",
+                                  "description" : "Options pertaining to TRAP.",
+                                  "type" : "object",
+                                  "properties" : {
+                                    "compression" : {
+                                      "title" : "Controls compression for the TRAP files written by the extractor.",
+                                      "description" : "This option is only intended for use in debugging the extractor. Accepted values are 'gzip' (the default, to write gzip-compressed TRAP) 'zstd' (to write Zstandard-compressed TRAP) and 'none' (to write uncompressed TRAP).\n",
+                                      "type" : "string",
+                                      "pattern" : "^(none|gzip|zstd)$"
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          ]
+                        }
+                      }
+[2026-09-07 18:42:42] [PROGRESS] database init> Calculating baseline information in /private/tmp/dfb-v071-codeql-extraction-control/source
+[2026-09-07 18:42:42] [SPAMMY] database init> Ignoring the following directories when processing baseline information: .git, .hg, .svn.
+[2026-09-07 18:42:42] [DETAILS] database init> Running command in /private/tmp/dfb-v071-codeql-extraction-control/source: /opt/homebrew/Caskroom/codeql/2.26.4/codeql/tools/osx64/scc --by-file --exclude-dir .git,.hg,.svn --format json --no-large --no-min .
+[2026-09-07 18:42:42] [SPAMMY] database init> Found 1 baseline files for cpp.
+[2026-09-07 18:42:42] [PROGRESS] database init> Calculated baseline information for languages: cpp (54ms).
+[2026-09-07 18:42:42] [PROGRESS] database init> Resolving extractor cpp.
+[2026-09-07 18:42:42] [DETAILS] database init> Found candidate extractor root for cpp: /opt/homebrew/Caskroom/codeql/2.26.4/codeql/cpp.
+[2026-09-07 18:42:42] [PROGRESS] database init> Successfully loaded extractor C/C++ (cpp) from /opt/homebrew/Caskroom/codeql/2.26.4/codeql/cpp.
+[2026-09-07 18:42:42] [SPAMMY] database init> Determining macOS System Integrity Protection status...
+[2026-09-07 18:42:42] [SPAMMY] database init> Running command [/usr/bin/csrutil, status].
+[2026-09-07 18:42:42] [SPAMMY] database init> SIP is enabled.
+[2026-09-07 18:42:42] [PROGRESS] database init> Created skeleton CodeQL database at /private/tmp/dfb-v071-codeql-extraction-control/database. This in-progress database is ready to be populated by an extractor.
+[2026-09-07 18:42:42] Plumbing command codeql database init completed.
+[2026-09-07 18:42:42] [PROGRESS] database create> Running build command: []
+[2026-09-07 18:42:42] Running plumbing command: codeql database trace-command --working-dir=/private/tmp/dfb-v071-codeql-extraction-control/source --index-traceless-dbs --no-db-cluster -- /private/tmp/dfb-v071-codeql-extraction-control/database
+[2026-09-07 18:42:42] Using autobuild script /opt/homebrew/Caskroom/codeql/2.26.4/codeql/cpp/tools/autobuild.sh.
+[2026-09-07 18:42:42] [PROGRESS] database trace-command> Running command in /private/tmp/dfb-v071-codeql-extraction-control/source: [/opt/homebrew/Caskroom/codeql/2.26.4/codeql/cpp/tools/autobuild.sh]
+[2026-09-07 18:42:42] [build-stdout] Overlay mode: full (enabled: false)
+[2026-09-07 18:42:42] [build-stdout] Using 10 threads for extraction
+[2026-09-07 18:42:42] [build-stdout] Indexed folder "/private/tmp/dfb-v071-codeql-extraction-control/source", found 1 source files, 0 header files, 1 total files.
+[2026-09-07 18:42:42] [build-stdout] Searching for "clang"...
+[2026-09-07 18:42:42] [build-stdout] Found "clang" at: "/usr/bin/clang"
+[2026-09-07 18:42:42] [build-stdout] Searching for "clang++"...
+[2026-09-07 18:42:42] [build-stdout] Found "clang++" at: "/usr/bin/clang++"
+[2026-09-07 18:42:42] [build-stdout] Dependency resolution not enabled.
+[2026-09-07 18:42:42] [build-stdout] Generating compilation commands.
+[2026-09-07 18:42:42] [build-stdout] Running extraction commands.
+[2026-09-07 18:42:42] [build-stdout] Ran 1 commands [s=1,p=0,f=0]
+[2026-09-07 18:42:42] [build-stdout] Extraction completed successfully.
+[2026-09-07 18:42:42] [build-stderr] cpp/autobuilder: C/C++ was extracted with build-mode set to 'none'.
+[2026-09-07 18:42:42] [build-stderr] cpp/autobuilder: autobuild summary.
+[2026-09-07 18:42:42] Plumbing command codeql database trace-command completed.
+[2026-09-07 18:42:42] [PROGRESS] database create> Finalizing database at /private/tmp/dfb-v071-codeql-extraction-control/database.
+[2026-09-07 18:42:42] Running plumbing command: codeql database finalize --no-db-cluster -- /private/tmp/dfb-v071-codeql-extraction-control/database
+[2026-09-07 18:42:42] Using pre-finalize script /opt/homebrew/Caskroom/codeql/2.26.4/codeql/cpp/tools/pre-finalize.sh.
+[2026-09-07 18:42:42] [PROGRESS] database finalize> Running pre-finalize script /opt/homebrew/Caskroom/codeql/2.26.4/codeql/cpp/tools/pre-finalize.sh in /private/tmp/dfb-v071-codeql-extraction-control/source.
+[2026-09-07 18:42:42] Running plumbing command: codeql database trace-command --working-dir=/private/tmp/dfb-v071-codeql-extraction-control/source --no-tracing -- /private/tmp/dfb-v071-codeql-extraction-control/database /opt/homebrew/Caskroom/codeql/2.26.4/codeql/cpp/tools/pre-finalize.sh
+[2026-09-07 18:42:42] [PROGRESS] database trace-command> Running command in /private/tmp/dfb-v071-codeql-extraction-control/source: [/opt/homebrew/Caskroom/codeql/2.26.4/codeql/cpp/tools/pre-finalize.sh]
+[2026-09-07 18:42:42] Plumbing command codeql database trace-command completed.
+[2026-09-07 18:42:42] [PROGRESS] database finalize> Pre-finalize script /opt/homebrew/Caskroom/codeql/2.26.4/codeql/cpp/tools/pre-finalize.sh completed in 32 ms.
+[2026-09-07 18:42:42] [PROGRESS] database finalize> Running TRAP import for CodeQL database at /private/tmp/dfb-v071-codeql-extraction-control/database...
+[2026-09-07 18:42:42] Running plumbing command: codeql dataset import --dbscheme=/opt/homebrew/Caskroom/codeql/2.26.4/codeql/cpp/semmlecode.cpp.dbscheme -- /private/tmp/dfb-v071-codeql-extraction-control/database/db-cpp /private/tmp/dfb-v071-codeql-extraction-control/database/trap/cpp
+[2026-09-07 18:42:42] Clearing disk cache since the version file /private/tmp/dfb-v071-codeql-extraction-control/database/db-cpp/default/cache/version does not exist
+[2026-09-07 18:42:42] Tuple pool not found. Clearing relations with cached strings
+[2026-09-07 18:42:42] Trimming disk cache at /private/tmp/dfb-v071-codeql-extraction-control/database/db-cpp/default/cache in mode clear.
+[2026-09-07 18:42:42] Sequence stamp origin is -5871051231451900899
+[2026-09-07 18:42:42] Pausing evaluation to hard-clear memory at sequence stamp o+0
+[2026-09-07 18:42:42] Unpausing evaluation
+[2026-09-07 18:42:42] Pausing evaluation to quickly trim disk at sequence stamp o+1
+[2026-09-07 18:42:42] Unpausing evaluation
+[2026-09-07 18:42:42] Pausing evaluation to zealously trim disk at sequence stamp o+2
+[2026-09-07 18:42:42] Unpausing evaluation
+[2026-09-07 18:42:42] Trimming completed (1ms): Purged everything.
+[2026-09-07 18:42:42] Scanning for files in /private/tmp/dfb-v071-codeql-extraction-control/database/trap/cpp
+[2026-09-07 18:42:42] Found 3 files on disk containing 4 TRAP files (15.19 KiB)
+[2026-09-07 18:42:42] [PROGRESS] dataset import> Importing TRAP files
+[2026-09-07 18:42:42] Importing cpp_predefined.2d94ffdf.trap (alias_propagation_positive.c.6ba27ce2_0.trap.tar.zst) (1 of 4)
+[2026-09-07 18:42:42] Importing alias_propagation_positive.c.6ba27ce2.trap (alias_propagation_positive.c.6ba27ce2_0.trap.tar.zst) (2 of 4)
+[2026-09-07 18:42:42] Importing 24526021_0.trap.zst (3 of 4)
+[2026-09-07 18:42:42] Importing metadata.trap.gz (4 of 4)
+[2026-09-07 18:42:42] [PROGRESS] dataset import> Merging relations
+[2026-09-07 18:42:43] Merging 1 fragment for 'builtintypes'.
+[2026-09-07 18:42:43] Merged 383 bytes for 'builtintypes'.
+[2026-09-07 18:42:43] Merging 1 fragment for 'unspecifiedtype'.
+[2026-09-07 18:42:43] Merged 161 bytes for 'unspecifiedtype'.
+[2026-09-07 18:42:43] Merging 1 fragment for 'files'.
+[2026-09-07 18:42:43] Merged 29 bytes for 'files'.
+[2026-09-07 18:42:43] Merging 1 fragment for 'locations_default'.
+[2026-09-07 18:42:43] Merged 287 bytes for 'locations_default'.
+[2026-09-07 18:42:43] Merging 1 fragment for 'link_targets'.
+[2026-09-07 18:42:43] Merged 26 bytes for 'link_targets'.
+[2026-09-07 18:42:43] Merging 1 fragment for 'usertypes'.
+[2026-09-07 18:42:43] Merged 43 bytes for 'usertypes'.
+[2026-09-07 18:42:43] Merging 1 fragment for 'link_parent'.
+[2026-09-07 18:42:43] Merged 33 bytes for 'link_parent'.
+[2026-09-07 18:42:43] Merging 1 fragment for 'usertypesize'.
+[2026-09-07 18:42:43] Merged 38 bytes for 'usertypesize'.
+[2026-09-07 18:42:43] Merging 1 fragment for 'is_pod_class'.
+[2026-09-07 18:42:43] Merged 18 bytes for 'is_pod_class'.
+[2026-09-07 18:42:43] Merging 1 fragment for 'is_standard_layout_class'.
+[2026-09-07 18:42:43] Merged 18 bytes for 'is_standard_layout_class'.
+[2026-09-07 18:42:43] Merging 1 fragment for 'is_complete'.
+[2026-09-07 18:42:43] Merged 18 bytes for 'is_complete'.
+[2026-09-07 18:42:43] Merging 1 fragment for 'derivedtypes'.
+[2026-09-07 18:42:43] Merged 61 bytes for 'derivedtypes'.
+[2026-09-07 18:42:43] Merging 1 fragment for 'pointerishsize'.
+[2026-09-07 18:42:43] Merged 42 bytes for 'pointerishsize'.
+[2026-09-07 18:42:43] Merging 1 fragment for 'membervariables'.
+[2026-09-07 18:42:43] Merged 52 bytes for 'membervariables'.
+[2026-09-07 18:42:43] Merging 1 fragment for 'fieldoffsets'.
+[2026-09-07 18:42:43] Merged 47 bytes for 'fieldoffsets'.
+[2026-09-07 18:42:43] Merging 1 fragment for 'var_decls'.
+[2026-09-07 18:42:43] Merged 110 bytes for 'var_decls'.
+[2026-09-07 18:42:43] Merging 1 fragment for 'var_def'.
+[2026-09-07 18:42:43] Merged 26 bytes for 'var_def'.
+[2026-09-07 18:42:43] Merging 1 fragment for 'member'.
+[2026-09-07 18:42:43] Merged 50 bytes for 'member'.
+[2026-09-07 18:42:43] Merging 1 fragment for 'namespaces'.
+[2026-09-07 18:42:43] Merged 26 bytes for 'namespaces'.
+[2026-09-07 18:42:43] Merging 1 fragment for 'specialnamequalifyingelements'.
+[2026-09-07 18:42:43] Merged 27 bytes for 'specialnamequalifyingelements'.
+[2026-09-07 18:42:43] Merging 1 fragment for 'mangled_name'.
+[2026-09-07 18:42:43] Merged 49 bytes for 'mangled_name'.
+[2026-09-07 18:42:43] Merging 1 fragment for 'specifiers'.
+[2026-09-07 18:42:43] Merged 149 bytes for 'specifiers'.
+[2026-09-07 18:42:43] Merging 1 fragment for 'extractor_version'.
+[2026-09-07 18:42:43] Merged 28 bytes for 'extractor_version'.
+[2026-09-07 18:42:43] Merging 1 fragment for 'fileannotations'.
+[2026-09-07 18:42:43] Merged 47 bytes for 'fileannotations'.
+[2026-09-07 18:42:43] Merging 1 fragment for 'numlines'.
+[2026-09-07 18:42:43] Merged 58 bytes for 'numlines'.
+[2026-09-07 18:42:43] Merging 1 fragment for 'type_mentions'.
+[2026-09-07 18:42:43] Merged 55 bytes for 'type_mentions'.
+[2026-09-07 18:42:43] Merging 1 fragment for 'functions'.
+[2026-09-07 18:42:43] Merged 43 bytes for 'functions'.
+[2026-09-07 18:42:43] Merging 1 fragment for 'function_return_type'.
+[2026-09-07 18:42:43] Merged 31 bytes for 'function_return_type'.
+[2026-09-07 18:42:43] Merging 1 fragment for 'function_prototyped'.
+[2026-09-07 18:42:43] Merged 20 bytes for 'function_prototyped'.
+[2026-09-07 18:42:43] Merging 1 fragment for 'fun_decls'.
+[2026-09-07 18:42:43] Merged 68 bytes for 'fun_decls'.
+[2026-09-07 18:42:43] Merging 1 fragment for 'fun_def'.
+[2026-09-07 18:42:43] Merged 20 bytes for 'fun_def'.
+[2026-09-07 18:42:43] Merging 1 fragment for 'fun_decl_specifiers'.
+[2026-09-07 18:42:43] Merged 39 bytes for 'fun_decl_specifiers'.
+[2026-09-07 18:42:43] Merging 1 fragment for 'stmts'.
+[2026-09-07 18:42:43] Merged 73 bytes for 'stmts'.
+[2026-09-07 18:42:43] Merging 1 fragment for 'localvariables'.
+[2026-09-07 18:42:43] Merged 47 bytes for 'localvariables'.
+[2026-09-07 18:42:43] Merging 1 fragment for 'stmt_decl_bind'.
+[2026-09-07 18:42:43] Merged 47 bytes for 'stmt_decl_bind'.
+[2026-09-07 18:42:43] Merging 1 fragment for 'stmt_decl_entry_bind'.
+[2026-09-07 18:42:43] Merged 45 bytes for 'stmt_decl_entry_bind'.
+[2026-09-07 18:42:43] Merging 1 fragment for 'exprs'.
+[2026-09-07 18:42:43] Merged 86 bytes for 'exprs'.
+[2026-09-07 18:42:43] Merging 1 fragment for 'expr_types'.
+[2026-09-07 18:42:43] Merged 87 bytes for 'expr_types'.
+[2026-09-07 18:42:43] Merging 1 fragment for 'exprparents'.
+[2026-09-07 18:42:43] Merged 85 bytes for 'exprparents'.
+[2026-09-07 18:42:43] Merging 1 fragment for 'varbind'.
+[2026-09-07 18:42:43] Merged 61 bytes for 'varbind'.
+[2026-09-07 18:42:43] Merging 1 fragment for 'routinetypes'.
+[2026-09-07 18:42:43] Merged 29 bytes for 'routinetypes'.
+[2026-09-07 18:42:43] Merging 1 fragment for 'funbind'.
+[2026-09-07 18:42:43] Merged 33 bytes for 'funbind'.
+[2026-09-07 18:42:43] Merging 1 fragment for 'values'.
+[2026-09-07 18:42:43] Merged 33 bytes for 'values'.
+[2026-09-07 18:42:43] Merging 1 fragment for 'valuetext'.
+[2026-09-07 18:42:43] Merged 33 bytes for 'valuetext'.
+[2026-09-07 18:42:43] Merging 1 fragment for 'valuebind'.
+[2026-09-07 18:42:43] Merged 35 bytes for 'valuebind'.
+[2026-09-07 18:42:43] Merging 1 fragment for 'routinetypeargs'.
+[2026-09-07 18:42:43] Merged 37 bytes for 'routinetypeargs'.
+[2026-09-07 18:42:43] Merging 1 fragment for 'expr_isload'.
+[2026-09-07 18:42:43] Merged 22 bytes for 'expr_isload'.
+[2026-09-07 18:42:43] Merging 1 fragment for 'compgenerated'.
+[2026-09-07 18:42:43] Merged 22 bytes for 'compgenerated'.
+[2026-09-07 18:42:43] Merging 1 fragment for 'stmtparents'.
+[2026-09-07 18:42:43] Merged 64 bytes for 'stmtparents'.
+[2026-09-07 18:42:43] Merging 1 fragment for 'blockscope'.
+[2026-09-07 18:42:43] Merged 35 bytes for 'blockscope'.
+[2026-09-07 18:42:43] Merging 1 fragment for 'function_entry_point'.
+[2026-09-07 18:42:43] Merged 34 bytes for 'function_entry_point'.
+[2026-09-07 18:42:43] Merging 1 fragment for 'params'.
+[2026-09-07 18:42:43] Merged 47 bytes for 'params'.
+[2026-09-07 18:42:43] Merging 1 fragment for 'param_decl_bind'.
+[2026-09-07 18:42:43] Merged 38 bytes for 'param_decl_bind'.
+[2026-09-07 18:42:43] Merging 1 fragment for 'type_decls'.
+[2026-09-07 18:42:43] Merged 38 bytes for 'type_decls'.
+[2026-09-07 18:42:43] Merging 1 fragment for 'type_def'.
+[2026-09-07 18:42:43] Merged 18 bytes for 'type_def'.
+[2026-09-07 18:42:43] Merging 1 fragment for 'type_decl_top'.
+[2026-09-07 18:42:43] Merged 18 bytes for 'type_decl_top'.
+[2026-09-07 18:42:43] Merging 1 fragment for 'comments'.
+[2026-09-07 18:42:43] Merged 47 bytes for 'comments'.
+[2026-09-07 18:42:43] Merging 1 fragment for 'commentbinding'.
+[2026-09-07 18:42:43] Merged 42 bytes for 'commentbinding'.
+[2026-09-07 18:42:43] Merging 1 fragment for 'containerparent'.
+[2026-09-07 18:42:43] Merged 37 bytes for 'containerparent'.
+[2026-09-07 18:42:43] Merging 1 fragment for 'folders'.
+[2026-09-07 18:42:43] Merged 36 bytes for 'folders'.
+[2026-09-07 18:42:43] Merging 1 fragment for 'varspecifiers'.
+[2026-09-07 18:42:43] Merged 40 bytes for 'varspecifiers'.
+[2026-09-07 18:42:43] Merging 1 fragment for 'initialisers'.
+[2026-09-07 18:42:43] Merged 55 bytes for 'initialisers'.
+[2026-09-07 18:42:43] Merging 1 fragment for 'iscall'.
+[2026-09-07 18:42:43] Merged 32 bytes for 'iscall'.
+[2026-09-07 18:42:43] Merging 1 fragment for 'typespecifiers'.
+[2026-09-07 18:42:43] Merged 31 bytes for 'typespecifiers'.
+[2026-09-07 18:42:43] Merging 1 fragment for 'compilations'.
+[2026-09-07 18:42:43] Merged 31 bytes for 'compilations'.
+[2026-09-07 18:42:43] Merging 1 fragment for 'compilation_build_mode'.
+[2026-09-07 18:42:43] Merged 31 bytes for 'compilation_build_mode'.
+[2026-09-07 18:42:43] Merging 1 fragment for 'compilation_args'.
+[2026-09-07 18:42:43] Merged 51 bytes for 'compilation_args'.
+[2026-09-07 18:42:43] Merging 1 fragment for 'compilation_expanded_args'.
+[2026-09-07 18:42:43] Merged 51 bytes for 'compilation_expanded_args'.
+[2026-09-07 18:42:43] Merging 1 fragment for 'compilation_compiling_files'.
+[2026-09-07 18:42:43] Merged 41 bytes for 'compilation_compiling_files'.
+[2026-09-07 18:42:43] Merging 1 fragment for 'compilation_time'.
+[2026-09-07 18:42:43] Merged 101 bytes for 'compilation_time'.
+[2026-09-07 18:42:43] Merging 1 fragment for 'compilation_finished'.
+[2026-09-07 18:42:43] Merged 70 bytes for 'compilation_finished'.
+[2026-09-07 18:42:43] Merging 1 fragment for 'sourceLocationPrefix'.
+[2026-09-07 18:42:43] Merged 18 bytes for 'sourceLocationPrefix'.
+[2026-09-07 18:42:43] Saving string and id pools to disk.
+[2026-09-07 18:42:43] Finished importing TRAP files.
+[2026-09-07 18:42:43] Read 69.77 KiB of uncompressed TRAP data.
+[2026-09-07 18:42:43] Uncompressed relation data size: 6.11 KiB
+[2026-09-07 18:42:43] Relation data size: 3.79 KiB (merge rate: 140.18 KiB/s)
+[2026-09-07 18:42:43] String pool size: 2.05 MiB
+[2026-09-07 18:42:43] ID pool size: 1.02 MiB
+[2026-09-07 18:42:43] [PROGRESS] dataset import> Finished writing database (relations: 3.79 KiB; string pool: 2.05 MiB).
+[2026-09-07 18:42:43] Pausing evaluation to close the cache at sequence stamp o+147
+[2026-09-07 18:42:43] The disk cache is freshly trimmed; leave it be.
+[2026-09-07 18:42:43] Unpausing evaluation
+[2026-09-07 18:42:43] Plumbing command codeql dataset import completed.
+[2026-09-07 18:42:43] [PROGRESS] database finalize> TRAP import complete (286ms).
+[2026-09-07 18:42:43] Running plumbing command: codeql database cleanup -- /private/tmp/dfb-v071-codeql-extraction-control/database
+[2026-09-07 18:42:43] [PROGRESS] database cleanup> Cleaning up existing TRAP files after import...
+[2026-09-07 18:42:43] [PROGRESS] database cleanup> TRAP files cleaned up (1ms).
+[2026-09-07 18:42:43] [PROGRESS] database cleanup> Cleaning up scratch directory...
+[2026-09-07 18:42:43] [PROGRESS] database cleanup> Scratch directory cleaned up (0ms).
+[2026-09-07 18:42:43] Running plumbing command: codeql dataset cleanup -- /private/tmp/dfb-v071-codeql-extraction-control/database/db-cpp
+[2026-09-07 18:42:43] [PROGRESS] dataset cleanup> Cleaning up dataset in /private/tmp/dfb-v071-codeql-extraction-control/database/db-cpp.
+[2026-09-07 18:42:43] Trimming disk cache at /private/tmp/dfb-v071-codeql-extraction-control/database/db-cpp/default/cache in mode trim.
+[2026-09-07 18:42:43] Sequence stamp origin is -5871051230383617978
+[2026-09-07 18:42:43] Pausing evaluation to quickly trim memory at sequence stamp o+0
+[2026-09-07 18:42:43] Unpausing evaluation
+[2026-09-07 18:42:43] Pausing evaluation to zealously trim disk at sequence stamp o+1
+[2026-09-07 18:42:43] Unpausing evaluation
+[2026-09-07 18:42:43] Trimming completed (1ms): Trimmed disposable data from cache.
+[2026-09-07 18:42:43] Pausing evaluation to close the cache at sequence stamp o+2
+[2026-09-07 18:42:43] The disk cache is freshly trimmed; leave it be.
+[2026-09-07 18:42:43] Unpausing evaluation
+[2026-09-07 18:42:43] [PROGRESS] dataset cleanup> Trimmed disposable data from cache.
+[2026-09-07 18:42:43] [PROGRESS] dataset cleanup> Finalizing dataset in /private/tmp/dfb-v071-codeql-extraction-control/database/db-cpp
+[2026-09-07 18:42:43] [DETAILS] dataset cleanup> Finished deleting ID pool from /private/tmp/dfb-v071-codeql-extraction-control/database/db-cpp (1ms).
+[2026-09-07 18:42:43] Plumbing command codeql dataset cleanup completed.
+[2026-09-07 18:42:43] Plumbing command codeql database cleanup completed with status 0.
+[2026-09-07 18:42:43] [PROGRESS] database finalize> Finished zipping source archive (494.00 B).
+[2026-09-07 18:42:43] Plumbing command codeql database finalize completed.
+[2026-09-07 18:42:43] [PROGRESS] database create> Successfully created database at /private/tmp/dfb-v071-codeql-extraction-control/database.
+[2026-09-07 18:42:43] Terminating normally.

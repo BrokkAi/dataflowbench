@@ -1,0 +1,69 @@
+{
+  "created_utc": "2026-09-07T17:29:58.243842+00:00",
+  "phase": "after current non-native report sweep; before Bifrost timing qualification and approved repeats",
+  "cases": [
+    "dfb-taint-java-alias-propagation-positive",
+    "dfb-taint-java-alias-propagation-negative"
+  ],
+  "tool": "exact pinned Bifrost v0.11.0",
+  "order": [
+    "sandbox positive",
+    "elevated positive",
+    "sandbox negative",
+    "elevated negative"
+  ],
+  "contract": "Same fixture/policy/CLI settings and toolchain for each pair; retain full stdout/stderr, argv, environment, hashes, pack decisions, endpoints, run status and explicit cache/ordering observations. Establish exact invocations prospectively before execution. No simultaneous analyzer. Small diagnostic controls do not establish whole-population timing parity.",
+  "decision": "If outcomes or pack availability change, report to parent before choosing additional full repeats. Existing five whole-population elevated repeats remain authorized.",
+  "invocations_prepared_utc": "2026-09-07T21:21:11.399442+00:00",
+  "script_sha256": "fd65ee17c1080a6a34c1cc85e4657cd42b0d2cd1046457d8456f9ecaa568eaea",
+  "commands": [
+    {
+      "id": "bifrost-access-java-positive-sandboxed",
+      "argv": [
+        "python3",
+        "scripts/probe-bifrost-access-v071.py",
+        "sandboxed",
+        "positive"
+      ],
+      "output_roots": [
+        "reports/probes/bifrost-access-v071/java-alias-positive-sandboxed"
+      ]
+    },
+    {
+      "id": "bifrost-access-java-positive-elevated",
+      "argv": [
+        "python3",
+        "scripts/probe-bifrost-access-v071.py",
+        "elevated",
+        "positive"
+      ],
+      "output_roots": [
+        "reports/probes/bifrost-access-v071/java-alias-positive-elevated"
+      ]
+    },
+    {
+      "id": "bifrost-access-java-negative-sandboxed",
+      "argv": [
+        "python3",
+        "scripts/probe-bifrost-access-v071.py",
+        "sandboxed",
+        "negative"
+      ],
+      "output_roots": [
+        "reports/probes/bifrost-access-v071/java-alias-negative-sandboxed"
+      ]
+    },
+    {
+      "id": "bifrost-access-java-negative-elevated",
+      "argv": [
+        "python3",
+        "scripts/probe-bifrost-access-v071.py",
+        "elevated",
+        "negative"
+      ],
+      "output_roots": [
+        "reports/probes/bifrost-access-v071/java-alias-negative-elevated"
+      ]
+    }
+  ]
+}

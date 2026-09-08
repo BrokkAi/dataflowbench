@@ -1,0 +1,170 @@
+{
+  "id": "overhead-pysa-python-attempt-01",
+  "planned_id": "overhead-pysa-python",
+  "argv": [
+    "/Users/dave/.codex/worktrees/653a/dataflowbench/target/debug/dataflowbench",
+    "--population",
+    "v0.7.0",
+    "estimate-invocation-overhead",
+    "--tool",
+    "pysa",
+    "--language",
+    "python",
+    "--joern",
+    "/Users/dave/.cache/dataflowbench-tools/joern-v4.0.621/joern-cli-macos-arm64/joern-cli/joern",
+    "--semgrep",
+    "/opt/homebrew/bin/semgrep",
+    "--bifrost",
+    "/Users/dave/.cache/dataflowbench-tools/bifrost-v0.11.0/bifrost-v0.11.0-universal-apple-darwin/bifrost",
+    "--codeql",
+    "/opt/homebrew/bin/codeql",
+    "--infer",
+    "/Users/dave/.cache/dataflowbench-tools/infer-osx-arm64-v1.3.0/lib/infer/infer/bin/infer",
+    "--analyzer-jar",
+    "/Users/dave/.cache/dataflowbench-tools/opentaint-v0.4.6/opentaint-project-analyzer.jar",
+    "--models-archive",
+    "/Users/dave/.cache/dataflowbench-tools/opentaint-v0.4.6/opentaint-models.tar.gz",
+    "--flowdroid-jar",
+    "/Users/dave/.cache/dataflowbench-tools/flowdroid/soot-infoflow-cmd-2.15.1-jar-with-dependencies.jar",
+    "--android-platform",
+    "/Users/dave/.cache/dataflowbench-tools/flowdroid/android-34.jar",
+    "--d8-jar",
+    "/Users/dave/.cache/dataflowbench-tools/flowdroid/r8-8.5.35.jar",
+    "--java",
+    "/usr/bin/java",
+    "--javac",
+    "/usr/bin/javac",
+    "--kotlinc",
+    "/opt/homebrew/bin/kotlinc",
+    "--kotlin-stdlib",
+    "/opt/homebrew/Cellar/kotlin/2.4.10/libexec/lib/kotlin-stdlib.jar",
+    "--pyre",
+    "/Users/dave/.cache/dataflowbench-tools/pysa-venv/bin/pyre",
+    "--pyre-binary",
+    "/Users/dave/.cache/dataflowbench-tools/pysa-venv/bin/pyre.bin",
+    "--pyrefly",
+    "/Users/dave/.cache/dataflowbench-tools/pysa-venv/bin/pyrefly"
+  ],
+  "cwd": "/Users/dave/.codex/worktrees/653a/dataflowbench",
+  "input_commits": {
+    "corpus": "0c82e8093ff899d5ee72809a82c951ab76b5bb76",
+    "publication_infrastructure": "53050fa64628997e866303bcd5299d74f1e3e45d",
+    "pins": "c0899dab0d2c043dcc5b1aa6a1aad0e49f482fea"
+  },
+  "execution_revision": "4964392125861a34af6576784e56cc1fd11aadd9",
+  "population": "v0.7.0",
+  "fixture_revision": "sha256:9df209ed3d7723a3ee33f2b289cf2afe34a3add781bdf2a2ac445de42b8d0151",
+  "plan": {
+    "path": "reports/releases/v0.7.1/plan.json",
+    "sha256": "cb948f4a5cff80b95d3dcc755ab8249d87449e43f70e6eb80a456789faf12f26"
+  },
+  "identities": {
+    "path": "reports/releases/v0.7.1/identities.json",
+    "sha256": "0b8b1bb07d1df1ec8687613bb355f5f6021a2c664d3488dc3bc763553ce1a83c"
+  },
+  "execution_access": "require_escalated",
+  "start_utc": "2026-09-08T07:27:57.658752+00:00",
+  "host": {
+    "platform": "macOS-26.6.2-arm64-arm-64bit",
+    "cpu_count": 10,
+    "load_before": [
+      2.37548828125,
+      3.28173828125,
+      3.8955078125
+    ],
+    "load_after": [
+      2.7529296875,
+      3.3173828125,
+      3.89697265625
+    ]
+  },
+  "settle_observations": [
+    {
+      "utc": "2026-09-08T07:26:57.570926+00:00",
+      "load": [
+        4.08837890625,
+        3.68701171875,
+        4.07373046875
+      ]
+    },
+    {
+      "utc": "2026-09-08T07:27:07.581037+00:00",
+      "load": [
+        3.8466796875,
+        3.6474609375,
+        4.05517578125
+      ]
+    },
+    {
+      "utc": "2026-09-08T07:27:17.591211+00:00",
+      "load": [
+        3.63623046875,
+        3.60888671875,
+        4.03662109375
+      ]
+    },
+    {
+      "utc": "2026-09-08T07:27:27.601379+00:00",
+      "load": [
+        3.150390625,
+        3.505859375,
+        3.99462890625
+      ]
+    },
+    {
+      "utc": "2026-09-08T07:27:37.608844+00:00",
+      "load": [
+        2.8193359375,
+        3.4228515625,
+        3.95947265625
+      ]
+    },
+    {
+      "utc": "2026-09-08T07:27:47.617678+00:00",
+      "load": [
+        2.5390625,
+        3.3427734375,
+        3.92431640625
+      ]
+    }
+  ],
+  "cache_posture": "isolated case workspaces; local distributions and prefetched CodeQL packs; OS page cache uncontrolled; warm only for explicit warm series",
+  "supersedes": null,
+  "exit_code": 0,
+  "end_utc": "2026-09-08T07:28:09.411568+00:00",
+  "stdout": {
+    "path": "reports/releases/v0.7.1/attempts/overhead-pysa-python-attempt-01/stdout.txt",
+    "sha256": "3007a6cb83255d099358cfc97ada38d5c92f5e667709d09ee74b56f686519f69"
+  },
+  "stderr": {
+    "path": "reports/releases/v0.7.1/attempts/overhead-pysa-python-attempt-01/stderr.txt",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "outputs": [
+    {
+      "original_path": "reports/raw/invocation-overhead/pysa-python/invocation-overhead.json",
+      "path": "reports/releases/v0.7.1/attempts/overhead-pysa-python-attempt-01/outputs/reports/raw/invocation-overhead/pysa-python/invocation-overhead.json",
+      "sha256": "c7feab93738ace3ad5613fee2c60ee5fbca6e096fa98e541d83a4966f135c8a8"
+    },
+    {
+      "original_path": "reports/raw/invocation-overhead/pysa-python/run-environment.json",
+      "path": "reports/releases/v0.7.1/attempts/overhead-pysa-python-attempt-01/outputs/reports/raw/invocation-overhead/pysa-python/run-environment.json",
+      "sha256": "1751421121126fef882d0e3396c140fb6a8499d5eecd00142f91a553cdebe4bc"
+    },
+    {
+      "original_path": "reports/raw/invocation-overhead/pysa-python/resolved-models.pysa",
+      "path": "reports/releases/v0.7.1/attempts/overhead-pysa-python-attempt-01/outputs/reports/raw/invocation-overhead/pysa-python/resolved-models.pysa",
+      "sha256": "5f872476212217c7e0f2614f3789a77b8fda28a79f6fd6d66a0255f968ee6c80"
+    },
+    {
+      "original_path": "reports/raw/invocation-overhead/pysa-python/fixture/dfb_trivial.py",
+      "path": "reports/releases/v0.7.1/attempts/overhead-pysa-python-attempt-01/outputs/reports/raw/invocation-overhead/pysa-python/fixture/dfb_trivial.py",
+      "sha256": "d4dfe541d478dd9a22af5376eae5286f1cd095f4ce629cc6a0f3122d4980364a"
+    }
+  ],
+  "expected_output_roots": [
+    "reports/raw/invocation-overhead/pysa-python"
+  ],
+  "missing_fresh_output_roots": [],
+  "removed_paths": []
+}

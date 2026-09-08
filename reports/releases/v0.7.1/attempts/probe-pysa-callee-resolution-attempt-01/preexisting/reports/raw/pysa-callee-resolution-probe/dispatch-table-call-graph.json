@@ -1,0 +1,142 @@
+{
+  "evidence_kind": "retained-probe",
+  "probe": "pysa-callee-resolution",
+  "fixture": "cases/taint/python/dispatch-table-positive/dispatch_table.py",
+  "run_call_graph": {
+    "filename": "src/dispatch_table.py",
+    "callable": "dispatch_table.run",
+    "calls": {
+      "18:21-18:25|identifier|leak": {
+        "identifier": {
+          "if_called": {
+            "calls": [
+              {
+                "target": "dispatch_table.leak",
+                "index": 0,
+                "return_type": []
+              }
+            ]
+          }
+        }
+      },
+      "18:35-18:39|identifier|drop": {
+        "identifier": {
+          "if_called": {
+            "calls": [
+              {
+                "target": "dispatch_table.drop",
+                "index": 0,
+                "return_type": []
+              }
+            ]
+          }
+        }
+      },
+      "20:4-20:14|artificial-call|subscript-get-item": {
+        "call": {
+          "calls": [
+            {
+              "target": "builtins.dict.__getitem__",
+              "index": 0,
+              "implicit_receiver": true,
+              "return_type": [],
+              "receiver_class": "builtins.dict"
+            }
+          ]
+        }
+      },
+      "20:4-20:28": {
+        "call": {
+          "unresolved": [
+            "UnexpectedCalleeExpression"
+          ]
+        }
+      },
+      "20:15-20:27": {
+        "call": {
+          "calls": [
+            {
+              "target": "dispatch_table.dfb_source",
+              "index": 0,
+              "return_type": []
+            }
+          ]
+        }
+      }
+    }
+  },
+  "bound_models": [
+    {
+      "callable": "dispatch_table.dfb_source",
+      "filename": "src/dispatch_table.py",
+      "callable_line": 1,
+      "sources": [
+        {
+          "port": "result",
+          "taint": [
+            {
+              "kinds": [
+                {
+                  "kind": "DfbSource"
+                }
+              ],
+              "declaration": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "callable": "dispatch_table.dfb_sink",
+      "filename": "src/dispatch_table.py",
+      "callable_line": 5,
+      "sinks": [
+        {
+          "port": "formal(value, position=0)",
+          "taint": [
+            {
+              "kinds": [
+                {
+                  "kind": "DfbSink"
+                }
+              ],
+              "declaration": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "callable": "dispatch_table.leak",
+      "filename": "src/dispatch_table.py",
+      "callable_line": 9,
+      "sinks": [
+        {
+          "port": "formal(value, position=0)",
+          "taint": [
+            {
+              "kinds": [
+                {
+                  "leaves": [
+                    {
+                      "name": "dispatch_table.dfb_sink",
+                      "port": "leaf:value"
+                    }
+                  ],
+                  "kind": "DfbSink"
+                }
+              ],
+              "origin": {
+                "line": 10,
+                "start": 13,
+                "end": 18
+              },
+              "call_site": "10:4-10:19"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "issue_count": 0
+}

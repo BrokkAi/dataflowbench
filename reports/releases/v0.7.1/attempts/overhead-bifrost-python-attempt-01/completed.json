@@ -1,0 +1,165 @@
+{
+  "id": "overhead-bifrost-python-attempt-01",
+  "planned_id": "overhead-bifrost-python",
+  "argv": [
+    "/Users/dave/.codex/worktrees/653a/dataflowbench/target/debug/dataflowbench",
+    "--population",
+    "v0.7.0",
+    "estimate-invocation-overhead",
+    "--tool",
+    "bifrost",
+    "--language",
+    "python",
+    "--joern",
+    "/Users/dave/.cache/dataflowbench-tools/joern-v4.0.621/joern-cli-macos-arm64/joern-cli/joern",
+    "--semgrep",
+    "/opt/homebrew/bin/semgrep",
+    "--bifrost",
+    "/Users/dave/.cache/dataflowbench-tools/bifrost-v0.11.0/bifrost-v0.11.0-universal-apple-darwin/bifrost",
+    "--codeql",
+    "/opt/homebrew/bin/codeql",
+    "--infer",
+    "/Users/dave/.cache/dataflowbench-tools/infer-osx-arm64-v1.3.0/lib/infer/infer/bin/infer",
+    "--analyzer-jar",
+    "/Users/dave/.cache/dataflowbench-tools/opentaint-v0.4.6/opentaint-project-analyzer.jar",
+    "--models-archive",
+    "/Users/dave/.cache/dataflowbench-tools/opentaint-v0.4.6/opentaint-models.tar.gz",
+    "--flowdroid-jar",
+    "/Users/dave/.cache/dataflowbench-tools/flowdroid/soot-infoflow-cmd-2.15.1-jar-with-dependencies.jar",
+    "--android-platform",
+    "/Users/dave/.cache/dataflowbench-tools/flowdroid/android-34.jar",
+    "--d8-jar",
+    "/Users/dave/.cache/dataflowbench-tools/flowdroid/r8-8.5.35.jar",
+    "--java",
+    "/usr/bin/java",
+    "--javac",
+    "/usr/bin/javac",
+    "--kotlinc",
+    "/opt/homebrew/bin/kotlinc",
+    "--kotlin-stdlib",
+    "/opt/homebrew/Cellar/kotlin/2.4.10/libexec/lib/kotlin-stdlib.jar",
+    "--pyre",
+    "/Users/dave/.cache/dataflowbench-tools/pysa-venv/bin/pyre",
+    "--pyre-binary",
+    "/Users/dave/.cache/dataflowbench-tools/pysa-venv/bin/pyre.bin",
+    "--pyrefly",
+    "/Users/dave/.cache/dataflowbench-tools/pysa-venv/bin/pyrefly"
+  ],
+  "cwd": "/Users/dave/.codex/worktrees/653a/dataflowbench",
+  "input_commits": {
+    "corpus": "0c82e8093ff899d5ee72809a82c951ab76b5bb76",
+    "publication_infrastructure": "53050fa64628997e866303bcd5299d74f1e3e45d",
+    "pins": "c0899dab0d2c043dcc5b1aa6a1aad0e49f482fea"
+  },
+  "execution_revision": "4964392125861a34af6576784e56cc1fd11aadd9",
+  "population": "v0.7.0",
+  "fixture_revision": "sha256:9df209ed3d7723a3ee33f2b289cf2afe34a3add781bdf2a2ac445de42b8d0151",
+  "plan": {
+    "path": "reports/releases/v0.7.1/plan.json",
+    "sha256": "cb948f4a5cff80b95d3dcc755ab8249d87449e43f70e6eb80a456789faf12f26"
+  },
+  "identities": {
+    "path": "reports/releases/v0.7.1/identities.json",
+    "sha256": "0b8b1bb07d1df1ec8687613bb355f5f6021a2c664d3488dc3bc763553ce1a83c"
+  },
+  "execution_access": "require_escalated",
+  "start_utc": "2026-09-08T07:19:19.241065+00:00",
+  "host": {
+    "platform": "macOS-26.6.2-arm64-arm-64bit",
+    "cpu_count": 10,
+    "load_before": [
+      4.1796875,
+      4.3876953125,
+      4.6328125
+    ],
+    "load_after": [
+      4.1796875,
+      4.3876953125,
+      4.6328125
+    ]
+  },
+  "settle_observations": [
+    {
+      "utc": "2026-09-08T07:18:19.176139+00:00",
+      "load": [
+        7.1025390625,
+        4.75244140625,
+        4.7685546875
+      ]
+    },
+    {
+      "utc": "2026-09-08T07:18:29.186365+00:00",
+      "load": [
+        6.6123046875,
+        4.7265625,
+        4.7587890625
+      ]
+    },
+    {
+      "utc": "2026-09-08T07:18:39.190201+00:00",
+      "load": [
+        6.216796875,
+        4.70263671875,
+        4.74951171875
+      ]
+    },
+    {
+      "utc": "2026-09-08T07:18:49.195367+00:00",
+      "load": [
+        5.95556640625,
+        4.69580078125,
+        4.74658203125
+      ]
+    },
+    {
+      "utc": "2026-09-08T07:18:59.200507+00:00",
+      "load": [
+        5.353515625,
+        4.60693359375,
+        4.71435546875
+      ]
+    },
+    {
+      "utc": "2026-09-08T07:19:09.205665+00:00",
+      "load": [
+        4.7578125,
+        4.50390625,
+        4.67626953125
+      ]
+    }
+  ],
+  "cache_posture": "isolated case workspaces; local distributions and prefetched CodeQL packs; OS page cache uncontrolled; warm only for explicit warm series",
+  "supersedes": null,
+  "exit_code": 0,
+  "end_utc": "2026-09-08T07:19:20.193506+00:00",
+  "stdout": {
+    "path": "reports/releases/v0.7.1/attempts/overhead-bifrost-python-attempt-01/stdout.txt",
+    "sha256": "2f71c0a02a7144b81b8c33816a0a66cd557b9b30726a97e9325ca23a420b1aa3"
+  },
+  "stderr": {
+    "path": "reports/releases/v0.7.1/attempts/overhead-bifrost-python-attempt-01/stderr.txt",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "outputs": [
+    {
+      "original_path": "reports/raw/invocation-overhead/bifrost-python/invocation-overhead.json",
+      "path": "reports/releases/v0.7.1/attempts/overhead-bifrost-python-attempt-01/outputs/reports/raw/invocation-overhead/bifrost-python/invocation-overhead.json",
+      "sha256": "7e9b47cc31a299cb777f6073b141882deefa5a4138a9bf76db126ec643427489"
+    },
+    {
+      "original_path": "reports/raw/invocation-overhead/bifrost-python/run-environment.json",
+      "path": "reports/releases/v0.7.1/attempts/overhead-bifrost-python-attempt-01/outputs/reports/raw/invocation-overhead/bifrost-python/run-environment.json",
+      "sha256": "e30e86c575007c1ebce0a6466239f23649179787f8951356d21e468566badefb"
+    },
+    {
+      "original_path": "reports/raw/invocation-overhead/bifrost-python/fixture/dfb_trivial.py",
+      "path": "reports/releases/v0.7.1/attempts/overhead-bifrost-python-attempt-01/outputs/reports/raw/invocation-overhead/bifrost-python/fixture/dfb_trivial.py",
+      "sha256": "d4dfe541d478dd9a22af5376eae5286f1cd095f4ce629cc6a0f3122d4980364a"
+    }
+  ],
+  "expected_output_roots": [
+    "reports/raw/invocation-overhead/bifrost-python"
+  ],
+  "missing_fresh_output_roots": [],
+  "removed_paths": []
+}

@@ -1,0 +1,58 @@
+{
+  "adapter": "semgrep",
+  "amendment": "A24",
+  "clock": "monotonic",
+  "ended_at_unix_seconds": 1788278115,
+  "estimate_bias": "upper bound on start-up and warm-up: it contains the trivial fixture's own near-zero analysis, and it is a cold single-shot execution — the same posture the cold rows are measured in, and not a steady-state one",
+  "estimated_overhead_ms": {
+    "high": 1071,
+    "low": 1043
+  },
+  "estimator": "one complete adapter invocation over a trivial no-flow fixture",
+  "evidence_kind": "retained-invocation-overhead-estimate",
+  "fixture_file": "fixture/DfbTrivial.kt",
+  "fixture_sha256": "d6ef47a7d8bdbf00b355f60935b05f60b019235d08b5935be0363823e8164b46",
+  "language": "kotlin",
+  "measured_boundary": "the adapter's own subprocess boundaries; the estimate is the sum of its declared phases, as the cold whole-invocation figure is",
+  "publication": "range over every repeat; never a mean, never a chosen repeat, and never gated on the repeats agreeing — the width is the precision",
+  "repeats": 3,
+  "runs": [
+    {
+      "load_average_1m_before": 3.32,
+      "phases": [
+        {
+          "phase": "total",
+          "wall_ms": 1071
+        }
+      ],
+      "repeat": 1,
+      "wall_ms": 1071
+    },
+    {
+      "load_average_1m_before": 3.32,
+      "phases": [
+        {
+          "phase": "total",
+          "wall_ms": 1066
+        }
+      ],
+      "repeat": 2,
+      "wall_ms": 1066
+    },
+    {
+      "load_average_1m_before": 3.32,
+      "phases": [
+        {
+          "phase": "total",
+          "wall_ms": 1043
+        }
+      ],
+      "repeat": 3,
+      "wall_ms": 1043
+    }
+  ],
+  "schema_version": 1,
+  "started_at_unix_seconds": 1788278112,
+  "tool_build_identity": "semgrep-oss:1.175.0",
+  "tool_version": "1.175.0"
+}

@@ -1,0 +1,132 @@
+rules:
+  - id: xpath-injection
+    severity: ERROR
+    message: >-
+      XPath injection: detected input from a HTTPServletRequest going into a XPath evaluate or compile command.
+    metadata:
+      cwe: CWE-643
+      short-description: XPath Injection
+      full-description: |-
+        XPath injection happens when untrusted input reaches XPath evaluation APIs as expression text
+        (for example `XPath.compile(...)` or `XPath.evaluate(...)`).
+
+        Vulnerable example:
+
+        ```java
+        import javax.xml.xpath.XPath;
+        import javax.xml.xpath.XPathFactory;
+
+        public class XmlLookupService {
+            private final XPath xp = XPathFactory.newInstance().newXPath();
+
+            public String lookup(String exprFromRequest, org.w3c.dom.Document doc) throws Exception {
+                // exprFromRequest is untrusted
+                return xp.evaluate(exprFromRequest, doc); // VULNERABLE
+            }
+        }
+        ```
+
+        Safe example:
+
+        ```java
+        import javax.xml.xpath.XPath;
+        import javax.xml.xpath.XPathConstants;
+        import javax.xml.xpath.XPathExpression;
+        import javax.xml.xpath.XPathFactory;
+
+        public class XmlLookupService {
+            private final XPath xp = XPathFactory.newInstance().newXPath();
+
+            public org.w3c.dom.Node findUserById(String userIdFromRequest, org.w3c.dom.Document doc) throws Exception {
+                if (userIdFromRequest == null || !userIdFromRequest.matches("[A-Za-z0-9_-]{1,32}")) {
+                    throw new IllegalArgumentException("Invalid user id");
+                }
+
+                XPathExpression compiled = xp.compile("/users/user[@id=$id]");
+                xp.setXPathVariableResolver(name -> "id".equals(name.getLocalPart()) ? userIdFromRequest : null);
+                return (org.w3c.dom.Node) compiled.evaluate(doc, XPathConstants.NODE);
+            }
+        }
+        ```
+
+        Key vulnerable patterns covered by this rule include dynamic `XPath.compile/evaluate` calls with tainted expressions.
+      references:
+        - https://owasp.org/www-community/attacks/XPATH_Injection
+        - https://cheatsheetseries.owasp.org/cheatsheets/XML_Security_Cheat_Sheet.html
+      provenance: https://github.com/semgrep/semgrep-rules/blob/develop/java/lang/security/audit/tainted-xpath-from-http-request.yaml
+    languages:
+      - java
+    mode: join
+    join:
+      refs:
+        - tag: servlet-untrusted-data-source
+          as: servlet-untrusted-data
+        - tag: spring-untrusted-data-source
+          as: spring-untrusted-data
+        - tag: xpath-injection-sink
+          as: sink
+      on:
+        - 'servlet-untrusted-data.$UNTRUSTED -> sink.$UNTRUSTED'
+        - 'spring-untrusted-data.$UNTRUSTED -> sink.$UNTRUSTED'
+
+  - id: mongodb-injection
+    severity: ERROR
+    message: >-
+      NoSQL injection: detected untrusted user input going into NoSQL query using the 'where' evaluation operator.
+    metadata:
+      cwe: CWE-943
+      short-description: MongoDB query injection
+      full-description: |-
+        MongoDB NoSQL injection occurs when untrusted input reaches unsafe `$where` usage,
+        where query text is interpreted as executable JavaScript.
+
+        Vulnerable example:
+
+        ```java
+        import com.mongodb.BasicDBObject;
+
+        public class UserQueryService {
+            public BasicDBObject buildQuery(String whereFromRequest) {
+                // whereFromRequest is untrusted
+                return new BasicDBObject("$where", whereFromRequest); // VULNERABLE
+            }
+        }
+        ```
+
+        Safe example:
+
+        ```java
+        import com.mongodb.BasicDBObject;
+
+        public class UserQueryService {
+            public BasicDBObject buildQuery(String usernameFromRequest) {
+                if (usernameFromRequest == null || !usernameFromRequest.matches("[A-Za-z0-9._-]{1,64}")) {
+                    throw new IllegalArgumentException("Invalid username");
+                }
+
+                // Safe: field-based query, no $where JavaScript
+                return new BasicDBObject("username", usernameFromRequest);
+            }
+        }
+        ```
+
+        Key operation family covered by this rule is MongoDB `$where` assignment APIs
+        (`BasicDBObject.put/append/new ...("$where", ...)`, map-to-query builder flows).
+      references:
+        - https://owasp.org/www-community/attacks/NoSQL_Injection
+        - https://www.mongodb.com/docs/manual/core/server-side-javascript/#security-considerations
+      provenance: https://github.com/semgrep/semgrep-rules/blob/develop/java/mongodb/security/injection/audit/mongodb-nosqli.yaml
+    languages:
+      - java
+    mode: join
+    join:
+      refs:
+        - tag: servlet-untrusted-data-source
+          as: servlet-untrusted-data
+        - tag: spring-untrusted-data-source
+          as: spring-untrusted-data
+        - tag: mongodb-injection-sink
+          as: sink
+      on:
+        - 'servlet-untrusted-data.$UNTRUSTED -> sink.$INPUT'
+        - 'spring-untrusted-data.$UNTRUSTED -> sink.$INPUT'

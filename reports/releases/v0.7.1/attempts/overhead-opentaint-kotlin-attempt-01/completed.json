@@ -1,0 +1,170 @@
+{
+  "id": "overhead-opentaint-kotlin-attempt-01",
+  "planned_id": "overhead-opentaint-kotlin",
+  "argv": [
+    "/Users/dave/.codex/worktrees/653a/dataflowbench/target/debug/dataflowbench",
+    "--population",
+    "v0.7.0",
+    "estimate-invocation-overhead",
+    "--tool",
+    "opentaint",
+    "--language",
+    "kotlin",
+    "--joern",
+    "/Users/dave/.cache/dataflowbench-tools/joern-v4.0.621/joern-cli-macos-arm64/joern-cli/joern",
+    "--semgrep",
+    "/opt/homebrew/bin/semgrep",
+    "--bifrost",
+    "/Users/dave/.cache/dataflowbench-tools/bifrost-v0.11.0/bifrost-v0.11.0-universal-apple-darwin/bifrost",
+    "--codeql",
+    "/opt/homebrew/bin/codeql",
+    "--infer",
+    "/Users/dave/.cache/dataflowbench-tools/infer-osx-arm64-v1.3.0/lib/infer/infer/bin/infer",
+    "--analyzer-jar",
+    "/Users/dave/.cache/dataflowbench-tools/opentaint-v0.4.6/opentaint-project-analyzer.jar",
+    "--models-archive",
+    "/Users/dave/.cache/dataflowbench-tools/opentaint-v0.4.6/opentaint-models.tar.gz",
+    "--flowdroid-jar",
+    "/Users/dave/.cache/dataflowbench-tools/flowdroid/soot-infoflow-cmd-2.15.1-jar-with-dependencies.jar",
+    "--android-platform",
+    "/Users/dave/.cache/dataflowbench-tools/flowdroid/android-34.jar",
+    "--d8-jar",
+    "/Users/dave/.cache/dataflowbench-tools/flowdroid/r8-8.5.35.jar",
+    "--java",
+    "/usr/bin/java",
+    "--javac",
+    "/usr/bin/javac",
+    "--kotlinc",
+    "/opt/homebrew/bin/kotlinc",
+    "--kotlin-stdlib",
+    "/opt/homebrew/Cellar/kotlin/2.4.10/libexec/lib/kotlin-stdlib.jar",
+    "--pyre",
+    "/Users/dave/.cache/dataflowbench-tools/pysa-venv/bin/pyre",
+    "--pyre-binary",
+    "/Users/dave/.cache/dataflowbench-tools/pysa-venv/bin/pyre.bin",
+    "--pyrefly",
+    "/Users/dave/.cache/dataflowbench-tools/pysa-venv/bin/pyrefly"
+  ],
+  "cwd": "/Users/dave/.codex/worktrees/653a/dataflowbench",
+  "input_commits": {
+    "corpus": "0c82e8093ff899d5ee72809a82c951ab76b5bb76",
+    "publication_infrastructure": "53050fa64628997e866303bcd5299d74f1e3e45d",
+    "pins": "c0899dab0d2c043dcc5b1aa6a1aad0e49f482fea"
+  },
+  "execution_revision": "4964392125861a34af6576784e56cc1fd11aadd9",
+  "population": "v0.7.0",
+  "fixture_revision": "sha256:9df209ed3d7723a3ee33f2b289cf2afe34a3add781bdf2a2ac445de42b8d0151",
+  "plan": {
+    "path": "reports/releases/v0.7.1/plan.json",
+    "sha256": "cb948f4a5cff80b95d3dcc755ab8249d87449e43f70e6eb80a456789faf12f26"
+  },
+  "identities": {
+    "path": "reports/releases/v0.7.1/identities.json",
+    "sha256": "0b8b1bb07d1df1ec8687613bb355f5f6021a2c664d3488dc3bc763553ce1a83c"
+  },
+  "execution_access": "require_escalated",
+  "start_utc": "2026-09-08T07:26:36.411084+00:00",
+  "host": {
+    "platform": "macOS-26.6.2-arm64-arm-64bit",
+    "cpu_count": 10,
+    "load_before": [
+      2.89111328125,
+      3.45703125,
+      4.0048828125
+    ],
+    "load_after": [
+      4.08837890625,
+      3.68701171875,
+      4.07373046875
+    ]
+  },
+  "settle_observations": [
+    {
+      "utc": "2026-09-08T07:25:36.334965+00:00",
+      "load": [
+        5.189453125,
+        3.892578125,
+        4.19091796875
+      ]
+    },
+    {
+      "utc": "2026-09-08T07:25:46.345059+00:00",
+      "load": [
+        4.544921875,
+        3.796875,
+        4.15283203125
+      ]
+    },
+    {
+      "utc": "2026-09-08T07:25:56.351868+00:00",
+      "load": [
+        4.1533203125,
+        3.73681640625,
+        4.12744140625
+      ]
+    },
+    {
+      "utc": "2026-09-08T07:26:06.362032+00:00",
+      "load": [
+        3.67431640625,
+        3.646484375,
+        4.09033203125
+      ]
+    },
+    {
+      "utc": "2026-09-08T07:26:16.362510+00:00",
+      "load": [
+        3.3427734375,
+        3.57568359375,
+        4.0595703125
+      ]
+    },
+    {
+      "utc": "2026-09-08T07:26:26.368351+00:00",
+      "load": [
+        3.1484375,
+        3.52392578125,
+        4.03515625
+      ]
+    }
+  ],
+  "cache_posture": "isolated case workspaces; local distributions and prefetched CodeQL packs; OS page cache uncontrolled; warm only for explicit warm series",
+  "supersedes": null,
+  "exit_code": 0,
+  "end_utc": "2026-09-08T07:26:55.346231+00:00",
+  "stdout": {
+    "path": "reports/releases/v0.7.1/attempts/overhead-opentaint-kotlin-attempt-01/stdout.txt",
+    "sha256": "1a6eb9b055eca996468bfad77548ebf71e088d1a14faeec08c886de1ac0bb93e"
+  },
+  "stderr": {
+    "path": "reports/releases/v0.7.1/attempts/overhead-opentaint-kotlin-attempt-01/stderr.txt",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "outputs": [
+    {
+      "original_path": "reports/raw/invocation-overhead/opentaint-kotlin/invocation-overhead.json",
+      "path": "reports/releases/v0.7.1/attempts/overhead-opentaint-kotlin-attempt-01/outputs/reports/raw/invocation-overhead/opentaint-kotlin/invocation-overhead.json",
+      "sha256": "57a378e696cd9c53c1d245c819c55358303fd6f1d88962692a676eca2aecbc1f"
+    },
+    {
+      "original_path": "reports/raw/invocation-overhead/opentaint-kotlin/resolved-rule.yaml",
+      "path": "reports/releases/v0.7.1/attempts/overhead-opentaint-kotlin-attempt-01/outputs/reports/raw/invocation-overhead/opentaint-kotlin/resolved-rule.yaml",
+      "sha256": "1c9b34833739ecb2de6f5b2d66840cfed70e5db63101abd6d54ec5a733020ba0"
+    },
+    {
+      "original_path": "reports/raw/invocation-overhead/opentaint-kotlin/run-environment.json",
+      "path": "reports/releases/v0.7.1/attempts/overhead-opentaint-kotlin-attempt-01/outputs/reports/raw/invocation-overhead/opentaint-kotlin/run-environment.json",
+      "sha256": "2101323b77e784998fc80be3a223efcb6c6c3b34aa3ad754bf4d24d792e445a1"
+    },
+    {
+      "original_path": "reports/raw/invocation-overhead/opentaint-kotlin/fixture/DfbTrivial.kt",
+      "path": "reports/releases/v0.7.1/attempts/overhead-opentaint-kotlin-attempt-01/outputs/reports/raw/invocation-overhead/opentaint-kotlin/fixture/DfbTrivial.kt",
+      "sha256": "d6ef47a7d8bdbf00b355f60935b05f60b019235d08b5935be0363823e8164b46"
+    }
+  ],
+  "expected_output_roots": [
+    "reports/raw/invocation-overhead/opentaint-kotlin"
+  ],
+  "missing_fresh_output_roots": [],
+  "removed_paths": []
+}

@@ -57,7 +57,7 @@ OUT="$ROOT/reports/raw/amendment-a17-pysa-native"
 CASES="$ROOT/cases/taint/python"
 SUITE="$(cd "$(dirname "$PYRE")/.." && pwd)/lib/pyre_check/taint"
 SCRATCH="$(mktemp -d)"
-trap 'rm -rf "$SCRATCH"' EXIT
+trap 'probe_status=$?; if [ "$probe_status" -eq 0 ]; then rm -rf "$SCRATCH"; else echo "retained failed probe scratch: $SCRATCH" >&2; fi' EXIT
 mkdir -p "$OUT"
 
 "$PYRE" --version >/dev/null

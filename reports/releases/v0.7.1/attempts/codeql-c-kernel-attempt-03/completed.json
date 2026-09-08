@@ -1,0 +1,627 @@
+{
+  "id": "codeql-c-kernel-attempt-03",
+  "planned_id": "codeql-c-kernel",
+  "argv": [
+    "/Users/dave/.codex/worktrees/653a/dataflowbench/target/debug/dataflowbench",
+    "--population",
+    "v0.7.0",
+    "run-codeql-c-kernel",
+    "--codeql",
+    "/opt/homebrew/bin/codeql"
+  ],
+  "cwd": "/Users/dave/.codex/worktrees/653a/dataflowbench",
+  "input_commits": {
+    "corpus": "0c82e8093ff899d5ee72809a82c951ab76b5bb76",
+    "publication_infrastructure": "53050fa64628997e866303bcd5299d74f1e3e45d",
+    "pins": "c0899dab0d2c043dcc5b1aa6a1aad0e49f482fea"
+  },
+  "execution_revision": "4309e0799e4fa3dd61496bf712b4c2ff8ac1cb24",
+  "population": "v0.7.0",
+  "fixture_revision": "sha256:9df209ed3d7723a3ee33f2b289cf2afe34a3add781bdf2a2ac445de42b8d0151",
+  "plan": {
+    "path": "reports/releases/v0.7.1/plan.json",
+    "sha256": "cb948f4a5cff80b95d3dcc755ab8249d87449e43f70e6eb80a456789faf12f26"
+  },
+  "identities": {
+    "path": "reports/releases/v0.7.1/identities.json",
+    "sha256": "0b8b1bb07d1df1ec8687613bb355f5f6021a2c664d3488dc3bc763553ce1a83c"
+  },
+  "execution_access": "require_escalated",
+  "start_utc": "2026-09-07T16:44:37.957981+00:00",
+  "host": {
+    "platform": "macOS-26.6.2-arm64-arm-64bit",
+    "cpu_count": 10,
+    "load_before": [
+      2.3984375,
+      3.576171875,
+      3.68408203125
+    ],
+    "load_after": [
+      5.62744140625,
+      4.70556640625,
+      4.1640625
+    ]
+  },
+  "settle_observations": [],
+  "cache_posture": "isolated case workspaces; local distributions and prefetched CodeQL packs; OS page cache uncontrolled; warm only for explicit warm series",
+  "supersedes": "codeql-c-kernel-attempt-02",
+  "exit_code": 1,
+  "end_utc": "2026-09-07T16:49:38.856357+00:00",
+  "stdout": {
+    "path": "reports/releases/v0.7.1/attempts/codeql-c-kernel-attempt-03/stdout.txt",
+    "sha256": "e5f4125b7275fa9228693fa24407debffe73f2d0c70624118ccaf5e30dc4e426"
+  },
+  "stderr": {
+    "path": "reports/releases/v0.7.1/attempts/codeql-c-kernel-attempt-03/stderr.txt",
+    "sha256": "9b6cbaeaf633a739a2d604273985990de9a994ebb544dd3e3474b896aee664b3"
+  },
+  "outputs": [
+    {
+      "original_path": "reports/codeql-c-kernel.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-c-kernel-attempt-03/outputs/reports/codeql-c-kernel.json",
+      "sha256": "bf7d2c046e2635a8f79b7b47a9122fa647e9c0b02c43088d860a186fea785986"
+    },
+    {
+      "original_path": "reports/raw/codeql-c-kernel/dfb-taint-c-return-relay-two-hop-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-c-kernel-attempt-03/outputs/reports/raw/codeql-c-kernel/dfb-taint-c-return-relay-two-hop-positive-timing.json",
+      "sha256": "81c1cdbdc80db3984cb3ac302efb4d538c75869b4c4b21b9e66307e12cc6baeb"
+    },
+    {
+      "original_path": "reports/raw/codeql-c-kernel/dfb-taint-c-loop-carried-negative.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-c-kernel-attempt-03/outputs/reports/raw/codeql-c-kernel/dfb-taint-c-loop-carried-negative.sarif.json",
+      "sha256": "444e63d360b5eae5e2ce62748023c09db4e5600cfd72fec059d7d54100af2e69"
+    },
+    {
+      "original_path": "reports/raw/codeql-c-kernel/dfb-taint-c-call-context-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-c-kernel-attempt-03/outputs/reports/raw/codeql-c-kernel/dfb-taint-c-call-context-negative-timing.json",
+      "sha256": "eee2a5c6e70b8372f9494aff28c8790a8558bd0b96d2d72f134f0c1a3dd2167e"
+    },
+    {
+      "original_path": "reports/raw/codeql-c-kernel/dfb-taint-c-branch-join-positive.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-c-kernel-attempt-03/outputs/reports/raw/codeql-c-kernel/dfb-taint-c-branch-join-positive.sarif.json",
+      "sha256": "88ec1b6a4f852633c3df8b81781c3e6850e5c4a7176ac7ca70f30aadb357874b"
+    },
+    {
+      "original_path": "reports/raw/codeql-c-kernel/dfb-taint-c-argument-position-positive.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-c-kernel-attempt-03/outputs/reports/raw/codeql-c-kernel/dfb-taint-c-argument-position-positive.sarif.json",
+      "sha256": "61e61e7c2d1c21bc9b8b86468621cb2f713c949b5df3d9e0ec56015f6ed70e06"
+    },
+    {
+      "original_path": "reports/raw/codeql-c-kernel/dfb-taint-c-call-context-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-c-kernel-attempt-03/outputs/reports/raw/codeql-c-kernel/dfb-taint-c-call-context-positive-timing.json",
+      "sha256": "e4e8bc262a755e1ab0e339c0896f622ad7d923bab051420ca73fd7b93d0adfd8"
+    },
+    {
+      "original_path": "reports/raw/codeql-c-kernel/dfb-taint-c-same-object-field-negative.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-c-kernel-attempt-03/outputs/reports/raw/codeql-c-kernel/dfb-taint-c-same-object-field-negative.sarif.json",
+      "sha256": "54dafe5af23ed4d5743a8decb40888bb9e73f45a182e42fcec1f52c9b718c7a7"
+    },
+    {
+      "original_path": "reports/raw/codeql-c-kernel/dfb-taint-c-dispatch-table-positive.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-c-kernel-attempt-03/outputs/reports/raw/codeql-c-kernel/dfb-taint-c-dispatch-table-positive.sarif.json",
+      "sha256": "5d13a4db211bde140e5b819ad9890750d7ca2a5c41f5b4bf7b20ba522587072f"
+    },
+    {
+      "original_path": "reports/raw/codeql-c-kernel/dfb-taint-c-object-separation-negative.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-c-kernel-attempt-03/outputs/reports/raw/codeql-c-kernel/dfb-taint-c-object-separation-negative.sarif.json",
+      "sha256": "ebd5c6418ae32e8fac25e8dfed3ba5ef42eef8eb72e4bfe0138de0270d4fc474"
+    },
+    {
+      "original_path": "reports/raw/codeql-c-kernel/dfb-taint-c-return-relay-two-hop-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-c-kernel-attempt-03/outputs/reports/raw/codeql-c-kernel/dfb-taint-c-return-relay-two-hop-negative-timing.json",
+      "sha256": "b9768176ba539bf4d2fc490c44bfc9148d878e38bd1e678f9679cdbe19105038"
+    },
+    {
+      "original_path": "reports/raw/codeql-c-kernel/dfb-taint-c-call-context-positive.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-c-kernel-attempt-03/outputs/reports/raw/codeql-c-kernel/dfb-taint-c-call-context-positive.sarif.json",
+      "sha256": "8ee0967d038aed119c484a8490b986ee6e467ac39df6e37bd57dc0d02e2b072f"
+    },
+    {
+      "original_path": "reports/raw/codeql-c-kernel/dfb-taint-c-return-relay-one-hop-negative.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-c-kernel-attempt-03/outputs/reports/raw/codeql-c-kernel/dfb-taint-c-return-relay-one-hop-negative.sarif.json",
+      "sha256": "0e7e25d3da182cceed97b4e7b6b04847d65693b1e48dae19c4083de0c615911f"
+    },
+    {
+      "original_path": "reports/raw/codeql-c-kernel/dfb-taint-c-infeasible-branch-positive.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-c-kernel-attempt-03/outputs/reports/raw/codeql-c-kernel/dfb-taint-c-infeasible-branch-positive.sarif.json",
+      "sha256": "644bfcc9d2dec190c6d302712a1d29d69f508bb20152bcfd97408bea704449a6"
+    },
+    {
+      "original_path": "reports/raw/codeql-c-kernel/dfb-taint-c-same-object-field-positive.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-c-kernel-attempt-03/outputs/reports/raw/codeql-c-kernel/dfb-taint-c-same-object-field-positive.sarif.json",
+      "sha256": "366886590ea3ec582f5319da08e69b79b89f463c2d939702a2fb27437f82df3f"
+    },
+    {
+      "original_path": "reports/raw/codeql-c-kernel/dfb-taint-c-local-chain-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-c-kernel-attempt-03/outputs/reports/raw/codeql-c-kernel/dfb-taint-c-local-chain-negative-timing.json",
+      "sha256": "b9bec70d38aed59e96049293396441aff4754af2ad05890820f760ea6bae2563"
+    },
+    {
+      "original_path": "reports/raw/codeql-c-kernel/dfb-taint-c-object-separation-positive.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-c-kernel-attempt-03/outputs/reports/raw/codeql-c-kernel/dfb-taint-c-object-separation-positive.sarif.json",
+      "sha256": "5a702623d841b06dcc4e1adf40d0ad4c33ba6f9d816c1223df27eb835a2c6fad"
+    },
+    {
+      "original_path": "reports/raw/codeql-c-kernel/dfb-taint-c-dispatch-table-negative.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-c-kernel-attempt-03/outputs/reports/raw/codeql-c-kernel/dfb-taint-c-dispatch-table-negative.sarif.json",
+      "sha256": "a30db50ad249fbae2bcdeb27598fa704439ed29becb34c6471ba099b69d427ac"
+    },
+    {
+      "original_path": "reports/raw/codeql-c-kernel/dfb-taint-c-context-pair-depth2-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-c-kernel-attempt-03/outputs/reports/raw/codeql-c-kernel/dfb-taint-c-context-pair-depth2-positive-timing.json",
+      "sha256": "976805bc853c6a9b9e849f3b431c6914cb29a2c44262e8fddee0c4e5d4d2f716"
+    },
+    {
+      "original_path": "reports/raw/codeql-c-kernel/dfb-taint-c-infeasible-branch-negative.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-c-kernel-attempt-03/outputs/reports/raw/codeql-c-kernel/dfb-taint-c-infeasible-branch-negative.sarif.json",
+      "sha256": "8d16f758eca27166997e2a613b5d95458264feb2051c09a97a61f1c3df40b9aa"
+    },
+    {
+      "original_path": "reports/raw/codeql-c-kernel/dfb-taint-c-call-context-negative.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-c-kernel-attempt-03/outputs/reports/raw/codeql-c-kernel/dfb-taint-c-call-context-negative.sarif.json",
+      "sha256": "e608450a02fa09010539b49e7368b2f21d12e8b1cffbdc43a62f1a61016965db"
+    },
+    {
+      "original_path": "reports/raw/codeql-c-kernel/dfb-taint-c-return-relay-one-hop-positive.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-c-kernel-attempt-03/outputs/reports/raw/codeql-c-kernel/dfb-taint-c-return-relay-one-hop-positive.sarif.json",
+      "sha256": "4bcec110b15c7679b956c0e6249fb6f22b7c41e74767f607a9d213595f232bad"
+    },
+    {
+      "original_path": "reports/raw/codeql-c-kernel/dfb-taint-c-callback-registration-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-c-kernel-attempt-03/outputs/reports/raw/codeql-c-kernel/dfb-taint-c-callback-registration-negative-timing.json",
+      "sha256": "a9e1d6b908c02f199608a1da43d3f136bb4ff2b394ca89c2cdfb6d0f3c8a23e4"
+    },
+    {
+      "original_path": "reports/raw/codeql-c-kernel/dfb-taint-c-nested-access-path-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-c-kernel-attempt-03/outputs/reports/raw/codeql-c-kernel/dfb-taint-c-nested-access-path-negative-timing.json",
+      "sha256": "ed56fd8fbcda06aa92ceb1aeacbda9dfdb4a785e6ddf8f6d2c9f7d9e969912e0"
+    },
+    {
+      "original_path": "reports/raw/codeql-c-kernel/dfb-taint-c-local-chain-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-c-kernel-attempt-03/outputs/reports/raw/codeql-c-kernel/dfb-taint-c-local-chain-positive-timing.json",
+      "sha256": "372f14121cb376dcfa294555d90d043ed17796a198ae0e55a104e1b7f0e45f75"
+    },
+    {
+      "original_path": "reports/raw/codeql-c-kernel/dfb-taint-c-loop-carried-positive.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-c-kernel-attempt-03/outputs/reports/raw/codeql-c-kernel/dfb-taint-c-loop-carried-positive.sarif.json",
+      "sha256": "43a1e4ffc2997f5a8fc0cc4628235abdd3bd2bdfa758cf2f4ed8cca7db54542f"
+    },
+    {
+      "original_path": "reports/raw/codeql-c-kernel/dfb-taint-c-branch-join-negative.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-c-kernel-attempt-03/outputs/reports/raw/codeql-c-kernel/dfb-taint-c-branch-join-negative.sarif.json",
+      "sha256": "0debd2a1617f3935f2ee88a589124f26bafa30a9a08bf52beba3e220e07a242a"
+    },
+    {
+      "original_path": "reports/raw/codeql-c-kernel/dfb-taint-c-nested-access-path-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-c-kernel-attempt-03/outputs/reports/raw/codeql-c-kernel/dfb-taint-c-nested-access-path-positive-timing.json",
+      "sha256": "b5431c18d379b828b0621bbd1ab14baca0e7d25be76cbd04fe01566c0dc0ca60"
+    },
+    {
+      "original_path": "reports/raw/codeql-c-kernel/dfb-taint-c-argument-position-negative.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-c-kernel-attempt-03/outputs/reports/raw/codeql-c-kernel/dfb-taint-c-argument-position-negative.sarif.json",
+      "sha256": "b308daef1af32477248e43b74cc58d67bcaa0c3af66f56dee8f4fcc04c2147b6"
+    },
+    {
+      "original_path": "reports/raw/codeql-c-kernel/dfb-taint-c-callback-registration-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-c-kernel-attempt-03/outputs/reports/raw/codeql-c-kernel/dfb-taint-c-callback-registration-positive-timing.json",
+      "sha256": "41ca8ff72c749c29a6fee9b5a0d7a1b709565728f4baa0738b3494178c60e32a"
+    },
+    {
+      "original_path": "reports/raw/codeql-c-kernel/dfb-taint-c-context-pair-depth2-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-c-kernel-attempt-03/outputs/reports/raw/codeql-c-kernel/dfb-taint-c-context-pair-depth2-negative-timing.json",
+      "sha256": "4b0be9f3331747deb7ac1cdc4db80c5a7b16bac07f6610ecb337dc294d9fb465"
+    },
+    {
+      "original_path": "reports/raw/codeql-c-kernel/dfb-taint-c-deep-relay-chain-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-c-kernel-attempt-03/outputs/reports/raw/codeql-c-kernel/dfb-taint-c-deep-relay-chain-negative-timing.json",
+      "sha256": "e6203baebebc2f9aea8aa359bfc5cac4c5d391653b0a11781e3ce7f5b20c8257"
+    },
+    {
+      "original_path": "reports/raw/codeql-c-kernel/dfb-taint-c-local-overwrite-positive.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-c-kernel-attempt-03/outputs/reports/raw/codeql-c-kernel/dfb-taint-c-local-overwrite-positive.sarif.json",
+      "sha256": "1bd635a6fcfb547c2ace888686c451e8f3f188a6293cd818e211c2157918669f"
+    },
+    {
+      "original_path": "reports/raw/codeql-c-kernel/dfb-taint-c-recursive-carry-positive.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-c-kernel-attempt-03/outputs/reports/raw/codeql-c-kernel/dfb-taint-c-recursive-carry-positive.sarif.json",
+      "sha256": "2fcb5e8d2e51170ab152b3af4a2cce24bb7df7a5e12b89573b85a73a9ba636f6"
+    },
+    {
+      "original_path": "reports/raw/codeql-c-kernel/dfb-taint-c-error-code-return-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-c-kernel-attempt-03/outputs/reports/raw/codeql-c-kernel/dfb-taint-c-error-code-return-positive-timing.json",
+      "sha256": "bea7f193ec47b39a238181db09243b23c5b8e487a157d160fec40c192a9c5f49"
+    },
+    {
+      "original_path": "reports/raw/codeql-c-kernel/dfb-taint-c-expression-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-c-kernel-attempt-03/outputs/reports/raw/codeql-c-kernel/dfb-taint-c-expression-positive-timing.json",
+      "sha256": "2087c8a369e1878cb74afb833c004ac2d139e1506d5534f29c783c02ec84cbd1"
+    },
+    {
+      "original_path": "reports/raw/codeql-c-kernel/run-environment.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-c-kernel-attempt-03/outputs/reports/raw/codeql-c-kernel/run-environment.json",
+      "sha256": "3096848cdba9bc210a1fc44666e2266d30cf4e7bb5f0275d76dcc679b1ce6163"
+    },
+    {
+      "original_path": "reports/raw/codeql-c-kernel/dfb-taint-c-deep-relay-chain-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-c-kernel-attempt-03/outputs/reports/raw/codeql-c-kernel/dfb-taint-c-deep-relay-chain-positive-timing.json",
+      "sha256": "d6ab525391ea3d6bc326981480837342328f04fb73eed884b267e0d31ffa2846"
+    },
+    {
+      "original_path": "reports/raw/codeql-c-kernel/dfb-taint-c-callback-registration-negative.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-c-kernel-attempt-03/outputs/reports/raw/codeql-c-kernel/dfb-taint-c-callback-registration-negative.sarif.json",
+      "sha256": "47bfadfb8452d38ee2b78dcc0dacf4126fb205c101c38f0013a321e79cf80d72"
+    },
+    {
+      "original_path": "reports/raw/codeql-c-kernel/dfb-taint-c-goto-cleanup-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-c-kernel-attempt-03/outputs/reports/raw/codeql-c-kernel/dfb-taint-c-goto-cleanup-positive-timing.json",
+      "sha256": "be17efa66687731e8c5217e056a0dc81dea1c48a5e6d5a7896e97d81ddd6306a"
+    },
+    {
+      "original_path": "reports/raw/codeql-c-kernel/dfb-taint-c-expression-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-c-kernel-attempt-03/outputs/reports/raw/codeql-c-kernel/dfb-taint-c-expression-negative-timing.json",
+      "sha256": "6f97d50a2694ea1eb8d21eeb1cf344806282f6d45813b876d1bf70f373dcc8ec"
+    },
+    {
+      "original_path": "reports/raw/codeql-c-kernel/dfb-taint-c-map-iteration-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-c-kernel-attempt-03/outputs/reports/raw/codeql-c-kernel/dfb-taint-c-map-iteration-positive-timing.json",
+      "sha256": "c7a97662cd86ea4bc7eb23279f927bbbf514db1c5ef0f79bcba2010ec597c416"
+    },
+    {
+      "original_path": "reports/raw/codeql-c-kernel/dfb-taint-c-callback-registration-positive.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-c-kernel-attempt-03/outputs/reports/raw/codeql-c-kernel/dfb-taint-c-callback-registration-positive.sarif.json",
+      "sha256": "d45afbeea660b87a1051924564f90ff5f6bd304e323272ab92143f84a5e9719a"
+    },
+    {
+      "original_path": "reports/raw/codeql-c-kernel/dfb-taint-c-recursive-carry-negative.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-c-kernel-attempt-03/outputs/reports/raw/codeql-c-kernel/dfb-taint-c-recursive-carry-negative.sarif.json",
+      "sha256": "430fd39ce7a7c7c36841a0be1f18d85bdfde8bae9d8c4c1ad6824a4b06a311ba"
+    },
+    {
+      "original_path": "reports/raw/codeql-c-kernel/dfb-taint-c-local-overwrite-negative.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-c-kernel-attempt-03/outputs/reports/raw/codeql-c-kernel/dfb-taint-c-local-overwrite-negative.sarif.json",
+      "sha256": "1ec2c3b635bc44405ed8bcf26dd9332ed14508e860949db6e9632a1ad02c3645"
+    },
+    {
+      "original_path": "reports/raw/codeql-c-kernel/dfb-taint-c-map-iteration-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-c-kernel-attempt-03/outputs/reports/raw/codeql-c-kernel/dfb-taint-c-map-iteration-negative-timing.json",
+      "sha256": "f8e7a758c4ea676206b1f15e94e5c3523f4d2806559f34c5342861a4e5683bff"
+    },
+    {
+      "original_path": "reports/raw/codeql-c-kernel/dfb-taint-c-return-relay-one-hop-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-c-kernel-attempt-03/outputs/reports/raw/codeql-c-kernel/dfb-taint-c-return-relay-one-hop-positive-timing.json",
+      "sha256": "450aece178aadc35e965a3082446c32acbfe3defc53fd0cdf4cf31d2e836ae3b"
+    },
+    {
+      "original_path": "reports/raw/codeql-c-kernel/dfb-taint-c-alias-propagation-positive.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-c-kernel-attempt-03/outputs/reports/raw/codeql-c-kernel/dfb-taint-c-alias-propagation-positive.sarif.json",
+      "sha256": "cb6935634bd5399e6342c75abaada39cb238a8df67ff0e20df5b04b4e86623c0"
+    },
+    {
+      "original_path": "reports/raw/codeql-c-kernel/dfb-taint-c-alias-propagation-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-c-kernel-attempt-03/outputs/reports/raw/codeql-c-kernel/dfb-taint-c-alias-propagation-negative-timing.json",
+      "sha256": "cb00d77a9d5bd1c0009f690674c0fcd6931a3364eafe1016bb4b9f36073f0143"
+    },
+    {
+      "original_path": "reports/raw/codeql-c-kernel/dfb-taint-c-deep-relay-chain-positive.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-c-kernel-attempt-03/outputs/reports/raw/codeql-c-kernel/dfb-taint-c-deep-relay-chain-positive.sarif.json",
+      "sha256": "1e7cf2a284b3a644c6b8a8992d05d29eed951116e2a483fd6f87567f9a7a711f"
+    },
+    {
+      "original_path": "reports/raw/codeql-c-kernel/dfb-taint-c-alias-propagation-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-c-kernel-attempt-03/outputs/reports/raw/codeql-c-kernel/dfb-taint-c-alias-propagation-positive-timing.json",
+      "sha256": "854b190695581e4b1235d25cba8680f17623ed1b423cfa258bc4f700e4db34cc"
+    },
+    {
+      "original_path": "reports/raw/codeql-c-kernel/dfb-taint-c-function-field-negative.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-c-kernel-attempt-03/outputs/reports/raw/codeql-c-kernel/dfb-taint-c-function-field-negative.sarif.json",
+      "sha256": "7a28bd92358cd79e0a3b6d15fadbe1be398ede2998552f4dc1646b92f2caf2e5"
+    },
+    {
+      "original_path": "reports/raw/codeql-c-kernel/dfb-taint-c-element-object-positive.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-c-kernel-attempt-03/outputs/reports/raw/codeql-c-kernel/dfb-taint-c-element-object-positive.sarif.json",
+      "sha256": "5d989990d44b9ed97a9ac65598064d7052902be220b924bc90fb092d7fb3bbc9"
+    },
+    {
+      "original_path": "reports/raw/codeql-c-kernel/dfb-taint-c-context-pair-depth2-negative.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-c-kernel-attempt-03/outputs/reports/raw/codeql-c-kernel/dfb-taint-c-context-pair-depth2-negative.sarif.json",
+      "sha256": "35041619e28403a147d312c5a8b6c049a053b9189dbdcb6c6c0c485080f77aa8"
+    },
+    {
+      "original_path": "reports/raw/codeql-c-kernel/dfb-taint-c-expression-positive.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-c-kernel-attempt-03/outputs/reports/raw/codeql-c-kernel/dfb-taint-c-expression-positive.sarif.json",
+      "sha256": "c88c84675c2b6a5396b204dd9dadc656b079fa5dd9b0620ed61340e17f5e45ef"
+    },
+    {
+      "original_path": "reports/raw/codeql-c-kernel/dfb-taint-c-return-relay-one-hop-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-c-kernel-attempt-03/outputs/reports/raw/codeql-c-kernel/dfb-taint-c-return-relay-one-hop-negative-timing.json",
+      "sha256": "a4e877a20d849da968ce72fc065b504a67f5bf459e6d0e17b81b4749fa63a70f"
+    },
+    {
+      "original_path": "reports/raw/codeql-c-kernel/dfb-taint-c-local-chain-positive.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-c-kernel-attempt-03/outputs/reports/raw/codeql-c-kernel/dfb-taint-c-local-chain-positive.sarif.json",
+      "sha256": "272dbcdfc5c868a22bf121f5397d1e1bc98e284c30db7186ddf451ace223601f"
+    },
+    {
+      "original_path": "reports/raw/codeql-c-kernel/dfb-taint-c-array-element-negative.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-c-kernel-attempt-03/outputs/reports/raw/codeql-c-kernel/dfb-taint-c-array-element-negative.sarif.json",
+      "sha256": "33de992a378c7d89ce9663ce7eaddb5b637bd49ef2c775867f8a4dfefee1ce3c"
+    },
+    {
+      "original_path": "reports/raw/codeql-c-kernel/dfb-taint-c-element-object-negative.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-c-kernel-attempt-03/outputs/reports/raw/codeql-c-kernel/dfb-taint-c-element-object-negative.sarif.json",
+      "sha256": "81a4f768c598a199335879af3c1288d8602df001f269fc02f3908a9ce90a178f"
+    },
+    {
+      "original_path": "reports/raw/codeql-c-kernel/dfb-taint-c-object-separation-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-c-kernel-attempt-03/outputs/reports/raw/codeql-c-kernel/dfb-taint-c-object-separation-positive-timing.json",
+      "sha256": "be6d71aa1fc2b04e5945ea76a31604200bd4b91f59026383e747baef339d3310"
+    },
+    {
+      "original_path": "reports/raw/codeql-c-kernel/dfb-taint-c-same-object-field-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-c-kernel-attempt-03/outputs/reports/raw/codeql-c-kernel/dfb-taint-c-same-object-field-positive-timing.json",
+      "sha256": "34a4db41d9bbba674fd5afb6e07228557bf62ff088dd2d18f65ea47052e8b1ed"
+    },
+    {
+      "original_path": "reports/raw/codeql-c-kernel/dfb-taint-c-function-field-positive.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-c-kernel-attempt-03/outputs/reports/raw/codeql-c-kernel/dfb-taint-c-function-field-positive.sarif.json",
+      "sha256": "be8f92ec86f944ee7ed877d6fe40008362648a0c407918017f4ca00c5db858c8"
+    },
+    {
+      "original_path": "reports/raw/codeql-c-kernel/dfb-taint-c-local-chain-negative.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-c-kernel-attempt-03/outputs/reports/raw/codeql-c-kernel/dfb-taint-c-local-chain-negative.sarif.json",
+      "sha256": "c6afb02813672cde01ab57e6a930b534f733aadbe8d74c03ec71c94173fb5a53"
+    },
+    {
+      "original_path": "reports/raw/codeql-c-kernel/dfb-taint-c-context-pair-depth2-positive.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-c-kernel-attempt-03/outputs/reports/raw/codeql-c-kernel/dfb-taint-c-context-pair-depth2-positive.sarif.json",
+      "sha256": "4a9878edaab74567049cedc3f68fc1fbc40e428f341f88d6bcf9d72160c47431"
+    },
+    {
+      "original_path": "reports/raw/codeql-c-kernel/dfb-taint-c-expression-negative.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-c-kernel-attempt-03/outputs/reports/raw/codeql-c-kernel/dfb-taint-c-expression-negative.sarif.json",
+      "sha256": "11c5928340383eda28c792bfdb801d2fc697aaa105d2664f424c5fa8ddd99606"
+    },
+    {
+      "original_path": "reports/raw/codeql-c-kernel/dfb-taint-c-element-object-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-c-kernel-attempt-03/outputs/reports/raw/codeql-c-kernel/dfb-taint-c-element-object-positive-timing.json",
+      "sha256": "1b0e80587543aeb0f2e1bbc14e46f7793aed908967d7e845011b8cfe9880d461"
+    },
+    {
+      "original_path": "reports/raw/codeql-c-kernel/dfb-taint-c-loop-carried-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-c-kernel-attempt-03/outputs/reports/raw/codeql-c-kernel/dfb-taint-c-loop-carried-negative-timing.json",
+      "sha256": "444c38ba72ee88e8fecb065c746f57ce6caefb96371de26854fe8720b279ca94"
+    },
+    {
+      "original_path": "reports/raw/codeql-c-kernel/dfb-taint-c-array-element-positive.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-c-kernel-attempt-03/outputs/reports/raw/codeql-c-kernel/dfb-taint-c-array-element-positive.sarif.json",
+      "sha256": "a737a7e52d9693e5440d7e21a7502cae3452f528cae6560656d7fa8e00136471"
+    },
+    {
+      "original_path": "reports/raw/codeql-c-kernel/dfb-taint-c-alias-propagation-negative.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-c-kernel-attempt-03/outputs/reports/raw/codeql-c-kernel/dfb-taint-c-alias-propagation-negative.sarif.json",
+      "sha256": "1683e685f6e38274b61620e20e83dfc9483554b93203868d86822ef3985a82b2"
+    },
+    {
+      "original_path": "reports/raw/codeql-c-kernel/dfb-taint-c-object-separation-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-c-kernel-attempt-03/outputs/reports/raw/codeql-c-kernel/dfb-taint-c-object-separation-negative-timing.json",
+      "sha256": "b7ddd7336a92f6fcd5ff634dd5ef0c2b1679f58c2b7c77344184884ebe2f8d7b"
+    },
+    {
+      "original_path": "reports/raw/codeql-c-kernel/dfb-taint-c-same-object-field-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-c-kernel-attempt-03/outputs/reports/raw/codeql-c-kernel/dfb-taint-c-same-object-field-negative-timing.json",
+      "sha256": "d076a2d2a209e6bebb0cfce77a9018d75aead4ce18316297c71d26b383ac0c43"
+    },
+    {
+      "original_path": "reports/raw/codeql-c-kernel/dfb-taint-c-deep-relay-chain-negative.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-c-kernel-attempt-03/outputs/reports/raw/codeql-c-kernel/dfb-taint-c-deep-relay-chain-negative.sarif.json",
+      "sha256": "e3821426defc7e9b361ca34a8ddff363ee4f19a02b8b3b2d7ba8c8886ecb0307"
+    },
+    {
+      "original_path": "reports/raw/codeql-c-kernel/dfb-taint-c-loop-carried-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-c-kernel-attempt-03/outputs/reports/raw/codeql-c-kernel/dfb-taint-c-loop-carried-positive-timing.json",
+      "sha256": "38be2eae0fa5034d2c6658c26a74564d3b18d17b8a870d2c949a92a6d9b29d58"
+    },
+    {
+      "original_path": "reports/raw/codeql-c-kernel/dfb-taint-c-element-object-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-c-kernel-attempt-03/outputs/reports/raw/codeql-c-kernel/dfb-taint-c-element-object-negative-timing.json",
+      "sha256": "0657c4e494f478d5809a32ad16baf6306bcc91c26496e5cac2183ecf61b4e0bf"
+    },
+    {
+      "original_path": "reports/raw/codeql-c-kernel/dfb-taint-c-branch-join-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-c-kernel-attempt-03/outputs/reports/raw/codeql-c-kernel/dfb-taint-c-branch-join-negative-timing.json",
+      "sha256": "9d844f8e737bd2161f9565fab47538e759cd69dd5bb2e52e98d1ee06cc70ea44"
+    },
+    {
+      "original_path": "reports/raw/codeql-c-kernel/dfb-taint-c-recursive-carry-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-c-kernel-attempt-03/outputs/reports/raw/codeql-c-kernel/dfb-taint-c-recursive-carry-negative-timing.json",
+      "sha256": "6cff1565a8dd3eef962ec6464db9dd6939e8e7ee1788fed21f62bd24336c4bea"
+    },
+    {
+      "original_path": "reports/raw/codeql-c-kernel/dfb-taint-c-nested-access-path-positive.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-c-kernel-attempt-03/outputs/reports/raw/codeql-c-kernel/dfb-taint-c-nested-access-path-positive.sarif.json",
+      "sha256": "a85c9e2e3d9422447cdedc62f7f576551781711d57f85265960298b6ee6ba3b9"
+    },
+    {
+      "original_path": "reports/raw/codeql-c-kernel/dfb-taint-c-return-relay-two-hop-negative.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-c-kernel-attempt-03/outputs/reports/raw/codeql-c-kernel/dfb-taint-c-return-relay-two-hop-negative.sarif.json",
+      "sha256": "c3d74d073a5dcea10bd989a5c369769044f82f7b4132fb5d383fcc26933a64df"
+    },
+    {
+      "original_path": "reports/raw/codeql-c-kernel/dfb-taint-c-branch-join-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-c-kernel-attempt-03/outputs/reports/raw/codeql-c-kernel/dfb-taint-c-branch-join-positive-timing.json",
+      "sha256": "6f3e694f07f48ab8f0a8c7d5eced94b0da96098be37a49a9dfeb5c8c87154944"
+    },
+    {
+      "original_path": "reports/raw/codeql-c-kernel/dfb-taint-c-direct-negative.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-c-kernel-attempt-03/outputs/reports/raw/codeql-c-kernel/dfb-taint-c-direct-negative.sarif.json",
+      "sha256": "693ca66cad618615f313ced93230252916080a0fb9c4bfa1e9ea492b65c49577"
+    },
+    {
+      "original_path": "reports/raw/codeql-c-kernel/dfb-taint-c-recursive-carry-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-c-kernel-attempt-03/outputs/reports/raw/codeql-c-kernel/dfb-taint-c-recursive-carry-positive-timing.json",
+      "sha256": "68e7fc9c747ee51f30793064c18460bcb18e9b5e54cf63657147747b01baa83f"
+    },
+    {
+      "original_path": "reports/raw/codeql-c-kernel/dfb-taint-c-map-iteration-negative.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-c-kernel-attempt-03/outputs/reports/raw/codeql-c-kernel/dfb-taint-c-map-iteration-negative.sarif.json",
+      "sha256": "e3174090f9b4be614f2d3264fee090624d8ac5cdd46ebc50700e38b63acfc1f9"
+    },
+    {
+      "original_path": "reports/raw/codeql-c-kernel/dfb-taint-c-array-element-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-c-kernel-attempt-03/outputs/reports/raw/codeql-c-kernel/dfb-taint-c-array-element-positive-timing.json",
+      "sha256": "3c1c7f2597c2bde62469ea7448737267c991b73240969853837c8042405b6701"
+    },
+    {
+      "original_path": "reports/raw/codeql-c-kernel/dfb-taint-c-function-field-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-c-kernel-attempt-03/outputs/reports/raw/codeql-c-kernel/dfb-taint-c-function-field-negative-timing.json",
+      "sha256": "eb25c7488fd9a265c23a79d4f19c5725a9bda907874413b6a060a94eb263b114"
+    },
+    {
+      "original_path": "reports/raw/codeql-c-kernel/dfb-taint-c-dispatch-table-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-c-kernel-attempt-03/outputs/reports/raw/codeql-c-kernel/dfb-taint-c-dispatch-table-negative-timing.json",
+      "sha256": "c8cb23d52c081ac3956d4465559cf41a5ba4dc424a53e435139230de8561cde0"
+    },
+    {
+      "original_path": "reports/raw/codeql-c-kernel/dfb-taint-c-local-overwrite-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-c-kernel-attempt-03/outputs/reports/raw/codeql-c-kernel/dfb-taint-c-local-overwrite-positive-timing.json",
+      "sha256": "c5a2e1761d08c274eb66b8ac8c178b23699555c9072cce2855b566f25b435923"
+    },
+    {
+      "original_path": "reports/raw/codeql-c-kernel/dfb-taint-c-direct-positive.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-c-kernel-attempt-03/outputs/reports/raw/codeql-c-kernel/dfb-taint-c-direct-positive.sarif.json",
+      "sha256": "7faa97364665f297b84dd23daccef6e3e63be8f45e5aa0c310f91c15e9e77d2f"
+    },
+    {
+      "original_path": "reports/raw/codeql-c-kernel/dfb-taint-c-argument-position-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-c-kernel-attempt-03/outputs/reports/raw/codeql-c-kernel/dfb-taint-c-argument-position-negative-timing.json",
+      "sha256": "fb9e00280b1ab20cdfdde80aca2994a4dc596668de9e1cf69d0b79ee05a3640a"
+    },
+    {
+      "original_path": "reports/raw/codeql-c-kernel/dfb-taint-c-goto-cleanup-positive.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-c-kernel-attempt-03/outputs/reports/raw/codeql-c-kernel/dfb-taint-c-goto-cleanup-positive.sarif.json",
+      "sha256": "4eca6eea679a71d3b779c4bbad1c498a2e11aa3155b5336593df334d515f77c8"
+    },
+    {
+      "original_path": "reports/raw/codeql-c-kernel/dfb-taint-c-direct-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-c-kernel-attempt-03/outputs/reports/raw/codeql-c-kernel/dfb-taint-c-direct-negative-timing.json",
+      "sha256": "f0f872e4929fe048e9683c63bf49a10e1847899734ac4da2ef9ea16ef4de6c73"
+    },
+    {
+      "original_path": "reports/raw/codeql-c-kernel/dfb-taint-c-map-iteration-positive.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-c-kernel-attempt-03/outputs/reports/raw/codeql-c-kernel/dfb-taint-c-map-iteration-positive.sarif.json",
+      "sha256": "4985df53b1954503d2588c53f82da210d27da569ec084492ec53814c3ffb8665"
+    },
+    {
+      "original_path": "reports/raw/codeql-c-kernel/dfb-taint-c-error-code-return-positive.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-c-kernel-attempt-03/outputs/reports/raw/codeql-c-kernel/dfb-taint-c-error-code-return-positive.sarif.json",
+      "sha256": "35dc3f86d7ed6a2332a9c08ccf1b2e4cec6f95001a4cccc13e57561a7eda1a9c"
+    },
+    {
+      "original_path": "reports/raw/codeql-c-kernel/dfb-taint-c-infeasible-branch-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-c-kernel-attempt-03/outputs/reports/raw/codeql-c-kernel/dfb-taint-c-infeasible-branch-negative-timing.json",
+      "sha256": "33f6ace71836b05e4fe3e0638eca533cba46ec121ce4a9d82bc5402735291444"
+    },
+    {
+      "original_path": "reports/raw/codeql-c-kernel/dfb-taint-c-argument-position-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-c-kernel-attempt-03/outputs/reports/raw/codeql-c-kernel/dfb-taint-c-argument-position-positive-timing.json",
+      "sha256": "80491c32e36ea4e69874ab163d3e359fbb448bbb8d89f44930b6937199435583"
+    },
+    {
+      "original_path": "reports/raw/codeql-c-kernel/dfb-taint-c-dispatch-table-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-c-kernel-attempt-03/outputs/reports/raw/codeql-c-kernel/dfb-taint-c-dispatch-table-positive-timing.json",
+      "sha256": "28272832dc3726f55e4df2154d27ebecdf0a3c3fb15b8940b4013554940e26f7"
+    },
+    {
+      "original_path": "reports/raw/codeql-c-kernel/dfb-taint-c-local-overwrite-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-c-kernel-attempt-03/outputs/reports/raw/codeql-c-kernel/dfb-taint-c-local-overwrite-negative-timing.json",
+      "sha256": "8b04094987024199f38710a5c1066d07eee4a4f5a732c3bf8b2c462093454f99"
+    },
+    {
+      "original_path": "reports/raw/codeql-c-kernel/dfb-taint-c-array-element-negative-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-c-kernel-attempt-03/outputs/reports/raw/codeql-c-kernel/dfb-taint-c-array-element-negative-timing.json",
+      "sha256": "44157414eb2c9a0525d7ded20a75a3208802c2aa36878206b71139dfa6c7ad25"
+    },
+    {
+      "original_path": "reports/raw/codeql-c-kernel/dfb-taint-c-function-field-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-c-kernel-attempt-03/outputs/reports/raw/codeql-c-kernel/dfb-taint-c-function-field-positive-timing.json",
+      "sha256": "407a65eb69ed21a98b950252ca2fbb4b5b7cb64404ddba705fca6ddef69207de"
+    },
+    {
+      "original_path": "reports/raw/codeql-c-kernel/dfb-taint-c-infeasible-branch-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-c-kernel-attempt-03/outputs/reports/raw/codeql-c-kernel/dfb-taint-c-infeasible-branch-positive-timing.json",
+      "sha256": "b5e27fbee5a36ea61a02d7d73cc6b6b659cc96d818be2a9539acd82107e059bf"
+    },
+    {
+      "original_path": "reports/raw/codeql-c-kernel/dfb-taint-c-nested-access-path-negative.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-c-kernel-attempt-03/outputs/reports/raw/codeql-c-kernel/dfb-taint-c-nested-access-path-negative.sarif.json",
+      "sha256": "3a88f4061039e09aaa1677b3af5d20e663b0be21ef0432fc2c9017ac94143c7b"
+    },
+    {
+      "original_path": "reports/raw/codeql-c-kernel/dfb-taint-c-return-relay-two-hop-positive.sarif.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-c-kernel-attempt-03/outputs/reports/raw/codeql-c-kernel/dfb-taint-c-return-relay-two-hop-positive.sarif.json",
+      "sha256": "c1840ea74f62328972df4fba79476a93b392fae43b1048102501f8c1d62f6627"
+    },
+    {
+      "original_path": "reports/raw/codeql-c-kernel/dfb-taint-c-direct-positive-timing.json",
+      "path": "reports/releases/v0.7.1/attempts/codeql-c-kernel-attempt-03/outputs/reports/raw/codeql-c-kernel/dfb-taint-c-direct-positive-timing.json",
+      "sha256": "5eb83f8087837bc8f403f0f3e69c157e30d538b7ab08f12ae5bd24e6a5c717a8"
+    }
+  ],
+  "expected_output_roots": [
+    "reports/codeql-c-kernel.json",
+    "reports/raw/codeql-c-kernel"
+  ],
+  "missing_fresh_output_roots": [],
+  "removed_paths": [
+    "reports/raw/codeql-c-kernel/dfb-taint-c-alias-propagation-negative-error.json",
+    "reports/raw/codeql-c-kernel/dfb-taint-c-alias-propagation-positive-error.json",
+    "reports/raw/codeql-c-kernel/dfb-taint-c-argument-position-negative-error.json",
+    "reports/raw/codeql-c-kernel/dfb-taint-c-argument-position-positive-error.json",
+    "reports/raw/codeql-c-kernel/dfb-taint-c-array-element-negative-error.json",
+    "reports/raw/codeql-c-kernel/dfb-taint-c-array-element-positive-error.json",
+    "reports/raw/codeql-c-kernel/dfb-taint-c-branch-join-negative-error.json",
+    "reports/raw/codeql-c-kernel/dfb-taint-c-branch-join-positive-error.json",
+    "reports/raw/codeql-c-kernel/dfb-taint-c-call-context-negative-error.json",
+    "reports/raw/codeql-c-kernel/dfb-taint-c-call-context-positive-error.json",
+    "reports/raw/codeql-c-kernel/dfb-taint-c-callback-registration-negative-error.json",
+    "reports/raw/codeql-c-kernel/dfb-taint-c-callback-registration-positive-error.json",
+    "reports/raw/codeql-c-kernel/dfb-taint-c-context-pair-depth2-negative-error.json",
+    "reports/raw/codeql-c-kernel/dfb-taint-c-context-pair-depth2-positive-error.json",
+    "reports/raw/codeql-c-kernel/dfb-taint-c-deep-relay-chain-negative-error.json",
+    "reports/raw/codeql-c-kernel/dfb-taint-c-deep-relay-chain-positive-error.json",
+    "reports/raw/codeql-c-kernel/dfb-taint-c-direct-negative-error.json",
+    "reports/raw/codeql-c-kernel/dfb-taint-c-direct-positive-error.json",
+    "reports/raw/codeql-c-kernel/dfb-taint-c-dispatch-table-negative-error.json",
+    "reports/raw/codeql-c-kernel/dfb-taint-c-dispatch-table-positive-error.json",
+    "reports/raw/codeql-c-kernel/dfb-taint-c-element-object-negative-error.json",
+    "reports/raw/codeql-c-kernel/dfb-taint-c-element-object-positive-error.json",
+    "reports/raw/codeql-c-kernel/dfb-taint-c-error-code-return-positive-error.json",
+    "reports/raw/codeql-c-kernel/dfb-taint-c-expression-negative-error.json",
+    "reports/raw/codeql-c-kernel/dfb-taint-c-expression-positive-error.json",
+    "reports/raw/codeql-c-kernel/dfb-taint-c-function-field-negative-error.json",
+    "reports/raw/codeql-c-kernel/dfb-taint-c-function-field-positive-error.json",
+    "reports/raw/codeql-c-kernel/dfb-taint-c-goto-cleanup-positive-error.json",
+    "reports/raw/codeql-c-kernel/dfb-taint-c-infeasible-branch-negative-error.json",
+    "reports/raw/codeql-c-kernel/dfb-taint-c-infeasible-branch-positive-error.json",
+    "reports/raw/codeql-c-kernel/dfb-taint-c-local-chain-negative-error.json",
+    "reports/raw/codeql-c-kernel/dfb-taint-c-local-chain-positive-error.json",
+    "reports/raw/codeql-c-kernel/dfb-taint-c-local-overwrite-negative-error.json",
+    "reports/raw/codeql-c-kernel/dfb-taint-c-local-overwrite-positive-error.json",
+    "reports/raw/codeql-c-kernel/dfb-taint-c-loop-carried-negative-error.json",
+    "reports/raw/codeql-c-kernel/dfb-taint-c-loop-carried-positive-error.json",
+    "reports/raw/codeql-c-kernel/dfb-taint-c-map-iteration-negative-error.json",
+    "reports/raw/codeql-c-kernel/dfb-taint-c-map-iteration-positive-error.json",
+    "reports/raw/codeql-c-kernel/dfb-taint-c-nested-access-path-negative-error.json",
+    "reports/raw/codeql-c-kernel/dfb-taint-c-nested-access-path-positive-error.json",
+    "reports/raw/codeql-c-kernel/dfb-taint-c-object-separation-negative-error.json",
+    "reports/raw/codeql-c-kernel/dfb-taint-c-object-separation-positive-error.json",
+    "reports/raw/codeql-c-kernel/dfb-taint-c-recursive-carry-negative-error.json",
+    "reports/raw/codeql-c-kernel/dfb-taint-c-recursive-carry-positive-error.json",
+    "reports/raw/codeql-c-kernel/dfb-taint-c-return-relay-one-hop-negative-error.json",
+    "reports/raw/codeql-c-kernel/dfb-taint-c-return-relay-one-hop-positive-error.json",
+    "reports/raw/codeql-c-kernel/dfb-taint-c-return-relay-two-hop-negative-error.json",
+    "reports/raw/codeql-c-kernel/dfb-taint-c-return-relay-two-hop-positive-error.json",
+    "reports/raw/codeql-c-kernel/dfb-taint-c-same-object-field-negative-error.json",
+    "reports/raw/codeql-c-kernel/dfb-taint-c-same-object-field-positive-error.json"
+  ]
+}
