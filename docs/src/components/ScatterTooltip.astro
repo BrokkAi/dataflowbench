@@ -1,0 +1,87 @@
+<div class="scatter-tooltip" aria-hidden="true"></div>
+
+<script>
+  function initializeScatterTooltips() {
+    for (const frame of document.querySelectorAll<HTMLElement>('[data-scatter-frame]')) {
+      if (frame.dataset.scatterTooltipReady === 'true') continue;
+
+      const tooltip = frame.querySelector<HTMLElement>('.scatter-tooltip');
+      if (!tooltip) continue;
+      frame.dataset.scatterTooltipReady = 'true';
+
+      const show = (point: HTMLElement | SVGElement, clientX?: number, clientY?: number) => {
+        const content = point.dataset.tooltip;
+        if (!content) return;
+
+        tooltip.textContent = content;
+        tooltip.dataset.visible = 'true';
+
+        const frameRect = frame.getBoundingClientRect();
+        const pointRect = point.getBoundingClientRect();
+        const x = clientX ?? pointRect.left + pointRect.width / 2;
+        const y = clientY ?? pointRect.top;
+        const viewportX = x - frameRect.left;
+        const halfWidth = tooltip.offsetWidth / 2;
+        const clampedX = Math.min(
+          frame.clientWidth - halfWidth - 8,
+          Math.max(halfWidth + 8, viewportX),
+        );
+        const viewportY = y - frameRect.top;
+        tooltip.dataset.placement = viewportY < tooltip.offsetHeight + 16 ? 'below' : 'above';
+        tooltip.style.left = `${clampedX + frame.scrollLeft}px`;
+        tooltip.style.top = `${viewportY + frame.scrollTop}px`;
+      };
+
+      const hide = () => {
+        delete tooltip.dataset.visible;
+      };
+
+      frame.addEventListener('pointerover', (event) => {
+        const point = (event.target as Element).closest<HTMLElement | SVGElement>('[data-tooltip]');
+        if (point && frame.contains(point)) show(point, event.clientX, event.clientY);
+      });
+      frame.addEventListener('pointermove', (event) => {
+        const point = (event.target as Element).closest<HTMLElement | SVGElement>('[data-tooltip]');
+        if (point && frame.contains(point)) show(point, event.clientX, event.clientY);
+      });
+      frame.addEventListener('pointerout', (event) => {
+        const point = (event.target as Element).closest<HTMLElement | SVGElement>('[data-tooltip]');
+        const next = event.relatedTarget;
+        if (point && (!(next instanceof Node) || !point.contains(next))) hide();
+      });
+      frame.addEventListener('focusin', (event) => {
+        const point = (event.target as Element).closest<HTMLElement | SVGElement>('[data-tooltip]');
+        if (point && frame.contains(point)) show(point);
+      });
+      frame.addEventListener('focusout', (event) => {
+        const point = (event.target as Element).closest<HTMLElement | SVGElement>('[data-tooltip]');
+        const next = event.relatedTarget;
+        if (point && (!(next instanceof Node) || !point.contains(next))) hide();
+      });
+    }
+  }
+
+  initializeScatterTooltips();
+  document.addEventListener('astro:page-load', initializeScatterTooltips);
+</script>
+
+<style>
+  .scatter-tooltip {
+    position: absolute;
+    z-index: 2;
+    box-sizing: border-box;
+    max-width: min(22rem, calc(100% - 1rem));
+    padding: .35rem .5rem;
+    color: var(--sl-color-text);
+    background: var(--sl-color-bg);
+    border-radius: .25rem;
+    font-family: var(--__sl-font-mono);
+    font-size: 11px;
+    line-height: 1.35;
+    opacity: 0;
+    pointer-events: none;
+    transform: translate(-50%, calc(-100% - .65rem));
+  }
+  .scatter-tooltip[data-placement='below'] { transform: translate(-50%, .65rem); }
+  .scatter-tooltip[data-visible='true'] { opacity: 1; }
+</style>

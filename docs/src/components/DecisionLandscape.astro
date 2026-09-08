@@ -11,6 +11,7 @@ import {
   vendorName,
   vendorOrder,
 } from '../data/snapshots';
+import ScatterTooltip from './ScatterTooltip.astro';
 
 interface Point {
   tool: string;
@@ -114,7 +115,7 @@ const toggleCss = panels.map((panel) => `
   </div>
   <div class="decision-panels">
     {panels.map((panel) => <section class="decision-panel" id={`decision-panel-${panel.id}`}>
-      <div class="chart-frame">
+      <div class="chart-frame" data-scatter-frame>
         <svg class="decision-chart" viewBox={`0 0 ${width} ${height}`} role="img" aria-labelledby={`decision-title-${panel.id} decision-desc-${panel.id}`}>
           <title id={`decision-title-${panel.id}`}>{panel.label} analyzer decisiveness and correctness</title>
           <desc id={`decision-desc-${panel.id}`}>Scatter plot for {panel.label}. The horizontal axis is decisive answers divided by {panel.denominator} assertions. The vertical axis is correct answers divided by decisive answers.</desc>
@@ -135,13 +136,14 @@ const toggleCss = panels.map((panel) => `
             const pointX = x(decided, panel.denominator);
             const pointY = y(point.correct, decided);
             const offset = labelOffsets[point.tool] ?? { x: 9, y: -9 };
-            return <g class:list={['analyzer', point.colorClass]}>
-              <title>{point.name}: {formatPercent(percent(decided, panel.denominator))} decisive ({decided}/{panel.denominator}); {formatPercent(percent(point.correct, decided))} correct among decisions ({point.correct}/{decided}); {panel.denominator - decided} unanswered</title>
+            const tooltip = `${point.name} — x: ${formatPercent(percent(decided, panel.denominator))} decisiveness (${decided}/${panel.denominator}) · y: ${formatPercent(percent(point.correct, decided))} correctness (${point.correct}/${decided})`;
+            return <g class:list={['analyzer', point.colorClass]} tabindex="0" role="img" aria-label={tooltip} data-tooltip={tooltip}>
               <circle class="point" cx={pointX} cy={pointY} r="7" />
               <text class="point-label" x={pointX + offset.x} y={pointY + offset.y} text-anchor={offset.anchor ?? 'start'}>{point.name}</text>
             </g>;
           })}
         </svg>
+        <ScatterTooltip />
       </div>
       <p class="view-note">
         {panel.id === 'overall'
@@ -176,7 +178,7 @@ const toggleCss = panels.map((panel) => `
   .decision-ribbon label { display: inline-flex; align-items: center; justify-content: center; flex: 0 0 auto; box-sizing: border-box; height: 2.5rem; margin: 0 !important; padding: 0 .65rem; border: 1px solid transparent; border-radius: .45rem; cursor: pointer; color: var(--sl-color-gray-2); font-size: var(--sl-text-sm); line-height: 1; }
   .decision-ribbon, .decision-panels, .decision-panel, .decision-panel > :first-child { margin-top: 0; }
   .decision-panel { display: none; }
-  .chart-frame { min-width: 0; border: 1px solid var(--sl-color-hairline); border-radius: .75rem; padding: .75rem .5rem .25rem; background: var(--sl-color-bg-sidebar); overflow: hidden; }
+  .chart-frame { position: relative; min-width: 0; border: 1px solid var(--sl-color-hairline); border-radius: .75rem; padding: .75rem .5rem .25rem; background: var(--sl-color-bg-sidebar); overflow: hidden; }
   .decision-chart { display: block; width: 100%; max-width: 100%; min-width: 0; height: auto; }
   .grid { stroke: var(--sl-color-hairline); stroke-width: 1; }
   .grid.vertical { stroke-dasharray: 3 5; }
@@ -184,6 +186,8 @@ const toggleCss = panels.map((panel) => `
   .tick, .axis-title { font-family: var(--__sl-font-mono); font-size: 11px; fill: var(--sl-color-gray-3); }
   .axis-title { font-size: 12px; }
   .point { fill: var(--vendor-rule); stroke: var(--sl-color-bg-sidebar); stroke-width: 2; }
+  .analyzer { cursor: default; outline: none; }
+  .analyzer:is(:hover, :focus-visible) .point { stroke: var(--sl-color-text); stroke-width: 3; }
   .point-label { font-family: var(--__sl-font-mono); font-size: 12px; font-weight: 650; fill: var(--vendor-rule); paint-order: stroke; stroke: var(--sl-color-bg-sidebar); stroke-width: 4px; stroke-linejoin: round; }
   .view-note { margin: .65rem 0 0; color: var(--sl-color-gray-3); font-size: var(--sl-text-sm); }
   .decision-data { margin-top: .65rem; }
