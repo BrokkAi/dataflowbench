@@ -1,0 +1,24 @@
+rules:
+  - id: java-servlet-unvalidated-redirect-sinks
+    options:
+      lib: true
+    tags:
+      - servlet-unvalidated-redirect-sink
+    severity: NOTE
+    message: Potential redirect to an untrusted URL
+    metadata:
+      provenance: https://gitlab.com/gitlab-org/security-products/sast-rules/-/blob/main/java/endpoint/rule-UnvalidatedRedirect.yml
+    languages:
+      - java
+    mode: taint
+    pattern-sinks:
+      - patterns:
+          - pattern: (HttpServletResponse $RES).sendRedirect($URL);
+          - focus-metavariable: $URL
+      - patterns:
+          - pattern: (HttpServletResponse $RES).addHeader("Location", $URL);
+          - focus-metavariable: $URL
+    pattern-sanitizers:
+      - patterns:
+        - pattern: $URL = (HttpServletRequest $REQ).getContextPath();
+        - focus-metavariable: $URL

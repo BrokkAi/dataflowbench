@@ -1,0 +1,125 @@
+rules:
+  - id: http-response-splitting
+    severity: WARNING
+    message: >-
+      Older Java application servers are vulnerable to HTTP response splitting, which
+      may occur if an HTTP request can be injected with CRLF characters.
+    metadata:
+      cwe:
+        - CWE-113
+      short-description: HTTP response splitting
+      full-description: |-
+        HTTP response splitting occurs when untrusted input reaches response-header APIs
+        (`setHeader`, `addHeader`, cookie value operations) without CR/LF neutralization.
+
+        Vulnerable example:
+
+        ```java
+        import javax.servlet.http.HttpServletResponse;
+
+        public class HeaderService {
+            public void writeHeader(HttpServletResponse response, String valueFromRequest) {
+                // valueFromRequest is untrusted
+                response.setHeader("X-User", valueFromRequest); // VULNERABLE
+            }
+        }
+        ```
+
+        Safe example:
+
+        ```java
+        import javax.servlet.http.HttpServletResponse;
+
+        public class HeaderService {
+            public void writeHeader(HttpServletResponse response, String valueFromRequest) {
+                String safe = valueFromRequest == null ? "" : valueFromRequest.replaceAll("[\\r\\n]", "");
+                response.setHeader("X-User", safe);
+            }
+        }
+        ```
+
+        Key vulnerable patterns covered by this rule include `HttpServletResponse.setHeader/addHeader`,
+        response-wrapper header operations, and cookie value construction with tainted data.
+      references:
+        - https://owasp.org/www-community/attacks/HTTP_Response_Splitting
+        - https://en.wikipedia.org/wiki/HTTP_response_splitting
+      license: MIT
+      provenance: https://gitlab.com/gitlab-org/security-products/sast-rules/-/blob/main/java/cookie/rule-HttpResponseSplitting.yml
+    languages:
+      - java
+    mode: join
+    join:
+      refs:
+        - tag: servlet-untrusted-data-source
+          as: servlet-untrusted-data
+        - tag: spring-untrusted-data-source
+          as: spring-untrusted-data
+        - tag: http-response-splitting-sink
+          as: sink
+      on:
+        - 'servlet-untrusted-data.$UNTRUSTED -> sink.$UNTRUSTED'
+        - 'spring-untrusted-data.$UNTRUSTED -> sink.$UNTRUSTED'
+
+  - id: smtp-crlf-injection
+    severity: ERROR
+    message: >-
+      CRLF injection into SMTP message:
+      the application was found calling `MimeMessage` methods without encoding
+      new line characters. Much like HTTP, Simple Mail Transfer Protocol (SMTP) is a
+      text based protocol that uses headers to convey additional directives for how
+      email messages should be treated. An adversary could cause email
+      messages to be sent to unintended recipients by abusing the CC or BCC headers
+      if they were able to inject them.
+    metadata:
+      cwe: CWE-77
+      short-description: CRLF injection into SMTP message
+      full-description: |-
+        SMTP header injection occurs when untrusted input reaches `MimeMessage` header-related APIs
+        (`setSubject`, `setHeader`, `addHeader`, and similar methods).
+
+        Vulnerable example:
+
+        ```java
+        import jakarta.mail.internet.MimeMessage;
+
+        public class MailService {
+            public void applySubject(MimeMessage msg, String subjectFromRequest) throws Exception {
+                // subjectFromRequest is untrusted
+                msg.setHeader("Subject", subjectFromRequest); // VULNERABLE
+            }
+        }
+        ```
+
+        Safe example:
+
+        ```java
+        import jakarta.mail.internet.MimeMessage;
+
+        public class MailService {
+            public void applySubject(MimeMessage msg, String subjectFromRequest) throws Exception {
+                String safe = subjectFromRequest == null ? "" : subjectFromRequest.replaceAll("[\\r\\n]", "");
+                msg.setSubject(safe, "UTF-8");
+            }
+        }
+        ```
+
+        Key vulnerable patterns covered by this rule include `MimeMessage.setSubject`, `setHeader`, `addHeader`,
+        `setDescription`, and `setDisposition` with tainted data.
+      references:
+        - https://owasp.org/www-community/vulnerabilities/CRLF_Injection
+        - https://owasp.org/www-community/attacks/Email_Injection
+      provenance: https://gitlab.com/gitlab-org/security-products/sast-rules/-/blob/main/java/smtp/rule-InsecureSmtp.yml
+    languages:
+      - java
+    mode: join
+    join:
+      refs:
+        - tag: servlet-untrusted-data-source
+          as: servlet-untrusted-data
+        - tag: spring-untrusted-data-source
+          as: spring-untrusted-data
+        - tag: smtp-injection-sink
+          as: sink
+      on:
+        - 'servlet-untrusted-data.$UNTRUSTED -> sink.$UNTRUSTED'
+        - 'spring-untrusted-data.$UNTRUSTED -> sink.$UNTRUSTED'

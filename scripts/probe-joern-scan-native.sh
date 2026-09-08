@@ -31,8 +31,8 @@
 #   scripts/probe-joern-scan-native.sh [--joern-dist <path>] [--dbversion <v>]
 set -euo pipefail
 
-JOERN_DIST="$HOME/Workspace/joernio/joern-v4.0.614/joern-cli"
-DBVERSION="4.0.614"
+JOERN_DIST="$HOME/.cache/dataflowbench-tools/joern-v4.0.621/joern-cli-macos-arm64/joern-cli"
+DBVERSION="4.0.621"
 while [ $# -gt 0 ]; do
   case "$1" in
     --joern-dist) JOERN_DIST="$2"; shift 2 ;;
@@ -44,7 +44,7 @@ done
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 OUT="$ROOT/reports/raw/amendment-a26-joern-scan-native"
 SCRATCH="$(mktemp -d)"
-trap 'rm -rf "$SCRATCH"' EXIT
+trap 'probe_status=$?; if [ "$probe_status" -eq 0 ]; then rm -rf "$SCRATCH"; else echo "retained failed probe scratch: $SCRATCH" >&2; fi' EXIT
 rm -rf "$OUT"
 mkdir -p "$OUT"
 

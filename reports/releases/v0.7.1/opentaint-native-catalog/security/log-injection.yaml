@@ -1,0 +1,187 @@
+rules:
+  - id: log-injection
+    severity: NOTE
+    message: >-
+      When data from an untrusted source is put into a logger and not neutralized correctly,
+      an attacker could forge log entries or include malicious content.
+    metadata:
+      cwe: CWE-117
+      short-description: Logging an untrusted data might cause unwanted log entries forging
+      full-description: |-
+        Log injection occurs when untrusted input is passed to logging APIs without normalization.
+        This rule focuses on logger calls (e.g., `logger.info(...)`, `logger.warn(...)`, `logger.error(...)`).
+
+        Vulnerable example:
+
+        ```java
+        import org.slf4j.Logger;
+        import org.slf4j.LoggerFactory;
+
+        public class AuditService {
+            private static final Logger LOG = LoggerFactory.getLogger(AuditService.class);
+
+            public void logLoginFailure(String usernameFromRequest) {
+                // usernameFromRequest is untrusted
+                LOG.warn("Failed login for user=" + usernameFromRequest); // VULNERABLE
+            }
+        }
+        ```
+
+        Safe example:
+
+        ```java
+        import org.slf4j.Logger;
+        import org.slf4j.LoggerFactory;
+
+        public class AuditService {
+            private static final Logger LOG = LoggerFactory.getLogger(AuditService.class);
+
+            public void logLoginFailure(String usernameFromRequest) {
+                String safe = usernameFromRequest == null ? "" : usernameFromRequest.replaceAll("[\\r\\n\\t]", "_");
+                LOG.warn("Failed login for user={}", safe);
+            }
+        }
+        ```
+
+        Key vulnerable patterns covered by this rule include common Java logging APIs (`slf4j`, `log4j`,
+        `java.util.logging`, `commons-logging`, `tinylog`) when tainted data is logged.
+      refernces:
+        - https://owasp.org/www-community/attacks/Log_Injection
+        - https://cheatsheetseries.owasp.org/cheatsheets/Logging_Cheat_Sheet.html
+      provenance: https://semgrep.dev/r/gitlab.find_sec_bugs.CRLF_INJECTION_LOGS-1
+    languages:
+      - java
+    mode: join
+    join:
+      refs:
+        - tag: servlet-untrusted-data-source
+          as: servlet-untrusted-data
+        - tag: spring-untrusted-data-source
+          as: spring-untrusted-data
+        - tag: log-injection-sink
+          as: sink
+      on:
+        - 'servlet-untrusted-data.$UNTRUSTED -> sink.$DATA'
+        - 'spring-untrusted-data.$UNTRUSTED -> sink.$DATA'
+
+  - id: seam-log-injection
+    severity: ERROR
+    message: >-
+      Seam Logging API support an expression language to introduce bean property to log messages.
+      The expression language can also be the source to unwanted code execution.
+      In this context, an expression is built with a dynamic value.
+      The source of the value(s) should be verified to avoid that unfiltered values fall into this risky
+      code evaluation.
+    metadata:
+      cwe:
+        - CWE-95
+      short-description: Injection of unwanted Seam Logging API expression language
+      full-description: |-
+        Seam's Logging API integrates with Java Expression Language (EL) so that any `#{...}`
+        found in log messages is evaluated against the Seam/JSF context before being written.
+        If user-controlled data is allowed to influence those expressions (or is concatenated inside `#{...}`),
+        an attacker can inject arbitrary EL. This can lead to unauthorized data access, privilege escalation,
+        or even remote code execution, depending on the available EL functions and Seam components.
+
+        When developers assume that `log.info("...")` just writes a literal string—without realizing that `#{}`
+        is interpreted as EL—any untrusted input included inside or affecting `#{...}` can become an
+        expression language injection point.
+
+        ---
+
+        **Vulnerable code sample**
+
+        ```java
+        import org.jboss.seam.annotations.Name;
+        import org.jboss.seam.log.Log;
+        import org.jboss.seam.log.Logging;
+
+        import javax.faces.context.FacesContext;
+        import java.util.Map;
+
+        @Name("loginAction")
+        public class LoginAction {
+
+            private static final Log log = Logging.getLog(LoginAction.class);
+
+            public void login() {
+                Map<String, String> params = FacesContext.getCurrentInstance()
+                        .getExternalContext()
+                        .getRequestParameterMap();
+
+                // Attacker controls the "username" request parameter
+                String username = params.get("username");
+
+                // VULNERABLE: Seam will evaluate anything in #{...} as EL
+                // If "username" is something like: "user} #{someDangerousBean.doSomething()} {"
+                // the injected expression gets evaluated in the application context.
+                log.info("Login failed for user #{"+ username +"}");
+
+                // ... authentication logic ...
+            }
+        }
+        ```
+
+        ---
+
+        To remediate this issue, avoid evaluating EL on untrusted data and treat log messages as plain text.
+        Do not build `#{...}` expressions from user input. Prefer parameterized logging that does **not** invoke EL,
+        or escape/strip EL metacharacters if there is any chance they come from untrusted sources.
+        In many cases, the safest approach is to move away from Seam's EL-aware `Log` in favor of standard
+        logging frameworks (e.g., SLF4J + Logback/Log4j2).
+
+        **Safer patterns:**
+
+        1. **Use Seam's parameterized logging (no EL)**
+
+        ```java
+        // This form uses MessageFormat-style parameters, not EL
+        log.info("Login failed for user {0}", username);
+        ```
+
+        2. **Or use a standard logging framework**
+
+        ```java
+        import org.slf4j.Logger;
+        import org.slf4j.LoggerFactory;
+
+        public class LoginAction {
+
+            private static final Logger logger = LoggerFactory.getLogger(LoginAction.class);
+
+            public void login() {
+                Map<String, String> params = FacesContext.getCurrentInstance()
+                        .getExternalContext()
+                        .getRequestParameterMap();
+
+                String username = params.get("username");
+
+                // SLF4J-style placeholders — no EL evaluation
+                logger.info("Login failed for user '{}'", username);
+
+                // ... authentication logic ...
+            }
+        }
+        ```
+
+        3. **Additional defensive steps:**
+
+        - Do not construct strings containing `#{` and `}` from untrusted data.
+        - If you must log raw user input, treat it as data only:
+          - Sanitize or escape `#`, `{`, and `}` if your logging configuration or any other layer might interpret EL.
+        - Consider disabling or avoiding any logging mechanism that evaluates EL at runtime, especially on production systems exposed to untrusted users.
+        - Apply general input validation where appropriate, but do not rely on validation alone to prevent EL injection.
+      references:
+        - https://owasp.org/www-community/vulnerabilities/Expression_Language_Injection
+      provenance: https://find-sec-bugs.github.io/bugs.htm#SEAM_LOG_INJECTION
+    languages:
+      - java
+    mode: join
+    join:
+      refs:
+        - tag: seam-untrusted-data-source
+          as: untrusted-data
+        - tag: seam-log-injection-sink
+          as: sink
+      on:
+        - 'untrusted-data.$UNTRUSTED -> sink.$DATA'

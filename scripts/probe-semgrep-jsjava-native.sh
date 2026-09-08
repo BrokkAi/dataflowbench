@@ -50,12 +50,12 @@ COMMIT="40b8c63f75dc7c22c8a77482d73bfb864b146f7e"
 # (adapters/semgrep/native/python/provenance.json → retrieval.archive_sha256):
 # the probe re-fetches the same bytes or refuses to enumerate.
 EXPECTED_ARCHIVE_SHA256="b7e483abf001c405a3e908251ff66cb198a26702aff5fe4c5f0c4b2fffec4919"
-EXPECTED_VERSION="1.175.0"
+EXPECTED_VERSION="1.176.0"
 
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 OUT="$ROOT/reports/raw/amendment-a27-semgrep-jsjava-native"
 SCRATCH="$(mktemp -d)"
-trap 'rm -rf "$SCRATCH"' EXIT
+trap 'probe_status=$?; if [ "$probe_status" -eq 0 ]; then rm -rf "$SCRATCH"; else echo "retained failed probe scratch: $SCRATCH" >&2; fi' EXIT
 rm -rf "$OUT"
 mkdir -p "$OUT"
 

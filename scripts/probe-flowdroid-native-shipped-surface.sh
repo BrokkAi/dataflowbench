@@ -66,7 +66,7 @@ D8_SHA256="4733945987ee0a840fafc34080b135259e01678412e07212b23f706334290294"
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 OUT="$ROOT/reports/raw/amendment-a29-flowdroid-shipped-surface"
 SCRATCH="$(mktemp -d)"
-trap 'rm -rf "$SCRATCH"' EXIT
+trap 'probe_status=$?; if [ "$probe_status" -eq 0 ]; then rm -rf "$SCRATCH"; else echo "retained failed probe scratch: $SCRATCH" >&2; fi' EXIT
 rm -rf "$OUT"
 mkdir -p "$OUT"
 

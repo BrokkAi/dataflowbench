@@ -1,0 +1,77 @@
+rules:
+  - id: xxe
+    severity: ERROR
+    message: >-
+      XXE: untrusted input is parsed as an XML with safety flags disabled
+    metadata:
+      cwe: CWE-611
+      short-description: XML parsing of an untrusted input
+      full-description: |-
+        XXE occurs when untrusted XML reaches parser APIs without secure parser configuration
+        (for example `DocumentBuilder.parse(...)`, `SAXParser.parse(...)`, or StAX readers).
+
+        Vulnerable example:
+
+        ```java
+        import javax.xml.parsers.DocumentBuilder;
+        import javax.xml.parsers.DocumentBuilderFactory;
+        import org.w3c.dom.Document;
+
+        public class XmlService {
+            public Document parse(java.io.InputStream xmlFromRequest) throws Exception {
+                DocumentBuilderFactory f = DocumentBuilderFactory.newInstance();
+                DocumentBuilder b = f.newDocumentBuilder();
+
+                // VULNERABLE: parse called with insecure defaults
+                return b.parse(xmlFromRequest);
+            }
+        }
+        ```
+
+        Safe example:
+
+        ```java
+        import javax.xml.XMLConstants;
+        import javax.xml.parsers.DocumentBuilder;
+        import javax.xml.parsers.DocumentBuilderFactory;
+        import org.w3c.dom.Document;
+
+        public class XmlService {
+            public Document parse(java.io.InputStream xmlFromRequest) throws Exception {
+                DocumentBuilderFactory f = DocumentBuilderFactory.newInstance();
+                f.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
+                f.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
+                f.setFeature("http://xml.org/sax/features/external-general-entities", false);
+                f.setFeature("http://xml.org/sax/features/external-parameter-entities", false);
+                f.setAttribute(XMLConstants.ACCESS_EXTERNAL_DTD, "");
+                f.setAttribute(XMLConstants.ACCESS_EXTERNAL_SCHEMA, "");
+
+                DocumentBuilder b = f.newDocumentBuilder();
+                return b.parse(xmlFromRequest);
+            }
+        }
+        ```
+
+        Key vulnerable patterns covered by this rule include DOM/SAX/StAX/XMLDecoder/Transformer parsing and transformation
+        calls when safe XXE-hardening flags are absent.
+      references:
+        - https://cheatsheetseries.owasp.org/cheatsheets/XML_External_Entity_Prevention_Cheat_Sheet.html
+        - https://owasp.org/www-community/vulnerabilities/XML_External_Entity_(XXE)_Processing
+      provenance:
+        - https://github.com/semgrep/semgrep-rules/tree/develop/java/lang/security/audit/xxe
+        - https://github.com/semgrep/semgrep-rules/blob/develop/java/lang/security/audit/xml-decoder.yaml
+        - https://gitlab.com/gitlab-org/security-products/sast-rules/-/blob/main/java/xml/rule-XsltTransform.yml
+    languages:
+      - java
+    mode: join
+    join:
+      refs:
+        - tag: servlet-untrusted-data-source
+          as: servlet-untrusted-data
+        - tag: spring-untrusted-data-source
+          as: spring-untrusted-data
+        - tag: xxe-sink
+          as: sink
+      on:
+        - 'servlet-untrusted-data.$UNTRUSTED -> sink.$UNTRUSTED'
+        - 'spring-untrusted-data.$UNTRUSTED -> sink.$UNTRUSTED'

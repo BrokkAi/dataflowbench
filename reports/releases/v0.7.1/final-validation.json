@@ -1,0 +1,56 @@
+{
+  "utc": "2026-09-08T07:39:01.104170+00:00",
+  "validated_revision": "2fd643395ff9630abe03f136c448972ed330cf6f",
+  "checks": [
+    {
+      "command": "cargo fmt --check",
+      "exit_code": 0
+    },
+    {
+      "command": "/Users/dave/.cargo/bin/cargo test --locked",
+      "exit_code": 0,
+      "passed": 226
+    },
+    {
+      "command": "target/debug/dataflowbench validate",
+      "exit_code": 0,
+      "cases": 874,
+      "real_project_pins": 6
+    },
+    {
+      "command": "target/debug/dataflowbench --population v0.7.0 validate-reports",
+      "exit_code": 0,
+      "reports": 82,
+      "configuration_hashes": 66,
+      "stale": 0
+    },
+    {
+      "command": "target/debug/dataflowbench validate-reports",
+      "exit_code": 0,
+      "reports": 82,
+      "configuration_hashes": 66,
+      "stale": 0
+    },
+    {
+      "command": "npm ci; npm test; npm run check; npm run build (docs)",
+      "exit_code": 0,
+      "tests_passed": 12,
+      "astro_errors": 0,
+      "astro_warnings": 0,
+      "built_pages": 52
+    },
+    {
+      "command": "git diff61300f47 HEAD -- reports/freeze.json results/",
+      "exit_code": 0
+    },
+    {
+      "command": "cargo run --locked -- generate-results --manifest reports/freeze.json --output-directory results --check at61300f47",
+      "exit_code": 0
+    },
+    {
+      "command": "CI conflict-marker scan",
+      "matches": 0
+    }
+  ],
+  "scope": "Localvalidationcomplete; remoteCIpending; no freeze/merge/publicationclaim"
+}

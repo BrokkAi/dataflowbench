@@ -1,0 +1,40 @@
+{
+  "utc": "2026-09-08T07:16:50.807894+00:00",
+  "failed_attempt": "warm-semgrep-java-attempt-01",
+  "error": "batch size16exceeds12cases inexisting identical-rule population",
+  "original_batch_sizes": [
+    1,
+    2,
+    4,
+    8,
+    16
+  ],
+  "corrected_batch_sizes": [
+    1,
+    2,
+    4,
+    8,
+    12
+  ],
+  "repeats": 2,
+  "scope": "Exactexisting eligible population retained. No rule/population widening, threshold orfit change. Original16unavailable explicitly; prospective corrected invocation before measurement.",
+  "source": "src/latency.rs warm_population and measure_warm_latency",
+  "argv": [
+    "/Users/dave/.codex/worktrees/653a/dataflowbench/target/debug/dataflowbench",
+    "--population",
+    "v0.7.0",
+    "measure-warm-latency",
+    "--tool",
+    "semgrep",
+    "--language",
+    "java",
+    "--batch-sizes",
+    "1,2,4,8,12",
+    "--joern",
+    "/Users/dave/.cache/dataflowbench-tools/joern-v4.0.621/joern-cli-macos-arm64/joern-cli/joern",
+    "--semgrep",
+    "/opt/homebrew/bin/semgrep"
+  ],
+  "parent_approval": "Explicit bounded range correction approved",
+  "comparison": "No direct16baseline comparison implied;12is corrected prospective sample. Summaries must use actualbatch sizes."
+}

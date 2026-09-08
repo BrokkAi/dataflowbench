@@ -42,15 +42,15 @@ Python query is `python/queries/PythonKernel.ql` in its own Python
 database-schema pack, the TypeScript query is
 `typescript/queries/TypeScriptKernel.ql` in its own pack, the Kotlin query
 is `kotlin/queries/KotlinKernel.ql` in its own pack pinned to the same
-`codeql/java-all@9.2.3` as the root Java pack, and the C# query is
+`codeql/java-all@9.2.4` as the root Java pack, and the C# query is
 `csharp/queries/CSharpKernel.ql` in its own C# pack, and the Go query is
 `go/queries/GoKernel.ql` in its own Go pack. The C and C++ queries are
 `cpp/queries/CKernel.ql` and `cpp/queries/CppKernel.ql` in one shared C-family
-pack pinned to `codeql/cpp-all@12.0.2`, the Rust query is
+pack pinned to `codeql/cpp-all@12.0.3`, the Rust query is
 `rust/queries/RustKernel.ql` in its own Rust pack pinned to
-`codeql/rust-all@0.2.19`, and the Ruby query is
+`codeql/rust-all@0.2.20`, and the Ruby query is
 `ruby/queries/RubyKernel.ql` in its own Ruby pack pinned to
-`codeql/ruby-all@6.0.3`.
+`codeql/ruby-all@6.0.4`.
 
 The Java kernel adapter creates one CodeQL database per canonical case,
 compiles the fixture with its real `javac` build, runs the pinned
@@ -332,7 +332,7 @@ The Python query selects exactly Python's core assertions: every benchmark
 `dfb_source()` call is a source, and argument zero
 of every benchmark `dfb_sink(value)` call is a sink. It does not match fixture
 names or treat an absent finding as an execution success. The Python dependency
-is pinned to `codeql/python-all@7.2.3`, the compatible pack released for CodeQL
+is pinned to `codeql/python-all@7.2.4`, the compatible pack released for CodeQL
 CLI v2.26.4 (CLI build `6b1e4dee94adb20f90a671f3fc9e04be32eecf65`; Python pack
 build SHA `44a68d3a47fcbcd6a6a76ec7d1c1b3a1a28b201e`).
 
@@ -420,7 +420,7 @@ adapters/codeql/csharp/queries/CSharpKernel.ql
 ```
 
 The query belongs to the dedicated C# pack manifest at
-`adapters/codeql/csharp/qlpack.yml`, pinned to `codeql/csharp-all@7.1.2` —
+`adapters/codeql/csharp/qlpack.yml`, pinned to `codeql/csharp-all@7.2.0` —
 the version `codeql pack install` resolves for CodeQL CLI 2.26.4 — with the
 full transitive set committed in `adapters/codeql/csharp/codeql-pack.lock.yml`.
 
@@ -480,7 +480,7 @@ adapters/codeql/go/queries/GoKernel.ql
 ```
 
 The query belongs to the dedicated Go pack manifest at
-`adapters/codeql/go/qlpack.yml`, pinned to `codeql/go-all@7.2.3` — the version
+`adapters/codeql/go/qlpack.yml`, pinned to `codeql/go-all@7.3.0` — the version
 `codeql pack install` resolves for CodeQL CLI 2.26.4 — with the full transitive
 set committed in `adapters/codeql/go/codeql-pack.lock.yml`.
 
@@ -549,7 +549,7 @@ adapters/codeql/cpp/queries/CKernel.ql
 ```
 
 Both queries live in the shared pack manifest `adapters/codeql/cpp/qlpack.yml`,
-pinned to `codeql/cpp-all@12.0.2` with the full transitive set committed in
+pinned to `codeql/cpp-all@12.0.3` with the full transitive set committed in
 `adapters/codeql/cpp/codeql-pack.lock.yml`. As with JavaScript and TypeScript,
 the shared extractor never merges the populations: the runner's `language`
 selector, each query's fixture-extension predicate (`c` versus `cpp`), and
@@ -634,7 +634,7 @@ adapters/codeql/rust/queries/RustKernel.ql
 ```
 
 owned by the dedicated Rust pack manifest `adapters/codeql/rust/qlpack.yml`,
-pinned to `codeql/rust-all@0.2.19` — the version `codeql pack install` resolves
+pinned to `codeql/rust-all@0.2.20` — the version `codeql pack install` resolves
 for CodeQL CLI 2.26.4 — with the full transitive set committed in
 `adapters/codeql/rust/codeql-pack.lock.yml`.
 
@@ -719,7 +719,7 @@ adapters/codeql/ruby/queries/RubyKernel.ql
 ```
 
 The query belongs to the dedicated Ruby pack manifest at
-`adapters/codeql/ruby/qlpack.yml`, pinned to `codeql/ruby-all@6.0.3` — the
+`adapters/codeql/ruby/qlpack.yml`, pinned to `codeql/ruby-all@6.0.4` — the
 version `codeql pack install` resolves for CodeQL CLI 2.26.4 — with the full
 transitive set committed in `adapters/codeql/ruby/codeql-pack.lock.yml`.
 
@@ -1137,4 +1137,3 @@ the persistence negative's distinct key is never looked at.
 This is coverage, not accuracy, and it is never pooled with the
 benchmark-controlled Python row above. See
 [the Python tool-native probe set](../../docs/python-native.md).
-

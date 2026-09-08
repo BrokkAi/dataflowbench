@@ -80,7 +80,7 @@ TEMPLATES="$ROOT/adapters/flowdroid/template"
 CASES="$ROOT/cases/taint/java"
 mkdir -p "$EVIDENCE"
 SCRATCH="$(mktemp -d)"
-trap 'rm -rf "$SCRATCH"' EXIT
+trap 'probe_status=$?; if [ "$probe_status" -eq 0 ]; then rm -rf "$SCRATCH"; else echo "retained failed probe scratch: $SCRATCH" >&2; fi' EXIT
 
 # Materialize one case's APK and run FlowDroid over it.
 #   run_probe <evidence-name> <case-dir> <entry-call> <sources-sinks-file> \

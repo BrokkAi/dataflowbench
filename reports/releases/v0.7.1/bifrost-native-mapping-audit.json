@@ -1,0 +1,21 @@
+{
+  "utc": "2026-09-07T21:57:07.090583+00:00",
+  "affected_reports": [
+    "bifrost-java-native",
+    "bifrost-javascript-native",
+    "bifrost-python-native"
+  ],
+  "case_count": 36,
+  "mapping": {
+    "partition": "src/native.rs:117-209 declares six templates unsupported; native_unsupported_reason:916 and native_partition_outcome:1478 create retained-capability-decision without invoking analyzer",
+    "runtime": "src/adapters/bifrost.rs:786-824 separately returns inconclusive for explicit inconclusive completion or incomplete/empty selection, before not-reached"
+  },
+  "fresh_evidence": {
+    "policy_source": "reports/raw/amendment-a32-bifrost-scan-native/security-policy-source.rqlp",
+    "provenance": "reports/raw/amendment-a32-bifrost-scan-native/security-policy-provenance.txt",
+    "catalog": "reports/raw/amendment-a32-bifrost-scan-native/builtin-policy-catalog.json",
+    "positive_control": "reports/raw/amendment-a32-bifrost-scan-native/positive-control/result.json"
+  },
+  "proposed_representation": "Retain36 unsupported capability-partition outcomes only on independently refreshed exact shipped selector disjointness/catalog absence evidence. Separately retain positive control as inconclusive/partial_discovery, native activation validation partial, no clean negative or successful activation claim. Do not derive unsupported from failed positive control. Do not promote cells or add broad reruns. Existing mapping already distinguishes static unsupported from runtime inconclusive; report wrapper/native probe notes must expose both.",
+  "limits": "Positive control does not prove rule activation; historical issue-open statements in static rationale are not fresh issue-status verification."
+}

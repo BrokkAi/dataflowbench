@@ -20,8 +20,8 @@ contract](../../docs/php-kernel.md).
 
 | Item | Value |
 | --- | --- |
-| Version | `4.0.617` (the version the console banner reports) |
-| Build identity | `joern-cli:4.0.617` |
+| Version | `4.0.621` (the version the console banner reports) |
+| Build identity | `joern-cli:4.0.621` |
 | Installation | `joern-cli/joern` from the released `joern-cli` distribution |
 | Query script | `adapters/joern/queries/kernel.sc` |
 | Configuration hash | `ab10e81860305e492a930e2c2691873b23be25e97e5b354ca785058e09a20025` |
@@ -37,7 +37,9 @@ every retained Joern report carries it as `tool_version`. The pin moved from
 release. All six kernels — not only Rust — were re-run on `4.0.610`, so every
 retained Joern report cites one tool version and one configuration hash. The
 pin then moved to `4.0.614` at the v0.6.0 freeze-prep pin-currency review
-(`docs/adapters.md`), and every committed Joern report witnesses `4.0.614`.
+(`docs/adapters.md`), to `4.0.617` for v0.7.0, and to `4.0.621` at the
+2026-09-07 v0.7.1 cutoff. Every new report must witness `4.0.621`; retained
+reports continue to name the distribution that produced them.
 
 ## Invocation
 
@@ -1182,4 +1184,3 @@ Joern on four of six categories with the same engine, and the gap between those
 two rows is exactly what the tool-native profile exists to make legible.
 
 See [the Python tool-native probe set](../../docs/python-native.md).
-

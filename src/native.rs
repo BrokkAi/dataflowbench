@@ -923,8 +923,34 @@ pub(crate) fn native_unsupported_reason(
         return Ok(None);
     };
     let category = native_category(template).expect("partition resolved the category");
+    let provenance = if tool == ModelingTool::Bifrost {
+        "Current v0.7.1 evidence: reports/raw/amendment-a32-bifrost-scan-native/ \
+         retains the v0.11.0 binary identity, extracted shipped policy and catalog. \
+         The capability decision rests on the shipped selectors and catalog, not on \
+         the positive control, which was inconclusive with partial_discovery; native \
+         activation validation remains partial. The following A32/v0.10.9 rationale \
+         is historical context, including its activation wording and issue-status \
+         statements, which were not freshly verified: "
+    } else if tool == ModelingTool::Opentaint {
+        "Current v0.7.1 evidence: reports/releases/v0.7.1/opentaint-native-category-audit.json \
+         and opentaint-native-catalog-index.json retain the per-category source identities \
+         and full v0.4.6 shipped selector bytes/hashes. The shipped os-command-injection \
+         rule joins only servlet-untrusted-data-source or spring-untrusted-data-source \
+         to command-injection-sink, which covers Runtime.exec. Neither source selector \
+         matches these fixtures' System.getenv(String) source or main(String[]) argument \
+         vector: they contain none of the servlet/Spring entrypoint, MessageBodyReader, \
+         upload/Part, or cookie source shapes selected by those rules. \
+         This source-activation barrier retains the decline; it does not establish absence \
+         of propagator, sanitizer, summary, or store-link capabilities behind that barrier. \
+         The full-product positive/negative control is retained in \
+         reports/releases/v0.7.1/opentaint-product-functional-audit.json. The following \
+         A23 rationale is superseded historical context, including its obsolete claims \
+         that no endpoint catalog or rules ship: "
+    } else {
+        ""
+    };
     Ok(Some(format!(
-        "tool-native activation of {template} (category {} — {}) is unsupported for {identity} over {} by the activation partition (docs/native-profile.md#partition-summary, as amended): {reason}",
+        "tool-native activation of {template} (category {} — {}) is unsupported for {identity} over {} by the activation partition (docs/native-profile.md#partition-summary, as amended): {provenance}{reason}",
         category.key(),
         category.label(),
         language.display_name(),

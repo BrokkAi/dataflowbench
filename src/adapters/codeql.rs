@@ -103,12 +103,12 @@ pub(crate) const CODEQL_RUBY_REPORT: &str = "reports/codeql-ruby-kernel.json";
 /// enough that the installed toolchain never fetches another one.
 pub(crate) const GO_MODULE_MANIFEST: &str = "module dataflowbench\n\ngo 1.21\n";
 /// The pinned CodeQL **query** pack each language's native run resolves its
-/// shipped security suite from, verified downloadable against CLI 2.26.3.
+/// shipped security suite from, verified downloadable against CLI 2.26.4.
 ///
 /// These are query packs, not the library packs the benchmark-controlled
 /// adapter pins: each bundles its own `<language>-all` at a version of its own
-/// choosing (9.2.4, 2.10.0, and 7.2.4 respectively, against the adapter's
-/// 9.2.3, 2.9.0, and 7.2.3). The two profiles therefore run on different
+/// choosing, independent of the benchmark-controlled library pins. The two
+/// profiles therefore run on different
 /// library resolutions by construction, which is correct — a native run must
 /// measure the shipped product as shipped — and is one more reason the two are
 /// never pooled.
@@ -1015,7 +1015,7 @@ pub(crate) fn validate_c_family_population(
 
 /// Run the Rust-only CodeQL kernel. Rust support is a public preview in the
 /// pinned CLI 2.26.4 (extractor `rust` 0.1.0, library pack
-/// `codeql/rust-all@0.2.19`), and that status is recorded in
+/// `codeql/rust-all@0.2.20`), and that status is recorded in
 /// `docs/rust-kernel.md` alongside the results this run produces. The
 /// population is the 30 core assertions of the 15 applicable templates plus the
 /// `Result`/`?` `language-extension` pair, which is scored on its own tier.

@@ -1,0 +1,210 @@
+{
+  "created_utc": "2026-09-07T21:25:59.840974+00:00",
+  "pairs": [
+    {
+      "polarity": "positive",
+      "packs_equal": true,
+      "findings_equal": true,
+      "completion_equal": true,
+      "input_identity_equal": true,
+      "environment_differing_keys": [],
+      "contexts": [
+        {
+          "access": "sandboxed",
+          "exit_code": 0,
+          "wall_ms": 12976,
+          "run_completion": {
+            "type": "complete"
+          },
+          "finding_count": 1,
+          "endpoint_metrics": [
+            {
+              "name": "taint.compiled_sink_endpoints",
+              "unit": "count",
+              "value": 1
+            },
+            {
+              "name": "taint.compiled_source_endpoints",
+              "unit": "count",
+              "value": 1
+            }
+          ],
+          "packs": {
+            "document_path": ".bifrost/packs.json",
+            "dependency_mode": "default",
+            "ecosystems": [
+              "jvm"
+            ],
+            "complete": false,
+            "decisions": [
+              {
+                "pack": "bifrost.java.lombok",
+                "status": "incompatible",
+                "reason": "complete activation evidence does not satisfy the manifest and shard selector"
+              },
+              {
+                "pack": "jdk:21.0.8",
+                "status": "selected"
+              }
+            ],
+            "decisions_truncated": false
+          },
+          "top_diagnostics": [],
+          "run_diagnostics": [],
+          "stdout_bytes": 0,
+          "stderr_bytes": 0,
+          "stderr": ""
+        },
+        {
+          "access": "elevated",
+          "exit_code": 0,
+          "wall_ms": 19899,
+          "run_completion": {
+            "type": "complete"
+          },
+          "finding_count": 1,
+          "endpoint_metrics": [
+            {
+              "name": "taint.compiled_sink_endpoints",
+              "unit": "count",
+              "value": 1
+            },
+            {
+              "name": "taint.compiled_source_endpoints",
+              "unit": "count",
+              "value": 1
+            }
+          ],
+          "packs": {
+            "document_path": ".bifrost/packs.json",
+            "dependency_mode": "default",
+            "ecosystems": [
+              "jvm"
+            ],
+            "complete": false,
+            "decisions": [
+              {
+                "pack": "bifrost.java.lombok",
+                "status": "incompatible",
+                "reason": "complete activation evidence does not satisfy the manifest and shard selector"
+              },
+              {
+                "pack": "jdk:21.0.8",
+                "status": "selected"
+              }
+            ],
+            "decisions_truncated": false
+          },
+          "top_diagnostics": [],
+          "run_diagnostics": [],
+          "stdout_bytes": 0,
+          "stderr_bytes": 0,
+          "stderr": ""
+        }
+      ]
+    },
+    {
+      "polarity": "negative",
+      "packs_equal": true,
+      "findings_equal": true,
+      "completion_equal": true,
+      "input_identity_equal": true,
+      "environment_differing_keys": [],
+      "contexts": [
+        {
+          "access": "sandboxed",
+          "exit_code": 0,
+          "wall_ms": 13040,
+          "run_completion": {
+            "type": "complete"
+          },
+          "finding_count": 0,
+          "endpoint_metrics": [
+            {
+              "name": "taint.compiled_sink_endpoints",
+              "unit": "count",
+              "value": 1
+            },
+            {
+              "name": "taint.compiled_source_endpoints",
+              "unit": "count",
+              "value": 1
+            }
+          ],
+          "packs": {
+            "document_path": ".bifrost/packs.json",
+            "dependency_mode": "default",
+            "ecosystems": [
+              "jvm"
+            ],
+            "complete": false,
+            "decisions": [
+              {
+                "pack": "bifrost.java.lombok",
+                "status": "incompatible",
+                "reason": "complete activation evidence does not satisfy the manifest and shard selector"
+              },
+              {
+                "pack": "jdk:21.0.8",
+                "status": "selected"
+              }
+            ],
+            "decisions_truncated": false
+          },
+          "top_diagnostics": [],
+          "run_diagnostics": [],
+          "stdout_bytes": 0,
+          "stderr_bytes": 0,
+          "stderr": ""
+        },
+        {
+          "access": "elevated",
+          "exit_code": 0,
+          "wall_ms": 18911,
+          "run_completion": {
+            "type": "complete"
+          },
+          "finding_count": 0,
+          "endpoint_metrics": [
+            {
+              "name": "taint.compiled_sink_endpoints",
+              "unit": "count",
+              "value": 1
+            },
+            {
+              "name": "taint.compiled_source_endpoints",
+              "unit": "count",
+              "value": 1
+            }
+          ],
+          "packs": {
+            "document_path": ".bifrost/packs.json",
+            "dependency_mode": "default",
+            "ecosystems": [
+              "jvm"
+            ],
+            "complete": false,
+            "decisions": [
+              {
+                "pack": "bifrost.java.lombok",
+                "status": "incompatible",
+                "reason": "complete activation evidence does not satisfy the manifest and shard selector"
+              },
+              {
+                "pack": "jdk:21.0.8",
+                "status": "selected"
+              }
+            ],
+            "decisions_truncated": false
+          },
+          "top_diagnostics": [],
+          "run_diagnostics": [],
+          "stdout_bytes": 0,
+          "stderr_bytes": 0,
+          "stderr": ""
+        }
+      ]
+    }
+  ],
+  "limits": "Two cases, one execution per context, fixed order. No full-population access or timing parity claim; global caches uncontrolled. Finding proof partial is retained separately from run completion."
+}

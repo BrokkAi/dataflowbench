@@ -111,11 +111,11 @@ impl ModelingTool {
     /// freeze cannot survive.
     pub(crate) fn pinned_identity(self) -> &'static str {
         match self {
-            Self::Bifrost => "Bifrost v0.10.9",
+            Self::Bifrost => "Bifrost v0.11.0",
             Self::Codeql => "CodeQL CLI 2.26.4",
             Self::Flowdroid => "FlowDroid 2.15.1",
             Self::Infer => "Infer v1.3.0",
-            Self::Joern => "Joern 4.0.617",
+            Self::Joern => "Joern 4.0.621",
             Self::Semgrep => "Semgrep CE 1.176.0",
             Self::Pysa => "Pysa (pyre-check 0.10.0 + Pyrefly 1.2.0)",
             Self::Opentaint => "OpenTaint v0.4.6",
@@ -353,9 +353,9 @@ impl ToolIdentity {
 
     /// The same identity with `version` reduced to its banner's version line.
     ///
-    /// A `--version` banner may say more than the version — Bifrost 0.10.9
+    /// A `--version` banner may say more than the version — Bifrost 0.11.0
     /// prints its built-in policy packs and their catalog digest beneath
-    /// `bifrost 0.10.9`. The run-environment stamp retains that banner whole,
+    /// `bifrost 0.11.0`. The run-environment stamp retains that banner whole,
     /// so a runner reduces its identity only after stamping it, and what the
     /// report and its rationales then carry is the version alone.
     pub(crate) fn version_line_only(self) -> Self {

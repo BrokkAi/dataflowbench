@@ -85,8 +85,8 @@ if [ -z "$ANALYZER" ] || [ -z "$MODELS_ARCHIVE" ]; then
   exit 2
 fi
 
-EXPECTED_JAR_SHA256=811bdb22786e539c9aabdce5bef91f0c6521cc099adbe2720e6a840c09badf54
-EXPECTED_MODELS_SHA256=c2a8fb0bbc3b6d59ed6db0c62732ff9a6f0f491d515cc2247932f2dd78cbb9f5
+EXPECTED_JAR_SHA256=2ca93b6c33462bdbc23ceccdc5375e1a900682b33371cd906e5214dc7c48f569
+EXPECTED_MODELS_SHA256=20a96a50fba9ab6f6e98e8562019e5ecbe2a77de7947981eaf6e379f04065329
 ACTUAL=$(shasum -a 256 "$ANALYZER" | cut -d' ' -f1)
 if [ "$ACTUAL" != "$EXPECTED_JAR_SHA256" ]; then
   echo "analyzer jar sha256 $ACTUAL is not the pinned $EXPECTED_JAR_SHA256" >&2
@@ -101,7 +101,7 @@ fi
 ROOT=$(cd "$(dirname "$0")/.." && pwd)
 OUT="$ROOT/reports/raw/opentaint-modeling-surface-probe"
 WORK=$(mktemp -d)
-trap 'rm -rf "$WORK"' EXIT
+trap 'probe_status=$?; if [ "$probe_status" -eq 0 ]; then rm -rf "$WORK"; else echo "retained failed probe scratch: $WORK" >&2; fi' EXIT
 rm -rf "$OUT"
 mkdir -p "$OUT"
 
