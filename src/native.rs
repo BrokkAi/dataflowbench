@@ -923,8 +923,19 @@ pub(crate) fn native_unsupported_reason(
         return Ok(None);
     };
     let category = native_category(template).expect("partition resolved the category");
+    let provenance = if tool == ModelingTool::Bifrost {
+        "Current v0.7.1 evidence: reports/raw/amendment-a32-bifrost-scan-native/ \
+         retains the v0.11.0 binary identity, extracted shipped policy and catalog. \
+         The capability decision rests on the shipped selectors and catalog, not on \
+         the positive control, which was inconclusive with partial_discovery; native \
+         activation validation remains partial. The following A32/v0.10.9 rationale \
+         is historical context, including its activation wording and issue-status \
+         statements, which were not freshly verified: "
+    } else {
+        ""
+    };
     Ok(Some(format!(
-        "tool-native activation of {template} (category {} — {}) is unsupported for {identity} over {} by the activation partition (docs/native-profile.md#partition-summary, as amended): {reason}",
+        "tool-native activation of {template} (category {} — {}) is unsupported for {identity} over {} by the activation partition (docs/native-profile.md#partition-summary, as amended): {provenance}{reason}",
         category.key(),
         category.label(),
         language.display_name(),
