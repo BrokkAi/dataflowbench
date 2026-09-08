@@ -12,6 +12,7 @@ import {
   vendorOrder,
 } from '../data/snapshots';
 import { analyzerLanguageSupport, type AnalyzerLanguageSupport } from '../data/analyzer-language-support';
+import ScatterTooltip from './ScatterTooltip.astro';
 
 interface AnalyzerPoint {
   tool: string;
@@ -103,7 +104,7 @@ const labelOffsets: Record<string, { x: number; y: number; anchor?: 'start' | 'e
   dimensions, not a combined score.
 </p>
 
-<div class="landscape-frame">
+<div class="landscape-frame" data-scatter-frame>
   <svg class="landscape-chart" viewBox={`0 0 ${width} ${height}`} role="img" aria-labelledby="landscape-title landscape-desc">
     <title id="landscape-title">Current analyzer accuracy by supported data-flow languages</title>
     <desc id="landscape-desc">Scatter plot of all analyzers in DataFlowBench {currentSnapshot.version}. The horizontal axis is the documented number of languages in which each analyzer performs data-flow analysis. The vertical axis is decisive-correct assertions divided by every assertion in the benchmark kernels that analyzer covers, including non-answers in the denominator.</desc>
@@ -130,13 +131,14 @@ const labelOffsets: Record<string, { x: number; y: number; anchor?: 'start' | 'e
       const pointY = y(point.correct, point.covered);
       const offset = labelOffsets[point.tool] ?? { x: 9, y: -9 };
       const accuracy = percent(point.correct, point.covered);
-      return <g class:list={['analyzer', point.colorClass]}>
-        <title>{point.name}: {point.languageSupport.languages.length} supported languages; {formatPercent(accuracy)} accuracy across {point.kernels}/{kernelCount} benchmark kernels; {point.correct} correct, {point.wrong} wrong, {point.incomplete} incomplete of {point.covered}</title>
+      const tooltip = `${point.name} — x: ${point.languageSupport.languages.length} supported languages · y: ${formatPercent(accuracy)} accuracy`;
+      return <g class:list={['analyzer', point.colorClass]} tabindex="0" role="img" aria-label={tooltip} data-tooltip={tooltip}>
         <circle class:list={['point', point.cohort]} cx={pointX} cy={pointY} r="7" />
         <text class="point-label" x={pointX + offset.x} y={pointY + offset.y} text-anchor={offset.anchor ?? 'start'}>{point.name}</text>
       </g>;
     })}
   </svg>
+  <ScatterTooltip />
 </div>
 
 <ul class="landscape-key">
@@ -162,7 +164,7 @@ const labelOffsets: Record<string, { x: number; y: number; anchor?: 'start' | 'e
 </details>
 
 <style>
-  .landscape-frame { border: 1px solid var(--sl-color-hairline); border-radius: .75rem; padding: .75rem .5rem .25rem; background: var(--sl-color-bg-sidebar); overflow-x: auto; }
+  .landscape-frame { position: relative; border: 1px solid var(--sl-color-hairline); border-radius: .75rem; padding: .75rem .5rem .25rem; background: var(--sl-color-bg-sidebar); overflow-x: auto; }
   .landscape-chart { display: block; width: 100%; min-width: 42rem; height: auto; }
   .grid { stroke: var(--sl-color-hairline); stroke-width: 1; }
   .grid.vertical { stroke-dasharray: 3 5; }
@@ -170,6 +172,8 @@ const labelOffsets: Record<string, { x: number; y: number; anchor?: 'start' | 'e
   .tick, .axis-title { font-family: var(--__sl-font-mono); font-size: 11px; fill: var(--sl-color-gray-3); }
   .axis-title { font-size: 12px; }
   .point { fill: var(--vendor-rule); stroke: var(--sl-color-bg-sidebar); stroke-width: 2; }
+  .analyzer { cursor: default; outline: none; }
+  .analyzer:is(:hover, :focus-visible) .point { stroke: var(--sl-color-text); stroke-width: 3; }
   .point.specialist { stroke-dasharray: 3 2; stroke-width: 3; }
   .point-label { font-family: var(--__sl-font-mono); font-size: 12px; font-weight: 650; fill: var(--vendor-rule); paint-order: stroke; stroke: var(--sl-color-bg-sidebar); stroke-width: 4px; stroke-linejoin: round; }
   .landscape-key { list-style: none; display: flex; gap: 1.25rem; margin: .65rem 0 0; padding: 0; color: var(--sl-color-gray-2); font-size: var(--sl-text-sm); }
