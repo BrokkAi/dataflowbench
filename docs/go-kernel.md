@@ -7,7 +7,8 @@ mechanism; only the smallest fixture construct is adapted to Go syntax. Every
 scored Go template has exactly one `positive` and one `negative` `core` case, so
 the classic Go core denominator is 16 templates and 32 assertions, exactly as the
 matrix fixes it. The [challenge-tier expansion](#challenge-tier-expansion) below
-takes it to 29 templates and 58 assertions; the two are separate populations.
+takes the current case population to 30 templates and 60 assertions; the two are
+separate populations.
 
 | Stratum | Template ID | Go adaptation |
 | --- | --- | --- |
@@ -80,10 +81,10 @@ step or a sanitizer.
 
 ## Challenge-tier expansion
 
-[The challenge tier](challenge-tier.md) preregistered thirteen further
-propagation templates before any fixture existed. All thirteen are applicable to
-Go — ten directly, three language-adapted — so the Go core denominator grows
-from 16 templates / 32 assertions to **29 templates / 58 assertions**. The
+[The challenge tier](challenge-tier.md) preregistered fourteen further
+propagation templates before any fixture existed. All fourteen are applicable to
+Go — ten directly and four language-adapted — so the Go core denominator grows
+from 16 templates / 32 assertions to **30 templates / 60 assertions**. The
 challenge cases carry `score_tier: "core"` — there is no separate tier — and
 their fixture provenance revision is `m3-challenge-go`.
 
@@ -92,10 +93,11 @@ populations and are never compared number to number.
 
 ### Adaptation notes
 
-The preregistration classifies three Go cells as **language-adapted**, and
+The preregistration classifies four Go cells as **language-adapted**, and
 prescribes each adaptation itself; this contract records no deviation from it.
-The realizations, so a reader can check each fixture against the template rather
-than against a guess:
+The fourth is the existing `interprocedural-exception-persistence` pair, which
+uses the `panic`/`recover` adaptation described above. The realizations, so a
+reader can check each fixture against the template rather than against a guess:
 
 | Stratum | Template ID | Go realization |
 | --- | --- | --- |
@@ -126,7 +128,7 @@ where a language that only warns would leave the local unused. This changes no
 flow: the discard is the compiler's price for keeping each negative minimally
 different from its positive, not a propagation step and not a sanitizer.
 
-All twenty-six fixtures are single, import-minimal, gofmt-clean `.go` files in
+All existing challenge fixtures are single, import-minimal, gofmt-clean `.go` files in
 `package dataflowbench`, and every one compiles with `go build` under the host
 toolchain this kernel records (go1.26.0, darwin/arm64), one fixture per module
 workspace — one at a time because every fixture declares `dfb_source`, `dfb_sink`,
@@ -135,10 +137,10 @@ names rather than find a defect.
 
 ### Adapter coverage of the expanded population
 
-One adapter was re-run over the whole 58-assertion population for this
-expansion. Two are deferred by the freeze rule, and one does not cover Go at
-all. None of the three is a gap in what this kernel measures, and the difference
-between them matters:
+The retained historical report covers a 58-assertion population from before
+the existing interprocedural-exception pair. Two adapters are deferred by the
+freeze rule, and one does not cover Go at all. None of the three is a gap in
+what this kernel measures, and the difference between them matters:
 
 | Adapter | Expanded run | Report |
 | --- | --- | --- |
@@ -155,9 +157,9 @@ is pending the v0.4.0 freeze-prep re-run**, on this repository's established
 re-run-at-freeze pattern. The retained reports below remain the valid
 32-assertion classic snapshots, and they describe a *different population* from
 the expanded one. Deferral is not absence of coverage: both engines cover Go,
-both already produced decisive Go evidence at the classic denominator, and both
-will attempt all 58 assertions at v0.4.0. This wave simply had no freeze-legal
-file to write them to.
+both already produced decisive Go evidence at the classic denominator. The
+historical 58-assertion run simply had no freeze-legal file to write a current
+60-assertion report to.
 
 **Joern has no Go slice, and this wave did not invent one.** The pinned
 `joern-v4.0.617` adapter covers Java, JavaScript, Python, Ruby, PHP, and Rust.
@@ -169,19 +171,19 @@ Joern evidence at any denominator, classic or expanded.
 
 ### Semgrep CE 1.174.0 — expanded core
 
-`reports/semgrep-go-kernel.json`. The whole 58-case population is selected and
-balance-checked, and the bounded profile then decides what is scored, from case
-metadata, before Semgrep is invoked.
+`reports/semgrep-go-kernel.json`. Its historical 58-case population was
+selected and balance-checked, and the bounded profile then decided what was
+scored, from case metadata, before Semgrep was invoked.
 
 | Stratum | Assertions | Scored | `unsupported` | Polarity match (scored) |
 | --- | --- | --- | --- | --- |
 | Classic (16 templates) | 32 | 14 | 18 | 12/14 |
-| Challenge (13 templates) | 26 | 0 | 26 | n/a |
+| Challenge (13 templates in the historical report) | 26 | 0 | 26 | n/a |
 
 Whole-population outcome distribution: 9 `reached`, 5 `not-reached`, 44
 `unsupported`, zero `inconclusive`, zero `runner-error`.
 
-**All twenty-six challenge assertions take the preregistered `unsupported`
+**All twenty-six challenge assertions in that historical report take the preregistered `unsupported`
 partition**, exactly as [the challenge tier](challenge-tier.md) predicted: no
 challenge template carries the `intraprocedural` feature tag, so none is inside
 the documented CE local-taint profile, and each retains its own
@@ -196,12 +198,54 @@ of the 32 classic outcomes moved**. The partition was not adjusted for this
 expansion, and twenty-six declined assertions are coverage, never twenty-six
 false negatives.
 
-The expanded report carries fixture revision
+That historical expanded report carries fixture revision
 `sha256:7f37b99ddab7764a8536112c09ff7c8d77e0b02f7786abde65dfbaf3654d9949`,
 configuration hash
 `865d0bd2989f9ddd0b90f2d6675584e86706b109a033d4a1ac00bd21a617b100` — unchanged
 from the classic run, because no rule file was touched — and tool build identity
 `semgrep-oss:1.174.0`. Reports at different fixture revisions are not pooled.
+
+## Prospective recursive-composition extension (issue #168)
+
+The preregistered [recursive-composition kernels](recursive-composition.md) add
+five balanced Go pairs for a future v0.8.0-or-later population. This is a
+fixture-only wave: it does not rewrite frozen artifacts, rerun an analyzer, or
+claim an accuracy result. The current Go core starts at **30 templates and 60
+assertions** (16 classic plus 14 challenge templates); once the coordinator
+registers these five pairs atomically, the applicable core denominator becomes
+**35 templates and 70 assertions**. The checked-in 58-result analyzer reports
+are historical snapshots from before the existing interprocedural-exception
+challenge pair and are not a denominator for this extension.
+
+All ten fixtures use source value `7`, clean value `0`, and recursion depth `3`.
+The source and sink stay outside the recursive component, and each negative
+keeps the source-backed call live while killing the payload with the declared
+`overwrite-kill` mechanism. Their provenance revision is
+`v0.8.0-recursive-composition-go`.
+
+| Template ID | Go construction | Dimensions and tags | Negative distinction |
+| --- | --- | --- | --- |
+| `dfb-template-chal-recursive-payload-transform` | `walk(value, depth)` adds one before recursive descent and adds one to the returned result while unwinding. | `recursion`, `interprocedural-flow`, `flow-sensitivity`; `recursive` | The base overwrites `value` with `0`. |
+| `dfb-template-chal-mutual-recursive-transform` | `walkA` and `walkB` form a two-function recursive SCC; both add one before transfer and after the returned value. | `recursion`, `interprocedural-flow`, `flow-sensitivity`; `recursive` | Both bases overwrite `value` with `0`; depth `3` exercises `walkB`'s base. |
+| `dfb-template-chal-recursive-heap-unwind` | One caller-created `*FlowBox` is shared by every frame; the base stores the payload and each returning frame increments `box.value`. | `recursion`, `interprocedural-flow`, `flow-sensitivity`, `heap-field-sensitivity`; `recursive`, `heap-access-path` | The base writes the payload and overwrites the same field with `0`. |
+| `dfb-template-chal-recursive-callback-transform` | `walk` invokes a typed callable parameter; `step` adds one, passes itself back to `walk`, and adds one to the returned result. | `recursion`, `interprocedural-flow`, `flow-sensitivity`; `recursive`, `higher-order` | `walk` overwrites its base payload with `0`. |
+| `dfb-template-chal-recursive-exception-persistence` | Recursive descent writes a shared field and panics with a private signal; an outer exact `recover` re-panics other payloads and sinks the persisted field plus one. | `recursion`, `interprocedural-flow`, `flow-sensitivity`, `heap-field-sensitivity`, `exceptional-flow`; `recursive`, `heap-access-path`, `exceptional` | The base overwrites the field with `0` before the private panic. |
+
+The callback fixture contains a real indirect invocation (`walk` calls its
+callable parameter) and a real cycle (`step` passes itself back into `walk`),
+not a direct call with an unused callback. The heap fixture passes one pointer
+through every frame, never a copied struct. The exception fixture recovers only
+the unexported `recursiveFlowSignal` in `run`'s deferred function, outside all
+recursive frames; any other panic payload is re-panicked, and the sink is called
+only after that exact recovery using the persisted `box.value`.
+
+The analyzer-independent validator is
+`scripts/validate-go-recursive-composition.py`. It checks JSON anchors and
+markers, runs `gofmt` and `go build` on every fixture, and executes temporary
+instrumented copies at source values `7` and `11`. Positive sink outputs must
+change by the source delta (`+4`); negative outputs must remain constant. No
+Cargo build, analyzer run, population freeze, or report edit is part of this
+check.
 
 ### What this wave does and does not establish
 
@@ -218,10 +262,10 @@ outcomes at all.
 ## Case population and the frozen direct pair
 
 The Go core population is the `taint`/`core` cases under `cases/taint/go/` — 32
-assertions classically, and **58** now that the thirteen challenge templates
-have rolled out. Thirty of the classic cases were authored for this kernel with
-`fixture_provenance.revision` `m2-go-kernel`, and the twenty-six challenge cases
-with `m3-challenge-go`. The direct-propagation pair (`dfb-taint-go-direct-positive` and
+assertions classically, and **60** in the current case tree after the fourteen
+challenge templates rolled out. Thirty of the classic cases were authored for
+this kernel with `fixture_provenance.revision` `m2-go-kernel`, and the
+twenty-eight challenge cases with `m3-challenge-go`. The direct-propagation pair (`dfb-taint-go-direct-positive` and
 `dfb-taint-go-direct-negative`) predates it: it is the Go member of the
 13-language direct-flow breadth slice and is frozen byte-for-byte in the
 published v0.2.0 manifest (`reports/freeze.json`). Its `case.json` therefore
@@ -256,7 +300,7 @@ cargo run -- run-bifrost-go-kernel --bifrost /path/to/bifrost
 ```
 
 The command selects the whole Go core population — 32 assertions classically,
-58 with the challenge templates rolled out — materializes one isolated
+60 with the challenge templates rolled out — materializes one isolated
 workspace per case outside the repository, writes the normalized report to
 `reports/bifrost-go-kernel.json`, and retains the verbatim per-case Bifrost JSON
 under `reports/raw/bifrost-go-kernel/`. A report with incomplete runs is
@@ -270,8 +314,9 @@ freeze-prep re-run, as recorded above.
 ## CodeQL selection and reproduction
 
 The CodeQL Go vertical slice is the whole Go `taint`/`core` population — 32
-assertions classically, and **58** now that the thirteen challenge templates
-have rolled out. The retained snapshot below is the classic 32, because the
+assertions classically, and **60** in the current case tree after the fourteen
+challenge templates rolled out. The retained snapshot below is the classic 32,
+because the
 expanded run is deferred to v0.4.0 by the freeze rule. Every selected case is
 analyzed with the dedicated query:
 
@@ -431,8 +476,8 @@ passing negative.
 Go results are their own population. They are never pooled with the Java,
 JavaScript, TypeScript, Python, Kotlin, or C# kernels, never pooled with the
 13-language direct-flow breadth slice, and never averaged with a language whose
-core denominator is not the same. Go's expanded core is 29 templates; the
+core denominator is not the same. Go's current expanded core is 30 templates;
 classic snapshots retained above are 16-template numbers and are never compared
-to a 29-template one. The Java calibration cases
+to a 30-template one. The Java calibration cases
 (`dfb-template-one-hop-relay` and `dfb-template-modeled-external-summary`) have
 no Go member and do not change this denominator.

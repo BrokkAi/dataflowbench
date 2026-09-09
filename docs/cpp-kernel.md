@@ -389,3 +389,33 @@ classic 16, which is a different population of the same name. The Java
 calibration cases
 (`dfb-template-one-hop-relay` and `dfb-template-modeled-external-summary`) have
 no C++ member and do not change this denominator.
+
+## Recursive-composition preregistration (Issue #168)
+
+The five C++ members of the [recursive-composition preregistration](recursive-composition.md)
+are additive fixtures and are not part of the frozen 28-template challenge
+population above. They add five balanced core templates (10 cases) for a
+future freeze (v0.8.0 or later), which will bring the prospective C++ core
+population to 33 templates / 66 assertions once the coordinator registers
+them atomically with the shared schema and adapters. No retained report or
+denominator is changed by adding these source fixtures.
+
+All ten cases use revision `m4-recursive-composition-cpp`, `int` payloads,
+depth 3, and the benchmark-controlled `dfb_source` / `dfb_sink` endpoints.
+The positive and negative probes keep the source call live: replacing the
+source return value 7 with 11 changes each positive sink by +4 and leaves
+each negative sink constant. Every case compiles standalone with
+`clang++ -std=c++17` and has transfer, base, and composed-operation witness
+markers (plus the exceptional transfer markers where applicable).
+
+| Template | C++ construction | Negative construction |
+| --- | --- | --- |
+| `dfb-template-chal-recursive-payload-transform` | `walk(int, int)` adds one before recursive descent and one while unwinding the returned payload. | The base overwrites its payload with 0; unwind still adds one only to that clean result. |
+| `dfb-template-chal-mutual-recursive-transform` | `walk_a` and `walk_b` form a two-function SCC, alternating with +1 on descent and return; depth 3 reaches `walk_b`'s base. | Both base cases overwrite their local payload with 0. |
+| `dfb-template-chal-recursive-heap-unwind` | A single caller-owned `FlowBox` is passed by pointer; the base stores the payload and each frame increments the same `box->value` on unwind. | The base overwrites that same field with 0 before unwinding. |
+| `dfb-template-chal-recursive-callback-transform` | A declared `Step` function pointer crosses an indirect `walk` → `step` call; `step` passes `&step` back into `walk`, making the recursive callable cycle explicit. | The recursive base kills the payload before returning through the same pointer cycle. |
+| `dfb-template-chal-recursive-exception-persistence` | Recursive descent forwards the `FlowBox *` and payload; the base stores then throws the fixture-private `RecursiveSignal`, which propagates to an outer `catch (const RecursiveSignal &)`. | The base overwrites the field with 0 before throwing the same exact signal. |
+
+These fixtures intentionally have no analyzer results yet. Adapter selection,
+schema registration, and any future freeze re-run remain coordinator-owned;
+the current C++ reports stay bound to their existing 28-template population.
