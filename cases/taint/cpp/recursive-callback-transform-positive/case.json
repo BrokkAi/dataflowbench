@@ -1,0 +1,59 @@
+{
+  "schema_version": 2,
+  "id": "dfb-taint-cpp-recursive-callback-transform-positive",
+  "template_id": "dfb-template-chal-recursive-callback-transform",
+  "polarity": "positive",
+  "score_tier": "core",
+  "track": "taint",
+  "language": "cpp",
+  "semantic_dimensions": [
+    "recursion",
+    "interprocedural-flow",
+    "flow-sensitivity"
+  ],
+  "feature_tags": ["recursive", "higher-order"],
+  "model_profile": "benchmark-controlled",
+  "fixture_files": ["recursive_callback_transform_positive.cpp"],
+  "source_anchors": [{
+    "marker": "DFB-SOURCE: recursive-callback-transform-input",
+    "file": "recursive_callback_transform_positive.cpp"
+  }],
+  "sink_anchors": [{
+    "marker": "DFB-SINK: recursive-callback-transform-sink",
+    "file": "recursive_callback_transform_positive.cpp"
+  }],
+  "expected_flows": [{
+    "source": "DFB-SOURCE: recursive-callback-transform-input",
+    "sink": "DFB-SINK: recursive-callback-transform-sink"
+  }],
+  "expected_nonflows": [],
+  "witness_checkpoints": [
+    "DFB-SOURCE: recursive-callback-transform-input",
+    "DFB-WITNESS: recursive-callback-transform-indirect-transfer",
+    "DFB-WITNESS: recursive-callback-transform-recursive-transfer",
+    "DFB-WITNESS: recursive-callback-transform-base",
+    "DFB-WITNESS: recursive-callback-transform-compose",
+    "DFB-SINK: recursive-callback-transform-sink"
+  ],
+  "expected_analysis_capability": {
+    "kind": "recursive-callback-transform-taint"
+  },
+  "execution_budget": {
+    "wall_clock_seconds": 60,
+    "peak_memory_mb": 512
+  },
+  "fixture_provenance": {
+    "kind": "authored",
+    "origin": "DataFlowBench",
+    "revision": "m4-recursive-composition-cpp",
+    "license": "MIT"
+  },
+  "tool_model_references": {
+    "bifrost": {
+      "policy": "adapters/bifrost/policies/core-cpp-kernel.rqlp"
+    },
+    "codeql": {
+      "query": "adapters/codeql/cpp/queries/CppKernel.ql"
+    }
+  }
+}
