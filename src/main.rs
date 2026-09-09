@@ -82,6 +82,12 @@ struct Cli {
 enum Commands {
     Validate,
     ValidateReports,
+    /// Validate the real-project review record; optionally require the gate
+    /// that analyzer execution and real-project freezes must pass.
+    ValidateRealProjectReview {
+        #[arg(long)]
+        require_ready: bool,
+    },
     /// Validate an immutable benchmark freeze and all referenced evidence.
     ValidateFreeze {
         /// Freeze manifest, relative to the repository root.
@@ -907,6 +913,14 @@ fn main() -> Result<()> {
     match cli.command {
         Commands::Validate => validate_cases(),
         Commands::ValidateReports => validate_reports(),
+        Commands::ValidateRealProjectReview { require_ready } => {
+            real_project::validate_real_project_review_at(
+                std::path::Path::new("."),
+                require_ready,
+            )?;
+            println!("validated real-project review record");
+            Ok(())
+        }
         Commands::ValidateFreeze { manifest } => validate_freeze(&manifest),
         Commands::CreateFreeze {
             reports,

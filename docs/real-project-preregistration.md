@@ -281,7 +281,7 @@ selected twice in a row.
 
 | Stratum | Repository | Advisory | Weakness | Licence | Pin |
 | --- | --- | --- | --- | --- | --- |
-| java | [hibernate/hibernate-validator](https://github.com/hibernate/hibernate-validator) | GHSA-7v6m-28jr-rg84 (CVE-2025-35036) | CWE-94 | Apache-2.0 | `dfb-rp-java-hibernate-validator` |
+| java | [hibernate/hibernate-validator](https://github.com/hibernate/hibernate-validator) | GHSA-7v6m-28jr-rg84 (CVE-2025-35036) | CWE-94 | Apache-2.0 | `dfb-rp-java-hibernate-validator-6x` |
 | java | [Robothy/local-s3](https://github.com/Robothy/local-s3) | GHSA-g6wm-2v64-wq36 (CVE-2025-27136) | CWE-611 | Apache-2.0 | `dfb-rp-java-local-s3` |
 | javascript | [mafintosh/tar-fs](https://github.com/mafintosh/tar-fs) | GHSA-vj76-c3g6-qr5v (CVE-2025-59343) | CWE-22, CWE-61 | MIT | `dfb-rp-javascript-tar-fs` |
 | javascript | [psi-4ward/psitransfer](https://github.com/psi-4ward/psitransfer) | GHSA-xphh-5v4r-r3rx | CWE-22, CWE-23 | BSD-2-Clause | `dfb-rp-javascript-psitransfer` |
@@ -294,8 +294,9 @@ Each record in `corpus/real-project/pins/` pins **two** revisions, not one:
 
 - **`vulnerable`** — the first parent of the advisory's earliest fix commit. The
   last revision that still carries the reported defect.
-- **`fixed`** — the advisory's latest fix commit. The revision in which it is
-  remediated.
+- **`fixed`** — the last advisory fix commit on the selected
+  ancestry-compatible maintenance line. The revision in which that line's
+  remediation is complete.
 
 Each revision carries the `codeload.github.com` archive URL that names it, the
 SHA-256 of the archive as retrieved on 2026-09-04, and its byte length. The
@@ -306,8 +307,8 @@ SPDX identifier, the repository-relative licence file path as it exists at the
 pinned revision, that file's digest, and whether it is identical at both
 revisions. It was, for all six.
 
-**DataFlowBench does not vendor this source.** Nothing under
-`corpus/real-project/` contains upstream code. Each revision is fetched from
+**DataFlowBench does not vendor upstream project source.** Nothing under
+`corpus/real-project/` contains an upstream source archive or source tree. Each revision is fetched from
 its pinned archive URL and verified against its digest before use, which is why
 the slice can include copyleft-licensed repositories without the benchmark
 redistributing anything.
@@ -327,13 +328,24 @@ Requiring a single-commit fix would exclude exactly the defects most worth
 confirming against, and picking one commit out of a set would be the maintainer
 choosing which part of the fix counts.
 
+All commits in an aggregated set must belong to one ancestry-compatible
+maintenance line, and the fixed revision must descend from the vulnerable
+revision through that remediation. Chronology across divergent maintenance
+branches is not aggregation: such a pin is declined and the seeded walk
+continues under the replacement rule.
+
+When the advisory lists equivalent fixes for divergent maintenance lines, the
+pin retains every advisory commit in `fix_commits` and names the one selected
+ancestry-compatible span in `selected_fix_commits`. Omitting
+`selected_fix_commits` means the whole advisory list is the selected span.
+
 The cost is stated rather than hidden, because it is the one place this
 population is weaker than every authored one. **A real-project pair is not
 minimally different**, and cannot be. The synthetic kernels get that property by
 construction: one edit, one mechanism, everything else held. An aggregated
 upstream fix may also refactor, rename, retune, or upgrade a dependency along
-the way. `hibernate/hibernate-validator` is the sharpest case in this slice —
-four commits across twelve days of ordinary development.
+the way. `hibernate/hibernate-validator` is the only multi-commit case in this
+slice: two consecutive commits on the selected 6.x maintenance line.
 
 Two consequences follow, and both bind:
 
@@ -369,11 +381,12 @@ seeded walk:
 5. `cargo run -- validate` must pass, which it cannot unless the new walk
    reproduces from the seed.
 
-This already happened once, in this draw, and the walk records it: JavaScript
+The initial draw already exercised the same-seed continuation: JavaScript
 position 3 (`joshuayoes/ios-simulator-mcp`) was excluded under E6 because the
-advisory's only fix commit is a merge with two parents, and the walk continued
-to position 15 (`psi-4ward/psitransfer`), which is the next candidate to satisfy
-all eight criteria.
+advisory's only fix commit is a merge with two parents. It was never selected,
+so this was an eligibility exclusion rather than a replacement. The walk then
+continued to position 15 (`psi-4ward/psitransfer`), the next candidate to
+satisfy all eight criteria.
 
 **After adjudication closes**, the walk does not continue. A repository found
 unusable at that point is retired by amendment, its exclusion is published, and
@@ -560,6 +573,13 @@ the pinned fixed revision. The advisory does not state that. Somebody has to
 read the code and write it down, and somebody else has to check it without
 having seen the first person's reasoning.
 
+The executable agent-review route and its pending, digest-bound record are in
+[the independent review contract](real-project-review.md). That record replaces
+the R1 single-maintainer waiver below: issue #19 remains open and analyzer
+execution remains forbidden until both independent agent reports are complete,
+compared, and either agreed or adjudicated. Any unresolved disagreement or
+`cannot-determine` remains `inconclusive` and blocks execution and freeze.
+
 ### Roles
 
 | Role | Does | Must not |
@@ -614,7 +634,7 @@ standing independence requirement is stated in terms of that conflict:
 
 ### Staffing for wave R1, and what it does not satisfy
 
-**Decided 2026-09-04.** The project has no second reviewer to assign, so for
+**Superseded by [A33](#a33--2026-09-09-the-r1-waiver-is-replaced-by-a-provenance-bound-independent-agent-review-and-latency-scalability-is-preregistered). Decided 2026-09-04.** The project had no second reviewer to assign, so for
 wave R1 the maintainer (D. Baker Effendi) holds **all three roles** on all six
 cases: author, sole reviewer, and adjudicator.
 
@@ -675,5 +695,45 @@ is claimed on it.
 
 ## Amendments
 
-None. This document has not yet been amended; no analyzer has executed against
-any pinned revision.
+### A33 — 2026-09-09: the R1 waiver is replaced by a provenance-bound independent agent review, and latency scalability is preregistered
+
+Issue #19 now uses two blind agent reviewers in separate clean checkouts and
+evidence paths: reviewer A is Astra Light or Sol medium, and reviewer B is GLM
+5.3. The machine-readable route is `corpus/real-project/review.json`, validated
+against `schemas/real-project-review.schema.json`; its initial honest state is
+pending. The coordinator compares immutable reports only after both
+submissions. An unresolved disagreement or `cannot-determine` is retained as
+`inconclusive` and keeps both execution and freeze readiness false. No analyzer
+has executed.
+
+Reviewer A identified that the original Hibernate Validator endpoints spanned
+divergent 6.x and 7.x maintenance branches. This amendment tightens the
+multi-commit rule to require one ancestry-compatible line. The coordinator
+therefore retired `dfb-rp-java-hibernate-validator` and created the distinct
+`dfb-rp-java-hibernate-validator-6x` pin: vulnerable revision
+`56d443dbb5f4e81f2900d2563c42e68f475051e8`, followed by the consecutive
+advisory remediation commits `e076293b0ee1bfa97b6e67d05ad9eee1ad77e893`
+and `d2db40b9e7d22c7a0b44d7665242dfc7b4d14d78`. The selected repository,
+advisory, seed, draw key, and draw position do not change. The original record
+is retained under `corpus/real-project/superseded-pins/`; the review gate
+remains shut until both reviewers inspect the amended packet.
+
+The same review record preregisters two separate descriptive latency views for
+issue #20. Small-project latency retains raw per-project and per-case cold
+invocation observations and medians, plus warm marginal observations where the
+existing warm contract applies. Startup and invocation overhead remain a
+separate measured component and are never subtracted as an inferred constant.
+Latency per LoC retains those raw measurements and divides them descriptively
+by physical source lines in each exact pinned revision, counted with
+`scripts/count-real-project-loc.py`. The freeze binds the counter's revision and
+SHA-256, source archive digest, complete per-file count/digest output, language
+extensions, and its predeclared generated/vendor/dependency/build/cache/minified
+exclusions. Vulnerable and fixed revisions have separate counts.
+
+Every latency observation retains project and case identity, language,
+analyzer/adapter/build identity, source and analyzer revisions, configuration
+hash, environment stamp, invocation index, termination state, raw wall time,
+cold/warm label, startup overhead, LoC count, and counting-contract identity.
+The two views are not pooled or ranked. They support no accuracy, superiority,
+causal, complexity, or general scalability claim, and they cannot change a
+synthetic-core denominator.

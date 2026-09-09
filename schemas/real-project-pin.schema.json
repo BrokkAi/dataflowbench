@@ -101,6 +101,13 @@
       "items": { "type": "string", "pattern": "^[0-9a-f]{40}$" },
       "description": "Every fix commit the advisory names in this repository, resolved to full revisions and ordered by commit date."
     },
+    "selected_fix_commits": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": { "type": "string", "pattern": "^[0-9a-f]{40}$" },
+      "description": "The ancestry-compatible advisory commits included in this pin's vulnerable/fixed span. Omitted when every advisory fix commit belongs to that span."
+    },
     "revisions": {
       "type": "object",
       "additionalProperties": false,
