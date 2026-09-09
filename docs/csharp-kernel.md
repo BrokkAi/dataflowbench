@@ -32,8 +32,8 @@ deviation from the matrix.
 | Control transfer | `dfb-template-loop-carried-kill` | A `for` loop either overwrites the carried value or computes from it. |
 | Control transfer | `dfb-template-exception-catch` | A `FlowException : Exception` carries the value in a public field across `throw`/`catch`, matching the Java checked-exception construct. |
 
-Since the challenge-tier expansion below, the C# core denominator is **29
-templates and 58 assertions**. The paragraph above describes the classic
+Since the challenge-tier expansion below, the C# core denominator is **30
+templates and 60 assertions**. The paragraph above describes the classic
 sixteen-template kernel, which remains exactly as published; the expanded
 denominator is a different population and the two are never compared
 number-to-number.
@@ -46,10 +46,12 @@ analyzer-neutral and reports retain only observed evidence.
 
 ## Case population and the frozen direct pair
 
-The C# population is the 58 `taint`/`core` cases under `cases/taint/csharp/`.
+The C# population is the 70 `taint`/`core` cases under `cases/taint/csharp/`.
 Thirty of them were authored for this kernel with
-`fixture_provenance.revision` `m2-csharp-kernel`, and 26 for the
-challenge-tier expansion with revision `m3-challenge-csharp`. The direct-propagation pair
+`fixture_provenance.revision` `m2-csharp-kernel`; the 28 challenge-tier cases
+use revisions `m3-challenge-csharp` and `v0.8.0-challenge-csharp`; and the ten
+prospective recursive-composition cases use `m4-recursive-composition-csharp`.
+The direct-propagation pair
 (`dfb-taint-csharp-direct-positive` and `dfb-taint-csharp-direct-negative`)
 predates it: it is the C# member of the 13-language direct-flow breadth slice,
 and it is frozen byte-for-byte in the published v0.2.0 manifest
@@ -84,7 +86,7 @@ the dangerous operand. Run it from the repository root:
 cargo run -- run-bifrost-csharp-kernel --bifrost /path/to/bifrost
 ```
 
-The command selects only the C# core assertions — 58 since the challenge row
+The command selects only the C# core assertions — 60 since the challenge row
 flipped — materializes one isolated
 workspace per case outside the repository, writes the normalized report to
 `reports/bifrost-csharp-kernel.json`, and retains the verbatim per-case Bifrost
@@ -93,7 +95,7 @@ is normalized as `inconclusive`, never as a negative.
 
 ## CodeQL selection and reproduction
 
-The CodeQL C# vertical slice is exactly that population — 58 cases since the
+The CodeQL C# vertical slice is exactly that population — 60 cases since the
 challenge expansion, though the retained report predates it. Every selected case is
 analyzed with the dedicated query:
 
@@ -215,19 +217,19 @@ rather than an artifact of the language-qualified policy.
 
 ## Challenge-tier expansion
 
-The thirteen templates of [the challenge-tier
-preregistration](challenge-tier.md) have landed for C#. All thirteen cells are
-applicable to C#, so the expansion adds 13 templates / 26 assertions and the
-C# core denominator becomes **29 templates / 58 assertions**, exactly as the
+The fourteen templates of [the challenge-tier
+preregistration](challenge-tier.md) have landed for C#. All fourteen cells are
+applicable to C#, so the expansion adds 14 templates / 28 assertions and the
+C# core denominator becomes **30 templates / 60 assertions**, exactly as the
 preregistration's expanded-denominator table fixes it. The new cases live
 under `cases/taint/csharp/<template>-{positive,negative}/` with ids
-`dfb-taint-csharp-<template>-<polarity>`, `score_tier` `core`, and
-`fixture_provenance.revision` `m3-challenge-csharp`.
+`dfb-taint-csharp-<template>-<polarity>` and `score_tier` `core`; their
+provenance revisions are the challenge revisions recorded above.
 
 Every fixture is a single self-contained `.cs` file in file-scoped namespace
 `DataFlowBench`, using only the .NET base class library (`System`,
 `System.Collections.Generic`, `System.Reflection`). No project file, no
-package reference, no third-party dependency. The 26 fixtures compile together
+package reference, no third-party dependency. The 28 fixtures compile together
 under `dotnet build` with `net8.0`, `Nullable` enabled and `-warnaserror`:
 **0 warnings, 0 errors**. (The classic fixtures are not compiled in the same
 project because the frozen direct pair declares the same type name in both
@@ -289,7 +291,7 @@ source, sink, recursive-transfer, base-case, and composed-operation markers,
 with `DFB-KILL` on each negative base overwrite.
 
 Until the shared rollout registration is extended atomically, the existing
-29-template/58-assertion C# population and its reports remain the earlier
+30-template/60-assertion C# population and its reports remain the earlier
 population. Once registered, C#'s applicable core denominator becomes 35
 templates and 70 assertions; those results must be reported separately from
 all earlier freezes.
@@ -311,13 +313,13 @@ in the fixtures:
   nineteen reports `reports/freeze.json` digest-binds for v0.3.0. Re-running
   `run-bifrost-csharp-kernel` would overwrite published evidence and invalidate
   the freeze, so it was not run. Its 32 results remain the frozen
-  16-template v0.3.0 evidence and say nothing either way about the thirteen
+  16-template v0.3.0 evidence and say nothing either way about the fourteen
   challenge templates. **Expanded Bifrost evidence is pending the v0.4.0
   freeze-prep re-run.**
 - **CodeQL — deferred.** `reports/codeql-csharp-kernel.json` is likewise
   freeze-bound (all ten CodeQL kernel reports are). **Expanded CodeQL evidence
   is pending the v0.4.0 freeze-prep re-run.** The selector already expects the
-  full 58; the runner is simply not invoked until the freeze is re-cut.
+  full 60; the runner is simply not invoked until the freeze is re-cut.
 - **Joern — absent.** The pinned distribution ships a `csharpsrc2cpg`
   frontend, but this repository has **no C# Joern slice**: there is no
   `JoernKernel` variant for C#, no C# Joern query, and no
@@ -342,7 +344,7 @@ v0.4.0 re-run produces them.
 C# results are their own population. They are never pooled with the Java,
 JavaScript, or Python kernels, never pooled with the 13-language direct-flow
 breadth slice, and never averaged with a language whose core denominator is not
-also 29 templates — nor with a C# score taken over the classic 16, which is a
+also 30 templates — nor with a C# score taken over the classic 16, which is a
 different population of the same name. The Java calibration cases (`dfb-template-one-hop-relay` and
 `dfb-template-modeled-external-summary`) have no C# member and do not change
 this denominator.
