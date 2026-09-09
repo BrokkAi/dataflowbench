@@ -25,6 +25,7 @@ see the glossary entry below.
 | [native-profile.md](native-profile.md) | Preregistration of the tool-native model profile: shipped-model coverage, never pooled with the controlled matrix. Amendment-bearing. |
 | [latency-tier.md](latency-tier.md) | Preregistration of the descriptive latency-characterization tier and the per-adapter granularity table. Amendment-bearing. |
 | [real-project-preregistration.md](real-project-preregistration.md) | Preregistration of the real-project confirmation slice: the advisory-derived population, the eligibility criteria, the seeded draw and its replacement rule, the bounded per-repository claims, the independent ground-truth review, and the rule that no real-project outcome touches a core denominator. Amendment-bearing. |
+| [real-project-review.md](real-project-review.md) | The provenance-bound two-lab review packet, disagreement/adjudication rules, fail-closed analyzer/freeze gate, and the separate real-project latency/LoC measurement contract. |
 | [fixture-provenance.md](fixture-provenance.md) | The required provenance fields for every fixture and the MIT/CC0 licensing split. |
 | [benchmark-sources.md](benchmark-sources.md) | The external suites treated as design inputs, and why none is imported as ground truth. |
 

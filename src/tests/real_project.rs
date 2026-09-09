@@ -2,10 +2,11 @@
 //! exclusion cites a declared criterion, and every pin binds two revisions.
 
 use crate::real_project::{
-    REAL_PROJECT_DRAW, real_project_draw_key, real_project_pin_paths, validate_real_project_slice,
+    REAL_PROJECT_DRAW, real_project_draw_key, real_project_pin_paths,
+    validate_real_project_review_at, validate_real_project_slice, validate_review_state,
 };
 use serde_json::{Value, json};
-use std::fs;
+use std::{fs, path::Path};
 
 /// The draw key is the whole integrity claim of the real-project slice, so
 /// it is pinned to a literal here rather than recomputed by the same
@@ -30,6 +31,22 @@ pub(crate) fn the_real_project_draw_key_is_stable() {
 #[test]
 pub(crate) fn the_committed_real_project_slice_replays() {
     assert_eq!(validate_real_project_slice().unwrap(), 6);
+}
+
+#[test]
+pub(crate) fn the_pending_review_record_is_valid_but_blocks_execution() {
+    validate_real_project_review_at(Path::new("."), false).unwrap();
+    let error = validate_real_project_review_at(Path::new("."), true).unwrap_err();
+    assert!(error.to_string().contains("analyzer execution"));
+}
+
+#[test]
+pub(crate) fn a_non_ready_review_cannot_enable_either_gate() {
+    let mut review: Value =
+        serde_json::from_slice(&fs::read("corpus/real-project/review.json").unwrap()).unwrap();
+    review["readiness"]["execution_ready"] = json!(true);
+    let error = validate_review_state(Path::new("."), &review, false).unwrap_err();
+    assert!(error.to_string().contains("must keep both"));
 }
 
 /// Every eligibility criterion an exclusion cites must be declared by the

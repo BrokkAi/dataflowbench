@@ -36,6 +36,8 @@ pub(crate) const REAL_PROJECT_DIR: &str = "corpus/real-project";
 pub(crate) const REAL_PROJECT_FRAME: &str = "corpus/real-project/frame.json";
 pub(crate) const REAL_PROJECT_DRAW: &str = "corpus/real-project/draw.json";
 pub(crate) const REAL_PROJECT_PINS_DIR: &str = "corpus/real-project/pins";
+pub(crate) const REAL_PROJECT_REVIEW: &str = "corpus/real-project/review.json";
+pub(crate) const REAL_PROJECT_REVIEW_SCHEMA: &str = "schemas/real-project-review.schema.json";
 
 /// The licences a drawn repository may carry, per eligibility criterion E2 of
 /// docs/real-project-preregistration.md. The list is OSI-approved identifiers
@@ -339,6 +341,19 @@ pub(crate) fn validate_real_project_slice() -> Result<usize> {
             }
         }
 
+        let selected_fix_commits: Vec<&str> = pin["selected_fix_commits"]
+            .as_array()
+            .unwrap_or_else(|| pin["fix_commits"].as_array().expect("schema validated"))
+            .iter()
+            .map(|value| value.as_str().expect("schema validated"))
+            .collect();
+        if selected_fix_commits
+            .iter()
+            .any(|selected| !fix_commits.contains(selected))
+        {
+            bail!("{display}: selected_fix_commits must be a subset of the advisory's fix commits");
+        }
+
         let vulnerable = pin["revisions"]["vulnerable"]["revision"]
             .as_str()
             .expect("schema validated");
@@ -348,8 +363,8 @@ pub(crate) fn validate_real_project_slice() -> Result<usize> {
         if vulnerable == fixed {
             bail!("{display}: the vulnerable and fixed revisions must differ");
         }
-        if !fix_commits.contains(&fixed) {
-            bail!("{display}: the fixed revision {fixed} is not one of the advisory's fix commits");
+        if !selected_fix_commits.contains(&fixed) {
+            bail!("{display}: the fixed revision {fixed} is not one of the selected fix commits");
         }
         if fix_commits.contains(&vulnerable) {
             bail!(
@@ -396,5 +411,437 @@ pub(crate) fn validate_real_project_slice() -> Result<usize> {
             );
         }
     }
+    validate_real_project_review_at(Path::new("."), false)?;
     Ok(paths.len())
+}
+
+/// Validate the provenance-bound independent-review record. Pending and
+/// inconclusive records are valid preregistration evidence, but callers that
+/// can execute analyzers or freeze real-project results pass `require_ready`
+/// and fail closed until both independent labs and disagreement handling have
+/// completed.
+pub(crate) fn validate_real_project_review_at(root: &Path, require_ready: bool) -> Result<()> {
+    let review_path = root.join(REAL_PROJECT_REVIEW);
+    let review_bytes =
+        fs::read(&review_path).with_context(|| format!("read {}", review_path.display()))?;
+    let review: Value = serde_json::from_slice(&review_bytes)
+        .with_context(|| format!("parse {}", review_path.display()))?;
+    let schema_path = root.join(REAL_PROJECT_REVIEW_SCHEMA);
+    let schema_value: Value = serde_json::from_slice(
+        &fs::read(&schema_path).with_context(|| format!("read {}", schema_path.display()))?,
+    )?;
+    let compiled = jsonschema::JSONSchema::compile(Box::leak(Box::new(schema_value)))
+        .context("compile real-project review schema")?;
+    validate_value(&compiled, &review, &review_path)?;
+
+    let scoped_artifacts = review["scope"]
+        .as_object()
+        .expect("review schema validated");
+    for key in ["preregistration", "review_contract", "draw", "frame"] {
+        validate_review_artifact(root, &scoped_artifacts[key])?;
+    }
+    for artifact in scoped_artifacts["schemas"]
+        .as_array()
+        .expect("review schema validated")
+    {
+        validate_review_artifact(root, artifact)?;
+    }
+    let scoped_pins = scoped_artifacts["pins"]
+        .as_array()
+        .expect("review schema validated");
+    let mut scoped_paths = BTreeSet::new();
+    for artifact in scoped_pins {
+        let path = validate_review_artifact(root, artifact)?;
+        if !scoped_paths.insert(path) {
+            bail!("{REAL_PROJECT_REVIEW}: duplicate scoped pin artifact");
+        }
+    }
+    let actual_pin_paths = real_project_pin_paths_at(root)?
+        .into_iter()
+        .map(|path| {
+            path.strip_prefix(root)
+                .unwrap_or(&path)
+                .to_string_lossy()
+                .replace('\\', "/")
+        })
+        .collect::<BTreeSet<_>>();
+    if scoped_paths != actual_pin_paths {
+        bail!("{REAL_PROJECT_REVIEW}: scoped pins do not match the selected pin set");
+    }
+    for artifact in scoped_artifacts["measurement_tools"]
+        .as_array()
+        .expect("review schema validated")
+    {
+        validate_review_artifact(root, artifact)?;
+    }
+    for prior in review["prior_reviews"]
+        .as_array()
+        .expect("review schema validated")
+    {
+        validate_review_artifact(root, &prior["report"])?;
+    }
+
+    let canonical_packet = review_packet_artifacts(&review)?;
+    for role in ["reviewer_a", "reviewer_b"] {
+        let reviewer = &review["reviewers"][role];
+        let packet = reviewer["packet"]["artifacts"]
+            .as_array()
+            .expect("review schema validated")
+            .iter()
+            .map(review_artifact_identity)
+            .collect::<Result<BTreeSet<_>>>()?;
+        if packet != canonical_packet {
+            bail!("{REAL_PROJECT_REVIEW}: {role} packet differs from the canonical digest set");
+        }
+    }
+
+    let reviewed_pins = review["per_pin_ground_truth"]
+        .as_array()
+        .expect("review schema validated");
+    let mut reviewed_paths = BTreeSet::new();
+    for pin in reviewed_pins {
+        let path = validate_review_artifact(root, &pin["pin_artifact"])?;
+        if !reviewed_paths.insert(path) {
+            bail!("{REAL_PROJECT_REVIEW}: duplicate per-pin ground-truth review");
+        }
+    }
+    if reviewed_paths != actual_pin_paths {
+        bail!("{REAL_PROJECT_REVIEW}: per-pin reviews do not cover the selected pin set");
+    }
+
+    validate_review_state(root, &review, require_ready)?;
+    Ok(())
+}
+
+pub(crate) fn validate_frozen_real_project_review(root: &Path, artifact: &Value) -> Result<()> {
+    if artifact["path"] != REAL_PROJECT_REVIEW {
+        bail!("real-project freeze must bind {REAL_PROJECT_REVIEW}");
+    }
+    validate_review_artifact(root, artifact)?;
+    validate_real_project_review_at(root, true)
+}
+
+fn real_project_pin_paths_at(root: &Path) -> Result<Vec<PathBuf>> {
+    let directory = root.join(REAL_PROJECT_PINS_DIR);
+    let mut paths = fs::read_dir(&directory)
+        .with_context(|| format!("read {}", directory.display()))?
+        .filter_map(Result::ok)
+        .map(|entry| entry.path())
+        .filter(|path| path.is_file() && path.extension().is_some_and(|ext| ext == "json"))
+        .collect::<Vec<_>>();
+    paths.sort();
+    Ok(paths)
+}
+
+fn review_artifact_identity(artifact: &Value) -> Result<(String, String)> {
+    let path = artifact["path"]
+        .as_str()
+        .context("review artifact requires path")?;
+    let digest = artifact["sha256"]
+        .as_str()
+        .context("review artifact requires sha256")?;
+    Ok((path.to_string(), digest.to_string()))
+}
+
+fn review_packet_artifacts(review: &Value) -> Result<BTreeSet<(String, String)>> {
+    let scope = review["scope"]
+        .as_object()
+        .expect("review schema validated");
+    let mut artifacts = BTreeSet::new();
+    for key in ["preregistration", "review_contract", "draw", "frame"] {
+        artifacts.insert(review_artifact_identity(&scope[key])?);
+    }
+    for schema in scope["schemas"]
+        .as_array()
+        .expect("review schema validated")
+    {
+        artifacts.insert(review_artifact_identity(schema)?);
+    }
+    for pin in scope["pins"].as_array().expect("review schema validated") {
+        artifacts.insert(review_artifact_identity(pin)?);
+    }
+    for tool in scope["measurement_tools"]
+        .as_array()
+        .expect("review schema validated")
+    {
+        artifacts.insert(review_artifact_identity(tool)?);
+    }
+    Ok(artifacts)
+}
+
+fn validate_review_artifact(root: &Path, artifact: &Value) -> Result<String> {
+    let (relative, expected) = review_artifact_identity(artifact)?;
+    let relative_path = Path::new(&relative);
+    if relative_path.is_absolute()
+        || relative_path
+            .components()
+            .any(|component| component == std::path::Component::ParentDir)
+    {
+        bail!("review artifact path must be repository-relative: {relative:?}");
+    }
+    let path = root.join(relative_path);
+    let canonical_root = root
+        .canonicalize()
+        .with_context(|| format!("canonicalize repository root {}", root.display()))?;
+    let canonical_path = path
+        .canonicalize()
+        .with_context(|| format!("canonicalize review artifact {relative}"))?;
+    if !canonical_path.starts_with(&canonical_root) {
+        bail!("review artifact path escapes the repository: {relative:?}");
+    }
+    let bytes = fs::read(&path).with_context(|| format!("read review artifact {relative}"))?;
+    let actual = format!("{:x}", Sha256::digest(&bytes));
+    if actual != expected {
+        bail!(
+            "review artifact {relative} SHA-256 digest mismatch: expected {expected}, got {actual}"
+        );
+    }
+    Ok(relative.replace('\\', "/"))
+}
+
+pub(crate) fn validate_review_state(
+    root: &Path,
+    review: &Value,
+    require_ready: bool,
+) -> Result<()> {
+    let readiness = &review["readiness"];
+    let execution_ready = readiness["execution_ready"] == true;
+    let freeze_ready = readiness["freeze_ready"] == true;
+    let ready = readiness["outcome"] == "ready" && execution_ready && freeze_ready;
+    if !ready {
+        if execution_ready || freeze_ready || readiness["outcome"] == "ready" {
+            bail!(
+                "{REAL_PROJECT_REVIEW}: a non-ready review must keep both execution_ready and freeze_ready false"
+            );
+        }
+        if review["status"] == "complete" {
+            bail!("{REAL_PROJECT_REVIEW}: a complete review must be execution- and freeze-ready");
+        }
+        let coherent = match review["status"].as_str().expect("review schema validated") {
+            "pending" => readiness["outcome"] == "pending",
+            "inconclusive" => {
+                readiness["outcome"] == "inconclusive" || readiness["outcome"] == "blocked"
+            }
+            _ => false,
+        };
+        if !coherent {
+            bail!("{REAL_PROJECT_REVIEW}: review status and readiness outcome disagree");
+        }
+        if readiness["blocking_reasons"]
+            .as_array()
+            .expect("review schema validated")
+            .is_empty()
+        {
+            bail!("{REAL_PROJECT_REVIEW}: a non-ready review requires a blocking reason");
+        }
+        if require_ready {
+            bail!(
+                "{REAL_PROJECT_REVIEW}: independent review is not ready; analyzer execution and real-project freeze are blocked"
+            );
+        }
+        return Ok(());
+    }
+    if review["status"] != "complete" {
+        bail!("{REAL_PROJECT_REVIEW}: readiness cannot be true before the review is complete");
+    }
+    if !readiness["blocking_reasons"]
+        .as_array()
+        .expect("review schema validated")
+        .is_empty()
+    {
+        bail!("{REAL_PROJECT_REVIEW}: a ready review cannot retain blocking reasons");
+    }
+    if review["disagreement"]["status"] == "pending"
+        || review["disagreement"]["status"] == "unresolved"
+        || review["disagreement"]["outcome"] == "pending"
+        || review["disagreement"]["outcome"] == "inconclusive"
+    {
+        bail!("{REAL_PROJECT_REVIEW}: unresolved disagreement blocks readiness");
+    }
+
+    let mut checkout_paths = BTreeSet::new();
+    let mut checkout_revisions = BTreeSet::new();
+    let mut evidence_paths = BTreeSet::new();
+    let mut report_paths = BTreeSet::new();
+    let mut has_rejection = false;
+    for role in ["reviewer_a", "reviewer_b"] {
+        let reviewer = &review["reviewers"][role];
+        let plan = &review["protocol"][role];
+        for field in ["provider", "model", "reasoning_effort", "role"] {
+            if reviewer[field] != plan[field] {
+                bail!(
+                    "{REAL_PROJECT_REVIEW}: {role} provenance differs from its preregistered plan"
+                );
+            }
+        }
+        if reviewer["status"] != "submitted"
+            || reviewer["blind_independence"]["status"] != "verified"
+            || reviewer["blind_independence"]["independent_checkout"] != true
+            || reviewer["blind_independence"]["independent_evidence_path"] != true
+            || reviewer["checkout"]["clean"] != true
+        {
+            bail!(
+                "{REAL_PROJECT_REVIEW}: {role} has no completed independent clean-checkout review"
+            );
+        }
+        for field in ["run_id", "started_at", "completed_at"] {
+            if reviewer[field].as_str().map_or(true, str::is_empty) {
+                bail!("{REAL_PROJECT_REVIEW}: {role} requires {field}");
+            }
+        }
+        if reviewer["checkout"]["observed_at"]
+            .as_str()
+            .map_or(true, str::is_empty)
+        {
+            bail!("{REAL_PROJECT_REVIEW}: {role} requires checkout.observed_at");
+        }
+        let checkout_path = reviewer["checkout"]["path"]
+            .as_str()
+            .filter(|value| !value.is_empty())
+            .with_context(|| format!("{REAL_PROJECT_REVIEW}: {role} requires checkout.path"))?;
+        if !checkout_paths.insert(checkout_path) {
+            bail!("{REAL_PROJECT_REVIEW}: reviewers must use separate clean checkouts");
+        }
+        let checkout_revision = reviewer["checkout"]["revision"]
+            .as_str()
+            .filter(|value| value.len() == 40)
+            .with_context(|| format!("{REAL_PROJECT_REVIEW}: {role} requires checkout.revision"))?;
+        checkout_revisions.insert(checkout_revision);
+        let evidence_path = reviewer["packet"]["evidence_path"]
+            .as_str()
+            .filter(|value| !value.is_empty())
+            .with_context(|| {
+                format!("{REAL_PROJECT_REVIEW}: {role} requires packet.evidence_path")
+            })?;
+        if !evidence_paths.insert(evidence_path) {
+            bail!("{REAL_PROJECT_REVIEW}: reviewers must use separate evidence paths");
+        }
+        let report_path = validate_review_artifact(root, &reviewer["report"])?;
+        if !report_path.starts_with("corpus/real-project/reviews/")
+            || !report_paths.insert(report_path)
+        {
+            bail!(
+                "{REAL_PROJECT_REVIEW}: reviewer reports must be distinct retained review artifacts"
+            );
+        }
+        for verdict in reviewer["subject_verdicts"]
+            .as_object()
+            .expect("review schema validated")
+            .values()
+        {
+            match verdict.as_str().expect("review schema validated") {
+                "accept" => {}
+                "reject" => has_rejection = true,
+                _ => bail!("{REAL_PROJECT_REVIEW}: {role} has an unresolved subject verdict"),
+            }
+        }
+    }
+    if checkout_revisions.len() != 1 {
+        bail!("{REAL_PROJECT_REVIEW}: reviewers must inspect the same checkout revision");
+    }
+    if review["reviewers"]["reviewer_a"]["provider"]
+        == review["reviewers"]["reviewer_b"]["provider"]
+        || review["reviewers"]["reviewer_a"]["model"] == review["reviewers"]["reviewer_b"]["model"]
+    {
+        bail!("{REAL_PROJECT_REVIEW}: reviewer labs must have distinct providers and models");
+    }
+    let reviewer_a = &review["reviewers"]["reviewer_a"];
+    if reviewer_a["provider"] != "openai"
+        || !matches!(
+            reviewer_a["model"].as_str(),
+            Some("gpt-6-astra-light" | "gpt-5.6-sol")
+        )
+        || (reviewer_a["model"] == "gpt-5.6-sol" && reviewer_a["reasoning_effort"] != "medium")
+    {
+        bail!("{REAL_PROJECT_REVIEW}: reviewer A must be Astra Light or Sol medium");
+    }
+    let reviewer_b = &review["reviewers"]["reviewer_b"];
+    if reviewer_b["provider"] != "z.ai" || reviewer_b["model"] != "glm-5.3" {
+        bail!("{REAL_PROJECT_REVIEW}: reviewer B must be the independent GLM 5.3 lab");
+    }
+    for pin in review["per_pin_ground_truth"]
+        .as_array()
+        .expect("review schema validated")
+    {
+        for role in ["reviewer_a", "reviewer_b"] {
+            for field in [
+                "status",
+                "vulnerable_revision",
+                "fixed_revision",
+                "remediation",
+            ] {
+                match pin[role][field].as_str().expect("review schema validated") {
+                    "accept" => {}
+                    "reject" => has_rejection = true,
+                    _ => bail!("{REAL_PROJECT_REVIEW}: per-pin review has an unresolved verdict"),
+                }
+            }
+        }
+        if pin["consensus"] != "accept" || pin["remediation_location"]["status"] != "accept" {
+            bail!("{REAL_PROJECT_REVIEW}: every selected pin requires accepted ground truth");
+        }
+        let pin_path = pin["pin_artifact"]["path"]
+            .as_str()
+            .expect("review schema validated");
+        let pinned: Value = serde_json::from_slice(&fs::read(root.join(pin_path))?)?;
+        if pin["pin_id"] != pinned["pin_id"]
+            || pin["remediation_location"]["vulnerable_revision"]
+                != pinned["revisions"]["vulnerable"]["revision"]
+            || pin["remediation_location"]["fixed_revision"]
+                != pinned["revisions"]["fixed"]["revision"]
+        {
+            bail!("{REAL_PROJECT_REVIEW}: per-pin ground truth contradicts its pinned revisions");
+        }
+    }
+    if has_rejection && review["disagreement"]["outcome"] != "adjudicated" {
+        bail!("{REAL_PROJECT_REVIEW}: a rejected review position requires adjudication");
+    }
+    match review["disagreement"]["outcome"]
+        .as_str()
+        .expect("review schema validated")
+    {
+        "agreed" => {
+            if review["disagreement"]["status"] != "none"
+                || !review["disagreement"]["items"]
+                    .as_array()
+                    .expect("review schema validated")
+                    .is_empty()
+                || review["disagreement"]["adjudicator"]["type"] != "none"
+            {
+                bail!(
+                    "{REAL_PROJECT_REVIEW}: an agreed review must record no disagreement or adjudicator"
+                );
+            }
+        }
+        "adjudicated" => {
+            let adjudicator = &review["disagreement"]["adjudicator"];
+            if review["disagreement"]["status"] != "resolved"
+                || review["disagreement"]["items"]
+                    .as_array()
+                    .expect("review schema validated")
+                    .is_empty()
+                || adjudicator["type"] == "none"
+                || ["id", "run_id", "started_at", "completed_at"]
+                    .iter()
+                    .any(|field| adjudicator[*field].as_str().map_or(true, str::is_empty))
+            {
+                bail!(
+                    "{REAL_PROJECT_REVIEW}: adjudication requires a resolved item and complete adjudicator provenance"
+                );
+            }
+        }
+        _ => bail!("{REAL_PROJECT_REVIEW}: a ready review must be agreed or adjudicated"),
+    }
+    if review["disagreement"]["items"]
+        .as_array()
+        .expect("review schema validated")
+        .iter()
+        .any(|item| item["status"] != "resolved" || item["resolution"].as_str().is_none())
+    {
+        bail!("{REAL_PROJECT_REVIEW}: every disagreement requires a retained resolution");
+    }
+    if review["claims"]["subject_verdict"] != "accept" {
+        bail!("{REAL_PROJECT_REVIEW}: bounded claims have not been accepted");
+    }
+    Ok(())
 }

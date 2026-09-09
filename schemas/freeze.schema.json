@@ -36,6 +36,10 @@
       "minItems": 1,
       "description": "Each normalized report with its digest, selected case IDs, outcomes, and one retained raw-evidence digest per result.",
       "items": { "$ref": "#/$defs/report" }
+    },
+    "real_project_review": {
+      "$ref": "#/$defs/artifact",
+      "description": "Required by the validator exactly when the selected cases include score_tier real-project. Its digest and completed independent-review readiness are checked before freeze validation can succeed."
     }
   },
   "$defs": {
@@ -43,6 +47,15 @@
       "type": "string",
       "pattern": "^[0-9a-f]{64}$",
       "description": "Lowercase hex SHA-256 of an artifact's bytes. The manifest digests, not revision equality, carry the byte-immutability guarantee for every referenced artifact."
+    },
+    "artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": { "type": "string", "minLength": 1 },
+        "sha256": { "$ref": "#/$defs/sha256" }
+      }
     },
     "revision": {
       "type": "string",
