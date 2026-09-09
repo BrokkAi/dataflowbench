@@ -290,8 +290,8 @@ with `DFB-KILL` on each negative base overwrite.
 
 Until the shared rollout registration is extended atomically, the existing
 29-template/58-assertion C# population and its reports remain the earlier
-population. Once registered, C#'s applicable core denominator becomes 34
-templates and 68 assertions; those results must be reported separately from
+population. Once registered, C#'s applicable core denominator becomes 35
+templates and 70 assertions; those results must be reported separately from
 all earlier freezes.
 
 The narrow fixture check is analyzer-independent. It runs

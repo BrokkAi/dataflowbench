@@ -170,8 +170,8 @@ pub(crate) const RECURSIVE_COMPOSITION_TEMPLATE_IDS: [&str; 5] = [
 ];
 
 /// Explicit delivery ledger: add a language only with its complete fixture pairs.
-pub(crate) const RECURSIVE_COMPOSITION_LANGUAGES: [&str; 5] =
-    ["java", "python", "javascript", "typescript", "c"];
+pub(crate) const RECURSIVE_COMPOSITION_LANGUAGES: [&str; 6] =
+    ["java", "python", "javascript", "typescript", "c", "csharp"];
 
 pub(crate) fn recursive_composition_templates(language: &str) -> Vec<&'static str> {
     if !RECURSIVE_COMPOSITION_LANGUAGES.contains(&language) {
