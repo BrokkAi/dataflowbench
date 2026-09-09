@@ -1,0 +1,23 @@
+{
+  "schema_version": 2,
+  "id": "dfb-taint-ruby-recursive-heap-unwind-negative",
+  "template_id": "dfb-template-chal-recursive-heap-unwind",
+  "polarity": "negative",
+  "negative_mechanism": "overwrite-kill",
+  "score_tier": "core",
+  "track": "taint",
+  "language": "ruby",
+  "semantic_dimensions": ["recursion", "interprocedural-flow", "flow-sensitivity", "heap-field-sensitivity"],
+  "feature_tags": ["recursive", "heap-access-path"],
+  "model_profile": "benchmark-controlled",
+  "fixture_files": ["recursive_heap_unwind_negative.rb"],
+  "source_anchors": [{"marker": "DFB-SOURCE: recursive-heap-unwind-input", "file": "recursive_heap_unwind_negative.rb", "line_hint": 9}],
+  "sink_anchors": [{"marker": "DFB-SINK: recursive-heap-unwind-sink", "file": "recursive_heap_unwind_negative.rb", "line_hint": 13}],
+  "expected_flows": [],
+  "expected_nonflows": [{"source": "DFB-SOURCE: recursive-heap-unwind-input", "sink": "DFB-SINK: recursive-heap-unwind-sink"}],
+  "witness_checkpoints": ["DFB-SOURCE: recursive-heap-unwind-input", "DFB-WITNESS: recursive-heap-unwind-transfer", "DFB-WITNESS: recursive-heap-unwind-base", "DFB-KILL: recursive-heap-unwind-base-clean", "DFB-WITNESS: recursive-heap-unwind-compose", "DFB-SINK: recursive-heap-unwind-sink"],
+  "expected_analysis_capability": {"kind": "recursive-heap-unwind-taint"},
+  "execution_budget": {"wall_clock_seconds": 60, "peak_memory_mb": 512},
+  "fixture_provenance": {"kind": "authored", "origin": "DataFlowBench", "revision": "v0.8.0-recursive-composition-ruby", "license": "MIT"},
+  "tool_model_references": {"bifrost": {"policy": "adapters/bifrost/policies/core-ruby-kernel.rqlp"}, "codeql": {"query": "adapters/codeql/ruby/queries/RubyKernel.ql"}}
+}
