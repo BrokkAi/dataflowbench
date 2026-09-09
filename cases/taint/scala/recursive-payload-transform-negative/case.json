@@ -1,0 +1,23 @@
+{
+  "schema_version": 2,
+  "id": "dfb-taint-scala-recursive-payload-transform-negative",
+  "template_id": "dfb-template-chal-recursive-payload-transform",
+  "polarity": "negative",
+  "negative_mechanism": "overwrite-kill",
+  "score_tier": "core",
+  "track": "taint",
+  "language": "scala",
+  "semantic_dimensions": ["recursion", "interprocedural-flow", "flow-sensitivity"],
+  "feature_tags": ["recursive"],
+  "model_profile": "benchmark-controlled",
+  "fixture_files": ["RecursivePayloadTransformNegative.scala"],
+  "source_anchors": [{"marker": "DFB-SOURCE: recursive-payload-transform-input", "file": "RecursivePayloadTransformNegative.scala"}],
+  "sink_anchors": [{"marker": "DFB-SINK: recursive-payload-transform-sink", "file": "RecursivePayloadTransformNegative.scala"}],
+  "expected_flows": [],
+  "expected_nonflows": [{"source": "DFB-SOURCE: recursive-payload-transform-input", "sink": "DFB-SINK: recursive-payload-transform-sink"}],
+  "witness_checkpoints": ["DFB-SOURCE: recursive-payload-transform-input", "DFB-WITNESS: recursive-payload-transform-transfer", "DFB-WITNESS: recursive-payload-transform-base", "DFB-KILL: recursive-payload-transform-base-clean", "DFB-WITNESS: recursive-payload-transform-compose", "DFB-SINK: recursive-payload-transform-sink"],
+  "expected_analysis_capability": {"kind": "recursive-payload-transform-taint"},
+  "execution_budget": {"wall_clock_seconds": 60, "peak_memory_mb": 512},
+  "fixture_provenance": {"kind": "authored", "origin": "DataFlowBench", "revision": "m4-recursive-composition-scala", "license": "MIT"},
+  "tool_model_references": {"bifrost": {"policy": "adapters/bifrost/policies/core-scala-kernel.rqlp"}}
+}

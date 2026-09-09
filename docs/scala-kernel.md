@@ -225,6 +225,44 @@ Issue #14 remains the second-analyzer tracking path. Neither absence blocked
 fixture authoring, and neither is allowed to appear as an outcome: a case an
 analyzer cannot run is simply absent from that analyzer's population.
 
+## Prospective recursive-composition extension (issue #168)
+
+The preregistered [recursive-composition kernels](recursive-composition.md)
+add five balanced Scala pairs to the future v0.8.0-or-later population. This
+is a fixture-only wave: it does not rewrite frozen artifacts, rerun an
+analyzer, or make an accuracy claim. The shared template registration and
+population rollout remain coordinator-owned; until they land atomically with
+these fixtures, the existing reports and denominators above are unchanged.
+
+All ten fixtures are standard-library-only Scala in a `dataflowbench` object,
+with source value `7`, recursion depth `3`, and clean value `0`. Positive and
+negative members keep the same source-backed call topology. Negatives use the
+preregistered `overwrite-kill` mechanism and retain the recursive path through
+the killing assignment. The common semantic dimensions are `recursion`,
+`interprocedural-flow`, and `flow-sensitivity`; heap and exception pairs add
+`heap-field-sensitivity`, and the exception pair also adds `exceptional-flow`.
+
+| Template ID | Scala construction | Negative distinction |
+| --- | --- | --- |
+| `dfb-template-chal-recursive-payload-transform` | `walk(value, depth)` adds one before recursive descent and one to the returned result while unwinding. | The base overwrites a mutable local with `0`; the same unwind additions remain live. |
+| `dfb-template-chal-mutual-recursive-transform` | `walkA` and `walkB` form a two-function recursive SCC, each adding one before transfer and after the returned value; `walkA(..., 3)` reaches `walkB`'s base. | Both base branches overwrite their payload with `0`; the exercised `walkB` base is witnessed. |
+| `dfb-template-chal-recursive-heap-unwind` | One caller-created `Box` object is shared by every `walk` frame; the base stores the payload and each returning frame increments `box.value`. | The base writes the payload and overwrites that same field with `0`. |
+| `dfb-template-chal-recursive-callback-transform` | `walk` invokes a typed `(Int, Int) => Int` callback; `step` adds one, passes itself back to `walk`, and adds one to the returned result. | `walk` overwrites its base payload with `0` before returning through the callback cycle. |
+| `dfb-template-chal-recursive-exception-persistence` | Recursive descent writes a shared `Box` field and throws the fixture-private `RecursiveSignal`; an outer catch of exactly that type sinks `box.value + 1`. | The base overwrites the field with `0` before throwing the same private signal; no recursive frame catches it. |
+
+The callback pair uses a real typed Scala function value and invocation, not a
+direct call with an unused callback parameter. The heap and exception pairs
+pass one object reference through every frame, never a copied value. Every
+pair carries source, sink, recursive-transfer, base, and composed-operation
+markers, with an explicit `DFB-KILL` marker on each negative.
+
+The analyzer-independent validator is
+`scripts/validate-scala-recursive-composition.py`. It checks JSON metadata and
+markers, compiles each fixture with Scala 3.8.4, and executes temporary copies
+at source values `7` and `11`: positive sink outputs change by the source delta
+(`+4`), while negative outputs remain constant. No Cargo build, analyzer run,
+report edit, population freeze, or accuracy claim is made here.
+
 ## Anchor evidence and result semantics
 
 Bifrost findings are evidence, not ground truth by themselves. The runner
