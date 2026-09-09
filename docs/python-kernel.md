@@ -141,6 +141,42 @@ closures, dynamic dispatch, and reflection. That instruction scopes the
 template that asks a simpler question. The challenge tier exists to ask about
 them, and its fixtures use them deliberately.
 
+## Recursive-composition extension (issue #168)
+
+The [recursive-composition preregistration](recursive-composition.md) adds
+five balanced Python pairs for a later freeze (v0.8.0 or newer). These are
+benchmark-controlled core cases, not analyzer results: each uses an integer
+source value of `7`, a clean value of `0`, and a constant recursion depth of
+`3`. The source and sink remain outside the recursive component, and every
+fixture keeps the source-backed call live in its negative polarity.
+
+The new authored fixtures use provenance revision
+`m4-recursive-composition-python`. Their template identities, capability
+kinds, and negative mechanism are fixed as follows:
+
+| Template ID | Python construction | Dimensions and tags | Negative |
+| --- | --- | --- | --- |
+| `dfb-template-chal-recursive-payload-transform` | `walk(value, depth)` adds one before recursive descent and adds one to the returned result while unwinding. | `recursion`, `interprocedural-flow`, `flow-sensitivity`; `recursive` | Base overwrites `value` with `0` (`overwrite-kill`). |
+| `dfb-template-chal-mutual-recursive-transform` | `walk_a` and `walk_b` alternate at depth `3` (the base is in `walk_b`); both transform on entry and on return. | `recursion`, `interprocedural-flow`, `flow-sensitivity`; `recursive` | Both bases overwrite `value` with `0` (`overwrite-kill`). |
+| `dfb-template-chal-recursive-heap-unwind` | A single shared `FlowBox` receives `value` at the base, then each frame increments `box.value`; the caller reads the field after return. | `recursion`, `interprocedural-flow`, `flow-sensitivity`, `heap-field-sensitivity`; `recursive`, `heap-access-path` | The base stores `value`, then overwrites the same field with `0` (`overwrite-kill`). |
+| `dfb-template-chal-recursive-callback-transform` | `walk(value, depth, step)` invokes its callable parameter; `step` adds one, calls `walk` with itself, and adds one to the returned result. | `recursion`, `interprocedural-flow`, `flow-sensitivity`; `recursive`, `higher-order` | `walk` overwrites its base `value` with `0` (`overwrite-kill`). |
+| `dfb-template-chal-recursive-exception-persistence` | Recursive descent writes a shared `FlowBox` field and raises `FlowException`; an outer exact catch adds one and sinks the persisted field. | `recursion`, `interprocedural-flow`, `flow-sensitivity`, `heap-field-sensitivity`, `exceptional-flow`; `recursive`, `heap-access-path`, `exceptional` | The base overwrites the field with `0` before raising (`overwrite-kill`). |
+
+The callback pair deliberately crosses a real indirect callable invocation:
+`walk` calls its `step` parameter, and `step` passes itself back into `walk`.
+The exception pair catches only the fixture-private `FlowException`; there is
+no catch inside the recursive frames or normal return path that could bypass
+the exceptional transfer. The heap pair uses one object shared by every
+frame, never a copied value. All five pairs have source, sink, recursive
+transfer, base-case, and composed-operation markers, with `DFB-KILL` on each
+negative base overwrite.
+
+Until the shared rollout registry is extended atomically with these fixtures,
+the existing 29-template/58-assertion validation and reports on this page
+remain the earlier population. Once rolled out, Python's applicable core
+denominator becomes 34 templates and 68 assertions; those results must be
+reported separately from every prior freeze.
+
 ### Which adapters ran, and which are deferred
 
 Four adapters cover Python. Two ran over the whole expanded 58-assertion

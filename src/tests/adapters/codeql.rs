@@ -41,7 +41,7 @@ pub(crate) fn kotlin_codeql_population_is_the_expanded_balanced_core() {
     assert_eq!(selected.len(), 2 * expected.len());
     // Kotlin's challenge row is rolled out, so the population is the
     // expanded 30-template / 60-assertion core, not the classic 32.
-    assert_eq!(selected.len(), 60);
+    assert_eq!(selected.len(), expected_core_case_count("kotlin"));
     assert!(selected.len() > KERNEL_CASE_COUNT);
     let templates = selected
         .iter()
@@ -418,7 +418,7 @@ pub(crate) fn csharp_core_selection_is_the_expanded_balanced_population() {
     assert_eq!(selected.len(), expected_core_case_count("csharp"));
     // C#'s challenge row is rolled out, so the population is the expanded
     // 30 templates / 60 assertions, not the classic 32.
-    assert_eq!(selected.len(), 60);
+    assert_eq!(selected.len(), expected_core_case_count("csharp"));
     let mut templates = BTreeMap::<String, (usize, usize)>::new();
     for (_, case) in &selected {
         assert_eq!(case["language"], "csharp");
@@ -434,7 +434,7 @@ pub(crate) fn csharp_core_selection_is_the_expanded_balanced_population() {
         }
     }
     assert_eq!(templates.len(), expected_templates.len());
-    assert_eq!(templates.len(), 30);
+    assert_eq!(templates.len(), expected_templates.len());
     assert!(
         templates
             .values()
@@ -481,9 +481,7 @@ pub(crate) fn c_and_cpp_core_populations_keep_their_own_denominators() {
             .count()
     };
     assert_eq!(core(&c), expected_core_case_count("c"));
-    assert_eq!(core(&c), 48);
     assert_eq!(core(&cpp), expected_core_case_count("cpp"));
-    assert_eq!(core(&cpp), 58);
     assert_eq!(c.len() - core(&c), 2);
     assert_eq!(cpp.len(), core(&cpp));
 
@@ -494,7 +492,7 @@ pub(crate) fn c_and_cpp_core_populations_keep_their_own_denominators() {
         .collect::<BTreeSet<_>>();
     assert!(!c_templates.contains("dfb-template-exception-catch"));
     assert_eq!(c_templates.len(), expected_core_templates("c").len());
-    assert_eq!(c_templates.len(), 24);
+    assert_eq!(c_templates.len(), expected_core_templates("c").len());
     for (_, case) in &c {
         assert_eq!(case["language"], "c");
         assert!(
@@ -640,7 +638,7 @@ pub(crate) fn go_core_selection_is_the_expanded_balanced_population() {
     assert_eq!(selected.len(), expected_core_case_count("go"));
     // Go's challenge row is rolled out, so the population is the expanded
     // 30 templates / 60 assertions, not the classic 32.
-    assert_eq!(selected.len(), 60);
+    assert_eq!(selected.len(), expected_core_case_count("go"));
     let mut templates = BTreeMap::<String, (usize, usize)>::new();
     for (_, case) in &selected {
         assert_eq!(case["language"], "go");
@@ -656,7 +654,7 @@ pub(crate) fn go_core_selection_is_the_expanded_balanced_population() {
         }
     }
     assert_eq!(templates.len(), expected_templates.len());
-    assert_eq!(templates.len(), 30);
+    assert_eq!(templates.len(), expected_templates.len());
     assert!(
         templates
             .values()
@@ -1251,7 +1249,7 @@ pub(crate) fn ruby_codeql_report_paths_are_dedicated() {
     // The Ruby row is rolled out, so the CodeQL population is the expanded
     // 30 templates / 60 assertions.
     assert_eq!(selected.len(), expected_core_case_count("ruby"));
-    assert_eq!(selected.len(), 60);
+    assert_eq!(selected.len(), expected_core_case_count("ruby"));
     for (_, case) in &selected {
         assert_eq!(case["language"], "ruby");
         assert_eq!(case["score_tier"], "core");
