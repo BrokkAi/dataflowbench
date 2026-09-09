@@ -1,0 +1,71 @@
+{
+  "schema_version": 2,
+  "id": "dfb-taint-python-recursive-payload-transform-negative",
+  "template_id": "dfb-template-chal-recursive-payload-transform",
+  "polarity": "negative",
+  "negative_mechanism": "overwrite-kill",
+  "score_tier": "core",
+  "track": "taint",
+  "language": "python",
+  "semantic_dimensions": [
+    "recursion",
+    "interprocedural-flow",
+    "flow-sensitivity"
+  ],
+  "feature_tags": [
+    "recursive"
+  ],
+  "model_profile": "benchmark-controlled",
+  "fixture_files": [
+    "recursive_payload_transform.py"
+  ],
+  "source_anchors": [
+    {
+      "marker": "DFB-SOURCE: recursive-payload-transform-input",
+      "file": "recursive_payload_transform.py",
+      "line_hint": 1
+    }
+  ],
+  "sink_anchors": [
+    {
+      "marker": "DFB-SINK: recursive-payload-transform-sink",
+      "file": "recursive_payload_transform.py",
+      "line_hint": 5
+    }
+  ],
+  "expected_flows": [],
+  "expected_nonflows": [
+    {
+      "source": "DFB-SOURCE: recursive-payload-transform-input",
+      "sink": "DFB-SINK: recursive-payload-transform-sink"
+    }
+  ],
+  "witness_checkpoints": [
+    "DFB-SOURCE: recursive-payload-transform-input",
+    "DFB-WITNESS: recursive-payload-transform-transfer",
+    "DFB-WITNESS: recursive-payload-transform-base",
+    "DFB-WITNESS: recursive-payload-transform-compose",
+    "DFB-SINK: recursive-payload-transform-sink"
+  ],
+  "expected_analysis_capability": {
+    "kind": "recursive-payload-transform-taint"
+  },
+  "execution_budget": {
+    "wall_clock_seconds": 60,
+    "peak_memory_mb": 512
+  },
+  "fixture_provenance": {
+    "kind": "authored",
+    "origin": "DataFlowBench",
+    "revision": "m4-recursive-composition-python",
+    "license": "MIT"
+  },
+  "tool_model_references": {
+    "bifrost": {
+      "policy": "adapters/bifrost/policies/core-python-kernel.rqlp"
+    },
+    "codeql": {
+      "query": "adapters/codeql/python/queries/PythonKernel.ql"
+    }
+  }
+}

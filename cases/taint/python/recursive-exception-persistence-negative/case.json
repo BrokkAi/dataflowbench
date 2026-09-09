@@ -1,0 +1,76 @@
+{
+  "schema_version": 2,
+  "id": "dfb-taint-python-recursive-exception-persistence-negative",
+  "template_id": "dfb-template-chal-recursive-exception-persistence",
+  "polarity": "negative",
+  "negative_mechanism": "overwrite-kill",
+  "score_tier": "core",
+  "track": "taint",
+  "language": "python",
+  "semantic_dimensions": [
+    "recursion",
+    "interprocedural-flow",
+    "flow-sensitivity",
+    "heap-field-sensitivity",
+    "exceptional-flow"
+  ],
+  "feature_tags": [
+    "recursive",
+    "heap-access-path",
+    "exceptional"
+  ],
+  "model_profile": "benchmark-controlled",
+  "fixture_files": [
+    "recursive_exception_persistence.py"
+  ],
+  "source_anchors": [
+    {
+      "marker": "DFB-SOURCE: recursive-exception-persistence-input",
+      "file": "recursive_exception_persistence.py",
+      "line_hint": 10
+    }
+  ],
+  "sink_anchors": [
+    {
+      "marker": "DFB-SINK: recursive-exception-persistence-sink",
+      "file": "recursive_exception_persistence.py",
+      "line_hint": 14
+    }
+  ],
+  "expected_flows": [],
+  "expected_nonflows": [
+    {
+      "source": "DFB-SOURCE: recursive-exception-persistence-input",
+      "sink": "DFB-SINK: recursive-exception-persistence-sink"
+    }
+  ],
+  "witness_checkpoints": [
+    "DFB-SOURCE: recursive-exception-persistence-input",
+    "DFB-WITNESS: recursive-exception-persistence-transfer",
+    "DFB-WITNESS: recursive-exception-persistence-base",
+    "DFB-WITNESS: recursive-exception-persistence-throw",
+    "DFB-WITNESS: recursive-exception-persistence-compose",
+    "DFB-SINK: recursive-exception-persistence-sink"
+  ],
+  "expected_analysis_capability": {
+    "kind": "recursive-exception-persistence-taint"
+  },
+  "execution_budget": {
+    "wall_clock_seconds": 60,
+    "peak_memory_mb": 512
+  },
+  "fixture_provenance": {
+    "kind": "authored",
+    "origin": "DataFlowBench",
+    "revision": "m4-recursive-composition-python",
+    "license": "MIT"
+  },
+  "tool_model_references": {
+    "bifrost": {
+      "policy": "adapters/bifrost/policies/core-python-kernel.rqlp"
+    },
+    "codeql": {
+      "query": "adapters/codeql/python/queries/PythonKernel.ql"
+    }
+  }
+}

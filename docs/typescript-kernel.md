@@ -225,6 +225,56 @@ higher-order code, containers, or depth. That evidence arrives with the v0.4.0
 re-run of the two deferred adapters, and until then TypeScript's challenge
 strata have no analysis outcomes at all.
 
+## Recursive-composition extension (issue #168)
+
+The [recursive-composition preregistration](recursive-composition.md) adds
+five balanced TypeScript pairs for a later freeze (v0.8.0 or newer). These are
+benchmark-controlled core cases, not analyzer results: each uses an integer
+source value of `7`, a clean value of `0`, and a constant recursion depth of
+`3`. The source and sink remain outside the recursive component, and every
+negative keeps the source call live while applying its `overwrite-kill`.
+
+The fixtures use provenance revision `m4-recursive-composition-typescript`.
+Their TypeScript-specific realizations are:
+
+| Template ID | TypeScript construction | Dimensions and tags | Negative |
+| --- | --- | --- | --- |
+| `dfb-template-chal-recursive-payload-transform` | `walk(value: number, depth: number)` adds one before recursive descent and one to the returned result while unwinding. | `recursion`, `interprocedural-flow`, `flow-sensitivity`; `recursive` | Base assigns `value = 0`. |
+| `dfb-template-chal-mutual-recursive-transform` | Typed `walkA` and `walkB` alternate at depth `3` (the base is in `walkB`); each transforms on entry and on return. | `recursion`, `interprocedural-flow`, `flow-sensitivity`; `recursive` | Both bases assign `value = 0`. |
+| `dfb-template-chal-recursive-heap-unwind` | One `FlowBox` object reference is shared by every frame; the base stores `value`, each frame increments `box.value`, and the caller reads it after return. | `recursion`, `interprocedural-flow`, `flow-sensitivity`, `heap-field-sensitivity`; `recursive`, `heap-access-path` | The base stores `value`, then overwrites the same field with `0`. |
+| `dfb-template-chal-recursive-callback-transform` | A `Step` callable type is passed to `walk`; `walk` invokes that parameter indirectly, while `step` adds one, calls `walk` with itself, and adds one to the result. | `recursion`, `interprocedural-flow`, `flow-sensitivity`; `recursive`, `higher-order` | `walk` assigns its base `value = 0`. |
+| `dfb-template-chal-recursive-exception-persistence` | Recursive descent forwards one `FlowBox` and `value`; the base stores and throws `RecursiveSignal`, and an outer `instanceof` catch adds one to the persisted field before sinking it. | `recursion`, `interprocedural-flow`, `flow-sensitivity`, `heap-field-sensitivity`, `exceptional-flow`; `recursive`, `heap-access-path`, `exceptional` | The base overwrites the field with `0` before throwing. |
+
+The callback cycle is a real indirect invocation (`walk` calls its callable
+parameter, and `step` passes itself back to `walk`), not a direct call with an
+unused callback. The exception cycle has no catch in the recursive frames and
+no normal path that bypasses the throw; `RecursiveSignal extends Error` plus
+`instanceof RecursiveSignal` preserves exact signal identity under
+TypeScript's `unknown` catch binding. The heap pair uses an object reference,
+not a copied value. Every pair has source, sink, transfer, base, and composed
+operation markers, with `DFB-KILL` on each negative overwrite.
+
+Until the shared rollout registration is extended atomically, the existing
+29-template/58-assertion TypeScript population and its reports remain the
+earlier population. Once registered, this language's applicable core
+denominator becomes 34 templates and 68 assertions; those results must be
+reported separately from all earlier freezes.
+
+The fixtures are type-checked independently because each declares the same
+benchmark endpoint names at script scope:
+
+```bash
+for fixture in cases/taint/typescript/{recursive-payload-transform,mutual-recursive-transform,recursive-heap-unwind,recursive-callback-transform,recursive-exception-persistence}-*/*.ts; do
+  npx -p typescript@5.9 tsc --noEmit --strict --target es2020 --lib es2020 "$fixture"
+done
+```
+
+Executable probes are intentionally separate from analyzer outcomes. In
+temporary copies only, instrument `dfb_sink` to print its argument and vary
+the source return from `7` to `11`; positives differ by exactly `4` between
+the two inputs, while negatives remain constant. The committed fixture bytes,
+frozen cases, reports, and populations are not modified by those probes.
+
 ## CodeQL selection and reproduction
 
 The CodeQL TypeScript vertical slice is the whole TypeScript `taint`/`core`

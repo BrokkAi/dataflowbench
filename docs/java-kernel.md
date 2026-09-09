@@ -392,6 +392,45 @@ remain valid evidence for the populations they were run against. They are
 re-run together at the v0.4.0 freeze prep, which is when a single revision is
 restored across the published set.
 
+## Prospective recursive-composition extension (issue #168)
+
+The preregistered [recursive-composition kernels](recursive-composition.md)
+add five Java pairs to the future v0.8.0-or-later population. These fixtures
+are authored under `fixture_provenance.revision`
+`v0.8.0-recursive-composition-java`; they are not part of a freeze or an
+analyzer result until the coordinator lands the shared template registration
+and a new population. The existing classic and challenge evidence above is
+unchanged.
+
+All ten files are package-local, JDK-only Java and use a nonzero source value
+of `7`, recursion depth `3`, and clean value `0`. Each positive and negative
+has the same source-backed call topology. Negatives use the preregistered
+`overwrite-kill` mechanism and retain the recursive path through the killing
+assignment. The common semantic dimensions are `recursion`,
+`interprocedural-flow`, and `flow-sensitivity`; heap and exception pairs add
+`heap-field-sensitivity`, and the exception pair also adds `exceptional-flow`.
+
+| Template | Java construction | Negative distinction |
+| --- | --- | --- |
+| `dfb-template-chal-recursive-payload-transform` | `walk(value, depth)` increments before recursive descent and adds one to the returned value while unwinding. | The base assigns `value = 0`; the same unwind additions remain live. |
+| `dfb-template-chal-mutual-recursive-transform` | `walkA` and `walkB` form a two-procedure recursive SCC, each incrementing before transfer and after the returned value. `walkA(..., 3)` reaches `walkB`'s base. | Both base branches kill their payload; the exercised `walkB` base is the witnessed one. |
+| `dfb-template-chal-recursive-heap-unwind` | One caller-owned `Box` is passed through `walk`; the base stores the payload and each returning frame increments the shared field. | The base writes the payload and then overwrites the same `box.value` with `0`. |
+| `dfb-template-chal-recursive-callback-transform` | A typed `Step` interface carries a method reference through `walk`; `step` increments, calls `walk` with itself as callback, and increments the returned result. | `walk`'s base kills its payload before returning through the callback cycle. |
+| `dfb-template-chal-recursive-exception-persistence` | `walk` stores into the caller-owned `Box` at its base and throws a private checked `RecursiveSignal`; an outer catch then sinks `box.value + 1`. | The base overwrites the field with `0` before throwing the same signal; no recursive frame catches it. |
+
+The metadata carries witness markers for the recursive transfer, base, and
+composed operation (plus the explicit throw/catch and indirect callback
+transfers where those are the defining operations). The Java callback uses an
+actual interface invocation and a method reference that closes the cycle; it
+is not a direct call with an unused callback parameter. The exception pair
+catches only its fixture-private signal after the recursive component returns
+exceptionally.
+
+Before integration, validation is limited to JSON/marker checks plus the
+temporary-copy compile and source-dependence probe in
+`scripts/validate-java-recursive-composition.py`; no Cargo build, analyzer
+run, report, population freeze, or accuracy claim is made here.
+
 ## Reproduction
 
 ```bash

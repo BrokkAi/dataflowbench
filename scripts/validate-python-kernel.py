@@ -55,6 +55,12 @@ CHALLENGE_TEMPLATES = {
     "dfb-template-chal-map-iteration",
     "dfb-template-chal-nested-access-path",
     "dfb-template-chal-recursive-carry",
+    "dfb-template-chal-recursive-payload-transform",
+    "dfb-template-chal-mutual-recursive-transform",
+    "dfb-template-chal-recursive-heap-unwind",
+    "dfb-template-chal-recursive-callback-transform",
+    "dfb-template-chal-recursive-exception-persistence",
+
     "dfb-template-chal-reflective-invocation",
 }
 

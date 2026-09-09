@@ -259,6 +259,48 @@ both are implemented exactly as it prescribes:
 
 No template proved unimplementable and no amendment is proposed by this wave.
 
+## Prospective recursive-composition extension (issue #168)
+
+The [recursive-composition preregistration](recursive-composition.md) adds
+five balanced C# pairs for a later freeze (v0.8.0 or newer). These are
+benchmark-controlled core cases, not analyzer results: each uses an integer
+source value of `7`, a clean value of `0`, and a constant recursion depth of
+`3`. The source and sink remain outside the recursive component, and every
+negative keeps the source-backed path live while applying its `overwrite-kill`.
+
+The new authored fixtures use provenance revision
+`m4-recursive-composition-csharp`. Their C# realizations are:
+
+| Template ID | C# construction | Dimensions and tags | Negative |
+| --- | --- | --- | --- |
+| `dfb-template-chal-recursive-payload-transform` | `Walk(value, depth)` adds one before recursive descent and one to the returned result while unwinding. | `recursion`, `interprocedural-flow`, `flow-sensitivity`; `recursive` | Base assigns `value = 0`. |
+| `dfb-template-chal-mutual-recursive-transform` | Typed `WalkA` and `WalkB` alternate at depth `3` (the exercised base is in `WalkB`); both transform on entry and on return. | `recursion`, `interprocedural-flow`, `flow-sensitivity`; `recursive` | Both bases assign `value = 0`. |
+| `dfb-template-chal-recursive-heap-unwind` | One caller-created `Box` reference is shared by every frame; the base stores `value`, each frame increments `box.Value`, and the caller reads it after return. | `recursion`, `interprocedural-flow`, `flow-sensitivity`, `heap-field-sensitivity`; `recursive`, `heap-access-path` | The base stores `value`, then overwrites the same field with `0`. |
+| `dfb-template-chal-recursive-callback-transform` | A declared `Step` delegate is passed to `Walk`; `Walk` invokes it indirectly, while `ApplyStep` adds one, calls `Walk` with itself, and adds one to the result. | `recursion`, `interprocedural-flow`, `flow-sensitivity`; `recursive`, `higher-order` | `Walk` assigns its base `value = 0`. |
+| `dfb-template-chal-recursive-exception-persistence` | Recursive descent forwards one `Box` and `value`; the base stores and throws the fixture-private `RecursiveSignal`, and an outer exact catch sinks `box.Value + 1`. | `recursion`, `interprocedural-flow`, `flow-sensitivity`, `heap-field-sensitivity`, `exceptional-flow`; `recursive`, `heap-access-path`, `exceptional` | The base overwrites the field with `0` before throwing. |
+
+The callback cycle is a real indirect delegate invocation (`Walk` calls its
+`Step` parameter, and `ApplyStep` passes itself back to `Walk`), not a direct
+call with an unused callback. The exception cycle has no catch in recursive
+frames or normal path bypassing the throw; `RecursiveSignal` is a nested
+fixture-private `Exception` type and the caller catches exactly that type. The
+heap pair uses one object reference, never a copied value. Every pair has
+source, sink, recursive-transfer, base-case, and composed-operation markers,
+with `DFB-KILL` on each negative base overwrite.
+
+Until the shared rollout registration is extended atomically, the existing
+29-template/58-assertion C# population and its reports remain the earlier
+population. Once registered, C#'s applicable core denominator becomes 35
+templates and 70 assertions; those results must be reported separately from
+all earlier freezes.
+
+The narrow fixture check is analyzer-independent. It runs
+`scripts/validate-csharp-recursive-composition.py`, which compiles a temporary
+`net8.0` console project and executes temporary copies at source values `7`
+and `11`; positives differ by exactly `4`, while negatives remain constant.
+No Cargo build, analyzer run, report, population freeze, or accuracy claim is
+made here.
+
 ### Adapter coverage: every covering adapter is deferred or absent
 
 **This wave ran zero adapters, and that is a consequence of the freeze rule
