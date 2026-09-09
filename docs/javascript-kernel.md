@@ -227,6 +227,52 @@ path sensitivity the pinned CLI sells as Pro. The partition was not adjusted
 for this expansion, and twenty-six declined assertions are coverage, never
 twenty-six false negatives.
 
+## Prospective recursive-composition extension (issue #168)
+
+The preregistered [recursive-composition kernels](recursive-composition.md)
+add five JavaScript pairs to the future v0.8.0-or-later population. These
+fixtures are authored under `fixture_provenance.revision`
+`m4-recursive-composition-javascript`; they are not part of a freeze or an
+analyzer result until the coordinator lands the shared template registration
+and a new population. The existing classic and challenge evidence above is
+unchanged.
+
+All ten files are standard-library-only JavaScript and use a nonzero source
+value of `7`, recursion depth `3`, and clean value `0`. Each positive and
+negative has the same source-backed call topology. Negatives use the
+preregistered `overwrite-kill` mechanism and retain the recursive path through
+the killing assignment. The common semantic dimensions are `recursion`,
+`interprocedural-flow`, and `flow-sensitivity`; heap and exception pairs add
+`heap-field-sensitivity`, and the exception pair also adds `exceptional-flow`.
+
+| Template | JavaScript construction | Negative distinction |
+| --- | --- | --- |
+| `dfb-template-chal-recursive-payload-transform` | `walk(value, depth)` increments before recursive descent and adds one to the returned value while unwinding. | The base assigns `value = 0`; the same unwind additions remain live. |
+| `dfb-template-chal-mutual-recursive-transform` | `walkA` and `walkB` form a two-procedure recursive SCC, each incrementing before transfer and after the returned value. `walkA(..., 3)` reaches `walkB`'s base. | Both base branches kill their payload; the exercised `walkB` base is the witnessed one. |
+| `dfb-template-chal-recursive-heap-unwind` | One caller-owned object is passed through `walk`; the base stores the payload and each returning frame increments the shared `box.value` field. | The base writes the payload and then overwrites the same `box.value` with `0`. |
+| `dfb-template-chal-recursive-callback-transform` | `walk(value, depth, step)` invokes its callable parameter; `step` increments, calls `walk` with itself, and increments the returned result. | `walk`'s base kills its payload before returning through the callback cycle. |
+| `dfb-template-chal-recursive-exception-persistence` | `walk` stores into a caller-owned object at its base and throws a private `RecursiveSignal`; an outer exact catch then sinks `box.value + 1`. | The base overwrites the field with `0` before throwing the same signal; no recursive frame catches it. |
+
+The callback pair deliberately crosses a real indirect callable invocation:
+`walk` calls its `step` parameter, and `step` passes itself back into `walk`.
+The exception pair catches only the fixture-private `RecursiveSignal`; there is
+no catch inside the recursive frames or normal return path that could bypass
+the exceptional transfer. The heap pair uses one object shared by every
+frame, never a copied value. All five pairs have source, sink, recursive
+transfer, base-case, and composed-operation markers, with `DFB-KILL` on each
+negative base overwrite.
+
+Until the shared rollout registry is extended atomically with these fixtures,
+the existing 29-template/58-assertion validation and reports on this page
+remain the earlier population. Once rolled out, JavaScript's applicable core
+denominator becomes 34 templates and 68 assertions; those results must be
+reported separately from every prior freeze.
+
+The narrow fixture check is intentionally analyzer-independent. It runs
+`node --check` and two bounded executions per polarity after replacing the
+single source literal (`7` and `11`): positive outputs must change by the
+source delta, while negative outputs remain constant.
+
 ## CodeQL selection and reproduction
 
 The CodeQL JavaScript vertical slice is exactly the 32 `taint`/`core` cases
