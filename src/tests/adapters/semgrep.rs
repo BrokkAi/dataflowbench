@@ -502,9 +502,12 @@ pub(crate) fn semgrep_runner_failures_never_become_clean_negatives() {
 pub(crate) fn the_challenge_semgrep_partition_is_preregistered_and_tag_proof() {
     assert_eq!(
         CHALLENGE_SEMGREP_PARTITION.len(),
-        CHALLENGE_TEMPLATE_IDS.len()
+        CHALLENGE_TEMPLATE_IDS.len() + crate::templates::RECURSIVE_COMPOSITION_TEMPLATE_IDS.len()
     );
-    for template in CHALLENGE_TEMPLATE_IDS {
+    for template in CHALLENGE_TEMPLATE_IDS
+        .into_iter()
+        .chain(crate::templates::RECURSIVE_COMPOSITION_TEMPLATE_IDS)
+    {
         let reason = challenge_semgrep_exclusion(template)
             .unwrap_or_else(|| panic!("{template} has no preregistered CE decision"));
         assert!(!reason.is_empty());

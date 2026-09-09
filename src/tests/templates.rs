@@ -3,8 +3,9 @@
 use crate::cases::{case_paths, core_templates_for_language};
 use crate::templates::{
     CHALLENGE_ROLLOUT, CHALLENGE_TEMPLATE_IDS, CHALLENGE_TEMPLATE_PREFIX, KERNEL_TEMPLATE_IDS,
-    KERNEL_TEMPLATE_IDS_WITHOUT_EXCEPTION_CATCH, challenge_rolled_out, challenge_rollout,
-    challenge_template_case, expected_core_case_count, expected_core_templates,
+    KERNEL_TEMPLATE_IDS_WITHOUT_EXCEPTION_CATCH, RECURSIVE_COMPOSITION_TEMPLATE_IDS,
+    challenge_rolled_out, challenge_rollout, challenge_template_case, expected_core_case_count,
+    expected_core_templates, recursive_composition_templates,
 };
 use serde_json::Value;
 use std::{collections::BTreeMap, collections::BTreeSet, fs};
@@ -66,7 +67,7 @@ pub(crate) fn c_and_rust_share_the_scored_set_without_exception_catch() {
         );
     }
     assert_eq!(core_templates_for_language(&cases, "rust").len(), 27);
-    assert_eq!(core_templates_for_language(&cases, "c").len(), 24);
+    assert_eq!(core_templates_for_language(&cases, "c").len(), 28);
     assert!(
         !core_templates_for_language(&cases, "rust")
             .contains("dfb-template-result-error-propagation")
@@ -95,7 +96,8 @@ pub(crate) fn challenge_cases_exist_only_for_rolled_out_languages() {
         }
         let template = case["template_id"].as_str().unwrap();
         assert!(
-            CHALLENGE_TEMPLATE_IDS.contains(&template),
+            CHALLENGE_TEMPLATE_IDS.contains(&template)
+                || RECURSIVE_COMPOSITION_TEMPLATE_IDS.contains(&template),
             "{} carries an unpreregistered challenge template",
             path.display()
         );
@@ -162,7 +164,7 @@ pub(crate) fn the_rollout_table_matches_the_preregistered_denominators() {
         );
         // Every language's denominator is therefore its expanded core:
         // the classic templates plus its applicable challenge templates.
-        let expected = classic + challenge;
+        let expected = classic + challenge + recursive_composition_templates(row.language).len();
         assert_eq!(row.expected_templates().len(), expected);
         assert_eq!(expected_core_case_count(row.language), 2 * expected);
     }

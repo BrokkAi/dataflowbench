@@ -1,0 +1,47 @@
+{
+  "schema_version": 2,
+  "id": "dfb-taint-c-recursive-heap-unwind-positive",
+  "template_id": "dfb-template-chal-recursive-heap-unwind",
+  "polarity": "positive",
+  "score_tier": "core",
+  "track": "taint",
+  "language": "c",
+  "semantic_dimensions": ["recursion", "interprocedural-flow", "flow-sensitivity", "heap-field-sensitivity"],
+  "feature_tags": ["recursive", "heap-access-path"],
+  "model_profile": "benchmark-controlled",
+  "fixture_files": ["recursive_heap_unwind_positive.c"],
+  "source_anchors": [{
+    "marker": "DFB-SOURCE: recursive-heap-unwind-input",
+    "file": "recursive_heap_unwind_positive.c",
+    "line_hint": 7
+  }],
+  "sink_anchors": [{
+    "marker": "DFB-SINK: recursive-heap-unwind-sink",
+    "file": "recursive_heap_unwind_positive.c",
+    "line_hint": 11
+  }],
+  "expected_flows": [{
+    "source": "DFB-SOURCE: recursive-heap-unwind-input",
+    "sink": "DFB-SINK: recursive-heap-unwind-sink"
+  }],
+  "expected_nonflows": [],
+  "witness_checkpoints": [
+    "DFB-SOURCE: recursive-heap-unwind-input",
+    "DFB-WITNESS: recursive-heap-unwind-transfer",
+    "DFB-WITNESS: recursive-heap-unwind-base",
+    "DFB-WITNESS: recursive-heap-unwind-compose",
+    "DFB-SINK: recursive-heap-unwind-sink"
+  ],
+  "expected_analysis_capability": {"kind": "recursive-heap-unwind-taint"},
+  "execution_budget": {"wall_clock_seconds": 60, "peak_memory_mb": 512},
+  "fixture_provenance": {
+    "kind": "authored",
+    "origin": "DataFlowBench",
+    "revision": "v0.8.0-recursive-composition-c",
+    "license": "MIT"
+  },
+  "tool_model_references": {
+    "bifrost": {"policy": "adapters/bifrost/policies/core-c-kernel.rqlp"},
+    "codeql": {"query": "adapters/codeql/cpp/queries/CKernel.ql"}
+  }
+}
