@@ -214,6 +214,60 @@ heap-stored callees, inverted control, container iteration, deep field chains,
 or call depth. That evidence arrives with the v0.4.0 re-run of the two deferred
 adapters, and until then C's challenge strata have no analysis outcomes at all.
 
+## Prospective recursive-composition extension (issue #168)
+
+The preregistered [recursive-composition kernels](recursive-composition.md)
+add four C pairs to the future v0.8.0-or-later population. These fixtures are
+authored under `fixture_provenance.revision`
+`v0.8.0-recursive-composition-c`; they are not part of a freeze or an
+analyzer result until the coordinator lands the shared template registration
+and a new population. The existing classic and challenge evidence above is
+unchanged.
+
+All eight files are standalone C17 fixtures and use a nonzero source value of
+`7`, recursion depth `3`, and clean value `0`. Each positive and negative has
+the same source-backed call topology. Negatives use the preregistered
+`overwrite-kill` mechanism and retain the recursive path through the killing
+assignment. The common semantic dimensions are `recursion`,
+`interprocedural-flow`, and `flow-sensitivity`; the heap pair also adds
+`heap-field-sensitivity`. The callback pair carries the `higher-order` feature
+tag.
+
+| Template | C construction | Negative distinction |
+| --- | --- | --- |
+| `dfb-template-chal-recursive-payload-transform` | `walk(value, depth)` increments before recursive descent and adds one to the returned value while unwinding. | The base assigns `value = 0`; the same unwind additions remain live. |
+| `dfb-template-chal-mutual-recursive-transform` | `walk_a` and `walk_b` form a two-procedure recursive SCC, each incrementing before transfer and after the returned value. `walk_a(..., 3)` reaches `walk_b`'s base. | Both base branches kill their payload; the exercised `walk_b` base is the witnessed one. |
+| `dfb-template-chal-recursive-heap-unwind` | One malloc-backed `struct Box *` is passed through `walk`; the base stores the payload and each returning frame increments the shared field. | The base writes the payload and then overwrites the same `box->value` with `0`. |
+| `dfb-template-chal-recursive-callback-transform` | A typed C function pointer is invoked by `walk`; `step` increments, calls `walk` with itself as callback, and increments the returned result. | `walk`'s base kills its payload before returning through the callback cycle. |
+
+The callback pair deliberately crosses a real indirect function-pointer
+invocation (`callback(value, depth - 1)`), and `step` passes its own function
+pointer back into `walk`; it is not a direct call with an unused callback
+parameter. The heap pair uses one caller-created allocation shared by every
+recursive frame, never a copied value struct. All pairs have source, sink,
+recursive-transfer, base-case, and composed-operation markers, with
+`DFB-KILL` on each negative base overwrite.
+
+The preregistered `dfb-template-chal-recursive-exception-persistence` pair is
+intentionally **inapplicable to C** and has no fixture here. C has no typed
+exception-unwinding construct: `setjmp`/`longjmp` transfers control with an
+integer status and does not preserve a typed signal's value-carrying
+semantics, while error-code returns are a separate C language-extension
+template. Neither is an approximation of this exception identity.
+
+Until the shared rollout registry is extended atomically with these fixtures,
+the existing 24-template/48-assertion validation and reports on this page
+remain the earlier population. Once rolled out, C's applicable core
+denominator becomes 28 templates and 56 assertions; those results must be
+reported separately from every prior freeze.
+
+The narrow fixture check is analyzer-independent. It runs
+`scripts/validate-c-recursive-composition.py`, which compiles with
+`clang -std=c17 -Wall -Wextra -Wpedantic -Werror` and executes temporary copies
+at source values `7` and `11`; positive outputs must change by the source delta,
+while negative outputs remain constant. No Cargo build, analyzer run, report,
+population freeze, or accuracy claim is made here.
+
 ## Language-extension cases
 
 The nearest C-idiomatic transfer constructs are routed to `language-extension`
