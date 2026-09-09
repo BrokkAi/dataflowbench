@@ -159,6 +159,34 @@ pub(crate) const CHALLENGE_TEMPLATE_IDS_C: [&str; 9] = [
     "dfb-template-chal-recursive-carry",
 ];
 
+/// Prospective recursive compositions; frozen populations resolve their own IDs.
+/// See docs/recursive-composition.md. The exception cell is absent in C/Rust.
+pub(crate) const RECURSIVE_COMPOSITION_TEMPLATE_IDS: [&str; 5] = [
+    "dfb-template-chal-recursive-payload-transform",
+    "dfb-template-chal-mutual-recursive-transform",
+    "dfb-template-chal-recursive-heap-unwind",
+    "dfb-template-chal-recursive-callback-transform",
+    "dfb-template-chal-recursive-exception-persistence",
+];
+
+/// Explicit delivery ledger: add a language only with its complete fixture pairs.
+pub(crate) const RECURSIVE_COMPOSITION_LANGUAGES: [&str; 5] =
+    ["java", "python", "javascript", "typescript", "c"];
+
+pub(crate) fn recursive_composition_templates(language: &str) -> Vec<&'static str> {
+    if !RECURSIVE_COMPOSITION_LANGUAGES.contains(&language) {
+        return Vec::new();
+    }
+    RECURSIVE_COMPOSITION_TEMPLATE_IDS
+        .iter()
+        .copied()
+        .filter(|template| {
+            !matches!(language, "c" | "rust")
+                || *template != "dfb-template-chal-recursive-exception-persistence"
+        })
+        .collect()
+}
+
 /// One language's row in the challenge rollout table.
 ///
 /// This is the single authoritative statement of what a language's core
@@ -196,6 +224,7 @@ impl ChallengeRollout {
         if self.rolled_out {
             templates.extend_from_slice(self.challenge);
         }
+        templates.extend(recursive_composition_templates(self.language));
         templates
     }
 }
