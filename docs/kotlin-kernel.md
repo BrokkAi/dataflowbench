@@ -328,6 +328,46 @@ between cases or between the members of a pair. It writes the normalized report
 to `reports/codeql-kotlin-kernel.json` and raw SARIF or runner diagnostics to
 `reports/raw/codeql-kotlin-kernel/`.
 
+## Prospective recursive-composition extension (issue #168)
+
+The preregistered [recursive-composition kernels](recursive-composition.md)
+add five balanced Kotlin pairs to the future v0.8.0-or-later population. This
+is a fixture-only wave: it does not rewrite frozen artifacts, rerun an
+analyzer, or make an accuracy claim. The shared template registration and
+population rollout remain coordinator-owned; until they land atomically with
+these fixtures, the existing reports and denominators above are unchanged.
+
+All ten fixtures are standard-library-only Kotlin in a `dataflowbench` object,
+with source value `7`, recursion depth `3`, and clean value `0`. Positive and
+negative members keep the same source-backed call topology. Negatives use the
+preregistered `overwrite-kill` mechanism and retain the recursive path through
+the killing assignment. The common semantic dimensions are `recursion`,
+`interprocedural-flow`, and `flow-sensitivity`; heap and exception pairs add
+`heap-field-sensitivity`, and the exception pair also adds `exceptional-flow`.
+
+| Template ID | Kotlin construction | Negative distinction |
+| --- | --- | --- |
+| `dfb-template-chal-recursive-payload-transform` | `walk(value, depth)` adds one before recursive descent and one to the returned result while unwinding. | The base copies the payload into a mutable local, overwrites it with `0`, and returns that clean value. |
+| `dfb-template-chal-mutual-recursive-transform` | `walkA` and `walkB` form a two-function recursive SCC, each adding one before transfer and after the returned value; `walkA(..., 3)` reaches `walkB`'s base. | Both base branches overwrite their payload with `0`; the exercised `walkB` base is witnessed. |
+| `dfb-template-chal-recursive-heap-unwind` | One caller-created `Box` object is shared by every `walk` frame; the base stores the payload and each returning frame increments `box.value`. | The base writes the payload and overwrites the same field with `0`. |
+| `dfb-template-chal-recursive-callback-transform` | `walk` invokes a typed `(Int, Int) -> Int` callback; `step` adds one, passes the bound `::step` reference back to `walk`, and adds one to the returned result. | `walk` overwrites its base payload with `0` before returning through the callback cycle. |
+| `dfb-template-chal-recursive-exception-persistence` | Recursive descent writes a shared `Box` field and throws a fixture-private `RecursiveSignal`; an outer catch of exactly that type sinks `box.value + 1`. | The base overwrites the field with `0` before throwing the same private signal; no recursive frame catches it. |
+
+The metadata carries source, sink, recursive-transfer, base, and composed
+operation markers, with explicit indirect-callback and throw/catch witnesses
+where those are the defining operations. The callback pair uses a real typed
+function value and invocation, not a direct call with an unused callback
+parameter. The heap pair passes one object reference through every frame, not
+a copied value. The exception pair catches only its private signal after the
+recursive component has unwound.
+
+Before integration, validation is limited to JSON/marker checks, individual
+`kotlinc-jvm` compilation, and the temporary-copy source-dependence probe in
+`scripts/validate-kotlin-recursive-composition.py`. The probe executes source
+values `7` and `11`: positive sink outputs change by the source delta (`+4`),
+while negative outputs remain constant. No Cargo build, analyzer run, report
+edit, population freeze, or accuracy claim is made here.
+
 ## Anchor evidence and result semantics
 
 CodeQL query results are evidence, not ground truth by themselves. The runner

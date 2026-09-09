@@ -1,0 +1,47 @@
+{
+  "schema_version": 2,
+  "id": "dfb-taint-kotlin-recursive-payload-transform-positive",
+  "template_id": "dfb-template-chal-recursive-payload-transform",
+  "polarity": "positive",
+  "score_tier": "core",
+  "track": "taint",
+  "language": "kotlin",
+  "semantic_dimensions": ["recursion", "interprocedural-flow", "flow-sensitivity"],
+  "feature_tags": ["recursive"],
+  "model_profile": "benchmark-controlled",
+  "fixture_files": ["RecursivePayloadTransformPositive.kt"],
+  "source_anchors": [{
+    "marker": "DFB-SOURCE: recursive-payload-transform-input",
+    "file": "RecursivePayloadTransformPositive.kt",
+    "line_hint": 4
+  }],
+  "sink_anchors": [{
+    "marker": "DFB-SINK: recursive-payload-transform-sink",
+    "file": "RecursivePayloadTransformPositive.kt",
+    "line_hint": 8
+  }],
+  "expected_flows": [{
+    "source": "DFB-SOURCE: recursive-payload-transform-input",
+    "sink": "DFB-SINK: recursive-payload-transform-sink"
+  }],
+  "expected_nonflows": [],
+  "witness_checkpoints": [
+    "DFB-SOURCE: recursive-payload-transform-input",
+    "DFB-WITNESS: recursive-payload-transform-transfer",
+    "DFB-WITNESS: recursive-payload-transform-base",
+    "DFB-WITNESS: recursive-payload-transform-compose",
+    "DFB-SINK: recursive-payload-transform-sink"
+  ],
+  "expected_analysis_capability": {"kind": "recursive-payload-transform-taint"},
+  "execution_budget": {"wall_clock_seconds": 60, "peak_memory_mb": 512},
+  "fixture_provenance": {
+    "kind": "authored",
+    "origin": "DataFlowBench",
+    "revision": "v0.8.0-recursive-composition-kotlin",
+    "license": "MIT"
+  },
+  "tool_model_references": {
+    "bifrost": {"policy": "adapters/bifrost/policies/core-kotlin-kernel.rqlp"},
+    "codeql": {"query": "adapters/codeql/kotlin/queries/KotlinKernel.ql"}
+  }
+}

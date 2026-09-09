@@ -187,6 +187,46 @@ kernel policy `adapters/bifrost/policies/core-php-kernel.rqlp` — because PHP h
 no CodeQL pack to reference. That mirrors PHP's classic non-frozen cases
 exactly.
 
+## Prospective recursive-composition extension (issue #168)
+
+The preregistered [recursive-composition kernels](recursive-composition.md) add
+five PHP pairs to the future v0.8.0-or-later population. These ten fixtures use
+provenance revision `v0.8.0-recursive-composition-php`; they are not part of a
+freeze or an analyzer result until the coordinator registers the shared
+population atomically. The existing 29-template, 58-assertion PHP population
+and its reports remain unchanged. Once registered, the applicable PHP core
+denominator becomes 34 templates and 68 assertions.
+
+Each fixture uses integer source value `7`, clean value `0`, and recursion depth
+`3`. Positives preserve the payload through the recursive component; negatives
+keep the source-backed path live and use the preregistered `overwrite-kill`
+mechanism. The common semantic dimensions are `recursion`,
+`interprocedural-flow`, and `flow-sensitivity`; heap and exception pairs add
+`heap-field-sensitivity`, and the exception pair also adds `exceptional-flow`.
+
+| Template | PHP construction | Negative distinction |
+| --- | --- | --- |
+| `dfb-template-chal-recursive-payload-transform` | `walk(int $value, int $depth)` increments before recursive descent and adds one to the returned value while unwinding. | The base assigns `$value = 0`; the same unwind additions remain live. |
+| `dfb-template-chal-mutual-recursive-transform` | `walkA` and `walkB` form a two-function recursive SCC, each incrementing before transfer and after the returned value. `walkA(..., 3)` reaches `walkB`'s base. | Both bases kill their payload; the exercised `walkB` base is the witnessed one. |
+| `dfb-template-chal-recursive-heap-unwind` | One caller-created `FlowBox` object is passed through every frame; the base stores the payload and each returning frame increments the shared property. | The base writes the payload and overwrites the same `value` property with `0`. |
+| `dfb-template-chal-recursive-callback-transform` | `walk` invokes a typed `callable` parameter; `step` increments, passes its own callable name back to `walk`, and increments the returned result. | `walk`'s base kills its payload before returning through the callback cycle. |
+| `dfb-template-chal-recursive-exception-persistence` | Recursive descent stores into a shared `FlowBox`, throws the fixture-private final `RecursiveSignal`, and an outer catch for that exact class sinks the persisted property plus one. | The base overwrites the property with `0` before throwing the same signal. |
+
+The callback pair contains a real indirect callable invocation and a real cycle,
+not a direct call with an unused callback parameter. The heap pair passes one
+shared object handle through all recursive frames, never a copied value. The
+exception pair catches only its exact private class outside the recursive
+component; no recursive frame catches or bypasses the exceptional transfer.
+
+The analyzer-independent validator is
+`scripts/validate-php-recursive-composition.py`. It checks metadata anchors and
+markers, runs `php -l` on both polarities, and executes temporary instrumented
+copies at source values `7` and `11`. Positive sink outputs are `13`, `10`,
+`13`, `13`, and `8` at source `7` (payload, mutual, heap, callback, and
+exception respectively) and change by the source delta `+4`; negative outputs
+are `3`, `3`, `3`, `3`, and `1` and remain constant. No Cargo build, analyzer
+run, population freeze, or accuracy claim is made here.
+
 ## Analyzer coverage
 
 **CodeQL CLI 2.26.4 — the pinned version — has no PHP support at all.** There is
