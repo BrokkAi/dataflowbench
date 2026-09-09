@@ -252,7 +252,7 @@ pub(crate) fn select_semgrep_cases(kernel: SemgrepKernel) -> Result<LoadedCases>
 /// shape the CE partition scores. Every entry is `unsupported` by declared
 /// capability, never a false negative, and the decision cannot be revisited
 /// after a run without an amendment on the preregistration's terms.
-pub(crate) const CHALLENGE_SEMGREP_PARTITION: [(&str, &str); 14] = [
+pub(crate) const CHALLENGE_SEMGREP_PARTITION: [(&str, &str); 19] = [
     (
         "dfb-template-chal-reflective-invocation",
         "the case resolves a callee from a run-time string and the sink is reached inside that callee's body; CE has no interprocedural taint at all (`--pro-intrafile`, \"Intra-file inter-procedural taint analysis ... Requires Semgrep Pro Engine\"), and the pinned CE documentation nowhere claims to resolve a reflective handle",
@@ -308,6 +308,26 @@ pub(crate) const CHALLENGE_SEMGREP_PARTITION: [(&str, &str); 14] = [
     (
         "dfb-template-chal-interprocedural-exception-persistence",
         "the case requires a heap side effect to survive an exceptional callee exit and return through its caller; CE has no interprocedural taint",
+    ),
+    (
+        "dfb-template-chal-recursive-payload-transform",
+        "recursive payload or heap flow crosses procedure boundaries; CE has no interprocedural taint",
+    ),
+    (
+        "dfb-template-chal-mutual-recursive-transform",
+        "recursive payload or heap flow crosses procedure boundaries; CE has no interprocedural taint",
+    ),
+    (
+        "dfb-template-chal-recursive-heap-unwind",
+        "recursive payload or heap flow crosses procedure boundaries; CE has no interprocedural taint",
+    ),
+    (
+        "dfb-template-chal-recursive-callback-transform",
+        "recursive payload or heap flow crosses procedure boundaries; CE has no interprocedural taint",
+    ),
+    (
+        "dfb-template-chal-recursive-exception-persistence",
+        "recursive payload or heap flow crosses procedure boundaries; CE has no interprocedural taint",
     ),
 ];
 
