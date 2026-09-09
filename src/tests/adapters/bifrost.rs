@@ -394,8 +394,8 @@ pub(crate) fn scala_kernel_selection_is_separate_from_every_other_language() {
 
 /// Scala has no CodeQL and no Joern population, so the only in-repo
 /// guarantee that its assertions are complete and balanced is the Bifrost
-/// run's own core denominator — now the expanded 30-template / 60-assertion
-/// core, since Scala's challenge row is rolled out.
+/// run's own core denominator — now the expanded recursive-composition core,
+/// since Scala's challenge row is rolled out.
 #[test]
 pub(crate) fn scala_bifrost_population_is_the_expanded_balanced_core() {
     let selected = case_paths()
@@ -411,7 +411,7 @@ pub(crate) fn scala_bifrost_population_is_the_expanded_balanced_core() {
         selected.len(),
         BifrostRun::ScalaKernel.expected_core_cases().unwrap()
     );
-    assert_eq!(selected.len(), 60);
+    assert_eq!(selected.len(), expected_core_case_count("scala"));
     assert!(selected.len() > KERNEL_CASE_COUNT);
     assert!(
         selected
