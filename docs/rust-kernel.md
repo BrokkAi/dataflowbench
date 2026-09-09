@@ -692,6 +692,47 @@ saying so is the point of recording the deferral rather than leaving a blank.
 The Rust challenge cases are excluded from the Bifrost smoke population by
 template identity, so the frozen 118-case smoke slice is untouched.
 
+## Prospective recursive-composition extension (issue #168)
+
+The preregistered [recursive-composition kernels](recursive-composition.md)
+add four balanced Rust pairs to the future v0.8.0-or-later population. This is
+a fixture-only wave: it does not rewrite frozen artifacts, rerun an analyzer,
+or make an accuracy claim. The shared template registration and population
+rollout remain coordinator-owned; until they land atomically with these
+fixtures, the current 27-template / 54-assertion Rust denominator above is
+unchanged. Once rolled out, the applicable Rust denominator will be 31
+templates / 62 assertions (the four recursive-composition cells plus the
+existing 27).
+
+All eight fixtures use `i32` payloads, source value `7`, recursion depth `3`,
+and clean value `0`. Positive and negative members keep the same source-backed
+call topology. Negatives use the preregistered `overwrite-kill` mechanism and
+retain the recursive path through the killing assignment. Their provenance
+revision is `m4-recursive-composition-rust`.
+
+| Template | Rust construction | Negative distinction |
+| --- | --- | --- |
+| `dfb-template-chal-recursive-payload-transform` | `walk(value, depth)` adds one before recursive descent and one to the returned value while unwinding. | The base overwrites `value` with `0`; the same unwind additions remain live. |
+| `dfb-template-chal-mutual-recursive-transform` | `walk_a` and `walk_b` form a two-function recursive SCC, each adding one before transfer and after the returned value; `walk_a(..., 3)` reaches `walk_b`'s base. | Both base functions overwrite their payload with `0`; the exercised `walk_b` base is witnessed. |
+| `dfb-template-chal-recursive-heap-unwind` | One caller-created `Box<FlowBox>` is passed as a mutable reference through `walk`; the base stores the payload and each returning frame increments the shared `value` field. | The base writes the payload and overwrites that same field with `0`. |
+| `dfb-template-chal-recursive-callback-transform` | A declared `type Step = fn(i32, u32) -> i32` crosses an indirect `walk` → `step` call; `step` increments, passes itself back into `walk`, and increments the returned result. | `walk`'s base overwrites its payload with `0` before returning through the same function-pointer cycle. |
+
+The heap pair uses one actual `Box<FlowBox>` allocation shared by every
+recursive frame, never a copied value struct. The callback pair uses a real
+Rust function-pointer parameter and invocation, with `step` passed back into
+`walk`; it is not a direct call decorated with an unused callback parameter.
+The exception-persistence cell remains **inapplicable** to Rust because panic
+unwinding is neither guaranteed under all profiles nor a typed recoverable
+exception channel.
+
+The analyzer-independent validator is
+`scripts/validate-rust-recursive-composition.py`. It checks JSON anchors and
+markers, type-checks each fixture with `rustc --edition 2021 --crate-type=lib`,
+and executes temporary instrumented copies at source values `7` and `11`.
+Positive sink outputs must change by the source delta (`+4`); negative outputs
+must remain constant. No Cargo build, analyzer run, report edit, population
+freeze, or accuracy claim is made here.
+
 ## Population boundaries
 
 Rust results are their own population. They are never pooled with the Java,
