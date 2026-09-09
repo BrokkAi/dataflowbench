@@ -1,9 +1,9 @@
 {
   "schema_version": 1,
   "review_id": "dfb-rp-r1-review-v1",
-  "status": "pending",
+  "status": "inconclusive",
   "created_at": "2026-09-09T08:02:48Z",
-  "updated_at": "2026-09-09T08:49:15Z",
+  "updated_at": "2026-09-09T09:08:42Z",
   "scope": {
     "wave": "R1",
     "preregistration": {
@@ -152,18 +152,18 @@
       "provider": "openai",
       "model": "gpt-5.6-sol",
       "reasoning_effort": "medium",
-      "run_id": null,
-      "started_at": null,
-      "completed_at": null,
-      "status": "planned",
+      "run_id": "dfb-rp-r1-reviewer-a-b722e9fd-20260909T085656Z",
+      "started_at": "2026-09-09T08:56:56Z",
+      "completed_at": "2026-09-09T09:08:42Z",
+      "status": "inconclusive",
       "checkout": {
-        "path": null,
-        "revision": null,
-        "clean": null,
-        "observed_at": null
+        "path": "/private/tmp/dataflowbench-issue19-current-a",
+        "revision": "b722e9fdb465fd6de7d4966b6d41580a2cc23a87",
+        "clean": true,
+        "observed_at": "2026-09-09T08:56:56Z"
       },
       "packet": {
-        "evidence_path": null,
+        "evidence_path": "/private/tmp/dataflowbench-issue19-evidence-a",
         "artifact_digest_algorithm": "sha256",
         "artifacts": [
           { "path": "docs/real-project-preregistration.md", "sha256": "87f011b32056b75844b3e9509a2934805da57af011f5353cbba900d90c87823b" },
@@ -183,25 +183,25 @@
         ]
       },
       "blind_independence": {
-        "status": "pending",
-        "independent_checkout": null,
-        "independent_evidence_path": null,
+        "status": "verified",
+        "independent_checkout": true,
+        "independent_evidence_path": true,
         "prior_outcome_exposure": false,
         "cross_reviewer_contact_before_submission": false
       },
       "analyzer_evidence_consulted": false,
-      "report": { "path": null, "sha256": null },
+      "report": { "path": "corpus/real-project/reviews/reviewer-a-current.md", "sha256": "87530cd22df1c9604af81074972326e5589c5494d75146ce90c6b463c783560a" },
       "subject_verdicts": {
-        "eligibility": "not-reviewed",
-        "exclusions": "not-reviewed",
-        "replacements": "not-reviewed",
-        "pins": "not-reviewed",
-        "licenses": "not-reviewed",
-        "ground_truth": "not-reviewed",
-        "claims": "not-reviewed",
-        "latency": "not-reviewed"
+        "eligibility": "cannot-determine",
+        "exclusions": "cannot-determine",
+        "replacements": "accept",
+        "pins": "accept",
+        "licenses": "accept",
+        "ground_truth": "accept",
+        "claims": "accept",
+        "latency": "accept"
       },
-      "notes": "Planned only. No reviewer run has started."
+      "notes": "Submitted an inconclusive amended-packet report. No prior report or reviewer conclusion was read; the immutable packet itself disclosed that a superseded review existed and summarized why the packet changed. Historical draw-time repository metadata and per-candidate E5 judgments were not retained, so eligibility and exclusions cannot be independently certified."
     },
     "reviewer_b": {
       "role": "reviewer-b",
@@ -257,7 +257,7 @@
         "claims": "not-reviewed",
         "latency": "not-reviewed"
       },
-      "notes": "Planned only. No reviewer run has started."
+      "notes": "Planned reviewer run did not start. Three independent GLM 5.3 dispatch attempts failed at the provider boundary with HTTP 429 before any review evidence or report was produced; no substitution is allowed after the preregistered route began."
     }
   },
   "prior_reviews": [
@@ -283,50 +283,50 @@
     {
       "pin_id": "dfb-rp-python-clearml",
       "pin_artifact": { "path": "corpus/real-project/pins/clearml.json", "sha256": "1271ca659bb326ad222b6b5f0ced68286f9ca9c31dea3cf9e6d9ae2786a1335c" },
-      "reviewer_a": { "status": "not-reviewed", "vulnerable_revision": "not-reviewed", "fixed_revision": "not-reviewed", "remediation": "not-reviewed", "basis": "No review run has started." },
+      "reviewer_a": { "status": "accept", "vulnerable_revision": "accept", "fixed_revision": "accept", "remediation": "accept", "basis": "Archive member paths and link targets reach safe_extract/tar.extractall; the fixed revision canonicalizes member and link targets and rejects escapes before extraction." },
       "reviewer_b": { "status": "not-reviewed", "vulnerable_revision": "not-reviewed", "fixed_revision": "not-reviewed", "remediation": "not-reviewed", "basis": "No review run has started." },
       "consensus": "not-reviewed",
-      "remediation_location": { "status": "not-reviewed", "vulnerable_revision": "7d882ddc46053e142e5c28f5ebde007e0b7523e2", "fixed_revision": "64fb2bcbdbb87a74af90dd723d5ef4a99fceeb73", "notes": "Pending independent review of the pinned pair and fix diff." }
+      "remediation_location": { "status": "accept", "vulnerable_revision": "7d882ddc46053e142e5c28f5ebde007e0b7523e2", "fixed_revision": "64fb2bcbdbb87a74af90dd723d5ef4a99fceeb73", "notes": "Reviewer A accepted the source-to-extraction remediation anchors; reviewer B remains pending, so consensus is not reviewed." }
     },
     {
       "pin_id": "dfb-rp-java-hibernate-validator-6x",
       "pin_artifact": { "path": "corpus/real-project/pins/hibernate-validator-6x.json", "sha256": "5a7937db211c944a9293d3a59382acecb86850ab65e5a60099e2d0abd8fb9c0e" },
-      "reviewer_a": { "status": "not-reviewed", "vulnerable_revision": "not-reviewed", "fixed_revision": "not-reviewed", "remediation": "not-reviewed", "basis": "No review run has started." },
+      "reviewer_a": { "status": "accept", "vulnerable_revision": "accept", "fixed_revision": "accept", "remediation": "accept", "basis": "The consecutive 6.x span disables EL for custom violations by default, then replaces the Boolean control with typed feature levels and restricted contexts; no material unrelated production change was identified." },
       "reviewer_b": { "status": "not-reviewed", "vulnerable_revision": "not-reviewed", "fixed_revision": "not-reviewed", "remediation": "not-reviewed", "basis": "No review run has started." },
       "consensus": "not-reviewed",
-      "remediation_location": { "status": "not-reviewed", "vulnerable_revision": "56d443dbb5f4e81f2900d2563c42e68f475051e8", "fixed_revision": "d2db40b9e7d22c7a0b44d7665242dfc7b4d14d78", "notes": "The selected 6.x pin contains two consecutive advisory remediation commits; reviewers must account for both before readiness." }
+      "remediation_location": { "status": "accept", "vulnerable_revision": "56d443dbb5f4e81f2900d2563c42e68f475051e8", "fixed_revision": "d2db40b9e7d22c7a0b44d7665242dfc7b4d14d78", "notes": "Reviewer A accepted both consecutive 6.x remediation contributions; reviewer B remains pending, so consensus is not reviewed." }
     },
     {
       "pin_id": "dfb-rp-python-llama-factory",
       "pin_artifact": { "path": "corpus/real-project/pins/llama-factory.json", "sha256": "901c73155873529ee9081077569ef8b7c4d9611d0bb7db1b956c1c3238627073" },
-      "reviewer_a": { "status": "not-reviewed", "vulnerable_revision": "not-reviewed", "fixed_revision": "not-reviewed", "remediation": "not-reviewed", "basis": "No review run has started." },
+      "reviewer_a": { "status": "accept", "vulnerable_revision": "accept", "fixed_revision": "accept", "remediation": "accept", "basis": "Checkpoint identity reaches the value-head torch.load boundary; the fixed revision constrains both relevant loads with weights_only=true." },
       "reviewer_b": { "status": "not-reviewed", "vulnerable_revision": "not-reviewed", "fixed_revision": "not-reviewed", "remediation": "not-reviewed", "basis": "No review run has started." },
       "consensus": "not-reviewed",
-      "remediation_location": { "status": "not-reviewed", "vulnerable_revision": "pending", "fixed_revision": "pending", "notes": "Pending independent review of the pinned pair and fix diff." }
+      "remediation_location": { "status": "accept", "vulnerable_revision": "7242caf0ff5baddefcbd93020e551e5e72f32314", "fixed_revision": "bb7bf51554d4ba8432333c35a5e3b52705955ede", "notes": "Reviewer A accepted the checkpoint-to-deserialization remediation anchors; reviewer B remains pending, so consensus is not reviewed." }
     },
     {
       "pin_id": "dfb-rp-java-local-s3",
       "pin_artifact": { "path": "corpus/real-project/pins/local-s3.json", "sha256": "0b83e4a805faf01344842df6a9b55e50074d3216c65159c4196cd6dc2fed6a4d" },
-      "reviewer_a": { "status": "not-reviewed", "vulnerable_revision": "not-reviewed", "fixed_revision": "not-reviewed", "remediation": "not-reviewed", "basis": "No review run has started." },
+      "reviewer_a": { "status": "accept", "vulnerable_revision": "accept", "fixed_revision": "accept", "remediation": "accept", "basis": "Request-body XML reaches XmlMapper.readValue; the fixed shared factories disable DTD and external-entity support." },
       "reviewer_b": { "status": "not-reviewed", "vulnerable_revision": "not-reviewed", "fixed_revision": "not-reviewed", "remediation": "not-reviewed", "basis": "No review run has started." },
       "consensus": "not-reviewed",
-      "remediation_location": { "status": "not-reviewed", "vulnerable_revision": "pending", "fixed_revision": "pending", "notes": "Pending independent review of the pinned pair and fix diff." }
+      "remediation_location": { "status": "accept", "vulnerable_revision": "009901882be8b543e85b67c5ec2e9f30d83d62ef", "fixed_revision": "d6ed756ceb30c1eb9d4263321ac683d734f8836f", "notes": "Reviewer A accepted the request-body-to-parser remediation anchors; reviewer B remains pending, so consensus is not reviewed." }
     },
     {
       "pin_id": "dfb-rp-javascript-psitransfer",
       "pin_artifact": { "path": "corpus/real-project/pins/psitransfer.json", "sha256": "722dd94f88ea2ff53b0a7c171bc5ada03219bd3747b52d86c97bc053fb0bfbd1" },
-      "reviewer_a": { "status": "not-reviewed", "vulnerable_revision": "not-reviewed", "fixed_revision": "not-reviewed", "remediation": "not-reviewed", "basis": "No review run has started." },
+      "reviewer_a": { "status": "accept", "vulnerable_revision": "accept", "fixed_revision": "accept", "remediation": "accept", "basis": "Uploaded filename metadata reaches archive entry names; the fixed revision rejects unsafe basenames and normalizes and uniquifies output names." },
       "reviewer_b": { "status": "not-reviewed", "vulnerable_revision": "not-reviewed", "fixed_revision": "not-reviewed", "remediation": "not-reviewed", "basis": "No review run has started." },
       "consensus": "not-reviewed",
-      "remediation_location": { "status": "not-reviewed", "vulnerable_revision": "pending", "fixed_revision": "pending", "notes": "Pending independent review of the pinned pair and fix diff." }
+      "remediation_location": { "status": "accept", "vulnerable_revision": "0eaa8d06fa8a5b73b002d5bdbd176d49a857725e", "fixed_revision": "6c71bc0b8afa1ffa7aabd6c5fb28677651fd57b6", "notes": "Reviewer A accepted the filename-to-archive remediation anchors; reviewer B remains pending, so consensus is not reviewed." }
     },
     {
       "pin_id": "dfb-rp-javascript-tar-fs",
       "pin_artifact": { "path": "corpus/real-project/pins/tar-fs.json", "sha256": "97c3630a2d9f38341f64c98bfb44e0a25b06ca377cdd586a09238444005f0b71" },
-      "reviewer_a": { "status": "not-reviewed", "vulnerable_revision": "not-reviewed", "fixed_revision": "not-reviewed", "remediation": "not-reviewed", "basis": "No review run has started." },
+      "reviewer_a": { "status": "accept", "vulnerable_revision": "accept", "fixed_revision": "accept", "remediation": "accept", "basis": "Archive link metadata and a later entry reach file materialization through a lexical-prefix boundary; the fix requires an exact path-component boundary." },
       "reviewer_b": { "status": "not-reviewed", "vulnerable_revision": "not-reviewed", "fixed_revision": "not-reviewed", "remediation": "not-reviewed", "basis": "No review run has started." },
       "consensus": "not-reviewed",
-      "remediation_location": { "status": "not-reviewed", "vulnerable_revision": "pending", "fixed_revision": "pending", "notes": "Pending independent review of the pinned pair and fix diff." }
+      "remediation_location": { "status": "accept", "vulnerable_revision": "cb1c571fba8ec6dd56340f55dcd5d284372a8249", "fixed_revision": "0bd54cdf06da2b7b5b95cd4b062c9f4e0a8c4e09", "notes": "Reviewer A accepted the multi-entry link-following remediation anchors; reviewer B remains pending, so consensus is not reviewed." }
     }
   ],
   "disagreement": {
@@ -342,7 +342,7 @@
     "outcome": "pending"
   },
   "claims": {
-    "subject_verdict": "not-reviewed",
+    "subject_verdict": "accept",
     "synthetic_core_denominator_unchanged": true,
     "accuracy_or_superiority_claim": false,
     "causal_claim": false,
@@ -351,12 +351,13 @@
     "scope_statement": "This slice is a descriptive confirmation exercise. It cannot establish analyzer accuracy, superiority, causality, or a latency ranking, and it does not alter any synthetic-core denominator."
   },
   "readiness": {
-    "outcome": "pending",
+    "outcome": "inconclusive",
     "execution_ready": false,
     "freeze_ready": false,
     "blocking_reasons": [
-      "Both independent reviewer reports are pending.",
-      "Per-pin ground-truth reviews and remediation locations are not complete.",
+      "Reviewer A cannot determine historical eligibility and exclusion completeness because immutable draw-time repository metadata and per-candidate E5 judgments are absent.",
+      "Reviewer B did not start: three preregistered GLM 5.3 dispatch attempts failed with provider HTTP 429 before producing evidence or a report.",
+      "Two-reviewer per-pin consensus is incomplete even though Reviewer A accepted all six amended semantic pins.",
       "No disagreement comparison or adjudication exists.",
       "Analyzer execution and result freezing are forbidden until the review closes."
     ]

@@ -34,7 +34,7 @@ pub(crate) fn the_committed_real_project_slice_replays() {
 }
 
 #[test]
-pub(crate) fn the_pending_review_record_is_valid_but_blocks_execution() {
+pub(crate) fn the_non_ready_review_record_is_valid_but_blocks_execution() {
     validate_real_project_review_at(Path::new("."), false).unwrap();
     let error = validate_real_project_review_at(Path::new("."), true).unwrap_err();
     assert!(error.to_string().contains("analyzer execution"));

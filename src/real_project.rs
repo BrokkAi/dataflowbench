@@ -493,6 +493,23 @@ pub(crate) fn validate_real_project_review_at(root: &Path, require_ready: bool) 
         if packet != canonical_packet {
             bail!("{REAL_PROJECT_REVIEW}: {role} packet differs from the canonical digest set");
         }
+        match (
+            reviewer["report"]["path"].as_str(),
+            reviewer["report"]["sha256"].as_str(),
+        ) {
+            (Some(_), Some(_)) => {
+                let report_path = validate_review_artifact(root, &reviewer["report"])?;
+                if !report_path.starts_with("corpus/real-project/reviews/") {
+                    bail!(
+                        "{REAL_PROJECT_REVIEW}: reviewer reports must be retained under corpus/real-project/reviews/"
+                    );
+                }
+            }
+            (None, None) => {}
+            _ => bail!(
+                "{REAL_PROJECT_REVIEW}: {role} report path and digest must both be present or both be null"
+            ),
+        }
     }
 
     let reviewed_pins = review["per_pin_ground_truth"]
