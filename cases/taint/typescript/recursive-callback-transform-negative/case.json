@@ -1,0 +1,23 @@
+{
+  "schema_version": 2,
+  "id": "dfb-taint-typescript-recursive-callback-transform-negative",
+  "template_id": "dfb-template-chal-recursive-callback-transform",
+  "polarity": "negative",
+  "negative_mechanism": "overwrite-kill",
+  "score_tier": "core",
+  "track": "taint",
+  "language": "typescript",
+  "semantic_dimensions": ["recursion", "interprocedural-flow", "flow-sensitivity"],
+  "feature_tags": ["recursive", "higher-order"],
+  "model_profile": "benchmark-controlled",
+  "fixture_files": ["RecursiveCallbackTransformNegative.ts"],
+  "source_anchors": [{"marker": "DFB-SOURCE: recursive-callback-transform-input", "file": "RecursiveCallbackTransformNegative.ts", "line_hint": 3}],
+  "sink_anchors": [{"marker": "DFB-SINK: recursive-callback-transform-sink", "file": "RecursiveCallbackTransformNegative.ts", "line_hint": 7}],
+  "expected_flows": [],
+  "expected_nonflows": [{"source": "DFB-SOURCE: recursive-callback-transform-input", "sink": "DFB-SINK: recursive-callback-transform-sink"}],
+  "witness_checkpoints": ["DFB-SOURCE: recursive-callback-transform-input", "DFB-WITNESS: recursive-callback-transform-indirect-transfer", "DFB-WITNESS: recursive-callback-transform-recursive-transfer", "DFB-WITNESS: recursive-callback-transform-base", "DFB-WITNESS: recursive-callback-transform-step", "DFB-WITNESS: recursive-callback-transform-compose", "DFB-SINK: recursive-callback-transform-sink"],
+  "expected_analysis_capability": {"kind": "recursive-callback-transform-taint"},
+  "execution_budget": {"wall_clock_seconds": 60, "peak_memory_mb": 512},
+  "fixture_provenance": {"kind": "authored", "origin": "DataFlowBench", "revision": "m4-recursive-composition-typescript", "license": "MIT"},
+  "tool_model_references": {"bifrost": {"policy": "adapters/bifrost/policies/core-typescript-kernel.rqlp"}, "codeql": {"query": "adapters/codeql/typescript/queries/TypeScriptKernel.ql"}}
+}
