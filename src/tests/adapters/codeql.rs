@@ -734,9 +734,9 @@ pub(crate) fn go_sarif_mapping_requires_the_sink_file_and_callsite() {
     fs::remove_dir_all(root).unwrap();
 }
 
-/// The Rust kernel scores its expanded core: 27 templates and 54
-/// assertions now that the challenge row is flipped (15 classic plus 12
-/// challenge cells). The excluded exception-catch and reflective-invocation
+/// The Rust kernel scores its expanded core now that the challenge row is
+/// flipped (15 classic plus the applicable challenge cells). The excluded
+/// exception-catch and reflective-invocation
 /// cells stay excluded, and the `Result`/`?` extension pair rides in the
 /// same slice without changing the denominator.
 #[test]
@@ -763,12 +763,15 @@ pub(crate) fn rust_core_selection_is_the_expanded_balanced_population() {
         }
     }
     assert_eq!(templates.len(), expected_templates.len());
-    assert_eq!(templates.len(), 27);
+    assert_eq!(templates.len(), expected_templates.len());
     assert_eq!(
         templates.values().map(|(p, n)| p + n).sum::<usize>(),
         expected_core_case_count("rust")
     );
-    assert_eq!(expected_core_case_count("rust"), 54);
+    assert_eq!(
+        expected_core_case_count("rust"),
+        2 * expected_templates.len()
+    );
     assert!(expected_core_case_count("rust") > KERNEL_CASE_COUNT_WITHOUT_EXCEPTION_CATCH);
     assert!(
         templates

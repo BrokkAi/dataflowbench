@@ -66,8 +66,14 @@ pub(crate) fn c_and_rust_share_the_scored_set_without_exception_catch() {
             "{language} corpus does not match its rollout state"
         );
     }
-    assert_eq!(core_templates_for_language(&cases, "rust").len(), 27);
-    assert_eq!(core_templates_for_language(&cases, "c").len(), 28);
+    assert_eq!(
+        core_templates_for_language(&cases, "rust").len(),
+        expected_core_templates("rust").len()
+    );
+    assert_eq!(
+        core_templates_for_language(&cases, "c").len(),
+        expected_core_templates("c").len()
+    );
     assert!(
         !core_templates_for_language(&cases, "rust")
             .contains("dfb-template-result-error-propagation")

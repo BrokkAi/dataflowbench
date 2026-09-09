@@ -207,6 +207,48 @@ Every challenge fixture is `Syntax OK` under the same system Ruby the classic
 fixtures use (`/usr/bin/ruby -c`, `ruby 2.6.10p210`). No adapter compiles or
 executes them.
 
+## Recursive-composition extension (issue #168)
+
+The [recursive-composition preregistration](recursive-composition.md) adds
+five balanced Ruby pairs to the future v0.8.0-or-later population. These ten
+fixtures are authored under provenance revision
+`v0.8.0-recursive-composition-ruby`; they do not rewrite the existing frozen
+58-assertion population or claim analyzer results. The coordinator must first
+register the shared template identities and roll out the population atomically.
+Once registered, Ruby's applicable core denominator becomes 34 templates and
+68 assertions, reported separately from every earlier freeze.
+
+All fixtures use integer source value `7`, clean value `0`, and recursion depth
+`3`. Positive and negative members preserve the same source-backed topology;
+negatives use the preregistered `overwrite-kill` mechanism and keep the
+recursive path live through the killing assignment. The common dimensions are
+`recursion`, `interprocedural-flow`, and `flow-sensitivity`; heap and exception
+pairs add `heap-field-sensitivity`, and the exception pair also adds
+`exceptional-flow`.
+
+| Template ID | Ruby construction | Negative distinction |
+| --- | --- | --- |
+| `dfb-template-chal-recursive-payload-transform` | `walk(value, depth)` increments before recursive descent and increments the returned payload while unwinding. | The base assigns `value = 0`; the same unwind additions remain live. |
+| `dfb-template-chal-mutual-recursive-transform` | `walk_a` and `walk_b` form a two-method recursive SCC, each transforming before transfer and after the returned value; `walk_a(..., 3)` reaches `walk_b`'s base. | Both bases kill their payload; the exercised `walk_b` base is witnessed. |
+| `dfb-template-chal-recursive-heap-unwind` | One caller-created `FlowBox` is passed through every frame; the base stores the payload and each returning frame increments the shared `value` accessor. | The base writes the payload and overwrites the same field with `0`. |
+| `dfb-template-chal-recursive-callback-transform` | `walk` invokes a `Method` parameter with `call`; `step` increments, passes `method(:step)` back to `walk`, and increments the returned result. | `walk` kills its base payload before returning through the callback cycle. |
+| `dfb-template-chal-recursive-exception-persistence` | Recursive descent writes a shared `FlowBox`, raises the private `RecursiveSignal`, and an outer exact rescue sinks the persisted field plus one. | The base overwrites the field with `0` before raising the same signal. |
+
+The callback pair crosses a real indirect callable invocation and cycle, not a
+direct call with an unused callback parameter. The heap and exception pairs use
+one shared object reference through every frame, never a copied value. The
+exception rescue names only the fixture-private signal and is outside the
+recursive component; no recursive frame catches or bypasses the exceptional
+transfer. Every pair carries source, sink, transfer, base, and composed
+operation markers, with an explicit `DFB-KILL` marker on each negative.
+
+The analyzer-independent validator is
+`scripts/validate-ruby-recursive-composition.py`. It checks JSON metadata and
+markers, runs `ruby -c`, and executes temporary copies at source values `7`
+and `11`: positive sink outputs change by `+4`, while negative outputs remain
+constant. No Cargo build, analyzer run, report edit, population freeze, or
+accuracy claim is made here.
+
 ## Fixtures
 
 Fixtures are single `.rb` files with no `require`, no gem, no module nesting,

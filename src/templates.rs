@@ -170,7 +170,7 @@ pub(crate) const RECURSIVE_COMPOSITION_TEMPLATE_IDS: [&str; 5] = [
 ];
 
 /// Explicit delivery ledger: add a language only with its complete fixture pairs.
-pub(crate) const RECURSIVE_COMPOSITION_LANGUAGES: [&str; 10] = [
+pub(crate) const RECURSIVE_COMPOSITION_LANGUAGES: [&str; 12] = [
     "java",
     "python",
     "javascript",
@@ -181,6 +181,8 @@ pub(crate) const RECURSIVE_COMPOSITION_LANGUAGES: [&str; 10] = [
     "go",
     "kotlin",
     "php",
+    "ruby",
+    "rust",
 ];
 
 pub(crate) fn recursive_composition_templates(language: &str) -> Vec<&'static str> {
