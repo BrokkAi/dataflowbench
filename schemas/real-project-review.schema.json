@@ -1,0 +1,436 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://dataflowbench.dev/schemas/real-project-review/v1",
+  "title": "DataFlowBench real-project independent review v1",
+  "description": "A provenance-bound, blind, two-reviewer gate for the small real-project confirmation slice. This record is created before analyzer execution. A pending or inconclusive record is never execution- or freeze-ready.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "review_id",
+    "status",
+    "created_at",
+    "updated_at",
+    "scope",
+    "protocol",
+    "analyzer_evidence_consulted",
+    "reviewers",
+    "prior_reviews",
+    "per_pin_ground_truth",
+    "disagreement",
+    "claims",
+    "readiness"
+  ],
+  "properties": {
+    "schema_version": { "const": 1 },
+    "review_id": {
+      "type": "string",
+      "pattern": "^dfb-rp-r[0-9]+-review-v[0-9]+$"
+    },
+    "status": {
+      "enum": ["pending", "inconclusive", "complete"],
+      "description": "Overall review state. `pending` is the preregistration state; `inconclusive` includes unresolved disagreement or cannot-determine judgments; only `complete` can be considered for the readiness gate."
+    },
+    "created_at": { "type": "string", "format": "date-time" },
+    "updated_at": { "type": "string", "format": "date-time" },
+    "scope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["wave", "preregistration", "review_contract", "schemas", "draw", "frame", "pins", "measurement_tools"],
+      "properties": {
+        "wave": { "type": "string", "pattern": "^R[0-9]+$" },
+        "preregistration": { "$ref": "#/$defs/artifact" },
+        "review_contract": { "$ref": "#/$defs/artifact" },
+        "schemas": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/artifact" }
+        },
+        "draw": { "$ref": "#/$defs/artifact" },
+        "frame": { "$ref": "#/$defs/artifact" },
+        "pins": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/artifact" }
+        },
+        "measurement_tools": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/artifact" }
+        }
+      }
+    },
+    "protocol": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["packet_cutoff", "blind_independence", "reviewer_a", "reviewer_b", "adjudication", "latency_scope"],
+      "properties": {
+        "packet_cutoff": {
+          "type": "string",
+          "minLength": 1,
+          "description": "The immutable, analyzer-free packet boundary. Any artifact added after a reviewer begins must be an amendment and must not be silently substituted."
+        },
+        "blind_independence": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["separate_clean_checkouts", "separate_evidence_paths", "no_analyzer_outputs", "no_cross_reviewer_discussion_before_submission", "same_packet_digest_set"],
+          "properties": {
+            "separate_clean_checkouts": { "const": true },
+            "separate_evidence_paths": { "const": true },
+            "no_analyzer_outputs": { "const": true },
+            "no_cross_reviewer_discussion_before_submission": { "const": true },
+            "same_packet_digest_set": { "const": true }
+          }
+        },
+        "reviewer_a": { "$ref": "#/$defs/reviewer_plan" },
+        "reviewer_b": { "$ref": "#/$defs/reviewer_plan" },
+        "adjudication": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["order", "allowed_inputs", "unresolved_rule", "cannot_determine_rule"],
+          "properties": {
+            "order": {
+              "const": ["reviewer-a-submits", "reviewer-b-submits", "compare", "adjudicate-or-remain-inconclusive"]
+            },
+            "allowed_inputs": {
+              "type": "array",
+              "minItems": 1,
+              "uniqueItems": true,
+              "items": { "type": "string", "minLength": 1 }
+            },
+            "unresolved_rule": {
+              "const": "Any unresolved disagreement leaves the review inconclusive and both execution_ready and freeze_ready false."
+            },
+            "cannot_determine_rule": {
+              "const": "Any cannot-determine judgment is retained as inconclusive; it is never coerced to accept or reject."
+            }
+          }
+        },
+        "latency_scope": {
+          "$ref": "#/$defs/latency_scope"
+        }
+      }
+    },
+    "analyzer_evidence_consulted": {
+      "const": false,
+      "description": "This review packet and review record are created before analyzer execution. Any true value invalidates this preregistration."
+    },
+    "reviewers": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["reviewer_a", "reviewer_b"],
+      "properties": {
+        "reviewer_a": { "$ref": "#/$defs/reviewer_record" },
+        "reviewer_b": { "$ref": "#/$defs/reviewer_record" }
+      }
+    },
+    "prior_reviews": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/prior_review" }
+    },
+    "per_pin_ground_truth": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "description": "One entry for every selected pin. Each reviewer must independently review the vulnerable/fixed pair and remediation location before any analyzer run.",
+      "items": { "$ref": "#/$defs/pin_ground_truth" }
+    },
+    "disagreement": {
+      "$ref": "#/$defs/disagreement"
+    },
+    "claims": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["subject_verdict", "synthetic_core_denominator_unchanged", "accuracy_or_superiority_claim", "causal_claim", "latency_ranking", "descriptive_latency_only", "scope_statement"],
+      "properties": {
+        "subject_verdict": { "$ref": "#/$defs/verdict" },
+        "synthetic_core_denominator_unchanged": { "const": true },
+        "accuracy_or_superiority_claim": { "const": false },
+        "causal_claim": { "const": false },
+        "latency_ranking": { "const": false },
+        "descriptive_latency_only": { "const": true },
+        "scope_statement": { "type": "string", "minLength": 1 }
+      }
+    },
+    "readiness": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["outcome", "execution_ready", "freeze_ready", "blocking_reasons"],
+      "properties": {
+        "outcome": { "enum": ["pending", "inconclusive", "ready", "blocked"] },
+        "execution_ready": { "type": "boolean" },
+        "freeze_ready": { "type": "boolean" },
+        "blocking_reasons": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "repo_path": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$)).+"
+    },
+    "artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": { "$ref": "#/$defs/repo_path" },
+        "sha256": { "$ref": "#/$defs/sha256" }
+      }
+    },
+    "nullable_artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": { "type": ["string", "null"] },
+        "sha256": { "anyOf": [{ "$ref": "#/$defs/sha256" }, { "type": "null" }] }
+      }
+    },
+    "reviewer_plan": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["provider", "model", "reasoning_effort", "role", "substitution_rule"],
+      "properties": {
+        "provider": { "type": "string", "minLength": 1 },
+        "model": { "type": "string", "minLength": 1 },
+        "reasoning_effort": { "$ref": "#/$defs/reasoning_effort" },
+        "role": { "enum": ["reviewer-a", "reviewer-b"] },
+        "substitution_rule": {
+          "const": "A model substitution must be recorded before that reviewer starts and cannot be selected after seeing the other review or analyzer evidence."
+        }
+      }
+    },
+    "reasoning_effort": {
+      "enum": ["none", "minimal", "low", "medium", "high", "xhigh", "max", "ultra"]
+    },
+    "timestamp_or_null": {
+      "anyOf": [{ "type": "string", "format": "date-time" }, { "type": "null" }]
+    },
+    "reviewer_record": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["role", "provider", "model", "reasoning_effort", "run_id", "started_at", "completed_at", "status", "checkout", "packet", "blind_independence", "analyzer_evidence_consulted", "report", "subject_verdicts", "notes"],
+      "properties": {
+        "role": { "enum": ["reviewer-a", "reviewer-b"] },
+        "provider": { "type": "string", "minLength": 1 },
+        "model": { "type": "string", "minLength": 1 },
+        "reasoning_effort": { "$ref": "#/$defs/reasoning_effort" },
+        "run_id": { "type": ["string", "null"] },
+        "started_at": { "$ref": "#/$defs/timestamp_or_null" },
+        "completed_at": { "$ref": "#/$defs/timestamp_or_null" },
+        "status": { "enum": ["planned", "running", "submitted", "inconclusive"] },
+        "checkout": { "$ref": "#/$defs/checkout" },
+        "packet": { "$ref": "#/$defs/reviewer_packet" },
+        "blind_independence": { "$ref": "#/$defs/reviewer_blindness" },
+        "analyzer_evidence_consulted": { "const": false },
+        "report": { "$ref": "#/$defs/nullable_artifact" },
+        "subject_verdicts": { "$ref": "#/$defs/subject_verdicts" },
+        "notes": { "type": "string", "minLength": 1 }
+      }
+    },
+    "prior_review": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["role", "provider", "model", "reasoning_effort", "run_id", "checkout_revision", "clean_checkout", "evidence_path", "completed_at", "report", "outcome", "superseded_by"],
+      "properties": {
+        "role": { "enum": ["reviewer-a", "reviewer-b"] },
+        "provider": { "type": "string", "minLength": 1 },
+        "model": { "type": "string", "minLength": 1 },
+        "reasoning_effort": { "$ref": "#/$defs/reasoning_effort" },
+        "run_id": { "type": "string", "minLength": 1 },
+        "checkout_revision": { "type": "string", "pattern": "^[0-9a-fA-F]{40}$" },
+        "clean_checkout": { "const": true },
+        "evidence_path": { "type": "string", "minLength": 1 },
+        "completed_at": { "type": "string", "format": "date-time" },
+        "report": { "$ref": "#/$defs/artifact" },
+        "outcome": { "enum": ["accept", "revise", "inconclusive"] },
+        "superseded_by": { "type": "string", "minLength": 1 }
+      }
+    },
+    "checkout": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "revision", "clean", "observed_at"],
+      "properties": {
+        "path": { "type": ["string", "null"] },
+        "revision": { "type": ["string", "null"], "pattern": "^[0-9a-fA-F]{40}$" },
+        "clean": { "type": ["boolean", "null"] },
+        "observed_at": { "$ref": "#/$defs/timestamp_or_null" }
+      }
+    },
+    "reviewer_packet": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["evidence_path", "artifacts", "artifact_digest_algorithm"],
+      "properties": {
+        "evidence_path": { "type": ["string", "null"] },
+        "artifact_digest_algorithm": { "const": "sha256" },
+        "artifacts": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/artifact" }
+        }
+      }
+    },
+    "reviewer_blindness": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "independent_checkout", "independent_evidence_path", "prior_outcome_exposure", "cross_reviewer_contact_before_submission"],
+      "properties": {
+        "status": { "enum": ["pending", "verified", "failed"] },
+        "independent_checkout": { "type": ["boolean", "null"] },
+        "independent_evidence_path": { "type": ["boolean", "null"] },
+        "prior_outcome_exposure": { "const": false },
+        "cross_reviewer_contact_before_submission": { "const": false }
+      }
+    },
+    "verdict": {
+      "enum": ["not-reviewed", "accept", "reject", "inconclusive", "cannot-determine"]
+    },
+    "subject_verdicts": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["eligibility", "exclusions", "replacements", "pins", "licenses", "ground_truth", "claims", "latency"],
+      "properties": {
+        "eligibility": { "$ref": "#/$defs/verdict" },
+        "exclusions": { "$ref": "#/$defs/verdict" },
+        "replacements": { "$ref": "#/$defs/verdict" },
+        "pins": { "$ref": "#/$defs/verdict" },
+        "licenses": { "$ref": "#/$defs/verdict" },
+        "ground_truth": { "$ref": "#/$defs/verdict" },
+        "claims": { "$ref": "#/$defs/verdict" },
+        "latency": { "$ref": "#/$defs/verdict" }
+      }
+    },
+    "pin_ground_truth": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["pin_id", "pin_artifact", "reviewer_a", "reviewer_b", "consensus", "remediation_location"],
+      "properties": {
+        "pin_id": { "type": "string", "pattern": "^dfb-rp-[a-z0-9-]+$" },
+        "pin_artifact": { "$ref": "#/$defs/artifact" },
+        "reviewer_a": { "$ref": "#/$defs/pin_review" },
+        "reviewer_b": { "$ref": "#/$defs/pin_review" },
+        "consensus": { "$ref": "#/$defs/verdict" },
+        "remediation_location": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["status", "vulnerable_revision", "fixed_revision", "notes"],
+          "properties": {
+            "status": { "$ref": "#/$defs/verdict" },
+            "vulnerable_revision": { "type": "string", "minLength": 1 },
+            "fixed_revision": { "type": "string", "minLength": 1 },
+            "notes": { "type": "string", "minLength": 1 }
+          }
+        }
+      }
+    },
+    "pin_review": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "vulnerable_revision", "fixed_revision", "remediation", "basis"],
+      "properties": {
+        "status": { "$ref": "#/$defs/verdict" },
+        "vulnerable_revision": { "$ref": "#/$defs/verdict" },
+        "fixed_revision": { "$ref": "#/$defs/verdict" },
+        "remediation": { "$ref": "#/$defs/verdict" },
+        "basis": { "type": "string", "minLength": 1 }
+      }
+    },
+    "disagreement": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "items", "adjudicator", "outcome"],
+      "properties": {
+        "status": { "enum": ["pending", "none", "unresolved", "resolved"] },
+        "items": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/disagreement_item" }
+        },
+        "adjudicator": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["type", "id", "run_id", "started_at", "completed_at"],
+          "properties": {
+            "type": { "enum": ["human", "agent", "none"] },
+            "id": { "type": ["string", "null"] },
+            "run_id": { "type": ["string", "null"] },
+            "started_at": { "$ref": "#/$defs/timestamp_or_null" },
+            "completed_at": { "$ref": "#/$defs/timestamp_or_null" }
+          }
+        },
+        "outcome": { "enum": ["pending", "inconclusive", "agreed", "adjudicated"] }
+      }
+    },
+    "disagreement_item": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["topic", "pin_id", "reviewer_a", "reviewer_b", "status", "resolution"],
+      "properties": {
+        "topic": { "enum": ["eligibility", "exclusions", "replacements", "pins", "licenses", "ground_truth", "claims", "latency"] },
+        "pin_id": { "type": ["string", "null"] },
+        "reviewer_a": { "$ref": "#/$defs/verdict" },
+        "reviewer_b": { "$ref": "#/$defs/verdict" },
+        "status": { "enum": ["open", "resolved"] },
+        "resolution": { "type": ["string", "null"] }
+      }
+    },
+    "latency_scope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["small_project_view", "per_source_loc_view", "retained_fields", "interpretation_bounds"],
+      "properties": {
+        "small_project_view": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["cold", "warm", "unit", "aggregation"],
+          "properties": {
+            "cold": { "const": "raw per-project/per-case median, with startup overhead retained separately" },
+            "warm": { "const": "raw marginal warm median where applicable, with startup overhead excluded only when explicitly measured" },
+            "unit": { "const": "milliseconds" },
+            "aggregation": { "const": "descriptive per-project and per-case; no pooled ranking" }
+          }
+        },
+        "per_source_loc_view": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["numerator", "denominator", "tool_and_version", "counting_rules", "exclusions", "interpretation"],
+          "properties": {
+            "numerator": { "const": "raw latency retained from the measured run" },
+            "denominator": { "const": "physical source LoC in the pinned revision" },
+            "tool_and_version": { "const": "the pinned, versioned LoC tool and version are recorded" },
+            "counting_rules": { "const": "language-aware counting rules and file-selection rules are recorded" },
+            "exclusions": { "const": "generated, vendored, binary, and other excluded paths are recorded explicitly" },
+            "interpretation": { "const": "descriptive normalization only; not a ranking, accuracy, or causal measure" }
+          }
+        },
+        "retained_fields": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "enum": ["raw_latency", "source_loc_count", "loc_tool", "loc_tool_version", "loc_counting_rules", "loc_exclusions", "analyzer", "language", "source_revision", "analyzer_revision", "environment", "configuration", "startup_overhead", "cold_warm_label"]
+          }
+        },
+        "interpretation_bounds": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "type": "string", "minLength": 1 }
+        }
+      }
+    }
+  }
+}

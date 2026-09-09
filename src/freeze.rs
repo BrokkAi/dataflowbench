@@ -5,6 +5,7 @@
 use crate::adapters::bifrost::bifrost_runner_error_reason;
 use crate::cases::validate_value;
 use crate::evidence::sarif_execution_errors;
+use crate::real_project::{REAL_PROJECT_REVIEW, validate_frozen_real_project_review};
 use anyhow::{Context, Result, bail};
 use jsonschema::JSONSchema;
 use serde_json::{Value, json};
@@ -141,6 +142,14 @@ pub(crate) fn validate_freeze_at(root: &Path, manifest_path: &Path, check_git: b
         "claim model profiles",
     )?;
     validate_exclusions(claim, &cases)?;
+    if actual_tiers.contains("real-project") {
+        let review = manifest
+            .get("real_project_review")
+            .context("real-project freeze must bind the independent review record")?;
+        validate_frozen_real_project_review(root, review)?;
+    } else if manifest.get("real_project_review").is_some() {
+        bail!("a freeze without real-project cases must not bind a real-project review record");
+    }
 
     let actual_dimensions = manifest["reports"]
         .as_array()
@@ -990,7 +999,7 @@ pub(crate) fn build_freeze_manifest(
                 .to_string()
         })
         .collect::<BTreeSet<_>>();
-    Ok(json!({
+    let mut manifest = json!({
         "schema_version": 1,
         "benchmark": {
             "revision": revision,
@@ -1011,5 +1020,13 @@ pub(crate) fn build_freeze_manifest(
         "cases": case_values,
         "adapters": adapter_values,
         "reports": frozen_reports,
-    }))
+    });
+    if tiers.contains("real-project") {
+        let relative = REAL_PROJECT_REVIEW;
+        manifest["real_project_review"] = json!({
+            "path": relative,
+            "sha256": digest_file(relative)?,
+        });
+    }
+    Ok(manifest)
 }

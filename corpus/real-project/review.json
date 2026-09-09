@@ -1,0 +1,363 @@
+{
+  "schema_version": 1,
+  "review_id": "dfb-rp-r1-review-v1",
+  "status": "inconclusive",
+  "created_at": "2026-09-09T08:02:48Z",
+  "updated_at": "2026-09-09T18:19:00Z",
+  "scope": {
+    "wave": "R1",
+    "preregistration": {
+      "path": "docs/real-project-preregistration.md",
+      "sha256": "87f011b32056b75844b3e9509a2934805da57af011f5353cbba900d90c87823b"
+    },
+    "review_contract": {
+      "path": "docs/real-project-review.md",
+      "sha256": "2452fb6dbd24178135d0b7c96920797ef37de4af6b6ac0411ac9f9906ba42fe1"
+    },
+    "schemas": [
+      {
+        "path": "schemas/real-project-draw.schema.json",
+        "sha256": "6f98767c8b81d83ffce3da6f6ef55d6a9f245bdbf8ab944d2684fe12027ed3be"
+      },
+      {
+        "path": "schemas/real-project-pin.schema.json",
+        "sha256": "2a21457c82d806d7b1df1de8583708e37c6f8349da732667dab03ea1e42085e0"
+      },
+      {
+        "path": "schemas/real-project-review.schema.json",
+        "sha256": "c5d75b3955b1be6508ac1e7bca3cfd2ab3460cc96560c080f0b0d9f4898d804f"
+      }
+    ],
+    "draw": {
+      "path": "corpus/real-project/draw.json",
+      "sha256": "c705621b3a6b5ef8ee1ea60cf514d7c38f0fd0139ea6765515d91a000e9046bb"
+    },
+    "frame": {
+      "path": "corpus/real-project/frame.json",
+      "sha256": "1bb61bcf60d4fed8ac26dcb6f1f33dfcd61e7b285c15037ad7819595efa1ed5e"
+    },
+    "pins": [
+      {
+        "path": "corpus/real-project/pins/clearml.json",
+        "sha256": "1271ca659bb326ad222b6b5f0ced68286f9ca9c31dea3cf9e6d9ae2786a1335c"
+      },
+      {
+        "path": "corpus/real-project/pins/hibernate-validator-6x.json",
+        "sha256": "5a7937db211c944a9293d3a59382acecb86850ab65e5a60099e2d0abd8fb9c0e"
+      },
+      {
+        "path": "corpus/real-project/pins/llama-factory.json",
+        "sha256": "901c73155873529ee9081077569ef8b7c4d9611d0bb7db1b956c1c3238627073"
+      },
+      {
+        "path": "corpus/real-project/pins/local-s3.json",
+        "sha256": "0b83e4a805faf01344842df6a9b55e50074d3216c65159c4196cd6dc2fed6a4d"
+      },
+      {
+        "path": "corpus/real-project/pins/psitransfer.json",
+        "sha256": "722dd94f88ea2ff53b0a7c171bc5ada03219bd3747b52d86c97bc053fb0bfbd1"
+      },
+      {
+        "path": "corpus/real-project/pins/tar-fs.json",
+        "sha256": "97c3630a2d9f38341f64c98bfb44e0a25b06ca377cdd586a09238444005f0b71"
+      }
+    ],
+    "measurement_tools": [
+      {
+        "path": "scripts/count-real-project-loc.py",
+        "sha256": "bc4289a101691e94caa24f8fbcd7defbbcbeec46b3aa5552aa22d443bd15b431"
+      }
+    ]
+  },
+  "protocol": {
+    "packet_cutoff": "The SHA-256-bound preregistration, review contract, relevant schemas, frame, draw, six current pin records, and LoC tool in scope above; no analyzer output, generated case, result, or freeze artifact is in the packet.",
+    "blind_independence": {
+      "separate_clean_checkouts": true,
+      "separate_evidence_paths": true,
+      "no_analyzer_outputs": true,
+      "no_cross_reviewer_discussion_before_submission": true,
+      "same_packet_digest_set": true
+    },
+    "reviewer_a": {
+      "provider": "openai",
+      "model": "gpt-5.6-sol",
+      "reasoning_effort": "medium",
+      "role": "reviewer-a",
+      "substitution_rule": "A model substitution must be recorded before that reviewer starts and cannot be selected after seeing the other review or analyzer evidence."
+    },
+    "reviewer_b": {
+      "provider": "z.ai",
+      "model": "glm-5.3",
+      "reasoning_effort": "max",
+      "role": "reviewer-b",
+      "substitution_rule": "A model substitution must be recorded before that reviewer starts and cannot be selected after seeing the other review or analyzer evidence."
+    },
+    "adjudication": {
+      "order": [
+        "reviewer-a-submits",
+        "reviewer-b-submits",
+        "compare",
+        "adjudicate-or-remain-inconclusive"
+      ],
+      "allowed_inputs": [
+        "the immutable review packet",
+        "the two submitted review reports",
+        "a separately identified human adjudication record"
+      ],
+      "unresolved_rule": "Any unresolved disagreement leaves the review inconclusive and both execution_ready and freeze_ready false.",
+      "cannot_determine_rule": "Any cannot-determine judgment is retained as inconclusive; it is never coerced to accept or reject."
+    },
+    "latency_scope": {
+      "small_project_view": {
+        "cold": "raw per-project/per-case median, with startup overhead retained separately",
+        "warm": "raw marginal warm median where applicable, with startup overhead excluded only when explicitly measured",
+        "unit": "milliseconds",
+        "aggregation": "descriptive per-project and per-case; no pooled ranking"
+      },
+      "per_source_loc_view": {
+        "numerator": "raw latency retained from the measured run",
+        "denominator": "physical source LoC in the pinned revision",
+        "tool_and_version": "the pinned, versioned LoC tool and version are recorded",
+        "counting_rules": "language-aware counting rules and file-selection rules are recorded",
+        "exclusions": "generated, vendored, binary, and other excluded paths are recorded explicitly",
+        "interpretation": "descriptive normalization only; not a ranking, accuracy, or causal measure"
+      },
+      "retained_fields": [
+        "raw_latency",
+        "source_loc_count",
+        "loc_tool",
+        "loc_tool_version",
+        "loc_counting_rules",
+        "loc_exclusions",
+        "analyzer",
+        "language",
+        "source_revision",
+        "analyzer_revision",
+        "environment",
+        "configuration",
+        "startup_overhead",
+        "cold_warm_label"
+      ],
+      "interpretation_bounds": [
+        "Small-project latency and latency per pinned source LoC are separate views.",
+        "Neither view changes synthetic-core denominators.",
+        "Neither view supports accuracy, superiority, or causality claims."
+      ]
+    }
+  },
+  "analyzer_evidence_consulted": false,
+  "reviewers": {
+    "reviewer_a": {
+      "role": "reviewer-a",
+      "provider": "openai",
+      "model": "gpt-5.6-sol",
+      "reasoning_effort": "medium",
+      "run_id": "dfb-rp-r1-reviewer-a-b722e9fd-20260909T085656Z",
+      "started_at": "2026-09-09T08:56:56Z",
+      "completed_at": "2026-09-09T09:08:42Z",
+      "status": "inconclusive",
+      "checkout": {
+        "path": "/private/tmp/dataflowbench-issue19-current-a",
+        "revision": "b722e9fdb465fd6de7d4966b6d41580a2cc23a87",
+        "clean": true,
+        "observed_at": "2026-09-09T08:56:56Z"
+      },
+      "packet": {
+        "evidence_path": "/private/tmp/dataflowbench-issue19-evidence-a",
+        "artifact_digest_algorithm": "sha256",
+        "artifacts": [
+          { "path": "docs/real-project-preregistration.md", "sha256": "87f011b32056b75844b3e9509a2934805da57af011f5353cbba900d90c87823b" },
+          { "path": "docs/real-project-review.md", "sha256": "2452fb6dbd24178135d0b7c96920797ef37de4af6b6ac0411ac9f9906ba42fe1" },
+          { "path": "schemas/real-project-draw.schema.json", "sha256": "6f98767c8b81d83ffce3da6f6ef55d6a9f245bdbf8ab944d2684fe12027ed3be" },
+          { "path": "schemas/real-project-pin.schema.json", "sha256": "2a21457c82d806d7b1df1de8583708e37c6f8349da732667dab03ea1e42085e0" },
+          { "path": "schemas/real-project-review.schema.json", "sha256": "c5d75b3955b1be6508ac1e7bca3cfd2ab3460cc96560c080f0b0d9f4898d804f" },
+          { "path": "corpus/real-project/frame.json", "sha256": "1bb61bcf60d4fed8ac26dcb6f1f33dfcd61e7b285c15037ad7819595efa1ed5e" },
+          { "path": "corpus/real-project/draw.json", "sha256": "c705621b3a6b5ef8ee1ea60cf514d7c38f0fd0139ea6765515d91a000e9046bb" },
+          { "path": "corpus/real-project/pins/clearml.json", "sha256": "1271ca659bb326ad222b6b5f0ced68286f9ca9c31dea3cf9e6d9ae2786a1335c" },
+          { "path": "corpus/real-project/pins/hibernate-validator-6x.json", "sha256": "5a7937db211c944a9293d3a59382acecb86850ab65e5a60099e2d0abd8fb9c0e" },
+          { "path": "corpus/real-project/pins/llama-factory.json", "sha256": "901c73155873529ee9081077569ef8b7c4d9611d0bb7db1b956c1c3238627073" },
+          { "path": "corpus/real-project/pins/local-s3.json", "sha256": "0b83e4a805faf01344842df6a9b55e50074d3216c65159c4196cd6dc2fed6a4d" },
+          { "path": "corpus/real-project/pins/psitransfer.json", "sha256": "722dd94f88ea2ff53b0a7c171bc5ada03219bd3747b52d86c97bc053fb0bfbd1" },
+          { "path": "corpus/real-project/pins/tar-fs.json", "sha256": "97c3630a2d9f38341f64c98bfb44e0a25b06ca377cdd586a09238444005f0b71" },
+          { "path": "scripts/count-real-project-loc.py", "sha256": "bc4289a101691e94caa24f8fbcd7defbbcbeec46b3aa5552aa22d443bd15b431" }
+        ]
+      },
+      "blind_independence": {
+        "status": "verified",
+        "independent_checkout": true,
+        "independent_evidence_path": true,
+        "prior_outcome_exposure": false,
+        "cross_reviewer_contact_before_submission": false
+      },
+      "analyzer_evidence_consulted": false,
+      "report": { "path": "corpus/real-project/reviews/reviewer-a-current.md", "sha256": "87530cd22df1c9604af81074972326e5589c5494d75146ce90c6b463c783560a" },
+      "subject_verdicts": {
+        "eligibility": "cannot-determine",
+        "exclusions": "cannot-determine",
+        "replacements": "accept",
+        "pins": "accept",
+        "licenses": "accept",
+        "ground_truth": "accept",
+        "claims": "accept",
+        "latency": "accept"
+      },
+      "notes": "Submitted an inconclusive amended-packet report. No prior report or reviewer conclusion was read; the immutable packet itself disclosed that a superseded review existed and summarized why the packet changed. Historical draw-time repository metadata and per-candidate E5 judgments were not retained, so eligibility and exclusions cannot be independently certified."
+    },
+    "reviewer_b": {
+      "role": "reviewer-b",
+      "provider": "z.ai",
+      "model": "glm-5.3",
+      "reasoning_effort": "max",
+      "run_id": "dfb-rp-r1-b-60e5bcfb",
+      "started_at": "2026-09-09T18:03:15Z",
+      "completed_at": "2026-09-09T18:19:00Z",
+      "status": "inconclusive",
+      "checkout": {
+        "path": "/private/tmp/dataflowbench-issue19-review-b-20260909-2000",
+        "revision": "b722e9fdb465fd6de7d4966b6d41580a2cc23a87",
+        "clean": true,
+        "observed_at": "2026-09-09T18:03:15Z"
+      },
+      "packet": {
+        "evidence_path": "/private/tmp/dataflowbench-issue19-evidence-b-20260909-2000",
+        "artifact_digest_algorithm": "sha256",
+        "artifacts": [
+          { "path": "docs/real-project-preregistration.md", "sha256": "87f011b32056b75844b3e9509a2934805da57af011f5353cbba900d90c87823b" },
+          { "path": "docs/real-project-review.md", "sha256": "2452fb6dbd24178135d0b7c96920797ef37de4af6b6ac0411ac9f9906ba42fe1" },
+          { "path": "schemas/real-project-draw.schema.json", "sha256": "6f98767c8b81d83ffce3da6f6ef55d6a9f245bdbf8ab944d2684fe12027ed3be" },
+          { "path": "schemas/real-project-pin.schema.json", "sha256": "2a21457c82d806d7b1df1de8583708e37c6f8349da732667dab03ea1e42085e0" },
+          { "path": "schemas/real-project-review.schema.json", "sha256": "c5d75b3955b1be6508ac1e7bca3cfd2ab3460cc96560c080f0b0d9f4898d804f" },
+          { "path": "corpus/real-project/frame.json", "sha256": "1bb61bcf60d4fed8ac26dcb6f1f33dfcd61e7b285c15037ad7819595efa1ed5e" },
+          { "path": "corpus/real-project/draw.json", "sha256": "c705621b3a6b5ef8ee1ea60cf514d7c38f0fd0139ea6765515d91a000e9046bb" },
+          { "path": "corpus/real-project/pins/clearml.json", "sha256": "1271ca659bb326ad222b6b5f0ced68286f9ca9c31dea3cf9e6d9ae2786a1335c" },
+          { "path": "corpus/real-project/pins/hibernate-validator-6x.json", "sha256": "5a7937db211c944a9293d3a59382acecb86850ab65e5a60099e2d0abd8fb9c0e" },
+          { "path": "corpus/real-project/pins/llama-factory.json", "sha256": "901c73155873529ee9081077569ef8b7c4d9611d0bb7db1b956c1c3238627073" },
+          { "path": "corpus/real-project/pins/local-s3.json", "sha256": "0b83e4a805faf01344842df6a9b55e50074d3216c65159c4196cd6dc2fed6a4d" },
+          { "path": "corpus/real-project/pins/psitransfer.json", "sha256": "722dd94f88ea2ff53b0a7c171bc5ada03219bd3747b52d86c97bc053fb0bfbd1" },
+          { "path": "corpus/real-project/pins/tar-fs.json", "sha256": "97c3630a2d9f38341f64c98bfb44e0a25b06ca377cdd586a09238444005f0b71" },
+          { "path": "scripts/count-real-project-loc.py", "sha256": "bc4289a101691e94caa24f8fbcd7defbbcbeec46b3aa5552aa22d443bd15b431" }
+        ]
+      },
+      "blind_independence": {
+        "status": "verified",
+        "independent_checkout": true,
+        "independent_evidence_path": true,
+        "prior_outcome_exposure": false,
+        "cross_reviewer_contact_before_submission": false
+      },
+      "analyzer_evidence_consulted": false,
+      "report": { "path": "corpus/real-project/reviews/reviewer-b-current.md", "sha256": "32d9d15d4b9d111e88bdf8d7f4e12a5f76ef261c265bde5ca73fc806bdb10986" },
+      "subject_verdicts": {
+        "eligibility": "cannot-determine",
+        "exclusions": "cannot-determine",
+        "replacements": "accept",
+        "pins": "accept",
+        "licenses": "accept",
+        "ground_truth": "accept",
+        "claims": "accept",
+        "latency": "accept"
+      },
+      "notes": "Submitted an inconclusive independent review after the usage reset. All packet artifacts, archives, revision relationships, licenses, semantic deltas, claims, and latency boundaries verified, but immutable draw-time API evidence and per-candidate E5/E8 judgments are absent."
+    }
+  },
+  "prior_reviews": [
+    {
+      "role": "reviewer-a",
+      "provider": "openai",
+      "model": "gpt-5.6-sol",
+      "reasoning_effort": "medium",
+      "run_id": "codex-subagent-sol-review-a-2026-09-09",
+      "checkout_revision": "2e8adcd82b78b690eb908c1f6c1326159d72cfbe",
+      "clean_checkout": true,
+      "evidence_path": "/private/tmp/dataflowbench-issue19-review-a/.review-a",
+      "completed_at": "2026-09-09T08:14:07Z",
+      "report": {
+        "path": "corpus/real-project/reviews/reviewer-a.md",
+        "sha256": "259d319d0b22e60b2a5e483ec64c320c9d6983ae37c468811190ee7256314195"
+      },
+      "outcome": "revise",
+      "superseded_by": "A33 changed the preregistration and packet after this report found a divergent Hibernate Validator revision pair; both current reviewers must review the amended digest set."
+    }
+  ],
+  "per_pin_ground_truth": [
+    {
+      "pin_id": "dfb-rp-python-clearml",
+      "pin_artifact": { "path": "corpus/real-project/pins/clearml.json", "sha256": "1271ca659bb326ad222b6b5f0ced68286f9ca9c31dea3cf9e6d9ae2786a1335c" },
+      "reviewer_a": { "status": "accept", "vulnerable_revision": "accept", "fixed_revision": "accept", "remediation": "accept", "basis": "Archive member paths and link targets reach safe_extract/tar.extractall; the fixed revision canonicalizes member and link targets and rejects escapes before extraction." },
+      "reviewer_b": { "status": "accept", "vulnerable_revision": "accept", "fixed_revision": "accept", "remediation": "accept", "basis": "The sole-parent source delta adds absolute-base, member-containment, and symbolic/hard-link target containment checks before extraction." },
+      "consensus": "accept",
+      "remediation_location": { "status": "accept", "vulnerable_revision": "7d882ddc46053e142e5c28f5ebde007e0b7523e2", "fixed_revision": "64fb2bcbdbb87a74af90dd723d5ef4a99fceeb73", "notes": "Both reviewers accepted the source-to-extraction remediation anchors." }
+    },
+    {
+      "pin_id": "dfb-rp-java-hibernate-validator-6x",
+      "pin_artifact": { "path": "corpus/real-project/pins/hibernate-validator-6x.json", "sha256": "5a7937db211c944a9293d3a59382acecb86850ab65e5a60099e2d0abd8fb9c0e" },
+      "reviewer_a": { "status": "accept", "vulnerable_revision": "accept", "fixed_revision": "accept", "remediation": "accept", "basis": "The consecutive 6.x span disables EL for custom violations by default, then replaces the Boolean control with typed feature levels and restricted contexts; no material unrelated production change was identified." },
+      "reviewer_b": { "status": "accept", "vulnerable_revision": "accept", "fixed_revision": "accept", "remediation": "accept", "basis": "The exact consecutive 6.x span first makes custom-violation EL opt-in, then adds typed feature levels and restricted contexts with safe defaults; incidental documentation, examples, tests, and logging configuration were identified." },
+      "consensus": "accept",
+      "remediation_location": { "status": "accept", "vulnerable_revision": "56d443dbb5f4e81f2900d2563c42e68f475051e8", "fixed_revision": "d2db40b9e7d22c7a0b44d7665242dfc7b4d14d78", "notes": "Both reviewers accepted both consecutive 6.x remediation contributions and identified the incidental changes." }
+    },
+    {
+      "pin_id": "dfb-rp-python-llama-factory",
+      "pin_artifact": { "path": "corpus/real-project/pins/llama-factory.json", "sha256": "901c73155873529ee9081077569ef8b7c4d9611d0bb7db1b956c1c3238627073" },
+      "reviewer_a": { "status": "accept", "vulnerable_revision": "accept", "fixed_revision": "accept", "remediation": "accept", "basis": "Checkpoint identity reaches the value-head torch.load boundary; the fixed revision constrains both relevant loads with weights_only=true." },
+      "reviewer_b": { "status": "accept", "vulnerable_revision": "accept", "fixed_revision": "accept", "remediation": "accept", "basis": "The verified single-parent delta constrains both relevant torch.load calls with weights_only=true." },
+      "consensus": "accept",
+      "remediation_location": { "status": "accept", "vulnerable_revision": "7242caf0ff5baddefcbd93020e551e5e72f32314", "fixed_revision": "bb7bf51554d4ba8432333c35a5e3b52705955ede", "notes": "Both reviewers accepted the checkpoint-to-deserialization remediation anchors." }
+    },
+    {
+      "pin_id": "dfb-rp-java-local-s3",
+      "pin_artifact": { "path": "corpus/real-project/pins/local-s3.json", "sha256": "0b83e4a805faf01344842df6a9b55e50074d3216c65159c4196cd6dc2fed6a4d" },
+      "reviewer_a": { "status": "accept", "vulnerable_revision": "accept", "fixed_revision": "accept", "remediation": "accept", "basis": "Request-body XML reaches XmlMapper.readValue; the fixed shared factories disable DTD and external-entity support." },
+      "reviewer_b": { "status": "accept", "vulnerable_revision": "accept", "fixed_revision": "accept", "remediation": "accept", "basis": "The sole-parent delta disables DTD and external-entity support in both shared XML parsing paths." },
+      "consensus": "accept",
+      "remediation_location": { "status": "accept", "vulnerable_revision": "009901882be8b543e85b67c5ec2e9f30d83d62ef", "fixed_revision": "d6ed756ceb30c1eb9d4263321ac683d734f8836f", "notes": "Both reviewers accepted the request-body-to-parser remediation anchors." }
+    },
+    {
+      "pin_id": "dfb-rp-javascript-psitransfer",
+      "pin_artifact": { "path": "corpus/real-project/pins/psitransfer.json", "sha256": "722dd94f88ea2ff53b0a7c171bc5ada03219bd3747b52d86c97bc053fb0bfbd1" },
+      "reviewer_a": { "status": "accept", "vulnerable_revision": "accept", "fixed_revision": "accept", "remediation": "accept", "basis": "Uploaded filename metadata reaches archive entry names; the fixed revision rejects unsafe basenames and normalizes and uniquifies output names." },
+      "reviewer_b": { "status": "accept", "vulnerable_revision": "accept", "fixed_revision": "accept", "remediation": "accept", "basis": "The sole-parent delta rejects unsafe upload basenames and sanitizes names at archive and download output boundaries." },
+      "consensus": "accept",
+      "remediation_location": { "status": "accept", "vulnerable_revision": "0eaa8d06fa8a5b73b002d5bdbd176d49a857725e", "fixed_revision": "6c71bc0b8afa1ffa7aabd6c5fb28677651fd57b6", "notes": "Both reviewers accepted the filename-to-archive remediation anchors." }
+    },
+    {
+      "pin_id": "dfb-rp-javascript-tar-fs",
+      "pin_artifact": { "path": "corpus/real-project/pins/tar-fs.json", "sha256": "97c3630a2d9f38341f64c98bfb44e0a25b06ca377cdd586a09238444005f0b71" },
+      "reviewer_a": { "status": "accept", "vulnerable_revision": "accept", "fixed_revision": "accept", "remediation": "accept", "basis": "Archive link metadata and a later entry reach file materialization through a lexical-prefix boundary; the fix requires an exact path-component boundary." },
+      "reviewer_b": { "status": "accept", "vulnerable_revision": "accept", "fixed_revision": "accept", "remediation": "accept", "basis": "The sole-parent one-file delta replaces a lexical path prefix with equality or a path-separator boundary for the multi-entry link-following path." },
+      "consensus": "accept",
+      "remediation_location": { "status": "accept", "vulnerable_revision": "cb1c571fba8ec6dd56340f55dcd5d284372a8249", "fixed_revision": "0bd54cdf06da2b7b5b95cd4b062c9f4e0a8c4e09", "notes": "Both reviewers accepted the multi-entry link-following remediation anchors." }
+    }
+  ],
+  "disagreement": {
+    "status": "none",
+    "items": [],
+    "adjudicator": {
+      "type": "none",
+      "id": null,
+      "run_id": null,
+      "started_at": null,
+      "completed_at": null
+    },
+    "outcome": "agreed"
+  },
+  "claims": {
+    "subject_verdict": "accept",
+    "synthetic_core_denominator_unchanged": true,
+    "accuracy_or_superiority_claim": false,
+    "causal_claim": false,
+    "latency_ranking": false,
+    "descriptive_latency_only": true,
+    "scope_statement": "This slice is a descriptive confirmation exercise. It cannot establish analyzer accuracy, superiority, causality, or a latency ranking, and it does not alter any synthetic-core denominator."
+  },
+  "readiness": {
+    "outcome": "inconclusive",
+    "execution_ready": false,
+    "freeze_ready": false,
+    "blocking_reasons": [
+      "Both independent reviewers cannot determine historical eligibility and exclusion completeness because no immutable draw-time GitHub Advisory API snapshot and no per-candidate E5/E8 judgments were retained.",
+      "The missing draw-time API evidence cannot be recovered post hoc without fabrication; positive E5/E8 records can only be added prospectively in a future wave.",
+      "Analyzer execution and result freezing are forbidden until the review closes."
+    ]
+  }
+}
