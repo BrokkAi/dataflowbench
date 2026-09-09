@@ -1,0 +1,50 @@
+{
+  "schema_version": 2,
+  "id": "dfb-taint-c-mutual-recursive-transform-negative",
+  "template_id": "dfb-template-chal-mutual-recursive-transform",
+  "polarity": "negative",
+  "negative_mechanism": "overwrite-kill",
+  "score_tier": "core",
+  "track": "taint",
+  "language": "c",
+  "semantic_dimensions": ["recursion", "interprocedural-flow", "flow-sensitivity"],
+  "feature_tags": ["recursive"],
+  "model_profile": "benchmark-controlled",
+  "fixture_files": ["mutual_recursive_transform_negative.c"],
+  "source_anchors": [{
+    "marker": "DFB-SOURCE: mutual-recursive-transform-input",
+    "file": "mutual_recursive_transform_negative.c",
+    "line_hint": 1
+  }],
+  "sink_anchors": [{
+    "marker": "DFB-SINK: mutual-recursive-transform-sink",
+    "file": "mutual_recursive_transform_negative.c",
+    "line_hint": 5
+  }],
+  "expected_flows": [],
+  "expected_nonflows": [{
+    "source": "DFB-SOURCE: mutual-recursive-transform-input",
+    "sink": "DFB-SINK: mutual-recursive-transform-sink"
+  }],
+  "witness_checkpoints": [
+    "DFB-SOURCE: mutual-recursive-transform-input",
+    "DFB-WITNESS: mutual-recursive-transform-a-transfer",
+    "DFB-WITNESS: mutual-recursive-transform-b-transfer",
+    "DFB-WITNESS: mutual-recursive-transform-b-base",
+    "DFB-WITNESS: mutual-recursive-transform-b-compose",
+    "DFB-WITNESS: mutual-recursive-transform-a-compose",
+    "DFB-SINK: mutual-recursive-transform-sink"
+  ],
+  "expected_analysis_capability": {"kind": "mutual-recursive-transform-taint"},
+  "execution_budget": {"wall_clock_seconds": 60, "peak_memory_mb": 512},
+  "fixture_provenance": {
+    "kind": "authored",
+    "origin": "DataFlowBench",
+    "revision": "v0.8.0-recursive-composition-c",
+    "license": "MIT"
+  },
+  "tool_model_references": {
+    "bifrost": {"policy": "adapters/bifrost/policies/core-c-kernel.rqlp"},
+    "codeql": {"query": "adapters/codeql/cpp/queries/CKernel.ql"}
+  }
+}
