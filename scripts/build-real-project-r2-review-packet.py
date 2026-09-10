@@ -110,6 +110,62 @@ def distinct(artifacts: list[dict]) -> list[dict]:
     return [by_path[path] for path in sorted(by_path)]
 
 
+def artifact_references(value: object) -> list[dict]:
+    """Collect every repository artifact reference, including annotated ones."""
+    references: list[dict] = []
+
+    def visit(child: object) -> None:
+        if isinstance(child, dict):
+            path = child.get("path")
+            sha256 = child.get("sha256")
+            if isinstance(path, str) and isinstance(sha256, str):
+                references.append({"path": path, "sha256": sha256})
+            for nested in child.values():
+                visit(nested)
+        elif isinstance(child, list):
+            for nested in child:
+                visit(nested)
+
+    visit(value)
+    return distinct(references)
+
+
+def transitive_artifacts(seed: list[dict]) -> list[dict]:
+    """Resolve repository-local artifact references embedded in bound JSON."""
+    known = {item["path"]: item for item in distinct(seed)}
+    pending = list(known.values())
+    discovered: list[dict] = []
+    while pending:
+        current = pending.pop()
+        path = pathlib.Path(current["path"])
+        artifact(path, current["sha256"])
+        if path.suffix != ".json":
+            continue
+        value = json.loads(path.read_bytes())
+        for reference in artifact_references(value):
+            reference_path = pathlib.Path(reference["path"])
+            if not reference_path.parts or reference_path.parts[0] not in {
+                "adapters",
+                "corpus",
+                "docs",
+                "schemas",
+                "scripts",
+            }:
+                continue
+            verified = artifact(reference_path, reference["sha256"])
+            previous = known.get(verified["path"])
+            if previous is not None:
+                if previous != verified:
+                    raise RuntimeError(
+                        f"conflicting transitive binding for {verified['path']}"
+                    )
+                continue
+            known[verified["path"]] = verified
+            discovered.append(verified)
+            pending.append(verified)
+    return distinct(discovered)
+
+
 def require_clean_merged_source() -> tuple[str, str, str]:
     status = git("status", "--porcelain", "--untracked-files=all")
     if status:
@@ -299,20 +355,9 @@ def collect_bindings(source_revision: str) -> tuple[dict, list[dict], dict]:
     for name in ("independence_inputs", "e5_reference_lists"):
         if len(bindings[name]) < 2:
             raise RuntimeError(f"R2 packet has insufficient {name}")
-    all_artifacts = []
-
-    def visit(value: object) -> None:
-        if isinstance(value, dict):
-            if set(value) == {"path", "sha256"}:
-                all_artifacts.append(value)
-            for child in value.values():
-                visit(child)
-        elif isinstance(value, list):
-            for child in value:
-                visit(child)
-
-    visit(bindings)
-    unique_artifacts = distinct(all_artifacts)
+    root_artifacts = artifact_references(bindings)
+    bindings["transitive_artifacts"] = transitive_artifacts(root_artifacts)
+    unique_artifacts = artifact_references(bindings)
     if not unique_artifacts:
         raise RuntimeError("R2 packet did not derive an artifact digest set")
     identity = {
@@ -358,19 +403,7 @@ def verify_packet(path: pathlib.Path) -> dict:
     artifacts = packet.get("artifacts")
     if not isinstance(bindings, dict) or not isinstance(artifacts, list):
         raise RuntimeError("packet bindings or artifact digest set is missing")
-    flattened: list[dict] = []
-
-    def visit(value: object) -> None:
-        if isinstance(value, dict):
-            if set(value) == {"path", "sha256"}:
-                flattened.append(value)
-            for child in value.values():
-                visit(child)
-        elif isinstance(value, list):
-            for child in value:
-                visit(child)
-
-    visit(bindings)
+    flattened = artifact_references(bindings)
     if distinct(flattened) != sorted(artifacts, key=lambda item: item["path"]):
         raise RuntimeError("packet artifact digest set does not match its bindings")
     for item in artifacts:
