@@ -139,6 +139,7 @@ def archive_record(slug: str, revision: str, role: str, directory: pathlib.Path)
     if not data:
         raise RuntimeError(f"empty source archive: {url}")
     record_path = directory / f"archive-{role}.json"
+    relative_record_path = pathlib.Path("corpus/real-project/r2/pin-evidence") / directory.name / record_path.name
     record = {
         "schema_version": 1,
         "wave": "R2",
@@ -163,7 +164,10 @@ def archive_record(slug: str, revision: str, role: str, directory: pathlib.Path)
         "archive_sha256": record["archive_sha256"],
         "archive_bytes": record["archive_bytes"],
         "retrieved_on": record["retrieved_at"][:10],
-        "capture_record": artifact(record_path),
+        "capture_record": {
+            "path": relative_record_path.as_posix(),
+            "sha256": digest(record_path.read_bytes()),
+        },
     }
     return record, pin_value
 
@@ -234,6 +238,15 @@ def main() -> int:
             evidence_dir,
         )
         pin_manifest_path = evidence_dir / "manifest.json"
+        archive_artifacts = []
+        for role in ("vulnerable", "fixed"):
+            archive_path = evidence_dir / f"archive-{role}.json"
+            archive_artifacts.append(
+                {
+                    "path": f"corpus/real-project/r2/pin-evidence/{ghsa}/archive-{role}.json",
+                    "sha256": digest(archive_path.read_bytes()),
+                }
+            )
         write_json(
             pin_manifest_path,
             {
@@ -242,10 +255,7 @@ def main() -> int:
                 "ghsa_id": ghsa,
                 "repository": slug,
                 "responses": [compare_record, vulnerable_license_record, fixed_license_record],
-                "artifacts": [
-                    artifact(evidence_dir / "archive-vulnerable.json"),
-                    artifact(evidence_dir / "archive-fixed.json"),
-                ],
+                "artifacts": archive_artifacts,
                 "analyzer_evidence_consulted": False,
             },
         )
