@@ -10,6 +10,7 @@
 
 use crate::cases::{schema, validate_value};
 use anyhow::{Context, Result, bail};
+use jsonschema::JSONSchema;
 use serde_json::{Value, json};
 use sha2::{Digest, Sha256};
 use std::{
@@ -47,6 +48,16 @@ pub(crate) const REAL_PROJECT_R2_SNAPSHOT_SCHEMA: &str =
     "schemas/real-project-r2-snapshot.schema.json";
 pub(crate) const REAL_PROJECT_R2_FRAME: &str = "corpus/real-project/r2/frame.json";
 pub(crate) const REAL_PROJECT_R2_FRAME_SCHEMA: &str = "schemas/real-project-r2-frame.schema.json";
+pub(crate) const REAL_PROJECT_R2_E5_INVENTORY: &str = "corpus/real-project/r2/e5-inventory.json";
+pub(crate) const REAL_PROJECT_R2_E5_INVENTORY_SCHEMA: &str =
+    "schemas/real-project-r2-e5-inventory.schema.json";
+pub(crate) const REAL_PROJECT_R2_ELIGIBILITY: &str = "corpus/real-project/r2/eligibility.json";
+pub(crate) const REAL_PROJECT_R2_ELIGIBILITY_SCHEMA: &str =
+    "schemas/real-project-r2-eligibility.schema.json";
+pub(crate) const REAL_PROJECT_R2_DRAW: &str = "corpus/real-project/r2/draw.json";
+pub(crate) const REAL_PROJECT_R2_DRAW_SCHEMA: &str = "schemas/real-project-r2-draw.schema.json";
+pub(crate) const REAL_PROJECT_R2_EVIDENCE_SCHEMA: &str =
+    "schemas/real-project-r2-evidence-manifest.schema.json";
 
 /// The licences a drawn repository may carry, per eligibility criterion E2 of
 /// docs/real-project-preregistration.md. The list is OSI-approved identifiers
@@ -488,6 +499,10 @@ pub(crate) fn validate_real_project_r2_snapshot_at(root: &Path) -> Result<()> {
     validate_value(&compiled, &manifest, &manifest_path)?;
 
     validate_review_artifact(root, &manifest["protocol"])?;
+    let protocol: Value = serde_json::from_slice(&fs::read(root.join(REAL_PROJECT_R2_PROTOCOL))?)?;
+    let protocol_queries = protocol["population"]["queries"]
+        .as_array()
+        .expect("protocol schema validated");
     let mut expected_strata =
         BTreeMap::from([("java", "maven"), ("javascript", "npm"), ("python", "pip")]);
     let mut manifested_paths = BTreeSet::new();
@@ -506,12 +521,54 @@ pub(crate) fn validate_real_project_r2_snapshot_at(root: &Path) -> Result<()> {
                 "{REAL_PROJECT_R2_SNAPSHOT}: duplicate or mismatched {stratum}/{ecosystem} query"
             );
         }
+        let expected_query = protocol_queries
+            .iter()
+            .find(|expected| expected["stratum"] == stratum)
+            .expect("protocol declares every stratum");
+        let actual_parameters = query["parameters"]
+            .as_object()
+            .expect("snapshot schema validated");
+        let expected_parameters = expected_query["parameters"]
+            .as_object()
+            .expect("protocol schema validated");
+        let render_parameter = |value: &Value| {
+            value
+                .as_str()
+                .map(str::to_string)
+                .unwrap_or_else(|| value.to_string())
+        };
+        if actual_parameters.len() != expected_parameters.len()
+            || expected_parameters.iter().any(|(key, expected)| {
+                actual_parameters.get(key).map_or(true, |actual| {
+                    render_parameter(actual) != render_parameter(expected)
+                })
+            })
+        {
+            bail!(
+                "{REAL_PROJECT_R2_SNAPSHOT}: {stratum} parameters differ from the preregistration"
+            );
+        }
         let pages = query["pages"]
             .as_array()
             .expect("snapshot schema validated");
         for (index, page) in pages.iter().enumerate() {
             if page["page"].as_u64() != Some(index as u64 + 1) {
                 bail!("{REAL_PROJECT_R2_SNAPSHOT}: {ecosystem} pages must be contiguous from one");
+            }
+            let url = page["request_url"]
+                .as_str()
+                .expect("snapshot schema validated");
+            if !url.starts_with("https://api.github.com/advisories?") {
+                bail!(
+                    "{REAL_PROJECT_R2_SNAPSHOT}: {stratum} page leaves the preregistered endpoint"
+                );
+            }
+            for (key, value) in actual_parameters {
+                let rendered = render_parameter(value);
+                let needle = format!("{key}={}", rendered.replace(',', "%2C"));
+                if !url.contains(&needle) {
+                    bail!("{REAL_PROJECT_R2_SNAPSHOT}: {stratum} request URL omits {key}");
+                }
             }
             let relative = page["response_path"]
                 .as_str()
@@ -700,6 +757,318 @@ pub(crate) fn validate_real_project_r2_frame_at(root: &Path) -> Result<usize> {
         }
     }
     Ok(derived.len())
+}
+
+/// Validate the committed R2 E5 inventory and, once captured, replay every
+/// eligibility decision and draw step from the immutable frame and evidence.
+pub(crate) fn validate_real_project_r2_selection_at(root: &Path) -> Result<Option<usize>> {
+    let inventory_path = root.join(REAL_PROJECT_R2_E5_INVENTORY);
+    let inventory: Value = serde_json::from_slice(&fs::read(&inventory_path)?)?;
+    let inventory_schema: Value =
+        serde_json::from_slice(&fs::read(root.join(REAL_PROJECT_R2_E5_INVENTORY_SCHEMA))?)?;
+    let compiled = JSONSchema::compile(Box::leak(Box::new(inventory_schema)))
+        .context("compile real-project R2 E5 inventory schema")?;
+    validate_value(&compiled, &inventory, &inventory_path)?;
+    for key in ["r1_frame", "r1_draw"] {
+        validate_review_artifact(root, &inventory[key])?;
+    }
+    for source in inventory["source_lists"]
+        .as_array()
+        .expect("schema validated")
+    {
+        validate_review_artifact(root, source)?;
+    }
+    let r1_draw: Value = serde_json::from_slice(&fs::read(root.join(REAL_PROJECT_DRAW))?)?;
+    let r1_selected = r1_draw["walk"]
+        .as_object()
+        .expect("R1 draw schema validated")
+        .values()
+        .flat_map(|rows| rows.as_array().expect("R1 draw schema validated"))
+        .filter(|row| row["disposition"] == "selected")
+        .map(|row| {
+            row["repository"]
+                .as_str()
+                .expect("R1 draw schema validated")
+                .to_ascii_lowercase()
+        })
+        .collect::<BTreeSet<_>>();
+    let inventoried = inventory["r1_selected_repositories"]
+        .as_array()
+        .expect("schema validated")
+        .iter()
+        .map(|value| {
+            value
+                .as_str()
+                .expect("schema validated")
+                .to_ascii_lowercase()
+        })
+        .collect::<BTreeSet<_>>();
+    if inventoried != r1_selected {
+        bail!("{REAL_PROJECT_R2_E5_INVENTORY}: R1 selected repositories do not replay");
+    }
+    let e5_excluded = [
+        "r1_selected_repositories",
+        "named_donor_or_corpus_repositories",
+        "evaluated_analyzer_or_dependency_repositories",
+    ]
+    .into_iter()
+    .flat_map(|field| inventory[field].as_array().expect("schema validated"))
+    .map(|value| {
+        value
+            .as_str()
+            .expect("schema validated")
+            .to_ascii_lowercase()
+    })
+    .collect::<BTreeSet<_>>();
+
+    let eligibility_path = root.join(REAL_PROJECT_R2_ELIGIBILITY);
+    let draw_path = root.join(REAL_PROJECT_R2_DRAW);
+    if !eligibility_path.exists() && !draw_path.exists() {
+        return Ok(None);
+    }
+    if !eligibility_path.exists() || !draw_path.exists() {
+        bail!("R2 eligibility and draw must be committed together");
+    }
+    let eligibility_bytes = fs::read(&eligibility_path)?;
+    let eligibility: Value = serde_json::from_slice(&eligibility_bytes)?;
+    let draw: Value = serde_json::from_slice(&fs::read(&draw_path)?)?;
+    for (schema_path, value, path, label) in [
+        (
+            REAL_PROJECT_R2_ELIGIBILITY_SCHEMA,
+            &eligibility,
+            &eligibility_path,
+            "eligibility",
+        ),
+        (REAL_PROJECT_R2_DRAW_SCHEMA, &draw, &draw_path, "draw"),
+    ] {
+        let schema_value: Value = serde_json::from_slice(&fs::read(root.join(schema_path))?)?;
+        let compiled = JSONSchema::compile(Box::leak(Box::new(schema_value)))
+            .with_context(|| format!("compile real-project R2 {label} schema"))?;
+        validate_value(&compiled, value, path)?;
+    }
+    validate_review_artifact(root, &eligibility["frame"])?;
+    validate_review_artifact(root, &draw["frame"])?;
+    validate_review_artifact(root, &draw["eligibility"])?;
+
+    let frame: Value = serde_json::from_slice(&fs::read(root.join(REAL_PROJECT_R2_FRAME))?)?;
+    let candidates = frame["candidates"]
+        .as_array()
+        .expect("frame schema validated");
+    let records = eligibility["candidates"]
+        .as_array()
+        .expect("eligibility schema validated");
+    let seed = draw["seed"].as_str().expect("draw schema validated");
+    let mut selected_before = Vec::<String>::new();
+    let mut consumed = 0usize;
+    let evidence_schema: Value =
+        serde_json::from_slice(&fs::read(root.join(REAL_PROJECT_R2_EVIDENCE_SCHEMA))?)?;
+    let evidence_compiled = JSONSchema::compile(Box::leak(Box::new(evidence_schema)))
+        .context("compile real-project R2 evidence schema")?;
+    for stratum in ["java", "javascript", "python"] {
+        let mut ordered = candidates
+            .iter()
+            .filter(|candidate| candidate["stratum"] == stratum)
+            .collect::<Vec<_>>();
+        ordered.sort_by_key(|candidate| {
+            let ghsa = candidate["ghsa_id"]
+                .as_str()
+                .expect("frame schema validated");
+            (real_project_draw_key(seed, ghsa), ghsa.to_string())
+        });
+        let rows = draw["walk"][stratum]
+            .as_array()
+            .expect("draw schema validated");
+        let mut selected = 0usize;
+        for (index, row) in rows.iter().enumerate() {
+            let candidate = ordered
+                .get(index)
+                .with_context(|| format!("{REAL_PROJECT_R2_DRAW}: {stratum} walk exceeds frame"))?;
+            let record_index = row["eligibility_index"]
+                .as_u64()
+                .expect("draw schema validated") as usize;
+            let record = records.get(record_index).with_context(|| {
+                format!("{REAL_PROJECT_R2_DRAW}: eligibility index {record_index} is out of range")
+            })?;
+            for key in ["ghsa_id", "repository"] {
+                if row[key] != candidate[key] || record[key] != candidate[key] {
+                    bail!(
+                        "{REAL_PROJECT_R2_DRAW}: {stratum} position {} does not match the frame",
+                        index + 1
+                    );
+                }
+            }
+            if row["draw_position"].as_u64() != Some((index + 1) as u64)
+                || record["draw_position"] != row["draw_position"]
+            {
+                bail!("{REAL_PROJECT_R2_DRAW}: {stratum} positions are not contiguous");
+            }
+            let ghsa = row["ghsa_id"].as_str().expect("draw schema validated");
+            if row["draw_key"] != real_project_draw_key(seed, ghsa) {
+                bail!("{REAL_PROJECT_R2_DRAW}: {ghsa} draw key does not replay");
+            }
+            let decisions = record["decisions"]
+                .as_object()
+                .expect("eligibility schema validated");
+            for decision in decisions.values() {
+                for evidence in decision["evidence"]
+                    .as_array()
+                    .expect("eligibility schema validated")
+                {
+                    validate_review_artifact(root, evidence)?;
+                }
+            }
+            let e8_state = decisions["E8"]["selected_repositories_before"]
+                .as_array()
+                .expect("eligibility schema validated")
+                .iter()
+                .map(|value| value.as_str().expect("schema validated").to_string())
+                .collect::<Vec<_>>();
+            if e8_state != selected_before {
+                bail!("{REAL_PROJECT_R2_ELIGIBILITY}: {ghsa} E8 state does not replay");
+            }
+            let manifest_relative = format!("corpus/real-project/r2/evidence/{ghsa}/manifest.json");
+            let manifest_path = root.join(&manifest_relative);
+            let manifest: Value = serde_json::from_slice(&fs::read(&manifest_path)?)?;
+            validate_value(&evidence_compiled, &manifest, &manifest_path)?;
+            if manifest["ghsa_id"] != row["ghsa_id"] || manifest["repository"] != row["repository"]
+            {
+                bail!("{manifest_relative}: identity differs from the draw");
+            }
+            let mut response_bodies = BTreeMap::new();
+            for response in manifest["responses"].as_array().expect("schema validated") {
+                validate_review_artifact(root, response)?;
+                let response_path = response["path"].as_str().expect("schema validated");
+                if !response_path.starts_with(&format!("corpus/real-project/r2/evidence/{ghsa}/")) {
+                    bail!("{manifest_relative}: response path belongs to another candidate");
+                }
+                let body = fs::read(root.join(response_path))?;
+                if response["bytes"].as_u64() != Some(body.len() as u64) {
+                    bail!("{manifest_relative}: response byte length drifted");
+                }
+                let purpose = response["purpose"]
+                    .as_str()
+                    .expect("schema validated")
+                    .to_string();
+                let parsed: Value = serde_json::from_slice(&body)?;
+                if response_bodies.insert(purpose.clone(), parsed).is_some() {
+                    bail!("{manifest_relative}: duplicate response purpose {purpose}");
+                }
+            }
+            for required in [
+                "repository",
+                "languages",
+                "commit-00",
+                "license-vulnerable",
+                "license-fixed",
+                "readme-vulnerable",
+            ] {
+                if !response_bodies.contains_key(required) {
+                    bail!("{manifest_relative}: missing {required} response");
+                }
+            }
+            let repository = &response_bodies["repository"];
+            let languages = &response_bodies["languages"];
+            let license = &response_bodies["license-vulnerable"];
+            let expected_language = match stratum {
+                "java" => "Java",
+                "javascript" => "JavaScript",
+                "python" => "Python",
+                _ => unreachable!(),
+            };
+            let e1 = repository["language"].as_str() == Some(expected_language);
+            let spdx = license["license"]["spdx_id"].as_str().unwrap_or_default();
+            let e2 = REAL_PROJECT_LICENSES.contains(&spdx)
+                && license["content"]
+                    .as_str()
+                    .is_some_and(|value| !value.is_empty());
+            let e3 = repository["archived"] == false && repository["fork"] == false;
+            let e4 = repository["size"]
+                .as_u64()
+                .is_some_and(|size| size <= 256_000);
+            let slug = row["repository"].as_str().expect("draw schema validated");
+            let e5 = !e5_excluded.contains(&slug.to_ascii_lowercase());
+            let mut commit_responses = response_bodies
+                .iter()
+                .filter(|(purpose, _)| purpose.starts_with("commit-"))
+                .map(|(_, body)| body)
+                .collect::<Vec<_>>();
+            commit_responses.sort_by_key(|body| {
+                (
+                    body["commit"]["committer"]["date"]
+                        .as_str()
+                        .unwrap_or_default()
+                        .to_string(),
+                    body["sha"].as_str().unwrap_or_default().to_string(),
+                )
+            });
+            let compare_responses = response_bodies
+                .iter()
+                .filter(|(purpose, _)| purpose.starts_with("compare-"))
+                .map(|(_, body)| body)
+                .collect::<Vec<_>>();
+            let e6 = !commit_responses.is_empty()
+                && commit_responses[0]["parents"]
+                    .as_array()
+                    .is_some_and(|parents| parents.len() == 1)
+                && compare_responses.len() + 1 == commit_responses.len()
+                && compare_responses
+                    .iter()
+                    .all(|body| body["status"] == "ahead");
+            let e7 = languages[expected_language]
+                .as_u64()
+                .is_some_and(|bytes| bytes >= 20_000);
+            let e8 = !selected_before
+                .iter()
+                .any(|selected| selected.eq_ignore_ascii_case(slug));
+            for (criterion, expected) in [
+                ("E1", e1),
+                ("E2", e2),
+                ("E3", e3),
+                ("E4", e4),
+                ("E5", e5),
+                ("E6", e6),
+                ("E7", e7),
+                ("E8", e8),
+            ] {
+                let expected_outcome = if expected { "pass" } else { "fail" };
+                if decisions[criterion]["outcome"] != expected_outcome {
+                    bail!(
+                        "{REAL_PROJECT_R2_ELIGIBILITY}: {ghsa} {criterion} does not re-derive from evidence"
+                    );
+                }
+            }
+            let passes = decisions
+                .values()
+                .all(|decision| decision["outcome"] == "pass");
+            let disposition = if passes { "selected" } else { "excluded" };
+            if row["disposition"] != disposition {
+                bail!("{REAL_PROJECT_R2_DRAW}: {ghsa} disposition contradicts E1-E8");
+            }
+            if passes {
+                let repository = row["repository"]
+                    .as_str()
+                    .expect("draw schema validated")
+                    .to_string();
+                if r1_selected.contains(&repository.to_ascii_lowercase()) {
+                    bail!("{REAL_PROJECT_R2_DRAW}: R2 reuses R1 repository {repository}");
+                }
+                selected_before.push(repository);
+                selected += 1;
+            }
+            consumed += 1;
+        }
+        if selected != 2
+            || rows
+                .last()
+                .map_or(true, |row| row["disposition"] != "selected")
+        {
+            bail!("{REAL_PROJECT_R2_DRAW}: {stratum} must stop at its second selection");
+        }
+    }
+    if consumed != records.len() {
+        bail!("{REAL_PROJECT_R2_ELIGIBILITY}: contains unreferenced candidate records");
+    }
+    Ok(Some(selected_before.len()))
 }
 
 /// Validate the provenance-bound independent-review record. Pending and
