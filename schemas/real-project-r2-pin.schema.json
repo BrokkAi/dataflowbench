@@ -17,6 +17,7 @@
     "advisory",
     "bindings",
     "fix_commits",
+    "related_commits",
     "revisions",
     "license",
     "proposed_remediation",
@@ -53,7 +54,7 @@
     "advisory": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["ghsa_id", "url"],
+      "required": ["ghsa_id", "url", "cve_id", "cwes", "summary", "severity", "published_at", "affected_packages"],
       "properties": {
         "ghsa_id": {
           "type": "string",
@@ -62,7 +63,13 @@
         "url": {
           "type": "string",
           "pattern": "^https://github\\.com/advisories/GHSA-[0-9a-z]{4}-[0-9a-z]{4}-[0-9a-z]{4}$"
-        }
+        },
+        "cve_id": { "type": ["string", "null"] },
+        "cwes": { "type": "array", "minItems": 1, "uniqueItems": true, "items": { "type": "string", "pattern": "^CWE-[0-9]+$" } },
+        "summary": { "type": ["string", "null"] },
+        "severity": { "enum": ["low", "medium", "high", "critical"] },
+        "published_at": { "type": "string", "format": "date-time" },
+        "affected_packages": { "type": "array", "minItems": 1, "uniqueItems": true, "items": { "type": "string", "minLength": 1 } }
       }
     },
     "bindings": {
@@ -77,7 +84,8 @@
         "draw_position",
         "draw_key",
         "selected_repository",
-        "eligibility_candidate_index"
+        "eligibility_candidate_index",
+        "pin_evidence_manifest"
       ],
       "properties": {
         "snapshot_manifest": { "$ref": "#/$defs/r2_snapshot_manifest" },
@@ -103,6 +111,19 @@
           "pattern": "^[^/]+/[^/]+$"
         },
         "eligibility_candidate_index": { "type": "integer", "minimum": 0 }
+        ,
+        "pin_evidence_manifest": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["path", "sha256"],
+          "properties": {
+            "path": {
+              "type": "string",
+              "pattern": "^corpus/real-project/r2/pin-evidence/GHSA-[0-9a-z]{4}-[0-9a-z]{4}-[0-9a-z]{4}/manifest\\.json$"
+            },
+            "sha256": { "$ref": "#/$defs/sha256" }
+          }
+        }
       }
     },
     "fix_commits": {
@@ -115,6 +136,17 @@
         "required": ["revision", "evidence"],
         "properties": {
           "revision": { "$ref": "#/$defs/full_revision" },
+          "evidence": { "$ref": "#/$defs/artifact" }
+        }
+      }
+    },
+    "related_commits": {
+      "type": "array",
+      "items": {
+        "type": "object", "additionalProperties": false, "required": ["revision", "role", "evidence"],
+        "properties": {
+          "revision": { "$ref": "#/$defs/full_revision" },
+          "role": { "enum": ["introduction-reference", "additional-fix-reference"] },
           "evidence": { "$ref": "#/$defs/artifact" }
         }
       }
@@ -134,8 +166,11 @@
       "required": [
         "spdx_id",
         "file_path",
-        "content_sha256",
-        "bytes",
+        "vulnerable_content_sha256",
+        "fixed_content_sha256",
+        "identical_at_both_revisions",
+        "vulnerable_bytes",
+        "fixed_bytes",
         "evidence"
       ],
       "properties": {
@@ -159,9 +194,20 @@
           ]
         },
         "file_path": { "$ref": "#/$defs/safe_path" },
-        "content_sha256": { "$ref": "#/$defs/sha256" },
-        "bytes": { "type": "integer", "minimum": 1 },
-        "evidence": { "$ref": "#/$defs/artifact" }
+        "vulnerable_content_sha256": { "$ref": "#/$defs/sha256" },
+        "fixed_content_sha256": { "$ref": "#/$defs/sha256" },
+        "identical_at_both_revisions": { "type": "boolean" },
+        "vulnerable_bytes": { "type": "integer", "minimum": 1 },
+        "fixed_bytes": { "type": "integer", "minimum": 1 },
+        "evidence": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["vulnerable", "fixed"],
+          "properties": {
+            "vulnerable": { "$ref": "#/$defs/artifact" },
+            "fixed": { "$ref": "#/$defs/artifact" }
+          }
+        }
       }
     },
     "proposed_remediation": {
@@ -315,7 +361,7 @@
       "additionalProperties": false,
       "required": [
         "revision",
-        "parent_count",
+        "role",
         "archive_url",
         "archive_sha256",
         "archive_bytes",
@@ -324,11 +370,7 @@
       ],
       "properties": {
         "revision": { "$ref": "#/$defs/full_revision" },
-        "parent_count": {
-          "type": "integer",
-          "minimum": 1,
-          "maximum": 1
-        },
+        "role": { "type": "string", "minLength": 1 },
         "archive_url": {
           "type": "string",
           "pattern": "^https://codeload\\.github\\.com/[^/]+/[^/]+/tar\\.gz/[0-9a-f]{40}$"
