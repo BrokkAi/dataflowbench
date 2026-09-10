@@ -1,0 +1,128 @@
+{
+  "advisory": {
+    "affected_packages": [
+      "bbot"
+    ],
+    "cve_id": "CVE-2025-10284",
+    "cwes": [
+      "CWE-22"
+    ],
+    "ghsa_id": "GHSA-fhw8-8v9p-7jp7",
+    "published_at": "2025-10-09T22:22:11Z",
+    "severity": "critical",
+    "summary": "BBOT's various issues in unarchive.py can cause arbitrary file write and RCE",
+    "url": "https://github.com/advisories/GHSA-fhw8-8v9p-7jp7"
+  },
+  "analyzer_evidence_consulted": false,
+  "bindings": {
+    "draw": {
+      "path": "corpus/real-project/r2/draw.json",
+      "sha256": "17c7aa276d4f4367efdebc1ae4c4b2d6dce9bf37ceb0911aec286799d25d9aaa"
+    },
+    "draw_key": "0676ea2592da9c1375ab47becce26603014ec6b3ea118d1fa0bcce9deb0e519f",
+    "draw_position": 3,
+    "eligibility": {
+      "path": "corpus/real-project/r2/eligibility.json",
+      "sha256": "d0c42a8ad5886cd326a297a7c66541a2ebc0a91648e36f0e97d5434a38fe596b"
+    },
+    "eligibility_candidate_index": 30,
+    "evidence_manifest": {
+      "path": "corpus/real-project/r2/evidence/GHSA-fhw8-8v9p-7jp7/manifest.json",
+      "sha256": "9261325955bb03a41f803ed96e6a76201d2a2121ba5f822c2dad4054988b1be4"
+    },
+    "frame": {
+      "path": "corpus/real-project/r2/frame.json",
+      "sha256": "184c1bba456964a841fad3782ef0c961a834391b50f64099dc516a2e588cf600"
+    },
+    "pin_evidence_manifest": {
+      "path": "corpus/real-project/r2/pin-evidence/GHSA-fhw8-8v9p-7jp7/manifest.json",
+      "sha256": "20342207d342b898950d5aa5f259cd82e180d5d16bac6c8ca5eb06b1c6e3568f"
+    },
+    "selected_repository": "blacklanternsecurity/bbot",
+    "snapshot_manifest": {
+      "path": "corpus/real-project/r2/snapshot/manifest.json",
+      "sha256": "7877b02524cf7e107beba33e97b75f1e8de4dbd18ccb273d9a056e6005239b8f"
+    }
+  },
+  "ecosystem": "pip",
+  "fix_commits": [
+    {
+      "evidence": {
+        "path": "corpus/real-project/r2/evidence/GHSA-fhw8-8v9p-7jp7/commit-00.json",
+        "sha256": "f5b980f58f7fb52c54a231ee3458f1dd4804f69f1b855d7890b0471cdc4f4cdb"
+      },
+      "revision": "6325f2f4f8f6f4545703e4c9b8004e69f71bec82"
+    }
+  ],
+  "ground_truth": {
+    "adjudication": "pending",
+    "basis": "Analyzer-free proposal from the immutable advisory fix diff; acceptance requires both independent R2 reports.",
+    "review_independence": "pending",
+    "reviewers": [],
+    "status": "proposed"
+  },
+  "language": "python",
+  "license": {
+    "evidence": {
+      "fixed": {
+        "path": "corpus/real-project/r2/pin-evidence/GHSA-fhw8-8v9p-7jp7/license-fixed.json",
+        "sha256": "ff63cdb98ab97d7ac542142ffd2b6fe1631df1491cc23ce1125153d1ce5e245f"
+      },
+      "vulnerable": {
+        "path": "corpus/real-project/r2/pin-evidence/GHSA-fhw8-8v9p-7jp7/license-vulnerable.json",
+        "sha256": "84db338847016247901f2298d7d3b902928ab43406288f9976434aca32d745ca"
+      }
+    },
+    "file_path": "LICENSE",
+    "fixed_bytes": 32473,
+    "fixed_content_sha256": "1b3782ccad7b8614100cda30d3faf42fc39f2e97932908c543005053b654ca68",
+    "identical_at_both_revisions": true,
+    "spdx_id": "GPL-3.0",
+    "vulnerable_bytes": 32473,
+    "vulnerable_content_sha256": "1b3782ccad7b8614100cda30d3faf42fc39f2e97932908c543005053b654ca68"
+  },
+  "lifecycle": "pending-review",
+  "pin_id": "dfb-rp-r2-bbot",
+  "proposed_remediation": {
+    "candidate_basis": "The fix atomically creates a deterministic destination and aborts if it already exists.",
+    "file_path": "bbot/modules/internal/unarchive.py",
+    "sink_hint": "The unarchive helper extracts files into that destination directory.",
+    "source_hint": "An archive event supplies the path used to derive the extraction directory.",
+    "status": "proposed"
+  },
+  "related_commits": [],
+  "repository": {
+    "name": "bbot",
+    "owner": "blacklanternsecurity",
+    "url": "https://github.com/blacklanternsecurity/bbot"
+  },
+  "revisions": {
+    "fixed": {
+      "archive_bytes": 3826879,
+      "archive_sha256": "311202f7d68427ebd05cc843898b110f5e92f4fb81b24b2b62bdbee134b4b183",
+      "archive_url": "https://codeload.github.com/blacklanternsecurity/bbot/tar.gz/6325f2f4f8f6f4545703e4c9b8004e69f71bec82",
+      "capture_record": {
+        "path": "corpus/real-project/r2/pin-evidence/GHSA-fhw8-8v9p-7jp7/archive-fixed.json",
+        "sha256": "0c697ed0d929b19bb06f26a9963a98e94deef4aaa44a24aa05b6a586b69b8bfd"
+      },
+      "retrieved_on": "2026-09-10",
+      "revision": "6325f2f4f8f6f4545703e4c9b8004e69f71bec82",
+      "role": "the selected advisory remediation commit; the proposed first fixed revision"
+    },
+    "vulnerable": {
+      "archive_bytes": 3826793,
+      "archive_sha256": "5409b6ff8da554f7f5ad07bd24d2782cc7ad4471b6f3ed5e21a83227b79f0960",
+      "archive_url": "https://codeload.github.com/blacklanternsecurity/bbot/tar.gz/9eb343e70642303ea1e60143a4f2c3be6cd64e83",
+      "capture_record": {
+        "path": "corpus/real-project/r2/pin-evidence/GHSA-fhw8-8v9p-7jp7/archive-vulnerable.json",
+        "sha256": "bdc0a19632020f8c532d979f489c981eebd1c761732eac4890a415221737e46e"
+      },
+      "retrieved_on": "2026-09-10",
+      "revision": "9eb343e70642303ea1e60143a4f2c3be6cd64e83",
+      "role": "the first parent of the selected remediation commit; the proposed last vulnerable revision"
+    }
+  },
+  "schema_version": 2,
+  "stratum": "python",
+  "wave": "R2"
+}

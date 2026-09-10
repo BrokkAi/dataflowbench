@@ -1,0 +1,129 @@
+{
+  "advisory": {
+    "affected_packages": [
+      "picklescan"
+    ],
+    "cve_id": "CVE-2025-71339",
+    "cwes": [
+      "CWE-94",
+      "CWE-502"
+    ],
+    "ghsa_id": "GHSA-6556-fwc2-fg2p",
+    "published_at": "2025-12-30T15:20:14Z",
+    "severity": "medium",
+    "summary": "Picklescan is vulnerable to RCE through missing detection when calling numpy.f2py.crackfortran._eval_length",
+    "url": "https://github.com/advisories/GHSA-6556-fwc2-fg2p"
+  },
+  "analyzer_evidence_consulted": false,
+  "bindings": {
+    "draw": {
+      "path": "corpus/real-project/r2/draw.json",
+      "sha256": "17c7aa276d4f4367efdebc1ae4c4b2d6dce9bf37ceb0911aec286799d25d9aaa"
+    },
+    "draw_key": "0e12cc572d4f54cf4087f84fc782e99f4b54f507a6fb294c6faec5d2f340cac5",
+    "draw_position": 7,
+    "eligibility": {
+      "path": "corpus/real-project/r2/eligibility.json",
+      "sha256": "d0c42a8ad5886cd326a297a7c66541a2ebc0a91648e36f0e97d5434a38fe596b"
+    },
+    "eligibility_candidate_index": 34,
+    "evidence_manifest": {
+      "path": "corpus/real-project/r2/evidence/GHSA-6556-fwc2-fg2p/manifest.json",
+      "sha256": "65a83f5775ca075caefe7060d2c34571f50ba574e623255ffd24b3ef6f40361c"
+    },
+    "frame": {
+      "path": "corpus/real-project/r2/frame.json",
+      "sha256": "184c1bba456964a841fad3782ef0c961a834391b50f64099dc516a2e588cf600"
+    },
+    "pin_evidence_manifest": {
+      "path": "corpus/real-project/r2/pin-evidence/GHSA-6556-fwc2-fg2p/manifest.json",
+      "sha256": "4e97192b063bf2e3e7bc8aed4284aec2f0628be3e3f72dcea0934806fa857a9d"
+    },
+    "selected_repository": "mmaitre314/picklescan",
+    "snapshot_manifest": {
+      "path": "corpus/real-project/r2/snapshot/manifest.json",
+      "sha256": "7877b02524cf7e107beba33e97b75f1e8de4dbd18ccb273d9a056e6005239b8f"
+    }
+  },
+  "ecosystem": "pip",
+  "fix_commits": [
+    {
+      "evidence": {
+        "path": "corpus/real-project/r2/evidence/GHSA-6556-fwc2-fg2p/commit-00.json",
+        "sha256": "aae8c0c56ec1a1c84850a52270e9e3a800368fcafcbd6d2a61b3ec9b3369e125"
+      },
+      "revision": "70c1c6c31beb6baaf52c8db1b6c3c0e84a6f9dab"
+    }
+  ],
+  "ground_truth": {
+    "adjudication": "pending",
+    "basis": "Analyzer-free proposal from the immutable advisory fix diff; acceptance requires both independent R2 reports.",
+    "review_independence": "pending",
+    "reviewers": [],
+    "status": "proposed"
+  },
+  "language": "python",
+  "license": {
+    "evidence": {
+      "fixed": {
+        "path": "corpus/real-project/r2/pin-evidence/GHSA-6556-fwc2-fg2p/license-fixed.json",
+        "sha256": "410dffb8e35a2209e202bb4db2cbf863678d7bc97520a1a0ee344300486d6bf8"
+      },
+      "vulnerable": {
+        "path": "corpus/real-project/r2/pin-evidence/GHSA-6556-fwc2-fg2p/license-vulnerable.json",
+        "sha256": "a11df20ae4e75f84239a128a7d746a22952f0d7cb26a3b4271ac33d81194536c"
+      }
+    },
+    "file_path": "LICENSE",
+    "fixed_bytes": 1072,
+    "fixed_content_sha256": "1418146b5f7b837d0a7c24906a272f2f6adb68ebb258e97560ec91ae663ff38a",
+    "identical_at_both_revisions": true,
+    "spdx_id": "MIT",
+    "vulnerable_bytes": 1072,
+    "vulnerable_content_sha256": "1418146b5f7b837d0a7c24906a272f2f6adb68ebb258e97560ec91ae663ff38a"
+  },
+  "lifecycle": "pending-review",
+  "pin_id": "dfb-rp-r2-picklescan",
+  "proposed_remediation": {
+    "candidate_basis": "The fix expands unsafe globals and propagates wildcard danger through every parent module.",
+    "file_path": "src/picklescan/scanner.py",
+    "sink_hint": "The scanner's safety classification determines whether executable globals are reported dangerous.",
+    "source_hint": "Pickle GLOBAL references provide module and callable names.",
+    "status": "proposed"
+  },
+  "related_commits": [],
+  "repository": {
+    "name": "picklescan",
+    "owner": "mmaitre314",
+    "url": "https://github.com/mmaitre314/picklescan"
+  },
+  "revisions": {
+    "fixed": {
+      "archive_bytes": 282180,
+      "archive_sha256": "2b3ebbf91636c0f724af3201d5c993bd89ae59716019c57445d842d53f7bcb58",
+      "archive_url": "https://codeload.github.com/mmaitre314/picklescan/tar.gz/70c1c6c31beb6baaf52c8db1b6c3c0e84a6f9dab",
+      "capture_record": {
+        "path": "corpus/real-project/r2/pin-evidence/GHSA-6556-fwc2-fg2p/archive-fixed.json",
+        "sha256": "bc3ebce9c8e32a8736a26ab794ebbe25bc8943e44ad4abc41d16a0d4ec373024"
+      },
+      "retrieved_on": "2026-09-10",
+      "revision": "70c1c6c31beb6baaf52c8db1b6c3c0e84a6f9dab",
+      "role": "the selected advisory remediation commit; the proposed first fixed revision"
+    },
+    "vulnerable": {
+      "archive_bytes": 279847,
+      "archive_sha256": "19c40e8e83e020acb75d7840d6342879990cd710e2700439b277f809bef49c08",
+      "archive_url": "https://codeload.github.com/mmaitre314/picklescan/tar.gz/d3273f4225da08c0998177a5ac0588724fa4bba0",
+      "capture_record": {
+        "path": "corpus/real-project/r2/pin-evidence/GHSA-6556-fwc2-fg2p/archive-vulnerable.json",
+        "sha256": "19e449fe680c5ef9f9b6e1f1462291f44afcbb601c709007ddaef7c862c58a4f"
+      },
+      "retrieved_on": "2026-09-10",
+      "revision": "d3273f4225da08c0998177a5ac0588724fa4bba0",
+      "role": "the first parent of the selected remediation commit; the proposed last vulnerable revision"
+    }
+  },
+  "schema_version": 2,
+  "stratum": "python",
+  "wave": "R2"
+}
