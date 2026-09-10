@@ -26,6 +26,7 @@ see the glossary entry below.
 | [latency-tier.md](latency-tier.md) | Preregistration of the descriptive latency-characterization tier and the per-adapter granularity table. Amendment-bearing. |
 | [real-project-preregistration.md](real-project-preregistration.md) | Preregistration of the real-project confirmation slice: the advisory-derived population, the eligibility criteria, the seeded draw and its replacement rule, the bounded per-repository claims, the independent ground-truth review, and the rule that no real-project outcome touches a core denominator. Amendment-bearing. |
 | [real-project-review.md](real-project-review.md) | The provenance-bound two-lab review packet, disagreement/adjudication rules, fail-closed analyzer/freeze gate, and the separate real-project latency/LoC measurement contract. |
+| [real-project-r2-preregistration.md](real-project-r2-preregistration.md) | The prospective R2 replacement protocol. It fixes the R1 provenance defect by binding raw advisory response pages and complete E1-E8 decision evidence before selection or review; no R2 population query is allowed until this contract merges. |
 | [fixture-provenance.md](fixture-provenance.md) | The required provenance fields for every fixture and the MIT/CC0 licensing split. |
 | [benchmark-sources.md](benchmark-sources.md) | The external suites treated as design inputs, and why none is imported as ground truth. |
 
@@ -108,7 +109,8 @@ other by `model_profile` and never pooled:
   one language row of a tier) and its adapter artifacts without editing any
   template definition. Waves are numbered per tier: M1 is the
   benchmark-controlled modeling rows, N1 the tool-native rows, R1 the first
-  real-project confirmation slice.
+  real-project confirmation slice, and R2 its prospective replacement after
+  R1's population-evidence review remained inconclusive.
 - **Benchmark-controlled vs tool-native profile** — the two values of
   `model_profile` and a hard partition of every claim. The controlled
   profile supplies equivalent models to each tool and measures the
@@ -147,12 +149,14 @@ other by `model_profile` and never pooled:
 - **Slice** — one adapter × language × population unit of execution and
   reporting; the aggregation unit for latency and for raw-evidence
   directories (`reports/raw/<slice>/`).
-- **Real-project confirmation slice** — the six pinned upstream repositories
+- **Real-project confirmation slice** — a prospectively selected wave of
+  pinned upstream repositories
   of [real-project-preregistration.md](real-project-preregistration.md), on
   the `real-project` score tier. Its unit is a repository at two pinned
   revisions, vulnerable and fixed, rather than an authored fixture; its
   selection artifacts live under `corpus/real-project/` and are replayed by
-  `cargo run -- validate`. Confusingly close to the term above and distinct
+  `cargo run -- validate`. R1 remains at the legacy top-level paths; later
+  waves use wave-scoped subdirectories. Confusingly close to the term above and distinct
   from it: this one is a population, that one is an execution unit.
 - **Draw record** — `corpus/real-project/draw.json`: the seed, the retained
   frame it consumed, and the ordered walk over each stratum with a disposition
