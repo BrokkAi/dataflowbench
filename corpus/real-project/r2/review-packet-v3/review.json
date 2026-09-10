@@ -2598,7 +2598,7 @@
       "decision_record": null,
       "status": "not-required"
     },
-    "packet_digest_sets_identical": false,
+    "packet_digest_sets_identical": true,
     "pin_disagreements": [],
     "subject_disagreements": []
   },
@@ -2608,137 +2608,150 @@
   },
   "per_pin_reviews": [
     {
-      "archive_digests": "not-reviewed",
+      "archive_digests": "accept",
       "ghsa_id": "GHSA-fhw8-8v9p-7jp7",
-      "license": "not-reviewed",
-      "remediation_location": "not-reviewed",
-      "reviewer_a": "not-reviewed",
-      "reviewer_b": "not-reviewed",
-      "vulnerable_fixed_semantics": "not-reviewed"
+      "license": "accept",
+      "remediation_location": "accept",
+      "reviewer_a": "accept",
+      "reviewer_b": "accept",
+      "vulnerable_fixed_semantics": "accept"
     },
     {
-      "archive_digests": "not-reviewed",
+      "archive_digests": "accept",
       "ghsa_id": "GHSA-6fhj-vr9j-g45r",
-      "license": "not-reviewed",
-      "remediation_location": "not-reviewed",
-      "reviewer_a": "not-reviewed",
-      "reviewer_b": "not-reviewed",
-      "vulnerable_fixed_semantics": "not-reviewed"
+      "license": "accept",
+      "remediation_location": "accept",
+      "reviewer_a": "accept",
+      "reviewer_b": "accept",
+      "vulnerable_fixed_semantics": "accept"
     },
     {
-      "archive_digests": "not-reviewed",
+      "archive_digests": "accept",
       "ghsa_id": "GHSA-jcrp-x7w3-ffmg",
-      "license": "not-reviewed",
-      "remediation_location": "not-reviewed",
-      "reviewer_a": "not-reviewed",
-      "reviewer_b": "not-reviewed",
-      "vulnerable_fixed_semantics": "not-reviewed"
+      "license": "accept",
+      "remediation_location": "accept",
+      "reviewer_a": "accept",
+      "reviewer_b": "accept",
+      "vulnerable_fixed_semantics": "accept"
     },
     {
-      "archive_digests": "not-reviewed",
+      "archive_digests": "accept",
       "ghsa_id": "GHSA-g4cf-pp4x-hqgw",
-      "license": "not-reviewed",
-      "remediation_location": "not-reviewed",
-      "reviewer_a": "not-reviewed",
-      "reviewer_b": "not-reviewed",
-      "vulnerable_fixed_semantics": "not-reviewed"
+      "license": "accept",
+      "remediation_location": "accept",
+      "reviewer_a": "accept",
+      "reviewer_b": "accept",
+      "vulnerable_fixed_semantics": "accept"
     },
     {
-      "archive_digests": "not-reviewed",
+      "archive_digests": "accept",
       "ghsa_id": "GHSA-6556-fwc2-fg2p",
-      "license": "not-reviewed",
-      "remediation_location": "not-reviewed",
-      "reviewer_a": "not-reviewed",
-      "reviewer_b": "not-reviewed",
-      "vulnerable_fixed_semantics": "not-reviewed"
+      "license": "accept",
+      "remediation_location": "accept",
+      "reviewer_a": "accept",
+      "reviewer_b": "accept",
+      "vulnerable_fixed_semantics": "accept"
     },
     {
-      "archive_digests": "not-reviewed",
+      "archive_digests": "accept",
       "ghsa_id": "GHSA-wphj-fx3q-84ch",
-      "license": "not-reviewed",
-      "remediation_location": "not-reviewed",
-      "reviewer_a": "not-reviewed",
-      "reviewer_b": "not-reviewed",
-      "vulnerable_fixed_semantics": "not-reviewed"
+      "license": "accept",
+      "remediation_location": "accept",
+      "reviewer_a": "accept",
+      "reviewer_b": "accept",
+      "vulnerable_fixed_semantics": "accept"
     }
   ],
   "readiness": {
-    "blocking_reasons": [
-      "reviewer-a has not submitted",
-      "reviewer-b has not submitted"
-    ],
-    "execution_ready": false,
-    "freeze_ready": false,
-    "outcome": "pending"
+    "blocking_reasons": [],
+    "execution_ready": true,
+    "freeze_ready": true,
+    "outcome": "ready"
   },
   "review_id": "dfb-rp-r2-review-v1",
   "reviewers": {
     "reviewer_a": {
       "analyzer_evidence_consulted": false,
-      "checkout": null,
-      "completed_at": null,
-      "evidence_path": "<created separately for reviewer-a>",
+      "checkout": {
+        "clean": true,
+        "observed_at": "2026-09-10T10:15:06Z",
+        "path": "/private/tmp/dataflowbench-issue19-r2-v3-review-a",
+        "revision": "65441c1a8d5fbe0b1da83a0247ad6eb0eba984c6"
+      },
+      "completed_at": "2026-09-10T10:15:06Z",
+      "evidence_path": "/private/tmp/dataflowbench-issue19-r2-v3-evidence-a",
       "model": "gpt-5.6-sol",
-      "notes": "Planned before either reviewer started; this record makes no review claim.",
+      "notes": "Accepted all nine subjects and every required field for all six pins after independently verifying all 616 packet artifacts, replaying the snapshot/frame/eligibility/draw chain, and freshly matching all 12 source archives. No analyzer evidence or reviewer-B material was consulted.",
       "packet": {
         "path": "corpus/real-project/r2/review-packet-v3/packet.json",
         "sha256": "93523f8ee088ef1cb484d03b5c0aa05ece5f857ff26cbc61be7c5163b72ff32c"
       },
-      "packet_digest_set_identical": false,
+      "packet_digest_set_identical": true,
       "provider": "openai",
       "reasoning_effort": "medium",
-      "report": null,
+      "report": {
+        "path": "corpus/real-project/r2/reviews/reviewer-a-v3.md",
+        "sha256": "c9abc011a730f5399ef43bf3de0642f1663fe89fa36af211181e7699308330cf"
+      },
       "role": "reviewer-a",
-      "run_id": null,
-      "started_at": null,
-      "status": "planned",
+      "run_id": "reviewer-a-v3-20260910T100928Z",
+      "started_at": "2026-09-10T10:09:28Z",
+      "status": "submitted",
       "subject_verdicts": {
-        "claim_bounds": "not-reviewed",
-        "descriptive_latency_scope": "not-reviewed",
-        "draw_and_replacement": "not-reviewed",
-        "eligibility_e1_e8": "not-reviewed",
-        "frame_derivation": "not-reviewed",
-        "licenses": "not-reviewed",
-        "pins_and_archives": "not-reviewed",
-        "snapshot_completeness": "not-reviewed",
-        "vulnerable_fixed_semantics": "not-reviewed"
+        "claim_bounds": "accept",
+        "descriptive_latency_scope": "accept",
+        "draw_and_replacement": "accept",
+        "eligibility_e1_e8": "accept",
+        "frame_derivation": "accept",
+        "licenses": "accept",
+        "pins_and_archives": "accept",
+        "snapshot_completeness": "accept",
+        "vulnerable_fixed_semantics": "accept"
       }
     },
     "reviewer_b": {
       "analyzer_evidence_consulted": false,
-      "checkout": null,
-      "completed_at": null,
-      "evidence_path": "<created separately for reviewer-b>",
+      "checkout": {
+        "clean": true,
+        "observed_at": "2026-09-10T12:30:53.615490Z",
+        "path": "/private/tmp/dataflowbench-issue19-r2-v3-review-b",
+        "revision": "65441c1a8d5fbe0b1da83a0247ad6eb0eba984c6"
+      },
+      "completed_at": "2026-09-10T12:30:53.615490Z",
+      "evidence_path": "/private/tmp/dataflowbench-issue19-r2-v3-evidence-b-final",
       "model": "glm-5.3",
-      "notes": "Planned before either reviewer started; this record makes no review claim.",
+      "notes": "Accepted all nine subjects and every required field for all six pins after independently verifying all 616 packet artifacts, replaying 374 raw advisories into the exact 219-candidate frame and all 280 E1-E8 decisions, reproducing the six-pin draw, and freshly matching all 12 source archives. No analyzer evidence, reviewer-A material, or coordinator conclusion was consulted.",
       "packet": {
         "path": "corpus/real-project/r2/review-packet-v3/packet.json",
         "sha256": "93523f8ee088ef1cb484d03b5c0aa05ece5f857ff26cbc61be7c5163b72ff32c"
       },
-      "packet_digest_set_identical": false,
+      "packet_digest_set_identical": true,
       "provider": "z.ai",
       "reasoning_effort": "max",
-      "report": null,
+      "report": {
+        "path": "corpus/real-project/r2/reviews/reviewer-b-v3.md",
+        "sha256": "d1648d3cf29d776f80e85bb7393cee3e6631cc66f4f866549ac73940b903baa9"
+      },
       "role": "reviewer-b",
-      "run_id": null,
-      "started_at": null,
-      "status": "planned",
+      "run_id": "b9c36aea-bbc6-53f3-8dd4-3d9f31c79023",
+      "started_at": "2026-09-10T12:26:10.677059Z",
+      "status": "submitted",
       "subject_verdicts": {
-        "claim_bounds": "not-reviewed",
-        "descriptive_latency_scope": "not-reviewed",
-        "draw_and_replacement": "not-reviewed",
-        "eligibility_e1_e8": "not-reviewed",
-        "frame_derivation": "not-reviewed",
-        "licenses": "not-reviewed",
-        "pins_and_archives": "not-reviewed",
-        "snapshot_completeness": "not-reviewed",
-        "vulnerable_fixed_semantics": "not-reviewed"
+        "claim_bounds": "accept",
+        "descriptive_latency_scope": "accept",
+        "draw_and_replacement": "accept",
+        "eligibility_e1_e8": "accept",
+        "frame_derivation": "accept",
+        "licenses": "accept",
+        "pins_and_archives": "accept",
+        "snapshot_completeness": "accept",
+        "vulnerable_fixed_semantics": "accept"
       }
     }
   },
   "schema_version": 1,
   "source_revision": "65441c1a8d5fbe0b1da83a0247ad6eb0eba984c6",
-  "status": "pending",
-  "updated_at": "2026-09-10T10:02:55.385694Z",
+  "status": "complete",
+  "updated_at": "2026-09-10T12:40:00Z",
   "wave": "R2"
 }
