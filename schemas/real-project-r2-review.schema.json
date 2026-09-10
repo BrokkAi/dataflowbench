@@ -420,21 +420,8 @@
       }
     },
     "accepting_submitted_reviewer": {
-      "allOf": [
-        { "$ref": "#/$defs/reviewer_plan" },
-        {
-          "type": "object",
-          "additionalProperties": false,
-          "required": [
-            "status",
-            "completed_at",
-            "checkout",
-            "packet_digest_set_identical",
-            "report",
-            "subject_verdicts",
-            "analyzer_evidence_consulted"
-          ],
-          "properties": {
+      "type": "object",
+      "properties": {
             "status": { "const": "submitted" },
             "completed_at": { "type": "string", "format": "date-time" },
             "checkout": {
@@ -483,9 +470,7 @@
               }
             },
             "analyzer_evidence_consulted": { "const": false }
-          }
-        }
-      ]
+      }
     },
     "reviewer_record": {
       "allOf": [
