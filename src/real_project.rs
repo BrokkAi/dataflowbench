@@ -50,6 +50,14 @@ pub(crate) const REAL_PROJECT_R2_FRAME: &str = "corpus/real-project/r2/frame.jso
 pub(crate) const REAL_PROJECT_R2_FRAME_SCHEMA: &str = "schemas/real-project-r2-frame.schema.json";
 pub(crate) const REAL_PROJECT_R2_PINS_DIR: &str = "corpus/real-project/r2/pins";
 pub(crate) const REAL_PROJECT_R2_PIN_SCHEMA: &str = "schemas/real-project-r2-pin.schema.json";
+pub(crate) const REAL_PROJECT_R2_REVIEW_PACKET_DIR: &str =
+    "corpus/real-project/r2/review-packet-v3";
+pub(crate) const REAL_PROJECT_R2_REVIEW_PACKET: &str =
+    "corpus/real-project/r2/review-packet-v3/packet.json";
+pub(crate) const REAL_PROJECT_R2_REVIEW_RECORD: &str =
+    "corpus/real-project/r2/review-packet-v3/review.json";
+pub(crate) const REAL_PROJECT_R2_REVIEW_SCHEMA: &str = "schemas/real-project-r2-review.schema.json";
+pub(crate) const REAL_PROJECT_R2_REVIEWS_DIR: &str = "corpus/real-project/r2/reviews";
 pub(crate) const REAL_PROJECT_R2_E5_INVENTORY: &str = "corpus/real-project/r2/e5-inventory.json";
 pub(crate) const REAL_PROJECT_R2_E5_INVENTORY_SCHEMA: &str =
     "schemas/real-project-r2-e5-inventory.schema.json";
@@ -1349,6 +1357,613 @@ pub(crate) fn validate_real_project_r2_pins_at(root: &Path) -> Result<usize> {
     Ok(paths.len())
 }
 
+fn collect_artifact_inventory(value: &Value, label: &str) -> Result<BTreeMap<String, String>> {
+    let mut artifacts = BTreeMap::new();
+
+    fn visit(value: &Value, artifacts: &mut BTreeMap<String, String>, label: &str) -> Result<()> {
+        if let Some(object) = value.as_object() {
+            if let (Some(path), Some(digest)) = (
+                object.get("path").and_then(Value::as_str),
+                object.get("sha256").and_then(Value::as_str),
+            ) {
+                if artifacts
+                    .insert(path.to_string(), digest.to_string())
+                    .is_some_and(|previous| previous != digest)
+                {
+                    bail!("{label}: conflicting digest bindings for {path}");
+                }
+            }
+            for child in object.values() {
+                visit(child, artifacts, label)?;
+            }
+        } else if let Some(array) = value.as_array() {
+            for child in array {
+                visit(child, artifacts, label)?;
+            }
+        }
+        Ok(())
+    }
+
+    visit(value, &mut artifacts, label)?;
+    Ok(artifacts)
+}
+
+fn artifact_path_is_analyzer_free(relative: &str) -> bool {
+    let path = Path::new(relative);
+    if matches!(
+        path.extension().and_then(|extension| extension.to_str()),
+        Some("log") | Some("sarif")
+    ) {
+        return false;
+    }
+    !path.components().any(|component| {
+        matches!(
+            component
+                .as_os_str()
+                .to_string_lossy()
+                .to_ascii_lowercase()
+                .as_str(),
+            "reports"
+                | "results"
+                | "freeze"
+                | "freezes"
+                | "analyzer-output"
+                | "analyzer-outputs"
+                | "coverage"
+        )
+    })
+}
+
+fn verify_artifact_inventory(
+    root: &Path,
+    artifacts: &Value,
+    bindings: &Value,
+) -> Result<BTreeMap<String, String>> {
+    let Some(records) = artifacts.as_array() else {
+        bail!("R2 review packet artifacts must be an array");
+    };
+    let mut inventory = BTreeMap::new();
+    for record in records {
+        let object = record
+            .as_object()
+            .with_context(|| "R2 review packet artifact must be an object")?;
+        if object.len() != 2 {
+            bail!("R2 review packet artifact must bind exactly path and sha256");
+        }
+        let path = record["path"].as_str().context("packet artifact path")?;
+        let digest = record["sha256"]
+            .as_str()
+            .context("packet artifact digest")?;
+        if inventory
+            .insert(path.to_string(), digest.to_string())
+            .is_some()
+        {
+            bail!("R2 review packet repeats artifact {path}");
+        }
+    }
+    if inventory.is_empty() {
+        bail!("R2 review packet must bind at least one artifact");
+    }
+    let binding_inventory = collect_artifact_inventory(bindings, "R2 review packet bindings")?;
+    if binding_inventory != inventory {
+        bail!("R2 review packet artifact inventory differs from its bindings");
+    }
+    for (relative, expected) in &inventory {
+        if !artifact_path_is_analyzer_free(relative) {
+            bail!("R2 review packet binds possible analyzer evidence {relative}");
+        }
+        validate_review_artifact(root, &json!({ "path": relative, "sha256": expected }))?;
+    }
+    validate_artifact_reference_closure(root, &inventory)?;
+    Ok(inventory)
+}
+
+/// Close the packet over artifact identities embedded in its bound JSON.
+/// Evidence such as eligibility decisions may cite another input by
+/// `path`/`sha256`; dropping that target from the packet would otherwise leave
+/// a review looking self-contained while its proof depends on unbound bytes.
+fn validate_artifact_reference_closure(
+    root: &Path,
+    inventory: &BTreeMap<String, String>,
+) -> Result<BTreeSet<String>> {
+    let mut pending: Vec<_> = inventory.keys().cloned().collect();
+    let mut visited = BTreeSet::new();
+    let mut discovered = BTreeSet::new();
+
+    while let Some(relative) = pending.pop() {
+        if !visited.insert(relative.clone()) {
+            continue;
+        }
+        let path = Path::new(&relative);
+        if path.extension().and_then(|extension| extension.to_str()) != Some("json") {
+            continue;
+        }
+        let bytes = fs::read(root.join(path))
+            .with_context(|| format!("read packet artifact {relative}"))?;
+        let value: Value = serde_json::from_slice(&bytes)
+            .with_context(|| format!("parse packet artifact {relative}"))?;
+        for (reference_path, expected_digest) in nested_artifact_references(&value) {
+            let resolved = resolve_nested_artifact_reference(
+                root,
+                &relative,
+                &reference_path,
+                &expected_digest,
+            )?;
+            let resolved_relative =
+                resolved
+                    .strip_prefix(root.canonicalize().with_context(|| {
+                        format!("canonicalize repository root {}", root.display())
+                    })?)?
+                    .to_string_lossy()
+                    .replace('\\', "/");
+            discovered.insert(resolved_relative.clone());
+            if !inventory.contains_key(&resolved_relative)
+                && visited.insert(resolved_relative.clone())
+            {
+                pending.push(resolved_relative);
+            }
+        }
+    }
+
+    let missing: BTreeSet<_> = discovered
+        .difference(&inventory.keys().cloned().collect::<BTreeSet<_>>())
+        .cloned()
+        .collect();
+    if !missing.is_empty() {
+        bail!(
+            "R2 review packet is not semantically complete: nested artifact references omit {} bound inputs: {missing:?}",
+            missing.len()
+        );
+    }
+    Ok(discovered)
+}
+
+fn nested_artifact_references(value: &Value) -> Vec<(String, String)> {
+    let mut references = Vec::new();
+    let mut visit = |value: &Value, references: &mut Vec<(String, String)>| {
+        if let (Some(path), Some(digest)) = (value["path"].as_str(), value["sha256"].as_str()) {
+            let first = Path::new(path)
+                .components()
+                .next()
+                .map(|component| component.as_os_str().to_string_lossy());
+            if matches!(
+                first.as_deref(),
+                Some("adapters" | "corpus" | "docs" | "schemas" | "scripts")
+            ) {
+                references.push((path.to_string(), digest.to_string()));
+            }
+        }
+    };
+
+    fn walk(
+        value: &Value,
+        references: &mut Vec<(String, String)>,
+        visit: &mut impl FnMut(&Value, &mut Vec<(String, String)>),
+    ) {
+        visit(value, references);
+        match value {
+            Value::Object(object) => {
+                for child in object.values() {
+                    walk(child, references, visit);
+                }
+            }
+            Value::Array(array) => {
+                for child in array {
+                    walk(child, references, visit);
+                }
+            }
+            _ => {}
+        }
+    }
+
+    walk(value, &mut references, &mut visit);
+    references
+}
+
+fn resolve_nested_artifact_reference(
+    root: &Path,
+    source_relative: &str,
+    reference_relative: &str,
+    expected_digest: &str,
+) -> Result<PathBuf> {
+    let reference_path = Path::new(reference_relative);
+    if reference_path.is_absolute()
+        || reference_path
+            .components()
+            .any(|component| component == std::path::Component::ParentDir)
+    {
+        bail!("nested artifact reference must be repository-relative: {reference_relative:?}");
+    }
+
+    let source_path = Path::new(source_relative);
+    let rooted = root.join(reference_path);
+    let contextual = root
+        .join(source_path.parent().unwrap_or(Path::new("")))
+        .join(reference_path);
+    let canonical_root = root
+        .canonicalize()
+        .with_context(|| format!("canonicalize repository root {}", root.display()))?;
+    let mut found = false;
+    for candidate in [rooted, contextual] {
+        let Ok(canonical_candidate) = candidate.canonicalize() else {
+            continue;
+        };
+        if !canonical_candidate.starts_with(&canonical_root) {
+            bail!("nested artifact reference escapes the repository: {reference_relative:?}");
+        }
+        found = true;
+        let actual = format!("{:x}", Sha256::digest(fs::read(&canonical_candidate)?));
+        if actual == expected_digest {
+            return Ok(canonical_candidate);
+        }
+    }
+
+    if found {
+        bail!("nested artifact reference {reference_relative:?} does not replay its bound digest");
+    }
+    bail!("nested artifact reference {reference_relative:?} does not exist");
+}
+
+fn reviewer_is_expected(
+    reviewer: &Value,
+    role: &str,
+    provider: &str,
+    model: &str,
+    effort: &str,
+) -> bool {
+    ["role", "provider", "model", "reasoning_effort"]
+        .iter()
+        .all(|field| {
+            let expected = match *field {
+                "role" => role,
+                "provider" => provider,
+                "model" => model,
+                _ => effort,
+            };
+            reviewer[field].as_str() == Some(expected)
+        })
+}
+
+fn validate_real_project_r2_review_values(
+    root: &Path,
+    packet: &Value,
+    review: &Value,
+) -> Result<usize> {
+    const PACKET_KEYS: [&str; 9] = [
+        "schema_version",
+        "packet_id",
+        "wave",
+        "created_at",
+        "source_revision",
+        "analyzer_evidence_consulted",
+        "artifact_bindings",
+        "artifacts",
+        "review_rule",
+    ];
+    const SUBJECTS: [&str; 9] = [
+        "snapshot_completeness",
+        "frame_derivation",
+        "eligibility_e1_e8",
+        "draw_and_replacement",
+        "pins_and_archives",
+        "licenses",
+        "vulnerable_fixed_semantics",
+        "claim_bounds",
+        "descriptive_latency_scope",
+    ];
+    const PIN_VERDICT_FIELDS: [&str; 6] = [
+        "reviewer_a",
+        "reviewer_b",
+        "remediation_location",
+        "vulnerable_fixed_semantics",
+        "archive_digests",
+        "license",
+    ];
+
+    let packet_object = packet
+        .as_object()
+        .context("R2 review packet must be an object")?;
+    if packet_object.keys().cloned().collect::<BTreeSet<_>>()
+        != PACKET_KEYS.iter().map(|key| key.to_string()).collect()
+    {
+        bail!("{REAL_PROJECT_R2_REVIEW_PACKET}: packet fields do not match the immutable contract");
+    }
+    if packet["schema_version"] != 1
+        || packet["wave"] != "R2"
+        || packet["analyzer_evidence_consulted"] != false
+        || packet["packet_id"]
+            .as_str()
+            .is_none_or(|value| !value.starts_with("dfb-rp-r2-packet-"))
+    {
+        bail!(
+            "{REAL_PROJECT_R2_REVIEW_PACKET}: packet identity or analyzer-free declaration is invalid"
+        );
+    }
+    let expected_rules = json!({
+        "separate_clean_checkouts": true,
+        "separate_evidence_paths": true,
+        "same_packet_digest_set": true,
+        "no_analyzer_outputs": true,
+        "no_cross_reviewer_discussion_before_submission": true,
+    });
+    if packet["review_rule"] != expected_rules {
+        bail!("{REAL_PROJECT_R2_REVIEW_PACKET}: review isolation rules are not all enabled");
+    }
+
+    let bindings = &packet["artifact_bindings"];
+    let inventory = verify_artifact_inventory(root, &packet["artifacts"], bindings)?;
+
+    validate_schema_at(
+        root,
+        REAL_PROJECT_R2_REVIEW_SCHEMA,
+        review,
+        REAL_PROJECT_R2_REVIEW_RECORD,
+    )?;
+    if review["wave"] != "R2"
+        || review["source_revision"] != packet["source_revision"]
+        || review["artifact_bindings"] != *bindings
+        || review["analyzer_evidence_consulted"] != false
+    {
+        bail!("{REAL_PROJECT_R2_REVIEW_RECORD}: review source or packet bindings differ");
+    }
+    if review["packet"]["path"] != REAL_PROJECT_R2_REVIEW_PACKET {
+        bail!("{REAL_PROJECT_R2_REVIEW_RECORD}: packet path binding differs");
+    }
+    // A packet cannot include its own digest in its inventory. Binding this
+    // artifact records replayable packet-byte identity without circularity.
+    validate_review_artifact(root, &review["packet"])?;
+
+    let mut evidence_paths = BTreeSet::new();
+    let mut checkout_paths = BTreeSet::new();
+    let mut report_paths = BTreeSet::new();
+    let mut submitted_count = 0usize;
+    for (key, role, provider, model, effort) in [
+        (
+            "reviewer_a",
+            "reviewer-a",
+            "openai",
+            "gpt-5.6-sol",
+            "medium",
+        ),
+        ("reviewer_b", "reviewer-b", "z.ai", "glm-5.3", "max"),
+    ] {
+        let reviewer = &review["reviewers"][key];
+        if !reviewer_is_expected(reviewer, role, provider, model, effort)
+            || reviewer["analyzer_evidence_consulted"] != false
+        {
+            bail!("{REAL_PROJECT_R2_REVIEW_RECORD}: {key} does not match the preregistered plan");
+        }
+        if reviewer["packet"] != review["packet"] {
+            bail!("{REAL_PROJECT_R2_REVIEW_RECORD}: {key} consumes different packet bytes");
+        }
+        let status = reviewer["status"].as_str().context("reviewer status")?;
+        if matches!(status, "submitted" | "inconclusive") {
+            submitted_count += 1;
+            if reviewer["completed_at"].is_null() {
+                bail!("{REAL_PROJECT_R2_REVIEW_RECORD}: {key} submitted without completion time");
+            }
+        }
+        let checkout = &reviewer["checkout"];
+        if matches!(status, "submitted" | "inconclusive") && checkout.is_null() {
+            bail!(
+                "{REAL_PROJECT_R2_REVIEW_RECORD}: {key} submitted without a clean checkout record"
+            );
+        }
+        if !checkout.is_null() {
+            let checkout_path = checkout["path"].as_str().context("checkout path")?;
+            if checkout["revision"].as_str() != review["source_revision"].as_str()
+                || checkout["clean"] != true
+            {
+                bail!(
+                    "{REAL_PROJECT_R2_REVIEW_RECORD}: {key} checkout differs from the packet cutoff"
+                );
+            }
+            if !checkout_paths.insert(checkout_path.to_string()) {
+                bail!("{REAL_PROJECT_R2_REVIEW_RECORD}: reviewers share checkout {checkout_path}");
+            }
+        }
+        let evidence_path = reviewer["evidence_path"]
+            .as_str()
+            .context("reviewer evidence path")?;
+        if !evidence_paths.insert(evidence_path.to_string()) {
+            bail!(
+                "{REAL_PROJECT_R2_REVIEW_RECORD}: duplicate reviewer evidence path {evidence_path}"
+            );
+        }
+        if let Some(report) = reviewer["report"].as_object() {
+            let report_path = report["path"].as_str().context("report path")?;
+            if !Path::new(report_path).starts_with(REAL_PROJECT_R2_REVIEWS_DIR) {
+                bail!(
+                    "{REAL_PROJECT_R2_REVIEW_RECORD}: {key} report is outside {REAL_PROJECT_R2_REVIEWS_DIR}"
+                );
+            }
+            validate_review_artifact(root, &reviewer["report"])?;
+            if !report_paths.insert(report_path.to_string()) {
+                bail!("{REAL_PROJECT_R2_REVIEW_RECORD}: duplicate reviewer report {report_path}");
+            }
+        } else if status == "submitted" {
+            bail!("{REAL_PROJECT_R2_REVIEW_RECORD}: {key} submitted without an immutable report");
+        }
+    }
+
+    let pinned_ghsas = bindings["pins"]
+        .as_array()
+        .context("packet pin bindings")?
+        .iter()
+        .map(|pin| {
+            pin["ghsa_id"]
+                .as_str()
+                .context("bound pin GHSA")
+                .map(str::to_string)
+        })
+        .collect::<Result<BTreeSet<_>>>()?;
+    let reviewed_ghsas = review["per_pin_reviews"]
+        .as_array()
+        .context("per-pin reviews")?
+        .iter()
+        .map(|pin| {
+            pin["ghsa_id"]
+                .as_str()
+                .context("reviewed pin GHSA")
+                .map(str::to_string)
+        })
+        .collect::<Result<BTreeSet<_>>>()?;
+    if pinned_ghsas != reviewed_ghsas {
+        bail!("{REAL_PROJECT_R2_REVIEW_RECORD}: per-pin reviews do not cover the packet pin set");
+    }
+    let mut unresolved_verdicts = Vec::new();
+    let mut all_pins_accept = true;
+    for pin in review["per_pin_reviews"]
+        .as_array()
+        .context("per-pin reviews")?
+    {
+        let ghsa = pin["ghsa_id"].as_str().unwrap_or_default();
+        for field in PIN_VERDICT_FIELDS {
+            let verdict = pin[field].as_str().unwrap_or_default();
+            if matches!(verdict, "reject" | "inconclusive" | "cannot-determine") {
+                unresolved_verdicts.push(format!("{ghsa}/{field}={verdict}"));
+            }
+            if verdict != "accept" {
+                all_pins_accept = false;
+            }
+        }
+    }
+    let all_subjects_accept = review["reviewers"]
+        .as_object()
+        .context("reviewer records")?
+        .values()
+        .all(|reviewer| {
+            SUBJECTS
+                .iter()
+                .all(|subject| reviewer["subject_verdicts"][subject] == "accept")
+        });
+    for reviewer in review["reviewers"]
+        .as_object()
+        .context("reviewer records")?
+        .values()
+    {
+        for (subject, verdict) in reviewer["subject_verdicts"]
+            .as_object()
+            .context("subject verdicts")?
+        {
+            if matches!(
+                verdict.as_str().unwrap_or_default(),
+                "reject" | "inconclusive" | "cannot-determine"
+            ) {
+                unresolved_verdicts.push(format!(
+                    "{subject}={}",
+                    verdict.as_str().unwrap_or_default()
+                ));
+            }
+        }
+    }
+
+    let disagreement = &review["disagreement"];
+    let no_disagreement = disagreement["packet_digest_sets_identical"] == true
+        && disagreement["subject_disagreements"]
+            .as_array()
+            .is_some_and(Vec::is_empty)
+        && disagreement["pin_disagreements"]
+            .as_array()
+            .is_some_and(Vec::is_empty);
+    let readiness = &review["readiness"];
+    let declared_ready = readiness["execution_ready"] == true && readiness["freeze_ready"] == true;
+    let ready = review["status"] == "complete"
+        && submitted_count == 2
+        && all_subjects_accept
+        && all_pins_accept
+        && unresolved_verdicts.is_empty()
+        && no_disagreement
+        && report_paths.len() == 2
+        && reviewer_review_rules_ready(review)?;
+    if ready != declared_ready {
+        bail!(
+            "{REAL_PROJECT_R2_REVIEW_RECORD}: readiness flags disagree with independently replayed readiness (ready={ready})"
+        );
+    }
+    if ready {
+        if readiness["outcome"] != "ready"
+            || !readiness["blocking_reasons"]
+                .as_array()
+                .is_some_and(Vec::is_empty)
+            || disagreement["adjudication"]["status"] != "not-required"
+        {
+            bail!(
+                "{REAL_PROJECT_R2_REVIEW_RECORD}: ready review has incomplete readiness metadata"
+            );
+        }
+    } else {
+        if readiness["execution_ready"] != false
+            || readiness["freeze_ready"] != false
+            || readiness["outcome"] == "ready"
+        {
+            bail!(
+                "{REAL_PROJECT_R2_REVIEW_RECORD}: a non-ready review enables an execution or freeze gate"
+            );
+        }
+        if readiness["blocking_reasons"]
+            .as_array()
+            .is_some_and(Vec::is_empty)
+        {
+            bail!("{REAL_PROJECT_R2_REVIEW_RECORD}: a non-ready review requires a blocking reason");
+        }
+    }
+    if review["status"] == "pending" {
+        if readiness["outcome"] != "pending"
+            || submitted_count != 0
+            || submitted_or_claiming(review)?
+        {
+            bail!(
+                "{REAL_PROJECT_R2_REVIEW_RECORD}: pending review makes a submitted or reviewed claim"
+            );
+        }
+    }
+    if review["status"] == "complete" && !ready {
+        bail!("{REAL_PROJECT_R2_REVIEW_RECORD}: complete review is not ready");
+    }
+    Ok(inventory.len())
+}
+
+fn reviewer_review_rules_ready(review: &Value) -> Result<bool> {
+    Ok(
+        review["disagreement"]["packet_digest_sets_identical"] == true
+            && review["reviewers"]
+                .as_object()
+                .context("reviewer records")?
+                .values()
+                .all(|reviewer| {
+                    reviewer["status"] == "submitted"
+                        && reviewer["packet_digest_set_identical"] == true
+                        && reviewer["report"].is_object()
+                }),
+    )
+}
+
+fn submitted_or_claiming(review: &Value) -> Result<bool> {
+    Ok(review["reviewers"]
+        .as_object()
+        .context("reviewer records")?
+        .values()
+        .any(|reviewer| reviewer["status"] != "planned" || reviewer["report"].is_object())
+        || review["per_pin_reviews"]
+            .as_array()
+            .context("per-pin reviews")?
+            .iter()
+            .any(|pin| {
+                pin.as_object()
+                    .is_some_and(|object| object.values().any(|verdict| verdict == "accept"))
+            }))
+}
+
+pub(crate) fn validate_real_project_r2_review_at(root: &Path) -> Result<usize> {
+    if !root.join(REAL_PROJECT_R2_REVIEW_PACKET_DIR).is_dir() {
+        return Ok(0);
+    }
+    let packet = load_json_at(root, REAL_PROJECT_R2_REVIEW_PACKET)?;
+    let review = load_json_at(root, REAL_PROJECT_R2_REVIEW_RECORD)?;
+    validate_real_project_r2_review_values(root, &packet, &review)
+}
+
 fn decode_base64(value: &str) -> Result<Vec<u8>> {
     let mut output = Vec::with_capacity(value.len() / 4 * 3);
     let mut buffer = 0u32;
@@ -2153,5 +2768,71 @@ mod r2_pin_validation_tests {
         );
         assert_eq!(validate_real_project_r2_pins_at(&root).unwrap(), 0);
         fs::remove_dir(&root).unwrap();
+    }
+
+    #[test]
+    pub(crate) fn review_packet_closure_discovers_and_requires_nested_artifacts() {
+        let root = std::env::temp_dir().join(format!(
+            "dataflowbench-r2-closure-positive-{}",
+            std::process::id()
+        ));
+        let source_directory = root.join("corpus/test");
+        fs::create_dir_all(&source_directory).unwrap();
+
+        let leaf_bytes = br#"{"kind":"leaf"}"#;
+        let leaf_digest = format!("{:x}", Sha256::digest(leaf_bytes));
+        fs::write(source_directory.join("nested.json"), leaf_bytes).unwrap();
+        let root_value = json!({
+            "kind": "packet-input",
+            "evidence": {
+                "path": "corpus/test/nested.json",
+                "sha256": leaf_digest,
+            },
+        });
+        let root_bytes = serde_json::to_vec(&root_value).unwrap();
+        let root_digest = format!("{:x}", Sha256::digest(&root_bytes));
+        fs::write(source_directory.join("root.json"), root_bytes).unwrap();
+
+        let inventory = BTreeMap::from([
+            ("corpus/test/root.json".to_string(), root_digest),
+            ("corpus/test/nested.json".to_string(), leaf_digest),
+        ]);
+        let discovered = validate_artifact_reference_closure(&root, &inventory).unwrap();
+        assert_eq!(
+            discovered,
+            BTreeSet::from(["corpus/test/nested.json".to_string()])
+        );
+        fs::remove_dir_all(&root).unwrap();
+    }
+
+    #[test]
+    pub(crate) fn review_packet_closure_fails_when_nested_artifact_is_unbound() {
+        let root = std::env::temp_dir().join(format!(
+            "dataflowbench-r2-closure-negative-{}",
+            std::process::id()
+        ));
+        let source_directory = root.join("corpus/test");
+        fs::create_dir_all(&source_directory).unwrap();
+
+        let leaf_bytes = br#"{"kind":"leaf"}"#;
+        let leaf_digest = format!("{:x}", Sha256::digest(leaf_bytes));
+        fs::write(source_directory.join("nested.json"), leaf_bytes).unwrap();
+        let root_value = json!({
+            "evidence": {
+                "path": "corpus/test/nested.json",
+                "sha256": leaf_digest,
+            },
+        });
+        let root_bytes = serde_json::to_vec(&root_value).unwrap();
+        let root_digest = format!("{:x}", Sha256::digest(&root_bytes));
+        fs::write(source_directory.join("root.json"), root_bytes).unwrap();
+
+        let inventory = BTreeMap::from([("corpus/test/root.json".to_string(), root_digest)]);
+        let error = validate_artifact_reference_closure(&root, &inventory)
+            .unwrap_err()
+            .to_string();
+        assert!(error.contains("nested artifact references omit 1 bound inputs"));
+        assert!(error.contains("corpus/test/nested.json"));
+        fs::remove_dir_all(&root).unwrap();
     }
 }

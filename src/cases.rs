@@ -6,9 +6,9 @@ use crate::modeling::validate_modeling_cases;
 use crate::native::{validate_native_cases, validate_profile_disjoint_populations};
 use crate::real_project::{
     validate_real_project_r2_frame_at, validate_real_project_r2_pins_at,
-    validate_real_project_r2_protocol_at, validate_real_project_r2_selection_at,
-    validate_real_project_r2_snapshot_at, validate_real_project_r2_walk_at,
-    validate_real_project_slice,
+    validate_real_project_r2_protocol_at, validate_real_project_r2_review_at,
+    validate_real_project_r2_selection_at, validate_real_project_r2_snapshot_at,
+    validate_real_project_r2_walk_at, validate_real_project_slice,
 };
 use crate::templates::CHALLENGE_ROLLOUT;
 use anyhow::{Context, Result, bail};
@@ -109,6 +109,7 @@ pub(crate) fn validate_cases() -> Result<()> {
     let r2_selected = validate_real_project_r2_selection_at(Path::new("."))?;
     let r2_walk = validate_real_project_r2_walk_at(Path::new("."))?;
     let r2_pins = validate_real_project_r2_pins_at(Path::new("."))?;
+    let r2_review_artifacts = validate_real_project_r2_review_at(Path::new("."))?;
     println!("validated {} cases", paths.len());
     println!("validated {pins} real-project pin records");
     println!("validated {r2_candidates} real-project R2 frame candidates");
@@ -117,6 +118,7 @@ pub(crate) fn validate_cases() -> Result<()> {
     }
     println!("validated {r2_walk} real-project R2 selected repositories");
     println!("validated {r2_pins} real-project R2 pin records");
+    println!("validated {r2_review_artifacts} real-project R2 review-packet artifacts");
     Ok(())
 }
 
