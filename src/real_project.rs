@@ -48,6 +48,8 @@ pub(crate) const REAL_PROJECT_R2_SNAPSHOT_SCHEMA: &str =
     "schemas/real-project-r2-snapshot.schema.json";
 pub(crate) const REAL_PROJECT_R2_FRAME: &str = "corpus/real-project/r2/frame.json";
 pub(crate) const REAL_PROJECT_R2_FRAME_SCHEMA: &str = "schemas/real-project-r2-frame.schema.json";
+pub(crate) const REAL_PROJECT_R2_PINS_DIR: &str = "corpus/real-project/r2/pins";
+pub(crate) const REAL_PROJECT_R2_PIN_SCHEMA: &str = "schemas/real-project-r2-pin.schema.json";
 pub(crate) const REAL_PROJECT_R2_E5_INVENTORY: &str = "corpus/real-project/r2/e5-inventory.json";
 pub(crate) const REAL_PROJECT_R2_E5_INVENTORY_SCHEMA: &str =
     "schemas/real-project-r2-e5-inventory.schema.json";
@@ -96,6 +98,76 @@ pub(crate) fn real_project_pin_paths() -> Result<Vec<PathBuf>> {
         .collect();
     paths.sort();
     Ok(paths)
+}
+
+pub(crate) fn real_project_r2_pin_paths_at(root: &Path) -> Result<Vec<PathBuf>> {
+    let directory = root.join(REAL_PROJECT_R2_PINS_DIR);
+    if !directory.is_dir() {
+        return Ok(Vec::new());
+    }
+    let mut paths: Vec<_> = fs::read_dir(directory)
+        .with_context(|| format!("read {REAL_PROJECT_R2_PINS_DIR}"))?
+        .filter_map(Result::ok)
+        .map(|entry| entry.path())
+        .filter(|path| path.is_file() && path.extension().is_some_and(|ext| ext == "json"))
+        .collect();
+    paths.sort();
+    Ok(paths)
+}
+
+fn load_json_at(root: &Path, relative: &str) -> Result<Value> {
+    let path = root.join(relative);
+    serde_json::from_slice(&fs::read(&path).with_context(|| format!("read {relative}"))?)
+        .with_context(|| format!("parse {relative}"))
+}
+
+fn validate_schema_at(
+    root: &Path,
+    schema_relative: &str,
+    value: &Value,
+    display: &str,
+) -> Result<()> {
+    let schema_value: Value = serde_json::from_slice(&fs::read(root.join(schema_relative))?)?;
+    let schema = JSONSchema::compile(Box::leak(Box::new(schema_value)))
+        .with_context(|| format!("compile {schema_relative}"))?;
+    validate_value(&schema, value, Path::new(display))
+}
+
+fn evidence_response_at<'a>(
+    manifest: &'a Value,
+    root: &Path,
+    ghsa: &str,
+    relative: &str,
+) -> Result<(&'a Value, Value)> {
+    let responses = manifest["responses"]
+        .as_array()
+        .with_context(|| format!("{ghsa}: evidence manifest has no responses"))?;
+    let record = responses
+        .iter()
+        .find(|response| response["path"].as_str() == Some(relative))
+        .with_context(|| format!("{ghsa}: evidence manifest omits {relative}"))?;
+    if record["http_status"].as_u64() != Some(200) {
+        bail!("{ghsa}: evidence response {relative} was not HTTP 200");
+    }
+    let body: Value = load_json_at(root, relative)?;
+    let bytes = fs::read(root.join(relative)).with_context(|| format!("read {relative}"))?;
+    let actual = format!("{:x}", Sha256::digest(&bytes));
+    if record["sha256"].as_str() != Some(actual.as_str())
+        || record["bytes"].as_u64() != Some(bytes.len() as u64)
+    {
+        bail!("{ghsa}: evidence response {relative} disagrees with its capture record");
+    }
+    Ok((record, body))
+}
+
+fn response_matches_request(record: &Value, ghsa: &str, suffix: &str) -> Result<()> {
+    let url = record["request_url"]
+        .as_str()
+        .with_context(|| format!("{ghsa}: evidence record has no request URL"))?;
+    if !url.starts_with("https://api.github.com/repos/") || !url.ends_with(suffix) {
+        bail!("{ghsa}: request URL {url} does not bind {suffix}");
+    }
+    Ok(())
 }
 
 pub(crate) fn validate_real_project_slice() -> Result<usize> {
@@ -757,6 +829,548 @@ pub(crate) fn validate_real_project_r2_frame_at(root: &Path) -> Result<usize> {
         }
     }
     Ok(derived.len())
+}
+
+pub(crate) fn validate_real_project_r2_walk_at(root: &Path) -> Result<usize> {
+    let draw_path = root.join(REAL_PROJECT_R2_DRAW);
+    if !draw_path.exists() {
+        return Ok(0);
+    }
+    let draw = load_json_at(root, REAL_PROJECT_R2_DRAW)?;
+    let eligibility = load_json_at(root, REAL_PROJECT_R2_ELIGIBILITY)?;
+    let frame = load_json_at(root, REAL_PROJECT_R2_FRAME)?;
+    validate_schema_at(
+        root,
+        REAL_PROJECT_R2_DRAW_SCHEMA,
+        &draw,
+        REAL_PROJECT_R2_DRAW,
+    )?;
+    validate_schema_at(
+        root,
+        REAL_PROJECT_R2_ELIGIBILITY_SCHEMA,
+        &eligibility,
+        REAL_PROJECT_R2_ELIGIBILITY,
+    )?;
+
+    let frame_bytes = fs::read(root.join(REAL_PROJECT_R2_FRAME))
+        .with_context(|| format!("read {REAL_PROJECT_R2_FRAME}"))?;
+    let eligibility_bytes = fs::read(root.join(REAL_PROJECT_R2_ELIGIBILITY))
+        .with_context(|| format!("read {REAL_PROJECT_R2_ELIGIBILITY}"))?;
+    if draw["frame"]["sha256"] != json!(format!("{:x}", Sha256::digest(&frame_bytes)))
+        || draw["eligibility"]["sha256"]
+            != json!(format!("{:x}", Sha256::digest(&eligibility_bytes)))
+    {
+        bail!("{REAL_PROJECT_R2_DRAW}: frame or eligibility digest drifted");
+    }
+    let decisions = eligibility["candidates"]
+        .as_array()
+        .with_context(|| format!("{REAL_PROJECT_R2_ELIGIBILITY}: candidates must be an array"))?;
+    let candidates_by_ghsa: BTreeMap<&str, &Value> = frame["candidates"]
+        .as_array()
+        .context("frame candidates")?
+        .iter()
+        .map(|candidate| {
+            Ok((
+                candidate["ghsa_id"].as_str().context("frame GHSA")?,
+                candidate,
+            ))
+        })
+        .collect::<Result<BTreeMap<&str, &Value>>>()?;
+    let walked_count = draw["walk"]
+        .as_object()
+        .context("draw walk object")?
+        .values()
+        .map(|rows| rows.as_array().context("walk rows").map(Vec::len))
+        .collect::<Result<Vec<_>>>()?
+        .into_iter()
+        .sum::<usize>();
+    if decisions.len() != walked_count {
+        bail!(
+            "{REAL_PROJECT_R2_ELIGIBILITY}: expected one complete decision record per walked candidate, found {} decisions for {walked_count} walk rows",
+            decisions.len()
+        );
+    }
+    for (index, decision) in decisions.iter().enumerate() {
+        let ghsa = decision["ghsa_id"].as_str().context("eligibility GHSA")?;
+        let Some(candidate) = candidates_by_ghsa.get(ghsa) else {
+            bail!("{REAL_PROJECT_R2_ELIGIBILITY}: candidate {index} names unknown {ghsa}");
+        };
+        if decision["repository"] != candidate["repository"]
+            || decision["stratum"] != candidate["stratum"]
+        {
+            bail!("{REAL_PROJECT_R2_ELIGIBILITY}: candidate {index} is not aligned with the frame");
+        }
+    }
+
+    let seed = draw["seed"].as_str().context("draw seed")?;
+    let mut selected_by_position: BTreeMap<(String, u64), String> = BTreeMap::new();
+    let mut selected_by_index: BTreeMap<(String, u64), String> = BTreeMap::new();
+    let mut selected_repositories = BTreeSet::new();
+    for stratum in ["java", "javascript", "python"] {
+        let expected = draw["target_per_stratum"].as_u64().context("draw target")?;
+        let rows = draw["walk"][stratum]
+            .as_array()
+            .with_context(|| format!("{REAL_PROJECT_R2_DRAW}: missing {stratum} walk"))?;
+        let chosen = rows
+            .iter()
+            .filter(|row| row["disposition"] == "selected")
+            .count();
+        if chosen != expected as usize
+            || rows.last().and_then(|row| row["disposition"].as_str()) != Some("selected")
+        {
+            bail!("{REAL_PROJECT_R2_DRAW}: {stratum} must stop exactly at selection {expected}");
+        }
+        for row in rows {
+            let ghsa = row["ghsa_id"].as_str().context("walk GHSA")?;
+            let position = row["draw_position"].as_u64().context("walk position")?;
+            let index = row["eligibility_index"]
+                .as_u64()
+                .context("eligibility index")?;
+            let candidate = decisions
+                .get(index as usize)
+                .with_context(|| format!("{ghsa}: eligibility index is out of range"))?;
+            let expected_key = real_project_draw_key(seed, ghsa);
+            if candidate["ghsa_id"].as_str() != Some(ghsa)
+                || row["repository"] != candidate["repository"]
+                || row["draw_key"].as_str() != Some(expected_key.as_str())
+                || candidate["draw_position"] != row["draw_position"]
+            {
+                bail!(
+                    "{REAL_PROJECT_R2_DRAW}: {stratum} position {position} contradicts eligibility"
+                );
+            }
+            let all_pass = ["E1", "E2", "E3", "E4", "E5", "E6", "E7", "E8"]
+                .iter()
+                .all(|criterion| candidate["decisions"][criterion]["outcome"] == "pass");
+            let is_selected = row["disposition"] == "selected";
+            if is_selected != all_pass {
+                bail!("{ghsa}: disposition disagrees with its eight eligibility outcomes");
+            }
+            if is_selected {
+                let repository = row["repository"].as_str().context("selected repository")?;
+                if !selected_repositories.insert(repository.to_ascii_lowercase()) {
+                    bail!("{ghsa}: cross-stratum E8 selected {repository} twice");
+                }
+                selected_by_position.insert((stratum.to_string(), position), ghsa.to_string());
+                selected_by_index.insert((stratum.to_string(), index), ghsa.to_string());
+            }
+        }
+    }
+    Ok(selected_by_position.len().max(selected_by_index.len()))
+}
+
+pub(crate) fn validate_real_project_r2_pins_at(root: &Path) -> Result<usize> {
+    let paths = real_project_r2_pin_paths_at(root)?;
+    if paths.is_empty() {
+        return Ok(0);
+    }
+    validate_real_project_r2_walk_at(root)?;
+    let draw = load_json_at(root, REAL_PROJECT_R2_DRAW)?;
+    let eligibility = load_json_at(root, REAL_PROJECT_R2_ELIGIBILITY)?;
+    let frame = load_json_at(root, REAL_PROJECT_R2_FRAME)?;
+    let schema_value: Value =
+        serde_json::from_slice(&fs::read(root.join(REAL_PROJECT_R2_PIN_SCHEMA))?)?;
+    let schema = JSONSchema::compile(Box::leak(Box::new(schema_value)))
+        .context("compile real-project R2 pin schema")?;
+    let pin_evidence_schema_value: Value = serde_json::from_slice(&fs::read(
+        root.join("schemas/real-project-r2-pin-evidence.schema.json"),
+    )?)?;
+    let pin_evidence_schema = JSONSchema::compile(Box::leak(Box::new(pin_evidence_schema_value)))
+        .context("compile real-project R2 pin-evidence schema")?;
+    let mut pin_ids = BTreeSet::new();
+    let mut seen_ghsas = BTreeSet::new();
+    for path in &paths {
+        let pin: Value = serde_json::from_slice(&fs::read(path)?)?;
+        validate_value(&schema, &pin, path)?;
+        let display = path.display();
+        if pin["analyzer_evidence_consulted"] != false {
+            bail!("{display}: analyzer evidence is forbidden in R2 pins");
+        }
+        let ghsa = pin["advisory"]["ghsa_id"].as_str().context("pin GHSA")?;
+        if !pin_ids.insert(pin["pin_id"].as_str().context("pin id")?.to_string())
+            || !seen_ghsas.insert(ghsa.to_string())
+        {
+            bail!("{display}: duplicate R2 pin identity");
+        }
+        let stratum = pin["stratum"].as_str().context("pin stratum")?;
+        let position = pin["bindings"]["draw_position"]
+            .as_u64()
+            .context("draw position")?;
+        let index = pin["bindings"]["eligibility_candidate_index"]
+            .as_u64()
+            .context("eligibility index")?;
+        let walk_entry = draw["walk"][stratum]
+            .as_array()
+            .context("draw walk")?
+            .iter()
+            .find(|row| row["draw_position"] == json!(position))
+            .with_context(|| format!("{display}: no draw row at position {position}"))?;
+        let candidate = eligibility["candidates"]
+            .as_array()
+            .context("eligibility candidates")?
+            .get(index as usize)
+            .with_context(|| format!("{display}: eligibility index out of range"))?;
+        let frame_candidate = frame["candidates"]
+            .as_array()
+            .context("frame candidates")?
+            .iter()
+            .find(|value| value["ghsa_id"].as_str() == Some(ghsa))
+            .with_context(|| format!("{display}: frame omits {ghsa}"))?;
+        if walk_entry["ghsa_id"].as_str() != Some(ghsa)
+            || candidate["ghsa_id"].as_str() != Some(ghsa)
+            || walk_entry["disposition"] != "selected"
+        {
+            bail!("{display}: pin does not identify a selected R2 walk entry");
+        }
+        let owner = pin["repository"]["owner"].as_str().context("pin owner")?;
+        let name = pin["repository"]["name"].as_str().context("pin name")?;
+        let slug = format!("{owner}/{name}");
+        if slug != walk_entry["repository"].as_str().unwrap_or_default()
+            || slug != candidate["repository"].as_str().unwrap_or_default()
+            || slug != frame_candidate["repository"].as_str().unwrap_or_default()
+            || pin["bindings"]["selected_repository"].as_str() != Some(slug.as_str())
+            || pin["language"].as_str() != Some(stratum)
+            || pin["ecosystem"].as_str() != frame_candidate["ecosystem"].as_str()
+        {
+            bail!("{display}: pin repository, language, or ecosystem identity drifted");
+        }
+        if pin["advisory"]["cve_id"] != frame_candidate["cve_id"]
+            || pin["advisory"]["cwes"].as_array().map(|values| {
+                values
+                    .iter()
+                    .filter_map(Value::as_str)
+                    .map(str::to_string)
+                    .collect::<BTreeSet<_>>()
+            }) != frame_candidate["cwes"].as_array().map(|values| {
+                values
+                    .iter()
+                    .filter_map(Value::as_str)
+                    .map(str::to_string)
+                    .collect::<BTreeSet<_>>()
+            })
+            || pin["advisory"]["affected_packages"]
+                .as_array()
+                .map(|values| {
+                    values
+                        .iter()
+                        .filter_map(Value::as_str)
+                        .map(str::to_string)
+                        .collect::<BTreeSet<_>>()
+                })
+                != frame_candidate["packages"].as_array().map(|values| {
+                    values
+                        .iter()
+                        .filter_map(Value::as_str)
+                        .map(str::to_string)
+                        .collect::<BTreeSet<_>>()
+                })
+        {
+            bail!("{display}: advisory package identity does not match the frame");
+        }
+
+        let expected_manifest_path =
+            format!("corpus/real-project/r2/evidence/{ghsa}/manifest.json");
+        if pin["bindings"]["evidence_manifest"]["path"].as_str()
+            != Some(expected_manifest_path.as_str())
+        {
+            bail!("{display}: evidence manifest path must be wave-scoped to {ghsa}");
+        }
+        validate_review_artifact(root, &pin["bindings"]["evidence_manifest"])?;
+        validate_review_artifact(root, &pin["bindings"]["snapshot_manifest"])?;
+        validate_review_artifact(root, &pin["bindings"]["frame"])?;
+        validate_review_artifact(root, &pin["bindings"]["eligibility"])?;
+        validate_review_artifact(root, &pin["bindings"]["draw"])?;
+        validate_review_artifact(root, &pin["bindings"]["pin_evidence_manifest"])?;
+        let manifest = load_json_at(root, &expected_manifest_path)?;
+        if manifest["ghsa_id"].as_str() != Some(ghsa)
+            || manifest["repository"].as_str() != Some(slug.as_str())
+            || manifest["wave"] != "R2"
+            || manifest["analyzer_evidence_consulted"] != false
+        {
+            bail!("{display}: evidence manifest identity does not match the pin");
+        }
+        let pin_manifest_relative = pin["bindings"]["pin_evidence_manifest"]["path"]
+            .as_str()
+            .context("pin evidence manifest path")?;
+        let pin_manifest = load_json_at(root, pin_manifest_relative)?;
+        validate_value(
+            &pin_evidence_schema,
+            &pin_manifest,
+            &root.join(pin_manifest_relative),
+        )?;
+        if pin_manifest["ghsa_id"].as_str() != Some(ghsa)
+            || pin_manifest["repository"].as_str() != Some(slug.as_str())
+            || pin_manifest["wave"] != "R2"
+            || pin_manifest["analyzer_evidence_consulted"] != false
+        {
+            bail!("{display}: pin evidence manifest identity does not match the pin");
+        }
+        let mut pin_response_bodies = BTreeMap::new();
+        for response in pin_manifest["responses"]
+            .as_array()
+            .with_context(|| format!("{display}: pin evidence manifest has no responses"))?
+        {
+            validate_review_artifact(root, response)?;
+            let response_path = response["path"].as_str().context("pin response path")?;
+            if !response_path.starts_with(&format!("corpus/real-project/r2/pin-evidence/{ghsa}/")) {
+                bail!("{display}: pin evidence path belongs to another advisory");
+            }
+            let body_bytes = fs::read(root.join(response_path))?;
+            if response["bytes"].as_u64() != Some(body_bytes.len() as u64)
+                || response["sha256"].as_str()
+                    != Some(format!("{:x}", Sha256::digest(&body_bytes)).as_str())
+                || response["http_status"].as_u64() != Some(200)
+            {
+                bail!("{display}: pin evidence response does not match its manifest record");
+            }
+            let purpose = response["purpose"]
+                .as_str()
+                .context("pin response purpose")?
+                .to_string();
+            let body: Value = serde_json::from_slice(&body_bytes)?;
+            if pin_response_bodies.insert(purpose.clone(), body).is_some() {
+                bail!("{display}: duplicate pin evidence purpose {purpose}");
+            }
+        }
+
+        let advisory_relative = frame_candidate["advisory_evidence"]["path"]
+            .as_str()
+            .context("advisory evidence path")?;
+        validate_review_artifact(root, &frame_candidate["advisory_evidence"])?;
+        let advisory: Value = load_json_at(root, advisory_relative)?;
+        let advisory_index = frame_candidate["advisory_evidence"]["array_index"]
+            .as_u64()
+            .context("advisory array index")? as usize;
+        let raw_advisory = advisory
+            .as_array()
+            .context("advisory response is not an array")?
+            .get(advisory_index)
+            .with_context(|| format!("{ghsa}: advisory array index is out of range"))?;
+        if raw_advisory["ghsa_id"].as_str() != Some(ghsa)
+            || pin["advisory"]["summary"] != raw_advisory["summary"]
+            || pin["advisory"]["url"] != json!(format!("https://github.com/advisories/{ghsa}"))
+        {
+            bail!("{display}: advisory summary or URL does not match immutable source bytes");
+        }
+
+        let revisions = pin["revisions"].as_object().context("pin revisions")?;
+        let mut pinned = std::collections::HashMap::new();
+        for (kind, revision) in revisions {
+            let value = revision;
+            let revision_id = value["revision"].as_str().context("pinned revision")?;
+            pinned.insert(kind.as_str(), revision_id.to_string());
+            let expected_url = format!("https://codeload.github.com/{slug}/tar.gz/{revision_id}");
+            if value["archive_url"].as_str() != Some(expected_url.as_str()) {
+                bail!("{display}: {kind} archive URL does not bind {slug} at {revision_id}");
+            }
+            validate_review_artifact(root, &value["capture_record"])?;
+            let record_relative = value["capture_record"]["path"]
+                .as_str()
+                .context("capture record path")?;
+            let record: Value = load_json_at(root, record_relative)?;
+            let recorded_url = record["archive_url"]
+                .as_str()
+                .or_else(|| record["url"].as_str())
+                .context("capture record archive URL")?;
+            let recorded_sha = record["archive_sha256"]
+                .as_str()
+                .or_else(|| record["sha256"].as_str())
+                .context("capture record archive digest")?;
+            let recorded_bytes = record["archive_bytes"]
+                .as_u64()
+                .or_else(|| record["bytes"].as_u64())
+                .context("capture record archive length")?;
+            if recorded_url != expected_url
+                || recorded_sha != value["archive_sha256"].as_str().unwrap_or_default()
+                || recorded_bytes != value["archive_bytes"].as_u64().unwrap_or_default()
+                || record["revision"].as_str() != Some(revision_id)
+            {
+                bail!("{display}: {kind} capture record does not match its archive metadata");
+            }
+            let artifacts = pin_manifest["artifacts"]
+                .as_array()
+                .with_context(|| format!("{display}: pin evidence manifest has no artifacts"))?;
+            if !artifacts.iter().any(|artifact| {
+                artifact["path"].as_str() == Some(record_relative)
+                    && artifact["sha256"].as_str() == value["capture_record"]["sha256"].as_str()
+            }) {
+                bail!("{display}: {kind} capture record is absent from pin evidence");
+            }
+        }
+        let fix_commits = pin["fix_commits"]
+            .as_array()
+            .with_context(|| format!("{display}: fix_commits must be an array"))?;
+        let related_commits = pin["related_commits"]
+            .as_array()
+            .context("related commits")?;
+        let references = frame_candidate["fix_commit_references"]
+            .as_array()
+            .context("frame fix references")?;
+        let mut covered_references = BTreeSet::new();
+        let mut commit_bodies = BTreeMap::new();
+        for commit in fix_commits.iter().chain(related_commits) {
+            let revision = commit["revision"].as_str().context("commit revision")?;
+            let revision_reference = references
+                .iter()
+                .find(|reference| revision.starts_with(reference.as_str().unwrap_or_default()))
+                .with_context(|| format!("{display}: {revision} resolves no frame reference"))?;
+            let reference = revision_reference.as_str().context("frame reference")?;
+            if !covered_references.insert(reference.to_string()) {
+                bail!("{display}: frame reference {reference} is covered more than once");
+            }
+            let relative = commit["evidence"]["path"]
+                .as_str()
+                .context("commit evidence path")?;
+            validate_review_artifact(root, &commit["evidence"])?;
+            let (record, body) = evidence_response_at(&manifest, root, ghsa, relative)?;
+            response_matches_request(record, ghsa, &format!("/commits/{revision}"))?;
+            if body["sha"].as_str() != Some(revision) {
+                bail!("{display}: commit response does not resolve to {revision}");
+            }
+            commit_bodies.insert(revision.to_string(), body);
+        }
+        if covered_references.len() != references.len()
+            || !references.iter().all(|reference| {
+                covered_references.contains(reference.as_str().unwrap_or_default())
+            })
+        {
+            bail!("{display}: fix and related commits do not exactly cover the frame references");
+        }
+        let fixed = pinned.get("fixed").context("fixed revision")?;
+        if !fix_commits
+            .iter()
+            .any(|fix| fix["revision"].as_str() == Some(fixed.as_str()))
+        {
+            bail!("{display}: fixed revision is not one of the declared fix commits");
+        }
+        let commit_body = commit_bodies
+            .get(fixed)
+            .with_context(|| format!("{display}: fixed revision has no commit evidence"))?;
+        if commit_body["parents"].as_array().map(Vec::len) != Some(1) {
+            bail!("{display}: selected fix must have exactly one parent");
+        }
+        let vulnerable = commit_body["parents"][0]["sha"]
+            .as_str()
+            .context("fix commit parent revision")?
+            .to_string();
+        if pinned.get("vulnerable").context("vulnerable revision")? != &vulnerable {
+            bail!("{display}: vulnerable revision must be the selected fix's sole parent");
+        }
+        let expected_compare_suffix = format!("/compare/{vulnerable}...{fixed}");
+        let compare_records = pin_manifest["responses"]
+            .as_array()
+            .context("pin evidence responses")?
+            .iter()
+            .filter(|response| {
+                response["request_url"]
+                    .as_str()
+                    .is_some_and(|url| url.ends_with(&expected_compare_suffix))
+            })
+            .collect::<Vec<_>>();
+        if compare_records.len() != 1 {
+            bail!("{display}: expected one pin-evidence compare from {vulnerable} to {fixed}");
+        }
+        let compare_relative = compare_records[0]["path"]
+            .as_str()
+            .context("compare path")?;
+        let (_, compare_body) = evidence_response_at(&pin_manifest, root, ghsa, compare_relative)?;
+        if compare_body["status"] != "ahead" {
+            bail!("{display}: pin evidence does not prove fixed is ahead of vulnerable");
+        }
+
+        let license = &pin["license"];
+        let vulnerable_license_relative = license["evidence"]["vulnerable"]["path"]
+            .as_str()
+            .context("license evidence path")?;
+        let fixed_license_relative = license["evidence"]["fixed"]["path"]
+            .as_str()
+            .context("fixed license evidence path")?;
+        validate_review_artifact(root, &license["evidence"]["vulnerable"])?;
+        validate_review_artifact(root, &license["evidence"]["fixed"])?;
+        let (license_record, license_body) =
+            evidence_response_at(&pin_manifest, root, ghsa, vulnerable_license_relative)?;
+        response_matches_request(license_record, ghsa, &format!("/license?ref={vulnerable}"))?;
+        if license_body["license"]["spdx_id"].as_str() != license["spdx_id"].as_str()
+            || license_body["path"].as_str() != license["file_path"].as_str()
+        {
+            bail!("{display}: captured vulnerable license identity disagrees");
+        }
+        let content = license_body["content"]
+            .as_str()
+            .context("license response has no base64 content")?;
+        let decoded = decode_base64(content).context("decode license response")?;
+        if license["vulnerable_bytes"].as_u64() != Some(decoded.len() as u64)
+            || license["vulnerable_content_sha256"].as_str()
+                != Some(format!("{:x}", Sha256::digest(&decoded)).as_str())
+        {
+            bail!("{display}: vulnerable license content identity does not replay");
+        }
+        let (fixed_record, fixed_license) =
+            evidence_response_at(&pin_manifest, root, ghsa, fixed_license_relative)?;
+        response_matches_request(fixed_record, ghsa, &format!("/license?ref={fixed}"))?;
+        if fixed_license["license"]["spdx_id"].as_str() != license["spdx_id"].as_str()
+            || fixed_license["path"].as_str() != license["file_path"].as_str()
+        {
+            bail!("{display}: captured fixed license identity disagrees");
+        }
+        let fixed_content = fixed_license["content"]
+            .as_str()
+            .context("fixed license content")?;
+        let fixed_decoded =
+            decode_base64(fixed_content).context("decode fixed license response")?;
+        if license["fixed_content_sha256"].as_str()
+            != Some(format!("{:x}", Sha256::digest(&fixed_decoded)).as_str())
+            || license["fixed_bytes"].as_u64() != Some(fixed_decoded.len() as u64)
+            || license["identical_at_both_revisions"] != json!(decoded == fixed_decoded)
+        {
+            bail!("{display}: fixed license content identity does not replay");
+        }
+    }
+    let selected_count = draw["walk"]
+        .as_object()
+        .context("draw walk object")?
+        .values()
+        .map(|rows| {
+            rows.as_array().context("walk rows").map(|rows| {
+                rows.iter()
+                    .filter(|row| row["disposition"] == "selected")
+                    .count()
+            })
+        })
+        .collect::<Result<Vec<_>>>()?
+        .into_iter()
+        .sum::<usize>();
+    if paths.len() != selected_count {
+        bail!(
+            "{REAL_PROJECT_R2_PINS_DIR}: expected one pin per selected repository, found {} pins for {selected_count}",
+            paths.len()
+        );
+    }
+    Ok(paths.len())
+}
+
+fn decode_base64(value: &str) -> Result<Vec<u8>> {
+    let mut output = Vec::with_capacity(value.len() / 4 * 3);
+    let mut buffer = 0u32;
+    let mut bits = 0u32;
+    for character in value.chars().filter(|character| !character.is_whitespace()) {
+        let digit = match character {
+            'A'..='Z' => character as u32 - 'A' as u32,
+            'a'..='z' => character as u32 - 'a' as u32 + 26,
+            '0'..='9' => character as u32 - '0' as u32 + 52,
+            '+' => 62,
+            '/' => 63,
+            '=' => continue,
+            _ => bail!("invalid base64 character {character:?}"),
+        };
+        buffer = (buffer << 6) | digit;
+        bits += 6;
+        if bits >= 8 {
+            bits -= 8;
+            output.push(((buffer >> bits) & 0xff) as u8);
+        }
+    }
+    Ok(output)
 }
 
 /// Validate the committed R2 E5 inventory and, once captured, replay every
@@ -1517,4 +2131,27 @@ pub(crate) fn validate_review_state(
         bail!("{REAL_PROJECT_REVIEW}: bounded claims have not been accepted");
     }
     Ok(())
+}
+
+#[cfg(test)]
+mod r2_pin_validation_tests {
+    use super::*;
+
+    #[test]
+    pub(crate) fn the_committed_r2_walk_selects_two_per_stratum() {
+        assert_eq!(validate_real_project_r2_walk_at(Path::new(".")).unwrap(), 6);
+    }
+
+    #[test]
+    pub(crate) fn pin_discovery_is_root_relative_and_absence_is_a_no_op() {
+        let root =
+            std::env::temp_dir().join(format!("dataflowbench-r2-pin-test-{}", std::process::id()));
+        fs::create_dir_all(&root).unwrap();
+        assert_eq!(
+            real_project_r2_pin_paths_at(&root).unwrap(),
+            Vec::<PathBuf>::new()
+        );
+        assert_eq!(validate_real_project_r2_pins_at(&root).unwrap(), 0);
+        fs::remove_dir(&root).unwrap();
+    }
 }

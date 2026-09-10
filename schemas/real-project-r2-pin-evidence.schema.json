@@ -1,0 +1,60 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://dataflowbench.dev/schemas/real-project-r2-pin-evidence/v1",
+  "title": "DataFlowBench R2 pin-capture evidence manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "wave", "ghsa_id", "repository", "responses", "artifacts", "analyzer_evidence_consulted"],
+  "properties": {
+    "schema_version": { "const": 1 },
+    "wave": { "const": "R2" },
+    "ghsa_id": { "type": "string", "pattern": "^GHSA-[0-9a-z]{4}-[0-9a-z]{4}-[0-9a-z]{4}$" },
+    "repository": { "type": "string", "pattern": "^[^/]+/[^/]+$" },
+    "responses": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 3,
+      "items": { "$ref": "#/$defs/response" }
+    },
+    "artifacts": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 2,
+      "uniqueItems": true,
+      "items": { "$ref": "#/$defs/artifact" }
+    },
+    "analyzer_evidence_consulted": { "const": false }
+  },
+  "$defs": {
+    "sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+    "artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": {
+          "type": "string",
+          "pattern": "^corpus/real-project/r2/pin-evidence/GHSA-[0-9a-z]{4}-[0-9a-z]{4}-[0-9a-z]{4}/archive-(vulnerable|fixed)\\.json$"
+        },
+        "sha256": { "$ref": "#/$defs/sha256" }
+      }
+    },
+    "response": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["purpose", "path", "sha256", "bytes", "request_url", "http_status", "retrieved_at"],
+      "properties": {
+        "purpose": { "enum": ["compare-vulnerable-fixed", "license-vulnerable", "license-fixed"] },
+        "path": {
+          "type": "string",
+          "pattern": "^corpus/real-project/r2/pin-evidence/GHSA-[0-9a-z]{4}-[0-9a-z]{4}-[0-9a-z]{4}/(compare-vulnerable-fixed|license-vulnerable|license-fixed)\\.json$"
+        },
+        "sha256": { "$ref": "#/$defs/sha256" },
+        "bytes": { "type": "integer", "minimum": 1 },
+        "request_url": { "type": "string", "pattern": "^https://api\\.github\\.com/repos/" },
+        "http_status": { "const": 200 },
+        "retrieved_at": { "type": "string", "format": "date-time" }
+      }
+    }
+  }
+}

@@ -1,0 +1,629 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://dataflowbench.dev/schemas/real-project-r2-review/v1",
+  "title": "DataFlowBench R2 analyzer-free independent review",
+  "description": "The pending skeleton and final report share one contract. Planning facts never imply acceptance, and readiness is false unless every gate is explicitly complete.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "wave",
+    "review_id",
+    "status",
+    "created_at",
+    "updated_at",
+    "source_revision",
+    "packet",
+    "artifact_bindings",
+    "analyzer_evidence_consulted",
+    "reviewers",
+    "per_pin_reviews",
+    "disagreement",
+    "readiness"
+  ],
+  "properties": {
+    "schema_version": { "const": 1 },
+    "wave": { "const": "R2" },
+    "review_id": { "const": "dfb-rp-r2-review-v1" },
+    "status": {
+      "enum": ["pending", "inconclusive", "complete"],
+      "description": "pending is the only valid state before both reports are immutable."
+    },
+    "created_at": { "type": "string", "format": "date-time" },
+    "updated_at": { "type": "string", "format": "date-time" },
+    "source_revision": { "type": "string", "pattern": "^[0-9a-f]{40}$" },
+    "packet": { "$ref": "#/$defs/artifact" },
+    "artifact_bindings": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "preregistration",
+        "protocol",
+        "snapshot_manifest",
+        "snapshot_pages",
+        "frame",
+        "eligibility",
+        "draw",
+        "pins",
+        "pin_evidence",
+        "schemas",
+        "tools",
+        "independence_inputs",
+        "e5_reference_lists"
+      ],
+      "properties": {
+        "preregistration": { "$ref": "#/$defs/preregistration" },
+        "protocol": { "$ref": "#/$defs/protocol" },
+        "snapshot_manifest": { "$ref": "#/$defs/snapshot_manifest" },
+        "snapshot_pages": {
+          "type": "array",
+          "minItems": 5,
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/snapshot_page" }
+        },
+        "frame": { "$ref": "#/$defs/frame" },
+        "eligibility": { "$ref": "#/$defs/eligibility" },
+        "draw": { "$ref": "#/$defs/draw" },
+        "pins": {
+          "type": "array",
+          "minItems": 6,
+          "maxItems": 6,
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/pin" }
+        },
+        "pin_evidence": {
+          "type": "array",
+          "minItems": 6,
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/artifact" }
+        },
+        "schemas": {
+          "type": "array",
+          "minItems": 6,
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/r2_schema" }
+        },
+        "tools": {
+          "type": "array",
+          "minItems": 2,
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/tool" }
+        },
+        "independence_inputs": {
+          "type": "array",
+          "minItems": 3,
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/artifact" }
+        },
+        "e5_reference_lists": {
+          "type": "array",
+          "minItems": 2,
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/artifact" }
+        }
+      }
+    },
+    "analyzer_evidence_consulted": { "const": false },
+    "reviewers": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["reviewer_a", "reviewer_b"],
+      "properties": {
+        "reviewer_a": { "$ref": "#/$defs/reviewer_record" },
+        "reviewer_b": { "$ref": "#/$defs/reviewer_record" }
+      }
+    },
+    "per_pin_reviews": {
+      "type": "array",
+      "minItems": 6,
+      "maxItems": 6,
+      "uniqueItems": true,
+      "items": { "$ref": "#/$defs/pin_review" }
+    },
+    "disagreement": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "packet_digest_sets_identical",
+        "subject_disagreements",
+        "pin_disagreements",
+        "adjudication"
+      ],
+      "properties": {
+        "packet_digest_sets_identical": { "type": "boolean" },
+        "subject_disagreements": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "pin_disagreements": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "adjudication": { "$ref": "#/$defs/adjudication" }
+      }
+    },
+    "readiness": { "$ref": "#/$defs/readiness" }
+  },
+  "allOf": [
+    {
+      "if": { "properties": { "status": { "const": "pending" } } },
+      "then": {
+        "properties": {
+          "readiness": {
+            "properties": {
+              "outcome": { "const": "pending" },
+              "execution_ready": { "const": false },
+              "freeze_ready": { "const": false }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "readiness": {
+            "properties": {
+              "execution_ready": { "const": true }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "status": { "const": "complete" },
+          "reviewers": {
+            "properties": {
+              "reviewer_a": { "$ref": "#/$defs/accepting_submitted_reviewer" },
+              "reviewer_b": { "$ref": "#/$defs/accepting_submitted_reviewer" }
+            }
+          },
+          "disagreement": {
+            "properties": {
+              "packet_digest_sets_identical": { "const": true },
+              "subject_disagreements": { "maxItems": 0 },
+              "pin_disagreements": { "maxItems": 0 }
+            }
+          },
+          "readiness": {
+            "properties": {
+              "freeze_ready": { "const": true },
+              "blocking_reasons": { "maxItems": 0 }
+            }
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "repo_path": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^(?!/)(?!.*(^|/)\\.\\.(?:/|$)).+$"
+    },
+    "artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": { "$ref": "#/$defs/repo_path" },
+        "sha256": { "$ref": "#/$defs/sha256" }
+      }
+    },
+    "preregistration": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": {
+          "const": "docs/real-project-r2-preregistration.md"
+        },
+        "sha256": { "$ref": "#/$defs/sha256" }
+      }
+    },
+    "protocol": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": {
+          "const": "corpus/real-project/r2/protocol.json"
+        },
+        "sha256": { "$ref": "#/$defs/sha256" }
+      }
+    },
+    "snapshot_manifest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": {
+          "const": "corpus/real-project/r2/snapshot/manifest.json"
+        },
+        "sha256": { "$ref": "#/$defs/sha256" }
+      }
+    },
+    "snapshot_page": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256", "ecosystem", "page"],
+      "properties": {
+        "path": {
+          "type": "string",
+          "pattern": "^corpus/real-project/r2/snapshot/advisories/(maven|npm|pip)/page-[0-9]{4}\\.json$"
+        },
+        "sha256": { "$ref": "#/$defs/sha256" },
+        "ecosystem": { "enum": ["maven", "npm", "pip"] },
+        "page": { "type": "integer", "minimum": 1 }
+      }
+    },
+    "frame": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": { "const": "corpus/real-project/r2/frame.json" },
+        "sha256": { "$ref": "#/$defs/sha256" }
+      }
+    },
+    "eligibility": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": {
+          "const": "corpus/real-project/r2/eligibility.json"
+        },
+        "sha256": { "$ref": "#/$defs/sha256" }
+      }
+    },
+    "draw": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": { "const": "corpus/real-project/r2/draw.json" },
+        "sha256": { "$ref": "#/$defs/sha256" }
+      }
+    },
+    "pin": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["artifact", "ghsa_id", "repository", "stratum"],
+      "properties": {
+        "artifact": { "$ref": "#/$defs/artifact" },
+        "ghsa_id": {
+          "type": "string",
+          "pattern": "^GHSA-[0-9a-z]{4}-[0-9a-z]{4}-[0-9a-z]{4}$"
+        },
+        "repository": {
+          "type": "string",
+          "pattern": "^[^/]+/[^/]+$"
+        },
+        "stratum": { "enum": ["java", "javascript", "python"] }
+      }
+    },
+    "r2_schema": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256", "domain"],
+      "properties": {
+        "artifact": { "$ref": "#/$defs/artifact" },
+        "path": { "$ref": "#/$defs/repo_path" },
+        "sha256": { "$ref": "#/$defs/sha256" },
+        "domain": {
+          "enum": [
+            "protocol",
+            "snapshot",
+            "frame",
+            "eligibility",
+            "draw",
+            "pin",
+            "pin-evidence",
+            "review"
+          ]
+        }
+      }
+    },
+    "tool": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["artifact", "purpose"],
+      "properties": {
+        "artifact": { "$ref": "#/$defs/artifact" },
+        "purpose": {
+          "enum": [
+            "capture",
+            "frame-derivation",
+            "pin-artifact-capture",
+            "review-packet-construction"
+          ]
+        }
+      }
+    },
+    "reviewer_plan": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "role",
+        "provider",
+        "model",
+        "reasoning_effort",
+        "run_id",
+        "started_at",
+        "completed_at",
+        "status",
+        "checkout",
+        "evidence_path",
+        "packet",
+        "packet_digest_set_identical",
+        "report",
+        "subject_verdicts",
+        "analyzer_evidence_consulted",
+        "notes"
+      ],
+      "properties": {
+        "role": {
+          "enum": ["reviewer-a", "reviewer-b"]
+        },
+        "provider": { "type": "string", "minLength": 1 },
+        "model": { "type": "string", "minLength": 1 },
+        "reasoning_effort": {
+          "enum": ["medium", "max"]
+        },
+        "run_id": { "type": ["string", "null"] },
+        "started_at": { "type": ["string", "null"], "format": "date-time" },
+        "completed_at": {
+          "type": ["string", "null"],
+          "format": "date-time"
+        },
+        "status": {
+          "enum": ["planned", "running", "submitted", "inconclusive"]
+        },
+        "checkout": {
+          "anyOf": [
+            { "type": "null" },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["path", "revision", "clean", "observed_at"],
+              "properties": {
+                "path": { "type": "string", "minLength": 1 },
+                "revision": { "type": "string", "pattern": "^[0-9a-f]{40}$" },
+                "clean": { "const": true },
+                "observed_at": {
+                  "type": "string",
+                  "format": "date-time"
+                }
+              }
+            }
+          ]
+        },
+        "evidence_path": { "type": "string", "minLength": 1 },
+        "packet": { "$ref": "#/$defs/artifact" },
+        "packet_digest_set_identical": { "type": "boolean" },
+        "report": {
+          "anyOf": [{ "type": "null" }, { "$ref": "#/$defs/artifact" }]
+        },
+        "subject_verdicts": { "$ref": "#/$defs/subject_verdicts" },
+        "analyzer_evidence_consulted": { "const": false },
+        "notes": { "type": "string", "minLength": 1 }
+      }
+    },
+    "accepting_submitted_reviewer": {
+      "allOf": [
+        { "$ref": "#/$defs/reviewer_plan" },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "status",
+            "completed_at",
+            "checkout",
+            "packet_digest_set_identical",
+            "report",
+            "subject_verdicts",
+            "analyzer_evidence_consulted"
+          ],
+          "properties": {
+            "status": { "const": "submitted" },
+            "completed_at": { "type": "string", "format": "date-time" },
+            "checkout": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["path", "revision", "clean", "observed_at"],
+              "properties": {
+                "path": { "type": "string", "minLength": 1 },
+                "revision": {
+                  "type": "string",
+                  "pattern": "^[0-9a-f]{40}$"
+                },
+                "clean": { "const": true },
+                "observed_at": {
+                  "type": "string",
+                  "format": "date-time"
+                }
+              }
+            },
+            "packet_digest_set_identical": { "const": true },
+            "report": { "$ref": "#/$defs/artifact" },
+            "subject_verdicts": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "snapshot_completeness",
+                "frame_derivation",
+                "eligibility_e1_e8",
+                "draw_and_replacement",
+                "pins_and_archives",
+                "licenses",
+                "vulnerable_fixed_semantics",
+                "claim_bounds",
+                "descriptive_latency_scope"
+              ],
+              "properties": {
+                "snapshot_completeness": { "const": "accept" },
+                "frame_derivation": { "const": "accept" },
+                "eligibility_e1_e8": { "const": "accept" },
+                "draw_and_replacement": { "const": "accept" },
+                "pins_and_archives": { "const": "accept" },
+                "licenses": { "const": "accept" },
+                "vulnerable_fixed_semantics": { "const": "accept" },
+                "claim_bounds": { "const": "accept" },
+                "descriptive_latency_scope": { "const": "accept" }
+              }
+            },
+            "analyzer_evidence_consulted": { "const": false }
+          }
+        }
+      ]
+    },
+    "reviewer_record": {
+      "allOf": [
+        { "$ref": "#/$defs/reviewer_plan" },
+        {
+          "if": {
+            "properties": {
+              "provider": { "const": "openai" },
+              "role": { "const": "reviewer-a" }
+            }
+          },
+          "then": {
+            "properties": {
+              "model": { "const": "gpt-5.6-sol" },
+              "reasoning_effort": { "const": "medium" }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "provider": { "const": "z.ai" },
+              "role": { "const": "reviewer-b" }
+            }
+          },
+          "then": {
+            "properties": {
+              "model": { "const": "glm-5.3" },
+              "reasoning_effort": { "const": "max" }
+            }
+          }
+        }
+      ]
+    },
+    "subject_verdicts": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "snapshot_completeness",
+        "frame_derivation",
+        "eligibility_e1_e8",
+        "draw_and_replacement",
+        "pins_and_archives",
+        "licenses",
+        "vulnerable_fixed_semantics",
+        "claim_bounds",
+        "descriptive_latency_scope"
+      ],
+      "properties": {
+        "snapshot_completeness": { "$ref": "#/$defs/verdict" },
+        "frame_derivation": { "$ref": "#/$defs/verdict" },
+        "eligibility_e1_e8": { "$ref": "#/$defs/verdict" },
+        "draw_and_replacement": { "$ref": "#/$defs/verdict" },
+        "pins_and_archives": { "$ref": "#/$defs/verdict" },
+        "licenses": { "$ref": "#/$defs/verdict" },
+        "vulnerable_fixed_semantics": { "$ref": "#/$defs/verdict" },
+        "claim_bounds": { "$ref": "#/$defs/verdict" },
+        "descriptive_latency_scope": { "$ref": "#/$defs/verdict" }
+      }
+    },
+    "verdict": {
+      "enum": [
+        "not-reviewed",
+        "accept",
+        "reject",
+        "inconclusive",
+        "cannot-determine"
+      ]
+    },
+    "pin_review": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "ghsa_id",
+        "reviewer_a",
+        "reviewer_b",
+        "remediation_location",
+        "vulnerable_fixed_semantics",
+        "archive_digests",
+        "license"
+      ],
+      "properties": {
+        "ghsa_id": {
+          "type": "string",
+          "pattern": "^GHSA-[0-9a-z]{4}-[0-9a-z]{4}-[0-9a-z]{4}$"
+        },
+        "reviewer_a": { "$ref": "#/$defs/verdict" },
+        "reviewer_b": { "$ref": "#/$defs/verdict" },
+        "remediation_location": { "$ref": "#/$defs/verdict" },
+        "vulnerable_fixed_semantics": { "$ref": "#/$defs/verdict" },
+        "archive_digests": { "$ref": "#/$defs/verdict" },
+        "license": { "$ref": "#/$defs/verdict" }
+      }
+    },
+    "adjudication": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "allowed_inputs"],
+      "properties": {
+        "status": {
+          "enum": [
+            "not-required",
+            "required",
+            "resolved",
+            "unresolved",
+            "cannot-determine"
+          ]
+        },
+        "allowed_inputs": {
+          "type": "array",
+          "minItems": 2,
+          "uniqueItems": true,
+          "items": {
+            "enum": ["immutable-packet", "reviewer-a-report", "reviewer-b-report"]
+          }
+        },
+        "decision_record": {
+          "anyOf": [{ "type": "null" }, { "$ref": "#/$defs/artifact" }]
+        }
+      }
+    },
+    "readiness": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "outcome",
+        "execution_ready",
+        "freeze_ready",
+        "blocking_reasons"
+      ],
+      "properties": {
+        "outcome": {
+          "enum": ["pending", "inconclusive", "blocked", "ready"]
+        },
+        "execution_ready": { "type": "boolean" },
+        "freeze_ready": { "type": "boolean" },
+        "blocking_reasons": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        }
+      }
+    }
+  }
+}
