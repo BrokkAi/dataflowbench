@@ -1,0 +1,128 @@
+{
+  "advisory": {
+    "affected_packages": [
+      "@haxtheweb/haxcms-nodejs"
+    ],
+    "cve_id": "CVE-2025-49141",
+    "cwes": [
+      "CWE-78"
+    ],
+    "ghsa_id": "GHSA-g4cf-pp4x-hqgw",
+    "published_at": "2025-06-09T20:30:34Z",
+    "severity": "high",
+    "summary": "HaxCMS-PHP Command Injection Vulnerability",
+    "url": "https://github.com/advisories/GHSA-g4cf-pp4x-hqgw"
+  },
+  "analyzer_evidence_consulted": false,
+  "bindings": {
+    "draw": {
+      "path": "corpus/real-project/r2/draw.json",
+      "sha256": "17c7aa276d4f4367efdebc1ae4c4b2d6dce9bf37ceb0911aec286799d25d9aaa"
+    },
+    "draw_key": "0f1f5a40d7afb8ee82bd19953150b0d1e186c253996ee941e39714362b0def8f",
+    "draw_position": 4,
+    "eligibility": {
+      "path": "corpus/real-project/r2/eligibility.json",
+      "sha256": "d0c42a8ad5886cd326a297a7c66541a2ebc0a91648e36f0e97d5434a38fe596b"
+    },
+    "eligibility_candidate_index": 9,
+    "evidence_manifest": {
+      "path": "corpus/real-project/r2/evidence/GHSA-g4cf-pp4x-hqgw/manifest.json",
+      "sha256": "691e8e68e4637f4abf29392144f7c61cc442d6bc24101ec17133acc4a497e4ca"
+    },
+    "frame": {
+      "path": "corpus/real-project/r2/frame.json",
+      "sha256": "184c1bba456964a841fad3782ef0c961a834391b50f64099dc516a2e588cf600"
+    },
+    "pin_evidence_manifest": {
+      "path": "corpus/real-project/r2/pin-evidence/GHSA-g4cf-pp4x-hqgw/manifest.json",
+      "sha256": "71f57f0e27742e2ed18113b2c9714d05bd97d3aebe1b6deb9929c1d423c660cf"
+    },
+    "selected_repository": "haxtheweb/haxcms-nodejs",
+    "snapshot_manifest": {
+      "path": "corpus/real-project/r2/snapshot/manifest.json",
+      "sha256": "7877b02524cf7e107beba33e97b75f1e8de4dbd18ccb273d9a056e6005239b8f"
+    }
+  },
+  "ecosystem": "npm",
+  "fix_commits": [
+    {
+      "evidence": {
+        "path": "corpus/real-project/r2/evidence/GHSA-g4cf-pp4x-hqgw/commit-00.json",
+        "sha256": "f79d1a694d4f1fdb07f678244c15ef79376794fd8c1560cbcb5de6f1374c81f0"
+      },
+      "revision": "5131fea6b6be611db76a618f89bd2e164752e9b3"
+    }
+  ],
+  "ground_truth": {
+    "adjudication": "pending",
+    "basis": "Analyzer-free proposal from the immutable advisory fix diff; acceptance requires both independent R2 reports.",
+    "review_independence": "pending",
+    "reviewers": [],
+    "status": "proposed"
+  },
+  "language": "javascript",
+  "license": {
+    "evidence": {
+      "fixed": {
+        "path": "corpus/real-project/r2/pin-evidence/GHSA-g4cf-pp4x-hqgw/license-fixed.json",
+        "sha256": "1bf87efc814435ce4592209e810a073f0a0f1cc14f875bcfb11980eb3d2f059e"
+      },
+      "vulnerable": {
+        "path": "corpus/real-project/r2/pin-evidence/GHSA-g4cf-pp4x-hqgw/license-vulnerable.json",
+        "sha256": "d3b2682d19be5c5309e8246fe51d0429434973f02e1ff5ec3ae61cc84a63a2e1"
+      }
+    },
+    "file_path": "LICENSE.md",
+    "fixed_bytes": 11363,
+    "fixed_content_sha256": "e7a5e146ee1e9a2d9615dee6b506ee545e0d81c59e498e039f0b2c6ec11db120",
+    "identical_at_both_revisions": true,
+    "spdx_id": "Apache-2.0",
+    "vulnerable_bytes": 11363,
+    "vulnerable_content_sha256": "e7a5e146ee1e9a2d9615dee6b506ee545e0d81c59e498e039f0b2c6ec11db120"
+  },
+  "lifecycle": "pending-review",
+  "pin_id": "dfb-rp-r2-haxcms-nodejs",
+  "proposed_remediation": {
+    "candidate_basis": "The fix removes the vulnerable gitImportSite route and its advertised API entry.",
+    "file_path": "src/routes/gitImportSite.js",
+    "sink_hint": "GitPlus configures and pulls that URL through the git command boundary.",
+    "source_hint": "req.body.site.git.url supplies a user-controlled repository URL.",
+    "status": "proposed"
+  },
+  "related_commits": [],
+  "repository": {
+    "name": "haxcms-nodejs",
+    "owner": "haxtheweb",
+    "url": "https://github.com/haxtheweb/haxcms-nodejs"
+  },
+  "revisions": {
+    "fixed": {
+      "archive_bytes": 11019811,
+      "archive_sha256": "f3ecab421ba0b6ac46228d1dc3ec9f2161a454f7003145b8387ed3b5cf081531",
+      "archive_url": "https://codeload.github.com/haxtheweb/haxcms-nodejs/tar.gz/5131fea6b6be611db76a618f89bd2e164752e9b3",
+      "capture_record": {
+        "path": "corpus/real-project/r2/pin-evidence/GHSA-g4cf-pp4x-hqgw/archive-fixed.json",
+        "sha256": "3bb938f8938ea3ea72961dfe9c6dc0afeaf0aff014de5e1c6b58e5c134e70ae1"
+      },
+      "retrieved_on": "2026-09-10",
+      "revision": "5131fea6b6be611db76a618f89bd2e164752e9b3",
+      "role": "the selected advisory remediation commit; the proposed first fixed revision"
+    },
+    "vulnerable": {
+      "archive_bytes": 11019633,
+      "archive_sha256": "6f441390898719f29162f963848ca8c4a446bdc2a10b130c94fe6e13b5d4fcf0",
+      "archive_url": "https://codeload.github.com/haxtheweb/haxcms-nodejs/tar.gz/b970f827d57db97c25784764be8a66096fdc05c6",
+      "capture_record": {
+        "path": "corpus/real-project/r2/pin-evidence/GHSA-g4cf-pp4x-hqgw/archive-vulnerable.json",
+        "sha256": "87e1ae77d73833412a789cc0ff9f35ee506c641fa71a37e181ab0a6d3f9ad601"
+      },
+      "retrieved_on": "2026-09-10",
+      "revision": "b970f827d57db97c25784764be8a66096fdc05c6",
+      "role": "the first parent of the selected remediation commit; the proposed last vulnerable revision"
+    }
+  },
+  "schema_version": 2,
+  "stratum": "javascript",
+  "wave": "R2"
+}

@@ -1,0 +1,137 @@
+{
+  "advisory": {
+    "affected_packages": [
+      "org.cyclonedx:cyclonedx-core-java"
+    ],
+    "cve_id": "CVE-2025-64518",
+    "cwes": [
+      "CWE-611"
+    ],
+    "ghsa_id": "GHSA-6fhj-vr9j-g45r",
+    "published_at": "2025-11-10T21:04:03Z",
+    "severity": "high",
+    "summary": "CycloneDX Core (Java): BOM validation is vulnerable to XML External Entity injection ",
+    "url": "https://github.com/advisories/GHSA-6fhj-vr9j-g45r"
+  },
+  "analyzer_evidence_consulted": false,
+  "bindings": {
+    "draw": {
+      "path": "corpus/real-project/r2/draw.json",
+      "sha256": "17c7aa276d4f4367efdebc1ae4c4b2d6dce9bf37ceb0911aec286799d25d9aaa"
+    },
+    "draw_key": "0fbee7b6881008cd83bb12b356006c5bbb43106aa98f83b024c4756b3deeb377",
+    "draw_position": 6,
+    "eligibility": {
+      "path": "corpus/real-project/r2/eligibility.json",
+      "sha256": "d0c42a8ad5886cd326a297a7c66541a2ebc0a91648e36f0e97d5434a38fe596b"
+    },
+    "eligibility_candidate_index": 5,
+    "evidence_manifest": {
+      "path": "corpus/real-project/r2/evidence/GHSA-6fhj-vr9j-g45r/manifest.json",
+      "sha256": "992578a5cb09a80ca003bb8bb89d708c9d6fb8895cc78d12a5775b42e3f13c91"
+    },
+    "frame": {
+      "path": "corpus/real-project/r2/frame.json",
+      "sha256": "184c1bba456964a841fad3782ef0c961a834391b50f64099dc516a2e588cf600"
+    },
+    "pin_evidence_manifest": {
+      "path": "corpus/real-project/r2/pin-evidence/GHSA-6fhj-vr9j-g45r/manifest.json",
+      "sha256": "0e6811e7012edc585340a880054df86628c49422e86355c98adf15c7495f325c"
+    },
+    "selected_repository": "CycloneDX/cyclonedx-core-java",
+    "snapshot_manifest": {
+      "path": "corpus/real-project/r2/snapshot/manifest.json",
+      "sha256": "7877b02524cf7e107beba33e97b75f1e8de4dbd18ccb273d9a056e6005239b8f"
+    }
+  },
+  "ecosystem": "maven",
+  "fix_commits": [
+    {
+      "evidence": {
+        "path": "corpus/real-project/r2/evidence/GHSA-6fhj-vr9j-g45r/commit-01.json",
+        "sha256": "378298668c9a0f5d3052b2b0ea2100d35c752275b8fb9e83e7b0f3b75a649ccf"
+      },
+      "revision": "af0ec75c93c03f93733a070c5132554490af5314"
+    }
+  ],
+  "ground_truth": {
+    "adjudication": "pending",
+    "basis": "Analyzer-free proposal from the immutable advisory fix diff; acceptance requires both independent R2 reports.",
+    "review_independence": "pending",
+    "reviewers": [],
+    "status": "proposed"
+  },
+  "language": "java",
+  "license": {
+    "evidence": {
+      "fixed": {
+        "path": "corpus/real-project/r2/pin-evidence/GHSA-6fhj-vr9j-g45r/license-fixed.json",
+        "sha256": "b83cdec3a9e72966fdf19dcbe5868645d36e8fd35183db942f2f205ddb8c56e5"
+      },
+      "vulnerable": {
+        "path": "corpus/real-project/r2/pin-evidence/GHSA-6fhj-vr9j-g45r/license-vulnerable.json",
+        "sha256": "d737b7420b716abef1fb9658be9bd19b0de1c0e0a1a5f238671a513c6def77af"
+      }
+    },
+    "file_path": "LICENSE",
+    "fixed_bytes": 11341,
+    "fixed_content_sha256": "6c29f22a4a7385285c6f579ec9f33c5e989f00739d6b257243a0b082ec9447ae",
+    "identical_at_both_revisions": true,
+    "spdx_id": "Apache-2.0",
+    "vulnerable_bytes": 11341,
+    "vulnerable_content_sha256": "6c29f22a4a7385285c6f579ec9f33c5e989f00739d6b257243a0b082ec9447ae"
+  },
+  "lifecycle": "pending-review",
+  "pin_id": "dfb-rp-r2-cyclonedx-core-java",
+  "proposed_remediation": {
+    "candidate_basis": "The fix enables FEATURE_SECURE_PROCESSING in addition to the existing external-access restrictions.",
+    "file_path": "src/main/java/org/cyclonedx/parsers/XmlParser.java",
+    "sink_hint": "DocumentBuilder.parse(in) expands content under the factory's parser policy.",
+    "source_hint": "The parser accepts XML through an InputSource.",
+    "status": "proposed"
+  },
+  "related_commits": [
+    {
+      "evidence": {
+        "path": "corpus/real-project/r2/evidence/GHSA-6fhj-vr9j-g45r/commit-00.json",
+        "sha256": "d589fe5a847fc8b2657b017f32b97e039f038d969ff0cb2f4f287452ef2e769a"
+      },
+      "revision": "162aa594f347b3f612fe0a45071693c3cd398ce9",
+      "role": "introduction-reference"
+    }
+  ],
+  "repository": {
+    "name": "cyclonedx-core-java",
+    "owner": "CycloneDX",
+    "url": "https://github.com/CycloneDX/cyclonedx-core-java"
+  },
+  "revisions": {
+    "fixed": {
+      "archive_bytes": 2393509,
+      "archive_sha256": "43f831a4703df258148c1d6497864e676148146b69bc95d47fc11636d7775df9",
+      "archive_url": "https://codeload.github.com/CycloneDX/cyclonedx-core-java/tar.gz/af0ec75c93c03f93733a070c5132554490af5314",
+      "capture_record": {
+        "path": "corpus/real-project/r2/pin-evidence/GHSA-6fhj-vr9j-g45r/archive-fixed.json",
+        "sha256": "b2e6aeaee192802a354f80deb19e5a26156a8dfde64d780a58915151fed0ba00"
+      },
+      "retrieved_on": "2026-09-10",
+      "revision": "af0ec75c93c03f93733a070c5132554490af5314",
+      "role": "the selected advisory remediation commit; the proposed first fixed revision"
+    },
+    "vulnerable": {
+      "archive_bytes": 2393173,
+      "archive_sha256": "705fdd223a3e29ca3c97916614a1c9a3dff1c0998fde5d727440eee2fcb66fc2",
+      "archive_url": "https://codeload.github.com/CycloneDX/cyclonedx-core-java/tar.gz/1d9ecdb55b4c0a6b7011dfe27ea9d50177bb274e",
+      "capture_record": {
+        "path": "corpus/real-project/r2/pin-evidence/GHSA-6fhj-vr9j-g45r/archive-vulnerable.json",
+        "sha256": "00587378361b6ec5c23a6942d08e11be808822f1ab4b472c712a435381fea943"
+      },
+      "retrieved_on": "2026-09-10",
+      "revision": "1d9ecdb55b4c0a6b7011dfe27ea9d50177bb274e",
+      "role": "the first parent of the selected remediation commit; the proposed last vulnerable revision"
+    }
+  },
+  "schema_version": 2,
+  "stratum": "java",
+  "wave": "R2"
+}

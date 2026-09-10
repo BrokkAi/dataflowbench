@@ -1,0 +1,129 @@
+{
+  "advisory": {
+    "affected_packages": [
+      "ai.djl:api"
+    ],
+    "cve_id": "CVE-2025-0851",
+    "cwes": [
+      "CWE-22",
+      "CWE-36"
+    ],
+    "ghsa_id": "GHSA-jcrp-x7w3-ffmg",
+    "published_at": "2025-01-29T22:21:33Z",
+    "severity": "critical",
+    "summary": "Deep Java Library path traversal issue",
+    "url": "https://github.com/advisories/GHSA-jcrp-x7w3-ffmg"
+  },
+  "analyzer_evidence_consulted": false,
+  "bindings": {
+    "draw": {
+      "path": "corpus/real-project/r2/draw.json",
+      "sha256": "17c7aa276d4f4367efdebc1ae4c4b2d6dce9bf37ceb0911aec286799d25d9aaa"
+    },
+    "draw_key": "0f73ad6d89e37a532dcec09d36780e2540129870e619ca0cb2774d06a2fa8ac2",
+    "draw_position": 5,
+    "eligibility": {
+      "path": "corpus/real-project/r2/eligibility.json",
+      "sha256": "d0c42a8ad5886cd326a297a7c66541a2ebc0a91648e36f0e97d5434a38fe596b"
+    },
+    "eligibility_candidate_index": 4,
+    "evidence_manifest": {
+      "path": "corpus/real-project/r2/evidence/GHSA-jcrp-x7w3-ffmg/manifest.json",
+      "sha256": "32a87d39570bab48ce8db8ccca1a6f292ce3162bc4172ee3f17c4f261506f10f"
+    },
+    "frame": {
+      "path": "corpus/real-project/r2/frame.json",
+      "sha256": "184c1bba456964a841fad3782ef0c961a834391b50f64099dc516a2e588cf600"
+    },
+    "pin_evidence_manifest": {
+      "path": "corpus/real-project/r2/pin-evidence/GHSA-jcrp-x7w3-ffmg/manifest.json",
+      "sha256": "6b8663f1b0e315d0b71cf920d6f9d83ff39a76d299827869fd7c0c994711fa38"
+    },
+    "selected_repository": "deepjavalibrary/djl",
+    "snapshot_manifest": {
+      "path": "corpus/real-project/r2/snapshot/manifest.json",
+      "sha256": "7877b02524cf7e107beba33e97b75f1e8de4dbd18ccb273d9a056e6005239b8f"
+    }
+  },
+  "ecosystem": "maven",
+  "fix_commits": [
+    {
+      "evidence": {
+        "path": "corpus/real-project/r2/evidence/GHSA-jcrp-x7w3-ffmg/commit-00.json",
+        "sha256": "c32d2aa9101de30d1ff9cf6bc93356b5fc427770306ae4821fb1166292561d6b"
+      },
+      "revision": "7415cc5f72aae69ea9716a5e4f709af03a77a619"
+    }
+  ],
+  "ground_truth": {
+    "adjudication": "pending",
+    "basis": "Analyzer-free proposal from the immutable advisory fix diff; acceptance requires both independent R2 reports.",
+    "review_independence": "pending",
+    "reviewers": [],
+    "status": "proposed"
+  },
+  "language": "java",
+  "license": {
+    "evidence": {
+      "fixed": {
+        "path": "corpus/real-project/r2/pin-evidence/GHSA-jcrp-x7w3-ffmg/license-fixed.json",
+        "sha256": "0ed0fc37c729539a36ffbecca68a23fcafe9aa25d1d712dee736ac37f179ce3a"
+      },
+      "vulnerable": {
+        "path": "corpus/real-project/r2/pin-evidence/GHSA-jcrp-x7w3-ffmg/license-vulnerable.json",
+        "sha256": "e0de5bfaa633c7c09d9e01b5f9e08b3ebcc9176a32787023d3f5480d6ef7c2ce"
+      }
+    },
+    "file_path": "LICENSE",
+    "fixed_bytes": 10142,
+    "fixed_content_sha256": "09e8a9bcec8067104652c168685ab0931e7868f9c8284b66f5ae6edae5f1130b",
+    "identical_at_both_revisions": true,
+    "spdx_id": "Apache-2.0",
+    "vulnerable_bytes": 10142,
+    "vulnerable_content_sha256": "09e8a9bcec8067104652c168685ab0931e7868f9c8284b66f5ae6edae5f1130b"
+  },
+  "lifecycle": "pending-review",
+  "pin_id": "dfb-rp-r2-djl",
+  "proposed_remediation": {
+    "candidate_basis": "The fix routes every entry name through validateArchiveEntry before resolving or writing it.",
+    "file_path": "api/src/main/java/ai/djl/util/ZipUtils.java",
+    "sink_hint": "dest.resolve(entryName) selects the filesystem path written during extraction.",
+    "source_hint": "ZipEntry.getName() supplies an attacker-controlled archive entry name.",
+    "status": "proposed"
+  },
+  "related_commits": [],
+  "repository": {
+    "name": "djl",
+    "owner": "deepjavalibrary",
+    "url": "https://github.com/deepjavalibrary/djl"
+  },
+  "revisions": {
+    "fixed": {
+      "archive_bytes": 13612461,
+      "archive_sha256": "33dcd1e2c1a552bb9697c2e50f7bbf1938227a40edc05f6985ea4ef632ff6f1c",
+      "archive_url": "https://codeload.github.com/deepjavalibrary/djl/tar.gz/7415cc5f72aae69ea9716a5e4f709af03a77a619",
+      "capture_record": {
+        "path": "corpus/real-project/r2/pin-evidence/GHSA-jcrp-x7w3-ffmg/archive-fixed.json",
+        "sha256": "09a3e328261940e2a99936c26beb5c765adef72a0f2a28b0356a5b038a496c1a"
+      },
+      "retrieved_on": "2026-09-10",
+      "revision": "7415cc5f72aae69ea9716a5e4f709af03a77a619",
+      "role": "the selected advisory remediation commit; the proposed first fixed revision"
+    },
+    "vulnerable": {
+      "archive_bytes": 13613299,
+      "archive_sha256": "b491a09f72973e640f9831ed984d8299bb817dcdc540a1ed9ea418e411baf128",
+      "archive_url": "https://codeload.github.com/deepjavalibrary/djl/tar.gz/503289a69c581e2373e12cff78ea2adc03a8d86f",
+      "capture_record": {
+        "path": "corpus/real-project/r2/pin-evidence/GHSA-jcrp-x7w3-ffmg/archive-vulnerable.json",
+        "sha256": "f58c40f21df4bc642924d021d5e250f7f43b5371647e1c23bbef26e54b8561ec"
+      },
+      "retrieved_on": "2026-09-10",
+      "revision": "503289a69c581e2373e12cff78ea2adc03a8d86f",
+      "role": "the first parent of the selected remediation commit; the proposed last vulnerable revision"
+    }
+  },
+  "schema_version": 2,
+  "stratum": "java",
+  "wave": "R2"
+}
