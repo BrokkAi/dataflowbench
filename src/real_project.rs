@@ -17,6 +17,7 @@ use std::{
     fs,
     path::{Path, PathBuf},
 };
+use walkdir::WalkDir;
 
 /// The real-project confirmation slice is preregistered, not curated: the draw
 /// record in `corpus/real-project/draw.json` replays a seeded walk over a
@@ -41,6 +42,9 @@ pub(crate) const REAL_PROJECT_REVIEW_SCHEMA: &str = "schemas/real-project-review
 pub(crate) const REAL_PROJECT_R2_PROTOCOL: &str = "corpus/real-project/r2/protocol.json";
 pub(crate) const REAL_PROJECT_R2_PROTOCOL_SCHEMA: &str =
     "schemas/real-project-r2-protocol.schema.json";
+pub(crate) const REAL_PROJECT_R2_SNAPSHOT: &str = "corpus/real-project/r2/snapshot/manifest.json";
+pub(crate) const REAL_PROJECT_R2_SNAPSHOT_SCHEMA: &str =
+    "schemas/real-project-r2-snapshot.schema.json";
 
 /// The licences a drawn repository may carry, per eligibility criterion E2 of
 /// docs/real-project-preregistration.md. The list is OSI-approved identifiers
@@ -456,6 +460,107 @@ pub(crate) fn validate_real_project_r2_protocol_at(root: &Path) -> Result<()> {
     let actual = criteria.keys().cloned().collect::<BTreeSet<_>>();
     if actual != expected {
         bail!("{REAL_PROJECT_R2_PROTOCOL}: eligibility must declare exactly E1-E8");
+    }
+    Ok(())
+}
+
+/// Validate R2's immutable source-only advisory snapshot when it exists. The
+/// preregistration commit deliberately has no snapshot; after capture lands,
+/// every response body must be uniquely manifest-bound and pagination must be
+/// complete and contiguous.
+pub(crate) fn validate_real_project_r2_snapshot_at(root: &Path) -> Result<()> {
+    let manifest_path = root.join(REAL_PROJECT_R2_SNAPSHOT);
+    if !manifest_path.exists() {
+        return Ok(());
+    }
+    let manifest: Value = serde_json::from_slice(
+        &fs::read(&manifest_path).with_context(|| format!("read {}", manifest_path.display()))?,
+    )
+    .with_context(|| format!("parse {}", manifest_path.display()))?;
+    let schema_path = root.join(REAL_PROJECT_R2_SNAPSHOT_SCHEMA);
+    let schema_value: Value = serde_json::from_slice(
+        &fs::read(&schema_path).with_context(|| format!("read {}", schema_path.display()))?,
+    )?;
+    let compiled = jsonschema::JSONSchema::compile(Box::leak(Box::new(schema_value)))
+        .context("compile real-project R2 snapshot schema")?;
+    validate_value(&compiled, &manifest, &manifest_path)?;
+
+    validate_review_artifact(root, &manifest["protocol"])?;
+    let mut expected_strata =
+        BTreeMap::from([("java", "maven"), ("javascript", "npm"), ("python", "pip")]);
+    let mut manifested_paths = BTreeSet::new();
+    for query in manifest["queries"]
+        .as_array()
+        .expect("snapshot schema validated")
+    {
+        let stratum = query["stratum"]
+            .as_str()
+            .expect("snapshot schema validated");
+        let ecosystem = query["ecosystem"]
+            .as_str()
+            .expect("snapshot schema validated");
+        if expected_strata.remove(stratum) != Some(ecosystem) {
+            bail!(
+                "{REAL_PROJECT_R2_SNAPSHOT}: duplicate or mismatched {stratum}/{ecosystem} query"
+            );
+        }
+        let pages = query["pages"]
+            .as_array()
+            .expect("snapshot schema validated");
+        for (index, page) in pages.iter().enumerate() {
+            if page["page"].as_u64() != Some(index as u64 + 1) {
+                bail!("{REAL_PROJECT_R2_SNAPSHOT}: {ecosystem} pages must be contiguous from one");
+            }
+            let relative = page["response_path"]
+                .as_str()
+                .expect("snapshot schema validated")
+                .to_string();
+            validate_review_artifact(root, &json!({ "path": relative, "sha256": page["sha256"] }))?;
+            if !manifested_paths.insert(relative.clone()) {
+                bail!("{REAL_PROJECT_R2_SNAPSHOT}: duplicate response path {relative}");
+            }
+            let body: Value = serde_json::from_slice(&fs::read(root.join(&relative))?)?;
+            let item_count = body
+                .as_array()
+                .with_context(|| format!("{relative}: response body must be a JSON array"))?
+                .len() as u64;
+            if page["item_count"].as_u64() != Some(item_count) {
+                bail!("{REAL_PROJECT_R2_SNAPSHOT}: {relative} item count does not match its body");
+            }
+            let next = page["next_url"].as_str();
+            if index + 1 < pages.len() {
+                if next != pages[index + 1]["request_url"].as_str() {
+                    bail!(
+                        "{REAL_PROJECT_R2_SNAPSHOT}: {ecosystem} pagination link is discontinuous"
+                    );
+                }
+            } else if next.is_some() {
+                bail!(
+                    "{REAL_PROJECT_R2_SNAPSHOT}: final {ecosystem} page still declares a next URL"
+                );
+            }
+        }
+    }
+    if !expected_strata.is_empty() {
+        bail!("{REAL_PROJECT_R2_SNAPSHOT}: missing preregistered stratum query");
+    }
+
+    let response_root = root.join("corpus/real-project/r2/snapshot/advisories");
+    let actual_paths = WalkDir::new(&response_root)
+        .into_iter()
+        .filter_map(Result::ok)
+        .filter(|entry| entry.file_type().is_file())
+        .map(|entry| {
+            entry
+                .path()
+                .strip_prefix(root)
+                .unwrap_or(entry.path())
+                .to_string_lossy()
+                .replace('\\', "/")
+        })
+        .collect::<BTreeSet<_>>();
+    if actual_paths != manifested_paths {
+        bail!("{REAL_PROJECT_R2_SNAPSHOT}: response files and manifest entries differ");
     }
     Ok(())
 }

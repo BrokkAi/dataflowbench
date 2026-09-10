@@ -4,7 +4,10 @@
 
 use crate::modeling::validate_modeling_cases;
 use crate::native::{validate_native_cases, validate_profile_disjoint_populations};
-use crate::real_project::{validate_real_project_r2_protocol_at, validate_real_project_slice};
+use crate::real_project::{
+    validate_real_project_r2_protocol_at, validate_real_project_r2_snapshot_at,
+    validate_real_project_slice,
+};
 use crate::templates::CHALLENGE_ROLLOUT;
 use anyhow::{Context, Result, bail};
 use jsonschema::JSONSchema;
@@ -99,6 +102,7 @@ pub(crate) fn validate_cases() -> Result<()> {
     // the same build that a malformed case fails.
     let pins = validate_real_project_slice()?;
     validate_real_project_r2_protocol_at(Path::new("."))?;
+    validate_real_project_r2_snapshot_at(Path::new("."))?;
     println!("validated {} cases", paths.len());
     println!("validated {pins} real-project pin records");
     Ok(())
