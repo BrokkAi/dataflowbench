@@ -45,6 +45,8 @@ pub(crate) const REAL_PROJECT_R2_PROTOCOL_SCHEMA: &str =
 pub(crate) const REAL_PROJECT_R2_SNAPSHOT: &str = "corpus/real-project/r2/snapshot/manifest.json";
 pub(crate) const REAL_PROJECT_R2_SNAPSHOT_SCHEMA: &str =
     "schemas/real-project-r2-snapshot.schema.json";
+pub(crate) const REAL_PROJECT_R2_FRAME: &str = "corpus/real-project/r2/frame.json";
+pub(crate) const REAL_PROJECT_R2_FRAME_SCHEMA: &str = "schemas/real-project-r2-frame.schema.json";
 
 /// The licences a drawn repository may carry, per eligibility criterion E2 of
 /// docs/real-project-preregistration.md. The list is OSI-approved identifiers
@@ -563,6 +565,141 @@ pub(crate) fn validate_real_project_r2_snapshot_at(root: &Path) -> Result<()> {
         bail!("{REAL_PROJECT_R2_SNAPSHOT}: response files and manifest entries differ");
     }
     Ok(())
+}
+
+pub(crate) fn validate_real_project_r2_frame_at(root: &Path) -> Result<usize> {
+    let frame_path = root.join(REAL_PROJECT_R2_FRAME);
+    if !frame_path.exists() {
+        return Ok(0);
+    }
+    let frame: Value = serde_json::from_slice(
+        &fs::read(&frame_path).with_context(|| format!("read {}", frame_path.display()))?,
+    )?;
+    let schema_value: Value =
+        serde_json::from_slice(&fs::read(root.join(REAL_PROJECT_R2_FRAME_SCHEMA))?)?;
+    let compiled = jsonschema::JSONSchema::compile(Box::leak(Box::new(schema_value)))
+        .context("compile real-project R2 frame schema")?;
+    validate_value(&compiled, &frame, &frame_path)?;
+    validate_review_artifact(root, &frame["derived_from"])?;
+
+    let manifest: Value = serde_json::from_slice(&fs::read(root.join(REAL_PROJECT_R2_SNAPSHOT))?)?;
+    let mut derived = Vec::new();
+    let mut raw_counts = BTreeMap::new();
+    let repository_re = regex::Regex::new(r"^https://github\.com/([^/]+)/([^/#?]+)/?$")?;
+    let commit_re =
+        regex::Regex::new(r"^https://github\.com/([^/]+)/([^/]+)/commit/([0-9a-f]{7,40})")?;
+    for query in manifest["queries"]
+        .as_array()
+        .expect("snapshot schema validated")
+    {
+        let stratum = query["stratum"]
+            .as_str()
+            .expect("snapshot schema validated");
+        let ecosystem = query["ecosystem"]
+            .as_str()
+            .expect("snapshot schema validated");
+        let mut raw = 0u64;
+        for page in query["pages"]
+            .as_array()
+            .expect("snapshot schema validated")
+        {
+            let relative = page["response_path"]
+                .as_str()
+                .expect("snapshot schema validated");
+            let advisories: Value = serde_json::from_slice(&fs::read(root.join(relative))?)?;
+            for (array_index, advisory) in advisories
+                .as_array()
+                .expect("snapshot body validated")
+                .iter()
+                .enumerate()
+            {
+                raw += 1;
+                if !advisory["withdrawn_at"].is_null() {
+                    continue;
+                }
+                let Some(location) = advisory["source_code_location"].as_str() else {
+                    continue;
+                };
+                let Some(repository) = repository_re.captures(location) else {
+                    continue;
+                };
+                let owner = repository.get(1).expect("capture").as_str();
+                let name = repository.get(2).expect("capture").as_str();
+                let mut fixes = Vec::new();
+                for reference in advisory["references"]
+                    .as_array()
+                    .into_iter()
+                    .flatten()
+                    .filter_map(Value::as_str)
+                {
+                    let Some(commit) = commit_re.captures(reference) else {
+                        continue;
+                    };
+                    if commit
+                        .get(1)
+                        .expect("capture")
+                        .as_str()
+                        .eq_ignore_ascii_case(owner)
+                        && commit
+                            .get(2)
+                            .expect("capture")
+                            .as_str()
+                            .eq_ignore_ascii_case(name)
+                    {
+                        let revision = commit.get(3).expect("capture").as_str().to_string();
+                        if !fixes.contains(&revision) {
+                            fixes.push(revision);
+                        }
+                    }
+                }
+                if fixes.is_empty() {
+                    continue;
+                }
+                let mut packages = advisory["vulnerabilities"]
+                    .as_array()
+                    .into_iter()
+                    .flatten()
+                    .filter_map(|item| item["package"]["name"].as_str().map(str::to_string))
+                    .collect::<BTreeSet<_>>()
+                    .into_iter()
+                    .collect::<Vec<_>>();
+                packages.sort();
+                derived.push(json!({
+                    "stratum": stratum, "ecosystem": ecosystem,
+                    "ghsa_id": advisory["ghsa_id"], "cve_id": advisory["cve_id"],
+                    "cwes": advisory["cwes"].as_array().into_iter().flatten().map(|cwe| cwe["cwe_id"].clone()).collect::<Vec<_>>(),
+                    "severity": advisory["severity"], "published_at": advisory["published_at"],
+                    "repository": format!("{owner}/{name}"), "source_code_location": location,
+                    "packages": packages, "fix_commit_references": fixes,
+                    "advisory_evidence": { "path": relative, "sha256": page["sha256"], "array_index": array_index }
+                }));
+            }
+        }
+        raw_counts.insert(stratum.to_string(), raw);
+    }
+    derived.sort_by(|left, right| {
+        left["stratum"]
+            .as_str()
+            .cmp(&right["stratum"].as_str())
+            .then_with(|| left["ghsa_id"].as_str().cmp(&right["ghsa_id"].as_str()))
+    });
+    if frame["candidates"] != json!(derived) {
+        bail!("{REAL_PROJECT_R2_FRAME}: candidates do not re-derive from the immutable snapshot");
+    }
+    for stratum in ["java", "javascript", "python"] {
+        let admitted = derived
+            .iter()
+            .filter(|row| row["stratum"] == stratum)
+            .count() as u64;
+        let raw = raw_counts[stratum];
+        if frame["counts"]["raw"][stratum].as_u64() != Some(raw)
+            || frame["counts"]["admitted"][stratum].as_u64() != Some(admitted)
+            || frame["counts"]["rejected"][stratum].as_u64() != Some(raw - admitted)
+        {
+            bail!("{REAL_PROJECT_R2_FRAME}: {stratum} counts do not match the snapshot");
+        }
+    }
+    Ok(derived.len())
 }
 
 /// Validate the provenance-bound independent-review record. Pending and

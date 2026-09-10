@@ -5,8 +5,8 @@
 use crate::modeling::validate_modeling_cases;
 use crate::native::{validate_native_cases, validate_profile_disjoint_populations};
 use crate::real_project::{
-    validate_real_project_r2_protocol_at, validate_real_project_r2_snapshot_at,
-    validate_real_project_slice,
+    validate_real_project_r2_frame_at, validate_real_project_r2_protocol_at,
+    validate_real_project_r2_snapshot_at, validate_real_project_slice,
 };
 use crate::templates::CHALLENGE_ROLLOUT;
 use anyhow::{Context, Result, bail};
@@ -103,8 +103,10 @@ pub(crate) fn validate_cases() -> Result<()> {
     let pins = validate_real_project_slice()?;
     validate_real_project_r2_protocol_at(Path::new("."))?;
     validate_real_project_r2_snapshot_at(Path::new("."))?;
+    let r2_candidates = validate_real_project_r2_frame_at(Path::new("."))?;
     println!("validated {} cases", paths.len());
     println!("validated {pins} real-project pin records");
+    println!("validated {r2_candidates} real-project R2 frame candidates");
     Ok(())
 }
 
