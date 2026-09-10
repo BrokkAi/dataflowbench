@@ -1,0 +1,63 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://dataflowbench.dev/schemas/real-project-r2-snapshot/v2",
+  "title": "DataFlowBench R2 source-only API snapshot",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "wave", "captured_at", "capture_tool", "protocol", "source_head", "analyzer_evidence_consulted", "queries"],
+  "properties": {
+    "schema_version": { "const": 2 },
+    "wave": { "const": "R2" },
+    "captured_at": { "type": "string", "format": "date-time" },
+    "capture_tool": { "const": "scripts/capture-real-project-r2.py" },
+    "protocol": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "revision", "sha256"],
+      "properties": {
+        "path": { "const": "corpus/real-project/r2/protocol.json" },
+        "revision": { "type": "string", "pattern": "^[0-9a-f]{40}$" },
+        "sha256": { "$ref": "#/$defs/sha256" }
+      }
+    },
+    "source_head": { "type": "string", "pattern": "^[0-9a-f]{40}$" },
+    "analyzer_evidence_consulted": { "const": false },
+    "queries": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 3,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["stratum", "ecosystem", "parameters", "pages"],
+        "properties": {
+          "stratum": { "enum": ["java", "javascript", "python"] },
+          "ecosystem": { "enum": ["maven", "npm", "pip"] },
+          "parameters": { "type": "object", "minProperties": 1 },
+          "pages": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["page", "request_url", "retrieved_at", "http_status", "item_count", "next_url", "response_path", "sha256"],
+              "properties": {
+                "page": { "type": "integer", "minimum": 1 },
+                "request_url": { "type": "string", "pattern": "^https://api\\.github\\.com/advisories\\?" },
+                "retrieved_at": { "type": "string", "format": "date-time" },
+                "http_status": { "const": 200 },
+                "item_count": { "type": "integer", "minimum": 0, "maximum": 100 },
+                "next_url": { "type": ["string", "null"] },
+                "response_path": { "type": "string", "pattern": "^corpus/real-project/r2/snapshot/advisories/(maven|npm|pip)/page-[0-9]{4}\\.json$" },
+                "sha256": { "$ref": "#/$defs/sha256" }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" }
+  }
+}

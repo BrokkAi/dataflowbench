@@ -38,6 +38,9 @@ pub(crate) const REAL_PROJECT_DRAW: &str = "corpus/real-project/draw.json";
 pub(crate) const REAL_PROJECT_PINS_DIR: &str = "corpus/real-project/pins";
 pub(crate) const REAL_PROJECT_REVIEW: &str = "corpus/real-project/review.json";
 pub(crate) const REAL_PROJECT_REVIEW_SCHEMA: &str = "schemas/real-project-review.schema.json";
+pub(crate) const REAL_PROJECT_R2_PROTOCOL: &str = "corpus/real-project/r2/protocol.json";
+pub(crate) const REAL_PROJECT_R2_PROTOCOL_SCHEMA: &str =
+    "schemas/real-project-r2-protocol.schema.json";
 
 /// The licences a drawn repository may carry, per eligibility criterion E2 of
 /// docs/real-project-preregistration.md. The list is OSI-approved identifiers
@@ -413,6 +416,48 @@ pub(crate) fn validate_real_project_slice() -> Result<usize> {
     }
     validate_real_project_review_at(Path::new("."), false)?;
     Ok(paths.len())
+}
+
+/// Validate the prospective R2 contract without consulting or creating the
+/// mutable population. R2 is intentionally a separate protocol artifact: the
+/// R1 packet digest-binds the legacy documents and must remain byte-for-byte
+/// intact as an inconclusive historical audit.
+pub(crate) fn validate_real_project_r2_protocol_at(root: &Path) -> Result<()> {
+    let protocol_path = root.join(REAL_PROJECT_R2_PROTOCOL);
+    let protocol: Value = serde_json::from_slice(
+        &fs::read(&protocol_path).with_context(|| format!("read {}", protocol_path.display()))?,
+    )
+    .with_context(|| format!("parse {}", protocol_path.display()))?;
+    let schema_path = root.join(REAL_PROJECT_R2_PROTOCOL_SCHEMA);
+    let schema_value: Value = serde_json::from_slice(
+        &fs::read(&schema_path).with_context(|| format!("read {}", schema_path.display()))?,
+    )?;
+    let compiled = jsonschema::JSONSchema::compile(Box::leak(Box::new(schema_value)))
+        .context("compile real-project R2 protocol schema")?;
+    validate_value(&compiled, &protocol, &protocol_path)?;
+
+    if protocol["wave"] != "R2" || protocol["seed"] != "dataflowbench-real-project-wave-r2" {
+        bail!("{REAL_PROJECT_R2_PROTOCOL}: wave and seed must identify the fresh R2 draw");
+    }
+    if protocol["analyzer_evidence_consulted"] != false {
+        bail!("{REAL_PROJECT_R2_PROTOCOL}: analyzer evidence must not influence R2");
+    }
+    let superseded = &protocol["superseded_review"];
+    if superseded["path"] != REAL_PROJECT_REVIEW || superseded["outcome"] != "inconclusive" {
+        bail!("{REAL_PROJECT_R2_PROTOCOL}: R2 must retain the inconclusive R1 review identity");
+    }
+    validate_review_artifact(root, superseded)?;
+    let criteria = protocol["eligibility"]["criteria"]
+        .as_object()
+        .context("R2 protocol eligibility.criteria must be an object")?;
+    let expected = (1..=8)
+        .map(|index| format!("E{index}"))
+        .collect::<BTreeSet<_>>();
+    let actual = criteria.keys().cloned().collect::<BTreeSet<_>>();
+    if actual != expected {
+        bail!("{REAL_PROJECT_R2_PROTOCOL}: eligibility must declare exactly E1-E8");
+    }
+    Ok(())
 }
 
 /// Validate the provenance-bound independent-review record. Pending and
