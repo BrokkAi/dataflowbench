@@ -51,8 +51,10 @@ SCHEMA_DOMAINS = {
     "real-project-r2-frame.schema.json": "frame",
     "real-project-r2-eligibility.schema.json": "eligibility",
     "real-project-r2-draw.schema.json": "draw",
+    "real-project-r2-e5-inventory.schema.json": "e5-inventory",
     "real-project-r2-pin.schema.json": "pin",
     "real-project-r2-pin-evidence.schema.json": "pin-evidence",
+    "real-project-r2-evidence-manifest.schema.json": "eligibility-evidence",
     "real-project-r2-review.schema.json": "review",
 }
 FORBIDDEN_PATH = re.compile(
@@ -241,6 +243,7 @@ def schemas() -> list[dict]:
 def tools() -> list[dict]:
     purposes = {
         "capture-real-project-r2.py": "capture",
+        "capture-real-project-r2-eligibility.py": "eligibility-capture",
         "derive-real-project-r2-frame.py": "frame-derivation",
     }
     records = []
