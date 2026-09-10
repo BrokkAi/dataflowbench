@@ -3,8 +3,8 @@
 
 use crate::real_project::{
     REAL_PROJECT_DRAW, real_project_draw_key, real_project_pin_paths,
-    validate_real_project_r2_protocol_at, validate_real_project_review_at,
-    validate_real_project_slice, validate_review_state,
+    validate_real_project_r2_protocol_at, validate_real_project_r2_snapshot_at,
+    validate_real_project_review_at, validate_real_project_slice, validate_review_state,
 };
 use serde_json::{Value, json};
 use std::{fs, path::Path};
@@ -37,10 +37,7 @@ pub(crate) fn the_committed_real_project_slice_replays() {
 #[test]
 pub(crate) fn the_prospective_r2_contract_is_valid_before_capture() {
     validate_real_project_r2_protocol_at(Path::new(".")).unwrap();
-    assert!(
-        !Path::new("corpus/real-project/r2/snapshot/manifest.json").exists(),
-        "the preregistration tranche must merge before the R2 population is captured"
-    );
+    validate_real_project_r2_snapshot_at(Path::new(".")).unwrap();
 }
 
 #[test]
