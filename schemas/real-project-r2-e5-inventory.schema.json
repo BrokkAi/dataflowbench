@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://dataflowbench.dev/schemas/real-project-r2-e5-inventory/v2",
+  "title": "DataFlowBench R2 E5 independent-slice inventory",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "wave", "source_lists", "r1_frame", "r1_draw",
+    "r1_selected_repositories", "named_donor_or_corpus_repositories",
+    "evaluated_analyzer_or_dependency_repositories", "non_github_named_sources",
+    "analyzer_evidence_consulted"
+  ],
+  "properties": {
+    "schema_version": { "const": 2 },
+    "wave": { "const": "R2" },
+    "source_lists": { "type": "array", "minItems": 3, "uniqueItems": true, "items": { "$ref": "#/$defs/artifact" } },
+    "r1_frame": { "$ref": "#/$defs/artifact" },
+    "r1_draw": { "$ref": "#/$defs/artifact" },
+    "r1_selected_repositories": { "$ref": "#/$defs/repositories" },
+    "named_donor_or_corpus_repositories": { "$ref": "#/$defs/repositories" },
+    "evaluated_analyzer_or_dependency_repositories": { "$ref": "#/$defs/repositories" },
+    "non_github_named_sources": { "type": "array", "minItems": 1, "uniqueItems": true, "items": { "type": "string", "minLength": 1 } },
+    "analyzer_evidence_consulted": { "const": false }
+  },
+  "$defs": {
+    "sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+    "artifact": {
+      "type": "object", "additionalProperties": false, "required": ["path", "sha256"],
+      "properties": { "path": { "type": "string", "minLength": 1 }, "sha256": { "$ref": "#/$defs/sha256" } }
+    },
+    "repositories": { "type": "array", "uniqueItems": true, "items": { "type": "string", "pattern": "^[^/]+/[^/]+$" } }
+  }
+}
