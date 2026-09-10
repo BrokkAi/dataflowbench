@@ -4,8 +4,8 @@
 use crate::real_project::{
     REAL_PROJECT_DRAW, real_project_draw_key, real_project_pin_paths,
     validate_real_project_r2_frame_at, validate_real_project_r2_protocol_at,
-    validate_real_project_r2_snapshot_at, validate_real_project_review_at,
-    validate_real_project_slice, validate_review_state,
+    validate_real_project_r2_selection_at, validate_real_project_r2_snapshot_at,
+    validate_real_project_review_at, validate_real_project_slice, validate_review_state,
 };
 use serde_json::{Value, json};
 use std::{fs, path::Path};
@@ -42,6 +42,10 @@ pub(crate) fn the_prospective_r2_contract_is_valid_before_capture() {
     assert_eq!(
         validate_real_project_r2_frame_at(Path::new(".")).unwrap(),
         219
+    );
+    assert_eq!(
+        validate_real_project_r2_selection_at(Path::new(".")).unwrap(),
+        None
     );
 }
 
