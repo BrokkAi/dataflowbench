@@ -45,7 +45,7 @@ pub(crate) fn the_prospective_r2_contract_is_valid_before_capture() {
     );
     assert_eq!(
         validate_real_project_r2_selection_at(Path::new(".")).unwrap(),
-        None
+        Some(6)
     );
 }
 
