@@ -1,0 +1,178 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://dataflowbench.dev/schemas/real-project-r2-protocol/v2",
+  "title": "DataFlowBench prospective real-project R2 protocol",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "wave",
+    "status",
+    "preregistered_at",
+    "superseded_review",
+    "seed",
+    "target_per_stratum",
+    "population",
+    "capture",
+    "eligibility",
+    "selection",
+    "review",
+    "claims",
+    "analyzer_evidence_consulted"
+  ],
+  "properties": {
+    "schema_version": { "const": 2 },
+    "wave": { "const": "R2" },
+    "status": { "const": "preregistered-before-query" },
+    "preregistered_at": { "type": "string", "format": "date-time" },
+    "superseded_review": { "$ref": "#/$defs/artifact" },
+    "seed": { "const": "dataflowbench-real-project-wave-r2" },
+    "target_per_stratum": { "const": 2 },
+    "population": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["provider", "endpoint", "publication_window", "cwes", "queries", "admission_rule"],
+      "properties": {
+        "provider": { "const": "GitHub Advisory Database (global advisories)" },
+        "endpoint": { "const": "https://api.github.com/advisories" },
+        "publication_window": { "const": "2025-01-01..2025-12-31" },
+        "cwes": { "const": [22, 78, 89, 94, 611, 918] },
+        "queries": {
+          "type": "array",
+          "minItems": 3,
+          "maxItems": 3,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["stratum", "ecosystem", "parameters"],
+            "properties": {
+              "stratum": { "enum": ["java", "javascript", "python"] },
+              "ecosystem": { "enum": ["maven", "npm", "pip"] },
+              "parameters": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": ["ecosystem", "type", "published", "cwes", "per_page", "sort", "direction"],
+                "properties": {
+                  "ecosystem": { "enum": ["maven", "npm", "pip"] },
+                  "type": { "const": "reviewed" },
+                  "published": { "const": "2025-01-01..2025-12-31" },
+                  "cwes": { "const": "22,78,89,94,611,918" },
+                  "per_page": { "const": 100 },
+                  "sort": { "const": "published" },
+                  "direction": { "const": "asc" }
+                }
+              }
+            }
+          }
+        },
+        "admission_rule": { "type": "string", "minLength": 1 }
+      }
+    },
+    "capture": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["tool", "output_root", "manifest", "raw_response_rule", "pagination_rule", "eligibility_response_rule"],
+      "properties": {
+        "tool": { "const": "scripts/capture-real-project-r2.py" },
+        "output_root": { "const": "corpus/real-project/r2/snapshot" },
+        "manifest": { "const": "corpus/real-project/r2/snapshot/manifest.json" },
+        "raw_response_rule": { "type": "string", "minLength": 1 },
+        "pagination_rule": { "type": "string", "minLength": 1 },
+        "eligibility_response_rule": { "type": "string", "minLength": 1 }
+      }
+    },
+    "eligibility": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["artifact", "decision_set", "criteria"],
+      "properties": {
+        "artifact": { "const": "corpus/real-project/r2/eligibility.json" },
+        "decision_set": { "type": "string", "minLength": 1 },
+        "criteria": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["E1", "E2", "E3", "E4", "E5", "E6", "E7", "E8"],
+          "properties": {
+            "E1": { "$ref": "#/$defs/criterion" },
+            "E2": { "$ref": "#/$defs/criterion" },
+            "E3": { "$ref": "#/$defs/criterion" },
+            "E4": { "$ref": "#/$defs/criterion" },
+            "E5": { "$ref": "#/$defs/criterion" },
+            "E6": { "$ref": "#/$defs/criterion" },
+            "E7": { "$ref": "#/$defs/criterion" },
+            "E8": { "$ref": "#/$defs/criterion" }
+          }
+        }
+      }
+    },
+    "selection": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["frame", "draw", "ordering_rule", "walk_rule", "replacement_rule"],
+      "properties": {
+        "frame": { "const": "corpus/real-project/r2/frame.json" },
+        "draw": { "const": "corpus/real-project/r2/draw.json" },
+        "ordering_rule": { "const": "draw_key = SHA-256(seed + \"\\n\" + ghsa_id), ascending lowercase hex, ties by ascending GHSA identifier" },
+        "walk_rule": { "type": "string", "minLength": 1 },
+        "replacement_rule": { "type": "string", "minLength": 1 }
+      }
+    },
+    "review": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["packet", "reviewer_a", "reviewer_b", "independence", "readiness_rule"],
+      "properties": {
+        "packet": { "const": "corpus/real-project/r2/review.json" },
+        "reviewer_a": { "$ref": "#/$defs/reviewer" },
+        "reviewer_b": { "$ref": "#/$defs/reviewer" },
+        "independence": { "type": "string", "minLength": 1 },
+        "readiness_rule": { "type": "string", "minLength": 1 }
+      }
+    },
+    "claims": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["per_repository_only", "no_generalized_rate", "no_ranking", "synthetic_core_denominator_unchanged", "descriptive_latency_only"],
+      "properties": {
+        "per_repository_only": { "const": true },
+        "no_generalized_rate": { "const": true },
+        "no_ranking": { "const": true },
+        "synthetic_core_denominator_unchanged": { "const": true },
+        "descriptive_latency_only": { "const": true }
+      }
+    },
+    "analyzer_evidence_consulted": { "const": false }
+  },
+  "$defs": {
+    "artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256", "outcome"],
+      "properties": {
+        "path": { "const": "corpus/real-project/review.json" },
+        "sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+        "outcome": { "const": "inconclusive" }
+      }
+    },
+    "criterion": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "admitted_when", "evidence"],
+      "properties": {
+        "name": { "type": "string", "minLength": 1 },
+        "admitted_when": { "type": "string", "minLength": 1 },
+        "evidence": { "type": "string", "minLength": 1 }
+      }
+    },
+    "reviewer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["provider", "model", "reasoning_effort"],
+      "properties": {
+        "provider": { "type": "string", "minLength": 1 },
+        "model": { "type": "string", "minLength": 1 },
+        "reasoning_effort": { "enum": ["medium", "max"] }
+      }
+    }
+  }
+}

@@ -1,0 +1,58 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://dataflowbench.dev/schemas/real-project-r2-draw/v2",
+  "title": "DataFlowBench R2 evidence-bound draw",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "wave", "drawn_at", "seed", "target_per_stratum", "ordering_rule", "frame", "eligibility", "analyzer_evidence_consulted", "walk"],
+  "properties": {
+    "schema_version": { "const": 2 },
+    "wave": { "const": "R2" },
+    "drawn_at": { "type": "string", "format": "date-time" },
+    "seed": { "const": "dataflowbench-real-project-wave-r2" },
+    "target_per_stratum": { "const": 2 },
+    "ordering_rule": { "const": "draw_key = SHA-256(seed + \"\\n\" + ghsa_id), ascending lowercase hex, ties by ascending GHSA identifier" },
+    "frame": { "$ref": "#/$defs/artifact" },
+    "eligibility": { "$ref": "#/$defs/artifact" },
+    "analyzer_evidence_consulted": { "const": false },
+    "walk": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["java", "javascript", "python"],
+      "properties": {
+        "java": { "$ref": "#/$defs/stratum" },
+        "javascript": { "$ref": "#/$defs/stratum" },
+        "python": { "$ref": "#/$defs/stratum" }
+      }
+    }
+  },
+  "$defs": {
+    "sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+    "artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": { "type": "string", "minLength": 1 },
+        "sha256": { "$ref": "#/$defs/sha256" }
+      }
+    },
+    "stratum": {
+      "type": "array",
+      "minItems": 2,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["draw_position", "draw_key", "ghsa_id", "repository", "disposition", "eligibility_index"],
+        "properties": {
+          "draw_position": { "type": "integer", "minimum": 1 },
+          "draw_key": { "$ref": "#/$defs/sha256" },
+          "ghsa_id": { "type": "string", "pattern": "^GHSA-[0-9a-z]{4}-[0-9a-z]{4}-[0-9a-z]{4}$" },
+          "repository": { "type": "string", "pattern": "^[^/]+/[^/]+$" },
+          "disposition": { "enum": ["selected", "excluded"] },
+          "eligibility_index": { "type": "integer", "minimum": 0 }
+        }
+      }
+    }
+  }
+}

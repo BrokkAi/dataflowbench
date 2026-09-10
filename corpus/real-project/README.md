@@ -1,6 +1,6 @@
 # Real-project confirmation slice — selection artifacts
 
-These three artifacts are the machine-checkable half of
+The top-level R1 artifacts are the machine-checkable half of
 [the real-project preregistration](../../docs/real-project-preregistration.md).
 The document states the contract; these files are what a validator replays.
 
@@ -20,3 +20,16 @@ directory redistributes anything.
 
 Schemas: `schemas/real-project-pin.schema.json`,
 `schemas/real-project-draw.schema.json`.
+
+## Wave R2
+
+R1 remains an immutable failed audit: its selected pins and ground-truth
+subjects were accepted, but its population eligibility could not be certified
+from draw-time evidence. R2 is therefore a new prospective wave, never a
+rewrite of the files above.
+
+`r2/protocol.json` and
+`docs/real-project-r2-preregistration.md` are committed and merged before the
+first R2 query. Only after that boundary may the capture tool create the raw,
+source-only response snapshot and derive the new frame. Later R2 artifacts stay
+under `corpus/real-project/r2/`; no R2 pin or report is placed beside R1.

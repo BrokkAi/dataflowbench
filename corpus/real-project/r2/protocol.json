@@ -1,0 +1,81 @@
+{
+  "schema_version": 2,
+  "wave": "R2",
+  "status": "preregistered-before-query",
+  "preregistered_at": "2026-09-10T06:52:34Z",
+  "superseded_review": {
+    "path": "corpus/real-project/review.json",
+    "sha256": "0a5527c32f864cd8308c911368034a57b23b6d49c618902633a0dee5163f7f97",
+    "outcome": "inconclusive"
+  },
+  "seed": "dataflowbench-real-project-wave-r2",
+  "target_per_stratum": 2,
+  "population": {
+    "provider": "GitHub Advisory Database (global advisories)",
+    "endpoint": "https://api.github.com/advisories",
+    "publication_window": "2025-01-01..2025-12-31",
+    "cwes": [22, 78, 89, 94, 611, 918],
+    "queries": [
+      {
+        "stratum": "java",
+        "ecosystem": "maven",
+        "parameters": { "ecosystem": "maven", "type": "reviewed", "published": "2025-01-01..2025-12-31", "cwes": "22,78,89,94,611,918", "per_page": 100, "sort": "published", "direction": "asc" }
+      },
+      {
+        "stratum": "javascript",
+        "ecosystem": "npm",
+        "parameters": { "ecosystem": "npm", "type": "reviewed", "published": "2025-01-01..2025-12-31", "cwes": "22,78,89,94,611,918", "per_page": 100, "sort": "published", "direction": "asc" }
+      },
+      {
+        "stratum": "python",
+        "ecosystem": "pip",
+        "parameters": { "ecosystem": "pip", "type": "reviewed", "published": "2025-01-01..2025-12-31", "cwes": "22,78,89,94,611,918", "per_page": 100, "sort": "published", "direction": "asc" }
+      }
+    ],
+    "admission_rule": "Admit a non-withdrawn advisory only when source_code_location is a github.com owner/repository and at least one reference is a commit URL under that same repository. Advisory bytes supply candidates, never ground truth."
+  },
+  "capture": {
+    "tool": "scripts/capture-real-project-r2.py",
+    "output_root": "corpus/real-project/r2/snapshot",
+    "manifest": "corpus/real-project/r2/snapshot/manifest.json",
+    "raw_response_rule": "Retain each complete JSON response body byte-for-byte in a dedicated file and bind its repository-relative path, request URL, retrieval timestamp, status, item count, and SHA-256 in the manifest; never retain credentials.",
+    "pagination_rule": "Follow the GitHub Link rel=next chain until absent. Record every page number and next URL; a truncated, failed, duplicated, or unmanifested page invalidates the snapshot.",
+    "eligibility_response_rule": "For every candidate reached by the seeded walk, capture and digest every source-only repository, languages, commit, and license API response used by E1-E7. E5 may additionally cite repository-owned documentation and the frozen DataFlowBench donor/analyzer lists."
+  },
+  "eligibility": {
+    "artifact": "corpus/real-project/r2/eligibility.json",
+    "decision_set": "Every walked candidate carries exactly one pass or fail decision for each E1-E8, an observed value, and immutable evidence references. E5 always has an explicit rationale; E8 always names the earlier selected repository state or states that none exists.",
+    "criteria": {
+      "E1": { "name": "stratum language", "admitted_when": "GitHub's captured primary language equals the stratum language exactly.", "evidence": "Captured repository response." },
+      "E2": { "name": "license", "admitted_when": "The captured SPDX identifier is OSI-approved and the captured license file resolves at the vulnerable revision.", "evidence": "Captured repository and license-content responses." },
+      "E3": { "name": "repository status", "admitted_when": "The captured repository response says archived=false and fork=false.", "evidence": "Captured repository response." },
+      "E4": { "name": "size budget", "admitted_when": "The captured GitHub repository size is at most 256000 KiB (250 MiB).", "evidence": "Captured repository response; GitHub reports size in KiB." },
+      "E5": { "name": "independent non-donor repository", "admitted_when": "The repository is not a vulnerability demo, benchmark corpus, evaluated analyzer, dependency of one, named donor suite, or any repository selected in R1.", "evidence": "Explicit per-candidate rationale citing captured repository metadata/docs, frozen benchmark source and adapter lists, and the R1 draw." },
+      "E6": { "name": "unambiguous vulnerable revision", "admitted_when": "The earliest captured same-repository advisory fix commit resolves to a full revision with exactly one parent; divergent maintenance-line fixes are ineligible.", "evidence": "Captured commit responses for every advisory fix reference." },
+      "E7": { "name": "substance floor", "admitted_when": "The captured languages response reports at least 20000 bytes of the stratum language.", "evidence": "Captured languages response." },
+      "E8": { "name": "one advisory per repository", "admitted_when": "No earlier selected entry in this R2 stratum or another R2 stratum names the same case-insensitive owner/repository.", "evidence": "Explicit deterministic selected-repository state immediately before this decision." }
+    }
+  },
+  "selection": {
+    "frame": "corpus/real-project/r2/frame.json",
+    "draw": "corpus/real-project/r2/draw.json",
+    "ordering_rule": "draw_key = SHA-256(seed + \"\\n\" + ghsa_id), ascending lowercase hex, ties by ascending GHSA identifier",
+    "walk_rule": "Derive the frame only from the committed raw snapshot, then walk each stratum from position one. Evaluate and retain all E1-E8 decisions. Select only candidates passing all eight and stop exactly at the second selection.",
+    "replacement_rule": "Before review closes, a declined pin is converted to an exclusion with retained evidence and the same seeded walk continues from the next unwalked position. After review closes, retire it without replacement. Never reseed or consult analyzer output."
+  },
+  "review": {
+    "packet": "corpus/real-project/r2/review.json",
+    "reviewer_a": { "provider": "openai", "model": "gpt-5.6-sol", "reasoning_effort": "medium" },
+    "reviewer_b": { "provider": "z.ai", "model": "glm-5.3", "reasoning_effort": "max" },
+    "independence": "Both reviewers receive the same digest-bound analyzer-free packet in separate clean checkouts and evidence paths and do not exchange conclusions before submission.",
+    "readiness_rule": "execution_ready and freeze_ready remain false for any missing evidence, unresolved disagreement, reject, inconclusive, or cannot-determine verdict."
+  },
+  "claims": {
+    "per_repository_only": true,
+    "no_generalized_rate": true,
+    "no_ranking": true,
+    "synthetic_core_denominator_unchanged": true,
+    "descriptive_latency_only": true
+  },
+  "analyzer_evidence_consulted": false
+}
