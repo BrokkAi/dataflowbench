@@ -5,9 +5,9 @@
 use crate::adapters::bifrost::{
     BIFROST_DIRECT_POLICY, BIFROST_DIRECT_POSITIVE_POLICY, BIFROST_EXPLICIT_NEGATIVE_POLICY,
     BIFROST_JAVA_POLICY, BIFROST_JAVASCRIPT_POLICY, BIFROST_KOTLIN_POLICY,
-    BIFROST_MODELING_CALL_MODELING, BIFROST_SCALA_POLICY, BifrostRun, bifrost_anchor_dialect,
-    bifrost_policy_for, normalize_bifrost, require_bifrost_modeling_load_bearing,
-    selected_bifrost_case,
+    BIFROST_MODELING_CALL_MODELING, BIFROST_SCALA_POLICY, BifrostRun, CaseWorkspace,
+    bifrost_anchor_dialect, bifrost_policy_for, materialize_bifrost_workspace, normalize_bifrost,
+    require_bifrost_modeling_load_bearing, selected_bifrost_case,
 };
 use crate::adapters::codeql::rust_kernel_case;
 use crate::cases::{case_paths, ruby_core_case, scala_core_case, validate_kernel_population_with};
@@ -993,4 +993,82 @@ pub(crate) fn a_bifrost_modeling_policy_must_require_the_model() {
     require_bifrost_modeling_load_bearing(load_bearing, "adapters/bifrost/policies/x.rqlp")
         .unwrap();
     assert_eq!(BIFROST_MODELING_CALL_MODELING, "require-model");
+}
+
+/// The bounded-disk contract this cleanup exists to keep: once a case's raw
+/// JSON evidence is retained, removing the case workspace deletes the
+/// `.bifrost` analyzer store with it but never touches the retained evidence.
+#[test]
+pub(crate) fn bifrost_workspace_removal_keeps_retained_raw_evidence() {
+    let root = unique_test_dir("dataflowbench-bifrost-workspace-test");
+    let workspace = root.join("workspace");
+    fs::create_dir_all(workspace.join(".bifrost/store")).unwrap();
+    fs::write(workspace.join("Fixture.java"), "class Fixture {}").unwrap();
+    let raw_dir = root.join("reports/raw/bifrost");
+    fs::create_dir_all(&raw_dir).unwrap();
+    let raw_path = raw_dir.join("dfb-case.json");
+    let raw_body = r#"{"adapter":"bifrost","case_id":"dfb-case","state":"complete"}"#;
+    fs::write(&raw_path, raw_body).unwrap();
+
+    CaseWorkspace::adopt(workspace).remove().unwrap();
+
+    assert!(!root.join("workspace").exists());
+    assert_eq!(fs::read_to_string(&raw_path).unwrap(), raw_body);
+    fs::remove_dir_all(&root).unwrap();
+}
+
+/// A case that exits its scope early (spawn failure, `?`) never reached the
+/// success-path removal, so the drop guard is what keeps its analyzer store
+/// from leaking into the shared temp root.
+#[test]
+pub(crate) fn a_case_scope_that_ends_early_still_removes_its_workspace() {
+    let root = unique_test_dir("dataflowbench-bifrost-workspace-drop-test");
+    let workspace = root.join("workspace");
+    fs::create_dir_all(workspace.join(".bifrost")).unwrap();
+    drop(CaseWorkspace::adopt(workspace.clone()));
+    assert!(!workspace.exists());
+    fs::remove_dir_all(&root).unwrap();
+}
+
+/// Cleanup must hold at the edges: an already-removed workspace is not an
+/// error, and `remove` consumes the guard so a removed store cannot be
+/// removed twice.
+#[test]
+pub(crate) fn bifrost_workspace_cleanup_tolerates_an_already_removed_store() {
+    let root = unique_test_dir("dataflowbench-bifrost-workspace-missing-test");
+    let workspace = root.join("workspace");
+    CaseWorkspace::adopt(workspace.clone()).remove().unwrap();
+    assert!(!workspace.exists());
+    fs::remove_dir_all(&root).unwrap();
+}
+
+/// The runner's materialize step hands back a guarded workspace: Bifrost
+/// would create its `.bifrost` analyzer store inside it during the
+/// invocation, and the guard must remove the whole tree on demand while
+/// leaving the source fixtures untouched.
+#[test]
+pub(crate) fn materialized_bifrost_workspaces_are_guarded_for_cleanup() {
+    let root = unique_test_dir("dataflowbench-bifrost-materialize-test");
+    let fixture_root = root.join("cases/taint/java");
+    fs::create_dir_all(&fixture_root).unwrap();
+    fs::write(fixture_root.join("Fixture.java"), "class Fixture {}").unwrap();
+    let policy = root.join("policy.rqlp");
+    fs::write(&policy, "(analysis :type taint)").unwrap();
+    let case_path = fixture_root.join("case.json");
+    let case = json!({
+        "id": "dfb-workspace-guard-test",
+        "fixture_files": ["Fixture.java"]
+    });
+
+    let workspace =
+        materialize_bifrost_workspace(&case_path, &case, policy.to_str().unwrap()).unwrap();
+    let workspace_path = workspace.path().to_path_buf();
+    assert!(workspace_path.join("Fixture.java").is_file());
+    assert!(workspace_path.join("policy.rqlp").is_file());
+    fs::create_dir_all(workspace_path.join(".bifrost")).unwrap();
+
+    workspace.remove().unwrap();
+    assert!(!workspace_path.exists());
+    assert!(fixture_root.join("Fixture.java").is_file());
+    fs::remove_dir_all(&root).unwrap();
 }
