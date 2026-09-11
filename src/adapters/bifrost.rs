@@ -332,7 +332,7 @@ pub(crate) fn run_bifrost(binary: &Path, run: BifrostRun) -> Result<()> {
             let mut command = Command::new(binary);
             command
                 .arg("--root")
-                .arg(&workspace)
+                .arg(workspace.path())
                 .arg("--policy-file")
                 .arg("policy.rqlp")
                 .args([
@@ -369,7 +369,7 @@ pub(crate) fn run_bifrost(binary: &Path, run: BifrostRun) -> Result<()> {
             };
             write_case_phase_timings(raw_dir, "bifrost", id, &[("total", invoked.elapsed())])?;
             let status_code = output.status.code();
-            if !raw_path.is_file() {
+            let (outcome, diagnostics, checkpoints) = if !raw_path.is_file() {
                 let stdout = String::from_utf8_lossy(&output.stdout);
                 let stderr = String::from_utf8_lossy(&output.stderr);
                 let diagnostic = format!(
@@ -410,7 +410,16 @@ pub(crate) fn run_bifrost(binary: &Path, run: BifrostRun) -> Result<()> {
                         ("runner-error", vec![diagnostic], Vec::new())
                     }
                 }
-            }
+            };
+            // Every path that reaches this point has retained the case's raw
+            // JSON evidence under `reports/raw/`, so the case is done with
+            // its workspace and the `.bifrost` analyzer store inside it.
+            // Remove it here so the shared temp root stays bounded across a
+            // full kernel comparison; a path that leaves the case earlier
+            // (spawn failure, `?`) still removes the workspace through the
+            // drop guard.
+            workspace.remove()?;
+            (outcome, diagnostics, checkpoints)
         };
         results.push(bifrost_result(
             &case,
@@ -721,28 +730,85 @@ pub(crate) fn write_bifrost_error(
     Ok(())
 }
 
+/// One case's materialized Bifrost workspace, plus the cleanup contract the
+/// bounded-disk fix exists for: Bifrost builds its `.bifrost` analyzer store
+/// inside the workspace, and the store must not outlive the case's retained
+/// raw evidence. `remove` is the success path and surfaces a removal failure
+/// to the run; the `Drop` backstop keeps a case that exits early (spawn
+/// failure, `?`) from leaking its store, best effort because a destructor
+/// cannot fail the run.
+pub(crate) struct CaseWorkspace {
+    path: PathBuf,
+    /// Still owns the removal; cleared only by `CaseWorkspace::remove`.
+    armed: bool,
+}
+
+impl CaseWorkspace {
+    /// Adopts an existing directory so the guard covers even a partially
+    /// materialized case workspace.
+    pub(crate) fn adopt(path: PathBuf) -> Self {
+        Self { path, armed: true }
+    }
+
+    pub(crate) fn path(&self) -> &Path {
+        &self.path
+    }
+
+    /// Removes the workspace and disarms the drop guard. Call only after the
+    /// case's raw JSON evidence has been written under `reports/raw/`.
+    pub(crate) fn remove(mut self) -> Result<()> {
+        self.armed = false;
+        remove_workspace(&self.path)
+    }
+}
+
+impl Drop for CaseWorkspace {
+    fn drop(&mut self) {
+        if !self.armed {
+            return;
+        }
+        if let Err(error) = remove_workspace(&self.path) {
+            eprintln!(
+                "warning: case scope ended before its workspace was removed ({}): {error}",
+                self.path.display()
+            );
+        }
+    }
+}
+
+fn remove_workspace(path: &Path) -> Result<()> {
+    if path.exists() {
+        fs::remove_dir_all(path).with_context(|| format!("remove {}", path.display()))
+    } else {
+        Ok(())
+    }
+}
+
 pub(crate) fn materialize_bifrost_workspace(
     case_path: &Path,
     case: &Value,
     policy: &str,
-) -> Result<PathBuf> {
+) -> Result<CaseWorkspace> {
     let id = case["id"].as_str().expect("schema validated");
     // Keep generated workspaces outside this repository. Bifrost honors the
     // repository's ignore rules, so placing fixtures below ignored `target/`
     // would make an otherwise valid run index zero source files.
-    let workspace = std::env::temp_dir()
-        .join("dataflowbench-bifrost-smoke")
-        .join(id);
-    if workspace.exists() {
-        fs::remove_dir_all(&workspace).with_context(|| format!("clear {}", workspace.display()))?;
+    let workspace = CaseWorkspace::adopt(
+        std::env::temp_dir()
+            .join("dataflowbench-bifrost-smoke")
+            .join(id),
+    );
+    if workspace.path().exists() {
+        fs::remove_dir_all(workspace.path())
+            .with_context(|| format!("clear {}", workspace.path().display()))?;
     }
-    fs::create_dir_all(&workspace)?;
+    fs::create_dir_all(workspace.path())?;
     let fixture_root = case_path.parent().expect("case path has parent");
     for fixture in case["fixture_files"].as_array().expect("schema validated") {
         let fixture = fixture.as_str().expect("schema validated");
-        fs::copy(fixture_root.join(fixture), workspace.join(fixture))?;
+        fs::copy(fixture_root.join(fixture), workspace.path().join(fixture))?;
     }
-    fs::copy(policy, workspace.join("policy.rqlp"))?;
+    fs::copy(policy, workspace.path().join("policy.rqlp"))?;
     Ok(workspace)
 }
 
