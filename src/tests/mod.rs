@@ -6,6 +6,7 @@
 //! docs/adding-an-adapter.md.
 
 mod adapters;
+mod batch;
 mod cases;
 mod evidence;
 mod freeze;
@@ -14,6 +15,7 @@ mod modeling;
 mod native;
 mod real_project;
 mod report;
+mod report_diff;
 mod results;
 mod runtime;
 mod support;
