@@ -16,6 +16,7 @@
 //!   timing, and environment plumbing every adapter shares.
 
 mod adapters;
+mod batch;
 mod cases;
 mod evidence;
 mod freeze;
@@ -25,6 +26,7 @@ mod native;
 mod population;
 mod real_project;
 mod report;
+mod report_diff;
 mod results;
 mod runtime;
 mod templates;
@@ -63,10 +65,11 @@ use crate::latency::{
 use crate::modeling::run_modeling;
 use crate::native::run_native;
 use crate::report::validate_reports;
+use crate::report_diff::compare_reports;
 use crate::results::generate_results;
 use anyhow::Result;
 use clap::{Parser, Subcommand};
-use std::path::PathBuf;
+use std::path::{Path, PathBuf};
 
 #[derive(Parser)]
 #[command(name = "dataflowbench")]
@@ -82,6 +85,21 @@ struct Cli {
 enum Commands {
     Validate,
     ValidateReports,
+    /// Run explicit language kernels for one analyzer under a resumable
+    /// execution manifest. See docs/batch-runs.md.
+    RunBatch {
+        #[arg(long, value_enum)]
+        analyzer: crate::batch::BatchAnalyzer,
+        /// Path to the pinned analyzer binary.
+        #[arg(long, default_value = "bifrost")]
+        bifrost: PathBuf,
+        /// Explicit language kernel; repeat once per language.
+        #[arg(long = "kernel", value_enum, required = true)]
+        kernels: Vec<crate::batch::BatchKernel>,
+        /// Execution-manifest destination, relative to the repository root.
+        #[arg(long, default_value = "reports/batch/manifest.json")]
+        manifest: PathBuf,
+    },
     /// Validate the real-project review record; optionally require the gate
     /// that analyzer execution and real-project freezes must pass.
     ValidateRealProjectReview {
@@ -123,6 +141,22 @@ enum Commands {
         /// Verify that checked-in artifacts are current instead of writing.
         #[arg(long)]
         check: bool,
+    },
+    /// Compare two normalized report files or directories without pooling
+    /// retained, added, and removed populations.
+    CompareReports {
+        /// Baseline report or directory.
+        #[arg(long)]
+        baseline: PathBuf,
+        /// Current report or directory.
+        #[arg(long)]
+        current: PathBuf,
+        /// Also write deterministic machine-readable JSON to this path.
+        #[arg(long)]
+        json: Option<PathBuf>,
+        /// Explicitly permit a diagnostic comparison across changed configs.
+        #[arg(long)]
+        allow_configuration_mismatch: bool,
     },
     RunBifrostSmoke {
         #[arg(long, default_value = "bifrost")]
@@ -913,6 +947,15 @@ fn main() -> Result<()> {
     match cli.command {
         Commands::Validate => validate_cases(),
         Commands::ValidateReports => validate_reports(),
+        Commands::RunBatch {
+            analyzer,
+            bifrost,
+            kernels,
+            manifest,
+        } => {
+            crate::batch::run_batch_cli(Path::new("."), analyzer, &bifrost, &kernels, &manifest)?;
+            Ok(())
+        }
         Commands::ValidateRealProjectReview { require_ready } => {
             real_project::validate_real_project_review_at(
                 std::path::Path::new("."),
@@ -934,6 +977,25 @@ fn main() -> Result<()> {
             output_directory,
             check,
         } => generate_results(&manifest, &output_directory, check),
+        Commands::CompareReports {
+            baseline,
+            current,
+            json,
+            allow_configuration_mismatch,
+        } => {
+            println!(
+                "{}",
+                compare_reports(
+                    &baseline,
+                    &current,
+                    json.as_deref(),
+                    crate::report_diff::CompareOptions {
+                        allow_configuration_mismatch,
+                    },
+                )?
+            );
+            Ok(())
+        }
         Commands::RunBifrostSmoke { bifrost } => run_bifrost_smoke(&bifrost),
         Commands::RunBifrostJavaKernel { bifrost } => run_bifrost(&bifrost, BifrostRun::JavaKernel),
         Commands::RunBifrostJavascriptKernel { bifrost } => {
