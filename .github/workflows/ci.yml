@@ -38,6 +38,8 @@ jobs:
       - run: cargo run -- validate-reports
       - name: Test isolated release validation gate
         run: python3 scripts/test-release-results.py
+      - name: Test versioned release execution guard
+        run: python3 scripts/test-release-harness.py
       - name: Validate current release in an isolated tag checkout
         run: python3 scripts/check-release-results.py --binary "$PWD/target/debug/dataflowbench"
 
