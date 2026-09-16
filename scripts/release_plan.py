@@ -3,6 +3,7 @@
 
 from __future__ import annotations
 
+import hashlib
 import json
 import pathlib
 
@@ -32,10 +33,10 @@ def load_plan(release: str) -> tuple[pathlib.Path, pathlib.Path, dict]:
 
 def require_executable_plan(plan_path: pathlib.Path, plan: dict) -> None:
     status = plan.get("status")
-    if status in {"preparation-not-executable", "preparation"}:
+    if status is not None and status != "executable":
         raise ValueError(
-            f"{plan_path.relative_to(ROOT)} is {status}; finalize exact argv, identities, "
-            "and current case membership before execution"
+            f"{plan_path.relative_to(ROOT)} is {status}; resolve every recorded blocker "
+            "and mark the reviewed plan executable before execution"
         )
     if "fixture_revision" not in plan or "input_commits" not in plan:
         raise ValueError(
@@ -75,10 +76,33 @@ def display_argv(step: dict) -> list[str]:
 def require_executable_steps(steps: list[dict]) -> None:
     incomplete = []
     for step in steps:
-        unresolved_membership = step.get("case_membership") in {
+        membership = step.get("case_membership")
+        unresolved_membership = isinstance(membership, str) and membership in {
             "pending",
             "must preregister current runner selection before execution; old release membership is not reused",
         }
+        if "report" in step:
+            case_ids = step.get("case_ids")
+            case_digest = (
+                hashlib.sha256(
+                    (json.dumps(case_ids, sort_keys=True, separators=(",", ":")) + "\n").encode()
+                ).hexdigest()
+                if isinstance(case_ids, list)
+                else None
+            )
+            case_ids_valid = (
+                isinstance(case_ids, list)
+                and bool(case_ids)
+                and len(case_ids) == len(set(case_ids))
+            )
+            membership_valid = membership is None or (
+                case_ids_valid
+                and
+                isinstance(membership, dict)
+                and membership.get("count") == len(case_ids)
+                and membership.get("sha256") == case_digest
+            )
+            unresolved_membership = unresolved_membership or not case_ids_valid or not membership_valid
         if not step.get("argv") or unresolved_membership:
             incomplete.append(step.get("id", "<missing-id>"))
     if incomplete:
