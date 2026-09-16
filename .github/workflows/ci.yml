@@ -40,6 +40,8 @@ jobs:
         run: python3 scripts/test-release-results.py
       - name: Test versioned release execution guard
         run: python3 scripts/test-release-harness.py
+      - name: Check resolved v0.8.0 release plan
+        run: python3 scripts/prepare-v080-execution-plan.py
       - name: Validate current release in an isolated tag checkout
         run: python3 scripts/check-release-results.py --binary "$PWD/target/debug/dataflowbench"
 
