@@ -604,7 +604,7 @@ pub(crate) fn the_native_activation_shapes_are_pinned() {
         codeql.arguments,
         vec![
             "--threat-model=local".to_string(),
-            "codeql/java-queries@1.11.9:codeql-suites/java-security-extended.qls".to_string(),
+            "codeql/java-queries@1.11.10:codeql-suites/java-security-extended.qls".to_string(),
         ]
     );
     assert!(codeql.configuration_paths.is_empty());
@@ -616,7 +616,7 @@ pub(crate) fn the_native_activation_shapes_are_pinned() {
         )
         .unwrap()
         .arguments[1],
-        "codeql/javascript-queries@2.4.4:codeql-suites/javascript-security-extended.qls"
+        "codeql/javascript-queries@2.4.5:codeql-suites/javascript-security-extended.qls"
     );
     assert_eq!(
         native_activation(
@@ -626,7 +626,7 @@ pub(crate) fn the_native_activation_shapes_are_pinned() {
         )
         .unwrap()
         .arguments[1],
-        "codeql/python-queries@1.8.9:codeql-suites/python-security-extended.qls"
+        "codeql/python-queries@1.8.10:codeql-suites/python-security-extended.qls"
     );
 
     let semgrep = native_activation(
