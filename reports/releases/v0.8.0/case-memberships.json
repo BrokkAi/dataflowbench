@@ -1,39 +1,13 @@
 {
   "schema_version": 1,
   "release": "v0.8.0",
-  "status": "integration-blocked",
-  "source_revision": "52db1bf46f0880c271b97b0df0f3e1d40d01fc0a",
-  "population_manifest": {
+  "population": {
     "path": "reports/releases/v0.8.0/population.json",
     "sha256": "2b9dc814a889a2420eb2952e522041ad7c7e62ba9a42a81ccaf47a8ec188f66d"
   },
-  "fixture_revision": "sha256:4b62280924ed2e141dc8bb8e7b1bddfbd512d0201a3fa82f7b92b223eefca8c9",
-  "expected_cases": 1000,
-  "selection": "current default corpus, never --population v0.7.0",
   "reports": [
     {
       "id": "bifrost-c-kernel",
-      "adapter": "bifrost-c-kernel",
-      "report": "reports/bifrost-c-kernel.json",
-      "command_template": [
-        "dataflowbench",
-        "run-bifrost-c-kernel"
-      ],
-      "status": "resolved-integration-blocked",
-      "case_membership": {
-        "count": 58,
-        "sha256": "26e920305b72e16d203062745dedc259a5e5dcff6f35edfa8127b747a82b05dd"
-      },
-      "output_roots": [
-        "reports/bifrost-c-kernel.json",
-        "reports/raw/bifrost-c-kernel"
-      ],
-      "argv": [
-        "target/release/dataflowbench",
-        "run-bifrost-c-kernel",
-        "--bifrost",
-        "/Users/dave/.cache/dataflowbench-tools/bifrost-v0.11.4/bifrost-v0.11.4-universal-apple-darwin/bifrost"
-      ],
       "case_ids": [
         "dfb-taint-c-alias-propagation-negative",
         "dfb-taint-c-alias-propagation-positive",
@@ -93,31 +67,12 @@
         "dfb-taint-c-return-relay-two-hop-positive",
         "dfb-taint-c-same-object-field-negative",
         "dfb-taint-c-same-object-field-positive"
-      ]
+      ],
+      "count": 58,
+      "sha256": "26e920305b72e16d203062745dedc259a5e5dcff6f35edfa8127b747a82b05dd"
     },
     {
       "id": "bifrost-cpp-kernel",
-      "adapter": "bifrost-cpp-kernel",
-      "report": "reports/bifrost-cpp-kernel.json",
-      "command_template": [
-        "dataflowbench",
-        "run-bifrost-cpp-kernel"
-      ],
-      "status": "resolved-integration-blocked",
-      "case_membership": {
-        "count": 68,
-        "sha256": "06aff2e366e04c19aa566967c021251af8e4808fca027a7d5850f2708c452128"
-      },
-      "output_roots": [
-        "reports/bifrost-cpp-kernel.json",
-        "reports/raw/bifrost-cpp-kernel"
-      ],
-      "argv": [
-        "target/release/dataflowbench",
-        "run-bifrost-cpp-kernel",
-        "--bifrost",
-        "/Users/dave/.cache/dataflowbench-tools/bifrost-v0.11.4/bifrost-v0.11.4-universal-apple-darwin/bifrost"
-      ],
       "case_ids": [
         "dfb-taint-cpp-alias-propagation-negative",
         "dfb-taint-cpp-alias-propagation-positive",
@@ -187,31 +142,12 @@
         "dfb-taint-cpp-return-relay-two-hop-positive",
         "dfb-taint-cpp-same-object-field-negative",
         "dfb-taint-cpp-same-object-field-positive"
-      ]
+      ],
+      "count": 68,
+      "sha256": "06aff2e366e04c19aa566967c021251af8e4808fca027a7d5850f2708c452128"
     },
     {
       "id": "bifrost-csharp-kernel",
-      "adapter": "bifrost-csharp-kernel",
-      "report": "reports/bifrost-csharp-kernel.json",
-      "command_template": [
-        "dataflowbench",
-        "run-bifrost-csharp-kernel"
-      ],
-      "status": "resolved-integration-blocked",
-      "case_membership": {
-        "count": 70,
-        "sha256": "73769a92f03d057fcd783c9b4f6ba3b3b01c7a22c8ede649a0e0e1bb76eb1e39"
-      },
-      "output_roots": [
-        "reports/bifrost-csharp-kernel.json",
-        "reports/raw/bifrost-csharp-kernel"
-      ],
-      "argv": [
-        "target/release/dataflowbench",
-        "run-bifrost-csharp-kernel",
-        "--bifrost",
-        "/Users/dave/.cache/dataflowbench-tools/bifrost-v0.11.4/bifrost-v0.11.4-universal-apple-darwin/bifrost"
-      ],
       "case_ids": [
         "dfb-taint-csharp-alias-propagation-negative",
         "dfb-taint-csharp-alias-propagation-positive",
@@ -283,31 +219,12 @@
         "dfb-taint-csharp-return-relay-two-hop-positive",
         "dfb-taint-csharp-same-object-field-negative",
         "dfb-taint-csharp-same-object-field-positive"
-      ]
+      ],
+      "count": 70,
+      "sha256": "73769a92f03d057fcd783c9b4f6ba3b3b01c7a22c8ede649a0e0e1bb76eb1e39"
     },
     {
       "id": "bifrost-go-kernel",
-      "adapter": "bifrost-go-kernel",
-      "report": "reports/bifrost-go-kernel.json",
-      "command_template": [
-        "dataflowbench",
-        "run-bifrost-go-kernel"
-      ],
-      "status": "resolved-integration-blocked",
-      "case_membership": {
-        "count": 70,
-        "sha256": "40a3197b82cc39e6589b1635327296cdf7ff75eb35090329e3ed22b8c0345f06"
-      },
-      "output_roots": [
-        "reports/bifrost-go-kernel.json",
-        "reports/raw/bifrost-go-kernel"
-      ],
-      "argv": [
-        "target/release/dataflowbench",
-        "run-bifrost-go-kernel",
-        "--bifrost",
-        "/Users/dave/.cache/dataflowbench-tools/bifrost-v0.11.4/bifrost-v0.11.4-universal-apple-darwin/bifrost"
-      ],
       "case_ids": [
         "dfb-taint-go-alias-propagation-negative",
         "dfb-taint-go-alias-propagation-positive",
@@ -379,31 +296,12 @@
         "dfb-taint-go-return-relay-two-hop-positive",
         "dfb-taint-go-same-object-field-negative",
         "dfb-taint-go-same-object-field-positive"
-      ]
+      ],
+      "count": 70,
+      "sha256": "40a3197b82cc39e6589b1635327296cdf7ff75eb35090329e3ed22b8c0345f06"
     },
     {
       "id": "bifrost-java-kernel",
-      "adapter": "bifrost-java-kernel",
-      "report": "reports/bifrost-java-kernel.json",
-      "command_template": [
-        "dataflowbench",
-        "run-bifrost-java-kernel"
-      ],
-      "status": "resolved-integration-blocked",
-      "case_membership": {
-        "count": 70,
-        "sha256": "f3bb263815fa6a3fe3e59e14a1dc836c17f86d640e73b2faeccc2953fbb9782c"
-      },
-      "output_roots": [
-        "reports/bifrost-java-kernel.json",
-        "reports/raw/bifrost-java-kernel"
-      ],
-      "argv": [
-        "target/release/dataflowbench",
-        "run-bifrost-java-kernel",
-        "--bifrost",
-        "/Users/dave/.cache/dataflowbench-tools/bifrost-v0.11.4/bifrost-v0.11.4-universal-apple-darwin/bifrost"
-      ],
       "case_ids": [
         "dfb-taint-java-alias-propagation-negative",
         "dfb-taint-java-alias-propagation-positive",
@@ -475,35 +373,12 @@
         "dfb-taint-java-return-relay-two-hop-positive",
         "dfb-taint-java-same-object-field-negative",
         "dfb-taint-java-same-object-field-positive"
-      ]
+      ],
+      "count": 70,
+      "sha256": "f3bb263815fa6a3fe3e59e14a1dc836c17f86d640e73b2faeccc2953fbb9782c"
     },
     {
       "id": "bifrost-java-modeling",
-      "adapter": "bifrost-java-modeling",
-      "report": "reports/bifrost-java-modeling.json",
-      "command_template": [
-        "dataflowbench",
-        "run-bifrost-modeling",
-        "--language",
-        "java"
-      ],
-      "status": "resolved-integration-blocked",
-      "case_membership": {
-        "count": 24,
-        "sha256": "3011b09ead2057b36877fee5fe8fe08f982068dd24e8dec9d00a95fdfed040a3"
-      },
-      "output_roots": [
-        "reports/bifrost-java-modeling.json",
-        "reports/raw/bifrost-java-modeling"
-      ],
-      "argv": [
-        "target/release/dataflowbench",
-        "run-bifrost-modeling",
-        "--language",
-        "java",
-        "--bifrost",
-        "/Users/dave/.cache/dataflowbench-tools/bifrost-v0.11.4/bifrost-v0.11.4-universal-apple-darwin/bifrost"
-      ],
       "case_ids": [
         "dfb-taint-java-model-declared-sink-negative",
         "dfb-taint-java-model-declared-sink-positive",
@@ -529,35 +404,12 @@
         "dfb-taint-java-model-summary-field-positive",
         "dfb-taint-java-model-summary-through-negative",
         "dfb-taint-java-model-summary-through-positive"
-      ]
+      ],
+      "count": 24,
+      "sha256": "3011b09ead2057b36877fee5fe8fe08f982068dd24e8dec9d00a95fdfed040a3"
     },
     {
       "id": "bifrost-java-native",
-      "adapter": "bifrost-java-native",
-      "report": "reports/bifrost-java-native.json",
-      "command_template": [
-        "dataflowbench",
-        "run-bifrost-native",
-        "--language",
-        "java"
-      ],
-      "status": "resolved-integration-blocked",
-      "case_membership": {
-        "count": 12,
-        "sha256": "0f99775da62f491c573eb382c75261c11c690e5a0d55640ce5885afc3e05b949"
-      },
-      "output_roots": [
-        "reports/bifrost-java-native.json",
-        "reports/raw/bifrost-java-native"
-      ],
-      "argv": [
-        "target/release/dataflowbench",
-        "run-bifrost-native",
-        "--language",
-        "java",
-        "--bifrost",
-        "/Users/dave/.cache/dataflowbench-tools/bifrost-v0.11.4/bifrost-v0.11.4-universal-apple-darwin/bifrost"
-      ],
       "case_ids": [
         "dfb-taint-java-native-entrypoint-negative",
         "dfb-taint-java-native-entrypoint-positive",
@@ -571,31 +423,12 @@
         "dfb-taint-java-native-source-sink-positive",
         "dfb-taint-java-native-summary-negative",
         "dfb-taint-java-native-summary-positive"
-      ]
+      ],
+      "count": 12,
+      "sha256": "0f99775da62f491c573eb382c75261c11c690e5a0d55640ce5885afc3e05b949"
     },
     {
       "id": "bifrost-javascript-kernel",
-      "adapter": "bifrost-javascript-kernel",
-      "report": "reports/bifrost-javascript-kernel.json",
-      "command_template": [
-        "dataflowbench",
-        "run-bifrost-javascript-kernel"
-      ],
-      "status": "resolved-integration-blocked",
-      "case_membership": {
-        "count": 70,
-        "sha256": "5ca5951c6fa8b415ed3db98049a15b1ce1ab210ddf5573bfae99419eff0d477b"
-      },
-      "output_roots": [
-        "reports/bifrost-javascript-kernel.json",
-        "reports/raw/bifrost-javascript-kernel"
-      ],
-      "argv": [
-        "target/release/dataflowbench",
-        "run-bifrost-javascript-kernel",
-        "--bifrost",
-        "/Users/dave/.cache/dataflowbench-tools/bifrost-v0.11.4/bifrost-v0.11.4-universal-apple-darwin/bifrost"
-      ],
       "case_ids": [
         "dfb-taint-javascript-alias-propagation-negative",
         "dfb-taint-javascript-alias-propagation-positive",
@@ -667,35 +500,12 @@
         "dfb-taint-javascript-return-relay-two-hop-positive",
         "dfb-taint-javascript-same-object-field-negative",
         "dfb-taint-javascript-same-object-field-positive"
-      ]
+      ],
+      "count": 70,
+      "sha256": "5ca5951c6fa8b415ed3db98049a15b1ce1ab210ddf5573bfae99419eff0d477b"
     },
     {
       "id": "bifrost-javascript-modeling",
-      "adapter": "bifrost-javascript-modeling",
-      "report": "reports/bifrost-javascript-modeling.json",
-      "command_template": [
-        "dataflowbench",
-        "run-bifrost-modeling",
-        "--language",
-        "javascript"
-      ],
-      "status": "resolved-integration-blocked",
-      "case_membership": {
-        "count": 24,
-        "sha256": "b593ac3a054bf0643268484cc6d6b185be44d674f1627ee809d93c69dd5c348e"
-      },
-      "output_roots": [
-        "reports/bifrost-javascript-modeling.json",
-        "reports/raw/bifrost-javascript-modeling"
-      ],
-      "argv": [
-        "target/release/dataflowbench",
-        "run-bifrost-modeling",
-        "--language",
-        "javascript",
-        "--bifrost",
-        "/Users/dave/.cache/dataflowbench-tools/bifrost-v0.11.4/bifrost-v0.11.4-universal-apple-darwin/bifrost"
-      ],
       "case_ids": [
         "dfb-taint-javascript-model-declared-sink-negative",
         "dfb-taint-javascript-model-declared-sink-positive",
@@ -721,35 +531,12 @@
         "dfb-taint-javascript-model-summary-field-positive",
         "dfb-taint-javascript-model-summary-through-negative",
         "dfb-taint-javascript-model-summary-through-positive"
-      ]
+      ],
+      "count": 24,
+      "sha256": "b593ac3a054bf0643268484cc6d6b185be44d674f1627ee809d93c69dd5c348e"
     },
     {
       "id": "bifrost-javascript-native",
-      "adapter": "bifrost-javascript-native",
-      "report": "reports/bifrost-javascript-native.json",
-      "command_template": [
-        "dataflowbench",
-        "run-bifrost-native",
-        "--language",
-        "javascript"
-      ],
-      "status": "resolved-integration-blocked",
-      "case_membership": {
-        "count": 12,
-        "sha256": "f00a13ed4001f4aedc6358166b48a6bb824db45793399fde7208a68400fe2be4"
-      },
-      "output_roots": [
-        "reports/bifrost-javascript-native.json",
-        "reports/raw/bifrost-javascript-native"
-      ],
-      "argv": [
-        "target/release/dataflowbench",
-        "run-bifrost-native",
-        "--language",
-        "javascript",
-        "--bifrost",
-        "/Users/dave/.cache/dataflowbench-tools/bifrost-v0.11.4/bifrost-v0.11.4-universal-apple-darwin/bifrost"
-      ],
       "case_ids": [
         "dfb-taint-javascript-native-entrypoint-negative",
         "dfb-taint-javascript-native-entrypoint-positive",
@@ -763,31 +550,12 @@
         "dfb-taint-javascript-native-source-sink-positive",
         "dfb-taint-javascript-native-summary-negative",
         "dfb-taint-javascript-native-summary-positive"
-      ]
+      ],
+      "count": 12,
+      "sha256": "f00a13ed4001f4aedc6358166b48a6bb824db45793399fde7208a68400fe2be4"
     },
     {
       "id": "bifrost-kotlin-kernel",
-      "adapter": "bifrost-kotlin-kernel",
-      "report": "reports/bifrost-kotlin-kernel.json",
-      "command_template": [
-        "dataflowbench",
-        "run-bifrost-kotlin-kernel"
-      ],
-      "status": "resolved-integration-blocked",
-      "case_membership": {
-        "count": 70,
-        "sha256": "b2049da842a7c1770e4710c100dd55d7431bb014600c1c1e773d0d6d1815b259"
-      },
-      "output_roots": [
-        "reports/bifrost-kotlin-kernel.json",
-        "reports/raw/bifrost-kotlin-kernel"
-      ],
-      "argv": [
-        "target/release/dataflowbench",
-        "run-bifrost-kotlin-kernel",
-        "--bifrost",
-        "/Users/dave/.cache/dataflowbench-tools/bifrost-v0.11.4/bifrost-v0.11.4-universal-apple-darwin/bifrost"
-      ],
       "case_ids": [
         "dfb-taint-kotlin-alias-propagation-negative",
         "dfb-taint-kotlin-alias-propagation-positive",
@@ -859,31 +627,12 @@
         "dfb-taint-kotlin-return-relay-two-hop-positive",
         "dfb-taint-kotlin-same-object-field-negative",
         "dfb-taint-kotlin-same-object-field-positive"
-      ]
+      ],
+      "count": 70,
+      "sha256": "b2049da842a7c1770e4710c100dd55d7431bb014600c1c1e773d0d6d1815b259"
     },
     {
       "id": "bifrost-php-kernel",
-      "adapter": "bifrost-php-kernel",
-      "report": "reports/bifrost-php-kernel.json",
-      "command_template": [
-        "dataflowbench",
-        "run-bifrost-php-kernel"
-      ],
-      "status": "resolved-integration-blocked",
-      "case_membership": {
-        "count": 70,
-        "sha256": "e3a7d8c4827766d1f30f4fe9034d6d9e67da7ef1ca3e4e1442df56f52208c78a"
-      },
-      "output_roots": [
-        "reports/bifrost-php-kernel.json",
-        "reports/raw/bifrost-php-kernel"
-      ],
-      "argv": [
-        "target/release/dataflowbench",
-        "run-bifrost-php-kernel",
-        "--bifrost",
-        "/Users/dave/.cache/dataflowbench-tools/bifrost-v0.11.4/bifrost-v0.11.4-universal-apple-darwin/bifrost"
-      ],
       "case_ids": [
         "dfb-taint-php-alias-propagation-negative",
         "dfb-taint-php-alias-propagation-positive",
@@ -955,31 +704,12 @@
         "dfb-taint-php-return-relay-two-hop-positive",
         "dfb-taint-php-same-object-field-negative",
         "dfb-taint-php-same-object-field-positive"
-      ]
+      ],
+      "count": 70,
+      "sha256": "e3a7d8c4827766d1f30f4fe9034d6d9e67da7ef1ca3e4e1442df56f52208c78a"
     },
     {
       "id": "bifrost-python-kernel",
-      "adapter": "bifrost-python-kernel",
-      "report": "reports/bifrost-python-kernel.json",
-      "command_template": [
-        "dataflowbench",
-        "run-bifrost-python-kernel"
-      ],
-      "status": "resolved-integration-blocked",
-      "case_membership": {
-        "count": 70,
-        "sha256": "91d17de61c179ae7b9b96ab1228c475a421c6e108c5f21e39a48cb8b3b991c84"
-      },
-      "output_roots": [
-        "reports/bifrost-python-kernel.json",
-        "reports/raw/bifrost-python-kernel"
-      ],
-      "argv": [
-        "target/release/dataflowbench",
-        "run-bifrost-python-kernel",
-        "--bifrost",
-        "/Users/dave/.cache/dataflowbench-tools/bifrost-v0.11.4/bifrost-v0.11.4-universal-apple-darwin/bifrost"
-      ],
       "case_ids": [
         "dfb-taint-python-alias-propagation-negative",
         "dfb-taint-python-alias-propagation-positive",
@@ -1051,35 +781,12 @@
         "dfb-taint-python-return-relay-two-hop-positive",
         "dfb-taint-python-same-object-field-negative",
         "dfb-taint-python-same-object-field-positive"
-      ]
+      ],
+      "count": 70,
+      "sha256": "91d17de61c179ae7b9b96ab1228c475a421c6e108c5f21e39a48cb8b3b991c84"
     },
     {
       "id": "bifrost-python-modeling",
-      "adapter": "bifrost-python-modeling",
-      "report": "reports/bifrost-python-modeling.json",
-      "command_template": [
-        "dataflowbench",
-        "run-bifrost-modeling",
-        "--language",
-        "python"
-      ],
-      "status": "resolved-integration-blocked",
-      "case_membership": {
-        "count": 24,
-        "sha256": "3f0e116a9c7243dd558cac6cc62ee5da8fba1c2af85a6ef6c342c67f37790602"
-      },
-      "output_roots": [
-        "reports/bifrost-python-modeling.json",
-        "reports/raw/bifrost-python-modeling"
-      ],
-      "argv": [
-        "target/release/dataflowbench",
-        "run-bifrost-modeling",
-        "--language",
-        "python",
-        "--bifrost",
-        "/Users/dave/.cache/dataflowbench-tools/bifrost-v0.11.4/bifrost-v0.11.4-universal-apple-darwin/bifrost"
-      ],
       "case_ids": [
         "dfb-taint-python-model-declared-sink-negative",
         "dfb-taint-python-model-declared-sink-positive",
@@ -1105,35 +812,12 @@
         "dfb-taint-python-model-summary-field-positive",
         "dfb-taint-python-model-summary-through-negative",
         "dfb-taint-python-model-summary-through-positive"
-      ]
+      ],
+      "count": 24,
+      "sha256": "3f0e116a9c7243dd558cac6cc62ee5da8fba1c2af85a6ef6c342c67f37790602"
     },
     {
       "id": "bifrost-python-native",
-      "adapter": "bifrost-python-native",
-      "report": "reports/bifrost-python-native.json",
-      "command_template": [
-        "dataflowbench",
-        "run-bifrost-native",
-        "--language",
-        "python"
-      ],
-      "status": "resolved-integration-blocked",
-      "case_membership": {
-        "count": 12,
-        "sha256": "f9f44ac53b0832a2340c0b4464e7598880fdd70bf560728acdf79f0cc8761905"
-      },
-      "output_roots": [
-        "reports/bifrost-python-native.json",
-        "reports/raw/bifrost-python-native"
-      ],
-      "argv": [
-        "target/release/dataflowbench",
-        "run-bifrost-native",
-        "--language",
-        "python",
-        "--bifrost",
-        "/Users/dave/.cache/dataflowbench-tools/bifrost-v0.11.4/bifrost-v0.11.4-universal-apple-darwin/bifrost"
-      ],
       "case_ids": [
         "dfb-taint-python-native-entrypoint-negative",
         "dfb-taint-python-native-entrypoint-positive",
@@ -1147,31 +831,12 @@
         "dfb-taint-python-native-source-sink-positive",
         "dfb-taint-python-native-summary-negative",
         "dfb-taint-python-native-summary-positive"
-      ]
+      ],
+      "count": 12,
+      "sha256": "f9f44ac53b0832a2340c0b4464e7598880fdd70bf560728acdf79f0cc8761905"
     },
     {
       "id": "bifrost-ruby-kernel",
-      "adapter": "bifrost-ruby-kernel",
-      "report": "reports/bifrost-ruby-kernel.json",
-      "command_template": [
-        "dataflowbench",
-        "run-bifrost-ruby-kernel"
-      ],
-      "status": "resolved-integration-blocked",
-      "case_membership": {
-        "count": 70,
-        "sha256": "c0d9514f7aee1baf1090b4ea6eac8666846ec24ec87340e4e6fa2b34a0e367dc"
-      },
-      "output_roots": [
-        "reports/bifrost-ruby-kernel.json",
-        "reports/raw/bifrost-ruby-kernel"
-      ],
-      "argv": [
-        "target/release/dataflowbench",
-        "run-bifrost-ruby-kernel",
-        "--bifrost",
-        "/Users/dave/.cache/dataflowbench-tools/bifrost-v0.11.4/bifrost-v0.11.4-universal-apple-darwin/bifrost"
-      ],
       "case_ids": [
         "dfb-taint-ruby-alias-propagation-negative",
         "dfb-taint-ruby-alias-propagation-positive",
@@ -1243,31 +908,12 @@
         "dfb-taint-ruby-return-relay-two-hop-positive",
         "dfb-taint-ruby-same-object-field-negative",
         "dfb-taint-ruby-same-object-field-positive"
-      ]
+      ],
+      "count": 70,
+      "sha256": "c0d9514f7aee1baf1090b4ea6eac8666846ec24ec87340e4e6fa2b34a0e367dc"
     },
     {
       "id": "bifrost-rust-kernel",
-      "adapter": "bifrost-rust-kernel",
-      "report": "reports/bifrost-rust-kernel.json",
-      "command_template": [
-        "dataflowbench",
-        "run-bifrost-rust-kernel"
-      ],
-      "status": "resolved-integration-blocked",
-      "case_membership": {
-        "count": 64,
-        "sha256": "5ba235602be68931093aea125fc019f5c182ca15b39190da981a5f8b86e4f097"
-      },
-      "output_roots": [
-        "reports/bifrost-rust-kernel.json",
-        "reports/raw/bifrost-rust-kernel"
-      ],
-      "argv": [
-        "target/release/dataflowbench",
-        "run-bifrost-rust-kernel",
-        "--bifrost",
-        "/Users/dave/.cache/dataflowbench-tools/bifrost-v0.11.4/bifrost-v0.11.4-universal-apple-darwin/bifrost"
-      ],
       "case_ids": [
         "dfb-taint-rust-alias-propagation-negative",
         "dfb-taint-rust-alias-propagation-positive",
@@ -1333,31 +979,12 @@
         "dfb-taint-rust-return-relay-two-hop-positive",
         "dfb-taint-rust-same-object-field-negative",
         "dfb-taint-rust-same-object-field-positive"
-      ]
+      ],
+      "count": 64,
+      "sha256": "5ba235602be68931093aea125fc019f5c182ca15b39190da981a5f8b86e4f097"
     },
     {
       "id": "bifrost-scala-kernel",
-      "adapter": "bifrost-scala-kernel",
-      "report": "reports/bifrost-scala-kernel.json",
-      "command_template": [
-        "dataflowbench",
-        "run-bifrost-scala-kernel"
-      ],
-      "status": "resolved-integration-blocked",
-      "case_membership": {
-        "count": 70,
-        "sha256": "cdd525267179e4f4ae83e9759f4d88c0810798cc0de11c237afe219270f6073a"
-      },
-      "output_roots": [
-        "reports/bifrost-scala-kernel.json",
-        "reports/raw/bifrost-scala-kernel"
-      ],
-      "argv": [
-        "target/release/dataflowbench",
-        "run-bifrost-scala-kernel",
-        "--bifrost",
-        "/Users/dave/.cache/dataflowbench-tools/bifrost-v0.11.4/bifrost-v0.11.4-universal-apple-darwin/bifrost"
-      ],
       "case_ids": [
         "dfb-taint-scala-alias-propagation-negative",
         "dfb-taint-scala-alias-propagation-positive",
@@ -1429,31 +1056,12 @@
         "dfb-taint-scala-return-relay-two-hop-positive",
         "dfb-taint-scala-same-object-field-negative",
         "dfb-taint-scala-same-object-field-positive"
-      ]
+      ],
+      "count": 70,
+      "sha256": "cdd525267179e4f4ae83e9759f4d88c0810798cc0de11c237afe219270f6073a"
     },
     {
       "id": "bifrost-smoke",
-      "adapter": "bifrost-smoke",
-      "report": "reports/bifrost-smoke.json",
-      "command_template": [
-        "dataflowbench",
-        "run-bifrost-smoke"
-      ],
-      "status": "resolved-integration-blocked",
-      "case_membership": {
-        "count": 118,
-        "sha256": "d6530f57f13ea961482f6e7d89f6c838c4af0192df9207e4ff696934c9ce3426"
-      },
-      "output_roots": [
-        "reports/bifrost-smoke.json",
-        "reports/raw/bifrost"
-      ],
-      "argv": [
-        "target/release/dataflowbench",
-        "run-bifrost-smoke",
-        "--bifrost",
-        "/Users/dave/.cache/dataflowbench-tools/bifrost-v0.11.4/bifrost-v0.11.4-universal-apple-darwin/bifrost"
-      ],
       "case_ids": [
         "dfb-taint-c-direct-negative",
         "dfb-taint-c-direct-positive",
@@ -1573,31 +1181,12 @@
         "dfb-taint-scala-direct-positive",
         "dfb-taint-typescript-direct-negative",
         "dfb-taint-typescript-direct-positive"
-      ]
+      ],
+      "count": 118,
+      "sha256": "d6530f57f13ea961482f6e7d89f6c838c4af0192df9207e4ff696934c9ce3426"
     },
     {
       "id": "bifrost-typescript-kernel",
-      "adapter": "bifrost-typescript-kernel",
-      "report": "reports/bifrost-typescript-kernel.json",
-      "command_template": [
-        "dataflowbench",
-        "run-bifrost-typescript-kernel"
-      ],
-      "status": "resolved-integration-blocked",
-      "case_membership": {
-        "count": 70,
-        "sha256": "3094721b3d6c3d20518b58fa7812a57a3d86e27a197d33f5698c29414b97fac0"
-      },
-      "output_roots": [
-        "reports/bifrost-typescript-kernel.json",
-        "reports/raw/bifrost-typescript-kernel"
-      ],
-      "argv": [
-        "target/release/dataflowbench",
-        "run-bifrost-typescript-kernel",
-        "--bifrost",
-        "/Users/dave/.cache/dataflowbench-tools/bifrost-v0.11.4/bifrost-v0.11.4-universal-apple-darwin/bifrost"
-      ],
       "case_ids": [
         "dfb-taint-typescript-alias-propagation-negative",
         "dfb-taint-typescript-alias-propagation-positive",
@@ -1669,33 +1258,12 @@
         "dfb-taint-typescript-return-relay-two-hop-positive",
         "dfb-taint-typescript-same-object-field-negative",
         "dfb-taint-typescript-same-object-field-positive"
-      ]
+      ],
+      "count": 70,
+      "sha256": "3094721b3d6c3d20518b58fa7812a57a3d86e27a197d33f5698c29414b97fac0"
     },
     {
       "id": "codeql-c-kernel",
-      "adapter": "codeql-c-kernel",
-      "report": "reports/codeql-c-kernel.json",
-      "command_template": [
-        "dataflowbench",
-        "run-codeql-c-kernel"
-      ],
-      "status": "resolved-integration-blocked",
-      "case_membership": {
-        "count": 58,
-        "sha256": "26e920305b72e16d203062745dedc259a5e5dcff6f35edfa8127b747a82b05dd"
-      },
-      "output_roots": [
-        "reports/codeql-c-kernel.json",
-        "reports/raw/codeql-c-kernel"
-      ],
-      "argv": [
-        "target/release/dataflowbench",
-        "run-codeql-c-kernel",
-        "--codeql",
-        "/Users/dave/.cache/dataflowbench-tools/codeql-v2.27.0/codeql/codeql",
-        "--codeql-packs",
-        "/Users/dave/.codeql/packages"
-      ],
       "case_ids": [
         "dfb-taint-c-alias-propagation-negative",
         "dfb-taint-c-alias-propagation-positive",
@@ -1755,33 +1323,12 @@
         "dfb-taint-c-return-relay-two-hop-positive",
         "dfb-taint-c-same-object-field-negative",
         "dfb-taint-c-same-object-field-positive"
-      ]
+      ],
+      "count": 58,
+      "sha256": "26e920305b72e16d203062745dedc259a5e5dcff6f35edfa8127b747a82b05dd"
     },
     {
       "id": "codeql-cpp-kernel",
-      "adapter": "codeql-cpp-kernel",
-      "report": "reports/codeql-cpp-kernel.json",
-      "command_template": [
-        "dataflowbench",
-        "run-codeql-cpp-kernel"
-      ],
-      "status": "resolved-integration-blocked",
-      "case_membership": {
-        "count": 68,
-        "sha256": "06aff2e366e04c19aa566967c021251af8e4808fca027a7d5850f2708c452128"
-      },
-      "output_roots": [
-        "reports/codeql-cpp-kernel.json",
-        "reports/raw/codeql-cpp-kernel"
-      ],
-      "argv": [
-        "target/release/dataflowbench",
-        "run-codeql-cpp-kernel",
-        "--codeql",
-        "/Users/dave/.cache/dataflowbench-tools/codeql-v2.27.0/codeql/codeql",
-        "--codeql-packs",
-        "/Users/dave/.codeql/packages"
-      ],
       "case_ids": [
         "dfb-taint-cpp-alias-propagation-negative",
         "dfb-taint-cpp-alias-propagation-positive",
@@ -1851,33 +1398,12 @@
         "dfb-taint-cpp-return-relay-two-hop-positive",
         "dfb-taint-cpp-same-object-field-negative",
         "dfb-taint-cpp-same-object-field-positive"
-      ]
+      ],
+      "count": 68,
+      "sha256": "06aff2e366e04c19aa566967c021251af8e4808fca027a7d5850f2708c452128"
     },
     {
       "id": "codeql-csharp-kernel",
-      "adapter": "codeql-csharp-kernel",
-      "report": "reports/codeql-csharp-kernel.json",
-      "command_template": [
-        "dataflowbench",
-        "run-codeql-csharp-kernel"
-      ],
-      "status": "resolved-integration-blocked",
-      "case_membership": {
-        "count": 70,
-        "sha256": "73769a92f03d057fcd783c9b4f6ba3b3b01c7a22c8ede649a0e0e1bb76eb1e39"
-      },
-      "output_roots": [
-        "reports/codeql-csharp-kernel.json",
-        "reports/raw/codeql-csharp-kernel"
-      ],
-      "argv": [
-        "target/release/dataflowbench",
-        "run-codeql-csharp-kernel",
-        "--codeql",
-        "/Users/dave/.cache/dataflowbench-tools/codeql-v2.27.0/codeql/codeql",
-        "--codeql-packs",
-        "/Users/dave/.codeql/packages"
-      ],
       "case_ids": [
         "dfb-taint-csharp-alias-propagation-negative",
         "dfb-taint-csharp-alias-propagation-positive",
@@ -1949,35 +1475,12 @@
         "dfb-taint-csharp-return-relay-two-hop-positive",
         "dfb-taint-csharp-same-object-field-negative",
         "dfb-taint-csharp-same-object-field-positive"
-      ]
+      ],
+      "count": 70,
+      "sha256": "73769a92f03d057fcd783c9b4f6ba3b3b01c7a22c8ede649a0e0e1bb76eb1e39"
     },
     {
       "id": "codeql-go-kernel",
-      "adapter": "codeql-go-kernel",
-      "report": "reports/codeql-go-kernel.json",
-      "command_template": [
-        "dataflowbench",
-        "run-codeql-go-kernel"
-      ],
-      "status": "resolved-integration-blocked",
-      "case_membership": {
-        "count": 70,
-        "sha256": "40a3197b82cc39e6589b1635327296cdf7ff75eb35090329e3ed22b8c0345f06"
-      },
-      "output_roots": [
-        "reports/codeql-go-kernel.json",
-        "reports/raw/codeql-go-kernel"
-      ],
-      "argv": [
-        "target/release/dataflowbench",
-        "run-codeql-go-kernel",
-        "--codeql",
-        "/Users/dave/.cache/dataflowbench-tools/codeql-v2.27.0/codeql/codeql",
-        "--codeql-packs",
-        "/Users/dave/.codeql/packages",
-        "--go",
-        "/usr/local/go/bin/go"
-      ],
       "case_ids": [
         "dfb-taint-go-alias-propagation-negative",
         "dfb-taint-go-alias-propagation-positive",
@@ -2049,33 +1552,12 @@
         "dfb-taint-go-return-relay-two-hop-positive",
         "dfb-taint-go-same-object-field-negative",
         "dfb-taint-go-same-object-field-positive"
-      ]
+      ],
+      "count": 70,
+      "sha256": "40a3197b82cc39e6589b1635327296cdf7ff75eb35090329e3ed22b8c0345f06"
     },
     {
       "id": "codeql-java-kernel",
-      "adapter": "codeql-java-kernel",
-      "report": "reports/codeql-java-kernel.json",
-      "command_template": [
-        "dataflowbench",
-        "run-codeql-java-kernel"
-      ],
-      "status": "resolved-integration-blocked",
-      "case_membership": {
-        "count": 70,
-        "sha256": "f3bb263815fa6a3fe3e59e14a1dc836c17f86d640e73b2faeccc2953fbb9782c"
-      },
-      "output_roots": [
-        "reports/codeql-java-kernel.json",
-        "reports/raw/codeql"
-      ],
-      "argv": [
-        "target/release/dataflowbench",
-        "run-codeql-java-kernel",
-        "--codeql",
-        "/Users/dave/.cache/dataflowbench-tools/codeql-v2.27.0/codeql/codeql",
-        "--codeql-packs",
-        "/Users/dave/.codeql/packages"
-      ],
       "case_ids": [
         "dfb-taint-java-alias-propagation-negative",
         "dfb-taint-java-alias-propagation-positive",
@@ -2147,37 +1629,12 @@
         "dfb-taint-java-return-relay-two-hop-positive",
         "dfb-taint-java-same-object-field-negative",
         "dfb-taint-java-same-object-field-positive"
-      ]
+      ],
+      "count": 70,
+      "sha256": "f3bb263815fa6a3fe3e59e14a1dc836c17f86d640e73b2faeccc2953fbb9782c"
     },
     {
       "id": "codeql-java-modeling",
-      "adapter": "codeql-java-modeling",
-      "report": "reports/codeql-java-modeling.json",
-      "command_template": [
-        "dataflowbench",
-        "run-codeql-modeling",
-        "--language",
-        "java"
-      ],
-      "status": "resolved-integration-blocked",
-      "case_membership": {
-        "count": 24,
-        "sha256": "3011b09ead2057b36877fee5fe8fe08f982068dd24e8dec9d00a95fdfed040a3"
-      },
-      "output_roots": [
-        "reports/codeql-java-modeling.json",
-        "reports/raw/codeql-java-modeling"
-      ],
-      "argv": [
-        "target/release/dataflowbench",
-        "run-codeql-modeling",
-        "--language",
-        "java",
-        "--codeql",
-        "/Users/dave/.cache/dataflowbench-tools/codeql-v2.27.0/codeql/codeql",
-        "--codeql-packs",
-        "/Users/dave/.codeql/packages"
-      ],
       "case_ids": [
         "dfb-taint-java-model-declared-sink-negative",
         "dfb-taint-java-model-declared-sink-positive",
@@ -2203,37 +1660,12 @@
         "dfb-taint-java-model-summary-field-positive",
         "dfb-taint-java-model-summary-through-negative",
         "dfb-taint-java-model-summary-through-positive"
-      ]
+      ],
+      "count": 24,
+      "sha256": "3011b09ead2057b36877fee5fe8fe08f982068dd24e8dec9d00a95fdfed040a3"
     },
     {
       "id": "codeql-java-native",
-      "adapter": "codeql-java-native",
-      "report": "reports/codeql-java-native.json",
-      "command_template": [
-        "dataflowbench",
-        "run-codeql-native",
-        "--language",
-        "java"
-      ],
-      "status": "resolved-integration-blocked",
-      "case_membership": {
-        "count": 12,
-        "sha256": "0f99775da62f491c573eb382c75261c11c690e5a0d55640ce5885afc3e05b949"
-      },
-      "output_roots": [
-        "reports/codeql-java-native.json",
-        "reports/raw/codeql-java-native"
-      ],
-      "argv": [
-        "target/release/dataflowbench",
-        "run-codeql-native",
-        "--language",
-        "java",
-        "--codeql",
-        "/Users/dave/.cache/dataflowbench-tools/codeql-v2.27.0/codeql/codeql",
-        "--codeql-packs",
-        "/Users/dave/.codeql/packages"
-      ],
       "case_ids": [
         "dfb-taint-java-native-entrypoint-negative",
         "dfb-taint-java-native-entrypoint-positive",
@@ -2247,33 +1679,12 @@
         "dfb-taint-java-native-source-sink-positive",
         "dfb-taint-java-native-summary-negative",
         "dfb-taint-java-native-summary-positive"
-      ]
+      ],
+      "count": 12,
+      "sha256": "0f99775da62f491c573eb382c75261c11c690e5a0d55640ce5885afc3e05b949"
     },
     {
       "id": "codeql-javascript-kernel",
-      "adapter": "codeql-javascript-kernel",
-      "report": "reports/codeql-javascript-kernel.json",
-      "command_template": [
-        "dataflowbench",
-        "run-codeql-javascript-kernel"
-      ],
-      "status": "resolved-integration-blocked",
-      "case_membership": {
-        "count": 70,
-        "sha256": "5ca5951c6fa8b415ed3db98049a15b1ce1ab210ddf5573bfae99419eff0d477b"
-      },
-      "output_roots": [
-        "reports/codeql-javascript-kernel.json",
-        "reports/raw/codeql-javascript"
-      ],
-      "argv": [
-        "target/release/dataflowbench",
-        "run-codeql-javascript-kernel",
-        "--codeql",
-        "/Users/dave/.cache/dataflowbench-tools/codeql-v2.27.0/codeql/codeql",
-        "--codeql-packs",
-        "/Users/dave/.codeql/packages"
-      ],
       "case_ids": [
         "dfb-taint-javascript-alias-propagation-negative",
         "dfb-taint-javascript-alias-propagation-positive",
@@ -2345,37 +1756,12 @@
         "dfb-taint-javascript-return-relay-two-hop-positive",
         "dfb-taint-javascript-same-object-field-negative",
         "dfb-taint-javascript-same-object-field-positive"
-      ]
+      ],
+      "count": 70,
+      "sha256": "5ca5951c6fa8b415ed3db98049a15b1ce1ab210ddf5573bfae99419eff0d477b"
     },
     {
       "id": "codeql-javascript-modeling",
-      "adapter": "codeql-javascript-modeling",
-      "report": "reports/codeql-javascript-modeling.json",
-      "command_template": [
-        "dataflowbench",
-        "run-codeql-modeling",
-        "--language",
-        "javascript"
-      ],
-      "status": "resolved-integration-blocked",
-      "case_membership": {
-        "count": 24,
-        "sha256": "b593ac3a054bf0643268484cc6d6b185be44d674f1627ee809d93c69dd5c348e"
-      },
-      "output_roots": [
-        "reports/codeql-javascript-modeling.json",
-        "reports/raw/codeql-javascript-modeling"
-      ],
-      "argv": [
-        "target/release/dataflowbench",
-        "run-codeql-modeling",
-        "--language",
-        "javascript",
-        "--codeql",
-        "/Users/dave/.cache/dataflowbench-tools/codeql-v2.27.0/codeql/codeql",
-        "--codeql-packs",
-        "/Users/dave/.codeql/packages"
-      ],
       "case_ids": [
         "dfb-taint-javascript-model-declared-sink-negative",
         "dfb-taint-javascript-model-declared-sink-positive",
@@ -2401,37 +1787,12 @@
         "dfb-taint-javascript-model-summary-field-positive",
         "dfb-taint-javascript-model-summary-through-negative",
         "dfb-taint-javascript-model-summary-through-positive"
-      ]
+      ],
+      "count": 24,
+      "sha256": "b593ac3a054bf0643268484cc6d6b185be44d674f1627ee809d93c69dd5c348e"
     },
     {
       "id": "codeql-javascript-native",
-      "adapter": "codeql-javascript-native",
-      "report": "reports/codeql-javascript-native.json",
-      "command_template": [
-        "dataflowbench",
-        "run-codeql-native",
-        "--language",
-        "javascript"
-      ],
-      "status": "resolved-integration-blocked",
-      "case_membership": {
-        "count": 12,
-        "sha256": "f00a13ed4001f4aedc6358166b48a6bb824db45793399fde7208a68400fe2be4"
-      },
-      "output_roots": [
-        "reports/codeql-javascript-native.json",
-        "reports/raw/codeql-javascript-native"
-      ],
-      "argv": [
-        "target/release/dataflowbench",
-        "run-codeql-native",
-        "--language",
-        "javascript",
-        "--codeql",
-        "/Users/dave/.cache/dataflowbench-tools/codeql-v2.27.0/codeql/codeql",
-        "--codeql-packs",
-        "/Users/dave/.codeql/packages"
-      ],
       "case_ids": [
         "dfb-taint-javascript-native-entrypoint-negative",
         "dfb-taint-javascript-native-entrypoint-positive",
@@ -2445,35 +1806,12 @@
         "dfb-taint-javascript-native-source-sink-positive",
         "dfb-taint-javascript-native-summary-negative",
         "dfb-taint-javascript-native-summary-positive"
-      ]
+      ],
+      "count": 12,
+      "sha256": "f00a13ed4001f4aedc6358166b48a6bb824db45793399fde7208a68400fe2be4"
     },
     {
       "id": "codeql-kotlin-kernel",
-      "adapter": "codeql-kotlin-kernel",
-      "report": "reports/codeql-kotlin-kernel.json",
-      "command_template": [
-        "dataflowbench",
-        "run-codeql-kotlin-kernel"
-      ],
-      "status": "resolved-integration-blocked",
-      "case_membership": {
-        "count": 70,
-        "sha256": "b2049da842a7c1770e4710c100dd55d7431bb014600c1c1e773d0d6d1815b259"
-      },
-      "output_roots": [
-        "reports/codeql-kotlin-kernel.json",
-        "reports/raw/codeql-kotlin-kernel"
-      ],
-      "argv": [
-        "target/release/dataflowbench",
-        "run-codeql-kotlin-kernel",
-        "--codeql",
-        "/Users/dave/.cache/dataflowbench-tools/codeql-v2.27.0/codeql/codeql",
-        "--codeql-packs",
-        "/Users/dave/.codeql/packages",
-        "--kotlinc",
-        "/opt/homebrew/bin/kotlinc"
-      ],
       "case_ids": [
         "dfb-taint-kotlin-alias-propagation-negative",
         "dfb-taint-kotlin-alias-propagation-positive",
@@ -2545,33 +1883,12 @@
         "dfb-taint-kotlin-return-relay-two-hop-positive",
         "dfb-taint-kotlin-same-object-field-negative",
         "dfb-taint-kotlin-same-object-field-positive"
-      ]
+      ],
+      "count": 70,
+      "sha256": "b2049da842a7c1770e4710c100dd55d7431bb014600c1c1e773d0d6d1815b259"
     },
     {
       "id": "codeql-python-kernel",
-      "adapter": "codeql-python-kernel",
-      "report": "reports/codeql-python-kernel.json",
-      "command_template": [
-        "dataflowbench",
-        "run-codeql-python-kernel"
-      ],
-      "status": "resolved-integration-blocked",
-      "case_membership": {
-        "count": 70,
-        "sha256": "91d17de61c179ae7b9b96ab1228c475a421c6e108c5f21e39a48cb8b3b991c84"
-      },
-      "output_roots": [
-        "reports/codeql-python-kernel.json",
-        "reports/raw/codeql-python-kernel"
-      ],
-      "argv": [
-        "target/release/dataflowbench",
-        "run-codeql-python-kernel",
-        "--codeql",
-        "/Users/dave/.cache/dataflowbench-tools/codeql-v2.27.0/codeql/codeql",
-        "--codeql-packs",
-        "/Users/dave/.codeql/packages"
-      ],
       "case_ids": [
         "dfb-taint-python-alias-propagation-negative",
         "dfb-taint-python-alias-propagation-positive",
@@ -2643,37 +1960,12 @@
         "dfb-taint-python-return-relay-two-hop-positive",
         "dfb-taint-python-same-object-field-negative",
         "dfb-taint-python-same-object-field-positive"
-      ]
+      ],
+      "count": 70,
+      "sha256": "91d17de61c179ae7b9b96ab1228c475a421c6e108c5f21e39a48cb8b3b991c84"
     },
     {
       "id": "codeql-python-modeling",
-      "adapter": "codeql-python-modeling",
-      "report": "reports/codeql-python-modeling.json",
-      "command_template": [
-        "dataflowbench",
-        "run-codeql-modeling",
-        "--language",
-        "python"
-      ],
-      "status": "resolved-integration-blocked",
-      "case_membership": {
-        "count": 24,
-        "sha256": "3f0e116a9c7243dd558cac6cc62ee5da8fba1c2af85a6ef6c342c67f37790602"
-      },
-      "output_roots": [
-        "reports/codeql-python-modeling.json",
-        "reports/raw/codeql-python-modeling"
-      ],
-      "argv": [
-        "target/release/dataflowbench",
-        "run-codeql-modeling",
-        "--language",
-        "python",
-        "--codeql",
-        "/Users/dave/.cache/dataflowbench-tools/codeql-v2.27.0/codeql/codeql",
-        "--codeql-packs",
-        "/Users/dave/.codeql/packages"
-      ],
       "case_ids": [
         "dfb-taint-python-model-declared-sink-negative",
         "dfb-taint-python-model-declared-sink-positive",
@@ -2699,37 +1991,12 @@
         "dfb-taint-python-model-summary-field-positive",
         "dfb-taint-python-model-summary-through-negative",
         "dfb-taint-python-model-summary-through-positive"
-      ]
+      ],
+      "count": 24,
+      "sha256": "3f0e116a9c7243dd558cac6cc62ee5da8fba1c2af85a6ef6c342c67f37790602"
     },
     {
       "id": "codeql-python-native",
-      "adapter": "codeql-python-native",
-      "report": "reports/codeql-python-native.json",
-      "command_template": [
-        "dataflowbench",
-        "run-codeql-native",
-        "--language",
-        "python"
-      ],
-      "status": "resolved-integration-blocked",
-      "case_membership": {
-        "count": 12,
-        "sha256": "f9f44ac53b0832a2340c0b4464e7598880fdd70bf560728acdf79f0cc8761905"
-      },
-      "output_roots": [
-        "reports/codeql-python-native.json",
-        "reports/raw/codeql-python-native"
-      ],
-      "argv": [
-        "target/release/dataflowbench",
-        "run-codeql-native",
-        "--language",
-        "python",
-        "--codeql",
-        "/Users/dave/.cache/dataflowbench-tools/codeql-v2.27.0/codeql/codeql",
-        "--codeql-packs",
-        "/Users/dave/.codeql/packages"
-      ],
       "case_ids": [
         "dfb-taint-python-native-entrypoint-negative",
         "dfb-taint-python-native-entrypoint-positive",
@@ -2743,33 +2010,12 @@
         "dfb-taint-python-native-source-sink-positive",
         "dfb-taint-python-native-summary-negative",
         "dfb-taint-python-native-summary-positive"
-      ]
+      ],
+      "count": 12,
+      "sha256": "f9f44ac53b0832a2340c0b4464e7598880fdd70bf560728acdf79f0cc8761905"
     },
     {
       "id": "codeql-ruby-kernel",
-      "adapter": "codeql-ruby-kernel",
-      "report": "reports/codeql-ruby-kernel.json",
-      "command_template": [
-        "dataflowbench",
-        "run-codeql-ruby-kernel"
-      ],
-      "status": "resolved-integration-blocked",
-      "case_membership": {
-        "count": 70,
-        "sha256": "c0d9514f7aee1baf1090b4ea6eac8666846ec24ec87340e4e6fa2b34a0e367dc"
-      },
-      "output_roots": [
-        "reports/codeql-ruby-kernel.json",
-        "reports/raw/codeql-ruby-kernel"
-      ],
-      "argv": [
-        "target/release/dataflowbench",
-        "run-codeql-ruby-kernel",
-        "--codeql",
-        "/Users/dave/.cache/dataflowbench-tools/codeql-v2.27.0/codeql/codeql",
-        "--codeql-packs",
-        "/Users/dave/.codeql/packages"
-      ],
       "case_ids": [
         "dfb-taint-ruby-alias-propagation-negative",
         "dfb-taint-ruby-alias-propagation-positive",
@@ -2841,33 +2087,12 @@
         "dfb-taint-ruby-return-relay-two-hop-positive",
         "dfb-taint-ruby-same-object-field-negative",
         "dfb-taint-ruby-same-object-field-positive"
-      ]
+      ],
+      "count": 70,
+      "sha256": "c0d9514f7aee1baf1090b4ea6eac8666846ec24ec87340e4e6fa2b34a0e367dc"
     },
     {
       "id": "codeql-rust-kernel",
-      "adapter": "codeql-rust-kernel",
-      "report": "reports/codeql-rust-kernel.json",
-      "command_template": [
-        "dataflowbench",
-        "run-codeql-rust-kernel"
-      ],
-      "status": "resolved-integration-blocked",
-      "case_membership": {
-        "count": 64,
-        "sha256": "5ba235602be68931093aea125fc019f5c182ca15b39190da981a5f8b86e4f097"
-      },
-      "output_roots": [
-        "reports/codeql-rust-kernel.json",
-        "reports/raw/codeql-rust-kernel"
-      ],
-      "argv": [
-        "target/release/dataflowbench",
-        "run-codeql-rust-kernel",
-        "--codeql",
-        "/Users/dave/.cache/dataflowbench-tools/codeql-v2.27.0/codeql/codeql",
-        "--codeql-packs",
-        "/Users/dave/.codeql/packages"
-      ],
       "case_ids": [
         "dfb-taint-rust-alias-propagation-negative",
         "dfb-taint-rust-alias-propagation-positive",
@@ -2933,33 +2158,12 @@
         "dfb-taint-rust-return-relay-two-hop-positive",
         "dfb-taint-rust-same-object-field-negative",
         "dfb-taint-rust-same-object-field-positive"
-      ]
+      ],
+      "count": 64,
+      "sha256": "5ba235602be68931093aea125fc019f5c182ca15b39190da981a5f8b86e4f097"
     },
     {
       "id": "codeql-typescript-kernel",
-      "adapter": "codeql-typescript-kernel",
-      "report": "reports/codeql-typescript-kernel.json",
-      "command_template": [
-        "dataflowbench",
-        "run-codeql-typescript-kernel"
-      ],
-      "status": "resolved-integration-blocked",
-      "case_membership": {
-        "count": 70,
-        "sha256": "3094721b3d6c3d20518b58fa7812a57a3d86e27a197d33f5698c29414b97fac0"
-      },
-      "output_roots": [
-        "reports/codeql-typescript-kernel.json",
-        "reports/raw/codeql-typescript"
-      ],
-      "argv": [
-        "target/release/dataflowbench",
-        "run-codeql-typescript-kernel",
-        "--codeql",
-        "/Users/dave/.cache/dataflowbench-tools/codeql-v2.27.0/codeql/codeql",
-        "--codeql-packs",
-        "/Users/dave/.codeql/packages"
-      ],
       "case_ids": [
         "dfb-taint-typescript-alias-propagation-negative",
         "dfb-taint-typescript-alias-propagation-positive",
@@ -3031,39 +2235,12 @@
         "dfb-taint-typescript-return-relay-two-hop-positive",
         "dfb-taint-typescript-same-object-field-negative",
         "dfb-taint-typescript-same-object-field-positive"
-      ]
+      ],
+      "count": 70,
+      "sha256": "3094721b3d6c3d20518b58fa7812a57a3d86e27a197d33f5698c29414b97fac0"
     },
     {
       "id": "flowdroid-java-kernel",
-      "adapter": "flowdroid-java-kernel",
-      "report": "reports/flowdroid-java-kernel.json",
-      "command_template": [
-        "dataflowbench",
-        "run-flowdroid-java-kernel"
-      ],
-      "status": "resolved-integration-blocked",
-      "case_membership": {
-        "count": 70,
-        "sha256": "f3bb263815fa6a3fe3e59e14a1dc836c17f86d640e73b2faeccc2953fbb9782c"
-      },
-      "output_roots": [
-        "reports/flowdroid-java-kernel.json",
-        "reports/raw/flowdroid-java-kernel"
-      ],
-      "argv": [
-        "target/release/dataflowbench",
-        "run-flowdroid-java-kernel",
-        "--flowdroid-jar",
-        "/Users/dave/.cache/dataflowbench-tools/flowdroid/soot-infoflow-cmd-2.15.1-jar-with-dependencies.jar",
-        "--android-platform",
-        "/Users/dave/.cache/dataflowbench-tools/flowdroid/android-34.jar",
-        "--d8-jar",
-        "/Users/dave/.cache/dataflowbench-tools/flowdroid/r8-8.5.35.jar",
-        "--java",
-        "/usr/bin/java",
-        "--javac",
-        "/usr/bin/javac"
-      ],
       "case_ids": [
         "dfb-taint-java-alias-propagation-negative",
         "dfb-taint-java-alias-propagation-positive",
@@ -3135,43 +2312,12 @@
         "dfb-taint-java-return-relay-two-hop-positive",
         "dfb-taint-java-same-object-field-negative",
         "dfb-taint-java-same-object-field-positive"
-      ]
+      ],
+      "count": 70,
+      "sha256": "f3bb263815fa6a3fe3e59e14a1dc836c17f86d640e73b2faeccc2953fbb9782c"
     },
     {
       "id": "flowdroid-java-modeling",
-      "adapter": "flowdroid-java-modeling",
-      "report": "reports/flowdroid-java-modeling.json",
-      "command_template": [
-        "dataflowbench",
-        "run-flowdroid-modeling",
-        "--language",
-        "java"
-      ],
-      "status": "resolved-integration-blocked",
-      "case_membership": {
-        "count": 24,
-        "sha256": "3011b09ead2057b36877fee5fe8fe08f982068dd24e8dec9d00a95fdfed040a3"
-      },
-      "output_roots": [
-        "reports/flowdroid-java-modeling.json",
-        "reports/raw/flowdroid-java-modeling"
-      ],
-      "argv": [
-        "target/release/dataflowbench",
-        "run-flowdroid-modeling",
-        "--language",
-        "java",
-        "--flowdroid-jar",
-        "/Users/dave/.cache/dataflowbench-tools/flowdroid/soot-infoflow-cmd-2.15.1-jar-with-dependencies.jar",
-        "--android-platform",
-        "/Users/dave/.cache/dataflowbench-tools/flowdroid/android-34.jar",
-        "--d8-jar",
-        "/Users/dave/.cache/dataflowbench-tools/flowdroid/r8-8.5.35.jar",
-        "--java",
-        "/usr/bin/java",
-        "--javac",
-        "/usr/bin/javac"
-      ],
       "case_ids": [
         "dfb-taint-java-model-declared-sink-negative",
         "dfb-taint-java-model-declared-sink-positive",
@@ -3197,37 +2343,12 @@
         "dfb-taint-java-model-summary-field-positive",
         "dfb-taint-java-model-summary-through-negative",
         "dfb-taint-java-model-summary-through-positive"
-      ]
+      ],
+      "count": 24,
+      "sha256": "3011b09ead2057b36877fee5fe8fe08f982068dd24e8dec9d00a95fdfed040a3"
     },
     {
       "id": "flowdroid-java-native",
-      "adapter": "flowdroid-java-native",
-      "report": "reports/flowdroid-java-native.json",
-      "command_template": [
-        "dataflowbench",
-        "run-flowdroid-native",
-        "--language",
-        "java"
-      ],
-      "status": "resolved-integration-blocked",
-      "case_membership": {
-        "count": 12,
-        "sha256": "0f99775da62f491c573eb382c75261c11c690e5a0d55640ce5885afc3e05b949"
-      },
-      "output_roots": [
-        "reports/flowdroid-java-native.json",
-        "reports/raw/flowdroid-java-native"
-      ],
-      "argv": [
-        "target/release/dataflowbench",
-        "run-flowdroid-native",
-        "--language",
-        "java",
-        "--flowdroid-jar",
-        "/Users/dave/.cache/dataflowbench-tools/flowdroid/soot-infoflow-cmd-2.15.1-jar-with-dependencies.jar",
-        "--android-platform",
-        "/Users/dave/.cache/dataflowbench-tools/flowdroid/android-34.jar"
-      ],
       "case_ids": [
         "dfb-taint-java-native-entrypoint-negative",
         "dfb-taint-java-native-entrypoint-positive",
@@ -3241,41 +2362,12 @@
         "dfb-taint-java-native-source-sink-positive",
         "dfb-taint-java-native-summary-negative",
         "dfb-taint-java-native-summary-positive"
-      ]
+      ],
+      "count": 12,
+      "sha256": "0f99775da62f491c573eb382c75261c11c690e5a0d55640ce5885afc3e05b949"
     },
     {
       "id": "flowdroid-kotlin-kernel",
-      "adapter": "flowdroid-kotlin-kernel",
-      "report": "reports/flowdroid-kotlin-kernel.json",
-      "command_template": [
-        "dataflowbench",
-        "run-flowdroid-kotlin-kernel"
-      ],
-      "status": "resolved-integration-blocked",
-      "case_membership": {
-        "count": 70,
-        "sha256": "b2049da842a7c1770e4710c100dd55d7431bb014600c1c1e773d0d6d1815b259"
-      },
-      "output_roots": [
-        "reports/flowdroid-kotlin-kernel.json",
-        "reports/raw/flowdroid-kotlin-kernel"
-      ],
-      "argv": [
-        "target/release/dataflowbench",
-        "run-flowdroid-kotlin-kernel",
-        "--flowdroid-jar",
-        "/Users/dave/.cache/dataflowbench-tools/flowdroid/soot-infoflow-cmd-2.15.1-jar-with-dependencies.jar",
-        "--android-platform",
-        "/Users/dave/.cache/dataflowbench-tools/flowdroid/android-34.jar",
-        "--d8-jar",
-        "/Users/dave/.cache/dataflowbench-tools/flowdroid/r8-8.5.35.jar",
-        "--java",
-        "/usr/bin/java",
-        "--kotlinc",
-        "/opt/homebrew/bin/kotlinc",
-        "--kotlin-stdlib",
-        "/opt/homebrew/Cellar/kotlin/2.4.10/libexec/lib/kotlin-stdlib.jar"
-      ],
       "case_ids": [
         "dfb-taint-kotlin-alias-propagation-negative",
         "dfb-taint-kotlin-alias-propagation-positive",
@@ -3347,31 +2439,12 @@
         "dfb-taint-kotlin-return-relay-two-hop-positive",
         "dfb-taint-kotlin-same-object-field-negative",
         "dfb-taint-kotlin-same-object-field-positive"
-      ]
+      ],
+      "count": 70,
+      "sha256": "b2049da842a7c1770e4710c100dd55d7431bb014600c1c1e773d0d6d1815b259"
     },
     {
       "id": "infer-c-kernel",
-      "adapter": "infer-c-kernel",
-      "report": "reports/infer-c-kernel.json",
-      "command_template": [
-        "dataflowbench",
-        "run-infer-c-kernel"
-      ],
-      "status": "resolved-integration-blocked",
-      "case_membership": {
-        "count": 56,
-        "sha256": "f5d709ca071e7bc7ff0c6482bfbe4a5aa81649ebca18945445851f8a271ce4bd"
-      },
-      "output_roots": [
-        "reports/infer-c-kernel.json",
-        "reports/raw/infer-c-kernel"
-      ],
-      "argv": [
-        "target/release/dataflowbench",
-        "run-infer-c-kernel",
-        "--infer",
-        "/Users/dave/.cache/dataflowbench-tools/infer-osx-arm64-v1.3.0/lib/infer/infer/bin/infer"
-      ],
       "case_ids": [
         "dfb-taint-c-alias-propagation-negative",
         "dfb-taint-c-alias-propagation-positive",
@@ -3429,31 +2502,12 @@
         "dfb-taint-c-return-relay-two-hop-positive",
         "dfb-taint-c-same-object-field-negative",
         "dfb-taint-c-same-object-field-positive"
-      ]
+      ],
+      "count": 56,
+      "sha256": "f5d709ca071e7bc7ff0c6482bfbe4a5aa81649ebca18945445851f8a271ce4bd"
     },
     {
       "id": "infer-cpp-kernel",
-      "adapter": "infer-cpp-kernel",
-      "report": "reports/infer-cpp-kernel.json",
-      "command_template": [
-        "dataflowbench",
-        "run-infer-cpp-kernel"
-      ],
-      "status": "resolved-integration-blocked",
-      "case_membership": {
-        "count": 68,
-        "sha256": "06aff2e366e04c19aa566967c021251af8e4808fca027a7d5850f2708c452128"
-      },
-      "output_roots": [
-        "reports/infer-cpp-kernel.json",
-        "reports/raw/infer-cpp-kernel"
-      ],
-      "argv": [
-        "target/release/dataflowbench",
-        "run-infer-cpp-kernel",
-        "--infer",
-        "/Users/dave/.cache/dataflowbench-tools/infer-osx-arm64-v1.3.0/lib/infer/infer/bin/infer"
-      ],
       "case_ids": [
         "dfb-taint-cpp-alias-propagation-negative",
         "dfb-taint-cpp-alias-propagation-positive",
@@ -3523,33 +2577,12 @@
         "dfb-taint-cpp-return-relay-two-hop-positive",
         "dfb-taint-cpp-same-object-field-negative",
         "dfb-taint-cpp-same-object-field-positive"
-      ]
+      ],
+      "count": 68,
+      "sha256": "06aff2e366e04c19aa566967c021251af8e4808fca027a7d5850f2708c452128"
     },
     {
       "id": "infer-java-kernel",
-      "adapter": "infer-java-kernel",
-      "report": "reports/infer-java-kernel.json",
-      "command_template": [
-        "dataflowbench",
-        "run-infer-java-kernel"
-      ],
-      "status": "resolved-integration-blocked",
-      "case_membership": {
-        "count": 70,
-        "sha256": "f3bb263815fa6a3fe3e59e14a1dc836c17f86d640e73b2faeccc2953fbb9782c"
-      },
-      "output_roots": [
-        "reports/infer-java-kernel.json",
-        "reports/raw/infer-java-kernel"
-      ],
-      "argv": [
-        "target/release/dataflowbench",
-        "run-infer-java-kernel",
-        "--infer",
-        "/Users/dave/.cache/dataflowbench-tools/infer-osx-arm64-v1.3.0/lib/infer/infer/bin/infer",
-        "--javac",
-        "/usr/bin/javac"
-      ],
       "case_ids": [
         "dfb-taint-java-alias-propagation-negative",
         "dfb-taint-java-alias-propagation-positive",
@@ -3621,37 +2654,12 @@
         "dfb-taint-java-return-relay-two-hop-positive",
         "dfb-taint-java-same-object-field-negative",
         "dfb-taint-java-same-object-field-positive"
-      ]
+      ],
+      "count": 70,
+      "sha256": "f3bb263815fa6a3fe3e59e14a1dc836c17f86d640e73b2faeccc2953fbb9782c"
     },
     {
       "id": "infer-java-modeling",
-      "adapter": "infer-java-modeling",
-      "report": "reports/infer-java-modeling.json",
-      "command_template": [
-        "dataflowbench",
-        "run-infer-modeling",
-        "--language",
-        "java"
-      ],
-      "status": "resolved-integration-blocked",
-      "case_membership": {
-        "count": 24,
-        "sha256": "3011b09ead2057b36877fee5fe8fe08f982068dd24e8dec9d00a95fdfed040a3"
-      },
-      "output_roots": [
-        "reports/infer-java-modeling.json",
-        "reports/raw/infer-java-modeling"
-      ],
-      "argv": [
-        "target/release/dataflowbench",
-        "run-infer-modeling",
-        "--language",
-        "java",
-        "--infer",
-        "/Users/dave/.cache/dataflowbench-tools/infer-osx-arm64-v1.3.0/lib/infer/infer/bin/infer",
-        "--javac",
-        "/usr/bin/javac"
-      ],
       "case_ids": [
         "dfb-taint-java-model-declared-sink-negative",
         "dfb-taint-java-model-declared-sink-positive",
@@ -3677,35 +2685,12 @@
         "dfb-taint-java-model-summary-field-positive",
         "dfb-taint-java-model-summary-through-negative",
         "dfb-taint-java-model-summary-through-positive"
-      ]
+      ],
+      "count": 24,
+      "sha256": "3011b09ead2057b36877fee5fe8fe08f982068dd24e8dec9d00a95fdfed040a3"
     },
     {
       "id": "infer-java-native",
-      "adapter": "infer-java-native",
-      "report": "reports/infer-java-native.json",
-      "command_template": [
-        "dataflowbench",
-        "run-infer-native",
-        "--language",
-        "java"
-      ],
-      "status": "resolved-integration-blocked",
-      "case_membership": {
-        "count": 12,
-        "sha256": "0f99775da62f491c573eb382c75261c11c690e5a0d55640ce5885afc3e05b949"
-      },
-      "output_roots": [
-        "reports/infer-java-native.json",
-        "reports/raw/infer-java-native"
-      ],
-      "argv": [
-        "target/release/dataflowbench",
-        "run-infer-native",
-        "--language",
-        "java",
-        "--infer",
-        "/Users/dave/.cache/dataflowbench-tools/infer-osx-arm64-v1.3.0/lib/infer/infer/bin/infer"
-      ],
       "case_ids": [
         "dfb-taint-java-native-entrypoint-negative",
         "dfb-taint-java-native-entrypoint-positive",
@@ -3719,31 +2704,12 @@
         "dfb-taint-java-native-source-sink-positive",
         "dfb-taint-java-native-summary-negative",
         "dfb-taint-java-native-summary-positive"
-      ]
+      ],
+      "count": 12,
+      "sha256": "0f99775da62f491c573eb382c75261c11c690e5a0d55640ce5885afc3e05b949"
     },
     {
       "id": "joern-java-kernel",
-      "adapter": "joern-java-kernel",
-      "report": "reports/joern-java-kernel.json",
-      "command_template": [
-        "dataflowbench",
-        "run-joern-java-kernel"
-      ],
-      "status": "resolved-integration-blocked",
-      "case_membership": {
-        "count": 70,
-        "sha256": "f3bb263815fa6a3fe3e59e14a1dc836c17f86d640e73b2faeccc2953fbb9782c"
-      },
-      "output_roots": [
-        "reports/joern-java-kernel.json",
-        "reports/raw/joern-java-kernel"
-      ],
-      "argv": [
-        "target/release/dataflowbench",
-        "run-joern-java-kernel",
-        "--joern",
-        "/Users/dave/.cache/dataflowbench-tools/joern-v4.0.628/joern-cli/joern"
-      ],
       "case_ids": [
         "dfb-taint-java-alias-propagation-negative",
         "dfb-taint-java-alias-propagation-positive",
@@ -3815,35 +2781,12 @@
         "dfb-taint-java-return-relay-two-hop-positive",
         "dfb-taint-java-same-object-field-negative",
         "dfb-taint-java-same-object-field-positive"
-      ]
+      ],
+      "count": 70,
+      "sha256": "f3bb263815fa6a3fe3e59e14a1dc836c17f86d640e73b2faeccc2953fbb9782c"
     },
     {
       "id": "joern-java-modeling",
-      "adapter": "joern-java-modeling",
-      "report": "reports/joern-java-modeling.json",
-      "command_template": [
-        "dataflowbench",
-        "run-joern-modeling",
-        "--language",
-        "java"
-      ],
-      "status": "resolved-integration-blocked",
-      "case_membership": {
-        "count": 24,
-        "sha256": "3011b09ead2057b36877fee5fe8fe08f982068dd24e8dec9d00a95fdfed040a3"
-      },
-      "output_roots": [
-        "reports/joern-java-modeling.json",
-        "reports/raw/joern-java-modeling"
-      ],
-      "argv": [
-        "target/release/dataflowbench",
-        "run-joern-modeling",
-        "--language",
-        "java",
-        "--joern",
-        "/Users/dave/.cache/dataflowbench-tools/joern-v4.0.628/joern-cli/joern"
-      ],
       "case_ids": [
         "dfb-taint-java-model-declared-sink-negative",
         "dfb-taint-java-model-declared-sink-positive",
@@ -3869,35 +2812,12 @@
         "dfb-taint-java-model-summary-field-positive",
         "dfb-taint-java-model-summary-through-negative",
         "dfb-taint-java-model-summary-through-positive"
-      ]
+      ],
+      "count": 24,
+      "sha256": "3011b09ead2057b36877fee5fe8fe08f982068dd24e8dec9d00a95fdfed040a3"
     },
     {
       "id": "joern-java-native",
-      "adapter": "joern-java-native",
-      "report": "reports/joern-java-native.json",
-      "command_template": [
-        "dataflowbench",
-        "run-joern-native",
-        "--language",
-        "java"
-      ],
-      "status": "resolved-integration-blocked",
-      "case_membership": {
-        "count": 12,
-        "sha256": "0f99775da62f491c573eb382c75261c11c690e5a0d55640ce5885afc3e05b949"
-      },
-      "output_roots": [
-        "reports/joern-java-native.json",
-        "reports/raw/joern-java-native"
-      ],
-      "argv": [
-        "target/release/dataflowbench",
-        "run-joern-native",
-        "--language",
-        "java",
-        "--joern",
-        "/Users/dave/.cache/dataflowbench-tools/joern-v4.0.628/joern-cli/joern"
-      ],
       "case_ids": [
         "dfb-taint-java-native-entrypoint-negative",
         "dfb-taint-java-native-entrypoint-positive",
@@ -3911,31 +2831,12 @@
         "dfb-taint-java-native-source-sink-positive",
         "dfb-taint-java-native-summary-negative",
         "dfb-taint-java-native-summary-positive"
-      ]
+      ],
+      "count": 12,
+      "sha256": "0f99775da62f491c573eb382c75261c11c690e5a0d55640ce5885afc3e05b949"
     },
     {
       "id": "joern-javascript-kernel",
-      "adapter": "joern-javascript-kernel",
-      "report": "reports/joern-javascript-kernel.json",
-      "command_template": [
-        "dataflowbench",
-        "run-joern-javascript-kernel"
-      ],
-      "status": "resolved-integration-blocked",
-      "case_membership": {
-        "count": 70,
-        "sha256": "5ca5951c6fa8b415ed3db98049a15b1ce1ab210ddf5573bfae99419eff0d477b"
-      },
-      "output_roots": [
-        "reports/joern-javascript-kernel.json",
-        "reports/raw/joern-javascript-kernel"
-      ],
-      "argv": [
-        "target/release/dataflowbench",
-        "run-joern-javascript-kernel",
-        "--joern",
-        "/Users/dave/.cache/dataflowbench-tools/joern-v4.0.628/joern-cli/joern"
-      ],
       "case_ids": [
         "dfb-taint-javascript-alias-propagation-negative",
         "dfb-taint-javascript-alias-propagation-positive",
@@ -4007,35 +2908,12 @@
         "dfb-taint-javascript-return-relay-two-hop-positive",
         "dfb-taint-javascript-same-object-field-negative",
         "dfb-taint-javascript-same-object-field-positive"
-      ]
+      ],
+      "count": 70,
+      "sha256": "5ca5951c6fa8b415ed3db98049a15b1ce1ab210ddf5573bfae99419eff0d477b"
     },
     {
       "id": "joern-javascript-modeling",
-      "adapter": "joern-javascript-modeling",
-      "report": "reports/joern-javascript-modeling.json",
-      "command_template": [
-        "dataflowbench",
-        "run-joern-modeling",
-        "--language",
-        "javascript"
-      ],
-      "status": "resolved-integration-blocked",
-      "case_membership": {
-        "count": 24,
-        "sha256": "b593ac3a054bf0643268484cc6d6b185be44d674f1627ee809d93c69dd5c348e"
-      },
-      "output_roots": [
-        "reports/joern-javascript-modeling.json",
-        "reports/raw/joern-javascript-modeling"
-      ],
-      "argv": [
-        "target/release/dataflowbench",
-        "run-joern-modeling",
-        "--language",
-        "javascript",
-        "--joern",
-        "/Users/dave/.cache/dataflowbench-tools/joern-v4.0.628/joern-cli/joern"
-      ],
       "case_ids": [
         "dfb-taint-javascript-model-declared-sink-negative",
         "dfb-taint-javascript-model-declared-sink-positive",
@@ -4061,35 +2939,12 @@
         "dfb-taint-javascript-model-summary-field-positive",
         "dfb-taint-javascript-model-summary-through-negative",
         "dfb-taint-javascript-model-summary-through-positive"
-      ]
+      ],
+      "count": 24,
+      "sha256": "b593ac3a054bf0643268484cc6d6b185be44d674f1627ee809d93c69dd5c348e"
     },
     {
       "id": "joern-javascript-native",
-      "adapter": "joern-javascript-native",
-      "report": "reports/joern-javascript-native.json",
-      "command_template": [
-        "dataflowbench",
-        "run-joern-native",
-        "--language",
-        "javascript"
-      ],
-      "status": "resolved-integration-blocked",
-      "case_membership": {
-        "count": 12,
-        "sha256": "f00a13ed4001f4aedc6358166b48a6bb824db45793399fde7208a68400fe2be4"
-      },
-      "output_roots": [
-        "reports/joern-javascript-native.json",
-        "reports/raw/joern-javascript-native"
-      ],
-      "argv": [
-        "target/release/dataflowbench",
-        "run-joern-native",
-        "--language",
-        "javascript",
-        "--joern",
-        "/Users/dave/.cache/dataflowbench-tools/joern-v4.0.628/joern-cli/joern"
-      ],
       "case_ids": [
         "dfb-taint-javascript-native-entrypoint-negative",
         "dfb-taint-javascript-native-entrypoint-positive",
@@ -4103,31 +2958,12 @@
         "dfb-taint-javascript-native-source-sink-positive",
         "dfb-taint-javascript-native-summary-negative",
         "dfb-taint-javascript-native-summary-positive"
-      ]
+      ],
+      "count": 12,
+      "sha256": "f00a13ed4001f4aedc6358166b48a6bb824db45793399fde7208a68400fe2be4"
     },
     {
       "id": "joern-php-kernel",
-      "adapter": "joern-php-kernel",
-      "report": "reports/joern-php-kernel.json",
-      "command_template": [
-        "dataflowbench",
-        "run-joern-php-kernel"
-      ],
-      "status": "resolved-integration-blocked",
-      "case_membership": {
-        "count": 70,
-        "sha256": "e3a7d8c4827766d1f30f4fe9034d6d9e67da7ef1ca3e4e1442df56f52208c78a"
-      },
-      "output_roots": [
-        "reports/joern-php-kernel.json",
-        "reports/raw/joern-php-kernel"
-      ],
-      "argv": [
-        "target/release/dataflowbench",
-        "run-joern-php-kernel",
-        "--joern",
-        "/Users/dave/.cache/dataflowbench-tools/joern-v4.0.628/joern-cli/joern"
-      ],
       "case_ids": [
         "dfb-taint-php-alias-propagation-negative",
         "dfb-taint-php-alias-propagation-positive",
@@ -4199,31 +3035,12 @@
         "dfb-taint-php-return-relay-two-hop-positive",
         "dfb-taint-php-same-object-field-negative",
         "dfb-taint-php-same-object-field-positive"
-      ]
+      ],
+      "count": 70,
+      "sha256": "e3a7d8c4827766d1f30f4fe9034d6d9e67da7ef1ca3e4e1442df56f52208c78a"
     },
     {
       "id": "joern-python-kernel",
-      "adapter": "joern-python-kernel",
-      "report": "reports/joern-python-kernel.json",
-      "command_template": [
-        "dataflowbench",
-        "run-joern-python-kernel"
-      ],
-      "status": "resolved-integration-blocked",
-      "case_membership": {
-        "count": 70,
-        "sha256": "91d17de61c179ae7b9b96ab1228c475a421c6e108c5f21e39a48cb8b3b991c84"
-      },
-      "output_roots": [
-        "reports/joern-python-kernel.json",
-        "reports/raw/joern-python-kernel"
-      ],
-      "argv": [
-        "target/release/dataflowbench",
-        "run-joern-python-kernel",
-        "--joern",
-        "/Users/dave/.cache/dataflowbench-tools/joern-v4.0.628/joern-cli/joern"
-      ],
       "case_ids": [
         "dfb-taint-python-alias-propagation-negative",
         "dfb-taint-python-alias-propagation-positive",
@@ -4295,35 +3112,12 @@
         "dfb-taint-python-return-relay-two-hop-positive",
         "dfb-taint-python-same-object-field-negative",
         "dfb-taint-python-same-object-field-positive"
-      ]
+      ],
+      "count": 70,
+      "sha256": "91d17de61c179ae7b9b96ab1228c475a421c6e108c5f21e39a48cb8b3b991c84"
     },
     {
       "id": "joern-python-modeling",
-      "adapter": "joern-python-modeling",
-      "report": "reports/joern-python-modeling.json",
-      "command_template": [
-        "dataflowbench",
-        "run-joern-modeling",
-        "--language",
-        "python"
-      ],
-      "status": "resolved-integration-blocked",
-      "case_membership": {
-        "count": 24,
-        "sha256": "3f0e116a9c7243dd558cac6cc62ee5da8fba1c2af85a6ef6c342c67f37790602"
-      },
-      "output_roots": [
-        "reports/joern-python-modeling.json",
-        "reports/raw/joern-python-modeling"
-      ],
-      "argv": [
-        "target/release/dataflowbench",
-        "run-joern-modeling",
-        "--language",
-        "python",
-        "--joern",
-        "/Users/dave/.cache/dataflowbench-tools/joern-v4.0.628/joern-cli/joern"
-      ],
       "case_ids": [
         "dfb-taint-python-model-declared-sink-negative",
         "dfb-taint-python-model-declared-sink-positive",
@@ -4349,35 +3143,12 @@
         "dfb-taint-python-model-summary-field-positive",
         "dfb-taint-python-model-summary-through-negative",
         "dfb-taint-python-model-summary-through-positive"
-      ]
+      ],
+      "count": 24,
+      "sha256": "3f0e116a9c7243dd558cac6cc62ee5da8fba1c2af85a6ef6c342c67f37790602"
     },
     {
       "id": "joern-python-native",
-      "adapter": "joern-python-native",
-      "report": "reports/joern-python-native.json",
-      "command_template": [
-        "dataflowbench",
-        "run-joern-native",
-        "--language",
-        "python"
-      ],
-      "status": "resolved-integration-blocked",
-      "case_membership": {
-        "count": 12,
-        "sha256": "f9f44ac53b0832a2340c0b4464e7598880fdd70bf560728acdf79f0cc8761905"
-      },
-      "output_roots": [
-        "reports/joern-python-native.json",
-        "reports/raw/joern-python-native"
-      ],
-      "argv": [
-        "target/release/dataflowbench",
-        "run-joern-native",
-        "--language",
-        "python",
-        "--joern",
-        "/Users/dave/.cache/dataflowbench-tools/joern-v4.0.628/joern-cli/joern"
-      ],
       "case_ids": [
         "dfb-taint-python-native-entrypoint-negative",
         "dfb-taint-python-native-entrypoint-positive",
@@ -4391,31 +3162,12 @@
         "dfb-taint-python-native-source-sink-positive",
         "dfb-taint-python-native-summary-negative",
         "dfb-taint-python-native-summary-positive"
-      ]
+      ],
+      "count": 12,
+      "sha256": "f9f44ac53b0832a2340c0b4464e7598880fdd70bf560728acdf79f0cc8761905"
     },
     {
       "id": "joern-ruby-kernel",
-      "adapter": "joern-ruby-kernel",
-      "report": "reports/joern-ruby-kernel.json",
-      "command_template": [
-        "dataflowbench",
-        "run-joern-ruby-kernel"
-      ],
-      "status": "resolved-integration-blocked",
-      "case_membership": {
-        "count": 70,
-        "sha256": "c0d9514f7aee1baf1090b4ea6eac8666846ec24ec87340e4e6fa2b34a0e367dc"
-      },
-      "output_roots": [
-        "reports/joern-ruby-kernel.json",
-        "reports/raw/joern-ruby-kernel"
-      ],
-      "argv": [
-        "target/release/dataflowbench",
-        "run-joern-ruby-kernel",
-        "--joern",
-        "/Users/dave/.cache/dataflowbench-tools/joern-v4.0.628/joern-cli/joern"
-      ],
       "case_ids": [
         "dfb-taint-ruby-alias-propagation-negative",
         "dfb-taint-ruby-alias-propagation-positive",
@@ -4487,31 +3239,12 @@
         "dfb-taint-ruby-return-relay-two-hop-positive",
         "dfb-taint-ruby-same-object-field-negative",
         "dfb-taint-ruby-same-object-field-positive"
-      ]
+      ],
+      "count": 70,
+      "sha256": "c0d9514f7aee1baf1090b4ea6eac8666846ec24ec87340e4e6fa2b34a0e367dc"
     },
     {
       "id": "joern-rust-kernel",
-      "adapter": "joern-rust-kernel",
-      "report": "reports/joern-rust-kernel.json",
-      "command_template": [
-        "dataflowbench",
-        "run-joern-rust-kernel"
-      ],
-      "status": "resolved-integration-blocked",
-      "case_membership": {
-        "count": 62,
-        "sha256": "27191f2393a63f66884c69bbbcc3b26ed0a6bda3f9367b1a7234e9e771028b4d"
-      },
-      "output_roots": [
-        "reports/joern-rust-kernel.json",
-        "reports/raw/joern-rust-kernel"
-      ],
-      "argv": [
-        "target/release/dataflowbench",
-        "run-joern-rust-kernel",
-        "--joern",
-        "/Users/dave/.cache/dataflowbench-tools/joern-v4.0.628/joern-cli/joern"
-      ],
       "case_ids": [
         "dfb-taint-rust-alias-propagation-negative",
         "dfb-taint-rust-alias-propagation-positive",
@@ -4575,37 +3308,12 @@
         "dfb-taint-rust-return-relay-two-hop-positive",
         "dfb-taint-rust-same-object-field-negative",
         "dfb-taint-rust-same-object-field-positive"
-      ]
+      ],
+      "count": 62,
+      "sha256": "27191f2393a63f66884c69bbbcc3b26ed0a6bda3f9367b1a7234e9e771028b4d"
     },
     {
       "id": "opentaint-java-kernel",
-      "adapter": "opentaint-java-kernel",
-      "report": "reports/opentaint-java-kernel.json",
-      "command_template": [
-        "dataflowbench",
-        "run-opentaint-java-kernel"
-      ],
-      "status": "resolved-integration-blocked",
-      "case_membership": {
-        "count": 70,
-        "sha256": "f3bb263815fa6a3fe3e59e14a1dc836c17f86d640e73b2faeccc2953fbb9782c"
-      },
-      "output_roots": [
-        "reports/opentaint-java-kernel.json",
-        "reports/raw/opentaint-java-kernel"
-      ],
-      "argv": [
-        "target/release/dataflowbench",
-        "run-opentaint-java-kernel",
-        "--analyzer-jar",
-        "/Users/dave/.cache/dataflowbench-tools/opentaint-v0.4.6/opentaint-project-analyzer.jar",
-        "--models-archive",
-        "/Users/dave/.cache/dataflowbench-tools/opentaint-v0.4.6/opentaint-models.tar.gz",
-        "--java",
-        "/usr/bin/java",
-        "--javac",
-        "/usr/bin/javac"
-      ],
       "case_ids": [
         "dfb-taint-java-alias-propagation-negative",
         "dfb-taint-java-alias-propagation-positive",
@@ -4677,37 +3385,12 @@
         "dfb-taint-java-return-relay-two-hop-positive",
         "dfb-taint-java-same-object-field-negative",
         "dfb-taint-java-same-object-field-positive"
-      ]
+      ],
+      "count": 70,
+      "sha256": "f3bb263815fa6a3fe3e59e14a1dc836c17f86d640e73b2faeccc2953fbb9782c"
     },
     {
       "id": "opentaint-java-modeling",
-      "adapter": "opentaint-java-modeling",
-      "report": "reports/opentaint-java-modeling.json",
-      "command_template": [
-        "dataflowbench",
-        "run-opentaint-modeling",
-        "--language",
-        "java"
-      ],
-      "status": "resolved-integration-blocked",
-      "case_membership": {
-        "count": 24,
-        "sha256": "3011b09ead2057b36877fee5fe8fe08f982068dd24e8dec9d00a95fdfed040a3"
-      },
-      "output_roots": [
-        "reports/opentaint-java-modeling.json",
-        "reports/raw/opentaint-java-modeling"
-      ],
-      "argv": [
-        "target/release/dataflowbench",
-        "run-opentaint-modeling",
-        "--language",
-        "java",
-        "--analyzer-jar",
-        "/Users/dave/.cache/dataflowbench-tools/opentaint-v0.4.6/opentaint-project-analyzer.jar",
-        "--models-archive",
-        "/Users/dave/.cache/dataflowbench-tools/opentaint-v0.4.6/opentaint-models.tar.gz"
-      ],
       "case_ids": [
         "dfb-taint-java-model-declared-sink-negative",
         "dfb-taint-java-model-declared-sink-positive",
@@ -4733,37 +3416,12 @@
         "dfb-taint-java-model-summary-field-positive",
         "dfb-taint-java-model-summary-through-negative",
         "dfb-taint-java-model-summary-through-positive"
-      ]
+      ],
+      "count": 24,
+      "sha256": "3011b09ead2057b36877fee5fe8fe08f982068dd24e8dec9d00a95fdfed040a3"
     },
     {
       "id": "opentaint-java-native",
-      "adapter": "opentaint-java-native",
-      "report": "reports/opentaint-java-native.json",
-      "command_template": [
-        "dataflowbench",
-        "run-opentaint-native",
-        "--language",
-        "java"
-      ],
-      "status": "resolved-integration-blocked",
-      "case_membership": {
-        "count": 12,
-        "sha256": "0f99775da62f491c573eb382c75261c11c690e5a0d55640ce5885afc3e05b949"
-      },
-      "output_roots": [
-        "reports/opentaint-java-native.json",
-        "reports/raw/opentaint-java-native"
-      ],
-      "argv": [
-        "target/release/dataflowbench",
-        "run-opentaint-native",
-        "--language",
-        "java",
-        "--analyzer-jar",
-        "/Users/dave/.cache/dataflowbench-tools/opentaint-v0.4.6/opentaint-project-analyzer.jar",
-        "--models-archive",
-        "/Users/dave/.cache/dataflowbench-tools/opentaint-v0.4.6/opentaint-models.tar.gz"
-      ],
       "case_ids": [
         "dfb-taint-java-native-entrypoint-negative",
         "dfb-taint-java-native-entrypoint-positive",
@@ -4777,39 +3435,12 @@
         "dfb-taint-java-native-source-sink-positive",
         "dfb-taint-java-native-summary-negative",
         "dfb-taint-java-native-summary-positive"
-      ]
+      ],
+      "count": 12,
+      "sha256": "0f99775da62f491c573eb382c75261c11c690e5a0d55640ce5885afc3e05b949"
     },
     {
       "id": "opentaint-kotlin-kernel",
-      "adapter": "opentaint-kotlin-kernel",
-      "report": "reports/opentaint-kotlin-kernel.json",
-      "command_template": [
-        "dataflowbench",
-        "run-opentaint-kotlin-kernel"
-      ],
-      "status": "resolved-integration-blocked",
-      "case_membership": {
-        "count": 70,
-        "sha256": "b2049da842a7c1770e4710c100dd55d7431bb014600c1c1e773d0d6d1815b259"
-      },
-      "output_roots": [
-        "reports/opentaint-kotlin-kernel.json",
-        "reports/raw/opentaint-kotlin-kernel"
-      ],
-      "argv": [
-        "target/release/dataflowbench",
-        "run-opentaint-kotlin-kernel",
-        "--analyzer-jar",
-        "/Users/dave/.cache/dataflowbench-tools/opentaint-v0.4.6/opentaint-project-analyzer.jar",
-        "--models-archive",
-        "/Users/dave/.cache/dataflowbench-tools/opentaint-v0.4.6/opentaint-models.tar.gz",
-        "--java",
-        "/usr/bin/java",
-        "--kotlinc",
-        "/opt/homebrew/bin/kotlinc",
-        "--kotlin-stdlib",
-        "/opt/homebrew/Cellar/kotlin/2.4.10/libexec/lib/kotlin-stdlib.jar"
-      ],
       "case_ids": [
         "dfb-taint-kotlin-alias-propagation-negative",
         "dfb-taint-kotlin-alias-propagation-positive",
@@ -4881,35 +3512,12 @@
         "dfb-taint-kotlin-return-relay-two-hop-positive",
         "dfb-taint-kotlin-same-object-field-negative",
         "dfb-taint-kotlin-same-object-field-positive"
-      ]
+      ],
+      "count": 70,
+      "sha256": "b2049da842a7c1770e4710c100dd55d7431bb014600c1c1e773d0d6d1815b259"
     },
     {
       "id": "pysa-python-kernel",
-      "adapter": "pysa-python-kernel",
-      "report": "reports/pysa-python-kernel.json",
-      "command_template": [
-        "dataflowbench",
-        "run-pysa-python-kernel"
-      ],
-      "status": "resolved-integration-blocked",
-      "case_membership": {
-        "count": 70,
-        "sha256": "91d17de61c179ae7b9b96ab1228c475a421c6e108c5f21e39a48cb8b3b991c84"
-      },
-      "output_roots": [
-        "reports/pysa-python-kernel.json",
-        "reports/raw/pysa-python-kernel"
-      ],
-      "argv": [
-        "target/release/dataflowbench",
-        "run-pysa-python-kernel",
-        "--pyre",
-        "/Users/dave/.cache/dataflowbench-tools/v0.8.0-python-tools/bin/pyre",
-        "--pyre-binary",
-        "/Users/dave/.cache/dataflowbench-tools/v0.8.0-python-tools/bin/pyre.bin",
-        "--pyrefly",
-        "/Users/dave/.cache/dataflowbench-tools/v0.8.0-python-tools/bin/pyrefly"
-      ],
       "case_ids": [
         "dfb-taint-python-alias-propagation-negative",
         "dfb-taint-python-alias-propagation-positive",
@@ -4981,39 +3589,12 @@
         "dfb-taint-python-return-relay-two-hop-positive",
         "dfb-taint-python-same-object-field-negative",
         "dfb-taint-python-same-object-field-positive"
-      ]
+      ],
+      "count": 70,
+      "sha256": "91d17de61c179ae7b9b96ab1228c475a421c6e108c5f21e39a48cb8b3b991c84"
     },
     {
       "id": "pysa-python-modeling",
-      "adapter": "pysa-python-modeling",
-      "report": "reports/pysa-python-modeling.json",
-      "command_template": [
-        "dataflowbench",
-        "run-pysa-modeling",
-        "--language",
-        "python"
-      ],
-      "status": "resolved-integration-blocked",
-      "case_membership": {
-        "count": 24,
-        "sha256": "3f0e116a9c7243dd558cac6cc62ee5da8fba1c2af85a6ef6c342c67f37790602"
-      },
-      "output_roots": [
-        "reports/pysa-python-modeling.json",
-        "reports/raw/pysa-python-modeling"
-      ],
-      "argv": [
-        "target/release/dataflowbench",
-        "run-pysa-modeling",
-        "--language",
-        "python",
-        "--pyre",
-        "/Users/dave/.cache/dataflowbench-tools/v0.8.0-python-tools/bin/pyre",
-        "--pyre-binary",
-        "/Users/dave/.cache/dataflowbench-tools/v0.8.0-python-tools/bin/pyre.bin",
-        "--pyrefly",
-        "/Users/dave/.cache/dataflowbench-tools/v0.8.0-python-tools/bin/pyrefly"
-      ],
       "case_ids": [
         "dfb-taint-python-model-declared-sink-negative",
         "dfb-taint-python-model-declared-sink-positive",
@@ -5039,39 +3620,12 @@
         "dfb-taint-python-model-summary-field-positive",
         "dfb-taint-python-model-summary-through-negative",
         "dfb-taint-python-model-summary-through-positive"
-      ]
+      ],
+      "count": 24,
+      "sha256": "3f0e116a9c7243dd558cac6cc62ee5da8fba1c2af85a6ef6c342c67f37790602"
     },
     {
       "id": "pysa-python-native",
-      "adapter": "pysa-python-native",
-      "report": "reports/pysa-python-native.json",
-      "command_template": [
-        "dataflowbench",
-        "run-pysa-native",
-        "--language",
-        "python"
-      ],
-      "status": "resolved-integration-blocked",
-      "case_membership": {
-        "count": 12,
-        "sha256": "f9f44ac53b0832a2340c0b4464e7598880fdd70bf560728acdf79f0cc8761905"
-      },
-      "output_roots": [
-        "reports/pysa-python-native.json",
-        "reports/raw/pysa-python-native"
-      ],
-      "argv": [
-        "target/release/dataflowbench",
-        "run-pysa-native",
-        "--language",
-        "python",
-        "--pyre",
-        "/Users/dave/.cache/dataflowbench-tools/v0.8.0-python-tools/bin/pyre",
-        "--pyre-binary",
-        "/Users/dave/.cache/dataflowbench-tools/v0.8.0-python-tools/bin/pyre.bin",
-        "--pyrefly",
-        "/Users/dave/.cache/dataflowbench-tools/v0.8.0-python-tools/bin/pyrefly"
-      ],
       "case_ids": [
         "dfb-taint-python-native-entrypoint-negative",
         "dfb-taint-python-native-entrypoint-positive",
@@ -5085,31 +3639,12 @@
         "dfb-taint-python-native-source-sink-positive",
         "dfb-taint-python-native-summary-negative",
         "dfb-taint-python-native-summary-positive"
-      ]
+      ],
+      "count": 12,
+      "sha256": "f9f44ac53b0832a2340c0b4464e7598880fdd70bf560728acdf79f0cc8761905"
     },
     {
       "id": "semgrep-c-kernel",
-      "adapter": "semgrep-c-kernel",
-      "report": "reports/semgrep-c-kernel.json",
-      "command_template": [
-        "dataflowbench",
-        "run-semgrep-c-kernel"
-      ],
-      "status": "resolved-integration-blocked",
-      "case_membership": {
-        "count": 56,
-        "sha256": "f5d709ca071e7bc7ff0c6482bfbe4a5aa81649ebca18945445851f8a271ce4bd"
-      },
-      "output_roots": [
-        "reports/semgrep-c-kernel.json",
-        "reports/raw/semgrep-c-kernel"
-      ],
-      "argv": [
-        "target/release/dataflowbench",
-        "run-semgrep-c-kernel",
-        "--semgrep",
-        "/Users/dave/.cache/dataflowbench-tools/semgrep-1.177.0-venv/bin/semgrep"
-      ],
       "case_ids": [
         "dfb-taint-c-alias-propagation-negative",
         "dfb-taint-c-alias-propagation-positive",
@@ -5167,31 +3702,12 @@
         "dfb-taint-c-return-relay-two-hop-positive",
         "dfb-taint-c-same-object-field-negative",
         "dfb-taint-c-same-object-field-positive"
-      ]
+      ],
+      "count": 56,
+      "sha256": "f5d709ca071e7bc7ff0c6482bfbe4a5aa81649ebca18945445851f8a271ce4bd"
     },
     {
       "id": "semgrep-cpp-kernel",
-      "adapter": "semgrep-cpp-kernel",
-      "report": "reports/semgrep-cpp-kernel.json",
-      "command_template": [
-        "dataflowbench",
-        "run-semgrep-cpp-kernel"
-      ],
-      "status": "resolved-integration-blocked",
-      "case_membership": {
-        "count": 68,
-        "sha256": "06aff2e366e04c19aa566967c021251af8e4808fca027a7d5850f2708c452128"
-      },
-      "output_roots": [
-        "reports/semgrep-cpp-kernel.json",
-        "reports/raw/semgrep-cpp-kernel"
-      ],
-      "argv": [
-        "target/release/dataflowbench",
-        "run-semgrep-cpp-kernel",
-        "--semgrep",
-        "/Users/dave/.cache/dataflowbench-tools/semgrep-1.177.0-venv/bin/semgrep"
-      ],
       "case_ids": [
         "dfb-taint-cpp-alias-propagation-negative",
         "dfb-taint-cpp-alias-propagation-positive",
@@ -5261,31 +3777,12 @@
         "dfb-taint-cpp-return-relay-two-hop-positive",
         "dfb-taint-cpp-same-object-field-negative",
         "dfb-taint-cpp-same-object-field-positive"
-      ]
+      ],
+      "count": 68,
+      "sha256": "06aff2e366e04c19aa566967c021251af8e4808fca027a7d5850f2708c452128"
     },
     {
       "id": "semgrep-go-kernel",
-      "adapter": "semgrep-go-kernel",
-      "report": "reports/semgrep-go-kernel.json",
-      "command_template": [
-        "dataflowbench",
-        "run-semgrep-go-kernel"
-      ],
-      "status": "resolved-integration-blocked",
-      "case_membership": {
-        "count": 70,
-        "sha256": "40a3197b82cc39e6589b1635327296cdf7ff75eb35090329e3ed22b8c0345f06"
-      },
-      "output_roots": [
-        "reports/semgrep-go-kernel.json",
-        "reports/raw/semgrep-go-kernel"
-      ],
-      "argv": [
-        "target/release/dataflowbench",
-        "run-semgrep-go-kernel",
-        "--semgrep",
-        "/Users/dave/.cache/dataflowbench-tools/semgrep-1.177.0-venv/bin/semgrep"
-      ],
       "case_ids": [
         "dfb-taint-go-alias-propagation-negative",
         "dfb-taint-go-alias-propagation-positive",
@@ -5357,31 +3854,12 @@
         "dfb-taint-go-return-relay-two-hop-positive",
         "dfb-taint-go-same-object-field-negative",
         "dfb-taint-go-same-object-field-positive"
-      ]
+      ],
+      "count": 70,
+      "sha256": "40a3197b82cc39e6589b1635327296cdf7ff75eb35090329e3ed22b8c0345f06"
     },
     {
       "id": "semgrep-java-kernel",
-      "adapter": "semgrep-java-kernel",
-      "report": "reports/semgrep-java-kernel.json",
-      "command_template": [
-        "dataflowbench",
-        "run-semgrep-java-kernel"
-      ],
-      "status": "resolved-integration-blocked",
-      "case_membership": {
-        "count": 70,
-        "sha256": "f3bb263815fa6a3fe3e59e14a1dc836c17f86d640e73b2faeccc2953fbb9782c"
-      },
-      "output_roots": [
-        "reports/semgrep-java-kernel.json",
-        "reports/raw/semgrep-java-kernel"
-      ],
-      "argv": [
-        "target/release/dataflowbench",
-        "run-semgrep-java-kernel",
-        "--semgrep",
-        "/Users/dave/.cache/dataflowbench-tools/semgrep-1.177.0-venv/bin/semgrep"
-      ],
       "case_ids": [
         "dfb-taint-java-alias-propagation-negative",
         "dfb-taint-java-alias-propagation-positive",
@@ -5453,35 +3931,12 @@
         "dfb-taint-java-return-relay-two-hop-positive",
         "dfb-taint-java-same-object-field-negative",
         "dfb-taint-java-same-object-field-positive"
-      ]
+      ],
+      "count": 70,
+      "sha256": "f3bb263815fa6a3fe3e59e14a1dc836c17f86d640e73b2faeccc2953fbb9782c"
     },
     {
       "id": "semgrep-java-modeling",
-      "adapter": "semgrep-java-modeling",
-      "report": "reports/semgrep-java-modeling.json",
-      "command_template": [
-        "dataflowbench",
-        "run-semgrep-modeling",
-        "--language",
-        "java"
-      ],
-      "status": "resolved-integration-blocked",
-      "case_membership": {
-        "count": 24,
-        "sha256": "3011b09ead2057b36877fee5fe8fe08f982068dd24e8dec9d00a95fdfed040a3"
-      },
-      "output_roots": [
-        "reports/semgrep-java-modeling.json",
-        "reports/raw/semgrep-java-modeling"
-      ],
-      "argv": [
-        "target/release/dataflowbench",
-        "run-semgrep-modeling",
-        "--language",
-        "java",
-        "--semgrep",
-        "/Users/dave/.cache/dataflowbench-tools/semgrep-1.177.0-venv/bin/semgrep"
-      ],
       "case_ids": [
         "dfb-taint-java-model-declared-sink-negative",
         "dfb-taint-java-model-declared-sink-positive",
@@ -5507,35 +3962,12 @@
         "dfb-taint-java-model-summary-field-positive",
         "dfb-taint-java-model-summary-through-negative",
         "dfb-taint-java-model-summary-through-positive"
-      ]
+      ],
+      "count": 24,
+      "sha256": "3011b09ead2057b36877fee5fe8fe08f982068dd24e8dec9d00a95fdfed040a3"
     },
     {
       "id": "semgrep-java-native",
-      "adapter": "semgrep-java-native",
-      "report": "reports/semgrep-java-native.json",
-      "command_template": [
-        "dataflowbench",
-        "run-semgrep-native",
-        "--language",
-        "java"
-      ],
-      "status": "resolved-integration-blocked",
-      "case_membership": {
-        "count": 12,
-        "sha256": "0f99775da62f491c573eb382c75261c11c690e5a0d55640ce5885afc3e05b949"
-      },
-      "output_roots": [
-        "reports/semgrep-java-native.json",
-        "reports/raw/semgrep-java-native"
-      ],
-      "argv": [
-        "target/release/dataflowbench",
-        "run-semgrep-native",
-        "--language",
-        "java",
-        "--semgrep",
-        "/Users/dave/.cache/dataflowbench-tools/semgrep-1.177.0-venv/bin/semgrep"
-      ],
       "case_ids": [
         "dfb-taint-java-native-entrypoint-negative",
         "dfb-taint-java-native-entrypoint-positive",
@@ -5549,31 +3981,12 @@
         "dfb-taint-java-native-source-sink-positive",
         "dfb-taint-java-native-summary-negative",
         "dfb-taint-java-native-summary-positive"
-      ]
+      ],
+      "count": 12,
+      "sha256": "0f99775da62f491c573eb382c75261c11c690e5a0d55640ce5885afc3e05b949"
     },
     {
       "id": "semgrep-javascript-kernel",
-      "adapter": "semgrep-javascript-kernel",
-      "report": "reports/semgrep-javascript-kernel.json",
-      "command_template": [
-        "dataflowbench",
-        "run-semgrep-javascript-kernel"
-      ],
-      "status": "resolved-integration-blocked",
-      "case_membership": {
-        "count": 70,
-        "sha256": "5ca5951c6fa8b415ed3db98049a15b1ce1ab210ddf5573bfae99419eff0d477b"
-      },
-      "output_roots": [
-        "reports/semgrep-javascript-kernel.json",
-        "reports/raw/semgrep-javascript-kernel"
-      ],
-      "argv": [
-        "target/release/dataflowbench",
-        "run-semgrep-javascript-kernel",
-        "--semgrep",
-        "/Users/dave/.cache/dataflowbench-tools/semgrep-1.177.0-venv/bin/semgrep"
-      ],
       "case_ids": [
         "dfb-taint-javascript-alias-propagation-negative",
         "dfb-taint-javascript-alias-propagation-positive",
@@ -5645,35 +4058,12 @@
         "dfb-taint-javascript-return-relay-two-hop-positive",
         "dfb-taint-javascript-same-object-field-negative",
         "dfb-taint-javascript-same-object-field-positive"
-      ]
+      ],
+      "count": 70,
+      "sha256": "5ca5951c6fa8b415ed3db98049a15b1ce1ab210ddf5573bfae99419eff0d477b"
     },
     {
       "id": "semgrep-javascript-modeling",
-      "adapter": "semgrep-javascript-modeling",
-      "report": "reports/semgrep-javascript-modeling.json",
-      "command_template": [
-        "dataflowbench",
-        "run-semgrep-modeling",
-        "--language",
-        "javascript"
-      ],
-      "status": "resolved-integration-blocked",
-      "case_membership": {
-        "count": 24,
-        "sha256": "b593ac3a054bf0643268484cc6d6b185be44d674f1627ee809d93c69dd5c348e"
-      },
-      "output_roots": [
-        "reports/semgrep-javascript-modeling.json",
-        "reports/raw/semgrep-javascript-modeling"
-      ],
-      "argv": [
-        "target/release/dataflowbench",
-        "run-semgrep-modeling",
-        "--language",
-        "javascript",
-        "--semgrep",
-        "/Users/dave/.cache/dataflowbench-tools/semgrep-1.177.0-venv/bin/semgrep"
-      ],
       "case_ids": [
         "dfb-taint-javascript-model-declared-sink-negative",
         "dfb-taint-javascript-model-declared-sink-positive",
@@ -5699,35 +4089,12 @@
         "dfb-taint-javascript-model-summary-field-positive",
         "dfb-taint-javascript-model-summary-through-negative",
         "dfb-taint-javascript-model-summary-through-positive"
-      ]
+      ],
+      "count": 24,
+      "sha256": "b593ac3a054bf0643268484cc6d6b185be44d674f1627ee809d93c69dd5c348e"
     },
     {
       "id": "semgrep-javascript-native",
-      "adapter": "semgrep-javascript-native",
-      "report": "reports/semgrep-javascript-native.json",
-      "command_template": [
-        "dataflowbench",
-        "run-semgrep-native",
-        "--language",
-        "javascript"
-      ],
-      "status": "resolved-integration-blocked",
-      "case_membership": {
-        "count": 12,
-        "sha256": "f00a13ed4001f4aedc6358166b48a6bb824db45793399fde7208a68400fe2be4"
-      },
-      "output_roots": [
-        "reports/semgrep-javascript-native.json",
-        "reports/raw/semgrep-javascript-native"
-      ],
-      "argv": [
-        "target/release/dataflowbench",
-        "run-semgrep-native",
-        "--language",
-        "javascript",
-        "--semgrep",
-        "/Users/dave/.cache/dataflowbench-tools/semgrep-1.177.0-venv/bin/semgrep"
-      ],
       "case_ids": [
         "dfb-taint-javascript-native-entrypoint-negative",
         "dfb-taint-javascript-native-entrypoint-positive",
@@ -5741,31 +4108,12 @@
         "dfb-taint-javascript-native-source-sink-positive",
         "dfb-taint-javascript-native-summary-negative",
         "dfb-taint-javascript-native-summary-positive"
-      ]
+      ],
+      "count": 12,
+      "sha256": "f00a13ed4001f4aedc6358166b48a6bb824db45793399fde7208a68400fe2be4"
     },
     {
       "id": "semgrep-kotlin-kernel",
-      "adapter": "semgrep-kotlin-kernel",
-      "report": "reports/semgrep-kotlin-kernel.json",
-      "command_template": [
-        "dataflowbench",
-        "run-semgrep-kotlin-kernel"
-      ],
-      "status": "resolved-integration-blocked",
-      "case_membership": {
-        "count": 70,
-        "sha256": "b2049da842a7c1770e4710c100dd55d7431bb014600c1c1e773d0d6d1815b259"
-      },
-      "output_roots": [
-        "reports/semgrep-kotlin-kernel.json",
-        "reports/raw/semgrep-kotlin-kernel"
-      ],
-      "argv": [
-        "target/release/dataflowbench",
-        "run-semgrep-kotlin-kernel",
-        "--semgrep",
-        "/Users/dave/.cache/dataflowbench-tools/semgrep-1.177.0-venv/bin/semgrep"
-      ],
       "case_ids": [
         "dfb-taint-kotlin-alias-propagation-negative",
         "dfb-taint-kotlin-alias-propagation-positive",
@@ -5837,31 +4185,12 @@
         "dfb-taint-kotlin-return-relay-two-hop-positive",
         "dfb-taint-kotlin-same-object-field-negative",
         "dfb-taint-kotlin-same-object-field-positive"
-      ]
+      ],
+      "count": 70,
+      "sha256": "b2049da842a7c1770e4710c100dd55d7431bb014600c1c1e773d0d6d1815b259"
     },
     {
       "id": "semgrep-php-kernel",
-      "adapter": "semgrep-php-kernel",
-      "report": "reports/semgrep-php-kernel.json",
-      "command_template": [
-        "dataflowbench",
-        "run-semgrep-php-kernel"
-      ],
-      "status": "resolved-integration-blocked",
-      "case_membership": {
-        "count": 70,
-        "sha256": "e3a7d8c4827766d1f30f4fe9034d6d9e67da7ef1ca3e4e1442df56f52208c78a"
-      },
-      "output_roots": [
-        "reports/semgrep-php-kernel.json",
-        "reports/raw/semgrep-php-kernel"
-      ],
-      "argv": [
-        "target/release/dataflowbench",
-        "run-semgrep-php-kernel",
-        "--semgrep",
-        "/Users/dave/.cache/dataflowbench-tools/semgrep-1.177.0-venv/bin/semgrep"
-      ],
       "case_ids": [
         "dfb-taint-php-alias-propagation-negative",
         "dfb-taint-php-alias-propagation-positive",
@@ -5933,31 +4262,12 @@
         "dfb-taint-php-return-relay-two-hop-positive",
         "dfb-taint-php-same-object-field-negative",
         "dfb-taint-php-same-object-field-positive"
-      ]
+      ],
+      "count": 70,
+      "sha256": "e3a7d8c4827766d1f30f4fe9034d6d9e67da7ef1ca3e4e1442df56f52208c78a"
     },
     {
       "id": "semgrep-python-kernel",
-      "adapter": "semgrep-python-kernel",
-      "report": "reports/semgrep-python-kernel.json",
-      "command_template": [
-        "dataflowbench",
-        "run-semgrep-python-kernel"
-      ],
-      "status": "resolved-integration-blocked",
-      "case_membership": {
-        "count": 70,
-        "sha256": "91d17de61c179ae7b9b96ab1228c475a421c6e108c5f21e39a48cb8b3b991c84"
-      },
-      "output_roots": [
-        "reports/semgrep-python-kernel.json",
-        "reports/raw/semgrep-python-kernel"
-      ],
-      "argv": [
-        "target/release/dataflowbench",
-        "run-semgrep-python-kernel",
-        "--semgrep",
-        "/Users/dave/.cache/dataflowbench-tools/semgrep-1.177.0-venv/bin/semgrep"
-      ],
       "case_ids": [
         "dfb-taint-python-alias-propagation-negative",
         "dfb-taint-python-alias-propagation-positive",
@@ -6029,35 +4339,12 @@
         "dfb-taint-python-return-relay-two-hop-positive",
         "dfb-taint-python-same-object-field-negative",
         "dfb-taint-python-same-object-field-positive"
-      ]
+      ],
+      "count": 70,
+      "sha256": "91d17de61c179ae7b9b96ab1228c475a421c6e108c5f21e39a48cb8b3b991c84"
     },
     {
       "id": "semgrep-python-modeling",
-      "adapter": "semgrep-python-modeling",
-      "report": "reports/semgrep-python-modeling.json",
-      "command_template": [
-        "dataflowbench",
-        "run-semgrep-modeling",
-        "--language",
-        "python"
-      ],
-      "status": "resolved-integration-blocked",
-      "case_membership": {
-        "count": 24,
-        "sha256": "3f0e116a9c7243dd558cac6cc62ee5da8fba1c2af85a6ef6c342c67f37790602"
-      },
-      "output_roots": [
-        "reports/semgrep-python-modeling.json",
-        "reports/raw/semgrep-python-modeling"
-      ],
-      "argv": [
-        "target/release/dataflowbench",
-        "run-semgrep-modeling",
-        "--language",
-        "python",
-        "--semgrep",
-        "/Users/dave/.cache/dataflowbench-tools/semgrep-1.177.0-venv/bin/semgrep"
-      ],
       "case_ids": [
         "dfb-taint-python-model-declared-sink-negative",
         "dfb-taint-python-model-declared-sink-positive",
@@ -6083,35 +4370,12 @@
         "dfb-taint-python-model-summary-field-positive",
         "dfb-taint-python-model-summary-through-negative",
         "dfb-taint-python-model-summary-through-positive"
-      ]
+      ],
+      "count": 24,
+      "sha256": "3f0e116a9c7243dd558cac6cc62ee5da8fba1c2af85a6ef6c342c67f37790602"
     },
     {
       "id": "semgrep-python-native",
-      "adapter": "semgrep-python-native",
-      "report": "reports/semgrep-python-native.json",
-      "command_template": [
-        "dataflowbench",
-        "run-semgrep-native",
-        "--language",
-        "python"
-      ],
-      "status": "resolved-integration-blocked",
-      "case_membership": {
-        "count": 12,
-        "sha256": "f9f44ac53b0832a2340c0b4464e7598880fdd70bf560728acdf79f0cc8761905"
-      },
-      "output_roots": [
-        "reports/semgrep-python-native.json",
-        "reports/raw/semgrep-python-native"
-      ],
-      "argv": [
-        "target/release/dataflowbench",
-        "run-semgrep-native",
-        "--language",
-        "python",
-        "--semgrep",
-        "/Users/dave/.cache/dataflowbench-tools/semgrep-1.177.0-venv/bin/semgrep"
-      ],
       "case_ids": [
         "dfb-taint-python-native-entrypoint-negative",
         "dfb-taint-python-native-entrypoint-positive",
@@ -6125,31 +4389,12 @@
         "dfb-taint-python-native-source-sink-positive",
         "dfb-taint-python-native-summary-negative",
         "dfb-taint-python-native-summary-positive"
-      ]
+      ],
+      "count": 12,
+      "sha256": "f9f44ac53b0832a2340c0b4464e7598880fdd70bf560728acdf79f0cc8761905"
     },
     {
       "id": "semgrep-ruby-kernel",
-      "adapter": "semgrep-ruby-kernel",
-      "report": "reports/semgrep-ruby-kernel.json",
-      "command_template": [
-        "dataflowbench",
-        "run-semgrep-ruby-kernel"
-      ],
-      "status": "resolved-integration-blocked",
-      "case_membership": {
-        "count": 70,
-        "sha256": "c0d9514f7aee1baf1090b4ea6eac8666846ec24ec87340e4e6fa2b34a0e367dc"
-      },
-      "output_roots": [
-        "reports/semgrep-ruby-kernel.json",
-        "reports/raw/semgrep-ruby-kernel"
-      ],
-      "argv": [
-        "target/release/dataflowbench",
-        "run-semgrep-ruby-kernel",
-        "--semgrep",
-        "/Users/dave/.cache/dataflowbench-tools/semgrep-1.177.0-venv/bin/semgrep"
-      ],
       "case_ids": [
         "dfb-taint-ruby-alias-propagation-negative",
         "dfb-taint-ruby-alias-propagation-positive",
@@ -6221,31 +4466,12 @@
         "dfb-taint-ruby-return-relay-two-hop-positive",
         "dfb-taint-ruby-same-object-field-negative",
         "dfb-taint-ruby-same-object-field-positive"
-      ]
+      ],
+      "count": 70,
+      "sha256": "c0d9514f7aee1baf1090b4ea6eac8666846ec24ec87340e4e6fa2b34a0e367dc"
     },
     {
       "id": "semgrep-rust-kernel",
-      "adapter": "semgrep-rust-kernel",
-      "report": "reports/semgrep-rust-kernel.json",
-      "command_template": [
-        "dataflowbench",
-        "run-semgrep-rust-kernel"
-      ],
-      "status": "resolved-integration-blocked",
-      "case_membership": {
-        "count": 62,
-        "sha256": "27191f2393a63f66884c69bbbcc3b26ed0a6bda3f9367b1a7234e9e771028b4d"
-      },
-      "output_roots": [
-        "reports/semgrep-rust-kernel.json",
-        "reports/raw/semgrep-rust-kernel"
-      ],
-      "argv": [
-        "target/release/dataflowbench",
-        "run-semgrep-rust-kernel",
-        "--semgrep",
-        "/Users/dave/.cache/dataflowbench-tools/semgrep-1.177.0-venv/bin/semgrep"
-      ],
       "case_ids": [
         "dfb-taint-rust-alias-propagation-negative",
         "dfb-taint-rust-alias-propagation-positive",
@@ -6309,31 +4535,12 @@
         "dfb-taint-rust-return-relay-two-hop-positive",
         "dfb-taint-rust-same-object-field-negative",
         "dfb-taint-rust-same-object-field-positive"
-      ]
+      ],
+      "count": 62,
+      "sha256": "27191f2393a63f66884c69bbbcc3b26ed0a6bda3f9367b1a7234e9e771028b4d"
     },
     {
       "id": "semgrep-typescript-kernel",
-      "adapter": "semgrep-typescript-kernel",
-      "report": "reports/semgrep-typescript-kernel.json",
-      "command_template": [
-        "dataflowbench",
-        "run-semgrep-typescript-kernel"
-      ],
-      "status": "resolved-integration-blocked",
-      "case_membership": {
-        "count": 70,
-        "sha256": "3094721b3d6c3d20518b58fa7812a57a3d86e27a197d33f5698c29414b97fac0"
-      },
-      "output_roots": [
-        "reports/semgrep-typescript-kernel.json",
-        "reports/raw/semgrep-typescript-kernel"
-      ],
-      "argv": [
-        "target/release/dataflowbench",
-        "run-semgrep-typescript-kernel",
-        "--semgrep",
-        "/Users/dave/.cache/dataflowbench-tools/semgrep-1.177.0-venv/bin/semgrep"
-      ],
       "case_ids": [
         "dfb-taint-typescript-alias-propagation-negative",
         "dfb-taint-typescript-alias-propagation-positive",
@@ -6405,508 +4612,9 @@
         "dfb-taint-typescript-return-relay-two-hop-positive",
         "dfb-taint-typescript-same-object-field-negative",
         "dfb-taint-typescript-same-object-field-positive"
-      ]
+      ],
+      "count": 70,
+      "sha256": "3094721b3d6c3d20518b58fa7812a57a3d86e27a197d33f5698c29414b97fac0"
     }
-  ],
-  "script_probes": [
-    {
-      "id": "probe-bifrost-sanitizer-lowering",
-      "status": "pending",
-      "output_roots": [
-        "reports/raw/amendment-a9-bifrost-sanitizer"
-      ],
-      "script": "scripts/probe-bifrost-sanitizer-lowering.sh",
-      "script_sha256": "d6790e3a245ca568ba0c12bd09012a41831704e43e45f5567f978d725abbfb03",
-      "accepted_flags": [
-        "--bifrost"
-      ]
-    },
-    {
-      "id": "probe-bifrost-scan-native",
-      "status": "pending",
-      "output_roots": [
-        "reports/raw/amendment-a32-bifrost-scan-native"
-      ],
-      "script": "scripts/probe-bifrost-scan-native.sh",
-      "script_sha256": "0222ba6cee8838bf172f745938bd2dc440d5bbd81320419d9df7265f60c12c89",
-      "accepted_flags": [
-        "--bifrost"
-      ]
-    },
-    {
-      "id": "probe-flowdroid-modeling-load-bearing",
-      "status": "pending",
-      "output_roots": [
-        "reports/raw/load-bearing-java-modeling"
-      ],
-      "script": "scripts/probe-flowdroid-modeling-load-bearing.sh",
-      "script_sha256": "62075cc2af9ab50f274d29ea80c85f169746fe4237901f9635c93742e831928c",
-      "accepted_flags": [
-        "--android-platform",
-        "--d8-jar",
-        "--flowdroid-jar",
-        "--java",
-        "--javac"
-      ]
-    },
-    {
-      "id": "probe-flowdroid-native-shipped-surface",
-      "status": "pending",
-      "output_roots": [
-        "reports/raw/amendment-a29-flowdroid-shipped-surface"
-      ],
-      "script": "scripts/probe-flowdroid-native-shipped-surface.sh",
-      "script_sha256": "e19b888159f5e67a2c7419df4d59cf59e38046353e0c882588d438942872ed4a",
-      "accepted_flags": [
-        "--android-platform",
-        "--d8-jar",
-        "--flowdroid-jar"
-      ]
-    },
-    {
-      "id": "probe-infer-modeling-partition",
-      "status": "pending",
-      "output_roots": [
-        "reports/raw/amendment-a13-infer-partition"
-      ],
-      "script": "scripts/probe-infer-modeling-partition.sh",
-      "script_sha256": "9b3c523f6d6524beef18dc877dfdeb5344cbed1e5bcd99e19bfe870b06c8bb23",
-      "accepted_flags": [
-        "--infer",
-        "--javac"
-      ]
-    },
-    {
-      "id": "probe-infer-native-activation",
-      "status": "pending",
-      "output_roots": [
-        "reports/raw/amendment-a28-infer-native-activation"
-      ],
-      "script": "scripts/probe-infer-native-activation.sh",
-      "script_sha256": "d10617b106bea4104dd2887c9d468b0312af0647e23f3a07928a62c78774c064",
-      "accepted_flags": [
-        "--infer",
-        "--javac"
-      ]
-    },
-    {
-      "id": "probe-infer-native-silence",
-      "status": "pending",
-      "output_roots": [
-        "reports/raw/amendment-a14-infer-native-silence"
-      ],
-      "script": "scripts/probe-infer-native-silence.sh",
-      "script_sha256": "7897a032da1569ca85d6286fc5a32509ff2eee623515059873a6ce2700b98666",
-      "accepted_flags": [
-        "--infer",
-        "--javac"
-      ]
-    },
-    {
-      "id": "probe-java-modeling-load-bearing",
-      "status": "pending",
-      "output_roots": [
-        "reports/raw/load-bearing-java-modeling"
-      ],
-      "script": "scripts/probe-java-modeling-load-bearing.sh",
-      "script_sha256": "90d5e7243045687a0b1e7247ea346cd6fcba0b8f26facd1c6a7f8de40a47dcef",
-      "accepted_flags": [
-        "--bifrost",
-        "--codeql",
-        "--joern",
-        "--semgrep"
-      ]
-    },
-    {
-      "id": "probe-javascript-modeling-load-bearing",
-      "status": "pending",
-      "output_roots": [
-        "reports/raw/load-bearing-javascript-modeling"
-      ],
-      "script": "scripts/probe-javascript-modeling-load-bearing.sh",
-      "script_sha256": "f7ea542c5fc3c07c418d6fa5cc3eef737e7661de0f932dcd4d7658cf598f89a1",
-      "accepted_flags": [
-        "--bifrost",
-        "--codeql",
-        "--joern",
-        "--semgrep"
-      ]
-    },
-    {
-      "id": "probe-joern-scan-native",
-      "status": "pending",
-      "output_roots": [
-        "reports/raw/amendment-a26-joern-scan-native"
-      ],
-      "script": "scripts/probe-joern-scan-native.sh",
-      "script_sha256": "57c3ff02e8ec32167091d587d5cb93052c7273709f6a7ac29b1b6fd7ac734ccf",
-      "accepted_flags": [
-        "--dbversion",
-        "--joern-dist"
-      ]
-    },
-    {
-      "id": "probe-opentaint-modeling-surface",
-      "status": "pending",
-      "output_roots": [
-        "reports/raw/opentaint-modeling-surface-probe"
-      ],
-      "script": "scripts/probe-opentaint-modeling-surface.sh",
-      "script_sha256": "0415d7838cc0d0cd9a3e338cdd9d6e11f3dfc8ca8703f38347e87044c4e71de7",
-      "accepted_flags": [
-        "--analyzer-jar",
-        "--java",
-        "--javac",
-        "--models-archive"
-      ]
-    },
-    {
-      "id": "probe-opentaint-native-activation",
-      "status": "pending",
-      "output_roots": [
-        "reports/raw/opentaint-native-activation-probe"
-      ],
-      "script": "scripts/probe-opentaint-native-activation.sh",
-      "script_sha256": "5400cc43cded6c84b17544a7affeefdff103f8ad70df39602ccd3b865c18328f",
-      "accepted_flags": [
-        "--analyzer-jar",
-        "--java",
-        "--javac",
-        "--models-archive"
-      ]
-    },
-    {
-      "id": "probe-opentaint-primitive-tracking",
-      "status": "pending",
-      "output_roots": [
-        "reports/raw/opentaint-primitive-tracking-probe"
-      ],
-      "script": "scripts/probe-opentaint-primitive-tracking.sh",
-      "script_sha256": "88592a10525c2fd1c7de3c0e37e3e56f9a82a20b7b2ae72b2f6d9c7b92caba6c",
-      "accepted_flags": [
-        "--analyzer-jar",
-        "--java",
-        "--javac"
-      ]
-    },
-    {
-      "id": "probe-opentaint-scan-activation",
-      "status": "pending",
-      "output_roots": [
-        "reports/raw/amendment-a25-opentaint-scan-activation"
-      ],
-      "script": "scripts/probe-opentaint-scan-activation.sh",
-      "script_sha256": "d8c7074105c644ec9990d96eb281288e9795fd76f7a01ebddafe7f97ea9d384b",
-      "accepted_flags": [
-        "--analyzer-jar",
-        "--java",
-        "--javac",
-        "--models-archive",
-        "--rules-archive"
-      ]
-    },
-    {
-      "id": "probe-opentaint-value-kind",
-      "status": "pending",
-      "output_roots": [
-        "reports/raw/opentaint-value-kind-probe"
-      ],
-      "script": "scripts/probe-opentaint-value-kind.sh",
-      "script_sha256": "1f1aae2c22a238011cc7061e9faf47cd075acad783264a1564582389de9fe22a",
-      "accepted_flags": [
-        "--analyzer-jar",
-        "--java",
-        "--javac"
-      ]
-    },
-    {
-      "id": "probe-pysa-callee-resolution",
-      "status": "pending",
-      "output_roots": [
-        "reports/raw/pysa-callee-resolution-probe"
-      ],
-      "script": "scripts/probe-pysa-callee-resolution.sh",
-      "script_sha256": "ec4501bda36ad2a017af84d609eedfe8bfd706f7c5de3c37565116750f225cbe",
-      "accepted_flags": [
-        "--pyre",
-        "--pyre-binary",
-        "--pyrefly"
-      ]
-    },
-    {
-      "id": "probe-pysa-modeling-load-bearing",
-      "status": "pending",
-      "output_roots": [
-        "reports/raw/amendment-a16-pysa-modeling"
-      ],
-      "script": "scripts/probe-pysa-modeling-load-bearing.sh",
-      "script_sha256": "7310316c4ec84e32896b27cd4bfc18c0406f116d8253ac983d344e9381af4af5",
-      "accepted_flags": [
-        "--pyre",
-        "--pyre-binary",
-        "--pyrefly"
-      ]
-    },
-    {
-      "id": "probe-pysa-native-activation",
-      "status": "pending",
-      "output_roots": [
-        "reports/raw/amendment-a17-pysa-native"
-      ],
-      "script": "scripts/probe-pysa-native-activation.sh",
-      "script_sha256": "3a2e53c74c045f21d51f4ba6845222e5e1fd028d1903acfc5ba50ef1c29d6e16",
-      "accepted_flags": [
-        "--pyre",
-        "--pyre-binary",
-        "--pyrefly"
-      ]
-    },
-    {
-      "id": "probe-semgrep-jsjava-native",
-      "status": "pending",
-      "output_roots": [
-        "reports/raw/amendment-a27-semgrep-jsjava-native"
-      ],
-      "script": "scripts/probe-semgrep-jsjava-native.sh",
-      "script_sha256": "466c8ee84b05015d8b6cb9c7c9cf45a01a9a58a0e07a71a1a3def879e0326752",
-      "accepted_flags": [
-        "--archive",
-        "--semgrep"
-      ]
-    }
-  ],
-  "warm": [
-    {
-      "id": "warm-joern-java",
-      "status": "pending",
-      "output_roots": [
-        "reports/raw/warm-latency/joern-java-kernel"
-      ],
-      "command_template": [
-        "dataflowbench",
-        "measure-warm-latency",
-        "--tool",
-        "joern",
-        "--language",
-        "java",
-        "--batch-sizes",
-        "1,2,4,8,16"
-      ],
-      "repeats": 2
-    },
-    {
-      "id": "warm-semgrep-java",
-      "status": "pending",
-      "output_roots": [
-        "reports/raw/warm-latency/semgrep-java-kernel"
-      ],
-      "command_template": [
-        "dataflowbench",
-        "measure-warm-latency",
-        "--tool",
-        "semgrep",
-        "--language",
-        "java",
-        "--batch-sizes",
-        "1,2,4,8,16"
-      ],
-      "repeats": 2
-    }
-  ],
-  "overhead": [
-    {
-      "id": "overhead-bifrost-python",
-      "status": "pending",
-      "output_roots": [
-        "reports/raw/invocation-overhead/bifrost-python"
-      ],
-      "command_template": [
-        "dataflowbench",
-        "estimate-invocation-overhead",
-        "--tool",
-        "bifrost",
-        "--language",
-        "python"
-      ],
-      "repeats": 3
-    },
-    {
-      "id": "overhead-codeql-ruby",
-      "status": "pending",
-      "output_roots": [
-        "reports/raw/invocation-overhead/codeql-ruby"
-      ],
-      "command_template": [
-        "dataflowbench",
-        "estimate-invocation-overhead",
-        "--tool",
-        "codeql",
-        "--language",
-        "ruby"
-      ],
-      "repeats": 3
-    },
-    {
-      "id": "overhead-flowdroid-java",
-      "status": "pending",
-      "output_roots": [
-        "reports/raw/invocation-overhead/flowdroid-java"
-      ],
-      "command_template": [
-        "dataflowbench",
-        "estimate-invocation-overhead",
-        "--tool",
-        "flowdroid",
-        "--language",
-        "java"
-      ],
-      "repeats": 3
-    },
-    {
-      "id": "overhead-infer-c",
-      "status": "pending",
-      "output_roots": [
-        "reports/raw/invocation-overhead/infer-c"
-      ],
-      "command_template": [
-        "dataflowbench",
-        "estimate-invocation-overhead",
-        "--tool",
-        "infer",
-        "--language",
-        "c"
-      ],
-      "repeats": 3
-    },
-    {
-      "id": "overhead-joern-php",
-      "status": "pending",
-      "output_roots": [
-        "reports/raw/invocation-overhead/joern-php"
-      ],
-      "command_template": [
-        "dataflowbench",
-        "estimate-invocation-overhead",
-        "--tool",
-        "joern",
-        "--language",
-        "php"
-      ],
-      "repeats": 3
-    },
-    {
-      "id": "overhead-joern-java",
-      "status": "pending",
-      "output_roots": [
-        "reports/raw/invocation-overhead/joern-java"
-      ],
-      "command_template": [
-        "dataflowbench",
-        "estimate-invocation-overhead",
-        "--tool",
-        "joern",
-        "--language",
-        "java"
-      ],
-      "repeats": 3
-    },
-    {
-      "id": "overhead-opentaint-kotlin",
-      "status": "pending",
-      "output_roots": [
-        "reports/raw/invocation-overhead/opentaint-kotlin"
-      ],
-      "command_template": [
-        "dataflowbench",
-        "estimate-invocation-overhead",
-        "--tool",
-        "opentaint",
-        "--language",
-        "kotlin"
-      ],
-      "repeats": 3
-    },
-    {
-      "id": "overhead-pysa-python",
-      "status": "pending",
-      "output_roots": [
-        "reports/raw/invocation-overhead/pysa-python"
-      ],
-      "command_template": [
-        "dataflowbench",
-        "estimate-invocation-overhead",
-        "--tool",
-        "pysa",
-        "--language",
-        "python"
-      ],
-      "repeats": 3
-    },
-    {
-      "id": "overhead-semgrep-kotlin",
-      "status": "pending",
-      "output_roots": [
-        "reports/raw/invocation-overhead/semgrep-kotlin"
-      ],
-      "command_template": [
-        "dataflowbench",
-        "estimate-invocation-overhead",
-        "--tool",
-        "semgrep",
-        "--language",
-        "kotlin"
-      ],
-      "repeats": 3
-    }
-  ],
-  "additional_probes": [
-    "Python Bifrost S endpoint deletion controls",
-    "Python CodeQL PythonModelingProbe.ql P removal",
-    "Python Joern Z NilSemantics removal and unsupported P/O controls",
-    "Python Semgrep S endpoint deletion and Z selectivity controls",
-    "Fresh warm observability CLI evidence for all eight adapters; FlowDroid batch equivalence remains unresolved per A15",
-    "OpenTaint v0.4.6 product wrapper with --entry-points and shipped rules/v0.3.0: execute activation and capability equivalence controls; retain gaps without inferring unsupported from help absence; escalate eligibility or normalization changes to parent."
-  ],
-  "supplemental_probe_inventory": {
-    "path": "reports/releases/v0.7.1/supplemental-plan.json",
-    "usage": "inventory reference only; repin arguments, inputs and output roots in v0.8.0 before execution"
-  },
-  "required_evidence_groups": [
-    "cold-sidecars",
-    "run-environments",
-    "warm-observability",
-    "warm-series",
-    "invocation-overhead",
-    "native-probes",
-    "modeling-probes"
-  ],
-  "execution_gates": [
-    "Resolve all v0.8.0 executable and dependency pins to verified bytes.",
-    "Retain accepted R2 review bindings; explicitly version or re-review bound input updates.",
-    "Resolve exact current-population case IDs for every report and verify combined coverage equals the preregistered 1000-case population.",
-    "Provide a v0.8.0-scoped executor and immutable attempt ledger; do not run v0.7.1 hard-coded scripts.",
-    "Use clean committed input and one serial measurement lane with recorded environment and qualified quiet timing windows.",
-    "Re-run all adapters at this fixture revision, even if their release version is unchanged.",
-    "Land fresh reports with any hashed configuration updates, retaining raw five-state outcomes and every failed attempt.",
-    "Create the final release manifest only after evidence has merged, from clean merged main in a separate PR."
-  ],
-  "population": {
-    "path": "reports/releases/v0.8.0/population.json",
-    "sha256": "2b9dc814a889a2420eb2952e522041ad7c7e62ba9a42a81ccaf47a8ec188f66d"
-  },
-  "case_memberships": {
-    "path": "reports/releases/v0.8.0/case-memberships.json",
-    "sha256": "d6f68f6d26a252f0c5238a87b01aaf2a72bdc0ed5fafbe396f7c14f8e3d3903b"
-  },
-  "execution_blockers": [
-    "adapter declarations and configuration must be integrated for Bifrost 0.11.4, CodeQL 2.27.0 packs, Joern 4.0.628, and Pyrefly 1.3.1",
-    "Semgrep remains held because the published 1.177.0 wheel reports runtime 1.176.0",
-    "the 19 script probes still require exact argv and immutable input identities",
-    "the exact release runner binary and all candidate artifacts must be collected in identities.json",
-    "timing stages require a quiet-host qualification window"
-  ],
-  "input_commits": {
-    "corpus": "52db1bf46f0880c271b97b0df0f3e1d40d01fc0a",
-    "execution_harness": "1efb718e8a2f0445276471b6f8a6f0472faffbd8"
-  }
+  ]
 }
