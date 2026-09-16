@@ -1,0 +1,54 @@
+{
+  "schema_version": 1,
+  "release": "v0.8.0",
+  "status": "materialized-runtime-identities-no-benchmark-run",
+  "checked_at": "2026-09-16T07:37:00Z",
+  "tools": {
+    "bifrost": {
+      "target_version": "0.11.4",
+      "runtime_version": "0.11.4",
+      "binary_sha256": "a7109bc86ea5c2f79c88421fac68161de8d6d632c313bf4ae28f7fb6183e304a",
+      "archive_sha256": "a6db2b0f689b93e7f530cbd51fdec3af5795a5b4f06026ee82a313099b0debbf",
+      "qualification": "identity-verified; benchmark execution pending"
+    },
+    "codeql": {
+      "target_version": "2.27.0",
+      "runtime_version": "2.27.0",
+      "runtime_build_sha": "b47b3e59262c95aff4eeb84ac72d09e25a9c37e9",
+      "binary_sha256": "5c905275695b4efcaa02ea380f6e60b01310fa3dff0fa8c442bf0638bb46055a",
+      "archive_sha256": "95e96dce9eff1c626e4da1f30d6dda00a893ee5015037045bf142947a8578781",
+      "qualification": "identity-verified; target packs resolved under this CLI; compatibility and benchmark execution pending"
+    },
+    "joern": {
+      "target_version": "4.0.628",
+      "runtime_version": "4.0.628",
+      "binary_sha256": "0df7e8db4282ef2c6fc37998917aca694176e23192de5f0c631511d993e99736",
+      "archive_sha256": "816db0240ffa2b465686a8aa71e0c645c2917b437efbeab5193ad3d9f3a4de7a",
+      "qualification": "identity-verified; benchmark execution pending"
+    },
+    "pyre-check": {
+      "target_version": "0.10.0",
+      "runtime_version": "0.10.0",
+      "launcher_sha256": "fc6c949941f5bec4653852d43f836bb4b5f29be4db1c5e8e85b783e5a9e80c8a",
+      "qualification": "identity-verified; pyre.bin digest and benchmark execution pending"
+    },
+    "pyrefly": {
+      "target_version": "1.3.1",
+      "runtime_version": "1.3.1",
+      "binary_sha256": "f1cb9b8abc85199e1f5ae57f6943c8cbd412b968290023099996cab8fc3ce096",
+      "qualification": "identity-verified; compatibility controls and benchmark execution pending"
+    },
+    "semgrep": {
+      "published_wheel_version": "1.177.0",
+      "wheel_sha256": "5e3bcc4053843272f1604b9dc022f9eef1b0e824fdec901d6b979b2806566283",
+      "runtime_version": "1.176.0",
+      "semgrep_core_sha256": "afe17950f778c37402bf1791e92ec63ce834856fae5c4af14b67acee15da0d62",
+      "qualification": "blocked: the published 1.177.0 wheel installs with 1.177.0 package metadata but its bundled executable reports 1.176.0; hold the executable pin at 1.176.0 unless an immutable 1.177.0 artifact passes runtime identity witnessing"
+    }
+  },
+  "codeql_pack_resolution": {
+    "resolver_version": "2.27.0",
+    "resolver_build_sha": "b47b3e59262c95aff4eeb84ac72d09e25a9c37e9",
+    "result": "all eleven target versions in pins.json resolved without prereleases"
+  }
+}

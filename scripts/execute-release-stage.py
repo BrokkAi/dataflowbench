@@ -1,14 +1,11 @@
 #!/usr/bin/env python3
-"""Execute one preregistered v0.7.1 stage serially; stop on unexplained failures."""
+"""Execute one preregistered release stage serially; stop on unexplained failures."""
 import argparse,json,pathlib,runpy,sys
-ROOT=pathlib.Path(__file__).resolve().parents[1];BASE=ROOT/'reports/releases/v0.7.1'
-p=argparse.ArgumentParser();p.add_argument('stage',choices=['reports','repeats','probes','native','warm','overhead']);p.add_argument('--list',action='store_true');p.add_argument('--from-id');p.add_argument('--only-id');args=p.parse_args()
-plan=json.loads((BASE/'plan.json').read_text());supp=json.loads((BASE/'supplemental-plan.json').read_text())['commands']
-if args.stage=='reports':steps=[r for r in plan['reports'] if not r['id'].endswith('-native')]
-elif args.stage=='native':steps=[r for r in plan['reports'] if r['id'].endswith('-native')]
-elif args.stage=='repeats':steps=[next(r for r in plan['reports'] if r['id']==i) for i in json.loads((BASE/'overlap-rerun-plan.json').read_text())['repeat_once']]
-elif args.stage=='probes':steps=plan['script_probes']+supp
-else:steps=plan[args.stage]
+from release_plan import command_steps, display_argv, load_plan, require_executable_plan, require_executable_steps
+ROOT=pathlib.Path(__file__).resolve().parents[1]
+p=argparse.ArgumentParser();p.add_argument('stage',choices=['reports','repeats','probes','native','warm','overhead']);p.add_argument('--release',default='v0.7.1');p.add_argument('--list',action='store_true');p.add_argument('--from-id');p.add_argument('--only-id');args=p.parse_args()
+try:BASE,PLAN_PATH,plan=load_plan(args.release);steps=command_steps(BASE,plan,args.stage)
+except ValueError as error:raise SystemExit(str(error))
 correction=json.loads((BASE/'invocation-correction.json').read_text()) if (BASE/'invocation-correction.json').exists() else {'argv_overrides':{}}
 for r in steps:
  if r['id'] in correction['argv_overrides']:r['argv']=correction['argv_overrides'][r['id']]
@@ -18,11 +15,13 @@ if args.only_id:
  steps=[r for r in steps if r['id']==args.only_id]
  if not steps:raise SystemExit('unknown planned ID')
 if args.list:
- for r in steps:print(r['id'],json.dumps(r['argv']))
+ for r in steps:print(r['id'],r.get('status','unspecified'),json.dumps(display_argv(r)))
  raise SystemExit(0)
+try:require_executable_plan(PLAN_PATH,plan);require_executable_steps(steps)
+except ValueError as error:raise SystemExit(str(error))
 record=runpy.run_path(str(ROOT/'scripts/record-release-attempt.py'))['run']
 for r in steps:
- code=record(r['id'],r['argv'],settle=args.stage=='overhead')
+ code=record(r['id'],r['argv'],settle=args.stage=='overhead',release=args.release)
  last=json.loads((BASE/'ledger.jsonl').read_text().splitlines()[-1])
  if 'report' in r:
   fresh=next((o for o in last['outputs'] if o['original_path']==r['report']),None)
