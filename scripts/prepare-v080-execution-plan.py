@@ -28,7 +28,9 @@ TOOLS = HOME / ".cache" / "dataflowbench-tools"
 RUNNER = Path("target/release/dataflowbench")
 BIFROST = TOOLS / "bifrost-v0.11.4" / "bifrost-v0.11.4-universal-apple-darwin" / "bifrost"
 CODEQL = TOOLS / "codeql-v2.27.0" / "codeql" / "codeql"
-CODEQL_PACKS = HOME / ".codeql" / "packages"
+# Keep release runs off the mutable multi-version user cache. CodeQL treats
+# duplicate pack names passed through --additional-packs as an error.
+CODEQL_PACKS = TOOLS / "codeql-v2.27.0-packs"
 JOERN = TOOLS / "joern-v4.0.628" / "joern-cli" / "joern"
 SEMGREP = TOOLS / "semgrep-1.177.0-venv" / "bin" / "semgrep"
 INFER = TOOLS / "infer-osx-arm64-v1.3.0" / "lib" / "infer" / "infer" / "bin" / "infer"
