@@ -5,7 +5,7 @@
 # A new adapter joins the modeling matrix with its own preregistered partition
 # row, added by amendment (docs/modeling-matrix.md#rollout-plan). This probe is
 # that row's field evaluation. It runs the pinned pyre-check 0.10.0 + Pyrefly
-# 1.2.0 pair over the committed Python modeling fixtures, template by
+# 1.3.1 pair over the committed Python modeling fixtures, template by
 # template, in the run-it-twice shape of the per-language load-bearing probes
 # beside it: once under the committed block of
 # `adapters/pysa/models/modeling-python.pysa`, and once under a counterfactual

@@ -218,7 +218,7 @@ pub(crate) const MODELING_PARTITION: &[ModelingPartitionCell] = &[
             "to be verified — unsupported until shown: no persistence-boundary vocabulary is described anywhere for any adapter, Bifrost included",
         ),
     },
-    // CodeQL — CLI 2.26.4: 6 / 6.
+    // CodeQL — CLI 2.27.0: 6 / 6.
     ModelingPartitionCell {
         tool: ModelingTool::Codeql,
         category: ModelingCategory::SourcesAndSinks,
@@ -356,7 +356,7 @@ pub(crate) const MODELING_PARTITION: &[ModelingPartitionCell] = &[
             "the pulse-taint configuration surface defines sources, sinks, sanitizers, propagators, policies, and data-flow kinds and nothing else — no store-write/store-read vocabulary and no key discrimination (the binary's own enumeration is retained as amendment A13 evidence) — and `Store.put`/`Store.get` have empty bodies, so nothing else can carry the roundtrip",
         ),
     },
-    // Joern — 4.0.617: 4 / 6 (Amendment A2 moved P and O to unsupported).
+    // Joern — 4.0.628: 4 / 6 (Amendment A2 moved P and O to unsupported).
     ModelingPartitionCell {
         tool: ModelingTool::Joern,
         category: ModelingCategory::SourcesAndSinks,
@@ -443,7 +443,7 @@ pub(crate) const MODELING_PARTITION: &[ModelingPartitionCell] = &[
             "the write and the read are in two different procedures by construction, and the pinned CE engine has no interprocedural taint at all: `semgrep scan --help` offers `--pro-intrafile` (\"Intra-file inter-procedural taint analysis … Requires Semgrep Pro Engine\"), so the step from `put` to `get` is outside the engine regardless of what is declared",
         ),
     },
-    // Pysa — pyre-check 0.10.0 + Pyrefly 1.2.0: 5 / 6, Python-scoped. Added
+    // Pysa — pyre-check 0.10.0 + Pyrefly 1.3.1: 5 / 6, Python-scoped. Added
     // by Amendment A16, verified by execution on the committed Python
     // modeling fixtures before the adapter's first scored modeling run
     // (reports/raw/amendment-a13-pysa-modeling/,

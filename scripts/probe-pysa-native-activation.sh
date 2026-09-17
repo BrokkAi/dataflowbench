@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Amendment A17's evidence: how Pysa's shipped taint models are activated, and
 # that they activate at all — measured before the adapter's first tool-native
-# run, on the pinned pyre-check 0.10.0 + Pyrefly 1.2.0 pair.
+# run, on the pinned pyre-check 0.10.0 + Pyrefly 1.3.1 pair.
 #
 # The pinned pyre-check wheel ships a real model suite in its distribution:
 # `lib/pyre_check/taint/` carries `core_privacy_security/` (a `taint.config`

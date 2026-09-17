@@ -115,7 +115,7 @@ pub(crate) struct NativePartitionCell {
 /// amendment. That is why three of the four tools enter with nothing scored —
 /// which is a statement about product packaging, not about an engine.
 pub(crate) const NATIVE_PARTITION: &[NativePartitionCell] = &[
-    // Bifrost — v0.10.9: 0 / 6, re-grounded by Amendment A32. The shipped
+    // Bifrost — v0.11.4: 0 / 6, re-grounded by Amendment A32. The shipped
     // catalog does bind taint endpoints — exactly two, inside one Java policy
     // — and they are a servlet request parameter and a JDBC statement, neither
     // of which any native template reads. The intersection is empty by
@@ -208,7 +208,7 @@ pub(crate) const NATIVE_PARTITION: &[NativePartitionCell] = &[
              the template names as its hazard",
         ),
     },
-    // CodeQL — CLI 2.26.4, shipped `security-extended` suites: 6 / 6.
+    // CodeQL — CLI 2.27.0, shipped `security-extended` suites: 6 / 6.
     NativePartitionCell {
         tool: ModelingTool::Codeql,
         template: NATIVE_TEMPLATE_IDS[0],
@@ -414,7 +414,7 @@ pub(crate) const NATIVE_PARTITION: &[NativePartitionCell] = &[
              store-read vocabulary even when configured (Amendment A13)",
         ),
     },
-    // Joern — 4.0.617, `DefaultSemantics` only: 0 / 6.
+    // Joern — 4.0.628, `DefaultSemantics` only: 0 / 6.
     NativePartitionCell {
         tool: ModelingTool::Joern,
         template: NATIVE_TEMPLATE_IDS[0],
@@ -531,7 +531,7 @@ pub(crate) const NATIVE_PARTITION: &[NativePartitionCell] = &[
              themselves is carried by nothing else",
         ),
     },
-    // Pysa — pyre-check 0.10.0 + Pyrefly 1.2.0, shipped taint model suite:
+    // Pysa — pyre-check 0.10.0 + Pyrefly 1.3.1, shipped taint model suite:
     // 6 / 6, Python-scoped. Added by Amendment A17: the pinned wheel ships a
     // real suite (`lib/pyre_check/taint/` — core_privacy_security's
     // taint.config and models plus common's propagation models), activated by

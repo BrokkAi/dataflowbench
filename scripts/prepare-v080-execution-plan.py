@@ -20,13 +20,17 @@ BASE = ROOT / "reports" / "releases" / "v0.8.0"
 PLAN_PATH = BASE / "rerun-plan.json"
 POPULATION_PATH = BASE / "population.json"
 MEMBERSHIP_PATH = BASE / "case-memberships.json"
+IDENTITIES_PATH = BASE / "identities.json"
+PREVIOUS_PLAN_PATH = ROOT / "reports" / "releases" / "v0.7.1" / "plan.json"
 
 HOME = Path("/Users/dave")
 TOOLS = HOME / ".cache" / "dataflowbench-tools"
 RUNNER = Path("target/release/dataflowbench")
 BIFROST = TOOLS / "bifrost-v0.11.4" / "bifrost-v0.11.4-universal-apple-darwin" / "bifrost"
 CODEQL = TOOLS / "codeql-v2.27.0" / "codeql" / "codeql"
-CODEQL_PACKS = HOME / ".codeql" / "packages"
+# Keep release runs off the mutable multi-version user cache. CodeQL treats
+# duplicate pack names passed through --additional-packs as an error.
+CODEQL_PACKS = TOOLS / "codeql-v2.27.0-packs"
 JOERN = TOOLS / "joern-v4.0.628" / "joern-cli" / "joern"
 SEMGREP = TOOLS / "semgrep-1.177.0-venv" / "bin" / "semgrep"
 INFER = TOOLS / "infer-osx-arm64-v1.3.0" / "lib" / "infer" / "infer" / "bin" / "infer"
@@ -38,6 +42,19 @@ JAVAC = Path("/usr/bin/javac")
 KOTLINC = Path("/opt/homebrew/bin/kotlinc")
 KOTLIN_STDLIB = Path("/opt/homebrew/Cellar/kotlin/2.4.10/libexec/lib/kotlin-stdlib.jar")
 GO = Path("/usr/local/go/bin/go")
+
+PATH_REPLACEMENTS = {
+    "/Users/dave/.cache/dataflowbench-tools/bifrost-v0.11.0/bifrost-v0.11.0-universal-apple-darwin/bifrost": str(BIFROST),
+    "/opt/homebrew/bin/codeql": str(CODEQL),
+    "/Users/dave/.cache/dataflowbench-tools/joern-v4.0.621/joern-cli-macos-arm64/joern-cli/joern": str(JOERN),
+    "/Users/dave/.cache/dataflowbench-tools/joern-v4.0.621/joern-cli-macos-arm64/joern-cli": str(JOERN.parent),
+    "/opt/homebrew/bin/semgrep": str(SEMGREP),
+    "/Users/dave/.cache/dataflowbench-tools/pysa-venv/bin/pyre": str(PYTHON_TOOLS / "pyre"),
+    "/Users/dave/.cache/dataflowbench-tools/pysa-venv/bin/pyre.bin": str(PYTHON_TOOLS / "pyre.bin"),
+    "/Users/dave/.cache/dataflowbench-tools/pysa-venv/bin/pyrefly": str(PYTHON_TOOLS / "pyrefly"),
+    "/Users/dave/.codex/worktrees/653a/dataflowbench/target/debug/dataflowbench": str(RUNNER),
+    "4.0.621": "4.0.628",
+}
 
 
 def digest_bytes(value: bytes) -> str:
@@ -188,6 +205,14 @@ def exact_argv(row: dict) -> list[str]:
     return argv
 
 
+def updated_auxiliary_argv(argv: list[str]) -> list[str]:
+    updated = [PATH_REPLACEMENTS.get(value, value) for value in argv]
+    if "--population" in updated:
+        index = updated.index("--population")
+        del updated[index : index + 2]
+    return updated
+
+
 def resolved_plan() -> tuple[dict, dict]:
     plan = copy.deepcopy(load_json(PLAN_PATH))
     population_bytes = POPULATION_PATH.read_bytes()
@@ -225,7 +250,15 @@ def resolved_plan() -> tuple[dict, dict]:
         "population": plan["population_manifest"],
         "reports": membership_rows,
     }
-    plan["status"] = "integration-blocked"
+    previous = load_json(PREVIOUS_PLAN_PATH)
+    for group in ("script_probes", "warm", "overhead"):
+        old_rows = {row["id"]: row for row in previous[group]}
+        for row in plan[group]:
+            row["argv"] = updated_auxiliary_argv(old_rows[row["id"]]["argv"])
+            row["status"] = "executable"
+            if "script" in row:
+                row["script_sha256"] = digest_bytes((ROOT / row["script"]).read_bytes())
+    plan["status"] = "executable"
     plan["population"] = plan["population_manifest"]
     plan["input_commits"] = {
         "corpus": plan["source_revision"],
@@ -235,13 +268,13 @@ def resolved_plan() -> tuple[dict, dict]:
         "path": str(MEMBERSHIP_PATH.relative_to(ROOT)),
         "sha256": digest_bytes(canonical_json(memberships)),
     }
-    plan["execution_blockers"] = [
-        "adapter declarations and configuration must be integrated for Bifrost 0.11.4, CodeQL 2.27.0 packs, Joern 4.0.628, and Pyrefly 1.3.1",
-        "Semgrep remains held because the published 1.177.0 wheel reports runtime 1.176.0",
-        "the 19 script probes still require exact argv and immutable input identities",
-        "the exact release runner binary and all candidate artifacts must be collected in identities.json",
-        "timing stages require a quiet-host qualification window",
-    ]
+    identities_bytes = IDENTITIES_PATH.read_bytes()
+    plan["identities"] = {
+        "path": str(IDENTITIES_PATH.relative_to(ROOT)),
+        "sha256": digest_bytes(identities_bytes),
+    }
+    plan["execution_blockers"] = []
+    plan["timing_gate"] = "warm and overhead stages require a recorded quiet-host qualification window"
     return plan, memberships
 
 

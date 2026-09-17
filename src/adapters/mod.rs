@@ -111,13 +111,13 @@ impl ModelingTool {
     /// freeze cannot survive.
     pub(crate) fn pinned_identity(self) -> &'static str {
         match self {
-            Self::Bifrost => "Bifrost v0.11.0",
-            Self::Codeql => "CodeQL CLI 2.26.4",
+            Self::Bifrost => "Bifrost v0.11.4",
+            Self::Codeql => "CodeQL CLI 2.27.0",
             Self::Flowdroid => "FlowDroid 2.15.1",
             Self::Infer => "Infer v1.3.0",
-            Self::Joern => "Joern 4.0.621",
+            Self::Joern => "Joern 4.0.628",
             Self::Semgrep => "Semgrep CE 1.176.0",
-            Self::Pysa => "Pysa (pyre-check 0.10.0 + Pyrefly 1.2.0)",
+            Self::Pysa => "Pysa (pyre-check 0.10.0 + Pyrefly 1.3.1)",
             Self::Opentaint => "OpenTaint v0.4.6",
         }
     }
