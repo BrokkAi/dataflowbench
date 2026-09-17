@@ -1,0 +1,781 @@
+{
+  "id": "codeql-go-kernel-attempt-03",
+  "planned_id": "codeql-go-kernel",
+  "release": "v0.8.0",
+  "argv": [
+    "target/release/dataflowbench",
+    "run-codeql-go-kernel",
+    "--codeql",
+    "/Users/dave/.cache/dataflowbench-tools/codeql-v2.27.0/codeql/codeql",
+    "--codeql-packs",
+    "/Users/dave/.cache/dataflowbench-tools/codeql-v2.27.0-packs",
+    "--go",
+    "/usr/local/go/bin/go"
+  ],
+  "cwd": "/Users/dave/.codex/worktrees/38c5/dataflowbench",
+  "input_commits": {
+    "corpus": "52db1bf46f0880c271b97b0df0f3e1d40d01fc0a",
+    "execution_harness": "1efb718e8a2f0445276471b6f8a6f0472faffbd8"
+  },
+  "execution_revision": "541df400734a2ba03a7875b2cf3f8143b50c937b",
+  "population": {
+    "path": "reports/releases/v0.8.0/population.json",
+    "sha256": "2b9dc814a889a2420eb2952e522041ad7c7e62ba9a42a81ccaf47a8ec188f66d"
+  },
+  "fixture_revision": "sha256:4b62280924ed2e141dc8bb8e7b1bddfbd512d0201a3fa82f7b92b223eefca8c9",
+  "plan": {
+    "path": "reports/releases/v0.8.0/rerun-plan.json",
+    "sha256": "8a842f3fc564d6a3979ff3b54c3b64e7a2f5d508d3f53f9513b853f2af679b7f"
+  },
+  "identities": {
+    "path": "reports/releases/v0.8.0/identities.json",
+    "sha256": "1414e289cc53565c881b3edaa22820e626982e051d4b2f48468c9fed3e0d54e5"
+  },
+  "execution_access": "unspecified",
+  "start_utc": "2026-09-16T17:40:08.611347+00:00",
+  "host": {
+    "platform": "macOS-27.0-arm64-arm-64bit",
+    "cpu_count": 10,
+    "load_before": [
+      4.01123046875,
+      2.97412109375,
+      5.20703125
+    ],
+    "load_after": [
+      3.46435546875,
+      3.8232421875,
+      4.2978515625
+    ]
+  },
+  "settle_observations": [],
+  "cache_posture": "isolated case workspaces; local distributions and prefetched CodeQL packs; OS page cache uncontrolled; warm only for explicit warm series",
+  "supersedes": "codeql-go-kernel-attempt-01",
+  "exit_code": 1,
+  "end_utc": "2026-09-16T18:12:36.703111+00:00",
+  "stdout": {
+    "path": "reports/releases/v0.8.0/attempts/codeql-go-kernel-attempt-03/stdout.txt",
+    "sha256": "8640cbc0ead7e33ea9daffe20f1b124e557f8f09d8641aa26076556d7f18d36d"
+  },
+  "stderr": {
+    "path": "reports/releases/v0.8.0/attempts/codeql-go-kernel-attempt-03/stderr.txt",
+    "sha256": "bdbabec61e3a9821e7559246ce6ea1e1e54863f8d5bd1f82a6acb783f8f2fdf0"
+  },
+  "outputs": [
+    {
+      "original_path": "reports/codeql-go-kernel.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-go-kernel-attempt-03/outputs/reports/codeql-go-kernel.json",
+      "sha256": "89041091c2ddbf4f7ccb6a7719da84622d2795af37dcbaa98aff73863666fe6c"
+    },
+    {
+      "original_path": "reports/raw/codeql-go-kernel/dfb-taint-go-function-field-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-go-kernel-attempt-03/outputs/reports/raw/codeql-go-kernel/dfb-taint-go-function-field-negative-timing.json",
+      "sha256": "cd5470f318e3a44190499f8eb9f18590ab0412899111fed5bc70ae558c93d3a1"
+    },
+    {
+      "original_path": "reports/raw/codeql-go-kernel/dfb-taint-go-map-iteration-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-go-kernel-attempt-03/outputs/reports/raw/codeql-go-kernel/dfb-taint-go-map-iteration-negative-timing.json",
+      "sha256": "9e4380e3c07d39beade9e7518ef3236c2f7dbe484630c29da02b4b16fac643bd"
+    },
+    {
+      "original_path": "reports/raw/codeql-go-kernel/dfb-taint-go-dispatch-table-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-go-kernel-attempt-03/outputs/reports/raw/codeql-go-kernel/dfb-taint-go-dispatch-table-negative-timing.json",
+      "sha256": "5365661286014adbf740804e7320b96f1dda270799ed8a2afe3ef69772149f07"
+    },
+    {
+      "original_path": "reports/raw/codeql-go-kernel/dfb-taint-go-nested-access-path-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-go-kernel-attempt-03/outputs/reports/raw/codeql-go-kernel/dfb-taint-go-nested-access-path-positive-timing.json",
+      "sha256": "307e169e70c1b33c8f78808e4e9f897f0f3ca0d521809d8a42bb91c4814586f8"
+    },
+    {
+      "original_path": "reports/raw/codeql-go-kernel/dfb-taint-go-closure-capture-negative.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-go-kernel-attempt-03/outputs/reports/raw/codeql-go-kernel/dfb-taint-go-closure-capture-negative.sarif.json",
+      "sha256": "c53a7741ecc478b316c6371372cb5b40f6ef8ae3632cd4e82eef9f69250c6330"
+    },
+    {
+      "original_path": "reports/raw/codeql-go-kernel/dfb-taint-go-call-context-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-go-kernel-attempt-03/outputs/reports/raw/codeql-go-kernel/dfb-taint-go-call-context-positive-timing.json",
+      "sha256": "777ff9cb62501881da83bb0e5367e2cbbca92c182c9652b651ac6b292c508d6a"
+    },
+    {
+      "original_path": "reports/raw/codeql-go-kernel/dfb-taint-go-return-relay-one-hop-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-go-kernel-attempt-03/outputs/reports/raw/codeql-go-kernel/dfb-taint-go-return-relay-one-hop-positive-timing.json",
+      "sha256": "504fc8daa29c5dda484e633c46821c73d6f8360d73080f60c87ac08e005ddf3c"
+    },
+    {
+      "original_path": "reports/raw/codeql-go-kernel/dfb-taint-go-local-chain-positive.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-go-kernel-attempt-03/outputs/reports/raw/codeql-go-kernel/dfb-taint-go-local-chain-positive.sarif.json",
+      "sha256": "d9aa39f47ba4a68f71f2729f8aec7159afbce740013bb4c1d43ffd6882ad3f71"
+    },
+    {
+      "original_path": "reports/raw/codeql-go-kernel/dfb-taint-go-object-separation-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-go-kernel-attempt-03/outputs/reports/raw/codeql-go-kernel/dfb-taint-go-object-separation-negative-timing.json",
+      "sha256": "2548efcd2cf76879d0d82098c309e749102e5bf57e9a39801f974a23cf5784b6"
+    },
+    {
+      "original_path": "reports/raw/codeql-go-kernel/dfb-taint-go-computed-property-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-go-kernel-attempt-03/outputs/reports/raw/codeql-go-kernel/dfb-taint-go-computed-property-positive-timing.json",
+      "sha256": "23ad030308cfb6a2a824572e435f97d4ac64081688026751b116298a165dd61e"
+    },
+    {
+      "original_path": "reports/raw/codeql-go-kernel/dfb-taint-go-computed-property-positive.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-go-kernel-attempt-03/outputs/reports/raw/codeql-go-kernel/dfb-taint-go-computed-property-positive.sarif.json",
+      "sha256": "f0b777c4def99eea2a6a7863c112a9c4eddd3fff536274bd65838682fd9de351"
+    },
+    {
+      "original_path": "reports/raw/codeql-go-kernel/dfb-taint-go-same-object-field-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-go-kernel-attempt-03/outputs/reports/raw/codeql-go-kernel/dfb-taint-go-same-object-field-negative-timing.json",
+      "sha256": "4ff4c7c90d28cc878f6250c357446868773168bd3e00b39b6f2c5b30210b81fb"
+    },
+    {
+      "original_path": "reports/raw/codeql-go-kernel/dfb-taint-go-dispatch-table-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-go-kernel-attempt-03/outputs/reports/raw/codeql-go-kernel/dfb-taint-go-dispatch-table-positive-timing.json",
+      "sha256": "9e594dd4174e4ee2c0626f644cd4ad48db46b7771aba024d1ad5a3bcec579560"
+    },
+    {
+      "original_path": "reports/raw/codeql-go-kernel/dfb-taint-go-map-iteration-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-go-kernel-attempt-03/outputs/reports/raw/codeql-go-kernel/dfb-taint-go-map-iteration-positive-timing.json",
+      "sha256": "dfcaf27d3a9a910cbb17c8ae9e3d4fb119eb296cba177acc81c45e3a7fb2c0d6"
+    },
+    {
+      "original_path": "reports/raw/codeql-go-kernel/dfb-taint-go-function-field-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-go-kernel-attempt-03/outputs/reports/raw/codeql-go-kernel/dfb-taint-go-function-field-positive-timing.json",
+      "sha256": "a79a441a59087e3f08f8f0ca9e5040a8ee9e2f380fa9ea91685dde3d4e21fa36"
+    },
+    {
+      "original_path": "reports/raw/codeql-go-kernel/dfb-taint-go-object-separation-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-go-kernel-attempt-03/outputs/reports/raw/codeql-go-kernel/dfb-taint-go-object-separation-positive-timing.json",
+      "sha256": "c0286612c80c7fda38ec12dc7abc83ffefc14428fa6e520d4ffd994385a27117"
+    },
+    {
+      "original_path": "reports/raw/codeql-go-kernel/dfb-taint-go-computed-property-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-go-kernel-attempt-03/outputs/reports/raw/codeql-go-kernel/dfb-taint-go-computed-property-negative-timing.json",
+      "sha256": "954aa44639f5ec66a692dce5f746f3c1b30b8f01f97151684ea176e9b6a87634"
+    },
+    {
+      "original_path": "reports/raw/codeql-go-kernel/dfb-taint-go-same-object-field-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-go-kernel-attempt-03/outputs/reports/raw/codeql-go-kernel/dfb-taint-go-same-object-field-positive-timing.json",
+      "sha256": "25aed2a778b9cc241c7cab8d2b6fed9b36fe5b7d3b7bb5b1fe034e28f6f2dc4d"
+    },
+    {
+      "original_path": "reports/raw/codeql-go-kernel/dfb-taint-go-return-relay-one-hop-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-go-kernel-attempt-03/outputs/reports/raw/codeql-go-kernel/dfb-taint-go-return-relay-one-hop-negative-timing.json",
+      "sha256": "d32e744a8d51e9deaba4f2d01c7b4d4c1069b9eebaeb9de779af8b4aae385a1d"
+    },
+    {
+      "original_path": "reports/raw/codeql-go-kernel/dfb-taint-go-call-context-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-go-kernel-attempt-03/outputs/reports/raw/codeql-go-kernel/dfb-taint-go-call-context-negative-timing.json",
+      "sha256": "c8cd56a97dad326f03a8457f7ca83d60af54b836ab2f54e25dc1c7fbce1781c0"
+    },
+    {
+      "original_path": "reports/raw/codeql-go-kernel/dfb-taint-go-nested-access-path-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-go-kernel-attempt-03/outputs/reports/raw/codeql-go-kernel/dfb-taint-go-nested-access-path-negative-timing.json",
+      "sha256": "c531bd70bc4ed7e134853ac082f1eef228c1d803d0e58f85c619411f4e7ed292"
+    },
+    {
+      "original_path": "reports/raw/codeql-go-kernel/dfb-taint-go-deep-relay-chain-negative.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-go-kernel-attempt-03/outputs/reports/raw/codeql-go-kernel/dfb-taint-go-deep-relay-chain-negative.sarif.json",
+      "sha256": "b6ec33ac5eec9205e09189b6132e0148aa9901964a2d18ffbfea72ac2c478a5b"
+    },
+    {
+      "original_path": "reports/raw/codeql-go-kernel/dfb-taint-go-branch-join-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-go-kernel-attempt-03/outputs/reports/raw/codeql-go-kernel/dfb-taint-go-branch-join-positive-timing.json",
+      "sha256": "6f96340089c6b9126650b72ff8653ff7d561a40ae7bd6c8259171db8e7f6d6af"
+    },
+    {
+      "original_path": "reports/raw/codeql-go-kernel/dfb-taint-go-alias-propagation-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-go-kernel-attempt-03/outputs/reports/raw/codeql-go-kernel/dfb-taint-go-alias-propagation-positive-timing.json",
+      "sha256": "b777c468e123bc323ed42ae096155782985601bdfa2b55a68720f43eb3d7accd"
+    },
+    {
+      "original_path": "reports/raw/codeql-go-kernel/dfb-taint-go-deep-relay-chain-positive.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-go-kernel-attempt-03/outputs/reports/raw/codeql-go-kernel/dfb-taint-go-deep-relay-chain-positive.sarif.json",
+      "sha256": "2f6d0d5eaaddf406ce258940e7d14b11abb052ae8e183b48de3b8927e9d5256e"
+    },
+    {
+      "original_path": "reports/raw/codeql-go-kernel/dfb-taint-go-branch-join-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-go-kernel-attempt-03/outputs/reports/raw/codeql-go-kernel/dfb-taint-go-branch-join-negative-timing.json",
+      "sha256": "89474222ed038d2bf11c09064a47e5e3756ddef0494cf1db8d34dc2e88473cbe"
+    },
+    {
+      "original_path": "reports/raw/codeql-go-kernel/dfb-taint-go-closure-capture-positive.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-go-kernel-attempt-03/outputs/reports/raw/codeql-go-kernel/dfb-taint-go-closure-capture-positive.sarif.json",
+      "sha256": "513d2a8b1a8eea16e97efdca1714846a878f97e776e7cfcbac65bfeeb814a9d2"
+    },
+    {
+      "original_path": "reports/raw/codeql-go-kernel/dfb-taint-go-alias-propagation-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-go-kernel-attempt-03/outputs/reports/raw/codeql-go-kernel/dfb-taint-go-alias-propagation-negative-timing.json",
+      "sha256": "f7b9b120ccb7a8fe58c84b2ee922979e5209bc42d490cf8d1af47a7c04aaa0c2"
+    },
+    {
+      "original_path": "reports/raw/codeql-go-kernel/dfb-taint-go-computed-property-negative.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-go-kernel-attempt-03/outputs/reports/raw/codeql-go-kernel/dfb-taint-go-computed-property-negative.sarif.json",
+      "sha256": "9e00f7bd57b7b27a9598ad73c95212051123d2b16b313602ef0104f7c8811c14"
+    },
+    {
+      "original_path": "reports/raw/codeql-go-kernel/dfb-taint-go-local-chain-negative.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-go-kernel-attempt-03/outputs/reports/raw/codeql-go-kernel/dfb-taint-go-local-chain-negative.sarif.json",
+      "sha256": "b52b17daced0aa8c3be71338cd0a891f46f660efa09421262f79f8a4e4f585d1"
+    },
+    {
+      "original_path": "reports/raw/codeql-go-kernel/dfb-taint-go-local-overwrite-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-go-kernel-attempt-03/outputs/reports/raw/codeql-go-kernel/dfb-taint-go-local-overwrite-positive-timing.json",
+      "sha256": "967116f730caa4407b3149ea33b7e9934763a33912daf16ba243ab6b3daab251"
+    },
+    {
+      "original_path": "reports/raw/codeql-go-kernel/dfb-taint-go-infeasible-branch-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-go-kernel-attempt-03/outputs/reports/raw/codeql-go-kernel/dfb-taint-go-infeasible-branch-positive-timing.json",
+      "sha256": "2eeb7e3a402c35e14b54adba5a3733e84058e76d320a0f4a01080ca61e1193bb"
+    },
+    {
+      "original_path": "reports/raw/codeql-go-kernel/dfb-taint-go-closure-capture-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-go-kernel-attempt-03/outputs/reports/raw/codeql-go-kernel/dfb-taint-go-closure-capture-positive-timing.json",
+      "sha256": "e5142177f54c91f970a4b2881b943c64ec0085b7d434f1b55c21120da9258f06"
+    },
+    {
+      "original_path": "reports/raw/codeql-go-kernel/dfb-taint-go-nested-access-path-negative.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-go-kernel-attempt-03/outputs/reports/raw/codeql-go-kernel/dfb-taint-go-nested-access-path-negative.sarif.json",
+      "sha256": "df7bd7b55e7d035696018d5ea55457b98dd5707943ba302f5ff2a6592a4aac48"
+    },
+    {
+      "original_path": "reports/raw/codeql-go-kernel/dfb-taint-go-recursive-callback-transform-negative.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-go-kernel-attempt-03/outputs/reports/raw/codeql-go-kernel/dfb-taint-go-recursive-callback-transform-negative.sarif.json",
+      "sha256": "82ab54c2b74493de1a62c32d99c666d31c721f4a9c0bfb1315cdb1d258255b8e"
+    },
+    {
+      "original_path": "reports/raw/codeql-go-kernel/dfb-taint-go-element-object-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-go-kernel-attempt-03/outputs/reports/raw/codeql-go-kernel/dfb-taint-go-element-object-positive-timing.json",
+      "sha256": "d17597cd8a635e7eaf3a709ed797e0b29e7d80895c2ae9ae22e2044f71de76e5"
+    },
+    {
+      "original_path": "reports/raw/codeql-go-kernel/dfb-taint-go-argument-position-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-go-kernel-attempt-03/outputs/reports/raw/codeql-go-kernel/dfb-taint-go-argument-position-positive-timing.json",
+      "sha256": "f7ffdd5aed18e69b12ffed5aded7a880158ae96da08a4da78e92eb5e126276cd"
+    },
+    {
+      "original_path": "reports/raw/codeql-go-kernel/dfb-taint-go-alias-propagation-negative.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-go-kernel-attempt-03/outputs/reports/raw/codeql-go-kernel/dfb-taint-go-alias-propagation-negative.sarif.json",
+      "sha256": "5ccd1b5f12b826b972b952dd4832df7f3e7f486ea6292709ee0dd92ffcee93ba"
+    },
+    {
+      "original_path": "reports/raw/codeql-go-kernel/dfb-taint-go-closure-capture-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-go-kernel-attempt-03/outputs/reports/raw/codeql-go-kernel/dfb-taint-go-closure-capture-negative-timing.json",
+      "sha256": "e0417dc6bdae7f45faff42057bdd66223f85adb9bdd7ddabb63faa91c3615816"
+    },
+    {
+      "original_path": "reports/raw/codeql-go-kernel/run-environment.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-go-kernel-attempt-03/outputs/reports/raw/codeql-go-kernel/run-environment.json",
+      "sha256": "0ef17cdf6721c65753534128ce214a2438ca72468575183b91467b608fa7d390"
+    },
+    {
+      "original_path": "reports/raw/codeql-go-kernel/dfb-taint-go-infeasible-branch-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-go-kernel-attempt-03/outputs/reports/raw/codeql-go-kernel/dfb-taint-go-infeasible-branch-negative-timing.json",
+      "sha256": "b8bc239845a8ff66a167196ae07397ae08ce1b61acbadf036adc54fbc8c5c377"
+    },
+    {
+      "original_path": "reports/raw/codeql-go-kernel/dfb-taint-go-local-overwrite-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-go-kernel-attempt-03/outputs/reports/raw/codeql-go-kernel/dfb-taint-go-local-overwrite-negative-timing.json",
+      "sha256": "05da78f79cf192dbccbc7aeb59734492d7cb05a64295d1ef6af0110eb2d0fa0d"
+    },
+    {
+      "original_path": "reports/raw/codeql-go-kernel/dfb-taint-go-recursive-exception-persistence-negative.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-go-kernel-attempt-03/outputs/reports/raw/codeql-go-kernel/dfb-taint-go-recursive-exception-persistence-negative.sarif.json",
+      "sha256": "9a983d35d26397129861002e7a4cf651b18b98481c334999dd833252c62754f0"
+    },
+    {
+      "original_path": "reports/raw/codeql-go-kernel/dfb-taint-go-dispatch-table-negative.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-go-kernel-attempt-03/outputs/reports/raw/codeql-go-kernel/dfb-taint-go-dispatch-table-negative.sarif.json",
+      "sha256": "6a3c7e691ea643eb158e86745d2322ac381844d03b3eb9b50d916c37f49c61b9"
+    },
+    {
+      "original_path": "reports/raw/codeql-go-kernel/dfb-taint-go-element-object-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-go-kernel-attempt-03/outputs/reports/raw/codeql-go-kernel/dfb-taint-go-element-object-negative-timing.json",
+      "sha256": "611ca4aa97a4c9ca7f44c64400dea6d86c5a848a41b815dd15c935163ac1ff42"
+    },
+    {
+      "original_path": "reports/raw/codeql-go-kernel/dfb-taint-go-argument-position-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-go-kernel-attempt-03/outputs/reports/raw/codeql-go-kernel/dfb-taint-go-argument-position-negative-timing.json",
+      "sha256": "7aebc1ce22afa2c0a800204fa7103294ceb0c8a4bae13191943cdfe5b2c51eb0"
+    },
+    {
+      "original_path": "reports/raw/codeql-go-kernel/dfb-taint-go-return-relay-two-hop-negative.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-go-kernel-attempt-03/outputs/reports/raw/codeql-go-kernel/dfb-taint-go-return-relay-two-hop-negative.sarif.json",
+      "sha256": "3f576daf7d9b07b34574030b1dcf31a38bf369984f222322fdf9970e08670a29"
+    },
+    {
+      "original_path": "reports/raw/codeql-go-kernel/dfb-taint-go-alias-propagation-positive.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-go-kernel-attempt-03/outputs/reports/raw/codeql-go-kernel/dfb-taint-go-alias-propagation-positive.sarif.json",
+      "sha256": "0aa7d8d8175e15929f030261e6f364e600e9011a82fd74be4c5257ea4b5930b5"
+    },
+    {
+      "original_path": "reports/raw/codeql-go-kernel/dfb-taint-go-recursive-callback-transform-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-go-kernel-attempt-03/outputs/reports/raw/codeql-go-kernel/dfb-taint-go-recursive-callback-transform-positive-timing.json",
+      "sha256": "e56dd847f5d84b0fc65d5826e780cff9a235057f3cf30fd35d184b78674342a6"
+    },
+    {
+      "original_path": "reports/raw/codeql-go-kernel/dfb-taint-go-callback-registration-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-go-kernel-attempt-03/outputs/reports/raw/codeql-go-kernel/dfb-taint-go-callback-registration-negative-timing.json",
+      "sha256": "f4dbd7d019cd90fa2bed73eca23a64f342c9f9df837f55895555fd78ecf7e8dc"
+    },
+    {
+      "original_path": "reports/raw/codeql-go-kernel/dfb-taint-go-recursive-carry-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-go-kernel-attempt-03/outputs/reports/raw/codeql-go-kernel/dfb-taint-go-recursive-carry-negative-timing.json",
+      "sha256": "3e3e36aeeeab85a00b282c12fb6da0f867fd3c208e84fb026b33b25190826f07"
+    },
+    {
+      "original_path": "reports/raw/codeql-go-kernel/dfb-taint-go-recursive-exception-persistence-positive.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-go-kernel-attempt-03/outputs/reports/raw/codeql-go-kernel/dfb-taint-go-recursive-exception-persistence-positive.sarif.json",
+      "sha256": "6447ce63c622f178555736d73aee8def5e8d96b8874ff9b3ee14cc3e7b1f4b33"
+    },
+    {
+      "original_path": "reports/raw/codeql-go-kernel/dfb-taint-go-interprocedural-exception-persistence-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-go-kernel-attempt-03/outputs/reports/raw/codeql-go-kernel/dfb-taint-go-interprocedural-exception-persistence-negative-timing.json",
+      "sha256": "1b373e6a2f47f140506947b08c9722efe2d49c255e7d3db0ddb3125c11408d27"
+    },
+    {
+      "original_path": "reports/raw/codeql-go-kernel/dfb-taint-go-return-relay-two-hop-positive.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-go-kernel-attempt-03/outputs/reports/raw/codeql-go-kernel/dfb-taint-go-return-relay-two-hop-positive.sarif.json",
+      "sha256": "2e7b678a971655245d2e726a75442db315a8433eacda12b0ef62f4a7ae6565fa"
+    },
+    {
+      "original_path": "reports/raw/codeql-go-kernel/dfb-taint-go-dispatch-table-positive.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-go-kernel-attempt-03/outputs/reports/raw/codeql-go-kernel/dfb-taint-go-dispatch-table-positive.sarif.json",
+      "sha256": "0fa283f786d6a850d388da2c078755cf9a82083ac23dab2c93bbdd168f9e4c3b"
+    },
+    {
+      "original_path": "reports/raw/codeql-go-kernel/dfb-taint-go-callback-registration-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-go-kernel-attempt-03/outputs/reports/raw/codeql-go-kernel/dfb-taint-go-callback-registration-positive-timing.json",
+      "sha256": "3920b912331a0ee17a6e19983ecd5833ad0121bf89c60780c90cb4a0ff5ec58c"
+    },
+    {
+      "original_path": "reports/raw/codeql-go-kernel/dfb-taint-go-recursive-carry-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-go-kernel-attempt-03/outputs/reports/raw/codeql-go-kernel/dfb-taint-go-recursive-carry-positive-timing.json",
+      "sha256": "7ec1fabad33b44d9dc45f5cf38323e18dd7a3ca00d82f10a1e22256871523cef"
+    },
+    {
+      "original_path": "reports/raw/codeql-go-kernel/dfb-taint-go-nested-access-path-positive.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-go-kernel-attempt-03/outputs/reports/raw/codeql-go-kernel/dfb-taint-go-nested-access-path-positive.sarif.json",
+      "sha256": "7638a04f244443c8a838bdd823444090b1534d34d832c00d1a452f5637f9ae3a"
+    },
+    {
+      "original_path": "reports/raw/codeql-go-kernel/dfb-taint-go-recursive-callback-transform-positive.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-go-kernel-attempt-03/outputs/reports/raw/codeql-go-kernel/dfb-taint-go-recursive-callback-transform-positive.sarif.json",
+      "sha256": "a29c0313b6916efbb67badb94d83346d126270e64ed9b58d53a2944b7e76ca39"
+    },
+    {
+      "original_path": "reports/raw/codeql-go-kernel/dfb-taint-go-recursive-callback-transform-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-go-kernel-attempt-03/outputs/reports/raw/codeql-go-kernel/dfb-taint-go-recursive-callback-transform-negative-timing.json",
+      "sha256": "2736bfbc50bf02a634d63d2e150ddf7f95713299bdc54b9db8b5b3955c110a04"
+    },
+    {
+      "original_path": "reports/raw/codeql-go-kernel/dfb-taint-go-interprocedural-exception-persistence-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-go-kernel-attempt-03/outputs/reports/raw/codeql-go-kernel/dfb-taint-go-interprocedural-exception-persistence-positive-timing.json",
+      "sha256": "71b9c32dbfdb2647b47ce83221c4c927a010563125435f4635bdeda4e137e97a"
+    },
+    {
+      "original_path": "reports/raw/codeql-go-kernel/dfb-taint-go-expression-positive.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-go-kernel-attempt-03/outputs/reports/raw/codeql-go-kernel/dfb-taint-go-expression-positive.sarif.json",
+      "sha256": "f16cfbad1f0c02cb74146c874ea7051e512dcb3f6a9b6bafb3c7e814ac28cc03"
+    },
+    {
+      "original_path": "reports/raw/codeql-go-kernel/dfb-taint-go-recursive-exception-persistence-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-go-kernel-attempt-03/outputs/reports/raw/codeql-go-kernel/dfb-taint-go-recursive-exception-persistence-negative-timing.json",
+      "sha256": "72c1cb271b956966f4b670cc8034118d949de9d4d4d98894c400e14d76cfb8e2"
+    },
+    {
+      "original_path": "reports/raw/codeql-go-kernel/dfb-taint-go-recursive-heap-unwind-negative.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-go-kernel-attempt-03/outputs/reports/raw/codeql-go-kernel/dfb-taint-go-recursive-heap-unwind-negative.sarif.json",
+      "sha256": "cefe806c304c24925df6ada589ec4a90e1843cd2b93278aa1a4b8c5e493d97ff"
+    },
+    {
+      "original_path": "reports/raw/codeql-go-kernel/dfb-taint-go-mutual-recursive-transform-negative.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-go-kernel-attempt-03/outputs/reports/raw/codeql-go-kernel/dfb-taint-go-mutual-recursive-transform-negative.sarif.json",
+      "sha256": "10885225d4c069064f837c13c615a642d5896981390a3ebb0e6218fd6fa3fddc"
+    },
+    {
+      "original_path": "reports/raw/codeql-go-kernel/dfb-taint-go-array-element-negative.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-go-kernel-attempt-03/outputs/reports/raw/codeql-go-kernel/dfb-taint-go-array-element-negative.sarif.json",
+      "sha256": "57890bf8c4b6ed0fbf4a96f5b3d95d8dd0ce52a7896b07e1030a256c4a1266ad"
+    },
+    {
+      "original_path": "reports/raw/codeql-go-kernel/dfb-taint-go-return-relay-one-hop-negative.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-go-kernel-attempt-03/outputs/reports/raw/codeql-go-kernel/dfb-taint-go-return-relay-one-hop-negative.sarif.json",
+      "sha256": "30285e4a38e6a7c6d747aa2c44c546e3b4a81e11891708f6a784f4f558c4af3a"
+    },
+    {
+      "original_path": "reports/raw/codeql-go-kernel/dfb-taint-go-return-relay-two-hop-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-go-kernel-attempt-03/outputs/reports/raw/codeql-go-kernel/dfb-taint-go-return-relay-two-hop-positive-timing.json",
+      "sha256": "df286bbbc8035b312c0efb318c6e39f5ec2305272a254c50429d951f5d28e157"
+    },
+    {
+      "original_path": "reports/raw/codeql-go-kernel/dfb-taint-go-array-element-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-go-kernel-attempt-03/outputs/reports/raw/codeql-go-kernel/dfb-taint-go-array-element-negative-timing.json",
+      "sha256": "5e3704ab4c6252d720b4b6660b283009fd32d0c8657fa1cf2c32b0d8ed59e8c7"
+    },
+    {
+      "original_path": "reports/raw/codeql-go-kernel/dfb-taint-go-branch-join-positive.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-go-kernel-attempt-03/outputs/reports/raw/codeql-go-kernel/dfb-taint-go-branch-join-positive.sarif.json",
+      "sha256": "11c72acf70da63003adc28abeef6fb0c008e5b8d806f15c58164854ba0bb384a"
+    },
+    {
+      "original_path": "reports/raw/codeql-go-kernel/dfb-taint-go-recursive-exception-persistence-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-go-kernel-attempt-03/outputs/reports/raw/codeql-go-kernel/dfb-taint-go-recursive-exception-persistence-positive-timing.json",
+      "sha256": "747d289c45b6165a96a2982c5209d4df1d76afd20af78ee7666ec1eb5ccb475d"
+    },
+    {
+      "original_path": "reports/raw/codeql-go-kernel/dfb-taint-go-recursive-payload-transform-positive.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-go-kernel-attempt-03/outputs/reports/raw/codeql-go-kernel/dfb-taint-go-recursive-payload-transform-positive.sarif.json",
+      "sha256": "190ca30ad8d11f5389da8d5339dab468cab92fe1ea721d90915d808d3e984f48"
+    },
+    {
+      "original_path": "reports/raw/codeql-go-kernel/dfb-taint-go-local-overwrite-negative.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-go-kernel-attempt-03/outputs/reports/raw/codeql-go-kernel/dfb-taint-go-local-overwrite-negative.sarif.json",
+      "sha256": "ebc93d4d9baaf33c39c045bcd25a9d25363a3151a88b38177a912075a200bc23"
+    },
+    {
+      "original_path": "reports/raw/codeql-go-kernel/dfb-taint-go-recursive-carry-negative.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-go-kernel-attempt-03/outputs/reports/raw/codeql-go-kernel/dfb-taint-go-recursive-carry-negative.sarif.json",
+      "sha256": "9b03f198580fbf4599e8f09e219df01dc3412c4ce47e98fdc00341036f58b37b"
+    },
+    {
+      "original_path": "reports/raw/codeql-go-kernel/dfb-taint-go-context-pair-depth2-positive.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-go-kernel-attempt-03/outputs/reports/raw/codeql-go-kernel/dfb-taint-go-context-pair-depth2-positive.sarif.json",
+      "sha256": "fafa0b56e4f18b9d5eec3a0216fac4f0489abd93c4795f127dfeedd66c1e23e3"
+    },
+    {
+      "original_path": "reports/raw/codeql-go-kernel/dfb-taint-go-array-element-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-go-kernel-attempt-03/outputs/reports/raw/codeql-go-kernel/dfb-taint-go-array-element-positive-timing.json",
+      "sha256": "1106aefb0a24f7e6899a51faa96ebdb0898d87a2befdde21cba559fa7d529a94"
+    },
+    {
+      "original_path": "reports/raw/codeql-go-kernel/dfb-taint-go-return-relay-two-hop-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-go-kernel-attempt-03/outputs/reports/raw/codeql-go-kernel/dfb-taint-go-return-relay-two-hop-negative-timing.json",
+      "sha256": "fb93b3998c891e2fade20f188216f42993aeef23bcc4032ba395b396ff95f417"
+    },
+    {
+      "original_path": "reports/raw/codeql-go-kernel/dfb-taint-go-reflective-invocation-positive.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-go-kernel-attempt-03/outputs/reports/raw/codeql-go-kernel/dfb-taint-go-reflective-invocation-positive.sarif.json",
+      "sha256": "6eaa6d3252e3c5679ed1c0e24e772ddb1140bd4dbdc6f798c58159a3c12da9bc"
+    },
+    {
+      "original_path": "reports/raw/codeql-go-kernel/dfb-taint-go-recursive-payload-transform-negative.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-go-kernel-attempt-03/outputs/reports/raw/codeql-go-kernel/dfb-taint-go-recursive-payload-transform-negative.sarif.json",
+      "sha256": "9076f07366f1a606ffdf3454f59fb168b9b531fac987869f865a21cb4dc6f3d3"
+    },
+    {
+      "original_path": "reports/raw/codeql-go-kernel/dfb-taint-go-loop-carried-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-go-kernel-attempt-03/outputs/reports/raw/codeql-go-kernel/dfb-taint-go-loop-carried-positive-timing.json",
+      "sha256": "505e1073aefa880581ecfb2415e91e6f8c19b21bf93fc9d43db812f1c172b885"
+    },
+    {
+      "original_path": "reports/raw/codeql-go-kernel/dfb-taint-go-branch-join-negative.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-go-kernel-attempt-03/outputs/reports/raw/codeql-go-kernel/dfb-taint-go-branch-join-negative.sarif.json",
+      "sha256": "f245185170a98223fa608dcfa3fb15582d86688e4c62990bbb8d987c102289aa"
+    },
+    {
+      "original_path": "reports/raw/codeql-go-kernel/dfb-taint-go-recursive-carry-positive.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-go-kernel-attempt-03/outputs/reports/raw/codeql-go-kernel/dfb-taint-go-recursive-carry-positive.sarif.json",
+      "sha256": "9b2f3ef1487764d142f6a93d1d94acc163c9e55d8cff7a6de9c7437432979bbf"
+    },
+    {
+      "original_path": "reports/raw/codeql-go-kernel/dfb-taint-go-context-pair-depth2-negative.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-go-kernel-attempt-03/outputs/reports/raw/codeql-go-kernel/dfb-taint-go-context-pair-depth2-negative.sarif.json",
+      "sha256": "8064d0044d647100971c5c9ae069d1f33fb6183196d5e5d790d71066036d66ce"
+    },
+    {
+      "original_path": "reports/raw/codeql-go-kernel/dfb-taint-go-direct-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-go-kernel-attempt-03/outputs/reports/raw/codeql-go-kernel/dfb-taint-go-direct-negative-timing.json",
+      "sha256": "3cf9c0869d28c016437f5e7d0b5e00773fc3006d02472447bc82997ad5ecfa3f"
+    },
+    {
+      "original_path": "reports/raw/codeql-go-kernel/dfb-taint-go-deep-relay-chain-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-go-kernel-attempt-03/outputs/reports/raw/codeql-go-kernel/dfb-taint-go-deep-relay-chain-negative-timing.json",
+      "sha256": "b6455b473b14ad30b9e97f4a6d645de9f138100b49c699493d863849fa329039"
+    },
+    {
+      "original_path": "reports/raw/codeql-go-kernel/dfb-taint-go-recursive-heap-unwind-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-go-kernel-attempt-03/outputs/reports/raw/codeql-go-kernel/dfb-taint-go-recursive-heap-unwind-positive-timing.json",
+      "sha256": "d3bd4e990e911cb47b82cfffb245c3d9ab02da7db95e639020f0f32263978de0"
+    },
+    {
+      "original_path": "reports/raw/codeql-go-kernel/dfb-taint-go-reflective-invocation-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-go-kernel-attempt-03/outputs/reports/raw/codeql-go-kernel/dfb-taint-go-reflective-invocation-positive-timing.json",
+      "sha256": "d1ad792791f56fd25f9be50c5823f50bb16bad4f926b19f17979bea3ae0845ca"
+    },
+    {
+      "original_path": "reports/raw/codeql-go-kernel/dfb-taint-go-local-overwrite-positive.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-go-kernel-attempt-03/outputs/reports/raw/codeql-go-kernel/dfb-taint-go-local-overwrite-positive.sarif.json",
+      "sha256": "01c11b1cea5c4bb6149695160b4cf1e74368d4532f4e2320987e1465150e2497"
+    },
+    {
+      "original_path": "reports/raw/codeql-go-kernel/dfb-taint-go-reflective-invocation-negative.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-go-kernel-attempt-03/outputs/reports/raw/codeql-go-kernel/dfb-taint-go-reflective-invocation-negative.sarif.json",
+      "sha256": "83d998380f8c5c0ed56c6afcafcd86e6013eb7e70daf0c9227ea7342a789166d"
+    },
+    {
+      "original_path": "reports/raw/codeql-go-kernel/dfb-taint-go-context-pair-depth2-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-go-kernel-attempt-03/outputs/reports/raw/codeql-go-kernel/dfb-taint-go-context-pair-depth2-negative-timing.json",
+      "sha256": "0bf56145089afbcd5718532a04358892dc422dbb0bd209e189943151ad2f5398"
+    },
+    {
+      "original_path": "reports/raw/codeql-go-kernel/dfb-taint-go-reflective-invocation-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-go-kernel-attempt-03/outputs/reports/raw/codeql-go-kernel/dfb-taint-go-reflective-invocation-negative-timing.json",
+      "sha256": "c8c4740f70ac3e46581caa1b0372f18b7dc881904409db3a3a1a6d6f56a7e01d"
+    },
+    {
+      "original_path": "reports/raw/codeql-go-kernel/dfb-taint-go-expression-negative.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-go-kernel-attempt-03/outputs/reports/raw/codeql-go-kernel/dfb-taint-go-expression-negative.sarif.json",
+      "sha256": "9a5f78bbbbb45d8086efb7f0857609be105cda10f60fd1dd7481f41c3aed2d17"
+    },
+    {
+      "original_path": "reports/raw/codeql-go-kernel/dfb-taint-go-direct-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-go-kernel-attempt-03/outputs/reports/raw/codeql-go-kernel/dfb-taint-go-direct-positive-timing.json",
+      "sha256": "af1908620bff7eb62787bf4c449ac130bf849f1e3d9042cc6752eca77c1df016"
+    },
+    {
+      "original_path": "reports/raw/codeql-go-kernel/dfb-taint-go-recursive-heap-unwind-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-go-kernel-attempt-03/outputs/reports/raw/codeql-go-kernel/dfb-taint-go-recursive-heap-unwind-negative-timing.json",
+      "sha256": "18007ad561a941f11879162bab6d078b301680e6163f8e91da982232308f86c3"
+    },
+    {
+      "original_path": "reports/raw/codeql-go-kernel/dfb-taint-go-deep-relay-chain-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-go-kernel-attempt-03/outputs/reports/raw/codeql-go-kernel/dfb-taint-go-deep-relay-chain-positive-timing.json",
+      "sha256": "9955560d575849070c2794faee8c7ed93e48f1828d5ca9633ea2d9b1ea6f8a6e"
+    },
+    {
+      "original_path": "reports/raw/codeql-go-kernel/dfb-taint-go-mutual-recursive-transform-positive.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-go-kernel-attempt-03/outputs/reports/raw/codeql-go-kernel/dfb-taint-go-mutual-recursive-transform-positive.sarif.json",
+      "sha256": "84e37769a5a9ad1ccc5bb4672c09cbf66973c276f25dc46f9d9a6c5b3db59ebf"
+    },
+    {
+      "original_path": "reports/raw/codeql-go-kernel/dfb-taint-go-array-element-positive.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-go-kernel-attempt-03/outputs/reports/raw/codeql-go-kernel/dfb-taint-go-array-element-positive.sarif.json",
+      "sha256": "627b38a30b4f4ca35c0bb8c78b82b89ecd980947f84123b89690a07f37344b0a"
+    },
+    {
+      "original_path": "reports/raw/codeql-go-kernel/dfb-taint-go-recursive-heap-unwind-positive.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-go-kernel-attempt-03/outputs/reports/raw/codeql-go-kernel/dfb-taint-go-recursive-heap-unwind-positive.sarif.json",
+      "sha256": "e175a330454d26fe4456c596e73deb2c74b03ef51af5e5fc414bd18ae283d0a1"
+    },
+    {
+      "original_path": "reports/raw/codeql-go-kernel/dfb-taint-go-loop-carried-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-go-kernel-attempt-03/outputs/reports/raw/codeql-go-kernel/dfb-taint-go-loop-carried-negative-timing.json",
+      "sha256": "5308382b64aa0ffdf46b2ecc2ebb82d400b14c79da36f6f00602f5b4b00dc85d"
+    },
+    {
+      "original_path": "reports/raw/codeql-go-kernel/dfb-taint-go-context-pair-depth2-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-go-kernel-attempt-03/outputs/reports/raw/codeql-go-kernel/dfb-taint-go-context-pair-depth2-positive-timing.json",
+      "sha256": "0701ce9887e92e374b9144256bada3720364b71fba705b01885febd422e15537"
+    },
+    {
+      "original_path": "reports/raw/codeql-go-kernel/dfb-taint-go-return-relay-one-hop-positive.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-go-kernel-attempt-03/outputs/reports/raw/codeql-go-kernel/dfb-taint-go-return-relay-one-hop-positive.sarif.json",
+      "sha256": "0c6a7635d84c54f7940884ecee59563825f6eebee5895dca3f91f823e9901c6f"
+    },
+    {
+      "original_path": "reports/raw/codeql-go-kernel/dfb-taint-go-loop-carried-positive.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-go-kernel-attempt-03/outputs/reports/raw/codeql-go-kernel/dfb-taint-go-loop-carried-positive.sarif.json",
+      "sha256": "6096d4e9afd46b5786a419ac6af3428a1c3bda25ae282a74e5eaee27a935cbf9"
+    },
+    {
+      "original_path": "reports/raw/codeql-go-kernel/dfb-taint-go-local-chain-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-go-kernel-attempt-03/outputs/reports/raw/codeql-go-kernel/dfb-taint-go-local-chain-positive-timing.json",
+      "sha256": "ef0d53bd7c2f955187dde6d38c8f6d5d111c0e0e6bb39d2becacdcd8ff66d0b6"
+    },
+    {
+      "original_path": "reports/raw/codeql-go-kernel/dfb-taint-go-object-separation-positive.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-go-kernel-attempt-03/outputs/reports/raw/codeql-go-kernel/dfb-taint-go-object-separation-positive.sarif.json",
+      "sha256": "779c8a5acb886baa5aacf37bb4f950bd23bd6ef9863c55533b58ba040be90f1a"
+    },
+    {
+      "original_path": "reports/raw/codeql-go-kernel/dfb-taint-go-exception-catch-positive.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-go-kernel-attempt-03/outputs/reports/raw/codeql-go-kernel/dfb-taint-go-exception-catch-positive.sarif.json",
+      "sha256": "9727c97e2287a883dad7d9d852ecbcce243838710c435c9c206b0263dfd1c341"
+    },
+    {
+      "original_path": "reports/raw/codeql-go-kernel/dfb-taint-go-map-iteration-negative.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-go-kernel-attempt-03/outputs/reports/raw/codeql-go-kernel/dfb-taint-go-map-iteration-negative.sarif.json",
+      "sha256": "f74f035ae583d9a239a7fcc76366b1acb6e667cfac9fe31f3eb1e726a9413f18"
+    },
+    {
+      "original_path": "reports/raw/codeql-go-kernel/dfb-taint-go-expression-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-go-kernel-attempt-03/outputs/reports/raw/codeql-go-kernel/dfb-taint-go-expression-negative-timing.json",
+      "sha256": "437e070359f37f75c5be39016e31af934161785a6e647cb40e31c83939f65c4d"
+    },
+    {
+      "original_path": "reports/raw/codeql-go-kernel/dfb-taint-go-same-object-field-positive.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-go-kernel-attempt-03/outputs/reports/raw/codeql-go-kernel/dfb-taint-go-same-object-field-positive.sarif.json",
+      "sha256": "56871f9a0841fd1b143ac53efea915a4f275fdf23cdd75d65fc72eeb982de28c"
+    },
+    {
+      "original_path": "reports/raw/codeql-go-kernel/dfb-taint-go-infeasible-branch-negative.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-go-kernel-attempt-03/outputs/reports/raw/codeql-go-kernel/dfb-taint-go-infeasible-branch-negative.sarif.json",
+      "sha256": "d6013aceb790447767f8c1ce32499b20f47917d86ec337f9613f1be1586f5804"
+    },
+    {
+      "original_path": "reports/raw/codeql-go-kernel/dfb-taint-go-anonymous-implementation-positive.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-go-kernel-attempt-03/outputs/reports/raw/codeql-go-kernel/dfb-taint-go-anonymous-implementation-positive.sarif.json",
+      "sha256": "e344156f26402ab4eca2317d7b585fde90bf50fa635942f0764ed44d2bc71c45"
+    },
+    {
+      "original_path": "reports/raw/codeql-go-kernel/dfb-taint-go-recursive-payload-transform-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-go-kernel-attempt-03/outputs/reports/raw/codeql-go-kernel/dfb-taint-go-recursive-payload-transform-positive-timing.json",
+      "sha256": "2a11a0e0e03b31e4a9b3ddb082f83a31f85ca0cc261d91fd8e5dc104198dedf0"
+    },
+    {
+      "original_path": "reports/raw/codeql-go-kernel/dfb-taint-go-expression-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-go-kernel-attempt-03/outputs/reports/raw/codeql-go-kernel/dfb-taint-go-expression-positive-timing.json",
+      "sha256": "ca09a666ed02db45988e8f5e51d7bcde160cce726c8b2141845101461cdd6450"
+    },
+    {
+      "original_path": "reports/raw/codeql-go-kernel/dfb-taint-go-callback-registration-negative.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-go-kernel-attempt-03/outputs/reports/raw/codeql-go-kernel/dfb-taint-go-callback-registration-negative.sarif.json",
+      "sha256": "67d10398132353ac51320cd032d0d3330b38fa248499c9f070cf25c1e0f73355"
+    },
+    {
+      "original_path": "reports/raw/codeql-go-kernel/dfb-taint-go-interprocedural-exception-persistence-positive.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-go-kernel-attempt-03/outputs/reports/raw/codeql-go-kernel/dfb-taint-go-interprocedural-exception-persistence-positive.sarif.json",
+      "sha256": "502ea002fc6b332e2e72b895f7ac8500d71fe7a1b1f81936173300c1ab8ddc96"
+    },
+    {
+      "original_path": "reports/raw/codeql-go-kernel/dfb-taint-go-local-chain-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-go-kernel-attempt-03/outputs/reports/raw/codeql-go-kernel/dfb-taint-go-local-chain-negative-timing.json",
+      "sha256": "dd4ebba8d0fd66e187d3f37c0d5172f818485f60b75f9d5c816b6e7eb791c61f"
+    },
+    {
+      "original_path": "reports/raw/codeql-go-kernel/dfb-taint-go-direct-positive.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-go-kernel-attempt-03/outputs/reports/raw/codeql-go-kernel/dfb-taint-go-direct-positive.sarif.json",
+      "sha256": "64d9f22bbe5738f6acbdf6b35d3ec50c9a57271c64cc61edf901ff867e949e39"
+    },
+    {
+      "original_path": "reports/raw/codeql-go-kernel/dfb-taint-go-argument-position-negative.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-go-kernel-attempt-03/outputs/reports/raw/codeql-go-kernel/dfb-taint-go-argument-position-negative.sarif.json",
+      "sha256": "efb855911fb6b6e196bae860449cccbdab1536360bd40680adeb0166fa40d050"
+    },
+    {
+      "original_path": "reports/raw/codeql-go-kernel/dfb-taint-go-function-field-positive.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-go-kernel-attempt-03/outputs/reports/raw/codeql-go-kernel/dfb-taint-go-function-field-positive.sarif.json",
+      "sha256": "32093b6a4bcb80165a22dbe70881292df1f15d537c8089c91fb48cda191f0f73"
+    },
+    {
+      "original_path": "reports/raw/codeql-go-kernel/dfb-taint-go-call-context-negative.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-go-kernel-attempt-03/outputs/reports/raw/codeql-go-kernel/dfb-taint-go-call-context-negative.sarif.json",
+      "sha256": "cf0db0b2292ca0b2d4edf31985f1f465aaccf84983efef743c8bd8a80e1d6269"
+    },
+    {
+      "original_path": "reports/raw/codeql-go-kernel/dfb-taint-go-recursive-payload-transform-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-go-kernel-attempt-03/outputs/reports/raw/codeql-go-kernel/dfb-taint-go-recursive-payload-transform-negative-timing.json",
+      "sha256": "6a19ebf292db1700aa397147ba4d995cdb60a64735568b2a9f421a5d7179ff80"
+    },
+    {
+      "original_path": "reports/raw/codeql-go-kernel/dfb-taint-go-element-object-negative.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-go-kernel-attempt-03/outputs/reports/raw/codeql-go-kernel/dfb-taint-go-element-object-negative.sarif.json",
+      "sha256": "eed95eb306392cb5791efe82b6c94b28247f2cea16af3af3b5e11d0850172ddf"
+    },
+    {
+      "original_path": "reports/raw/codeql-go-kernel/dfb-taint-go-direct-negative.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-go-kernel-attempt-03/outputs/reports/raw/codeql-go-kernel/dfb-taint-go-direct-negative.sarif.json",
+      "sha256": "f4734e76d2e1a1836ffe2a198651cec0509a72174ec1319a5d0ec675035eee05"
+    },
+    {
+      "original_path": "reports/raw/codeql-go-kernel/dfb-taint-go-callback-registration-positive.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-go-kernel-attempt-03/outputs/reports/raw/codeql-go-kernel/dfb-taint-go-callback-registration-positive.sarif.json",
+      "sha256": "acd91e0bdef8469976f883ccc8b2ea2507029ce2078e52b9d94e345982ec8c22"
+    },
+    {
+      "original_path": "reports/raw/codeql-go-kernel/dfb-taint-go-interprocedural-exception-persistence-negative.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-go-kernel-attempt-03/outputs/reports/raw/codeql-go-kernel/dfb-taint-go-interprocedural-exception-persistence-negative.sarif.json",
+      "sha256": "1787e01122497911c00b65aecbe8d99cf7ab3a37d2e7a8e3b708357328b8c723"
+    },
+    {
+      "original_path": "reports/raw/codeql-go-kernel/dfb-taint-go-anonymous-implementation-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-go-kernel-attempt-03/outputs/reports/raw/codeql-go-kernel/dfb-taint-go-anonymous-implementation-negative-timing.json",
+      "sha256": "d54b0da6604d48b86d6cca99d69c5b02f4f67306c4f30dda2a75a034cc78f8c8"
+    },
+    {
+      "original_path": "reports/raw/codeql-go-kernel/dfb-taint-go-element-object-positive.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-go-kernel-attempt-03/outputs/reports/raw/codeql-go-kernel/dfb-taint-go-element-object-positive.sarif.json",
+      "sha256": "539c33cdde2739c618602cc7942ec4cb2c6d2cd6e905d65d2b9977ca98249a5e"
+    },
+    {
+      "original_path": "reports/raw/codeql-go-kernel/dfb-taint-go-argument-position-positive.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-go-kernel-attempt-03/outputs/reports/raw/codeql-go-kernel/dfb-taint-go-argument-position-positive.sarif.json",
+      "sha256": "4acf55d504daf9cd65a3baa66ddf9656ca08c2b66ced88d455a7dab3bae51ede"
+    },
+    {
+      "original_path": "reports/raw/codeql-go-kernel/dfb-taint-go-function-field-negative.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-go-kernel-attempt-03/outputs/reports/raw/codeql-go-kernel/dfb-taint-go-function-field-negative.sarif.json",
+      "sha256": "2e4fa6d532341421e54663ab310464c9d19b2f891bf8ad64ba748a4d46a06227"
+    },
+    {
+      "original_path": "reports/raw/codeql-go-kernel/dfb-taint-go-call-context-positive.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-go-kernel-attempt-03/outputs/reports/raw/codeql-go-kernel/dfb-taint-go-call-context-positive.sarif.json",
+      "sha256": "7e6f1e925ae87fc638c94dbc0c38a08da6f0f064416bfff1c020cf63d9aa948b"
+    },
+    {
+      "original_path": "reports/raw/codeql-go-kernel/dfb-taint-go-mutual-recursive-transform-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-go-kernel-attempt-03/outputs/reports/raw/codeql-go-kernel/dfb-taint-go-mutual-recursive-transform-negative-timing.json",
+      "sha256": "98c9fae156bfef2eae7e91650ecaa01ec9371bcdd6a2e8ca984966043b0d27bc"
+    },
+    {
+      "original_path": "reports/raw/codeql-go-kernel/dfb-taint-go-exception-catch-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-go-kernel-attempt-03/outputs/reports/raw/codeql-go-kernel/dfb-taint-go-exception-catch-negative-timing.json",
+      "sha256": "28488ba012cfd1c1940ea09ac0c110a3989c6df825db912441fc2383d7d78e7a"
+    },
+    {
+      "original_path": "reports/raw/codeql-go-kernel/dfb-taint-go-anonymous-implementation-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-go-kernel-attempt-03/outputs/reports/raw/codeql-go-kernel/dfb-taint-go-anonymous-implementation-positive-timing.json",
+      "sha256": "edf6673ec01352f1125aa515450d433713d5193cc6f4aef7c5572e1f56eb7251"
+    },
+    {
+      "original_path": "reports/raw/codeql-go-kernel/dfb-taint-go-object-separation-negative.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-go-kernel-attempt-03/outputs/reports/raw/codeql-go-kernel/dfb-taint-go-object-separation-negative.sarif.json",
+      "sha256": "0f48197f3ed40d031c336a40a1f1a8e84058ee145d89b2ad354f0dcb40255e9e"
+    },
+    {
+      "original_path": "reports/raw/codeql-go-kernel/dfb-taint-go-loop-carried-negative.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-go-kernel-attempt-03/outputs/reports/raw/codeql-go-kernel/dfb-taint-go-loop-carried-negative.sarif.json",
+      "sha256": "e9a27efe09b09bae0548903a554406fc12ec67810bb11b78783dbe736a21a53a"
+    },
+    {
+      "original_path": "reports/raw/codeql-go-kernel/dfb-taint-go-same-object-field-negative.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-go-kernel-attempt-03/outputs/reports/raw/codeql-go-kernel/dfb-taint-go-same-object-field-negative.sarif.json",
+      "sha256": "e75fce9bd4117eba9461d37bb344ff033591d4c6d452abf99a380f9012fd0b9a"
+    },
+    {
+      "original_path": "reports/raw/codeql-go-kernel/dfb-taint-go-exception-catch-negative.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-go-kernel-attempt-03/outputs/reports/raw/codeql-go-kernel/dfb-taint-go-exception-catch-negative.sarif.json",
+      "sha256": "88d2a83bdd50f90c7a3e650ec10500c919711d30b2a1a00fd749706815a8383f"
+    },
+    {
+      "original_path": "reports/raw/codeql-go-kernel/dfb-taint-go-map-iteration-positive.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-go-kernel-attempt-03/outputs/reports/raw/codeql-go-kernel/dfb-taint-go-map-iteration-positive.sarif.json",
+      "sha256": "2c03a10737f70da8ad4fded199f2de58e62acebc223ec7c97d7a6c5805afb6b8"
+    },
+    {
+      "original_path": "reports/raw/codeql-go-kernel/dfb-taint-go-exception-catch-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-go-kernel-attempt-03/outputs/reports/raw/codeql-go-kernel/dfb-taint-go-exception-catch-positive-timing.json",
+      "sha256": "c9b72eaf92193a7271cc00c974ed0910eb9cc5da0388b438d37308c4a03b18f7"
+    },
+    {
+      "original_path": "reports/raw/codeql-go-kernel/dfb-taint-go-mutual-recursive-transform-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-go-kernel-attempt-03/outputs/reports/raw/codeql-go-kernel/dfb-taint-go-mutual-recursive-transform-positive-timing.json",
+      "sha256": "77833bc7122dc00b3e8fe7b31142792f54960562198ba4d857bb0168ae46bf8a"
+    },
+    {
+      "original_path": "reports/raw/codeql-go-kernel/dfb-taint-go-infeasible-branch-positive.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-go-kernel-attempt-03/outputs/reports/raw/codeql-go-kernel/dfb-taint-go-infeasible-branch-positive.sarif.json",
+      "sha256": "48322ca85f01e5120bda1e4ab6e33abdbc777379eea99d8cafc9f887caf4951d"
+    },
+    {
+      "original_path": "reports/raw/codeql-go-kernel/dfb-taint-go-anonymous-implementation-negative.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-go-kernel-attempt-03/outputs/reports/raw/codeql-go-kernel/dfb-taint-go-anonymous-implementation-negative.sarif.json",
+      "sha256": "4eff677c79d6828cdbea430b54568ae7290c505c445ebbc96d9211a492862a11"
+    }
+  ],
+  "expected_output_roots": [
+    "reports/codeql-go-kernel.json",
+    "reports/raw/codeql-go-kernel"
+  ],
+  "missing_fresh_output_roots": [],
+  "removed_paths": []
+}

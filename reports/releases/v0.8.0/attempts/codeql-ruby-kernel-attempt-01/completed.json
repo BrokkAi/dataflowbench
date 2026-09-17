@@ -1,0 +1,838 @@
+{
+  "id": "codeql-ruby-kernel-attempt-01",
+  "planned_id": "codeql-ruby-kernel",
+  "release": "v0.8.0",
+  "argv": [
+    "target/release/dataflowbench",
+    "run-codeql-ruby-kernel",
+    "--codeql",
+    "/Users/dave/.cache/dataflowbench-tools/codeql-v2.27.0/codeql/codeql",
+    "--codeql-packs",
+    "/Users/dave/.codeql/packages"
+  ],
+  "cwd": "/Users/dave/.codex/worktrees/38c5/dataflowbench",
+  "input_commits": {
+    "corpus": "52db1bf46f0880c271b97b0df0f3e1d40d01fc0a",
+    "execution_harness": "1efb718e8a2f0445276471b6f8a6f0472faffbd8"
+  },
+  "execution_revision": "4df3d9cd5239578706507cef7f532aa23f781582",
+  "population": {
+    "path": "reports/releases/v0.8.0/population.json",
+    "sha256": "2b9dc814a889a2420eb2952e522041ad7c7e62ba9a42a81ccaf47a8ec188f66d"
+  },
+  "fixture_revision": "sha256:4b62280924ed2e141dc8bb8e7b1bddfbd512d0201a3fa82f7b92b223eefca8c9",
+  "plan": {
+    "path": "reports/releases/v0.8.0/rerun-plan.json",
+    "sha256": "860262fcc6327665191c077a0dcba499a3438acc7f567ce3d1b2e4c5a7ad2c46"
+  },
+  "identities": {
+    "path": "reports/releases/v0.8.0/identities.json",
+    "sha256": "6a27aaf39c5737fb620f0cbde22f384df1c1d3aaf751cc7901b22dd35edb6925"
+  },
+  "execution_access": "unspecified",
+  "start_utc": "2026-09-16T09:40:02.974468+00:00",
+  "host": {
+    "platform": "macOS-27.0-arm64-arm-64bit",
+    "cpu_count": 10,
+    "load_before": [
+      4.7001953125,
+      3.8603515625,
+      3.5400390625
+    ],
+    "load_after": [
+      11.7255859375,
+      6.53564453125,
+      4.6328125
+    ]
+  },
+  "settle_observations": [],
+  "cache_posture": "isolated case workspaces; local distributions and prefetched CodeQL packs; OS page cache uncontrolled; warm only for explicit warm series",
+  "supersedes": null,
+  "exit_code": 1,
+  "end_utc": "2026-09-16T09:42:44.575720+00:00",
+  "stdout": {
+    "path": "reports/releases/v0.8.0/attempts/codeql-ruby-kernel-attempt-01/stdout.txt",
+    "sha256": "8640cbc0ead7e33ea9daffe20f1b124e557f8f09d8641aa26076556d7f18d36d"
+  },
+  "stderr": {
+    "path": "reports/releases/v0.8.0/attempts/codeql-ruby-kernel-attempt-01/stderr.txt",
+    "sha256": "615fec0fbb50d58cf42e10e3c539c0d17ce79803c1a6ee4710bc2858eaa86abc"
+  },
+  "outputs": [
+    {
+      "original_path": "reports/codeql-ruby-kernel.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-ruby-kernel-attempt-01/outputs/reports/codeql-ruby-kernel.json",
+      "sha256": "ab4d3845bfc536cd72b5a172c0e9443dff43fc32cea00d40fa28f4de39378c8f"
+    },
+    {
+      "original_path": "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-context-pair-depth2-negative-error.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-ruby-kernel-attempt-01/outputs/reports/raw/codeql-ruby-kernel/dfb-taint-ruby-context-pair-depth2-negative-error.json",
+      "sha256": "758c42a2f7aefea4b1aa5328f18f333dd0ae7b4b4d89e6fd2088a2e988a274c4"
+    },
+    {
+      "original_path": "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-call-context-positive-error.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-ruby-kernel-attempt-01/outputs/reports/raw/codeql-ruby-kernel/dfb-taint-ruby-call-context-positive-error.json",
+      "sha256": "7ccbab4c0fb4ef7f887d79bd1099ef8212a17d3931647a175ce729452c9d14e5"
+    },
+    {
+      "original_path": "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-recursive-heap-unwind-positive-error.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-ruby-kernel-attempt-01/outputs/reports/raw/codeql-ruby-kernel/dfb-taint-ruby-recursive-heap-unwind-positive-error.json",
+      "sha256": "6d39d514103a68075cf678e82caca00feca6c481dd145cf9e029dddeca14b742"
+    },
+    {
+      "original_path": "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-mutual-recursive-transform-positive-error.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-ruby-kernel-attempt-01/outputs/reports/raw/codeql-ruby-kernel/dfb-taint-ruby-mutual-recursive-transform-positive-error.json",
+      "sha256": "2d33bd4243eacb8a902d40f19b6c3603258c50268744618b0ffb9a9933705fdb"
+    },
+    {
+      "original_path": "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-argument-position-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-ruby-kernel-attempt-01/outputs/reports/raw/codeql-ruby-kernel/dfb-taint-ruby-argument-position-positive-timing.json",
+      "sha256": "af011f768c21bdd63c1b1f42bf33fadcead99ad6f3ed513aa979f680a9b8c12b"
+    },
+    {
+      "original_path": "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-closure-capture-negative-error.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-ruby-kernel-attempt-01/outputs/reports/raw/codeql-ruby-kernel/dfb-taint-ruby-closure-capture-negative-error.json",
+      "sha256": "a3822711a118a419a3e6c3903ec6f6e7add7e99bbe279538258b09fa692463b8"
+    },
+    {
+      "original_path": "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-map-iteration-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-ruby-kernel-attempt-01/outputs/reports/raw/codeql-ruby-kernel/dfb-taint-ruby-map-iteration-positive-timing.json",
+      "sha256": "09ccb9fbed43a27533d60d9eea9b5cd059b62d1e261f65ec94acf4be4711a1ca"
+    },
+    {
+      "original_path": "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-argument-position-positive-error.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-ruby-kernel-attempt-01/outputs/reports/raw/codeql-ruby-kernel/dfb-taint-ruby-argument-position-positive-error.json",
+      "sha256": "fb5fe6a23911f171b2b9b917a25b1933ebd75033dda1dd6955e573c52fd85b81"
+    },
+    {
+      "original_path": "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-local-chain-negative-error.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-ruby-kernel-attempt-01/outputs/reports/raw/codeql-ruby-kernel/dfb-taint-ruby-local-chain-negative-error.json",
+      "sha256": "545554779799bb0c7d138d84396ada137df0179d7c8de4e1204d06813284ff30"
+    },
+    {
+      "original_path": "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-infeasible-branch-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-ruby-kernel-attempt-01/outputs/reports/raw/codeql-ruby-kernel/dfb-taint-ruby-infeasible-branch-positive-timing.json",
+      "sha256": "280abad9d8fe840c6f9ae3b52ddb58934831d6e9f8224cd8073386f6298ddd3b"
+    },
+    {
+      "original_path": "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-recursive-payload-transform-positive-error.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-ruby-kernel-attempt-01/outputs/reports/raw/codeql-ruby-kernel/dfb-taint-ruby-recursive-payload-transform-positive-error.json",
+      "sha256": "30f77b89d65155f7e467636601e1103464f53a20852ac0236a086ab48322b069"
+    },
+    {
+      "original_path": "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-deep-relay-chain-positive-error.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-ruby-kernel-attempt-01/outputs/reports/raw/codeql-ruby-kernel/dfb-taint-ruby-deep-relay-chain-positive-error.json",
+      "sha256": "5a3def31e7a1fb86a206076607085f20b26d5ecef98069812bc13fdbe0ec25f0"
+    },
+    {
+      "original_path": "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-argument-position-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-ruby-kernel-attempt-01/outputs/reports/raw/codeql-ruby-kernel/dfb-taint-ruby-argument-position-negative-timing.json",
+      "sha256": "28292e37dd6556ca90d1ea33121cf274b86a9be0975ce182a68338c83572c57c"
+    },
+    {
+      "original_path": "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-same-object-field-negative-error.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-ruby-kernel-attempt-01/outputs/reports/raw/codeql-ruby-kernel/dfb-taint-ruby-same-object-field-negative-error.json",
+      "sha256": "2061a0189eb9c137db99a4faa13e96d8a9ea9c0e264838d63d14dee1d8c92496"
+    },
+    {
+      "original_path": "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-object-separation-negative-error.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-ruby-kernel-attempt-01/outputs/reports/raw/codeql-ruby-kernel/dfb-taint-ruby-object-separation-negative-error.json",
+      "sha256": "15b05c11d911a05097febb0fff2d71da429af791ec6ac0d89984f262cb5897db"
+    },
+    {
+      "original_path": "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-map-iteration-negative-error.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-ruby-kernel-attempt-01/outputs/reports/raw/codeql-ruby-kernel/dfb-taint-ruby-map-iteration-negative-error.json",
+      "sha256": "fea4d4eb57b745273bec500b07efd5a9f2373099991de46d9a7630b230f2ec46"
+    },
+    {
+      "original_path": "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-direct-negative-error.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-ruby-kernel-attempt-01/outputs/reports/raw/codeql-ruby-kernel/dfb-taint-ruby-direct-negative-error.json",
+      "sha256": "f6d01e6aadc6463f0d5c26aa0fdab04d523e4caa8df611ff79cf9c218ca4c068"
+    },
+    {
+      "original_path": "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-infeasible-branch-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-ruby-kernel-attempt-01/outputs/reports/raw/codeql-ruby-kernel/dfb-taint-ruby-infeasible-branch-negative-timing.json",
+      "sha256": "5f76938cb729cc1992a010daf3528a96c57a3108c53f49267a1b45fc1c968c3a"
+    },
+    {
+      "original_path": "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-reflective-invocation-negative-error.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-ruby-kernel-attempt-01/outputs/reports/raw/codeql-ruby-kernel/dfb-taint-ruby-reflective-invocation-negative-error.json",
+      "sha256": "2ef0288c910bae3ebce9fff859ff72d703afdcdaecd445ca085549ae9bf2e009"
+    },
+    {
+      "original_path": "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-infeasible-branch-positive-error.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-ruby-kernel-attempt-01/outputs/reports/raw/codeql-ruby-kernel/dfb-taint-ruby-infeasible-branch-positive-error.json",
+      "sha256": "070d0b24766ca6473490431023af6620b3ff05eaf1ef27d463bae696c55313e2"
+    },
+    {
+      "original_path": "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-interprocedural-exception-persistence-negative-error.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-ruby-kernel-attempt-01/outputs/reports/raw/codeql-ruby-kernel/dfb-taint-ruby-interprocedural-exception-persistence-negative-error.json",
+      "sha256": "6e7d22964e95caf42f0a7d20a66e4d4d700a31c91126b3e38a6ed988ec350608"
+    },
+    {
+      "original_path": "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-map-iteration-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-ruby-kernel-attempt-01/outputs/reports/raw/codeql-ruby-kernel/dfb-taint-ruby-map-iteration-negative-timing.json",
+      "sha256": "adcc7bb3ff2a232b55565d2f90b5cd5f1605e6624fbc9b53a51b8a8889bc7005"
+    },
+    {
+      "original_path": "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-element-object-positive-error.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-ruby-kernel-attempt-01/outputs/reports/raw/codeql-ruby-kernel/dfb-taint-ruby-element-object-positive-error.json",
+      "sha256": "e9924d4916dc0a5f79f2e82cf912162555edbf9990cf83b1f44f5c91f68edccb"
+    },
+    {
+      "original_path": "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-loop-carried-negative-error.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-ruby-kernel-attempt-01/outputs/reports/raw/codeql-ruby-kernel/dfb-taint-ruby-loop-carried-negative-error.json",
+      "sha256": "7054fdd70c8c557eb7946f9d240cda62d7a79f1f0d115a0ff3a3f8cd57544740"
+    },
+    {
+      "original_path": "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-function-field-negative-error.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-ruby-kernel-attempt-01/outputs/reports/raw/codeql-ruby-kernel/dfb-taint-ruby-function-field-negative-error.json",
+      "sha256": "9f55332ecbdfd6f5f8c568ab868ee8276f2df5b8641783b9241ec346ff95f4b3"
+    },
+    {
+      "original_path": "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-call-context-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-ruby-kernel-attempt-01/outputs/reports/raw/codeql-ruby-kernel/dfb-taint-ruby-call-context-negative-timing.json",
+      "sha256": "72aeeee0b5fc427a9d4628dfd614fe7d5e83b31965866869303a1c33ebe58976"
+    },
+    {
+      "original_path": "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-exception-catch-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-ruby-kernel-attempt-01/outputs/reports/raw/codeql-ruby-kernel/dfb-taint-ruby-exception-catch-negative-timing.json",
+      "sha256": "2c355f575e758c0a9616c0a27758acd6781862e25e3ec3c7330b64af2b0cdc39"
+    },
+    {
+      "original_path": "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-same-object-field-positive-error.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-ruby-kernel-attempt-01/outputs/reports/raw/codeql-ruby-kernel/dfb-taint-ruby-same-object-field-positive-error.json",
+      "sha256": "436f637bde5d1ff49176f7b91a81d3327c7c889f453d83ed45644d21c2f08b10"
+    },
+    {
+      "original_path": "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-map-iteration-positive-error.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-ruby-kernel-attempt-01/outputs/reports/raw/codeql-ruby-kernel/dfb-taint-ruby-map-iteration-positive-error.json",
+      "sha256": "87fbca5a3792c46a86e09dab168bce4bcdef7e5c249627ff39127c6663bb68df"
+    },
+    {
+      "original_path": "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-direct-positive-error.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-ruby-kernel-attempt-01/outputs/reports/raw/codeql-ruby-kernel/dfb-taint-ruby-direct-positive-error.json",
+      "sha256": "9c86acfc921eea4219bfc066b5c872a873ef9bc762503e23234f4d0b6ed8ed70"
+    },
+    {
+      "original_path": "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-branch-join-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-ruby-kernel-attempt-01/outputs/reports/raw/codeql-ruby-kernel/dfb-taint-ruby-branch-join-positive-timing.json",
+      "sha256": "c84c567a91d1868e42de7e005ecc0fceda4eb79a55d5babcf79813070af106e1"
+    },
+    {
+      "original_path": "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-interprocedural-exception-persistence-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-ruby-kernel-attempt-01/outputs/reports/raw/codeql-ruby-kernel/dfb-taint-ruby-interprocedural-exception-persistence-negative-timing.json",
+      "sha256": "23eb35a6da8f01cb0061d9ec4b23002d0e03fabb085b3221cc69008ad8126201"
+    },
+    {
+      "original_path": "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-object-separation-positive-error.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-ruby-kernel-attempt-01/outputs/reports/raw/codeql-ruby-kernel/dfb-taint-ruby-object-separation-positive-error.json",
+      "sha256": "1d8a06967ce67fec82f2d86e95a0d3d97e5f90f489fd7ec6042de76d0c906920"
+    },
+    {
+      "original_path": "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-reflective-invocation-positive-error.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-ruby-kernel-attempt-01/outputs/reports/raw/codeql-ruby-kernel/dfb-taint-ruby-reflective-invocation-positive-error.json",
+      "sha256": "376eda7b7deaf4ddd721a8bec334d002bd9beac24c67f49f119c4c22bb47520e"
+    },
+    {
+      "original_path": "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-infeasible-branch-negative-error.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-ruby-kernel-attempt-01/outputs/reports/raw/codeql-ruby-kernel/dfb-taint-ruby-infeasible-branch-negative-error.json",
+      "sha256": "486bc8ee08a2ae10b20380e13903ea6813f9073296ab54617720bc4fe587c15a"
+    },
+    {
+      "original_path": "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-interprocedural-exception-persistence-positive-error.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-ruby-kernel-attempt-01/outputs/reports/raw/codeql-ruby-kernel/dfb-taint-ruby-interprocedural-exception-persistence-positive-error.json",
+      "sha256": "3c68d1b65cf814ae270a65be314b0f81a16d3a02720d11cd9aa0bccc7b204cbb"
+    },
+    {
+      "original_path": "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-recursive-exception-persistence-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-ruby-kernel-attempt-01/outputs/reports/raw/codeql-ruby-kernel/dfb-taint-ruby-recursive-exception-persistence-positive-timing.json",
+      "sha256": "c59f0d1213ec0a508892b38031a023417b97903b87e69f204c5e3d4e05e7e427"
+    },
+    {
+      "original_path": "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-function-field-positive-error.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-ruby-kernel-attempt-01/outputs/reports/raw/codeql-ruby-kernel/dfb-taint-ruby-function-field-positive-error.json",
+      "sha256": "aa34df1af6f2cbd0efa251aa2ee16e8e49f412f07365ff99737411d1f7940a4d"
+    },
+    {
+      "original_path": "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-element-object-negative-error.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-ruby-kernel-attempt-01/outputs/reports/raw/codeql-ruby-kernel/dfb-taint-ruby-element-object-negative-error.json",
+      "sha256": "8cc03269eed26ea95aaa6932503ac5cccda3642bc1dd3fcac812715bb3eb0bcb"
+    },
+    {
+      "original_path": "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-loop-carried-positive-error.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-ruby-kernel-attempt-01/outputs/reports/raw/codeql-ruby-kernel/dfb-taint-ruby-loop-carried-positive-error.json",
+      "sha256": "30b3c53d9656a03b9421a86cfba337fb6ea368a25bf5861951419a7fcb3ff13d"
+    },
+    {
+      "original_path": "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-interprocedural-exception-persistence-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-ruby-kernel-attempt-01/outputs/reports/raw/codeql-ruby-kernel/dfb-taint-ruby-interprocedural-exception-persistence-positive-timing.json",
+      "sha256": "34d761c58feac4bd9957ecb5c8468505804d7e16ba13ce815ef4c3327f7c4742"
+    },
+    {
+      "original_path": "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-context-pair-depth2-positive-error.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-ruby-kernel-attempt-01/outputs/reports/raw/codeql-ruby-kernel/dfb-taint-ruby-context-pair-depth2-positive-error.json",
+      "sha256": "b7ae28d7bdf5ba9c0bcca1bde6368c6196419bac541a3f35770b32af6ead3bb6"
+    },
+    {
+      "original_path": "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-branch-join-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-ruby-kernel-attempt-01/outputs/reports/raw/codeql-ruby-kernel/dfb-taint-ruby-branch-join-negative-timing.json",
+      "sha256": "97d5a3a3415abd9d8c71a079c9edea30dd214d11899f85636f44066bae02d3b2"
+    },
+    {
+      "original_path": "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-call-context-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-ruby-kernel-attempt-01/outputs/reports/raw/codeql-ruby-kernel/dfb-taint-ruby-call-context-positive-timing.json",
+      "sha256": "7add338692f541983b8078dc4c733357fdd7f1ddefdc90e0131eb4e96a2c347e"
+    },
+    {
+      "original_path": "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-mutual-recursive-transform-negative-error.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-ruby-kernel-attempt-01/outputs/reports/raw/codeql-ruby-kernel/dfb-taint-ruby-mutual-recursive-transform-negative-error.json",
+      "sha256": "69d141cb110da50bc4f729db71b1abfa58900e9f4153ba47b60a111967fed405"
+    },
+    {
+      "original_path": "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-exception-catch-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-ruby-kernel-attempt-01/outputs/reports/raw/codeql-ruby-kernel/dfb-taint-ruby-exception-catch-positive-timing.json",
+      "sha256": "ba9881826661925b09948fd9a1130eb0d6441bbf6397339dbdb5d7f0990aa180"
+    },
+    {
+      "original_path": "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-call-context-negative-error.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-ruby-kernel-attempt-01/outputs/reports/raw/codeql-ruby-kernel/dfb-taint-ruby-call-context-negative-error.json",
+      "sha256": "48373c8c1f21c7e24caeb4d060651bbc90c34ba9d0cb2b120798ceb67526da18"
+    },
+    {
+      "original_path": "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-recursive-heap-unwind-negative-error.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-ruby-kernel-attempt-01/outputs/reports/raw/codeql-ruby-kernel/dfb-taint-ruby-recursive-heap-unwind-negative-error.json",
+      "sha256": "f2dace39710a6cd605aea0c1d1a6196fa621c870c80e1f66435c3e5449f8efda"
+    },
+    {
+      "original_path": "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-recursive-exception-persistence-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-ruby-kernel-attempt-01/outputs/reports/raw/codeql-ruby-kernel/dfb-taint-ruby-recursive-exception-persistence-negative-timing.json",
+      "sha256": "9b4b78c2fdf9964e7e3b470b8be3a51b0d48d74ba36eda3c6ba88747ddb10644"
+    },
+    {
+      "original_path": "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-closure-capture-positive-error.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-ruby-kernel-attempt-01/outputs/reports/raw/codeql-ruby-kernel/dfb-taint-ruby-closure-capture-positive-error.json",
+      "sha256": "fce693e297644e28e9e6f3286b3045f0beec305309f5bc17782dfb0866d8e82b"
+    },
+    {
+      "original_path": "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-local-chain-positive-error.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-ruby-kernel-attempt-01/outputs/reports/raw/codeql-ruby-kernel/dfb-taint-ruby-local-chain-positive-error.json",
+      "sha256": "a386067791fec2be2590c94c066c6bf2c3adf1db4f86d8853c8afbe45858ef2e"
+    },
+    {
+      "original_path": "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-argument-position-negative-error.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-ruby-kernel-attempt-01/outputs/reports/raw/codeql-ruby-kernel/dfb-taint-ruby-argument-position-negative-error.json",
+      "sha256": "4e618f431d881f2a3030380121490d2f8d4b2308364dabb5f8cdd49997f481cc"
+    },
+    {
+      "original_path": "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-recursive-payload-transform-negative-error.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-ruby-kernel-attempt-01/outputs/reports/raw/codeql-ruby-kernel/dfb-taint-ruby-recursive-payload-transform-negative-error.json",
+      "sha256": "309f42faa4ccab80ccc9f8072e3c8eb740506a1d11ef687372154c69dd3afc01"
+    },
+    {
+      "original_path": "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-deep-relay-chain-negative-error.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-ruby-kernel-attempt-01/outputs/reports/raw/codeql-ruby-kernel/dfb-taint-ruby-deep-relay-chain-negative-error.json",
+      "sha256": "acd942fdba5a0b2588a42693d2fbfe356de01d538b0a3bb2f6b64a703273c127"
+    },
+    {
+      "original_path": "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-same-object-field-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-ruby-kernel-attempt-01/outputs/reports/raw/codeql-ruby-kernel/dfb-taint-ruby-same-object-field-negative-timing.json",
+      "sha256": "ad168e2cb4e42dd8bfeeec38b330905e583609fd23d898e67087bdcba763948f"
+    },
+    {
+      "original_path": "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-nested-access-path-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-ruby-kernel-attempt-01/outputs/reports/raw/codeql-ruby-kernel/dfb-taint-ruby-nested-access-path-positive-timing.json",
+      "sha256": "fa39ca589c8f72c86d62b1b6ee7681d22d4784f13c38b06b40b8cf56abcf98a7"
+    },
+    {
+      "original_path": "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-object-separation-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-ruby-kernel-attempt-01/outputs/reports/raw/codeql-ruby-kernel/dfb-taint-ruby-object-separation-negative-timing.json",
+      "sha256": "b081e4682211081de4c725e85db9ce7a95b478d3bc6281ca644e9cc954b0415a"
+    },
+    {
+      "original_path": "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-computed-property-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-ruby-kernel-attempt-01/outputs/reports/raw/codeql-ruby-kernel/dfb-taint-ruby-computed-property-positive-timing.json",
+      "sha256": "7f56f5b35fa53d83ede2e337091573334cb7077d975b2fc1efe94e837a1ea746"
+    },
+    {
+      "original_path": "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-recursive-callback-transform-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-ruby-kernel-attempt-01/outputs/reports/raw/codeql-ruby-kernel/dfb-taint-ruby-recursive-callback-transform-negative-timing.json",
+      "sha256": "b75bc60b8504b975aa6220bdd91d6cfb71306c5a33c29f41c2f61d5a14f47c3f"
+    },
+    {
+      "original_path": "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-return-relay-one-hop-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-ruby-kernel-attempt-01/outputs/reports/raw/codeql-ruby-kernel/dfb-taint-ruby-return-relay-one-hop-negative-timing.json",
+      "sha256": "c2ae6c90af5f7797af76f68eede2b39ee09b33803f251577249ccbeab4c1d176"
+    },
+    {
+      "original_path": "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-recursive-callback-transform-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-ruby-kernel-attempt-01/outputs/reports/raw/codeql-ruby-kernel/dfb-taint-ruby-recursive-callback-transform-positive-timing.json",
+      "sha256": "8e488e7e32cbe812d2bd7cce6f173043d583687a4999b3f63082ad4afffd5c68"
+    },
+    {
+      "original_path": "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-return-relay-one-hop-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-ruby-kernel-attempt-01/outputs/reports/raw/codeql-ruby-kernel/dfb-taint-ruby-return-relay-one-hop-positive-timing.json",
+      "sha256": "d7d5d5805eb1a88f448ed398271d8afc6fea52c736694f83b895ee88360a88b8"
+    },
+    {
+      "original_path": "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-nested-access-path-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-ruby-kernel-attempt-01/outputs/reports/raw/codeql-ruby-kernel/dfb-taint-ruby-nested-access-path-negative-timing.json",
+      "sha256": "e0cfb6dc69ae5d9b76f16d43257efc9b08b6026dda54db8b1c993b2f4459d3cf"
+    },
+    {
+      "original_path": "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-same-object-field-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-ruby-kernel-attempt-01/outputs/reports/raw/codeql-ruby-kernel/dfb-taint-ruby-same-object-field-positive-timing.json",
+      "sha256": "1c66f32e91a3c4c374a370104b9722250d9ecd118d5fe3f224e11bf6f01e0265"
+    },
+    {
+      "original_path": "reports/raw/codeql-ruby-kernel/run-environment.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-ruby-kernel-attempt-01/outputs/reports/raw/codeql-ruby-kernel/run-environment.json",
+      "sha256": "5057a6b0f156e8e3e67dcfcdc91a193f28cff7975c4391d67c49c1f7fc5c7110"
+    },
+    {
+      "original_path": "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-callback-registration-positive-error.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-ruby-kernel-attempt-01/outputs/reports/raw/codeql-ruby-kernel/dfb-taint-ruby-callback-registration-positive-error.json",
+      "sha256": "1083c537318fbb7b824011d4f4dbda7e8469e0c75e898f8271c6118733364200"
+    },
+    {
+      "original_path": "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-object-separation-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-ruby-kernel-attempt-01/outputs/reports/raw/codeql-ruby-kernel/dfb-taint-ruby-object-separation-positive-timing.json",
+      "sha256": "a6021a371bc0ccbcb27f7efb4511abb5a28d176b28c5e51d65829446f1a98e67"
+    },
+    {
+      "original_path": "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-computed-property-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-ruby-kernel-attempt-01/outputs/reports/raw/codeql-ruby-kernel/dfb-taint-ruby-computed-property-negative-timing.json",
+      "sha256": "2b67b163dec70a28d3c979a6083013b2b78077ef21b43189a4b4bdfda09a2ec8"
+    },
+    {
+      "original_path": "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-array-element-negative-error.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-ruby-kernel-attempt-01/outputs/reports/raw/codeql-ruby-kernel/dfb-taint-ruby-array-element-negative-error.json",
+      "sha256": "b5db4b22b2ebb16380d91add333d5c61c13e6610e37d6ba7c3ba23d05fa99415"
+    },
+    {
+      "original_path": "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-recursive-exception-persistence-negative-error.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-ruby-kernel-attempt-01/outputs/reports/raw/codeql-ruby-kernel/dfb-taint-ruby-recursive-exception-persistence-negative-error.json",
+      "sha256": "9d90612065f911291a3844dfdec3f4894df19b31df0f7655b750fd9758079029"
+    },
+    {
+      "original_path": "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-return-relay-one-hop-negative-error.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-ruby-kernel-attempt-01/outputs/reports/raw/codeql-ruby-kernel/dfb-taint-ruby-return-relay-one-hop-negative-error.json",
+      "sha256": "2b35f469a45522b05f52e1c8847c4d80c5dc1a198bf34a3962cdbf49ef4e0030"
+    },
+    {
+      "original_path": "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-recursive-exception-persistence-positive-error.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-ruby-kernel-attempt-01/outputs/reports/raw/codeql-ruby-kernel/dfb-taint-ruby-recursive-exception-persistence-positive-error.json",
+      "sha256": "bef863dcb4b711764d30db9f17f317d26b77ca47f7b32168bb066dd39410291c"
+    },
+    {
+      "original_path": "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-callback-registration-negative-error.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-ruby-kernel-attempt-01/outputs/reports/raw/codeql-ruby-kernel/dfb-taint-ruby-callback-registration-negative-error.json",
+      "sha256": "68281d0f463203426275170335e92114c45229f71d7f04d8be1878193929c297"
+    },
+    {
+      "original_path": "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-alias-propagation-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-ruby-kernel-attempt-01/outputs/reports/raw/codeql-ruby-kernel/dfb-taint-ruby-alias-propagation-positive-timing.json",
+      "sha256": "f321b36de0a762e28c4553097678678a099c2977e48e4cc172e16b05e4ad5dcc"
+    },
+    {
+      "original_path": "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-array-element-positive-error.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-ruby-kernel-attempt-01/outputs/reports/raw/codeql-ruby-kernel/dfb-taint-ruby-array-element-positive-error.json",
+      "sha256": "6fd46a4625aeed6a44d2340f25ab657528edf3f8365abe0764465cda93bb7937"
+    },
+    {
+      "original_path": "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-return-relay-one-hop-positive-error.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-ruby-kernel-attempt-01/outputs/reports/raw/codeql-ruby-kernel/dfb-taint-ruby-return-relay-one-hop-positive-error.json",
+      "sha256": "dd8a70ef5506f60933d97ee8948b63e49eb6c898c05d2943f119122e3f4892a4"
+    },
+    {
+      "original_path": "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-callback-registration-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-ruby-kernel-attempt-01/outputs/reports/raw/codeql-ruby-kernel/dfb-taint-ruby-callback-registration-positive-timing.json",
+      "sha256": "cc91d667303f475a2a3030459546a42c7cb3e1350dec50fe7ba7d5761812613d"
+    },
+    {
+      "original_path": "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-arithmetic-expression-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-ruby-kernel-attempt-01/outputs/reports/raw/codeql-ruby-kernel/dfb-taint-ruby-arithmetic-expression-negative-timing.json",
+      "sha256": "408ac401ffc570f72b85a4194c0ee8e1e248ff20a08942ede9bcdde1cdd8bbbb"
+    },
+    {
+      "original_path": "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-alias-propagation-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-ruby-kernel-attempt-01/outputs/reports/raw/codeql-ruby-kernel/dfb-taint-ruby-alias-propagation-negative-timing.json",
+      "sha256": "3e075b257662cb45b81b532a0fcc2642a16d3a14da7cef6244d215daefab84bd"
+    },
+    {
+      "original_path": "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-arithmetic-expression-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-ruby-kernel-attempt-01/outputs/reports/raw/codeql-ruby-kernel/dfb-taint-ruby-arithmetic-expression-positive-timing.json",
+      "sha256": "72c05fd2bc0f10ab9629d72bb287c8238e260cd05680e8557cd6dbb666343984"
+    },
+    {
+      "original_path": "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-callback-registration-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-ruby-kernel-attempt-01/outputs/reports/raw/codeql-ruby-kernel/dfb-taint-ruby-callback-registration-negative-timing.json",
+      "sha256": "c8fd6107e6c60030d9881073b3d81c0dcdc6522b8131451858892c4a86bfb119"
+    },
+    {
+      "original_path": "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-array-element-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-ruby-kernel-attempt-01/outputs/reports/raw/codeql-ruby-kernel/dfb-taint-ruby-array-element-positive-timing.json",
+      "sha256": "2c77d98395196d7b5391dd15dacb70498bf7f415146b5d8b2e449c0698970cab"
+    },
+    {
+      "original_path": "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-anonymous-implementation-negative-error.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-ruby-kernel-attempt-01/outputs/reports/raw/codeql-ruby-kernel/dfb-taint-ruby-anonymous-implementation-negative-error.json",
+      "sha256": "dc6f45d8bee36782aa59601f731eca503876fbc21b682a8f58f57d987210faac"
+    },
+    {
+      "original_path": "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-context-pair-depth2-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-ruby-kernel-attempt-01/outputs/reports/raw/codeql-ruby-kernel/dfb-taint-ruby-context-pair-depth2-positive-timing.json",
+      "sha256": "c86ba36e429cb0f5dfb1e7c3a5d0ea88353dce6cc68f6df55f7da755f1521f8e"
+    },
+    {
+      "original_path": "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-alias-propagation-positive-error.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-ruby-kernel-attempt-01/outputs/reports/raw/codeql-ruby-kernel/dfb-taint-ruby-alias-propagation-positive-error.json",
+      "sha256": "82e852ea8742e8a6887f2cc20a05ecc9447437f4f69b54f51d854874c26f1f6a"
+    },
+    {
+      "original_path": "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-direct-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-ruby-kernel-attempt-01/outputs/reports/raw/codeql-ruby-kernel/dfb-taint-ruby-direct-negative-timing.json",
+      "sha256": "d315fe455fbd78914bb6ace04a196fb50b93e79b45197ec0b906c4516c1849e2"
+    },
+    {
+      "original_path": "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-loop-carried-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-ruby-kernel-attempt-01/outputs/reports/raw/codeql-ruby-kernel/dfb-taint-ruby-loop-carried-negative-timing.json",
+      "sha256": "b57144b1e8e0f5709037c1645c5c3c4ff3ee0b0451c90266b216a2084f3b689f"
+    },
+    {
+      "original_path": "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-mutual-recursive-transform-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-ruby-kernel-attempt-01/outputs/reports/raw/codeql-ruby-kernel/dfb-taint-ruby-mutual-recursive-transform-positive-timing.json",
+      "sha256": "07fe9ea8fd13dff0a16db7339b305fc12fe552a0a170493c4414e5605b633e86"
+    },
+    {
+      "original_path": "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-closure-capture-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-ruby-kernel-attempt-01/outputs/reports/raw/codeql-ruby-kernel/dfb-taint-ruby-closure-capture-positive-timing.json",
+      "sha256": "552a54a2db1cc122584af8f56ab3677b7aff63e8a5183ba330ab447be6f6706d"
+    },
+    {
+      "original_path": "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-local-overwrite-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-ruby-kernel-attempt-01/outputs/reports/raw/codeql-ruby-kernel/dfb-taint-ruby-local-overwrite-positive-timing.json",
+      "sha256": "b5e136d96c8d05ab9fecdd1a167e9f6e0bb60819b6afea5f39986e6b6b93ff54"
+    },
+    {
+      "original_path": "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-recursive-payload-transform-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-ruby-kernel-attempt-01/outputs/reports/raw/codeql-ruby-kernel/dfb-taint-ruby-recursive-payload-transform-negative-timing.json",
+      "sha256": "791700bc16a4fc003e6f99decc94b9e7e599a273665e261d1b6b75a841d69430"
+    },
+    {
+      "original_path": "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-return-relay-two-hop-negative-error.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-ruby-kernel-attempt-01/outputs/reports/raw/codeql-ruby-kernel/dfb-taint-ruby-return-relay-two-hop-negative-error.json",
+      "sha256": "43e287f03a4a6272aa5f9bab6c5b19e9fc4563c073f07b441fd792bd20dbf0d9"
+    },
+    {
+      "original_path": "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-context-pair-depth2-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-ruby-kernel-attempt-01/outputs/reports/raw/codeql-ruby-kernel/dfb-taint-ruby-context-pair-depth2-negative-timing.json",
+      "sha256": "948b47c2a336f5d3f833fafd2e116e73ae22eb8eb34f12fd7dc3382ecb3561b1"
+    },
+    {
+      "original_path": "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-branch-join-negative-error.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-ruby-kernel-attempt-01/outputs/reports/raw/codeql-ruby-kernel/dfb-taint-ruby-branch-join-negative-error.json",
+      "sha256": "07d4cb7b263321e3f5854a66515e02fbcdba9321ed2237474bdb6b06a9ac090a"
+    },
+    {
+      "original_path": "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-recursive-carry-negative-error.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-ruby-kernel-attempt-01/outputs/reports/raw/codeql-ruby-kernel/dfb-taint-ruby-recursive-carry-negative-error.json",
+      "sha256": "0d655dfc35ae55e52bfdfde4dac8e11649c4a46d478d4f6fd489ce32bf1735b2"
+    },
+    {
+      "original_path": "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-array-element-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-ruby-kernel-attempt-01/outputs/reports/raw/codeql-ruby-kernel/dfb-taint-ruby-array-element-negative-timing.json",
+      "sha256": "f1260e2f75ef0db9126bef55836e68426ca37658e2d54bf90426e2862de3ab25"
+    },
+    {
+      "original_path": "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-local-overwrite-negative-error.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-ruby-kernel-attempt-01/outputs/reports/raw/codeql-ruby-kernel/dfb-taint-ruby-local-overwrite-negative-error.json",
+      "sha256": "ad36e2197aa344f2d35e7ff45039ed2080361094d3029caa8377c1c003b34168"
+    },
+    {
+      "original_path": "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-local-overwrite-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-ruby-kernel-attempt-01/outputs/reports/raw/codeql-ruby-kernel/dfb-taint-ruby-local-overwrite-negative-timing.json",
+      "sha256": "c4eaab9970a701aacacde8ca7e52f742894fd31760d27e4a504730939dfdb458"
+    },
+    {
+      "original_path": "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-dispatch-table-positive-error.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-ruby-kernel-attempt-01/outputs/reports/raw/codeql-ruby-kernel/dfb-taint-ruby-dispatch-table-positive-error.json",
+      "sha256": "4dcb2ca23f307c171da02ce6d34ef8d2b268232ba09fe73ebcabe44c71cc857a"
+    },
+    {
+      "original_path": "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-recursive-payload-transform-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-ruby-kernel-attempt-01/outputs/reports/raw/codeql-ruby-kernel/dfb-taint-ruby-recursive-payload-transform-positive-timing.json",
+      "sha256": "f550291853978680abab97f103ac3f47cf55ee663e5665f8b75719b1b5f3d174"
+    },
+    {
+      "original_path": "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-closure-capture-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-ruby-kernel-attempt-01/outputs/reports/raw/codeql-ruby-kernel/dfb-taint-ruby-closure-capture-negative-timing.json",
+      "sha256": "697aac9f241c781c52c43819d4984800ebee40f4c32448cad84fc3ca1d4eb64f"
+    },
+    {
+      "original_path": "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-mutual-recursive-transform-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-ruby-kernel-attempt-01/outputs/reports/raw/codeql-ruby-kernel/dfb-taint-ruby-mutual-recursive-transform-negative-timing.json",
+      "sha256": "36661c62c8b999e905a559011ab658ae48146ae296559041dc9c1341c020f7e1"
+    },
+    {
+      "original_path": "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-arithmetic-expression-negative-error.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-ruby-kernel-attempt-01/outputs/reports/raw/codeql-ruby-kernel/dfb-taint-ruby-arithmetic-expression-negative-error.json",
+      "sha256": "7cd145ba5375b51edc025c2052ebd0e51afd5539890f1273bb73c6079363c14a"
+    },
+    {
+      "original_path": "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-loop-carried-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-ruby-kernel-attempt-01/outputs/reports/raw/codeql-ruby-kernel/dfb-taint-ruby-loop-carried-positive-timing.json",
+      "sha256": "bcd7387b9382b1bbc20dddadffd20f97a3823ea72f5600d55dc80aa326377ff0"
+    },
+    {
+      "original_path": "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-direct-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-ruby-kernel-attempt-01/outputs/reports/raw/codeql-ruby-kernel/dfb-taint-ruby-direct-positive-timing.json",
+      "sha256": "4f659f39c418b10b294a8939d53c1e66998957b0afbd61e5677b55fcb080afa8"
+    },
+    {
+      "original_path": "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-branch-join-positive-error.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-ruby-kernel-attempt-01/outputs/reports/raw/codeql-ruby-kernel/dfb-taint-ruby-branch-join-positive-error.json",
+      "sha256": "a4b8fed90d3bc3b229502c6334917bc3008924b1b6f6454756c3f89d31256af0"
+    },
+    {
+      "original_path": "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-element-object-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-ruby-kernel-attempt-01/outputs/reports/raw/codeql-ruby-kernel/dfb-taint-ruby-element-object-positive-timing.json",
+      "sha256": "e9a15abee7ee311cd0fded2e8a8add46b3b4ce3a859b3f367d73d0207f0b0b9f"
+    },
+    {
+      "original_path": "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-local-overwrite-positive-error.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-ruby-kernel-attempt-01/outputs/reports/raw/codeql-ruby-kernel/dfb-taint-ruby-local-overwrite-positive-error.json",
+      "sha256": "9480455fb31e19bcdffeacae8c1b90e5d91a242d72d57cb8d0ee57153cf39de3"
+    },
+    {
+      "original_path": "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-recursive-carry-positive-error.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-ruby-kernel-attempt-01/outputs/reports/raw/codeql-ruby-kernel/dfb-taint-ruby-recursive-carry-positive-error.json",
+      "sha256": "443fedb56432dbcf75ce14b59dee61a0a9699c728380fc52bd6d2794d8e18cd9"
+    },
+    {
+      "original_path": "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-anonymous-implementation-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-ruby-kernel-attempt-01/outputs/reports/raw/codeql-ruby-kernel/dfb-taint-ruby-anonymous-implementation-negative-timing.json",
+      "sha256": "f2fd6b4dc554c44ca5879f8a484b40c7ef654de00fe1f2e16383de4f381c7be3"
+    },
+    {
+      "original_path": "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-recursive-heap-unwind-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-ruby-kernel-attempt-01/outputs/reports/raw/codeql-ruby-kernel/dfb-taint-ruby-recursive-heap-unwind-negative-timing.json",
+      "sha256": "26da1fa54a50ebe8558b0b5ffb94cc83badc4ebddc6370b64ceac201895acbf3"
+    },
+    {
+      "original_path": "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-dispatch-table-negative-error.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-ruby-kernel-attempt-01/outputs/reports/raw/codeql-ruby-kernel/dfb-taint-ruby-dispatch-table-negative-error.json",
+      "sha256": "2206776e6b2a47467e7fe2869037c0d26dd1c7a8ee9c9990cd5716e624d3f9b6"
+    },
+    {
+      "original_path": "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-recursive-carry-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-ruby-kernel-attempt-01/outputs/reports/raw/codeql-ruby-kernel/dfb-taint-ruby-recursive-carry-negative-timing.json",
+      "sha256": "6b95b8c75ce8c9e5b533bac3806448eab47e8326068df19dc77344fa4e8d6f45"
+    },
+    {
+      "original_path": "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-reflective-invocation-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-ruby-kernel-attempt-01/outputs/reports/raw/codeql-ruby-kernel/dfb-taint-ruby-reflective-invocation-negative-timing.json",
+      "sha256": "b32d5f9cc4943231dfbf8f409e9ecd2e5cec02df91b491f5d25d30caec40e610"
+    },
+    {
+      "original_path": "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-deep-relay-chain-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-ruby-kernel-attempt-01/outputs/reports/raw/codeql-ruby-kernel/dfb-taint-ruby-deep-relay-chain-negative-timing.json",
+      "sha256": "0c26e4e6c0fcd683700bb530c19b61bc09834cd7d00aa9bb57a6df7c3102a0b1"
+    },
+    {
+      "original_path": "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-arithmetic-expression-positive-error.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-ruby-kernel-attempt-01/outputs/reports/raw/codeql-ruby-kernel/dfb-taint-ruby-arithmetic-expression-positive-error.json",
+      "sha256": "0b166b93279316a5343527d022b05634df9e5f7ed2bcb185c3a23024867dc9c6"
+    },
+    {
+      "original_path": "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-anonymous-implementation-positive-error.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-ruby-kernel-attempt-01/outputs/reports/raw/codeql-ruby-kernel/dfb-taint-ruby-anonymous-implementation-positive-error.json",
+      "sha256": "8daed7a138af37f21ad0a861085b9acaa475ccc56d94517a589b3f268e70efef"
+    },
+    {
+      "original_path": "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-element-object-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-ruby-kernel-attempt-01/outputs/reports/raw/codeql-ruby-kernel/dfb-taint-ruby-element-object-negative-timing.json",
+      "sha256": "cec0ced2ac5271850a30004ddf74fb554e76bfcce268e200fa144186a84a97a3"
+    },
+    {
+      "original_path": "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-alias-propagation-negative-error.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-ruby-kernel-attempt-01/outputs/reports/raw/codeql-ruby-kernel/dfb-taint-ruby-alias-propagation-negative-error.json",
+      "sha256": "86549d7a929e0b2ec360c49e4e18444667748863819fbffc7455b9d890de7a7a"
+    },
+    {
+      "original_path": "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-deep-relay-chain-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-ruby-kernel-attempt-01/outputs/reports/raw/codeql-ruby-kernel/dfb-taint-ruby-deep-relay-chain-positive-timing.json",
+      "sha256": "fc152793772f24bc9fc6f534cc943c269f6b6853c54cf16a6e83ba432770e4a6"
+    },
+    {
+      "original_path": "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-reflective-invocation-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-ruby-kernel-attempt-01/outputs/reports/raw/codeql-ruby-kernel/dfb-taint-ruby-reflective-invocation-positive-timing.json",
+      "sha256": "2a5d4248e7125f79893396d905a489fa8aad08c6549b49eaa10d530d03bbaba8"
+    },
+    {
+      "original_path": "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-recursive-carry-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-ruby-kernel-attempt-01/outputs/reports/raw/codeql-ruby-kernel/dfb-taint-ruby-recursive-carry-positive-timing.json",
+      "sha256": "c8172203932b416f276838172c60e57cfe26208a32beb4e9eea24d4cac4cbfde"
+    },
+    {
+      "original_path": "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-return-relay-two-hop-positive-error.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-ruby-kernel-attempt-01/outputs/reports/raw/codeql-ruby-kernel/dfb-taint-ruby-return-relay-two-hop-positive-error.json",
+      "sha256": "2e764496088f0e6d041b8283f3bf51a3004dbf021f09f6a15fec5b7ebb501034"
+    },
+    {
+      "original_path": "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-anonymous-implementation-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-ruby-kernel-attempt-01/outputs/reports/raw/codeql-ruby-kernel/dfb-taint-ruby-anonymous-implementation-positive-timing.json",
+      "sha256": "7c4e528e11b96f6fd0b50b3706b764902afdbdf6fe935a737d1433587e8be72d"
+    },
+    {
+      "original_path": "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-recursive-heap-unwind-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-ruby-kernel-attempt-01/outputs/reports/raw/codeql-ruby-kernel/dfb-taint-ruby-recursive-heap-unwind-positive-timing.json",
+      "sha256": "c644142fa0f83f201dbea58f74cff83357e8ff52aea8580110ae4851c3250177"
+    },
+    {
+      "original_path": "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-local-chain-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-ruby-kernel-attempt-01/outputs/reports/raw/codeql-ruby-kernel/dfb-taint-ruby-local-chain-positive-timing.json",
+      "sha256": "1e1c0f94cea5aa59fc970b4cc4fa78e1474c03058c139f4367589234cc86e59a"
+    },
+    {
+      "original_path": "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-return-relay-two-hop-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-ruby-kernel-attempt-01/outputs/reports/raw/codeql-ruby-kernel/dfb-taint-ruby-return-relay-two-hop-negative-timing.json",
+      "sha256": "5742fa09aa5f68aaa290fbab856a483419829a3bcca88396bb01fa4e79968bb5"
+    },
+    {
+      "original_path": "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-exception-catch-positive-error.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-ruby-kernel-attempt-01/outputs/reports/raw/codeql-ruby-kernel/dfb-taint-ruby-exception-catch-positive-error.json",
+      "sha256": "d59256983d4888817fb936d31c3c4058c77b2bb0338d4290594f1825aa028417"
+    },
+    {
+      "original_path": "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-recursive-callback-transform-positive-error.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-ruby-kernel-attempt-01/outputs/reports/raw/codeql-ruby-kernel/dfb-taint-ruby-recursive-callback-transform-positive-error.json",
+      "sha256": "3b84693dc8bd071b68d3f3376901ff74695c13eaae1f3f4688233e9270135586"
+    },
+    {
+      "original_path": "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-return-relay-two-hop-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-ruby-kernel-attempt-01/outputs/reports/raw/codeql-ruby-kernel/dfb-taint-ruby-return-relay-two-hop-positive-timing.json",
+      "sha256": "12333d2784a5dde4223b01172e34adf571f5915b2478f292a0726725b8520298"
+    },
+    {
+      "original_path": "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-local-chain-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-ruby-kernel-attempt-01/outputs/reports/raw/codeql-ruby-kernel/dfb-taint-ruby-local-chain-negative-timing.json",
+      "sha256": "5be2689b813bfe5be0dfcd529d86d8e381123f27bc27bd085de7290df490cbe3"
+    },
+    {
+      "original_path": "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-nested-access-path-positive-error.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-ruby-kernel-attempt-01/outputs/reports/raw/codeql-ruby-kernel/dfb-taint-ruby-nested-access-path-positive-error.json",
+      "sha256": "c6c25a45652f23f64d865a590d84635e3b0c853f36737a1be64ab54c421ecd41"
+    },
+    {
+      "original_path": "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-computed-property-negative-error.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-ruby-kernel-attempt-01/outputs/reports/raw/codeql-ruby-kernel/dfb-taint-ruby-computed-property-negative-error.json",
+      "sha256": "6ed1e7365302cda6c7743e1ed2c25adddd88c7b866f7539ff61ed668a46feeb9"
+    },
+    {
+      "original_path": "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-nested-access-path-negative-error.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-ruby-kernel-attempt-01/outputs/reports/raw/codeql-ruby-kernel/dfb-taint-ruby-nested-access-path-negative-error.json",
+      "sha256": "bb5718134f8cdac0e7ee755e2567e87f952873c1afc0b162ed5e4effa554f0e1"
+    },
+    {
+      "original_path": "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-dispatch-table-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-ruby-kernel-attempt-01/outputs/reports/raw/codeql-ruby-kernel/dfb-taint-ruby-dispatch-table-negative-timing.json",
+      "sha256": "e528331789468f4017539e4ffc59beaa5ab24258d383b85ebf526d6f8d17200f"
+    },
+    {
+      "original_path": "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-computed-property-positive-error.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-ruby-kernel-attempt-01/outputs/reports/raw/codeql-ruby-kernel/dfb-taint-ruby-computed-property-positive-error.json",
+      "sha256": "331c7fc28df0a704ced9ca6ec1077319fba2be1c1985b116c927652cd137b72d"
+    },
+    {
+      "original_path": "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-function-field-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-ruby-kernel-attempt-01/outputs/reports/raw/codeql-ruby-kernel/dfb-taint-ruby-function-field-negative-timing.json",
+      "sha256": "0429681be61f849a131c53895c48d3246370ffa013d2b12e7af9fd439c4a6ac8"
+    },
+    {
+      "original_path": "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-exception-catch-negative-error.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-ruby-kernel-attempt-01/outputs/reports/raw/codeql-ruby-kernel/dfb-taint-ruby-exception-catch-negative-error.json",
+      "sha256": "3edb0c8c5927bf2c2a24f70894b390aad65d4284db0a6667c9fcd345f1178d4b"
+    },
+    {
+      "original_path": "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-function-field-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-ruby-kernel-attempt-01/outputs/reports/raw/codeql-ruby-kernel/dfb-taint-ruby-function-field-positive-timing.json",
+      "sha256": "b78f33ad8c3ea7d03f9d30648971eeed2d672d431bff3467f8cf1617d49d5f5d"
+    },
+    {
+      "original_path": "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-dispatch-table-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-ruby-kernel-attempt-01/outputs/reports/raw/codeql-ruby-kernel/dfb-taint-ruby-dispatch-table-positive-timing.json",
+      "sha256": "4c3e4e6ab58f1af22afb6cc3a2d8f0cbb471cd474bb6e589e5320adc11bfaa91"
+    },
+    {
+      "original_path": "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-recursive-callback-transform-negative-error.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-ruby-kernel-attempt-01/outputs/reports/raw/codeql-ruby-kernel/dfb-taint-ruby-recursive-callback-transform-negative-error.json",
+      "sha256": "b3858826e6c3560815178048519719650e5af6aca202cddfa92aa45dbd831e0c"
+    }
+  ],
+  "expected_output_roots": [
+    "reports/codeql-ruby-kernel.json",
+    "reports/raw/codeql-ruby-kernel"
+  ],
+  "missing_fresh_output_roots": [],
+  "removed_paths": [
+    "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-alias-propagation-negative.sarif.json",
+    "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-alias-propagation-positive.sarif.json",
+    "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-anonymous-implementation-negative.sarif.json",
+    "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-anonymous-implementation-positive.sarif.json",
+    "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-argument-position-negative.sarif.json",
+    "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-argument-position-positive.sarif.json",
+    "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-arithmetic-expression-negative.sarif.json",
+    "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-arithmetic-expression-positive.sarif.json",
+    "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-array-element-negative.sarif.json",
+    "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-array-element-positive.sarif.json",
+    "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-branch-join-negative.sarif.json",
+    "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-branch-join-positive.sarif.json",
+    "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-call-context-negative.sarif.json",
+    "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-call-context-positive.sarif.json",
+    "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-callback-registration-negative.sarif.json",
+    "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-callback-registration-positive.sarif.json",
+    "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-closure-capture-negative.sarif.json",
+    "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-closure-capture-positive.sarif.json",
+    "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-computed-property-negative.sarif.json",
+    "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-computed-property-positive.sarif.json",
+    "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-context-pair-depth2-negative.sarif.json",
+    "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-context-pair-depth2-positive.sarif.json",
+    "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-deep-relay-chain-negative.sarif.json",
+    "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-deep-relay-chain-positive.sarif.json",
+    "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-direct-negative.sarif.json",
+    "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-direct-positive.sarif.json",
+    "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-dispatch-table-negative.sarif.json",
+    "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-dispatch-table-positive.sarif.json",
+    "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-element-object-negative.sarif.json",
+    "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-element-object-positive.sarif.json",
+    "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-exception-catch-negative.sarif.json",
+    "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-exception-catch-positive.sarif.json",
+    "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-function-field-negative.sarif.json",
+    "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-function-field-positive.sarif.json",
+    "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-infeasible-branch-negative.sarif.json",
+    "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-infeasible-branch-positive.sarif.json",
+    "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-local-chain-negative.sarif.json",
+    "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-local-chain-positive.sarif.json",
+    "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-local-overwrite-negative.sarif.json",
+    "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-local-overwrite-positive.sarif.json",
+    "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-loop-carried-negative.sarif.json",
+    "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-loop-carried-positive.sarif.json",
+    "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-map-iteration-negative.sarif.json",
+    "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-map-iteration-positive.sarif.json",
+    "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-nested-access-path-negative.sarif.json",
+    "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-nested-access-path-positive.sarif.json",
+    "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-object-separation-negative.sarif.json",
+    "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-object-separation-positive.sarif.json",
+    "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-recursive-carry-negative.sarif.json",
+    "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-recursive-carry-positive.sarif.json",
+    "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-reflective-invocation-negative.sarif.json",
+    "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-reflective-invocation-positive.sarif.json",
+    "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-return-relay-one-hop-negative.sarif.json",
+    "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-return-relay-one-hop-positive.sarif.json",
+    "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-return-relay-two-hop-negative.sarif.json",
+    "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-return-relay-two-hop-positive.sarif.json",
+    "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-same-object-field-negative.sarif.json",
+    "reports/raw/codeql-ruby-kernel/dfb-taint-ruby-same-object-field-positive.sarif.json"
+  ]
+}

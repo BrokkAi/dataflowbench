@@ -123,6 +123,21 @@ class ReleaseGateTests(unittest.TestCase):
         run_git(source, "push", "test-push", GATE.RELEASE)
         GATE.run_gate(source, binary=self.stub_binary(), git_remote=str(remote))
 
+    def test_matching_tag_is_validated_from_the_tag_checkout(self) -> None:
+        source, remote, _evidence, current = self.make_source()
+        run_git(source, "tag", GATE.RELEASE, current)
+        run_git(source, "push", "test-push", GATE.RELEASE)
+        (source / "next-release-evidence").write_text("future\n", encoding="utf-8")
+        self.commit(source, "prepare next release")
+        binary = self.stub_binary()
+        binary.write_text(
+            binary.read_text(encoding="utf-8").replace(
+                "set -eu\n", "set -eu\ntest ! -e next-release-evidence\n"
+            ),
+            encoding="utf-8",
+        )
+        GATE.run_gate(source, binary=binary, git_remote=str(remote))
+
     def test_existing_tag_requires_byte_equivalent_release_tree(self) -> None:
         source, remote, evidence, _current = self.make_source(results_text="changed\n")
         # Tag the evidence commit, which contains neither the release manifest

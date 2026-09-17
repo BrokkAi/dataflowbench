@@ -65,19 +65,17 @@ pub(crate) fn freeze_fixture_revision_is_order_independent() {
     );
 }
 
-/// Every checked-in normalized report must declare the fixture revision of
-/// the freeze it is published under. Comparing against the freeze — rather
-/// than against `fixture_revision()` over the working tree — is the
-/// invariant `validate_freeze` and `create_freeze` actually enforce, and it
-/// stays meaningful while a new language kernel is authored but not yet
-/// re-run and re-frozen. Once a release freeze is assembled, `create_freeze`
-/// still refuses reports that predate the selected case population, so a
-/// grown benchmark cannot be published without re-running every adapter.
+/// Every normalized report at the freeze's evidence revision must declare
+/// the fixture revision it was published under. Reading the frozen revision
+/// keeps this invariant meaningful while the working tree prepares the next
+/// release's reports; `create_freeze` still refuses reports that predate its
+/// selected case population.
 #[test]
 pub(crate) fn checked_reports_match_the_frozen_fixture_revision() {
     let freeze: Value =
         serde_json::from_str(&fs::read_to_string("reports/freeze.json").unwrap()).unwrap();
     let frozen_revision = freeze["benchmark"]["fixture_revision"].as_str().unwrap();
+    let evidence_revision = freeze["benchmark"]["revision"].as_str().unwrap();
     assert!(
         frozen_revision
             .strip_prefix("sha256:")
@@ -91,7 +89,12 @@ pub(crate) fn checked_reports_match_the_frozen_fixture_revision() {
         .collect::<BTreeSet<_>>();
     assert!(!frozen_reports.is_empty());
     for path in frozen_reports {
-        let report: Value = serde_json::from_str(&fs::read_to_string(path).unwrap()).unwrap();
+        let report_bytes = git_output(
+            Path::new("."),
+            ["show", &format!("{evidence_revision}:{path}")],
+        )
+        .unwrap();
+        let report: Value = serde_json::from_str(&report_bytes).unwrap();
         assert_eq!(
             report["fixture_revision"].as_str(),
             Some(frozen_revision),

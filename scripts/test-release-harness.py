@@ -23,12 +23,13 @@ class ReleasePlanTests(unittest.TestCase):
         MODULE.require_executable_steps(steps)
         self.assertEqual(len(steps), 66)
 
-    def test_v080_resolved_plan_is_listable_but_not_executable(self):
+    def test_v080_resolved_plan_is_executable(self):
         base, path, plan = MODULE.load_plan("v0.8.0")
         steps = MODULE.command_steps(base, plan, "reports")
         self.assertTrue(MODULE.display_argv(steps[0]))
-        with self.assertRaisesRegex(ValueError, "integration-blocked"):
-            MODULE.require_executable_plan(path, plan)
+        MODULE.require_executable_plan(path, plan)
+        MODULE.require_executable_steps(steps)
+        self.assertEqual(len(steps), 66)
 
     def test_any_non_executable_status_fails_closed(self):
         with self.assertRaisesRegex(ValueError, "integration-blocked"):

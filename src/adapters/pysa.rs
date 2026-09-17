@@ -108,8 +108,8 @@ pub(crate) const PYSA_NATIVE_SINK_MODEL: &str = "os.system";
 // and writes newline-delimited JSON evidence. The pinned 0.10.0 client no
 // longer carries its own Python front end for this path: it drives the
 // separately released Pyrefly binary for module and call-graph resolution, so
-// the pin is a **pair** — pyre-check 0.10.0 plus pyrefly 1.2.0, its
-// contemporaneous stable release — and both identities are witnessed per run.
+// the pin is a **pair** — pyre-check 0.10.0 plus pyrefly 1.3.1 — and both
+// identities are witnessed per run.
 // Two front-end behaviors verified in the field are load-bearing and are
 // guarded below: without a `pyrefly.toml` naming the sources as the project,
 // Pyrefly exports every call in the fixture as an unresolved
@@ -123,9 +123,8 @@ pub(crate) const PYSA_NATIVE_SINK_MODEL: &str = "os.system";
 /// `Client version:`.
 pub(crate) const PYSA_PINNED_PYRE_VERSION: &str = "0.10.0";
 
-/// The pinned Pyrefly release the client drives — the stable release
-/// contemporaneous with the pinned pyre-check (2026-08-01 beside 2026-08-06).
-pub(crate) const PYSA_PINNED_PYREFLY_VERSION: &str = "1.2.0";
+/// The pinned Pyrefly release the client drives.
+pub(crate) const PYSA_PINNED_PYREFLY_VERSION: &str = "1.3.1";
 
 pub(crate) const PYSA_CONFIG_DIR: &str = "adapters/pysa";
 
