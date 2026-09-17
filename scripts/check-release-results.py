@@ -293,6 +293,12 @@ def run_gate(
                 )
             check_results = True
 
+        # The current branch may already contain evidence for the next
+        # release. Validate this release from its immutable tag after proving
+        # that the frozen manifest and generated results match the branch.
+        if tag is not None:
+            _git(clone, ["checkout", "--detach", tag])
+
         _run_binary(binary, ["validate-freeze", "reports/freeze.json"], clone)
         result_args = [
             "generate-results",
