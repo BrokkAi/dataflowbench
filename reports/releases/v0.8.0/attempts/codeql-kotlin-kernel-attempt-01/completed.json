@@ -1,0 +1,781 @@
+{
+  "id": "codeql-kotlin-kernel-attempt-01",
+  "planned_id": "codeql-kotlin-kernel",
+  "release": "v0.8.0",
+  "argv": [
+    "target/release/dataflowbench",
+    "run-codeql-kotlin-kernel",
+    "--codeql",
+    "/Users/dave/.cache/dataflowbench-tools/codeql-v2.27.0/codeql/codeql",
+    "--codeql-packs",
+    "/Users/dave/.cache/dataflowbench-tools/codeql-v2.27.0-packs",
+    "--kotlinc",
+    "/opt/homebrew/bin/kotlinc"
+  ],
+  "cwd": "/Users/dave/.codex/worktrees/38c5/dataflowbench",
+  "input_commits": {
+    "corpus": "52db1bf46f0880c271b97b0df0f3e1d40d01fc0a",
+    "execution_harness": "1efb718e8a2f0445276471b6f8a6f0472faffbd8"
+  },
+  "execution_revision": "541df400734a2ba03a7875b2cf3f8143b50c937b",
+  "population": {
+    "path": "reports/releases/v0.8.0/population.json",
+    "sha256": "2b9dc814a889a2420eb2952e522041ad7c7e62ba9a42a81ccaf47a8ec188f66d"
+  },
+  "fixture_revision": "sha256:4b62280924ed2e141dc8bb8e7b1bddfbd512d0201a3fa82f7b92b223eefca8c9",
+  "plan": {
+    "path": "reports/releases/v0.8.0/rerun-plan.json",
+    "sha256": "8a842f3fc564d6a3979ff3b54c3b64e7a2f5d508d3f53f9513b853f2af679b7f"
+  },
+  "identities": {
+    "path": "reports/releases/v0.8.0/identities.json",
+    "sha256": "1414e289cc53565c881b3edaa22820e626982e051d4b2f48468c9fed3e0d54e5"
+  },
+  "execution_access": "unspecified",
+  "start_utc": "2026-09-16T22:10:45.398907+00:00",
+  "host": {
+    "platform": "macOS-27.0-arm64-arm-64bit",
+    "cpu_count": 10,
+    "load_before": [
+      1.71728515625,
+      1.6611328125,
+      2.275390625
+    ],
+    "load_after": [
+      8.7333984375,
+      7.46875,
+      5.3212890625
+    ]
+  },
+  "settle_observations": [],
+  "cache_posture": "isolated case workspaces; local distributions and prefetched CodeQL packs; OS page cache uncontrolled; warm only for explicit warm series",
+  "supersedes": null,
+  "exit_code": 1,
+  "end_utc": "2026-09-16T23:22:09.391205+00:00",
+  "stdout": {
+    "path": "reports/releases/v0.8.0/attempts/codeql-kotlin-kernel-attempt-01/stdout.txt",
+    "sha256": "8640cbc0ead7e33ea9daffe20f1b124e557f8f09d8641aa26076556d7f18d36d"
+  },
+  "stderr": {
+    "path": "reports/releases/v0.8.0/attempts/codeql-kotlin-kernel-attempt-01/stderr.txt",
+    "sha256": "36c48d4809a348ed4724e73eb869475c58e5c70680580730dde7bab3abf71598"
+  },
+  "outputs": [
+    {
+      "original_path": "reports/codeql-kotlin-kernel.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-kotlin-kernel-attempt-01/outputs/reports/codeql-kotlin-kernel.json",
+      "sha256": "83290f0a1f4a7c7a702350b481167a77180df7419dac3e81e5bb477a64271453"
+    },
+    {
+      "original_path": "reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-recursive-exception-persistence-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-kotlin-kernel-attempt-01/outputs/reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-recursive-exception-persistence-negative-timing.json",
+      "sha256": "746b9f3df51d92fd98b6526dc007e0d2b3816a1a8e10e77cc7f6a69473c691eb"
+    },
+    {
+      "original_path": "reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-object-separation-positive.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-kotlin-kernel-attempt-01/outputs/reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-object-separation-positive.sarif.json",
+      "sha256": "3faca6bf8990d23159ed1f678a6c7d75be947576c8789c2302db49d126d98ac2"
+    },
+    {
+      "original_path": "reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-callback-registration-negative.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-kotlin-kernel-attempt-01/outputs/reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-callback-registration-negative.sarif.json",
+      "sha256": "727c004987133e47a1803a55835217ce0f57daf6dee960388ecf58979c92a377"
+    },
+    {
+      "original_path": "reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-anonymous-implementation-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-kotlin-kernel-attempt-01/outputs/reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-anonymous-implementation-negative-timing.json",
+      "sha256": "ee8af962dfa310fb5221e65a81ccc88f04ab162d73b6e573bc4365d453b05187"
+    },
+    {
+      "original_path": "reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-same-object-field-positive.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-kotlin-kernel-attempt-01/outputs/reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-same-object-field-positive.sarif.json",
+      "sha256": "8ae37f2de8d2d9f472112d02ecc27bf3f3c40bbdc95d56afe5ade2edf9f34641"
+    },
+    {
+      "original_path": "reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-direct-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-kotlin-kernel-attempt-01/outputs/reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-direct-negative-timing.json",
+      "sha256": "b22064a05bbee0d4ce2beefd4998e7aa3c8a8267b184419be03ac3a15de8888b"
+    },
+    {
+      "original_path": "reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-callback-registration-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-kotlin-kernel-attempt-01/outputs/reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-callback-registration-positive-timing.json",
+      "sha256": "31b5968a7c5e6eab45eadddcfa3969cdfc9f225fb130ae946eae2182b3ccc269"
+    },
+    {
+      "original_path": "reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-map-iteration-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-kotlin-kernel-attempt-01/outputs/reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-map-iteration-positive-timing.json",
+      "sha256": "ab8e4842a0256327e49846e53a0dc1519ed115bb94c4b6c29c3e557942e6b123"
+    },
+    {
+      "original_path": "reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-call-context-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-kotlin-kernel-attempt-01/outputs/reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-call-context-negative-timing.json",
+      "sha256": "6af0fdd900c2a228767ee5278fc810a367f2cb5cb73dd0080f0c8e6ef2521c10"
+    },
+    {
+      "original_path": "reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-branch-join-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-kotlin-kernel-attempt-01/outputs/reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-branch-join-positive-timing.json",
+      "sha256": "8231d9ea749bae6568c161219fd9d9ed08fecfacdc2730cec7847135a86a3205"
+    },
+    {
+      "original_path": "reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-exception-catch-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-kotlin-kernel-attempt-01/outputs/reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-exception-catch-positive-timing.json",
+      "sha256": "61c13e0764a15ea5c162474b4b90a5a19e07b2f28c025485be0aa5c3520e8c3c"
+    },
+    {
+      "original_path": "reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-return-relay-one-hop-negative.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-kotlin-kernel-attempt-01/outputs/reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-return-relay-one-hop-negative.sarif.json",
+      "sha256": "93644c486a705a740c37f18a8145fb2781ed4e470488d5d6c06d90d765cc09c3"
+    },
+    {
+      "original_path": "reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-infeasible-branch-negative.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-kotlin-kernel-attempt-01/outputs/reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-infeasible-branch-negative.sarif.json",
+      "sha256": "5f69b07a590a25133e45509c0108a7ce6ee58dbe979d1330738fe8a383f5abd8"
+    },
+    {
+      "original_path": "reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-element-object-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-kotlin-kernel-attempt-01/outputs/reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-element-object-positive-timing.json",
+      "sha256": "42c4e4ec3beaf5263f0e16f948b3a35ba983f87854852b0edc448985e4cbc479"
+    },
+    {
+      "original_path": "reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-anonymous-implementation-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-kotlin-kernel-attempt-01/outputs/reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-anonymous-implementation-positive-timing.json",
+      "sha256": "470dd4b22eceb56083c917047d37c2c6666017d8553fbad2b28fe20048280b10"
+    },
+    {
+      "original_path": "reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-recursive-exception-persistence-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-kotlin-kernel-attempt-01/outputs/reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-recursive-exception-persistence-positive-timing.json",
+      "sha256": "15bfe253268d2d96b877259d7c39214373dc1af255e7bc7d19a95d3bc87d6d63"
+    },
+    {
+      "original_path": "reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-element-object-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-kotlin-kernel-attempt-01/outputs/reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-element-object-negative-timing.json",
+      "sha256": "02ad1f6b4cb1d1ea89a852beb09589898540cb7b05f89c1922c4a858bc3e3d19"
+    },
+    {
+      "original_path": "reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-argument-position-negative.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-kotlin-kernel-attempt-01/outputs/reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-argument-position-negative.sarif.json",
+      "sha256": "df9258a8a76b880ae8090088b0af6a922e7251aacde5a1bdd32bdf6ca7a30c47"
+    },
+    {
+      "original_path": "reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-exception-catch-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-kotlin-kernel-attempt-01/outputs/reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-exception-catch-negative-timing.json",
+      "sha256": "76e040b5d0c58179ba63043c22b4702e221737cdb1ac6d5a6b2cc60c304e95f9"
+    },
+    {
+      "original_path": "reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-callback-registration-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-kotlin-kernel-attempt-01/outputs/reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-callback-registration-negative-timing.json",
+      "sha256": "dad56117f95b0e6abf7d8ac5c79bcdf2be1dbf7563cb1da32756d501a3d8b295"
+    },
+    {
+      "original_path": "reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-direct-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-kotlin-kernel-attempt-01/outputs/reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-direct-positive-timing.json",
+      "sha256": "62cea0cd201dce811a106c86d6a53571b2041b89868c99926a95481f1fd180a9"
+    },
+    {
+      "original_path": "reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-branch-join-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-kotlin-kernel-attempt-01/outputs/reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-branch-join-negative-timing.json",
+      "sha256": "5d51f87f726d1f38c868c17bc583f96bd12abbd7bbd8d297789158384b488218"
+    },
+    {
+      "original_path": "reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-call-context-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-kotlin-kernel-attempt-01/outputs/reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-call-context-positive-timing.json",
+      "sha256": "ab1e55d5ae2bb712e15d582b196d6cce09eb7bf9b5ad326b1474f7d7aa3b8d6a"
+    },
+    {
+      "original_path": "reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-map-iteration-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-kotlin-kernel-attempt-01/outputs/reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-map-iteration-negative-timing.json",
+      "sha256": "1743e4c225af52a7ac2f1266f2fd5f6a7dd49d576366d0be75315059c25ad475"
+    },
+    {
+      "original_path": "reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-recursive-payload-transform-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-kotlin-kernel-attempt-01/outputs/reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-recursive-payload-transform-negative-timing.json",
+      "sha256": "0bb4a963e65053dc52d4a08f0b2439ed7ba3378146997bda64135fc825da7667"
+    },
+    {
+      "original_path": "reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-expression-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-kotlin-kernel-attempt-01/outputs/reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-expression-positive-timing.json",
+      "sha256": "537672758bbebfb051677eba17091b71ca3d5587c457894cdcc5ac976dc28a1d"
+    },
+    {
+      "original_path": "reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-argument-position-positive.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-kotlin-kernel-attempt-01/outputs/reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-argument-position-positive.sarif.json",
+      "sha256": "f507e6e84a42e32f2b572e00f83e2579a177a79b06587ccbab988b429befa07f"
+    },
+    {
+      "original_path": "reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-mutual-recursive-transform-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-kotlin-kernel-attempt-01/outputs/reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-mutual-recursive-transform-negative-timing.json",
+      "sha256": "8bef5312921dfa465ecf50129be0b0f91a71359825ac01c159f07f1f6af0c474"
+    },
+    {
+      "original_path": "reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-context-pair-depth2-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-kotlin-kernel-attempt-01/outputs/reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-context-pair-depth2-negative-timing.json",
+      "sha256": "4f3d37e30906e964f6759826d5fa774c5a1557ba65023bf6ed70f1b10d8b7ea2"
+    },
+    {
+      "original_path": "reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-expression-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-kotlin-kernel-attempt-01/outputs/reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-expression-negative-timing.json",
+      "sha256": "cda56182007cc74692c1008d4295c592d605d6678b15dc688b1aa74e853d58c6"
+    },
+    {
+      "original_path": "reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-object-separation-negative.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-kotlin-kernel-attempt-01/outputs/reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-object-separation-negative.sarif.json",
+      "sha256": "c740547e4a38edb5ae17713ddb2a05f836781e266feccfed3d4e6ea74015ece5"
+    },
+    {
+      "original_path": "reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-recursive-payload-transform-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-kotlin-kernel-attempt-01/outputs/reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-recursive-payload-transform-positive-timing.json",
+      "sha256": "537f6347607fd2b8f4d6f35fbde23624158c4a3f9550eabe7a3fc5114508488c"
+    },
+    {
+      "original_path": "reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-callback-registration-positive.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-kotlin-kernel-attempt-01/outputs/reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-callback-registration-positive.sarif.json",
+      "sha256": "a4314bb187b8f1cf8a60283a56cfcd8e7843843ef5e25f3267980fac52144ead"
+    },
+    {
+      "original_path": "reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-same-object-field-negative.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-kotlin-kernel-attempt-01/outputs/reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-same-object-field-negative.sarif.json",
+      "sha256": "17eff65d6768a5007704f16d1c5c954e642d5d03992a1cc9f2f6389899b5211c"
+    },
+    {
+      "original_path": "reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-context-pair-depth2-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-kotlin-kernel-attempt-01/outputs/reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-context-pair-depth2-positive-timing.json",
+      "sha256": "3537ecc5ddf211c004d7952edeff8523bc18646f16a35495c447f71b65ac7e6a"
+    },
+    {
+      "original_path": "reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-mutual-recursive-transform-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-kotlin-kernel-attempt-01/outputs/reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-mutual-recursive-transform-positive-timing.json",
+      "sha256": "4a11c6619b81b2996afef2dee28481c509e48032481cf3c144239491413c9d87"
+    },
+    {
+      "original_path": "reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-infeasible-branch-positive.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-kotlin-kernel-attempt-01/outputs/reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-infeasible-branch-positive.sarif.json",
+      "sha256": "42e55892e8540a41daa410a11779260499e68f2cda4d0ad7678350709d3f3e1d"
+    },
+    {
+      "original_path": "reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-return-relay-one-hop-positive.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-kotlin-kernel-attempt-01/outputs/reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-return-relay-one-hop-positive.sarif.json",
+      "sha256": "5d2f12153a4348ef4fb9ab383a2c3ce82cac2b71f883b1cb9dc76892fe3666ea"
+    },
+    {
+      "original_path": "reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-dispatch-table-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-kotlin-kernel-attempt-01/outputs/reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-dispatch-table-negative-timing.json",
+      "sha256": "08371277e235b05b1ae439cb6ec17086f067bebdcba79768bcb694e473381d43"
+    },
+    {
+      "original_path": "reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-dispatch-table-negative.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-kotlin-kernel-attempt-01/outputs/reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-dispatch-table-negative.sarif.json",
+      "sha256": "fcf5d6400309df89cdf0be97e462f44088ae3f22414d9bf5000ca07ef895047d"
+    },
+    {
+      "original_path": "reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-function-field-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-kotlin-kernel-attempt-01/outputs/reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-function-field-negative-timing.json",
+      "sha256": "af90abba3b3cf661b95d7bc4ecc54d3aa37723cd11288d825d6c423ae224bb00"
+    },
+    {
+      "original_path": "reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-return-relay-two-hop-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-kotlin-kernel-attempt-01/outputs/reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-return-relay-two-hop-negative-timing.json",
+      "sha256": "33e95880f0f312fe50bae6d88762ab74e4f24c6b45f103b4d38c847e1e19ec28"
+    },
+    {
+      "original_path": "reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-reflective-invocation-positive.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-kotlin-kernel-attempt-01/outputs/reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-reflective-invocation-positive.sarif.json",
+      "sha256": "e2a1dfa31fa21dd25ce4dd776b2a127af34f8a64a1b3b289a9fccb26c22f37cd"
+    },
+    {
+      "original_path": "reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-closure-capture-negative.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-kotlin-kernel-attempt-01/outputs/reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-closure-capture-negative.sarif.json",
+      "sha256": "b4a6f3e0b44c3995b62704ff01640635f0a5d783a0d9a412ff1b37e673eec417"
+    },
+    {
+      "original_path": "reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-function-field-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-kotlin-kernel-attempt-01/outputs/reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-function-field-positive-timing.json",
+      "sha256": "8b0194af876556ab959bc84809df88e46da009ae5e53a9f533aff8498b352a2c"
+    },
+    {
+      "original_path": "reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-recursive-heap-unwind-negative.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-kotlin-kernel-attempt-01/outputs/reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-recursive-heap-unwind-negative.sarif.json",
+      "sha256": "27cf1fd5172dcf4d9edbd6982524454c63e4e77260292c7c11165b50cc9bb18f"
+    },
+    {
+      "original_path": "reports/raw/codeql-kotlin-kernel/run-environment.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-kotlin-kernel-attempt-01/outputs/reports/raw/codeql-kotlin-kernel/run-environment.json",
+      "sha256": "5efd7b9cf8ccade119ad24d06a899586377153ba2bc11289d66497c788337018"
+    },
+    {
+      "original_path": "reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-dispatch-table-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-kotlin-kernel-attempt-01/outputs/reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-dispatch-table-positive-timing.json",
+      "sha256": "4181dc23e9f95af0b2b4575955358dcf7a01ec18d055e123780ce2b7be8b8c79"
+    },
+    {
+      "original_path": "reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-recursive-payload-transform-positive.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-kotlin-kernel-attempt-01/outputs/reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-recursive-payload-transform-positive.sarif.json",
+      "sha256": "33382f95f6ae7bdf0c1c5dda7e5e6a5a8428e47fb2bad9dfc4cb975c87921b5a"
+    },
+    {
+      "original_path": "reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-branch-join-negative.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-kotlin-kernel-attempt-01/outputs/reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-branch-join-negative.sarif.json",
+      "sha256": "5335a49aa2f7c10366a1b3d219dce1a046a079224dd05e9b409017ede5970952"
+    },
+    {
+      "original_path": "reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-return-relay-two-hop-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-kotlin-kernel-attempt-01/outputs/reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-return-relay-two-hop-positive-timing.json",
+      "sha256": "e36c5ede8e14ffd3611d416a5af3d46d853078c3df012cbbd21ca358194ff9f1"
+    },
+    {
+      "original_path": "reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-nested-access-path-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-kotlin-kernel-attempt-01/outputs/reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-nested-access-path-positive-timing.json",
+      "sha256": "b71453eab8bf3cdd41d827c5d96e0c5b29aef12b9b6ce656132eac99aba8c644"
+    },
+    {
+      "original_path": "reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-recursive-heap-unwind-positive.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-kotlin-kernel-attempt-01/outputs/reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-recursive-heap-unwind-positive.sarif.json",
+      "sha256": "15da790ee8ada2963ca53d92705974c1d6ab29df958102f943371f80bb829caf"
+    },
+    {
+      "original_path": "reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-recursive-payload-transform-negative.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-kotlin-kernel-attempt-01/outputs/reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-recursive-payload-transform-negative.sarif.json",
+      "sha256": "9d7e23b53a9b98803917735c1196d2afc6f0f407faa2772f28d17996fad1d8b9"
+    },
+    {
+      "original_path": "reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-deep-relay-chain-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-kotlin-kernel-attempt-01/outputs/reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-deep-relay-chain-negative-timing.json",
+      "sha256": "55dbe1d1ec21738054b2b47cec60869c342dd45a913af8cad5f9b268b752353f"
+    },
+    {
+      "original_path": "reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-branch-join-positive.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-kotlin-kernel-attempt-01/outputs/reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-branch-join-positive.sarif.json",
+      "sha256": "9503719ff017c58eace73699ec8071cfb1017c6300c3a3b096471554f73b5361"
+    },
+    {
+      "original_path": "reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-deep-relay-chain-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-kotlin-kernel-attempt-01/outputs/reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-deep-relay-chain-positive-timing.json",
+      "sha256": "e0811f6a42e7a187ca8fd3ec8684283a142099ab49ceb047405392322703bbe8"
+    },
+    {
+      "original_path": "reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-nested-access-path-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-kotlin-kernel-attempt-01/outputs/reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-nested-access-path-negative-timing.json",
+      "sha256": "ffe8021305443d86fb3442c3c61aa5435e5ab1803788e0e1447c2848ee736198"
+    },
+    {
+      "original_path": "reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-dispatch-table-positive.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-kotlin-kernel-attempt-01/outputs/reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-dispatch-table-positive.sarif.json",
+      "sha256": "fc9536ff34d0333656b1048427f3da9f09af4c06cfa4a4f8c000fde89cafbc94"
+    },
+    {
+      "original_path": "reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-reflective-invocation-negative.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-kotlin-kernel-attempt-01/outputs/reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-reflective-invocation-negative.sarif.json",
+      "sha256": "5c80afa3a1c776d7c1f5cde0588e532c7131288602b792e754e56ff2b1284e1e"
+    },
+    {
+      "original_path": "reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-closure-capture-positive.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-kotlin-kernel-attempt-01/outputs/reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-closure-capture-positive.sarif.json",
+      "sha256": "115ea2da4e373727c4a31c1e1f5df5d4968ebe769cfb6debe5ff2138537c49b0"
+    },
+    {
+      "original_path": "reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-exception-catch-positive.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-kotlin-kernel-attempt-01/outputs/reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-exception-catch-positive.sarif.json",
+      "sha256": "d3c44d18114abaa3a82114695dd13dd55f5d3df7f3bd5acd7b2179695b3e8fa9"
+    },
+    {
+      "original_path": "reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-array-element-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-kotlin-kernel-attempt-01/outputs/reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-array-element-positive-timing.json",
+      "sha256": "cbd8e8f6004b272b0e04a51ddaf37e2e192275801d3a574bc18394d31e9bf6ed"
+    },
+    {
+      "original_path": "reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-mutual-recursive-transform-negative.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-kotlin-kernel-attempt-01/outputs/reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-mutual-recursive-transform-negative.sarif.json",
+      "sha256": "02ce4ed4fe5a57996c88727f53d1d486bc35c0d26aad6995417a5a4196b75b7f"
+    },
+    {
+      "original_path": "reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-interprocedural-exception-persistence-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-kotlin-kernel-attempt-01/outputs/reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-interprocedural-exception-persistence-positive-timing.json",
+      "sha256": "af386dc251b70fcfc066540d762834ba9a599f09c2ab34684458910bbf0f86e4"
+    },
+    {
+      "original_path": "reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-recursive-carry-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-kotlin-kernel-attempt-01/outputs/reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-recursive-carry-positive-timing.json",
+      "sha256": "ab51ba3e1e1ab47b5b4bf6bd86d94d1acde76f1f072441add2eb4eb3ae1d424c"
+    },
+    {
+      "original_path": "reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-argument-position-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-kotlin-kernel-attempt-01/outputs/reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-argument-position-positive-timing.json",
+      "sha256": "cca383aa3b95a827f8bad37321a664712134f3f92ab7d494a407840caa5ab2d2"
+    },
+    {
+      "original_path": "reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-nested-access-path-negative.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-kotlin-kernel-attempt-01/outputs/reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-nested-access-path-negative.sarif.json",
+      "sha256": "e4cd04eebf0de7ab4c9fef157eeb6d104ed4dd4cadf97a03bf809369d3b02d5c"
+    },
+    {
+      "original_path": "reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-recursive-callback-transform-positive.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-kotlin-kernel-attempt-01/outputs/reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-recursive-callback-transform-positive.sarif.json",
+      "sha256": "78cf92df217664492a4093f3d014a6a27dd4e3149dd2203dc513b34623942cf0"
+    },
+    {
+      "original_path": "reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-infeasible-branch-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-kotlin-kernel-attempt-01/outputs/reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-infeasible-branch-positive-timing.json",
+      "sha256": "b1aaeca6d00612652316125598b761f47469f6b06fe4c58df60abf46ebd7b64c"
+    },
+    {
+      "original_path": "reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-expression-positive.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-kotlin-kernel-attempt-01/outputs/reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-expression-positive.sarif.json",
+      "sha256": "9b8893fa8cf8051971e24352121edc4c7d57a57c3649c8612de080e2194d8d93"
+    },
+    {
+      "original_path": "reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-array-element-negative.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-kotlin-kernel-attempt-01/outputs/reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-array-element-negative.sarif.json",
+      "sha256": "aa4790f0980dac1c07e97e33b7dc1c1262bc1f2d4898190700292fb9a2d392e9"
+    },
+    {
+      "original_path": "reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-argument-position-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-kotlin-kernel-attempt-01/outputs/reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-argument-position-negative-timing.json",
+      "sha256": "3bd8a1482fb5143bfe56e7a007aa116e87327f743dedad6b86b315709737dea0"
+    },
+    {
+      "original_path": "reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-alias-propagation-negative.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-kotlin-kernel-attempt-01/outputs/reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-alias-propagation-negative.sarif.json",
+      "sha256": "a0b0ff5f10187ddc6cc75385e8eb1f0e5c3c023f7e28614939348d14e59aa163"
+    },
+    {
+      "original_path": "reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-recursive-carry-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-kotlin-kernel-attempt-01/outputs/reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-recursive-carry-negative-timing.json",
+      "sha256": "9a16ce0898466c0872c6ad675cc27a8cad2475a082d4d82396ef7227ef5579d2"
+    },
+    {
+      "original_path": "reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-anonymous-implementation-positive.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-kotlin-kernel-attempt-01/outputs/reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-anonymous-implementation-positive.sarif.json",
+      "sha256": "0c4719b996bc5d6eceb17e8dd08075dce2d38504c4993ed38b43694438eb4030"
+    },
+    {
+      "original_path": "reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-interprocedural-exception-persistence-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-kotlin-kernel-attempt-01/outputs/reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-interprocedural-exception-persistence-negative-timing.json",
+      "sha256": "d796c3100fcd19cd946ae7b9f7fd6fbf04ff8e09f70b5e675bcdf37097a0653f"
+    },
+    {
+      "original_path": "reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-array-element-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-kotlin-kernel-attempt-01/outputs/reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-array-element-negative-timing.json",
+      "sha256": "82121d7435b2cb068c4be0d7895d0825e9fc7e29309dffbdfba9ef17ca21949f"
+    },
+    {
+      "original_path": "reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-infeasible-branch-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-kotlin-kernel-attempt-01/outputs/reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-infeasible-branch-negative-timing.json",
+      "sha256": "cd941d25ee60d96c0c86bb39f31bc0b0d38db99eb587d669050b1fb304fa966a"
+    },
+    {
+      "original_path": "reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-interprocedural-exception-persistence-positive.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-kotlin-kernel-attempt-01/outputs/reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-interprocedural-exception-persistence-positive.sarif.json",
+      "sha256": "a7b9f54a1dc0de8f57fa30ca0adf2074d60af582f28ee2509a3a82a9620eda79"
+    },
+    {
+      "original_path": "reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-loop-carried-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-kotlin-kernel-attempt-01/outputs/reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-loop-carried-negative-timing.json",
+      "sha256": "26e6bec0c7e362249e9846d0934815b246d05e13b5e4b789d92fc9e0c1a34d12"
+    },
+    {
+      "original_path": "reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-alias-propagation-positive.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-kotlin-kernel-attempt-01/outputs/reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-alias-propagation-positive.sarif.json",
+      "sha256": "9b56e3a956ddc55cd8cf159fc2a11869abdaf09dd440057e578959975649d706"
+    },
+    {
+      "original_path": "reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-array-element-positive.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-kotlin-kernel-attempt-01/outputs/reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-array-element-positive.sarif.json",
+      "sha256": "f238523164dbde259eaad48ba6a1a55f9137771e63f8c44a24971a694ced4d7f"
+    },
+    {
+      "original_path": "reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-local-overwrite-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-kotlin-kernel-attempt-01/outputs/reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-local-overwrite-negative-timing.json",
+      "sha256": "e0c33a00b60357cada726bb6761f07b3c808907c4958407b2feb618e3ff29c59"
+    },
+    {
+      "original_path": "reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-closure-capture-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-kotlin-kernel-attempt-01/outputs/reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-closure-capture-negative-timing.json",
+      "sha256": "60c275385f7ef832cc6acab3b8dfaa9166c3cafab444b6f5c18111a0b94dd467"
+    },
+    {
+      "original_path": "reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-anonymous-implementation-negative.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-kotlin-kernel-attempt-01/outputs/reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-anonymous-implementation-negative.sarif.json",
+      "sha256": "72da4f7009c09aaef52a7c54bfab7e7f8298f11bfe7a88518ee668d76f0c6edc"
+    },
+    {
+      "original_path": "reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-interprocedural-exception-persistence-negative.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-kotlin-kernel-attempt-01/outputs/reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-interprocedural-exception-persistence-negative.sarif.json",
+      "sha256": "7e53386c53fef4de8292b976a25e48d4658bc63032d69232a7da4d7e99fa0ff8"
+    },
+    {
+      "original_path": "reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-mutual-recursive-transform-positive.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-kotlin-kernel-attempt-01/outputs/reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-mutual-recursive-transform-positive.sarif.json",
+      "sha256": "4c14ac90a41d64c6cbbfc707232998659bafd2ac5c8d24687aaa126537516de8"
+    },
+    {
+      "original_path": "reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-closure-capture-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-kotlin-kernel-attempt-01/outputs/reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-closure-capture-positive-timing.json",
+      "sha256": "f05b9e6e006fd8e8a2f4beac58f91beca69e96fc10ba5e4cc0a316ed1a5893ae"
+    },
+    {
+      "original_path": "reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-exception-catch-negative.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-kotlin-kernel-attempt-01/outputs/reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-exception-catch-negative.sarif.json",
+      "sha256": "6c70cf12e6ee66a55c0af917cdf37542d886ba96aac9ccdd0a326de2f6571208"
+    },
+    {
+      "original_path": "reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-local-overwrite-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-kotlin-kernel-attempt-01/outputs/reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-local-overwrite-positive-timing.json",
+      "sha256": "555b4a4f9ea8b0f8c91c406884f4fd46351945f5d7fed1cbe3666581b99457c3"
+    },
+    {
+      "original_path": "reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-loop-carried-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-kotlin-kernel-attempt-01/outputs/reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-loop-carried-positive-timing.json",
+      "sha256": "db8504e5929fd9a1ea4cd9ca7db7faea522c3e3daf2a9db7059141e73ac936ba"
+    },
+    {
+      "original_path": "reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-nested-access-path-positive.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-kotlin-kernel-attempt-01/outputs/reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-nested-access-path-positive.sarif.json",
+      "sha256": "444c7acfc740b9933ade8a4aaf8e63465d56bbfc3414fc9dd3ed972df9ca6b8c"
+    },
+    {
+      "original_path": "reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-recursive-callback-transform-negative.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-kotlin-kernel-attempt-01/outputs/reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-recursive-callback-transform-negative.sarif.json",
+      "sha256": "ad2b7b05e944323e993a05832feb88ab41ebea76a112da59cfe01733db1b5dc3"
+    },
+    {
+      "original_path": "reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-expression-negative.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-kotlin-kernel-attempt-01/outputs/reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-expression-negative.sarif.json",
+      "sha256": "e534385bb6f379af3369e6ab7cdc106c3f564b7bda2dc2d5249d805e2ebde97f"
+    },
+    {
+      "original_path": "reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-function-field-positive.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-kotlin-kernel-attempt-01/outputs/reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-function-field-positive.sarif.json",
+      "sha256": "fe9dbdf5e077404da1a99258a4d3b4e04d98ea9481e3bfaceb0599c30428d96e"
+    },
+    {
+      "original_path": "reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-direct-positive.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-kotlin-kernel-attempt-01/outputs/reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-direct-positive.sarif.json",
+      "sha256": "35d7295de890707ede57e4964cd1bd3d710d6f12d549c4f49b72f4818d9affbe"
+    },
+    {
+      "original_path": "reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-same-object-field-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-kotlin-kernel-attempt-01/outputs/reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-same-object-field-negative-timing.json",
+      "sha256": "ed6b415b0c9fc9a6ce8dd39590812925bfde1db5fbd7e9a44d6a87b47e468c81"
+    },
+    {
+      "original_path": "reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-object-separation-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-kotlin-kernel-attempt-01/outputs/reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-object-separation-negative-timing.json",
+      "sha256": "430a3e4415e6c97a38b1a33250a655d2250c87914a734c94fa5589007de4cff4"
+    },
+    {
+      "original_path": "reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-computed-property-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-kotlin-kernel-attempt-01/outputs/reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-computed-property-positive-timing.json",
+      "sha256": "2fd699f1114e01f26a301b06f3dd6d3ebd8181d2a033b6a1b0f4b12f56d94c96"
+    },
+    {
+      "original_path": "reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-element-object-negative.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-kotlin-kernel-attempt-01/outputs/reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-element-object-negative.sarif.json",
+      "sha256": "0df2fd9cdbf338c4bd6314c39b61fdf2aa4b349c2ccacb6d8a421dfe303b226b"
+    },
+    {
+      "original_path": "reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-call-context-positive.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-kotlin-kernel-attempt-01/outputs/reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-call-context-positive.sarif.json",
+      "sha256": "920c379985f2c135188a3edfa9e4a5957c19a2d1b1c2f437d74feff6431b9c1c"
+    },
+    {
+      "original_path": "reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-reflective-invocation-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-kotlin-kernel-attempt-01/outputs/reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-reflective-invocation-negative-timing.json",
+      "sha256": "17d79abf85100156e816a92a2f80a88e54b595904d3b4c74427f66d5cf6f8c3e"
+    },
+    {
+      "original_path": "reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-local-chain-negative.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-kotlin-kernel-attempt-01/outputs/reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-local-chain-negative.sarif.json",
+      "sha256": "05391c5c9a2a8644135f0c5f04deb20c7f9628e427d916958694a3a97bfc662f"
+    },
+    {
+      "original_path": "reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-return-relay-one-hop-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-kotlin-kernel-attempt-01/outputs/reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-return-relay-one-hop-negative-timing.json",
+      "sha256": "a28d658ae28b3d0c8840e40d03a51d2b391bc4be38455f27a0abaafb0177c003"
+    },
+    {
+      "original_path": "reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-recursive-heap-unwind-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-kotlin-kernel-attempt-01/outputs/reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-recursive-heap-unwind-negative-timing.json",
+      "sha256": "ff2cada31b27ef2209c045542fc1760d10bfb1c539fb9704dd437ee4f8d61a9b"
+    },
+    {
+      "original_path": "reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-context-pair-depth2-negative.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-kotlin-kernel-attempt-01/outputs/reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-context-pair-depth2-negative.sarif.json",
+      "sha256": "af249ed08dcef4edbfc09e999f01c35970d0af3403907952156a2a6f9059c543"
+    },
+    {
+      "original_path": "reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-computed-property-positive.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-kotlin-kernel-attempt-01/outputs/reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-computed-property-positive.sarif.json",
+      "sha256": "0bd3c7babfe32797585a5ea2a46e06c4a013532f10deaf0c8ca472f1630c1645"
+    },
+    {
+      "original_path": "reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-recursive-callback-transform-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-kotlin-kernel-attempt-01/outputs/reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-recursive-callback-transform-positive-timing.json",
+      "sha256": "6a009a3dcb0d872e0ec09209aafd4b171515b4c47d935f059ab028502811406e"
+    },
+    {
+      "original_path": "reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-local-overwrite-negative.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-kotlin-kernel-attempt-01/outputs/reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-local-overwrite-negative.sarif.json",
+      "sha256": "4ea08173d4ed45626794a17d625840f256974b29d05246f1652bedaf47f693d0"
+    },
+    {
+      "original_path": "reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-recursive-carry-negative.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-kotlin-kernel-attempt-01/outputs/reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-recursive-carry-negative.sarif.json",
+      "sha256": "aafffb69dc9ae09f24c92f30cfb1697ca5ef21cd75cea321b570d8799f0c9156"
+    },
+    {
+      "original_path": "reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-map-iteration-negative.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-kotlin-kernel-attempt-01/outputs/reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-map-iteration-negative.sarif.json",
+      "sha256": "2c0472f789187dd594a279c79437a5e891013adab7057fd7c3da7fff9f728870"
+    },
+    {
+      "original_path": "reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-same-object-field-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-kotlin-kernel-attempt-01/outputs/reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-same-object-field-positive-timing.json",
+      "sha256": "1da03b8309adfed4dfcebb063d4398038181cbacd52f52257c191d8c553eaf0c"
+    },
+    {
+      "original_path": "reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-object-separation-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-kotlin-kernel-attempt-01/outputs/reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-object-separation-positive-timing.json",
+      "sha256": "b9c7cba9c1fe61c8cf26a2ea967342c2b6f6e8a5546b87a5f05432c67270f248"
+    },
+    {
+      "original_path": "reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-computed-property-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-kotlin-kernel-attempt-01/outputs/reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-computed-property-negative-timing.json",
+      "sha256": "199a4bcd6e45de3101cbb2fdc96cf59c7ce42b5381b438a0a7596ef618e0c8da"
+    },
+    {
+      "original_path": "reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-recursive-exception-persistence-positive.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-kotlin-kernel-attempt-01/outputs/reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-recursive-exception-persistence-positive.sarif.json",
+      "sha256": "394106c8fec4bfd820ac054a3f8f33d87be8091357ce0e2a1847cea945d73224"
+    },
+    {
+      "original_path": "reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-recursive-callback-transform-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-kotlin-kernel-attempt-01/outputs/reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-recursive-callback-transform-negative-timing.json",
+      "sha256": "a401867a8bc864bb6dfb705eb1902650cf03adbe9d4ef807f3ebfe7dcc74981a"
+    },
+    {
+      "original_path": "reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-deep-relay-chain-positive.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-kotlin-kernel-attempt-01/outputs/reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-deep-relay-chain-positive.sarif.json",
+      "sha256": "92b4bb75cb543dfa8eb3d9d698b6f721a7c109e48ad61d5925a4d425b4fbcbd1"
+    },
+    {
+      "original_path": "reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-return-relay-two-hop-negative.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-kotlin-kernel-attempt-01/outputs/reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-return-relay-two-hop-negative.sarif.json",
+      "sha256": "fa3f250fa998f42b95cc54705d06d2878cc02e447ed8932d3194b42f1abfb2ac"
+    },
+    {
+      "original_path": "reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-return-relay-one-hop-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-kotlin-kernel-attempt-01/outputs/reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-return-relay-one-hop-positive-timing.json",
+      "sha256": "abb4e46fc5e4363bf5a5415a25266b9f7bbf63a5c4d3f5effa8b522740de0440"
+    },
+    {
+      "original_path": "reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-recursive-heap-unwind-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-kotlin-kernel-attempt-01/outputs/reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-recursive-heap-unwind-positive-timing.json",
+      "sha256": "219d259fcf7dc34ac40cd0ed89d7c68f1843305cce074c68555b8ce812037f59"
+    },
+    {
+      "original_path": "reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-reflective-invocation-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-kotlin-kernel-attempt-01/outputs/reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-reflective-invocation-positive-timing.json",
+      "sha256": "ea48da96bf1ad72fd4d6e417d22eaa768929afc19c86cee5dfe0232b2270edac"
+    },
+    {
+      "original_path": "reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-loop-carried-negative.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-kotlin-kernel-attempt-01/outputs/reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-loop-carried-negative.sarif.json",
+      "sha256": "f447d35e9bd47940c7f56234c5c0d020aedf24657852ae8053a817793835b4c9"
+    },
+    {
+      "original_path": "reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-recursive-carry-positive.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-kotlin-kernel-attempt-01/outputs/reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-recursive-carry-positive.sarif.json",
+      "sha256": "734d6cef32aa72e29eeabba4c0615fd220041ced4ca8b5eb0e899efbb115083f"
+    },
+    {
+      "original_path": "reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-map-iteration-positive.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-kotlin-kernel-attempt-01/outputs/reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-map-iteration-positive.sarif.json",
+      "sha256": "93b7b5f5eaf869d43e79f413241688447121262f89d50d1127545ef3c9267970"
+    },
+    {
+      "original_path": "reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-local-overwrite-positive.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-kotlin-kernel-attempt-01/outputs/reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-local-overwrite-positive.sarif.json",
+      "sha256": "f0469c46f057ffe2987f089036ff97f01d71a113cfbe81fcadf270ee5762e8ef"
+    },
+    {
+      "original_path": "reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-recursive-exception-persistence-negative.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-kotlin-kernel-attempt-01/outputs/reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-recursive-exception-persistence-negative.sarif.json",
+      "sha256": "be682c7de1c00b10171cc92404736bec37b72ed4859e777300dae4a9d76b70ab"
+    },
+    {
+      "original_path": "reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-alias-propagation-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-kotlin-kernel-attempt-01/outputs/reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-alias-propagation-positive-timing.json",
+      "sha256": "da9ddaa01d3c8b0f786ead87f83aa43d22fba9842fc50e77313ae9eee8d3d17d"
+    },
+    {
+      "original_path": "reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-deep-relay-chain-negative.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-kotlin-kernel-attempt-01/outputs/reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-deep-relay-chain-negative.sarif.json",
+      "sha256": "9eecb94d923d349e0f2469014d9196ced2814f85ffd80102aa2a9bef64127e66"
+    },
+    {
+      "original_path": "reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-return-relay-two-hop-positive.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-kotlin-kernel-attempt-01/outputs/reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-return-relay-two-hop-positive.sarif.json",
+      "sha256": "d10cc9526cced5cb40beab87478f5160e7fa6fe4ef925407111167fdd0e0f5b5"
+    },
+    {
+      "original_path": "reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-local-chain-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-kotlin-kernel-attempt-01/outputs/reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-local-chain-positive-timing.json",
+      "sha256": "f4118d9e6d72e87141735ecf6fb9356ca3e016d60268f27e53755ccdc022f025"
+    },
+    {
+      "original_path": "reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-loop-carried-positive.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-kotlin-kernel-attempt-01/outputs/reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-loop-carried-positive.sarif.json",
+      "sha256": "696d53ecc9bc6f45a092e3200def8b98efe91cc9807d0c1f206ef5f440b8d120"
+    },
+    {
+      "original_path": "reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-alias-propagation-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-kotlin-kernel-attempt-01/outputs/reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-alias-propagation-negative-timing.json",
+      "sha256": "9091b35b3ad736928d1716f0c21cc6c5c82c207d600922a7b8f72e33ea4ade1d"
+    },
+    {
+      "original_path": "reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-element-object-positive.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-kotlin-kernel-attempt-01/outputs/reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-element-object-positive.sarif.json",
+      "sha256": "df5e58f65e69c8f7958b0051d93a78da7e4d1bf5dc99849939fbe212634bfbff"
+    },
+    {
+      "original_path": "reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-function-field-negative.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-kotlin-kernel-attempt-01/outputs/reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-function-field-negative.sarif.json",
+      "sha256": "9ac283a030fa61b23954d34c448c11b09f17eb77c8eb96afa7f1254325808b62"
+    },
+    {
+      "original_path": "reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-direct-negative.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-kotlin-kernel-attempt-01/outputs/reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-direct-negative.sarif.json",
+      "sha256": "cc63232a24fc3e031f809bc624880e1f0f37d09290c70a287269714ec31f5291"
+    },
+    {
+      "original_path": "reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-call-context-negative.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-kotlin-kernel-attempt-01/outputs/reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-call-context-negative.sarif.json",
+      "sha256": "a23c55118eab70315516dd3ff7b8fa5e74fd70fff2d3c1585a5fedd0e8657522"
+    },
+    {
+      "original_path": "reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-local-chain-positive.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-kotlin-kernel-attempt-01/outputs/reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-local-chain-positive.sarif.json",
+      "sha256": "e42d6cddbf85b2365f5d1a18bd1bfb75ec3478026308a458970a5a043f608f14"
+    },
+    {
+      "original_path": "reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-local-chain-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-kotlin-kernel-attempt-01/outputs/reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-local-chain-negative-timing.json",
+      "sha256": "f5125730285ba2daeb52b41810ec12a85e8081c3e7b94baaa40330da70515e0d"
+    },
+    {
+      "original_path": "reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-context-pair-depth2-positive.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-kotlin-kernel-attempt-01/outputs/reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-context-pair-depth2-positive.sarif.json",
+      "sha256": "d5b51b299b054cb3970bd2b8c465db38decb602d5a010aff0e03f41a91107831"
+    },
+    {
+      "original_path": "reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-computed-property-negative.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-kotlin-kernel-attempt-01/outputs/reports/raw/codeql-kotlin-kernel/dfb-taint-kotlin-computed-property-negative.sarif.json",
+      "sha256": "eb2db26d0d9d0859472f873c524e84eaafcd586af507ced3bab37ccdcea690ec"
+    }
+  ],
+  "expected_output_roots": [
+    "reports/codeql-kotlin-kernel.json",
+    "reports/raw/codeql-kotlin-kernel"
+  ],
+  "missing_fresh_output_roots": [],
+  "removed_paths": []
+}

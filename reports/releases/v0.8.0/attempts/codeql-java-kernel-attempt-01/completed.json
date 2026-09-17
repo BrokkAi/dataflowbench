@@ -1,0 +1,779 @@
+{
+  "id": "codeql-java-kernel-attempt-01",
+  "planned_id": "codeql-java-kernel",
+  "release": "v0.8.0",
+  "argv": [
+    "target/release/dataflowbench",
+    "run-codeql-java-kernel",
+    "--codeql",
+    "/Users/dave/.cache/dataflowbench-tools/codeql-v2.27.0/codeql/codeql",
+    "--codeql-packs",
+    "/Users/dave/.cache/dataflowbench-tools/codeql-v2.27.0-packs"
+  ],
+  "cwd": "/Users/dave/.codex/worktrees/38c5/dataflowbench",
+  "input_commits": {
+    "corpus": "52db1bf46f0880c271b97b0df0f3e1d40d01fc0a",
+    "execution_harness": "1efb718e8a2f0445276471b6f8a6f0472faffbd8"
+  },
+  "execution_revision": "541df400734a2ba03a7875b2cf3f8143b50c937b",
+  "population": {
+    "path": "reports/releases/v0.8.0/population.json",
+    "sha256": "2b9dc814a889a2420eb2952e522041ad7c7e62ba9a42a81ccaf47a8ec188f66d"
+  },
+  "fixture_revision": "sha256:4b62280924ed2e141dc8bb8e7b1bddfbd512d0201a3fa82f7b92b223eefca8c9",
+  "plan": {
+    "path": "reports/releases/v0.8.0/rerun-plan.json",
+    "sha256": "8a842f3fc564d6a3979ff3b54c3b64e7a2f5d508d3f53f9513b853f2af679b7f"
+  },
+  "identities": {
+    "path": "reports/releases/v0.8.0/identities.json",
+    "sha256": "1414e289cc53565c881b3edaa22820e626982e051d4b2f48468c9fed3e0d54e5"
+  },
+  "execution_access": "unspecified",
+  "start_utc": "2026-09-16T18:43:46.411461+00:00",
+  "host": {
+    "platform": "macOS-27.0-arm64-arm-64bit",
+    "cpu_count": 10,
+    "load_before": [
+      4.7333984375,
+      3.591796875,
+      3.14453125
+    ],
+    "load_after": [
+      6.2861328125,
+      4.47021484375,
+      4.4814453125
+    ]
+  },
+  "settle_observations": [],
+  "cache_posture": "isolated case workspaces; local distributions and prefetched CodeQL packs; OS page cache uncontrolled; warm only for explicit warm series",
+  "supersedes": null,
+  "exit_code": 1,
+  "end_utc": "2026-09-16T19:51:19.686684+00:00",
+  "stdout": {
+    "path": "reports/releases/v0.8.0/attempts/codeql-java-kernel-attempt-01/stdout.txt",
+    "sha256": "8640cbc0ead7e33ea9daffe20f1b124e557f8f09d8641aa26076556d7f18d36d"
+  },
+  "stderr": {
+    "path": "reports/releases/v0.8.0/attempts/codeql-java-kernel-attempt-01/stderr.txt",
+    "sha256": "988dbc35cb0dc139536d37f81662467b540535bde09616faa5211c42f3c9eb25"
+  },
+  "outputs": [
+    {
+      "original_path": "reports/codeql-java-kernel.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-java-kernel-attempt-01/outputs/reports/codeql-java-kernel.json",
+      "sha256": "de4dc44d333e97ba82ccc87acace9186fce3131f476b8f06d81e667636dcad70"
+    },
+    {
+      "original_path": "reports/raw/codeql/dfb-taint-java-same-object-field-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-java-kernel-attempt-01/outputs/reports/raw/codeql/dfb-taint-java-same-object-field-positive-timing.json",
+      "sha256": "f1d0adb25bf6f961806f26e47a0456c7a286f374daa4edc97d4b2c383f53d87b"
+    },
+    {
+      "original_path": "reports/raw/codeql/dfb-taint-java-object-separation-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-java-kernel-attempt-01/outputs/reports/raw/codeql/dfb-taint-java-object-separation-positive-timing.json",
+      "sha256": "b9c2ecebbf3260181927deff8a630a612d28693ae8f1816ee36b400ab56c10cb"
+    },
+    {
+      "original_path": "reports/raw/codeql/dfb-taint-java-computed-property-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-java-kernel-attempt-01/outputs/reports/raw/codeql/dfb-taint-java-computed-property-negative-timing.json",
+      "sha256": "0cf199d363de74f645ed2ba745512c380cb78881f43d34f2b07324a4e54d9d3d"
+    },
+    {
+      "original_path": "reports/raw/codeql/dfb-taint-java-return-relay-two-hop-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-java-kernel-attempt-01/outputs/reports/raw/codeql/dfb-taint-java-return-relay-two-hop-positive-timing.json",
+      "sha256": "b3422eb0e6da8cf05559a93dd25439cf2a919d0b8f93d99d283bb8d389d4385f"
+    },
+    {
+      "original_path": "reports/raw/codeql/dfb-taint-java-map-iteration-positive.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-java-kernel-attempt-01/outputs/reports/raw/codeql/dfb-taint-java-map-iteration-positive.sarif.json",
+      "sha256": "b0d89087caca1a934936f8f76e69571da46db9c5765c0432e71d89c10edc73c6"
+    },
+    {
+      "original_path": "reports/raw/codeql/dfb-taint-java-recursive-heap-unwind-negative.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-java-kernel-attempt-01/outputs/reports/raw/codeql/dfb-taint-java-recursive-heap-unwind-negative.sarif.json",
+      "sha256": "d5d32a9a92a272371a1561ff88ea186ce161892ec2bbbe7f2695d46516486af7"
+    },
+    {
+      "original_path": "reports/raw/codeql/dfb-taint-java-dispatch-table-negative.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-java-kernel-attempt-01/outputs/reports/raw/codeql/dfb-taint-java-dispatch-table-negative.sarif.json",
+      "sha256": "dba28c6618bb3a22a919f7f325e5309738a3ac2a19549c761f4c783b244d6f21"
+    },
+    {
+      "original_path": "reports/raw/codeql/dfb-taint-java-deep-relay-chain-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-java-kernel-attempt-01/outputs/reports/raw/codeql/dfb-taint-java-deep-relay-chain-negative-timing.json",
+      "sha256": "c853c1ea9f0732786741bc88a57c335680d95a4133681e95c68a5951a485cc6f"
+    },
+    {
+      "original_path": "reports/raw/codeql/dfb-taint-java-expression-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-java-kernel-attempt-01/outputs/reports/raw/codeql/dfb-taint-java-expression-negative-timing.json",
+      "sha256": "1e28bd74a6dd0e1bc2fca98093b21f6d6f52c406008de3b8fe6482b50c92b84f"
+    },
+    {
+      "original_path": "reports/raw/codeql/dfb-taint-java-recursive-exception-persistence-negative.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-java-kernel-attempt-01/outputs/reports/raw/codeql/dfb-taint-java-recursive-exception-persistence-negative.sarif.json",
+      "sha256": "494f9240e466e12281eda8d46d7aee75aa0ced54e8c1ad9b88dc3c40b1e07728"
+    },
+    {
+      "original_path": "reports/raw/codeql/dfb-taint-java-local-overwrite-negative.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-java-kernel-attempt-01/outputs/reports/raw/codeql/dfb-taint-java-local-overwrite-negative.sarif.json",
+      "sha256": "94d0cf1dd944f5f8cc7c4105f055881d79788f81dbc85efa832344320718c686"
+    },
+    {
+      "original_path": "reports/raw/codeql/dfb-taint-java-return-relay-two-hop-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-java-kernel-attempt-01/outputs/reports/raw/codeql/dfb-taint-java-return-relay-two-hop-negative-timing.json",
+      "sha256": "d16f223da414c21d9746a3c78dcd61043acec175a962e042684361098854cf23"
+    },
+    {
+      "original_path": "reports/raw/codeql/dfb-taint-java-reflective-invocation-positive.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-java-kernel-attempt-01/outputs/reports/raw/codeql/dfb-taint-java-reflective-invocation-positive.sarif.json",
+      "sha256": "dad46c3fe76c67415db35d0f93c5e191e73ea3682ee93a10b9fb68945194bcba"
+    },
+    {
+      "original_path": "reports/raw/codeql/dfb-taint-java-explicit-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-java-kernel-attempt-01/outputs/reports/raw/codeql/dfb-taint-java-explicit-negative-timing.json",
+      "sha256": "02669ea38790e83bc5a542792bf1e0c2e0a1c127ec4fdd309d32678b4bc4ec49"
+    },
+    {
+      "original_path": "reports/raw/codeql/dfb-taint-java-recursive-carry-negative.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-java-kernel-attempt-01/outputs/reports/raw/codeql/dfb-taint-java-recursive-carry-negative.sarif.json",
+      "sha256": "26caa25d5e65a382389ca413c2899f51c4e7b8d326d6287e4a9eb198b181c0ee"
+    },
+    {
+      "original_path": "reports/raw/codeql/dfb-taint-java-same-object-field-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-java-kernel-attempt-01/outputs/reports/raw/codeql/dfb-taint-java-same-object-field-negative-timing.json",
+      "sha256": "999a63391608d6fa9b0cd2a1b9632624257fc79a22dfac7d1ed686edc5a71508"
+    },
+    {
+      "original_path": "reports/raw/codeql/dfb-taint-java-object-separation-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-java-kernel-attempt-01/outputs/reports/raw/codeql/dfb-taint-java-object-separation-negative-timing.json",
+      "sha256": "58386b604ad4405dcff43741cfdeebdfe2ed78e5706a1ede2c651715aaf26fa9"
+    },
+    {
+      "original_path": "reports/raw/codeql/dfb-taint-java-computed-property-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-java-kernel-attempt-01/outputs/reports/raw/codeql/dfb-taint-java-computed-property-positive-timing.json",
+      "sha256": "d44e302446fe2c1b10a8bac09d0e01487c94023d9b4b7d37b33931eb532a2d91"
+    },
+    {
+      "original_path": "reports/raw/codeql/dfb-taint-java-deep-relay-chain-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-java-kernel-attempt-01/outputs/reports/raw/codeql/dfb-taint-java-deep-relay-chain-positive-timing.json",
+      "sha256": "04f440f361aa2c2ce8edb89cdb13a8d284d8cca58fcf1b28d44f15cdaef7bece"
+    },
+    {
+      "original_path": "reports/raw/codeql/dfb-taint-java-expression-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-java-kernel-attempt-01/outputs/reports/raw/codeql/dfb-taint-java-expression-positive-timing.json",
+      "sha256": "711a292b0a24e4d80864a0a7af615404810ac09482718dc538ad37d86d4f36fb"
+    },
+    {
+      "original_path": "reports/raw/codeql/dfb-taint-java-direct-positive.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-java-kernel-attempt-01/outputs/reports/raw/codeql/dfb-taint-java-direct-positive.sarif.json",
+      "sha256": "3e8a40ba0077fd7bb19a007c1581df227242003877de391d9bed7b9d115532f6"
+    },
+    {
+      "original_path": "reports/raw/codeql/dfb-taint-java-recursive-carry-positive.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-java-kernel-attempt-01/outputs/reports/raw/codeql/dfb-taint-java-recursive-carry-positive.sarif.json",
+      "sha256": "09aa5634460d150d65cb794f3b5bc6ed6b126c003f9785749a34cf5cab771f0d"
+    },
+    {
+      "original_path": "reports/raw/codeql/dfb-taint-java-alias-propagation-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-java-kernel-attempt-01/outputs/reports/raw/codeql/dfb-taint-java-alias-propagation-negative-timing.json",
+      "sha256": "fe31635e6c7358928e48aa34d2832a119391c7a70d4e65c4d7bce6a129e1c99a"
+    },
+    {
+      "original_path": "reports/raw/codeql/dfb-taint-java-nested-access-path-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-java-kernel-attempt-01/outputs/reports/raw/codeql/dfb-taint-java-nested-access-path-negative-timing.json",
+      "sha256": "93265a6d27636b5e944ba8f40b0a31f664efe4bd2e939391eb58c526ca382839"
+    },
+    {
+      "original_path": "reports/raw/codeql/dfb-taint-java-recursive-callback-transform-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-java-kernel-attempt-01/outputs/reports/raw/codeql/dfb-taint-java-recursive-callback-transform-negative-timing.json",
+      "sha256": "84860c18541a7f1fc2eac5faddafe023610067361864672ec7a67e13af4d04e8"
+    },
+    {
+      "original_path": "reports/raw/codeql/dfb-taint-java-recursive-exception-persistence-positive.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-java-kernel-attempt-01/outputs/reports/raw/codeql/dfb-taint-java-recursive-exception-persistence-positive.sarif.json",
+      "sha256": "9360c2f0054d74e5de2d4399cf5d9e6209d35125963a421e7e4a01300cc75ca2"
+    },
+    {
+      "original_path": "reports/raw/codeql/dfb-taint-java-local-overwrite-positive.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-java-kernel-attempt-01/outputs/reports/raw/codeql/dfb-taint-java-local-overwrite-positive.sarif.json",
+      "sha256": "7f31546e6d9cc569b28da045eb7e5d0d808d9cdd815b02be815e4516a2284de4"
+    },
+    {
+      "original_path": "reports/raw/codeql/dfb-taint-java-reflective-invocation-negative.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-java-kernel-attempt-01/outputs/reports/raw/codeql/dfb-taint-java-reflective-invocation-negative.sarif.json",
+      "sha256": "4c3be83cac301a4b5cbb0428ddb0528818baeaa6515102a18a53a34e01f38bd3"
+    },
+    {
+      "original_path": "reports/raw/codeql/dfb-taint-java-interprocedural-exception-persistence-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-java-kernel-attempt-01/outputs/reports/raw/codeql/dfb-taint-java-interprocedural-exception-persistence-positive-timing.json",
+      "sha256": "1d5ebd0d0cafcd6ebfea0facd3def47a5717f916bc2c8d033efba8a5a4718d19"
+    },
+    {
+      "original_path": "reports/raw/codeql/dfb-taint-java-callback-registration-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-java-kernel-attempt-01/outputs/reports/raw/codeql/dfb-taint-java-callback-registration-negative-timing.json",
+      "sha256": "69239b3b5e101293a480ee8a7ef59c452fe97291a8fb31cf4e35fe7bc295f8b8"
+    },
+    {
+      "original_path": "reports/raw/codeql/dfb-taint-java-recursive-callback-transform-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-java-kernel-attempt-01/outputs/reports/raw/codeql/dfb-taint-java-recursive-callback-transform-positive-timing.json",
+      "sha256": "01d339a8ac22f6ba7cb221f36c299d26d107f28fc55933e15d0e3fa4c2446545"
+    },
+    {
+      "original_path": "reports/raw/codeql/dfb-taint-java-nested-access-path-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-java-kernel-attempt-01/outputs/reports/raw/codeql/dfb-taint-java-nested-access-path-positive-timing.json",
+      "sha256": "a4fc5f0c1cb789c06c9d45227997e0039151c726c825fd39f71eb4e20e6a5924"
+    },
+    {
+      "original_path": "reports/raw/codeql/dfb-taint-java-alias-propagation-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-java-kernel-attempt-01/outputs/reports/raw/codeql/dfb-taint-java-alias-propagation-positive-timing.json",
+      "sha256": "6c22d7a27276838a24b6cff264034addbe6ce49a57d02fe7bcd06d7dec10fb38"
+    },
+    {
+      "original_path": "reports/raw/codeql/dfb-taint-java-recursive-heap-unwind-positive.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-java-kernel-attempt-01/outputs/reports/raw/codeql/dfb-taint-java-recursive-heap-unwind-positive.sarif.json",
+      "sha256": "29210a92228985690771089ce8b549127f9d5d66f2ba33c4f78108ffdfb71da1"
+    },
+    {
+      "original_path": "reports/raw/codeql/dfb-taint-java-map-iteration-negative.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-java-kernel-attempt-01/outputs/reports/raw/codeql/dfb-taint-java-map-iteration-negative.sarif.json",
+      "sha256": "b0789f339fdf93784f7b302d622cb702b4a359f6bedfe832f6f419e9690f0d68"
+    },
+    {
+      "original_path": "reports/raw/codeql/dfb-taint-java-interprocedural-exception-persistence-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-java-kernel-attempt-01/outputs/reports/raw/codeql/dfb-taint-java-interprocedural-exception-persistence-negative-timing.json",
+      "sha256": "4a8fe4bb2c2cc1222dface53bea455f2051af6a5bc9c6979bd9f31337e059c94"
+    },
+    {
+      "original_path": "reports/raw/codeql/dfb-taint-java-callback-registration-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-java-kernel-attempt-01/outputs/reports/raw/codeql/dfb-taint-java-callback-registration-positive-timing.json",
+      "sha256": "1feee94335edcb75c793b3cc0abff0428557b8b77e67cb38592a80e966bd06a7"
+    },
+    {
+      "original_path": "reports/raw/codeql/dfb-taint-java-dispatch-table-positive.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-java-kernel-attempt-01/outputs/reports/raw/codeql/dfb-taint-java-dispatch-table-positive.sarif.json",
+      "sha256": "55fa5f5ce887107d541d42106bb297d040c84038d5afbcd6b52ba70e44703b5e"
+    },
+    {
+      "original_path": "reports/raw/codeql/dfb-taint-java-argument-position-positive.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-java-kernel-attempt-01/outputs/reports/raw/codeql/dfb-taint-java-argument-position-positive.sarif.json",
+      "sha256": "414c29ba16258c3c293dbadd1ff3835c94457de9f843b370677581cec2a100c1"
+    },
+    {
+      "original_path": "reports/raw/codeql/dfb-taint-java-map-iteration-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-java-kernel-attempt-01/outputs/reports/raw/codeql/dfb-taint-java-map-iteration-positive-timing.json",
+      "sha256": "c477ee8878761dbd477d89e9b09ae62e19b7dd6d558c2e4c93afdfe0f41af37f"
+    },
+    {
+      "original_path": "reports/raw/codeql/dfb-taint-java-exception-catch-positive.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-java-kernel-attempt-01/outputs/reports/raw/codeql/dfb-taint-java-exception-catch-positive.sarif.json",
+      "sha256": "81fe410db1e4ee8eca06a1329a12702fa9ef8c0baef11f9dafa9de49b1432313"
+    },
+    {
+      "original_path": "reports/raw/codeql/dfb-taint-java-argument-position-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-java-kernel-attempt-01/outputs/reports/raw/codeql/dfb-taint-java-argument-position-negative-timing.json",
+      "sha256": "ed9be1719ae0bf8d3d6eb4c7a9cda1f4be1e9a00b44a7b40e2124b2d6be40653"
+    },
+    {
+      "original_path": "reports/raw/codeql/dfb-taint-java-return-relay-one-hop-positive.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-java-kernel-attempt-01/outputs/reports/raw/codeql/dfb-taint-java-return-relay-one-hop-positive.sarif.json",
+      "sha256": "23d5419e48e6f39c848ed31076f487e7c8559500b32254eed277e3c28fa70bea"
+    },
+    {
+      "original_path": "reports/raw/codeql/dfb-taint-java-context-pair-depth2-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-java-kernel-attempt-01/outputs/reports/raw/codeql/dfb-taint-java-context-pair-depth2-positive-timing.json",
+      "sha256": "2d3f2a795d7953f0c76af8fd9c62dd5e09d259d2979695c364175ca977c63a7b"
+    },
+    {
+      "original_path": "reports/raw/codeql/dfb-taint-java-array-element-positive.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-java-kernel-attempt-01/outputs/reports/raw/codeql/dfb-taint-java-array-element-positive.sarif.json",
+      "sha256": "beb996ae846291e00df71fa70ccf53492bc5c42a685905ee8897268fdd4899c1"
+    },
+    {
+      "original_path": "reports/raw/codeql/dfb-taint-java-loop-carried-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-java-kernel-attempt-01/outputs/reports/raw/codeql/dfb-taint-java-loop-carried-negative-timing.json",
+      "sha256": "d030797ffa61397a76114d078dd716663b4e8daf75712b9f8b5ddef9ec0b6a9b"
+    },
+    {
+      "original_path": "reports/raw/codeql/dfb-taint-java-recursive-payload-transform-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-java-kernel-attempt-01/outputs/reports/raw/codeql/dfb-taint-java-recursive-payload-transform-positive-timing.json",
+      "sha256": "82f91b78f3f8fc12b14252ab41245e8bff31acc66ab0d39d4423502a16fe5a50"
+    },
+    {
+      "original_path": "reports/raw/codeql/dfb-taint-java-infeasible-branch-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-java-kernel-attempt-01/outputs/reports/raw/codeql/dfb-taint-java-infeasible-branch-negative-timing.json",
+      "sha256": "c99ff12189f6f60b88ac73f15c3ab973d672bd1ef8c2ae1e76bb7f72bafcfb24"
+    },
+    {
+      "original_path": "reports/raw/codeql/dfb-taint-java-context-pair-depth2-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-java-kernel-attempt-01/outputs/reports/raw/codeql/dfb-taint-java-context-pair-depth2-negative-timing.json",
+      "sha256": "9e9a65b5a6a77d54f0418d0b2f25cdd21445c5d57c51b7039f60c30f6cef5dcb"
+    },
+    {
+      "original_path": "reports/raw/codeql/dfb-taint-java-argument-position-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-java-kernel-attempt-01/outputs/reports/raw/codeql/dfb-taint-java-argument-position-positive-timing.json",
+      "sha256": "7b2d93721a629eeb23c4941a248884f0563eff1c95bfbe97289ba40646a6174c"
+    },
+    {
+      "original_path": "reports/raw/codeql/dfb-taint-java-map-iteration-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-java-kernel-attempt-01/outputs/reports/raw/codeql/dfb-taint-java-map-iteration-negative-timing.json",
+      "sha256": "1c1ee2276a7307ee65160fdfcb59cd1b2fcb109dafcadff51aa546d9d9e57f40"
+    },
+    {
+      "original_path": "reports/raw/codeql/dfb-taint-java-infeasible-branch-positive.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-java-kernel-attempt-01/outputs/reports/raw/codeql/dfb-taint-java-infeasible-branch-positive.sarif.json",
+      "sha256": "1c680631e265ddc1bb4bcb2b32c757db3e05e2071d66bd95312b3bd26a639c17"
+    },
+    {
+      "original_path": "reports/raw/codeql/run-environment.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-java-kernel-attempt-01/outputs/reports/raw/codeql/run-environment.json",
+      "sha256": "f1c3ade31d7fbfe9796888fe93b8796bcdd04af5106d6f116ba02956fbd3f4a2"
+    },
+    {
+      "original_path": "reports/raw/codeql/dfb-taint-java-object-separation-negative.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-java-kernel-attempt-01/outputs/reports/raw/codeql/dfb-taint-java-object-separation-negative.sarif.json",
+      "sha256": "73745493f536427f4e8d0e0d32dd6758c3f8f160e46c034311e26d5a798053e6"
+    },
+    {
+      "original_path": "reports/raw/codeql/dfb-taint-java-callback-registration-negative.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-java-kernel-attempt-01/outputs/reports/raw/codeql/dfb-taint-java-callback-registration-negative.sarif.json",
+      "sha256": "64b3608c99c425e85d752a93c0344f2361cba36e7839f439ece700eee45564c2"
+    },
+    {
+      "original_path": "reports/raw/codeql/dfb-taint-java-infeasible-branch-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-java-kernel-attempt-01/outputs/reports/raw/codeql/dfb-taint-java-infeasible-branch-positive-timing.json",
+      "sha256": "86cba260e0d388581a58b54e7e251804f42fafeffaa2a95722541e55761458b4"
+    },
+    {
+      "original_path": "reports/raw/codeql/dfb-taint-java-branch-join-positive.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-java-kernel-attempt-01/outputs/reports/raw/codeql/dfb-taint-java-branch-join-positive.sarif.json",
+      "sha256": "b6a1f71fccf04bb3d0082535b0e278a1c33a49e314f7409d52438ffb9eb7d24e"
+    },
+    {
+      "original_path": "reports/raw/codeql/dfb-taint-java-loop-carried-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-java-kernel-attempt-01/outputs/reports/raw/codeql/dfb-taint-java-loop-carried-positive-timing.json",
+      "sha256": "df07fb5936633551ecf18c168e6ce27d3281ae08756a9a33637ef88a19a3e3f9"
+    },
+    {
+      "original_path": "reports/raw/codeql/dfb-taint-java-recursive-payload-transform-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-java-kernel-attempt-01/outputs/reports/raw/codeql/dfb-taint-java-recursive-payload-transform-negative-timing.json",
+      "sha256": "4699092b84cbafc0b28db30147cf00e6425a9d0a263a972fe76f44ec3a31b530"
+    },
+    {
+      "original_path": "reports/raw/codeql/dfb-taint-java-direct-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-java-kernel-attempt-01/outputs/reports/raw/codeql/dfb-taint-java-direct-positive-timing.json",
+      "sha256": "e3714644ef159e7b899b4b4c8e602e59f207fdbe054b784319f83192b13a2ea3"
+    },
+    {
+      "original_path": "reports/raw/codeql/dfb-taint-java-same-object-field-negative.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-java-kernel-attempt-01/outputs/reports/raw/codeql/dfb-taint-java-same-object-field-negative.sarif.json",
+      "sha256": "d09b228f6ad2613ef588d0212e812ec088f6adc78068da6dc8f14f24331d2f56"
+    },
+    {
+      "original_path": "reports/raw/codeql/dfb-taint-java-nested-access-path-negative.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-java-kernel-attempt-01/outputs/reports/raw/codeql/dfb-taint-java-nested-access-path-negative.sarif.json",
+      "sha256": "2142472a264c6c1d4b3610ee7518bed74a73af6e13988c06c4b6df2be2a9de37"
+    },
+    {
+      "original_path": "reports/raw/codeql/dfb-taint-java-exception-catch-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-java-kernel-attempt-01/outputs/reports/raw/codeql/dfb-taint-java-exception-catch-positive-timing.json",
+      "sha256": "1e6c29a76baea98b52d5f4f014156c5c39b52832d31244fce0841b57caa98a98"
+    },
+    {
+      "original_path": "reports/raw/codeql/dfb-taint-java-infeasible-branch-negative.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-java-kernel-attempt-01/outputs/reports/raw/codeql/dfb-taint-java-infeasible-branch-negative.sarif.json",
+      "sha256": "19b1f8d35b363f9f009c98e85c42fbc38ccd287c5ba0c5d41ad88996b09bb61b"
+    },
+    {
+      "original_path": "reports/raw/codeql/dfb-taint-java-branch-join-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-java-kernel-attempt-01/outputs/reports/raw/codeql/dfb-taint-java-branch-join-negative-timing.json",
+      "sha256": "e7416c9f560ae69cbb5767e4d2887e826381cf40d262068c57f7b714ba0807c9"
+    },
+    {
+      "original_path": "reports/raw/codeql/dfb-taint-java-object-separation-positive.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-java-kernel-attempt-01/outputs/reports/raw/codeql/dfb-taint-java-object-separation-positive.sarif.json",
+      "sha256": "b5481e271ecc91df9da04690e167a671ada7cf70d6850429d189d58bcb2593e9"
+    },
+    {
+      "original_path": "reports/raw/codeql/dfb-taint-java-callback-registration-positive.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-java-kernel-attempt-01/outputs/reports/raw/codeql/dfb-taint-java-callback-registration-positive.sarif.json",
+      "sha256": "5c5b7ec42889876534d9e246d40b9eb1cc07c6f090341b1ef7201f921c269229"
+    },
+    {
+      "original_path": "reports/raw/codeql/dfb-taint-java-branch-join-negative.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-java-kernel-attempt-01/outputs/reports/raw/codeql/dfb-taint-java-branch-join-negative.sarif.json",
+      "sha256": "40757885f72bc83aae3b238d83da609d3c54bf3655c4d10965cf13f315d7e0ee"
+    },
+    {
+      "original_path": "reports/raw/codeql/dfb-taint-java-same-object-field-positive.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-java-kernel-attempt-01/outputs/reports/raw/codeql/dfb-taint-java-same-object-field-positive.sarif.json",
+      "sha256": "bc582c6731a5c68692a7d45606ebddd1f79e026444679aad28602fd8dc457b1e"
+    },
+    {
+      "original_path": "reports/raw/codeql/dfb-taint-java-nested-access-path-positive.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-java-kernel-attempt-01/outputs/reports/raw/codeql/dfb-taint-java-nested-access-path-positive.sarif.json",
+      "sha256": "bfad7e4f1fe6bb5359f59c84251ed873a33469cedbb0a7573f04cf4cc5340afa"
+    },
+    {
+      "original_path": "reports/raw/codeql/dfb-taint-java-exception-catch-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-java-kernel-attempt-01/outputs/reports/raw/codeql/dfb-taint-java-exception-catch-negative-timing.json",
+      "sha256": "3d94eafde33922d81e5cc4e1f4e46029ca79cdac9b1f49a5d9d2f58981d50c57"
+    },
+    {
+      "original_path": "reports/raw/codeql/dfb-taint-java-branch-join-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-java-kernel-attempt-01/outputs/reports/raw/codeql/dfb-taint-java-branch-join-positive-timing.json",
+      "sha256": "6845c5ba9ec02eeb3ceb5410f21d680cecfae68b8ad5b6b0461e32770966e3d3"
+    },
+    {
+      "original_path": "reports/raw/codeql/dfb-taint-java-argument-position-negative.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-java-kernel-attempt-01/outputs/reports/raw/codeql/dfb-taint-java-argument-position-negative.sarif.json",
+      "sha256": "5d7384d5643273e31893a38b89e332e7ce61e99260e70e3674e88161f79801b8"
+    },
+    {
+      "original_path": "reports/raw/codeql/dfb-taint-java-exception-catch-negative.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-java-kernel-attempt-01/outputs/reports/raw/codeql/dfb-taint-java-exception-catch-negative.sarif.json",
+      "sha256": "1d21f91504b8decb82a0a28b4cf0edccf839a31492f3bea46c0ce71bc3e71e9a"
+    },
+    {
+      "original_path": "reports/raw/codeql/dfb-taint-java-return-relay-one-hop-negative.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-java-kernel-attempt-01/outputs/reports/raw/codeql/dfb-taint-java-return-relay-one-hop-negative.sarif.json",
+      "sha256": "ccf0bc7686511efeb6aa7f764a9b55f31083d7a6b4e3bd54e497fa7c51a76960"
+    },
+    {
+      "original_path": "reports/raw/codeql/dfb-taint-java-array-element-negative.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-java-kernel-attempt-01/outputs/reports/raw/codeql/dfb-taint-java-array-element-negative.sarif.json",
+      "sha256": "b8e0dcc94b36b95b8ce6b292f2760c7a9175d3ce8b53a858a2db181eb22dd5a6"
+    },
+    {
+      "original_path": "reports/raw/codeql/dfb-taint-java-function-field-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-java-kernel-attempt-01/outputs/reports/raw/codeql/dfb-taint-java-function-field-negative-timing.json",
+      "sha256": "6ad17a60d641a52be5722076891facd82aa254c561efc26fe6091bad3507a7f8"
+    },
+    {
+      "original_path": "reports/raw/codeql/dfb-taint-java-local-chain-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-java-kernel-attempt-01/outputs/reports/raw/codeql/dfb-taint-java-local-chain-negative-timing.json",
+      "sha256": "a83564d7dc03c510ed6c4e9d9135a1fe3a0e98eb3a756b7cd739d541e2432f0b"
+    },
+    {
+      "original_path": "reports/raw/codeql/dfb-taint-java-interprocedural-exception-persistence-positive.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-java-kernel-attempt-01/outputs/reports/raw/codeql/dfb-taint-java-interprocedural-exception-persistence-positive.sarif.json",
+      "sha256": "8e88dffd51634bd10b7c1958a308afb8f725fb5bd28647662a3d2c6384438ec5"
+    },
+    {
+      "original_path": "reports/raw/codeql/dfb-taint-java-return-relay-one-hop-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-java-kernel-attempt-01/outputs/reports/raw/codeql/dfb-taint-java-return-relay-one-hop-positive-timing.json",
+      "sha256": "9c99f8f79248be36844ebf1c91595a21f231c3abea5f92e9109033b1c474c89b"
+    },
+    {
+      "original_path": "reports/raw/codeql/dfb-taint-java-deep-relay-chain-negative.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-java-kernel-attempt-01/outputs/reports/raw/codeql/dfb-taint-java-deep-relay-chain-negative.sarif.json",
+      "sha256": "ef5efb27488ae6a6c0c1fbd23c03f3c428cabe98ec22dfddb34db718addfb6f6"
+    },
+    {
+      "original_path": "reports/raw/codeql/dfb-taint-java-dispatch-table-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-java-kernel-attempt-01/outputs/reports/raw/codeql/dfb-taint-java-dispatch-table-negative-timing.json",
+      "sha256": "be498002a7274da9b41aa1807bae5ea073ebe626bca60e36d4ad50d90b62c377"
+    },
+    {
+      "original_path": "reports/raw/codeql/dfb-taint-java-function-field-positive.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-java-kernel-attempt-01/outputs/reports/raw/codeql/dfb-taint-java-function-field-positive.sarif.json",
+      "sha256": "ede449e745833e2150627048675761ec5b449c90621cf3d8a819aa350139e1f6"
+    },
+    {
+      "original_path": "reports/raw/codeql/dfb-taint-java-element-object-negative.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-java-kernel-attempt-01/outputs/reports/raw/codeql/dfb-taint-java-element-object-negative.sarif.json",
+      "sha256": "b67b0d54becab53a07c2c6b8aef2fb97532f23564f155ad7c988c5a5c65eac77"
+    },
+    {
+      "original_path": "reports/raw/codeql/dfb-taint-java-closure-capture-negative.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-java-kernel-attempt-01/outputs/reports/raw/codeql/dfb-taint-java-closure-capture-negative.sarif.json",
+      "sha256": "8341ae675ee728e41de3e6b269482b4b9b8fb2215373c25d17e15caabe48d220"
+    },
+    {
+      "original_path": "reports/raw/codeql/dfb-taint-java-call-context-negative.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-java-kernel-attempt-01/outputs/reports/raw/codeql/dfb-taint-java-call-context-negative.sarif.json",
+      "sha256": "fee5866859f68dd1497b505adb5123d531c71ac8103538c65dc62c55eb27b90b"
+    },
+    {
+      "original_path": "reports/raw/codeql/dfb-taint-java-dispatch-table-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-java-kernel-attempt-01/outputs/reports/raw/codeql/dfb-taint-java-dispatch-table-positive-timing.json",
+      "sha256": "5299f8e0a02968779f9ebecd90530dfb27764666800eade255c4e521515ac83c"
+    },
+    {
+      "original_path": "reports/raw/codeql/dfb-taint-java-return-relay-two-hop-positive.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-java-kernel-attempt-01/outputs/reports/raw/codeql/dfb-taint-java-return-relay-two-hop-positive.sarif.json",
+      "sha256": "c07efd730af2b91a553eda02831555bb2002a5bff6d85dca734ca48b3715d77e"
+    },
+    {
+      "original_path": "reports/raw/codeql/dfb-taint-java-return-relay-one-hop-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-java-kernel-attempt-01/outputs/reports/raw/codeql/dfb-taint-java-return-relay-one-hop-negative-timing.json",
+      "sha256": "a15a6ccbb24f20c249424b9a78739f79b0afabacaaaf27e124b64b1f738db41c"
+    },
+    {
+      "original_path": "reports/raw/codeql/dfb-taint-java-loop-carried-positive.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-java-kernel-attempt-01/outputs/reports/raw/codeql/dfb-taint-java-loop-carried-positive.sarif.json",
+      "sha256": "9938312cba90794e5f591089560f1c5d392311297b94c3e290ba197a693719a4"
+    },
+    {
+      "original_path": "reports/raw/codeql/dfb-taint-java-local-chain-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-java-kernel-attempt-01/outputs/reports/raw/codeql/dfb-taint-java-local-chain-positive-timing.json",
+      "sha256": "541a6bfbe62872d95ca08d1d699423d0944931f3f79e4e9ad23a466d11ad9c2c"
+    },
+    {
+      "original_path": "reports/raw/codeql/dfb-taint-java-function-field-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-java-kernel-attempt-01/outputs/reports/raw/codeql/dfb-taint-java-function-field-positive-timing.json",
+      "sha256": "92b8cf2fdffccfc60a8ba44905e65973659385d762637e636d11f733d2f89df3"
+    },
+    {
+      "original_path": "reports/raw/codeql/dfb-taint-java-computed-property-negative.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-java-kernel-attempt-01/outputs/reports/raw/codeql/dfb-taint-java-computed-property-negative.sarif.json",
+      "sha256": "e83465fb46ee158b13428a0e281b98f760cfb48ba92ca30f65e5c88ef2c7339f"
+    },
+    {
+      "original_path": "reports/raw/codeql/dfb-taint-java-explicit-negative.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-java-kernel-attempt-01/outputs/reports/raw/codeql/dfb-taint-java-explicit-negative.sarif.json",
+      "sha256": "139b68ff4460bcdca940223c0bb794235b0b057fb53af4b27cb88e5dbbd1cb17"
+    },
+    {
+      "original_path": "reports/raw/codeql/dfb-taint-java-context-pair-depth2-negative.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-java-kernel-attempt-01/outputs/reports/raw/codeql/dfb-taint-java-context-pair-depth2-negative.sarif.json",
+      "sha256": "dadf8a7eebf75a7e63534cc92857ef2ef0518c40b19e9babd7bc47cb674d56aa"
+    },
+    {
+      "original_path": "reports/raw/codeql/dfb-taint-java-return-relay-two-hop-negative.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-java-kernel-attempt-01/outputs/reports/raw/codeql/dfb-taint-java-return-relay-two-hop-negative.sarif.json",
+      "sha256": "fd435389c237e99bf6f5d5da402e2f4693174d8c54c099d88a9d9daac91c72e8"
+    },
+    {
+      "original_path": "reports/raw/codeql/dfb-taint-java-loop-carried-negative.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-java-kernel-attempt-01/outputs/reports/raw/codeql/dfb-taint-java-loop-carried-negative.sarif.json",
+      "sha256": "dbb110e15cb5f65210c621aa0980bf1ea8b51dac9dc2365b00bff20ed8ceb951"
+    },
+    {
+      "original_path": "reports/raw/codeql/dfb-taint-java-computed-property-positive.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-java-kernel-attempt-01/outputs/reports/raw/codeql/dfb-taint-java-computed-property-positive.sarif.json",
+      "sha256": "5c75ded14901ac04e35945bcfdcb4d3dc248add00e0f184f090b71c2906ef998"
+    },
+    {
+      "original_path": "reports/raw/codeql/dfb-taint-java-mutual-recursive-transform-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-java-kernel-attempt-01/outputs/reports/raw/codeql/dfb-taint-java-mutual-recursive-transform-positive-timing.json",
+      "sha256": "3ce9026542f24dbef5e590a7b872abdbc69b3552140313871024c5088824e605"
+    },
+    {
+      "original_path": "reports/raw/codeql/dfb-taint-java-context-pair-depth2-positive.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-java-kernel-attempt-01/outputs/reports/raw/codeql/dfb-taint-java-context-pair-depth2-positive.sarif.json",
+      "sha256": "35cf38c24db509bceec9e7b9fae817ae4b32abfb8b85ff9aad3ea7e9c7b1f285"
+    },
+    {
+      "original_path": "reports/raw/codeql/dfb-taint-java-deep-relay-chain-positive.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-java-kernel-attempt-01/outputs/reports/raw/codeql/dfb-taint-java-deep-relay-chain-positive.sarif.json",
+      "sha256": "07828a37d3c3fdf48244bf459ee6189fecd7a6d129d3df0a4e128381fa5993f1"
+    },
+    {
+      "original_path": "reports/raw/codeql/dfb-taint-java-interprocedural-exception-persistence-negative.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-java-kernel-attempt-01/outputs/reports/raw/codeql/dfb-taint-java-interprocedural-exception-persistence-negative.sarif.json",
+      "sha256": "e38124ffb1c2621c24333e55577ac5e89e85ab106bf5df606d6ec728a636b98d"
+    },
+    {
+      "original_path": "reports/raw/codeql/dfb-taint-java-element-object-positive.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-java-kernel-attempt-01/outputs/reports/raw/codeql/dfb-taint-java-element-object-positive.sarif.json",
+      "sha256": "ead4c54107f26d6aa15215a78acf1c21bef7cf0c038f587594b979d2803bf203"
+    },
+    {
+      "original_path": "reports/raw/codeql/dfb-taint-java-closure-capture-positive.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-java-kernel-attempt-01/outputs/reports/raw/codeql/dfb-taint-java-closure-capture-positive.sarif.json",
+      "sha256": "fe0aa54dfbe09e5eaa57fc08191662952d6c38c76d3bc92fa4486980c04a116e"
+    },
+    {
+      "original_path": "reports/raw/codeql/dfb-taint-java-mutual-recursive-transform-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-java-kernel-attempt-01/outputs/reports/raw/codeql/dfb-taint-java-mutual-recursive-transform-negative-timing.json",
+      "sha256": "abdcd52348714cb01ebe6c96d469c3faebe32afdb2e8de089aa028e516a9abd1"
+    },
+    {
+      "original_path": "reports/raw/codeql/dfb-taint-java-function-field-negative.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-java-kernel-attempt-01/outputs/reports/raw/codeql/dfb-taint-java-function-field-negative.sarif.json",
+      "sha256": "a0348605c1f45ea14129114b3649ec4d9ccb8cccf487dc8e1445087f29b4b9c1"
+    },
+    {
+      "original_path": "reports/raw/codeql/dfb-taint-java-call-context-positive.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-java-kernel-attempt-01/outputs/reports/raw/codeql/dfb-taint-java-call-context-positive.sarif.json",
+      "sha256": "b4b137dc8f8639b086e38b63d270583618a825b7ae972aeb1fde17e4e9089a23"
+    },
+    {
+      "original_path": "reports/raw/codeql/dfb-taint-java-recursive-callback-transform-negative.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-java-kernel-attempt-01/outputs/reports/raw/codeql/dfb-taint-java-recursive-callback-transform-negative.sarif.json",
+      "sha256": "6e6cf32e796e239f62e2a99f2f379daf5c66eb70a0a6b5c0219e4baf87d38266"
+    },
+    {
+      "original_path": "reports/raw/codeql/dfb-taint-java-recursive-payload-transform-positive.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-java-kernel-attempt-01/outputs/reports/raw/codeql/dfb-taint-java-recursive-payload-transform-positive.sarif.json",
+      "sha256": "8a0a60402e70ec0ab98a54a9fc441cc5c84dd8e3a98b50a61e3eab7585db70d5"
+    },
+    {
+      "original_path": "reports/raw/codeql/dfb-taint-java-local-chain-positive.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-java-kernel-attempt-01/outputs/reports/raw/codeql/dfb-taint-java-local-chain-positive.sarif.json",
+      "sha256": "90181d9d69b07dce8c27b1c19e7443fe4ef745d132aaa72d5809c3b5c78941b5"
+    },
+    {
+      "original_path": "reports/raw/codeql/dfb-taint-java-array-element-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-java-kernel-attempt-01/outputs/reports/raw/codeql/dfb-taint-java-array-element-positive-timing.json",
+      "sha256": "a8e5100db4c84d9d2deb58c77fa2390c95bfb9f8c5e929c1ba39c85f3cf523e6"
+    },
+    {
+      "original_path": "reports/raw/codeql/dfb-taint-java-alias-propagation-positive.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-java-kernel-attempt-01/outputs/reports/raw/codeql/dfb-taint-java-alias-propagation-positive.sarif.json",
+      "sha256": "718db84b022b04a99e19800d684e9de25a0cda6019942c4c759610d439979826"
+    },
+    {
+      "original_path": "reports/raw/codeql/dfb-taint-java-local-overwrite-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-java-kernel-attempt-01/outputs/reports/raw/codeql/dfb-taint-java-local-overwrite-negative-timing.json",
+      "sha256": "b4ebd7765fe903d0aac34be538a075fec7e3063badbb27d03f63a67b695bfe75"
+    },
+    {
+      "original_path": "reports/raw/codeql/dfb-taint-java-element-object-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-java-kernel-attempt-01/outputs/reports/raw/codeql/dfb-taint-java-element-object-positive-timing.json",
+      "sha256": "3ff9b65a59ebbaec487d426e82a0d2a52e5d739c1a478900b73e660b49d3c5f0"
+    },
+    {
+      "original_path": "reports/raw/codeql/dfb-taint-java-closure-capture-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-java-kernel-attempt-01/outputs/reports/raw/codeql/dfb-taint-java-closure-capture-negative-timing.json",
+      "sha256": "d09978fc48cd383119ca5addc61b1070a5a56e02b08bef07c47d1aeaa71ae6bc"
+    },
+    {
+      "original_path": "reports/raw/codeql/dfb-taint-java-expression-negative.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-java-kernel-attempt-01/outputs/reports/raw/codeql/dfb-taint-java-expression-negative.sarif.json",
+      "sha256": "642f02126a6275f6e88749e098eae5f05083a51335db1b4491152ad7e0b21f5d"
+    },
+    {
+      "original_path": "reports/raw/codeql/dfb-taint-java-mutual-recursive-transform-positive.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-java-kernel-attempt-01/outputs/reports/raw/codeql/dfb-taint-java-mutual-recursive-transform-positive.sarif.json",
+      "sha256": "853469fae2793a82968c70cab1fdcd83a8e029a954c6bf1d08a9085c0333dcb1"
+    },
+    {
+      "original_path": "reports/raw/codeql/dfb-taint-java-anonymous-implementation-negative.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-java-kernel-attempt-01/outputs/reports/raw/codeql/dfb-taint-java-anonymous-implementation-negative.sarif.json",
+      "sha256": "06753e15302120109da2260c58c33457be47ee7f7639b7d23447972530a8918e"
+    },
+    {
+      "original_path": "reports/raw/codeql/dfb-taint-java-closure-capture-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-java-kernel-attempt-01/outputs/reports/raw/codeql/dfb-taint-java-closure-capture-positive-timing.json",
+      "sha256": "2a13b3bf038f777c04bb8d0b2cba6f0c6771695ab03c077af4c178da27259f76"
+    },
+    {
+      "original_path": "reports/raw/codeql/dfb-taint-java-element-object-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-java-kernel-attempt-01/outputs/reports/raw/codeql/dfb-taint-java-element-object-negative-timing.json",
+      "sha256": "b31cbeef38621914aed5e7c4976614ade95cf93df0c9e3771a70cb2cfccd2c77"
+    },
+    {
+      "original_path": "reports/raw/codeql/dfb-taint-java-array-element-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-java-kernel-attempt-01/outputs/reports/raw/codeql/dfb-taint-java-array-element-negative-timing.json",
+      "sha256": "e182a8012b37eab43968fd3df85f02873c823d586ac69b108a31a44717f011e6"
+    },
+    {
+      "original_path": "reports/raw/codeql/dfb-taint-java-local-overwrite-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-java-kernel-attempt-01/outputs/reports/raw/codeql/dfb-taint-java-local-overwrite-positive-timing.json",
+      "sha256": "6e8f62eafc28a5ed7a73b016e7c57ff95ee2ccc75c7416d099436da305adfe02"
+    },
+    {
+      "original_path": "reports/raw/codeql/dfb-taint-java-call-context-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-java-kernel-attempt-01/outputs/reports/raw/codeql/dfb-taint-java-call-context-negative-timing.json",
+      "sha256": "6ba39859c25c37d1465bad0d13cd26b3b4855e52e26fb8f0790125e74646eb82"
+    },
+    {
+      "original_path": "reports/raw/codeql/dfb-taint-java-anonymous-implementation-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-java-kernel-attempt-01/outputs/reports/raw/codeql/dfb-taint-java-anonymous-implementation-positive-timing.json",
+      "sha256": "0c8d6f1d9bb35d7a7610014c4a2f3ba8e92f253af3d0f5551eeec6ea46af21ab"
+    },
+    {
+      "original_path": "reports/raw/codeql/dfb-taint-java-expression-positive.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-java-kernel-attempt-01/outputs/reports/raw/codeql/dfb-taint-java-expression-positive.sarif.json",
+      "sha256": "76434b76e366674e479dda0071b9a954be0a4e3be72c057c6bd758859222bc81"
+    },
+    {
+      "original_path": "reports/raw/codeql/dfb-taint-java-mutual-recursive-transform-negative.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-java-kernel-attempt-01/outputs/reports/raw/codeql/dfb-taint-java-mutual-recursive-transform-negative.sarif.json",
+      "sha256": "60c987037d1380ba1f9eda2bd6a3ee2e077064b1e665a40ea378d269751c6867"
+    },
+    {
+      "original_path": "reports/raw/codeql/dfb-taint-java-anonymous-implementation-positive.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-java-kernel-attempt-01/outputs/reports/raw/codeql/dfb-taint-java-anonymous-implementation-positive.sarif.json",
+      "sha256": "ae86b4be746218c8501e509534f036480c085288d2b962fa8bf13cc8e8e157f3"
+    },
+    {
+      "original_path": "reports/raw/codeql/dfb-taint-java-recursive-heap-unwind-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-java-kernel-attempt-01/outputs/reports/raw/codeql/dfb-taint-java-recursive-heap-unwind-positive-timing.json",
+      "sha256": "00c993af117bb9dc26f366db14a54da9718bcaeb1c3b08c90f2d2a4c1864197c"
+    },
+    {
+      "original_path": "reports/raw/codeql/dfb-taint-java-reflective-invocation-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-java-kernel-attempt-01/outputs/reports/raw/codeql/dfb-taint-java-reflective-invocation-positive-timing.json",
+      "sha256": "d6ff63f01ddf7ae4f859962fbb7bcfc805ab3fb08a1839137283d15217bb6c7d"
+    },
+    {
+      "original_path": "reports/raw/codeql/dfb-taint-java-recursive-exception-persistence-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-java-kernel-attempt-01/outputs/reports/raw/codeql/dfb-taint-java-recursive-exception-persistence-negative-timing.json",
+      "sha256": "2b6b7ec935907da71ef2ad53db7b8c249772bcef6c1ef550a685d397baf48f63"
+    },
+    {
+      "original_path": "reports/raw/codeql/dfb-taint-java-recursive-carry-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-java-kernel-attempt-01/outputs/reports/raw/codeql/dfb-taint-java-recursive-carry-positive-timing.json",
+      "sha256": "ba2cf4e7148bdbd5c20dc9b1cdfc05d17948b44b3c2190900c027e8a3857d95e"
+    },
+    {
+      "original_path": "reports/raw/codeql/dfb-taint-java-recursive-callback-transform-positive.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-java-kernel-attempt-01/outputs/reports/raw/codeql/dfb-taint-java-recursive-callback-transform-positive.sarif.json",
+      "sha256": "7af361cbc987a6362c793a1a8943da4baf95dcfe8d577d7cd19c3f064a497d93"
+    },
+    {
+      "original_path": "reports/raw/codeql/dfb-taint-java-local-chain-negative.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-java-kernel-attempt-01/outputs/reports/raw/codeql/dfb-taint-java-local-chain-negative.sarif.json",
+      "sha256": "0b3978f0f523776846ecf4bdd2afe98ace80be6ddae1a97d84b1c06918398aff"
+    },
+    {
+      "original_path": "reports/raw/codeql/dfb-taint-java-anonymous-implementation-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-java-kernel-attempt-01/outputs/reports/raw/codeql/dfb-taint-java-anonymous-implementation-negative-timing.json",
+      "sha256": "bdd8df937dc6709fc7b17b6ee924617dd83aaa8345a796708d65f03d705f2381"
+    },
+    {
+      "original_path": "reports/raw/codeql/dfb-taint-java-call-context-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-java-kernel-attempt-01/outputs/reports/raw/codeql/dfb-taint-java-call-context-positive-timing.json",
+      "sha256": "4f8f7ddee3b5c2b54221acd134ee8d73542a041639185be39f222f3a96539ff3"
+    },
+    {
+      "original_path": "reports/raw/codeql/dfb-taint-java-recursive-payload-transform-negative.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-java-kernel-attempt-01/outputs/reports/raw/codeql/dfb-taint-java-recursive-payload-transform-negative.sarif.json",
+      "sha256": "e211a4051d391dbf16adebc568601d1cc6e5718f0ebc705dabde7e276155f760"
+    },
+    {
+      "original_path": "reports/raw/codeql/dfb-taint-java-recursive-carry-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-java-kernel-attempt-01/outputs/reports/raw/codeql/dfb-taint-java-recursive-carry-negative-timing.json",
+      "sha256": "11837d6b5d0330ae23a8baaa894fd3c6b9168b01735c2d959f7eade6a342a3f0"
+    },
+    {
+      "original_path": "reports/raw/codeql/dfb-taint-java-alias-propagation-negative.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-java-kernel-attempt-01/outputs/reports/raw/codeql/dfb-taint-java-alias-propagation-negative.sarif.json",
+      "sha256": "bf6f3784f64c299b2ad7886f0f134076a446e7f4122fbddbea96da47b3c55ea8"
+    },
+    {
+      "original_path": "reports/raw/codeql/dfb-taint-java-reflective-invocation-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-java-kernel-attempt-01/outputs/reports/raw/codeql/dfb-taint-java-reflective-invocation-negative-timing.json",
+      "sha256": "7b0ff0ce7ab90ba342ec965796ea57816f7577939f41e3de47e14bfe90174c27"
+    },
+    {
+      "original_path": "reports/raw/codeql/dfb-taint-java-recursive-exception-persistence-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-java-kernel-attempt-01/outputs/reports/raw/codeql/dfb-taint-java-recursive-exception-persistence-positive-timing.json",
+      "sha256": "5b29f62e850a0055ec69f2ee81ac9f4b41fea1c89358de29ae2cbb71e2c6e62e"
+    },
+    {
+      "original_path": "reports/raw/codeql/dfb-taint-java-recursive-heap-unwind-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-java-kernel-attempt-01/outputs/reports/raw/codeql/dfb-taint-java-recursive-heap-unwind-negative-timing.json",
+      "sha256": "98923c574c2563b1fed082f3258822b0c9799c0497e5c27db4f60c3016bd4977"
+    }
+  ],
+  "expected_output_roots": [
+    "reports/codeql-java-kernel.json",
+    "reports/raw/codeql"
+  ],
+  "missing_fresh_output_roots": [],
+  "removed_paths": []
+}

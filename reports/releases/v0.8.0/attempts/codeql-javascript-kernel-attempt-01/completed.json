@@ -1,0 +1,779 @@
+{
+  "id": "codeql-javascript-kernel-attempt-01",
+  "planned_id": "codeql-javascript-kernel",
+  "release": "v0.8.0",
+  "argv": [
+    "target/release/dataflowbench",
+    "run-codeql-javascript-kernel",
+    "--codeql",
+    "/Users/dave/.cache/dataflowbench-tools/codeql-v2.27.0/codeql/codeql",
+    "--codeql-packs",
+    "/Users/dave/.cache/dataflowbench-tools/codeql-v2.27.0-packs"
+  ],
+  "cwd": "/Users/dave/.codex/worktrees/38c5/dataflowbench",
+  "input_commits": {
+    "corpus": "52db1bf46f0880c271b97b0df0f3e1d40d01fc0a",
+    "execution_harness": "1efb718e8a2f0445276471b6f8a6f0472faffbd8"
+  },
+  "execution_revision": "541df400734a2ba03a7875b2cf3f8143b50c937b",
+  "population": {
+    "path": "reports/releases/v0.8.0/population.json",
+    "sha256": "2b9dc814a889a2420eb2952e522041ad7c7e62ba9a42a81ccaf47a8ec188f66d"
+  },
+  "fixture_revision": "sha256:4b62280924ed2e141dc8bb8e7b1bddfbd512d0201a3fa82f7b92b223eefca8c9",
+  "plan": {
+    "path": "reports/releases/v0.8.0/rerun-plan.json",
+    "sha256": "8a842f3fc564d6a3979ff3b54c3b64e7a2f5d508d3f53f9513b853f2af679b7f"
+  },
+  "identities": {
+    "path": "reports/releases/v0.8.0/identities.json",
+    "sha256": "1414e289cc53565c881b3edaa22820e626982e051d4b2f48468c9fed3e0d54e5"
+  },
+  "execution_access": "unspecified",
+  "start_utc": "2026-09-16T20:22:36.779640+00:00",
+  "host": {
+    "platform": "macOS-27.0-arm64-arm-64bit",
+    "cpu_count": 10,
+    "load_before": [
+      5.52392578125,
+      5.03125,
+      3.873046875
+    ],
+    "load_after": [
+      3.14404296875,
+      3.392578125,
+      3.474609375
+    ]
+  },
+  "settle_observations": [],
+  "cache_posture": "isolated case workspaces; local distributions and prefetched CodeQL packs; OS page cache uncontrolled; warm only for explicit warm series",
+  "supersedes": null,
+  "exit_code": 1,
+  "end_utc": "2026-09-16T21:39:32.764375+00:00",
+  "stdout": {
+    "path": "reports/releases/v0.8.0/attempts/codeql-javascript-kernel-attempt-01/stdout.txt",
+    "sha256": "8640cbc0ead7e33ea9daffe20f1b124e557f8f09d8641aa26076556d7f18d36d"
+  },
+  "stderr": {
+    "path": "reports/releases/v0.8.0/attempts/codeql-javascript-kernel-attempt-01/stderr.txt",
+    "sha256": "368a56e7753fbec0dc708e966aa4eeeb0e0ada5ea218992cedb05efeefea6e20"
+  },
+  "outputs": [
+    {
+      "original_path": "reports/codeql-javascript-kernel.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-kernel-attempt-01/outputs/reports/codeql-javascript-kernel.json",
+      "sha256": "d9ea78eb64842ff267824f232cefcd5bc2a65b4bb788842d38d28b686d85afd2"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript/dfb-taint-javascript-map-iteration-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-kernel-attempt-01/outputs/reports/raw/codeql-javascript/dfb-taint-javascript-map-iteration-negative-timing.json",
+      "sha256": "da978bc7510dec4ede56a63906b0184331dc7a648afa0f68a24316d04bd96fc6"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript/dfb-taint-javascript-same-object-field-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-kernel-attempt-01/outputs/reports/raw/codeql-javascript/dfb-taint-javascript-same-object-field-positive-timing.json",
+      "sha256": "dcf6cb109a9a5fedfe2c4b21208dc523becf2e01c0d9529a2bbac62d9f9c06f6"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript/dfb-taint-javascript-object-separation-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-kernel-attempt-01/outputs/reports/raw/codeql-javascript/dfb-taint-javascript-object-separation-positive-timing.json",
+      "sha256": "d6d1690fd17e52aa9e7afe0503f77068a25bed3da15b9b8ae742dde9994a418d"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript/dfb-taint-javascript-computed-property-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-kernel-attempt-01/outputs/reports/raw/codeql-javascript/dfb-taint-javascript-computed-property-negative-timing.json",
+      "sha256": "048918b93d2b780e355afdac831ae9418a71c1cb29fd7c3433e5ff28d6bbce6b"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript/dfb-taint-javascript-direct-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-kernel-attempt-01/outputs/reports/raw/codeql-javascript/dfb-taint-javascript-direct-positive-timing.json",
+      "sha256": "35606e361e0d91778b65da4104da7323b0bd8b9b2981aa7ce62bea930b19569b"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript/dfb-taint-javascript-return-relay-two-hop-positive.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-kernel-attempt-01/outputs/reports/raw/codeql-javascript/dfb-taint-javascript-return-relay-two-hop-positive.sarif.json",
+      "sha256": "46b4c1d3ae8b7f16d29f68e1cf84e5d3f1708657f7969ac93d37506b12c2543d"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript/dfb-taint-javascript-anonymous-implementation-positive.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-kernel-attempt-01/outputs/reports/raw/codeql-javascript/dfb-taint-javascript-anonymous-implementation-positive.sarif.json",
+      "sha256": "212af614b4d0251f022505888a3128edbd10f492388caf84656c1cce2cc97b66"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript/dfb-taint-javascript-callback-registration-negative.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-kernel-attempt-01/outputs/reports/raw/codeql-javascript/dfb-taint-javascript-callback-registration-negative.sarif.json",
+      "sha256": "b91446a6743d27699a5bc15aa1f7ab6b44b61072939b758de41b152fbc3b8596"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript/dfb-taint-javascript-same-object-field-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-kernel-attempt-01/outputs/reports/raw/codeql-javascript/dfb-taint-javascript-same-object-field-negative-timing.json",
+      "sha256": "d9c4950d56be5d5b36fbc1f998ca3af4f54713955f6cb77f036eda38ed2017df"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript/dfb-taint-javascript-object-separation-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-kernel-attempt-01/outputs/reports/raw/codeql-javascript/dfb-taint-javascript-object-separation-negative-timing.json",
+      "sha256": "74c2c7bb5e1233c7803055d7648d01bdf672b272193383741412c79dc3a235b3"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript/dfb-taint-javascript-computed-property-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-kernel-attempt-01/outputs/reports/raw/codeql-javascript/dfb-taint-javascript-computed-property-positive-timing.json",
+      "sha256": "0b55db0a51ffccf3733434e3bea532f62b0e381e852283beb3bfc02e668a0d3d"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript/dfb-taint-javascript-map-iteration-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-kernel-attempt-01/outputs/reports/raw/codeql-javascript/dfb-taint-javascript-map-iteration-positive-timing.json",
+      "sha256": "912b08030cfd4846b3fddb780efc9628f2ad98f25d122c182d330b37023183b2"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript/dfb-taint-javascript-recursive-exception-persistence-negative.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-kernel-attempt-01/outputs/reports/raw/codeql-javascript/dfb-taint-javascript-recursive-exception-persistence-negative.sarif.json",
+      "sha256": "0dda62892122073e0c7b431808f3abe47de999643aa2fa62c321a65940333d22"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript/dfb-taint-javascript-direct-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-kernel-attempt-01/outputs/reports/raw/codeql-javascript/dfb-taint-javascript-direct-negative-timing.json",
+      "sha256": "dcf889547bf70137fceb86806207d39bc6694ff4e4a388c5ebbae15d0f8d166b"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript/dfb-taint-javascript-exception-catch-negative.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-kernel-attempt-01/outputs/reports/raw/codeql-javascript/dfb-taint-javascript-exception-catch-negative.sarif.json",
+      "sha256": "60a2afa8bdb3344ca497b9ac69374f6008966d10de37719d5c7cefddb6c50477"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript/dfb-taint-javascript-exception-catch-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-kernel-attempt-01/outputs/reports/raw/codeql-javascript/dfb-taint-javascript-exception-catch-positive-timing.json",
+      "sha256": "f3e3e8d42b69e2ad5678a9be327ec4d74cbac7e576d2aaae11ca147e5338fcdb"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript/dfb-taint-javascript-alias-propagation-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-kernel-attempt-01/outputs/reports/raw/codeql-javascript/dfb-taint-javascript-alias-propagation-negative-timing.json",
+      "sha256": "81fe7462f7c1b4ea0e19d140b601891168ae68f6f58f64f34902c40c2c8ab2d4"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript/dfb-taint-javascript-interprocedural-exception-persistence-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-kernel-attempt-01/outputs/reports/raw/codeql-javascript/dfb-taint-javascript-interprocedural-exception-persistence-positive-timing.json",
+      "sha256": "5f78eee08673193e7fb07aa6dab3480ed6cf9bac28c82c5a24f824ba7a9760f0"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript/dfb-taint-javascript-call-context-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-kernel-attempt-01/outputs/reports/raw/codeql-javascript/dfb-taint-javascript-call-context-positive-timing.json",
+      "sha256": "41d7146150a79e40804dd387d8c3aa31c608d2bd54782665fc9f3fe19f2ec2be"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript/dfb-taint-javascript-exception-catch-positive.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-kernel-attempt-01/outputs/reports/raw/codeql-javascript/dfb-taint-javascript-exception-catch-positive.sarif.json",
+      "sha256": "df8f6e02d644e4eb827356d623115eb1ffd41443d5356d4c96008967b7d24274"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript/dfb-taint-javascript-deep-relay-chain-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-kernel-attempt-01/outputs/reports/raw/codeql-javascript/dfb-taint-javascript-deep-relay-chain-negative-timing.json",
+      "sha256": "761515ff8836b39c47e78ecc13ad104cd118547e9042291f9f233f21524e3489"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript/dfb-taint-javascript-recursive-exception-persistence-positive.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-kernel-attempt-01/outputs/reports/raw/codeql-javascript/dfb-taint-javascript-recursive-exception-persistence-positive.sarif.json",
+      "sha256": "5f4d4edb68c50a4d5a8b49422101d5b61a173312e5de98edbf445f987a7090c1"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript/dfb-taint-javascript-alias-propagation-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-kernel-attempt-01/outputs/reports/raw/codeql-javascript/dfb-taint-javascript-alias-propagation-positive-timing.json",
+      "sha256": "903a57b1da739f2e161b2f6272bd1a28dd0e62beb5dca40c081606c3417fbf24"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript/dfb-taint-javascript-exception-catch-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-kernel-attempt-01/outputs/reports/raw/codeql-javascript/dfb-taint-javascript-exception-catch-negative-timing.json",
+      "sha256": "5bf5307ead3879f82bf30a9acde4cfdb4608c37af1fd9d50a7c073f1cc783ad2"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript/dfb-taint-javascript-anonymous-implementation-negative.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-kernel-attempt-01/outputs/reports/raw/codeql-javascript/dfb-taint-javascript-anonymous-implementation-negative.sarif.json",
+      "sha256": "9b15ffe5069fb2a27970863d680f17e7461cc7903372963d2dea39c70de1854d"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript/dfb-taint-javascript-callback-registration-positive.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-kernel-attempt-01/outputs/reports/raw/codeql-javascript/dfb-taint-javascript-callback-registration-positive.sarif.json",
+      "sha256": "0d0812ad0a4ffad80a3754f8866caca594601bca608305748ee2d09e9e571b70"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript/dfb-taint-javascript-call-context-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-kernel-attempt-01/outputs/reports/raw/codeql-javascript/dfb-taint-javascript-call-context-negative-timing.json",
+      "sha256": "02d553dcd3ac6ad388fa32fd5976c08c05aace1131d57acaef2a066acb6154e5"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript/dfb-taint-javascript-return-relay-two-hop-negative.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-kernel-attempt-01/outputs/reports/raw/codeql-javascript/dfb-taint-javascript-return-relay-two-hop-negative.sarif.json",
+      "sha256": "e55328a078d019f301b5ef1651e3b4629a70d073b20c9274ed09276ae740a018"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript/dfb-taint-javascript-interprocedural-exception-persistence-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-kernel-attempt-01/outputs/reports/raw/codeql-javascript/dfb-taint-javascript-interprocedural-exception-persistence-negative-timing.json",
+      "sha256": "9ec557ade0775c4c546a337466e82e4be7d2812840ddbb80a3e4a43488b26262"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript/dfb-taint-javascript-deep-relay-chain-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-kernel-attempt-01/outputs/reports/raw/codeql-javascript/dfb-taint-javascript-deep-relay-chain-positive-timing.json",
+      "sha256": "5af84055bdb739983c8becca057da7e80e8be5b7120b5f016118a31c5dffb625"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript/dfb-taint-javascript-call-context-positive.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-kernel-attempt-01/outputs/reports/raw/codeql-javascript/dfb-taint-javascript-call-context-positive.sarif.json",
+      "sha256": "72ea6caaf5b958da0d030afd274d0edbb91d40bb4c51ecb1e6166b06dd03bc78"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript/dfb-taint-javascript-local-chain-positive.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-kernel-attempt-01/outputs/reports/raw/codeql-javascript/dfb-taint-javascript-local-chain-positive.sarif.json",
+      "sha256": "070208a91378ff9cdda8d2fea92d1865c0974f1b79bda599522e8fc9dad6fced"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript/dfb-taint-javascript-reflective-invocation-positive.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-kernel-attempt-01/outputs/reports/raw/codeql-javascript/dfb-taint-javascript-reflective-invocation-positive.sarif.json",
+      "sha256": "ba9cb45ea9f3e2dd0961cf066c70f684a90a3172746e20968e8e6c3f2c40f919"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript/dfb-taint-javascript-callback-registration-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-kernel-attempt-01/outputs/reports/raw/codeql-javascript/dfb-taint-javascript-callback-registration-negative-timing.json",
+      "sha256": "0a5e726201546c97f32e6eca1af4c307507a8cea2b82b508d082a0c0aa73741e"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript/dfb-taint-javascript-return-relay-two-hop-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-kernel-attempt-01/outputs/reports/raw/codeql-javascript/dfb-taint-javascript-return-relay-two-hop-negative-timing.json",
+      "sha256": "491e8a8b7ae98f92b1434a566bccf2a2f3b479c5d8bb4fa91643ec61baf5970c"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript/dfb-taint-javascript-infeasible-branch-negative.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-kernel-attempt-01/outputs/reports/raw/codeql-javascript/dfb-taint-javascript-infeasible-branch-negative.sarif.json",
+      "sha256": "2693547b0c11084aafa6d1a56854fccd4d3a4c74a3f346a6c5bf99f33dabe35e"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript/dfb-taint-javascript-context-pair-depth2-positive.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-kernel-attempt-01/outputs/reports/raw/codeql-javascript/dfb-taint-javascript-context-pair-depth2-positive.sarif.json",
+      "sha256": "db0a73093ae80e8f5bac2f36c38406534f60f7cf2f5660869d7b5c7a9ff66c32"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript/dfb-taint-javascript-argument-position-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-kernel-attempt-01/outputs/reports/raw/codeql-javascript/dfb-taint-javascript-argument-position-negative-timing.json",
+      "sha256": "2128e68d13e5c23959e6fb866c0247c1f142443d1a9dfda7ce528aa388f9fc73"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript/dfb-taint-javascript-object-separation-positive.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-kernel-attempt-01/outputs/reports/raw/codeql-javascript/dfb-taint-javascript-object-separation-positive.sarif.json",
+      "sha256": "3c08232047ba6e2957206247d4d45269231e8d3853fb43ce54f79f0ffa44ac67"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript/dfb-taint-javascript-recursive-carry-positive.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-kernel-attempt-01/outputs/reports/raw/codeql-javascript/dfb-taint-javascript-recursive-carry-positive.sarif.json",
+      "sha256": "24c242eeb4e4be71279fd0fe635c3d612294b019d6e7652430088047583ff619"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript/dfb-taint-javascript-expression-positive.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-kernel-attempt-01/outputs/reports/raw/codeql-javascript/dfb-taint-javascript-expression-positive.sarif.json",
+      "sha256": "9c3bee59cb38c7d658f724ea49281bd4bade431b626e4156c3c905d66db32b46"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript/dfb-taint-javascript-infeasible-branch-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-kernel-attempt-01/outputs/reports/raw/codeql-javascript/dfb-taint-javascript-infeasible-branch-negative-timing.json",
+      "sha256": "cbc6459b0505dd892282e518543b96d66df39e857e6933f3f97a59c7d61eee7d"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript/dfb-taint-javascript-same-object-field-positive.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-kernel-attempt-01/outputs/reports/raw/codeql-javascript/dfb-taint-javascript-same-object-field-positive.sarif.json",
+      "sha256": "7a7f3ac8258dbae5246d27c56565fcd100c72b4ee3ea4465ea81bfa14e997d07"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript/dfb-taint-javascript-local-overwrite-positive.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-kernel-attempt-01/outputs/reports/raw/codeql-javascript/dfb-taint-javascript-local-overwrite-positive.sarif.json",
+      "sha256": "03b140aad4ec06c8ae6e20677b4e71df9bfbff4fcafcd851fecf23d2ede5e639"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript/dfb-taint-javascript-argument-position-negative.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-kernel-attempt-01/outputs/reports/raw/codeql-javascript/dfb-taint-javascript-argument-position-negative.sarif.json",
+      "sha256": "ee3ead25d3dd7d11b922027489148be784aa84e7738180f00ec4779b95e41df3"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript/dfb-taint-javascript-argument-position-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-kernel-attempt-01/outputs/reports/raw/codeql-javascript/dfb-taint-javascript-argument-position-positive-timing.json",
+      "sha256": "b86324b2884af40549d77a475e348c73113cfa6dc8c87d1c287067159c09f0fd"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript/dfb-taint-javascript-callback-registration-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-kernel-attempt-01/outputs/reports/raw/codeql-javascript/dfb-taint-javascript-callback-registration-positive-timing.json",
+      "sha256": "09ddcc2e68edc549ba0ba28f57027e3f85cc7aa096ea3f3940d5b2d83b725f6c"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript/dfb-taint-javascript-return-relay-two-hop-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-kernel-attempt-01/outputs/reports/raw/codeql-javascript/dfb-taint-javascript-return-relay-two-hop-positive-timing.json",
+      "sha256": "eff142f9ceaa0284a0f80e065e87d804293b8b914778e4cf19609f5da2df1eee"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript/run-environment.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-kernel-attempt-01/outputs/reports/raw/codeql-javascript/run-environment.json",
+      "sha256": "1217caabaa776d45827aeeb7a7bd1111138254cfd45b2d06fd7a2c08865ba2e5"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript/dfb-taint-javascript-loop-carried-negative.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-kernel-attempt-01/outputs/reports/raw/codeql-javascript/dfb-taint-javascript-loop-carried-negative.sarif.json",
+      "sha256": "7e91734d4fdf4618c9071e88b2c48fb77ed5777b1cf906a88bf480a25356a7db"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript/dfb-taint-javascript-dispatch-table-negative.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-kernel-attempt-01/outputs/reports/raw/codeql-javascript/dfb-taint-javascript-dispatch-table-negative.sarif.json",
+      "sha256": "f88f1538f0c8ad277de29e3b21babad80454e7c6f7fae70b5e2e4c643db76584"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript/dfb-taint-javascript-infeasible-branch-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-kernel-attempt-01/outputs/reports/raw/codeql-javascript/dfb-taint-javascript-infeasible-branch-positive-timing.json",
+      "sha256": "f7b863f2d7276da58dcc0378f389e0864e47b55ac5429826a38c875c50ed0d5b"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript/dfb-taint-javascript-direct-positive.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-kernel-attempt-01/outputs/reports/raw/codeql-javascript/dfb-taint-javascript-direct-positive.sarif.json",
+      "sha256": "87bb453030b560b685fa101e11d33d34c74a6608fb8d849267756eb9e1ab402c"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript/dfb-taint-javascript-recursive-heap-unwind-negative.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-kernel-attempt-01/outputs/reports/raw/codeql-javascript/dfb-taint-javascript-recursive-heap-unwind-negative.sarif.json",
+      "sha256": "6168626da386242a7c57a8a4c2ad4fd7ee2a2807acb78f34c3fe06c360e06d83"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript/dfb-taint-javascript-interprocedural-exception-persistence-positive.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-kernel-attempt-01/outputs/reports/raw/codeql-javascript/dfb-taint-javascript-interprocedural-exception-persistence-positive.sarif.json",
+      "sha256": "b8acdee2803810fe8352a0a737cdde19dbd6d8f8008c3953b3de1bc98f392ab8"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript/dfb-taint-javascript-nested-access-path-negative.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-kernel-attempt-01/outputs/reports/raw/codeql-javascript/dfb-taint-javascript-nested-access-path-negative.sarif.json",
+      "sha256": "40512bb21c6908f5c7d9ce29dafb5cd7bc230f64c532a808bff282de6c84f9f0"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript/dfb-taint-javascript-argument-position-positive.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-kernel-attempt-01/outputs/reports/raw/codeql-javascript/dfb-taint-javascript-argument-position-positive.sarif.json",
+      "sha256": "d41b29ba9895f44c342e788de139635fc3c0e0e8fd2da31db9658769aa3a7232"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript/dfb-taint-javascript-recursive-payload-transform-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-kernel-attempt-01/outputs/reports/raw/codeql-javascript/dfb-taint-javascript-recursive-payload-transform-positive-timing.json",
+      "sha256": "55206f8e4fe02a0d6a54551298be09bf8a5a67e49dc9a045b247a59edcd78537"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript/dfb-taint-javascript-recursive-callback-transform-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-kernel-attempt-01/outputs/reports/raw/codeql-javascript/dfb-taint-javascript-recursive-callback-transform-positive-timing.json",
+      "sha256": "e242eb19f1e3e93b3af9a3cd99911bebdd76f98654766b1bfe15ade0928b06ed"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript/dfb-taint-javascript-recursive-heap-unwind-positive.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-kernel-attempt-01/outputs/reports/raw/codeql-javascript/dfb-taint-javascript-recursive-heap-unwind-positive.sarif.json",
+      "sha256": "b48059f5dea7dca718c93a29fa517d4589332be057482ecc7c04ccdd6cfb0735"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript/dfb-taint-javascript-loop-carried-positive.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-kernel-attempt-01/outputs/reports/raw/codeql-javascript/dfb-taint-javascript-loop-carried-positive.sarif.json",
+      "sha256": "b73c46147ea13c49d37fedc0af09969734adea5709bd2adfa7e985cd47d46a0a"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript/dfb-taint-javascript-dispatch-table-positive.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-kernel-attempt-01/outputs/reports/raw/codeql-javascript/dfb-taint-javascript-dispatch-table-positive.sarif.json",
+      "sha256": "b0b126962f23c49b5ba6b19caee11ee786c4628bb9059d48ca54eec1121668ec"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript/dfb-taint-javascript-local-chain-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-kernel-attempt-01/outputs/reports/raw/codeql-javascript/dfb-taint-javascript-local-chain-positive-timing.json",
+      "sha256": "420dfa4bcfc5c2111829f1a6b6e52610bf2d0eabff01b7de833e18e5fddbc67b"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript/dfb-taint-javascript-direct-negative.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-kernel-attempt-01/outputs/reports/raw/codeql-javascript/dfb-taint-javascript-direct-negative.sarif.json",
+      "sha256": "07ac5ac0823461685111e075f101be5ced83b9a195faca5bd63a2c481c6c5df6"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript/dfb-taint-javascript-interprocedural-exception-persistence-negative.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-kernel-attempt-01/outputs/reports/raw/codeql-javascript/dfb-taint-javascript-interprocedural-exception-persistence-negative.sarif.json",
+      "sha256": "d5b587cff323b5e9f3096018072d97800acf3bb2cd99b2bc87d8a9e202140008"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript/dfb-taint-javascript-nested-access-path-positive.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-kernel-attempt-01/outputs/reports/raw/codeql-javascript/dfb-taint-javascript-nested-access-path-positive.sarif.json",
+      "sha256": "65e0a61bc59f222577495baed6e1b56fbc92fd9a4732b3dfc81a65c16aa0aebd"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript/dfb-taint-javascript-local-chain-negative.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-kernel-attempt-01/outputs/reports/raw/codeql-javascript/dfb-taint-javascript-local-chain-negative.sarif.json",
+      "sha256": "550cb943b1a08fc4d329bac904c3a5b69f394e75625ce63e4166cb4ac8289acc"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript/dfb-taint-javascript-recursive-callback-transform-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-kernel-attempt-01/outputs/reports/raw/codeql-javascript/dfb-taint-javascript-recursive-callback-transform-negative-timing.json",
+      "sha256": "c55191d8d4287b1e28c37cb63ca216b61604607be9c45883cea5182ae36dc99c"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript/dfb-taint-javascript-call-context-negative.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-kernel-attempt-01/outputs/reports/raw/codeql-javascript/dfb-taint-javascript-call-context-negative.sarif.json",
+      "sha256": "75f4f1cc220a9ca4c58c4ffc1611e968bf6b3f26abdafe770ecd7777e8945666"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript/dfb-taint-javascript-context-pair-depth2-negative.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-kernel-attempt-01/outputs/reports/raw/codeql-javascript/dfb-taint-javascript-context-pair-depth2-negative.sarif.json",
+      "sha256": "b8a9178b613f5840a529e82fa74b725544132bba8f08f5bb9ffc41cff54977ad"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript/dfb-taint-javascript-recursive-payload-transform-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-kernel-attempt-01/outputs/reports/raw/codeql-javascript/dfb-taint-javascript-recursive-payload-transform-negative-timing.json",
+      "sha256": "2714fee473d904eadc67b5d98aa272f855d93ef3c633f906148d1c7dff85703e"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript/dfb-taint-javascript-reflective-invocation-negative.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-kernel-attempt-01/outputs/reports/raw/codeql-javascript/dfb-taint-javascript-reflective-invocation-negative.sarif.json",
+      "sha256": "788db9bc8cfaa7057b86fcf662e3f01cafde3eb724844bdba343f26015948e7d"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript/dfb-taint-javascript-infeasible-branch-positive.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-kernel-attempt-01/outputs/reports/raw/codeql-javascript/dfb-taint-javascript-infeasible-branch-positive.sarif.json",
+      "sha256": "2253c197722ee842142dee0e1a95c20d06d199eca1b973637e2116854300ea33"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript/dfb-taint-javascript-object-separation-negative.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-kernel-attempt-01/outputs/reports/raw/codeql-javascript/dfb-taint-javascript-object-separation-negative.sarif.json",
+      "sha256": "28f17deb37733a862424647c730c7aaab82b82e135e8c9bdf3777d5f858d6187"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript/dfb-taint-javascript-local-chain-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-kernel-attempt-01/outputs/reports/raw/codeql-javascript/dfb-taint-javascript-local-chain-negative-timing.json",
+      "sha256": "aa5122721bb37b24f4c7d2bf14b47bde16855463904e40b3890e317cecea4f3a"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript/dfb-taint-javascript-same-object-field-negative.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-kernel-attempt-01/outputs/reports/raw/codeql-javascript/dfb-taint-javascript-same-object-field-negative.sarif.json",
+      "sha256": "327ad229e9aae32d7ae2ff276dba63228f509a64b244e1a318d0ba79d19da489"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript/dfb-taint-javascript-local-overwrite-negative.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-kernel-attempt-01/outputs/reports/raw/codeql-javascript/dfb-taint-javascript-local-overwrite-negative.sarif.json",
+      "sha256": "706e52ba4814d021452305c282413e0a7f7687bf4c0faab6636b43acf1f96a70"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript/dfb-taint-javascript-recursive-carry-negative.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-kernel-attempt-01/outputs/reports/raw/codeql-javascript/dfb-taint-javascript-recursive-carry-negative.sarif.json",
+      "sha256": "c665e933bb293d59b27dc4bfc2e8898aaddc1798b42e88cda9403203ec92813c"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript/dfb-taint-javascript-expression-negative.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-kernel-attempt-01/outputs/reports/raw/codeql-javascript/dfb-taint-javascript-expression-negative.sarif.json",
+      "sha256": "e97553fecca0eaccf24beea70cca397759e150cb02616c556c75ddcaa3f41df4"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript/dfb-taint-javascript-recursive-heap-unwind-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-kernel-attempt-01/outputs/reports/raw/codeql-javascript/dfb-taint-javascript-recursive-heap-unwind-positive-timing.json",
+      "sha256": "08090709200be2779e356bf4808014e33b15ba52568acfec1cd277cbf90993b5"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript/dfb-taint-javascript-computed-property-positive.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-kernel-attempt-01/outputs/reports/raw/codeql-javascript/dfb-taint-javascript-computed-property-positive.sarif.json",
+      "sha256": "e22a47a0031b9d799564e22b76061ce497e1e03421d064bef1b90157eb8a01fe"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript/dfb-taint-javascript-reflective-invocation-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-kernel-attempt-01/outputs/reports/raw/codeql-javascript/dfb-taint-javascript-reflective-invocation-positive-timing.json",
+      "sha256": "1e6535caeec97eb3795f754225fcdf6ff1b0c5d8520a8c31d6cb795a60b45818"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript/dfb-taint-javascript-loop-carried-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-kernel-attempt-01/outputs/reports/raw/codeql-javascript/dfb-taint-javascript-loop-carried-positive-timing.json",
+      "sha256": "e2c60170a6b4c6e8f0bd12d18f696410f2f05f4e2edaed90e8a0877835e2cca9"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript/dfb-taint-javascript-closure-capture-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-kernel-attempt-01/outputs/reports/raw/codeql-javascript/dfb-taint-javascript-closure-capture-negative-timing.json",
+      "sha256": "2b1989eb19aa04aa500ce6f268a8edd6cc46dd414a2047b2b550896344f7e5d6"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript/dfb-taint-javascript-expression-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-kernel-attempt-01/outputs/reports/raw/codeql-javascript/dfb-taint-javascript-expression-negative-timing.json",
+      "sha256": "8726f2aef2c18c9441b608e95827789a94404a4df81dcba4c1271ea34c04c3fa"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript/dfb-taint-javascript-array-element-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-kernel-attempt-01/outputs/reports/raw/codeql-javascript/dfb-taint-javascript-array-element-negative-timing.json",
+      "sha256": "ec54262d5de07780d631981b42c612d41d9fc7a1ed826a26f5dce96bda59882d"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript/dfb-taint-javascript-branch-join-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-kernel-attempt-01/outputs/reports/raw/codeql-javascript/dfb-taint-javascript-branch-join-positive-timing.json",
+      "sha256": "1f82000d5ca613794a54a0ff9cf524f7a70d420adba5dc3cb8025db3a927a77b"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript/dfb-taint-javascript-local-overwrite-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-kernel-attempt-01/outputs/reports/raw/codeql-javascript/dfb-taint-javascript-local-overwrite-negative-timing.json",
+      "sha256": "641a708bd3a20dc615e6f66d0a69dc9856a6a70dd78051f5864d3e67bbdab710"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript/dfb-taint-javascript-reflective-invocation-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-kernel-attempt-01/outputs/reports/raw/codeql-javascript/dfb-taint-javascript-reflective-invocation-negative-timing.json",
+      "sha256": "ec4272208cdf07c40dd0dc3673214291d7d003c885a4861fe2063db702593e71"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript/dfb-taint-javascript-loop-carried-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-kernel-attempt-01/outputs/reports/raw/codeql-javascript/dfb-taint-javascript-loop-carried-negative-timing.json",
+      "sha256": "9a3fe1eaeb95ad0ee335a747599ad7d1bd5c0325642728f9b0f7f9459cac4372"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript/dfb-taint-javascript-mutual-recursive-transform-positive.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-kernel-attempt-01/outputs/reports/raw/codeql-javascript/dfb-taint-javascript-mutual-recursive-transform-positive.sarif.json",
+      "sha256": "9aa7cdc69eb4b1ba3b3d9b1d5e68a6e3ae975b522cfa521cf141750bccd6e3da"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript/dfb-taint-javascript-array-element-positive.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-kernel-attempt-01/outputs/reports/raw/codeql-javascript/dfb-taint-javascript-array-element-positive.sarif.json",
+      "sha256": "e3a06dbbed93ca37bb8404bdb94073100b11f2ffd22c07e6f3716dc13e41c1cf"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript/dfb-taint-javascript-recursive-heap-unwind-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-kernel-attempt-01/outputs/reports/raw/codeql-javascript/dfb-taint-javascript-recursive-heap-unwind-negative-timing.json",
+      "sha256": "d792e53e4b295ab5319decfe8160a05094039947d6b1425c6e275f75947c7b18"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript/dfb-taint-javascript-local-overwrite-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-kernel-attempt-01/outputs/reports/raw/codeql-javascript/dfb-taint-javascript-local-overwrite-positive-timing.json",
+      "sha256": "f7834e729c3c4ae24f0630a8c6074abd109168df92f821b2f06ac20870ffdba7"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript/dfb-taint-javascript-branch-join-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-kernel-attempt-01/outputs/reports/raw/codeql-javascript/dfb-taint-javascript-branch-join-negative-timing.json",
+      "sha256": "89d5f567d8cb3c08c5844ec5a28782d9b83dce069244aaa40c57391242cc4b24"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript/dfb-taint-javascript-expression-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-kernel-attempt-01/outputs/reports/raw/codeql-javascript/dfb-taint-javascript-expression-positive-timing.json",
+      "sha256": "a0a5307dd1f28c08356d402570fdf090ed7aa75ab4d4a297f73b4bad31a0a281"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript/dfb-taint-javascript-array-element-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-kernel-attempt-01/outputs/reports/raw/codeql-javascript/dfb-taint-javascript-array-element-positive-timing.json",
+      "sha256": "db2ab3254b21ef7d2871c4d8e152339de2a30fd76191708030d30f2b9a564b72"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript/dfb-taint-javascript-closure-capture-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-kernel-attempt-01/outputs/reports/raw/codeql-javascript/dfb-taint-javascript-closure-capture-positive-timing.json",
+      "sha256": "b2a8cab5f2a5750d10fb3d601170bcdb1eab19e22c6f0153e7e18d98ed69cb87"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript/dfb-taint-javascript-mutual-recursive-transform-negative.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-kernel-attempt-01/outputs/reports/raw/codeql-javascript/dfb-taint-javascript-mutual-recursive-transform-negative.sarif.json",
+      "sha256": "b4da6fc35e4f2b732006af7c3a0da925b1792cdc7daba7e7f13f6df9807fb728"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript/dfb-taint-javascript-array-element-negative.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-kernel-attempt-01/outputs/reports/raw/codeql-javascript/dfb-taint-javascript-array-element-negative.sarif.json",
+      "sha256": "51ef40d50eeedae6b37e946b8adc4329d2b3104b70c7ec2c94856f5e8f0b9d25"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript/dfb-taint-javascript-mutual-recursive-transform-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-kernel-attempt-01/outputs/reports/raw/codeql-javascript/dfb-taint-javascript-mutual-recursive-transform-positive-timing.json",
+      "sha256": "4e28c2538ab9fae2649d6d86d5d979d9dcdfce45c254ebbcc17885061b269823"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript/dfb-taint-javascript-element-object-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-kernel-attempt-01/outputs/reports/raw/codeql-javascript/dfb-taint-javascript-element-object-positive-timing.json",
+      "sha256": "a57fb999f0043f94e1c22df509189813d1a8b8516ed948d57c86a55916e3fc62"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript/dfb-taint-javascript-recursive-carry-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-kernel-attempt-01/outputs/reports/raw/codeql-javascript/dfb-taint-javascript-recursive-carry-positive-timing.json",
+      "sha256": "594404edbe498c429c08081230d038ad7e0683ccc4ddf66992c654fd33841a51"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript/dfb-taint-javascript-computed-property-negative.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-kernel-attempt-01/outputs/reports/raw/codeql-javascript/dfb-taint-javascript-computed-property-negative.sarif.json",
+      "sha256": "78023b0b8006caaedd1d4af8badfd158d1e07d86d84acb03662fc20031f87a75"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript/dfb-taint-javascript-mutual-recursive-transform-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-kernel-attempt-01/outputs/reports/raw/codeql-javascript/dfb-taint-javascript-mutual-recursive-transform-negative-timing.json",
+      "sha256": "13c8e127058b3a05955932179d7f699a4baeca33fb4373b0708efbab69ade443"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript/dfb-taint-javascript-element-object-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-kernel-attempt-01/outputs/reports/raw/codeql-javascript/dfb-taint-javascript-element-object-negative-timing.json",
+      "sha256": "04d58bd94a85927c6158bea05ca718e64f234ddc7aac73d3e48bab3c64348f09"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript/dfb-taint-javascript-recursive-carry-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-kernel-attempt-01/outputs/reports/raw/codeql-javascript/dfb-taint-javascript-recursive-carry-negative-timing.json",
+      "sha256": "9017495a3ee9581026bab771d1d5a6453df1ded43409188ebecc6b5ecc1d0166"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript/dfb-taint-javascript-deep-relay-chain-negative.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-kernel-attempt-01/outputs/reports/raw/codeql-javascript/dfb-taint-javascript-deep-relay-chain-negative.sarif.json",
+      "sha256": "1a1586a3f1224412522a55d423f474e02ad3d4cc49ac0d9744ef5416ced3e46c"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript/dfb-taint-javascript-return-relay-one-hop-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-kernel-attempt-01/outputs/reports/raw/codeql-javascript/dfb-taint-javascript-return-relay-one-hop-negative-timing.json",
+      "sha256": "618ce7723788d1909290ad67dba6c47a8ecfa2ebe3a0db585181b53c56a48dc0"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript/dfb-taint-javascript-recursive-payload-transform-positive.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-kernel-attempt-01/outputs/reports/raw/codeql-javascript/dfb-taint-javascript-recursive-payload-transform-positive.sarif.json",
+      "sha256": "410da0c3c64d8b2e8d46a9d9a687207fdd65a45c5849bc91485e4a1f6d3ca024"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript/dfb-taint-javascript-context-pair-depth2-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-kernel-attempt-01/outputs/reports/raw/codeql-javascript/dfb-taint-javascript-context-pair-depth2-negative-timing.json",
+      "sha256": "b5b63d457cc6bc6d3bef6f3bacad87163f4612f8c333b2db4df30b5287c35e64"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript/dfb-taint-javascript-anonymous-implementation-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-kernel-attempt-01/outputs/reports/raw/codeql-javascript/dfb-taint-javascript-anonymous-implementation-negative-timing.json",
+      "sha256": "46a33d4264a61d940c8755b3b5da9d793290c0f0781d1036a66643106887ea61"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript/dfb-taint-javascript-nested-access-path-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-kernel-attempt-01/outputs/reports/raw/codeql-javascript/dfb-taint-javascript-nested-access-path-negative-timing.json",
+      "sha256": "215df697c49114aa44155b4c9afc1d523d7eb8d1bba421f87ed9337723660501"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript/dfb-taint-javascript-recursive-exception-persistence-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-kernel-attempt-01/outputs/reports/raw/codeql-javascript/dfb-taint-javascript-recursive-exception-persistence-positive-timing.json",
+      "sha256": "6e605106d70ea7abbbffe1144ae27cac6b0581513d0272bd55b78b1e236feb87"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript/dfb-taint-javascript-map-iteration-positive.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-kernel-attempt-01/outputs/reports/raw/codeql-javascript/dfb-taint-javascript-map-iteration-positive.sarif.json",
+      "sha256": "ad7ffe590bfb31337fb6be101960ece5f29fb1daeab3edd0d58dfcf43204040d"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript/dfb-taint-javascript-closure-capture-positive.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-kernel-attempt-01/outputs/reports/raw/codeql-javascript/dfb-taint-javascript-closure-capture-positive.sarif.json",
+      "sha256": "68014fe89763f616828079f05842ecdd780cc74abd39309172bb84c59e0a2062"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript/dfb-taint-javascript-return-relay-one-hop-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-kernel-attempt-01/outputs/reports/raw/codeql-javascript/dfb-taint-javascript-return-relay-one-hop-positive-timing.json",
+      "sha256": "1585189e40d3f7fd5e4b9f11e791b3e388a5929926088b16b73c21aef723769a"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript/dfb-taint-javascript-nested-access-path-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-kernel-attempt-01/outputs/reports/raw/codeql-javascript/dfb-taint-javascript-nested-access-path-positive-timing.json",
+      "sha256": "4de19a7f238ccc8d7deb5b69e758965c9d7541fd16aa5069c0397a37387ade52"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript/dfb-taint-javascript-alias-propagation-negative.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-kernel-attempt-01/outputs/reports/raw/codeql-javascript/dfb-taint-javascript-alias-propagation-negative.sarif.json",
+      "sha256": "62d919988cb1bb2c43172b996790944586efd9111a7a30da7e8b5e4021f60ed5"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript/dfb-taint-javascript-recursive-callback-transform-positive.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-kernel-attempt-01/outputs/reports/raw/codeql-javascript/dfb-taint-javascript-recursive-callback-transform-positive.sarif.json",
+      "sha256": "299d47a8f218108564b6951cfde1c6552b7c57795047ab8e43301e3e699ddbe7"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript/dfb-taint-javascript-recursive-exception-persistence-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-kernel-attempt-01/outputs/reports/raw/codeql-javascript/dfb-taint-javascript-recursive-exception-persistence-negative-timing.json",
+      "sha256": "4caef97b72ba3087af2b4ae300446f24b4bc7851a96a26488f281e6a61825230"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript/dfb-taint-javascript-anonymous-implementation-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-kernel-attempt-01/outputs/reports/raw/codeql-javascript/dfb-taint-javascript-anonymous-implementation-positive-timing.json",
+      "sha256": "e084c26c2b5c9389c16c404a4679afa3b84390264663658d413cea845d060716"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript/dfb-taint-javascript-function-field-positive.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-kernel-attempt-01/outputs/reports/raw/codeql-javascript/dfb-taint-javascript-function-field-positive.sarif.json",
+      "sha256": "6c2b49062167357a1cca66312e2e2e8f988fc4c9ad14c9f177e2ee5ab1e7feb6"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript/dfb-taint-javascript-context-pair-depth2-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-kernel-attempt-01/outputs/reports/raw/codeql-javascript/dfb-taint-javascript-context-pair-depth2-positive-timing.json",
+      "sha256": "854709f2618ff3376516575b70b013245a7af0b49928b6b6be73d9c49f5f1a90"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript/dfb-taint-javascript-branch-join-positive.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-kernel-attempt-01/outputs/reports/raw/codeql-javascript/dfb-taint-javascript-branch-join-positive.sarif.json",
+      "sha256": "b916913f34f5874d1931ab186d75954227dd3521c0b2823c85c61a68fa74b95b"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript/dfb-taint-javascript-element-object-negative.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-kernel-attempt-01/outputs/reports/raw/codeql-javascript/dfb-taint-javascript-element-object-negative.sarif.json",
+      "sha256": "a877b6e63ddaf7cef47ea12d5eac8e70ed98f659480af90d3af163101642cb08"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript/dfb-taint-javascript-return-relay-one-hop-positive.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-kernel-attempt-01/outputs/reports/raw/codeql-javascript/dfb-taint-javascript-return-relay-one-hop-positive.sarif.json",
+      "sha256": "1849ee4cae41c8cef24bf6f675f21bece2551ec3ee5bf1ce792824f0c6ea29bd"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript/dfb-taint-javascript-map-iteration-negative.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-kernel-attempt-01/outputs/reports/raw/codeql-javascript/dfb-taint-javascript-map-iteration-negative.sarif.json",
+      "sha256": "4c9accece7dd65e93afdde633e68806b9b89071468ab8fc63e3766980c278995"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript/dfb-taint-javascript-closure-capture-negative.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-kernel-attempt-01/outputs/reports/raw/codeql-javascript/dfb-taint-javascript-closure-capture-negative.sarif.json",
+      "sha256": "b2a9cc6d70e5a429f785a2645652d57c982ba6add49a0a741e385e6a08e2d8fe"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript/dfb-taint-javascript-function-field-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-kernel-attempt-01/outputs/reports/raw/codeql-javascript/dfb-taint-javascript-function-field-negative-timing.json",
+      "sha256": "8a1f9615c17852d2c41f8f817a2a8c5e66b316cdc5d628e578da566453c66556"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript/dfb-taint-javascript-alias-propagation-positive.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-kernel-attempt-01/outputs/reports/raw/codeql-javascript/dfb-taint-javascript-alias-propagation-positive.sarif.json",
+      "sha256": "87e820ace6b3dccf31073baee3cf272d56b36fc830d1f6460a3ff1e4012bd596"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript/dfb-taint-javascript-recursive-callback-transform-negative.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-kernel-attempt-01/outputs/reports/raw/codeql-javascript/dfb-taint-javascript-recursive-callback-transform-negative.sarif.json",
+      "sha256": "b530ddf17c691d981c50688ebf682aab36606317bd3dfc17c9e8ef5c5c5a47e9"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript/dfb-taint-javascript-branch-join-negative.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-kernel-attempt-01/outputs/reports/raw/codeql-javascript/dfb-taint-javascript-branch-join-negative.sarif.json",
+      "sha256": "334e1e7ce4cc65fc23b2048624760fd50ac199a1bfe0be45dd3490b5506bcfd7"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript/dfb-taint-javascript-element-object-positive.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-kernel-attempt-01/outputs/reports/raw/codeql-javascript/dfb-taint-javascript-element-object-positive.sarif.json",
+      "sha256": "a27b454d619795142d19bf87f43de552c20d854095a2db2b318289864a2f5ef6"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript/dfb-taint-javascript-return-relay-one-hop-negative.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-kernel-attempt-01/outputs/reports/raw/codeql-javascript/dfb-taint-javascript-return-relay-one-hop-negative.sarif.json",
+      "sha256": "673b7aaab3623ceb1d69095583bc5172725c2e1e9cfabb05bc7eb970d7d199ed"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript/dfb-taint-javascript-dispatch-table-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-kernel-attempt-01/outputs/reports/raw/codeql-javascript/dfb-taint-javascript-dispatch-table-negative-timing.json",
+      "sha256": "f85089415eb78085f0a5e60c2264e792326ac3659f76af880c732d94c3312d13"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript/dfb-taint-javascript-function-field-negative.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-kernel-attempt-01/outputs/reports/raw/codeql-javascript/dfb-taint-javascript-function-field-negative.sarif.json",
+      "sha256": "126904a8f73d8056104329b0a19d9db81dccbbfd5ae921a5ee86e89037f2a5e9"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript/dfb-taint-javascript-deep-relay-chain-positive.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-kernel-attempt-01/outputs/reports/raw/codeql-javascript/dfb-taint-javascript-deep-relay-chain-positive.sarif.json",
+      "sha256": "88f68359e8e079c8d68759796ecf57dc0dd058e3954d12e20a07ff800a6e9ea1"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript/dfb-taint-javascript-dispatch-table-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-kernel-attempt-01/outputs/reports/raw/codeql-javascript/dfb-taint-javascript-dispatch-table-positive-timing.json",
+      "sha256": "c3e7120006ef6e184bcadc5face0eb47c607ce2b2e5cfe62639104cb08a389ee"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript/dfb-taint-javascript-recursive-payload-transform-negative.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-kernel-attempt-01/outputs/reports/raw/codeql-javascript/dfb-taint-javascript-recursive-payload-transform-negative.sarif.json",
+      "sha256": "3a988d0e76bc148941294fd255e94bc3784b9ac8815f6fc86cc2652fa3315249"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript/dfb-taint-javascript-function-field-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-kernel-attempt-01/outputs/reports/raw/codeql-javascript/dfb-taint-javascript-function-field-positive-timing.json",
+      "sha256": "1c29c3c5bf3ad775778458ef26fb627f55f760f8cae8676ceaab4ebdd5c22aae"
+    }
+  ],
+  "expected_output_roots": [
+    "reports/codeql-javascript-kernel.json",
+    "reports/raw/codeql-javascript"
+  ],
+  "missing_fresh_output_roots": [],
+  "removed_paths": []
+}
