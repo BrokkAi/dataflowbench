@@ -1,0 +1,62 @@
+---
+title: Snapshot v0.8.0
+description: The recursive-composition kernel release, with 1,000 cases and all 82 reports freshly rerun.
+---
+
+import SnapshotBanner from '../../../../components/SnapshotBanner.astro';
+import { snapshots, evidenceUrl } from '../../../../data/snapshots';
+
+export const snapshot = snapshots.find((s) => s.version === 'v0.8.0');
+
+<SnapshotBanner snapshot={snapshot} />
+
+v0.8.0 is the first freeze of the expanded recursive-composition kernels.
+The benchmark contains **1,000 cases** and all **82 bound reports** were freshly
+rerun. The freeze has **4,036 outcomes**:
+
+| Outcome | Count |
+| --- | ---: |
+| `not-reached` | 1,388 |
+| `reached` | 1,239 |
+| `inconclusive` | 530 |
+| `unsupported` | 879 |
+
+These counts describe coverage across independent scorecards. They do not pool
+analyzers, languages, score tiers, or model profiles into a leaderboard.
+
+## Population and measured changes
+
+The release adds **148 cases** to the v0.7.1 corpus, producing **556 new
+report cells**. They cover balanced recursive composition pairs and the
+interprocedural exceptional-exit persistence additions described by the
+kernel contracts. Among the 3,480 cells shared with v0.7.1, **124 outcomes
+changed** under the refreshed analyzer pins: 104 CodeQL C/C++ cells became
+`inconclusive`, while 20 Bifrost cells became decisive across C#, JavaScript,
+TypeScript, and Ruby. These are retained measurements, not rewritten scores.
+
+## Timing qualification
+
+This release retains **3,157 cold timings**. The remaining 879 outcomes are
+unsupported and have no invented timing. Joern Java and Semgrep Java warm
+series were each repeated twice; nine invocation-overhead groups were each
+repeated three times in recorded quiet-host windows. Cache state remains
+uncontrolled, so these are desktop characterizations rather than causal
+cross-release speedup claims.
+
+## Claim
+
+- Scope: <code>{snapshot.results.claim.scope}</code>
+- Tracks: {snapshot.results.claim.tracks.map((t) => <code>{t} </code>)}
+- Score tiers: {snapshot.results.claim.score_tiers.map((t) => <code>{t} </code>)}
+- Model profiles: {snapshot.results.claim.model_profiles.map((p) => <code>{p} </code>)}
+- Exclusions: {snapshot.results.claim.exclusions.length === 0 ? 'none' : ''}
+
+## Bound evidence
+
+Freeze ID (manifest SHA-256): <code>{snapshot.results.manifest.sha256}</code>
+
+Freeze manifest: <a href={evidenceUrl(snapshot, snapshot.results.manifest.path)}><code>{snapshot.results.manifest.path}</code></a>
+
+Continue to [analyzers](./analyzers/), [languages](./languages/), [semantic
+templates](./templates/), [case evidence](./evidence/), [profiles](./profiles/),
+or [latency](./latency/).

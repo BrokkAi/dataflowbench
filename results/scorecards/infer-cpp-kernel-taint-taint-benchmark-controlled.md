@@ -4,11 +4,11 @@ Adapter `infer-cpp-kernel`: `infer` `v1.3.0` (build `infer:v1.3.0 bin-sha256:17e
 
 Track `taint`, score dimension `taint`, model profile `benchmark-controlled`. This scorecard is a single result population; it is never pooled with other tracks, dimensions, or model profiles.
 
-Normalized report: `reports/infer-cpp-kernel.json` (`sha256:b36c1bf27f4f303db75ccb3d115515bc19a53e80d7785562f5bc84cdc590f69f`, normalized `sha256:b36c1bf27f4f303db75ccb3d115515bc19a53e80d7785562f5bc84cdc590f69f`). Generated from freeze manifest `reports/freeze.json` (`sha256:f5416cded5891c92418d23ec5e2c638eb73f86695255cd5ea5f818b10f6c9e1d`).
+Normalized report: `reports/infer-cpp-kernel.json` (`sha256:ca7ccf79c7b1be85caf5ce9b111f8df45a47c67edebeb575448f74b2fdb5eaf0`, normalized `sha256:ca7ccf79c7b1be85caf5ce9b111f8df45a47c67edebeb575448f74b2fdb5eaf0`). Generated from freeze manifest `reports/freeze.json` (`sha256:582b2589648772926bc7da0a83844eed0450f015c3593fa5f2937c10669f4259`).
 
 ## Language `cpp`, tier `core`
 
-Outcome coverage: `reached` 19, `not-reached` 37, `inconclusive` 0, `unsupported` 0, `runner-error` 0, total 56. `inconclusive`, `unsupported`, and `runner-error` are capability and execution coverage; they are never counted as clean negatives.
+Outcome coverage: `reached` 19, `not-reached` 49, `inconclusive` 0, `unsupported` 0, `runner-error` 0, total 68. `inconclusive`, `unsupported`, and `runner-error` are capability and execution coverage; they are never counted as clean negatives.
 
 ### Semantic dimension rates
 
@@ -16,16 +16,16 @@ Outcome coverage: `reached` 19, `not-reached` 37, `inconclusive` 0, `unsupported
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | `context-sensitivity` | 4 | 1 | 0 | 5 | 0 | 0 | 0 | 80.0% | 0.0% |
 | `dynamic-dispatch` | 2 | 3 | 0 | 5 | 0 | 0 | 0 | 40.0% | 0.0% |
-| `exceptional-flow` | 0 | 1 | 0 | 1 | 0 | 0 | 0 | 0.0% | 0.0% |
-| `flow-sensitivity` | 2 | 1 | 0 | 3 | 0 | 0 | 0 | 66.7% | 0.0% |
-| `heap-field-sensitivity` | 7 | 3 | 0 | 10 | 0 | 0 | 0 | 70.0% | 0.0% |
-| `interprocedural-flow` | 7 | 4 | 0 | 11 | 0 | 0 | 0 | 63.6% | 0.0% |
+| `exceptional-flow` | 0 | 3 | 0 | 3 | 0 | 0 | 0 | 0.0% | 0.0% |
+| `flow-sensitivity` | 2 | 7 | 0 | 9 | 0 | 0 | 0 | 22.2% | 0.0% |
+| `heap-field-sensitivity` | 7 | 6 | 0 | 13 | 0 | 0 | 0 | 53.8% | 0.0% |
+| `interprocedural-flow` | 7 | 10 | 0 | 17 | 0 | 0 | 0 | 41.2% | 0.0% |
 | `local-flow` | 5 | 3 | 0 | 8 | 0 | 0 | 0 | 62.5% | 0.0% |
 | `object-sensitivity` | 4 | 1 | 0 | 5 | 0 | 0 | 0 | 80.0% | 0.0% |
 | `path-sensitivity` | 2 | 1 | 0 | 3 | 0 | 0 | 0 | 66.7% | 0.0% |
-| `recursion` | 0 | 1 | 0 | 1 | 0 | 0 | 0 | 0.0% | 0.0% |
+| `recursion` | 0 | 6 | 0 | 6 | 0 | 0 | 0 | 0.0% | 0.0% |
 
-Macro-average over semantic dimensions: TPR 52.9%, FPR 0.0%. Macro-averages pool templates first, then semantic dimensions; raw case counts are shown for audit only.
+Macro-average over semantic dimensions: TPR 44.6%, FPR 0.0%. Macro-averages pool templates first, then semantic dimensions; raw case counts are shown for audit only.
 
 Caveat: `inconclusive` outcomes are excluded from every TPR and FPR denominator above, so the rates cover only the conclusive subset of this population. This population records 0 `inconclusive` outcome(s). Compare rate columns across adapters with that exclusion in mind: an adapter that self-reports uncertainty is not penalized in its rates for the cases it declined to decide.
 
@@ -63,12 +63,24 @@ Caveat: `inconclusive` outcomes are excluded from every TPR and FPR denominator 
 | `dfb-template-chal-element-object` | `dfb-taint-cpp-element-object-positive` | positive | `reached` | true-positive | `reports/raw/infer-cpp-kernel/dfb-taint-cpp-element-object-positive.json` | `b8797bb6042008bf10f1f08924767254ccbbb385d2d32b7b745ef74897b75ec7` |
 | `dfb-template-chal-function-field` | `dfb-taint-cpp-function-field-negative` | negative | `not-reached` | true-negative | `reports/raw/infer-cpp-kernel/dfb-taint-cpp-function-field-negative.json` | `49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811` |
 | `dfb-template-chal-function-field` | `dfb-taint-cpp-function-field-positive` | positive | `reached` | true-positive | `reports/raw/infer-cpp-kernel/dfb-taint-cpp-function-field-positive.json` | `d50082fe205e46d50fb49e163a9bd2bb5ff0d102e7a8813ee8a21dbff47cf531` |
+| `dfb-template-chal-interprocedural-exception-persistence` | `dfb-taint-cpp-interprocedural-exception-persistence-negative` | negative | `not-reached` | true-negative | `reports/raw/infer-cpp-kernel/dfb-taint-cpp-interprocedural-exception-persistence-negative.json` | `49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811` |
+| `dfb-template-chal-interprocedural-exception-persistence` | `dfb-taint-cpp-interprocedural-exception-persistence-positive` | positive | `not-reached` | false-negative | `reports/raw/infer-cpp-kernel/dfb-taint-cpp-interprocedural-exception-persistence-positive.json` | `49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811` |
 | `dfb-template-chal-map-iteration` | `dfb-taint-cpp-map-iteration-negative` | negative | `not-reached` | true-negative | `reports/raw/infer-cpp-kernel/dfb-taint-cpp-map-iteration-negative.json` | `49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811` |
 | `dfb-template-chal-map-iteration` | `dfb-taint-cpp-map-iteration-positive` | positive | `not-reached` | false-negative | `reports/raw/infer-cpp-kernel/dfb-taint-cpp-map-iteration-positive.json` | `49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811` |
+| `dfb-template-chal-mutual-recursive-transform` | `dfb-taint-cpp-mutual-recursive-transform-negative` | negative | `not-reached` | true-negative | `reports/raw/infer-cpp-kernel/dfb-taint-cpp-mutual-recursive-transform-negative.json` | `49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811` |
+| `dfb-template-chal-mutual-recursive-transform` | `dfb-taint-cpp-mutual-recursive-transform-positive` | positive | `not-reached` | false-negative | `reports/raw/infer-cpp-kernel/dfb-taint-cpp-mutual-recursive-transform-positive.json` | `49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811` |
 | `dfb-template-chal-nested-access-path` | `dfb-taint-cpp-nested-access-path-negative` | negative | `not-reached` | true-negative | `reports/raw/infer-cpp-kernel/dfb-taint-cpp-nested-access-path-negative.json` | `49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811` |
 | `dfb-template-chal-nested-access-path` | `dfb-taint-cpp-nested-access-path-positive` | positive | `reached` | true-positive | `reports/raw/infer-cpp-kernel/dfb-taint-cpp-nested-access-path-positive.json` | `daf9868da69bba5cecf95fd5f3c110d44a38a904c1e66165a789c33702436310` |
+| `dfb-template-chal-recursive-callback-transform` | `dfb-taint-cpp-recursive-callback-transform-negative` | negative | `not-reached` | true-negative | `reports/raw/infer-cpp-kernel/dfb-taint-cpp-recursive-callback-transform-negative.json` | `49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811` |
+| `dfb-template-chal-recursive-callback-transform` | `dfb-taint-cpp-recursive-callback-transform-positive` | positive | `not-reached` | false-negative | `reports/raw/infer-cpp-kernel/dfb-taint-cpp-recursive-callback-transform-positive.json` | `49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811` |
 | `dfb-template-chal-recursive-carry` | `dfb-taint-cpp-recursive-carry-negative` | negative | `not-reached` | true-negative | `reports/raw/infer-cpp-kernel/dfb-taint-cpp-recursive-carry-negative.json` | `49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811` |
 | `dfb-template-chal-recursive-carry` | `dfb-taint-cpp-recursive-carry-positive` | positive | `not-reached` | false-negative | `reports/raw/infer-cpp-kernel/dfb-taint-cpp-recursive-carry-positive.json` | `49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811` |
+| `dfb-template-chal-recursive-exception-persistence` | `dfb-taint-cpp-recursive-exception-persistence-negative` | negative | `not-reached` | true-negative | `reports/raw/infer-cpp-kernel/dfb-taint-cpp-recursive-exception-persistence-negative.json` | `49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811` |
+| `dfb-template-chal-recursive-exception-persistence` | `dfb-taint-cpp-recursive-exception-persistence-positive` | positive | `not-reached` | false-negative | `reports/raw/infer-cpp-kernel/dfb-taint-cpp-recursive-exception-persistence-positive.json` | `49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811` |
+| `dfb-template-chal-recursive-heap-unwind` | `dfb-taint-cpp-recursive-heap-unwind-negative` | negative | `not-reached` | true-negative | `reports/raw/infer-cpp-kernel/dfb-taint-cpp-recursive-heap-unwind-negative.json` | `49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811` |
+| `dfb-template-chal-recursive-heap-unwind` | `dfb-taint-cpp-recursive-heap-unwind-positive` | positive | `not-reached` | false-negative | `reports/raw/infer-cpp-kernel/dfb-taint-cpp-recursive-heap-unwind-positive.json` | `49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811` |
+| `dfb-template-chal-recursive-payload-transform` | `dfb-taint-cpp-recursive-payload-transform-negative` | negative | `not-reached` | true-negative | `reports/raw/infer-cpp-kernel/dfb-taint-cpp-recursive-payload-transform-negative.json` | `49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811` |
+| `dfb-template-chal-recursive-payload-transform` | `dfb-taint-cpp-recursive-payload-transform-positive` | positive | `not-reached` | false-negative | `reports/raw/infer-cpp-kernel/dfb-taint-cpp-recursive-payload-transform-positive.json` | `49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811` |
 | `dfb-template-direct-propagation` | `dfb-taint-cpp-direct-negative` | negative | `not-reached` | true-negative | `reports/raw/infer-cpp-kernel/dfb-taint-cpp-direct-negative.json` | `49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811` |
 | `dfb-template-direct-propagation` | `dfb-taint-cpp-direct-positive` | positive | `reached` | true-positive | `reports/raw/infer-cpp-kernel/dfb-taint-cpp-direct-positive.json` | `fff2b7fd04ed65f2afa4e82fc9e092eb0dd331a59b1095f248bcd8eda129d512` |
 | `dfb-template-exception-catch` | `dfb-taint-cpp-exception-catch-negative` | negative | `not-reached` | true-negative | `reports/raw/infer-cpp-kernel/dfb-taint-cpp-exception-catch-negative.json` | `49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811` |

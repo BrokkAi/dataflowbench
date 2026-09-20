@@ -4,11 +4,11 @@ Adapter `opentaint-java-kernel`: `opentaint` `v0.4.6` (build `opentaint-project-
 
 Track `taint`, score dimension `taint`, model profile `benchmark-controlled`. This scorecard is a single result population; it is never pooled with other tracks, dimensions, or model profiles.
 
-Normalized report: `reports/opentaint-java-kernel.json` (`sha256:33ef292f0166ae61584696e65ec4a640b853919406b1acf6c608a356aa1916dd`, normalized `sha256:33ef292f0166ae61584696e65ec4a640b853919406b1acf6c608a356aa1916dd`). Generated from freeze manifest `reports/freeze.json` (`sha256:f5416cded5891c92418d23ec5e2c638eb73f86695255cd5ea5f818b10f6c9e1d`).
+Normalized report: `reports/opentaint-java-kernel.json` (`sha256:ddd80129ac50fa3ce6e26cdf01cd936676beca360709c251511bb608be8b4930`, normalized `sha256:ddd80129ac50fa3ce6e26cdf01cd936676beca360709c251511bb608be8b4930`). Generated from freeze manifest `reports/freeze.json` (`sha256:582b2589648772926bc7da0a83844eed0450f015c3593fa5f2937c10669f4259`).
 
 ## Language `java`, tier `core`
 
-Outcome coverage: `reached` 32, `not-reached` 26, `inconclusive` 0, `unsupported` 0, `runner-error` 0, total 58. `inconclusive`, `unsupported`, and `runner-error` are capability and execution coverage; they are never counted as clean negatives.
+Outcome coverage: `reached` 36, `not-reached` 34, `inconclusive` 0, `unsupported` 0, `runner-error` 0, total 70. `inconclusive`, `unsupported`, and `runner-error` are capability and execution coverage; they are never counted as clean negatives.
 
 ### Semantic dimension rates
 
@@ -16,16 +16,16 @@ Outcome coverage: `reached` 32, `not-reached` 26, `inconclusive` 0, `unsupported
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | `context-sensitivity` | 5 | 0 | 1 | 4 | 0 | 0 | 0 | 100.0% | 20.0% |
 | `dynamic-dispatch` | 6 | 1 | 2 | 5 | 0 | 0 | 0 | 85.7% | 28.6% |
-| `exceptional-flow` | 0 | 1 | 0 | 1 | 0 | 0 | 0 | 0.0% | 0.0% |
-| `flow-sensitivity` | 3 | 0 | 1 | 2 | 0 | 0 | 0 | 100.0% | 33.3% |
-| `heap-field-sensitivity` | 9 | 1 | 3 | 7 | 0 | 0 | 0 | 90.0% | 30.0% |
-| `interprocedural-flow` | 9 | 0 | 0 | 9 | 0 | 0 | 0 | 100.0% | 0.0% |
+| `exceptional-flow` | 0 | 3 | 0 | 3 | 0 | 0 | 0 | 0.0% | 0.0% |
+| `flow-sensitivity` | 7 | 2 | 1 | 8 | 0 | 0 | 0 | 77.8% | 11.1% |
+| `heap-field-sensitivity` | 10 | 3 | 3 | 10 | 0 | 0 | 0 | 76.9% | 23.1% |
+| `interprocedural-flow` | 13 | 2 | 0 | 15 | 0 | 0 | 0 | 86.7% | 0.0% |
 | `local-flow` | 7 | 1 | 1 | 7 | 0 | 0 | 0 | 87.5% | 12.5% |
 | `object-sensitivity` | 5 | 0 | 1 | 4 | 0 | 0 | 0 | 100.0% | 20.0% |
 | `path-sensitivity` | 3 | 0 | 1 | 2 | 0 | 0 | 0 | 100.0% | 33.3% |
-| `recursion` | 1 | 0 | 0 | 1 | 0 | 0 | 0 | 100.0% | 0.0% |
+| `recursion` | 5 | 1 | 0 | 6 | 0 | 0 | 0 | 83.3% | 0.0% |
 
-Macro-average over semantic dimensions: TPR 86.3%, FPR 17.8%. Macro-averages pool templates first, then semantic dimensions; raw case counts are shown for audit only.
+Macro-average over semantic dimensions: TPR 79.8%, FPR 14.9%. Macro-averages pool templates first, then semantic dimensions; raw case counts are shown for audit only.
 
 Caveat: `inconclusive` outcomes are excluded from every TPR and FPR denominator above, so the rates cover only the conclusive subset of this population. This population records 0 `inconclusive` outcome(s). Compare rate columns across adapters with that exclusion in mind: an adapter that self-reports uncertainty is not penalized in its rates for the cases it declined to decide.
 
@@ -63,12 +63,24 @@ Caveat: `inconclusive` outcomes are excluded from every TPR and FPR denominator 
 | `dfb-template-chal-element-object` | `dfb-taint-java-element-object-positive` | positive | `reached` | true-positive | `reports/raw/opentaint-java-kernel/dfb-taint-java-element-object-positive.json` | `ffc0285152fd7823e67736f14dfa334339c52fdf4959dd63913302f051553609` |
 | `dfb-template-chal-function-field` | `dfb-taint-java-function-field-negative` | negative | `not-reached` | true-negative | `reports/raw/opentaint-java-kernel/dfb-taint-java-function-field-negative.json` | `8a0e3e55a05fd1b7256615b982e7d6bb95b3b140d68c50d3306dbd478540902d` |
 | `dfb-template-chal-function-field` | `dfb-taint-java-function-field-positive` | positive | `reached` | true-positive | `reports/raw/opentaint-java-kernel/dfb-taint-java-function-field-positive.json` | `fad474f452f43d25184997496334bbcfc4a0e07f65d9dddb3cd440b2037b245f` |
+| `dfb-template-chal-interprocedural-exception-persistence` | `dfb-taint-java-interprocedural-exception-persistence-negative` | negative | `not-reached` | true-negative | `reports/raw/opentaint-java-kernel/dfb-taint-java-interprocedural-exception-persistence-negative.json` | `58ebc764c349a4726f41ba55d6db833492f1ec210a5e03046d8300c1d1e98507` |
+| `dfb-template-chal-interprocedural-exception-persistence` | `dfb-taint-java-interprocedural-exception-persistence-positive` | positive | `not-reached` | false-negative | `reports/raw/opentaint-java-kernel/dfb-taint-java-interprocedural-exception-persistence-positive.json` | `3f1a7ee334dd217ef4e5ce176fcdfe02e03cdb3d9d89c0eef4089957cc0f03e9` |
 | `dfb-template-chal-map-iteration` | `dfb-taint-java-map-iteration-negative` | negative | `not-reached` | true-negative | `reports/raw/opentaint-java-kernel/dfb-taint-java-map-iteration-negative.json` | `032482a5764d8031a4855ad832aa31fe418d5f60c1df38cac0ee24e32b4caeb1` |
 | `dfb-template-chal-map-iteration` | `dfb-taint-java-map-iteration-positive` | positive | `reached` | true-positive | `reports/raw/opentaint-java-kernel/dfb-taint-java-map-iteration-positive.json` | `49e6041c68d3640f4bce937e075a73fe48dcde94dd4928d580629a2f46253868` |
+| `dfb-template-chal-mutual-recursive-transform` | `dfb-taint-java-mutual-recursive-transform-negative` | negative | `not-reached` | true-negative | `reports/raw/opentaint-java-kernel/dfb-taint-java-mutual-recursive-transform-negative.json` | `8af91de0a08bcb9438aee9311315a097fa860edf3bb0bd974b77e22594f776c5` |
+| `dfb-template-chal-mutual-recursive-transform` | `dfb-taint-java-mutual-recursive-transform-positive` | positive | `reached` | true-positive | `reports/raw/opentaint-java-kernel/dfb-taint-java-mutual-recursive-transform-positive.json` | `22b6197645ff00d9cdd5f139ae1f3b70148c6cf0c4246f2f9306c4cf292f81fb` |
 | `dfb-template-chal-nested-access-path` | `dfb-taint-java-nested-access-path-negative` | negative | `not-reached` | true-negative | `reports/raw/opentaint-java-kernel/dfb-taint-java-nested-access-path-negative.json` | `a7a081aca72dc7e7dfa8b39e71c9953bbf3fef744608843b342c694c3f176dd5` |
 | `dfb-template-chal-nested-access-path` | `dfb-taint-java-nested-access-path-positive` | positive | `reached` | true-positive | `reports/raw/opentaint-java-kernel/dfb-taint-java-nested-access-path-positive.json` | `e82e5770988f8a5e0f40fa30efa8957d277bb2d0105a9ec2c092c0fcf4610816` |
+| `dfb-template-chal-recursive-callback-transform` | `dfb-taint-java-recursive-callback-transform-negative` | negative | `not-reached` | true-negative | `reports/raw/opentaint-java-kernel/dfb-taint-java-recursive-callback-transform-negative.json` | `eeadf7ba490a580bb750bc72db30479924d875a16894c99809622b771d4d5f44` |
+| `dfb-template-chal-recursive-callback-transform` | `dfb-taint-java-recursive-callback-transform-positive` | positive | `reached` | true-positive | `reports/raw/opentaint-java-kernel/dfb-taint-java-recursive-callback-transform-positive.json` | `4ac03ee6486df95a9711df55fcbe8ccda983a511b9bce9713d790a0d6d2e76d9` |
 | `dfb-template-chal-recursive-carry` | `dfb-taint-java-recursive-carry-negative` | negative | `not-reached` | true-negative | `reports/raw/opentaint-java-kernel/dfb-taint-java-recursive-carry-negative.json` | `00865128cd0174a4570bceb74aca44e15a96edf7045ec26769531da95c701f11` |
 | `dfb-template-chal-recursive-carry` | `dfb-taint-java-recursive-carry-positive` | positive | `reached` | true-positive | `reports/raw/opentaint-java-kernel/dfb-taint-java-recursive-carry-positive.json` | `ff2248d05978e35ccc1b564a6f9da96d80f9ad7ed800a9080a2ffc45095bc37c` |
+| `dfb-template-chal-recursive-exception-persistence` | `dfb-taint-java-recursive-exception-persistence-negative` | negative | `not-reached` | true-negative | `reports/raw/opentaint-java-kernel/dfb-taint-java-recursive-exception-persistence-negative.json` | `7cbe1e4d036a4ada9d856aaa498a33a8081d5af4802f691804850df4ad80ceb4` |
+| `dfb-template-chal-recursive-exception-persistence` | `dfb-taint-java-recursive-exception-persistence-positive` | positive | `not-reached` | false-negative | `reports/raw/opentaint-java-kernel/dfb-taint-java-recursive-exception-persistence-positive.json` | `8cf9608ac80b9cc5447b3c641a593561b2da7b299567254ac94d39dc52940c32` |
+| `dfb-template-chal-recursive-heap-unwind` | `dfb-taint-java-recursive-heap-unwind-negative` | negative | `not-reached` | true-negative | `reports/raw/opentaint-java-kernel/dfb-taint-java-recursive-heap-unwind-negative.json` | `45eed9009f41d3d46b28ce646fb9c8bcc5b15c45778eb7608fe9213d26dc85ab` |
+| `dfb-template-chal-recursive-heap-unwind` | `dfb-taint-java-recursive-heap-unwind-positive` | positive | `reached` | true-positive | `reports/raw/opentaint-java-kernel/dfb-taint-java-recursive-heap-unwind-positive.json` | `6927f484f6c290483bee4c1e22bcdce023f1d5c54ec6e4a6ca76c27d46ac93a7` |
+| `dfb-template-chal-recursive-payload-transform` | `dfb-taint-java-recursive-payload-transform-negative` | negative | `not-reached` | true-negative | `reports/raw/opentaint-java-kernel/dfb-taint-java-recursive-payload-transform-negative.json` | `fc2bc3c0467d114c45df9a7b072a0f49002bbd599e2cd9632c6e197288ec45f2` |
+| `dfb-template-chal-recursive-payload-transform` | `dfb-taint-java-recursive-payload-transform-positive` | positive | `reached` | true-positive | `reports/raw/opentaint-java-kernel/dfb-taint-java-recursive-payload-transform-positive.json` | `77e907a364d1b29d54afd31121fed955c3af2f4987df488dc4711dfd7ce65c84` |
 | `dfb-template-chal-reflective-invocation` | `dfb-taint-java-reflective-invocation-negative` | negative | `not-reached` | true-negative | `reports/raw/opentaint-java-kernel/dfb-taint-java-reflective-invocation-negative.json` | `b6767cc416f8a9b72fdf2583e29afef2853d3fff61a3a5cee3586e6327123a94` |
 | `dfb-template-chal-reflective-invocation` | `dfb-taint-java-reflective-invocation-positive` | positive | `not-reached` | false-negative | `reports/raw/opentaint-java-kernel/dfb-taint-java-reflective-invocation-positive.json` | `6391218a32013cf7b21b5395aef994844dda388e8b1659455c8456ff4fae2806` |
 | `dfb-template-direct-propagation` | `dfb-taint-java-direct-positive` | positive | `reached` | true-positive | `reports/raw/opentaint-java-kernel/dfb-taint-java-direct-positive.json` | `d689113c5a1fbbbeb7278088ff42bd1fa0d85382062ab2b3340cfd5082fecb1a` |

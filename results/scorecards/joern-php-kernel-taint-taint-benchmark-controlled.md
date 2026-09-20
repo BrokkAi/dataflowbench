@@ -1,14 +1,14 @@
 # Scorecard `joern-php-kernel-taint-taint-benchmark-controlled`
 
-Adapter `joern-php-kernel`: `joern` `4.0.621` (build `joern-cli:4.0.621`, adapter version `0.1.0`, configuration `ab10e81860305e492a930e2c2691873b23be25e97e5b354ca785058e09a20025`).
+Adapter `joern-php-kernel`: `joern` `4.0.628` (build `joern-cli:4.0.628`, adapter version `0.1.0`, configuration `ab10e81860305e492a930e2c2691873b23be25e97e5b354ca785058e09a20025`).
 
 Track `taint`, score dimension `taint`, model profile `benchmark-controlled`. This scorecard is a single result population; it is never pooled with other tracks, dimensions, or model profiles.
 
-Normalized report: `reports/joern-php-kernel.json` (`sha256:e1f9b3f0da16795802fec9090d85c999d6fc6ef7101f0c7ceb44c6c617b442da`, normalized `sha256:e1f9b3f0da16795802fec9090d85c999d6fc6ef7101f0c7ceb44c6c617b442da`). Generated from freeze manifest `reports/freeze.json` (`sha256:f5416cded5891c92418d23ec5e2c638eb73f86695255cd5ea5f818b10f6c9e1d`).
+Normalized report: `reports/joern-php-kernel.json` (`sha256:7549768d8dd4e165d311e38045871d38c311c0a21014ea3d35f3c4cc1199e16e`, normalized `sha256:7549768d8dd4e165d311e38045871d38c311c0a21014ea3d35f3c4cc1199e16e`). Generated from freeze manifest `reports/freeze.json` (`sha256:582b2589648772926bc7da0a83844eed0450f015c3593fa5f2937c10669f4259`).
 
 ## Language `php`, tier `core`
 
-Outcome coverage: `reached` 25, `not-reached` 33, `inconclusive` 0, `unsupported` 0, `runner-error` 0, total 58. `inconclusive`, `unsupported`, and `runner-error` are capability and execution coverage; they are never counted as clean negatives.
+Outcome coverage: `reached` 31, `not-reached` 39, `inconclusive` 0, `unsupported` 0, `runner-error` 0, total 70. `inconclusive`, `unsupported`, and `runner-error` are capability and execution coverage; they are never counted as clean negatives.
 
 ### Semantic dimension rates
 
@@ -16,16 +16,16 @@ Outcome coverage: `reached` 25, `not-reached` 33, `inconclusive` 0, `unsupported
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | `context-sensitivity` | 4 | 1 | 1 | 4 | 0 | 0 | 0 | 80.0% | 20.0% |
 | `dynamic-dispatch` | 3 | 4 | 1 | 6 | 0 | 0 | 0 | 42.9% | 14.3% |
-| `exceptional-flow` | 0 | 1 | 0 | 1 | 0 | 0 | 0 | 0.0% | 0.0% |
-| `flow-sensitivity` | 3 | 0 | 1 | 2 | 0 | 0 | 0 | 100.0% | 33.3% |
-| `heap-field-sensitivity` | 7 | 3 | 0 | 10 | 0 | 0 | 0 | 70.0% | 0.0% |
-| `interprocedural-flow` | 8 | 5 | 1 | 12 | 0 | 0 | 0 | 61.5% | 7.7% |
+| `exceptional-flow` | 1 | 2 | 0 | 3 | 0 | 0 | 0 | 33.3% | 0.0% |
+| `flow-sensitivity` | 8 | 1 | 2 | 7 | 0 | 0 | 0 | 88.9% | 22.2% |
+| `heap-field-sensitivity` | 9 | 4 | 0 | 13 | 0 | 0 | 0 | 69.2% | 0.0% |
+| `interprocedural-flow` | 13 | 6 | 2 | 17 | 0 | 0 | 0 | 68.4% | 10.5% |
 | `local-flow` | 7 | 1 | 2 | 6 | 0 | 0 | 0 | 87.5% | 25.0% |
 | `object-sensitivity` | 3 | 2 | 0 | 5 | 0 | 0 | 0 | 60.0% | 0.0% |
 | `path-sensitivity` | 3 | 0 | 2 | 1 | 0 | 0 | 0 | 100.0% | 66.7% |
-| `recursion` | 1 | 0 | 0 | 1 | 0 | 0 | 0 | 100.0% | 0.0% |
+| `recursion` | 6 | 0 | 1 | 5 | 0 | 0 | 0 | 100.0% | 16.7% |
 
-Macro-average over semantic dimensions: TPR 70.2%, FPR 16.7%. Macro-averages pool templates first, then semantic dimensions; raw case counts are shown for audit only.
+Macro-average over semantic dimensions: TPR 73.0%, FPR 17.5%. Macro-averages pool templates first, then semantic dimensions; raw case counts are shown for audit only.
 
 Caveat: `inconclusive` outcomes are excluded from every TPR and FPR denominator above, so the rates cover only the conclusive subset of this population. This population records 0 `inconclusive` outcome(s). Compare rate columns across adapters with that exclusion in mind: an adapter that self-reports uncertainty is not penalized in its rates for the cases it declined to decide.
 
@@ -63,12 +63,24 @@ Caveat: `inconclusive` outcomes are excluded from every TPR and FPR denominator 
 | `dfb-template-chal-element-object` | `dfb-taint-php-element-object-positive` | positive | `reached` | true-positive | `reports/raw/joern-php-kernel/dfb-taint-php-element-object-positive.json` | `2d05354c014984bdc04bb5e650e6b8421719f5101ed7e0eb65a81b3eed2a1767` |
 | `dfb-template-chal-function-field` | `dfb-taint-php-function-field-negative` | negative | `not-reached` | true-negative | `reports/raw/joern-php-kernel/dfb-taint-php-function-field-negative.json` | `1b4db3a0b5b4e45d93eb339197f0a87e69b91b86af6688083d42f3289e230f61` |
 | `dfb-template-chal-function-field` | `dfb-taint-php-function-field-positive` | positive | `not-reached` | false-negative | `reports/raw/joern-php-kernel/dfb-taint-php-function-field-positive.json` | `1353341be0e36c67b5176a18bb9a165c729cd7aaa3df9c3fd6bb128f3b099b28` |
+| `dfb-template-chal-interprocedural-exception-persistence` | `dfb-taint-php-interprocedural-exception-persistence-negative` | negative | `not-reached` | true-negative | `reports/raw/joern-php-kernel/dfb-taint-php-interprocedural-exception-persistence-negative.json` | `6bb0e64b36202a58980dd79e432411509701799ace30bc162bf4a38357688eb7` |
+| `dfb-template-chal-interprocedural-exception-persistence` | `dfb-taint-php-interprocedural-exception-persistence-positive` | positive | `not-reached` | false-negative | `reports/raw/joern-php-kernel/dfb-taint-php-interprocedural-exception-persistence-positive.json` | `f80be0bac82b6d645149bce1b008a5cd5cb2cbcaab23468e0fdf13870d8206fe` |
 | `dfb-template-chal-map-iteration` | `dfb-taint-php-map-iteration-negative` | negative | `not-reached` | true-negative | `reports/raw/joern-php-kernel/dfb-taint-php-map-iteration-negative.json` | `4e6bf2c7b874b16030020172987137b36ce2fe0074ccdeacc11bccfc39aaefa3` |
 | `dfb-template-chal-map-iteration` | `dfb-taint-php-map-iteration-positive` | positive | `reached` | true-positive | `reports/raw/joern-php-kernel/dfb-taint-php-map-iteration-positive.json` | `db5f0cdee7efe61d2842c16f2282bf9fbbac177a527b5635a45063abdccd6149` |
+| `dfb-template-chal-mutual-recursive-transform` | `dfb-taint-php-mutual-recursive-transform-negative` | negative | `not-reached` | true-negative | `reports/raw/joern-php-kernel/dfb-taint-php-mutual-recursive-transform-negative.json` | `e0e243734d4113cce9e1d124f309c12137e942c79f2435cb3705147f0eacb8b6` |
+| `dfb-template-chal-mutual-recursive-transform` | `dfb-taint-php-mutual-recursive-transform-positive` | positive | `reached` | true-positive | `reports/raw/joern-php-kernel/dfb-taint-php-mutual-recursive-transform-positive.json` | `48362a0d9b967a3cf3f02e992004abd6c8e7fa444f02c3dfe432430d6060e515` |
 | `dfb-template-chal-nested-access-path` | `dfb-taint-php-nested-access-path-negative` | negative | `not-reached` | true-negative | `reports/raw/joern-php-kernel/dfb-taint-php-nested-access-path-negative.json` | `70735bceb62f9b96e9a9ca00bc0bc02516d940ce3768b93ace60296c724b3181` |
 | `dfb-template-chal-nested-access-path` | `dfb-taint-php-nested-access-path-positive` | positive | `reached` | true-positive | `reports/raw/joern-php-kernel/dfb-taint-php-nested-access-path-positive.json` | `7250b87f5e1cff7742dfa9ac15e20ed8e3c92540ab8388104356d36584d2e894` |
+| `dfb-template-chal-recursive-callback-transform` | `dfb-taint-php-recursive-callback-transform-negative` | negative | `reached` | false-positive | `reports/raw/joern-php-kernel/dfb-taint-php-recursive-callback-transform-negative.json` | `593b26afa7d3ee007dea8a9635127374c033de5dbde64597975b7d6cddf46d5a` |
+| `dfb-template-chal-recursive-callback-transform` | `dfb-taint-php-recursive-callback-transform-positive` | positive | `reached` | true-positive | `reports/raw/joern-php-kernel/dfb-taint-php-recursive-callback-transform-positive.json` | `54e0e6e5956e7c98b7807c57be440d3174388587b9e724d0dbf85a9cb8fbc7f2` |
 | `dfb-template-chal-recursive-carry` | `dfb-taint-php-recursive-carry-negative` | negative | `not-reached` | true-negative | `reports/raw/joern-php-kernel/dfb-taint-php-recursive-carry-negative.json` | `1988d4a58e46daded150556f5785e18dfb738334f456c2868586f56fb65ed381` |
 | `dfb-template-chal-recursive-carry` | `dfb-taint-php-recursive-carry-positive` | positive | `reached` | true-positive | `reports/raw/joern-php-kernel/dfb-taint-php-recursive-carry-positive.json` | `bec9e0ae055a74e3ab1c061dc1a9f7613d93ac6def93b961de0606d0f150e32d` |
+| `dfb-template-chal-recursive-exception-persistence` | `dfb-taint-php-recursive-exception-persistence-negative` | negative | `not-reached` | true-negative | `reports/raw/joern-php-kernel/dfb-taint-php-recursive-exception-persistence-negative.json` | `76f3145f9eabd51611b9f11a804a9c79a987cb95902cc9dd2fafb18a592fb305` |
+| `dfb-template-chal-recursive-exception-persistence` | `dfb-taint-php-recursive-exception-persistence-positive` | positive | `reached` | true-positive | `reports/raw/joern-php-kernel/dfb-taint-php-recursive-exception-persistence-positive.json` | `3e730c5a119c852275e0dc91f4bd775d5f41cf1163c381434ea3745e45484530` |
+| `dfb-template-chal-recursive-heap-unwind` | `dfb-taint-php-recursive-heap-unwind-negative` | negative | `not-reached` | true-negative | `reports/raw/joern-php-kernel/dfb-taint-php-recursive-heap-unwind-negative.json` | `fea30abddf64701ce2db0c4f1cd277e369cbd8bc954f99ba1a2e92e25e855a46` |
+| `dfb-template-chal-recursive-heap-unwind` | `dfb-taint-php-recursive-heap-unwind-positive` | positive | `reached` | true-positive | `reports/raw/joern-php-kernel/dfb-taint-php-recursive-heap-unwind-positive.json` | `219642bb3a32148aa8acec76f05abf891bdb4b40bdaa1c503ce0176e86d58522` |
+| `dfb-template-chal-recursive-payload-transform` | `dfb-taint-php-recursive-payload-transform-negative` | negative | `not-reached` | true-negative | `reports/raw/joern-php-kernel/dfb-taint-php-recursive-payload-transform-negative.json` | `cf232fb227acac46677666981a4207e427b80e20d75e6626ab7f351a3e1a3175` |
+| `dfb-template-chal-recursive-payload-transform` | `dfb-taint-php-recursive-payload-transform-positive` | positive | `reached` | true-positive | `reports/raw/joern-php-kernel/dfb-taint-php-recursive-payload-transform-positive.json` | `ecd3b1a2e982cbde03bd97762a6e4426d1a6d9dbd8fa1d9a1a65d3226b3836a0` |
 | `dfb-template-chal-reflective-invocation` | `dfb-taint-php-reflective-invocation-negative` | negative | `not-reached` | true-negative | `reports/raw/joern-php-kernel/dfb-taint-php-reflective-invocation-negative.json` | `829e712005f2db00cd793a96b010d634cd06b0020c16785611074237dea28450` |
 | `dfb-template-chal-reflective-invocation` | `dfb-taint-php-reflective-invocation-positive` | positive | `not-reached` | false-negative | `reports/raw/joern-php-kernel/dfb-taint-php-reflective-invocation-positive.json` | `0f0bf3e9e93f1622db3c3bad881741f22313dbd7e43936a08bba5d1bbe953ef6` |
 | `dfb-template-direct-propagation` | `dfb-taint-php-direct-negative` | negative | `not-reached` | true-negative | `reports/raw/joern-php-kernel/dfb-taint-php-direct-negative.json` | `e36b4a7652dbd726f3ea62736604d72319fac0c6637d15a57de173e2c868d23e` |

@@ -1,14 +1,14 @@
 # Scorecard `semgrep-c-kernel-taint-taint-benchmark-controlled`
 
-Adapter `semgrep-c-kernel`: `semgrep` `1.176.0` (build `semgrep-oss:1.176.0`, adapter version `0.1.0`, configuration `865d0bd2989f9ddd0b90f2d6675584e86706b109a033d4a1ac00bd21a617b100`).
+Adapter `semgrep-c-kernel`: `semgrep` `1.177.0` (build `semgrep-oss:1.177.0`, adapter version `0.1.0`, configuration `865d0bd2989f9ddd0b90f2d6675584e86706b109a033d4a1ac00bd21a617b100`).
 
 Track `taint`, score dimension `taint`, model profile `benchmark-controlled`. This scorecard is a single result population; it is never pooled with other tracks, dimensions, or model profiles.
 
-Normalized report: `reports/semgrep-c-kernel.json` (`sha256:bf29d50fdea05bb1d2131e212c4299fc6e9dc2c018fa0eae9240565fa6e5814a`, normalized `sha256:bf29d50fdea05bb1d2131e212c4299fc6e9dc2c018fa0eae9240565fa6e5814a`). Generated from freeze manifest `reports/freeze.json` (`sha256:f5416cded5891c92418d23ec5e2c638eb73f86695255cd5ea5f818b10f6c9e1d`).
+Normalized report: `reports/semgrep-c-kernel.json` (`sha256:4c63e7cd8beba3fe83e3151df0a892934920ffd4426df79e2682ed526a0400ef`, normalized `sha256:4c63e7cd8beba3fe83e3151df0a892934920ffd4426df79e2682ed526a0400ef`). Generated from freeze manifest `reports/freeze.json` (`sha256:582b2589648772926bc7da0a83844eed0450f015c3593fa5f2937c10669f4259`).
 
 ## Language `c`, tier `core`
 
-Outcome coverage: `reached` 9, `not-reached` 5, `inconclusive` 0, `unsupported` 34, `runner-error` 0, total 48. `inconclusive`, `unsupported`, and `runner-error` are capability and execution coverage; they are never counted as clean negatives.
+Outcome coverage: `reached` 9, `not-reached` 5, `inconclusive` 0, `unsupported` 42, `runner-error` 0, total 56. `inconclusive`, `unsupported`, and `runner-error` are capability and execution coverage; they are never counted as clean negatives.
 
 ### Semantic dimension rates
 
@@ -16,13 +16,13 @@ Outcome coverage: `reached` 9, `not-reached` 5, `inconclusive` 0, `unsupported` 
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | `context-sensitivity` | 0 | 0 | 0 | 0 | 0 | 8 | 0 | n/a | n/a |
 | `dynamic-dispatch` | 0 | 0 | 0 | 0 | 0 | 6 | 0 | n/a | n/a |
-| `flow-sensitivity` | 3 | 0 | 1 | 2 | 0 | 0 | 0 | 100.0% | 33.3% |
-| `heap-field-sensitivity` | 0 | 0 | 0 | 0 | 0 | 16 | 0 | n/a | n/a |
-| `interprocedural-flow` | 0 | 0 | 0 | 0 | 0 | 20 | 0 | n/a | n/a |
+| `flow-sensitivity` | 3 | 0 | 1 | 2 | 0 | 8 | 0 | 100.0% | 33.3% |
+| `heap-field-sensitivity` | 0 | 0 | 0 | 0 | 0 | 18 | 0 | n/a | n/a |
+| `interprocedural-flow` | 0 | 0 | 0 | 0 | 0 | 28 | 0 | n/a | n/a |
 | `local-flow` | 7 | 0 | 2 | 5 | 0 | 0 | 0 | 100.0% | 28.6% |
 | `object-sensitivity` | 0 | 0 | 0 | 0 | 0 | 10 | 0 | n/a | n/a |
 | `path-sensitivity` | 3 | 0 | 2 | 1 | 0 | 0 | 0 | 100.0% | 66.7% |
-| `recursion` | 0 | 0 | 0 | 0 | 0 | 2 | 0 | n/a | n/a |
+| `recursion` | 0 | 0 | 0 | 0 | 0 | 10 | 0 | n/a | n/a |
 
 Macro-average over semantic dimensions: TPR 100.0%, FPR 42.9%. Macro-averages pool templates first, then semantic dimensions; raw case counts are shown for audit only.
 
@@ -36,12 +36,12 @@ Caveat: `inconclusive` outcomes are excluded from every TPR and FPR denominator 
 | `dfb-template-alias-propagation-separation` | `dfb-taint-c-alias-propagation-positive` | positive | `unsupported` | unsupported | `reports/raw/semgrep-c-kernel/dfb-taint-c-alias-propagation-positive-unsupported.json` | `4cad0deec7933d47f999bfbc8298d8eab5e429e0860eb310de76c3d511e0ec7c` |
 | `dfb-template-argument-position-separation` | `dfb-taint-c-argument-position-negative` | negative | `unsupported` | unsupported | `reports/raw/semgrep-c-kernel/dfb-taint-c-argument-position-negative-unsupported.json` | `d10b40361f25d828e3ceebd895b2707e2329cb80749a3dca333c02eca093b963` |
 | `dfb-template-argument-position-separation` | `dfb-taint-c-argument-position-positive` | positive | `unsupported` | unsupported | `reports/raw/semgrep-c-kernel/dfb-taint-c-argument-position-positive-unsupported.json` | `0ce809439d98a122235c927f630debe92ed4275bf9767b1fd3f0f5d8f267e81b` |
-| `dfb-template-arithmetic-expression-propagation` | `dfb-taint-c-expression-negative` | negative | `not-reached` | true-negative | `reports/raw/semgrep-c-kernel/dfb-taint-c-expression-negative.json` | `cfd07dd38d5fa860732cb4ad9ef2ad0175d7e60af9d5dee43d9d8381e77cbbd7` |
-| `dfb-template-arithmetic-expression-propagation` | `dfb-taint-c-expression-positive` | positive | `reached` | true-positive | `reports/raw/semgrep-c-kernel/dfb-taint-c-expression-positive.json` | `90eea16eb2265ba517bc244ce2e353f8a147176b74e9fd65cfa1bfcbfcce601d` |
+| `dfb-template-arithmetic-expression-propagation` | `dfb-taint-c-expression-negative` | negative | `not-reached` | true-negative | `reports/raw/semgrep-c-kernel/dfb-taint-c-expression-negative.json` | `ecc26d755f54e856ba4ef980f182a2ee7fbf738efb0e10818c858fbb204bf26f` |
+| `dfb-template-arithmetic-expression-propagation` | `dfb-taint-c-expression-positive` | positive | `reached` | true-positive | `reports/raw/semgrep-c-kernel/dfb-taint-c-expression-positive.json` | `868f1183bf176873620dc1dc31efa42e66bed6c770a1354ae0621cdefe750903` |
 | `dfb-template-array-element-separation` | `dfb-taint-c-array-element-negative` | negative | `unsupported` | unsupported | `reports/raw/semgrep-c-kernel/dfb-taint-c-array-element-negative-unsupported.json` | `daadb8492497376f5a8752219f6523b43ebfb99209fc00675364f8ade3206263` |
 | `dfb-template-array-element-separation` | `dfb-taint-c-array-element-positive` | positive | `unsupported` | unsupported | `reports/raw/semgrep-c-kernel/dfb-taint-c-array-element-positive-unsupported.json` | `e34842d933b123c91821a6bed41a63d55515e625c9e9d6ec000297ccc441576c` |
-| `dfb-template-branch-join` | `dfb-taint-c-branch-join-negative` | negative | `not-reached` | true-negative | `reports/raw/semgrep-c-kernel/dfb-taint-c-branch-join-negative.json` | `450cfaedeff9f29a391450edd04ba7a87909c6dcf629f5d8322fd9fb0b9c5872` |
-| `dfb-template-branch-join` | `dfb-taint-c-branch-join-positive` | positive | `reached` | true-positive | `reports/raw/semgrep-c-kernel/dfb-taint-c-branch-join-positive.json` | `7b673e16f4de959b818b4331a7b9b7d4466d34eeebe7d61238e4f175c0694691` |
+| `dfb-template-branch-join` | `dfb-taint-c-branch-join-negative` | negative | `not-reached` | true-negative | `reports/raw/semgrep-c-kernel/dfb-taint-c-branch-join-negative.json` | `bae59b20f7dc87210df9ce1f78983990ee607b2feaad8363ecdba7399a222a48` |
+| `dfb-template-branch-join` | `dfb-taint-c-branch-join-positive` | positive | `reached` | true-positive | `reports/raw/semgrep-c-kernel/dfb-taint-c-branch-join-positive.json` | `c67b4924739b102a2cd8f9a3e42a9ed3b81748c749be0baae16873766925747c` |
 | `dfb-template-call-context-separation` | `dfb-taint-c-call-context-negative` | negative | `unsupported` | unsupported | `reports/raw/semgrep-c-kernel/dfb-taint-c-call-context-negative-unsupported.json` | `3bc51eac7ff4d3d07f082265847fff5aff2a7c0556bdd62518221a7e51d1f47f` |
 | `dfb-template-call-context-separation` | `dfb-taint-c-call-context-positive` | positive | `unsupported` | unsupported | `reports/raw/semgrep-c-kernel/dfb-taint-c-call-context-positive-unsupported.json` | `a0f6148f2c745d15a43cbb9f92052c1cb288f1630e49b96297fcd22fdd650259` |
 | `dfb-template-chal-callback-registration` | `dfb-taint-c-callback-registration-negative` | negative | `unsupported` | unsupported | `reports/raw/semgrep-c-kernel/dfb-taint-c-callback-registration-negative-unsupported.json` | `ce954d503f16c6ec3555b41c65ef47df696c52314561ce579b056942585da8cc` |
@@ -58,20 +58,28 @@ Caveat: `inconclusive` outcomes are excluded from every TPR and FPR denominator 
 | `dfb-template-chal-function-field` | `dfb-taint-c-function-field-positive` | positive | `unsupported` | unsupported | `reports/raw/semgrep-c-kernel/dfb-taint-c-function-field-positive-unsupported.json` | `1687a9f24244cfe8a5b5fc1ac646960b4db35d9438022abc30d2469b623ff5b5` |
 | `dfb-template-chal-map-iteration` | `dfb-taint-c-map-iteration-negative` | negative | `unsupported` | unsupported | `reports/raw/semgrep-c-kernel/dfb-taint-c-map-iteration-negative-unsupported.json` | `6c47b2e88084ae76d9006c2ebcb4696ce7a94d7f6ce19e7f579feb168f3da143` |
 | `dfb-template-chal-map-iteration` | `dfb-taint-c-map-iteration-positive` | positive | `unsupported` | unsupported | `reports/raw/semgrep-c-kernel/dfb-taint-c-map-iteration-positive-unsupported.json` | `ffd37b6acbf4a1766440a506db78b94f6fd911c6237f3a2967c4bcfee6975d34` |
+| `dfb-template-chal-mutual-recursive-transform` | `dfb-taint-c-mutual-recursive-transform-negative` | negative | `unsupported` | unsupported | `reports/raw/semgrep-c-kernel/dfb-taint-c-mutual-recursive-transform-negative-unsupported.json` | `1b22781d97c6ec42c89bbccfe23a6ca70ec93f4f09f389b4780c6027875f433d` |
+| `dfb-template-chal-mutual-recursive-transform` | `dfb-taint-c-mutual-recursive-transform-positive` | positive | `unsupported` | unsupported | `reports/raw/semgrep-c-kernel/dfb-taint-c-mutual-recursive-transform-positive-unsupported.json` | `8b0b838ee310ba306a1aa094eb3c319614cdf8f4b31e23d01f82f92e05792974` |
 | `dfb-template-chal-nested-access-path` | `dfb-taint-c-nested-access-path-negative` | negative | `unsupported` | unsupported | `reports/raw/semgrep-c-kernel/dfb-taint-c-nested-access-path-negative-unsupported.json` | `35e3d568b102ed4e95a9828ad08cfb764817aa84e608e89a1b86e1cf0b5de892` |
 | `dfb-template-chal-nested-access-path` | `dfb-taint-c-nested-access-path-positive` | positive | `unsupported` | unsupported | `reports/raw/semgrep-c-kernel/dfb-taint-c-nested-access-path-positive-unsupported.json` | `5ecc7b1529c8ed4b294756f3dc39e81872f8b4f82faca3e14e699e372d82a3ae` |
+| `dfb-template-chal-recursive-callback-transform` | `dfb-taint-c-recursive-callback-transform-negative` | negative | `unsupported` | unsupported | `reports/raw/semgrep-c-kernel/dfb-taint-c-recursive-callback-transform-negative-unsupported.json` | `047bdb80e70aad5ebf787fba2d3aaf11340d8b9bc5d9e5ede7af318fc9cf1f9c` |
+| `dfb-template-chal-recursive-callback-transform` | `dfb-taint-c-recursive-callback-transform-positive` | positive | `unsupported` | unsupported | `reports/raw/semgrep-c-kernel/dfb-taint-c-recursive-callback-transform-positive-unsupported.json` | `4807a921c5a34e6e5fe389e216718a7c80255785bd095b8604eb6b774827c563` |
 | `dfb-template-chal-recursive-carry` | `dfb-taint-c-recursive-carry-negative` | negative | `unsupported` | unsupported | `reports/raw/semgrep-c-kernel/dfb-taint-c-recursive-carry-negative-unsupported.json` | `09c05f27efcf29d1e41b0d62e18510da479b300b3cb0389f2a431e8a223c958e` |
 | `dfb-template-chal-recursive-carry` | `dfb-taint-c-recursive-carry-positive` | positive | `unsupported` | unsupported | `reports/raw/semgrep-c-kernel/dfb-taint-c-recursive-carry-positive-unsupported.json` | `c2b49cb98d8722b7229373dd8ab977b88469d6c880a28be819ee0697ab9b4f82` |
-| `dfb-template-direct-propagation` | `dfb-taint-c-direct-negative` | negative | `not-reached` | true-negative | `reports/raw/semgrep-c-kernel/dfb-taint-c-direct-negative.json` | `630310dbb58358ec715a60e970a807fb1ef79cbca1c1a0615776d67772b8b031` |
-| `dfb-template-direct-propagation` | `dfb-taint-c-direct-positive` | positive | `reached` | true-positive | `reports/raw/semgrep-c-kernel/dfb-taint-c-direct-positive.json` | `74707842ac458b38a63c4fbb3a55ea8ad84e05e189f54194b7bc403dab6fef80` |
-| `dfb-template-infeasible-branch` | `dfb-taint-c-infeasible-branch-negative` | negative | `reached` | false-positive | `reports/raw/semgrep-c-kernel/dfb-taint-c-infeasible-branch-negative.json` | `db46d65602e41b210c69f2435c656a8379c818165d8ce8d6a7ac3a5cbeb7cc66` |
-| `dfb-template-infeasible-branch` | `dfb-taint-c-infeasible-branch-positive` | positive | `reached` | true-positive | `reports/raw/semgrep-c-kernel/dfb-taint-c-infeasible-branch-positive.json` | `b1cbad859a56340ba1588be1a7218c07c6473e6b5f67ca1ab450a222095468d3` |
-| `dfb-template-local-multi-step-chain` | `dfb-taint-c-local-chain-negative` | negative | `not-reached` | true-negative | `reports/raw/semgrep-c-kernel/dfb-taint-c-local-chain-negative.json` | `69e3f0cd2ae55e3861bd2abe7996df3ff5bbf8071530ee9a8334789190095cfa` |
-| `dfb-template-local-multi-step-chain` | `dfb-taint-c-local-chain-positive` | positive | `reached` | true-positive | `reports/raw/semgrep-c-kernel/dfb-taint-c-local-chain-positive.json` | `c070a0c7478b388bb2ef1d83fda0000b250ebe034b8e426d40f8f69a4edcdf86` |
-| `dfb-template-local-overwrite-kill` | `dfb-taint-c-local-overwrite-negative` | negative | `not-reached` | true-negative | `reports/raw/semgrep-c-kernel/dfb-taint-c-local-overwrite-negative.json` | `808f8e554a75520f6fe7cdc11459c74b66a977d4ba44da802acbdba7d67dfe66` |
-| `dfb-template-local-overwrite-kill` | `dfb-taint-c-local-overwrite-positive` | positive | `reached` | true-positive | `reports/raw/semgrep-c-kernel/dfb-taint-c-local-overwrite-positive.json` | `d8533fe96c207bd9b4f1f218040db0695676a2c239223711b5ebf79c431d5608` |
-| `dfb-template-loop-carried-kill` | `dfb-taint-c-loop-carried-negative` | negative | `reached` | false-positive | `reports/raw/semgrep-c-kernel/dfb-taint-c-loop-carried-negative.json` | `4de23a4e23aead4c470d949c353aac6e895e01fc782b6d79bf7560a192e5f126` |
-| `dfb-template-loop-carried-kill` | `dfb-taint-c-loop-carried-positive` | positive | `reached` | true-positive | `reports/raw/semgrep-c-kernel/dfb-taint-c-loop-carried-positive.json` | `fc78173aba4875a776e6a8912a56818241b4aca7b74dbf57e3ef709a2f5bb8f5` |
+| `dfb-template-chal-recursive-heap-unwind` | `dfb-taint-c-recursive-heap-unwind-negative` | negative | `unsupported` | unsupported | `reports/raw/semgrep-c-kernel/dfb-taint-c-recursive-heap-unwind-negative-unsupported.json` | `6d44bca2edfdb6dd8d914d7321d9819de5acc8f024aef681c96847665890cf61` |
+| `dfb-template-chal-recursive-heap-unwind` | `dfb-taint-c-recursive-heap-unwind-positive` | positive | `unsupported` | unsupported | `reports/raw/semgrep-c-kernel/dfb-taint-c-recursive-heap-unwind-positive-unsupported.json` | `9f6dc2116aa419d13ff3f5dde593c3ee16ed15e6cf32095f1ae5ff190d225070` |
+| `dfb-template-chal-recursive-payload-transform` | `dfb-taint-c-recursive-payload-transform-negative` | negative | `unsupported` | unsupported | `reports/raw/semgrep-c-kernel/dfb-taint-c-recursive-payload-transform-negative-unsupported.json` | `8ce82d94580409ca2003528fe6d24f61cd6155c44d3afa51a4d33240cba2781b` |
+| `dfb-template-chal-recursive-payload-transform` | `dfb-taint-c-recursive-payload-transform-positive` | positive | `unsupported` | unsupported | `reports/raw/semgrep-c-kernel/dfb-taint-c-recursive-payload-transform-positive-unsupported.json` | `b22144182855d6fcc0f39ee3dc867b36a8a18af02af90c95111004a890fe5a5b` |
+| `dfb-template-direct-propagation` | `dfb-taint-c-direct-negative` | negative | `not-reached` | true-negative | `reports/raw/semgrep-c-kernel/dfb-taint-c-direct-negative.json` | `c96e707e86bfabf915e2f25ed7e25eec4d76c3d6e2b5f332723f809026c182cd` |
+| `dfb-template-direct-propagation` | `dfb-taint-c-direct-positive` | positive | `reached` | true-positive | `reports/raw/semgrep-c-kernel/dfb-taint-c-direct-positive.json` | `412d1c0a8cf1dc63fe4e0610075550ef45e234e5aff01ca1fb99aa48a6dbb54e` |
+| `dfb-template-infeasible-branch` | `dfb-taint-c-infeasible-branch-negative` | negative | `reached` | false-positive | `reports/raw/semgrep-c-kernel/dfb-taint-c-infeasible-branch-negative.json` | `6332fb3925c8b29a37eae47ae46b67ec70456fd0c00f5e2e57eed238042ae1f0` |
+| `dfb-template-infeasible-branch` | `dfb-taint-c-infeasible-branch-positive` | positive | `reached` | true-positive | `reports/raw/semgrep-c-kernel/dfb-taint-c-infeasible-branch-positive.json` | `f057d1289141d9c86b932e5cda55b696eedb8109233b084c1697c314810b83c7` |
+| `dfb-template-local-multi-step-chain` | `dfb-taint-c-local-chain-negative` | negative | `not-reached` | true-negative | `reports/raw/semgrep-c-kernel/dfb-taint-c-local-chain-negative.json` | `760cbc99362ade3e099c33391a694a1ea53c4d67a532d756dee4b4a3ef0b5c52` |
+| `dfb-template-local-multi-step-chain` | `dfb-taint-c-local-chain-positive` | positive | `reached` | true-positive | `reports/raw/semgrep-c-kernel/dfb-taint-c-local-chain-positive.json` | `ea65ea1fb6dfa254d5295cbc38605120d78956d2a06f1e20aa13efa6145e1204` |
+| `dfb-template-local-overwrite-kill` | `dfb-taint-c-local-overwrite-negative` | negative | `not-reached` | true-negative | `reports/raw/semgrep-c-kernel/dfb-taint-c-local-overwrite-negative.json` | `22497bbb5b44c1d166352970bd8277f10774a67a654bda91572c4bd7b1b0e8c7` |
+| `dfb-template-local-overwrite-kill` | `dfb-taint-c-local-overwrite-positive` | positive | `reached` | true-positive | `reports/raw/semgrep-c-kernel/dfb-taint-c-local-overwrite-positive.json` | `237d8723635611c47895cb8cef4b4cbabb7e9c22875ee3ba9265829f9275f510` |
+| `dfb-template-loop-carried-kill` | `dfb-taint-c-loop-carried-negative` | negative | `reached` | false-positive | `reports/raw/semgrep-c-kernel/dfb-taint-c-loop-carried-negative.json` | `aed5808c2a0b17218c0a5fe3e396020268a6f1e9552c7f63b28e55784442f24e` |
+| `dfb-template-loop-carried-kill` | `dfb-taint-c-loop-carried-positive` | positive | `reached` | true-positive | `reports/raw/semgrep-c-kernel/dfb-taint-c-loop-carried-positive.json` | `c7f72fa8b2a943ddfadce0239eb85b4704dd5037924187cd72884b086fc46d1e` |
 | `dfb-template-object-separation` | `dfb-taint-c-object-separation-negative` | negative | `unsupported` | unsupported | `reports/raw/semgrep-c-kernel/dfb-taint-c-object-separation-negative-unsupported.json` | `20ce69dab214f3eb86cb375834adad41ce185d6a842e0092485ebf42d3ee0e7a` |
 | `dfb-template-object-separation` | `dfb-taint-c-object-separation-positive` | positive | `unsupported` | unsupported | `reports/raw/semgrep-c-kernel/dfb-taint-c-object-separation-positive-unsupported.json` | `7a95e8945251e6edebc950cc25552ea8241fc0a503e46c860f9d23ab2cfb6d79` |
 | `dfb-template-return-relay-one-hop` | `dfb-taint-c-return-relay-one-hop-negative` | negative | `unsupported` | unsupported | `reports/raw/semgrep-c-kernel/dfb-taint-c-return-relay-one-hop-negative-unsupported.json` | `d5d942949884c402cc96284101dee93d3b9a74e56131f989b99ea1688a8186fa` |
